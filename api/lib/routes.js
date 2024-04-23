@@ -5,7 +5,6 @@ import * as authenticationOidc from './application/authentication/oidc/index.js'
 import * as cache from './application/cache/index.js';
 import * as campaignParticipations from './application/campaign-participations/index.js';
 import * as campaigns from './application/campaigns/index.js';
-import * as campaignsAdministration from './application/campaigns-administration/index.js';
 import * as certificationCandidates from './application/certification-candidates/index.js';
 import * as certificationCenterInvitations from './application/certification-center-invitations/index.js';
 import * as certificationCenterMemberships from './application/certification-center-memberships/index.js';
@@ -47,7 +46,6 @@ const routes = [
   cache,
   campaignParticipations,
   campaigns,
-  campaignsAdministration,
   certificationCandidates,
   certificationCenters,
   certificationCenterInvitations,

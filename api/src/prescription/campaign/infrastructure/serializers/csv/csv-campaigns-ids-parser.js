@@ -1,6 +1,6 @@
 import * as fs from 'node:fs/promises';
 
-import { CsvParser } from '../csv-parser.js';
+import { CsvParser } from '../../../../../../lib/infrastructure/serializers/csv/csv-parser.js';
 import { CampaignIdsCsvHeader } from './campaign-ids-csv-header.js';
 
 async function extractCampaignsIds(file) {

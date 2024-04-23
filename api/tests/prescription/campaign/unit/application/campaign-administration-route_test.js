@@ -392,4 +392,23 @@ describe('Unit | Application | Router | campaign-administration-router ', functi
       expect(response.statusCode).to.equal(400);
     });
   });
+
+  describe('PATCH /api/admin/campaigns/archive-campaigns', function () {
+    it('returns 200 when admin member has rights', async function () {
+      // given
+      sinon.stub(campaignAdministrationController, 'archiveCampaigns').returns(null);
+      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      await httpTestServer.request('POST', '/api/admin/campaigns/archive-campaigns', {});
+
+      // then
+      expect(securityPreHandlers.hasAtLeastOneAccessOf).to.have.been.calledWithExactly([
+        securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+        securityPreHandlers.checkAdminMemberHasRoleMetier,
+      ]);
+    });
+  });
 });

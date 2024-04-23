@@ -302,4 +302,32 @@ describe('Unit | Application | Controller | Campaign administration', function (
       expect(response).to.be.equal(serializedCampaign);
     });
   });
+
+  describe('#archiveCampaigns', function () {
+    let csvCampaignsIdsParserStub;
+
+    beforeEach(function () {
+      sinon.stub(usecases, 'archiveCampaigns');
+      csvCampaignsIdsParserStub = { extractCampaignsIds: sinon.stub() };
+    });
+
+    it('should return a 204', async function () {
+      // given
+      const userId = 12;
+      const path = Symbol('path');
+      const ids = [1, 2];
+      const request = { auth: { credentials: { userId } }, payload: path };
+
+      csvCampaignsIdsParserStub.extractCampaignsIds.withArgs(path).returns(ids);
+      usecases.archiveCampaigns.withArgs({ userId, ids });
+
+      // when
+      const response = await campaignAdministrationController.archiveCampaigns(request, hFake, {
+        csvCampaignsIdsParser: csvCampaignsIdsParserStub,
+      });
+
+      // then
+      expect(response.statusCode).to.be.equal(204);
+    });
+  });
 });
