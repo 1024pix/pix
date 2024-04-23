@@ -400,9 +400,9 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
         label: 'Pix+ Édu 2nd degré',
         key: ComplementaryCertificationKeys.PIX_PLUS_EDU_2ND_DEGRE,
       });
-      const pixPlusSanteComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-        label: 'Pix+ Santé',
-        key: ComplementaryCertificationKeys.PIX_PLUS_SANTE,
+      const PixPlusProSanteComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
+        label: 'Pix+ Pro Santé',
+        key: ComplementaryCertificationKeys.PIX_PLUS_PRO_SANTE,
       });
 
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
@@ -424,7 +424,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       });
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
         certificationCenterId,
-        complementaryCertificationId: pixPlusSanteComplementaryCertification.id,
+        complementaryCertificationId: PixPlusProSanteComplementaryCertification.id,
       });
 
       const userId = databaseBuilder.factory.buildUser().id;
@@ -527,7 +527,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
             sessionId,
             billingMode: 'FREE',
             complementaryCertification: domainBuilder.buildComplementaryCertification(
-              pixPlusSanteComplementaryCertification,
+              PixPlusProSanteComplementaryCertification,
             ),
           },
         ],
