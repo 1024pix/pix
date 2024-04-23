@@ -1,6 +1,7 @@
 import Joi from 'joi';
 
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
+import { ORGANIZATION_FEATURE } from '../../../shared/domain/constants.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { organizationImportController } from './organization-import-controller.js';
 
@@ -16,6 +17,10 @@ const register = async (server) => {
               securityPreHandlers.hasAtLeastOneAccessOf([
                 securityPreHandlers.checkUserIsAdminInSCOOrganizationManagingStudents,
                 securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents,
+                securityPreHandlers.validateAllAccess([
+                  securityPreHandlers.makeCheckOrganizationHasFeature(ORGANIZATION_FEATURE.LEARNER_IMPORT.key),
+                  securityPreHandlers.checkUserIsAdminInOrganization,
+                ]),
               ])(request, h),
             assign: 'isAdminInOrganizationManagingStudents',
           },
