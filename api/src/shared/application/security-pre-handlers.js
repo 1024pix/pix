@@ -478,7 +478,7 @@ async function checkUserIsAdminInSCOOrganizationManagingStudents(
   dependencies = { checkUserIsAdminAndManagingStudentsForOrganization },
 ) {
   const userId = request.auth.credentials.userId;
-  const organizationId = request.params.id;
+  const organizationId = request.params.organizationId || request.params.id;
 
   if (
     await dependencies.checkUserIsAdminAndManagingStudentsForOrganization.execute(
@@ -498,7 +498,7 @@ async function checkUserIsAdminInSUPOrganizationManagingStudents(
   dependencies = { checkUserIsAdminAndManagingStudentsForOrganization },
 ) {
   const userId = request.auth.credentials.userId;
-  const organizationId = request.params.id;
+  const organizationId = request.params.organizationId || request.params.id;
 
   if (
     await dependencies.checkUserIsAdminAndManagingStudentsForOrganization.execute(

@@ -8,7 +8,7 @@ const register = async (server) => {
   server.route([
     {
       method: 'GET',
-      path: '/api/organizations/{id}/import-information',
+      path: '/api/organizations/{organizationId}/import-information',
       config: {
         pre: [
           {
@@ -22,7 +22,7 @@ const register = async (server) => {
         ],
         validate: {
           params: Joi.object({
-            id: identifiersType.organizationId,
+            organizationId: identifiersType.organizationId,
           }),
         },
         handler: organizationImportController.getOrganizationImportStatus,
