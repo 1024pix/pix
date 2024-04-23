@@ -1,3 +1,4 @@
+import { ProSanteConnectOidcAuthenticationService } from '../../../../src/authentication/domain/services/pro-sante-connect-oidc-authentication.service.js';
 import { InvalidIdentityProviderError } from '../../errors.js';
 import { CnavOidcAuthenticationService } from './cnav-oidc-authentication-service.js';
 import { FwbOidcAuthenticationService } from './fwb-oidc-authentication-service.js';
@@ -61,6 +62,7 @@ export class OidcAuthenticationServiceRegistry {
       new GoogleOidcAuthenticationService(),
       new PaysdelaloireOidcAuthenticationService(),
       new PoleEmploiOidcAuthenticationService(),
+      new ProSanteConnectOidcAuthenticationService(),
     ];
 
     this.#allOidcProviderServices = oidcProviderServices ?? defaultOidcProviderServices;

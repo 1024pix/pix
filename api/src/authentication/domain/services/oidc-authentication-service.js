@@ -275,10 +275,11 @@ class OidcAuthenticationService {
     const key = `${userId}:${logoutUrlUUID}`;
     const idToken = await this.sessionTemporaryStorage.get(key);
 
-    const parameters = {
-      post_logout_redirect_uri: this.postLogoutRedirectUri,
-      id_token_hint: idToken,
-    };
+    const parameters = { id_token_hint: idToken };
+
+    if (this.postLogoutRedirectUri) {
+      parameters.post_logout_redirect_uri = this.postLogoutRedirectUri;
+    }
 
     try {
       const endSessionUrl = this.client.endSessionUrl(parameters);

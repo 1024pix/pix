@@ -3,7 +3,7 @@ import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 import { validateEntity } from '../../../src/shared/domain/validators/entity-validator.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
-import { CNAV, FWB, PAYSDELALOIRE, POLE_EMPLOI } from '../constants/oidc-identity-providers.js';
+import { CNAV, FWB, PAYSDELALOIRE, POLE_EMPLOI, PROSANTECONNECT } from '../constants/oidc-identity-providers.js';
 
 class PixAuthenticationComplement {
   constructor({ password, shouldChangePassword } = {}) {
@@ -70,6 +70,7 @@ const validationSchema = Joi.object({
     { is: CNAV.code, then: Joi.object().instance(OidcAuthenticationComplement).allow(null) },
     { is: FWB.code, then: Joi.object().instance(OidcAuthenticationComplement).allow(null) },
     { is: PAYSDELALOIRE.code, then: Joi.object().instance(OidcAuthenticationComplement).allow(null) },
+    { is: PROSANTECONNECT.code, then: Joi.object().instance(OidcAuthenticationComplement).allow(null) },
   ]),
   externalIdentifier: Joi.when('identityProvider', [
     { is: NON_OIDC_IDENTITY_PROVIDERS.PIX.code, then: Joi.any().forbidden() },
@@ -78,6 +79,7 @@ const validationSchema = Joi.object({
     { is: CNAV.code, then: Joi.string().required() },
     { is: FWB.code, then: Joi.string().required() },
     { is: PAYSDELALOIRE.code, then: Joi.string().required() },
+    { is: PROSANTECONNECT.code, then: Joi.string().required() },
   ]),
   userId: Joi.number().integer().required(),
   createdAt: Joi.date().optional(),

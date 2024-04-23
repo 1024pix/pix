@@ -24,6 +24,7 @@ const reassignAuthenticationMethodJoiSchema = Joi.object({
           OidcIdentityProviders.CNAV.code,
           OidcIdentityProviders.FWB.code,
           OidcIdentityProviders.PAYSDELALOIRE.code,
+          OidcIdentityProviders.PROSANTECONNECT.code,
         )
         .required(),
     },

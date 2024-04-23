@@ -325,6 +325,17 @@ const configuration = (function () {
       tokenUrl: process.env.POLE_EMPLOI_TOKEN_URL,
     },
     port: parseInt(process.env.PORT, 10) || 3000,
+    proSanteConnect: {
+      accessTokenLifespanMs: ms(process.env.PROSANTECONNECT_ACCESS_TOKEN_LIFESPAN || '7d'),
+      clientId: process.env.PROSANTECONNECT_CLIENT_ID,
+      clientSecret: process.env.PROSANTECONNECT_CLIENT_SECRET,
+      isEnabled: isFeatureEnabled(process.env.PROSANTECONNECT_ENABLED),
+      isEnabledForPixAdmin: false,
+      openidConfigurationUrl: process.env.PROSANTECONNECT_OPENID_CONFIGURATION_URL,
+      postLogoutRedirectUri: process.env.PROSANTECONNECT_POST_LOGOUT_REDIRECT_URI,
+      redirectUri: process.env.PROSANTECONNECT_REDIRECT_URI,
+      scope: process.env.PROSANTECONNECT_SCOPE,
+    },
     rootPath: path.normalize(__dirname + '/..'),
     saml: {
       spConfig: parseJSONEnv('SAML_SP_CONFIG'),
