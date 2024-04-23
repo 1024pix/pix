@@ -81,6 +81,11 @@ phrase:
        params:
          locale_id: 'nl'
 
+     - file: ./mon-pix/translations/es.json
+       project_id: "9ca9a54c81b5a85168c8df3d6953a49e"
+       params:
+         locale_id: 'es'
+
      - file: ./orga/translations/nl.json
        project_id: "93a23f4b74a86dbb53244134fb21ef43"
        params:
@@ -105,3 +110,8 @@ phrase:
        project_id: "88f30f82bdab4e25ac5e57b6663a941a"
        params:
          locale_id: 'nl'
+
+     - file: ./api/translations/es.json
+       project_id: "88f30f82bdab4e25ac5e57b6663a941a"
+       params:
+         locale_id: 'es'
