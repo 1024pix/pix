@@ -3,6 +3,10 @@ export default {
     value: 'English',
     languageSwitcherDisplayed: true,
   },
+  es: {
+    value: 'Español',
+    languageSwitcherDisplayed: false,
+  },
   fr: {
     value: 'Français',
     languageSwitcherDisplayed: true,

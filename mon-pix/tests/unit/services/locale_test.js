@@ -31,7 +31,7 @@ module('Unit | Services | locale', function (hooks) {
     module('when language is not supported', function () {
       test('returns default language', function (assert) {
         // given
-        const language = 'es';
+        const language = 'de';
 
         // when
         const result = localeService.handleUnsupportedLanguage(language);
