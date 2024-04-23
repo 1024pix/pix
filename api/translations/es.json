@@ -1,0 +1,403 @@
+{
+  "account-recovery-email": {
+    "params": {
+      "choosePassword": "Elija una contraseña",
+      "context": "Ha solicitado la recuperación de su cuenta Pix.",
+      "doNotAnswer": "Este es un correo electrónico automático, por favor no responda.",
+      "instruction": "Elija una contraseña para completar el procedimiento.",
+      "linkValidFor": "Este enlace es válido durante 24 horas. Si usted no es el autor de esta solicitud, ignore este correo electrónico.",
+      "moreOn": "Más información",
+      "pixPresentation": "Pix es el servicio público en línea para evaluar, desarrollar y certificar tus competencias digitales.",
+      "signing": "- El equipo Pix"
+    }
+  },
+  "attendance-sheet": {
+    "certification-information": {
+      "date": "Fecha :",
+      "local-time": "Hora local (inicio) :",
+      "location-name": "Nombre del sitio :",
+      "number": "N°",
+      "room-name": "Nombre del lugar :",
+      "session": ""
+    },
+    "examiner-information": {
+      "invigilated-by": "",
+      "signature": "",
+      "title": ""
+    },
+    "file-name": "",
+    "header": {
+      "page": "",
+      "title": ""
+    },
+    "table": {
+      "birth-name": "",
+      "date-of-birth": {
+        "example": "",
+        "label": ""
+      },
+      "division": "",
+      "external-id": "",
+      "first-name": "",
+      "signature": "",
+      "title": ""
+    }
+  },
+  "campaign-export": {
+    "assessment": {
+      "competence-area": {
+        "items-successfully-completed": "",
+        "mastery-percentage": "",
+        "total-items": ""
+      },
+      "is-shared": "",
+      "mastery-percentage-target-profile": "",
+      "progress": "",
+      "shared-on": "",
+      "skill": {
+        "items-successfully-completed": "",
+        "mastery-percentage": "",
+        "total-items": ""
+      },
+      "started-on": "",
+      "status": {
+        "ko": "",
+        "not-tested": "",
+        "ok": ""
+      },
+      "success-rate": "",
+      "target-profile-name": "",
+      "thematic-result-name": ""
+    },
+    "common": {
+      "campaign-code": "",
+      "campaign-id": "",
+      "campaign-name": "",
+      "file-name": "",
+      "no": "",
+      "not-available": "",
+      "organization-name": "",
+      "participant-division": "",
+      "participant-firstname": "",
+      "participant-group": "",
+      "participant-lastname": "",
+      "participant-student-number": "",
+      "yes": ""
+    },
+    "profiles-collection": {
+      "certifiable-skills": "",
+      "is-certifiable": "",
+      "is-sent": "",
+      "pix-score": "",
+      "sent-on": "",
+      "skill-level": "",
+      "skill-ranking": ""
+    }
+  },
+  "candidate-list-template": {
+    "billing-mode": {
+      "free": "",
+      "paid": "",
+      "prepaid": ""
+    },
+    "certification": "",
+    "complementary": "",
+    "filename": "",
+    "headers": {
+      "birth-date": "",
+      "birthcity": "",
+      "birthcity-inseecode": "",
+      "birthcity-postcode": "",
+      "birthcountry": "",
+      "birthname": "",
+      "birthplace": "",
+      "birthplace-instructions": "",
+      "birthplace-instructions-abroad": "",
+      "birthplace-instructions-abroad-insee": "",
+      "birthplace-instructions-france": "",
+      "birthplace-instructions-france-insee": "",
+      "birthplace-instructions-france-postal": "",
+      "born-abroad": "",
+      "born-in-france": "",
+      "candidates": "",
+      "candidates-list": "",
+      "date": "",
+      "email-convocation": "",
+      "email-results": "",
+      "externalid": "",
+      "extra-time": "",
+      "firstname": "",
+      "gender": "",
+      "locale-time": "",
+      "room-name": "",
+      "session-certification": "",
+      "session-invigilates-by": "",
+      "session-invigilators": "",
+      "session-number": "",
+      "site-name": ""
+    },
+    "one-per-candidate": "",
+    "options": "",
+    "prepayment": "",
+    "pricing": "",
+    "pricing-pix": "",
+    "title": "",
+    "tooltip-line-1": "",
+    "tooltip-line-2": "",
+    "tooltip-line-3": "",
+    "tooltips": {
+      "date-format": "",
+      "email-format": "",
+      "email-results": "",
+      "extra-time": "",
+      "gender-format": ""
+    },
+    "yes": "",
+    "yes-or-empty": ""
+  },
+  "certification-center-invitation-email": {
+    "params": {
+      "acceptInvitation": "",
+      "doNotAnswer": "",
+      "here": "",
+      "moreAbout": "",
+      "needHelp": "",
+      "oneTimeLink": "",
+      "pixCertifPresentation": "",
+      "title": "",
+      "yourCertificationCenter": ""
+    },
+    "subject": ""
+  },
+  "certification-confirmation": {
+    "absolute-max-level-indication": "",
+    "file-name": "",
+    "from-birthplace": "",
+    "max-level": "",
+    "max-reachable-level-indication": ""
+  },
+  "certification-result-email": {
+    "params": {
+      "doNotReply": "",
+      "download": "",
+      "emailValidFor": "",
+      "findOutMore": "",
+      "findOutMoreFranceSuffix": "",
+      "findOutMoreInternationalSuffix": "",
+      "guidelines": "",
+      "guidelinesLinkName": "",
+      "overviewText": "",
+      "resultsAvailable": "",
+      "subject": "",
+      "viewResultsInProfile": ""
+    },
+    "title": ""
+  },
+  "certification-results-csv": {
+    "filenames": {
+      "DIVISION_CERTIFICATION_RESULTS_FILENAME": "",
+      "SESSION_CERTIFICATION_RESULTS_FILENAME": ""
+    },
+    "headers": {
+      "BIRTHDATE": "",
+      "BIRTHPLACE": "",
+      "CERTIFICATION_CENTER": "",
+      "CERTIFICATION_DATE": "",
+      "CERTIFICATION_LABEL": "",
+      "CERTIFICATION_NUMBER": "",
+      "EXTERNAL_ID": "",
+      "FIRSTNAME": "",
+      "JURY_COMMENT_FOR_ORGANIZATION": "",
+      "LASTNAME": "",
+      "PIX_SCORE": "",
+      "REGISTRATION_STATUS": "",
+      "SESSION_ID": "",
+      "SKILL_LABEL": "",
+      "STATUS": ""
+    },
+    "values": {
+      "CERTIFICATION_CANCELLED": "",
+      "CERTIFICATION_IN_ERROR": "",
+      "CERTIFICATION_REJECTED": "",
+      "CERTIFICATION_STARTED": "",
+      "CERTIFICATION_VALIDATED": "",
+      "COMPLEMENTARY_CERTIFICATION_CANCELLED": "",
+      "COMPLEMENTARY_CERTIFICATION_NOT_DONE": "",
+      "COMPLEMENTARY_CERTIFICATION_REJECTED": "",
+      "COMPLEMENTARY_CERTIFICATION_VALIDATED": "",
+      "REJECTED_AUTOMATICALLY_COMMENT": ""
+    }
+  },
+  "csv-import-values": {
+    "sup-organization-learner": {
+      "diplomas": {
+        "bts": "",
+        "classe-preparatoire": "",
+        "dcg ": "",
+        "deust": "",
+        "dma ": "",
+        "dnmade": "",
+        "doctorat": "",
+        "dts": "",
+        "dut": "",
+        "etat-controle": "",
+        "ingenieur": "",
+        "license": "",
+        "license-grade": "",
+        "master": "",
+        "master-grade": "",
+        "other": "",
+        "vise": ""
+      },
+      "study-schemes": {
+        "continuous-training": "",
+        "initial-training": "",
+        "other": "",
+        "training": ""
+      },
+      "unknown": ""
+    }
+  },
+  "csv-template": {
+    "organization-learners": {
+      "birth-city": "",
+      "birth-city-code": "",
+      "birth-country-code": "",
+      "birth-province-code": "",
+      "birthdate": "",
+      "division": "",
+      "first-name": "",
+      "last-name": "",
+      "mef-code": "",
+      "middle-name": "",
+      "national-identifier": "",
+      "preferred-last-name": "",
+      "sex": "",
+      "status": "",
+      "third-name": ""
+    },
+    "sup-organization-learners": {
+      "birthdate": "",
+      "department": "",
+      "diploma": "",
+      "educational-team": "",
+      "email": "",
+      "first-name": "",
+      "group": "",
+      "last-name": "",
+      "middle-name": "",
+      "preferred-lastname": "",
+      "student-number": "",
+      "study-scheme": "",
+      "third-name": ""
+    },
+    "template-name": ""
+  },
+  "email-sender-name": {
+    "pix-app": "PIX - No contestar"
+  },
+  "entity-validation-errors": {
+    "ACCEPT_CGU": "Debes aceptar las condiciones de uso de Pix para crear una cuenta.",
+    "ALREADY_REGISTERED_EMAIL": "Esta dirección de correo electrónico ya está registrada, inicie sesión.",
+    "CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_URL_IS_FILLED": "Se introduce una URL para el botón: también se requiere un texto.",
+    "CUSTOM_RESULT_PAGE_BUTTON_URL_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_FILLED": "Se introduce un texto para el botón: también se requiere una URL.",
+    "CUSTOM_RESULT_PAGE_BUTTON_URL_MUST_BE_A_URL": "La URL del botón debe ser una URL completa y válida.",
+    "EMPTY_EMAIL": "No se ha introducido su dirección de correo electrónico.",
+    "EMPTY_FIRST_NAME": "Su nombre de pila no está rellenado.",
+    "EMPTY_INPUT": "No se rellena ningún campo.",
+    "EMPTY_LAST_NAME": "No se ha introducido su nombre.",
+    "EMPTY_USERNAME": "Su nombre de usuario no se ha rellenado.",
+    "FILL_USERNAME_OR_EMAIL": "Debe introducir una dirección de correo electrónico y/o un nombre de usuario.",
+    "MAX_SIZE_EMAIL": "Su dirección de correo electrónico no debe superar los 255 caracteres.",
+    "MAX_SIZE_FIRST_NAME": "Su nombre no debe superar los 255 caracteres.",
+    "MAX_SIZE_LAST_NAME": "Su nombre no debe superar los 255 caracteres.",
+    "STAGE_TARGET_PROFILE_IS_REQUIRED": "El perfil objetivo es obligatorio",
+    "STAGE_THRESHOLD_IS_REQUIRED": "El umbral de aterrizaje es obligatorio",
+    "STAGE_TITLE_IS_REQUIRED": "El título del nivel es obligatorio",
+    "WRONG_EMAIL_FORMAT": "El formato de la dirección de correo electrónico es incorrecto."
+  },
+  "jury": {
+    "comment": {
+      "CANCELLED_DUE_TO_LACK_OF_ANSWERS_FOR_TECHNICAL_REASON": {
+        "candidate": "",
+        "organization": ""
+      },
+      "CANCELLED_DUE_TO_NEUTRALIZATION": {
+        "candidate": "",
+        "organization": ""
+      },
+      "FRAUD": {
+        "candidate": "",
+        "organization": ""
+      },
+      "LOWER_LEVEL_COMPLEMENTARY_CERTIFICATION_ACQUIRED": {
+        "candidate": "",
+        "organization": ""
+      },
+      "REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS": {
+        "candidate": "",
+        "organization": ""
+      },
+      "REJECTED_DUE_TO_LACK_OF_ANSWERS": {
+        "candidate": "",
+        "organization": ""
+      }
+    }
+  },
+  "organization-invitation-email": {
+    "params": {
+      "acceptInvitation": "",
+      "doNotAnswer": "",
+      "here": "",
+      "moreAbout": "",
+      "needHelp": "",
+      "oneTimeLink": "",
+      "pixPresentation": "",
+      "subtitle": "",
+      "title": "",
+      "yourOrganization": ""
+    },
+    "subject": ""
+  },
+  "pix-account-creation-email": {
+    "params": {
+      "askForHelp": "¿Necesita ayuda? Póngase en contacto con nosotros",
+      "disclaimer": "Si no creó la cuenta en primer lugar, puede pedir que se elimine.",
+      "doNotAnswer": "Este es un correo electrónico automático, por favor no responda.",
+      "goToPix": "Empezar a probar",
+      "helpdeskLinkLabel": "aquí",
+      "moreOn": "Más información",
+      "pixPresentation": "Pix es el servicio público en línea para evaluar, desarrollar y certificar tus competencias digitales.",
+      "subtitle": "Ya puede empezar a hacer pruebas.",
+      "title": "¡Tu cuenta Pix ha sido creada!"
+    },
+    "subject": "Su cuenta Pix ha sido creada"
+  },
+  "reset-password-demand-email": {
+    "params": {
+      "clickOnTheButton": "Haga clic en el botón de abajo para elegir una nueva contraseña.",
+      "contactUs": "póngase en contacto con nosotros",
+      "doNotAnswer": "Este es un correo electrónico automático, por favor no responda. Necesitamos su ayuda,",
+      "linkValidFor": "Este enlace es válido durante 24 horas. Si usted no es el autor de esta solicitud, ignore este correo electrónico.",
+      "moreOn": "Más información",
+      "pixPresentation": "Pix es el servicio público en línea para evaluar, desarrollar y certificar tus competencias digitales.",
+      "resetMyPassword": "Establecer una nueva contraseña",
+      "title": "Restablecer la contraseña",
+      "weCannotSendYourPassword": "Hola, por razones de seguridad, no le enviamos su contraseña por correo electrónico."
+    },
+    "subject": "Solicitud de restablecimiento de contraseña de Pix"
+  },
+  "verification-code-email": {
+    "body": {
+      "context": "Desea cambiar la dirección de correo electrónico de su cuenta. Para continuar, introduzca el siguiente código en Pix :",
+      "doNotAnswer": "Este es un correo electrónico automático, por favor no responda.",
+      "greeting": "Hola,",
+      "moreOn": "Más información",
+      "pixPresentation": "Pix es el servicio público en línea para evaluar, desarrollar y certificar tus competencias digitales.",
+      "seeYouSoon": "Nos vemos pronto en Pix.",
+      "signing": "- El equipo Pix",
+      "warningMessage": "Si no has sido tú, restablece tu contraseña lo antes posible para garantizar la seguridad de tu cuenta."
+    },
+    "subject": "Tu código Pix es {code}"
+  }
+}
