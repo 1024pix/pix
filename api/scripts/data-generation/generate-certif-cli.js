@@ -191,7 +191,7 @@ async function _createNonScoCertificationCandidates(
     );
     if (complementaryCertification) {
       await _createComplementaryCertificationHability(
-        { complementaryCertification, certificationCandidateId, userId, organizationLearnerId },
+        { complementaryCertification, certificationCandidateId, userId, organizationLearnerId, organizationId },
         databaseBuilder,
       );
     }
@@ -234,7 +234,7 @@ async function _createScoCertificationCandidates({ candidateNumber, sessionId, o
 }
 
 async function _createComplementaryCertificationHability(
-  { complementaryCertification, certificationCandidateId, userId, organizationLearnerId },
+  { complementaryCertification, certificationCandidateId, userId, organizationLearnerId, organizationId },
   databaseBuilder,
 ) {
   const { key } = complementaryCertification;
@@ -246,8 +246,12 @@ async function _createComplementaryCertificationHability(
     complementaryCertificationId,
     certificationCandidateId,
   });
-  const badgeId = await _getBadgeIdByComplementaryCertificationKey(key);
-  const campaignId = await _getCampaignIdFromBadgeKey(key);
+  const { id: badgeId, targetProfileId } = await _getBadgeByComplementaryCertificationKey(key);
+
+  const { id: campaignId } = databaseBuilder.factory.buildCampaign({
+    organizationId,
+    targetProfileId,
+  });
 
   const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
     campaignId,
@@ -272,23 +276,9 @@ async function _createComplementaryCertificationHability(
   }
 }
 
-async function _getBadgeIdByComplementaryCertificationKey(complementaryCertificationKey) {
-  const badgeKey = COMPLEMENTARY_CERTIFICATION_BADGES_BY_NAME[complementaryCertificationKey];
-  const { id } = await knex('badges').where({ key: badgeKey }).first();
-  return id;
-}
-
-async function _getCampaignIdFromBadgeKey(badgeKey) {
-  const key = COMPLEMENTARY_CERTIFICATION_BADGES_BY_NAME[badgeKey];
-
-  const { campaignId } = await knex('campaigns')
-    .select({ campaignId: 'campaigns.id' })
-    .innerJoin('badges', 'badges.targetProfileId', 'campaigns.targetProfileId')
-    .innerJoin('campaign_skills', 'campaign_skills.campaignId', 'campaigns.id')
-    .where({ key })
-    .limit(1)
-    .first();
-  return campaignId;
+async function _getBadgeByComplementaryCertificationKey(complementaryCertificationKey) {
+  const key = COMPLEMENTARY_CERTIFICATION_BADGES_BY_NAME[complementaryCertificationKey];
+  return knex('badges').where({ key }).first();
 }
 
 async function _getResults(sessionId) {
@@ -306,14 +296,14 @@ async function _getResults(sessionId) {
     .join('certification-candidates', 'certification-candidates.sessionId', 'sessions.id')
     .join('users', 'users.email', 'certification-candidates.email')
     .leftJoin(
-      'complementary-certification-subscriptions',
-      'complementary-certification-subscriptions.certificationCandidateId',
+      'certification-subscriptions',
+      'certification-subscriptions.certificationCandidateId',
       'certification-candidates.id',
     )
     .leftJoin(
       'complementary-certifications',
       'complementary-certifications.id',
-      'complementary-certification-subscriptions.complementaryCertificationId',
+      'certification-subscriptions.complementaryCertificationId',
     )
     .where('sessions.id', sessionId);
 }
