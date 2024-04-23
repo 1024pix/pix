@@ -5,9 +5,10 @@ const LOCALE = {
   FRENCH_FRANCE: 'fr-fr',
   FRENCH_SPOKEN: 'fr',
   DUTCH_SPOKEN: 'nl',
+  SPANISH_SPOKEN: 'es',
 };
 
-const SUPPORTED_LOCALES = ['en', 'fr', 'fr-BE', 'fr-FR', 'nl-BE'];
+const SUPPORTED_LOCALES = ['en', 'es', 'fr', 'fr-BE', 'fr-FR', 'nl-BE'];
 
 const ORGANIZATION_FEATURE = {
   MISSIONS_MANAGEMENT: {
