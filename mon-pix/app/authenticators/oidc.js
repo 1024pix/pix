@@ -8,7 +8,6 @@ import RSVP from 'rsvp';
 
 export default class OidcAuthenticator extends BaseAuthenticator {
   @service session;
-  @service location;
   @service oidcIdentityProviders;
 
   async authenticate({ code, redirectUri, state, identityProviderSlug, authenticationKey, hostSlug }) {
