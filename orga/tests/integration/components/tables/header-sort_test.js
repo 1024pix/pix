@@ -17,10 +17,10 @@ module('Integration | Component | Tables | header-sort', function (hooks) {
 
   test('should display header title', async function (assert) {
     // when
-    await render(hbs`<Table::HeaderSort>Header</Table::HeaderSort>`);
+    const screen = await render(hbs`<Table::HeaderSort>Header</Table::HeaderSort>`);
 
     // then
-    assert.contains('Header');
+    assert.ok(screen.getByText('Header'));
   });
 
   module('When header sort is enabled', function () {
@@ -34,7 +34,7 @@ module('Integration | Component | Tables | header-sort', function (hooks) {
 
     test('it call onSort with "asc" when no order is given', async function (assert) {
       // when
-      await render(
+      const screen = await render(
         hbs`<Table::HeaderSort
   @isDisabled={{false}}
   @order={{null}}
@@ -45,7 +45,7 @@ module('Integration | Component | Tables | header-sort', function (hooks) {
 >Header</Table::HeaderSort>`,
       );
 
-      await click('[aria-label="Trier par pertinence"]');
+      await click(screen.getByLabelText('Trier par pertinence'));
 
       // then
       assert.ok(onSortStub.calledWith('asc'));
@@ -53,7 +53,7 @@ module('Integration | Component | Tables | header-sort', function (hooks) {
 
     test('it call onSort with "asc" when order is "desc"', async function (assert) {
       // when
-      await render(
+      const screen = await render(
         hbs`<Table::HeaderSort
   @isDisabled={{false}}
   @order='desc'
@@ -64,7 +64,7 @@ module('Integration | Component | Tables | header-sort', function (hooks) {
 >Header</Table::HeaderSort>`,
       );
 
-      await click('[aria-label="Trié par ordre décroissant"]');
+      await click(screen.getByLabelText('Trié par ordre décroissant'));
 
       // then
       assert.ok(onSortStub.calledWith('asc'));
@@ -72,7 +72,7 @@ module('Integration | Component | Tables | header-sort', function (hooks) {
 
     test('it call onSort with "desc" when order is "asc"', async function (assert) {
       // when
-      await render(
+      const screen = await render(
         hbs`<Table::HeaderSort
   @isDisabled={{false}}
   @onSort={{this.onSort}}
@@ -83,7 +83,7 @@ module('Integration | Component | Tables | header-sort', function (hooks) {
 >Header</Table::HeaderSort>`,
       );
 
-      await click('[aria-label="Trié par ordre croissant"]');
+      await click(screen.getByLabelText('Trié par ordre croissant'));
 
       // then
       assert.ok(onSortStub.calledWith('desc'));
@@ -93,12 +93,12 @@ module('Integration | Component | Tables | header-sort', function (hooks) {
   module('When header sort is disabled', function () {
     test('should not display arrow', async function (assert) {
       // when
-      await render(
+      const screen = await render(
         hbs`<Table::HeaderSort @isDisabled={{true}} @ariaLabel='Trier par pertinence'>Header</Table::HeaderSort>`,
       );
 
       // then
-      assert.dom('[aria-label="Trier par pertinence"]').doesNotExist();
+      assert.notOk(screen.queryByLabelText('Trier par pertinence'));
     });
   });
 });
