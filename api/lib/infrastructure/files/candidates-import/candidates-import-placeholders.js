@@ -150,8 +150,8 @@ const IMPORT_CANDIDATES_TEMPLATE_VALUES = [
     propertyName: 'pixPlusEdu2ndDegre',
   },
   {
-    placeholder: ComplementaryCertificationKeys.PIX_PLUS_SANTE,
-    propertyName: 'pixPlusSante',
+    placeholder: ComplementaryCertificationKeys.PIX_PLUS_PRO_SANTE,
+    propertyName: 'pixPlusProSante',
   },
 ];
 

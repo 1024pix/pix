@@ -8,5 +8,5 @@ export const ComplementaryCertificationKeys = Object.freeze({
   CLEA: 'CLEA',
   PIX_PLUS_EDU_1ER_DEGRE: 'EDU_1ER_DEGRE',
   PIX_PLUS_EDU_2ND_DEGRE: 'EDU_2ND_DEGRE',
-  PIX_PLUS_SANTE: 'PRO_SANTE',
+  PIX_PLUS_PRO_SANTE: 'PRO_SANTE',
 });

@@ -109,8 +109,9 @@ function _includeComplementaryCertificationColumns({ complementaryCertifications
       complementaryCertification.key === ComplementaryCertificationKeys.PIX_PLUS_EDU_2ND_DEGRE,
   );
 
-  const containsPixPlusSante = complementaryCertifications.some(
-    (complementaryCertification) => complementaryCertification.key === ComplementaryCertificationKeys.PIX_PLUS_SANTE,
+  const containsPixPlusProSante = complementaryCertifications.some(
+    (complementaryCertification) =>
+      complementaryCertification.key === ComplementaryCertificationKeys.PIX_PLUS_PRO_SANTE,
   );
 
   if (containsClea) {
@@ -145,10 +146,10 @@ function _includeComplementaryCertificationColumns({ complementaryCertifications
     });
   }
 
-  if (containsPixPlusSante) {
+  if (containsPixPlusProSante) {
     transformationStruct.push({
-      header: `Pix+ Santé${translate('candidate-list-template.yes-or-empty')}`,
-      property: 'hasPixPlusSante',
+      header: `Pix+ Pro Santé${translate('candidate-list-template.yes-or-empty')}`,
+      property: 'hasPixPlusProSante',
       transformFn: (val) => _toBooleanIfValueEqualsOuiOrNull({ val, translate }),
     });
   }
