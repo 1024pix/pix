@@ -19,7 +19,7 @@ module('Integration | Component | SupOrganizationParticipant::HeaderActions', fu
       );
 
       // then
-      assert.dom(screen.getByText(this.intl.t('pages.sup-organization-participants.title', { count: 0 }))).exists();
+      assert.ok(screen.getByText(this.intl.t('pages.sup-organization-participants.title', { count: 0 })));
     });
 
     test('it should show title with participant count when count > 0', async function (assert) {
@@ -32,7 +32,7 @@ module('Integration | Component | SupOrganizationParticipant::HeaderActions', fu
       );
 
       // then
-      assert.dom(screen.getByText(this.intl.t('pages.sup-organization-participants.title', { count: 5 }))).exists();
+      assert.ok(screen.getByText(this.intl.t('pages.sup-organization-participants.title', { count: 5 })));
     });
   });
 
@@ -50,18 +50,18 @@ module('Integration | Component | SupOrganizationParticipant::HeaderActions', fu
 
     test('it should display download template button', async function (assert) {
       // when
-      await render(hbs`<SupOrganizationParticipant::HeaderActions />`);
+      const screen = await render(hbs`<SupOrganizationParticipant::HeaderActions />`);
 
       // then
-      assert.contains('Télécharger le modèle');
+      assert.ok(screen.getByText(this.intl.t('pages.sup-organization-participants.actions.download-template')));
     });
 
     test('it displays the import button', async function (assert) {
       // when
-      await render(hbs`<SupOrganizationParticipant::HeaderActions />`);
+      const screen = await render(hbs`<SupOrganizationParticipant::HeaderActions />`);
 
       // then
-      assert.contains('Importer');
+      assert.ok(screen.getByText(this.intl.t('pages.sup-organization-participants.actions.import-file')));
     });
   });
 
@@ -75,18 +75,21 @@ module('Integration | Component | SupOrganizationParticipant::HeaderActions', fu
 
     test('it should not display download template button', async function (assert) {
       // when
-      await render(hbs`<SupOrganizationParticipant::HeaderActions />`);
+      const screen = await render(hbs`<SupOrganizationParticipant::HeaderActions />`);
 
       // then
-      assert.notContains('Télécharger le modèle');
+      assert.notOk(screen.queryByText(this.intl.t('pages.sup-organization-participants.actions.download-template')));
     });
 
     test('it should not display import button', async function (assert) {
       // when
-      await render(hbs`<SupOrganizationParticipant::HeaderActions />`);
+      const screen = await render(hbs`<SupOrganizationParticipant::HeaderActions />`);
 
       // then
-      assert.notContains('Importer (.csv)');
+      assert.notOk(screen.queryByText('Importer (.csv)'));
+      assert.notOk(
+        screen.queryByText(`${this.intl.t('pages.sup-organization-participants.actions.import-file')} (.csv)`),
+      );
     });
   });
 });

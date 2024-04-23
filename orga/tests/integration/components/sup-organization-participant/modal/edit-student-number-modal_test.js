@@ -1,4 +1,4 @@
-import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
+import { clickByName, fillByLabel, getDefaultNormalizer, render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
@@ -36,7 +36,7 @@ module('Integration | Component | SupOrganizationParticipant::Modal::EditStudent
   module('when the edit student number modal is open', function () {
     module('when there is student number', function () {
       test('should render component with student number text', async function (assert) {
-        await render(
+        const screen = await render(
           hbs`<SupOrganizationParticipant::Modal::EditStudentNumberModal
   @display={{this.display}}
   @onClose={{this.close}}
@@ -45,15 +45,26 @@ module('Integration | Component | SupOrganizationParticipant::Modal::EditStudent
 />`,
         );
 
-        assert.contains(`Numéro étudiant actuel de ${this.student.firstName} ${this.student.lastName} est :`);
-        assert.contains(this.student.studentNumber);
+        assert.ok(
+          screen.getByText(
+            this.intl.t('pages.sup-organization-participants.edit-student-number-modal.form.student-number', {
+              firstName: this.student.firstName,
+              lastName: this.student.lastName,
+            }),
+            // WARNING : nous avons ici un problème de rupture de la séparation des responsabilité
+            // ce pourquoi nous sommes obligés de renseigner `normalizer: getDefaultNormalizer({ trim: false })z.
+            // TODO :gérer les espaces en fin de texte avec du css et non dans les clés de traduction
+            { exact: false, normalizer: getDefaultNormalizer({ trim: false }) },
+          ),
+        );
+        assert.ok(screen.getByText(this.student.studentNumber));
       });
     });
 
     module('when there is no student number yet', function () {
       test('should not render component with student number text', async function (assert) {
         this.student.set('studentNumber', null);
-        await render(
+        const screen = await render(
           hbs`<SupOrganizationParticipant::Modal::EditStudentNumberModal
   @display={{this.display}}
   @onClose={{this.close}}
@@ -62,8 +73,17 @@ module('Integration | Component | SupOrganizationParticipant::Modal::EditStudent
 />`,
         );
 
-        assert.notContains(
-          `Numéro étudiant actuel de ${this.student.firstName} ${this.student.lastName} est : ${this.student.studentNumber}`,
+        assert.notOk(
+          screen.queryByText(
+            this.intl.t('pages.sup-organization-participants.edit-student-number-modal.form.student-number', {
+              firstName: this.student.firstName,
+              lastName: this.student.lastName,
+            }),
+            // WARNING : nous avons ici un problème de rupture de la séparation des responsabilité
+            // ce pourquoi nous sommes obligés de renseigner `normalizer: getDefaultNormalizer({ trim: false })z.
+            // TODO :gérer les espaces en fin de texte avec du css et non dans les clés de traduction
+            { exact: false, normalizer: getDefaultNormalizer({ trim: false }) },
+          ),
         );
       });
     });
@@ -117,8 +137,7 @@ module('Integration | Component | SupOrganizationParticipant::Modal::EditStudent
           this.intl.t('pages.sup-organization-participants.edit-student-number-modal.actions.update'),
         );
 
-        assert.dom(submitButton).exists();
-        assert.dom(submitButton).hasAttribute('disabled');
+        assert.ok(submitButton.hasAttribute('disabled'));
       });
     });
 
@@ -183,7 +202,7 @@ module('Integration | Component | SupOrganizationParticipant::Modal::EditStudent
       function () {
         test('it display an error under student number input', async function (assert) {
           // given
-          await render(
+          const screen = await render(
             hbs`<SupOrganizationParticipant::Modal::EditStudentNumberModal
   @display={{this.display}}
   @onClose={{this.close}}
@@ -212,14 +231,19 @@ module('Integration | Component | SupOrganizationParticipant::Modal::EditStudent
           );
 
           // then
-          assert.contains(
-            `Le numéro étudiant saisi est déjà utilisé par l’étudiant ${this.student.firstName} ${this.student.lastName}`,
+          assert.ok(
+            screen.getByText(
+              this.intl.t('api-error-messages.edit-student-number.student-number-exists', {
+                firstName: this.student.firstName,
+                lastName: this.student.lastName,
+              }),
+            ),
           );
         });
 
         test('it remove errors when submitting is a success', async function (assert) {
           // given
-          await render(
+          const screen = await render(
             hbs`<SupOrganizationParticipant::Modal::EditStudentNumberModal
   @display={{this.display}}
   @onClose={{this.close}}
@@ -245,8 +269,13 @@ module('Integration | Component | SupOrganizationParticipant::Modal::EditStudent
           await clickByName('Mettre à jour');
 
           // then
-          assert.notContains(
-            `Le numéro étudiant saisi est déjà utilisé par l’étudiant ${this.student.firstName} ${this.student.lastName}`,
+          assert.notOk(
+            screen.queryByText(
+              this.intl.t('api-error-messages.edit-student-number.student-number-exists', {
+                firstName: this.student.firstName,
+                lastName: this.student.lastName,
+              }),
+            ),
           );
         });
       },
