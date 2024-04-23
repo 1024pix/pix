@@ -203,6 +203,20 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
             'owner-organization-id': 12,
             'has-linked-campaign': false,
             'has-linked-autonomous-course': false,
+            'capped-tubes': [
+              {
+                id: 'recTube1',
+                level: 7,
+              },
+              {
+                id: 'recTube2',
+                level: 4,
+              },
+              {
+                id: 'recTube3',
+                level: 6,
+              },
+            ],
           },
           relationships: {
             areas: {
