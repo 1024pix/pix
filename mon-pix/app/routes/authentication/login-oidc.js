@@ -87,7 +87,7 @@ export default class LoginOidcRoute extends Route {
   }
 
   _getRedirectUri(identityProviderSlug) {
-    const { protocol, host } = location;
+    const { protocol, host } = window.location;
     return `${protocol}//${host}/connexion/${identityProviderSlug}`;
   }
 
