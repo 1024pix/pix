@@ -13,6 +13,7 @@ import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/
 import * as oidcProviderRepository from '../../infrastructure/repositories/oidc-provider-repository.js';
 import * as pixAuthenticationService from '../services/pix-authentication-service.js';
 import * as refreshTokenService from '../services/refresh-token-service.js';
+import { addOidcProviderValidator } from '../validators/add-oidc-provider.validator.js';
 
 const path = dirname(fileURLToPath(import.meta.url));
 
@@ -29,7 +30,10 @@ const services = {
   refreshTokenService,
   tokenService,
 };
-const dependencies = Object.assign({ config }, repositories, services);
+const validators = {
+  addOidcProviderValidator,
+};
+const dependencies = Object.assign({ config }, repositories, services, validators);
 
 const usecasesWithoutInjectedDependencies = {
   ...(await importNamedExportsFromDirectory({ path: join(path, './'), ignoredFileNames: ['index.js'] })),

@@ -49,8 +49,30 @@ const addOidcProvider = async function ({
   source,
   oidcProviderRepository,
   cryptoService,
+  addOidcProviderValidator,
   domainTransaction = DomainTransaction.emptyTransaction(),
 }) {
+  addOidcProviderValidator.validate({
+    accessTokenLifespan,
+    additionalRequiredProperties,
+    claimsToStore,
+    clientId,
+    clientSecret,
+    enabled,
+    enabledForPixAdmin,
+    extraAuthorizationUrlParameters,
+    identityProvider,
+    openidClientExtraMetadata,
+    openidConfigurationUrl,
+    organizationName,
+    postLogoutRedirectUri,
+    redirectUri,
+    scope,
+    shouldCloseSession,
+    slug,
+    source,
+  });
+
   const encryptedClientSecret = await cryptoService.encrypt(clientSecret);
 
   await oidcProviderRepository.create(
