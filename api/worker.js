@@ -57,8 +57,12 @@ function createMonitoredJobQueue(pgBoss) {
   const monitoredJobQueue = new MonitoredJobQueue(jobQueue);
   process.on('SIGINT', async () => {
     await monitoredJobQueue.stop();
-    // eslint-disable-next-line n/no-process-exit
-    process.exit(0);
+
+    // Make sure pgBoss stopped before quitting
+    pgBoss.on('stopped', () => {
+      // eslint-disable-next-line n/no-process-exit
+      process.exit(0);
+    });
   });
   return monitoredJobQueue;
 }
