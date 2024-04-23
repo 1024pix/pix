@@ -58,7 +58,10 @@ export default class CurrentUserService extends Service {
   }
 
   get shouldAccessImportPage() {
-    return Boolean((this.isSCOManagingStudents || this.isSUPManagingStudents) && this.isAdminInOrganization);
+    return Boolean(
+      (this.isSCOManagingStudents || this.isSUPManagingStudents || this.hasLearnerImportFeature) &&
+        this.isAdminInOrganization,
+    );
   }
 
   get shouldAccessPlacesPage() {
@@ -72,5 +75,8 @@ export default class CurrentUserService extends Service {
   }
   get shouldAccessParticipantsPage() {
     return !this.prescriber.missionsManagement;
+  }
+  get hasLearnerImportFeature() {
+    return this.prescriber.hasOrganizationLearnerImport;
   }
 }

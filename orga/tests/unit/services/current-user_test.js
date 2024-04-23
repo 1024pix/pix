@@ -334,7 +334,11 @@ module('Unit | Service | current-user', function (hooks) {
       });
     });
 
-    module('#shouldAccessImportPage', function () {
+    module('#shouldAccessImportPage', function (hooks) {
+      hooks.beforeEach(function () {
+        currentUserService.prescriber = { hasOrganizationLearnerImport: false };
+      });
+
       module('when is admin of the organization', function () {
         test('should return false if organization is not sco managing student', function (assert) {
           currentUserService.isAdminInOrganization = true;
@@ -360,6 +364,13 @@ module('Unit | Service | current-user', function (hooks) {
         test('should return true if organization is sup managing student', function (assert) {
           currentUserService.isAdminInOrganization = true;
           currentUserService.isSUPManagingStudents = true;
+
+          assert.true(currentUserService.shouldAccessImportPage);
+        });
+
+        test('should return true if user can use import learner feature', function (assert) {
+          currentUserService.isAdminInOrganization = true;
+          currentUserService.prescriber = { hasOrganizationLearnerImport: true };
 
           assert.true(currentUserService.shouldAccessImportPage);
         });
@@ -393,6 +404,30 @@ module('Unit | Service | current-user', function (hooks) {
 
           assert.false(currentUserService.shouldAccessImportPage);
         });
+
+        test('should return false if user can use import learner feature', function (assert) {
+          currentUserService.isAdminInOrganization = false;
+          currentUserService.prescriber = { hasOrganizationLearnerImport: true };
+
+          assert.false(currentUserService.shouldAccessImportPage);
+        });
+      });
+    });
+    module('#hasLearnerImportFeature', function () {
+      test('should return true if user has learnerImport feature activated', function (assert) {
+        currentUserService.prescriber = {
+          hasOrganizationLearnerImport: true,
+        };
+
+        assert.true(currentUserService.hasLearnerImportFeature);
+      });
+
+      test('should return false if user does not have learnerImport feature activated', function (assert) {
+        currentUserService.prescriber = {
+          hasOrganizationLearnerImport: false,
+        };
+
+        assert.false(currentUserService.hasLearnerImportFeature);
       });
     });
   });
