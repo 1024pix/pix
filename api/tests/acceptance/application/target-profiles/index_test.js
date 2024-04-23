@@ -151,6 +151,7 @@ describe('Acceptance | Route | target-profiles', function () {
       await databaseBuilder.commit();
       const expectedTargetProfile = {
         'are-knowledge-elements-resettable': false,
+        'capped-tubes': [],
         category: 'TEST',
         comment: 'Un beau profil cible',
         description: 'Une description',
