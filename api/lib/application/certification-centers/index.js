@@ -164,9 +164,9 @@ const register = async function (server) {
         ],
         notes: [
           "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
-            '- Création d‘un nouveau centre de certification\n',
+            '- Elle met à jour les informations d‘un centre de certification\n',
         ],
-        tags: ['api', 'certification-center'],
+        tags: ['api', 'admin', 'certification-center'],
       },
     },
     {
