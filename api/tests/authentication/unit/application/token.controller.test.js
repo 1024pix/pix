@@ -1,8 +1,8 @@
-import { tokenController } from '../../../src/authentication/application/token-controller.js';
-import { usecases } from '../../../src/authentication/domain/usecases/index.js';
-import { expect, hFake, sinon } from '../../test-helper.js';
+import { tokenController } from '../../../../src/authentication/application/token.controller.js';
+import { usecases } from '../../../../src/authentication/domain/usecases/index.js';
+import { expect, hFake, sinon } from '../../../test-helper.js';
 
-describe('Unit | Authentication | Application | Controller', function () {
+describe('Unit | Authentication | Application | Controller | Token', function () {
   describe('#createToken', function () {
     const accessToken = 'jwt.access.token';
     const USER_ID = 1;
@@ -14,7 +14,7 @@ describe('Unit | Authentication | Application | Controller', function () {
     /**
      * @see https://www.oauth.com/oauth2-servers/access-tokens/access-token-response/
      */
-    it('should return an OAuth 2 token response (even if we do not really implement OAuth 2 authorization protocol)', async function () {
+    it('returns an OAuth 2 token response (even if we do not really implement OAuth 2 authorization protocol)', async function () {
       // given
       const expirationDelaySeconds = 6666;
       const refreshToken = 'refresh.token';

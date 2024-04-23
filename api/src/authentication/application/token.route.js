@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 import { securityPreHandlers } from '../../shared/application/security-pre-handlers.js';
-import { tokenController } from './token-controller.js';
+import { tokenController } from './token.controller.js';
 
 export const tokenRoutes = [
   {

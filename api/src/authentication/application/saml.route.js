@@ -1,4 +1,4 @@
-import { samlController } from './saml-controller.js';
+import { samlController } from './saml.controller.js';
 
 export const samlRoutes = [
   {
