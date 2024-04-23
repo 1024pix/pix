@@ -47,10 +47,10 @@ module('Integration | Component | ScoOrganizationParticipant::HeaderActions', fu
 
       test('it displays the import button', async function (assert) {
         // when
-        await render(hbs`<ScoOrganizationParticipant::HeaderActions />`);
+        const screen = await render(hbs`<ScoOrganizationParticipant::HeaderActions />`);
 
         // then
-        assert.contains('Importer');
+        assert.ok(screen.getByText(this.intl.t('pages.sco-organization-participants.actions.import-file')));
       });
     });
   });
