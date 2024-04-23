@@ -7,13 +7,15 @@ export class Center {
    * @param {number} props.id
    * @param {CenterTypes} props.type
    * @param {Array<number>} props.habilitations List of complementary certification id
+   * @param {Array<string>} props.features List of center features
    */
-  constructor({ id, type, habilitations = [] } = {}) {
+  constructor({ id, type, habilitations = [], features = [] } = {}) {
     assertEnumValue(CenterTypes, type);
 
     this.id = id;
     this.type = type;
     this.habilitations = habilitations;
+    this.features = features;
   }
 
   get hasBillingMode() {
