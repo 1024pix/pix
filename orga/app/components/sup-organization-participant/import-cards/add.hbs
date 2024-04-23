@@ -8,23 +8,15 @@
   </p>
 
   <div class="import-card__footer">
-    {{#if @disabled}}
-      <PixButton @isDisabled={{@disabled}} @size="small" aria-describedby="accepted-files-add">
-        {{t "pages.organization-participants-import.actions.add-sup.label"}}
-      </PixButton>
-    {{else}}
-      <PixButtonUpload
-        @id="students-file-upload-add"
-        @size="small"
-        @onChange={{@onAddStudents}}
-        accept={{@supportedFormats}}
-        aria-describedby="accepted-files-add"
-      >
-        {{t "pages.organization-participants-import.actions.add-sup.label"}}
-      </PixButtonUpload>
-    {{/if}}
-    <p class="import-card__accepted-files" id="accepted-files-add">
-      {{@acceptedFileType}}
-    </p>
+
+    <UploadButton
+      @id="students-file-upload-add"
+      @size="small"
+      @onChange={{@onImportStudents}}
+      @disabled={{@disabled}}
+      @supportedFormats={{@supportedFormats}}
+    >
+      {{t "pages.organization-participants-import.actions.add-sup.label"}}
+    </UploadButton>
   </div>
 </section>
