@@ -1,4 +1,9 @@
-import { ALL_ORGANIZATION_USER_ID, FEATURE_MISSIONS_MANAGEMENT_ID } from '../common/constants.js';
+import {
+  ALL_ORGANIZATION_USER_ID,
+  FEATURE_LEARNER_IMPORT_ID,
+  FEATURE_MISSIONS_MANAGEMENT_ID,
+  ONDE_IMPORT_FORMAT_ID,
+} from '../common/constants.js';
 import * as tooling from '../common/tooling/index.js';
 
 const TEAM_1D_OFFSET_ID = 9000;
@@ -45,6 +50,11 @@ async function _createSco1dOrganizations(databaseBuilder) {
     adminIds: [TEAM_1D_USER_ID],
     memberIds: [ALL_ORGANIZATION_USER_ID],
     featureIds: [FEATURE_MISSIONS_MANAGEMENT_ID],
+  });
+  await databaseBuilder.factory.buildOrganizationFeature({
+    organizationId: TEAM_1D_ORGANIZATION_1_ID,
+    featureId: FEATURE_LEARNER_IMPORT_ID,
+    params: { organizationLearnerImportFormatId: ONDE_IMPORT_FORMAT_ID },
   });
 
   await databaseBuilder.factory.buildSchool({ organizationId: TEAM_1D_ORGANIZATION_1_ID, code: 'MINIPIXOU' });
