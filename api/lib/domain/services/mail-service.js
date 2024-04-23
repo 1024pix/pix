@@ -5,10 +5,11 @@ import { tokenService } from '../../../src/shared/domain/services/token-service.
 import { mailer } from '../../../src/shared/mail/infrastructure/services/mailer.js';
 import enTranslations from '../../../translations/en.json' assert { type: 'json' };
 import frTranslations from '../../../translations/fr.json' assert { type: 'json' };
+import { es as esTranslations } from '../../../translations/index.js';
 import nlTranslations from '../../../translations/nl.json' assert { type: 'json' };
 import { config } from '../../config.js';
 
-const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN, DUTCH_SPOKEN } = LOCALE;
+const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN, DUTCH_SPOKEN, SPANISH_SPOKEN } = LOCALE;
 
 const EMAIL_ADDRESS_NO_RESPONSE = 'ne-pas-repondre@pix.fr';
 const PIX_ORGA_NAME_FR = 'Pix Orga - Ne pas répondre';
@@ -70,6 +71,17 @@ function sendAccountCreationEmail(email, locale, redirectionUrl) {
 
     pixName = nlTranslations['email-sender-name']['pix-app'];
     accountCreationEmailSubject = nlTranslations['pix-account-creation-email'].subject;
+  } else if (locale === SPANISH_SPOKEN) {
+    variables = {
+      homeName: PIX_HOME_NAME_INTERNATIONAL,
+      homeUrl: PIX_HOME_URL_INTERNATIONAL_ENGLISH_SPOKEN,
+      redirectionUrl: redirectionUrl || `${config.domain.pixApp + config.domain.tldOrg}/connexion/?lang=es`,
+      helpdeskUrl: HELPDESK_ENGLISH_SPOKEN,
+      displayNationalLogo: false,
+      ...esTranslations['pix-account-creation-email'].params,
+    };
+    pixName = esTranslations['email-sender-name']['pix-app'];
+    accountCreationEmailSubject = esTranslations['pix-account-creation-email'].subject;
   } else {
     variables = {
       homeName: PIX_HOME_NAME_FRENCH_FRANCE,
@@ -194,6 +206,20 @@ function sendResetPasswordDemandEmail({ email, locale, temporaryKey }) {
 
     pixName = nlTranslations['email-sender-name']['pix-app'];
     resetPasswordEmailSubject = nlTranslations['reset-password-demand-email'].subject;
+  }
+
+  if (localeParam === SPANISH_SPOKEN) {
+    templateParams = {
+      locale: localeParam,
+      ...esTranslations['reset-password-demand-email'].params,
+      homeName: PIX_HOME_NAME_INTERNATIONAL,
+      homeUrl: PIX_HOME_URL_INTERNATIONAL_ENGLISH_SPOKEN,
+      resetUrl: `${config.domain.pixApp + config.domain.tldOrg}/changer-mot-de-passe/${temporaryKey}/?lang=es`,
+      helpdeskURL: HELPDESK_ENGLISH_SPOKEN,
+    };
+
+    pixName = esTranslations['email-sender-name']['pix-app'];
+    resetPasswordEmailSubject = esTranslations['reset-password-demand-email'].subject;
   }
 
   return mailer.sendEmail({
@@ -458,6 +484,17 @@ function sendVerificationCodeEmail({ code, email, locale, translate }) {
       homeUrl: PIX_HOME_URL_INTERNATIONAL_DUTCH_SPOKEN,
       displayNationalLogo: false,
       ...nlTranslations['verification-code-email'].body,
+    };
+  } else if (locale === SPANISH_SPOKEN) {
+    options.subject = translate({ phrase: 'verification-code-email.subject', locale: 'es' }, { code });
+    options.fromName = esTranslations['email-sender-name']['pix-app'];
+
+    options.variables = {
+      code,
+      homeName: PIX_HOME_NAME_INTERNATIONAL,
+      homeUrl: PIX_HOME_URL_INTERNATIONAL_ENGLISH_SPOKEN,
+      displayNationalLogo: false,
+      ...esTranslations['verification-code-email'].body,
     };
   }
 

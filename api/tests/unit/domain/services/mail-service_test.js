@@ -6,6 +6,7 @@ import { mailer } from '../../../../src/shared/mail/infrastructure/services/mail
 import en from '../../../../translations/en.json' assert { type: 'json' };
 import fr from '../../../../translations/fr.json' assert { type: 'json' };
 import nl from '../../../../translations/nl.json' assert { type: 'json' };
+import { es } from '../../../../translations/index.js';
 import { expect, sinon } from '../../../test-helper.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 
@@ -13,9 +14,10 @@ const mainTranslationsMapping = {
   fr,
   en,
   nl,
+  es,
 };
 
-const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN, DUTCH_SPOKEN } = LOCALE;
+const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN, DUTCH_SPOKEN, SPANISH_SPOKEN } = LOCALE;
 
 describe('Unit | Service | MailService', function () {
   const senderEmailAddress = 'ne-pas-repondre@pix.fr';
@@ -141,6 +143,25 @@ describe('Unit | Service | MailService', function () {
             ...mainTranslationsMapping.nl['pix-account-creation-email'].params,
           });
         });
+        it(`calls sendEmail with from, to, template and locale ${SPANISH_SPOKEN}`, async function () {
+          // given
+          const locale = SPANISH_SPOKEN;
+
+          // when
+          await mailService.sendAccountCreationEmail(userEmailAddress, locale);
+
+          // then
+          const options = mailer.sendEmail.firstCall.args[0];
+          expect(options.fromName).to.equal('PIX - No contestar');
+          expect(options.variables).to.include({
+            homeName: 'pix.org',
+            homeUrl: 'https://pix.org/en-gb/',
+            helpdeskUrl: 'https://support.pix.org/en/support/home',
+            displayNationalLogo: false,
+            redirectionUrl: 'https://app.pix.org/connexion/?lang=es',
+            ...mainTranslationsMapping.es['pix-account-creation-email'].params,
+          });
+        });
       });
     });
   });
@@ -261,6 +282,35 @@ describe('Unit | Service | MailService', function () {
         await mailService.sendResetPasswordDemandEmail({
           email: userEmailAddress,
           locale: DUTCH_SPOKEN,
+          temporaryKey,
+        });
+
+        // then
+        expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
+      });
+
+      it(`calls mailer with translated texts if locale is ${SPANISH_SPOKEN}`, async function () {
+        // given
+        const expectedOptions = {
+          from,
+          to,
+          template,
+          fromName: 'PIX - No contestar',
+          subject: mainTranslationsMapping.es['reset-password-demand-email'].subject,
+          variables: {
+            locale: SPANISH_SPOKEN,
+            ...mainTranslationsMapping.es['reset-password-demand-email'].params,
+            homeName: 'pix.org',
+            homeUrl: 'https://pix.org/en-gb/',
+            resetUrl: `https://app.pix.org/changer-mot-de-passe/${temporaryKey}/?lang=es`,
+            helpdeskURL: 'https://support.pix.org/en/support/home',
+          },
+        };
+
+        // when
+        await mailService.sendResetPasswordDemandEmail({
+          email: userEmailAddress,
+          locale: SPANISH_SPOKEN,
           temporaryKey,
         });
 
@@ -823,6 +873,35 @@ describe('Unit | Service | MailService', function () {
         displayNationalLogo: false,
         code,
         ...mainTranslationsMapping.nl['verification-code-email'].body,
+      });
+    });
+
+    it(`calls sendEmail with from, to, template, tags and locale ${SPANISH_SPOKEN}`, async function () {
+      // given
+      const translate = getI18n().__;
+      const userEmail = 'user@example.net';
+      const code = '999999';
+
+      // when
+      await mailService.sendVerificationCodeEmail({
+        code,
+        email: userEmail,
+        locale: SPANISH_SPOKEN,
+        translate,
+      });
+
+      // then
+      const options = mailer.sendEmail.firstCall.args[0];
+      expect(options.subject).to.equal(
+        translate({ phrase: 'verification-code-email.subject', locale: 'es' }, { code }),
+      );
+      expect(options.fromName).to.equal('PIX - No contestar');
+      expect(options.variables).to.include({
+        homeName: 'pix.org',
+        homeUrl: 'https://pix.org/en-gb/',
+        displayNationalLogo: false,
+        code,
+        ...mainTranslationsMapping.es['verification-code-email'].body,
       });
     });
   });
