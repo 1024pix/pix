@@ -5,8 +5,8 @@ import { catchErr, createTempFile, databaseBuilder, expect, knex, removeTempFile
 describe('Integration | Scripts | Certification | import-pilot-certification-centers-from-csv', function () {
   let file;
 
-  afterEach(function () {
-    removeTempFile(file);
+  afterEach(async function () {
+    await removeTempFile(file);
   });
 
   context('when pilot certification center list from a csv file is imported', function () {
