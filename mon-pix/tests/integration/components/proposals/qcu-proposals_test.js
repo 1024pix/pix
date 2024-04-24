@@ -2,7 +2,7 @@ import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | QCU proposals', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -33,7 +33,7 @@ module('Integration | Component | QCU proposals', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<QcuProposals @answers={{this.answers}} @proposals={{this.proposals}} @answerChanged={{this.answerChanged}} />`,
+        hbs`<Proposals::QcuProposals @answers={{this.answers}} @proposals={{this.proposals}} @answerChanged={{this.answerChanged}} />`,
       );
 
       // then
