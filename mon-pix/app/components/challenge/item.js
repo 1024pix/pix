@@ -4,10 +4,10 @@ import { ensureSafeComponent } from '@embroider/util';
 import Component from '@glimmer/component';
 import ENV from 'mon-pix/config/environment';
 
-import ChallengeItemQcm from '../challenge-item-qcm';
-import ChallengeItemQcu from '../challenge-item-qcu';
-import ChallengeItemQroc from '../challenge-item-qroc';
-import ChallengeItemQrocm from '../challenge-item-qrocm';
+import ChallengeItemQcm from '../challenge-item/challenge-item-qcm';
+import ChallengeItemQcu from '../challenge-item/challenge-item-qcu';
+import ChallengeItemQroc from '../challenge-item/challenge-item-qroc';
+import ChallengeItemQrocm from '../challenge-item/challenge-item-qrocm';
 
 const FOCUSEDOUT_EVENT_NAME = 'focusedout';
 const FOCUSEDOUT_INTERVAL = 1000;
