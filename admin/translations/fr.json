@@ -300,6 +300,23 @@
             }
           }
         }
+      },
+      "scoring-simulation": {
+        "actions": {
+          "submit": "Générer un profil"
+        },
+        "errors": {
+          "both-input-empty": "Merci de renseigner au moins l'un des deux champs",
+          "both-input-filled": "Merci de ne renseigner que l’un des champs “Score global en Pix” ou “Capacité”",
+          "score": "Merci d’indiquer un score en Pix compris entre O et 896"
+        },
+        "labels": {
+          "capacity": "Capacité :",
+          "capacity-input": "Capacité",
+          "level": "Niveau :",
+          "score": "Score :",
+          "score-input": "Score global en Pix"
+        }
       }
     },
     "login": {

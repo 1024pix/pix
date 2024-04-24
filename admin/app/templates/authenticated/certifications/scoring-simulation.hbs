@@ -1,16 +1,18 @@
 <section>
   <form class="scoring-simulation__form">
     <PixInput {{on "input" this.updateScore}} @id="score" @value={{this.score}} type="number">
-      <:label>Score global en Pix</:label>
+      <:label>{{t "pages.certifications.scoring-simulation.labels.score-input"}}</:label>
     </PixInput>
 
     <PixInput @id="capacity" {{on "input" this.updateCapacity}} @value={{this.capacity}} type="number">
-      <:label>Capacité</:label>
+      <:label>{{t "pages.certifications.scoring-simulation.labels.capacity-input"}}</:label>
     </PixInput>
 
-    <PixButton @type="submit" @triggerAction={{this.onGenerateSimulationProfile}}>{{t
-        "pages.certifications.scoring-simulation.actions.submit"
-      }}</PixButton>
+    <PixButton
+      class="scoring-simulation__form-button"
+      @type="submit"
+      @triggerAction={{this.onGenerateSimulationProfile}}
+    >{{t "pages.certifications.scoring-simulation.actions.submit"}}</PixButton>
   </form>
 
   {{#each this.errors as |error|}}
