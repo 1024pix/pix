@@ -26,6 +26,7 @@ export default class SmartRandomSimulator extends Controller {
   @tracked returnedChallenges = [];
 
   @tracked assessmentComplete = false;
+  @tracked smartRandomDetails = null;
 
   @action
   async updateParametersValue(key, value) {
@@ -91,8 +92,10 @@ export default class SmartRandomSimulator extends Controller {
         break;
       }
       case 200: {
-        const response = await apiResponse.json();
-        this.returnedChallenges = [...this.returnedChallenges, response.challenge];
+        const responseBody = await apiResponse.json();
+        this.returnedChallenges = [...this.returnedChallenges, responseBody.challenge];
+        this.smartRandomDetails = responseBody.smartRandomDetails;
+        this.displayedStepIndex = this.smartRandomDetails.steps.length - 1;
         break;
       }
       default: {
