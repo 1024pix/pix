@@ -28,7 +28,7 @@ describe('Acceptance | Application | organization-learners', function () {
       const buffer = `column_firstname;column_lastname;hobby\n` + 'sasha;du bourg palette;pokemon hunter\n';
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       const featureId = databaseBuilder.factory.buildFeature({ key: ORGANIZATION_FEATURE.LEARNER_IMPORT.key }).id;
-      const organizationLearnerImportFormatsId = databaseBuilder.factory.buildOrganizationLearnerImportFormat({
+      const organizationLearnerImportFormatId = databaseBuilder.factory.buildOrganizationLearnerImportFormat({
         name: 'ONDE',
         fileType: 'csv',
         config: {
@@ -46,7 +46,7 @@ describe('Acceptance | Application | organization-learners', function () {
       databaseBuilder.factory.buildOrganizationFeature({
         organizationId,
         featureId,
-        params: { organizationLearnerImportId: organizationLearnerImportFormatsId },
+        params: { organizationLearnerImportFormatId },
       });
 
       databaseBuilder.factory.buildMembership({

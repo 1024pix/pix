@@ -23,7 +23,7 @@ const get = async function (organizationId) {
   if (!configResult) return null;
 
   const result = await knex('organization-learner-import-formats')
-    .where('id', configResult.params.organizationLearnerImportId)
+    .where('id', configResult.params.organizationLearnerImportFormatId)
     .first();
 
   if (!result) return null;
