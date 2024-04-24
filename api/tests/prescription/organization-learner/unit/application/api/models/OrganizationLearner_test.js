@@ -7,7 +7,7 @@ describe('Unit | Application| API | Models | OrganizationLearner', function () {
     const organizationLearner = new OrganizationLearner({
       firstName: 'Jean-Hugues',
       lastName: 'Delaforêt',
-      classe: '4ème',
+      'Libellé classe': '4ème',
       organizationId: 358,
     });
 
