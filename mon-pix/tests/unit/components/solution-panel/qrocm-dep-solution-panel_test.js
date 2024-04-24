@@ -4,7 +4,7 @@ import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-compone
 import setupIntl from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
-module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
+module('Unit | Component | solution-panel/qrocm-dep-solution-panel', function (hooks) {
   setupTest(hooks);
   setupIntl(hooks);
 
@@ -19,7 +19,11 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
         result: 'ko',
       };
       const answersEvaluation = [true, true];
-      const component = createGlimmerComponent('qrocm-dep-solution-panel', { challenge, answer, answersEvaluation });
+      const component = createGlimmerComponent('solution-panel/qrocm-dep-solution-panel', {
+        challenge,
+        answer,
+        answersEvaluation,
+      });
       const expectedBlocksData = [
         {
           input: 'challengeInput1',
@@ -63,7 +67,7 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
       };
       const answersEvaluation = [];
       const solutionsWithoutGoodAnswers = [];
-      const component = createGlimmerComponent('qrocm-dep-solution-panel', {
+      const component = createGlimmerComponent('solution-panel/qrocm-dep-solution-panel', {
         challenge,
         answer,
         answersEvaluation,
@@ -112,7 +116,11 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
         result: 'ko',
       };
       const answersEvaluation = [true, false];
-      const component = createGlimmerComponent('qrocm-dep-solution-panel', { challenge, answer, answersEvaluation });
+      const component = createGlimmerComponent('solution-panel/qrocm-dep-solution-panel', {
+        challenge,
+        answer,
+        answersEvaluation,
+      });
       const expectedBlocksData = [
         {
           input: 'challengeInput1',
@@ -149,7 +157,7 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
   module('#getInputClass', function () {
     test('should return "aband" css class when isAnswerEmpty param is true', function (assert) {
       //Given
-      const component = createGlimmerComponent('qrocm-dep-solution-panel');
+      const component = createGlimmerComponent('solution-panel/qrocm-dep-solution-panel');
 
       //When
       const inputClass = component.getInputClass(true);
@@ -160,7 +168,7 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
 
     test('should return "correct" css class when isAnswerEmpty param is false and isCorrectAnswer is true', function (assert) {
       //Given
-      const component = createGlimmerComponent('qrocm-dep-solution-panel');
+      const component = createGlimmerComponent('solution-panel/qrocm-dep-solution-panel');
 
       //When
       const inputClass = component.getInputClass(false, true);
@@ -171,7 +179,7 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
 
     test('should return "wrong" css class when isAnswerEmpty param is false and isCorrectAnswer is false', function (assert) {
       //Given
-      const component = createGlimmerComponent('qrocm-dep-solution-panel');
+      const component = createGlimmerComponent('solution-panel/qrocm-dep-solution-panel');
 
       //When
       const inputClass = component.getInputClass(false, false);
@@ -184,7 +192,7 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
   module('#getAriaLabel', function () {
     test('should return specific aria-label when question is skipped', function (assert) {
       //Given
-      const component = createGlimmerComponent('qrocm-dep-solution-panel');
+      const component = createGlimmerComponent('solution-panel/qrocm-dep-solution-panel');
 
       //When
       const ariaLabel = component.getAriaLabel(true);
@@ -195,7 +203,7 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
 
     test('should return specific aria-label when question answer is ok', function (assert) {
       //Given
-      const component = createGlimmerComponent('qrocm-dep-solution-panel');
+      const component = createGlimmerComponent('solution-panel/qrocm-dep-solution-panel');
 
       //When
       const inputClass = component.getAriaLabel(false, true);
@@ -206,7 +214,7 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
 
     test('should return specific aria-label when question answer is ko', function (assert) {
       //Given
-      const component = createGlimmerComponent('qrocm-dep-solution-panel');
+      const component = createGlimmerComponent('solution-panel/qrocm-dep-solution-panel');
 
       //When
       const inputClass = component.getAriaLabel(false, false);
@@ -219,7 +227,7 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
   module('#isCorrectAnswer', function () {
     test('should return true', function (assert) {
       //Given
-      const component = createGlimmerComponent('qrocm-dep-solution-panel', { answer: { result: 'ok' } });
+      const component = createGlimmerComponent('solution-panel/qrocm-dep-solution-panel', { answer: { result: 'ok' } });
 
       //When
       const isCorrectAnswer = component.isCorrectAnswer;
@@ -230,7 +238,7 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
 
     test('should return false', function (assert) {
       //Given
-      const component = createGlimmerComponent('qrocm-dep-solution-panel', { answer: { result: 'ko' } });
+      const component = createGlimmerComponent('solution-panel/qrocm-dep-solution-panel', { answer: { result: 'ko' } });
 
       //When
       const isCorrectAnswer = component.isCorrectAnswer;
@@ -247,7 +255,7 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
         const challenge = EmberObject.create({
           proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}',
         });
-        const component = createGlimmerComponent('qrocm-dep-solution-panel', {
+        const component = createGlimmerComponent('solution-panel/qrocm-dep-solution-panel', {
           challenge,
           answer: { result: 'ko', value: "key1: 'rightAnswer1' key2: 'rightAnswer2'" },
           solutionsWithoutGoodAnswers: ['tag', 'marche', 'masque'],
@@ -268,7 +276,7 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
         const challenge = EmberObject.create({
           proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}',
         });
-        const component = createGlimmerComponent('qrocm-dep-solution-panel', {
+        const component = createGlimmerComponent('solution-panel/qrocm-dep-solution-panel', {
           challenge,
           answer: { result: 'ko', value: "key1: 'wrongAnswer1' key2: 'wrongAnswer2'" },
           solutionsWithoutGoodAnswers: ['tag', 'marche'],

@@ -5,7 +5,7 @@ import { find } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | QROC solution panel', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -20,7 +20,7 @@ module('Integration | Component | QROC solution panel', function (hooks) {
       this.set('solution', solution);
 
       //when
-      await render(hbs`<QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}}/>`);
+      await render(hbs`<SolutionPanel::QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}}/>`);
 
       // then
       assert.dom('input').doesNotExist();
@@ -43,7 +43,7 @@ module('Integration | Component | QROC solution panel', function (hooks) {
       this.set('solution', solution);
 
       //when
-      await render(hbs`<QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}}/>`);
+      await render(hbs`<SolutionPanel::QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}}/>`);
 
       // then
       assert.dom('input.correction-qroc-box-answer--sentence').hasAttribute('disabled');
@@ -60,7 +60,7 @@ module('Integration | Component | QROC solution panel', function (hooks) {
       this.set('solution', solution);
 
       //when
-      await render(hbs`<QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}}/>`);
+      await render(hbs`<SolutionPanel::QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}}/>`);
 
       // then
       assert.dom('textarea.correction-qroc-box-answer--paragraph').doesNotExist();
@@ -91,7 +91,7 @@ module('Integration | Component | QROC solution panel', function (hooks) {
           this.set('solution', solution);
 
           //when
-          await render(hbs`<QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}}/>`);
+          await render(hbs`<SolutionPanel::QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}}/>`);
         });
 
         test('should display the answer in bold green', async function (assert) {
@@ -118,7 +118,7 @@ module('Integration | Component | QROC solution panel', function (hooks) {
           this.set('solution', solution);
 
           // when
-          await render(hbs`<QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}}/>`);
+          await render(hbs`<SolutionPanel::QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}}/>`);
         });
 
         test('should display the false answer with line-through', function (assert) {
@@ -158,7 +158,7 @@ module('Integration | Component | QROC solution panel', function (hooks) {
           this.set('isResultWithoutAnswer', true);
 
           // when
-          await render(hbs`<QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}}/>`);
+          await render(hbs`<SolutionPanel::QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}}/>`);
         });
 
         test('should display "Pas de réponse" in italic', function (assert) {
@@ -188,7 +188,7 @@ module('Integration | Component | QROC solution panel', function (hooks) {
 
         // When
         await render(
-          hbs`<QrocSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
+          hbs`<SolutionPanel::QrocSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
         );
 
         // Then
@@ -211,7 +211,7 @@ module('Integration | Component | QROC solution panel', function (hooks) {
 
         // When
         await render(
-          hbs`<QrocSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
+          hbs`<SolutionPanel::QrocSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
         );
 
         // Then
@@ -236,7 +236,7 @@ module('Integration | Component | QROC solution panel', function (hooks) {
 
         // When
         await render(
-          hbs`<QrocSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
+          hbs`<SolutionPanel::QrocSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
         );
 
         // Then
@@ -263,7 +263,7 @@ module('Integration | Component | QROC solution panel', function (hooks) {
 
       // When
       await render(
-        hbs`<QrocSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
+        hbs`<SolutionPanel::QrocSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
       );
 
       // Then
@@ -281,7 +281,7 @@ module('Integration | Component | QROC solution panel', function (hooks) {
 
       // When
       await render(
-        hbs`<QrocSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
+        hbs`<SolutionPanel::QrocSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
       );
 
       // Then

@@ -5,7 +5,7 @@ import { find, findAll } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 const ANSWER = '.correction-qrocm__answer';
 const INPUT = 'input.correction-qrocm-answer__input';
@@ -53,7 +53,7 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
         this.challenge.set('format', data.format);
 
         // when
-        screen = await render(hbs`<QrocmIndSolutionPanel
+        screen = await render(hbs`<SolutionPanel::QrocmIndSolutionPanel
           @answer={{this.answer}}
           @solution={{this.solution}}
           @challenge={{this.challenge}} />`);
@@ -122,7 +122,7 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
           const solutionToDisplay = 'Ceci est la solution !';
           this.set('solutionToDisplay', solutionToDisplay);
           await render(
-            hbs`<QrocmIndSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
+            hbs`<SolutionPanel::QrocmIndSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
           );
 
           // then
@@ -153,7 +153,7 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
       const EMPTY_DEFAULT_MESSAGE = 'Pas de réponse';
       //when
       await render(
-        hbs`<QrocmIndSolutionPanel @challenge={{this.challenge}} @answer={{this.answer}} @solution={{this.solution}} />`,
+        hbs`<SolutionPanel::QrocmIndSolutionPanel @challenge={{this.challenge}} @answer={{this.answer}} @solution={{this.solution}} />`,
       );
       //then
 
@@ -177,7 +177,7 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
     test('should display a disabled textarea', async function (assert) {
       // when
       await render(
-        hbs`<QrocmIndSolutionPanel @answer={{this.answer}} @solution={{this.solution}} @challenge={{this.challenge}} />`,
+        hbs`<SolutionPanel::QrocmIndSolutionPanel @answer={{this.answer}} @solution={{this.solution}} @challenge={{this.challenge}} />`,
       );
 
       // then
@@ -200,7 +200,7 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
     test('should display a disabled input', async function (assert) {
       // when
       await render(
-        hbs`<QrocmIndSolutionPanel @answer={{this.answer}} @solution={{this.solution}} @challenge={{this.challenge}} />`,
+        hbs`<SolutionPanel::QrocmIndSolutionPanel @answer={{this.answer}} @solution={{this.solution}} @challenge={{this.challenge}} />`,
       );
 
       // then
