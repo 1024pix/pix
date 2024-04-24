@@ -1,10 +1,9 @@
 .scoring-simulation__data {
   margin: 20px 0;
-}
 
-.scoring-simulation-data__container {
-  display: flex;
-  gap: var(--pix-spacing-1x);
+  &-item > * {
+    display: inline-block;
+  }
 }
 
 .scoring-simulation__form {
@@ -18,8 +17,8 @@
 }
 
 .scoring-simulation__error-message {
-  margin-top: 10px;
   width: fit-content;
+  margin-top: 10px;
 }
 
 .scoring-simulation__competences {
