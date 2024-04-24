@@ -17,12 +17,8 @@ function parseJSONEnv(varName) {
   return undefined;
 }
 
-function isFeatureEnabled(environmentVariable) {
+function toBoolean(environmentVariable) {
   return environmentVariable === 'true';
-}
-
-function isFeatureNotDisabled(environmentVariable) {
-  return environmentVariable !== 'false';
 }
 
 function _getNumber(numberAsString, defaultValue) {
@@ -90,7 +86,7 @@ const configuration = (function () {
       },
     ],
     auditLogger: {
-      isEnabled: isFeatureEnabled(process.env.PIX_AUDIT_LOGGER_ENABLED),
+      isEnabled: toBoolean(process.env.PIX_AUDIT_LOGGER_ENABLED),
       baseUrl: process.env.PIX_AUDIT_LOGGER_BASE_URL,
       clientSecret: process.env.PIX_AUDIT_LOGGER_CLIENT_SECRET,
     },
@@ -122,7 +118,7 @@ const configuration = (function () {
       accessTokenLifespanMs: ms(process.env.CNAV_ACCESS_TOKEN_LIFESPAN || '7d'),
       clientId: process.env.CNAV_CLIENT_ID,
       clientSecret: process.env.CNAV_CLIENT_SECRET,
-      isEnabled: isFeatureEnabled(process.env.CNAV_ENABLED),
+      isEnabled: toBoolean(process.env.CNAV_ENABLED),
       isEnabledForPixAdmin: false,
       openidConfigurationUrl: process.env.CNAV_OPENID_CONFIGURATION_URL,
       redirectUri: process.env.CNAV_REDIRECT_URI,
@@ -181,7 +177,7 @@ const configuration = (function () {
       dayBeforeImproving: _getNumber(process.env.DAY_BEFORE_IMPROVING, 4),
       dayBeforeRetrying: _getNumber(process.env.DAY_BEFORE_RETRYING, 4),
       dayBeforeCompetenceResetV2: _getNumber(process.env.DAY_BEFORE_COMPETENCE_RESET_V2, 7),
-      garAccessV2: isFeatureEnabled(process.env.GAR_ACCESS_V2),
+      garAccessV2: toBoolean(process.env.GAR_ACCESS_V2),
       maxReachableLevel: _getNumber(process.env.MAX_REACHABLE_LEVEL, 5),
       newYearOrganizationLearnersImportDate: _getDate(process.env.NEW_YEAR_ORGANIZATION_LEARNERS_IMPORT_DATE),
       numberOfChallengesForFlashMethod: _getNumber(process.env.NUMBER_OF_CHALLENGES_FOR_FLASH_METHOD),
@@ -196,19 +192,19 @@ const configuration = (function () {
       scoAccountRecoveryKeyLifetimeMinutes: process.env.SCO_ACCOUNT_RECOVERY_KEY_LIFETIME_MINUTES,
     },
     featureToggles: {
-      isAlwaysOkValidateNextChallengeEndpointEnabled: isFeatureEnabled(
+      isAlwaysOkValidateNextChallengeEndpointEnabled: toBoolean(
         process.env.FT_ALWAYS_OK_VALIDATE_NEXT_CHALLENGE_ENDPOINT,
       ),
-      isPix1dEnabled: isFeatureEnabled(process.env.FT_PIX_1D_ENABLED),
-      isPixPlusLowerLeverEnabled: isFeatureEnabled(process.env.FT_ENABLE_PIX_PLUS_LOWER_LEVEL),
-      isCertificationTokenScopeEnabled: isFeatureEnabled(process.env.FT_ENABLE_CERTIF_TOKEN_SCOPE),
+      isPix1dEnabled: toBoolean(process.env.FT_PIX_1D_ENABLED),
+      isPixPlusLowerLeverEnabled: toBoolean(process.env.FT_ENABLE_PIX_PLUS_LOWER_LEVEL),
+      isCertificationTokenScopeEnabled: toBoolean(process.env.FT_ENABLE_CERTIF_TOKEN_SCOPE),
     },
     fwb: {
       accessTokenLifespanMs: ms(process.env.FWB_ACCESS_TOKEN_LIFESPAN || '7d'),
       claimsToStore: getArrayOfStrings(process.env.FWB_CLAIMS_TO_STORE),
       clientId: process.env.FWB_CLIENT_ID,
       clientSecret: process.env.FWB_CLIENT_SECRET,
-      isEnabled: isFeatureEnabled(process.env.FWB_ENABLED),
+      isEnabled: toBoolean(process.env.FWB_ENABLED),
       isEnabledForPixAdmin: false,
       logoutUrl: process.env.FWB_OIDC_LOGOUT_URL,
       openidConfigurationUrl: process.env.FWB_OPENID_CONFIGURATION_URL,
@@ -220,13 +216,13 @@ const configuration = (function () {
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       isEnabled: false,
-      isEnabledForPixAdmin: isFeatureEnabled(process.env.GOOGLE_ENABLED_FOR_PIX_ADMIN),
+      isEnabledForPixAdmin: toBoolean(process.env.GOOGLE_ENABLED_FOR_PIX_ADMIN),
       openidConfigurationUrl: process.env.GOOGLE_OPENID_CONFIGURATION_URL,
       redirectUri: process.env.GOOGLE_REDIRECT_URI,
     },
     hapi: {
       options: {},
-      enableRequestMonitoring: isFeatureEnabled(process.env.ENABLE_REQUEST_MONITORING),
+      enableRequestMonitoring: toBoolean(process.env.ENABLE_REQUEST_MONITORING),
     },
     infra: {
       concurrencyForHeavyOperations: _getNumber(process.env.INFRA_CONCURRENCY_HEAVY_OPERATIONS, 2),
@@ -251,13 +247,13 @@ const configuration = (function () {
       apiKey: process.env.CYPRESS_LCMS_API_KEY || process.env.LCMS_API_KEY,
     },
     logging: {
-      enabled: isFeatureNotDisabled(process.env.LOG_ENABLED),
+      enabled: toBoolean(process.env.LOG_ENABLED),
       logLevel: process.env.LOG_LEVEL || 'info',
       logForHumans: _getLogForHumans(),
-      enableKnexPerformanceMonitoring: isFeatureEnabled(process.env.ENABLE_KNEX_PERFORMANCE_MONITORING),
-      enableLogStartingEventDispatch: isFeatureEnabled(process.env.LOG_STARTING_EVENT_DISPATCH),
-      enableLogEndingEventDispatch: isFeatureEnabled(process.env.LOG_ENDING_EVENT_DISPATCH),
-      emitOpsEventEachSeconds: isFeatureEnabled(process.env.OPS_EVENT_EACH_SECONDS) || 15,
+      enableKnexPerformanceMonitoring: toBoolean(process.env.ENABLE_KNEX_PERFORMANCE_MONITORING),
+      enableLogStartingEventDispatch: toBoolean(process.env.LOG_STARTING_EVENT_DISPATCH),
+      enableLogEndingEventDispatch: toBoolean(process.env.LOG_ENDING_EVENT_DISPATCH),
+      emitOpsEventEachSeconds: toBoolean(process.env.OPS_EVENT_EACH_SECONDS) || 15,
     },
     login: {
       temporaryBlockingThresholdFailureCount: _getNumber(
@@ -266,9 +262,9 @@ const configuration = (function () {
       temporaryBlockingBaseTimeMs: ms(process.env.LOGIN_TEMPORARY_BLOCKING_BASE_TIME || '2m'),
       blockingLimitFailureCount: _getNumber(process.env.LOGIN_BLOCKING_LIMIT_FAILURE_COUNT || 50),
     },
-    logOpsMetrics: isFeatureEnabled(process.env.LOG_OPS_METRICS),
+    logOpsMetrics: toBoolean(process.env.LOG_OPS_METRICS),
     mailing: {
-      enabled: isFeatureEnabled(process.env.MAILING_ENABLED),
+      enabled: toBoolean(process.env.MAILING_ENABLED),
       provider: process.env.MAILING_PROVIDER || 'brevo',
       smtpUrl: process.env.MAILING_SMTP_URL || 'smtp://username:password@localhost:1025/',
       brevo: {
@@ -295,7 +291,7 @@ const configuration = (function () {
       accessTokenLifespanMs: ms(process.env.PAYSDELALOIRE_ACCESS_TOKEN_LIFESPAN || '7d'),
       clientId: process.env.PAYSDELALOIRE_CLIENT_ID,
       clientSecret: process.env.PAYSDELALOIRE_CLIENT_SECRET,
-      isEnabled: isFeatureEnabled(process.env.PAYSDELALOIRE_ENABLED),
+      isEnabled: toBoolean(process.env.PAYSDELALOIRE_ENABLED),
       isEnabledForPixAdmin: false,
       openidConfigurationUrl: process.env.PAYSDELALOIRE_OPENID_CONFIGURATION_URL,
       postLogoutRedirectUri: process.env.PAYSDELALOIRE_POST_LOGOUT_REDIRECT_URI,
@@ -308,18 +304,24 @@ const configuration = (function () {
       monitorStateIntervalSeconds: _getNumber(process.env.PGBOSS_MONITOR_STATE_INTERVAL_SECONDS, undefined),
       // 43200 is equal to 12 hours - its the default pgboss configuration
       archiveFailedAfterSeconds: _getNumber(process.env.PGBOSS_ARCHIVE_FAILED_AFTER_SECONDS, 43200),
+      validationFileJobEnabled: process.env.PGBOSS_VALIDATION_FILE_JOB_ENABLED
+        ? toBoolean(process.env.PGBOSS_VALIDATION_FILE_JOB_ENABLED)
+        : true,
+      importFileJobEnabled: process.env.PGBOSS_IMPORT_FILE_JOB_ENABLED
+        ? toBoolean(process.env.PGBOSS_IMPORT_FILE_JOB_ENABLED)
+        : true,
     },
     poleEmploi: {
       accessTokenLifespanMs: ms(process.env.POLE_EMPLOI_ACCESS_TOKEN_LIFESPAN || '7d'),
       afterLogoutUrl: process.env.POLE_EMPLOI_OIDC_AFTER_LOGOUT_URL,
       clientId: process.env.POLE_EMPLOI_CLIENT_ID,
       clientSecret: process.env.POLE_EMPLOI_CLIENT_SECRET,
-      isEnabled: isFeatureEnabled(process.env.POLE_EMPLOI_ENABLED),
+      isEnabled: toBoolean(process.env.POLE_EMPLOI_ENABLED),
       isEnabledForPixAdmin: false,
       logoutUrl: process.env.POLE_EMPLOI_OIDC_LOGOUT_URL,
       openidConfigurationUrl: process.env.POLE_EMPLOI_OPENID_CONFIGURATION_URL,
       poleEmploiSendingsLimit: _getNumber(process.env.POLE_EMPLOI_SENDING_LIMIT, 100),
-      pushEnabled: isFeatureEnabled(process.env.PUSH_DATA_TO_POLE_EMPLOI_ENABLED),
+      pushEnabled: toBoolean(process.env.PUSH_DATA_TO_POLE_EMPLOI_ENABLED),
       redirectUri: process.env.POLE_EMPLOI_REDIRECT_URI,
       sendingUrl: process.env.POLE_EMPLOI_SENDING_URL,
       tokenUrl: process.env.POLE_EMPLOI_TOKEN_URL,
@@ -329,7 +331,7 @@ const configuration = (function () {
       accessTokenLifespanMs: ms(process.env.PROSANTECONNECT_ACCESS_TOKEN_LIFESPAN || '7d'),
       clientId: process.env.PROSANTECONNECT_CLIENT_ID,
       clientSecret: process.env.PROSANTECONNECT_CLIENT_SECRET,
-      isEnabled: isFeatureEnabled(process.env.PROSANTECONNECT_ENABLED),
+      isEnabled: toBoolean(process.env.PROSANTECONNECT_ENABLED),
       isEnabledForPixAdmin: false,
       openidConfigurationUrl: process.env.PROSANTECONNECT_OPENID_CONFIGURATION_URL,
       postLogoutRedirectUri: process.env.PROSANTECONNECT_POST_LOGOUT_REDIRECT_URI,
@@ -348,11 +350,11 @@ const configuration = (function () {
       accessTokenLifespanMs: ms(process.env.SAML_ACCESS_TOKEN_LIFESPAN || '7d'),
     },
     sentry: {
-      enabled: isFeatureEnabled(process.env.SENTRY_ENABLED),
+      enabled: toBoolean(process.env.SENTRY_ENABLED),
       dsn: process.env.SENTRY_DSN,
       environment: process.env.SENTRY_ENVIRONMENT || 'development',
       maxBreadcrumbs: _getNumber(process.env.SENTRY_MAX_BREADCRUMBS, 100),
-      debug: isFeatureEnabled(process.env.SENTRY_DEBUG),
+      debug: toBoolean(process.env.SENTRY_DEBUG),
       maxValueLength: 1000,
     },
     temporaryKey: {
@@ -519,7 +521,7 @@ const configuration = (function () {
     config.jwtConfig.livretScolaire = { secret: 'secretosmose', tokenLifespan: '1h' };
     config.jwtConfig.poleEmploi = { secret: 'secretPoleEmploi', tokenLifespan: '1h' };
 
-    config.logging.enabled = isFeatureEnabled(process.env.TEST_LOG_ENABLED);
+    config.logging.enabled = toBoolean(process.env.TEST_LOG_ENABLED);
     config.logging.enableLogKnexQueries = false;
     config.logging.enableLogStartingEventDispatch = false;
     config.logging.enableLogEndingEventDispatch = false;

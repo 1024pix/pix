@@ -57,8 +57,12 @@ function createMonitoredJobQueue(pgBoss) {
   const monitoredJobQueue = new MonitoredJobQueue(jobQueue);
   process.on('SIGINT', async () => {
     await monitoredJobQueue.stop();
-    // eslint-disable-next-line n/no-process-exit
-    process.exit(0);
+
+    // Make sure pgBoss stopped before quitting
+    pgBoss.on('stopped', () => {
+      // eslint-disable-next-line n/no-process-exit
+      process.exit(0);
+    });
   });
   return monitoredJobQueue;
 }
@@ -85,9 +89,13 @@ export async function runJobs(dependencies = { startPgBoss, createMonitoredJobQu
 
   monitoredJobQueue.performJob(UserAnonymizedEventLoggingJob.name, UserAnonymizedEventLoggingJobHandler);
 
-  monitoredJobQueue.performJob(ImportOrganizationLearnersJob.name, ImportOrganizationLearnersJobHandler);
+  if (config.pgBoss.validationFileJobEnabled) {
+    monitoredJobQueue.performJob(ValidateOrganizationImportFileJob.name, ValidateOrganizationImportFileJobHandler);
+  }
 
-  monitoredJobQueue.performJob(ValidateOrganizationImportFileJob.name, ValidateOrganizationImportFileJobHandler);
+  if (config.pgBoss.importFileJobEnabled) {
+    monitoredJobQueue.performJob(ImportOrganizationLearnersJob.name, ImportOrganizationLearnersJobHandler);
+  }
 
   await pgBoss.schedule(
     ScheduleComputeOrganizationLearnersCertificabilityJob.name,

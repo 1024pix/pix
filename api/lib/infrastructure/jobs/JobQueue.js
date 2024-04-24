@@ -18,7 +18,7 @@ class JobQueue {
   }
 
   async stop() {
-    await this.pgBoss.stop({ graceful: false, timeout: 1000 });
+    await this.pgBoss.stop({ graceful: false, timeout: 1000, destroy: true });
   }
 }
 
