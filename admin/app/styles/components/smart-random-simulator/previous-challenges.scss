@@ -1,0 +1,35 @@
+.previous-challenges {
+  &__container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &__result {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 5px 10px;
+    border-radius: 5px;
+
+    &.ok {
+      background: color-mix(in srgb, var(--pix-success-500) 20%, transparent);
+      border: 1px solid var(--pix-success-500);
+    }
+
+    &.ko {
+      background: color-mix(in srgb, var(--pix-error-500) 20%, transparent);
+      border: 1px solid var(--pix-error-500);
+    }
+
+    &__count {
+      font-size: 0.875rem;
+    }
+
+    &__focused, &__timed {
+      font-size: 0.875rem;
+    }
+  }
+}
