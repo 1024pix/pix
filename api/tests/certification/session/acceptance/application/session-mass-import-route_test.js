@@ -41,6 +41,12 @@ describe('Acceptance | Controller | Session | session-mass-import-route', functi
           type: 'SUP',
           externalId: '1234AB',
         }).id;
+        const { id: complementaryCertificationId } =
+          databaseBuilder.factory.buildComplementaryCertification.pixEdu2ndDegre({});
+        databaseBuilder.factory.buildComplementaryCertificationHabilitation({
+          certificationCenterId: certificationCenterId,
+          complementaryCertificationId,
+        });
         databaseBuilder.factory.buildOrganization({ externalId: '1234AB', isManagingStudents: false, type: 'SUP' });
         databaseBuilder.factory.buildCertificationCpfCountry({
           commonName: 'FRANCE',

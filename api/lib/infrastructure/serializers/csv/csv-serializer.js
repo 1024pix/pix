@@ -3,11 +3,11 @@ import lodash from 'lodash';
 import { FileValidationError } from '../../../../lib/domain/errors.js';
 import { convertDateValue } from '../../../../src/shared/infrastructure/utils/date-utils.js';
 import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
+import { csvHelper } from '../../helpers/csv.js';
 import { COMPLEMENTARY_CERTIFICATION_SUFFIX, emptySession, headers } from '../../utils/csv/sessions-import.js';
 
 const { isEmpty } = lodash;
 
-import { csvHelper } from '../../helpers/csv.js';
 const { checkCsvHeader, parseCsvWithHeader } = csvHelper;
 
 function _csvFormulaEscapingPrefix(data) {
@@ -30,7 +30,7 @@ function _csvSerializeValue(data) {
   }
 }
 
-function deserializeForSessionsImport({ parsedCsvData, hasBillingMode }) {
+function deserializeForSessionsImport({ parsedCsvData, hasBillingMode, certificationCenterHabilitations }) {
   const sessions = [];
   const expectedHeadersKeys = Object.keys(headers);
 
@@ -38,7 +38,14 @@ function deserializeForSessionsImport({ parsedCsvData, hasBillingMode }) {
   const csvPrepaymentCodeKey = headers.prepaymentCode;
   const firstCsvLine = parsedCsvData?.[0];
 
-  _verifiyFileIntegrity({ firstCsvLine, hasBillingMode, csvBillingModeKey, csvPrepaymentCodeKey, expectedHeadersKeys });
+  _verifiyFileIntegrity({
+    firstCsvLine,
+    hasBillingMode,
+    csvBillingModeKey,
+    csvPrepaymentCodeKey,
+    expectedHeadersKeys,
+    certificationCenterHabilitations,
+  });
 
   parsedCsvData.forEach((lineDTO, index) => {
     const dataFromColumnName = _getDataFromColumnNames({ expectedHeadersKeys, headers, line: lineDTO });
@@ -279,12 +286,22 @@ function _getComplementaryCertificationLabel(key, COMPLEMENTARY_CERTIFICATION_SU
   return key.replace(COMPLEMENTARY_CERTIFICATION_SUFFIX, '').trim();
 }
 
+function _validateComplementaryCertificationHeaders(headers, certificationCenterHabilitations) {
+  const habilitationsLabels = certificationCenterHabilitations.map(({ label }) => label);
+  const hasCertificationCenterNecessaryHabilitations = headers.every((header) => habilitationsLabels.includes(header));
+
+  if (!hasCertificationCenterNecessaryHabilitations) {
+    throw new FileValidationError('CSV_HEADERS_NOT_VALID');
+  }
+}
+
 function _verifiyFileIntegrity({
   firstCsvLine,
   hasBillingMode,
   csvBillingModeKey,
   csvPrepaymentCodeKey,
   expectedHeadersKeys,
+  certificationCenterHabilitations,
 }) {
   if (
     _isCsvEmpty(firstCsvLine) ||
@@ -298,7 +315,12 @@ function _verifiyFileIntegrity({
     throw new FileValidationError('CSV_HEADERS_NOT_VALID');
   }
 
-  _verifyHeaders({ expectedHeadersKeys, headers, firstCsvLine, hasBillingMode });
+  const complementaryCertificationHeaders = _extractComplementaryCertificationLabelsFromLine(firstCsvLine);
+  if (complementaryCertificationHeaders && certificationCenterHabilitations) {
+    _validateComplementaryCertificationHeaders(complementaryCertificationHeaders, certificationCenterHabilitations);
+  }
+
+  _verifyHeaders({ expectedHeadersKeys, headers, firstCsvLine, hasBillingMode, certificationCenterHabilitations });
 }
 
 function _verifyHeaders({ expectedHeadersKeys, firstCsvLine, headers, hasBillingMode }) {

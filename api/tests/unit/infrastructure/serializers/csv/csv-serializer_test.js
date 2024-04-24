@@ -205,6 +205,68 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
       });
     });
 
+    describe('when a header corresponding to a complementary certification subscription is present', function () {
+      describe('when the certification center does not have necessary habilitations', function () {
+        it('should throw a FileValidationError', async function () {
+          // given
+          const parsedCsvDataWithCleASubscription = [
+            {
+              'Numéro de session préexistante': '',
+              '* Nom du site': 'Site CléA',
+              '* Nom de la salle': 'Salle CléA',
+              '* Date de début (format: JJ/MM/AAAA)': '01/01/4000',
+              '* Heure de début (heure locale format: HH:MM)': '12:00',
+              '* Surveillant(s)': 'Surveillant A',
+              'Observations (optionnel)': '',
+              '* Nom de naissance': 'Testeur',
+              '* Prénom': 'Toto',
+              '* Date de naissance (format: JJ/MM/AAAA)': '01/01/2000',
+              '* Sexe (M ou F)': 'M',
+              'Code INSEE de la commune de naissance': '',
+              'Code postal de la commune de naissance': '75001',
+              'Nom de la commune de naissance': 'PARIS',
+              '* Pays de naissance': 'FRANCE',
+              'E-mail du destinataire des résultats (formateur, enseignant…)': '',
+              'E-mail de convocation': '',
+              'Identifiant externe': '',
+              'Temps majoré ? (exemple format: 33%)': '',
+              '* Tarification part Pix (Gratuite, Prépayée ou Payante)': 'Gratuite',
+              'Code de prépaiement (si Tarification part Pix Prépayée)': '',
+              "CléA Numérique ('oui' ou laisser vide)": 'Oui',
+            },
+          ];
+          const habilitationsWithoutCleA = [
+            {
+              id: 53,
+              label: 'Pix+ Droit',
+              key: 'DROIT',
+            },
+            {
+              id: 54,
+              label: 'Pix+ Édu 1er degré',
+              key: 'EDU_1ER_DEGRE',
+            },
+            {
+              id: 55,
+              label: 'Pix+ Édu 2nd degré',
+              key: 'EDU_2ND_DEGRE',
+            },
+          ];
+
+          // when
+          const error = await catchErr(csvSerializer.deserializeForSessionsImport)({
+            parsedCsvData: parsedCsvDataWithCleASubscription,
+            hasBillingMode: true,
+            certificationCenterHabilitations: habilitationsWithoutCleA,
+          });
+
+          // then
+          expect(error).to.be.instanceOf(FileValidationError);
+          expect(error.code).to.equal('CSV_HEADERS_NOT_VALID');
+        });
+      });
+    });
+
     describe('when certification center does not have billing mode', function () {
       context('when billing mode header is present', function () {
         it('should throw an error', async function () {

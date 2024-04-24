@@ -29,7 +29,9 @@ const validateSessions = async function (request, h, dependencies = { csvHelpers
   const sessions = dependencies.csvSerializer.deserializeForSessionsImport({
     parsedCsvData,
     hasBillingMode: certificationCenter.hasBillingMode,
+    certificationCenterHabilitations: certificationCenter.habilitations,
   });
+
   const sessionMassImportReport = await usecases.validateSessions({
     sessions,
     certificationCenterId,
