@@ -18,22 +18,19 @@
   {{#unless @isLoading}}
     <div class="import-students-page__type-list">
       {{#if this.currentUser.isSCOManagingStudents}}
-        <ScoOrganizationParticipant::ImportCard
-          @onImportStudents={{@onImportScoStudents}}
-          @acceptedFileType={{this.acceptedFileType}}
+        <ScoOrganizationParticipant::Add
+          @importHandler={{@onImportScoStudents}}
           @supportedFormats={{this.supportedFormats}}
           @disabled={{this.inProgress}}
         />
       {{else if this.currentUser.isSUPManagingStudents}}
         <SupOrganizationParticipant::ImportCards::Add
-          @onAddStudents={{@onImportSupStudents}}
-          @acceptedFileType={{this.acceptedFileType}}
+          @importHandler={{@onImportSupStudents}}
           @supportedFormats={{this.supportedFormats}}
           @disabled={{this.inProgress}}
         />
         <SupOrganizationParticipant::ImportCards::Replace
-          @onReplaceStudents={{@onReplaceStudents}}
-          @acceptedFileType={{this.acceptedFileType}}
+          @importHandler={{@onReplaceStudents}}
           @supportedFormats={{this.supportedFormats}}
           @disabled={{this.inProgress}}
         />

@@ -7,10 +7,14 @@ import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 module('Integration | Component | SupOrganizationParticipant::ImportCards::Replace', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  module('upload button', () => {
+  module('upload button', function () {
     test('should be disable', async function (assert) {
+      // given
+      this.supportedFormats = ['.csv'];
       // when
-      const screen = await render(hbs`<SupOrganizationParticipant::ImportCards::Replace @disabled={{true}} />`);
+      const screen = await render(
+        hbs`<SupOrganizationParticipant::ImportCards::Replace @disabled={{true}} @supportedFormats={{this.supportedFormats}} />`,
+      );
 
       // then
       const button = screen.getByRole('button', {
@@ -20,8 +24,13 @@ module('Integration | Component | SupOrganizationParticipant::ImportCards::Repla
     });
 
     test('should be enable', async function (assert) {
+      // given
+      this.supportedFormats = ['.csv'];
+
       // when
-      const screen = await render(hbs`<SupOrganizationParticipant::ImportCards::Replace @disabled={{false}} />`);
+      const screen = await render(
+        hbs`<SupOrganizationParticipant::ImportCards::Replace @disabled={{false}} @supportedFormats={{this.supportedFormats}} />`,
+      );
 
       // then
       const button = screen.getByRole('button', {

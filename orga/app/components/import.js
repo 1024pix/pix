@@ -55,11 +55,6 @@ export default class Import extends Component {
     } else return [];
   }
 
-  get acceptedFileType() {
-    const types = this.supportedFormats.join(this.intl.t('pages.organization-participants-import.file-type-separator'));
-    return this.intl.t('pages.organization-participants-import.supported-formats', { types });
-  }
-
   get textsByOrganizationType() {
     if (this.currentUser.isSCOManagingStudents) {
       return {
