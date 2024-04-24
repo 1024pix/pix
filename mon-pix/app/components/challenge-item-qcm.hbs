@@ -4,7 +4,7 @@
     <h2 class="sr-only">{{t "pages.challenge.parts.answer-input"}}</h2>
     <legend class="challenge-response__instructions">{{t "pages.challenge.parts.answer-instructions.qcm"}}</legend>
     <div class="challenge-proposals">
-      <QcmProposals
+      <Proposals::QcmProposals
         @answer={{@answer}}
         @answerValue={{@answer.value}}
         @proposals={{@challenge.proposals}}

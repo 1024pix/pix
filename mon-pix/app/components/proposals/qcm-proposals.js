@@ -4,7 +4,7 @@ import labeledCheckboxes from 'mon-pix/utils/labeled-checkboxes';
 import proposalsAsArray from 'mon-pix/utils/proposals-as-array';
 import valueAsArrayOfBoolean from 'mon-pix/utils/value-as-array-of-boolean';
 
-import { pshuffle } from '../utils/pshuffle';
+import { pshuffle } from '../../utils/pshuffle';
 
 export default class QcmProposals extends Component {
   get labeledCheckboxes() {
