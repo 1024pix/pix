@@ -21,11 +21,69 @@ module('Unit | Controller | authenticated/smart-random-simulator/get-next-challe
 
   const apiResponseBody = {
     challenge: returnedChallenge,
-    smartRandomDetails: [],
+    smartRandomDetails: { predictedLevel: 8, steps: [] },
   };
 
   hooks.beforeEach(async function () {
     controller = this.owner.lookup('controller:authenticated.smart-random-simulator.get-next-challenge');
+  });
+
+  module('#skillsByTube', function () {
+    test('it should format skills ordered by tube', async function (assert) {
+      // given when
+      controller.skills = [
+        { id: 'skillId1', name: '@requete2', difficulty: 2 },
+        { id: 'skillId2', name: '@requete1', difficulty: 1 },
+        { id: 'skillId3', name: '@chercher6', difficulty: 6 },
+        { id: 'skillId4', name: '@chercher4', difficulty: 4 },
+        { id: 'skillId5', name: '@apprendre3', difficulty: 3 },
+      ];
+
+      // then
+      assert.ok(controller);
+      assert.deepEqual(controller.skillsByTube, [
+        {
+          name: '@requete',
+          skills: [
+            {
+              difficulty: 2,
+              id: 'skillId1',
+              name: '@requete2',
+            },
+            {
+              difficulty: 1,
+              id: 'skillId2',
+              name: '@requete1',
+            },
+          ],
+        },
+        {
+          name: '@chercher',
+          skills: [
+            {
+              difficulty: 6,
+              id: 'skillId3',
+              name: '@chercher6',
+            },
+            {
+              difficulty: 4,
+              id: 'skillId4',
+              name: '@chercher4',
+            },
+          ],
+        },
+        {
+          name: '@apprendre',
+          skills: [
+            {
+              difficulty: 3,
+              id: 'skillId5',
+              name: '@apprendre3',
+            },
+          ],
+        },
+      ]);
+    });
   });
 
   module('#requestNextChallenge', function () {

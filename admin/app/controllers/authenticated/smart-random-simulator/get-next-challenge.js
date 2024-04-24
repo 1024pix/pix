@@ -18,15 +18,14 @@ export default class SmartRandomSimulator extends Controller {
   @tracked answers = [];
   @tracked challenges = [];
   @tracked knowledgeElements = [];
-
   @tracked locale = 'fr-fr';
-  @tracked assessmentId = '';
+  @tracked assessmentId = '1';
 
   // Simulator response
   @tracked returnedChallenges = [];
-
   @tracked assessmentComplete = false;
   @tracked smartRandomDetails = null;
+  @tracked displayedStepIndex = 0;
 
   @action
   async updateParametersValue(key, value) {
@@ -57,12 +56,45 @@ export default class SmartRandomSimulator extends Controller {
     return await this.requestNextChallenge();
   }
 
+  @action
+  selectDisplayedStepIndex(value) {
+    this.displayedStepIndex = value;
+  }
+
   get previousChallenges() {
     return this.assessmentComplete ? this.returnedChallenges : this.returnedChallenges.slice(0, -1);
   }
 
   get currentChallenge() {
     return this.assessmentComplete ? null : this.returnedChallenges[this.returnedChallenges.length - 1];
+  }
+
+  get skillsByTube() {
+    return this.skills.reduce((accumulator, skill) => {
+      const tubeName = this.getTubeNameFromSkillName(skill.name);
+      const accumulatorIndex = accumulator.findIndex((tube) => tube.name === tubeName);
+
+      if (accumulatorIndex === -1) {
+        accumulator.push({
+          name: tubeName,
+          skills: [skill],
+        });
+        return accumulator;
+      }
+
+      accumulator[accumulatorIndex].skills.push(skill);
+      return accumulator;
+    }, []);
+  }
+
+  get numberOfSkillsStillAvailable() {
+    return this.skills.filter(
+      (skill) => !this.knowledgeElements.some((knowledgeElement) => knowledgeElement.skillId === skill.id),
+    ).length;
+  }
+
+  get totalNumberOfSkills() {
+    return this.skills.length;
   }
 
   async requestNextChallenge() {
@@ -163,6 +195,7 @@ export default class SmartRandomSimulator extends Controller {
         skill.difficulty < currentChallengeSkillDifficulty,
     );
   }
+
   getHigherLevelSkillsFromSameTube(currentSkillTubeName, currentChallengeSkillDifficulty) {
     return this.skills.filter(
       (skill) =>
