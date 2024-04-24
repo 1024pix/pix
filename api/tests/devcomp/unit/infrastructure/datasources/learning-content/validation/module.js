@@ -23,24 +23,28 @@ const moduleDetailsSchema = Joi.object({
   objectives: Joi.array().items(htmlNotAllowedSchema).min(1).required(),
 });
 
+const elementSchema = Joi.alternatives().conditional('.type', {
+  switch: [
+    { is: 'text', then: textElementSchema },
+    { is: 'image', then: imageElementSchema },
+    { is: 'qcu', then: qcuElementSchema },
+    { is: 'qcm', then: qcmElementSchema },
+    { is: 'qrocm', then: qrocmElementSchema },
+    { is: 'video', then: videoElementSchema },
+  ],
+});
+
 const grainSchema = Joi.object({
   id: uuidSchema,
   type: Joi.string().valid('lesson', 'activity').required(),
   title: htmlNotAllowedSchema.required(),
-  elements: Joi.array()
-    .items(
-      Joi.alternatives().conditional('.type', {
-        switch: [
-          { is: 'text', then: textElementSchema },
-          { is: 'image', then: imageElementSchema },
-          { is: 'qcu', then: qcuElementSchema },
-          { is: 'qcm', then: qcmElementSchema },
-          { is: 'qrocm', then: qrocmElementSchema },
-          { is: 'video', then: videoElementSchema },
-        ],
-      }),
-    )
-    .required(),
+  elements: Joi.array().items(elementSchema).required(),
+  components: Joi.array().items(
+    Joi.object({
+      type: Joi.string().valid('element').required(),
+      element: elementSchema.required(),
+    }).required(),
+  ),
 }).required();
 
 const moduleSchema = Joi.object({
