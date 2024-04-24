@@ -1,0 +1,149 @@
+{
+  "id": "2f878a38-d39c-40e9-9a92-4163c6c229bc",
+  "slug": "pix1d-dp-di2",
+  "title": "Protéger ses données personnelles",
+  "details": {
+    "image": "https://images.pix.fr/modulix/didacticiel/icon.svg",
+    "description": "Comment protéger ses données personnelles ?",
+    "duration": 5,
+    "level": "Débutant",
+    "objectives": [
+      "Connaître les bonnes pratiques pour protéger ses données personnelles",
+      "Minimiser ..."
+    ]
+  },
+  "transitionTexts": [
+    {
+      "content": "<p>Nous allons voir ensemble comment protéger tes données personnelles.Suis bien toutes les activités ci-dessous et tu seras imbattable sur le sujet !</p>",
+      "grainId": "d58add93-ca37-49d9-b65e-547c3605a8bf"
+    },
+    {
+      "content": "<p>Si tu veux découvrir les bonnes pratiques à suivre pour protéger ses données personnelles, regarde attentivement la vidéo suivante. Après la vidéo, il faudra que tu retrouves les 4 bonnes pratiques.</p>",
+      "grainId": "3a0a9ba2-abfd-4b80-8860-c8879b22476e"
+    },
+    {
+      "content": "<p>Voyons si tu as bien compris la vidéo. Réponds à la question suivante.</p>",
+      "grainId": "8204a0ed-4746-46f9-a78f-8ddb17fa44bb"
+    },
+    {
+      "content": "<p>Maintenant que tu sais qu'il est important de protéger tes données personnelles, voyons si tu sais comment faire.</p>",
+      "grainId": "ab3ad211-2d09-48d1-8159-172be8e34d01"
+    } ,
+    {
+      "content": "<p>Maintenant, tu connais les bonnes pratiques à suivre pour protéger ses données personnelles.Pour résumer, tu peux retenir que : </p>",
+      "grainId": "bdadb8b9-7a6e-4f44-b2e1-3e3463cbc826"
+    }
+  ],
+  "grains": [
+    {
+      "id": "d58add93-ca37-49d9-b65e-547c3605a8bf",
+      "type": "lesson",
+      "title": "explications",
+      "elements": [
+        {
+          "id": "cd62206a-fb5d-4a5b-a5dd-8a691ee83317",
+          "type": "text",
+          "content": "vidéo conversation entre 1 enfant et le robot : enfant : - je voudrais bien m'inscrire sur ce site de jeux en ligne, mais je ne sais pas ce que je dois écrire dans le questionnaire. robot : - il faut toujours être très prudent lorsqu'on rempli un questionnaire. Il y a des règles à suivre. enfant : - encore des règles !!!! pfff robot : - oui mais celles-là sont faites pour t'aider à protéger tes données personnelles, c'est important ! entant : - d'accord, je veux ben que tu m'expliques tout ça pour que je puisse me protéger."
+        }
+      ]
+    },
+    {
+      "id": "3a0a9ba2-abfd-4b80-8860-c8879b22476e",
+      "type": "lesson",
+      "title": "explications",
+      "elements": [
+        {
+          "id": "0e56f3c6-ae09-4443-b353-b9ee5665deb4",
+          "type": "text",
+          "content": "<p></p>"
+        },
+        {
+          "id": "19464710-ffe7-496c-8b6e-ad2a1e79b5eb",
+          "type": "text",
+          "content": "<iframe title=\"video\" src=\"https://tube-numerique-educatif.apps.education.fr/videos/embed/bd6652d8-5777-4664-b1ff-b7fa3dd6f926\" width=\"100%\" height=\"400\"></iframe>"
+        }
+      ]
+    },
+    {
+      "id": "8204a0ed-4746-46f9-a78f-8ddb17fa44bb",
+      "type": "activity",
+      "title": "QCU",
+      "elements": [
+        {
+          "id": "80d9f670-099b-4380-82e7-d9ea08a55909",
+          "type": "qcu",
+          "instruction": "<p>Pourquoi faut-il protéger tes données personnelles ?</p>",
+          "proposals": [
+            {
+              "id": "1",
+              "content": "Car c'est ta vie privée"
+            },
+            {
+              "id": "2",
+              "content": "u"
+            }
+          ],
+          "feedbacks": {
+            "valid": "<p>Bien</p>",
+            "invalid": "<p>Faux. Bla</p>"
+          },
+          "solution": "1"
+        }
+      ]
+    },
+    {
+      "id": "ab3ad211-2d09-48d1-8159-172be8e34d01",
+      "type": "activity",
+      "title": "Conseils DP",
+      "elements": [
+        {
+          "id": "52ae13b0-a98c-4468-9e9a-28d8a9d5fc3b",
+          "type": "text",
+          "content": "Pour chaque conseil, choisis la meilleure propostion."
+        },
+        {
+          "id": "588c4a7d-bd65-461b-b06b-7c82f398b532",
+          "type": "image",
+          "url": "https://i.imgur.com/3SKUgz7.png",
+          "alt": "conseil",
+          "alternativeText": ""
+        },
+        {
+          "id": "425fd3d9-8b4f-4195-867f-9c6898df450d",
+          "type": "qcu",
+            "instruction": "<p>Pour garder mes informations personnelles pour moi, je dois : </p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "m'inscrire avec mon nom et mon prénom"
+              },
+              {
+                "id": "2",
+                "content": "m'inscrire avec un pseudo"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct. </p>",
+              "invalid": "<p>Incorrect. Bla</p>"
+            },
+            "solutions": ["2"]
+          }
+      ]
+    }
+    ,
+    {
+      "id": "bdadb8b9-7a6e-4f44-b2e1-3e3463cbc826",
+      "type": "lesson",
+      "title": "Pour résumer",
+      "elements": [
+        {
+          "id": "fc38a5a6-71da-4ca3-b8d5-c0e34b183403",
+          "type": "image",
+          "url": "https://i.imgur.com/crpaWQ7.png",
+          "alt": "Image décrite dans l'alternative textuelle",
+          "alternativeText": "<p>Pour résumer</p>"
+        }
+      ]
+    }
+  ]
+}
