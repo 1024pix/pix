@@ -4,7 +4,7 @@ import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-compone
 import setupIntl from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
-module('Unit | Component | qrocm-ind-solution-panel', function (hooks) {
+module('Unit | Component | solution-panel/qrocm-ind-solution-panel', function (hooks) {
   setupTest(hooks);
   setupIntl(hooks);
 
@@ -57,7 +57,7 @@ module('Unit | Component | qrocm-ind-solution-panel', function (hooks) {
       ];
 
       //When
-      const component = createGlimmerComponent('qrocm-ind-solution-panel', {
+      const component = createGlimmerComponent('solution-panel/qrocm-ind-solution-panel', {
         challenge,
         answer,
         solution,
@@ -104,7 +104,7 @@ module('Unit | Component | qrocm-ind-solution-panel', function (hooks) {
       ];
 
       //When
-      const component = createGlimmerComponent('qrocm-ind-solution-panel', {
+      const component = createGlimmerComponent('solution-panel/qrocm-ind-solution-panel', {
         challenge,
         answer,
         solution,
@@ -152,7 +152,7 @@ module('Unit | Component | qrocm-ind-solution-panel', function (hooks) {
       ];
 
       //When
-      const component = createGlimmerComponent('qrocm-ind-solution-panel', {
+      const component = createGlimmerComponent('solution-panel/qrocm-ind-solution-panel', {
         challenge,
         answer,
         solution,
@@ -203,7 +203,7 @@ module('Unit | Component | qrocm-ind-solution-panel', function (hooks) {
       ];
 
       //When
-      const component = createGlimmerComponent('qrocm-ind-solution-panel', {
+      const component = createGlimmerComponent('solution-panel/qrocm-ind-solution-panel', {
         challenge,
         answer,
         solution,
@@ -254,7 +254,7 @@ module('Unit | Component | qrocm-ind-solution-panel', function (hooks) {
       ];
 
       //When
-      const component = createGlimmerComponent('qrocm-ind-solution-panel', {
+      const component = createGlimmerComponent('solution-panel/qrocm-ind-solution-panel', {
         challenge,
         answer,
         solution,
@@ -302,7 +302,7 @@ module('Unit | Component | qrocm-ind-solution-panel', function (hooks) {
       ];
 
       //When
-      const component = createGlimmerComponent('qrocm-ind-solution-panel', {
+      const component = createGlimmerComponent('solution-panel/qrocm-ind-solution-panel', {
         challenge,
         answer,
         solution,
@@ -340,7 +340,7 @@ module('Unit | Component | qrocm-ind-solution-panel', function (hooks) {
       ];
 
       //When
-      const component = createGlimmerComponent('qrocm-ind-solution-panel', {
+      const component = createGlimmerComponent('solution-panel/qrocm-ind-solution-panel', {
         challenge,
         answer,
         solution,
