@@ -1,10 +1,3 @@
-import QUnit from 'qunit';
-
-import { contains, notContains } from './contains';
-
-QUnit.assert.contains = contains;
-QUnit.assert.notContains = notContains;
-
 export function createPrescriberByUser(user, participantCount = 0) {
   const prescriber = server.create('prescriber', {
     id: user.id,
