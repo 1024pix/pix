@@ -10,11 +10,12 @@ export default class ConfigurationController extends Controller {
   @tracked simulatorReport = null;
   @tracked errors = [];
   @service store;
+  @service intl;
 
   ERRORS = {
-    SCORE: 'Merci d’indiquer un score en Pix compris entre O et 896',
-    BOTH_INPUT_FILLED: 'Merci de ne renseigner que l’un des champs “Score global en Pix” ou “Capacité”',
-    BOTH_INPUT_EMPTY: "Merci de renseigner au moins l'un des deux champs",
+    SCORE: this.intl.t('pages.certifications.scoring-simulation.errors.score'),
+    BOTH_INPUT_FILLED: this.intl.t('pages.certifications.scoring-simulation.errors.both-input-filled'),
+    BOTH_INPUT_EMPTY: this.intl.t('pages.certifications.scoring-simulation.errors.both-input-empty'),
   };
 
   @action
