@@ -83,6 +83,6 @@ function routes() {
   this.get('/organization-learners/:id', (schema, request) => {
     const learner = schema.organizationLearners.find(request.params.id);
     if (learner) return learner;
-    return schema.create('organization-learner', { completedMissionIds: ['recExjO7RHeDI48HK'] });
+    return schema.create('organization-learner', { completedMissionIds: [] });
   });
 }
