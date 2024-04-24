@@ -1,5 +1,5 @@
 import { clickByName } from '@1024pix/ember-testing-library';
-import { visit as visitScreen } from '@1024pix/ember-testing-library';
+import { visit as visitScreen, waitForElementToBeRemoved } from '@1024pix/ember-testing-library';
 import { click, currentURL, visit } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
@@ -10,7 +10,6 @@ import sinon from 'sinon';
 
 import authenticateSession from '../helpers/authenticate-session';
 import { createPrescriberByUser, createUserMembershipWithRole } from '../helpers/test-init';
-import { waitForDialog, waitForDialogDisappearance } from '../helpers/wait-for';
 
 module('Acceptance | Team List', function (hooks) {
   setupApplicationTest(hooks);
@@ -174,12 +173,13 @@ module('Acceptance | Team List', function (hooks) {
 
           await click(screen.getAllByRole('button', { name: 'Gérer' })[0]);
           await click(screen.getByRole('button', { name: 'Quitter cet espace Pix Orga' }));
-          await waitForDialog();
+          await screen.findByRole('dialog');
 
           // when
           await click(screen.getByRole('button', { name: 'Confirmer' }));
 
-          await waitForDialogDisappearance();
+          await waitForElementToBeRemoved(() => screen.queryByRole('dialog'));
+
           // then
           assert.true(session.waitBeforeInvalidation.called);
           assert.false(currentSession().get('isAuthenticated'));

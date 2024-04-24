@@ -7,7 +7,6 @@ import sinon from 'sinon';
 import striptags from 'striptags';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { waitForDialog } from '../../../helpers/wait-for';
 
 module('Integration | Component | ScoOrganizationParticipant::List', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -1478,7 +1477,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
             name: this.intl.t('pages.sco-organization-participants.action-bar.reset-password-button'),
           });
           await click(resetPasswordButton);
-          await waitForDialog();
+          await screen.findByRole('dialog');
 
           const confirmationButton = await screen.findByRole('button', {
             name: this.intl.t('common.actions.confirm'),
@@ -1530,7 +1529,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
             name: this.intl.t('pages.sco-organization-participants.action-bar.reset-password-button'),
           });
           await click(resetPasswordButton);
-          await waitForDialog();
+          await screen.findByRole('dialog');
 
           const confirmationButton = await screen.findByRole('button', {
             name: this.intl.t('common.actions.confirm'),
@@ -1588,7 +1587,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
                 name: this.intl.t('pages.sco-organization-participants.action-bar.reset-password-button'),
               });
               await click(resetPasswordButton);
-              await waitForDialog();
+              await screen.findByRole('dialog');
 
               const confirmationButton = await screen.findByRole('button', {
                 name: this.intl.t('common.actions.confirm'),
@@ -1649,7 +1648,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
                 name: this.intl.t('pages.sco-organization-participants.action-bar.reset-password-button'),
               });
               await click(resetPasswordButton);
-              await waitForDialog();
+              await screen.findByRole('dialog');
 
               const confirmationButton = await screen.findByRole('button', {
                 name: this.intl.t('common.actions.confirm'),
@@ -1714,7 +1713,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
                 name: this.intl.t('pages.sco-organization-participants.action-bar.reset-password-button'),
               });
               await click(resetPasswordButton);
-              await waitForDialog();
+              await screen.findByRole('dialog');
 
               const confirmationButton = await screen.findByRole('button', {
                 name: this.intl.t('common.actions.confirm'),
@@ -1773,7 +1772,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
                 name: this.intl.t('pages.sco-organization-participants.action-bar.reset-password-button'),
               });
               await click(resetPasswordButton);
-              await waitForDialog();
+              await screen.findByRole('dialog');
 
               const confirmationButton = await screen.findByRole('button', {
                 name: this.intl.t('common.actions.confirm'),

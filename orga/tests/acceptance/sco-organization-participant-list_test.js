@@ -11,7 +11,6 @@ import {
   createUserManagingStudents,
   createUserWithMembershipAndTermsOfServiceAccepted,
 } from '../helpers/test-init';
-import { waitForDialog } from '../helpers/wait-for';
 
 module('Acceptance | Sco Organization Participant List', function (hooks) {
   setupApplicationTest(hooks);
@@ -386,7 +385,7 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
               const screen = await visit('/eleves');
               await clickByName(this.intl.t('pages.sco-organization-participants.table.column.mainCheckbox'));
               await clickByName(this.intl.t('pages.sco-organization-participants.action-bar.reset-password-button'));
-              await waitForDialog();
+              await screen.findByRole('dialog');
 
               // when
               await clickByName(this.intl.t('common.actions.confirm'));
