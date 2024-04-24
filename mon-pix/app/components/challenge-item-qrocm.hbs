@@ -3,7 +3,7 @@
   <div class="rounded-panel__row challenge-response {{if @answer 'challenge-response--locked'}}">
     <h2 class="sr-only">{{t "pages.challenge.parts.answer-input"}}</h2>
     <div class="challenge-proposals">
-      <QrocmProposal
+      <Proposals::QrocmProposal
         @answer={{@answer}}
         @format={{@challenge.format}}
         @proposals={{@challenge.proposals}}
