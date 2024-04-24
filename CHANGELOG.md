@@ -1,5 +1,27 @@
 # Pix Changelog
 
+## v4.137.0 (24/04/2024)
+
+
+### :rocket: Amélioration
+- [#8727](https://github.com/1024pix/pix/pull/8727) [FEATURE] Ajouter des tests e2e sur les pages élèves/étudiants pour vérifier l'affichage en tant que membre (PIX-12270).
+- [#8651](https://github.com/1024pix/pix/pull/8651) [FEATURE] Simulateur de score et de capacité de certification V3 (PIX-11993).
+- [#8718](https://github.com/1024pix/pix/pull/8718) [FEATURE][API] Ajouter un nouvel endpoint pour importer une liste de configuration SSO OIDC (PIX-11983).
+- [#8719](https://github.com/1024pix/pix/pull/8719) [FEATURE] Ajouter des fichiers de traductions pour la langue espagnol sur Pix Api et Pix App (PIX-12189).
+- [#8663](https://github.com/1024pix/pix/pull/8663) [FEATURE] Ajouter Pro Santé Connect comme fournisseur d'identité (PIX-12081).
+- [#8720](https://github.com/1024pix/pix/pull/8720) [FEATURE] Change l'ordre de la methode find et ajoute l'organizationId sur la méthode get du organizationLearnersRepository (PIX-12255).
+
+### :building_construction: Tech
+- [#8728](https://github.com/1024pix/pix/pull/8728) [TECH] Ajouter une fonction pour rafraîchir la vue "view-active-organization-learners" (PIX-12273).
+- [#8715](https://github.com/1024pix/pix/pull/8715) [TECH] Les scripts de certification n'attendent pas certaines Promises (PIX-12244).
+- [#8721](https://github.com/1024pix/pix/pull/8721) [TECH] Mentionner "Pro" pour la certification complémentaire Pix+ Pro Santé (PIX-12260).
+- [#8724](https://github.com/1024pix/pix/pull/8724) [TECH] Modifier le fichier de configuration de Phrase (PIX-12190).
+- [#8659](https://github.com/1024pix/pix/pull/8659) [TECH] Mettre à jour les seeds pour l'import ONDE (Pix-12133).
+- [#8706](https://github.com/1024pix/pix/pull/8706) [TECH] Déplacer l'archivage des campagnes de PixAdmin dans le BC prescription (Pix-12238).
+
+### :bug: Correction
+- [#8723](https://github.com/1024pix/pix/pull/8723) [BUGFIX] Sur Pix Junior, afficher la mission comme terminée quand l'utilisateur l'a déjà terminée (PIX-12276).
+
 ## v4.136.0 (22/04/2024)
 
 
