@@ -32,12 +32,13 @@ describe('Integration | Repository | Organization Learner Management | Organizat
         key: ORGANIZATION_FEATURE.LEARNER_IMPORT.key,
       }).id;
 
-      const organizationLearnerImportId = databaseBuilder.factory.buildOrganizationLearnerImportFormat(importConfig).id;
+      const organizationLearnerImportFormatId =
+        databaseBuilder.factory.buildOrganizationLearnerImportFormat(importConfig).id;
 
       databaseBuilder.factory.buildOrganizationFeature({
         organizationId,
         featureId,
-        params: { organizationLearnerImportId },
+        params: { organizationLearnerImportFormatId },
       });
 
       await databaseBuilder.commit();

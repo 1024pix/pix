@@ -7,10 +7,8 @@ describe('Unit | Application | Learner Management | organization-learner-control
   let saveOrganizationLearnersFileStub, sendOrganizationLearnersFileStub, validateOrganizationLearnersFileStub;
 
   beforeEach(function () {
-    sinon.stub(ApplicationTransaction, 'execute').callsFake((lambda) => {
-      return lambda();
-    });
-
+    sinon.stub(ApplicationTransaction, 'execute');
+    ApplicationTransaction.execute.callsFake((callback) => callback());
     saveOrganizationLearnersFileStub = sinon.stub(usecases, 'saveOrganizationLearnersFile');
     sendOrganizationLearnersFileStub = sinon.stub(usecases, 'sendOrganizationLearnersFile');
     validateOrganizationLearnersFileStub = sinon.stub(usecases, 'validateOrganizationLearnersFile');
@@ -18,7 +16,7 @@ describe('Unit | Application | Learner Management | organization-learner-control
 
   it('should call usecases in correct order', async function () {
     const userId = Symbol('userId');
-    const organizationId = Symbol('orgnaizationId');
+    const organizationId = Symbol('organizationId');
     const payload = Symbol('payload');
     const request = {
       auth: { credentials: { userId } },
@@ -28,7 +26,7 @@ describe('Unit | Application | Learner Management | organization-learner-control
 
     const response = await organizationLearnersController.importOrganizationLearnerFromFeature(request, hFake);
 
-    expect(ApplicationTransaction.execute.called, 'ApplicationTransaction.execute').to.be.true;
+    expect(ApplicationTransaction.execute.calledThrice, 'ApplicationTransaction.execute').to.be.true;
     expect(
       sinon.assert.callOrder(
         sendOrganizationLearnersFileStub,

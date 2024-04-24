@@ -12,7 +12,7 @@ describe('Unit | API | Organization Learner', function () {
           id: 1242,
           firstName: 'Paul',
           lastName: 'Henri',
-          classe: '3ème',
+          'Libellé classe': '3ème',
           organizationId,
         };
         const expectedOrganizationLearner1 = new OrganizationLearner(organizationLearner1);
@@ -20,7 +20,7 @@ describe('Unit | API | Organization Learner', function () {
           id: 1243,
           firstName: 'Pierre',
           lastName: 'Jacques',
-          classe: '3ème',
+          'Libellé classe': '3ème',
           organizationId,
         };
         const expectedOrganizationLearner2 = new OrganizationLearner(organizationLearner2);
@@ -65,7 +65,7 @@ describe('Unit | API | Organization Learner', function () {
           id: 1242,
           firstName: 'Paul',
           lastName: 'Henri',
-          classe: '3ème',
+          'Libellé classe': '3ème',
           organizationId,
         };
         const expectedOrganizationLearner1 = new OrganizationLearner(organizationLearner1);
@@ -100,7 +100,7 @@ describe('Unit | API | Organization Learner', function () {
         id: 1242,
         firstName: 'Paul',
         lastName: 'Henri',
-        classe: '3ème',
+        'Libellé classe': '3ème',
         organizationId: 356,
       };
 
@@ -114,7 +114,7 @@ describe('Unit | API | Organization Learner', function () {
 
       // then
       expect(learner).to.be.instanceOf(OrganizationLearner);
-      expect(learner.division).to.equal(organizationLearner.classe);
+      expect(learner.division).to.equal(organizationLearner['Libellé classe']);
     });
   });
 });

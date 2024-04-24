@@ -80,7 +80,7 @@ async function buildLearners({ organizationId, quantity = STUDENT_NAMES.length }
       organizationId,
       firstName: studentName.firstName,
       lastName: studentName.lastName,
-      division: 'CM2',
+      attributes: { 'Libellé classe': 'CM2' },
     });
   });
   logger.info(`${quantity} learners created.`);
