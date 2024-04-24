@@ -1,36 +1,24 @@
-.align-icon {
-  line-height: 1;
-  vertical-align: middle;
-}
-
 .tag {
-  @extend .modulix-capitalize;
   @extend %pix-body-s;
 
-  width: fit-content;
+  display: flex;
+  gap: var(--pix-spacing-1x);
+  align-items: center;
+  justify-content: center;
   padding: var(--pix-spacing-2x) var(--pix-spacing-4x) var(--pix-spacing-2x) var(--pix-spacing-4x);
+  text-transform: uppercase;
   border-radius: var(--modulix-radius) var(--modulix-radius) 0 0;
 
   &--activity {
     background: var(--pix-neutral-20);
-
-    &::before {
-      @extend .align-icon;
-
-      content: url('/images/icons/icon-cog.svg');
-    }
   }
 
   &--lesson {
     background: var(--pix-info-50);
+  }
 
-    &::before {
-      @extend .align-icon;
-
-      line-height: 1;
-      vertical-align: middle;
-      content: url('/images/icons/icon-book.svg');
-    }
+  &_icon {
+    width: 1rem;
+    height: 1rem;
   }
 }
-
