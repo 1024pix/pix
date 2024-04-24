@@ -21,7 +21,7 @@ module('Unit | Component | Challenge item QROC', function (hooks) {
         id: 'rec_123',
       });
 
-      component = createGlimmerComponent('challenge-item-qroc', { challenge });
+      component = createGlimmerComponent('challenge-item/challenge-item-qroc', { challenge });
       ENV.APP.EMBED_ALLOWED_ORIGINS = [
         'https://epreuves.pix.fr',
         'https://1024pix.github.io',
