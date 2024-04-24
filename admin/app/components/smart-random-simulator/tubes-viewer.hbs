@@ -1,0 +1,88 @@
+<div class="tubes-viewer">
+
+  <ul class="tubes-viewer__steps">
+    <li>
+      <PixTag @color="orga">
+        <p>État initial</p>
+        <p>{{@totalNumberOfSkills}} acquis</p>
+      </PixTag>
+    </li>
+
+    {{#each this.steps as |step index|}}
+      <li aria-label={{this.getStepName step.name}} class={{if (lt index @displayedStepIndex) "selected" ""}}>
+
+        <PixTooltip @isWide={{true}}>
+
+          <:triggerElement>
+            <button {{on "click" (fn @selectDisplayedStepIndex index)}} type="button">
+              <PixTag @color="{{this.getStepTagColor index}}">
+                <p>{{this.getStepName step.name}}</p>
+                <p>
+                  {{(this.getEliminatedSkillsByStepCount index)}}
+                  acquis filtrés /
+                  {{(this.getRemainingSkillsCountAfterStep index)}}
+                  restants
+                </p>
+              </PixTag>
+            </button>
+          </:triggerElement>
+
+          <:tooltip>
+            {{this.getStepDescription step.name}}
+          </:tooltip>
+
+        </PixTooltip>
+
+      </li>
+    {{/each}}
+  </ul>
+
+  <p>Niveau prédit de l'utilisateur: {{if this.predictedLevel this.predictedLevel "N/A"}}</p>
+
+  <table class="tubes-viewer__table">
+
+    <caption class="tubes-viewer__table__captions">
+      <ul>
+        <li class="tubes-viewer__table__caption">
+          <span class="tubes-viewer__table__skill current" />Acquis en cours
+        </li>
+        <li class="tubes-viewer__table__caption">
+          <span class="tubes-viewer__table__skill present" />Acquis non évalué
+        </li>
+        <li class="tubes-viewer__table__caption">
+          <span class="tubes-viewer__table__skill validated" />Validé par l'utilisateur
+        </li>
+        <li class="tubes-viewer__table__caption">
+          <span class="tubes-viewer__table__skill invalidated" />Invalidé par l'utilisateur
+        </li>
+        <li class="tubes-viewer__table__caption">
+          <span class="tubes-viewer__table__skill eliminated" />Éliminé par les filtres
+        </li>
+      </ul>
+    </caption>
+
+    <thead>
+      <tr>
+        <th>Tube</th>
+        {{#each this.levels as |level|}}
+          <th>{{level}}</th>
+        {{/each}}
+      </tr>
+    </thead>
+
+    <tbody>
+      {{#each @tubes as |tube|}}
+        <tr>
+          <th class="tubes-viewer__table__name">{{tube.name}}</th>
+          {{#each this.levels as |level|}}
+            <td aria-label="{{tube.name}}{{level}}" class="{{this.getCellClass tube level}}">
+              <span class="tubes-viewer__table__skill {{this.getSkillStatus tube level}}" />
+            </td>
+          {{/each}}
+        </tr>
+      {{/each}}
+    </tbody>
+
+  </table>
+
+</div>
