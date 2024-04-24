@@ -1,3 +1,4 @@
+import { buildScoringAndCapacitySimulatorReport } from './/build-scoring-and-capacity-simulator-report.js';
 import { buildAccountRecoveryDemand } from './build-account-recovery-demand.js';
 import { buildActivity } from './build-activity.js';
 import { buildActivityAnswer } from './build-activity-answer.js';
@@ -342,6 +343,7 @@ export {
   buildResultCompetenceTree,
   buildSchoolAssessment,
   buildSCOCertificationCandidate,
+  buildScoringAndCapacitySimulatorReport,
   buildSession,
   buildSessionForAttendanceSheet,
   buildSessionForInvigilatorKit,
