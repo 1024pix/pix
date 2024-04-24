@@ -70,5 +70,21 @@
     "id": 12,
     "firstName": "user",
     "lastName": "gar"
+  },
+  {
+    "id": 13,
+    "firstName": "Alex",
+    "lastName": "Terieur",
+    "email": "alex.terieur@pix.fr",
+    "cgu": true,
+    "pixOrgaTermsOfServiceAccepted": true
+  },
+  {
+    "id": 14,
+    "firstName": "Alain",
+    "lastName": "Terieur",
+    "email": "alain.terieur@pix.fr",
+    "cgu": true,
+    "pixOrgaTermsOfServiceAccepted": true
   }
 ]

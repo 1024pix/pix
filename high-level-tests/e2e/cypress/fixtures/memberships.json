@@ -19,5 +19,17 @@
     "userId": 8,
     "organizationId": 3,
     "organizationRole": "ADMIN"
+  },
+  {
+    "id": 5,
+    "userId": 13,
+    "organizationId": 2,
+    "organizationRole": "MEMBER"
+  },
+  {
+    "id": 6,
+    "userId": 14,
+    "organizationId": 3,
+    "organizationRole": "MEMBER"
   }
 ]
