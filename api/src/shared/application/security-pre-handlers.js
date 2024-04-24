@@ -623,6 +623,14 @@ function hasAtLeastOneAccessOf(securityChecks) {
   };
 }
 
+function validateAllAccess(securityChecks) {
+  return async (request, h) => {
+    const responses = await bluebird.map(securityChecks, (securityCheck) => securityCheck(request, h));
+    const hasAccess = responses.every((response) => !response.source?.errors);
+    return hasAccess ? hasAccess : _replyForbiddenError(h);
+  };
+}
+
 async function checkPix1dActivated(request, h, dependencies = { checkPix1dEnabled }) {
   const isPix1dEnabled = await dependencies.checkPix1dEnabled.execute();
 
@@ -703,6 +711,7 @@ function _noOrganizationFound(error) {
 
 const securityPreHandlers = {
   hasAtLeastOneAccessOf,
+  validateAllAccess,
   checkAdminMemberHasRoleCertif,
   checkAdminMemberHasRoleMetier,
   checkAdminMemberHasRoleSuperAdmin,

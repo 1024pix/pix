@@ -964,6 +964,87 @@ describe('Unit | Application | SecurityPreHandlers', function () {
     });
   });
 
+  describe('#validateAllAccess', function () {
+    let belongsToOrganizationStub;
+    let hasRoleSuperAdminStub;
+    let request;
+
+    beforeEach(function () {
+      belongsToOrganizationStub = sinon.stub(securityPreHandlers, 'checkUserBelongsToOrganization');
+      hasRoleSuperAdminStub = sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin');
+      request = {
+        auth: {
+          credentials: {
+            accessToken: 'valid.access.token',
+            userId: 1234,
+          },
+        },
+        params: { id: 5678 },
+      };
+    });
+
+    context('Successful case', function () {
+      it('should authorize access to resource when the user is authenticated and belongs to organization', async function () {
+        // given
+        belongsToOrganizationStub.callsFake((request, h) => h.response(true));
+
+        // when
+        const response = await securityPreHandlers.validateAllAccess([belongsToOrganizationStub])(request, hFake);
+
+        // then
+        expect(response).to.be.true;
+      });
+
+      it('should authorize access to resource when the user is authenticated and is Super Admin and belongs to organization', async function () {
+        // given
+        belongsToOrganizationStub.callsFake((request, h) => h.response(true));
+        hasRoleSuperAdminStub.callsFake((request, h) => h.response(true));
+
+        // when
+        const response = await securityPreHandlers.validateAllAccess([
+          belongsToOrganizationStub,
+          hasRoleSuperAdminStub,
+        ])(request, hFake);
+
+        // then
+        expect(response).to.be.true;
+      });
+    });
+
+    context('Error cases', function () {
+      it('should forbid resource access when user does not belong to organization nor has role Super Admin', async function () {
+        // given
+        belongsToOrganizationStub.callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        hasRoleSuperAdminStub.callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+
+        // when
+        const response = await securityPreHandlers.validateAllAccess([
+          belongsToOrganizationStub,
+          hasRoleSuperAdminStub,
+        ])(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+      it('should forbid resource access when user does not belong to organization but has role Super Admin', async function () {
+        // given
+        belongsToOrganizationStub.callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        hasRoleSuperAdminStub.callsFake((request, h) => h.response(true));
+
+        // when
+        const response = await securityPreHandlers.validateAllAccess([
+          belongsToOrganizationStub,
+          hasRoleSuperAdminStub,
+        ])(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+    });
+  });
+
   describe('#checkUserIsMemberOfAnOrganization', function () {
     let request;
 
