@@ -1,0 +1,42 @@
+<section>
+  <form class="scoring-simulation__form">
+    <PixInput {{on "input" this.updateScore}} @id="score" @value={{this.score}} type="number">
+      <:label>Score global en Pix</:label>
+    </PixInput>
+
+    <PixInput @id="capacity" {{on "input" this.updateCapacity}} @value={{this.capacity}} type="number">
+      <:label>Capacité</:label>
+    </PixInput>
+
+    <PixButton @type="submit" @triggerAction={{this.onGenerateSimulationProfile}}>{{t
+        "pages.certifications.scoring-simulation.actions.submit"
+      }}</PixButton>
+  </form>
+
+  {{#each this.errors as |error|}}
+    <PixMessage class="scoring-simulation__error-message" @type="error">{{error}}</PixMessage>
+  {{/each}}
+
+  <dl class="scoring-simulation__data">
+    <div class="scoring-simulation-data__container">
+      <dt>{{t "pages.certifications.scoring-simulation.labels.score"}}</dt>
+      <dd>{{this.simulatorReport.data.attributes.score}}</dd>
+    </div>
+    <div class="scoring-simulation-data__container">
+      <dt>{{t "pages.certifications.scoring-simulation.labels.capacity"}}</dt>
+      <dd>{{this.simulatorReport.data.attributes.capacity}}</dd>
+    </div>
+  </dl>
+
+  <ul class="scoring-simulation__competences">
+    {{#each this.simulatorReport.data.attributes.competences as |competence|}}
+      <li
+        class="scoring-simulation-competences__item"
+        aria-label="Niveau de la compétence {{competence.competenceCode}}"
+      >
+        <span aria-hidden="true">{{competence.competenceCode}}</span>
+        <span>{{t "pages.certifications.scoring-simulation.labels.level"}} {{competence.level}}</span>
+      </li>
+    {{/each}}
+  </ul>
+</section>
