@@ -15,17 +15,17 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
             {
               name: 'nom',
               property: 'lastName',
-              isRequired: true,
+              required: true,
             },
             {
               name: 'prénom',
               property: 'firstName',
-              isRequired: false,
+              required: false,
             },
             {
               name: 'GodZilla',
               property: 'kaiju',
-              isRequired: true,
+              required: true,
             },
           ],
           acceptedEncoding: ['utf8'],
@@ -44,7 +44,7 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
           {
             name: 'prénom',
             property: 'firstName',
-            isRequired: false,
+            required: false,
             checkEncoding: true,
           },
         ],
@@ -86,17 +86,17 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
           {
             name: 'nom',
             property: 'lastName',
-            isRequired: true,
+            required: true,
           },
           {
             name: 'prénom',
             property: 'firstName',
-            isRequired: false,
+            required: false,
           },
           {
             name: 'GodZilla',
             property: 'kaiju',
-            isRequired: true,
+            required: true,
           },
         ],
         acceptedEncoding: ['utf8'],
@@ -193,12 +193,12 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
               {
                 name: 'nom',
                 property: 'lastName',
-                isRequired: true,
+                required: true,
               },
               {
                 name: 'prénom',
                 property: 'firstName',
-                isRequired: false,
+                required: false,
               },
             ],
             acceptedEncoding: ['utf8'],

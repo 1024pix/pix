@@ -102,7 +102,7 @@ class CommonCsvLearnerParser {
 
   #checkColumns(parsedColumns) {
     // Required columns
-    const mandatoryColumn = this.#columns.filter((c) => c.isRequired);
+    const mandatoryColumn = this.#columns.filter((c) => c.required);
 
     mandatoryColumn.forEach((colum) => {
       if (!parsedColumns.includes(colum.name)) {
