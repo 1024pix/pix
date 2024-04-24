@@ -9,6 +9,10 @@ export default class Area extends Model {
   @hasMany('competence') competences;
 
   get sortedCompetences() {
-    return this.competences.sortBy('index');
+    const competences = this.competences.map((c) => c);
+
+    return competences.sort((a, b) => {
+      return a.index.split('.')[1] - b.index.split('.')[1];
+    });
   }
 }
