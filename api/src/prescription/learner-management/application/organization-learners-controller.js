@@ -17,12 +17,16 @@ const deleteOrganizationLearners = async function (request, h) {
 };
 
 const importOrganizationLearnerFromFeature = async function (request, h) {
-  await ApplicationTransaction.execute(async () => {
-    const organizationId = request.params.organizationId;
-    const userId = request.auth.credentials.userId;
+  const organizationId = request.params.organizationId;
+  const userId = request.auth.credentials.userId;
 
+  await ApplicationTransaction.execute(async () => {
     await usecases.sendOrganizationLearnersFile({ payload: request.payload, organizationId, userId });
+  });
+  await ApplicationTransaction.execute(async () => {
     await usecases.validateOrganizationLearnersFile({ organizationId });
+  });
+  await ApplicationTransaction.execute(async () => {
     await usecases.saveOrganizationLearnersFile({ organizationId });
   });
 
