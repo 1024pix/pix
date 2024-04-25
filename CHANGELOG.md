@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v4.138.0 (25/04/2024)
+
+
+### :rocket: Amélioration
+- [#8703](https://github.com/1024pix/pix/pull/8703) [FEATURE] Empêcher le passage d'un centre de certification en V3 s'il est pilote de la feature de Séparation Pix/Pix+ (PIX-12140).
+- [#8729](https://github.com/1024pix/pix/pull/8729) [FEATURE][APP] Permettre l'affichage de l'application en espagnol (PIX-12195).
+- [#8675](https://github.com/1024pix/pix/pull/8675) [FEATURE] Rend stoppable les jobs de validation et d'import pour SIECLE (PIX-12017).
+
+### :bug: Correction
+- [#8730](https://github.com/1024pix/pix/pull/8730) [BUGFIX] Petites corrections pour faire fonctionner l'import ONDE (Pix-12275).
+- [#8666](https://github.com/1024pix/pix/pull/8666) [BUGFIX] Empêcher la souscription à une certification complémentaire lors de l'import de masse des sessions lorsque le centre ne possède pas les habilitations nécessaires (PIX-11928).
+
 ## v4.137.0 (24/04/2024)
 
 
