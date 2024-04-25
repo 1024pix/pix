@@ -1,24 +1,30 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import Object from '@ember/object';
 import Service from '@ember/service';
+import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Layout::UserLoggedMenu', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  let prescriber, organization, organization2, organization3;
+  let prescriber, organization, organization2, organization3, loadStub;
 
   hooks.beforeEach(function () {
     organization = Object.create({ id: 1, name: 'Main organization', externalId: 'EXT' });
     prescriber = Object.create({
       firstName: 'givenFirstName',
       lastName: 'givenLastName',
+      userOrgaSettings: Object.create({
+        id: 234,
+      }),
     });
     organization2 = Object.create({ id: 2, name: 'Organization 2', externalId: 'EXT2' });
     organization3 = Object.create({ id: 3, name: 'Organization 3', externalId: 'EXT3' });
+    loadStub = sinon.stub();
 
     class CurrentUserStub extends Service {
       organization = organization;
@@ -28,6 +34,7 @@ module('Integration | Component | Layout::UserLoggedMenu', function (hooks) {
         Object.create({ organization: organization2 }),
         Object.create({ organization: organization3 }),
       ];
+      load = loadStub;
     }
     this.owner.register('service:current-user', CurrentUserStub);
   });
@@ -84,5 +91,29 @@ module('Integration | Component | Layout::UserLoggedMenu', function (hooks) {
     // then
     assert.ok(screen.getByRole('button', { name: `${organization2.name} (${organization2.externalId})` }));
     assert.ok(screen.getByRole('button', { name: `${organization3.name} (${organization3.externalId})` }));
+  });
+
+  test('should redirect to authenticated route before reload the current user', async function (assert) {
+    const replaceWithStub = sinon.stub();
+    class RouterStub extends Service {
+      replaceWith = replaceWithStub;
+      currentRoute = { queryParams: [] };
+    }
+
+    class StoreStub extends Service {
+      peekRecord() {
+        return { save() {} };
+      }
+    }
+
+    this.owner.register('service:router', RouterStub);
+    this.owner.register('service:store', StoreStub);
+
+    const screen = await render(hbs`<Layout::UserLoggedMenu />`);
+    await clickByName('Ouvrir le menu utilisateur');
+    await click(screen.getByRole('button', { name: `${organization2.name} (${organization2.externalId})` }));
+
+    sinon.assert.callOrder(replaceWithStub, loadStub);
+    assert.ok(true);
   });
 });
