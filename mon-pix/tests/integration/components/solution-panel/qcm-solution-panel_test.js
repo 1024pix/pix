@@ -6,7 +6,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import { pshuffle } from 'mon-pix/utils/pshuffle';
 import { module, test } from 'qunit';
 
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 const assessmentId = 64;
 const assessment = {
@@ -66,7 +66,7 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
 
           // When
           await render(
-            hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
+            hbs`<SolutionPanel::QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
           );
 
           // Then
@@ -87,7 +87,7 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
 
           // When
           await render(
-            hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
+            hbs`<SolutionPanel::QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
           );
 
           // Then
@@ -109,7 +109,7 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
 
           // When
           await render(
-            hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
+            hbs`<SolutionPanel::QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
           );
 
           // Then
@@ -126,7 +126,7 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
 
       // When
       await render(
-        hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`,
+        hbs`<SolutionPanel::QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`,
       );
 
       // Then
@@ -148,7 +148,7 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
 
       // When
       await render(
-        hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`,
+        hbs`<SolutionPanel::QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`,
       );
 
       // Then
@@ -169,7 +169,7 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
 
       // When
       await render(
-        hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`,
+        hbs`<SolutionPanel::QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`,
       );
 
       // Then
@@ -193,7 +193,7 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
 
       // When
       await render(
-        hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`,
+        hbs`<SolutionPanel::QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`,
       );
 
       // Then
@@ -211,7 +211,7 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
 
       // When
       await render(
-        hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`,
+        hbs`<SolutionPanel::QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`,
       );
 
       // Then
@@ -236,7 +236,7 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
 
         // When
         await render(
-          hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`,
+          hbs`<SolutionPanel::QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`,
         );
 
         // Then

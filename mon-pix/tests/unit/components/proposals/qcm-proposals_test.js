@@ -2,7 +2,7 @@ import { setupTest } from 'ember-qunit';
 import { pshuffle } from 'mon-pix/utils/pshuffle';
 import { module, test } from 'qunit';
 
-import createGlimmerComponent from '../../helpers/create-glimmer-component';
+import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 
 module('Unit | Component | QCM proposals', function (hooks) {
   setupTest(hooks);
@@ -28,7 +28,7 @@ module('Unit | Component | QCM proposals', function (hooks) {
     });
 
     function initComponent() {
-      component = createGlimmerComponent('qcm-proposals', {
+      component = createGlimmerComponent('proposals/qcm-proposals', {
         answer,
         proposals,
         answerValue: answer.value,

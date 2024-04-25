@@ -1,16 +1,17 @@
 <form {{on "submit" this.validateAnswer}}>
 
-  <div class="rounded-panel__row challenge-response {{if @answer 'challenge-response--locked'}}">
+  <fieldset class="rounded-panel__row challenge-response {{if @answer 'challenge-response--locked'}}">
     <h2 class="sr-only">{{t "pages.challenge.parts.answer-input"}}</h2>
+    <legend class="challenge-response__instructions">{{t "pages.challenge.parts.answer-instructions.qcm"}}</legend>
     <div class="challenge-proposals">
-      <QrocmProposal
+      <Proposals::QcmProposals
         @answer={{@answer}}
-        @format={{@challenge.format}}
+        @answerValue={{@answer.value}}
         @proposals={{@challenge.proposals}}
-        @answersValue={{this.answersValue}}
         @answerChanged={{this.answerChanged}}
-        @onChangeSelect={{this.onChangeSelect}}
+        @shuffleSeed={{@assessment.id}}
         @isAnswerFieldDisabled={{this.isAnswerFieldDisabled}}
+        @shuffled="{{@challenge.shuffled}}"
       />
     </div>
 
@@ -29,7 +30,7 @@
         />
       </div>
     {{/if}}
-  </div>
+  </fieldset>
 
   {{#if this.errorMessage}}
     <PixMessage role="alert" class="challenge-response__alert" @type="error" @withIcon={{true}}>

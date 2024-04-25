@@ -26,7 +26,7 @@
       </div>
       <div>
         {{#if this.isAssessmentChallengeTypeQcm}}
-          <QcmSolutionPanel
+          <SolutionPanel::QcmSolutionPanel
             @challenge={{@answer.challenge}}
             @answer={{@answer}}
             @solution={{this.solution}}
@@ -35,7 +35,7 @@
         {{/if}}
 
         {{#if this.isAssessmentChallengeTypeQcu}}
-          <QcuSolutionPanel
+          <SolutionPanel::QcuSolutionPanel
             @challenge={{@answer.challenge}}
             @answer={{@answer}}
             @solution={{this.solution}}
@@ -45,7 +45,7 @@
 
         {{#if this.isAssessmentChallengeTypeQroc}}
           <div data-test-id="comparison-window__corrected-answers--qroc">
-            <QrocSolutionPanel
+            <SolutionPanel::QrocSolutionPanel
               @answer={{@answer}}
               @solution={{this.solution}}
               @solutionToDisplay={{this.solutionToDisplay}}
@@ -55,7 +55,7 @@
 
         {{#if this.isAssessmentChallengeTypeQrocmInd}}
           <div data-test-id="comparison-window__corrected-answers--qrocm">
-            <QrocmIndSolutionPanel
+            <SolutionPanel::QrocmIndSolutionPanel
               @answer={{@answer}}
               @solution={{this.solution}}
               @challenge={{@answer.challenge}}
@@ -66,7 +66,7 @@
 
         {{#if this.isAssessmentChallengeTypeQrocmDep}}
           <div data-test-id="comparison-window__corrected-answers--qrocm">
-            <QrocmDepSolutionPanel
+            <SolutionPanel::QrocmDepSolutionPanel
               @answer={{@answer}}
               @solution={{this.solution}}
               @challenge={{@answer.challenge}}
