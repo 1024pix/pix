@@ -8,12 +8,14 @@
     display: flex;
     flex-direction: column;
     max-width: 80%;
-    margin-bottom: 70px;
+    margin-top: auto;
+    margin-bottom: 95px;
   }
 
   &__logo {
     align-self: end;
     width: 128px;
+    padding-bottom: 10px;
   }
 }
 

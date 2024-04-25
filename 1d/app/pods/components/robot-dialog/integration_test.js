@@ -21,6 +21,8 @@ module('Integration | Component | Robot dialog', function (hooks) {
 
     const screen = await render(hbs`<RobotDialog @class={{this.class}} />`);
 
-    assert.dom(screen.getByRole('img', { name: 'mascotte pix1d' })).hasAttribute('src', '/images/happy-robot.svg');
+    assert
+      .dom(screen.getByRole('img', { name: 'mascotte pix1d' }))
+      .hasAttribute('src', '/images/robot/dialog-robot-happy.svg');
   });
 });
