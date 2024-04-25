@@ -1,3 +1,4 @@
+import { Activity } from '../../../../../src/school/domain/models/Activity.js';
 import { createServer, databaseBuilder, expect, mockLearningContent } from '../../../../test-helper.js';
 import * as learningContentBuilder from '../../../../tooling/learning-content-builder/index.js';
 
@@ -16,7 +17,7 @@ describe('Acceptance | Controller | activity-answer-controller', function () {
         const { assessmentId, missionId } = databaseBuilder.factory.buildMissionAssessment({
           lastChallengeId: challengeId,
         });
-        databaseBuilder.factory.buildActivity({ assessmentId });
+        databaseBuilder.factory.buildActivity({ assessmentId, stepIndex: 0, level: Activity.levels.VALIDATION });
         await databaseBuilder.commit();
 
         mockLearningContentForMission(missionId);
@@ -138,7 +139,11 @@ function mockLearningContentForMission(missionId) {
       learningContentBuilder.buildMission({
         id: missionId,
         content: {
-          validationChallenges: [['va_challenge_id']],
+          steps: [
+            {
+              validationChallenges: [['va_challenge_id']],
+            },
+          ],
         },
       }),
     ],

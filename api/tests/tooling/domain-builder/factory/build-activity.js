@@ -6,6 +6,7 @@ function buildActivity({
   level = Activity.levels.TUTORIAL,
   createdAt = new Date(),
   status = Activity.status.STARTED,
+  stepIndex,
 } = {}) {
   return new Activity({
     id,
@@ -13,6 +14,7 @@ function buildActivity({
     level,
     createdAt,
     status,
+    stepIndex,
   });
 }
 

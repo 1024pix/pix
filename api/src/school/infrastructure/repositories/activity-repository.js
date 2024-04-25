@@ -8,6 +8,7 @@ const save = async function (activity, domainTransaction = DomainTransaction.emp
   const [savedAttributes] = await knexConnection('activities').insert(activity).returning('*');
   return new Activity(savedAttributes);
 };
+
 const updateStatus = async function ({ activityId, status }, domainTransaction = DomainTransaction.emptyTransaction()) {
   const knexConnection = domainTransaction.knexTransaction || knex;
   const [updatedActivity] = await knexConnection('activities')
@@ -19,6 +20,7 @@ const updateStatus = async function ({ activityId, status }, domainTransaction =
   }
   return new Activity(updatedActivity);
 };
+
 const getLastActivity = async function (assessmentId, domainTransaction = DomainTransaction.emptyTransaction()) {
   const knexConnection = domainTransaction.knexTransaction || knex;
   const activity = await knexConnection('activities').where({ assessmentId }).orderBy('createdAt', 'DESC').first();
@@ -30,7 +32,9 @@ const getLastActivity = async function (assessmentId, domainTransaction = Domain
 
 const getAllByAssessmentId = async function (assessmentId, domainTransaction = DomainTransaction.emptyTransaction()) {
   const knexConnection = domainTransaction.knexTransaction || knex;
-  return await knexConnection('activities').where({ assessmentId }).orderBy('createdAt', 'DESC');
+  const dbActivities = await knexConnection('activities').where({ assessmentId }).orderBy('createdAt', 'DESC');
+
+  return dbActivities.map((activity) => new Activity(activity));
 };
 
 export { getAllByAssessmentId, getLastActivity, save, updateStatus };
