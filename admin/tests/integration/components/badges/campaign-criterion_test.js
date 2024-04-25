@@ -102,7 +102,13 @@ module('Integration | Component | Badges::CampaignCriterion', function (hooks) {
 
       test('should display an error notification', async function (assert) {
         // given
-        this.criterion.save.throws();
+        this.criterion.save.throws({
+          errors: [
+            {
+              detail: "Il est interdit de modifier un critère d'un résultat thématique déjà acquis par un utilisateur.",
+            },
+          ],
+        });
 
         // when
         await click(modal.getByRole('button', { name: 'Enregistrer' }));
@@ -110,7 +116,7 @@ module('Integration | Component | Badges::CampaignCriterion', function (hooks) {
         // then
         sinon.assert.calledWith(
           notificationErrorStub,
-          "Problème lors de la modification du seuil d'obtention du critère.",
+          "Il est interdit de modifier un critère d'un résultat thématique déjà acquis par un utilisateur.",
         );
         assert.ok(true);
       });

@@ -25,7 +25,16 @@ class CompetenceResetError extends DomainError {
   }
 }
 
+class AcquiredBadgeForbiddenUpdateError extends DomainError {
+  constructor(
+    message = "Il est interdit de modifier un critère d'un résultat thématique déjà acquis par un utilisateur.",
+  ) {
+    super(message);
+  }
+}
+
 export {
+  AcquiredBadgeForbiddenUpdateError,
   CompetenceResetError,
   EmptyAnswerError,
   ImproveCompetenceEvaluationForbiddenError,

@@ -1001,14 +1001,6 @@ class AcquiredBadgeForbiddenDeletionError extends DomainError {
   }
 }
 
-class AcquiredBadgeForbiddenUpdateError extends DomainError {
-  constructor(
-    message = "Il est interdit de modifier un critère d'un résultat thématique déjà acquis par un utilisateur.",
-  ) {
-    super(message);
-  }
-}
-
 class CertificationBadgeForbiddenDeletionError extends DomainError {
   constructor(message = 'Il est interdit de supprimer un résultat thématique lié à une certification.') {
     super(message);
@@ -1064,7 +1056,6 @@ export {
   AccountRecoveryDemandNotCreatedError,
   AccountRecoveryUserAlreadyConfirmEmail,
   AcquiredBadgeForbiddenDeletionError,
-  AcquiredBadgeForbiddenUpdateError,
   AlreadyAcceptedOrCancelledInvitationError,
   AlreadyExistingAdminMemberError,
   AlreadyExistingCampaignParticipationError,
