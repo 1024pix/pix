@@ -55,7 +55,7 @@ module('Unit | Service | competence-evaluation', function (hooks) {
         // given
         competenceEvaluationService = this.owner.lookup('service:competence-evaluation');
         store = Service.create({
-          queryRecord: () => reject({ errors: [{ title: 'ImproveCompetenceEvaluationForbidden' }] }),
+          queryRecord: () => reject({ errors: [{ code: 'IMPROVE_COMPETENCE_EVALUATION_FORBIDDEN' }] }),
           findRecord: sinon.stub().resolves(),
         });
         router = EmberObject.create({ transitionTo: sinon.stub() });
@@ -97,7 +97,7 @@ module('Unit | Service | competence-evaluation', function (hooks) {
           // eslint-disable-next-line qunit/no-early-return
           return;
         }
-        sinon.assert.fail('Improve Competence Evaluation should have throw an error.');
+        sinon.assert.fail('Improve Competence Evaluation should have thrown an error.');
         assert.ok(true);
       });
 
