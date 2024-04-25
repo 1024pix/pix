@@ -20,7 +20,7 @@ const OIDC_PROVIDERS_POLE_EMPLOI = {
   clientId: process.env.POLE_EMPLOI_CLIENT_ID,
   clientSecret: process.env.POLE_EMPLOI_CLIENT_SECRET,
 
-  accessTokenLifespan: process.env.POLE_EMPLOI_ACCESS_TOKEN_LIFESPAN || '7d',
+  accessTokenLifespan: process.env.POLE_EMPLOI_ACCESS_TOKEN_LIFESPAN || '4h',
   enabled: Boolean(process.env.POLE_EMPLOI_ENABLED),
   openidConfigurationUrl: process.env.POLE_EMPLOI_OPENID_CONFIGURATION_URL,
   redirectUri: process.env.POLE_EMPLOI_REDIRECT_URI,
@@ -43,7 +43,7 @@ const OIDC_PROVIDERS_FWB = {
   clientId: process.env.FWB_CLIENT_ID,
   clientSecret: process.env.FWB_CLIENT_SECRET,
 
-  accessTokenLifespan: process.env.FWB_ACCESS_TOKEN_LIFESPAN || '7d',
+  accessTokenLifespan: process.env.FWB_ACCESS_TOKEN_LIFESPAN || '48h',
   claimsToStore: process.env.FWB_CLAIMS_TO_STORE,
   enabled: Boolean(process.env.FWB_ENABLED),
   openidConfigurationUrl: process.env.FWB_OPENID_CONFIGURATION_URL,
@@ -66,7 +66,7 @@ const OIDC_PROVIDERS_CNAV = {
   clientId: process.env.CNAV_CLIENT_ID,
   clientSecret: process.env.CNAV_CLIENT_SECRET,
 
-  accessTokenLifespan: process.env.CNAV_ACCESS_TOKEN_LIFESPAN || '7d',
+  accessTokenLifespan: process.env.CNAV_ACCESS_TOKEN_LIFESPAN || '48h',
   enabled: Boolean(process.env.CNAV_ENABLED),
   openidConfigurationUrl: process.env.CNAV_OPENID_CONFIGURATION_URL,
   redirectUri: process.env.CNAV_REDIRECT_URI,
@@ -83,7 +83,7 @@ const OIDC_PROVIDERS_PAYSDELALOIRE = {
   clientId: process.env.PAYSDELALOIRE_CLIENT_ID,
   clientSecret: process.env.PAYSDELALOIRE_CLIENT_SECRET,
 
-  accessTokenLifespan: process.env.PAYSDELALOIRE_ACCESS_TOKEN_LIFESPAN || '7d',
+  accessTokenLifespan: process.env.PAYSDELALOIRE_ACCESS_TOKEN_LIFESPAN || '48h',
   enabled: Boolean(process.env.PAYSDELALOIRE_ENABLED),
   openidConfigurationUrl: process.env.PAYSDELALOIRE_OPENID_CONFIGURATION_URL,
   postLogoutRedirectUri: process.env.PAYSDELALOIRE_POST_LOGOUT_REDIRECT_URI,
@@ -100,7 +100,7 @@ const OIDC_PROVIDERS_GOOGLE = {
   clientId: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 
-  accessTokenLifespan: process.env.GOOGLE_ACCESS_TOKEN_LIFESPAN || '7d',
+  accessTokenLifespan: process.env.GOOGLE_ACCESS_TOKEN_LIFESPAN || '48h',
   claimsToStore: process.env.GOOGLE_CLAIMS_TO_STORE,
   enabled: Boolean(process.env.GOOGLE_ENABLED),
   enabledForPixAdmin: Boolean(process.env.GOOGLE_ENABLED_FOR_PIX_ADMIN),

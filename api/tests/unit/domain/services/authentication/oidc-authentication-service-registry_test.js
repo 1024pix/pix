@@ -1,9 +1,10 @@
 import { InvalidIdentityProviderError } from '../../../../../lib/domain/errors.js';
 import { OidcAuthenticationServiceRegistry } from '../../../../../lib/domain/services/authentication/oidc-authentication-service-registry.js';
+import { oidcProviderRepository } from '../../../../../src/authentication/infrastructure/repositories/oidc-provider-repository.js';
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 import { catchErrSync, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Domain | Services | authentication registry', function () {
+describe('Unit | Domain | Services | oidc-authentication-service-registry', function () {
   let oidcAuthenticationServiceRegistry;
 
   beforeEach(function () {
@@ -20,7 +21,10 @@ describe('Unit | Domain | Services | authentication registry', function () {
         code: 'SECOND',
       };
 
-      oidcAuthenticationServiceRegistry.loadOidcProviderServices([firstOidcProviderService, secondOidcProviderService]);
+      await oidcAuthenticationServiceRegistry.loadOidcProviderServices([
+        firstOidcProviderService,
+        secondOidcProviderService,
+      ]);
 
       // when
       const services = oidcAuthenticationServiceRegistry.getAllOidcProviderServices();
@@ -34,7 +38,7 @@ describe('Unit | Domain | Services | authentication registry', function () {
   });
 
   describe('#getReadyOidcProviderServices', function () {
-    it('returns ready OIDC Providers', function () {
+    it('returns ready OIDC Providers', async function () {
       // given
       const firstOidcProviderService = {
         code: 'FIRST',
@@ -44,7 +48,10 @@ describe('Unit | Domain | Services | authentication registry', function () {
         isReady: true,
       };
 
-      oidcAuthenticationServiceRegistry.loadOidcProviderServices([firstOidcProviderService, secondOidcProviderService]);
+      await oidcAuthenticationServiceRegistry.loadOidcProviderServices([
+        firstOidcProviderService,
+        secondOidcProviderService,
+      ]);
 
       // when
       const services = oidcAuthenticationServiceRegistry.getReadyOidcProviderServices();
@@ -57,7 +64,7 @@ describe('Unit | Domain | Services | authentication registry', function () {
   });
 
   describe('#getReadyOidcProviderServicesForPixAdmin', function () {
-    it('returns ready OIDC Providers for Pix Admin', function () {
+    it('returns ready OIDC Providers for Pix Admin', async function () {
       // given
       const firstOidcProviderService = {
         code: 'FIRST',
@@ -67,7 +74,10 @@ describe('Unit | Domain | Services | authentication registry', function () {
         code: 'SECOND',
       };
 
-      oidcAuthenticationServiceRegistry.loadOidcProviderServices([firstOidcProviderService, secondOidcProviderService]);
+      await oidcAuthenticationServiceRegistry.loadOidcProviderServices([
+        firstOidcProviderService,
+        secondOidcProviderService,
+      ]);
 
       // when
       const services = oidcAuthenticationServiceRegistry.getReadyOidcProviderServicesForPixAdmin();
@@ -81,7 +91,7 @@ describe('Unit | Domain | Services | authentication registry', function () {
 
   describe('#getOidcProviderServiceByCode', function () {
     describe('when the audience is admin', function () {
-      it('returns a ready OIDC provider for Pix Admin', function () {
+      it('returns a ready OIDC provider for Pix Admin', async function () {
         // given
         const oidcProviderForPixApp = {
           code: 'PROVIDER_FOR_APP',
@@ -92,7 +102,10 @@ describe('Unit | Domain | Services | authentication registry', function () {
           isReadyForPixAdmin: true,
         };
 
-        oidcAuthenticationServiceRegistry.loadOidcProviderServices([oidcProviderForPixApp, oidcProviderForPixAdmin]);
+        await oidcAuthenticationServiceRegistry.loadOidcProviderServices([
+          oidcProviderForPixApp,
+          oidcProviderForPixAdmin,
+        ]);
 
         // when
         const service = oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
@@ -106,7 +119,7 @@ describe('Unit | Domain | Services | authentication registry', function () {
     });
 
     describe('when audience is not provided', function () {
-      it('returns a ready OIDC Provider for Pix App', function () {
+      it('returns a ready OIDC Provider for Pix App', async function () {
         // given
         const identityProviderCode = 'FIRST';
         const firstOidcProviderService = {
@@ -117,7 +130,7 @@ describe('Unit | Domain | Services | authentication registry', function () {
           code: 'SECOND',
         };
 
-        oidcAuthenticationServiceRegistry.loadOidcProviderServices([
+        await oidcAuthenticationServiceRegistry.loadOidcProviderServices([
           firstOidcProviderService,
           secondOidcProviderService,
         ]);
@@ -130,7 +143,7 @@ describe('Unit | Domain | Services | authentication registry', function () {
       });
     });
 
-    it('throws an error when identity provider is not supported', function () {
+    it('throws an error when identity provider is not supported', async function () {
       // given
       const identityProviderCode = 'UNSUPPORTED_OIDC_PROVIDER';
       const firstOidcProviderService = {
@@ -141,7 +154,10 @@ describe('Unit | Domain | Services | authentication registry', function () {
         code: 'SECOND',
       };
 
-      oidcAuthenticationServiceRegistry.loadOidcProviderServices([firstOidcProviderService, secondOidcProviderService]);
+      await oidcAuthenticationServiceRegistry.loadOidcProviderServices([
+        firstOidcProviderService,
+        secondOidcProviderService,
+      ]);
 
       // when
       const error = catchErrSync(
@@ -157,17 +173,21 @@ describe('Unit | Domain | Services | authentication registry', function () {
 
   describe('#loadOidcProviderServices', function () {
     describe('when oidc provider services are already loaded', function () {
-      it('returns undefined', function () {
+      it('returns undefined', async function () {
         // given
+        sinon
+          .stub(oidcProviderRepository, 'findAllOidcProviders')
+          .resolves([{ code: 'ONE' }, { code: 'OIDC' }, { code: 'OIDC_FOR_PIX_ADMIN' }]);
+
         const oidcProviderServices = [
           { code: 'ONE' },
           { code: 'OIDC', isReady: true },
           { code: 'OIDC_FOR_PIX_ADMIN', isReadyForPixAdmin: true },
         ];
-        oidcAuthenticationServiceRegistry.loadOidcProviderServices(oidcProviderServices);
+        await oidcAuthenticationServiceRegistry.loadOidcProviderServices(oidcProviderServices);
 
         // when
-        const result = oidcAuthenticationServiceRegistry.loadOidcProviderServices(oidcProviderServices);
+        const result = await oidcAuthenticationServiceRegistry.loadOidcProviderServices(oidcProviderServices);
 
         // then
         expect(result).to.be.undefined;
@@ -175,7 +195,7 @@ describe('Unit | Domain | Services | authentication registry', function () {
     });
 
     describe('when oidc provider services are not loaded', function () {
-      it('loads all given oidc provider services, filters them and returns true', function () {
+      it('loads all given oidc provider services, filters them and returns true', async function () {
         // given
         const oidcProviderServices = [
           { code: 'ONE' },
@@ -184,7 +204,7 @@ describe('Unit | Domain | Services | authentication registry', function () {
         ];
 
         // when
-        const result = oidcAuthenticationServiceRegistry.loadOidcProviderServices(oidcProviderServices);
+        const result = await oidcAuthenticationServiceRegistry.loadOidcProviderServices(oidcProviderServices);
 
         // then
         const allOidcProviderServices = oidcAuthenticationServiceRegistry.getAllOidcProviderServices();
@@ -226,7 +246,7 @@ describe('Unit | Domain | Services | authentication registry', function () {
             createClient,
           },
         ];
-        oidcAuthenticationServiceRegistry.loadOidcProviderServices(oidcProviderServices);
+        await oidcAuthenticationServiceRegistry.loadOidcProviderServices(oidcProviderServices);
 
         // when
         const result = await oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(
@@ -248,7 +268,7 @@ describe('Unit | Domain | Services | authentication registry', function () {
               client: {},
             },
           ];
-          oidcAuthenticationServiceRegistry.loadOidcProviderServices(oidcProviderServices);
+          await oidcAuthenticationServiceRegistry.loadOidcProviderServices(oidcProviderServices);
 
           // when
           const result = await oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode('OIDC');

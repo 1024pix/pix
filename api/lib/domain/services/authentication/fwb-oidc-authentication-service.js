@@ -1,31 +1,22 @@
 import { OidcAuthenticationService } from '../../../../src/authentication/domain/services/oidc-authentication-service.js';
-import { config } from '../../../config.js';
+import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 import { temporaryStorage } from '../../../infrastructure/temporary-storage/index.js';
-import { FWB } from '../../constants/oidc-identity-providers.js';
 
-const configKey = FWB.configKey;
 const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
 
-class FwbOidcAuthenticationService extends OidcAuthenticationService {
-  constructor() {
-    super({
-      accessTokenLifespanMs: config[configKey].accessTokenLifespanMs,
-      additionalRequiredProperties: ['logoutUrl'],
-      claimsToStore: config[configKey].claimsToStore,
-      clientId: config[configKey].clientId,
-      clientSecret: config[configKey].clientSecret,
-      configKey,
-      extraAuthorizationUrlParameters: config[configKey].acrValues && { acr_values: config[configKey].acrValues },
-      shouldCloseSession: true,
-      identityProvider: FWB.code,
-      openidConfigurationUrl: config[configKey].openidConfigurationUrl,
-      organizationName: 'Fédération Wallonie-Bruxelles',
-      redirectUri: config[configKey].redirectUri,
-      slug: 'fwb',
-      source: 'fwb',
-    });
+export class FwbOidcAuthenticationService extends OidcAuthenticationService {
+  constructor(oidcProvider, dependencies) {
+    super(oidcProvider, dependencies);
 
-    this.logoutUrl = config[configKey].logoutUrl;
+    if (!oidcProvider.additionalRequiredProperties) {
+      this.isReady = false;
+      logger.error(
+        `OIDC Provider "${this.identityProvider}" has been DISABLED because of missing "additionalRequiredProperties" object.`,
+      );
+      return;
+    }
+
+    this.logoutUrl = oidcProvider.additionalRequiredProperties.logoutUrl;
   }
 
   async getRedirectLogoutUrl({ userId, logoutUrlUUID }) {
@@ -47,5 +38,3 @@ class FwbOidcAuthenticationService extends OidcAuthenticationService {
     return redirectTarget.toString();
   }
 }
-
-export { FwbOidcAuthenticationService };

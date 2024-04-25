@@ -6,10 +6,10 @@ const OIDC_PROVIDERS_TABLE_NAME = 'oidc-providers';
 export async function buildOidcProvider({
   id = databaseBuffer.getNextId(),
   accessTokenLifespan,
+  additionalRequiredProperties,
   claimsToStore,
   clientId,
   clientSecret,
-  additionalRequiredProperties,
   enabled,
   enabledForPixAdmin,
   extraAuthorizationUrlParameters,
@@ -29,9 +29,9 @@ export async function buildOidcProvider({
   const values = {
     id,
     accessTokenLifespan,
+    additionalRequiredProperties,
     claimsToStore,
     clientId,
-    additionalRequiredProperties,
     enabled,
     enabledForPixAdmin,
     encryptedClientSecret,

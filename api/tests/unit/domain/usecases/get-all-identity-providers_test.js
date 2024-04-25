@@ -2,17 +2,17 @@ import { getAllIdentityProviders } from '../../../../lib/domain/usecases/get-all
 import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | get-all-identity-providers', function () {
-  it('returns oidc providers from oidcAuthenticationServiceRegistry', function () {
+  it('returns oidc providers from oidcAuthenticationServiceRegistry', async function () {
     // given
     const oneOidcProviderService = {};
     const anotherOidcProviderService = {};
     const oidcAuthenticationServiceRegistryStub = {
-      loadOidcProviderServices: sinon.stub(),
+      loadOidcProviderServices: sinon.stub().resolves(),
       getAllOidcProviderServices: sinon.stub().returns([oneOidcProviderService, anotherOidcProviderService]),
     };
 
     // when
-    const identityProviders = getAllIdentityProviders({
+    const identityProviders = await getAllIdentityProviders({
       oidcAuthenticationServiceRegistry: oidcAuthenticationServiceRegistryStub,
     });
 

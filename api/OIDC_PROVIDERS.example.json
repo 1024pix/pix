@@ -17,7 +17,7 @@
     },
     "additionalRequiredProperties": {
       "logoutUrl": "https://seeds.example.net/logout",
-      "afterLogoutUrl": "http://app.dev.pix.org"
+      "afterLogoutUrl": "https://app.dev.pix.org"
     }
   }
 ]

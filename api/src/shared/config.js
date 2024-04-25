@@ -387,12 +387,10 @@ const configuration = (function () {
 
   if (process.env.NODE_ENV === 'test') {
     config.oidcExampleNet = {
-      accessTokenLifespanMs: 1000,
-      configKey: 'oidcExampleNet',
       clientId: 'client',
       clientSecret: 'secret',
-      isEnabled: true,
-      isEnabledForPixAdmin: true,
+      enabled: true,
+      enabledForPixAdmin: true,
       openidConfigurationUrl: 'https://oidc.example.net/.well-known/openid-configuration',
       organizationName: 'Oidc Example',
       postLogoutRedirectUri: 'https://app.dev.pix.local/connexion',

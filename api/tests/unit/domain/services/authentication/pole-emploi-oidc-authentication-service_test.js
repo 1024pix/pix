@@ -7,16 +7,22 @@ import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Services | pole-emploi-oidc-authentication-service', function () {
   describe('#constructor', function () {
-    it('has specific properties related to this identity provider', async function () {
-      // when
-      const oidcAuthenticationService = new PoleEmploiOidcAuthenticationService();
+    describe('when additionalRequiredProperties is not defined', function () {
+      it('is not ready', async function () {
+        // when
+        const oidcAuthenticationService = new PoleEmploiOidcAuthenticationService({
+          ...settings.oidcExampleNet,
+          openidClientExtraMetadata: { token_endpoint_auth_method: 'client_secret_post' },
+          identityProvider: 'POLE_EMPLOI',
+          organizationName: 'France Travail',
+          shouldCloseSession: true,
+          slug: 'pole-emploi',
+          source: 'pole_emploi_connect',
+        });
 
-      // then
-      expect(oidcAuthenticationService.source).to.equal('pole_emploi_connect');
-      expect(oidcAuthenticationService.identityProvider).to.equal('POLE_EMPLOI');
-      expect(oidcAuthenticationService.slug).to.equal('pole-emploi');
-      expect(oidcAuthenticationService.organizationName).to.equal('France Travail');
-      expect(oidcAuthenticationService.shouldCloseSession).to.be.true;
+        // then
+        expect(oidcAuthenticationService.isReady).to.be.false;
+      });
     });
   });
 
@@ -28,7 +34,16 @@ describe('Unit | Domain | Services | pole-emploi-oidc-authentication-service', f
       sinon.stub(Issuer, 'discover').resolves({ Client });
       sinon.stub(settings, 'poleEmploi').value(settings.oidcExampleNet);
 
-      const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService();
+      const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService({
+        ...settings.oidcExampleNet,
+        additionalRequiredProperties: { logoutUrl: '', afterLogoutUrl: '', sendingUrl: '' },
+        openidClientExtraMetadata: { token_endpoint_auth_method: 'client_secret_post' },
+        identityProvider: 'POLE_EMPLOI',
+        organizationName: 'France Travail',
+        shouldCloseSession: true,
+        slug: 'pole-emploi',
+        source: 'pole_emploi_connect',
+      });
 
       // when
       await poleEmploiOidcAuthenticationService.createClient();
@@ -56,7 +71,16 @@ describe('Unit | Domain | Services | pole-emploi-oidc-authentication-service', f
         expiresIn: 10,
         refreshToken: 'refreshToken',
       };
-      const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService();
+      const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService({
+        ...settings.oidcExampleNet,
+        additionalRequiredProperties: { logoutUrl: '', afterLogoutUrl: '', sendingUrl: '' },
+        openidClientExtraMetadata: { token_endpoint_auth_method: 'client_secret_post' },
+        identityProvider: 'POLE_EMPLOI',
+        organizationName: 'France Travail',
+        shouldCloseSession: true,
+        slug: 'pole-emploi',
+        source: 'pole_emploi_connect',
+      });
 
       // when
       const result = poleEmploiOidcAuthenticationService.createAuthenticationComplement({ sessionContent });
