@@ -11,6 +11,7 @@ module('Unit | Controller | authenticated/import-organization-participant', func
   let addStudentsCsvStub;
   let replaceStudentsCsvStub;
   let importScoStudentStub;
+  let importLearnersStub;
   let currentUser;
 
   hooks.beforeEach(function () {
@@ -24,6 +25,7 @@ module('Unit | Controller | authenticated/import-organization-participant', func
     addStudentsCsvStub = sinon.stub(adapter, 'addStudentsCsv');
     replaceStudentsCsvStub = sinon.stub(adapter, 'replaceStudentsCsv');
     importScoStudentStub = sinon.stub(adapter, 'importStudentsSiecle');
+    importLearnersStub = sinon.stub(adapter, 'importOrganizationLearners');
   });
 
   module('#importSupStudents', function () {
@@ -94,6 +96,19 @@ module('Unit | Controller | authenticated/import-organization-participant', func
       });
     });
   });
+
+  module('#importOrganizationLearners', function () {
+    test('it sends the chosen file to the API', async function (assert) {
+      await controller.importOrganizationLearners(files);
+      assert.ok(importLearnersStub.calledWith(currentUser.organization.id, files));
+    });
+
+    test('should refresh the model', async (assert) => {
+      await controller.importOrganizationLearners(files);
+      assert.ok(controller.send.calledWithExactly('refreshModel'));
+    });
+  });
+
   module('#participantListRoute', function () {
     test('it returns sco participant route if currentUser is SCO managing', async function (assert) {
       controller.currentUser.isSCOManagingStudents = true;

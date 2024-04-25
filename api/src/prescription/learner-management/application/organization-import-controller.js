@@ -2,7 +2,7 @@ import { usecases } from '../domain/usecases/index.js';
 import * as organizationImportDetailSerializer from '../infrastructure/serializers/jsonapi/organization-import-detail-serializer.js';
 
 const getOrganizationImportStatus = async function (request, h, dependencies = { organizationImportDetailSerializer }) {
-  const organizationId = request.params.id;
+  const { organizationId } = request.params;
   const organizationImportDetail = await usecases.getOrganizationImportStatus({
     organizationId,
   });

@@ -21,4 +21,11 @@ export default class StudentImportsAdapter extends ApplicationAdapter {
     const url = `${this.host}/${this.namespace}/organizations/${organizationId}/sco-organization-learners/import-siecle?format=${format}`;
     return this.ajax(url, 'POST', { data: files[0] });
   }
+
+  importOrganizationLearners(organizationId, files) {
+    if (!files || files.length === 0) return;
+
+    const url = `${this.host}/${this.namespace}/organizations/${organizationId}/import-organization-learners`;
+    return this.ajax(url, 'POST', { data: files[0] });
+  }
 }

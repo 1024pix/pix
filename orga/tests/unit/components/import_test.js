@@ -158,11 +158,55 @@ module('Unit | Component | import', (hooks) => {
       assert.deepEqual(component.supportedFormats, ['.csv']);
     });
 
+    test('should return .csv when organization hasLearnerImportFeature', function (assert) {
+      // when
+      component.currentUser = { hasLearnerImportFeature: true };
+      // then
+      assert.deepEqual(component.supportedFormats, ['.csv']);
+    });
+
     test('should return .xml .zip when organization isManagingStudent SCO', function (assert) {
       // when
       component.currentUser = { isSCOManagingStudents: true, isAgriculture: false };
       // then
       assert.deepEqual(component.supportedFormats, ['.xml', '.zip']);
+    });
+  });
+
+  module('get#textsByOrganizationType', () => {
+    test('should return correct traduction key when organization isManagingStudent SCO', function (assert) {
+      // when
+      component.currentUser = { isSCOManagingStudents: true };
+      // then
+      assert.deepEqual(component.textsByOrganizationType, {
+        'error-wrapper': 'pages.organization-participants-import.sco.error-wrapper',
+        'global-error': 'pages.organization-participants-import.sco.title.global-error',
+        title: 'pages.organization-participants-import.sco.title',
+      });
+    });
+    test('should return correct traduction key when organization isManagingStudent SUP', function (assert) {
+      // when
+      component.currentUser = { isSUPManagingStudents: true };
+      // then
+      assert.deepEqual(component.textsByOrganizationType, {
+        'error-wrapper': 'pages.organization-participants-import.sup.error-wrapper',
+        'global-error': 'pages.organization-participants-import.sup.title.global-error',
+        title: 'pages.organization-participants-import.sup.title',
+      });
+    });
+    test('should return correct traduction key when organization hasLearnerImportFeature', function (assert) {
+      // when
+      component.currentUser = { hasLearnerImportFeature: true };
+      // then
+      assert.deepEqual(component.textsByOrganizationType, {
+        'error-wrapper': 'pages.organization-participants-import.sco.error-wrapper',
+        'global-error': 'pages.organization-participants-import.sco.title.global-error',
+        title: 'pages.organization-participants-import.sco.title',
+      });
+    });
+    test('should return an empty object by default', (assert) => {
+      component.currentUser = {};
+      assert.deepEqual(component.textsByOrganizationType, {});
     });
   });
 });

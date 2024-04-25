@@ -55,4 +55,32 @@ module('Unit | Adapters | Students import', function (hooks) {
       );
     });
   });
+
+  module('#importOrganizationLearners', function () {
+    test('it should not call api endpoint if no files are provided', async function (assert) {
+      // when
+      const organizationId = 1;
+      await adapter.importOrganizationLearners(organizationId, []);
+
+      //then
+      assert.ok(adapter.ajax.notCalled);
+    });
+
+    test('it should call api endpoint url corresponding to learner import', async function (assert) {
+      // given
+      const files = [Symbol('file')];
+      // when
+      const organizationId = 1;
+      await adapter.importOrganizationLearners(organizationId, files);
+
+      //then
+      assert.ok(
+        adapter.ajax.calledWithExactly(
+          `http://localhost:3000/api/organizations/${organizationId}/import-organization-learners`,
+          'POST',
+          { data: files[0] },
+        ),
+      );
+    });
+  });
 });

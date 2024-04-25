@@ -182,7 +182,7 @@ describe('Acceptance | Application | SecurityPreHandlers', function () {
     beforeEach(async function () {
       server.route({
         method: 'GET',
-        path: '/test_route/{id}',
+        path: '/test_route/{organizationId}',
         handler: (r, h) => h.response({}).code(200),
         config: {
           pre: [
@@ -239,7 +239,7 @@ describe('Acceptance | Application | SecurityPreHandlers', function () {
     beforeEach(async function () {
       server.route({
         method: 'GET',
-        path: '/test_route/{id}',
+        path: '/test_route/{organizationId}',
         handler: (r, h) => h.response({}).code(200),
         config: {
           pre: [

@@ -15,6 +15,7 @@ module('Integration | Component | Import', function (hooks) {
     this.set('onImportSupStudents', sinon.stub());
     this.set('onImportScoStudents', sinon.stub());
     this.set('onReplaceStudents', sinon.stub());
+    this.set('onImportLearners', sinon.stub());
   });
 
   module('when import is in progress', function (hooks) {
@@ -392,6 +393,29 @@ module('Integration | Component | Import', function (hooks) {
           this.intl.t('pages.organization-participants-import.supported-formats', { types: '.csv' }),
         ),
       );
+    });
+  });
+
+  module('when user has import feature', function (hooks) {
+    class CurrentUserStub extends Service {
+      isAdminInOrganization = true;
+      hasLearnerImportFeature = true;
+    }
+
+    hooks.beforeEach(function () {
+      this.owner.register('service:current-user', CurrentUserStub);
+    });
+
+    test('it trigger the importOrganizationLearners spy when clicking import button', async function (assert) {
+      const screen = await render(
+        hbs`<Import @onImportLearners={{this.onImportLearners}} @isLoading={{false}} @organizatioImport={{null}} />`,
+      );
+
+      const file = new Blob(['foo'], { type: 'valid-file' });
+      const input = screen.getByLabelText(this.intl.t('pages.organization-participants-import.actions.add-sco.label'));
+
+      await triggerEvent(input, 'change', { files: [file] });
+      assert.ok(this.onImportLearners.calledWithExactly([file]));
     });
   });
 });

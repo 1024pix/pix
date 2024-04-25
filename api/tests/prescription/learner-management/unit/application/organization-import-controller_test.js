@@ -6,7 +6,7 @@ describe('Unit | Application | Learner Management | organization-import-controll
   let dependencies, serializeStub, usecaseResultSymbol;
   const organizationId = 123;
   const request = {
-    params: { id: organizationId },
+    params: { organizationId },
   };
 
   beforeEach(function () {

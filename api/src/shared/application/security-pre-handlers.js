@@ -478,7 +478,7 @@ async function checkUserIsAdminInSCOOrganizationManagingStudents(
   dependencies = { checkUserIsAdminAndManagingStudentsForOrganization },
 ) {
   const userId = request.auth.credentials.userId;
-  const organizationId = request.params.id;
+  const organizationId = request.params.organizationId || request.params.id;
 
   if (
     await dependencies.checkUserIsAdminAndManagingStudentsForOrganization.execute(
@@ -498,7 +498,7 @@ async function checkUserIsAdminInSUPOrganizationManagingStudents(
   dependencies = { checkUserIsAdminAndManagingStudentsForOrganization },
 ) {
   const userId = request.auth.credentials.userId;
-  const organizationId = request.params.id;
+  const organizationId = request.params.organizationId || request.params.id;
 
   if (
     await dependencies.checkUserIsAdminAndManagingStudentsForOrganization.execute(
@@ -623,6 +623,14 @@ function hasAtLeastOneAccessOf(securityChecks) {
   };
 }
 
+function validateAllAccess(securityChecks) {
+  return async (request, h) => {
+    const responses = await bluebird.map(securityChecks, (securityCheck) => securityCheck(request, h));
+    const hasAccess = responses.every((response) => !response.source?.errors);
+    return hasAccess ? hasAccess : _replyForbiddenError(h);
+  };
+}
+
 async function checkPix1dActivated(request, h, dependencies = { checkPix1dEnabled }) {
   const isPix1dEnabled = await dependencies.checkPix1dEnabled.execute();
 
@@ -703,6 +711,7 @@ function _noOrganizationFound(error) {
 
 const securityPreHandlers = {
   hasAtLeastOneAccessOf,
+  validateAllAccess,
   checkAdminMemberHasRoleCertif,
   checkAdminMemberHasRoleMetier,
   checkAdminMemberHasRoleSuperAdmin,
