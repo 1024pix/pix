@@ -52,35 +52,35 @@ class Module {
             id: grain.id,
             title: grain.title,
             type: grain.type,
-            elements: grain.elements
-              .map((element) => {
-                switch (element.type) {
-                  case 'image':
-                    return Module.#toImageDomain(element);
-                  case 'text':
-                    return Module.#toTextDomain(element);
-                  case 'qcm':
-                    return Module.#toQCMDomain(element);
-                  case 'qcu':
-                    return Module.#toQCUDomain(element);
-                  case 'qrocm':
-                    return Module.#toQROCMDomain(element);
-                  case 'video':
-                    return Module.#toVideoDomain(element);
-                  default:
-                    logger.warn({
-                      event: 'module_element_type_unknown',
-                      message: `Element inconnu: ${element.type}`,
-                    });
-                    return undefined;
-                }
-              })
-              .filter((element) => element !== undefined),
+            elements: grain.elements.map(Module.#mapElement).filter((element) => element !== undefined),
           });
         }),
       });
     } catch (e) {
       throw new ModuleInstantiationError(e.message);
+    }
+  }
+
+  static #mapElement(element) {
+    switch (element.type) {
+      case 'image':
+        return Module.#toImageDomain(element);
+      case 'text':
+        return Module.#toTextDomain(element);
+      case 'qcm':
+        return Module.#toQCMDomain(element);
+      case 'qcu':
+        return Module.#toQCUDomain(element);
+      case 'qrocm':
+        return Module.#toQROCMDomain(element);
+      case 'video':
+        return Module.#toVideoDomain(element);
+      default:
+        logger.warn({
+          event: 'module_element_type_unknown',
+          message: `Element inconnu: ${element.type}`,
+        });
+        return undefined;
     }
   }
 
