@@ -40,9 +40,6 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.AlreadyRatedAssessmentError) {
     return new HttpErrors.PreconditionFailedError('Assessment is already rated.');
   }
-  if (error instanceof DomainErrors.CompetenceResetError) {
-    return new HttpErrors.PreconditionFailedError(error.message);
-  }
   if (error instanceof DomainErrors.NotEnoughDaysPassedBeforeResetCampaignParticipationError) {
     return new HttpErrors.PreconditionFailedError(error.message);
   }

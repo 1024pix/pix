@@ -419,12 +419,6 @@ class SendingEmailToResultRecipientError extends DomainError {
   }
 }
 
-class CompetenceResetError extends DomainError {
-  constructor(remainingDaysBeforeReset) {
-    super(`Il reste ${remainingDaysBeforeReset} jours avant de pouvoir réinitiliser la compétence.`);
-  }
-}
-
 class NotEnoughDaysPassedBeforeResetCampaignParticipationError extends DomainError {
   constructor() {
     super(`Il n'est pas possible de remettre à zéro votre parcours pour le moment.`);
@@ -1123,7 +1117,6 @@ export {
   ChallengeNotAskedError,
   ChallengeToBeDeneutralizedNotFoundError,
   ChallengeToBeNeutralizedNotFoundError,
-  CompetenceResetError,
   CsvParsingError,
   DeletedError,
   DeprecatedCertificationIssueReportCategoryError,

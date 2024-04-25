@@ -1,6 +1,6 @@
 import { HttpErrors } from '../../shared/application/http-errors.js';
 import { DomainErrorMappingConfiguration } from '../../shared/application/models/domain-error-mapping-configuration.js';
-import { EmptyAnswerError, ImproveCompetenceEvaluationForbiddenError } from '../domain/errors.js';
+import { CompetenceResetError, EmptyAnswerError, ImproveCompetenceEvaluationForbiddenError } from '../domain/errors.js';
 
 const evaluationDomainErrorMappingConfiguration = [
   {
@@ -13,6 +13,12 @@ const evaluationDomainErrorMappingConfiguration = [
     name: ImproveCompetenceEvaluationForbiddenError.name,
     httpErrorFn: (error) => {
       return new HttpErrors.ForbiddenError(error.message, error.code);
+    },
+  },
+  {
+    name: CompetenceResetError.name,
+    httpErrorFn: (error) => {
+      return new HttpErrors.PreconditionFailedError(error.message);
     },
   },
 ].map((domainErrorMappingConfiguration) => new DomainErrorMappingConfiguration(domainErrorMappingConfiguration));

@@ -1,11 +1,11 @@
 import * as DomainErrors from '../../../lib/domain/errors.js';
 import { InvalidCertificationReportForFinalization } from '../../../src/certification/shared/domain/errors.js';
+import * as EvaluationDomainErrors from '../../../src/evaluation/domain/errors.js';
+import { CompetenceResetError } from '../../../src/evaluation/domain/errors.js';
 import {
   MissingOrInvalidCredentialsError,
   UserShouldChangePasswordError,
 } from '../../../src/identity-access-management/domain/errors.js';
-import { InvalidCertificationReportForFinalization } from '../../../src/certification/shared/domain/errors.js';
-import * as EvaluationDomainErrors from '../../../src/evaluation/domain/errors.js';
 import { CampaignParticipationDeletedError } from '../../../src/prescription/campaign-participation/domain/errors.js';
 import {
   CsvImportError,
@@ -80,7 +80,7 @@ describe('Integration | API | Controller Error', function () {
     });
 
     it('responds Precondition Failed when a CompetenceResetError error occurs', async function () {
-      routeHandler.throws(new DomainErrors.CompetenceResetError(2));
+      routeHandler.throws(new CompetenceResetError(2));
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(PRECONDITION_FAILED);

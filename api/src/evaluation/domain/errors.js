@@ -19,4 +19,15 @@ class ImproveCompetenceEvaluationForbiddenError extends DomainError {
   }
 }
 
-export { EmptyAnswerError, ImproveCompetenceEvaluationForbiddenError, StageWithLinkedCampaignError };
+class CompetenceResetError extends DomainError {
+  constructor(remainingDaysBeforeReset) {
+    super(`Il reste ${remainingDaysBeforeReset} jours avant de pouvoir réinitiliser la compétence.`);
+  }
+}
+
+export {
+  CompetenceResetError,
+  EmptyAnswerError,
+  ImproveCompetenceEvaluationForbiddenError,
+  StageWithLinkedCampaignError,
+};
