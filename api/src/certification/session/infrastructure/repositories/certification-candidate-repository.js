@@ -14,6 +14,7 @@ import * as bookshelfToDomainConverter from '../../../../../lib/infrastructure/u
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { normalize } from '../../../../shared/infrastructure/utils/string-utils.js';
 import { ComplementaryCertification } from '../../../complementary-certification/domain/models/ComplementaryCertification.js';
+import { SubscriptionTypes } from '../../../shared/domain/models/SubscriptionTypes.js';
 
 const linkToUser = async function ({ id, userId }) {
   try {
@@ -53,6 +54,7 @@ const saveInSession = async function ({
       const complementaryCertificationSubscriptionToSave = {
         complementaryCertificationId: certificationCandidate.complementaryCertification.id,
         certificationCandidateId: addedCertificationCandidate.id,
+        type: SubscriptionTypes.COMPLEMENTARY,
       };
 
       const insertComplementaryCertificationSubscriptionQuery = knex('certification-subscriptions').insert(
