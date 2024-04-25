@@ -43,8 +43,8 @@ const get = async function ({ id }) {
   return new Session({ ...foundSession });
 };
 
-const isSessionExisting = async function ({ address, room, date, time }) {
-  const sessions = await knex('sessions').where({ address, room, date, time });
+const isSessionExistingByCertificationCenterId = async function ({ address, room, date, time, certificationCenterId }) {
+  const sessions = await knex('sessions').where({ address, room, date, time }).andWhere({ certificationCenterId });
   return sessions.length > 0;
 };
 
@@ -237,7 +237,7 @@ export {
   isFinalized,
   isPublished,
   isSco,
-  isSessionExisting,
+  isSessionExistingByCertificationCenterId,
   isSessionExistingBySessionAndCertificationCenterIds,
   remove,
   save,

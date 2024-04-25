@@ -1019,7 +1019,7 @@ describe('Integration | Repository | Session', function () {
     });
   });
 
-  describe('#isSessionExisting', function () {
+  describe('#isSessionExistingByCertificationCenterId', function () {
     it('should return true if the session already exists', async function () {
       // given
       const session = {
@@ -1029,12 +1029,19 @@ describe('Integration | Repository | Session', function () {
         date: '2018-02-23',
         time: '12:00:00',
       };
-      databaseBuilder.factory.buildSession({ ...session, examiner: 'Monsieur Examinateur, Madame Examinatrice' });
-
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      databaseBuilder.factory.buildSession({
+        ...session,
+        examiner: 'Monsieur Examinateur, Madame Examinatrice',
+        certificationCenterId,
+      });
       await databaseBuilder.commit();
 
       // when
-      const result = await sessionRepository.isSessionExisting({ ...session });
+      const result = await sessionRepository.isSessionExistingByCertificationCenterId({
+        ...session,
+        certificationCenterId,
+      });
 
       // then
       expect(result).to.equal(true);
@@ -1049,9 +1056,14 @@ describe('Integration | Repository | Session', function () {
         date: '2018-02-23',
         time: '12:00:00',
       };
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      await databaseBuilder.commit();
 
       // when
-      const result = await sessionRepository.isSessionExisting({ ...session });
+      const result = await sessionRepository.isSessionExistingByCertificationCenterId({
+        ...session,
+        certificationCenterId,
+      });
 
       // then
       expect(result).to.equal(false);
