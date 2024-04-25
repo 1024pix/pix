@@ -588,12 +588,6 @@ class CsvParsingError extends DomainError {
   }
 }
 
-class ImproveCompetenceEvaluationForbiddenError extends DomainError {
-  constructor(message = 'Le niveau maximum est déjà atteint pour cette compétence.') {
-    super(message);
-  }
-}
-
 class InvalidPasswordForUpdateEmailError extends DomainError {
   constructor(message = 'Le mot de passe que vous avez saisi est invalide.') {
     super(message);
@@ -1138,7 +1132,6 @@ export {
   DomainError,
   EmailModificationDemandNotFoundOrExpiredError,
   FileValidationError,
-  ImproveCompetenceEvaluationForbiddenError,
   InvalidCertificationCandidate,
   InvalidCertificationIssueReportForSaving,
   InvalidExternalAPIResponseError,

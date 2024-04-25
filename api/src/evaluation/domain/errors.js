@@ -12,4 +12,11 @@ class EmptyAnswerError extends DomainError {
   }
 }
 
-export { EmptyAnswerError, StageWithLinkedCampaignError };
+class ImproveCompetenceEvaluationForbiddenError extends DomainError {
+  constructor(message = 'Le niveau maximum est déjà atteint pour cette compétence.') {
+    super(message);
+    this.code = 'IMPROVE_COMPETENCE_EVALUATION_FORBIDDEN';
+  }
+}
+
+export { EmptyAnswerError, ImproveCompetenceEvaluationForbiddenError, StageWithLinkedCampaignError };
