@@ -126,7 +126,7 @@
               "valid": "<p>Correct. </p>",
               "invalid": "<p>Incorrect. Bla</p>"
             },
-            "solutions": ["2"]
+            "solutions": "2"
           }
       ]
     }
