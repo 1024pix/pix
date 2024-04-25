@@ -41,6 +41,7 @@ const findAttachableBadgesByIds = async function ({ ids }) {
   const badges = await knex
     .from('badges')
     .whereIn('badges.id', ids)
+    .andWhere('badges.isCertifiable', true)
     .whereNotExists(
       knex
         .select(1)
