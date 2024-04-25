@@ -17,6 +17,7 @@ import {
   NotFoundError,
   OidcError,
   UserNotAuthorizedToAccessEntityError,
+  V3PilotNotAuthorizedForCertificationCenterError,
 } from '../../../../src/shared/domain/errors.js';
 import { expect, hFake, sinon } from '../../../test-helper.js';
 
@@ -321,6 +322,24 @@ describe('Shared | Unit | Application | ErrorManager', function () {
           error.message,
           error.code,
           error.meta,
+        );
+      });
+    });
+
+    context('when handling an V3PilotNotAuthorizedForCertificationCenterError', function () {
+      it('maps to ForbiddenError', async function () {
+        // given
+        const error = new V3PilotNotAuthorizedForCertificationCenterError();
+        sinon.stub(HttpErrors, 'ForbiddenError');
+        const params = { request: {}, h: hFake, error };
+
+        // when
+        await handle(params.request, params.h, params.error);
+
+        // then
+        expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(
+          'Certification center is not authorized to switch to a V3 pilot.',
+          'V3_PILOT_NOT_AUTHORIZED',
         );
       });
     });

@@ -1,5 +1,6 @@
 import bluebird from 'bluebird';
 
+import { V3PilotNotAuthorizedForCertificationCenterError } from '../../../src/shared/domain/errors.js';
 import {
   ComplementaryCertification,
   ComplementaryCertificationHabilitation,
@@ -7,16 +8,20 @@ import {
 } from '../models/index.js';
 import * as certificationCenterCreationValidator from '../validators/certification-center-creation-validator.js';
 
-async function _addOrUpdateDataProtectionOfficer({ certificationCenter, dataProtectionOfficerRepository }) {
+async function _addOrUpdateDataProtectionOfficer({
+  certificationCenterId,
+  certificationCenterInformation,
+  dataProtectionOfficerRepository,
+}) {
   const dataProtectionOfficer = new DataProtectionOfficer({
-    firstName: certificationCenter.dataProtectionOfficerFirstName ?? '',
-    lastName: certificationCenter.dataProtectionOfficerLastName ?? '',
-    email: certificationCenter.dataProtectionOfficerEmail ?? '',
-    certificationCenterId: certificationCenter.id,
+    firstName: certificationCenterInformation.dataProtectionOfficerFirstName ?? '',
+    lastName: certificationCenterInformation.dataProtectionOfficerLastName ?? '',
+    email: certificationCenterInformation.dataProtectionOfficerEmail ?? '',
+    certificationCenterId,
   });
 
   const dataProtectionOfficerFound = await dataProtectionOfficerRepository.get({
-    certificationCenterId: certificationCenter.id,
+    certificationCenterId,
   });
 
   if (dataProtectionOfficerFound) return dataProtectionOfficerRepository.update(dataProtectionOfficer);
@@ -25,29 +30,37 @@ async function _addOrUpdateDataProtectionOfficer({ certificationCenter, dataProt
 }
 
 const updateCertificationCenter = async function ({
-  certificationCenter,
+  certificationCenterId,
+  certificationCenterInformation,
   complementaryCertificationIds,
   certificationCenterForAdminRepository,
   complementaryCertificationHabilitationRepository,
   dataProtectionOfficerRepository,
+  centerRepository,
 }) {
-  certificationCenterCreationValidator.validate(certificationCenter);
+  certificationCenterCreationValidator.validate(certificationCenterInformation);
 
-  if (certificationCenter.id) {
-    await complementaryCertificationHabilitationRepository.deleteByCertificationCenterId(certificationCenter.id);
+  const certificationCenter = await centerRepository.getById({
+    id: certificationCenterId,
+  });
+
+  if (certificationCenterInformation.isV3Pilot && certificationCenter.isComplementaryAlonePilot) {
+    throw new V3PilotNotAuthorizedForCertificationCenterError();
   }
+
+  await complementaryCertificationHabilitationRepository.deleteByCertificationCenterId(certificationCenterId);
 
   if (complementaryCertificationIds) {
     await bluebird.mapSeries(complementaryCertificationIds, (complementaryCertificationId) => {
       const complementaryCertificationHabilitation = new ComplementaryCertificationHabilitation({
         complementaryCertificationId: parseInt(complementaryCertificationId),
-        certificationCenterId: certificationCenter.id,
+        certificationCenterId,
       });
       return complementaryCertificationHabilitationRepository.save(complementaryCertificationHabilitation);
     });
   }
 
-  const updatedCertificationCenter = await certificationCenterForAdminRepository.update(certificationCenter);
+  const updatedCertificationCenter = await certificationCenterForAdminRepository.update(certificationCenterInformation);
 
   const habilitations = await complementaryCertificationHabilitationRepository.findByCertificationCenterId(
     updatedCertificationCenter.id,
@@ -61,8 +74,9 @@ const updateCertificationCenter = async function ({
   });
 
   const dataProtectionOfficer = await _addOrUpdateDataProtectionOfficer({
+    certificationCenterId,
+    certificationCenterInformation,
     dataProtectionOfficerRepository,
-    certificationCenter,
   });
   updatedCertificationCenter.dataProtectionOfficerFirstName = dataProtectionOfficer.firstName;
   updatedCertificationCenter.dataProtectionOfficerLastName = dataProtectionOfficer.lastName;

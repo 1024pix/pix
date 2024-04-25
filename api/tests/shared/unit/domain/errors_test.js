@@ -121,4 +121,25 @@ describe('Unit | Shared | Domain | Errors', function () {
       });
     });
   });
+
+  context('V3PilotNotAuthorizedForCertificationCenterError', function () {
+    it('exports "V3PilotNotAuthorizedForCertificationCenterError" class', function () {
+      // then
+      expect(errors.V3PilotNotAuthorizedForCertificationCenterError).to.exist;
+      expect(errors.V3PilotNotAuthorizedForCertificationCenterError.prototype).to.be.instanceOf(errors.DomainError);
+    });
+
+    context('when an instance of "V3PilotNotAuthorizedForCertificationCenterError" is created', function () {
+      it('contains "message" and "code" attributes', function () {
+        // given & when
+        const error = new errors.V3PilotNotAuthorizedForCertificationCenterError();
+
+        // then
+        expect(error).to.have.property('code');
+        expect(error.code).to.equal('V3_PILOT_NOT_AUTHORIZED');
+        expect(error).to.have.property('message');
+        expect(error.message).to.equal('Certification center is not authorized to switch to a V3 pilot.');
+      });
+    });
+  });
 });

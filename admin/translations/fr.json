@@ -193,6 +193,11 @@
         },
         "success": {
           "update-certification-center-membership-role": "Le rôle du membre a été modifié."
+        },
+        "update": {
+          "errors": {
+            "update-to-v3-pilot": "Ce centre de certification est incompatible avec le pilote certification v3 car il est déjà pilote pour la séparation Pix/Pix+"
+          }
         }
       }
     },

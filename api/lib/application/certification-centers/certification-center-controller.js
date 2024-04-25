@@ -23,10 +23,12 @@ const create = async function (request) {
 };
 
 const update = async function (request) {
-  const certificationCenter = certificationCenterForAdminSerializer.deserialize(request.payload);
+  const certificationCenterId = request.params.id;
+  const certificationCenterInformation = certificationCenterForAdminSerializer.deserialize(request.payload);
   const complementaryCertificationIds = map(request.payload.data.relationships?.habilitations?.data, 'id');
   const updatedCertificationCenter = await usecases.updateCertificationCenter({
-    certificationCenter,
+    certificationCenterId,
+    certificationCenterInformation,
     complementaryCertificationIds,
   });
   return certificationCenterForAdminSerializer.serialize(updatedCertificationCenter);
