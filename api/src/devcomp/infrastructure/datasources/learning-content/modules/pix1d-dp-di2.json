@@ -126,7 +126,12 @@
               "valid": "<p>Correct. </p>",
               "invalid": "<p>Incorrect. Bla</p>"
             },
-            "solutions": "2"
+            "solution": "2"
+          },
+          {
+            "id": "4d3f5e02-6c5d-462f-aa88-7ad6f54e1f89",
+            "type": "text",
+            "content": "IDEM pour les 3 autres conseils"
           }
       ]
     }
