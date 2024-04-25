@@ -22,10 +22,16 @@ const findPaginatedFilteredTargetProfileSummariesForAdmin = async function (requ
   return targetProfileSummaryForAdminSerializer.serialize(targetProfileSummaries, meta);
 };
 
-const getTargetProfileForAdmin = async function (request, h, dependencies = { targetProfileForAdminSerializer }) {
+const getTargetProfileForAdmin = async function (
+  request,
+  h,
+  dependencies = { targetProfileForAdminSerializer, queryParamsUtils },
+) {
   const targetProfileId = request.params.id;
-  const targetProfileForAdmin = await usecases.getTargetProfileForAdmin({ targetProfileId });
-  return dependencies.targetProfileForAdminSerializer.serialize(targetProfileForAdmin);
+  const { filter } = dependencies.queryParamsUtils.extractParameters(request.query);
+
+  const targetProfile = await usecases.getTargetProfileForAdmin({ targetProfileId });
+  return dependencies.targetProfileForAdminSerializer.serialize({ targetProfile, filter });
 };
 
 const findPaginatedFilteredTargetProfileOrganizations = async function (request) {

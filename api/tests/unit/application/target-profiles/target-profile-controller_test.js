@@ -274,28 +274,38 @@ describe('Unit | Controller | target-profile-controller', function () {
       // given
       const targetProfileId = 123;
       const expectedResult = Symbol('serialized-target-profile-for-admin');
-      const targetProfileForAdmin = Symbol('targetProfileForAdmin');
-      const useCaseParameters = {
-        targetProfileId,
+      const targetProfile = Symbol('targetProfileForAdmin');
+
+      const expectedFilter = Symbol('filter');
+      const extractedParams = {
+        filter: expectedFilter,
+      };
+      const request = {
+        'filter[badges]': 'certifiable',
+        params: {
+          id: targetProfileId,
+        },
       };
 
-      sinon.stub(usecases, 'getTargetProfileForAdmin').withArgs(useCaseParameters).resolves(targetProfileForAdmin);
-
+      const queryParamsUtils = { extractParameters: sinon.stub() };
       const targetProfileForAdminSerializer = {
         serialize: sinon.stub(),
       };
-      targetProfileForAdminSerializer.serialize.withArgs(targetProfileForAdmin).returns(expectedResult);
+      const dependencies = {
+        queryParamsUtils,
+        targetProfileForAdminSerializer,
+      };
+
+      dependencies.queryParamsUtils.extractParameters.withArgs(request.query).returns(extractedParams);
+
+      sinon.stub(usecases, 'getTargetProfileForAdmin');
+      usecases.getTargetProfileForAdmin.withArgs({ targetProfileId }).resolves(targetProfile);
+      targetProfileForAdminSerializer.serialize
+        .withArgs({ targetProfile, filter: expectedFilter })
+        .returns(expectedResult);
 
       // when
-      const response = await targetProfileController.getTargetProfileForAdmin(
-        {
-          params: {
-            id: targetProfileId,
-          },
-        },
-        hFake,
-        { targetProfileForAdminSerializer },
-      );
+      const response = await targetProfileController.getTargetProfileForAdmin(request, hFake, dependencies);
 
       // then
       expect(response).to.deep.equal(expectedResult);

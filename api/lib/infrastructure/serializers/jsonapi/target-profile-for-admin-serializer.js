@@ -2,7 +2,22 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
 
-const serialize = function (targetProfiles) {
+const serialize = function ({ targetProfile, filter }) {
+  if (filter?.badges === 'certifiable') {
+    return new Serializer('target-profile', {
+      transform(record) {
+        record.badges = record.badges.filter((badge) => badge.isCertifiable);
+        return record;
+      },
+      attributes: ['name', 'badges'],
+      badges: {
+        ref: 'id',
+        included: true,
+        attributes: ['title', 'isCertifiable'],
+      },
+    }).serialize(targetProfile);
+  }
+
   return new Serializer('target-profile', {
     transform(record) {
       record.stageCollection = record.stageCollection.toDTO();
@@ -88,7 +103,7 @@ const serialize = function (targetProfiles) {
       if (attribute === 'criteria') return 'badge-criteria';
       return undefined;
     },
-  }).serialize(targetProfiles);
+  }).serialize(targetProfile);
 };
 
 export { serialize };

@@ -91,7 +91,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
         code: 'red',
         frameworkId: 'recFrameworkCool1',
       });
-      const targetProfileForAdmin = new TargetProfileForAdmin({
+      const targetProfile = new TargetProfileForAdmin({
         id: 132,
         name: 'Mon Super profil cible',
         outdated: true,
@@ -557,10 +557,67 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
       };
 
       // when
-      const serializedTargetProfile = serializer.serialize(targetProfileForAdmin);
+      const serializedTargetProfile = serializer.serialize({ targetProfile, filter: null });
 
       // then
       expect(serializedTargetProfile).to.deep.equal(expectedSerializedTargetProfile);
+    });
+
+    describe('when there is a badges filter', function () {
+      it('should serialize target profile to JSONAPI', function () {
+        // given
+        const badge1 = domainBuilder.buildBadgeDetails({
+          id: 100,
+          title: 'some title badge1',
+          isCertifiable: true,
+        });
+        const badge2 = domainBuilder.buildBadgeDetails({
+          id: 200,
+          title: 'some title badge2',
+          isCertifiable: false,
+        });
+        const targetProfile = new TargetProfileForAdmin({
+          id: 132,
+          name: 'Mon Super profil cible',
+          badges: [badge1, badge2],
+        });
+
+        const expectedSerializedTargetProfile = {
+          data: {
+            type: 'target-profiles',
+            id: '132',
+            attributes: {
+              name: 'Mon Super profil cible',
+            },
+            relationships: {
+              badges: {
+                data: [
+                  {
+                    id: '100',
+                    type: 'badges',
+                  },
+                ],
+              },
+            },
+          },
+          included: [
+            {
+              type: 'badges',
+              id: '100',
+              attributes: {
+                'is-certifiable': true,
+                title: 'some title badge1',
+              },
+            },
+          ],
+        };
+
+        // when
+        const serializedTargetProfile = serializer.serialize({ targetProfile, filter: { badges: 'certifiable' } });
+
+        // then
+        expect(serializedTargetProfile).to.deep.equal(expectedSerializedTargetProfile);
+      });
     });
   });
 });

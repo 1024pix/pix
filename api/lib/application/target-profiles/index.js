@@ -64,6 +64,9 @@ const register = async function (server) {
           params: Joi.object({
             id: identifiersType.targetProfileId,
           }),
+          query: Joi.object({
+            'filter[badges]': Joi.string().valid('certifiable').allow(null).empty(''),
+          }),
         },
         handler: targetProfileController.getTargetProfileForAdmin,
         tags: ['api', 'admin', 'target-profiles'],
