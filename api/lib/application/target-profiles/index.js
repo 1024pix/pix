@@ -2,6 +2,7 @@ import Joi from 'joi';
 
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
+import { categories } from '../../domain/models/TargetProfile.js';
 import { BadRequestError, sendJsonApiError } from '../http-errors.js';
 import { targetProfileController } from './target-profile-controller.js';
 
@@ -326,15 +327,29 @@ const register = async function (server) {
           payload: Joi.object({
             data: {
               attributes: {
-                name: Joi.string().required().min(1),
-                'image-url': Joi.string().required(),
-                description: Joi.string().required().allow(null).max(500),
-                comment: Joi.string().required().allow(null).max(500),
-                category: Joi.string().required(),
-                'are-knowledge-elements-resettable': Joi.boolean().required(),
+                'are-knowledge-elements-resettable': Joi.boolean(),
+                category: Joi.valid(
+                  categories.COMPETENCES,
+                  categories.CUSTOM,
+                  categories.DISCIPLINE,
+                  categories.OTHER,
+                  categories.PREDEFINED,
+                  categories.SUBJECT,
+                ),
+                comment: Joi.string().allow(null).max(500),
+                description: Joi.string().allow(null).max(500),
+                'is-public': Joi.boolean(),
+                'image-url': Joi.string().uri().allow(null),
+                name: Joi.string(),
+                tubes: Joi.array().items(
+                  Joi.object({
+                    id: Joi.string(),
+                    level: Joi.number(),
+                  }),
+                ),
               },
             },
-          }).options({ allowUnknown: true }),
+          }),
         },
         handler: targetProfileController.updateTargetProfile,
         tags: ['api', 'admin', 'target-profiles'],

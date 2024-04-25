@@ -45,26 +45,16 @@ const findPaginatedFilteredTargetProfileOrganizations = async function (request)
   return organizationSerializer.serialize(organizations, pagination);
 };
 
-const updateTargetProfile = async function (request, h) {
-  const id = request.params.id;
-  const {
-    name,
-    'image-url': imageUrl,
-    description,
-    comment,
-    category,
-    'are-knowledge-elements-resettable': areKnowledgeElementsResettable,
-  } = request.payload.data.attributes;
-  await usecases.updateTargetProfile({
-    id,
-    name,
-    imageUrl,
-    description,
-    comment,
-    category,
-    areKnowledgeElementsResettable,
+const updateTargetProfile = async function (request, h, dependencies = { usecases, targetProfileSerializer }) {
+  const targetProfileId = request.params.id;
+  const attributesToUpdate = dependencies.targetProfileSerializer.deserializeCreationCommand(request.payload);
+
+  await dependencies.usecases.updateTargetProfile({
+    id: targetProfileId,
+    attributesToUpdate,
   });
-  return h.response({}).code(204);
+
+  return h.response().code(204);
 };
 
 const outdateTargetProfile = async function (request, h) {

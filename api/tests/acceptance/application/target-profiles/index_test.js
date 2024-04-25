@@ -261,6 +261,10 @@ describe('Acceptance | Route | target-profiles', function () {
   });
 
   describe('PATCH /api/admin/target-profiles/{id}', function () {
+    beforeEach(async function () {
+      mockLearningContent(learningContent);
+    });
+
     it('should return 204', async function () {
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
       const user = databaseBuilder.factory.buildUser.withRole();
@@ -289,6 +293,65 @@ describe('Acceptance | Route | target-profiles', function () {
 
       // then
       expect(response.statusCode).to.equal(204);
+    });
+
+    describe('when there is some tube update and the target profile is not linked with campaign', function () {
+      it('should return 204', async function () {
+        const targetProfile = databaseBuilder.factory.buildTargetProfile();
+        const targetProfileTube = databaseBuilder.factory.buildTargetProfileTube({
+          targetProfileId: targetProfile.id,
+          tubeId,
+          level: 1,
+        });
+        const user = databaseBuilder.factory.buildUser.withRole();
+        await databaseBuilder.commit();
+
+        const options = {
+          method: 'PATCH',
+          url: `/api/admin/target-profiles/${targetProfile.id}`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+          payload: {
+            data: {
+              attributes: {
+                name: 'nom changé',
+                category: 'COMPETENCES',
+                description: 'description changée.',
+                comment: 'commentaire changé.',
+                'is-public': true,
+                'image-url': null,
+                tubes: [{ id: targetProfileTube.tubeId, level: 99 }],
+              },
+            },
+          },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(204);
+
+        const updatedTargetProfile = await knex('target-profiles').where({ id: targetProfile.id }).first();
+        const updatedFields = options.payload.data.attributes;
+
+        expect(updatedTargetProfile).to.deep.equal({
+          ...targetProfile,
+          name: updatedFields.name,
+          category: updatedFields.category,
+          comment: updatedFields.comment,
+          description: updatedFields.description,
+          imageUrl: updatedFields['image-url'],
+          isPublic: updatedFields['is-public'],
+        });
+
+        const targetProfileTubes = await knex('target-profile_tubes')
+          .select('*')
+          .where({ targetProfileId: targetProfile.id });
+
+        expect(targetProfileTubes).to.have.length(1);
+        expect(targetProfileTubes[0].tubeId).to.equal(updatedFields.tubes[0].id);
+        expect(targetProfileTubes[0].level).to.equal(updatedFields.tubes[0].level);
+      });
     });
   });
 

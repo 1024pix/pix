@@ -42,6 +42,7 @@ const get = async function ({ id, locale = FRENCH_FRANCE }) {
   const tubesData = await knex('target-profile_tubes')
     .select('tubeId', 'level')
     .where('targetProfileId', targetProfileDTO.id);
+
   return _toDomain(targetProfileDTO, tubesData, locale);
 };
 

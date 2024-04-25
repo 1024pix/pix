@@ -532,18 +532,22 @@ describe('Unit | Application | Target Profiles | Routes', function () {
     const payload = {
       data: {
         attributes: {
-          name: 'test',
-          description: 'description changée.',
-          comment: 'commentaire changé.',
-          category: 'OTHER',
-          'image-url': 'some image',
           'are-knowledge-elements-resettable': false,
+          category: 'OTHER',
+          comment: 'commentaire changé.',
+          description: 'description changée.',
+          'image-url': 'http://some-image.url',
+          'is-public': true,
+          name: 'test',
+          tubes: [{ id: 'some-id', level: 1 }],
         },
       },
     };
 
     context('when user has role "SUPER_ADMIN", "SUPPORT" or "METIER"', function () {
-      it('should return a response with an HTTP status code 204', async function () {
+      let httpTestServer;
+
+      beforeEach(async function () {
         // given
         sinon
           .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
@@ -556,74 +560,130 @@ describe('Unit | Application | Target Profiles | Routes', function () {
         sinon
           .stub(targetProfileController, 'updateTargetProfile')
           .callsFake((request, h) => h.response('ok').code(204));
-        const httpTestServer = new HttpTestServer();
+        httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
-
-        // when
-        const { statusCode } = await httpTestServer.request(method, url, payload);
-
-        // then
-        expect(statusCode).to.equal(204);
       });
 
-      it('should return a 400 error when description is over than 500 characters', async function () {
-        // given
-        const httpTestServer = new HttpTestServer();
-        const description = 'description changée.';
-        await httpTestServer.register(moduleUnderTest);
-
+      it('should return a response with an HTTP status code 204', async function () {
         // when
-        const { statusCode } = await httpTestServer.request(method, url, {
-          data: {
-            attributes: {
-              name: 'test',
-              description: description.repeat(26),
-              comment: null,
-            },
-          },
-        });
+        const response = await httpTestServer.request(method, url, payload);
 
         // then
-        expect(statusCode).to.equal(400);
+        expect(response.statusCode).to.equal(204);
       });
 
-      it('should return a 400 error when comment is over than 500 characters', async function () {
-        // given
-        const httpTestServer = new HttpTestServer();
-        const comment = 'commentaire changé.';
-        await httpTestServer.register(moduleUnderTest);
-
-        // when
-        const { statusCode } = await httpTestServer.request(method, url, {
-          data: {
-            attributes: {
-              name: 'test',
-              description: 'good',
-              comment: comment.repeat(27),
+      context('payload validation', function () {
+        it('[are-knowledge-elements-resettable] should return a 400 error when it is not a boolean value', async function () {
+          // when
+          const response = await httpTestServer.request(method, url, {
+            data: {
+              attributes: {
+                'are-knowledge-elements-resettable': String('not a boolean value'),
+              },
             },
-          },
+          });
+
+          // then
+          expect(response.statusCode).to.equal(400);
         });
 
-        // then
-        expect(statusCode).to.equal(400);
-      });
-
-      it('should return a 400 error when the name is not defined', async function () {
-        // given
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-
-        // when
-        const { statusCode } = await httpTestServer.request(method, url, {
-          data: {
-            attributes: {
-              name: undefined,
+        it('[category] should return a 400 error when it is not one of the expected value', async function () {
+          // when
+          const response = await httpTestServer.request(method, url, {
+            data: {
+              attributes: {
+                category: String('not an expected value'),
+              },
             },
-          },
+          });
+
+          // then
+          expect(response.statusCode).to.equal(400);
         });
 
-        // then
-        expect(statusCode).to.equal(400);
+        it('[comment] should return a 400 error when it has more than 500 characters', async function () {
+          // when
+          const response = await httpTestServer.request(method, url, {
+            data: {
+              attributes: {
+                comment: String('abcdef').repeat(100),
+              },
+            },
+          });
+
+          // then
+          expect(response.statusCode).to.equal(400);
+        });
+
+        it('[description] should return a 400 error when it has more than 500 characters', async function () {
+          // when
+          const { statusCode } = await httpTestServer.request(method, url, {
+            data: {
+              attributes: {
+                description: String('abcdef').repeat(100),
+              },
+            },
+          });
+
+          // then
+          expect(statusCode).to.equal(400);
+        });
+
+        it('[is-public] should return a 400 error when it is not a boolean value', async function () {
+          // when
+          const response = await httpTestServer.request(method, url, {
+            data: {
+              attributes: {
+                'is-public': String('not a boolean value'),
+              },
+            },
+          });
+
+          // then
+          expect(response.statusCode).to.equal(400);
+        });
+
+        it('[image-url] should return a 400 error when it is not a valid URI', async function () {
+          // when
+          const response = await httpTestServer.request(method, url, {
+            data: {
+              attributes: {
+                'image-url': String('not-a-valid-URI.org'),
+              },
+            },
+          });
+
+          // then
+          expect(response.statusCode).to.equal(400);
+        });
+
+        it('[name] should return a 400 error when it is not a string', async function () {
+          // when
+          const response = await httpTestServer.request(method, url, {
+            data: {
+              attributes: {
+                name: 200,
+              },
+            },
+          });
+
+          // then
+          expect(response.statusCode).to.equal(400);
+        });
+
+        it('[tubes] should return a 400 error when it is not an array of accepted object', async function () {
+          // when
+          const response = await httpTestServer.request(method, url, {
+            data: {
+              attributes: {
+                tubes: [{ id: 'some-id', level: NaN }],
+              },
+            },
+          });
+
+          // then
+          expect(response.statusCode).to.equal(400);
+        });
       });
     });
 

@@ -70,11 +70,14 @@ describe('Unit | Controller | target-profile-controller', function () {
         payload: {
           data: {
             attributes: {
-              name: 'Pixer123',
               'are-knowledge-elements-resettable': false,
-              description: 'description changée',
+              category: 'OTHER',
               comment: 'commentaire changée',
+              description: 'description changée',
               'image-url': 'image changée',
+              'is-public': true,
+              name: 'Pixer123',
+              tubes: [{ id: 'some-id', level: 1 }],
             },
           },
         },
@@ -91,11 +94,16 @@ describe('Unit | Controller | target-profile-controller', function () {
         expect(usecases.updateTargetProfile).to.have.been.calledOnce;
         expect(usecases.updateTargetProfile).to.have.been.calledWithMatch({
           id: 123,
-          name: 'Pixer123',
-          description: 'description changée',
-          comment: 'commentaire changée',
-          imageUrl: 'image changée',
-          areKnowledgeElementsResettable: false,
+          attributesToUpdate: {
+            areKnowledgeElementsResettable: false,
+            category: 'OTHER',
+            comment: 'commentaire changée',
+            description: 'description changée',
+            imageUrl: 'image changée',
+            isPublic: true,
+            name: 'Pixer123',
+            tubes: [{ id: 'some-id', level: 1 }],
+          },
         });
       });
     });
