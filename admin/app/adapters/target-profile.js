@@ -35,4 +35,14 @@ export default class TargetProfileAdapter extends ApplicationAdapter {
     });
     return result.data.attributes['detached-organization-ids'];
   }
+
+  urlForQueryRecord(query) {
+    if (query.targetProfileId) {
+      const { targetProfileId } = query;
+      delete query.targetProfileId;
+      return `${this.host}/${this.namespace}/target-profiles/${targetProfileId}`;
+    }
+
+    return super.urlForQueryRecord(...arguments);
+  }
 }
