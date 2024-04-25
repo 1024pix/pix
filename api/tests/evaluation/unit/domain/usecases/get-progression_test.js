@@ -1,5 +1,5 @@
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { getProgression } from '../../../../../src/evaluation/domain/usecases/get-progression.js';
+import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
