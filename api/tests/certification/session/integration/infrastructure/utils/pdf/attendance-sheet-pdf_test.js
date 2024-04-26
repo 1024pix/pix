@@ -5,7 +5,7 @@ import * as url from 'node:url';
 import i18n from 'i18n';
 import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
 
-import { getAttendanceSheetPdfBuffer } from '../../../../../../../src/certification/session/infrastructure/utils/pdf/attendance-sheet-pdf.js';
+import { getAttendanceSheetPdfBuffer } from '../../../../../../../src/certification/enrolment/infrastructure/utils/pdf/attendance-sheet-pdf.js';
 import { domainBuilder, expect, sinon } from '../../../../../../test-helper.js';
 import { isSameBinary } from '../../../../../../tooling/binary-comparator.js';
 import { getI18n } from '../../../../../../tooling/i18n/i18n.js';
