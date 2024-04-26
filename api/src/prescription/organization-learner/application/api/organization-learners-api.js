@@ -2,6 +2,10 @@ import { usecases } from '../../domain/usecases/index.js';
 import { OrganizationLearner } from './models/OrganizationLearner.js';
 
 /**
+ * @module OrganizationLearnerApi
+ */
+
+/**
  * @typedef PageDefinition
  * @type {object}
  * @property {number} size
@@ -36,7 +40,6 @@ import { OrganizationLearner } from './models/OrganizationLearner.js';
 
 /**
  * @typedef OrganizationLearnerListResponse
- * Récupère les organization-learners pour une organization. Si le params 'page' est présent, les organization-learners seront paginés.
  * @type {object}
  * @property {Array<OrganizationLearner>} organizationLearners
  * @property {(Pagination|undefined)} pagination
@@ -45,6 +48,9 @@ import { OrganizationLearner } from './models/OrganizationLearner.js';
 /**
  * @function
  * @name find
+ * @description
+ * Récupère les organization-learners pour une organization. Par défaut, ces organizations-learners sont triés par prénom puis par nom.
+ * Si le params 'page' est présent, les organization-learners seront paginés
  * @param {OrganizationLearnerListPayload} payload
  * @returns {Promise<OrganizationLearnerListResponse>}
  */
