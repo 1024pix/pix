@@ -33,10 +33,19 @@ class AcquiredBadgeForbiddenUpdateError extends DomainError {
   }
 }
 
+class StageModificationForbiddenForLinkedTargetProfileError extends DomainError {
+  constructor(targetProfileId) {
+    super(
+      `Le profil cible ${targetProfileId} est déjà rattaché à une campagne. La modification du seuil ou niveau est alors impossible.`,
+    );
+  }
+}
+
 export {
   AcquiredBadgeForbiddenUpdateError,
   CompetenceResetError,
   EmptyAnswerError,
   ImproveCompetenceEvaluationForbiddenError,
+  StageModificationForbiddenForLinkedTargetProfileError,
   StageWithLinkedCampaignError,
 };
