@@ -1,7 +1,7 @@
 /**
- * @typedef {import('../../../shared/domain/usecases/index.js').SessionRepository} SessionRepository
+ * @typedef {import('./index.js').SessionRepository} SessionRepository
  *
- * @typedef {import('../../../shared/domain/usecases/index.js').SessionValidator} SessionValidator
+ * @typedef {import('./index.js').SessionValidator} SessionValidator
  */
 
 /**

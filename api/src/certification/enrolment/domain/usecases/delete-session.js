@@ -1,8 +1,8 @@
-import { SessionStartedDeletionError } from '../errors.js';
+import { SessionStartedDeletionError } from '../../../session/domain/errors.js';
 
 /**
- * @typedef {import('../../../shared/domain/usecases/index.js').CertificationCourseRepository} CertificationCourseRepository
- * @typedef {import('../../../shared/domain/usecases/index.js').SessionRepository} SessionRepository
+ * @typedef {import("./index.js").CertificationCourseRepository} CertificationCourseRepository
+ * @typedef {import("./index.js").SessionRepository} SessionRepository
  */
 
 /**

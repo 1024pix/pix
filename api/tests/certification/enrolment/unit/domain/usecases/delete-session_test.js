@@ -1,5 +1,5 @@
+import { deleteSession } from '../../../../../../src/certification/enrollment/domain/usecases/delete-session.js';
 import { SessionStartedDeletionError } from '../../../../../../src/certification/session/domain/errors.js';
-import { deleteSession } from '../../../../../../src/certification/session/domain/usecases/delete-session.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | delete-session', function () {
