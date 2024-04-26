@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
 
+import { AuthenticationMethod } from '../../../../lib/domain/models/index.js';
 import { OidcAuthenticationService } from '../../../../src/authentication/domain/services/oidc-authentication-service.js';
 import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
-import { DomainTransaction } from '../../../infrastructure/DomainTransaction.js';
-import { AuthenticationMethod } from '../../models/index.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 
 export class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
   constructor(oidcProvider, dependencies) {

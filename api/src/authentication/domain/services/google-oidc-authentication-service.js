@@ -1,6 +1,6 @@
 import jsonwebtoken from 'jsonwebtoken';
 
-import { OidcAuthenticationService } from '../../../../src/authentication/domain/services/oidc-authentication-service.js';
+import { OidcAuthenticationService } from './oidc-authentication-service.js';
 
 export class GoogleOidcAuthenticationService extends OidcAuthenticationService {
   constructor(oidcProvider) {
