@@ -1,4 +1,4 @@
-import { certificationCandidateController } from '../../../../../src/certification/session/application/certification-candidate-controller.js';
+import { certificationCandidateController } from '../../../../../src/certification/enrolment/application/certification-candidate-controller.js';
 import { usecases } from '../../../../../src/certification/session/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 

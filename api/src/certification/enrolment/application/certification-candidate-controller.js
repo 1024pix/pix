@@ -1,6 +1,7 @@
-import * as sessionCertificationCandidateSerializer from '../../enrolment/infrastructure/serializers/certification-candidate-serializer.js';
+import { usecases } from '../../session/domain/usecases/index.js';
 import * as certificationCandidateSerializer from '../../shared/infrastructure/serializers/jsonapi/certification-candidate-serializer.js';
 import { usecases } from '../domain/usecases/index.js';
+import * as sessionCertificationCandidateSerializer from '../infrastructure/serializers/certification-candidate-serializer.js';
 
 const addCandidate = async function (request, h, dependencies = { certificationCandidateSerializer }) {
   const sessionId = request.params.id;
