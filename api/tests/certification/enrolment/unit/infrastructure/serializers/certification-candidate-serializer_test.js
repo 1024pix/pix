@@ -1,5 +1,5 @@
-import { EnrolledCandidate } from '../../../../../../src/certification/session/domain/read-models/EnrolledCandidate.js';
-import * as serializer from '../../../../../../src/certification/session/infrastructure/serializers/jsonapi/certification-candidate-serializer.js';
+import { EnrolledCandidate } from '../../../../../../src/certification/enrolment/domain/read-models/EnrolledCandidate.js';
+import * as serializer from '../../../../../../src/certification/enrolment/infrastructure/serializers/certification-candidate-serializer.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 
