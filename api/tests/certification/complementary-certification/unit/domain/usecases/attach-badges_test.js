@@ -149,7 +149,7 @@ describe('Unit | UseCase | attach-badges', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { label: 'no badges found', resolve: [] },
-      { label: 'not all badges found', resolve: [{ badgeId: 1 }] },
+      { label: 'not all badges are certifiable', resolve: [{ badgeId: 1, level: 1, isCertifiable: true }] },
     ].forEach((assessment) => {
       // eslint-disable-next-line mocha/no-setup-in-describe
       context(`when  ${assessment.label}`, function () {

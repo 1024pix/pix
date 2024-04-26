@@ -12,7 +12,7 @@ module('Integration | Component | complementary-certifications/attach-badges/bad
     test('it should display the loader', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      store.findRecord = sinon.stub().returns(new Promise(() => {}));
+      store.queryRecord = sinon.stub().returns(new Promise(() => {}));
       const attachableTargetProfile = store.createRecord('attachable-target-profile', {
         name: 'ALEX TARGET',
         id: 1,
@@ -37,7 +37,7 @@ module('Integration | Component | complementary-certifications/attach-badges/bad
       test('it should display an error message when there are no badges provided', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        store.findRecord = sinon.stub().resolves({
+        store.queryRecord = sinon.stub().resolves({
           badges: [],
         });
         const attachableTargetProfile = store.createRecord('attachable-target-profile', {
@@ -67,14 +67,15 @@ module('Integration | Component | complementary-certifications/attach-badges/bad
     });
 
     module('when there are badges', function () {
-      test('it should display the target profile badges', async function (assert) {
+      test('it should display target profile badges', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        store.findRecord = sinon.stub().resolves({
+        store.queryRecord = sinon.stub().resolves({
           badges: [
             {
               id: 1000,
               title: 'canards',
+              isCertifiable: true,
             },
           ],
         });

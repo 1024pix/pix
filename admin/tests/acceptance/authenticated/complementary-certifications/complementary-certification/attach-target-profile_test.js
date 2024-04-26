@@ -110,6 +110,7 @@ module(
             const badge = server.create('badge', {
               id: 200,
               title: 'Badge Arène Feu',
+              isCertifiable: true,
             });
             server.create('target-profile', {
               id: 5,
@@ -154,6 +155,7 @@ module(
             const badge = server.create('badge', {
               id: 200,
               title: 'Badge Arène Feu',
+              isCertifiable: true,
             });
             server.create('target-profile', {
               id: 5,
@@ -221,6 +223,7 @@ module(
             const badge = server.create('badge', {
               id: 200,
               title: 'Badge Arène Feu',
+              isCertifiable: true,
             });
             server.create('target-profile', {
               id: 5,

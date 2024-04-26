@@ -124,12 +124,15 @@ describe('Acceptance | Route | target-profiles', function () {
 
   describe('GET /api/admin/target-profiles/{id}', function () {
     let user;
-    let targetProfile;
-    let options;
 
     beforeEach(async function () {
       mockLearningContent(learningContent);
-      targetProfile = databaseBuilder.factory.buildTargetProfile({
+      user = databaseBuilder.factory.buildUser.withRole();
+    });
+
+    it('should return the target-profile corresponding to the given {id} and 200 status code', async function () {
+      // given
+      const targetProfile = databaseBuilder.factory.buildTargetProfile({
         name: 'Savoir tout faire',
         imageUrl: 'https://test',
         isPublic: true,
@@ -143,16 +146,7 @@ describe('Acceptance | Route | target-profiles', function () {
         areKnowledgeElementsResettable: false,
       });
       databaseBuilder.factory.buildTargetProfileTube({ targetProfileId: targetProfile.id, tubeId, level: 7 });
-      user = databaseBuilder.factory.buildUser.withRole();
-      options = {
-        method: 'GET',
-        url: `/api/admin/target-profiles/${targetProfile.id}`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-      };
-    });
 
-    it('should return the target-profile corresponding to the given {id} and 200 status code', async function () {
-      // given
       databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
       await databaseBuilder.commit();
       const expectedTargetProfile = {
@@ -173,11 +167,52 @@ describe('Acceptance | Route | target-profiles', function () {
       };
 
       // when
-      const response = await server.inject(options);
+      const response = await server.inject({
+        method: 'GET',
+        url: `/api/admin/target-profiles/${targetProfile.id}`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      });
 
       // then
       expect(response.statusCode).to.equal(200);
       expect(response.result.data.attributes).to.deep.equal(expectedTargetProfile);
+    });
+
+    it('should return the target profile with certifiable badges and 200 status code', async function () {
+      // given
+      const targetProfile = databaseBuilder.factory.buildTargetProfile({
+        name: 'Super Profil Cible',
+      });
+      databaseBuilder.factory.buildBadge({
+        id: 1,
+        targetProfileId: targetProfile.id,
+        isCertifiable: true,
+        title: 'Badge certifiable',
+      });
+      databaseBuilder.factory.buildBadge({
+        id: 2,
+        targetProfileId: targetProfile.id,
+        isCertifiable: false,
+        title: 'Badge non certifiable',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject({
+        method: 'GET',
+        url: `/api/admin/target-profiles/${targetProfile.id}?filter[badges]=certifiable`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data.attributes).to.deep.equal({
+        name: 'Super Profil Cible',
+      });
+      expect(response.result.included[0].attributes).to.deep.equal({
+        'is-certifiable': true,
+        title: 'Badge certifiable',
+      });
     });
   });
 

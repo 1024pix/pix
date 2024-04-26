@@ -45,6 +45,7 @@ describe('Acceptance | Controller | Complementary certification | attach-target-
       const alreadyAttachedBadge = databaseBuilder.factory.buildBadge({
         id: 999,
         targetProfileId: alreadyAttachedTargetProfile.id,
+        isCertifiable: true,
       });
       databaseBuilder.factory.buildComplementaryCertificationBadge({
         id: 888,
@@ -56,7 +57,8 @@ describe('Acceptance | Controller | Complementary certification | attach-target-
         organizationId: organization.id,
         targetProfileId: alreadyAttachedTargetProfile.id,
       });
-      databaseBuilder.factory.buildBadge({ id: 1, targetProfileId: targetProfile.id });
+      databaseBuilder.factory.buildBadge({ id: 1, targetProfileId: targetProfile.id, isCertifiable: true });
+      databaseBuilder.factory.buildBadge({ id: 2, targetProfileId: targetProfile.id, isCertifiable: false });
 
       const options = {
         method: 'PUT',

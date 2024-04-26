@@ -196,10 +196,11 @@ describe('Integration | Infrastructure | Repository | Certification | Complement
   });
 
   context('#findAttachableBadgesByIds', function () {
-    it('should return badges eligible to a complementary', async function () {
+    it('should return certifiable badges and eligible to a complementary', async function () {
       // given
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-      databaseBuilder.factory.buildBadge({ id: 123, targetProfileId, key: 'key_xx' }).id;
+      databaseBuilder.factory.buildBadge({ id: 123, targetProfileId, key: 'key_xx', isCertifiable: true }).id;
+      databaseBuilder.factory.buildBadge({ id: 12345, targetProfileId, key: 'key_xxxxxx', isCertifiable: false }).id;
 
       await databaseBuilder.commit();
 
@@ -216,7 +217,7 @@ describe('Integration | Infrastructure | Repository | Certification | Complement
           id: 123,
           imageUrl: '/img_funny.svg',
           isAlwaysVisible: false,
-          isCertifiable: false,
+          isCertifiable: true,
           key: 'key_xx',
           message: 'message',
           targetProfileId,
@@ -243,7 +244,7 @@ describe('Integration | Infrastructure | Repository | Certification | Complement
     it('should not return badges tied to a complementary', async function () {
       // given
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-      databaseBuilder.factory.buildBadge({ id: 123, targetProfileId }).id;
+      databaseBuilder.factory.buildBadge({ id: 123, targetProfileId, isCertifiable: true }).id;
       const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
       databaseBuilder.factory.buildComplementaryCertificationBadge({
         id: 456,

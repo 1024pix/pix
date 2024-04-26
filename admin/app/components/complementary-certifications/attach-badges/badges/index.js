@@ -39,17 +39,21 @@ export default class Badges extends Component {
     }
 
     this.store
-      .findRecord('target-profile', targetProfile.id)
+      .queryRecord('target-profile', {
+        targetProfileId: targetProfile.id,
+        filter: {
+          badges: 'certifiable',
+        },
+      })
       .then((targetProfile) => {
         if (this.isDestroyed) {
           return;
         }
-        const targetProfileBadges = targetProfile.badges?.map((badge) => ({
+        this.badges = targetProfile.badges?.map((badge) => ({
           id: badge.id,
           label: badge.title,
+          isCertifiable: badge.isCertifiable,
         }));
-
-        this.badges = targetProfileBadges;
       })
       .catch(this.#onfetchBadgesError)
       .finally(() => (this.isLoading = false));
