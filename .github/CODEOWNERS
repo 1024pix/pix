@@ -3,6 +3,8 @@
 
 
 # Directories owned by team Accès
+/audit-logger/ @1024pix/team-acces
+
 /api/src/authentication/ @1024pix/team-acces
 /api/src/authorization/ @1024pix/team-acces
 /api/src/organizational-entities/ @1024pix/team-acces
@@ -14,3 +16,24 @@
 /api/tests/organizational-entities/ @1024pix/team-acces
 /api/tests/team/ @1024pix/team-acces
 /api/tests/user-account/ @1024pix/team-acces
+
+/mon-pix/app/authenticators/ @1024pix/team-acces
+/mon-pix/app/components/sign* @1024pix/team-acces
+/mon-pix/app/components/routes/register* @1024pix/team-acces
+/mon-pix/app/components/routes/login* @1024pix/team-acces
+/mon-pix/app/services/session.js @1024pix/team-acces
+/mon-pix/app/services/locale.js @1024pix/team-acces
+/mon-pix/app/services/oidc-identity-providers.js @1024pix/team-acces
+/mon-pix/app/services/authentication.js @1024pix/team-acces
+
+/orga/app/services/locale.js @1024pix/team-acces
+/orga/app/services/session.js @1024pix/team-acces
+
+/certif/app/services/locale.js @1024pix/team-acces
+/certif/app/services/session.js @1024pix/team-acces
+
+/admin/app/services/oidc-identity-providers.js @1024pix/team-acces
+/admin/app/services/session.js @1024pix/team-acces
+
+
+
