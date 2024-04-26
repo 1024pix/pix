@@ -7,14 +7,14 @@ import {
   saveCertificationScoringConfiguration,
   saveCompetenceForScoringConfiguration,
 } from '../../../../../../src/certification/scoring/infrastructure/repositories/scoring-configuration-repository.js';
-import { databaseBuilder, expect, mockLearningContent } from '../../../../../test-helper.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErr, databaseBuilder, expect, mockLearningContent } from '../../../../../test-helper.js';
 import { buildArea, buildCompetence, buildFramework } from '../../../../../tooling/domain-builder/factory/index.js';
 import { buildLearningContent } from '../../../../../tooling/learning-content-builder/index.js';
 
 describe('Integration | Repository | scoring-configuration-repository', function () {
   describe('#getLatestByDateAndLocale', function () {
-    it('should return a list of competences for scoring', async function () {
-      // given
+    beforeEach(async function () {
       const userId = databaseBuilder.factory.buildUser().id;
       const frameworkId = 'frameworkId';
 
@@ -52,7 +52,6 @@ describe('Integration | Repository | scoring-configuration-repository', function
           end: -1,
         },
       ];
-      const date = new Date('2020-07-01T08:00:00Z');
       const firstConfigurationDate = new Date('2019-01-01T08:00:00Z');
       const secondConfigurationDate = new Date('2020-01-01T08:00:00Z');
       const thirdConfigurationDate = new Date('2021-01-01T08:00:00Z');
@@ -114,6 +113,46 @@ describe('Integration | Repository | scoring-configuration-repository', function
       });
 
       await databaseBuilder.commit();
+    });
+
+    describe('when the date is before the competence scoring configurations', function () {
+      it('should throw a NotFoundError', async function () {
+        // given
+        const date = new Date('2018-06-01T08:00:00Z');
+
+        // when
+        const error = await catchErr(getLatestByDateAndLocale)({ locale: 'fr-fr', date });
+
+        expect(error).to.be.instanceOf(NotFoundError);
+        expect(error.message).to.equal('No competence scoring configuration found for date 2018-06-01T08:00:00.000Z');
+      });
+    });
+
+    describe('when the date is before the certification scoring configurations', function () {
+      it('should throw a NotFoundError', async function () {
+        // given
+        const date = new Date('2018-06-01T08:00:00Z');
+
+        databaseBuilder.factory.buildCompetenceScoringConfiguration({
+          configuration: { competence: '1.1', values: [] },
+          createdAt: new Date('2018-01-01T08:00:00Z'),
+          createdByUserId: databaseBuilder.factory.buildUser().id,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const error = await catchErr(getLatestByDateAndLocale)({ locale: 'fr-fr', date });
+
+        expect(error).to.be.instanceOf(NotFoundError);
+        expect(error.message).to.equal(
+          'No certification scoring configuration found for date 2018-06-01T08:00:00.000Z',
+        );
+      });
+    });
+
+    it('should return a list of competences for scoring', async function () {
+      // given
+      const date = new Date('2020-07-01T08:00:00Z');
 
       // when
       const result = await getLatestByDateAndLocale({ locale: 'fr-fr', date });
