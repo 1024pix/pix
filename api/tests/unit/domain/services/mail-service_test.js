@@ -5,6 +5,7 @@ import { tokenService } from '../../../../src/shared/domain/services/token-servi
 import { mailer } from '../../../../src/shared/mail/infrastructure/services/mailer.js';
 import en from '../../../../translations/en.json' assert { type: 'json' };
 import fr from '../../../../translations/fr.json' assert { type: 'json' };
+import { es } from '../../../../translations/index.js';
 import nl from '../../../../translations/nl.json' assert { type: 'json' };
 import { expect, sinon } from '../../../test-helper.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
@@ -13,9 +14,10 @@ const mainTranslationsMapping = {
   fr,
   en,
   nl,
+  es,
 };
 
-const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN, DUTCH_SPOKEN } = LOCALE;
+const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN, DUTCH_SPOKEN, SPANISH_SPOKEN } = LOCALE;
 
 describe('Unit | Service | MailService', function () {
   const senderEmailAddress = 'ne-pas-repondre@pix.fr';
@@ -26,7 +28,7 @@ describe('Unit | Service | MailService', function () {
   });
 
   describe('#sendAccountCreationEmail', function () {
-    it('should call sendEmail with from, to, subject, template', async function () {
+    it('calls sendEmail with from, to, subject, template', async function () {
       // given
       const locale = undefined;
 
@@ -48,7 +50,7 @@ describe('Unit | Service | MailService', function () {
 
     context('according to redirectionUrl', function () {
       context('if redirectionUrl is provided', function () {
-        it('should call sendEmail with provided value', async function () {
+        it('calls sendEmail with provided value', async function () {
           // given
           const redirectionUrl = 'https://pix.fr';
           const locale = FRENCH_FRANCE;
@@ -64,8 +66,8 @@ describe('Unit | Service | MailService', function () {
     });
 
     context('according to locale', function () {
-      context('should call sendEmail with localized variable options', function () {
-        it(`should call sendEmail with from, to, template and locale ${FRENCH_SPOKEN} or undefined`, async function () {
+      context('call sendEmail with localized variable options', function () {
+        it(`calls sendEmail with from, to, template and locale ${FRENCH_SPOKEN} or undefined`, async function () {
           // given
           const locale = FRENCH_SPOKEN;
 
@@ -84,7 +86,8 @@ describe('Unit | Service | MailService', function () {
             ...mainTranslationsMapping.fr['pix-account-creation-email'].params,
           });
         });
-        it(`should call sendEmail with from, to, template and locale ${FRENCH_FRANCE}`, async function () {
+
+        it(`calls sendEmail with from, to, template and locale ${FRENCH_FRANCE}`, async function () {
           // given
           const locale = FRENCH_FRANCE;
 
@@ -103,7 +106,8 @@ describe('Unit | Service | MailService', function () {
             ...mainTranslationsMapping.fr['pix-account-creation-email'].params,
           });
         });
-        it(`should call sendEmail with from, to, template and locale ${ENGLISH_SPOKEN}`, async function () {
+
+        it(`calls sendEmail with from, to, template and locale ${ENGLISH_SPOKEN}`, async function () {
           // given
           const locale = ENGLISH_SPOKEN;
 
@@ -122,7 +126,8 @@ describe('Unit | Service | MailService', function () {
             ...mainTranslationsMapping.en['pix-account-creation-email'].params,
           });
         });
-        it(`should call sendEmail with from, to, template and locale ${DUTCH_SPOKEN}`, async function () {
+
+        it(`calls sendEmail with from, to, template and locale ${DUTCH_SPOKEN}`, async function () {
           // given
           const locale = DUTCH_SPOKEN;
 
@@ -139,6 +144,26 @@ describe('Unit | Service | MailService', function () {
             displayNationalLogo: false,
             redirectionUrl: 'https://app.pix.org/connexion/?lang=nl',
             ...mainTranslationsMapping.nl['pix-account-creation-email'].params,
+          });
+        });
+
+        it(`calls sendEmail with from, to, template and locale ${SPANISH_SPOKEN}`, async function () {
+          // given
+          const locale = SPANISH_SPOKEN;
+
+          // when
+          await mailService.sendAccountCreationEmail(userEmailAddress, locale);
+
+          // then
+          const options = mailer.sendEmail.firstCall.args[0];
+          expect(options.fromName).to.equal('PIX - No contestar');
+          expect(options.variables).to.include({
+            homeName: 'pix.org',
+            homeUrl: 'https://pix.org/en-gb/',
+            helpdeskUrl: 'https://support.pix.org/en/support/home',
+            displayNationalLogo: false,
+            redirectionUrl: 'https://app.pix.org/connexion/?lang=es',
+            ...mainTranslationsMapping.es['pix-account-creation-email'].params,
           });
         });
       });
@@ -210,7 +235,7 @@ describe('Unit | Service | MailService', function () {
     const temporaryKey = 'token';
 
     context('according to locale', function () {
-      it(`should call mailer with translated texts if locale is ${ENGLISH_SPOKEN}`, async function () {
+      it(`calls mailer with translated texts if locale is ${ENGLISH_SPOKEN}`, async function () {
         // given
         const expectedOptions = {
           from,
@@ -239,7 +264,7 @@ describe('Unit | Service | MailService', function () {
         expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
       });
 
-      it(`should call mailer with translated texts if locale is ${DUTCH_SPOKEN}`, async function () {
+      it(`calls mailer with translated texts if locale is ${DUTCH_SPOKEN}`, async function () {
         // given
         const expectedOptions = {
           from,
@@ -268,7 +293,36 @@ describe('Unit | Service | MailService', function () {
         expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
       });
 
-      it(`should call mailer with translated texts if locale is ${FRENCH_SPOKEN}`, async function () {
+      it(`calls mailer with translated texts if locale is ${SPANISH_SPOKEN}`, async function () {
+        // given
+        const expectedOptions = {
+          from,
+          to,
+          template,
+          fromName: 'PIX - No contestar',
+          subject: mainTranslationsMapping.es['reset-password-demand-email'].subject,
+          variables: {
+            locale: SPANISH_SPOKEN,
+            ...mainTranslationsMapping.es['reset-password-demand-email'].params,
+            homeName: 'pix.org',
+            homeUrl: 'https://pix.org/en-gb/',
+            resetUrl: `https://app.pix.org/changer-mot-de-passe/${temporaryKey}/?lang=es`,
+            helpdeskURL: 'https://support.pix.org/en/support/home',
+          },
+        };
+
+        // when
+        await mailService.sendResetPasswordDemandEmail({
+          email: userEmailAddress,
+          locale: SPANISH_SPOKEN,
+          temporaryKey,
+        });
+
+        // then
+        expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
+      });
+
+      it(`calls mailer with translated texts if locale is ${FRENCH_SPOKEN}`, async function () {
         // given
         const expectedOptions = {
           from,
@@ -297,7 +351,7 @@ describe('Unit | Service | MailService', function () {
         expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
       });
 
-      it(`should call mailer with translated texts if locale is ${FRENCH_FRANCE}`, async function () {
+      it(`calls mailer with translated texts if locale is ${FRENCH_FRANCE}`, async function () {
         // given
         const expectedOptions = {
           from,
@@ -326,7 +380,7 @@ describe('Unit | Service | MailService', function () {
         expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
       });
 
-      it(`should call mailer with fr-fr translated texts if locale is undefined`, async function () {
+      it(`calls mailer with fr-fr translated texts if locale is undefined`, async function () {
         // given
         const expectedOptions = {
           from,
@@ -678,7 +732,7 @@ describe('Unit | Service | MailService', function () {
   });
 
   describe('#sendAccountRecoveryEmail', function () {
-    it('should call sendEmail with from, to, template, tags', async function () {
+    it('calls sendEmail with from, to, template, tags', async function () {
       // given
       const translationsMapping = mainTranslationsMapping.fr['account-recovery-email'];
 
@@ -714,7 +768,7 @@ describe('Unit | Service | MailService', function () {
   });
 
   describe('#sendVerificationCodeEmail', function () {
-    it(`should call sendEmail with from, to, template, tags and locale ${FRENCH_SPOKEN}`, async function () {
+    it(`calls sendEmail with from, to, template, tags and locale ${FRENCH_SPOKEN}`, async function () {
       // given
       const translate = getI18n().__;
       const userEmail = 'user@example.net';
@@ -741,7 +795,7 @@ describe('Unit | Service | MailService', function () {
       });
     });
 
-    it(`should call sendEmail with from, to, template, tags and locale ${FRENCH_FRANCE}`, async function () {
+    it(`calls sendEmail with from, to, template, tags and locale ${FRENCH_FRANCE}`, async function () {
       // given
       const translate = getI18n().__;
       const userEmail = 'user@example.net';
@@ -768,7 +822,7 @@ describe('Unit | Service | MailService', function () {
       });
     });
 
-    it(`should call sendEmail with from, to, template, tags and locale ${ENGLISH_SPOKEN}`, async function () {
+    it(`calls sendEmail with from, to, template, tags and locale ${ENGLISH_SPOKEN}`, async function () {
       // given
       const translate = getI18n().__;
       const userEmail = 'user@example.net';
@@ -797,7 +851,7 @@ describe('Unit | Service | MailService', function () {
       });
     });
 
-    it(`should call sendEmail with from, to, template, tags and locale ${DUTCH_SPOKEN}`, async function () {
+    it(`calls sendEmail with from, to, template, tags and locale ${DUTCH_SPOKEN}`, async function () {
       // given
       const translate = getI18n().__;
       const userEmail = 'user@example.net';
@@ -823,6 +877,35 @@ describe('Unit | Service | MailService', function () {
         displayNationalLogo: false,
         code,
         ...mainTranslationsMapping.nl['verification-code-email'].body,
+      });
+    });
+
+    it(`calls sendEmail with from, to, template, tags and locale ${SPANISH_SPOKEN}`, async function () {
+      // given
+      const translate = getI18n().__;
+      const userEmail = 'user@example.net';
+      const code = '999999';
+
+      // when
+      await mailService.sendVerificationCodeEmail({
+        code,
+        email: userEmail,
+        locale: SPANISH_SPOKEN,
+        translate,
+      });
+
+      // then
+      const options = mailer.sendEmail.firstCall.args[0];
+      expect(options.subject).to.equal(
+        translate({ phrase: 'verification-code-email.subject', locale: 'es' }, { code }),
+      );
+      expect(options.fromName).to.equal('PIX - No contestar');
+      expect(options.variables).to.include({
+        homeName: 'pix.org',
+        homeUrl: 'https://pix.org/en-gb/',
+        displayNationalLogo: false,
+        code,
+        ...mainTranslationsMapping.es['verification-code-email'].body,
       });
     });
   });

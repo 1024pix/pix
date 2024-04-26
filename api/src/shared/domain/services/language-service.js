@@ -4,6 +4,7 @@ const LANGUAGES_CODE = {
   ENGLISH: 'en',
   FRENCH: 'fr',
   DUTCH: 'nl',
+  SPANISH: 'es',
 };
 
 const AVAILABLE_LANGUAGES = Object.values(LANGUAGES_CODE);
