@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import { Session } from '../../../../../../src/certification/session/domain/models/Session.js';
+import { SESSION_STATUSES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 const SESSION_PROPS = [
@@ -111,7 +112,7 @@ describe('Unit | Domain | Models | Session', function () {
         const status = session.status;
 
         // then
-        expect(status).to.equal(Session.statuses.PROCESSED);
+        expect(status).to.equal(SESSION_STATUSES.PROCESSED);
       });
     });
 
@@ -125,7 +126,7 @@ describe('Unit | Domain | Models | Session', function () {
           const status = session.status;
 
           // then
-          expect(status).to.equal(Session.statuses.IN_PROCESS);
+          expect(status).to.equal(SESSION_STATUSES.IN_PROCESS);
         });
       });
 
@@ -139,7 +140,7 @@ describe('Unit | Domain | Models | Session', function () {
             const status = session.status;
 
             // then
-            expect(status).to.equal(Session.statuses.FINALIZED);
+            expect(status).to.equal(SESSION_STATUSES.FINALIZED);
           });
         });
 
@@ -149,7 +150,7 @@ describe('Unit | Domain | Models | Session', function () {
             const status = session.status;
 
             // then
-            expect(status).to.equal(Session.statuses.CREATED);
+            expect(status).to.equal(SESSION_STATUSES.CREATED);
           });
         });
       });

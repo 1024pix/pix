@@ -5,8 +5,8 @@ import { CERTIFICATION_SESSIONS_ERRORS } from '../../../../../lib/domain/constan
 import { types } from '../../../../../lib/domain/models/CertificationCenter.js';
 import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
 import { identifiersType } from '../../../../shared/domain/types/identifiers-type.js';
+import { SESSION_STATUSES } from '../../../shared/domain/constants.js';
 import { CertificationVersion } from '../../../shared/domain/models/CertificationVersion.js';
-import { statuses } from '../models/Session.js';
 
 const Joi = BaseJoi.extend(JoiDate);
 
@@ -78,7 +78,12 @@ const sessionFiltersValidationSchema = Joi.object({
   id: identifiersType.sessionId.optional(),
   status: Joi.string()
     .trim()
-    .valid(statuses.CREATED, statuses.FINALIZED, statuses.IN_PROCESS, statuses.PROCESSED)
+    .valid(
+      SESSION_STATUSES.CREATED,
+      SESSION_STATUSES.FINALIZED,
+      SESSION_STATUSES.IN_PROCESS,
+      SESSION_STATUSES.PROCESSED,
+    )
     .optional(),
   certificationCenterName: Joi.string().trim().optional(),
   certificationCenterExternalId: Joi.string().trim().optional(),

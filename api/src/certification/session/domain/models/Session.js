@@ -1,23 +1,12 @@
 import _ from 'lodash';
 
-import { config } from '../../../../../src/shared/config.js';
+import { config } from '../../../../shared/config.js';
+import { SESSION_STATUSES } from '../../../shared/domain/constants.js';
 import { CertificationVersion } from '../../../shared/domain/models/CertificationVersion.js';
-
-const CREATED = 'created';
-const FINALIZED = 'finalized';
-const IN_PROCESS = 'in_process';
-const PROCESSED = 'processed';
 
 const availableCharactersForPasswordGeneration =
   `${config.availableCharacterForCode.numbers}${config.availableCharacterForCode.letters}`.split('');
 const NB_CHAR = 5;
-
-const statuses = {
-  CREATED,
-  FINALIZED,
-  IN_PROCESS,
-  PROCESSED,
-};
 
 const NO_EXAMINER_GLOBAL_COMMENT = null;
 
@@ -74,15 +63,15 @@ class Session {
 
   get status() {
     if (this.publishedAt) {
-      return statuses.PROCESSED;
+      return SESSION_STATUSES.PROCESSED;
     }
     if (this.assignedCertificationOfficerId) {
-      return statuses.IN_PROCESS;
+      return SESSION_STATUSES.IN_PROCESS;
     }
     if (this.finalizedAt) {
-      return statuses.FINALIZED;
+      return SESSION_STATUSES.FINALIZED;
     }
-    return statuses.CREATED;
+    return SESSION_STATUSES.CREATED;
   }
 
   isPublished() {
@@ -90,7 +79,7 @@ class Session {
   }
 
   isAccessible() {
-    return this.status === statuses.CREATED;
+    return this.status === SESSION_STATUSES.CREATED;
   }
 
   static generateSupervisorPassword() {
@@ -111,9 +100,7 @@ class Session {
   }
 }
 
-Session.statuses = statuses;
-
-export { NO_EXAMINER_GLOBAL_COMMENT, Session, statuses };
+export { NO_EXAMINER_GLOBAL_COMMENT, Session };
 
 function _randomCharacter() {
   return _.sample(availableCharactersForPasswordGeneration);
