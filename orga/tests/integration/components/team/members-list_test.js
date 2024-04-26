@@ -43,11 +43,11 @@ module('Integration | Component | Team::MembersList', function (hooks) {
     this.set('members', members);
 
     // when
-    await render(hbs`<Team::MembersList @members={{this.members}} />`);
+    const screen = await render(hbs`<Team::MembersList @members={{this.members}} />`);
 
     // then
-    assert.contains('Gigi');
-    assert.contains('Jojo');
+    assert.ok(screen.getByText('Gigi'));
+    assert.ok(screen.getByText('Jojo'));
   });
 
   test('it should display a message when there are no members', async function (assert) {
@@ -55,9 +55,9 @@ module('Integration | Component | Team::MembersList', function (hooks) {
     this.set('members', []);
 
     // when
-    await render(hbs`<Team::MembersList @members={{this.members}} />`);
+    const screen = await render(hbs`<Team::MembersList @members={{this.members}} />`);
 
     // then
-    assert.contains('En attente de membres');
+    assert.ok(screen.getByText(this.intl.t('pages.team-members.table.empty')));
   });
 });

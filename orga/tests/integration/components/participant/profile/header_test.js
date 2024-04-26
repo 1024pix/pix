@@ -19,24 +19,28 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
     };
     this.campaign = {};
 
-    await render(
+    const screen = await render(
       hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`,
     );
 
-    assert.contains('Godefroy de Montmirail');
+    assert.ok(screen.getByRole('heading', { level: 1, name: 'Godefroy de Montmirail' }));
   });
 
-  test('it displays campaign particiaption creation date', async function (assert) {
+  test('it displays campaign participation creation date', async function (assert) {
     this.campaignProfile = {
       createdAt: '2020-01-01',
     };
     this.campaign = {};
 
-    await render(
+    const screen = await render(
       hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`,
     );
 
-    assert.contains('01 janv. 2020');
+    assert.strictEqual(
+      screen.getByRole('term').textContent.trim(),
+      this.intl.t('pages.campaign-individual-results.start-date'),
+    );
+    assert.strictEqual(screen.getByRole('definition').textContent.trim(), '01 janv. 2020');
   });
 
   module('is shared', function () {
@@ -48,12 +52,15 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
         };
         this.campaign = {};
 
-        await render(
+        const screen = await render(
           hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`,
         );
 
-        assert.contains('Envoyé le');
-        assert.contains('02 janv. 2020');
+        assert.strictEqual(
+          screen.getAllByRole('term')[1].textContent.trim(),
+          this.intl.t('pages.campaign-individual-results.shared-date'),
+        );
+        assert.strictEqual(screen.getAllByRole('definition')[1].textContent.trim(), '02 janv. 2020');
       });
     });
     module('when participant has not shared results', function () {
@@ -64,11 +71,11 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
 
         this.campaign = {};
 
-        await render(
+        const screen = await render(
           hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`,
         );
 
-        assert.notContains('Envoyé le');
+        assert.notOk(screen.queryByText(this.intl.t('pages.campaign-individual-results.shared-date')));
       });
     });
   });
@@ -81,11 +88,12 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
         };
         this.campaign = {};
 
-        await render(
+        const screen = await render(
           hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`,
         );
 
-        assert.contains('i12345');
+        assert.strictEqual(screen.getAllByRole('term')[0].textContent.trim(), '');
+        assert.strictEqual(screen.getAllByRole('definition')[0].textContent.trim(), 'i12345');
       });
     });
     module('when the external id is not present', function () {
@@ -95,11 +103,13 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
         };
         this.campaign = {};
 
-        await render(
+        const screen = await render(
           hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`,
         );
 
-        assert.notContains('Identifiant');
+        // la balise <dt/> liée à l'identifiant est vide, on vérifie donc qu'elle n'est pas présente
+        assert.notEqual(screen.getAllByRole('term')[0].textContent.trim(), '');
+        assert.notEqual(screen.getAllByRole('definition')[0].textContent.trim(), this.campaignProfile.externalId);
       });
     });
   });
@@ -114,11 +124,11 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
         };
         this.campaign = {};
 
-        await render(
+        const screen = await render(
           hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`,
         );
 
-        assert.contains('124');
+        assert.ok(screen.getByText('124'));
       });
 
       test('it displays the total number of competence', async function (assert) {
@@ -129,10 +139,11 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
         };
         this.campaign = {};
 
-        await render(
+        const screen = await render(
           hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`,
         );
-        assert.contains('/ 12');
+
+        assert.ok(screen.getByText('/ 12'));
       });
 
       test('it displays the total number of certifiable competence', async function (assert) {
@@ -143,11 +154,11 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
         };
         this.campaign = {};
 
-        await render(
+        const screen = await render(
           hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`,
         );
 
-        assert.contains('2');
+        assert.ok(screen.getByText('2'));
       });
 
       module('certifiable badge', function () {
@@ -159,11 +170,11 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
             };
             this.campaign = {};
 
-            await render(
+            const screen = await render(
               hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`,
             );
 
-            assert.contains('Certifiable', { exact: true });
+            assert.ok(screen.getByText(this.intl.t('pages.profiles-individual-results.certifiable')));
           });
         });
 
@@ -175,11 +186,11 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
             };
             this.campaign = {};
 
-            await render(
+            const screen = await render(
               hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`,
             );
 
-            assert.notContains('Certifiable', { exact: true });
+            assert.notOk(screen.queryByText(this.intl.t('pages.profiles-individual-results.certifiable')));
           });
         });
       });
@@ -192,11 +203,11 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
         };
         this.campaign = {};
 
-        await render(
+        const screen = await render(
           hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`,
         );
 
-        assert.notContains('PIX');
+        assert.notOk(screen.queryByText('PIX'));
       });
 
       test('it does not display the total number of competence', async function (assert) {
@@ -207,12 +218,12 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
         };
         this.campaign = {};
 
-        await render(
+        const screen = await render(
           hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`,
         );
 
-        assert.notContains('32');
-        assert.notContains('COMP. CERTIFIABLE');
+        assert.notOk(screen.queryByText('32'));
+        assert.notOk(screen.queryByText(this.intl.t('pages.profiles-individual-results.competences-certifiables')));
       });
 
       test('it does not display the total number of certifiable competence', async function (assert) {
@@ -223,11 +234,11 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
         };
         this.campaign = {};
 
-        await render(
+        const screen = await render(
           hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`,
         );
 
-        assert.notContains('33');
+        assert.notOk(screen.queryByText('33'));
       });
 
       test('it does not display certifiable badge', async function (assert) {
@@ -237,11 +248,11 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
         };
         this.campaign = {};
 
-        await render(
+        const screen = await render(
           hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`,
         );
 
-        assert.notContains('Certifiable');
+        assert.notOk(screen.queryByText(this.intl.t('pages.profiles-individual-results.certifiable')));
       });
     });
   });

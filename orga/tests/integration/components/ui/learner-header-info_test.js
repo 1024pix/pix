@@ -63,12 +63,12 @@ module('Integration | Component | Ui::LearnerHeaderInfo', function (hooks) {
         screen.getByRole('term').textContent.trim(),
         this.intl.t('pages.sco-organization-participants.table.column.login-method'),
       );
-      assert.contains(
+      assert.ok(
         screen.getByRole('definition').textContent.trim(),
         this.intl.t('pages.sco-organization-participants.connection-types.email'),
       );
 
-      assert.contains(
+      assert.ok(
         screen.getByRole('definition').textContent.trim(),
         this.intl.t('pages.sco-organization-participants.connection-types.identifiant'),
       );

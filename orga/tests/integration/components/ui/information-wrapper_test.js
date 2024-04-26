@@ -9,11 +9,9 @@ module('Integration | Component | Ui | Information Wrapper', function (hooks) {
 
   module('yield', function () {
     test('should display yield content', async function (assert) {
-      await render(hbs`<Ui::InformationWrapper>
-  toto
-</Ui::InformationWrapper>`);
+      const screen = await render(hbs`<Ui::InformationWrapper> toto </Ui::InformationWrapper>`);
 
-      assert.contains('toto');
+      assert.ok(screen.getByText('toto'));
     });
   });
 });

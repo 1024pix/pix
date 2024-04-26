@@ -1,4 +1,4 @@
-import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
+import { clickByName, fillByLabel, fireEvent, render, within } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
@@ -44,12 +44,30 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     );
 
     // then
-    assert.dom(screen.getByRole('columnheader', { name: 'Numéro étudiant' })).exists();
-    assert.dom(screen.getByRole('columnheader', { name: 'Nom' })).exists();
-    assert.dom(screen.getByRole('columnheader', { name: 'Prénom' })).exists();
-    assert.dom(screen.getByRole('columnheader', { name: 'Date de naissance' })).exists();
-    assert.dom(screen.getByRole('columnheader', { name: 'Groupes' })).exists();
-    assert.dom(screen.getByRole('columnheader', { name: 'Actions' })).exists();
+    assert.ok(
+      screen.getByRole('columnheader', {
+        name: this.intl.t('pages.sup-organization-participants.table.column.student-number'),
+      }),
+    );
+    assert.ok(
+      screen.getByRole('columnheader', {
+        name: this.intl.t('pages.sup-organization-participants.table.column.last-name.label'),
+      }),
+    );
+    assert.ok(
+      screen.getByRole('columnheader', {
+        name: this.intl.t('pages.sup-organization-participants.table.column.first-name'),
+      }),
+    );
+    assert.ok(
+      screen.getByRole('columnheader', {
+        name: this.intl.t('pages.sup-organization-participants.table.column.date-of-birth'),
+      }),
+    );
+    assert.ok(
+      screen.getByRole('columnheader', { name: this.intl.t('pages.sup-organization-participants.table.column.group') }),
+    );
+    assert.ok(screen.getByRole('columnheader', { name: this.intl.t('common.actions.global') }));
   });
 
   test('it should display a list of students', async function (assert) {
@@ -65,7 +83,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     this.set('studentNumberFilter', null);
 
     // when
-    await render(
+    const screen = await render(
       hbs`<SupOrganizationParticipant::List
   @students={{this.students}}
   @onFilter={{this.noop}}
@@ -78,8 +96,10 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     );
 
     // then
-
-    assert.dom('[aria-label="Étudiant"]').exists({ count: 2 });
+    assert.strictEqual(
+      screen.getAllByRole('row', { name: this.intl.t('pages.sup-organization-participants.table.row-title') }).length,
+      2,
+    );
   });
 
   test('it should display a link to access student detail', async function (assert) {
@@ -117,7 +137,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 />`,
     );
     // then
-    assert.dom(screen.getByRole('link', { name: 'Kenobi' })).hasProperty('href', /\/etudiants\/33/g);
+    assert.ok(screen.getByRole('link', { name: 'Kenobi', href: /\/etudiants\/33/g }));
   });
 
   test('it should display the student number, firstName, lastName, birthdate, group, participation count and and last participation date of student', async function (assert) {
@@ -142,7 +162,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     this.set('studentNumberFilter', null);
 
     // when
-    await render(
+    const screen = await render(
       hbs`<SupOrganizationParticipant::List
   @students={{this.students}}
   @onFilter={{this.noop}}
@@ -155,13 +175,13 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     );
 
     // then
-    assert.contains('LATERREURGIGI123');
-    assert.contains('La Terreur');
-    assert.contains('Gigi');
-    assert.contains('01/02/2010');
-    assert.contains('AB1');
-    assert.contains('88');
-    assert.contains('03/01/2022');
+    assert.ok(screen.getByRole('cell', { name: 'LATERREURGIGI123' }));
+    assert.ok(screen.getByRole('cell', { name: 'La Terreur' }));
+    assert.ok(screen.getByRole('cell', { name: 'Gigi' }));
+    assert.ok(screen.getByRole('cell', { name: '01/02/2010' }));
+    assert.ok(screen.getByRole('cell', { name: 'AB1' }));
+    assert.ok(screen.getByRole('cell', { name: '88' }));
+    assert.ok(screen.getByRole('cell', { name: '03/01/2022' }));
   });
 
   test('it should display campaign name, type and status as tooltip information', async function (assert) {
@@ -182,7 +202,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     this.set('studentNumberFilter', null);
 
     // when
-    await render(
+    const screen = await render(
       hbs`<SupOrganizationParticipant::List
   @students={{this.students}}
   @onFilter={{this.noop}}
@@ -194,13 +214,29 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 />`,
     );
 
+    fireEvent.mouseOver(
+      screen.getByLabelText(this.intl.t('pages.participants-list.latest-participation-information-tooltip.aria-label')),
+    );
+    await screen.findByRole('tooltip');
+    const tooltip = await screen.findByRole('tooltip');
+
     // then
-    assert.contains('SUP - Campagne de collecte de profils');
-    assert.contains('Collecte de profils');
-    assert.contains('reçu');
+    assert.ok(within(tooltip).getByText('SUP - Campagne de collecte de profils'));
+    assert.ok(
+      within(tooltip).getByText(
+        this.intl.t(
+          'pages.participants-list.latest-participation-information-tooltip.campaign-PROFILES_COLLECTION-type',
+        ),
+      ),
+    );
+    assert.ok(
+      within(tooltip).getByText(
+        this.intl.t('pages.participants-list.latest-participation-information-tooltip.participation-SHARED-status'),
+      ),
+    );
   });
 
-  test('it should display participant as eligible for certification when the sup participant is certifiable', async function (assert) {
+  test('it should display participant as eligible for certification and since when if the sup participant is certifiable', async function (assert) {
     // given
     const students = [
       {
@@ -209,6 +245,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
         campaignType: 'PROFILES_COLLECTION',
         participationStatus: 'SHARED',
         isCertifiable: true,
+        certifiableAt: new Date('2024-04-26'),
       },
     ];
 
@@ -219,7 +256,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     this.set('studentNumberFilter', null);
 
     // when
-    await render(
+    const screen = await render(
       hbs`<SupOrganizationParticipant::List
   @students={{this.students}}
   @onFilter={{this.noop}}
@@ -232,43 +269,11 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     );
 
     // then
-    assert.contains(this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible'));
-  });
-
-  test('it should display since when the sup participant is certifiable', async function (assert) {
-    // given
-    const students = [
-      {
-        lastParticipationDate: new Date('2022-01-03'),
-        campaignName: 'SUP - Campagne de collecte de profils',
-        campaignType: 'PROFILES_COLLECTION',
-        participationStatus: 'SHARED',
-        isCertifiable: true,
-        certifiableAt: new Date('2022-01-03'),
-      },
-    ];
-
-    this.set('students', students);
-    this.set('certificabilityFilter', []);
-    this.set('groupFilter', []);
-    this.set('searchFilter', null);
-    this.set('studentNumberFilter', null);
-
-    // when
-    await render(
-      hbs`<SupOrganizationParticipant::List
-  @students={{this.students}}
-  @onFilter={{this.noop}}
-  @onClickLearner={{this.noop}}
-  @searchFilter={{this.searchFilter}}
-  @groupsFilter={{this.groupFilter}}
-  @studentNumberFilter={{this.studentNumberFilter}}
-  @certificabilityFilter={{this.certificabilityFilter}}
-/>`,
+    assert.ok(
+      screen.getByRole('cell', {
+        name: `${this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible')} 26/04/2024`,
+      }),
     );
-
-    // then
-    assert.contains('03/01/2022');
   });
 
   test('it should display the certificability tooltip', async function (assert) {
@@ -695,7 +700,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       this.set('studentNumberFilter', null);
 
       // when
-      await render(
+      const screen = await render(
         hbs`<SupOrganizationParticipant::List
   @students={{this.students}}
   @onFilter={{this.noop}}
@@ -708,7 +713,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       );
 
       // then
-      assert.contains('Aucun étudiant.');
+      assert.ok(screen.getByText(this.intl.t('pages.sup-organization-participants.table.empty')));
     });
   });
 
@@ -725,7 +730,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       this.set('studentNumberFilter', null);
 
       // when
-      await render(
+      const screen = await render(
         hbs`<SupOrganizationParticipant::List
   @students={{this.students}}
   @onFilter={{this.noop}}
@@ -738,7 +743,9 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       );
 
       // then
-      assert.contains('L’administrateur doit importer les étudiants en cliquant sur le bouton importer.');
+      assert.ok(
+        screen.getByText(this.intl.t('pages.sup-organization-participants.empty-state.no-participants-action')),
+      );
     });
   });
 
@@ -786,20 +793,20 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       );
 
       // then
-      assert
-        .dom(screen.getByLabelText(this.intl.t('pages.organization-participants.table.column.mainCheckbox')))
-        .exists();
+      assert.ok(
+        screen.getByRole('checkbox', {
+          name: this.intl.t('pages.organization-participants.table.column.mainCheckbox'),
+        }),
+      );
 
-      assert
-        .dom(
-          screen.getByLabelText(
-            this.intl.t('pages.organization-participants.table.column.checkbox', {
-              firstname: students[0].firstName,
-              lastname: students[0].lastName,
-            }),
-          ),
-        )
-        .exists();
+      assert.ok(
+        screen.getByRole('checkbox', {
+          name: this.intl.t('pages.organization-participants.table.column.checkbox', {
+            firstname: students[0].firstName,
+            lastname: students[0].lastName,
+          }),
+        }),
+      );
     });
 
     test('it should disable the main checkbox when participants list is empty', async function (assert) {
@@ -821,12 +828,14 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
   @certificabilityFilter={{this.certificabilityFilter}}
 />`);
 
-      const mainCheckbox = screen.getByRole('checkbox', {
-        name: this.intl.t('pages.organization-participants.table.column.mainCheckbox'),
-      });
-
       //then
-      assert.dom(mainCheckbox).isDisabled();
+      assert.ok(
+        screen
+          .getByRole('checkbox', {
+            name: this.intl.t('pages.organization-participants.table.column.mainCheckbox'),
+          })
+          .hasAttribute('disabled'),
+      );
     });
 
     test('it should reset selected participants when using pagination', async function (assert) {
@@ -921,7 +930,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
       await click(firstLearnerSelected);
 
-      await fillByLabel('Recherche sur le nom et prénom', 'Something');
+      await fillByLabel(this.intl.t('pages.sup-organization-participants.filter.search.label'), 'Something');
 
       // then
       assert.false(firstLearnerSelected.checked);
@@ -1066,11 +1075,9 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
         await click(firstLearnerToDelete);
 
         //then
-        assert
-          .dom(
-            screen.getByText(this.intl.t('pages.sup-organization-participants.action-bar.information', { count: 1 })),
-          )
-          .exists();
+        assert.ok(
+          screen.getByText(this.intl.t('pages.sup-organization-participants.action-bar.information', { count: 1 })),
+        );
       });
 
       test('it should open the deletion modale', async function (assert) {
@@ -1129,7 +1136,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
         });
 
         //then
-        assert.dom(confirmationButton).exists();
+        assert.ok(confirmationButton);
       });
 
       test('it should delete students', async function (assert) {
@@ -1299,20 +1306,16 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       );
 
       // then
-      assert
-        .dom(screen.queryByLabelText(this.intl.t('pages.organization-participants.table.column.mainCheckbox')))
-        .doesNotExist();
+      assert.notOk(screen.queryByLabelText(this.intl.t('pages.organization-participants.table.column.mainCheckbox')));
 
-      assert
-        .dom(
-          screen.queryByLabelText(
-            this.intl.t('pages.organization-participants.table.column.checkbox', {
-              firstname: students[0].firstName,
-              lastname: students[0].lastName,
-            }),
-          ),
-        )
-        .doesNotExist();
+      assert.notOk(
+        screen.queryByLabelText(
+          this.intl.t('pages.organization-participants.table.column.checkbox', {
+            firstname: students[0].firstName,
+            lastname: students[0].lastName,
+          }),
+        ),
+      );
     });
   });
 });

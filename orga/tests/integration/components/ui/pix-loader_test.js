@@ -10,10 +10,10 @@ module('Integration | Component | Ui::PixLoader', function (hooks) {
   module('Component rendering', function () {
     test('should render component', async function (assert) {
       // when
-      await render(hbs`<Ui::PixLoader />`);
+      const screen = await render(hbs`<Ui::PixLoader />`);
 
       // then
-      assert.contains('Chargement en cours');
+      assert.ok(screen.getByText(this.intl.t('common.loading')));
     });
   });
 });

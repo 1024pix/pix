@@ -91,13 +91,13 @@ module('Integration | Component | SupOrganizationParticipant::Modal::ReplaceStud
     );
 
     // then
-    assert
-      .dom(
-        screen.getByRole('button', {
+    assert.ok(
+      screen
+        .getByRole('button', {
           name: this.intl.t('pages.sup-organization-participants.replace-students-modal.confirm'),
-        }),
-      )
-      .isDisabled();
+        })
+        .hasAttribute('disabled'),
+    );
   });
 
   test('it should be able to replace student if confirmation is checked', async function (assert) {

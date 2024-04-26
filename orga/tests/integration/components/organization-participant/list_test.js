@@ -888,12 +888,14 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   @deleteParticipants={{this.deleteParticipants}}
 />`);
 
-      const mainCheckbox = screen.getByRole('checkbox', {
-        name: this.intl.t('pages.organization-participants.table.column.mainCheckbox'),
-      });
-
       //then
-      assert.dom(mainCheckbox).isDisabled();
+      assert.ok(
+        screen
+          .getByRole('checkbox', {
+            name: this.intl.t('pages.organization-participants.table.column.mainCheckbox'),
+          })
+          .hasAttribute('disabled'),
+      );
     });
 
     test('it should reset selected participants when using pagination', async function (assert) {

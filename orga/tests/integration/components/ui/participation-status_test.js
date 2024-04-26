@@ -13,10 +13,12 @@ module('Integration | Component | Ui | ParticipationStatus', function (hooks) {
       this.set('campaignType', 'ASSESSMENT');
 
       // when
-      await render(hbs`<Ui::ParticipationStatus @status={{this.status}} @campaignType={{this.campaignType}} />`);
+      const screen = await render(
+        hbs`<Ui::ParticipationStatus @status={{this.status}} @campaignType={{this.campaignType}} />`,
+      );
 
       // then
-      assert.contains(this.intl.t('components.participation-status.SHARED-ASSESSMENT'));
+      assert.ok(screen.getByText(this.intl.t('components.participation-status.SHARED-ASSESSMENT')));
     });
   });
 });

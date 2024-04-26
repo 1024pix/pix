@@ -1,4 +1,4 @@
-import { clickByName, clickByText, render } from '@1024pix/ember-testing-library';
+import { clickByName, render, waitForElementToBeRemoved } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
@@ -37,7 +37,7 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
 
     adminMembership = store.createRecord('membership', {
       id: 1,
-      displayRole: 'Administrateur',
+      displayRole: this.intl.t('pages.team-members.actions.select-role.options.admin'),
       organizationRole: 'ADMIN',
       user,
       save: sinon.stub(),
@@ -68,12 +68,12 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
       this.set('membership', memberMembership);
 
       // when
-      await render(hbs`<Team::MembersListItem @membership={{this.membership}} />`);
+      const screen = await render(hbs`<Team::MembersListItem @membership={{this.membership}} />`);
 
       // then
-      assert.contains('La Panique');
-      assert.contains('Jojo');
-      assert.contains('Membre');
+      assert.ok(screen.getByText('La Panique'));
+      assert.ok(screen.getByText('Jojo'));
+      assert.ok(screen.getByText('Membre'));
     });
 
     test('it should not display the edit button', async function (assert) {
@@ -84,7 +84,7 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
       const screen = await render(hbs`<Team::MembersListItem @membership={{this.membership}} />`);
 
       // then
-      assert.dom(screen.queryByLabelText('Gérer')).doesNotExist();
+      assert.notOk(screen.queryByRole('button', { name: this.intl.t('pages.team-members.actions.manage') }));
     });
   });
 
@@ -108,10 +108,10 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
 
       // then
 
-      assert.contains('La Panique');
-      assert.contains('Jojo');
-      assert.contains('Membre');
-      assert.dom(screen.getByLabelText('Gérer')).exists();
+      assert.ok(screen.getByText('La Panique'));
+      assert.ok(screen.getByText('Jojo'));
+      assert.ok(screen.getByText('Membre'));
+      assert.ok(screen.getByRole('button', { name: this.intl.t('pages.team-members.actions.manage') }));
     });
 
     module('When edit organization role button is clicked', function () {
@@ -122,13 +122,13 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
         const screen = await render(hbs`<Team::MembersListItem @membership={{this.membership}} />`);
 
         // when
-        await clickByName('Gérer');
-        await clickByText('Modifier le rôle');
+        await clickByName(this.intl.t('pages.team-members.actions.manage'));
+        await clickByName(this.intl.t('pages.team-members.actions.edit-organization-membership-role'));
 
         // then
         assert.dom('.zone-save-cancel-role').exists({ count: 1 });
-        assert.dom(screen.queryByLabelText('Annuler')).exists();
-        assert.dom(screen.queryByLabelText('Enregistrer')).exists();
+        assert.ok(screen.getByLabelText(this.intl.t('common.actions.cancel')));
+        assert.ok(screen.getByLabelText(this.intl.t('pages.team-members.actions.save')));
       });
 
       test('it should cancel the update if using the cancel button', async function (assert) {
@@ -137,11 +137,11 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
 
         await render(hbs`<Team::MembersListItem @membership={{this.membership}} />`);
 
-        await clickByName('Gérer');
-        await clickByText('Modifier le rôle');
+        await clickByName(this.intl.t('pages.team-members.actions.manage'));
+        await clickByName(this.intl.t('pages.team-members.actions.edit-organization-membership-role'));
 
         // when
-        await clickByName('Annuler');
+        await clickByName(this.intl.t('common.actions.cancel'));
 
         // then
 
@@ -154,16 +154,25 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
         this.set('membership', memberMembership);
 
         const screen = await render(hbs`<Team::MembersListItem @membership={{this.membership}} />`);
-        await clickByName('Gérer');
-        await clickByText('Modifier le rôle');
+        await clickByName(this.intl.t('pages.team-members.actions.manage'));
+        await clickByName(this.intl.t('pages.team-members.actions.edit-organization-membership-role'));
 
         // when
-        await click(screen.getByLabelText('Sélectionner un rôle'));
-        await click(await screen.findByRole('option', { name: 'Administrateur' }));
+        await click(screen.getByLabelText(this.intl.t('pages.team-members.actions.select-role.label')));
+        await click(
+          await screen.findByRole('option', {
+            name: this.intl.t('pages.team-members.actions.select-role.options.admin'),
+          }),
+        );
 
         // then
-        assert.dom(screen.getByRole('option', { selected: true, name: 'Administrateur' })).exists();
-        await clickByText('Enregistrer');
+        assert.ok(
+          screen.getByRole('option', {
+            selected: true,
+            name: this.intl.t('pages.team-members.actions.select-role.options.admin'),
+          }),
+        );
+        await clickByName(this.intl.t('pages.team-members.actions.save'));
         assert.strictEqual(memberMembership.organizationRole, 'ADMIN');
         sinon.assert.called(memberMembership.save);
       });
@@ -173,13 +182,13 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
         this.set('membership', adminMembership);
 
         const screen = await render(hbs`<Team::MembersListItem @membership={{this.membership}} />`);
-        await clickByName('Gérer');
-        await clickByText('Modifier le rôle');
+        await clickByName(this.intl.t('pages.team-members.actions.manage'));
+        await clickByName(this.intl.t('pages.team-members.actions.edit-organization-membership-role'));
 
         // when
-        await click(screen.getByLabelText('Sélectionner un rôle'));
+        await click(screen.getByLabelText(this.intl.t('pages.team-members.actions.select-role.label')));
         await click(await screen.findByRole('option', { name: 'Membre' }));
-        await clickByText('Enregistrer');
+        await clickByName(this.intl.t('pages.team-members.actions.save'));
 
         // then
 
@@ -194,13 +203,13 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
         this.set('membership', adminMembership);
 
         const screen = await render(hbs`<Team::MembersListItem @membership={{this.membership}} />`);
-        await clickByName('Gérer');
-        await clickByText('Modifier le rôle');
+        await clickByName(this.intl.t('pages.team-members.actions.manage'));
+        await clickByName(this.intl.t('pages.team-members.actions.edit-organization-membership-role'));
 
         // when
-        await click(screen.getByLabelText('Sélectionner un rôle'));
+        await click(screen.getByLabelText(this.intl.t('pages.team-members.actions.select-role.label')));
         await click(await screen.findByRole('option', { name: 'Membre' }));
-        await clickByText('Enregistrer');
+        await clickByName(this.intl.t('pages.team-members.actions.save'));
 
         // then
         sinon.assert.calledWith(
@@ -218,13 +227,13 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
         sinon.stub(notifications, 'error');
 
         const screen = await render(hbs`<Team::MembersListItem @membership={{this.membership}} />`);
-        await clickByName('Gérer');
-        await clickByText('Modifier le rôle');
+        await clickByName(this.intl.t('pages.team-members.actions.manage'));
+        await clickByName(this.intl.t('pages.team-members.actions.edit-organization-membership-role'));
 
         // when
-        await click(screen.getByLabelText('Sélectionner un rôle'));
+        await click(screen.getByLabelText(this.intl.t('pages.team-members.actions.select-role.label')));
         await click(await screen.findByRole('option', { name: 'Membre' }));
-        await clickByText('Enregistrer');
+        await clickByName(this.intl.t('pages.team-members.actions.save'));
 
         // then
         sinon.assert.calledWith(
@@ -251,40 +260,57 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
           hbs`<Team::MembersListItem @membership={{this.membership}} @onRemoveMember={{this.removeMembership}} />`,
         );
 
-        await clickByName('Gérer');
-        await clickByText('Supprimer');
+        await clickByName(this.intl.t('pages.team-members.actions.manage'));
+        await clickByName(this.intl.t('pages.team-members.actions.remove-membership'));
 
         await screen.findByRole('dialog');
       });
 
       test('should display a confirmation modal', function (assert) {
         // then
-        assert.contains('Confirmez-vous la suppression ?');
-        assert.contains('Annuler');
-        assert.contains('Supprimer');
+        assert.ok(screen.getByText(this.intl.t('pages.team-members.actions.remove-membership')));
+        assert.ok(screen.getByRole('button', { name: this.intl.t('common.actions.cancel') }));
+        assert.ok(screen.getByRole('button', { name: this.intl.t('pages.team-members.actions.remove-membership') }));
       });
 
       test('should display the membership first name and last name in the modal', function (assert) {
         // then
-        assert.contains(memberMembership.user.get('firstName'));
-        assert.contains(memberMembership.user.get('lastName'));
+        assert.ok(screen.getByText(memberMembership.user.get('firstName')));
+        assert.ok(screen.getByText(memberMembership.user.get('lastName')));
       });
 
       test('should close the modal by clicking on cancel button', async function (assert) {
         // when
-        await clickByName('Annuler');
+        await clickByName(this.intl.t('common.actions.cancel'));
+
+        await waitForElementToBeRemoved(() => screen.queryByRole('dialog'));
 
         // then
-        assert.notContains("Supprimer de l'équipe");
+        assert.notOk(
+          screen.queryByRole('heading', {
+            level: 1,
+            name: this.intl.t('pages.team-members.remove-membership-modal.title'),
+          }),
+        );
       });
 
       test('should call removeMembership and close modal by clicking on remove button', async function (assert) {
         // when
-        await clickByText('Oui, supprimer le membre');
+        await clickByName(this.intl.t('pages.team-members.remove-membership-modal.actions.remove'));
 
         // then
         sinon.assert.calledWith(removeMembershipStub, memberMembership);
-        assert.notContains("Supprimer de l'équipe");
+
+        await waitForElementToBeRemoved(() => screen.queryByRole('dialog'));
+
+        assert
+          .dom(
+            screen.queryByRole('heading', {
+              level: 1,
+              name: this.intl.t('pages.team-members.remove-membership-modal.title'),
+            }),
+          )
+          .doesNotExist();
       });
     });
   });
@@ -336,10 +362,10 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
   @onLeaveOrganization={{this.onLeaveOrganization}}
 />`,
         );
-        await clickByName('Gérer');
-        await click(screen.getByRole('button', { name: 'Quitter cet espace Pix Orga' }));
+        await clickByName(this.intl.t('pages.team-members.actions.manage'));
+        await click(screen.getByRole('button', { name: this.intl.t('pages.team-members.actions.leave-organization') }));
         await screen.findByRole('dialog');
-        await click(screen.getByRole('button', { name: 'Confirmer' }));
+        await click(screen.getByRole('button', { name: this.intl.t('common.actions.confirm') }));
 
         // then
         sinon.assert.calledWith(onLeaveOrganizationStub, leavingAdminMembership);
