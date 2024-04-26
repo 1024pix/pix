@@ -387,13 +387,13 @@
         {
           "id": "6c69a919-4fc6-4039-9abc-ad70c49be7d8",
           "type": "text",
-          "content": "<hr>Si vous êtes bloqué, vous pouvez lire les indices ci-dessous."
+          "content": "<span aria-hidden=\"true\">🗝️</span> Si vous êtes bloqué, vous pouvez lire les indices ci-dessous."
         },
         {
           "id": "0856af53-1060-478f-8416-ddbc5ed3940c",
           "type": "text",
-          "content": "<h3>Indice n°1&nbsp;:</h3><p>L'ordre à suivre est&nbsp;: l'identifiant, l'arobase puis le fournisseur d'adresse mail.</p><h3>Indice n°2&nbsp;:</h3><p>Les adresses mails fournies par Yahoo se terminent par yahoo.com.</p>"
-        }
+          "content": "<details><summary>Indice n°1&nbsp;:</summary><p>L'ordre à suivre est&nbsp;: l'identifiant, l'arobase puis le fournisseur d'adresse mail.</p></details><details><summary>Indice n°2&nbsp;:</summary><p>Les adresses mails fournies par Yahoo se terminent par <code>yahoo.com</code>.</p></details>"
+          }
       ]
     }
   ]
