@@ -8,7 +8,7 @@ import { CertificationCandidatesError } from '../../../../../lib/domain/errors.j
 import { CertificationCandidate } from '../../../../../lib/domain/models/index.js';
 import * as certificationCandidatesOdsService from '../../../../../lib/domain/services/certification-candidates-ods-service.js';
 import * as complementaryCertificationRepository from '../../../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-repository.js';
-import * as certificationCpfService from '../../../../../src/certification/session/domain/services/certification-cpf-service.js';
+import * as certificationCpfService from '../../../../../src/certification/enrolment/domain/services/certification-cpf-service.js';
 import * as certificationCpfCityRepository from '../../../../../src/certification/session/infrastructure/repositories/certification-cpf-city-repository.js';
 import * as certificationCpfCountryRepository from '../../../../../src/certification/session/infrastructure/repositories/certification-cpf-country-repository.js';
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';

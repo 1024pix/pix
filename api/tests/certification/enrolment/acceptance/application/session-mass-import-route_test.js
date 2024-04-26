@@ -1,6 +1,6 @@
 import lodash from 'lodash';
 
-import * as temporarySessionsStorageForMassImportService from '../../../../../src/certification/session/domain/services/temporary-sessions-storage-for-mass-import-service.js';
+import * as temporarySessionsStorageForMassImportService from '../../../../../src/certification/enrolment/domain/services/temporary-sessions-storage-for-mass-import-service.js';
 import {
   createServer,
   databaseBuilder,

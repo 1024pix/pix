@@ -4,8 +4,8 @@ import {
   CertificationCandidateOnFinalizedSessionError,
   CertificationCandidatesError,
 } from '../../../../../../lib/domain/errors.js';
+import { CpfBirthInformationValidation } from '../../../../../../src/certification/enrolment/domain/services/certification-cpf-service.js';
 import { addCertificationCandidateToSession } from '../../../../../../src/certification/enrolment/domain/usecases/add-certification-candidate-to-session.js';
-import { CpfBirthInformationValidation } from '../../../../../../src/certification/session/domain/services/certification-cpf-service.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | add-certification-candidate-to-session', function () {

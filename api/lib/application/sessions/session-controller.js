@@ -1,9 +1,9 @@
 import lodash from 'lodash';
 
+import * as sessionValidator from '../../../src/certification/enrolment/domain/validators/session-validator.js';
 import * as certificationCandidateSerializer from '../../../src/certification/enrolment/infrastructure/serializers/certification-candidate-serializer.js';
 import * as sessionSerializer from '../../../src/certification/enrolment/infrastructure/serializers/session-serializer.js';
 import { usecases as sessionUsecases } from '../../../src/certification/session/domain/usecases/index.js';
-import * as sessionValidator from '../../../src/certification/session/domain/validators/session-validator.js';
 import * as jurySessionRepository from '../../../src/certification/session/infrastructure/repositories/jury-session-repository.js';
 import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';

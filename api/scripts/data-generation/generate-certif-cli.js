@@ -16,7 +16,7 @@ import { DatabaseBuilder } from '../../db/database-builder/database-builder.js';
 import { CampaignParticipationStatuses } from '../../lib/domain/models/index.js';
 import { learningContentCache } from '../../lib/infrastructure/caches/learning-content-cache.js';
 import { temporaryStorage } from '../../lib/infrastructure/temporary-storage/index.js';
-import { getNewSessionCode } from '../../src/certification/session/domain/services/session-code-service.js';
+import { getNewSessionCode } from '../../src/certification/enrolment/domain/services/session-code-service.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 import {
   makeUserCleaCertifiable,
