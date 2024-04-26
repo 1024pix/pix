@@ -39,7 +39,7 @@
   },
   "type": "module",
   "devDependencies": {
-    "@1024pix/eslint-config": "^1.2.5",
+    "@1024pix/eslint-config": "^1.2.6",
     "@tsconfig/node20": "^20.1.2",
     "@types/bcrypt": "^5.0.0",
     "@types/lodash": "^4.14.197",
