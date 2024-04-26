@@ -1,6 +1,5 @@
 import { sessionDomainErrorMappingConfiguration } from '../../../../../src/certification/session/application/http-error-mapper-configuration.js';
 import {
-  CertificationCandidateForbiddenDeletionError,
   SessionAlreadyFinalizedError,
   SessionAlreadyPublishedError,
   SessionWithAbortReasonOnCompletedCertificationCourseError,
@@ -93,24 +92,6 @@ describe('Unit | Certification | Session | Application | HttpErrorMapperConfigur
       //then
       expect(error).to.be.instanceOf(HttpErrors.BadRequestError);
       expect(error.message).to.equal(message);
-    });
-  });
-
-  context('when mapping "CertificationCandidateForbiddenDeletionError"', function () {
-    it('returns an CertificationCandidateForbiddenDeletionError Http Error', function () {
-      //given
-      const httpErrorMapper = sessionDomainErrorMappingConfiguration.find(
-        (httpErrorMapper) => httpErrorMapper.name === CertificationCandidateForbiddenDeletionError.name,
-      );
-
-      //when
-      const error = httpErrorMapper.httpErrorFn(new CertificationCandidateForbiddenDeletionError());
-
-      //then
-      expect(error).to.be.instanceOf(HttpErrors.ForbiddenError);
-      expect(error.message).to.equal(
-        'Il est interdit de supprimer un candidat de certification déjà lié à un utilisateur.',
-      );
     });
   });
 });

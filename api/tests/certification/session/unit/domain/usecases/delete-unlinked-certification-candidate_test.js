@@ -1,5 +1,5 @@
-import { CertificationCandidateForbiddenDeletionError } from '../../../../../../src/certification/session/domain/errors.js';
-import { deleteUnlinkedCertificationCandidate } from '../../../../../../src/certification/session/domain/usecases/delete-unlinked-certification-candidate.js';
+import { CertificationCandidateForbiddenDeletionError } from '../../../../../../src/certification/enrolment/domain/errors.js';
+import { deleteUnlinkedCertificationCandidate } from '../../../../../../src/certification/enrolment/domain/usecases/delete-unlinked-certification-candidate.js';
 import { catchErr, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | delete-unlinked-sertification-candidate', function () {

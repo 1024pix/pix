@@ -44,12 +44,6 @@ class SessionWithMissingAbortReasonError extends DomainError {
   }
 }
 
-class CertificationCandidateForbiddenDeletionError extends DomainError {
-  constructor(message = 'Il est interdit de supprimer un candidat de certification déjà lié à un utilisateur.') {
-    super(message);
-  }
-}
-
 class CsvWithNoSessionDataError extends DomainError {
   constructor(message = 'No session data in csv') {
     super(message);
@@ -58,7 +52,6 @@ class CsvWithNoSessionDataError extends DomainError {
 }
 
 export {
-  CertificationCandidateForbiddenDeletionError,
   CsvWithNoSessionDataError,
   SessionAlreadyFinalizedError,
   SessionAlreadyPublishedError,

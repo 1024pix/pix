@@ -1,9 +1,9 @@
+import * as serializer from '../../../../../../src/certification/enrolment/infrastructure/serializers/session-serializer.js';
 import { Session } from '../../../../../../src/certification/session/domain/models/Session.js';
-import * as serializer from '../../../../../../src/certification/session/infrastructure/serializers/jsonapi/session-serializer.js';
 import { SESSION_STATUSES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { EMPTY_BLANK_AND_NULL, expect } from '../../../../../test-helper.js';
 
-describe('Unit | Serializer | JSONAPI | session-serializer', function () {
+describe('Unit | Certification | enrolment | Serializer | session-serializer', function () {
   describe('#serialize()', function () {
     let session;
     let expectedJsonApi;
