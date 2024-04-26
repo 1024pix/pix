@@ -4,8 +4,8 @@ import { CertificationAssessment } from '../../../../../lib/domain/models/Certif
 import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
 import { CertificationCenter } from '../../../../../lib/domain/models/CertificationCenter.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { ComplementaryCertification } from '../../../session/domain/models/ComplementaryCertification.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
+import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
 import { Session } from '../../domain/models/Session.js';
 
 const save = async function ({ session, domainTransaction = DomainTransaction.emptyTransaction() }) {

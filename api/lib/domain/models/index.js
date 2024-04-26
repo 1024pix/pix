@@ -1,10 +1,10 @@
 import { ComplementaryCertification } from '../../../src/certification/complementary-certification/domain/models/ComplementaryCertification.js';
 import { CertificationAttestation } from '../../../src/certification/course/domain/models/CertificationAttestation.js';
+import { Session } from '../../../src/certification/enrolment/domain/models/Session.js';
 import { AssessmentSimulator } from '../../../src/certification/flash-certification/domain/models/AssessmentSimulator.js';
 import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certification/domain/models/FlashAssessmentAlgorithm.js';
 import { CertificationAssessmentScore } from '../../../src/certification/scoring/domain/models/CertificationAssessmentScore.js';
 import { CertificationOfficer } from '../../../src/certification/session/domain/models/CertificationOfficer.js';
-import { Session } from '../../../src/certification/session/domain/models/Session.js';
 import { CertificationCourse } from '../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { CertificationIssueReport } from '../../../src/certification/shared/domain/models/CertificationIssueReport.js';
 import { CertificationIssueReportCategory } from '../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';

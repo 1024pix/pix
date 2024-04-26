@@ -1,5 +1,5 @@
+import { Session } from '../../../../../../src/certification/enrollment/domain/models/Session.js';
 import { createSession } from '../../../../../../src/certification/enrollment/domain/usecases/create-session.js';
-import { Session } from '../../../../../../src/certification/session/domain/models/Session.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | create-session', function () {

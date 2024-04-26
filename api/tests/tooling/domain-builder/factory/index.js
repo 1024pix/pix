@@ -127,7 +127,6 @@ import { buildReproducibilityRate } from './build-reproducibility-rate.js';
 import { buildResultCompetenceTree } from './build-result-competence-tree.js';
 import { buildSchoolAssessment } from './build-school-assessment.js';
 import { buildSCOCertificationCandidate } from './build-sco-certification-candidate.js';
-import { buildSession } from './build-session.js';
 import { buildSessionForAttendanceSheet } from './build-session-for-attendance-sheet.js';
 import { buildSessionForInvigilatorKit } from './build-session-for-invigilator-kit.js';
 import { buildSessionForSupervising } from './build-session-for-supervising.js';
@@ -169,6 +168,7 @@ import { buildV3CertificationChallengeLiveAlertForAdministration } from './build
 import { buildV3CertificationCourseDetailsForAdministration } from './build-v3-certification-course-details-for-administration.js';
 import { buildValidation } from './build-validation.js';
 import { buildValidator } from './build-validator.js';
+import { buildSession } from './certification/enrolment/build-session.js';
 import { buildAssessmentResult as buildCertificationScoringAssessmentResult } from './certification/scoring/build-assessment-result.js';
 import { buildCertificationAssessmentHistory } from './certification/scoring/build-certification-assessment-history.js';
 import { buildCertificationChallengeCapacity } from './certification/scoring/build-certification-challenge-capacity.js';
