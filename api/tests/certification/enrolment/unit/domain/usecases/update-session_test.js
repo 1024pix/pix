@@ -1,4 +1,4 @@
-import { updateSession } from '../../../../../../src/certification/enrollment/domain/usecases/update-session.js';
+import { updateSession } from '../../../../../../src/certification/enrolment/domain/usecases/update-session.js';
 import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | update-session', function () {
