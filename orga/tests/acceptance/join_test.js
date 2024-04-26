@@ -493,7 +493,7 @@ module('Acceptance | join', function (hooks) {
           organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
         });
 
-        test('redirects prescriber to the campaigns list', async function (assert) {
+        test('redirects prescriber to register form and displays error message', async function (assert) {
           // given
           const code = 'ABCDEFGH01';
           const organizationInvitationId = server.create('organizationInvitation', {
@@ -508,16 +508,17 @@ module('Acceptance | join', function (hooks) {
             {
               errors: [
                 {
-                  detail: '',
+                  detail: 'Cette adresse e-mail est déjà enregistrée, connectez-vous.',
                   status: '422',
-                  title: '',
+                  title: 'Invalid data attribute "email"',
+                  source: { pointer: 'data/attributes/email' },
                 },
               ],
             },
             422,
           );
 
-          await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
+          const screen = await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
           await fillByLabel(firstNameInputLabel, 'pix');
           await fillByLabel(lastNameInputLabel, 'pix');
           await fillByLabel(emailInputLabel, 'alreadyUser@organization.org');
@@ -530,6 +531,7 @@ module('Acceptance | join', function (hooks) {
           // then
           assert.strictEqual(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
           assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
+          assert.ok(screen.getByText('Cette adresse e-mail est déjà enregistrée, connectez-vous.'));
         });
       });
     });

@@ -2,7 +2,6 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
 
 import isEmailValid from '../../utils/email-validator';
@@ -73,18 +72,18 @@ export default class RegisterForm extends Component {
       return;
     }
     this.isLoading = true;
+    let user;
 
     try {
-      await this.store
-        .createRecord('user', {
-          lastName: this.lastName,
-          firstName: this.firstName,
-          email: this.email,
-          password: this.password,
-          cgu: true,
-          lang: this.selectedLanguage,
-        })
-        .save();
+      user = await this.store.createRecord('user', {
+        lastName: this.lastName,
+        firstName: this.firstName,
+        email: this.email,
+        password: this.password,
+        cgu: true,
+        lang: this.selectedLanguage,
+      });
+      await user.save();
 
       await this._acceptOrganizationInvitation(
         this.args.organizationInvitationId,
@@ -96,13 +95,11 @@ export default class RegisterForm extends Component {
 
       this.password = null;
     } catch (response) {
-      const status = get(response, 'errors[0].status');
-
-      if (status === '422') {
-        this.errorMessage = this.intl.t('pages.login-or-register.register-form.errors.email-already-exists');
-      } else {
-        this.errorMessage = this.intl.t('pages.login-or-register.register-form.errors.default');
+      if (user.errors) {
+        return this._updateInputsStatus(user);
       }
+
+      this.errorMessage = this.intl.t('pages.login-or-register.register-form.errors.default');
     } finally {
       this.isLoading = false;
     }
@@ -181,6 +178,18 @@ export default class RegisterForm extends Component {
   @action
   updateCgu() {
     this.cgu = !this.cgu;
+  }
+
+  _updateInputsStatus(user) {
+    const errors = user.errors;
+    errors.forEach(({ attribute, message }) => {
+      this._updateValidationStatus(attribute, 'error', message);
+    });
+  }
+
+  _updateValidationStatus(key, status, message) {
+    this.validation[key].status = status;
+    this.validation[key].message = message;
   }
 
   _isFormValid() {
