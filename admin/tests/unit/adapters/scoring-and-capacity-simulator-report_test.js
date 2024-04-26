@@ -1,65 +1,21 @@
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
-import sinon from 'sinon';
 
 module('Unit | Adapter | scoring-and-capacity-simulator-report', function (hooks) {
   setupTest(hooks);
 
-  module('#getSimulationResult', function () {
-    module('when a score is given', function () {
-      test('should trigger POST request with the correct payload and URL', async function (assert) {
-        // given
-        const adapter = this.owner.lookup('adapter:scoring-and-capacity-simulator-report');
-        sinon.stub(adapter, 'ajax');
+  module('#urlForQuery', function () {
+    test('should trigger a request with the correct URL', async function (assert) {
+      // given
 
-        const adapterOptions = {
-          score: 1,
-          capacity: null,
-        };
+      const adapter = this.owner.lookup('adapter:scoring-and-capacity-simulator-report');
 
-        // when
-        await adapter.getSimulationResult(adapterOptions);
+      const url = adapter.urlForQuery();
 
-        // then
-        const expectedUrl = 'http://localhost:3000/api/admin/simulate-score-or-capacity';
-        const expectedPayload = {
-          data: {
-            data: {
-              score: 1,
-            },
-          },
-        };
-        sinon.assert.calledWith(adapter.ajax, expectedUrl, 'POST', expectedPayload);
-        assert.ok(adapter); /* required because QUnit wants at least one expect (and does not accept Sinon's one) */
-      });
-    });
+      console.log({ url });
 
-    module('when a capacity is given', function () {
-      test('should trigger POST request with the correct payload and URL', async function (assert) {
-        // given
-        const adapter = this.owner.lookup('adapter:scoring-and-capacity-simulator-report');
-        sinon.stub(adapter, 'ajax');
-
-        const adapterOptions = {
-          capacity: 1,
-          score: null,
-        };
-
-        // when
-        await adapter.getSimulationResult(adapterOptions);
-
-        // then
-        const expectedUrl = 'http://localhost:3000/api/admin/simulate-score-or-capacity';
-        const expectedPayload = {
-          data: {
-            data: {
-              capacity: 1,
-            },
-          },
-        };
-        sinon.assert.calledWith(adapter.ajax, expectedUrl, 'POST', expectedPayload);
-        assert.ok(adapter); /* required because QUnit wants at least one expect (and does not accept Sinon's one) */
-      });
+      // when / then
+      assert.ok(url.endsWith('/simulate-score-and-capacity'));
     });
   });
 });
