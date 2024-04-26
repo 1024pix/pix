@@ -4,7 +4,7 @@ import { ONDE_IMPORT_FORMAT_ID } from '../common/constants.js';
 export async function buildOrganizationLearnerImportFormat(databaseBuilder) {
   await databaseBuilder.factory.buildOrganizationLearnerImportFormat({
     id: ONDE_IMPORT_FORMAT_ID,
-    name: 'ONDE',
+    name: 'ONDE-seed',
     fileType: 'csv',
     config: {
       acceptedEncoding: ['utf8'],
