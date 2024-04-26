@@ -956,7 +956,7 @@
         "warning-banner": "Certaines valeurs n’ont pas été reconnues. Elles ont été remplacées par “Non reconnu”. Si vous considérez qu’il manque des valeurs dans la liste limitative, veuillez nous contacter à '<a href=\"mailto:sup@pix.fr\">'sup@pix.fr'</a></div>'"
       },
       "error-panel": {
-        "title": "Liste des erreurs rencontrées",
+        "title": "Erreurs dans le dernier fichier importé :",
         "error-wrapper": "Aucun participant n’a été importé. Veuillez modifier votre fichier et l’importer à nouveau.",
         "global-error": "Aucun participant n’a été importé. Veuillez réessayer ou nous contacter via '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://support.pix.fr/support/tickets/new\">'le formulaire du centre d’aide'</a>'."
       },
