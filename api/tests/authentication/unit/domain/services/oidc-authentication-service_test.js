@@ -501,8 +501,8 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       });
     });
 
-    describe('when required properties are not returned in id token', function () {
-      it('should call userInfo endpoint', async function () {
+    describe('when default required properties are not returned in id token', function () {
+      it('calls userInfo endpoint', async function () {
         // given
         function generateIdToken(payload) {
           return jsonwebtoken.sign(
@@ -519,6 +519,41 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         });
 
         const oidcAuthenticationService = new OidcAuthenticationService({});
+        sinon.stub(oidcAuthenticationService, '_getUserInfoFromEndpoint').resolves({});
+
+        // when
+        await oidcAuthenticationService.getUserInfo({
+          idToken,
+          accessToken: 'accessToken',
+        });
+
+        // then
+        expect(oidcAuthenticationService._getUserInfoFromEndpoint).to.have.been.calledOnceWithExactly({
+          accessToken: 'accessToken',
+        });
+      });
+    });
+
+    describe('when claimsToStore are not returned in id token', function () {
+      it('calls userInfo endpoint', async function () {
+        // given
+        function generateIdToken(payload) {
+          return jsonwebtoken.sign(
+            {
+              ...payload,
+            },
+            'secret',
+          );
+        }
+
+        const idToken = generateIdToken({
+          nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
+          sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+          family_name: 'Le Gaulois',
+          given_name: 'Astérix',
+        });
+
+        const oidcAuthenticationService = new OidcAuthenticationService({ claimsToStore: 'employeeNumber' });
         sinon.stub(oidcAuthenticationService, '_getUserInfoFromEndpoint').resolves({});
 
         // when

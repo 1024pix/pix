@@ -69,7 +69,7 @@ export class OidcAuthenticationService {
 
     if (!lodash.isEmpty(claimsToStore)) {
       this.claimsToStore = claimsToStore.split(',').map((claim) => claim.trim());
-      this.#requiredClaims.push(...this.claimsToStore);
+      this.#requiredClaims = Array.from(new Set([...this.#requiredClaims, ...this.claimsToStore]));
     }
 
     if (!enabled && !enabledForPixAdmin) {
