@@ -79,7 +79,7 @@
         {
           "id": "c1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d",
           "type": "text",
-          "content": "<h3 class=\"screen-reader-only\">L'identifiant</h3><h4>Partie n°1&nbsp;: l’identifiant choisi par Mickaël.</h4><p>Tous les identifiants sont possibles, ou presque, même avec des majuscules&#8239;!</p><p><span aria-hidden=\"true\">✅</span> Par exemple&nbsp;: mika671 ou G3oDu671</p><p class=\"pix-list-inline\"><span aria-hidden=\"true\">❌</span> Mais certains caractères sont interdits&nbsp;:</p><ul><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>"
+          "content": "<h3 class=\"screen-reader-only\">L'identifiant</h3><h4>Partie 1&nbsp;: l’identifiant choisi par Mickaël.</h4><p>Tous les identifiants sont possibles, ou presque, même avec des majuscules&#8239;!</p><p><span aria-hidden=\"true\">✅</span> Par exemple&nbsp;: mika671 ou G3oDu671</p><p class=\"pix-list-inline\"><span aria-hidden=\"true\">❌</span> Mais certains caractères sont interdits&nbsp;:</p><ul><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>"
         },
         {
           "id": "8137ddf4-f689-4297-8beb-a8de0c64b14d",
@@ -165,7 +165,7 @@
           "proposals": [
             {
               "type": "text",
-              "content": "<span>Partie n°1&nbsp;:</span>"
+              "content": "<span>Partie 1&nbsp;:</span>"
             },
             {
               "input": "premiere-partie",
@@ -191,7 +191,7 @@
             },
             {
               "type": "text",
-              "content": "<span>Partie n°2&nbsp;:</span>"
+              "content": "<span>Partie 2&nbsp;:</span>"
             },
             {
               "input": "seconde-partie",
