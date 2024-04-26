@@ -18,6 +18,7 @@
     h2 {
      @extend %pix-title-xs;
 
+      margin-bottom: var(--pix-spacing-6x);
       color: var(--pix-neutral-900);
     }
 

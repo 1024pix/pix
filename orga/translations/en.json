@@ -956,7 +956,7 @@
         "warning-banner": "However some values were not recognised. They have been replaced by \"Not recognised\". If you need other values, please contact us at '<a href=\"mailto:sup@pix.fr\">'sup@pix.fr'</a></div>'"
       },
       "error-panel": {
-        "title": "Errors list encountered",
+        "title": "Errors in the last file imported :",
         "error-wrapper": "Import has failed. Please check or edit your file and try to import it again.",
         "global-error": "Import has failed. Please try again or contact us through '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://pix.org/en-gb/contact-form\">'the help form'</a>'."
       },
