@@ -1,6 +1,8 @@
-import { UserNotAuthorizedToAccessEntityError } from '../../../../../lib/domain/errors.js';
 import { findAnswerByAssessment } from '../../../../../src/evaluation/domain/usecases/find-answer-by-assessment.js';
-import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
+import {
+  EntityValidationError,
+  UserNotAuthorizedToAccessEntityError,
+} from '../../../../../src/shared/domain/errors.js';
 import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | UseCase | find-answer-by-challenge-and-assessment', function () {
