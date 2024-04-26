@@ -8,34 +8,35 @@ import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component |  administration/organizations-import', function (hooks) {
+module('Integration | Component |  administration/oidc-providers-import', function (hooks) {
   setupIntlRenderingTest(hooks);
   setupMirage(hooks);
 
   module('when import succeeds', function () {
     test('it displays a success notification', async function (assert) {
       // given
+      this.server.post('/admin/oidc-providers/import', () => new Response(204));
       const file = new Blob(['foo'], { type: `valid-file` });
       const notificationSuccessStub = sinon.stub();
       class NotificationsStub extends Service {
-        success = notificationSuccessStub;
         clearAll = sinon.stub();
+        success = notificationSuccessStub;
       }
       this.owner.register('service:notifications', NotificationsStub);
 
       // when
-      const screen = await render(hbs`<Administration::OrganizationsImport />`);
+      const screen = await render(hbs`<Administration::OidcProvidersImport />`);
       const input = await screen.findByLabelText(
-        this.intl.t('components.administration.organizations-import.upload-button'),
+        this.intl.t('components.administration.oidc-providers-import.upload-button'),
       );
       await triggerEvent(input, 'change', { files: [file] });
 
       // then
-      assert.ok(true);
       sinon.assert.calledWith(
         notificationSuccessStub,
-        this.intl.t('components.administration.organizations-import.notifications.success'),
+        this.intl.t('components.administration.oidc-providers-import.notifications.success'),
       );
+      assert.ok(true);
     });
   });
 
@@ -43,16 +44,16 @@ module('Integration | Component |  administration/organizations-import', functio
     test('it displays an error notification', async function (assert) {
       // given
       this.server.post(
-        '/admin/organizations/import-csv',
+        '/admin/oidc-providers/import',
         () =>
           new Response(
-            412,
+            400,
             {},
-            { errors: [{ status: '412', title: "Un soucis avec l'import", code: '412', detail: 'Erreur d’import' }] },
+            { errors: [{ status: '400', title: "Un soucis avec l'import", code: '400', detail: 'Erreur d’import' }] },
           ),
-        412,
+        400,
       );
-      const file = new Blob(['foo'], { type: `valid-file` });
+      const file = new Blob(['foo'], { type: `invalid-file` });
       const notificationErrorStub = sinon.stub().returns();
       class NotificationsStub extends Service {
         error = notificationErrorStub;
@@ -61,9 +62,9 @@ module('Integration | Component |  administration/organizations-import', functio
       this.owner.register('service:notifications', NotificationsStub);
 
       // when
-      const screen = await render(hbs`<Administration::OrganizationsImport />`);
+      const screen = await render(hbs`<Administration::OidcProvidersImport />`);
       const input = await screen.findByLabelText(
-        this.intl.t('components.administration.organizations-import.upload-button'),
+        this.intl.t('components.administration.oidc-providers-import.upload-button'),
       );
       await triggerEvent(input, 'change', { files: [file] });
 

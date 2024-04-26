@@ -33,6 +33,14 @@
   },
   "components": {
     "administration": {
+      "oidc-providers-import": {
+        "title": "OIDC Providers import",
+        "description": "Note: Trying to import already existing OIDC Providers would produce an error.",
+        "notifications": {
+          "success": "The OIDC Providers have been created."
+        },
+        "upload-button": "Import JSON file"
+      },
       "organizations-import": {
         "title": "Mass creation of organizations",
         "description": "Existing organizations will not be changed.",

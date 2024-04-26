@@ -1,0 +1,16 @@
+<section class="page-section">
+  <header class="page-section__header">
+    <h2 class="page-section__title">{{t "components.administration.oidc-providers-import.title"}}</h2>
+  </header>
+  <p>{{t "components.administration.oidc-providers-import.description"}}</p>
+  <br />
+  <PixButtonUpload
+    @id="oidc-providers-file-upload"
+    @onChange={{this.importOidcProviders}}
+    @backgroundColor="transparent-light"
+    @isBorderVisible={{true}}
+    accept=".json"
+  >
+    {{t "components.administration.oidc-providers-import.upload-button"}}
+  </PixButtonUpload>
+</section>

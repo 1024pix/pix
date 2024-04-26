@@ -41,6 +41,14 @@
         },
         "upload-button": "Importer un fichier CSV"
       },
+      "oidc-providers-import": {
+        "title": "Import d’OIDC Providers",
+        "description": "Note: Chercher à importer à nouveau des OIDC Providers déjà existants renverrait une erreur.",
+        "notifications": {
+          "success": "Les OIDC Providers ont bien été créés."
+        },
+        "upload-button": "Importer un fichier JSON"
+      },
       "organizations-import": {
         "title": "Création en masse d'organisations",
         "description": "Les organisations déjà existantes ne seront pas modifiées.",
