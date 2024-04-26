@@ -57,10 +57,12 @@ class Session {
     this.createdBy = createdBy;
   }
 
+  // @deprecated
   areResultsFlaggedAsSent() {
     return !_.isNil(this.resultsSentToPrescriberAt);
   }
 
+  // @deprecated
   get status() {
     if (this.publishedAt) {
       return SESSION_STATUSES.PROCESSED;
@@ -74,6 +76,7 @@ class Session {
     return SESSION_STATUSES.CREATED;
   }
 
+  // @deprecated
   isPublished() {
     return this.publishedAt !== null;
   }

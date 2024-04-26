@@ -1,5 +1,5 @@
 /**
- * @typedef {import ('../../../shared/domain/usecases/index.js').dependencies} deps
+ * @typedef {import ("../../../shared/domain/usecases/index.js").dependencies} deps
  */
 
 import bluebird from 'bluebird';
@@ -12,10 +12,10 @@ import { Session } from '../models/Session.js';
 
 /**
  * @param {Object} params
- * @param {deps['certificationCandidateRepository']} params.certificationCandidateRepository
- * @param {deps['certificationCenterRepository']} params.certificationCenterRepository
- * @param {deps['sessionRepository']} params.sessionRepository
- * @param {deps['temporarySessionsStorageForMassImportService']} params.temporarySessionsStorageForMassImportService
+ * @param {deps["certificationCandidateRepository"]} params.certificationCandidateRepository
+ * @param {deps["certificationCenterRepository"]} params.certificationCenterRepository
+ * @param {deps["sessionRepository"]} params.sessionRepository
+ * @param {deps["temporarySessionsStorageForMassImportService"]} params.temporarySessionsStorageForMassImportService
  */
 const createSessions = async function ({
   userId,

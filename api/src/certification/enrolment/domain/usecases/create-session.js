@@ -5,8 +5,8 @@
  * @typedef {import ("./index.js").SessionCodeService} SessionCodeService
  */
 
-import { Session } from '../../../session/domain/models/Session.js';
 import { CertificationVersion } from '../../../shared/domain/models/CertificationVersion.js';
+import { Session } from '../models/Session.js';
 
 /**
  * @param {Object} params
