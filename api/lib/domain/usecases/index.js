@@ -1,4 +1,4 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
+// eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
 /* eslint-disable import/no-restricted-paths */
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';

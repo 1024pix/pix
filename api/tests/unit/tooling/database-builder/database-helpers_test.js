@@ -1,4 +1,4 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
+// eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
 /* eslint-disable import/no-restricted-paths */
 import * as databaseHelpers from '../../../../db/database-builder/database-helpers.js';
 import { expect } from '../../../test-helper.js';
