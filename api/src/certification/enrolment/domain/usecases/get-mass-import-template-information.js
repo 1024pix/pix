@@ -1,8 +1,8 @@
 /**
- * @typedef {import('./index.js').CenterRepository} CenterRepository
- * @typedef {import('./index.js').ComplementaryCertificationRepository} ComplementaryCertificationRepository
- * @typedef {import('../models/Center.js').Center} Center
- * @typedef {import('../../../../shared/domain/errors.js').NotFoundError} NotFoundError
+ * @typedef {import("./index.js").CenterRepository} CenterRepository
+ * @typedef {import("./index.js").ComplementaryCertificationRepository} ComplementaryCertificationRepository
+ * @typedef {import("../../../session/domain/models/Center.js").Center} Center
+ * @typedef {import("../../../../shared/domain/errors.js").NotFoundError} NotFoundError
  */
 
 import bluebird from 'bluebird';

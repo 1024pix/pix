@@ -2,7 +2,7 @@ import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 import { CertificationCenter } from '../../../../../../lib/domain/models/CertificationCenter.js';
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 import { Session } from '../../../../../../src/certification/enrolment/domain/models/Session.js';
-import { createSessions } from '../../../../../../src/certification/session/domain/usecases/create-sessions.js';
+import { createSessions } from '../../../../../../src/certification/enrolment/domain/usecases/create-sessions.js';
 import { CertificationVersion } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 

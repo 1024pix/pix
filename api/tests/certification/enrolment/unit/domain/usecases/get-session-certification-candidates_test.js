@@ -1,4 +1,4 @@
-import { getSessionCertificationCandidates } from '../../../../../../src/certification/session/domain/usecases/get-session-certification-candidates.js';
+import { getSessionCertificationCandidates } from '../../../../../../src/certification/enrolment/domain/usecases/get-session-certification-candidates.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | get-session-certification-candidates', function () {

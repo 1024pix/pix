@@ -1,12 +1,12 @@
 /**
- * @typedef {import('./index.js').CandidateRepository} CandidateRepository
- * @typedef {import('./index.js').ComplementaryCertificationRepository} ComplementaryCertificationRepository
- * @typedef {import('../../../../shared/domain/errors.js').NotFoundError} NotFoundError
+ * @typedef {import("./index.js").CandidateRepository} CandidateRepository
+ * @typedef {import("./index.js").ComplementaryCertificationRepository} ComplementaryCertificationRepository
+ * @typedef {import("../../../../shared/domain/errors.js").NotFoundError} NotFoundError
  */
 import bluebird from 'bluebird';
 
 import { constants as infraConstants } from '../../../../../lib/infrastructure/constants.js';
-import { EnrolledCandidate } from '../read-models/EnrolledCandidate.js';
+import { EnrolledCandidate } from '../../../session/domain/read-models/EnrolledCandidate.js';
 
 /**
  * @function

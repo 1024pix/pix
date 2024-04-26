@@ -1,9 +1,9 @@
 /**
- * @typedef {import ('../../../shared/domain/usecases/index.js').SessionRepository} SessionRepository
- * @typedef {import ('../../../shared/domain/usecases/index.js').CertificationCandidateRepository} CertificationCandidateRepository
- * @typedef {import ('../../../shared/domain/usecases/index.js').CertificationCpfService} CertificationCpfService
- * @typedef {import ('../../../shared/domain/usecases/index.js').CertificationCpfCountryRepository} CertificationCpfCountryRepository
- * @typedef {import ('../../../shared/domain/usecases/index.js').CertificationCpfCityRepository} CertificationCpfCityRepository
+ * @typedef {import ('./index.js').SessionRepository} SessionRepository
+ * @typedef {import ('./index.js').CertificationCandidateRepository} CertificationCandidateRepository
+ * @typedef {import ('./index.js').CertificationCpfService} CertificationCpfService
+ * @typedef {import ('./index.js').CertificationCpfCountryRepository} CertificationCpfCountryRepository
+ * @typedef {import ('./index.js').CertificationCpfCityRepository} CertificationCpfCityRepository
  */
 
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../lib/domain/constants/certification-candidates-errors.js';
