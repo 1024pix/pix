@@ -5,8 +5,8 @@ import * as url from 'node:url';
 import FormData from 'form-data';
 import streamToPromise from 'stream-to-promise';
 
-import { sessionMassImportController } from '../../../../../src/certification/session/application/session-mass-import-controller.js';
-import * as moduleUnderTest from '../../../../../src/certification/session/application/session-mass-import-route.js';
+import { sessionMassImportController } from '../../../../../src/certification/enrolment/application/session-mass-import-controller.js';
+import * as moduleUnderTest from '../../../../../src/certification/enrolment/application/session-mass-import-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
