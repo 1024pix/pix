@@ -1,5 +1,5 @@
 import { InvalidIdentityProviderError } from '../../../../../lib/domain/errors.js';
-import { OidcAuthenticationServiceRegistry } from '../../../../../lib/domain/services/authentication/oidc-authentication-service-registry.js';
+import { OidcAuthenticationServiceRegistry } from '../../../../../src/authentication/domain/services/oidc-authentication-service-registry.js';
 import { oidcProviderRepository } from '../../../../../src/authentication/infrastructure/repositories/oidc-provider-repository.js';
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 import { catchErrSync, expect, sinon } from '../../../../test-helper.js';

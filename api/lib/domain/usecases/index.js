@@ -3,6 +3,7 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { OidcAuthenticationServiceRegistry } from '../../../src/authentication/domain/services/oidc-authentication-service-registry.js';
 import * as pixAuthenticationService from '../../../src/authentication/domain/services/pix-authentication-service.js';
 import * as refreshTokenService from '../../../src/authentication/domain/services/refresh-token-service.js';
 import * as oidcProviderRepository from '../../../src/authentication/infrastructure/repositories/oidc-provider-repository.js';
@@ -168,7 +169,6 @@ import * as stageCollectionRepository from '../../infrastructure/repositories/us
 import * as userEmailRepository from '../../infrastructure/repositories/user-email-repository.js';
 import * as userOrganizationsForAdminRepository from '../../infrastructure/repositories/user-organizations-for-admin-repository.js';
 import * as writeCsvUtils from '../../infrastructure/utils/csv/write-csv-utils.js';
-import { OidcAuthenticationServiceRegistry } from '../services/authentication/oidc-authentication-service-registry.js';
 import * as learningContentConversionService from '../services/learning-content/learning-content-conversion-service.js';
 import * as organizationInvitationService from '../services/organization-invitation-service.js';
 import * as scoAccountRecoveryService from '../services/sco-account-recovery-service.js';
