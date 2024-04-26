@@ -1,4 +1,4 @@
-import { usecases } from '../domain/usecases/index.js';
+import { usecases } from '../../session/domain/usecases/index.js';
 
 const getAttendanceSheet = async function (request, h) {
   const sessionId = request.params.id;
