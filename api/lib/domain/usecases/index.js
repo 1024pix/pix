@@ -9,11 +9,11 @@ import * as targetProfileHistoryRepository from '../../../src/certification/comp
 import { endAssessmentBySupervisor } from '../../../src/certification/course/domain/usecases/end-assessment-by-supervisor.js';
 import { getNextChallengeForV2Certification } from '../../../src/certification/course/domain/usecases/get-next-challenge-for-v2-certification.js';
 import { getNextChallengeForV3Certification } from '../../../src/certification/course/domain/usecases/get-next-challenge-for-v3-certification.js';
+import * as certificationCpfService from '../../../src/certification/enrolment/domain/services/certification-cpf-service.js';
+import * as sessionCodeService from '../../../src/certification/enrolment/domain/services/session-code-service.js';
 import * as flashAlgorithmService from '../../../src/certification/flash-certification/domain/services/algorithm-methods/flash.js';
 import { pickChallengeService } from '../../../src/certification/flash-certification/domain/services/pick-challenge-service.js';
 import * as flashAlgorithmConfigurationRepository from '../../../src/certification/flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
-import * as certificationCpfService from '../../../src/certification/session/domain/services/certification-cpf-service.js';
-import * as sessionCodeService from '../../../src/certification/session/domain/services/session-code-service.js';
 import * as centerRepository from '../../../src/certification/session/infrastructure/repositories/center-repository.js';
 import * as certificationCandidateRepository from '../../../src/certification/session/infrastructure/repositories/certification-candidate-repository.js';
 import * as certificationCpfCityRepository from '../../../src/certification/session/infrastructure/repositories/certification-cpf-city-repository.js';

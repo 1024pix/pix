@@ -1,8 +1,8 @@
 import lodash from 'lodash';
 
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../lib/domain/constants/certification-candidates-errors.js';
-import { CpfBirthInformationValidation } from '../../../../../../src/certification/session/domain/services/certification-cpf-service.js';
-import * as sessionsImportValidationService from '../../../../../../src/certification/session/domain/services/sessions-import-validation-service.js';
+import { CpfBirthInformationValidation } from '../../../../../../src/certification/enrolment/domain/services/certification-cpf-service.js';
+import * as sessionsImportValidationService from '../../../../../../src/certification/enrolment/domain/services/sessions-import-validation-service.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 const { noop } = lodash;

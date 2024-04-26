@@ -2,7 +2,7 @@ import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../lib/domain/co
 import {
   CpfBirthInformationValidation,
   getBirthInformation,
-} from '../../../../../../src/certification/session/domain/services/certification-cpf-service.js';
+} from '../../../../../../src/certification/enrolment/domain/services/certification-cpf-service.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Service | Certification CPF service', function () {
