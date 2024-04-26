@@ -1,4 +1,4 @@
-import { statuses } from '../../../src/certification/session/domain/models/Session.js';
+import { SESSION_STATUSES } from '../../../src/certification/shared/domain/constants.js';
 
 class JurySession {
   constructor({
@@ -53,16 +53,16 @@ class JurySession {
 
   get status() {
     if (this.publishedAt) {
-      return statuses.PROCESSED;
+      return SESSION_STATUSES.PROCESSED;
     }
     if (this.assignedCertificationOfficer) {
-      return statuses.IN_PROCESS;
+      return SESSION_STATUSES.IN_PROCESS;
     }
     if (this.finalizedAt) {
-      return statuses.FINALIZED;
+      return SESSION_STATUSES.FINALIZED;
     }
-    return statuses.CREATED;
+    return SESSION_STATUSES.CREATED;
   }
 }
 
-export { JurySession, statuses };
+export { JurySession, SESSION_STATUSES as statuses };

@@ -3,8 +3,9 @@ import _ from 'lodash';
 import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 import { CertificationAssessment } from '../../../../../../lib/domain/models/CertificationAssessment.js';
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
-import { Session, statuses } from '../../../../../../src/certification/session/domain/models/Session.js';
+import { Session } from '../../../../../../src/certification/session/domain/models/Session.js';
 import * as sessionRepository from '../../../../../../src/certification/session/infrastructure/repositories/session-repository.js';
+import { SESSION_STATUSES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 
@@ -478,7 +479,7 @@ describe('Integration | Repository | Session', function () {
       expect(sessionSaved.examinerGlobalComment).to.deep.equal(examinerGlobalComment);
       expect(sessionSaved.hasIncident).to.deep.equal(hasIncident);
       expect(sessionSaved.hasJoiningIssue).to.deep.equal(hasJoiningIssue);
-      expect(sessionSaved.status).to.deep.equal(statuses.FINALIZED);
+      expect(sessionSaved.status).to.deep.equal(SESSION_STATUSES.FINALIZED);
     });
   });
 

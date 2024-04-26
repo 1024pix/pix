@@ -1,5 +1,6 @@
-import { Session, statuses } from '../../../../../../src/certification/session/domain/models/Session.js';
+import { Session } from '../../../../../../src/certification/session/domain/models/Session.js';
 import * as serializer from '../../../../../../src/certification/session/infrastructure/serializers/jsonapi/session-serializer.js';
+import { SESSION_STATUSES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { EMPTY_BLANK_AND_NULL, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | session-serializer', function () {
@@ -20,7 +21,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function () {
             examiner: 'Antoine Toutvenant',
             date: '2017-01-20',
             time: '14:30',
-            status: statuses.PROCESSED,
+            status: SESSION_STATUSES.PROCESSED,
             description: '',
             'examiner-global-comment': 'It was a fine session my dear',
             'has-incident': true,
@@ -121,7 +122,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function () {
           time: '14:30',
           // TODO: Fix this the next time the file is edited.
           // eslint-disable-next-line mocha/no-setup-in-describe
-          status: statuses.CREATED,
+          status: SESSION_STATUSES.CREATED,
           description: '',
           'certification-center-id': 42,
           'examiner-global-comment': 'It was a fine session my dear',

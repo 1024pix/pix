@@ -1,4 +1,4 @@
-import { statuses } from '../../../src/certification/session/domain/models/Session.js';
+import { SESSION_STATUSES } from '../../../src/certification/shared/domain/constants.js';
 
 class SessionSummary {
   constructor({
@@ -56,18 +56,18 @@ class SessionSummary {
 
 function _computeStatus({ finalizedAt, publishedAt }) {
   if (publishedAt) {
-    return statuses.PROCESSED;
+    return SESSION_STATUSES.PROCESSED;
   }
   if (finalizedAt) {
-    return statuses.FINALIZED;
+    return SESSION_STATUSES.FINALIZED;
   }
-  return statuses.CREATED;
+  return SESSION_STATUSES.CREATED;
 }
 
 SessionSummary.statuses = {
-  CREATED: statuses.CREATED,
-  FINALIZED: statuses.FINALIZED,
-  PROCESSED: statuses.PROCESSED,
+  CREATED: SESSION_STATUSES.CREATED,
+  FINALIZED: SESSION_STATUSES.FINALIZED,
+  PROCESSED: SESSION_STATUSES.PROCESSED,
 };
 
 export { SessionSummary };

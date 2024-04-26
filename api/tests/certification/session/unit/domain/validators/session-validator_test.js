@@ -1,5 +1,5 @@
-import { statuses } from '../../../../../../src/certification/session/domain/models/Session.js';
 import * as sessionValidator from '../../../../../../src/certification/session/domain/validators/session-validator.js';
+import { SESSION_STATUSES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect } from '../../../../../test-helper.js';
 
@@ -348,10 +348,10 @@ describe('Unit | Domain | Validators | session-validator', function () {
 
         context('when status is in the statuses list', function () {
           it('should not throw an error', async function () {
-            expect(sessionValidator.validateAndNormalizeFilters({ status: statuses.CREATED })).to.not.throw;
-            expect(sessionValidator.validateAndNormalizeFilters({ status: statuses.FINALIZED })).to.not.throw;
-            expect(sessionValidator.validateAndNormalizeFilters({ status: statuses.IN_PROCESS })).to.not.throw;
-            expect(sessionValidator.validateAndNormalizeFilters({ status: statuses.PROCESSED })).to.not.throw;
+            expect(sessionValidator.validateAndNormalizeFilters({ status: SESSION_STATUSES.CREATED })).to.not.throw;
+            expect(sessionValidator.validateAndNormalizeFilters({ status: SESSION_STATUSES.FINALIZED })).to.not.throw;
+            expect(sessionValidator.validateAndNormalizeFilters({ status: SESSION_STATUSES.IN_PROCESS })).to.not.throw;
+            expect(sessionValidator.validateAndNormalizeFilters({ status: SESSION_STATUSES.PROCESSED })).to.not.throw;
           });
         });
       });
