@@ -1,12 +1,12 @@
 /**
- * @typedef {import ('../../../shared/domain/usecases/index.js').CertificationCenterRepository} CertificationCenterRepository
- * @typedef {import ('../../../shared/domain/usecases/index.js').SessionRepository} SessionRepository
- * @typedef {import ('../../../shared/domain/usecases/index.js').SessionValidator} SessionValidator
- * @typedef {import ('../../../shared/domain/usecases/index.js').SessionCodeService} SessionCodeService
+ * @typedef {import ("./index.js").CertificationCenterRepository} CertificationCenterRepository
+ * @typedef {import ("./index.js").SessionRepository} SessionRepository
+ * @typedef {import ("./index.js").SessionValidator} SessionValidator
+ * @typedef {import ("./index.js").SessionCodeService} SessionCodeService
  */
 
+import { Session } from '../../../session/domain/models/Session.js';
 import { CertificationVersion } from '../../../shared/domain/models/CertificationVersion.js';
-import { Session } from '../models/Session.js';
 
 /**
  * @param {Object} params
