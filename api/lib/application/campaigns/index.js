@@ -8,16 +8,6 @@ const register = async function (server) {
   server.route([
     {
       method: 'GET',
-      path: '/api/campaigns',
-      config: {
-        auth: false,
-        handler: campaignController.getByCode,
-        notes: ['- Récupération de la campagne dont le code est spécifié dans les filtres de la requête'],
-        tags: ['api', 'campaign'],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/campaigns/{id}/collective-results',
       config: {
         validate: {

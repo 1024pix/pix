@@ -1,5 +1,5 @@
-import { knex } from '../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../domain/errors.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { CampaignToJoin } from '../../domain/read-models/CampaignToJoin.js';
 
 const getByCode = async function (code) {

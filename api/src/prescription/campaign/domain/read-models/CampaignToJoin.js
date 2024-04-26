@@ -1,5 +1,5 @@
-import { CampaignTypes } from '../../../src/prescription/shared/domain/constants.js';
-import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
+import { Assessment } from '../../../../shared/domain/models/Assessment.js';
+import { CampaignTypes } from '../../../shared/domain/constants.js';
 
 class CampaignToJoin {
   constructor({

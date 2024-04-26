@@ -1,8 +1,8 @@
-import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { CampaignToJoin } from '../../../../lib/domain/read-models/CampaignToJoin.js';
-import * as campaignToJoinRepository from '../../../../lib/infrastructure/repositories/campaign-to-join-repository.js';
-import { catchErr, databaseBuilder, expect } from '../../../test-helper.js';
+import * as OidcIdentityProviders from '../../../../../../lib/domain/constants/oidc-identity-providers.js';
+import { NotFoundError } from '../../../../../../lib/domain/errors.js';
+import { CampaignToJoin } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignToJoin.js';
+import * as campaignToJoinRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-to-join-repository.js';
+import { catchErr, databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | CampaignToJoin', function () {
   describe('#getByCode', function () {
