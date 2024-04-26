@@ -44,6 +44,7 @@ import * as stageCollectionForTargetProfileRepository from '../../../src/evaluat
 import * as stageRepository from '../../../src/evaluation/infrastructure/repositories/stage-repository.js';
 import * as organizationForAdminRepository from '../../../src/organizational-entities/infrastructure/repositories/organization-for-admin-repository.js';
 import * as campaignManagementRepository from '../../../src/prescription/campaign/infrastructure/repositories/campaign-management-repository.js';
+import * as campaignToJoinRepository from '../../../src/prescription/campaign/infrastructure/repositories/campaign-to-join-repository.js';
 import * as campaignAssessmentParticipationRepository from '../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-assessment-participation-repository.js';
 import * as campaignAssessmentParticipationResultRepository from '../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-assessment-participation-result-repository.js';
 import * as campaignParticipationBCRepository from '../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
@@ -112,7 +113,6 @@ import * as campaignParticipationRepository from '../../infrastructure/repositor
 import { campaignParticipationResultRepository } from '../../infrastructure/repositories/campaign-participation-result-repository.js';
 import { CampaignParticipationsStatsRepository as campaignParticipationsStatsRepository } from '../../infrastructure/repositories/campaign-participations-stats-repository.js';
 import * as campaignRepository from '../../infrastructure/repositories/campaign-repository.js';
-import * as campaignToJoinRepository from '../../infrastructure/repositories/campaign-to-join-repository.js';
 import * as certifiableProfileForLearningContentRepository from '../../infrastructure/repositories/certifiable-profile-for-learning-content-repository.js';
 import * as certificateRepository from '../../infrastructure/repositories/certificate-repository.js';
 import * as certificationCenterForAdminRepository from '../../infrastructure/repositories/certification-center-for-admin-repository.js';

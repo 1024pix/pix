@@ -1,5 +1,5 @@
 import { types } from '../../../../lib/domain/models/Organization.js';
-import { CampaignToJoin } from '../../../../lib/domain/read-models/CampaignToJoin.js';
+import { CampaignToJoin } from '../../../../src/prescription/campaign/domain/read-models/CampaignToJoin.js';
 import { CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
 
 const buildCampaignToJoin = function ({

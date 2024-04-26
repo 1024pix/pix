@@ -1,5 +1,6 @@
 import stream from 'node:stream';
 
+import { MissingQueryParamError } from '../../../../lib/application/http-errors.js';
 import { escapeFileName } from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
 import * as queryParamsUtils from '../../../shared/infrastructure/utils/query-params-utils.js';
@@ -8,8 +9,17 @@ import { usecases } from '../domain/usecases/index.js';
 import * as campaignDetailsManagementSerializer from '../infrastructure/serializers/jsonapi/campaign-details-management-serializer.js';
 import * as campaignParticipantsActivitySerializer from '../infrastructure/serializers/jsonapi/campaign-participant-activity-serializer.js';
 import * as campaignReportSerializer from '../infrastructure/serializers/jsonapi/campaign-report-serializer.js';
+import * as campaignToJoinSerializer from '../infrastructure/serializers/jsonapi/campaign-to-join-serializer.js';
 
 const { PassThrough } = stream;
+
+const getByCode = async function (request) {
+  const filters = extractParameters(request.query).filter;
+  await _validateFilters(filters);
+
+  const campaignToJoin = await usecases.getCampaignByCode({ code: filters.code });
+  return campaignToJoinSerializer.serialize(campaignToJoin);
+};
 
 const getById = async function (
   request,
@@ -130,7 +140,14 @@ const findParticipantsActivity = async function (
   return dependencies.campaignParticipantsActivitySerializer.serialize(paginatedParticipations);
 };
 
+function _validateFilters(filters) {
+  if (typeof filters.code === 'undefined') {
+    throw new MissingQueryParamError('filter.code');
+  }
+}
+
 const campaignDetailController = {
+  getByCode,
   getById,
   findParticipantsActivity,
   findPaginatedFilteredCampaigns,

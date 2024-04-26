@@ -27,6 +27,7 @@ import * as campaignParticipationInfoRepository from '../../infrastructure/repos
 import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
 import * as campaignProfilesCollectionParticipationSummaryRepository from '../../infrastructure/repositories/campaign-profiles-collection-participation-summary-repository.js';
 import * as campaignReportRepository from '../../infrastructure/repositories/campaign-report-repository.js';
+import * as campaignToJoinRepository from '../../infrastructure/repositories/campaign-to-join-repository.js';
 import * as targetProfileRepository from '../../infrastructure/repositories/target-profile-repository.js';
 import * as campaignCsvExportService from '../services/campaign-csv-export-service.js';
 import * as campaignUpdateValidator from '../validators/campaign-update-validator.js';
@@ -58,6 +59,7 @@ const dependencies = {
   targetProfileRepository, // TODO
   userRepository,
   campaignForArchivingRepository,
+  campaignToJoinRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

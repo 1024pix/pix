@@ -20,6 +20,29 @@ describe('Acceptance | API | campaign-detail-route', function () {
     server = await createServer();
   });
 
+  describe('GET /api/campaigns', function () {
+    it('should return the campaign requested by code', async function () {
+      // given
+      campaign = databaseBuilder.factory.buildCampaign();
+      await databaseBuilder.commit();
+      const options = {
+        method: 'GET',
+        url: `/api/campaigns/?filter[code]=${campaign.code}`,
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data.attributes.code).to.equal(campaign.code);
+      expect(response.result.data.attributes.type).to.equal(campaign.type);
+      expect(response.result.data.attributes.title).to.equal(campaign.title);
+      expect(response.result.data.attributes['is-for-absolute-novice']).to.equal(campaign.isForAbsoluteNovice);
+      expect(response.result.data.attributes['id-pix-label']).to.equal(campaign.idPixLabel);
+    });
+  });
+
   describe('GET /api/campaigns/{id}', function () {
     const options = {
       headers: { authorization: null },
