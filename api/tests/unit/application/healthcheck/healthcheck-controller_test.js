@@ -1,4 +1,4 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
+// eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
 /* eslint-disable import/no-restricted-paths */
 import { knex } from '../../../../db/knex-database-connection.js';
 import { healthcheckController } from '../../../../lib/application/healthcheck/healthcheck-controller.js';

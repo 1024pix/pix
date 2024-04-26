@@ -1,4 +1,4 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
+// eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
 /* eslint-disable import/no-restricted-paths */
 import { DatabaseBuilder } from '../../../../db/database-builder/database-builder.js';
 import { catchErr, expect, knex, sinon } from '../../../test-helper.js';

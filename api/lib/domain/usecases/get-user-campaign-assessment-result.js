@@ -1,4 +1,4 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
+// eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
 /* eslint-disable import/no-restricted-paths */
 import * as defaultCompareStageAndAcquiredStagesService from '../../../src/evaluation/domain/services/stages/stage-and-stage-acquisition-comparison-service.js';
 import * as defaultStageAcquisitionRepository from '../../../src/evaluation/infrastructure/repositories/stage-acquisition-repository.js';
