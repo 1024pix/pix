@@ -22,7 +22,7 @@ const buildComplementaryCertificationSubscription = function ({
     createdAt,
   };
   return databaseBuffer.pushInsertable({
-    tableName: 'complementary-certification-subscriptions',
+    tableName: 'certification-subscriptions',
     values,
   });
 };

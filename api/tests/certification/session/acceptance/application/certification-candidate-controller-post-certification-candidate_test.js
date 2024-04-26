@@ -158,7 +158,7 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
       await server.inject(options);
 
       // then
-      const complementaryCertificationRegistrationsInDB = await knex('complementary-certification-subscriptions');
+      const complementaryCertificationRegistrationsInDB = await knex('certification-subscriptions');
       expect(complementaryCertificationRegistrationsInDB.length).to.equal(1);
     });
   });

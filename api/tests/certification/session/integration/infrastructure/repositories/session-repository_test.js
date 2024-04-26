@@ -679,7 +679,7 @@ describe('Integration | Repository | Session', function () {
 
             // then
             const foundSession = await knex('sessions').select('id').where({ id: sessionId }).first();
-            const foundSubscriptions = await knex('complementary-certification-subscriptions').where({
+            const foundSubscriptions = await knex('certification-subscriptions').where({
               certificationCandidateId,
             });
             expect(foundSession).to.be.undefined;

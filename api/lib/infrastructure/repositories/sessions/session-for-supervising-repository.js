@@ -58,14 +58,14 @@ const get = async function (idSession) {
     })
     .leftJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
     .leftJoin(
-      'complementary-certification-subscriptions',
-      'complementary-certification-subscriptions.certificationCandidateId',
+      'certification-subscriptions',
+      'certification-subscriptions.certificationCandidateId',
       'certification-candidates.id',
     )
     .leftJoin(
       'complementary-certifications',
       'complementary-certifications.id',
-      'complementary-certification-subscriptions.complementaryCertificationId',
+      'certification-subscriptions.complementaryCertificationId',
     )
     .leftJoin('ongoing-live-alerts', 'ongoing-live-alerts.assessmentId', 'assessments.id')
     .groupBy('sessions.id')
