@@ -1,18 +1,8 @@
 import * as campaignAnalysisSerializer from '../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/campaign-analysis-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
-import * as campaignCollectiveResultSerializer from '../../infrastructure/serializers/jsonapi/campaign-collective-result-serializer.js';
 import * as divisionSerializer from '../../infrastructure/serializers/jsonapi/division-serializer.js';
 import * as groupSerializer from '../../infrastructure/serializers/jsonapi/group-serializer.js';
 import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
-
-const getCollectiveResult = async function (request, h, dependencies = { campaignCollectiveResultSerializer }) {
-  const { userId } = request.auth.credentials;
-  const campaignId = request.params.id;
-  const locale = extractLocaleFromRequest(request);
-
-  const campaignCollectiveResult = await usecases.computeCampaignCollectiveResult({ userId, campaignId, locale });
-  return dependencies.campaignCollectiveResultSerializer.serialize(campaignCollectiveResult);
-};
 
 const getAnalysis = async function (request, h, dependencies = { campaignAnalysisSerializer }) {
   const { userId } = request.auth.credentials;
@@ -40,7 +30,6 @@ const getGroups = async function (request) {
 };
 
 const campaignController = {
-  getCollectiveResult,
   getAnalysis,
   division,
   getGroups,

@@ -1,5 +1,5 @@
-import { CampaignCollectiveResult } from '../../../../lib/domain/read-models/CampaignCollectiveResult.js';
-import { domainBuilder, expect } from '../../../test-helper.js';
+import { CampaignCollectiveResult } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignCollectiveResult.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Read-Models | CampaignCollectiveResult', function () {
   describe('constructor', function () {
