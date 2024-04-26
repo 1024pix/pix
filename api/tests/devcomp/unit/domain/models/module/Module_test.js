@@ -169,50 +169,408 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
   });
 
   describe('#toDomain', function () {
-    it('should throw an ModuleInstantiateError if data is incorrect', function () {
-      // given
-      const nonExistingGrainId = 'v312c33d-e7c9-4a69-9ba0-913957b8f7df';
-      const dataWithIncorrectTransitionText = {
-        id: '6282925d-4775-4bca-b513-4c3009ec5886',
-        slug: 'title',
-        title: 'title',
-        details: {
-          image: 'https://images.pix.fr/modulix/placeholder-details.svg',
-          description: 'Description',
-          duration: 5,
-          level: 'Débutant',
-          objectives: ['Objective 1'],
-        },
-        transitionTexts: [
-          {
-            content: '<p>Text</p>',
-            grainId: nonExistingGrainId,
+    describe('without components', function () {
+      it('should throw an ModuleInstantiateError if data is incorrect', function () {
+        // given
+        const nonExistingGrainId = 'v312c33d-e7c9-4a69-9ba0-913957b8f7df';
+        const dataWithIncorrectTransitionText = {
+          id: '6282925d-4775-4bca-b513-4c3009ec5886',
+          slug: 'title',
+          title: 'title',
+          details: {
+            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+            description: 'Description',
+            duration: 5,
+            level: 'Débutant',
+            objectives: ['Objective 1'],
           },
-        ],
-        grains: [
-          {
-            id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
-            type: 'lesson',
-            title: 'title',
-            elements: [
-              {
-                id: '84726001-1665-457d-8f13-4a74dc4768ea',
-                type: 'text',
-                content: '<h3>Content</h3>',
-              },
-            ],
+          transitionTexts: [
+            {
+              content: '<p>Text</p>',
+              grainId: nonExistingGrainId,
+            },
+          ],
+          grains: [
+            {
+              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+              type: 'lesson',
+              title: 'title',
+              elements: [
+                {
+                  id: '84726001-1665-457d-8f13-4a74dc4768ea',
+                  type: 'text',
+                  content: '<h3>Content</h3>',
+                },
+              ],
+            },
+          ],
+        };
+
+        // when
+        const error = catchErrSync(Module.toDomain)(dataWithIncorrectTransitionText);
+
+        // then
+        expect(error).to.be.an.instanceOf(ModuleInstantiationError);
+        expect(error.message).to.deep.equal(
+          'All the transition texts should be linked to a grain contained in the module.',
+        );
+      });
+
+      it('should instanciate a Module with only elements', function () {
+        // given
+        const moduleData = {
+          id: '6282925d-4775-4bca-b513-4c3009ec5886',
+          slug: 'title',
+          title: 'title',
+          details: {
+            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+            description: 'Description',
+            duration: 5,
+            level: 'Débutant',
+            objectives: ['Objective 1'],
           },
-        ],
-      };
+          grains: [
+            {
+              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+              type: 'lesson',
+              title: 'title',
+              elements: [
+                {
+                  id: '84726001-1665-457d-8f13-4a74dc4768ea',
+                  type: 'text',
+                  content: '<h3>Content</h3>',
+                },
+              ],
+            },
+          ],
+        };
 
-      // when
-      const error = catchErrSync(Module.toDomain)(dataWithIncorrectTransitionText);
+        // when
+        const module = Module.toDomain(moduleData);
 
-      // then
-      expect(error).to.be.an.instanceOf(ModuleInstantiationError);
-      expect(error.message).to.deep.equal(
-        'All the transition texts should be linked to a grain contained in the module.',
-      );
+        // then
+        expect(module).to.be.an.instanceOf(Module);
+        expect(module.grains).not.to.be.empty;
+        for (const grain of module.grains) {
+          expect(grain.elements).not.to.be.empty;
+          expect(grain.components).to.be.undefined;
+        }
+      });
+
+      it('should filter out unknown element types', function () {
+        // given
+        const moduleData = {
+          id: '6282925d-4775-4bca-b513-4c3009ec5886',
+          slug: 'title',
+          title: 'title',
+          details: {
+            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+            description: 'Description',
+            duration: 5,
+            level: 'Débutant',
+            objectives: ['Objective 1'],
+          },
+          grains: [
+            {
+              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+              type: 'lesson',
+              title: 'title',
+              elements: [
+                {
+                  id: '84726001-1665-457d-8f13-4a74dc4768ea',
+                  type: 'text',
+                  content: '<h3>Content</h3>',
+                },
+                {
+                  id: '16ad694a-848f-456d-95a6-c488350c3ed7',
+                  type: 'unknown',
+                  content: 'Should not be added to the grain',
+                },
+              ],
+            },
+          ],
+        };
+
+        // when
+        const module = Module.toDomain(moduleData);
+
+        // then
+        expect(module).to.be.an.instanceOf(Module);
+        expect(module.grains).not.to.be.empty;
+        expect(module.grains[0].elements).to.have.length(1);
+      });
+    });
+
+    describe('with components', function () {
+      it('should throw an ModuleInstantiateError if data is incorrect', function () {
+        // given
+        const nonExistingGrainId = 'v312c33d-e7c9-4a69-9ba0-913957b8f7df';
+        const dataWithIncorrectTransitionText = {
+          id: '6282925d-4775-4bca-b513-4c3009ec5886',
+          slug: 'title',
+          title: 'title',
+          details: {
+            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+            description: 'Description',
+            duration: 5,
+            level: 'Débutant',
+            objectives: ['Objective 1'],
+          },
+          transitionTexts: [
+            {
+              content: '<p>Text</p>',
+              grainId: nonExistingGrainId,
+            },
+          ],
+          grains: [
+            {
+              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+              type: 'lesson',
+              title: 'title',
+              elements: [
+                {
+                  id: '84726001-1665-457d-8f13-4a74dc4768ea',
+                  type: 'text',
+                  content: '<h3>Content</h3>',
+                },
+              ],
+              components: [
+                {
+                  type: 'element',
+                  element: {
+                    id: '84726001-1665-457d-8f13-4a74dc4768ea',
+                    type: 'text',
+                    content: '<h3>Content</h3>',
+                  },
+                },
+              ],
+            },
+          ],
+        };
+
+        // when
+        const error = catchErrSync(Module.toDomain)(dataWithIncorrectTransitionText);
+
+        // then
+        expect(error).to.be.an.instanceOf(ModuleInstantiationError);
+        expect(error.message).to.deep.equal(
+          'All the transition texts should be linked to a grain contained in the module.',
+        );
+      });
+
+      it('should throw an ModuleInstantiateError if module is present without elements', function () {
+        // given
+        const moduleDataWithoutElements = {
+          id: '6282925d-4775-4bca-b513-4c3009ec5886',
+          slug: 'title',
+          title: 'title',
+          details: {
+            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+            description: 'Description',
+            duration: 5,
+            level: 'Débutant',
+            objectives: ['Objective 1'],
+          },
+          grains: [
+            {
+              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+              type: 'lesson',
+              title: 'title',
+              components: [
+                {
+                  type: 'element',
+                  element: {
+                    id: '8d7687c8-4a02-4d7e-bf6c-693a6d481c78',
+                    type: 'image',
+                    url: 'https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg',
+                    alt: 'Alternative',
+                    alternativeText: 'Alternative textuelle',
+                  },
+                },
+              ],
+            },
+          ],
+        };
+
+        // when
+        const error = catchErrSync(Module.toDomain)(moduleDataWithoutElements);
+
+        // then
+        expect(error).to.be.an.instanceOf(ModuleInstantiationError);
+        expect(error.message).to.deep.equal('Elements should always be provided');
+      });
+
+      it('should instanciate a Module, keep elements and components if present', function () {
+        // given
+        const moduleData = {
+          id: '6282925d-4775-4bca-b513-4c3009ec5886',
+          slug: 'title',
+          title: 'title',
+          details: {
+            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+            description: 'Description',
+            duration: 5,
+            level: 'Débutant',
+            objectives: ['Objective 1'],
+          },
+          grains: [
+            {
+              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+              type: 'lesson',
+              title: 'title',
+              elements: [
+                {
+                  id: '84726001-1665-457d-8f13-4a74dc4768ea',
+                  type: 'text',
+                  content: '<h3>Content</h3>',
+                },
+              ],
+              components: [
+                {
+                  type: 'element',
+                  element: {
+                    id: '8d7687c8-4a02-4d7e-bf6c-693a6d481c78',
+                    type: 'image',
+                    url: 'https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg',
+                    alt: 'Alternative',
+                    alternativeText: 'Alternative textuelle',
+                  },
+                },
+              ],
+            },
+          ],
+        };
+
+        // when
+        const module = Module.toDomain(moduleData);
+
+        // then
+        expect(module).to.be.an.instanceOf(Module);
+        expect(module.grains).not.to.be.empty;
+        for (const grain of module.grains) {
+          expect(grain.elements).not.to.be.empty;
+          expect(grain.components).not.to.be.empty;
+        }
+      });
+
+      it('should filter out unknown component types', function () {
+        // given
+        const moduleData = {
+          id: '6282925d-4775-4bca-b513-4c3009ec5886',
+          slug: 'title',
+          title: 'title',
+          details: {
+            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+            description: 'Description',
+            duration: 5,
+            level: 'Débutant',
+            objectives: ['Objective 1'],
+          },
+          grains: [
+            {
+              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+              type: 'lesson',
+              title: 'title',
+              elements: [
+                {
+                  id: '84726001-1665-457d-8f13-4a74dc4768ea',
+                  type: 'text',
+                  content: '<h3>Content</h3>',
+                },
+              ],
+              components: [
+                {
+                  type: 'element',
+                  element: {
+                    id: '84726001-1665-457d-8f13-4a74dc4768ea',
+                    type: 'text',
+                    content: '<h3>Content</h3>',
+                  },
+                },
+                {
+                  type: 'unknown',
+                  unknown: {
+                    id: '16ad694a-848f-456d-95a6-c488350c3ed7',
+                    type: 'text',
+                    content: '<h3>Content</h3>',
+                  },
+                },
+              ],
+            },
+          ],
+        };
+
+        // when
+        const module = Module.toDomain(moduleData);
+
+        // then
+        expect(module).to.be.an.instanceOf(Module);
+        expect(module.grains).not.to.be.empty;
+        expect(module.grains[0].components).to.have.length(1);
+        expect(module.grains[0].components[0].element).not.to.be.empty;
+      });
+
+      it('should filter out component if element type is unknown', function () {
+        // given
+        const moduleData = {
+          id: '6282925d-4775-4bca-b513-4c3009ec5886',
+          slug: 'title',
+          title: 'title',
+          details: {
+            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+            description: 'Description',
+            duration: 5,
+            level: 'Débutant',
+            objectives: ['Objective 1'],
+          },
+          grains: [
+            {
+              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+              type: 'lesson',
+              title: 'title',
+              elements: [
+                {
+                  id: '84726001-1665-457d-8f13-4a74dc4768ea',
+                  type: 'text',
+                  content: '<h3>Content</h3>',
+                },
+                {
+                  id: '16ad694a-848f-456d-95a6-c488350c3ed7',
+                  type: 'unknown',
+                  content: 'Should not be added to the grain',
+                },
+              ],
+              components: [
+                {
+                  type: 'element',
+                  element: {
+                    id: '84726001-1665-457d-8f13-4a74dc4768ea',
+                    type: 'text',
+                    content: '<h3>Content</h3>',
+                  },
+                },
+                {
+                  type: 'element',
+                  element: {
+                    id: '16ad694a-848f-456d-95a6-c488350c3ed7',
+                    type: 'unknown',
+                    content: 'Should not be added to the grain',
+                  },
+                },
+              ],
+            },
+          ],
+        };
+
+        // when
+        const module = Module.toDomain(moduleData);
+
+        // then
+        expect(module).to.be.an.instanceOf(Module);
+        expect(module.grains).not.to.be.empty;
+        expect(module.grains[0].components).to.have.length(1);
+        expect(module.grains[0].components[0].element).not.to.be.empty;
+      });
     });
   });
 
