@@ -23,18 +23,16 @@ export default class ConfigurationController extends Controller {
     event.preventDefault();
     this._cleanErrors();
     this.checkFormValidity();
-    const adapter = this.store.adapterFor('scoring-and-capacity-simulator-report');
+
     const isFormInvalid = (!this.score && !this.capacity) || this.errors.length > 0;
 
     if (isFormInvalid) {
       return;
     }
 
-    this.simulatorReport = await adapter.getSimulationResult({
-      score: this.score,
-      capacity: this.capacity,
-    });
+    const query = this.score ? { score: this.score } : { capacity: this.capacity };
 
+    this.simulatorReport = await this.store.queryRecord('scoring-and-capacity-simulator-report', query);
     this.score = null;
     this.capacity = null;
   }

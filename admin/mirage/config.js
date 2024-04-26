@@ -132,16 +132,12 @@ function routes() {
     return session.update({ assignedCertificationOfficerId: userId });
   });
 
-  this.post('/admin/simulate-score-or-capacity', (_schema, _request) => {
-    return {
-      data: {
-        attributes: {
-          capacity: 1,
-          score: 768,
-          competences: [{ competenceCode: '1.1', level: '3' }],
-        },
-      },
-    };
+  this.get('/admin/simulate-score-and-capacity', (schema) => {
+    return schema.create('scoring-and-capacity-simulator-report', {
+      score: 768,
+      capacity: 1,
+      competences: [{ competenceCode: '1.1', level: '3' }],
+    });
   });
 
   this.get('/admin/users');

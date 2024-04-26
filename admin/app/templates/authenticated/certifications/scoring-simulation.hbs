@@ -22,16 +22,16 @@
   <dl class="scoring-simulation__data">
     <div class="scoring-simulation-data__container">
       <dt>{{t "pages.certifications.scoring-simulation.labels.score"}}</dt>
-      <dd>{{this.simulatorReport.data.attributes.score}}</dd>
+      <dd>{{this.simulatorReport.score}}</dd>
     </div>
     <div class="scoring-simulation-data__container">
       <dt>{{t "pages.certifications.scoring-simulation.labels.capacity"}}</dt>
-      <dd>{{this.simulatorReport.data.attributes.capacity}}</dd>
+      <dd>{{this.simulatorReport.capacity}}</dd>
     </div>
   </dl>
 
   <ul class="scoring-simulation__competences">
-    {{#each this.simulatorReport.data.attributes.competences as |competence|}}
+    {{#each this.simulatorReport.competences as |competence|}}
       <li
         class="scoring-simulation-competences__item"
         aria-label="Niveau de la compétence {{competence.competenceCode}}"
