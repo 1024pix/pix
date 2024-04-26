@@ -3,10 +3,11 @@ import ApplicationAdapter from './application';
 export default class ScoringAndCapacitySimulatorReportAdapter extends ApplicationAdapter {
   namespace = 'api/admin';
 
-  urlForQuery() {
+  urlForQueryRecord() {
+    console.log('coucou');
     const baseUrl = this.buildURL();
 
-    const url = `${baseUrl}/${this.namespace}/simulate-score-and-capacity`;
+    const url = `${baseUrl}/simulate-score-and-capacity`;
 
     return url;
   }
