@@ -1,5 +1,37 @@
 # Pix Changelog
 
+## v4.139.0 (26/04/2024)
+
+
+### :rocket: Amélioration
+- [#8757](https://github.com/1024pix/pix/pull/8757) [FEATURE] Modifier les trads du titre du bloc d'erreur d'import et ajouter une marge en dessous (PIX-12291).
+- [#8739](https://github.com/1024pix/pix/pull/8739) [FEATURE] Ajout des fichiers codeowners de la team Accès .
+- [#8531](https://github.com/1024pix/pix/pull/8531) [FEATURE] PIX1D - Utilisation du nouveau robot avec des émotions (PIX-11578).
+- [#8741](https://github.com/1024pix/pix/pull/8741) [FEATURE] Ajouter la notion des `components` dans le didacticiel (PIX-12298).
+- [#8617](https://github.com/1024pix/pix/pull/8617) [FEATURE][API] Utiliser la base de données pour créer les services de type "OidcAuthentication" (PIX-10192).
+- [#8722](https://github.com/1024pix/pix/pull/8722) [FEATURE] Permettre l'import de fichier ONDE (Pix-12248).
+
+### :building_construction: Tech
+- [#8735](https://github.com/1024pix/pix/pull/8735) [TECH] Organiser les répertoires des composants de challenge de Pix app (PIX-12283).
+- [#8737](https://github.com/1024pix/pix/pull/8737) [TECH] Migrer le serializer de correction vers le dossier Evaluation (PIX-12292).
+- [#8733](https://github.com/1024pix/pix/pull/8733) [TECH] créer un composant `ImportCard` dans le quel on peut injecter du contenu (PIX-12267).
+
+### :bug: Correction
+- [#8753](https://github.com/1024pix/pix/pull/8753) [BUGFIX] Faire la redirection vers application avant de faire le reload d'un user (pix-12322).
+- [#8740](https://github.com/1024pix/pix/pull/8740) [BUGFIX] Petits correctifs graphiques Modulix (PIX-12304).
+
+### :arrow_up: Montée de version
+- [#8749](https://github.com/1024pix/pix/pull/8749) [BUMP] Update dependency @1024pix/pix-ui to ^45.1.3 (certif).
+- [#8747](https://github.com/1024pix/pix/pull/8747) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.9 (orga).
+- [#8748](https://github.com/1024pix/pix/pull/8748) [BUMP] Update dependency @1024pix/pix-ui to ^45.1.3 (admin).
+- [#8750](https://github.com/1024pix/pix/pull/8750) [BUMP] Update dependency @1024pix/pix-ui to ^45.1.3 (orga).
+- [#8746](https://github.com/1024pix/pix/pull/8746) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.9 (mon-pix).
+- [#8744](https://github.com/1024pix/pix/pull/8744) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.9 (admin).
+- [#8743](https://github.com/1024pix/pix/pull/8743) [BUMP] Update dependency node to v20.12.2.
+
+### :coffee: Autre
+- [#8717](https://github.com/1024pix/pix/pull/8717) [FEATURES]  Ajout de la mécanique d'étape  et de ses successions (PIX-11702).
+
 ## v4.138.0 (25/04/2024)
 
 
