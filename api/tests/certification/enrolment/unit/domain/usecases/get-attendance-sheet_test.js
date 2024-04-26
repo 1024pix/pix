@@ -1,4 +1,4 @@
-import { getAttendanceSheet } from '../../../../../../src/certification/session/domain/usecases/get-attendance-sheet.js';
+import { getAttendanceSheet } from '../../../../../../src/certification/enrolment/domain/usecases/get-attendance-sheet.js';
 import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | get-attendance-sheet', function () {

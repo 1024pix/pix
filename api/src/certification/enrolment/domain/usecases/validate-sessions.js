@@ -1,12 +1,12 @@
 /**
- * @typedef {import ("../../../session/domain/usecases/index.js").dependencies} deps
+ * @typedef {import ("./index.js").dependencies} deps
  */
 
 import bluebird from 'bluebird';
 
 import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
 import { Session } from '../../../session/domain/models/Session.js';
-import { SessionMassImportReport } from '../models/SessionMassImportReport.js';
+import { SessionMassImportReport } from '../../../session/domain/models/SessionMassImportReport.js';
 
 /**
  * @param {Object} params

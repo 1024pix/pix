@@ -4,7 +4,7 @@ import { UserAlreadyLinkedToCertificationCandidate } from '../../../../lib/domai
 import { UserLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserLinkedToCertificationCandidate.js';
 import { SessionPublicationBatchResult } from '../../../../lib/domain/models/index.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { usecases as sessionUsecases } from '../../../../src/certification/session/domain/usecases/index.js';
+import { usecases as enrolmentUsecases } from '../../../../src/certification/enrolment/domain/usecases/index.js';
 import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 import * as queryParamsUtils from '../../../../src/shared/infrastructure/utils/query-params-utils.js';
 import { catchErr, expect, hFake, sinon } from '../../../test-helper.js';
@@ -267,7 +267,7 @@ describe('Unit | Controller | sessionController', function () {
       };
       const requestResponseUtils = { extractUserIdFromRequest: sinon.stub() };
       sinon.stub(usecases, 'enrolStudentsToSession');
-      sinon.stub(sessionUsecases, 'getSessionCertificationCandidates');
+      sinon.stub(enrolmentUsecases, 'getSessionCertificationCandidates');
       const certificationCandidateSerializer = { serialize: sinon.stub() };
       dependencies = {
         requestResponseUtils,
@@ -279,7 +279,7 @@ describe('Unit | Controller | sessionController', function () {
       beforeEach(function () {
         dependencies.requestResponseUtils.extractUserIdFromRequest.withArgs(request).returns(userId);
         usecases.enrolStudentsToSession.withArgs({ sessionId, referentId: userId, studentIds }).resolves();
-        sessionUsecases.getSessionCertificationCandidates.withArgs({ sessionId }).resolves(studentList);
+        enrolmentUsecases.getSessionCertificationCandidates.withArgs({ sessionId }).resolves(studentList);
         dependencies.certificationCandidateSerializer.serialize
           .withArgs(studentList)
           .returns(serializedCertificationCandidate);

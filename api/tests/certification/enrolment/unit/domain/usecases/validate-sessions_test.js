@@ -1,10 +1,10 @@
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../lib/domain/constants/certification-candidates-errors.js';
 import { CERTIFICATION_SESSIONS_ERRORS } from '../../../../../../lib/domain/constants/sessions-errors.js';
-import { CertificationCandidate } from '../../../../../../lib/domain/models/CertificationCandidate.js';
+import { CertificationCandidate } from '../../../../../../lib/domain/models/index.js';
 import { Session } from '../../../../../../src/certification/enrolment/domain/models/Session.js';
+import { validateSessions } from '../../../../../../src/certification/enrolment/domain/usecases/validate-sessions.js';
 import { SessionMassImportReport } from '../../../../../../src/certification/session/domain/models/SessionMassImportReport.js';
 import { CpfBirthInformationValidation } from '../../../../../../src/certification/session/domain/services/certification-cpf-service.js';
-import { validateSessions } from '../../../../../../src/certification/session/domain/usecases/validate-sessions.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 

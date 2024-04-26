@@ -1,6 +1,6 @@
 /**
- * @typedef {import('../../../session/domain/usecases/index.js').SessionForAttendanceSheetRepository} SessionForAttendanceSheetRepository
- * @typedef {import('../../../session/domain/usecases/index.js').AttendanceSheetPdfUtils} AttendanceSheetPdfUtils
+ * @typedef {import('./index.js').SessionForAttendanceSheetRepository} SessionForAttendanceSheetRepository
+ * @typedef {import('./index.js').AttendanceSheetPdfUtils} AttendanceSheetPdfUtils
  */
 
 /**

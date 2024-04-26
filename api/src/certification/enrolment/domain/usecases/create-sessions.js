@@ -1,11 +1,11 @@
 /**
- * @typedef {import ("../../../shared/domain/usecases/index.js").dependencies} deps
+ * @typedef {import ("./index.js").dependencies} deps
  */
 
 import bluebird from 'bluebird';
 
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
-import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
+import { CertificationCandidate } from '../../../../../lib/domain/models/index.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { CertificationVersion } from '../../../shared/domain/models/CertificationVersion.js';
 import { Session } from '../models/Session.js';
