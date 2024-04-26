@@ -206,10 +206,10 @@ async function createAssessmentCampaign({
       });
 
       if (configCampaign.recommendedTrainingsIds?.length > 0) {
-        for (const recommendedTrainingId of configCampaign.recommendedTrainingsIds) {
+        for (const trainingId of configCampaign.recommendedTrainingsIds) {
           databaseBuilder.factory.buildUserRecommendedTraining({
             userId,
-            trainingId: recommendedTrainingId,
+            trainingId,
             campaignParticipationId,
             createdAt: sharedAt,
             updatedAt: sharedAt,

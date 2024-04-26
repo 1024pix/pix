@@ -2,7 +2,7 @@ import { SCO_ORGANIZATION_ID, SCO_ORGANIZATION_USER_ID } from '../common/constan
 import { createAssessmentCampaign } from '../common/tooling/campaign-tooling.js';
 import { PIX_EDU_SMALL_TARGET_PROFILE_ID } from './constants.js';
 
-async function _createScoCampaigns(databaseBuilder) {
+async function _createScoCampaigns(databaseBuilder, trainingIds) {
   await createAssessmentCampaign({
     databaseBuilder,
     organizationId: SCO_ORGANIZATION_ID,
@@ -10,7 +10,11 @@ async function _createScoCampaigns(databaseBuilder) {
     name: 'PIX+ EDU - SCO - envoi simple',
     code: 'EDUSIMPLE',
     targetProfileId: PIX_EDU_SMALL_TARGET_PROFILE_ID,
-    configCampaign: { participantCount: 3, profileDistribution: { beginner: 1, perfect: 1, blank: 1 } },
+    configCampaign: {
+      participantCount: 3,
+      profileDistribution: { beginner: 1, perfect: 1, blank: 1 },
+      recommendedTrainingsIds: trainingIds,
+    },
   });
   await createAssessmentCampaign({
     databaseBuilder,
@@ -20,10 +24,14 @@ async function _createScoCampaigns(databaseBuilder) {
     code: 'EDUMULTIP',
     multipleSendings: true,
     targetProfileId: PIX_EDU_SMALL_TARGET_PROFILE_ID,
-    configCampaign: { participantCount: 3, profileDistribution: { beginner: 1, perfect: 1, blank: 1 } },
+    configCampaign: {
+      participantCount: 3,
+      profileDistribution: { beginner: 1, perfect: 1, blank: 1 },
+      recommendedTrainingsIds: trainingIds,
+    },
   });
 }
 
-export function buildCampaigns(databaseBuilder) {
-  return _createScoCampaigns(databaseBuilder);
+export function buildCampaigns(databaseBuilder, trainingIds) {
+  return _createScoCampaigns(databaseBuilder, trainingIds);
 }
