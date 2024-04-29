@@ -1,6 +1,6 @@
-import { knex } from '../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../../src/shared/domain/errors.js';
-import { foreignKeyConstraintViolated } from '../../../src/shared/infrastructure/utils/knex-utils.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../../../shared/domain/errors.js';
+import { foreignKeyConstraintViolated } from '../../../../shared/infrastructure/utils/knex-utils.js';
 
 const attachOrganizations = async function (targetProfile) {
   const rows = targetProfile.organizations.map((organizationId) => {

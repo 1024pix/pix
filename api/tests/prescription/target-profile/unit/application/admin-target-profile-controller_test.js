@@ -13,6 +13,45 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
     clock.restore();
   });
 
+  describe('#attachOrganizationsFromExistingTargetProfile', function () {
+    let request;
+
+    beforeEach(function () {
+      sinon.stub(usecases, 'attachOrganizationsFromExistingTargetProfile');
+
+      request = {
+        params: {
+          id: 123,
+        },
+        payload: {
+          'target-profile-id': 1,
+        },
+      };
+    });
+
+    context('successful case', function () {
+      it('should succeed', async function () {
+        // when
+        const response = await targetProfileController.attachOrganizationsFromExistingTargetProfile(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(204);
+      });
+
+      it('should call usecase', async function () {
+        // when
+        await targetProfileController.attachOrganizationsFromExistingTargetProfile(request, hFake);
+
+        // then
+        expect(usecases.attachOrganizationsFromExistingTargetProfile).to.have.been.calledOnce;
+        expect(usecases.attachOrganizationsFromExistingTargetProfile).to.have.been.calledWithMatch({
+          targetProfileId: 123,
+          existingTargetProfileId: 1,
+        });
+      });
+    });
+  });
+
   describe('#getContentAsJsonFile', function () {
     it('should succeed', async function () {
       // given

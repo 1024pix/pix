@@ -17,6 +17,13 @@ const getContentAsJsonFile = async function (request, h) {
     .header('Content-Disposition', `attachment; filename=${filename}.json`);
 };
 
+const attachOrganizationsFromExistingTargetProfile = async function (request, h) {
+  const existingTargetProfileId = request.payload['target-profile-id'];
+  const targetProfileId = request.params.id;
+  await usecases.attachOrganizationsFromExistingTargetProfile({ targetProfileId, existingTargetProfileId });
+  return h.response({}).code(204);
+};
+
 const getLearningContentAsPdf = async function (request, h, dependencies = { learningContentPDFPresenter }) {
   const targetProfileId = request.params.id;
   const { language } = request.query;
@@ -41,6 +48,7 @@ const getLearningContentAsPdf = async function (request, h, dependencies = { lea
 };
 
 const targetProfileController = {
+  attachOrganizationsFromExistingTargetProfile,
   getContentAsJsonFile,
   getLearningContentAsPdf,
 };

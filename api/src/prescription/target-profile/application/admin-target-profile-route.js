@@ -7,6 +7,37 @@ import { targetProfileController } from './admin-target-profile-controller.js';
 const register = async function (server) {
   server.route([
     {
+      method: 'POST',
+      path: '/api/admin/target-profiles/{id}/copy-organizations',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          payload: Joi.object({
+            'target-profile-id': Joi.number().integer().required(),
+          }),
+          params: Joi.object({
+            id: identifiersType.targetProfileId,
+          }),
+        },
+        handler: targetProfileController.attachOrganizationsFromExistingTargetProfile,
+        tags: ['api', 'admin', 'target-profiles'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            '- Elle permet de rattacher à un profil cible donné les organisations d’un profil cible existant (id de ce dernier en payload)',
+        ],
+      },
+    },
+    {
       method: 'GET',
       path: '/api/admin/target-profiles/{id}/learning-content-pdf',
       config: {
