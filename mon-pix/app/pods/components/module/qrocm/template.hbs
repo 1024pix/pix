@@ -23,10 +23,12 @@
                 @value={{get this.selectedValues block.input}}
                 @id={{block.input}}
                 placeholder={{block.placeholder}}
-                @ariaLabel={{block.ariaLabel}}
+                @screenReaderOnly={{true}}
                 {{on "change" (fn this.onInputChanged block)}}
                 size={{block.size}}
-              />
+              >
+                <:label>{{block.ariaLabel}}</:label>
+              </PixInput>
             </div>
           {{/if}}
         {{else if (eq block.type "select")}}
@@ -34,12 +36,13 @@
             <PixSelect
               @value={{get this.selectedValues block.input}}
               @placeholder={{block.placeholder}}
-              @label={{block.ariaLabel}}
               @options={{block.options}}
               @hideDefaultOption={{true}}
               @onChange={{fn this.onSelectChanged block}}
               @screenReaderOnly={{true}}
-            />
+            >
+              <:label>{{block.ariaLabel}}</:label>
+            </PixSelect>
           </div>
         {{/if}}
       {{/each}}

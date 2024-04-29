@@ -1,5 +1,7 @@
 <li class="tutorials-filters-areas-competences__item-checkbox">
   <PixCheckbox @id={{@item.id}} {{on "input" (fn @handleFilterChange @type @item.id)}} @checked={{this.isChecked}}>
-    {{@item.name}}
+    <:label>
+      {{@item.name}}
+    </:label>
   </PixCheckbox>
 </li>

@@ -1,10 +1,11 @@
 <PixSelect
   @id="language-switcher"
-  @label={{@label}}
   aria-label={{t "pages.inscription.choose-language-aria-label"}}
   @icon="earth-europe"
   @value={{this.selectedLanguage}}
   @options={{this.availableLanguages}}
   @onChange={{this.onChange}}
   @hideDefaultOption="true"
-/>
+>
+  <:label>{{@label}}</:label>
+</PixSelect>
