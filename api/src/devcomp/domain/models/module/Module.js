@@ -6,6 +6,7 @@ import { BlockInput } from '../block/BlockInput.js';
 import { BlockSelect } from '../block/BlockSelect.js';
 import { BlockSelectOption } from '../block/BlockSelectOption.js';
 import { BlockText } from '../block/BlockText.js';
+import { ComponentElement } from '../ComponentElement.js';
 import { Image } from '../element/Image.js';
 import { QCM } from '../element/QCM.js';
 import { QCMForAnswerVerification } from '../element/QCM-for-answer-verification.js';
@@ -48,39 +49,69 @@ class Module {
         transitionTexts: moduleData.transitionTexts?.map((transitionText) => new TransitionText(transitionText)) ?? [],
         details: new Details(moduleData.details),
         grains: moduleData.grains.map((grain) => {
-          return new Grain({
-            id: grain.id,
-            title: grain.title,
-            type: grain.type,
-            elements: grain.elements
-              .map((element) => {
-                switch (element.type) {
-                  case 'image':
-                    return Module.#toImageDomain(element);
-                  case 'text':
-                    return Module.#toTextDomain(element);
-                  case 'qcm':
-                    return Module.#toQCMDomain(element);
-                  case 'qcu':
-                    return Module.#toQCUDomain(element);
-                  case 'qrocm':
-                    return Module.#toQROCMDomain(element);
-                  case 'video':
-                    return Module.#toVideoDomain(element);
-                  default:
+          if (grain.components) {
+            if (!grain.elements) {
+              throw new Error('Elements should always be provided');
+            }
+
+            return new Grain({
+              id: grain.id,
+              title: grain.title,
+              type: grain.type,
+              elements: grain.elements.map(Module.#mapElement).filter((element) => element !== undefined),
+              components: grain.components
+                .map((component) => {
+                  if (component.type === 'element') {
+                    const element = Module.#mapElement(component.element);
+                    if (element) {
+                      return new ComponentElement({ element });
+                    } else {
+                      return undefined;
+                    }
+                  } else {
                     logger.warn({
-                      event: 'module_element_type_unknown',
-                      message: `Element inconnu: ${element.type}`,
+                      event: 'module_component_type_unknown',
+                      message: `Component inconnu: ${component.type}`,
                     });
                     return undefined;
-                }
-              })
-              .filter((element) => element !== undefined),
-          });
+                  }
+                })
+                .filter((component) => component !== undefined),
+            });
+          } else {
+            return new Grain({
+              id: grain.id,
+              title: grain.title,
+              type: grain.type,
+              elements: grain.elements.map(Module.#mapElement).filter((element) => element !== undefined),
+            });
+          }
         }),
       });
     } catch (e) {
       throw new ModuleInstantiationError(e.message);
+    }
+  }
+  static #mapElement(element) {
+    switch (element.type) {
+      case 'image':
+        return Module.#toImageDomain(element);
+      case 'text':
+        return Module.#toTextDomain(element);
+      case 'qcm':
+        return Module.#toQCMDomain(element);
+      case 'qcu':
+        return Module.#toQCUDomain(element);
+      case 'qrocm':
+        return Module.#toQROCMDomain(element);
+      case 'video':
+        return Module.#toVideoDomain(element);
+      default:
+        logger.warn({
+          event: 'module_element_type_unknown',
+          message: `Element inconnu: ${element.type}`,
+        });
+        return undefined;
     }
   }
 

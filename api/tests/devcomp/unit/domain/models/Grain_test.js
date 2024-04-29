@@ -9,14 +9,16 @@ describe('Unit | Devcomp | Domain | Models | Grain', function () {
       const id = 1;
       const title = 'Les adresses email';
       const elements = [Symbol('text')];
+      const components = [Symbol('component')];
 
       // when
-      const grain = new Grain({ id, title, elements });
+      const grain = new Grain({ id, title, elements, components });
 
       // then
       expect(grain.id).to.equal(id);
       expect(grain.title).to.equal(title);
       expect(grain.elements).to.have.length(elements.length);
+      expect(grain.components).to.have.length(components.length);
     });
 
     describe('if a grain does not have an id', function () {
@@ -28,6 +30,12 @@ describe('Unit | Devcomp | Domain | Models | Grain', function () {
     describe('if a grain does not have a title', function () {
       it('should throw an error', function () {
         expect(() => new Grain({ id: 1 })).to.throw('The title is required for a grain');
+      });
+    });
+
+    describe('if a grain does not have components', function () {
+      it('should not throw an error', function () {
+        expect(() => new Grain({ id: 1, title: 'Les adresses mail', elements: [] })).not.to.throw();
       });
     });
 
@@ -50,6 +58,22 @@ describe('Unit | Devcomp | Domain | Models | Grain', function () {
                 elements: 'elements',
               }),
           ).to.throw(`A grain should have a list of elements`);
+        });
+      });
+    });
+
+    describe('if a grain does have components', function () {
+      describe('given a wrong typed grain.components in param', function () {
+        it('should throw an error', function () {
+          expect(
+            () =>
+              new Grain({
+                id: 'id_grain_1',
+                title: 'Bien écrire son adresse mail',
+                elements: [],
+                components: 'components',
+              }),
+          ).to.throw(`Grain components should be a list of components`);
         });
       });
     });

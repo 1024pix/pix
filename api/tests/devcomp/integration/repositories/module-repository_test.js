@@ -56,7 +56,7 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
 
     it('should return a module with grains if it exists', async function () {
       // given
-      const existingModuleSlug = 'bien-ecrire-son-adresse-mail';
+      const existingModuleSlug = 'didacticiel-modulix';
 
       // when
       const module = await moduleRepository.getBySlug({
