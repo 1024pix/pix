@@ -687,14 +687,12 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         const badge = server.create('badge');
         targetProfile.update({ badges: [badge] });
 
-        const campaignCriterion = badge.criteria.models[0];
-        console.log(campaignCriterion);
-
         // when
         const screen = await visit(`/target-profiles/1/badges/${badge.id}`);
         await clickByName('Modifier le critère');
+        await screen.findByRole('dialog');
         await fillByLabel(/Nouveau seuil d'obtention du critère :/, 99);
-        await clickByName('Enregistrer');
+        await click(screen.getByRole('button', { name: 'Enregistrer' }));
 
         // then
         assert.dom(screen.getByText("Seuil d'obtention du critère modifié avec succès.")).exists();
