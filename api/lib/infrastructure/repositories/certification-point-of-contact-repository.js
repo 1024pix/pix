@@ -78,7 +78,12 @@ async function _findAllowedCertificationCenterAccesses(certificationCenterIds) {
       isRelatedToManagingStudentsOrganization: 'organizations.isManagingStudents',
       tags: knex.raw('array_agg(?? order by ??)', ['tags.name', 'tags.name']),
       habilitations: knex.raw(
-        `array_agg(json_build_object('id', "complementary-certifications".id, 'label', "complementary-certifications".label, 'key', "complementary-certifications".key) order by "complementary-certifications".id)`,
+        `array_agg(json_build_object(
+          'id', "complementary-certifications".id,
+          'label', "complementary-certifications".label,
+          'key', "complementary-certifications".key,
+          'hasComplementaryReferential', "complementary-certifications"."hasComplementaryReferential"
+        ) order by "complementary-certifications".id)`,
       ),
       isV3Pilot: 'certification-centers.isV3Pilot',
       isComplementaryAlonePilot: knex.raw(
@@ -130,6 +135,7 @@ async function _findAllowedCertificationCenterAccesses(certificationCenterIds) {
         allowedCertificationCenterAccessDTO.isRelatedToManagingStudentsOrganization,
       ),
       relatedOrganizationTags: _cleanTags(allowedCertificationCenterAccessDTO),
+      // toDomain a créer avec le modèle complementaryCertification
       habilitations: _cleanHabilitations(allowedCertificationCenterAccessDTO),
     });
   });
