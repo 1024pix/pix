@@ -1,0 +1,24 @@
+.place-info {
+  display: flex;
+  flex-direction: row;
+  gap: var(--pix-spacing-6x);
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: var(--pix-spacing-8x);
+  padding: var(--pix-spacing-3x) var(--pix-spacing-6x);
+
+  &__illustration {
+    width:64px;
+  }
+
+  &__description {
+    @extend %pix-body-s;
+  }
+
+  &__link {
+    @extend %pix-body-s;
+
+    font-weight: var(--pix-font-medium);
+    text-decoration: underline;
+  }
+}

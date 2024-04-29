@@ -86,6 +86,11 @@
       "information": "Find here the total number of participations in your campaign. This includes all the participants who have entered the code and started their customised test or submitted their profile.",
       "loader": "Loading total participants"
     },
+    "place-info": {
+      "details": "with at least one participation in a campaign.",
+      "link": "Free a place from the \"Participants\" tab.",
+      "message": "1 place occupied = 1 participant"
+    },
     "submitted-count": {
       "title": "Submitted results",
       "information": "Find here the results submitted by your participants. This includes all the participants who have finished and clicked on the button \"Submit my results\" or \"Submit my profile\".",
