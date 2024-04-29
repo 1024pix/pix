@@ -2,18 +2,17 @@ import { knex } from '../../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { CertificationAssessment } from '../../../../../lib/domain/models/CertificationAssessment.js';
 import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
-import { CertificationCenter } from '../../../../../lib/domain/models/CertificationCenter.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
 import { Session } from '../../domain/models/Session.js';
 
-const save = async function ({ session, domainTransaction = DomainTransaction.emptyTransaction() }) {
-  const knexConn = domainTransaction.knexTransaction ?? knex;
-  session = _.omit(session, ['certificationCandidates']);
-  const [savedSession] = await knexConn('sessions').insert(session).returning('*');
-
-  return new Session(savedSession);
+const get = async function ({ id }) {
+  const foundSession = await knex.select('*').from('sessions').where({ id }).first();
+  if (!foundSession) {
+    throw new NotFoundError("La session n'existe pas ou son accès est restreint");
+  }
+  return new SessionManagement({ ...foundSession });
 };
 
 const isFinalized = async function ({ id }) {
@@ -24,71 +23,6 @@ const isFinalized = async function ({ id }) {
 const isPublished = async function ({ id }) {
   const isPublished = await knex.select(1).from('sessions').where({ id }).whereNotNull('publishedAt').first();
   return Boolean(isPublished);
-};
-
-const get = async function ({ id }) {
-  const foundSession = await knex.select('*').from('sessions').where({ id }).first();
-  if (!foundSession) {
-    throw new NotFoundError("La session n'existe pas ou son accès est restreint");
-  }
-  return new Session({ ...foundSession });
-};
-
-const isSessionExistingByCertificationCenterId = async function ({ address, room, date, time, certificationCenterId }) {
-  const sessions = await knex('sessions').where({ address, room, date, time }).andWhere({ certificationCenterId });
-  return sessions.length > 0;
-};
-
-const isSessionExistingBySessionAndCertificationCenterIds = async function ({ sessionId, certificationCenterId }) {
-  const [session] = await knex('sessions').where({ id: sessionId, certificationCenterId });
-  return Boolean(session);
-};
-
-const getWithCertificationCandidates = async function ({ id }) {
-  const session = await knex.from('sessions').where({ id }).first();
-
-  if (!session) {
-    throw new NotFoundError("La session n'existe pas ou son accès est restreint");
-  }
-
-  const certificationCandidates = await knex
-    .select({
-      certificationCandidate: 'certification-candidates.*',
-      complementaryCertificationId: 'complementary-certifications.id',
-      complementaryCertificationKey: 'complementary-certifications.key',
-      complementaryCertificationLabel: 'complementary-certifications.label',
-    })
-    .from('certification-candidates')
-    .leftJoin(
-      'certification-subscriptions',
-      'certification-subscriptions.certificationCandidateId',
-      'certification-candidates.id',
-    )
-    .leftJoin(
-      'complementary-certifications',
-      'complementary-certifications.id',
-      'certification-subscriptions.complementaryCertificationId',
-    )
-    .groupBy('certification-candidates.id', 'complementary-certifications.id')
-    .where({ sessionId: id })
-    .orderByRaw('LOWER(??) ASC, LOWER(??) ASC', ['lastName', 'firstName']);
-
-  return _toDomain({ ...session, certificationCandidates });
-};
-
-const updateSessionInfo = async function ({ session }) {
-  const sessionDataToUpdate = _.pick(session, [
-    'address',
-    'room',
-    'accessCode',
-    'examiner',
-    'date',
-    'time',
-    'description',
-  ]);
-
-  const [updatedSession] = await knex('sessions').where({ id: session.id }).update(sessionDataToUpdate).returning('*');
-  return new Session(updatedSession);
 };
 
 const doesUserHaveCertificationCenterMembershipForSession = async function ({ userId, sessionId }) {
@@ -137,41 +71,6 @@ const updatePublishedAt = async function ({ id, publishedAt }) {
   return new Session(publishedSession);
 };
 
-const isSco = async function ({ id }) {
-  const result = await knex
-    .select('certification-centers.type')
-    .from('sessions')
-    .where('sessions.id', '=', id)
-    .innerJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
-    .first();
-
-  return result.type === CertificationCenter.types.SCO;
-};
-
-const remove = async function ({ id }) {
-  await knex.transaction(async (trx) => {
-    const certificationCandidateIdsInSession = await knex('certification-candidates')
-      .where({ sessionId: id })
-      .pluck('id');
-    const supervisorAccessIds = await knex('supervisor-accesses').where({ sessionId: id }).pluck('id');
-
-    if (supervisorAccessIds) {
-      await trx('supervisor-accesses').whereIn('id', supervisorAccessIds).del();
-    }
-
-    if (certificationCandidateIdsInSession.length) {
-      await trx('certification-subscriptions')
-        .whereIn('certificationCandidateId', certificationCandidateIdsInSession)
-        .del();
-      await trx('certification-candidates').whereIn('id', certificationCandidateIdsInSession).del();
-    }
-    const nbSessionsDeleted = await trx('sessions').where('id', id).del();
-    if (nbSessionsDeleted === 0) throw new NotFoundError();
-  });
-
-  return;
-};
-
 const hasSomeCleaAcquired = async function ({ id }) {
   const result = await knex
     .select(1)
@@ -216,6 +115,38 @@ const countUncompletedCertificationsAssessment = async function ({ id }) {
   return count;
 };
 
+const getWithCertificationCandidates = async function ({ id }) {
+  const session = await knex.from('sessions').where({ id }).first();
+
+  if (!session) {
+    throw new NotFoundError("La session n'existe pas ou son accès est restreint");
+  }
+
+  const certificationCandidates = await knex
+    .select({
+      certificationCandidate: 'certification-candidates.*',
+      complementaryCertificationId: 'complementary-certifications.id',
+      complementaryCertificationKey: 'complementary-certifications.key',
+      complementaryCertificationLabel: 'complementary-certifications.label',
+    })
+    .from('certification-candidates')
+    .leftJoin(
+      'certification-subscriptions',
+      'certification-subscriptions.certificationCandidateId',
+      'certification-candidates.id',
+    )
+    .leftJoin(
+      'complementary-certifications',
+      'complementary-certifications.id',
+      'certification-subscriptions.complementaryCertificationId',
+    )
+    .groupBy('certification-candidates.id', 'complementary-certifications.id')
+    .where({ sessionId: id })
+    .orderByRaw('LOWER(??) ASC, LOWER(??) ASC', ['lastName', 'firstName']);
+
+  return _toDomain({ ...session, certificationCandidates });
+};
+
 export {
   countUncompletedCertificationsAssessment,
   doesUserHaveCertificationCenterMembershipForSession,
@@ -227,14 +158,8 @@ export {
   hasSomeCleaAcquired,
   isFinalized,
   isPublished,
-  isSco,
-  isSessionExistingByCertificationCenterId,
-  isSessionExistingBySessionAndCertificationCenterIds,
-  remove,
-  save,
   unfinalize,
   updatePublishedAt,
-  updateSessionInfo,
 };
 
 function _toDomain(results) {

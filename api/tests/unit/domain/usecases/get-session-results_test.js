@@ -2,18 +2,18 @@ import { getSessionResults } from '../../../../lib/domain/usecases/get-session-r
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | get-session-results', function () {
-  const sessionRepository = { get: null };
+  const sessionEnrolmentRepository = { get: null };
   const certificationResultRepository = { findBySessionId: null };
 
   beforeEach(function () {
-    sessionRepository.get = sinon.stub();
+    sessionEnrolmentRepository.get = sinon.stub();
     certificationResultRepository.findBySessionId = sinon.stub();
   });
 
   it('should return the session and the certificationResults', async function () {
     // given
     const expectedSession = domainBuilder.buildSession();
-    sessionRepository.get.withArgs({ id: 123 }).resolves(expectedSession);
+    sessionEnrolmentRepository.get.withArgs({ id: 123 }).resolves(expectedSession);
     const certificationResult1 = domainBuilder.buildCertificationResult({ firstName: 'Buffy' });
     const certificationResult2 = domainBuilder.buildCertificationResult({ firstName: 'Spike' });
     certificationResultRepository.findBySessionId
@@ -23,7 +23,7 @@ describe('Unit | Domain | Use Cases | get-session-results', function () {
     // when
     const { session, certificationResults } = await getSessionResults({
       sessionId: 123,
-      sessionRepository,
+      sessionEnrolmentRepository,
       certificationResultRepository,
     });
 

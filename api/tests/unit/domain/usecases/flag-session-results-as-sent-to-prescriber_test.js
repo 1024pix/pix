@@ -8,7 +8,7 @@ describe('Unit | UseCase | flag-session-results-as-sent-to-prescriber', function
   let sessionRepository;
 
   beforeEach(function () {
-    sessionRepository = { get: sinon.stub(), flagResultsAsSentToPrescriber: sinon.stub() };
+    sessionRepository = { flagResultsAsSentToPrescriber: sinon.stub(), get: sinon.stub() };
   });
 
   context('when session id is not a number', function () {
@@ -56,8 +56,13 @@ describe('Unit | UseCase | flag-session-results-as-sent-to-prescriber', function
       beforeEach(function () {
         updatedSession = Symbol('updatedSession');
         clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+<<<<<<< HEAD
         notFlaggedSession = new Session({ resultsSentToPrescriberAt: null });
+        sessionEnrolmentRepository.get.withArgs({ id: sessionId }).resolves(notFlaggedSession);
+=======
+        notFlaggedSession = new SessionManagement({ resultsSentToPrescriberAt: null });
         sessionRepository.get.withArgs({ id: sessionId }).resolves(notFlaggedSession);
+>>>>>>> b11622406a (fixup! :truck: api: Split session-repo in session and enrolment)
       });
 
       afterEach(function () {
