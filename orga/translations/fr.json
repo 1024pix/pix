@@ -86,6 +86,11 @@
       "information": "Retrouvez ici le nombre de participants total de votre campagne. Ce nombre comprend l'ensemble des participants ayant saisi le code et commencé leur parcours ou leur envoi de profil.",
       "loader": "Chargement du total de participants"
     },
+    "place-info": {
+      "details": "ayant au moins une participation à une campagne.",
+      "link": "Libérer une place depuis l’onglet “Participants”",
+      "message": "1 place occupée = 1 participant"
+    },
     "submitted-count": {
       "title": "Résultats reçus",
       "information": "Retrouvez ici les résultats envoyés par vos participants. Ce nombre comprend l’ensemble des participants ayant terminé et cliqué sur le bouton \"J'envoie mes résultats\" ou \"J'envoie mon profil\".",
@@ -1102,7 +1107,6 @@
         },
         "students-count": "{count, plural, =0 {0 élève} =1 {1 élève} other {{count} élèves}}"
       },
-
       "manage-authentication-method-modal": {
         "title": "Gestion du compte Pix de l’élève",
         "authentication-methods": "Méthodes de connexion",
