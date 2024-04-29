@@ -59,6 +59,23 @@ const register = async function (server) {
         tags: ['api', 'campaign-results-profiles-collection'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/campaigns/{id}/collective-results',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.campaignId,
+          }),
+        },
+        handler: campaignResultsController.getCollectiveResult,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            '- Récupération des résultats collectifs de la campagne par son id',
+        ],
+        tags: ['api', 'campaign'],
+      },
+    },
   ]);
 };
 

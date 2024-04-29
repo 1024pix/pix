@@ -1,6 +1,6 @@
-import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../../../lib/domain/errors.js';
+import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 const { computeCampaignCollectiveResult } = usecases;
 

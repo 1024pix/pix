@@ -18,6 +18,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as campaignAdministrationRepository from '../../infrastructure/repositories/campaign-administration-repository.js';
 import * as campaignAssessmentParticipationResultListRepository from '../../infrastructure/repositories/campaign-assessment-participation-result-list-repository.js';
+import * as campaignCollectiveResultRepository from '../../infrastructure/repositories/campaign-collective-result-repository.js';
 import * as campaignCreatorRepository from '../../infrastructure/repositories/campaign-creator-repository.js';
 import * as campaignForArchivingRepository from '../../infrastructure/repositories/campaign-for-archiving-repository.js';
 // TODO : clean with campaign administration ( similar get with a lot difference)
@@ -59,6 +60,7 @@ const dependencies = {
   targetProfileRepository, // TODO
   userRepository,
   campaignForArchivingRepository,
+  campaignCollectiveResultRepository,
   campaignToJoinRepository,
 };
 
