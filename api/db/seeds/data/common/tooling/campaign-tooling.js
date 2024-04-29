@@ -46,7 +46,8 @@ export { createAssessmentCampaign, createProfilesCollectionCampaign };
  *    shared: number,
  *    shared_one_validated_skill: number,
  *    shared_perfect: number,
- *  }
+ *  },
+ *  recommendedTrainingsIds: number[]
  * }
  * @returns {Promise<{campaignId: number}>}
  */
@@ -203,6 +204,18 @@ async function createAssessmentCampaign({
         snappedAt: sharedAt,
         snapshot: JSON.stringify(keDataForSnapshot),
       });
+
+      if (configCampaign.recommendedTrainingsIds?.length > 0) {
+        for (const trainingId of configCampaign.recommendedTrainingsIds) {
+          databaseBuilder.factory.buildUserRecommendedTraining({
+            userId,
+            trainingId,
+            campaignParticipationId,
+            createdAt: sharedAt,
+            updatedAt: sharedAt,
+          });
+        }
+      }
     }
   }
 

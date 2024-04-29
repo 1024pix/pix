@@ -74,7 +74,7 @@ export function buildTrainings(databaseBuilder) {
 
   const enTrainingId = databaseBuilder.factory.buildTraining({
     title: 'Eat a croissant like the french',
-    locale: 'en-gb',
+    locale: 'en',
   }).id;
 
   databaseBuilder.factory.buildTargetProfileTraining({
@@ -93,4 +93,6 @@ export function buildTrainings(databaseBuilder) {
     tubeId: 'tube1NLpOetQhutFlA',
     level: 2,
   });
+
+  return [frTrainingId, frFrTrainingId1, frFrTrainingId2, enTrainingId];
 }

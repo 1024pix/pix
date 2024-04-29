@@ -4,8 +4,8 @@ import { buildTrainings } from './build-trainings.js';
 
 async function teamDevcompDataBuilder({ databaseBuilder }) {
   await buildTargetProfiles(databaseBuilder);
-  await buildTrainings(databaseBuilder);
-  await buildCampaigns(databaseBuilder);
+  const trainingsIds = await buildTrainings(databaseBuilder);
+  await buildCampaigns(databaseBuilder, trainingsIds);
 }
 
 export { teamDevcompDataBuilder };
