@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { CertificationAssessment } from '../../../../../lib/domain/models/CertificationAssessment.js';
@@ -16,13 +14,6 @@ const save = async function ({ session, domainTransaction = DomainTransaction.em
   const [savedSession] = await knexConn('sessions').insert(session).returning('*');
 
   return new Session(savedSession);
-};
-
-const saveSessions = async function (sessionsData) {
-  const sessions = sessionsData.map((session) => {
-    return _.omit(session, ['certificationCandidates']);
-  });
-  return knex.batchInsert('sessions', sessions);
 };
 
 const isFinalized = async function ({ id }) {
@@ -241,7 +232,6 @@ export {
   isSessionExistingBySessionAndCertificationCenterIds,
   remove,
   save,
-  saveSessions,
   unfinalize,
   updatePublishedAt,
   updateSessionInfo,
