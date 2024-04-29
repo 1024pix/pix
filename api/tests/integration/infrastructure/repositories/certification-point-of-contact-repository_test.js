@@ -1,6 +1,8 @@
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { CertificationCenter } from '../../../../lib/domain/models/CertificationCenter.js';
+import { CERTIFICATION_CENTER_MEMBERSHIP_ROLES } from '../../../../lib/domain/models/CertificationCenterMembership.js';
 import * as certificationPointOfContactRepository from '../../../../lib/infrastructure/repositories/certification-point-of-contact-repository.js';
+import { CERTIFICATION_FEATURES } from '../../../../src/certification/shared/domain/constants.js';
 import { Organization } from '../../../../src/shared/domain/models/Organization.js';
 import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 
@@ -574,6 +576,41 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
 
           expect(certificationPointOfContact).to.deepEqualInstance(expectedCertificationPointOfContact);
         });
+      });
+    });
+
+    context('when the certification center is a complementary alone pilot', function () {
+      it('return isComplementaryAlonePilot', async function () {
+        // given
+        const user = databaseBuilder.factory.buildUser();
+        const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+        const complementaryAlonePilotFeatureId = databaseBuilder.factory.buildFeature(
+          CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE,
+        ).id;
+        databaseBuilder.factory.buildCertificationCenterFeature({
+          certificationCenterId: certificationCenter.id,
+          featureId: complementaryAlonePilotFeatureId,
+        });
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          userId: user.id,
+          certificationCenterId: certificationCenter.id,
+          role: CERTIFICATION_CENTER_MEMBERSHIP_ROLES.MEMBER,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const certificationPointOfContact = await certificationPointOfContactRepository.get(user.id);
+
+        // then
+        expect(certificationPointOfContact.allowedCertificationCenterAccesses).to.deep.equal([
+          domainBuilder.buildAllowedCertificationCenterAccess({
+            id: certificationCenter.id,
+            type: certificationCenter.type,
+            name: certificationCenter.name,
+            externalId: certificationCenter.externalId,
+            isComplementaryAlonePilot: true,
+          }),
+        ]);
       });
     });
   });

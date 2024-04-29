@@ -35,6 +35,7 @@ const serialize = function (certificationPointOfContact) {
         'relatedOrganizationTags',
         'habilitations',
         'isV3Pilot',
+        'isComplementaryAlonePilot',
         'pixCertifScoBlockedAccessDateLycee',
         'pixCertifScoBlockedAccessDateCollege',
       ],
