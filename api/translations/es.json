@@ -17,8 +17,280 @@
       "local-time": "Hora local (inicio) :",
       "location-name": "Nombre del sitio :",
       "number": "N°",
-      "room-name": "Nombre del lugar :"
+      "room-name": "Nombre del lugar :",
+      "session": "La sesión de certificación"
+    },
+    "examiner-information": {
+      "invigilated-by": "Supervisado por :",
+      "signature": "Firma(s) :",
+      "title": "El supervisor o supervisores"
+    },
+    "file-name": "hoja de inscripción-sesión-",
+    "header": {
+      "page": "Página",
+      "title": "Hoja de asistencia"
+    },
+    "table": {
+      "birth-name": "Nombre de nacimiento",
+      "date-of-birth": {
+        "example": "(dd/mm/aaaa)",
+        "label": "Fecha de nacimiento"
+      },
+      "division": "Clase",
+      "external-id": "Identificador local",
+      "first-name": "Nombre",
+      "signature": "Firma",
+      "title": "Lista de candidatos"
     }
+  },
+  "campaign-export": {
+    "assessment": {
+      "competence-area": {
+        "items-successfully-completed": "Conocimientos adquiridos en el ámbito {nombre}",
+        "mastery-percentage": "Dominio de las competencias en el ámbito {nombre}.",
+        "total-items": "Número de realizaciones del perfil de destino del dominio {name}."
+      },
+      "is-shared": "Compartir (sí/no)",
+      "mastery-percentage-target-profile": "% de dominio de todas las competencias del perfil",
+      "progress": "% de aumento",
+      "shared-on": "Fecha de separación",
+      "skill": {
+        "items-successfully-completed": "Habilidades dominadas en la competencia {nombre}.",
+        "mastery-percentage": "% dominio de las habilidades adquiridas {nombre}",
+        "total-items": "Número de logros del perfil de destino en la habilidad {nombre}."
+      },
+      "started-on": "Fecha de inicio",
+      "status": {
+        "ko": "KB",
+        "not-tested": "No probado",
+        "ok": "Ok"
+      },
+      "success-rate": "Nivel obtenido (/{valor})",
+      "target-profile-name": "Curso",
+      "thematic-result-name": "{nombre} obtenido (sí/no)"
+    },
+    "common": {
+      "campaign-code": "Código",
+      "campaign-id": "ID Campagne",
+      "campaign-name": "Nombre de la campaña",
+      "file-name": "Results-{name}-{id}-{date}.csv",
+      "no": "No",
+      "not-available": "NA",
+      "organization-name": "Nombre de la organización",
+      "participant-division": "Clase",
+      "participant-firstname": "Nombre del participante",
+      "participant-group": "Grupo",
+      "participant-lastname": "Nombre del participante",
+      "participant-student-number": "Número de estudiante",
+      "yes": "Sí"
+    },
+    "profiles-collection": {
+      "certifiable-skills": "Número de competencias certificables",
+      "is-certifiable": "Certificable (sí/no)",
+      "is-sent": "Enviar (sí/no)",
+      "pix-score": "Número total de píxeles",
+      "sent-on": "Fecha de expedición",
+      "skill-level": "Nivel de la habilidad {nombre}",
+      "skill-ranking": "Número de píxeles de la habilidad {nombre}"
+    }
+  },
+  "candidate-list-template": {
+    "billing-mode": {
+      "free": "Gratis",
+      "paid": "Pagando",
+      "prepaid": "Prepago"
+    },
+    "certification": "Certificación",
+    "complementary": "complementario",
+    "filename": "lista-candidatos-sesión-",
+    "headers": {
+      "birth-date": "* Fecha de nacimiento (formato: dd/mm/aaaa)",
+      "birthcity": "Nombre del municipio",
+      "birthcity-inseecode": "Código Insee",
+      "birthcity-postcode": "Código postal",
+      "birthcountry": "País",
+      "birthname": "* Nombre de nacimiento",
+      "birthplace": "* Lugar de nacimiento",
+      "birthplace-instructions": "Instrucciones para rellenar el lugar de nacimiento :",
+      "birthplace-instructions-abroad": "- Candidato nacido en el extranjero: Rellene las columnas \"País\" y \"Nombre del municipio\" y",
+      "birthplace-instructions-abroad-insee": "introduzca 99 en la columna \"Código Insee",
+      "birthplace-instructions-france": "- Candidato nacido en Francia: introduzca Francia en la columna \"País\".",
+      "birthplace-instructions-france-insee": "- Si tiene código Insee: Rellene sólo la columna \"Código Insee",
+      "birthplace-instructions-france-postal": "- Si es el código postal: Rellene las columnas \"Código postal\" y \"Nombre del municipio\".",
+      "born-abroad": "Candidato nacido en el extranjero: código Insee 99 Y nombre del municipio",
+      "born-in-france": "Candidato nacido en Francia: Código Insee O Código postal y nombre del municipio",
+      "candidates": "Participantes",
+      "candidates-list": "Lista de candidatos",
+      "date": "Fecha",
+      "email-convocation": "Invitación por correo electrónico",
+      "email-results": "Dirección de correo electrónico del destinatario de los resultados (formador, profesor, etc.)",
+      "externalid": "Identificador local",
+      "extra-time": "¿Tiempo extra?",
+      "firstname": "* Nombre",
+      "gender": "* Sexo (M o F)",
+      "locale-time": "Hora local (inicio)",
+      "room-name": "Nombre de la sala",
+      "session-certification": "La sesión de certificación",
+      "session-invigilates-by": "Sesión supervisada por :",
+      "session-invigilators": "Firma del supervisor o supervisores :",
+      "session-number": "Número de sesión",
+      "site-name": "Nombre del sitio"
+    },
+    "one-per-candidate": "(sólo uno por candidato)",
+    "options": "Posibles opciones:",
+    "prepayment": "Código de pago anticipado",
+    "pricing": "Precios",
+    "pricing-pix": "Cotización de Pix",
+    "tooltip-line-1": "(Obligatorio, en particular, cuando se adquieren créditos combinados)",
+    "tooltip-line-2": "Debe incluir el número SIRET de la organización y el número de factura. Ex: 12345678912345/FACT12345",
+    "tooltip-line-3": "Si no dispone de factura, deberá establecer un código de prepago con Pix.",
+    "tooltips": {
+      "date-format": "Utilice el formato de fecha dd/mm/aaaa",
+      "email-format": "Su correo electrónico debe contener una \"@\" y un \".\nEjemplo: nom@exemple.fr Este campo es opcional,\nse utiliza para facilitar la invitación de candidatos.",
+      "email-results": "Correo electrónico del destinatario de los resultados (formador, profesor, etc.),\nSi no se rellena el campo, los resultados no se enviarán por correo electrónico al candidato o candidatos en cuestión,\nEl candidato verá sus resultados directamente en su cuenta Pix.",
+      "extra-time": "Este campo es obligatorio si el candidato tiene derecho a tiempo adicional para completar la certificación.\nSe espera un número entero entre 1 y 99% expresado como porcentaje (por ejemplo, 33%).",
+      "gender-format": "M=Hombre F=Mujer"
+    },
+    "yes": "Sí",
+    "yes-or-empty": "(\"sí\" o dejar en blanco)"
+  },
+  "certification-center-invitation-email": {
+    "params": {
+      "acceptInvitation": "Aceptar invitación",
+      "doNotAnswer": "Este es un correo electrónico automático, por favor no responda.",
+      "here": "aquí",
+      "moreAbout": "Más información",
+      "needHelp": "¿Necesita ayuda? Póngase en contacto con nosotros",
+      "oneTimeLink": "Este enlace es de un solo uso",
+      "pixCertifPresentation": "El espacio Pix Certif es una herramienta dedicada a la organización de sesiones de certificación.",
+      "title": "Invitación a unirse al espacio",
+      "yourCertificationCenter": "Su centro de certificación"
+    },
+    "subject": "Invitación a unirse a Pix Certif"
+  },
+  "certification-confirmation": {
+    "absolute-max-level-indication": "Cuando estén disponibles los 8 niveles del repositorio de píxeles, este número máximo será de 1024 píxeles.",
+    "file-name": "attestation-pix-{deliveredAt}.pdf",
+    "from-birthplace": "a { birthplace }",
+    "max-level": "(niveles en { maxReachableLevelOnCertificationDate })",
+    "max-reachable-level-indication": "* En la fecha en que se obtuvo esta certificación, el número máximo de píxeles alcanzables era { maxReachableScore }, correspondiente al nivel { maxReachableLevelOnCertificationDate }."
+  },
+  "certification-result-email": {
+    "params": {
+      "doNotReply": "Este es un correo electrónico automático, por favor no responda.",
+      "download": "Descargue los resultados",
+      "emailValidFor": "Este enlace es válido durante 30 días.",
+      "findOutMore": "Más información",
+      "findOutMoreFranceSuffix": "(Francia) o",
+      "findOutMoreInternationalSuffix": "(Internacional)",
+      "guidelines": "Las descripciones comunicadas por el centro de certificación han sido tenidas en cuenta -en su caso- por el jurado de Pix. Aquí encontrará información sobre cómo interpretar estos resultados.",
+      "guidelinesLinkName": "Interpretación de los resultados del prescriptor",
+      "overviewText": "Hola, aquí están los resultados de las certificaciones que prescribió a sus audiencias",
+      "resultsAvailable": "Los resultados de las certificaciones Pix que ha prescrito a sus audiencias están disponibles.",
+      "subject": "[Pix] Sesión de certificación",
+      "viewResultsInProfile": "Los candidatos pueden consultar sus resultados en su perfil Pix."
+    },
+    "title": "¡Consultar los resultados de la sesión de certificación nº {sessionId} !"
+  },
+  "certification-results-csv": {
+    "filenames": {
+      "DIVISION_CERTIFICATION_RESULTS_FILENAME": "{dateWithTime}_results_{division}.csv",
+      "SESSION_CERTIFICATION_RESULTS_FILENAME": "{dateWithTime}_results_session_{sessionId}.csv"
+    },
+    "headers": {
+      "BIRTHDATE": "Fecha de nacimiento",
+      "BIRTHPLACE": "Lugar de nacimiento",
+      "CERTIFICATION_CENTER": "Centro de certificación",
+      "CERTIFICATION_DATE": "Fecha de certificación",
+      "CERTIFICATION_LABEL": "Certificación {etiqueta}",
+      "CERTIFICATION_NUMBER": "Número de certificación",
+      "EXTERNAL_ID": "Identificador externo",
+      "FIRSTNAME": "Nombre",
+      "JURY_COMMENT_FOR_ORGANIZATION": "Comentarios del jurado sobre la organización",
+      "LASTNAME": "Nombre",
+      "PIX_SCORE": "Número de píxeles",
+      "REGISTRATION_STATUS": "Estado de la inscripción",
+      "SESSION_ID": "Sesión",
+      "SKILL_LABEL": "{skillIndex}",
+      "STATUS": "Estado"
+    },
+    "values": {
+      "CERTIFICATION_CANCELLED": "Cancelado",
+      "CERTIFICATION_IN_ERROR": "Por error",
+      "CERTIFICATION_REJECTED": "Rechazado",
+      "CERTIFICATION_STARTED": "Comenzó",
+      "CERTIFICATION_VALIDATED": "Validado",
+      "COMPLEMENTARY_CERTIFICATION_CANCELLED": "Cancelado",
+      "COMPLEMENTARY_CERTIFICATION_NOT_DONE": "No aprobado",
+      "COMPLEMENTARY_CERTIFICATION_REJECTED": "Rechazado",
+      "COMPLEMENTARY_CERTIFICATION_VALIDATED": "Validado",
+      "REJECTED_AUTOMATICALLY_COMMENT": "El candidato respondió incorrectamente a más del 50% de las preguntas, lo que invalidó toda su certificación y le supuso una puntuación de 0 píxeles."
+    }
+  },
+  "csv-import-values": {
+    "sup-organization-learner": {
+      "diplomas": {
+        "other": "Otros",
+        "bts": "BTS controlada por el Estado",
+        "classe-preparatoire": "Clase preparatoria controlada por el Estado",
+        "dcg ": "DCG controlado por el Estado",
+        "deust": "DEUST controlado por el Estado",
+        "dma ": "DMA controlado por estado",
+        "dnmade": "DNMADE controlado por el Estado",
+        "doctorat": "Título nacional de doctor controlado por el Estado",
+        "dts": "SDR controlado por el Estado",
+        "dut": "DUT controlado por el estado",
+        "etat-controle": "Título controlado por el Estado",
+        "ingenieur": "Titulación en ingeniería controlada por el Estado",
+        "license": "Bachillerato nacional controlado por el Estado",
+        "license-grade": "Título oficial que confiere el grado de licenciado",
+        "master": "Máster nacional controlado por el Estado",
+        "master-grade": "Máster controlado por el Estado",
+        "vise": "Título controlado por el Estado"
+      },
+      "study-schemes": {
+        "other": "Otros",
+        "continuous-training": "Formación continua",
+        "initial-training": "Formación inicial, excluido el aprendizaje",
+        "training": "Aprender"
+      },
+      "unknown": "No reconocido"
+    }
+  },
+  "csv-template": {
+    "organization-learners": {
+      "birth-city": "Nombre del municipio de nacimiento** (en francés)",
+      "birth-city-code": "Código del lugar de nacimiento** (municipio)",
+      "birth-country-code": "Código del país de nacimiento",
+      "birth-province-code": "Código del departamento de nacimiento",
+      "birthdate": "Fecha de nacimiento (dd/mm/aaaa)* (si procede)",
+      "division": "División",
+      "first-name": "Nombre",
+      "last-name": "Apellido* (apellido)",
+      "mef-code": "Código MEF",
+      "middle-name": "Segundo nombre",
+      "national-identifier": "Identificador único",
+      "preferred-last-name": "Nombre en uso",
+      "sex": "Código de sexo",
+      "status": "Estado",
+      "third-name": "Tercer nombre"
+    },
+    "sup-organization-learners": {
+      "birthdate": "Fecha de nacimiento (dd/mm/aaaa)",
+      "department": "Componente",
+      "diploma": "Diploma",
+      "educational-team": "Equipo docente",
+      "email": "Correo electrónico",
+      "first-name": "Nombre",
+      "group": "Grupo",
+      "last-name": "Apellido",
+      "middle-name": "Segundo nombre",
+      "preferred-lastname": "Nombre en uso",
+      "student-number": "Número de estudiante",
+      "study-scheme": "Dieta",
+      "third-name": "Tercer nombre"
+    },
+    "template-name": "modelo de importación"
   },
   "email-sender-name": {
     "pix-app": "PIX - No contestar"
@@ -42,6 +314,49 @@
     "STAGE_THRESHOLD_IS_REQUIRED": "El umbral de aterrizaje es obligatorio",
     "STAGE_TITLE_IS_REQUIRED": "El título del nivel es obligatorio",
     "WRONG_EMAIL_FORMAT": "El formato de la dirección de correo electrónico es incorrecto."
+  },
+  "jury": {
+    "comment": {
+      "CANCELLED_DUE_TO_LACK_OF_ANSWERS_FOR_TECHNICAL_REASON": {
+        "candidate": "Uno o varios problemas técnicos comunicados a su supervisor durante la sesión de certificación afectaron a la calidad de la prueba de certificación. Lamentablemente, debido al gran número de preguntas que no pudo responder correctamente, no podemos calcular una puntuación fiable ni emitir un certificado. Se anulará la certificación y se informará al prescriptor de su certificación (si procede).",
+        "organization": "Uno o varios problemas técnicos, comunicados por este candidato al supervisor de la sesión de certificación, han afectado al buen desarrollo de la prueba de certificación. No podemos certificar al candidato y, por lo tanto, su certificación queda anulada. Esta información debe tenerse en cuenta y puede llevarle a proponer una nueva sesión de certificación para este candidato."
+      },
+      "CANCELLED_DUE_TO_NEUTRALIZATION": {
+        "candidate": "Uno o varios problemas técnicos comunicados a su supervisor durante la sesión de certificación han afectado a la calidad de la prueba de certificación. Debido a que no se pudieron responder demasiadas preguntas, no podemos expedir la certificación. Se anulará su certificación y se informará al prescriptor de la misma (si procede).",
+        "organization": "Uno o varios problemas técnicos han afectado a la prueba de certificación. No podemos entregar la certificación y, por lo tanto, queda anulada. Esta información puede llevarle a proponer una nueva sesión de certificación para este candidato."
+      },
+      "FRAUD": {
+        "candidate": "Dado que no se respetaron las condiciones en las que realizó la prueba de certificación y fue denunciado por fraude, su certificación ha quedado invalidada como consecuencia de ello.",
+        "organization": "Se detectó una situación de fraude: tras analizarla, decidimos rechazar la certificación."
+      },
+      "LOWER_LEVEL_COMPLEMENTARY_CERTIFICATION_ACQUIRED": {
+        "candidate": "Enhorabuena, ¡su puntuación le ha permitido validar su certificación complementaria! El nivel obtenido corresponde al nivel inferior a aquel para el que era elegible.",
+        "organization": "La puntuación del candidato no fue suficiente para validar su certificación complementaria en el nivel para el que era elegible. Sin embargo, ha validado el nivel inmediatamente inferior a esta certificación complementaria. Por lo tanto, está certificado."
+      },
+      "REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS": {
+        "candidate": "Ha respondido incorrectamente a más del 50% de las preguntas, lo que invalida toda su certificación y da lugar a una puntuación de 0 píxeles.",
+        "organization": "El candidato respondió incorrectamente a más del 50% de las preguntas, lo que invalidó toda su certificación y le supuso una puntuación de 0 píxeles."
+      },
+      "REJECTED_DUE_TO_LACK_OF_ANSWERS": {
+        "candidate": "El número de preguntas contestadas durante su prueba de certificación es insuficiente para que le expidamos la certificación Pix.",
+        "organization": "El número de preguntas contestadas por el candidato durante la prueba de certificación es insuficiente para que podamos expedir la certificación Pix."
+      }
+    }
+  },
+  "organization-invitation-email": {
+    "params": {
+      "acceptInvitation": "Aceptar invitación",
+      "doNotAnswer": "Este es un correo electrónico automático, por favor no responda.",
+      "here": "aquí",
+      "moreAbout": "Más información",
+      "needHelp": "¿Necesita ayuda? Póngase en contacto con nosotros",
+      "oneTimeLink": "Este enlace es de un solo uso",
+      "pixPresentation": "Pix es el servicio público en línea para evaluar, desarrollar y certificar tus competencias digitales.",
+      "subtitle": "La plataforma Pix Orga le permite crear y gestionar campañas de prueba y seguir el progreso de sus participantes.",
+      "title": "Le invitamos a unirse a Pix Orga",
+      "yourOrganization": "Su organización"
+    },
+    "subject": "Invitación a unirse a Pix Orga"
   },
   "pix-account-creation-email": {
     "params": {
