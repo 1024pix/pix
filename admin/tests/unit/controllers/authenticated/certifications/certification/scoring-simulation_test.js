@@ -55,32 +55,32 @@ module('Unit | Controller | authenticated/certifications/scoring-simulation', fu
   });
 
   module('#onGenerateSimulationProfile', function () {
-    test('should call getSimulationResult method with correct parameters', function (assert) {
+    test('should call query record with correct parameters', function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/certifications/scoring-simulation');
       const store = this.owner.lookup('service:store');
-      const adapter = store.adapterFor('scoring-and-capacity-simulator-report');
-      const getSimulationResultStub = sinon.stub(adapter, 'getSimulationResult');
+      const queryRecordStub = sinon.stub();
+      store.queryRecord = queryRecordStub;
       const event = {
         preventDefault: () => {},
       };
       controller.score = 1;
+      const query = { score: 1 };
 
       // when
       controller.onGenerateSimulationProfile(event);
 
       // then
-      sinon.assert.calledWithExactly(getSimulationResultStub, { score: 1, capacity: null });
-      assert.ok(true);
+      assert.ok(queryRecordStub.calledWith('scoring-and-capacity-simulator-report', query));
     });
 
     module('when an error occured', function () {
-      test('should not call getSimulationResult method', function (assert) {
+      test('should not query record method', function (assert) {
         // given
         const controller = this.owner.lookup('controller:authenticated/certifications/scoring-simulation');
         const store = this.owner.lookup('service:store');
-        const adapter = store.adapterFor('scoring-and-capacity-simulator-report');
-        const getSimulationResultStub = sinon.stub(adapter, 'getSimulationResult');
+        const queryRecordStub = sinon.stub();
+        store.queryRecord = queryRecordStub;
         const event = {
           preventDefault: () => {},
         };
@@ -91,7 +91,7 @@ module('Unit | Controller | authenticated/certifications/scoring-simulation', fu
         controller.onGenerateSimulationProfile(event);
 
         // then
-        sinon.assert.notCalled(getSimulationResultStub);
+        sinon.assert.notCalled(queryRecordStub);
         assert.ok(true);
       });
     });
