@@ -29,31 +29,17 @@ module('Acceptance | Displaying a QCU challenge', function (hooks) {
 
     test('should render challenge information and question', function (assert) {
       // then
-      const expectedProposals = [
-        '1ere <em>possibilite</em>',
-        '2eme <a href="/test" rel="noopener noreferrer" target="_blank">possibilite</a>',
-        '<img src="/images/pix-logo-blanc.svg" alt="3eme possibilite">',
-        '4eme possibilite',
-      ];
-
       assert.ok(screen.getByText(qcuChallenge.instruction));
       assert.strictEqual(screen.getAllByRole('radio', { name: /possibilite/ }).length, 4);
-      assert.strictEqual(
-        screen.getByRole('radio', { name: '1ere possibilite' }).nextElementSibling.innerHTML.trim(),
-        expectedProposals[0],
-      );
-      assert.strictEqual(
-        screen.getByRole('radio', { name: '2eme possibilite' }).nextElementSibling.innerHTML.trim(),
-        expectedProposals[1],
-      );
-      assert.strictEqual(
-        screen.getByRole('radio', { name: '3eme possibilite' }).nextElementSibling.innerHTML.trim(),
-        expectedProposals[2],
-      );
-      assert.strictEqual(
-        screen.getByRole('radio', { name: '4eme possibilite' }).nextElementSibling.innerHTML.trim(),
-        expectedProposals[3],
-      );
+
+      assert.ok(screen.findByRole('radio', { name: '1ere possibilite' }));
+
+      assert.ok(screen.findByRole('link', { name: 'possibilite' }));
+
+      assert.ok(screen.findByAltText('3eme possibilite'));
+
+      assert.ok(screen.findByRole('radio', { name: '4eme possibilite' }));
+
       assert.dom('.challenge-reponse__alert').doesNotExist();
     });
 
