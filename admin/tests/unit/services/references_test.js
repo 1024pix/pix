@@ -10,11 +10,12 @@ module('Unit | Service | references', function (hooks) {
       const references = this.owner.lookup('service:references');
 
       // then
-      assert.strictEqual(references.availableLanguages.length, 3);
+      assert.strictEqual(references.availableLanguages.length, 4);
       assert.deepEqual(references.availableLanguages, [
         { value: 'fr', label: 'Français' },
         { value: 'en', label: 'Anglais' },
         { value: 'nl', label: 'Néerlandais' },
+        { value: 'es', label: 'Espagnol' },
       ]);
     });
   });

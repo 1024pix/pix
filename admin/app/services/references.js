@@ -6,6 +6,7 @@ export default class ReferencesService extends Service {
       { value: 'fr', label: 'Français' },
       { value: 'en', label: 'Anglais' },
       { value: 'nl', label: 'Néerlandais' },
+      { value: 'es', label: 'Espagnol' },
     ];
   }
 
