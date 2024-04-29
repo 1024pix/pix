@@ -4,12 +4,15 @@ import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js'
 
 describe('Unit | UseCase | get-session', function () {
   let sessionRepository;
+  let sessionEnrolmentRepository;
   let supervisorAccessRepository;
 
   beforeEach(function () {
     sessionRepository = {
-      get: sinon.stub(),
       hasSomeCleaAcquired: sinon.stub(),
+    };
+    sessionEnrolmentRepository = {
+      get: sinon.stub(),
     };
     supervisorAccessRepository = {
       sessionHasSupervisorAccess: sinon.stub(),
@@ -20,13 +23,18 @@ describe('Unit | UseCase | get-session', function () {
     it('should get the session', async function () {
       // given
       const sessionId = 123;
-      const sessionToFind = domainBuilder.buildSession({ id: sessionId });
-      sessionRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
+      const sessionToFind = domainBuilder.certification.enrolment.buildSession({ id: sessionId });
+      sessionEnrolmentRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
       sessionRepository.hasSomeCleaAcquired.withArgs({ id: sessionId }).resolves(false);
       supervisorAccessRepository.sessionHasSupervisorAccess.resolves(true);
 
       // when
-      const { session: actualSession } = await getSession({ sessionId, sessionRepository, supervisorAccessRepository });
+      const { session: actualSession } = await getSession({
+        sessionId,
+        sessionRepository,
+        sessionEnrolmentRepository,
+        supervisorAccessRepository,
+      });
 
       // then
       expect(actualSession).to.deepEqualInstance(sessionToFind);
@@ -36,13 +44,18 @@ describe('Unit | UseCase | get-session', function () {
       it('should return hasSupervisorAccess to true', async function () {
         // given
         const sessionId = 123;
-        const sessionToFind = domainBuilder.buildSession({ id: sessionId });
-        sessionRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
+        const sessionToFind = domainBuilder.certification.enrolment.buildSession({ id: sessionId });
+        sessionEnrolmentRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
         sessionRepository.hasSomeCleaAcquired.withArgs({ id: sessionId }).resolves(false);
         supervisorAccessRepository.sessionHasSupervisorAccess.resolves(true);
 
         // when
-        const { hasSupervisorAccess } = await getSession({ sessionId, sessionRepository, supervisorAccessRepository });
+        const { hasSupervisorAccess } = await getSession({
+          sessionId,
+          sessionRepository,
+          sessionEnrolmentRepository,
+          supervisorAccessRepository,
+        });
 
         // then
         expect(hasSupervisorAccess).to.be.true;
@@ -53,13 +66,18 @@ describe('Unit | UseCase | get-session', function () {
       it('should return hasSupervisorAccess to true', async function () {
         // given
         const sessionId = 123;
-        const sessionToFind = domainBuilder.buildSession({ id: sessionId });
-        sessionRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
+        const sessionToFind = domainBuilder.certification.enrolment.buildSession({ id: sessionId });
+        sessionEnrolmentRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
         sessionRepository.hasSomeCleaAcquired.withArgs({ id: sessionId }).resolves(false);
         supervisorAccessRepository.sessionHasSupervisorAccess.resolves(false);
 
         // when
-        const { hasSupervisorAccess } = await getSession({ sessionId, sessionRepository, supervisorAccessRepository });
+        const { hasSupervisorAccess } = await getSession({
+          sessionId,
+          sessionRepository,
+          sessionEnrolmentRepository,
+          supervisorAccessRepository,
+        });
 
         // then
         expect(hasSupervisorAccess).to.be.false;
@@ -70,8 +88,8 @@ describe('Unit | UseCase | get-session', function () {
       it('should return hasSomeCleaAcquired to true', async function () {
         // given
         const sessionId = 123;
-        const sessionToFind = domainBuilder.buildSession({ id: sessionId });
-        sessionRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
+        const sessionToFind = domainBuilder.certification.enrolment.buildSession({ id: sessionId });
+        sessionEnrolmentRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
         sessionRepository.hasSomeCleaAcquired.withArgs({ id: sessionId }).resolves(true);
         supervisorAccessRepository.sessionHasSupervisorAccess.resolves(true);
 
@@ -79,6 +97,7 @@ describe('Unit | UseCase | get-session', function () {
         const { hasSomeCleaAcquired } = await getSession({
           sessionId,
           sessionRepository,
+          sessionEnrolmentRepository,
           supervisorAccessRepository,
         });
 
@@ -91,8 +110,8 @@ describe('Unit | UseCase | get-session', function () {
       it('should return hasSomeCleaAcquired to true', async function () {
         // given
         const sessionId = 123;
-        const sessionToFind = domainBuilder.buildSession({ id: sessionId });
-        sessionRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
+        const sessionToFind = domainBuilder.certification.enrolment.buildSession({ id: sessionId });
+        sessionEnrolmentRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
         sessionRepository.hasSomeCleaAcquired.withArgs({ id: sessionId }).resolves(false);
         supervisorAccessRepository.sessionHasSupervisorAccess.resolves(true);
 
@@ -100,6 +119,7 @@ describe('Unit | UseCase | get-session', function () {
         const { hasSomeCleaAcquired } = await getSession({
           sessionId,
           sessionRepository,
+          sessionEnrolmentRepository,
           supervisorAccessRepository,
         });
 
@@ -113,10 +133,15 @@ describe('Unit | UseCase | get-session', function () {
     it('should throw an error the session', async function () {
       // given
       const sessionId = 123;
-      sessionRepository.get.withArgs({ id: sessionId }).rejects(new NotFoundError());
+      sessionEnrolmentRepository.get.withArgs({ id: sessionId }).rejects(new NotFoundError());
 
       // when
-      const err = await catchErr(getSession)({ sessionId, sessionRepository, supervisorAccessRepository });
+      const err = await catchErr(getSession)({
+        sessionId,
+        sessionRepository,
+        sessionEnrolmentRepository,
+        supervisorAccessRepository,
+      });
 
       // then
       expect(err).to.be.an.instanceof(NotFoundError);

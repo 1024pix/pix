@@ -11,7 +11,6 @@ describe('Unit | UseCase | publish-session', function () {
     const certificationCenterRepository = Symbol('the certification center repository');
     const finalizedSessionRepository = Symbol('the finalizedSessionRepository');
     const publishedAt = Symbol('a publication date');
-
     const sessionRepository = {
       get: sinon.stub(),
     };

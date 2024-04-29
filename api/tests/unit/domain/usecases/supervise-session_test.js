@@ -20,7 +20,7 @@ describe('Unit | UseCase | supervise-session', function () {
     const sessionId = 123;
     const supervisorPassword = 'NOT_MATCHING_SUPERVISOR_PASSWORD';
     const userId = 434;
-    const session = domainBuilder.buildSession({ id: sessionId });
+    const session = domainBuilder.certification.sessionManagement.buildSession({ id: sessionId });
     sessionRepository.get.resolves(session);
 
     // when
@@ -41,7 +41,7 @@ describe('Unit | UseCase | supervise-session', function () {
     // given
     const sessionId = 123;
     const userId = 434;
-    const session = domainBuilder.buildSession.processed({ id: sessionId });
+    const session = domainBuilder.certification.sessionManagement.buildSession.processed({ id: sessionId });
     sessionRepository.get.resolves(session);
 
     // when
@@ -61,7 +61,7 @@ describe('Unit | UseCase | supervise-session', function () {
     // given
     const sessionId = 123;
     const userId = 434;
-    const session = domainBuilder.buildSession.created({ id: sessionId });
+    const session = domainBuilder.certification.sessionManagement.buildSession.created({ id: sessionId });
     sessionRepository.get.resolves(session);
 
     // when

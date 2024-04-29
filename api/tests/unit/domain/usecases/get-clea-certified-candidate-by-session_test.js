@@ -3,23 +3,23 @@ import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | getCleaCertifiedCandidateBySession', function () {
   let cleaCertifiedCandidateRepository;
-  let sessionRepository;
+  let sessionEnrolmentRepository;
 
   beforeEach(function () {
-    sessionRepository = { get: sinon.stub() };
+    sessionEnrolmentRepository = { get: sinon.stub() };
     cleaCertifiedCandidateRepository = { getBySessionId: sinon.stub() };
   });
 
   it('should return session', async function () {
     // given
     const expectedSession = domainBuilder.buildSession();
-    sessionRepository.get.withArgs({ id: 123 }).resolves(expectedSession);
+    sessionEnrolmentRepository.get.withArgs({ id: 123 }).resolves(expectedSession);
     cleaCertifiedCandidateRepository.getBySessionId.withArgs(123).resolves([]);
 
     // when
     const { session } = await getCleaCertifiedCandidateBySession({
       sessionId: 123,
-      sessionRepository,
+      sessionEnrolmentRepository,
       cleaCertifiedCandidateRepository,
     });
 
@@ -62,7 +62,7 @@ describe('Unit | UseCase | getCleaCertifiedCandidateBySession', function () {
         const { cleaCertifiedCandidateData } = await getCleaCertifiedCandidateBySession({
           sessionId: 1,
           cleaCertifiedCandidateRepository,
-          sessionRepository,
+          sessionEnrolmentRepository,
         });
 
         // then
