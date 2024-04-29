@@ -941,7 +941,7 @@
           "text": "Om er meer over te weten",
           "url": "https://pix.fr/actualites/decouvrez-votre-nouveau-tableau-de-bord"
         },
-        "message": "<h2>Welkom bij Pix in het Nederlands!</h2><p>De vertaling van al onze vaardigheden is binnenkort beschikbaar.</p>"
+        "message": "<h2>Welkom bij Pix in het Nederlands!</h2><p>De vertaling van al onze vaardigheden is binnenkort beschikbaar. '<'a href=\"https://pix.org/nl-be/de-planning-voor-de-uitrol-van-pix-in-het-nederlan\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Meer informatie'</a>'</p></p>"
       },
       "recommended-competences": {
         "extra-information": "Toegang tot alle aanbevolen vaardigheden",
@@ -1250,9 +1250,6 @@
         "qcm": "Selecteer ten minste twee antwoorden om te bevestigen.",
         "qcu": "Selecteer een antwoord om te bevestigen.",
         "qrocm": "Vul alle antwoordvelden in om te bevestigen."
-      },
-      "preview": {
-        "textarea-label": "Module-inhoud"
       }
     },
     "not-connected": {
@@ -1578,7 +1575,7 @@
         "e-learning": "Afstandsonderwijs",
         "hybrid-training": "Hybride training",
         "in-person-training": "Persoonlijke training",
-        "modulix": "Pix Module",
+        "modulix": "Modulix",
         "webinaire": "Webinar"
       }
     },
