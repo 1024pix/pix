@@ -1,10 +1,15 @@
-import { REAL_PIX_SUPER_ADMIN_ID } from '../common/common-builder.js';
-import { ONDE_IMPORT_FORMAT_ID } from '../common/constants.js';
+const engineeringUserId = process.env.ENGINEERING_USER_ID;
 
-export async function buildOrganizationLearnerImportFormat(databaseBuilder) {
-  await databaseBuilder.factory.buildOrganizationLearnerImportFormat({
-    id: ONDE_IMPORT_FORMAT_ID,
-    name: 'ONDE-seed',
+const up = async function (knex) {
+  //Avoid fail migration when engineering user does not exist.
+  if (!engineeringUserId) return;
+  const user = await knex
+    .from('users')
+    .where({ id: parseInt(engineeringUserId) })
+    .first();
+  if (!user) return;
+  await knex('organization-learner-import-formats').insert({
+    name: 'ONDE',
     fileType: 'csv',
     config: {
       acceptedEncoding: ['utf8'],
@@ -28,8 +33,14 @@ export async function buildOrganizationLearnerImportFormat(databaseBuilder) {
         { name: 'Date de naissance', required: true },
       ],
     },
-    createdAt: new Date('2024-01-01'),
-    createdBy: REAL_PIX_SUPER_ADMIN_ID,
-    updatedAt: new Date('2021-02-01'),
+    createdAt: new Date(),
+    createdBy: parseInt(engineeringUserId),
+    updatedAt: new Date(),
   });
-}
+};
+
+const down = async function (knex) {
+  await knex('organization-learner-import-formats').where({ name: 'ONDE' }).delete();
+};
+
+export { down, up };
