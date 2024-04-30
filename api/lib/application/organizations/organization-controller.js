@@ -1,7 +1,6 @@
 import * as queryParamsUtils from '../../../src/shared/infrastructure/utils/query-params-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as csvSerializer from '../../infrastructure/serializers/csv/csv-serializer.js';
-import * as campaignManagementSerializer from '../../infrastructure/serializers/jsonapi/campaign-management-serializer.js';
 import * as divisionSerializer from '../../infrastructure/serializers/jsonapi/division-serializer.js';
 import * as membershipSerializer from '../../infrastructure/serializers/jsonapi/membership-serializer.js';
 import * as organizationInvitationSerializer from '../../infrastructure/serializers/jsonapi/organization-invitation-serializer.js';
@@ -49,25 +48,6 @@ const findPaginatedFilteredOrganizations = async function (
     page: options.page,
   });
   return dependencies.organizationSerializer.serialize(organizations, pagination);
-};
-
-const findPaginatedCampaignManagements = async function (
-  request,
-  h,
-  dependencies = {
-    queryParamsUtils,
-    campaignManagementSerializer,
-  },
-) {
-  const organizationId = request.params.id;
-  const { filter, page } = dependencies.queryParamsUtils.extractParameters(request.query);
-
-  const { models: campaigns, meta } = await usecases.findPaginatedCampaignManagements({
-    organizationId,
-    filter,
-    page,
-  });
-  return dependencies.campaignManagementSerializer.serialize(campaigns, meta);
 };
 
 const findPaginatedFilteredMembershipsForAdmin = async function (request) {
@@ -193,7 +173,6 @@ const organizationController = {
   create,
   createInBatch,
   findChildrenOrganizationsForAdmin,
-  findPaginatedCampaignManagements,
   findPaginatedFilteredMemberships,
   findPaginatedFilteredMembershipsForAdmin,
   findPaginatedFilteredOrganizations,

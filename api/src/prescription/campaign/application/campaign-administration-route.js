@@ -262,6 +262,35 @@ const register = async function (server) {
         tags: ['api', 'organization-learners'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/admin/organizations/{id}/campaigns',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+        },
+        handler: campaignAdministrationController.findPaginatedCampaignManagements,
+        tags: ['api', 'organizations'],
+        notes: [
+          'Cette route est restreinte aux administrateurs authentifiés',
+          'Elle retourne toutes les campagnes rattachées à l’organisation.',
+        ],
+      },
+    },
   ]);
 };
 
