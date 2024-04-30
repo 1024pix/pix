@@ -11,6 +11,109 @@ describe('Unit | Application | Target Profiles | Routes', function () {
     sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf');
   });
 
+  describe('POST /api/admin/target-profiles/{id}/attach-organizations', function () {
+    const method = 'POST';
+    const url = '/api/admin/target-profiles/3/attach-organizations';
+    const payload = { 'organization-ids': [1, 2] };
+
+    context('when user has role "SUPER_ADMIN", "SUPPORT" or "METIER"', function () {
+      it('should return a response with an HTTP status code 204', async function () {
+        // given
+        securityPreHandlers.hasAtLeastOneAccessOf
+          .withArgs([
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
+          ])
+          .callsFake(() => (request, h) => h.response(true));
+        sinon
+          .stub(targetProfileController, 'attachOrganizations')
+          .callsFake((request, h) => h.response('ok').code(204));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const { statusCode } = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(statusCode).to.equal(204);
+      });
+
+      context('when id is a string', function () {
+        it('should reject request with HTTP code 400', async function () {
+          // given
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          // when
+          const { statusCode } = await httpTestServer.request(
+            method,
+            '/api/admin/target-profiles/azerty/attach-organizations',
+            payload,
+          );
+
+          // then
+          expect(statusCode).to.equal(400);
+        });
+      });
+
+      context('when organization-ids is not an array', function () {
+        it('should reject request with HTTP code 400', async function () {
+          // given
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          // when
+          const { statusCode } = await httpTestServer.request(method, url, { 'organization-ids': {} });
+
+          // then
+          expect(statusCode).to.equal(400);
+        });
+      });
+
+      context('when organization-ids is an array of string', function () {
+        it('should reject request with HTTP code 400', async function () {
+          // given
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          // when
+          const { statusCode } = await httpTestServer.request(method, url, { 'organization-ids': ['azerty'] });
+
+          // then
+          expect(statusCode).to.equal(400);
+        });
+      });
+    });
+
+    context('when user has role "CERTIF"', function () {
+      it('should return a response with an HTTP status code 403', async function () {
+        // given
+        securityPreHandlers.hasAtLeastOneAccessOf
+          .withArgs([
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
+          ])
+          .callsFake(
+            () => (request, h) =>
+              h
+                .response({ errors: new Error('forbidden') })
+                .code(403)
+                .takeover(),
+          );
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const { statusCode } = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(statusCode).to.equal(403);
+      });
+    });
+  });
+
   describe('POST /api/admin/target-profiles/{id}/copy-organizations', function () {
     const method = 'POST';
     const url = '/api/admin/target-profiles/3/copy-organizations';

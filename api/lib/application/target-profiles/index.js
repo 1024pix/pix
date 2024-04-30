@@ -193,37 +193,6 @@ const register = async function (server) {
     },
     {
       method: 'POST',
-      path: '/api/admin/target-profiles/{id}/attach-organizations',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          payload: Joi.object({
-            'organization-ids': Joi.array().items(Joi.number().integer()).required(),
-          }),
-          params: Joi.object({
-            id: identifiersType.targetProfileId,
-          }),
-        },
-        handler: targetProfileController.attachOrganizations,
-        tags: ['api', 'admin', 'target-profiles'],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            '- Elle permet de rattacher des organisations à un profil cible',
-        ],
-      },
-    },
-    {
-      method: 'POST',
       path: '/api/admin/target-profiles/{id}/badges',
       config: {
         pre: [
