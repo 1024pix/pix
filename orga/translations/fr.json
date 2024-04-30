@@ -62,6 +62,9 @@
     },
     "language-availability": {
       "message": "Votre langue n'est pas encore disponible sur Pix Orga. Pour votre confort, l'application sera présentée en anglais. Toute l'équipe de Pix travaille à l'ajout de votre langue."
+    },
+    "over-capacity": {
+      "message": "Attention, vous consommez plus de places que votre capacité totale."
     }
   },
   "cards": {
