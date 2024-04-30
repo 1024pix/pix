@@ -12,7 +12,7 @@ const validateSession = async function ({
   line,
   certificationCenterId,
   sessionRepository,
-  certificationCourseRepository,
+  sessionManagementRepository,
 }) {
   const sessionId = session.id;
   const sessionErrors = [];
@@ -28,7 +28,7 @@ const validateSession = async function ({
 
     if (_isSessionIdFormatValid(sessionId)) {
       if (await _isSessionExistingInCertificationCenter({ sessionId, certificationCenterId, sessionRepository })) {
-        if (await _isSessionStarted({ certificationCourseRepository, sessionId })) {
+        if (!(await sessionManagementRepository.hasNoStartedCertification({ id: sessionId }))) {
           _addToErrorList({
             errorList: sessionErrors,
             line,
@@ -274,11 +274,4 @@ async function _validateEmail({ email, mailCheck, errorCode, certificationCandid
       });
     }
   }
-}
-
-async function _isSessionStarted({ certificationCourseRepository, sessionId }) {
-  const foundCertificationCourses = await certificationCourseRepository.findCertificationCoursesBySessionId({
-    sessionId,
-  });
-  return foundCertificationCourses.length > 0;
 }

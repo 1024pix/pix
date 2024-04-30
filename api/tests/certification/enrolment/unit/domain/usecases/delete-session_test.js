@@ -1,20 +1,20 @@
 import { deleteSession } from '../../../../../../src/certification/enrolment/domain/usecases/delete-session.js';
 import { SessionStartedDeletionError } from '../../../../../../src/certification/session/domain/errors.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
+import { catchErr, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | delete-session', function () {
   context('when there are no certification courses', function () {
     it('should delete the session', async function () {
       // given
       const sessionRepository = { remove: sinon.stub() };
-      const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
-      certificationCourseRepository.findCertificationCoursesBySessionId.resolves([]);
+      const sessionManagementRepository = { hasNoStartedCertification: sinon.stub() };
+      sessionManagementRepository.hasNoStartedCertification.resolves(true);
 
       // when
       await deleteSession({
         sessionId: 123,
         sessionRepository,
-        certificationCourseRepository,
+        sessionManagementRepository,
       });
 
       // then
@@ -26,16 +26,14 @@ describe('Unit | UseCase | delete-session', function () {
     it('should throw SessionStartedDeletionError error', async function () {
       // given
       const sessionRepository = { remove: sinon.stub() };
-      const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
-      certificationCourseRepository.findCertificationCoursesBySessionId.resolves([
-        domainBuilder.buildCertificationCourse({ sessionId: 123 }),
-      ]);
+      const sessionManagementRepository = { hasNoStartedCertification: sinon.stub() };
+      sessionManagementRepository.hasNoStartedCertification.resolves(false);
 
       // when
       const error = await catchErr(deleteSession)({
         sessionId: 123,
         sessionRepository,
-        certificationCourseRepository,
+        sessionManagementRepository,
       });
 
       // then

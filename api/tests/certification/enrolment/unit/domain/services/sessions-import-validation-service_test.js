@@ -11,7 +11,7 @@ describe('Unit | Service | sessions import validation Service', function () {
   describe('#validateSession', function () {
     let clock;
     let sessionRepository;
-    let certificationCourseRepository;
+    let sessionManagementRepository;
 
     beforeEach(function () {
       clock = sinon.useFakeTimers({
@@ -22,7 +22,7 @@ describe('Unit | Service | sessions import validation Service', function () {
         isSessionExistingByCertificationCenterId: sinon.stub(),
         isSessionExistingBySessionAndCertificationCenterIds: sinon.stub(),
       };
-      certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
+      sessionManagementRepository = { hasNoStartedCertification: sinon.stub() };
     });
 
     afterEach(async function () {
@@ -45,7 +45,7 @@ describe('Unit | Service | sessions import validation Service', function () {
               session,
               line: 1,
               sessionRepository,
-              certificationCourseRepository,
+              sessionManagementRepository,
             });
 
             // then
@@ -65,11 +65,11 @@ describe('Unit | Service | sessions import validation Service', function () {
                 session,
                 line: 1,
                 sessionRepository,
-                certificationCourseRepository,
+                sessionManagementRepository,
               });
 
               // then
-              expect(certificationCourseRepository.findCertificationCoursesBySessionId).to.not.have.been.called;
+              expect(sessionManagementRepository.hasNoStartedCertification).to.not.have.been.called;
               expect(sessionErrors).to.deep.equal([
                 {
                   line: 1,
@@ -85,7 +85,7 @@ describe('Unit | Service | sessions import validation Service', function () {
               // given
               const sessionId = 1;
               const session = _buildValidSessionWithId(sessionId);
-              certificationCourseRepository.findCertificationCoursesBySessionId.resolves([]);
+              sessionManagementRepository.hasNoStartedCertification.resolves(true);
               sessionRepository.isSessionExistingBySessionAndCertificationCenterIds.resolves(true);
 
               // when
@@ -93,7 +93,7 @@ describe('Unit | Service | sessions import validation Service', function () {
                 session,
                 line: 1,
                 sessionRepository,
-                certificationCourseRepository,
+                sessionManagementRepository,
               });
 
               // then
@@ -107,9 +107,7 @@ describe('Unit | Service | sessions import validation Service', function () {
     context('when the session has already started', function () {
       it('should return an errorReport that contains an already started error', async function () {
         const session = _buildValidSessionWithId(1234);
-        certificationCourseRepository.findCertificationCoursesBySessionId
-          .withArgs({ sessionId: 1234 })
-          .resolves([domainBuilder.buildCertificationCourse({ sessionId: 1234 })]);
+        sessionManagementRepository.hasNoStartedCertification.withArgs({ id: 1234 }).resolves(false);
         sessionRepository.isSessionExistingBySessionAndCertificationCenterIds.resolves(true);
 
         // when
@@ -117,7 +115,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           session,
           line: 2,
           sessionRepository,
-          certificationCourseRepository,
+          sessionManagementRepository,
         });
 
         // then
@@ -143,7 +141,7 @@ describe('Unit | Service | sessions import validation Service', function () {
             session,
             line: 1,
             sessionRepository,
-            certificationCourseRepository,
+            sessionManagementRepository,
           });
 
           // then
@@ -166,9 +164,7 @@ describe('Unit | Service | sessions import validation Service', function () {
               // given
               const session = _buildValidSessionWithoutId();
               session.id = 1234;
-              certificationCourseRepository.findCertificationCoursesBySessionId
-                .withArgs({ sessionId: 1234 })
-                .resolves([]);
+              sessionManagementRepository.hasNoStartedCertification.withArgs({ id: 1234 }).resolves(true);
               sessionRepository.isSessionExistingBySessionAndCertificationCenterIds.resolves(true);
 
               // when
@@ -176,7 +172,7 @@ describe('Unit | Service | sessions import validation Service', function () {
                 session,
                 line: 1,
                 sessionRepository,
-                certificationCourseRepository,
+                sessionManagementRepository,
               });
 
               // then
@@ -216,7 +212,7 @@ describe('Unit | Service | sessions import validation Service', function () {
             certificationCenterId: certificationCenter.id,
             line: 1,
             sessionRepository,
-            certificationCourseRepository,
+            sessionManagementRepository,
           });
 
           // then
@@ -243,7 +239,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           session,
           line: 1,
           sessionRepository,
-          certificationCourseRepository,
+          sessionManagementRepository,
         });
 
         // then
@@ -266,7 +262,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           line: 1,
           certificationCenterId,
           sessionRepository,
-          certificationCourseRepository,
+          sessionManagementRepository,
         });
 
         // then
@@ -291,7 +287,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           session,
           line: 1,
           sessionRepository,
-          certificationCourseRepository,
+          sessionManagementRepository,
         });
 
         // then
@@ -317,7 +313,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           session,
           line: 1,
           sessionRepository,
-          certificationCourseRepository,
+          sessionManagementRepository,
         });
 
         // then
@@ -343,7 +339,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           session,
           line: 1,
           sessionRepository,
-          certificationCourseRepository,
+          sessionManagementRepository,
         });
 
         // then
@@ -369,7 +365,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           session,
           line: 1,
           sessionRepository,
-          certificationCourseRepository,
+          sessionManagementRepository,
         });
 
         // then
@@ -391,7 +387,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           session,
           line: 1,
           sessionRepository,
-          certificationCourseRepository,
+          sessionManagementRepository,
         });
 
         // then
