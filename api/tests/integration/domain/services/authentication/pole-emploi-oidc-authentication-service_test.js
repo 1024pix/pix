@@ -10,7 +10,6 @@ import * as userToCreateRepository from '../../../../../src/shared/infrastructur
 import { expect, knex } from '../../../../test-helper.js';
 
 const defaultSessionTemporaryStorage = temporaryStorage.withPrefix('oidc-session:');
-const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
 
 describe('Integration | Domain | Services | pole-emploi-oidc-authentication-service', function () {
   describe('#createUserAccount', function () {
@@ -58,82 +57,41 @@ describe('Integration | Domain | Services | pole-emploi-oidc-authentication-serv
   });
 
   describe('#getRedirectLogoutUrl', function () {
-    describe('when the user ID Token is not stored in the parent default temporary storage', function () {
-      it('removes the idToken from temporary storage and returns a redirect logout url', async function () {
-        // given
-        const idToken =
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
-        const userId = 1;
-        const logoutUrlUUID = randomUUID();
-        const key = `${userId}:${logoutUrlUUID}`;
-        const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService({
-          ...config.oidcExampleNet,
-          additionalRequiredProperties: {
-            logoutUrl: 'https://logout-url.fr',
-            afterLogoutUrl: 'https://after-logout.fr',
-          },
-          identityProvider: 'POLE_EMPLOI',
-          openidClientExtraMetadata: { token_endpoint_auth_method: 'client_secret_post' },
-          organizationName: 'France Travail',
-          shouldCloseSession: true,
-          slug: 'pole-emploi',
-          source: 'pole_emploi_connect',
-        });
-        await logoutUrlTemporaryStorage.save({ key, value: idToken, expirationDelaySeconds: 1140 });
-
-        // when
-        const redirectTarget = await poleEmploiOidcAuthenticationService.getRedirectLogoutUrl({
-          userId,
-          logoutUrlUUID,
-        });
-
-        // then
-        const expectedResult = await logoutUrlTemporaryStorage.get(key);
-        expect(expectedResult).to.be.undefined;
-
-        expect(redirectTarget).to.equal(
-          'https://logout-url.fr/?id_token_hint=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c&redirect_uri=https%3A%2F%2Fafter-logout.fr',
-        );
+    it('removes the idToken from temporary storage and returns a redirect logout url', async function () {
+      // given
+      const idToken =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
+      const userId = 1;
+      const logoutUrlUUID = randomUUID();
+      const key = `${userId}:${logoutUrlUUID}`;
+      const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService({
+        ...config.oidcExampleNet,
+        additionalRequiredProperties: {
+          logoutUrl: 'https://logout-url.fr',
+          afterLogoutUrl: 'https://after-logout.fr',
+        },
+        identityProvider: 'POLE_EMPLOI',
+        openidClientExtraMetadata: { token_endpoint_auth_method: 'client_secret_post' },
+        organizationName: 'France Travail',
+        shouldCloseSession: true,
+        slug: 'pole-emploi',
+        source: 'pole_emploi_connect',
       });
-    });
+      await defaultSessionTemporaryStorage.save({ key, value: idToken, expirationDelaySeconds: 1140 });
 
-    describe('when the user ID Token is stored in the parent default temporary storage', function () {
-      it('removes the idToken from temporary storage and returns a redirect logout url', async function () {
-        // given
-        const idToken =
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
-        const userId = 1;
-        const logoutUrlUUID = randomUUID();
-        const key = `${userId}:${logoutUrlUUID}`;
-        const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService({
-          ...config.oidcExampleNet,
-          additionalRequiredProperties: {
-            logoutUrl: 'https://logout-url.fr',
-            afterLogoutUrl: 'https://after-logout.fr',
-          },
-          identityProvider: 'POLE_EMPLOI',
-          openidClientExtraMetadata: { token_endpoint_auth_method: 'client_secret_post' },
-          organizationName: 'France Travail',
-          shouldCloseSession: true,
-          slug: 'pole-emploi',
-          source: 'pole_emploi_connect',
-        });
-        await defaultSessionTemporaryStorage.save({ key, value: idToken, expirationDelaySeconds: 1140 });
-
-        // when
-        const redirectTarget = await poleEmploiOidcAuthenticationService.getRedirectLogoutUrl({
-          userId,
-          logoutUrlUUID,
-        });
-
-        // then
-        const expectedResult = await defaultSessionTemporaryStorage.get(key);
-        expect(expectedResult).to.be.undefined;
-
-        expect(redirectTarget).to.equal(
-          'https://logout-url.fr/?id_token_hint=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c&redirect_uri=https%3A%2F%2Fafter-logout.fr',
-        );
+      // when
+      const redirectTarget = await poleEmploiOidcAuthenticationService.getRedirectLogoutUrl({
+        userId,
+        logoutUrlUUID,
       });
+
+      // then
+      const expectedResult = await defaultSessionTemporaryStorage.get(key);
+      expect(expectedResult).to.be.undefined;
+
+      expect(redirectTarget).to.equal(
+        'https://logout-url.fr/?id_token_hint=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c&redirect_uri=https%3A%2F%2Fafter-logout.fr',
+      );
     });
   });
 });

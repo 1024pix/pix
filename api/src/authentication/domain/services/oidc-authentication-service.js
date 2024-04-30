@@ -123,7 +123,7 @@ export class OidcAuthenticationService {
     return jsonwebtoken.sign({ user_id: userId }, config.authentication.secret, this.accessTokenJwtOptions);
   }
 
-  async saveIdToken({ idToken, userId } = {}) {
+  async saveIdToken({ idToken, userId }) {
     const uuid = randomUUID();
 
     await this.sessionTemporaryStorage.save({
@@ -252,7 +252,7 @@ export class OidcAuthenticationService {
     return new AuthenticationMethod.OidcAuthenticationComplement(claimsToStoreWithValues);
   }
 
-  async getRedirectLogoutUrl({ userId, logoutUrlUUID } = {}) {
+  async getRedirectLogoutUrl({ userId, logoutUrlUUID }) {
     const key = `${userId}:${logoutUrlUUID}`;
     const idToken = await this.sessionTemporaryStorage.get(key);
 
