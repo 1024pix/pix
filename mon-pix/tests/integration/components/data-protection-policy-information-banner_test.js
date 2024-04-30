@@ -10,7 +10,7 @@ module('Integration | Component | data-protection-policy-information-banner', fu
   setupIntlRenderingTest(hooks);
 
   module('when user is not logged in', function () {
-    test('should never display the data protection policy banner', async function (assert) {
+    test('does not display the data protection policy banner', async function (assert) {
       // given
       _userIsNotLoggedIn(this);
 
@@ -31,7 +31,7 @@ module('Integration | Component | data-protection-policy-information-banner', fu
 
   module('when user is logged in', function () {
     module('when communication banner is displayed', function () {
-      test('should never display the data protection policy banner', async function (assert) {
+      test('does not display the data protection policy banner', async function (assert) {
         // given
         _communicationBannerIsDisplayed();
         _userShouldSeeTheDataProtectionPolicyUpdateInformation(this);
@@ -52,8 +52,8 @@ module('Integration | Component | data-protection-policy-information-banner', fu
     });
 
     module('when communication banner is not displayed', function () {
-      module('when user should not see the data protection policy update information', function () {
-        test('should not display the banner', async function (assert) {
+      module('when user has already seen and accepted the data protection policy update information', function () {
+        test('does not display the data protection policy banner', async function (assert) {
           // given
           _communicationBannerIsNotDisplayed();
           _userShouldNotSeeTheDataProtectionPolicyUpdateInformation(this);
@@ -73,8 +73,8 @@ module('Integration | Component | data-protection-policy-information-banner', fu
         });
       });
 
-      module('when user should see the data protection policy update information', function () {
-        test('should display the banner', async function (assert) {
+      module('when user has not seen and accepted the data protection policy update information', function () {
+        test('displays the data protection policy banner', async function (assert) {
           // given
           _communicationBannerIsNotDisplayed();
           _userShouldSeeTheDataProtectionPolicyUpdateInformation(this);
