@@ -4,7 +4,7 @@ import { knex } from '../../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { CertificationCenter } from '../../../../../lib/domain/models/CertificationCenter.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { Session } from '../../../enrolment/domain/models/Session.js';
+import { Session } from '../../domain/models/Session.js';
 
 const save = async function ({ session, domainTransaction = DomainTransaction.emptyTransaction() }) {
   const knexConn = domainTransaction.knexTransaction ?? knex;

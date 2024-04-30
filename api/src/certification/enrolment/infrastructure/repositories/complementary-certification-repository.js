@@ -1,7 +1,7 @@
 /**
- * @typedef {import ('./index.js').ComplementaryCertificationApi} ComplementaryCertificationApi
+ * @typedef {import ('../../../session/infrastructure/repositories/index.js').ComplementaryCertificationApi} ComplementaryCertificationApi
  */
-import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
+import { ComplementaryCertification } from '../../../session/domain/models/ComplementaryCertification.js';
 
 /**
  * @function

@@ -1,5 +1,5 @@
+import { enrolmentRepositories } from '../../../../../../src/certification/enrolment/infrastructure/repositories/index.js';
 import { ComplementaryCertification } from '../../../../../../src/certification/session/domain/models/ComplementaryCertification.js';
-import { sessionRepositories } from '../../../../../../src/certification/session/infrastructure/repositories/index.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, databaseBuilder, expect } from '../../../../../test-helper.js';
@@ -16,7 +16,7 @@ describe('Integration | Certification | Session | Repository | Complementary cer
       await databaseBuilder.commit();
 
       // when
-      const complementaryCertification = await sessionRepositories.complementaryCertificationRepository.getById({
+      const complementaryCertification = await enrolmentRepositories.complementaryCertificationRepository.getById({
         complementaryCertificationId: id,
       });
 
@@ -33,7 +33,7 @@ describe('Integration | Certification | Session | Repository | Complementary cer
     context('when there is no complementary certification for the given ID', function () {
       it('should return an error', async function () {
         // when
-        const error = await catchErr(sessionRepositories.complementaryCertificationRepository.getById)({
+        const error = await catchErr(enrolmentRepositories.complementaryCertificationRepository.getById)({
           complementaryCertificationId: -1,
         });
 
@@ -55,7 +55,7 @@ describe('Integration | Certification | Session | Repository | Complementary cer
       await databaseBuilder.commit();
 
       // when
-      const complementaryCertification = await sessionRepositories.complementaryCertificationRepository.getByLabel({
+      const complementaryCertification = await enrolmentRepositories.complementaryCertificationRepository.getByLabel({
         label,
       });
 
@@ -72,7 +72,7 @@ describe('Integration | Certification | Session | Repository | Complementary cer
     context('when there is no complementary certification for the given label', function () {
       it('should return an error', async function () {
         // when
-        const error = await catchErr(sessionRepositories.complementaryCertificationRepository.getByLabel)({
+        const error = await catchErr(enrolmentRepositories.complementaryCertificationRepository.getByLabel)({
           label: 'a label',
         });
 

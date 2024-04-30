@@ -1,11 +1,11 @@
-import { usecases as sessionUsecases } from '../../session/domain/usecases/index.js';
+import { usecases } from '../domain/usecases/index.js';
 import * as sessionSerializer from '../infrastructure/serializers/session-serializer.js';
 
 const createSession = async function (request, _h, dependencies = { sessionSerializer }) {
   const userId = request.auth.credentials.userId;
   const session = dependencies.sessionSerializer.deserialize(request.payload);
 
-  const newSession = await sessionUsecases.createSession({ userId, session });
+  const newSession = await usecases.createSession({ userId, session });
 
   return dependencies.sessionSerializer.serialize({ session: newSession });
 };
@@ -15,7 +15,7 @@ const update = async function (request, h, dependencies = { sessionSerializer })
   const session = dependencies.sessionSerializer.deserialize(request.payload);
   session.id = request.params.id;
 
-  const updatedSession = await sessionUsecases.updateSession({ userId, session });
+  const updatedSession = await usecases.updateSession({ userId, session });
 
   return dependencies.sessionSerializer.serialize({ session: updatedSession });
 };
@@ -23,7 +23,7 @@ const update = async function (request, h, dependencies = { sessionSerializer })
 const remove = async function (request, h) {
   const sessionId = request.params.id;
 
-  await sessionUsecases.deleteSession({ sessionId });
+  await usecases.deleteSession({ sessionId });
 
   return h.response().code(204);
 };

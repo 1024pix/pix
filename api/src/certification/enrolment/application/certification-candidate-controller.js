@@ -1,4 +1,3 @@
-import { usecases } from '../../session/domain/usecases/index.js';
 import * as certificationCandidateSerializer from '../../shared/infrastructure/serializers/jsonapi/certification-candidate-serializer.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as sessionCertificationCandidateSerializer from '../infrastructure/serializers/certification-candidate-serializer.js';
