@@ -1,14 +1,14 @@
-function getLocationHref() {
-  return window.location.href;
-}
-
 function getLocationHash() {
   return window.location.hash;
 }
 
+function getLocationHref() {
+  return window.location.href;
+}
+
 const PixWindow = {
-  getLocationHref,
   getLocationHash,
+  getLocationHref,
 };
 
 export default PixWindow;
