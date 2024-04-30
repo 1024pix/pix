@@ -20,7 +20,7 @@ import {
 import { expect } from '../../../../test-helper.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
-describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', function () {
+describe('Integration | Shared | Infrastructure | Utils | Ods | write-ods-utils', function () {
   const GET_CONTENT_ODS_FILE_PATH = `${__dirname}/files/get-content-xml_test.ods`;
 
   describe('makeUpdatedOdsByContentXml', function () {
