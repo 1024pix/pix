@@ -1,6 +1,4 @@
 import * as preResponseUtils from '../lib/application/pre-response-utils.js';
-import { courseDomainErrorMappingConfiguration } from '../src/certification/course/application/http-error-mapper-configuration.js';
-import { sessionDomainErrorMappingConfiguration } from '../src/certification/session/application/http-error-mapper-configuration.js';
 import { certificationDomainErrorMappingConfiguration } from '../src/certification/shared/application/http-error-mapper-configuration.js';
 import { devcompDomainErrorMappingConfiguration } from '../src/devcomp/application/http-error-mapper-configuration.js';
 import { evaluationDomainErrorMappingConfiguration } from '../src/evaluation/application/http-error-mapper-configuration.js';
@@ -13,8 +11,6 @@ import * as sharedPreResponseUtils from '../src/shared/application/pre-response-
 const setupErrorHandling = function (server) {
   const configuration = [
     ...authenticationDomainErrorMappingConfiguration,
-    ...courseDomainErrorMappingConfiguration,
-    ...sessionDomainErrorMappingConfiguration,
     ...certificationDomainErrorMappingConfiguration,
     ...devcompDomainErrorMappingConfiguration,
     ...evaluationDomainErrorMappingConfiguration,
