@@ -1,4 +1,3 @@
-import { usecases as libUsecases } from '../../../../../lib/domain/usecases/index.js';
 import { sessionMassImportController } from '../../../../../src/certification/enrolment/application/session-mass-import-controller.js';
 import { usecases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
@@ -24,10 +23,10 @@ describe('Unit | Controller | mass-import-controller', function () {
       };
 
       sinon.stub(usecases, 'validateSessions');
-      sinon.stub(libUsecases, 'getCertificationCenter');
+      sinon.stub(usecases, 'getCertificationCenter');
 
       usecases.validateSessions.resolves({ cachedValidatedSessionsKey });
-      libUsecases.getCertificationCenter.resolves(domainBuilder.buildCertificationCenter());
+      usecases.getCertificationCenter.resolves(domainBuilder.buildCertificationCenter());
       // when
       await sessionMassImportController.validateSessions(request, hFake, {
         csvHelpers: csvHelpersStub,
@@ -63,7 +62,7 @@ describe('Unit | Controller | mass-import-controller', function () {
       };
 
       sinon.stub(usecases, 'validateSessions');
-      sinon.stub(libUsecases, 'getCertificationCenter');
+      sinon.stub(usecases, 'getCertificationCenter');
 
       usecases.validateSessions.resolves({
         cachedValidatedSessionsKey,
@@ -71,7 +70,7 @@ describe('Unit | Controller | mass-import-controller', function () {
         sessionsWithoutCandidatesCount,
         candidatesCount,
       });
-      libUsecases.getCertificationCenter.resolves(domainBuilder.buildCertificationCenter());
+      usecases.getCertificationCenter.resolves(domainBuilder.buildCertificationCenter());
 
       // when
       const result = await sessionMassImportController.validateSessions(request, hFake, {
