@@ -23,6 +23,19 @@ module('Unit | Utilities | pix-window', function (hooks) {
     });
   });
 
+  module('GET window.location.hostname', function () {
+    test('returns the hostname', function (assert) {
+      // given
+      sinon.stub(PixWindow, 'getLocationHostname').returns('pix.fr');
+
+      // when
+      const hash = PixWindow.getLocationHostname();
+
+      // then
+      assert.strictEqual(hash, 'pix.fr');
+    });
+  });
+
   module('GET window.location.href', function () {
     test('returns an URL', function (assert) {
       // given
