@@ -270,7 +270,9 @@
       {{#if this.complementaryCertificationsHabilitations.length}}
         <ComplementaryCertificationOptions
           @complementaryCertificationsHabilitations={{this.complementaryCertificationsHabilitations}}
-          @updateComplementaryCertification={{this.updateComplementaryCertification}}/>
+          @isComplementaryAlonePilot={{this.isComplementaryAlonePilot}}
+          @updateComplementaryCertification={{this.updateComplementaryCertification}}
+        />
       {{/if}}
     </form>
   </:content>

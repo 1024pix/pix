@@ -549,7 +549,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           });
 
           module('when certificationPointOfContact has habilitations', function (hooks) {
-            const certifCompName = 'Lancer de hache';
+            const complementaryCertificationLabel = 'Lancer de hache';
             let allowedCertificationCenterAccess;
             let certificationPointOfContact;
             let session;
@@ -560,7 +560,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
                 isAccessBlockedLycee: false,
                 isAccessBlockedAEFE: false,
                 isAccessBlockedAgri: false,
-                habilitations: [{ id: 0, label: certifCompName, key: 'COMP_1' }],
+                habilitations: [{ id: 0, label: complementaryCertificationLabel, key: 'COMP_1' }],
               });
               certificationPointOfContact = server.create('certification-point-of-contact', {
                 firstName: 'Buffy',
@@ -579,7 +579,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
               await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
               await screen.findByRole('dialog');
               await _fillFormWithCorrectData(screen);
-              await click(screen.getByRole('radio', { name: certifCompName }));
+              await click(screen.getByRole('radio', { name: complementaryCertificationLabel }));
               await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
               await settled();
 
@@ -588,7 +588,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
                 name: 'Liste des candidats inscrits à la session, triée par nom de naissance, avec un lien pour voir les détails du candidat et la possibilité de supprimer un candidat dans la dernière colonne.',
               });
               const rows = await within(table).findAllByRole('row');
-              assert.dom(within(rows[1]).getByRole('cell', { name: certifCompName })).exists();
+              assert.dom(within(rows[1]).getByRole('cell', { name: complementaryCertificationLabel })).exists();
             });
           });
         });

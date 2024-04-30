@@ -102,6 +102,7 @@
           "ongoing-live-alert": "Signalement en cours",
           "start": "Start"
         },
+        "complementary-alone": "Which tests will the candidate take?",
         "email-convocation": "Email for the convocation",
         "email-results": "Email of the results' recipient (instructor, teacher...)",
         "external-id": "External user ID",
@@ -159,6 +160,10 @@
         "none": "None",
         "postcode": "City postcode",
         "role": "Role"
+      },
+      "complementary-alone": {
+        "pix-and-pix-plus": "Pix and Pix+ certifications",
+        "pix-plus": "Pix+ certification only"
       },
       "line": "Line {line}: "
     },
