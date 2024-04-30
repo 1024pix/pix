@@ -2,6 +2,8 @@ import { knex } from '../../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { foreignKeyConstraintViolated } from '../../../../shared/infrastructure/utils/knex-utils.js';
 
+export { addTargetProfilesToOrganization, attachOrganizations };
+
 const attachOrganizations = async function (targetProfile) {
   const rows = targetProfile.organizations.map((organizationId) => {
     return {
@@ -18,7 +20,15 @@ const attachOrganizations = async function (targetProfile) {
   return { duplicatedIds: duplicatedOrganizationIds, attachedIds: attachedOrganizationIds };
 };
 
-export { attachOrganizations };
+const addTargetProfilesToOrganization = async function ({ organizationId, targetProfileIdList }) {
+  const targetProfileShareToAdd = targetProfileIdList.map((targetProfileId) => {
+    return { organizationId, targetProfileId };
+  });
+  await knex('target-profile-shares')
+    .insert(targetProfileShareToAdd)
+    .onConflict(['targetProfileId', 'organizationId'])
+    .ignore();
+};
 
 async function _createTargetProfileShares(targetProfileShares) {
   try {

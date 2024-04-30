@@ -1,5 +1,6 @@
 import Joi from 'joi';
 
+import { NotFoundError, sendJsonApiError } from '../../../../lib/application/http-errors.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { targetProfileController } from './admin-target-profile-controller.js';
@@ -93,6 +94,43 @@ const register = async function (server) {
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             '- Elle permet de récupérer le profil cible dans un fichier json',
+        ],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/admin/organizations/{id}/attach-target-profiles',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          payload: Joi.object({
+            'target-profile-ids': Joi.array().items(Joi.number().integer()).required(),
+          }),
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+          failAction: (request, h) => {
+            return sendJsonApiError(
+              new NotFoundError("L'id d'un des profils cible ou de l'organisation n'est pas valide"),
+              h,
+            );
+          },
+        },
+        handler: targetProfileController.attachTargetProfiles,
+        tags: ['api', 'admin', 'target-profiles', 'organizations'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            '- Elle permet de rattacher des profil cibles à une organisation',
         ],
       },
     },

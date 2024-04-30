@@ -299,4 +299,118 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       });
     });
   });
+
+  describe('POST /api/admin/organizations/{id}/attach-target-profiles', function () {
+    context('when user has role "SUPER_ADMIN", "SUPPORT" or "METIER"', function () {
+      it('should return a response with an HTTP status code 204', async function () {
+        // given
+        sinon.stub(targetProfileController, 'attachTargetProfiles').returns('ok');
+        securityPreHandlers.hasAtLeastOneAccessOf
+          .withArgs([
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
+          ])
+          .callsFake(() => (request, h) => h.response(true));
+        sinon
+          .stub(targetProfileController, 'attachOrganizationsFromExistingTargetProfile')
+          .callsFake((request, h) => h.response('ok').code(204));
+
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const payload = {
+          'target-profile-ids': [1, 2],
+        };
+
+        // when
+        await httpTestServer.request('POST', '/api/admin/organizations/1/attach-target-profiles', payload);
+
+        // then
+        sinon.assert.calledOnce(targetProfileController.attachTargetProfiles);
+      });
+
+      it('should return a 404 HTTP response when target-profile-ids do not contain only numbers', async function () {
+        // given
+        sinon.stub(targetProfileController, 'attachTargetProfiles').returns('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const payload = {
+          'target-profile-ids': ['a', 2],
+        };
+
+        // when
+        const response = await httpTestServer.request(
+          'POST',
+          '/api/admin/organizations/1/attach-target-profiles',
+          payload,
+        );
+
+        // then
+        expect(response.statusCode).to.equal(404);
+        expect(response.payload).to.have.string("L'id d'un des profils cible ou de l'organisation n'est pas valide");
+      });
+
+      it('should return a 404 HTTP response when organization id is not valid', async function () {
+        // given
+        sinon.stub(targetProfileController, 'attachTargetProfiles').returns('ok');
+
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const payload = {
+          'target-profile-ids': [1, 2],
+        };
+
+        // when
+        const response = await httpTestServer.request(
+          'POST',
+          '/api/admin/organizations/coucou/attach-target-profiles',
+          payload,
+        );
+
+        // then
+        expect(response.statusCode).to.equal(404);
+        expect(response.payload).to.have.string("L'id d'un des profils cible ou de l'organisation n'est pas valide");
+      });
+    });
+
+    context('when user has role "CERTIF"', function () {
+      it('should return a response with an HTTP status code 403', async function () {
+        // given
+        sinon.stub(targetProfileController, 'attachTargetProfiles');
+        securityPreHandlers.hasAtLeastOneAccessOf
+          .withArgs([
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
+          ])
+          .callsFake(
+            () => (request, h) =>
+              h
+                .response({ errors: new Error('forbidden') })
+                .code(403)
+                .takeover(),
+          );
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const payload = {
+          'target-profile-ids': [1, 2],
+        };
+
+        // when
+        const response = await httpTestServer.request(
+          'POST',
+          '/api/admin/organizations/1/attach-target-profiles',
+          payload,
+        );
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        sinon.assert.notCalled(targetProfileController.attachTargetProfiles);
+      });
+    });
+  });
 });

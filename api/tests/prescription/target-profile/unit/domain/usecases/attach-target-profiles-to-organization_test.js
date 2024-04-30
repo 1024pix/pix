@@ -1,10 +1,10 @@
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { attachTargetProfilesToOrganization } from '../../../../lib/domain/usecases/attach-target-profiles-to-organization.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { NotFoundError } from '../../../../../../lib/domain/errors.js';
+import { attachTargetProfilesToOrganization } from '../../../../../../src/prescription/target-profile/domain/usecases/attach-target-profiles-to-organization.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | attach-target-profiles-to-organization', function () {
   let targetProfileRepository;
-  let targetProfileShareRepository;
+  let organizationsToAttachToTargetProfileRepository;
   const organizationId = 1;
   const targetProfileIds = [55, 66, 66];
   const uniqTargetProfileIds = [55, 66];
@@ -13,7 +13,7 @@ describe('Unit | UseCase | attach-target-profiles-to-organization', function () 
     targetProfileRepository = {
       findByIds: sinon.stub(),
     };
-    targetProfileShareRepository = {
+    organizationsToAttachToTargetProfileRepository = {
       addTargetProfilesToOrganization: sinon.stub(),
     };
   });
@@ -22,14 +22,16 @@ describe('Unit | UseCase | attach-target-profiles-to-organization', function () 
     it('should throw a NotFound error', async function () {
       // given
       targetProfileRepository.findByIds.withArgs(uniqTargetProfileIds).resolves([]);
-      targetProfileShareRepository.addTargetProfilesToOrganization.throws(new Error('I should not be called'));
+      organizationsToAttachToTargetProfileRepository.addTargetProfilesToOrganization.throws(
+        new Error('I should not be called'),
+      );
 
       // when
       const err = await catchErr(attachTargetProfilesToOrganization)({
         organizationId,
         targetProfileIds,
         targetProfileRepository,
-        targetProfileShareRepository,
+        organizationsToAttachToTargetProfileRepository,
       });
 
       // then
@@ -44,18 +46,20 @@ describe('Unit | UseCase | attach-target-profiles-to-organization', function () 
       targetProfileRepository.findByIds
         .withArgs(uniqTargetProfileIds)
         .resolves([domainBuilder.buildTargetProfile({ id: 55 }), domainBuilder.buildTargetProfile({ id: 66 })]);
-      targetProfileShareRepository.addTargetProfilesToOrganization.resolves();
+      organizationsToAttachToTargetProfileRepository.addTargetProfilesToOrganization.resolves();
 
       // when
       await attachTargetProfilesToOrganization({
         organizationId,
         targetProfileIds,
         targetProfileRepository,
-        targetProfileShareRepository,
+        organizationsToAttachToTargetProfileRepository,
       });
 
       // then
-      expect(targetProfileShareRepository.addTargetProfilesToOrganization).to.have.been.calledWithExactly({
+      expect(
+        organizationsToAttachToTargetProfileRepository.addTargetProfilesToOrganization,
+      ).to.have.been.calledWithExactly({
         organizationId,
         targetProfileIdList: uniqTargetProfileIds,
       });

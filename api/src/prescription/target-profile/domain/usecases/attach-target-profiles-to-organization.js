@@ -1,12 +1,12 @@
 import _ from 'lodash';
 
-import { NotFoundError } from '../errors.js';
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
 
 const attachTargetProfilesToOrganization = async function ({
   organizationId,
   targetProfileIds,
   targetProfileRepository,
-  targetProfileShareRepository,
+  organizationsToAttachToTargetProfileRepository,
 }) {
   const uniqTargetProfileIds = _.uniq(targetProfileIds);
   const foundTargetProfiles = await targetProfileRepository.findByIds(uniqTargetProfileIds);
@@ -16,7 +16,7 @@ const attachTargetProfilesToOrganization = async function ({
     throw new NotFoundError(`Le(s) profil cible(s) [${unknownTargetProfileIds.join(', ')}] n'existe(nt) pas.`);
   }
 
-  return targetProfileShareRepository.addTargetProfilesToOrganization({
+  return organizationsToAttachToTargetProfileRepository.addTargetProfilesToOrganization({
     organizationId,
     targetProfileIdList: uniqTargetProfileIds,
   });

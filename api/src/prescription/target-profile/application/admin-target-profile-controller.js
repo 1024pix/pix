@@ -47,7 +47,16 @@ const getLearningContentAsPdf = async function (request, h, dependencies = { lea
     .header('Content-Type', 'application/pdf');
 };
 
+const attachTargetProfiles = async function (request, h) {
+  const targetProfileIds = request.payload['target-profile-ids'];
+  const organizationId = request.params.id;
+  await usecases.attachTargetProfilesToOrganization({ organizationId, targetProfileIds });
+
+  return h.response({}).code(204);
+};
+
 const targetProfileController = {
+  attachTargetProfiles,
   attachOrganizationsFromExistingTargetProfile,
   getContentAsJsonFile,
   getLearningContentAsPdf,
