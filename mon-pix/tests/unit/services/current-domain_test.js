@@ -10,6 +10,33 @@ module('Unit | Service | currentDomain', function (hooks) {
     sinon.restore();
   });
 
+  module('#getExtension', function () {
+    [
+      {
+        hostname: 'pix.fr',
+        extension: 'fr',
+      },
+      {
+        hostname: 'pix.org',
+        extension: 'org',
+      },
+    ].forEach(function ({ hostname, extension: expectedExtension }) {
+      module(`when hostname is ${hostname}`, function () {
+        test(`returns ${expectedExtension}`, function (assert) {
+          // given
+          _stubWindowLocationHostname(hostname);
+          const service = this.owner.lookup('service:currentDomain');
+
+          // when
+          const extension = service.getExtension();
+
+          // then
+          assert.strictEqual(extension, expectedExtension);
+        });
+      });
+    });
+  });
+
   module('#isFranceDomain', function () {
     module('when TLD is the France domain (.fr)', function () {
       test('returns true', function (assert) {
