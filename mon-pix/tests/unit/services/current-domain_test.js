@@ -1,19 +1,21 @@
 import { setupTest } from 'ember-qunit';
+import PixWindow from 'mon-pix/utils/pix-window';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-const FRANCE_TLD = 'fr';
-const INTERNATIONAL_TLD = 'org';
-
 module('Unit | Service | currentDomain', function (hooks) {
   setupTest(hooks);
+
+  hooks.afterEach(function () {
+    sinon.restore();
+  });
 
   module('#isFranceDomain', function () {
     module('when TLD is the France domain (.fr)', function () {
       test('returns true', function (assert) {
         // given
+        _stubWindowLocationHostname('pix.fr');
         const service = this.owner.lookup('service:currentDomain');
-        service.getExtension = sinon.stub().returns(FRANCE_TLD);
 
         // when
         const isFranceDomain = service.isFranceDomain;
@@ -26,8 +28,8 @@ module('Unit | Service | currentDomain', function (hooks) {
     module('when TLD is the international domain (.org)', function () {
       test('returns false', function (assert) {
         // given
+        _stubWindowLocationHostname('pix.org');
         const service = this.owner.lookup('service:currentDomain');
-        service.getExtension = sinon.stub().returns(INTERNATIONAL_TLD);
 
         // when
         const isFranceDomain = service.isFranceDomain;
@@ -38,3 +40,7 @@ module('Unit | Service | currentDomain', function (hooks) {
     });
   });
 });
+
+function _stubWindowLocationHostname(hostname) {
+  sinon.stub(PixWindow, 'getLocationHostname').returns(hostname);
+}
