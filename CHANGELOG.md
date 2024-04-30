@@ -1,5 +1,57 @@
 # Pix Changelog
 
+## v4.140.0 (30/04/2024)
+
+
+### :rocket: Amélioration
+- [#8797](https://github.com/1024pix/pix/pull/8797) [FEATURE]: ajoute une bannière d'alerte en cas de dépassement du nombre de place (PIX-12441).
+- [#8791](https://github.com/1024pix/pix/pull/8791) [FEATURE] ajoute un bloc de definition des places (PIX-12245).
+- [#8790](https://github.com/1024pix/pix/pull/8790) [FEATURE] Ajouter la notion de component dans nos modèles métiers (PIX-12299).
+- [#8758](https://github.com/1024pix/pix/pull/8758) [FEATURE] Traduction des emails et pixApp en espagnol (PIX-12341).
+- [#8711](https://github.com/1024pix/pix/pull/8711) [FEATURE] Création de la page de simulation de scoring V3 (PIX-11995).
+- [#8784](https://github.com/1024pix/pix/pull/8784) [FEATURE] Ajout d'une transcription. Module principes-fondateurs-wikipedia (MODC-74).
+- [#8734](https://github.com/1024pix/pix/pull/8734) [FEATURE] [ADMIN] Ajouter une nouvelle action pour importer une liste de configuration SSO OIDC (PIX-11984).
+- [#8738](https://github.com/1024pix/pix/pull/8738) [FEATURE] Bloquer le rattachement de résultat thématique non certifiants à une certification complémentaire lors d'un versionning sur Pix Admin (PIX-12272).
+- [#8710](https://github.com/1024pix/pix/pull/8710) [FEATURE] Migrer vers nouveau nom de la table de souscriptions (PIX-12230).
+- [#8726](https://github.com/1024pix/pix/pull/8726) [FEATURE] Gérer la langue espagnol lors de l'envoi de certains e-mails (PIX-12194).
+
+### :building_construction: Tech
+- [#8795](https://github.com/1024pix/pix/pull/8795) [TECH] :recycle:  déplace `/api/admin/target-profiles/{id}/copy-organizations` dans le bounded context.
+- [#8763](https://github.com/1024pix/pix/pull/8763) [TECH] Avoir des recommandations de CFs par défaut dans les seeds DevComp (PIX-12180).
+- [#8760](https://github.com/1024pix/pix/pull/8760) [TECH] Ajouter le format Onde (Pix-11618).
+- [#8572](https://github.com/1024pix/pix/pull/8572) [TECH] Unifier le fonctionnement des jobs de la CI (PIX-11947).
+- [#8785](https://github.com/1024pix/pix/pull/8785) [TECH] Migrer la route campaign collective results vers son Bounded Context (PIX-12332).
+- [#8762](https://github.com/1024pix/pix/pull/8762) [TECH] Migrer la route campaign vers son Bounded Context (PIX-12323).
+- [#8731](https://github.com/1024pix/pix/pull/8731) [TECH] Remplacer les "contains" dans les tests par des méthodes de testingLibrary (PIX-12268).
+
+### :bug: Correction
+- [#8759](https://github.com/1024pix/pix/pull/8759) [BUGFIX] Corriger l'erreur 500 lors du rejet d'une certification pour une certification antérieure aux configuration de scoring.
+
+### :arrow_up: Montée de version
+- [#8801](https://github.com/1024pix/pix/pull/8801) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.10 (admin).
+- [#8800](https://github.com/1024pix/pix/pull/8800) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.10 (1d).
+- [#8794](https://github.com/1024pix/pix/pull/8794) [BUMP] Replace dependency eslint-config-standard-with-typescript with eslint-config-love ^43.1.0 (audit-logger).
+- [#8745](https://github.com/1024pix/pix/pull/8745) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.9 (certif).
+- [#8786](https://github.com/1024pix/pix/pull/8786) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.8 (dossier racine).
+- [#8787](https://github.com/1024pix/pix/pull/8787) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.8 (load-testing).
+- [#8769](https://github.com/1024pix/pix/pull/8769) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.8 (1d).
+- [#8783](https://github.com/1024pix/pix/pull/8783) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.8 (orga).
+- [#8780](https://github.com/1024pix/pix/pull/8780) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.8 (audit-logger).
+- [#8781](https://github.com/1024pix/pix/pull/8781) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.8 (certif).
+- [#8782](https://github.com/1024pix/pix/pull/8782) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.8 (mon-pix).
+- [#8773](https://github.com/1024pix/pix/pull/8773) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.6 (dossier racine).
+- [#8779](https://github.com/1024pix/pix/pull/8779) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.8 (api).
+- [#8778](https://github.com/1024pix/pix/pull/8778) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.8 (admin).
+- [#8774](https://github.com/1024pix/pix/pull/8774) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.6 (load-testing).
+- [#8775](https://github.com/1024pix/pix/pull/8775) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.6 (mon-pix).
+- [#8776](https://github.com/1024pix/pix/pull/8776) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.6 (orga).
+- [#8772](https://github.com/1024pix/pix/pull/8772) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.6 (certif).
+- [#8771](https://github.com/1024pix/pix/pull/8771) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.6 (audit-logger).
+- [#8770](https://github.com/1024pix/pix/pull/8770) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.6 (admin).
+- [#8767](https://github.com/1024pix/pix/pull/8767) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.6 (api).
+- [#8765](https://github.com/1024pix/pix/pull/8765) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.9 (1d).
+- [#8764](https://github.com/1024pix/pix/pull/8764) [BUMP] Update Node.js to v20.12.2.
+
 ## v4.139.0 (26/04/2024)
 
 
