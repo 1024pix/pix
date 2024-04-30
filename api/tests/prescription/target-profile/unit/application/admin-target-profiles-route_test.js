@@ -300,7 +300,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
     });
   });
 
-  describe('POST /api/admin/organizations/{id}/attach-target-profiles', function () {
+  describe('POST /api/admin/organizations/{organizationId}/attach-target-profiles', function () {
     context('when user has role "SUPER_ADMIN", "SUPPORT" or "METIER"', function () {
       it('should return a response with an HTTP status code 204', async function () {
         // given

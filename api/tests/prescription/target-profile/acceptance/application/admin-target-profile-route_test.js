@@ -225,7 +225,7 @@ describe('Acceptance | Route | admin-target-profile', function () {
     });
   });
 
-  describe('POST /api/admin/organizations/{id}/attach-target-profiles', function () {
+  describe('POST /api/admin/organizations/{organizationId}/attach-target-profiles', function () {
     let userId;
     let organizationId;
     let alreadyAttachedTargetProfileId;

@@ -126,7 +126,7 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
       sinon.stub(usecases, 'attachTargetProfilesToOrganization');
       request = {
         params: {
-          id: 123,
+          organizationId: 123,
         },
         payload: {
           'target-profile-ids': [1, 2],

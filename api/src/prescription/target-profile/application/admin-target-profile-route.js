@@ -99,7 +99,7 @@ const register = async function (server) {
     },
     {
       method: 'POST',
-      path: '/api/admin/organizations/{id}/attach-target-profiles',
+      path: '/api/admin/organizations/{organizationId}/attach-target-profiles',
       config: {
         pre: [
           {
@@ -117,7 +117,7 @@ const register = async function (server) {
             'target-profile-ids': Joi.array().items(Joi.number().integer()).required(),
           }),
           params: Joi.object({
-            id: identifiersType.organizationId,
+            organizationId: identifiersType.organizationId,
           }),
           failAction: (request, h) => {
             return sendJsonApiError(

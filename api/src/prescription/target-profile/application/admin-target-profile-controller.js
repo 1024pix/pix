@@ -49,7 +49,7 @@ const getLearningContentAsPdf = async function (request, h, dependencies = { lea
 
 const attachTargetProfiles = async function (request, h) {
   const targetProfileIds = request.payload['target-profile-ids'];
-  const organizationId = request.params.id;
+  const organizationId = request.params.organizationId;
   await usecases.attachTargetProfilesToOrganization({ organizationId, targetProfileIds });
 
   return h.response({}).code(204);
