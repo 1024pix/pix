@@ -264,7 +264,7 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/admin/organizations/{id}/campaigns',
+      path: '/api/admin/organizations/{organizationId}/campaigns',
       config: {
         pre: [
           {
@@ -280,7 +280,7 @@ const register = async function (server) {
         ],
         validate: {
           params: Joi.object({
-            id: identifiersType.organizationId,
+            organizationId: identifiersType.organizationId,
           }),
         },
         handler: campaignAdministrationController.findPaginatedCampaignManagements,

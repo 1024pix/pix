@@ -122,7 +122,7 @@ const findPaginatedCampaignManagements = async function (
     campaignManagementSerializer,
   },
 ) {
-  const organizationId = request.params.id;
+  const organizationId = request.params.organizationId;
   const { filter, page } = dependencies.queryParamsUtils.extractParameters(request.query);
 
   const { models: campaigns, meta } = await usecases.findPaginatedCampaignManagements({

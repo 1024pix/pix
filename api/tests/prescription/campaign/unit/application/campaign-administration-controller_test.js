@@ -341,7 +341,7 @@ describe('Unit | Application | Controller | Campaign administration', function (
     beforeEach(function () {
       organizationId = 1;
       request = {
-        params: { id: organizationId },
+        params: { organizationId },
         auth: {
           credentials: {
             userId: 1,
