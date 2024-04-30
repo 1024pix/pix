@@ -19,7 +19,7 @@ describe('Unit | Service | sessions import validation Service', function () {
         toFake: ['Date'],
       });
       sessionRepository = {
-        isSessionExisting: sinon.stub(),
+        isSessionExistingByCertificationCenterId: sinon.stub(),
         isSessionExistingBySessionAndCertificationCenterIds: sinon.stub(),
       };
       certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
@@ -34,8 +34,11 @@ describe('Unit | Service | sessions import validation Service', function () {
         context('when there is no sessionId', function () {
           it('should return an empty sessionErrors array', async function () {
             // given
+            const certificationCenterId = domainBuilder.buildCertificationCenter({}).id;
             const session = _buildValidSessionWithoutId();
-            sessionRepository.isSessionExisting.withArgs({ ...session }).resolves(false);
+            sessionRepository.isSessionExistingByCertificationCenterId
+              .withArgs({ ...session, certificationCenterId })
+              .resolves(false);
 
             // when
             const sessionErrors = await sessionsImportValidationService.validateSession({
@@ -251,13 +254,17 @@ describe('Unit | Service | sessions import validation Service', function () {
     context('when there already is an existing session with the same data as a newly imported one', function () {
       it('should return a sessionErrors array that contains a session already existing error', async function () {
         // given
+        const certificationCenterId = domainBuilder.buildCertificationCenter({}).id;
         const session = _buildValidSessionWithoutId();
-        sessionRepository.isSessionExisting.withArgs({ ...session }).resolves(true);
+        sessionRepository.isSessionExistingByCertificationCenterId
+          .withArgs({ ...session, certificationCenterId })
+          .resolves(true);
 
         // when
         const sessionErrors = await sessionsImportValidationService.validateSession({
           session,
           line: 1,
+          certificationCenterId,
           sessionRepository,
           certificationCourseRepository,
         });
@@ -288,7 +295,7 @@ describe('Unit | Service | sessions import validation Service', function () {
         });
 
         // then
-        expect(sessionRepository.isSessionExisting).to.not.have.been.called;
+        expect(sessionRepository.isSessionExistingByCertificationCenterId).to.not.have.been.called;
         expect(sessionErrors).to.deep.equal([
           {
             line: 1,
@@ -314,7 +321,7 @@ describe('Unit | Service | sessions import validation Service', function () {
         });
 
         // then
-        expect(sessionRepository.isSessionExisting).to.not.have.been.called;
+        expect(sessionRepository.isSessionExistingByCertificationCenterId).to.not.have.been.called;
         expect(sessionErrors).to.deep.equal([
           {
             line: 1,

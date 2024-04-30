@@ -51,7 +51,10 @@ const validateSession = async function ({
     }
   } else {
     if (_isDateAndTimeValid(session)) {
-      const isSessionExisting = await sessionRepository.isSessionExisting({ ...session });
+      const isSessionExisting = await sessionRepository.isSessionExistingByCertificationCenterId({
+        ...session,
+        certificationCenterId,
+      });
       if (isSessionExisting) {
         _addToErrorList({
           errorList: sessionErrors,
