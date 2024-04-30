@@ -17,6 +17,7 @@ import { SessionMassImportReport } from '../../../session/domain/models/SessionM
  * @param {deps["complementaryCertificationRepository"]} params.complementaryCertificationRepository
  * @param {deps["certificationCourseRepository"]} params.certificationCourseRepository
  * @param {deps["sessionCodeService"]} params.sessionCodeService
+ * @param {deps["sessionManagementRepository"]} params.sessionManagementRepository
  * @param {deps["sessionsImportValidationService"]} params.sessionsImportValidationService
  * @param {deps["temporarySessionsStorageForMassImportService"]} params.temporarySessionsStorageForMassImportService
  */
@@ -31,6 +32,7 @@ const validateSessions = async function ({
   complementaryCertificationRepository,
   certificationCourseRepository,
   sessionCodeService,
+  sessionManagementRepository,
   i18n,
   sessionsImportValidationService,
   temporarySessionsStorageForMassImportService,
@@ -57,6 +59,7 @@ const validateSessions = async function ({
       certificationCenterId,
       sessionRepository,
       certificationCourseRepository,
+      sessionManagementRepository,
     });
 
     sessionsMassImportReport.addErrorReports(sessionsErrors);
