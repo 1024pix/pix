@@ -1,6 +1,6 @@
 import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { Organization } from '../../../../lib/domain/models/Organization.js';
 import { UserOrgaSettings } from '../../../../lib/domain/models/UserOrgaSettings.js';
+import { Organization } from '../../../../src/shared/domain/models/Organization.js';
 import { User } from '../../../../src/shared/domain/models/User.js';
 import { Prescriber } from '../../../../src/shared/prescriber-management/domain/read-models/Prescriber.js';
 

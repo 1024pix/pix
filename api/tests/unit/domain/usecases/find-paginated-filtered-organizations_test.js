@@ -1,5 +1,5 @@
-import { Organization } from '../../../../lib/domain/models/Organization.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { Organization } from '../../../../src/shared/domain/models/Organization.js';
 import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | find-paginated-filtered-organizations', function () {

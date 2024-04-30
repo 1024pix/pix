@@ -12,10 +12,10 @@ import {
 import { CertificationCenter } from '../../../../../lib/domain/models/CertificationCenter.js';
 import { CertificationCenterMembership } from '../../../../../lib/domain/models/CertificationCenterMembership.js';
 import { Membership } from '../../../../../lib/domain/models/Membership.js';
-import { Organization } from '../../../../../lib/domain/models/Organization.js';
 import { UserDetailsForAdmin } from '../../../../../lib/domain/models/UserDetailsForAdmin.js';
 import { OrganizationLearnerForAdmin } from '../../../../../lib/domain/read-models/OrganizationLearnerForAdmin.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import { Organization } from '../../../../../src/shared/domain/models/Organization.js';
 import { User } from '../../../../../src/shared/domain/models/User.js';
 import * as userRepository from '../../../../../src/shared/infrastructure/repositories/user-repository.js';
 import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
