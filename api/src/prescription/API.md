@@ -3,27 +3,9 @@
 <dl>
 <dt><a href="#module_CampaignApi">CampaignApi</a></dt>
 <dd></dd>
+<dt><a href="#module_OrganizationLearnerApi">OrganizationLearnerApi</a></dt>
+<dd></dd>
 <dt><a href="#module_TargetProfileApi">TargetProfileApi</a></dt>
-<dd></dd>
-</dl>
-
-## Functions
-
-<dl>
-<dt><a href="#findPaginatedOrganizationLearners">findPaginatedOrganizationLearners(payload)</a> ⇒ <code><a href="#OrganizationLearnerListResponse">Promise.&lt;OrganizationLearnerListResponse&gt;</a></code></dt>
-<dd></dd>
-</dl>
-
-## Typedefs
-
-<dl>
-<dt><a href="#PageDefinition">PageDefinition</a> : <code>object</code></dt>
-<dd></dd>
-<dt><a href="#OrganizationLearnerListPayload">OrganizationLearnerListPayload</a> : <code>object</code></dt>
-<dd></dd>
-<dt><a href="#Pagination">Pagination</a> : <code>object</code></dt>
-<dd></dd>
-<dt><a href="#OrganizationLearnerListResponse">OrganizationLearnerListResponse</a> : <code>object</code></dt>
 <dd></dd>
 </dl>
 
@@ -142,7 +124,7 @@
 | Name | Type |
 | --- | --- |
 | organizationId | <code>number</code> | 
-| page | [<code>PageDefinition</code>](#PageDefinition) | 
+| page | <code>PageDefinition</code> | 
 
 <a name="module_CampaignApi..Pagination"></a>
 
@@ -166,7 +148,101 @@
 | Name | Type |
 | --- | --- |
 | models | <code>Array.&lt;CampaignListItem&gt;</code> | 
-| meta | [<code>Pagination</code>](#Pagination) | 
+| meta | <code>Pagination</code> | 
+
+<a name="module_OrganizationLearnerApi"></a>
+
+## OrganizationLearnerApi
+
+* [OrganizationLearnerApi](#module_OrganizationLearnerApi)
+    * [~find(payload)](#module_OrganizationLearnerApi..find) ⇒ <code>Promise.&lt;OrganizationLearnerListResponse&gt;</code>
+    * [~get(organizationLearnerId)](#module_OrganizationLearnerApi..get) ⇒ <code>Promise.&lt;OrganizationLearner&gt;</code>
+    * [~PageDefinition](#module_OrganizationLearnerApi..PageDefinition) : <code>object</code>
+    * [~OrganizationLearnerListPayload](#module_OrganizationLearnerApi..OrganizationLearnerListPayload) : <code>object</code>
+    * [~Pagination](#module_OrganizationLearnerApi..Pagination) : <code>object</code>
+    * [~OrganizationLearner](#module_OrganizationLearnerApi..OrganizationLearner) : <code>object</code>
+    * [~OrganizationLearnerListResponse](#module_OrganizationLearnerApi..OrganizationLearnerListResponse) : <code>object</code>
+
+<a name="module_OrganizationLearnerApi..find"></a>
+
+### OrganizationLearnerApi~find(payload) ⇒ <code>Promise.&lt;OrganizationLearnerListResponse&gt;</code>
+Récupère les organization-learners pour une organization. Par défaut, ces organizations-learners sont triés par prénom puis par nom.
+Si le params 'page' est présent, les organization-learners seront paginés
+
+**Kind**: inner method of [<code>OrganizationLearnerApi</code>](#module_OrganizationLearnerApi)  
+
+| Param | Type |
+| --- | --- |
+| payload | <code>OrganizationLearnerListPayload</code> | 
+
+<a name="module_OrganizationLearnerApi..get"></a>
+
+### OrganizationLearnerApi~get(organizationLearnerId) ⇒ <code>Promise.&lt;OrganizationLearner&gt;</code>
+**Kind**: inner method of [<code>OrganizationLearnerApi</code>](#module_OrganizationLearnerApi)  
+
+| Param | Type |
+| --- | --- |
+| organizationLearnerId | <code>number</code> | 
+
+<a name="module_OrganizationLearnerApi..PageDefinition"></a>
+
+### OrganizationLearnerApi~PageDefinition : <code>object</code>
+**Kind**: inner typedef of [<code>OrganizationLearnerApi</code>](#module_OrganizationLearnerApi)  
+**Properties**
+
+| Name | Type |
+| --- | --- |
+| size | <code>number</code> | 
+| number | <code>Page</code> | 
+
+<a name="module_OrganizationLearnerApi..OrganizationLearnerListPayload"></a>
+
+### OrganizationLearnerApi~OrganizationLearnerListPayload : <code>object</code>
+**Kind**: inner typedef of [<code>OrganizationLearnerApi</code>](#module_OrganizationLearnerApi)  
+**Properties**
+
+| Name | Type |
+| --- | --- |
+| organizationId | <code>number</code> | 
+| page | <code>PageDefinition</code> \| <code>undefined</code> | 
+
+<a name="module_OrganizationLearnerApi..Pagination"></a>
+
+### OrganizationLearnerApi~Pagination : <code>object</code>
+**Kind**: inner typedef of [<code>OrganizationLearnerApi</code>](#module_OrganizationLearnerApi)  
+**Properties**
+
+| Name | Type |
+| --- | --- |
+| page | <code>number</code> | 
+| pageSize | <code>number</code> | 
+| rowCount | <code>number</code> | 
+| pageCount | <code>number</code> | 
+
+<a name="module_OrganizationLearnerApi..OrganizationLearner"></a>
+
+### OrganizationLearnerApi~OrganizationLearner : <code>object</code>
+**Kind**: inner typedef of [<code>OrganizationLearnerApi</code>](#module_OrganizationLearnerApi)  
+**Properties**
+
+| Name | Type |
+| --- | --- |
+| id | <code>number</code> | 
+| firstName | <code>string</code> | 
+| lastName | <code>string</code> | 
+| division | <code>string</code> | 
+| organizationId | <code>number</code> | 
+
+<a name="module_OrganizationLearnerApi..OrganizationLearnerListResponse"></a>
+
+### OrganizationLearnerApi~OrganizationLearnerListResponse : <code>object</code>
+**Kind**: inner typedef of [<code>OrganizationLearnerApi</code>](#module_OrganizationLearnerApi)  
+**Properties**
+
+| Name | Type |
+| --- | --- |
+| organizationLearners | <code>Array.&lt;OrganizationLearner&gt;</code> | 
+| pagination | <code>Pagination</code> \| <code>undefined</code> | 
 
 <a name="module_TargetProfileApi"></a>
 
@@ -193,60 +269,5 @@
 | Param | Type |
 | --- | --- |
 | id | <code>number</code> | 
-
-<a name="findPaginatedOrganizationLearners"></a>
-
-## findPaginatedOrganizationLearners(payload) ⇒ [<code>Promise.&lt;OrganizationLearnerListResponse&gt;</code>](#OrganizationLearnerListResponse)
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| payload | [<code>OrganizationLearnerListPayload</code>](#OrganizationLearnerListPayload) | 
-
-<a name="PageDefinition"></a>
-
-## PageDefinition : <code>object</code>
-**Kind**: global typedef  
-**Properties**
-
-| Name | Type |
-| --- | --- |
-| size | <code>number</code> | 
-| number | <code>Page</code> | 
-
-<a name="OrganizationLearnerListPayload"></a>
-
-## OrganizationLearnerListPayload : <code>object</code>
-**Kind**: global typedef  
-**Properties**
-
-| Name | Type |
-| --- | --- |
-| organizationId | <code>number</code> | 
-| page | [<code>PageDefinition</code>](#PageDefinition) | 
-
-<a name="Pagination"></a>
-
-## Pagination : <code>object</code>
-**Kind**: global typedef  
-**Properties**
-
-| Name | Type |
-| --- | --- |
-| page | <code>number</code> | 
-| pageSize | <code>number</code> | 
-| rowCount | <code>number</code> | 
-| pageCount | <code>number</code> | 
-
-<a name="OrganizationLearnerListResponse"></a>
-
-## OrganizationLearnerListResponse : <code>object</code>
-**Kind**: global typedef  
-**Properties**
-
-| Name | Type |
-| --- | --- |
-| learners | <code>Array.&lt;OrganizationLeanerListItem&gt;</code> | 
-| pagination | [<code>Pagination</code>](#Pagination) | 
 
 

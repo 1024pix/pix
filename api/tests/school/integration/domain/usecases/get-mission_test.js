@@ -1,11 +1,8 @@
 import { Mission } from '../../../../../src/school/domain/models/Mission.js';
-import { getMission } from '../../../../../src/school/domain/usecases/get-mission.js';
-import * as missionRepository from '../../../../../src/school/infrastructure/repositories/mission-repository.js';
-import * as organizationLearnerRepository from '../../../../../src/school/infrastructure/repositories/organization-learner-repository.js';
-import * as areaRepository from '../../../../../src/shared/infrastructure/repositories/area-repository.js';
-import * as competenceRepository from '../../../../../src/shared/infrastructure/repositories/competence-repository.js';
+import { usecases } from '../../../../../src/school/domain/usecases/index.js';
 import { databaseBuilder, expect, mockLearningContent } from '../../../../test-helper.js';
 import * as learningContentBuilder from '../../../../tooling/learning-content-builder/index.js';
+
 describe('Integration | UseCase | getMission', function () {
   it('Should return a mission', async function () {
     const mission = learningContentBuilder.buildMission({
@@ -44,13 +41,9 @@ describe('Integration | UseCase | getMission', function () {
       startedBy: '',
     });
 
-    const returnedMission = await getMission({
+    const returnedMission = await usecases.getMission({
       missionId: 12,
       organizationId,
-      missionRepository,
-      areaRepository,
-      competenceRepository,
-      organizationLearnerRepository,
     });
 
     expect(returnedMission).to.deep.equal(expectedMission);

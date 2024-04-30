@@ -88,26 +88,26 @@ async function _createSco1dOrganizations(databaseBuilder) {
   });
 
   // create class with namesakes
-  await databaseBuilder.factory.buildOrganizationLearner({
+  await databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
     firstName: 'Bob',
     lastName: 'Le lapin',
     division: 'CM1-B',
     organizationId: TEAM_1D_ORGANIZATION_1_ID,
   });
-  await databaseBuilder.factory.buildOrganizationLearner({
+  await databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
     firstName: 'Bob',
     lastName: 'Le castor',
     division: 'CM1-B',
     organizationId: TEAM_1D_ORGANIZATION_1_ID,
   });
 
-  await databaseBuilder.factory.buildOrganizationLearner({
+  await databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
     firstName: 'Aya',
     lastName: 'Pas',
     division: 'CM1-B',
     organizationId: TEAM_1D_ORGANIZATION_1_ID,
   });
-  await databaseBuilder.factory.buildOrganizationLearner({
+  await databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
     firstName: 'Aya',
     lastName: 'Pasta',
     division: 'CM1-B',
@@ -127,6 +127,12 @@ async function _createSco1dOrganizations(databaseBuilder) {
   });
 
   await databaseBuilder.factory.buildSchool({ organizationId: TEAM_1D_ORGANIZATION_2_ID, code: 'MAXIPIXOU' });
+
+  await databaseBuilder.factory.buildOrganizationFeature({
+    organizationId: TEAM_1D_ORGANIZATION_2_ID,
+    featureId: FEATURE_LEARNER_IMPORT_ID,
+    params: { organizationLearnerImportFormatId: ONDE_IMPORT_FORMAT_ID },
+  });
 
   await _buildSchoolStudent({
     databaseBuilder,
@@ -191,7 +197,7 @@ async function _buildSchoolStudent({ databaseBuilder, organizationId, division, 
     const firstName = firstNames[index];
     const lastName = _generateLastName();
     const userId = await databaseBuilder.factory.buildUser({ firstName, lastName }).id;
-    await databaseBuilder.factory.buildOrganizationLearner({
+    await databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
       firstName,
       lastName,
       division,

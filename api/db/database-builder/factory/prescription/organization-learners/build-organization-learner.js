@@ -39,5 +39,12 @@ const buildOrganizationLearner = function ({
     values,
   });
 };
+const buildOndeOrganizationLearner = function ({ division, ...args } = {}) {
+  const attributes = {
+    ...args.attributes,
+    'Libellé classe': division || 'CM2A',
+  };
+  return buildOrganizationLearner({ ...args, attributes, division });
+};
 
-export { buildOrganizationLearner };
+export { buildOndeOrganizationLearner, buildOrganizationLearner };

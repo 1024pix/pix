@@ -9,10 +9,9 @@ import { injectDependencies } from '../../../shared/infrastructure/utils/depende
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as activityAnswerRepository from '../../infrastructure/repositories/activity-answer-repository.js';
 import * as activityRepository from '../../infrastructure/repositories/activity-repository.js';
+import { repositories } from '../../infrastructure/repositories/index.js';
 import * as missionAssessmentRepository from '../../infrastructure/repositories/mission-assessment-repository.js';
-import * as missionLearnerRepository from '../../infrastructure/repositories/mission-learner-repository.js';
 import * as missionRepository from '../../infrastructure/repositories/mission-repository.js';
-import * as organizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
 import * as schoolRepository from '../../infrastructure/repositories/school-repository.js';
 
 const dependencies = {
@@ -23,8 +22,8 @@ const dependencies = {
   competenceRepository,
   missionAssessmentRepository,
   missionRepository,
-  missionLearnerRepository,
-  organizationLearnerRepository,
+  missionLearnerRepository: repositories.missionLearnerRepository,
+  organizationLearnerRepository: repositories.organizationLearnerRepository,
   schoolRepository,
   challengeRepository,
 };
