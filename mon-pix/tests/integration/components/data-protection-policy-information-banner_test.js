@@ -102,6 +102,33 @@ module('Integration | Component | data-protection-policy-information-banner', fu
           );
           assert.dom(content).exists();
         });
+
+        module('when on international domain (.org)', function () {
+          module('when user language is "en"', function () {
+            test('displays the data protection policy banner in english', async function (assert) {
+              // given
+              _stubWindowLocationHostname('pix.org');
+              this.intl.setLocale('en');
+              _communicationBannerIsNotDisplayed();
+              _userShouldSeeTheDataProtectionPolicyUpdateInformation(this);
+
+              // when
+              const screen = await render(hbs`<DataProtectionPolicyInformationBanner />`);
+
+              // then
+              assert
+                .dom(screen.getByRole('link', { name: 'Personal data protection policy.' }))
+                .hasAttribute('href', 'https://pix.org/en-gb/personal-data-protection-policy');
+
+              const content = screen.getByText((content) =>
+                content.startsWith(
+                  `Please note that our personal data protection policy has been updated. To take a look at what's changing, click here:`,
+                ),
+              );
+              assert.dom(content).exists();
+            });
+          });
+        });
       });
     });
   });
