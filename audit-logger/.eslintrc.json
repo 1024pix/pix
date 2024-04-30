@@ -1,5 +1,5 @@
 {
-  "extends": ["@1024pix", "standard-with-typescript"],
+  "extends": ["@1024pix", "love"],
   "env": {
     "node": true
   },
