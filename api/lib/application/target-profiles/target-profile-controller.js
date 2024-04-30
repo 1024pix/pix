@@ -56,13 +56,6 @@ const attachOrganizations = async function (request, h, dependencies = { targetP
     .code(200);
 };
 
-const attachOrganizationsFromExistingTargetProfile = async function (request, h) {
-  const existingTargetProfileId = request.payload['target-profile-id'];
-  const targetProfileId = request.params.id;
-  await usecases.attachOrganizationsFromExistingTargetProfile({ targetProfileId, existingTargetProfileId });
-  return h.response({}).code(204);
-};
-
 const updateTargetProfile = async function (request, h) {
   const id = request.params.id;
   const {
@@ -140,7 +133,6 @@ const targetProfileController = {
   getTargetProfileForAdmin,
   findPaginatedFilteredTargetProfileOrganizations,
   attachOrganizations,
-  attachOrganizationsFromExistingTargetProfile,
   updateTargetProfile,
   outdateTargetProfile,
   createTargetProfile,

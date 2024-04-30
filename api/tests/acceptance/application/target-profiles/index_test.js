@@ -294,50 +294,6 @@ describe('Acceptance | Route | target-profiles', function () {
     });
   });
 
-  describe('POST /api/admin/target-profiles/{id}/copy-organizations', function () {
-    beforeEach(async function () {
-      mockLearningContent(learningContent);
-    });
-
-    it('should return 204', async function () {
-      const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-      const existingTargetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-      const userId = databaseBuilder.factory.buildUser.withRole().id;
-      const organizationId1 = databaseBuilder.factory.buildOrganization().id;
-      const organizationId2 = databaseBuilder.factory.buildOrganization().id;
-      databaseBuilder.factory.buildTargetProfileShare({
-        targetProfileId: existingTargetProfileId,
-        organizationId: organizationId1,
-      });
-      databaseBuilder.factory.buildTargetProfileShare({
-        targetProfileId: existingTargetProfileId,
-        organizationId: organizationId2,
-      });
-      await databaseBuilder.commit();
-
-      const options = {
-        method: 'POST',
-        url: `/api/admin/target-profiles/${targetProfileId}/copy-organizations`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
-        payload: {
-          'target-profile-id': existingTargetProfileId,
-        },
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      const rows = await knex('target-profile-shares')
-        .select('organizationId')
-        .where({ targetProfileId: targetProfileId });
-      const organizationIds = rows.map(({ organizationId }) => organizationId);
-
-      // then
-      expect(response.statusCode).to.equal(204);
-      expect(organizationIds).to.exactlyContain([organizationId1, organizationId2]);
-    });
-  });
-
   describe('PATCH /api/admin/target-profiles/{id}', function () {
     it('should return 204', async function () {
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
