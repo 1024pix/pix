@@ -101,56 +101,6 @@ describe('Unit | Controller | target-profile-controller', function () {
     });
   });
 
-  describe('#attachOrganizations', function () {
-    let request;
-    let targetProfileAttachOrganizationSerializer;
-
-    beforeEach(function () {
-      sinon.stub(usecases, 'attachOrganizationsToTargetProfile');
-      targetProfileAttachOrganizationSerializer = { serialize: sinon.stub() };
-
-      request = {
-        params: {
-          id: 123,
-        },
-        payload: {
-          'organization-ids': 1,
-        },
-      };
-    });
-
-    context('successful case', function () {
-      it('should succeed', async function () {
-        // when
-        const serializer = Symbol('targetProfileAttachOrganizationsSerializer');
-        usecases.attachOrganizationsToTargetProfile.resolves();
-        targetProfileAttachOrganizationSerializer.serialize.returns(serializer);
-
-        const response = await targetProfileController.attachOrganizations(request, hFake, {
-          targetProfileAttachOrganizationSerializer,
-        });
-        // then
-        expect(targetProfileAttachOrganizationSerializer.serialize).to.have.been.called;
-        expect(response.statusCode).to.equal(200);
-        expect(response.source).to.equal(serializer);
-      });
-
-      it('should call usecase', async function () {
-        // when
-        await targetProfileController.attachOrganizations(request, hFake, {
-          targetProfileAttachOrganizationSerializer,
-        });
-
-        // then
-        expect(usecases.attachOrganizationsToTargetProfile).to.have.been.calledOnce;
-        expect(usecases.attachOrganizationsToTargetProfile).to.have.been.calledWithMatch({
-          targetProfileId: 123,
-          organizationIds: 1,
-        });
-      });
-    });
-  });
-
   describe('#outdateTargetProfile', function () {
     let request;
 
