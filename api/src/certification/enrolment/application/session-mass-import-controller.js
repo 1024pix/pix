@@ -1,4 +1,3 @@
-import { usecases as libUsecases } from '../../../../lib/domain/usecases/index.js';
 import * as csvSerializer from '../../../../lib/infrastructure/serializers/csv/csv-serializer.js';
 import * as csvHelpers from '../../shared/application/helpers/csvHelpers.js';
 import { usecases } from '../domain/usecases/index.js';
@@ -24,7 +23,7 @@ const validateSessions = async function (request, h, dependencies = { csvHelpers
 
   const parsedCsvData = await dependencies.csvHelpers.parseCsvWithHeader(request.payload.path);
 
-  const certificationCenter = await libUsecases.getCertificationCenter({ id: certificationCenterId });
+  const certificationCenter = await usecases.getCertificationCenter({ id: certificationCenterId });
 
   const sessions = dependencies.csvSerializer.deserializeForSessionsImport({
     parsedCsvData,

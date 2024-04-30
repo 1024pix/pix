@@ -21,50 +21,31 @@ import * as sessionValidator from '../validators/session-validator.js';
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCenterRepository} CertificationCenterRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CandidateRepository} CandidateRepository
  * @typedef {import('../../infrastructure/repositories/index.js').SessionForAttendanceSheetRepository} SessionForAttendanceSheetRepository
-
  * @typedef {import('../../infrastructure/repositories/index.js').CenterRepository} CenterRepository
- * @typedef {import('../../infrastructure/repositories/index.js').CertificationCourseRepository} CertificationCourseRepository
  * @typedef {import('../validators/session-validator.js')} SessionValidator
  * @typedef {import('../services/certification-cpf-service.js')} CertificationCpfService
  * @typedef {import('../../../enrolment/infrastructure/utils/pdf/attendance-sheet-pdf.js')} AttendanceSheetPdfUtils
  * @typedef {import('../services/temporary-sessions-storage-for-mass-import-service.js').TemporarySessionsStorageForMassImportService} TemporarySessionsStorageForMassImportService
- * @typedef {import('../../infrastructure/repositories/index.js').CertificationOfficerRepository} CertificationOfficerRepository
- * @typedef {import('../../infrastructure/repositories/index.js').FinalizedSessionRepository} FinalizedSessionRepository
- * @typedef {import('../../infrastructure/repositories/index.js').JurySessionRepository} JurySessionRepository
- * @typedef {import('../../infrastructure/repositories/index.js').SessionForInvigilatorKitRepository} SessionForInvigilatorKitRepository
- * @typedef {import('../../infrastructure/repositories/index.js').AssessmentRepository} AssessmentRepository
- * @typedef {import('../../infrastructure/repositories/index.js').IssueReportCategoryRepository} IssueReportCategoryRepository
- * @typedef {import('../../infrastructure/repositories/index.js').CertificationIssueReportRepository} CertificationIssueReportRepository
- * @typedef {import('../../infrastructure/repositories/index.js').CertificationReportRepository} CertificationReportRepository
  **/
 
 /**
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
  *
-* @typedef {candidateRepository} CandidateRepository
-* @typedef {complementaryCertificationRepository} ComplementaryCertificationRepository
-* @typedef {centerRepository} CenterRepository
-* @typedef {sessionRepository} SessionRepository
-* @typedef {certificationCandidateRepository} CertificationCandidateRepository
-* @typedef {certificationCpfCityRepository} CertificationCpfCityRepository
-* @typedef {certificationCpfCountryRepository} CertificationCpfCountryRepository
-* @typedef {certificationOfficerRepository} CertificationOfficerRepository
-* @typedef {certificationCenterRepository} CertificationCenterRepository
-* @typedef {sessionForAttendanceSheetRepository} SessionForAttendanceSheetRepository
-
- * @typedef {certificationCourseRepository} CertificationCourseRepository
- * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
+ * @typedef {CandidateRepository} CandidateRepository
+ * @typedef {ComplementaryCertificationRepository} ComplementaryCertificationRepository
+ * @typedef {CenterRepository} CenterRepository
+ * @typedef {SessionRepository} SessionRepository
+ * @typedef {CertificationCandidateRepository} CertificationCandidateRepository
+ * @typedef {CertificationCpfCityRepository} CertificationCpfCityRepository
+ * @typedef {CertificationCpfCountryRepository} CertificationCpfCountryRepository
+ * @typedef {CertificationOfficerRepository} CertificationOfficerRepository
+ * @typedef {CertificationCenterRepository} CertificationCenterRepository
+ * @typedef {SessionForAttendanceSheetRepository} SessionForAttendanceSheetRepository
  * @typedef {certificationCpfService} CertificationCpfService
- * @typedef {finalizedSessionRepository} FinalizedSessionRepository
- * @typedef {jurySessionRepository} JurySessionRepository
- * @typedef {sessionForInvigilatorKitRepository} SessionForInvigilatorKitRepository
- * @typedef {issueReportCategoryRepository} IssueReportCategoryRepository
- * @typedef {certificationIssueReportRepository} CertificationIssueReportRepository
- * @typedef {certificationReportRepository} CertificationReportRepository
- * @typedef {temporarySessionsStorageForMassImportService} TemporarySessionsStorageForMassImportService
- * @typedef {sessionValidator} SessionValidator
- * @typedef {attendanceSheetPdfUtils} AttendanceSheetPdfUtils
- * @typedef {temporarySessionsStorageForMassImportService} TemporarySessionsStorageForMassImportService
+ * @typedef {SessionForInvigilatorKitRepository} SessionForInvigilatorKitRepository
+ * @typedef {TemporarySessionsStorageForMassImportService} TemporarySessionsStorageForMassImportService
+ * @typedef {SessionValidator} SessionValidator
+ * @typedef {AttendanceSheetPdfUtils} AttendanceSheetPdfUtils
  **/
 const dependencies = {
   ...enrolmentRepositories,
