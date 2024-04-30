@@ -128,6 +128,29 @@ module('Integration | Component | data-protection-policy-information-banner', fu
               assert.dom(content).exists();
             });
           });
+
+          module('when user language is "nl"', function () {
+            test('displays the data protection policy banner in dutch', async function (assert) {
+              // given
+              _stubWindowLocationHostname('pix.org');
+              this.intl.setLocale('nl');
+              _communicationBannerIsNotDisplayed();
+              _userShouldSeeTheDataProtectionPolicyUpdateInformation(this);
+
+              // when
+              const screen = await render(hbs`<DataProtectionPolicyInformationBanner />`);
+
+              // then
+              assert
+                .dom(screen.getByRole('link', { name: 'Beleid gegevensbescherming.' }))
+                .hasAttribute('href', 'https://pix.org/nl-be/beleid-inzake-de-bescherming-van-persoonsgegevens');
+
+              const content = screen.getByText((content) =>
+                content.startsWith('Ons privacybeleid is gewijzigd. We nodigen je uit om het te lezen:'),
+              );
+              assert.dom(content).exists();
+            });
+          });
         });
       });
     });
