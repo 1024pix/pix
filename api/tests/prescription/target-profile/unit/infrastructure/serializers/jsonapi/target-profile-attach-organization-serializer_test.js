@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../../lib/infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer.js';
+import * as serializer from '../../../../../../../src/prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer.js';
 import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | target-profile-attach-organization-serializer', function () {
