@@ -84,13 +84,7 @@ module('Integration | Component | data-protection-policy-information-banner', fu
 
           // then
           assert.dom(screen.getByRole('alert')).exists();
-          assert
-            .dom(
-              screen.getByRole('link', {
-                name: this.intl.t('common.data-protection-policy-information-banner.url-label'),
-              }),
-            )
-            .exists();
+          assert.dom(screen.getByRole('link', { name: 'Politique de protection des données.' })).exists();
 
           const content = screen.getByText((content) =>
             content.startsWith(
