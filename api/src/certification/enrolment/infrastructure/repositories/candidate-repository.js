@@ -1,5 +1,5 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { Candidate } from '../../domain/models/Candidate.js';
+import { Candidate } from '../../../session/domain/models/Candidate.js';
 
 const findBySessionId = async function ({ sessionId }) {
   const results = await knex

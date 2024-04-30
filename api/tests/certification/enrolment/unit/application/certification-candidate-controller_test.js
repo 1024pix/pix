@@ -1,5 +1,5 @@
 import { certificationCandidateController } from '../../../../../src/certification/enrolment/application/certification-candidate-controller.js';
-import { usecases } from '../../../../../src/certification/session/domain/usecases/index.js';
+import { usecases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Controller | certification-candidate-controller', function () {

@@ -1,5 +1,5 @@
 import { CertificationCenter } from '../../../../../../lib/domain/models/CertificationCenter.js';
-import * as centerRepository from '../../../../../../src/certification/session/infrastructure/repositories/center-repository.js';
+import * as centerRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/center-repository.js';
 import { CERTIFICATION_FEATURES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';

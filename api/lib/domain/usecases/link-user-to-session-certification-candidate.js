@@ -25,11 +25,11 @@ const linkUserToSessionCertificationCandidate = async function ({
   certificationCenterRepository,
   organizationRepository,
   organizationLearnerRepository,
-  sessionRepository,
+  sessionEnrolmentRepository,
   userRepository,
   languageService,
 }) {
-  const session = await sessionRepository.get({ id: sessionId });
+  const session = await sessionEnrolmentRepository.get({ id: sessionId });
   if (!session.isAccessible()) {
     throw new SessionNotAccessible();
   }

@@ -5,8 +5,8 @@ import {
   NotFoundError,
 } from '../../../../../../lib/domain/errors.js';
 import { BookshelfCertificationCandidate } from '../../../../../../lib/infrastructure/orm-models/CertificationCandidate.js';
+import * as certificationCandidateRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/certification-candidate-repository.js';
 import { ComplementaryCertification } from '../../../../../../src/certification/session/domain/models/ComplementaryCertification.js';
-import * as certificationCandidateRepository from '../../../../../../src/certification/session/infrastructure/repositories/certification-candidate-repository.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 

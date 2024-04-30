@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import * as candidateRepository from '../../../../../../src/certification/session/infrastructure/repositories/candidate-repository.js';
+import * as candidateRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/candidate-repository.js';
 import { databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Certification | Session | Repository | Candidate', function () {

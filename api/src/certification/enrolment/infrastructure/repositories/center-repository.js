@@ -1,6 +1,6 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
-import { Center } from '../../domain/models/Center.js';
+import { Center } from '../../../session/domain/models/Center.js';
 
 const getById = async ({ id }) => {
   const center = await knex

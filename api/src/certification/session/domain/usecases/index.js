@@ -9,7 +9,6 @@ import { cpfExportsStorage } from '../../infrastructure/storage/cpf-exports-stor
 import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-storage.js';
 
 /**
- * @typedef {import('../../infrastructure/repositories/index.js').ComplementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCourseRepository} CertificationCourseRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationOfficerRepository} CertificationOfficerRepository
  * @typedef {import('../../infrastructure/repositories/index.js').FinalizedSessionRepository} FinalizedSessionRepository
@@ -29,18 +28,8 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
  *
  * @typedef {assessmentRepository} AssessmentRepository
  * @typedef {certificationCourseRepository} CertificationCourseRepository
- * @typedef {certificationCenterRepository} CertificationCenterRepository
- * @typedef {candidateRepository} CandidateRepository
- * @typedef {certificationCenterRepository} CertificationCenterRepository
- * @typedef {candidateRepository} CandidateRepository
- * @typedef {centerRepository} CenterRepository
- * @typedef {certificationCandidateRepository} CertificationCandidateRepository
  * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
- * @typedef {certificationCpfService} CertificationCpfService
- * @typedef {certificationCpfCityRepository} CertificationCpfCityRepository
- * @typedef {certificationCpfCountryRepository} CertificationCpfCountryRepository
  * @typedef {certificationOfficerRepository} CertificationOfficerRepository
- * @typedef {complementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {finalizedSessionRepository} FinalizedSessionRepository
  * @typedef {jurySessionRepository} JurySessionRepository
  * @typedef {sessionForInvigilatorKitRepository} SessionForInvigilatorKitRepository

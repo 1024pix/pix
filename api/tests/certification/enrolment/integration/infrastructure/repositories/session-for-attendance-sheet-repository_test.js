@@ -1,6 +1,6 @@
+import * as sessionForAttendanceSheetRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/session-for-attendance-sheet-repository.js';
 import { CertificationCandidateForAttendanceSheet } from '../../../../../../src/certification/session/domain/read-models/CertificationCandidateForAttendanceSheet.js';
 import { SessionForAttendanceSheet } from '../../../../../../src/certification/session/domain/read-models/SessionForAttendanceSheet.js';
-import * as sessionForAttendanceSheetRepository from '../../../../../../src/certification/session/infrastructure/repositories/session-for-attendance-sheet-repository.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, databaseBuilder, expect } from '../../../../../test-helper.js';
 

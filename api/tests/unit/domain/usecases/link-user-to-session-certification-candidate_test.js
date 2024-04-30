@@ -23,10 +23,12 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
     context('when the session is not accessible', function () {
       it('should throw a SessionNotAccessible error', async function () {
         // given
-        const sessionRepository = {
+        const sessionEnrolmentRepository = {
           get: sinon.stub(),
         };
-        sessionRepository.get.withArgs({ id: 42 }).resolves(domainBuilder.buildSession.finalized());
+        sessionEnrolmentRepository.get
+          .withArgs({ id: 42 })
+          .resolves(domainBuilder.certification.enrolment.buildSession.finalized());
 
         // when
         const err = await catchErr(linkUserToSessionCertificationCandidate)({
@@ -35,7 +37,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
           firstName,
           lastName,
           birthdate,
-          sessionRepository,
+          sessionEnrolmentRepository,
         });
 
         // then
@@ -44,11 +46,11 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
     });
 
     context('when the session is accessible', function () {
-      const sessionRepository = { get: () => undefined };
+      const sessionEnrolmentRepository = { get: () => undefined };
 
       beforeEach(function () {
-        sessionRepository.get = sinon.stub();
-        sessionRepository.get.withArgs({ id: 42 }).resolves(domainBuilder.buildSession.created());
+        sessionEnrolmentRepository.get = sinon.stub();
+        sessionEnrolmentRepository.get.withArgs({ id: 42 }).resolves(domainBuilder.buildSession.created());
       });
 
       context('when there is a problem with the personal info', function () {
@@ -73,7 +75,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
               firstName,
               lastName,
               birthdate,
-              sessionRepository,
+              sessionEnrolmentRepository,
               certificationCandidateRepository,
             });
 
@@ -105,7 +107,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
                 firstName,
                 lastName,
                 birthdate,
-                sessionRepository,
+                sessionEnrolmentRepository,
                 certificationCandidateRepository,
               });
 
@@ -148,7 +150,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
                   firstName,
                   lastName,
                   birthdate,
-                  sessionRepository,
+                  sessionEnrolmentRepository,
                   certificationCandidateRepository,
                   certificationCenterRepository,
                 });
@@ -186,7 +188,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
                   firstName,
                   lastName,
                   birthdate,
-                  sessionRepository,
+                  sessionEnrolmentRepository,
                   certificationCandidateRepository,
                   certificationCenterRepository,
                 });
@@ -230,7 +232,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
                   firstName,
                   lastName,
                   birthdate,
-                  sessionRepository,
+                  sessionEnrolmentRepository,
                   certificationCandidateRepository,
                   certificationCenterRepository,
                 });
@@ -273,7 +275,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
                   firstName,
                   lastName,
                   birthdate,
-                  sessionRepository,
+                  sessionEnrolmentRepository,
                   certificationCandidateRepository,
                   certificationCenterRepository,
                 });
@@ -344,7 +346,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
                 firstName,
                 lastName,
                 birthdate,
-                sessionRepository,
+                sessionEnrolmentRepository,
                 certificationCandidateRepository,
                 organizationLearnerRepository,
                 certificationCenterRepository,
@@ -418,7 +420,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
                   firstName,
                   lastName,
                   birthdate,
-                  sessionRepository,
+                  sessionEnrolmentRepository,
                   certificationCandidateRepository,
                   organizationLearnerRepository,
                   certificationCenterRepository,
@@ -498,7 +500,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
                   firstName,
                   lastName,
                   birthdate,
-                  sessionRepository,
+                  sessionEnrolmentRepository,
                   certificationCandidateRepository,
                   organizationLearnerRepository,
                   certificationCenterRepository,
@@ -567,7 +569,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
               firstName,
               lastName,
               birthdate,
-              sessionRepository,
+              sessionEnrolmentRepository,
               certificationCandidateRepository,
               certificationCenterRepository,
               organizationRepository,
@@ -587,10 +589,10 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
   context('when the session is V3', function () {
     context('when the user language is not available', function () {
       it('should throw a language not supported error', async function () {
-        const sessionRepository = {
+        const sessionEnrolmentRepository = {
           get: sinon.stub(),
         };
-        sessionRepository.get.withArgs({ id: 42 }).resolves(domainBuilder.buildSession({ version: 3 }));
+        sessionEnrolmentRepository.get.withArgs({ id: 42 }).resolves(domainBuilder.buildSession({ version: 3 }));
         const userRepository = {
           get: sinon.stub(),
         };
@@ -610,7 +612,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
           firstName,
           lastName,
           birthdate,
-          sessionRepository,
+          sessionEnrolmentRepository,
           userRepository,
           languageService,
         });
