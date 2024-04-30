@@ -28,6 +28,7 @@ import { CampaignForCreation } from '../../../src/prescription/campaign/domain/m
 import { CampaignToStartParticipation } from '../../../src/prescription/campaign-participation/domain/models/CampaignToStartParticipation.js';
 import { OrganizationPlacesLot } from '../../../src/prescription/organization-place/domain/models/OrganizationPlacesLot.js';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../src/prescription/shared/domain/constants.js';
+import { OrganizationsToAttachToTargetProfile } from '../../../src/prescription/target-profile/domain/models/OrganizationsToAttachToTargetProfile.js';
 import { ActivityAnswer } from '../../../src/school/domain/models/ActivityAnswer.js';
 import { AdminMember } from '../../../src/shared/domain/models/AdminMember.js';
 import { AnswerStatus } from '../../../src/shared/domain/models/AnswerStatus.js';
@@ -99,7 +100,6 @@ import { OrganizationInvitation } from './OrganizationInvitation.js';
 import { OrganizationInvitedUser } from './OrganizationInvitedUser.js';
 import { OrganizationLearner } from './OrganizationLearner.js';
 import { OrganizationMemberIdentity } from './OrganizationMemberIdentity.js';
-import { OrganizationsToAttachToTargetProfile } from './OrganizationsToAttachToTargetProfile.js';
 import { OrganizationTag } from './OrganizationTag.js';
 import { ParticipantResultsShared } from './ParticipantResultsShared.js';
 import { PartnerCertificationScoring } from './PartnerCertificationScoring.js';
