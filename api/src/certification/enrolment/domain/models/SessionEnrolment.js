@@ -8,7 +8,7 @@ const availableCharactersForPasswordGeneration =
   `${config.availableCharacterForCode.numbers}${config.availableCharacterForCode.letters}`.split('');
 const NB_CHAR = 5;
 
-class Session {
+class SessionEnrolment {
   constructor({
     id,
     accessCode,
@@ -21,7 +21,7 @@ class Session {
     time,
     certificationCandidates,
     certificationCenterId,
-    supervisorPassword = Session.generateSupervisorPassword(),
+    supervisorPassword = SessionEnrolment.generateSupervisorPassword(),
     version = CertificationVersion.V2,
     createdBy,
     finalizedAt,
@@ -57,7 +57,7 @@ class Session {
   }
 }
 
-export { Session };
+export { SessionEnrolment };
 
 function _randomCharacter() {
   return _.sample(availableCharactersForPasswordGeneration);

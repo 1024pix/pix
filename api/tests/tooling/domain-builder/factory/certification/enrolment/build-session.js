@@ -1,4 +1,4 @@
-import { Session } from '../../../../../../src/certification/enrolment/domain/models/Session.js';
+import { SessionEnrolment } from '../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 
 const buildSession = function ({
   id = 123,
@@ -23,7 +23,7 @@ const buildSession = function ({
   version = 2,
   createdBy = null,
 } = {}) {
-  return new Session({
+  return new SessionEnrolment({
     id,
     accessCode,
     address,

@@ -1,5 +1,5 @@
+import { SessionEnrolment } from '../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import * as serializer from '../../../../../../src/certification/enrolment/infrastructure/serializers/session-serializer.js';
-import { Session } from '../../../../../../src/certification/session/domain/models/Session.js';
 import { SESSION_STATUSES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { expect } from '../../../../../test-helper.js';
 
@@ -39,7 +39,7 @@ describe('Unit | Certification | enrolment | Serializer | session-serializer', f
           },
         },
       };
-      session = new Session({
+      session = new SessionEnrolment({
         id: 12,
         certificationCenterId: 123,
         address: 'Nice',
@@ -54,7 +54,7 @@ describe('Unit | Certification | enrolment | Serializer | session-serializer', f
     });
 
     context('when session does not have a link to an existing certification center', function () {
-      it('should convert a Session model object into JSON API data including supervisor password', function () {
+      it('should convert a SessionEnrolment model object into JSON API data including supervisor password', function () {
         // when
         const json = serializer.serialize({ session });
 
@@ -143,7 +143,7 @@ describe('Unit | Certification | enrolment | Serializer | session-serializer', f
       const session = serializer.deserialize(jsonApiSession);
 
       // then
-      expect(session).to.be.instanceOf(Session);
+      expect(session).to.be.instanceOf(SessionEnrolment);
       expect(session.id).to.equal('12');
       expect(session.certificationCenterId).to.equal(42);
       expect(session.address).to.equal('Nice');

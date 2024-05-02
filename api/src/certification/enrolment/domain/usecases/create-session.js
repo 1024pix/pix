@@ -6,7 +6,7 @@
  */
 
 import { CertificationVersion } from '../../../shared/domain/models/CertificationVersion.js';
-import { Session } from '../models/Session.js';
+import { SessionEnrolment } from '../models/SessionEnrolment.js';
 
 /**
  * @param {Object} params
@@ -33,7 +33,7 @@ const createSession = async function ({
   });
   const version = isV3Pilot ? CertificationVersion.V3 : CertificationVersion.V2;
 
-  const domainSession = new Session({
+  const domainSession = new SessionEnrolment({
     ...session,
     accessCode,
     certificationCenter: certificationCenterName,

@@ -8,7 +8,7 @@ import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { CertificationCandidate } from '../../../../../lib/domain/models/index.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { CertificationVersion } from '../../../shared/domain/models/CertificationVersion.js';
-import { Session } from '../models/Session.js';
+import { SessionEnrolment } from '../models/SessionEnrolment.js';
 
 /**
  * @param {Object} params
@@ -78,7 +78,7 @@ function _hasCandidates(certificationCandidates) {
 }
 
 async function _saveNewSessionReturningId({ sessionRepository, sessionDTO, domainTransaction, isV3Pilot }) {
-  const sessionToSave = new Session({
+  const sessionToSave = new SessionEnrolment({
     ...sessionDTO,
     version: isV3Pilot ? CertificationVersion.V3 : CertificationVersion.V2,
   });

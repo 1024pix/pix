@@ -1,7 +1,7 @@
 import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 import { CertificationCenter } from '../../../../../../lib/domain/models/CertificationCenter.js';
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
-import { Session } from '../../../../../../src/certification/enrolment/domain/models/Session.js';
+import { SessionEnrolment } from '../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import { createSessions } from '../../../../../../src/certification/enrolment/domain/usecases/create-sessions.js';
 import { CertificationVersion } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
@@ -88,7 +88,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           });
 
           // then
-          const expectedSession = new Session({ ...temporaryCachedSessions[0], createdBy: sessionCreatorId });
+          const expectedSession = new SessionEnrolment({ ...temporaryCachedSessions[0], createdBy: sessionCreatorId });
           expect(sessionRepository.save).to.have.been.calledOnceWith({ session: expectedSession, domainTransaction });
           expect(certificationCandidateRepository.saveInSession).to.not.have.been.called;
         });
@@ -133,7 +133,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           });
 
           // then
-          const expectedSession = new Session({ ...temporaryCachedSessions[0], createdBy: sessionCreatorId });
+          const expectedSession = new SessionEnrolment({ ...temporaryCachedSessions[0], createdBy: sessionCreatorId });
           expect(sessionRepository.save).to.have.been.calledOnceWith({ session: expectedSession, domainTransaction });
           expect(certificationCandidateRepository.saveInSession).to.have.been.calledOnceWith({
             sessionId: 1234,
@@ -181,7 +181,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           });
 
           // then
-          const expectedSession = new Session({
+          const expectedSession = new SessionEnrolment({
             ...temporaryCachedSessions[0],
             version: CertificationVersion.V3,
             createdBy: sessionCreatorId,
@@ -229,7 +229,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           });
 
           // then
-          const expectedSession = new Session({
+          const expectedSession = new SessionEnrolment({
             ...temporaryCachedSessions[0],
             version: CertificationVersion.V2,
             createdBy: sessionCreatorId,
