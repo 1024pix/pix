@@ -7,7 +7,6 @@ import * as queryParamsUtils from '../../../src/shared/infrastructure/utils/quer
 import { usecases } from '../../domain/usecases/index.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import * as organizationSerializer from '../../infrastructure/serializers/jsonapi/organization-serializer.js';
-import * as targetProfileAttachOrganizationSerializer from '../../infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer.js';
 import * as targetProfileForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-for-admin-serializer.js';
 import * as targetProfileSerializer from '../../infrastructure/serializers/jsonapi/target-profile-serializer.js';
 import * as targetProfileSummaryForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
@@ -44,16 +43,6 @@ const findPaginatedFilteredTargetProfileOrganizations = async function (request)
     page: options.page,
   });
   return organizationSerializer.serialize(organizations, pagination);
-};
-
-const attachOrganizations = async function (request, h, dependencies = { targetProfileAttachOrganizationSerializer }) {
-  const organizationIds = request.payload['organization-ids'];
-  const targetProfileId = request.params.id;
-  const results = await usecases.attachOrganizationsToTargetProfile({ targetProfileId, organizationIds });
-
-  return h
-    .response(dependencies.targetProfileAttachOrganizationSerializer.serialize({ ...results, targetProfileId }))
-    .code(200);
 };
 
 const updateTargetProfile = async function (request, h) {
@@ -132,7 +121,6 @@ const targetProfileController = {
   findPaginatedFilteredTargetProfileSummariesForAdmin,
   getTargetProfileForAdmin,
   findPaginatedFilteredTargetProfileOrganizations,
-  attachOrganizations,
   updateTargetProfile,
   outdateTargetProfile,
   createTargetProfile,

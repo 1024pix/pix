@@ -51,7 +51,6 @@ import * as campaignParticipationBCRepository from '../../../src/prescription/ca
 import * as campaignProfileRepository from '../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-profile-repository.js';
 import * as supOrganizationLearnerRepository from '../../../src/prescription/learner-management/infrastructure/repositories/sup-organization-learner-repository.js';
 import * as organizationLearnerActivityRepository from '../../../src/prescription/organization-learner/infrastructure/repositories/organization-learner-activity-repository.js';
-import * as organizationsToAttachToTargetProfileRepository from '../../../src/prescription/target-profile/infrastructure/repositories/organizations-to-attach-to-target-profile-repository.js';
 import * as activityAnswerRepository from '../../../src/school/infrastructure/repositories/activity-answer-repository.js';
 import * as missionRepository from '../../../src/school/infrastructure/repositories/mission-repository.js';
 import * as schoolRepository from '../../../src/school/infrastructure/repositories/school-repository.js';
@@ -310,7 +309,6 @@ const dependencies = {
   organizationLearnerRepository,
   organizationMemberIdentityRepository,
   organizationRepository,
-  organizationsToAttachToTargetProfileRepository,
   organizationTagRepository,
   organizationValidator,
   participantResultRepository,
