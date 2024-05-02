@@ -17,6 +17,7 @@ describe('Unit | Devcomp | Domain | Models | Grain', function () {
       // then
       expect(grain.id).to.equal(id);
       expect(grain.title).to.equal(title);
+      // ToDo PIX-12363 migrate to components
       expect(grain.elements).to.have.length(elements.length);
       expect(grain.components).to.have.length(components.length);
     });
@@ -35,6 +36,7 @@ describe('Unit | Devcomp | Domain | Models | Grain', function () {
 
     describe('if a grain does not have components', function () {
       it('should not throw an error', function () {
+        // ToDo PIX-12363 migrate to components
         expect(() => new Grain({ id: 1, title: 'Les adresses mail', elements: [] })).not.to.throw();
       });
     });
@@ -55,6 +57,7 @@ describe('Unit | Devcomp | Domain | Models | Grain', function () {
               new Grain({
                 id: 'id_grain_1',
                 title: 'Bien écrire son adresse mail',
+                // ToDo PIX-12363 migrate to components
                 elements: 'elements',
               }),
           ).to.throw(`A grain should have a list of elements`);
@@ -70,6 +73,7 @@ describe('Unit | Devcomp | Domain | Models | Grain', function () {
               new Grain({
                 id: 'id_grain_1',
                 title: 'Bien écrire son adresse mail',
+                // ToDo PIX-12363 migrate to components
                 elements: [],
                 components: 'components',
               }),
@@ -86,6 +90,7 @@ describe('Unit | Devcomp | Domain | Models | Grain', function () {
       const expectedElement = { id: elementId };
 
       // when
+      // ToDo PIX-12363 migrate to components
       const grain = new Grain({ id: 1, title: '', elements: [expectedElement] });
 
       // then
@@ -97,6 +102,7 @@ describe('Unit | Devcomp | Domain | Models | Grain', function () {
       const elementId = 'elementId';
       const expectedElement = { id: elementId };
 
+      // ToDo PIX-12363 migrate to components
       const grain = new Grain({ id: 1, title: '', elements: [expectedElement] });
 
       // when

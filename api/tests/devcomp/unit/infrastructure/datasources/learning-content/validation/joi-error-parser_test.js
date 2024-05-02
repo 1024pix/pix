@@ -22,6 +22,7 @@ describe('Unit | Infrastructure | Datasources | Learning Content | Module Dataso
           },
         },
         {
+          // ToDo PIX-12363 migrate to components
           message: '"grains[0].elements[0]" does not match any of the allowed types',
           path: ['grains', 0, 'elements', 0],
           type: 'alternatives.any',

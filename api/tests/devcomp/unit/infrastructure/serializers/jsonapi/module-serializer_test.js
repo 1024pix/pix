@@ -90,6 +90,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
             id: '1',
             title: 'Grain 1',
             type: 'activity',
+            // ToDo PIX-12363 migrate to components
             elements: getElements(),
           },
         ],
@@ -118,6 +119,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
           {
             attributes: {
               title: 'Grain 1',
+              // ToDo PIX-12363 migrate to components
               elements: getAttributesElements(),
               type: 'activity',
             },
@@ -168,6 +170,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
             id: '1',
             title: 'Grain 1',
             type: 'activity',
+            // ToDo PIX-12363 migrate to components
             elements: getElements(),
             components: getElements().map((element) => ({ element: element, type: 'element' })),
           },
@@ -197,6 +200,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
           {
             attributes: {
               title: 'Grain 1',
+              // ToDo PIX-12363 migrate to components
               elements: getAttributesElements(),
               components: getAttributesElements().map((element) => ({ element: element, type: 'element' })),
               type: 'activity',

@@ -17,6 +17,7 @@ class Grain {
   }
 
   getElementById(elementId) {
+    // ToDo PIX-12363 migrate to components
     const foundElement = this.elements.find(({ id }) => id === elementId);
 
     if (foundElement === undefined) {

@@ -38,6 +38,7 @@ const grainSchema = Joi.object({
   id: uuidSchema,
   type: Joi.string().valid('lesson', 'activity').required(),
   title: htmlNotAllowedSchema.required(),
+  // ToDo PIX-12363 migrate to components
   elements: Joi.array().items(elementSchema).required(),
   components: Joi.array().items(
     Joi.object({

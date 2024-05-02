@@ -50,6 +50,7 @@ class Module {
         details: new Details(moduleData.details),
         grains: moduleData.grains.map((grain) => {
           if (grain.components) {
+            // ToDo PIX-12363 migrate to components
             if (!grain.elements) {
               throw new Error('Elements should always be provided');
             }
@@ -128,6 +129,7 @@ class Module {
             id: grain.id,
             title: grain.title,
             type: grain.type,
+            // ToDo PIX-12363 migrate to components
             elements: grain.elements
               .map((element) => {
                 switch (element.type) {
@@ -177,6 +179,7 @@ class Module {
 
   getGrainByElementId(elementId) {
     const foundGrain = this.grains.find((grain) => {
+      // ToDo PIX-12363 migrate to components
       const isElementFound = grain.elements.some((element) => element.id === elementId);
 
       return isElementFound;

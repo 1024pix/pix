@@ -10,6 +10,7 @@ describe('Integration | Devcomp | Domain | Models | Module', function () {
       const grain = new Grain({
         id: '1',
         title: 'Le format des adresses email',
+        // ToDo PIX-12363 migrate to components
         elements: [new Text({ id: 'id', content: 'content' })],
       });
       const id = '1';

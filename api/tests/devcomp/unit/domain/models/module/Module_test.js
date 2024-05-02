@@ -99,6 +99,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
         const slug = 'les-adresses-email';
         const title = 'Les adresses email';
         const element = { id: elementId };
+        // ToDo PIX-12363 migrate to components
         const expectedGrain = { elements: [element] };
         const details = Symbol('details');
 
@@ -118,6 +119,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
         const slug = 'les-adresses-email';
         const title = 'Les adresses email';
         const element = { id: elementId };
+        // ToDo PIX-12363 migrate to components
         const grain = { elements: [element] };
         const details = Symbol('details');
         const module = new Module({ id, slug, title, grains: [grain], details });
@@ -201,6 +203,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
               id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
               type: 'lesson',
               title: 'title',
+              // ToDo PIX-12363 migrate to components
               elements: [
                 {
                   id: '84726001-1665-457d-8f13-4a74dc4768ea',
@@ -240,6 +243,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
               id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
               type: 'lesson',
               title: 'title',
+              // ToDo PIX-12363 migrate to components
               elements: [
                 {
                   id: '84726001-1665-457d-8f13-4a74dc4768ea',
@@ -281,6 +285,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
               id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
               type: 'lesson',
               title: 'title',
+              // ToDo PIX-12363 migrate to components
               elements: [
                 {
                   id: '8d7687c8-4a02-4d7e-bf6c-693a6d481c78',
@@ -319,6 +324,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
               id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
               type: 'lesson',
               title: 'title',
+              // ToDo PIX-12363 migrate to components
               elements: [
                 {
                   id: '84726001-1665-457d-8f13-4a74dc4768ea',
@@ -355,6 +361,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
               id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
               type: 'lesson',
               title: 'title',
+              // ToDo PIX-12363 migrate to components
               elements: [
                 {
                   id: '3a9f2269-99ba-4631-b6fd-6802c88d5c26',
@@ -394,6 +401,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
               id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
               type: 'lesson',
               title: 'title',
+              // ToDo PIX-12363 migrate to components
               elements: [
                 {
                   id: 'ba78dead-a806-4954-b408-e8ef28d28fab',
@@ -447,6 +455,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
               id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
               type: 'lesson',
               title: 'title',
+              // ToDo PIX-12363 migrate to components
               elements: [
                 {
                   id: '30701e93-1b4d-4da4-b018-fa756c07d53f',
@@ -510,6 +519,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
               id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
               type: 'lesson',
               title: 'title',
+              // ToDo PIX-12363 migrate to components
               elements: [
                 {
                   id: '98c51fa7-03b7-49b1-8c5e-49341d35909c',
@@ -589,6 +599,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
               id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
               type: 'lesson',
               title: 'title',
+              // ToDo PIX-12363 migrate to components
               elements: [
                 {
                   id: '84726001-1665-457d-8f13-4a74dc4768ea',
@@ -641,6 +652,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
               id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
               type: 'lesson',
               title: 'title',
+              // ToDo PIX-12363 migrate to components
               elements: [
                 {
                   id: '84726001-1665-457d-8f13-4a74dc4768ea',
@@ -732,6 +744,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
               id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
               type: 'lesson',
               title: 'title',
+              // ToDo PIX-12363 migrate to components
               elements: [
                 {
                   id: '84726001-1665-457d-8f13-4a74dc4768ea',
@@ -762,6 +775,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
         expect(module).to.be.an.instanceOf(Module);
         expect(module.grains).not.to.be.empty;
         for (const grain of module.grains) {
+          // ToDo PIX-12363 migrate to components
           expect(grain.elements).not.to.be.empty;
           expect(grain.components).not.to.be.empty;
         }
@@ -785,6 +799,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
               id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
               type: 'lesson',
               title: 'title',
+              // ToDo PIX-12363 migrate to components
               elements: [
                 {
                   id: '84726001-1665-457d-8f13-4a74dc4768ea',
@@ -833,6 +848,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
               id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
               type: 'lesson',
               title: 'title',
+              // ToDo PIX-12363 migrate to components
               elements: [
                 {
                   id: '84726001-1665-457d-8f13-4a74dc4768ea',
@@ -879,6 +895,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
               id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
               type: 'lesson',
               title: 'title',
+              // ToDo PIX-12363 migrate to components
               elements: [
                 {
                   id: '84726001-1665-457d-8f13-4a74dc4768ea',
@@ -928,6 +945,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
               id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
               type: 'lesson',
               title: 'title',
+              // ToDo PIX-12363 migrate to components
               elements: [
                 {
                   id: '84726001-1665-457d-8f13-4a74dc4768ea',
@@ -991,6 +1009,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
               id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
               type: 'lesson',
               title: 'title',
+              // ToDo PIX-12363 migrate to components
               elements: [
                 {
                   id: '84726001-1665-457d-8f13-4a74dc4768ea',
@@ -1064,6 +1083,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
               id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
               type: 'lesson',
               title: 'title',
+              // ToDo PIX-12363 migrate to components
               elements: [
                 {
                   id: '84726001-1665-457d-8f13-4a74dc4768ea',
@@ -1153,6 +1173,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
               id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
               type: 'lesson',
               title: 'title',
+              // ToDo PIX-12363 migrate to components
               elements: [
                 {
                   id: '84726001-1665-457d-8f13-4a74dc4768ea',
@@ -1210,6 +1231,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
               id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
               type: 'lesson',
               title: 'title',
+              // ToDo PIX-12363 migrate to components
               elements: [
                 {
                   id: '84726001-1665-457d-8f13-4a74dc4768ea',
@@ -1281,6 +1303,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
             id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
             type: 'lesson',
             title: 'title',
+            // ToDo PIX-12363 migrate to components
             elements: [
               {
                 id: '123',
