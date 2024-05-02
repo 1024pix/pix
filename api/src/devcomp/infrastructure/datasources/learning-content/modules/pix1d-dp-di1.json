@@ -22,7 +22,7 @@
       "grainId": "6de63cda-85ce-4bc6-83a0-f2f3518d4968"
     },
     {
-      "content": "<p>Voyons si tu as bien compris la vidéo. Réponds à la question suivante.</p>",
+      "content": "<p>Voyons si tu as bien compris/regardé la vidéo. Réponds à la question suivante.</p>",
       "grainId": "494c3c3a-6ffb-46fc-81b9-7eabe5a0227c"
     },
     {
@@ -34,7 +34,7 @@
       "grainId": "2953f145-c489-48d6-9a85-a8ad08f140e2"
     },
     {
-      "content": "<p>Pour résumer, tu peux retenir que : </p>",
+      "content": "<p>Pour résumer. </p>",
       "grainId": "36dacf19-f9e3-4b58-aa64-7705ad488a88"
     }
   ],
@@ -84,12 +84,12 @@
             },
             {
               "id": "2",
-              "content": "un code pour s'inscrire à un concours"
+              "content": "les informations qui te permettent de gagner à un concours"
             }
           ],
           "feedbacks": {
-            "valid": "<p>Bien</p>",
-            "invalid": "<p>Faux. Bla</p>"
+            "valid": "<p>Bravo.</p>",
+            "invalid": "<p>Faux. Une donnée personnelle est une information qui permet de te reconnaître. Regarde à nouveau la vidéo avant de continuer.</p>"
           },
           "solution": "1"
         }
@@ -120,14 +120,14 @@
         {
           "id": "898acddf-c391-4be9-802d-8751a3fba207",
           "type": "image",
-          "url": "https://i.imgur.com/OKmqpQG.png",
+          "url": "https://i.imgur.com/hEYstTc.png",
           "alt": "Formulaire complété de Lucas",
           "alternativeText": ""
         },
         {
           "id": "f127b2ed-b484-4642-95e5-19d5ebdad34e",
           "type": "qcm",
-            "instruction": "<p>Regarde le formulaire que Lucas a rempli? On sait déjà qu'il n'aurait pas dû donner son nom, son prénom et son numéro. Peux-tu retrouver les 2 autres données personnelles qu'il n'aurait pas dû remplir ?</p>",
+            "instruction": "<p>Regarde le formulaire que Lucas a rempli. On sait déjà qu'il a donné son nom, son prénom et son numéro. Peux-tu retrouver les 2 autres données personnelles qu'il a complété ?</p>",
             "proposals": [
               {
                 "id": "1",
@@ -139,7 +139,7 @@
               },
               {
                 "id": "3",
-                "content": "Numéro de téléphone"
+                "content": "Jeu vidéo préféré"
               },
               {
                 "id": "4",
@@ -162,10 +162,8 @@
       "elements": [
         {
           "id": "ac20206e-bb77-47e3-9b0e-94074643d2bd",
-          "type": "image",
-          "url": "https://i.imgur.com/q4RLhSk.png",
-          "alt": "Image décrite dans l'alternative textuelle",
-          "alternativeText": "<p>Pour résumer</p>"
+          "type": "text",
+          "content": "<h3>Tu peux retenir que &nbsp;:</h3><ul><li>Tes données personnelles, ce sont toutes les informations qui permettent de te reconnaître, de t'identifier. <br></li>"
         }
       ]
     }
