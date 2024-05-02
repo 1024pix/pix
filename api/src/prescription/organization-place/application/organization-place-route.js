@@ -124,10 +124,6 @@ const register = async (server) => {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserIsAdminInOrganization,
-            assign: 'isAdminInOrganization',
-          },
-          {
             method: securityPreHandlers.makeCheckOrganizationHasFeature(ORGANIZATION_FEATURE.PLACES_MANAGEMENT.key),
             assign: 'checkOrganizationHasPlacesFeature',
           },
