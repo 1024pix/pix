@@ -102,11 +102,15 @@ module('Unit | Route | authenticated/certifications', function (hooks) {
         });
       }
 
+      const findRecordStub = sinon.stub();
+      class StoreStub extends Service {
+        findRecord = findRecordStub;
+      }
+
       this.owner.register('service:current-user', CurrentUserStub);
+      this.owner.register('service:store', StoreStub);
 
       const route = this.owner.lookup('route:authenticated/certifications');
-      const findRecordStub = sinon.stub();
-      route.store.findRecord = findRecordStub;
 
       // when
       const actualOptions = await route.model();
