@@ -1,16 +1,16 @@
 import { NotFoundError } from '../../../../../../lib/domain/errors.js';
-import { Session } from '../../../../../../src/certification/enrolment/domain/models/Session.js';
+import { SessionEnrolment } from '../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import * as sessionRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/session-repository.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 
-describe('Integration | Repository | certification | enrolment | Session', function () {
+describe('Integration | Repository | certification | enrolment | SessionEnrolment', function () {
   describe('#save', function () {
     let session, certificationCenter, sessionCreator;
 
     beforeEach(async function () {
       certificationCenter = databaseBuilder.factory.buildCertificationCenter({});
       sessionCreator = databaseBuilder.factory.buildUser({});
-      session = new Session({
+      session = new SessionEnrolment({
         certificationCenter: certificationCenter.name,
         certificationCenterId: certificationCenter.id,
         address: 'Nice',
@@ -49,9 +49,9 @@ describe('Integration | Repository | certification | enrolment | Session', funct
       const savedSession = await sessionRepository.save({ session });
 
       // then
-      expect(savedSession).to.be.an.instanceOf(Session);
+      expect(savedSession).to.be.an.instanceOf(SessionEnrolment);
       expect(savedSession).to.have.property('id').and.not.null;
-      expect(savedSession).to.deepEqualInstance(new Session({ ...session, id: savedSession.id }));
+      expect(savedSession).to.deepEqualInstance(new SessionEnrolment({ ...session, id: savedSession.id }));
     });
   });
 
@@ -94,7 +94,7 @@ describe('Integration | Repository | certification | enrolment | Session', funct
       const actualSession = await sessionRepository.get({ id: session.id });
 
       // then
-      expect(actualSession).to.be.instanceOf(Session);
+      expect(actualSession).to.be.instanceOf(SessionEnrolment);
       expect(actualSession, 'date').to.deep.includes(expectedSessionValues);
     });
 
@@ -129,7 +129,7 @@ describe('Integration | Repository | certification | enrolment | Session', funct
       const sessionSaved = await sessionRepository.updateSessionInfo({ session });
 
       // then
-      expect(sessionSaved).to.be.an.instanceof(Session);
+      expect(sessionSaved).to.be.an.instanceof(SessionEnrolment);
     });
 
     it('should update model in database', async function () {

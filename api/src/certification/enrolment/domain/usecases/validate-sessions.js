@@ -5,7 +5,7 @@
 import bluebird from 'bluebird';
 
 import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
-import { Session } from '../models/Session.js';
+import { SessionEnrolment } from '../models/SessionEnrolment.js';
 import { SessionMassImportReport } from '../models/SessionMassImportReport.js';
 
 /**
@@ -45,7 +45,7 @@ const validateSessions = async function ({
     const { sessionId } = sessionDTO;
 
     const accessCode = sessionCodeService.getNewSessionCode();
-    const session = new Session({
+    const session = new SessionEnrolment({
       ...sessionDTO,
       id: sessionId,
       certificationCenterId,

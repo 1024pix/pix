@@ -1,7 +1,7 @@
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../lib/domain/constants/certification-candidates-errors.js';
 import { CERTIFICATION_SESSIONS_ERRORS } from '../../../../../../lib/domain/constants/sessions-errors.js';
 import { CertificationCandidate } from '../../../../../../lib/domain/models/index.js';
-import { Session } from '../../../../../../src/certification/enrolment/domain/models/Session.js';
+import { SessionEnrolment } from '../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import { SessionMassImportReport } from '../../../../../../src/certification/enrolment/domain/models/SessionMassImportReport.js';
 import { CpfBirthInformationValidation } from '../../../../../../src/certification/enrolment/domain/services/certification-cpf-service.js';
 import { validateSessions } from '../../../../../../src/certification/enrolment/domain/usecases/validate-sessions.js';
@@ -104,7 +104,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
 
       // then
       const expectedSessions = [
-        new Session({
+        new SessionEnrolment({
           ...sessions[0],
           certificationCenterId,
           certificationCenter: certificationCenterName,
@@ -130,7 +130,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           ],
           supervisorPassword: sinon.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/),
         }),
-        new Session({
+        new SessionEnrolment({
           ...sessions[1],
           certificationCenterId,
           certificationCenter: certificationCenterName,
@@ -240,7 +240,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
 
         // then
         const expectedSessions = [
-          new Session({
+          new SessionEnrolment({
             ...sessions[0],
             id: 1234,
             certificationCenterId,
@@ -251,7 +251,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
               new CertificationCandidate({ ...candidate1, sessionId: 1234, billingMode: 'FREE' }),
             ],
           }),
-          new Session({
+          new SessionEnrolment({
             ...sessions[1],
             id: 1235,
             certificationCenterId,

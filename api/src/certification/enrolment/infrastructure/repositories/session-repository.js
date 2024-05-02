@@ -4,14 +4,14 @@ import { knex } from '../../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { CertificationCenter } from '../../../../../lib/domain/models/CertificationCenter.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { Session } from '../../domain/models/Session.js';
+import { SessionEnrolment } from '../../domain/models/SessionEnrolment.js';
 
 const save = async function ({ session, domainTransaction = DomainTransaction.emptyTransaction() }) {
   const knexConn = domainTransaction.knexTransaction ?? knex;
   session = _.omit(session, ['certificationCandidates']);
   const [savedSession] = await knexConn('sessions').insert(session).returning('*');
 
-  return new Session(savedSession);
+  return new SessionEnrolment(savedSession);
 };
 
 const get = async function ({ id }) {
@@ -19,7 +19,7 @@ const get = async function ({ id }) {
   if (!foundSession) {
     throw new NotFoundError("La session n'existe pas ou son accès est restreint");
   }
-  return new Session({ ...foundSession });
+  return new SessionEnrolment({ ...foundSession });
 };
 
 const isSessionExistingByCertificationCenterId = async function ({ address, room, date, time, certificationCenterId }) {
@@ -44,7 +44,7 @@ const updateSessionInfo = async function ({ session }) {
   ]);
 
   const [updatedSession] = await knex('sessions').where({ id: session.id }).update(sessionDataToUpdate).returning('*');
-  return new Session(updatedSession);
+  return new SessionEnrolment(updatedSession);
 };
 
 const isSco = async function ({ id }) {

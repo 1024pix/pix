@@ -1,7 +1,7 @@
 import jsonapiSerializer from 'jsonapi-serializer';
 import _ from 'lodash';
 
-import { Session } from '../../domain/models/Session.js';
+import { SessionEnrolment } from '../../domain/models/SessionEnrolment.js';
 
 const { Serializer } = jsonapiSerializer;
 
@@ -64,7 +64,7 @@ const serialize = function ({ session, hasSupervisorAccess, hasSomeCleaAcquired 
 const deserialize = function (json) {
   const attributes = json.data.attributes;
 
-  const result = new Session({
+  const result = new SessionEnrolment({
     id: json.data.id,
     certificationCenterId: attributes['certification-center-id'],
     address: attributes.address,
@@ -80,7 +80,7 @@ const deserialize = function (json) {
   });
 
   if (_.isEmpty(_.trim(result.examinerGlobalComment))) {
-    result.examinerGlobalComment = Session.NO_EXAMINER_GLOBAL_COMMENT;
+    result.examinerGlobalComment = SessionEnrolment.NO_EXAMINER_GLOBAL_COMMENT;
   }
 
   return result;

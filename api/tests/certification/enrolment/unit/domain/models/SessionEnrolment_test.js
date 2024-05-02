@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { Session } from '../../../../../../src/certification/enrolment/domain/models/Session.js';
+import { SessionEnrolment } from '../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 const SESSION_PROPS = [
@@ -21,11 +21,11 @@ const SESSION_PROPS = [
   'canEnrolCandidate',
 ];
 
-describe('Unit | Certification | Enrolment | Domain | Models | Session', function () {
+describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment', function () {
   let session;
 
   beforeEach(function () {
-    session = new Session({
+    session = new SessionEnrolment({
       id: 'id',
       accessCode: '',
       address: '',
@@ -44,8 +44,8 @@ describe('Unit | Certification | Enrolment | Domain | Models | Session', functio
     });
   });
 
-  it('should create an object of the Session type', function () {
-    expect(session).to.be.instanceOf(Session);
+  it('should create an object of the SessionEnrolment type', function () {
+    expect(session).to.be.instanceOf(SessionEnrolment);
   });
 
   it('should create a session with all the requires properties', function () {
@@ -80,7 +80,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | Session', functio
     it('should return a supervisor password containing 5 digits/letters except 0, 1 and vowels', async function () {
       // given
       // when
-      const supervisorPassword = Session.generateSupervisorPassword();
+      const supervisorPassword = SessionEnrolment.generateSupervisorPassword();
 
       // then
       expect(supervisorPassword).to.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/);

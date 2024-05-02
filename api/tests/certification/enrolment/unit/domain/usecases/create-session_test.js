@@ -1,4 +1,4 @@
-import { Session } from '../../../../../../src/certification/enrolment/domain/models/Session.js';
+import { SessionEnrolment } from '../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import { createSession } from '../../../../../../src/certification/enrolment/domain/usecases/create-session.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
@@ -74,7 +74,7 @@ describe('Unit | UseCase | create-session', function () {
         });
 
         // then
-        const expectedSession = new Session({
+        const expectedSession = new SessionEnrolment({
           certificationCenterId,
           certificationCenter: certificationCenterName,
           accessCode,
@@ -110,7 +110,7 @@ describe('Unit | UseCase | create-session', function () {
           });
 
           // then
-          const expectedSession = new Session({
+          const expectedSession = new SessionEnrolment({
             certificationCenterId,
             certificationCenter: certificationCenterName,
             accessCode,
