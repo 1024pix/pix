@@ -1,10 +1,7 @@
 .challenge-actions {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
-  max-width: 850px;
   margin: 16px auto;
-  padding: 0 30px;
 
   button:only-child {
     margin-left: auto;

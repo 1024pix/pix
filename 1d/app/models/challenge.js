@@ -49,4 +49,8 @@ export default class Challenge extends Model {
   get isQCM() {
     return this.autoReply === false && (this.type === 'QCM' || this.type === 'QCMIMG');
   }
+
+  get hasForm() {
+    return this.autoReply === false;
+  }
 }

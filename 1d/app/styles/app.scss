@@ -23,32 +23,11 @@ b {
 }
 
 .app {
-  display: flex;
-  flex-direction: column;
-
-  // Simuler l'affichage d'une tablette
-  max-width: 1194px;
-  min-height: 100vh;
-  margin: auto 10%;
-
-  @include device-is('large-screen') {
-    margin: auto;
-  }
+  margin: 32px 95px;
+  max-width: 1730px;
 }
 
-footer {
-  margin-top: auto;
-  margin-bottom: 32px;
-  margin-left: 32px;
-  text-align: start;
-
-  img {
-    width: 128px;
-  }
-}
-
-
-@media screen and (width <= 800px) {
+@media screen and (width <= 1194px) {
   .issue {
     .robot-speaking {
       margin-inline-start: unset;
@@ -60,8 +39,22 @@ footer {
   }
 
   .robot-speaking {
-      &__logo {
-        width: 106px;
-      }
+    &__logo {
+      width: 106px;
+      margin-right: 16px;
+    }
+  }
+  .challenge-item {
+    margin: 0 146px;
+  }
+  .app {
+    margin: 32px 80px;
   }
 }
+
+@media screen and (width > 1920px) {
+  .app {
+    margin: 32px auto;
+  }
+}
+

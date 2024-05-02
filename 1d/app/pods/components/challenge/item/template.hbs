@@ -1,5 +1,5 @@
-<div class="challenge-item">
-  <div class="challenge-item__playground">
+<div class="challenge-item {{unless this.isMediaWithForm 'challenge-item--single-display'}}">
+  <div class="challenge-item__media {{unless this.isMediaWithForm 'challenge-item__media--single-display'}}">
     {{#if @challenge.illustrationUrl}}
       <div class="challenge-item__image">
         <Challenge::ChallengeIllustration @src={{@challenge.illustrationUrl}} @alt={{@challenge.illustrationAlt}} />
@@ -14,6 +14,8 @@
         />
       </div>
     {{/if}}
+  </div>
+  <div class="challenge-item__proposals {{unless this.isMediaWithForm 'challenge-item__proposals--single-display'}}">
     {{#if @challenge.autoReply}}
       <div class="challenge-item__autoreply">
         <Challenge::ChallengeItemAutoReply @setAnswerValue={{@setAnswerValue}} />
@@ -42,5 +44,15 @@
         />
       </div>
     {{/if}}
+    <div class="container__actions">
+      <Challenge::ChallengeActions
+        @validateAnswer={{@validateAnswer}}
+        @skipChallenge={{@skipChallenge}}
+        @level={{@activity.level}}
+        @nextAction={{@resume}}
+        @disableCheckButton={{@disableCheckButton}}
+        @answerHasBeenValidated={{@answerHasBeenValidated}}
+      />
+    </div>
   </div>
 </div>

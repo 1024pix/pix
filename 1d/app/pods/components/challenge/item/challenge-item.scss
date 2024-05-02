@@ -1,28 +1,32 @@
-.modal-footer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  justify-content: flex-end;
-  margin-bottom: 16px
-}
-
 .challenge-item {
   display: flex;
-  flex-direction: column;
-  max-width: 860px;
-  margin: 0 auto 80px;
+  align-content: center;
+  margin: 0 152px;
 
-  &__playground {
-    display: flex;
-    flex-flow: row wrap;
-    flex-grow: 1;
-    align-content: center;
-    justify-content: space-evenly;
+  @include device-is('tablet') {
+    margin: 0 122px;
   }
 
-  &__image, &__qrocm {
-    display: flex;
-    width: 49%;
+  &--single-display {
+    flex-direction: column;
+  }
+
+  &__media {
+    width: 60%;
+    margin-right: var(--pix-spacing-6x);
+
+    &--single-display {
+      width: unset;
+      margin-right: unset;
+    }
+  }
+
+  &__proposals {
+    width: 40%;
+
+    &--single-display {
+      width: unset;
+    }
   }
 
   &__qrocm {
@@ -34,8 +38,6 @@
     display: flex;
     justify-content: center;
     width: 100%;
-    padding-right: 50px;
-    padding-left: 50px;
   }
 
   &__autoreply {
