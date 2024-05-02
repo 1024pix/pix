@@ -345,68 +345,30 @@ function sendAccountRecoveryEmail({ email, firstName, temporaryKey }) {
 }
 
 function sendVerificationCodeEmail({ code, email, locale, translate }) {
+  const currentLocale = locale ?? FRENCH_FRANCE;
+  const localeParams = LOCALE_TEMPLATE_PARAMS[currentLocale];
+
   const options = {
     from: EMAIL_ADDRESS_NO_RESPONSE,
-    fromName: frTranslations['email-sender-name']['pix-app'],
+    fromName: localeParams.translation['email-sender-name']['pix-app'],
     to: email,
     template: mailer.emailVerificationCodeTemplateId,
     tags: [EMAIL_VERIFICATION_CODE_TAG],
+    subject: translate(
+      {
+        phrase: 'verification-code-email.subject',
+        locale: currentLocale === FRENCH_FRANCE ? 'fr' : currentLocale,
+      },
+      { code },
+    ),
+    variables: {
+      code,
+      homeName: localeParams.homeName,
+      homeUrl: localeParams.homeUrl,
+      displayNationalLogo: localeParams.displayNationalLogo,
+      ...localeParams.translation['verification-code-email'].body,
+    },
   };
-
-  if (locale === FRENCH_SPOKEN) {
-    options.subject = translate({ phrase: 'verification-code-email.subject', locale: 'fr' }, { code });
-
-    options.variables = {
-      code,
-      homeName: PIX_HOME_NAME_INTERNATIONAL,
-      homeUrl: `${config.domain.pix + config.domain.tldOrg}/fr/`,
-      displayNationalLogo: false,
-      ...frTranslations['verification-code-email'].body,
-    };
-  } else if (locale === FRENCH_FRANCE) {
-    options.subject = translate({ phrase: 'verification-code-email.subject', locale: 'fr' }, { code });
-
-    options.variables = {
-      code,
-      homeName: PIX_HOME_NAME_FRENCH_FRANCE,
-      homeUrl: PIX_HOME_URL_FRENCH_FRANCE,
-      displayNationalLogo: true,
-      ...frTranslations['verification-code-email'].body,
-    };
-  } else if (locale === ENGLISH_SPOKEN) {
-    options.subject = translate({ phrase: 'verification-code-email.subject', locale: 'en' }, { code });
-    options.fromName = enTranslations['email-sender-name']['pix-app'];
-
-    options.variables = {
-      code,
-      homeName: PIX_HOME_NAME_INTERNATIONAL,
-      homeUrl: PIX_HOME_URL_INTERNATIONAL_ENGLISH_SPOKEN,
-      displayNationalLogo: false,
-      ...enTranslations['verification-code-email'].body,
-    };
-  } else if (locale === DUTCH_SPOKEN) {
-    options.subject = translate({ phrase: 'verification-code-email.subject', locale: 'nl' }, { code });
-    options.fromName = nlTranslations['email-sender-name']['pix-app'];
-
-    options.variables = {
-      code,
-      homeName: PIX_HOME_NAME_INTERNATIONAL,
-      homeUrl: PIX_HOME_URL_INTERNATIONAL_DUTCH_SPOKEN,
-      displayNationalLogo: false,
-      ...nlTranslations['verification-code-email'].body,
-    };
-  } else if (locale === SPANISH_SPOKEN) {
-    options.subject = translate({ phrase: 'verification-code-email.subject', locale: 'es' }, { code });
-    options.fromName = esTranslations['email-sender-name']['pix-app'];
-
-    options.variables = {
-      code,
-      homeName: PIX_HOME_NAME_INTERNATIONAL,
-      homeUrl: PIX_HOME_URL_INTERNATIONAL_ENGLISH_SPOKEN,
-      displayNationalLogo: false,
-      ...esTranslations['verification-code-email'].body,
-    };
-  }
 
   return mailer.sendEmail(options);
 }
