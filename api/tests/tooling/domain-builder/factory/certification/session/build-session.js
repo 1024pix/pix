@@ -1,4 +1,4 @@
-import { Session } from '../../../../../../src/certification/session/domain/models/Session.js';
+import { SessionManagement } from '../../../../../../src/certification/session/domain/models/SessionManagement.js';
 
 const buildSession = function ({
   id = 123,
@@ -23,7 +23,7 @@ const buildSession = function ({
   version = 2,
   createdBy = null,
 } = {}) {
-  return new Session({
+  return new SessionManagement({
     id,
     accessCode,
     address,
@@ -198,4 +198,4 @@ buildSession.processed = function ({
   });
 };
 
-export { buildSession };
+export { buildSession as buildSessionManagement };

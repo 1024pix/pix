@@ -25,7 +25,7 @@ describe('Unit | UseCase | unpublish-session', function () {
   it('should return the session', async function () {
     // given
     const sessionId = 123;
-    const expectedSession = domainBuilder.buildSession({
+    const expectedSession = domainBuilder.certification.session.buildSession({
       id: sessionId,
       publishedAt: new Date('2020-01-01'),
     });

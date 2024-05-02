@@ -11,7 +11,7 @@ describe('Unit | Controller | session-with-clea-certified-candidate', function (
           id: 1,
         },
       };
-      const session = domainBuilder.buildSession({ id: 1, date: '2021-01-01', time: '14:30' });
+      const session = domainBuilder.certification.session.buildSession({ id: 1, date: '2021-01-01', time: '14:30' });
       const cleaCertifiedCandidates = [
         domainBuilder.buildCleaCertifiedCandidate({ createdAt: new Date('2021-01-01') }),
       ];

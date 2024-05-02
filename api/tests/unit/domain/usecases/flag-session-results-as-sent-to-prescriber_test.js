@@ -1,6 +1,6 @@
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { flagSessionResultsAsSentToPrescriber } from '../../../../lib/domain/usecases/flag-session-results-as-sent-to-prescriber.js';
-import { Session } from '../../../../src/certification/enrolment/domain/models/Session.js';
+import { SessionManagement } from '../../../../src/certification/session/domain/models/SessionManagement.js';
 import { catchErr, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | flag-session-results-as-sent-to-prescriber', function () {
@@ -30,7 +30,7 @@ describe('Unit | UseCase | flag-session-results-as-sent-to-prescriber', function
     });
 
     context('when results are already flagged as sent', function () {
-      const alreadyFlaggedResultsAsSentSession = new Session({ resultsSentToPrescriberAt: new Date() });
+      const alreadyFlaggedResultsAsSentSession = new SessionManagement({ resultsSentToPrescriberAt: new Date() });
 
       it('should return a NON updated session with a flag to indicate that results has already been sent', async function () {
         // given
@@ -56,13 +56,9 @@ describe('Unit | UseCase | flag-session-results-as-sent-to-prescriber', function
       beforeEach(function () {
         updatedSession = Symbol('updatedSession');
         clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-<<<<<<< HEAD
-        notFlaggedSession = new Session({ resultsSentToPrescriberAt: null });
-        sessionEnrolmentRepository.get.withArgs({ id: sessionId }).resolves(notFlaggedSession);
-=======
+
         notFlaggedSession = new SessionManagement({ resultsSentToPrescriberAt: null });
         sessionRepository.get.withArgs({ id: sessionId }).resolves(notFlaggedSession);
->>>>>>> b11622406a (fixup! :truck: api: Split session-repo in session and enrolment)
       });
 
       afterEach(function () {

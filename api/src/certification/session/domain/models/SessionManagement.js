@@ -5,7 +5,7 @@ import { CertificationVersion } from '../../../shared/domain/models/Certificatio
 
 const NO_EXAMINER_GLOBAL_COMMENT = null;
 
-class Session {
+class SessionManagement {
   constructor({
     id,
     accessCode,
@@ -82,4 +82,4 @@ class Session {
   }
 }
 
-export { NO_EXAMINER_GLOBAL_COMMENT, Session };
+export { NO_EXAMINER_GLOBAL_COMMENT, SessionManagement };

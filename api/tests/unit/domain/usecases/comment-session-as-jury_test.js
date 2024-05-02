@@ -11,7 +11,9 @@ describe('Unit | UseCase | comment-session-as-jury', function () {
 
   it('should update the session jury comment', async function () {
     // given
-    const sessionJuryComment = domainBuilder.buildSessionJuryComment({ juryCommentAuthorId: 789 });
+    const sessionJuryComment = domainBuilder.buildSessionJuryComment({
+      juryCommentAuthorId: 789,
+    });
     sessionJuryCommentRepository.get.withArgs(123).resolves(sessionJuryComment);
     const updateSpy = sinon.spy(sessionJuryComment, 'update');
 

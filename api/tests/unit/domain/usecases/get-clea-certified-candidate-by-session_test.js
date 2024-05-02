@@ -12,7 +12,7 @@ describe('Unit | UseCase | getCleaCertifiedCandidateBySession', function () {
 
   it('should return session', async function () {
     // given
-    const expectedSession = domainBuilder.buildSession();
+    const expectedSession = domainBuilder.certification.session.buildSession();
     sessionEnrolmentRepository.get.withArgs({ id: 123 }).resolves(expectedSession);
     cleaCertifiedCandidateRepository.getBySessionId.withArgs(123).resolves([]);
 
