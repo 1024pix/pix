@@ -3,10 +3,6 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { OidcAuthenticationServiceRegistry } from '../../../src/authentication/domain/services/oidc-authentication-service-registry.js';
-import * as pixAuthenticationService from '../../../src/authentication/domain/services/pix-authentication-service.js';
-import * as refreshTokenService from '../../../src/authentication/domain/services/refresh-token-service.js';
-import * as oidcProviderRepository from '../../../src/authentication/infrastructure/repositories/oidc-provider-repository.js';
 import * as complementaryCertificationCourseRepository from '../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-course-repository.js';
 import * as complementaryCertificationRepository from '../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-repository.js';
 import * as targetProfileHistoryRepository from '../../../src/certification/complementary-certification/infrastructure/repositories/target-profile-history-repository.js';
@@ -43,6 +39,10 @@ import * as competenceEvaluationRepository from '../../../src/evaluation/infrast
 import * as stageAcquisitionRepository from '../../../src/evaluation/infrastructure/repositories/stage-acquisition-repository.js';
 import * as stageCollectionForTargetProfileRepository from '../../../src/evaluation/infrastructure/repositories/stage-collection-repository.js';
 import * as stageRepository from '../../../src/evaluation/infrastructure/repositories/stage-repository.js';
+import { OidcAuthenticationServiceRegistry } from '../../../src/identity-access-management/domain/services/oidc-authentication-service-registry.js';
+import * as pixAuthenticationService from '../../../src/identity-access-management/domain/services/pix-authentication-service.js';
+import * as refreshTokenService from '../../../src/identity-access-management/domain/services/refresh-token-service.js';
+import * as oidcProviderRepository from '../../../src/identity-access-management/infrastructure/repositories/oidc-provider-repository.js';
 import * as organizationForAdminRepository from '../../../src/organizational-entities/infrastructure/repositories/organization-for-admin-repository.js';
 import * as campaignManagementRepository from '../../../src/prescription/campaign/infrastructure/repositories/campaign-management-repository.js';
 import * as campaignToJoinRepository from '../../../src/prescription/campaign/infrastructure/repositories/campaign-to-join-repository.js';

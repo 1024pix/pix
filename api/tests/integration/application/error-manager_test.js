@@ -1,9 +1,9 @@
 import * as DomainErrors from '../../../lib/domain/errors.js';
+import { InvalidCertificationReportForFinalization } from '../../../src/certification/shared/domain/errors.js';
 import {
   MissingOrInvalidCredentialsError,
   UserShouldChangePasswordError,
-} from '../../../src/authentication/domain/errors.js';
-import { InvalidCertificationReportForFinalization } from '../../../src/certification/shared/domain/errors.js';
+} from '../../../src/identity-access-management/domain/errors.js';
 import { CampaignParticipationDeletedError } from '../../../src/prescription/campaign-participation/domain/errors.js';
 import {
   CsvImportError,

@@ -1,5 +1,5 @@
 import { knex } from '../../../../db/knex-database-connection.js';
-import { UserLogin } from '../../../authentication/domain/models/UserLogin.js';
+import { UserLogin } from '../../../identity-access-management/domain/models/UserLogin.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 
 const USER_LOGINS_TABLE_NAME = 'user-logins';

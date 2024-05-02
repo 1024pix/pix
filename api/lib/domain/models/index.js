@@ -1,4 +1,3 @@
-import { UserLogin } from '../../../src/authentication/domain/models/UserLogin.js';
 import { ComplementaryCertification } from '../../../src/certification/complementary-certification/domain/models/ComplementaryCertification.js';
 import { CertificationAttestation } from '../../../src/certification/course/domain/models/CertificationAttestation.js';
 import { AssessmentSimulator } from '../../../src/certification/flash-certification/domain/models/AssessmentSimulator.js';
@@ -20,6 +19,7 @@ import { UserSavedTutorial } from '../../../src/devcomp/domain/models/UserSavedT
 import { Answer } from '../../../src/evaluation/domain/models/Answer.js';
 import { CompetenceEvaluation } from '../../../src/evaluation/domain/models/CompetenceEvaluation.js';
 import { Progression } from '../../../src/evaluation/domain/models/Progression.js';
+import { UserLogin } from '../../../src/identity-access-management/domain/models/UserLogin.js';
 import { DataProtectionOfficer } from '../../../src/organizational-entities/domain/models/DataProtectionOfficer.js';
 import { OrganizationForAdmin } from '../../../src/organizational-entities/domain/models/OrganizationForAdmin.js';
 import { CampaignCreator } from '../../../src/prescription/campaign/domain/models/CampaignCreator.js';

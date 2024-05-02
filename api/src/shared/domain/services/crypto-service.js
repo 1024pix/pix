@@ -4,7 +4,7 @@ import util from 'node:util';
 import bcrypt from 'bcrypt';
 
 import { config } from '../../../../src/shared/config.js';
-import { PasswordNotMatching } from '../../../authentication/domain/errors.js';
+import { PasswordNotMatching } from '../../../identity-access-management/domain/errors.js';
 
 const randomBytes = util.promisify(crypto.randomBytes);
 const scrypt = util.promisify(crypto.scrypt);

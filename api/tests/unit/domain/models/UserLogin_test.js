@@ -1,4 +1,4 @@
-import { UserLogin } from '../../../../src/authentication/domain/models/UserLogin.js';
+import { UserLogin } from '../../../../src/identity-access-management/domain/models/UserLogin.js';
 import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | UserLogin', function () {

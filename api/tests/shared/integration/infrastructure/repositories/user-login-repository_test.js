@@ -1,4 +1,4 @@
-import { UserLogin } from '../../../../../src/authentication/domain/models/UserLogin.js';
+import { UserLogin } from '../../../../../src/identity-access-management/domain/models/UserLogin.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import * as userLoginRepository from '../../../../../src/shared/infrastructure/repositories/user-login-repository.js';
 import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
