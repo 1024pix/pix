@@ -8,6 +8,7 @@
 @import 'globals/fonts';
 @import 'globals/colors';
 @import 'globals/buttons';
+@import 'globals/breakpoints';
 
 
 body {
@@ -23,37 +24,17 @@ b {
 }
 
 .app {
-  margin: 32px 95px;
   max-width: 1730px;
-}
 
-@media screen and (width <= 1194px) {
-  .issue {
-    .robot-speaking {
-      margin-inline-start: unset;
-
-      .bubbles {
-        margin-top: 75px;
-      }
-    }
-  }
-
-  .robot-speaking {
-    &__logo {
-      width: 106px;
-      margin-right: 16px;
-    }
-  }
-  .challenge-item {
-    margin: 0 146px;
-  }
-  .app {
+  @include device-is('tablet') {
     margin: 32px 80px;
   }
-}
 
-@media screen and (width > 1920px) {
-  .app {
+  @include device-is('desktop') {
+    margin: 32px 95px;
+  }
+
+  @include device-is('large-screen') {
     margin: 32px auto;
   }
 }
