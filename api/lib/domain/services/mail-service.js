@@ -34,6 +34,7 @@ const LOCALE_TEMPLATE_PARAMS = {
   [ENGLISH_SPOKEN]: {
     homeName: PIX_HOME_NAME_INTERNATIONAL,
     homeUrl: PIX_HOME_URL_INTERNATIONAL_ENGLISH_SPOKEN,
+    resetUrl: `${config.domain.pixApp + config.domain.tldOrg}/changer-mot-de-passe`,
     redirectionUrl: `${config.domain.pixApp + config.domain.tldOrg}/connexion/?lang=en`,
     helpdeskUrl: HELPDESK_ENGLISH_SPOKEN,
     displayNationalLogo: false,
@@ -42,6 +43,7 @@ const LOCALE_TEMPLATE_PARAMS = {
   [FRENCH_FRANCE]: {
     homeName: PIX_HOME_NAME_FRENCH_FRANCE,
     homeUrl: PIX_HOME_URL_FRENCH_FRANCE,
+    resetUrl: `${config.domain.pixApp + config.domain.tldFr}/changer-mot-de-passe`,
     redirectionUrl: `${config.domain.pixApp + config.domain.tldFr}/connexion`,
     helpdeskUrl: HELPDESK_FRENCH_FRANCE,
     displayNationalLogo: true,
@@ -50,6 +52,7 @@ const LOCALE_TEMPLATE_PARAMS = {
   [FRENCH_SPOKEN]: {
     homeName: PIX_HOME_NAME_INTERNATIONAL,
     homeUrl: PIX_HOME_URL_INTERNATIONAL_FRENCH_SPOKEN,
+    resetUrl: `${config.domain.pixApp + config.domain.tldOrg}/changer-mot-de-passe`,
     redirectionUrl: `${config.domain.pixApp + config.domain.tldOrg}/connexion/?lang=fr`,
     helpdeskUrl: HELPDESK_FRENCH_SPOKEN,
     displayNationalLogo: false,
@@ -58,6 +61,7 @@ const LOCALE_TEMPLATE_PARAMS = {
   [DUTCH_SPOKEN]: {
     homeName: PIX_HOME_NAME_INTERNATIONAL,
     homeUrl: PIX_HOME_URL_INTERNATIONAL_DUTCH_SPOKEN,
+    resetUrl: `${config.domain.pixApp + config.domain.tldOrg}/changer-mot-de-passe`,
     redirectionUrl: `${config.domain.pixApp + config.domain.tldOrg}/connexion/?lang=nl`,
     helpdeskUrl: HELPDESK_DUTCH_SPOKEN,
     displayNationalLogo: false,
@@ -66,6 +70,7 @@ const LOCALE_TEMPLATE_PARAMS = {
   [SPANISH_SPOKEN]: {
     homeName: PIX_HOME_NAME_INTERNATIONAL,
     homeUrl: PIX_HOME_URL_INTERNATIONAL_ENGLISH_SPOKEN,
+    resetUrl: `${config.domain.pixApp + config.domain.tldOrg}/changer-mot-de-passe`,
     redirectionUrl: `${config.domain.pixApp + config.domain.tldOrg}/connexion/?lang=es`,
     helpdeskUrl: HELPDESK_ENGLISH_SPOKEN,
     displayNationalLogo: false,
@@ -148,71 +153,22 @@ function sendCertificationResultEmail({
 }
 
 function sendResetPasswordDemandEmail({ email, locale, temporaryKey }) {
-  const localeParam = locale ? locale : FRENCH_FRANCE;
+  const currentLocale = locale ?? FRENCH_FRANCE;
+  const localeParams = LOCALE_TEMPLATE_PARAMS[currentLocale];
 
-  let pixName = frTranslations['email-sender-name']['pix-app'];
-  let resetPasswordEmailSubject = frTranslations['reset-password-demand-email'].subject;
-
-  let templateParams = {
-    locale: localeParam,
-    ...frTranslations['reset-password-demand-email'].params,
-    homeName: PIX_HOME_NAME_FRENCH_FRANCE,
-    homeUrl: PIX_HOME_URL_FRENCH_FRANCE,
-    resetUrl: `${config.domain.pixApp + config.domain.tldFr}/changer-mot-de-passe/${temporaryKey}`,
-    helpdeskURL: HELPDESK_FRENCH_FRANCE,
+  const templateParams = {
+    locale: currentLocale,
+    ...localeParams.translation['reset-password-demand-email'].params,
+    homeName: localeParams.homeName,
+    homeUrl: localeParams.homeUrl,
+    resetUrl:
+      currentLocale === FRENCH_FRANCE
+        ? `${localeParams.resetUrl}/${temporaryKey}`
+        : `${localeParams.resetUrl}/${temporaryKey}/?lang=${currentLocale}`,
+    helpdeskURL: localeParams.helpdeskUrl,
   };
-
-  if (localeParam === FRENCH_SPOKEN) {
-    templateParams = {
-      ...templateParams,
-      homeName: PIX_HOME_NAME_INTERNATIONAL,
-      homeUrl: `${config.domain.pix + config.domain.tldOrg}/fr/`,
-      resetUrl: `${config.domain.pixApp + config.domain.tldOrg}/changer-mot-de-passe/${temporaryKey}/?lang=fr`,
-      helpdeskURL: HELPDESK_FRENCH_SPOKEN,
-    };
-  }
-
-  if (localeParam === ENGLISH_SPOKEN) {
-    templateParams = {
-      locale: localeParam,
-      ...enTranslations['reset-password-demand-email'].params,
-      homeName: PIX_HOME_NAME_INTERNATIONAL,
-      homeUrl: PIX_HOME_URL_INTERNATIONAL_ENGLISH_SPOKEN,
-      resetUrl: `${config.domain.pixApp + config.domain.tldOrg}/changer-mot-de-passe/${temporaryKey}/?lang=en`,
-      helpdeskURL: HELPDESK_ENGLISH_SPOKEN,
-    };
-
-    pixName = enTranslations['email-sender-name']['pix-app'];
-    resetPasswordEmailSubject = enTranslations['reset-password-demand-email'].subject;
-  }
-
-  if (localeParam === DUTCH_SPOKEN) {
-    templateParams = {
-      locale: localeParam,
-      ...nlTranslations['reset-password-demand-email'].params,
-      homeName: PIX_HOME_NAME_INTERNATIONAL,
-      homeUrl: PIX_HOME_URL_INTERNATIONAL_DUTCH_SPOKEN,
-      resetUrl: `${config.domain.pixApp + config.domain.tldOrg}/changer-mot-de-passe/${temporaryKey}/?lang=nl`,
-      helpdeskURL: HELPDESK_DUTCH_SPOKEN,
-    };
-
-    pixName = nlTranslations['email-sender-name']['pix-app'];
-    resetPasswordEmailSubject = nlTranslations['reset-password-demand-email'].subject;
-  }
-
-  if (localeParam === SPANISH_SPOKEN) {
-    templateParams = {
-      locale: localeParam,
-      ...esTranslations['reset-password-demand-email'].params,
-      homeName: PIX_HOME_NAME_INTERNATIONAL,
-      homeUrl: PIX_HOME_URL_INTERNATIONAL_ENGLISH_SPOKEN,
-      resetUrl: `${config.domain.pixApp + config.domain.tldOrg}/changer-mot-de-passe/${temporaryKey}/?lang=es`,
-      helpdeskURL: HELPDESK_ENGLISH_SPOKEN,
-    };
-
-    pixName = esTranslations['email-sender-name']['pix-app'];
-    resetPasswordEmailSubject = esTranslations['reset-password-demand-email'].subject;
-  }
+  const pixName = localeParams.translation['email-sender-name']['pix-app'];
+  const resetPasswordEmailSubject = localeParams.translation['reset-password-demand-email'].subject;
 
   return mailer.sendEmail({
     from: EMAIL_ADDRESS_NO_RESPONSE,
