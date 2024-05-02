@@ -14,7 +14,7 @@ import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { UserDetailsForAdmin } from '../../../../lib/domain/models/UserDetailsForAdmin.js';
 import { OrganizationLearnerForAdmin } from '../../../../lib/domain/read-models/OrganizationLearnerForAdmin.js';
 import { BookshelfUser } from '../../../../lib/infrastructure/orm-models/User.js';
-import { UserLogin } from '../../../authentication/domain/models/UserLogin.js';
+import { UserLogin } from '../../../identity-access-management/domain/models/UserLogin.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { Organization } from '../../domain/models/Organization.js';
 import { User } from '../../domain/models/User.js';

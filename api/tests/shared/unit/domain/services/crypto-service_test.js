@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 
-import { PasswordNotMatching } from '../../../../../src/authentication/domain/errors.js';
+import { PasswordNotMatching } from '../../../../../src/identity-access-management/domain/errors.js';
 import { cryptoService } from '../../../../../src/shared/domain/services/crypto-service.js';
 import { catchErr, expect } from '../../../../test-helper.js';
 

@@ -11,7 +11,6 @@ import { deserializer } from './lib/infrastructure/serializers/jsonapi/deseriali
 import { routes } from './lib/routes.js';
 import { swaggers } from './lib/swaggers.js';
 import { handleFailAction } from './lib/validate.js';
-import { authenticationRoutes } from './src/authentication/application/routes.js';
 import {
   attachTargetProfileRoutes,
   complementaryCertificationRoutes,
@@ -22,6 +21,7 @@ import { scoringRoutes } from './src/certification/scoring/routes.js';
 import { certificationSessionRoutes } from './src/certification/session/routes.js';
 import { devcompRoutes } from './src/devcomp/routes.js';
 import { evaluationRoutes } from './src/evaluation/routes.js';
+import { identityAccessManagementRoutes } from './src/identity-access-management/application/routes.js';
 import { organizationalEntitiesRoutes } from './src/organizational-entities/application/routes.js';
 import { campaignRoutes } from './src/prescription/campaign/routes.js';
 import { campaignParticipationsRoutes } from './src/prescription/campaign-participation/routes.js';
@@ -34,7 +34,6 @@ import { prescriberManagementRoutes } from './src/shared/prescriber-management/r
 // bounded context migration
 import { sharedRoutes } from './src/shared/routes.js';
 import { teamRoutes } from './src/team/application/routes.js';
-import { userAccountRoutes } from './src/user-account/application/routes.js';
 
 const certificationRoutes = [
   certificationSessionRoutes,
@@ -142,9 +141,8 @@ const setupRoutesAndPlugins = async function (server) {
   const configuration = [].concat(
     plugins,
     routes,
-    authenticationRoutes,
+    identityAccessManagementRoutes,
     organizationalEntitiesRoutes,
-    userAccountRoutes,
     sharedRoutes,
     evaluationRoutes,
     flashCertificationRoutes,

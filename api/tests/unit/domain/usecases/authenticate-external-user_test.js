@@ -10,7 +10,7 @@ import {
   MissingOrInvalidCredentialsError,
   PasswordNotMatching,
   UserShouldChangePasswordError,
-} from '../../../../src/authentication/domain/errors.js';
+} from '../../../../src/identity-access-management/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | UseCase | authenticate-external-user', function () {

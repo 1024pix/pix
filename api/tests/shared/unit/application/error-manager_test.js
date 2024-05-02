@@ -1,9 +1,9 @@
-import { authenticationDomainErrorMappingConfiguration } from '../../../../src/authentication/application/http-error-mapper-configuration.js';
 import { AdminMemberError } from '../../../../src/authorization/domain/errors.js';
 import {
   CsvWithNoSessionDataError,
   SessionStartedDeletionError,
 } from '../../../../src/certification/session/domain/errors.js';
+import { authenticationDomainErrorMappingConfiguration } from '../../../../src/identity-access-management/application/http-error-mapper-configuration.js';
 import { domainErrorMapper } from '../../../../src/shared/application/domain-error-mapper.js';
 import { handle } from '../../../../src/shared/application/error-manager.js';
 import { HttpErrors, UnauthorizedError } from '../../../../src/shared/application/http-errors.js';

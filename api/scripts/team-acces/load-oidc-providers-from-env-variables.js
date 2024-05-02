@@ -3,7 +3,7 @@ import Debug from 'debug';
 import { disconnect } from '../../db/knex-database-connection.js';
 import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
 import { temporaryStorage } from '../../lib/infrastructure/temporary-storage/index.js';
-import { usecases } from '../../src/authentication/domain/usecases/index.js';
+import { usecases } from '../../src/identity-access-management/domain/usecases/index.js';
 import { DomainTransaction } from '../../src/shared/domain/DomainTransaction.js';
 
 const debugOidcProvidersProperties = Debug('pix:oidc-providers:properties');

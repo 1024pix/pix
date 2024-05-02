@@ -1,5 +1,5 @@
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/user-login-serializer.js';
-import { UserLogin } from '../../../../../src/authentication/domain/models/UserLogin.js';
+import { UserLogin } from '../../../../../src/identity-access-management/domain/models/UserLogin.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | user-login-serializer', function () {
