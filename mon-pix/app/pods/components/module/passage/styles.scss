@@ -58,6 +58,23 @@
     font-family: var(--pix-font-family-monospace);
   }
 
+  details {
+    color: var(--pix-neutral-800);
+
+    & + details {
+      margin-top: var(--pix-spacing-2x);
+    }
+
+    summary {
+      color: var(--pix-neutral-900);
+      font-weight: var(--pix-font-medium);
+    }
+  }
+
+  p + details {
+    margin-top: var(--pix-spacing-4x);
+  }
+
   &__title {
     @extend %pix-title-m;
 
