@@ -40,7 +40,7 @@
               @value="{{block.answer}}"
               size="{{get-qroc-input-size @challenge.format}}"
               @id="{{block.input}}"
-              @ariaLabel={{block.ariaLabel}}
+              aria-label={{block.ariaLabel}}
               disabled
             />
           </div>
@@ -57,7 +57,7 @@
               @value="{{block.answer}}"
               size="{{block.answer.length}}"
               @id="{{block.input}}"
-              @ariaLabel={{block.ariaLabel}}
+              aria-label={{block.ariaLabel}}
               disabled
             />
             {{#if block.emptyOrWrongAnswer}}
