@@ -1,11 +1,58 @@
+import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Unit | Route | authenticated', function (hooks) {
   setupTest(hooks);
 
-  test('it exists', function (assert) {
-    const route = this.owner.lookup('route:authenticated');
-    assert.ok(route);
+  module('model', function () {
+    test('should query record organization-place-statistic', async function (assert) {
+      // given
+      const organizationId = Symbol('organizationId');
+      class CurrentUserStub extends Service {
+        prescriber = { placesManagement: true };
+        organization = {
+          id: organizationId,
+        };
+      }
+
+      const route = this.owner.lookup('route:authenticated');
+      const queryRecordStub = sinon.stub(route.store, 'queryRecord');
+
+      this.owner.register('service:current-user', CurrentUserStub);
+
+      queryRecordStub.resolves();
+
+      // when
+      await route.model();
+
+      // then
+      assert.ok(queryRecordStub.calledWithExactly('organization-place-statistic', { organizationId }));
+    });
+
+    test('should not query record organization-place-statistic if user organization does not have placeManagement feature', async function (assert) {
+      // given
+      const organizationId = Symbol('organizationId');
+      class CurrentUserStub extends Service {
+        prescriber = { placesManagement: false };
+        organization = {
+          id: organizationId,
+        };
+      }
+
+      const route = this.owner.lookup('route:authenticated');
+      const queryRecordStub = sinon.stub(route.store, 'queryRecord');
+
+      this.owner.register('service:current-user', CurrentUserStub);
+
+      queryRecordStub.rejects();
+
+      // when
+      await route.model();
+
+      // then
+      assert.notOk(queryRecordStub.calledWithExactly('organization-place-statistic', { organizationId }));
+    });
   });
 });

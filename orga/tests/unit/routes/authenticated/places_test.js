@@ -7,42 +7,28 @@ module('Unit | Route | authenticated/places', function (hooks) {
   setupTest(hooks);
 
   module('model', function () {
-    test('should redirect to application when error thrown', async function (assert) {
+    test('that modelFor called authenticated', async function (assert) {
       // given
-      const organizationId = Symbol('organizationId');
-      const expectedRedirection = 'application';
-      class CurrentUserStub extends Service {
-        shouldAccessPlacesPage = true;
-        organization = {
-          id: organizationId,
-        };
-      }
-
       const route = this.owner.lookup('route:authenticated/places');
-      const queryRecordStub = sinon.stub(route.store, 'queryRecord');
 
-      this.owner.register('service:current-user', CurrentUserStub);
-      const replaceWithStub = sinon.stub(route.router, 'replaceWith');
+      const modelForStub = sinon.stub(route, 'modelFor');
 
-      queryRecordStub.rejects();
-      replaceWithStub.resolves();
+      modelForStub.resolves();
 
       // when
       await route.model();
 
       // then
-      sinon.assert.calledWithExactly(queryRecordStub, 'organization-place-statistic', { organizationId });
-      sinon.assert.calledWithExactly(replaceWithStub, expectedRedirection);
-
-      assert.ok(true);
+      assert.ok(modelForStub.calledWithExactly('authenticated'));
     });
   });
 
   module('beforeModel', function () {
-    test('should not redirect to application when currentUser.shouldAccessPlacesPage is true', function (assert) {
+    test('should not redirect to application when user is admin and have placesManagement feature is true', function (assert) {
       // given
       class CurrentUserStub extends Service {
-        shouldAccessPlacesPage = true;
+        isAdminInOrganization = true;
+        prescriber = { placesManagement: true };
       }
 
       this.owner.register('service:current-user', CurrentUserStub);
@@ -57,10 +43,30 @@ module('Unit | Route | authenticated/places', function (hooks) {
       assert.notOk(route.router.replaceWith.calledWith(expectedRedirection));
     });
 
-    test('should redirect to application when currentUser.shouldAccessPlacesPage is false', function (assert) {
+    test('should redirect to application when currentUser is not admin', function (assert) {
       // given
       class CurrentUserStub extends Service {
-        shouldAccessPlacesPage = false;
+        isAdminInOrganization = false;
+        prescriber = { placesManagement: true };
+      }
+
+      this.owner.register('service:current-user', CurrentUserStub);
+      const route = this.owner.lookup('route:authenticated/places');
+      sinon.stub(route.router, 'replaceWith');
+
+      const expectedRedirection = 'application';
+      // when
+      route.beforeModel();
+
+      // then
+      assert.ok(route.router.replaceWith.calledWith(expectedRedirection));
+    });
+
+    test('should redirect to application when currentUser does not have placesManagement', function (assert) {
+      // given
+      class CurrentUserStub extends Service {
+        isAdminInOrganization = true;
+        prescriber = { placesManagement: false };
       }
 
       this.owner.register('service:current-user', CurrentUserStub);
