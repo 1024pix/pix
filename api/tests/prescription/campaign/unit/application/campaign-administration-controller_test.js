@@ -1,6 +1,6 @@
 import { campaignAdministrationController } from '../../../../../src/prescription/campaign/application/campaign-adminstration-controller.js';
 import { usecases } from '../../../../../src/prescription/campaign/domain/usecases/index.js';
-import { expect, hFake, sinon } from '../../../../test-helper.js';
+import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Application | Controller | Campaign administration', function () {
   describe('#save', function () {
@@ -328,6 +328,90 @@ describe('Unit | Application | Controller | Campaign administration', function (
 
       // then
       expect(response.statusCode).to.be.equal(204);
+    });
+  });
+
+  describe('#findPaginatedCampaignManagements', function () {
+    let organizationId;
+    let request;
+    let campaign;
+    let serializedCampaigns;
+    let dependencies;
+
+    beforeEach(function () {
+      organizationId = 1;
+      request = {
+        params: { organizationId },
+        auth: {
+          credentials: {
+            userId: 1,
+          },
+        },
+      };
+      campaign = domainBuilder.buildCampaign();
+      serializedCampaigns = [{ name: campaign.name, code: campaign.code }];
+      const queryParamsUtilsStub = {
+        extractParameters: sinon.stub(),
+      };
+      const campaignManagementSerializerStub = {
+        serialize: sinon.stub(),
+      };
+      dependencies = {
+        queryParamsUtils: queryParamsUtilsStub,
+        campaignManagementSerializer: campaignManagementSerializerStub,
+      };
+
+      sinon.stub(usecases, 'findPaginatedCampaignManagements');
+    });
+
+    it('should call the usecase to get the campaigns and associated campaignManagements', async function () {
+      // given
+      request.query = {
+        campaignManagement: true,
+      };
+      const expectedPage = 2;
+      const expectedFilter = { name: 'Math' };
+      dependencies.queryParamsUtils.extractParameters
+        .withArgs(request.query)
+        .returns({ page: expectedPage, filter: expectedFilter });
+      const expectedResults = [campaign];
+      const expectedPagination = { page: expectedPage, pageSize: 25, itemsCount: 100, pagesCount: 4 };
+      usecases.findPaginatedCampaignManagements.resolves({ models: expectedResults, pagination: expectedPagination });
+      dependencies.campaignManagementSerializer.serialize.returns({ data: serializedCampaigns, meta: {} });
+
+      // when
+      await campaignAdministrationController.findPaginatedCampaignManagements(request, hFake, dependencies);
+
+      // then
+      expect(usecases.findPaginatedCampaignManagements).to.have.been.calledWithExactly({
+        organizationId,
+        filter: expectedFilter,
+        page: expectedPage,
+      });
+    });
+
+    it('should return the serialized campaigns belonging to the organization', async function () {
+      // given
+      request.query = {};
+      const expectedResponse = { data: serializedCampaigns, meta: {} };
+
+      const expectedResults = [campaign];
+      const expectedPagination = { page: 2, pageSize: 25, itemsCount: 100, pagesCount: 4 };
+      dependencies.queryParamsUtils.extractParameters.withArgs({}).returns({ filter: {} });
+      usecases.findPaginatedCampaignManagements.resolves({ models: expectedResults, meta: expectedPagination });
+      dependencies.campaignManagementSerializer.serialize
+        .withArgs(expectedResults, expectedPagination)
+        .returns(expectedResponse);
+
+      // when
+      const response = await campaignAdministrationController.findPaginatedCampaignManagements(
+        request,
+        hFake,
+        dependencies,
+      );
+
+      // then
+      expect(response).to.deep.equal(expectedResponse);
     });
   });
 });

@@ -4,7 +4,9 @@ import * as checkAdminMemberHasRoleSuperAdminUseCase from '../../../../lib/appli
 import * as csvSerializer from '../../../../lib/infrastructure/serializers/csv/csv-serializer.js';
 import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../../../src/prescription/campaign/domain/usecases/index.js';
+import * as queryParamsUtils from '../../../shared/infrastructure/utils/query-params-utils.js';
 import * as csvCampaignsIdsParser from '../infrastructure/serializers/csv/csv-campaigns-ids-parser.js';
+import * as campaignManagementSerializer from '../infrastructure/serializers/jsonapi/campaign-management-serializer.js';
 import * as campaignReportSerializer from '../infrastructure/serializers/jsonapi/campaign-report-serializer.js';
 
 const createCampaigns = async function (request, h, dependencies = { csvSerializer }) {
@@ -111,11 +113,32 @@ const archiveCampaigns = async function (request, h, dependencies = { csvCampaig
 
   return h.response(null).code(204);
 };
+
+const findPaginatedCampaignManagements = async function (
+  request,
+  h,
+  dependencies = {
+    queryParamsUtils,
+    campaignManagementSerializer,
+  },
+) {
+  const organizationId = request.params.organizationId;
+  const { filter, page } = dependencies.queryParamsUtils.extractParameters(request.query);
+
+  const { models: campaigns, meta } = await usecases.findPaginatedCampaignManagements({
+    organizationId,
+    filter,
+    page,
+  });
+  return dependencies.campaignManagementSerializer.serialize(campaigns, meta);
+};
+
 const campaignAdministrationController = {
   save,
   update,
   createCampaigns,
   swapCampaignCodes,
+  findPaginatedCampaignManagements,
   updateCampaignDetails,
   updateCampaignCode,
   archiveCampaign,
