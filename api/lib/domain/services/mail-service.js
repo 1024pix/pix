@@ -38,6 +38,8 @@ const LOCALE_TEMPLATE_PARAMS = {
     redirectionUrl: `${config.domain.pixApp + config.domain.tldOrg}/connexion/?lang=en`,
     helpdeskUrl: HELPDESK_ENGLISH_SPOKEN,
     displayNationalLogo: false,
+    pixOrgaName: PIX_ORGA_NAME_EN,
+    pixOrgaHomeUrl: `${config.domain.pixOrga + config.domain.tldOrg}`,
     translation: enTranslations,
   },
   [FRENCH_FRANCE]: {
@@ -47,6 +49,8 @@ const LOCALE_TEMPLATE_PARAMS = {
     redirectionUrl: `${config.domain.pixApp + config.domain.tldFr}/connexion`,
     helpdeskUrl: HELPDESK_FRENCH_FRANCE,
     displayNationalLogo: true,
+    pixOrgaName: PIX_ORGA_NAME_FR,
+    pixOrgaHomeUrl: `${config.domain.pixOrga + config.domain.tldFr}`,
     translation: frTranslations,
   },
   [FRENCH_SPOKEN]: {
@@ -56,6 +60,8 @@ const LOCALE_TEMPLATE_PARAMS = {
     redirectionUrl: `${config.domain.pixApp + config.domain.tldOrg}/connexion/?lang=fr`,
     helpdeskUrl: HELPDESK_FRENCH_SPOKEN,
     displayNationalLogo: false,
+    pixOrgaName: PIX_ORGA_NAME_FR,
+    pixOrgaHomeUrl: `${config.domain.pixOrga + config.domain.tldOrg}`,
     translation: frTranslations,
   },
   [DUTCH_SPOKEN]: {
@@ -181,51 +187,23 @@ function sendResetPasswordDemandEmail({ email, locale, temporaryKey }) {
 }
 
 function sendOrganizationInvitationEmail({ email, organizationName, organizationInvitationId, code, locale, tags }) {
-  locale = locale ? locale : FRENCH_FRANCE;
-  let pixOrgaName = PIX_ORGA_NAME_FR;
-  let sendOrganizationInvitationEmailSubject = frTranslations['organization-invitation-email'].subject;
+  const currentLocale = locale ?? FRENCH_FRANCE;
+  const localeParams = LOCALE_TEMPLATE_PARAMS[currentLocale];
 
-  let templateParams = {
+  const pixOrgaName = localeParams.pixOrgaName;
+  const sendOrganizationInvitationEmailSubject = localeParams.translation['organization-invitation-email'].subject;
+
+  const templateParams = {
     organizationName,
-    pixHomeName: PIX_HOME_NAME_FRENCH_FRANCE,
-    pixHomeUrl: PIX_HOME_URL_FRENCH_FRANCE,
-    pixOrgaHomeUrl: `${config.domain.pixOrga + config.domain.tldFr}`,
-    redirectionUrl: `${
-      config.domain.pixOrga + config.domain.tldFr
-    }/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
-    supportUrl: HELPDESK_FRENCH_FRANCE,
-    ...frTranslations['organization-invitation-email'].params,
+    pixHomeName: localeParams.homeName,
+    pixHomeUrl: localeParams.homeUrl,
+    pixOrgaHomeUrl: localeParams.pixOrgaHomeUrl + (currentLocale === FRENCH_FRANCE ? '' : `?lang=${currentLocale}`),
+    redirectionUrl:
+      `${localeParams.pixOrgaHomeUrl}/rejoindre?invitationId=${organizationInvitationId}&code=${code}` +
+      (currentLocale === FRENCH_FRANCE ? '' : `&lang=${currentLocale}`),
+    supportUrl: localeParams.helpdeskUrl,
+    ...localeParams.translation['organization-invitation-email'].params,
   };
-
-  if (locale === FRENCH_SPOKEN) {
-    templateParams = {
-      organizationName,
-      pixHomeName: PIX_HOME_NAME_INTERNATIONAL,
-      pixHomeUrl: `${config.domain.pix + config.domain.tldOrg}`,
-      pixOrgaHomeUrl: `${config.domain.pixOrga + config.domain.tldOrg}`,
-      redirectionUrl: `${
-        config.domain.pixOrga + config.domain.tldOrg
-      }/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
-      supportUrl: HELPDESK_FRENCH_SPOKEN,
-      ...frTranslations['organization-invitation-email'].params,
-    };
-  }
-
-  if (locale === ENGLISH_SPOKEN) {
-    templateParams = {
-      organizationName,
-      pixHomeName: PIX_HOME_NAME_INTERNATIONAL,
-      pixHomeUrl: PIX_HOME_URL_INTERNATIONAL_ENGLISH_SPOKEN,
-      pixOrgaHomeUrl: `${config.domain.pixOrga + config.domain.tldOrg}?lang=en`,
-      redirectionUrl: `${
-        config.domain.pixOrga + config.domain.tldOrg
-      }/rejoindre?invitationId=${organizationInvitationId}&code=${code}&lang=en`,
-      supportUrl: HELPDESK_ENGLISH_SPOKEN,
-      ...enTranslations['organization-invitation-email'].params,
-    };
-    pixOrgaName = PIX_ORGA_NAME_EN;
-    sendOrganizationInvitationEmailSubject = enTranslations['organization-invitation-email'].subject;
-  }
 
   return mailer.sendEmail({
     from: EMAIL_ADDRESS_NO_RESPONSE,

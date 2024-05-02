@@ -504,9 +504,9 @@ describe('Unit | Service | MailService', function () {
           expect(options.subject).to.equal(mainTranslationsMapping.fr['organization-invitation-email'].subject);
           expect(options.variables).to.include({
             pixHomeName: 'pix.org',
-            pixHomeUrl: 'https://pix.org',
-            pixOrgaHomeUrl: 'https://orga.pix.org',
-            redirectionUrl: `https://orga.pix.org/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
+            pixHomeUrl: 'https://pix.org/fr/',
+            pixOrgaHomeUrl: 'https://orga.pix.org?lang=fr',
+            redirectionUrl: `https://orga.pix.org/rejoindre?invitationId=${organizationInvitationId}&code=${code}&lang=fr`,
             supportUrl: 'https://support.pix.org',
             ...mainTranslationsMapping.fr['organization-invitation-email'].params,
           });
