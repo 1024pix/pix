@@ -72,22 +72,22 @@
         {
           "id": "80d9f670-099b-4380-82e7-d9ea08a55909",
           "type": "qcu",
-          "instruction": "<p>Pourquoi faut-il protéger tes données personnelles ?</p>",
+          "instruction": "<p>Que doit-on faire avec les données personnelles ?</p>",
           "proposals": [
             {
               "id": "1",
-              "content": "Car c'est ta vie privée"
+              "content": "les utiliser pour remplir des formulaires"
             },
             {
               "id": "2",
-              "content": "u"
+              "content": "les protéger, car c'est ta vie privée"
             }
           ],
           "feedbacks": {
             "valid": "<p>Bien</p>",
             "invalid": "<p>Faux. Bla</p>"
           },
-          "solution": "1"
+          "solution": "2"
         }
       ]
     },
