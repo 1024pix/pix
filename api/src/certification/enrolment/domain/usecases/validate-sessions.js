@@ -5,8 +5,8 @@
 import bluebird from 'bluebird';
 
 import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
-import { Session } from '../../../session/domain/models/Session.js';
-import { SessionMassImportReport } from '../../../session/domain/models/SessionMassImportReport.js';
+import { Session } from '../models/Session.js';
+import { SessionMassImportReport } from '../models/SessionMassImportReport.js';
 
 /**
  * @param {Object} params

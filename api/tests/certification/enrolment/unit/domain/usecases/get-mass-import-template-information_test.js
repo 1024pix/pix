@@ -1,5 +1,5 @@
+import { CenterTypes } from '../../../../../../src/certification/enrolment/domain/models/CenterTypes.js';
 import { getMassImportTemplateInformation } from '../../../../../../src/certification/enrolment/domain/usecases/get-mass-import-template-information.js';
-import { CenterTypes } from '../../../../../../src/certification/session/domain/models/CenterTypes.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | Session | UseCase | get-mass-import-template-information', function () {

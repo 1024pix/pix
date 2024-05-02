@@ -1,4 +1,4 @@
-import { CenterTypes } from '../../../../../../src/certification/session/domain/models/CenterTypes.js';
+import { CenterTypes } from '../../../../../../src/certification/enrolment/domain/models/CenterTypes.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | Center | Domain | Models | CenterTypes', function () {

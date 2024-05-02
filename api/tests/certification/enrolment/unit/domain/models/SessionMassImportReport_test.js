@@ -1,4 +1,4 @@
-import { SessionMassImportReport } from '../../../../../../src/certification/session/domain/models/SessionMassImportReport.js';
+import { SessionMassImportReport } from '../../../../../../src/certification/enrolment/domain/models/SessionMassImportReport.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | SessionMassImportReport', function () {
