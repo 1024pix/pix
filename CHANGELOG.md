@@ -1,5 +1,44 @@
 # Pix Changelog
 
+## v4.141.0 (02/05/2024)
+
+
+### :rocket: Amélioration
+- [#8822](https://github.com/1024pix/pix/pull/8822) [FEATURE] Corrections de mise en forme et de traductions de "compétences" (PIX-12407).
+- [#8756](https://github.com/1024pix/pix/pull/8756) [FEATURE] Masquer les indices dans l'activité finale qroc. Module bien-ecrire-son-adresse-mail (MODC-83).
+- [#8796](https://github.com/1024pix/pix/pull/8796) [FEATURE] Ajouter components à notre Module Serializer (PIX-12300).
+- [#8789](https://github.com/1024pix/pix/pull/8789) [FEATURE][ADMIN] Ajouter l'espagnol dans la liste des langues disponibles (PIX-12196).
+
+### :building_construction: Tech
+- [#8825](https://github.com/1024pix/pix/pull/8825) [TECH] Fusion des domaines UserAccount et Authentication en IdentityAccessManagement (PIX-12399).
+- [#8777](https://github.com/1024pix/pix/pull/8777) [TECH] Migrer tous les services OIDC vers src/authentication (PIX-10194).
+- [#8811](https://github.com/1024pix/pix/pull/8811) [TECH] migrer la route `/api/admin/target-profiles/{id}/attach-organizations` dans le BC prescription (PIX-12379).
+- [#8804](https://github.com/1024pix/pix/pull/8804) [TECH] Corriger l'unicité des requiredClaims (PIX-12368).
+- [#8799](https://github.com/1024pix/pix/pull/8799) [TECH] Migrer la liste des campagnes dans PixAdmin dans le Bounded context Prescription  (PIX-12358).
+- [#8808](https://github.com/1024pix/pix/pull/8808) [TECH] Migrer `/api/admin/organizations/{id}/attach-target-profiles` dans le BC Prescription (PIX-12369).
+- [#8630](https://github.com/1024pix/pix/pull/8630) [TECH] :recycle: Déplacement des fichiers utilitaires pour `ODS` vers `src/shared`.
+- [#8761](https://github.com/1024pix/pix/pull/8761) [TECH] Supprimer l'utilisation du custom logoutUrlTemporaryStorage (PIX-12119).
+- [#8683](https://github.com/1024pix/pix/pull/8683) [TECH] Utiliser l'API interne pour récupérer les organization-learners (Pix-12134).
+- [#8505](https://github.com/1024pix/pix/pull/8505) [TECH] :recycle:  Déplacement du model `Organization` vers `src/shared`.
+
+### :bug: Correction
+- [#8755](https://github.com/1024pix/pix/pull/8755) [BUGFIX] Afficher le message d'erreur correct pour un utilisateur qui s'inscrit sur PixOrga avec un email déjà connu (PIX-11342).
+- [#8752](https://github.com/1024pix/pix/pull/8752) [BUGFIX] Vérifier la présence d'un doublon de session uniquement dans le centre de certification courant lors de l'import en masse sur Pix Certif (PIX-11930).
+
+### :arrow_up: Montée de version
+- [#8818](https://github.com/1024pix/pix/pull/8818) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.10 (orga).
+- [#8817](https://github.com/1024pix/pix/pull/8817) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.10 (mon-pix).
+- [#8816](https://github.com/1024pix/pix/pull/8816) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.10 (certif).
+- [#8815](https://github.com/1024pix/pix/pull/8815) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.10 (admin).
+- [#8814](https://github.com/1024pix/pix/pull/8814) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.10 (1d).
+- [#8812](https://github.com/1024pix/pix/pull/8812) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.10 (mon-pix).
+- [#8813](https://github.com/1024pix/pix/pull/8813) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.10 (orga).
+- [#8810](https://github.com/1024pix/pix/pull/8810) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.10 (load-testing).
+- [#8809](https://github.com/1024pix/pix/pull/8809) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.10 (dossier racine).
+- [#8806](https://github.com/1024pix/pix/pull/8806) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.10 (certif).
+- [#8805](https://github.com/1024pix/pix/pull/8805) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.10 (audit-logger).
+- [#8802](https://github.com/1024pix/pix/pull/8802) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.10 (api).
+
 ## v4.140.0 (30/04/2024)
 
 
