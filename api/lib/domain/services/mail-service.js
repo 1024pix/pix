@@ -30,71 +30,63 @@ const PIX_HOME_URL_FRENCH_FRANCE = `${config.domain.pix + config.domain.tldFr}`;
 const EMAIL_VERIFICATION_CODE_TAG = 'EMAIL_VERIFICATION_CODE';
 const SCO_ACCOUNT_RECOVERY_TAG = 'SCO_ACCOUNT_RECOVERY';
 
+const LOCALE_TEMPLATE_PARAMS = {
+  [ENGLISH_SPOKEN]: {
+    homeName: PIX_HOME_NAME_INTERNATIONAL,
+    homeUrl: PIX_HOME_URL_INTERNATIONAL_ENGLISH_SPOKEN,
+    redirectionUrl: `${config.domain.pixApp + config.domain.tldOrg}/connexion/?lang=en`,
+    helpdeskUrl: HELPDESK_ENGLISH_SPOKEN,
+    displayNationalLogo: false,
+    translation: enTranslations,
+  },
+  [FRENCH_FRANCE]: {
+    homeName: PIX_HOME_NAME_FRENCH_FRANCE,
+    homeUrl: PIX_HOME_URL_FRENCH_FRANCE,
+    redirectionUrl: `${config.domain.pixApp + config.domain.tldFr}/connexion`,
+    helpdeskUrl: HELPDESK_FRENCH_FRANCE,
+    displayNationalLogo: true,
+    translation: frTranslations,
+  },
+  [FRENCH_SPOKEN]: {
+    homeName: PIX_HOME_NAME_INTERNATIONAL,
+    homeUrl: PIX_HOME_URL_INTERNATIONAL_FRENCH_SPOKEN,
+    redirectionUrl: `${config.domain.pixApp + config.domain.tldOrg}/connexion/?lang=fr`,
+    helpdeskUrl: HELPDESK_FRENCH_SPOKEN,
+    displayNationalLogo: false,
+    translation: frTranslations,
+  },
+  [DUTCH_SPOKEN]: {
+    homeName: PIX_HOME_NAME_INTERNATIONAL,
+    homeUrl: PIX_HOME_URL_INTERNATIONAL_DUTCH_SPOKEN,
+    redirectionUrl: `${config.domain.pixApp + config.domain.tldOrg}/connexion/?lang=nl`,
+    helpdeskUrl: HELPDESK_DUTCH_SPOKEN,
+    displayNationalLogo: false,
+    translation: nlTranslations,
+  },
+  [SPANISH_SPOKEN]: {
+    homeName: PIX_HOME_NAME_INTERNATIONAL,
+    homeUrl: PIX_HOME_URL_INTERNATIONAL_ENGLISH_SPOKEN,
+    redirectionUrl: `${config.domain.pixApp + config.domain.tldOrg}/connexion/?lang=es`,
+    helpdeskUrl: HELPDESK_ENGLISH_SPOKEN,
+    displayNationalLogo: false,
+    translation: esTranslations,
+  },
+};
+
 function sendAccountCreationEmail(email, locale, redirectionUrl) {
-  let pixName;
-  let accountCreationEmailSubject;
-  let variables;
+  const currentLocale = locale ?? FRENCH_FRANCE;
+  const localeParams = LOCALE_TEMPLATE_PARAMS[currentLocale];
 
-  if (locale === FRENCH_SPOKEN) {
-    variables = {
-      homeName: PIX_HOME_NAME_INTERNATIONAL,
-      homeUrl: PIX_HOME_URL_INTERNATIONAL_FRENCH_SPOKEN,
-      redirectionUrl: redirectionUrl || `${config.domain.pixApp + config.domain.tldOrg}/connexion/?lang=fr`,
-      helpdeskUrl: HELPDESK_FRENCH_SPOKEN,
-      displayNationalLogo: false,
-      ...frTranslations['pix-account-creation-email'].params,
-    };
-
-    pixName = frTranslations['email-sender-name']['pix-app'];
-    accountCreationEmailSubject = frTranslations['pix-account-creation-email'].subject;
-  } else if (locale === ENGLISH_SPOKEN) {
-    variables = {
-      homeName: PIX_HOME_NAME_INTERNATIONAL,
-      homeUrl: PIX_HOME_URL_INTERNATIONAL_ENGLISH_SPOKEN,
-      redirectionUrl: redirectionUrl || `${config.domain.pixApp + config.domain.tldOrg}/connexion/?lang=en`,
-      helpdeskUrl: HELPDESK_ENGLISH_SPOKEN,
-      displayNationalLogo: false,
-      ...enTranslations['pix-account-creation-email'].params,
-    };
-
-    pixName = enTranslations['email-sender-name']['pix-app'];
-    accountCreationEmailSubject = enTranslations['pix-account-creation-email'].subject;
-  } else if (locale === DUTCH_SPOKEN) {
-    variables = {
-      homeName: PIX_HOME_NAME_INTERNATIONAL,
-      homeUrl: PIX_HOME_URL_INTERNATIONAL_DUTCH_SPOKEN,
-      redirectionUrl: redirectionUrl || `${config.domain.pixApp + config.domain.tldOrg}/connexion/?lang=nl`,
-      helpdeskUrl: HELPDESK_DUTCH_SPOKEN,
-      displayNationalLogo: false,
-      ...nlTranslations['pix-account-creation-email'].params,
-    };
-
-    pixName = nlTranslations['email-sender-name']['pix-app'];
-    accountCreationEmailSubject = nlTranslations['pix-account-creation-email'].subject;
-  } else if (locale === SPANISH_SPOKEN) {
-    variables = {
-      homeName: PIX_HOME_NAME_INTERNATIONAL,
-      homeUrl: PIX_HOME_URL_INTERNATIONAL_ENGLISH_SPOKEN,
-      redirectionUrl: redirectionUrl || `${config.domain.pixApp + config.domain.tldOrg}/connexion/?lang=es`,
-      helpdeskUrl: HELPDESK_ENGLISH_SPOKEN,
-      displayNationalLogo: false,
-      ...esTranslations['pix-account-creation-email'].params,
-    };
-    pixName = esTranslations['email-sender-name']['pix-app'];
-    accountCreationEmailSubject = esTranslations['pix-account-creation-email'].subject;
-  } else {
-    variables = {
-      homeName: PIX_HOME_NAME_FRENCH_FRANCE,
-      homeUrl: PIX_HOME_URL_FRENCH_FRANCE,
-      redirectionUrl: redirectionUrl || `${config.domain.pixApp + config.domain.tldFr}/connexion`,
-      helpdeskUrl: HELPDESK_FRENCH_FRANCE,
-      displayNationalLogo: true,
-      ...frTranslations['pix-account-creation-email'].params,
-    };
-
-    pixName = frTranslations['email-sender-name']['pix-app'];
-    accountCreationEmailSubject = frTranslations['pix-account-creation-email'].subject;
-  }
+  const templateParams = {
+    homeName: localeParams.homeName,
+    homeUrl: localeParams.homeUrl,
+    redirectionUrl: redirectionUrl || localeParams.redirectionUrl,
+    helpdeskUrl: localeParams.helpdeskUrl,
+    displayNationalLogo: localeParams.displayNationalLogo,
+    ...localeParams.translation['pix-account-creation-email'].params,
+  };
+  const pixName = localeParams.translation['email-sender-name']['pix-app'];
+  const accountCreationEmailSubject = localeParams.translation['pix-account-creation-email'].subject;
 
   return mailer.sendEmail({
     from: EMAIL_ADDRESS_NO_RESPONSE,
@@ -102,7 +94,7 @@ function sendAccountCreationEmail(email, locale, redirectionUrl) {
     to: email,
     subject: accountCreationEmailSubject,
     template: mailer.accountCreationTemplateId,
-    variables,
+    variables: templateParams,
   });
 }
 
