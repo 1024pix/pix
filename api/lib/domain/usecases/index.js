@@ -81,6 +81,7 @@ import * as codeUtils from '../../../src/shared/infrastructure/utils/code-utils.
 import * as dateUtils from '../../../src/shared/infrastructure/utils/date-utils.js';
 import { injectDependencies } from '../../../src/shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../src/shared/infrastructure/utils/import-named-exports-from-directory.js';
+import * as writeOdsUtils from '../../../src/shared/infrastructure/utils/ods/write-ods-utils.js';
 import * as userOrgaSettingsRepository from '../../../src/shared/prescriber-management/infrastructure/repositories/user-orga-settings-repository.js';
 import * as certificationCenterInvitationService from '../../../src/team/domain/services/certification-center-invitation-service.js';
 import * as certificationCenterInvitationRepository from '../../../src/team/infrastructure/repositories/certification-center-invitation-repository.js';
@@ -168,7 +169,6 @@ import * as stageCollectionRepository from '../../infrastructure/repositories/us
 import * as userEmailRepository from '../../infrastructure/repositories/user-email-repository.js';
 import * as userOrganizationsForAdminRepository from '../../infrastructure/repositories/user-organizations-for-admin-repository.js';
 import * as writeCsvUtils from '../../infrastructure/utils/csv/write-csv-utils.js';
-import * as writeOdsUtils from '../../infrastructure/utils/ods/write-ods-utils.js';
 import { OidcAuthenticationServiceRegistry } from '../services/authentication/oidc-authentication-service-registry.js';
 import * as learningContentConversionService from '../services/learning-content/learning-content-conversion-service.js';
 import * as organizationInvitationService from '../services/organization-invitation-service.js';
