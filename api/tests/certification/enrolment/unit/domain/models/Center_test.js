@@ -1,5 +1,5 @@
-import { Center } from '../../../../../../src/certification/session/domain/models/Center.js';
-import { CenterTypes } from '../../../../../../src/certification/session/domain/models/CenterTypes.js';
+import { Center } from '../../../../../../src/certification/enrolment/domain/models/Center.js';
+import { CenterTypes } from '../../../../../../src/certification/enrolment/domain/models/CenterTypes.js';
 import { catchErrSync, domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | Session | Domain | Models | Center', function () {

@@ -6,7 +6,7 @@
 import bluebird from 'bluebird';
 
 import { constants as infraConstants } from '../../../../../lib/infrastructure/constants.js';
-import { EnrolledCandidate } from '../../../session/domain/read-models/EnrolledCandidate.js';
+import { EnrolledCandidate } from '../../domain/read-models/EnrolledCandidate.js';
 
 /**
  * @function

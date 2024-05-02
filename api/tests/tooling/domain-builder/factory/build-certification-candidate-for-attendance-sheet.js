@@ -1,4 +1,4 @@
-import { CertificationCandidateForAttendanceSheet } from '../.././../../src/certification/session/domain/read-models/CertificationCandidateForAttendanceSheet.js';
+import { CertificationCandidateForAttendanceSheet } from '../.././../../src/certification/enrolment/domain/read-models/CertificationCandidateForAttendanceSheet.js';
 
 const buildCertificationCandidateForAttendanceSheet = function ({
   lastName = 'Laifrui',

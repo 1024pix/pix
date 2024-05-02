@@ -175,10 +175,10 @@ import { buildCertificationChallengeCapacity } from './certification/scoring/bui
 import { buildCertificationChallengeForScoring } from './certification/scoring/build-certification-challenge-for-scoring.js';
 import { buildCompetenceForScoring } from './certification/scoring/build-competence-for-scoring.js';
 import { buildV3CertificationScoring } from './certification/scoring/build-v3-certification-scoring.js';
-import { buildCenter } from './certification/session/build-center.js';
-import { buildCertificationSessionCandidate } from './certification/session/build-certification-session-candidate.js';
+import { buildCenter } from './build-center.js';
+import { buildCertificationSessionCandidate } from './build-certification-session-candidate.js';
 import { buildCertificationSessionComplementaryCertification } from './certification/session/build-certification-session-complementary-certification.js';
-import { buildCertificationSessionEnrolledCandidate } from './certification/session/build-certification-session-enrolled-candidate.js';
+import { buildCertificationSessionEnrolledCandidate } from './build-certification-session-enrolled-candidate.js';
 import { buildJuryComment } from './certification/shared/build-jury-comment.js';
 import { buildCampaign as boundedContextCampaignBuildCampaign } from './prescription/campaign/build-campaign.js';
 import { buildCampaignParticipation as boundedContextCampaignParticipationBuildCampaignParticipation } from './prescription/campaign-participation/build-campaign-participation.js';
