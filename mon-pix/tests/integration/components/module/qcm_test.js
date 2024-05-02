@@ -72,97 +72,6 @@ module('Integration | Component | Module | QCM', function (hooks) {
     assert.ok(true);
   });
 
-  test('should display an ok feedback when exists', async function (assert) {
-    // given
-    const store = this.owner.lookup('service:store');
-
-    const correctionResponse = store.createRecord('correction-response', {
-      feedback: 'Good job!',
-      status: 'ok',
-      solution: ['1', '4'],
-    });
-
-    prepareContextRecords.call(this, store, correctionResponse);
-    this.set('submitAnswer', () => {});
-
-    // when
-    const screen = await render(
-      hbs`<Module::Qcm @element={{this.el}} @submitAnswer={{this.submitAnswer}} @correction={{this.correctionResponse}} />`,
-    );
-
-    // then
-    const status = screen.getByRole('status');
-    assert.strictEqual(status.innerText, 'Good job!');
-    assert.ok(screen.getByRole('group').disabled);
-    assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
-  });
-
-  test('should display a ko feedback when exists', async function (assert) {
-    // given
-    const store = this.owner.lookup('service:store');
-    const correctionResponse = store.createRecord('correction-response', {
-      feedback: 'Too Bad!',
-      status: 'ko',
-      solution: ['1', '4'],
-    });
-
-    prepareContextRecords.call(this, store, correctionResponse);
-    this.set('submitAnswer', () => {});
-
-    // when
-    const screen = await render(
-      hbs`<Module::Qcm @element={{this.el}} @submitAnswer={{this.submitAnswer}} @correction={{this.correctionResponse}} />`,
-    );
-
-    // then
-    const status = screen.getByRole('status');
-    assert.strictEqual(status.innerText, 'Too Bad!');
-    assert.ok(screen.getByRole('group').disabled);
-    assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
-  });
-
-  test('should display retry button when a ko feedback appears', async function (assert) {
-    // given
-    const store = this.owner.lookup('service:store');
-    const correctionResponse = store.createRecord('correction-response', {
-      feedback: 'Too Bad!',
-      status: 'ko',
-      solution: 'solution',
-    });
-
-    prepareContextRecords.call(this, store, correctionResponse);
-    this.set('submitAnswer', () => {});
-
-    // when
-    const screen = await render(
-      hbs`<Module::Qcm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
-    );
-
-    // then
-    assert.dom(screen.queryByRole('button', { name: 'Réessayer' })).exists();
-  });
-
-  test('should not display retry button when an ok feedback appears', async function (assert) {
-    // given
-    const store = this.owner.lookup('service:store');
-    const correctionResponse = store.createRecord('correction-response', {
-      feedback: 'Nice!',
-      status: 'ok',
-      solution: 'solution',
-    });
-
-    prepareContextRecords.call(this, store, correctionResponse);
-    this.set('submitAnswer', () => {});
-
-    // when
-    const screen = await render(
-      hbs`<Module::Qcm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
-    );
-
-    // then
-    assert.dom(screen.queryByRole('button', { name: 'Réessayer' })).doesNotExist();
-  });
-
   test('should display an error message if QCM is validated with less than two responses', async function (assert) {
     // given
     const qcmElement = {
@@ -214,7 +123,217 @@ module('Integration | Component | Module | QCM', function (hooks) {
     // then
     assert.dom(screen.queryByRole('alert', { name: 'Pour valider, sélectionnez une réponse.' })).doesNotExist();
   });
+
+  module('with elements', function () {
+    test('should display an ok feedback when exists', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+
+      const correctionResponse = store.createRecord('correction-response', {
+        feedback: 'Good job!',
+        status: 'ok',
+        solution: ['1', '4'],
+      });
+
+      prepareDeprecatedContextRecords.call(this, store, correctionResponse);
+      this.set('submitAnswer', () => {});
+
+      // when
+      const screen = await render(
+        hbs`<Module::Qcm @element={{this.el}} @submitAnswer={{this.submitAnswer}} @correction={{this.correctionResponse}} />`,
+      );
+
+      // then
+      const status = screen.getByRole('status');
+      assert.strictEqual(status.innerText, 'Good job!');
+      assert.ok(screen.getByRole('group').disabled);
+      assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
+    });
+
+    test('should display a ko feedback when exists', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const correctionResponse = store.createRecord('correction-response', {
+        feedback: 'Too Bad!',
+        status: 'ko',
+        solution: ['1', '4'],
+      });
+
+      prepareDeprecatedContextRecords.call(this, store, correctionResponse);
+      this.set('submitAnswer', () => {});
+
+      // when
+      const screen = await render(
+        hbs`<Module::Qcm @element={{this.el}} @submitAnswer={{this.submitAnswer}} @correction={{this.correctionResponse}} />`,
+      );
+
+      // then
+      const status = screen.getByRole('status');
+      assert.strictEqual(status.innerText, 'Too Bad!');
+      assert.ok(screen.getByRole('group').disabled);
+      assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
+    });
+
+    test('should display retry button when a ko feedback appears', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const correctionResponse = store.createRecord('correction-response', {
+        feedback: 'Too Bad!',
+        status: 'ko',
+        solution: 'solution',
+      });
+
+      prepareDeprecatedContextRecords.call(this, store, correctionResponse);
+      this.set('submitAnswer', () => {});
+
+      // when
+      const screen = await render(
+        hbs`<Module::Qcm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+      );
+
+      // then
+      assert.dom(screen.queryByRole('button', { name: 'Réessayer' })).exists();
+    });
+
+    test('should not display retry button when an ok feedback appears', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const correctionResponse = store.createRecord('correction-response', {
+        feedback: 'Nice!',
+        status: 'ok',
+        solution: 'solution',
+      });
+
+      prepareDeprecatedContextRecords.call(this, store, correctionResponse);
+      this.set('submitAnswer', () => {});
+
+      // when
+      const screen = await render(
+        hbs`<Module::Qcm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+      );
+
+      // then
+      assert.dom(screen.queryByRole('button', { name: 'Réessayer' })).doesNotExist();
+    });
+  });
+
+  module('with components', function () {
+    test('should display an ok feedback when exists', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+
+      const correctionResponse = store.createRecord('correction-response', {
+        feedback: 'Good job!',
+        status: 'ok',
+        solution: ['1', '4'],
+      });
+
+      prepareContextRecords.call(this, store, correctionResponse);
+      this.set('submitAnswer', () => {});
+
+      // when
+      const screen = await render(
+        hbs`<Module::Qcm @element={{this.el}} @submitAnswer={{this.submitAnswer}} @correction={{this.correctionResponse}} />`,
+      );
+
+      // then
+      const status = screen.getByRole('status');
+      assert.strictEqual(status.innerText, 'Good job!');
+      assert.ok(screen.getByRole('group').disabled);
+      assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
+    });
+
+    test('should display a ko feedback when exists', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const correctionResponse = store.createRecord('correction-response', {
+        feedback: 'Too Bad!',
+        status: 'ko',
+        solution: ['1', '4'],
+      });
+
+      prepareContextRecords.call(this, store, correctionResponse);
+      this.set('submitAnswer', () => {});
+
+      // when
+      const screen = await render(
+        hbs`<Module::Qcm @element={{this.el}} @submitAnswer={{this.submitAnswer}} @correction={{this.correctionResponse}} />`,
+      );
+
+      // then
+      const status = screen.getByRole('status');
+      assert.strictEqual(status.innerText, 'Too Bad!');
+      assert.ok(screen.getByRole('group').disabled);
+      assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
+    });
+
+    test('should display retry button when a ko feedback appears', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const correctionResponse = store.createRecord('correction-response', {
+        feedback: 'Too Bad!',
+        status: 'ko',
+        solution: 'solution',
+      });
+
+      prepareContextRecords.call(this, store, correctionResponse);
+      this.set('submitAnswer', () => {});
+
+      // when
+      const screen = await render(
+        hbs`<Module::Qcm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+      );
+
+      // then
+      assert.dom(screen.queryByRole('button', { name: 'Réessayer' })).exists();
+    });
+
+    test('should not display retry button when an ok feedback appears', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const correctionResponse = store.createRecord('correction-response', {
+        feedback: 'Nice!',
+        status: 'ok',
+        solution: 'solution',
+      });
+
+      prepareContextRecords.call(this, store, correctionResponse);
+      this.set('submitAnswer', () => {});
+
+      // when
+      const screen = await render(
+        hbs`<Module::Qcm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+      );
+
+      // then
+      assert.dom(screen.queryByRole('button', { name: 'Réessayer' })).doesNotExist();
+    });
+  });
 });
+
+function prepareDeprecatedContextRecords(store, correctionResponse) {
+  const qcmElement = {
+    id: 'a6838f8e-05ee-42e0-9820-13a9977cf5dc',
+    instruction: 'Instruction',
+    proposals: [
+      { id: '1', content: 'checkbox1' },
+      { id: '2', content: 'checkbox2' },
+      { id: '3', content: 'checkbox3' },
+    ],
+    type: 'qcm',
+  };
+  store.createRecord('element-answer', {
+    correction: correctionResponse,
+    element: qcmElement,
+  });
+  store.createRecord('grain', { id: 'id', elements: [qcmElement] });
+  store.createRecord('element-answer', {
+    correction: correctionResponse,
+    elementId: qcmElement.id,
+  });
+  this.set('el', qcmElement);
+  this.set('correctionResponse', correctionResponse);
+}
 
 function prepareContextRecords(store, correctionResponse) {
   const qcmElement = {
@@ -231,7 +350,7 @@ function prepareContextRecords(store, correctionResponse) {
     correction: correctionResponse,
     element: qcmElement,
   });
-  store.createRecord('grain', { id: 'id', elements: [qcmElement] });
+  store.createRecord('grain', { id: 'id', components: [{ type: 'element', element: qcmElement }] });
   store.createRecord('element-answer', {
     correction: correctionResponse,
     elementId: qcmElement.id,
