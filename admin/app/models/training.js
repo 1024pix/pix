@@ -17,7 +17,7 @@ export const optionsTypeList = formatList(typeCategories);
 export const localeCategories = {
   fr: 'Francophone (fr)',
   'fr-fr': 'Franco-français (fr-fr)',
-  'en-gb': 'Anglais (en-gb)',
+  en: 'Anglophone (en)',
 };
 
 export const optionsLocaleList = formatList(localeCategories);
