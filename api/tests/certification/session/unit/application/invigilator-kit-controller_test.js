@@ -16,7 +16,7 @@ describe('Unit | Controller | invigilator-kit-controller', function () {
       it(`should return invigilator kit in ${lang}`, async function () {
         // given
         sinon.stub(usecases, 'getInvigilatorKitSessionInfo');
-        const sessionMainInfo = domainBuilder.buildSessionForInvigilatorKit({ id: 1 });
+        const sessionMainInfo = domainBuilder.certification.session.buildSession({ id: 1 });
         const invigilatorKitBuffer = 'binary string';
         const userId = 1;
         const i18n = getI18n();

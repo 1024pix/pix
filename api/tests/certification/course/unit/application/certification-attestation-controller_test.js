@@ -53,7 +53,7 @@ describe('Unit | Controller | certification-attestation-controller', function ()
       const certificationAttestationPdf = {
         getCertificationAttestationsPdfBuffer: sinon.stub(),
       };
-      const session = domainBuilder.buildSession.finalized({ id: 12 });
+      const session = domainBuilder.certification.session.buildSession.finalized({ id: 12 });
       domainBuilder.buildCertificationCourse({
         id: 1,
         sessionId: 12,

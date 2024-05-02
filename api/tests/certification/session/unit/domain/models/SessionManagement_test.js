@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
-import { Session } from '../../../../../../src/certification/session/domain/models/Session.js';
+import { SessionManagement } from '../../../../../../src/certification/session/domain/models/SessionManagement.js';
 import { SESSION_STATUSES } from '../../../../../../src/certification/shared/domain/constants.js';
-import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 const SESSION_PROPS = [
   'id',
@@ -28,11 +28,11 @@ const SESSION_PROPS = [
   'createdBy',
 ];
 
-describe('Unit | Certification | Session | Domain | Models | Session', function () {
+describe('Unit | Certification | Session | Domain | Models | SessionManagement', function () {
   let session;
 
   beforeEach(function () {
-    session = new Session({
+    session = new SessionManagement({
       id: 'id',
       accessCode: '',
       address: '',
@@ -58,7 +58,7 @@ describe('Unit | Certification | Session | Domain | Models | Session', function 
   });
 
   it('should create an object of the Session type', function () {
-    expect(session).to.be.instanceOf(Session);
+    expect(session).to.be.instanceOf(SessionManagement);
   });
 
   it('should create a session with all the requires properties', function () {
@@ -151,7 +151,7 @@ describe('Unit | Certification | Session | Domain | Models | Session', function 
   context('#isPublished', function () {
     it('returns true when the session is published', function () {
       // given
-      const session = domainBuilder.buildSession({ publishedAt: new Date() });
+      const session = domainBuilder.certification.session.buildSession({ publishedAt: new Date() });
       // when
       const isPublished = session.isPublished();
 
@@ -161,7 +161,7 @@ describe('Unit | Certification | Session | Domain | Models | Session', function 
 
     it('returns false when the session is not published', function () {
       // given
-      const session = domainBuilder.buildSession({ publishedAt: null });
+      const session = domainBuilder.certification.session.buildSession({ publishedAt: null });
       // when
       const isPublished = session.isPublished();
 
@@ -173,7 +173,7 @@ describe('Unit | Certification | Session | Domain | Models | Session', function 
   context('#isAccessible', function () {
     it('returns true when the session is created', function () {
       // given
-      const session = domainBuilder.buildSession.created();
+      const session = domainBuilder.certification.session.buildSession.created();
 
       // when
       const isAccessible = session.isAccessible();
@@ -184,7 +184,7 @@ describe('Unit | Certification | Session | Domain | Models | Session', function 
 
     it('returns false when the session is finalized', function () {
       // given
-      const session = domainBuilder.buildSession.finalized();
+      const session = domainBuilder.certification.session.buildSession.finalized();
 
       // when
       const isAccessible = session.isAccessible();
@@ -195,7 +195,7 @@ describe('Unit | Certification | Session | Domain | Models | Session', function 
 
     it('returns false when the session is in process', function () {
       // given
-      const session = domainBuilder.buildSession.inProcess();
+      const session = domainBuilder.certification.session.buildSession.inProcess();
 
       // when
       const isAccessible = session.isAccessible();
@@ -206,7 +206,7 @@ describe('Unit | Certification | Session | Domain | Models | Session', function 
 
     it('returns false when the session is processed', function () {
       // given
-      const session = domainBuilder.buildSession.processed();
+      const session = domainBuilder.certification.session.buildSession.processed();
 
       // when
       const isAccessible = session.isAccessible();
@@ -219,7 +219,7 @@ describe('Unit | Certification | Session | Domain | Models | Session', function 
   context('#isSupervisable', function () {
     it('should return true when the supervisor password match', function () {
       // given
-      const session = domainBuilder.buildSession.created();
+      const session = domainBuilder.certification.session.buildSession.created();
 
       // when
       const isSupervisable = session.isSupervisable(session.supervisorPassword);
@@ -230,36 +230,13 @@ describe('Unit | Certification | Session | Domain | Models | Session', function 
 
     it('should return false when the supervisor password does not match', function () {
       // given
-      const session = domainBuilder.buildSession.created();
+      const session = domainBuilder.certification.session.buildSession.created();
 
       // when
       const isSupervisable = session.isSupervisable('NOT_MATCHING-SUPERVISOR_PASSWORD');
 
       // then
       expect(isSupervisable).to.be.false;
-    });
-  });
-
-  context('#canEnrolCandidate', function () {
-    it('should return true when session is not finalized', function () {
-      // given
-
-      // when
-      const result = session.canEnrolCandidate();
-
-      // then
-      expect(result).to.be.true;
-    });
-
-    it('should return false when session is not finalized', function () {
-      // given
-      const session = domainBuilder.certification.session.buildSession.finalized();
-
-      // when
-      const result = session.canEnrolCandidate();
-
-      // then
-      expect(result).to.be.false;
     });
   });
 });

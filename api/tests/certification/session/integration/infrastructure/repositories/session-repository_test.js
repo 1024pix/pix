@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 import { CertificationAssessment } from '../../../../../../lib/domain/models/CertificationAssessment.js';
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
-import { Session } from '../../../../../../src/certification/session/domain/models/Session.js';
+import { SessionManagement } from '../../../../../../src/certification/session/domain/models/SessionManagement.js';
 import * as sessionRepository from '../../../../../../src/certification/session/infrastructure/repositories/session-repository.js';
 import { SESSION_STATUSES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
@@ -210,7 +210,7 @@ describe('Integration | Repository | Certification | session | SessionManagement
       return databaseBuilder.commit();
     });
 
-    it('should return an updated Session domain object', async function () {
+    it('should return an updated SessionManagement domain object', async function () {
       // when
       const sessionSaved = await sessionRepository.finalize({
         id,
@@ -221,7 +221,7 @@ describe('Integration | Repository | Certification | session | SessionManagement
       });
 
       // then
-      expect(sessionSaved).to.be.an.instanceof(Session);
+      expect(sessionSaved).to.be.an.instanceof(SessionManagement);
       expect(sessionSaved.id).to.deep.equal(id);
       expect(sessionSaved.examinerGlobalComment).to.deep.equal(examinerGlobalComment);
       expect(sessionSaved.hasIncident).to.deep.equal(hasIncident);
@@ -295,12 +295,12 @@ describe('Integration | Repository | Certification | session | SessionManagement
       return databaseBuilder.commit();
     });
 
-    it('should return a flagged Session domain object', async function () {
+    it('should return a flagged SessionManagement domain object', async function () {
       // when
       const sessionFlagged = await sessionRepository.flagResultsAsSentToPrescriber({ id, resultsSentToPrescriberAt });
 
       // then
-      expect(sessionFlagged).to.be.an.instanceof(Session);
+      expect(sessionFlagged).to.be.an.instanceof(SessionManagement);
       expect(sessionFlagged.id).to.deep.equal(id);
       expect(sessionFlagged.resultsSentToPrescriberAt).to.deep.equal(resultsSentToPrescriberAt);
     });
@@ -316,12 +316,12 @@ describe('Integration | Repository | Certification | session | SessionManagement
       return databaseBuilder.commit();
     });
 
-    it('should return a updated Session domain object', async function () {
+    it('should return a updated SessionManagement domain object', async function () {
       // when
       const sessionFlagged = await sessionRepository.updatePublishedAt({ id, publishedAt });
 
       // then
-      expect(sessionFlagged).to.be.an.instanceof(Session);
+      expect(sessionFlagged).to.be.an.instanceof(SessionManagement);
       expect(sessionFlagged.id).to.deep.equal(id);
       expect(sessionFlagged.publishedAt).to.deep.equal(publishedAt);
     });
@@ -630,7 +630,7 @@ describe('Integration | Repository | Certification | session | SessionManagement
       const actualSession = await sessionRepository.getWithCertificationCandidates({ id: session.id });
 
       // then
-      const expectedSession = domainBuilder.buildSession(session);
+      const expectedSession = domainBuilder.certification.session.buildSession(session);
       expect(actualSession).to.deepEqualInstance(expectedSession);
     });
 

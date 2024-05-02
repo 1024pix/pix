@@ -12,7 +12,7 @@ describe('Unit | Domain | Use Cases | get-session-results', function () {
 
   it('should return the session and the certificationResults', async function () {
     // given
-    const expectedSession = domainBuilder.buildSession();
+    const expectedSession = domainBuilder.certification.session.buildSession();
     sessionEnrolmentRepository.get.withArgs({ id: 123 }).resolves(expectedSession);
     const certificationResult1 = domainBuilder.buildCertificationResult({ firstName: 'Buffy' });
     const certificationResult2 = domainBuilder.buildCertificationResult({ firstName: 'Spike' });

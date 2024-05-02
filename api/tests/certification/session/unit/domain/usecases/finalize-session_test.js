@@ -21,7 +21,7 @@ describe('Unit | UseCase | finalize-session', function () {
 
   beforeEach(async function () {
     sessionId = 'dummy session id';
-    updatedSession = domainBuilder.buildSession({
+    updatedSession = domainBuilder.certification.session.buildSession({
       id: sessionId,
       examinerGlobalComment,
       hasIncident,
@@ -252,7 +252,7 @@ describe('Unit | UseCase | finalize-session', function () {
 
       it('raises a session finalized event', async function () {
         // given
-        const updatedSession = domainBuilder.buildSession({
+        const updatedSession = domainBuilder.certification.session.buildSession({
           finalizedAt: new Date('2020-01-01T14:00:00Z'),
           examinerGlobalComment: 'an examiner comment',
           certificationCenter: 'a certification center name',

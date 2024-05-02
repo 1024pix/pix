@@ -5,7 +5,7 @@ import { CertificationCandidate } from '../../../../../lib/domain/models/Certifi
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
-import { Session } from '../../domain/models/Session.js';
+import { SessionManagement } from '../../domain/models/SessionManagement.js';
 
 const get = async function ({ id }) {
   const foundSession = await knex.select('*').from('sessions').where({ id }).first();
@@ -48,7 +48,7 @@ const finalize = async function ({ id, examinerGlobalComment, hasIncident, hasJo
     .where({ id })
     .update({ examinerGlobalComment, hasIncident, hasJoiningIssue, finalizedAt })
     .returning('*');
-  return new Session(finalizedSession);
+  return new SessionManagement(finalizedSession);
 };
 
 const unfinalize = async function ({ id, domainTransaction = DomainTransaction.emptyTransaction() }) {
@@ -63,12 +63,12 @@ const unfinalize = async function ({ id, domainTransaction = DomainTransaction.e
 
 const flagResultsAsSentToPrescriber = async function ({ id, resultsSentToPrescriberAt }) {
   const [flaggedSession] = await knex('sessions').where({ id }).update({ resultsSentToPrescriberAt }).returning('*');
-  return new Session(flaggedSession);
+  return new SessionManagement(flaggedSession);
 };
 
 const updatePublishedAt = async function ({ id, publishedAt }) {
   const [publishedSession] = await knex('sessions').where({ id }).update({ publishedAt }).returning('*');
-  return new Session(publishedSession);
+  return new SessionManagement(publishedSession);
 };
 
 const hasSomeCleaAcquired = async function ({ id }) {
@@ -177,7 +177,7 @@ function _toDomain(results) {
         }),
     );
 
-  return new Session({
+  return new SessionManagement({
     ...results,
     certificationCandidates: toDomainCertificationCandidates,
   });
