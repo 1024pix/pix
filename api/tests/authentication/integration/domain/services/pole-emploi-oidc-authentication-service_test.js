@@ -2,8 +2,8 @@ import { randomUUID } from 'node:crypto';
 
 import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
 import { UserToCreate } from '../../../../../lib/domain/models/UserToCreate.js';
-import { PoleEmploiOidcAuthenticationService } from '../../../../../lib/domain/services/authentication/pole-emploi-oidc-authentication-service.js';
 import { temporaryStorage } from '../../../../../lib/infrastructure/temporary-storage/index.js';
+import { PoleEmploiOidcAuthenticationService } from '../../../../../src/authentication/domain/services/pole-emploi-oidc-authentication-service.js';
 import { config } from '../../../../../src/shared/config.js';
 import * as authenticationMethodRepository from '../../../../../src/shared/infrastructure/repositories/authentication-method-repository.js';
 import * as userToCreateRepository from '../../../../../src/shared/infrastructure/repositories/user-to-create-repository.js';
@@ -11,7 +11,7 @@ import { expect, knex } from '../../../../test-helper.js';
 
 const defaultSessionTemporaryStorage = temporaryStorage.withPrefix('oidc-session:');
 
-describe('Integration | Domain | Services | pole-emploi-oidc-authentication-service', function () {
+describe('Integration | Authentication | Domain | Services | pole-emploi-oidc-authentication-service', function () {
   describe('#createUserAccount', function () {
     it('creates a user with an authentication method and returns a user id', async function () {
       // given

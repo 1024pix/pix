@@ -1,12 +1,12 @@
-import { ProSanteConnectOidcAuthenticationService } from '../../../../src/authentication/domain/services/pro-sante-connect-oidc-authentication.service.js';
-import { oidcProviderRepository } from '../../../../src/authentication/infrastructure/repositories/oidc-provider-repository.js';
-import { cryptoService } from '../../../../src/shared/domain/services/crypto-service.js';
-import { InvalidIdentityProviderError } from '../../errors.js';
+import { InvalidIdentityProviderError } from '../../../../lib/domain/errors.js';
+import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
+import { oidcProviderRepository } from '../../infrastructure/repositories/oidc-provider-repository.js';
 import { CnavOidcAuthenticationService } from './cnav-oidc-authentication-service.js';
 import { FwbOidcAuthenticationService } from './fwb-oidc-authentication-service.js';
 import { GoogleOidcAuthenticationService } from './google-oidc-authentication-service.js';
 import { PaysdelaloireOidcAuthenticationService } from './paysdelaloire-oidc-authentication-service.js';
 import { PoleEmploiOidcAuthenticationService } from './pole-emploi-oidc-authentication-service.js';
+import { ProSanteConnectOidcAuthenticationService } from './pro-sante-connect-oidc-authentication.service.js';
 
 export class OidcAuthenticationServiceRegistry {
   #allOidcProviderServices = null;

@@ -1,9 +1,9 @@
 import jsonwebtoken from 'jsonwebtoken';
 
-import { GoogleOidcAuthenticationService } from '../../../../../lib/domain/services/authentication/google-oidc-authentication-service.js';
+import { GoogleOidcAuthenticationService } from '../../../../../src/authentication/domain/services/google-oidc-authentication-service.js';
 import { expect } from '../../../../test-helper.js';
 
-describe('Unit | Domain | Services | google-oidc-authentication-service', function () {
+describe('Unit | Authentication | Domain | Services | google-oidc-authentication-service', function () {
   describe('#getUserInfo', function () {
     it('returns email and external identity id', async function () {
       // given

@@ -1,11 +1,11 @@
 import { Issuer } from 'openid-client';
 
 import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
-import { PoleEmploiOidcAuthenticationService } from '../../../../../lib/domain/services/authentication/pole-emploi-oidc-authentication-service.js';
+import { PoleEmploiOidcAuthenticationService } from '../../../../../src/authentication/domain/services/pole-emploi-oidc-authentication-service.js';
 import { config as settings } from '../../../../../src/shared/config.js';
 import { expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Domain | Services | pole-emploi-oidc-authentication-service', function () {
+describe('Unit | Authentication | Domain | Services | pole-emploi-oidc-authentication-service', function () {
   describe('#constructor', function () {
     describe('when additionalRequiredProperties is not defined', function () {
       it('is not ready', async function () {

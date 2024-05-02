@@ -1,13 +1,13 @@
 import { randomUUID } from 'node:crypto';
 
-import { FwbOidcAuthenticationService } from '../../../../../lib/domain/services/authentication/fwb-oidc-authentication-service.js';
 import { temporaryStorage } from '../../../../../lib/infrastructure/temporary-storage/index.js';
+import { FwbOidcAuthenticationService } from '../../../../../src/authentication/domain/services/fwb-oidc-authentication-service.js';
 import { config } from '../../../../../src/shared/config.js';
 import { expect } from '../../../../test-helper.js';
 
 const defaultSessionTemporaryStorage = temporaryStorage.withPrefix('oidc-session:');
 
-describe('Integration | Domain | Service | fwb-oidc-authentication-service', function () {
+describe('Integration | Authentication | Domain | Service | fwb-oidc-authentication-service', function () {
   describe('#getRedirectLogoutUrl', function () {
     it('removes the idToken from temporary storage and returns a redirect logout url', async function () {
       // given
