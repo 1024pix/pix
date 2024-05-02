@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+import { SubscriptionTypes } from '../../../src/certification/shared/domain/models/SubscriptionTypes.js';
 import { databaseBuffer } from '../database-buffer.js';
 import { buildCertificationCandidate } from './build-certification-candidate.js';
 import { buildComplementaryCertification } from './build-complementary-certification.js';
@@ -16,14 +17,14 @@ const buildComplementaryCertificationSubscription = function ({
     ? buildComplementaryCertification().id
     : complementaryCertificationId;
 
-  const values = {
-    certificationCandidateId,
-    complementaryCertificationId,
-    createdAt,
-  };
   return databaseBuffer.pushInsertable({
     tableName: 'certification-subscriptions',
-    values,
+    values: {
+      certificationCandidateId,
+      complementaryCertificationId,
+      createdAt,
+      type: SubscriptionTypes.COMPLEMENTARY,
+    },
   });
 };
 
