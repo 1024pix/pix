@@ -5,7 +5,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-module('Integration | Component | TargetProfiles::CreateTargetProfileForm', function (hooks) {
+module('Integration | Component | TargetProfiles::EditTargetProfileForm', function (hooks) {
   setupRenderingTest(hooks);
 
   let targetProfile;
@@ -40,7 +40,7 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
 
   test('it should display the items', async function (assert) {
     // when
-    const screen = await render(hbs`<TargetProfiles::CreateTargetProfileForm
+    const screen = await render(hbs`<TargetProfiles::EditTargetProfileForm
   @targetProfile={{this.targetProfile}}
   @frameworks={{this.frameworks}}
   @onSubmit={{this.onSubmit}}
@@ -59,7 +59,7 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
 
   test('it should call onSubmit when form is valid', async function (assert) {
     // when
-    await render(hbs`<TargetProfiles::CreateTargetProfileForm
+    await render(hbs`<TargetProfiles::EditTargetProfileForm
   @targetProfile={{this.targetProfile}}
   @frameworks={{this.frameworks}}
   @refreshAreas={{this.refreshAreas}}
@@ -75,7 +75,7 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
 
   test('it should call onCancel when form is cancel', async function (assert) {
     // when
-    await render(hbs`<TargetProfiles::CreateTargetProfileForm
+    await render(hbs`<TargetProfiles::EditTargetProfileForm
   @targetProfile={{this.targetProfile}}
   @frameworks={{this.frameworks}}
   @refreshAreas={{this.refreshAreas}}
