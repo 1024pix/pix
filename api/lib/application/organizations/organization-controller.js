@@ -104,14 +104,6 @@ const getOrganizationMemberIdentities = async function (
   return dependencies.organizationMemberIdentitySerializer.serialize(members);
 };
 
-const attachTargetProfiles = async function (request, h) {
-  const targetProfileIds = request.payload['target-profile-ids'];
-  const organizationId = request.params.id;
-  await usecases.attachTargetProfilesToOrganization({ organizationId, targetProfileIds });
-
-  return h.response({}).code(204);
-};
-
 const getDivisions = async function (request) {
   const organizationId = request.params.id;
   const divisions = await usecases.findDivisionsByOrganization({ organizationId });
@@ -197,7 +189,6 @@ const findChildrenOrganizationsForAdmin = async function (
 
 const organizationController = {
   archiveOrganization,
-  attachTargetProfiles,
   cancelOrganizationInvitation,
   create,
   createInBatch,

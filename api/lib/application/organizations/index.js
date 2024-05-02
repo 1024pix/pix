@@ -4,7 +4,7 @@ const Joi = BaseJoi.extend(JoiDate);
 
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
-import { BadRequestError, NotFoundError, PayloadTooLargeError, sendJsonApiError } from '../http-errors.js';
+import { BadRequestError, PayloadTooLargeError, sendJsonApiError } from '../http-errors.js';
 import { organizationController } from './organization-controller.js';
 
 const ERRORS = {
@@ -261,43 +261,6 @@ const register = async function (server) {
             "- Elle permet d'inviter des personnes, déjà utilisateurs de Pix ou non, à être membre d'une organisation, via leur **email**",
         ],
         tags: ['api', 'invitations'],
-      },
-    },
-    {
-      method: 'POST',
-      path: '/api/admin/organizations/{id}/attach-target-profiles',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          payload: Joi.object({
-            'target-profile-ids': Joi.array().items(Joi.number().integer()).required(),
-          }),
-          params: Joi.object({
-            id: identifiersType.organizationId,
-          }),
-          failAction: (request, h) => {
-            return sendJsonApiError(
-              new NotFoundError("L'id d'un des profils cible ou de l'organisation n'est pas valide"),
-              h,
-            );
-          },
-        },
-        handler: organizationController.attachTargetProfiles,
-        tags: ['api', 'admin', 'target-profiles', 'organizations'],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            '- Elle permet de rattacher des profil cibles à une organisation',
-        ],
       },
     },
     {

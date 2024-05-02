@@ -242,34 +242,6 @@ describe('Unit | Application | Organizations | organization-controller', functio
     });
   });
 
-  describe('#attachTargetProfiles', function () {
-    let request;
-
-    it('should succeed', async function () {
-      // given
-      sinon.stub(usecases, 'attachTargetProfilesToOrganization');
-      request = {
-        params: {
-          id: 123,
-        },
-        payload: {
-          'target-profile-ids': [1, 2],
-        },
-      };
-      usecases.attachTargetProfilesToOrganization.resolves();
-
-      // when
-      const response = await organizationController.attachTargetProfiles(request, hFake);
-
-      // then
-      expect(response.statusCode).to.equal(204);
-      expect(usecases.attachTargetProfilesToOrganization).to.have.been.calledWithExactly({
-        organizationId: 123,
-        targetProfileIds: [1, 2],
-      });
-    });
-  });
-
   describe('#findTargetProfileSummariesForAdmin', function () {
     it('should return serialized summaries', async function () {
       // given

@@ -117,4 +117,32 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
       expect(response.source).to.equal(pdfBuffer);
     });
   });
+
+  describe('#attachTargetProfiles', function () {
+    let request;
+
+    it('should succeed', async function () {
+      // given
+      sinon.stub(usecases, 'attachTargetProfilesToOrganization');
+      request = {
+        params: {
+          organizationId: 123,
+        },
+        payload: {
+          'target-profile-ids': [1, 2],
+        },
+      };
+      usecases.attachTargetProfilesToOrganization.resolves();
+
+      // when
+      const response = await targetProfileController.attachTargetProfiles(request, hFake);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+      expect(usecases.attachTargetProfilesToOrganization).to.have.been.calledWithExactly({
+        organizationId: 123,
+        targetProfileIds: [1, 2],
+      });
+    });
+  });
 });
