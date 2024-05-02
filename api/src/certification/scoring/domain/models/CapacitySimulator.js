@@ -12,7 +12,7 @@ export class CapacitySimulator {
     const intervalMinValue = certificationScoringIntervals[intervalIndex].bounds.min;
 
     const capacity =
-      (intervalMaxValue - intervalMinValue) * (score / SCORE_THRESHOLD - (intervalIndex + 1)) + intervalMaxValue;
+      (intervalMaxValue - intervalMinValue) * ((score + 1) / SCORE_THRESHOLD - (intervalIndex + 1)) + intervalMaxValue;
 
     const competences = competencesForScoring.map(({ intervals, competenceCode }) => {
       return {
@@ -30,5 +30,15 @@ export class CapacitySimulator {
 }
 
 function _findIntervalIndex(capacity, competenceForScoring) {
-  return competenceForScoring.findIndex(({ bounds }) => capacity < bounds.max && capacity >= bounds.min);
+  if (capacity < competenceForScoring[0].bounds.min) {
+    return 0;
+  }
+
+  for (const [index, { bounds }] of competenceForScoring.entries()) {
+    if (bounds.max >= capacity) {
+      return index;
+    }
+  }
+
+  return competenceForScoring.length - 1;
 }
