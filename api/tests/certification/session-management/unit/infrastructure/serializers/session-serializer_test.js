@@ -1,9 +1,9 @@
-import * as serializer from '../../../../../../src/certification/enrolment/infrastructure/serializers/session-serializer.js';
-import { Session } from '../../../../../../src/certification/session/domain/models/Session.js';
+import { SessionManagement } from '../../../../../../src/certification/session-management/domain/models/SessionManagement.js';
+import * as serializer from '../../../../../../src/certification/session-management/infrastructure/serializers/session-serializer.js';
 import { SESSION_STATUSES } from '../../../../../../src/certification/shared/domain/constants.js';
-import { expect } from '../../../../../test-helper.js';
+import { EMPTY_BLANK_AND_NULL, expect } from '../../../../../test-helper.js';
 
-describe('Unit | Certification | enrolment | Serializer | session-serializer', function () {
+describe('Unit | Certification | session-management | Serializer | session-serializer', function () {
   describe('#serialize()', function () {
     let session;
     let expectedJsonApi;
@@ -21,8 +21,14 @@ describe('Unit | Certification | enrolment | Serializer | session-serializer', f
             examiner: 'Antoine Toutvenant',
             date: '2017-01-20',
             time: '14:30',
-            status: SESSION_STATUSES.CREATED,
+            status: SESSION_STATUSES.PROCESSED,
             description: '',
+            'examiner-global-comment': 'It was a fine session my dear',
+            'has-incident': true,
+            'has-joining-issue': true,
+            'finalized-at': new Date('2020-02-17T14:23:56Z'),
+            'results-sent-to-prescriber-at': new Date('2020-02-20T14:23:56Z'),
+            'published-at': new Date('2020-02-21T14:23:56Z'),
             'supervisor-password': 'SOWHAT',
           },
           relationships: {
@@ -39,7 +45,7 @@ describe('Unit | Certification | enrolment | Serializer | session-serializer', f
           },
         },
       };
-      session = new Session({
+      session = new SessionManagement({
         id: 12,
         certificationCenterId: 123,
         address: 'Nice',
@@ -50,11 +56,17 @@ describe('Unit | Certification | enrolment | Serializer | session-serializer', f
         description: '',
         accessCode: '',
         supervisorPassword: 'SOWHAT',
+        examinerGlobalComment: 'It was a fine session my dear',
+        hasIncident: true,
+        hasJoiningIssue: true,
+        finalizedAt: new Date('2020-02-17T14:23:56Z'),
+        resultsSentToPrescriberAt: new Date('2020-02-20T14:23:56Z'),
+        publishedAt: new Date('2020-02-21T14:23:56Z'),
       });
     });
 
     context('when session does not have a link to an existing certification center', function () {
-      it('should convert a Session model object into JSON API data including supervisor password', function () {
+      it('should convert a SessionManagement model object into JSON API data including supervisor password', function () {
         // when
         const json = serializer.serialize({ session });
 
@@ -113,6 +125,11 @@ describe('Unit | Certification | enrolment | Serializer | session-serializer', f
           status: SESSION_STATUSES.CREATED,
           description: '',
           'certification-center-id': 42,
+          'examiner-global-comment': 'It was a fine session my dear',
+          'has-incident': true,
+          'has-joining-issue': true,
+          'finalized-at': new Date('2020-02-17T14:23:56Z'),
+          'results-sent-to-prescriber-at': new Date('2020-02-20T14:23:56Z'),
         },
         relationships: {
           certifications: {
@@ -143,7 +160,7 @@ describe('Unit | Certification | enrolment | Serializer | session-serializer', f
       const session = serializer.deserialize(jsonApiSession);
 
       // then
-      expect(session).to.be.instanceOf(Session);
+      expect(session).to.be.instanceOf(SessionManagement);
       expect(session.id).to.equal('12');
       expect(session.certificationCenterId).to.equal(42);
       expect(session.address).to.equal('Nice');
@@ -152,6 +169,23 @@ describe('Unit | Certification | enrolment | Serializer | session-serializer', f
       expect(session.date).to.equal('2017-01-20');
       expect(session.time).to.equal('14:30');
       expect(session.description).to.equal('');
+      expect(session.examinerGlobalComment).to.equal('It was a fine session my dear');
+      expect(session.hasIncident).to.be.true;
+      expect(session.hasJoiningIssue).to.be.true;
+    });
+
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    EMPTY_BLANK_AND_NULL.forEach((examinerGlobalComment) => {
+      it(`should return no examiner comment if comment is "${examinerGlobalComment}"`, function () {
+        // given
+        jsonApiSession.data.attributes['examiner-global-comment'] = examinerGlobalComment;
+
+        // when
+        const result = serializer.deserialize(jsonApiSession);
+
+        // then
+        expect(result.examinerGlobalComment).to.deep.equal(SessionManagement.NO_EXAMINER_GLOBAL_COMMENT);
+      });
     });
   });
 });

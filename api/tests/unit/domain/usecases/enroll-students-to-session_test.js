@@ -308,7 +308,7 @@ describe('Unit | UseCase | enrol-students-to-session', function () {
 
 function _buildMatchingSessionAndCertificationCenterMembership() {
   const certificationCenter = domainBuilder.buildCertificationCenter();
-  const session = domainBuilder.buildSession({
+  const session = domainBuilder.certification.enrolment.buildSession({
     certificationCenterId: certificationCenter.id,
   });
 
@@ -321,7 +321,7 @@ function _buildMatchingSessionAndCertificationCenterMembership() {
 
 function _buildNonMatchingSessionAndCertificationCenterMembership() {
   const certificationCenterForSession = domainBuilder.buildCertificationCenter({ id: 1234 });
-  const session = domainBuilder.buildSession({
+  const session = domainBuilder.certification.enrolment.buildSession({
     certificationCenterId: certificationCenterForSession.id,
   });
 

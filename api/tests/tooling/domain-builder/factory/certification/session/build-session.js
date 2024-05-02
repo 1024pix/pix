@@ -1,4 +1,4 @@
-import { Session } from '../../../../../../src/certification/enrolment/domain/models/Session.js';
+import { Session } from '../../../../../../src/certification/session/domain/models/Session.js';
 
 const buildSession = function ({
   id = 123,
@@ -198,4 +198,4 @@ buildSession.processed = function ({
   });
 };
 
-export { buildSession as buildSessionEnrolment };
+export { buildSession };

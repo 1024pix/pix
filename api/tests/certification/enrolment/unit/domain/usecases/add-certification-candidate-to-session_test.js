@@ -38,7 +38,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
   context('when the session is finalized', function () {
     it('should throw an CertificationCandidateOnFinalizedSessionError', async function () {
       // given
-      const session = domainBuilder.buildSession.finalized();
+      const session = domainBuilder.certification.enrolment.buildSession.finalized();
       sessionRepository.get.resolves(session);
 
       const certificationCandidate = domainBuilder.buildCertificationCandidate.pro({
@@ -67,7 +67,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
   context('when certification candidate does not pass JOI validation', function () {
     it('should throw a CertificationCandidatesError error', async function () {
       // given
-      const session = domainBuilder.buildSession.created();
+      const session = domainBuilder.certification.enrolment.buildSession.created();
       sessionRepository.get.resolves(session);
       sessionRepository.isSco.resolves(false);
       const certificationCandidate = domainBuilder.buildCertificationCandidate.pro({
@@ -105,7 +105,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
     context('when a candidate already exists in session with personal info', function () {
       it('should throw an CertificationCandidateByPersonalInfoTooManyMatchesError', async function () {
         // given
-        const session = domainBuilder.buildSession.created();
+        const session = domainBuilder.certification.enrolment.buildSession.created();
         sessionRepository.get.resolves(session);
         sessionRepository.isSco.resolves(true);
         const certificationCandidate = domainBuilder.buildCertificationCandidate({
@@ -141,7 +141,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
     context('when no candidate exists with personal info', function () {
       it('should save the certification candidate and the complementary certification', async function () {
         // given
-        const session = domainBuilder.buildSession.created();
+        const session = domainBuilder.certification.enrolment.buildSession.created();
         sessionRepository.get.resolves(session);
         sessionRepository.isSco.resolves(false);
         const complementaryCertification =
@@ -184,7 +184,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
 
       it('should return the certification candidate updated with sessionId', async function () {
         //given
-        const session = domainBuilder.buildSession.created();
+        const session = domainBuilder.certification.enrolment.buildSession.created();
         sessionRepository.get.resolves(session);
         sessionRepository.isSco.resolves(false);
         const certificationCandidate = domainBuilder.buildCertificationCandidate.pro({
@@ -221,7 +221,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
 
       it('should validate the certification candidate', async function () {
         // given
-        const session = domainBuilder.buildSession.created();
+        const session = domainBuilder.certification.enrolment.buildSession.created();
         sessionRepository.get.resolves(session);
         sessionRepository.isSco.resolves(false);
         const certificationCandidate = domainBuilder.buildCertificationCandidate.pro({
@@ -260,7 +260,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
       context('when birth information validation fail', function () {
         it('should throw a CertificationCandidatesError', async function () {
           // given
-          const session = domainBuilder.buildSession.created();
+          const session = domainBuilder.certification.enrolment.buildSession.created();
           sessionRepository.get.resolves(session);
           sessionRepository.isSco.resolves(false);
           const certificationCandidate = domainBuilder.buildCertificationCandidate.pro({
@@ -301,7 +301,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
         context('when candidate convocation email is not valid', function () {
           it('should throw a CertificationCandidatesError', async function () {
             // given
-            const session = domainBuilder.buildSession.created();
+            const session = domainBuilder.certification.enrolment.buildSession.created();
             sessionRepository.get.resolves(session);
             sessionRepository.isSco.resolves(false);
             const certificationCandidate = domainBuilder.buildCertificationCandidate.pro({
@@ -347,7 +347,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
         context('when candidate recipient email is not valid', function () {
           it('should throw a CertificationCandidatesError', async function () {
             // given
-            const session = domainBuilder.buildSession.created();
+            const session = domainBuilder.certification.enrolment.buildSession.created();
             sessionRepository.get.resolves(session);
             sessionRepository.isSco.resolves(false);
             const certificationCandidate = domainBuilder.buildCertificationCandidate.pro({

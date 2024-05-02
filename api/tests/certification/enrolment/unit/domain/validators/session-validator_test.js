@@ -9,7 +9,7 @@ describe('Unit | Domain | Validators | session-validator', function () {
   let session;
 
   beforeEach(function () {
-    session = domainBuilder.buildSession({
+    session = domainBuilder.certification.enrolment.buildSession({
       address: '51 rue des lillas',
       room: 'Salle John Doe',
       date: '2000-10-20',

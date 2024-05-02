@@ -158,7 +158,10 @@ describe('Acceptance | Controller | Session | session-route', function () {
       const { id: certificationCenterId, name: certificationCenter } =
         databaseBuilder.factory.buildCertificationCenter();
 
-      const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId, certificationCenter }).id;
+      const sessionId = databaseBuilder.factory.buildSession({
+        certificationCenterId,
+        certificationCenter,
+      }).id;
       databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
 
       await databaseBuilder.commit();
