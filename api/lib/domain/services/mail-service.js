@@ -226,35 +226,19 @@ function sendScoOrganizationInvitationEmail({
   locale,
   tags,
 }) {
-  locale = locale ? locale : FRENCH_FRANCE;
+  const currentLocale = locale ?? FRENCH_FRANCE;
+  const localeParams = LOCALE_TEMPLATE_PARAMS[currentLocale];
 
-  let variables = {
+  const templateParams = {
     organizationName,
     firstName,
     lastName,
-    pixHomeName: PIX_HOME_NAME_FRENCH_FRANCE,
-    pixHomeUrl: PIX_HOME_URL_FRENCH_FRANCE,
-    pixOrgaHomeUrl: `${config.domain.pixOrga + config.domain.tldFr}`,
-    redirectionUrl: `${
-      config.domain.pixOrga + config.domain.tldFr
-    }/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
-    locale,
+    pixHomeName: localeParams.homeName,
+    pixHomeUrl: localeParams.homeUrl,
+    pixOrgaHomeUrl: localeParams.pixOrgaHomeUrl,
+    redirectionUrl: `${localeParams.pixOrgaHomeUrl}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
+    locale: currentLocale,
   };
-
-  if (locale === FRENCH_SPOKEN) {
-    variables = {
-      organizationName,
-      firstName,
-      lastName,
-      pixHomeName: PIX_HOME_NAME_INTERNATIONAL,
-      pixHomeUrl: `${config.domain.pix + config.domain.tldOrg}`,
-      pixOrgaHomeUrl: `${config.domain.pixOrga + config.domain.tldOrg}`,
-      redirectionUrl: `${
-        config.domain.pixOrga + config.domain.tldOrg
-      }/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
-      locale,
-    };
-  }
 
   return mailer.sendEmail({
     from: EMAIL_ADDRESS_NO_RESPONSE,
@@ -262,7 +246,7 @@ function sendScoOrganizationInvitationEmail({
     to: email,
     subject: 'Accès à votre espace Pix Orga',
     template: mailer.organizationInvitationScoTemplateId,
-    variables,
+    variables: templateParams,
     tags: tags || null,
   });
 }
