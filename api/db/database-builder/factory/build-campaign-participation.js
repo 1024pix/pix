@@ -31,6 +31,8 @@ const buildCampaignParticipation = function ({
   const isShared = status === SHARED;
   sharedAt = isShared ? sharedAt : null;
 
+  if (deletedAt && !deletedBy) deletedBy = buildUser().id;
+
   const values = {
     id,
     campaignId,
