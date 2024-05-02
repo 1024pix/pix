@@ -128,6 +128,21 @@ async function _findAllowedCertificationCenterAccesses(certificationCenterIds) {
     .orderBy('certification-centers.id')
     .groupBy('certification-centers.id', 'organizations.isManagingStudents');
 
+  return _toDomain(allowedCertificationCenterAccessDTOs);
+}
+
+function _cleanTags(allowedCertificationCenterAccessDTO) {
+  return _(allowedCertificationCenterAccessDTO.tags).compact().uniq().value();
+}
+
+function _cleanHabilitations(allowedCertificationCenterAccessDTO) {
+  return _(allowedCertificationCenterAccessDTO.habilitations)
+    .filter((habilitation) => habilitation.id > 0)
+    .uniqBy('id')
+    .value();
+}
+
+function _toDomain(allowedCertificationCenterAccessDTOs) {
   return _.map(allowedCertificationCenterAccessDTOs, (allowedCertificationCenterAccessDTO) => {
     return new AllowedCertificationCenterAccess({
       ...allowedCertificationCenterAccessDTO,
@@ -135,21 +150,9 @@ async function _findAllowedCertificationCenterAccesses(certificationCenterIds) {
         allowedCertificationCenterAccessDTO.isRelatedToManagingStudentsOrganization,
       ),
       relatedOrganizationTags: _cleanTags(allowedCertificationCenterAccessDTO),
-      // toDomain a créer avec le modèle complementaryCertification
       habilitations: _cleanHabilitations(allowedCertificationCenterAccessDTO),
     });
   });
-
-  function _cleanTags(allowedCertificationCenterAccessDTO) {
-    return _(allowedCertificationCenterAccessDTO.tags).compact().uniq().value();
-  }
-
-  function _cleanHabilitations(allowedCertificationCenterAccessDTO) {
-    return _(allowedCertificationCenterAccessDTO.habilitations)
-      .filter((habilitation) => Boolean(habilitation.id))
-      .uniqBy('id')
-      .value();
-  }
 }
 
 async function _findNotDisabledCertificationCenterMemberships(userId) {
