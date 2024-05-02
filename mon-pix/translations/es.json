@@ -89,7 +89,7 @@
     },
     "new-information-banner": {
       "close-label": "Cerrar el banner",
-      "lvl-seven": "¡Pix llega poco a poco en español!\nLa traducción de todas nuestras competencias estará disponible en breve."
+      "lvl-seven": "<h2>¡Pix llega poco a poco en español!</h2><p>\nLa traducción de todas nuestras competencias estará disponible próximamente.</p>"
     },
     "or": "o",
     "pagination": {
@@ -132,7 +132,7 @@
       "help": "Ayuda",
       "label": "Menú principal",
       "link-help": "https://support.pix.org/en/support/home",
-      "skills": "Habilidades",
+      "skills": "Competencias",
       "start-certification": "Certificación",
       "trainings": "Mis cursos de formación",
       "tutorials": "Mis tutoriales"
@@ -322,12 +322,12 @@
         },
         "details": "Durante este curso, tendrá la oportunidad de :",
         "develop": {
-          "description": "Cada 5 preguntas, ves las respuestas correctas y obtienes consejos y una recomendación personalizada de tutoriales para desarrollar tus habilidades.",
+          "description": "Cada 5 preguntas, ves las respuestas correctas y obtienes consejos y una recomendación personalizada de tutoriales para desarrollar tus competencias.",
           "title": "Conoce tus resultados a medida que avanza la prueba y consulta pistas para mejorar."
         },
         "evaluate": {
           "description": "Deberá realizar búsquedas en Internet, utilizar su entorno de trabajo digital, poner a prueba sus conocimientos, etc.",
-          "title": "Mide tus habilidades digitales con divertidos retos de aprendizaje que se adaptan a tu nivel de competencia (mediante un algoritmo adaptativo)."
+          "title": "Mide tus competencias digitales con divertidos retos de aprendizaje que se adaptan a tu nivel de competencia (mediante un algoritmo adaptativo)."
         },
         "legal": "Al hacer clic en \"Estoy empezando\", se enviará información sobre tu progreso en el curso al organizador del mismo para que pueda apoyarte. Al final del curso, haz clic en el botón \"Enviar mis resultados\" y tus resultados se enviarán al organizador.",
         "title": "Comienza tu viaje Pix",
@@ -385,9 +385,9 @@
       "candidate-birth-complete": "Fecha de nacimiento {birthdate} en {birthplace}.",
       "certification-center": "Centro de certificación :",
       "competences": {
-        "information": "Su puntuación certificada se ha calculado a partir de sus respuestas durante el proceso de certificación. Por lo tanto, puede diferir del número de Pix que aparece en tu perfil. El día de tu certificación, era posible alcanzar el nivel {maxReachableLevelOnCertificationDate} de habilidades y {maxReachablePixCountOnCertificationDate} píxeles al máximo.",
+        "information": "Su puntuación certificada se ha calculado a partir de sus respuestas durante el proceso de certificación. Por lo tanto, puede diferir del número de Pix que aparece en tu perfil. El día de tu certificación, era posible alcanzar el nivel {maxReachableLevelOnCertificationDate} de competencias y {maxReachablePixCountOnCertificationDate} píxeles al máximo.",
         "subtitle": "(niveles en {maxReachableLevel})",
-        "title": "Habilidades certificadas"
+        "title": "Competencias certificadas"
       },
       "complementary": {
         "alternative": "Certificación complementaria",
@@ -684,7 +684,7 @@
           }
         },
         "information": {
-          "data-usage": "'<p>'Pix trata los datos en este ámbito para gestionar y analizar la dificultad encontrada y beneficiarse de sus comentarios. Puede ejercer sus derechos en relación con sus datos personales dirigiéndose a : <strong>dpo@pix.fr</strong>.'</p><p><a href=\"https://pix.fr/dp-formulaire-signalement-epreuve\" target=\"_blank\" class=\"link\">'Más información sobre la protección de datos y sus derechos.'</a></p>'",
+          "data-usage": "'<p>'Pix trata los datos en este ámbito para gestionar y analizar la dificultad encontrada y beneficiarse de sus comentarios. Puede ejercer sus derechos en relación con sus datos personales dirigiéndose a : <strong>dpo@pix.fr</strong>.'</p><p><a href=\"https://pix.org/en-gb/personal-data-reporting-test\" target=\"_blank\" class=\"link\">'Más información sobre la protección de datos y sus derechos.'</a></p>'",
           "guidance": "<p>\"* Tenga cuidado con lo que escribe en esta área: sea objetivo y basado en hechos, en su propio beneficio y en el de los demás.\"</p><p>\"En particular, no introduzca ninguna información, que le concierna a usted o a terceros, sobre salud, religión, opiniones políticas, sindicales o filosóficas, orígenes étnicos, o sobre sanciones o convicciones.\"</p>\"...\"."
         },
         "modal": {
@@ -896,7 +896,7 @@
       "title": "Experiencia",
       "tutorials": {
         "description": "Aquí tienes una selección de tutoriales que te ayudarán a ganar Pix.",
-        "title": "Cultiva tus habilidades"
+        "title": "Cultiva tus competencias"
       }
     },
     "competence-result": {
@@ -928,10 +928,10 @@
       },
       "empty-dashboard": {
         "link-to-competences": "Ver mis competencias",
-        "message": "<h2>¡Bien hecho, has completado las habilidades recomendadas!</h2> <p> Para ir más lejos, sigue practicando reintentando las habilidades. </p>"
+        "message": "<h2>¡Bien hecho, has completado las competencias recomendadas!</h2> <p> Para ir más lejos, sigue practicando reintentando las competencias. </p>"
       },
       "improvable-competences": {
-        "extra-information": "Accede a todas las habilidades para volver a intentarlo",
+        "extra-information": "Accede a todas las competencias para volver a intentarlo",
         "profile-link": "Todas las competencias",
         "subtitle": "¿Listo para pasar al siguiente nivel?",
         "title": "Reintentar una habilidad"
@@ -941,7 +941,7 @@
           "text": "Más información",
           "url": "https://pix.fr/actualites/decouvrez-votre-nouveau-tableau-de-bord"
         },
-        "message": "¡Bienvenido a Pix en español { firstname }! Las traducciones de todas nuestras habilidades estarán disponibles en breve. "
+        "message": "<h2>¡Te damos la bienvenida a Pix en español, { firstname }!</h2><p> Las traducciones de todas nuestras competencias estarán disponibles próximamente. </p>"
       },
       "recommended-competences": {
         "extra-information": "Acceder a todas las competencias recomendadas",
@@ -1312,7 +1312,7 @@
       "accessibility": {
         "title": "Tu perfil Pix",
         "user-score": "Su número de Pix",
-        "user-skills": "Tus habilidades Pix"
+        "user-skills": "Tus competencias Pix"
       },
       "competence-card": {
         "congrats": "¡Bien hecho!",
@@ -1323,7 +1323,7 @@
           "no-level": "Habilidad no iniciada"
         }
       },
-      "first-title": "Tienes 16 habilidades para probar.<br>'¡Concéntrate y vamos&nbsp;!",
+      "first-title": "Tienes 16 competencias para probar.'<br>'¡Concéntrate y vamos!",
       "resume-campaign-banner": {
         "accessibility": {
           "resume": "Continúa tu viaje",
@@ -1338,7 +1338,7 @@
         "reminder-send-campaign": "No olvide finalizar su envío.",
         "reminder-send-campaign-with-title": "{title}\" ruta completada. No olvide finalizar su envío."
       },
-      "title": "Habilidades",
+      "title": "Competencias",
       "total-score-helper": {
         "explanation": "'<p>'Este es el número máximo de píxeles que se puede alcanzar cuando están disponibles los 8 niveles del repositorio de píxeles.'</p><p>'Actualmente, '<span class=\"hexagon-score-information__text--strong\">'el máximo es de {maxReachablePixScore} píxeles'</span>', correspondientes al nivel {maxReachableLevel}.'</p>'",
         "icon": "Información sobre píxeles",
@@ -1482,7 +1482,7 @@
       "title": "Mapa del sitio"
     },
     "skill-review": {
-      "abstract": "Has dominado '<strong>'{rate, number, ::percent}'</strong><br>'las habilidades evaluadas.",
+      "abstract": "Has dominado '<strong>'{rate, number, ::percent}'</strong><br>'las competencias evaluadas.",
       "abstract-title": "Su resultado para esta ruta",
       "actions": {
         "continue": "Continúa tu experiencia Pix",
@@ -1500,7 +1500,7 @@
         "caption": "Detalle de sus resultados en términos porcentuales según las competencias",
         "flash-pix-score": "{score, number, ::.} Pix",
         "header-result": "RESULTADOS",
-        "header-skill": "Habilidades comprobadas",
+        "header-skill": "Competencias comprobadas",
         "percentage": "{rate, number, ::percent}",
         "progress-bar-label": "Porcentaje de éxito de la habilidad",
         "result": "Resultado global",
