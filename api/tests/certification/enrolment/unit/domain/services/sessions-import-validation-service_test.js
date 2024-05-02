@@ -191,7 +191,7 @@ describe('Unit | Service | sessions import validation Service', function () {
         it('should return a sessionErrors array that contains a non-existent session id error', async function () {
           // given
           const certificationCenter = domainBuilder.buildCertificationCenter();
-          const session = domainBuilder.buildSession({
+          const session = domainBuilder.certification.enrolment.buildSession({
             id: 1234,
             address: null,
             room: null,
@@ -229,7 +229,7 @@ describe('Unit | Service | sessions import validation Service', function () {
 
     context('when there is session information but no sessionId', function () {
       it('should return an empty sessionErrors array', async function () {
-        const session = domainBuilder.buildSession({
+        const session = domainBuilder.certification.enrolment.buildSession({
           ..._createValidSessionData(),
           id: null,
         });
@@ -849,7 +849,7 @@ function _createValidSessionData() {
 }
 
 function _buildValidSessionWithId(sessionId) {
-  return domainBuilder.buildSession({
+  return domainBuilder.certification.enrolment.buildSession({
     id: sessionId,
     address: null,
     room: null,
@@ -862,7 +862,7 @@ function _buildValidSessionWithId(sessionId) {
 }
 
 function _buildValidSessionWithoutId() {
-  return domainBuilder.buildSession({
+  return domainBuilder.certification.enrolment.buildSession({
     id: null,
     date: '2024-03-12',
     certificationCandidates: [_buildValidCandidateData()],

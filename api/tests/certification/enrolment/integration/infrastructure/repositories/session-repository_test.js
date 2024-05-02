@@ -112,7 +112,7 @@ describe('Integration | Repository | certification | enrolment | Session', funct
 
     beforeEach(function () {
       const savedSession = databaseBuilder.factory.buildSession();
-      session = domainBuilder.buildSession(savedSession);
+      session = domainBuilder.certification.enrolment.buildSession(savedSession);
       session.room = 'New room';
       session.examiner = 'New examiner';
       session.address = 'New address';
