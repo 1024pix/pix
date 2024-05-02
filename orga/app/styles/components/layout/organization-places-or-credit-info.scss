@@ -1,0 +1,30 @@
+.organization-places-or-credit-info {
+  @extend %pix-body-s;
+
+  display: flex;
+  flex-direction: column;
+  padding: 0 30px;
+  color: var(--pix-neutral-900);
+  font-weight: var(--pix-font-bold);
+
+  &__warning {
+    color: var(--pix-error-700);
+    font-weight: var(--pix-font-medium);
+  }
+
+  &__link {
+    color: var(--pix-neutral-500);
+    font-weight: var(--pix-font-medium);
+    text-decoration: underline;
+  }
+
+  .info-icon {
+    margin: 0 8px;
+    color: var(--pix-neutral-100);
+  }
+
+  .warning-icon {
+    margin: 0 var(--pix-spacing-1x);
+    color: var(--pix-error-700);
+  }
+}
