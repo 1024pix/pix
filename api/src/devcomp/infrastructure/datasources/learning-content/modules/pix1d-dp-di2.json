@@ -30,7 +30,7 @@
       "grainId": "ab3ad211-2d09-48d1-8159-172be8e34d01"
     } ,
     {
-      "content": "<p>Maintenant, tu connais les bonnes pratiques à suivre pour protéger ses données personnelles.Pour résumer, tu peux retenir que : </p>",
+      "content": "<p>Maintenant, tu connais les bonnes pratiques à suivre pour protéger ses données personnelles. Pour résumer, tu peux retenir que : </p>",
       "grainId": "bdadb8b9-7a6e-4f44-b2e1-3e3463cbc826"
     }
   ],
@@ -84,8 +84,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Bien</p>",
-            "invalid": "<p>Faux. Bla</p>"
+            "valid": "<p>Bravo. Tu sais que les données personnelles ne concernent que toi.</p>",
+            "invalid": "<p>Non. Tes données personnelles ne concernent que toi.</p>"
           },
           "solution": "2"
         }
@@ -123,8 +123,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct. </p>",
-              "invalid": "<p>Incorrect. Bla</p>"
+              "valid": "<p>Correct.</p>",
+              "invalid": "<p>Incorrect.</p>"
             },
             "solution": "2"
           },
@@ -234,7 +234,7 @@
         {
           "id": "fc38a5a6-71da-4ca3-b8d5-c0e34b183403",
           "type": "text",
-          "content": "<h3>Tu connais les 4 bons conseils pour protéger ses données personnelles &nbsp;:</h3><ul><li>garder ses informations personnelles pour soi. <br></li><li>faire attention à la diffusion de ses photos et de ses vidéos.</li><li>utiliser un pseudonyme sur internet</li><li>demander à un adulte de confiance quand on a un doute.</li></ul>"
+          "content": "<h3>Tu connais les 4 bons conseils pour protéger ses données personnelles &nbsp;:</h3><ul><li>garder ses informations personnelles pour soi, <br></li><li>faire attention à la diffusion de ses photos et de ses vidéos,</li><li>utiliser un pseudonyme sur internet,</li><li>demander à un adulte de confiance quand on a un doute.</li></ul>"
         }
       ]
     }
