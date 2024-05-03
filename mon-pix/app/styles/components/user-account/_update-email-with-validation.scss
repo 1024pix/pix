@@ -8,6 +8,8 @@
 
   &__password-input,
   &__email-input {
+    display: flex;
+    flex-direction: column;
     max-width: 260px;
 
     @include device-is('mobile') {
