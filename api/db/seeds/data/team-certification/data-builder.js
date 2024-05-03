@@ -5,7 +5,6 @@ import {
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
-  PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
 } from '../common/common-builder.js';
 import { COLLEGE_TAG, FEATURE_CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE_ID } from '../common/constants.js';
 import * as campaignTooling from '../common/tooling/campaign-tooling.js';
@@ -54,7 +53,6 @@ const complementaryCertificationIds = [
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
-  PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
 ];
 
 async function teamCertificationDataBuilder({ databaseBuilder }) {

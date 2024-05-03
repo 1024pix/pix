@@ -10,7 +10,6 @@ const { ROLES } = PIX_ADMIN;
 const CLEA_COMPLEMENTARY_CERTIFICATION_ID = 52;
 const PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID = 53;
 const PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID = 54;
-const PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID = 55;
 
 // USERS
 const REAL_PIX_SUPER_ADMIN_ID = 90000;
@@ -68,7 +67,6 @@ export {
   PIX_EDU_1ER_DEGRE_FI_INITIE_CERTIFIABLE_BADGE_ID,
   PIX_EDU_1ER_DEGRE_FI_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
   PIX_EDU_1ER_DEGRE_FI_TARGET_PROFILE_ID,
-  PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_2ND_DEGRE_CONFIRME_CERTIFIABLE_BADGE_ID,
   PIX_EDU_2ND_DEGRE_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
   PIX_EDU_2ND_DEGRE_INITIE_CERTIFIABLE_BADGE_ID,
@@ -140,13 +138,12 @@ function _createCertifAdmin(databaseBuilder) {
 }
 
 function _createComplementaryCertifications(databaseBuilder) {
-  _createClea(databaseBuilder);
-  _createDroit(databaseBuilder);
-  _createPixEdu1erDegre(databaseBuilder);
-  _createPixEdu2ndDegre(databaseBuilder);
+  _createComplementaryWithoutReferential(databaseBuilder);
+  _createComplementaryWithHasComplementaryReferential(databaseBuilder);
+  _createWithHasExternalJury(databaseBuilder);
 }
 
-function _createClea(databaseBuilder) {
+function _createComplementaryWithoutReferential(databaseBuilder) {
   databaseBuilder.factory.buildComplementaryCertification.clea({
     id: CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   });
@@ -339,7 +336,7 @@ function _createClea(databaseBuilder) {
   });
 }
 
-function _createDroit(databaseBuilder) {
+function _createComplementaryWithHasComplementaryReferential(databaseBuilder) {
   databaseBuilder.factory.buildComplementaryCertification.droit({
     id: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
   });
@@ -693,7 +690,7 @@ function _createDroit(databaseBuilder) {
   });
 }
 
-function _createPixEdu1erDegre(databaseBuilder) {
+function _createWithHasExternalJury(databaseBuilder) {
   databaseBuilder.factory.buildComplementaryCertification.pixEdu1erDegre({
     id: PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
   });
@@ -989,254 +986,6 @@ function _createPixEdu1erDegre(databaseBuilder) {
     temporaryCertificateMessage:
       'Vous avez obtenu le niveau “Confirmé” dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2',
     stickerUrl: 'https://images.pix.fr/stickers/macaron_edu_1er_confirme.pdf',
-    createdBy: REAL_PIX_SUPER_ADMIN_ID,
-  });
-}
-
-function _createPixEdu2ndDegre(databaseBuilder) {
-  databaseBuilder.factory.buildComplementaryCertification.pixEdu2ndDegre({
-    id: PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
-  });
-  databaseBuilder.factory.buildTargetProfile({
-    id: PIX_EDU_2ND_DEGRE_TARGET_PROFILE_ID,
-    imageUrl: null,
-    description: null,
-    name: '[Pix+Édu 2D FI] Prêt pour la certification du volet 1 (CRCN et CRCNÉ) 20 04 2023',
-    isSimplifiedAccess: false,
-    category: 'PREDEFINED',
-    isPublic: true,
-    ownerOrganizationId: PRO_ORGANIZATION_ID,
-  });
-  [
-    { tubeId: 'rec5D8oOcnSVc1wb5', level: 6 },
-    { tubeId: 'recS1VZiU2ZNQEJey', level: 6 },
-    { tubeId: 'recFj3ODyi6whwFzk', level: 3 },
-    { tubeId: 'recy4WSQsbpvLjL1g', level: 5 },
-    { tubeId: 'recfRTGX0vJNzhApQ', level: 6 },
-    { tubeId: 'rec1oD4DBP8UIXzSR', level: 3 },
-    { tubeId: 'recWYmbh7BF8BNj4', level: 4 },
-    { tubeId: 'rec2LvRgMZNGPbSKs', level: 4 },
-    { tubeId: 'rec1S5JJUERpVhoYn', level: 2 },
-    { tubeId: 'rec2gMOBRcypr0ckl', level: 2 },
-    { tubeId: 'rec2fyFEOv1ef9iOY', level: 2 },
-    { tubeId: 'rec28mkBzkQlNxsU4', level: 5 },
-    { tubeId: 'recsoZIZxVEr3h2og', level: 5 },
-    { tubeId: 'rec2fpugR3auJLwcH', level: 4 },
-    { tubeId: 'rec2CFQNcZNEpr6jk', level: 3 },
-    { tubeId: 'recCTEeJefuFO1Pjy', level: 5 },
-    { tubeId: 'rec2Vi2Bg4LdMmEjd', level: 4 },
-    { tubeId: 'recLtN5zlea2WhR6', level: 3 },
-    { tubeId: 'recPtX9sny8yBBvn', level: 4 },
-    { tubeId: 'rece5w6NqPCDo87zS', level: 4 },
-    { tubeId: 'rec18Fli7IwDRdxUM', level: 2 },
-    { tubeId: 'rec1BYw6lxKdlGoPA', level: 2 },
-    { tubeId: 'rec1Y7stSsdwX4tkM', level: 3 },
-    { tubeId: 'recVpgUtxW3xx5Pu', level: 6 },
-    { tubeId: 'rec2cFYduLeErwNQE', level: 5 },
-    { tubeId: 'rec23QiLTJkPc7Sk1', level: 2 },
-    { tubeId: 'recYmSqXBdRWCbTL6', level: 6 },
-    { tubeId: 'recPUBbe8eBDIpJH', level: 2 },
-    { tubeId: 'rec1gP2RFbGcAaKC3', level: 5 },
-    { tubeId: 'recDXjekxwm1Nh77T', level: 4 },
-    { tubeId: 'rec4RO6t7qai3ODuJ', level: 5 },
-    { tubeId: 'rec2lCszrDoN3t4XI', level: 2 },
-    { tubeId: 'recoPAkxe29Ru3r3h', level: 6 },
-    { tubeId: 'rec2mSskzOmeuvu5x', level: 3 },
-    { tubeId: 'recLlI3H6pPzlZ3c', level: 2 },
-    { tubeId: 'reczBuVhH7fuC4u3k', level: 5 },
-    { tubeId: 'recZOEoQzjBUQR9hw', level: 5 },
-    { tubeId: 'recnK0Dzr3R9NGG12', level: 5 },
-    { tubeId: 'recZfuVlR27qVXcAt', level: 4 },
-    { tubeId: 'rectTJBNUL6lz0sEJ', level: 5 },
-    { tubeId: 'recb576QI4qODr9EQ', level: 6 },
-    { tubeId: 'recW9R9lBG3faLOzL', level: 4 },
-    { tubeId: 'recIEuCfChJpc8UyH', level: 6 },
-    { tubeId: 'recVpHG0NDURRRycg', level: 5 },
-    { tubeId: 'recO7LXR9gQ2TOiDd', level: 3 },
-    { tubeId: 'reccqGUKgzIOK8f9U', level: 4 },
-    { tubeId: 'rec1Z5gkirQNvtjrK', level: 5 },
-    { tubeId: 'recqjSAxTnNej5zSQ', level: 6 },
-    { tubeId: 'recYFCpGlmwQwAONl', level: 5 },
-    { tubeId: 'recY3xrzPegD40fkO', level: 5 },
-    { tubeId: 'rec5hclRSqG7gpadZ', level: 5 },
-    { tubeId: 'rec38YpXqa8RtM1Yy', level: 6 },
-    { tubeId: 'recpz9gZET6VJFeen', level: 5 },
-    { tubeId: 'recghgiH1DlfS0vv4', level: 5 },
-    { tubeId: 'recEC0V9qBbLSqHhx', level: 5 },
-    { tubeId: 'recf0RoWlVKSMke8l', level: 6 },
-    { tubeId: 'reczVXRbD2PcCcfgf', level: 5 },
-    { tubeId: 'recpe7Y8Wq2D56q6I', level: 6 },
-    { tubeId: 'recd3rYCdpWLtHXLk', level: 6 },
-    { tubeId: 'recwoTBW9eVqCl7Vd', level: 5 },
-    { tubeId: 'recyNCBKtjN1MN1mZ', level: 5 },
-    { tubeId: 'rec8lYF4iaCcI6Stl', level: 5 },
-    { tubeId: 'reczOjAWmveW8RSkv', level: 6 },
-    { tubeId: 'recMvKBYMz7qjPn5o', level: 4 },
-    { tubeId: 'recdd0tt0BaQxeSj5', level: 6 },
-    { tubeId: 'recJmEjTV9NacUqZ8', level: 5 },
-    { tubeId: 'recprH1OzWoAgWvw9', level: 5 },
-    { tubeId: 'recTVcQOH3zhL8h29', level: 6 },
-    { tubeId: 'recbjdy2SrgCRVBNu', level: 4 },
-    { tubeId: 'recwanhWqP3VMPic1', level: 5 },
-    { tubeId: 'recgkzKSGhyw1Gwtz', level: 6 },
-    { tubeId: 'recvalrsm02e63lw4', level: 5 },
-    { tubeId: 'recgrxoIilcw9uj0U', level: 5 },
-    { tubeId: 'recgPVFxgVPDUkQWX', level: 5 },
-    { tubeId: 'recEC92AOM3EAcse6', level: 4 },
-    { tubeId: 'recf4znvmRGaGBUNQ', level: 5 },
-    { tubeId: 'rectOrHRTau047Kyc', level: 3 },
-    { tubeId: 'reco9L9TNFYvZ4Bt6', level: 6 },
-    { tubeId: 'rec53o75CXpVN1soh', level: 4 },
-    { tubeId: 'recZuHNGEtpCbBPUD', level: 5 },
-    { tubeId: 'recPOjwrHFhM21yGE', level: 5 },
-    { tubeId: 'recIMsNGpsxv2GSCI', level: 6 },
-    { tubeId: 'rec1upvYVZyTbJJ4J', level: 3 },
-    { tubeId: 'recYwQBNHPtwEIchq', level: 4 },
-    { tubeId: 'recbH7WZIRE41pyVE', level: 6 },
-    { tubeId: 'recx9VucrG4p7FAOO', level: 4 },
-    { tubeId: 'recwTYcY432rb0SGA', level: 5 },
-    { tubeId: 'recLjGqbXq7Utibkb', level: 4 },
-    { tubeId: 'recPXUEpkQWNTNtIy', level: 6 },
-    { tubeId: 'recVyULQAf8zFXjCg', level: 5 },
-    { tubeId: 'recN4ik49NYTUUbVm', level: 5 },
-    { tubeId: 'recGTIO2R0edgARcA', level: 3 },
-    { tubeId: 'recl6FCNC8DBsclHV', level: 4 },
-    { tubeId: 'recps4jQoK8zCW5wI', level: 5 },
-    { tubeId: 'recRRCalqd5y2CyVD', level: 6 },
-    { tubeId: 'recTNeDmFIhhWQZi9', level: 4 },
-    { tubeId: 'recBbCIEKgrQi7eb6', level: 6 },
-    { tubeId: 'recXz8qMNXvEwIPlO', level: 5 },
-    { tubeId: 'recpnZGFdYz0siz9O', level: 5 },
-    { tubeId: 'tube28291WoQhI8rLB', level: 2 },
-    { tubeId: 'tube1weUWgKFzDS1f6', level: 2 },
-    { tubeId: 'tube1UYqjflF0Pm6Ny', level: 4 },
-    { tubeId: 'tube1xnoVru2aOYLRF', level: 2 },
-    { tubeId: 'tube29I1zg5tzEQU0H', level: 2 },
-    { tubeId: 'tube1Jgpwmj8j4OMYb', level: 4 },
-    { tubeId: 'tube2fkLl5aBvQdMyv', level: 2 },
-    { tubeId: 'tubeWKfoLk9Mlg0O0', level: 2 },
-    { tubeId: 'tube28coNkBrSHdW34', level: 2 },
-    { tubeId: 'recpP9Uaz1x6qq95e', level: 4 },
-    { tubeId: 'tube1vZZM0oflmZWvU', level: 2 },
-    { tubeId: 'recT17TO1XinYCD95', level: 6 },
-    { tubeId: 'tube2l7fFnDh1vPn4s', level: 5 },
-    { tubeId: 'tube1fUwkP4nkSMt3H', level: 2 },
-    { tubeId: 'tube1TzWCkSfVTOTIA', level: 2 },
-    { tubeId: 'tube1hzZBLOmWp9KoP', level: 3 },
-    { tubeId: 'tubeL9gPGU3vgfGuC', level: 2 },
-    { tubeId: 'tube2x5v8i5gRE3inE', level: 1 },
-    { tubeId: 'tube15ybmhs2qK2vYd', level: 3 },
-    { tubeId: 'tube1ggNIZJYHY4sxA', level: 2 },
-    { tubeId: 'tube26F5w4J602048x', level: 1 },
-  ].map(({ tubeId, level }) => {
-    databaseBuilder.factory.buildTargetProfileTube({
-      targetProfileId: PIX_EDU_2ND_DEGRE_TARGET_PROFILE_ID,
-      tubeId,
-      level,
-    });
-  });
-
-  databaseBuilder.factory.buildBadge({
-    id: PIX_EDU_2ND_DEGRE_INITIE_CERTIFIABLE_BADGE_ID,
-    targetProfileId: PIX_EDU_2ND_DEGRE_TARGET_PROFILE_ID,
-    message:
-      'Félicitations ! Votre profil est prêt pour vous présenter à une certification Pix+Édu de niveau Initié (entrée dans le métier).',
-    altMessage: 'Pix+Édu niveau Initié (entrée dans le métier)',
-    imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-1-Initie.svg',
-    key: badges.keys.PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-    title: 'Pix+Édu niveau Initié (entrée dans le métier)',
-    isCertifiable: true,
-    isAlwaysVisible: false,
-  });
-
-  [
-    {
-      scope: 'CappedTubes',
-      threshold: 50,
-      cappedTubes:
-        '[{"id":"recPOjwrHFhM21yGE","level":5},{"id":"recpe7Y8Wq2D56q6I","level":6},{"id":"recBbCIEKgrQi7eb6","level":6},{"id":"reccqGUKgzIOK8f9U","level":4},{"id":"rec4RO6t7qai3ODuJ","level":5},{"id":"recsoZIZxVEr3h2og","level":5},{"id":"recYmSqXBdRWCbTL6","level":6},{"id":"rec5D8oOcnSVc1wb5","level":6},{"id":"recqjSAxTnNej5zSQ","level":6},{"id":"recYwQBNHPtwEIchq","level":4},{"id":"recfRTGX0vJNzhApQ","level":6},{"id":"recwanhWqP3VMPic1","level":5},{"id":"rec1gP2RFbGcAaKC3","level":5},{"id":"recN4ik49NYTUUbVm","level":5},{"id":"reczOjAWmveW8RSkv","level":6},{"id":"recXz8qMNXvEwIPlO","level":5},{"id":"recl6FCNC8DBsclHV","level":4},{"id":"recps4jQoK8zCW5wI","level":5},{"id":"reco9L9TNFYvZ4Bt6","level":6},{"id":"recS1VZiU2ZNQEJey","level":6},{"id":"recghgiH1DlfS0vv4","level":5},{"id":"recIEuCfChJpc8UyH","level":6},{"id":"recbjdy2SrgCRVBNu","level":4},{"id":"tube1UYqjflF0Pm6Ny","level":4},{"id":"recf4znvmRGaGBUNQ","level":5},{"id":"recy4WSQsbpvLjL1g","level":5},{"id":"recyNCBKtjN1MN1mZ","level":5},{"id":"recRRCalqd5y2CyVD","level":6},{"id":"recVpHG0NDURRRycg","level":5},{"id":"recZfuVlR27qVXcAt","level":4},{"id":"recb576QI4qODr9EQ","level":6},{"id":"recEC0V9qBbLSqHhx","level":5},{"id":"recwTYcY432rb0SGA","level":5},{"id":"recZuHNGEtpCbBPUD","level":5},{"id":"rec28mkBzkQlNxsU4","level":5},{"id":"recVpgUtxW3xx5Pu","level":6},{"id":"rec2cFYduLeErwNQE","level":5},{"id":"recbH7WZIRE41pyVE","level":6},{"id":"rec1Z5gkirQNvtjrK","level":5},{"id":"recd3rYCdpWLtHXLk","level":6},{"id":"recTNeDmFIhhWQZi9","level":4},{"id":"recJmEjTV9NacUqZ8","level":5},{"id":"recFj3ODyi6whwFzk","level":3},{"id":"recwoTBW9eVqCl7Vd","level":5},{"id":"recGTIO2R0edgARcA","level":3},{"id":"reczBuVhH7fuC4u3k","level":5},{"id":"recY3xrzPegD40fkO","level":5},{"id":"rec2fpugR3auJLwcH","level":4},{"id":"recEC92AOM3EAcse6","level":4},{"id":"recgPVFxgVPDUkQWX","level":5},{"id":"rec5hclRSqG7gpadZ","level":5},{"id":"recf0RoWlVKSMke8l","level":6},{"id":"recLjGqbXq7Utibkb","level":4},{"id":"recpnZGFdYz0siz9O","level":5},{"id":"recnK0Dzr3R9NGG12","level":5},{"id":"reczVXRbD2PcCcfgf","level":5},{"id":"recCTEeJefuFO1Pjy","level":5},{"id":"recgkzKSGhyw1Gwtz","level":6},{"id":"rec38YpXqa8RtM1Yy","level":6},{"id":"recTVcQOH3zhL8h29","level":6},{"id":"recx9VucrG4p7FAOO","level":4},{"id":"recprH1OzWoAgWvw9","level":5},{"id":"recIMsNGpsxv2GSCI","level":6},{"id":"recdd0tt0BaQxeSj5","level":6},{"id":"recVyULQAf8zFXjCg","level":5},{"id":"recgrxoIilcw9uj0U","level":5},{"id":"recpz9gZET6VJFeen","level":5},{"id":"rece5w6NqPCDo87zS","level":4},{"id":"rec2LvRgMZNGPbSKs","level":4},{"id":"recPtX9sny8yBBvn","level":4},{"id":"recpP9Uaz1x6qq95e","level":4},{"id":"tube2l7fFnDh1vPn4s","level":5},{"id":"rec8lYF4iaCcI6Stl","level":5},{"id":"recYFCpGlmwQwAONl","level":5},{"id":"recW9R9lBG3faLOzL","level":4},{"id":"recZOEoQzjBUQR9hw","level":5},{"id":"rec2Vi2Bg4LdMmEjd","level":4},{"id":"rectTJBNUL6lz0sEJ","level":5},{"id":"recMvKBYMz7qjPn5o","level":4},{"id":"recDXjekxwm1Nh77T","level":4},{"id":"recT17TO1XinYCD95","level":6},{"id":"recO7LXR9gQ2TOiDd","level":3},{"id":"recvalrsm02e63lw4","level":5},{"id":"rectOrHRTau047Kyc","level":3},{"id":"rec53o75CXpVN1soh","level":4},{"id":"recPXUEpkQWNTNtIy","level":6},{"id":"recoPAkxe29Ru3r3h","level":6},{"id":"rec18Fli7IwDRdxUM","level":2},{"id":"recLtN5zlea2WhR6","level":3},{"id":"rec2gMOBRcypr0ckl","level":2},{"id":"rec1Y7stSsdwX4tkM","level":3},{"id":"rec2fyFEOv1ef9iOY","level":2},{"id":"rec1S5JJUERpVhoYn","level":2},{"id":"recLlI3H6pPzlZ3c","level":2},{"id":"rec1upvYVZyTbJJ4J","level":3},{"id":"tubeWKfoLk9Mlg0O0","level":2},{"id":"recWYmbh7BF8BNj4","level":4},{"id":"recPUBbe8eBDIpJH","level":2},{"id":"rec23QiLTJkPc7Sk1","level":2},{"id":"rec2CFQNcZNEpr6jk","level":3},{"id":"rec2mSskzOmeuvu5x","level":3},{"id":"rec1oD4DBP8UIXzSR","level":3},{"id":"rec2lCszrDoN3t4XI","level":2},{"id":"rec1BYw6lxKdlGoPA","level":2},{"id":"tube26F5w4J602048x","level":1},{"id":"tube1vZZM0oflmZWvU","level":2},{"id":"tube1hzZBLOmWp9KoP","level":3},{"id":"tube1weUWgKFzDS1f6","level":2},{"id":"tube1Jgpwmj8j4OMYb","level":4},{"id":"tube1fUwkP4nkSMt3H","level":2},{"id":"tube28coNkBrSHdW34","level":2},{"id":"tubeL9gPGU3vgfGuC","level":2},{"id":"tube2fkLl5aBvQdMyv","level":2},{"id":"tube1ggNIZJYHY4sxA","level":2},{"id":"tube29I1zg5tzEQU0H","level":2},{"id":"tube28291WoQhI8rLB","level":2},{"id":"tube1xnoVru2aOYLRF","level":2},{"id":"tube15ybmhs2qK2vYd","level":3},{"id":"tube2x5v8i5gRE3inE","level":1},{"id":"tube1TzWCkSfVTOTIA","level":2}]',
-      name: '[Pix+Édu] Parcours CRCN + CRCNÉ',
-    },
-    {
-      scope: 'CappedTubes',
-      threshold: 50,
-      cappedTubes:
-        '[{"id":"rec18Fli7IwDRdxUM","level":2},{"id":"recLtN5zlea2WhR6","level":3},{"id":"rec2gMOBRcypr0ckl","level":2},{"id":"rec1Y7stSsdwX4tkM","level":3},{"id":"rec2fyFEOv1ef9iOY","level":2},{"id":"rec1S5JJUERpVhoYn","level":2},{"id":"recLlI3H6pPzlZ3c","level":2},{"id":"rec1upvYVZyTbJJ4J","level":3},{"id":"tubeWKfoLk9Mlg0O0","level":2},{"id":"recWYmbh7BF8BNj4","level":4},{"id":"recPUBbe8eBDIpJH","level":2},{"id":"rec23QiLTJkPc7Sk1","level":2},{"id":"rec2CFQNcZNEpr6jk","level":3},{"id":"rec2mSskzOmeuvu5x","level":3},{"id":"rec1oD4DBP8UIXzSR","level":3},{"id":"rec2lCszrDoN3t4XI","level":2},{"id":"rec1BYw6lxKdlGoPA","level":2},{"id":"tube26F5w4J602048x","level":1},{"id":"tube1vZZM0oflmZWvU","level":2},{"id":"tube1hzZBLOmWp9KoP","level":3},{"id":"tube1weUWgKFzDS1f6","level":2},{"id":"tube1Jgpwmj8j4OMYb","level":4},{"id":"tube1fUwkP4nkSMt3H","level":2},{"id":"tube28coNkBrSHdW34","level":2},{"id":"tubeL9gPGU3vgfGuC","level":2},{"id":"tube2fkLl5aBvQdMyv","level":2},{"id":"tube1ggNIZJYHY4sxA","level":2},{"id":"tube29I1zg5tzEQU0H","level":2},{"id":"tube28291WoQhI8rLB","level":2},{"id":"tube1xnoVru2aOYLRF","level":2},{"id":"tube15ybmhs2qK2vYd","level":3},{"id":"tube2x5v8i5gRE3inE","level":1},{"id":"tube1TzWCkSfVTOTIA","level":2}]',
-      name: '[Pix+Édu 2nd degré] Parcours CRCNÉ',
-    },
-  ].map(({ scope, threshold, cappedTubes, name }) => {
-    databaseBuilder.factory.buildBadgeCriterion({
-      badgeId: PIX_EDU_2ND_DEGRE_INITIE_CERTIFIABLE_BADGE_ID,
-      scope,
-      threshold,
-      cappedTubes,
-      name,
-    });
-  });
-
-  databaseBuilder.factory.buildComplementaryCertificationBadge({
-    id: PIX_EDU_2ND_DEGRE_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
-    badgeId: PIX_EDU_2ND_DEGRE_INITIE_CERTIFIABLE_BADGE_ID,
-    complementaryCertificationId: PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
-    level: 1,
-    imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-1-Initie-certif.svg',
-    label: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
-    certificateMessage: 'Vous avez obtenu la certification Pix+Édu niveau “Initié (entrée dans le métier)”',
-    temporaryCertificateMessage:
-      'Vous avez obtenu le niveau “Initié (entrée dans le métier)” dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2',
-    stickerUrl: 'https://images.pix.fr/stickers/macaron_edu_2nd_initie.pdf',
-    createdBy: REAL_PIX_SUPER_ADMIN_ID,
-  });
-
-  databaseBuilder.factory.buildBadge({
-    id: PIX_EDU_2ND_DEGRE_CONFIRME_CERTIFIABLE_BADGE_ID,
-    targetProfileId: PIX_EDU_2ND_DEGRE_TARGET_PROFILE_ID,
-    message:
-      'Félicitations ! Votre profil est prêt pour vous présenter à une certification Pix+Édu de niveau Confirmé.',
-    altMessage: 'Pix+Édu niveau Confirmé',
-    key: badges.keys.PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-    imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-2-Confirme.svg',
-    title: 'Pix+Édu niveau Confirmé',
-    isCertifiable: true,
-    isAlwaysVisible: false,
-  });
-
-  [
-    {
-      scope: 'CappedTubes',
-      threshold: 60,
-      cappedTubes:
-        '[{"id":"recPOjwrHFhM21yGE","level":5},{"id":"recpe7Y8Wq2D56q6I","level":6},{"id":"recBbCIEKgrQi7eb6","level":6},{"id":"reccqGUKgzIOK8f9U","level":4},{"id":"rec4RO6t7qai3ODuJ","level":5},{"id":"recsoZIZxVEr3h2og","level":5},{"id":"recYmSqXBdRWCbTL6","level":6},{"id":"rec5D8oOcnSVc1wb5","level":6},{"id":"recqjSAxTnNej5zSQ","level":6},{"id":"recYwQBNHPtwEIchq","level":4},{"id":"recfRTGX0vJNzhApQ","level":6},{"id":"recwanhWqP3VMPic1","level":5},{"id":"rec1gP2RFbGcAaKC3","level":5},{"id":"recN4ik49NYTUUbVm","level":5},{"id":"reczOjAWmveW8RSkv","level":6},{"id":"recXz8qMNXvEwIPlO","level":5},{"id":"recl6FCNC8DBsclHV","level":4},{"id":"recps4jQoK8zCW5wI","level":5},{"id":"reco9L9TNFYvZ4Bt6","level":6},{"id":"recS1VZiU2ZNQEJey","level":6},{"id":"recghgiH1DlfS0vv4","level":5},{"id":"recIEuCfChJpc8UyH","level":6},{"id":"recbjdy2SrgCRVBNu","level":4},{"id":"tube1UYqjflF0Pm6Ny","level":4},{"id":"recf4znvmRGaGBUNQ","level":5},{"id":"recy4WSQsbpvLjL1g","level":5},{"id":"recyNCBKtjN1MN1mZ","level":5},{"id":"recRRCalqd5y2CyVD","level":6},{"id":"recVpHG0NDURRRycg","level":5},{"id":"recZfuVlR27qVXcAt","level":4},{"id":"recb576QI4qODr9EQ","level":6},{"id":"recEC0V9qBbLSqHhx","level":5},{"id":"recwTYcY432rb0SGA","level":5},{"id":"recZuHNGEtpCbBPUD","level":5},{"id":"rec28mkBzkQlNxsU4","level":5},{"id":"recVpgUtxW3xx5Pu","level":6},{"id":"rec2cFYduLeErwNQE","level":5},{"id":"recbH7WZIRE41pyVE","level":6},{"id":"rec1Z5gkirQNvtjrK","level":5},{"id":"recd3rYCdpWLtHXLk","level":6},{"id":"recTNeDmFIhhWQZi9","level":4},{"id":"recJmEjTV9NacUqZ8","level":5},{"id":"recFj3ODyi6whwFzk","level":3},{"id":"recwoTBW9eVqCl7Vd","level":5},{"id":"recGTIO2R0edgARcA","level":3},{"id":"reczBuVhH7fuC4u3k","level":5},{"id":"recY3xrzPegD40fkO","level":5},{"id":"rec2fpugR3auJLwcH","level":4},{"id":"recEC92AOM3EAcse6","level":4},{"id":"recgPVFxgVPDUkQWX","level":5},{"id":"rec5hclRSqG7gpadZ","level":5},{"id":"recf0RoWlVKSMke8l","level":6},{"id":"recLjGqbXq7Utibkb","level":4},{"id":"recpnZGFdYz0siz9O","level":5},{"id":"recnK0Dzr3R9NGG12","level":5},{"id":"reczVXRbD2PcCcfgf","level":5},{"id":"recCTEeJefuFO1Pjy","level":5},{"id":"recgkzKSGhyw1Gwtz","level":6},{"id":"rec38YpXqa8RtM1Yy","level":6},{"id":"recTVcQOH3zhL8h29","level":6},{"id":"recx9VucrG4p7FAOO","level":4},{"id":"recprH1OzWoAgWvw9","level":5},{"id":"recIMsNGpsxv2GSCI","level":6},{"id":"recdd0tt0BaQxeSj5","level":6},{"id":"recVyULQAf8zFXjCg","level":5},{"id":"recgrxoIilcw9uj0U","level":5},{"id":"recpz9gZET6VJFeen","level":5},{"id":"rece5w6NqPCDo87zS","level":4},{"id":"rec2LvRgMZNGPbSKs","level":4},{"id":"recPtX9sny8yBBvn","level":4},{"id":"recpP9Uaz1x6qq95e","level":4},{"id":"tube2l7fFnDh1vPn4s","level":5},{"id":"rec8lYF4iaCcI6Stl","level":5},{"id":"recYFCpGlmwQwAONl","level":5},{"id":"recW9R9lBG3faLOzL","level":4},{"id":"recZOEoQzjBUQR9hw","level":5},{"id":"rec2Vi2Bg4LdMmEjd","level":4},{"id":"rectTJBNUL6lz0sEJ","level":5},{"id":"recMvKBYMz7qjPn5o","level":4},{"id":"recDXjekxwm1Nh77T","level":4},{"id":"recT17TO1XinYCD95","level":6},{"id":"recO7LXR9gQ2TOiDd","level":3},{"id":"recvalrsm02e63lw4","level":5},{"id":"rectOrHRTau047Kyc","level":3},{"id":"rec53o75CXpVN1soh","level":4},{"id":"recPXUEpkQWNTNtIy","level":6},{"id":"recoPAkxe29Ru3r3h","level":6},{"id":"rec18Fli7IwDRdxUM","level":2},{"id":"recLtN5zlea2WhR6","level":3},{"id":"rec2gMOBRcypr0ckl","level":2},{"id":"rec1Y7stSsdwX4tkM","level":3},{"id":"rec2fyFEOv1ef9iOY","level":2},{"id":"rec1S5JJUERpVhoYn","level":2},{"id":"recLlI3H6pPzlZ3c","level":2},{"id":"rec1upvYVZyTbJJ4J","level":3},{"id":"tubeWKfoLk9Mlg0O0","level":2},{"id":"recWYmbh7BF8BNj4","level":4},{"id":"recPUBbe8eBDIpJH","level":2},{"id":"rec23QiLTJkPc7Sk1","level":2},{"id":"rec2CFQNcZNEpr6jk","level":3},{"id":"rec2mSskzOmeuvu5x","level":3},{"id":"rec1oD4DBP8UIXzSR","level":3},{"id":"rec2lCszrDoN3t4XI","level":2},{"id":"rec1BYw6lxKdlGoPA","level":2},{"id":"tube26F5w4J602048x","level":1},{"id":"tube1vZZM0oflmZWvU","level":2},{"id":"tube1hzZBLOmWp9KoP","level":3},{"id":"tube1weUWgKFzDS1f6","level":2},{"id":"tube1Jgpwmj8j4OMYb","level":4},{"id":"tube1fUwkP4nkSMt3H","level":2},{"id":"tube28coNkBrSHdW34","level":2},{"id":"tubeL9gPGU3vgfGuC","level":2},{"id":"tube2fkLl5aBvQdMyv","level":2},{"id":"tube1ggNIZJYHY4sxA","level":2},{"id":"tube29I1zg5tzEQU0H","level":2},{"id":"tube28291WoQhI8rLB","level":2},{"id":"tube1xnoVru2aOYLRF","level":2},{"id":"tube15ybmhs2qK2vYd","level":3},{"id":"tube2x5v8i5gRE3inE","level":1},{"id":"tube1TzWCkSfVTOTIA","level":2}]',
-      name: '[Pix+Édu] Parcours CRCN + CRCNÉ',
-    },
-    {
-      scope: 'CappedTubes',
-      threshold: 60,
-      cappedTubes:
-        '[{"id":"rec18Fli7IwDRdxUM","level":2},{"id":"recLtN5zlea2WhR6","level":3},{"id":"rec2gMOBRcypr0ckl","level":2},{"id":"rec1Y7stSsdwX4tkM","level":3},{"id":"rec2fyFEOv1ef9iOY","level":2},{"id":"rec1S5JJUERpVhoYn","level":2},{"id":"recLlI3H6pPzlZ3c","level":2},{"id":"rec1upvYVZyTbJJ4J","level":3},{"id":"tubeWKfoLk9Mlg0O0","level":2},{"id":"recWYmbh7BF8BNj4","level":4},{"id":"recPUBbe8eBDIpJH","level":2},{"id":"rec23QiLTJkPc7Sk1","level":2},{"id":"rec2CFQNcZNEpr6jk","level":3},{"id":"rec2mSskzOmeuvu5x","level":3},{"id":"rec1oD4DBP8UIXzSR","level":3},{"id":"rec2lCszrDoN3t4XI","level":2},{"id":"rec1BYw6lxKdlGoPA","level":2},{"id":"tube26F5w4J602048x","level":1},{"id":"tube1vZZM0oflmZWvU","level":2},{"id":"tube1hzZBLOmWp9KoP","level":3},{"id":"tube1weUWgKFzDS1f6","level":2},{"id":"tube1Jgpwmj8j4OMYb","level":4},{"id":"tube1fUwkP4nkSMt3H","level":2},{"id":"tube28coNkBrSHdW34","level":2},{"id":"tubeL9gPGU3vgfGuC","level":2},{"id":"tube2fkLl5aBvQdMyv","level":2},{"id":"tube1ggNIZJYHY4sxA","level":2},{"id":"tube29I1zg5tzEQU0H","level":2},{"id":"tube28291WoQhI8rLB","level":2},{"id":"tube1xnoVru2aOYLRF","level":2},{"id":"tube15ybmhs2qK2vYd","level":3},{"id":"tube2x5v8i5gRE3inE","level":1},{"id":"tube1TzWCkSfVTOTIA","level":2}]',
-      name: '[Pix+Édu 2nd degré] Parcours CRCNÉ',
-    },
-  ].map(({ scope, threshold, cappedTubes, name }) => {
-    databaseBuilder.factory.buildBadgeCriterion({
-      badgeId: PIX_EDU_2ND_DEGRE_CONFIRME_CERTIFIABLE_BADGE_ID,
-      scope,
-      threshold,
-      cappedTubes,
-      name,
-    });
-  });
-
-  databaseBuilder.factory.buildComplementaryCertificationBadge({
-    id: PIX_EDU_2ND_DEGRE_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
-    badgeId: PIX_EDU_2ND_DEGRE_CONFIRME_CERTIFIABLE_BADGE_ID,
-    complementaryCertificationId: PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
-    level: 2,
-    imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-2-Confirme-certif.svg',
-    label: 'Pix+ Édu 2nd degré Confirmé',
-    certificateMessage: 'Vous avez obtenu la certification Pix+Édu niveau “Confirmé”',
-    temporaryCertificateMessage:
-      'Vous avez obtenu le niveau “Confirmé” dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2',
-    stickerUrl: 'https://images.pix.fr/stickers/macaron_edu_2nd_confirme.pdf',
     createdBy: REAL_PIX_SUPER_ADMIN_ID,
   });
 }
