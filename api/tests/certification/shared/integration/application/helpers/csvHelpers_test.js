@@ -1,6 +1,6 @@
 import * as url from 'node:url';
 
-import { CsvWithNoSessionDataError } from '../../../../../../src/certification/session/domain/errors.js';
+import { CsvWithNoSessionDataError } from '../../../../../../src/certification/session-management/domain/errors.js';
 import {
   parseCsv,
   parseCsvWithHeader,

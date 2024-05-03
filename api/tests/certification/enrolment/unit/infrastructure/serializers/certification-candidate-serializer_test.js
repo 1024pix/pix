@@ -8,7 +8,7 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
 
   beforeEach(function () {
     complementaryCertification =
-      domainBuilder.certification.session.buildCertificationSessionComplementaryCertification({
+      domainBuilder.certification.sessionManagement.buildCertificationSessionComplementaryCertification({
         id: 2,
         label: 'Pix+Patisserie',
         key: ComplementaryCertificationKeys.PIX_PLUS_DROIT,

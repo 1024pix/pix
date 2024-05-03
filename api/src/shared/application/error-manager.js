@@ -4,7 +4,10 @@ import _ from 'lodash';
 import { extractLocaleFromRequest } from '../../../lib/infrastructure/utils/request-response-utils.js';
 import * as translations from '../../../translations/index.js';
 import { AdminMemberError } from '../../authorization/domain/errors.js';
-import { CsvWithNoSessionDataError, SessionStartedDeletionError } from '../../certification/session/domain/errors.js';
+import {
+  CsvWithNoSessionDataError,
+  SessionStartedDeletionError,
+} from '../../certification/session-management/domain/errors.js';
 import { EmptyAnswerError } from '../../evaluation/domain/errors.js';
 import { ArchivedCampaignError } from '../../prescription/campaign/domain/errors.js';
 import { CampaignParticipationDeletedError } from '../../prescription/campaign-participation/domain/errors.js';

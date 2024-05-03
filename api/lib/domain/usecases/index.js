@@ -19,10 +19,10 @@ import * as sessionEnrolmentRepository from '../../../src/certification/enrolmen
 import * as flashAlgorithmService from '../../../src/certification/flash-certification/domain/services/algorithm-methods/flash.js';
 import { pickChallengeService } from '../../../src/certification/flash-certification/domain/services/pick-challenge-service.js';
 import * as flashAlgorithmConfigurationRepository from '../../../src/certification/flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
-import * as certificationOfficerRepository from '../../../src/certification/session/infrastructure/repositories/certification-officer-repository.js';
-import * as finalizedSessionRepository from '../../../src/certification/session/infrastructure/repositories/finalized-session-repository.js';
-import * as jurySessionRepository from '../../../src/certification/session/infrastructure/repositories/jury-session-repository.js';
-import * as sessionRepository from '../../../src/certification/session/infrastructure/repositories/session-repository.js';
+import * as certificationOfficerRepository from '../../../src/certification/session-management/infrastructure/repositories/certification-officer-repository.js';
+import * as finalizedSessionRepository from '../../../src/certification/session-management/infrastructure/repositories/finalized-session-repository.js';
+import * as jurySessionRepository from '../../../src/certification/session-management/infrastructure/repositories/jury-session-repository.js';
+import * as sessionRepository from '../../../src/certification/session-management/infrastructure/repositories/session-repository.js';
 import * as certificationAssessmentRepository from '../../../src/certification/shared/infrastructure/repositories/certification-assessment-repository.js';
 import * as certificationCenterRepository from '../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
 import * as certificationChallengeLiveAlertRepository from '../../../src/certification/shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';

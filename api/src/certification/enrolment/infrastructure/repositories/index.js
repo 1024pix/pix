@@ -1,6 +1,6 @@
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as complementaryCertificationApi from '../../../complementary-certification/application/api/complementary-certification-api.js';
-import * as sessionManagementRepository from '../../../session/infrastructure/repositories/session-repository.js';
+import * as sessionManagementRepository from '../../../session-management/infrastructure/repositories/session-repository.js';
 import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
 import * as candidateRepository from './candidate-repository.js';
 import * as centerRepository from './center-repository.js';

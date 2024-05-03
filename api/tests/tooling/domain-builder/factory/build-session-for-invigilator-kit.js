@@ -1,4 +1,4 @@
-import { SessionForInvigilatorKit } from '../../../../src/certification/session/domain/read-models/SessionForInvigilatorKit.js';
+import { SessionForInvigilatorKit } from '../../../../src/certification/session-management/domain/read-models/SessionForInvigilatorKit.js';
 
 const buildSessionForInvigilatorKit = function ({
   id = 123,

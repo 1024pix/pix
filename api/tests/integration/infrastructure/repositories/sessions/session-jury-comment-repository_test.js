@@ -85,8 +85,8 @@ describe('Integration | Infrastructure | Repository | session-jury-comment-repos
           juryCommentedAt: new Date('2018-01-12T09:29:16Z'),
         });
         await databaseBuilder.commit();
-        const sessionJuryCommentToSave = domainBuilder.certification.session.buildSession;
-        domainBuilder.certification.session.buildSessionn.session.buildSessionJuryComment({
+        const sessionJuryCommentToSave = domainBuilder.certification.sessionManagement.buildSession;
+        domainBuilder.certification.sessionManagement.buildSessionn.session.buildSessionJuryComment({
           id: 123,
           updatedAt: new Date('2020-01-12T10:29:16Z'),
           authorId: 789,

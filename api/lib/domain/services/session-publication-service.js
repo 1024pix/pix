@@ -6,7 +6,7 @@
  */
 import lodash from 'lodash';
 
-import { SessionAlreadyPublishedError } from '../../../src/certification/session/domain/errors.js';
+import { SessionAlreadyPublishedError } from '../../../src/certification/session-management/domain/errors.js';
 import {
   CertificationCourseNotPublishableError,
   SendingEmailToRefererError,

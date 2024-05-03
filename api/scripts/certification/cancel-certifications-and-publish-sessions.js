@@ -8,8 +8,8 @@ import * as sessionPublicationService from '../../lib/domain/services/session-pu
 import { publishSession } from '../../lib/domain/usecases/publish-session.js';
 import { unpublishSession } from '../../lib/domain/usecases/unpublish-session.js';
 import * as certificationRepository from '../../lib/infrastructure/repositories/certification-repository.js';
-import * as finalizedSessionRepository from '../../src/certification/session/infrastructure/repositories/finalized-session-repository.js';
-import * as sessionRepository from '../../src/certification/session/infrastructure/repositories/session-repository.js';
+import * as finalizedSessionRepository from '../../src/certification/session-management/infrastructure/repositories/finalized-session-repository.js';
+import * as sessionRepository from '../../src/certification/session-management/infrastructure/repositories/session-repository.js';
 import { parseCsvWithHeader } from '../helpers/csvHelpers.js';
 
 let progression = 0;

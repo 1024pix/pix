@@ -14,14 +14,15 @@ describe('Unit | Certification | Session | UseCase | get-mass-import-template-in
     context('when center is not SCO', function () {
       it('should return a certification center habilitations and billingMode', async function () {
         // given
-        const center = domainBuilder.certification.session.buildCenter({
+        const center = domainBuilder.certification.sessionManagement.buildCenter({
           id: 1,
           type: CenterTypes.PRO,
           habilitations: [2],
         });
-        const complementary = domainBuilder.certification.session.buildCertificationSessionComplementaryCertification({
-          id: 2,
-        });
+        const complementary =
+          domainBuilder.certification.sessionManagement.buildCertificationSessionComplementaryCertification({
+            id: 2,
+          });
         centerRepository.getById.withArgs({ id: 1 }).resolves(center);
         complementaryCertificationRepository.getById
           .withArgs({ complementaryCertificationId: 2 })
@@ -45,14 +46,15 @@ describe('Unit | Certification | Session | UseCase | get-mass-import-template-in
     context('when center is SCO', function () {
       it('should return a certification center habilitations and billingMode', async function () {
         // given
-        const center = domainBuilder.certification.session.buildCenter({
+        const center = domainBuilder.certification.sessionManagement.buildCenter({
           id: 1,
           type: CenterTypes.SCO,
           habilitations: [2],
         });
-        const complementary = domainBuilder.certification.session.buildCertificationSessionComplementaryCertification({
-          id: 2,
-        });
+        const complementary =
+          domainBuilder.certification.sessionManagement.buildCertificationSessionComplementaryCertification({
+            id: 2,
+          });
         centerRepository.getById.withArgs({ id: 1 }).resolves(center);
         complementaryCertificationRepository.getById
           .withArgs({ complementaryCertificationId: 2 })

@@ -178,8 +178,8 @@ import { buildCertificationChallengeCapacity } from './certification/scoring/bui
 import { buildCertificationChallengeForScoring } from './certification/scoring/build-certification-challenge-for-scoring.js';
 import { buildCompetenceForScoring } from './certification/scoring/build-competence-for-scoring.js';
 import { buildV3CertificationScoring } from './certification/scoring/build-v3-certification-scoring.js';
-import { buildCertificationSessionComplementaryCertification } from './certification/session/build-certification-session-complementary-certification.js';
-import { buildSessionManagement } from './certification/session/build-session.js';
+import { buildCertificationSessionComplementaryCertification } from './certification/session-management/build-certification-session-complementary-certification.js';
+import { buildSessionManagement } from './certification/session-management/build-session.js';
 import { buildJuryComment } from './certification/shared/build-jury-comment.js';
 import { buildCampaign as boundedContextCampaignBuildCampaign } from './prescription/campaign/build-campaign.js';
 import { buildCampaignParticipation as boundedContextCampaignParticipationBuildCampaignParticipation } from './prescription/campaign-participation/build-campaign-participation.js';
@@ -195,7 +195,7 @@ const certification = {
     buildV3CertificationScoring,
   },
   enrolment: { buildSession: buildSessionEnrolment },
-  session: {
+  sessionManagement: {
     buildCenter,
     buildCertificationSessionCandidate,
     buildCertificationSessionEnrolledCandidate,

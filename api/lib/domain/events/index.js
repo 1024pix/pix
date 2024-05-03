@@ -8,7 +8,7 @@ import * as flashAlgorithmConfigurationRepository from '../../../src/certificati
 import * as certificationAssessmentHistoryRepository from '../../../src/certification/scoring/infrastructure/repositories/certification-assessment-history-repository.js';
 import * as certificationChallengeForScoringRepository from '../../../src/certification/scoring/infrastructure/repositories/certification-challenge-for-scoring-repository.js';
 import * as scoringConfigurationRepository from '../../../src/certification/scoring/infrastructure/repositories/scoring-configuration-repository.js';
-import * as finalizedSessionRepository from '../../../src/certification/session/infrastructure/repositories/finalized-session-repository.js';
+import * as finalizedSessionRepository from '../../../src/certification/session-management/infrastructure/repositories/finalized-session-repository.js';
 import * as certificationAssessmentRepository from '../../../src/certification/shared/infrastructure/repositories/certification-assessment-repository.js';
 import * as certificationCenterRepository from '../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
 import * as certificationCourseRepository from '../../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
