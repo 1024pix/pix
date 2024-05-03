@@ -224,4 +224,21 @@ describe('Unit | Application | Router | campaign-participation-router ', functio
       expect(response.statusCode).to.equal(403);
     });
   });
+
+  describe('GET /api/campaigns/{campaignId}/organization-learners/{organizationLearnerId}/participations', function () {
+    it('should call expected prehandler', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'checkAuthorizationToAccessCampaign').callsFake((request, h) => h.response('ok'));
+      sinon.stub(campaignParticipationController, 'getCampaignParticipationsForOrganizationLearner').returns('ok');
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      await httpTestServer.request('GET', '/api/campaigns/2/organization-learners/1/participations');
+
+      // then
+      expect(securityPreHandlers.checkAuthorizationToAccessCampaign.called).to.be.true;
+    });
+  });
 });
