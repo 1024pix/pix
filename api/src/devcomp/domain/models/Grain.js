@@ -2,7 +2,7 @@ import { NotFoundError } from '../../../shared/domain/errors.js';
 import { assertNotNullOrUndefined } from '../../../shared/domain/models/asserts.js';
 
 class Grain {
-  constructor({ id, title, type, elements, components }) {
+  constructor({ id, title, type, components }) {
     assertNotNullOrUndefined(id, 'The id is required for a grain');
     assertNotNullOrUndefined(title, 'The title is required for a grain');
     assertNotNullOrUndefined(elements, `A list of elements is required for a grain`);
@@ -17,20 +17,15 @@ class Grain {
   }
 
   getElementById(elementId) {
-    // ToDo PIX-12363 migrate to components
-    const foundElement = this.elements.find(({ id }) => id === elementId);
+    const foundComponent = this.components.map((component) => component.element);
 
-    if (foundElement === undefined) {
+    const foundElementId = foundComponent.find((element) => element.id === elementId);
+
+    if (foundElementId === undefined) {
       throw new NotFoundError();
     }
 
-    return foundElement;
-  }
-
-  #assertElementsIsAnArray(elements) {
-    if (!Array.isArray(elements)) {
-      throw new Error(`A grain should have a list of elements`);
-    }
+    return foundElementId;
   }
 
   #assertComponentsIsDefinedAndAnArray(components) {
