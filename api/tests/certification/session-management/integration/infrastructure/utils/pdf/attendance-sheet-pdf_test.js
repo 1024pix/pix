@@ -22,7 +22,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Attendance sheet Pdf', fu
     it('should return full attendance sheet with division', async function () {
       // given
       const candidates = _createMultipleCandidate(2, 'CM1');
-      const session = domainBuilder.certification.sessionManagement.buildSessionForAttendanceSheet({
+      const session = domainBuilder.buildSessionForAttendanceSheet({
         certificationCenterType: 'SCO',
         isOrganizationManagingStudents: true,
         certificationCandidates: candidates,
@@ -48,7 +48,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Attendance sheet Pdf', fu
     it('should return full attendance sheet with external id', async function () {
       // given
       const candidates = _createMultipleCandidate(2);
-      const session = domainBuilder.certification.sessionManagement.buildSessionForAttendanceSheet({
+      const session = domainBuilder.buildSessionForAttendanceSheet({
         certificationCenterType: 'SUP',
         certificationCandidates: candidates,
       });
@@ -73,7 +73,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Attendance sheet Pdf', fu
     it('should return full attendance sheet with 1 page as a buffer', async function () {
       // given
       const candidates = _createMultipleCandidate(19);
-      const session = domainBuilder.certification.sessionManagement.buildSessionForAttendanceSheet({
+      const session = domainBuilder.buildSessionForAttendanceSheet({
         certificationCandidates: candidates,
       });
       const outputFilename = '/attendance-sheet-with-1-page_expected.pdf';
@@ -97,7 +97,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Attendance sheet Pdf', fu
     it('should return full attendance sheet with 2 pages as a buffer', async function () {
       // given
       const candidates = _createMultipleCandidate(22);
-      const session = domainBuilder.certification.sessionManagement.buildSessionForAttendanceSheet({
+      const session = domainBuilder.buildSessionForAttendanceSheet({
         certificationCandidates: candidates,
       });
       const outputFilename = '/attendance-sheet-with-2-pages_expected.pdf';
@@ -125,7 +125,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Attendance sheet Pdf', fu
         firstName: 'JaiUnPrénomTrèsTrèsTrèsLongAussi',
         externalId: 'JaiUnExternalIdTrèsTrèsTrèsLong',
       });
-      const session = domainBuilder.certification.sessionManagement.buildSessionForAttendanceSheet({
+      const session = domainBuilder.buildSessionForAttendanceSheet({
         address: '1024 boulevard des Capucines',
         room: 'Salle du fond au 1er étage, après les toilettes',
         examiner: 'Jean Michel, Brigitte, Jerôme, Claude',
@@ -156,7 +156,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Attendance sheet Pdf', fu
         firstName: 'Harry',
         externalId: null,
       });
-      const session = domainBuilder.certification.sessionManagement.buildSessionForAttendanceSheet({
+      const session = domainBuilder.buildSessionForAttendanceSheet({
         certificationCandidates: [candidate],
       });
       const outputFilename = '/attendance-sheet-with-optional-value_expected.pdf';
@@ -179,7 +179,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Attendance sheet Pdf', fu
   it('should generate attendance sheet in english', async function () {
     // given
     const candidates = _createMultipleCandidate(2);
-    const session = domainBuilder.certification.sessionManagement.buildSessionForAttendanceSheet({
+    const session = domainBuilder.buildSessionForAttendanceSheet({
       certificationCenterType: 'SUP',
       certificationCandidates: candidates,
     });
