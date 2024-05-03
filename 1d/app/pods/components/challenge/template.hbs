@@ -10,16 +10,15 @@
     {{/if}}
 
   </RobotDialog>
-  <Challenge::Item @challenge={{@challenge}} @setAnswerValue={{this.setAnswerValue}} @assessment={{@assessment}} />
-
-  <div class="container__actions">
-    <Challenge::ChallengeActions
-      @validateAnswer={{this.validateAnswer}}
-      @skipChallenge={{this.skipChallenge}}
-      @level={{@activity.level}}
-      @nextAction={{this.resume}}
-      @disableCheckButton={{this.disableCheckButton}}
-      @answerHasBeenValidated={{this.answerHasBeenValidated}}
-    />
-  </div>
+  <Challenge::Item
+    @setAnswerValue={{this.setAnswerValue}}
+    @validateAnswer={{this.validateAnswer}}
+    @skipChallenge={{this.skipChallenge}}
+    @challenge={{@challenge}}
+    @assessment={{@assessment}}
+    @disableCheckButton={{this.disableCheckButton}}
+    @answerHasBeenValidated={{this.answerHasBeenValidated}}
+    @activity={{@activity}}
+    @resume={{this.resume}}
+  />
 </div>

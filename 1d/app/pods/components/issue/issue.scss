@@ -16,6 +16,10 @@
     padding-left: 20px;
     margin-inline-start: 25%;
 
+    @include device-is('tablet') {
+      margin-inline-start: unset;
+    }
+
     &__logo {
       width: 196px;
       max-height: unset;
@@ -23,6 +27,10 @@
 
     .bubbles {
       margin-top: 112px;
+
+      @include device-is('tablet') {
+        margin-top: 75px;
+      }
     }
   }
 
