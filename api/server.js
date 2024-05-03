@@ -7,7 +7,6 @@ import { config } from './lib/config.js';
 import { authentication } from './lib/infrastructure/authentication.js';
 import { monitoringTools } from './lib/infrastructure/monitoring-tools.js';
 import { plugins } from './lib/infrastructure/plugins/index.js';
-import { deserializer } from './lib/infrastructure/serializers/jsonapi/deserializer.js';
 import { routes } from './lib/routes.js';
 import { swaggers } from './lib/swaggers.js';
 import { handleFailAction } from './lib/validate.js';
@@ -30,6 +29,7 @@ import { organizationLearnerRoutes } from './src/prescription/organization-learn
 import { organizationPlaceRoutes } from './src/prescription/organization-place/routes.js';
 import { targetProfileRoutes } from './src/prescription/target-profile/routes.js';
 import { schoolRoutes } from './src/school/routes.js';
+import { deserializer } from './src/shared/infrastructure/serializers/jsonapi/deserializer.js';
 import { prescriberManagementRoutes } from './src/shared/prescriber-management/routes.js';
 // bounded context migration
 import { sharedRoutes } from './src/shared/routes.js';

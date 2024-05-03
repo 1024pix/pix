@@ -1,4 +1,4 @@
-import { TargetProfile } from '../../../../../../src/shared/domain/models/target-profile-management/TargetProfile.js';
+import { TargetProfile } from '../../../../../../src/prescription/target-profile/domain/models/TargetProfile.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | TargetProfile', function () {

@@ -3,7 +3,9 @@ import dayjs from 'dayjs';
 import { escapeFileName } from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as targetProfileAttachOrganizationSerializer from '../infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer.js';
+import * as targetProfileDetachOrganizationsSerializer from '../infrastructure/serializers/jsonapi/target-profile-detach-organizations-serializer.js';
 import * as learningContentPDFPresenter from './presenter/pdf/learning-content-pdf-presenter.js';
+
 const getContentAsJsonFile = async function (request, h) {
   const targetProfileId = request.params.id;
 
@@ -65,9 +67,26 @@ const attachTargetProfiles = async function (request, h) {
   return h.response({}).code(204);
 };
 
+const detachOrganizations = async function (request, h, dependencies = { targetProfileDetachOrganizationsSerializer }) {
+  const { organizationIds } = request.deserializedPayload;
+  const targetProfileId = request.params.targetProfileId;
+
+  const detachedOrganizationIds = await usecases.detachOrganizationsFromTargetProfile({
+    targetProfileId,
+    organizationIds,
+  });
+
+  return h
+    .response(
+      dependencies.targetProfileDetachOrganizationsSerializer.serialize({ detachedOrganizationIds, targetProfileId }),
+    )
+    .code(200);
+};
+
 const targetProfileController = {
   attachTargetProfiles,
   attachOrganizations,
+  detachOrganizations,
   attachOrganizationsFromExistingTargetProfile,
   getContentAsJsonFile,
   getLearningContentAsPdf,
