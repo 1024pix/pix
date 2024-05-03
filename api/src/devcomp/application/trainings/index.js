@@ -2,8 +2,11 @@ import Joi from 'joi';
 
 import { BadRequestError, NotFoundError, sendJsonApiError } from '../../../../lib/application/http-errors.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
+import { SUPPORTED_LOCALES } from '../../../shared/domain/constants.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { trainingController as trainingsController } from './training-controller.js';
+
+const lowerCaseSupportedLocales = SUPPORTED_LOCALES.map((supportedLocale) => supportedLocale.toLowerCase());
 
 const register = async function (server) {
   server.route([
@@ -128,7 +131,9 @@ const register = async function (server) {
                 type: Joi.string()
                   .valid('autoformation', 'e-learning', 'hybrid-training', 'in-person-training', 'modulix', 'webinaire')
                   .required(),
-                locale: Joi.string().valid('fr-fr', 'fr', 'en-gb').required(),
+                locale: Joi.string()
+                  .valid(...lowerCaseSupportedLocales)
+                  .required(),
                 'editor-name': Joi.string().required(),
                 'editor-logo-url': Joi.string().uri().required(),
               }),
@@ -174,7 +179,9 @@ const register = async function (server) {
                 type: Joi.string()
                   .valid('autoformation', 'e-learning', 'hybrid-training', 'in-person-training', 'modulix', 'webinaire')
                   .allow(null),
-                locale: Joi.string().valid('fr-fr', 'fr', 'en-gb').allow(null),
+                locale: Joi.string()
+                  .valid(...lowerCaseSupportedLocales)
+                  .allow(null),
                 'editor-name': Joi.string().allow(null),
                 'editor-logo-url': Joi.string().allow(null),
               }),

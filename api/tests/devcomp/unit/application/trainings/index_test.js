@@ -587,6 +587,78 @@ describe('Unit | Devcomp | Application | Trainings | Router | training-router', 
         // then
         expect(response.statusCode).to.equal(400);
       });
+
+      describe('locale', function () {
+        it('should return 400 if the locale is not in lowercase', async function () {
+          // given
+          const invalidPayload = {
+            data: {
+              attributes: {
+                link: 'http://www.example.net',
+                title: 'ma formation',
+                duration: { days: 2, hours: 2, minutes: 2 },
+                type: 'webinaire',
+                locale: 'fr-BE',
+                'editor-name': 'ministère',
+                'editor-logo-url': 'http://www.image.pix.fr/image.svg',
+              },
+            },
+          };
+          sinon.stub(trainingController, 'create').returns('ok');
+
+          sinon
+            .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+            .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+          sinon
+            .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+            .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+          sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          // when
+          const response = await httpTestServer.request('POST', '/api/admin/trainings', invalidPayload);
+
+          // then
+          expect(response.statusCode).to.equal(400);
+        });
+
+        it('should return 400 if the locale is not supported', async function () {
+          // given
+          const invalidPayload = {
+            data: {
+              attributes: {
+                link: 'http://www.example.net',
+                title: 'ma formation',
+                duration: { days: 2, hours: 2, minutes: 2 },
+                type: 'webinaire',
+                locale: 'ja-Jpan-JP-u-ca-japanese-hc-h12',
+                'editor-name': 'ministère',
+                'editor-logo-url': 'http://www.image.pix.fr/image.svg',
+              },
+            },
+          };
+          sinon.stub(trainingController, 'create').returns('ok');
+
+          sinon
+            .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+            .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+          sinon
+            .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+            .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+          sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          // when
+          const response = await httpTestServer.request('POST', '/api/admin/trainings', invalidPayload);
+
+          // then
+          expect(response.statusCode).to.equal(400);
+        });
+      });
     });
   });
 
@@ -800,6 +872,48 @@ describe('Unit | Devcomp | Application | Trainings | Router | training-router', 
               expect(result.statusCode).to.equal(200);
             });
           });
+        });
+      });
+
+      describe('locale', function () {
+        it('should return bad request when locale is not in lowercase', async function () {
+          // given
+          sinon.stub(trainingController, 'update').returns('ok');
+          sinon
+            .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+            .callsFake((request, h) => h.response(true));
+          sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          const payload = { data: { attributes: { locale: 'fr-BE' } } };
+
+          // when
+          const result = await httpTestServer.request('PATCH', '/api/admin/trainings/12344', payload);
+
+          // then
+          expect(result.statusCode).to.equal(400);
+        });
+
+        it('should return bad request when locale is not supported', async function () {
+          // given
+          sinon.stub(trainingController, 'update').returns('ok');
+          sinon
+            .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+            .callsFake((request, h) => h.response(true));
+          sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          const payload = { data: { attributes: { locale: 'ja-Jpan-JP-u-ca-japanese-hc-h12' } } };
+
+          // when
+          const result = await httpTestServer.request('PATCH', '/api/admin/trainings/12344', payload);
+
+          // then
+          expect(result.statusCode).to.equal(400);
         });
       });
     });

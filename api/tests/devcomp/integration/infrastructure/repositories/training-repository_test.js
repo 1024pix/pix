@@ -427,7 +427,7 @@ describe('Integration | Repository | training-repository', function () {
         id: 3,
         title: 'training 3',
         targetProfileIds: [targetProfile1.id],
-        locale: 'en-gb',
+        locale: 'en',
         trainingTriggers: [],
       });
       const trainingWithDifferentTargetProfile = domainBuilder.buildTraining({
@@ -705,7 +705,7 @@ describe('Integration | Repository | training-repository', function () {
       const training2 = databaseBuilder.factory.buildTraining();
       const training3 = databaseBuilder.factory.buildTraining();
       const training4 = databaseBuilder.factory.buildTraining();
-      const trainingWithAnotherLocale = databaseBuilder.factory.buildTraining({ locale: 'en-gb' });
+      const trainingWithAnotherLocale = databaseBuilder.factory.buildTraining({ locale: 'en' });
       databaseBuilder.factory.buildUserRecommendedTraining({
         userId,
         trainingId: training1.id,
