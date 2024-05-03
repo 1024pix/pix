@@ -6,7 +6,9 @@ describe('Unit | Domain | Read Models | EnrolledCandidate', function () {
     context('when no complementary certification is provided', function () {
       it('should build an enrolled candidate', function () {
         // given
-        const candidate = domainBuilder.certification.session.buildCertificationSessionCandidate({ userId: null });
+        const candidate = domainBuilder.certification.sessionManagement.buildCertificationSessionCandidate({
+          userId: null,
+        });
 
         // when
         const enrolledCandidate = EnrolledCandidate.fromCandidateAndComplementaryCertification({

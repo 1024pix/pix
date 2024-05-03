@@ -5,7 +5,7 @@ import {
 } from '../../../../lib/domain/errors.js';
 import { EmailingAttempt, FinalizedSession } from '../../../../lib/domain/models/index.js';
 import { manageEmails, publishSession } from '../../../../lib/domain/services/session-publication-service.js';
-import { SessionAlreadyPublishedError } from '../../../../src/certification/session/domain/errors.js';
+import { SessionAlreadyPublishedError } from '../../../../src/certification/session-management/domain/errors.js';
 import { status } from '../../../../src/shared/domain/models/AssessmentResult.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
@@ -43,7 +43,7 @@ describe('Unit | UseCase | session-publication-service', function () {
     candidateWithNoRecipient = domainBuilder.buildCertificationCandidate({
       resultRecipientEmail: null,
     });
-    originalSession = domainBuilder.certification.session.buildSession({
+    originalSession = domainBuilder.certification.sessionManagement.buildSession({
       id: sessionId,
       certificationCenter,
       date: sessionDate,
@@ -83,7 +83,10 @@ describe('Unit | UseCase | session-publication-service', function () {
       context('when the session is already published', function () {
         it('should throw an error', async function () {
           // given
-          const session = domainBuilder.certification.session.buildSession({ id: 'sessionId', publishedAt: new Date() });
+          const session = domainBuilder.certification.sessionManagement.buildSession({
+            id: 'sessionId',
+            publishedAt: new Date(),
+          });
           const sessionRepository = { getWithCertificationCandidates: sinon.stub() };
           sessionRepository.getWithCertificationCandidates.withArgs({ id: 'sessionId' }).resolves(session);
 
@@ -139,7 +142,10 @@ describe('Unit | UseCase | session-publication-service', function () {
         context('when the certification is not cancelled', function () {
           it('should throw a CertificationCourseNotPublishableError', async function () {
             // given
-            const session = domainBuilder.certification.session.buildSession({ id: 'sessionId', publishedAt: null });
+            const session = domainBuilder.certification.sessionManagement.buildSession({
+              id: 'sessionId',
+              publishedAt: null,
+            });
             const sessionRepository = { getWithCertificationCandidates: sinon.stub() };
             sessionRepository.getWithCertificationCandidates.withArgs({ id: 'sessionId' }).resolves(session);
             certificationRepository.getStatusesBySessionId
@@ -163,7 +169,10 @@ describe('Unit | UseCase | session-publication-service', function () {
         context('when the certification is cancelled', function () {
           it('should not throw', async function () {
             // given
-            const session = domainBuilder.certification.session.buildSession({ id: 'sessionId', publishedAt: null });
+            const session = domainBuilder.certification.sessionManagement.buildSession({
+              id: 'sessionId',
+              publishedAt: null,
+            });
             const sessionRepository = { getWithCertificationCandidates: sinon.stub(), updatePublishedAt: sinon.stub() };
             const finalizedSessionRepository = {
               get: sinon.stub(),
@@ -193,7 +202,10 @@ describe('Unit | UseCase | session-publication-service', function () {
         context('when the certification is not cancelled', function () {
           it('should throw a CertificationCourseNotPublishableError without publishing any certification nor setting pixCertificationStatus', async function () {
             // given
-            const session = domainBuilder.certification.session.buildSession({ id: 'sessionId', publishedAt: null });
+            const session = domainBuilder.certification.sessionManagement.buildSession({
+              id: 'sessionId',
+              publishedAt: null,
+            });
             const sessionRepository = { getWithCertificationCandidates: sinon.stub() };
             sessionRepository.getWithCertificationCandidates.withArgs({ id: 'sessionId' }).resolves(session);
             certificationRepository.getStatusesBySessionId
@@ -216,7 +228,10 @@ describe('Unit | UseCase | session-publication-service', function () {
         context('when the certification is cancelled', function () {
           it('should not throw', async function () {
             // given
-            const session = domainBuilder.certification.session.buildSession({ id: 'sessionId', publishedAt: null });
+            const session = domainBuilder.certification.sessionManagement.buildSession({
+              id: 'sessionId',
+              publishedAt: null,
+            });
             const sessionRepository = { getWithCertificationCandidates: sinon.stub(), updatePublishedAt: sinon.stub() };
             sessionRepository.getWithCertificationCandidates.withArgs({ id: 'sessionId' }).resolves(session);
             certificationRepository.getStatusesBySessionId
@@ -372,7 +387,7 @@ describe('Unit | UseCase | session-publication-service', function () {
         const candidateWithNoRecipient = domainBuilder.buildCertificationCandidate({
           resultRecipientEmail: null,
         });
-        const sessionWithoutResultsRecipient = domainBuilder.certification.session.buildSession({
+        const sessionWithoutResultsRecipient = domainBuilder.certification.sessionManagement.buildSession({
           id: sessionId,
           certificationCenter,
           date: sessionDate,
@@ -399,7 +414,7 @@ describe('Unit | UseCase | session-publication-service', function () {
       context('when there is a referer', function () {
         it('should send an email to the referer', async function () {
           // given
-          const session = domainBuilder.certification.session.buildSession({
+          const session = domainBuilder.certification.sessionManagement.buildSession({
             certificationCenterId: 101,
             finalizedAt: now,
             publishedAt: null,
@@ -443,7 +458,7 @@ describe('Unit | UseCase | session-publication-service', function () {
         context('when an email sending attempt fails', function () {
           it('should throw an error', async function () {
             // given
-            const session = domainBuilder.certification.session.buildSession({
+            const session = domainBuilder.certification.sessionManagement.buildSession({
               certificationCenterId: 101,
               finalizedAt: now,
               publishedAt: null,

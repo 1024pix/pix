@@ -83,8 +83,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
   context('when session access code is different from provided access code', function () {
     it('should throw a not found error', async function () {
       // given
-      const foundSession = domainBuilder.certification.session.buildSession({ accessCode: 'differentAccessCode' });
-      sessionEnrolmentRepository.get.withArgs({ id: 1 }).resolves(foundSession);
+      const foundSession = domainBuilder.certification.sessionManagement.buildSession({
+        accessCode: 'differentAccessCode',
+      });
+      sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
 
       // when
       const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
@@ -107,7 +109,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
     context('when session is not accessible', function () {
       it('should throw a SessionNotAccessible error', async function () {
         // given
-        const foundSession = domainBuilder.certification.session.buildSession.finalized({
+        const foundSession = domainBuilder.certification.sessionManagement.buildSession.finalized({
           id: 1,
           accessCode: 'accessCode',
         });
@@ -135,7 +137,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
         context('when the user tries to join the session for the first time', function () {
           it('should throw a CandidateNotAuthorizedToJoinSessionError', async function () {
             // given
-            const foundSession = domainBuilder.certification.session.buildSession.created({
+            const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
               id: 1,
               accessCode: 'accessCode',
             });
@@ -169,7 +171,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
           it('should throw a CandidateNotAuthorizedToResumeCertificationTestError', async function () {
             // given
             const domainTransaction = Symbol('someDomainTransaction');
-            const foundSession = domainBuilder.certification.session.buildSession.created({
+            const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
               id: 1,
               accessCode: 'accessCode',
             });
@@ -210,7 +212,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
           it('should throw a CandidateNotAuthorizedToJoinSessionError xxx', async function () {
             // given
             const domainTransaction = Symbol('someDomainTransaction');
-            const foundSession = domainBuilder.certification.session.buildSession.created({
+            const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
               id: 1,
               accessCode: 'accessCode',
             });
@@ -248,7 +250,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
           it('return existing certification course and unauthorize candidate to start', async function () {
             // given
             const domainTransaction = Symbol('someDomainTransaction');
-            const foundSession = domainBuilder.certification.session.buildSession.created({
+            const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
               id: 1,
               accessCode: 'accessCode',
             });
@@ -298,7 +300,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               // given
               const domainTransaction = Symbol('someDomainTransaction');
 
-              const foundSession = domainBuilder.certification.session.buildSession.created({
+              const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
                 id: 1,
                 accessCode: 'accessCode',
               });
@@ -348,7 +350,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               it('should return it with flag created marked as false', async function () {
                 // given
                 const domainTransaction = Symbol('someDomainTransaction');
-                const foundSession = domainBuilder.certification.session.buildSession.created({
+                const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
                   id: 1,
                   accessCode: 'accessCode',
                 });
@@ -411,7 +413,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 // given
                 const domainTransaction = Symbol('someDomainTransaction');
 
-                const foundSession = domainBuilder.certification.session.buildSession.created({
+                const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
                   id: 1,
                   accessCode: 'accessCode',
                 });
@@ -503,7 +505,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     const userId = 2;
                     const domainTransaction = Symbol('someDomainTransaction');
 
-                    const foundSession = domainBuilder.certification.session.buildSession.created({
+                    const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
                       id: 1,
                       accessCode: 'accessCode',
                       version: 3,
@@ -556,7 +558,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     const userId = 2;
                     const domainTransaction = Symbol('someDomainTransaction');
 
-                    const foundSession = domainBuilder.certification.session.buildSession.created({
+                    const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
                       id: 1,
                       accessCode: 'accessCode',
                       version: 3,
@@ -670,7 +672,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       });
                       const domainTransaction = Symbol('someDomainTransaction');
 
-                      const foundSession = domainBuilder.certification.session.buildSession.created({
+                      const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
                         id: 1,
                         accessCode: 'accessCode',
                       });
@@ -795,7 +797,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                       const domainTransaction = Symbol('someDomainTransaction');
 
-                      const foundSession = domainBuilder.certification.session.buildSession.created({
+                      const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
                         id: 1,
                         accessCode: 'accessCode',
                       });
@@ -912,7 +914,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         });
                         const domainTransaction = Symbol('someDomainTransaction');
 
-                        const foundSession = domainBuilder.certification.session.buildSession.created({
+                        const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
                           id: 1,
                           accessCode: 'accessCode',
                         });
@@ -1017,7 +1019,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                         const domainTransaction = Symbol('someDomainTransaction');
 
-                        const foundSession = domainBuilder.certification.session.buildSession.created({
+                        const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
                           id: 1,
                           accessCode: 'accessCode',
                         });
@@ -1138,7 +1140,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                       const domainTransaction = Symbol('someDomainTransaction');
 
-                      const foundSession = domainBuilder.certification.session.buildSession.created({
+                      const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
                         id: 1,
                         accessCode: 'accessCode',
                       });
@@ -1238,7 +1240,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     });
                     const domainTransaction = Symbol('someDomainTransaction');
 
-                    const foundSession = domainBuilder.certification.session.buildSession.created({
+                    const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
                       id: 1,
                       accessCode: 'accessCode',
                     });

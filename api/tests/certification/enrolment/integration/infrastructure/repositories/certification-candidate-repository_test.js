@@ -6,7 +6,7 @@ import {
 } from '../../../../../../lib/domain/errors.js';
 import { BookshelfCertificationCandidate } from '../../../../../../lib/infrastructure/orm-models/CertificationCandidate.js';
 import * as certificationCandidateRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/certification-candidate-repository.js';
-import { ComplementaryCertification } from '../../../../../../src/certification/session/domain/models/ComplementaryCertification.js';
+import { ComplementaryCertification } from '../../../../../../src/certification/session-management/domain/models/ComplementaryCertification.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 
@@ -92,7 +92,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
           const certificationCandidate = domainBuilder.buildCertificationCandidate.notPersisted({
             sessionId,
             complementaryCertification:
-              domainBuilder.certification.session.buildCertificationSessionComplementaryCertification({
+              domainBuilder.certification.sessionManagement.buildCertificationSessionComplementaryCertification({
                 id: complementaryCertificationId,
               }),
           });
@@ -847,7 +847,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
           domainBuilder.buildCertificationCandidate({
             ...certificationCandidate,
             complementaryCertification:
-              domainBuilder.certification.session.buildCertificationSessionComplementaryCertification(
+              domainBuilder.certification.sessionManagement.buildCertificationSessionComplementaryCertification(
                 complementaryCertification,
               ),
           }),

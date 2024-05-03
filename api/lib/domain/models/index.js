@@ -4,7 +4,7 @@ import { SessionEnrolment } from '../../../src/certification/enrolment/domain/mo
 import { AssessmentSimulator } from '../../../src/certification/flash-certification/domain/models/AssessmentSimulator.js';
 import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certification/domain/models/FlashAssessmentAlgorithm.js';
 import { CertificationAssessmentScore } from '../../../src/certification/scoring/domain/models/CertificationAssessmentScore.js';
-import { CertificationOfficer } from '../../../src/certification/session/domain/models/CertificationOfficer.js';
+import { CertificationOfficer } from '../../../src/certification/session-management/domain/models/CertificationOfficer.js';
 import { CertificationCourse } from '../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { CertificationIssueReport } from '../../../src/certification/shared/domain/models/CertificationIssueReport.js';
 import { CertificationIssueReportCategory } from '../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';

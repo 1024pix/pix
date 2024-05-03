@@ -1,7 +1,7 @@
 /**
  * @typedef {import("./index.js").CenterRepository} CenterRepository
  * @typedef {import("./index.js").ComplementaryCertificationRepository} ComplementaryCertificationRepository
- * @typedef {import("../../../session/domain/models/Center.js").Center} Center
+ * @typedef {import("../models/Center.js").Center} Center
  * @typedef {import("../../../../shared/domain/errors.js").NotFoundError} NotFoundError
  */
 

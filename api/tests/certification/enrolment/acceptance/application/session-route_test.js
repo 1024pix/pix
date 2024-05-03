@@ -124,7 +124,7 @@ describe('Acceptance | Controller | Session | session-route', function () {
       // then
       return promise.then((response) => {
         expect(response.statusCode).to.equal(200);
-        expect(response.result.data.type).to.equal('sessions');
+        expect(response.result.data.type).to.equal('session-enrolments');
         expect(response.result.data.id).to.equal(session.id.toString());
         expect(response.result.data.attributes.address).to.equal('New address');
         expect(response.result.data.attributes.room).to.equal('New room');

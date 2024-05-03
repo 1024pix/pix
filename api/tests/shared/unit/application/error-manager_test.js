@@ -2,7 +2,7 @@ import { AdminMemberError } from '../../../../src/authorization/domain/errors.js
 import {
   CsvWithNoSessionDataError,
   SessionStartedDeletionError,
-} from '../../../../src/certification/session/domain/errors.js';
+} from '../../../../src/certification/session-management/domain/errors.js';
 import { authenticationDomainErrorMappingConfiguration } from '../../../../src/identity-access-management/application/http-error-mapper-configuration.js';
 import { domainErrorMapper } from '../../../../src/shared/application/domain-error-mapper.js';
 import { handle } from '../../../../src/shared/application/error-manager.js';

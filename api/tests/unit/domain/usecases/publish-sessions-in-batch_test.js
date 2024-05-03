@@ -19,8 +19,8 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
 
   it('delegates to the publish session service', async function () {
     // given
-    const session1 = domainBuilder.certification.session.buildSession({ id: 1 });
-    const session2 = domainBuilder.certification.session.buildSession({ id: 2 });
+    const session1 = domainBuilder.certification.sessionManagement.buildSession({ id: 1 });
+    const session2 = domainBuilder.certification.sessionManagement.buildSession({ id: 2 });
     const publishedAt = Symbol('a publication date');
     const i18n = Symbol('i18n');
 
@@ -76,8 +76,8 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
     it('should continue', async function () {
       // given
       const i18n = Symbol('i18n');
-      const session1 = domainBuilder.certification.session.buildSession({ id: 1 });
-      const session2 = domainBuilder.certification.session.buildSession({ id: 2 });
+      const session1 = domainBuilder.certification.sessionManagement.buildSession({ id: 1 });
+      const session2 = domainBuilder.certification.sessionManagement.buildSession({ id: 2 });
       const publishedAt = Symbol('a publication date');
 
       sessionPublicationService.publishSession

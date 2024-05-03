@@ -6,7 +6,7 @@ const { readFile, access } = promises;
 import papa from 'papaparse';
 
 import { NotFoundError } from '../../../../shared/domain/errors.js';
-import { CsvWithNoSessionDataError } from '../../../session/domain/errors.js';
+import { CsvWithNoSessionDataError } from '../../../session-management/domain/errors.js';
 
 const optionsWithHeader = {
   skipEmptyLines: true,

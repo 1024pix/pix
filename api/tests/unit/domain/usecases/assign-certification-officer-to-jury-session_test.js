@@ -1,4 +1,4 @@
-import { assignCertificationOfficerToJurySession } from '../../../../src/certification/session/domain/usecases/assign-certification-officer-to-jury-session.js';
+import { assignCertificationOfficerToJurySession } from '../../../../src/certification/session-management/domain/usecases/assign-certification-officer-to-jury-session.js';
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | assign-certification-officer-to-session', function () {

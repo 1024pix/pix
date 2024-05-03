@@ -7,7 +7,7 @@ describe('Unit | Certification | Session | Domain | Models | Center', function (
   describe('#hasBillingMode', function () {
     it('should return false when center is of type SCO', function () {
       // given
-      const center = domainBuilder.certification.session.buildCenter({ type: CenterTypes.SCO });
+      const center = domainBuilder.certification.sessionManagement.buildCenter({ type: CenterTypes.SCO });
 
       // when / then
       expect(center).to.be.an.instanceOf(Center);
@@ -16,7 +16,7 @@ describe('Unit | Certification | Session | Domain | Models | Center', function (
 
     it('should return true when center is not of type SCO', function () {
       // given
-      const center = domainBuilder.certification.session.buildCenter({ type: CenterTypes.SUP });
+      const center = domainBuilder.certification.sessionManagement.buildCenter({ type: CenterTypes.SUP });
 
       // when / then
       expect(center).to.be.an.instanceOf(Center);
@@ -25,7 +25,7 @@ describe('Unit | Certification | Session | Domain | Models | Center', function (
 
     it('should return true when center is a complementary certification pilot', function () {
       // given
-      const center = domainBuilder.certification.session.buildCenter({
+      const center = domainBuilder.certification.sessionManagement.buildCenter({
         type: CenterTypes.SUP,
         features: [CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key],
       });
@@ -41,7 +41,9 @@ describe('Unit | Certification | Session | Domain | Models | Center', function (
         const notACenterType = 'Not a valid type';
 
         // when
-        const error = catchErrSync(domainBuilder.certification.session.buildCenter)({ type: notACenterType });
+        const error = catchErrSync(domainBuilder.certification.sessionManagement.buildCenter)({
+          type: notACenterType,
+        });
 
         // then
         expect(error).to.be.an.instanceOf(TypeError);

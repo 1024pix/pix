@@ -1,7 +1,7 @@
 import * as url from 'node:url';
 
 import { disconnect } from '../../db/knex-database-connection.js';
-import { usecases } from '../../src/certification/session/domain/usecases/index.js';
+import { usecases } from '../../src/certification/session-management/domain/usecases/index.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 
 const modulePath = url.fileURLToPath(import.meta.url);

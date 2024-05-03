@@ -34,7 +34,7 @@ describe('Integration | Certification |  Center | Repository | center-repository
         });
 
         // then
-        const expectedCenter = domainBuilder.certification.session.buildCenter({
+        const expectedCenter = domainBuilder.certification.sessionManagement.buildCenter({
           id: centerId,
           type: 'PRO',
           habilitations: [],
@@ -67,7 +67,7 @@ describe('Integration | Certification |  Center | Repository | center-repository
         });
 
         // then
-        const expectedCenter = domainBuilder.certification.session.buildCenter({
+        const expectedCenter = domainBuilder.certification.sessionManagement.buildCenter({
           id: centerId,
           type: 'PRO',
           habilitations: [],
@@ -102,7 +102,7 @@ describe('Integration | Certification |  Center | Repository | center-repository
       });
 
       // then
-      const expectedCenter = domainBuilder.certification.session.buildCenter({
+      const expectedCenter = domainBuilder.certification.sessionManagement.buildCenter({
         id: centerId,
         type: 'SCO',
         habilitations: [cleaId, droitId],

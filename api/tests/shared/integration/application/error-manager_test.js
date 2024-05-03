@@ -2,7 +2,7 @@ import {
   SessionAlreadyFinalizedError,
   SessionWithAbortReasonOnCompletedCertificationCourseError,
   SessionWithoutStartedCertificationError,
-} from '../../../../src/certification/session/domain/errors.js';
+} from '../../../../src/certification/session-management/domain/errors.js';
 import { SiecleXmlImportError } from '../../../../src/prescription/learner-management/domain/errors.js';
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 

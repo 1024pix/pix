@@ -18,7 +18,7 @@ describe('Acceptance | Controller | session-for-supervising-controller-supervise
     // given
 
     const certificationCenter = databaseBuilder.factory.buildCertificationCenter({});
-    const session = domainBuilder.certification.session.buildSession({
+    const session = domainBuilder.certification.sessionManagement.buildSession({
       id: 121,
       certificationCenterId: certificationCenter.id,
     });

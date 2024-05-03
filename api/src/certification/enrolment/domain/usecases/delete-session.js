@@ -1,4 +1,4 @@
-import { SessionStartedDeletionError } from '../../../session/domain/errors.js';
+import { SessionStartedDeletionError } from '../../../session-management/domain/errors.js';
 
 /**
  * @typedef {import("./index.js").SessionManagementRepository} SessionManagementRepository
