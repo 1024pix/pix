@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-set -eo pipefail
+set -e
 
 npx lint-staged --cwd 1d
 npx lint-staged --cwd admin

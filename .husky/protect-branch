@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 current_branch=$(git rev-parse --abbrev-ref HEAD)
 
 protected_branch=dev
