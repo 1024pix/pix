@@ -385,7 +385,6 @@ const usecasesWithoutInjectedDependencies = {
   ...(await importNamedExportsFromDirectory({ path: join(path, './certificate') })),
   ...(await importNamedExportsFromDirectory({ path: join(path, './organizations-administration') })),
   ...(await importNamedExportsFromDirectory({ path: join(path, './stages') })),
-  ...(await importNamedExportsFromDirectory({ path: join(path, './target-profile-management') })),
   findPaginatedFilteredTargetProfileOrganizations,
   getNextChallengeForV2Certification,
   getNextChallengeForV3Certification,

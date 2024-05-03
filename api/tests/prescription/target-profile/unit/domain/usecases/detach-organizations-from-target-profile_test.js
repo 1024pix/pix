@@ -1,11 +1,11 @@
-import { detachOrganizationsFromTargetProfile } from '../../../../../lib/domain/usecases/target-profile-management/detach-organizations-from-target-profile.js';
-import { expect, sinon } from '../../../../test-helper.js';
+import { detachOrganizationsFromTargetProfile } from '../../../../../../src/prescription/target-profile/domain/usecases/detach-organizations-from-target-profile.js';
+import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | Target Profile Management | Detach Organizations From Target Profile', function () {
-  let targetProfileRepository;
+  let targetProfileBondRepository;
 
   beforeEach(function () {
-    targetProfileRepository = {
+    targetProfileBondRepository = {
       update: sinon.stub(),
     };
   });
@@ -19,11 +19,11 @@ describe('Unit | UseCase | Target Profile Management | Detach Organizations From
     await detachOrganizationsFromTargetProfile({
       organizationIds,
       targetProfileId,
-      targetProfileRepository,
+      targetProfileBondRepository,
     });
 
     // then
-    expect(targetProfileRepository.update).to.have.been.calledWithMatch({
+    expect(targetProfileBondRepository.update).to.have.been.calledWithMatch({
       id: targetProfileId,
       organizationIdsToDetach: organizationIds,
     });

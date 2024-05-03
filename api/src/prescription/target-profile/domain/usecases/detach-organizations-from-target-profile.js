@@ -1,15 +1,15 @@
-import { TargetProfile } from '../../../../src/shared/domain/models/target-profile-management/TargetProfile.js';
+import { TargetProfile } from '../models/TargetProfile.js';
 
 const detachOrganizationsFromTargetProfile = async function ({
   targetProfileId,
   organizationIds,
-  targetProfileRepository,
+  targetProfileBondRepository,
 }) {
   const targetProfile = new TargetProfile({ id: targetProfileId });
 
   targetProfile.detach(organizationIds);
 
-  return targetProfileRepository.update(targetProfile);
+  return targetProfileBondRepository.update(targetProfile);
 };
 
 export { detachOrganizationsFromTargetProfile };
