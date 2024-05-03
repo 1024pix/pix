@@ -1,4 +1,4 @@
-import { knex } from '../../../../db/knex-database-connection.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
 
 const update = async function (targetProfile) {
   const results = await knex('target-profile-shares')
