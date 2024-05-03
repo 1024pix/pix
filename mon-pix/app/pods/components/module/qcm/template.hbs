@@ -1,14 +1,16 @@
-<form class="element-qcm">
-  <fieldset>
-    <div class="element-qcm__header">
-      <legend class="element-qcm-header__direction">
-        {{t "pages.modulix.qcm.direction"}}
-      </legend>
+<form class="element-qcm" aria-describedby="instruction-{{this.element.id}}">
+  <fieldset disabled={{this.disableInput}}>
+    <legend class="screen-reader-only">
+      {{t "pages.modulix.qcm.direction"}}
+    </legend>
 
-      <div class="element-qcm-header__instruction">
-        {{html-unsafe this.element.instruction}}
-      </div>
+    <div class="element-qcm__instruction" id="instruction-{{this.element.id}}">
+      {{html-unsafe this.element.instruction}}
     </div>
+
+    <p class="element-qcm__direction" aria-hidden="true">
+      {{t "pages.modulix.qcm.direction"}}
+    </p>
 
     <div class="element-qcm__proposals">
       {{#each this.element.proposals as |proposal|}}

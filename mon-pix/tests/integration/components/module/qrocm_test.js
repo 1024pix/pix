@@ -1,5 +1,6 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
-import { click, fillIn } from '@ember/test-helpers';
+// eslint-disable-next-line no-restricted-imports
+import { click, fillIn, find } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -48,19 +49,20 @@ module('Integration | Component | Module | QROCM', function (hooks) {
       type: 'qrocm',
     };
     this.set('el', qrocm);
-    const screen = await render(hbs`
-        <Module::Qrocm @element={{this.el}} />`);
+    const screen = await render(hbs`<Module::Qrocm @element={{this.el}} />`);
+    const direction = this.intl.t('pages.modulix.qrocm.direction', {
+      count: qrocm.proposals.filter(({ type }) => type !== 'text').length,
+    });
 
     // then
     assert.ok(screen);
-    assert.dom(screen.getByText('Mon instruction')).exists({ count: 1 });
-    assert.ok(
-      screen.getByRole('group', {
-        legend: this.intl.t('pages.modulix.qrocm.direction', {
-          count: qrocm.proposals.filter(({ type }) => type !== 'text').length,
-        }),
-      }),
-    );
+    assert.ok(screen.getByRole('group', { legend: direction }));
+
+    const form = find('form');
+    assert.dom(form).exists();
+    const formDescription = find(`#${form.getAttribute('aria-describedby')}`);
+    assert.dom(formDescription).hasText('Mon instruction');
+
     assert.dom(screen.getByText('Ma première proposition')).exists({ count: 1 });
     assert.ok(screen.getByRole('textbox', { name: 'input-aria' }));
     assert.dom(screen.getByText("l'identifiant")).exists({ count: 1 });

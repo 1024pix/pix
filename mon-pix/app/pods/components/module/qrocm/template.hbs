@@ -1,14 +1,23 @@
-<form class="element-qrocm" autocapitalize="off" autocomplete="nope" autocorrect="off" spellcheck="false">
+<form
+  class="element-qrocm"
+  aria-describedby="instruction-{{this.element.id}}"
+  autocapitalize="off"
+  autocomplete="nope"
+  autocorrect="off"
+  spellcheck="false"
+>
   <fieldset disabled={{this.disableInput}}>
-    <div class="element-qrocm__header">
-      <legend class="element-qrocm-header__direction">
-        {{t "pages.modulix.qrocm.direction" count=this.nbOfProposals}}
-      </legend>
+    <legend class="screen-reader-only">
+      {{t "pages.modulix.qrocm.direction" count=this.nbOfProposals}}
+    </legend>
 
-      <div class="element-qrocm-header__instruction">
-        {{html-unsafe this.element.instruction}}
-      </div>
+    <div class="element-qrocm__instruction" id="instruction-{{this.element.id}}">
+      {{html-unsafe this.element.instruction}}
     </div>
+
+    <p class="element-qrocm__direction" aria-hidden="true">
+      {{t "pages.modulix.qrocm.direction" count=this.nbOfProposals}}
+    </p>
 
     <div class="element-qrocm__proposals">
       {{#each this.formattedProposals as |block|}}
