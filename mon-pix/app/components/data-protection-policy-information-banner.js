@@ -8,6 +8,7 @@ export default class DataProtectionPolicyInformationBanner extends Component {
   @service currentUser;
   @service currentDomain;
   @service intl;
+  @service url;
 
   bannerType = ENV.APP.BANNER_TYPE;
   _rawBannerContent = ENV.APP.BANNER_CONTENT;
@@ -27,11 +28,7 @@ export default class DataProtectionPolicyInformationBanner extends Component {
   }
 
   get dataProtectionPolicyUrl() {
-    const currentLanguage = this.intl.prumaryLocale;
-    if (currentLanguage === 'en') {
-      return 'https://pix.org/en-gb/personal-data-protection-policy';
-    }
-    return `https://pix.${this.currentDomain.getExtension()}/politique-protection-donnees-personnelles-app`;
+    return this.url.dataProtectionPolicyUrl;
   }
 
   @action

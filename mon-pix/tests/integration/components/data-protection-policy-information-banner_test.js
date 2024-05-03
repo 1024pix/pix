@@ -2,15 +2,21 @@ import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
 import ENV from 'mon-pix/config/environment';
+import PixWindow from 'mon-pix/utils/pix-window';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | data-protection-policy-information-banner', function (hooks) {
   setupIntlRenderingTest(hooks);
 
+  hooks.afterEach(function () {
+    sinon.restore();
+  });
+
   module('when user is not logged in', function () {
-    test('should never display the data protection policy banner', async function (assert) {
+    test('does not display the data protection policy banner', async function (assert) {
       // given
       _userIsNotLoggedIn(this);
 
@@ -31,7 +37,7 @@ module('Integration | Component | data-protection-policy-information-banner', fu
 
   module('when user is logged in', function () {
     module('when communication banner is displayed', function () {
-      test('should never display the data protection policy banner', async function (assert) {
+      test('does not display the data protection policy banner', async function (assert) {
         // given
         _communicationBannerIsDisplayed();
         _userShouldSeeTheDataProtectionPolicyUpdateInformation(this);
@@ -52,8 +58,8 @@ module('Integration | Component | data-protection-policy-information-banner', fu
     });
 
     module('when communication banner is not displayed', function () {
-      module('when user should not see the data protection policy update information', function () {
-        test('should not display the banner', async function (assert) {
+      module('when user has already seen and accepted the data protection policy update information', function () {
+        test('does not display the data protection policy banner', async function (assert) {
           // given
           _communicationBannerIsNotDisplayed();
           _userShouldNotSeeTheDataProtectionPolicyUpdateInformation(this);
@@ -73,9 +79,10 @@ module('Integration | Component | data-protection-policy-information-banner', fu
         });
       });
 
-      module('when user should see the data protection policy update information', function () {
-        test('should display the banner', async function (assert) {
+      module('when user has not seen and accepted the data protection policy update information', function () {
+        test('displays the data protection policy banner', async function (assert) {
           // given
+          _stubWindowLocationHostname('pix.fr');
           _communicationBannerIsNotDisplayed();
           _userShouldSeeTheDataProtectionPolicyUpdateInformation(this);
 
@@ -85,12 +92,8 @@ module('Integration | Component | data-protection-policy-information-banner', fu
           // then
           assert.dom(screen.getByRole('alert')).exists();
           assert
-            .dom(
-              screen.getByRole('link', {
-                name: this.intl.t('common.data-protection-policy-information-banner.url-label'),
-              }),
-            )
-            .exists();
+            .dom(screen.getByRole('link', { name: 'Politique de protection des données.' }))
+            .hasAttribute('href', 'https://pix.fr/politique-protection-donnees-personnelles-app');
 
           const content = screen.getByText((content) =>
             content.startsWith(
@@ -98,6 +101,56 @@ module('Integration | Component | data-protection-policy-information-banner', fu
             ),
           );
           assert.dom(content).exists();
+        });
+
+        module('when on international domain (.org)', function () {
+          module('when user language is "en"', function () {
+            test('displays the data protection policy banner in english', async function (assert) {
+              // given
+              _stubWindowLocationHostname('pix.org');
+              this.intl.setLocale('en');
+              _communicationBannerIsNotDisplayed();
+              _userShouldSeeTheDataProtectionPolicyUpdateInformation(this);
+
+              // when
+              const screen = await render(hbs`<DataProtectionPolicyInformationBanner />`);
+
+              // then
+              assert
+                .dom(screen.getByRole('link', { name: 'Personal data protection policy.' }))
+                .hasAttribute('href', 'https://pix.org/en-gb/personal-data-protection-policy');
+
+              const content = screen.getByText((content) =>
+                content.startsWith(
+                  `Please note that our personal data protection policy has been updated. To take a look at what's changing, click here:`,
+                ),
+              );
+              assert.dom(content).exists();
+            });
+          });
+
+          module('when user language is "nl"', function () {
+            test('displays the data protection policy banner in dutch', async function (assert) {
+              // given
+              _stubWindowLocationHostname('pix.org');
+              this.intl.setLocale('nl');
+              _communicationBannerIsNotDisplayed();
+              _userShouldSeeTheDataProtectionPolicyUpdateInformation(this);
+
+              // when
+              const screen = await render(hbs`<DataProtectionPolicyInformationBanner />`);
+
+              // then
+              assert
+                .dom(screen.getByRole('link', { name: 'Beleid gegevensbescherming.' }))
+                .hasAttribute('href', 'https://pix.org/nl-be/beleid-inzake-de-bescherming-van-persoonsgegevens');
+
+              const content = screen.getByText((content) =>
+                content.startsWith('Ons privacybeleid is gewijzigd. We nodigen je uit om het te lezen:'),
+              );
+              assert.dom(content).exists();
+            });
+          });
         });
       });
     });
@@ -137,4 +190,8 @@ function _stubUserWithShouldSeeTheDataProtectionPolicyUpdateInformationAs(should
     });
   }
   component.owner.register('service:currentUser', CurrentUserStub);
+}
+
+function _stubWindowLocationHostname(hostname) {
+  sinon.stub(PixWindow, 'getLocationHostname').returns(hostname);
 }
