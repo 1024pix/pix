@@ -59,7 +59,6 @@ module.exports = function (environment) {
       }),
       BANNER_CONTENT: process.env.BANNER_CONTENT || '',
       BANNER_TYPE: process.env.BANNER_TYPE || '',
-      SCO_SURVEY_LINK: process.env.SCO_SURVEY_LINK || '',
       IS_PROD_ENVIRONMENT: (process.env.REVIEW_APP === 'false' && environment === 'production') || false,
       EMBED_ALLOWED_ORIGINS: (
         process.env.EMBED_ALLOWED_ORIGINS || 'https://epreuves.pix.fr,https://1024pix.github.io'

@@ -1,28 +1,4 @@
-{{#if @isScoUser}}
-  {{! this banner is temperary and will be deleted before september 2024 }}
-  <section class="dashboard-banner">
-    <NewInformation
-      @information="<h2>Donne ton avis sur Pix&nbsp;!</h2><p>Aide-nous en répondant à ce court questionnaire. Promis, c’est moins de 1 minute&nbsp;!</p>"
-      @image="/images/illustrations/discovery_TDB_pix.svg"
-      @backgroundColorClass="new-information--blue-gradient-background"
-      @textColorClass="new-information--white-text"
-      @linkText="Accéder au questionnaire"
-      @linkTo="{{this.scoSurveyLink}}"
-    />
-    {{#if @code}}
-      <NewInformation
-        @information="{{t 'pages.dashboard.campaigns.resume.text'}}"
-        @image="/images/profile_collect_TDB_pix.svg"
-        @backgroundColorClass="new-information--yellow-gradient-background"
-        @textColorClass="new-information--black-text"
-        @linkDisplayType="button"
-        @linkText="{{t 'pages.dashboard.campaigns.resume.action'}}"
-        @linkTo="campaigns.profiles-collection.start-or-resume"
-        @code={{@code}}
-      />
-    {{/if}}
-  </section>
-{{else if @show}}
+{{#if @show}}
   <section class="dashboard-banner">
     {{#unless @hasSeenNewDashboardInfo}}
       <NewInformation
