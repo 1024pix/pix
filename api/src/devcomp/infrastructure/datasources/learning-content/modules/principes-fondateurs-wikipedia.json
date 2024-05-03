@@ -375,7 +375,7 @@
               "input": "quality-wiki",
               "type": "select",
               "display": "block",
-              "placeholder": "",
+              "placeholder": "- Sélectionner -",
               "ariaLabel": "Choisir le niveau de qualité estimé",
               "defaultValue": "",
               "tolerances": [],

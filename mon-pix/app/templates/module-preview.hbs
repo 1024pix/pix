@@ -30,9 +30,10 @@
       class="module-preview-form__textarea"
       @id="module"
       @value={{this.module}}
-      @label={{t "pages.modulix.preview.textarea-label"}}
       @errorMessage={{this.errorMessage}}
       {{on "change" this.updateModule}}
-    />
+    >
+      <:label>{{t "pages.modulix.preview.textarea-label"}}</:label>
+    </PixTextarea>
   </main>
 </div>

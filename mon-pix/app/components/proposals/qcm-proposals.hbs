@@ -1,7 +1,6 @@
 <div class="qcm-proposals">
   {{#each this.labeledCheckboxes as |labeledCheckbox index|}}
     <p class="proposal-paragraph">
-
       <PixCheckbox
         name="{{inc index}}"
         disabled={{@isAnswerFieldDisabled}}
@@ -9,9 +8,10 @@
         {{on "click" (fn this.checkboxClicked labeledCheckbox.value)}}
         data-test="challenge-response-proposal-selector"
       >
-        <MarkdownToHtml @isInline={{true}} @extensions="remove-paragraph-tags" @markdown={{labeledCheckbox.label}} />
+        <:label>
+          <MarkdownToHtml @isInline={{true}} @extensions="remove-paragraph-tags" @markdown={{labeledCheckbox.label}} />
+        </:label>
       </PixCheckbox>
-
     </p>
   {{/each}}
 </div>

@@ -9,7 +9,6 @@
         <PixSelect
           data-test="challenge-response-proposal-selector"
           @isDisabled={{@isAnswerFieldDisabled}}
-          @label={{block.ariaLabel}}
           @screenReaderOnly={{true}}
           @placeholder={{block.placeholder}}
           @value={{get @answersValue block.input}}
@@ -18,7 +17,9 @@
           @onChange={{fn this.onChange block.input}}
           @size="big"
           @id="{{block.input}}"
-        />
+        >
+          <:label>{{block.ariaLabel}}</:label>
+        </PixSelect>
       </div>
     {{else if (eq block.type "input")}}
       {{#if block.input}}
@@ -55,7 +56,7 @@
                 placeholder={{block.placeholder}}
                 @value={{get @answersValue block.input}}
                 disabled={{@isAnswerFieldDisabled}}
-                @ariaLabel={{block.ariaLabel}}
+                aria-label={{block.ariaLabel}}
                 data-test="challenge-response-proposal-selector"
                 data-uid="qrocm-proposal-uid"
                 {{on "change" (fn this.onInputChange block.input)}}
@@ -72,7 +73,7 @@
                 placeholder={{block.placeholder}}
                 @value={{get @answersValue block.input}}
                 disabled={{@isAnswerFieldDisabled}}
-                @ariaLabel={{block.ariaLabel}}
+                aria-label={{block.ariaLabel}}
                 data-test="challenge-response-proposal-selector"
                 data-uid="qrocm-proposal-uid"
                 {{on "change" (fn this.onInputChange block.input)}}

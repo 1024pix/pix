@@ -3,7 +3,6 @@
   <div class="update-email-with-validation__email-input">
     <PixInput
       @id="newEmail"
-      @label={{t "pages.user-account.account-update-email-with-validation.fields.new-email.label"}}
       @validationStatus={{this.newEmailValidationStatus}}
       @errorMessage={{this.newEmailValidationMessage}}
       @value={{this.newEmail}}
@@ -11,7 +10,9 @@
       {{on "change" this.validateNewEmail}}
       required
       autocomplete="off"
-    />
+    >
+      <:label>{{t "pages.user-account.account-update-email-with-validation.fields.new-email.label"}}</:label>
+    </PixInput>
   </div>
   <div class="update-email-with-validation__informations">
     <p>{{t "pages.user-account.account-update-email-with-validation.fields.password.security-information"}}</p>
@@ -19,11 +20,12 @@
   <div class="update-email-with-validation__password-input">
     <PixInputPassword
       @id="update-email-with-validation__password"
-      @label={{t "pages.user-account.account-update-email-with-validation.fields.password.label"}}
       {{on "change" this.passwordChanged}}
       required
       autocomplete="off"
-    />
+    >
+      <:label>{{t "pages.user-account.account-update-email-with-validation.fields.password.label"}}</:label>
+    </PixInputPassword>
   </div>
   {{#if this.errorMessage}}
     <PixMessage @type="error" class="user-account__error-message">

@@ -17,7 +17,12 @@
     </div>
     <div class="login-or-register-oidc-form__cgu-container">
       <PixCheckbox {{on "change" this.onChange}}>
-        {{t "common.cgu.message" cguUrl=this.cguUrl dataProtectionPolicyUrl=this.dataProtectionPolicyUrl htmlSafe=true}}
+        <:label>{{t
+            "common.cgu.message"
+            cguUrl=this.cguUrl
+            dataProtectionPolicyUrl=this.dataProtectionPolicyUrl
+            htmlSafe=true
+          }}</:label>
       </PixCheckbox>
     </div>
 
@@ -42,26 +47,30 @@
     <form {{on "submit" this.login}}>
       <p class="login-or-register-oidc-form__mandatory-description">{{t "common.form.mandatory-all-fields"}}</p>
 
-      <PixInput
-        @id="email"
-        @label={{t "pages.login-or-register-oidc.login-form.email"}}
-        name="email"
-        @errorMessage={{this.emailValidationMessage}}
-        @validationStatus={{this.emailValidationStatus}}
-        {{on "change" this.validateEmail}}
-        autocomplete="off"
-        required
-      />
+      <div class="login-or-register-oidc-form__input-container">
+        <PixInput
+          @id="email"
+          name="email"
+          @errorMessage={{this.emailValidationMessage}}
+          @validationStatus={{this.emailValidationStatus}}
+          {{on "change" this.validateEmail}}
+          autocomplete="off"
+          required
+        >
+          <:label>{{t "pages.login-or-register-oidc.login-form.email"}}</:label>
+        </PixInput>
+      </div>
 
-      <div class="login-or-register-oidc-form__password-container">
+      <div class="login-or-register-oidc-form__input-container login-or-register-oidc-form__input-container--password">
         <PixInputPassword
           @id="password"
           @value={{this.password}}
-          @label={{t "pages.login-or-register-oidc.login-form.password"}}
           autocomplete="off"
           required
           {{on "change" this.setPassword}}
-        />
+        >
+          <:label>{{t "pages.login-or-register-oidc.login-form.password"}}</:label>
+        </PixInputPassword>
         <LinkTo @route="password-reset-demand" class="login-or-register-oidc-form__forgotten-password-link">
           {{t "pages.sign-in.forgotten-password"}}
         </LinkTo>

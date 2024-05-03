@@ -296,7 +296,9 @@ module('Integration | Component | certification-joiner', function (hooks) {
         this.set('onStepChange', sinon.stub());
         const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
         const birthDayInput = screen.getByRole('spinbutton', {
-          name: this.intl.t('pages.certification-joiner.form.fields.birth-day'),
+          name: `${this.intl.t('pages.certification-joiner.form.fields.birth-date')} ${this.intl.t(
+            'pages.certification-joiner.form.fields.birth-day',
+          )}`,
         });
 
         // when
@@ -354,7 +356,11 @@ module('Integration | Component | certification-joiner', function (hooks) {
       '  ' + 'de Pix',
     );
     await fillIn(
-      screen.getByRole('spinbutton', { name: intl.t('pages.certification-joiner.form.fields.birth-day') }),
+      screen.getByRole('spinbutton', {
+        name: `${intl.t('pages.certification-joiner.form.fields.birth-date')} ${intl.t(
+          'pages.certification-joiner.form.fields.birth-day',
+        )}`,
+      }),
       '02',
     );
     await fillIn(

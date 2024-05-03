@@ -28,24 +28,26 @@
         <PixInput
           @id="login"
           name="login"
-          @label={{t "pages.sign-in.fields.login.label"}}
           {{on "input" this.updateLogin}}
           @validationStatus="default"
           required
           autocomplete="email"
-        />
+        >
+          <:label>{{t "pages.sign-in.fields.login.label"}}</:label>
+        </PixInput>
       </div>
 
       <div class="sign-form-body__input">
         <PixInputPassword
           @id="password"
           name="password"
-          @label={{t "pages.sign-in.fields.password.label"}}
           {{on "input" this.updatePassword}}
           @validationStatus="default"
           required
           autocomplete="current-password"
-        />
+        >
+          <:label>{{t "pages.sign-in.fields.password.label"}}</:label>
+        </PixInputPassword>
         <LinkTo
           @route="password-reset-demand"
           class="link link--grey sign-form-link sign-form-body__forgotten-password-link"
