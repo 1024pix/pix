@@ -4,6 +4,7 @@ import { usecases as sessionUsecases } from '../../../src/certification/session/
 import * as sessionValidator from '../../../src/certification/session/domain/validators/session-validator.js';
 import * as jurySessionRepository from '../../../src/certification/session/infrastructure/repositories/jury-session-repository.js';
 import * as certificationCandidateSerializer from '../../../src/certification/session/infrastructure/serializers/jsonapi/certification-candidate-serializer.js';
+import * as sessionSerializer from '../../../src/certification/session/infrastructure/serializers/jsonapi/session-serializer.js';
 import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import * as queryParamsUtils from '../../../src/shared/infrastructure/utils/query-params-utils.js';
@@ -14,7 +15,6 @@ import { fillCandidatesImportSheet } from '../../infrastructure/files/candidates
 import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
 import * as juryCertificationSummarySerializer from '../../infrastructure/serializers/jsonapi/jury-certification-summary-serializer.js';
 import * as jurySessionSerializer from '../../infrastructure/serializers/jsonapi/jury-session-serializer.js';
-import * as sessionSerializer from '../../infrastructure/serializers/jsonapi/session-serializer.js';
 import { getSessionCertificationResultsCsv } from '../../infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
 import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 import { SessionPublicationBatchError } from '../http-errors.js';
