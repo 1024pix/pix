@@ -40,7 +40,7 @@ class SessionEnrolment {
     this.supervisorPassword = supervisorPassword;
     this.version = version;
     this.createdBy = createdBy;
-    this.canEnrolCandidate = _.isNull(finalizedAt);
+    this.canEnrolCandidate = !finalizedAt;
   }
 
   get status() {

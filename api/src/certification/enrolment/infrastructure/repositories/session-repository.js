@@ -8,8 +8,22 @@ import { SessionEnrolment } from '../../domain/models/SessionEnrolment.js';
 
 const save = async function ({ session, domainTransaction = DomainTransaction.emptyTransaction() }) {
   const knexConn = domainTransaction.knexTransaction ?? knex;
-  session = _.omit(session, ['certificationCandidates']);
-  const [savedSession] = await knexConn('sessions').insert(session).returning('*');
+  const [savedSession] = await knexConn('sessions')
+    .insert({
+      accessCode: session.accessCode,
+      address: session.address,
+      certificationCenter: session.certificationCenter,
+      date: session.date,
+      description: session.description,
+      examiner: session.examiner,
+      room: session.room,
+      time: session.time,
+      certificationCenterId: session.certificationCenterId,
+      supervisorPassword: session.supervisorPassword,
+      version: session.version,
+      createdBy: session.createdBy,
+    })
+    .returning('*');
 
   return new SessionEnrolment(savedSession);
 };

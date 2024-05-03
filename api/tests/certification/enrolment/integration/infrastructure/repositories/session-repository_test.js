@@ -22,7 +22,6 @@ describe('Integration | Repository | certification | enrolment | SessionEnrolmen
         examinerGlobalComment: 'No comment',
         hasIncident: true,
         hasJoiningIssue: true,
-        finalizedAt: new Date('2017-12-07'),
         publishedAt: new Date('2017-12-07'),
         resultsSentToPrescriberAt: new Date('2017-12-07'),
         assignedCertificationOfficerId: null,
