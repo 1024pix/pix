@@ -134,6 +134,49 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
     });
   });
 
+  describe('#getCampaignParticipationsForOrganizationLearner', function () {
+    const campaignId = 123;
+    const organizationLearnerId = 456;
+    let dependencies;
+
+    beforeEach(function () {
+      sinon.stub(usecases, 'getCampaignParticipationsForOrganizationLearner');
+      const availableCampaignParticipationsSerializer = {
+        serialize: sinon.stub(),
+      };
+      dependencies = {
+        availableCampaignParticipationsSerializer,
+      };
+    });
+
+    it('should call the usecase with correct parameter', async function () {
+      // given
+      const availableCampaignParticipations = Symbol('availableCampaignParticipations');
+      const expectedResults = Symbol('results');
+      usecases.getCampaignParticipationsForOrganizationLearner
+        .withArgs({ campaignId, organizationLearnerId })
+        .resolves(availableCampaignParticipations);
+
+      dependencies.availableCampaignParticipationsSerializer.serialize
+        .withArgs(availableCampaignParticipations)
+        .returns(expectedResults);
+
+      const request = {
+        params: { campaignId, organizationLearnerId },
+      };
+      const h = Symbol('h');
+      // when
+      const response = await campaignParticipationController.getCampaignParticipationsForOrganizationLearner(
+        request,
+        h,
+        dependencies,
+      );
+
+      // then
+      expect(response).to.equal(expectedResults);
+    });
+  });
+
   describe('#updateParticipantExternalId', function () {
     beforeEach(function () {
       sinon.stub(usecases, 'updateParticipantExternalId');

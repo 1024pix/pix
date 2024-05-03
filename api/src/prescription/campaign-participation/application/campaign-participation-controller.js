@@ -2,12 +2,12 @@ import { extractLocaleFromRequest } from '../../../../lib/infrastructure/utils/r
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { extractParameters } from '../../../shared/infrastructure/utils/query-params-utils.js';
 import { usecases } from '../domain/usecases/index.js';
+import * as availableCampaignParticipationsSerializer from '../infrastructure/serializers/jsonapi/available-campaign-participation-serializer.js';
 import * as campaignAnalysisSerializer from '../infrastructure/serializers/jsonapi/campaign-analysis-serializer.js';
 import * as campaignAssessmentParticipationResultSerializer from '../infrastructure/serializers/jsonapi/campaign-assessment-participation-result-serializer.js';
 import * as campaignAssessmentParticipationSerializer from '../infrastructure/serializers/jsonapi/campaign-assessment-participation-serializer.js';
 import * as campaignProfileSerializer from '../infrastructure/serializers/jsonapi/campaign-profile-serializer.js';
 import * as participationForCampaignManagementSerializer from '../infrastructure/serializers/jsonapi/participation-for-campaign-management-serializer.js';
-
 const findPaginatedParticipationsForCampaignManagement = async function (request) {
   const { campaignId } = request.params;
   const { page } = extractParameters(request.query);
@@ -107,11 +107,25 @@ const deleteCampaignParticipationForAdmin = async function (request, h) {
   return h.response({}).code(204);
 };
 
+const getCampaignParticipationsForOrganizationLearner = async function (
+  request,
+  h,
+  dependencies = { availableCampaignParticipationsSerializer },
+) {
+  const { campaignId, organizationLearnerId } = request.params;
+  const availableCampaignParticipations = await usecases.getCampaignParticipationsForOrganizationLearner({
+    campaignId,
+    organizationLearnerId,
+  });
+  return dependencies.availableCampaignParticipationsSerializer.serialize(availableCampaignParticipations);
+};
+
 const campaignParticipationController = {
   findPaginatedParticipationsForCampaignManagement,
   getAnalysis,
   getCampaignProfile,
   getCampaignAssessmentParticipation,
+  getCampaignParticipationsForOrganizationLearner,
   deleteParticipation,
   getCampaignAssessmentParticipationResult,
   updateParticipantExternalId,
