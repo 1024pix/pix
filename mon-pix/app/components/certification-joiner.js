@@ -136,7 +136,7 @@ export default class CertificationJoiner extends Component {
         this.errorMessage = this.intl.t('pages.certification-joiner.error-messages.wrong-account-sco');
         this.errorMessageLink = {
           label: this.intl.t('pages.certification-joiner.error-messages.wrong-account-sco-link'),
-          url: 'https://support.pix.org/fr/support/solutions/articles/15000047880',
+          url: 'https://pix.fr/support/enseignement-scolaire/enseignant-ou-personnel-de-direction/que-faire-si-une-eleve-ne-parvient-pas-rejoindre-sa-session-de-certification',
         };
       } else if (_isWrongAccount(err)) {
         this.errorMessage = this.intl.t('pages.certification-joiner.error-messages.wrong-account');
