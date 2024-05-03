@@ -34,7 +34,6 @@ import * as sessions from './application/sessions/index.js';
 import * as supOrganizationLearners from './application/sup-organization-learners/index.js';
 import * as tags from './application/tags/index.js';
 import * as targetProfiles from './application/target-profiles/index.js';
-import * as targetProfilesManagement from './application/target-profiles-management/index.js';
 import * as userOrgaSettings from './application/user-orga-settings/index.js';
 import * as users from './application/users/index.js';
 
@@ -74,7 +73,6 @@ const routes = [
   sessions,
   tags,
   targetProfiles,
-  targetProfilesManagement,
   frameworks,
   userOrgaSettings,
   users,

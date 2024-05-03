@@ -195,4 +195,43 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
       });
     });
   });
+
+  describe('#detachOrganizations', function () {
+    it('should call the detachOrganizationsFromTargetProfile use-case', async function () {
+      // given
+      const expectedResult = Symbol('result');
+      const organizationIds = Symbol('organizationIds');
+      const detachedOrganizationIds = Symbol('detachedOrganizationIds');
+      const connectedUserId = 1;
+      const payload = { data: { 'organization-ids': [1, 2, 3] } };
+      const request = {
+        auth: { credentials: { userId: connectedUserId } },
+        deserializedPayload: { organizationIds },
+        params: { targetProfileId: 1 },
+        payload,
+        i18n: {
+          __: sinon.stub(),
+        },
+      };
+
+      sinon.stub(usecases, 'detachOrganizationsFromTargetProfile');
+      usecases.detachOrganizationsFromTargetProfile
+        .withArgs({ targetProfileId: 1, organizationIds })
+        .resolves(detachedOrganizationIds);
+
+      const targetProfileDetachOrganizationsSerializer = { serialize: sinon.stub() };
+      targetProfileDetachOrganizationsSerializer.serialize
+        .withArgs({ targetProfileId: 1, detachedOrganizationIds })
+        .returns(expectedResult);
+
+      const dependencies = { targetProfileDetachOrganizationsSerializer };
+
+      // when
+      const response = await targetProfileController.detachOrganizations(request, hFake, dependencies);
+
+      // then
+      expect(response.source).to.equal(expectedResult);
+      expect(response.statusCode).to.equal(200);
+    });
+  });
 });

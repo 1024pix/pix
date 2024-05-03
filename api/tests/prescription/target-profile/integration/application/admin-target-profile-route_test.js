@@ -1,15 +1,15 @@
-import * as moduleUnderTest from '../../../../lib/application/target-profiles-management/index.js';
-import { targetProfilesManagementController } from '../../../../lib/application/target-profiles-management/target-profile-management-controller.js';
+import { targetProfileController } from '../../../../../src/prescription/target-profile/application/admin-target-profile-controller.js';
+import * as moduleUnderTest from '../../../../../src/prescription/target-profile/application/admin-target-profile-route.js';
 import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   HttpTestServer,
   sinon,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
 
 describe('Integration | Application | target-profiles-management | Routes ', function () {
-  describe('DELETE /api/admin/target-profiles/{id}/detach-organizations', function () {
+  describe('DELETE /api/admin/target-profiles/{targetProfileId}/detach-organizations', function () {
     const getHeaders = (userId) => ({
       authorization: generateValidRequestAuthorizationHeader(userId),
     });
@@ -18,7 +18,7 @@ describe('Integration | Application | target-profiles-management | Routes ', fun
     let method, url, payload;
 
     beforeEach(async function () {
-      sinon.stub(targetProfilesManagementController, 'detachOrganizations').resolves('ok');
+      sinon.stub(targetProfileController, 'detachOrganizations').resolves('ok');
 
       httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -73,7 +73,7 @@ describe('Integration | Application | target-profiles-management | Routes ', fun
       await httpTestServer.request(method, url, payload, null, getHeaders(userId));
 
       // then
-      expect(targetProfilesManagementController.detachOrganizations).to.have.been.calledOnce;
+      expect(targetProfileController.detachOrganizations).to.have.been.calledOnce;
     });
 
     it('should reach handler when calling route with an admin user with role metier', async function () {
@@ -85,7 +85,7 @@ describe('Integration | Application | target-profiles-management | Routes ', fun
       await httpTestServer.request(method, url, payload, null, getHeaders(userId));
 
       // then
-      expect(targetProfilesManagementController.detachOrganizations).to.have.been.calledOnce;
+      expect(targetProfileController.detachOrganizations).to.have.been.calledOnce;
     });
   });
 });

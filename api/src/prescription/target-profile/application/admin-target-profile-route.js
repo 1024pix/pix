@@ -129,6 +129,40 @@ const register = async function (server) {
       },
     },
     {
+      method: 'DELETE',
+      path: '/api/admin/target-profiles/{targetProfileId}/detach-organizations',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'organization-ids': Joi.array().items(Joi.number().integer()).required(),
+              },
+            },
+          }),
+          params: Joi.object({
+            targetProfileId: identifiersType.targetProfileId,
+          }),
+        },
+        handler: targetProfileController.detachOrganizations,
+        tags: ['api', 'admin', 'target-profiles'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            "- Elle permet de détacher des organisations d'un profil cible",
+        ],
+      },
+    },
+    {
       method: 'POST',
       path: '/api/admin/organizations/{organizationId}/attach-target-profiles',
       config: {
