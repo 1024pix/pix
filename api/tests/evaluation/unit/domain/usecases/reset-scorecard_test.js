@@ -1,4 +1,4 @@
-import { CompetenceResetError } from '../../../../../lib/domain/errors.js';
+import { CompetenceResetError } from '../../../../../src/evaluation/domain/errors.js';
 import { Scorecard } from '../../../../../src/evaluation/domain/models/Scorecard.js';
 import { resetScorecard } from '../../../../../src/evaluation/domain/usecases/reset-scorecard.js';
 import { catchErr, expect, sinon } from '../../../../test-helper.js';

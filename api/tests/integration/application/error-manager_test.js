@@ -1,5 +1,7 @@
 import * as DomainErrors from '../../../lib/domain/errors.js';
 import { InvalidCertificationReportForFinalization } from '../../../src/certification/shared/domain/errors.js';
+import * as EvaluationDomainErrors from '../../../src/evaluation/domain/errors.js';
+import { CompetenceResetError } from '../../../src/evaluation/domain/errors.js';
 import {
   MissingOrInvalidCredentialsError,
   UserShouldChangePasswordError,
@@ -78,7 +80,7 @@ describe('Integration | API | Controller Error', function () {
     });
 
     it('responds Precondition Failed when a CompetenceResetError error occurs', async function () {
-      routeHandler.throws(new DomainErrors.CompetenceResetError(2));
+      routeHandler.throws(new CompetenceResetError(2));
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(PRECONDITION_FAILED);
@@ -419,12 +421,13 @@ describe('Integration | API | Controller Error', function () {
     });
 
     it('responds Forbidden when a ImproveCompetenceEvaluationForbiddenError error occurs', async function () {
-      routeHandler.throws(new DomainErrors.ImproveCompetenceEvaluationForbiddenError());
+      routeHandler.throws(new EvaluationDomainErrors.ImproveCompetenceEvaluationForbiddenError());
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
       expect(responseDetail(response)).to.equal('Le niveau maximum est déjà atteint pour cette compétence.');
-      expect(responseTitle(response)).to.equal('ImproveCompetenceEvaluationForbidden');
+      expect(responseTitle(response)).to.equal('Forbidden');
+      expect(responseCode(response)).to.equal('IMPROVE_COMPETENCE_EVALUATION_FORBIDDEN');
     });
 
     it('responds Forbidden when a ApplicationScopeNotAllowedError error occurs', async function () {

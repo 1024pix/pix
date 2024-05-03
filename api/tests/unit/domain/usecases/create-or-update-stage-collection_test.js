@@ -1,4 +1,4 @@
-import { StageModificationForbiddenForLinkedTargetProfileError } from '../../../../lib/domain/errors.js';
+import { StageModificationForbiddenForLinkedTargetProfileError } from '../../../../src/evaluation/domain/errors.js';
 import { createOrUpdateStageCollection } from '../../../../src/evaluation/domain/usecases/create-or-update-stage-collection.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 

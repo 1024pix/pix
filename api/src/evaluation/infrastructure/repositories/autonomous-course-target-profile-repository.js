@@ -1,5 +1,5 @@
 import { constants } from '../../../../lib/domain/constants.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../shared/domain/errors.js';
 import { AutonomousCourseTargetProfile } from '../../domain/models/AutonomousCourseTargetProfile.js';
 
 function _toDomain(AutonomousCourseTargetProfileDTO) {

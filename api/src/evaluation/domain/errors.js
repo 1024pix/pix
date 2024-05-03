@@ -12,4 +12,40 @@ class EmptyAnswerError extends DomainError {
   }
 }
 
-export { EmptyAnswerError, StageWithLinkedCampaignError };
+class ImproveCompetenceEvaluationForbiddenError extends DomainError {
+  constructor(message = 'Le niveau maximum est déjà atteint pour cette compétence.') {
+    super(message);
+    this.code = 'IMPROVE_COMPETENCE_EVALUATION_FORBIDDEN';
+  }
+}
+
+class CompetenceResetError extends DomainError {
+  constructor(remainingDaysBeforeReset) {
+    super(`Il reste ${remainingDaysBeforeReset} jours avant de pouvoir réinitiliser la compétence.`);
+  }
+}
+
+class AcquiredBadgeForbiddenUpdateError extends DomainError {
+  constructor(
+    message = "Il est interdit de modifier un critère d'un résultat thématique déjà acquis par un utilisateur.",
+  ) {
+    super(message);
+  }
+}
+
+class StageModificationForbiddenForLinkedTargetProfileError extends DomainError {
+  constructor(targetProfileId) {
+    super(
+      `Le profil cible ${targetProfileId} est déjà rattaché à une campagne. La modification du seuil ou niveau est alors impossible.`,
+    );
+  }
+}
+
+export {
+  AcquiredBadgeForbiddenUpdateError,
+  CompetenceResetError,
+  EmptyAnswerError,
+  ImproveCompetenceEvaluationForbiddenError,
+  StageModificationForbiddenForLinkedTargetProfileError,
+  StageWithLinkedCampaignError,
+};

@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../shared/domain/errors.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { answerController } from './answer-controller.js';
 

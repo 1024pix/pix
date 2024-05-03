@@ -37,14 +37,8 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.AccountRecoveryUserAlreadyConfirmEmail) {
     return new HttpErrors.ConflictError(error.message);
   }
-  if (error instanceof DomainErrors.ImproveCompetenceEvaluationForbiddenError) {
-    return new HttpErrors.ImproveCompetenceEvaluationForbiddenError(error.message);
-  }
   if (error instanceof DomainErrors.AlreadyRatedAssessmentError) {
     return new HttpErrors.PreconditionFailedError('Assessment is already rated.');
-  }
-  if (error instanceof DomainErrors.CompetenceResetError) {
-    return new HttpErrors.PreconditionFailedError(error.message);
   }
   if (error instanceof DomainErrors.NotEnoughDaysPassedBeforeResetCampaignParticipationError) {
     return new HttpErrors.PreconditionFailedError(error.message);
@@ -265,9 +259,6 @@ function _mapToHttpError(error) {
     return new HttpErrors.UnprocessableEntityError(error.message);
   }
   if (error instanceof DomainErrors.TargetProfileInvalidError) {
-    return new HttpErrors.PreconditionFailedError(error.message);
-  }
-  if (error instanceof DomainErrors.StageModificationForbiddenForLinkedTargetProfileError) {
     return new HttpErrors.PreconditionFailedError(error.message);
   }
   if (error instanceof DomainErrors.NoStagesForCampaign) {

@@ -32,9 +32,14 @@ export default class CampaignCriterion extends Component {
       await criterion.save();
       this.notifications.success("Seuil d'obtention du critère modifié avec succès.");
       this.toggleEditModal();
-    } catch (error) {
-      this.notifications.error("Problème lors de la modification du seuil d'obtention du critère.");
-      console.log(error);
+    } catch (responseError) {
+      responseError?.errors?.forEach((error) => {
+        if (error?.detail) {
+          this.notifications.error(error.detail);
+        } else {
+          this.notifications.error("Problème lors de la modification du seuil d'obtention du critère.");
+        }
+      });
     }
   }
 }

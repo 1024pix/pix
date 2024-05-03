@@ -95,14 +95,6 @@ class ServiceUnavailableError extends BaseHttpError {
   }
 }
 
-class ImproveCompetenceEvaluationForbiddenError extends BaseHttpError {
-  constructor(message) {
-    super(message);
-    this.title = 'ImproveCompetenceEvaluationForbidden';
-    this.status = 403;
-  }
-}
-
 class BadRequestError extends BaseHttpError {
   constructor(message, code, meta) {
     super(message);
@@ -155,7 +147,6 @@ const HttpErrors = {
   BaseHttpError,
   ConflictError,
   ForbiddenError,
-  ImproveCompetenceEvaluationForbiddenError,
   MissingQueryParamError,
   NotFoundError,
   PasswordShouldChangeError,
@@ -175,7 +166,6 @@ export {
   ConflictError,
   ForbiddenError,
   HttpErrors,
-  ImproveCompetenceEvaluationForbiddenError,
   MissingQueryParamError,
   NotFoundError,
   PasswordShouldChangeError,

@@ -1,6 +1,6 @@
-import { UserNotAuthorizedToAccessEntityError } from '../../../../../lib/domain/errors.js';
 import { Scorecard } from '../../../../../src/evaluation/domain/models/Scorecard.js';
 import { getScorecard } from '../../../../../src/evaluation/domain/usecases/get-scorecard.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../../src/shared/domain/errors.js';
 import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | UseCase | get-scorecard', function () {

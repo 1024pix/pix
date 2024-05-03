@@ -419,12 +419,6 @@ class SendingEmailToResultRecipientError extends DomainError {
   }
 }
 
-class CompetenceResetError extends DomainError {
-  constructor(remainingDaysBeforeReset) {
-    super(`Il reste ${remainingDaysBeforeReset} jours avant de pouvoir réinitiliser la compétence.`);
-  }
-}
-
 class NotEnoughDaysPassedBeforeResetCampaignParticipationError extends DomainError {
   constructor() {
     super(`Il n'est pas possible de remettre à zéro votre parcours pour le moment.`);
@@ -584,12 +578,6 @@ class ChallengeToBeDeneutralizedNotFoundError extends DomainError {
 
 class CsvParsingError extends DomainError {
   constructor(message = "Les données n'ont pas pu être parsées.") {
-    super(message);
-  }
-}
-
-class ImproveCompetenceEvaluationForbiddenError extends DomainError {
-  constructor(message = 'Le niveau maximum est déjà atteint pour cette compétence.') {
     super(message);
   }
 }
@@ -756,14 +744,6 @@ class SessionNotAccessible extends DomainError {
 class TargetProfileInvalidError extends DomainError {
   constructor(message = 'Le profil cible ne possède aucun acquis ciblé.') {
     super(message);
-  }
-}
-
-class StageModificationForbiddenForLinkedTargetProfileError extends DomainError {
-  constructor(targetProfileId) {
-    super(
-      `Le profil cible ${targetProfileId} est déjà rattaché à une campagne. La modification du seuil ou niveau est alors impossible.`,
-    );
   }
 }
 
@@ -1013,14 +993,6 @@ class AcquiredBadgeForbiddenDeletionError extends DomainError {
   }
 }
 
-class AcquiredBadgeForbiddenUpdateError extends DomainError {
-  constructor(
-    message = "Il est interdit de modifier un critère d'un résultat thématique déjà acquis par un utilisateur.",
-  ) {
-    super(message);
-  }
-}
-
 class CertificationBadgeForbiddenDeletionError extends DomainError {
   constructor(message = 'Il est interdit de supprimer un résultat thématique lié à une certification.') {
     super(message);
@@ -1076,7 +1048,6 @@ export {
   AccountRecoveryDemandNotCreatedError,
   AccountRecoveryUserAlreadyConfirmEmail,
   AcquiredBadgeForbiddenDeletionError,
-  AcquiredBadgeForbiddenUpdateError,
   AlreadyAcceptedOrCancelledInvitationError,
   AlreadyExistingAdminMemberError,
   AlreadyExistingCampaignParticipationError,
@@ -1129,7 +1100,6 @@ export {
   ChallengeNotAskedError,
   ChallengeToBeDeneutralizedNotFoundError,
   ChallengeToBeNeutralizedNotFoundError,
-  CompetenceResetError,
   CsvParsingError,
   DeletedError,
   DeprecatedCertificationIssueReportCategoryError,
@@ -1138,7 +1108,6 @@ export {
   DomainError,
   EmailModificationDemandNotFoundOrExpiredError,
   FileValidationError,
-  ImproveCompetenceEvaluationForbiddenError,
   InvalidCertificationCandidate,
   InvalidCertificationIssueReportForSaving,
   InvalidExternalAPIResponseError,
@@ -1190,7 +1159,6 @@ export {
   SessionNotAccessible,
   SessionWithIdAndInformationOnMassImportError,
   SIECLE_ERRORS,
-  StageModificationForbiddenForLinkedTargetProfileError,
   SupervisorAccessNotAuthorizedError,
   TargetProfileCannotBeCreated,
   TargetProfileInvalidError,

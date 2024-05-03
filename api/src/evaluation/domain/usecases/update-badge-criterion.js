@@ -1,4 +1,4 @@
-import { AcquiredBadgeForbiddenUpdateError } from '../../../../lib/domain/errors.js';
+import { AcquiredBadgeForbiddenUpdateError } from '../errors.js';
 
 const updateBadgeCriterion = async ({ id, badgeId, attributesToUpdate, badgeCriteriaRepository, badgeRepository }) => {
   const isBadgeAlreadyAcquired = await badgeRepository.isAssociated(badgeId);

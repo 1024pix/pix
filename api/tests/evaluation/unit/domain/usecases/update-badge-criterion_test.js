@@ -1,4 +1,4 @@
-import { AcquiredBadgeForbiddenUpdateError } from '../../../../../lib/domain/errors.js';
+import { AcquiredBadgeForbiddenUpdateError } from '../../../../../src/evaluation/domain/errors.js';
 import { updateBadgeCriterion } from '../../../../../src/evaluation/domain/usecases/update-badge-criterion.js';
 import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
