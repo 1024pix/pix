@@ -129,13 +129,103 @@
             "solution": "2"
           },
           {
-            "id": "4d3f5e02-6c5d-462f-aa88-7ad6f54e1f89",
+            "id": "2aa753d5-5001-44db-87a2-99927fc4ccf5",
             "type": "text",
-            "content": "IDEM pour les 3 autres conseils"
-          }
+            "content": "<hr>"
+          },
+          {
+            "id": "c302148a-28bf-4966-be2e-672be9abddf3",
+            "type": "image",
+            "url": "https://i.imgur.com/8C8oMjI.png",
+            "alt": "conseil",
+            "alternativeText": ""
+          },
+          {
+            "id": "610cbac0-b26e-4152-8620-50f7a0e453cd",
+            "type": "qcu",
+              "instruction": "<p>Photos</p>",
+              "proposals": [
+                {
+                  "id": "1",
+                  "content": "a"
+                },
+                {
+                  "id": "2",
+                  "content": "b"
+                }
+              ],
+              "feedbacks": {
+                "valid": "<p>Correct. </p>",
+                "invalid": "<p>Incorrect. Bla</p>"
+              },
+              "solution": "2"
+            },
+            {
+              "id": "041b34fc-50f4-4659-9833-53753f19baad",
+              "type": "text",
+              "content": "<hr>"
+            },
+            {
+              "id": "9f822113-4e3c-442c-9aa6-18fa7855d44a",
+              "type": "image",
+              "url": "https://i.imgur.com/EDzKGCe.png",
+              "alt": "conseil",
+              "alternativeText": ""
+            },
+            {
+              "id": "dac92664-78b7-4347-9c76-8d82788a1b28",
+              "type": "qcu",
+                "instruction": "<p>Pseudo</p>",
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "a"
+                  },
+                  {
+                    "id": "2",
+                    "content": "b"
+                  }
+                ],
+                "feedbacks": {
+                  "valid": "<p>Correct. </p>",
+                  "invalid": "<p>Incorrect. Bla</p>"
+                },
+                "solution": "2"
+              },
+              {
+                "id": "b106e453-372c-4f8f-acb2-caffe4ea19de",
+                "type": "text",
+                "content": "<hr>"
+              },
+              {
+                "id": "5f10cc1f-d075-4501-bbc0-de963b3fd181",
+                "type": "image",
+                "url": "https://i.imgur.com/osyQJRO.png",
+                "alt": "conseil",
+                "alternativeText": ""
+              },
+              {
+                "id": "76e4947d-b9f6-454e-9dba-b3c56b3d4abc",
+                "type": "qcu",
+                  "instruction": "<p>Adulte</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "a"
+                    },
+                    {
+                      "id": "2",
+                      "content": "b"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<p>Correct. </p>",
+                    "invalid": "<p>Incorrect. Bla</p>"
+                  },
+                  "solution": "2"
+                }
       ]
-    }
-    ,
+    },
     {
       "id": "bdadb8b9-7a6e-4f44-b2e1-3e3463cbc826",
       "type": "lesson",
@@ -143,10 +233,8 @@
       "elements": [
         {
           "id": "fc38a5a6-71da-4ca3-b8d5-c0e34b183403",
-          "type": "image",
-          "url": "https://i.imgur.com/crpaWQ7.png",
-          "alt": "Image décrite dans l'alternative textuelle",
-          "alternativeText": "<p>Pour résumer</p>"
+          "type": "text",
+          "content": "<h3>Tu connais les 4 bons conseils pour protéger ses données personnelles &nbsp;:</h3><ul><li>garder ses informations personnelles pour soi. <br></li><li>faire attention à la diffusion de ses photos et de ses vidéos.</li><li>utiliser un pseudonyme sur internet</li><li>demander à un adulte de confiance quand on a un doute.</li></ul>"
         }
       ]
     }
