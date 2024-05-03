@@ -22,6 +22,18 @@ export default class ModuleGrain extends Component {
   }
 
   static getSupportedElements(grain) {
+    if (grain.components && grain.components.length > 0) {
+      return grain.components
+        .map((component) => {
+          if (component.type === 'element') {
+            return component.element;
+          } else {
+            return undefined;
+          }
+        })
+        .filter((element) => ModuleGrain.AVAILABLE_ELEMENT_TYPES.includes(element.type));
+    }
+
     return grain.elements.filter((element) => ModuleGrain.AVAILABLE_ELEMENT_TYPES.includes(element.type));
   }
 

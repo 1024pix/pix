@@ -107,6 +107,7 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
             id: 'z1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d',
             type: 'lesson',
             title: 'Explications : les parties d’une adresse mail',
+            // ToDo PIX-12363 migrate to components
             elements: [
               {
                 id: 'd9e8a7b6-5c4d-3e2f-1a0b-9f8e7d6c5b4a',
@@ -130,6 +131,7 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
       });
 
       // then
+      // ToDo PIX-12363 migrate to components
       expect(module.grains[0].elements).to.have.lengthOf(1);
       expect(module.grains[0].elements[0]).to.be.instanceOf(Text);
     });
@@ -158,6 +160,7 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
             id: 'z1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d',
             type: 'lesson',
             title: 'Explications : les parties d’une adresse mail',
+            // ToDo PIX-12363 migrate to components
             elements: [
               {
                 id: 'ba78dead-a806-4954-b408-e8ef28d28fab',
@@ -197,6 +200,7 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
       });
 
       // then
+      // ToDo PIX-12363 migrate to components
       expect(module.grains[0].elements).to.have.lengthOf(1);
       expect(module.grains[0].elements[0]).to.be.instanceOf(QCU);
     });
@@ -225,6 +229,7 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
             id: 'z1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d',
             type: 'lesson',
             title: 'Explications : les parties d’une adresse mail',
+            // ToDo PIX-12363 migrate to components
             elements: [
               {
                 id: '30701e93-1b4d-4da4-b018-fa756c07d53f',
@@ -274,6 +279,7 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
       });
 
       // then
+      // ToDo PIX-12363 migrate to components
       expect(module.grains[0].elements).to.have.lengthOf(1);
       expect(module.grains[0].elements[0]).to.be.instanceOf(QCM);
     });
@@ -302,6 +308,7 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
             id: 'z1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d',
             type: 'lesson',
             title: 'Explications : les parties d’une adresse mail',
+            // ToDo PIX-12363 migrate to components
             elements: [
               {
                 id: '8d7687c8-4a02-4d7e-bf6c-693a6d481c78',
@@ -326,6 +333,7 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
       });
 
       // then
+      // ToDo PIX-12363 migrate to components
       expect(module.grains[0].elements).to.have.lengthOf(1);
       expect(module.grains[0].elements[0]).to.be.instanceOf(Image);
     });
@@ -354,6 +362,7 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
             id: 'z1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d',
             type: 'lesson',
             title: 'Explications : les parties d’une adresse mail',
+            // ToDo PIX-12363 migrate to components
             elements: [
               {
                 id: '3a9f2269-99ba-4631-b6fd-6802c88d5c26',
@@ -379,6 +388,7 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
       });
 
       // then
+      // ToDo PIX-12363 migrate to components
       expect(module.grains[0].elements).to.have.lengthOf(1);
       expect(module.grains[0].elements[0]).to.be.instanceOf(Video);
     });
@@ -407,6 +417,7 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
             id: 'b7ea7630-824a-4a49-83d1-abb9b8d0d120',
             type: 'activity',
             title: 'Écrire une adresse mail correctement',
+            // ToDo PIX-12363 migrate to components
             elements: [
               {
                 id: '98c51fa7-03b7-49b1-8c5e-49341d35909c',
@@ -476,6 +487,7 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
       });
 
       // then
+      // ToDo PIX-12363 migrate to components
       expect(module.grains[0].elements).to.have.lengthOf(1);
       expect(module.grains[0].elements[0]).to.be.instanceOf(QROCM);
       expect(module.grains[0].elements[0].proposals[BLOCK_TEXT_INDEX]).to.be.instanceOf(BlockText);
@@ -507,6 +519,7 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
             id: 'b7ea7630-824a-4a49-83d1-abb9b8d0d120',
             type: 'activity',
             title: 'Écrire une adresse mail correctement',
+            // ToDo PIX-12363 migrate to components
             elements: [
               {
                 id: '98c51fa7-03b7-49b1-8c5e-49341d35909c',
@@ -539,6 +552,7 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
 
       // then
       expect(logger.warn).to.have.been.calledWithExactly(loggerMessage);
+      // ToDo PIX-12363 migrate to components
       expect(module.grains[0].elements).to.be.deep.equal([]);
     });
   });
@@ -604,6 +618,7 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
             id: 'b7ea7630-824a-4a49-83d1-abb9b8d0d120',
             type: 'activity',
             title: 'Écrire une adresse mail correctement',
+            // ToDo PIX-12363 migrate to components
             elements: [
               {
                 id: '98c51fa7-03b7-49b1-8c5e-49341d35909c',
@@ -727,14 +742,17 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
       // then
       expect(module).to.be.instanceOf(Module);
 
+      // ToDo PIX-12363 migrate to components
       const qcus = module.grains.flatMap((grain) => grain.elements.filter((element) => element.type === 'qcu'));
       expect(qcus).to.have.length(1);
       qcus.forEach((qcu) => expect(qcu).to.be.instanceOf(QCUForAnswerVerification));
 
+      // ToDo PIX-12363 migrate to components
       const qrocms = module.grains.flatMap((grain) => grain.elements.filter((element) => element.type === 'qrocm'));
       expect(qrocms).to.have.length(1);
       qrocms.forEach((qrocm) => expect(qrocm).to.be.instanceOf(QROCMForAnswerVerification));
 
+      // ToDo PIX-12363 migrate to components
       const qcms = module.grains.flatMap((grain) => grain.elements.filter((element) => element.type === 'qcm'));
       expect(qcms).to.have.length(1);
       qcms.forEach((qcm) => expect(qcm).to.be.instanceOf(QCMForAnswerVerification));
@@ -764,6 +782,7 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
             id: 'b7ea7630-824a-4a49-83d1-abb9b8d0d120',
             type: 'activity',
             title: 'Écrire une adresse mail correctement',
+            // ToDo PIX-12363 migrate to components
             elements: [
               {
                 id: '98c51fa7-03b7-49b1-8c5e-49341d35909c',
@@ -799,6 +818,7 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
 
       // then
       expect(logger.warn).to.have.been.calledWithExactly(loggerMessage);
+      // ToDo PIX-12363 migrate to components
       expect(module.grains[0].elements).to.be.deep.equal([]);
     });
   });
