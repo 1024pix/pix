@@ -5,14 +5,11 @@ class Grain {
   constructor({ id, title, type, components }) {
     assertNotNullOrUndefined(id, 'The id is required for a grain');
     assertNotNullOrUndefined(title, 'The title is required for a grain');
-    assertNotNullOrUndefined(elements, `A list of elements is required for a grain`);
-    this.#assertElementsIsAnArray(elements);
     this.#assertComponentsIsDefinedAndAnArray(components);
 
     this.id = id;
     this.title = title;
     this.type = type;
-    this.elements = elements;
     this.components = components;
   }
 
