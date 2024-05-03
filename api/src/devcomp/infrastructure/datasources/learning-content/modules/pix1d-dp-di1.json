@@ -14,7 +14,7 @@
   },
   "transitionTexts": [
     {
-      "content": "<p>Nous allons voir ensemble ce que sont les données personnelles. Suis bien toutes les activités ci-dessous et tu seras imbattable sur le sujet !</p>",
+      "content": "<p>Nous allons voir ensemble ce que sont les données personnelles. Après ces activités tu seras imbattable sur le sujet !</p>",
       "grainId": "4a96e2aa-fdeb-4094-8c99-2bc8f088bfbe"
     },
     {
@@ -22,7 +22,7 @@
       "grainId": "6de63cda-85ce-4bc6-83a0-f2f3518d4968"
     },
     {
-      "content": "<p>Voyons si tu as bien compris/regardé la vidéo. Réponds à la question suivante.</p>",
+      "content": "<p>Voyons si tu as bien compris la vidéo. Réponds à la question suivante.</p>",
       "grainId": "494c3c3a-6ffb-46fc-81b9-7eabe5a0227c"
     },
     {
@@ -30,7 +30,7 @@
       "grainId": "5773e09f-947f-41d9-94a6-12bc02589ada"
     },
     {
-      "content": "<p>Maintenant, sais-tu quelles données personnelles Lucas a partagées dans le questionnaire ?</p>",
+      "content": "<p>Rappelle-toi, Lucas a rempli un questionnaire pour gagner à un concours. Lis-le.</p>",
       "grainId": "2953f145-c489-48d6-9a85-a8ad08f140e2"
     },
     {
@@ -76,11 +76,11 @@
         {
           "id": "506e3bc1-40f9-4b2d-ab27-12fc559ec533",
           "type": "qcu",
-          "instruction": "<p>Qu'est-ce qu'une donnée personnelle ?</p>",
+          "instruction": "<p>C'est quoi les données personnelles ?</p>",
           "proposals": [
             {
               "id": "1",
-              "content": "une information qui permet de te reconnaitre"
+              "content": "les informations qui permettent de te reconnaitre"
             },
             {
               "id": "2",
@@ -88,8 +88,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Bravo.</p>",
-            "invalid": "<p>Faux. Une donnée personnelle est une information qui permet de te reconnaître. Regarde à nouveau la vidéo avant de continuer.</p>"
+            "valid": "<p>Bravo. Tu sais ce qu'est une donnée personnelle.</p>",
+            "invalid": "<p>Non. Les données personnelles sont les informations qui permettent de te reconnaître. Tu devrais regarder à nouveau la vidéo avant de continuer.</p>"
           },
           "solution": "1"
         }
@@ -127,7 +127,7 @@
         {
           "id": "f127b2ed-b484-4642-95e5-19d5ebdad34e",
           "type": "qcm",
-            "instruction": "<p>Regarde le formulaire que Lucas a rempli. On sait déjà qu'il a donné son nom, son prénom et son numéro. Peux-tu retrouver les 2 autres données personnelles qu'il a complété ?</p>",
+            "instruction": "<p>On sait déjà que son nom, son prénom et son numéro sont des données personnelles. Peux-tu retrouver les 2 autres données personnelles qu'il a complétées ?</p>",
             "proposals": [
               {
                 "id": "1",
