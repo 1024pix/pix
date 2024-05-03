@@ -115,4 +115,34 @@ describe('Integration | Application | Route | campaignParticipationRouter', func
       });
     });
   });
+
+  describe('GET /api/campaigns/{campaignId}/organization-learners/{organizationLearnerId}/participations', function () {
+    const method = 'GET';
+
+    context('when campaignId is not an integer', function () {
+      it('should return 400 - Bad request', async function () {
+        // when
+        const response = await httpTestServer.request(
+          method,
+          '/api/campaigns/BAD_ID/organization-learners/1/participations',
+        );
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+
+    context('when organizationLearnerId is not an integer', function () {
+      it('should return 400 - Bad request', async function () {
+        // when
+        const response = await httpTestServer.request(
+          method,
+          '/api/campaigns/1/organization-learners/BAD_ID/participations',
+        );
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+  });
 });

@@ -325,6 +325,36 @@ describe('Acceptance | API | Campaign Participations', function () {
     });
   });
 
+  describe('GET /api/campaigns/{campaignId}/organization-learners/{organizationLearnerId}/participations', function () {
+    beforeEach(function () {
+      const learningObjects = learningContentBuilder.fromAreas([]);
+      mockLearningContent(learningObjects);
+    });
+
+    it('should return the campaign profile as JSONAPI', async function () {
+      databaseBuilder.factory.buildMembership({ userId, organizationId });
+      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
+      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        organizationLearnerId,
+      }).id;
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/api/campaigns/${campaignId}/organization-learners/${organizationLearnerId}/participations`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
+      const response = await server.inject(options);
+
+      expect(response.result.data[0].type).to.equal('available-campaign-participations');
+      expect(response.result.data[0].id).to.equal(`${campaignParticipationId}`);
+      expect(response.statusCode).to.equal(200);
+    });
+  });
+
   describe('PATCH /api/admin/campaign-participations/{id}', function () {
     it('should update the participant external id', async function () {
       const superAdmin = await insertUserWithRoleSuperAdmin();

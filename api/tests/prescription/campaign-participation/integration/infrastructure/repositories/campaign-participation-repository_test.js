@@ -1,6 +1,7 @@
 import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 import { CampaignParticipation } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignParticipation.js';
+import { AvailableCampaignParticipation } from '../../../../../../src/prescription/campaign-participation/domain/read-models/AvailableCampaignParticipation.js';
 import * as campaignParticipationRepository from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { ApplicationTransaction } from '../../../../../../src/prescription/shared/infrastructure/ApplicationTransaction.js';
@@ -418,6 +419,115 @@ describe('Integration | Repository | Campaign Participation', function () {
         expect(participations.map((participation) => participation.id)).to.deep.equal([
           campaignParticipationToDelete.id,
         ]);
+      });
+    });
+  });
+
+  describe('#getCampaignParticipationsForOrganizationLearner', function () {
+    let campaignId;
+    let organizationLearnerId;
+    let organizationId;
+
+    beforeEach(async function () {
+      organizationId = databaseBuilder.factory.buildOrganization().id;
+      campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+      organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+    });
+
+    context('should return empty participations', function () {
+      it('When campaign participation are deleted', async function () {
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          organizationLearnerId,
+          deletedAt: new Date('2022-05-01'),
+        });
+        // add a particpation from another user
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId });
+
+        await databaseBuilder.commit();
+
+        const participations = await campaignParticipationRepository.getCampaignParticipationsForOrganizationLearner({
+          campaignId,
+          organizationLearnerId,
+        });
+
+        expect(participations).lengthOf(0);
+      });
+
+      it('If no participation found', async function () {
+        // add a particpation from another user
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId });
+
+        await databaseBuilder.commit();
+
+        const participations = await campaignParticipationRepository.getCampaignParticipationsForOrganizationLearner({
+          campaignId,
+          organizationLearnerId,
+        });
+
+        expect(participations).to.lengthOf(0);
+      });
+    });
+
+    it('should return by descendant ordered all participations for the given campaign', async function () {
+      const campaignParticipationImproved1 = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        organizationLearnerId,
+        createdAt: new Date('2022-05-01'),
+        status: SHARED,
+        isImproved: true,
+      });
+      const campaignParticipationImproved2 = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        organizationLearnerId,
+        status: SHARED,
+        createdAt: new Date('2023-05-01'),
+        isImproved: true,
+      });
+      const lastCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        organizationLearnerId,
+        status: SHARED,
+        createdAt: new Date('2024-05-01'),
+        isImproved: false,
+      });
+      // add a particpation from another user
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId });
+
+      await databaseBuilder.commit();
+
+      const participations = await campaignParticipationRepository.getCampaignParticipationsForOrganizationLearner({
+        campaignId,
+        organizationLearnerId,
+      });
+
+      expect(participations.map((participation) => participation.id)).to.have.deep.equals([
+        lastCampaignParticipation.id,
+        campaignParticipationImproved2.id,
+        campaignParticipationImproved1.id,
+      ]);
+    });
+
+    it('should return AvailableCampaignParticipation objects', async function () {
+      const lastCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        organizationLearnerId,
+        status: SHARED,
+        isImproved: false,
+      });
+
+      await databaseBuilder.commit();
+
+      const participations = await campaignParticipationRepository.getCampaignParticipationsForOrganizationLearner({
+        campaignId,
+        organizationLearnerId,
+      });
+
+      expect(participations[0]).instanceOf(AvailableCampaignParticipation);
+      expect(participations[0]).to.deep.equal({
+        id: lastCampaignParticipation.id,
+        sharedAt: lastCampaignParticipation.sharedAt,
+        status: 'SHARED',
       });
     });
   });

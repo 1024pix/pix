@@ -1532,6 +1532,28 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         // then
         expect(response.source).to.be.true;
       });
+
+      it('should use campaignId param if id is not provided', async function () {
+        // given
+        const request = {
+          auth: { credentials: { accessToken: 'valid.access.token', userId: Symbol('UserId') } },
+          params: { campaignId: Symbol('campaignId') },
+        };
+
+        const checkAuthorizationToAccessCampaignUsecaseStub = {
+          execute: sinon.stub(),
+        };
+        checkAuthorizationToAccessCampaignUsecaseStub.execute
+          .withArgs({ campaignId: request.params.campaignId, userId: request.auth.credentials.userId })
+          .resolves(true);
+        // when
+        const response = await securityPreHandlers.checkAuthorizationToAccessCampaign(request, hFake, {
+          checkAuthorizationToAccessCampaignUsecase: checkAuthorizationToAccessCampaignUsecaseStub,
+        });
+
+        // then
+        expect(response.source).to.be.true;
+      });
     });
 
     context('Error cases', function () {

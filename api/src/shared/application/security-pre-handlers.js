@@ -605,7 +605,7 @@ async function checkAuthorizationToAccessCampaign(
   dependencies = { checkAuthorizationToAccessCampaignUsecase },
 ) {
   const userId = request.auth.credentials.userId;
-  const campaignId = request.params.id;
+  const campaignId = request.params.campaignId || request.params.id;
   const belongsToOrganization = await dependencies.checkAuthorizationToAccessCampaignUsecase.execute({
     userId,
     campaignId,

@@ -134,6 +134,26 @@ const register = async function (server) {
       },
     },
     {
+      method: 'GET',
+      path: '/api/campaigns/{campaignId}/organization-learners/{organizationLearnerId}/participations',
+      config: {
+        pre: [{ method: securityPreHandlers.checkAuthorizationToAccessCampaign }],
+        validate: {
+          params: Joi.object({
+            campaignId: identifiersType.campaignId,
+            organizationLearnerId: identifiersType.organizationLearnerId,
+          }),
+        },
+        handler: campaignParticipationController.getCampaignParticipationsForOrganizationLearner,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            '- L’utilisateur doit avoir les droits d‘accès à l‘organisation liée à la campagne\n' +
+            '- Récupération de la liste des participations d’un learner à une campagne',
+        ],
+        tags: ['api', 'campaign-participation'],
+      },
+    },
+    {
       method: 'PATCH',
       path: '/api/admin/campaign-participations/{id}',
       config: {
