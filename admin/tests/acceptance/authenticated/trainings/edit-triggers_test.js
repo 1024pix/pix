@@ -102,7 +102,7 @@ module('Acceptance | Trainings | Triggers edit', function (hooks) {
       await click(screen.getByText('area_f1_a1 code', { exact: false }));
       await click(screen.getByText('competence_f1_a1_c1 index', { exact: false }));
       await click(screen.getByText('thematic_f1_a1_c1_th1 name', { exact: false }));
-      assert.dom(screen.getByText('2/5')).exists();
+      assert.dom(screen.getByText('2/5 sujet(s) sélectionné(s)')).exists();
 
       await clickByName('Enregistrer le déclencheur');
 

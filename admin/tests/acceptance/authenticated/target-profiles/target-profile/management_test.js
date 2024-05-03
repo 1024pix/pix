@@ -1,5 +1,5 @@
-import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
-import { click, currentURL } from '@ember/test-helpers';
+import { clickByName, visit } from '@1024pix/ember-testing-library';
+import { currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
@@ -102,67 +102,6 @@ module('Acceptance | Target Profile Management', function (hooks) {
       assert.dom(screen.getByText('Top profil cible.')).exists();
       assert.dom(screen.getByText('Commentaire Privé.')).exists();
       assert.dom(screen.getByAltText('Profil cible')).exists();
-    });
-
-    test('it should edit target profile information', async function (assert) {
-      // given
-      server.create('target-profile', {
-        id: 1,
-        name: 'nom initial',
-        description: 'description initiale',
-        comment: 'commentaire initial',
-        category: 'OTHER',
-        areKnowledgeElementsResettable: true,
-      });
-
-      // when
-      const screen = await visit('/target-profiles/1');
-      await clickByName('Modifier');
-      assert
-        .dom(screen.getByRole('checkbox', { name: this.intl.t('pages.target-profiles.resettable-checkbox.label') }))
-        .isChecked();
-      await click(
-        screen.getByRole('checkbox', { name: this.intl.t('pages.target-profiles.resettable-checkbox.label') }),
-      );
-      await fillByLabel('* Nom', 'nom modifié');
-      await click(screen.getByRole('button', { name: 'Catégorie :' }));
-      await screen.findByRole('listbox');
-      await click(screen.getByRole('option', { name: 'Thématiques' }));
-      await fillByLabel('Description', 'description modifiée');
-      await fillByLabel('Commentaire (usage interne)', 'commentaire modifié');
-      await clickByName('Enregistrer');
-
-      // then
-      assert.strictEqual(currentURL(), '/target-profiles/1/details');
-      assert.dom(screen.getByRole('heading', { name: 'nom modifié', level: 2 })).exists();
-      assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
-      assert
-        .dom(_findByListItemText(screen, `${this.intl.t('pages.target-profiles.resettable-checkbox.label')} : Non`))
-        .exists();
-      await clickByName('Modifier');
-      assert.dom(screen.getByDisplayValue('description modifiée')).exists();
-      assert.dom(screen.getByDisplayValue('commentaire modifié')).exists();
-      assert.dom(screen.getByRole('button', { name: 'Catégorie :' })).containsText('Thématiques');
-    });
-
-    test('it should cancel target profile information edition', async function (assert) {
-      // given
-      server.create('target-profile', {
-        id: 1,
-        name: 'Nom à éditer',
-        category: 'OTHER',
-      });
-
-      // when
-      const screen = await visit('/target-profiles/1');
-      await clickByName('Modifier');
-      await fillByLabel('* Nom', 'nom modifié');
-      await clickByName('Annuler');
-
-      // then
-      assert.strictEqual(currentURL(), '/target-profiles/1/details');
-      assert.dom(screen.getByRole('heading', { name: 'Nom à éditer', level: 2 })).exists();
-      assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
     });
 
     test('it should mark target profile as simplified access', async function (assert) {

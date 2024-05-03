@@ -175,7 +175,7 @@ module('Integration | Component | Common::TubesSelection', function (hooks) {
     await clickByName('@tubeName1 : Tube 1');
 
     // then
-    assert.dom(screen.getByText('1/3')).exists();
+    assert.dom(screen.getByText('1/3 sujet(s) sélectionné(s)')).exists();
   });
 
   test('it should show compatibility column ', async function (assert) {

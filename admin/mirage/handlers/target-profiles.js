@@ -88,6 +88,67 @@ function createTargetProfile(schema, request) {
   });
 }
 
+function updateTargetProfile(schema, request) {
+  const targetProfileId = request.params.id;
+  const params = JSON.parse(request.requestBody);
+
+  const tubesByLevel = params.data.attributes.tubes;
+  const tubes = params.data.attributes.tubes.map(({ id }) => {
+    return schema.tubes.find(id);
+  });
+  tubes.forEach((tube) =>
+    schema.create('tube', {
+      ...tube.attrs,
+      level: tubesByLevel.find((tubeByLevel) => tubeByLevel.id === tube.id).level,
+    }),
+  );
+
+  const tubeIds = tubes.map((tube) => tube.id);
+  const thematics = schema.thematics
+    .all()
+    .models.map((thematic) => ({
+      ...thematic,
+      attrs: {
+        ...thematic.attrs,
+        tubeIds: thematic.tubeIds.filter((tubeId) => tubeIds.includes(tubeId)),
+      },
+    }))
+    .filter((thematic) => thematic.attrs.tubeIds.length);
+  thematics.forEach((thematic) => schema.create('thematic', thematic.attrs));
+
+  const thematicIds = thematics.map((thematic) => thematic.attrs.id);
+  const competences = schema.competences
+    .all()
+    .models.map((competence) => ({
+      ...competence,
+      attrs: {
+        ...competence.attrs,
+        thematicIds: competence.thematicIds.filter((thematicId) => thematicIds.includes(thematicId)),
+      },
+    }))
+    .filter((competence) => competence.attrs.thematicIds.length);
+  competences.forEach((competence) => schema.create('competence', competence.attrs));
+
+  const competenceIds = competences.map((competence) => competence.attrs.id);
+  const areas = schema.areas
+    .all()
+    .models.map((area) => ({
+      ...area,
+      attrs: {
+        ...area.attrs,
+        competenceIds: area.competenceIds.filter((competenceId) => competenceIds.includes(competenceId)),
+      },
+    }))
+    .filter((area) => area.attrs.competenceIds.length);
+  areas.forEach((area) => schema.create('area', area.attrs));
+
+  const areaIds = areas.map((area) => area.attrs.id);
+
+  const targetProfile = schema.targetProfiles.find(targetProfileId);
+  targetProfile.update({ ...params.data.attributes, areaIds });
+  return new Response(204);
+}
+
 async function findOrganizationTargetProfileSummaries(schema) {
   return schema.targetProfileSummaries.all();
 }
@@ -124,15 +185,6 @@ function findPaginatedFilteredTargetProfileSummaries(schema) {
 
 function findTargetProfileBadges(schema) {
   return schema.badges.all();
-}
-
-function updateTargetProfile(schema, request) {
-  const payload = JSON.parse(request.requestBody);
-  const id = request.params.id;
-
-  const targetProfile = schema.targetProfiles.find(id);
-  targetProfile.update(payload.data.attributes);
-  return new Response(204);
 }
 
 function outdate(schema, request) {
