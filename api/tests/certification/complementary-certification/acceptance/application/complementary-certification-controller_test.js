@@ -26,12 +26,14 @@ describe('Acceptance | API | complementary-certification-controller', function (
         id: 3,
         label: 'Pix+ Édu 1er degré',
         hasExternalJury: true,
+        key: 'EDU_1',
       });
 
       const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
         id: complementaryCertificationId,
         label: 'Pix+ Édu 2nd degré',
         hasExternalJury: true,
+        key: 'EDU_2',
       });
 
       const targetProfile = databaseBuilder.factory.buildTargetProfile({ id: 999, name: 'Target' });

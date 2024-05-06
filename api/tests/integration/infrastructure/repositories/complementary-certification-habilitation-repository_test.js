@@ -31,9 +31,11 @@ describe('Integration | Infrastructure | Repository | complementary-certificatio
       // given
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       const otherCertificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-      const complementaryCertification1Id = databaseBuilder.factory.buildComplementaryCertification().id;
-      const complementaryCertification2Id = databaseBuilder.factory.buildComplementaryCertification().id;
-      const otherComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
+      const complementaryCertification1Id = databaseBuilder.factory.buildComplementaryCertification({ key: 'A' }).id;
+      const complementaryCertification2Id = databaseBuilder.factory.buildComplementaryCertification({ key: 'B' }).id;
+      const otherComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+        key: 'C',
+      }).id;
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
         certificationCenterId,
         complementaryCertificationId: complementaryCertification1Id,

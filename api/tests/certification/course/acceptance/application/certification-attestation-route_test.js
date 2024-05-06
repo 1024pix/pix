@@ -239,7 +239,7 @@ async function _buildDatabaseForV2Certification({ userId, certificationCourseId 
     publishedAt: new Date('2018-12-01T01:02:03Z'),
   });
   const badge = databaseBuilder.factory.buildBadge({ key: 'charlotte_aux_fraises' });
-  const cc = databaseBuilder.factory.buildComplementaryCertification();
+  const cc = databaseBuilder.factory.buildComplementaryCertification({ key: 'A' });
   const ccBadge = databaseBuilder.factory.buildComplementaryCertificationBadge({
     complementaryCertificationId: cc.id,
     badgeId: badge.id,
@@ -274,6 +274,7 @@ async function _buildDatabaseForV2Certification({ userId, certificationCourseId 
   const { id } = databaseBuilder.factory.buildComplementaryCertificationCourse({
     certificationCourseId: certificationCourse.id,
     complementaryCertificationBadgeId: ccBadge.id,
+    complementaryCertificationId: cc.id,
     name: 'patisseries au fruits',
   });
   databaseBuilder.factory.buildComplementaryCertificationCourseResult({

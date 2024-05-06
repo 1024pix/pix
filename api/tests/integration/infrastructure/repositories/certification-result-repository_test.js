@@ -326,7 +326,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         assessmentResultId: oneAssessmentResultId,
         competenceMarkId: oneCompetenceMarkId,
       } = await _buildCertificationResultInSession(sessionId);
-      const oneComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
+      const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({ key: 'A' }).id;
       databaseBuilder.factory.buildBadge({ id: 12345, key: 'PARTNER_KEY_PIX' });
       databaseBuilder.factory.buildBadge({ id: 12346, key: 'PARTNER_KEY_EXTERNAL' });
       databaseBuilder.factory.buildComplementaryCertificationCourse({
@@ -336,13 +336,13 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       databaseBuilder.factory.buildComplementaryCertificationBadge({
         id: 100,
         badgeId: 12345,
-        complementaryCertificationId: oneComplementaryCertificationId,
+        complementaryCertificationId: complementaryCertificationId,
         label: 'PARTNER_LABEL_PIX',
       });
       databaseBuilder.factory.buildComplementaryCertificationBadge({
         id: 101,
         badgeId: 12346,
-        complementaryCertificationId: oneComplementaryCertificationId,
+        complementaryCertificationId: complementaryCertificationId,
         label: 'PARTNER_LABEL_EXTERNAL',
       });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
@@ -708,18 +708,20 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       const sessionId = databaseBuilder.factory.buildSession().id;
       const { certificationCourseId } = await _buildCertificationResultInSession(sessionId, userId);
 
-      const oneComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+      const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
         label: 'PARTNER_LABEL',
+        key: 'A',
       }).id;
       databaseBuilder.factory.buildBadge({ id: 12345, key: 'PARTNER_KEY' });
       databaseBuilder.factory.buildComplementaryCertificationCourse({
         id: 997,
         certificationCourseId,
+        complementaryCertificationId: complementaryCertificationId,
       });
       databaseBuilder.factory.buildComplementaryCertificationBadge({
         id: 789,
         badgeId: 12345,
-        complementaryCertificationId: oneComplementaryCertificationId,
+        complementaryCertificationId: complementaryCertificationId,
         label: 'PARTNER_LABEL',
       });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
