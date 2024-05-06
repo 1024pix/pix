@@ -5,17 +5,6 @@ import { oidcController } from './oidc-controller.js';
 const register = async function (server) {
   const adminRoutes = [
     {
-      method: 'GET',
-      path: '/api/admin/oidc/identity-providers',
-      config: {
-        handler: oidcController.getAllIdentityProvidersForAdmin,
-        notes: [
-          "Cette route renvoie un objet contenant tous les fournisseurs d'identité OIDC (même désactivés) pour leur gestion dans Pix Admin",
-        ],
-        tags: ['api', 'oidc'],
-      },
-    },
-    {
       method: 'POST',
       path: '/api/admin/oidc/user/reconcile',
       config: {
