@@ -3,30 +3,6 @@ import { oidcAuthenticationServiceRegistry, usecases } from '../../../domain/use
 import * as oidcSerializer from '../../../infrastructure/serializers/jsonapi/oidc-serializer.js';
 import { BadRequestError, UnauthorizedError } from '../../http-errors.js';
 
-const getRedirectLogoutUrl = async function (
-  request,
-  h,
-  dependencies = {
-    oidcAuthenticationServiceRegistry,
-  },
-) {
-  const userId = request.auth.credentials.userId;
-  const { identity_provider: identityProvider, logout_url_uuid: logoutUrlUUID } = request.query;
-
-  await dependencies.oidcAuthenticationServiceRegistry.loadOidcProviderServices();
-  await dependencies.oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(identityProvider);
-
-  const oidcAuthenticationService = dependencies.oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
-    identityProviderCode: identityProvider,
-  });
-  const redirectLogoutUrl = await oidcAuthenticationService.getRedirectLogoutUrl({
-    userId,
-    logoutUrlUUID,
-  });
-
-  return h.response({ redirectLogoutUrl }).code(200);
-};
-
 const findUserForReconciliation = async function (
   request,
   h,
@@ -201,7 +177,6 @@ const oidcController = {
   createUser,
   findUserForReconciliation,
   getAuthorizationUrl,
-  getRedirectLogoutUrl,
   reconcileUser,
   reconcileUserForAdmin,
 };
