@@ -293,7 +293,9 @@
     "template-name": "modelo de importación"
   },
   "email-sender-name": {
-    "pix-app": "PIX - No contestar"
+    "pix-app": "PIX - No contestar",
+    "pix-orga": "Pix Orga - No contestar",
+    "pix-certif": "Pix Certif - No contestar"
   },
   "entity-validation-errors": {
     "ACCEPT_CGU": "Debes aceptar las condiciones de uso de Pix para crear una cuenta.",

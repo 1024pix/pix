@@ -15,11 +15,6 @@ const EMAIL_ADDRESS_NO_RESPONSE = 'ne-pas-repondre@pix.fr';
 const EMAIL_VERIFICATION_CODE_TAG = 'EMAIL_VERIFICATION_CODE';
 const SCO_ACCOUNT_RECOVERY_TAG = 'SCO_ACCOUNT_RECOVERY';
 
-const PIX_ORGA_NAME_FR = 'Pix Orga - Ne pas répondre';
-const PIX_ORGA_NAME_EN = 'Pix Orga - Noreply';
-const PIX_CERTIF_NAME_FR = 'Pix Certif - Ne pas répondre';
-const PIX_CERTIF_NAME_EN = 'Pix Certif - Noreply';
-
 // FRENCH_FRANCE
 const PIX_HOME_NAME_FRENCH_FRANCE = `pix${config.domain.tldFr}`;
 const PIX_HOME_URL_FRENCH_FRANCE = `${config.domain.pix + config.domain.tldFr}`;
@@ -63,7 +58,6 @@ function _getMailerConfig(locale) {
     case DUTCH_SPOKEN:
       return {
         homeName: PIX_HOME_NAME_INTERNATIONAL,
-        pixOrgaName: PIX_ORGA_NAME_EN,
         homeUrl: PIX_HOME_URL_INTERNATIONAL[locale] ?? PIX_HOME_URL_INTERNATIONAL.en,
         pixOrgaHomeUrl: PIX_ORGA_HOME_URL_INTERNATIONAL,
         pixAppConnectionUrl: PIX_APP_CONNECTION_URL_INTERNATIONAL[locale] ?? PIX_APP_CONNECTION_URL_INTERNATIONAL.en,
@@ -78,7 +72,6 @@ function _getMailerConfig(locale) {
         pixAppConnectionUrl: PIX_APP_CONNECTION_URL_FRENCH_FRANCE,
         helpdeskUrl: HELPDESK_FRENCH_FRANCE,
         displayNationalLogo: true,
-        pixOrgaName: PIX_ORGA_NAME_FR,
         pixOrgaHomeUrl: PIX_ORGA_HOME_URL_FRENCH_FRANCE,
         translation: translations.fr,
       };
@@ -195,7 +188,7 @@ function sendOrganizationInvitationEmail({
 }) {
   const mailerConfig = _getMailerConfig(locale);
 
-  const pixOrgaName = mailerConfig.pixOrgaName;
+  const pixOrgaName = mailerConfig.translation['email-sender-name']['pix-orga'];
   const sendOrganizationInvitationEmailSubject = mailerConfig.translation['organization-invitation-email'].subject;
 
   const templateVariables = {
@@ -246,7 +239,7 @@ function sendScoOrganizationInvitationEmail({
 
   return mailer.sendEmail({
     from: EMAIL_ADDRESS_NO_RESPONSE,
-    fromName: PIX_ORGA_NAME_FR,
+    fromName: mailerConfig.translation['email-sender-name']['pix-orga'],
     to: email,
     subject: 'Accès à votre espace Pix Orga',
     template: mailer.organizationInvitationScoTemplateId,
