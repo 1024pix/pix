@@ -803,14 +803,17 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
             type: 'lesson',
             title: 'title',
             // ToDo PIX-12363 migrate to components
-            elements: [
+            components: [
               {
-                id: '123',
-                instruction: 'instruction',
-                locales: ['fr-FR'],
-                proposals,
-                feedbacks,
-                type: 'qcu',
+                type: 'element',
+                element: {
+                  id: '123',
+                  instruction: 'instruction',
+                  locales: ['fr-FR'],
+                  proposals,
+                  feedbacks,
+                  type: 'qcu',
+                },
               },
             ],
           },
