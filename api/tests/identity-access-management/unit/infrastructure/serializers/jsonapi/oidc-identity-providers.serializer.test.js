@@ -1,7 +1,7 @@
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/oidc-identity-providers-serializer.js';
-import { expect } from '../../../../test-helper.js';
+import * as serializer from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/oidc-identity-providers.serializer.js';
+import { expect } from '../../../../../test-helper.js';
 
-describe('Unit | Serializer | JSONAPI | oidc-identity-providers-serializer', function () {
+describe('Unit | Identity Access Management | Infrastructure | Serializer | JSONAPI | oidc-identity-providers', function () {
   describe('#serialize', function () {
     it('should convert oidc providers into JSON API data', function () {
       // given
