@@ -12,12 +12,15 @@ import { TargetProfileForAdmin } from '../../../../lib/domain/models/index.js';
 import * as thematicRepository from '../../../../lib/infrastructure/repositories/thematic-repository.js';
 import * as tubeRepository from '../../../../lib/infrastructure/repositories/tube-repository.js';
 import * as areaRepository from '../../../shared/infrastructure/repositories/area-repository.js';
+import { DomainTransaction } from '../../domain/DomainTransaction.js';
 import { StageCollection } from '../../domain/models/target-profile-management/StageCollection.js';
 import * as competenceRepository from './competence-repository.js';
 import * as skillRepository from './skill-repository.js';
 
-const get = async function ({ id, locale = FRENCH_FRANCE }) {
-  const targetProfileDTO = await knex('target-profiles')
+const get = async function ({ id, locale = FRENCH_FRANCE }, domainTransaction = DomainTransaction.emptyTransaction()) {
+  const knexConn = domainTransaction?.knexTransaction || knex;
+
+  const targetProfileDTO = await knexConn('target-profiles')
     .select(
       'target-profiles.id',
       'target-profiles.name',
@@ -39,7 +42,7 @@ const get = async function ({ id, locale = FRENCH_FRANCE }) {
     throw new NotFoundError("Le profil cible n'existe pas");
   }
 
-  const tubesData = await knex('target-profile_tubes')
+  const tubesData = await knexConn('target-profile_tubes')
     .select('tubeId', 'level')
     .where('targetProfileId', targetProfileDTO.id);
   return _toDomain(targetProfileDTO, tubesData, locale);
