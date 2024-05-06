@@ -8,7 +8,9 @@
       {{on "click" (fn this.checkboxClicked labeledCheckbox.value)}}
       data-test="challenge-response-proposal-selector"
     >
-      <Markdown::MarkdownToHtml @class="proposal-text" @markdown={{labeledCheckbox.label}} />
+      <:label>
+        <Markdown::MarkdownToHtml @class="proposal-text" @markdown={{labeledCheckbox.label}} />
+      </:label>
     </PixCheckbox>
   {{/each}}
 </div>
