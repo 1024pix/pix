@@ -6,7 +6,7 @@ import * as url from 'node:url';
 import dayjs from 'dayjs';
 import ms from 'ms';
 
-import { getArrayOfStrings, getArrayOfUpperStrings } from './infrastructure/utils/string-utils.js';
+import { getArrayOfUpperStrings } from './infrastructure/utils/string-utils.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
@@ -114,15 +114,6 @@ const configuration = (function () {
       redisCacheKeyLockTTL: parseInt(process.env.REDIS_CACHE_KEY_LOCK_TTL, 10) || 60000,
       redisCacheLockedWaitBeforeRetry: parseInt(process.env.REDIS_CACHE_LOCKED_WAIT_BEFORE_RETRY, 10) || 1000,
     },
-    cnav: {
-      accessTokenLifespanMs: ms(process.env.CNAV_ACCESS_TOKEN_LIFESPAN || '7d'),
-      clientId: process.env.CNAV_CLIENT_ID,
-      clientSecret: process.env.CNAV_CLIENT_SECRET,
-      isEnabled: toBoolean(process.env.CNAV_ENABLED),
-      isEnabledForPixAdmin: false,
-      openidConfigurationUrl: process.env.CNAV_OPENID_CONFIGURATION_URL,
-      redirectUri: process.env.CNAV_REDIRECT_URI,
-    },
     cpf: {
       idClient: '03VML243',
       idContrat: 'MCFCER000209',
@@ -199,27 +190,6 @@ const configuration = (function () {
       isPixPlusLowerLeverEnabled: toBoolean(process.env.FT_ENABLE_PIX_PLUS_LOWER_LEVEL),
       isCertificationTokenScopeEnabled: toBoolean(process.env.FT_ENABLE_CERTIF_TOKEN_SCOPE),
     },
-    fwb: {
-      accessTokenLifespanMs: ms(process.env.FWB_ACCESS_TOKEN_LIFESPAN || '7d'),
-      claimsToStore: getArrayOfStrings(process.env.FWB_CLAIMS_TO_STORE),
-      clientId: process.env.FWB_CLIENT_ID,
-      clientSecret: process.env.FWB_CLIENT_SECRET,
-      isEnabled: toBoolean(process.env.FWB_ENABLED),
-      isEnabledForPixAdmin: false,
-      logoutUrl: process.env.FWB_OIDC_LOGOUT_URL,
-      openidConfigurationUrl: process.env.FWB_OPENID_CONFIGURATION_URL,
-      redirectUri: process.env.FWB_REDIRECT_URI,
-      acrValues: process.env.FWB_ACR_VALUES,
-    },
-    google: {
-      accessTokenLifespanMs: ms(process.env.GOOGLE_ACCESS_TOKEN_LIFESPAN || '7d'),
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      isEnabled: false,
-      isEnabledForPixAdmin: toBoolean(process.env.GOOGLE_ENABLED_FOR_PIX_ADMIN),
-      openidConfigurationUrl: process.env.GOOGLE_OPENID_CONFIGURATION_URL,
-      redirectUri: process.env.GOOGLE_REDIRECT_URI,
-    },
     hapi: {
       options: {},
       enableRequestMonitoring: toBoolean(process.env.ENABLE_REQUEST_MONITORING),
@@ -287,16 +257,6 @@ const configuration = (function () {
     partner: {
       fetchTimeOut: ms(process.env.FETCH_TIMEOUT_MILLISECONDS || '20s'),
     },
-    paysdelaloire: {
-      accessTokenLifespanMs: ms(process.env.PAYSDELALOIRE_ACCESS_TOKEN_LIFESPAN || '7d'),
-      clientId: process.env.PAYSDELALOIRE_CLIENT_ID,
-      clientSecret: process.env.PAYSDELALOIRE_CLIENT_SECRET,
-      isEnabled: toBoolean(process.env.PAYSDELALOIRE_ENABLED),
-      isEnabledForPixAdmin: false,
-      openidConfigurationUrl: process.env.PAYSDELALOIRE_OPENID_CONFIGURATION_URL,
-      postLogoutRedirectUri: process.env.PAYSDELALOIRE_POST_LOGOUT_REDIRECT_URI,
-      redirectUri: process.env.PAYSDELALOIRE_REDIRECT_URI,
-    },
     pgBoss: {
       connexionPoolMaxSize: _getNumber(process.env.PGBOSS_CONNECTION_POOL_MAX_SIZE, 2),
       teamSize: _getNumber(process.env.PG_BOSS_TEAM_SIZE, 1),
@@ -312,32 +272,14 @@ const configuration = (function () {
         : true,
     },
     poleEmploi: {
-      accessTokenLifespanMs: ms(process.env.POLE_EMPLOI_ACCESS_TOKEN_LIFESPAN || '7d'),
-      afterLogoutUrl: process.env.POLE_EMPLOI_OIDC_AFTER_LOGOUT_URL,
       clientId: process.env.POLE_EMPLOI_CLIENT_ID,
       clientSecret: process.env.POLE_EMPLOI_CLIENT_SECRET,
-      isEnabled: toBoolean(process.env.POLE_EMPLOI_ENABLED),
-      isEnabledForPixAdmin: false,
-      logoutUrl: process.env.POLE_EMPLOI_OIDC_LOGOUT_URL,
-      openidConfigurationUrl: process.env.POLE_EMPLOI_OPENID_CONFIGURATION_URL,
       poleEmploiSendingsLimit: _getNumber(process.env.POLE_EMPLOI_SENDING_LIMIT, 100),
       pushEnabled: toBoolean(process.env.PUSH_DATA_TO_POLE_EMPLOI_ENABLED),
-      redirectUri: process.env.POLE_EMPLOI_REDIRECT_URI,
       sendingUrl: process.env.POLE_EMPLOI_SENDING_URL,
       tokenUrl: process.env.POLE_EMPLOI_TOKEN_URL,
     },
     port: parseInt(process.env.PORT, 10) || 3000,
-    proSanteConnect: {
-      accessTokenLifespanMs: ms(process.env.PROSANTECONNECT_ACCESS_TOKEN_LIFESPAN || '7d'),
-      clientId: process.env.PROSANTECONNECT_CLIENT_ID,
-      clientSecret: process.env.PROSANTECONNECT_CLIENT_SECRET,
-      isEnabled: toBoolean(process.env.PROSANTECONNECT_ENABLED),
-      isEnabledForPixAdmin: false,
-      openidConfigurationUrl: process.env.PROSANTECONNECT_OPENID_CONFIGURATION_URL,
-      postLogoutRedirectUri: process.env.PROSANTECONNECT_POST_LOGOUT_REDIRECT_URI,
-      redirectUri: process.env.PROSANTECONNECT_REDIRECT_URI,
-      scope: process.env.PROSANTECONNECT_SCOPE,
-    },
     rootPath: path.normalize(__dirname + '/..'),
     saml: {
       spConfig: parseJSONEnv('SAML_SP_CONFIG'),
@@ -449,27 +391,7 @@ const configuration = (function () {
 
     config.temporaryKey.secret = 'the-password-must-be-at-least-32-characters-long';
 
-    config.poleEmploi.isEnabled = true;
-    config.poleEmploi.clientId = 'PIX_POLE_EMPLOI_CLIENT_ID';
-    config.poleEmploi.clientSecret = 'PIX_POLE_EMPLOI_CLIENT_SECRET';
-    config.poleEmploi.sendingUrl = 'http://sendingUrl.fr';
-    config.poleEmploi.logoutUrl = 'https://logout-url.fr';
-    config.poleEmploi.afterLogoutUrl = 'http://after-logout.url';
-    config.poleEmploi.pushEnabled = true;
-
     config.temporaryStorage.redisUrl = null;
-
-    config.cnav.isEnabled = true;
-    config.cnav.clientId = 'PIX_CNAV_CLIENT_ID';
-    config.cnav.clientSecret = 'PIX_CNAV_CLIENT_SECRET';
-
-    config.fwb.isEnabled = false;
-    config.fwb.logoutUrl = 'https://logout-url.org';
-
-    config.google.isEnabled = false;
-    config.google.isEnabledForPixAdmin = true;
-    config.google.clientId = 'PIX_google_CLIENT_ID';
-    config.google.clientSecret = 'PIX_GOOGLE_CLIENT_SECRET';
 
     config.saml.accessTokenLifespanMs = 1000;
 
