@@ -116,7 +116,7 @@ const enableOpsMetrics = async function (server) {
     });
   });
 
-  oppsy.start(logging.emitOpsEventEachSeconds * 1000);
+  oppsy.start(logging.opsEventIntervalInSeconds * 1000);
   server.oppsy = oppsy;
 };
 
