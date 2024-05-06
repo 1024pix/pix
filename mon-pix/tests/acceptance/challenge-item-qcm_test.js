@@ -30,7 +30,7 @@ module('Acceptance | Displaying a QCM challenge', function (hooks) {
 
       assert.dom(screen.getByRole('checkbox', { name: 'possibilite 1, et/ou' })).exists();
       assert.dom(screen.getByRole('checkbox', { name: 'possibilite 2 , et/ou' })).exists();
-      assert.dom(screen.getByRole('checkbox', { name: 'possibilite 3, et/ou' })).exists();
+      assert.dom(screen.getByRole('checkbox', { name: 'possibilite 3 , et/ou' })).exists();
       assert.dom(screen.getByRole('checkbox', { name: 'possibilite 4' })).exists();
 
       assert
@@ -71,7 +71,7 @@ module('Acceptance | Displaying a QCM challenge', function (hooks) {
     test('should go to checkpoint when user validated', async function (assert) {
       // given
       await click(screen.getByRole('checkbox', { name: 'possibilite 2 , et/ou' }));
-      await click(screen.getByRole('checkbox', { name: 'possibilite 3, et/ou' }));
+      await click(screen.getByRole('checkbox', { name: 'possibilite 3 , et/ou' }));
 
       // when
       await click(screen.getByRole('button', { name: 'Je valide et je vais à la prochaine question' }));
@@ -102,8 +102,8 @@ module('Acceptance | Displaying a QCM challenge', function (hooks) {
       assert.true(screen.getByRole('checkbox', { name: 'possibilite 1, et/ou' }).disabled);
       assert.true(screen.getByRole('checkbox', { name: 'possibilite 2 , et/ou' }).checked);
       assert.true(screen.getByRole('checkbox', { name: 'possibilite 2 , et/ou' }).disabled);
-      assert.false(screen.getByRole('checkbox', { name: 'possibilite 3, et/ou' }).checked);
-      assert.true(screen.getByRole('checkbox', { name: 'possibilite 3, et/ou' }).disabled);
+      assert.false(screen.getByRole('checkbox', { name: 'possibilite 3 , et/ou' }).checked);
+      assert.true(screen.getByRole('checkbox', { name: 'possibilite 3 , et/ou' }).disabled);
       assert.true(screen.getByRole('checkbox', { name: 'possibilite 4' }).checked);
       assert.true(screen.getByRole('checkbox', { name: 'possibilite 4' }).disabled);
 
