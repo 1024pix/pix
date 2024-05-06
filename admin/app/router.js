@@ -120,6 +120,7 @@ Router.map(function () {
         });
         this.route('training-summaries');
       });
+      this.route('edit', { path: '/:target_profile_id/edit' });
     });
 
     this.route('autonomous-courses', function () {

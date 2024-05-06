@@ -7,6 +7,7 @@ import { optionsCategoryList } from '../../models/target-profile';
 
 export default class CreateTargetProfileForm extends Component {
   @service notifications;
+  @service router;
 
   @tracked submitting = false;
   selectedTubes = [];
@@ -25,17 +26,24 @@ export default class CreateTargetProfileForm extends Component {
   }
 
   @action
-  updateTargetProfileValue(key, event) {
+  handleInputValue(key, event) {
     this.args.targetProfile[key] = event.target.value;
   }
 
   @action
-  updateCategory(value) {
-    this.args.targetProfile['category'] = value;
+  handleSelectChange(key, value) {
+    this.args.targetProfile[key] = value;
+  }
+
+  @action
+  handleCheckboxChange(key, event) {
+    this.args.targetProfile[key] = event.target.checked;
   }
 
   @action
   async onSubmit(event) {
+    event.preventDefault();
+
     try {
       this.submitting = true;
       await this.args.onSubmit(event, this.selectedTubes);
@@ -43,7 +51,4 @@ export default class CreateTargetProfileForm extends Component {
       this.submitting = false;
     }
   }
-
-  // on a une explication rationnelle
-  noop() {}
 }

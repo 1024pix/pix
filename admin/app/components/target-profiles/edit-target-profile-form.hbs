@@ -1,4 +1,4 @@
-<form class="admin-form admin-form--target-profile" {{on "submit" this.onSubmit}}>
+<form class="admin-form">
   <p class="admin-form__mandatory-text">
     Les champs marqués de
     <span class="mandatory-mark">*</span>
@@ -11,13 +11,14 @@
         required={{true}}
         @requiredLabel="Champ obligatoire"
         aria-required={{true}}
-        {{on "change" (fn this.updateTargetProfileValue "name")}}
+        @value={{@targetProfile.name}}
+        {{on "change" (fn this.handleInputValue "name")}}
       >
         <:label>Nom :</:label>
       </PixInput>
 
       <PixSelect
-        @onChange={{this.updateCategory}}
+        @onChange={{fn this.handleSelectChange "category"}}
         @value={{@targetProfile.category}}
         @options={{this.optionsList}}
         @placeholder="-"
@@ -28,39 +29,61 @@
       >
         <:label>Catégorie :</:label>
       </PixSelect>
-      <div class="create-target-profile__is-public">
-        <label for="isPublic">Public :</label>
-        <Input @type="checkbox" @checked={{@targetProfile.isPublic}} id="isPublic" />
-        <span>Un profil cible marqué comme public sera affecté à toutes les organisations.</span>
-      </div>
-      <PixInput
-        @id="organizationId"
-        type="number"
-        @errorMessage=""
-        required={{true}}
-        @requiredLabel="Champ obligatoire"
-        aria-required={{true}}
-        placeholder="7777"
-        {{on "change" (fn this.updateTargetProfileValue "ownerOrganizationId")}}
+
+      {{#unless @updateMode}}
+        <PixInput
+          @id="organizationId"
+          type="number"
+          @errorMessage=""
+          required={{true}}
+          @requiredLabel="Champ obligatoire"
+          aria-required={{true}}
+          placeholder="7777"
+          value={{@targetProfile.ownerOrganizationId}}
+          {{on "change" (fn this.handleInputValue "ownerOrganizationId")}}
+        >
+          <:label>Identifiant de l'organisation de référence :</:label>
+        </PixInput>
+
+        <PixCheckbox @checked={{@targetProfile.isPublic}} onChange={{fn this.handleCheckboxChange "isPublic"}}>
+          <:label>
+            Public
+            <small>(un profil cible marqué comme public sera affecté à toutes les organisations)</small>
+          </:label>
+        </PixCheckbox>
+      {{/unless}}
+
+      <PixCheckbox
+        @checked={{@targetProfile.areKnowledgeElementsResettable}}
+        onChange={{fn this.handleCheckboxChange "areKnowledgeElementsResettable"}}
       >
-        <:label>Identifiant de l'organisation de référence :</:label>
-      </PixInput>
+        <:label>{{t "pages.target-profiles.resettable-checkbox.label"}}</:label>
+      </PixCheckbox>
     </Card>
 
-    <Common::TubesSelection
-      @frameworks={{@frameworks}}
-      @onChange={{this.updateTubes}}
-      @displayJsonImportButton={{true}}
-      @displayDeviceCompatibility={{true}}
-      @displaySkillDifficultyAvailability={{true}}
-    />
+    {{#if @targetProfile.hasLinkedCampaign}}
+      <PixMessage @withIcon={{true}}>
+        Le référentiel n'est pas modifiable car le profil cible est déjà relié à une campagne.
+      </PixMessage>
+    {{else}}
+      <Common::TubesSelection
+        @frameworks={{@frameworks}}
+        @initialCappedTubes={{@targetProfile.cappedTubes}}
+        @initialAreas={{@targetProfile.areas}}
+        @onChange={{this.updateTubes}}
+        @displayJsonImportButton={{true}}
+        @displayDeviceCompatibility={{true}}
+        @displaySkillDifficultyAvailability={{true}}
+      />
+    {{/if}}
 
     <Card class="admin-form__card" @title="Personnalisation">
       <PixInput
         @id="imageUrl"
         @subLabel="L'url à saisir doit être celle d'OVH. Veuillez
           vous rapprocher des équipes tech et produit pour la réalisation de celle-ci."
-        {{on "change" (fn this.updateTargetProfileValue "imageUrl")}}
+        value={{@targetProfile.imageUrl}}
+        {{on "change" (fn this.handleInputValue "imageUrl")}}
       >
         <:label>Lien de l'image du profil cible :</:label>
       </PixInput>
@@ -70,7 +93,7 @@
         @maxlength="500"
         rows="4"
         @value={{@targetProfile.description}}
-        {{on "change" (fn this.updateTargetProfileValue "description")}}
+        {{on "change" (fn this.handleInputValue "description")}}
       >
         <:label>Description :</:label>
       </PixTextarea>
@@ -79,7 +102,7 @@
         @maxlength="500"
         rows="4"
         @value={{@targetProfile.comment}}
-        {{on "change" (fn this.updateTargetProfileValue "comment")}}
+        {{on "change" (fn this.handleInputValue "comment")}}
       >
         <:label>Commentaire (usage interne) :</:label>
       </PixTextarea>
@@ -94,9 +117,13 @@
       @size="large"
       @type="submit"
       @isLoading={{this.submitting}}
-      @triggerAction={{this.noop}}
+      @triggerAction={{this.onSubmit}}
     >
-      Créer le profil cible
+      {{#if @updateMode}}
+        Modifier le profil cible
+      {{else}}
+        Créer le profil cible
+      {{/if}}
     </PixButton>
   </section>
 </form>

@@ -8,94 +8,88 @@
 </header>
 
 <main class="page-body">
-  {{#if this.isEditMode}}
-
-    <TargetProfiles::UpdateTargetProfile @model={{@model}} @toggleEditMode={{this.toggleEditMode}} />
-
-  {{else}}
-    <section class="page-section target-profile-section">
-      <div class="page-section__header">
-        <h2 class="page-section__title target-profile__title">{{@model.name}}</h2>
-        <TargetProfiles::Category @category={{@model.category}} />
-      </div>
-      <div class="target-profile-section__container">
-        <ul>
-          <li><span class="bold">ID&#x20;:&#x20;</span>{{@model.id}}</li>
-          <li><span class="bold">Organisation de référence&#x20;:&#x20;</span><LinkTo
-              @route="authenticated.organizations.get"
-              @model={{@model.ownerOrganizationId}}
-            >{{@model.ownerOrganizationId}}</LinkTo>
-          </li>
-          <li><span class="bold">Date de création&#x20;:&#x20;</span>{{format-date @model.createdAt}}</li>
-          <li><span class="bold">Public&#x20;:&#x20;</span>{{this.displayBooleanState this.isPublic}}</li>
-          <li><span class="bold">Obsolète&#x20;:&#x20;</span>{{this.displayBooleanState this.isOutdated}}</li>
+  <section class="page-section target-profile-section">
+    <div class="page-section__header">
+      <h2 class="page-section__title target-profile__title">{{@model.name}}</h2>
+      <TargetProfiles::Category @category={{@model.category}} />
+    </div>
+    <div class="target-profile-section__container">
+      <ul>
+        <li><span class="bold">ID&#x20;:&#x20;</span>{{@model.id}}</li>
+        <li><span class="bold">Organisation de référence&#x20;:&#x20;</span><LinkTo
+            @route="authenticated.organizations.get"
+            @model={{@model.ownerOrganizationId}}
+          >{{@model.ownerOrganizationId}}</LinkTo>
+        </li>
+        <li><span class="bold">Date de création&#x20;:&#x20;</span>{{format-date @model.createdAt}}</li>
+        <li><span class="bold">Public&#x20;:&#x20;</span>{{this.displayBooleanState this.isPublic}}</li>
+        <li><span class="bold">Obsolète&#x20;:&#x20;</span>{{this.displayBooleanState this.isOutdated}}</li>
+        <li>
+          <span class="bold">Parcours Accès Simplifié&#x20;:&#x20;</span>{{this.displayBooleanState
+            this.isSimplifiedAccess
+          }}
+        </li>
+        {{#if this.hasLinkedCampaign}}
+          <li><span class="bold">Est associé à une campagne&#x20;:&#x20;</span>Oui</li>
+          {{#if this.hasLinkedAutonomousCourse}}
+            <li><span class="bold">Est associé à un parcours autonome&#x20;:&#x20;</span>Oui</li>
+          {{/if}}
+        {{else}}
+          <li><span class="bold">Associé à une campagne ou un parcours autonome&#x20;:&#x20;</span>Non</li>
+        {{/if}}
+        <li>
+          <span class="bold">{{t
+              "pages.target-profiles.resettable-checkbox.label"
+            }}&#x20;:&#x20;</span>{{this.displayBooleanState this.areKnowledgeElementsResettable}}
+        </li>
+        {{#if @model.description}}
           <li>
-            <span class="bold">Parcours Accès Simplifié&#x20;:&#x20;</span>{{this.displayBooleanState
-              this.isSimplifiedAccess
-            }}
+            <span class="bold">Description&#x20;:&#x20;</span>
+            <SafeMarkdownToHtml @markdown={{@model.description}} />
           </li>
-          {{#if this.hasLinkedCampaign}}
-            <li><span class="bold">Est associé à une campagne&#x20;:&#x20;</span>Oui</li>
-            {{#if this.hasLinkedAutonomousCourse}}
-              <li><span class="bold">Est associé à un parcours autonome&#x20;:&#x20;</span>Oui</li>
-            {{/if}}
-          {{else}}
-            <li><span class="bold">Associé à une campagne ou un parcours autonome&#x20;:&#x20;</span>Non</li>
-          {{/if}}
+        {{/if}}
+        {{#if @model.comment}}
           <li>
-            <span class="bold">{{t
-                "pages.target-profiles.resettable-checkbox.label"
-              }}&#x20;:&#x20;</span>{{this.displayBooleanState this.areKnowledgeElementsResettable}}
+            <span class="bold">Commentaire (usage interne)&#x20;:&#x20;</span>
+            <SafeMarkdownToHtml @markdown={{@model.comment}} />
           </li>
-          {{#if @model.description}}
-            <li>
-              <span class="bold">Description&#x20;:&#x20;</span>
-              <SafeMarkdownToHtml @markdown={{@model.description}} />
-            </li>
-          {{/if}}
-          {{#if @model.comment}}
-            <li>
-              <span class="bold">Commentaire (usage interne)&#x20;:&#x20;</span>
-              <SafeMarkdownToHtml @markdown={{@model.comment}} />
-            </li>
-          {{/if}}
-        </ul>
+        {{/if}}
+      </ul>
 
-        {{! template-lint-disable no-redundant-role }}
-        <img src={{@model.imageUrl}} role="img" alt="Profil cible" />
-      </div>
-      <div class="target-profile__actions">
-        <PixButton @size="small" @variant="secondary" @triggerAction={{this.toggleEditMode}}>
-          Modifier
+      {{! template-lint-disable no-redundant-role }}
+      <img src={{@model.imageUrl}} role="img" alt="Profil cible" />
+    </div>
+    <div class="target-profile__actions">
+      <PixButtonLink
+        @route="authenticated.target-profiles.edit"
+        @model={{@model.id}}
+        @size="small"
+        @variant="secondary"
+      >
+        Modifier
+      </PixButtonLink>
+      <div class="target-profile__actions-separator"></div>
+      {{#unless @model.isSimplifiedAccess}}
+        <PixButton @size="small" @variant="secondary" @triggerAction={{this.toggleDisplaySimplifiedAccessPopupConfirm}}>
+          Marquer comme accès simplifié
         </PixButton>
-        <div class="target-profile__actions-separator"></div>
-        {{#unless @model.isSimplifiedAccess}}
-          <PixButton
-            @size="small"
-            @variant="secondary"
-            @triggerAction={{this.toggleDisplaySimplifiedAccessPopupConfirm}}
-          >
-            Marquer comme accès simplifié
-          </PixButton>
-        {{/unless}}
-        <PixButton @triggerAction={{this.downloadJSON}} @size="small" @variant="success">
-          Télécharger le profil cible (JSON)
+      {{/unless}}
+      <PixButton @triggerAction={{this.downloadJSON}} @size="small" @variant="success">
+        Télécharger le profil cible (JSON)
+      </PixButton>
+
+      <PixButton @triggerAction={{this.toggleDisplayPdfParametersModal}} @size="small" @variant="success">
+        Télécharger le profil cible (PDF)
+      </PixButton>
+
+      {{#unless @model.outdated}}
+        <div class="target-profile__actions-spacer"></div>
+        <PixButton @size="small" @variant="error" @triggerAction={{this.toggleDisplayConfirm}}>
+          Marquer comme obsolète
         </PixButton>
-
-        <PixButton @triggerAction={{this.toggleDisplayPdfParametersModal}} @size="small" @variant="success">
-          Télécharger le profil cible (PDF)
-        </PixButton>
-
-        {{#unless @model.outdated}}
-          <div class="target-profile__actions-spacer"></div>
-          <PixButton @size="small" @variant="error" @triggerAction={{this.toggleDisplayConfirm}}>
-            Marquer comme obsolète
-          </PixButton>
-        {{/unless}}
-      </div>
-    </section>
-
-  {{/if}}
+      {{/unless}}
+    </div>
+  </section>
 
   <nav class="navbar">
     <LinkTo @route="authenticated.target-profiles.target-profile.details" @model={{@model}} class="navbar-item">
