@@ -21,7 +21,7 @@ module('Acceptance | Displaying a QCM challenge', function (hooks) {
     assert.dom(screen.getByText('Sélectionne les bonnes réponses.')).exists();
   });
 
-  test('should display answer feedback bubble if user validates after writing the right answer in input', async function (assert) {
+  test('should display answer feedback bubble and disable checkboxes if user validates after writing the right answer in input', async function (assert) {
     // when
     const screen = await visit(`/assessments/${assessment.id}/challenges`);
     await click(screen.getByRole('checkbox', { name: 'Profil 1' }));
@@ -30,6 +30,12 @@ module('Acceptance | Displaying a QCM challenge', function (hooks) {
 
     // then
     assert.dom(screen.getByText(this.intl.t('pages.challenge.messages.correct-answer'))).exists();
+    assert.dom(screen.getByRole('checkbox', { name: 'Profil 1' })).isDisabled();
+    assert.dom(screen.getByRole('checkbox', { name: 'bad-answer' })).isDisabled();
+    assert.dom(screen.getByRole('checkbox', { name: 'Profil 3' })).isDisabled();
+    assert.dom(screen.getByRole('checkbox', { name: 'Profil 4' })).isDisabled();
+    assert.dom(screen.getByRole('checkbox', { name: 'Profil 5' })).isDisabled();
+    assert.dom(screen.getByRole('checkbox', { name: 'Profil 6' })).isDisabled();
   });
 
   module('when user unselects all checkboxes', function () {

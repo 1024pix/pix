@@ -21,7 +21,7 @@ module('Acceptance | Displaying a QCU challenge', function (hooks) {
     assert.dom(screen.getByText('Sélectionne la bonne réponse.')).exists();
   });
 
-  test('should display answer feedback bubble if user validates after writing the right answer in input', async function (assert) {
+  test('should display answer feedback bubble and disable radio buttons if user validates after writing the right answer in input', async function (assert) {
     // when
     const screen = await visit(`/assessments/${assessment.id}/challenges`);
     await click(screen.getByRole('radio', { name: 'Profil 1' }));
@@ -29,5 +29,11 @@ module('Acceptance | Displaying a QCU challenge', function (hooks) {
 
     // then
     assert.dom(screen.getByText(this.intl.t('pages.challenge.messages.correct-answer'))).exists();
+    assert.dom(screen.getByRole('radio', { name: 'Profil 1' })).isDisabled();
+    assert.dom(screen.getByRole('radio', { name: 'bad-answer' })).isDisabled();
+    assert.dom(screen.getByRole('radio', { name: 'Profil 3' })).isDisabled();
+    assert.dom(screen.getByRole('radio', { name: 'Profil 4' })).isDisabled();
+    assert.dom(screen.getByRole('radio', { name: 'Profil 5' })).isDisabled();
+    assert.dom(screen.getByRole('radio', { name: 'Profil 6' })).isDisabled();
   });
 });

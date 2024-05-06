@@ -3,7 +3,7 @@
     <PixRadioButton
       name="radio"
       @value={{labeledRadio.value}}
-      disabled={{@isAnswerFieldDisabled}}
+      disabled={{@isDisabled}}
       checked={{labeledRadio.checked}}
       {{on "click" (fn this.radioClicked labeledRadio.value)}}
       data-value="{{labeledRadio.value}}"

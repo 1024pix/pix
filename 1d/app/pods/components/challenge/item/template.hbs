@@ -11,6 +11,7 @@
           @url={{@challenge.embedUrl}}
           @title={{@challenge.embedTitle}}
           @height={{@challenge.embedHeight}}
+          @hideSimulator={{@isDisabled}}
         />
       </div>
     {{/if}}
@@ -23,7 +24,11 @@
     {{/if}}
     {{#if (or @challenge.isQROC @challenge.isQROCM)}}
       <div class="challenge-item__qrocm">
-        <Challenge::ChallengeItemQrocm @challenge={{@challenge}} @setAnswerValue={{@setAnswerValue}} />
+        <Challenge::ChallengeItemQrocm
+          @challenge={{@challenge}}
+          @setAnswerValue={{@setAnswerValue}}
+          @isDisabled={{@isDisabled}}
+        />
       </div>
     {{/if}}
     {{#if @challenge.isQCU}}
@@ -32,6 +37,7 @@
           @challenge={{@challenge}}
           @setAnswerValue={{@setAnswerValue}}
           @assessment={{@assessment}}
+          @isDisabled={{@isDisabled}}
         />
       </div>
     {{/if}}
@@ -41,6 +47,7 @@
           @challenge={{@challenge}}
           @setAnswerValue={{@setAnswerValue}}
           @assessment={{@assessment}}
+          @isDisabled={{@isDisabled}}
         />
       </div>
     {{/if}}

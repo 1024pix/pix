@@ -17,6 +17,7 @@
         @options={{block.options}}
         @onChange={{fn this.onSelectChange block.input}}
         @id="{{block.input}}"
+        @isDisabled={{@isDisabled}}
       >
         <:label>{{block.ariaLabel}}</:label>
       </PixSelect>
@@ -42,6 +43,7 @@
               placeholder={{block.placeholder}}
               name={{block.randomName}}
               autocomplete="nope"
+              disabled={{@isDisabled}}
               {{! To activate validation button as soon as possible }}
               {{on "keyup" (fn this.onInputChange block.input)}}
               {{! To also deal with browser dictionary auto complete }}
@@ -55,7 +57,8 @@
               name={{block.randomName}}
               autocomplete="nope"
               placeholder={{block.placeholder}}
-              ariaLabel={{block.ariaLabel}}
+              aria-label={{block.ariaLabel}}
+              disabled={{@isDisabled}}
               {{! To activate validation button as soon as possible }}
               {{on "keyup" (fn this.onInputChange block.input)}}
               {{! To also deal with browser dictionary auto complete }}
@@ -66,10 +69,11 @@
               @id="{{block.input}}"
               class="challenge-item-proposals__response challenge-item-proposals__response--number"
               name={{block.randomName}}
-              type="number"
+              @type="number"
               min="0"
               placeholder={{block.placeholder}}
               @value={{get @answerValues block.input}}
+              disabled={{@isDisabled}}
               {{! To activate validation button as soon as possible }}
               {{on "keyup" (fn this.onInputChange block.input)}}
               {{! To also deal with browser dictionary auto complete }}
@@ -77,14 +81,15 @@
             />
           {{else}}
             <PixInput
-              type="text"
+              @type="text"
               class="challenge-item-proposals__response challenge-item-proposals__response--short-text"
               @id="{{block.input}}"
               name={{block.randomName}}
               autocomplete="nope"
               placeholder={{block.placeholder}}
               @value={{get @answerValues block.input}}
-              ariaLabel={{block.ariaLabel}}
+              aria-label={{block.ariaLabel}}
+              disabled={{@isDisabled}}
               {{! To activate validation button as soon as possible }}
               {{on "keyup" (fn this.onInputChange block.input)}}
               {{! To also deal with browser dictionary auto complete }}

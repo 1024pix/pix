@@ -41,6 +41,10 @@ export default class Challenge extends Component {
     return !this.#assessmentId;
   }
 
+  get hasBeenAnswered() {
+    return this.answer !== null;
+  }
+
   @action
   async validateAnswer() {
     this.answer = this._createActivityAnswer(this.args.challenge);
