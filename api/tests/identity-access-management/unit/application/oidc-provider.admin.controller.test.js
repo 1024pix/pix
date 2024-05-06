@@ -3,7 +3,7 @@ import { usecases } from '../../../../src/identity-access-management/domain/usec
 import { DomainTransaction } from '../../../../src/shared/domain/DomainTransaction.js';
 import { expect, hFake, sinon } from '../../../test-helper.js';
 
-describe('Unit | Identity Access Management | Application | Controller | Oidc', function () {
+describe('Unit | Identity Access Management | Application | Controller | oidc-provider.admin', function () {
   describe('#createInBatch', function () {
     it('returns an HTTP status code 204', async function () {
       // given
