@@ -56,10 +56,10 @@ const usecasesWithoutInjectedDependencies = {
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
 
 /**
- * @typedef AuthenticationUsecases
- * @type {object}
+ * @typedef {Object} AuthenticationUsecases
  * @property {addOidcProvider} addOidcProvider
  * @property {getAllIdentityProviders} getAllIdentityProviders
  * @property {getReadyIdentityProviders} getReadyIdentityProviders
+ * @property {getRedirectLogoutUrl} getRedirectLogoutUrl
  */
 export { usecases };
