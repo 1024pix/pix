@@ -1,12 +1,12 @@
 import lodash from 'lodash';
 
+import * as divisionSerializer from '../../../src/prescription/campaign/infrastructure/serializers/jsonapi/division-serializer.js';
 import { extractParameters } from '../../../src/shared/infrastructure/utils/query-params-utils.js';
 import * as certificationCenterInvitationSerializer from '../../../src/team/infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as certificationCenterForAdminSerializer from '../../infrastructure/serializers/jsonapi/certification-center-for-admin-serializer.js';
 import * as certificationCenterMembershipSerializer from '../../infrastructure/serializers/jsonapi/certification-center-membership-serializer.js';
 import * as certificationCenterSerializer from '../../infrastructure/serializers/jsonapi/certification-center-serializer.js';
-import * as divisionSerializer from '../../infrastructure/serializers/jsonapi/division-serializer.js';
 import * as sessionSummarySerializer from '../../infrastructure/serializers/jsonapi/session-summary-serializer.js';
 import * as studentCertificationSerializer from '../../infrastructure/serializers/jsonapi/student-certification-serializer.js';
 
