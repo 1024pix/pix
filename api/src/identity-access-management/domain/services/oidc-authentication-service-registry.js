@@ -7,8 +7,11 @@ import { OidcAuthenticationService } from './oidc-authentication-service.js';
 import { PoleEmploiOidcAuthenticationService } from './pole-emploi-oidc-authentication-service.js';
 
 export class OidcAuthenticationServiceRegistry {
+  /** @type {OidcAuthenticationService[]|null} */
   #allOidcProviderServices = null;
+  /** @type {OidcAuthenticationService[]|null} */
   #readyOidcProviderServices = null;
+  /** @type {OidcAuthenticationService[]|null} */
   #readyOidcProviderServicesForPixAdmin = null;
 
   constructor(dependencies = {}) {
@@ -27,6 +30,9 @@ export class OidcAuthenticationServiceRegistry {
     return true;
   }
 
+  /**
+   * @return {OidcAuthenticationService[]|null}
+   */
   getAllOidcProviderServices() {
     return this.#allOidcProviderServices;
   }
