@@ -18,12 +18,24 @@ module('Unit | Component | Tube::List', function (hooks) {
                 thematics: [
                   {
                     tubes: [{ id: 'tubeId1' }, { id: 'tubeId2' }],
+                    get sortedTubes() {
+                      return this.tubes;
+                    },
                   },
                 ],
+                get sortedThematics() {
+                  return this.thematics;
+                },
               },
             ],
+            get sortedCompetences() {
+              return this.competences;
+            },
           },
         ],
+        get sortedAreas() {
+          return this.areas;
+        },
       },
       {
         id: 'fmkId2',
@@ -34,12 +46,24 @@ module('Unit | Component | Tube::List', function (hooks) {
                 thematics: [
                   {
                     tubes: [{ id: 'tubeId3' }, { id: 'tubeId4' }],
+                    get sortedTubes() {
+                      return this.tubes;
+                    },
                   },
                 ],
+                get sortedThematics() {
+                  return this.thematics;
+                },
               },
             ],
+            get sortedCompetences() {
+              return this.competences;
+            },
           },
         ],
+        get sortedAreas() {
+          return this.areas;
+        },
       },
     ];
     const component = await createGlimmerComponent('component:tube/list', { frameworks });

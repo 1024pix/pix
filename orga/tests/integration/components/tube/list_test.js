@@ -24,7 +24,16 @@ module('Integration | Component | tube:list', function (hooks) {
         practicalDescription: 'Description 2',
       },
     ];
-    const thematics = [{ id: 'thematicId', name: 'thematic1', tubes }];
+    const thematics = [
+      {
+        id: 'thematicId',
+        name: 'thematic1',
+        tubes,
+        get sortedTubes() {
+          return tubes;
+        },
+      },
+    ];
     const competences = [
       {
         thematics,
@@ -47,6 +56,9 @@ module('Integration | Component | tube:list', function (hooks) {
       {
         id: 'fmkId',
         areas,
+        get sortedAreas() {
+          return areas;
+        },
       },
     ];
     dayjs = this.owner.lookup('service:dayjs');
