@@ -7,18 +7,12 @@ export default class AuthenticatedPlacesRoute extends Route {
   @service store;
 
   beforeModel() {
-    if (!this.currentUser.shouldAccessPlacesPage) {
+    if (!(this.currentUser.isAdminInOrganization && this.currentUser.prescriber.placesManagement)) {
       this.router.replaceWith('application');
     }
   }
 
-  async model() {
-    try {
-      return await this.store.queryRecord('organization-place-statistic', {
-        organizationId: this.currentUser.organization.id,
-      });
-    } catch (_) {
-      this.router.replaceWith('application');
-    }
+  model() {
+    return this.modelFor('authenticated');
   }
 }

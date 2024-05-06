@@ -300,6 +300,10 @@
       "team": "Team"
     },
     "pix-orga": "Pix Orga",
+    "places":{
+      "link" : "See details",
+      "number": "{count, plural, =0 {0 seat available} =1 {1 seat available} other {{count, number} seats available}}"
+    },
     "team-members": {
       "aria-label": "Team members navigation"
     },

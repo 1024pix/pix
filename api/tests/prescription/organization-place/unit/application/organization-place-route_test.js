@@ -1,8 +1,11 @@
+import jsonapiSerializer from 'jsonapi-serializer';
+
 import { organizationPlaceController } from '../../../../../src/prescription/organization-place/application/organization-place-controller.js';
 import * as moduleUnderTest from '../../../../../src/prescription/organization-place/application/organization-place-route.js';
 import * as organizationPlacesCategories from '../../../../../src/prescription/organization-place/domain/constants/organization-places-categories.js';
 import { usecases } from '../../../../../src/prescription/organization-place/domain/usecases/index.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
+import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
 import { expect, sinon } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
@@ -121,6 +124,70 @@ describe('Unit | Router | organization-place-route', function () {
           },
         },
       };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+  });
+
+  describe('GET /api/organizations/{id}/places-statistics', function () {
+    let checkOrganizationHasPlacesFeature, respondWithError;
+
+    beforeEach(function () {
+      checkOrganizationHasPlacesFeature = sinon.stub();
+      sinon
+        .stub(securityPreHandlers, 'makeCheckOrganizationHasFeature')
+        .withArgs(ORGANIZATION_FEATURE.PLACES_MANAGEMENT.key)
+        .returns(checkOrganizationHasPlacesFeature);
+
+      respondWithError = (_, h) =>
+        h
+          .response(
+            new jsonapiSerializer.Error({
+              code: 403,
+              title: 'Forbidden access',
+              detail: 'Missing or insufficient permissions.',
+            }),
+          )
+          .code(403)
+          .takeover();
+    });
+
+    it('should return HTTP code 200 when organization has the right feature activated', async function () {
+      // given
+      const method = 'GET';
+      const url = '/api/organizations/1/place-statistics';
+      const payload = {};
+
+      checkOrganizationHasPlacesFeature.resolves(true);
+
+      sinon
+        .stub(organizationPlaceController, 'getOrganizationPlacesStatistics')
+        .callsFake((_, h) => h.response('ok').code(200));
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(organizationPlaceController.getOrganizationPlacesStatistics).to.have.been.calledOnce;
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should return HTTP code 403 if organization doesnt have the right feature activated', async function () {
+      // given
+      const method = 'GET';
+      const url = '/api/organizations/1/place-statistics';
+      const payload = {};
+
+      checkOrganizationHasPlacesFeature.callsFake(respondWithError);
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
 
       // when
       const response = await httpTestServer.request(method, url, payload);
