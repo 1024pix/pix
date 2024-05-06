@@ -11,14 +11,15 @@
       <PixSelect
         class="challenge-item-proposals__response challenge-item-proposals__response--selector"
         @value={{get this.answerValues block.input}}
-        @label={{block.ariaLabel}}
         @screenReaderOnly={{true}}
         @placeholder={{block.placeholder}}
         @hideDefaultOption={{true}}
         @options={{block.options}}
         @onChange={{fn this.onSelectChange block.input}}
         @id="{{block.input}}"
-      />
+      >
+        <:label>{{block.ariaLabel}}</:label>
+      </PixSelect>
     {{else if (eq block.type "input")}}
       {{#if block.input}}
         <div class="qrocm-proposal__input">

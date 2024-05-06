@@ -10,7 +10,9 @@
       @class="pix1d-radio"
       data-test="challenge-response-proposal-selector"
     >
-      <Markdown::MarkdownToHtml @class="qcu-panel__text proposal-text" @markdown={{labeledRadio.label}} />
+      <:label>
+        <Markdown::MarkdownToHtml @class="qcu-panel__text proposal-text" @markdown={{labeledRadio.label}} />
+      </:label>
     </PixRadioButton>
   {{/each}}
 </div>
