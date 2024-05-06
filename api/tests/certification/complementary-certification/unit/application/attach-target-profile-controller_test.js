@@ -50,6 +50,46 @@ describe('Unit | Application | Certification | ComplementaryCertification | atta
     });
 
     context('when there are notifications', function () {
+      context('when there is no previous target profile', function () {
+        it('should not call the notification service', async function () {
+          // given
+          const request = {
+            payload: Symbol('args'),
+            auth: { credentials: { userId: 99 } },
+            params: { complementaryCertificationId: 101 },
+          };
+
+          const complementaryCertification = Symbol('certification');
+          const complementaryCertificationBadges = Symbol('complementaryCertificationBadges');
+
+          sinon.stub(usecases, 'getComplementaryCertificationForTargetProfileAttachmentRepository');
+          sinon.stub(usecases, 'attachBadges');
+          sinon.stub(usecases, 'sendTargetProfileNotifications');
+          const complementaryCertificationBadgeSerializerStub = {
+            deserialize: sinon.stub(),
+          };
+
+          usecases.getComplementaryCertificationForTargetProfileAttachmentRepository.resolves(
+            complementaryCertification,
+          );
+          complementaryCertificationBadgeSerializerStub.deserialize.withArgs(request.payload).returns({
+            targetProfileId: null,
+            notifyOrganizations: true,
+            complementaryCertificationBadges,
+          });
+
+          const dependencies = {
+            complementaryCertificationBadgeSerializer: complementaryCertificationBadgeSerializerStub,
+          };
+
+          // when
+          await attachTargetProfileController.attachTargetProfile(request, hFake, dependencies);
+
+          // then
+          expect(usecases.sendTargetProfileNotifications).not.to.have.been.called;
+        });
+      });
+
       it('should call the usecase and serialize the response', async function () {
         // given
         const request = {

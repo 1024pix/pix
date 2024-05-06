@@ -29,7 +29,7 @@ const register = async function (server) {
           payload: Joi.object({
             data: {
               attributes: {
-                'target-profile-id': identifiersType.targetProfileId.required(),
+                'target-profile-id': identifiersType.targetProfileId.optional(),
                 'notify-organizations': Joi.boolean().required(),
                 'complementary-certification-badges': Joi.array()
                   .items(

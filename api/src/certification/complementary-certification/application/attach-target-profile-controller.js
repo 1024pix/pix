@@ -17,7 +17,7 @@ const attachTargetProfile = async function (request, h, dependencies = { complem
     complementaryCertificationBadgesToAttachDTO: complementaryCertificationBadges,
   });
 
-  if (notifyOrganizations) {
+  if (!!targetProfileId && notifyOrganizations) {
     await usecases.sendTargetProfileNotifications({
       targetProfileIdToDetach: targetProfileId,
       complementaryCertification,

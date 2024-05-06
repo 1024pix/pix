@@ -46,16 +46,18 @@ const attachBadges = async function ({
   });
 
   await DomainTransaction.execute(async (domainTransaction) => {
-    const relatedComplementaryCertificationBadgesIds =
-      await complementaryCertificationBadgesRepository.getAllIdsByTargetProfileId({
-        targetProfileId: targetProfileIdToDetach,
-      });
+    if (targetProfileIdToDetach) {
+      const relatedComplementaryCertificationBadgesIds =
+        await complementaryCertificationBadgesRepository.getAllIdsByTargetProfileId({
+          targetProfileId: targetProfileIdToDetach,
+        });
 
-    await _detachExistingComplementaryCertificationBadge({
-      complementaryCertificationBadgesRepository,
-      relatedComplementaryCertificationBadgesIds,
-      domainTransaction,
-    });
+      await _detachExistingComplementaryCertificationBadge({
+        complementaryCertificationBadgesRepository,
+        relatedComplementaryCertificationBadgesIds,
+        domainTransaction,
+      });
+    }
 
     await _attachNewComplementaryCertificationBadges({
       complementaryCertificationBadgesRepository,
