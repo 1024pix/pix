@@ -1,4 +1,5 @@
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/certification-center-for-admin-serializer.js';
+import { CERTIFICATION_FEATURES } from '../../../../../src/certification/shared/domain/constants.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | certification-center-for-admin-serializer', function () {
@@ -180,7 +181,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-for-admin-serialize
         // given
         const certificationCenter = domainBuilder.buildCertificationCenterForAdmin({
           ...certificationCenterForAdmin,
-          isComplementaryAlonePilot: true,
+          features: [CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key],
         });
 
         // when

@@ -1,6 +1,7 @@
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { CertificationCenterForAdmin } from '../../../../lib/domain/models/CertificationCenterForAdmin.js';
 import * as certificationCenterForAdminRepository from '../../../../lib/infrastructure/repositories/certification-center-for-admin-repository.js';
+import { CERTIFICATION_FEATURES } from '../../../../src/certification/shared/domain/constants.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Integration | Repository | certification-center-for-admin', function () {
@@ -122,6 +123,32 @@ describe('Integration | Repository | certification-center-for-admin', function (
         const certificationCenter = await certificationCenterForAdminRepository.get(1);
 
         expect(certificationCenter).to.deepEqualInstance(expectedCertificationCenter);
+      });
+
+      context('when the certification center is a feature pilot', function () {
+        it('should return the information', async function () {
+          // given
+          const centerId = 1;
+          databaseBuilder.factory.buildCertificationCenter({
+            id: centerId,
+          });
+          const feature = databaseBuilder.factory.buildFeature({
+            key: CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key,
+          });
+          databaseBuilder.factory.buildCertificationCenterFeature({
+            certificationCenterId: centerId,
+            featureId: feature.id,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const result = await certificationCenterForAdminRepository.get(centerId);
+
+          // then
+          expect(result.features).to.have.members([
+            CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key,
+          ]);
+        });
       });
     });
 

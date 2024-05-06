@@ -5,10 +5,8 @@ import { NotFoundError } from '../../domain/errors.js';
 import { CertificationCenterForAdmin } from '../../domain/models/CertificationCenterForAdmin.js';
 import { ComplementaryCertification } from '../../domain/models/index.js';
 
-const CERTIFICATION_CENTERS_TABLE_NAME = 'certification-centers';
-
 const get = async function (id) {
-  const certificationCenter = await knex(CERTIFICATION_CENTERS_TABLE_NAME)
+  const certificationCenter = await knex('certification-centers')
     .select({
       id: 'certification-centers.id',
       name: 'certification-centers.name',
@@ -20,8 +18,20 @@ const get = async function (id) {
       createdAt: 'certification-centers.createdAt',
       updatedAt: 'certification-centers.updatedAt',
       isV3Pilot: 'certification-centers.isV3Pilot',
+      features: knex.raw('array_remove(array_agg("certificationCenterFeatures"."key"), NULL)'),
     })
     .leftJoin('data-protection-officers', 'data-protection-officers.certificationCenterId', 'certification-centers.id')
+    .leftJoin(
+      _getCertificationCenterFeatures({ id }),
+      'certification-centers.id',
+      'certificationCenterFeatures.certificationCenterId',
+    )
+    .groupBy(
+      'certification-centers.id',
+      'data-protection-officers.firstName',
+      'data-protection-officers.lastName',
+      'data-protection-officers.email',
+    )
     .where('certification-centers.id', id)
     .first();
 
@@ -56,14 +66,14 @@ const get = async function (id) {
 
 const save = async function (certificationCenter) {
   const data = _toDTO(certificationCenter);
-  const [certificationCenterCreated] = await knex(CERTIFICATION_CENTERS_TABLE_NAME).returning('*').insert(data);
+  const [certificationCenterCreated] = await knex('certification-centers').returning('*').insert(data);
   return _toDomain(certificationCenterCreated);
 };
 
 const update = async function (certificationCenter) {
   const data = _toDTO(certificationCenter);
 
-  const [certificationCenterRow] = await knex(CERTIFICATION_CENTERS_TABLE_NAME)
+  const [certificationCenterRow] = await knex('certification-centers')
     .update(data)
     .where({ id: certificationCenter.id })
     .returning('*');
@@ -74,21 +84,20 @@ const update = async function (certificationCenter) {
 export { get, save, update };
 
 function _toDomain(certificationCenterDTO) {
-  return new CertificationCenterForAdmin({
-    id: certificationCenterDTO.id,
-    name: certificationCenterDTO.name,
-    type: certificationCenterDTO.type,
-    externalId: certificationCenterDTO.externalId,
-    habilitations: certificationCenterDTO.habilitations,
-    dataProtectionOfficerFirstName: certificationCenterDTO.dataProtectionOfficerFirstName,
-    dataProtectionOfficerLastName: certificationCenterDTO.dataProtectionOfficerLastName,
-    dataProtectionOfficerEmail: certificationCenterDTO.dataProtectionOfficerEmail,
-    createdAt: certificationCenterDTO.createdAt,
-    updatedAt: certificationCenterDTO.updatedAt,
-    isV3Pilot: certificationCenterDTO.isV3Pilot,
-  });
+  return new CertificationCenterForAdmin(certificationCenterDTO);
 }
 
 function _toDTO(certificationCenter) {
   return _.pick(certificationCenter, ['name', 'type', 'externalId', 'isV3Pilot']);
+}
+
+function _getCertificationCenterFeatures({ id }) {
+  return (builder) => {
+    return builder
+      .select('certification-center-features.certificationCenterId', 'features.key')
+      .from('certification-center-features')
+      .innerJoin('features', 'features.id', 'certification-center-features.featureId')
+      .where('certification-center-features.certificationCenterId', '=', id)
+      .as('certificationCenterFeatures');
+  };
 }
