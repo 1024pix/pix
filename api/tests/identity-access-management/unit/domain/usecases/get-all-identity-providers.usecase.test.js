@@ -1,7 +1,7 @@
-import { getAllIdentityProviders } from '../../../../lib/domain/usecases/get-all-identity-providers.js';
-import { expect, sinon } from '../../../test-helper.js';
+import { getAllIdentityProviders } from '../../../../../src/identity-access-management/domain/usecases/get-all-identity-providers.usecase.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | get-all-identity-providers', function () {
+describe('Unit | Identity Access Management | Domain | UseCases | get-all-identity-providers', function () {
   it('returns oidc providers from oidcAuthenticationServiceRegistry', async function () {
     // given
     const oneOidcProviderService = {};
