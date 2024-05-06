@@ -1,8 +1,8 @@
-import { getReadyIdentityProviders } from '../../../../lib/domain/usecases/get-ready-identity-providers.js';
-import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
-import { expect, sinon } from '../../../test-helper.js';
+import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
+import { getReadyIdentityProviders } from '../../../../../src/identity-access-management/domain/usecases/get-ready-identity-providers.usecase.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | get-ready-identity-providers', function () {
+describe('Unit | Identity Access Management | Domain | UseCases | get-ready-identity-providers', function () {
   let oneOidcProviderService;
   let anotherOidcProviderService;
   let oidcAuthenticationServiceRegistryStub;
