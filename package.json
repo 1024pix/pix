@@ -60,7 +60,7 @@
     "lint:scripts": "eslint scripts",
     "lint:yaml": "run-p lint:yaml:*",
     "lint:yaml:dotfiles": "eslint --ext .yml .circleci && eslint --ext .yaml .github",
-    "lint:yaml:files": "eslint --ext .yaml --ignore-pattern docker-compose.yaml ./*.yaml",
+    "lint:yaml:files": "eslint --ext .yaml --ignore-pattern compose.yaml ./*.yaml",
     "lint:docs": "find ./docs -type f -name '*.md' | xargs -L1 markdown-link-check --quiet --config ./docs/link--check-config.json ",
     "local:add-optional-checks": "husky",
     "local:remove-optional-checks": "git config --unset core.hooksPath",
