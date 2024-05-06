@@ -40,9 +40,18 @@ class FeatureNotFound extends DomainError {
   }
 }
 
+class FeatureParamsNotProcessable extends DomainError {
+  constructor({ code = 'FEATURE_PARAMS_NOT_PROCESSABLE', message = 'Feature params are not processable', meta } = {}) {
+    super(message);
+    this.code = code;
+    this.meta = meta;
+  }
+}
+
 export {
   AlreadyExistingOrganizationFeatureError,
   FeatureNotFound,
+  FeatureParamsNotProcessable,
   OrganizationNotFound,
   UnableToAttachChildOrganizationToParentOrganizationError,
 };
