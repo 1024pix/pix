@@ -1,5 +1,6 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
+import RSVP from 'rsvp';
 
 export default class MissionLearnersRoute extends Route {
   @service currentUser;
@@ -35,6 +36,6 @@ export default class MissionLearnersRoute extends Route {
       },
       { reload: true },
     );
-    return { missionLearners, mission };
+    return RSVP.hash({ missionLearners, mission });
   }
 }

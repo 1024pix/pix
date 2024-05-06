@@ -45,12 +45,13 @@ export default class Prescriber extends Model {
   }
 
   get isAdminOfTheCurrentOrganization() {
-    const memberships = this.memberships.toArray();
-    return memberships.some(
-      (membership) =>
-        membership.get('organizationRole') === 'ADMIN' &&
-        membership.get('organization').get('id') === this.userOrgaSettings.get('organization').get('id'),
-    );
+    return this.hasMany('memberships')
+      .value()
+      .some(
+        (membership) =>
+          membership.get('organizationRole') === 'ADMIN' &&
+          membership.get('organization').get('id') === this.userOrgaSettings.get('organization').get('id'),
+      );
   }
 
   get hasOrganizationLearnerImport() {
