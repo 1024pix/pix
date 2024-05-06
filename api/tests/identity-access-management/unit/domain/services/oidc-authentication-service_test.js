@@ -708,6 +708,68 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         });
       });
     });
+
+    context('when a custom required claim is returned empty by the UserInfo endpoint', function () {
+      it('throws an error', async function () {
+        // given
+        const clientId = 'OIDC_CLIENT_ID';
+        const clientSecret = 'OIDC_CLIENT_SECRET';
+        const redirectUri = 'https://example.org/please-redirect-to-me';
+        const organizationName = 'Example';
+
+        const oidcAuthenticationService = new OidcAuthenticationService({
+          claimsToStore: 'population',
+          clientId,
+          clientSecret,
+          redirectUri,
+          organizationName,
+        });
+
+        const clientInstance = {
+          userinfo: sinon.stub().resolves({
+            sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+            given_name: 'givenName',
+            family_name: 'familyName',
+            population: '',
+          }),
+        };
+        const Client = sinon.stub().returns(clientInstance);
+
+        sinon.stub(Issuer, 'discover').resolves({ Client });
+        await oidcAuthenticationService.createClient();
+
+        const accessToken = 'thisIsSerializedInformation';
+        const errorMessage = `Un ou des champs obligatoires (population) n'ont pas été renvoyés par votre fournisseur d'identité Example.`;
+
+        // when
+        const error = await catchErr(
+          oidcAuthenticationService._getUserInfoFromEndpoint,
+          oidcAuthenticationService,
+        )({
+          accessToken,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(OidcMissingFieldsError);
+        expect(error.message).to.be.equal(errorMessage);
+        expect(error.code).to.be.equal(OIDC_ERRORS.USER_INFO.missingFields.code);
+        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
+          context: 'oidc',
+          data: {
+            missingFields: 'population',
+            userInfo: {
+              sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+              given_name: 'givenName',
+              family_name: 'familyName',
+              population: '',
+            },
+          },
+          event: 'find-missing-required-claims',
+          message: errorMessage,
+          team: 'acces',
+        });
+      });
+    });
   });
 
   describe('#createUserAccount', function () {
