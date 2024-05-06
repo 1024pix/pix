@@ -261,34 +261,77 @@ describe('Acceptance | Route | target-profiles', function () {
   });
 
   describe('PATCH /api/admin/target-profiles/{id}', function () {
-    it('should return 204', async function () {
-      const targetProfile = databaseBuilder.factory.buildTargetProfile();
-      const user = databaseBuilder.factory.buildUser.withRole();
-      await databaseBuilder.commit();
+    beforeEach(async function () {
+      mockLearningContent(learningContent);
+    });
 
-      const options = {
-        method: 'PATCH',
-        url: `/api/admin/target-profiles/${targetProfile.id}`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-        payload: {
-          data: {
-            attributes: {
-              name: 'CoolPixer',
-              description: 'Amazing description',
-              comment: 'Amazing comment',
-              category: 'OTHER',
-              'image-url': 'http://valid-uri.com/image.png',
-              'are-knowledge-elements-resettable': false,
+    describe('when there is no tube to update', function () {
+      it('should return 204', async function () {
+        const targetProfile = databaseBuilder.factory.buildTargetProfile();
+        const user = databaseBuilder.factory.buildUser.withRole();
+        await databaseBuilder.commit();
+
+        const options = {
+          method: 'PATCH',
+          url: `/api/admin/target-profiles/${targetProfile.id}`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+          payload: {
+            data: {
+              attributes: {
+                name: 'CoolPixer',
+                description: 'Amazing description',
+                comment: 'Amazing comment',
+                category: 'OTHER',
+                'image-url': 'http://valid-uri.com/image.png',
+                'are-knowledge-elements-resettable': false,
+              },
             },
           },
-        },
-      };
+        };
 
-      // when
-      const response = await server.inject(options);
+        // when
+        const response = await server.inject(options);
 
-      // then
-      expect(response.statusCode).to.equal(204);
+        // then
+        expect(response.statusCode).to.equal(204);
+      });
+    });
+
+    describe('when there is some tube update and the target profile is not linked with campaign', function () {
+      it('should return 204', async function () {
+        const targetProfile = databaseBuilder.factory.buildTargetProfile();
+        const targetProfileTube = databaseBuilder.factory.buildTargetProfileTube({
+          targetProfileId: targetProfile.id,
+          tubeId,
+          level: 1,
+        });
+        const user = databaseBuilder.factory.buildUser.withRole();
+        await databaseBuilder.commit();
+
+        const options = {
+          method: 'PATCH',
+          url: `/api/admin/target-profiles/${targetProfile.id}`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+          payload: {
+            data: {
+              attributes: {
+                name: 'nom changé',
+                category: 'COMPETENCES',
+                description: 'description changée.',
+                comment: 'commentaire changé.',
+                'image-url': null,
+                tubes: [{ id: targetProfileTube.tubeId, level: 99 }],
+              },
+            },
+          },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(204);
+      });
     });
   });
 

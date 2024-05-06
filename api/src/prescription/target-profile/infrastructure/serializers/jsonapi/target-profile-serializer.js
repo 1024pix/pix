@@ -13,18 +13,24 @@ const serializeId = function (targetProfileId) {
   return new Serializer('target-profile', {}).serialize({ id: targetProfileId });
 };
 
-const deserializeCreationCommand = function (json) {
-  return {
-    name: json.data.attributes['name'],
-    category: json.data.attributes['category'],
-    description: json.data.attributes['description'],
-    comment: json.data.attributes['comment'],
-    isPublic: json.data.attributes['is-public'],
-    imageUrl: json.data.attributes['image-url'],
-    ownerOrganizationId: json.data.attributes['owner-organization-id'],
-    tubes: json.data.attributes['tubes'],
-    areKnowledgeElementsResettable: json.data.attributes['are-knowledge-elements-resettable'],
-  };
+const deserialize = function (json) {
+  const attributes = json.data.attributes;
+
+  const deserializedData = {};
+
+  if (attributes.name !== undefined) deserializedData.name = attributes.name;
+  if (attributes.category !== undefined) deserializedData.category = attributes.category;
+  if (attributes.description !== undefined) deserializedData.description = attributes.description;
+  if (attributes.comment !== undefined) deserializedData.comment = attributes.comment;
+  if (attributes['is-public'] !== undefined) deserializedData.isPublic = attributes['is-public'];
+  if (attributes['image-url'] !== undefined) deserializedData.imageUrl = attributes['image-url'];
+  if (attributes['owner-organization-id'] !== undefined)
+    deserializedData.ownerOrganizationId = attributes['owner-organization-id'];
+  if (attributes.tubes !== undefined) deserializedData.tubes = attributes.tubes;
+  if (attributes['are-knowledge-elements-resettable'] !== undefined)
+    deserializedData.areKnowledgeElementsResettable = attributes['are-knowledge-elements-resettable'];
+
+  return deserializedData;
 };
 
-export { deserializeCreationCommand, serialize, serializeId };
+export { deserialize, serialize, serializeId };

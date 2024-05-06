@@ -56,7 +56,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
     });
   });
 
-  describe('#deserializeCreationCommand', function () {
+  describe('#deserialize', function () {
     it('should deserialize JSONAPI to target profile creation command', function () {
       // given
       const json = {
@@ -79,7 +79,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
       };
 
       // when
-      const deserializedTargetProfileCreationCommand = serializer.deserializeCreationCommand(json);
+      const deserializedTargetProfileCreationCommand = serializer.deserialize(json);
 
       // then
       const expectedTargetProfileCreationCommand = {
