@@ -39,7 +39,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       }),
       domainBuilder.buildAuthenticationMethod.withIdentityProvider({
         userId,
-        identityProvider: OidcIdentityProviders.CNAV.code,
+        identityProvider: 'genericOidcProviderCode',
       }),
     ];
   }
@@ -55,14 +55,19 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       authenticationMethodRepository.findByUserId.resolves(authenticationMethods);
 
       // when
-      await removeAuthenticationMethod({ userId: user.id, type, userRepository, authenticationMethodRepository });
+      await removeAuthenticationMethod({
+        userId: user.id,
+        type,
+        userRepository,
+        authenticationMethodRepository,
+      });
 
       // then
       expect(userRepository.updateEmail).to.have.been.calledWithExactly({ id: user.id, email: null });
     });
 
     context('When user does not have a username', function () {
-      it('should remove PIX authentication method', async function () {
+      it('removes PIX authentication method', async function () {
         // given
         const user = domainBuilder.buildUser({ username: null });
         userRepository.get.resolves(user);
@@ -70,7 +75,12 @@ describe('Unit | UseCase | remove-authentication-method', function () {
         authenticationMethodRepository.findByUserId.resolves(authenticationMethods);
 
         // when
-        await removeAuthenticationMethod({ userId: user.id, type, userRepository, authenticationMethodRepository });
+        await removeAuthenticationMethod({
+          userId: user.id,
+          type,
+          userRepository,
+          authenticationMethodRepository,
+        });
 
         // then
         expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWithExactly({
@@ -89,7 +99,12 @@ describe('Unit | UseCase | remove-authentication-method', function () {
         authenticationMethodRepository.findByUserId.resolves(authenticationMethods);
 
         // when
-        await removeAuthenticationMethod({ userId: user.id, type, userRepository, authenticationMethodRepository });
+        await removeAuthenticationMethod({
+          userId: user.id,
+          type,
+          userRepository,
+          authenticationMethodRepository,
+        });
 
         // then
         expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.not.have.been.called;
@@ -108,14 +123,19 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       authenticationMethodRepository.findByUserId.resolves(authenticationMethods);
 
       // when
-      await removeAuthenticationMethod({ userId: user.id, type, userRepository, authenticationMethodRepository });
+      await removeAuthenticationMethod({
+        userId: user.id,
+        type,
+        userRepository,
+        authenticationMethodRepository,
+      });
 
       // then
       expect(userRepository.updateUsername).to.have.been.calledWithExactly({ id: user.id, username: null });
     });
 
     context('When user does not have an email', function () {
-      it('should remove PIX authentication method', async function () {
+      it('removes PIX authentication method', async function () {
         // given
         const user = domainBuilder.buildUser({ email: null });
         userRepository.get.resolves(user);
@@ -123,7 +143,12 @@ describe('Unit | UseCase | remove-authentication-method', function () {
         authenticationMethodRepository.findByUserId.resolves(authenticationMethods);
 
         // when
-        await removeAuthenticationMethod({ userId: user.id, type, userRepository, authenticationMethodRepository });
+        await removeAuthenticationMethod({
+          userId: user.id,
+          type,
+          userRepository,
+          authenticationMethodRepository,
+        });
 
         // then
         expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWithExactly({
@@ -142,7 +167,12 @@ describe('Unit | UseCase | remove-authentication-method', function () {
         authenticationMethodRepository.findByUserId.resolves(authenticationMethods);
 
         // when
-        await removeAuthenticationMethod({ userId: user.id, type, userRepository, authenticationMethodRepository });
+        await removeAuthenticationMethod({
+          userId: user.id,
+          type,
+          userRepository,
+          authenticationMethodRepository,
+        });
 
         // then
         expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.not.have.been.called;
@@ -153,7 +183,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
   context('When type is GAR', function () {
     const type = 'GAR';
 
-    it('should remove GAR authentication method', async function () {
+    it('removes GAR authentication method', async function () {
       // given
       const user = domainBuilder.buildUser();
       userRepository.get.resolves(user);
@@ -161,7 +191,12 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       authenticationMethodRepository.findByUserId.resolves(authenticationMethods);
 
       // when
-      await removeAuthenticationMethod({ userId: user.id, type, userRepository, authenticationMethodRepository });
+      await removeAuthenticationMethod({
+        userId: user.id,
+        type,
+        userRepository,
+        authenticationMethodRepository,
+      });
 
       // then
       expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWithExactly({
@@ -172,7 +207,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
   });
 
   context('When type is POLE_EMPLOI', function () {
-    it('should remove POLE_EMPLOI authentication method', async function () {
+    it('removes POLE_EMPLOI authentication method', async function () {
       // given
       const type = OidcIdentityProviders.POLE_EMPLOI.code;
       const user = domainBuilder.buildUser();
@@ -181,7 +216,12 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       authenticationMethodRepository.findByUserId.resolves(authenticationMethods);
 
       // when
-      await removeAuthenticationMethod({ userId: user.id, type, userRepository, authenticationMethodRepository });
+      await removeAuthenticationMethod({
+        userId: user.id,
+        type,
+        userRepository,
+        authenticationMethodRepository,
+      });
 
       // then
       expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWithExactly({
@@ -190,67 +230,31 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       });
     });
   });
-
-  context('When type is CNAV', function () {
-    it('should remove CNAV authentication method', async function () {
+  context('When type is a generic OIDC SSO', function () {
+    it('removes the identity provider authentication method', async function () {
       // given
-      const type = OidcIdentityProviders.CNAV.code;
+
+      const type = 'genericOidcProviderCode';
       const user = domainBuilder.buildUser();
       userRepository.get.resolves(user);
       const authenticationMethods = buildAllAuthenticationMethodsForUser(user.id);
       authenticationMethodRepository.findByUserId.resolves(authenticationMethods);
 
       // when
-      await removeAuthenticationMethod({ userId: user.id, type, userRepository, authenticationMethodRepository });
+      await removeAuthenticationMethod({
+        userId: user.id,
+        type,
+        userRepository,
+        authenticationMethodRepository,
+      });
 
       // then
       expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWithExactly({
         userId: user.id,
-        identityProvider: OidcIdentityProviders.CNAV.code,
+        identityProvider: type,
       });
     });
   });
-
-  context('When type is FWB', function () {
-    it('removes FWB authentication method', async function () {
-      // given
-      const type = OidcIdentityProviders.FWB.code;
-      const user = domainBuilder.buildUser();
-      userRepository.get.resolves(user);
-      const authenticationMethods = buildAllAuthenticationMethodsForUser(user.id);
-      authenticationMethodRepository.findByUserId.resolves(authenticationMethods);
-
-      // when
-      await removeAuthenticationMethod({ userId: user.id, type, userRepository, authenticationMethodRepository });
-
-      // then
-      expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWithExactly({
-        userId: user.id,
-        identityProvider: OidcIdentityProviders.FWB.code,
-      });
-    });
-  });
-
-  context('When type is PAYSDELALOIRE', function () {
-    it('removes PAYSDELALOIRE authentication method', async function () {
-      // given
-      const type = OidcIdentityProviders.PAYSDELALOIRE.code;
-      const user = domainBuilder.buildUser();
-      userRepository.get.resolves(user);
-      const authenticationMethods = buildAllAuthenticationMethodsForUser(user.id);
-      authenticationMethodRepository.findByUserId.resolves(authenticationMethods);
-
-      // when
-      await removeAuthenticationMethod({ userId: user.id, type, userRepository, authenticationMethodRepository });
-
-      // then
-      expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWithExactly({
-        userId: user.id,
-        identityProvider: OidcIdentityProviders.PAYSDELALOIRE.code,
-      });
-    });
-  });
-
   context('When there is only one remaining authentication method', function () {
     it('should throw a UserNotAuthorizedToRemoveAuthenticationMethod', async function () {
       // given

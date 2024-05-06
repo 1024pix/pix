@@ -4,7 +4,6 @@ import bluebird from 'bluebird';
 import _ from 'lodash';
 
 import { disconnect } from '../../db/knex-database-connection.js';
-import { FWB } from '../../lib/domain/constants/oidc-identity-providers.js';
 import { usecases } from '../../lib/domain/usecases/index.js';
 import { checkCsvHeader, parseCsvWithHeader } from '../helpers/csvHelpers.js';
 
@@ -53,7 +52,7 @@ async function main() {
     try {
       await usecases.updateAuthenticationComplement({
         externalIdentifier,
-        identityProvider: FWB.code,
+        identityProvider: 'FWB',
         authenticationComplement,
       });
     } catch (error) {

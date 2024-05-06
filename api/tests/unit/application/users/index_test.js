@@ -8,7 +8,7 @@ import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 const CODE_IDENTITY_PROVIDER_GAR = NON_OIDC_IDENTITY_PROVIDERS.GAR.code;
 const CODE_IDENTITY_PROVIDER_POLE_EMPLOI = OidcIdentityProviders.POLE_EMPLOI.code;
-const CODE_IDENTITY_PROVIDER_CNAV = OidcIdentityProviders.CNAV.code;
+const oidcProviderCode = 'genericOidcProviderCode';
 
 describe('Unit | Router | user-router', function () {
   describe('GET /api/users/me', function () {
@@ -931,33 +931,28 @@ describe('Unit | Router | user-router', function () {
 
     describe('POST /api/admin/users/{id}/remove-authentication', function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
-      [
-        CODE_IDENTITY_PROVIDER_GAR,
-        'EMAIL',
-        'USERNAME',
-        CODE_IDENTITY_PROVIDER_POLE_EMPLOI,
-        CODE_IDENTITY_PROVIDER_CNAV,
-      ].forEach((type) => {
-        it(`returns 200 when user is "SUPER_ADMIN" and type is ${type}`, async function () {
-          // given
-          sinon.stub(userController, 'removeAuthenticationMethod').returns('ok');
-          sinon
-            .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
-            .callsFake((request, h) => h.response(true));
-          sinon
-            .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
-            .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-          const httpTestServer = new HttpTestServer();
-          await httpTestServer.register(moduleUnderTest);
+      [CODE_IDENTITY_PROVIDER_GAR, 'EMAIL', 'USERNAME', CODE_IDENTITY_PROVIDER_POLE_EMPLOI, oidcProviderCode].forEach(
+        (type) => {
+          it(`returns 200 when user is "SUPER_ADMIN" and type is ${type}`, async function () {
+            // given
+            sinon.stub(userController, 'removeAuthenticationMethod').returns('ok');
+            sinon
+              .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+              .callsFake((request, h) => h.response(true));
+            sinon
+              .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+              .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+            const httpTestServer = new HttpTestServer();
+            await httpTestServer.register(moduleUnderTest);
 
-          // when
-          const result = await httpTestServer.request('POST', '/api/admin/users/1/remove-authentication', {
-            data: {
-              attributes: {
-                type,
+            // when
+            const result = await httpTestServer.request('POST', '/api/admin/users/1/remove-authentication', {
+              data: {
+                attributes: {
+                  type,
+                },
               },
-            },
-          });
+            });
 
             // then
             expect(result.statusCode).to.equal(200);
@@ -966,24 +961,26 @@ describe('Unit | Router | user-router', function () {
             sinon.assert.calledOnce(userController.removeAuthenticationMethod);
           });
 
-        it(`returns 200 when user is "SUPPORT" and type is ${type}`, async function () {
-          // given
-          sinon.stub(userController, 'removeAuthenticationMethod').returns('ok');
-          sinon
-            .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
-            .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-          sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport').callsFake((request, h) => h.response(true));
-          const httpTestServer = new HttpTestServer();
-          await httpTestServer.register(moduleUnderTest);
+          it(`returns 200 when user is "SUPPORT" and type is ${type}`, async function () {
+            // given
+            sinon.stub(userController, 'removeAuthenticationMethod').returns('ok');
+            sinon
+              .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+              .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+            sinon
+              .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+              .callsFake((request, h) => h.response(true));
+            const httpTestServer = new HttpTestServer();
+            await httpTestServer.register(moduleUnderTest);
 
-          // when
-          const result = await httpTestServer.request('POST', '/api/admin/users/1/remove-authentication', {
-            data: {
-              attributes: {
-                type,
+            // when
+            const result = await httpTestServer.request('POST', '/api/admin/users/1/remove-authentication', {
+              data: {
+                attributes: {
+                  type,
+                },
               },
-            },
-          });
+            });
 
             // then
             expect(result.statusCode).to.equal(200);
@@ -1043,7 +1040,7 @@ describe('Unit | Router | user-router', function () {
 
     describe('POST /api/admin/users/{userId}/authentication-methods/{authenticationMethodId}', function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
-      [CODE_IDENTITY_PROVIDER_GAR, CODE_IDENTITY_PROVIDER_POLE_EMPLOI, CODE_IDENTITY_PROVIDER_CNAV].forEach((identityProvider) => {
+      [CODE_IDENTITY_PROVIDER_GAR, CODE_IDENTITY_PROVIDER_POLE_EMPLOI, oidcProviderCode].forEach((identityProvider) => {
         it(`returns 204 when user role is "SUPER_ADMIN" and identity provider is "${identityProvider}"`, async function () {
           // given
           sinon
@@ -1065,12 +1062,12 @@ describe('Unit | Router | user-router', function () {
             },
           };
 
-            // when
-            const { statusCode } = await httpTestServer.request(
-              'POST',
-              '/api/admin/users/1/authentication-methods/1',
-              payload,
-            );
+          // when
+          const { statusCode } = await httpTestServer.request(
+            'POST',
+            '/api/admin/users/1/authentication-methods/1',
+            payload,
+          );
 
           // then
           expect(statusCode).to.equal(204);
@@ -1098,12 +1095,12 @@ describe('Unit | Router | user-router', function () {
             },
           };
 
-            // when
-            const { statusCode } = await httpTestServer.request(
-              'POST',
-              '/api/admin/users/1/authentication-methods/1',
-              payload,
-            );
+          // when
+          const { statusCode } = await httpTestServer.request(
+            'POST',
+            '/api/admin/users/1/authentication-methods/1',
+            payload,
+          );
 
           // then
           expect(statusCode).to.equal(204);

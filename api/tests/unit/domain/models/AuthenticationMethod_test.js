@@ -76,12 +76,12 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
       ).not.to.throw(ObjectValidationError);
     });
 
-    it('should successfully instantiate object when identityProvider is CNAV and externalIdentifier is defined', function () {
+    it('should successfully instantiate object when identityProvider is generic and externalIdentifier is defined', function () {
       // given & when & then
       expect(
         () =>
           new AuthenticationMethod({
-            identityProvider: OidcIdentityProviders.CNAV.code,
+            identityProvider: 'genericOidcProviderCode',
             externalIdentifier: 'externalIdentifier',
             userId: 1,
           }),
@@ -108,7 +108,7 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
       ).to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when externalIdentifier is not defined for identityProvider GAR, POLE_EMPLOI or CNAV', function () {
+    it('should throw an ObjectValidationError when externalIdentifier is not defined for identityProvider GAR, POLE_EMPLOI or generic', function () {
       // when
       expect(
         () =>
@@ -129,7 +129,7 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
       expect(
         () =>
           new AuthenticationMethod({
-            identityProvider: OidcIdentityProviders.CNAV.code,
+            identityProvider: 'genericOidcProviderCode',
             externalIdentifier: undefined,
             userId: 1,
           }),

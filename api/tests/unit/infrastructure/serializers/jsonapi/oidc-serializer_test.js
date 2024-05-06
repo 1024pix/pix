@@ -8,7 +8,7 @@ describe('Unit | Serializer | JSONAPI | oidc-serializer', function () {
       const authenticationMethods = [
         { identityProvider: 'PIX', userId: 1 },
         { identityProvider: 'PIX', userId: 1 },
-        { identityProvider: 'CNAV', userId: 1 },
+        { identityProvider: 'genericOidcProviderCode', userId: 1 },
       ];
       const authenticationContent = {
         fullNameFromPix: 'Sarah Pix',
@@ -32,7 +32,7 @@ describe('Unit | Serializer | JSONAPI | oidc-serializer', function () {
             'authentication-methods': [
               { identityProvider: 'PIX', userId: 1 },
               { identityProvider: 'PIX', userId: 1 },
-              { identityProvider: 'CNAV', userId: 1 },
+              { identityProvider: 'genericOidcProviderCode', userId: 1 },
             ],
           },
           type: 'user-oidc-authentication-requests',

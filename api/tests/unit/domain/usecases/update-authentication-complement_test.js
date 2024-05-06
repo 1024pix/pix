@@ -10,7 +10,7 @@ describe('unit | domain | usecases | update-authentication-complement', function
       update: sinon.stub().resolves(),
     };
     const externalIdentifier = 'externalIdentifier';
-    const identityProvider = 'FWB';
+    const identityProvider = 'genericOidcProviderCode';
     const authenticationComplement = {};
     const id = 1;
     const authenticationMethod = domainBuilder.buildAuthenticationMethod.withIdentityProvider({
@@ -42,7 +42,7 @@ describe('unit | domain | usecases | update-authentication-complement', function
         findOneByExternalIdentifierAndIdentityProvider: sinon.stub(),
       };
       const externalIdentifier = 'externalIdentifier';
-      const identityProvider = 'FWB';
+      const identityProvider = 'genericOidcProviderCode';
       const authenticationComplement = {};
 
       authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider.resolves(null);

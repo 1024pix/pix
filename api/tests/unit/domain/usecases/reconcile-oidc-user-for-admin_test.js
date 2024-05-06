@@ -1,4 +1,3 @@
-import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 import { AuthenticationKeyExpired, DifferentExternalIdentifierError } from '../../../../lib/domain/errors.js';
 import { AuthenticationMethod } from '../../../../lib/domain/models/index.js';
 import { reconcileOidcUserForAdmin } from '../../../../lib/domain/usecases/reconcile-oidc-user-for-admin.js';
@@ -10,7 +9,7 @@ describe('Unit | UseCase | reconcile-oidc-user-for-admin', function () {
     userLoginRepository,
     authenticationSessionService,
     oidcAuthenticationService;
-  const identityProvider = 'GOOGLE';
+  const identityProvider = 'genericOidcProviderCode';
 
   beforeEach(function () {
     authenticationMethodRepository = { create: sinon.stub(), findOneByUserIdAndIdentityProvider: sinon.stub() };
@@ -150,7 +149,7 @@ describe('Unit | UseCase | reconcile-oidc-user-for-admin', function () {
       // given
       const oidcAuthenticationMethod = domainBuilder.buildAuthenticationMethod.withIdentityProvider({
         externalIdentifier: '789fge',
-        identityProvider: OidcIdentityProviders.GOOGLE.code,
+        identityProvider: 'genericOidcProviderCode',
       });
       userRepository.getByEmail.resolves({ email: 'anne@example.net', id: 1 });
       authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(oidcAuthenticationMethod);
@@ -163,7 +162,7 @@ describe('Unit | UseCase | reconcile-oidc-user-for-admin', function () {
       const error = await catchErr(reconcileOidcUserForAdmin)({
         authenticationKey: 'authenticationKey',
         email: 'anne@example.net',
-        identityProvider: 'GOOGLE',
+        identityProvider: 'genericOidcProviderCode',
         oidcAuthenticationService,
         authenticationSessionService,
         authenticationMethodRepository,
