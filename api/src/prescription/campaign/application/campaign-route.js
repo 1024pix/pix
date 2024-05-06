@@ -7,11 +7,11 @@ const register = async function (server) {
   server.route([
     {
       method: 'GET',
-      path: '/api/campaigns/{id}/divisions',
+      path: '/api/campaigns/{campaignId}/divisions',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.campaignId,
+            campaignId: identifiersType.campaignId,
           }),
         },
         handler: campaignController.division,

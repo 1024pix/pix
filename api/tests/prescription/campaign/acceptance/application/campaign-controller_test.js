@@ -12,7 +12,7 @@ describe('Acceptance | API | Campaign Controller', function () {
     server = await createServer();
   });
 
-  describe('GET /api/campaigns/{id}/divisions', function () {
+  describe('GET /api/campaigns/{campaignId}/divisions', function () {
     it('should return the campaign participants division', async function () {
       const division = '3emeA';
       const campaign = databaseBuilder.factory.buildCampaign();

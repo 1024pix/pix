@@ -3,7 +3,7 @@ import * as moduleUnderTest from '../../../../../src/prescription/campaign/appli
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Application | Router | campaign-router ', function () {
-  describe('GET /api/campaigns/{id}/divisions', function () {
+  describe('GET /api/campaigns/{campaignId}/divisions', function () {
     it('should return 200', async function () {
       // given
       sinon.stub(campaignController, 'division').callsFake((request, h) => h.response('ok').code(200));

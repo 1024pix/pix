@@ -3,7 +3,7 @@ import * as divisionSerializer from '../infrastructure/serializers/jsonapi/divis
 
 const division = async function (request) {
   const { userId } = request.auth.credentials;
-  const campaignId = request.params.id;
+  const campaignId = request.params.campaignId;
 
   const divisions = await usecases.getParticipantsDivision({ userId, campaignId });
   return divisionSerializer.serialize(divisions);
