@@ -16,58 +16,6 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
     };
   });
 
-  describe('#getAllIdentityProvidersForAdmin', function () {
-    it('returns the list of oidc identity providers', async function () {
-      // given
-      sinon.stub(usecases, 'getAllIdentityProviders').returns([
-        {
-          code: 'LIMONADE_OIDC_PROVIDER',
-          source: 'limonade_oidc_provider',
-          organizationName: 'Limonade OIDC Provider',
-          slug: 'limonade-oidc-provider',
-          shouldCloseSession: false,
-        },
-        {
-          code: 'KOMBUCHA_OIDC_PROVIDER',
-          source: 'kombucha_oidc_provider',
-          organizationName: 'Kombucha OIDC Provider',
-          slug: 'kombucha-oidc-provider',
-          shouldCloseSession: true,
-        },
-      ]);
-
-      // when
-      const response = await oidcController.getAllIdentityProvidersForAdmin(null, hFake);
-
-      // then
-      expect(usecases.getAllIdentityProviders).to.have.been.called;
-      expect(response.statusCode).to.equal(200);
-      expect(response.source.data.length).to.equal(2);
-      expect(response.source.data).to.deep.equal([
-        {
-          type: 'oidc-identity-providers',
-          id: 'limonade-oidc-provider',
-          attributes: {
-            code: 'LIMONADE_OIDC_PROVIDER',
-            'organization-name': 'Limonade OIDC Provider',
-            'should-close-session': false,
-            source: 'limonade_oidc_provider',
-          },
-        },
-        {
-          type: 'oidc-identity-providers',
-          id: 'kombucha-oidc-provider',
-          attributes: {
-            code: 'KOMBUCHA_OIDC_PROVIDER',
-            'organization-name': 'Kombucha OIDC Provider',
-            'should-close-session': true,
-            source: 'kombucha_oidc_provider',
-          },
-        },
-      ]);
-    });
-  });
-
   describe('#getIdentityProviders', function () {
     it('returns the list of oidc identity providers', async function () {
       // given

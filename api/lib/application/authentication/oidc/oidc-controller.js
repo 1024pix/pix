@@ -4,11 +4,6 @@ import { oidcAuthenticationServiceRegistry, usecases } from '../../../domain/use
 import * as oidcSerializer from '../../../infrastructure/serializers/jsonapi/oidc-serializer.js';
 import { BadRequestError, UnauthorizedError } from '../../http-errors.js';
 
-const getAllIdentityProvidersForAdmin = async function (request, h) {
-  const identityProviders = await usecases.getAllIdentityProviders();
-  return h.response(oidcProviderSerializer.serialize(identityProviders)).code(200);
-};
-
 const getIdentityProviders = async function (request, h) {
   const audience = request.query.audience;
   const identityProviders = await usecases.getReadyIdentityProviders({ audience });
@@ -212,7 +207,6 @@ const oidcController = {
   authenticateUser,
   createUser,
   findUserForReconciliation,
-  getAllIdentityProvidersForAdmin,
   getAuthorizationUrl,
   getIdentityProviders,
   getRedirectLogoutUrl,
