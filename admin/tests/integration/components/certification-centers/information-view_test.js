@@ -47,8 +47,8 @@ module('Integration | Component | certification-centers/information-view', funct
     assert.dom(screen.getByText('Identifiant externe :')).exists();
     assert.dom(screen.getByText('Centre SCO')).exists();
     assert.dom(screen.getByText('AX129')).exists();
-    assert.dom(screen.getByText('Nom du : Lucky Number')).exists();
-    assert.dom(screen.getByText('Adresse e-mail du : lucky@example.net')).exists();
+    assert.dom(screen.getByText('Lucky Number')).exists();
+    assert.dom(screen.getByText('lucky@example.net')).exists();
     assert.strictEqual(screen.getAllByTitle('Délégué à la protection des données').length, 2);
     assert.dom(screen.getByLabelText('Habilité pour Pix+Droit')).exists();
     assert.dom(screen.getByLabelText('Non-habilité pour Cléa')).exists();
@@ -91,7 +91,7 @@ module('Integration | Component | certification-centers/information-view', funct
       );
 
       // then
-      assert.dom(screen.getByText('Pilote certification V3 : Oui')).exists();
+      assert.dom(screen.getByLabelText('Habilité pour pilote certification V3')).exists();
     });
   });
 
@@ -114,7 +114,53 @@ module('Integration | Component | certification-centers/information-view', funct
       );
 
       // then
-      assert.dom(screen.getByText('Pilote certification V3 : Non')).exists();
+      assert.dom(screen.getByLabelText('Non habilité pour pilote certification V3')).exists();
+    });
+  });
+
+  module('certification center is complementary alone pilot', function () {
+    test('it should display that the certification center is complementary alone pilot', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+
+      const certificationCenter = store.createRecord('certification-center', {
+        type: 'SCO',
+        isComplementaryAlonePilot: true,
+      });
+      this.certificationCenter = certificationCenter;
+
+      // when
+      const screen = await render(
+        hbs`<CertificationCenters::InformationView
+  @certificationCenter={{this.certificationCenter}}
+/>`,
+      );
+
+      // then
+      assert.dom(screen.getByLabelText('Habilité pour pilote séparation Pix/Pix+')).exists();
+    });
+  });
+
+  module('certification center is NOT complementary alone pilot', function () {
+    test('it should display that the certification center is NOT complementary alone pilot', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+
+      const certificationCenter = store.createRecord('certification-center', {
+        type: 'SCO',
+        isComplementaryAlonePilot: false,
+      });
+      this.certificationCenter = certificationCenter;
+
+      // when
+      const screen = await render(
+        hbs`<CertificationCenters::InformationView
+  @certificationCenter={{this.certificationCenter}}
+/>`,
+      );
+
+      // then
+      assert.dom(screen.getByLabelText('Non habilité pour pilote séparation Pix/Pix+')).exists();
     });
   });
 });

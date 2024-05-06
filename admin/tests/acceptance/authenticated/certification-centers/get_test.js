@@ -138,8 +138,8 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       assert.dom(screen.getByRole('heading', { name: 'nouveau nom', level: 2 })).exists();
       assert.dom(screen.getByText('Établissement supérieur')).exists();
       assert.dom(screen.getByText('nouvel identifiant externe')).exists();
-      assert.dom(screen.getByText('Nom du : Justin Ptipeu')).exists();
-      assert.dom(screen.getByText('Adresse e-mail du : justin.ptipeu@example.net')).exists();
+      assert.dom(screen.getByText('Justin Ptipeu')).exists();
+      assert.dom(screen.getByText('justin.ptipeu@example.net')).exists();
       assert.strictEqual(screen.getAllByTitle('Délégué à la protection des données').length, 2);
     });
 

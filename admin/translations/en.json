@@ -191,7 +191,13 @@
   "pages": {
     "certification-centers": {
       "information-view": {
-        "is-v3-pilot": "V3 certification pilot"
+        "feature-habilitations": {
+          "title": "Feature habilitations:",
+          "labels": {
+            "is-complementary-alone-pilot": "Pix/Pix+ separation pilot",
+            "is-v3-pilot": "V3 certification pilot"
+          }
+        }
       },
       "notifications": {
         "failure": {
