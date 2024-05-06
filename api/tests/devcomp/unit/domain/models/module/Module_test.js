@@ -102,15 +102,20 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
         const id = 1;
         const slug = 'les-adresses-email';
         const title = 'Les adresses email';
-        const element = { id: elementId };
-        // ToDo PIX-12363 migrate to components
-        const expectedGrain = { elements: [element] };
+        const component = { type: 'element', element: { id: elementId } };
+        const expectedGrain = {
+          components: [component],
+        };
         const details = Symbol('details');
 
         // when
-        const foundGrain = new Module({ id, slug, title, grains: [expectedGrain], details }).getGrainByElementId(
-          elementId,
-        );
+        const foundGrain = new Module({
+          id,
+          slug,
+          title,
+          grains: [expectedGrain],
+          details,
+        }).getGrainByElementId(elementId);
 
         // then
         expect(foundGrain).to.deep.equal(expectedGrain);
@@ -122,9 +127,10 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
         const id = 1;
         const slug = 'les-adresses-email';
         const title = 'Les adresses email';
-        const element = { id: elementId };
-        // ToDo PIX-12363 migrate to components
-        const grain = { elements: [element] };
+        const component = { type: 'element', element: { id: elementId } };
+        const grain = {
+          components: [component],
+        };
         const details = Symbol('details');
         const module = new Module({ id, slug, title, grains: [grain], details });
 
@@ -702,7 +708,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
     });
   });
 
-  describe.only('#toDomainForVerification', function () {
+  describe('#toDomainForVerification', function () {
     it('should throw an ModuleInstantiationError if data is incorrect', function () {
       // given
       const feedbacks = { valid: 'valid', invalid: 'invalid' };

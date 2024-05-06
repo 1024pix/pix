@@ -175,8 +175,8 @@ class Module {
 
   getGrainByElementId(elementId) {
     const foundGrain = this.grains.find((grain) => {
-      // ToDo PIX-12363 migrate to components
-      const isElementFound = grain.elements.some((element) => element.id === elementId);
+      const componentElements = grain.components.filter((component) => component.type === 'element');
+      const isElementFound = componentElements.some(({ element }) => element.id === elementId);
 
       return isElementFound;
     });
