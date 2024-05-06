@@ -30,8 +30,7 @@ async function getAllIdentityProvidersForAdmin(request, h) {
 }
 
 /**
- * @typedef OidcProviderController
- * @type {object}
+ * @typedef {Object} OidcProviderAdminController
  * @property {createInBatch} createInBatch
  * @property {getAllIdentityProvidersForAdmin} getAllIdentityProvidersForAdmin
  */
