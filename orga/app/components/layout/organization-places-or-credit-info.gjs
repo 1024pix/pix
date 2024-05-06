@@ -27,7 +27,7 @@ export default class OrganizationPlacesOrCreditInfo extends Component {
         {{/if}}
       </div>
     {{else if this.canShowCredit}}
-      <div class="organization-places-or-credit-info hide-on-mobile">
+      <div class="organization-places-or-credit-info organization-places-or-credit-info--inline hide-on-mobile">
         <span>{{t "navigation.credits.number" count=this.currentUser.organization.credit}}</span>
 
         <PixTooltip @id="credit-info-tooltip" @position="bottom-left" @isWide={{true}} @isLight={{true}}>
