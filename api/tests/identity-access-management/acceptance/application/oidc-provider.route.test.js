@@ -1,4 +1,4 @@
-import { createServer, expect } from '../../../test-helper.js';
+import { createServer, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 
 describe('Acceptance | Identity Access Management | Application | Route | oidc-provider', function () {
   let server;
@@ -32,6 +32,26 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
           },
         },
       ]);
+    });
+  });
+
+  describe('GET /api/oidc/redirect-logout-url', function () {
+    it('returns an object which contains the redirect logout url with HTTP status code 200', async function () {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/oidc/redirect-logout-url?identity_provider=OIDC_EXAMPLE_NET&logout_url_uuid=86e1338f-304c-41a8-9472-89fe1b9748a1',
+        headers: { authorization: generateValidRequestAuthorizationHeader() },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.redirectLogoutUrl).to.equal(
+        'https://oidc.example.net/ea5ac20c-5076-4806-860a-b0aeb01645d4/oauth2/v2.0/logout?client_id=client',
+      );
     });
   });
 });
