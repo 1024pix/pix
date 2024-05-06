@@ -1,5 +1,33 @@
 # Pix Changelog
 
+## v4.142.0 (06/05/2024)
+
+
+### :rocket: Amélioration
+- [#8798](https://github.com/1024pix/pix/pull/8798) [FEATURE] Conditionner l'affichage de la séparation pix/pix+ dans la modale d'ajout de candidat sur Pix Certif (PIX-12214).
+- [#8828](https://github.com/1024pix/pix/pull/8828) [FEATURE] ajoute une route pour récupérer les participations d'un prescrit à une campagne (PIX-11638).
+- [#8832](https://github.com/1024pix/pix/pull/8832) [FEATURE] Retirer l'enquête Sco dans le bandeau du dashboard (PIX-12345).
+- [#8826](https://github.com/1024pix/pix/pull/8826) [FEATURE] Affiche les épreuves contenant des illustrations/embed et un formulaire sur 2 colonnes (PIX-11513).
+- [#8823](https://github.com/1024pix/pix/pull/8823) [FEATURE] Supporter l'affichage des `components` (PIX-12364) (PIX-12023).
+
+### :building_construction: Tech
+- [#8830](https://github.com/1024pix/pix/pull/8830) [TECH] Ajouter un test manquant sur les custom required claims (PIX-12401).
+- [#8834](https://github.com/1024pix/pix/pull/8834) [TECH] Déplacer la route `/api/admin/target-profiles/{id}/detach-organizations` dans son BC (Pix-12422).
+- [#8742](https://github.com/1024pix/pix/pull/8742) [TECH] Migrer les erreurs du domaine Evaluation (PIX-12295).
+- [#8793](https://github.com/1024pix/pix/pull/8793) [TECH] Monter la version de pix-ui.
+- [#8751](https://github.com/1024pix/pix/pull/8751) [TECH] Ajout de la colonne de typage des souscriptions à une certification (PIX-1221).
+
+### :bug: Correction
+- [#8807](https://github.com/1024pix/pix/pull/8807) [BUGFIX][MON-PIX] Modifier l'URL du bandeau de politique de protection des données en néerlandais qui s'affiche lorsqu'elle a été modifié (PIX-11707).
+- [#8824](https://github.com/1024pix/pix/pull/8824) [BUGFIX] Permettre de contribuer des CFs anglophone (PIX-12348).
+
+### :arrow_up: Montée de version
+- [#8840](https://github.com/1024pix/pix/pull/8840) [BUMP] Update dependency @1024pix/pix-ui to ^45.4.1 (certif).
+- [#8838](https://github.com/1024pix/pix/pull/8838) [BUMP] Update dependency @1024pix/pix-ui to ^45.4.1 (mon-pix).
+
+### :coffee: Autre
+- [#8803](https://github.com/1024pix/pix/pull/8803) [ORGA] Afficher le décompte des places dans le header de l'application (PIX-12246).
+
 ## v4.141.0 (02/05/2024)
 
 
