@@ -46,6 +46,7 @@ import * as oidcProviderRepository from '../../../src/identity-access-management
 import * as organizationForAdminRepository from '../../../src/organizational-entities/infrastructure/repositories/organization-for-admin-repository.js';
 import * as campaignManagementRepository from '../../../src/prescription/campaign/infrastructure/repositories/campaign-management-repository.js';
 import * as campaignToJoinRepository from '../../../src/prescription/campaign/infrastructure/repositories/campaign-to-join-repository.js';
+import * as divisionRepository from '../../../src/prescription/campaign/infrastructure/repositories/division-repository.js';
 import * as campaignAssessmentParticipationRepository from '../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-assessment-participation-repository.js';
 import * as campaignAssessmentParticipationResultRepository from '../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-assessment-participation-result-repository.js';
 import * as campaignParticipationBCRepository from '../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
@@ -131,7 +132,6 @@ import * as complementaryCertificationHabilitationRepository from '../../infrast
 import * as countryRepository from '../../infrastructure/repositories/country-repository.js';
 import * as courseRepository from '../../infrastructure/repositories/course-repository.js';
 import * as dataProtectionOfficerRepository from '../../infrastructure/repositories/data-protection-officer-repository.js';
-import * as divisionRepository from '../../infrastructure/repositories/division-repository.js';
 import * as flashAssessmentResultRepository from '../../infrastructure/repositories/flash-assessment-result-repository.js';
 import * as frameworkRepository from '../../infrastructure/repositories/framework-repository.js';
 import * as groupRepository from '../../infrastructure/repositories/group-repository.js';
