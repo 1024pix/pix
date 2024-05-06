@@ -20,6 +20,10 @@ export default class NewCertificationCandidateModal extends Component {
     return this.currentUser.currentAllowedCertificationCenterAccess?.habilitations;
   }
 
+  get isComplementaryAlonePilot() {
+    return this.currentUser.currentAllowedCertificationCenterAccess?.isComplementaryAlonePilot;
+  }
+
   get billingMenuPlaceholder() {
     const labelTranslation = this.intl.t('common.actions.choose');
     return `-- ${labelTranslation} --`;

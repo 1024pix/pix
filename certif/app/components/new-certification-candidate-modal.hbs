@@ -268,24 +268,11 @@
       {{/if}}
 
       {{#if this.complementaryCertificationsHabilitations.length}}
-        <div class="new-certification-candidate-modal-form__field">
-          <fieldset id="complementary-certifications">
-            <legend class="label">
-              {{t "common.forms.certification-labels.additional-certification"}}
-            </legend>
-            <PixRadioButton name="complementary-certifications" {{on "change" this.updateComplementaryCertification}}>
-              <:label>{{t "common.labels.candidate.none"}}</:label>
-            </PixRadioButton>
-            {{#each this.complementaryCertificationsHabilitations as |complementaryCertificationHabilitation|}}
-              <PixRadioButton
-                name="complementary-certifications"
-                {{on "change" (fn this.updateComplementaryCertification complementaryCertificationHabilitation)}}
-              >
-                <:label>{{complementaryCertificationHabilitation.label}}</:label>
-              </PixRadioButton>
-            {{/each}}
-          </fieldset>
-        </div>
+        <ComplementaryCertificationOptions
+          @complementaryCertificationsHabilitations={{this.complementaryCertificationsHabilitations}}
+          @isComplementaryAlonePilot={{this.isComplementaryAlonePilot}}
+          @updateComplementaryCertification={{this.updateComplementaryCertification}}
+        />
       {{/if}}
     </form>
   </:content>

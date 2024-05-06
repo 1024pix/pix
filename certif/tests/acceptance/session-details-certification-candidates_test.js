@@ -547,11 +547,54 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
               assert.dom(within(rows[1]).getByRole('cell', { name: 'Prépayée 12345' })).exists();
             });
           });
+
+          module('when certificationPointOfContact has habilitations', function (hooks) {
+            const complementaryCertificationLabel = 'Lancer de hache';
+            let allowedCertificationCenterAccess;
+            let certificationPointOfContact;
+            let session;
+
+            hooks.beforeEach(async () => {
+              allowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
+                isAccessBlockedCollege: false,
+                isAccessBlockedLycee: false,
+                isAccessBlockedAEFE: false,
+                isAccessBlockedAgri: false,
+                habilitations: [{ id: 0, label: complementaryCertificationLabel, key: 'COMP_1' }],
+              });
+              certificationPointOfContact = server.create('certification-point-of-contact', {
+                firstName: 'Buffy',
+                lastName: 'Summers',
+                allowedCertificationCenterAccesses: [allowedCertificationCenterAccess],
+                pixCertifTermsOfServiceAccepted: true,
+              });
+              session = server.create('session', { certificationCenterId: allowedCertificationCenterAccess.id });
+              server.createList('country', 2, { code: '99100' });
+              await authenticateSession(certificationPointOfContact.id);
+            });
+
+            test('it should add a new candidate with complementary certifications', async function (assert) {
+              // when
+              const screen = await visit(`/sessions/${session.id}/candidats`);
+              await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
+              await screen.findByRole('dialog');
+              await _fillFormWithCorrectData(screen);
+              await click(screen.getByRole('radio', { name: complementaryCertificationLabel }));
+              await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
+              await settled();
+
+              // then
+              const table = screen.getByRole('table', {
+                name: 'Liste des candidats inscrits à la session, triée par nom de naissance, avec un lien pour voir les détails du candidat et la possibilité de supprimer un candidat dans la dernière colonne.',
+              });
+              const rows = await within(table).findAllByRole('row');
+              assert.dom(within(rows[1]).getByRole('cell', { name: complementaryCertificationLabel })).exists();
+            });
+          });
         });
       });
     });
   });
-
   async function _fillFormWithCorrectData(screen) {
     await fillIn(screen.getByRole('textbox', { name: 'Obligatoire Prénom' }), 'Guybrush');
     await fillIn(screen.getByRole('textbox', { name: 'Obligatoire Nom de naissance' }), 'Threepwood');

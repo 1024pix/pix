@@ -1,3 +1,4 @@
+import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -337,6 +338,50 @@ module('Unit | Component | new-certification-candidate-modal', function (hooks) 
 
       // then
       assert.strictEqual(typeof modal.args.candidateData.complementaryCertification, 'undefined');
+    });
+  });
+
+  module('#isComplementaryAlonePilot', function () {
+    module('when certification center is a complementary alone pilot', function () {
+      test('it should return true', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+          isComplementaryAlonePilot: true,
+        });
+        class CurrentUserStub extends Service {
+          currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
+        }
+
+        this.owner.register('service:current-user', CurrentUserStub);
+
+        // when
+        const isComplementaryAlonePilot = modal.isComplementaryAlonePilot;
+
+        // then
+        assert.true(isComplementaryAlonePilot);
+      });
+    });
+
+    module('when certification center is not a complementary alone pilot', function () {
+      test('it should return false', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+          isComplementaryAlonePilot: false,
+        });
+        class CurrentUserStub extends Service {
+          currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
+        }
+
+        this.owner.register('service:current-user', CurrentUserStub);
+
+        // when
+        const isComplementaryAlonePilot = modal.isComplementaryAlonePilot;
+
+        // then
+        assert.false(isComplementaryAlonePilot);
+      });
     });
   });
 });

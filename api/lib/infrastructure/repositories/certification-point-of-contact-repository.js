@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import { knex } from '../../../db/knex-database-connection.js';
+import { CERTIFICATION_FEATURES } from '../../../src/certification/shared/domain/constants.js';
 import { NotFoundError } from '../../domain/errors.js';
 import { AllowedCertificationCenterAccess } from '../../domain/read-models/AllowedCertificationCenterAccess.js';
 import { CertificationPointOfContact } from '../../domain/read-models/CertificationPointOfContact.js';
@@ -80,6 +81,9 @@ async function _findAllowedCertificationCenterAccesses(certificationCenterIds) {
         `array_agg(json_build_object('id', "complementary-certifications".id, 'label', "complementary-certifications".label, 'key', "complementary-certifications".key) order by "complementary-certifications".id)`,
       ),
       isV3Pilot: 'certification-centers.isV3Pilot',
+      isComplementaryAlonePilot: knex.raw(
+        'CASE WHEN count("complementaryCertificationAloneFeature"."certificationCenterId") > 0 THEN TRUE ELSE FALSE END',
+      ),
     })
     .from('certification-centers')
     .leftJoin('organizations', function () {
@@ -99,6 +103,21 @@ async function _findAllowedCertificationCenterAccesses(certificationCenterIds) {
       'complementary-certifications',
       'complementary-certifications.id',
       'complementary-certification-habilitations.complementaryCertificationId',
+    )
+    .leftJoin(
+      function () {
+        this.select('certificationCenterId')
+          .from('certification-center-features')
+          .innerJoin('features', function () {
+            this.on('certification-center-features.featureId', 'features.id').andOnVal(
+              'features.key',
+              CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key,
+            );
+          })
+          .as('complementaryCertificationAloneFeature');
+      },
+      'complementaryCertificationAloneFeature.certificationCenterId',
+      'certification-centers.id',
     )
     .whereIn('certification-centers.id', certificationCenterIds)
     .orderBy('certification-centers.id')

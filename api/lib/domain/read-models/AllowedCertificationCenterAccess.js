@@ -10,6 +10,7 @@ class AllowedCertificationCenterAccess {
     relatedOrganizationTags,
     habilitations,
     isV3Pilot,
+    isComplementaryAlonePilot,
   }) {
     this.id = id;
     this.name = name;
@@ -19,6 +20,7 @@ class AllowedCertificationCenterAccess {
     this.relatedOrganizationTags = relatedOrganizationTags;
     this.habilitations = habilitations;
     this.isV3Pilot = isV3Pilot;
+    this.isComplementaryAlonePilot = isComplementaryAlonePilot;
   }
 
   isAccessBlockedCollege() {

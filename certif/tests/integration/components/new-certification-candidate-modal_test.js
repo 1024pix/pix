@@ -84,8 +84,6 @@ module('Integration | Component | new-certification-candidate-modal', function (
       )
       .exists();
     assert.dom(screen.getByRole('textbox', { name: 'E-mail de convocation' })).exists();
-    assert.dom(screen.getByRole('radio', { name: 'Certif complémentaire 1' })).exists();
-    assert.dom(screen.getByRole('radio', { name: 'Certif complémentaire 2' })).exists();
   });
 
   test('it should have some inputs required', async function (assert) {
@@ -172,7 +170,6 @@ module('Integration | Component | new-certification-candidate-modal', function (
         }),
       );
       await click(screen.getByRole('radio', { name: 'Code INSEE' }));
-      await click(screen.getByRole('radio', { name: 'Certif complémentaire 1' }));
       await fillIn(screen.getByLabelText('Identifiant externe'), '44AA3355');
       await fillIn(screen.getByLabelText('* Code INSEE de naissance'), '75100');
       await fillIn(screen.getByLabelText('Temps majoré (%)'), '20');
@@ -198,7 +195,6 @@ module('Integration | Component | new-certification-candidate-modal', function (
         birthInseeCode: '75100',
         sex: 'M',
         extraTimePercentage: '20',
-        complementaryCertification: { id: 0, label: 'Certif complémentaire 1', key: 'COMP_1' },
       });
       assert.ok(true);
     });
