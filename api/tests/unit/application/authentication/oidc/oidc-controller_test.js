@@ -16,39 +16,6 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
     };
   });
 
-  describe('#getIdentityProviders', function () {
-    it('returns the list of oidc identity providers', async function () {
-      // given
-      sinon.stub(usecases, 'getReadyIdentityProviders').returns([
-        {
-          code: 'SOME_OIDC_PROVIDER',
-          source: 'some_oidc_provider',
-          organizationName: 'Some OIDC Provider',
-          slug: 'some-oidc-provider',
-          shouldCloseSession: false,
-        },
-      ]);
-
-      // when
-      const response = await oidcController.getIdentityProviders({ query: { audience: null } }, hFake);
-
-      // then
-      expect(usecases.getReadyIdentityProviders).to.have.been.called;
-      expect(response.statusCode).to.equal(200);
-      expect(response.source.data.length).to.equal(1);
-      expect(response.source.data).to.deep.contain({
-        type: 'oidc-identity-providers',
-        id: 'some-oidc-provider',
-        attributes: {
-          code: 'SOME_OIDC_PROVIDER',
-          source: 'some_oidc_provider',
-          'organization-name': 'Some OIDC Provider',
-          'should-close-session': false,
-        },
-      });
-    });
-  });
-
   describe('#getRedirectLogoutUrl', function () {
     it('calls the oidc authentication service retrieved from his code to generate the redirect logout url', async function () {
       // given

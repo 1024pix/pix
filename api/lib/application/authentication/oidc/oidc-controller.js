@@ -1,14 +1,7 @@
 import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
-import * as oidcProviderSerializer from '../../../../src/identity-access-management/infrastructure/serializers/jsonapi/oidc-identity-providers.serializer.js';
 import { oidcAuthenticationServiceRegistry, usecases } from '../../../domain/usecases/index.js';
 import * as oidcSerializer from '../../../infrastructure/serializers/jsonapi/oidc-serializer.js';
 import { BadRequestError, UnauthorizedError } from '../../http-errors.js';
-
-const getIdentityProviders = async function (request, h) {
-  const audience = request.query.audience;
-  const identityProviders = await usecases.getReadyIdentityProviders({ audience });
-  return h.response(oidcProviderSerializer.serialize(identityProviders)).code(200);
-};
 
 const getRedirectLogoutUrl = async function (
   request,
@@ -208,7 +201,6 @@ const oidcController = {
   createUser,
   findUserForReconciliation,
   getAuthorizationUrl,
-  getIdentityProviders,
   getRedirectLogoutUrl,
   reconcileUser,
   reconcileUserForAdmin,
