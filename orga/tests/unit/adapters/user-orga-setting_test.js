@@ -42,7 +42,7 @@ module('Unit | Adapters | user-orga-setting', function (hooks) {
         const snapshot = {
           id: 1,
           adapterOptions: { userId },
-          serialize: function () {},
+          serialize: () => ({}),
         };
 
         // when
@@ -82,7 +82,7 @@ module('Unit | Adapters | user-orga-setting', function (hooks) {
         const snapshot = {
           id: 1,
           adapterOptions: { userId },
-          serialize: function () {},
+          serialize: () => ({}),
         };
 
         // when

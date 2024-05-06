@@ -30,7 +30,7 @@ module('Unit | Adapter | membership', function (hooks) {
     module('when disabled adapter option is provided', function () {
       test('it should trigger a POST request to /memberships/{id}/disable', async function (assert) {
         // when
-        const data = Symbol('membership');
+        const data = {};
         await adapter.updateRecord(
           {},
           { modelName: 'membership' },

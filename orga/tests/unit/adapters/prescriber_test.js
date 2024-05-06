@@ -13,10 +13,10 @@ module('Unit | Adapters | prescriber', function (hooks) {
     adapter.set('ajax', ajaxStub);
   });
 
-  module('#urlForQueryRecord', function () {
+  module('#urlForFindRecord', function () {
     test('should add /prescription inside prescriber query record', function (assert) {
       // when
-      const url = adapter.urlForQueryRecord(2);
+      const url = adapter.urlForFindRecord(2);
 
       // then
       assert.ok(url.endsWith('/prescription/prescribers/2'));
