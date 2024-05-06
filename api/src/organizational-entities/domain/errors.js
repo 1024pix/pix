@@ -12,4 +12,37 @@ class UnableToAttachChildOrganizationToParentOrganizationError extends DomainErr
   }
 }
 
-export { UnableToAttachChildOrganizationToParentOrganizationError };
+class AlreadyExistingOrganizationFeatureError extends DomainError {
+  constructor({
+    code = 'ALREADY_EXISTING_ORGANIZATION_FEATURE',
+    message = 'Unable to add feature to organization',
+    meta,
+  } = {}) {
+    super(message);
+    this.code = code;
+    this.meta = meta;
+  }
+}
+
+class OrganizationNotFound extends DomainError {
+  constructor({ code = 'ORGANIZATION_NOT_FOUND', message = 'Organization does not exist', meta } = {}) {
+    super(message);
+    this.code = code;
+    this.meta = meta;
+  }
+}
+
+class FeatureNotFound extends DomainError {
+  constructor({ code = 'FEATURE_NOT_FOUND', message = 'Feature does not exist', meta } = {}) {
+    super(message);
+    this.code = code;
+    this.meta = meta;
+  }
+}
+
+export {
+  AlreadyExistingOrganizationFeatureError,
+  FeatureNotFound,
+  OrganizationNotFound,
+  UnableToAttachChildOrganizationToParentOrganizationError,
+};
