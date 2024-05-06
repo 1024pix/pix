@@ -13,6 +13,7 @@ class CertificationCenterForAdmin {
     dataProtectionOfficerLastName,
     dataProtectionOfficerEmail,
     isV3Pilot = false,
+    isComplementaryAlonePilot = false,
   } = {}) {
     this.id = id;
     this.name = name;
@@ -25,6 +26,7 @@ class CertificationCenterForAdmin {
     this.dataProtectionOfficerLastName = dataProtectionOfficerLastName;
     this.dataProtectionOfficerEmail = dataProtectionOfficerEmail;
     this.isV3Pilot = isV3Pilot;
+    this.isComplementaryAlonePilot = isComplementaryAlonePilot;
   }
 
   get isSco() {
