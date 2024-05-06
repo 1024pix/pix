@@ -48,49 +48,55 @@
       "id": "da95d2bc-e597-4366-a095-21f7ab0f4845",
       "type": "activity",
       "title": "Wikipédia : un site de référence !",
-      "elements": [
+      "components": [
         {
-          "id": "30b9ada4-a87a-4dfb-baa2-d97925b0bba5",
-          "type": "text",
-          "content": "<p>Depuis sa création en 2001, Wikipédia a fait évoluer son logo à trois reprises.<br> Aujourd'hui, le logo représente un globe composé de pièces de puzzle avec différents symboles.</p>"
+          "type": "element",
+          "element": {
+            "id": "30b9ada4-a87a-4dfb-baa2-d97925b0bba5",
+            "type": "text",
+            "content": "<p>Depuis sa création en 2001, Wikipédia a fait évoluer son logo à trois reprises.<br> Aujourd'hui, le logo représente un globe composé de pièces de puzzle avec différents symboles.</p>"
+          }
         },
         {
-          "id": "a4a95061-c1c4-475a-9cb8-c64928d40b8c",
-          "type": "image",
-          "url": "https://i.imgur.com/q1pokb5.png",
-          "alt": "Logos de Wikipédia de 2001 à 2010 décrits en alternative textuelle.",
-          "alternativeText": "Chronologie des logos de Wikipédia depuis sa création :<ul><li>2001 : image représentant un globe sur lequel est inscrit un article d'encyclopédie en langue anglaise. Deux segments noirs verticaux découpent le globe en trois morceaux.</li><li>2001 à 2003 : image représentant un globe sur lequel est inscrit un article d'encyclopédie en langue anglaise. Le nom \"Wikipédia\" est centré sous le globe, en lettres capitales. En dessous, le sous-titre \"The Free Encyclopedia\" est également centré et en caractères de taille plus petite.</li><li>2003 à 2010 : image représentant un globe incomplet constitué de pièces de puzzle. Sur chacune des pièces de puzzle figure un caractère de différents systèmes d'écriture, dont une lettre W en majuscule de l'alphabet latin. Le nom \"Wikipédia\" est centré sous le globe, en lettres capitales. En dessous, le sous-titre \"The Free Encyclopedia\" est également centré et en caractères de taille plus petite et en italiques.</li><li>depuis 2010 : les éléments sont quasiment identiques au logo de 2003 à 2010. La seule différence est le sous-titre qui n'est plus en italiques.</li></ul><p>Source : <a href=\"https://fr.wikipedia.org/wiki/Logo_de_Wikip%C3%A9dia\" target=\"_blank\">https://fr.wikipedia.org/wiki/Logo_de_Wikip%C3%A9dia</a></p><p>Licence : CC BY-SA 3.0 DEED</p>"
+          "type": "element",
+          "element": {
+            "id": "a4a95061-c1c4-475a-9cb8-c64928d40b8c",
+            "type": "image",
+            "url": "https://i.imgur.com/q1pokb5.png",
+            "alt": "Logos de Wikipédia de 2001 à 2010 décrits en alternative textuelle.",
+            "alternativeText": "Chronologie des logos de Wikipédia depuis sa création :<ul><li>2001 : image représentant un globe sur lequel est inscrit un article d'encyclopédie en langue anglaise. Deux segments noirs verticaux découpent le globe en trois morceaux.</li><li>2001 à 2003 : image représentant un globe sur lequel est inscrit un article d'encyclopédie en langue anglaise. Le nom \"Wikipédia\" est centré sous le globe, en lettres capitales. En dessous, le sous-titre \"The Free Encyclopedia\" est également centré et en caractères de taille plus petite.</li><li>2003 à 2010 : image représentant un globe incomplet constitué de pièces de puzzle. Sur chacune des pièces de puzzle figure un caractère de différents systèmes d'écriture, dont une lettre W en majuscule de l'alphabet latin. Le nom \"Wikipédia\" est centré sous le globe, en lettres capitales. En dessous, le sous-titre \"The Free Encyclopedia\" est également centré et en caractères de taille plus petite et en italiques.</li><li>depuis 2010 : les éléments sont quasiment identiques au logo de 2003 à 2010. La seule différence est le sous-titre qui n'est plus en italiques.</li></ul><p>Source : <a href=\"https://fr.wikipedia.org/wiki/Logo_de_Wikip%C3%A9dia\" target=\"_blank\">https://fr.wikipedia.org/wiki/Logo_de_Wikip%C3%A9dia</a></p><p>Licence : CC BY-SA 3.0 DEED</p>"
+          }
         },
         {
-          "id": "d5acb701-fd9c-40d4-b59d-fb2fd8f6b3fe",
-          "type": "qcm",
-          "instruction": "<p>Une devinette&nbsp;: selon vous, quelles sont les <strong>deux</strong> phrases qui décrivent le mieux la signification du logo actuel de Wikipédia&#8239;?</p>",
-          "proposals": [
-            {
-              "id": "1",
-              "content": "Le globe est incomplet car Wikipédia est constamment en construction."
+          "type": "element",
+          "element": {
+            "id": "d5acb701-fd9c-40d4-b59d-fb2fd8f6b3fe",
+            "type": "qcm",
+            "instruction": "<p>Une devinette&nbsp;: selon vous, quelles sont les <strong>deux</strong> phrases qui décrivent le mieux la signification du logo actuel de Wikipédia&#8239;?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "Le globe est incomplet car Wikipédia est constamment en construction."
+              },
+              {
+                "id": "2",
+                "content": "Le globe est incomplet car Wikipédia sera toujours ouvert."
+              },
+              {
+                "id": "3",
+                "content": "Les symboles représentent la diversité des savoirs rassemblés sur Wikipédia."
+              },
+              {
+                "id": "4",
+                "content": "Les symboles représentent les différentes langues qui existent sur Wikipédia."
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct&#8239;!</p>",
+              "invalid": "<p>Incorrect. La construction permanente et les différentes langues de Wikipédia sont symbolisées prioritairement à travers ce logo.</p>"
             },
-            {
-              "id": "2",
-              "content": "Le globe est incomplet car Wikipédia sera toujours ouvert."
-            },
-            {
-              "id": "3",
-              "content": "Les symboles représentent la diversité des savoirs rassemblés sur Wikipédia."
-            },
-            {
-              "id": "4",
-              "content": "Les symboles représentent les différentes langues qui existent sur Wikipédia."
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>Correct&#8239;!</p>",
-            "invalid": "<p>Incorrect. La construction permanente et les différentes langues de Wikipédia sont symbolisées prioritairement à travers ce logo.</p>"
-          },
-          "solutions": [
-            "1",
-            "4"
-          ]
+            "solutions": ["1", "4"]
+          }
         }
       ]
     },
@@ -98,51 +104,78 @@
       "id": "b7f1f203-cf5d-4da8-bfa2-46e01a625f61",
       "type": "lesson",
       "title": "Les principes fondateurs de Wikipédia",
-      "elements": [
+      "components": [
         {
-          "id": "afc8b60f-c2c1-405b-a6a4-a0e08e23ccc3",
-          "type": "text",
-          "content": "<h3>1 - Wikipédia est une encyclopédie en ligne.&nbsp;<span aria-hidden=\"true\">📖</span>️</h3><p>Des connaissances du monde entier y sont rassemblées, classées et exposées méthodiquement. Wikipédia n'est donc ni un journal ni un réseau social.</p>"
+          "type": "element",
+          "element": {
+            "id": "afc8b60f-c2c1-405b-a6a4-a0e08e23ccc3",
+            "type": "text",
+            "content": "<h3>1 - Wikipédia est une encyclopédie en ligne.&nbsp;<span aria-hidden=\"true\">📖</span>️</h3><p>Des connaissances du monde entier y sont rassemblées, classées et exposées méthodiquement. Wikipédia n'est donc ni un journal ni un réseau social.</p>"
+          }
         },
         {
-          "id": "3bbf40bb-acd0-466f-a1ce-5c4bf9ccee8e",
-          "type": "text",
-          "content": "<hr>"
+          "type": "element",
+          "element": {
+            "id": "3bbf40bb-acd0-466f-a1ce-5c4bf9ccee8e",
+            "type": "text",
+            "content": "<hr>"
+          }
         },
         {
-          "id": "81710de7-1311-4980-81f5-87944e56de28",
-          "type": "text",
-          "content": "<h3>2 - Wikipédia propose des contenus les plus neutres possible.&nbsp;<span aria-hidden=\"true\">⚖️</span>️</h3><p>Une opinion ou un point de vue unique n’ont pas leur place. Si besoin, les divers points de vue sont présentés, sans jugement de valeur.</p>"
+          "type": "element",
+          "element": {
+            "id": "81710de7-1311-4980-81f5-87944e56de28",
+            "type": "text",
+            "content": "<h3>2 - Wikipédia propose des contenus les plus neutres possible.&nbsp;<span aria-hidden=\"true\">⚖️</span>️</h3><p>Une opinion ou un point de vue unique n’ont pas leur place. Si besoin, les divers points de vue sont présentés, sans jugement de valeur.</p>"
+          }
         },
         {
-          "id": "20ed0b8b-a858-440e-a587-4856f96ef5be",
-          "type": "text",
-          "content": "<hr>"
+          "type": "element",
+          "element": {
+            "id": "20ed0b8b-a858-440e-a587-4856f96ef5be",
+            "type": "text",
+            "content": "<hr>"
+          }
         },
         {
-          "id": "78385472-07b0-4229-bfb8-a10636690300",
-          "type": "text",
-          "content": "<h3>3 - Wikipédia est publié sous licence libre.&nbsp;<span aria-hidden=\"true\">🪁</span>️</h3><p>En résumé, chacun peut créer, copier, modifier et partager le contenu qui se trouve sur Wikipédia. Certaines conditions doivent tout de même être respectées.</p>"
+          "type": "element",
+          "element": {
+            "id": "78385472-07b0-4229-bfb8-a10636690300",
+            "type": "text",
+            "content": "<h3>3 - Wikipédia est publié sous licence libre.&nbsp;<span aria-hidden=\"true\">🪁</span>️</h3><p>En résumé, chacun peut créer, copier, modifier et partager le contenu qui se trouve sur Wikipédia. Certaines conditions doivent tout de même être respectées.</p>"
+          }
         },
         {
-          "id": "929661f0-ca4c-40fb-9df2-7832e97192e3",
-          "type": "text",
-          "content": "<hr>"
+          "type": "element",
+          "element": {
+            "id": "929661f0-ca4c-40fb-9df2-7832e97192e3",
+            "type": "text",
+            "content": "<hr>"
+          }
         },
         {
-          "id": "df11aa2c-1ebf-4a60-99a3-533dfc06756d",
-          "type": "text",
-          "content": "<h3>4 - Wikipédia est un projet collaboratif.&nbsp;<span aria-hidden=\"true\">🙋🏽‍♂️</span>️<span aria-hidden=\"true\">🙋🏻‍♀️</span>️<span aria-hidden=\"true\">🙋🏿‍♀️</span>️<span aria-hidden=\"true\">🙋‍♂️</span>️</h3><p>C’est probablement sa caractéristique la plus remarquable. Tout le monde peut améliorer les contenus de Wikipédia&#8239;! Des règles claires de savoir-vivre sont à respecter.</p>"
+          "type": "element",
+          "element": {
+            "id": "df11aa2c-1ebf-4a60-99a3-533dfc06756d",
+            "type": "text",
+            "content": "<h3>4 - Wikipédia est un projet collaboratif.&nbsp;<span aria-hidden=\"true\">🙋🏽‍♂️</span>️<span aria-hidden=\"true\">🙋🏻‍♀️</span>️<span aria-hidden=\"true\">🙋🏿‍♀️</span>️<span aria-hidden=\"true\">🙋‍♂️</span>️</h3><p>C’est probablement sa caractéristique la plus remarquable. Tout le monde peut améliorer les contenus de Wikipédia&#8239;! Des règles claires de savoir-vivre sont à respecter.</p>"
+          }
         },
         {
-          "id": "1edb38ba-7542-4198-a5de-c260ef6b95ea",
-          "type": "text",
-          "content": "<hr>"
+          "type": "element",
+          "element": {
+            "id": "1edb38ba-7542-4198-a5de-c260ef6b95ea",
+            "type": "text",
+            "content": "<hr>"
+          }
         },
         {
-          "id": "ca62ac2d-950d-4c00-b14d-2ac9e7d509f2",
-          "type": "text",
-          "content": "<h3>5 - Wikipédia n’a pas d’autres principes fixes que ceux présentés ci-dessus.&nbsp;<span aria-hidden=\"true\">📜</span>️</h3><p>Il est toutefois possible de proposer et de créer des règles pour améliorer continuellement Wikipédia, en accord avec ses principes.</p>"
+          "type": "element",
+          "element": {
+            "id": "ca62ac2d-950d-4c00-b14d-2ac9e7d509f2",
+            "type": "text",
+            "content": "<h3>5 - Wikipédia n’a pas d’autres principes fixes que ceux présentés ci-dessus.&nbsp;<span aria-hidden=\"true\">📜</span>️</h3><p>Il est toutefois possible de proposer et de créer des règles pour améliorer continuellement Wikipédia, en accord avec ses principes.</p>"
+          }
         }
       ]
     },
@@ -150,42 +183,41 @@
       "id": "9a3926dd-750c-4b89-b1d0-9a286fe2d9e4",
       "type": "activity",
       "title": "Les principes fondateurs de Wikipédia",
-      "elements": [
+      "components": [
         {
-          "id": "b15e1ab7-9f62-458b-8bfe-f039028a808b",
-          "type": "qcm",
-          "instruction": "<p>Parmi les mots suivants, quels sont ceux qui correspondent aux principes fondateurs de Wikipédia&nbsp;?</p>",
-          "proposals": [
-            {
-              "id": "1",
-              "content": "collaboratif"
+          "type": "element",
+          "element": {
+            "id": "b15e1ab7-9f62-458b-8bfe-f039028a808b",
+            "type": "qcm",
+            "instruction": "<p>Parmi les mots suivants, quels sont ceux qui correspondent aux principes fondateurs de Wikipédia&nbsp;?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "collaboratif"
+              },
+              {
+                "id": "2",
+                "content": "académique"
+              },
+              {
+                "id": "3",
+                "content": "neutre"
+              },
+              {
+                "id": "4",
+                "content": "libre"
+              },
+              {
+                "id": "5",
+                "content": "exhaustif"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct. Vous avez bien identifié les principes de Wikipédia. </p>",
+              "invalid": "<p>Incorrect. Remonter la page pour relire la leçon.&nbsp;<span aria-hidden=\"true\">⬆</span>️</p>"
             },
-            {
-              "id": "2",
-              "content": "académique"
-            },
-            {
-              "id": "3",
-              "content": "neutre"
-            },
-            {
-              "id": "4",
-              "content": "libre"
-            },
-            {
-              "id": "5",
-              "content": "exhaustif"
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>Correct. Vous avez bien identifié les principes de Wikipédia. </p>",
-            "invalid": "<p>Incorrect. Remonter la page pour relire la leçon.&nbsp;<span aria-hidden=\"true\">⬆</span>️</p>"
-          },
-          "solutions": [
-            "1",
-            "3",
-            "4"
-          ]
+            "solutions": ["1", "3", "4"]
+          }
         }
       ]
     },
@@ -193,34 +225,37 @@
       "id": "5f048ad8-d008-4956-840b-37e84138b433",
       "type": "activity",
       "title": "Le nombre de langues dans Wikipedia",
-      "elements": [
+      "components": [
         {
-          "id": "c99efced-e183-4f4f-aec7-07a5da13294a",
-          "type": "qcu",
-          "instruction": "<p>Dans le monde, il existe environ 7000 langues.<br>Selon vous, dans combien de langues environ Wikipédia existe-t-il&#8239;?</p>",
-          "proposals": [
-            {
-              "id": "1",
-              "content": "100"
+          "type": "element",
+          "element": {
+            "id": "c99efced-e183-4f4f-aec7-07a5da13294a",
+            "type": "qcu",
+            "instruction": "<p>Dans le monde, il existe environ 7000 langues.<br>Selon vous, dans combien de langues environ Wikipédia existe-t-il&#8239;?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "100"
+              },
+              {
+                "id": "2",
+                "content": "250"
+              },
+              {
+                "id": "3",
+                "content": "400"
+              },
+              {
+                "id": "4",
+                "content": "700"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct. Il y a une représentation inégale entre ces langues&nbsp;: on compte environ 7 millions d’articles en anglais, 2 millions en français et 7 000 en tibétain.</p>",
+              "invalid": "<p>Incorrect. La réponse est 250.<br>Il y a une représentation inégale entre ces langues&nbsp;: on compte environ 7 millions d’articles en anglais, 2 millions en français et 7 000 en tibétain.</p>"
             },
-            {
-              "id": "2",
-              "content": "250"
-            },
-            {
-              "id": "3",
-              "content": "400"
-            },
-            {
-              "id": "4",
-              "content": "700"
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>Correct. Il y a une représentation inégale entre ces langues&nbsp;: on compte environ 7 millions d’articles en anglais, 2 millions en français et 7 000 en tibétain.</p>",
-            "invalid": "<p>Incorrect. La réponse est 250.<br>Il y a une représentation inégale entre ces langues&nbsp;: on compte environ 7 millions d’articles en anglais, 2 millions en français et 7 000 en tibétain.</p>"
-          },
-          "solution": "2"
+            "solution": "2"
+          }
         }
       ]
     },
@@ -228,30 +263,33 @@
       "id": "09b21f5f-b7e7-4c7a-9059-bdb2a2be246d",
       "type": "activity",
       "title": "Le financement de Wikipédia",
-      "elements": [
+      "components": [
         {
-          "id": "46dec681-51e7-44f8-9422-9ccd77125f8b",
-          "type": "qcu",
-          "instruction": "<p>Selon vous, par quel moyen Wikipédia est-il financé&#8239;?</p>",
-          "proposals": [
-            {
-              "id": "1",
-              "content": "les publicités"
+          "type": "element",
+          "element": {
+            "id": "46dec681-51e7-44f8-9422-9ccd77125f8b",
+            "type": "qcu",
+            "instruction": "<p>Selon vous, par quel moyen Wikipédia est-il financé&#8239;?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "les publicités"
+              },
+              {
+                "id": "2",
+                "content": "les abonnements payants"
+              },
+              {
+                "id": "3",
+                "content": "les dons"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Oui. Wikipédia est géré par une association à but non lucratif, financé par des donations d’utilisateurs.</p>",
+              "invalid": "<p>Incorrect. Dans ce cas, le principe de neutralité ne serait pas respecté. Wikipédia est géré par une association à but non lucratif, financé par des donations d’utilisateurs.</p>"
             },
-            {
-              "id": "2",
-              "content": "les abonnements payants"
-            },
-            {
-              "id": "3",
-              "content": "les dons"
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>Oui. Wikipédia est géré par une association à but non lucratif, financé par des donations d’utilisateurs.</p>",
-            "invalid": "<p>Incorrect. Dans ce cas, le principe de neutralité ne serait pas respecté. Wikipédia est géré par une association à but non lucratif, financé par des donations d’utilisateurs.</p>"
-          },
-          "solution": "3"
+            "solution": "3"
+          }
         }
       ]
     },
@@ -259,19 +297,25 @@
       "id": "d8ed222f-2a22-44a6-affe-fe6047689b2e",
       "type": "lesson",
       "title": "Trouver efficacement des informations dans un article Wikipédia",
-      "elements": [
+      "components": [
         {
-          "id": "10e352a0-0c46-4348-b392-dedc22a32960",
-          "type": "text",
-          "content": "<p>À la suite de cette vidéo, vous passerez à la pratique. Vous devrez naviguer dans le sommaire d'un article Wikipédia et en identifier la qualité.</p>"
+          "type": "element",
+          "element": {
+            "id": "10e352a0-0c46-4348-b392-dedc22a32960",
+            "type": "text",
+            "content": "<p>À la suite de cette vidéo, vous passerez à la pratique. Vous devrez naviguer dans le sommaire d'un article Wikipédia et en identifier la qualité.</p>"
+          }
         },
         {
-          "id": "5d6862bf-899f-4f2e-ac63-185b9a209e1c",
-          "type": "video",
-          "title": "Une vidéo",
-          "url": "https://videos.pix.fr/modulix/principes-fondateurs-wikipedia/screencast-article.mp4",
-          "subtitles": "https://videos.pix.fr/modulix/placeholder-video.vtt",
-          "transcription": "<p>Bonjour à tous !<br> Aujourd’hui, je vais vous parler des articles sur Wikipédia. On va voir ensemble les vérifications à faire avant de lire un article Wikipédia comment bien se repérer et trouver efficacement des informations comment évaluer la qualité des informations dans ces articles.<br> C’est parti !<br>Sous nos yeux, un article Wikipédia.<br> C’est un article sur le romancier célèbre Jules Verne. On peut vérifier que c’est bien lui avec les pages d’homonymes : il y a plusieurs Jules Verne, mais on a bien celui que l’on voulait, c’est-à-dire le romancier.<br>L’article est écrit en français. Il existe en plusieurs langues, ici on voit qu’il y en a 120 ! Ce qu’il faut retenir, c’est que les articles dans d’autres langues sont écrits par d’autres personnes. Ce n’est pas une traduction directe de l’article français.<br>On a donc le bon article, je vous le présente plus en détails.<br>Pour commencer, ce que je trouve vraiment utile sur les articles Wikipédia, c’est le premier paragraphe. C’est une synthèse des informations de l’article.<br>Ici on trouve les principaux épisodes de la vie de Jules Verne : sa naissance, sa mort, ses romans, ses œuvres et sa notoriété.<br>Comme on le voit, l’article est très long donc pour chercher efficacement des informations, je vous conseille d’utiliser le sommaire, à gauche de l’écran.<br>Il permet de rejoindre rapidement une section de l’article. Par exemple, si je m’intéresse aux œuvres de Jules Verne, je peux y aller directement.<br>Une fois que je suis là, je peux commencer à lire et à chercher, ou utiliser une nouvelle fois le sommaire pour être plus précis. Par exemple, si je cherche des informations sur ses pièces de théâtre. On y va.<br>Si je veux des informations sur une pièce en particulier, par exemple Les Pailles rompues, je peux aller voir facilement l’article Wikipédia sur cette pièce en cliquant simplement sur le lien.<br>Au passage, c’est ce qui fait aussi de Wikipédia une encyclopédie : les connaissances sont rassemblées dans un même endroit et se font écho les unes les autres. Les sources des informations, qui sont externes à Wikipédia, sont indiquées en bas de la page.<br>Ce qu’il faut savoir également, c’est que les articles sont rédigés par plusieurs contributeurs bénévoles. Ils sont le plus souvent relus et analysés par la communauté.<br>Ici, on trouve la mention de “bon article”, ce qui signifie qu’il remplit des critères de qualité établis par Wikipédia.<br>Les mentions de qualité et d’alertes relatifs au contenu sont toujours en haut de la page.<br>Par exemple, sur un autre article. Il est indiqué que l’article ne cite pas assez ses sources. Donc je vais être très vigilant sur les informations que je vais y trouver.<br>Sur cet autre article, il est indiqué que c’est une ébauche : il peut être compléter et améliorer. Dans ce cas également, je vais être vigilant sur les informations et par exemple aller les re-vérifier avec d’autres sites.<br>Vous l’avez compris, avant de lire un article Wikipédia, regardez-donc bien ces indications pour savoir à quel point on peut faire confiance aux informations de l’article.<br>Voilà, merci d’avoir visionné cette vidéo, j’espère qu’elle vous a été utile et à très vite !</p>"
+          "type": "element",
+          "element": {
+            "id": "5d6862bf-899f-4f2e-ac63-185b9a209e1c",
+            "type": "video",
+            "title": "Une vidéo",
+            "url": "https://videos.pix.fr/modulix/principes-fondateurs-wikipedia/screencast-article.mp4",
+            "subtitles": "https://videos.pix.fr/modulix/placeholder-video.vtt",
+            "transcription": "<p>Bonjour à tous !<br> Aujourd’hui, je vais vous parler des articles sur Wikipédia. On va voir ensemble les vérifications à faire avant de lire un article Wikipédia comment bien se repérer et trouver efficacement des informations comment évaluer la qualité des informations dans ces articles.<br> C’est parti !<br>Sous nos yeux, un article Wikipédia.<br> C’est un article sur le romancier célèbre Jules Verne. On peut vérifier que c’est bien lui avec les pages d’homonymes : il y a plusieurs Jules Verne, mais on a bien celui que l’on voulait, c’est-à-dire le romancier.<br>L’article est écrit en français. Il existe en plusieurs langues, ici on voit qu’il y en a 120 ! Ce qu’il faut retenir, c’est que les articles dans d’autres langues sont écrits par d’autres personnes. Ce n’est pas une traduction directe de l’article français.<br>On a donc le bon article, je vous le présente plus en détails.<br>Pour commencer, ce que je trouve vraiment utile sur les articles Wikipédia, c’est le premier paragraphe. C’est une synthèse des informations de l’article.<br>Ici on trouve les principaux épisodes de la vie de Jules Verne : sa naissance, sa mort, ses romans, ses œuvres et sa notoriété.<br>Comme on le voit, l’article est très long donc pour chercher efficacement des informations, je vous conseille d’utiliser le sommaire, à gauche de l’écran.<br>Il permet de rejoindre rapidement une section de l’article. Par exemple, si je m’intéresse aux œuvres de Jules Verne, je peux y aller directement.<br>Une fois que je suis là, je peux commencer à lire et à chercher, ou utiliser une nouvelle fois le sommaire pour être plus précis. Par exemple, si je cherche des informations sur ses pièces de théâtre. On y va.<br>Si je veux des informations sur une pièce en particulier, par exemple Les Pailles rompues, je peux aller voir facilement l’article Wikipédia sur cette pièce en cliquant simplement sur le lien.<br>Au passage, c’est ce qui fait aussi de Wikipédia une encyclopédie : les connaissances sont rassemblées dans un même endroit et se font écho les unes les autres. Les sources des informations, qui sont externes à Wikipédia, sont indiquées en bas de la page.<br>Ce qu’il faut savoir également, c’est que les articles sont rédigés par plusieurs contributeurs bénévoles. Ils sont le plus souvent relus et analysés par la communauté.<br>Ici, on trouve la mention de “bon article”, ce qui signifie qu’il remplit des critères de qualité établis par Wikipédia.<br>Les mentions de qualité et d’alertes relatifs au contenu sont toujours en haut de la page.<br>Par exemple, sur un autre article. Il est indiqué que l’article ne cite pas assez ses sources. Donc je vais être très vigilant sur les informations que je vais y trouver.<br>Sur cet autre article, il est indiqué que c’est une ébauche : il peut être compléter et améliorer. Dans ce cas également, je vais être vigilant sur les informations et par exemple aller les re-vérifier avec d’autres sites.<br>Vous l’avez compris, avant de lire un article Wikipédia, regardez-donc bien ces indications pour savoir à quel point on peut faire confiance aux informations de l’article.<br>Voilà, merci d’avoir visionné cette vidéo, j’espère qu’elle vous a été utile et à très vite !</p>"
+          }
         }
       ]
     },
@@ -279,128 +323,139 @@
       "id": "cbf15e50-8f82-47a6-affd-8494c688b606",
       "type": "activity",
       "title": "Trouver efficacement des informations dans un article Wikipédia",
-      "elements": [
+      "components": [
         {
-          "id": "01eb319e-8219-425a-b66f-00f8f73a4842",
-          "type": "text",
-          "content": "<h3>Répondez aux questions ci-dessous en naviguant dans  <a href=\"https://fr.wikipedia.org/wiki/Inca_(Majorque)\" target=\"blank\">l'article Wikipédia de la commune d'Inca.</a></h3>"
-        },
-        {
-          "id": "cfcd33f1-3544-491d-95b4-0d028084ff32",
-          "type": "text",
-          "content": "<hr>"
-        },
-        {
-          "id": "ea12a08f-fa0b-4693-a1fd-8a5baf27f494",
-          "type": "qrocm",
-          "instruction": "<p>Dans le sommaire de cet article, trouvez la section <strong>Début</strong>. Quel est le nom de la cinquième section&#8239;?</p>",
-          "proposals": [
-            {
-              "type": "text",
-              "content": "<span>Nom de la cinquième section&nbsp;:</span>"
-            },
-            {
-              "input": "cinquieme-section",
-              "type": "input",
-              "inputType": "text",
-              "size": 20,
-              "display": "block",
-              "placeholder": "",
-              "ariaLabel": "Remplir le nom de la cinquième section du sommaire de l'article Wikipédia proposé",
-              "defaultValue": "",
-              "tolerances": [
-                "t1"
-              ],
-              "solutions": [
-                "Honneur"
-              ]
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>Correct&#8239;!</p>",
-            "invalid": "<p>Incorrect.</p>"
+          "type": "element",
+          "element": {
+            "id": "01eb319e-8219-425a-b66f-00f8f73a4842",
+            "type": "text",
+            "content": "<h3>Répondez aux questions ci-dessous en naviguant dans  <a href=\"https://fr.wikipedia.org/wiki/Inca_(Majorque)\" target=\"blank\">l'article Wikipédia de la commune d'Inca.</a></h3>"
           }
         },
         {
-          "id": "c6526e70-ac27-47d3-9794-3e1e2d243334",
-          "type": "text",
-          "content": "<hr>"
-        },
-        {
-          "id": "649c29ee-0b22-4da3-ba2a-036bb3016425",
-          "type": "qrocm",
-          "instruction": "<p>Dans cet article, combien y a-t-il de Notes et références&#8239;? </p>",
-          "proposals": [
-            {
-              "type": "text",
-              "content": "<span>Nombre&nbsp;:</span>"
-            },
-            {
-              "input": "nombre-ref",
-              "type": "input",
-              "inputType": "text",
-              "size": 1,
-              "display": "block",
-              "placeholder": "",
-              "ariaLabel": "Remplir avec le nombre de notes et références",
-              "defaultValue": "",
-              "tolerances": [
-                "t1"
-              ],
-              "solutions": [
-                "1"
-              ]
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>Correct&#8239;!</p>",
-            "invalid": "<p>Incorrect.</p>"
+          "type": "element",
+          "element": {
+            "id": "cfcd33f1-3544-491d-95b4-0d028084ff32",
+            "type": "text",
+            "content": "<hr>"
           }
         },
         {
-          "id": "7c1830cb-1f48-4050-98c1-6ae34d14ee51",
-          "type": "text",
-          "content": "<hr>"
+          "type": "element",
+          "element": {
+            "id": "ea12a08f-fa0b-4693-a1fd-8a5baf27f494",
+            "type": "qrocm",
+            "instruction": "<p>Dans le sommaire de cet article, trouvez la section <strong>Début</strong>. Quel est le nom de la cinquième section&#8239;?</p>",
+            "proposals": [
+              {
+                "type": "text",
+                "content": "<span>Nom de la cinquième section&nbsp;:</span>"
+              },
+              {
+                "input": "cinquieme-section",
+                "type": "input",
+                "inputType": "text",
+                "size": 20,
+                "display": "block",
+                "placeholder": "",
+                "ariaLabel": "Remplir le nom de la cinquième section du sommaire de l'article Wikipédia proposé",
+                "defaultValue": "",
+                "tolerances": ["t1"],
+                "solutions": ["Honneur"]
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct&#8239;!</p>",
+              "invalid": "<p>Incorrect.</p>"
+            }
+          }
         },
         {
-          "id": "be1ba37e-0588-42ed-8fab-f47bf118953a",
-          "type": "qrocm",
-          "instruction": "<p>Quel est le niveau de qualité estimé de cet article&#8239;?</p>",
-          "proposals": [
-            {
-              "type": "text",
-              "content": "<span>Niveau de qualité estimé&nbsp;:</span>"
-            },
-            {
-              "input": "quality-wiki",
-              "type": "select",
-              "display": "block",
-              "placeholder": "- Sélectionner -",
-              "ariaLabel": "Choisir le niveau de qualité estimé",
-              "defaultValue": "",
-              "tolerances": [],
-              "options": [
-                {
-                  "id": "1",
-                  "content": "Bon article"
-                },
-                {
-                  "id": "2",
-                  "content": "Ébauche"
-                },
-                {
-                  "id": "3",
-                  "content": "Non renseigné"
-                }
-              ],
-              "solutions": [
-                "2"
-              ]
+          "type": "element",
+          "element": {
+            "id": "c6526e70-ac27-47d3-9794-3e1e2d243334",
+            "type": "text",
+            "content": "<hr>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "649c29ee-0b22-4da3-ba2a-036bb3016425",
+            "type": "qrocm",
+            "instruction": "<p>Dans cet article, combien y a-t-il de Notes et références&#8239;? </p>",
+            "proposals": [
+              {
+                "type": "text",
+                "content": "<span>Nombre&nbsp;:</span>"
+              },
+              {
+                "input": "nombre-ref",
+                "type": "input",
+                "inputType": "text",
+                "size": 1,
+                "display": "block",
+                "placeholder": "",
+                "ariaLabel": "Remplir avec le nombre de notes et références",
+                "defaultValue": "",
+                "tolerances": ["t1"],
+                "solutions": ["1"]
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct&#8239;!</p>",
+              "invalid": "<p>Incorrect.</p>"
             }
-          ],
-          "feedbacks": {
-            "valid": "<p>Correct&#8239;!</p>",
-            "invalid": "<p>Incorrect.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "7c1830cb-1f48-4050-98c1-6ae34d14ee51",
+            "type": "text",
+            "content": "<hr>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "be1ba37e-0588-42ed-8fab-f47bf118953a",
+            "type": "qrocm",
+            "instruction": "<p>Quel est le niveau de qualité estimé de cet article&#8239;?</p>",
+            "proposals": [
+              {
+                "type": "text",
+                "content": "<span>Niveau de qualité estimé&nbsp;:</span>"
+              },
+              {
+                "input": "quality-wiki",
+                "type": "select",
+                "display": "block",
+                "placeholder": "- Sélectionner -",
+                "ariaLabel": "Choisir le niveau de qualité estimé",
+                "defaultValue": "",
+                "tolerances": [],
+                "options": [
+                  {
+                    "id": "1",
+                    "content": "Bon article"
+                  },
+                  {
+                    "id": "2",
+                    "content": "Ébauche"
+                  },
+                  {
+                    "id": "3",
+                    "content": "Non renseigné"
+                  }
+                ],
+                "solutions": ["2"]
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct&#8239;!</p>",
+              "invalid": "<p>Incorrect.</p>"
+            }
           }
         }
       ]

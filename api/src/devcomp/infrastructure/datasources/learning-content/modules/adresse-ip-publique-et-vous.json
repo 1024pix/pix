@@ -48,42 +48,51 @@
       "id": "1d516eb9-e7b7-48a3-a3b5-7971ad171d6f",
       "type": "activity",
       "title": "Étrange : ce site interne sait où je suis !",
-      "elements": [
+      "components": [
         {
-          "id": "67b68f2a-349d-4df7-90a5-c9f5dc930a1a",
-          "type": "text",
-          "content": "<p> Voici la page de résultats d'une recherche en ligne sur des recettes végétariennes.<span aria-hidden=\"true\">🥗</span>️<br>Le moteur de recherche indique que l'utilisateur se trouve actuellement vers Toulouse.</p>"
+          "type": "element",
+          "element": {
+            "id": "67b68f2a-349d-4df7-90a5-c9f5dc930a1a",
+            "type": "text",
+            "content": "<p> Voici la page de résultats d'une recherche en ligne sur des recettes végétariennes.<span aria-hidden=\"true\">🥗</span>️<br>Le moteur de recherche indique que l'utilisateur se trouve actuellement vers Toulouse.</p>"
+          }
         },
         {
-          "id": "2098be0b-e994-4bcd-8e52-5a6559963f8c",
-          "type": "image",
-          "url": "https://images.pix.fr/modulix/adresse-ip-publique-et-vous/intro.jpg",
-          "alt": "Capture d’écran d’une page de résultats d’une recherche en ligne décrite dans l’alternative textuelle",
-          "alternativeText": "<ul><li>Champ de recherche : «&nbsp;recettes de cuisine végétariennes&nbsp;»</li><li>Liste de résultats de recherche<ul><li>Lien vers SOSCuisine</li><li>Lien vers CuisinePop.com</li></ul></li><li>Bouton «&nbsp;Plus de résultats&nbsp;»</li><li>Pied de page : «&nbsp;France. Toulouse. D’après votre adresse IP. Mettre à jour ma position.&nbsp;»</li></ul>"
+          "type": "element",
+          "element": {
+            "id": "2098be0b-e994-4bcd-8e52-5a6559963f8c",
+            "type": "image",
+            "url": "https://images.pix.fr/modulix/adresse-ip-publique-et-vous/intro.jpg",
+            "alt": "Capture d’écran d’une page de résultats d’une recherche en ligne décrite dans l’alternative textuelle",
+            "alternativeText": "<ul><li>Champ de recherche : «&nbsp;recettes de cuisine végétariennes&nbsp;»</li><li>Liste de résultats de recherche<ul><li>Lien vers SOSCuisine</li><li>Lien vers CuisinePop.com</li></ul></li><li>Bouton «&nbsp;Plus de résultats&nbsp;»</li><li>Pied de page : «&nbsp;France. Toulouse. D’après votre adresse IP. Mettre à jour ma position.&nbsp;»</li></ul>"
+          }
         },
         {
-          "id": "ff75255c-18e0-4cd9-8fd1-83a9ab6994fb",
-          "type": "qcu",
-          "instruction": "<p>Quelle information ce moteur de recherche a-t-il utilisée pour déterminer la localisation de cet utilisateur&#8239;?</p>",
-          "proposals": [
-            {
-              "id": "1",
-              "content": "la marque de son ordinateur"
+          "type": "element",
+          "element": {
+            "id": "ff75255c-18e0-4cd9-8fd1-83a9ab6994fb",
+            "type": "qcu",
+            "instruction": "<p>Quelle information ce moteur de recherche a-t-il utilisée pour déterminer la localisation de cet utilisateur&#8239;?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "la marque de son ordinateur"
+              },
+              {
+                "id": "2",
+                "content": "son adresse IP"
+              },
+              {
+                "id": "3",
+                "content": "son historique de navigation"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct.</p>",
+              "invalid": "<p>Incorrect. La page indique à côté de la localisation que c'est <strong>d'après votre adresse IP.</strong></p>"
             },
-            {
-              "id": "2",
-              "content": "son adresse IP"
-            },
-            {
-              "id": "3",
-              "content": "son historique de navigation"
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>Correct.</p>",
-            "invalid": "<p>Incorrect. La page indique à côté de la localisation que c'est <strong>d'après votre adresse IP.</strong></p>"
-          },
-          "solution": "2"
+            "solution": "2"
+          }
         }
       ]
     },
@@ -91,19 +100,25 @@
       "id": "4f4ada91-e239-4991-9fc8-ab491aabc424",
       "type": "lesson",
       "title": "Adresse IP publique : c’est quoi ? à quoi ça sert ?",
-      "elements": [
+      "components": [
         {
-          "id": "783dccd4-38ee-41a0-b10d-203a3cdb748f",
-          "type": "text",
-          "content": "<p>À la suite de cette vidéo, une question vous sera posée sur le rôle de l'adresse IP publique.</p>"
+          "type": "element",
+          "element": {
+            "id": "783dccd4-38ee-41a0-b10d-203a3cdb748f",
+            "type": "text",
+            "content": "<p>À la suite de cette vidéo, une question vous sera posée sur le rôle de l'adresse IP publique.</p>"
+          }
         },
         {
-          "id": "fe8bf783-b0bf-4876-bc01-1c88b8c5f7eb",
-          "type": "video",
-          "title": "Adresse IP publique : c’est quoi ? à quoi ça sert ?",
-          "url": "https://videos.pix.fr/modulix/adresse-ip-publique-et-vous/adresse-ip-publique.mp4",
-          "subtitles": "https://videos.pix.fr/modulix/adresse-ip-publique-et-vous/adresse-ip-publique.vtt",
-          "transcription": "<p>Quand je navigue sur un site internet, je consulte et je reçois des informations : du texte, des images, des vidéos… <br>Ce site internet a forcément besoin d'une donnée pour m'envoyer des informations, sans se tromper de destinataire. Eh bien, cette donnée, c’est l’adresse IP publique. <br>Je vous explique en 2 minutes ce que c’est et à quoi ça sert !<br>D’abord, IP ça veut dire Internet Protocol, donc en français : protocole internet.<br>Un protocole de communication, c’est un ensemble de règles à suivre. Et il y en a partout autour de nous : par exemple, quand on me dit « Bonjour ! », je réponds souvent « Bonjour ! » ou « Salut ! », selon le contexte.<br>Sur internet, c’est pareil : les sites et les appareils doivent suivre certaines règles pour échanger des informations et se comprendre. Ils suivent donc les règles définies par le protocole internet.<br>Une anecdote que je trouve intéressante : on considère que la naissance officielle d’internet est marquée par la mise en service des protocoles IP, en 1983. Mais comment avoir la garantie que l’on échange des informations avec les bons appareils ? C’est tout simple : il faut connaître leurs adresses !<br>Je vous donne une comparaison : si un ami m’envoie une lettre, il utilise mon adresse postale pour que sa lettre arrive au bon endroit, chez moi.<br>Eh bien, quand un site internet m’envoie des informations, il utilise mon adresse IP publique pour être sûr que les informations arrivent au bon endroit.<br>Plus précisément, le site utilise l’adresse IP publique de mon modem, aussi appelé « box internet ». Et cette adresse, c’est mon fournisseur d’accès internet qui me l’a donnée.<br>À retenir : on dit que l’adresse IP publique permet d’identifier, de manière unique, un appareil connecté à internet, peu importe sa connexion.<br>Et une adresse IP, ça ressemble à ça : des blocs de chiffres et parfois de lettres.<br>Je vous rappelle l’essentiel : il faut que cette adresse soit unique !<br>C’est d’ailleurs pour cette raison que le modèle d’adresses est en train de changer de v4 à v6 : pour avoir plus d’adresses disponibles ! Ça, je vous l’explique une autre fois.<br>Pour finir, vous l’avez remarqué, dans « adresse IP publique », il y a le mot « publique ».<br>Cela signifie que cette donnée est vue par n’importe quel site que je visite. Plus globalement, elle est vue par tous les systèmes utilisés pour transporter des informations sur internet.<br>D’ailleurs, les sites internet ont eux aussi chacun une adresse IP publique.<br>Comme ça, tout le monde a une adresse et donc il n’y a pas d’erreur de destinataire.</p>"
+          "type": "element",
+          "element": {
+            "id": "fe8bf783-b0bf-4876-bc01-1c88b8c5f7eb",
+            "type": "video",
+            "title": "Adresse IP publique : c’est quoi ? à quoi ça sert ?",
+            "url": "https://videos.pix.fr/modulix/adresse-ip-publique-et-vous/adresse-ip-publique.mp4",
+            "subtitles": "https://videos.pix.fr/modulix/adresse-ip-publique-et-vous/adresse-ip-publique.vtt",
+            "transcription": "<p>Quand je navigue sur un site internet, je consulte et je reçois des informations : du texte, des images, des vidéos… <br>Ce site internet a forcément besoin d'une donnée pour m'envoyer des informations, sans se tromper de destinataire. Eh bien, cette donnée, c’est l’adresse IP publique. <br>Je vous explique en 2 minutes ce que c’est et à quoi ça sert !<br>D’abord, IP ça veut dire Internet Protocol, donc en français : protocole internet.<br>Un protocole de communication, c’est un ensemble de règles à suivre. Et il y en a partout autour de nous : par exemple, quand on me dit « Bonjour ! », je réponds souvent « Bonjour ! » ou « Salut ! », selon le contexte.<br>Sur internet, c’est pareil : les sites et les appareils doivent suivre certaines règles pour échanger des informations et se comprendre. Ils suivent donc les règles définies par le protocole internet.<br>Une anecdote que je trouve intéressante : on considère que la naissance officielle d’internet est marquée par la mise en service des protocoles IP, en 1983. Mais comment avoir la garantie que l’on échange des informations avec les bons appareils ? C’est tout simple : il faut connaître leurs adresses !<br>Je vous donne une comparaison : si un ami m’envoie une lettre, il utilise mon adresse postale pour que sa lettre arrive au bon endroit, chez moi.<br>Eh bien, quand un site internet m’envoie des informations, il utilise mon adresse IP publique pour être sûr que les informations arrivent au bon endroit.<br>Plus précisément, le site utilise l’adresse IP publique de mon modem, aussi appelé « box internet ». Et cette adresse, c’est mon fournisseur d’accès internet qui me l’a donnée.<br>À retenir : on dit que l’adresse IP publique permet d’identifier, de manière unique, un appareil connecté à internet, peu importe sa connexion.<br>Et une adresse IP, ça ressemble à ça : des blocs de chiffres et parfois de lettres.<br>Je vous rappelle l’essentiel : il faut que cette adresse soit unique !<br>C’est d’ailleurs pour cette raison que le modèle d’adresses est en train de changer de v4 à v6 : pour avoir plus d’adresses disponibles ! Ça, je vous l’explique une autre fois.<br>Pour finir, vous l’avez remarqué, dans « adresse IP publique », il y a le mot « publique ».<br>Cela signifie que cette donnée est vue par n’importe quel site que je visite. Plus globalement, elle est vue par tous les systèmes utilisés pour transporter des informations sur internet.<br>D’ailleurs, les sites internet ont eux aussi chacun une adresse IP publique.<br>Comme ça, tout le monde a une adresse et donc il n’y a pas d’erreur de destinataire.</p>"
+          }
         }
       ]
     },
@@ -111,30 +126,33 @@
       "id": "eba0b676-c0c4-4b32-b5e4-dd94d13766a5",
       "type": "activity",
       "title": "Définition d'une IP publique",
-      "elements": [
+      "components": [
         {
-          "id": "06f8ac75-44e6-4001-9822-8d44fdfe7741",
-          "type": "qcu",
-          "instruction": "<p>Quelle définition peut-on donner de l'adresse IP publique&#8239;?</p>",
-          "proposals": [
-            {
-              "id": "1",
-              "content": "C'est l'adresse qui permet d'identifier un appareil informatique connecté à internet."
+          "type": "element",
+          "element": {
+            "id": "06f8ac75-44e6-4001-9822-8d44fdfe7741",
+            "type": "qcu",
+            "instruction": "<p>Quelle définition peut-on donner de l'adresse IP publique&#8239;?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "C'est l'adresse qui permet d'identifier un appareil informatique connecté à internet."
+              },
+              {
+                "id": "2",
+                "content": "C’est l’adresse qui commence par \"www.\" que l’on tape pour accéder à un site internet."
+              },
+              {
+                "id": "3",
+                "content": "C’est l’adresse qui permet d’envoyer des emails à des personnes via internet."
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct. L'adresse IP publique est l’équivalent d’une adresse postale pour identifier où est une personne.</p>",
+              "invalid": "<p>Incorrect. Vous pensez peut-être plutôt à l'adresse <strong>web</strong> ou l'adresse <strong>mail</strong>.<br>Vous pouvez remonter voir la vidéo.<span aria-hidden=\"true\">👆</span>️</p>"
             },
-            {
-              "id": "2",
-              "content": "C’est l’adresse qui commence par \"www.\" que l’on tape pour accéder à un site internet."
-            },
-            {
-              "id": "3",
-              "content": "C’est l’adresse qui permet d’envoyer des emails à des personnes via internet."
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>Correct. L'adresse IP publique est l’équivalent d’une adresse postale pour identifier où est une personne.</p>",
-            "invalid": "<p>Incorrect. Vous pensez peut-être plutôt à l'adresse <strong>web</strong> ou l'adresse <strong>mail</strong>.<br>Vous pouvez remonter voir la vidéo.<span aria-hidden=\"true\">👆</span>️</p>"
-          },
-          "solution": "1"
+            "solution": "1"
+          }
         }
       ]
     },
@@ -142,111 +160,138 @@
       "id": "96cdedc1-2d31-40c2-ac02-d3fd83f26e30",
       "type": "activity",
       "title": "Vrai-faux : traces de l'IP publique",
-      "elements": [
+      "components": [
         {
-          "id": "3f4354a6-3243-4b5a-a459-58b3f3d1ecb8",
-          "type": "text",
-          "content": "<p>Pour chaque affirmation, répondez par vrai ou par faux.<br> On supposera que les adresses IP publiques sont v4 et qu'aucun VPN n'est utilisé.</p>"
+          "type": "element",
+          "element": {
+            "id": "3f4354a6-3243-4b5a-a459-58b3f3d1ecb8",
+            "type": "text",
+            "content": "<p>Pour chaque affirmation, répondez par vrai ou par faux.<br> On supposera que les adresses IP publiques sont v4 et qu'aucun VPN n'est utilisé.</p>"
+          }
         },
         {
-          "id": "e31de344-eb96-4ecb-91eb-7f6a23197fa4",
-          "type": "text",
-          "content": "<hr>"
+          "type": "element",
+          "element": {
+            "id": "e31de344-eb96-4ecb-91eb-7f6a23197fa4",
+            "type": "text",
+            "content": "<hr>"
+          }
         },
         {
-          "id": "a2db1a10-063c-4f72-b676-956bb3d0837b",
-          "type": "qcu",
-          "instruction": "<p>L’adresse IP publique donne une information sur la zone géographique de la connexion.</p>",
-          "proposals": [
-            {
-              "id": "1",
-              "content": "Vrai"
+          "type": "element",
+          "element": {
+            "id": "a2db1a10-063c-4f72-b676-956bb3d0837b",
+            "type": "qcu",
+            "instruction": "<p>L’adresse IP publique donne une information sur la zone géographique de la connexion.</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "Vrai"
+              },
+              {
+                "id": "2",
+                "content": "Faux"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct. Les plages d’adresses IP sont réparties dans 5 grandes régions du monde puis partagées dans chaque pays.</p>",
+              "invalid": "<p>Incorrect. Les plages d’adresses IP sont réparties dans 5 grandes régions du monde puis partagées dans chaque pays. Elles sont donc <strong>localisées</strong>.</p>"
             },
-            {
-              "id": "2",
-              "content": "Faux"
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>Correct. Les plages d’adresses IP sont réparties dans 5 grandes régions du monde puis partagées dans chaque pays.</p>",
-            "invalid": "<p>Incorrect. Les plages d’adresses IP sont réparties dans 5 grandes régions du monde puis partagées dans chaque pays. Elles sont donc <strong>localisées</strong>.</p>"
-          },
-          "solution": "1"
+            "solution": "1"
+          }
         },
         {
-          "id": "f86b6384-6386-4069-acae-e8c725308e05",
-          "type": "text",
-          "content": "<hr>"
+          "type": "element",
+          "element": {
+            "id": "f86b6384-6386-4069-acae-e8c725308e05",
+            "type": "text",
+            "content": "<hr>"
+          }
         },
         {
-          "id": "74b6d2c6-a332-4f48-9896-e3bd52fb9bdc",
-          "type": "qcu",
-          "instruction": "<p>Une adresse IP publique est donnée par le point d’accès internet (box internet, 3G/4G, etc.).</p>",
-          "proposals": [
-            {
-              "id": "1",
-              "content": "Vrai"
+          "type": "element",
+          "element": {
+            "id": "74b6d2c6-a332-4f48-9896-e3bd52fb9bdc",
+            "type": "qcu",
+            "instruction": "<p>Une adresse IP publique est donnée par le point d’accès internet (box internet, 3G/4G, etc.).</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "Vrai"
+              },
+              {
+                "id": "2",
+                "content": "Faux"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct. Il s’agit par exemple de l’adresse IP publique de votre box internet si vous êtes chez vous ou celle du réseau de votre employeur au travail.</p>",
+              "invalid": "<p>Incorrect. Il s’agit par exemple de l’adresse IP publique de votre box internet si vous êtes chez vous ou celle du réseau de votre employeur au travail.</p>"
             },
-            {
-              "id": "2",
-              "content": "Faux"
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>Correct. Il s’agit par exemple de l’adresse IP publique de votre box internet si vous êtes chez vous ou celle du réseau de votre employeur au travail.</p>",
-            "invalid": "<p>Incorrect. Il s’agit par exemple de l’adresse IP publique de votre box internet si vous êtes chez vous ou celle du réseau de votre employeur au travail.</p>"
-          },
-          "solution": "1"
+            "solution": "1"
+          }
         },
         {
-          "id": "a3c7b247-3962-4f8e-a03c-27806ff6de67",
-          "type": "text",
-          "content": "<hr>"
+          "type": "element",
+          "element": {
+            "id": "a3c7b247-3962-4f8e-a03c-27806ff6de67",
+            "type": "text",
+            "content": "<hr>"
+          }
         },
         {
-          "id": "04d94597-3815-4745-9acd-4f32b8fa93f0",
-          "type": "qcu",
-          "instruction": "<p>Les personnes qui ont votre adresse IP publique peuvent savoir précisément où vous habitez.</p>",
-          "proposals": [
-            {
-              "id": "1",
-              "content": "Vrai"
+          "type": "element",
+          "element": {
+            "id": "04d94597-3815-4745-9acd-4f32b8fa93f0",
+            "type": "qcu",
+            "instruction": "<p>Les personnes qui ont votre adresse IP publique peuvent savoir précisément où vous habitez.</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "Vrai"
+              },
+              {
+                "id": "2",
+                "content": "Faux"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct. Au mieux, avec une adresse IP publique, on peut connaître votre pays ou votre ville. Si besoin, les autorités peuvent cependant accéder à plus d'informations dans un cadre prévu par la loi.</p>",
+              "invalid": "<p>Incorrect. Une adresse IP publique permet d'identifier un pays, voire une ville de connexion, mais difficile d’en savoir plus&#8239;!</p>"
             },
-            {
-              "id": "2",
-              "content": "Faux"
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>Correct. Au mieux, avec une adresse IP publique, on peut connaître votre pays ou votre ville. Si besoin, les autorités peuvent cependant accéder à plus d'informations dans un cadre prévu par la loi.</p>",
-            "invalid": "<p>Incorrect. Une adresse IP publique permet d'identifier un pays, voire une ville de connexion, mais difficile d’en savoir plus&#8239;!</p>"
-          },
-          "solution": "2"
+            "solution": "2"
+          }
         },
         {
-          "id": "4bb90e70-7b23-4327-b9d5-d6f902a6ca77",
-          "type": "text",
-          "content": "<hr>"
+          "type": "element",
+          "element": {
+            "id": "4bb90e70-7b23-4327-b9d5-d6f902a6ca77",
+            "type": "text",
+            "content": "<hr>"
+          }
         },
         {
-          "id": "3c7f2197-4d60-452c-b7d4-e1d642a5f2c0",
-          "type": "qcu",
-          "instruction": "<p>Les personnes connectées à la même box internet ont la même adresse IP publique.</p>",
-          "proposals": [
-            {
-              "id": "1",
-              "content": "Vrai"
+          "type": "element",
+          "element": {
+            "id": "3c7f2197-4d60-452c-b7d4-e1d642a5f2c0",
+            "type": "qcu",
+            "instruction": "<p>Les personnes connectées à la même box internet ont la même adresse IP publique.</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "Vrai"
+              },
+              {
+                "id": "2",
+                "content": "Faux"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct. C’est effectivement le point d’accès internet qui détermine l’adresse IP publique.</p>",
+              "invalid": "<p>Incorrect. Il n'y a pas plusieurs adresses IP publiques pour un même point d'accès internet. L'adresse est unique. </p>"
             },
-            {
-              "id": "2",
-              "content": "Faux"
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>Correct. C’est effectivement le point d’accès internet qui détermine l’adresse IP publique.</p>",
-            "invalid": "<p>Incorrect. Il n'y a pas plusieurs adresses IP publiques pour un même point d'accès internet. L'adresse est unique. </p>"
-          },
-          "solution": "1"
+            "solution": "1"
+          }
         }
       ]
     },
@@ -254,11 +299,14 @@
       "id": "7d23bf97-592a-4d9f-bfa4-81d2e32a8b6c",
       "type": "lesson",
       "title": "IP publique : à retenir",
-      "elements": [
+      "components": [
         {
-          "id": "27fc867a-7258-4f85-b8cc-bdd1ab2d26a5",
-          "type": "text",
-          "content": "<h3>Ce qu'il faut retenir&nbsp;<span aria-hidden=\"true\">🎓</span>️</h3><ul><li>L’adresse IP publique donne une information sur la zone géographique de la connexion.</li><li>Votre adresse IP publique est celle de votre box internet.</li><li>Les personnes connectées à la même box internet ont la même adresse IP publique.</li><li>À partir d'une adresse IP publique, on peut seulement identifier un pays, voire une ville de connexion.</li></ul>"
+          "type": "element",
+          "element": {
+            "id": "27fc867a-7258-4f85-b8cc-bdd1ab2d26a5",
+            "type": "text",
+            "content": "<h3>Ce qu'il faut retenir&nbsp;<span aria-hidden=\"true\">🎓</span>️</h3><ul><li>L’adresse IP publique donne une information sur la zone géographique de la connexion.</li><li>Votre adresse IP publique est celle de votre box internet.</li><li>Les personnes connectées à la même box internet ont la même adresse IP publique.</li><li>À partir d'une adresse IP publique, on peut seulement identifier un pays, voire une ville de connexion.</li></ul>"
+          }
         }
       ]
     },
@@ -266,47 +314,56 @@
       "id": "09304128-193f-4ea8-bda7-edffd72b1bf2",
       "type": "activity",
       "title": "Localisation à partir d'une IP",
-      "elements": [
+      "components": [
         {
-          "id": "21842978-ba1c-4e16-8c2a-c7d1db082c2a",
-          "type": "qrocm",
-          "instruction": "<p>Dans quel pays est située l’adresse IP suivante&nbsp;? <strong>77.205.153.196</strong></p>",
-          "proposals": [
-            {
-              "type": "text",
-              "content": "<span>Nom du pays&nbsp;:</span>"
-            },
-            {
-              "input": "pays",
-              "type": "input",
-              "inputType": "text",
-              "size": 15,
-              "display": "block",
-              "placeholder": "",
-              "ariaLabel": "Nom du pays :",
-              "defaultValue": "",
-              "tolerances": [
-                "t1"
-              ],
-              "solutions": [
-                "France"
-              ]
+          "type": "element",
+          "element": {
+            "id": "21842978-ba1c-4e16-8c2a-c7d1db082c2a",
+            "type": "qrocm",
+            "instruction": "<p>Dans quel pays est située l’adresse IP suivante&nbsp;? <strong>77.205.153.196</strong></p>",
+            "proposals": [
+              {
+                "type": "text",
+                "content": "<span>Nom du pays&nbsp;:</span>"
+              },
+              {
+                "input": "pays",
+                "type": "input",
+                "inputType": "text",
+                "size": 15,
+                "display": "block",
+                "placeholder": "",
+                "ariaLabel": "Nom du pays :",
+                "defaultValue": "",
+                "tolerances": [
+                  "t1"
+                ],
+                "solutions": [
+                  "France"
+                ]
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></p>",
+              "invalid": "<p>Incorrect. Pour réussir, utilisez un site internet dédié. Pour le trouver, faites une recherche sur internet avec les mots-clés \"localisation adresse IP\".</p>"
             }
-          ],
-          "feedbacks": {
-            "valid": "<p>Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></p>",
-            "invalid": "<p>Incorrect. Pour réussir, utilisez un site internet dédié. Pour le trouver, faites une recherche sur internet avec les mots-clés \"localisation adresse IP\".</p>"
           }
         },
         {
-          "id": "92a9f441-41c2-4e23-966c-bd1f172fbe45",
-          "type": "text",
-          "content": "<hr>Si vous êtes bloqué, vous pouvez lire les indices ci-dessous."
+          "type": "element",
+          "element": {
+            "id": "92a9f441-41c2-4e23-966c-bd1f172fbe45",
+            "type": "text",
+            "content": "<hr>Si vous êtes bloqué, vous pouvez lire les indices ci-dessous."
+          }
         },
         {
-          "id": "0856af53-1060-478f-8416-ddbc5ed3940c",
-          "type": "text",
-          "content": "<h3>Indice n°1&nbsp;:</h3><p>Faites une recherche en ligne. Des sites internet existent pour cela.</p><h3>Indice n°2&nbsp;:</h3><p>Pour votre recherche, utilisez les mots-clés \"localisation\" et \"adresse IP\".</p>"
+          "type": "element",
+          "element": {
+            "id": "0856af53-1060-478f-8416-ddbc5ed3940c",
+            "type": "text",
+            "content": "<h3>Indice n°1&nbsp;:</h3><p>Faites une recherche en ligne. Des sites internet existent pour cela.</p><h3>Indice n°2&nbsp;:</h3><p>Pour votre recherche, utilisez les mots-clés \"localisation\" et \"adresse IP\".</p>"
+          }
         }
       ]
     },
@@ -314,23 +371,32 @@
       "id": "45d507ce-f822-4a06-aa6e-f2a1b0aeada3",
       "type": "lesson",
       "title": "Schéma IP publique vs. IP locales !",
-      "elements": [
+      "components": [
         {
-          "id": "9814961b-3134-468d-a918-9b98a1775395",
-          "type": "text",
-          "content": "<p>Étudiez ce schéma qui présente les deux types d'adresses IP.<br>Par la suite, vous devrez trouver quel est le type d'adresse IP concernée entre privée et publique dans des situations concrètes.</p>"
+          "type": "element",
+          "element": {
+            "id": "9814961b-3134-468d-a918-9b98a1775395",
+            "type": "text",
+            "content": "<p>Étudiez ce schéma qui présente les deux types d'adresses IP.<br>Par la suite, vous devrez trouver quel est le type d'adresse IP concernée entre privée et publique dans des situations concrètes.</p>"
+          }
         },
         {
-          "id": "f42fa86c-3936-485a-8ea3-cabed25153f9",
-          "type": "image",
-          "url": "https://images.pix.fr/modulix/adresse-ip-publique-et-vous/schema-ip-publique-vs-privee.svg",
-          "alt": "Image décrite dans l'alternative textuelle",
-          "alternativeText": "Schéma en deux blocs : le premier bloc représente un réseau local avec des illustrations d'appareils (ordinateurs, imprimante) et leurs adresses IP privées, le second bloc représente Internet avec des illustrations de pages web et leurs adresses IP publiques. La box Internet se situe au centre et appartient aux deux blocs. Elle a deux adresses IP, une adresse IP privée et une adresse IP publique."
+          "type": "element",
+          "element": {
+            "id": "f42fa86c-3936-485a-8ea3-cabed25153f9",
+            "type": "image",
+            "url": "https://images.pix.fr/modulix/adresse-ip-publique-et-vous/schema-ip-publique-vs-privee.svg",
+            "alt": "Image décrite dans l'alternative textuelle",
+            "alternativeText": "Schéma en deux blocs : le premier bloc représente un réseau local avec des illustrations d'appareils (ordinateurs, imprimante) et leurs adresses IP privées, le second bloc représente Internet avec des illustrations de pages web et leurs adresses IP publiques. La box Internet se situe au centre et appartient aux deux blocs. Elle a deux adresses IP, une adresse IP privée et une adresse IP publique."
+          }
         },
         {
-          "id": "1b524302-7175-4923-8810-835201d3d443",
-          "type": "text",
-          "content": "<p><span aria-hidden=\"true\">🏠</span> Sur le <strong>réseau local</strong>, par exemple chez soi, les appareils (ordinateur, imprimante, etc.) utilisent des adresses IP <strong>privées</strong> (ou locales) pour communiquer.</p><p><span aria-hidden=\"true\">🌐</span> Sur <strong>internet</strong>, ce sont des adresses IP <strong>publiques</strong> qui permettent de communiquer des informations.</p><p><span aria-hidden=\"true\">🛜</span> La box internet a deux adresses IP : une privée et une publique.</p>"
+          "type": "element",
+          "element": {
+            "id": "1b524302-7175-4923-8810-835201d3d443",
+            "type": "text",
+            "content": "<p><span aria-hidden=\"true\">🏠</span> Sur le <strong>réseau local</strong>, par exemple chez soi, les appareils (ordinateur, imprimante, etc.) utilisent des adresses IP <strong>privées</strong> (ou locales) pour communiquer.</p><p><span aria-hidden=\"true\">🌐</span> Sur <strong>internet</strong>, ce sont des adresses IP <strong>publiques</strong> qui permettent de communiquer des informations.</p><p><span aria-hidden=\"true\">🛜</span> La box internet a deux adresses IP : une privée et une publique.</p>"
+          }
         }
       ]
     },
@@ -338,81 +404,99 @@
       "id": "a04e164e-9d16-4f6d-ad17-e16d30a8fefe",
       "type": "activity",
       "title": "IP publique ou IP privée",
-      "elements": [
+      "components": [
         {
-          "id": "9bc62c21-dfd4-40a8-9497-680a7e1c13d9",
-          "type": "text",
-          "content": "<p>Pour chaque affirmation, choisissez si elle correspond à une IP publique ou à une IP privée.</p>"
+          "type": "element",
+          "element": {
+            "id": "9bc62c21-dfd4-40a8-9497-680a7e1c13d9",
+            "type": "text",
+            "content": "<p>Pour chaque affirmation, choisissez si elle correspond à une IP publique ou à une IP privée.</p>"
+          }
         },
         {
-          "id": "01136211-72e8-47c3-a3d3-753edb2dfd09",
-          "type": "qcu",
-          "instruction": "<p>Cette adresse est visible en ligne par les sites que vous visitez.</p>",
-          "proposals": [
-            {
-              "id": "1",
-              "content": "l'adresse IP publique"
+          "type": "element",
+          "element": {
+            "id": "01136211-72e8-47c3-a3d3-753edb2dfd09",
+            "type": "qcu",
+            "instruction": "<p>Cette adresse est visible en ligne par les sites que vous visitez.</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "l'adresse IP publique"
+              },
+              {
+                "id": "2",
+                "content": "l'adresse IP privée"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></p>",
+              "invalid": "<p>Incorrect. L'adresse IP privée (locale) est visible uniquement par les appareils du réseau local.</p>"
             },
-            {
-              "id": "2",
-              "content": "l'adresse IP privée"
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></p>",
-            "invalid": "<p>Incorrect. L'adresse IP privée (locale) est visible uniquement par les appareils du réseau local.</p>"
-          },
-          "solution": "1"
+            "solution": "1"
+          }
         },
         {
-          "id": "4d3fc4dc-3a53-4ef0-9bfd-eac3dd9a3e36",
-          "type": "text",
-          "content": "<hr>"
+          "type": "element",
+          "element": {
+            "id": "4d3fc4dc-3a53-4ef0-9bfd-eac3dd9a3e36",
+            "type": "text",
+            "content": "<hr>"
+          }
         },
         {
-          "id": "6f0e2bdd-c56f-45d4-ab0a-1497b9cfdc1e",
-          "type": "qcu",
-          "instruction": "<p>Cette adresse permet les échanges entre une box internet et les appareils connectés à cette box.</p>",
-          "proposals": [
-            {
-              "id": "1",
-              "content": "l'adresse IP publique"
+          "type": "element",
+          "element": {
+            "id": "6f0e2bdd-c56f-45d4-ab0a-1497b9cfdc1e",
+            "type": "qcu",
+            "instruction": "<p>Cette adresse permet les échanges entre une box internet et les appareils connectés à cette box.</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "l'adresse IP publique"
+              },
+              {
+                "id": "2",
+                "content": "l'adresse IP privée"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></p>",
+              "invalid": "<p>Incorrect. L'adresse IP publique permet les échanges entre une box internet et les sites visités.</p>"
             },
-            {
-              "id": "2",
-              "content": "l'adresse IP privée"
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></p>",
-            "invalid": "<p>Incorrect. L'adresse IP publique permet les échanges entre une box internet et les sites visités.</p>"
-          },
-          "solution": "2"
+            "solution": "2"
+          }
         },
         {
-          "id": "4547715b-b5eb-48be-b14c-4ddff4d3802d",
-          "type": "text",
-          "content": "<hr>"
+          "type": "element",
+          "element": {
+            "id": "4547715b-b5eb-48be-b14c-4ddff4d3802d",
+            "type": "text",
+            "content": "<hr>"
+          }
         },
         {
-          "id": "952234bc-4ec1-4ebd-9208-6cc261a1efd8",
-          "type": "qcu",
-          "instruction": "<p>Cette adresse est unique pour chaque appareil connecté à une même box internet.</p>",
-          "proposals": [
-            {
-              "id": "1",
-              "content": "l'adresse IP publique"
+          "type": "element",
+          "element": {
+            "id": "952234bc-4ec1-4ebd-9208-6cc261a1efd8",
+            "type": "qcu",
+            "instruction": "<p>Cette adresse est unique pour chaque appareil connecté à une même box internet.</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "l'adresse IP publique"
+              },
+              {
+                "id": "2",
+                "content": "l'adresse IP privée"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></p>",
+              "invalid": "<p>Incorrect. L'adresse IP publique est spécifique à la box internet, pas aux appareils qui y sont connectés.</p>"
             },
-            {
-              "id": "2",
-              "content": "l'adresse IP privée"
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></p>",
-            "invalid": "<p>Incorrect. L'adresse IP publique est spécifique à la box internet, pas aux appareils qui y sont connectés.</p>"
-          },
-          "solution": "2"
+            "solution": "2"
+          }
         }
       ]
     },
@@ -420,36 +504,45 @@
       "id": "10cadfb9-9b4b-455e-9198-1fc11ab3356d",
       "type": "activity",
       "title": "Trouvez votre IP publique",
-      "elements": [
+      "components": [
         {
-          "id": "eed9177c-4bc9-401c-928f-13585df010f7",
-          "type": "qcu",
-          "instruction": "<p>Pour finir ce module, cherchez votre adresse IP publique actuelle.<span aria-hidden=\"true\">🕵️‍♂️</span>️<span aria-hidden=\"true\">🕵🏽‍♀️</span>️</p><p>Pensez-vous avoir réussi à la trouver&#8239;?</p>",
-          "proposals": [
-            {
-              "id": "1",
-              "content": "oui"
+          "type": "element",
+          "element": {
+            "id": "eed9177c-4bc9-401c-928f-13585df010f7",
+            "type": "qcu",
+            "instruction": "<p>Pour finir ce module, cherchez votre adresse IP publique actuelle.<span aria-hidden=\"true\">🕵️‍♂️</span>️<span aria-hidden=\"true\">🕵🏽‍♀️</span>️</p><p>Pensez-vous avoir réussi à la trouver&#8239;?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "oui"
+              },
+              {
+                "id": "2",
+                "content": "non"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p> Pour vérifier votre réponse, suivez le lien vers <a href=\"https://monip.org/\" target=\"_blank\">https://monip.org/</a>.</p>",
+              "invalid": "<p>Suivez le lien vers <a href=\"https://monip.org/\" target=\"_blank\">https://monip.org/</a> pour la trouver.</p>"
             },
-            {
-              "id": "2",
-              "content": "non"
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p> Pour vérifier votre réponse, suivez le lien vers <a href=\"https://monip.org/\" target=\"_blank\">https://monip.org/</a>.</p>",
-            "invalid": "<p>Suivez le lien vers <a href=\"https://monip.org/\" target=\"_blank\">https://monip.org/</a> pour la trouver.</p>"
-          },
-          "solution": "1"
+            "solution": "1"
+          }
         },
         {
-          "id": "0f89410d-2ff5-4e14-8400-945ab0353616",
-          "type": "text",
-          "content": "<hr>Si vous êtes bloqué, vous pouvez lire les indices ci-dessous."
+          "type": "element",
+          "element": {
+            "id": "0f89410d-2ff5-4e14-8400-945ab0353616",
+            "type": "text",
+            "content": "<hr>Si vous êtes bloqué, vous pouvez lire les indices ci-dessous."
+          }
         },
         {
-          "id": "83c57d2b-c2d8-46fe-9b1c-051a58dcf890",
-          "type": "text",
-          "content": "<h3>Indice n°1&nbsp;:</h3><p>Faites une recherche en ligne. Des sites internet existent pour cela.</p><h3>Indice n°2&nbsp;:</h3><p>Pour votre recherche, utilisez les mots-clés \"trouver\" et \"mon adresse IP\".</p>"
+          "type": "element",
+          "element": {
+            "id": "83c57d2b-c2d8-46fe-9b1c-051a58dcf890",
+            "type": "text",
+            "content": "<h3>Indice n°1&nbsp;:</h3><p>Faites une recherche en ligne. Des sites internet existent pour cela.</p><h3>Indice n°2&nbsp;:</h3><p>Pour votre recherche, utilisez les mots-clés \"trouver\" et \"mon adresse IP\".</p>"
+          }
         }
       ]
     }
