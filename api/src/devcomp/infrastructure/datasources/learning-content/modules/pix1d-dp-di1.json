@@ -18,7 +18,7 @@
       "grainId": "4a96e2aa-fdeb-4094-8c99-2bc8f088bfbe"
     },
     {
-      "content": "<p>Si comme Lucas, tu veux apprendre ce qu'est une donnée personnelle, regarde attentivement la vidéo. Après la vidéo, tu pourras répondre à la question : \"Qu'est-ce qu'une donnée personnelle ?\" puis tu devras trier des données.</p>",
+      "content": "<p>Si comme Lucas, tu veux apprendre ce qu'est une donnée personnelle, regarde attentivement la vidéo. Après la vidéo, tu pourras répondre à la question : \"C'est quoi les données personnelles ?\" puis tu devras trier des données.</p>",
       "grainId": "6de63cda-85ce-4bc6-83a0-f2f3518d4968"
     },
     {
@@ -30,7 +30,7 @@
       "grainId": "5773e09f-947f-41d9-94a6-12bc02589ada"
     },
     {
-      "content": "<p>Rappelle-toi, Lucas a rempli un questionnaire pour gagner à un concours. Lis-le.</p>",
+      "content": "<p>Maintenant, sais-tu quelles données personnelles Lucas a partagées dans le questionnaire ?</p>",
       "grainId": "2953f145-c489-48d6-9a85-a8ad08f140e2"
     },
     {
@@ -47,7 +47,7 @@
         {
           "id": "686768b1-bf81-4a72-ac74-a0086646aa13",
           "type": "text",
-          "content": "<iframe title=\"video\" src=\"https://tube-numerique-educatif.apps.education.fr/videos/embed/5d00aa3d-eaff-4508-9ae9-096b55454626\" width=\"100%\" height=\"400\"></iframe>"
+          "content": "<iframe title=\"video\" src=\"https://tube-numerique-educatif.apps.education.fr/videos/embed/994d630b-0222-4a72-b294-a7c726b2feaa?title=0&amp;warningTitle=0&amp;peertubeLink=0&amp;p2p=0\" width=\"100%\" height=\"600\"></iframe>"
         }
       ]
     },
@@ -127,7 +127,7 @@
         {
           "id": "f127b2ed-b484-4642-95e5-19d5ebdad34e",
           "type": "qcm",
-            "instruction": "<p>On sait déjà que son nom, son prénom et son numéro sont des données personnelles. Peux-tu retrouver les 2 autres données personnelles qu'il a complétées ?</p>",
+            "instruction": "<p>Regarde le formulaire que Lucas a rempli: On sait déjà qu'il n'aurait pas dû donner son nom, son prénom et son numéro. Peux-tu retrouver les 2 autres données personnelles qu'il n'aurait pas dû remplir ?</p>",
             "proposals": [
               {
                 "id": "1",
