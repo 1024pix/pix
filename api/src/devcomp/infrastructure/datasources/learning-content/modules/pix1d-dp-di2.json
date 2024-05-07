@@ -43,7 +43,7 @@
         {
           "id": "cd62206a-fb5d-4a5b-a5dd-8a691ee83317",
           "type": "text",
-          "content": "vidéo conversation entre 1 enfant et le robot : enfant : - je voudrais bien m'inscrire sur ce site de jeux en ligne, mais je ne sais pas ce que je dois écrire dans le questionnaire. robot : - il faut toujours être très prudent lorsqu'on rempli un questionnaire. Il y a des règles à suivre. enfant : - encore des règles !!!! pfff robot : - oui mais celles-là sont faites pour t'aider à protéger tes données personnelles, c'est important ! entant : - d'accord, je veux ben que tu m'expliques tout ça pour que je puisse me protéger."
+          "content": "<iframe title=\"video\" src=\"https://tube-numerique-educatif.apps.education.fr/videos/embed/d31aed91-b2da-404f-bd48-fbd71b1012c1?title=0&amp;warningTitle=0&amp;peertubeLink=0&amp;p2p=0\" width=\"100%\" height=\"600\"></iframe>"
         }
       ]
     },
@@ -76,11 +76,11 @@
           "proposals": [
             {
               "id": "1",
-              "content": "les utiliser pour remplir des formulaires"
+              "content": "les diffuser pour être connu sur internet"
             },
             {
               "id": "2",
-              "content": "les protéger, car c'est ta vie privée"
+              "content": "les garder pour soi  pour protéger sa vie privée"
             }
           ],
           "feedbacks": {
@@ -99,7 +99,7 @@
         {
           "id": "52ae13b0-a98c-4468-9e9a-28d8a9d5fc3b",
           "type": "text",
-          "content": "Pour chaque conseil, choisis la meilleure propostion."
+          "content": "Pour chaque proposition, choisis le meilleur conseil."
         },
         {
           "id": "588c4a7d-bd65-461b-b06b-7c82f398b532",
@@ -115,16 +115,16 @@
             "proposals": [
               {
                 "id": "1",
-                "content": "m'inscrire avec mon nom et mon prénom"
+                "content": "partager mon adresse et mon numéro de téléphone sur internet"
               },
               {
                 "id": "2",
-                "content": "m'inscrire avec un pseudo"
+                "content": "être prudent avec les informations que je donne."
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct.</p>",
-              "invalid": "<p>Incorrect.</p>"
+              "valid": "<p>Bravo, tu sais que ton adresse et ton numéro de téléphone sont personnels.</p>",
+              "invalid": "<p>Non. Ton adresse et ton numéro de téléphone son personnels, il faut les partager avec la plus grande prudence.</p>"
             },
             "solution": "2"
           },
@@ -143,22 +143,22 @@
           {
             "id": "610cbac0-b26e-4152-8620-50f7a0e453cd",
             "type": "qcu",
-              "instruction": "<p>Photos</p>",
+              "instruction": "<p>Avec mes photos et mes vidéos, je dois :</p>",
               "proposals": [
                 {
                   "id": "1",
-                  "content": "a"
+                  "content": "éviter de les partager sur internet"
                 },
                 {
                   "id": "2",
-                  "content": "b"
+                  "content": "les partager à tout le monde sur internet"
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Correct. </p>",
-                "invalid": "<p>Incorrect. Bla</p>"
+                "valid": "<p>Bravo, tu sais que tu dois protéger à ton image.</p>",
+                "invalid": "<p>Non. Attention, sur internet tout le monde peut voir et enregistrer tes photos et tes vidéos.</p>"
               },
-              "solution": "2"
+              "solution": "1"
             },
             {
               "id": "041b34fc-50f4-4659-9833-53753f19baad",
@@ -175,20 +175,20 @@
             {
               "id": "dac92664-78b7-4347-9c76-8d82788a1b28",
               "type": "qcu",
-                "instruction": "<p>Pseudo</p>",
+                "instruction": "<p>Pour garder mes informations personnelles pour moi, je dois : </p>",
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "a"
+                    "content": "inscrire son nom et son prénom dans son profil"
                   },
                   {
                     "id": "2",
-                    "content": "b"
+                    "content": "m'inscrire avec mon pseudonyme."
                   }
                 ],
                 "feedbacks": {
-                  "valid": "<p>Correct. </p>",
-                  "invalid": "<p>Incorrect. Bla</p>"
+                  "valid": "<p>Bravo, tu sais que ton nom et ton prénom premettent de t'identifier.</p>",
+                  "invalid": "<p>Non. Ton nom et ton prénom premettent de t'identifier, il est préférable d'utiliser un pseudonyme.</p>"
                 },
                 "solution": "2"
               },
@@ -207,20 +207,20 @@
               {
                 "id": "76e4947d-b9f6-454e-9dba-b3c56b3d4abc",
                 "type": "qcu",
-                  "instruction": "<p>Adulte</p>",
+                  "instruction": "<p> Quand je veux m'inscrire sur un site, je dois :</p>",
                   "proposals": [
                     {
                       "id": "1",
-                      "content": "a"
+                      "content": "compléter tous les questionnaires en entier."
                     },
                     {
                       "id": "2",
-                      "content": "b"
+                      "content": "demander à un adulte de me conseiller."
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<p>Correct. </p>",
-                    "invalid": "<p>Incorrect. Bla</p>"
+                    "valid": "<p>Bravo, tu sais qu'il faut toujours demander à un adulte de t'aider à remplir les questionnaires.</p>",
+                    "invalid": "<p>Non. Attention, il faut toujours être prudent et demander à un adulte de t'aider.</p>"
                   },
                   "solution": "2"
                 }
