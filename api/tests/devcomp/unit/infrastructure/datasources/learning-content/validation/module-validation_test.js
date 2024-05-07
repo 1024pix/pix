@@ -202,12 +202,14 @@ describe('Unit | Infrastructure | Datasources | Learning Content | Module Dataso
             id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
             type: 'lesson',
             title: 'Voici une leçon',
-            // ToDo PIX-12363 migrate to components
-            elements: [
+            components: [
               {
-                id: '84726001-1665-457d-8f13-4a74dc4768ea',
-                type: 'text',
-                content: '<h3>Content.</h3>',
+                type: 'element',
+                element: {
+                  id: '84726001-1665-457d-8f13-4a74dc4768ea',
+                  type: 'text',
+                  content: '<h3>Content.</h3>',
+                },
               },
             ],
           },
@@ -270,8 +272,7 @@ describe('Unit | Infrastructure | Datasources | Learning Content | Module Dataso
         id: '34d225e8-5d52-4ebd-9acd-8bde8438cfc9',
         type: 'lesson',
         title: '<strong>Sûr de ton adresse mail ?</strong>',
-        // ToDo PIX-12363 migrate to components
-        elements: [],
+        components: [],
       };
 
       try {

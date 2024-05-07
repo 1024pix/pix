@@ -32,8 +32,7 @@ describe('Unit | Devcomp | Domain | Models | Grain', function () {
 
     describe('if a grain does not have components', function () {
       it('should not throw an error', function () {
-        // ToDo PIX-12363 migrate to components
-        expect(() => new Grain({ id: 1, title: 'Les adresses mail', elements: [] })).not.to.throw();
+        expect(() => new Grain({ id: 1, title: 'Les adresses mail', components: [] })).not.to.throw();
       });
     });
 
@@ -45,8 +44,6 @@ describe('Unit | Devcomp | Domain | Models | Grain', function () {
               new Grain({
                 id: 'id_grain_1',
                 title: 'Bien écrire son adresse mail',
-                // ToDo PIX-12363 migrate to components
-                elements: [],
                 components: 'components',
               }),
           ).to.throw(`Grain components should be a list of components`);
