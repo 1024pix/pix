@@ -35,7 +35,7 @@ module('Acceptance | authentication', function (hooks) {
 
       hooks.beforeEach(async () => {
         user = createUserWithMembership();
-        createPrescriberByUser(user);
+        createPrescriberByUser({ user });
       });
 
       test('it should redirect prescriber to the terms-of-service page', async function (assert) {
@@ -76,7 +76,7 @@ module('Acceptance | authentication', function (hooks) {
 
       hooks.beforeEach(() => {
         user = createUserWithMembershipAndTermsOfServiceAccepted();
-        createPrescriberByUser(user);
+        createPrescriberByUser({ user });
       });
 
       test('it should redirect user to the campaigns list', async function (assert) {
@@ -138,7 +138,7 @@ module('Acceptance | authentication', function (hooks) {
       let prescriber;
       hooks.beforeEach(async () => {
         const user = createUserWithMembershipAndTermsOfServiceAccepted();
-        prescriber = createPrescriberByUser(user);
+        prescriber = createPrescriberByUser({ user });
 
         await authenticateSession(user.id);
       });
@@ -222,7 +222,7 @@ module('Acceptance | authentication', function (hooks) {
     module('When user is member', function (hooks) {
       hooks.beforeEach(async () => {
         const user = createUserMembershipWithRole('MEMBER');
-        createPrescriberByUser(user);
+        createPrescriberByUser({ user });
 
         await authenticateSession(user.id);
       });

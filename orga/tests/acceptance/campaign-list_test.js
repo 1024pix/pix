@@ -27,7 +27,7 @@ module('Acceptance | Campaign List', function (hooks) {
     test('it should be accessible for an authenticated prescriber', async function (assert) {
       // given
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
-      createPrescriberByUser(user);
+      createPrescriberByUser({ user });
       await authenticateSession(user.id);
 
       server.create('campaign');
@@ -42,7 +42,7 @@ module('Acceptance | Campaign List', function (hooks) {
     test('it should show title indicate than prescriber can create a campaign', async function (assert) {
       // given
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
-      createPrescriberByUser(user);
+      createPrescriberByUser({ user });
       await authenticateSession(user.id);
 
       // when
@@ -55,7 +55,7 @@ module('Acceptance | Campaign List', function (hooks) {
     test('it should show the two tabs: my campaigns and all campaigns', async function (assert) {
       // given
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
-      createPrescriberByUser(user);
+      createPrescriberByUser({ user });
       server.create('campaign');
 
       await authenticateSession(user.id);

@@ -18,7 +18,7 @@ module('Acceptance | Switch Organization', function (hooks) {
   module('When connected prescriber is linked to only one organization', function (hooks) {
     hooks.beforeEach(async function () {
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
-      createPrescriberByUser(user);
+      createPrescriberByUser({ user });
 
       await authenticateSession(user.id);
     });
@@ -47,7 +47,7 @@ module('Acceptance | Switch Organization', function (hooks) {
   module('When connected prescriber is linked to multiples organizations', function (hooks) {
     hooks.beforeEach(async function () {
       const user = createUserWithMultipleMemberships();
-      createPrescriberByUser(user);
+      createPrescriberByUser({ user });
 
       await authenticateSession(user.id);
     });

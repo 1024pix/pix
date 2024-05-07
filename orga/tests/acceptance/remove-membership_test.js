@@ -15,7 +15,7 @@ module('Acceptance | Remove membership', function (hooks) {
 
   hooks.beforeEach(async function () {
     const adminUser = createUserMembershipWithRole('ADMIN');
-    createPrescriberByUser(adminUser);
+    createPrescriberByUser({ user: adminUser });
 
     await authenticateSession(adminUser.id);
     const organizationId = adminUser.memberships.models.firstObject.organizationId;

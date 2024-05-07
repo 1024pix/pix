@@ -31,7 +31,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
     hooks.beforeEach(async () => {
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
       server.create('member-identity', { id: user.id, firstName: user.firstName, lastName: user.lastName });
-      createPrescriberByUser(user);
+      createPrescriberByUser({ user });
 
       await authenticateSession(user.id);
     });

@@ -13,7 +13,7 @@ module('Acceptance | preselect-target-profile', function (hooks) {
 
   hooks.beforeEach(async () => {
     const user = createUserWithMembershipAndTermsOfServiceAccepted();
-    createPrescriberByUser(user);
+    createPrescriberByUser({ user });
     await authenticateSession(user.id);
   });
 

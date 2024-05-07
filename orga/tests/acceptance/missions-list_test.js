@@ -27,7 +27,7 @@ module('Acceptance | Missions List', function (hooks) {
     test('user should access to the list of the missions', async function (assert) {
       // given
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
-      const prescriber = createPrescriberByUser(user);
+      const prescriber = createPrescriberByUser({ user });
       prescriber.features = { ...prescriber.features, MISSIONS_MANAGEMENT: true };
       await authenticateSession(user.id);
 
@@ -45,7 +45,7 @@ module('Acceptance | Missions List', function (hooks) {
       test('should display division list when there are some', async function (assert) {
         // given
         const user = createUserWithMembershipAndTermsOfServiceAccepted();
-        const prescriber = createPrescriberByUser(user);
+        const prescriber = createPrescriberByUser({ user });
         prescriber.features = { ...prescriber.features, MISSIONS_MANAGEMENT: true };
         await authenticateSession(user.id);
 
@@ -60,7 +60,7 @@ module('Acceptance | Missions List', function (hooks) {
       test('should display no division message when there are none', async function (assert) {
         // given
         const user = createUserWithMembershipAndTermsOfServiceAccepted();
-        const prescriber = createPrescriberByUser(user);
+        const prescriber = createPrescriberByUser({ user });
         prescriber.features = { ...prescriber.features, MISSIONS_MANAGEMENT: true };
         await authenticateSession(user.id);
 
@@ -77,7 +77,7 @@ module('Acceptance | Missions List', function (hooks) {
     test('it should see empty state when there is no mission', async function (assert) {
       // given
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
-      const prescriber = createPrescriberByUser(user);
+      const prescriber = createPrescriberByUser({ user });
       prescriber.features = { ...prescriber.features, MISSIONS_MANAGEMENT: true };
       await authenticateSession(user.id);
 
@@ -92,7 +92,7 @@ module('Acceptance | Missions List', function (hooks) {
     test('user should acces to detail when he click on a row', async function (assert) {
       // given
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
-      const prescriber = createPrescriberByUser(user);
+      const prescriber = createPrescriberByUser({ user });
       prescriber.features = { ...prescriber.features, MISSIONS_MANAGEMENT: true };
       await authenticateSession(user.id);
 

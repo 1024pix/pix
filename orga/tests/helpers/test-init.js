@@ -1,4 +1,4 @@
-export function createPrescriberByUser(user, participantCount = 0) {
+export function createPrescriberByUser({ user, participantCount = 0 }) {
   const prescriber = server.create('prescriber', {
     id: user.id,
     firstName: user.firstName,
@@ -166,7 +166,7 @@ export function createPrescriberForOrganization(userAttributes = {}, organizatio
   user.memberships = [membership];
   user.userOrgaSettings = server.create('user-orga-setting', { organization, user });
 
-  createPrescriberByUser(user);
+  createPrescriberByUser({ user });
   return user;
 }
 

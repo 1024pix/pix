@@ -19,7 +19,7 @@ module('Acceptance | Organization Participant List', function (hooks) {
     module('When organization is not managing students', function (hooks) {
       hooks.beforeEach(async function () {
         user = createUserWithMembershipAndTermsOfServiceAccepted();
-        createPrescriberByUser(user);
+        createPrescriberByUser({ user });
         await authenticateSession(user.id);
       });
 

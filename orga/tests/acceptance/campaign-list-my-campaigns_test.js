@@ -27,7 +27,7 @@ module('Acceptance | /campaigns/list/my-campaigns ', function (hooks) {
     test('it should be accessible and prescriber redirected to his campaigns list', async function (assert) {
       // given
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
-      createPrescriberByUser(user);
+      createPrescriberByUser({ user });
       await authenticateSession(user.id);
 
       // when
@@ -42,7 +42,7 @@ module('Acceptance | /campaigns/list/my-campaigns ', function (hooks) {
         // given
         const user = createUserWithMembershipAndTermsOfServiceAccepted();
         const otherUser = server.create('user');
-        createPrescriberByUser(user);
+        createPrescriberByUser({ user });
         await authenticateSession(user.id);
 
         server.create('campaign', {
@@ -70,7 +70,7 @@ module('Acceptance | /campaigns/list/my-campaigns ', function (hooks) {
       test('it should redirect to campaign details on click', async function (assert) {
         // given
         const user = createUserWithMembershipAndTermsOfServiceAccepted();
-        createPrescriberByUser(user);
+        createPrescriberByUser({ user });
         await authenticateSession(user.id);
 
         server.create('campaign', {
@@ -93,7 +93,7 @@ module('Acceptance | /campaigns/list/my-campaigns ', function (hooks) {
         test('it should filter campaigns by campaign name', async function (assert) {
           // given
           const user = createUserWithMembershipAndTermsOfServiceAccepted();
-          createPrescriberByUser(user);
+          createPrescriberByUser({ user });
           await authenticateSession(user.id);
 
           server.create('campaign', {
@@ -121,7 +121,7 @@ module('Acceptance | /campaigns/list/my-campaigns ', function (hooks) {
         test('it should update URL with campaign name filter', async function (assert) {
           // given
           const user = createUserWithMembershipAndTermsOfServiceAccepted();
-          createPrescriberByUser(user);
+          createPrescriberByUser({ user });
           await authenticateSession(user.id);
 
           const campaignName = 'CampagneV2';
@@ -144,7 +144,7 @@ module('Acceptance | /campaigns/list/my-campaigns ', function (hooks) {
           test("it should clear campaign filters on click and display active owner's campaigns", async function (assert) {
             // given
             const user = createUserWithMembershipAndTermsOfServiceAccepted();
-            createPrescriberByUser(user);
+            createPrescriberByUser({ user });
             await authenticateSession(user.id);
 
             server.create('campaign', {
@@ -174,7 +174,7 @@ module('Acceptance | /campaigns/list/my-campaigns ', function (hooks) {
       test('it should redirect to campaign details on click', async function (assert) {
         // given
         const user = createUserWithMembershipAndTermsOfServiceAccepted();
-        createPrescriberByUser(user);
+        createPrescriberByUser({ user });
         await authenticateSession(user.id);
 
         // when

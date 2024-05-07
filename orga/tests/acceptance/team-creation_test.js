@@ -35,7 +35,7 @@ module('Acceptance | Team Creation', function (hooks) {
     module('When prescriber is a member', function (hooks) {
       hooks.beforeEach(async () => {
         user = createUserMembershipWithRole('MEMBER');
-        createPrescriberByUser(user);
+        createPrescriberByUser({ user });
 
         await authenticateSession(user.id);
       });
@@ -57,7 +57,7 @@ module('Acceptance | Team Creation', function (hooks) {
 
       hooks.beforeEach(async function () {
         user = createUserMembershipWithRole('ADMIN');
-        createPrescriberByUser(user);
+        createPrescriberByUser({ user });
 
         organizationId = server.db.organizations[0].id;
 

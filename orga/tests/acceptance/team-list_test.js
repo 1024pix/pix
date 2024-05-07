@@ -1,5 +1,4 @@
-import { clickByName } from '@1024pix/ember-testing-library';
-import { visit as visitScreen, waitForElementToBeRemoved } from '@1024pix/ember-testing-library';
+import { clickByName, visit as visitScreen, waitForElementToBeRemoved } from '@1024pix/ember-testing-library';
 import { click, currentURL, visit } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
@@ -31,7 +30,7 @@ module('Acceptance | Team List', function (hooks) {
     test('[a11y] it should contain accessibility aria-label nav', async function (assert) {
       // given
       user = createUserMembershipWithRole('ADMIN');
-      createPrescriberByUser(user);
+      createPrescriberByUser({ user });
 
       await authenticateSession(user.id);
       // when
@@ -47,7 +46,7 @@ module('Acceptance | Team List', function (hooks) {
       test('it should show title of team page', async function (assert) {
         // given
         user = createUserMembershipWithRole('MEMBER');
-        createPrescriberByUser(user);
+        createPrescriberByUser({ user });
 
         await authenticateSession(user.id);
 
@@ -61,7 +60,7 @@ module('Acceptance | Team List', function (hooks) {
       test('it should be possible to see only members list', async function (assert) {
         // given
         user = createUserMembershipWithRole('MEMBER');
-        createPrescriberByUser(user);
+        createPrescriberByUser({ user });
 
         await authenticateSession(user.id);
 
@@ -81,7 +80,7 @@ module('Acceptance | Team List', function (hooks) {
       test('it should be accessible', async function (assert) {
         // given
         user = createUserMembershipWithRole('ADMIN');
-        createPrescriberByUser(user);
+        createPrescriberByUser({ user });
 
         await authenticateSession(user.id);
 
@@ -95,7 +94,7 @@ module('Acceptance | Team List', function (hooks) {
       test('it should show title of team page', async function (assert) {
         // given
         user = createUserMembershipWithRole('ADMIN');
-        createPrescriberByUser(user);
+        createPrescriberByUser({ user });
 
         await authenticateSession(user.id);
 
@@ -109,7 +108,7 @@ module('Acceptance | Team List', function (hooks) {
       test('it should show members list, invitations list and add an invitation button', async function (assert) {
         // given
         user = createUserMembershipWithRole('ADMIN');
-        createPrescriberByUser(user);
+        createPrescriberByUser({ user });
 
         await authenticateSession(user.id);
 
@@ -149,7 +148,7 @@ module('Acceptance | Team List', function (hooks) {
               organizationRole: 'ADMIN',
             }),
           ];
-          createPrescriberByUser(leavingUser);
+          createPrescriberByUser({ user: leavingUser });
 
           const userLeft = server.create('user', {
             firstName: 'Left',
@@ -166,7 +165,7 @@ module('Acceptance | Team List', function (hooks) {
               organizationRole: 'ADMIN',
             }),
           ];
-          createPrescriberByUser(userLeft);
+          createPrescriberByUser({ user: userLeft });
 
           await authenticateSession(leavingUser.id);
           const screen = await visitScreen('/equipe');
@@ -192,7 +191,7 @@ module('Acceptance | Team List', function (hooks) {
     test('it should land on first page', async function (assert) {
       // given
       user = createUserMembershipWithRole('ADMIN');
-      createPrescriberByUser(user);
+      createPrescriberByUser({ user });
       await authenticateSession(user.id);
 
       const organizationId = server.db.organizations[0].id;

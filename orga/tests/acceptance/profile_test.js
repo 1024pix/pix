@@ -17,7 +17,7 @@ module('Acceptance | Campaign Profile', function (hooks) {
 
   hooks.beforeEach(async () => {
     user = createUserWithMembershipAndTermsOfServiceAccepted();
-    createPrescriberByUser(user);
+    createPrescriberByUser({ user });
 
     await authenticateSession(user.id);
   });

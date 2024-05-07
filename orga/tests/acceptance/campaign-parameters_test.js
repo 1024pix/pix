@@ -14,7 +14,7 @@ module('Acceptance | Campaign Parameters', function (hooks) {
 
   hooks.beforeEach(async function () {
     const user = createUserManagingStudents('ADMIN');
-    createPrescriberByUser(user);
+    createPrescriberByUser({ user });
 
     await authenticateSession(user.id);
   });
