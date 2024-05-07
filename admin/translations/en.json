@@ -41,6 +41,14 @@
         },
         "upload-button": "Import JSON file"
       },
+      "organizations-batch-update": {
+        "title": "Enable features on organizations",
+        "description": "Note: Trying to enable already existing features on organizations would produce an error.",
+        "notifications": {
+          "success": "Features have been enabled."
+        },
+        "upload-button": "Import CSV file"
+      },
       "organizations-import": {
         "title": "Mass creation of organizations",
         "description": "Existing organizations will not be changed.",
