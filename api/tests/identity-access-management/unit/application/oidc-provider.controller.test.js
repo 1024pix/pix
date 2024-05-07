@@ -3,6 +3,44 @@ import { usecases } from '../../../../src/identity-access-management/domain/usec
 import { expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Application | Controller | oidc-provider', function () {
+  describe('#getAuthorizationUrl', function () {
+    it('returns the generated authorization url', async function () {
+      // given
+      const request = {
+        query: { identity_provider: 'OIDC' },
+        yar: { set: sinon.stub(), commit: sinon.stub() },
+      };
+      sinon.stub(usecases, 'getAuthorizationUrl').resolves({
+        nonce: 'cf5d60f7-f0dc-4d9f-a9e5-11b5eebe5fda',
+        state: '0498cd9d-7af3-474d-bde2-946f747ce46d',
+        redirectTarget: 'https://idp.net/oidc/authorization',
+      });
+
+      // when
+      const response = await oidcProviderController.getAuthorizationUrl(request, hFake);
+
+      //then
+      expect(usecases.getAuthorizationUrl).to.have.been.calledWithExactly({
+        audience: undefined,
+        identityProvider: 'OIDC',
+      });
+      expect(request.yar.set).to.have.been.calledTwice;
+      expect(request.yar.set.getCall(0)).to.have.been.calledWithExactly(
+        'state',
+        '0498cd9d-7af3-474d-bde2-946f747ce46d',
+      );
+      expect(request.yar.set.getCall(1)).to.have.been.calledWithExactly(
+        'nonce',
+        'cf5d60f7-f0dc-4d9f-a9e5-11b5eebe5fda',
+      );
+      expect(request.yar.commit).to.have.been.calledOnce;
+      expect(response.statusCode).to.equal(200);
+      expect(response.source).to.deep.equal({
+        redirectTarget: 'https://idp.net/oidc/authorization',
+      });
+    });
+  });
+
   describe('#getIdentityProviders', function () {
     it('returns the list of oidc identity providers', async function () {
       // given

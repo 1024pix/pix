@@ -46,31 +46,6 @@ const reconcileUser = async function (
   return h.response({ access_token: result.accessToken, logout_url_uuid: result.logoutUrlUUID }).code(200);
 };
 
-const getAuthorizationUrl = async function (
-  request,
-  h,
-  dependencies = {
-    oidcAuthenticationServiceRegistry,
-  },
-) {
-  const { identity_provider: identityProvider, audience } = request.query;
-
-  await dependencies.oidcAuthenticationServiceRegistry.loadOidcProviderServices();
-  await dependencies.oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(identityProvider);
-
-  const oidcAuthenticationService = dependencies.oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
-    identityProviderCode: identityProvider,
-    audience,
-  });
-  const { nonce, state, ...payload } = oidcAuthenticationService.getAuthorizationUrl();
-
-  request.yar.set('state', state);
-  request.yar.set('nonce', nonce);
-  await request.yar.commit(h);
-
-  return h.response(payload).code(200);
-};
-
 const authenticateUser = async function (
   request,
   h,
@@ -176,7 +151,6 @@ const oidcController = {
   authenticateUser,
   createUser,
   findUserForReconciliation,
-  getAuthorizationUrl,
   reconcileUser,
   reconcileUserForAdmin,
 };
