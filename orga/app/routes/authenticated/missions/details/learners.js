@@ -22,7 +22,7 @@ export default class MissionLearnersRoute extends Route {
       controller.pageSize = 25;
     }
   }
-  async model(params) {
+  model(params) {
     const organizationId = this.currentUser.organization.id;
     const mission = this.modelFor('authenticated.missions.details');
     const missionLearners = this.store.query(
