@@ -21,7 +21,7 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
   beforeEach(async function () {
     const learningContent = {
       competences: [],
-      skills: [],
+      skills: [{ tubeId: 'xxx', skillId: 'yyy', status: 'actif' }],
       challenges: [],
     };
     mockLearningContent(learningContent);
@@ -234,7 +234,7 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
     userId,
   }) {
     const { id: targetProfileId } = databaseBuilderCli.factory.buildTargetProfile();
-    databaseBuilderCli.factory.buildTargetProfileTube({ targetProfileId });
+    databaseBuilderCli.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'xxx' });
     const { id: badgeId } = databaseBuilderCli.factory.buildBadge({
       key: complementaryCertificationBadgeKey,
       targetProfileId,

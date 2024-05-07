@@ -17,6 +17,7 @@ import { CampaignParticipationStatuses } from '../../lib/domain/models/index.js'
 import { learningContentCache } from '../../lib/infrastructure/caches/learning-content-cache.js';
 import { temporaryStorage } from '../../lib/infrastructure/temporary-storage/index.js';
 import { getNewSessionCode } from '../../src/certification/enrolment/domain/services/session-code-service.js';
+import * as skillRepository from '../../src/shared/infrastructure/repositories/skill-repository.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 import {
   makeUserCleaCertifiable,
@@ -60,15 +61,18 @@ const isInTest = process.env.NODE_ENV === 'test';
 
 async function main({ centerType, candidateNumber, complementaryCertifications = [] }) {
   await _updateDatabaseBuilderSequenceNumber();
+  const time = new Date().getTime();
   const { id: organizationId } = databaseBuilder.factory.buildOrganization({
     type: centerType,
     isManagingStudents: centerType === 'SCO',
-    name: 'CERTIF_ORGA_' + new Date().getTime(),
+    name: 'CERTIF_ORGA_' + time,
+    externalId: 'EXT' + time,
   });
   const { id: certificationCenterId } = databaseBuilder.factory.buildCertificationCenter({
     organizationId,
-    name: 'CERTIF_CENTER_' + new Date().getTime(),
+    name: 'CERTIF_CENTER_' + time,
     type: centerType,
+    externalId: 'EXT' + time,
   });
 
   const userIds = await knex('certification-center-memberships')
@@ -246,20 +250,15 @@ async function _createComplementaryCertificationHability(
     complementaryCertificationId,
     certificationCandidateId,
   });
-  const { id: badgeId, targetProfileId } = await _getBadgeByComplementaryCertificationKey(key);
 
-  const { id: campaignId } = databaseBuilder.factory.buildCampaign({
+  const { id: badgeId, targetProfileId } = await _getBadgeByComplementaryCertificationKey(key);
+  const campaignParticipationId = await createCampaignForComplementary({
     organizationId,
     targetProfileId,
-  });
-
-  const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
-    campaignId,
     userId,
     organizationLearnerId,
-    status: SHARED,
-    isCertifiable: true,
   });
+
   databaseBuilder.factory.buildBadgeAcquisition({ badgeId, userId, campaignParticipationId });
 
   if (PIXDROIT === key) {
@@ -274,6 +273,27 @@ async function _createComplementaryCertificationHability(
   } else if (PIXEDU2NDDEGRE === key) {
     await makeUserPixEduCertifiable({ userId, databaseBuilder });
   }
+}
+
+async function createCampaignForComplementary({ organizationId, targetProfileId, userId, organizationLearnerId }) {
+  const { id: campaignId } = databaseBuilder.factory.buildCampaign({
+    organizationId,
+    targetProfileId,
+  });
+
+  const [tubeId] = await knex('target-profile_tubes').where({ targetProfileId }).pluck('tubeId');
+  const [{ id: skillId }] = await skillRepository.findOperativeByTubeId(tubeId);
+  databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId, filterByStatus: 'all' });
+
+  const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+    campaignId,
+    userId,
+    organizationLearnerId,
+    status: SHARED,
+    isCertifiable: true,
+  });
+
+  return campaignParticipationId;
 }
 
 async function _getBadgeByComplementaryCertificationKey(complementaryCertificationKey) {
