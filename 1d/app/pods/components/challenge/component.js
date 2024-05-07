@@ -26,7 +26,7 @@ export default class Challenge extends Component {
 
   @action
   setAnswerValue(value) {
-    this.answerValue = value;
+    this.answerValue = value ?? null;
   }
 
   _createActivityAnswer(challenge) {
