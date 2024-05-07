@@ -16,44 +16,6 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
     };
   });
 
-  describe('#getRedirectLogoutUrl', function () {
-    it('calls the oidc authentication service retrieved from his code to generate the redirect logout url', async function () {
-      // given
-      const request = {
-        auth: { credentials: { userId: '123' } },
-        query: {
-          identity_provider: identityProvider,
-          redirect_uri: 'http://example.net/',
-          logout_url_uuid: '1f3dbb71-f399-4c1c-85ae-0a863c78aeea',
-        },
-      };
-      const oidcAuthenticationService = {
-        getRedirectLogoutUrl: sinon.stub(),
-      };
-
-      oidcAuthenticationServiceRegistryStub.getOidcProviderServiceByCode
-        .withArgs({ identityProviderCode: identityProvider })
-        .returns(oidcAuthenticationService);
-
-      const dependencies = {
-        oidcAuthenticationServiceRegistry: oidcAuthenticationServiceRegistryStub,
-      };
-
-      // when
-      await oidcController.getRedirectLogoutUrl(request, hFake, dependencies);
-
-      // then
-      expect(oidcAuthenticationServiceRegistryStub.loadOidcProviderServices).to.have.been.calledOnce;
-      expect(
-        oidcAuthenticationServiceRegistryStub.configureReadyOidcProviderServiceByCode,
-      ).to.have.been.calledWithExactly(identityProvider);
-      expect(oidcAuthenticationService.getRedirectLogoutUrl).to.have.been.calledWithExactly({
-        userId: '123',
-        logoutUrlUUID: '1f3dbb71-f399-4c1c-85ae-0a863c78aeea',
-      });
-    });
-  });
-
   describe('#getAuthorizationUrl', function () {
     it('calls oidc authentication service to generate url', async function () {
       // given

@@ -5,76 +5,9 @@ import {
   DifferentExternalIdentifierError,
   UserNotFoundError,
 } from '../../../../../lib/domain/errors.js';
-import { expect, generateValidRequestAuthorizationHeader, HttpTestServer, sinon } from '../../../../test-helper.js';
+import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Application | Route | OidcRouter', function () {
-  let server;
-
-  describe('GET /api/oidc/redirect-logout-url', function () {
-    beforeEach(async function () {
-      sinon.stub(oidcController, 'getRedirectLogoutUrl').callsFake((request, h) => h.response('ok').code(200));
-      server = new HttpTestServer();
-      server.setupAuthentication();
-      await server.register(moduleUnderTest);
-    });
-
-    it('should return a response with HTTP status code 200', async function () {
-      // given & when
-      const { statusCode } = await server.requestObject({
-        method: 'GET',
-        url: '/api/oidc/redirect-logout-url?identity_provider=POLE_EMPLOI&logout_url_uuid=b45cb781-4e9a-49b6-8c7e-ff5f02e07720',
-        headers: { authorization: generateValidRequestAuthorizationHeader() },
-      });
-
-      // then
-      expect(statusCode).to.equal(200);
-    });
-
-    context('when missing required parameters', function () {
-      context('all', function () {
-        it('should return a response with HTTP status code 400', async function () {
-          // given & when
-          const { statusCode } = await server.requestObject({
-            method: 'GET',
-            url: '/api/oidc/redirect-logout-url',
-            headers: { authorization: generateValidRequestAuthorizationHeader() },
-          });
-
-          // then
-          expect(statusCode).to.equal(400);
-        });
-      });
-
-      context('identity_provider', function () {
-        it('should return a response with HTTP status code 400', async function () {
-          // given & when
-          const { statusCode } = await server.requestObject({
-            method: 'GET',
-            url: '/api/oidc/redirect-logout-url?logout_url_uuid=b45cb781-4e9a-49b6-8c7e-ff5f02e07720',
-            headers: { authorization: generateValidRequestAuthorizationHeader() },
-          });
-
-          // then
-          expect(statusCode).to.equal(400);
-        });
-      });
-
-      context('logout_url_uuid', function () {
-        it('should return a response with HTTP status code 400', async function () {
-          // given & when
-          const { statusCode } = await server.requestObject({
-            method: 'GET',
-            url: '/api/oidc/redirect-logout-url?identity_provider=POLE_EMPLOI',
-            headers: { authorization: generateValidRequestAuthorizationHeader() },
-          });
-
-          // then
-          expect(statusCode).to.equal(400);
-        });
-      });
-    });
-  });
-
   describe('POST /api/oidc/user/check-reconciliation', function () {
     context('error cases', function () {
       context('when user is not found', function () {
