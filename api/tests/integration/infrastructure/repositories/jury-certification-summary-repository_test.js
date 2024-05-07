@@ -336,9 +336,13 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
           hasBeenAutomaticallyResolved: false,
         });
         const badgeId = dbf.buildBadge({ key: 'PARTNER_KEY' }).id;
-        dbf.buildComplementaryCertification({ id: 1 });
+        dbf.buildComplementaryCertification({ id: 1, key: 'A' });
         dbf.buildComplementaryCertificationBadge({ id: 11, label, badgeId, complementaryCertificationId: 1 });
-        dbf.buildComplementaryCertificationCourse({ id: 998, certificationCourseId: manyAsrCertification.id });
+        dbf.buildComplementaryCertificationCourse({
+          id: 998,
+          certificationCourseId: manyAsrCertification.id,
+          complementaryCertificationId: 1,
+        });
         dbf.buildComplementaryCertificationCourseResult({
           complementaryCertificationCourseId: 998,
           complementaryCertificationBadgeId: 11,

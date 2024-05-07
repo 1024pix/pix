@@ -414,10 +414,12 @@ describe('Integration | Infrastructure | Repository | Certification', function (
         const complementaryCertification1Id = databaseBuilder.factory.buildComplementaryCertification({
           label: 'Pix+ Test 1',
           hasExternalJury: false,
+          key: 'A',
         }).id;
         const complementaryCertification2Id = databaseBuilder.factory.buildComplementaryCertification({
           label: 'Pix+ Test 2',
           hasExternalJury: true,
+          key: 'B',
         }).id;
         databaseBuilder.factory.buildComplementaryCertificationBadge({
           id: 21,

@@ -568,17 +568,17 @@ function _buildCertificationCourse({ createdAt, description, version = 2 }) {
       {
         certificationCourseId: expectedCertificationCourse.id,
         badge: databaseBuilder.factory.buildBadge({ key: 'forêt_noire' }),
-        complementaryCertificationId: databaseBuilder.factory.buildComplementaryCertification().id,
+        complementaryCertificationId: databaseBuilder.factory.buildComplementaryCertification({ key: 'CHOCO' }).id,
       },
       {
         certificationCourseId: expectedCertificationCourse.id,
         badge: databaseBuilder.factory.buildBadge({ key: 'baba_au_rhum' }),
-        complementaryCertificationId: databaseBuilder.factory.buildComplementaryCertification().id,
+        complementaryCertificationId: databaseBuilder.factory.buildComplementaryCertification({ key: 'EPONGE' }).id,
       },
       {
         certificationCourseId: anotherCourseId,
         badge: databaseBuilder.factory.buildBadge({ key: 'tropézienne' }),
-        complementaryCertificationId: databaseBuilder.factory.buildComplementaryCertification().id,
+        complementaryCertificationId: databaseBuilder.factory.buildComplementaryCertification({ key: 'CREME' }).id,
       },
     ],
     ({ certificationCourseId, complementaryCertificationId, badge }) => {
@@ -593,7 +593,7 @@ function _buildCertificationCourse({ createdAt, description, version = 2 }) {
       }).id;
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId,
-        certificationCourseId,
+        complementaryCertificationBadgeId,
       });
     },
   );

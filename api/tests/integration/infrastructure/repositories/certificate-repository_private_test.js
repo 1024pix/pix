@@ -559,10 +559,12 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
           name: 'Pix+ test',
           hasExternalJury: false,
+          key: 'A',
         }).id;
         const complementaryCertificationWithJuryId = databaseBuilder.factory.buildComplementaryCertification({
           name: 'Pix+ test with Jury',
           hasExternalJury: true,
+          key: 'WITH_JURY',
         }).id;
 
         const learningContentObjects = learningContentBuilder.fromAreas(minimalLearningContent);

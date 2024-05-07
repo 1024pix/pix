@@ -58,8 +58,11 @@ describe('Acceptance | Controller | Session | session-mass-import-route', functi
           name: 'Paris',
           isActualName: true,
         });
-        databaseBuilder.factory.buildComplementaryCertification({ id: 1, label: 'Pix+ Édu 2nd degré' });
-        databaseBuilder.factory.buildComplementaryCertificationBadge({ label: 'Pix+ Édu 2nd degré' });
+        databaseBuilder.factory.buildComplementaryCertification({ id: 1, label: 'Pix+ Édu 2nd degré', key: 'A' });
+        databaseBuilder.factory.buildComplementaryCertificationBadge({
+          label: 'Pix+ Édu 2nd degré',
+          complementaryCertificationId: 1,
+        });
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
         await databaseBuilder.commit();
 

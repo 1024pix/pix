@@ -277,6 +277,9 @@ describe('Integration | Infrastructure | Repository | Certification | Complement
 
           const { id: badgeId1, imageUrl: imageUrl1 } = databaseBuilder.factory.buildBadge({ targetProfileId });
           const { id: badgeId2, imageUrl: imageUrl2 } = databaseBuilder.factory.buildBadge({ targetProfileId });
+          const { id: complementaryCertificationId } = databaseBuilder.factory.buildComplementaryCertification({
+            key: 'kiki',
+          });
 
           const ccBadge1 = databaseBuilder.factory.buildComplementaryCertificationBadge({
             badgeId: badgeId1,
@@ -290,8 +293,8 @@ describe('Integration | Infrastructure | Repository | Certification | Complement
             stickerUrl: 'http://stiker-url.fr',
             detachedAt: null,
             createdBy: userId,
+            complementaryCertificationId,
           });
-
           const ccBadge2 = databaseBuilder.factory.buildComplementaryCertificationBadge({
             badgeId: badgeId2,
             level: 2,
@@ -304,10 +307,8 @@ describe('Integration | Infrastructure | Repository | Certification | Complement
             stickerUrl: 'http://stiker-url.fr',
             detachedAt: null,
             createdBy: userId,
+            complementaryCertificationId,
           });
-
-          databaseBuilder.factory.buildComplementaryCertificationBadge();
-
           await databaseBuilder.commit();
 
           // when

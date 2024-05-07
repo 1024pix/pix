@@ -340,7 +340,7 @@ describe('Integration | Repository | Certification Center', function () {
         databaseBuilder.factory.buildComplementaryCertification({
           id: 33,
           label: 'Complementary certification name',
-          key: 'COMP',
+          key: 'COMP1',
         });
         databaseBuilder.factory.buildComplementaryCertificationHabilitation({
           certificationCenterId: 3,
@@ -349,7 +349,7 @@ describe('Integration | Repository | Certification Center', function () {
         const expectedComplementaryCertification3 = domainBuilder.buildComplementaryCertification({
           id: 33,
           label: 'Complementary certification name',
-          key: 'COMP',
+          key: 'COMP1',
         });
         const expectedCertificationCenter3 = domainBuilder.buildCertificationCenter({
           id: 3,
@@ -372,7 +372,7 @@ describe('Integration | Repository | Certification Center', function () {
         databaseBuilder.factory.buildComplementaryCertification({
           id: 11,
           label: 'Complementary certification name',
-          key: 'COMP',
+          key: 'COMP2',
         });
         databaseBuilder.factory.buildComplementaryCertificationHabilitation({
           certificationCenterId: 1,
@@ -381,7 +381,7 @@ describe('Integration | Repository | Certification Center', function () {
         const expectedComplementaryCertification1 = domainBuilder.buildComplementaryCertification({
           id: 11,
           label: 'Complementary certification name',
-          key: 'COMP',
+          key: 'COMP2',
         });
         const expectedCertificationCenter1 = domainBuilder.buildCertificationCenter({
           id: 1,
@@ -403,7 +403,7 @@ describe('Integration | Repository | Certification Center', function () {
         databaseBuilder.factory.buildComplementaryCertification({
           id: 22,
           label: 'Complementary certification name',
-          key: 'COMP',
+          key: 'COMP3',
         });
         databaseBuilder.factory.buildComplementaryCertificationHabilitation({
           certificationCenterId: 2,
@@ -412,7 +412,7 @@ describe('Integration | Repository | Certification Center', function () {
         const expectedComplementaryCertification2 = domainBuilder.buildComplementaryCertification({
           id: 22,
           label: 'Complementary certification name',
-          key: 'COMP',
+          key: 'COMP3',
         });
         const expectedCertificationCenter2 = domainBuilder.buildCertificationCenter({
           id: 2,

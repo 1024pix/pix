@@ -162,7 +162,12 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
         it('should return the highest level and latest certifiable badge acquired for each complementary certification', async function () {
           //given
           const userId = databaseBuilder.factory.buildUser().id;
+          databaseBuilder.factory.buildComplementaryCertification({
+            key: 'A',
+            id: 10,
+          });
           const firstComplementaryBadges = buildComplementaryCertificationWithMultipleCertifiableBadges({
+            complementaryCertificationId: 10,
             keyLevelList: [
               { key: 1, level: 1 },
               { key: 2, level: 2 },
@@ -183,7 +188,12 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
             createdAt: new Date('2022-09-29'),
           });
 
+          databaseBuilder.factory.buildComplementaryCertification({
+            key: 'B',
+            id: 20,
+          });
           const secondComplementaryBadges = buildComplementaryCertificationWithMultipleCertifiableBadges({
+            complementaryCertificationId: 20,
             keyLevelList: [
               { key: 3, level: 3 },
               { key: 4, level: 4 },

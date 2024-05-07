@@ -25,17 +25,18 @@ describe('Acceptance | Controller | session-with-clea-certified-candidate', func
         key: ComplementaryCertificationKeys.CLEA,
       });
       const badgeClea = databaseBuilder.factory.buildBadge({ id: 1, isCertifiable: true });
-      const complementaryBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
+      const complementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
         complementaryCertificationId: 1,
         badgeId: badgeClea.id,
       }).id;
       const complementaryCertificationCourse = dbf.buildComplementaryCertificationCourse({
         certificationCourseId: certificationCourse.id,
         complementaryCertificationId: 1,
-        complementaryCertificationBadgeId: complementaryBadgeId,
+        complementaryCertificationBadgeId,
       });
       dbf.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: complementaryCertificationCourse.id,
+        complementaryCertificationBadgeId,
         acquired: true,
       });
 

@@ -15,11 +15,13 @@ describe('Integration | Repository | complementary certification scoring criteri
         minimumReproducibilityRate: 70,
         minimumReproducibilityRateLowerLevel: 60,
         hasComplementaryReferential: true,
+        key: 'REF',
       });
       const complementaryCertification2 = databaseBuilder.factory.buildComplementaryCertification({
         minimumReproducibilityRate: 75,
         minimumReproducibilityRateLowerLevel: 60,
         hasComplementaryReferential: false,
+        key: 'NO_REF',
       });
 
       databaseBuilder.factory.buildComplementaryCertificationBadge({
@@ -46,7 +48,10 @@ describe('Integration | Repository | complementary certification scoring criteri
         complementaryCertificationBadgeId: 768,
       });
 
-      databaseBuilder.factory.buildComplementaryCertificationCourse({ certificationCourseId: 12 });
+      databaseBuilder.factory.buildComplementaryCertificationCourse({
+        certificationCourseId: 12,
+        complementaryCertificationBadgeId: 768,
+      });
 
       await databaseBuilder.commit();
 

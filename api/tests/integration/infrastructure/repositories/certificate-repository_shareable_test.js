@@ -478,10 +478,12 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
         const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
           label: 'Pix+ Test',
           hasExternalJury: false,
+          key: 'TEST_1',
         }).id;
         const complementaryCertificationWithJuryId = databaseBuilder.factory.buildComplementaryCertification({
           label: 'Pix+ Test 2',
           hasExternalJury: true,
+          key: 'TEST_2',
         }).id;
 
         const learningContentObjects = learningContentBuilder.fromAreas(minimalLearningContent);

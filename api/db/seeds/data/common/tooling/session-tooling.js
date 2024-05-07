@@ -5,7 +5,6 @@ import {
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
-  PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
 } from '../common-builder.js';
 import * as generic from './generic.js';
 import * as learningContent from './learning-content.js';
@@ -927,7 +926,6 @@ async function _makeCandidatesComplementaryCertifiable(databaseBuilder, certific
   for (const { complementaryCertificationId, frameworkName } of [
     { complementaryCertificationId: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID, frameworkName: 'Droit' },
     { complementaryCertificationId: PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID, frameworkName: 'Edu' },
-    { complementaryCertificationId: PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID, frameworkName: 'Edu' },
     { complementaryCertificationId: CLEA_COMPLEMENTARY_CERTIFICATION_ID, frameworkName: '' },
   ]) {
     const certificationCandidatesWithSubscription = certificationCandidates.filter(

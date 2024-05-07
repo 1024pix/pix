@@ -50,7 +50,7 @@ describe('Integration | Repository | clea-certified-candidate-repository', funct
           id: 1,
         });
         const badgeClea = databaseBuilder.factory.buildBadge({ id: 1, isCertifiable: true });
-        const complementaryBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
+        const complementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
           complementaryCertificationId: 1,
           badgeId: badgeClea.id,
         }).id;
@@ -62,22 +62,23 @@ describe('Integration | Repository | clea-certified-candidate-repository', funct
           id: 991,
           certificationCourseId: 91,
           complementaryCertificationId: 1,
-          complementaryCertificationBadgeId: complementaryBadgeId,
+          complementaryCertificationBadgeId,
         });
         databaseBuilder.factory.buildComplementaryCertificationCourse({
           id: 992,
           certificationCourseId: 92,
           complementaryCertificationId: 1,
-          complementaryCertificationBadgeId: complementaryBadgeId,
+          complementaryCertificationBadgeId,
         });
-
         databaseBuilder.factory.buildComplementaryCertificationCourseResult({
           complementaryCertificationCourseId: 991,
           acquired: true,
+          complementaryCertificationBadgeId,
         });
         databaseBuilder.factory.buildComplementaryCertificationCourseResult({
           complementaryCertificationCourseId: 992,
           acquired: true,
+          complementaryCertificationBadgeId,
         });
 
         await databaseBuilder.commit();
@@ -114,7 +115,7 @@ describe('Integration | Repository | clea-certified-candidate-repository', funct
         ]);
       });
 
-      describe('when there is not certified candidates for Clea certification in the session', function () {
+      describe('when there is no certified candidates for Clea certification in the session', function () {
         it('returns the list of clea certified candidates only', async function () {
           // given
           const sessionId = databaseBuilder.factory.buildSession().id;
@@ -168,10 +169,12 @@ describe('Integration | Repository | clea-certified-candidate-repository', funct
 
           databaseBuilder.factory.buildComplementaryCertificationCourseResult({
             complementaryCertificationCourseId: 991,
+            complementaryCertificationBadgeId: complementaryBadgeId,
             acquired: true,
           });
           databaseBuilder.factory.buildComplementaryCertificationCourseResult({
             complementaryCertificationCourseId: 992,
+            complementaryCertificationBadgeId: complementaryBadgeId,
             acquired: false,
           });
 

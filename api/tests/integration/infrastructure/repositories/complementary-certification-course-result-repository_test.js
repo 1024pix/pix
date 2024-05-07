@@ -65,16 +65,24 @@ describe('Integration | Repository | complementary-certification-courses-result-
           databaseBuilder.factory.buildComplementaryCertification({
             id: 1,
             name: 'Pix+ Test',
+            key: 'A',
           });
           databaseBuilder.factory.buildCertificationCourse({ id: 99 });
+          databaseBuilder.factory.buildBadge({ id: 1, key: 'PIX_TEST_1' });
+          databaseBuilder.factory.buildComplementaryCertificationBadge({
+            id: 99,
+            badgeId: 1,
+            complementaryCertificationId: 1,
+          });
           databaseBuilder.factory.buildComplementaryCertificationCourse({
             id: 999,
             certificationCourseId: 99,
             complementaryCertificationId: 1,
+            complementaryCertificationBadgeId: 99,
           });
-          databaseBuilder.factory.buildBadge({ key: 'PIX_TEST_1' });
           databaseBuilder.factory.buildComplementaryCertificationCourseResult({
             complementaryCertificationCourseId: 999,
+            complementaryCertificationBadgeId: 99,
             source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
             acquired: true,
           });
@@ -99,7 +107,7 @@ describe('Integration | Repository | complementary-certification-courses-result-
       it('should return the allowed jury level for that complementary certification', async function () {
         // given
         databaseBuilder.factory.buildTargetProfile({ id: 123 });
-        databaseBuilder.factory.buildComplementaryCertification({ id: 1 });
+        databaseBuilder.factory.buildComplementaryCertification({ id: 1, key: 'A' });
         databaseBuilder.factory.buildBadge({
           id: 1212,
           targetProfileId: 123,
@@ -111,7 +119,7 @@ describe('Integration | Repository | complementary-certification-courses-result-
         });
 
         databaseBuilder.factory.buildTargetProfile({ id: 456 });
-        databaseBuilder.factory.buildComplementaryCertification({ id: 2 });
+        databaseBuilder.factory.buildComplementaryCertification({ id: 2, key: 'B' });
         databaseBuilder.factory.buildBadge({ id: 1213, targetProfileId: 456 });
         databaseBuilder.factory.buildComplementaryCertificationBadge({
           id: 98,
