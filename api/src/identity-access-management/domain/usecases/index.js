@@ -60,5 +60,6 @@ const usecases = injectDependencies(usecasesWithoutInjectedDependencies, depende
  * @type {object}
  * @property {addOidcProvider} addOidcProvider
  * @property {getAllIdentityProviders} getAllIdentityProviders
+ * @property {getReadyIdentityProviders} getReadyIdentityProviders
  */
 export { usecases };

@@ -35,23 +35,6 @@ const register = async function (server) {
     ...adminRoutes,
     {
       method: 'GET',
-      path: '/api/oidc/identity-providers',
-      config: {
-        validate: {
-          query: Joi.object({
-            audience: Joi.string().optional(),
-          }),
-        },
-        auth: false,
-        handler: oidcController.getIdentityProviders,
-        notes: [
-          'Cette route renvoie un objet contenant les informations requises par le front pour les partenaires OIDC',
-        ],
-        tags: ['api', 'oidc'],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/oidc/redirect-logout-url',
       config: {
         validate: {
