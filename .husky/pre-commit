@@ -1,8 +1,7 @@
-npx lint-staged --cwd 1d
-npx lint-staged --cwd admin
-npx lint-staged --cwd certif
-npx lint-staged --cwd mon-pix
-npx lint-staged --cwd orga
-npx lint-staged
+#!/bin/sh
 
-.husky/detect-secret
+set -e
+
+.husky/protect-branch
+.husky/lint
+.husky/detect-learning-content

@@ -1,0 +1,17 @@
+#!/bin/sh
+
+set -e
+
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+protected_branch=dev
+
+if [ $current_branch = "${protected_branch}" ]
+then
+ echo "You're trying to push to protected branch \"${protected_branch}\""
+ echo "If you need to enforce, use --no-verify option"
+ exit 1
+fi
+
+exit 0
+

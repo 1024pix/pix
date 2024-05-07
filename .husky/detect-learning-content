@@ -7,17 +7,18 @@ IFS=$'\n'
 
 CHANGED_FILES=($(git diff --name-only --cached --diff-filter=ACMR))
 
+# This SECRET value is in the referential
 SECRET=postgres://postgres:J9FUMSBhei8oU@db.dbhostprovider.com:5434/thedb
 
 RED='\033[0;31m'
-GREEN='\033[0;32m'
 NO_COLOR='\033[0m'
 
 for file in "${CHANGED_FILES[@]}"
 do
+# GREEN='\033[0;32m'
 #  echo -e "Inspecting file : ${GREEN} ${file} ${NO_COLOR}"
   MATCHES="$(grep --count "$SECRET" "${file}" || true)"
-  if [[ "$MATCHES" > 0 ]]
+  if [ "$MATCHES" -gt 0 ]
     then
       echo -e "Oops, we found the secret ${RED} ${SECRET} ${NO_COLOR} in file ${file} ! "
       exit 255
