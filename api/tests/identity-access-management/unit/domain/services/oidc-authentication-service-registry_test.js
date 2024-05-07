@@ -4,7 +4,7 @@ import { OidcAuthenticationServiceRegistry } from '../../../../../src/identity-a
 import { oidcProviderRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/oidc-provider-repository.js';
 import { catchErrSync, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Domain | Services | oidc-authentication-service-registry', function () {
+describe('Unit | Identity Access Management | Domain | Services | oidc-authentication-service-registry', function () {
   let oidcAuthenticationServiceRegistry;
 
   beforeEach(function () {

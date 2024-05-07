@@ -1,5 +1,6 @@
 import { DomainTransaction } from '../../shared/domain/DomainTransaction.js';
 import { usecases } from '../domain/usecases/index.js';
+import * as oidcProviderSerializer from '../infrastructure/serializers/jsonapi/oidc-identity-providers.serializer.js';
 
 /**
  * @param request
@@ -19,8 +20,19 @@ async function createInBatch(request, h) {
 }
 
 /**
+ * @param request
+ * @param h
+ * @return {Promise<*>}
+ */
+async function getAllIdentityProvidersForAdmin(request, h) {
+  const identityProviders = await usecases.getAllIdentityProviders();
+  return h.response(oidcProviderSerializer.serialize(identityProviders)).code(200);
+}
+
+/**
  * @typedef OidcProviderController
  * @type {object}
  * @property {createInBatch} createInBatch
+ * @property {getAllIdentityProvidersForAdmin} getAllIdentityProvidersForAdmin
  */
-export const oidcProviderAdminController = { createInBatch };
+export const oidcProviderAdminController = { createInBatch, getAllIdentityProvidersForAdmin };

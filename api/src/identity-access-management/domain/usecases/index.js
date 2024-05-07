@@ -2,6 +2,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { mailService } from '../../../../lib/domain/services/mail-service.js';
+import { oidcAuthenticationServiceRegistry } from '../../../../lib/domain/usecases/index.js';
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import { config } from '../../../shared/config.js';
 import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
@@ -35,6 +36,7 @@ const repositories = {
 const services = {
   cryptoService,
   mailService,
+  oidcAuthenticationServiceRegistry,
   pixAuthenticationService,
   refreshTokenService,
   tokenService,
@@ -57,5 +59,6 @@ const usecases = injectDependencies(usecasesWithoutInjectedDependencies, depende
  * @typedef AuthenticationUsecases
  * @type {object}
  * @property {addOidcProvider} addOidcProvider
+ * @property {getAllIdentityProviders} getAllIdentityProviders
  */
 export { usecases };

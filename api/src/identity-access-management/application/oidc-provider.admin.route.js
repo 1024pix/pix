@@ -14,11 +14,22 @@ export const oidcProviderAdminRoutes = [
         payload: Joi.array().required().items(Joi.object()),
       },
       handler: (request, h) => oidcProviderAdminController.createInBatch(request, h),
-      tags: ['authentication', 'api', 'admin', 'oidc', 'import'],
+      tags: ['identity-access-management', 'api', 'admin', 'oidc', 'import'],
       notes: [
         "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
           "- Elle permet d'importer une liste de fournisseurs d'identité\n",
       ],
+    },
+  },
+  {
+    method: 'GET',
+    path: '/api/admin/oidc/identity-providers',
+    config: {
+      handler: (request, h) => oidcProviderAdminController.getAllIdentityProvidersForAdmin(request, h),
+      notes: [
+        "Cette route renvoie une liste contenant tous les fournisseurs d'identité OIDC (même désactivés) pour leur gestion dans Pix Admin",
+      ],
+      tags: ['identity-access-management', 'api', 'admin', 'oidc'],
     },
   },
 ];
