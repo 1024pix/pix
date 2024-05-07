@@ -6,7 +6,11 @@ import { module, test } from 'qunit';
 
 import authenticateSession from '../helpers/authenticate-session';
 import setupIntl from '../helpers/setup-intl';
-import { createPrescriberByUser, createUserWithMembershipAndTermsOfServiceAccepted } from '../helpers/test-init';
+import {
+  createPrescriberByUser,
+  createPrescriberForOrganization,
+  createUserWithMembershipAndTermsOfServiceAccepted,
+} from '../helpers/test-init';
 
 module('Acceptance | Missions List', function (hooks) {
   setupApplicationTest(hooks);
@@ -24,11 +28,16 @@ module('Acceptance | Missions List', function (hooks) {
   });
 
   module('When prescriber is logged in and has mission management feature', function () {
-    test('user should access to the list of the missions', async function (assert) {
+    test('user should access to the list of the missions and the link to pix-junior', async function (assert) {
       // given
-      const user = createUserWithMembershipAndTermsOfServiceAccepted();
-      const prescriber = createPrescriberByUser({ user });
-      prescriber.features = { ...prescriber.features, MISSIONS_MANAGEMENT: true };
+      const user = createPrescriberForOrganization(
+        { lang: 'fr', pixOrgaTermsOfServiceAccepted: true },
+        { schoolCode: 'BLABLA123' },
+        'MEMBER',
+        {
+          MISSIONS_MANAGEMENT: true,
+        },
+      );
       await authenticateSession(user.id);
 
       server.create('mission', { name: 'Super Mission', competenceName: 'Super competence' });
@@ -39,6 +48,11 @@ module('Acceptance | Missions List', function (hooks) {
       // then
       assert.dom(screen.getByText('Super Mission')).exists();
       assert.dom(screen.getByText('Super competence')).exists();
+      assert
+        .dom(
+          screen.getByRole('link', { name: this.intl.t('pages.missions.list.banner.copypaste-container.import-text') }),
+        )
+        .hasAttribute('href', 'https://junior.pix.fr/schools/BLABLA123');
     });
 
     module('display divisions', function () {
@@ -73,6 +87,53 @@ module('Acceptance | Missions List', function (hooks) {
         assert.dom(screen.getByText(this.intl.t('pages.missions.list.no-division'))).exists();
       });
     });
+    module('display import button', function () {
+      test('should display import button if user is admin of the current school', async function (assert) {
+        // given
+        const user = createPrescriberForOrganization({ lang: 'fr', pixOrgaTermsOfServiceAccepted: true }, {}, 'ADMIN', {
+          MISSIONS_MANAGEMENT: true,
+        });
+        await authenticateSession(user.id);
+        server.create('mission', { name: 'Super Mission', competenceName: 'Super competence', startedBy: '' });
+
+        // when
+        const screen = await visit('/missions');
+        // then
+        assert
+          .dom(
+            screen.getByRole('link', {
+              name: this.intl.t('pages.missions.list.banner.admin.import-text'),
+            }),
+          )
+          .hasAttribute('href', '/import-participants');
+      });
+      test('should not display import button if user is member of the current school', async function (assert) {
+        // given
+        const user = createPrescriberForOrganization(
+          { lang: 'fr', pixOrgaTermsOfServiceAccepted: true },
+          {},
+          'MEMBER',
+          {
+            MISSIONS_MANAGEMENT: true,
+          },
+        );
+        await authenticateSession(user.id);
+
+        server.create('mission', { name: 'Super Mission', competenceName: 'Super competence', startedBy: '' });
+
+        // when
+        const screen = await visit('/missions');
+
+        // then
+        assert
+          .dom(
+            screen.queryByRole('link', {
+              name: this.intl.t('pages.missions.list.banner.admin.import-text'),
+            }),
+          )
+          .doesNotExist();
+      });
+    });
 
     test('it should see empty state when there is no mission', async function (assert) {
       // given
@@ -83,13 +144,12 @@ module('Acceptance | Missions List', function (hooks) {
 
       // when
       const screen = await visit('/missions');
-
       // then
       assert.deepEqual(currentURL(), '/missions');
       assert.dom(screen.getByText(this.intl.t('pages.missions.list.empty-state'))).exists();
     });
 
-    test('user should acces to detail when he click on a row', async function (assert) {
+    test('user should access to detail when he click on a row', async function (assert) {
       // given
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
       const prescriber = createPrescriberByUser({ user });

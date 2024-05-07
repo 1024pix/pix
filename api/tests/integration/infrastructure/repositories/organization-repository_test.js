@@ -119,6 +119,7 @@ describe('Integration | Repository | Organization', function () {
         archivedAt: null,
         createdBy: userId,
         targetProfileShares: [],
+        schoolCode: undefined,
       });
       expect(organizationSaved.tags[0].id).to.be.equal(tagId);
     });
@@ -191,6 +192,7 @@ describe('Integration | Repository | Organization', function () {
           formNPSUrl: 'https://pix.fr/',
           showSkills: false,
           archivedAt: null,
+          schoolCode: undefined,
         });
       });
 

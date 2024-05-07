@@ -1,4 +1,4 @@
-export function createPrescriberByUser({ user, participantCount = 0 }) {
+export function createPrescriberByUser({ user, participantCount = 0, features }) {
   const prescriber = server.create('prescriber', {
     id: user.id,
     firstName: user.firstName,
@@ -8,7 +8,7 @@ export function createPrescriberByUser({ user, participantCount = 0 }) {
     memberships: user.memberships,
     userOrgaSettings: user.userOrgaSettings,
     participantCount,
-    features: {
+    features: features ?? {
       MULTIPLE_SENDING_ASSESSMENT: false,
       COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY: false,
     },
@@ -152,7 +152,12 @@ export function createUserWithMultipleMemberships() {
   return user;
 }
 
-export function createPrescriberForOrganization(userAttributes = {}, organizationAttributes = {}, organizationRole) {
+export function createPrescriberForOrganization(
+  userAttributes = {},
+  organizationAttributes = {},
+  organizationRole,
+  features,
+) {
   const user = server.create('user', { ...userAttributes, pixOrgaTermsOfServiceAccepted: true });
 
   const organization = server.create('organization', organizationAttributes);
@@ -166,7 +171,7 @@ export function createPrescriberForOrganization(userAttributes = {}, organizatio
   user.memberships = [membership];
   user.userOrgaSettings = server.create('user-orga-setting', { organization, user });
 
-  createPrescriberByUser({ user });
+  createPrescriberByUser({ user, features });
   return user;
 }
 

@@ -4,11 +4,29 @@
   }
 }
 
+.mission-list-banner {
+  a {
+    font-weight: bolder;
+    text-decoration: underline;
+  }
+
+  &__copypaste-container {
+    display: flex;
+
+  }
+}
+
+.button_import {
+  width: fit-content;
+  margin: 5px;
+  padding: 5px;
+}
+
 .mission-header {
-  margin-bottom:var(--pix-spacing-6x);
+  margin-bottom: var(--pix-spacing-6x);
 
   &__banner {
-    margin:var(--pix-spacing-4x) 0;
+    margin: var(--pix-spacing-4x) 0;
   }
 
   &-informations {
@@ -78,6 +96,6 @@
 }
 
 .learners-title {
-  margin-bottom:var(--pix-spacing-4x)
+  margin-bottom: var(--pix-spacing-4x)
 }
 
