@@ -39,4 +39,23 @@ export const oidcProviderRoutes = [
       tags: ['identity-access-management', 'api', 'oidc'],
     },
   },
+  {
+    method: 'GET',
+    path: '/api/oidc/authorization-url',
+    config: {
+      auth: false,
+      validate: {
+        query: Joi.object({
+          identity_provider: Joi.string().required(),
+          audience: Joi.string().valid('app', 'admin').optional(),
+        }),
+      },
+      handler: (request, h) => oidcProviderController.getAuthorizationUrl(request, h),
+      notes: [
+        "- Cette route permet de récupérer l'url d'autorisation du partenaire.\n" +
+          '- Elle retournera également les valeurs state et nonce.',
+      ],
+      tags: ['identity-access-management', 'api', 'oidc'],
+    },
+  },
 ];
