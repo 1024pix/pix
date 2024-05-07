@@ -48,14 +48,6 @@ const PIXCLEA = 'CLEA';
 const PIXDROIT = 'DROIT';
 const PIXEDU2NDDEGRE = 'EDU_2ND_DEGRE';
 const PIXEDU1ERDEGRE = 'EDU_1ER_DEGRE';
-import { badges } from '../../db/constants.js';
-
-const COMPLEMENTARY_CERTIFICATION_BADGES_BY_NAME = {
-  [PIXCLEA]: badges.keys.PIX_EMPLOI_CLEA_V2,
-  [PIXDROIT]: badges.keys.PIX_DROIT_INITIE_CERTIF,
-  [PIXEDU1ERDEGRE]: badges.keys.PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-  [PIXEDU2NDDEGRE]: badges.keys.PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-};
 
 const isInTest = process.env.NODE_ENV === 'test';
 
@@ -297,8 +289,16 @@ async function createCampaignForComplementary({ organizationId, targetProfileId,
 }
 
 async function _getBadgeByComplementaryCertificationKey(complementaryCertificationKey) {
-  const key = COMPLEMENTARY_CERTIFICATION_BADGES_BY_NAME[complementaryCertificationKey];
-  return knex('badges').where({ key }).first();
+  return knex('complementary-certifications')
+    .select('badges.*')
+    .innerJoin(
+      'complementary-certification-badges',
+      'complementary-certification-badges.complementaryCertificationId',
+      'complementary-certifications.id',
+    )
+    .innerJoin('badges', 'complementary-certification-badges.badgeId', 'badges.id')
+    .where({ 'complementary-certifications.key': complementaryCertificationKey })
+    .first();
 }
 
 async function _getResults(sessionId) {
