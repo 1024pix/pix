@@ -6,11 +6,16 @@ const getById = async ({ id }) => {
   const center = await knex
     .select({
       id: 'certification-centers.id',
+      name: 'certification-centers.name',
       type: 'certification-centers.type',
+      externalId: 'certification-centers.externalId',
       habilitations: knex.raw(
         'array_remove(array_agg("complementary-certification-habilitations"."complementaryCertificationId" order by "complementary-certification-habilitations"."complementaryCertificationId"), NULL)',
       ),
       features: knex.raw('array_remove(array_agg("certificationCenterFeatures"."key"), NULL)'),
+      createdAt: 'certification-centers.createdAt',
+      updatedAt: 'certification-centers.updatedAt',
+      isV3Pilot: 'certification-centers.isV3Pilot',
     })
     .from('certification-centers')
     .leftJoin(

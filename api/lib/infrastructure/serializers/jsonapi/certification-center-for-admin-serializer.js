@@ -11,10 +11,10 @@ const deserialize = function ({ data }) {
     dataProtectionOfficerLastName: data.attributes['data-protection-officer-last-name'],
     dataProtectionOfficerEmail: data.attributes['data-protection-officer-email'],
     externalId: data.attributes['external-id'],
-    habilitations: [],
-    id: data.id,
+    // habilitations: [],
+    // id: data.id,
     name: data.attributes.name,
-    type: data.attributes.type,
+    // type: data.attributes.type,
     isV3Pilot: data.attributes['is-v3-pilot'],
   });
 };
@@ -23,14 +23,14 @@ const serialize = function (certificationCenters, meta) {
   return new Serializer('certification-centers', {
     attributes: [
       'name',
-      'type',
+      // 'type',
       'externalId',
       'createdAt',
       'certificationCenterMemberships',
       'dataProtectionOfficerFirstName',
       'dataProtectionOfficerLastName',
       'dataProtectionOfficerEmail',
-      'habilitations',
+      // 'habilitations',
       'isV3Pilot',
     ],
     typeForAttribute: (attribute) => {

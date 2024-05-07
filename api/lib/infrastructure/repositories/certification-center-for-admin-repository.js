@@ -75,11 +75,11 @@ export { get, save, update };
 
 function _toDomain(certificationCenterDTO) {
   return new CertificationCenterForAdmin({
-    id: certificationCenterDTO.id,
+    // id: certificationCenterDTO.id,
     name: certificationCenterDTO.name,
-    type: certificationCenterDTO.type,
+    // type: certificationCenterDTO.type,
     externalId: certificationCenterDTO.externalId,
-    habilitations: certificationCenterDTO.habilitations,
+    // habilitations: certificationCenterDTO.habilitations,
     dataProtectionOfficerFirstName: certificationCenterDTO.dataProtectionOfficerFirstName,
     dataProtectionOfficerLastName: certificationCenterDTO.dataProtectionOfficerLastName,
     dataProtectionOfficerEmail: certificationCenterDTO.dataProtectionOfficerEmail,

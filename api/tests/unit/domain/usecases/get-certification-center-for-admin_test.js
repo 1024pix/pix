@@ -4,23 +4,23 @@ import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | get-certification-center-for-admin', function () {
   let certificationCenterForAdmin;
-  let certificationCenterForAdminRepository;
+  let centerRepository;
 
   beforeEach(function () {
     certificationCenterForAdmin = domainBuilder.buildCertificationCenterForAdmin({ id: 1234 });
-    certificationCenterForAdminRepository = {
-      get: sinon.stub(),
+    centerRepository = {
+      getById: sinon.stub(),
     };
   });
 
   it('should get the certification center for admin', async function () {
     // given
-    certificationCenterForAdminRepository.get.withArgs(1234).resolves(certificationCenterForAdmin);
+    centerRepository.getById.withArgs({ id: 1234 }).resolves(certificationCenterForAdmin);
 
     // when
     const actualCertificationCourse = await getCertificationCenterForAdmin({
       id: 1234,
-      certificationCenterForAdminRepository,
+      centerRepository,
     });
 
     // then
