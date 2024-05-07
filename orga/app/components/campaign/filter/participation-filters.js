@@ -1,10 +1,28 @@
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 
 export default class ParticipationFilters extends Component {
   @service intl;
   @service currentUser;
+
+  @tracked stages = [];
+  @tracked isStagesLoading = true;
+  @tracked badges = [];
+  @tracked isBadgesLoading = true;
+
+  constructor() {
+    super(...arguments);
+    Promise.resolve(this.args.campaign.stages).then((stages) => {
+      this.stages = stages;
+      this.isStagesLoading = false;
+    });
+    Promise.resolve(this.args.campaign.badges).then((badges) => {
+      this.badges = badges;
+      this.isBadgesLoading = false;
+    });
+  }
 
   get certificabilityOptions() {
     return [
@@ -49,11 +67,13 @@ export default class ParticipationFilters extends Component {
   }
 
   get displayStagesFilter() {
+    if (this.isStagesLoading) return false;
     const { isTypeAssessment, hasStages } = this.args.campaign;
     return !this.args.isHiddenStages && isTypeAssessment && hasStages;
   }
 
   get displayBadgesFilter() {
+    if (this.isBadgesLoading) return false;
     const { isTypeAssessment, hasBadges } = this.args.campaign;
     return !this.args.isHiddenBadges && isTypeAssessment && hasBadges;
   }
@@ -75,8 +95,8 @@ export default class ParticipationFilters extends Component {
   }
 
   get stageOptions() {
-    const totalStage = this.args.campaign.stages.length - 1;
-    return this.args.campaign.stages.map((stage, index) => ({
+    const totalStage = this.stages.length - 1;
+    return this.stages.map((stage, index) => ({
       value: stage.id,
       reachedStage: index,
       totalStage,
@@ -85,7 +105,7 @@ export default class ParticipationFilters extends Component {
   }
 
   get badgeOptions() {
-    return this.args.campaign?.badges?.map(({ id, title }) => ({ value: id, label: title }));
+    return this.badges.map(({ id, title }) => ({ value: id, label: title }));
   }
 
   get statusOptions() {

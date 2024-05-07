@@ -20,6 +20,7 @@ export default class ScoList extends Component {
   @tracked student = null;
   @tracked isShowingAuthenticationMethodModal = false;
   @tracked showResetPasswordModal = false;
+  @tracked divisions;
 
   @tracked affectedStudents = [];
 
@@ -27,16 +28,13 @@ export default class ScoList extends Component {
     super(...arguments);
 
     this.isLoadingDivisions = true;
-    this.currentUser.organization.divisions.then(() => {
+    this.currentUser.organization.divisions.then((divisions) => {
       this.isLoadingDivisions = false;
+      this.divisions = divisions.map(({ name }) => ({
+        label: name,
+        value: name,
+      }));
     });
-  }
-
-  get divisions() {
-    return this.currentUser.organization.divisions.map(({ name }) => ({
-      label: name,
-      value: name,
-    }));
   }
 
   get connectionTypes() {

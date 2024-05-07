@@ -5,7 +5,6 @@ import { tracked } from '@glimmer/tracking';
 
 export default class TubeList extends Component {
   @tracked selectedTubeIds = [];
-
   @service dayjs;
 
   @action
@@ -54,7 +53,7 @@ export default class TubeList extends Component {
 
   get sortedAreas() {
     return this.args.frameworks
-      .map((framework) => framework.areas.slice())
+      .map((framework) => framework.sortedAreas)
       .flat()
       .sort((a, b) => {
         return a.code.localeCompare(b.code);
@@ -71,10 +70,10 @@ export default class TubeList extends Component {
 
   get file() {
     const selectedTubes = this.args.frameworks.slice().flatMap((framework) => {
-      return framework.areas.slice().flatMap((area) => {
-        return area.competences.slice().flatMap((competence) => {
-          return competence.thematics.slice().flatMap((thematic) => {
-            return thematic.tubes
+      return framework.sortedAreas.slice().flatMap((area) => {
+        return area.sortedCompetences.slice().flatMap((competence) => {
+          return competence.sortedThematics.slice().flatMap((thematic) => {
+            return thematic.sortedTubes
               .filter((tube) => this.isTubeSelected(tube))
               .map((tube) => ({
                 id: tube.id,

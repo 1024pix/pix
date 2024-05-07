@@ -15,7 +15,7 @@ export default class CurrentUserService extends Service {
   async load() {
     if (this.session.isAuthenticated) {
       try {
-        this.prescriber = await this.store.queryRecord('prescriber', this.session.data.authenticated.user_id);
+        this.prescriber = await this.store.findRecord('prescriber', this.session.data.authenticated.user_id);
         this.memberships = await this.prescriber.memberships;
         const userOrgaSettings = await this.prescriber.userOrgaSettings;
         const membership = await this._getMembershipByUserOrgaSettings(this.memberships.slice(), userOrgaSettings);

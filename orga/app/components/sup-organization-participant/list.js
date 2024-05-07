@@ -15,8 +15,14 @@ export default class ListItems extends Component {
     super(...arguments);
 
     this.isLoadingGroups = true;
-    this.currentUser.organization.groups.then(() => {
+    this.currentUser.organization.groups.then((groups) => {
       this.isLoadingGroups = false;
+      this.groups = groups.map(({ name }) => {
+        return {
+          label: name,
+          value: name,
+        };
+      });
     });
   }
 
@@ -42,16 +48,6 @@ export default class ListItems extends Component {
 
   get hasStudents() {
     return Boolean(this.args.students.length);
-  }
-
-  get groups() {
-    const groups = this.currentUser.organization.groups;
-    return groups.map(({ name }) => {
-      return {
-        label: name,
-        value: name,
-      };
-    });
   }
 
   @action

@@ -17,7 +17,11 @@ export default class CampaignProfile extends Model {
   @hasMany('campaignProfileCompetence', { async: true, inverse: null }) competences;
 
   get sortedCompetences() {
-    return this.competences.slice().sort((a, b) => {
+    const competences = this.hasMany('competences').value();
+
+    if (competences === null) return [];
+
+    return competences.slice().sort((a, b) => {
       return a.index.localeCompare(b.index);
     });
   }

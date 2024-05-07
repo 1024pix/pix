@@ -1,4 +1,5 @@
-import { clickByName, visit } from '@1024pix/ember-testing-library';
+import { visit } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
@@ -33,11 +34,13 @@ module('Acceptance | preselect-target-profile', function (hooks) {
     // when
     const screen = await visit('/selection-sujets');
 
-    await clickByName('· Area 1');
+    const area = await screen.findByText('· Area 1');
+
+    await click(area);
 
     // then
-    assert.dom(screen.getByLabelText('Tube 1 :')).exists();
-    assert.dom(screen.getByLabelText('Tube 2 :')).exists();
-    assert.dom(screen.getByLabelText('Tube 3 :')).exists();
+    assert.dom(await screen.findByLabelText('Tube 1 :')).exists();
+    assert.dom(await screen.findByLabelText('Tube 2 :')).exists();
+    assert.dom(await screen.findByLabelText('Tube 3 :')).exists();
   });
 });

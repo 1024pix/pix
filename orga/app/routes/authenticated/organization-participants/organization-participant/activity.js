@@ -7,13 +7,15 @@ export default class ActivityRoute extends Route {
   @service router;
 
   async model() {
-    const organizationLearner = this.modelFor('authenticated.organization-participants.organization-participant');
     try {
+      const organizationLearner = this.modelFor('authenticated.organization-participants.organization-participant');
+      const activity = await this.store.queryRecord('organizationLearnerActivity', {
+        organizationLearnerId: organizationLearner.id,
+      });
       return RSVP.hash({
         organizationLearner,
-        activity: await this.store.queryRecord('organizationLearnerActivity', {
-          organizationLearnerId: organizationLearner.id,
-        }),
+        organizationLearnerStatistics: activity.organizationLearnerStatistics,
+        organizationLearnerParticipations: activity.organizationLearnerParticipations,
       });
     } catch (_) {
       return this.router.replaceWith('authenticated.organization-participants');

@@ -12,11 +12,13 @@ export default class Recommendations extends Component {
   constructor() {
     super(...arguments);
 
-    this.sortedRecommendations = this.args.campaignTubeRecommendations
-      ? this.args.campaignTubeRecommendations.slice().sort((a, b) => {
-          return a.averageScore - b.averageScore;
-        })
-      : [];
+    Promise.resolve(this.args.campaignTubeRecommendations).then((recommendations) => {
+      this.sortedRecommendations = recommendations
+        ? recommendations.slice().sort((a, b) => {
+            return a.averageScore - b.averageScore;
+          })
+        : [];
+    });
   }
 
   get description() {

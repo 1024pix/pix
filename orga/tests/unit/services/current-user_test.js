@@ -20,7 +20,7 @@ module('Unit | Service | current-user', function (hooks) {
         memberships: [{ organization: [] }],
       });
       storeStub = Service.create({
-        queryRecord: () => resolve(connectedUser),
+        findRecord: () => resolve(connectedUser),
       });
       sessionStub = Service.create({
         isAuthenticated: true,

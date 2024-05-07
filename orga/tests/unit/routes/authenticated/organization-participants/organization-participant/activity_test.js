@@ -19,9 +19,10 @@ module('Unit | Route | authenticated/organization-participants/organization-part
 
   test("should return model if user is authorized to display participant's activity", async function (assert) {
     // given
-    const activity = Symbol('activity');
-    const expectedModel = { organizationLearner, activity };
-    store.queryRecord.resolves(activity);
+    const organizationLearnerStatistics = Symbol();
+    const organizationLearnerParticipations = Symbol();
+    const expectedModel = { organizationLearner, organizationLearnerStatistics, organizationLearnerParticipations };
+    store.queryRecord.resolves({ organizationLearnerStatistics, organizationLearnerParticipations });
 
     // when
     const model = await route.model();

@@ -12,6 +12,6 @@ export default class CampaignAssessmentParticipationResult extends Model {
   competenceResults;
 
   get sortedCompetenceResults() {
-    return this.competenceResults.sortBy('index');
+    return this.hasMany('competenceResults').value().sortBy('index');
   }
 }

@@ -7,8 +7,11 @@ export default class Competence extends Model {
   @hasMany('thematic', { async: true, inverse: null }) thematics;
 
   get sortedThematics() {
-    return this.thematics.slice().sort((a, b) => {
-      return a.index - b.index;
-    });
+    return this.hasMany('thematics')
+      .value()
+      .slice()
+      .sort((a, b) => {
+        return a.index - b.index;
+      });
   }
 }

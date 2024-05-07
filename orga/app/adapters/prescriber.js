@@ -1,7 +1,7 @@
 import ApplicationAdapter from './application';
 
 export default class PrescriberAdapter extends ApplicationAdapter {
-  urlForQueryRecord(id) {
+  urlForFindRecord(id) {
     return `${this.host}/${this.namespace}/prescription/prescribers/${id}`;
   }
 
