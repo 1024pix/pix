@@ -21,6 +21,7 @@ const PIX_HOME_URL_FRENCH_FRANCE = `${config.domain.pix + config.domain.tldFr}`;
 const PIX_APP_URL_FRENCH_FRANCE = `${config.domain.pixApp + config.domain.tldFr}`;
 const PIX_APP_CONNECTION_URL_FRENCH_FRANCE = `${PIX_APP_URL_FRENCH_FRANCE}/connexion`;
 const PIX_ORGA_HOME_URL_FRENCH_FRANCE = `${config.domain.pixOrga + config.domain.tldFr}`;
+const PIX_CERTIF_HOME_URL_FRENCH_FRANCE = `${config.domain.pixCertif + config.domain.tldFr}`;
 const HELPDESK_FRENCH_FRANCE = 'https://support.pix.fr';
 
 // INTERNATIONAL
@@ -31,6 +32,7 @@ const PIX_HOME_URL_INTERNATIONAL = {
   nl: `${config.domain.pix + config.domain.tldOrg}/nl-be/`,
 };
 const PIX_ORGA_HOME_URL_INTERNATIONAL = `${config.domain.pixOrga + config.domain.tldOrg}`;
+const PIX_CERTIF_HOME_URL_INTERNATIONAL = `${config.domain.pixCertif + config.domain.tldOrg}`;
 const PIX_APP_URL_INTERNATIONAL = `${config.domain.pixApp + config.domain.tldOrg}`;
 const PIX_APP_CONNECTION_URL_INTERNATIONAL = {
   en: `${PIX_APP_URL_INTERNATIONAL}/connexion/?lang=en`,
@@ -60,6 +62,7 @@ function _getMailerConfig(locale) {
         homeName: PIX_HOME_NAME_INTERNATIONAL,
         homeUrl: PIX_HOME_URL_INTERNATIONAL[locale] ?? PIX_HOME_URL_INTERNATIONAL.en,
         pixOrgaHomeUrl: PIX_ORGA_HOME_URL_INTERNATIONAL,
+        pixCertifHomeUrl: PIX_CERTIF_HOME_URL_INTERNATIONAL,
         pixAppConnectionUrl: PIX_APP_CONNECTION_URL_INTERNATIONAL[locale] ?? PIX_APP_CONNECTION_URL_INTERNATIONAL.en,
         helpdeskUrl: PIX_HELPDESK_URL_INTERNATIONAL[locale] ?? PIX_HELPDESK_URL_INTERNATIONAL.en,
         displayNationalLogo: false,
@@ -69,10 +72,11 @@ function _getMailerConfig(locale) {
       return {
         homeName: PIX_HOME_NAME_FRENCH_FRANCE,
         homeUrl: PIX_HOME_URL_FRENCH_FRANCE,
+        pixOrgaHomeUrl: PIX_ORGA_HOME_URL_FRENCH_FRANCE,
+        pixCertifHomeUrl: PIX_CERTIF_HOME_URL_FRENCH_FRANCE,
         pixAppConnectionUrl: PIX_APP_CONNECTION_URL_FRENCH_FRANCE,
         helpdeskUrl: HELPDESK_FRENCH_FRANCE,
         displayNationalLogo: true,
-        pixOrgaHomeUrl: PIX_ORGA_HOME_URL_FRENCH_FRANCE,
         translation: translations.fr,
       };
   }
@@ -253,62 +257,23 @@ function sendCertificationCenterInvitationEmail({
   certificationCenterName,
   certificationCenterInvitationId,
   code,
-  locale,
+  locale = FRENCH_FRANCE,
 }) {
-  let templateParams, fromName, subject;
-  const frenchFranceTemplateParams = {
-    certificationCenterName,
-    pixHomeName: PIX_HOME_NAME_FRENCH_FRANCE,
-    pixHomeUrl: PIX_HOME_URL_FRENCH_FRANCE,
-    pixCertifHomeUrl: `${config.domain.pixCertif + config.domain.tldFr}`,
-    redirectionUrl: `${
-      config.domain.pixCertif + config.domain.tldFr
-    }/rejoindre?invitationId=${certificationCenterInvitationId}&code=${code}`,
-    supportUrl: HELPDESK_FRENCH_FRANCE,
-    ...frTranslations['certification-center-invitation-email'].params,
-  };
-  const frenchSpokenTemplateParams = {
-    certificationCenterName,
-    pixHomeName: PIX_HOME_NAME_INTERNATIONAL,
-    pixHomeUrl: `${config.domain.pix + config.domain.tldOrg}`,
-    pixCertifHomeUrl: `${config.domain.pixCertif + config.domain.tldOrg}`,
-    redirectionUrl: `${
-      config.domain.pixCertif + config.domain.tldOrg
-    }/rejoindre?invitationId=${certificationCenterInvitationId}&code=${code}`,
-    supportUrl: PIX_HELPDESK_URL_INTERNATIONAL.fr,
-    ...frTranslations['certification-center-invitation-email'].params,
-  };
-  const englishSpokenTemplateParams = {
-    certificationCenterName,
-    pixHomeName: PIX_HOME_NAME_INTERNATIONAL,
-    pixHomeUrl: PIX_HOME_URL_INTERNATIONAL.en,
-    pixCertifHomeUrl: `${config.domain.pixCertif + config.domain.tldOrg}?lang=en`,
-    redirectionUrl: `${
-      config.domain.pixCertif + config.domain.tldOrg
-    }/rejoindre?invitationId=${certificationCenterInvitationId}&code=${code}&lang=en`,
-    supportUrl: PIX_HELPDESK_URL_INTERNATIONAL.en,
-    ...enTranslations['certification-center-invitation-email'].params,
-  };
+  const mailerConfig = _getMailerConfig(locale);
 
-  switch (locale) {
-    case FRENCH_SPOKEN:
-      templateParams = frenchSpokenTemplateParams;
-      subject = frTranslations['certification-center-invitation-email'].subject;
-      fromName = PIX_CERTIF_NAME_FR;
-      break;
-
-    case ENGLISH_SPOKEN:
-      templateParams = englishSpokenTemplateParams;
-      fromName = PIX_CERTIF_NAME_EN;
-      subject = enTranslations['certification-center-invitation-email'].subject;
-      break;
-
-    default:
-      templateParams = frenchFranceTemplateParams;
-      subject = frTranslations['certification-center-invitation-email'].subject;
-      fromName = PIX_CERTIF_NAME_FR;
-      break;
-  }
+  const subject = mailerConfig.translation['certification-center-invitation-email'].subject;
+  const fromName = mailerConfig.translation['email-sender-name']['pix-certif'];
+  const templateVariables = {
+    certificationCenterName,
+    pixHomeName: mailerConfig.homeName,
+    pixHomeUrl: mailerConfig.homeUrl,
+    pixCertifHomeUrl: mailerConfig.pixCertifHomeUrl + (locale === FRENCH_FRANCE ? '' : `?lang=${locale}`),
+    redirectionUrl:
+      `${mailerConfig.pixCertifHomeUrl}/rejoindre?invitationId=${certificationCenterInvitationId}&code=${code}` +
+      (locale === FRENCH_FRANCE ? '' : `&lang=${locale}`),
+    supportUrl: mailerConfig.helpdeskUrl,
+    ...mailerConfig.translation['certification-center-invitation-email'].params,
+  };
 
   return mailer.sendEmail({
     subject,
@@ -316,7 +281,7 @@ function sendCertificationCenterInvitationEmail({
     fromName,
     to: email,
     template: mailer.certificationCenterInvitationTemplateId,
-    variables: templateParams,
+    variables: templateVariables,
   });
 }
 

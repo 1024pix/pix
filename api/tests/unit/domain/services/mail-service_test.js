@@ -689,9 +689,9 @@ describe('Unit | Service | MailService', function () {
         expect(sendEmailParameters.variables).to.include({
           certificationCenterName: 'Centre Pixi',
           pixHomeName: 'pix.org',
-          pixHomeUrl: 'https://pix.org',
-          pixCertifHomeUrl: 'https://certif.pix.org',
-          redirectionUrl: `https://certif.pix.org/rejoindre?invitationId=7&code=AAABBBCCC7`,
+          pixHomeUrl: 'https://pix.org/fr/',
+          pixCertifHomeUrl: 'https://certif.pix.org?lang=fr',
+          redirectionUrl: `https://certif.pix.org/rejoindre?invitationId=7&code=AAABBBCCC7&lang=fr`,
           supportUrl: 'https://support.pix.org',
           ...mainTranslationsMapping.fr['certification-center-invitation-email'].params,
         });
