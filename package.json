@@ -90,7 +90,7 @@
     "npm-run-all2": "^6.0.0"
   },
   "devDependencies": {
-    "@1024pix/eslint-config": "^1.2.10",
+    "@1024pix/eslint-config": "^1.2.11",
     "eslint": "^8.46.0",
     "eslint-plugin-mocha": "^10.0.0",
     "husky": "^9.0.0",
