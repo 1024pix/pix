@@ -11,22 +11,12 @@ function serialize(module) {
         transitionTexts: module.transitionTexts,
         details: module.details,
         grains: module.grains.map((grain) => {
-          if (grain.components) {
-            return {
-              id: grain.id,
-              title: grain.title,
-              type: grain.type,
-              elements: grain.elements,
-              components: grain.components,
-            };
-          } else {
-            return {
-              id: grain.id,
-              title: grain.title,
-              type: grain.type,
-              elements: grain.elements,
-            };
-          }
+          return {
+            id: grain.id,
+            title: grain.title,
+            type: grain.type,
+            components: grain.components,
+          };
         }),
       };
     },
@@ -34,7 +24,7 @@ function serialize(module) {
     grains: {
       ref: 'id',
       includes: true,
-      attributes: ['title', 'type', 'elements', 'components'],
+      attributes: ['title', 'type', 'components'],
     },
     typeForAttribute(attribute) {
       if (attribute === 'grains') {
