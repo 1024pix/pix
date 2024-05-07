@@ -273,9 +273,13 @@ async function createCampaignForComplementary({ organizationId, targetProfileId,
     targetProfileId,
   });
 
-  const [tubeId] = await knex('target-profile_tubes').where({ targetProfileId }).pluck('tubeId');
-  const [{ id: skillId }] = await skillRepository.findOperativeByTubeId(tubeId);
-  databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId, filterByStatus: 'all' });
+  const tubeIds = await knex('target-profile_tubes').where({ targetProfileId }).pluck('tubeId');
+  const skillsByTube = await Promise.all(tubeIds.map((tubeId) => skillRepository.findOperativeByTubeId(tubeId)));
+  skillsByTube.forEach((skills) =>
+    skills.forEach(({ id: skillId }) =>
+      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId, filterByStatus: 'all' }),
+    ),
+  );
 
   const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
     campaignId,
