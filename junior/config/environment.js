@@ -4,8 +4,8 @@ require('dotenv').config();
 
 module.exports = function (environment) {
   const ENV = {
-    modulePrefix: '1d',
-    podModulePrefix: '1d/pods',
+    modulePrefix: 'junior',
+    podModulePrefix: 'junior/pods',
     environment,
     locationType: 'history',
     rootURL: '/',

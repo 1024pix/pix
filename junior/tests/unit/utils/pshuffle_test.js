@@ -1,4 +1,4 @@
-import { pshuffle } from '1d/utils/pshuffle';
+import { pshuffle } from 'junior/utils/pshuffle';
 import { module, test } from 'qunit';
 
 import { setupTest } from '../../helpers/index';

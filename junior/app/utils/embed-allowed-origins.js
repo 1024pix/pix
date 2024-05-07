@@ -1,4 +1,4 @@
-import ENV from '1d/config/environment';
+import ENV from 'junior/config/environment';
 
 export function isEmbedAllowedOrigin(origin) {
   return getEmbedAllowedOriginsRegexps().some((allowedOrigin) => origin.match(allowedOrigin));

@@ -1,4 +1,4 @@
-import * as markdownConverter from '1d/utils/markdown-converter';
+import * as markdownConverter from 'junior/utils/markdown-converter';
 import { module, test } from 'qunit';
 
 import { setupTest } from '../../helpers/index';

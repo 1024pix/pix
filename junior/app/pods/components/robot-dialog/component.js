@@ -1,6 +1,6 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
-import * as markdownConverter from '1d/utils/markdown-converter';
+import * as markdownConverter from 'junior/utils/markdown-converter';
 
 export default class RobotDialog extends Component {
   @action
