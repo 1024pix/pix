@@ -8,22 +8,24 @@ import { ForbiddenAccess } from '../../../../shared/domain/errors.js';
 import { Organization } from '../../../domain/models/Organization.js';
 import { Prescriber } from '../../domain/read-models/Prescriber.js';
 
-function _toPrescriberDomain(user, userOrgaSettings, tags, memberships, organizations) {
+function _toPrescriberDomain(user, userOrgaSettings, tags, memberships, organizations, schools) {
   return new Prescriber({
     ...user,
     memberships: memberships.map(
       (membership) =>
         new Membership({
           ...membership,
-          organization: new Organization(
-            organizations.find((organization) => organization.id === membership.organizationId),
-          ),
+          organization: new Organization({
+            ...organizations.find((organization) => organization.id === membership.organizationId),
+            schoolCode: schools.find((school) => school.organizationId === membership.organizationId)?.code,
+          }),
         }),
     ),
     userOrgaSettings: new UserOrgaSettings({
       id: userOrgaSettings.id,
       currentOrganization: new Organization({
-        ...organizations.find((organization) => userOrgaSettings.currentOrganizationId === organization.id),
+        ...organizations.find((organization) => organization.id === userOrgaSettings.currentOrganizationId),
+        schoolCode: schools.find((school) => school.organizationId === userOrgaSettings.currentOrganizationId)?.code,
         tags: tags.map((tag) => new Tag(tag)),
       }),
     }),
@@ -104,16 +106,16 @@ const getPrescriber = async function (userId) {
     throw new ForbiddenAccess(`User of ID ${userId} is not a prescriber`);
   }
 
-  const organizations = await knex('organizations').whereIn(
-    'id',
-    memberships.map((membership) => membership.organizationId),
-  );
+  const organizationIds = memberships.map((membership) => membership.organizationId);
+  const organizations = await knex('organizations').whereIn('id', organizationIds);
   const userOrgaSettings = await knex('user-orga-settings').where({ userId }).first();
   const tags = await knex('tags')
     .join('organization-tags', 'organization-tags.tagId', 'tags.id')
     .where({ organizationId: userOrgaSettings.currentOrganizationId });
 
-  const prescriber = _toPrescriberDomain(user, userOrgaSettings, tags, memberships, organizations);
+  const schools = await knex('schools').whereIn('organizationId', organizationIds);
+
+  const prescriber = _toPrescriberDomain(user, userOrgaSettings, tags, memberships, organizations, schools);
 
   const currentOrganizationId = prescriber.userOrgaSettings.currentOrganization.id;
   prescriber.areNewYearOrganizationLearnersImported =

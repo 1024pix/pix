@@ -58,6 +58,7 @@ const serialize = function (prescriber) {
           'organizationInvitations',
           'documentationUrl',
           'groups',
+          'schoolCode',
         ],
         memberships: {
           ref: 'id',
