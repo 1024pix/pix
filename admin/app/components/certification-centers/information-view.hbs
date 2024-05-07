@@ -31,29 +31,19 @@
   <div class="property">
     <h2 class="field__label">{{t "pages.certification-centers.information-view.feature-habilitations.title"}}</h2>
     <ul class="certification-center-information__display__habilitations-list">
-      {{#if (eq @certificationCenter.isV3Pilot true)}}
-        <li aria-label={{concat "Habilité pour " this.isV3PilotLabel}}>
-          <FaIcon class="granted-habilitation-icon" @icon="circle-check" />
-          {{this.isV3PilotLabel}}
-        </li>
-      {{else}}
-        <li aria-label={{concat "Non habilité pour " this.isV3PilotLabel}}>
-          <FaIcon class="not-granted-habilitation-icon" @icon="circle-xmark" />
-          {{this.isV3PilotLabel}}
-        </li>
-      {{/if}}
-
-      {{#if (eq @certificationCenter.isComplementaryAlonePilot true)}}
-        <li aria-label={{concat "Habilité pour " this.isComplementaryAlonePilotLabel}}>
-          <FaIcon class="granted-habilitation-icon" @icon="circle-check" />
-          {{this.isComplementaryAlonePilotLabel}}
-        </li>
-      {{else}}
-        <li aria-label={{concat "Non habilité pour " this.isComplementaryAlonePilotLabel}}>
-          <FaIcon class="not-granted-habilitation-icon" @icon="circle-xmark" />
-          {{this.isComplementaryAlonePilotLabel}}
-        </li>
-      {{/if}}
+      {{#each this.availableFeatureHabilitations as |feature|}}
+        {{#if (eq feature.isPilot true)}}
+          <li aria-label={{concat "Habilité pour " feature.label}}>
+            <FaIcon class="granted-habilitation-icon" @icon="circle-check" />
+            {{feature.label}}
+          </li>
+        {{else}}
+          <li aria-label={{concat "Non habilité pour " feature.label}}>
+            <FaIcon class="not-granted-habilitation-icon" @icon="circle-xmark" />
+            {{feature.label}}
+          </li>
+        {{/if}}
+      {{/each}}
     </ul>
   </div>
   <div class="property">
