@@ -21,7 +21,7 @@ const schema = Joi.object({
   DOMAIN_PIX_ORGA: Joi.string().optional(),
   LCMS_API_KEY: Joi.string().required(),
   LCMS_API_URL: Joi.string().uri().required(),
-  LOG_ENABLED: Joi.string().optional().valid('true', 'false'),
+  LOG_ENABLED: Joi.string().required().valid('true', 'false'),
   LOG_LEVEL: Joi.string().optional().valid('silent', 'fatal', 'error', 'warn', 'info', 'debug', 'trace'),
   LOG_FOR_HUMANS: Joi.string().optional().valid('true', 'false'),
   LOG_OPS_METRICS: Joi.string().optional().valid('true', 'false'),
