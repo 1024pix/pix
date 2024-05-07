@@ -22,12 +22,11 @@ describe('Unit | Infrastructure | Datasources | Learning Content | Module Dataso
           },
         },
         {
-          // ToDo PIX-12363 migrate to components
-          message: '"grains[0].elements[0]" does not match any of the allowed types',
-          path: ['grains', 0, 'elements', 0],
+          message: '"grains[0].components[0].element" does not match any of the allowed types',
+          path: ['grains', 0, 'components', 0, 'element'],
           type: 'alternatives.any',
           context: {
-            label: 'grains[0].elements[0]',
+            label: 'grains[0].components[0].element',
             value: {
               id: '3a9f2269-99ba-4631-b6fd-6802c88d5c26',
               type: 'videox',
@@ -61,7 +60,7 @@ Valeur concernée à rechercher : "34d225e8-de8438cfc9"
 
 ────────────────────────────────────────────────────────────
 
-Error: "grains[0].elements[0]" does not match any of the allowed types.
+Error: "grains[0].components[0].element" does not match any of the allowed types.
 Valeur concernée à rechercher : {"id":"3a9f2269-99ba-4631-b6fd-6802c88d5c26","type":"videox","title":"Le format des adresses mail","url":"https://videos.pix.fr/modulix/chat_animation_2.mp4","subtitles":"https://videos.pix.fr/modulix/chat_animation_2.vtt","transcription":"<p>Coucou</p>"}
 
 ────────────────────────────────────────────────────────────
@@ -170,7 +169,7 @@ Valeur concernée à rechercher : "b7ea7630-824"
         },
         {
           message: 'htmlvalidationerror',
-          path: ['grains', 2, 'elements', 0, 'feedbacks', 'invalid'],
+          path: ['grains', 2, 'components', 0, 'element', 'feedbacks', 'invalid'],
           type: 'external',
           context: {
             value: {
@@ -205,7 +204,7 @@ Valeur concernée à rechercher : "b7ea7630-824"
               errorCount: 1,
               warningCount: 0,
             },
-            label: 'grains[2].elements[0].feedbacks.invalid',
+            label: 'grains[2].components[0].element.feedbacks.invalid',
             key: 'invalid',
           },
         },
@@ -260,7 +259,7 @@ Valeur concernée à rechercher :
 ────────────────────────────────────────────────────────────
 
 
-Chemin : grains[2].elements[0].feedbacks.invalid
+Chemin : grains[2].components[0].element.feedbacks.invalid
 
 Error(attr-quotes): Attribute "aria-hidden" used ' instead of expected "
 https://html-validate.org/rules/attr-quotes.html

@@ -48,97 +48,121 @@
       "id": "f242e81e-b182-44a1-a668-557f26b5ff8b",
       "type": "activity",
       "title": "Le titre d’un article, ce n’est pas assez !",
-      "elements": [
+      "components": [
         {
-          "id": "91e186a2-9f8e-41e9-84a6-47f870c28b08",
-          "type": "image",
-          "url": "https://i.imgur.com/zPkg3Em.png",
-          "alt": "",
-          "alternativeText": ""
+          "type": "element",
+          "element": {
+            "id": "91e186a2-9f8e-41e9-84a6-47f870c28b08",
+            "type": "image",
+            "url": "https://i.imgur.com/zPkg3Em.png",
+            "alt": "",
+            "alternativeText": ""
+          }
         },
         {
-          "id": "3f28b151-1cf4-41f7-8a2a-bfb42638a790",
-          "type": "qcu",
-          "instruction": "<p>A huit mois, un bébé comprend déjà la notion d'outil, y compris les nouvelles technologies.</p>",
-          "proposals": [
-            {
-              "id": "1",
-              "content": "plutôt vrai"
+          "type": "element",
+          "element": {
+            "id": "3f28b151-1cf4-41f7-8a2a-bfb42638a790",
+            "type": "qcu",
+            "instruction": "<p>A huit mois, un bébé comprend déjà la notion d'outil, y compris les nouvelles technologies.</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "plutôt vrai"
+              },
+              {
+                "id": "2",
+                "content": "plutôt faux"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Bien vu&#8239;! C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/a-huit-mois-un-bebe-comprend-deja-la-notion-d-outil-y-compris-les-nouvelles-technologies_176388\" target=\"_blank\">article du magazine Sciences et Avenir</a>.</p>",
+              "invalid": "<p>Et pourtant, c'est vrai&#8239;! C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/a-huit-mois-un-bebe-comprend-deja-la-notion-d-outil-y-compris-les-nouvelles-technologies_176388\" target=\"_blank\">article du magazine Sciences et Avenir</a>.</p>"
             },
-            {
-              "id": "2",
-              "content": "plutôt faux"
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>Bien vu&#8239;! C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/a-huit-mois-un-bebe-comprend-deja-la-notion-d-outil-y-compris-les-nouvelles-technologies_176388\" target=\"_blank\">article du magazine Sciences et Avenir</a>.</p>",
-            "invalid": "<p>Et pourtant, c'est vrai&#8239;! C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/a-huit-mois-un-bebe-comprend-deja-la-notion-d-outil-y-compris-les-nouvelles-technologies_176388\" target=\"_blank\">article du magazine Sciences et Avenir</a>.</p>"
-          },
-          "solution": "1"
+            "solution": "1"
+          }
         },
         {
-          "id": "596f018b-6510-4ab7-aa45-8a06e1b7bdea",
-          "type": "text",
-          "content": "<hr>"
+          "type": "element",
+          "element": {
+            "id": "596f018b-6510-4ab7-aa45-8a06e1b7bdea",
+            "type": "text",
+            "content": "<hr>"
+          }
         },
         {
-          "id": "42567080-7352-4d2d-a419-9015f1f53cb4",
-          "type": "image",
-          "url": "https://i.imgur.com/H5JCJVT.png",
-          "alt": "",
-          "alternativeText": ""
+          "type": "element",
+          "element": {
+            "id": "42567080-7352-4d2d-a419-9015f1f53cb4",
+            "type": "image",
+            "url": "https://i.imgur.com/H5JCJVT.png",
+            "alt": "",
+            "alternativeText": ""
+          }
         },
         {
-          "id": "c54f3eb3-df53-4bab-8300-37103878acd2",
-          "type": "qcu",
-          "instruction": "<p>San Francisco met en circulation des navettes sans conducteurs.</p>",
-          "proposals": [
-            {
-              "id": "1",
-              "content": "plutôt vrai"
+          "type": "element",
+          "element": {
+            "id": "c54f3eb3-df53-4bab-8300-37103878acd2",
+            "type": "qcu",
+            "instruction": "<p>San Francisco met en circulation des navettes sans conducteurs.</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "plutôt vrai"
+              },
+              {
+                "id": "2",
+                "content": "plutôt faux"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Bravo&#8239;! C'est le titre d'un <a href=\"https://www.slate.fr/story/252022/san-francisco-navettes-sans-conducteurs-autonomes\" target=\"_blank\">article de Slate</a>.</p>",
+              "invalid": "<p>Et pourtant, c'est vrai&#8239;! C'est le titre d'un <a href=\"https://www.slate.fr/story/252022/san-francisco-navettes-sans-conducteurs-autonomes\" target=\"_blank\">article de Slate</a>.</p>"
             },
-            {
-              "id": "2",
-              "content": "plutôt faux"
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>Bravo&#8239;! C'est le titre d'un <a href=\"https://www.slate.fr/story/252022/san-francisco-navettes-sans-conducteurs-autonomes\" target=\"_blank\">article de Slate</a>.</p>",
-            "invalid": "<p>Et pourtant, c'est vrai&#8239;! C'est le titre d'un <a href=\"https://www.slate.fr/story/252022/san-francisco-navettes-sans-conducteurs-autonomes\" target=\"_blank\">article de Slate</a>.</p>"
-          },
-          "solution": "1"
+            "solution": "1"
+          }
         },
         {
-          "id": "06c93109-0b72-4b20-8806-5c44d63f4da6",
-          "type": "text",
-          "content": "<hr>"
+          "type": "element",
+          "element": {
+            "id": "06c93109-0b72-4b20-8806-5c44d63f4da6",
+            "type": "text",
+            "content": "<hr>"
+          }
         },
         {
-          "id": "f6368eef-f7fd-44de-8d3e-573e1ca74b32",
-          "type": "image",
-          "url": "https://i.imgur.com/tC8s1jc.png",
-          "alt": "",
-          "alternativeText": ""
+          "type": "element",
+          "element": {
+            "id": "f6368eef-f7fd-44de-8d3e-573e1ca74b32",
+            "type": "image",
+            "url": "https://i.imgur.com/tC8s1jc.png",
+            "alt": "",
+            "alternativeText": ""
+          }
         },
         {
-          "id": "bc8d2d43-e82b-41ec-8ba6-274aca80fc2f",
-          "type": "qcu",
-          "instruction": "<p>Le professeur de Techno forçait ses élèves à construire des porte-clés lumineux qu’il revendait sur les marchés.</p>",
-          "proposals": [
-            {
-              "id": "1",
-              "content": "plutôt vrai"
+          "type": "element",
+          "element": {
+            "id": "bc8d2d43-e82b-41ec-8ba6-274aca80fc2f",
+            "type": "qcu",
+            "instruction": "<p>Le professeur de Techno forçait ses élèves à construire des porte-clés lumineux qu’il revendait sur les marchés.</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "plutôt vrai"
+              },
+              {
+                "id": "2",
+                "content": "plutôt faux"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Oui, c'est une fake news&#8239;! C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a>.</p>",
+              "invalid": "<p>Attention, c'est une fake news&#8239;! C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a>.</p>"
             },
-            {
-              "id": "2",
-              "content": "plutôt faux"
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>Oui, c'est une fake news&#8239;! C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a>.</p>",
-            "invalid": "<p>Attention, c'est une fake news&#8239;! C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a>.</p>"
-          },
-          "solution": "2"
+            "solution": "2"
+          }
         }
       ]
     },
@@ -146,19 +170,25 @@
       "id": "eb83569f-2e37-49ed-aa6f-31c420b673b9",
       "type": "lesson",
       "title": "Vocabulaire et méthode pour vérifier l'information",
-      "elements": [
+      "components": [
         {
-          "id": "342183f7-af51-4e4e-ab4c-ebed1e195063",
-          "type": "text",
-          "content": "<p>À la fin de cette vidéo, des questions vous seront posées sur des mots de vocabulaire&nbsp;: \"une anecdote\", \"une rumeur\", \"une opinion\".</p>"
+          "type": "element",
+          "element": {
+            "id": "342183f7-af51-4e4e-ab4c-ebed1e195063",
+            "type": "text",
+            "content": "<p>À la fin de cette vidéo, des questions vous seront posées sur des mots de vocabulaire&nbsp;: \"une anecdote\", \"une rumeur\", \"une opinion\".</p>"
+          }
         },
         {
-          "id": "3a9f2269-99ba-4631-b6fd-6802c88d5c26",
-          "type": "video",
-          "title": "-",
-          "url": "https://videos.pix.fr/modulix/distinguer-vrai-faux-sur-internet/vocabulaire.mp4",
-          "subtitles": "",
-          "transcription": "<p>-</p>"
+          "type": "element",
+          "element": {
+            "id": "3a9f2269-99ba-4631-b6fd-6802c88d5c26",
+            "type": "video",
+            "title": "-",
+            "url": "https://videos.pix.fr/modulix/distinguer-vrai-faux-sur-internet/vocabulaire.mp4",
+            "subtitles": "",
+            "transcription": "<p>-</p>"
+          }
         }
       ]
     },
@@ -166,93 +196,111 @@
       "id": "550d2764-35fd-4cc2-b663-cfa4c5d4ab06",
       "type": "activity",
       "title": "Vocabulaire opinion, rumeur, anecdote",
-      "elements": [
+      "components": [
         {
-          "id": "5c6ec12a-f5b4-4683-ae7a-11b79fddd0a5",
-          "type": "text",
-          "content": "Dans chacune des situations suivantes, choisissez s'il s'agit d'une opinion, d'une rumeur ou d'une anecdote."
+          "type": "element",
+          "element": {
+            "id": "5c6ec12a-f5b4-4683-ae7a-11b79fddd0a5",
+            "type": "text",
+            "content": "Dans chacune des situations suivantes, choisissez s'il s'agit d'une opinion, d'une rumeur ou d'une anecdote."
+          }
         },
         {
-          "id": "6cca7664-5201-4239-a272-b8b48808ede8",
-          "type": "qcu",
-          "instruction": "<p>Anaïs trouve que les réseaux sociaux, c'est vraiment génial.</p>",
-          "proposals": [
-            {
-              "id": "1",
-              "content": "une opinion"
+          "type": "element",
+          "element": {
+            "id": "6cca7664-5201-4239-a272-b8b48808ede8",
+            "type": "qcu",
+            "instruction": "<p>Anaïs trouve que les réseaux sociaux, c'est vraiment génial.</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "une opinion"
+              },
+              {
+                "id": "2",
+                "content": "une rumeur"
+              },
+              {
+                "id": "3",
+                "content": "une anecdote"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct. C'est une opinion, c'est-à-dire un point de vue exprimé.</p>",
+              "invalid": "<p>Incorrect. C'est une opinion, c'est-à-dire un point de vue exprimé.</p>"
             },
-            {
-              "id": "2",
-              "content": "une rumeur"
-            },
-            {
-              "id": "3",
-              "content": "une anecdote"
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>Correct. C'est une opinion, c'est-à-dire un point de vue exprimé.</p>",
-            "invalid": "<p>Incorrect. C'est une opinion, c'est-à-dire un point de vue exprimé.</p>"
-          },
-          "solution": "1"
+            "solution": "1"
+          }
         },
         {
-          "id": "fdc21cbc-af84-439c-9d0f-c718e6ed64b3",
-          "type": "text",
-          "content": "<hr>"
+          "type": "element",
+          "element": {
+            "id": "fdc21cbc-af84-439c-9d0f-c718e6ed64b3",
+            "type": "text",
+            "content": "<hr>"
+          }
         },
         {
-          "id": "ba752db6-c9c5-45d4-ab2b-c2a14204db5f",
-          "type": "qcu",
-          "instruction": "<p>Dès qu'elle le peut, Miranda achète des produits reconditionnés.</p>",
-          "proposals": [
-            {
-              "id": "1",
-              "content": "une opinion"
+          "type": "element",
+          "element": {
+            "id": "ba752db6-c9c5-45d4-ab2b-c2a14204db5f",
+            "type": "qcu",
+            "instruction": "<p>Dès qu'elle le peut, Miranda achète des produits reconditionnés.</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "une opinion"
+              },
+              {
+                "id": "2",
+                "content": "une rumeur"
+              },
+              {
+                "id": "3",
+                "content": "une anecdote"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct. C'est un détail, c'est un fait qui n'est pas intéressant pour les gens.</p>",
+              "invalid": "<p>Incorrect. C'est un détail, c'est un fait qui n'est pas intéressant pour les gens.</p>"
             },
-            {
-              "id": "2",
-              "content": "une rumeur"
-            },
-            {
-              "id": "3",
-              "content": "une anecdote"
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>Correct. C'est un détail, c'est un fait qui n'est pas intéressant pour les gens.</p>",
-            "invalid": "<p>Incorrect. C'est un détail, c'est un fait qui n'est pas intéressant pour les gens.</p>"
-          },
-          "solution": "3"
+            "solution": "3"
+          }
         },
         {
-          "id": "c94eb51d-a59e-4a26-afc1-64d0efb8a930",
-          "type": "text",
-          "content": "<hr>"
+          "type": "element",
+          "element": {
+            "id": "c94eb51d-a59e-4a26-afc1-64d0efb8a930",
+            "type": "text",
+            "content": "<hr>"
+          }
         },
         {
-          "id": "26b01131-fc75-4300-9ad3-fc19f718a88a",
-          "type": "qcu",
-          "instruction": "<p>Yann a entendu dire qu'un nouveau réseau social révolutionnaire allait bientôt arriver.</p>",
-          "proposals": [
-            {
-              "id": "1",
-              "content": "une opinion"
+          "type": "element",
+          "element": {
+            "id": "26b01131-fc75-4300-9ad3-fc19f718a88a",
+            "type": "qcu",
+            "instruction": "<p>Yann a entendu dire qu'un nouveau réseau social révolutionnaire allait bientôt arriver.</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "une opinion"
+              },
+              {
+                "id": "2",
+                "content": "une rumeur"
+              },
+              {
+                "id": "3",
+                "content": "une anecdote"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct. Ce qu'a entendu Yann n'est soutenu par aucune source. C'est donc une rumeur.</p>",
+              "invalid": "<p>Incorrect. Ce qu'a entendu Yann n'est soutenu par aucune source. C'est donc une rumeur.</p>"
             },
-            {
-              "id": "2",
-              "content": "une rumeur"
-            },
-            {
-              "id": "3",
-              "content": "une anecdote"
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>Correct. Ce qu'a entendu Yann n'est soutenu par aucune source. C'est donc une rumeur.</p>",
-            "invalid": "<p>Incorrect. Ce qu'a entendu Yann n'est soutenu par aucune source. C'est donc une rumeur.</p>"
-          },
-          "solution": "2"
+            "solution": "2"
+          }
         }
       ]
     },
@@ -260,31 +308,46 @@
       "id": "ed22ab38-ec6d-47df-88ea-4894f1cd6c8a",
       "type": "lesson",
       "title": "Méthode pour vérifier une information (leçon)",
-      "elements": [
+      "components": [
         {
-          "id": "332d9e96-d12e-4809-9d25-173a57ed93be",
-          "type": "text",
-          "content": "<h3>Question n°1&nbsp;: qui est l’auteur de cette information&#8239;?&nbsp;<span aria-hidden=\"true\">🖋️</span>️</h3><p>En vous posant cette question, vous pourrez mieux évaluer l’information.<br>Par exemple, si vous connaissez ou non l’auteur, si l’auteur est reconnu ou encore si l’auteur a un intérêt particulier à ce que cette information circule.</p>"
+          "type": "element",
+          "element": {
+            "id": "332d9e96-d12e-4809-9d25-173a57ed93be",
+            "type": "text",
+            "content": "<h3>Question n°1&nbsp;: qui est l’auteur de cette information&#8239;?&nbsp;<span aria-hidden=\"true\">🖋️</span>️</h3><p>En vous posant cette question, vous pourrez mieux évaluer l’information.<br>Par exemple, si vous connaissez ou non l’auteur, si l’auteur est reconnu ou encore si l’auteur a un intérêt particulier à ce que cette information circule.</p>"
+          }
         },
         {
-          "id": "42276690-f134-4b88-ac0f-c26ad62370ec",
-          "type": "text",
-          "content": "<hr>"
+          "type": "element",
+          "element": {
+            "id": "42276690-f134-4b88-ac0f-c26ad62370ec",
+            "type": "text",
+            "content": "<hr>"
+          }
         },
         {
-          "id": "8aa4a733-4a92-4007-897d-ab884a7add85",
-          "type": "text",
-          "content": "<h3>Question n°2&nbsp;: quelle est la date de l’information&#8239;?&nbsp;<span aria-hidden=\"true\">📅</span>️</h3><p>C’est simple à vérifier et très important&#8239;! Des informations vraies un jour peuvent être fausses le lendemain. <br>Par exemple, une alerte inondation ou une promotion dans un magasin.</p>"
+          "type": "element",
+          "element": {
+            "id": "8aa4a733-4a92-4007-897d-ab884a7add85",
+            "type": "text",
+            "content": "<h3>Question n°2&nbsp;: quelle est la date de l’information&#8239;?&nbsp;<span aria-hidden=\"true\">📅</span>️</h3><p>C’est simple à vérifier et très important&#8239;! Des informations vraies un jour peuvent être fausses le lendemain. <br>Par exemple, une alerte inondation ou une promotion dans un magasin.</p>"
+          }
         },
         {
-          "id": "056ef18b-2f2f-4518-acca-93bb59b2d151",
-          "type": "text",
-          "content": "<hr>"
+          "type": "element",
+          "element": {
+            "id": "056ef18b-2f2f-4518-acca-93bb59b2d151",
+            "type": "text",
+            "content": "<hr>"
+          }
         },
         {
-          "id": "36577421-d9d0-4f49-ac43-b4e804ba5635",
-          "type": "text",
-          "content": "<h3>Question n°3&nbsp;: d’où provient cette information&#8239;?&nbsp;<span aria-hidden=\"true\">ℹ️</span>️</h3><p>C'est-à-dire, son origine, sa source. Cherchez à savoir si c’est une observation, un témoignage, un résultat d’expérience, etc.<br>Regardez également si vous pouvez vérifier cette information par vous-même et si l’auteur a partagé ses sources.</p>"
+          "type": "element",
+          "element": {
+            "id": "36577421-d9d0-4f49-ac43-b4e804ba5635",
+            "type": "text",
+            "content": "<h3>Question n°3&nbsp;: d’où provient cette information&#8239;?&nbsp;<span aria-hidden=\"true\">ℹ️</span>️</h3><p>C'est-à-dire, son origine, sa source. Cherchez à savoir si c’est une observation, un témoignage, un résultat d’expérience, etc.<br>Regardez également si vous pouvez vérifier cette information par vous-même et si l’auteur a partagé ses sources.</p>"
+          }
         }
       ]
     },
@@ -292,38 +355,45 @@
       "id": "46309f55-22e6-4b0f-bfc4-2bad94f9cbd7",
       "type": "activity",
       "title": "Méthode pour vérifier une information (activité)",
-      "elements": [
+      "components": [
         {
-          "id": "1c39f509-cdc2-4d3e-85f8-7731739a793f",
-          "type": "qcm",
-          "instruction": "<p>Parmi les éléments suivants, lesquels permettent de vérifier une information&#8239;?</p>",
-          "proposals": [
-            {
-              "id": "1",
-              "content": "le temps de lecture"
+          "type": "element",
+          "element": {
+            "id": "1c39f509-cdc2-4d3e-85f8-7731739a793f",
+            "type": "qcm",
+            "instruction": "<p>Parmi les éléments suivants, lesquels permettent de vérifier une information&#8239;?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "le temps de lecture"
+              },
+              {
+                "id": "2",
+                "content": "l’auteur"
+              },
+              {
+                "id": "3",
+                "content": "les sources"
+              },
+              {
+                "id": "4",
+                "content": "le format"
+              },
+              {
+                "id": "5",
+                "content": "la date"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct. Tous ces éléments permettent de vérifier une information. </p>",
+              "invalid": "<p>Incorrect. Retournez voir la leçon ci-dessus si besoin&nbsp;<span aria-hidden=\"true\">⬆</span>️!</p>"
             },
-            {
-              "id": "2",
-              "content": "l’auteur"
-            },
-            {
-              "id": "3",
-              "content": "les sources"
-            },
-            {
-              "id": "4",
-              "content": "le format"
-            },
-            {
-              "id": "5",
-              "content": "la date"
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>Correct. Tous ces éléments permettent de vérifier une information. </p>",
-            "invalid": "<p>Incorrect. Retournez voir la leçon ci-dessus si besoin&nbsp;<span aria-hidden=\"true\">⬆</span>️!</p>"
-          },
-          "solutions": ["2", "3", "5"]
+            "solutions": [
+              "2",
+              "3",
+              "5"
+            ]
+          }
         }
       ]
     },
@@ -331,119 +401,149 @@
       "id": "c624de0b-658a-47e7-b780-c579a1033aba",
       "type": "activity",
       "title": "Appliquer une méthode de vérification de l’information",
-      "elements": [
+      "components": [
         {
-          "id": "e9d9c6e3-4c08-40de-bb46-e73b6d02f1c5",
-          "type": "image",
-          "url": "https://images.pix.fr/modulix/distinguer-vrai-faux-sur-internet/tweet6.jpg",
-          "alt": "Publication de FanDuRealMadrid (@FanRealBoss) sur X (Twitter) détaillée dans l'alternative textuelle",
-          "alternativeText": "Publication de FanDuRealMadrid(@FanRealBoss) sur X (Twitter) à 8h32 le 17 octobre 2023&nbsp;: &laquo;&nbsp;ENFIN&#8239;! Kylian Mbappé va quitter le PSG pour rejoindre le Real Madrid. Tu es un vrai 10&#8239;!! <a href=\"https://www.goal.com/fr/news/le-psg-tente-un-dernier-coup-avec-kylian-mbappe/bltcba9cc42978c4f80\" target=\"_blank\">https://www.goal.com/fr/news/le-psg-tente-un-dernier-coup-avec-kylian-mbappe/bltcba9cc42978c4f80</a>&nbsp;&raquo;"
+          "type": "element",
+          "element": {
+            "id": "e9d9c6e3-4c08-40de-bb46-e73b6d02f1c5",
+            "type": "image",
+            "url": "https://images.pix.fr/modulix/distinguer-vrai-faux-sur-internet/tweet6.jpg",
+            "alt": "Publication de FanDuRealMadrid (@FanRealBoss) sur X (Twitter) détaillée dans l'alternative textuelle",
+            "alternativeText": "Publication de FanDuRealMadrid(@FanRealBoss) sur X (Twitter) à 8h32 le 17 octobre 2023&nbsp;: &laquo;&nbsp;ENFIN&#8239;! Kylian Mbappé va quitter le PSG pour rejoindre le Real Madrid. Tu es un vrai 10&#8239;!! <a href=\"https://www.goal.com/fr/news/le-psg-tente-un-dernier-coup-avec-kylian-mbappe/bltcba9cc42978c4f80\" target=\"_blank\">https://www.goal.com/fr/news/le-psg-tente-un-dernier-coup-avec-kylian-mbappe/bltcba9cc42978c4f80</a>&nbsp;&raquo;"
+          }
         },
         {
-          "id": "7e2cda57-9383-4a9b-ab46-b6d96317d6ac",
-          "type": "text",
-          "content": "<p>La publication de FanDuRealMadrid comporte un <a href=\"https://www.goal.com/fr/news/le-psg-tente-un-dernier-coup-avec-kylian-mbappe/bltcba9cc42978c4f80\" target=\"_blank\">lien vers cet article.</a></p>"
+          "type": "element",
+          "element": {
+            "id": "7e2cda57-9383-4a9b-ab46-b6d96317d6ac",
+            "type": "text",
+            "content": "<p>La publication de FanDuRealMadrid comporte un <a href=\"https://www.goal.com/fr/news/le-psg-tente-un-dernier-coup-avec-kylian-mbappe/bltcba9cc42978c4f80\" target=\"_blank\">lien vers cet article.</a></p>"
+          }
         },
         {
-          "id": "275ab2ee-feaa-4c5c-9372-116799077172",
-          "type": "qcu",
-          "instruction": "<p>Choisissez la raison principale qui laisse penser que cette information est fausse.</p>",
-          "proposals": [
-            {
-              "id": "1",
-              "content": "L’auteur n'est pas neutre."
+          "type": "element",
+          "element": {
+            "id": "275ab2ee-feaa-4c5c-9372-116799077172",
+            "type": "qcu",
+            "instruction": "<p>Choisissez la raison principale qui laisse penser que cette information est fausse.</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "L’auteur n'est pas neutre."
+              },
+              {
+                "id": "2",
+                "content": "Les dates sont incohérentes."
+              },
+              {
+                "id": "3",
+                "content": "La source d’information est absente."
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct. FanDuRealMadrid annonce la venue de Mbappé dans son club favori alors que l’article utilisé comme source ne l’annonce pas du tout&#8239;!</p>",
+              "invalid": "<p>Incorrect. L’article utilisé comme source n’annonce pas du tout la venue de Mbappé. Ce fan a sûrement été influencé par ses envies.</p>"
             },
-            {
-              "id": "2",
-              "content": "Les dates sont incohérentes."
+            "solution": "1"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "8dc6af3a-7593-4516-94ef-7507eb3c0c73",
+            "type": "text",
+            "content": "<hr>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "0fd6f8a9-7421-41ed-b4a7-c0128488d35d",
+            "type": "image",
+            "url": "https://i.imgur.com/5BMW9i7.png",
+            "alt": "Publication de Jean-Eude Coulignant (@JECoulignant) sur X (Twitter) détaillée dans l'alternative textuelle",
+            "alternativeText": "Publication de Jean-Eude Coulignant (@JECoulignant) sur X (Twitter) à 13h54 le 9 février 2024&nbsp;: &laquo;&nbsp;Scoop&#8239;! Grâce aux nouvelles technologies, il y a de plus en plus de visiteurs dans les musées&nbsp;&raquo;"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "81943b07-ecf0-408b-877c-55e1943df1fc",
+            "type": "qcu",
+            "instruction": "<p>Choisissez la raison principale qui laisse penser que cette information est fausse.</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "L’auteur n'est pas neutre."
+              },
+              {
+                "id": "2",
+                "content": "Les dates sont incohérentes."
+              },
+              {
+                "id": "3",
+                "content": "La source d’information est absente."
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct. Il faudrait que Jean-Eude précise l’étude qui donne ce résultat pour pouvoir vérifier l’information.</p>",
+              "invalid": "<p>Incorrect. Pour partager sa source, il faudrait que Jean-Eude précise l’étude qui partage ce résultat. </p>"
             },
-            {
-              "id": "3",
-              "content": "La source d’information est absente."
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>Correct. FanDuRealMadrid annonce la venue de Mbappé dans son club favori alors que l’article utilisé comme source ne l’annonce pas du tout&#8239;!</p>",
-            "invalid": "<p>Incorrect. L’article utilisé comme source n’annonce pas du tout la venue de Mbappé. Ce fan a sûrement été influencé par ses envies.</p>"
-          },
-          "solution": "1"
+            "solution": "3"
+          }
         },
         {
-          "id": "8dc6af3a-7593-4516-94ef-7507eb3c0c73",
-          "type": "text",
-          "content": "<hr>"
+          "type": "element",
+          "element": {
+            "id": "67119ac3-4a93-45a2-900c-f2f4bf4a99b9",
+            "type": "text",
+            "content": "<hr>"
+          }
         },
         {
-          "id": "0fd6f8a9-7421-41ed-b4a7-c0128488d35d",
-          "type": "image",
-          "url": "https://i.imgur.com/5BMW9i7.png",
-          "alt": "Publication de Jean-Eude Coulignant (@JECoulignant) sur X (Twitter) détaillée dans l'alternative textuelle",
-          "alternativeText": "Publication de Jean-Eude Coulignant (@JECoulignant) sur X (Twitter) à 13h54 le 9 février 2024&nbsp;: &laquo;&nbsp;Scoop&#8239;! Grâce aux nouvelles technologies, il y a de plus en plus de visiteurs dans les musées&nbsp;&raquo;"
+          "type": "element",
+          "element": {
+            "id": "ecc3dbf9-f9a7-45f6-b961-0f548f066010",
+            "type": "image",
+            "url": "https://images.pix.fr/modulix/distinguer-vrai-faux-sur-internet/tweet7.jpg",
+            "alt": "Publication de Stéphanie Attelage (@StephAtell) sur X (Twitter) détaillée dans l'alternative textuelle",
+            "alternativeText": "Publication de Stéphanie Attelage (@StephAtell) sur X (Twitter) à 19h34 le 12 janvier 2023&nbsp;: &laquo;&nbsp;Allez vite au supermarché, il n'y aura bientôt plus de pâtes&nbsp;! Pour plus d'infos&nbsp;: <a href=\"https://www.zayactu.org/2021/08/la-france-bientot-confrontee-a-une-penurie-de-pates-alimentaires\" target=\"_blank\">https://www.zayactu.org/2021/08/la-france-bientot-confrontee-a-une-penurie-de-pates-alimentaires</a>&nbsp;&raquo;"
+          }
         },
         {
-          "id": "81943b07-ecf0-408b-877c-55e1943df1fc",
-          "type": "qcu",
-          "instruction": "<p>Choisissez la raison principale qui laisse penser que cette information est fausse.</p>",
-          "proposals": [
-            {
-              "id": "1",
-              "content": "L’auteur n'est pas neutre."
+          "type": "element",
+          "element": {
+            "id": "4f002984-f136-4962-8f9a-b5f69d2995af",
+            "type": "text",
+            "content": "<p>La publication de Stéphanie Attelage comporte un <a href=\"https://www.zayactu.org/2021/08/la-france-bientot-confrontee-a-une-penurie-de-pates-alimentaires\" target=\"_blank\">lien vers cet article.</a></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "ee7b67b7-0cb0-4bb7-a771-c2421a588643",
+            "type": "qcu",
+            "instruction": "<p>Choisissez la raison principale qui laisse penser que cette information est fausse.</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "L’auteur n'est pas neutre."
+              },
+              {
+                "id": "2",
+                "content": "Les dates sont incohérentes."
+              },
+              {
+                "id": "3",
+                "content": "La source d’information est absente."
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct. La publication de Stéphanie date de 2023 alors que l’article utilisé comme source date de 2021.</p>",
+              "invalid": "<p>Incorrect. En regardant l'article, on voit qu'il a été publié en 2021. Le message de Stéphanie date de 2023, la date de l'information est donc erronée.</p>"
             },
-            {
-              "id": "2",
-              "content": "Les dates sont incohérentes."
-            },
-            {
-              "id": "3",
-              "content": "La source d’information est absente."
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>Correct. Il faudrait que Jean-Eude précise l’étude qui donne ce résultat pour pouvoir vérifier l’information.</p>",
-            "invalid": "<p>Incorrect. Pour partager sa source, il faudrait que Jean-Eude précise l’étude qui partage ce résultat. </p>"
-          },
-          "solution": "3"
-        },
-        {
-          "id": "67119ac3-4a93-45a2-900c-f2f4bf4a99b9",
-          "type": "text",
-          "content": "<hr>"
-        },
-        {
-          "id": "ecc3dbf9-f9a7-45f6-b961-0f548f066010",
-          "type": "image",
-          "url": "https://images.pix.fr/modulix/distinguer-vrai-faux-sur-internet/tweet7.jpg",
-          "alt": "Publication de Stéphanie Attelage (@StephAtell) sur X (Twitter) détaillée dans l'alternative textuelle",
-          "alternativeText": "Publication de Stéphanie Attelage (@StephAtell) sur X (Twitter) à 19h34 le 12 janvier 2023&nbsp;: &laquo;&nbsp;Allez vite au supermarché, il n'y aura bientôt plus de pâtes&nbsp;! Pour plus d'infos&nbsp;: <a href=\"https://www.zayactu.org/2021/08/la-france-bientot-confrontee-a-une-penurie-de-pates-alimentaires\" target=\"_blank\">https://www.zayactu.org/2021/08/la-france-bientot-confrontee-a-une-penurie-de-pates-alimentaires</a>&nbsp;&raquo;"
-        },
-        {
-          "id": "4f002984-f136-4962-8f9a-b5f69d2995af",
-          "type": "text",
-          "content": "<p>La publication de Stéphanie Attelage comporte un <a href=\"https://www.zayactu.org/2021/08/la-france-bientot-confrontee-a-une-penurie-de-pates-alimentaires\" target=\"_blank\">lien vers cet article.</a></p>"
-        },
-        {
-          "id": "ee7b67b7-0cb0-4bb7-a771-c2421a588643",
-          "type": "qcu",
-          "instruction": "<p>Choisissez la raison principale qui laisse penser que cette information est fausse.</p>",
-          "proposals": [
-            {
-              "id": "1",
-              "content": "L’auteur n'est pas neutre."
-            },
-            {
-              "id": "2",
-              "content": "Les dates sont incohérentes."
-            },
-            {
-              "id": "3",
-              "content": "La source d’information est absente."
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>Correct. La publication de Stéphanie date de 2023 alors que l’article utilisé comme source date de 2021.</p>",
-            "invalid": "<p>Incorrect. En regardant l'article, on voit qu'il a été publié en 2021. Le message de Stéphanie date de 2023, la date de l'information est donc erronée.</p>"
-          },
-          "solution": "2"
+            "solution": "2"
+          }
         }
       ]
     },
@@ -451,18 +551,24 @@
       "id": "428ea826-6e21-4c56-a5a2-f97373f1e833",
       "type": "lesson",
       "title": "Les indices d’une information douteuse",
-      "elements": [
+      "components": [
         {
-          "id": "ff55b19b-a35c-4f25-9e07-ce2e3d965784",
-          "type": "text",
-          "content": "<p>Étudiez quelques-uns des indices présentés dans l'exemple ci-dessous. Ils vous aideront à identifier de fausses informations.</p>"
+          "type": "element",
+          "element": {
+            "id": "ff55b19b-a35c-4f25-9e07-ce2e3d965784",
+            "type": "text",
+            "content": "<p>Étudiez quelques-uns des indices présentés dans l'exemple ci-dessous. Ils vous aideront à identifier de fausses informations.</p>"
+          }
         },
         {
-          "id": "c6cd87ae-13a2-4ff1-aa09-26f4aca4dddc",
-          "type": "image",
-          "url": "https://i.imgur.com/QS0xFIn.png",
-          "alt": "Publication de Alain Bacri (@AlainBacri) sur X (Twitter) détaillée dans l'alternative textuelle",
-          "alternativeText": "Publication de Alain Bacri (@AlainBacri) sur X (Twitter) à 9h22 le 6 août 2022&nbsp;: &laquo;&nbsp;Arrêtez TOUS le DOLIPRANE&#8239;!!! (2 émojis tête de mort) Le paracétamol TUE les gens&#8239;!!!! mais personne en parle ! (2 emojis tête de mort) Il y a plusieurs PREUVES SCIENTIFIQUE qui le PROUVE, comme cet étude américaine&nbsp;: <a href=\"https://pubmed.ncbi.nlm.nih.gov/37436926/\" target=\"_blank\">https://pubmed.ncbi.nlm.nih.gov/37436926/</a> PARTAGER à un MAXIMUM de personnes. Il faut que ça se sache&#8239;!!!&nbsp;&raquo;<br>40,3 K Republications, 11,3 K Citations, 196,9 K Likes.<ul><li>Indice 1&nbsp;: <strong>Les majuscules et les émojis angoissants</strong> sont utilisés pour interpeller, créer un ton alarmiste et un sentiment d'urgence.</li><li>Indice 2&nbsp;:<strong>Les fautes d'orthographe</strong> à plusieurs endroits indiquent que le contenu a été rédigé sans attention particulière.</li><li>Indice 3&nbsp;:<strong>En demandant de partager l'information,</strong> l'auteur veut être lu à tout prix. Il cherche à rendre son contenu viral et à \"faire le buzz\".</li></ul>"
+          "type": "element",
+          "element": {
+            "id": "c6cd87ae-13a2-4ff1-aa09-26f4aca4dddc",
+            "type": "image",
+            "url": "https://i.imgur.com/QS0xFIn.png",
+            "alt": "Publication de Alain Bacri (@AlainBacri) sur X (Twitter) détaillée dans l'alternative textuelle",
+            "alternativeText": "Publication de Alain Bacri (@AlainBacri) sur X (Twitter) à 9h22 le 6 août 2022&nbsp;: &laquo;&nbsp;Arrêtez TOUS le DOLIPRANE&#8239;!!! (2 émojis tête de mort) Le paracétamol TUE les gens&#8239;!!!! mais personne en parle ! (2 emojis tête de mort) Il y a plusieurs PREUVES SCIENTIFIQUE qui le PROUVE, comme cet étude américaine&nbsp;: <a href=\"https://pubmed.ncbi.nlm.nih.gov/37436926/\" target=\"_blank\">https://pubmed.ncbi.nlm.nih.gov/37436926/</a> PARTAGER à un MAXIMUM de personnes. Il faut que ça se sache&#8239;!!!&nbsp;&raquo;<br>40,3 K Republications, 11,3 K Citations, 196,9 K Likes.<ul><li>Indice 1&nbsp;: <strong>Les majuscules et les émojis angoissants</strong> sont utilisés pour interpeller, créer un ton alarmiste et un sentiment d'urgence.</li><li>Indice 2&nbsp;:<strong>Les fautes d'orthographe</strong> à plusieurs endroits indiquent que le contenu a été rédigé sans attention particulière.</li><li>Indice 3&nbsp;:<strong>En demandant de partager l'information,</strong> l'auteur veut être lu à tout prix. Il cherche à rendre son contenu viral et à \"faire le buzz\".</li></ul>"
+          }
         }
       ]
     },
@@ -470,46 +576,58 @@
       "id": "9f56f75e-3e2d-4a6e-8623-9b74747b236d",
       "type": "activity",
       "title": "Méthode pour vérifier une information (activité)",
-      "elements": [
+      "components": [
         {
-          "id": "eb90d3ea-797f-4e4a-9675-e679b9f5bf3c",
-          "type": "text",
-          "content": "<p>Stéphane n'arrive pas à faire pousser sa nouvelle plante verte d’intérieur&nbsp;<span aria-hidden=\"true\">🪴</span>️. Il cherche des astuces sur les réseaux sociaux.<br>Il trouve les informations suivantes, publiées le 28 août 2023, par SuperJardinier&nbsp;:</p>"
+          "type": "element",
+          "element": {
+            "id": "eb90d3ea-797f-4e4a-9675-e679b9f5bf3c",
+            "type": "text",
+            "content": "<p>Stéphane n'arrive pas à faire pousser sa nouvelle plante verte d’intérieur&nbsp;<span aria-hidden=\"true\">🪴</span>️. Il cherche des astuces sur les réseaux sociaux.<br>Il trouve les informations suivantes, publiées le 28 août 2023, par SuperJardinier&nbsp;:</p>"
+          }
         },
         {
-          "id": "2c525ab3-23bf-4b43-867d-ea1fac54efad",
-          "type": "image",
-          "url": "https://i.imgur.com/Scxdcfm.png",
-          "alt": "Informations sur la pousse des plantes vertes détaillées dans l'alternative textuelle",
-          "alternativeText": "Vos plantes vertes ne poussent pas&nbsp;? Voici 2 super astuces dont vous ne pourrez plus vous passer&nbsp;!<br>Astuce 1&nbsp;: Privilégier la lumière directe. Un grand bain de soleil, ça fait toujours du bien&#8239;! Votre plante va adorer.<br>Astuce 2&nbsp;: Mettez de la spiruline dans la terre. Vous trouverez d’ailleurs un lien en description avec le code promo JARDINIER3000."
+          "type": "element",
+          "element": {
+            "id": "2c525ab3-23bf-4b43-867d-ea1fac54efad",
+            "type": "image",
+            "url": "https://i.imgur.com/Scxdcfm.png",
+            "alt": "Informations sur la pousse des plantes vertes détaillées dans l'alternative textuelle",
+            "alternativeText": "Vos plantes vertes ne poussent pas&nbsp;? Voici 2 super astuces dont vous ne pourrez plus vous passer&nbsp;!<br>Astuce 1&nbsp;: Privilégier la lumière directe. Un grand bain de soleil, ça fait toujours du bien&#8239;! Votre plante va adorer.<br>Astuce 2&nbsp;: Mettez de la spiruline dans la terre. Vous trouverez d’ailleurs un lien en description avec le code promo JARDINIER3000."
+          }
         },
         {
-          "id": "2a308355-f39f-498e-aef6-f1c0830f5b1f",
-          "type": "qcm",
-          "instruction": "<p>Quels sont les conseils à donner à Stéphane&#8239;?</p>",
-          "proposals": [
-            {
-              "id": "1",
-              "content": "Tester ces astuces."
+          "type": "element",
+          "element": {
+            "id": "2a308355-f39f-498e-aef6-f1c0830f5b1f",
+            "type": "qcm",
+            "instruction": "<p>Quels sont les conseils à donner à Stéphane&#8239;?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "Tester ces astuces."
+              },
+              {
+                "id": "2",
+                "content": "Chercher d’autres sources."
+              },
+              {
+                "id": "3",
+                "content": "Se renseigner sur SuperJardinier."
+              },
+              {
+                "id": "4",
+                "content": "Partager ces informations."
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct. Plusieurs indices, comme l'absence de source ou le code promotionnel, poussent à vouloir en savoir plus avant de tester ou de partager ces astuces.</p>",
+              "invalid": "<p>Incorrect. Plusieurs indices, comme l'absence de source ou le code promotionnel, poussent à vouloir en savoir plus avant de tester ou de partager ces astuces.</p>"
             },
-            {
-              "id": "2",
-              "content": "Chercher d’autres sources."
-            },
-            {
-              "id": "3",
-              "content": "Se renseigner sur SuperJardinier."
-            },
-            {
-              "id": "4",
-              "content": "Partager ces informations."
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>Correct. Plusieurs indices, comme l'absence de source ou le code promotionnel, poussent à vouloir en savoir plus avant de tester ou de partager ces astuces.</p>",
-            "invalid": "<p>Incorrect. Plusieurs indices, comme l'absence de source ou le code promotionnel, poussent à vouloir en savoir plus avant de tester ou de partager ces astuces.</p>"
-          },
-          "solutions": ["2", "3"]
+            "solutions": [
+              "2",
+              "3"
+            ]
+          }
         }
       ]
     }

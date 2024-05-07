@@ -1,13 +1,17 @@
 import { ModuleInstantiationError } from '../../../../../../src/devcomp/domain/errors.js';
 import { Image } from '../../../../../../src/devcomp/domain/models/element/Image.js';
 import { QCM } from '../../../../../../src/devcomp/domain/models/element/QCM.js';
+import { QCMForAnswerVerification } from '../../../../../../src/devcomp/domain/models/element/QCM-for-answer-verification.js';
 import { QCU } from '../../../../../../src/devcomp/domain/models/element/QCU.js';
+import { QCUForAnswerVerification } from '../../../../../../src/devcomp/domain/models/element/QCU-for-answer-verification.js';
 import { QROCM } from '../../../../../../src/devcomp/domain/models/element/QROCM.js';
+import { QROCMForAnswerVerification } from '../../../../../../src/devcomp/domain/models/element/QROCM-for-answer-verification.js';
 import { Text } from '../../../../../../src/devcomp/domain/models/element/Text.js';
 import { Video } from '../../../../../../src/devcomp/domain/models/element/Video.js';
 import { Module } from '../../../../../../src/devcomp/domain/models/module/Module.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-import { catchErrSync, expect } from '../../../../../test-helper.js';
+import { logger } from '../../../../../../src/shared/infrastructure/utils/logger.js';
+import { catchErrSync, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
   describe('#constructor', function () {
@@ -98,15 +102,20 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
         const id = 1;
         const slug = 'les-adresses-email';
         const title = 'Les adresses email';
-        const element = { id: elementId };
-        // ToDo PIX-12363 migrate to components
-        const expectedGrain = { elements: [element] };
+        const component = { type: 'element', element: { id: elementId } };
+        const expectedGrain = {
+          components: [component],
+        };
         const details = Symbol('details');
 
         // when
-        const foundGrain = new Module({ id, slug, title, grains: [expectedGrain], details }).getGrainByElementId(
-          elementId,
-        );
+        const foundGrain = new Module({
+          id,
+          slug,
+          title,
+          grains: [expectedGrain],
+          details,
+        }).getGrainByElementId(elementId);
 
         // then
         expect(foundGrain).to.deep.equal(expectedGrain);
@@ -118,9 +127,10 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
         const id = 1;
         const slug = 'les-adresses-email';
         const title = 'Les adresses email';
-        const element = { id: elementId };
-        // ToDo PIX-12363 migrate to components
-        const grain = { elements: [element] };
+        const component = { type: 'element', element: { id: elementId } };
+        const grain = {
+          components: [component],
+        };
         const details = Symbol('details');
         const module = new Module({ id, slug, title, grains: [grain], details });
 
@@ -177,193 +187,202 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
   });
 
   describe('#toDomain', function () {
-    describe('without components', function () {
-      it('should throw an ModuleInstantiateError if data is incorrect', function () {
-        // given
-        const nonExistingGrainId = 'v312c33d-e7c9-4a69-9ba0-913957b8f7df';
-        const dataWithIncorrectTransitionText = {
-          id: '6282925d-4775-4bca-b513-4c3009ec5886',
-          slug: 'title',
-          title: 'title',
-          details: {
-            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
-            description: 'Description',
-            duration: 5,
-            level: 'Débutant',
-            objectives: ['Objective 1'],
+    it('should throw an ModuleInstantiateError if data is incorrect', function () {
+      // given
+      const nonExistingGrainId = 'v312c33d-e7c9-4a69-9ba0-913957b8f7df';
+      const dataWithIncorrectTransitionText = {
+        id: '6282925d-4775-4bca-b513-4c3009ec5886',
+        slug: 'title',
+        title: 'title',
+        details: {
+          image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+          description: 'Description',
+          duration: 5,
+          level: 'Débutant',
+          objectives: ['Objective 1'],
+        },
+        transitionTexts: [
+          {
+            content: '<p>Text</p>',
+            grainId: nonExistingGrainId,
           },
-          transitionTexts: [
-            {
-              content: '<p>Text</p>',
-              grainId: nonExistingGrainId,
-            },
-          ],
-          grains: [
-            {
-              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
-              type: 'lesson',
-              title: 'title',
-              // ToDo PIX-12363 migrate to components
-              elements: [
-                {
+        ],
+        grains: [
+          {
+            id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+            type: 'lesson',
+            title: 'title',
+            components: [
+              {
+                type: 'element',
+                element: {
                   id: '84726001-1665-457d-8f13-4a74dc4768ea',
                   type: 'text',
                   content: '<h3>Content</h3>',
                 },
-              ],
-            },
-          ],
-        };
-
-        // when
-        const error = catchErrSync(Module.toDomain)(dataWithIncorrectTransitionText);
-
-        // then
-        expect(error).to.be.an.instanceOf(ModuleInstantiationError);
-        expect(error.message).to.deep.equal(
-          'All the transition texts should be linked to a grain contained in the module.',
-        );
-      });
-
-      it('should instantiate a Module with only elements', function () {
-        // given
-        const moduleData = {
-          id: '6282925d-4775-4bca-b513-4c3009ec5886',
-          slug: 'title',
-          title: 'title',
-          details: {
-            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
-            description: 'Description',
-            duration: 5,
-            level: 'Débutant',
-            objectives: ['Objective 1'],
+              },
+            ],
           },
-          grains: [
-            {
-              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
-              type: 'lesson',
-              title: 'title',
-              // ToDo PIX-12363 migrate to components
-              elements: [
-                {
-                  id: '84726001-1665-457d-8f13-4a74dc4768ea',
-                  type: 'text',
-                  content: '<h3>Content</h3>',
-                },
-              ],
-            },
-          ],
-        };
+        ],
+      };
 
-        // when
-        const module = Module.toDomain(moduleData);
+      // when
+      const error = catchErrSync(Module.toDomain)(dataWithIncorrectTransitionText);
 
-        // then
-        expect(module).to.be.an.instanceOf(Module);
-        expect(module.grains).not.to.be.empty;
-        for (const grain of module.grains) {
-          expect(grain.elements).not.to.be.empty;
-          expect(grain.components).to.be.undefined;
-        }
-      });
+      // then
+      expect(error).to.be.an.instanceOf(ModuleInstantiationError);
+      expect(error.message).to.deep.equal(
+        'All the transition texts should be linked to a grain contained in the module.',
+      );
+    });
 
-      it('should instantiate a Module with an Image Element', function () {
-        // given
-        const moduleData = {
-          id: '6282925d-4775-4bca-b513-4c3009ec5886',
-          slug: 'title',
-          title: 'title',
-          details: {
-            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
-            description: 'Description',
-            duration: 5,
-            level: 'Débutant',
-            objectives: ['Objective 1'],
-          },
-          grains: [
-            {
-              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
-              type: 'lesson',
-              title: 'title',
-              // ToDo PIX-12363 migrate to components
-              elements: [
-                {
+    it('should instantiate a Module with components', function () {
+      // given
+      const moduleData = {
+        id: '6282925d-4775-4bca-b513-4c3009ec5886',
+        slug: 'title',
+        title: 'title',
+        details: {
+          image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+          description: 'Description',
+          duration: 5,
+          level: 'Débutant',
+          objectives: ['Objective 1'],
+        },
+        grains: [
+          {
+            id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+            type: 'lesson',
+            title: 'title',
+            components: [
+              {
+                type: 'element',
+                element: {
                   id: '8d7687c8-4a02-4d7e-bf6c-693a6d481c78',
                   type: 'image',
                   url: 'https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg',
                   alt: 'Alternative',
                   alternativeText: 'Alternative textuelle',
                 },
-              ],
-            },
-          ],
-        };
-
-        // when
-        const module = Module.toDomain(moduleData);
-
-        // then
-        expect(module.grains[0].elements[0]).to.be.an.instanceOf(Image);
-      });
-
-      it('should instantiate a Module with a Text Element', function () {
-        // given
-        const moduleData = {
-          id: '6282925d-4775-4bca-b513-4c3009ec5886',
-          slug: 'title',
-          title: 'title',
-          details: {
-            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
-            description: 'Description',
-            duration: 5,
-            level: 'Débutant',
-            objectives: ['Objective 1'],
+              },
+            ],
           },
-          grains: [
-            {
-              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
-              type: 'lesson',
-              title: 'title',
-              // ToDo PIX-12363 migrate to components
-              elements: [
-                {
+        ],
+      };
+
+      // when
+      const module = Module.toDomain(moduleData);
+
+      // then
+      expect(module).to.be.an.instanceOf(Module);
+      expect(module.grains).not.to.be.empty;
+      for (const grain of module.grains) {
+        expect(grain.components).not.to.be.empty;
+      }
+    });
+
+    it('should instantiate a Module with a ComponentElement which contains an Image Element', function () {
+      // given
+      const moduleData = {
+        id: '6282925d-4775-4bca-b513-4c3009ec5886',
+        slug: 'title',
+        title: 'title',
+        details: {
+          image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+          description: 'Description',
+          duration: 5,
+          level: 'Débutant',
+          objectives: ['Objective 1'],
+        },
+        grains: [
+          {
+            id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+            type: 'lesson',
+            title: 'title',
+            components: [
+              {
+                type: 'element',
+                element: {
+                  id: '8d7687c8-4a02-4d7e-bf6c-693a6d481c78',
+                  type: 'image',
+                  url: 'https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg',
+                  alt: 'Alternative',
+                  alternativeText: 'Alternative textuelle',
+                },
+              },
+            ],
+          },
+        ],
+      };
+
+      // when
+      const module = Module.toDomain(moduleData);
+
+      // then
+      expect(module.grains[0].components[0].element).to.be.an.instanceOf(Image);
+    });
+
+    it('should instantiate a Module with a ComponentElement which contains a Text Element', function () {
+      // given
+      const moduleData = {
+        id: '6282925d-4775-4bca-b513-4c3009ec5886',
+        slug: 'title',
+        title: 'title',
+        details: {
+          image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+          description: 'Description',
+          duration: 5,
+          level: 'Débutant',
+          objectives: ['Objective 1'],
+        },
+        grains: [
+          {
+            id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+            type: 'lesson',
+            title: 'title',
+            components: [
+              {
+                type: 'element',
+                element: {
                   id: '84726001-1665-457d-8f13-4a74dc4768ea',
                   type: 'text',
                   content: '<h3>Content</h3>',
                 },
-              ],
-            },
-          ],
-        };
-
-        // when
-        const module = Module.toDomain(moduleData);
-
-        // then
-        expect(module.grains[0].elements[0]).to.be.an.instanceOf(Text);
-      });
-
-      it('should instantiate a Module with a Video Element', function () {
-        // given
-        const moduleData = {
-          id: '6282925d-4775-4bca-b513-4c3009ec5886',
-          slug: 'title',
-          title: 'title',
-          details: {
-            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
-            description: 'Description',
-            duration: 5,
-            level: 'Débutant',
-            objectives: ['Objective 1'],
+              },
+            ],
           },
-          grains: [
-            {
-              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
-              type: 'lesson',
-              title: 'title',
-              // ToDo PIX-12363 migrate to components
-              elements: [
-                {
+        ],
+      };
+
+      // when
+      const module = Module.toDomain(moduleData);
+
+      // then
+      expect(module.grains[0].components[0].element).to.be.an.instanceOf(Text);
+    });
+
+    it('should instantiate a Module with a ComponentElement which contains a Video Element', function () {
+      // given
+      const moduleData = {
+        id: '6282925d-4775-4bca-b513-4c3009ec5886',
+        slug: 'title',
+        title: 'title',
+        details: {
+          image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+          description: 'Description',
+          duration: 5,
+          level: 'Débutant',
+          objectives: ['Objective 1'],
+        },
+        grains: [
+          {
+            id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+            type: 'lesson',
+            title: 'title',
+            components: [
+              {
+                type: 'element',
+                element: {
                   id: '3a9f2269-99ba-4631-b6fd-6802c88d5c26',
                   type: 'video',
                   title: 'Le format des adress mail',
@@ -371,39 +390,41 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
                   subtitles: 'Insert subtitles here',
                   transcription: 'Insert transcription here',
                 },
-              ],
-            },
-          ],
-        };
-
-        // when
-        const module = Module.toDomain(moduleData);
-
-        // then
-        expect(module.grains[0].elements[0]).to.be.an.instanceOf(Video);
-      });
-
-      it('should instantiate a Module with a QCU Element', function () {
-        // given
-        const moduleData = {
-          id: '6282925d-4775-4bca-b513-4c3009ec5886',
-          slug: 'title',
-          title: 'title',
-          details: {
-            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
-            description: 'Description',
-            duration: 5,
-            level: 'Débutant',
-            objectives: ['Objective 1'],
+              },
+            ],
           },
-          grains: [
-            {
-              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
-              type: 'lesson',
-              title: 'title',
-              // ToDo PIX-12363 migrate to components
-              elements: [
-                {
+        ],
+      };
+
+      // when
+      const module = Module.toDomain(moduleData);
+
+      // then
+      expect(module.grains[0].components[0].element).to.be.an.instanceOf(Video);
+    });
+
+    it('should instantiate a Module with a ComponentElement which contains a QCU Element', function () {
+      // given
+      const moduleData = {
+        id: '6282925d-4775-4bca-b513-4c3009ec5886',
+        slug: 'title',
+        title: 'title',
+        details: {
+          image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+          description: 'Description',
+          duration: 5,
+          level: 'Débutant',
+          objectives: ['Objective 1'],
+        },
+        grains: [
+          {
+            id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+            type: 'lesson',
+            title: 'title',
+            components: [
+              {
+                type: 'element',
+                element: {
                   id: 'ba78dead-a806-4954-b408-e8ef28d28fab',
                   type: 'qcu',
                   instruction: '<p>L’adresse mail M3g4Cool1415@gmail.com est correctement écrite ?</p>',
@@ -425,39 +446,41 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
                   },
                   solution: '1',
                 },
-              ],
-            },
-          ],
-        };
-
-        // when
-        const module = Module.toDomain(moduleData);
-
-        // then
-        expect(module.grains[0].elements[0]).to.be.an.instanceOf(QCU);
-      });
-
-      it('should instantiate a Module with a QCM Element', function () {
-        // given
-        const moduleData = {
-          id: '6282925d-4775-4bca-b513-4c3009ec5886',
-          slug: 'title',
-          title: 'title',
-          details: {
-            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
-            description: 'Description',
-            duration: 5,
-            level: 'Débutant',
-            objectives: ['Objective 1'],
+              },
+            ],
           },
-          grains: [
-            {
-              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
-              type: 'lesson',
-              title: 'title',
-              // ToDo PIX-12363 migrate to components
-              elements: [
-                {
+        ],
+      };
+
+      // when
+      const module = Module.toDomain(moduleData);
+
+      // then
+      expect(module.grains[0].components[0].element).to.be.an.instanceOf(QCU);
+    });
+
+    it('should instantiate a Module with a ComponentElement which contains a QCM Element', function () {
+      // given
+      const moduleData = {
+        id: '6282925d-4775-4bca-b513-4c3009ec5886',
+        slug: 'title',
+        title: 'title',
+        details: {
+          image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+          description: 'Description',
+          duration: 5,
+          level: 'Débutant',
+          objectives: ['Objective 1'],
+        },
+        grains: [
+          {
+            id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+            type: 'lesson',
+            title: 'title',
+            components: [
+              {
+                type: 'element',
+                element: {
                   id: '30701e93-1b4d-4da4-b018-fa756c07d53f',
                   type: 'qcm',
                   instruction: '<p>Quels sont les 3 piliers de Pix ?</p>',
@@ -489,39 +512,41 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
                   },
                   solutions: ['1', '3', '4'],
                 },
-              ],
-            },
-          ],
-        };
-
-        // when
-        const module = Module.toDomain(moduleData);
-
-        // then
-        expect(module.grains[0].elements[0]).to.be.an.instanceOf(QCM);
-      });
-
-      it('should instantiate a Module with a QROCM Element', function () {
-        // given
-        const moduleData = {
-          id: '6282925d-4775-4bca-b513-4c3009ec5886',
-          slug: 'title',
-          title: 'title',
-          details: {
-            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
-            description: 'Description',
-            duration: 5,
-            level: 'Débutant',
-            objectives: ['Objective 1'],
+              },
+            ],
           },
-          grains: [
-            {
-              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
-              type: 'lesson',
-              title: 'title',
-              // ToDo PIX-12363 migrate to components
-              elements: [
-                {
+        ],
+      };
+
+      // when
+      const module = Module.toDomain(moduleData);
+
+      // then
+      expect(module.grains[0].components[0].element).to.be.an.instanceOf(QCM);
+    });
+
+    it('should instantiate a Module with a ComponentElement which contains a QROCM Element', function () {
+      // given
+      const moduleData = {
+        id: '6282925d-4775-4bca-b513-4c3009ec5886',
+        slug: 'title',
+        title: 'title',
+        details: {
+          image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+          description: 'Description',
+          duration: 5,
+          level: 'Débutant',
+          objectives: ['Objective 1'],
+        },
+        grains: [
+          {
+            id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+            type: 'lesson',
+            title: 'title',
+            components: [
+              {
+                type: 'element',
+                element: {
                   id: '98c51fa7-03b7-49b1-8c5e-49341d35909c',
                   type: 'qrocm',
                   instruction:
@@ -569,165 +594,179 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
                     invalid: "<p class='pix-list-inline'>Et non !</p>",
                   },
                 },
-              ],
-            },
-          ],
-        };
-
-        // when
-        const module = Module.toDomain(moduleData);
-
-        // then
-        expect(module.grains[0].elements[0]).to.be.an.instanceOf(QROCM);
-      });
-
-      it('should filter out unknown element types', function () {
-        // given
-        const moduleData = {
-          id: '6282925d-4775-4bca-b513-4c3009ec5886',
-          slug: 'title',
-          title: 'title',
-          details: {
-            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
-            description: 'Description',
-            duration: 5,
-            level: 'Débutant',
-            objectives: ['Objective 1'],
+              },
+            ],
           },
-          grains: [
-            {
-              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
-              type: 'lesson',
-              title: 'title',
-              // ToDo PIX-12363 migrate to components
-              elements: [
-                {
+        ],
+      };
+
+      // when
+      const module = Module.toDomain(moduleData);
+
+      // then
+      expect(module.grains[0].components[0].element).to.be.an.instanceOf(QROCM);
+    });
+
+    it('should filter out unknown component types', function () {
+      // given
+      const moduleData = {
+        id: '6282925d-4775-4bca-b513-4c3009ec5886',
+        slug: 'title',
+        title: 'title',
+        details: {
+          image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+          description: 'Description',
+          duration: 5,
+          level: 'Débutant',
+          objectives: ['Objective 1'],
+        },
+        grains: [
+          {
+            id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+            type: 'lesson',
+            title: 'title',
+            components: [
+              {
+                type: 'element',
+                element: {
                   id: '84726001-1665-457d-8f13-4a74dc4768ea',
                   type: 'text',
                   content: '<h3>Content</h3>',
                 },
-                {
+              },
+              {
+                type: 'unknown',
+                unknown: {
+                  id: '16ad694a-848f-456d-95a6-c488350c3ed7',
+                  type: 'text',
+                  content: '<h3>Content</h3>',
+                },
+              },
+            ],
+          },
+        ],
+      };
+
+      // when
+      const module = Module.toDomain(moduleData);
+
+      // then
+      expect(module).to.be.an.instanceOf(Module);
+      expect(module.grains).not.to.be.empty;
+      expect(module.grains[0].components).to.have.length(1);
+      expect(module.grains[0].components[0].element).not.to.be.empty;
+    });
+
+    it('should filter out component if element type is unknown', function () {
+      // given
+      const moduleData = {
+        id: '6282925d-4775-4bca-b513-4c3009ec5886',
+        slug: 'title',
+        title: 'title',
+        details: {
+          image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+          description: 'Description',
+          duration: 5,
+          level: 'Débutant',
+          objectives: ['Objective 1'],
+        },
+        grains: [
+          {
+            id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+            type: 'lesson',
+            title: 'title',
+            components: [
+              {
+                type: 'element',
+                element: {
+                  id: '84726001-1665-457d-8f13-4a74dc4768ea',
+                  type: 'text',
+                  content: '<h3>Content</h3>',
+                },
+              },
+              {
+                type: 'element',
+                element: {
                   id: '16ad694a-848f-456d-95a6-c488350c3ed7',
                   type: 'unknown',
                   content: 'Should not be added to the grain',
                 },
-              ],
-            },
-          ],
-        };
+              },
+            ],
+          },
+        ],
+      };
 
-        // when
-        const module = Module.toDomain(moduleData);
+      // when
+      const module = Module.toDomain(moduleData);
 
-        // then
-        expect(module).to.be.an.instanceOf(Module);
-        expect(module.grains).not.to.be.empty;
-        expect(module.grains[0].elements).to.have.length(1);
-      });
+      // then
+      expect(module).to.be.an.instanceOf(Module);
+      expect(module.grains).not.to.be.empty;
+      expect(module.grains[0].components).to.have.length(1);
+      expect(module.grains[0].components[0].element).not.to.be.empty;
+    });
+  });
+
+  describe('#toDomainForVerification', function () {
+    it('should throw an ModuleInstantiationError if data is incorrect', function () {
+      // given
+      const feedbacks = { valid: 'valid', invalid: 'invalid' };
+      const proposals = [
+        { id: '1', content: 'toto' },
+        { id: '2', content: 'foo' },
+      ];
+
+      const dataWithMissingSolutionForQCU = {
+        id: '6282925d-4775-4bca-b513-4c3009ec5886',
+        slug: 'title',
+        title: 'title',
+        details: {
+          image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+          description: 'Description',
+          duration: 5,
+          level: 'Débutant',
+          objectives: ['Objective 1'],
+        },
+        grains: [
+          {
+            id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+            type: 'lesson',
+            title: 'title',
+            components: [
+              {
+                type: 'element',
+                element: {
+                  id: '123',
+                  instruction: 'instruction',
+                  locales: ['fr-FR'],
+                  proposals,
+                  feedbacks,
+                  type: 'qcu',
+                },
+              },
+            ],
+          },
+        ],
+      };
+
+      // when
+      const error = catchErrSync(Module.toDomainForVerification)(dataWithMissingSolutionForQCU);
+
+      // then
+      expect(error).to.be.an.instanceOf(ModuleInstantiationError);
+      expect(error.message).to.deep.equal('The solution is required for a verification QCU');
     });
 
-    describe('with components', function () {
-      it('should throw an ModuleInstantiateError if data is incorrect', function () {
+    describe('with answerable elements', function () {
+      it('should instantiate a Module with components', function () {
         // given
-        const nonExistingGrainId = 'v312c33d-e7c9-4a69-9ba0-913957b8f7df';
-        const dataWithIncorrectTransitionText = {
-          id: '6282925d-4775-4bca-b513-4c3009ec5886',
-          slug: 'title',
-          title: 'title',
-          details: {
-            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
-            description: 'Description',
-            duration: 5,
-            level: 'Débutant',
-            objectives: ['Objective 1'],
-          },
-          transitionTexts: [
-            {
-              content: '<p>Text</p>',
-              grainId: nonExistingGrainId,
-            },
-          ],
-          grains: [
-            {
-              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
-              type: 'lesson',
-              title: 'title',
-              // ToDo PIX-12363 migrate to components
-              elements: [
-                {
-                  id: '84726001-1665-457d-8f13-4a74dc4768ea',
-                  type: 'text',
-                  content: '<h3>Content</h3>',
-                },
-              ],
-              components: [
-                {
-                  type: 'element',
-                  element: {
-                    id: '84726001-1665-457d-8f13-4a74dc4768ea',
-                    type: 'text',
-                    content: '<h3>Content</h3>',
-                  },
-                },
-              ],
-            },
-          ],
-        };
+        const feedbacks = { valid: 'valid', invalid: 'invalid' };
+        const proposals = [
+          { id: '1', content: 'toto' },
+          { id: '2', content: 'foo' },
+        ];
 
-        // when
-        const error = catchErrSync(Module.toDomain)(dataWithIncorrectTransitionText);
-
-        // then
-        expect(error).to.be.an.instanceOf(ModuleInstantiationError);
-        expect(error.message).to.deep.equal(
-          'All the transition texts should be linked to a grain contained in the module.',
-        );
-      });
-
-      it('should throw an ModuleInstantiateError if module is present without elements', function () {
-        // given
-        const moduleDataWithoutElements = {
-          id: '6282925d-4775-4bca-b513-4c3009ec5886',
-          slug: 'title',
-          title: 'title',
-          details: {
-            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
-            description: 'Description',
-            duration: 5,
-            level: 'Débutant',
-            objectives: ['Objective 1'],
-          },
-          grains: [
-            {
-              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
-              type: 'lesson',
-              title: 'title',
-              components: [
-                {
-                  type: 'element',
-                  element: {
-                    id: '8d7687c8-4a02-4d7e-bf6c-693a6d481c78',
-                    type: 'image',
-                    url: 'https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg',
-                    alt: 'Alternative',
-                    alternativeText: 'Alternative textuelle',
-                  },
-                },
-              ],
-            },
-          ],
-        };
-
-        // when
-        const error = catchErrSync(Module.toDomain)(moduleDataWithoutElements);
-
-        // then
-        expect(error).to.be.an.instanceOf(ModuleInstantiationError);
-        expect(error.message).to.deep.equal('Elements should always be provided');
-      });
-
-      it('should instantiate a Module, keep elements and components if present', function () {
-        // given
         const moduleData = {
           id: '6282925d-4775-4bca-b513-4c3009ec5886',
           slug: 'title',
@@ -744,23 +783,17 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
               id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
               type: 'lesson',
               title: 'title',
-              // ToDo PIX-12363 migrate to components
-              elements: [
-                {
-                  id: '84726001-1665-457d-8f13-4a74dc4768ea',
-                  type: 'text',
-                  content: '<h3>Content</h3>',
-                },
-              ],
               components: [
                 {
                   type: 'element',
                   element: {
-                    id: '8d7687c8-4a02-4d7e-bf6c-693a6d481c78',
-                    type: 'image',
-                    url: 'https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg',
-                    alt: 'Alternative',
-                    alternativeText: 'Alternative textuelle',
+                    id: '123',
+                    instruction: 'instruction',
+                    locales: ['fr-FR'],
+                    proposals,
+                    feedbacks,
+                    type: 'qcu',
+                    solution: proposals[0].id,
                   },
                 },
               ],
@@ -769,20 +802,24 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
         };
 
         // when
-        const module = Module.toDomain(moduleData);
+        const module = Module.toDomainForVerification(moduleData);
 
         // then
         expect(module).to.be.an.instanceOf(Module);
         expect(module.grains).not.to.be.empty;
         for (const grain of module.grains) {
-          // ToDo PIX-12363 migrate to components
-          expect(grain.elements).not.to.be.empty;
           expect(grain.components).not.to.be.empty;
         }
       });
 
-      it('should instantiate a Module with a ComponentElement which contains an Image Element', function () {
+      it('should instantiate a Module with a ComponentElement with contains a QCUForAnswerVerification Element', function () {
         // given
+        const feedbacks = { valid: 'valid', invalid: 'invalid' };
+        const proposals = [
+          { id: '1', content: 'toto' },
+          { id: '2', content: 'foo' },
+        ];
+
         const moduleData = {
           id: '6282925d-4775-4bca-b513-4c3009ec5886',
           slug: 'title',
@@ -799,184 +836,17 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
               id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
               type: 'lesson',
               title: 'title',
-              // ToDo PIX-12363 migrate to components
-              elements: [
-                {
-                  id: '84726001-1665-457d-8f13-4a74dc4768ea',
-                  type: 'text',
-                  content: '<h3>Content</h3>',
-                },
-              ],
               components: [
                 {
                   type: 'element',
                   element: {
-                    id: '8d7687c8-4a02-4d7e-bf6c-693a6d481c78',
-                    type: 'image',
-                    url: 'https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg',
-                    alt: 'Alternative',
-                    alternativeText: 'Alternative textuelle',
-                  },
-                },
-              ],
-            },
-          ],
-        };
-
-        // when
-        const module = Module.toDomain(moduleData);
-
-        // then
-        expect(module.grains[0].components[0].element).to.be.an.instanceOf(Image);
-      });
-
-      it('should instantiate a Module with a ComponentElement which contains a Text Element', function () {
-        // given
-        const moduleData = {
-          id: '6282925d-4775-4bca-b513-4c3009ec5886',
-          slug: 'title',
-          title: 'title',
-          details: {
-            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
-            description: 'Description',
-            duration: 5,
-            level: 'Débutant',
-            objectives: ['Objective 1'],
-          },
-          grains: [
-            {
-              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
-              type: 'lesson',
-              title: 'title',
-              // ToDo PIX-12363 migrate to components
-              elements: [
-                {
-                  id: '84726001-1665-457d-8f13-4a74dc4768ea',
-                  type: 'text',
-                  content: '<h3>Content</h3>',
-                },
-              ],
-              components: [
-                {
-                  type: 'element',
-                  element: {
-                    id: '84726001-1665-457d-8f13-4a74dc4768ea',
-                    type: 'text',
-                    content: '<h3>Content</h3>',
-                  },
-                },
-              ],
-            },
-          ],
-        };
-
-        // when
-        const module = Module.toDomain(moduleData);
-
-        // then
-        expect(module.grains[0].components[0].element).to.be.an.instanceOf(Text);
-      });
-
-      it('should instantiate a Module with a ComponentElement which contains a Video Element', function () {
-        // given
-        const moduleData = {
-          id: '6282925d-4775-4bca-b513-4c3009ec5886',
-          slug: 'title',
-          title: 'title',
-          details: {
-            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
-            description: 'Description',
-            duration: 5,
-            level: 'Débutant',
-            objectives: ['Objective 1'],
-          },
-          grains: [
-            {
-              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
-              type: 'lesson',
-              title: 'title',
-              // ToDo PIX-12363 migrate to components
-              elements: [
-                {
-                  id: '84726001-1665-457d-8f13-4a74dc4768ea',
-                  type: 'text',
-                  content: '<h3>Content</h3>',
-                },
-              ],
-              components: [
-                {
-                  type: 'element',
-                  element: {
-                    id: '3a9f2269-99ba-4631-b6fd-6802c88d5c26',
-                    type: 'video',
-                    title: 'Le format des adress mail',
-                    url: 'https://videos.pix.fr/modulix/chat_animation_2.webm',
-                    subtitles: 'Insert subtitles here',
-                    transcription: 'Insert transcription here',
-                  },
-                },
-              ],
-            },
-          ],
-        };
-
-        // when
-        const module = Module.toDomain(moduleData);
-
-        // then
-        expect(module.grains[0].components[0].element).to.be.an.instanceOf(Video);
-      });
-
-      it('should instantiate a Module with a ComponentElement which contains a QCU Element', function () {
-        // given
-        const moduleData = {
-          id: '6282925d-4775-4bca-b513-4c3009ec5886',
-          slug: 'title',
-          title: 'title',
-          details: {
-            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
-            description: 'Description',
-            duration: 5,
-            level: 'Débutant',
-            objectives: ['Objective 1'],
-          },
-          grains: [
-            {
-              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
-              type: 'lesson',
-              title: 'title',
-              // ToDo PIX-12363 migrate to components
-              elements: [
-                {
-                  id: '84726001-1665-457d-8f13-4a74dc4768ea',
-                  type: 'text',
-                  content: '<h3>Content</h3>',
-                },
-              ],
-              components: [
-                {
-                  type: 'element',
-                  element: {
-                    id: 'ba78dead-a806-4954-b408-e8ef28d28fab',
+                    id: '123',
+                    instruction: 'instruction',
+                    locales: ['fr-FR'],
+                    proposals,
+                    feedbacks,
                     type: 'qcu',
-                    instruction: '<p>L’adresse mail M3g4Cool1415@gmail.com est correctement écrite ?</p>',
-                    proposals: [
-                      {
-                        id: '1',
-                        content: 'Vrai',
-                      },
-                      {
-                        id: '2',
-                        content: 'Faux',
-                      },
-                    ],
-                    feedbacks: {
-                      valid:
-                        '<p>On peut avoir des chiffres n’importe où dans l’identifiant. On peut aussi utiliser des majuscules.</p>',
-                      invalid:
-                        '<p>On peut avoir des chiffres n’importe où dans l’identifiant. On peut aussi utiliser des majuscules.</p>',
-                    },
-                    solution: '1',
+                    solution: proposals[0].id,
                   },
                 },
               ],
@@ -985,13 +855,13 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
         };
 
         // when
-        const module = Module.toDomain(moduleData);
+        const module = Module.toDomainForVerification(moduleData);
 
         // then
-        expect(module.grains[0].components[0].element).to.be.an.instanceOf(QCU);
+        expect(module.grains[0].components[0].element).to.be.an.instanceOf(QCUForAnswerVerification);
       });
 
-      it('should instantiate a Module with a ComponentElement which contains a QCM Element', function () {
+      it('should instantiate a Module with a ComponentElement with contains a QCMForAnswerVerification Element', function () {
         // given
         const moduleData = {
           id: '6282925d-4775-4bca-b513-4c3009ec5886',
@@ -1009,14 +879,6 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
               id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
               type: 'lesson',
               title: 'title',
-              // ToDo PIX-12363 migrate to components
-              elements: [
-                {
-                  id: '84726001-1665-457d-8f13-4a74dc4768ea',
-                  type: 'text',
-                  content: '<h3>Content</h3>',
-                },
-              ],
               components: [
                 {
                   type: 'element',
@@ -1059,13 +921,13 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
         };
 
         // when
-        const module = Module.toDomain(moduleData);
+        const module = Module.toDomainForVerification(moduleData);
 
         // then
-        expect(module.grains[0].components[0].element).to.be.an.instanceOf(QCM);
+        expect(module.grains[0].components[0].element).to.be.an.instanceOf(QCMForAnswerVerification);
       });
 
-      it('should instantiate a Module with a ComponentElement which contains a QROCM Element', function () {
+      it('should instantiate a Module with a ComponentElement with contains a QROCMForAnswerVerification Element', function () {
         // given
         const moduleData = {
           id: '6282925d-4775-4bca-b513-4c3009ec5886',
@@ -1083,14 +945,6 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
               id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
               type: 'lesson',
               title: 'title',
-              // ToDo PIX-12363 migrate to components
-              elements: [
-                {
-                  id: '84726001-1665-457d-8f13-4a74dc4768ea',
-                  type: 'text',
-                  content: '<h3>Content</h3>',
-                },
-              ],
               components: [
                 {
                   type: 'element',
@@ -1149,181 +1003,59 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
         };
 
         // when
-        const module = Module.toDomain(moduleData);
+        const module = Module.toDomainForVerification(moduleData);
 
         // then
-        expect(module.grains[0].components[0].element).to.be.an.instanceOf(QROCM);
-      });
-
-      it('should filter out unknown component types', function () {
-        // given
-        const moduleData = {
-          id: '6282925d-4775-4bca-b513-4c3009ec5886',
-          slug: 'title',
-          title: 'title',
-          details: {
-            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
-            description: 'Description',
-            duration: 5,
-            level: 'Débutant',
-            objectives: ['Objective 1'],
-          },
-          grains: [
-            {
-              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
-              type: 'lesson',
-              title: 'title',
-              // ToDo PIX-12363 migrate to components
-              elements: [
-                {
-                  id: '84726001-1665-457d-8f13-4a74dc4768ea',
-                  type: 'text',
-                  content: '<h3>Content</h3>',
-                },
-              ],
-              components: [
-                {
-                  type: 'element',
-                  element: {
-                    id: '84726001-1665-457d-8f13-4a74dc4768ea',
-                    type: 'text',
-                    content: '<h3>Content</h3>',
-                  },
-                },
-                {
-                  type: 'unknown',
-                  unknown: {
-                    id: '16ad694a-848f-456d-95a6-c488350c3ed7',
-                    type: 'text',
-                    content: '<h3>Content</h3>',
-                  },
-                },
-              ],
-            },
-          ],
-        };
-
-        // when
-        const module = Module.toDomain(moduleData);
-
-        // then
-        expect(module).to.be.an.instanceOf(Module);
-        expect(module.grains).not.to.be.empty;
-        expect(module.grains[0].components).to.have.length(1);
-        expect(module.grains[0].components[0].element).not.to.be.empty;
-      });
-
-      it('should filter out component if element type is unknown', function () {
-        // given
-        const moduleData = {
-          id: '6282925d-4775-4bca-b513-4c3009ec5886',
-          slug: 'title',
-          title: 'title',
-          details: {
-            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
-            description: 'Description',
-            duration: 5,
-            level: 'Débutant',
-            objectives: ['Objective 1'],
-          },
-          grains: [
-            {
-              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
-              type: 'lesson',
-              title: 'title',
-              // ToDo PIX-12363 migrate to components
-              elements: [
-                {
-                  id: '84726001-1665-457d-8f13-4a74dc4768ea',
-                  type: 'text',
-                  content: '<h3>Content</h3>',
-                },
-                {
-                  id: '16ad694a-848f-456d-95a6-c488350c3ed7',
-                  type: 'unknown',
-                  content: 'Should not be added to the grain',
-                },
-              ],
-              components: [
-                {
-                  type: 'element',
-                  element: {
-                    id: '84726001-1665-457d-8f13-4a74dc4768ea',
-                    type: 'text',
-                    content: '<h3>Content</h3>',
-                  },
-                },
-                {
-                  type: 'element',
-                  element: {
-                    id: '16ad694a-848f-456d-95a6-c488350c3ed7',
-                    type: 'unknown',
-                    content: 'Should not be added to the grain',
-                  },
-                },
-              ],
-            },
-          ],
-        };
-
-        // when
-        const module = Module.toDomain(moduleData);
-
-        // then
-        expect(module).to.be.an.instanceOf(Module);
-        expect(module.grains).not.to.be.empty;
-        expect(module.grains[0].components).to.have.length(1);
-        expect(module.grains[0].components[0].element).not.to.be.empty;
+        expect(module.grains[0].components[0].element).to.be.an.instanceOf(QROCMForAnswerVerification);
       });
     });
-  });
 
-  describe('#toDomainForVerification', function () {
-    it('should throw an ModuleInstantiateError if data is incorrect', function () {
-      // given
-      const feedbacks = { valid: 'valid', invalid: 'invalid' };
-      const proposals = [
-        { id: '1', content: 'toto' },
-        { id: '2', content: 'foo' },
-      ];
-
-      const dataWithMissingSolutionForQCU = {
-        id: '6282925d-4775-4bca-b513-4c3009ec5886',
-        slug: 'title',
-        title: 'title',
-        details: {
-          image: 'https://images.pix.fr/modulix/placeholder-details.svg',
-          description: 'Description',
-          duration: 5,
-          level: 'Débutant',
-          objectives: ['Objective 1'],
-        },
-        grains: [
-          {
-            id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
-            type: 'lesson',
-            title: 'title',
-            // ToDo PIX-12363 migrate to components
-            elements: [
-              {
-                id: '123',
-                instruction: 'instruction',
-                locales: ['fr-FR'],
-                proposals,
-                feedbacks,
-                type: 'qcu',
-              },
-            ],
+    describe('without answerable elements', function () {
+      it('should instantiate a Module with no ComponentElement and log warning', function () {
+        // given
+        const moduleData = {
+          id: '6282925d-4775-4bca-b513-4c3009ec5886',
+          slug: 'title',
+          title: 'title',
+          details: {
+            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+            description: 'Description',
+            duration: 5,
+            level: 'Débutant',
+            objectives: ['Objective 1'],
           },
-        ],
-      };
+          grains: [
+            {
+              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+              type: 'lesson',
+              title: 'title',
+              components: [
+                {
+                  type: 'element',
+                  element: {
+                    id: '84726001-1665-457d-8f13-4a74dc4768ea',
+                    type: 'text',
+                    content: '<h3>Content</h3>',
+                  },
+                },
+              ],
+            },
+          ],
+        };
+        sinon.stub(logger, 'warn').returns();
 
-      // when
-      const error = catchErrSync(Module.toDomainForVerification)(dataWithMissingSolutionForQCU);
+        // when
+        const module = Module.toDomainForVerification(moduleData);
 
-      // then
-      expect(error).to.be.an.instanceOf(ModuleInstantiationError);
-      expect(error.message).to.deep.equal('The solution is required for a verification QCU');
+        // then
+        expect(logger.warn).to.have.been.calledWithExactly({
+          event: 'module_element_type_not_handled_for_verification',
+          message: `Element type not handled for verification: ${moduleData.grains[0].components[0].element.type}`,
+        });
+        expect(module).to.be.an.instanceOf(Module);
+        expect(module.grains).not.to.be.empty;
+        expect(module.grains[0].components).to.deep.equal([]);
+      });
     });
   });
 });

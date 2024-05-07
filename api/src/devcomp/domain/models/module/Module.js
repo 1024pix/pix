@@ -49,50 +49,36 @@ class Module {
         transitionTexts: moduleData.transitionTexts?.map((transitionText) => new TransitionText(transitionText)) ?? [],
         details: new Details(moduleData.details),
         grains: moduleData.grains.map((grain) => {
-          if (grain.components) {
-            // ToDo PIX-12363 migrate to components
-            if (!grain.elements) {
-              throw new Error('Elements should always be provided');
-            }
-
-            return new Grain({
-              id: grain.id,
-              title: grain.title,
-              type: grain.type,
-              elements: grain.elements.map(Module.#mapElement).filter((element) => element !== undefined),
-              components: grain.components
-                .map((component) => {
-                  if (component.type === 'element') {
-                    const element = Module.#mapElement(component.element);
-                    if (element) {
-                      return new ComponentElement({ element });
-                    } else {
-                      return undefined;
-                    }
+          return new Grain({
+            id: grain.id,
+            title: grain.title,
+            type: grain.type,
+            components: grain.components
+              .map((component) => {
+                if (component.type === 'element') {
+                  const element = Module.#mapElement(component.element);
+                  if (element) {
+                    return new ComponentElement({ element });
                   } else {
-                    logger.warn({
-                      event: 'module_component_type_unknown',
-                      message: `Component inconnu: ${component.type}`,
-                    });
                     return undefined;
                   }
-                })
-                .filter((component) => component !== undefined),
-            });
-          } else {
-            return new Grain({
-              id: grain.id,
-              title: grain.title,
-              type: grain.type,
-              elements: grain.elements.map(Module.#mapElement).filter((element) => element !== undefined),
-            });
-          }
+                } else {
+                  logger.warn({
+                    event: 'module_component_type_unknown',
+                    message: `Component inconnu: ${component.type}`,
+                  });
+                  return undefined;
+                }
+              })
+              .filter((component) => component !== undefined),
+          });
         }),
       });
     } catch (e) {
       throw new ModuleInstantiationError(e.message);
     }
   }
+
   static #mapElement(element) {
     switch (element.type) {
       case 'image':
@@ -129,36 +115,46 @@ class Module {
             id: grain.id,
             title: grain.title,
             type: grain.type,
-            // ToDo PIX-12363 migrate to components
-            elements: grain.elements
-              .map((element) => {
-                switch (element.type) {
-                  case 'image':
-                    return Module.#toImageDomain(element);
-                  case 'text':
-                    return Module.#toTextDomain(element);
-                  case 'qcu':
-                    return Module.#toQCUForAnswerVerificationDomain(element);
-                  case 'qcm':
-                    return Module.#toQCMForAnswerVerificationDomain(element);
-                  case 'qrocm':
-                    return Module.#toQROCMForAnswerVerificationDomain(element);
-                  case 'video':
-                    return Module.#toVideoDomain(element);
-                  default:
-                    logger.warn({
-                      event: 'module_element_type_unknown',
-                      message: `Element inconnu: ${element.type}`,
-                    });
+            components: grain.components
+              .map((component) => {
+                if (component.type === 'element') {
+                  const element = Module.#mapElementForVerification(component.element);
+                  if (element) {
+                    return new ComponentElement({ element });
+                  } else {
                     return undefined;
+                  }
+                } else {
+                  logger.warn({
+                    event: 'module_component_type_unknown',
+                    message: `Component inconnu: ${component.type}`,
+                  });
+                  return undefined;
                 }
               })
-              .filter((element) => element !== undefined),
+              .filter((component) => component !== undefined),
           });
         }),
       });
     } catch (e) {
       throw new ModuleInstantiationError(e.message);
+    }
+  }
+
+  static #mapElementForVerification(element) {
+    switch (element.type) {
+      case 'qcm':
+        return Module.#toQCMForAnswerVerificationDomain(element);
+      case 'qcu':
+        return Module.#toQCUForAnswerVerificationDomain(element);
+      case 'qrocm':
+        return Module.#toQROCMForAnswerVerificationDomain(element);
+      default:
+        logger.warn({
+          event: 'module_element_type_not_handled_for_verification',
+          message: `Element type not handled for verification: ${element.type}`,
+        });
+        return undefined;
     }
   }
 
@@ -179,8 +175,8 @@ class Module {
 
   getGrainByElementId(elementId) {
     const foundGrain = this.grains.find((grain) => {
-      // ToDo PIX-12363 migrate to components
-      const isElementFound = grain.elements.some((element) => element.id === elementId);
+      const componentElements = grain.components.filter((component) => component.type === 'element');
+      const isElementFound = componentElements.some(({ element }) => element.id === elementId);
 
       return isElementFound;
     });
