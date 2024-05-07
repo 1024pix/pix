@@ -286,23 +286,24 @@ function sendCertificationCenterInvitationEmail({
 }
 
 function sendAccountRecoveryEmail({ email, firstName, temporaryKey }) {
-  const pixName = frTranslations['email-sender-name']['pix-app'];
+  const mailerConfig = _getMailerConfig(FRENCH_FRANCE);
+  const fromName = mailerConfig.translation['email-sender-name']['pix-app'];
   const redirectionUrl = `${PIX_APP_URL_FRENCH_FRANCE}/recuperer-mon-compte/${temporaryKey}`;
-  const variables = {
+  const templateVariables = {
     firstName,
     redirectionUrl,
-    homeName: PIX_HOME_NAME_FRENCH_FRANCE,
-    ...frTranslations['account-recovery-email'].params,
+    homeName: mailerConfig.homeName,
+    ...mailerConfig.translation['account-recovery-email'].params,
   };
 
   return mailer.sendEmail({
     from: EMAIL_ADDRESS_NO_RESPONSE,
-    fromName: pixName,
+    fromName,
     to: email,
     subject: 'Récupération de votre compte Pix',
     template: mailer.accountRecoveryTemplateId,
     tags: [SCO_ACCOUNT_RECOVERY_TAG],
-    variables,
+    variables: templateVariables,
   });
 }
 
