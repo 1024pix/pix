@@ -82,7 +82,6 @@ import { ComplementaryCertificationScoringWithComplementaryReferential } from '.
 import { ComplementaryCertificationScoringWithoutComplementaryReferential } from './ComplementaryCertificationScoringWithoutComplementaryReferential.js';
 import { Correction } from './Correction.js';
 import { Course } from './Course.js';
-import { Division } from './Division.js';
 import { EmailingAttempt } from './EmailingAttempt.js';
 import { EmailModificationDemand } from './EmailModificationDemand.js';
 import { FinalizedSession } from './FinalizedSession.js';
@@ -213,7 +212,6 @@ export {
   Correction,
   Course,
   DataProtectionOfficer,
-  Division,
   EmailingAttempt,
   EmailModificationDemand,
   Examiner,

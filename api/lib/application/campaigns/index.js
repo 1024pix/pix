@@ -25,23 +25,6 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/campaigns/{id}/divisions',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.campaignId,
-          }),
-        },
-        handler: campaignController.division,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            '- Récupération des classes des participants à la campagne',
-        ],
-        tags: ['api', 'division'],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/campaigns/{id}/groups',
       config: {
         validate: {

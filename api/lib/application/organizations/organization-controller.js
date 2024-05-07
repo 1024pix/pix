@@ -1,7 +1,7 @@
+import * as divisionSerializer from '../../../src/prescription/campaign/infrastructure/serializers/jsonapi/division-serializer.js';
 import * as queryParamsUtils from '../../../src/shared/infrastructure/utils/query-params-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as csvSerializer from '../../infrastructure/serializers/csv/csv-serializer.js';
-import * as divisionSerializer from '../../infrastructure/serializers/jsonapi/division-serializer.js';
 import * as membershipSerializer from '../../infrastructure/serializers/jsonapi/membership-serializer.js';
 import * as organizationInvitationSerializer from '../../infrastructure/serializers/jsonapi/organization-invitation-serializer.js';
 import * as organizationMemberIdentitySerializer from '../../infrastructure/serializers/jsonapi/organization-member-identity-serializer.js';

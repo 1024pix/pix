@@ -1,4 +1,4 @@
-import { knex } from '../../../db/knex-database-connection.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
 import { Division } from '../../domain/models/Division.js';
 
 async function findByCampaignId(campaignId) {
