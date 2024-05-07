@@ -223,7 +223,7 @@ const configuration = (function () {
       enableKnexPerformanceMonitoring: toBoolean(process.env.ENABLE_KNEX_PERFORMANCE_MONITORING),
       enableLogStartingEventDispatch: toBoolean(process.env.LOG_STARTING_EVENT_DISPATCH),
       enableLogEndingEventDispatch: toBoolean(process.env.LOG_ENDING_EVENT_DISPATCH),
-      emitOpsEventEachSeconds: toBoolean(process.env.OPS_EVENT_EACH_SECONDS) || 15,
+      opsEventIntervalInSeconds: process.env.OPS_EVENT_INTERVAL_IN_SECONDS || 15,
     },
     login: {
       temporaryBlockingThresholdFailureCount: _getNumber(
