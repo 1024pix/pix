@@ -196,18 +196,18 @@ workflows:
           requires:
             - admin_install
 
-      - pix1d_install:
+      - junior_install:
           context: Pix
           requires:
             - checkout
-      - pix1d_lint:
+      - junior_lint:
           context: Pix
           requires:
-            - pix1d_install
-      - pix1d_test:
+            - junior_install
+      - junior_test:
           context: Pix
           requires:
-            - pix1d_install
+            - junior_install
 
 jobs:
   checkout:
@@ -584,31 +584,31 @@ jobs:
       - store_artifacts:
           path: /home/circleci/test-results/orga
 
-  pix1d_install:
+  junior_install:
     executor:
       name: node-docker
-    working_directory: ~/pix/1d
+    working_directory: ~/pix/junior
     steps:
       - attach_workspace:
           at: ~/pix
       - run: cat package*.json > cachekey
       - restore_cache:
           keys:
-            - v7-pix1d-npm-{{ checksum "cachekey" }}
+            - v7-junior-npm-{{ checksum "cachekey" }}
       - run: npm ci
       - save_cache:
-          key: v7-pix1d-npm-{{ checksum "cachekey" }}
+          key: v7-junior-npm-{{ checksum "cachekey" }}
           paths:
             - ~/.npm
       - persist_to_workspace:
           root: ~/pix
           paths:
-            - 1d
+            - junior
 
-  pix1d_lint:
+  junior_lint:
     executor:
       name: node-docker
-    working_directory: ~/pix/1d
+    working_directory: ~/pix/junior
     steps:
       - attach_workspace:
           at: ~/pix
@@ -617,10 +617,10 @@ jobs:
           command: npm run lint
           when: always
 
-  pix1d_test:
+  junior_test:
     executor:
       name: node-browsers-docker
-    working_directory: ~/pix/1d
+    working_directory: ~/pix/junior
     parallelism: 3
     steps:
       - browser-tools/install-chrome
@@ -628,14 +628,14 @@ jobs:
           at: ~/pix
       - run:
           environment:
-            RESULTS_PATH: ../../test-results/pix1d
+            RESULTS_PATH: ../../test-results/junior
           name: Test
           command: npm run test:ci
           when: always
       - store_test_results:
-          path: /home/circleci/test-results/pix1d
+          path: /home/circleci/test-results/junior
       - store_artifacts:
-          path: /home/circleci/test-results/pix1d
+          path: /home/circleci/test-results/junior
 
   certif_install:
     executor:
