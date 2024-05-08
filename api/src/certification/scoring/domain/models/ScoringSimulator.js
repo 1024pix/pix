@@ -1,22 +1,22 @@
+import { Intervals } from './Intervals.js';
 import { ScoringAndCapacitySimulatorReport } from './ScoringAndCapacitySimulatorReport.js';
 
 export class ScoringSimulator {
   static compute({ capacity, certificationScoringIntervals, competencesForScoring }) {
-    const intervalIndex = _findIntervalIndex(capacity, certificationScoringIntervals);
+    const scoringIntervals = new Intervals({ intervals: certificationScoringIntervals });
 
-    const intervalWidth =
-      certificationScoringIntervals[intervalIndex].bounds.max - certificationScoringIntervals[intervalIndex].bounds.min;
-
-    const differenceBetweenCapacityAndMaximumIntervalCapacity =
-      capacity - certificationScoringIntervals[intervalIndex].bounds.max;
+    const intervalIndex = scoringIntervals.findIntervalIndex(capacity);
+    const intervalWidth = scoringIntervals.intervalWidth(intervalIndex);
+    const valueToIntervalMax = scoringIntervals.toIntervalMax(intervalIndex, capacity);
 
     const score = _calculateScore({
-      certificationScoringIntervals,
+      certificationScoringIntervals: scoringIntervals,
       capacity,
       intervalIndex,
-      differenceBetweenCapacityAndMaximumIntervalCapacity,
+      valueToIntervalMax,
       intervalWidth,
     });
+
     const competences = _computeCompetences({ competencesForScoring, capacity });
 
     return new ScoringAndCapacitySimulatorReport({
@@ -27,29 +27,15 @@ export class ScoringSimulator {
   }
 }
 
-function _findIntervalIndex(capacity, certificationScoringIntervals) {
-  if (capacity < certificationScoringIntervals[0].bounds.min) {
-    return 0;
-  }
-
-  for (const [index, { bounds }] of certificationScoringIntervals.entries()) {
-    if (bounds.max >= capacity) {
-      return index;
-    }
-  }
-
-  return certificationScoringIntervals.length - 1;
-}
-
 function _calculateScore({
   certificationScoringIntervals,
   capacity,
   intervalIndex,
-  differenceBetweenCapacityAndMaximumIntervalCapacity,
+  valueToIntervalMax,
   intervalWidth,
 }) {
   const MAX_PIX_SCORE = 1024;
-  const numberOfIntervals = certificationScoringIntervals.length;
+  const numberOfIntervals = certificationScoringIntervals.length();
   const SCORE_THRESHOLD = MAX_PIX_SCORE / numberOfIntervals;
   const MAX_REACHABLE_LEVEL = 7;
   const NUMBER_OF_COMPETENCES = 16;
@@ -57,35 +43,25 @@ function _calculateScore({
   const PIX_PER_LEVEL = 8;
   const maximumReachableScore = MAX_REACHABLE_LEVEL * NUMBER_OF_COMPETENCES * PIX_PER_LEVEL - 1;
 
-  if (_isCapacityBelowMinimum(capacity, certificationScoringIntervals)) {
+  if (certificationScoringIntervals.isCapacityBelowMinimum(capacity)) {
     return MIN_PIX_SCORE;
   }
 
-  if (_isCapacityAboveMaximum(capacity, certificationScoringIntervals)) {
+  if (certificationScoringIntervals.isCapacityAboveMaximum(capacity)) {
     return maximumReachableScore;
   }
 
-  const score =
-    Math.ceil(
-      SCORE_THRESHOLD * (intervalIndex + 1 + differenceBetweenCapacityAndMaximumIntervalCapacity / intervalWidth),
-    ) - 1;
+  const score = Math.ceil(SCORE_THRESHOLD * (intervalIndex + 1 + valueToIntervalMax / intervalWidth)) - 1;
 
   return Math.min(maximumReachableScore, score);
 }
 
-function _isCapacityBelowMinimum(capacity, certificationScoringIntervals) {
-  return capacity <= certificationScoringIntervals[0].bounds.min;
-}
-
-function _isCapacityAboveMaximum(capacity, certificationScoringIntervals) {
-  return capacity >= certificationScoringIntervals.at(-1).bounds.max;
-}
-
 function _computeCompetences({ competencesForScoring, capacity }) {
   return competencesForScoring.map(({ intervals, competenceCode }) => {
+    const competenceIntervals = new Intervals({ intervals });
     return {
       competenceCode,
-      level: intervals[_findIntervalIndex(capacity, intervals)].competenceLevel,
+      level: intervals[competenceIntervals.findIntervalIndex(capacity)].competenceLevel,
     };
   });
 }

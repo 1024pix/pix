@@ -1,5 +1,6 @@
 import { config } from '../../../../shared/config.js';
 import { status as CertificationStatus } from '../../../../shared/domain/models/AssessmentResult.js';
+import { Intervals } from './Intervals.js';
 
 class CertificationAssessmentScoreV3 {
   constructor({ nbPix, percentageCorrectAnswers = 100, status = CertificationStatus.VALIDATED, competenceMarks }) {
@@ -25,7 +26,7 @@ class CertificationAssessmentScoreV3 {
       allAnswers,
     });
 
-    const nbPix = _computeScore({
+    const nbPix = _calculateScore({
       capacity,
       maxReachableLevelOnCertificationDate,
       certificationScoringIntervals,
@@ -58,32 +59,7 @@ class CertificationAssessmentScoreV3 {
   }
 }
 
-const _findIntervalIndex = (capacity, certificationScoringIntervals) => {
-  if (capacity < certificationScoringIntervals[0].bounds.min) {
-    return 0;
-  }
-
-  for (const [index, { bounds }] of certificationScoringIntervals.entries()) {
-    if (bounds.max >= capacity) {
-      return index;
-    }
-  }
-
-  return certificationScoringIntervals.length - 1;
-};
-
-const _computeScore = ({ capacity, certificationScoringIntervals }) => {
-  const intervalIndex = _findIntervalIndex(capacity, certificationScoringIntervals);
-
-  const diff = capacity - certificationScoringIntervals[intervalIndex].bounds.max;
-
-  const intervalWidth =
-    certificationScoringIntervals[intervalIndex].bounds.max - certificationScoringIntervals[intervalIndex].bounds.min;
-
-  return _compute({ certificationScoringIntervals, capacity, intervalIndex, diff, intervalWidth });
-};
-
-function _compute({ certificationScoringIntervals, capacity, intervalIndex, diff, intervalWidth }) {
+const _calculateScore = ({ capacity, certificationScoringIntervals }) => {
   const MAX_PIX_SCORE = 1024;
   const numberOfIntervals = certificationScoringIntervals.length;
   const SCORE_THRESHOLD = MAX_PIX_SCORE / numberOfIntervals;
@@ -93,30 +69,23 @@ function _compute({ certificationScoringIntervals, capacity, intervalIndex, diff
   const PIX_PER_LEVEL = 8;
   const maximumReachableScore = MAX_REACHABLE_LEVEL * NUMBER_OF_COMPETENCES * PIX_PER_LEVEL - 1;
 
-  if (_isCapacityBelowMinimum(capacity, certificationScoringIntervals)) {
+  const scoringIntervals = new Intervals({ intervals: certificationScoringIntervals });
+
+  const intervalIndex = scoringIntervals.findIntervalIndex(capacity);
+  const valueToIntervalMax = scoringIntervals.toIntervalMax(intervalIndex, capacity);
+  const intervalWidth = scoringIntervals.intervalWidth(intervalIndex);
+
+  if (scoringIntervals.isCapacityBelowMinimum(capacity)) {
     return MIN_PIX_SCORE;
   }
 
-  if (_isCapacityAboveMaximum(capacity, certificationScoringIntervals)) {
+  if (scoringIntervals.isCapacityAboveMaximum(capacity)) {
     return maximumReachableScore;
   }
 
-  return _calculateScore({ intervalIndex, diff, intervalWidth, threshold: SCORE_THRESHOLD, maximumReachableScore });
-}
-
-function _calculateScore({ intervalIndex, diff, intervalWidth, threshold, maximumReachableScore }) {
-  const score = Math.ceil(threshold * (intervalIndex + 1 + diff / intervalWidth)) - 1;
-
+  const score = Math.ceil(SCORE_THRESHOLD * (intervalIndex + 1 + valueToIntervalMax / intervalWidth)) - 1;
   return Math.min(maximumReachableScore, score);
-}
-
-function _isCapacityBelowMinimum(capacity, certificationScoringIntervals) {
-  return capacity <= certificationScoringIntervals[0].bounds.min;
-}
-
-function _isCapacityAboveMaximum(capacity, certificationScoringIntervals) {
-  return capacity >= certificationScoringIntervals.at(-1).bounds.max;
-}
+};
 
 const _isCertificationRejected = ({ answers, abortReason }) => {
   return !_hasCandidateAnsweredEnoughQuestions({ answers }) && abortReason;
