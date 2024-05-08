@@ -1,7 +1,7 @@
 import jsonwebtoken from 'jsonwebtoken';
 
 import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';
-import * as authenticationSessionService from '../../../../../lib/domain/services/authentication/authentication-session-service.js';
+import { authenticationSessionService } from '../../../../../src/identity-access-management/domain/services/authentication-session.service.js';
 import { createServer, expect, knex } from '../../../../test-helper.js';
 
 describe('Acceptance | Route | oidc users', function () {
