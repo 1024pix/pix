@@ -210,48 +210,6 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
     });
   });
 
-  describe('#createUser', function () {
-    it('creates an oidc user and returns access token and logout url UUID', async function () {
-      // given
-      const request = {
-        deserializedPayload: { identityProvider, authenticationKey: 'abcde' },
-        state: {
-          locale: 'fr-FR',
-        },
-      };
-      const accessToken = 'access.token';
-      const oidcAuthenticationService = {};
-
-      oidcAuthenticationServiceRegistryStub.getOidcProviderServiceByCode
-        .withArgs({ identityProviderCode: identityProvider })
-        .returns(oidcAuthenticationService);
-
-      const dependencies = {
-        oidcAuthenticationServiceRegistry: oidcAuthenticationServiceRegistryStub,
-      };
-      sinon
-        .stub(usecases, 'createOidcUser')
-        .withArgs({
-          authenticationKey: 'abcde',
-          identityProvider,
-          oidcAuthenticationService,
-          localeFromCookie: 'fr-FR',
-        })
-        .resolves({ accessToken, logoutUrlUUID: 'logoutUrlUUID' });
-
-      // when
-      const result = await oidcController.createUser(request, hFake, dependencies);
-
-      //then
-      expect(oidcAuthenticationServiceRegistryStub.loadOidcProviderServices).to.have.been.calledOnce;
-      expect(
-        oidcAuthenticationServiceRegistryStub.configureReadyOidcProviderServiceByCode,
-      ).to.have.been.calledWithExactly(identityProvider);
-      expect(result.source.access_token).to.equal(accessToken);
-      expect(result.source.logout_url_uuid).to.equal('logoutUrlUUID');
-    });
-  });
-
   describe('#findUserForReconciliation', function () {
     it('calls the use case and serialize the result', async function () {
       // given

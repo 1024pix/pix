@@ -7,7 +7,7 @@ import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | UseCase | create-oidc-user', function () {
   let authenticationMethodRepository, userToCreateRepository, userLoginRepository;
-  let authenticationSessionService, oidcAuthenticationService;
+  let authenticationSessionService, oidcAuthenticationService, oidcAuthenticationServiceRegistry;
   let clock;
   const now = new Date('2021-01-02');
 
@@ -29,6 +29,11 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-oidc-use
       createAccessToken: sinon.stub(),
       saveIdToken: sinon.stub(),
     };
+    oidcAuthenticationServiceRegistry = {
+      loadOidcProviderServices: sinon.stub().resolves(),
+      configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
+      getOidcProviderServiceByCode: sinon.stub().returns(oidcAuthenticationService),
+    };
 
     userLoginRepository = {
       updateLastLoggedAt: sinon.stub(),
@@ -40,7 +45,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-oidc-use
   });
 
   context('when authentication key is expired', function () {
-    it('should throw an AuthenticationKeyExpired', async function () {
+    it('throws an AuthenticationKeyExpiredError', async function () {
       // given
       const authenticationKey = 'authenticationKey';
       authenticationSessionService.getByKey.withArgs(authenticationKey).resolves(null);
@@ -60,7 +65,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-oidc-use
   });
 
   context('when there is already an authentication method for this external id', function () {
-    it('should throw UserAlreadyExistsWithAuthenticationMethodError', async function () {
+    it('throws an UserAlreadyExistsWithAuthenticationMethodError', async function () {
       // given
       authenticationSessionService.getByKey.withArgs('AUTHENTICATION_KEY').resolves({
         sessionContent: { idToken: 'idToken', accessToken: 'accessToken' },
@@ -74,8 +79,8 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-oidc-use
       const error = await catchErr(createOidcUser)({
         identityProvider: 'SOME_IDP',
         authenticationKey: 'AUTHENTICATION_KEY',
-        oidcAuthenticationService,
         authenticationSessionService,
+        oidcAuthenticationServiceRegistry,
         authenticationMethodRepository,
         userToCreateRepository,
       });
@@ -86,7 +91,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-oidc-use
     });
   });
 
-  it('should create user account and return an access token, the logout url uuid and update the last logged date with the existing external user id', async function () {
+  it('creates the user account and returns an access token, the logout url uuid and update the last logged date with the existing external user id', async function () {
     // given
     const idToken = 'idToken';
     authenticationSessionService.getByKey.withArgs('AUTHENTICATION_KEY').resolves({
@@ -105,8 +110,8 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-oidc-use
       identityProvider: 'SOME_IDP',
       authenticationKey: 'AUTHENTICATION_KEY',
       localeFromCookie: 'fr-FR',
-      oidcAuthenticationService,
       authenticationSessionService,
+      oidcAuthenticationServiceRegistry,
       authenticationMethodRepository,
       userToCreateRepository,
       userLoginRepository,

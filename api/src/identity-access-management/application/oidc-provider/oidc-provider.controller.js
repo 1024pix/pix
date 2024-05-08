@@ -2,6 +2,25 @@ import { usecases } from '../../domain/usecases/index.js';
 import * as oidcProviderSerializer from '../../infrastructure/serializers/jsonapi/oidc-identity-providers.serializer.js';
 
 /**
+ * @typedef {function} createUser
+ * @param request
+ * @param h
+ * @return {Promise<{access_token: string, logout_url_uuid: string}>}
+ */
+async function createUser(request, h) {
+  const { identityProvider, authenticationKey } = request.deserializedPayload;
+  const localeFromCookie = request.state?.locale;
+
+  const { accessToken: access_token, logoutUrlUUID: logout_url_uuid } = await usecases.createOidcUser({
+    authenticationKey,
+    identityProvider,
+    localeFromCookie,
+  });
+
+  return h.response({ access_token, logout_url_uuid }).code(200);
+}
+
+/**
  * @typedef {function} getAuthorizationUrl
  * @param request
  * @param h
@@ -56,4 +75,4 @@ async function getRedirectLogoutUrl(request, h) {
  * @property {getIdentityProviders} getIdentityProviders
  * @property {getRedirectLogoutUrl} getRedirectLogoutUrl
  */
-export const oidcProviderController = { getAuthorizationUrl, getIdentityProviders, getRedirectLogoutUrl };
+export const oidcProviderController = { createUser, getAuthorizationUrl, getIdentityProviders, getRedirectLogoutUrl };

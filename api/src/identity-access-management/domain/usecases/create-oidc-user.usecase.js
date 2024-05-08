@@ -22,7 +22,7 @@ async function createOidcUser({
   authenticationKey,
   localeFromCookie,
   authenticationSessionService,
-  oidcAuthenticationService,
+  oidcAuthenticationServiceRegistry,
   authenticationMethodRepository,
   userToCreateRepository,
   userLoginRepository,
@@ -49,6 +49,13 @@ async function createOidcUser({
     firstName: userInfo.firstName,
     lastName: userInfo.lastName,
     locale: localeFromCookie,
+  });
+
+  await oidcAuthenticationServiceRegistry.loadOidcProviderServices();
+  await oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(identityProvider);
+
+  const oidcAuthenticationService = oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
+    identityProviderCode: identityProvider,
   });
 
   const userId = await oidcAuthenticationService.createUserAccount({

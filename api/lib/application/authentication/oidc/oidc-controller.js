@@ -93,33 +93,6 @@ const authenticateUser = async function (
   }
 };
 
-const createUser = async function (
-  request,
-  h,
-  dependencies = {
-    oidcAuthenticationServiceRegistry,
-  },
-) {
-  const { identityProvider, authenticationKey } = request.deserializedPayload;
-  const localeFromCookie = request.state?.locale;
-
-  await dependencies.oidcAuthenticationServiceRegistry.loadOidcProviderServices();
-  await dependencies.oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(identityProvider);
-
-  const oidcAuthenticationService = dependencies.oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
-    identityProviderCode: identityProvider,
-  });
-  const { accessToken, logoutUrlUUID } = await usecases.createOidcUser({
-    authenticationKey,
-    identityProvider,
-    localeFromCookie,
-    oidcAuthenticationService,
-  });
-
-  const response = { access_token: accessToken, logout_url_uuid: logoutUrlUUID };
-  return h.response(response).code(200);
-};
-
 const reconcileUserForAdmin = async function (
   request,
   h,
@@ -149,7 +122,6 @@ const reconcileUserForAdmin = async function (
 
 const oidcController = {
   authenticateUser,
-  createUser,
   findUserForReconciliation,
   reconcileUser,
   reconcileUserForAdmin,
