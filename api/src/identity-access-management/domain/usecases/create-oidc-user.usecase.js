@@ -1,7 +1,23 @@
-import { UserToCreate } from '../../../src/identity-access-management/domain/models/UserToCreate.js';
-import { AuthenticationKeyExpired, UserAlreadyExistsWithAuthenticationMethodError } from '../errors.js';
+import {
+  AuthenticationKeyExpired,
+  UserAlreadyExistsWithAuthenticationMethodError,
+} from '../../../../lib/domain/errors.js';
+import { UserToCreate } from '../models/UserToCreate.js';
 
-const createOidcUser = async function ({
+/**
+ * @typedef {function} createOidcUser
+ * @param {Object} params
+ * @param {string} params.identityProvider
+ * @param {string} params.authenticationKey
+ * @param {string} params.localeFromCookie
+ * @param {AuthenticationSessionService} params.authenticationSessionService
+ * @param {OidcAuthenticationService} params.oidcAuthenticationService
+ * @param {AuthenticationMethodRepository} params.authenticationMethodRepository
+ * @param {UserToCreateRepository} params.userToCreateRepository
+ * @param {UserLoginRepository} params.userLoginRepository
+ * @return {Promise<{accessToken: string, logoutUrlUUID: string}>}
+ */
+async function createOidcUser({
   identityProvider,
   authenticationKey,
   localeFromCookie,
@@ -54,6 +70,6 @@ const createOidcUser = async function ({
   await userLoginRepository.updateLastLoggedAt({ userId });
 
   return { accessToken, logoutUrlUUID };
-};
+}
 
 export { createOidcUser };

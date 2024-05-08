@@ -1,11 +1,11 @@
 import {
   AuthenticationKeyExpired,
   UserAlreadyExistsWithAuthenticationMethodError,
-} from '../../../../lib/domain/errors.js';
-import { createOidcUser } from '../../../../lib/domain/usecases/create-oidc-user.js';
-import { catchErr, expect, sinon } from '../../../test-helper.js';
+} from '../../../../../lib/domain/errors.js';
+import { createOidcUser } from '../../../../../src/identity-access-management/domain/usecases/create-oidc-user.usecase.js';
+import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | create-oidc-user', function () {
+describe('Unit | Identity Access Management | Domain | UseCase | create-oidc-user', function () {
   let authenticationMethodRepository, userToCreateRepository, userLoginRepository;
   let authenticationSessionService, oidcAuthenticationService;
   let clock;
