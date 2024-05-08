@@ -1,5 +1,5 @@
+import { UserToCreate } from '../../../src/identity-access-management/domain/models/UserToCreate.js';
 import { UserCantBeCreatedError } from '../errors.js';
-import { UserToCreate } from '../models/UserToCreate.js';
 
 const authenticateAnonymousUser = async function ({
   campaignCode,
