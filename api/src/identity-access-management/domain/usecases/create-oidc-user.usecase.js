@@ -11,7 +11,7 @@ import { UserToCreate } from '../models/UserToCreate.js';
  * @param {string} params.authenticationKey
  * @param {string} params.localeFromCookie
  * @param {AuthenticationSessionService} params.authenticationSessionService
- * @param {OidcAuthenticationService} params.oidcAuthenticationService
+ * @param {OidcAuthenticationServiceRegistry} params.oidcAuthenticationServiceRegistry
  * @param {AuthenticationMethodRepository} params.authenticationMethodRepository
  * @param {UserToCreateRepository} params.userToCreateRepository
  * @param {UserLoginRepository} params.userLoginRepository
