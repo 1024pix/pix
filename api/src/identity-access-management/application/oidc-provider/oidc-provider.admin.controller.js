@@ -1,6 +1,6 @@
-import { DomainTransaction } from '../../shared/domain/DomainTransaction.js';
-import { usecases } from '../domain/usecases/index.js';
-import * as oidcProviderSerializer from '../infrastructure/serializers/jsonapi/oidc-identity-providers.serializer.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import { usecases } from '../../domain/usecases/index.js';
+import * as oidcProviderSerializer from '../../infrastructure/serializers/jsonapi/oidc-identity-providers.serializer.js';
 
 /**
  * @param request

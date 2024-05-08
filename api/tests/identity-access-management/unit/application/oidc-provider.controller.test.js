@@ -1,4 +1,4 @@
-import { oidcProviderController } from '../../../../src/identity-access-management/application/oidc-provider.controller.js';
+import { oidcProviderController } from '../../../../src/identity-access-management/application/oidc-provider/oidc-provider.controller.js';
 import { usecases } from '../../../../src/identity-access-management/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../test-helper.js';
 

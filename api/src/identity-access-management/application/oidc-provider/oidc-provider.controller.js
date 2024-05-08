@@ -1,5 +1,5 @@
-import { usecases } from '../domain/usecases/index.js';
-import * as oidcProviderSerializer from '../infrastructure/serializers/jsonapi/oidc-identity-providers.serializer.js';
+import { usecases } from '../../domain/usecases/index.js';
+import * as oidcProviderSerializer from '../../infrastructure/serializers/jsonapi/oidc-identity-providers.serializer.js';
 
 /**
  * @typedef {function} getAuthorizationUrl
