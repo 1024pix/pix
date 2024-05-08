@@ -1,6 +1,6 @@
 import querystring from 'node:querystring';
 
-import { tokenController } from '../../../src/identity-access-management/application/token.controller.js';
+import { tokenController } from '../../../src/identity-access-management/application/token/token.controller.js';
 import { createServer, expect, sinon } from '../../test-helper.js';
 
 describe('Integration | Identity Access Management | Application | Router', function () {
