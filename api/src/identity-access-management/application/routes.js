@@ -2,8 +2,8 @@ import { oidcProviderAdminRoutes } from './oidc-provider/oidc-provider.admin.rou
 import { oidcProviderRoutes } from './oidc-provider/oidc-provider.route.js';
 import { samlRoutes } from './saml.route.js';
 import { tokenRoutes } from './token.route.js';
-import { userAdminRoutes } from './user.admin.route.js';
-import { userRoutes } from './user.route.js';
+import { userAdminRoutes } from './user/user.admin.route.js';
+import { userRoutes } from './user/user.route.js';
 
 const register = async function (server) {
   server.route([

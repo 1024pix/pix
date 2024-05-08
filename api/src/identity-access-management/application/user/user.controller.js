@@ -1,7 +1,7 @@
-import { requestResponseUtils } from '../../../lib/infrastructure/utils/request-response-utils.js';
-import * as localeService from '../../shared/domain/services/locale-service.js';
-import * as userSerializer from '../../shared/infrastructure/serializers/jsonapi/user-serializer.js';
-import { usecases } from '../domain/usecases/index.js';
+import { requestResponseUtils } from '../../../../lib/infrastructure/utils/request-response-utils.js';
+import * as localeService from '../../../shared/domain/services/locale-service.js';
+import * as userSerializer from '../../../shared/infrastructure/serializers/jsonapi/user-serializer.js';
+import { usecases } from '../../domain/usecases/index.js';
 
 /**
  * @param request
