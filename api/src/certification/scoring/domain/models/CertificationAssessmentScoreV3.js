@@ -1,3 +1,4 @@
+import { COMPETENCES_COUNT, PIX_COUNT_BY_LEVEL } from '../../../../../lib/domain/constants.js';
 import { config } from '../../../../shared/config.js';
 import { status as CertificationStatus } from '../../../../shared/domain/models/AssessmentResult.js';
 import { Intervals } from './Intervals.js';
@@ -64,10 +65,8 @@ const _calculateScore = ({ capacity, certificationScoringIntervals }) => {
   const numberOfIntervals = certificationScoringIntervals.length;
   const SCORE_THRESHOLD = MAX_PIX_SCORE / numberOfIntervals;
   const MAX_REACHABLE_LEVEL = 7;
-  const NUMBER_OF_COMPETENCES = 16;
   const MIN_PIX_SCORE = 0;
-  const PIX_PER_LEVEL = 8;
-  const maximumReachableScore = MAX_REACHABLE_LEVEL * NUMBER_OF_COMPETENCES * PIX_PER_LEVEL - 1;
+  const maximumReachableScore = MAX_REACHABLE_LEVEL * COMPETENCES_COUNT * PIX_COUNT_BY_LEVEL - 1;
 
   const scoringIntervals = new Intervals({ intervals: certificationScoringIntervals });
 
