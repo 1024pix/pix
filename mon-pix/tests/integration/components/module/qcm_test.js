@@ -146,9 +146,9 @@ module('Integration | Component | Module | QCM', function (hooks) {
       // then
       const status = screen.getByRole('status');
       assert.strictEqual(status.innerText, 'Good job!');
-      assert.ok(screen.getByRole('checkbox', { name: 'checkbox1' }).disabled);
-      assert.ok(screen.getByRole('checkbox', { name: 'checkbox2' }).disabled);
-      assert.ok(screen.getByRole('checkbox', { name: 'checkbox3' }).disabled);
+      assert.ok(screen.getByRole('checkbox', { name: 'checkbox1', disabled: true }));
+      assert.ok(screen.getByRole('checkbox', { name: 'checkbox2', disabled: true }));
+      assert.ok(screen.getByRole('checkbox', { name: 'checkbox3', disabled: true }));
       assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
     });
 
@@ -172,9 +172,9 @@ module('Integration | Component | Module | QCM', function (hooks) {
       // then
       const status = screen.getByRole('status');
       assert.strictEqual(status.innerText, 'Too Bad!');
-      assert.ok(screen.getByRole('checkbox', { name: 'checkbox1' }).disabled);
-      assert.ok(screen.getByRole('checkbox', { name: 'checkbox2' }).disabled);
-      assert.ok(screen.getByRole('checkbox', { name: 'checkbox3' }).disabled);
+      assert.ok(screen.getByRole('checkbox', { name: 'checkbox1', disabled: true }));
+      assert.ok(screen.getByRole('checkbox', { name: 'checkbox2', disabled: true }));
+      assert.ok(screen.getByRole('checkbox', { name: 'checkbox3', disabled: true }));
       assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
     });
 
@@ -243,9 +243,9 @@ module('Integration | Component | Module | QCM', function (hooks) {
       // then
       const status = screen.getByRole('status');
       assert.strictEqual(status.innerText, 'Good job!');
-      assert.ok(screen.getByRole('checkbox', { name: 'checkbox1' }).disabled);
-      assert.ok(screen.getByRole('checkbox', { name: 'checkbox2' }).disabled);
-      assert.ok(screen.getByRole('checkbox', { name: 'checkbox3' }).disabled);
+      assert.ok(screen.getByRole('checkbox', { name: 'checkbox1', disabled: true }));
+      assert.ok(screen.getByRole('checkbox', { name: 'checkbox2', disabled: true }));
+      assert.ok(screen.getByRole('checkbox', { name: 'checkbox3', disabled: true }));
       assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
     });
 
@@ -269,9 +269,10 @@ module('Integration | Component | Module | QCM', function (hooks) {
       // then
       const status = screen.getByRole('status');
       assert.strictEqual(status.innerText, 'Too Bad!');
-      assert.ok(screen.getByRole('checkbox', { name: 'checkbox1' }).disabled);
-      assert.ok(screen.getByRole('checkbox', { name: 'checkbox2' }).disabled);
-      assert.ok(screen.getByRole('checkbox', { name: 'checkbox3' }).disabled);
+
+      assert.ok(screen.getByRole('checkbox', { name: 'checkbox1', disabled: true }));
+      assert.ok(screen.getByRole('checkbox', { name: 'checkbox2', disabled: true }));
+      assert.ok(screen.getByRole('checkbox', { name: 'checkbox3', disabled: true }));
       assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
     });
 

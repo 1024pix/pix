@@ -15,7 +15,7 @@
         <div class="element-qcm-proposals__proposal">
           <PixCheckbox
             name={{this.element.id}}
-            disabled={{this.disableInput}}
+            @isDisabled={{this.disableInput}}
             {{on "click" (fn this.checkboxSelected proposal.id)}}
           >
             <:label>{{proposal.content}}</:label>

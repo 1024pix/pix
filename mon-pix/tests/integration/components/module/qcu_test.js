@@ -136,8 +136,8 @@ module('Integration | Component | Module | QCU', function (hooks) {
       // then
       const status = screen.getByRole('status');
       assert.strictEqual(status.innerText, 'Good job!');
-      assert.ok(screen.getByRole('radio', { name: 'radio1' }).disabled);
-      assert.ok(screen.getByRole('radio', { name: 'radio2' }).disabled);
+      assert.ok(screen.getByRole('radio', { name: 'radio1', disabled: true }));
+      assert.ok(screen.getByRole('radio', { name: 'radio2', disabled: true }));
       assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
     });
 
@@ -161,8 +161,8 @@ module('Integration | Component | Module | QCU', function (hooks) {
       // then
       const status = screen.getByRole('status');
       assert.strictEqual(status.innerText, 'Too Bad!');
-      assert.ok(screen.getByRole('radio', { name: 'radio1' }).disabled);
-      assert.ok(screen.getByRole('radio', { name: 'radio2' }).disabled);
+      assert.ok(screen.getByRole('radio', { name: 'radio1', disabled: true }));
+      assert.ok(screen.getByRole('radio', { name: 'radio2', disabled: true }));
       assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
     });
 
@@ -231,8 +231,8 @@ module('Integration | Component | Module | QCU', function (hooks) {
       // then
       const status = screen.getByRole('status');
       assert.strictEqual(status.innerText, 'Good job!');
-      assert.ok(screen.getByRole('radio', { name: 'radio1' }).disabled);
-      assert.ok(screen.getByRole('radio', { name: 'radio2' }).disabled);
+      assert.ok(screen.getByRole('radio', { name: 'radio1', disabled: true }));
+      assert.ok(screen.getByRole('radio', { name: 'radio2', disabled: true }));
       assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
     });
 
@@ -256,8 +256,8 @@ module('Integration | Component | Module | QCU', function (hooks) {
       // then
       const status = screen.getByRole('status');
       assert.strictEqual(status.innerText, 'Too Bad!');
-      assert.ok(screen.getByRole('radio', { name: 'radio1' }).disabled);
-      assert.ok(screen.getByRole('radio', { name: 'radio2' }).disabled);
+      assert.ok(screen.getByRole('radio', { name: 'radio1', disabled: true }));
+      assert.ok(screen.getByRole('radio', { name: 'radio2', disabled: true }));
       assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
     });
 

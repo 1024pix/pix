@@ -16,7 +16,7 @@
           <PixRadioButton
             name={{this.element.id}}
             @value={{proposal.id}}
-            disabled={{this.disableInput}}
+            @isDisabled={{this.disableInput}}
             {{on "click" (fn this.radioClicked proposal.id)}}
           >
             <:label>
