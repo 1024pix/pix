@@ -192,7 +192,7 @@
     "certification-centers": {
       "information-view": {
         "feature-habilitations": {
-          "title": "Feature habilitations:",
+          "title": "Feature habilitations",
           "labels": {
             "is-complementary-alone-pilot": "Pix/Pix+ separation pilot",
             "is-v3-pilot": "V3 certification pilot"

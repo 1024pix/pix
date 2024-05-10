@@ -86,7 +86,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
     // then
     assert.dom(screen.getByLabelText('Habilité pour Pix+Edu')).exists();
     assert.dom(screen.getByLabelText('Habilité pour Pix+Surf')).exists();
-    assert.dom(screen.getByLabelText('Non-habilité pour Pix+Autre')).exists();
+    assert.dom(screen.getByLabelText('Non habilité pour Pix+Autre')).exists();
   });
 
   module('Update certification center', function () {
@@ -121,7 +121,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       this.server.patch(`/admin/certification-centers/${certificationCenter.id}`, () => new Response({}), 204);
 
       // when
-      await fillByLabel('Nom du centre', 'nouveau nom');
+      await fillByLabel('Nom du centre', 'nouveau nom', { exact: false });
 
       await click(screen.getByRole('button', { name: 'Type' }));
       await screen.findByRole('listbox');
@@ -159,13 +159,13 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       this.server.patch(`/admin/certification-centers/${certificationCenter.id}`, () => new Response({}), 204);
 
       // when
-      await fillByLabel('Nom du centre', 'Centre des réussites');
+      await fillByLabel('Nom du centre', 'Centre des réussites', { exact: false });
       await click(screen.getByRole('checkbox', { name: 'Pix+Surf' }));
       await clickByName('Enregistrer');
 
       // then
       assert.dom(screen.getByLabelText('Habilité pour Pix+Surf')).exists();
-      assert.dom(screen.getByLabelText('Non-habilité pour Pix+Autre')).exists();
+      assert.dom(screen.getByLabelText('Non habilité pour Pix+Autre')).exists();
       assert.dom(screen.getByText('Habilitations aux certifications complémentaires')).exists();
       assert.dom(screen.getByRole('heading', { name: 'Centre des réussites', level: 2 })).exists();
       assert.dom(screen.getByText('Centre de certification mis à jour avec succès.')).exists();

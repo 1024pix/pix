@@ -51,7 +51,7 @@ module('Integration | Component | certification-centers/information-view', funct
     assert.dom(screen.getByText('lucky@example.net')).exists();
     assert.strictEqual(screen.getAllByTitle('Délégué à la protection des données').length, 2);
     assert.dom(screen.getByLabelText('Habilité pour Pix+Droit')).exists();
-    assert.dom(screen.getByLabelText('Non-habilité pour Cléa')).exists();
+    assert.dom(screen.getByLabelText('Non habilité pour Cléa')).exists();
   });
 
   test('it should show button to direct user to metabase dashboard', async function (assert) {

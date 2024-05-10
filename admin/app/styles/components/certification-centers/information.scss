@@ -1,79 +1,39 @@
 /* stylelint-disable selector-class-pattern */
 .certification-center-information {
-  h1 {
-    padding-bottom: 16px;
-  }
 
-  &__button-section {
-    display: flex;
-    gap: 8px;
-    max-height: 60px;
-  }
+  &__edit-title{
+    @extend %pix-title-s;
 
-  &__display {
-    &__name {
-      margin-bottom: 20px;
-      font-weight: 600;
-      font-size: 1.5rem;
-    }
-
-    .property {
-      display: block;
-      padding: 0.5rem 1rem;
-      border-bottom: 0.05rem solid var(--pix-neutral-20);
-
-      &:last-child {
-        border-bottom: none;
-      }
-
-      ul {
-        padding: 0;
-        list-style: none;
-      }
-    }
+    padding-bottom: var(--pix-spacing-4x);
   }
 
   &__edit-form {
-    width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: fit-content;
   }
 
-  .field__label {
+  .field-label {
+    display: block;
+    color: var(--pix-neutral-900);
+    font-weight: var(--pix-font-medium);
+    font-size: 1rem;
+  }
+
+  .label {
+    display: block;
     color: var(--pix-neutral-800);
     font-weight: normal;
     font-size: 0.875rem;
   }
 
-  .form-field__checkbox {
-    display: flex;
-    gap: 0.5rem;
-
-    * {
-      align-self: center;
-      margin-bottom: 0;
-    }
-
-    input[type='checkbox'] {
-      width: 1rem;
-      height: 1rem;
-    }
-  }
-
-  .error {
-    padding-top: 5px;
-    color: var(--pix-error-700);
-    font-size: 0.85rem;
-  }
-
-  &__display__habilitations-list,
-  &__edit-form__habilitations-checkbox-list {
-    margin: 8px 0;
-    padding: 0;
-    list-style-type: none;
-  }
-
   &__edit-form__habilitations-checkbox-list {
     display: flex;
     flex-direction: column;
+    margin: 8px 0;
+    padding: 0;
+    list-style-type: none;
 
     .habilitation-entry {
       display: flex;
@@ -93,12 +53,29 @@
     }
   }
 
-  &__display__habilitations-list {
+  &__action-buttons {
+    display: flex;
+    gap: 8px;
+    padding-top: var(--pix-spacing-6x);
+  }
+}
+
+.certification-center-information-display {
+
+  &__action-buttons {
+    display: flex;
+    gap: 8px;
+    padding-top: var(--pix-spacing-6x);
+  }
+
+  &__name {
+    @extend %pix-title-s;
+  }
+
+  &__habilitations-list {
     display: inline-flex;
-    flex-direction: row;
     gap: 24px;
-    align-items: flex-start;
-    margin-bottom: 2rem;
+    margin: 8px 0;
 
     li {
       padding: 8px 16px;
@@ -111,7 +88,25 @@
     }
 
     .not-granted-habilitation-icon {
-      color: var(--pix-neutral-100);
+      color: var(--pix-neutral-500);
+    }
+  }
+
+  &__divider {
+    margin: var(--pix-spacing-2x) 0;
+    border-bottom: 0.05rem solid var(--pix-neutral-100);
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: 170px auto;
+    padding: var(--pix-spacing-4x) 0 var(--pix-spacing-2x) 0;
+
+    dd, dt {
+      display: flex;
+      align-items: center;
+      padding: var(--pix-spacing-2x) 0;
+      border-bottom: 0.05rem solid var(--pix-neutral-100);
     }
   }
 }
