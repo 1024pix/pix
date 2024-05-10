@@ -4,7 +4,7 @@ Date : 2024-03-26
 
 ## État
 
-Proposé
+Accepté
 
 ## Contexte
 
