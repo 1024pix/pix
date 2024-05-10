@@ -1,4 +1,4 @@
-import { DomainError } from '../../../lib/domain/errors.js';
+import { DomainError } from '../../shared/domain/errors.js';
 
 class UnableToAttachChildOrganizationToParentOrganizationError extends DomainError {
   constructor({

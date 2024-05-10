@@ -5,6 +5,7 @@ import { certificationDomainErrorMappingConfiguration } from '../src/certificati
 import { devcompDomainErrorMappingConfiguration } from '../src/devcomp/application/http-error-mapper-configuration.js';
 import { evaluationDomainErrorMappingConfiguration } from '../src/evaluation/application/http-error-mapper-configuration.js';
 import { authenticationDomainErrorMappingConfiguration } from '../src/identity-access-management/application/http-error-mapper-configuration.js';
+import { organizationalEntitiesDomainErrorMappingConfiguration } from '../src/organizational-entities/application/http-error-mapper-configuration.js';
 import { prescriptionDomainErrorMappingConfiguration } from '../src/prescription/shared/application/http-error-mapper-configuration.js';
 import { schoolDomainErrorMappingConfiguration } from '../src/school/application/http-error-mapper-configuration.js';
 import { domainErrorMapper } from '../src/shared/application/domain-error-mapper.js';
@@ -13,6 +14,7 @@ import * as sharedPreResponseUtils from '../src/shared/application/pre-response-
 const setupErrorHandling = function (server) {
   const configuration = [
     ...authenticationDomainErrorMappingConfiguration,
+    ...organizationalEntitiesDomainErrorMappingConfiguration,
     ...courseDomainErrorMappingConfiguration,
     ...sessionDomainErrorMappingConfiguration,
     ...certificationDomainErrorMappingConfiguration,
