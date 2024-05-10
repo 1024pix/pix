@@ -7,7 +7,7 @@ const FRANCE_INSEE_CODE = '99100';
 const INSEE_CODE_OPTION = 'insee';
 const POSTAL_CODE_OPTION = 'postal';
 
-export default class NewCertificationCandidateModal extends Component {
+export default class NewCandidateModal extends Component {
   @service currentUser;
   @service intl;
 
@@ -15,13 +15,14 @@ export default class NewCertificationCandidateModal extends Component {
   @tracked selectedCountryInseeCode = FRANCE_INSEE_CODE;
 
   @tracked isLoading = false;
+  @tracked selectedComplementaryCertification;
 
   get complementaryCertificationsHabilitations() {
     return this.currentUser.currentAllowedCertificationCenterAccess?.habilitations;
   }
 
   get isComplementaryAlonePilot() {
-    return this.currentUser.currentAllowedCertificationCenterAccess?.isComplementaryAlonePilot;
+    return !!this.currentUser.currentAllowedCertificationCenterAccess?.isComplementaryAlonePilot;
   }
 
   get billingMenuPlaceholder() {
@@ -31,7 +32,8 @@ export default class NewCertificationCandidateModal extends Component {
 
   @action closeModal() {
     this.args.closeModal();
-    document.getElementById('new-certification-candidate-form').reset();
+    document.getElementById('new-candidate-form').reset();
+    this.selectedComplementaryCertification = undefined;
   }
 
   @action
@@ -75,8 +77,10 @@ export default class NewCertificationCandidateModal extends Component {
   @action
   updateComplementaryCertification(complementaryCertification) {
     if (complementaryCertification?.key) {
+      this.selectedComplementaryCertification = complementaryCertification;
       this.args.candidateData.complementaryCertification = complementaryCertification;
     } else {
+      this.selectedComplementaryCertification = undefined;
       this.args.candidateData.complementaryCertification = undefined;
     }
   }
@@ -163,6 +167,10 @@ export default class NewCertificationCandidateModal extends Component {
     ];
   }
 
+  get couldHaveComplementaryCertificationOnly() {
+    return this._hasComplementaryReferential() && this.isComplementaryAlonePilot;
+  }
+
   _isFranceSelected() {
     return this.selectedCountryInseeCode === FRANCE_INSEE_CODE;
   }
@@ -173,8 +181,12 @@ export default class NewCertificationCandidateModal extends Component {
   }
 
   _resetForm() {
-    document.getElementById('new-certification-candidate-form').reset();
+    document.getElementById('new-candidate-form').reset();
     this.selectedCountryInseeCode = FRANCE_INSEE_CODE;
     this.selectedBirthGeoCodeOption = INSEE_CODE_OPTION;
+  }
+
+  _hasComplementaryReferential() {
+    return !!this.selectedComplementaryCertification?.hasComplementaryReferential;
   }
 }

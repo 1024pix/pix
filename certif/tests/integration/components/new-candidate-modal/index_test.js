@@ -5,9 +5,9 @@ import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | new-certification-candidate-modal', function (hooks) {
+module('Integration | Component | new-candidate-modal', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   hooks.beforeEach(async function () {
@@ -16,9 +16,10 @@ module('Integration | Component | new-certification-candidate-modal', function (
     class CurrentUserStub extends Service {
       currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
         habilitations: [
-          { id: 0, label: 'Certif complémentaire 1', key: 'COMP_1' },
-          { id: 1, label: 'Certif complémentaire 2', key: 'COMP_2' },
+          { id: 0, label: 'Certif complémentaire 1', key: 'COMP_1', hasComplementaryReferential: false },
+          { id: 1, label: 'Certif complémentaire 2', key: 'COMP_2', hasComplementaryReferential: true },
         ],
+        isComplementaryAlonePilot: false,
       });
     }
 
@@ -51,7 +52,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
 
     // when
     const screen = await renderScreen(hbs`
-      <NewCertificationCandidateModal
+      <NewCandidateModal
         @showModal={{true}}
         @closeModal={{this.closeModal}}
         @countries={{this.countries}}
@@ -98,7 +99,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
 
     // when
     const screen = await renderScreen(hbs`
-      <NewCertificationCandidateModal
+      <NewCandidateModal
         @showModal={{true}}
         @closeModal={{this.closeModal}}
         @countries={{this.countries}}
@@ -149,7 +150,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
 
       // when
       const screen = await renderScreen(hbs`
-        <NewCertificationCandidateModal
+        <NewCandidateModal
           @showModal={{true}}
           @closeModal={{this.closeModal}}
           @countries={{this.countries}}
@@ -233,7 +234,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
 
       // when
       const screen = await renderScreen(hbs`
-        <NewCertificationCandidateModal
+        <NewCandidateModal
           @showModal={{true}}
           @closeModal={{this.closeModal}}
           @countries={{this.countries}}
@@ -282,7 +283,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
 
     // when
     const screen = await renderScreen(hbs`
-      <NewCertificationCandidateModal
+      <NewCandidateModal
         @showModal={{true}}
         @closeModal={{this.closeModal}}
         @countries={{this.countries}}
@@ -322,7 +323,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
 
       // when
       const screen = await renderScreen(hbs`
-        <NewCertificationCandidateModal
+        <NewCandidateModal
           @showModal={{true}}
           @closeModal={{this.closeModal}}
           @countries={{this.countries}}
@@ -366,7 +367,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
 
       // when
       const screen = await renderScreen(hbs`
-        <NewCertificationCandidateModal
+        <NewCandidateModal
           @showModal={{true}}
           @closeModal={{this.closeModal}}
           @countries={{this.countries}}
@@ -410,7 +411,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
 
       // when
       const screen = await renderScreen(hbs`
-        <NewCertificationCandidateModal
+        <NewCandidateModal
           @showModal={{true}}
           @closeModal={{this.closeModal}}
           @countries={{this.countries}}
@@ -460,7 +461,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
 
       // when
       const screen = await renderScreen(hbs`
-        <NewCertificationCandidateModal
+        <NewCandidateModal
           @showModal={{true}}
           @closeModal={{this.closeModal}}
           @countries={{this.countries}}
@@ -504,7 +505,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
 
       // when
       const screen = await renderScreen(hbs`
-        <NewCertificationCandidateModal
+        <NewCandidateModal
           @showModal={{true}}
           @closeModal={{this.closeModal}}
           @countries={{this.countries}}
@@ -520,6 +521,239 @@ module('Integration | Component | new-certification-candidate-modal', function (
       assert.dom(screen.queryByLabelText('* Code INSEE de naissance')).isNotVisible();
       assert.dom(screen.queryByLabelText('* Code postal de naissance')).isVisible();
       assert.dom(screen.getByLabelText('* Commune de naissance')).isVisible();
+    });
+  });
+
+  module('when center is allowed access to complementary certifications', () => {
+    test('it display complementary certification options', async function (assert) {
+      // given
+      const updateCandidateFromEventStub = sinon.stub();
+      this.set('updateCandidateFromEventStub', updateCandidateFromEventStub);
+      this.set('countries', [{ code: '99123', name: 'Borduristan' }]);
+
+      // when
+      const screen = await renderScreen(hbs`
+      <NewCandidateModal
+        @showModal={{true}}
+        @countries={{this.countries}}
+        @updateCandidateData={{this.updateCandidateFromEventStub}}
+      />
+      `);
+
+      // then
+      assert.dom(screen.getByRole('group', { name: 'Certification complémentaire' })).exists();
+      assert.dom(screen.getByRole('radio', { name: 'Certif complémentaire 1' })).exists();
+      assert.dom(screen.getByRole('radio', { name: 'Certif complémentaire 2' })).exists();
+    });
+
+    module('when certification center is a complementary alone pilot', function () {
+      module('when the selected complementary certification has a referential', function () {
+        test('it display complementary alone options', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          class CurrentUserStub extends Service {
+            currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+              habilitations: [
+                { id: 0, label: 'Certif complémentaire 1', key: 'COMP_1', hasComplementaryReferential: false },
+                { id: 1, label: 'Certif complémentaire 2', key: 'COMP_2', hasComplementaryReferential: true },
+              ],
+              isComplementaryAlonePilot: true,
+            });
+          }
+
+          this.owner.register('service:current-user', CurrentUserStub);
+
+          const updateCandidateFromEventStub = sinon.stub();
+          this.set('updateCandidateFromEventStub', updateCandidateFromEventStub);
+          this.set('countries', [{ code: '99123', name: 'Borduristan' }]);
+          this.set('candidateData', {
+            firstName: '',
+            lastName: '',
+            birthdate: '',
+            birthCity: '',
+            birthCountry: '',
+            email: '',
+            externalId: '',
+            resultRecipientEmail: '',
+            birthPostalCode: '',
+            birthInseeCode: '',
+            sex: '',
+            extraTimePercentage: '',
+          });
+
+          // when
+          const screen = await renderScreen(hbs`
+            <NewCandidateModal
+              @showModal={{true}}
+              @countries={{this.countries}}
+              @updateCandidateData={{this.updateCandidateFromEventStub}}
+              @candidateData={{this.candidateData}}
+            />
+            `);
+
+          const complementaryWithReferential = screen.getByRole('radio', { name: 'Certif complémentaire 2' });
+
+          await click(complementaryWithReferential);
+
+          // then
+          assert.dom(screen.getByRole('group', { name: 'Quelles épreuves le candidat passera-t-il ?' })).exists();
+          assert.dom(screen.getByRole('radio', { name: 'Seulement la certification Pix+' })).exists();
+          assert.dom(screen.getByRole('radio', { name: 'La certification Pix et Pix+' })).exists();
+        });
+      });
+
+      module('when the selected complementary certification has no complementary referential', function () {
+        test('it does not display complementary alone options', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          class CurrentUserStub extends Service {
+            currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+              habilitations: [
+                { id: 0, label: 'Certif complémentaire 1', key: 'COMP_1', hasComplementaryReferential: false },
+                { id: 1, label: 'Certif complémentaire 2', key: 'COMP_2', hasComplementaryReferential: true },
+              ],
+              isComplementaryAlonePilot: true,
+            });
+          }
+
+          this.owner.register('service:current-user', CurrentUserStub);
+
+          const updateCandidateFromEventStub = sinon.stub();
+          this.set('updateCandidateFromEventStub', updateCandidateFromEventStub);
+          this.set('countries', [{ code: '99123', name: 'Borduristan' }]);
+          this.set('candidateData', {
+            firstName: '',
+            lastName: '',
+            birthdate: '',
+            birthCity: '',
+            birthCountry: '',
+            email: '',
+            externalId: '',
+            resultRecipientEmail: '',
+            birthPostalCode: '',
+            birthInseeCode: '',
+            sex: '',
+            extraTimePercentage: '',
+          });
+
+          // when
+          const screen = await renderScreen(hbs`
+            <NewCandidateModal
+              @showModal={{true}}
+              @countries={{this.countries}}
+              @updateCandidateData={{this.updateCandidateFromEventStub}}
+              @candidateData={{this.candidateData}}
+            />
+            `);
+
+          const complementaryWithoutReferential = screen.getByRole('radio', { name: 'Certif complémentaire 1' });
+          await click(complementaryWithoutReferential);
+
+          // then
+          assert
+            .dom(screen.queryByRole('group', { name: 'Quelles épreuves le candidat passera-t-il ?' }))
+            .doesNotExist();
+          assert.dom(screen.queryByRole('radio', { name: 'Seulement la certification Pix+' })).doesNotExist();
+          assert.dom(screen.queryByRole('radio', { name: 'La certification Pix et Pix+' })).doesNotExist();
+        });
+      });
+
+      module('when the selected option is not a certification (e.g. : "None")', function () {
+        test('it does not display complementary alone options', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          class CurrentUserStub extends Service {
+            currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+              habilitations: [
+                { id: 0, label: 'Certif complémentaire 1', key: 'COMP_1', hasComplementaryReferential: false },
+                { id: 1, label: 'Certif complémentaire 2', key: 'COMP_2', hasComplementaryReferential: true },
+              ],
+              isComplementaryAlonePilot: true,
+            });
+          }
+
+          this.owner.register('service:current-user', CurrentUserStub);
+
+          const updateCandidateFromEventStub = sinon.stub();
+          this.set('updateCandidateFromEventStub', updateCandidateFromEventStub);
+          this.set('countries', [{ code: '99123', name: 'Borduristan' }]);
+          this.set('candidateData', {
+            firstName: '',
+            lastName: '',
+            birthdate: '',
+            birthCity: '',
+            birthCountry: '',
+            email: '',
+            externalId: '',
+            resultRecipientEmail: '',
+            birthPostalCode: '',
+            birthInseeCode: '',
+            sex: '',
+            extraTimePercentage: '',
+          });
+
+          // when
+          const screen = await renderScreen(hbs`
+            <NewCandidateModal
+              @showModal={{true}}
+              @countries={{this.countries}}
+              @updateCandidateData={{this.updateCandidateFromEventStub}}
+              @candidateData={{this.candidateData}}
+            />
+            `);
+
+          const noComplementaryCertificationOption = screen.getByRole('radio', { name: 'Aucune' });
+          await click(noComplementaryCertificationOption);
+
+          // then
+          assert
+            .dom(screen.queryByRole('group', { name: 'Quelles épreuves le candidat passera-t-il ?' }))
+            .doesNotExist();
+          assert.dom(screen.queryByRole('radio', { name: 'Seulement la certification Pix+' })).doesNotExist();
+          assert.dom(screen.queryByRole('radio', { name: 'La certification Pix et Pix+' })).doesNotExist();
+        });
+      });
+    });
+
+    module('when certification center is not a complementary alone pilot', function () {
+      test('it not display complementary alone options', async function (assert) {
+        // given
+        const updateCandidateFromEventStub = sinon.stub();
+        this.set('updateCandidateFromEventStub', updateCandidateFromEventStub);
+        this.set('countries', [{ code: '99123', name: 'Borduristan' }]);
+        this.set('candidateData', {
+          firstName: '',
+          lastName: '',
+          birthdate: '',
+          birthCity: '',
+          birthCountry: '',
+          email: '',
+          externalId: '',
+          resultRecipientEmail: '',
+          birthPostalCode: '',
+          birthInseeCode: '',
+          sex: '',
+          extraTimePercentage: '',
+        });
+
+        // when
+        const screen = await renderScreen(hbs`
+            <NewCandidateModal
+              @showModal={{true}}
+              @countries={{this.countries}}
+              @updateCandidateData={{this.updateCandidateFromEventStub}}
+              @candidateData={{this.candidateData}}
+            />
+            `);
+
+        const complementaryWithReferential = screen.getByRole('radio', { name: 'Certif complémentaire 2' });
+        await click(complementaryWithReferential);
+
+        // then
+        assert.dom(screen.queryByRole('group', { name: 'Quelles épreuves le candidat passera-t-il ?' })).doesNotExist();
+        assert.dom(screen.queryByRole('radio', { name: 'Seulement la certification Pix+' })).doesNotExist();
+        assert.dom(screen.queryByRole('radio', { name: 'La certification Pix et Pix+' })).doesNotExist();
+      });
     });
   });
 });

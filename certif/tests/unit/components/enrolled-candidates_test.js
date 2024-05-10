@@ -199,39 +199,39 @@ module('Unit | Component | enrolled-candidates', function (hooks) {
     });
   });
 
-  module('#openNewCertificationCandidateModal', function () {
+  module('#openNewCandidateModal', function () {
     test('should open the new certification candidate modal', async function (assert) {
       // given
       const sessionId = 'sessionId';
-      component.showNewCertificationCandidateModal = false;
+      component.showNewCandidateModal = false;
       component.args = {
         certificationCandidates: [],
         sessionId,
       };
 
       // when
-      await component.openNewCertificationCandidateModal();
+      await component.openNewCandidateModal();
 
       // then
-      assert.true(component.showNewCertificationCandidateModal);
+      assert.true(component.showNewCandidateModal);
     });
   });
 
-  module('#closeNewCertificationCandidateModal', function () {
+  module('#closeNewCandidateModal', function () {
     test('should close the new certification candidate modal', async function (assert) {
       // given
       const sessionId = 'sessionId';
-      component.showNewCertificationCandidateModal = true;
+      component.showNewCandidateModal = true;
       component.args = {
         certificationCandidates: [],
         sessionId,
       };
 
       // when
-      await component.closeNewCertificationCandidateModal();
+      await component.closeNewCandidateModal();
 
       // then
-      assert.false(component.showNewCertificationCandidateModal);
+      assert.false(component.showNewCandidateModal);
     });
   });
 

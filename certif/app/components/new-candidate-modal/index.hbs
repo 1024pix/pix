@@ -1,21 +1,17 @@
 <PixModal
   @title={{t "pages.sessions.detail.candidates.detail-modal.title"}}
   @onCloseButtonClick={{this.closeModal}}
-  class="new-certification-candidate-modal"
+  class="new-candidate-modal"
   @showModal={{@showModal}}
 >
   <:content>
-    <form
-      id="new-certification-candidate-form"
-      class="new-certification-candidate-modal__form"
-      {{on "submit" this.onFormSubmit}}
-    >
+    <form id="new-candidate-form" class="new-candidate-modal__form" {{on "submit" this.onFormSubmit}}>
 
-      <p class="new-certification-candidate-modal-form__required-fields-mention">
+      <p class="new-candidate-modal-form__required-fields-mention">
         {{t "common.forms.mandatory-fields" htmlSafe=true}}
       </p>
 
-      <div class="new-certification-candidate-modal-form__field">
+      <div class="new-candidate-modal-form__field">
         <PixInput
           @id="last-name"
           {{on "input" (fn @updateCandidateData @candidateData "lastName")}}
@@ -38,7 +34,7 @@
         </PixInput>
       </div>
 
-      <div class="new-certification-candidate-modal-form__field">
+      <div class="new-candidate-modal-form__field">
         <fieldset>
           <legend class="label">
             <abbr title={{t "common.forms.required"}} class="mandatory-mark" aria-hidden="true">*</abbr>
@@ -65,7 +61,7 @@
         </fieldset>
       </div>
 
-      <div class="new-certification-candidate-modal-form__field">
+      <div class="new-candidate-modal-form__field">
         <PixInput
           @id="birth-name"
           placeholder={{t "common.labels.candidate.birth-date-example"}}
@@ -87,7 +83,7 @@
         </PixInput>
       </div>
 
-      <div class="new-certification-candidate-modal-form__field">
+      <div class="new-candidate-modal-form__field">
         <PixSelect
           @id="birth-country"
           @options={{this.countryOptions}}
@@ -102,7 +98,7 @@
       </div>
 
       {{#if this.isBirthGeoCodeRequired}}
-        <div class="new-certification-candidate-modal-form__field">
+        <div class="new-candidate-modal-form__field">
           <fieldset>
             <legend class="label">
               <abbr title={{t "common.forms.required"}} class="mandatory-mark" aria-hidden="true">*</abbr>
@@ -132,7 +128,7 @@
       {{/if}}
 
       {{#if this.isBirthInseeCodeRequired}}
-        <div class="new-certification-candidate-modal-form__field">
+        <div class="new-candidate-modal-form__field">
           <PixInput
             @id="birth-insee-code"
             {{on "input" (fn @updateCandidateData @candidateData "birthInseeCode")}}
@@ -148,7 +144,7 @@
       {{/if}}
 
       {{#if this.isBirthPostalCodeRequired}}
-        <div class="new-certification-candidate-modal-form__field">
+        <div class="new-candidate-modal-form__field">
           <PixInput
             @id="birth-postal-code"
             {{on "input" (fn @updateCandidateData @candidateData "birthPostalCode")}}
@@ -164,7 +160,7 @@
       {{/if}}
 
       {{#if this.isBirthCityRequired}}
-        <div class="new-certification-candidate-modal-form__field">
+        <div class="new-candidate-modal-form__field">
           <PixInput
             @id="birth-city"
             {{on "input" (fn @updateCandidateData @candidateData "birthCity")}}
@@ -178,7 +174,7 @@
         </div>
       {{/if}}
 
-      <div class="new-certification-candidate-modal-form__field">
+      <div class="new-candidate-modal-form__field">
         <PixInput
           @id="external-id"
           {{on "input" (fn @updateCandidateData @candidateData "externalId")}}
@@ -188,7 +184,7 @@
         </PixInput>
       </div>
 
-      <div class="new-certification-candidate-modal-form__field">
+      <div class="new-candidate-modal-form__field">
         <PixInput
           @id="extra-time-percentage"
           class="input {{if this.validation.email.hasError 'input--error'}}"
@@ -199,7 +195,7 @@
         </PixInput>
       </div>
 
-      <div class="new-certification-candidate-modal-form__field">
+      <div class="new-candidate-modal-form__field">
         <PixInput
           @id="result-recipient-email"
           {{on "input" (fn @updateCandidateData @candidateData "resultRecipientEmail")}}
@@ -210,11 +206,11 @@
         </PixInput>
       </div>
 
-      <PixMessage class="new-certification-candidate-modal-form__info-panel" @withIcon={{true}}>
+      <PixMessage class="new-candidate-modal-form__info-panel" @withIcon={{true}}>
         {{t "pages.sessions.detail.candidates.add-modal.info-panel" htmlSafe=true}}
       </PixMessage>
 
-      <div class="new-certification-candidate-modal-form__field">
+      <div class="new-candidate-modal-form__field">
         <PixInput
           @id="email"
           {{on "input" (fn @updateCandidateData @candidateData "email")}}
@@ -226,7 +222,7 @@
       </div>
 
       {{#if @shouldDisplayPaymentOptions}}
-        <div class="new-certification-candidate-modal-form__field">
+        <div class="new-candidate-modal-form__field">
           <PixSelect
             @id="billing-mode"
             @options={{this.billingModeOptions}}
@@ -239,7 +235,7 @@
             <:label>{{t "common.forms.certification-labels.pricing"}}</:label>
           </PixSelect>
 
-          <div class="new-certification-candidate-modal-form__tooltip">
+          <div class="new-candidate-modal-form__tooltip">
             <label for="prepayment-code" class="label">
               {{t "common.forms.certification-labels.prepayment-code"}}
             </label>
@@ -268,11 +264,13 @@
       {{/if}}
 
       {{#if this.complementaryCertificationsHabilitations.length}}
-        <ComplementaryCertificationOptions
+        <NewCandidateModal::ComplementaryList
           @complementaryCertificationsHabilitations={{this.complementaryCertificationsHabilitations}}
-          @isComplementaryAlonePilot={{this.isComplementaryAlonePilot}}
           @updateComplementaryCertification={{this.updateComplementaryCertification}}
         />
+        {{#if this.couldHaveComplementaryCertificationOnly}}
+          <NewCandidateModal::ComplementaryWithReferential />
+        {{/if}}
       {{/if}}
     </form>
   </:content>
@@ -285,12 +283,7 @@
     >
       {{t "common.actions.close"}}
     </PixButton>
-    <PixButton
-      @type="submit"
-      @isLoading={{this.isLoading}}
-      @isDisabled={{this.isLoading}}
-      form="new-certification-candidate-form"
-    >
+    <PixButton @type="submit" @isLoading={{this.isLoading}} @isDisabled={{this.isLoading}} form="new-candidate-form">
       {{t "pages.sessions.detail.candidates.add-modal.actions.enrol-the-candidate"}}
     </PixButton>
   </:footer>

@@ -16,7 +16,7 @@
       <PixButton
         id="add-candidate"
         class="certification-candidates-add-button__text"
-        @triggerAction={{this.openNewCertificationCandidateModal}}
+        @triggerAction={{this.openNewCandidateModal}}
         @size="small"
       >
         {{t "pages.sessions.detail.candidates.list.actions.inscription.label"}}
@@ -172,9 +172,9 @@
   />
 {{/if}}
 
-<NewCertificationCandidateModal
-  @showModal={{this.showNewCertificationCandidateModal}}
-  @closeModal={{this.closeNewCertificationCandidateModal}}
+<NewCandidateModal
+  @showModal={{this.showNewCandidateModal}}
+  @closeModal={{this.closeNewCandidateModal}}
   @countries={{@countries}}
   @saveCandidate={{this.addCertificationCandidate}}
   @candidateData={{this.newCandidate}}
