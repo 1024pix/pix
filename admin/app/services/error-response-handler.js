@@ -12,8 +12,12 @@ const ERROR_MESSAGES_BY_STATUS = {
   STATUS_503: 'Service momentanément indisponible',
 };
 
-const ERROR_MESSAGES_BY_CODE = {
+export const ERROR_MESSAGES_BY_CODE = {
   SENDING_EMAIL_TO_INVALID_DOMAIN: "Échec lors de l'envoi d'un e-mail car le domaine semble invalide.",
+  ALREADY_EXISTING_ORGANIZATION_FEATURE: 'Cette fonctionnalité a déjà été ajouté à cette organisation',
+  ORGANIZATION_NOT_FOUND: "Cette organisation n'existe pas",
+  FEATURE_NOT_FOUND: "Cette fonctionnalité n'existe pas",
+  FEATURE_PARAMS_NOT_PROCESSABLE: 'Les paramètres de la fonctionnalité ont un format incorrect',
 };
 
 export default class ErrorResponseHandlerService extends Service {
@@ -49,8 +53,8 @@ function _isJSONAPIError(errorResponse) {
 }
 
 function _getErrorMessageForErrorCode(errorCode) {
-  if (errorCode === 'SENDING_EMAIL_TO_INVALID_DOMAIN') {
-    return ERROR_MESSAGES_BY_CODE.SENDING_EMAIL_TO_INVALID_DOMAIN;
+  if (ERROR_MESSAGES_BY_CODE[errorCode]) {
+    return ERROR_MESSAGES_BY_CODE[errorCode];
   }
 
   return null;
