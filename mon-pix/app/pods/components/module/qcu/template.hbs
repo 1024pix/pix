@@ -1,5 +1,5 @@
 <form class="element-qcu">
-  <fieldset disabled={{this.disableInput}}>
+  <fieldset>
     <div class="element-qcu__header">
       <legend class="element-qcu-header__direction">
         {{t "pages.modulix.qcu.direction"}}
@@ -16,6 +16,7 @@
           <PixRadioButton
             name={{this.element.id}}
             @value={{proposal.id}}
+            disabled={{this.disableInput}}
             {{on "click" (fn this.radioClicked proposal.id)}}
           >
             <:label>

@@ -1,5 +1,5 @@
 <form class="element-qcm">
-  <fieldset disabled={{this.disableInput}}>
+  <fieldset>
     <div class="element-qcm__header">
       <legend class="element-qcm-header__direction">
         {{t "pages.modulix.qcm.direction"}}
@@ -13,7 +13,11 @@
     <div class="element-qcm__proposals">
       {{#each this.element.proposals as |proposal|}}
         <div class="element-qcm-proposals__proposal">
-          <PixCheckbox name={{this.element.id}} {{on "click" (fn this.checkboxSelected proposal.id)}}>
+          <PixCheckbox
+            name={{this.element.id}}
+            disabled={{this.disableInput}}
+            {{on "click" (fn this.checkboxSelected proposal.id)}}
+          >
             <:label>{{proposal.content}}</:label>
           </PixCheckbox>
         </div>
