@@ -283,7 +283,12 @@
     >
       {{t "common.actions.close"}}
     </PixButton>
-    <PixButton @type="submit" @isLoading={{this.isLoading}} @isDisabled={{this.isLoading}} form="new-candidate-form">
+    <PixButton
+      @type="submit"
+      @isLoading={{this.isLoading}}
+      @isDisabled={{this.isLoading}}
+      form="new-candidate-form"
+    >
       {{t "pages.sessions.detail.candidates.add-modal.actions.enrol-the-candidate"}}
     </PixButton>
   </:footer>
