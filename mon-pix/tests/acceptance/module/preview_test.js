@@ -19,7 +19,7 @@ module('Acceptance | Module | Routes | Preview', function (hooks) {
 
     await fillByLabel(
       'Contenu du Module',
-      '{ "grains": [{ "id":"1", "type": "lesson", "title": "Preview", "elements": [{"type": "text", "content": "Preview du module" }] }] }',
+      '{ "grains": [{ "id":"1", "type": "lesson", "title": "Preview", "components": [{ "type": "element", "element": {"type": "text", "content": "Preview du module" }}] }] }',
     );
 
     // then

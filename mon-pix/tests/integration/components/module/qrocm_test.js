@@ -351,227 +351,95 @@ module('Integration | Component | Module | QROCM', function (hooks) {
     });
   });
 
-  module('with elements', function () {
-    test('should display an ok feedback when exists', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
+  test('should display an ok feedback when exists', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
 
-      const correctionResponse = store.createRecord('correction-response', {
-        feedback: 'Good job!',
-        status: 'ok',
-        solution: 'solution',
-      });
-      prepareContextRecords.call(this, store, correctionResponse);
-      this.set('submitAnswer', () => {});
-
-      // when
-      const screen = await render(
-        hbs`<Module::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
-      );
-
-      // then
-      const status = screen.getByRole('status');
-      assert.strictEqual(status.innerText, 'Good job!');
-      assert.ok(screen.getByRole('group').disabled);
-      assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
+    const correctionResponse = store.createRecord('correction-response', {
+      feedback: 'Good job!',
+      status: 'ok',
+      solution: 'solution',
     });
+    prepareContextRecords.call(this, store, correctionResponse);
+    this.set('submitAnswer', () => {});
 
-    test('should display a ko feedback when exists', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const correctionResponse = store.createRecord('correction-response', {
-        feedback: 'Too Bad!',
-        status: 'ko',
-        solution: 'solution',
-      });
-      prepareContextRecords.call(this, store, correctionResponse);
-      this.set('submitAnswer', () => {});
+    // when
+    const screen = await render(
+      hbs`<Module::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+    );
 
-      // when
-      const screen = await render(
-        hbs`<Module::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}} @correction={{this.correctionResponse}} />`,
-      );
-
-      // then
-      const status = screen.getByRole('status');
-      assert.strictEqual(status.innerText, 'Too Bad!');
-      assert.ok(screen.getByRole('group').disabled);
-      assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
-    });
-
-    test('should display retry button when a ko feedback appears', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const correctionResponse = store.createRecord('correction-response', {
-        feedback: 'Too Bad!',
-        status: 'ko',
-        solution: 'solution',
-      });
-
-      prepareDeprecatedContextRecords.call(this, store, correctionResponse);
-      this.set('submitAnswer', () => {});
-
-      // when
-      const screen = await render(
-        hbs`<Module::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
-      );
-
-      // then
-      assert.dom(screen.queryByRole('button', { name: 'Réessayer' })).exists();
-    });
-
-    test('should not display retry button when an ok feedback appears', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const correctionResponse = store.createRecord('correction-response', {
-        feedback: 'Nice!',
-        status: 'ok',
-        solution: 'solution',
-      });
-
-      prepareDeprecatedContextRecords.call(this, store, correctionResponse);
-      this.set('submitAnswer', () => {});
-
-      // when
-      const screen = await render(
-        hbs`<Module::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
-      );
-
-      // then
-      assert.dom(screen.queryByRole('button', { name: 'Réessayer' })).doesNotExist();
-    });
+    // then
+    const status = screen.getByRole('status');
+    assert.strictEqual(status.innerText, 'Good job!');
+    assert.ok(screen.getByRole('group').disabled);
+    assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
   });
 
-  module('with components', function () {
-    test('should display an ok feedback when exists', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
+  test('should display a ko feedback when exists', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const correctionResponse = store.createRecord('correction-response', {
+      feedback: 'Too Bad!',
+      status: 'ko',
+      solution: 'solution',
+    });
+    prepareContextRecords.call(this, store, correctionResponse);
+    this.set('submitAnswer', () => {});
 
-      const correctionResponse = store.createRecord('correction-response', {
-        feedback: 'Good job!',
-        status: 'ok',
-        solution: 'solution',
-      });
-      prepareContextRecords.call(this, store, correctionResponse);
-      this.set('submitAnswer', () => {});
+    // when
+    const screen = await render(
+      hbs`<Module::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}} @correction={{this.correctionResponse}} />`,
+    );
 
-      // when
-      const screen = await render(
-        hbs`<Module::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
-      );
+    // then
+    const status = screen.getByRole('status');
+    assert.strictEqual(status.innerText, 'Too Bad!');
+    assert.ok(screen.getByRole('group').disabled);
+    assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
+  });
 
-      // then
-      const status = screen.getByRole('status');
-      assert.strictEqual(status.innerText, 'Good job!');
-      assert.ok(screen.getByRole('group').disabled);
-      assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
+  test('should display retry button when a ko feedback appears', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const correctionResponse = store.createRecord('correction-response', {
+      feedback: 'Too Bad!',
+      status: 'ko',
+      solution: 'solution',
     });
 
-    test('should display a ko feedback when exists', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const correctionResponse = store.createRecord('correction-response', {
-        feedback: 'Too Bad!',
-        status: 'ko',
-        solution: 'solution',
-      });
-      prepareContextRecords.call(this, store, correctionResponse);
-      this.set('submitAnswer', () => {});
+    prepareContextRecords.call(this, store, correctionResponse);
+    this.set('submitAnswer', () => {});
 
-      // when
-      const screen = await render(
-        hbs`<Module::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}} @correction={{this.correctionResponse}} />`,
-      );
+    // when
+    const screen = await render(
+      hbs`<Module::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+    );
 
-      // then
-      const status = screen.getByRole('status');
-      assert.strictEqual(status.innerText, 'Too Bad!');
-      assert.ok(screen.getByRole('group').disabled);
-      assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
+    // then
+    assert.dom(screen.queryByRole('button', { name: 'Réessayer' })).exists();
+  });
+
+  test('should not display retry button when an ok feedback appears', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const correctionResponse = store.createRecord('correction-response', {
+      feedback: 'Nice!',
+      status: 'ok',
+      solution: 'solution',
     });
 
-    test('should display retry button when a ko feedback appears', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const correctionResponse = store.createRecord('correction-response', {
-        feedback: 'Too Bad!',
-        status: 'ko',
-        solution: 'solution',
-      });
+    prepareContextRecords.call(this, store, correctionResponse);
+    this.set('submitAnswer', () => {});
 
-      prepareContextRecords.call(this, store, correctionResponse);
-      this.set('submitAnswer', () => {});
+    // when
+    const screen = await render(
+      hbs`<Module::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+    );
 
-      // when
-      const screen = await render(
-        hbs`<Module::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
-      );
-
-      // then
-      assert.dom(screen.queryByRole('button', { name: 'Réessayer' })).exists();
-    });
-
-    test('should not display retry button when an ok feedback appears', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const correctionResponse = store.createRecord('correction-response', {
-        feedback: 'Nice!',
-        status: 'ok',
-        solution: 'solution',
-      });
-
-      prepareContextRecords.call(this, store, correctionResponse);
-      this.set('submitAnswer', () => {});
-
-      // when
-      const screen = await render(
-        hbs`<Module::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
-      );
-
-      // then
-      assert.dom(screen.queryByRole('button', { name: 'Réessayer' })).doesNotExist();
-    });
+    // then
+    assert.dom(screen.queryByRole('button', { name: 'Réessayer' })).doesNotExist();
   });
 });
-
-function prepareDeprecatedContextRecords(store, correctionResponse) {
-  const qrocm = {
-    id: '994b6a96-a3c2-47ae-a461-87548ac6e02b',
-    instruction: 'Instruction',
-    proposals: [
-      {
-        input: 'premiere-partie',
-        type: 'select',
-        display: 'block',
-        placeholder: '',
-        ariaLabel: 'select-aria',
-        defaultValue: '',
-        options: [
-          {
-            id: '1',
-            content: "l'identifiant",
-          },
-          {
-            id: '2',
-            content: "le fournisseur d'adresse mail",
-          },
-        ],
-      },
-    ],
-    type: 'qrocm',
-  };
-  store.createRecord('element-answer', {
-    correction: correctionResponse,
-    element: qrocm,
-  });
-  store.createRecord('grain', { id: 'id', elements: [qrocm] });
-  store.createRecord('element-answer', {
-    correction: correctionResponse,
-    elementId: qrocm.id,
-  });
-  this.set('el', qrocm);
-  this.set('correctionResponse', correctionResponse);
-}
 
 function prepareContextRecords(store, correctionResponse) {
   const qrocm = {
