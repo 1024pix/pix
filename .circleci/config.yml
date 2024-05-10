@@ -46,7 +46,7 @@ executors:
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
-      - image: redis:7.2.3-alpine
+      - image: redis:7.2.4-alpine
       - image: adobe/s3mock:3.5.2
         environment:
           - initialBuckets=pix-import-test
@@ -74,7 +74,7 @@ executors:
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
-      - image: redis:7.2.3-alpine
+      - image: redis:7.2.4-alpine
     resource_class: medium+
   node-postgres-docker:
     parameters:
