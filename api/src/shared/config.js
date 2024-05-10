@@ -375,6 +375,8 @@ const configuration = (function () {
     config.mailing.brevo.templates.organizationInvitationTemplateId = 'test-organization-invitation-demand-template-id';
     config.mailing.brevo.templates.organizationInvitationScoTemplateId =
       'test-organization-invitation-sco-demand-template-id';
+    config.mailing.brevo.templates.certificationCenterInvitationTemplateId =
+      'test-certification-center-invitation-template-id';
     config.mailing.brevo.templates.certificationResultTemplateId = 'test-certification-result-template-id';
     config.mailing.brevo.templates.passwordResetTemplateId = 'test-password-reset-template-id';
     config.mailing.brevo.templates.emailChangeTemplateId = 'test-email-change-template-id';
