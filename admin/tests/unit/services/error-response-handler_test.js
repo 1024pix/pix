@@ -108,25 +108,45 @@ module('Unit | Service | error-response-handler', function (hooks) {
   });
 
   module('with error codes', function () {
-    test('it notifies correct error for SENDING_EMAIL_TO_INVALID_DOMAIN error', function (assert) {
-      // given
-      const service = this.owner.lookup('service:error-response-handler');
-      service.notifications.error = sinon.stub();
-      const invalidDomainError = {
-        status: '400',
-        title: 'Sending email to an invalid domain',
+    [
+      {
         code: 'SENDING_EMAIL_TO_INVALID_DOMAIN',
-      };
+        message: "Échec lors de l'envoi d'un e-mail car le domaine semble invalide.",
+      },
+      {
+        code: 'ALREADY_EXISTING_ORGANIZATION_FEATURE',
+        message: 'Cette fonctionnalité a déjà été ajouté à cette organisation',
+      },
+      {
+        code: 'ORGANIZATION_NOT_FOUND',
+        message: "Cette organisation n'existe pas",
+      },
+      {
+        code: 'FEATURE_NOT_FOUND',
+        message: "Cette fonctionnalité n'existe pas",
+      },
+      {
+        code: 'FEATURE_PARAMS_NOT_PROCESSABLE',
+        message: 'Les paramètres de la fonctionnalité ont un format incorrect',
+      },
+    ].forEach(({ code, message }) => {
+      test(`it notifies correct error for code ${code}`, function (assert) {
+        // given
+        const service = this.owner.lookup('service:error-response-handler');
+        service.notifications.error = sinon.stub();
+        const invalidDomainError = {
+          status: '400',
+          title: 'Sending email to an invalid domain',
+          code,
+        };
 
-      // when
-      service.notify({ errors: [invalidDomainError] });
+        // when
+        service.notify({ errors: [invalidDomainError] });
 
-      // then
-      sinon.assert.calledWith(
-        service.notifications.error,
-        "Échec lors de l'envoi d'un e-mail car le domaine semble invalide.",
-      );
-      assert.ok(true);
+        // then
+        sinon.assert.calledWith(service.notifications.error, message);
+        assert.ok(true);
+      });
     });
   });
 });

@@ -6,8 +6,7 @@ import sinon from 'sinon';
 module('Unit | Controller | authenticated/smart-random-simulator/get-next-challenge', function (hooks) {
   setupTest(hooks);
 
-  let controller;
-  const fetchStub = sinon.stub(window, 'fetch');
+  let controller, fetchStub;
   const returnedChallenge = {
     id: 'rec1kdnvnUagcpoYf',
     locales: ['fr', 'fr-fr'],
@@ -25,7 +24,12 @@ module('Unit | Controller | authenticated/smart-random-simulator/get-next-challe
   };
 
   hooks.beforeEach(async function () {
+    fetchStub = sinon.stub(window, 'fetch');
     controller = this.owner.lookup('controller:authenticated.smart-random-simulator.get-next-challenge');
+  });
+
+  hooks.afterEach(function () {
+    window.fetch.restore();
   });
 
   module('#skillsByTube', function () {

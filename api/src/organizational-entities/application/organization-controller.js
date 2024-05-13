@@ -9,6 +9,12 @@ const attachChildOrganization = async function (request, h) {
   return h.response().code(204);
 };
 
+const addOrganizationFeatureInBatch = async function (request, h) {
+  await usecases.addOrganizationFeatureInBatch({ filePath: request.payload.path });
+  return h.response().code(204);
+};
+
 export const organizationController = {
   attachChildOrganization,
+  addOrganizationFeatureInBatch,
 };
