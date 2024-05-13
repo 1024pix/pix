@@ -2,7 +2,7 @@ import Joi from 'joi';
 
 import { authorization } from '../../../../lib/application/preHandlers/authorization.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
-import { sessionController } from './session-controller.js';
+import { finalizeController } from './finalize-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -33,7 +33,7 @@ const register = async function (server) {
             assign: 'authorizationCheck',
           },
         ],
-        handler: sessionController.finalize,
+        handler: finalizeController.finalize,
         tags: ['api', 'sessions'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +

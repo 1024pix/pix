@@ -1,6 +1,6 @@
 import * as events from '../../../../lib/domain/events/index.js';
-import { usecases } from '../../session-management/domain/usecases/index.js';
 import * as certificationReportSerializer from '../../shared/infrastructure/serializers/jsonapi/certification-report-serializer.js';
+import { usecases } from '../domain/usecases/index.js';
 
 const finalize = async function (request, h, dependencies = { certificationReportSerializer, events }) {
   const sessionId = request.params.id;
@@ -24,7 +24,7 @@ const finalize = async function (request, h, dependencies = { certificationRepor
   return h.response().code(200);
 };
 
-const sessionController = {
+const finalizeController = {
   finalize,
 };
-export { sessionController };
+export { finalizeController };
