@@ -30,4 +30,20 @@ module('Integration | Component | challenge-illustration', function (hooks) {
     assert.dom(visibleImage).hasAttribute('src', imageSource);
     assert.dom(screen.queryByLabelText("Chargement de l'image en cours")).doesNotExist();
   });
+
+  test('should set an empty alt when illustrationAlt is null', async function (assert) {
+    // given
+    const imageSource = 'http://www.example.com/this-is-an-example.png';
+    const imageAlternativeText = null;
+
+    this.set('src', imageSource);
+    this.set('alt', imageAlternativeText);
+
+    // when
+    const screen = await render(hbs`<ChallengeIllustration @src={{this.src}} @alt={{this.alt}}/>`);
+
+    // then
+    const hiddenImage = await screen.getByAltText('');
+    assert.dom(hiddenImage).exists();
+  });
 });
