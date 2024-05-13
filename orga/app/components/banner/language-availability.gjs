@@ -1,29 +1,26 @@
 import PixBanner from '@1024pix/pix-ui/components/pix-banner';
-import { action } from '@ember/object';
-import { service } from '@ember/service';
-import Component from '@glimmer/component';
+import { fn } from '@ember/helper';
 import { t } from 'ember-intl';
 
-export default class LanguageAvailabilityBanner extends Component {
-  @service session;
+import getService from '../../helpers/get-service.js';
 
-  get shouldDisplayBanner() {
-    const localeNotSupported = this.session?.data?.localeNotSupported;
-    const localeNotSupportedBannerClosed = this.session?.data?.localeNotSupportedBannerClosed;
+function shouldDisplayBanner(session) {
+  const localeNotSupported = session?.data?.localeNotSupported;
+  const localeNotSupportedBannerClosed = session?.data?.localeNotSupportedBannerClosed;
 
-    return localeNotSupported && !localeNotSupportedBannerClosed;
-  }
+  return localeNotSupported && !localeNotSupportedBannerClosed;
+}
 
-  @action
-  closeBanner() {
-    this.session.updateDataAttribute('localeNotSupportedBannerClosed', true);
-  }
-
-  <template>
-    {{#if this.shouldDisplayBanner}}
-      <PixBanner @type="information" @canCloseBanner="true" @onCloseBannerTriggerAction={{this.closeBanner}}>
+<template>
+  {{#let (getService "service:session") as |session|}}
+    {{#if (shouldDisplayBanner session)}}
+      <PixBanner
+        @type="information"
+        @canCloseBanner="true"
+        @onCloseBannerTriggerAction={{fn session.updateDataAttribute "localeNotSupportedBannerClosed" true}}
+      >
         {{t "banners.language-availability.message"}}
       </PixBanner>
     {{/if}}
-  </template>
-}
+  {{/let}}
+</template>
