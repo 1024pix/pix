@@ -8,7 +8,8 @@ module('Integration | Component | SmartRandomSimulator::TubesViewer', function (
 
   let screen;
   const numberOfSkillsStillAvailable = 11;
-  const totalNumberOfSkills = 13;
+  const numberOfSkillsFromKe = 2;
+  const totalNumberOfSkills = numberOfSkillsStillAvailable + numberOfSkillsFromKe;
   const tubes = [
     {
       name: '@outilsRS',
