@@ -3,7 +3,6 @@ import lodash from 'lodash';
 import { usecases as enrolmentUsecases } from '../../../src/certification/enrolment/domain/usecases/index.js';
 import * as sessionValidator from '../../../src/certification/enrolment/domain/validators/session-validator.js';
 import * as certificationCandidateSerializer from '../../../src/certification/enrolment/infrastructure/serializers/certification-candidate-serializer.js';
-import * as sessionEnrolmentSerializer from '../../../src/certification/enrolment/infrastructure/serializers/session-serializer.js';
 import * as jurySessionRepository from '../../../src/certification/session-management/infrastructure/repositories/jury-session-repository.js';
 import * as sessionManagementSerializer from '../../../src/certification/session-management/infrastructure/serializers/session-serializer.js';
 import { tokenService } from '../../../src/shared/domain/services/token-service.js';
@@ -47,12 +46,6 @@ const getJurySession = async function (request, h, dependencies = { jurySessionS
   const { jurySession, hasSupervisorAccess } = await usecases.getJurySession({ sessionId });
 
   return dependencies.jurySessionSerializer.serialize(jurySession, hasSupervisorAccess);
-};
-
-const get = async function (request, h, dependencies = { sessionEnrolmentSerializer }) {
-  const sessionId = request.params.id;
-  const { session, hasSupervisorAccess, hasSomeCleaAcquired } = await usecases.getSession({ sessionId });
-  return dependencies.sessionEnrolmentSerializer.serialize({ session, hasSupervisorAccess, hasSomeCleaAcquired });
 };
 
 const getCandidatesImportSheet = async function (request, h, dependencies = { fillCandidatesImportSheet }) {
@@ -257,7 +250,6 @@ const deleteJuryComment = async function (request, h) {
 const sessionController = {
   findPaginatedFilteredJurySessions,
   getJurySession,
-  get,
   getCandidatesImportSheet,
   getJuryCertificationSummaries,
   generateSessionResultsDownloadLink,

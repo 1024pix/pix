@@ -13,7 +13,7 @@ describe('Unit | UseCase | get-session-certification-candidates', function () {
   it('should return the certification candidates', async function () {
     // given
     const sessionId = 1024;
-    const candidate = domainBuilder.certification.sessionManagement.buildCertificationSessionCandidate({
+    const candidate = domainBuilder.certification.enrolment.buildCertificationSessionCandidate({
       complementaryCertificationId: 1,
     });
     candidate.userId = undefined;
@@ -27,7 +27,7 @@ describe('Unit | UseCase | get-session-certification-candidates', function () {
         complementaryCertificationId: candidate.complementaryCertificationId,
       })
       .resolves(complementaryCertification);
-    const expectedCandidate = domainBuilder.certification.sessionManagement.buildCertificationSessionEnrolledCandidate({
+    const expectedCandidate = domainBuilder.certification.enrolment.buildCertificationSessionEnrolledCandidate({
       complementaryCertificationId: candidate.complementaryCertificationId,
       complementaryCertificationLabel: 'JACKSON',
       complementaryCertificationKey: 'CLEA',
@@ -49,14 +49,13 @@ describe('Unit | UseCase | get-session-certification-candidates', function () {
     it('should return the certification candidates without complementary', async function () {
       // given
       const sessionId = 1024;
-      const candidate = domainBuilder.certification.sessionManagement.buildCertificationSessionCandidate({
+      const candidate = domainBuilder.certification.enrolment.buildCertificationSessionCandidate({
         complementaryCertificationId: undefined,
       });
       candidateRepository.findBySessionId.withArgs({ sessionId }).resolves([candidate]);
-      const expectedCandidate =
-        domainBuilder.certification.sessionManagement.buildCertificationSessionEnrolledCandidate({
-          isLinked: true,
-        });
+      const expectedCandidate = domainBuilder.certification.enrolment.buildCertificationSessionEnrolledCandidate({
+        isLinked: true,
+      });
 
       // when
       const actualCandidates = await getSessionCertificationCandidates({

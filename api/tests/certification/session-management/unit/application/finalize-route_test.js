@@ -1,6 +1,6 @@
 import { authorization } from '../../../../../lib/application/preHandlers/authorization.js';
-import { sessionController } from '../../../../../src/certification/session-management/application/session-controller.js';
-import * as moduleUnderTest from '../../../../../src/certification/session-management/application/session-route.js';
+import { finalizeController } from '../../../../../src/certification/session-management/application/finalize-controller.js';
+import * as moduleUnderTest from '../../../../../src/certification/session-management/application/finalize-route.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Router | session-route', function () {
@@ -32,7 +32,7 @@ describe('Unit | Router | session-route', function () {
     it('should respond OK', async function () {
       // given
       sinon.stub(authorization, 'verifySessionAuthorization').returns(null);
-      sinon.stub(sessionController, 'finalize').returns('ok');
+      sinon.stub(finalizeController, 'finalize').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
       const payload = {

@@ -1,17 +1,14 @@
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { getSession } from '../../../../lib/domain/usecases/get-session.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { NotFoundError } from '../../../../../../lib/domain/errors.js';
+import { getSession } from '../../../../../../src/certification/session-management/domain/usecases/get-session.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | get-session', function () {
   let sessionRepository;
-  let sessionEnrolmentRepository;
   let supervisorAccessRepository;
 
   beforeEach(function () {
     sessionRepository = {
       hasSomeCleaAcquired: sinon.stub(),
-    };
-    sessionEnrolmentRepository = {
       get: sinon.stub(),
     };
     supervisorAccessRepository = {
@@ -24,7 +21,7 @@ describe('Unit | UseCase | get-session', function () {
       // given
       const sessionId = 123;
       const sessionToFind = domainBuilder.certification.enrolment.buildSession({ id: sessionId });
-      sessionEnrolmentRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
+      sessionRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
       sessionRepository.hasSomeCleaAcquired.withArgs({ id: sessionId }).resolves(false);
       supervisorAccessRepository.sessionHasSupervisorAccess.resolves(true);
 
@@ -32,7 +29,6 @@ describe('Unit | UseCase | get-session', function () {
       const { session: actualSession } = await getSession({
         sessionId,
         sessionRepository,
-        sessionEnrolmentRepository,
         supervisorAccessRepository,
       });
 
@@ -45,7 +41,7 @@ describe('Unit | UseCase | get-session', function () {
         // given
         const sessionId = 123;
         const sessionToFind = domainBuilder.certification.enrolment.buildSession({ id: sessionId });
-        sessionEnrolmentRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
+        sessionRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
         sessionRepository.hasSomeCleaAcquired.withArgs({ id: sessionId }).resolves(false);
         supervisorAccessRepository.sessionHasSupervisorAccess.resolves(true);
 
@@ -53,7 +49,6 @@ describe('Unit | UseCase | get-session', function () {
         const { hasSupervisorAccess } = await getSession({
           sessionId,
           sessionRepository,
-          sessionEnrolmentRepository,
           supervisorAccessRepository,
         });
 
@@ -67,7 +62,7 @@ describe('Unit | UseCase | get-session', function () {
         // given
         const sessionId = 123;
         const sessionToFind = domainBuilder.certification.enrolment.buildSession({ id: sessionId });
-        sessionEnrolmentRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
+        sessionRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
         sessionRepository.hasSomeCleaAcquired.withArgs({ id: sessionId }).resolves(false);
         supervisorAccessRepository.sessionHasSupervisorAccess.resolves(false);
 
@@ -75,7 +70,6 @@ describe('Unit | UseCase | get-session', function () {
         const { hasSupervisorAccess } = await getSession({
           sessionId,
           sessionRepository,
-          sessionEnrolmentRepository,
           supervisorAccessRepository,
         });
 
@@ -89,7 +83,7 @@ describe('Unit | UseCase | get-session', function () {
         // given
         const sessionId = 123;
         const sessionToFind = domainBuilder.certification.enrolment.buildSession({ id: sessionId });
-        sessionEnrolmentRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
+        sessionRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
         sessionRepository.hasSomeCleaAcquired.withArgs({ id: sessionId }).resolves(true);
         supervisorAccessRepository.sessionHasSupervisorAccess.resolves(true);
 
@@ -97,7 +91,6 @@ describe('Unit | UseCase | get-session', function () {
         const { hasSomeCleaAcquired } = await getSession({
           sessionId,
           sessionRepository,
-          sessionEnrolmentRepository,
           supervisorAccessRepository,
         });
 
@@ -111,7 +104,7 @@ describe('Unit | UseCase | get-session', function () {
         // given
         const sessionId = 123;
         const sessionToFind = domainBuilder.certification.enrolment.buildSession({ id: sessionId });
-        sessionEnrolmentRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
+        sessionRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
         sessionRepository.hasSomeCleaAcquired.withArgs({ id: sessionId }).resolves(false);
         supervisorAccessRepository.sessionHasSupervisorAccess.resolves(true);
 
@@ -119,7 +112,6 @@ describe('Unit | UseCase | get-session', function () {
         const { hasSomeCleaAcquired } = await getSession({
           sessionId,
           sessionRepository,
-          sessionEnrolmentRepository,
           supervisorAccessRepository,
         });
 
@@ -133,13 +125,12 @@ describe('Unit | UseCase | get-session', function () {
     it('should throw an error the session', async function () {
       // given
       const sessionId = 123;
-      sessionEnrolmentRepository.get.withArgs({ id: sessionId }).rejects(new NotFoundError());
+      sessionRepository.get.withArgs({ id: sessionId }).rejects(new NotFoundError());
 
       // when
       const err = await catchErr(getSession)({
         sessionId,
         sessionRepository,
-        sessionEnrolmentRepository,
         supervisorAccessRepository,
       });
 

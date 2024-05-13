@@ -7,24 +7,14 @@ const { Serializer } = jsonapiSerializer;
 
 const serialize = function ({ session, hasSupervisorAccess, hasSomeCleaAcquired }) {
   const attributes = [
-    'address',
-    'room',
-    'examiner',
-    'date',
-    'time',
     'status',
-    'description',
-    'accessCode',
     'examinerGlobalComment',
     'hasIncident',
     'hasJoiningIssue',
     'finalizedAt',
     'resultsSentToPrescriberAt',
     'publishedAt',
-    'certificationCenterId',
-    'certificationCandidates',
     'certificationReports',
-    'supervisorPassword',
     'hasSupervisorAccess',
     'hasSomeCleaAcquired',
   ];
@@ -67,13 +57,7 @@ const deserialize = function (json) {
   const result = new SessionManagement({
     id: json.data.id,
     certificationCenterId: attributes['certification-center-id'],
-    address: attributes.address,
-    room: attributes.room,
-    examiner: attributes.examiner,
-    date: attributes.date,
-    time: attributes.time,
     status: attributes.status,
-    description: attributes.description,
     examinerGlobalComment: attributes['examiner-global-comment'],
     hasIncident: attributes['has-incident'],
     hasJoiningIssue: attributes['has-joining-issue'],

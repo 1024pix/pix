@@ -11,32 +11,18 @@ describe('Unit | Certification | session-management | Serializer | session-seria
     beforeEach(function () {
       expectedJsonApi = {
         data: {
-          type: 'sessions',
+          type: 'session-managements',
           id: '12',
           attributes: {
-            'certification-center-id': 123,
-            address: 'Nice',
-            room: '28D',
-            'access-code': '',
-            examiner: 'Antoine Toutvenant',
-            date: '2017-01-20',
-            time: '14:30',
             status: SESSION_STATUSES.PROCESSED,
-            description: '',
             'examiner-global-comment': 'It was a fine session my dear',
             'has-incident': true,
             'has-joining-issue': true,
             'finalized-at': new Date('2020-02-17T14:23:56Z'),
             'results-sent-to-prescriber-at': new Date('2020-02-20T14:23:56Z'),
             'published-at': new Date('2020-02-21T14:23:56Z'),
-            'supervisor-password': 'SOWHAT',
           },
           relationships: {
-            'certification-candidates': {
-              links: {
-                related: '/api/sessions/12/certification-candidates',
-              },
-            },
             'certification-reports': {
               links: {
                 related: '/api/sessions/12/certification-reports',
@@ -47,15 +33,6 @@ describe('Unit | Certification | session-management | Serializer | session-seria
       };
       session = new SessionManagement({
         id: 12,
-        certificationCenterId: 123,
-        address: 'Nice',
-        room: '28D',
-        examiner: 'Antoine Toutvenant',
-        date: '2017-01-20',
-        time: '14:30',
-        description: '',
-        accessCode: '',
-        supervisorPassword: 'SOWHAT',
         examinerGlobalComment: 'It was a fine session my dear',
         hasIncident: true,
         hasJoiningIssue: true,
@@ -111,20 +88,13 @@ describe('Unit | Certification | session-management | Serializer | session-seria
   describe('#deserialize()', function () {
     const jsonApiSession = {
       data: {
-        type: 'sessions',
+        type: 'session-managements',
         id: '12',
         attributes: {
-          address: 'Nice',
-          room: '28D',
-          'access-code': '',
-          examiner: 'Antoine Toutvenant',
-          date: '2017-01-20',
-          time: '14:30',
           // TODO: Fix this the next time the file is edited.
           // eslint-disable-next-line mocha/no-setup-in-describe
           status: SESSION_STATUSES.CREATED,
           description: '',
-          'certification-center-id': 42,
           'examiner-global-comment': 'It was a fine session my dear',
           'has-incident': true,
           'has-joining-issue': true,
@@ -135,11 +105,6 @@ describe('Unit | Certification | session-management | Serializer | session-seria
           certifications: {
             links: {
               related: '/api/sessions/12/certifications',
-            },
-          },
-          'certification-candidates': {
-            links: {
-              related: '/api/sessions/12/certification-candidates',
             },
           },
           'certification-reports': {
@@ -162,13 +127,6 @@ describe('Unit | Certification | session-management | Serializer | session-seria
       // then
       expect(session).to.be.instanceOf(SessionManagement);
       expect(session.id).to.equal('12');
-      expect(session.certificationCenterId).to.equal(42);
-      expect(session.address).to.equal('Nice');
-      expect(session.room).to.equal('28D');
-      expect(session.examiner).to.equal('Antoine Toutvenant');
-      expect(session.date).to.equal('2017-01-20');
-      expect(session.time).to.equal('14:30');
-      expect(session.description).to.equal('');
       expect(session.examinerGlobalComment).to.equal('It was a fine session my dear');
       expect(session.hasIncident).to.be.true;
       expect(session.hasJoiningIssue).to.be.true;

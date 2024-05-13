@@ -49,40 +49,6 @@ describe('Unit | Controller | sessionController', function () {
     });
   });
 
-  describe('#get', function () {
-    const sessionId = 123;
-
-    beforeEach(function () {
-      sinon.stub(usecases, 'getSession');
-
-      request = {
-        auth: { credentials: { userId } },
-        params: {
-          id: sessionId,
-        },
-      };
-    });
-
-    context('when session exists', function () {
-      it('should reply serialized session informations', async function () {
-        // given
-        const sessionEnrolmentSerializer = { serialize: sinon.stub() };
-        const foundSession = Symbol('foundSession');
-        const serializedSession = Symbol('serializedSession');
-        usecases.getSession.withArgs({ sessionId }).resolves({ session: foundSession, hasSomeCleaAcquired: false });
-        sessionEnrolmentSerializer.serialize
-          .withArgs({ session: foundSession, hasSupervisorAccess: undefined, hasSomeCleaAcquired: false })
-          .returns(serializedSession);
-
-        // when
-        const response = await sessionController.get(request, hFake, { sessionEnrolmentSerializer });
-
-        // then
-        expect(response).to.deep.equal(serializedSession);
-      });
-    });
-  });
-
   describe('#importCertificationCandidatesFromCandidatesImportSheet', function () {
     const sessionId = 2;
     let request;

@@ -44,5 +44,5 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'session-api';
+const name = 'finalization-api';
 export { name, register };

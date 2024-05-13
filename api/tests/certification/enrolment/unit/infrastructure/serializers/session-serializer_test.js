@@ -11,7 +11,7 @@ describe('Unit | Certification | enrolment | Serializer | session-serializer', f
     beforeEach(function () {
       expectedJsonApi = {
         data: {
-          type: 'sessions',
+          type: 'session-enrolments',
           id: '12',
           attributes: {
             'certification-center-id': 123,
@@ -29,11 +29,6 @@ describe('Unit | Certification | enrolment | Serializer | session-serializer', f
             'certification-candidates': {
               links: {
                 related: '/api/sessions/12/certification-candidates',
-              },
-            },
-            'certification-reports': {
-              links: {
-                related: '/api/sessions/12/certification-reports',
               },
             },
           },
@@ -56,42 +51,10 @@ describe('Unit | Certification | enrolment | Serializer | session-serializer', f
     context('when session does not have a link to an existing certification center', function () {
       it('should convert a SessionEnrolment model object into JSON API data including supervisor password', function () {
         // when
-        const json = serializer.serialize({ session });
+        const json = serializer.serialize(session);
 
         // then
         expect(json).to.deep.equal(expectedJsonApi);
-      });
-    });
-
-    context('when hasSupervisorAccess is provided', function () {
-      it('should add hasSupervisorAccess to the serialized session', function () {
-        // given
-        const expectedJsonApiIncludingHasSupervisorAccess = {
-          ...expectedJsonApi,
-        };
-        expectedJsonApiIncludingHasSupervisorAccess.data.attributes['has-supervisor-access'] = true;
-
-        // when
-        const json = serializer.serialize({ session, hasSupervisorAccess: true });
-
-        // then
-        expect(json).to.deep.equal(expectedJsonApiIncludingHasSupervisorAccess);
-      });
-    });
-
-    context('when hasSomeCleaAcquired is provided', function () {
-      it('should add hasSomeCleaAcquired to the serialized session', function () {
-        // given
-        const expectedJsonApiIncludingHasSomeCleaAcquired = {
-          ...expectedJsonApi,
-        };
-        expectedJsonApiIncludingHasSomeCleaAcquired.data.attributes['has-some-clea-acquired'] = true;
-
-        // when
-        const json = serializer.serialize({ session, hasSomeCleaAcquired: true });
-
-        // then
-        expect(json).to.deep.equal(expectedJsonApiIncludingHasSomeCleaAcquired);
       });
     });
   });
@@ -99,7 +62,7 @@ describe('Unit | Certification | enrolment | Serializer | session-serializer', f
   describe('#deserialize()', function () {
     const jsonApiSession = {
       data: {
-        type: 'sessions',
+        type: 'session-enrolments',
         id: '12',
         attributes: {
           address: 'Nice',
@@ -115,19 +78,9 @@ describe('Unit | Certification | enrolment | Serializer | session-serializer', f
           'certification-center-id': 42,
         },
         relationships: {
-          certifications: {
-            links: {
-              related: '/api/sessions/12/certifications',
-            },
-          },
           'certification-candidates': {
             links: {
               related: '/api/sessions/12/certification-candidates',
-            },
-          },
-          'certification-reports': {
-            links: {
-              related: '/api/sessions/12/certification-reports',
             },
           },
         },

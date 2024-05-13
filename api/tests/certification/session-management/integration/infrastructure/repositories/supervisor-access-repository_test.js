@@ -1,5 +1,5 @@
-import * as supervisorAccessRepository from '../../../../lib/infrastructure/repositories/supervisor-access-repository.js';
-import { databaseBuilder, expect, knex } from '../../../test-helper.js';
+import * as supervisorAccessRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/supervisor-access-repository.js';
+import { databaseBuilder, expect, knex } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | supervisor-access-repository', function () {
   describe('#create', function () {

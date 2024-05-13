@@ -184,4 +184,37 @@ describe('Acceptance | Controller | Session | session-route', function () {
       expect(session).to.be.undefined;
     });
   });
+
+  describe('GET /sessions/{id}', function () {
+    it('should respond with 200', async function () {
+      // given
+      const server = await createServer();
+      const userId = databaseBuilder.factory.buildUser().id;
+
+      const { id: certificationCenterId, name: certificationCenter } =
+        databaseBuilder.factory.buildCertificationCenter();
+
+      const sessionId = databaseBuilder.factory.buildSession({
+        certificationCenterId,
+        certificationCenter,
+      }).id;
+      databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
+
+      await databaseBuilder.commit();
+      const options = {
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(userId),
+        },
+        method: 'GET',
+        url: `/api/sessions/${sessionId}`,
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data.id).to.equal(sessionId + '');
+    });
+  });
 });

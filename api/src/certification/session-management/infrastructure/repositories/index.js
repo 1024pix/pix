@@ -10,6 +10,7 @@ import * as finalizedSessionRepository from './finalized-session-repository.js';
 import * as jurySessionRepository from './jury-session-repository.js';
 import * as sessionForInvigilatorKitRepository from './session-for-invigilator-kit-repository.js';
 import * as sessionRepository from './session-repository.js';
+import * as supervisorAccessRepository from './supervisor-access-repository.js';
 
 /**
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
@@ -24,6 +25,7 @@ import * as sessionRepository from './session-repository.js';
  * @typedef {issueReportCategoryRepository} IssueReportCategoryRepository
  * @typedef {certificationIssueReportRepository} CertificationIssueReportRepository
  * @typedef {sessionRepository} SessionRepository
+ * @typedef {supervisorAccessRepository} SupervisorAccessRepository
  * @typedef {certificationReportRepository} CertificationReportRepository
  */
 const repositoriesWithoutInjectedDependencies = {
@@ -37,6 +39,7 @@ const repositoriesWithoutInjectedDependencies = {
   issueReportCategoryRepository,
   certificationIssueReportRepository,
   sessionRepository,
+  supervisorAccessRepository,
   certificationReportRepository,
 };
 

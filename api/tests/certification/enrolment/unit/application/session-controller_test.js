@@ -1,5 +1,5 @@
-import { Session } from '../../../../../lib/domain/models/index.js';
 import { sessionController } from '../../../../../src/certification/enrolment/application/session-controller.js';
+import { SessionEnrolment } from '../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import { usecases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 
@@ -11,7 +11,7 @@ describe('Unit | Controller | session-controller', function () {
     const userId = 274939274;
 
     beforeEach(function () {
-      expectedSession = new Session({
+      expectedSession = new SessionEnrolment({
         certificationCenter: 'Université de dressage de loutres',
         address: 'Nice',
         room: '28D',
@@ -69,7 +69,7 @@ describe('Unit | Controller | session-controller', function () {
           attributes: {},
         },
       };
-      const savedSession = new Session({
+      const savedSession = new SessionEnrolment({
         id: '12',
         certificationCenter: 'Université de dressage de loutres',
       });
@@ -84,7 +84,7 @@ describe('Unit | Controller | session-controller', function () {
 
       // then
       expect(response).to.deep.equal(jsonApiSession);
-      expect(sessionSerializerStub.serialize).to.have.been.calledWithExactly({ session: savedSession });
+      expect(sessionSerializerStub.serialize).to.have.been.calledWithExactly(savedSession);
     });
   });
 
@@ -115,7 +115,7 @@ describe('Unit | Controller | session-controller', function () {
       const sessionSerializer = { serialize: sinon.stub(), deserialize: sinon.stub() };
       sessionSerializer.deserialize.withArgs(request.payload).returns({});
       usecases.updateSession.withArgs(updateSessionArgs).resolves(updatedSession);
-      sessionSerializer.serialize.withArgs({ session: updatedSession }).returns(updatedSession);
+      sessionSerializer.serialize.withArgs(updatedSession).returns(updatedSession);
 
       // when
       const response = await sessionController.update(request, hFake, { sessionSerializer });
@@ -146,6 +146,42 @@ describe('Unit | Controller | session-controller', function () {
       // then
       expect(usecases.deleteSession).to.have.been.calledWithExactly({
         sessionId,
+      });
+    });
+  });
+
+  describe('#get', function () {
+    const sessionId = 123;
+    let request;
+    const userId = 274939274;
+
+    beforeEach(function () {
+      sinon.stub(usecases, 'getSession');
+
+      request = {
+        auth: { credentials: { userId } },
+        params: {
+          id: sessionId,
+        },
+      };
+    });
+
+    context('when session exists', function () {
+      it('should reply serialized session informations', async function () {
+        // given
+        const sessionSerializer = { serialize: sinon.stub() };
+        const foundSession = Symbol('foundSession');
+        const serializedSession = Symbol('serializedSession');
+        usecases.getSession.withArgs({ sessionId }).resolves({ session: foundSession });
+        sessionSerializer.serialize.withArgs({ session: foundSession }).returns(serializedSession);
+
+        // when
+        const response = await sessionController.get(request, hFake, {
+          sessionSerializer,
+        });
+
+        // then
+        expect(response).to.deep.equal(serializedSession);
       });
     });
   });

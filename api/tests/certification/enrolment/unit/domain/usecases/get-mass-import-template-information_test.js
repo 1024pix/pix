@@ -14,7 +14,7 @@ describe('Unit | Certification | Session | UseCase | get-mass-import-template-in
     context('when center is not SCO', function () {
       it('should return a certification center habilitations and billingMode', async function () {
         // given
-        const center = domainBuilder.certification.sessionManagement.buildCenter({
+        const center = domainBuilder.certification.enrolment.buildCenter({
           id: 1,
           type: CenterTypes.PRO,
           habilitations: [2],
@@ -46,7 +46,7 @@ describe('Unit | Certification | Session | UseCase | get-mass-import-template-in
     context('when center is SCO', function () {
       it('should return a certification center habilitations and billingMode', async function () {
         // given
-        const center = domainBuilder.certification.sessionManagement.buildCenter({
+        const center = domainBuilder.certification.enrolment.buildCenter({
           id: 1,
           type: CenterTypes.SCO,
           habilitations: [2],

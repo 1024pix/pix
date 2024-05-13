@@ -194,11 +194,13 @@ const certification = {
     buildAssessmentResult: buildCertificationScoringAssessmentResult,
     buildV3CertificationScoring,
   },
-  enrolment: { buildSession: buildSessionEnrolment },
-  sessionManagement: {
+  enrolment: {
+    buildSession: buildSessionEnrolment,
     buildCenter,
     buildCertificationSessionCandidate,
     buildCertificationSessionEnrolledCandidate,
+  },
+  sessionManagement: {
     buildCertificationSessionComplementaryCertification,
     buildSession: buildSessionManagement,
   },

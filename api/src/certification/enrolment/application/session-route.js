@@ -31,6 +31,27 @@ const register = async function (server) {
       },
     },
     {
+      method: 'GET',
+      path: '/api/sessions/{id}',
+      config: {
+        pre: [
+          {
+            method: authorization.verifySessionAuthorization,
+            assign: 'authorizationCheck',
+          },
+        ],
+        handler: sessionController.get,
+        validate: {
+          params: Joi.object({ id: identifiersType.sessionId }),
+        },
+        tags: ['api', 'sessions', 'session enrolment'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés membre du centre de certification lié à la session **\n' +
+            '- Elle permet de récupérer la session',
+        ],
+      },
+    },
+    {
       method: 'PATCH',
       path: '/api/sessions/{id}',
       config: {

@@ -1,6 +1,5 @@
 import { ComplementaryCertification } from '../../../src/certification/complementary-certification/domain/models/ComplementaryCertification.js';
 import { CertificationAttestation } from '../../../src/certification/course/domain/models/CertificationAttestation.js';
-import { SessionEnrolment } from '../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import { AssessmentSimulator } from '../../../src/certification/flash-certification/domain/models/AssessmentSimulator.js';
 import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certification/domain/models/FlashAssessmentAlgorithm.js';
 import { CertificationAssessmentScore } from '../../../src/certification/scoring/domain/models/CertificationAssessmentScore.js';
@@ -249,7 +248,6 @@ export {
   ScoringSimulationContext,
   ScoringSimulationDataset,
   ScoringSimulationResult,
-  SessionEnrolment as Session,
   SessionJuryComment,
   SessionPublicationBatchResult,
   ShareableCertificate,
