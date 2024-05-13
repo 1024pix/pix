@@ -274,7 +274,7 @@ module('Integration | Component | SmartRandomSimulator::TubesViewer', function (
     predictedLevel: 2,
   };
   const displayedStepIndex = 3;
-  const selectDisplayedStepIndex = console.log;
+  const selectDisplayedStepIndex = () => null;
   const currentSkillId = 'recL0AotZshb9quhR';
   const knowledgeElements = [
     {
