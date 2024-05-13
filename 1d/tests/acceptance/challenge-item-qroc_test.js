@@ -35,7 +35,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
     });
 
     module('when user removes its answer', function () {
-      test('"Je vérifie" button is enabled', async function (assert) {
+      test('"Je vérifie" button is disabled', async function (assert) {
         // when
         const screen = await visit(`/assessments/${assessment.id}/challenges`);
         await fillIn(screen.getByLabelText('Rue de :'), 'la paix');
@@ -44,6 +44,18 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         // then
         assert.dom(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') })).isDisabled();
       });
+    });
+
+    test('should verify answer and disable the input', async function (assert) {
+      assessment = this.server.create('assessment');
+
+      const screen = await visit(`/assessments/${assessment.id}/challenges`);
+      const input = screen.getByLabelText('Rue de :');
+
+      await fillIn(input, 'good answer');
+      await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') }));
+      assert.dom(screen.getByText(this.intl.t('pages.challenge.messages.correct-answer'))).exists();
+      assert.dom(input).isDisabled();
     });
   });
 
@@ -62,7 +74,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
       assert.dom(input).hasValue('1990');
     });
 
-    test('should validate correct answer', async function (assert) {
+    test('should validate correct answer and disable input field', async function (assert) {
       assessment = this.server.create('assessment');
       this.server.create('challenge', 'QROCWithNumber');
 
@@ -74,6 +86,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
 
       assert.equal(this.server.schema.activityAnswers.first().value, '1990');
       assert.dom(screen.getByText(this.intl.t('pages.challenge.messages.correct-answer'))).exists();
+      assert.dom(input).isDisabled();
     });
 
     test('should validate incorrect answer', async function (assert) {
@@ -104,7 +117,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
       assert.dom(screen.getByText('Rue de :')).exists();
     });
 
-    test('should display answer feedback bubble if user validates after writing the right answer in text area', async function (assert) {
+    test('should display answer feedback bubble and disable text area if user validates after writing the right answer in text area', async function (assert) {
       // when
       const screen = await visit(`/assessments/${assessment.id}/challenges`);
 
@@ -115,6 +128,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
 
       // then
       assert.dom(screen.getByText(this.intl.t('pages.challenge.messages.correct-answer'))).exists();
+      assert.dom(textArea).isDisabled();
     });
 
     module('when user removes its answer', function () {
@@ -123,7 +137,6 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
 
         const screen = await visit(`/assessments/${assessment.id}/challenges`);
         const textArea = screen.getByLabelText('Rue de :');
-
         await fillIn(textArea, 'good-answer');
         await fillIn(textArea, '');
 
@@ -159,6 +172,23 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
 
       // then
       assert.dom('.pix-select-button').hasText('good-answer');
+    });
+
+    test('should display answer feedback bubble and disable select if user validates after selecting the right answer', async function (assert) {
+      // when
+      const screen = await visit(`/assessments/${assessment.id}/challenges`);
+
+      await clickByName('saladAriaLabel');
+      await screen.findByRole('listbox');
+      await click(screen.getByRole('option', { name: 'good-answer' }));
+      await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') }));
+
+      // then
+      assert.dom(screen.getByText(this.intl.t('pages.challenge.messages.correct-answer'))).exists();
+      await clickByName('saladAriaLabel');
+      const button = await screen.findByLabelText('saladAriaLabel');
+
+      assert.dom(button).hasAttribute('aria-disabled');
     });
   });
 });

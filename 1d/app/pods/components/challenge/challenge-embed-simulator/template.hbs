@@ -1,6 +1,11 @@
 {{! template-lint-disable style-concatenation no-inline-styles }}
 <div class="challenge-embed-simulator">
+  {{#if @hideSimulator}}
+    <div class="challenge-embed-simulator__overlay"></div>
+  {{/if}}
+
   <iframe
+    tabindex={{if @hideSimulator "-1"}}
     class="challenge-embed-simulator__iframe"
     src="{{@url}}"
     title="{{@title}}"

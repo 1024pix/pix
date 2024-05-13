@@ -3,7 +3,7 @@
     <PixCheckbox
       name="{{labeledCheckbox.value}}"
       @class="pix1d-checkbox"
-      disabled={{@isAnswerFieldDisabled}}
+      disabled={{@isDisabled}}
       checked={{labeledCheckbox.checked}}
       {{on "click" (fn this.checkboxClicked labeledCheckbox.value)}}
       data-test="challenge-response-proposal-selector"
