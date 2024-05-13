@@ -105,20 +105,22 @@
             </div>
           </td>
           <td class="finalization-report-abort-reason">
-            <PixSelect
-              @screenReaderOnly="true"
-              @id={{concat "finalization-report-abort-reason__select" report.id}}
-              @placeholder="-- {{t 'common.actions.choose'}} --"
-              @onChange={{fn @onChangeAbortReason report}}
-              @hideDefaultOption={{true}}
-              @value={{report.abortReason}}
-              required="required"
-              @options={{this.abortOptions}}
-            >
-              <:label>{{t
-                  "pages.session-finalization.reporting.uncompleted-reports-information.table.labels.abandonment-reason-label"
-                }}</:label>
-            </PixSelect>
+            <div>
+              <PixSelect
+                @screenReaderOnly="true"
+                @id={{concat "finalization-report-abort-reason__select" report.id}}
+                @placeholder="-- {{t 'common.actions.choose'}} --"
+                @onChange={{fn @onChangeAbortReason report}}
+                @hideDefaultOption={{true}}
+                @value={{report.abortReason}}
+                required="required"
+                @options={{this.abortOptions}}
+              >
+                <:label>{{t
+                    "pages.session-finalization.reporting.uncompleted-reports-information.table.labels.abandonment-reason-label"
+                  }}</:label>
+              </PixSelect>
+            </div>
           </td>
         </tr>
       {{/each}}

@@ -3,9 +3,9 @@
   <td>{{@member.firstName}}</td>
   <td>
     {{#if this.isEditionMode}}
-      <div id="selectCertificationCenterRole">
+      <div class="members-list-item__container">
+
         <PixSelect
-          class="table__input"
           @screenReaderOnly={{true}}
           @hideDefaultOption={{true}}
           @placeholder="{{t 'pages.team.members.actions.select-role.label'}}"
@@ -68,7 +68,7 @@
   {{#if @shouldDisplayRefererColumn}}
     <td>
       {{#if @member.isReferer}}
-        <div class="members-list-item__is-referer">
+        <div class="members-list-item__container">
           <PixTag class="members-list-item__tag" @color="primary">
             {{t "pages.team.pix-referer"}}
           </PixTag>
