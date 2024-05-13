@@ -451,7 +451,10 @@
         "session-not-accessible": "La session que vous tentez de rejoindre n'est plus accessible.",
         "wrong-account": "Les informations saisies correspondent à un.e candidat.e inscrit.e à la session et déjà connecté.e avec un autre compte. Vérifiez que vous êtes connecté.e au compte qui a démarré la certification.",
         "wrong-account-sco": "Vous utilisez actuellement un compte qui n'est pas lié à votre établissement.\nConnectez vous au compte avec lequel vous avez effectué vos parcours ou demandez de l'aide au surveillant.",
-        "wrong-account-sco-link": "Comment trouver le compte lié à l'établissement ?"
+        "wrong-account-sco-link": {
+          "label": "Comment trouver le compte lié à l'établissement ?",
+          "url": "https://pix.fr/support/enseignement-scolaire/enseignant-ou-personnel-de-direction/que-faire-si-une-eleve-ne-parvient-pas-rejoindre-sa-session-de-certification"
+        }
       },
       "first-title": "Rejoindre une session",
       "form": {
