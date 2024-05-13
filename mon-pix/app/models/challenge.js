@@ -11,12 +11,7 @@ export default class Challenge extends Model {
   @attr('string') embedTitle;
   @attr('string') embedHeight;
   @attr('string') format;
-  @attr('string', {
-    defaultValue() {
-      return '';
-    },
-  })
-  illustrationAlt;
+  @attr('string') illustrationAlt;
   @attr('string') illustrationUrl;
   @attr('string') instruction;
   @attr('string') alternativeInstruction;
