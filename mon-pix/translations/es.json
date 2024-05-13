@@ -450,7 +450,10 @@
         "session-not-accessible": "La sesión a la que intentas entrar ya no es accesible.",
         "wrong-account": "La información introducida corresponde a un candidato inscrito en la sesión y que ya ha iniciado sesión con otra cuenta. Compruebe que ha iniciado sesión con la cuenta que inició la certificación.",
         "wrong-account-sco": "Actualmente está utilizando una cuenta que no está vinculada a su escuela.\nInicie sesión en la cuenta con la que completó sus cursos o pida ayuda a su supervisor.",
-        "wrong-account-sco-link": "¿Cómo encuentro la cuenta vinculada al establecimiento?"
+        "wrong-account-sco-link": {
+          "label": "¿Cómo encuentro la cuenta vinculada al establecimiento?",
+          "url": "https://pix.fr/support/enseignement-scolaire/enseignant-ou-personnel-de-direction/que-faire-si-une-eleve-ne-parvient-pas-rejoindre-sa-session-de-certification"
+        }
       },
       "first-title": "Participar en una sesión",
       "form": {

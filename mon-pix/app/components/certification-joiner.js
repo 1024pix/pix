@@ -135,8 +135,8 @@ export default class CertificationJoiner extends Component {
       } else if (_isMatchingReconciledStudentNotFoundError(err)) {
         this.errorMessage = this.intl.t('pages.certification-joiner.error-messages.wrong-account-sco');
         this.errorMessageLink = {
-          label: this.intl.t('pages.certification-joiner.error-messages.wrong-account-sco-link'),
-          url: 'https://pix.fr/support/enseignement-scolaire/enseignant-ou-personnel-de-direction/que-faire-si-une-eleve-ne-parvient-pas-rejoindre-sa-session-de-certification',
+          label: this.intl.t('pages.certification-joiner.error-messages.wrong-account-sco-link.label'),
+          url: this.intl.t('pages.certification-joiner.error-messages.wrong-account-sco-link.url'),
         };
       } else if (_isWrongAccount(err)) {
         this.errorMessage = this.intl.t('pages.certification-joiner.error-messages.wrong-account');
