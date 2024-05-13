@@ -274,7 +274,12 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
     it('should return all the certification center habilitations', async function () {
       // given
       databaseBuilder.factory.buildComplementaryCertification({ id: 1, label: 'Certif comp 1', key: 'COMP_1' });
-      databaseBuilder.factory.buildComplementaryCertification({ id: 2, label: 'Certif comp 2', key: 'COMP_2' });
+      databaseBuilder.factory.buildComplementaryCertification({
+        id: 2,
+        label: 'Certif comp 2',
+        key: 'COMP_2',
+        hasComplementaryReferential: true,
+      });
       databaseBuilder.factory.buildComplementaryCertification({ id: 3, label: 'Certif comp 3', key: 'COMP_3' });
       databaseBuilder.factory.buildCertificationCenter({
         id: 1,
@@ -351,8 +356,8 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
         isV3Pilot: true,
         relatedOrganizationTags: [],
         habilitations: [
-          { id: 1, label: 'Certif comp 1', key: 'COMP_1' },
-          { id: 2, label: 'Certif comp 2', key: 'COMP_2' },
+          { id: 1, label: 'Certif comp 1', key: 'COMP_1', hasComplementaryReferential: false },
+          { id: 2, label: 'Certif comp 2', key: 'COMP_2', hasComplementaryReferential: true },
         ],
       });
       const expectedSecondAllowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
@@ -363,7 +368,7 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
         isRelatedToManagingStudentsOrganization: false,
         isV3Pilot: true,
         relatedOrganizationTags: [],
-        habilitations: [{ id: 3, label: 'Certif comp 3', key: 'COMP_3' }],
+        habilitations: [{ id: 3, label: 'Certif comp 3', key: 'COMP_3', hasComplementaryReferential: false }],
       });
 
       const expectedCertificationPointOfContact = domainBuilder.buildCertificationPointOfContact({
@@ -387,7 +392,12 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
         it('should return the certification point of contact with tags and habilitations', async function () {
           // given
           databaseBuilder.factory.buildComplementaryCertification({ id: 1, label: 'Certif comp 1', key: 'COMP_1' });
-          databaseBuilder.factory.buildComplementaryCertification({ id: 2, label: 'Certif comp 2', key: 'COMP_2' });
+          databaseBuilder.factory.buildComplementaryCertification({
+            id: 2,
+            label: 'Certif comp 2',
+            key: 'COMP_2',
+            hasComplementaryReferential: true,
+          });
           databaseBuilder.factory.buildCertificationCenter({
             id: 1,
             name: 'Centre de certif',
@@ -459,8 +469,8 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
             isRelatedToManagingStudentsOrganization: false,
             relatedOrganizationTags: ['tag1', 'tag2'],
             habilitations: [
-              { id: 1, label: 'Certif comp 1', key: 'COMP_1' },
-              { id: 2, label: 'Certif comp 2', key: 'COMP_2' },
+              { id: 1, label: 'Certif comp 1', key: 'COMP_1', hasComplementaryReferential: false },
+              { id: 2, label: 'Certif comp 2', key: 'COMP_2', hasComplementaryReferential: true },
             ],
           });
           const expectedCertificationPointOfContact = domainBuilder.buildCertificationPointOfContact({

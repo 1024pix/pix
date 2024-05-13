@@ -22,6 +22,13 @@ describe('Acceptance | Route | CertificationPointOfContact', function () {
         userId,
         certificationCenterId,
       }).id;
+      const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
+        hasComplementaryReferential: true,
+      });
+      databaseBuilder.factory.buildComplementaryCertificationHabilitation({
+        certificationCenterId,
+        complementaryCertificationId: complementaryCertification.id,
+      });
 
       // Pilot complementary
       const certificationCenterComplementaryAlonePilotId = databaseBuilder.factory.buildCertificationCenter({
@@ -74,7 +81,14 @@ describe('Acceptance | Route | CertificationPointOfContact', function () {
         {
           attributes: {
             'external-id': 'EX123',
-            habilitations: [],
+            habilitations: [
+              {
+                id: complementaryCertification.id,
+                label: complementaryCertification.label,
+                key: complementaryCertification.key,
+                hasComplementaryReferential: true,
+              },
+            ],
             'is-access-blocked-aefe': false,
             'is-access-blocked-agri': false,
             'is-access-blocked-college': false,

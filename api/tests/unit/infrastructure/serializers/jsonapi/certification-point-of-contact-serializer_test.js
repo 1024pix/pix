@@ -6,6 +6,8 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
   describe('#serialize()', function () {
     it('should convert a CertificationPointOfContact model into JSON API data', function () {
       // given
+      const habilitation1 = { id: 1, label: 'Certif comp 1', key: 'CERTIF_COMP_1', hasComplementaryReferential: true };
+      const habilitation2 = { id: 2, label: 'Certif comp 2', key: 'CERTIF_COMP_2', hasComplementaryReferential: true };
       sinon.stub(settings.features, 'pixCertifScoBlockedAccessDateCollege').value('2022-06-01');
       sinon.stub(settings.features, 'pixCertifScoBlockedAccessDateLycee').value('2022-08-01');
 
@@ -19,10 +21,7 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
         isRelatedToManagingStudentsOrganization: false,
         isV3Pilot: false,
         relatedOrganizationTags: [],
-        habilitations: [
-          { id: 1, name: 'Certif comp 1' },
-          { id: 2, name: 'Certif comp 2' },
-        ],
+        habilitations: [habilitation1, habilitation2],
       });
 
       const allowedCertificationCenterAccess2 = domainBuilder.buildAllowedCertificationCenterAccess({
@@ -121,10 +120,7 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
               'pix-certif-sco-blocked-access-date-college': '2022-06-01',
               'pix-certif-sco-blocked-access-date-lycee': '2022-08-01',
               'related-organization-tags': [],
-              habilitations: [
-                { id: 1, name: 'Certif comp 1' },
-                { id: 2, name: 'Certif comp 2' },
-              ],
+              habilitations: [habilitation1, habilitation2],
             },
           },
           {

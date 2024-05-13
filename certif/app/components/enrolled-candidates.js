@@ -15,7 +15,7 @@ export default class EnrolledCandidates extends Component {
   @tracked newCandidate = {};
   @tracked shouldDisplayCertificationCandidateModal = false;
   @tracked certificationCandidateInDetailsModal = null;
-  @tracked showNewCertificationCandidateModal = false;
+  @tracked showNewCandidateModal = false;
 
   @action
   async deleteCertificationCandidate(certificationCandidate) {
@@ -67,7 +67,7 @@ export default class EnrolledCandidates extends Component {
     const success = await this.saveCertificationCandidate(certificationCandidate);
     if (success) {
       this.candidatesInStaging.removeObject(candidate);
-      this.closeNewCertificationCandidateModal();
+      this.closeNewCandidateModal();
     }
     return success;
   }
@@ -133,14 +133,14 @@ export default class EnrolledCandidates extends Component {
   }
 
   @action
-  openNewCertificationCandidateModal() {
+  openNewCandidateModal() {
     this.addCertificationCandidateInStaging();
-    this.showNewCertificationCandidateModal = true;
+    this.showNewCandidateModal = true;
   }
 
   @action
-  closeNewCertificationCandidateModal() {
-    this.showNewCertificationCandidateModal = false;
+  closeNewCandidateModal() {
+    this.showNewCandidateModal = false;
   }
 
   _createCertificationCandidateRecord(certificationCandidateData) {

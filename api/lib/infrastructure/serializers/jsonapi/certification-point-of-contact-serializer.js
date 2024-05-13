@@ -62,7 +62,12 @@ const serialize = function (certificationPointOfContact) {
         (access) => {
           return {
             ...access,
-            habilitations: access.habilitations,
+            habilitations: access.habilitations.map(({ id, label, key, hasComplementaryReferential }) => ({
+              id,
+              label,
+              key,
+              hasComplementaryReferential,
+            })),
             isAccessBlockedCollege: access.isAccessBlockedCollege(),
             isAccessBlockedLycee: access.isAccessBlockedLycee(),
             isAccessBlockedAEFE: access.isAccessBlockedAEFE(),

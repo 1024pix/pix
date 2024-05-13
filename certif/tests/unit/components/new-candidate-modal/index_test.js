@@ -3,15 +3,15 @@ import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import createGlimmerComponent from '../../helpers/create-glimmer-component';
+import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 
-module('Unit | Component | new-certification-candidate-modal', function (hooks) {
+module('Unit | Component | new-candidate-modal', function (hooks) {
   setupTest(hooks);
 
   let modal;
 
   hooks.beforeEach(function () {
-    modal = createGlimmerComponent('component:new-certification-candidate-modal');
+    modal = createGlimmerComponent('component:new-candidate-modal');
   });
 
   module('#selectBirthGeoCodeOption', function () {

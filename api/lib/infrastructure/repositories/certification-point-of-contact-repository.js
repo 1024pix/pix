@@ -78,7 +78,12 @@ async function _findAllowedCertificationCenterAccesses(certificationCenterIds) {
       isRelatedToManagingStudentsOrganization: 'organizations.isManagingStudents',
       tags: knex.raw('array_agg(?? order by ??)', ['tags.name', 'tags.name']),
       habilitations: knex.raw(
-        `array_agg(json_build_object('id', "complementary-certifications".id, 'label', "complementary-certifications".label, 'key', "complementary-certifications".key) order by "complementary-certifications".id)`,
+        `array_agg(json_build_object(
+          'id', "complementary-certifications".id,
+          'label', "complementary-certifications".label,
+          'key', "complementary-certifications".key,
+          'hasComplementaryReferential', "complementary-certifications"."hasComplementaryReferential"
+        ) order by "complementary-certifications".id)`,
       ),
       isV3Pilot: 'certification-centers.isV3Pilot',
       isComplementaryAlonePilot: knex.raw(
@@ -123,6 +128,21 @@ async function _findAllowedCertificationCenterAccesses(certificationCenterIds) {
     .orderBy('certification-centers.id')
     .groupBy('certification-centers.id', 'organizations.isManagingStudents');
 
+  return _toDomain(allowedCertificationCenterAccessDTOs);
+}
+
+function _cleanTags(allowedCertificationCenterAccessDTO) {
+  return _(allowedCertificationCenterAccessDTO.tags).compact().uniq().value();
+}
+
+function _cleanHabilitations(allowedCertificationCenterAccessDTO) {
+  return _(allowedCertificationCenterAccessDTO.habilitations)
+    .filter((habilitation) => habilitation.id > 0)
+    .uniqBy('id')
+    .value();
+}
+
+function _toDomain(allowedCertificationCenterAccessDTOs) {
   return _.map(allowedCertificationCenterAccessDTOs, (allowedCertificationCenterAccessDTO) => {
     return new AllowedCertificationCenterAccess({
       ...allowedCertificationCenterAccessDTO,
@@ -133,17 +153,6 @@ async function _findAllowedCertificationCenterAccesses(certificationCenterIds) {
       habilitations: _cleanHabilitations(allowedCertificationCenterAccessDTO),
     });
   });
-
-  function _cleanTags(allowedCertificationCenterAccessDTO) {
-    return _(allowedCertificationCenterAccessDTO.tags).compact().uniq().value();
-  }
-
-  function _cleanHabilitations(allowedCertificationCenterAccessDTO) {
-    return _(allowedCertificationCenterAccessDTO.habilitations)
-      .filter((habilitation) => Boolean(habilitation.id))
-      .uniqBy('id')
-      .value();
-  }
 }
 
 async function _findNotDisabledCertificationCenterMemberships(userId) {
