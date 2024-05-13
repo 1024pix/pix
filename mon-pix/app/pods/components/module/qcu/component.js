@@ -22,4 +22,8 @@ export default class ModuleQcu extends ModuleElement {
   get userResponse() {
     return [this.selectedAnswerId];
   }
+
+  get disableInput() {
+    return super.disableInput ? 'true' : null;
+  }
 }

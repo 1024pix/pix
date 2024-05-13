@@ -13,6 +13,10 @@ export default class ModuleQcm extends ModuleElement {
     return [...this.selectedAnswerIds];
   }
 
+  get disableInput() {
+    return super.disableInput ? 'true' : null;
+  }
+
   resetAnswers() {
     this.selectedAnswerIds = new Set();
   }
