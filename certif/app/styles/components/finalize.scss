@@ -45,6 +45,10 @@
 
 .finalization-report-abort-reason {
 
+  div {
+    display: flex;
+  }
+
   select:invalid {
     border: var(--pix-error-700) 1px solid;
   }
