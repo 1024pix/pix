@@ -1,5 +1,71 @@
 # Pix Changelog
 
+## v4.143.0 (13/05/2024)
+
+
+### :rocket: Amélioration
+- [#8670](https://github.com/1024pix/pix/pull/8670) [FEATURE] Afficher les étapes de Smart Random® dans le simulateur (PIX-11562).
+- [#8831](https://github.com/1024pix/pix/pull/8831) [FEATURE] Mettre à jour le lien de redirection vers le centre d'aide sur Pix Certif (PIX-12405).
+- [#8829](https://github.com/1024pix/pix/pull/8829) [FEATURE] Conditionner l'affichage du bloc en fonction de si la complémentaire sélectionnée possède un référentiel externe (PIX-12215).
+- [#8861](https://github.com/1024pix/pix/pull/8861) [FEATURE] Désactiver les champs de réponses et les embed après avoir répondu (Pix-12425).
+- [#8837](https://github.com/1024pix/pix/pull/8837) [FEATURE] Arrêt du support des Elements et migration vers Components dans les modules (PIX-12454).
+
+### :building_construction: Tech
+- [#8868](https://github.com/1024pix/pix/pull/8868) [TECH] Renomme le répertoire 1d en junior (PIX-12326).
+- [#8863](https://github.com/1024pix/pix/pull/8863) [TECH] Migrer la route GET /api/oidc/authorization-url vers src/identity-access-management (PIX-12452).
+- [#8864](https://github.com/1024pix/pix/pull/8864) [TECH] Construit l'application 1d dans le répertoire junior.
+- [#8859](https://github.com/1024pix/pix/pull/8859) [TECH] Migrer la route GET /api/oidc/redirect-logout-url vers src/identity-access-management (PIX-12450).
+- [#8620](https://github.com/1024pix/pix/pull/8620) [TECH] Protège de commit sur la branche dev via Husky.
+- [#8858](https://github.com/1024pix/pix/pull/8858) [TECH] Migrer la route GET /api/oidc/identity-providers vers src/identity-access-management (PIX-12446).
+- [#8851](https://github.com/1024pix/pix/pull/8851) [TECH] Migrer la route GET /api/admin/oidc/identity-providers vers src/identity-access-management (PIX-12435).
+- [#8857](https://github.com/1024pix/pix/pull/8857) [TECH] Montée de version de ember-source et ember-data en 5+ (PIX-12408).
+- [#8852](https://github.com/1024pix/pix/pull/8852) [TECH] Renommer la variable emitOpsEventEachSeconds.
+- [#8836](https://github.com/1024pix/pix/pull/8836) [TECH] Déplacer la route /api/campaign/{campaignId}/divisions dans son BC (PIX-12423).
+- [#8754](https://github.com/1024pix/pix/pull/8754) [TECH] Ajoute la certification complementaire PRO_SANTE (PIX-12284).
+- [#8697](https://github.com/1024pix/pix/pull/8697) [TECH] Remise à jour de la config `docker compose`.
+- [#8844](https://github.com/1024pix/pix/pull/8844) [TECH] Supprimer les propriétés de configuration des SSO OIDC devenues inutiles (PIX-12439).
+- [#8833](https://github.com/1024pix/pix/pull/8833) [TECH] Utiliser le service générique pour les services OIDC non-spécifiques (PIX-10193).
+
+### :bug: Correction
+- [#8895](https://github.com/1024pix/pix/pull/8895) [BUGFIX] Le texte alternatif des épreuves ne s'affichait pas si c'était null (PIX-12479).
+- [#8849](https://github.com/1024pix/pix/pull/8849) [BUGFIX] Corriger l'alignement de la tooltip des crédits (PIX-12443).
+
+### :arrow_up: Montée de version
+- [#8899](https://github.com/1024pix/pix/pull/8899) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.12 (mon-pix).
+- [#8897](https://github.com/1024pix/pix/pull/8897) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.12 (load-testing).
+- [#8893](https://github.com/1024pix/pix/pull/8893) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.12 (certif).
+- [#8889](https://github.com/1024pix/pix/pull/8889) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.12 (api).
+- [#8890](https://github.com/1024pix/pix/pull/8890) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.12 (audit-logger).
+- [#8883](https://github.com/1024pix/pix/pull/8883) [BUMP] Update adobe/s3mock Docker tag to v3.7.3 (.circleci).
+- [#8886](https://github.com/1024pix/pix/pull/8886) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.12 (admin).
+- [#8885](https://github.com/1024pix/pix/pull/8885) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.12 (1d).
+- [#8884](https://github.com/1024pix/pix/pull/8884) [BUMP] Update adobe/s3mock Docker tag to v3.7.3 (docker).
+- [#8879](https://github.com/1024pix/pix/pull/8879) [BUMP] Update adobe/s3mock Docker tag to v3.7.2 (docker).
+- [#8878](https://github.com/1024pix/pix/pull/8878) [BUMP] Update adobe/s3mock Docker tag to v3.7.2 (.circleci).
+- [#8877](https://github.com/1024pix/pix/pull/8877) [BUMP] Update dependency redis to v7.2.4.
+- [#8876](https://github.com/1024pix/pix/pull/8876) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.12 (orga).
+- [#8873](https://github.com/1024pix/pix/pull/8873) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.12 (admin).
+- [#8875](https://github.com/1024pix/pix/pull/8875) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.12 (mon-pix).
+- [#8874](https://github.com/1024pix/pix/pull/8874) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.12 (certif).
+- [#8870](https://github.com/1024pix/pix/pull/8870) [BUMP] Update dependency @1024pix/pix-ui to ^45.5.0 (admin).
+- [#8872](https://github.com/1024pix/pix/pull/8872) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.12 (1d).
+- [#8869](https://github.com/1024pix/pix/pull/8869) [BUMP] Update dependency @1024pix/pix-ui to ^45.4.4 (1d).
+- [#8867](https://github.com/1024pix/pix/pull/8867) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.11 (orga).
+- [#8853](https://github.com/1024pix/pix/pull/8853) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.11 (api).
+- [#8866](https://github.com/1024pix/pix/pull/8866) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.11 (mon-pix).
+- [#8865](https://github.com/1024pix/pix/pull/8865) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.11 (load-testing).
+- [#8856](https://github.com/1024pix/pix/pull/8856) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.11 (dossier racine).
+- [#8860](https://github.com/1024pix/pix/pull/8860) [BUMP] Update dependency @1024pix/pix-ui to ^45.4.2 (1d).
+- [#8855](https://github.com/1024pix/pix/pull/8855) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.11 (certif).
+- [#8854](https://github.com/1024pix/pix/pull/8854) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.11 (audit-logger).
+- [#8847](https://github.com/1024pix/pix/pull/8847) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.11 (admin).
+- [#8846](https://github.com/1024pix/pix/pull/8846) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.11 (1d).
+- [#8839](https://github.com/1024pix/pix/pull/8839) [BUMP] Update dependency @1024pix/pix-ui to ^45.4.1 (admin).
+- [#8526](https://github.com/1024pix/pix/pull/8526) [BUMP] Update dependency @1024pix/pix-ui to v45 (1d) (PIX-12415).
+
+### :coffee: Autre
+- [#8888](https://github.com/1024pix/pix/pull/8888) [TYPO] Correction d'une petite typo dans la page de création d'une orga.
+
 ## v4.142.0 (06/05/2024)
 
 
