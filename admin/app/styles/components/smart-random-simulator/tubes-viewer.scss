@@ -1,0 +1,114 @@
+.tubes-viewer__table {
+  width: 500px;
+  table-layout: auto;
+  background: var(--pix-neutral-0);
+  border: 1px solid var(--pix-neutral-500);
+  border-radius: 10px;
+
+  td, th {
+    border: 1px solid var(--pix-neutral-100);
+  }
+
+  tr {
+    height: 40px;
+  }
+
+  th {
+    padding: 5px;
+    text-align: left;
+  }
+
+  td {
+    padding: 0;
+    text-align: center;
+  }
+
+  &__skill {
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin: 0 auto;
+    border-radius: 5px;
+
+    &.missing {
+      background: none;
+    }
+
+    &.current {
+      background: var(--pix-primary-500);
+    }
+
+    &.present {
+      background: var(--pix-neutral-20);
+      border: 1px solid var(--pix-primary-500);
+    }
+
+    &.validated {
+      background: var(--pix-success-500);
+    }
+
+    &.invalidated {
+      background: var(--pix-error-500);
+    }
+
+    &.eliminated {
+      background: repeating-linear-gradient(
+          45deg,
+          var(--pix-neutral-0),
+          var(--pix-neutral-0) 2px,
+          rgb(94 108 132 / 70%)  2px,
+          rgb(94 108 132 / 70%) 4px
+      );
+      border: 1px solid var(--pix-primary-500);
+    }
+
+  }
+
+  &__captions {
+    margin-top: var(--pix-spacing-3x);
+    caption-side: bottom;
+  }
+
+  &__caption {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+  }
+
+  .tubes-viewer__table__caption .tubes-viewer__table__skill {
+    margin: 0 10px 0 0;
+  }
+}
+
+.tubes-viewer__steps {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  margin-bottom: var(--pix-spacing-4x);
+
+  li {
+    display: flex;
+    margin-top: 10px;
+
+    &.current {
+      display: flex;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+  }
+
+
+  li:not(:last-child)::after {
+    display: flex;
+    align-items: center;
+    margin-left: var(--pix-spacing-1x);
+    color: var(--pix-neutral-100);
+    content: '\25BA';
+  }
+
+  li.selected::after, li:first-child::after {
+    color: var(--pix-primary-300);
+  }
+
+}

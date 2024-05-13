@@ -1,0 +1,32 @@
+.current-challenge {
+  &__name {
+    text-decoration: underline;
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+    margin-top: 10px;
+
+    button {
+      margin-right: 10px;
+    }
+  }
+}
+
+.current-challenge__instruction {
+  font-size: 12px;
+}
+
+.current-challenge__title {
+  font-size: 1.4rem;
+  border-bottom: 1px solid var(--pix-neutral-100);
+}
+
+.current-challenge__details {
+  li {
+    height: 34px;
+  }
+}

@@ -62,7 +62,7 @@ export default class SmartRandomParams extends Component {
       .items({
         source: Joi.string().valid('direct', 'inferred').required(),
         status: Joi.string().valid('validated', 'invalidated', 'reset').required(),
-        answerId: Joi.string().required(),
+        answerId: Joi.number().required(),
         skillId: Joi.string().required(),
       })
       .required(),
