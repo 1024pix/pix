@@ -73,6 +73,7 @@
               min="0"
               placeholder={{block.placeholder}}
               @value={{get @answerValues block.input}}
+              aria-label={{block.ariaLabel}}
               disabled={{@isDisabled}}
               {{! To activate validation button as soon as possible }}
               {{on "keyup" (fn this.onInputChange block.input)}}
