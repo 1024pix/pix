@@ -181,6 +181,26 @@ describe('Integration | Infrastructure | Repository | Prescriber', function () {
           expect(foundPrescriber.userOrgaSettings.currentOrganization.tags[0]).to.be.instanceOf(Tag);
         });
       });
+      context('when organizations have school codes', function () {
+        it('should set code into organizations associated to the prescriber', async function () {
+          // given
+          const school = databaseBuilder.factory.buildSchool();
+          databaseBuilder.factory.buildMembership({
+            userId: user.id,
+            organizationId: school.organizationId,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const foundPrescriber = await prescriberRepository.getPrescriber(user.id);
+
+          // then
+          const schoolMembership = foundPrescriber.memberships.find(
+            (membership) => membership.organization.id === school.organizationId,
+          );
+          expect(schoolMembership.organization.schoolCode).to.equal(school.code);
+        });
+      });
 
       describe('#areNewYearOrganizationLearnersImported', function () {
         context('when newYearOrganizationLearnersImportDate is defined in the env.', function () {

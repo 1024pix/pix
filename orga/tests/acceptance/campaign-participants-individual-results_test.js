@@ -17,7 +17,7 @@ module('Acceptance | Campaign Participants Individual Results', function (hooks)
 
   hooks.beforeEach(async () => {
     user = createUserWithMembershipAndTermsOfServiceAccepted();
-    createPrescriberByUser(user);
+    createPrescriberByUser({ user });
 
     server.create('campaign', { id: 1 });
 

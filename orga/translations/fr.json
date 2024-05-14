@@ -300,8 +300,8 @@
       "team": "Équipe"
     },
     "pix-orga": "Pix Orga",
-    "places":{
-      "link" : "voir le détail",
+    "places": {
+      "link": "voir le détail",
       "number": "{count, plural, =0 {0 place disponible} =1 {1 place disponible} other {{count} places disponibles}}"
     },
     "team-members": {
@@ -808,6 +808,26 @@
         }
       },
       "list": {
+        "banner": {
+          "admin": {
+            "abstract": "Pour commencer, veuillez ",
+            "import-text": "importer vos élèves",
+            "info": " depuis Onde (fichier exportable dans le menu Listes & documents > Extractions > Élèves de l’école ou leur responsable)."
+          },
+          "copypaste-container": {
+            "abstract": "Démarrez vos premières missions avec vos élèves en utilisant le",
+            "button": {
+              "success": "copié !",
+              "tooltip": "copier le lien"
+            },
+            "hint": "N’hésitez pas à le mettre en favori sur vos postes.",
+            "import-text": "lien de l'école"
+          },
+          "non-admin": {
+            "abstract": "Pour commencer, demandez à votre administrateur d’importer les élèves."
+          },
+          "welcome": "Bonjour et bienvenue dans Pix Orga !"
+        },
         "caption": "Liste des missions",
         "empty-state": "Il n'y a pas de missions",
         "headers": {

@@ -31,6 +31,7 @@ describe('Integration | Repository | UserOrgaSettings', function () {
     'archivedBy',
     'identityProviderForCampaigns',
     'parentOrganizationId',
+    'schoolCode',
   ];
 
   let user;

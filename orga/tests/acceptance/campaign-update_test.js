@@ -15,7 +15,7 @@ module('Acceptance | Campaign Update', function (hooks) {
   module('when user is ADMIN', function (hooks) {
     hooks.beforeEach(async function () {
       user = createUserManagingStudents('ADMIN');
-      createPrescriberByUser(user);
+      createPrescriberByUser({ user });
       await authenticateSession(user.id);
     });
 
@@ -52,7 +52,7 @@ module('Acceptance | Campaign Update', function (hooks) {
   module('when user is a MEMBER and owner of the campaign', function (hooks) {
     hooks.beforeEach(async function () {
       user = createUserManagingStudents('MEMBER');
-      createPrescriberByUser(user);
+      createPrescriberByUser({ user });
       await authenticateSession(user.id);
     });
 
@@ -71,7 +71,7 @@ module('Acceptance | Campaign Update', function (hooks) {
   module('when user is a MEMBER and not own the campaign', function (hooks) {
     hooks.beforeEach(async function () {
       user = createUserManagingStudents('MEMBER');
-      createPrescriberByUser(user);
+      createPrescriberByUser({ user });
       await authenticateSession(user.id);
     });
 

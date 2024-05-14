@@ -14,7 +14,7 @@ module('Acceptance | Campaign Analysis', function (hooks) {
 
   hooks.beforeEach(async () => {
     const user = createUserWithMembershipAndTermsOfServiceAccepted();
-    createPrescriberByUser(user);
+    createPrescriberByUser({ user });
 
     const campaignAnalysis = server.create('campaign-analysis', 'withTubeRecommendations');
     const campaignCollectiveResult = server.create('campaign-collective-result');

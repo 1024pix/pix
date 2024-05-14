@@ -15,7 +15,7 @@ module('Acceptance | Missions Detail', function (hooks) {
   test('All data should be loaded', async function (assert) {
     // given
     const user = createUserWithMembershipAndTermsOfServiceAccepted();
-    const prescriber = createPrescriberByUser(user);
+    const prescriber = createPrescriberByUser({ user });
     prescriber.features = { ...prescriber.features, MISSIONS_MANAGEMENT: true };
     await authenticateSession(user.id);
 
@@ -37,7 +37,7 @@ module('Acceptance | Missions Detail', function (hooks) {
     test('should display empty state', async function (assert) {
       // given
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
-      const prescriber = createPrescriberByUser(user);
+      const prescriber = createPrescriberByUser({ user });
       prescriber.features = { ...prescriber.features, MISSIONS_MANAGEMENT: true };
       await authenticateSession(user.id);
 
@@ -57,7 +57,7 @@ module('Acceptance | Missions Detail', function (hooks) {
   module('when there are mission learners', function (hooks) {
     hooks.beforeEach(async () => {
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
-      const prescriber = createPrescriberByUser(user);
+      const prescriber = createPrescriberByUser({ user });
       prescriber.features = { ...prescriber.features, MISSIONS_MANAGEMENT: true };
       await authenticateSession(user.id);
 

@@ -1,8 +1,39 @@
 {{page-title (t "pages.missions.title")}}
 
+<PixBanner class="mission-list-banner">
+  {{t "pages.missions.list.banner.welcome"}}
+  <br />
+  {{#if @model.isAdminOfTheCurrentOrganization}}
+    {{t "pages.missions.list.banner.admin.abstract"}}
+    <LinkTo @route="authenticated.import-organization-participants">
+      {{t "pages.missions.list.banner.admin.import-text"}}
+    </LinkTo>
+    {{t "pages.missions.list.banner.admin.info"}}
+  {{else}}
+    {{t "pages.missions.list.banner.non-admin.abstract"}}
+  {{/if}}
+  <br /><br />
+  <div class="mission-list-banner__copypaste-container">
+    {{t "pages.missions.list.banner.copypaste-container.abstract"}}
+    &nbsp;
+
+    <a href={{@model.pixJuniorSchoolUrl}}>
+      {{t "pages.missions.list.banner.copypaste-container.import-text"}}
+    </a>
+
+    <CopyPasteButton
+      @clipBoardtext={{@model.pixJuniorSchoolUrl}}
+      @successMessage="{{t 'pages.missions.list.banner.copypaste-container.button.success'}}"
+      @defaultMessage="{{t 'pages.missions.list.banner.copypaste-container.button.tooltip'}}"
+    />
+  </div>
+  {{t "pages.missions.list.banner.copypaste-container.hint"}}
+</PixBanner>
+
 <h1 class="mission-list__title page-title">{{t "pages.missions.title"}}</h1>
-{{#if @model}}
+{{#if @model.missions}}
   <div class="panel">
+
     <table class="table content-text content-text--small participation-list__table">
       <caption class="screen-reader-only">{{t "pages.missions.list.caption"}}</caption>
       <thead>
@@ -13,7 +44,7 @@
         </tr>
       </thead>
       <tbody>
-        {{#each @model as |mission|}}
+        {{#each @model.missions as |mission|}}
           <tr class="tr--clickable" {{on "click" (fn this.goToMissionDetails mission.id)}}>
             <td>
               {{mission.name}}

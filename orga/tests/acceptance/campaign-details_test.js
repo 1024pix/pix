@@ -31,7 +31,7 @@ module('Acceptance | Campaign Details', function (hooks) {
     test('it should go to campaigns', async function (assert) {
       // given
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
-      createPrescriberByUser(user);
+      createPrescriberByUser({ user });
 
       await authenticateSession(user.id);
 
@@ -50,7 +50,7 @@ module('Acceptance | Campaign Details', function (hooks) {
     test('[A11Y] it should contain accessibility aria-label nav', async function (assert) {
       // given
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
-      createPrescriberByUser(user);
+      createPrescriberByUser({ user });
 
       await authenticateSession(user.id);
 

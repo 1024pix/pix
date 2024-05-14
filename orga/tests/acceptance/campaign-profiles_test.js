@@ -19,7 +19,7 @@ module('Acceptance | Campaign Profiles', function (hooks) {
   const rowCount = 100;
   hooks.beforeEach(async () => {
     user = createUserWithMembershipAndTermsOfServiceAccepted();
-    createPrescriberByUser(user);
+    createPrescriberByUser({ user });
     await authenticateSession(user.id);
     server.create('campaign', { id: 1, type: 'PROFILES_COLLECTION', sharedParticipationsCount: 1 });
     server.createList('campaign-participation', rowCount, { campaignId: 1 });

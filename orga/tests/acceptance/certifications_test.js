@@ -13,7 +13,7 @@ module('Acceptance | Certifications page', function (hooks) {
 
   hooks.beforeEach(async () => {
     const user = createUserManagingStudents('ADMIN');
-    createPrescriberByUser(user);
+    createPrescriberByUser({ user });
 
     await authenticateSession(user.id);
   });

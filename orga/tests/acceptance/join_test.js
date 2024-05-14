@@ -13,6 +13,7 @@ import {
   createUserWithMembership,
   createUserWithMembershipAndTermsOfServiceAccepted,
 } from '../helpers/test-init';
+
 const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
 
 module('Acceptance | join', function (hooks) {
@@ -151,7 +152,7 @@ module('Acceptance | join', function (hooks) {
 
       hooks.beforeEach(() => {
         user = createUserWithMembership();
-        createPrescriberByUser(user);
+        createPrescriberByUser({ user });
 
         code = 'ABCDEFGH01';
         organizationInvitationId = server.create('organizationInvitation', {
@@ -225,7 +226,7 @@ module('Acceptance | join', function (hooks) {
 
       hooks.beforeEach(() => {
         user = createUserWithMembershipAndTermsOfServiceAccepted();
-        createPrescriberByUser(user);
+        createPrescriberByUser({ user });
 
         code = 'ABCDEFGH01';
         organizationInvitationId = server.create('organizationInvitation', {
@@ -311,7 +312,7 @@ module('Acceptance | join', function (hooks) {
 
         hooks.beforeEach(() => {
           user = createUserWithMembership();
-          createPrescriberByUser(user);
+          createPrescriberByUser({ user });
 
           code = 'ABCDEFGH01';
           const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
@@ -353,7 +354,7 @@ module('Acceptance | join', function (hooks) {
 
           hooks.beforeEach(() => {
             user = createUserWithMembership();
-            createPrescriberByUser(user);
+            createPrescriberByUser({ user });
 
             code = 'ABCDEFGH01';
             const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;

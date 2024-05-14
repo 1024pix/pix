@@ -23,7 +23,7 @@ module('Acceptance | Student Import', function (hooks) {
   module('When admin', function (hooks) {
     hooks.beforeEach(async function () {
       user = createUserManagingStudents('ADMIN', 'SUP');
-      createPrescriberByUser(user);
+      createPrescriberByUser({ user });
 
       await authenticateSession(user.id);
     });
@@ -46,7 +46,7 @@ module('Acceptance | Student Import', function (hooks) {
   module('When member', function (hooks) {
     hooks.beforeEach(async function () {
       user = createUserManagingStudents('MEMBER', 'SUP');
-      createPrescriberByUser(user);
+      createPrescriberByUser({ user });
 
       await authenticateSession(user.id);
     });

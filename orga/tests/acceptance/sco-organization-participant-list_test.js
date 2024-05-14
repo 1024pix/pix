@@ -40,7 +40,7 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
     module('When organization is not managing students or is not SCO', function (hooks) {
       hooks.beforeEach(async function () {
         user = createUserWithMembershipAndTermsOfServiceAccepted();
-        createPrescriberByUser(user);
+        createPrescriberByUser({ user });
 
         await authenticateSession(user.id);
       });
@@ -57,7 +57,7 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
     module('When organization is SCO and managing students', function (hooks) {
       hooks.beforeEach(async function () {
         user = createUserManagingStudents();
-        createPrescriberByUser(user);
+        createPrescriberByUser({ user });
 
         await authenticateSession(user.id);
       });

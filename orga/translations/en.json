@@ -300,8 +300,8 @@
       "team": "Team"
     },
     "pix-orga": "Pix Orga",
-    "places":{
-      "link" : "See details",
+    "places": {
+      "link": "See details",
       "number": "{count, plural, =0 {0 seat available} =1 {1 seat available} other {{count, number} seats available}}"
     },
     "team-members": {
@@ -808,6 +808,26 @@
         }
       },
       "list": {
+        "banner": {
+          "admin": {
+            "abstract": "To get started, please ",
+            "import-text": "import students",
+            "info": "from Onde (exportable file in the menu Lists & documents > Extractions > School pupils or their supervisor)."
+          },
+          "copypaste-container": {
+            "abstract": "Start your missions with your students by using this ",
+            "button": {
+              "success": "copied !",
+              "tooltip": "copy link"
+            },
+            "hint": "Please add it to your favorites",
+            "import-text": "school link"
+          },
+          "non-admin": {
+            "abstract": "To get started, ask your administrator to import students."
+          },
+          "welcome": "Hello and welcome to Pix Orga!"
+        },
         "caption": "List of missions",
         "empty-state": "There is not any mission",
         "headers": {

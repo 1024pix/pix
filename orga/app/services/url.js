@@ -9,6 +9,7 @@ const PIX_STATUS_DOMAIN = 'https://status.pix.org';
 
 export default class Url extends Service {
   @service currentDomain;
+  @service currentUser;
   @service intl;
 
   SHOWCASE_WEBSITE_LOCALE_PATH = {
@@ -32,6 +33,7 @@ export default class Url extends Service {
 
   definedCampaignsRootUrl = ENV.APP.CAMPAIGNS_ROOT_URL;
   pixAppUrlWithoutExtension = ENV.APP.PIX_APP_URL_WITHOUT_EXTENSION;
+  pixJuniorUrl = ENV.APP.PIX_JUNIOR_URL;
 
   definedHomeUrl = ENV.rootURL;
 
@@ -79,6 +81,14 @@ export default class Url extends Service {
       url += '?lang=en';
     }
     return url;
+  }
+
+  get pixJuniorSchoolUrl() {
+    const schoolCode = this.currentUser.organization.schoolCode;
+    if (!schoolCode) {
+      return '';
+    }
+    return `${this.pixJuniorUrl}/schools/${schoolCode}`;
   }
 
   _computeShowcaseWebsiteUrl({ en: englishPath, fr: frenchPath }) {

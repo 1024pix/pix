@@ -23,7 +23,7 @@ module('Acceptance | Sup Organization Participant List', function (hooks) {
   module('When admin', function (hooks) {
     hooks.beforeEach(async function () {
       user = createUserManagingStudents('ADMIN', 'SUP');
-      createPrescriberByUser(user);
+      createPrescriberByUser({ user });
 
       await authenticateSession(user.id);
 

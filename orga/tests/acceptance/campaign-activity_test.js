@@ -16,7 +16,7 @@ module('Acceptance | Campaign Activity', function (hooks) {
 
   hooks.beforeEach(async function () {
     const user = createUserWithMembershipAndTermsOfServiceAccepted();
-    createPrescriberByUser(user);
+    createPrescriberByUser({ user });
     campaignId = 1;
     server.create('campaign', 'ofTypeAssessment', { id: campaignId, participationsCount: 1, ownerId: user.id });
     const campaignAssessmentParticipationResult = server.create(
