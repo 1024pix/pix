@@ -86,7 +86,7 @@ import { EmailingAttempt } from './EmailingAttempt.js';
 import { EmailModificationDemand } from './EmailModificationDemand.js';
 import { FinalizedSession } from './FinalizedSession.js';
 import { Framework } from './Framework.js';
-import { Group } from './Group.js';
+import { Group } from '../../../src/prescription/campaign/domain/models/Group.js';
 import { Hint } from './Hint.js';
 import { JuryCertification } from './JuryCertification.js';
 import { JurySession } from './JurySession.js';

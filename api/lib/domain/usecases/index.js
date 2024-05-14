@@ -134,7 +134,7 @@ import * as courseRepository from '../../infrastructure/repositories/course-repo
 import * as dataProtectionOfficerRepository from '../../infrastructure/repositories/data-protection-officer-repository.js';
 import * as flashAssessmentResultRepository from '../../infrastructure/repositories/flash-assessment-result-repository.js';
 import * as frameworkRepository from '../../infrastructure/repositories/framework-repository.js';
-import * as groupRepository from '../../infrastructure/repositories/group-repository.js';
+import * as groupRepository from '../../../src/prescription/campaign/infrastructure/repositories/group-repository.js';
 import { repositories } from '../../infrastructure/repositories/index.js';
 import * as juryCertificationRepository from '../../infrastructure/repositories/jury-certification-repository.js';
 import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
