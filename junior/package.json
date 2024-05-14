@@ -30,7 +30,7 @@
     "preinstall": "npx check-engine",
     "start": "ember serve --proxy http://localhost:3000",
     "test": "ember test",
-    "test:ci": "npm run test",
+    "test:ci": "npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX))",
     "test:lint": "run-p --continue-on-error test lint"
   },
   "devDependencies": {
