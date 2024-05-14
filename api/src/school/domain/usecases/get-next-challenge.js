@@ -19,7 +19,7 @@ export async function getNextChallenge({
   const answers = await activityAnswerRepository.findByActivity(activity.id);
 
   const challengeId = mission.getChallengeId({
-    activityInfo: new ActivityInfo({ level: activity.level, stepIndex: 0 }),
+    activityInfo: new ActivityInfo({ level: activity.level, stepIndex: activity.stepIndex }),
     challengeIndex: answers.length,
     alternativeVersion: activity.alternativeVersion,
   });

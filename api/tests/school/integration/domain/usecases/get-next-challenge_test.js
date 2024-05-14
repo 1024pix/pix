@@ -36,16 +36,39 @@ describe('Integration | Usecase | get-next-challenge', function () {
       it('should return next challenge and update assessment', async function () {
         const { assessmentId, missionId } = databaseBuilder.factory.buildMissionAssessment();
 
-        const { id: activityId } = databaseBuilder.factory.buildActivity({
+        const { id: firstStepActivityId } = databaseBuilder.factory.buildActivity({
           assessmentId,
           level: Activity.levels.VALIDATION,
+          status: Activity.status.SUCCEEDED,
+          stepIndex: 0,
+          createdAt: new Date('2022-09-14'),
         });
-        databaseBuilder.factory.buildActivityAnswer({ activityId, challengeId: 'first_va_challenge_id' });
+        const { id: secondStepActivityId } = databaseBuilder.factory.buildActivity({
+          assessmentId,
+          level: Activity.levels.VALIDATION,
+          status: Activity.status.STARTED,
+          stepIndex: 1,
+          createdAt: new Date('2022-09-15'),
+        });
+        databaseBuilder.factory.buildActivityAnswer({
+          activityId: firstStepActivityId,
+          challengeId: 'first_va_challenge_id',
+        });
+        databaseBuilder.factory.buildActivityAnswer({
+          activityId: firstStepActivityId,
+          challengeId: 'second_va_challenge_id',
+        });
+        databaseBuilder.factory.buildActivityAnswer({
+          activityId: secondStepActivityId,
+          challengeId: 'first_va_challenge_on_step_1_id',
+        });
 
         await databaseBuilder.commit();
 
         mockLearningContent({
-          challenges: [learningContentBuilder.buildChallenge({ id: 'second_va_challenge_id', skillId: 'skill_id' })],
+          challenges: [
+            learningContentBuilder.buildChallenge({ id: 'second_va_challenge_on_step_2_id', skillId: 'skill_id' }),
+          ],
           skills: [learningContentBuilder.buildSkill({ id: 'skill_id' })],
           missions: [
             learningContentBuilder.buildMission({
@@ -54,6 +77,9 @@ describe('Integration | Usecase | get-next-challenge', function () {
                 steps: [
                   {
                     validationChallenges: [['first_va_challenge_id'], ['second_va_challenge_id']],
+                  },
+                  {
+                    validationChallenges: [['first_va_challenge_on_step_1_id'], ['second_va_challenge_on_step_2_id']],
                   },
                 ],
               },
@@ -72,9 +98,9 @@ describe('Integration | Usecase | get-next-challenge', function () {
         });
 
         const updatedAssessment = await knex('assessments').where({ id: assessmentId }).first();
-        expect(challenge.id).to.equal('second_va_challenge_id');
+        expect(challenge.id).to.equal('second_va_challenge_on_step_2_id');
         expect(challenge).to.be.instanceOf(Challenge);
-        expect(updatedAssessment.lastChallengeId).to.equal('second_va_challenge_id');
+        expect(updatedAssessment.lastChallengeId).to.equal('second_va_challenge_on_step_2_id');
       });
     });
   });
