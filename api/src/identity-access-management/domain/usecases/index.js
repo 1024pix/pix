@@ -60,6 +60,7 @@ const usecases = injectDependencies(usecasesWithoutInjectedDependencies, depende
 /**
  * @typedef {Object} AuthenticationUsecases
  * @property {addOidcProvider} addOidcProvider
+ * @property {authenticateOidcUser} authenticateOidcUser
  * @property {createOidcUser} createOidcUser
  * @property {getAllIdentityProviders} getAllIdentityProviders
  * @property {getAuthorizationUrl} getAuthorizationUrl

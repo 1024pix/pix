@@ -1,8 +1,118 @@
+import { BadRequestError, UnauthorizedError } from '../../../../lib/application/http-errors.js';
 import { oidcProviderController } from '../../../../src/identity-access-management/application/oidc-provider/oidc-provider.controller.js';
 import { usecases } from '../../../../src/identity-access-management/domain/usecases/index.js';
-import { expect, hFake, sinon } from '../../../test-helper.js';
+import { catchErr, expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Application | Controller | oidc-provider', function () {
+  describe('#authenticateOidcUser', function () {
+    const code = 'ABCD';
+    const redirectUri = 'https://redirect.uri.fr';
+    const state = 'state';
+    const identityProviderState = 'identityProviderState';
+    const nonce = 'nonce';
+    const identityProvider = 'OIDC_EXAMPLE_NET';
+    const pixAccessToken = 'pixAccessToken';
+
+    let request;
+
+    beforeEach(function () {
+      request = {
+        auth: { credentials: { userId: 123 } },
+        deserializedPayload: {
+          identityProvider,
+          code,
+          redirectUri,
+          state: identityProviderState,
+        },
+        yar: { get: sinon.stub(), commit: sinon.stub() },
+      };
+
+      sinon.stub(usecases, 'authenticateOidcUser');
+    });
+
+    it('authenticates the user with payload parameters', async function () {
+      // given
+      usecases.authenticateOidcUser.resolves({
+        pixAccessToken,
+        logoutUrlUUID: '0208f50b-f612-46aa-89a0-7cdb5fb0d312',
+        isAuthenticationComplete: true,
+      });
+
+      request.yar.get.onCall(0).returns(state);
+      request.yar.get.onCall(1).returns(nonce);
+
+      // when
+      await oidcProviderController.authenticateOidcUser(request, hFake);
+
+      // then
+      expect(usecases.authenticateOidcUser).to.have.been.calledWithExactly({
+        audience: undefined,
+        code,
+        identityProviderCode: identityProvider,
+        nonce: 'nonce',
+        redirectUri,
+        sessionState: state,
+        state: identityProviderState,
+      });
+      expect(request.yar.commit).to.have.been.calledOnce;
+    });
+
+    context('when state cookie is missing', function () {
+      it('returns a BadRequestError', async function () {
+        // given
+        request.yar.get.returns(null);
+
+        // when
+        const error = await catchErr(oidcProviderController.authenticateOidcUser)(request, hFake);
+
+        // then
+        expect(error).to.be.an.instanceOf(BadRequestError);
+        expect(error.message).to.equal('Required cookie "state" is missing');
+      });
+    });
+
+    context('when authentication is complete', function () {
+      it('returns PIX access token and logout url uuid', async function () {
+        // given
+        usecases.authenticateOidcUser.resolves({
+          pixAccessToken,
+          logoutUrlUUID: '0208f50b-f612-46aa-89a0-7cdb5fb0d312',
+          isAuthenticationComplete: true,
+        });
+
+        // when
+        const response = await oidcProviderController.authenticateOidcUser(request, hFake);
+
+        // then
+        const expectedResult = {
+          access_token: pixAccessToken,
+          logout_url_uuid: '0208f50b-f612-46aa-89a0-7cdb5fb0d312',
+        };
+        expect(response.source).to.deep.equal(expectedResult);
+      });
+    });
+
+    context('when pix access token does not exist', function () {
+      it('returns UnauthorizedError', async function () {
+        // given
+        const authenticationKey = 'aaa-bbb-ccc';
+        const givenName = 'Mélusine';
+        const familyName = 'TITEGOUTTE';
+        const email = 'melu@example.net';
+        usecases.authenticateOidcUser.resolves({ authenticationKey, givenName, familyName, email });
+
+        // when
+        const error = await catchErr(oidcProviderController.authenticateOidcUser)(request, hFake);
+
+        // then
+        expect(error).to.be.an.instanceOf(UnauthorizedError);
+        expect(error.message).to.equal("L'utilisateur n'a pas de compte Pix");
+        expect(error.code).to.equal('SHOULD_VALIDATE_CGU');
+        expect(error.meta).to.deep.equal({ authenticationKey, givenName, familyName, email });
+      });
+    });
+  });
+
   describe('#createUser', function () {
     it('creates an oidc user and returns access token and logout url UUID', async function () {
       // given
