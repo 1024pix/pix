@@ -60,6 +60,32 @@ export const oidcProviderRoutes = [
   },
   {
     method: 'POST',
+    path: '/api/oidc/token',
+    config: {
+      auth: false,
+      validate: {
+        payload: Joi.object({
+          data: {
+            attributes: {
+              identity_provider: Joi.string().required(),
+              code: Joi.string().required(),
+              redirect_uri: Joi.string().required(),
+              state: Joi.string().required(),
+              audience: Joi.string().valid('app', 'admin').optional(),
+            },
+          },
+        }),
+      },
+      handler: (request, h) => oidcProviderController.authenticateOidcUser(request, h),
+      notes: [
+        "- Cette route permet de récupérer un token pour un utilisateur provenant d'un partenaire.\n" +
+          "- Elle retournera également un access token Pix correspondant à l'utilisateur.",
+      ],
+      tags: ['identity-access-management', 'api', 'oidc'],
+    },
+  },
+  {
+    method: 'POST',
     path: '/api/oidc/users',
     config: {
       auth: false,
