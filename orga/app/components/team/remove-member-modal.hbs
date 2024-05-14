@@ -17,13 +17,13 @@
     <div class="remove-member-modal__action-buttons--container">
       <ul class="remove-member-modal__action-buttons--list">
         <li>
-          <PixButton @triggerAction={{@onClose}} @backgroundColor="neutral">
+          <PixButton @triggerAction={{@onClose}} @variant="tertiary">
             {{t "common.actions.cancel"}}
           </PixButton>
         </li>
 
         <li>
-          <PixButton @triggerAction={{@onSubmit}} @backgroundColor="error">
+          <PixButton @triggerAction={{@onSubmit}} @variant="error">
             {{t "pages.team-members.remove-membership-modal.actions.remove"}}
           </PixButton>
         </li>

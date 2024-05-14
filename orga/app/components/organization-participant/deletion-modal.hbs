@@ -33,10 +33,10 @@
     {{/if}}
   </:content>
   <:footer>
-    <PixButton @backgroundColor="transparent-light" @isBorderVisible={{true}} @triggerAction={{@onCloseModal}}>
+    <PixButton @variant="secondary" @triggerAction={{@onCloseModal}}>
       {{t "common.actions.cancel"}}
     </PixButton>
-    <PixButton @backgroundColor="error" @triggerAction={{@onTriggerAction}} @isDisabled={{not this.canDelete}}>
+    <PixButton @variant="error" @triggerAction={{@onTriggerAction}} @isDisabled={{not this.canDelete}}>
       {{t "pages.organization-participants.deletion-modal.delete-button"}}
     </PixButton>
   </:footer>
