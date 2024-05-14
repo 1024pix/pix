@@ -61,29 +61,6 @@ const register = async function (server) {
     },
     {
       method: 'POST',
-      path: '/api/oidc/users',
-      config: {
-        auth: false,
-        validate: {
-          payload: Joi.object({
-            data: {
-              attributes: {
-                identity_provider: Joi.string().required(),
-                authentication_key: Joi.string().required(),
-              },
-            },
-          }),
-        },
-        handler: oidcController.createUser,
-        notes: [
-          "'- Cette route permet de créer un compte Pix pour un utilisateur provenant d'un partenaire.\n'" +
-            "- Elle retournera un access token Pix correspondant à l'utilisateur.",
-        ],
-        tags: ['api', 'oidc', 'authentication'],
-      },
-    },
-    {
-      method: 'POST',
       path: '/api/oidc/user/check-reconciliation',
       config: {
         auth: false,
