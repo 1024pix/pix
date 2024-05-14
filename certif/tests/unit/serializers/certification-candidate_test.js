@@ -20,7 +20,6 @@ module('Unit | Serializer | certification-candidate', function (hooks) {
       birthInseeCode: 76255,
       birthPostalCode: 76260,
       sex: 'F',
-      complementaryCertification: { key: 'COMP', label: 'complémentaire', hasComplementaryReferential: true },
     });
     const snapshot = record._createSnapshot();
 
@@ -38,6 +37,20 @@ module('Unit | Serializer | certification-candidate', function (hooks) {
     assert.strictEqual(json.data.attributes['birth-insee-code'], '76255');
     assert.strictEqual(json.data.attributes['birth-postal-code'], '76260');
     assert.strictEqual(json.data.attributes.sex, 'F');
-    assert.deepEqual(json.data.attributes['complementary-certification'], { key: 'COMP', label: 'complémentaire' });
+    assert.strictEqual(json.data.attributes['complementary-certification'], undefined);
+  });
+
+  module('when there is a complementary certification', function () {
+    test('should serialize a certification candidate', function (assert) {
+      const store = this.owner.lookup('service:store');
+      const serializer = this.owner.lookup('serializer:certification-candidate');
+      const record = store.createRecord('certification-candidate', {
+        complementaryCertification: { key: 'COMP', label: 'complémentaire', hasComplementaryReferential: true },
+      });
+      const snapshot = record._createSnapshot();
+
+      const json = serializer.serialize(snapshot);
+      assert.deepEqual(json.data.attributes['complementary-certification'], { key: 'COMP', label: 'complémentaire' });
+    });
   });
 });
