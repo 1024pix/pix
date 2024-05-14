@@ -129,13 +129,9 @@ describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
 
   context('save import state in database', function () {
     describe('success case', function () {
-      it('should save uploaded, validated and imported state each after each', async function () {
+      it('should save imported state', async function () {
         // given
-        organizationImportRepositoryStub.getLastByOrganizationId
-          .withArgs(organizationId)
-          // we create a new instance for each call so save spies will store different
-          // args object
-          .callsFake(() => new OrganizationImport({ ...organizationImport }));
+        organizationImportRepositoryStub.getLastByOrganizationId.withArgs(organizationId).resolves(organizationImport);
 
         const csvContent = `${supOrganizationLearnerImportHeader}
         Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;BAD;BAD;
@@ -153,21 +149,13 @@ describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
         });
 
         // then
-        const firstCallArg = organizationImportRepositoryStub.save.firstCall.firstArg;
-        const secondCallArg = organizationImportRepositoryStub.save.secondCall.firstArg;
-
-        expect(firstCallArg.status).to.equal('VALIDATED');
-        expect(secondCallArg.status).to.equal('IMPORTED');
+        expect(organizationImportRepositoryStub.save.firstCall.firstArg.status).to.equal('IMPORTED');
       });
     });
 
     describe('errors case', function () {
       beforeEach(function () {
-        organizationImportRepositoryStub.getLastByOrganizationId
-          .withArgs(organizationId)
-          // we create a new instance for each call so save spies will store different
-          // args object
-          .callsFake(() => new OrganizationImport({ ...organizationImport }));
+        organizationImportRepositoryStub.getLastByOrganizationId.withArgs(organizationId).resolves(organizationImport);
 
         const csvContent = `${supOrganizationLearnerImportHeader}
           Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;BAD;BAD;
@@ -175,46 +163,24 @@ describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
         importStorageStub.readFile.withArgs({ filename: organizationImport.filename }).resolves(toStream(csvContent));
       });
 
-      describe('when there is an validation error', function () {
-        it('should save VALIDATION_ERROR status', async function () {
-          // given
-          const csvContent = `${supOrganizationLearnerImportHeader}
-          Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;BAD;BAD;
-          Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;BAD;BAD;
-          `.trim();
-          importStorageStub.readFile.withArgs({ filename: organizationImport.filename }).resolves(toStream(csvContent));
+      it('should save IMPORT_ERROR status', async function () {
+        // given
+        const insertError = new Error('insert fail');
+        supOrganizationLearnerRepositoryStub.addStudents.rejects(insertError);
 
-          // when
-          await catchErr(importSupOrganizationLearners)({
-            organizationId,
-            i18n,
-            supOrganizationLearnerRepository: supOrganizationLearnerRepositoryStub,
-            organizationImportRepository: organizationImportRepositoryStub,
-            importStorage: importStorageStub,
-          });
-
-          // then
-          expect(organizationImportRepositoryStub.save.firstCall.firstArg.status).to.equal('VALIDATION_ERROR');
+        // when
+        const error = await catchErr(importSupOrganizationLearners)({
+          organizationId,
+          i18n,
+          supOrganizationLearnerRepository: supOrganizationLearnerRepositoryStub,
+          organizationImportRepository: organizationImportRepositoryStub,
+          importStorage: importStorageStub,
         });
-      });
 
-      describe('when there is an import error', function () {
-        it('should save IMPORT_ERROR status', async function () {
-          // given
-          supOrganizationLearnerRepositoryStub.addStudents.rejects('errors');
-
-          // when
-          await catchErr(importSupOrganizationLearners)({
-            organizationId,
-            i18n,
-            supOrganizationLearnerRepository: supOrganizationLearnerRepositoryStub,
-            organizationImportRepository: organizationImportRepositoryStub,
-            importStorage: importStorageStub,
-          });
-
-          // then
-          expect(organizationImportRepositoryStub.save.secondCall.args[0].status).to.equal('IMPORT_ERROR');
-        });
+        // then
+        const firstCallFirstArg = organizationImportRepositoryStub.save.firstCall.firstArg;
+        expect(firstCallFirstArg.errors).to.deep.equals([error]);
+        expect(firstCallFirstArg.status).to.equal('IMPORT_ERROR');
       });
     });
   });
