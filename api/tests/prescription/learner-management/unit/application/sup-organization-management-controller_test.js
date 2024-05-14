@@ -24,6 +24,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
     serializedResponse = Symbol('serializedResponse');
     userId = Symbol('userId');
 
+    sinon.stub(usecases, 'uploadCsvFile');
     sinon.stub(usecases, 'importSupOrganizationLearners');
     sinon.stub(usecases, 'replaceSupOrganizationLearners');
     supOrganizationLearnerWarningSerializerStub = { serialize: sinon.stub() };
@@ -32,7 +33,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
   });
 
   context('#importSupOrganizationLearners', function () {
-    it('should call importSupOrganizationLearners usecase and return 200', async function () {
+    it('should call uploadCsvFile and importSupOrganizationLearners usecase and return 200', async function () {
       const params = { id: organizationId };
       const request = {
         auth: { credentials: { userId } },
@@ -40,10 +41,10 @@ describe('Unit | Controller | sup-organization-management-controller', function 
         params,
         i18n,
       };
+      usecases.uploadCsvFile.rejects().withArgs({ userId, organizationId, payload: request.payload, i18n }).resolves();
       usecases.importSupOrganizationLearners
+        .rejects()
         .withArgs({
-          userId,
-          payload: request.payload,
           organizationId,
           i18n,
         })
@@ -75,10 +76,9 @@ describe('Unit | Controller | sup-organization-management-controller', function 
         params,
         i18n,
       };
+      usecases.uploadCsvFile.withArgs({ userId, payload: request.payload, organizationId, i18n }).resolves();
       usecases.importSupOrganizationLearners
         .withArgs({
-          userId,
-          payload: request.payload,
           organizationId,
           i18n,
         })
