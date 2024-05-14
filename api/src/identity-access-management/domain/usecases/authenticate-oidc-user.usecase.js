@@ -1,7 +1,24 @@
-import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
-import { ForbiddenAccess } from '../../../../src/shared/domain/errors.js';
+import { PIX_ADMIN } from '../../../authorization/domain/constants.js';
+import { ForbiddenAccess } from '../../../shared/domain/errors.js';
 
-const authenticateOidcUser = async function ({
+/**
+ * @typedef {function} authenticateOidcUser
+ * @param {Object} params
+ * @param {string} params.sessionState
+ * @param {string} params.state
+ * @param {string} params.code
+ * @param {string} params.redirectUri
+ * @param {string} params.nonce
+ * @param {string} params.audience
+ * @param params.oidcAuthenticationService
+ * @param {AuthenticationSessionService} params.authenticationSessionService
+ * @param {AuthenticationMethodRepository} params.authenticationMethodRepository
+ * @param {UserRepository} params.userRepository
+ * @param {UserLoginRepository} params.userLoginRepository
+ * @param {AdminMemberRepository} params.adminMemberRepository
+ * @return {Promise<{isAuthenticationComplete: boolean, givenName: string, familyName: string, authenticationKey: string, email: string}|{isAuthenticationComplete: boolean, pixAccessToken: string, logoutUrlUUID: string}>}
+ */
+async function authenticateOidcUser({
   sessionState,
   state,
   code,
@@ -60,7 +77,7 @@ const authenticateOidcUser = async function ({
   await userLoginRepository.updateLastLoggedAt({ userId: user.id });
 
   return { pixAccessToken, logoutUrlUUID, isAuthenticationComplete: true };
-};
+}
 
 export { authenticateOidcUser };
 

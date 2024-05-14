@@ -1,13 +1,13 @@
 import { POLE_EMPLOI } from '../../../../../lib/domain/constants/oidc-identity-providers.js';
 import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
 import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';
-import { authenticateOidcUser } from '../../../../../lib/domain/usecases/authentication/authenticate-oidc-user.js';
 import * as appMessages from '../../../../../src/authorization/domain/constants.js';
+import { authenticateOidcUser } from '../../../../../src/identity-access-management/domain/usecases/authenticate-oidc-user.usecase.js';
 import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
 import { AdminMember } from '../../../../../src/shared/domain/models/AdminMember.js';
 import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | authenticate-oidc-user', function () {
+describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oidc-user', function () {
   context('when identityProvider is generic', function () {
     let oidcAuthenticationService;
     let authenticationSessionService;

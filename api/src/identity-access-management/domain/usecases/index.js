@@ -26,9 +26,9 @@ import { addOidcProviderValidator } from '../validators/add-oidc-provider.valida
 const path = dirname(fileURLToPath(import.meta.url));
 
 const repositories = {
+  adminMemberRepository,
   authenticationMethodRepository,
   campaignRepository,
-  adminMemberRepository,
   oidcProviderRepository,
   userLoginRepository,
   userRepository,
@@ -46,8 +46,8 @@ const services = {
 };
 const validators = {
   addOidcProviderValidator,
-  userValidator,
   passwordValidator,
+  userValidator,
 };
 const dependencies = Object.assign({ config }, repositories, services, validators);
 
