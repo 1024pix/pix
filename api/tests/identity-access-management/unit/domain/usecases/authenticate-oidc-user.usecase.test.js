@@ -15,6 +15,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
     let userRepository;
     let adminMemberRepository;
     let userLoginRepository;
+    let oidcAuthenticationServiceRegistry;
     const externalIdentityId = '094b83ac-2e20-4aa8-b438-0bc91748e4a6';
 
     beforeEach(function () {
@@ -27,15 +28,17 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
         exchangeCodeForTokens: sinon.stub(),
         getUserInfo: sinon.stub(),
       };
-
+      oidcAuthenticationServiceRegistry = {
+        loadOidcProviderServices: sinon.stub().resolves(),
+        configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
+        getOidcProviderServiceByCode: sinon.stub().returns(oidcAuthenticationService),
+      };
       authenticationMethodRepository = {
         updateAuthenticationComplementByUserIdAndIdentityProvider: sinon.stub(),
       };
-
       authenticationSessionService = {
         save: sinon.stub(),
       };
-
       userRepository = { findByExternalIdentifier: sinon.stub() };
       adminMemberRepository = {
         get: sinon.stub(),
@@ -48,7 +51,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
     context('check access by audience', function () {
       context('when audience is pix-admin', function () {
         context('when user has no role and is therefore not an admin member', function () {
-          it('should throw an error', async function () {
+          it('throws an error', async function () {
             // given
             const audience = appMessages.PIX_ADMIN.AUDIENCE;
             _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
@@ -58,7 +61,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
             // when
             const error = await catchErr(authenticateOidcUser)({
               audience,
-              oidcAuthenticationService,
+              oidcAuthenticationServiceRegistry,
               userRepository,
               adminMemberRepository,
             });
@@ -71,7 +74,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
         });
 
         context('when user has a role but admin membership is disabled', function () {
-          it('should throw an error', async function () {
+          it('throws an error', async function () {
             // given
             const audience = appMessages.PIX_ADMIN.AUDIENCE;
             const adminMember = new AdminMember({
@@ -86,7 +89,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
             // when
             const error = await catchErr(authenticateOidcUser)({
               audience,
-              oidcAuthenticationService,
+              oidcAuthenticationServiceRegistry,
               userRepository,
               adminMemberRepository,
             });
@@ -111,7 +114,8 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
         sessionState: 'state',
         state: 'state',
         nonce: 'nonce',
-        oidcAuthenticationService,
+        identityProviderCode: 'OIDC_EXAMPLE_NET',
+        oidcAuthenticationServiceRegistry,
         authenticationSessionService,
         authenticationMethodRepository,
         userRepository,
@@ -119,6 +123,10 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
       });
 
       // then
+      expect(oidcAuthenticationServiceRegistry.loadOidcProviderServices).to.have.been.calledOnce;
+      expect(oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode).to.have.been.calledWithExactly(
+        'OIDC_EXAMPLE_NET',
+      );
       expect(oidcAuthenticationService.exchangeCodeForTokens).to.have.been.calledOnceWithExactly({
         code: 'code',
         redirectUri: 'redirectUri',
@@ -136,7 +144,8 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
       await authenticateOidcUser({
         stateReceived: 'state',
         stateSent: 'state',
-        oidcAuthenticationService,
+        identityProviderCode: 'OIDC_EXAMPLE_NET',
+        oidcAuthenticationServiceRegistry,
         authenticationSessionService,
         authenticationMethodRepository,
         userRepository,
@@ -158,7 +167,8 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
       await authenticateOidcUser({
         stateReceived: 'state',
         stateSent: 'state',
-        oidcAuthenticationService,
+        identityProviderCode: 'OIDC_EXAMPLE_NET',
+        oidcAuthenticationServiceRegistry,
         authenticationSessionService,
         authenticationMethodRepository,
         userRepository,
@@ -201,7 +211,8 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
         const result = await authenticateOidcUser({
           stateReceived: 'state',
           stateSent: 'state',
-          oidcAuthenticationService,
+          identityProviderCode: 'OIDC_EXAMPLE_NET',
+          oidcAuthenticationServiceRegistry,
           authenticationSessionService,
           authenticationMethodRepository,
           userRepository,
@@ -228,7 +239,8 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
         await authenticateOidcUser({
           stateReceived: 'state',
           stateSent: 'state',
-          oidcAuthenticationService,
+          identityProviderCode: 'OIDC_EXAMPLE_NET',
+          oidcAuthenticationServiceRegistry,
           authenticationSessionService,
           authenticationMethodRepository,
           userRepository,
@@ -255,7 +267,8 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
           await authenticateOidcUser({
             stateReceived: 'state',
             stateSent: 'state',
-            oidcAuthenticationService,
+            identityProviderCode: 'OIDC_EXAMPLE_NET',
+            oidcAuthenticationServiceRegistry,
             authenticationSessionService,
             authenticationMethodRepository,
             userRepository,
@@ -288,7 +301,8 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
           await authenticateOidcUser({
             stateReceived: 'state',
             stateSent: 'state',
-            oidcAuthenticationService,
+            identityProviderCode: 'OIDC_EXAMPLE_NET',
+            oidcAuthenticationServiceRegistry,
             authenticationSessionService,
             authenticationMethodRepository,
             userRepository,
@@ -314,6 +328,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
     let authenticationMethodRepository;
     let userRepository;
     let userLoginRepository;
+    let oidcAuthenticationServiceRegistry;
     const externalIdentityId = '094b83ac-2e20-4aa8-b438-0bc91748e4a6';
 
     beforeEach(function () {
@@ -326,7 +341,11 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
         exchangeCodeForTokens: sinon.stub(),
         getUserInfo: sinon.stub(),
       };
-
+      oidcAuthenticationServiceRegistry = {
+        loadOidcProviderServices: sinon.stub().resolves(),
+        configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
+        getOidcProviderServiceByCode: sinon.stub().returns(oidcAuthenticationService),
+      };
       authenticationMethodRepository = {
         updateAuthenticationComplementByUserIdAndIdentityProvider: sinon.stub(),
       };
@@ -357,7 +376,8 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
         await authenticateOidcUser({
           stateReceived: 'state',
           stateSent: 'state',
-          oidcAuthenticationService,
+          identityProviderCode: POLE_EMPLOI.code,
+          oidcAuthenticationServiceRegistry,
           authenticationSessionService,
           authenticationMethodRepository,
           userRepository,
@@ -390,7 +410,8 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
         const accessToken = await authenticateOidcUser({
           stateReceived: 'state',
           stateSent: 'state',
-          oidcAuthenticationService,
+          identityProviderCode: POLE_EMPLOI.code,
+          oidcAuthenticationServiceRegistry,
           authenticationSessionService,
           authenticationMethodRepository,
           userRepository,
@@ -426,7 +447,8 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
         await authenticateOidcUser({
           stateReceived: 'state',
           stateSent: 'state',
-          oidcAuthenticationService,
+          identityProviderCode: POLE_EMPLOI.code,
+          oidcAuthenticationServiceRegistry,
           authenticationSessionService,
           authenticationMethodRepository,
           userRepository,

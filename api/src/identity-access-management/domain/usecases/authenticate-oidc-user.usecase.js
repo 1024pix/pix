@@ -4,34 +4,44 @@ import { ForbiddenAccess } from '../../../shared/domain/errors.js';
 /**
  * @typedef {function} authenticateOidcUser
  * @param {Object} params
+ * @param {string} params.audience
+ * @param {string} params.code
+ * @param {string} params.identityProviderCode
+ * @param {string} params.nonce
+ * @param {string} params.redirectUri
  * @param {string} params.sessionState
  * @param {string} params.state
- * @param {string} params.code
- * @param {string} params.redirectUri
- * @param {string} params.nonce
- * @param {string} params.audience
- * @param params.oidcAuthenticationService
  * @param {AuthenticationSessionService} params.authenticationSessionService
- * @param {AuthenticationMethodRepository} params.authenticationMethodRepository
- * @param {UserRepository} params.userRepository
- * @param {UserLoginRepository} params.userLoginRepository
+ * @param {OidcAuthenticationServiceRegistry} params.oidcAuthenticationServiceRegistry
  * @param {AdminMemberRepository} params.adminMemberRepository
+ * @param {AuthenticationMethodRepository} params.authenticationMethodRepository
+ * @param {UserLoginRepository} params.userLoginRepository
+ * @param {UserRepository} params.userRepository
  * @return {Promise<{isAuthenticationComplete: boolean, givenName: string, familyName: string, authenticationKey: string, email: string}|{isAuthenticationComplete: boolean, pixAccessToken: string, logoutUrlUUID: string}>}
  */
 async function authenticateOidcUser({
+  audience,
+  code,
+  identityProviderCode,
+  nonce,
+  redirectUri,
   sessionState,
   state,
-  code,
-  redirectUri,
-  nonce,
-  audience,
-  oidcAuthenticationService,
   authenticationSessionService,
-  authenticationMethodRepository,
-  userRepository,
-  userLoginRepository,
+  oidcAuthenticationServiceRegistry,
   adminMemberRepository,
+  authenticationMethodRepository,
+  userLoginRepository,
+  userRepository,
 }) {
+  await oidcAuthenticationServiceRegistry.loadOidcProviderServices();
+  await oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(identityProviderCode);
+
+  const oidcAuthenticationService = oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
+    identityProviderCode,
+    audience,
+  });
+
   const sessionContent = await oidcAuthenticationService.exchangeCodeForTokens({
     code,
     redirectUri,
