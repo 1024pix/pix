@@ -199,10 +199,11 @@ function sendOrganizationInvitationEmail({
     organizationName,
     pixHomeName: mailerConfig.homeName,
     pixHomeUrl: mailerConfig.homeUrl,
-    pixOrgaHomeUrl: mailerConfig.pixOrgaHomeUrl + (locale === FRENCH_FRANCE ? '' : `?lang=${locale}`),
-    redirectionUrl:
-      `${mailerConfig.pixOrgaHomeUrl}/rejoindre?invitationId=${organizationInvitationId}&code=${code}` +
-      (locale === FRENCH_FRANCE ? '' : `&lang=${locale}`),
+    pixOrgaHomeUrl: _formatUrlWithLocale(mailerConfig.pixOrgaHomeUrl, locale),
+    redirectionUrl: _formatUrlWithLocale(
+      `${mailerConfig.pixOrgaHomeUrl}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
+      locale,
+    ),
     supportUrl: mailerConfig.helpdeskUrl,
     ...mailerConfig.translation['organization-invitation-email'].params,
   };
@@ -267,10 +268,11 @@ function sendCertificationCenterInvitationEmail({
     certificationCenterName,
     pixHomeName: mailerConfig.homeName,
     pixHomeUrl: mailerConfig.homeUrl,
-    pixCertifHomeUrl: mailerConfig.pixCertifHomeUrl + (locale === FRENCH_FRANCE ? '' : `?lang=${locale}`),
-    redirectionUrl:
-      `${mailerConfig.pixCertifHomeUrl}/rejoindre?invitationId=${certificationCenterInvitationId}&code=${code}` +
-      (locale === FRENCH_FRANCE ? '' : `&lang=${locale}`),
+    pixCertifHomeUrl: _formatUrlWithLocale(mailerConfig.pixCertifHomeUrl, locale),
+    redirectionUrl: _formatUrlWithLocale(
+      `${mailerConfig.pixCertifHomeUrl}/rejoindre?invitationId=${certificationCenterInvitationId}&code=${code}`,
+      locale,
+    ),
     supportUrl: mailerConfig.helpdeskUrl,
     ...mailerConfig.translation['certification-center-invitation-email'].params,
   };
@@ -371,6 +373,16 @@ function sendNotificationToOrganizationMembersForTargetProfileDetached({ email, 
   };
 
   return mailer.sendEmail(options);
+}
+
+function _formatUrlWithLocale(url, locale) {
+  const formattedUrl = new URL(url);
+
+  if (locale !== FRENCH_FRANCE) {
+    formattedUrl.searchParams.set('lang', locale);
+  }
+
+  return formattedUrl.toString();
 }
 
 const mailService = {
