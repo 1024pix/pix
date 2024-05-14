@@ -239,7 +239,7 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
         const store = this.owner.lookup('service:store');
         this.set('issueReportDescriptionMaxLength', 500);
 
-        const session = store.createRecord('session', {
+        const session = store.createRecord('session-management', {
           version: 3,
         });
 
@@ -285,7 +285,7 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
         const store = this.owner.lookup('service:store');
         this.set('issueReportDescriptionMaxLength', 500);
 
-        const session = store.createRecord('session', {
+        const session = store.createRecord('session-management', {
           version: 3,
         });
 
@@ -331,7 +331,7 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
       test('it should display the delete button for these issues', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        const session = store.createRecord('session', {
+        const session = store.createRecord('session-management', {
           version: 2,
         });
 

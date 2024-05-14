@@ -83,7 +83,7 @@ module('Acceptance | Session creation', function (hooks) {
       await click(screen.getByRole('button', { name: t('pages.sessions.new.actions.create-session') }));
 
       // then
-      const session = server.schema.sessions.findBy({ date: sessionDate });
+      const session = server.schema.sessionEnrolments.findBy({ date: sessionDate });
       assert.strictEqual(session.address, 'My address');
       assert.strictEqual(session.room, 'My room');
       assert.strictEqual(session.examiner, 'My examiner');
@@ -95,14 +95,14 @@ module('Acceptance | Session creation', function (hooks) {
 
     test('it should go back to sessions list on cancel without creating any sessions', async function (assert) {
       // given
-      const previousSessionsCount = server.schema.sessions.all().length;
+      const previousSessionsCount = server.schema.sessionEnrolments.all().length;
       const screen = await visit('/sessions/creation');
 
       // when
       await click(screen.getByRole('button', { name: t('pages.sessions.new.actions.cancel-extra-information') }));
 
       // then
-      const actualSessionsCount = server.schema.sessions.all().length;
+      const actualSessionsCount = server.schema.sessionEnrolments.all().length;
       assert.strictEqual(currentURL(), '/sessions/liste');
       assert.strictEqual(previousSessionsCount, actualSessionsCount);
     });

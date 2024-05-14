@@ -18,7 +18,7 @@ const serialize = function ({ session, hasSupervisorAccess, hasSomeCleaAcquired 
     'hasSupervisorAccess',
     'hasSomeCleaAcquired',
   ];
-  return new Serializer('session', {
+  return new Serializer('session-management', {
     transform(record) {
       if (hasSupervisorAccess !== undefined) {
         record.hasSupervisorAccess = hasSupervisorAccess;
@@ -29,15 +29,6 @@ const serialize = function ({ session, hasSupervisorAccess, hasSomeCleaAcquired 
       return record;
     },
     attributes,
-    certificationCandidates: {
-      ref: 'id',
-      ignoreRelationshipData: true,
-      relationshipLinks: {
-        related(record, current, parent) {
-          return `/api/sessions/${parent.id}/certification-candidates`;
-        },
-      },
-    },
     certificationReports: {
       ref: 'id',
       ignoreRelationshipData: true,

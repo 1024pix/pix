@@ -19,7 +19,7 @@ module('Unit | Component | session-clea-results-download', function (hooks) {
     test('should call the file-saver service for downloadCleaCertifiedCandidateData with the right parameters', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      component.args.session = store.createRecord('session', {
+      component.args.session = store.createRecord('session-management', {
         id: 123,
         hasSomeCleaAcquired: true,
         publishedAt: '2022-01-01',
@@ -56,7 +56,7 @@ module('Unit | Component | session-clea-results-download', function (hooks) {
     test('should call the notifications service with the error message', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      component.args.session = store.createRecord('session', {
+      component.args.session = store.createRecord('session-management', {
         id: 123,
         hasSomeCleaAcquired: true,
         publishedAt: '2022-01-01',

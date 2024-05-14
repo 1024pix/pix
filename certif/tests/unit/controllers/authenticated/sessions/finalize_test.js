@@ -12,7 +12,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      controller.model = store.createRecord('session', {
+      controller.model = store.createRecord('session-management', {
         certificationReports: [],
       });
 
@@ -112,7 +112,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      controller.model = store.createRecord('session', {
+      controller.model = store.createRecord('session-management', {
         certificationReports: [],
         hasSupervisorAccess: true,
       });
@@ -128,7 +128,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      controller.model = store.createRecord('session', {
+      controller.model = store.createRecord('session-management', {
         certificationReports: [],
         hasSupervisorAccess: false,
       });
@@ -147,7 +147,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
       const store = this.owner.lookup('service:store');
       const initialValue = null;
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      const session = store.createRecord('session', { examinerGlobalComment: initialValue });
+      const session = store.createRecord('session-management', { examinerGlobalComment: initialValue });
       controller.model = session;
       controller.examinerGlobalCommentMaxLength = 5;
 
@@ -164,7 +164,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
       const initialValue = null;
       const newValue = 'hello';
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      const session = store.createRecord('session', { examinerGlobalComment: initialValue });
+      const session = store.createRecord('session-management', { examinerGlobalComment: initialValue });
       controller.model = session;
 
       // when
@@ -180,7 +180,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
       const initialValue = 'initialValue';
       const newValue = '  ';
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      const session = store.createRecord('session', { examinerGlobalComment: initialValue });
+      const session = store.createRecord('session-management', { examinerGlobalComment: initialValue });
       controller.model = session;
 
       // when
@@ -333,7 +333,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      const session = store.createRecord('session', {
+      const session = store.createRecord('session-management', {
         hasIncident: false,
       });
       const displayIncidentDuringCertificationSession = true;
@@ -351,7 +351,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      const session = store.createRecord('session', {
+      const session = store.createRecord('session-management', {
         hasJoiningIssue: false,
       });
       controller.model = session;
@@ -367,7 +367,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
 });
 
 async function _createSessionWithCertificationReports({ store, sessionData = {}, certificationReportsData = [] }) {
-  const session = store.createRecord('session', sessionData);
+  const session = store.createRecord('session-management', sessionData);
 
   if (certificationReportsData.length) {
     const certificationReports = await session.get('certificationReports');

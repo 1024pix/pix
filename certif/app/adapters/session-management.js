@@ -2,8 +2,16 @@ import { service } from '@ember/service';
 
 import ApplicationAdapter from './application';
 
-export default class SessionAdapter extends ApplicationAdapter {
+export default class SessionManagementAdapter extends ApplicationAdapter {
   @service currentUser;
+
+  pathForType(_) {
+    return 'sessions';
+  }
+
+  urlForFindRecord(_) {
+    return `${super.urlForFindRecord(...arguments)}/management`;
+  }
 
   urlForUpdateRecord(id, modelName, { adapterOptions }) {
     const url = super.urlForUpdateRecord(...arguments);
@@ -13,11 +21,6 @@ export default class SessionAdapter extends ApplicationAdapter {
     }
 
     return url;
-  }
-
-  urlForCreateRecord() {
-    const certificationCenterId = this.currentUser.currentAllowedCertificationCenterAccess.id;
-    return `${this.host}/${this.namespace}/certification-centers/${certificationCenterId}/session`;
   }
 
   updateRecord(store, type, snapshot) {
@@ -44,20 +47,6 @@ export default class SessionAdapter extends ApplicationAdapter {
           },
         };
         return this.ajax(this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot), 'PUT', { data });
-      }
-
-      if (snapshot.adapterOptions.studentListToAdd.length) {
-        const url = this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot) + '/enrol-students-to-session';
-        const organizationLearnerIds = snapshot.adapterOptions.studentListToAdd.map((student) => student.id);
-        const data = {
-          data: {
-            attributes: {
-              'organization-learner-ids': organizationLearnerIds,
-            },
-          },
-        };
-
-        return this.ajax(url, 'PUT', { data });
       }
     }
 

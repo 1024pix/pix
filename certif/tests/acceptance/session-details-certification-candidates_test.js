@@ -20,8 +20,10 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
 
   module('When certificationPointOfContact is not logged in', function () {
     test('it should not be accessible by an unauthenticated certificationPointOfContact', async function (assert) {
-      const session = server.create('session');
-
+      const session = server.create('session-enrolment');
+      server.create('session-management', {
+        id: session.id,
+      });
       // when
       await visit(`/sessions/${session.id}/candidats`);
 
@@ -49,7 +51,10 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
         allowedCertificationCenterAccesses: [allowedCertificationCenterAccess],
         pixCertifTermsOfServiceAccepted: true,
       });
-      session = server.create('session', { certificationCenterId: allowedCertificationCenterAccess.id });
+      session = server.create('session-enrolment', { certificationCenterId: allowedCertificationCenterAccess.id });
+      server.create('session-management', {
+        id: session.id,
+      });
       await authenticateSession(certificationPointOfContact.id);
     });
 
@@ -98,7 +103,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
       let sessionWithCandidates;
 
       hooks.beforeEach(function () {
-        sessionWithCandidates = server.create('session', {
+        sessionWithCandidates = server.create('session-enrolment', {
           certificationCenterId: allowedCertificationCenterAccess.id,
         });
         server.create('certification-candidate', {
@@ -116,6 +121,9 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           sessionId: sessionWithCandidates.id,
           isLinked: false,
           resultRecipientEmail: 'sassin@example.com',
+        });
+        server.create('session-management', {
+          id: sessionWithCandidates.id,
         });
       });
 
@@ -321,8 +329,11 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
     module('when the addCandidate button is clicked', function () {
       test('it should open the new Certification Candidate Modal', async function (assert) {
         // given
-        const sessionWithoutCandidates = server.create('session', {
+        const sessionWithoutCandidates = server.create('session-enrolment', {
           certificationCenterId: allowedCertificationCenterAccess.id,
+        });
+        server.create('session-management', {
+          id: sessionWithoutCandidates.id,
         });
         server.create('country', []);
 
@@ -343,8 +354,11 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
 
         test('it should open the new Certification Candidate Modal with empty input', async function (assert) {
           // given
-          const sessionWithoutCandidates = server.create('session', {
+          const sessionWithoutCandidates = server.create('session-enrolment', {
             certificationCenterId: allowedCertificationCenterAccess.id,
+          });
+          server.create('session-management', {
+            id: sessionWithoutCandidates.id,
           });
           const screen = await visit(`/sessions/${sessionWithoutCandidates.id}/candidats`);
 
@@ -399,7 +413,12 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
         module('when the submitted form data is incorrect', function () {
           test('it should display a generic error message', async function (assert) {
             // given
-            const session = server.create('session', { certificationCenterId: allowedCertificationCenterAccess.id });
+            const session = server.create('session-enrolment', {
+              certificationCenterId: allowedCertificationCenterAccess.id,
+            });
+            server.create('session-management', {
+              id: session.id,
+            });
             server.createList('country', 2, { code: '99100' });
 
             this.server.post(
@@ -437,7 +456,12 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           module('when candidate information in form data are invalid', function () {
             test('it should display a specific error message', async function (assert) {
               // given
-              const session = server.create('session', { certificationCenterId: allowedCertificationCenterAccess.id });
+              const session = server.create('session-enrolment', {
+                certificationCenterId: allowedCertificationCenterAccess.id,
+              });
+              server.create('session-management', {
+                id: session.id,
+              });
               server.createList('country', 2, { code: '99100' });
 
               this.server.post(
@@ -476,7 +500,12 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
         module('when candidate data is valid', function (hooks) {
           hooks.beforeEach(async function () {
             server.createList('country', 2, { code: '99100' });
-            session = server.create('session', { certificationCenterId: allowedCertificationCenterAccess.id });
+            session = server.create('session-enrolment', {
+              certificationCenterId: allowedCertificationCenterAccess.id,
+            });
+            server.create('session-management', {
+              id: session.id,
+            });
           });
 
           test('it should display a success notification', async function (assert) {
@@ -568,7 +597,12 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
                 allowedCertificationCenterAccesses: [allowedCertificationCenterAccess],
                 pixCertifTermsOfServiceAccepted: true,
               });
-              session = server.create('session', { certificationCenterId: allowedCertificationCenterAccess.id });
+              session = server.create('session-enrolment', {
+                certificationCenterId: allowedCertificationCenterAccess.id,
+              });
+              server.create('session-management', {
+                id: session.id,
+              });
               server.createList('country', 2, { code: '99100' });
               await authenticateSession(certificationPointOfContact.id);
             });

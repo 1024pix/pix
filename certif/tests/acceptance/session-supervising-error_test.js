@@ -26,7 +26,7 @@ module('Acceptance | Session supervising error', function (hooks) {
       this.sessionForSupervising = server.create('session-for-supervising', {
         id: 2000,
       });
-      this.secondSession = server.create('session', {
+      this.secondSession = server.create('session-management', {
         id: 2001,
       });
       this.server.get('/sessions/2001/supervising', { errors: [{ code: 403 }] }, 403);

@@ -14,7 +14,9 @@ export default class SessionsFinalizeRoute extends Route {
 
   async model({ session_id }) {
     try {
-      const session = await this.store.findRecord('session', session_id, { reload: true });
+      const session = await this.store.findRecord('session-management', session_id, {
+        reload: true,
+      });
       await session.certificationReports;
 
       return session;
@@ -30,6 +32,5 @@ export default class SessionsFinalizeRoute extends Route {
 
       transition.abort();
     }
-    this.currentUser.updateCurrentCertificationCenter(model.certificationCenterId);
   }
 }

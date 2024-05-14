@@ -14,21 +14,12 @@ export default class Session extends Model {
   @service featureToggles;
   @service intl;
 
-  @attr('string') address;
-  @attr('string') accessCode;
-  @attr('date-only') date;
-  @attr('string') time;
-  @attr('string') description;
-  @attr('string') examiner;
-  @attr('string') room;
   @attr('string') status;
   @attr('string') examinerGlobalComment;
-  @attr('string') supervisorPassword;
   @attr('boolean') hasSupervisorAccess;
   @attr('boolean') hasSomeCleaAcquired;
   @attr('boolean') hasIncident;
   @attr('boolean') hasJoiningIssue;
-  @attr() certificationCenterId;
   @attr('number') version;
   @hasMany('certificationReport', { async: true, inverse: null }) certificationReports;
 
@@ -38,23 +29,8 @@ export default class Session extends Model {
   }
 
   @computed('id')
-  get urlToDownloadAttendanceSheet() {
-    return `${ENV.APP.API_HOST}/api/sessions/${this.id}/attendance-sheet`;
-  }
-
-  @computed('id')
-  get urlToDownloadCandidatesImportTemplate() {
-    return `${ENV.APP.API_HOST}/api/sessions/${this.id}/candidates-import-sheet`;
-  }
-
-  @computed('id')
   get urlToDownloadSupervisorKitPdf() {
     return `${ENV.APP.API_HOST}/api/sessions/${this.id}/supervisor-kit`;
-  }
-
-  @computed('id')
-  get urlToUpload() {
-    return `${ENV.APP.API_HOST}/api/sessions/${this.id}/certification-candidates/import`;
   }
 
   get completedCertificationReports() {

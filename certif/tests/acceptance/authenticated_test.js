@@ -18,8 +18,11 @@ module('Acceptance | authenticated', function (hooks) {
     test('it should redirect to the sessions list page', async function (assert) {
       // given
       const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
-      const session = server.create('session', {
+      const session = server.create('session-enrolment', {
         certificationCenterId: parseInt(certificationPointOfContact.allowedCertificationCenterAccessIds[0]),
+      });
+      server.create('session-management', {
+        id: session.id,
       });
       await authenticateSession(certificationPointOfContact.id);
 
@@ -36,8 +39,11 @@ module('Acceptance | authenticated', function (hooks) {
     test('it should also redirect to the sessions list page', async function (assert) {
       // given
       const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
-      const session = server.create('session', {
+      const session = server.create('session-enrolment', {
         certificationCenterId: parseInt(certificationPointOfContact.allowedCertificationCenterAccessIds[0]),
+      });
+      server.create('session-management', {
+        id: session.id,
       });
       await authenticateSession(certificationPointOfContact.id);
 
@@ -234,9 +240,12 @@ module('Acceptance | authenticated', function (hooks) {
           anotherAllowedCertificationCenterAccess,
         ],
       });
-      server.create('session', {
+      server.create('session-enrolment', {
         id: 555,
         certificationCenterId: 123,
+      });
+      server.create('session-management', {
+        id: 555,
       });
       await authenticateSession(certificationPointOfContact.id);
 
@@ -271,9 +280,12 @@ module('Acceptance | authenticated', function (hooks) {
           anotherAllowedCertificationCenterAccess,
         ],
       });
-      server.create('session', {
+      server.create('session-enrolment', {
         id: 555,
         certificationCenterId: 123,
+      });
+      server.create('session-management', {
+        id: 555,
       });
       await authenticateSession(certificationPointOfContact.id);
 
@@ -308,9 +320,12 @@ module('Acceptance | authenticated', function (hooks) {
           anotherAllowedCertificationCenterAccess,
         ],
       });
-      server.create('session', {
+      server.create('session-enrolment', {
         id: 555,
         certificationCenterId: 123,
+      });
+      server.create('session-management', {
+        id: 555,
       });
       await authenticateSession(certificationPointOfContact.id);
 

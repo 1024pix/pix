@@ -89,9 +89,10 @@ module('Integration | Component | SessionFinalization::CompletedReportsInformati
     // given
     const certificationReport1 = store.createRecord('certification-report', { isCompleted: false });
     const certificationReport2 = store.createRecord('certification-report', { isCompleted: true });
-    const session = store.createRecord('session', {
+    const session = store.createRecord('session-management', {
       certificationReports: [certificationReport1, certificationReport2],
     });
+
     this.set('certificationReports', [certificationReport1, certificationReport2]);
     this.set('session', session);
 
@@ -120,7 +121,7 @@ module('Integration | Component | SessionFinalization::CompletedReportsInformati
     // given
     const certificationReport1 = store.createRecord('certification-report', { isCompleted: true });
     const certificationReport2 = store.createRecord('certification-report', { isCompleted: true });
-    const session = store.createRecord('session', {
+    const session = store.createRecord('session-management', {
       certificationReports: [certificationReport1, certificationReport2],
     });
     this.set('certificationReports', [certificationReport1, certificationReport2]);
@@ -233,7 +234,7 @@ module('Integration | Component | SessionFinalization::CompletedReportsInformati
           }),
         ];
 
-        const session = store.createRecord('session', {
+        const session = store.createRecord('session-management', {
           version: 3,
           certificationReports,
         });
@@ -276,7 +277,7 @@ module('Integration | Component | SessionFinalization::CompletedReportsInformati
           }),
         ];
 
-        const session = store.createRecord('session', {
+        const session = store.createRecord('session-management', {
           version: 3,
           certificationReports,
         });
@@ -325,7 +326,7 @@ module('Integration | Component | SessionFinalization::CompletedReportsInformati
           }),
         ];
 
-        const session = store.createRecord('session', {
+        const session = store.createRecord('session-management', {
           version: 2,
           certificationReports,
         });

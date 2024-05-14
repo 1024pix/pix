@@ -1,18 +1,18 @@
 import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
-import { CREATED } from 'pix-certif/models/session';
+import { CREATED } from 'pix-certif/models/session-management';
 import { module, test } from 'qunit';
 
 import config from '../../../config/environment';
 
-module('Unit | Model | session', function (hooks) {
+module('Unit | Model | sessionManagement', function (hooks) {
   setupTest(hooks);
 
   module('#urlToDownloadSupervisorKitPdf', function () {
     test('it should return the correct urlToDownloadSupervisorKitPdf', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const model = store.createRecord('session', { id: 1 });
+      const model = store.createRecord('session-management', { id: 1 });
       class SessionStub extends Service {
         data = {
           authenticated: {
@@ -25,42 +25,6 @@ module('Unit | Model | session', function (hooks) {
 
       // when/then
       assert.strictEqual(model.urlToDownloadSupervisorKitPdf, `${config.APP.API_HOST}/api/sessions/1/supervisor-kit`);
-    });
-  });
-
-  module('#urlToUpload', function () {
-    test('it should return the correct urlToUpload', function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const model = store.createRecord('session', { id: 1 });
-
-      // when/then
-      assert.strictEqual(model.urlToUpload, `${config.APP.API_HOST}/api/sessions/1/certification-candidates/import`);
-    });
-  });
-
-  module('#urlToDownloadAttendanceSheet', function () {
-    test('it should return the correct urlToDownloadAttendanceSheet', function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const model = store.createRecord('session', { id: 1 });
-
-      // when/then
-      assert.strictEqual(model.urlToDownloadAttendanceSheet, `${config.APP.API_HOST}/api/sessions/1/attendance-sheet`);
-    });
-  });
-
-  module('#urlToDownloadCandidatesImportTemplate', function () {
-    test('it should return the correct urlToDownloadCandidatesImportTemplate', function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const model = store.createRecord('session', { id: 1 });
-
-      // when/then
-      assert.strictEqual(
-        model.urlToDownloadCandidatesImportTemplate,
-        `${config.APP.API_HOST}/api/sessions/1/candidates-import-sheet`,
-      );
     });
   });
 
@@ -96,7 +60,7 @@ module('Unit | Model | session', function (hooks) {
       test('it should return true', function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        const model = store.createRecord('session', {
+        const model = store.createRecord('session-management', {
           id: 123,
           status: CREATED,
           publishedAt: '2022-01-01',
@@ -112,7 +76,7 @@ module('Unit | Model | session', function (hooks) {
       test('it should return false', function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        const model = store.createRecord('session', {
+        const model = store.createRecord('session-management', {
           id: 123,
           status: CREATED,
           publishedAt: '2022-01-01',
@@ -127,7 +91,7 @@ module('Unit | Model | session', function (hooks) {
 });
 
 function _createTwoCompleteAndOneUncompleteCertificationReports(store) {
-  return store.createRecord('session', {
+  return store.createRecord('session-management', {
     id: 1,
     certificationReports: [
       store.createRecord('certification-report', { id: 1, isCompleted: false }),

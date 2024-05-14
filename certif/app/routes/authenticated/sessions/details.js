@@ -11,7 +11,8 @@ export default class SessionsDetailsRoute extends Route {
   }
 
   async model(params) {
-    const session = await this.store.findRecord('session', params.session_id);
+    const sessionEnrolment = await this.store.findRecord('session-enrolment', params.session_id);
+    const sessionManagement = await this.store.findRecord('session-management', params.session_id);
     const loadCertificationCandidates = () =>
       this.store.query('certification-candidate', {
         sessionId: params.session_id,
@@ -19,7 +20,8 @@ export default class SessionsDetailsRoute extends Route {
     const certificationCandidates = await loadCertificationCandidates();
 
     return EmberObject.create({
-      session,
+      session: sessionEnrolment,
+      sessionManagement,
       certificationCandidates,
       async reloadCertificationCandidate() {
         const certificationCandidates = await loadCertificationCandidates();

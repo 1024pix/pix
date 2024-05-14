@@ -25,8 +25,8 @@
     </div>
   </div>
 
-  {{#if this.model.session.shouldDisplayCleaResultDownloadSection}}
-    <SessionCleaResultsDownload @session={{this.model.session}} />
+  {{#if this.model.sessionManagement.shouldDisplayCleaResultDownloadSection}}
+    <SessionCleaResultsDownload @session={{this.model.sessionManagement}} />
   {{/if}}
 
   <div class="panel session-details__controls">

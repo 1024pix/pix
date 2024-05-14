@@ -1,4 +1,3 @@
-import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
 import ENV from 'pix-certif/config/environment';
 import { module, test } from 'qunit';
@@ -11,10 +10,27 @@ module('Unit | Adapter | session', function (hooks) {
   let store;
 
   hooks.beforeEach(function () {
-    adapter = this.owner.lookup('adapter:session');
+    adapter = this.owner.lookup('adapter:session-management');
     store = this.owner.lookup('service:store');
   });
 
+  module('#urlForFindRecord', () => {
+    test('should build find url from session id', async function (assert) {
+      // when
+      const url = await adapter.urlForFindRecord(123, 'session-management');
+
+      assert.ok(url.endsWith('/sessions/123/management'));
+    });
+
+    test('should build specific url to finalization', async function (assert) {
+      // when
+      const options = { adapterOptions: { finalization: true } };
+      const url = await adapter.urlForUpdateRecord(123, 'session-management', options);
+
+      // then
+      assert.ok(url.endsWith('/sessions/123/finalization'));
+    });
+  });
   module('#urlForUpdateRecord', () => {
     test('should build update url from session id', async function (assert) {
       // when
@@ -34,59 +50,7 @@ module('Unit | Adapter | session', function (hooks) {
     });
   });
 
-  module('#urlForCreateRecord', () => {
-    test('should build save url from certification center id', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-        id: 123,
-      });
-      class CurrentUserStub extends Service {
-        currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
-      }
-      this.owner.register('service:current-user', CurrentUserStub);
-      const adapter = this.owner.lookup('adapter:session');
-
-      // when
-      const url = await adapter.urlForCreateRecord();
-
-      // then
-      assert.ok(url.endsWith('/certification-centers/123/session'));
-    });
-  });
-
   module('#updateRecord', () => {
-    module('when studentListToAdd adapter option passed', () => {
-      test('should trigger an ajax call with the url, data and method', async function (assert) {
-        // given
-        sinon.stub(adapter, 'ajax').resolves();
-        const studentListToAdd = [
-          { id: 1, firstName: 'Doe' },
-          { id: 2, firstName: 'Dupont' },
-        ];
-
-        const expectedStudentIdList = [1, 2];
-        const expectedUrl = `${ENV.APP.API_HOST}/api/sessions/123/enrol-students-to-session`;
-        const expectedMethod = 'PUT';
-        const expectedData = {
-          data: {
-            data: {
-              attributes: {
-                'organization-learner-ids': expectedStudentIdList,
-              },
-            },
-          },
-        };
-
-        // when
-        await adapter.updateRecord(store, { modelName: 'session' }, { id: 123, adapterOptions: { studentListToAdd } });
-
-        // then
-        sinon.assert.calledWith(adapter.ajax, expectedUrl, expectedMethod, expectedData);
-        assert.ok(adapter);
-      });
-    });
-
     module('when finalization adapter option passed', () => {
       test('should trigger an ajax call with the url, data without former examinerComment', async function (assert) {
         // given
@@ -127,7 +91,7 @@ module('Unit | Adapter | session', function (hooks) {
         };
 
         // when
-        await adapter.updateRecord(store, { modelName: 'session' }, snapshot);
+        await adapter.updateRecord(store, { modelName: 'session-management' }, snapshot);
 
         // then
         const expectedUrl = `${ENV.APP.API_HOST}/api/sessions/123/finalization`;
@@ -212,7 +176,7 @@ module('Unit | Adapter | session', function (hooks) {
 });
 
 async function _createSessionWithCertificationReports({ store, sessionData = {}, certificationReportsData = [] }) {
-  const session = store.createRecord('session', sessionData);
+  const session = store.createRecord('session-management', sessionData);
 
   if (certificationReportsData.length) {
     const certificationReports = await session.get('certificationReports');

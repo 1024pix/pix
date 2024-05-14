@@ -20,7 +20,7 @@ module('Unit | Route | authenticated/sessions/update', function (hooks) {
       const actualSession = await route.model({ session_id });
 
       // then
-      sinon.assert.calledOnceWithExactly(route.store.findRecord, 'session', session_id);
+      sinon.assert.calledOnceWithExactly(route.store.findRecord, 'session-enrolment', session_id);
       assert.ok(actualSession.time);
     });
   });

@@ -20,7 +20,10 @@ module('Acceptance | Session Details', function (hooks) {
   module('when certificationPointOfContact is not logged in', function () {
     test('it should not be accessible by an unauthenticated certificationPointOfContact', async function (assert) {
       // given
-      const session = server.create('session');
+      const session = server.create('session-enrolment');
+      server.create('session-management', {
+        id: session.id,
+      });
 
       // when
       await visit(`/sessions/${session.id}`);
@@ -33,7 +36,8 @@ module('Acceptance | Session Details', function (hooks) {
   module('when certificationPointOfContact is logged in', function (hooks) {
     let allowedCertificationCenterAccess;
     let certificationPointOfContact;
-    let session;
+    let sessionEnrolment;
+    let sessionManagement;
 
     hooks.beforeEach(async () => {
       allowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
@@ -48,7 +52,12 @@ module('Acceptance | Session Details', function (hooks) {
         allowedCertificationCenterAccesses: [allowedCertificationCenterAccess],
         pixCertifTermsOfServiceAccepted: true,
       });
-      session = server.create('session', { certificationCenterId: allowedCertificationCenterAccess.id });
+      sessionEnrolment = server.create('session-enrolment', {
+        certificationCenterId: allowedCertificationCenterAccess.id,
+      });
+      sessionManagement = server.create('session-management', {
+        id: sessionEnrolment.id,
+      });
       await authenticateSession(certificationPointOfContact.id);
     });
 
@@ -58,7 +67,7 @@ module('Acceptance | Session Details', function (hooks) {
         allowedCertificationCenterAccess.update({ isAccessBlockedCollege: true });
 
         // when
-        await visit(`/sessions/${session.id}`);
+        await visit(`/sessions/${sessionEnrolment.id}`);
 
         // then
         assert.strictEqual(currentURL(), '/espace-ferme');
@@ -67,7 +76,7 @@ module('Acceptance | Session Details', function (hooks) {
 
     test('it should redirect to session list on click on return button', async function (assert) {
       // when
-      const screen = await visitScreen(`/sessions/${session.id}`);
+      const screen = await visitScreen(`/sessions/${sessionEnrolment.id}`);
       await click(screen.getByRole('link', { name: 'Revenir à la liste des sessions' }));
 
       // then
@@ -76,10 +85,10 @@ module('Acceptance | Session Details', function (hooks) {
 
     test('it should show the number of candidates on tab', async function (assert) {
       // given
-      server.createList('certification-candidate', 4, { sessionId: session.id });
+      server.createList('certification-candidate', 4, { sessionId: sessionEnrolment.id });
 
       // when
-      const screen = await visit(`/sessions/${session.id}`);
+      const screen = await visit(`/sessions/${sessionEnrolment.id}`);
 
       // then
       assert.dom(screen.getByRole('link', { name: 'Candidats (4)' })).exists();
@@ -88,7 +97,7 @@ module('Acceptance | Session Details', function (hooks) {
     module('when looking at the header', function () {
       test('it should display session details', async function (assert) {
         // given
-        server.create('session', {
+        server.create('session-enrolment', {
           id: 123,
           date: '2019-02-18',
           time: '14:00:00',
@@ -96,6 +105,9 @@ module('Acceptance | Session Details', function (hooks) {
           room: 'Salle 101',
           examiner: 'Winston',
           accessCode: 'ABC123',
+        });
+        server.create('session-management', {
+          id: 123,
         });
 
         // when
@@ -122,8 +134,11 @@ module('Acceptance | Session Details', function (hooks) {
 
       test('it should show issue report sheet download button', async function (assert) {
         // given
-        const sessionWithCandidates = server.create('session');
+        const sessionWithCandidates = server.create('session-enrolment');
         server.createList('certification-candidate', 3, { isLinked: true, sessionId: 1234321 });
+        server.create('session-management', {
+          id: sessionWithCandidates.id,
+        });
 
         // when
         const screen = await visit(`/sessions/${sessionWithCandidates.id}`);
@@ -134,8 +149,11 @@ module('Acceptance | Session Details', function (hooks) {
 
       test('it should show attendance sheet download button when there is one or more candidate', async function (assert) {
         // given
-        const sessionWithCandidates = server.create('session');
+        const sessionWithCandidates = server.create('session-enrolment');
         server.createList('certification-candidate', 3, { isLinked: true, sessionId: sessionWithCandidates.id });
+        server.create('session-management', {
+          id: sessionWithCandidates.id,
+        });
 
         // when
         const screen = await visit(`/sessions/${sessionWithCandidates.id}`);
@@ -146,7 +164,10 @@ module('Acceptance | Session Details', function (hooks) {
 
       test('it should not show download attendance sheet button where there is no candidate', async function (assert) {
         // given
-        const sessionWithoutCandidate = server.create('session');
+        const sessionWithoutCandidate = server.create('session-enrolment');
+        server.create('session-management', {
+          id: sessionWithoutCandidate.id,
+        });
 
         // when
         const screen = await visit(`/sessions/${sessionWithoutCandidate.id}`);
@@ -160,10 +181,10 @@ module('Acceptance | Session Details', function (hooks) {
       module('when session has clea results and session is published', function () {
         test('it should show the clea result download section', async function (assert) {
           // given
-          session.update({ publishedAt: '2022-01-01', hasSomeCleaAcquired: true });
+          sessionManagement.update({ publishedAt: '2022-01-01', hasSomeCleaAcquired: true });
 
           // when
-          const screen = await visit(`/sessions/${session.id}`);
+          const screen = await visit(`/sessions/${sessionEnrolment.id}`);
 
           // then
           assert.dom(screen.getByText(this.intl.t('pages.sessions.detail.panel-clea.title'))).exists();
