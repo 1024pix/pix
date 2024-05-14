@@ -1,5 +1,26 @@
 # Pix Changelog
 
+## v4.144.0 (14/05/2024)
+
+
+### :rocket: Amélioration
+- [#8871](https://github.com/1024pix/pix/pull/8871) [FEATURE] Permettre l'activation de fonctionnalité en masse sur les organisations (PIX-12413).
+- [#8882](https://github.com/1024pix/pix/pull/8882) [FEATURE] Utiliser l'attribut `isDisabled` des PixCheckbox et PixRadioButton (PIX-12471).
+
+### :building_construction: Tech
+- [#8910](https://github.com/1024pix/pix/pull/8910) [TECH] [Admin] Ne pas exécuter un test flaky de "Integration | Component | administration/organizations-import".
+
+### :bug: Correction
+- [#8843](https://github.com/1024pix/pix/pull/8843) [BUGFIX] Réparer l'alignement des labels des épreuves (PIX-12438).
+- [#8898](https://github.com/1024pix/pix/pull/8898) [BUGFIX] Rendre visible les checkboxs dont le label est masqué sur Pix Certif (PIX-12482).
+
+### :arrow_up: Montée de version
+- [#8905](https://github.com/1024pix/pix/pull/8905) [BUMP] Update dependency node to v20.13.0.
+- [#8903](https://github.com/1024pix/pix/pull/8903) [BUMP] Update adobe/s3mock Docker tag to v3.7.3 (dossier racine).
+- [#8894](https://github.com/1024pix/pix/pull/8894) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.12 (dossier racine).
+- [#8901](https://github.com/1024pix/pix/pull/8901) [BUMP] Update dependency @1024pix/pix-ui to ^45.5.2 (admin).
+- [#8900](https://github.com/1024pix/pix/pull/8900) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.12 (orga).
+
 ## v4.143.0 (13/05/2024)
 
 
