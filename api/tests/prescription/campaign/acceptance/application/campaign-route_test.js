@@ -36,7 +36,7 @@ describe('Acceptance | API | Campaign Route', function () {
     });
   });
 
-  describe('GET /api/campaigns/{id}/groups', function () {
+  describe('GET /api/campaigns/{campaignId}/groups', function () {
     it('should return the campaign participants group', async function () {
       const group = 'LB3';
       const campaign = databaseBuilder.factory.buildCampaign();

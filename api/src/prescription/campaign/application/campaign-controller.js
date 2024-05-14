@@ -12,7 +12,7 @@ const division = async function (request) {
 
 const getGroups = async function (request) {
   const { userId } = request.auth.credentials;
-  const campaignId = request.params.id;
+  const campaignId = request.params.campaignId;
 
   const groups = await usecases.getParticipantsGroup({ userId, campaignId });
   return groupSerializer.serialize(groups);

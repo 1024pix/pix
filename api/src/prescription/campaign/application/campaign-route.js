@@ -24,11 +24,11 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/campaigns/{id}/groups',
+      path: '/api/campaigns/{campaignId}/groups',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.campaignId,
+            campaignId: identifiersType.campaignId,
           }),
         },
         handler: campaignController.getGroups,

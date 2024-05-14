@@ -30,7 +30,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
     });
   });
 
-  describe('GET /api/campaigns/{id}/groups', function () {
+  describe('GET /api/campaigns/{campaignId}/groups', function () {
     it('should return 200', async function () {
       // given
       sinon.stub(campaignController, 'getGroups').callsFake((request, h) => h.response('ok').code(200));
