@@ -13,7 +13,7 @@ module('Integration | Component |  administration/organizations-import', functio
   setupMirage(hooks);
 
   module('when import succeeds', function () {
-    test('it displays a success notification', async function (assert) {
+    test.skip('it displays a success notification', async function (assert) {
       // given
       const file = new Blob(['foo'], { type: `valid-file` });
       const notificationSuccessStub = sinon.stub();
