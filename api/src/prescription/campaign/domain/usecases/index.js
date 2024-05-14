@@ -30,6 +30,7 @@ import * as campaignProfilesCollectionParticipationSummaryRepository from '../..
 import * as campaignReportRepository from '../../infrastructure/repositories/campaign-report-repository.js';
 import * as campaignToJoinRepository from '../../infrastructure/repositories/campaign-to-join-repository.js';
 import * as divisionRepository from '../../infrastructure/repositories/division-repository.js';
+import * as groupRepository from '../../infrastructure/repositories/group-repository.js';
 import * as targetProfileRepository from '../../infrastructure/repositories/target-profile-repository.js';
 import * as campaignCsvExportService from '../services/campaign-csv-export-service.js';
 import * as campaignUpdateValidator from '../validators/campaign-update-validator.js';
@@ -52,6 +53,7 @@ const dependencies = {
   campaignUpdateValidator,
   competenceRepository,
   divisionRepository,
+  groupRepository,
   knowledgeElementSnapshotRepository,
   knowledgeElementRepository,
   learningContentRepository,
