@@ -32,13 +32,14 @@ module('Unit | Service | currentDomain', function (hooks) {
       // then
       assert.false(isFranceDomain);
     });
+  });
 
-    test('Get PR environment base url from domain', function (assert) {
+  module('#getJuniorBaseUrl', function () {
+    test('should return url with junior instead of orga for review app', function (assert) {
       const service = this.owner.lookup('service:currentDomain');
-
       const url = new URL('https://orga-pr8887.review.pix.fr');
-      const result = service.getEnvironmentBaseUrl(url);
-      assert.deepEqual(result, '-pr8887.review.pix.fr');
+      const result = service.getJuniorBaseUrl(url);
+      assert.deepEqual(result, 'https://junior-pr8887.review.pix.fr');
     });
   });
 });

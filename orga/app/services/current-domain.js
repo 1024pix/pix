@@ -12,7 +12,7 @@ export default class CurrentDomainService extends Service {
     return last(location.hostname.split('.'));
   }
 
-  getEnvironmentBaseUrl(stringUrl = window.location) {
-    return stringUrl.hostname.replace('orga', '');
+  getJuniorBaseUrl(stringUrl = window.location) {
+    return `${stringUrl.protocol}//${stringUrl.hostname.replace('orga', 'junior')}`;
   }
 }

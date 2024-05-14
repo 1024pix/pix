@@ -33,7 +33,6 @@ export default class Url extends Service {
 
   definedCampaignsRootUrl = ENV.APP.CAMPAIGNS_ROOT_URL;
   pixAppUrlWithoutExtension = ENV.APP.PIX_APP_URL_WITHOUT_EXTENSION;
-  pixJuniorUrl = ENV.APP.PIX_JUNIOR_URL;
 
   definedHomeUrl = ENV.rootURL;
 
@@ -88,7 +87,8 @@ export default class Url extends Service {
     if (!schoolCode) {
       return '';
     }
-    return `${this.pixJuniorUrl}/schools/${schoolCode}`;
+
+    return `${this.currentDomain.getJuniorBaseUrl()}/schools/${schoolCode}`;
   }
 
   _computeShowcaseWebsiteUrl({ en: englishPath, fr: frenchPath }) {
