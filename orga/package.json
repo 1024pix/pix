@@ -97,6 +97,7 @@
     "ember-data": "^5.3.1",
     "ember-dayjs": "^0.12.0",
     "ember-eslint-parser": "^0.4.1",
+    "ember-exam": "9.0.0",
     "ember-fetch": "^8.1.2",
     "ember-intl": "^6.4.1",
     "ember-lifeline": "^7.0.0",
