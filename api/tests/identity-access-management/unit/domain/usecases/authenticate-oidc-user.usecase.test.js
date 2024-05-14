@@ -110,7 +110,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
       // when
       await authenticateOidcUser({
         code: 'code',
-        redirectUri: 'redirectUri',
         sessionState: 'state',
         state: 'state',
         nonce: 'nonce',
@@ -129,7 +128,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
       );
       expect(oidcAuthenticationService.exchangeCodeForTokens).to.have.been.calledOnceWithExactly({
         code: 'code',
-        redirectUri: 'redirectUri',
         sessionState: 'state',
         state: 'state',
         nonce: 'nonce',

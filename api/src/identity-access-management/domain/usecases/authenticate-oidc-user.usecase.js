@@ -8,7 +8,6 @@ import { ForbiddenAccess } from '../../../shared/domain/errors.js';
  * @param {string} params.code
  * @param {string} params.identityProviderCode
  * @param {string} params.nonce
- * @param {string} params.redirectUri
  * @param {string} params.sessionState
  * @param {string} params.state
  * @param {AuthenticationSessionService} params.authenticationSessionService
@@ -24,7 +23,6 @@ async function authenticateOidcUser({
   code,
   identityProviderCode,
   nonce,
-  redirectUri,
   sessionState,
   state,
   authenticationSessionService,
@@ -44,7 +42,6 @@ async function authenticateOidcUser({
 
   const sessionContent = await oidcAuthenticationService.exchangeCodeForTokens({
     code,
-    redirectUri,
     nonce,
     sessionState,
     state,

@@ -6,7 +6,6 @@ import { catchErr, expect, hFake, sinon } from '../../../test-helper.js';
 describe('Unit | Identity Access Management | Application | Controller | oidc-provider', function () {
   describe('#authenticateOidcUser', function () {
     const code = 'ABCD';
-    const redirectUri = 'https://redirect.uri.fr';
     const state = 'state';
     const identityProviderState = 'identityProviderState';
     const nonce = 'nonce';
@@ -21,7 +20,6 @@ describe('Unit | Identity Access Management | Application | Controller | oidc-pr
         deserializedPayload: {
           identityProvider,
           code,
-          redirectUri,
           state: identityProviderState,
         },
         yar: { get: sinon.stub(), commit: sinon.stub() },
@@ -50,7 +48,6 @@ describe('Unit | Identity Access Management | Application | Controller | oidc-pr
         code,
         identityProviderCode: identityProvider,
         nonce: 'nonce',
-        redirectUri,
         sessionState: state,
         state: identityProviderState,
       });

@@ -9,7 +9,7 @@ import * as oidcProviderSerializer from '../../infrastructure/serializers/jsonap
  * @return {Promise<*>}
  */
 async function authenticateOidcUser(request, h) {
-  const { code, identityProvider: identityProviderCode, redirectUri, state, audience } = request.deserializedPayload;
+  const { code, identityProvider: identityProviderCode, state, audience } = request.deserializedPayload;
 
   const sessionState = request.yar.get('state', true);
   const nonce = request.yar.get('nonce', true);
@@ -24,7 +24,6 @@ async function authenticateOidcUser(request, h) {
     code,
     identityProviderCode,
     nonce,
-    redirectUri,
     sessionState,
     state,
   });

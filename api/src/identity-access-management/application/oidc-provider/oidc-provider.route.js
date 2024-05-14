@@ -69,7 +69,6 @@ export const oidcProviderRoutes = [
             attributes: {
               identity_provider: Joi.string().required(),
               code: Joi.string().required(),
-              redirect_uri: Joi.string().required(),
               state: Joi.string().required(),
               audience: Joi.string().valid('app', 'admin').optional(),
             },

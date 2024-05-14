@@ -126,7 +126,6 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
           attributes: {
             identity_provider: 'OIDC_EXAMPLE_NET',
             code: 'code',
-            redirect_uri: 'redirect_uri',
             state: redirectTarget.searchParams.get('state'),
           },
         },
