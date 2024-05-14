@@ -32,5 +32,13 @@ module('Unit | Service | currentDomain', function (hooks) {
       // then
       assert.false(isFranceDomain);
     });
+
+    test('Get PR environment base url from domain', function (assert) {
+      const service = this.owner.lookup('service:currentDomain');
+
+      const url = new URL('https://orga-pr8887.review.pix.fr');
+      const result = service.getEnvironmentBaseUrl(url);
+      assert.deepEqual(result, '-pr8887.review.pix.fr');
+    });
   });
 });

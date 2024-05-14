@@ -11,4 +11,8 @@ export default class CurrentDomainService extends Service {
   getExtension() {
     return last(location.hostname.split('.'));
   }
+
+  getEnvironmentBaseUrl(stringUrl = window.location) {
+    return stringUrl.hostname.replace('orga', '');
+  }
 }
