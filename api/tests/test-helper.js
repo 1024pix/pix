@@ -2,6 +2,7 @@
 /* eslint-disable n/no-unpublished-import */
 import 'dayjs/locale/fr.js';
 
+import { Readable } from 'node:stream';
 import * as url from 'node:url';
 
 import { Assertion, AssertionError, expect, use as chaiUse, util as chaiUtil } from 'chai';
@@ -10,6 +11,7 @@ import chaiSorted from 'chai-sorted';
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat.js';
 import * as dotenv from 'dotenv';
+import iconv from 'iconv-lite';
 import _ from 'lodash';
 import MockDate from 'mockdate';
 import nock from 'nock';
@@ -73,6 +75,15 @@ after(function () {
 });
 
 /* eslint-enable mocha/no-top-level-hooks */
+
+function toStream(data, encoding = 'utf8') {
+  return new Readable({
+    read() {
+      this.push(iconv.encode(data, encoding));
+      this.push(null);
+    },
+  });
+}
 
 function generateValidRequestAuthorizationHeader(userId = 1234, source = 'pix') {
   const accessToken = tokenService.createAccessTokenFromUser(userId, source).accessToken;
@@ -304,4 +315,5 @@ export {
   sinon,
   streamToPromise,
   testErr,
+  toStream,
 };
