@@ -52,36 +52,12 @@ const translations = {
   nl: nlTranslations,
 };
 
-function _getMailerConfig(locale) {
-  switch (locale) {
-    case FRENCH_SPOKEN:
-    case SPANISH_SPOKEN:
-    case ENGLISH_SPOKEN:
-    case DUTCH_SPOKEN:
-      return {
-        homeName: PIX_HOME_NAME_INTERNATIONAL,
-        homeUrl: PIX_HOME_URL_INTERNATIONAL[locale] ?? PIX_HOME_URL_INTERNATIONAL.en,
-        pixOrgaHomeUrl: PIX_ORGA_HOME_URL_INTERNATIONAL,
-        pixCertifHomeUrl: PIX_CERTIF_HOME_URL_INTERNATIONAL,
-        pixAppConnectionUrl: PIX_APP_CONNECTION_URL_INTERNATIONAL[locale] ?? PIX_APP_CONNECTION_URL_INTERNATIONAL.en,
-        helpdeskUrl: PIX_HELPDESK_URL_INTERNATIONAL[locale] ?? PIX_HELPDESK_URL_INTERNATIONAL.en,
-        displayNationalLogo: false,
-        translation: translations[locale],
-      };
-    default:
-      return {
-        homeName: PIX_HOME_NAME_FRENCH_FRANCE,
-        homeUrl: PIX_HOME_URL_FRENCH_FRANCE,
-        pixOrgaHomeUrl: PIX_ORGA_HOME_URL_FRENCH_FRANCE,
-        pixCertifHomeUrl: PIX_CERTIF_HOME_URL_FRENCH_FRANCE,
-        pixAppConnectionUrl: PIX_APP_CONNECTION_URL_FRENCH_FRANCE,
-        helpdeskUrl: HELPDESK_FRENCH_FRANCE,
-        displayNationalLogo: true,
-        translation: translations.fr,
-      };
-  }
-}
-
+/**
+ * @param email
+ * @param locale
+ * @param redirectionUrl
+ * @returns {Promise<EmailingAttempt>}
+ */
 function sendAccountCreationEmail(email, locale = FRENCH_FRANCE, redirectionUrl) {
   const mailerConfig = _getMailerConfig(locale);
 
@@ -155,6 +131,12 @@ function sendCertificationResultEmail({
   });
 }
 
+/**
+ * @param email
+ * @param locale
+ * @param temporaryKey
+ * @returns {Promise<EmailingAttempt>}
+ */
 function sendResetPasswordDemandEmail({ email, locale = FRENCH_FRANCE, temporaryKey }) {
   const mailerConfig = _getMailerConfig(locale);
 
@@ -182,6 +164,15 @@ function sendResetPasswordDemandEmail({ email, locale = FRENCH_FRANCE, temporary
   });
 }
 
+/**
+ * @param email
+ * @param organizationName
+ * @param organizationInvitationId
+ * @param code
+ * @param locale
+ * @param tags
+ * @returns {Promise<EmailingAttempt>}
+ */
 function sendOrganizationInvitationEmail({
   email,
   organizationName,
@@ -219,6 +210,17 @@ function sendOrganizationInvitationEmail({
   });
 }
 
+/**
+ * @param email
+ * @param organizationName
+ * @param firstName
+ * @param lastName
+ * @param organizationInvitationId
+ * @param code
+ * @param locale
+ * @param tags
+ * @returns {Promise<EmailingAttempt>}
+ */
 function sendScoOrganizationInvitationEmail({
   email,
   organizationName,
@@ -253,6 +255,14 @@ function sendScoOrganizationInvitationEmail({
   });
 }
 
+/**
+ * @param email
+ * @param certificationCenterName
+ * @param certificationCenterInvitationId
+ * @param code
+ * @param locale
+ * @returns {Promise<EmailingAttempt>}
+ */
 function sendCertificationCenterInvitationEmail({
   email,
   certificationCenterName,
@@ -287,6 +297,12 @@ function sendCertificationCenterInvitationEmail({
   });
 }
 
+/**
+ * @param email
+ * @param firstName
+ * @param temporaryKey
+ * @returns {Promise<EmailingAttempt>}
+ */
 function sendAccountRecoveryEmail({ email, firstName, temporaryKey }) {
   const mailerConfig = _getMailerConfig(FRENCH_FRANCE);
   const fromName = mailerConfig.translation['email-sender-name']['pix-app'];
@@ -309,6 +325,13 @@ function sendAccountRecoveryEmail({ email, firstName, temporaryKey }) {
   });
 }
 
+/**
+ * @param code
+ * @param email
+ * @param locale
+ * @param translate
+ * @returns {Promise<EmailingAttempt>}
+ */
 function sendVerificationCodeEmail({ code, email, locale = FRENCH_FRANCE, translate }) {
   const mailerConfig = _getMailerConfig(locale);
 
@@ -375,6 +398,59 @@ function sendNotificationToOrganizationMembersForTargetProfileDetached({ email, 
   return mailer.sendEmail(options);
 }
 
+/**
+ * @typedef {Object} mailerConfig
+ * @property {string} homeName
+ * @property {string} homeUrl
+ * @property {string} pixOrgaHomeUrl
+ * @property {string} pixCertifHomeUrl
+ * @property {string} pixAppConnectionUrl
+ * @property {string} helpdeskUrl
+ * @property {boolean} displayNationalLogo
+ * @property {JSON} translation
+ */
+
+/**
+ * @param locale
+ * @returns {mailerConfig}
+ * @private
+ */
+function _getMailerConfig(locale) {
+  switch (locale) {
+    case FRENCH_SPOKEN:
+    case SPANISH_SPOKEN:
+    case ENGLISH_SPOKEN:
+    case DUTCH_SPOKEN:
+      return {
+        homeName: PIX_HOME_NAME_INTERNATIONAL,
+        homeUrl: PIX_HOME_URL_INTERNATIONAL[locale] ?? PIX_HOME_URL_INTERNATIONAL.en,
+        pixOrgaHomeUrl: PIX_ORGA_HOME_URL_INTERNATIONAL,
+        pixCertifHomeUrl: PIX_CERTIF_HOME_URL_INTERNATIONAL,
+        pixAppConnectionUrl: PIX_APP_CONNECTION_URL_INTERNATIONAL[locale] ?? PIX_APP_CONNECTION_URL_INTERNATIONAL.en,
+        helpdeskUrl: PIX_HELPDESK_URL_INTERNATIONAL[locale] ?? PIX_HELPDESK_URL_INTERNATIONAL.en,
+        displayNationalLogo: false,
+        translation: translations[locale],
+      };
+    default:
+      return {
+        homeName: PIX_HOME_NAME_FRENCH_FRANCE,
+        homeUrl: PIX_HOME_URL_FRENCH_FRANCE,
+        pixOrgaHomeUrl: PIX_ORGA_HOME_URL_FRENCH_FRANCE,
+        pixCertifHomeUrl: PIX_CERTIF_HOME_URL_FRENCH_FRANCE,
+        pixAppConnectionUrl: PIX_APP_CONNECTION_URL_FRENCH_FRANCE,
+        helpdeskUrl: HELPDESK_FRENCH_FRANCE,
+        displayNationalLogo: true,
+        translation: translations.fr,
+      };
+  }
+}
+
+/**
+ * @param url
+ * @param locale
+ * @returns {string}
+ * @private
+ */
 function _formatUrlWithLocale(url, locale) {
   const formattedUrl = new URL(url);
 
