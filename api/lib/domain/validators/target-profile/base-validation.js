@@ -20,6 +20,7 @@ const schema = Joi.object({
       categories.CUSTOM,
       categories.DISCIPLINE,
       categories.OTHER,
+      categories.PIX_PLUS,
       categories.PREDEFINED,
       categories.SUBJECT,
     )
