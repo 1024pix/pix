@@ -1,10 +1,11 @@
 import { setApplication } from '@ember/test-helpers';
 import NotificationMessageService from 'ember-cli-notifications/services/notifications';
-import { start } from 'ember-qunit';
-import Application from 'pix-certif/app';
-import config from 'pix-certif/config/environment';
+import start from 'ember-exam/test-support/start';
 import * as QUnit from 'qunit';
 import { setup } from 'qunit-dom';
+
+import Application from '../app';
+import config from '../config/environment';
 
 NotificationMessageService.reopen({
   removeNotification(notification) {
@@ -18,7 +19,5 @@ NotificationMessageService.reopen({
 });
 
 setApplication(Application.create(config.APP));
-
 setup(QUnit.assert);
-
 start();
