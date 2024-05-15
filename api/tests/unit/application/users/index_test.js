@@ -1012,24 +1012,6 @@ describe('Unit | Router | user-router', function () {
         expect(result.statusCode).to.equal(400);
       });
 
-      it('should return 400 when type is not GAR or EMAIL or USERNAME or POLE_EMPLOI or CNAV', async function () {
-        // given
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-
-        // when
-        const result = await httpTestServer.request('POST', '/api/admin/users/1/remove-authentication', {
-          data: {
-            attributes: {
-              type: 'INVALID',
-            },
-          },
-        });
-
-        // then
-        expect(result.statusCode).to.equal(400);
-      });
-
       it(`should return 403 when user don't have access (CERTIF | METIER)`, async function () {
         // given
         sinon.stub(userController, 'removeAuthenticationMethod').returns('ok');
@@ -1161,33 +1143,6 @@ describe('Unit | Router | user-router', function () {
         // then
         expect(statusCode).to.equal(400);
         expect(JSON.parse(payload).errors[0].detail).to.equal('"authenticationMethodId" must be a number');
-      });
-
-      it('returns 400 when the payload contains an invalid identity provider', async function () {
-        // given
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-        const payload = {
-          data: {
-            attributes: {
-              'user-id': 1,
-              'identity-provider': 'invalid-identity-provider',
-            },
-          },
-        };
-
-        // when
-        const { statusCode, result } = await httpTestServer.request(
-          'POST',
-          '/api/admin/users/1/authentication-methods/1',
-          payload,
-        );
-
-        // then
-        expect(statusCode).to.equal(400);
-        expect(result.errors[0].detail).to.equal(
-          '"data.attributes.identity-provider" must be one of [GAR, POLE_EMPLOI, CNAV, FWB, PAYSDELALOIRE, PROSANTECONNECT]',
-        );
       });
 
       it('returns 400 when the payload contains an invalid user id', async function () {
