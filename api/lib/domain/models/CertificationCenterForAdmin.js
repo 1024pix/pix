@@ -1,3 +1,4 @@
+import { CERTIFICATION_FEATURES } from '../../../src/certification/shared/domain/constants.js';
 import { CERTIFICATION_CENTER_TYPES } from '../constants.js';
 
 class CertificationCenterForAdmin {
@@ -13,6 +14,7 @@ class CertificationCenterForAdmin {
     dataProtectionOfficerLastName,
     dataProtectionOfficerEmail,
     isV3Pilot = false,
+    features = [],
   } = {}) {
     this.id = id;
     this.name = name;
@@ -25,6 +27,7 @@ class CertificationCenterForAdmin {
     this.dataProtectionOfficerLastName = dataProtectionOfficerLastName;
     this.dataProtectionOfficerEmail = dataProtectionOfficerEmail;
     this.isV3Pilot = isV3Pilot;
+    this.features = features;
   }
 
   get isSco() {
@@ -33,6 +36,10 @@ class CertificationCenterForAdmin {
 
   isHabilitated(key) {
     return this.habilitations.some((habilitation) => habilitation.key === key);
+  }
+
+  get isComplementaryAlonePilot() {
+    return this.features.includes(CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key);
   }
 }
 

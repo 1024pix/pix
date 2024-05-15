@@ -32,6 +32,7 @@ const serialize = function (certificationCenters, meta) {
       'dataProtectionOfficerEmail',
       'habilitations',
       'isV3Pilot',
+      'isComplementaryAlonePilot',
     ],
     typeForAttribute: (attribute) => {
       if (attribute === 'habilitations') return 'complementary-certifications';

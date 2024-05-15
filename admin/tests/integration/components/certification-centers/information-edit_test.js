@@ -51,7 +51,7 @@ module('Integration | Component | certification-centers/information-edit', funct
       );
 
       // when
-      await fillByLabel('Nom du centre', '');
+      await fillByLabel('Nom du centre', '', { exact: false });
 
       // then
       assert.dom(screen.getByText('Le nom ne peut pas être vide')).exists();
@@ -64,7 +64,7 @@ module('Integration | Component | certification-centers/information-edit', funct
       );
 
       // when
-      await fillByLabel('Nom du centre', 'a'.repeat(256));
+      await fillByLabel('Nom du centre', 'a'.repeat(256), { exact: false });
 
       // then
       assert.dom(screen.getByText('La longueur du nom ne doit pas excéder 255 caractères')).exists();

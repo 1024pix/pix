@@ -1,4 +1,5 @@
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/certification-center-for-admin-serializer.js';
+import { CERTIFICATION_FEATURES } from '../../../../../src/certification/shared/domain/constants.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | certification-center-for-admin-serializer', function () {
@@ -18,6 +19,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-for-admin-serialize
           'data-protection-officer-first-name': 'Justin',
           'data-protection-officer-last-name': 'Ptipeu',
           'data-protection-officer-email': 'justin.ptipeu@example.net',
+          'is-complementary-alone-pilot': false,
         },
         relationships: {},
       },
@@ -169,6 +171,24 @@ describe('Unit | Serializer | JSONAPI | certification-center-for-admin-serialize
         ];
 
         expect(serializedCertificationCenter).to.deep.equal(certificationCenterJsonApi);
+      });
+    });
+  });
+
+  describe('when the center is for a complementary alone pilot', function () {
+    describe('#serialize', function () {
+      it('should return that the center is a complementary alone pilot into JSON API data', function () {
+        // given
+        const certificationCenter = domainBuilder.buildCertificationCenterForAdmin({
+          ...certificationCenterForAdmin,
+          features: [CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key],
+        });
+
+        // when
+        const serializedCertificationCenter = serializer.serialize(certificationCenter);
+
+        // then
+        expect(serializedCertificationCenter.data.attributes['is-complementary-alone-pilot']).to.be.true;
       });
     });
   });

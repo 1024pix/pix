@@ -2,7 +2,7 @@
 
 set -e
 
-npx lint-staged --cwd 1d
+npx lint-staged --cwd junior
 npx lint-staged --cwd admin
 npx lint-staged --cwd certif
 npx lint-staged --cwd mon-pix

@@ -76,22 +76,17 @@
   }
 }
 
-// TODO: Add this attribute in pix UI
-.pix-select select {
-  width: 100%;
-}
-
 .form-control {
   display: block;
   width: 100%;
   height: calc(1.5em + 0.75rem + 2px);
   padding: 0.375rem 0.75rem;
-  color: var(--pix-neutral-500);
+  color: var(--pix-neutral-900);
   font-size: 1rem;
   line-height: 1.5;
   background-color: var(--pix-neutral-0);
   background-clip: padding-box;
-  border: 1px solid var(--pix-neutral-100);
+  border: 1px solid var(--pix-neutral-500);
   border-radius: 0.25rem;
 }
 

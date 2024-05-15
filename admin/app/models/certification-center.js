@@ -14,6 +14,7 @@ export default class CertificationCenter extends Model {
   @attr() dataProtectionOfficerLastName;
   @attr() dataProtectionOfficerEmail;
   @attr() isV3Pilot;
+  @attr() isComplementaryAlonePilot;
 
   @hasMany('complementary-certification') habilitations;
 

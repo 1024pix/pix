@@ -1,64 +1,62 @@
-<div class="certification-center-information__display">
-  <h2 class="certification-center-information__display__name">{{@certificationCenter.name}}</h2>
-  <div class="property">
-    <label class="field__label">Type :</label>
-    <span>{{@certificationCenter.typeLabel}}</span><br />
-  </div>
-  <div class="property">
-    <label class="field__label">Identifiant externe :</label>
-    <span>{{@certificationCenter.externalId}}</span><br />
-  </div>
-  <div class="property">
-    <ul>
-      <li>
-        Nom du
-        <abbr title="Délégué à la protection des données">DPO</abbr>
-        :
-        {{@certificationCenter.dataProtectionOfficerFullName}}
-      </li>
-      <li>
-        Adresse e-mail du
-        <abbr title="Délégué à la protection des données">DPO</abbr>
-        :
-        {{@certificationCenter.dataProtectionOfficerEmail}}
-      </li>
-      <li>
-        {{t "pages.certification-centers.information-view.is-v3-pilot"}}
-        :
-        {{if (eq @certificationCenter.isV3Pilot true) (t "common.words.yes") (t "common.words.no")}}
-      </li>
-    </ul>
-  </div>
-  <div class="property">
-    <h2 class="field__label">Habilitations aux certifications complémentaires</h2>
-    <ul class="certification-center-information__display__habilitations-list">
-      {{#each this.availableHabilitations as |habilitation|}}
-        {{#if (contains habilitation @certificationCenter.habilitations)}}
-          <li aria-label={{concat "Habilité pour " habilitation.label}}>
-            <FaIcon class="granted-habilitation-icon" @icon="circle-check" />
-            {{habilitation.label}}
-          </li>
-        {{else}}
-          <li aria-label={{concat "Non-habilité pour " habilitation.label}}>
-            <FaIcon class="not-granted-habilitation-icon" @icon="circle-xmark" />
-            {{habilitation.label}}
-          </li>
-        {{/if}}
-      {{/each}}
-    </ul>
-    <div class="certification-center-information__button-section">
-      <PixButton @size="small" @triggerAction={{@toggleEditMode}}>
-        Modifier
-      </PixButton>
+<h2 class="certification-center-information-display__name">{{@certificationCenter.name}}</h2>
 
-      <PixButtonLink
-        @backgroundColor="transparent-light"
-        @isBorderVisible={{true}}
-        @href={{this.externalURL}}
-        @size="small"
-        target="_blank"
-        rel="noopener noreferrer"
-      >Tableau de bord</PixButtonLink>
-    </div>
-  </div>
-</div>
+<dl class="certification-center-information-display__list">
+  <dt class="label">Type :</dt>
+  <dd>{{@certificationCenter.typeLabel}}</dd>
+
+  <dt class="label">Identifiant externe :</dt>
+  <dd>{{@certificationCenter.externalId}}</dd>
+
+  <dt class="label">
+    Nom du
+    <abbr title="Délégué à la protection des données">DPO</abbr>
+    :
+  </dt>
+  <dd>{{@certificationCenter.dataProtectionOfficerFullName}}</dd>
+
+  <dt class="label">
+    Adresse e-mail du
+    <abbr title="Délégué à la protection des données">DPO</abbr>
+    :
+  </dt>
+  <dd>{{@certificationCenter.dataProtectionOfficerEmail}}</dd>
+</dl>
+
+<span class="label">{{t "pages.certification-centers.information-view.feature-habilitations.title"}}</span>
+<ul class="certification-center-information-display__habilitations-list">
+  {{#each this.availableFeatureHabilitations as |feature|}}
+    <CertificationCenters::HabilitationTag @label={{feature.label}} @active={{feature.isPilot}} />
+  {{/each}}
+</ul>
+
+<div class="certification-center-information-display__divider"></div>
+
+<span class="label">Habilitations aux certifications complémentaires</span>
+<ul class="certification-center-information-display__habilitations-list">
+  {{#each this.availableHabilitations as |habilitation|}}
+    <CertificationCenters::HabilitationTag
+      @label={{habilitation.label}}
+      @active={{(contains habilitation @certificationCenter.habilitations)}}
+    />
+  {{/each}}
+</ul>
+
+<ul class="certification-center-information-display__action-buttons">
+  <li>
+    <PixButton @size="small" @triggerAction={{@toggleEditMode}}>
+      Modifier
+    </PixButton>
+  </li>
+  <li>
+    <PixButtonLink
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+      @href={{this.externalURL}}
+      @size="small"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Tableau de bord
+    </PixButtonLink>
+  </li>
+</ul>
