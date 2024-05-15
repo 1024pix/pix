@@ -400,6 +400,7 @@ jobs:
     executor:
       name: node-redis-postgres-s3-docker
     working_directory: ~/pix/api
+    parallelism: 3
     steps:
       - attach_workspace:
           at: ~/pix
@@ -411,7 +412,10 @@ jobs:
             TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci_acceptance
       - run:
           name: Test
-          command: npm run test:api:acceptance
+          command: |
+            circleci tests glob 'tests/**/acceptance/**/*test.js' |
+            circleci tests split --split-by=filesize |
+            xargs npm run test:api:path --
           environment:
             NODE_ENV: test
             TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci_acceptance
