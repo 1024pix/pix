@@ -455,7 +455,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
                     },
                   ],
                 }),
-                422,
+                400,
               );
 
               // when
