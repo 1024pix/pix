@@ -60,7 +60,7 @@ async function main() {
   }
 
   // fetch current route from prod
-  // eslint-disable-next-line no-restricted-globals
+  // eslint-disable-next-line n/no-unsupported-features/node-builtins,no-restricted-globals
   const response = await fetch(swaggerUrl);
   const swaggerJson = await response.json();
   const currentPixRoutes = extractRoutes(swaggerJson);
