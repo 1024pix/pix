@@ -1,9 +1,9 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import * as groupRepository from '../../../../../lib/infrastructure/repositories/group-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
+import * as groupRepository from '../../../campaign/infrastructure/repositories/group-repository.js';
 import * as organizationLearnerActivityRepository from '../../infrastructure/repositories/organization-learner-activity-repository.js';
 import * as organizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
 import * as organizationParticipantRepository from '../../infrastructure/repositories/organization-participant-repository.js';

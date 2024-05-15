@@ -25,6 +25,7 @@ import { OrganizationForAdmin } from '../../../src/organizational-entities/domai
 import { CampaignCreator } from '../../../src/prescription/campaign/domain/models/CampaignCreator.js';
 import { CampaignForArchiving } from '../../../src/prescription/campaign/domain/models/CampaignForArchiving.js';
 import { CampaignForCreation } from '../../../src/prescription/campaign/domain/models/CampaignForCreation.js';
+import { Group } from '../../../src/prescription/campaign/domain/models/Group.js';
 import { CampaignToStartParticipation } from '../../../src/prescription/campaign-participation/domain/models/CampaignToStartParticipation.js';
 import { OrganizationPlacesLot } from '../../../src/prescription/organization-place/domain/models/OrganizationPlacesLot.js';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../src/prescription/shared/domain/constants.js';
@@ -86,7 +87,6 @@ import { EmailingAttempt } from './EmailingAttempt.js';
 import { EmailModificationDemand } from './EmailModificationDemand.js';
 import { FinalizedSession } from './FinalizedSession.js';
 import { Framework } from './Framework.js';
-import { Group } from './Group.js';
 import { Hint } from './Hint.js';
 import { JuryCertification } from './JuryCertification.js';
 import { JurySession } from './JurySession.js';

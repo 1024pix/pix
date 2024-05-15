@@ -22,6 +22,23 @@ const register = async function (server) {
         tags: ['api', 'division'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/campaigns/{campaignId}/groups',
+      config: {
+        validate: {
+          params: Joi.object({
+            campaignId: identifiersType.campaignId,
+          }),
+        },
+        handler: campaignController.getGroups,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            '- Récupération des groupes des participants à la campagne',
+        ],
+        tags: ['api', 'group'],
+      },
+    },
   ]);
 };
 

@@ -5,7 +5,7 @@ import {
   generateValidRequestAuthorizationHeader,
 } from '../../../../test-helper.js';
 
-describe('Acceptance | API | Campaign Controller', function () {
+describe('Acceptance | API | Campaign Route', function () {
   let server;
 
   beforeEach(async function () {
@@ -33,6 +33,30 @@ describe('Acceptance | API | Campaign Controller', function () {
 
       expect(response.statusCode).to.equal(200);
       expect(response.result.data[0].attributes.name).to.equal(division);
+    });
+  });
+
+  describe('GET /api/campaigns/{campaignId}/groups', function () {
+    it('should return the campaign participants group', async function () {
+      const group = 'LB3';
+      const campaign = databaseBuilder.factory.buildCampaign();
+      const user = databaseBuilder.factory.buildUser.withMembership({ organizationId: campaign.organizationId });
+      databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+        { organizationId: campaign.organizationId, group: group },
+        { campaignId: campaign.id },
+      );
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/api/campaigns/${campaign.id}/groups`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      };
+
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data[0].attributes.name).to.equal(group);
     });
   });
 });

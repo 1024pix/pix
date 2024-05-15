@@ -1,6 +1,6 @@
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { ForbiddenAccess } from '../../../../src/shared/domain/errors.js';
-import { catchErr, databaseBuilder, expect } from '../../../test-helper.js';
+import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
+import { ForbiddenAccess } from '../../../../../../src/shared/domain/errors.js';
+import { catchErr, databaseBuilder, expect } from '../../../../../test-helper.js';
 
 const { getParticipantsGroup } = usecases;
 

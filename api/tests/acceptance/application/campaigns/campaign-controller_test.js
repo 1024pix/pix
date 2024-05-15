@@ -305,30 +305,6 @@ describe('Acceptance | API | Campaign Controller', function () {
     });
   });
 
-  describe('GET /api/campaigns/{id}/groups', function () {
-    it('should return the campaign participants group', async function () {
-      const group = 'LB3';
-      const campaign = databaseBuilder.factory.buildCampaign();
-      const user = databaseBuilder.factory.buildUser.withMembership({ organizationId: campaign.organizationId });
-      databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
-        { organizationId: campaign.organizationId, group: group },
-        { campaignId: campaign.id },
-      );
-      await databaseBuilder.commit();
-
-      const options = {
-        method: 'GET',
-        url: `/api/campaigns/${campaign.id}/groups`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-      };
-
-      const response = await server.inject(options);
-
-      expect(response.statusCode).to.equal(200);
-      expect(response.result.data[0].attributes.name).to.equal(group);
-    });
-  });
-
   describe('PATCH /api/campaigns/{id}', function () {
     it('should return 200 when user is admin but not owner of the campaign', async function () {
       // given
