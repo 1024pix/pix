@@ -44,7 +44,7 @@
     "@1024pix/ember-testing-library": "^1.1.0",
     "@1024pix/eslint-config": "^1.2.12",
     "@1024pix/pix-ui": "^45.5.2",
-    "@1024pix/stylelint-config": "^5.1.12",
+    "@1024pix/stylelint-config": "^5.1.13",
     "@babel/eslint-parser": "^7.22.15",
     "@babel/plugin-proposal-decorators": "^7.22.15",
     "@ember-data/model": "4.12.6",
