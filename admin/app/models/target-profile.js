@@ -5,12 +5,13 @@ import { memberAction } from 'ember-api-actions';
 import formatList from '../utils/format-select-options';
 
 export const categories = {
-  COMPETENCES: 'Les 16 compétences',
-  SUBJECT: 'Thématiques',
-  DISCIPLINE: 'Disciplinaires',
-  CUSTOM: 'Parcours sur-mesure',
-  PREDEFINED: 'Parcours prédéfinis',
   OTHER: 'Autres',
+  DISCIPLINE: 'Disciplinaires',
+  COMPETENCES: 'Les 16 compétences',
+  PREDEFINED: 'Parcours prédéfinis',
+  CUSTOM: 'Parcours sur-mesure',
+  PIX_PLUS: 'Pix+',
+  SUBJECT: 'Thématiques',
 };
 
 export const optionsCategoryList = formatList(categories);
