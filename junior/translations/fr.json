@@ -1,6 +1,6 @@
 {
   "pages": {
-    "pix1d": "Pix 1D",
+    "pix-junior": "Pix Junior",
     "challenge": {
       "actions": {
         "skip": "Je passe",
@@ -17,7 +17,7 @@
     },
     "home": {
       "page-title": "Page d'accueil",
-      "welcome": "Bienvenue chez Pix1D !",
+      "welcome": "Bienvenue sur Pix Junior !",
       "code-instruction": "Saisis le code de ton école pour accéder à ta classe",
       "code-label": "Code de l'école",
       "code-description": "Le code de l'école est composé de 6 chiffres et 3 lettres.",
@@ -26,7 +26,7 @@
     },
     "not-found": {
       "title": "Page non trouvée",
-      "message": "La page que tu cherches n'existe pas sur Pix1D.",
+      "message": "La page que tu cherches n'existe pas sur Pix Junior.",
       "backHome": "Retour à l'accueil"
     },
     "missions": {
