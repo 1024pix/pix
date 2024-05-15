@@ -65,7 +65,7 @@ module('Integration | Component | Module | QROCM', function (hooks) {
     assert.ok(screen.getByRole('textbox', { name: 'input-aria' }));
     assert.dom(screen.getByText("l'identifiant")).exists({ count: 1 });
     assert.dom(screen.getByText("le fournisseur d'adresse mail")).exists({ count: 1 });
-    assert.ok(screen.getByText('select-aria', { selector: 'label' }));
+    assert.ok(screen.getByLabelText('select-aria'));
     assert.dom('.element-qrocm-proposals__input--block').exists({ count: 2 });
   });
 
