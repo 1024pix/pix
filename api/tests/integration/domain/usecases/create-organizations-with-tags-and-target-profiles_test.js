@@ -25,11 +25,13 @@ const { omit } = lodash;
 
 describe('Integration | UseCases | create-organizations-with-tags-and-target-profiles', function () {
   let missionFeature;
+  let learnerImportFeature;
   let userId;
 
   beforeEach(async function () {
     databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY);
     missionFeature = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.MISSIONS_MANAGEMENT);
+    learnerImportFeature = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.LEARNER_IMPORT);
     userId = databaseBuilder.factory.buildUser().id;
     await databaseBuilder.commit();
   });
@@ -735,8 +737,12 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
 
       // then
       const savedOrganizationFeatures = await knex('organization-features');
-      expect(savedOrganizationFeatures.length).to.equal(1);
-      expect(savedOrganizationFeatures[0].featureId).to.equal(missionFeature.id);
+      expect(savedOrganizationFeatures.length).to.equal(2);
+      const savedOrganizationFeatureIds = savedOrganizationFeatures.map(
+        (organizationFeature) => organizationFeature.featureId,
+      );
+      expect(savedOrganizationFeatureIds).to.include(missionFeature.id);
+      expect(savedOrganizationFeatureIds).to.include(learnerImportFeature.id);
     });
 
     it('should create schools associated to organizations', async function () {

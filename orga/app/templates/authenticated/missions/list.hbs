@@ -5,9 +5,9 @@
   <br />
   {{#if @model.isAdminOfTheCurrentOrganization}}
     {{t "pages.missions.list.banner.admin.abstract"}}
-    <LinkTo @route="authenticated.import-organization-participants">
-      {{t "pages.missions.list.banner.admin.import-text"}}
-    </LinkTo>
+    <LinkTo @route="authenticated.import-organization-participants">{{t
+        "pages.missions.list.banner.admin.import-text"
+      }}</LinkTo>
     {{t "pages.missions.list.banner.admin.info"}}
   {{else}}
     {{t "pages.missions.list.banner.non-admin.abstract"}}

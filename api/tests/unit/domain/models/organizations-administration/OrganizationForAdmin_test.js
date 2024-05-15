@@ -41,17 +41,26 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
     });
     context('for SCO-1D organizations', function () {
       it('should build an OrganizationForAdmin with MISSIONS_MANAGEMENT feature', function () {
-        // given
         const expectedOrganization = domainBuilder.buildOrganizationForAdmin({
           type: 'SCO-1D',
         });
 
-        // when
         const organization = new OrganizationForAdmin(expectedOrganization);
 
-        // then
-        expect(organization.features).to.deep.equal({
+        expect(organization.features).to.include({
           [ORGANIZATION_FEATURE.MISSIONS_MANAGEMENT.key]: true,
+        });
+      });
+
+      it('should build an OrganizationForAdmin with LEARNER-IMPORT feature', function () {
+        const expectedOrganization = domainBuilder.buildOrganizationForAdmin({
+          type: 'SCO-1D',
+        });
+
+        const organization = new OrganizationForAdmin(expectedOrganization);
+
+        expect(organization.features).to.include({
+          [ORGANIZATION_FEATURE.LEARNER_IMPORT.key]: true,
         });
       });
     });
