@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+import { SubscriptionTypes } from '../../../../../src/certification/shared/domain/models/SubscriptionTypes.js';
 import { clearResolveMx, setResolveMx } from '../../../../../src/shared/mail/infrastructure/services/mail-check.js';
 import {
   createServer,
@@ -35,6 +36,7 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
     let certificationCandidate;
     let certificationCpfCountry;
     let certificationCpfCity;
+    let complementaryCertificationId;
 
     beforeEach(function () {
       certificationCandidate = domainBuilder.buildCertificationCandidate.pro({
@@ -70,7 +72,7 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
         name: 'PARIS 15',
         INSEECode: '75115',
       });
-      const complementaryCertification1Id = databaseBuilder.factory.buildComplementaryCertification({
+      complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
         label: 'Certif complémentaire 1',
       }).id;
 
@@ -93,7 +95,7 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
             'billing-mode': 'FREE',
             sex: certificationCandidate.sex,
             'complementary-certification': {
-              id: complementaryCertification1Id,
+              id: complementaryCertificationId,
               label: 'Certif complémentaire 1',
               key: 'CERTIF',
             },
@@ -153,13 +155,26 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
       expect(response.result.data.id).to.exist;
     });
 
-    it('should save the complementary certification subscription', async function () {
+    it('should save the complementary certification subscriptions', async function () {
       // when
       await server.inject(options);
 
       // then
-      const complementaryCertificationRegistrationsInDB = await knex('certification-subscriptions');
-      expect(complementaryCertificationRegistrationsInDB.length).to.equal(1);
+      const complementaryCertificationRegistrationsInDB = await knex('certification-subscriptions').select(
+        'complementaryCertificationId',
+        'type',
+      );
+
+      expect(complementaryCertificationRegistrationsInDB).to.have.deep.members([
+        {
+          complementaryCertificationId: null,
+          type: SubscriptionTypes.CORE,
+        },
+        {
+          complementaryCertificationId,
+          type: SubscriptionTypes.COMPLEMENTARY,
+        },
+      ]);
     });
   });
 });

@@ -7,6 +7,7 @@ import {
 import * as certificationCandidateRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/certification-candidate-repository.js';
 import { ComplementaryCertification } from '../../../../../../src/certification/session-management/domain/models/ComplementaryCertification.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
+import { SubscriptionTypes } from '../../../../../../src/certification/shared/domain/models/SubscriptionTypes.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | CertificationCandidate', function () {
@@ -41,6 +42,19 @@ describe('Integration | Repository | CertificationCandidate', function () {
         expect(_.omit(firstCertificationCandidatesInSession, attributesToOmit)).to.deepEqualInstance(
           _.omit(certificationCandidate, attributesToOmit),
         );
+        const subscriptions = await knex('certification-subscriptions')
+          .select('type', 'certificationCandidateId', 'complementaryCertificationId')
+          .where({
+            certificationCandidateId: firstCertificationCandidatesInSession.id,
+          });
+
+        expect(subscriptions).to.have.deep.members([
+          {
+            type: SubscriptionTypes.CORE,
+            certificationCandidateId: firstCertificationCandidatesInSession.id,
+            complementaryCertificationId: null,
+          },
+        ]);
       });
 
       context('when adding a new candidate', function () {
@@ -103,14 +117,24 @@ describe('Integration | Repository | CertificationCandidate', function () {
           });
 
           // then
-          const [{ complementaryCertificationId: complementaryCertificationSubscriptionIdInDB }] = await knex(
-            'certification-subscriptions',
-          )
-            .select('complementaryCertificationId')
+          const subscriptions = await knex('certification-subscriptions')
+            .select('type', 'certificationCandidateId', 'complementaryCertificationId')
             .where({
               certificationCandidateId: savedCertificationCandidate.id,
             });
-          expect(complementaryCertificationSubscriptionIdInDB).to.equal(complementaryCertificationId);
+
+          expect(subscriptions[0]).to.contain(
+            {
+              type: SubscriptionTypes.CORE,
+              certificationCandidateId: savedCertificationCandidate.id,
+              complementaryCertificationId: null,
+            },
+            {
+              type: SubscriptionTypes.COMPLEMENTARY,
+              certificationCandidateId: savedCertificationCandidate.id,
+              complementaryCertificationId: complementaryCertificationId,
+            },
+          );
         });
       });
     });

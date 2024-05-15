@@ -38,35 +38,33 @@ const saveInSession = async function ({
   domainTransaction = DomainTransaction.emptyTransaction(),
 }) {
   const certificationCandidateDataToSave = _adaptModelToDb(certificationCandidate);
+  const knexTransaction = domainTransaction.knexTransaction
+    ? domainTransaction.knexTransaction
+    : await knex.transaction();
 
   try {
-    const insertCertificationCandidateQuery = knex('certification-candidates')
+    const [addedCertificationCandidate] = await knexTransaction('certification-candidates')
       .insert({ ...certificationCandidateDataToSave, sessionId })
       .returning('*');
 
-    if (domainTransaction.knexTransaction) {
-      insertCertificationCandidateQuery.transacting(domainTransaction.knexTransaction);
-    }
-
-    const [addedCertificationCandidate] = await insertCertificationCandidateQuery;
-
-    if (certificationCandidate.complementaryCertification) {
-      const complementaryCertificationSubscriptionToSave = {
-        complementaryCertificationId: certificationCandidate.complementaryCertification.id,
-        certificationCandidateId: addedCertificationCandidate.id,
-        type: SubscriptionTypes.COMPLEMENTARY,
-      };
-
-      const insertComplementaryCertificationSubscriptionQuery = knex('certification-subscriptions').insert(
-        complementaryCertificationSubscriptionToSave,
-      );
-
-      if (domainTransaction.knexTransaction) {
-        insertComplementaryCertificationSubscriptionQuery.transacting(domainTransaction.knexTransaction);
+    for (const type of certificationCandidate.subscriptions) {
+      if (type === SubscriptionTypes.CORE) {
+        await _insertCertificationSubscription({
+          type,
+          certificationCandidateId: addedCertificationCandidate.id,
+          knexTransaction,
+        });
+      } else if (type === SubscriptionTypes.COMPLEMENTARY) {
+        await _insertCertificationSubscription({
+          type,
+          complementaryCertificationId: certificationCandidate.complementaryCertification.id,
+          certificationCandidateId: addedCertificationCandidate.id,
+          knexTransaction,
+        });
       }
-
-      await insertComplementaryCertificationSubscriptionQuery;
     }
+
+    await knexTransaction.commit();
 
     return new CertificationCandidate(addedCertificationCandidate);
   } catch (error) {
@@ -240,6 +238,19 @@ export {
   saveInSession,
   update,
 };
+
+async function _insertCertificationSubscription({
+  complementaryCertificationId,
+  certificationCandidateId,
+  type,
+  knexTransaction,
+}) {
+  return knexTransaction('certification-subscriptions').insert({
+    type,
+    complementaryCertificationId,
+    certificationCandidateId,
+  });
+}
 
 function _buildCertificationCandidates(results) {
   if (results?.models[0]) {
