@@ -8,8 +8,8 @@ import generateRandomString from '../../../../utils/generate-random-string';
 export default class ChallengeItemQrocm extends Component {
   @tracked answerValues;
 
-  constructor() {
-    super(...arguments);
+  @action
+  resetAnswerValues() {
     this.answerValues = this.#extractProposals();
   }
 

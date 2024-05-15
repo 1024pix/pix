@@ -1,4 +1,4 @@
-<div class="challenge-item-proposals">
+<div {{did-render this.resetAnswerValues}} class="challenge-item-proposals">
   {{#each this.proposalBlocks as |block|}}
     {{#if block.showText}}
       <Markdown::MarkdownToHtml
