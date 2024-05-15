@@ -15,7 +15,6 @@ module('Unit | Authenticator | oidc', function (hooks) {
     const identityProviderCode = 'OIDC_PARTNER';
     const identityProviderSlug = 'oidc-partner';
     const code = 'code';
-    const redirectUri = 'redirectUri';
     const state = 'state';
     const request = {
       method: 'POST',
@@ -29,7 +28,6 @@ module('Unit | Authenticator | oidc', function (hooks) {
         attributes: {
           identity_provider: identityProviderCode,
           code,
-          redirect_uri: redirectUri,
           state,
         },
       },
@@ -68,7 +66,7 @@ module('Unit | Authenticator | oidc', function (hooks) {
       sinon.restore();
     });
 
-    test('should fetch token with authentication key', async function (assert) {
+    test('retrieves an access token with authentication key', async function (assert) {
       // given
       const authenticator = this.owner.lookup('authenticator:oidc');
 
@@ -99,14 +97,13 @@ module('Unit | Authenticator | oidc', function (hooks) {
       });
     });
 
-    test('should fetch token with code, redirectUri, and state in body', async function (assert) {
+    test('retrieves an access token with code and state in body', async function (assert) {
       // given
       const authenticator = this.owner.lookup('authenticator:oidc');
 
       // when
       const token = await authenticator.authenticate({
         code,
-        redirectUri,
         state,
         identityProviderSlug,
         hostSlug: 'token',
@@ -126,7 +123,7 @@ module('Unit | Authenticator | oidc', function (hooks) {
     });
 
     module('when user is authenticated', function () {
-      test('should invalidate session', async function (assert) {
+      test('invalidates the current session', async function (assert) {
         // given
         const sessionStub = Service.create({
           isAuthenticated: true,
@@ -143,7 +140,7 @@ module('Unit | Authenticator | oidc', function (hooks) {
         authenticator.session = sessionStub;
 
         // when
-        await authenticator.authenticate({ code, redirectUri, state, identityProviderSlug, hostSlug: 'token' });
+        await authenticator.authenticate({ code, state, identityProviderSlug, hostSlug: 'token' });
 
         // then
         request.body = body;
