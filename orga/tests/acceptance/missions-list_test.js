@@ -52,7 +52,7 @@ module('Acceptance | Missions List', function (hooks) {
         .dom(
           screen.getByRole('link', { name: this.intl.t('pages.missions.list.banner.copypaste-container.import-text') }),
         )
-        .hasAttribute('href', 'https://junior.pix.fr/schools/BLABLA123');
+        .hasAttribute('href', 'http://localhost/schools/BLABLA123');
     });
 
     module('display divisions', function () {

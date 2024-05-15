@@ -11,4 +11,8 @@ export default class CurrentDomainService extends Service {
   getExtension() {
     return last(location.hostname.split('.'));
   }
+
+  getJuniorBaseUrl(stringUrl = window.location) {
+    return `${stringUrl.protocol}//${stringUrl.hostname.replace('orga', 'junior')}`;
+  }
 }

@@ -258,27 +258,22 @@ module('Unit | Service | url', function (hooks) {
   });
   module('#pixJuniorSchoolUrl', function () {
     test('returns pix junior url for current organization', function (assert) {
-      // given
       const service = this.owner.lookup('service:url');
       service.pixJuniorUrl = 'https://junior.pix.fr';
       service.currentUser = { organization: { schoolCode: 'MINIPIXOU' } };
+      service.currentDomain = { getJuniorBaseUrl: () => 'https://junior.pix.fr' };
 
-      // when
       const pixJuniorSchoolUrl = service.pixJuniorSchoolUrl;
 
-      // then
       assert.strictEqual(pixJuniorSchoolUrl, 'https://junior.pix.fr/schools/MINIPIXOU');
     });
     test('returns empty string if the current organization has not any school code', function (assert) {
-      // given
       const service = this.owner.lookup('service:url');
       service.pixJuniorUrl = 'https://junior.pix.fr';
       service.currentUser = { organization: {} };
 
-      // when
       const pixJuniorSchoolUrl = service.pixJuniorSchoolUrl;
 
-      // then
       assert.strictEqual(pixJuniorSchoolUrl, '');
     });
   });

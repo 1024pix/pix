@@ -50,7 +50,6 @@ module.exports = function (environment) {
         minValue: 0,
       }),
       PIX_APP_URL_WITHOUT_EXTENSION: process.env.PIX_APP_URL_WITHOUT_EXTENSION || 'https://app.pix.',
-      PIX_JUNIOR_URL: process.env.PIX_JUNIOR_URL || 'https://junior.pix.fr',
       API_ERROR_MESSAGES: {
         BAD_REQUEST: {
           CODE: '400',
