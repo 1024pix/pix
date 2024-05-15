@@ -24,32 +24,13 @@
     />
   {{/unless}}
 
-  <div role="radiogroup" class="campaign-filters__type">
-    <input
-      id="ongoing-campaigns"
-      type="radio"
-      class="campaign-filters__radio"
-      checked={{not this.isArchived}}
-      {{on "click" (fn @onFilter "status" null)}}
-    />
-    <label
-      for="ongoing-campaigns"
-      class="campaign-filters__tab {{unless this.isArchived 'campaign-filters__tab--active'}}"
-    >
-      {{t "pages.campaigns-list.action.ongoing.label"}}
-    </label>
-    <input
-      id="archived-campaigns"
-      type="radio"
-      class="campaign-filters__radio"
-      checked={{this.isArchived}}
-      {{on "click" (fn @onFilter "status" "archived")}}
-    />
-    <label
-      for="archived-campaigns"
-      class="campaign-filters__tab {{if this.isArchived 'campaign-filters__tab--active'}}"
-    >
-      {{t "pages.campaigns-list.action.archived.label"}}
-    </label>
-  </div>
+  <PixToggle
+    @onLabel={{t "pages.campaigns-list.action.campaign.ongoing"}}
+    @offLabel={{t "pages.campaigns-list.action.campaign.archived"}}
+    @toggled={{this.isToggleSwitched}}
+    @onChange={{this.onToggle}}
+    @screenReaderOnly={{true}}
+  >
+    <:label>{{t "pages.campaigns-list.action.campaign.label"}}</:label>
+  </PixToggle>
 </PixFilterBanner>

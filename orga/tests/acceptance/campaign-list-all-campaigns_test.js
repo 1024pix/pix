@@ -230,13 +230,12 @@ module('Acceptance | campaigns/all-campaigns', function (hooks) {
           // when
           await fillByLabel('Rechercher une campagne', campaignName1);
           await fillByLabel('Rechercher un propriétaire', owner.firstName);
-          await clickByName('Archivées');
+          await clickByName(this.intl.t('pages.campaigns-list.action.campaign.label'));
           await clickByName(this.intl.t('pages.campaigns-list.filter.clear'));
 
           //then
           assert.ok(screen.getByLabelText(this.intl.t('pages.campaigns-list.filter.by-owner')));
           assert.ok(screen.getByLabelText(this.intl.t('pages.campaigns-list.filter.by-name')));
-          assert.dom(screen.getByText('Actives')).hasClass('campaign-filters__tab--active');
           assert.deepEqual(currentURL(), '/campagnes/toutes');
         });
       });
