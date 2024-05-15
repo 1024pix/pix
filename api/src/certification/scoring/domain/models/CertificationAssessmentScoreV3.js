@@ -1,9 +1,7 @@
+import { COMPETENCES_COUNT, PIX_COUNT_BY_LEVEL } from '../../../../../lib/domain/constants.js';
 import { config } from '../../../../shared/config.js';
 import { status as CertificationStatus } from '../../../../shared/domain/models/AssessmentResult.js';
-
-const MAX_PIX_SCORE = 1024;
-const NUMBER_OF_COMPETENCES = 16;
-const PIX_PER_LEVEL = 8;
+import { Intervals } from './Intervals.js';
 
 class CertificationAssessmentScoreV3 {
   constructor({ nbPix, percentageCorrectAnswers = 100, status = CertificationStatus.VALIDATED, competenceMarks }) {
@@ -23,19 +21,17 @@ class CertificationAssessmentScoreV3 {
   }) {
     const certificationScoringIntervals = v3CertificationScoring.getIntervals();
     const numberOfIntervals = v3CertificationScoring.getNumberOfIntervals();
-    const intervalHeight = MAX_PIX_SCORE / numberOfIntervals;
 
     const { capacity } = algorithm.getCapacityAndErrorRate({
       challenges,
       allAnswers,
     });
 
-    const nbPix = _computeScore({
+    const nbPix = _calculateScore({
       capacity,
       maxReachableLevelOnCertificationDate,
       certificationScoringIntervals,
       numberOfIntervals,
-      intervalHeight,
     });
 
     const competenceMarks = v3CertificationScoring.getCompetencesScore(capacity);
@@ -64,40 +60,30 @@ class CertificationAssessmentScoreV3 {
   }
 }
 
-const _findIntervalIndex = (capacity, certificationScoringIntervals) =>
-  certificationScoringIntervals.findIndex(({ bounds }) => capacity <= bounds.max && capacity >= bounds.min);
+const _calculateScore = ({ capacity, certificationScoringIntervals }) => {
+  const MAX_PIX_SCORE = 1024;
+  const numberOfIntervals = certificationScoringIntervals.length;
+  const SCORE_THRESHOLD = MAX_PIX_SCORE / numberOfIntervals;
+  const MAX_REACHABLE_LEVEL = 7;
+  const MIN_PIX_SCORE = 0;
+  const maximumReachableScore = MAX_REACHABLE_LEVEL * COMPETENCES_COUNT * PIX_COUNT_BY_LEVEL - 1;
 
-const _computeScore = ({
-  capacity,
-  maxReachableLevelOnCertificationDate,
-  certificationScoringIntervals,
-  intervalHeight,
-}) => {
-  let normalizedCapacity = capacity;
-  const minimumCapacity = certificationScoringIntervals[0].bounds.min;
-  const maximumCapacity = certificationScoringIntervals.at(-1).bounds.max;
+  const scoringIntervals = new Intervals({ intervals: certificationScoringIntervals });
 
-  if (normalizedCapacity < minimumCapacity) {
-    normalizedCapacity = minimumCapacity;
-  }
-  if (normalizedCapacity > maximumCapacity) {
-    normalizedCapacity = maximumCapacity;
+  const intervalIndex = scoringIntervals.findIntervalIndex(capacity);
+  const valueToIntervalMax = scoringIntervals.toIntervalMax(intervalIndex, capacity);
+  const intervalWidth = scoringIntervals.intervalWidth(intervalIndex);
+
+  if (scoringIntervals.isCapacityBelowMinimum(capacity)) {
+    return MIN_PIX_SCORE;
   }
 
-  const intervalIndex = _findIntervalIndex(normalizedCapacity, certificationScoringIntervals);
+  if (scoringIntervals.isCapacityAboveMaximum(capacity)) {
+    return maximumReachableScore;
+  }
 
-  const intervalMaxValue = certificationScoringIntervals[intervalIndex].bounds.max;
-  const intervalWidth =
-    certificationScoringIntervals[intervalIndex].bounds.max - certificationScoringIntervals[intervalIndex].bounds.min;
-
-  // Formula is defined here : https://1024pix.atlassian.net/wiki/spaces/DD/pages/3835133953/Vulgarisation+score+2023#Le-score
-  const score = intervalHeight * (intervalIndex + 1 + (normalizedCapacity - intervalMaxValue) / intervalWidth);
-
-  const maximumReachableScore = maxReachableLevelOnCertificationDate * NUMBER_OF_COMPETENCES * PIX_PER_LEVEL;
-
-  const limitedScore = Math.min(maximumReachableScore, score);
-
-  return Math.round(limitedScore);
+  const score = Math.ceil(SCORE_THRESHOLD * (intervalIndex + 1 + valueToIntervalMax / intervalWidth)) - 1;
+  return Math.min(maximumReachableScore, score);
 };
 
 const _isCertificationRejected = ({ answers, abortReason }) => {

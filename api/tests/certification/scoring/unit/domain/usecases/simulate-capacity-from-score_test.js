@@ -13,7 +13,7 @@ describe('Unit | UseCase | simulate-capacity-from-score', function () {
   it('should return a capacity', async function () {
     // given
     const date = new Date();
-    const score = 768;
+    const score = 767;
 
     const v3CertificationScoring = domainBuilder.buildV3CertificationScoring({
       competencesForScoring: [

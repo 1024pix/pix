@@ -85,7 +85,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
   describe('when the candidate finished the test', function () {
     it('should return the full score', async function () {
       const expectedCapacity = 2;
-      const expectedScoreForCapacity = 640;
+      const expectedScoreForCapacity = 639;
 
       const numberOfQuestions = 32;
 
@@ -169,7 +169,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
     describe('when the abort reason is technical difficulties', function () {
       it('should return the raw score', async function () {
         const expectedCapacity = 2;
-        const expectedScoreForCapacity = 640;
+        const expectedScoreForCapacity = 639;
 
         const numberOfAnsweredQuestions = 20;
         const numberCertificationQuestions = 32;
@@ -378,7 +378,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
   });
 
   describe('when we reach an estimated level above the MAXIMUM', function () {
-    it('the score should be 896', function () {
+    it('the score should be the maximum score reachable at the moment', function () {
       // given
       const veryHighCapacity = 1200;
       const veryHardDifficulty = 8;
@@ -406,7 +406,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
       });
 
       // then
-      expect(score.nbPix).to.equal(896);
+      expect(score.nbPix).to.equal(895);
     });
 
     it('should return the competence marks', function () {

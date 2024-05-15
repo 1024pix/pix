@@ -86,7 +86,7 @@ describe('Unit | Domain | Models | CapacitySimulator', function () {
     [
       {
         score: 0,
-        expectedCapacity: -8,
+        expectedCapacity: -7.953125,
         expectedCompetences: [
           { competenceCode: '1.1', level: 0 },
           { competenceCode: '1.2', level: 0 },
@@ -96,7 +96,7 @@ describe('Unit | Domain | Models | CapacitySimulator', function () {
         ],
       },
       {
-        score: 101,
+        score: 100,
         expectedCapacity: -3.265625,
         expectedCompetences: [
           { competenceCode: '1.1', level: 0 },
@@ -107,7 +107,7 @@ describe('Unit | Domain | Models | CapacitySimulator', function () {
         ],
       },
       {
-        score: 107,
+        score: 106,
         expectedCapacity: -2.984375,
         expectedCompetences: [
           { competenceCode: '1.1', level: 0 },
@@ -118,7 +118,7 @@ describe('Unit | Domain | Models | CapacitySimulator', function () {
         ],
       },
       {
-        score: 112,
+        score: 111,
         expectedCapacity: -2.75,
         expectedCompetences: [
           { competenceCode: '1.1', level: 0 },
@@ -129,7 +129,7 @@ describe('Unit | Domain | Models | CapacitySimulator', function () {
         ],
       },
       {
-        score: 117,
+        score: 116,
         expectedCapacity: -2.515625,
         expectedCompetences: [
           { competenceCode: '1.1', level: 0 },
@@ -140,7 +140,7 @@ describe('Unit | Domain | Models | CapacitySimulator', function () {
         ],
       },
       {
-        score: 123,
+        score: 122,
         expectedCapacity: -2.234375,
         expectedCompetences: [
           { competenceCode: '1.1', level: 0 },
@@ -151,18 +151,18 @@ describe('Unit | Domain | Models | CapacitySimulator', function () {
         ],
       },
       {
-        score: 128,
+        score: 127,
         expectedCapacity: -2,
         expectedCompetences: [
-          { competenceCode: '1.1', level: 1 },
+          { competenceCode: '1.1', level: 0 },
           { competenceCode: '1.2', level: 2 },
-          { competenceCode: '2.1', level: 2 },
+          { competenceCode: '2.1', level: 1 },
           { competenceCode: '2.2', level: 2 },
           { competenceCode: '2.3', level: 2 },
         ],
       },
       {
-        score: 224,
+        score: 223,
         expectedCapacity: -0.875,
         expectedCompetences: [
           { competenceCode: '1.1', level: 1 },
@@ -173,7 +173,7 @@ describe('Unit | Domain | Models | CapacitySimulator', function () {
         ],
       },
       {
-        score: 327,
+        score: 326,
         expectedCapacity: 0.11015624999999996,
         expectedCompetences: [
           { competenceCode: '1.1', level: 2 },
@@ -184,7 +184,7 @@ describe('Unit | Domain | Models | CapacitySimulator', function () {
         ],
       },
       {
-        score: 453,
+        score: 452,
         expectedCapacity: 1.08515625,
         expectedCompetences: [
           { competenceCode: '1.1', level: 3 },
@@ -195,7 +195,7 @@ describe('Unit | Domain | Models | CapacitySimulator', function () {
         ],
       },
       {
-        score: 591,
+        score: 590,
         expectedCapacity: 1.962890625,
         expectedCompetences: [
           { competenceCode: '1.1', level: 4 },
@@ -206,7 +206,7 @@ describe('Unit | Domain | Models | CapacitySimulator', function () {
         ],
       },
       {
-        score: 752,
+        score: 751,
         expectedCapacity: 2.99375,
         expectedCompetences: [
           { competenceCode: '1.1', level: 5 },
@@ -217,7 +217,18 @@ describe('Unit | Domain | Models | CapacitySimulator', function () {
         ],
       },
       {
-        score: 897,
+        score: 895,
+        expectedCapacity: 4,
+        expectedCompetences: [
+          { competenceCode: '1.1', level: 6 },
+          { competenceCode: '1.2', level: 4 },
+          { competenceCode: '2.1', level: 6 },
+          { competenceCode: '2.2', level: 6 },
+          { competenceCode: '2.3', level: 5 },
+        ],
+      },
+      {
+        score: 896,
         expectedCapacity: 4.03125,
         expectedCompetences: [
           { competenceCode: '1.1', level: 7 },

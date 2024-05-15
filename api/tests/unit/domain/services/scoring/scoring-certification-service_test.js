@@ -2145,7 +2145,7 @@ describe('Unit | Service | Certification Result Service', function () {
           it('builds and save a lack of answers assessment result', async function () {
             // given
             const expectedCapacity = 2;
-            const scoreForCapacity = 640;
+            const scoreForCapacity = 639;
             const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
               id: certificationCourseId,
               createdAt: certificationCourseStartDate,
@@ -2259,7 +2259,7 @@ describe('Unit | Service | Certification Result Service', function () {
             // given
             const abortReason = ABORT_REASONS.TECHNICAL;
             const expectedCapacity = 2;
-            const scoreForCapacity = 640;
+            const scoreForCapacity = 639;
             const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
               id: certificationCourseId,
               createdAt: certificationCourseStartDate,
@@ -2385,7 +2385,7 @@ describe('Unit | Service | Certification Result Service', function () {
           it('builds and save an assessment result with a validated status', async function () {
             // given
             const expectedCapacity = 2;
-            const scoreForCapacity = 640;
+            const scoreForCapacity = 639;
             const challenges = _generateCertificationChallengeForScoringList({ length: maximumAssessmentLength });
             const answers = generateAnswersForChallenges({ challenges });
             const assessmentResultId = 123;
@@ -2490,7 +2490,7 @@ describe('Unit | Service | Certification Result Service', function () {
             it('should return the score capped based on the maximum available level when the certification was done', async function () {
               // given
               const expectedCapacity = 8;
-              const cappedScoreForCapacity = 896;
+              const cappedScoreForCapacity = 895;
               const challenges = _generateCertificationChallengeForScoringList({ length: maximumAssessmentLength });
 
               const answers = generateAnswersForChallenges({ challenges });
@@ -2586,7 +2586,7 @@ describe('Unit | Service | Certification Result Service', function () {
             it('should build and save an assessment result with a validated status with the raw score', async function () {
               // given
               const expectedCapacity = 2;
-              const rawScore = 640;
+              const rawScore = 639;
               const challenges = _generateCertificationChallengeForScoringList({
                 length: minimumAnswersRequiredToValidateACertification,
               });
@@ -2691,7 +2691,7 @@ describe('Unit | Service | Certification Result Service', function () {
             it('should build and save an assessment result with a validated status', async function () {
               // given
               const expectedCapacity = 2;
-              const pixScore = 640;
+              const pixScore = 639;
               const challenges = _generateCertificationChallengeForScoringList({
                 length: minimumAnswersRequiredToValidateACertification,
               });
@@ -2829,7 +2829,7 @@ describe('Unit | Service | Certification Result Service', function () {
             const answers = generateAnswersForChallenges({ challenges });
 
             const expectedCapacity = 2;
-            const scoreForCapacity = 640;
+            const scoreForCapacity = 639;
             const { certificationCourseId } = certificationAssessment;
 
             const capacityHistory = [
@@ -2949,7 +2949,7 @@ describe('Unit | Service | Certification Result Service', function () {
             const answers = generateAnswersForChallenges({ challenges });
 
             const expectedCapacity = 2;
-            const scoreForCapacity = 640;
+            const scoreForCapacity = 639;
             const { certificationCourseId } = certificationAssessment;
 
             const capacityHistory = [
@@ -3072,7 +3072,7 @@ describe('Unit | Service | Certification Result Service', function () {
             const answers = generateAnswersForChallenges({ challenges });
 
             const expectedCapacity = 2;
-            const rawScore = 640;
+            const rawScore = 639;
             const { certificationCourseId } = certificationAssessment;
 
             const capacityHistory = [
@@ -3193,7 +3193,7 @@ describe('Unit | Service | Certification Result Service', function () {
           const answers = generateAnswersForChallenges({ challenges });
 
           const expectedCapacity = 2;
-          const scoreForCapacity = 640;
+          const scoreForCapacity = 639;
           const { certificationCourseId } = certificationAssessment;
 
           const capacityHistory = [
@@ -3323,7 +3323,7 @@ describe('Unit | Service | Certification Result Service', function () {
             const answers = generateAnswersForChallenges({ challenges });
 
             const expectedCapacity = 2;
-            const scoreForCapacity = 640;
+            const scoreForCapacity = 639;
             const { certificationCourseId } = certificationAssessment;
 
             const capacityHistory = [
@@ -3442,7 +3442,7 @@ describe('Unit | Service | Certification Result Service', function () {
             const answers = generateAnswersForChallenges({ challenges });
 
             const expectedCapacity = 8;
-            const cappedscoreForCapacity = 896;
+            const cappedscoreForCapacity = 895;
             const { certificationCourseId } = certificationAssessment;
 
             const capacityHistory = [

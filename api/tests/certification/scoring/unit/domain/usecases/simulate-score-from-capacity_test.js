@@ -55,7 +55,7 @@ describe('Unit | UseCase | simulate-score-from-capacity', function () {
     expect(result).to.deepEqualInstance(
       domainBuilder.buildScoringAndCapacitySimulatorReport({
         capacity,
-        score: 768,
+        score: 767,
         competences: [
           {
             level: 0,
