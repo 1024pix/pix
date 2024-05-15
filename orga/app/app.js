@@ -22,3 +22,7 @@ library.add(fapixTachometer, fapixPersonExport, fapixInboxIn, fapixTicket);
 dom.watch();
 
 loadInitializers(App, config.modulePrefix);
+
+/**
+ * @typedef {import('ember-source/types')} EmberTypes
+ */
