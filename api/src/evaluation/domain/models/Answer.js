@@ -32,10 +32,6 @@ class Answer {
     return this.result.isOK();
   }
 
-  isPartially() {
-    return this.result.isPARTIALLY();
-  }
-
   get binaryOutcome() {
     return AnswerStatus.isOK(this.result) ? 1 : 0;
   }

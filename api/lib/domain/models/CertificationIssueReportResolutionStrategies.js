@@ -175,8 +175,7 @@ export {
 
 function _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport) {
   const questionNumber = certificationIssueReport.questionNumber;
-  const neutralizationAttempt =
-    certificationAssessment.neutralizeChallengeByNumberIfKoOrSkippedOrPartially(questionNumber);
+  const neutralizationAttempt = certificationAssessment.neutralizeChallengeByNumberIfKoOrSkipped(questionNumber);
   if (neutralizationAttempt.hasSucceeded()) {
     return _resolveWithQuestionNeutralized(certificationIssueReportRepository, certificationIssueReport);
   } else if (neutralizationAttempt.wasSkipped()) {

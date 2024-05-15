@@ -272,7 +272,7 @@ describe('Unit | Domain | Models | CertificationAssessment', function () {
     });
   });
 
-  describe('#neutralizeChallengeByNumberIfKoOrSkippedOrPartially', function () {
+  describe('#neutralizeChallengeByNumberIfKoOrSkipped', function () {
     it('should neutralize the challenge when the answer is ko', function () {
       // given
       const challengeKoToBeNeutralized = domainBuilder.buildCertificationChallengeWithType({
@@ -299,7 +299,7 @@ describe('Unit | Domain | Models | CertificationAssessment', function () {
       });
 
       // when
-      const neutralizationAttempt = certificationAssessment.neutralizeChallengeByNumberIfKoOrSkippedOrPartially(1);
+      const neutralizationAttempt = certificationAssessment.neutralizeChallengeByNumberIfKoOrSkipped(1);
 
       // then
       expect(challengeKoToBeNeutralized.isNeutralized).to.be.true;
@@ -332,47 +332,14 @@ describe('Unit | Domain | Models | CertificationAssessment', function () {
       });
 
       // when
-      const neutralizationAttempt = certificationAssessment.neutralizeChallengeByNumberIfKoOrSkippedOrPartially(1);
+      const neutralizationAttempt = certificationAssessment.neutralizeChallengeByNumberIfKoOrSkipped(1);
 
       // then
       expect(challengeSkippedToBeNeutralized.isNeutralized).to.be.true;
       expect(neutralizationAttempt).to.deep.equal(NeutralizationAttempt.neutralized(1));
     });
 
-    it('should neutralize the challenge when the answer is partially answered', function () {
-      // given
-      const challengeSkippedToBeNeutralized = domainBuilder.buildCertificationChallengeWithType({
-        challengeId: 'rec3',
-        isNeutralized: false,
-      });
-
-      const certificationAssessment = domainBuilder.buildCertificationAssessment({
-        id: 123,
-        userId: 123,
-        certificationCourseId: 123,
-        createdAt: new Date('2020-01-01'),
-        completedAt: new Date('2020-01-01'),
-        state: CertificationAssessment.states.STARTED,
-        version: 2,
-        certificationChallenges: [challengeSkippedToBeNeutralized],
-        certificationAnswersByDate: [
-          domainBuilder.buildAnswer({
-            challengeId: challengeSkippedToBeNeutralized.challengeId,
-            result: AnswerStatus.PARTIALLY.status,
-            assessmentId: CertificationAssessment.id,
-          }),
-        ],
-      });
-
-      // when
-      const neutralizationAttempt = certificationAssessment.neutralizeChallengeByNumberIfKoOrSkippedOrPartially(1);
-
-      // then
-      expect(challengeSkippedToBeNeutralized.isNeutralized).to.be.true;
-      expect(neutralizationAttempt).to.deep.equal(NeutralizationAttempt.neutralized(1));
-    });
-
-    it('should not neutralize the challenge when the answer is neither skipped nor ko nor partially', function () {
+    it('should not neutralize the challenge when the answer is neither skipped nor ko', function () {
       // given
       const challengeNotToBeNeutralized = domainBuilder.buildCertificationChallengeWithType({
         challengeId: 'rec3',
@@ -398,7 +365,7 @@ describe('Unit | Domain | Models | CertificationAssessment', function () {
       });
 
       // when
-      const neutralizationAttempt = certificationAssessment.neutralizeChallengeByNumberIfKoOrSkippedOrPartially(1);
+      const neutralizationAttempt = certificationAssessment.neutralizeChallengeByNumberIfKoOrSkipped(1);
 
       // then
       expect(challengeNotToBeNeutralized.isNeutralized).to.be.false;
@@ -434,7 +401,7 @@ describe('Unit | Domain | Models | CertificationAssessment', function () {
       });
 
       // when
-      const neutralizationAttempt = certificationAssessment.neutralizeChallengeByNumberIfKoOrSkippedOrPartially(66);
+      const neutralizationAttempt = certificationAssessment.neutralizeChallengeByNumberIfKoOrSkipped(66);
 
       // then
       expect(neutralizationAttempt).to.deep.equal(NeutralizationAttempt.failure(66));

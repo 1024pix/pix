@@ -4,7 +4,6 @@ const statuses = {
   SKIPPED: 'aband',
   TIMEDOUT: 'timedout',
   FOCUSEDOUT: 'focusedOut',
-  PARTIALLY: 'partially',
   UNIMPLEMENTED: 'unimplemented',
 };
 
@@ -34,9 +33,6 @@ class AnswerStatus {
   isFOCUSEDOUT() {
     return this.status === statuses.FOCUSEDOUT;
   }
-  isPARTIALLY() {
-    return this.status === statuses.PARTIALLY;
-  }
   isUNIMPLEMENTED() {
     return this.status === statuses.UNIMPLEMENTED;
   }
@@ -57,9 +53,6 @@ class AnswerStatus {
   static get FOCUSEDOUT() {
     return new AnswerStatus({ status: statuses.FOCUSEDOUT });
   }
-  static get PARTIALLY() {
-    return new AnswerStatus({ status: statuses.PARTIALLY });
-  }
   static get UNIMPLEMENTED() {
     return new AnswerStatus({ status: statuses.UNIMPLEMENTED });
   }
@@ -76,9 +69,6 @@ class AnswerStatus {
   }
   static isSKIPPED(otherResult) {
     return AnswerStatus.from(otherResult).isSKIPPED();
-  }
-  static isPARTIALLY(otherResult) {
-    return AnswerStatus.from(otherResult).isPARTIALLY();
   }
   static isFOCUSEDOUT(otherResult) {
     return AnswerStatus.from(otherResult).isFOCUSEDOUT();

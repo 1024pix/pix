@@ -16,12 +16,6 @@ describe('AnswerStatusJsonApiAdapter', function () {
       expect(result).to.equals('ko');
     });
 
-    it('should convert AnswerStatus.PARTIALLY to "partially"', function () {
-      const answerStatus = AnswerStatus.PARTIALLY;
-      const result = AnswerStatusJsonApiAdapter.adapt(answerStatus);
-      expect(result).to.equals('partially');
-    });
-
     it('should convert AnswerStatus.TIMEDOUT to "timedout"', function () {
       const answerStatus = AnswerStatus.TIMEDOUT;
       const result = AnswerStatusJsonApiAdapter.adapt(answerStatus);

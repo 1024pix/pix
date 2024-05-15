@@ -28,7 +28,7 @@ describe('Unit | Devcomp | Domain | Models | Validator | AnswerStatus', function
       expect(AnswerStatus.UNIMPLEMENTED.isUNIMPLEMENTED()).to.be.true;
     });
 
-    it('should be false with AnswerStatuses OK, KO, SKIPPED, PARTIALLY, FOCUSEDOUT and TIMEDOUT', function () {
+    it('should be false with AnswerStatuses OK, KO, SKIPPED, FOCUSEDOUT and TIMEDOUT', function () {
       expect(AnswerStatus.OK.isUNIMPLEMENTED()).to.be.false;
       expect(AnswerStatus.KO.isUNIMPLEMENTED()).to.be.false;
     });

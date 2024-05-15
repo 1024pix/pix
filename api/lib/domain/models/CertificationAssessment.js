@@ -91,13 +91,13 @@ class CertificationAssessment {
     this.endedAt = now;
   }
 
-  neutralizeChallengeByNumberIfKoOrSkippedOrPartially(questionNumber) {
+  neutralizeChallengeByNumberIfKoOrSkipped(questionNumber) {
     const toBeNeutralizedChallengeAnswer = this.getAnswerByQuestionNumber(questionNumber);
     if (!toBeNeutralizedChallengeAnswer) {
       return NeutralizationAttempt.failure(questionNumber);
     }
 
-    if (_isAnswerKoOrSkippedOrPartially(toBeNeutralizedChallengeAnswer.result.status)) {
+    if (_isAnswerKoOrSkipped(toBeNeutralizedChallengeAnswer.result.status)) {
       const challengeToBeNeutralized = _.find(this.certificationChallenges, {
         challengeId: toBeNeutralizedChallengeAnswer.challengeId,
       });
@@ -184,11 +184,10 @@ class CertificationAssessment {
   }
 }
 
-function _isAnswerKoOrSkippedOrPartially(answerStatus) {
+function _isAnswerKoOrSkipped(answerStatus) {
   const isKo = AnswerStatus.isKO(answerStatus);
   const isSkipped = AnswerStatus.isSKIPPED(answerStatus);
-  const isPartially = AnswerStatus.isPARTIALLY(answerStatus);
-  return isKo || isSkipped || isPartially;
+  return isKo || isSkipped;
 }
 
 CertificationAssessment.states = states;

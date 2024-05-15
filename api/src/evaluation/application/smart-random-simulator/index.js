@@ -59,7 +59,6 @@ const register = async function (server) {
                         AnswerStatus.statuses.KO,
                         AnswerStatus.statuses.SKIPPED,
                         AnswerStatus.statuses.FOCUSEDOUT,
-                        AnswerStatus.statuses.PARTIALLY,
                       )
                       .required(),
                     challengeId: identifiersType.challengeId,
