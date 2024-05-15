@@ -293,7 +293,9 @@
     "template-name": "importmodel"
   },
   "email-sender-name": {
-    "pix-app": "PIX - Niet beantwoorden"
+    "pix-app": "PIX - Niet beantwoorden",
+    "pix-orga": "Pix Orga - Niet beantwoorden",
+    "pix-certif": "Pix Certif - Niet beantwoorden"
   },
   "entity-validation-errors": {
     "ACCEPT_CGU": "Je moet de gebruiksvoorwaarden van Pix accepteren om een account aan te maken.",
