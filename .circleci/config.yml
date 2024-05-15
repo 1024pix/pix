@@ -414,7 +414,7 @@ jobs:
           name: Test
           command: |
             circleci tests glob 'tests/**/acceptance/**/*test.js' |
-            circleci tests split |
+            circleci tests split --split-by=filesize |
             xargs npm run test:api:path --
           environment:
             NODE_ENV: test
