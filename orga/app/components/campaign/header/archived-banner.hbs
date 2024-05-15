@@ -5,11 +5,7 @@
       <span>{{t "pages.campaign.archived"}}</span>
     </div>
     {{#if this.displayUnarchiveButton}}
-      <PixButton
-        @triggerAction={{this.unarchiveCampaign}}
-        @backgroundColor="transparent-dark"
-        @isBorderVisible={{true}}
-      >
+      <PixButton @triggerAction={{this.unarchiveCampaign}} @variant="transparent-dark" @isBorderVisible={{true}}>
         {{t "pages.campaign.actions.unarchive"}}
       </PixButton>
     {{/if}}

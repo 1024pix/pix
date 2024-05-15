@@ -10,7 +10,7 @@
     {{/if}}
 
     <div class="terms-of-service-form__actions">
-      <PixButtonLink id="terms-of-service-cancel-button" @route="logout" @backgroundColor="transparent-light">
+      <PixButtonLink id="terms-of-service-cancel-button" @route="logout" @variant="secondary">
         {{t "common.actions.cancel"}}
       </PixButtonLink>
       <PixButton @type="submit" @triggerAction={{this.submit}}>

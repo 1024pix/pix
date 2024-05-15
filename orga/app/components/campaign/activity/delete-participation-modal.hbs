@@ -17,10 +17,10 @@
     </p>
   </:content>
   <:footer>
-    <PixButton @backgroundColor="transparent-light" @isBorderVisible={{true}} @triggerAction={{@closeModal}}>
+    <PixButton @variant="secondary" @triggerAction={{@closeModal}}>
       {{t "pages.campaign-activity.delete-participation-modal.actions.cancel"}}
     </PixButton>
-    <PixButton @backgroundColor="error" @triggerAction={{@deleteCampaignParticipation}}>
+    <PixButton @variant="error" @triggerAction={{@deleteCampaignParticipation}}>
       {{t "pages.campaign-activity.delete-participation-modal.actions.confirmation"}}
     </PixButton>
   </:footer>

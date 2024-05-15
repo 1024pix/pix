@@ -22,14 +22,14 @@
     </div>
   </:content>
   <:footer>
-    <PixButton @triggerAction={{@onClose}} @backgroundColor="transparent-light">
+    <PixButton @triggerAction={{@onClose}} @variant="secondary">
       {{t "common.actions.cancel"}}
     </PixButton>
     {{#if this.allowDeletion}}
       <PixButtonUpload
         @id="students-file-upload-replace"
         @onChange={{@onReplaceStudents}}
-        @backgroundColor="error"
+        @variant="error"
         accept={{@supportedFormats}}
       >
         {{t "pages.sup-organization-participants.replace-students-modal.confirm"}}
@@ -39,7 +39,7 @@
         @id="students-file-upload-replace"
         @triggerAction={{(@onReplaceStudents)}}
         @isDisabled={{true}}
-        @backgroundColor="error"
+        @variant="error"
       >
         {{t "pages.sup-organization-participants.replace-students-modal.confirm"}}
       </PixButton>

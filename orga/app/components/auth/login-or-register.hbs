@@ -11,12 +11,7 @@
       <div class="login-or-register-panel__form">
         <h1 class="form-title">{{t "pages.login-or-register.register-form.title"}}</h1>
         {{#unless this.displayRegisterForm}}
-          <PixButton
-            id="register"
-            @triggerAction={{this.toggleFormsVisibility}}
-            @backgroundColor="transparent-light"
-            @isBorderVisible={{true}}
-          >
+          <PixButton id="register" @triggerAction={{this.toggleFormsVisibility}} @variant="secondary">
             {{t "pages.login-or-register.register-form.button"}}
           </PixButton>
         {{/unless}}
@@ -38,12 +33,7 @@
       <div class="login-or-register-panel__form">
         <h1 class="form-title">{{t "pages.login-or-register.login-form.title"}}</h1>
         {{#if this.displayRegisterForm}}
-          <PixButton
-            id="login"
-            @triggerAction={{this.toggleFormsVisibility}}
-            @backgroundColor="transparent-light"
-            @isBorderVisible={{true}}
-          >
+          <PixButton id="login" @triggerAction={{this.toggleFormsVisibility}} @variant="secondary">
             {{t "pages.login-or-register.login-form.button"}}
           </PixButton>
         {{/if}}
