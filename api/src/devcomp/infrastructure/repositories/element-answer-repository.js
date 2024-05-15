@@ -1,11 +1,10 @@
 import { knex } from '../../../../db/knex-database-connection.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { ElementAnswer } from '../../domain/models/ElementAnswer.js';
 
 const save = async function ({
   passageId,
   elementId,
-  grainId,
   value,
   correction,
   domainTransaction = DomainTransaction.emptyTransaction(),
@@ -15,7 +14,6 @@ const save = async function ({
     .insert({
       passageId,
       elementId,
-      grainId,
       value,
       status: correction.status.status,
       createdAt: new Date(),

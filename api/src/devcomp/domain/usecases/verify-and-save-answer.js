@@ -26,7 +26,6 @@ async function verifyAndSaveAnswer({
   return await elementAnswerRepository.save({
     passageId,
     elementId,
-    grainId: grain.id,
     value: element.userResponse,
     correction,
   });

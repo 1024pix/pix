@@ -23,7 +23,6 @@ describe('Integration | DevComp | Repositories | ElementAnswerRepository', funct
 
       const passageId = passage.id,
         elementId = 'elementId',
-        grainId = 'grainId',
         value = 'val',
         correction = { status: AnswerStatus.OK, feedback: Symbol('feedback'), solution: Symbol('solution') };
 
@@ -31,7 +30,6 @@ describe('Integration | DevComp | Repositories | ElementAnswerRepository', funct
       const returnedElementAnswer = await elementAnswerRepository.save({
         passageId,
         elementId,
-        grainId,
         value,
         correction,
       });
@@ -48,7 +46,6 @@ describe('Integration | DevComp | Repositories | ElementAnswerRepository', funct
 
       const persistedElementAnswer = await knex('element-answers').where({ id: returnedElementAnswer.id }).first();
       expect(persistedElementAnswer.passageId).to.equal(passageId);
-      expect(persistedElementAnswer.grainId).to.equal(grainId);
       expect(persistedElementAnswer.elementId).to.equal(elementId);
       expect(persistedElementAnswer.value).to.equal(value);
       expect(persistedElementAnswer.status).to.equal(correction.status.status);

@@ -93,7 +93,6 @@ describe('Unit | Devcomp | Domain | UseCases | verify-and-save-answer', function
           .withArgs({
             passageId,
             elementId,
-            grainId: grain.id,
             value: element.userResponse,
             correction: correction,
           })
