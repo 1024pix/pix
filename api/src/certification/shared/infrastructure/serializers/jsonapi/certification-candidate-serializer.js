@@ -15,6 +15,7 @@ const serialize = function (certificationCandidates) {
     transform: function (certificationCandidate) {
       return {
         ...certificationCandidate,
+        complementaryCertification: certificationCandidate.complementaryCertification,
         isLinked: !_.isNil(certificationCandidate.userId),
       };
     },

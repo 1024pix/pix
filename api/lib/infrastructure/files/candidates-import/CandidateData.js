@@ -109,7 +109,12 @@ class CandidateData {
   }
 
   static fromCertificationCandidateAndCandidateNumber({ certificationCandidate, number, i18n }) {
-    return new CandidateData({ ...certificationCandidate, number, i18n });
+    return new CandidateData({
+      ...certificationCandidate,
+      complementaryCertification: certificationCandidate.complementaryCertification,
+      number,
+      i18n,
+    });
   }
 
   static empty({ number, i18n }) {

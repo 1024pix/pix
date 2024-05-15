@@ -2,6 +2,7 @@ import JoiDate from '@joi/date';
 import BaseJoi from 'joi';
 import lodash from 'lodash';
 
+import { SubscriptionTypes } from '../../../src/certification/shared/domain/models/SubscriptionTypes.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../constants/certification-candidates-errors.js';
 import {
   CertificationCandidatePersonalInfoFieldMissingError,
@@ -120,6 +121,9 @@ const certificationCandidateParticipationJoiSchema = Joi.object({
 });
 
 class CertificationCandidate {
+  #subscriptions = new Set([SubscriptionTypes.CORE]);
+  #complementaryCertification = null;
+
   constructor({
     id,
     firstName,
@@ -168,6 +172,21 @@ class CertificationCandidate {
     this.prepaymentCode = prepaymentCode;
   }
 
+  get complementaryCertification() {
+    return this.#complementaryCertification;
+  }
+
+  set complementaryCertification(complementaryCertification) {
+    this.#complementaryCertification = complementaryCertification;
+    if (complementaryCertification?.id) {
+      this.#subscriptions?.add(SubscriptionTypes.COMPLEMENTARY);
+    }
+  }
+
+  get subscriptions() {
+    return Array.from(this.#subscriptions);
+  }
+
   static parseBillingMode({ billingMode, translate }) {
     switch (billingMode) {
       case translate('candidate-list-template.billing-mode.free'):
@@ -197,13 +216,16 @@ class CertificationCandidate {
   }
 
   validate(isSco = false) {
-    const { error } = certificationCandidateValidationJoiSchema.validate(this, {
-      allowUnknown: true,
-      context: {
-        isSco,
-        isSessionsMassImport: false,
+    const { error } = certificationCandidateValidationJoiSchema.validate(
+      { ...this, complementaryCertification: this.complementaryCertification },
+      {
+        allowUnknown: true,
+        context: {
+          isSco,
+          isSessionsMassImport: false,
+        },
       },
-    });
+    );
     if (error) {
       throw new CertificationCandidatesError({
         code: error.details?.[0]?.message,
@@ -213,21 +235,27 @@ class CertificationCandidate {
   }
 
   validateForMassSessionImport(isSco = false) {
-    const { error } = certificationCandidateValidationJoiSchema.validate(this, {
-      abortEarly: false,
-      allowUnknown: true,
-      context: {
-        isSco,
-        isSessionsMassImport: true,
+    const { error } = certificationCandidateValidationJoiSchema.validate(
+      { ...this, complementaryCertification: this.complementaryCertification },
+      {
+        abortEarly: false,
+        allowUnknown: true,
+        context: {
+          isSco,
+          isSessionsMassImport: true,
+        },
       },
-    });
+    );
     if (error) {
       return error.details.map(({ message }) => message);
     }
   }
 
   validateParticipation() {
-    const { error } = certificationCandidateParticipationJoiSchema.validate(this);
+    const { error } = certificationCandidateParticipationJoiSchema.validate({
+      ...this,
+      complementaryCertification: this.complementaryCertification,
+    });
     if (error) {
       if (endsWith(error.details[0].type, 'required')) {
         throw new CertificationCandidatePersonalInfoFieldMissingError();
