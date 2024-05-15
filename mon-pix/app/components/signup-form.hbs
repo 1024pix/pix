@@ -83,7 +83,11 @@
       </div>
 
       <div class="signup-form__cgu-container">
-        <PixCheckbox {{on "change" this.onCguCheckboxChange}} aria-describedby="sign-up-cgu-error-message">
+        <PixCheckbox
+          {{on "change" this.onCguCheckboxChange}}
+          aria-describedby="sign-up-cgu-error-message"
+          @isDisabled="true"
+        >
           <:label>
             {{t
               "common.cgu.message"
