@@ -4,7 +4,6 @@ import {
   CertificationCandidateMultipleUserLinksWithinSessionError,
   NotFoundError,
 } from '../../../../../../lib/domain/errors.js';
-import { BookshelfCertificationCandidate } from '../../../../../../lib/infrastructure/orm-models/CertificationCandidate.js';
 import * as certificationCandidateRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/certification-candidate-repository.js';
 import { ComplementaryCertification } from '../../../../../../src/certification/session-management/domain/models/ComplementaryCertification.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
@@ -63,7 +62,8 @@ describe('Integration | Repository | CertificationCandidate', function () {
             complementaryCertification: null,
           });
 
-          const nbCertifCandidatesBeforeSave = await BookshelfCertificationCandidate.count();
+          const numberOfCertificationCandidatesBeforeSave = await knex('certification-candidates');
+          expect(numberOfCertificationCandidatesBeforeSave).to.have.length(0);
 
           // when
           await certificationCandidateRepository.saveInSession({
@@ -72,9 +72,8 @@ describe('Integration | Repository | CertificationCandidate', function () {
           });
 
           // then
-          const nbCertifCandidatesAfterSave = await BookshelfCertificationCandidate.count();
-
-          expect(nbCertifCandidatesAfterSave).to.equal(nbCertifCandidatesBeforeSave + 1);
+          const numberOfCertificationCandidatesAfterSave = await knex('certification-candidates');
+          expect(numberOfCertificationCandidatesAfterSave).to.have.length(1);
         });
       });
 
@@ -181,13 +180,20 @@ describe('Integration | Repository | CertificationCandidate', function () {
       });
 
       it('should delete a single row in the table', async function () {
-        const nbCertifCandidatesBeforeDeletion = await BookshelfCertificationCandidate.count();
+        const { count: numberOfCertificationCandidatesBeforeDeletion } = await knex('certification-candidates')
+          .count('*')
+          .first();
+
         // when
         await certificationCandidateRepository.remove({ id: certificationCandidateToDeleteId });
-        const nbCertifCandidatesAfterDeletion = await BookshelfCertificationCandidate.count();
+        const { count: numberOfCertificationCandidatesAfterDeletion } = await knex('certification-candidates')
+          .count('*')
+          .first();
 
         // then
-        expect(nbCertifCandidatesAfterDeletion).to.equal(nbCertifCandidatesBeforeDeletion - 1);
+        expect(numberOfCertificationCandidatesAfterDeletion).to.equal(
+          numberOfCertificationCandidatesBeforeDeletion - 1,
+        );
       });
     });
 
