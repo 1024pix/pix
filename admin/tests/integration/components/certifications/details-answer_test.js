@@ -10,7 +10,7 @@ module('Integration | Component | certifications/details-answer', function (hook
     skill: '@skill6',
     challengeId: 'rec1234',
     order: 5,
-    result: 'partially',
+    result: 'ko',
     isNeutralized: false,
     value: 'coucou',
   };
@@ -25,7 +25,7 @@ module('Integration | Component | certifications/details-answer', function (hook
     const screen = await render(hbs`<Certifications::DetailsAnswer @answer={{this.answer}} />`);
 
     // then
-    assert.dom(screen.getByText('Succès partiel')).exists();
+    assert.dom(screen.getByText('Échec')).exists();
   });
 
   test('init answer displayed status with neutralized label when challenge is neutralized', async function (assert) {
@@ -55,7 +55,7 @@ module('Integration | Component | certifications/details-answer', function (hook
     assert.dom(screen.getByText('@skill6')).exists();
     assert.dom(screen.getByText('rec1234')).exists();
     assert.dom(screen.getByText('coucou')).exists();
-    assert.dom(screen.getByText('Succès partiel')).exists();
+    assert.dom(screen.getByText('Échec')).exists();
   });
 
   module('when challenge has been skipped automatically', function () {

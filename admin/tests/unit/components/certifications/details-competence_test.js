@@ -49,10 +49,10 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
   test('it should retrieve answers from competence', async function (assert) {
     // when
     component.args = {
-      competence: competence('ok', 'partially', 'ko'),
+      competence: competence('ok', 'aband', 'ko'),
     };
 
     // then
-    assert.deepEqual(component.answers, [answer('ok'), answer('partially'), answer('ko')]);
+    assert.deepEqual(component.answers, [answer('ok'), answer('aband'), answer('ko')]);
   });
 });

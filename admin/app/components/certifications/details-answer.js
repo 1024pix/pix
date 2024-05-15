@@ -4,7 +4,6 @@ import { tracked } from '@glimmer/tracking';
 const options = [
   { value: 'ok', label: 'Succès' },
   { value: 'ko', label: 'Échec' },
-  { value: 'partially', label: 'Succès partiel' },
   { value: 'timedout', label: 'Temps écoulé' },
   { value: 'focusedOut', label: 'Focus échoué' },
   { value: 'aband', label: 'Passée' },
