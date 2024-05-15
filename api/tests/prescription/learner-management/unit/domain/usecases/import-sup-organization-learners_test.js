@@ -87,27 +87,6 @@ describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
       ]);
     });
 
-    it('should return warnings about the import', async function () {
-      const input = `${supOrganizationLearnerImportHeader}
-              Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;BAD;BAD;
-          `.trim();
-      organizationImportRepositoryStub.getLastByOrganizationId.withArgs(organizationId).resolves(organizationImport);
-      importStorageStub.readFile.withArgs({ filename: organizationImport.filename }).resolves(toStream(input));
-
-      const warnings = await importSupOrganizationLearners({
-        organizationId,
-        i18n,
-        importStorage: importStorageStub,
-        supOrganizationLearnerRepository: supOrganizationLearnerRepositoryStub,
-        organizationImportRepository: organizationImportRepositoryStub,
-      });
-
-      expect(warnings).to.deep.equal([
-        { studentNumber: '123456', field: 'study-scheme', value: 'BAD', code: 'unknown' },
-        { studentNumber: '123456', field: 'diploma', value: 'BAD', code: 'unknown' },
-      ]);
-    });
-
     it('should delete file on s3', async function () {
       const input = `${supOrganizationLearnerImportHeader}
               Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;
@@ -163,7 +142,7 @@ describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
         importStorageStub.readFile.withArgs({ filename: organizationImport.filename }).resolves(toStream(csvContent));
       });
 
-      it('should save IMPORT_ERROR status', async function () {
+      it('should save IMPORT_ERROR status with error', async function () {
         // given
         const insertError = new Error('insert fail');
         supOrganizationLearnerRepositoryStub.addStudents.rejects(insertError);

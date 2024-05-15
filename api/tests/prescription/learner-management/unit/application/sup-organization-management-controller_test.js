@@ -50,7 +50,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
           organizationId,
           i18n,
         })
-        .resolves(warnings);
+        .resolves();
 
       supOrganizationLearnerWarningSerializerStub.serialize
         .withArgs({ id: organizationId, warnings })
@@ -71,8 +71,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
           usecases.importSupOrganizationLearners,
         ),
       ).to.not.throws;
-      expect(response.statusCode).to.be.equal(200);
-      expect(response.source).to.be.equal(serializedResponse);
+      expect(response.statusCode).to.be.equal(204);
 
       expect(unlinkStub).to.have.been.calledWith(path);
     });
@@ -85,13 +84,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
         params,
         i18n,
       };
-      usecases.uploadCsvFile.withArgs({ userId, payload: request.payload, organizationId, i18n }).resolves();
-      usecases.importSupOrganizationLearners
-        .withArgs({
-          organizationId,
-          i18n,
-        })
-        .rejects();
+      usecases.uploadCsvFile.withArgs({ userId, payload: request.payload, organizationId, i18n }).rejects();
 
       // when
       await catchErr(supOrganizationManagementController.importSupOrganizationLearners)(request, hFake, {
@@ -112,22 +105,17 @@ describe('Unit | Controller | sup-organization-management-controller', function 
         i18n,
       };
 
-      supOrganizationLearnerWarningSerializerStub.serialize
-        .withArgs({ id: organizationId, warnings })
-        .returns(serializedResponse);
-
       const error = new Error();
       unlinkStub.throws(error);
 
       // when
       const response = await supOrganizationManagementController.importSupOrganizationLearners(request, hFake, {
-        supOrganizationLearnerWarningSerializer: supOrganizationLearnerWarningSerializerStub,
         logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
         unlink: unlinkStub,
       });
 
       // then
-      expect(response.statusCode).to.be.equal(200);
+      expect(response.statusCode).to.be.equal(204);
 
       expect(logErrorWithCorrelationIdsStub).to.have.been.calledWith(error);
     });
