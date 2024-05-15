@@ -1,5 +1,35 @@
 # Pix Changelog
 
+## v4.145.0 (15/05/2024)
+
+
+### :rocket: Amélioration
+- [#8848](https://github.com/1024pix/pix/pull/8848) [FEATURE] Afficher si le centre de certification est pilote certification seule dans Pix Admin (PIX-12441).
+- [#8907](https://github.com/1024pix/pix/pull/8907) [FEATURE] Ajouter une nouvelle categorie pour les Profil Cible Pix+ (PIX-12429).
+- [#8792](https://github.com/1024pix/pix/pull/8792) [FEATURE] Amélioration de la formule de score pour simulateurs (PIX-12316).
+- [#8880](https://github.com/1024pix/pix/pull/8880) [FEATURE] Pix App : Arrêt du support des Elements dans les modules (PIX-12455).
+- [#8887](https://github.com/1024pix/pix/pull/8887) [FEATURE] Ajout d'une bannière avec le code Mission dans Pix Orga (Pix-12444).
+
+### :building_construction: Tech
+- [#8916](https://github.com/1024pix/pix/pull/8916) [TECH] Corrige la parallélisation des tests front sur la CI.
+- [#8914](https://github.com/1024pix/pix/pull/8914) [TECH] Migrer la route /api/campaigns/{id}/divisions dans son Bounded Context (Pix-12517).
+- [#8919](https://github.com/1024pix/pix/pull/8919) [TECH] Parallélise l'exécution des tests d'acceptance de l'API sur la CI.
+- [#8915](https://github.com/1024pix/pix/pull/8915) [TECH] :recycle: Construit l'URL pour pix junior depuis l'URL courante plutôt qu'une variable .
+- [#8845](https://github.com/1024pix/pix/pull/8845) [TECH] Ajouter une valeur par défaut pour LOG_ENABLED.
+
+### :bug: Correction
+- [#8909](https://github.com/1024pix/pix/pull/8909) [BUGFIX] Ne plus envoyer le hasComplementaryReferential lors de l'ajout d'un candidat avec certification complémentaire sur Pix Certif (PIX-12491).
+
+### :arrow_up: Montée de version
+- [#8925](https://github.com/1024pix/pix/pull/8925) [BUMP] Update Node.js to v20.13.0.
+- [#8819](https://github.com/1024pix/pix/pull/8819) [BUMP] Update dependency ember-data to v4.12.7 (certif).
+- [#8922](https://github.com/1024pix/pix/pull/8922) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.13 (certif).
+- [#8920](https://github.com/1024pix/pix/pull/8920) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.13 (admin).
+- [#8904](https://github.com/1024pix/pix/pull/8904) [BUMP] Update dependency @1024pix/pix-ui to v46 (orga) (PIX-12492).
+- [#8911](https://github.com/1024pix/pix/pull/8911) [BUMP] Update dependency @1024pix/pix-ui to ^45.5.2 (junior).
+- [#8912](https://github.com/1024pix/pix/pull/8912) [BUMP] Update dependency @1024pix/pix-ui to ^45.5.2 (orga).
+- [#8908](https://github.com/1024pix/pix/pull/8908) [BUMP] Update nginx Docker tag to v1.26.0.
+
 ## v4.144.0 (14/05/2024)
 
 
