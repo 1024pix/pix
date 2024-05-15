@@ -14,14 +14,11 @@ describe('Unit | Controller | sup-organization-management-controller', function 
   let supOrganizationLearnerWarningSerializerStub;
   let logErrorWithCorrelationIdsStub;
   let unlinkStub;
-  let makeOrganizationLearnerParserStub;
 
   beforeEach(function () {
     organizationId = Symbol('organizationId');
     path = Symbol('path');
     i18n = Symbol('i18n');
-    warnings = Symbol('warnings');
-    serializedResponse = Symbol('serializedResponse');
     userId = Symbol('userId');
 
     sinon.stub(usecases, 'uploadCsvFile');
@@ -129,15 +126,15 @@ describe('Unit | Controller | sup-organization-management-controller', function 
         params,
         i18n,
       };
-
+      usecases.uploadCsvFile.rejects().withArgs({ userId, organizationId, payload: request.payload, i18n }).resolves();
+      usecases.validateSupCsvFile.rejects().withArgs({ organizationId, i18n }).resolves();
       usecases.replaceSupOrganizationLearners
+        .rejects()
         .withArgs({
-          payload: request.payload,
           organizationId,
           i18n,
-          userId,
         })
-        .resolves(warnings);
+        .resolves();
 
       supOrganizationLearnerWarningSerializerStub.serialize
         .withArgs({ id: organizationId, warnings })
@@ -151,8 +148,15 @@ describe('Unit | Controller | sup-organization-management-controller', function 
       });
 
       // then
-      expect(response.statusCode).to.be.equal(200);
-      expect(response.source).to.be.equal(serializedResponse);
+      // then
+      expect(
+        sinon.assert.callOrder(
+          usecases.uploadCsvFile,
+          usecases.validateSupCsvFile,
+          usecases.replaceSupOrganizationLearners,
+        ),
+      ).to.not.throws;
+      expect(response.statusCode).to.be.equal(204);
 
       expect(unlinkStub).to.have.been.calledWith(path);
     });
@@ -165,20 +169,10 @@ describe('Unit | Controller | sup-organization-management-controller', function 
         params,
         i18n,
       };
-
-      usecases.replaceSupOrganizationLearners
-        .withArgs({
-          payload: request.payload,
-          organizationId,
-          i18n,
-          userId,
-        })
-        .rejects();
+      usecases.uploadCsvFile.withArgs({ userId, payload: request.payload, organizationId, i18n }).rejects();
 
       // when
       await catchErr(supOrganizationManagementController.replaceSupOrganizationLearners)(request, hFake, {
-        makeOrganizationLearnerParser: makeOrganizationLearnerParserStub,
-        supOrganizationLearnerWarningSerializer: supOrganizationLearnerWarningSerializerStub,
         logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
         unlink: unlinkStub,
       });
@@ -195,19 +189,6 @@ describe('Unit | Controller | sup-organization-management-controller', function 
         i18n,
       };
 
-      usecases.replaceSupOrganizationLearners
-        .withArgs({
-          payload: request.payload,
-          organizationId,
-          i18n,
-          userId,
-        })
-        .resolves(warnings);
-
-      supOrganizationLearnerWarningSerializerStub.serialize
-        .withArgs({ id: organizationId, warnings })
-        .returns(serializedResponse);
-
       const error = new Error();
       unlinkStub.throws(error);
 
@@ -219,7 +200,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
       });
 
       // then
-      expect(response.statusCode).to.be.equal(200);
+      expect(response.statusCode).to.be.equal(204);
 
       expect(logErrorWithCorrelationIdsStub).to.have.been.calledWith(error);
     });

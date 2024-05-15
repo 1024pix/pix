@@ -55,7 +55,6 @@ const replaceSupOrganizationLearners = async function (
   const userId = request.auth.credentials.userId;
   const organizationId = request.params.id;
 
-  let warnings;
   try {
     await usecases.uploadCsvFile({
       payload: request.payload,
@@ -67,7 +66,7 @@ const replaceSupOrganizationLearners = async function (
       organizationId,
       i18n: request.i18n,
     });
-    warnings = await usecases.replaceSupOrganizationLearners({
+    await usecases.replaceSupOrganizationLearners({
       organizationId,
       i18n: request.i18n,
     });
@@ -81,9 +80,7 @@ const replaceSupOrganizationLearners = async function (
     }
   }
 
-  return h
-    .response(dependencies.supOrganizationLearnerWarningSerializer.serialize({ id: organizationId, warnings }))
-    .code(200);
+  return h.response().code(204);
 };
 
 const getOrganizationLearnersCsvTemplate = async function (request, h, dependencies = { tokenService }) {
