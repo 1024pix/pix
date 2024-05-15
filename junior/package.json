@@ -30,7 +30,7 @@
     "preinstall": "npx check-engine",
     "start": "ember serve --proxy http://localhost:3000",
     "test": "ember test",
-    "test:ci": "npm run test",
+    "test:ci": "npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX))",
     "test:lint": "run-p --continue-on-error test lint"
   },
   "devDependencies": {
@@ -65,6 +65,7 @@
     "ember-cli-sass": "^11.0.1",
     "ember-component-css": "^0.8.1",
     "ember-data": "~4.12.0",
+    "ember-exam": "9.0.0",
     "ember-fetch": "^8.1.2",
     "ember-intl": "^6.0.0",
     "ember-load-initializers": "^2.1.2",

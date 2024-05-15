@@ -36,7 +36,7 @@
     "preinstall": "npx check-engine",
     "start": "ember serve --proxy http://localhost:3000",
     "test": "ember test",
-    "test:ci": "npm run test",
+    "test:ci": "npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX))",
     "test:lint": "npm test && npm run lint",
     "test:watch": "ember exam --serve --reporter dot"
   },
@@ -82,6 +82,7 @@
     "ember-cookies": "^1.0.0",
     "ember-data": "4.12.6",
     "ember-dayjs": "^0.12.0",
+    "ember-exam": "9.0.0",
     "ember-fetch": "^8.1.2",
     "ember-file-upload": "^9.0.0",
     "ember-flatpickr": "^8.0.0",
