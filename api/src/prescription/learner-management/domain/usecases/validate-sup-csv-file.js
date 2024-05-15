@@ -2,13 +2,7 @@ import { SupOrganizationLearnerParser } from '../../infrastructure/serializers/c
 import { getDataBuffer } from '../../infrastructure/utils/bufferize/get-data-buffer.js';
 import { AggregateImportError } from '../errors.js';
 
-const importSupOrganizationLearners = async function ({
-  organizationId,
-  i18n,
-  supOrganizationLearnerRepository,
-  organizationImportRepository,
-  importStorage,
-}) {
+const validateSupCsvFile = async function ({ organizationId, i18n, organizationImportRepository, importStorage }) {
   const organizationImport = await organizationImportRepository.getLastByOrganizationId(organizationId);
   const errors = [];
   let warningsData;
@@ -20,11 +14,9 @@ const importSupOrganizationLearners = async function ({
     const buffer = await getDataBuffer(readableStream);
     const parser = SupOrganizationLearnerParser.create(buffer, organizationId, i18n);
 
-    const { learners, warnings } = parser.parse(parser.getFileEncoding());
+    const { warnings } = parser.parse(parser.getFileEncoding());
 
-    await supOrganizationLearnerRepository.addStudents(learners);
-
-    return warnings;
+    warningsData = warnings;
   } catch (error) {
     if (error instanceof AggregateImportError) {
       errors.push(...error.meta);
@@ -33,10 +25,9 @@ const importSupOrganizationLearners = async function ({
     }
     throw error;
   } finally {
-    organizationImport.process({ errors, warnings: warningsData });
+    organizationImport.validate({ errors, warnings: warningsData });
     await organizationImportRepository.save(organizationImport);
-    await importStorage.deleteFile({ filename: organizationImport.filename });
   }
 };
 
-export { importSupOrganizationLearners };
+export { validateSupCsvFile };

@@ -24,6 +24,8 @@ describe('Unit | Controller | sup-organization-management-controller', function 
     serializedResponse = Symbol('serializedResponse');
     userId = Symbol('userId');
 
+    sinon.stub(usecases, 'uploadCsvFile');
+    sinon.stub(usecases, 'validateSupCsvFile');
     sinon.stub(usecases, 'importSupOrganizationLearners');
     sinon.stub(usecases, 'replaceSupOrganizationLearners');
     supOrganizationLearnerWarningSerializerStub = { serialize: sinon.stub() };
@@ -32,7 +34,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
   });
 
   context('#importSupOrganizationLearners', function () {
-    it('should call importSupOrganizationLearners usecase and return 200', async function () {
+    it('should call uploadCsvFile, validateSupCsvFile and importSupOrganizationLearners usecase and return 200', async function () {
       const params = { id: organizationId };
       const request = {
         auth: { credentials: { userId } },
@@ -40,10 +42,11 @@ describe('Unit | Controller | sup-organization-management-controller', function 
         params,
         i18n,
       };
+      usecases.uploadCsvFile.rejects().withArgs({ userId, organizationId, payload: request.payload, i18n }).resolves();
+      usecases.validateSupCsvFile.rejects().withArgs({ organizationId, i18n }).resolves();
       usecases.importSupOrganizationLearners
+        .rejects()
         .withArgs({
-          userId,
-          payload: request.payload,
           organizationId,
           i18n,
         })
@@ -61,6 +64,13 @@ describe('Unit | Controller | sup-organization-management-controller', function 
       });
 
       // then
+      expect(
+        sinon.assert.callOrder(
+          usecases.uploadCsvFile,
+          usecases.validateSupCsvFile,
+          usecases.importSupOrganizationLearners,
+        ),
+      ).to.not.throws;
       expect(response.statusCode).to.be.equal(200);
       expect(response.source).to.be.equal(serializedResponse);
 
@@ -75,10 +85,9 @@ describe('Unit | Controller | sup-organization-management-controller', function 
         params,
         i18n,
       };
+      usecases.uploadCsvFile.withArgs({ userId, payload: request.payload, organizationId, i18n }).resolves();
       usecases.importSupOrganizationLearners
         .withArgs({
-          userId,
-          payload: request.payload,
           organizationId,
           i18n,
         })

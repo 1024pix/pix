@@ -19,11 +19,19 @@ const importSupOrganizationLearners = async function (
   let warnings;
 
   try {
-    warnings = await usecases.importSupOrganizationLearners({
+    await usecases.uploadCsvFile({
       payload: request.payload,
       organizationId,
-      i18n: request.i18n,
       userId: authenticatedUserId,
+      i18n: request.i18n,
+    });
+    await usecases.validateSupCsvFile({
+      organizationId,
+      i18n: request.i18n,
+    });
+    warnings = await usecases.importSupOrganizationLearners({
+      organizationId,
+      i18n: request.i18n,
     });
   } finally {
     try {
