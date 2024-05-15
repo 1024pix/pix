@@ -32,7 +32,7 @@ export async function initMissionActivity({
     assessmentId,
     level: activityInfo.level,
     status: Activity.status.STARTED,
-    stepIndex: 0,
+    stepIndex: activityInfo.stepIndex,
     alternativeVersion,
   });
 

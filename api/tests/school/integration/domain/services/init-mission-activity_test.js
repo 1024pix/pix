@@ -66,8 +66,8 @@ describe('Integration | Usecase | init-mission-activity', function () {
           expect(activityCount).to.equal(1);
         });
       });
-      context('when there is at least one activity left in the mission', function () {
-        it('should create activity', async function () {
+      context('when there is at least one activity left in the mission for the current step', function () {
+        it('should create activity in the current step', async function () {
           const missionId = 12;
           const { assessmentId } = databaseBuilder.factory.buildMissionAssessment({ missionId });
           const validationActivity = databaseBuilder.factory.buildActivity({
@@ -132,6 +132,58 @@ describe('Integration | Usecase | init-mission-activity', function () {
           expect(currentActivity.stepIndex).to.equal(0);
           expect(currentActivity.status).to.equal(Activity.status.STARTED);
           expect(currentActivity.alternativeVersion).to.equal(1);
+        });
+      });
+      context('when there is at least one activity left in the mission for the next step', function () {
+        it('should create activity in the next step', async function () {
+          const missionId = 12;
+          const { assessmentId } = databaseBuilder.factory.buildMissionAssessment({ missionId });
+          const firstStepValidationActivity = databaseBuilder.factory.buildActivity({
+            assessmentId,
+            level: Activity.levels.VALIDATION,
+            stepIndex: 0,
+            status: Activity.status.SUCCEEDED,
+            createdAt: new Date('2024-04-01'),
+          });
+          await databaseBuilder.commit();
+
+          const lastActivity = domainBuilder.buildActivity(firstStepValidationActivity);
+
+          mockLearningContent({
+            missions: [
+              learningContentBuilder.buildMission({
+                id: missionId,
+                content: {
+                  steps: [
+                    {
+                      validationChallenges: [['first_va_challenge_id']],
+                    },
+                    {
+                      validationChallenges: [['second_va_challenge_id']],
+                    },
+                  ],
+                },
+              }),
+            ],
+          });
+
+          const currentActivity = await initMissionActivity({
+            lastActivity,
+            assessmentId,
+            assessmentRepository,
+            activityRepository,
+            missionAssessmentRepository,
+            missionRepository,
+          });
+
+          const [{ count: activityCount }] = await knex('activities').count();
+
+          expect(activityCount).to.equal(2);
+          expect(currentActivity.assessmentId).to.equal(assessmentId);
+          expect(currentActivity.level).to.equal(Activity.levels.VALIDATION);
+          expect(currentActivity.stepIndex).to.equal(1);
+          expect(currentActivity.status).to.equal(Activity.status.STARTED);
+          expect(currentActivity.alternativeVersion).to.equal(0);
         });
       });
     });
