@@ -87,7 +87,6 @@ module('Integration | Component | result-item', function (hooks) {
       { status: 'ok', color: 'green' },
       { status: 'ko', color: 'red' },
       { status: 'aband', color: 'grey' },
-      { status: 'partially', color: 'orange' },
       { status: 'timedout', color: 'red' },
     ].forEach(function (data) {
       test(`should display a relevant result icon when the result of the answer is "${data.status}"`, async function (assert) {

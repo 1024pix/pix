@@ -842,10 +842,6 @@
           "title": "Vous avez réussi l’épreuve",
           "tooltip": "Épreuve réussie"
         },
-        "partially": {
-          "title": "Vous avez donné une réponse partielle",
-          "tooltip": "Réponse partielle"
-        },
         "solutions": {
           "end": "ou...",
           "or": "ou"
@@ -1377,7 +1373,6 @@
       },
       "ko": "Réponse incorrecte",
       "ok": "Réponse correcte",
-      "partially": "Réponse partielle",
       "timedout": "Temps dépassé"
     },
     "send-profile": {

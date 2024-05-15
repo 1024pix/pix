@@ -149,12 +149,6 @@ module('Unit | Component | comparison-window', function (hooks) {
         expectedTooltip: 'Sans réponse',
       },
       {
-        validationStatus: 'partially',
-        result: 'partially',
-        expectedTitle: 'Vous avez donné une réponse partielle',
-        expectedTooltip: 'Réponse partielle',
-      },
-      {
         validationStatus: 'timedout',
         result: 'timedout',
         expectedTitle: 'Vous avez dépassé le temps imparti',

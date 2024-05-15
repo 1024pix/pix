@@ -5,7 +5,6 @@ const TEXT_FOR_RESULT = {
   ok: { status: 'ok' },
   ko: { status: 'ko' },
   aband: { status: 'aband' },
-  partially: { status: 'partially' },
   timedout: { status: 'timedout' },
   focusedOut: { status: 'ko' },
   okAutoReply: { status: 'ok' },
