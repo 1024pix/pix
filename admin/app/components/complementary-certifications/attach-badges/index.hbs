@@ -1,10 +1,11 @@
 <div class="page-section attach-target-profile">
   <h1 class="attach-target-profile__header">
     Rattacher un nouveau profil cible à la certification
-    {{@model.complementaryCertification.label}}
+    {{@complementaryCertification.label}}
   </h1>
-  <ComplementaryCertifications::Common::LinkToCurrentTargetProfile @model={{@model.currentTargetProfile}} />
-
+  {{#if @currentTargetProfile}}
+    <ComplementaryCertifications::Common::LinkToCurrentTargetProfile @model={{@currentTargetProfile}} />
+  {{/if}}
   <form class="form" {{on "submit" this.onSubmit}}>
     <Card class="attach-target-profile__card" @title="1. Renseigner le nouveau profil cible à rattacher">
       <ComplementaryCertifications::AttachBadges::TargetProfileSelector
@@ -26,25 +27,28 @@
           @hasExternalJury={{this.hasExternalJury}}
         />
       </Card>
+      {{#if @currentTargetProfile}}
 
-      <div class="badge-edit-form__field attach-target-profile__notification">
-        <Input
-          class="badge-edit-form__control attach-target-profile__notification__checkbox"
-          @type="checkbox"
-          @checked="false"
-          {{on "change" this.onNotificationUpdated}}
-          id="notification-checkbox"
-        />
-        <label for="notification-checkbox">Notifier les organisations avec une campagne basée sur l’ancien PC</label>
-        <PixTooltip @position="top-left" @isLight={{true}} @isWide={{true}}>
-          <:triggerElement>
-            <FaIcon @icon="circle-question" tabindex="0" />
-          </:triggerElement>
-          <:tooltip>
-            Un email sera envoyé à chaque membre de l'organisation
-          </:tooltip>
-        </PixTooltip>
-      </div>
+        <div class="badge-edit-form__field attach-target-profile__notification">
+          <Input
+            class="badge-edit-form__control attach-target-profile__notification__checkbox"
+            @type="checkbox"
+            @checked="false"
+            {{on "change" this.onNotificationUpdated}}
+            id="notification-checkbox"
+          />
+
+          <label for="notification-checkbox">Notifier les organisations avec une campagne basée sur l’ancien PC</label>
+          <PixTooltip @position="top-left" @isLight={{true}} @isWide={{true}}>
+            <:triggerElement>
+              <FaIcon @icon="circle-question" tabindex="0" />
+            </:triggerElement>
+            <:tooltip>
+              Un email sera envoyé à chaque membre de l'organisation
+            </:tooltip>
+          </PixTooltip>
+        </div>
+      {{/if}}
     {{/if}}
 
     <div class="attach-target-profile__actions">

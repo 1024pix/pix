@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 
-export default class AttachTargetProfileRoute extends Route {
+export default class AttachTargetProfileNewRoute extends Route {
   @service accessControl;
 
   beforeModel() {
@@ -11,15 +11,14 @@ export default class AttachTargetProfileRoute extends Route {
     );
   }
 
-  model(params) {
-    const targetProfileId = parseInt(params.target_profile_id);
+  model(_) {
     const complementaryCertification = this.modelFor(
       'authenticated.complementary-certifications.complementary-certification',
     );
 
     return {
       complementaryCertification,
-      currentTargetProfile: complementaryCertification.currentTargetProfiles.find(({ id }) => id === targetProfileId),
+      currentTargetProfile: null,
     };
   }
 

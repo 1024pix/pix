@@ -92,7 +92,7 @@ export default class AttachTargetProfileController extends Controller {
       await complementaryCertification.save({
         adapterOptions: {
           attachBadges: true,
-          targetProfileId: this.model.currentTargetProfile.id,
+          targetProfileId: this.model.currentTargetProfile?.id,
           notifyOrganizations: this.#notifyOrganizations,
         },
       });
@@ -103,6 +103,7 @@ export default class AttachTargetProfileController extends Controller {
         `Profil cible rattaché à la certification ${complementaryCertification.label} mis à jour avec succès !`,
       );
     } catch (error) {
+      console.error({ error });
       await this.onError("Une erreur est survenue lors de l'enregistrement du profil cible.");
     } finally {
       this.isSubmitting = false;

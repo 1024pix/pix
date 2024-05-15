@@ -97,7 +97,10 @@ Router.map(function () {
       this.route('list');
       this.route('complementary-certification', { path: '/:complementary_certification_id' }, function () {
         this.route('details');
-        this.route('attach-target-profile', { path: '/attach-target-profile/:target_profile_id' });
+        this.route('attach-target-profile', function () {
+          this.route('update', { path: '/:target_profile_id' });
+          this.route('new');
+        });
       });
     });
 

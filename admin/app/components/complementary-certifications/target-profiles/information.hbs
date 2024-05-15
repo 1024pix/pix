@@ -3,7 +3,9 @@
     <h1 class="complementary-certification-details__title">Certification complémentaire</h1>
 
     <span class="complementary-certification-details__label">{{@complementaryCertification.label}}</span>
-    <ComplementaryCertifications::Common::LinkToCurrentTargetProfile @model={{@currentTargetProfile}} />
+    {{#if @currentTargetProfile}}
+      <ComplementaryCertifications::Common::LinkToCurrentTargetProfile @model={{@currentTargetProfile}} />
+    {{/if}}
     {{#if this.isMultipleCurrentTargetProfiles}}
       <PixToggle
         @onLabel="Profil 1"
@@ -17,11 +19,18 @@
     {{/if}}
     {{#if this.hasAccessToAttachNewTargetProfile}}
       <div class="complementary-certification-details-target-profile__attach-button">
-        <PixButtonLink
-          @route="authenticated.complementary-certifications.complementary-certification.attach-target-profile"
-          @model={{@currentTargetProfile.id}}
-        >Rattacher un nouveau profil cible
-        </PixButtonLink>
+        {{#if @currentTargetProfile}}
+          <PixButtonLink
+            @route="authenticated.complementary-certifications.complementary-certification.attach-target-profile.update"
+            @model={{@currentTargetProfile.id}}
+          >Rattacher un nouveau profil cible
+          </PixButtonLink>
+        {{else}}
+          <PixButtonLink
+            @route="authenticated.complementary-certifications.complementary-certification.attach-target-profile.new"
+          >Rattacher un profil cible
+          </PixButtonLink>
+        {{/if}}
       </div>
     {{/if}}
   </div>
