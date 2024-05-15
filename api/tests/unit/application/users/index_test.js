@@ -14,7 +14,7 @@ describe('Unit | Router | user-router', function () {
   describe('GET /api/users/me', function () {
     const method = 'GET';
 
-    it('should exist', async function () {
+    it('exists', async function () {
       // given
       sinon.stub(userController, 'getCurrentUser').returns('ok');
       const httpTestServer = new HttpTestServer();
@@ -34,7 +34,7 @@ describe('Unit | Router | user-router', function () {
     const method = 'PATCH';
     const url = '/api/users/12344/password-update';
 
-    it('should exist and pass through user verification pre-handler', async function () {
+    it('exists and pass through user verification pre-handler', async function () {
       // given
       sinon.stub(userController, 'updatePassword').returns('ok');
       sinon.stub(userVerification, 'verifyById').returns('ok');
@@ -53,7 +53,7 @@ describe('Unit | Router | user-router', function () {
     });
 
     describe('Payload schema validation', function () {
-      it('should have a payload', async function () {
+      it('has a payload', async function () {
         // when
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -64,7 +64,7 @@ describe('Unit | Router | user-router', function () {
         expect(result.statusCode).to.equal(400);
       });
 
-      it('should have a password attribute in payload', async function () {
+      it('has a password attribute in payload', async function () {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -79,7 +79,7 @@ describe('Unit | Router | user-router', function () {
       });
 
       describe('password validation', function () {
-        it('should have a valid password format in payload', async function () {
+        it('has a valid password format in payload', async function () {
           // given
           const httpTestServer = new HttpTestServer();
           await httpTestServer.register(moduleUnderTest);
@@ -103,7 +103,7 @@ describe('Unit | Router | user-router', function () {
     const method = 'GET';
     const url = '/api/users/42/is-certifiable';
 
-    it('should exist', async function () {
+    it('exists', async function () {
       // given
       sinon.stub(userController, 'isCertifiable').returns('ok');
       sinon
@@ -124,7 +124,7 @@ describe('Unit | Router | user-router', function () {
     const method = 'GET';
     const url = '/api/users/42/profile';
 
-    it('should exist', async function () {
+    it('exists', async function () {
       // given
       sinon.stub(userController, 'getProfile').returns('ok');
       sinon
@@ -144,7 +144,7 @@ describe('Unit | Router | user-router', function () {
   describe('GET /api/users/{userId}/campaigns/{campaignId}/profile', function () {
     const method = 'GET';
 
-    it('should return 200', async function () {
+    it('returns 200', async function () {
       // given
       sinon.stub(userController, 'getUserProfileSharedForCampaign').returns('ok');
       sinon
@@ -162,7 +162,7 @@ describe('Unit | Router | user-router', function () {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 400 when userId is not a number', async function () {
+    it('returns 400 when userId is not a number', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -177,7 +177,7 @@ describe('Unit | Router | user-router', function () {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 when campaignId is not a number', async function () {
+    it('returns 400 when campaignId is not a number', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -196,7 +196,7 @@ describe('Unit | Router | user-router', function () {
   describe('GET /api/users/{userId}/campaigns/{campaignId}/assessment-result', function () {
     const method = 'GET';
 
-    it('should return 200', async function () {
+    it('returns 200', async function () {
       // given
       sinon.stub(userController, 'getUserCampaignAssessmentResult').returns('ok');
       sinon
@@ -214,7 +214,7 @@ describe('Unit | Router | user-router', function () {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 400 when userId is not a number', async function () {
+    it('returns 400 when userId is not a number', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -229,7 +229,7 @@ describe('Unit | Router | user-router', function () {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 when campaignId is not a number', async function () {
+    it('returns 400 when campaignId is not a number', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -248,7 +248,7 @@ describe('Unit | Router | user-router', function () {
   describe('GET /api/users/{userId}/campaigns/{campaignId}/campaign-participations', function () {
     const method = 'GET';
 
-    it('should return 200', async function () {
+    it('returns 200', async function () {
       // given
       sinon.stub(userController, 'getUserCampaignParticipationToCampaign').returns('ok');
       sinon
@@ -266,7 +266,7 @@ describe('Unit | Router | user-router', function () {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 400 when userId is not a number', async function () {
+    it('returns 400 when userId is not a number', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -281,7 +281,7 @@ describe('Unit | Router | user-router', function () {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 when campaignId is not a number', async function () {
+    it('returns 400 when campaignId is not a number', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -298,7 +298,7 @@ describe('Unit | Router | user-router', function () {
   });
 
   describe('PUT /api/users/{id}/email/verification-code', function () {
-    it('should return HTTP code 204', async function () {
+    it('returns HTTP code 204', async function () {
       // given
       sinon
         .stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser')
@@ -325,7 +325,7 @@ describe('Unit | Router | user-router', function () {
       expect(result.statusCode).to.equal(204);
     });
 
-    it('should return 422 when id is not a number', async function () {
+    it('returns 422 when id is not a number', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -350,7 +350,7 @@ describe('Unit | Router | user-router', function () {
       expect(result.result.errors[0].detail).to.equal('"id" must be a number');
     });
 
-    it('should return 422 when type is not users', async function () {
+    it('returns 422 when type is not users', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -375,7 +375,7 @@ describe('Unit | Router | user-router', function () {
       expect(result.result.errors[0].detail).to.equal('"data.type" must be [email-verification-codes]');
     });
 
-    it('should return 422 when email is not valid', async function () {
+    it('returns 422 when email is not valid', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -400,7 +400,7 @@ describe('Unit | Router | user-router', function () {
       expect(result.result.errors[0].detail).to.equal('"data.attributes.new-email" must be a valid email');
     });
 
-    it('should return 422 when password is not provided', async function () {
+    it('returns 422 when password is not provided', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -426,7 +426,7 @@ describe('Unit | Router | user-router', function () {
   });
 
   describe('POST /api/users/{id}/update-email', function () {
-    it('should return 403 if requested user is not the same as authenticated user', async function () {
+    it('returns 403 if requested user is not the same as authenticated user', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -450,7 +450,7 @@ describe('Unit | Router | user-router', function () {
       expect(result.result.errors[0].detail).to.equal('Missing or insufficient permissions.');
     });
 
-    it('should return 422 when code is not valid', async function () {
+    it('returns 422 when code is not valid', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -480,7 +480,7 @@ describe('Unit | Router | user-router', function () {
   describe('GET /api/users/{id}/authentication-methods', function () {
     const method = 'GET';
 
-    it('should return 400 when userId is not a number', async function () {
+    it('returns 400 when userId is not a number', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -499,7 +499,7 @@ describe('Unit | Router | user-router', function () {
   describe('GET /api/users/{id}/trainings', function () {
     const method = 'GET';
 
-    it('should return 200', async function () {
+    it('returns 200', async function () {
       // given
       sinon.stub(userController, 'findPaginatedUserRecommendedTrainings').returns('ok');
       const securityPreHandlersStub = sinon
@@ -518,7 +518,7 @@ describe('Unit | Router | user-router', function () {
       expect(securityPreHandlersStub).to.have.been.called;
     });
 
-    it('should return 400 when userId is not a number', async function () {
+    it('returns 400 when userId is not a number', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -536,7 +536,7 @@ describe('Unit | Router | user-router', function () {
 
   context('Routes /admin', function () {
     describe('GET /api/admin/users', function () {
-      it('should return an HTTP status code 200', async function () {
+      it('returns an HTTP status code 200', async function () {
         // given
         sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
         sinon.stub(userController, 'findPaginatedFilteredUsers').returns('ok');
@@ -550,12 +550,12 @@ describe('Unit | Router | user-router', function () {
         );
 
         // then
+        expect(response.statusCode).to.equal(200);
         sinon.assert.calledOnce(securityPreHandlers.hasAtLeastOneAccessOf);
         sinon.assert.calledOnce(userController.findPaginatedFilteredUsers);
-        expect(response.statusCode).to.equal(200);
       });
 
-      it('should return an HTTP status code 403', async function () {
+      it('returns an HTTP status code 403', async function () {
         // given
         sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns((request, h) =>
           h
@@ -573,8 +573,8 @@ describe('Unit | Router | user-router', function () {
         );
 
         // then
-        sinon.assert.calledOnce(securityPreHandlers.hasAtLeastOneAccessOf);
         expect(response.statusCode).to.equal(403);
+        sinon.assert.calledOnce(securityPreHandlers.hasAtLeastOneAccessOf);
       });
 
       describe('when the search value in the search email field in users filter is a string and not a full email', function () {
@@ -609,7 +609,7 @@ describe('Unit | Router | user-router', function () {
     });
 
     describe('GET /api/admin/users/{id}', function () {
-      it('should return an HTTP status code 200', async function () {
+      it('returns an HTTP status code 200', async function () {
         // given
         sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
         sinon.stub(userController, 'getUserDetailsForAdmin').resolves('ok');
@@ -620,12 +620,12 @@ describe('Unit | Router | user-router', function () {
         const response = await httpTestServer.request('GET', '/api/admin/users/8');
 
         // then
+        expect(response.statusCode).to.equal(200);
         sinon.assert.calledOnce(securityPreHandlers.hasAtLeastOneAccessOf);
         sinon.assert.calledOnce(userController.getUserDetailsForAdmin);
-        expect(response.statusCode).to.equal(200);
       });
 
-      it('should return an HTTP status code 403', async function () {
+      it('returns an HTTP status code 403', async function () {
         // given
         sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns((request, h) =>
           h
@@ -640,13 +640,13 @@ describe('Unit | Router | user-router', function () {
         const response = await httpTestServer.request('GET', '/api/admin/users/8');
 
         // then
-        sinon.assert.calledOnce(securityPreHandlers.hasAtLeastOneAccessOf);
         expect(response.statusCode).to.equal(403);
+        sinon.assert.calledOnce(securityPreHandlers.hasAtLeastOneAccessOf);
       });
     });
 
     describe('PATCH /api/admin/users/{id}', function () {
-      it('should verify user identity and return success update when user role is "SUPER_ADMIN"', async function () {
+      it('verifies user identity and return success update when user role is "SUPER_ADMIN"', async function () {
         // given
         sinon.stub(userController, 'updateUserDetailsForAdministration').returns('ok');
         sinon
@@ -665,13 +665,13 @@ describe('Unit | Router | user-router', function () {
         const result = await httpTestServer.request('PATCH', '/api/admin/users/12344', payload);
 
         // then
+        expect(result.statusCode).to.equal(200);
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
         sinon.assert.calledOnce(userController.updateUserDetailsForAdministration);
-        expect(result.statusCode).to.equal(200);
       });
 
-      it('should verify user identity and return success update when role is "SUPPORT"', async function () {
+      it('verifies user identity and return success update when role is "SUPPORT"', async function () {
         // given
         sinon.stub(userController, 'updateUserDetailsForAdministration').returns('ok');
         sinon
@@ -688,13 +688,13 @@ describe('Unit | Router | user-router', function () {
         const result = await httpTestServer.request('PATCH', '/api/admin/users/12344', payload);
 
         // then
+        expect(result.statusCode).to.equal(200);
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
         sinon.assert.calledOnce(userController.updateUserDetailsForAdministration);
-        expect(result.statusCode).to.equal(200);
       });
 
-      it('should return bad request when param id is not numeric', async function () {
+      it('returns bad request when param id is not numeric', async function () {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -708,7 +708,7 @@ describe('Unit | Router | user-router', function () {
         expect(result.statusCode).to.equal(400);
       });
 
-      it('should return bad request when payload is not found', async function () {
+      it('returns bad request when payload is not found', async function () {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -720,7 +720,7 @@ describe('Unit | Router | user-router', function () {
         expect(result.statusCode).to.equal(400);
       });
 
-      it(`should return 403 when user don't have access (CERTIF | METIER)`, async function () {
+      it(`returns 403 when user don't have access (CERTIF | METIER)`, async function () {
         // given
         sinon.stub(userController, 'updateUserDetailsForAdministration').returns('ok');
         sinon
@@ -739,15 +739,15 @@ describe('Unit | Router | user-router', function () {
         const result = await httpTestServer.request('PATCH', '/api/admin/users/12344', payload);
 
         // then
+        expect(result.statusCode).to.equal(403);
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
         sinon.assert.notCalled(userController.updateUserDetailsForAdministration);
-        expect(result.statusCode).to.equal(403);
       });
     });
 
     describe('POST /api/admin/users/{id}/anonymize', function () {
-      it('should return 200 when user role is "SUPER_ADMIN"', async function () {
+      it('returns 200 when user role is "SUPER_ADMIN"', async function () {
         // given
         sinon.stub(userController, 'anonymizeUser').callsFake((request, h) => h.response({}).code(200));
         sinon
@@ -763,13 +763,13 @@ describe('Unit | Router | user-router', function () {
         const { statusCode } = await httpTestServer.request('POST', '/api/admin/users/1/anonymize');
 
         // then
+        expect(statusCode).to.equal(200);
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
         sinon.assert.calledOnce(userController.anonymizeUser);
-        expect(statusCode).to.equal(200);
       });
 
-      it('should return 200 when user role is "SUPPORT"', async function () {
+      it('returns 200 when user role is "SUPPORT"', async function () {
         // given
         sinon.stub(userController, 'anonymizeUser').callsFake((request, h) => h.response({}).code(200));
         sinon
@@ -783,13 +783,13 @@ describe('Unit | Router | user-router', function () {
         const { statusCode } = await httpTestServer.request('POST', '/api/admin/users/1/anonymize');
 
         // then
+        expect(statusCode).to.equal(200);
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
         sinon.assert.calledOnce(userController.anonymizeUser);
-        expect(statusCode).to.equal(200);
       });
 
-      it('should return 400 when id is not a number', async function () {
+      it('returns 400 when id is not a number', async function () {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -802,7 +802,7 @@ describe('Unit | Router | user-router', function () {
         expect(JSON.parse(payload).errors[0].detail).to.equal('"id" must be a number');
       });
 
-      it(`should return 403 when user don't have access (CERTIF | METIER)`, async function () {
+      it(`returns 403 when user don't have access (CERTIF | METIER)`, async function () {
         // given
         sinon.stub(userController, 'anonymizeUser').returns('ok');
         sinon
@@ -821,15 +821,15 @@ describe('Unit | Router | user-router', function () {
         const result = await httpTestServer.request('POST', '/api/admin/users/1/anonymize', payload);
 
         // then
+        expect(result.statusCode).to.equal(403);
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
         sinon.assert.notCalled(userController.anonymizeUser);
-        expect(result.statusCode).to.equal(403);
       });
     });
 
     describe('POST /api/admin/users/{id}/add-pix-authentication-method', function () {
-      it('should return 200 when user role is "SUPER_ADMIN"', async function () {
+      it('returns 200 when user role is "SUPER_ADMIN"', async function () {
         // given
         sinon
           .stub(userController, 'addPixAuthenticationMethodByEmail')
@@ -852,13 +852,13 @@ describe('Unit | Router | user-router', function () {
         );
 
         // then
+        expect(statusCode).to.equal(201);
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
         sinon.assert.calledOnce(userController.addPixAuthenticationMethodByEmail);
-        expect(statusCode).to.equal(201);
       });
 
-      it('should return 200 when user role is "SUPPORT"', async function () {
+      it('returns 200 when user role is "SUPPORT"', async function () {
         // given
         sinon
           .stub(userController, 'addPixAuthenticationMethodByEmail')
@@ -879,13 +879,13 @@ describe('Unit | Router | user-router', function () {
         );
 
         // then
+        expect(statusCode).to.equal(201);
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
         sinon.assert.calledOnce(userController.addPixAuthenticationMethodByEmail);
-        expect(statusCode).to.equal(201);
       });
 
-      it('should return 400 when id is not a number', async function () {
+      it('returns 400 when id is not a number', async function () {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -901,7 +901,7 @@ describe('Unit | Router | user-router', function () {
         expect(JSON.parse(payload).errors[0].detail).to.equal('"id" must be a number');
       });
 
-      it(`should return 403 when user don't have access (CERTIF | METIER)`, async function () {
+      it(`returns 403 when user don't have access (CERTIF | METIER)`, async function () {
         // given
         sinon.stub(userController, 'addPixAuthenticationMethodByEmail').returns('ok');
         sinon
@@ -922,10 +922,10 @@ describe('Unit | Router | user-router', function () {
         );
 
         // then
+        expect(result.statusCode).to.equal(403);
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
         sinon.assert.notCalled(userController.addPixAuthenticationMethodByEmail);
-        expect(result.statusCode).to.equal(403);
       });
     });
 
@@ -938,7 +938,7 @@ describe('Unit | Router | user-router', function () {
         CODE_IDENTITY_PROVIDER_POLE_EMPLOI,
         CODE_IDENTITY_PROVIDER_CNAV,
       ].forEach((type) => {
-        it(`should return 200 when user is "SUPER_ADMIN" and type is ${type}`, async function () {
+        it(`returns 200 when user is "SUPER_ADMIN" and type is ${type}`, async function () {
           // given
           sinon.stub(userController, 'removeAuthenticationMethod').returns('ok');
           sinon
@@ -959,14 +959,14 @@ describe('Unit | Router | user-router', function () {
             },
           });
 
-          // then
-          sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
-          sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
-          sinon.assert.calledOnce(userController.removeAuthenticationMethod);
-          expect(result.statusCode).to.equal(200);
-        });
+            // then
+            expect(result.statusCode).to.equal(200);
+            sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
+            sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
+            sinon.assert.calledOnce(userController.removeAuthenticationMethod);
+          });
 
-        it(`should return 200 when user is "SUPPORT" and type is ${type}`, async function () {
+        it(`returns 200 when user is "SUPPORT" and type is ${type}`, async function () {
           // given
           sinon.stub(userController, 'removeAuthenticationMethod').returns('ok');
           sinon
@@ -985,15 +985,16 @@ describe('Unit | Router | user-router', function () {
             },
           });
 
-          // then
-          sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
-          sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
-          sinon.assert.calledOnce(userController.removeAuthenticationMethod);
-          expect(result.statusCode).to.equal(200);
-        });
-      });
+            // then
+            expect(result.statusCode).to.equal(200);
+            sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
+            sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
+            sinon.assert.calledOnce(userController.removeAuthenticationMethod);
+          });
+        },
+      );
 
-      it('should return 400 when id is not a number', async function () {
+      it('returns 400 when id is not a number', async function () {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -1062,7 +1063,7 @@ describe('Unit | Router | user-router', function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
       [CODE_IDENTITY_PROVIDER_GAR, CODE_IDENTITY_PROVIDER_POLE_EMPLOI, CODE_IDENTITY_PROVIDER_CNAV].forEach(
         (identityProvider) => {
-          it(`should return 200 when user role is "SUPER_ADMIN" and identity provider is "${identityProvider}"`, async function () {
+          it(`returns 204 when user role is "SUPER_ADMIN" and identity provider is "${identityProvider}"`, async function () {
             // given
             sinon
               .stub(userController, 'reassignAuthenticationMethods')
@@ -1091,14 +1092,14 @@ describe('Unit | Router | user-router', function () {
               payload,
             );
 
-            // then
-            sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
-            sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
-            sinon.assert.calledOnce(userController.reassignAuthenticationMethods);
-            expect(statusCode).to.equal(204);
-          });
+          // then
+          expect(statusCode).to.equal(204);
+          sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
+          sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
+          sinon.assert.calledOnce(userController.reassignAuthenticationMethods);
+        });
 
-          it(`should return 200 when user role is "SUPPORT" and identity provider is "${identityProvider}"`, async function () {
+          it(`returns 204 when user role is "SUPPORT" and identity provider is "${identityProvider}"`, async function () {
             // given
             sinon
               .stub(userController, 'reassignAuthenticationMethods')
@@ -1127,14 +1128,13 @@ describe('Unit | Router | user-router', function () {
               payload,
             );
 
-            // then
-            sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
-            sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
-            sinon.assert.calledOnce(userController.reassignAuthenticationMethods);
-            expect(statusCode).to.equal(204);
-          });
-        },
-      );
+          // then
+          expect(statusCode).to.equal(204);
+          sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
+          sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
+          sinon.assert.calledOnce(userController.reassignAuthenticationMethods);
+        });
+      });
 
       it('returns 400 when "userId" is not a number', async function () {
         // given
@@ -1244,15 +1244,15 @@ describe('Unit | Router | user-router', function () {
         const result = await httpTestServer.request('POST', '/api/admin/users/1/authentication-methods/1', payload);
 
         // then
+        expect(result.statusCode).to.equal(403);
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
         sinon.assert.notCalled(userController.reassignAuthenticationMethods);
-        expect(result.statusCode).to.equal(403);
       });
     });
 
     describe('GET /api/admin/users/{id}/participations', function () {
-      it('should return an HTTP status code 200', async function () {
+      it('returns an HTTP status code 200', async function () {
         // given
         sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
         sinon.stub(userController, 'findCampaignParticipationsForUserManagement').resolves('ok');
@@ -1263,12 +1263,12 @@ describe('Unit | Router | user-router', function () {
         const response = await httpTestServer.request('GET', '/api/admin/users/8/participations');
 
         // then
+        expect(response.statusCode).to.equal(200);
         sinon.assert.calledOnce(securityPreHandlers.hasAtLeastOneAccessOf);
         sinon.assert.calledOnce(userController.findCampaignParticipationsForUserManagement);
-        expect(response.statusCode).to.equal(200);
       });
 
-      it('should return an HTTP status code 403', async function () {
+      it('returns an HTTP status code 403', async function () {
         // given
         sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns((request, h) =>
           h
@@ -1283,8 +1283,8 @@ describe('Unit | Router | user-router', function () {
         const response = await httpTestServer.request('GET', '/api/admin/users/8/participations');
 
         // then
-        sinon.assert.calledOnce(securityPreHandlers.hasAtLeastOneAccessOf);
         expect(response.statusCode).to.equal(403);
+        sinon.assert.calledOnce(securityPreHandlers.hasAtLeastOneAccessOf);
       });
     });
   });
