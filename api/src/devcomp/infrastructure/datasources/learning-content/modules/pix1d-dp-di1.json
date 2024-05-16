@@ -80,11 +80,11 @@
           "proposals": [
             {
               "id": "1",
-              "content": "les informations qui permettent de te reconnaitre"
+              "content": "les informations qui permettent de te reconnaitre."
             },
             {
               "id": "2",
-              "content": "les informations qui te permettent de gagner à un concours"
+              "content": "les informations qui te permettent de gagner à un concours."
             }
           ],
           "feedbacks": {
@@ -148,7 +148,7 @@
             ],
             "feedbacks": {
               "valid": "<p>Bravo. Tu sais que l'adresse et l'e-mail sont des données personnelles. </p>",
-              "invalid": "<p>Incorrect.  Son adresse et son e-mail sont des données personnelles. À partir de son jeu vidéo préféré ou du nombre de consoles qu'il possède, il est compliqué de l'identifier.</p>"
+              "invalid": "<p>Non.  Son adresse et son e-mail sont des données personnelles. À partir de son jeu vidéo préféré ou du nombre de consoles qu'il possède, il est compliqué de l'identifier.</p>"
             },
             "solutions": ["1", "2"]
           }
