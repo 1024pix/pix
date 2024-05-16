@@ -61,7 +61,6 @@ import { CertificationAnswerStatusChangeAttempt } from './CertificationAnswerSta
 import { CertificationAssessment } from './CertificationAssessment.js';
 import { CertificationCandidate } from './CertificationCandidate.js';
 import { CertificationCenter } from './CertificationCenter.js';
-import { CertificationCenterForAdmin } from './CertificationCenterForAdmin.js';
 import { CertificationCenterInvitedUser } from './CertificationCenterInvitedUser.js';
 import { CertificationCenterMembership } from './CertificationCenterMembership.js';
 import { CertificationChallenge } from './CertificationChallenge.js';
@@ -178,7 +177,6 @@ export {
   CertificationCandidate,
   CertificationCandidateForSupervising,
   CertificationCenter,
-  CertificationCenterForAdmin,
   CertificationCenterInvitedUser,
   CertificationCenterMembership,
   CertificationChallenge,
