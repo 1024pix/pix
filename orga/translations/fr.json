@@ -13,7 +13,7 @@
     "edit-student-number": {
       "student-number-exists": "Le numéro étudiant saisi est déjà utilisé par l’étudiant {firstName} {lastName}"
     },
-    "global": "Une erreur est survenue. Veuillez réessayer ultérieurement.",
+    "global": "Une erreur est survenue. Veuillez réessayer ultérieurement",
     "or-separator": " ou ",
     "student-csv-import": {
       "bad-csv-format": "Le fichier doit être au format csv avec séparateur virgule ou point-virgule.",

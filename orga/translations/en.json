@@ -13,7 +13,7 @@
     "edit-student-number": {
       "student-number-exists": "The student number entered is already used by {firstName} {lastName}"
     },
-    "global": "An error occurred. Please try again later.",
+    "global": "An error occurred. Please try again later",
     "or-separator": " or ",
     "student-csv-import": {
       "bad-csv-format": "The file must be in csv format with comma or semicolon separator.",
