@@ -10,11 +10,7 @@
     </li>
     {{#if this.shouldRenderImportTemplateButton}}
       <li>
-        <PixButtonLink
-          @route="authenticated.sessions.import"
-          @variant="transparent-light"
-          @isBorderVisible="true"
-        >
+        <PixButtonLink @route="authenticated.sessions.import" @variant="secondary" @isBorderVisible="true">
           {{t "pages.sessions.list.actions.multiple-creation.label"}}
         </PixButtonLink>
       </li>

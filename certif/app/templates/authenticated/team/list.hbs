@@ -4,11 +4,9 @@
   <h1 class="page-title">{{t "pages.team.title"}}</h1>
   <div class="team__header-admin-buttons">
     {{#if this.shouldDisplayUpdateRefererButton}}
-      <PixButton
-        @variant="transparent-light"
-        @isBorderVisible={{true}}
-        @triggerAction={{this.toggleRefererModal}}
-      >{{t "pages.team.update-referer-button"}}</PixButton>
+      <PixButton @variant="secondary" @isBorderVisible={{true}} @triggerAction={{this.toggleRefererModal}}>{{t
+          "pages.team.update-referer-button"
+        }}</PixButton>
     {{/if}}
     {{#if this.shouldDisplayInviteMemberButton}}
       <PixButtonLink @route="authenticated.team.invite">{{t "pages.team.invite-button"}}</PixButtonLink>
