@@ -116,6 +116,7 @@ const save = async function (organization) {
   const data = _.pick(organization, ['name', 'type', 'documentationUrl', 'credit', 'createdBy']);
   const [organizationCreated] = await knex(ORGANIZATIONS_TABLE_NAME).returning('*').insert(data);
   const savedOrganization = _toDomain(organizationCreated);
+
   if (!_.isEmpty(savedOrganization.features)) {
     await _enableFeatures(knex, savedOrganization.features, savedOrganization.id);
   }
