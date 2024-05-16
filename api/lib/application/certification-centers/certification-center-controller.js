@@ -38,7 +38,7 @@ const getCertificationCenterDetails = async function (request) {
   const certificationCenterId = request.params.id;
 
   const certificationCenterDetails = await usecases.getCenterForAdmin({ id: certificationCenterId });
-  console.log({ certificationCenterDetails });
+
   return certificationCenterForAdminSerializer.serialize(certificationCenterDetails);
 };
 
