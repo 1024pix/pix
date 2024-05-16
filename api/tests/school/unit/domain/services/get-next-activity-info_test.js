@@ -199,6 +199,17 @@ describe('Unit | Domain | Pix Junior | get next activity info', function () {
       stepCount: 1,
       expectedActivityInfo: END_OF_MISSION,
     },
+    {
+      activities: [
+        '0:VALIDATION:FAILED',
+        '0:TRAINING:FAILED',
+        '0:TUTORIAL:SUCCEEDED',
+        '0:TRAINING:SUCCEEDED',
+        '0:VALIDATION:SUCCEEDED',
+      ],
+      stepCount: 2,
+      expectedActivityInfo: '1:VALIDATION',
+    },
   ].forEach(({ activities, stepCount, expectedActivityInfo }) => {
     // eslint-disable-next-line mocha/no-setup-in-describe
     context(`when activities flow is ${JSON.stringify(activities)} in a ${stepCount} steps mission`, function () {
