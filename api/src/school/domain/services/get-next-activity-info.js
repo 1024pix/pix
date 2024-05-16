@@ -49,17 +49,21 @@ function _lastActivity(activities) {
   return activities[0];
 }
 
-function _hasValidatedTheMissionUsingTutorial(lastActivity, activities) {
-  return lastActivity.isValidation && _hasAlreadyDoneActivity(activities, TUTORIAL);
+function _hasValidatedTheMissionUsingTutorialInFinalStep(lastActivity, currentStepActivities, stepCount) {
+  return _hasValidatedTheMission(lastActivity, stepCount) && _hasAlreadyDoneActivity(currentStepActivities, TUTORIAL);
+}
+
+function _hasValidatedTheMission(lastActivity, stepCount) {
+  return lastActivity.isValidation && lastActivity.stepIndex === stepCount - 1;
 }
 
 /**
- * @param {[Activity]} activities
+ * @param {[Activity]} currentStepActivities
  * @param {Activity} lastActivity
  * @param {number} stepCount
  */
-function _getNextActivityInfoAfterSuccess(activities, lastActivity, stepCount) {
-  if (_hasValidatedTheMissionUsingTutorial(lastActivity, activities)) {
+function _getNextActivityInfoAfterSuccess(currentStepActivities, lastActivity, stepCount) {
+  if (_hasValidatedTheMissionUsingTutorialInFinalStep(lastActivity, currentStepActivities, stepCount)) {
     return END_OF_MISSION;
   }
   const nextActivityLevel = lastActivity.higherLevel;
