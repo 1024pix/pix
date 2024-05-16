@@ -48,7 +48,7 @@
 
     {{#if this.shouldDisplaySkipButton}}
       <footer class="grain-card__footer">
-        <PixButton @variant="secondary" @shape="rounded" @triggerAction={{@skipAction}}>
+        <PixButton @variant="secondary" @triggerAction={{@skipAction}}>
           {{t "pages.modulix.buttons.grain.skip"}}
         </PixButton>
       </footer>
@@ -56,7 +56,7 @@
 
     {{#if this.shouldDisplayContinueButton}}
       <footer class="grain-card__footer">
-        <PixButton @variant="primary" @shape="rounded" @triggerAction={{@continueAction}}>
+        <PixButton @variant="primary" @triggerAction={{@continueAction}}>
           {{t "pages.modulix.buttons.grain.continue"}}
         </PixButton>
       </footer>
@@ -64,7 +64,7 @@
 
     {{#if @shouldDisplayTerminateButton}}
       <footer class="grain-card__footer">
-        <PixButton @variant="primary" @shape="rounded" @triggerAction={{@terminateAction}}>
+        <PixButton @variant="primary" @triggerAction={{@terminateAction}}>
           {{t "pages.modulix.buttons.grain.terminate"}}
         </PixButton>
       </footer>

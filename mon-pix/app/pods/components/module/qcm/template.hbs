@@ -36,7 +36,6 @@
   {{#unless this.correction}}
     <PixButton
       @variant="success"
-      @shape="rounded"
       @type="submit"
       class="element-qcm__verify-button"
       @triggerAction={{this.submitAnswer}}
@@ -57,7 +56,6 @@
     <PixButton
       class="element-qcm__retry-button"
       @variant="secondary"
-      @shape="rounded"
       @size="small"
       @type="button"
       @triggerAction={{this.retry}}

@@ -128,7 +128,6 @@
                 @model={{@model.campaign.code}}
                 @query={{this.retryQuery}}
                 @size="small"
-                @shape="rounded"
               >{{t "pages.skill-review.retry.button"}}</PixButtonLink>
             {{/if}}
 
@@ -136,7 +135,6 @@
               <PixButton
                 class="skill-review__actions__pix-button"
                 @size="small"
-                @shape="rounded"
                 @variant="secondary"
                 @triggerAction={{this.showResetModal}}
               >{{t "pages.skill-review.reset.button"}}</PixButton>
@@ -171,7 +169,6 @@
                       @model={{@model.campaign.code}}
                       @query={{this.resetQuery}}
                       @size="large"
-                      @shape="squircle"
                       @variant="error"
                     >{{t "common.actions.confirm"}}</PixButtonLink>
                   </div>

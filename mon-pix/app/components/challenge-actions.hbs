@@ -12,7 +12,6 @@
     <PixButton
       @triggerAction={{fn @resumeAssessment @assessment}}
       @variant="primary"
-      @shape="rounded"
       class="challenge-actions__action-continue"
     >
       <span class="challenge-actions__action-continue-text">{{t "pages.challenge.actions.continue"}}</span>
@@ -26,7 +25,6 @@
     <PixButton
       @triggerAction={{@validateAnswer}}
       @variant="primary"
-      @shape="rounded"
       class="challenge-actions__action-continue"
       aria-label={{t "pages.challenge.actions.continue-go-to-next"}}
     >
@@ -68,7 +66,6 @@
           @isDisabled={{this.areActionButtonsDisabled}}
           @triggerAction={{@validateAnswer}}
           @variant="success"
-          @shape="rounded"
           @iconAfter="arrow-right"
           class="challenge-actions__action-validate"
           aria-label={{t "pages.challenge.actions.validate-go-to-next"}}
@@ -82,7 +79,6 @@
           @isDisabled={{this.areActionButtonsDisabled}}
           @triggerAction={{@skipChallenge}}
           @variant="secondary"
-          @shape="rounded"
           class="challenge-actions__action-skip"
           aria-label={{t "pages.challenge.actions.skip-go-to-next"}}
         >
