@@ -10,10 +10,11 @@ export class Center {
    * @param {Array<number>} props.habilitations List of complementary certification id
    * @param {Array<string>} props.features List of center features
    */
-  constructor({ id, type, habilitations = [], features = [] } = {}) {
+  constructor({ id, name, type, habilitations = [], features = [] } = {}) {
     assertEnumValue(CenterTypes, type);
 
     this.id = id;
+    this.name = name;
     this.type = type;
     this.habilitations = habilitations;
     this.features = features;
