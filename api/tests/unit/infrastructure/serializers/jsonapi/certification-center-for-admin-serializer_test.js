@@ -1,10 +1,10 @@
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/certification-center-for-admin-serializer.js';
-import { CERTIFICATION_FEATURES } from '../../../../../src/certification/shared/domain/constants.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | certification-center-for-admin-serializer', function () {
   let certificationCenterJsonApi;
-  let certificationCenterForAdmin;
+  let centerForAdmin;
+  let dataProtectionOfficer;
 
   beforeEach(function () {
     certificationCenterJsonApi = {
@@ -19,23 +19,25 @@ describe('Unit | Serializer | JSONAPI | certification-center-for-admin-serialize
           'data-protection-officer-first-name': 'Justin',
           'data-protection-officer-last-name': 'Ptipeu',
           'data-protection-officer-email': 'justin.ptipeu@example.net',
+          'is-v3-pilot': false,
           'is-complementary-alone-pilot': false,
         },
         relationships: {},
       },
     };
 
-    certificationCenterForAdmin = {
+    centerForAdmin = {
       id: 123,
       name: 'Centre des dés',
       type: 'SCO',
       externalId: '12345',
       createdAt: null,
       habilitations: [],
-      dataProtectionOfficerFirstName: 'Justin',
-      dataProtectionOfficerLastName: 'Ptipeu',
-      dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
+      isV3Pilot: false,
+      isComplementaryAlonePilot: false,
     };
+
+    dataProtectionOfficer = { firstName: 'Justin', lastName: 'Ptipeu', email: 'justin.ptipeu@example.net' };
   });
 
   describe('when the center is for v2 certification', function () {
@@ -45,9 +47,12 @@ describe('Unit | Serializer | JSONAPI | certification-center-for-admin-serialize
         const deserializedCertificationCenterForAdmin = serializer.deserialize(certificationCenterJsonApi);
 
         // then
-        const expectedCertificationCenterForAdmin = domainBuilder.buildCertificationCenterForAdmin({
-          ...certificationCenterForAdmin,
-          id: '123',
+        const expectedCertificationCenterForAdmin = domainBuilder.buildCenterForAdmin({
+          center: {
+            ...centerForAdmin,
+            id: '123',
+          },
+          dataProtectionOfficer,
         });
 
         expect(deserializedCertificationCenterForAdmin).to.deepEqualInstance(expectedCertificationCenterForAdmin);
@@ -62,10 +67,13 @@ describe('Unit | Serializer | JSONAPI | certification-center-for-admin-serialize
           label: 'Pix+surf',
           key: 'SURF',
         });
-        const certificationCenter = domainBuilder.buildCertificationCenterForAdmin({
-          ...certificationCenterForAdmin,
-          createdAt: new Date('2018-01-01T05:43:10Z'),
-          habilitations: [complementaryCertification],
+        const certificationCenter = domainBuilder.buildCenterForAdmin({
+          center: {
+            ...centerForAdmin,
+            createdAt: new Date('2018-01-01T05:43:10Z'),
+            habilitations: [complementaryCertification],
+          },
+          dataProtectionOfficer,
         });
 
         // when
@@ -113,10 +121,13 @@ describe('Unit | Serializer | JSONAPI | certification-center-for-admin-serialize
         const deserializedCertificationCenterForAdmin = serializer.deserialize(certificationCenterJsonApi);
 
         // then
-        const expectedCertificationCenterForAdmin = domainBuilder.buildCertificationCenterForAdmin({
-          ...certificationCenterForAdmin,
-          id: '123',
-          isV3Pilot: true,
+        const expectedCertificationCenterForAdmin = domainBuilder.buildCenterForAdmin({
+          center: {
+            ...centerForAdmin,
+            id: '123',
+            isV3Pilot: true,
+          },
+          dataProtectionOfficer,
         });
 
         expect(deserializedCertificationCenterForAdmin).to.deepEqualInstance(expectedCertificationCenterForAdmin);
@@ -131,11 +142,14 @@ describe('Unit | Serializer | JSONAPI | certification-center-for-admin-serialize
           label: 'Pix+surf',
           key: 'SURF',
         });
-        const certificationCenter = domainBuilder.buildCertificationCenterForAdmin({
-          ...certificationCenterForAdmin,
-          createdAt: new Date('2018-01-01T05:43:10Z'),
-          habilitations: [complementaryCertification],
-          isV3Pilot: true,
+        const certificationCenter = domainBuilder.buildCenterForAdmin({
+          center: {
+            ...centerForAdmin,
+            createdAt: new Date('2018-01-01T05:43:10Z'),
+            habilitations: [complementaryCertification],
+            isV3Pilot: true,
+          },
+          dataProtectionOfficer,
         });
 
         // when
@@ -179,9 +193,12 @@ describe('Unit | Serializer | JSONAPI | certification-center-for-admin-serialize
     describe('#serialize', function () {
       it('should return that the center is a complementary alone pilot into JSON API data', function () {
         // given
-        const certificationCenter = domainBuilder.buildCertificationCenterForAdmin({
-          ...certificationCenterForAdmin,
-          features: [CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key],
+        const certificationCenter = domainBuilder.buildCenterForAdmin({
+          center: {
+            ...centerForAdmin,
+            isComplementaryAlonePilot: true,
+          },
+          dataProtectionOfficer,
         });
 
         // when
