@@ -8,75 +8,22 @@ import { status } from '../../../../../../src/shared/domain/models/AssessmentRes
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function () {
-  const assessmentId = 1234;
   const maxReachableLevelOnCertificationDate = 7;
 
   const competenceId = 'recCompetenceId';
   const areaCode = '1';
   const competenceCode = '1.1';
 
-  let answerRepository;
-  let challengeRepository;
   let algorithm;
-
-  let baseChallenges;
-  let baseAnswers;
-  let challenge4;
+  let scoringDegradationService;
   let v3CertificationScoring;
 
   beforeEach(function () {
-    answerRepository = {
-      findByAssessment: sinon.stub(),
-    };
-    challengeRepository = {
-      findFlashCompatible: sinon.stub(),
-    };
     algorithm = {
       getCapacityAndErrorRate: sinon.stub(),
       getConfiguration: sinon.stub(),
     };
-
-    const challenge1 = domainBuilder.buildChallenge({
-      id: 'recCHAL1',
-      discriminant: 1,
-      difficulty: 0,
-    });
-    const challenge2 = domainBuilder.buildChallenge({
-      id: 'recCHAL2',
-      discriminant: 1,
-      difficulty: 4,
-    });
-    const challenge3 = domainBuilder.buildChallenge({
-      id: 'recCHAL3',
-      discriminant: 1,
-      difficulty: 2,
-    });
-
-    challenge4 = domainBuilder.buildChallenge({
-      id: 'recCHAL4',
-      discriminant: 1,
-      difficulty: 2,
-    });
-
-    const answer1 = domainBuilder.buildAnswer({
-      id: 'ans1',
-      challengeId: challenge1.id,
-    });
-
-    const answer2 = domainBuilder.buildAnswer({
-      id: 'ans2',
-      challengeId: challenge2.id,
-      result: AnswerStatus.KO,
-    });
-
-    const answer3 = domainBuilder.buildAnswer({
-      id: 'ans3',
-      challengeId: challenge3.id,
-    });
-
-    baseChallenges = [challenge1, challenge2, challenge3, challenge4];
-    baseAnswers = [answer1, answer3, answer2];
-
+    scoringDegradationService = { downgradeCapacity: sinon.stub() };
     v3CertificationScoring = domainBuilder.buildV3CertificationScoring({
       competencesForScoring: [domainBuilder.buildCompetenceForScoring()],
     });
@@ -92,8 +39,6 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
       const challenges = _buildChallenges(0, numberOfQuestions);
       const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
 
-      answerRepository.findByAssessment.withArgs(assessmentId).resolves(baseAnswers);
-      challengeRepository.findFlashCompatible.withArgs().resolves(baseChallenges);
       algorithm.getCapacityAndErrorRate
         .withArgs({
           challenges,
@@ -115,6 +60,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
         algorithm,
         maxReachableLevelOnCertificationDate,
         v3CertificationScoring,
+        scoringDegradationService,
       });
 
       expect(score.nbPix).to.equal(expectedScoreForCapacity);
@@ -128,8 +74,6 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
       const challenges = _buildChallenges(0, numberOfQuestions);
       const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
 
-      answerRepository.findByAssessment.withArgs(assessmentId).resolves(baseAnswers);
-      challengeRepository.findFlashCompatible.withArgs().resolves(baseChallenges);
       algorithm.getCapacityAndErrorRate
         .withArgs({
           challenges,
@@ -151,6 +95,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
         algorithm,
         maxReachableLevelOnCertificationDate,
         v3CertificationScoring,
+        scoringDegradationService,
       });
 
       expect(score.competenceMarks).to.deep.equal([
@@ -178,8 +123,6 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
         const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
         const abortReason = ABORT_REASONS.TECHNICAL;
 
-        answerRepository.findByAssessment.withArgs(assessmentId).resolves(baseAnswers);
-        challengeRepository.findFlashCompatible.withArgs().resolves(baseChallenges);
         algorithm.getCapacityAndErrorRate
           .withArgs({
             challenges,
@@ -202,6 +145,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
           abortReason,
           maxReachableLevelOnCertificationDate,
           v3CertificationScoring,
+          scoringDegradationService,
         });
 
         expect(score.nbPix).to.equal(expectedScoreForCapacity);
@@ -217,8 +161,6 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
         const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
         const abortReason = ABORT_REASONS.TECHNICAL;
 
-        answerRepository.findByAssessment.withArgs(assessmentId).resolves(baseAnswers);
-        challengeRepository.findFlashCompatible.withArgs().resolves(baseChallenges);
         algorithm.getCapacityAndErrorRate
           .withArgs({
             challenges,
@@ -241,6 +183,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
           abortReason,
           maxReachableLevelOnCertificationDate,
           v3CertificationScoring,
+          scoringDegradationService,
         });
 
         expect(score.competenceMarks).to.deep.equal([
@@ -256,18 +199,42 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
     });
 
     describe('when the abort reason is that the candidate did not finish', function () {
-      it('should return the competence marks', async function () {
+      it('should downgrade capacity', async function () {
         const expectedCapacity = 2;
 
-        const numberOfAnsweredQuestions = 20;
+        const numberOfAnsweredQuestions = 29;
         const numberCertificationQuestions = 32;
 
         const challenges = _buildChallenges(0, numberOfAnsweredQuestions);
         const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
         const abortReason = ABORT_REASONS.CANDIDATE;
 
-        answerRepository.findByAssessment.withArgs(assessmentId).resolves(baseAnswers);
-        challengeRepository.findFlashCompatible.withArgs().resolves(baseChallenges);
+        const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
+        const locales = ['fr-fr'];
+
+        const activeChallenge = domainBuilder.buildChallenge({
+          id: 'activeChallenge',
+          skill,
+          status: 'validé',
+          locales,
+        });
+        const archivedChallenge = domainBuilder.buildChallenge({
+          id: 'archivedChallenge',
+          skill,
+          status: 'archivé',
+          locales,
+        });
+        const outdatedChallenge = domainBuilder.buildChallenge({
+          id: 'outdatedChallenge',
+          skill,
+          status: 'périmé',
+          locales,
+        });
+
+        const flashAssessmentAlgorithmConfiguration = domainBuilder.buildFlashAlgorithmConfiguration({
+          maximumAssessmentLength: numberCertificationQuestions,
+        });
+
         algorithm.getCapacityAndErrorRate
           .withArgs({
             challenges,
@@ -277,30 +244,28 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
             capacity: expectedCapacity,
           });
 
-        algorithm.getConfiguration.returns(
-          domainBuilder.buildFlashAlgorithmConfiguration({
-            maximumAssessmentLength: numberCertificationQuestions,
-          }),
-        );
+        scoringDegradationService.downgradeCapacity.returns(1);
 
-        const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
+        algorithm.getConfiguration.returns(flashAssessmentAlgorithmConfiguration);
+
+        CertificationAssessmentScoreV3.fromChallengesAndAnswers({
           challenges,
           allAnswers,
+          allChallenges: [activeChallenge, archivedChallenge, outdatedChallenge],
           algorithm,
           abortReason,
           maxReachableLevelOnCertificationDate,
           v3CertificationScoring,
+          scoringDegradationService,
         });
 
-        expect(score.competenceMarks).to.deep.equal([
-          domainBuilder.buildCompetenceMark({
-            competenceId,
-            area_code: areaCode,
-            competence_code: competenceCode,
-            level: 2,
-            score: 0,
-          }),
-        ]);
+        expect(scoringDegradationService.downgradeCapacity).to.have.been.calledWithExactly({
+          algorithm,
+          capacity: expectedCapacity,
+          allChallenges: [activeChallenge, archivedChallenge, outdatedChallenge],
+          allAnswers,
+          flashAssessmentAlgorithmConfiguration,
+        });
       });
     });
   });
@@ -331,6 +296,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
         algorithm,
         maxReachableLevelOnCertificationDate,
         v3CertificationScoring,
+        scoringDegradationService,
       });
 
       // then
@@ -362,6 +328,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
         algorithm,
         maxReachableLevelOnCertificationDate,
         v3CertificationScoring,
+        scoringDegradationService,
       });
 
       // then
@@ -403,6 +370,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
         algorithm,
         maxReachableLevelOnCertificationDate,
         v3CertificationScoring,
+        scoringDegradationService,
       });
 
       // then
@@ -434,6 +402,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
         algorithm,
         maxReachableLevelOnCertificationDate,
         v3CertificationScoring,
+        scoringDegradationService,
       });
 
       // then
@@ -474,6 +443,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
           algorithm,
           maxReachableLevelOnCertificationDate,
           v3CertificationScoring,
+          scoringDegradationService,
         });
 
         expect(score.status).to.equal(status.VALIDATED);
@@ -505,6 +475,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
             abortReason: 'candidate',
             maxReachableLevelOnCertificationDate,
             v3CertificationScoring,
+            scoringDegradationService,
           });
 
           expect(score.status).to.equal(status.REJECTED);
@@ -535,6 +506,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
             abortReason: 'candidate',
             maxReachableLevelOnCertificationDate,
             v3CertificationScoring,
+            scoringDegradationService,
           });
 
           expect(score.status).to.equal(status.REJECTED);
@@ -567,6 +539,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
           certificationCourseAbortReason,
           maxReachableLevelOnCertificationDate,
           v3CertificationScoring,
+          scoringDegradationService,
         });
 
         expect(score.status).to.equal(status.VALIDATED);
