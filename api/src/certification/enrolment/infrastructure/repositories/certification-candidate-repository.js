@@ -41,22 +41,22 @@ const saveInSession = async function ({
     ? domainTransaction.knexTransaction
     : await knex.transaction();
 
-  const [addedCertificationCandidate] = await knexTransaction('certification-candidates')
+  const [{ id: certificationCandidateId }] = await knexTransaction('certification-candidates')
     .insert({ ...certificationCandidateDataToSave, sessionId })
-    .returning('*');
+    .returning('id');
 
   for (const type of certificationCandidate.subscriptions) {
     if (type === SubscriptionTypes.CORE) {
       await _insertCertificationSubscription({
         type,
-        certificationCandidateId: addedCertificationCandidate.id,
+        certificationCandidateId,
         knexTransaction,
       });
     } else if (type === SubscriptionTypes.COMPLEMENTARY) {
       await _insertCertificationSubscription({
         type,
         complementaryCertificationId: certificationCandidate.complementaryCertification.id,
-        certificationCandidateId: addedCertificationCandidate.id,
+        certificationCandidateId,
         knexTransaction,
       });
     }
@@ -66,7 +66,7 @@ const saveInSession = async function ({
     await knexTransaction.commit();
   }
 
-  return new CertificationCandidate(addedCertificationCandidate);
+  return certificationCandidateId;
 };
 
 const remove = async function ({ id }) {

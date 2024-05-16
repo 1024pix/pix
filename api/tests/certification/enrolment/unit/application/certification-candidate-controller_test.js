@@ -3,13 +3,12 @@ import { usecases } from '../../../../../src/certification/enrolment/domain/usec
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Controller | certification-candidate-controller', function () {
-  describe('#add', function () {
-    it('should return the added certification candidate', async function () {
+  describe('#addCandidate', function () {
+    it('should return the added certification candidate id', async function () {
       // given
       const sessionId = 1;
       const certificationCandidate = 'candidate';
-      const addedCertificationCandidate = 'addedCandidate';
-      const certificationCandidateJsonApi = 'addedCandidateJSONApi';
+      const addedCertificationCandidateId = 2;
       const request = {
         params: { id: sessionId },
         payload: {
@@ -27,14 +26,10 @@ describe('Unit | Controller | certification-candidate-controller', function () {
           certificationCandidate,
           complementaryCertification: null,
         })
-        .resolves(addedCertificationCandidate);
+        .resolves(addedCertificationCandidateId);
       const certificationCandidateSerializer = {
-        serialize: sinon.stub(),
         deserialize: sinon.stub(),
       };
-      certificationCandidateSerializer.serialize
-        .withArgs(addedCertificationCandidate)
-        .returns(certificationCandidateJsonApi);
       certificationCandidateSerializer.deserialize.resolves(certificationCandidate);
 
       // when
@@ -43,7 +38,12 @@ describe('Unit | Controller | certification-candidate-controller', function () {
       });
 
       // then
-      expect(response.source).to.equal(certificationCandidateJsonApi);
+      expect(response.source).to.deep.equal({
+        data: {
+          id: `${addedCertificationCandidateId}`,
+          type: 'certification-candidates',
+        },
+      });
       expect(response.statusCode).to.equal(201);
     });
   });

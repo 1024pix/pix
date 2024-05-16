@@ -22,36 +22,53 @@ describe('Integration | Repository | CertificationCandidate', function () {
           lastName: 'Lover',
           sex: 'F',
           birthPostalCode: '75000',
-          birthINSEECode: '75000',
+          birthINSEECode: '75001',
           birthCity: 'HaussmanPolis',
           externalId: 'ABCDEF123',
           birthdate: '1990-07-12',
-          extraTimePercentage: '0.05',
+          extraTimePercentage: 0.05,
           sessionId,
           complementaryCertification: null,
         });
 
         // when
-        const firstCertificationCandidatesInSession = await certificationCandidateRepository.saveInSession({
+        const certificationCandidateId = await certificationCandidateRepository.saveInSession({
           certificationCandidate,
           sessionId,
         });
 
         // then
-        const attributesToOmit = ['id', 'createdAt', 'complementaryCertification', 'userId'];
-        expect(_.omit(firstCertificationCandidatesInSession, attributesToOmit)).to.deepEqualInstance(
-          _.omit(certificationCandidate, attributesToOmit),
-        );
+        const addedCertificationCandidate = await knex('certification-candidates').where({ sessionId }).first();
+        expect(addedCertificationCandidate).to.contains({
+          firstName: 'Pix',
+          lastName: 'Lover',
+          birthCity: 'HaussmanPolis',
+          externalId: 'ABCDEF123',
+          birthdate: '1990-07-12',
+          sessionId,
+          extraTimePercentage: '0.05',
+          birthProvinceCode: '66',
+          birthCountry: 'France',
+          email: 'poison.ivy@example.net',
+          resultRecipientEmail: 'napoleon@example.net',
+          organizationLearnerId: null,
+          birthPostalCode: '75000',
+          birthINSEECode: '75001',
+          sex: 'F',
+          authorizedToStart: false,
+          billingMode: null,
+          prepaymentCode: null,
+        });
+
         const subscriptions = await knex('certification-subscriptions')
-          .select('type', 'certificationCandidateId', 'complementaryCertificationId')
+          .select('type', 'complementaryCertificationId')
           .where({
-            certificationCandidateId: firstCertificationCandidatesInSession.id,
+            certificationCandidateId,
           });
 
         expect(subscriptions).to.have.deep.members([
           {
             type: SubscriptionTypes.CORE,
-            certificationCandidateId: firstCertificationCandidatesInSession.id,
             complementaryCertificationId: null,
           },
         ]);
@@ -111,30 +128,28 @@ describe('Integration | Repository | CertificationCandidate', function () {
           });
 
           // when
-          const savedCertificationCandidate = await certificationCandidateRepository.saveInSession({
+          const savedCertificationCandidateId = await certificationCandidateRepository.saveInSession({
             certificationCandidate,
             sessionId,
           });
 
           // then
           const subscriptions = await knex('certification-subscriptions')
-            .select('type', 'certificationCandidateId', 'complementaryCertificationId')
+            .select('type', 'complementaryCertificationId')
             .where({
-              certificationCandidateId: savedCertificationCandidate.id,
+              certificationCandidateId: savedCertificationCandidateId,
             });
 
-          expect(subscriptions[0]).to.contain(
+          expect(subscriptions).to.have.deep.members([
             {
               type: SubscriptionTypes.CORE,
-              certificationCandidateId: savedCertificationCandidate.id,
               complementaryCertificationId: null,
             },
             {
               type: SubscriptionTypes.COMPLEMENTARY,
-              certificationCandidateId: savedCertificationCandidate.id,
               complementaryCertificationId: complementaryCertificationId,
             },
-          );
+          ]);
         });
       });
     });

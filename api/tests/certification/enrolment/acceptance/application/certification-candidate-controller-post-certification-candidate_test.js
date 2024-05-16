@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import { SubscriptionTypes } from '../../../../../src/certification/shared/domain/models/SubscriptionTypes.js';
 import { clearResolveMx, setResolveMx } from '../../../../../src/shared/mail/infrastructure/services/mail-check.js';
 import {
@@ -34,8 +32,6 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
     let sessionId;
     let userId;
     let certificationCandidate;
-    let certificationCpfCountry;
-    let certificationCpfCity;
     let complementaryCertificationId;
 
     beforeEach(function () {
@@ -63,12 +59,12 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
 
       sessionId = databaseBuilder.factory.buildSession({ certificationCenterId, certificationCenter }).id;
       databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
-      certificationCpfCountry = databaseBuilder.factory.buildCertificationCpfCountry({
+      databaseBuilder.factory.buildCertificationCpfCountry({
         name: 'FRANCE',
         code: '99100',
         matcher: 'ACEFNR',
       });
-      certificationCpfCity = databaseBuilder.factory.buildCertificationCpfCity({
+      databaseBuilder.factory.buildCertificationCpfCity({
         name: 'PARIS 15',
         INSEECode: '75115',
       });
@@ -127,32 +123,8 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
       const response = await server.inject(options);
 
       // then
-      const expectedData = {
-        type: 'certification-candidates',
-        attributes: {
-          'first-name': certificationCandidate.firstName,
-          'last-name': certificationCandidate.lastName,
-          birthdate: certificationCandidate.birthdate,
-          'birth-city': certificationCpfCity.name,
-          'birth-country': certificationCpfCountry.commonName,
-          'birth-province-code': null,
-          'billing-mode': 'FREE',
-          'prepayment-code': null,
-          'result-recipient-email': certificationCandidate.resultRecipientEmail,
-          email: certificationCandidate.email,
-          'external-id': certificationCandidate.externalId,
-          'extra-time-percentage': certificationCandidate.extraTimePercentage,
-          'is-linked': false,
-          'organization-learner-id': null,
-          'birth-insee-code': certificationCpfCity.INSEECode,
-          'birth-postal-code': null,
-          sex: certificationCandidate.sex,
-          'complementary-certification': null,
-        },
-      };
-
-      expect(_.omit(response.result.data, 'id')).to.deep.equal(expectedData);
       expect(response.result.data.id).to.exist;
+      expect(response.result.data.type).to.equal('certification-candidates');
     });
 
     it('should save the complementary certification subscriptions', async function () {
