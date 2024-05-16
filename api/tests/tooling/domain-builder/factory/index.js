@@ -38,7 +38,7 @@ import { buildCertificationCandidateForAttendanceSheet } from './build-certifica
 import { buildCertificationCandidateForSupervising } from './build-certification-candidate-for-supervising.js';
 import { buildCertificationCandidateSubscription } from './build-certification-candidate-subscription.js';
 import { buildCertificationCenter } from './build-certification-center.js';
-import { buildCertificationCenterForAdmin } from './build-certification-center-for-admin.js';
+import { buildCenterForAdmin } from './build-center-for-admin.js';
 import { buildCertificationCenterInvitation } from './build-certification-center-invitation.js';
 import { buildCertificationCenterMembership } from './build-certification-center-membership.js';
 import { buildCertificationChallenge } from './build-certification-challenge.js';
@@ -263,7 +263,7 @@ export {
   buildCertificationCandidateForSupervising,
   buildCertificationCandidateSubscription,
   buildCertificationCenter,
-  buildCertificationCenterForAdmin,
+  buildCenterForAdmin,
   buildCertificationCenterInvitation,
   buildCertificationCenterMembership,
   buildCertificationChallenge,
