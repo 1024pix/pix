@@ -5,7 +5,6 @@ import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  knex,
 } from '../../../../test-helper.js';
 import { getI18n } from '../../../../tooling/i18n/i18n.js';
 
@@ -53,27 +52,7 @@ describe('Acceptance | Application | organization-controller-sup-organization-le
         };
 
         const response = await server.inject(options);
-        const learners = await knex('organization-learners').where({ organizationId: organization.id });
-        expect(response.statusCode).to.equal(200);
-        expect(response.result).to.deep.equal({
-          data: {
-            id: String(organization.id),
-            type: 'sup-organization-learner-warnings',
-            attributes: {
-              warnings: [
-                {
-                  code: 'unknown',
-                  field: 'study-scheme',
-                  studentNumber: '12346',
-                  value: 'hello darkness my old friend',
-                },
-                { code: 'unknown', field: 'diploma', studentNumber: '12346', value: 'Master' },
-                { code: 'unknown', field: 'diploma', studentNumber: '789', value: 'DUT' },
-              ],
-            },
-          },
-        });
-        expect(learners).to.have.lengthOf(2);
+        expect(response.statusCode).to.equal(204);
       });
 
       it('fails when the file payload is too large', async function () {
@@ -186,26 +165,7 @@ describe('Acceptance | Application | organization-controller-sup-organization-le
         };
 
         const response = await server.inject(options);
-        const organizationLearners = await knex('organization-learners').where({ organizationId: organization.id });
-        expect(response.statusCode).to.equal(200);
-        expect(response.result).to.deep.equal({
-          data: {
-            id: String(organization.id),
-            type: 'sup-organization-learner-warnings',
-            attributes: {
-              warnings: [
-                {
-                  code: 'unknown',
-                  field: 'study-scheme',
-                  studentNumber: '12346',
-                  value: 'hello darkness my old friend',
-                },
-                { code: 'unknown', field: 'diploma', studentNumber: '12346', value: 'Master' },
-              ],
-            },
-          },
-        });
-        expect(organizationLearners).to.have.lengthOf(2);
+        expect(response.statusCode).to.equal(204);
       });
 
       it('fails when the file payload is too large', async function () {

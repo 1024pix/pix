@@ -1,3 +1,4 @@
+import { IMPORT_STATUSES } from '../../../../../../src/prescription/learner-management/domain/constants.js';
 import { OrganizationImport } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImport.js';
 import { validateSupCsvFile } from '../../../../../../src/prescription/learner-management/domain/usecases/validate-sup-csv-file.js';
 import { SupOrganizationLearnerImportHeader } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/sup-organization-learner-import-header.js';
@@ -12,9 +13,27 @@ const supOrganizationLearnerImportHeader = new SupOrganizationLearnerImportHeade
 
 describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
   const organizationId = 1234;
-  let organizationImport, organizationImportRepositoryStub, importStorageStub;
+  let csvContent, expectedWarnings, organizationImport, organizationImportRepositoryStub, importStorageStub;
 
   beforeEach(function () {
+    csvContent = `${supOrganizationLearnerImportHeader}
+    Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;BAD;BAD;
+    `.trim();
+
+    expectedWarnings = [
+      {
+        studentNumber: '123456',
+        field: 'study-scheme',
+        value: 'BAD',
+        code: 'unknown',
+      },
+      {
+        studentNumber: '123456',
+        field: 'diploma',
+        value: 'BAD',
+        code: 'unknown',
+      },
+    ];
     organizationImport = new OrganizationImport({
       filename: 'file.csv',
       organizationId,
@@ -38,10 +57,6 @@ describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
       // given
       organizationImportRepositoryStub.getLastByOrganizationId.withArgs(organizationId).resolves(organizationImport);
 
-      const csvContent = `${supOrganizationLearnerImportHeader}
-      Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;BAD;BAD;
-      `.trim();
-
       importStorageStub.readFile.withArgs({ filename: organizationImport.filename }).resolves(toStream(csvContent));
 
       // when
@@ -54,6 +69,8 @@ describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
 
       // then
       expect(organizationImportRepositoryStub.save).to.have.been.calledOnceWithExactly(organizationImport);
+      expect(organizationImport.status).to.equal(IMPORT_STATUSES.VALIDATED);
+      expect(organizationImport.errors).to.deep.equal(expectedWarnings);
     });
   });
 

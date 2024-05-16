@@ -3,33 +3,30 @@ import fs from 'node:fs';
 import { logErrorWithCorrelationIds } from '../../../../lib/infrastructure/monitoring-tools.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
 import { usecases } from '../domain/usecases/index.js';
-import * as supOrganizationLearnerWarningSerializer from '../infrastructure/serializers/jsonapi/sup-organization-learner-warnings-serializer.js';
 
 const importSupOrganizationLearners = async function (
   request,
   h,
   dependencies = {
-    supOrganizationLearnerWarningSerializer,
     logErrorWithCorrelationIds,
     unlink: fs.unlink,
   },
 ) {
   const organizationId = request.params.id;
-  const authenticatedUserId = request.auth.credentials.userId;
-  let warnings;
+  const userId = request.auth.credentials.userId;
 
   try {
     await usecases.uploadCsvFile({
       payload: request.payload,
       organizationId,
-      userId: authenticatedUserId,
+      userId,
       i18n: request.i18n,
     });
     await usecases.validateSupCsvFile({
       organizationId,
       i18n: request.i18n,
     });
-    warnings = await usecases.importSupOrganizationLearners({
+    await usecases.importSupOrganizationLearners({
       organizationId,
       i18n: request.i18n,
     });
@@ -41,16 +38,13 @@ const importSupOrganizationLearners = async function (
     }
   }
 
-  return h
-    .response(dependencies.supOrganizationLearnerWarningSerializer.serialize({ id: organizationId, warnings }))
-    .code(200);
+  return h.response().code(204);
 };
 
 const replaceSupOrganizationLearners = async function (
   request,
   h,
   dependencies = {
-    supOrganizationLearnerWarningSerializer,
     logErrorWithCorrelationIds,
     unlink: fs.unlink,
   },
@@ -58,13 +52,20 @@ const replaceSupOrganizationLearners = async function (
   const userId = request.auth.credentials.userId;
   const organizationId = request.params.id;
 
-  let warnings;
   try {
-    warnings = await usecases.replaceSupOrganizationLearners({
+    await usecases.uploadCsvFile({
       payload: request.payload,
-      i18n: request.i18n,
       organizationId,
       userId,
+      i18n: request.i18n,
+    });
+    await usecases.validateSupCsvFile({
+      organizationId,
+      i18n: request.i18n,
+    });
+    await usecases.replaceSupOrganizationLearners({
+      organizationId,
+      i18n: request.i18n,
     });
   } finally {
     // see https://hapi.dev/api/?v=21.3.3#-routeoptionspayloadoutput
@@ -76,9 +77,7 @@ const replaceSupOrganizationLearners = async function (
     }
   }
 
-  return h
-    .response(dependencies.supOrganizationLearnerWarningSerializer.serialize({ id: organizationId, warnings }))
-    .code(200);
+  return h.response().code(204);
 };
 
 const getOrganizationLearnersCsvTemplate = async function (request, h, dependencies = { tokenService }) {
