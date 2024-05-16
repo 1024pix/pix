@@ -3,13 +3,11 @@ import fs from 'node:fs';
 import { logErrorWithCorrelationIds } from '../../../../lib/infrastructure/monitoring-tools.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
 import { usecases } from '../domain/usecases/index.js';
-import * as supOrganizationLearnerWarningSerializer from '../infrastructure/serializers/jsonapi/sup-organization-learner-warnings-serializer.js';
 
 const importSupOrganizationLearners = async function (
   request,
   h,
   dependencies = {
-    supOrganizationLearnerWarningSerializer,
     logErrorWithCorrelationIds,
     unlink: fs.unlink,
   },
@@ -47,7 +45,6 @@ const replaceSupOrganizationLearners = async function (
   request,
   h,
   dependencies = {
-    supOrganizationLearnerWarningSerializer,
     logErrorWithCorrelationIds,
     unlink: fs.unlink,
   },
