@@ -31,7 +31,7 @@
       </div>
       <div class="import-download-section__button">
         <PixButton
-          @backgroundColor="transparent-light"
+          @variant="transparent-light"
           @isBorderVisible="{{true}}"
           aria-label={{t "pages.sessions.import.step-one.actions.session-import-template.extra-information"}}
           @triggerAction={{@downloadSessionImportTemplate}}
@@ -63,7 +63,7 @@
     <li>
       <PixButtonLink
         @route="authenticated.sessions.list"
-        @backgroundColor="transparent-light"
+        @variant="transparent-light"
         @isBorderVisible={{true}}
       >
         {{t "common.actions.cancel"}}

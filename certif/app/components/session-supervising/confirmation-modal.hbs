@@ -15,14 +15,14 @@
     <PixButton
       data-test-id="finalize-session-modal__confirm-button"
       @triggerAction={{@actionOnConfirmation}}
-      @backgroundColor="secondary"
+      @variant="secondary"
     >
       {{@modalConfirmationButtonText}}
     </PixButton>
     <PixButton
       data-test-id="finalize-session-modal__cancel-button"
       @triggerAction={{@closeConfirmationModal}}
-      @backgroundColor="transparent-light"
+      @variant="transparent-light"
       @isBorderVisible={{true}}
       aria-label={{t "pages.session-supervising.candidate-in-list.resume-test-modal.cancel-label"}}
     >
