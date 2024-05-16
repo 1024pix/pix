@@ -1,4 +1,4 @@
-import { CenterForAdmin } from '../models/CenterForAdmin.js';
+import { CenterForAdmin } from '../../../src/certification/session/domain/models/CenterForAdmin.js';
 
 const getCenterForAdmin = async function ({ id, centerRepository, dataProtectionOfficerRepository }) {
   const center = await centerRepository.getById({ id });
