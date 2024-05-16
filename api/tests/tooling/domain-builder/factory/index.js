@@ -26,6 +26,7 @@ import { buildCampaignParticipationResult } from './build-campaign-participation
 import { buildCampaignReport } from './build-campaign-report.js';
 import { buildCampaignToJoin } from './build-campaign-to-join.js';
 import { buildCampaignToStartParticipation } from './build-campaign-to-start-participation.js';
+import { buildCenterForAdmin } from './build-center-for-admin.js';
 import { buildCenter } from './build-center.js';
 import { buildCertifiableBadgeAcquisition } from './build-certifiable-badge-acquisition.js';
 import { buildCertifiableProfileForLearningContent } from './build-certifiable-profile-for-learning-content.js';
@@ -38,7 +39,6 @@ import { buildCertificationCandidateForAttendanceSheet } from './build-certifica
 import { buildCertificationCandidateForSupervising } from './build-certification-candidate-for-supervising.js';
 import { buildCertificationCandidateSubscription } from './build-certification-candidate-subscription.js';
 import { buildCertificationCenter } from './build-certification-center.js';
-import { buildCenterForAdmin } from './build-center-for-admin.js';
 import { buildCertificationCenterInvitation } from './build-certification-center-invitation.js';
 import { buildCertificationCenterMembership } from './build-certification-center-membership.js';
 import { buildCertificationChallenge } from './build-certification-challenge.js';
@@ -251,6 +251,7 @@ export {
   buildCampaignReport,
   buildCampaignToJoin,
   buildCampaignToStartParticipation,
+  buildCenterForAdmin,
   buildCertifiableBadgeAcquisition,
   buildCertifiableProfileForLearningContent,
   buildCertificationAssessment,
@@ -263,7 +264,6 @@ export {
   buildCertificationCandidateForSupervising,
   buildCertificationCandidateSubscription,
   buildCertificationCenter,
-  buildCenterForAdmin,
   buildCertificationCenterInvitation,
   buildCertificationCenterMembership,
   buildCertificationChallenge,
