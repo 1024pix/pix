@@ -51,9 +51,31 @@ async function getRedirectLogoutUrl(request, h) {
 }
 
 /**
+ * @typedef {function} getUnauthenticatedRedirectLogoutUrl
+ * @param request
+ * @param h
+ * @return {Promise<Object>}
+ */
+async function getUnauthenticatedRedirectLogoutUrl(request, h) {
+  const { identity_provider: identityProvider, id_token_hint: idTokenHint } = request.query;
+
+  const redirectLogoutUrl = await usecases.getUnauthenticatedRedirectLogoutUrl({
+    identityProvider,
+    idTokenHint,
+  });
+
+  return h.response({ redirectLogoutUrl }).code(200);
+}
+
+/**
  * @typedef {Object} OidcProviderController
  * @property {getAuthorizationUrl} getAuthorizationUrl
  * @property {getIdentityProviders} getIdentityProviders
  * @property {getRedirectLogoutUrl} getRedirectLogoutUrl
  */
-export const oidcProviderController = { getAuthorizationUrl, getIdentityProviders, getRedirectLogoutUrl };
+export const oidcProviderController = {
+  getAuthorizationUrl,
+  getIdentityProviders,
+  getRedirectLogoutUrl,
+  getUnauthenticatedRedirectLogoutUrl,
+};

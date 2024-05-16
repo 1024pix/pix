@@ -16,7 +16,7 @@ import { OidcError } from '../../../shared/domain/errors.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 
 const DEFAULT_SCOPE = 'openid profile';
-const DEFAULT_REQUIRED_CLAIMS = ['sub', 'family_name', 'given_name'];
+const DEFAULT_REQUIRED_CLAIMS = ['sub', 'family_name', 'given_name', 'doubidou'];
 
 const defaultSessionTemporaryStorage = temporaryStorage.withPrefix('oidc-session:');
 
@@ -198,7 +198,7 @@ export class OidcAuthenticationService {
     let userInfo = jsonwebtoken.decode(idToken);
     const missingRequiredClaims = this.#findMissingRequiredClaims(userInfo);
     if (missingRequiredClaims.length > 0) {
-      userInfo = await this._getUserInfoFromEndpoint({ accessToken });
+      userInfo = await this._getUserInfoFromEndpoint({ accessToken, idToken });
     }
 
     const pickedUserInfo = {
@@ -278,7 +278,23 @@ export class OidcAuthenticationService {
     }
   }
 
-  async _getUserInfoFromEndpoint({ accessToken }) {
+  async getUnauthenticatedRedirectLogoutUrl({ idTokenHint }) {
+    const parameters = { id_token_hint: idTokenHint };
+
+    try {
+      const endSessionUrl = this.client.endSessionUrl(parameters);
+      return endSessionUrl;
+    } catch (error) {
+      _monitorOidcError(error.message, {
+        data: { organizationName: this.organizationName },
+        error,
+        event: 'get-unauthenticated-redirect-logout-url',
+      });
+      throw new OidcError({ message: error.message });
+    }
+  }
+
+  async _getUserInfoFromEndpoint({ accessToken, idToken }) {
     let userInfo;
 
     try {
@@ -309,6 +325,8 @@ export class OidcAuthenticationService {
       const error = OIDC_ERRORS.USER_INFO.missingFields;
       const meta = {
         shortCode: error.shortCode,
+        idToken,
+        identityProviderCode: this.identityProvider,
       };
       throw new OidcMissingFieldsError(message, error.code, meta);
     }

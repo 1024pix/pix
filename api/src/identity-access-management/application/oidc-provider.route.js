@@ -41,6 +41,24 @@ export const oidcProviderRoutes = [
   },
   {
     method: 'GET',
+    path: '/api/oidc/unauthenticated-redirect-logout-url',
+    config: {
+      validate: {
+        query: Joi.object({
+          identity_provider: Joi.string().required(),
+          id_token_hint: Joi.string().required(),
+        }),
+      },
+      auth: false,
+      handler: (request, h) => oidcProviderController.getUnauthenticatedRedirectLogoutUrl(request, h),
+      notes: [
+        "Cette route reçoit le code d'un fournisseur d'identité et renvoie une uri de déconnexion auprès du fournisseur d'identité renseigné.",
+      ],
+      tags: ['identity-access-management', 'api', 'oidc'],
+    },
+  },
+  {
+    method: 'GET',
     path: '/api/oidc/authorization-url',
     config: {
       auth: false,
