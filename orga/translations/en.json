@@ -652,13 +652,12 @@
     "campaigns-list": {
       "title": "Campaigns",
       "action": {
-        "archived": {
-          "label": "Archived"
+        "campaign": {
+          "archived": "Archived",
+          "label": "Show on ongoing or archived campaigns",
+          "ongoing": "Ongoing"
         },
-        "create": "Create a campaign",
-        "ongoing": {
-          "label": "Ongoing"
-        }
+        "create": "Create a campaign"
       },
       "filter": {
         "title": "Filters",

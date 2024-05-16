@@ -158,12 +158,11 @@ module('Acceptance | /campaigns/list/my-campaigns ', function (hooks) {
 
             // when
             await fillByLabel('Rechercher une campagne', 'ma super campagne');
-            await clickByName('Archivées');
+            await clickByName(this.intl.t('pages.campaigns-list.action.campaign.label'));
             await clickByName(this.intl.t('pages.campaigns-list.filter.clear'));
 
             //then
             assert.ok(screen.getByPlaceholderText(this.intl.t('pages.campaigns-list.filter.by-name')));
-            assert.dom(screen.getByText('Actives')).hasClass('campaign-filters__tab--active');
             assert.deepEqual(currentURL(), '/campagnes/les-miennes');
           });
         });

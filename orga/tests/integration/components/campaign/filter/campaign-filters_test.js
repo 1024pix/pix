@@ -27,8 +27,7 @@ module('Integration | Component | Campaign::Filter::CampaignFilters', function (
     assert.dom(screen.getByText(this.intl.t('pages.campaigns-list.filter.title'))).exists();
     assert.dom(screen.getByLabelText(this.intl.t('pages.campaigns-list.filter.by-name'))).exists();
     assert.dom(screen.getByLabelText(this.intl.t('pages.campaigns-list.filter.by-owner'))).exists();
-    assert.dom(screen.getByLabelText(this.intl.t('pages.campaigns-list.action.archived.label'))).exists();
-    assert.dom(screen.getByLabelText(this.intl.t('pages.campaigns-list.action.ongoing.label'))).exists();
+    assert.dom(screen.getByLabelText(this.intl.t('pages.campaigns-list.action.campaign.label'))).exists();
     assert.dom(screen.getByText(this.intl.t('pages.campaigns-list.filter.results', { total: 1 }))).exists();
   });
 
