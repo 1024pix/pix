@@ -36,6 +36,7 @@ describe('Integration | Certification |  Center | Repository | center-repository
         // then
         const expectedCenter = domainBuilder.certification.enrolment.buildCenter({
           id: centerId,
+          name: 'some name',
           type: 'PRO',
           habilitations: [],
           features: [],
@@ -69,6 +70,7 @@ describe('Integration | Certification |  Center | Repository | center-repository
         // then
         const expectedCenter = domainBuilder.certification.enrolment.buildCenter({
           id: centerId,
+          name: 'some name',
           type: 'PRO',
           habilitations: [],
           features: [CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key],
@@ -104,6 +106,7 @@ describe('Integration | Certification |  Center | Repository | center-repository
       // then
       const expectedCenter = domainBuilder.certification.enrolment.buildCenter({
         id: centerId,
+        name: 'some name',
         type: 'SCO',
         habilitations: [cleaId, droitId],
         features: [],
