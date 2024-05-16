@@ -14,7 +14,7 @@
   },
   "transitionTexts": [
     {
-      "content": "<p>Nous allons voir ensemble comment protéger tes données personnelles.Suis bien toutes les activités ci-dessous et tu seras imbattable sur le sujet !</p>",
+      "content": "<p>Nous allons voir ensemble comment protéger tes données personnelles. Suis bien toutes les activités ci-dessous et tu seras imbattable sur le sujet !</p>",
       "grainId": "d58add93-ca37-49d9-b65e-547c3605a8bf"
     },
     {
@@ -76,11 +76,11 @@
           "proposals": [
             {
               "id": "1",
-              "content": "les diffuser pour être connu sur internet"
+              "content": "les diffuser pour être connu sur internet."
             },
             {
               "id": "2",
-              "content": "les garder pour soi  pour protéger sa vie privée"
+              "content": "les garder pour soi  pour protéger sa vie privée."
             }
           ],
           "feedbacks": {
@@ -115,7 +115,7 @@
             "proposals": [
               {
                 "id": "1",
-                "content": "partager mon adresse et mon numéro de téléphone sur internet"
+                "content": "partager mon adresse et mon numéro de téléphone sur internet."
               },
               {
                 "id": "2",
@@ -124,7 +124,7 @@
             ],
             "feedbacks": {
               "valid": "<p>Bravo, tu sais que ton adresse et ton numéro de téléphone sont personnels.</p>",
-              "invalid": "<p>Non. Ton adresse et ton numéro de téléphone son personnels, il faut les partager avec la plus grande prudence.</p>"
+              "invalid": "<p>Non. Ton adresse et ton numéro de téléphone sont personnels, il faut les partager avec la plus grande prudence.</p>"
             },
             "solution": "2"
           },
@@ -147,15 +147,15 @@
               "proposals": [
                 {
                   "id": "1",
-                  "content": "éviter de les partager sur internet"
+                  "content": "éviter de les partager sur internet."
                 },
                 {
                   "id": "2",
-                  "content": "les partager à tout le monde sur internet"
+                  "content": "les partager à tout le monde sur internet."
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Bravo, tu sais que tu dois protéger à ton image.</p>",
+                "valid": "<p>Bravo, tu sais que tu dois protéger ton image.</p>",
                 "invalid": "<p>Non. Attention, sur internet tout le monde peut voir et enregistrer tes photos et tes vidéos.</p>"
               },
               "solution": "1"
@@ -179,7 +179,7 @@
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "inscrire son nom et son prénom dans son profil"
+                    "content": "inscrire mon nom et mon prénom dans mon profil."
                   },
                   {
                     "id": "2",
@@ -234,7 +234,7 @@
         {
           "id": "fc38a5a6-71da-4ca3-b8d5-c0e34b183403",
           "type": "text",
-          "content": "<h3>Tu connais les 4 bons conseils pour protéger ses données personnelles &nbsp;:</h3><ul><li>garder ses informations personnelles pour soi, <br></li><li>faire attention à la diffusion de ses photos et de ses vidéos,</li><li>utiliser un pseudonyme sur internet,</li><li>demander à un adulte de confiance quand on a un doute.</li></ul>"
+          "content": "<h3>Tu connais les 4 bons conseils pour protéger ses données personnelles&nbsp;:</h3><ul><li>garder ses informations personnelles pour soi, <br></li><li>faire attention à la diffusion de ses photos et de ses vidéos,</li><li>utiliser un pseudonyme sur internet,</li><li>demander à un adulte de confiance quand on a un doute.</li></ul>"
         }
       ]
     }
