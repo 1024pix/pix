@@ -1,6 +1,6 @@
 <span class="target-profile-details" ...attributes>
   {{#if @targetProfileDescription}}
-    <MarkdownToHtml class="target-profile-details__description" @markdown={{@targetProfileDescription}} />
+    <SafeMarkdownToHtml class="target-profile-details__description" @markdown={{@targetProfileDescription}} />
   {{/if}}
   <ul class="target-profile-details__specificity">
     <li class="target-profile-details__specificity__row">
