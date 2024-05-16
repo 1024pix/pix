@@ -5,10 +5,6 @@ export default class Header extends Component {
   @service intl;
   @service currentUser;
 
-  get organization() {
-    return this.currentUser.organization;
-  }
-
   get displayBadges() {
     const { campaign, participation } = this.args;
     return campaign.hasBadges && participation.badges.length > 0;
