@@ -4,7 +4,7 @@
       <NewInformation
         @information="{{t 'pages.dashboard.presentation.message' firstname=@userFirstname htmlSafe=true}}"
         @image="/images/illustrations/discovery_TDB_pix.svg"
-        @backgroundColorClass="new-information--blue-gradient-background"
+        @variantClass="new-information--blue-gradient-background"
         @textColorClass="new-information--white-text"
         @linkText="{{@newDashboardInfoLink.text}}"
         @linkTo="{{@newDashboardInfoLink.url}}"
@@ -15,7 +15,7 @@
       <NewInformation
         @information="{{t 'pages.dashboard.campaigns.resume.text'}}"
         @image="/images/profile_collect_TDB_pix.svg"
-        @backgroundColorClass="new-information--yellow-gradient-background"
+        @variantClass="new-information--yellow-gradient-background"
         @textColorClass="new-information--black-text"
         @linkDisplayType="button"
         @linkText="{{t 'pages.dashboard.campaigns.resume.action'}}"

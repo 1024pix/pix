@@ -28,11 +28,9 @@
             "pages.tutorial.next"
           }}</PixButton>
 
-        <PixButton
-          @backgroundColor="transparent-light"
-          @triggerAction={{this.ignoreTutorial}}
-          class="campaign-tutorial__buttons"
-        >{{t "pages.tutorial.pass"}}</PixButton>
+        <PixButton @variant="secondary" @triggerAction={{this.ignoreTutorial}} class="campaign-tutorial__buttons">{{t
+            "pages.tutorial.pass"
+          }}</PixButton>
       {{else}}
         <PixButton @triggerAction={{this.ignoreTutorial}}>{{t "pages.tutorial.start"}}</PixButton>
       {{/if}}

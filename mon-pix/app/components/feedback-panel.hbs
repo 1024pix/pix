@@ -120,11 +120,7 @@
     {{t "pages.challenge.feedback-panel.modal.content" htmlSafe=true}}
   </:content>
   <:footer>
-    <PixButton
-      @triggerAction={{this.toggleModalVisibility}}
-      @backgroundColor="transparent-light"
-      @isBorderVisible={{true}}
-    >
+    <PixButton @triggerAction={{this.toggleModalVisibility}} @variant="secondary">
       {{t "common.actions.cancel"}}
     </PixButton>
     <PixButton @type="submit" form="feedback-form">{{t "common.actions.validate"}}</PixButton>

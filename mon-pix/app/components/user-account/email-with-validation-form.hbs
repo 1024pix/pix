@@ -33,11 +33,7 @@
     </PixMessage>
   {{/if}}
   <div class="update-email-with-validation__action-buttons">
-    <PixButton
-      @isBorderVisible={{true}}
-      @triggerAction={{@disableEmailEditionMode}}
-      @backgroundColor="transparent-light"
-    >
+    <PixButton @triggerAction={{@disableEmailEditionMode}} @variant="secondary">
       {{t "common.actions.cancel"}}
     </PixButton>
     <PixButton

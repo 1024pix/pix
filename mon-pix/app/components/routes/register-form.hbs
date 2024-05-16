@@ -133,12 +133,7 @@
         </PixButton>
       </div>
 
-      <PixButton
-        @triggerAction={{this.resetForm}}
-        @isBorderVisible={{true}}
-        @backgroundColor="transparent-light"
-        class="register-form__reset-form-button"
-      >
+      <PixButton @triggerAction={{this.resetForm}} @variant="secondary" class="register-form__reset-form-button">
         <FaIcon @icon="arrow-left" />
         {{t "pages.login-or-register.register-form.not-me"}}
       </PixButton>

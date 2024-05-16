@@ -13,7 +13,7 @@
   <div class="module-recap__link-form">
     <PixButtonLink
       @shape="rounded"
-      @size="big"
+      @size="large"
       target="_blank"
       @href="https://form-eu.123formbuilder.com/71180/modulix-experimentation?2850087={{@passage.id}}"
     >
@@ -21,14 +21,7 @@
     </PixButtonLink>
   </div>
   <div class="module-recap__link-details">
-    <PixButtonLink
-      @model={{@module.id}}
-      @shape="rounded"
-      @size="big"
-      @route="module.details"
-      @backgroundColor="transparent-light"
-      @isBorderVisible={{true}}
-    >
+    <PixButtonLink @model={{@module.id}} @shape="rounded" @size="large" @route="module.details" @variant="secondary">
       {{t "pages.modulix.recap.backToModuleDetails"}}
     </PixButtonLink>
   </div>

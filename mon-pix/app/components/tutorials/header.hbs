@@ -18,11 +18,7 @@
       </li>
       {{#if @shouldShowFilterButton}}
         <li class="user-tutorials-banner-filters__filter">
-          <PixButton
-            @backgroundColor="transparent-light"
-            @isBorderVisible={{false}}
-            @triggerAction={{@onTriggerFilterButton}}
-          >
+          <PixButton @variant="secondary" @isBorderVisible={{false}} @triggerAction={{@onTriggerFilterButton}}>
             {{t "pages.user-tutorials.filter"}}
           </PixButton>
         </li>

@@ -34,7 +34,7 @@
   </div>
 
   <div class="oidc-reconciliation__switch-account-button">
-    <PixButton @triggerAction={{this.backToLoginOrRegisterForm}} @backgroundColor="transparent-light">{{t
+    <PixButton @triggerAction={{this.backToLoginOrRegisterForm}} @variant="secondary">{{t
         "pages.oidc-reconciliation.switch-account"
       }}</PixButton>
   </div>
@@ -57,11 +57,9 @@
   {{/if}}
 
   <div class="oidc-reconciliation__action-buttons">
-    <PixButton
-      @triggerAction={{this.backToLoginOrRegisterForm}}
-      @backgroundColor="transparent-light"
-      @isBorderVisible={{true}}
-    >{{t "pages.oidc-reconciliation.return"}}</PixButton>
+    <PixButton @triggerAction={{this.backToLoginOrRegisterForm}} @variant="secondary">{{t
+        "pages.oidc-reconciliation.return"
+      }}</PixButton>
     <PixButton @triggerAction={{this.reconcile}} @isLoading={{this.isLoading}}>
       {{t "pages.oidc-reconciliation.confirm"}}
     </PixButton>

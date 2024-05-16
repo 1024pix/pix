@@ -51,14 +51,13 @@
   </PixCheckbox>
 
   <div class="account-recovery__content--actions">
-    <PixButton @isBorderVisible={{true}} @triggerAction={{@cancelAccountRecovery}} @backgroundColor="transparent-light">
+    <PixButton @triggerAction={{@cancelAccountRecovery}} @variant="secondary">
       {{t "pages.account-recovery.find-sco-record.confirmation-step.buttons.cancel"}}
     </PixButton>
     <PixButton
-      @isBorderVisible={{true}}
       @isDisabled={{not this.isFormValid}}
       @triggerAction={{@continueAccountRecoveryBackupEmailConfirmation}}
-      @backgroundColor="error"
+      @variant="error"
     >
       {{t "pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm"}}
     </PixButton>

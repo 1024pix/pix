@@ -38,7 +38,7 @@
 
   {{#unless this.correction}}
     <PixButton
-      @backgroundColor="success"
+      @variant="success"
       @shape="rounded"
       @type="submit"
       class="element-qcu__verify-button"
@@ -59,8 +59,7 @@
   {{#if this.shouldDisplayRetryButton}}
     <PixButton
       class="element-qcu__retry-button"
-      @backgroundColor="transparent-light"
-      @isBorderVisible={{true}}
+      @variant="secondary"
       @shape="rounded"
       @size="small"
       @type="button"

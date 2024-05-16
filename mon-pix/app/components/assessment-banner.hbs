@@ -24,11 +24,7 @@
         </:content>
         <:footer>
           <div class="assessment-banner-closing-modal__footer">
-            <PixButton
-              @backgroundColor="transparent-light"
-              @isBorderVisible={{true}}
-              @triggerAction={{this.toggleClosingModal}}
-            >
+            <PixButton @variant="secondary" @triggerAction={{this.toggleClosingModal}}>
               {{t "common.actions.stay"}}
             </PixButton>
             <PixButtonLink

@@ -11,7 +11,7 @@
     </PixMessage>
     <PixButton
       @triggerAction={{fn @resumeAssessment @assessment}}
-      @backgroundColor="primary"
+      @variant="primary"
       @shape="rounded"
       class="challenge-actions__action-continue"
     >
@@ -25,7 +25,7 @@
     </div>
     <PixButton
       @triggerAction={{@validateAnswer}}
-      @backgroundColor="primary"
+      @variant="primary"
       @shape="rounded"
       class="challenge-actions__action-continue"
       aria-label={{t "pages.challenge.actions.continue-go-to-next"}}
@@ -67,7 +67,7 @@
         <PixButton
           @isDisabled={{this.areActionButtonsDisabled}}
           @triggerAction={{@validateAnswer}}
-          @backgroundColor="success"
+          @variant="success"
           @shape="rounded"
           @iconAfter="arrow-right"
           class="challenge-actions__action-validate"
@@ -79,10 +79,9 @@
         </PixButton>
 
         <PixButton
-          @isBorderVisible={{true}}
           @isDisabled={{this.areActionButtonsDisabled}}
           @triggerAction={{@skipChallenge}}
-          @backgroundColor="transparent-light"
+          @variant="secondary"
           @shape="rounded"
           class="challenge-actions__action-skip"
           aria-label={{t "pages.challenge.actions.skip-go-to-next"}}
