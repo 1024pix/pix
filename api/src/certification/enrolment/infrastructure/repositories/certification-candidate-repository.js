@@ -11,7 +11,6 @@ import { CertificationCandidate } from '../../../../../lib/domain/models/Certifi
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { BookshelfCertificationCandidate } from '../../../../../lib/infrastructure/orm-models/CertificationCandidate.js';
 import * as bookshelfToDomainConverter from '../../../../../lib/infrastructure/utils/bookshelf-to-domain-converter.js';
-import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { normalize } from '../../../../shared/infrastructure/utils/string-utils.js';
 import { SubscriptionTypes } from '../../../shared/domain/models/SubscriptionTypes.js';
 import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
@@ -38,41 +37,36 @@ const saveInSession = async function ({
   domainTransaction = DomainTransaction.emptyTransaction(),
 }) {
   const certificationCandidateDataToSave = _adaptModelToDb(certificationCandidate);
-  const knexTransaction = domainTransaction.knexTransaction
+  const knexTransaction = domainTransaction?.knexTransaction
     ? domainTransaction.knexTransaction
     : await knex.transaction();
 
-  try {
-    const [addedCertificationCandidate] = await knexTransaction('certification-candidates')
-      .insert({ ...certificationCandidateDataToSave, sessionId })
-      .returning('*');
+  const [addedCertificationCandidate] = await knexTransaction('certification-candidates')
+    .insert({ ...certificationCandidateDataToSave, sessionId })
+    .returning('*');
 
-    for (const type of certificationCandidate.subscriptions) {
-      if (type === SubscriptionTypes.CORE) {
-        await _insertCertificationSubscription({
-          type,
-          certificationCandidateId: addedCertificationCandidate.id,
-          knexTransaction,
-        });
-      } else if (type === SubscriptionTypes.COMPLEMENTARY) {
-        await _insertCertificationSubscription({
-          type,
-          complementaryCertificationId: certificationCandidate.complementaryCertification.id,
-          certificationCandidateId: addedCertificationCandidate.id,
-          knexTransaction,
-        });
-      }
+  for (const type of certificationCandidate.subscriptions) {
+    if (type === SubscriptionTypes.CORE) {
+      await _insertCertificationSubscription({
+        type,
+        certificationCandidateId: addedCertificationCandidate.id,
+        knexTransaction,
+      });
+    } else if (type === SubscriptionTypes.COMPLEMENTARY) {
+      await _insertCertificationSubscription({
+        type,
+        complementaryCertificationId: certificationCandidate.complementaryCertification.id,
+        certificationCandidateId: addedCertificationCandidate.id,
+        knexTransaction,
+      });
     }
-
-    await knexTransaction.commit();
-
-    return new CertificationCandidate(addedCertificationCandidate);
-  } catch (error) {
-    logger.error(error);
-    throw new CertificationCandidateCreationOrUpdateError(
-      'An error occurred while saving the certification candidate in a session',
-    );
   }
+
+  if (!domainTransaction?.knexTransaction) {
+    await knexTransaction.commit();
+  }
+
+  return new CertificationCandidate(addedCertificationCandidate);
 };
 
 const remove = async function ({ id }) {
