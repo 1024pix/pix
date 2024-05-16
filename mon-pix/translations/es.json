@@ -111,6 +111,7 @@
   },
   "navigation": {
     "back-to-homepage": "Volver a la página de inicio",
+    "disconnect-and-back-to-homepage": "Se déconnecter et réessayer",
     "back-to-profile": "Volver al perfil",
     "copyrights": "©",
     "error": "Error",

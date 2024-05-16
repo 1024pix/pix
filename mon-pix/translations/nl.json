@@ -111,6 +111,7 @@
   },
   "navigation": {
     "back-to-homepage": "Terug naar de startpagina",
+    "disconnect-and-back-to-homepage": "Se déconnecter et réessayer",
     "back-to-profile": "Terug naar profiel",
     "copyrights": "©",
     "error": "Fout",

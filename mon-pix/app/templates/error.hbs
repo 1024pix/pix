@@ -9,8 +9,7 @@
     <div class="error-page__main-content">
       <h1 class="error-page-main-content__title">{{t "pages.error.first-title"}}</h1>
       {{t "pages.error.content-text" htmlSafe=true}}
-      <LinkTo @route="authentication.login" class="button button--extra-big button--link error-page__index-link">
-        {{t "navigation.back-to-homepage"}}</LinkTo>
+      <PixButton @triggerAction={{this.disconnectOidcProviderSession}}> {{t "navigation.disconnect-and-back-to-homepage"}} </PixButton>
     </div>
     <div class="error-page__error">
       <p class="error-page__error-title">{{this.errorTitle}}</p>
