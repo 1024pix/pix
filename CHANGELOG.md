@@ -1,5 +1,32 @@
 # Pix Changelog
 
+## v4.146.0 (16/05/2024)
+
+
+### :rocket: Amélioration
+- [#8930](https://github.com/1024pix/pix/pull/8930) [FEATURE] Ajout du support de Typescript sur PixOrga (PIX-12474).
+
+### :building_construction: Tech
+- [#8511](https://github.com/1024pix/pix/pull/8511) [TECH] Ajoute un ADR sur la communication entre bounded contexts.
+- [#8931](https://github.com/1024pix/pix/pull/8931) [TECH] sépare le usecase de remplacement des learner (Pix-12529).
+- [#8918](https://github.com/1024pix/pix/pull/8918) [TECH] découpe le use case d'import de learner sup (Pix-11942).
+- [#8827](https://github.com/1024pix/pix/pull/8827) [TECH] Petit refacto du mail-service pour la gestion de la langue (PIX-12193).
+
+### :bug: Correction
+- [#8943](https://github.com/1024pix/pix/pull/8943) [BUGFIX] Passer à l'étape suivante même lorsque le didacticiel a été joué (Pix-12548).
+- [#8917](https://github.com/1024pix/pix/pull/8917) [BUGFIX] Enchainement effectif des étapes d'une mission (PIX-12489).
+
+### :arrow_up: Montée de version
+- [#8927](https://github.com/1024pix/pix/pull/8927) [BUMP] Update dependency node to v20.13.1.
+- [#8933](https://github.com/1024pix/pix/pull/8933) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.13 (orga).
+- [#8929](https://github.com/1024pix/pix/pull/8929) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.13 (mon-pix).
+- [#8928](https://github.com/1024pix/pix/pull/8928) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.13 (junior).
+- [#8923](https://github.com/1024pix/pix/pull/8923) [BUMP] Lock file maintenance (mon-pix).
+- [#8924](https://github.com/1024pix/pix/pull/8924) [BUMP] Lock file maintenance (api).
+
+### :coffee: Autre
+- [#8932](https://github.com/1024pix/pix/pull/8932) [FEATURES] Renommage de pix 1d en Pix Junior dans le front de l'application.
+
 ## v4.145.0 (15/05/2024)
 
 
