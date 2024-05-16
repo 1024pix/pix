@@ -75,7 +75,7 @@ class OrganizationForAdmin {
     }
     if (this.type === 'SCO-1D') {
       this.features[ORGANIZATION_FEATURE.MISSIONS_MANAGEMENT.key] = true;
-      this.features[ORGANIZATION_FEATURE.LEARNER_IMPORT.key] = true;
+      this.features[ORGANIZATION_FEATURE.LEARNER_IMPORT.key] = ORGANIZATION_FEATURE.LEARNER_IMPORT.FORMAT.ONDE;
     }
     this.tagsToAdd = [];
     this.tagsToRemove = [];

@@ -60,7 +60,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
         const organization = new OrganizationForAdmin(expectedOrganization);
 
         expect(organization.features).to.include({
-          [ORGANIZATION_FEATURE.LEARNER_IMPORT.key]: true,
+          [ORGANIZATION_FEATURE.LEARNER_IMPORT.key]: 'ONDE',
         });
       });
     });

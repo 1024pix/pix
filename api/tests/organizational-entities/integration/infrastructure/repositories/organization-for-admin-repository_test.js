@@ -477,6 +477,9 @@ describe('Integration | Repository | Organization-for-admin', function () {
           ORGANIZATION_FEATURE.MISSIONS_MANAGEMENT,
         ).id;
         const learnerImportFeatureId = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.LEARNER_IMPORT).id;
+        const organizationLearnerImportOndeFormat = databaseBuilder.factory.buildOrganizationLearnerImportFormat({
+          name: 'ONDE',
+        });
 
         await databaseBuilder.commit();
 
@@ -488,16 +491,24 @@ describe('Integration | Repository | Organization-for-admin', function () {
 
         const savedOrganization = await organizationForAdminRepository.save(organization);
 
-        const savedOrganizationFeature = await knex('organization-features').where({
+        const savedOrganizationFeatures = await knex('organization-features').where({
           organizationId: savedOrganization.id,
         });
 
-        expect(savedOrganizationFeature.length).to.equal(2);
-        const savedOrganizationFeatureIds = savedOrganizationFeature.map(
+        expect(savedOrganizationFeatures.length).to.equal(2);
+        const savedOrganizationFeatureIds = savedOrganizationFeatures.map(
           (organizationFeature) => organizationFeature.featureId,
         );
         expect(savedOrganizationFeatureIds).to.include(missionManagementFeatureId);
         expect(savedOrganizationFeatureIds).to.include(learnerImportFeatureId);
+
+        const learnerImportFeatureParams = savedOrganizationFeatures.find((organizationFeature) => {
+          return organizationFeature.featureId == learnerImportFeatureId;
+        }).params;
+
+        expect(learnerImportFeatureParams).to.deep.equal({
+          organizationLearnerImportFormatId: organizationLearnerImportOndeFormat.id,
+        });
       });
     });
   });
