@@ -1,8 +1,6 @@
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { CertificationCenterForAdmin } from '../../../../lib/domain/models/CertificationCenterForAdmin.js';
-import * as certificationCenterForAdminRepository from '../../../../lib/infrastructure/repositories/certification-center-for-admin-repository.js';
-import { CERTIFICATION_FEATURES } from '../../../../src/certification/shared/domain/constants.js';
-import { catchErr, databaseBuilder, domainBuilder, expect, sinon } from '../../../test-helper.js';
+import * as CertificationCenterForAdminRepository from '../../../../lib/infrastructure/repositories/certification-center-for-admin-repository.js';
+import { CenterForAdmin } from '../../../../src/certification/session/domain/models/CenterForAdmin.js';
+import { databaseBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Integration | Repository | certification-center-for-admin', function () {
   let clock;
@@ -16,203 +14,67 @@ describe('Integration | Repository | certification-center-for-admin', function (
     clock.restore();
   });
 
-  describe('#get', function () {
-    context('when the certification center is found', function () {
-      it('should return the certification center of the given id with the right properties', async function () {
-        // given
-        databaseBuilder.factory.buildCertificationCenter({
-          id: 1,
-          name: 'certificationCenterName',
-          createdAt: new Date('2018-01-01T05:43:10Z'),
-          type: CertificationCenterForAdmin.types.SUP,
-          externalId: 'externalId',
-          updatedAt: now,
-        });
-        databaseBuilder.factory.buildCertificationCenter({ id: 2 });
-        const dataProtectionOfficer = databaseBuilder.factory.buildDataProtectionOfficer.withCertificationCenterId({
-          firstName: 'Justin',
-          lastName: 'Ptipeu',
-          email: 'justin.ptipeu@example.net',
-          certificationCenterId: 1,
-        });
-
-        const expectedCertificationCenter = domainBuilder.buildCertificationCenterForAdmin({
-          id: 1,
-          name: 'certificationCenterName',
-          type: CertificationCenterForAdmin.types.SUP,
-          externalId: 'externalId',
-          createdAt: new Date('2018-01-01T05:43:10Z'),
-          complementaryCertification: null,
-          dataProtectionOfficerFirstName: dataProtectionOfficer.firstName,
-          dataProtectionOfficerLastName: dataProtectionOfficer.lastName,
-          dataProtectionOfficerEmail: dataProtectionOfficer.email,
-          updatedAt: now,
-        });
-
-        await databaseBuilder.commit();
-
-        // when
-        const certificationCenter = await certificationCenterForAdminRepository.get(1);
-
-        // then
-        expect(certificationCenter).to.deepEqualInstance(expectedCertificationCenter);
-      });
-
-      it('should return habilitations along with certification centers if there is any', async function () {
-        // given
-        databaseBuilder.factory.buildCertificationCenter({
-          id: 1,
-          name: 'certificationCenterName',
-          type: CertificationCenterForAdmin.types.SUP,
-          externalId: 'externalId',
-          createdAt: new Date('2018-01-01T05:43:10Z'),
-          updatedAt: now,
-        });
-        const dataProtectionOfficer = databaseBuilder.factory.buildDataProtectionOfficer.withCertificationCenterId({
-          firstName: 'Justin',
-          lastName: 'Ptipeu',
-          email: 'justin.ptipeu@example.net',
-          certificationCenterId: 1,
-        });
-
-        databaseBuilder.factory.buildComplementaryCertification({
-          id: 12345,
-          label: 'Complementary certification test 1',
-          key: 'COMP_1',
-        });
-        databaseBuilder.factory.buildComplementaryCertification({
-          id: 6789,
-          label: 'Complementary certification test 2',
-          key: 'COMP_2',
-        });
-        databaseBuilder.factory.buildComplementaryCertificationHabilitation({
-          certificationCenterId: 1,
-          complementaryCertificationId: 12345,
-        });
-        databaseBuilder.factory.buildComplementaryCertificationHabilitation({
-          certificationCenterId: 1,
-          complementaryCertificationId: 6789,
-        });
-
-        const expectedComplementaryCertification1 = domainBuilder.buildComplementaryCertification({
-          id: 12345,
-          label: 'Complementary certification test 1',
-          key: 'COMP_1',
-        });
-        const expectedComplementaryCertification2 = domainBuilder.buildComplementaryCertification({
-          id: 6789,
-          label: 'Complementary certification test 2',
-          key: 'COMP_2',
-        });
-        const expectedCertificationCenter = domainBuilder.buildCertificationCenterForAdmin({
-          id: 1,
-          name: 'certificationCenterName',
-          type: CertificationCenterForAdmin.types.SUP,
-          externalId: 'externalId',
-          createdAt: new Date('2018-01-01T05:43:10Z'),
-          dataProtectionOfficerFirstName: dataProtectionOfficer.firstName,
-          dataProtectionOfficerLastName: dataProtectionOfficer.lastName,
-          dataProtectionOfficerEmail: dataProtectionOfficer.email,
-          habilitations: [expectedComplementaryCertification2, expectedComplementaryCertification1],
-          updatedAt: now,
-        });
-
-        await databaseBuilder.commit();
-
-        // when
-        const certificationCenter = await certificationCenterForAdminRepository.get(1);
-
-        expect(certificationCenter).to.deepEqualInstance(expectedCertificationCenter);
-      });
-
-      context('when the certification center is a feature pilot', function () {
-        it('should return the information', async function () {
-          // given
-          const centerId = 1;
-          databaseBuilder.factory.buildCertificationCenter({
-            id: centerId,
-          });
-          const feature = databaseBuilder.factory.buildFeature({
-            key: CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key,
-          });
-          databaseBuilder.factory.buildCertificationCenterFeature({
-            certificationCenterId: centerId,
-            featureId: feature.id,
-          });
-          await databaseBuilder.commit();
-
-          // when
-          const result = await certificationCenterForAdminRepository.get(centerId);
-
-          // then
-          expect(result.features).to.have.members([
-            CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key,
-          ]);
-        });
-      });
-    });
-
-    context('the certification center could not be found', function () {
-      it('should throw a NotFound error', async function () {
-        // when
-        const nonExistentId = 1;
-        const error = await catchErr(certificationCenterForAdminRepository.get)(nonExistentId);
-
-        // then
-        expect(error).to.be.instanceOf(NotFoundError);
-      });
-    });
-  });
-
   describe('#save', function () {
     it('should save the given certification center', async function () {
       // given
-      const certificationCenter = new CertificationCenterForAdmin({
-        name: 'CertificationCenterName',
-        type: 'SCO',
-        isV3Pilot: true,
+      const certificationCenterId = 1;
+      const certificationCenterName = 'CertificationCenterName';
+      const certificationCenterType = 'SCO';
+      const certificationCenterIsV3Pilot = true;
+
+      const center = databaseBuilder.factory.buildCertificationCenter({
+        id: certificationCenterId,
+        name: certificationCenterName,
+        type: certificationCenterType,
+        isV3Pilot: certificationCenterIsV3Pilot,
+      });
+
+      const certificationCenterForAdmin = new CenterForAdmin({
+        center,
       });
 
       // when
-      const savedCertificationCenter = await certificationCenterForAdminRepository.save(certificationCenter);
+      const savedCertificationCenter = await CertificationCenterForAdminRepository.save(certificationCenterForAdmin);
 
       // then
-      expect(savedCertificationCenter).to.be.instanceof(CertificationCenterForAdmin);
+      expect(savedCertificationCenter).to.be.instanceof(CenterForAdmin);
       expect(savedCertificationCenter.id).to.exist;
-      expect(savedCertificationCenter.name).to.equal('CertificationCenterName');
-      expect(savedCertificationCenter.type).to.equal('SCO');
-      expect(savedCertificationCenter.isV3Pilot).to.equal(true);
+      expect(savedCertificationCenter.name).to.equal(certificationCenterName);
+      expect(savedCertificationCenter.type).to.equal(certificationCenterType);
+      expect(savedCertificationCenter.isV3Pilot).to.equal(certificationCenterIsV3Pilot);
     });
   });
 
   describe('#update', function () {
-    let certificationCenter;
+    let center;
 
     before(async function () {
       // given
-      certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+      center = databaseBuilder.factory.buildCertificationCenter();
       await databaseBuilder.commit();
     });
 
     it('should update the given certification center', async function () {
       // when
-      const updatedCertificationCenter = await certificationCenterForAdminRepository.update({
-        id: certificationCenter.id,
+      const updatedCertificationCenter = await CertificationCenterForAdminRepository.update({
+        id: center.id,
         name: 'Great Oak Certification Center',
         updatedAt: now,
         isV3Pilot: true,
       });
 
-      // then
-      expect(updatedCertificationCenter).to.be.instanceof(CertificationCenterForAdmin);
-      expect(updatedCertificationCenter).to.deep.equal(
-        new CertificationCenterForAdmin({
-          ...certificationCenter,
+      const expectedCertificationCenter = new CenterForAdmin({
+        center: {
+          ...center,
           name: 'Great Oak Certification Center',
           updatedAt: updatedCertificationCenter.updatedAt,
           isV3Pilot: true,
-        }),
-      );
+        },
+      });
+
+      // then
+      expect(updatedCertificationCenter).to.be.instanceof(CenterForAdmin);
+      expect(updatedCertificationCenter).to.deep.equal(expectedCertificationCenter);
     });
   });
 });
