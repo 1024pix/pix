@@ -96,6 +96,22 @@ const challengeDatasource = datasource.extend({
         _challengeHasStatus(challengeData, acceptedStatuses),
     );
   },
+
+  async findFlashCompatibleWithoutLocale({ useObsoleteChallenges } = {}) {
+    const challenges = await this.list();
+
+    const acceptedStatuses = useObsoleteChallenges
+      ? [OBSOLETE_CHALLENGE, ...OPERATIVE_CHALLENGES]
+      : OPERATIVE_CHALLENGES;
+
+    return challenges.filter(
+      (challengeData) =>
+        challengeData.alpha != null &&
+        challengeData.delta != null &&
+        challengeData.skillId &&
+        _challengeHasStatus(challengeData, acceptedStatuses),
+    );
+  },
 });
 
 export { challengeDatasource };

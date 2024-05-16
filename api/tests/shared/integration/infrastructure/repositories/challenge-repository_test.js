@@ -495,6 +495,80 @@ describe('Integration | Repository | challenge-repository', function () {
     });
   });
 
+  describe('#findFlashCompatibleWithoutLocale', function () {
+    beforeEach(function () {
+      // given
+      const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
+
+      const activeChallenge = domainBuilder.buildChallenge({
+        id: 'activeChallenge',
+        skill,
+        status: 'validé',
+        locales: ['en'],
+      });
+      const archivedChallenge = domainBuilder.buildChallenge({
+        id: 'archivedChallenge',
+        skill,
+        status: 'archivé',
+        locales: ['fr-fr'],
+      });
+      const outdatedChallenge = domainBuilder.buildChallenge({
+        id: 'outdatedChallenge',
+        skill,
+        status: 'périmé',
+        locales: ['nl'],
+      });
+      const learningContent = {
+        skills: [{ ...skill, status: 'actif', level: skill.difficulty }],
+        challenges: [
+          { ...activeChallenge, skillId: 'recSkill1', alpha: 3.57, delta: -8.99 },
+          { ...archivedChallenge, skillId: 'recSkill1', alpha: 3.2, delta: 1.06 },
+          { ...outdatedChallenge, skillId: 'recSkill1', alpha: 4.1, delta: -2.08 },
+        ],
+      };
+      mockLearningContent(learningContent);
+    });
+
+    context('without requesting obsolete challenges', function () {
+      it('should return all flash compatible challenges with skills', async function () {
+        // when
+        const actualChallenges = await challengeRepository.findFlashCompatibleWithoutLocale();
+
+        // then
+        expect(actualChallenges).to.have.lengthOf(2);
+        expect(actualChallenges[0]).to.be.instanceOf(Challenge);
+        expect(actualChallenges[0]).to.deep.contain({
+          status: 'validé',
+        });
+        expect(actualChallenges[1]).to.deep.contain({
+          status: 'archivé',
+        });
+      });
+    });
+
+    context('when requesting obsolete challenges', function () {
+      it('should return all flash compatible challenges with skills', async function () {
+        // when
+        const actualChallenges = await challengeRepository.findFlashCompatibleWithoutLocale({
+          useObsoleteChallenges: true,
+        });
+
+        // then
+        expect(actualChallenges).to.have.lengthOf(3);
+        expect(actualChallenges[0]).to.deep.contain({
+          status: 'validé',
+        });
+        expect(actualChallenges[1]).to.deep.contain({
+          status: 'archivé',
+        });
+
+        expect(actualChallenges[2]).to.deep.contain({
+          status: 'périmé',
+        });
+      });
+    });
+  });
+
   describe('#findActiveFlashCompatible', function () {
     beforeEach(function () {
       // given

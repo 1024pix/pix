@@ -308,6 +308,58 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     });
   });
 
+  describe('#findFlashCompatibleWithoutLocale', function () {
+    beforeEach(function () {
+      sinon.stub(lcms, 'getLatestRelease').resolves({
+        challenges: [
+          challenge_competence1,
+          challenge_competence1_notValidated,
+          challenge_competence1_noSkills,
+          challenge_competence1_obsolete,
+          challenge_competence2,
+          challenge_web1,
+          challenge_web1_notValidated,
+          challenge_web2_en,
+          challenge_web3,
+          challenge_web3_archived,
+        ],
+      });
+    });
+
+    context('when not requesting obsolete challenges', function () {
+      it('should resolve an array of matching Challenges from learning content', async function () {
+        // when
+        const result = await challengeDatasource.findFlashCompatibleWithoutLocale();
+
+        // then
+        expect(_.map(result, 'id')).to.have.members([
+          challenge_competence1.id,
+          challenge_competence2.id,
+          challenge_web2_en.id,
+          challenge_web3.id,
+          challenge_web3_archived.id,
+        ]);
+      });
+    });
+
+    context('when requesting obsolete challenges', function () {
+      it('should resolve an array of matching Challenges from learning content', async function () {
+        // when
+        const result = await challengeDatasource.findFlashCompatibleWithoutLocale({ useObsoleteChallenges: true });
+
+        // then
+        expect(_.map(result, 'id')).to.have.members([
+          challenge_competence1.id,
+          challenge_competence1_obsolete.id,
+          challenge_competence2.id,
+          challenge_web2_en.id,
+          challenge_web3.id,
+          challenge_web3_archived.id,
+        ]);
+      });
+    });
+  });
+
   describe('#findActiveFlashCompatible', function () {
     beforeEach(function () {
       sinon.stub(lcms, 'getLatestRelease').resolves({
