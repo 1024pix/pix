@@ -19,20 +19,20 @@ describe('Unit | Infrastructure | temporary-storage | InMemoryTemporaryStorage',
       clock.restore();
     });
 
-    it('should resolve with the generated key', function () {
+    it('should resolve with the generated key', async function () {
       // when
-      const key = inMemoryTemporaryStorage.save({ value: {}, expirationDelaySeconds: 1000 });
+      const key = await inMemoryTemporaryStorage.save({ value: {}, expirationDelaySeconds: 1000 });
 
       // then
-      expect(key).to.exist;
+      expect(key).to.be.a.string;
     });
 
-    it('should return a key from passed key parameter if valid', function () {
+    it('should return a key from passed key parameter if valid', async function () {
       // given
       const keyParameter = 'KEY-PARAMETER';
 
       // when
-      const returnedKey = inMemoryTemporaryStorage.save({
+      const returnedKey = await inMemoryTemporaryStorage.save({
         key: keyParameter,
         value: {},
         expirationDelaySeconds: 1000,
@@ -42,12 +42,12 @@ describe('Unit | Infrastructure | temporary-storage | InMemoryTemporaryStorage',
       expect(returnedKey).to.be.equal(keyParameter);
     });
 
-    it('should return a generated key if key parameter is not valid', function () {
+    it('should return a generated key if key parameter is not valid', async function () {
       // given
       const keyParameter = '  ';
 
       // when
-      const returnedKey = inMemoryTemporaryStorage.save({
+      const returnedKey = await inMemoryTemporaryStorage.save({
         key: keyParameter,
         value: {},
         expirationDelaySeconds: 1000,
@@ -57,33 +57,33 @@ describe('Unit | Infrastructure | temporary-storage | InMemoryTemporaryStorage',
       expect(returnedKey).not.be.equal(keyParameter);
     });
 
-    it('should save key value with a defined ttl in seconds', function () {
+    it('should save key value with a defined ttl in seconds', async function () {
       // given
       const TWO_MINUTES_IN_SECONDS = 2 * 60;
       const TWO_MINUTES_IN_MILLISECONDS = 2 * 60 * 1000;
 
       // when
-      const key = inMemoryTemporaryStorage.save({
+      const key = await inMemoryTemporaryStorage.save({
         value: { name: 'name' },
         expirationDelaySeconds: TWO_MINUTES_IN_SECONDS,
       });
 
       // then
-      const expirationKeyInTimestamp = inMemoryTemporaryStorage._client.getTtl(key);
+      const expirationKeyInTimestamp = await inMemoryTemporaryStorage._client.getTtl(key);
       expect(expirationKeyInTimestamp).to.equal(TWO_MINUTES_IN_MILLISECONDS);
     });
   });
 
   describe('#get', function () {
-    it('should retrieve the value if it exists', function () {
+    it('should retrieve the value if it exists', async function () {
       // given
       const value = { name: 'name' };
       const expirationDelaySeconds = 1000;
 
-      const key = inMemoryTemporaryStorage.save({ value, expirationDelaySeconds });
+      const key = await inMemoryTemporaryStorage.save({ value, expirationDelaySeconds });
 
       // when
-      const result = inMemoryTemporaryStorage.get(key);
+      const result = await inMemoryTemporaryStorage.get(key);
 
       // then
       expect(result).to.deep.equal(value);
@@ -91,53 +91,53 @@ describe('Unit | Infrastructure | temporary-storage | InMemoryTemporaryStorage',
   });
 
   describe('#update', function () {
-    it('should set a new value', function () {
+    it('should set a new value', async function () {
       // given
-      const key = inMemoryTemporaryStorage.save({
+      const key = await inMemoryTemporaryStorage.save({
         value: { name: 'name' },
       });
 
       // when
-      inMemoryTemporaryStorage.update(key, { url: 'url' });
+      await inMemoryTemporaryStorage.update(key, { url: 'url' });
 
       // then
-      const result = inMemoryTemporaryStorage.get(key);
+      const result = await inMemoryTemporaryStorage.get(key);
       expect(result).to.deep.equal({ url: 'url' });
     });
 
     it('should not change the time to live', async function () {
       // given
-      const keyWithTtl = inMemoryTemporaryStorage.save({
+      const keyWithTtl = await inMemoryTemporaryStorage.save({
         value: {},
         expirationDelaySeconds: 1,
       });
-      const keyWithoutTtl = inMemoryTemporaryStorage.save({ value: {} });
+      const keyWithoutTtl = await inMemoryTemporaryStorage.save({ value: {} });
 
       // when
       await new Promise((resolve) => setTimeout(resolve, 500));
-      inMemoryTemporaryStorage.update(keyWithTtl, {});
-      inMemoryTemporaryStorage.update(keyWithoutTtl, {});
+      await inMemoryTemporaryStorage.update(keyWithTtl, {});
+      await inMemoryTemporaryStorage.update(keyWithoutTtl, {});
       await new Promise((resolve) => setTimeout(resolve, 600));
 
       // then
-      expect(inMemoryTemporaryStorage.get(keyWithTtl)).to.be.undefined;
-      expect(inMemoryTemporaryStorage.get(keyWithoutTtl)).not.to.be.undefined;
+      expect(await inMemoryTemporaryStorage.get(keyWithTtl)).to.be.undefined;
+      expect(await inMemoryTemporaryStorage.get(keyWithoutTtl)).not.to.be.undefined;
     });
   });
 
   describe('#delete', function () {
-    it('should delete the value if it exists', function () {
+    it('should delete the value if it exists', async function () {
       // given
       const value = { name: 'name' };
       const expirationDelaySeconds = 1000;
 
-      const key = inMemoryTemporaryStorage.save({ value, expirationDelaySeconds });
+      const key = await inMemoryTemporaryStorage.save({ value, expirationDelaySeconds });
 
       // when
-      inMemoryTemporaryStorage.delete(key);
+      await inMemoryTemporaryStorage.delete(key);
 
       // then
-      const savedKey = inMemoryTemporaryStorage.get(key);
+      const savedKey = await inMemoryTemporaryStorage.get(key);
       expect(savedKey).to.be.undefined;
     });
   });
@@ -168,7 +168,7 @@ describe('Unit | Infrastructure | temporary-storage | InMemoryTemporaryStorage',
       const key = 'key:lpush';
       await inMemoryTemporaryStorage.lpush(key, 'value');
       await inMemoryTemporaryStorage.expire({ key, expirationDelaySeconds: 120 });
-      const remainingExpirationSeconds = inMemoryTemporaryStorage.ttl(key);
+      const remainingExpirationSeconds = await inMemoryTemporaryStorage.ttl(key);
 
       // then
       expect(remainingExpirationSeconds).to.be.above(Date.now());
