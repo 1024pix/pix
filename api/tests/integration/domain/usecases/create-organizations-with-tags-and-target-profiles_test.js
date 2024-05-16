@@ -25,13 +25,11 @@ const { omit } = lodash;
 
 describe('Integration | UseCases | create-organizations-with-tags-and-target-profiles', function () {
   let missionFeature;
-  let learnerImportFeature;
   let userId;
 
   beforeEach(async function () {
     databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY);
     missionFeature = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.MISSIONS_MANAGEMENT);
-    learnerImportFeature = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.LEARNER_IMPORT);
     userId = databaseBuilder.factory.buildUser().id;
     await databaseBuilder.commit();
   });
