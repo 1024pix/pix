@@ -197,7 +197,7 @@
     "fullname": "{firstName} {lastName}",
     "help-form": "https://support.pix.fr/support/tickets/new",
     "home-page": "Page d'accueil de Pix Orga",
-    "loading": "Chargement en cours",
+    "loading": "Chargement en cours.",
     "pagination": {
       "action": {
         "next": "Aller à la page suivante",
