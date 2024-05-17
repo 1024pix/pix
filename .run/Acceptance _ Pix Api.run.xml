@@ -1,0 +1,31 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Acceptance | Pix Api" type="mocha-javascript-test-runner">
+    <node-interpreter>project</node-interpreter>
+    <node-options />
+    <mocha-package>$PROJECT_DIR$/api/node_modules/mocha</mocha-package>
+    <working-directory>$PROJECT_DIR$/api</working-directory>
+    <pass-parent-env>true</pass-parent-env>
+    <envs>
+      <env name="NODE_ENV" value="test" />
+      <env name="TEST_DATABASE_URL" value="postgresql://postgres@localhost/pix_acceptance_test" />
+    </envs>
+    <ui>bdd</ui>
+    <extra-mocha-options>--exit --recursive</extra-mocha-options>
+    <test-kind>PATTERN</test-kind>
+    <test-pattern>tests/**/acceptance/**/*test.js</test-pattern>
+    <method v="2">
+      <option name="NpmBeforeRunTask" enabled="true">
+        <package-json value="$PROJECT_DIR$/api/package.json" />
+        <command value="run" />
+        <scripts>
+          <script value="db:prepare" />
+        </scripts>
+        <node-interpreter value="project" />
+        <envs>
+          <env name="NODE_ENV" value="test" />
+          <env name="TEST_DATABASE_URL" value="postgresql://postgres@localhost/pix_acceptance_test" />
+        </envs>
+      </option>
+    </method>
+  </configuration>
+</component>
