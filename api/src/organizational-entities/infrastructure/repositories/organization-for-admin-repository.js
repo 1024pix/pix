@@ -8,6 +8,9 @@ import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransact
 import { ORGANIZATION_FEATURE } from '../../../shared/domain/constants.js';
 import { OrganizationForAdmin } from '../../domain/models/OrganizationForAdmin.js';
 
+const DATA_PROTECTION_OFFICERS_TABLE_NAME = 'data-protection-officers';
+const ORGANIZATION_FEATURES_TABLE_NAME = 'organization-features';
+const ORGANIZATION_TAGS_TABLE_NAME = 'organization-tags';
 const ORGANIZATIONS_TABLE_NAME = 'organizations';
 
 const archive = async function ({ id, archivedBy }) {
@@ -88,12 +91,12 @@ const get = async function (id, domainTransaction = DomainTransaction.emptyTrans
 
   const tags = await knexConn('tags')
     .select('tags.*')
-    .join('organization-tags', 'organization-tags.tagId', 'tags.id')
+    .join(ORGANIZATION_TAGS_TABLE_NAME, 'organization-tags.tagId', 'tags.id')
     .where('organization-tags.organizationId', organization.id);
 
   const availableFeatures = await knexConn('features')
     .select('key', knex.raw('"organization-features"."organizationId" IS NOT NULL as enabled'))
-    .leftJoin('organization-features', function () {
+    .leftJoin(ORGANIZATION_FEATURES_TABLE_NAME, function () {
       this.on('features.id', 'organization-features.featureId').andOn(
         'organization-features.organizationId',
         organization.id,
@@ -154,15 +157,21 @@ const update = async function (organization, domainTransaction = DomainTransacti
 export { archive, exist, findChildrenByParentOrganizationId, get, save, update };
 
 async function _addOrUpdateDataProtectionOfficer(knexConn, dataProtectionOfficer) {
-  await knexConn('data-protection-officers').insert(dataProtectionOfficer).onConflict('organizationId').merge();
+  await knexConn(DATA_PROTECTION_OFFICERS_TABLE_NAME)
+    .insert(dataProtectionOfficer)
+    .onConflict('organizationId')
+    .merge();
 }
 
 async function _addTags(knexConn, organizationTags) {
-  await knexConn('organization-tags').insert(organizationTags).onConflict(['tagId', 'organizationId']).ignore();
+  await knexConn(ORGANIZATION_TAGS_TABLE_NAME)
+    .insert(organizationTags)
+    .onConflict(['tagId', 'organizationId'])
+    .ignore();
 }
 
 async function _disableFeatures(knexConn, features, organizationId) {
-  await knexConn('organization-features')
+  await knexConn(ORGANIZATION_FEATURES_TABLE_NAME)
     .join('features', 'organization-features.featureId', 'features.id')
     .where('organization-features.organizationId', organizationId)
     .whereIn(
@@ -176,7 +185,7 @@ async function _enableFeatures(knexConn, featuresToEnable, organizationId) {
   const features = await knexConn('features');
   const importFormats = await knexConn('organization-learner-import-formats').select('name', 'id');
 
-  await knexConn('organization-features')
+  await knexConn(ORGANIZATION_FEATURES_TABLE_NAME)
     .insert(
       _.keys(featuresToEnable)
         .filter((key) => featuresToEnable[key])
@@ -198,7 +207,7 @@ function _paramsForFeature(importFormats, key, value) {
 }
 
 async function _removeTags(knexConn, organizationTags) {
-  await knexConn('organization-tags')
+  await knexConn(ORGANIZATION_TAGS_TABLE_NAME)
     .whereIn(
       ['organizationId', 'tagId'],
       organizationTags.map((organizationTag) => [organizationTag.organizationId, organizationTag.tagId]),
