@@ -471,9 +471,15 @@ describe('Integration | Repository | Organization-for-admin', function () {
     });
 
     context('when the organization type is SCO-1D', function () {
-      it('adds mission_management feature to the organization', async function () {
+      it('adds mission_management and learner_import features to the organization', async function () {
         const superAdminUserId = databaseBuilder.factory.buildUser().id;
-        const featureId = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.MISSIONS_MANAGEMENT).id;
+        const missionManagementFeatureId = databaseBuilder.factory.buildFeature(
+          ORGANIZATION_FEATURE.MISSIONS_MANAGEMENT,
+        ).id;
+        const learnerImportFeatureId = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.LEARNER_IMPORT).id;
+        const organizationLearnerImportOndeFormat = databaseBuilder.factory.buildOrganizationLearnerImportFormat({
+          name: 'ONDE',
+        });
 
         await databaseBuilder.commit();
 
@@ -483,15 +489,26 @@ describe('Integration | Repository | Organization-for-admin', function () {
           createdBy: superAdminUserId,
         });
 
-        // when
         const savedOrganization = await organizationForAdminRepository.save(organization);
 
-        const savedOrganizationFeature = await knex('organization-features').where({
+        const savedOrganizationFeatures = await knex('organization-features').where({
           organizationId: savedOrganization.id,
         });
 
-        expect(savedOrganizationFeature.length).to.equal(1);
-        expect(savedOrganizationFeature[0].featureId).to.equal(featureId);
+        expect(savedOrganizationFeatures.length).to.equal(2);
+        const savedOrganizationFeatureIds = savedOrganizationFeatures.map(
+          (organizationFeature) => organizationFeature.featureId,
+        );
+        expect(savedOrganizationFeatureIds).to.include(missionManagementFeatureId);
+        expect(savedOrganizationFeatureIds).to.include(learnerImportFeatureId);
+
+        const learnerImportFeatureParams = savedOrganizationFeatures.find((organizationFeature) => {
+          return organizationFeature.featureId == learnerImportFeatureId;
+        }).params;
+
+        expect(learnerImportFeatureParams).to.deep.equal({
+          organizationLearnerImportFormatId: organizationLearnerImportOndeFormat.id,
+        });
       });
     });
   });

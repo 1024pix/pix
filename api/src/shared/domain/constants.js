@@ -18,6 +18,9 @@ const ORGANIZATION_FEATURE = {
   LEARNER_IMPORT: {
     key: 'LEARNER_IMPORT',
     description: "Permet l'import de participants sur PixOrga",
+    FORMAT: {
+      ONDE: 'ONDE',
+    },
   },
   PLACES_MANAGEMENT: {
     key: 'PLACES_MANAGEMENT',

@@ -5,6 +5,7 @@ import { MissingAttributesError, NotFoundError } from '../../../../lib/domain/er
 import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
 import { Tag } from '../../../../lib/domain/models/Tag.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { ORGANIZATION_FEATURE } from '../../../shared/domain/constants.js';
 import { OrganizationForAdmin } from '../../domain/models/OrganizationForAdmin.js';
 
 const ORGANIZATIONS_TABLE_NAME = 'organizations';
@@ -115,6 +116,7 @@ const save = async function (organization) {
   const data = _.pick(organization, ['name', 'type', 'documentationUrl', 'credit', 'createdBy']);
   const [organizationCreated] = await knex(ORGANIZATIONS_TABLE_NAME).returning('*').insert(data);
   const savedOrganization = _toDomain(organizationCreated);
+
   if (!_.isEmpty(savedOrganization.features)) {
     await _enableFeatures(knex, savedOrganization.features, savedOrganization.id);
   }
@@ -172,6 +174,7 @@ async function _disableFeatures(knexConn, features, organizationId) {
 
 async function _enableFeatures(knexConn, featuresToEnable, organizationId) {
   const features = await knexConn('features');
+  const importFormats = await knexConn('organization-learner-import-formats').select('name', 'id');
 
   await knexConn('organization-features')
     .insert(
@@ -180,10 +183,18 @@ async function _enableFeatures(knexConn, featuresToEnable, organizationId) {
         .map((key) => ({
           organizationId,
           featureId: features.find((feature) => feature.key === key).id,
+          params: _paramsForFeature(importFormats, key, featuresToEnable[key]),
         })),
     )
     .onConflict()
     .ignore();
+}
+
+function _paramsForFeature(importFormats, key, value) {
+  if (key === ORGANIZATION_FEATURE.LEARNER_IMPORT.key) {
+    const learnerImportFormat = importFormats.find(({ name }) => name === value);
+    return { organizationLearnerImportFormatId: learnerImportFormat.id };
+  }
 }
 
 async function _removeTags(knexConn, organizationTags) {
