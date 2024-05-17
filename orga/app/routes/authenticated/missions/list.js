@@ -1,6 +1,5 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
-import RSVP from 'rsvp';
 
 export default class MissionListRoute extends Route {
   @service currentUser;
@@ -8,17 +7,20 @@ export default class MissionListRoute extends Route {
   @service router;
   @service store;
 
+  async beforeModel() {
+    await this.currentUser.load();
+  }
   async model() {
     const pixJuniorSchoolUrl = this.url.pixJuniorSchoolUrl;
     const organization = this.currentUser.organization;
     const isAdminOfTheCurrentOrganization = this.currentUser.prescriber.isAdminOfTheCurrentOrganization;
-    const missions = this.store.findAll('mission', {
+    const missions = await this.store.findAll('mission', {
       adapterOptions: { organizationId: organization.id },
     });
-    return RSVP.hash({
+    return {
       pixJuniorSchoolUrl,
       missions,
       isAdminOfTheCurrentOrganization,
-    });
+    };
   }
 }
