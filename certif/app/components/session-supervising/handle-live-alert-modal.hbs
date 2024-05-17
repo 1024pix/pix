@@ -27,10 +27,10 @@
           </p>
         </div>
         <div class="handle-live-alert-modal__actions-list">
-          <PixButton @backgroundColor="error" @triggerAction={{this.onReject}}>
+          <PixButton @variant="error" @triggerAction={{this.onReject}}>
             {{t "pages.session-supervising.candidate-in-list.handle-live-alert-modal.ask.dismiss-alert-button"}}
           </PixButton>
-          <PixButton @backgroundColor="success" @type="submit" @isDisabled={{this.isValidateButtonDisabled}}>
+          <PixButton @variant="success" @type="submit" @isDisabled={{this.isValidateButtonDisabled}}>
             {{t "pages.session-supervising.candidate-in-list.handle-live-alert-modal.ask.validate-alert-button"}}
           </PixButton>
         </div>

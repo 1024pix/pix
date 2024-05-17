@@ -44,7 +44,7 @@
       <PixButtonLink
         class="session-details__controls-download-button"
         @href="{{this.urlToDownloadSessionIssueReportSheet}}"
-        @backgroundColor="transparent-light"
+        @variant="secondary"
         @isBorderVisible={{true}}
         @size="small"
         target="_blank"
@@ -57,7 +57,7 @@
       </PixButtonLink>
       <PixButton
         class="session-details__controls-download-button"
-        @backgroundColor="transparent-light"
+        @variant="secondary"
         @isBorderVisible={{true}}
         @size="small"
         aria-label={{t "pages.sessions.detail.downloads.invigilator-kit.extra-information"}}
@@ -70,7 +70,7 @@
         <PixButton
           class="session-details__controls-download-button"
           @triggerAction={{this.fetchAttendanceSheet}}
-          @backgroundColor="transparent-light"
+          @variant="secondary"
           @isBorderVisible={{true}}
           @size="small"
           target="_blank"

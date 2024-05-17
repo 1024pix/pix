@@ -14,10 +14,10 @@
     </p>
   </:content>
   <:footer>
-    <PixButton @triggerAction={{@onClose}} @backgroundColor="transparent-light" @isBorderVisible={{true}}>
+    <PixButton @triggerAction={{@onClose}} @variant="secondary" @isBorderVisible={{true}}>
       {{t "common.actions.cancel"}}
     </PixButton>
-    <PixButton @triggerAction={{@onSubmit}} @backgroundColor="error">
+    <PixButton @triggerAction={{@onSubmit}} @variant="error">
       {{t "pages.team.members.remove-membership-modal.actions.remove"}}
     </PixButton>
   </:footer>

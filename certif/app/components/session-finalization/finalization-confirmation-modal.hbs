@@ -21,12 +21,7 @@
     </p>
   </:content>
   <:footer>
-    <PixButton
-      @triggerAction={{@closeModal}}
-      @backgroundColor="transparent-light"
-      @isBorderVisible="true"
-      @size="small"
-    >
+    <PixButton @triggerAction={{@closeModal}} @variant="secondary" @isBorderVisible="true" @size="small">
       {{t "common.actions.cancel"}}
     </PixButton>
     <PixButton data-test-id="finalize-session-modal__confirm-button" @triggerAction={{@finalizeSession}} @size="small">
