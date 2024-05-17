@@ -456,7 +456,6 @@ const configuration = (function () {
 
     config.redis = {
       url: process.env.TEST_REDIS_URL,
-      database: 1,
     };
 
     config.import = {
