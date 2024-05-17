@@ -128,7 +128,7 @@
       }
     },
     "participants-by-stage": {
-      "title": "Répartition des participants par paliers.",
+      "title": "Répartition des participants par paliers!",
       "loader": "Chargement de la répartition des participants par paliers",
       "participants": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}}"
     },
