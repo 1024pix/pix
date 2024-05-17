@@ -1,14 +1,70 @@
 import _ from 'lodash';
 
 import { knex } from '../../../db/knex-database-connection.js';
-import { CERTIFICATION_FEATURES } from '../../../src/certification/shared/domain/constants.js';
 import { NotFoundError } from '../../domain/errors.js';
 import { AllowedCertificationCenterAccess } from '../../domain/read-models/AllowedCertificationCenterAccess.js';
 import { CertificationPointOfContact } from '../../domain/read-models/CertificationPointOfContact.js';
 
 const CERTIFICATION_CENTER_MEMBERSHIPS_TABLE_NAME = 'certification-center-memberships';
 
-const get = async function (userId) {
+/**
+ * Retrieves allowed certification center accesses for a given list of centers.
+ *
+ * @param {Array} centerList - List of certification centers.
+ * @returns {Promise<Array>} - List of allowed center accesses.
+ */
+const getAllowedCenterAccesses = async function (centerList) {
+  const allowedCenterIdList = centerList.map((center) => center.id);
+
+  const allowedAccessDTOs = await knex
+    .select({
+      id: 'certification-centers.id',
+      externalId: 'certification-centers.externalId',
+      type: 'certification-centers.type',
+      isRelatedToManagingStudentsOrganization: 'organizations.isManagingStudents',
+      tags: knex.raw('array_agg(?? order by ??)', ['tags.name', 'tags.name']),
+      habilitations: knex.raw(
+        `array_agg(json_build_object(
+          'id', "complementary-certifications".id,
+          'label', "complementary-certifications".label,
+          'key', "complementary-certifications".key,
+          'hasComplementaryReferential', "complementary-certifications"."hasComplementaryReferential"
+        ) order by "complementary-certifications".id)`,
+      ),
+    })
+    .from('certification-centers')
+    .leftJoin('organizations', function () {
+      this.on('organizations.externalId', 'certification-centers.externalId').andOn(
+        'organizations.type',
+        'certification-centers.type',
+      );
+    })
+    .leftJoin('organization-tags', 'organization-tags.organizationId', 'organizations.id')
+    .leftJoin('tags', 'tags.id', 'organization-tags.tagId')
+    .leftJoin(
+      'complementary-certification-habilitations',
+      'complementary-certification-habilitations.certificationCenterId',
+      'certification-centers.id',
+    )
+    .leftJoin(
+      'complementary-certifications',
+      'complementary-certifications.id',
+      'complementary-certification-habilitations.complementaryCertificationId',
+    )
+    .whereIn('certification-centers.id', allowedCenterIdList)
+    .orderBy('certification-centers.id')
+    .groupBy('certification-centers.id', 'organizations.isManagingStudents');
+
+  return _toDomain({ allowedAccessDTOs, centerList });
+};
+
+/**
+ * Retrieves authorized certification center IDs for a given user.
+ *
+ * @param {number} userId - User ID.
+ * @returns {Promise<Object>} - Authorized center IDs and user data.
+ */
+const getAuthorizedCenterIds = async function (userId) {
   const certificationPointOfContactDTO = await knex
     .select({
       id: 'users.id',
@@ -32,13 +88,25 @@ const get = async function (userId) {
     throw new NotFoundError(`Le référent de certification ${userId} n'existe pas.`);
   }
 
-  const authorizedCertificationCenterIds = await _removeDisabledCertificationCenterAccesses({
+  return {
+    authorizedCenterIds: await _removeDisabledCertificationCenterAccesses({
+      certificationPointOfContactDTO,
+    }),
     certificationPointOfContactDTO,
-  });
-  const allowedCertificationCenterAccesses = await _findAllowedCertificationCenterAccesses(
-    authorizedCertificationCenterIds,
-  );
+  };
+};
 
+/**
+ * Retrieves the point of contact details for a given user.
+ *
+ * @param {Object} params - Parameters containing user ID, certification point of contact DTO, and allowed certification center accesses.
+ * @returns {Promise<Object>} - Certification point of contact details.
+ */
+const getPointOfContact = async function ({
+  userId,
+  certificationPointOfContactDTO,
+  allowedCertificationCenterAccesses,
+}) {
   const certificationCenterMemberships = await _findNotDisabledCertificationCenterMemberships(userId);
 
   return new CertificationPointOfContact({
@@ -48,8 +116,30 @@ const get = async function (userId) {
   });
 };
 
-export { get };
+export { getAllowedCenterAccesses, getAuthorizedCenterIds, getPointOfContact };
 
+function _toDomain({ allowedAccessDTOs, centerList }) {
+  return allowedAccessDTOs.map((allowedCenterAccessDTO) => {
+    const center = centerList.find((center) => center.id === allowedCenterAccessDTO.id);
+
+    return new AllowedCertificationCenterAccess({
+      center: {
+        ...center,
+        habilitations: _cleanHabilitations(allowedCenterAccessDTO),
+        isComplementaryAlonePilot: center.isComplementaryAlonePilot,
+      },
+      isRelatedToManagingStudentsOrganization: Boolean(allowedCenterAccessDTO.isRelatedToManagingStudentsOrganization),
+      relatedOrganizationTags: _cleanTags(allowedCenterAccessDTO),
+    });
+  });
+}
+
+/**
+ * Filters out disabled certification center accesses.
+ *
+ * @param {Object} certificationPointOfContactDTO - Certification point of contact DTO.
+ * @returns {Promise<Array>} - List of active certification center IDs.
+ */
 async function _removeDisabledCertificationCenterAccesses({ certificationPointOfContactDTO }) {
   const certificationCenters = await knex
     .select('certificationCenterId')
@@ -68,73 +158,22 @@ async function _removeDisabledCertificationCenterAccesses({ certificationPointOf
   return certificationCenterIds;
 }
 
-async function _findAllowedCertificationCenterAccesses(certificationCenterIds) {
-  const allowedCertificationCenterAccessDTOs = await knex
-    .select({
-      id: 'certification-centers.id',
-      name: 'certification-centers.name',
-      externalId: 'certification-centers.externalId',
-      type: 'certification-centers.type',
-      isRelatedToManagingStudentsOrganization: 'organizations.isManagingStudents',
-      tags: knex.raw('array_agg(?? order by ??)', ['tags.name', 'tags.name']),
-      habilitations: knex.raw(
-        `array_agg(json_build_object(
-          'id', "complementary-certifications".id,
-          'label', "complementary-certifications".label,
-          'key', "complementary-certifications".key,
-          'hasComplementaryReferential', "complementary-certifications"."hasComplementaryReferential"
-        ) order by "complementary-certifications".id)`,
-      ),
-      isV3Pilot: 'certification-centers.isV3Pilot',
-      isComplementaryAlonePilot: knex.raw(
-        'CASE WHEN count("complementaryCertificationAloneFeature"."certificationCenterId") > 0 THEN TRUE ELSE FALSE END',
-      ),
-    })
-    .from('certification-centers')
-    .leftJoin('organizations', function () {
-      this.on('organizations.externalId', 'certification-centers.externalId').andOn(
-        'organizations.type',
-        'certification-centers.type',
-      );
-    })
-    .leftJoin('organization-tags', 'organization-tags.organizationId', 'organizations.id')
-    .leftJoin('tags', 'tags.id', 'organization-tags.tagId')
-    .leftJoin(
-      'complementary-certification-habilitations',
-      'complementary-certification-habilitations.certificationCenterId',
-      'certification-centers.id',
-    )
-    .leftJoin(
-      'complementary-certifications',
-      'complementary-certifications.id',
-      'complementary-certification-habilitations.complementaryCertificationId',
-    )
-    .leftJoin(
-      function () {
-        this.select('certificationCenterId')
-          .from('certification-center-features')
-          .innerJoin('features', function () {
-            this.on('certification-center-features.featureId', 'features.id').andOnVal(
-              'features.key',
-              CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key,
-            );
-          })
-          .as('complementaryCertificationAloneFeature');
-      },
-      'complementaryCertificationAloneFeature.certificationCenterId',
-      'certification-centers.id',
-    )
-    .whereIn('certification-centers.id', certificationCenterIds)
-    .orderBy('certification-centers.id')
-    .groupBy('certification-centers.id', 'organizations.isManagingStudents');
-
-  return _toDomain(allowedCertificationCenterAccessDTOs);
-}
-
+/**
+ * Cleans and removes duplicate tags from the DTO.
+ *
+ * @param {Object} allowedCertificationCenterAccessDTO - Allowed certification center access DTO.
+ * @returns {Array} - Cleaned and unique tags.
+ */
 function _cleanTags(allowedCertificationCenterAccessDTO) {
   return _(allowedCertificationCenterAccessDTO.tags).compact().uniq().value();
 }
 
+/**
+ * Cleans and removes duplicate habilitations from the DTO.
+ *
+ * @param {Object} allowedCertificationCenterAccessDTO - Allowed certification center access DTO.
+ * @returns {Array} - Cleaned and unique habilitations.
+ */
 function _cleanHabilitations(allowedCertificationCenterAccessDTO) {
   return _(allowedCertificationCenterAccessDTO.habilitations)
     .filter((habilitation) => habilitation.id > 0)
@@ -142,19 +181,12 @@ function _cleanHabilitations(allowedCertificationCenterAccessDTO) {
     .value();
 }
 
-function _toDomain(allowedCertificationCenterAccessDTOs) {
-  return _.map(allowedCertificationCenterAccessDTOs, (allowedCertificationCenterAccessDTO) => {
-    return new AllowedCertificationCenterAccess({
-      ...allowedCertificationCenterAccessDTO,
-      isRelatedToManagingStudentsOrganization: Boolean(
-        allowedCertificationCenterAccessDTO.isRelatedToManagingStudentsOrganization,
-      ),
-      relatedOrganizationTags: _cleanTags(allowedCertificationCenterAccessDTO),
-      habilitations: _cleanHabilitations(allowedCertificationCenterAccessDTO),
-    });
-  });
-}
-
+/**
+ * Retrieves active (non-disabled) certification center memberships for a given user.
+ *
+ * @param {number} userId - User ID.
+ * @returns {Promise<Array>} - List of active certification center memberships.
+ */
 async function _findNotDisabledCertificationCenterMemberships(userId) {
   return knex(CERTIFICATION_CENTER_MEMBERSHIPS_TABLE_NAME)
     .select('id', 'certificationCenterId', 'userId', 'role')
