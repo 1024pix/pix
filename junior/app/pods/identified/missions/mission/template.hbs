@@ -15,9 +15,8 @@
       <p class="details-list__title details-list__title--big">{{t "pages.missions.start-page.purpose-title"}}</p>
       <ul class="details-list">
         {{#each this.learningObjectives as |element|}}
-          <li class="details-list__item">
-            <FaIcon @icon="arrow-right" class="icon" />
-            <Markdown::MarkdownToHtml @markdown={{element}} />
+          <li>
+            <Markdown::MarkdownToHtml @markdown={{element}} class="details-list__item" />
           </li>
         {{/each}}
       </ul>

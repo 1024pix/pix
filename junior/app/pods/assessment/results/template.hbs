@@ -10,12 +10,11 @@
     />
 
     <div class="mission-page__details">
-      <p class="details-list__title">{{t "pages.missions.end-page.details-list"}}</p>
+      <p class="details-list__title details-list__title--big">{{t "pages.missions.end-page.details-list"}}</p>
       <ul class="details-list">
         {{#each this.validatedObjectives as |element|}}
-          <li class="details-list__item">
-            <img src="/images/icons/objectif.svg" alt="" />
-            <Markdown::MarkdownToHtml @markdown={{element}} />
+          <li>
+            <Markdown::MarkdownToHtml @markdown={{element}} class="details-list__item" />
           </li>
         {{/each}}
       </ul>
