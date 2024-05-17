@@ -154,7 +154,7 @@ const update = async function (organization, domainTransaction = DomainTransacti
   await knexConn(ORGANIZATIONS_TABLE_NAME).update(organizationRawData).where({ id: organization.id });
 };
 
-export { archive, exist, findChildrenByParentOrganizationId, get, save, update };
+export const organizationForAdminRepository = { archive, exist, findChildrenByParentOrganizationId, get, save, update };
 
 async function _addOrUpdateDataProtectionOfficer(knexConn, dataProtectionOfficer) {
   await knexConn(DATA_PROTECTION_OFFICERS_TABLE_NAME)

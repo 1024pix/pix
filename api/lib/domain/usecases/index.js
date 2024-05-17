@@ -46,7 +46,7 @@ import { OidcAuthenticationServiceRegistry } from '../../../src/identity-access-
 import { pixAuthenticationService } from '../../../src/identity-access-management/domain/services/pix-authentication-service.js';
 import { refreshTokenService } from '../../../src/identity-access-management/domain/services/refresh-token-service.js';
 import * as oidcProviderRepository from '../../../src/identity-access-management/infrastructure/repositories/oidc-provider-repository.js';
-import * as organizationForAdminRepository from '../../../src/organizational-entities/infrastructure/repositories/organization-for-admin.repository.js';
+import { organizationForAdminRepository } from '../../../src/organizational-entities/infrastructure/repositories/organization-for-admin.repository.js';
 import * as campaignManagementRepository from '../../../src/prescription/campaign/infrastructure/repositories/campaign-management-repository.js';
 import * as campaignToJoinRepository from '../../../src/prescription/campaign/infrastructure/repositories/campaign-to-join-repository.js';
 import * as divisionRepository from '../../../src/prescription/campaign/infrastructure/repositories/division-repository.js';
