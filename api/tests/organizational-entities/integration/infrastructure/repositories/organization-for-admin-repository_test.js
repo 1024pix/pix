@@ -7,7 +7,7 @@ import * as organizationForAdminRepository from '../../../../../src/organization
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../../test-helper.js';
 
-describe('Integration | Repository | Organization-for-admin', function () {
+describe('Integration | Organizational Entities | Infrastructure | Repository | organization-for-admin', function () {
   let clock;
   const now = new Date('2022-02-02');
 
