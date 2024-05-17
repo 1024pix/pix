@@ -18,14 +18,7 @@
   </div>
 
   {{#if this.hasTranscription}}
-    <PixButton
-      @backgroundColor="transparent-light"
-      @shape="rounded"
-      @size="small"
-      @type="button"
-      @isBorderVisible={{true}}
-      @triggerAction={{this.showModal}}
-    >
+    <PixButton @variant="secondary" @size="small" @type="button" @triggerAction={{this.showModal}}>
       {{t "pages.modulix.buttons.element.transcription"}}
     </PixButton>
     <PixModal

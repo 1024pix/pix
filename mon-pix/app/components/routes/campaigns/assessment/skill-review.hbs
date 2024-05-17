@@ -128,7 +128,6 @@
                 @model={{@model.campaign.code}}
                 @query={{this.retryQuery}}
                 @size="small"
-                @shape="rounded"
               >{{t "pages.skill-review.retry.button"}}</PixButtonLink>
             {{/if}}
 
@@ -136,9 +135,7 @@
               <PixButton
                 class="skill-review__actions__pix-button"
                 @size="small"
-                @shape="rounded"
-                @backgroundColor="transparent-light"
-                @isBorderVisible={{true}}
+                @variant="secondary"
                 @triggerAction={{this.showResetModal}}
               >{{t "pages.skill-review.reset.button"}}</PixButton>
 
@@ -164,20 +161,15 @@
                 </:content>
                 <:footer>
                   <div class="reset-campaign-participation-modal__footer">
-                    <PixButton
-                      @backgroundColor="transparent-light"
-                      @isBorderVisible={{true}}
-                      @triggerAction={{this.closeResetModal}}
-                    >
+                    <PixButton @variant="secondary" @triggerAction={{this.closeResetModal}}>
                       {{t "common.actions.cancel"}}
                     </PixButton>
                     <PixButtonLink
                       @route="campaigns.entry-point"
                       @model={{@model.campaign.code}}
                       @query={{this.resetQuery}}
-                      @size="big"
-                      @shape="squircle"
-                      @backgroundColor="error"
+                      @size="large"
+                      @variant="error"
                     >{{t "common.actions.confirm"}}</PixButtonLink>
                   </div>
                 </:footer>

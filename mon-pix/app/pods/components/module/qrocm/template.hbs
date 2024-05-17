@@ -59,8 +59,7 @@
 
   {{#unless this.correction}}
     <PixButton
-      @backgroundColor="success"
-      @shape="rounded"
+      @variant="success"
       @type="submit"
       class="element-qrocm__verify-button"
       @triggerAction={{this.submitAnswer}}
@@ -80,9 +79,7 @@
   {{#if this.shouldDisplayRetryButton}}
     <PixButton
       class="element-qrocm__retry-button"
-      @backgroundColor="transparent-light"
-      @isBorderVisible={{true}}
-      @shape="rounded"
+      @variant="secondary"
       @size="small"
       @type="button"
       @triggerAction={{this.retry}}

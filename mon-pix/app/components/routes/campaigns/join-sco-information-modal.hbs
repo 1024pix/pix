@@ -30,7 +30,7 @@
   <:footer>
     <div class="join-error-modal__footer">
       {{#if this.isInformationMode}}
-        <PixButton @backgroundColor="transparent-light" @isBorderVisible={{true}} @triggerAction={{this.goToHome}}>
+        <PixButton @variant="secondary" @triggerAction={{this.goToHome}}>
           {{t "common.actions.sign-out"}}
         </PixButton>
 
@@ -38,11 +38,7 @@
           {{t "pages.join.sco.associate"}}
         </PixButton>
       {{else}}
-        <PixButton
-          @backgroundColor="{{if this.displayContinueButton 'transparent-light' 'blue'}}"
-          @isBorderVisible={{true}}
-          @triggerAction={{this.goToHome}}
-        >
+        <PixButton @variant="{{if this.displayContinueButton 'secondary' 'primary'}}" @triggerAction={{this.goToHome}}>
           {{t "common.actions.quit"}}
         </PixButton>
         {{#if this.displayContinueButton}}
