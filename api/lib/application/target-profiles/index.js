@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
-import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
+import { identifiersType, optionalIdentifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
 import { BadRequestError, sendJsonApiError } from '../http-errors.js';
 import { targetProfileController } from './target-profile-controller.js';
 
@@ -96,7 +96,7 @@ const register = async function (server) {
             id: identifiersType.targetProfileId,
           }),
           query: Joi.object({
-            'filter[id]': Joi.number().integer().empty('').allow(null).optional(),
+            'filter[id]': optionalIdentifiersType.organizationId,
             'filter[name]': Joi.string().empty('').allow(null).optional(),
             'filter[type]': Joi.string().empty('').allow(null).optional(),
             'filter[external-id]': Joi.string().empty('').allow(null).optional(),
