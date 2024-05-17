@@ -128,7 +128,7 @@
       }
     },
     "participants-by-stage": {
-      "title": "Distribution of participants grouped by success rate",
+      "title": "Distribution of participants grouped by success rate.",
       "loader": "Loading and sorting the participants grouped by success rates",
       "participants": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}}"
     },
