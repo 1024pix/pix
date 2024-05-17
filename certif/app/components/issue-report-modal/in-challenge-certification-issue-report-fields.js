@@ -16,6 +16,11 @@ export default class InChallengeCertificationIssueReportFields extends Component
     this.args.inChallengeCategory.subcategory = option;
   }
 
+  @action
+  onChangeQuestionNumber(event) {
+    this.args.changeQuestionNumber(event.target.value);
+  }
+
   get categoryCode() {
     return this.args.inChallengeCategory.categoryCode;
   }

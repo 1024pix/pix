@@ -46,6 +46,7 @@
 
         {{#if (eq @version 2)}}
           <IssueReportModal::InChallengeCertificationIssueReportFields
+            @changeQuestionNumber={{this.changeQuestionNumber}}
             @inChallengeCategory={{this.inChallengeCategory}}
             @toggleOnCategory={{this.toggleOnCategory}}
             @maxlength={{@maxlength}}
