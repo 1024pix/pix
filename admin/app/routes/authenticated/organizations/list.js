@@ -14,20 +14,26 @@ export default class ListRoute extends Route {
     hideArchived: { refreshModel: true },
   };
 
-  model(params) {
-    return this.store.query('organization', {
-      filter: {
-        id: params.id ? params.id.trim() : '',
-        name: params.name ? params.name.trim() : '',
-        type: params.type ? params.type.trim() : '',
-        externalId: params.externalId ? params.externalId.trim() : '',
-        hideArchived: params.hideArchived,
-      },
-      page: {
-        number: params.pageNumber,
-        size: params.pageSize,
-      },
-    });
+  async model(params) {
+    let model;
+    try {
+      model = await this.store.query('organization', {
+        filter: {
+          id: params.id ? params.id.trim() : '',
+          name: params.name ? params.name.trim() : '',
+          type: params.type ? params.type.trim() : '',
+          externalId: params.externalId ? params.externalId.trim() : '',
+          hideArchived: params.hideArchived,
+        },
+        page: {
+          number: params.pageNumber,
+          size: params.pageSize,
+        },
+      });
+    } catch (error) {
+      model = [];
+    }
+    return model;
   }
 
   resetController(controller, isExiting) {

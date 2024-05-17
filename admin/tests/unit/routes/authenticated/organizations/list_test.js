@@ -66,6 +66,21 @@ module('Unit | Route | authenticated/organizations/list', function (hooks) {
         assert.ok(true);
       });
     });
+
+    module('when an error occurs', function () {
+      test('returns an empty array', async function (assert) {
+        // given
+        const params = {};
+
+        route.store.query = sinon.stub().rejects();
+
+        // when
+        const organizations = await route.model(params);
+
+        // then
+        assert.deepEqual(organizations, []);
+      });
+    });
   });
 
   module('#resetController', function (hooks) {
