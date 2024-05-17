@@ -1,4 +1,4 @@
-import { oidcProviderAdminController } from '../../../../src/identity-access-management/application/oidc-provider.admin.controller.js';
+import { oidcProviderAdminController } from '../../../../src/identity-access-management/application/oidc-provider/oidc-provider.admin.controller.js';
 import { usecases } from '../../../../src/identity-access-management/domain/usecases/index.js';
 import { DomainTransaction } from '../../../../src/shared/domain/DomainTransaction.js';
 import { expect, hFake, sinon } from '../../../test-helper.js';

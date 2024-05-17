@@ -1,4 +1,4 @@
-import { tokenController } from '../../../../src/identity-access-management/application/token.controller.js';
+import { tokenController } from '../../../../src/identity-access-management/application/token/token.controller.js';
 import { createServer, databaseBuilder, expect, hFake, knex } from '../../../test-helper.js';
 
 describe('Acceptance | Controller | users-controller-update-password', function () {

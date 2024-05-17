@@ -18,6 +18,7 @@ import * as userToCreateRepository from '../../../shared/infrastructure/reposito
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { oidcProviderRepository } from '../../infrastructure/repositories/oidc-provider-repository.js';
+import { authenticationSessionService } from '../services/authentication-session.service.js';
 import * as pixAuthenticationService from '../services/pix-authentication-service.js';
 import * as refreshTokenService from '../services/refresh-token-service.js';
 import { addOidcProviderValidator } from '../validators/add-oidc-provider.validator.js';
@@ -34,6 +35,7 @@ const repositories = {
   userToCreateRepository,
 };
 const services = {
+  authenticationSessionService,
   cryptoService,
   mailService,
   oidcAuthenticationServiceRegistry,
@@ -58,6 +60,7 @@ const usecases = injectDependencies(usecasesWithoutInjectedDependencies, depende
 /**
  * @typedef {Object} AuthenticationUsecases
  * @property {addOidcProvider} addOidcProvider
+ * @property {createOidcUser} createOidcUser
  * @property {getAllIdentityProviders} getAllIdentityProviders
  * @property {getAuthorizationUrl} getAuthorizationUrl
  * @property {getReadyIdentityProviders} getReadyIdentityProviders

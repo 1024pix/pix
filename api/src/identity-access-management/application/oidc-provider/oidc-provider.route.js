@@ -58,4 +58,27 @@ export const oidcProviderRoutes = [
       tags: ['identity-access-management', 'api', 'oidc'],
     },
   },
+  {
+    method: 'POST',
+    path: '/api/oidc/users',
+    config: {
+      auth: false,
+      validate: {
+        payload: Joi.object({
+          data: {
+            attributes: {
+              identity_provider: Joi.string().required(),
+              authentication_key: Joi.string().required(),
+            },
+          },
+        }),
+      },
+      handler: (request, h) => oidcProviderController.createUser(request, h),
+      notes: [
+        "'- Cette route permet de créer un compte Pix pour un utilisateur provenant d'un partenaire.\n'" +
+          "- Elle retournera un access token Pix correspondant à l'utilisateur ainsi qu'un identifiant de session pour la déconnexion.",
+      ],
+      tags: ['identity-access-management', 'api', 'oidc'],
+    },
+  },
 ];

@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { securityPreHandlers } from '../../shared/application/security-pre-handlers.js';
+import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { oidcProviderAdminController } from './oidc-provider.admin.controller.js';
 
 export const oidcProviderAdminRoutes = [

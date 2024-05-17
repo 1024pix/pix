@@ -1,5 +1,5 @@
 import { OrganizationLearnerAlreadyLinkedToUserError } from '../../../../../lib/domain/errors.js';
-import { UserToCreate } from '../../../../../lib/domain/models/UserToCreate.js';
+import { UserToCreate } from '../../../../../src/identity-access-management/domain/models/UserToCreate.js';
 import { User } from '../../../../../src/shared/domain/models/User.js';
 import * as UserToCreateRepository from '../../../../../src/shared/infrastructure/repositories/user-to-create-repository.js';
 import { catchErr, databaseBuilder, expect, knex } from '../../../../test-helper.js';

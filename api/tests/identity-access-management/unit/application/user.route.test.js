@@ -1,5 +1,5 @@
 import { identityAccessManagementRoutes } from '../../../../src/identity-access-management/application/routes.js';
-import { userController } from '../../../../src/identity-access-management/application/user.controller.js';
+import { userController } from '../../../../src/identity-access-management/application/user/user.controller.js';
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 const routesUnderTest = identityAccessManagementRoutes[0];

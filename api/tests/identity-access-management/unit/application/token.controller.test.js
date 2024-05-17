@@ -1,4 +1,4 @@
-import { tokenController } from '../../../../src/identity-access-management/application/token.controller.js';
+import { tokenController } from '../../../../src/identity-access-management/application/token/token.controller.js';
 import { usecases } from '../../../../src/identity-access-management/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../test-helper.js';
 

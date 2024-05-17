@@ -1,7 +1,7 @@
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
-import { UserToCreate } from '../../../../lib/domain/models/UserToCreate.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { UserToCreate } from '../../../identity-access-management/domain/models/UserToCreate.js';
 
 /**
  * @param user

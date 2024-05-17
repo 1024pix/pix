@@ -1,8 +1,39 @@
-import { oidcProviderController } from '../../../../src/identity-access-management/application/oidc-provider.controller.js';
+import { oidcProviderController } from '../../../../src/identity-access-management/application/oidc-provider/oidc-provider.controller.js';
 import { usecases } from '../../../../src/identity-access-management/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Application | Controller | oidc-provider', function () {
+  describe('#createUser', function () {
+    it('creates an oidc user and returns access token and logout url UUID', async function () {
+      // given
+      const request = {
+        deserializedPayload: { identityProvider: 'OIDC', authenticationKey: 'abcde' },
+        state: {
+          locale: 'fr-FR',
+        },
+      };
+      const accessToken = 'access.token';
+      const logoutUrlUUID = '00000000-0000-0000-0000-000000000000';
+
+      sinon.stub(usecases, 'createOidcUser').resolves({ accessToken, logoutUrlUUID });
+
+      // when
+      const response = await oidcProviderController.createUser(request, hFake);
+
+      // then
+      expect(usecases.createOidcUser).to.have.been.calledWithExactly({
+        identityProvider: 'OIDC',
+        authenticationKey: 'abcde',
+        localeFromCookie: 'fr-FR',
+      });
+      expect(response.statusCode).to.equal(200);
+      expect(response.source).to.deep.equal({
+        access_token: 'access.token',
+        logout_url_uuid: '00000000-0000-0000-0000-000000000000',
+      });
+    });
+  });
+
   describe('#getAuthorizationUrl', function () {
     it('returns the generated authorization url', async function () {
       // given

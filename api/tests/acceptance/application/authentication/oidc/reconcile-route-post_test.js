@@ -1,6 +1,6 @@
 import jsonwebtoken from 'jsonwebtoken';
 
-import * as authenticationSessionService from '../../../../../lib/domain/services/authentication/authentication-session-service.js';
+import { authenticationSessionService } from '../../../../../src/identity-access-management/domain/services/authentication-session.service.js';
 import { createServer, databaseBuilder, expect } from '../../../../test-helper.js';
 
 describe('Acceptance | Application | Oidc | Routes', function () {

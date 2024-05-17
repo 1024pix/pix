@@ -39,6 +39,7 @@ import * as competenceEvaluationRepository from '../../../src/evaluation/infrast
 import * as stageAcquisitionRepository from '../../../src/evaluation/infrastructure/repositories/stage-acquisition-repository.js';
 import * as stageCollectionForTargetProfileRepository from '../../../src/evaluation/infrastructure/repositories/stage-collection-repository.js';
 import * as stageRepository from '../../../src/evaluation/infrastructure/repositories/stage-repository.js';
+import { authenticationSessionService } from '../../../src/identity-access-management/domain/services/authentication-session.service.js';
 import { OidcAuthenticationServiceRegistry } from '../../../src/identity-access-management/domain/services/oidc-authentication-service-registry.js';
 import * as pixAuthenticationService from '../../../src/identity-access-management/domain/services/pix-authentication-service.js';
 import * as refreshTokenService from '../../../src/identity-access-management/domain/services/refresh-token-service.js';
@@ -89,7 +90,6 @@ import * as certificationCenterInvitationRepository from '../../../src/team/infr
 import { config } from '../../config.js';
 import * as algorithmDataFetcherService from '../../domain/services/algorithm-methods/data-fetcher.js';
 import * as smartRandom from '../../domain/services/algorithm-methods/smart-random.js';
-import * as authenticationSessionService from '../../domain/services/authentication/authentication-session-service.js';
 import * as certificationBadgesService from '../../domain/services/certification-badges-service.js';
 import * as certificationCandidatesOdsService from '../../domain/services/certification-candidates-ods-service.js';
 import * as certificationChallengesService from '../../domain/services/certification-challenges-service.js';
