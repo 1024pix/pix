@@ -19,6 +19,7 @@ export default class TargetProfileOrganizationsRoute extends Route {
   }
 
   async model(params) {
+    let organizations;
     const targetProfile = this.modelFor('authenticated.target-profiles.target-profile');
     const queryParams = {
       targetProfileId: targetProfile.id,
@@ -33,7 +34,12 @@ export default class TargetProfileOrganizationsRoute extends Route {
         externalId: params.externalId,
       },
     };
-    const organizations = await this.store.query('organization', queryParams);
+    try {
+      organizations = await this.store.query('organization', queryParams);
+    } catch (e) {
+      organizations = [];
+    }
+
     return {
       organizations,
       targetProfile,

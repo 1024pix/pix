@@ -1,5 +1,6 @@
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Unit | Route | authenticated/target-profiles/target-profile/organizations', function (hooks) {
   setupTest(hooks);
@@ -47,6 +48,23 @@ module('Unit | Route | authenticated/target-profiles/target-profile/organization
         assert.deepEqual(controller.name, 'someName');
         assert.deepEqual(controller.type, 'someType');
         assert.deepEqual(controller.externalId, 'someExternalId');
+      });
+    });
+  });
+
+  module('#model', function () {
+    module('when an error occurs', function () {
+      test('returns an empty array', async function (assert) {
+        // given
+        const params = {};
+        route.modelFor = sinon.stub().returns({ id: '123' });
+        route.store.query = sinon.stub().rejects();
+
+        // when
+        const model = await route.model(params);
+
+        // then
+        assert.deepEqual(model.organizations, []);
       });
     });
   });
