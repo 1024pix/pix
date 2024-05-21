@@ -6,4 +6,10 @@ class CertificationCandidateForbiddenDeletionError extends DomainError {
   }
 }
 
-export { CertificationCandidateForbiddenDeletionError };
+class SessionStartedDeletionError extends DomainError {
+  constructor(message = 'La session a déjà commencé.') {
+    super(message);
+  }
+}
+
+export { CertificationCandidateForbiddenDeletionError, SessionStartedDeletionError };

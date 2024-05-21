@@ -4,10 +4,7 @@ import _ from 'lodash';
 import { extractLocaleFromRequest } from '../../../lib/infrastructure/utils/request-response-utils.js';
 import * as translations from '../../../translations/index.js';
 import { AdminMemberError } from '../../authorization/domain/errors.js';
-import {
-  CsvWithNoSessionDataError,
-  SessionStartedDeletionError,
-} from '../../certification/session-management/domain/errors.js';
+import { CsvWithNoSessionDataError } from '../../certification/session-management/domain/errors.js';
 import { EmptyAnswerError } from '../../evaluation/domain/errors.js';
 import { ArchivedCampaignError } from '../../prescription/campaign/domain/errors.js';
 import { CampaignParticipationDeletedError } from '../../prescription/campaign-participation/domain/errors.js';
@@ -122,9 +119,6 @@ function _mapToHttpError(error) {
   }
   if (error instanceof DomainErrors.NoCertificationAttestationForDivisionError) {
     return new HttpErrors.BadRequestError(error.message);
-  }
-  if (error instanceof SessionStartedDeletionError) {
-    return new HttpErrors.ConflictError(error.message);
   }
   if (error instanceof OrganizationCantGetPlacesStatisticsError) {
     return new HttpErrors.PreconditionFailedError(error.message);

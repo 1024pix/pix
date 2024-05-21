@@ -1,8 +1,5 @@
 import { AdminMemberError } from '../../../../src/authorization/domain/errors.js';
-import {
-  CsvWithNoSessionDataError,
-  SessionStartedDeletionError,
-} from '../../../../src/certification/session-management/domain/errors.js';
+import { CsvWithNoSessionDataError } from '../../../../src/certification/session-management/domain/errors.js';
 import { authenticationDomainErrorMappingConfiguration } from '../../../../src/identity-access-management/application/http-error-mapper-configuration.js';
 import { domainErrorMapper } from '../../../../src/shared/application/domain-error-mapper.js';
 import { handle } from '../../../../src/shared/application/error-manager.js';
@@ -279,19 +276,6 @@ describe('Shared | Unit | Application | ErrorManager', function () {
 
       // then
       expect(HttpErrors.BaseHttpError).to.have.been.calledOnce;
-    });
-
-    it('should instantiate ConflictError when SessionStartedDeletionError', async function () {
-      // given
-      const error = new SessionStartedDeletionError();
-      sinon.stub(HttpErrors, 'ConflictError');
-      const params = { request: {}, h: hFake, error };
-
-      // when
-      await handle(params.request, params.h, params.error);
-
-      // then
-      expect(HttpErrors.ConflictError).to.have.been.calledWithExactly(error.message);
     });
 
     it('should instantiate UnprocessableEntityError when CsvWithNoSessionDataError', async function () {
