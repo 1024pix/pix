@@ -5,9 +5,9 @@ import {
   generateValidRequestAuthorizationHeader,
   learningContentBuilder,
   mockLearningContent,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
 
-describe('Acceptance | API | Campaign Stats Controller', function () {
+describe('Acceptance | API | Campaign Stats Route', function () {
   let server;
 
   beforeEach(async function () {
