@@ -31,12 +31,10 @@
   </div>
   {{#if this.accessControl.hasAccessToCertificationActionsScope}}
     {{#if @issueReport.canBeResolved}}
-      <PixButton @size="small" @isBorderVisible={{true}} @triggerAction={{this.toggleResolveModal}}>Résoudre le
-        signalement</PixButton>
+      <PixButton @size="small" @triggerAction={{this.toggleResolveModal}}>Résoudre le signalement</PixButton>
     {{/if}}
     {{#if @issueReport.canBeModified}}
-      <PixButton @size="small" @isBorderVisible={{true}} @triggerAction={{this.toggleResolveModal}}>Modifier la
-        résolution</PixButton>
+      <PixButton @size="small" @triggerAction={{this.toggleResolveModal}}>Modifier la résolution</PixButton>
     {{/if}}
     <Certifications::IssueReports::ResolveIssueReportModal
       @toggleResolveModal={{this.toggleResolveModal}}

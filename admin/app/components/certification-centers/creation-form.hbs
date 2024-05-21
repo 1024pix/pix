@@ -80,12 +80,7 @@
   </section>
 
   <section class="form-section form-actions">
-    <PixButton
-      @size="small"
-      @backgroundColor="transparent-light"
-      @isBorderVisible={{false}}
-      @triggerAction={{@onCancel}}
-    >Annuler</PixButton>
+    <PixButton @size="small" @variant="secondary" @triggerAction={{@onCancel}}>Annuler</PixButton>
     <PixButton @type="submit" @size="small">Ajouter</PixButton>
   </section>
 </form>

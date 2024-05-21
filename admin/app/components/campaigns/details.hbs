@@ -62,12 +62,7 @@
 
   {{#if this.accessControl.hasAccessToOrganizationActionsScope}}
     <br />
-    <PixButton
-      @triggerAction={{@toggleEditMode}}
-      @backgroundColor="transparent-light"
-      @isBorderVisible={{true}}
-      @size="small"
-    >Modifier</PixButton>
+    <PixButton @triggerAction={{@toggleEditMode}} @variant="secondary" @size="small">Modifier</PixButton>
   {{/if}}
 
 </section>

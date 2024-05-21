@@ -99,15 +99,10 @@
         </PixCheckbox>
       </div>
       <div class="form-actions">
-        <PixButton
-          @backgroundColor="transparent-light"
-          @isBorderVisible={{true}}
-          @size="small"
-          @triggerAction={{@toggleEditMode}}
-        >
+        <PixButton @variant="secondary" @size="small" @triggerAction={{@toggleEditMode}}>
           Annuler
         </PixButton>
-        <PixButton @backgroundColor="success" @size="small" @type="submit">
+        <PixButton @variant="success" @size="small" @type="submit">
           Enregistrer
         </PixButton>
       </div>

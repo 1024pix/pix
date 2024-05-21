@@ -117,16 +117,11 @@
       </ul>
       {{#if this.accessControl.hasAccessToOrganizationActionsScope}}
         <div class="form-actions">
-          <PixButton
-            @backgroundColor="transparent-light"
-            @isBorderVisible={{true}}
-            @size="small"
-            @triggerAction={{@toggleEditMode}}
-          >
+          <PixButton @variant="secondary" @size="small" @triggerAction={{@toggleEditMode}}>
             Modifier
           </PixButton>
           {{#unless @organization.isArchived}}
-            <PixButton @backgroundColor="error" @size="small" @triggerAction={{@toggleArchivingConfirmationModal}}>
+            <PixButton @variant="error" @size="small" @triggerAction={{@toggleArchivingConfirmationModal}}>
               Archiver l'organisation
             </PixButton>
           {{/unless}}
@@ -135,8 +130,7 @@
     </div>
     <div>
       <PixButtonLink
-        @backgroundColor="transparent-light"
-        @isBorderVisible={{true}}
+        @variant="secondary"
         @href={{this.externalURL}}
         @size="small"
         target="_blank"

@@ -59,7 +59,7 @@
             <PixButton
               class="user-authentication-method__remove-button"
               @size="small"
-              @backgroundColor="error"
+              @variant="error"
               @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "EMAIL"}}
             >Supprimer</PixButton>
           {{/if}}
@@ -95,7 +95,7 @@
             <PixButton
               class="user-authentication-method__remove-button"
               @size="small"
-              @backgroundColor="error"
+              @variant="error"
               @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "USERNAME"}}
             >Supprimer</PixButton>
           {{/if}}
@@ -126,7 +126,7 @@
             {{#if this.isAllowedToRemoveGarAuthenticationMethod}}
               <PixButton
                 @size="small"
-                @backgroundColor="error"
+                @variant="error"
                 @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "GAR"}}
               >Supprimer</PixButton>
             {{/if}}
@@ -165,7 +165,7 @@
                 <PixButton
                   class="user-authentication-method__remove-button"
                   @size="small"
-                  @backgroundColor="error"
+                  @variant="error"
                   @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal userOidcAuthenticationMethod.code}}
                 >Supprimer</PixButton>
               {{/if}}

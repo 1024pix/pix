@@ -25,8 +25,7 @@
             </td>
             <td class="badges-table__actions">
               <PixButtonLink
-                @backgroundColor="transparent-light"
-                @isBorderVisible={{true}}
+                @variant="secondary"
                 @route="authenticated.target-profiles.target-profile.badges.badge"
                 @size="small"
                 @model={{badge.id}}
@@ -35,7 +34,7 @@
               >Voir détail</PixButtonLink>
               <PixButton
                 @size="small"
-                @backgroundColor="error"
+                @variant="error"
                 @triggerAction={{fn this.toggleDisplayConfirm badge.id}}
                 class="badges-table-actions-delete"
                 @iconBefore="trash"

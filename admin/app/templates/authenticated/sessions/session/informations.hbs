@@ -123,18 +123,18 @@
       <div class="session-info__actions">
         {{#if this.sessionModel.finalizedAt}}
           {{#if this.isCurrentUserAssignedToSession}}
-            <PixButton @size="big" @isDisabled={{true}}>Vous êtes assigné à cette session</PixButton>
+            <PixButton @size="large" @isDisabled={{true}}>Vous êtes assigné à cette session</PixButton>
           {{else}}
-            <PixButton @size="big" @triggerAction={{this.checkForAssignment}}>M'assigner la session</PixButton>
+            <PixButton @size="large" @triggerAction={{this.checkForAssignment}}>M'assigner la session</PixButton>
           {{/if}}
           {{#if this.sessionModel.isPublished}}
             <PixTooltip @position="right" @isWide={{true}}>
               <:triggerElement>
                 <PixButton
-                  @size="big"
+                  @size="large"
                   @isDisabled={{true}}
                   @triggerAction={{this.onUnfinalizeSessionButtonClick}}
-                  @backgroundColor="error"
+                  @variant="error"
                 >Définaliser la session
                 </PixButton>
               </:triggerElement>
@@ -144,11 +144,8 @@
               </:tooltip>
             </PixTooltip>
           {{else}}
-            <PixButton
-              @size="big"
-              @triggerAction={{this.onUnfinalizeSessionButtonClick}}
-              @backgroundColor="error"
-            >Définaliser la session
+            <PixButton @size="large" @triggerAction={{this.onUnfinalizeSessionButtonClick}} @variant="error">Définaliser
+              la session
             </PixButton>
           {{/if}}
         {{/if}}
@@ -158,12 +155,7 @@
             <p>{{this.copyButtonText}}</p>
           {{/if}}
 
-          <PixButton
-            size="small"
-            @triggerAction={{this.copyResultsDownloadLink}}
-            @backgroundColor="transparent-light"
-            @isBorderVisible="true"
-          >
+          <PixButton size="small" @triggerAction={{this.copyResultsDownloadLink}} @variant="secondary">
             <FaIcon @icon="copy" @prefix="far" aria-label="Copier" />
             Lien de téléchargement des résultats
           </PixButton>
@@ -172,8 +164,7 @@
         <div class="session-info__published-buttons">
           <PixButton
             @triggerAction={{this.downloadPDFAttestations}}
-            @backgroundColor="transparent-light"
-            @isBorderVisible="true"
+            @variant="secondary"
             class="session-info__download-button"
             @isDisabled={{not this.sessionModel.isPublished}}
             @iconBefore="file-arrow-down"
@@ -185,8 +176,7 @@
             <PixButton
               size="small"
               @triggerAction={{this.tagSessionAsSentToPrescriber}}
-              @backgroundColor="transparent-light"
-              @isBorderVisible="true"
+              @variant="secondary"
               class="session-info__download-button"
             >
               Résultats transmis au prescripteur

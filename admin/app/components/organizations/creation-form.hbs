@@ -48,12 +48,7 @@
   </section>
 
   <section class="admin-form__actions">
-    <PixButton
-      @size="small"
-      @backgroundColor="transparent-light"
-      @isBorderVisible={{true}}
-      @triggerAction={{@onCancel}}
-    >Annuler</PixButton>
-    <PixButton @type="submit" @size="small" @backgroundColor="success">Ajouter</PixButton>
+    <PixButton @size="small" @variant="secondary" @triggerAction={{@onCancel}}>Annuler</PixButton>
+    <PixButton @type="submit" @size="small" @variant="success">Ajouter</PixButton>
   </section>
 </form>

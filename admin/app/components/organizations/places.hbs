@@ -9,10 +9,9 @@
     {{#if this.accessControl.hasAccessToOrganizationPlacesActionsScope}}
       <PixButtonLink
         class="places__button"
-        @backgroundColor="primary"
+        @variant="primary"
         @route="authenticated.organizations.get.places.new"
         @model={{@model}}
-        @isBorderVisible={{true}}
         @iconBefore="plus"
       >
         Ajouter des places

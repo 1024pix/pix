@@ -90,12 +90,11 @@
       <div class="form-actions">
         <PixButtonLink
           class="action-buttons__cancel"
-          @backgroundColor="transparent-light"
-          @isBorderVisible={{true}}
+          @variant="secondary"
           @size="small"
           @route="authenticated.organizations.get.places"
         >Annuler</PixButtonLink>
-        <PixButton @type="submit" @size="small" @backgroundColor="success">Ajouter</PixButton>
+        <PixButton @type="submit" @size="small" @variant="success">Ajouter</PixButton>
       </div>
     </form>
   </div>

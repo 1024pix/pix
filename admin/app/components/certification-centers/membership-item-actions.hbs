@@ -6,8 +6,7 @@
 
     <PixButton
       class="member-item-actions__button"
-      @backgroundColor="transparent-light"
-      @isBorderVisible="true"
+      @variant="secondary"
       @size="small"
       @triggerAction={{@onCancelButtonClicked}}
     >
@@ -26,7 +25,7 @@
 
     <PixButton
       @size="small"
-      @backgroundColor="error"
+      @variant="error"
       @triggerAction={{@onDeactivateMembershipButtonClicked}}
       class="member-item-actions__button"
       @iconBefore="trash"

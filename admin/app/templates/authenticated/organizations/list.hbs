@@ -3,12 +3,7 @@
   <h1 class="page-title">Toutes les organisations</h1>
   {{#if this.accessControl.hasAccessToOrganizationActionsScope}}
     <div class="page-actions">
-      <PixButtonLink
-        @route="authenticated.organizations.new"
-        @backgroundColor="transparent-light"
-        @isBorderVisible={{true}}
-        @iconBefore="plus"
-      >
+      <PixButtonLink @route="authenticated.organizations.new" @variant="secondary" @iconBefore="plus">
         Nouvelle organisation
       </PixButtonLink>
     </div>

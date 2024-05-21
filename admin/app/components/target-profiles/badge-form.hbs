@@ -84,14 +84,10 @@
     <TargetProfiles::BadgeForm::Criteria @badge={{this.badge}} @areas={{@targetProfile.areas}} />
   </section>
   <section class="admin-form__actions">
-    <PixButtonLink
-      @backgroundColor="transparent-light"
-      @isBorderVisible={{true}}
-      @route="authenticated.target-profiles.target-profile.insights"
-    >
+    <PixButtonLink @variant="secondary" @route="authenticated.target-profiles.target-profile.insights">
       Annuler
     </PixButtonLink>
-    <PixButton @backgroundColor="success" @type="submit">
+    <PixButton @variant="success" @type="submit">
       Enregistrer le RT
     </PixButton>
   </section>

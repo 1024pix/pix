@@ -82,13 +82,8 @@
               />
             </div>
             <div class="badge-edit-form__actions">
-              <PixButton
-                @size="small"
-                @backgroundColor="transparent-light"
-                @isBorderVisible={{true}}
-                @triggerAction={{this.cancel}}
-              >Annuler</PixButton>
-              <PixButton @type="submit" @size="small" @backgroundColor="success" data-testid="save-badge-edit">
+              <PixButton @size="small" @variant="secondary" @triggerAction={{this.cancel}}>Annuler</PixButton>
+              <PixButton @type="submit" @size="small" @variant="success" data-testid="save-badge-edit">
                 Enregistrer
               </PixButton>
             </div>
@@ -113,9 +108,8 @@
               {{this.isAlwaysVisibleText}}</PixTag><br />
           {{/if}}
           <PixButton
-            @backgroundColor="transparent-light"
+            @variant="secondary"
             class="badge-data__action"
-            @isBorderVisible={{true}}
             @size="small"
             @triggerAction={{this.toggleEditMode}}
           >Modifier</PixButton>

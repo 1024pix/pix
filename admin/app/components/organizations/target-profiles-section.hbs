@@ -47,7 +47,7 @@
                 {{#if this.accessControl.hasAccessToOrganizationActionsScope}}
                   <td>
                     {{#if (this.canDetachTargetProfile summary)}}
-                      <PixButton @backgroundColor="error" @size="small" @triggerAction={{(fn this.openModal summary)}}>
+                      <PixButton @variant="error" @size="small" @triggerAction={{(fn this.openModal summary)}}>
                         Détacher
                       </PixButton>
                     {{/if}}
@@ -82,11 +82,11 @@
     </p>
   </:content>
   <:footer>
-    <PixButton @backgroundColor="transparent-light" @isBorderVisible={{true}} @triggerAction={{this.closeModal}}>
+    <PixButton @variant="secondary" @triggerAction={{this.closeModal}}>
       Annuler
     </PixButton>
     <PixButton
-      @backgroundColor="error"
+      @variant="error"
       @triggerAction={{fn this.detachTargetProfile this.targetProfileToDetach.id}}
     >Confirmer</PixButton>
   </:footer>

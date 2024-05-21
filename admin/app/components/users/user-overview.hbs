@@ -102,13 +102,8 @@
           </PixSelect>
         </div>
         <div class="form-actions">
-          <PixButton
-            @size="small"
-            @backgroundColor="transparent-light"
-            @isBorderVisible={{true}}
-            @triggerAction={{this.cancelEdit}}
-          >Annuler</PixButton>
-          <PixButton @type="submit" @size="small" @backgroundColor="success">Modifier</PixButton>
+          <PixButton @size="small" @variant="secondary" @triggerAction={{this.cancelEdit}}>Annuler</PixButton>
+          <PixButton @type="submit" @size="small" @variant="success">Modifier</PixButton>
         </div>
       </form>
     {{else}}
@@ -164,8 +159,7 @@
         </div>
         <div>
           <PixButtonLink
-            @backgroundColor="transparent-light"
-            @isBorderVisible={{true}}
+            @variant="secondary"
             @href={{this.externalURL}}
             @size="small"
             target="_blank"
@@ -177,8 +171,7 @@
         {{#if this.accessControl.hasAccessToUsersActionsScope}}
           <PixButton
             @size="small"
-            @backgroundColor="transparent-light"
-            @isBorderVisible={{true}}
+            @variant="secondary"
             @triggerAction={{this.changeEditionMode}}
             @isDisabled={{@user.hasBeenAnonymised}}
           >
@@ -186,14 +179,14 @@
           </PixButton>
           <PixButton
             @size="small"
-            @backgroundColor="error"
+            @variant="error"
             @triggerAction={{this.toggleDisplayAnonymizeModal}}
             @isDisabled={{@user.hasBeenAnonymised}}
           >
             Anonymiser cet utilisateur
           </PixButton>
           {{#if @user.userLogin.blockedAt}}
-            <PixButton @backgroundColor="secondary" @triggerAction={{this.unblockUserAccount}} @size="small">
+            <PixButton @variant="primary-bis" @triggerAction={{this.unblockUserAccount}} @size="small">
               Débloquer l'utilisateur
             </PixButton>
           {{/if}}

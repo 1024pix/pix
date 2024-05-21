@@ -120,10 +120,10 @@
     </Card>
   </section>
   <section class="admin-form__actions">
-    <PixButton @backgroundColor="transparent-light" @isBorderVisible={{true}} @size="big" @triggerAction={{@onCancel}}>
+    <PixButton @variant="secondary" @size="large" @triggerAction={{@onCancel}}>
       Annuler
     </PixButton>
-    <PixButton @backgroundColor="success" @size="big" @type="submit" @isLoading={{this.submitting}}>
+    <PixButton @variant="success" @size="large" @type="submit" @isLoading={{this.submitting}}>
       {{if @model "Modifier" "Créer"}}
       le contenu formatif
     </PixButton>

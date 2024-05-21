@@ -30,8 +30,7 @@
           </PixButton>
           <PixButton
             @size="small"
-            @backgroundColor="transparent-light"
-            @isBorderVisible={{true}}
+            @variant="secondary"
             @triggerAction={{this.cancelUpdateRoleOfMember}}
             aria-label="Annuler"
             class="member-item-actions__button--icon"
@@ -53,7 +52,7 @@
       {{/if}}
       <PixButton
         @size="small"
-        @backgroundColor="error"
+        @variant="error"
         @isDisabled={{@organizationMembership.isSaving}}
         class="member-item-actions__button"
         aria-label="Désactiver l'agent"
@@ -75,11 +74,7 @@
         </p>
       </:content>
       <:footer>
-        <PixButton
-          @backgroundColor="transparent-light"
-          @isBorderVisible={{true}}
-          @triggerAction={{this.toggleDisplayConfirm}}
-        >
+        <PixButton @variant="secondary" @triggerAction={{this.toggleDisplayConfirm}}>
           Annuler
         </PixButton>
         <PixButton @triggerAction={{this.disableOrganizationMembership}}>Confirmer</PixButton>

@@ -4,22 +4,17 @@
       Voir les détails de l'utilisateur
     </PixButtonLink>
     {{#if this.certification.isCancelled}}
-      <PixButton @backgroundColor="error" @size="small" @triggerAction={{this.onUncancelCertificationButtonClick}}>
+      <PixButton @variant="error" @size="small" @triggerAction={{this.onUncancelCertificationButtonClick}}>
         Désannuler la certification
       </PixButton>
     {{else}}
       <span class="certification-informations__row__actions">
-        <PixButton
-          @backgroundColor="transparent-light"
-          @isBorderVisible="true"
-          @size="small"
-          @triggerAction={{this.onCancelCertificationButtonClick}}
-        >
+        <PixButton @variant="secondary" @size="small" @triggerAction={{this.onCancelCertificationButtonClick}}>
           Annuler la certification
         </PixButton>
 
         {{#if this.shouldDisplayUnrejectCertificationButton}}
-          <PixButton @backgroundColor="error" @size="small" @triggerAction={{this.onUnrejectCertificationButtonClick}}>
+          <PixButton @variant="error" @size="small" @triggerAction={{this.onUnrejectCertificationButtonClick}}>
             Annuler le rejet
           </PixButton>
         {{/if}}
@@ -29,7 +24,7 @@
             <PixTooltip @position="left" @isWide={{true}}>
               <:triggerElement>
                 <PixButton
-                  @backgroundColor="error"
+                  @variant="error"
                   @size="small"
                   @triggerAction={{this.onRejectCertificationButtonClick}}
                   @isDisabled={{true}}
@@ -43,7 +38,7 @@
               </:tooltip>
             </PixTooltip>
           {{else}}
-            <PixButton @backgroundColor="error" @size="small" @triggerAction={{this.onRejectCertificationButtonClick}}>
+            <PixButton @variant="error" @size="small" @triggerAction={{this.onRejectCertificationButtonClick}}>
               Rejeter la certification
             </PixButton>
           {{/if}}
@@ -171,8 +166,7 @@
                     </section>
                     <section>
                       <PixButton
-                        @backgroundColor="transparent-light"
-                        @isBorderVisible="true"
+                        @variant="secondary"
                         @size="small"
                         @triggerAction={{this.onCancelJuryLevelEditButtonClick}}
                       >

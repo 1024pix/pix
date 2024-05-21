@@ -134,13 +134,8 @@
     </div>
 
     <div class="admin-form__actions">
-      <PixButton
-        @triggerAction={{@onExit}}
-        @backgroundColor="transparent-light"
-        @isBorderVisible={{true}}
-        @size="small"
-      >Annuler</PixButton>
-      <PixButton @type="submit" @backgroundColor="success" @size="small">
+      <PixButton @triggerAction={{@onExit}} @variant="secondary" @size="small">Annuler</PixButton>
+      <PixButton @type="submit" @variant="success" @size="small">
         Enregistrer
       </PixButton>
     </div>

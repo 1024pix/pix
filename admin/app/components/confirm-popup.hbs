@@ -5,11 +5,11 @@
   </:content>
 
   <:footer>
-    <PixButton @backgroundColor="transparent-light" @isBorderVisible={{true}} @triggerAction={{@cancel}}>
+    <PixButton @variant="secondary" @triggerAction={{@cancel}}>
       {{this.closeTitle}}
     </PixButton>
 
-    <PixButton @triggerAction={{@confirm}} @loadingColor="white" @backgroundColor="primary">
+    <PixButton @triggerAction={{@confirm}} @loadingColor="white" @variant="primary">
       {{this.submitTitle}}
     </PixButton>
   </:footer>
