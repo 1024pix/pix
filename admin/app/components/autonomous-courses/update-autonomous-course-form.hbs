@@ -39,13 +39,7 @@
     <PixButton type="reset" @variant="secondary" @isBorderVisible={{true}} @size="small" @triggerAction={{@cancel}}>
       Annuler
     </PixButton>
-    <PixButton
-      @backgroundColor="success"
-      @isBorderVisible={{true}}
-      @size="small"
-      type="submit"
-      @triggerAction={{this.noop}}
-    >
+    <PixButton @variant="success" @isBorderVisible={{true}} @size="small" type="submit" @triggerAction={{this.noop}}>
       Sauvegarder les modifications
     </PixButton>
   </div>

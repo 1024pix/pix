@@ -134,7 +134,7 @@
                   @size="large"
                   @isDisabled={{true}}
                   @triggerAction={{this.onUnfinalizeSessionButtonClick}}
-                  @backgroundColor="error"
+                  @variant="error"
                 >Définaliser la session
                 </PixButton>
               </:triggerElement>
@@ -144,11 +144,8 @@
               </:tooltip>
             </PixTooltip>
           {{else}}
-            <PixButton
-              @size="large"
-              @triggerAction={{this.onUnfinalizeSessionButtonClick}}
-              @backgroundColor="error"
-            >Définaliser la session
+            <PixButton @size="large" @triggerAction={{this.onUnfinalizeSessionButtonClick}} @variant="error">Définaliser
+              la session
             </PixButton>
           {{/if}}
         {{/if}}

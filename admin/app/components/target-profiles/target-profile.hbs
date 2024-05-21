@@ -79,17 +79,17 @@
             Marquer comme accès simplifié
           </PixButton>
         {{/unless}}
-        <PixButton @triggerAction={{this.downloadJSON}} @size="small" @backgroundColor="success">
+        <PixButton @triggerAction={{this.downloadJSON}} @size="small" @variant="success">
           Télécharger le profil cible (JSON)
         </PixButton>
 
-        <PixButton @triggerAction={{this.toggleDisplayPdfParametersModal}} @size="small" @backgroundColor="success">
+        <PixButton @triggerAction={{this.toggleDisplayPdfParametersModal}} @size="small" @variant="success">
           Télécharger le profil cible (PDF)
         </PixButton>
 
         {{#unless @model.outdated}}
           <div class="target-profile__actions-spacer"></div>
-          <PixButton @size="small" @backgroundColor="error" @triggerAction={{this.toggleDisplayConfirm}}>
+          <PixButton @size="small" @variant="error" @triggerAction={{this.toggleDisplayConfirm}}>
             Marquer comme obsolète
           </PixButton>
         {{/unless}}

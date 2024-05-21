@@ -68,7 +68,7 @@
               <td>{{organization.externalId}}</td>
               {{#if @showDetachColumn}}
                 <td>
-                  <PixButton @backgroundColor="error" @size="small" @triggerAction={{(fn this.openModal organization)}}>
+                  <PixButton @variant="error" @size="small" @triggerAction={{(fn this.openModal organization)}}>
                     Détacher
                   </PixButton>
 
@@ -110,7 +110,7 @@
       Annuler
     </PixButton>
     <PixButton
-      @backgroundColor="error"
+      @variant="error"
       @triggerAction={{fn this.detachOrganizations this.organizationToDetach.id}}
     >Confirmer</PixButton>
   </:footer>

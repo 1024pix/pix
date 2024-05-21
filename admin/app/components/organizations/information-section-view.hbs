@@ -121,7 +121,7 @@
             Modifier
           </PixButton>
           {{#unless @organization.isArchived}}
-            <PixButton @backgroundColor="error" @size="small" @triggerAction={{@toggleArchivingConfirmationModal}}>
+            <PixButton @variant="error" @size="small" @triggerAction={{@toggleArchivingConfirmationModal}}>
               Archiver l'organisation
             </PixButton>
           {{/unless}}

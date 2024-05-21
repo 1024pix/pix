@@ -29,7 +29,7 @@
     </PixButtonLink>
     {{#if this.canDeleteStage}}
       <PixButton
-        @backgroundColor="error"
+        @variant="error"
         @isBorderVisible={{true}}
         @size="small"
         @iconBefore="trash"
@@ -61,7 +61,7 @@
           <PixButton @variant="secondary" @isBorderVisible={{true}} @triggerAction={{this.toggleModal}}>
             Annuler
           </PixButton>
-          <PixButton @backgroundColor="error" @isBorderVisible={{true}} @triggerAction={{fn @deleteStage @stage}}>
+          <PixButton @variant="error" @isBorderVisible={{true}} @triggerAction={{fn @deleteStage @stage}}>
             Valider
           </PixButton>
         </:footer>
