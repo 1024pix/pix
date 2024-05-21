@@ -1,10 +1,10 @@
-{{page-title "Home"}}
+{{page-title (t "pages.missions.list.title")}}
 <div>
   <RobotDialog>
-    <Bubble @message={{t "pages.missions.start-page.instruction" prenom=this.model.organizationLearner.firstName}} />
+    <Bubble @message={{t "pages.missions.list.instruction" prenom=this.model.organizationLearner.firstName}} />
     <Bubble
       @message={{t
-        "pages.missions.start-page.back-to-students"
+        "pages.missions.list.back-to-students"
         prenom=this.model.organizationLearner.firstName
         backUrl=this.schoolUrl
       }}
