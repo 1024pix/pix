@@ -1,6 +1,6 @@
-import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
-import { getParticipationsCountByMasteryRate } from '../../../../lib/domain/usecases/get-participations-count-by-mastery-rate.js';
-import { catchErr, expect, sinon } from '../../../test-helper.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../../../../lib/domain/errors.js';
+import { getParticipationsCountByMasteryRate } from '../../../../../../../src/prescription/campaign/domain/usecases/statistics/get-participations-count-by-mastery-rate.js';
+import { catchErr, expect, sinon } from '../../../../../../test-helper.js';
 
 describe('Unit | UseCase | getParticipationsCountByMasteryRate', function () {
   context('when the user has access to the campaign', function () {

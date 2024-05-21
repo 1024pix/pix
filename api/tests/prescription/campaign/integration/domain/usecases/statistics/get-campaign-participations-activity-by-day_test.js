@@ -1,7 +1,7 @@
-import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
-import { catchErr, databaseBuilder, expect } from '../../../test-helper.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../../../../lib/domain/errors.js';
+import { usecases } from '../../../../../../../src/prescription/campaign/domain/usecases/index.js';
+import { CampaignParticipationStatuses } from '../../../../../../../src/prescription/shared/domain/constants.js';
+import { catchErr, databaseBuilder, expect } from '../../../../../../test-helper.js';
 
 const { STARTED } = CampaignParticipationStatuses;
 
