@@ -1,6 +1,8 @@
-import { render } from '@1024pix/ember-testing-library';
+import { render, within } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
@@ -28,6 +30,127 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
 
     // then
     assert.dom(screen.getByText('Jean La fripouille')).exists();
+  });
+
+  module('participation selector', function () {
+    module('for campaign not multipleSending', function () {
+      test('it should not be displayed', async function (assert) {
+        this.participation = {
+          firstName: 'Jean',
+          lastName: 'La fripouille',
+          id: 12345,
+        };
+        this.campaign = { multipleSendings: false };
+        this.allParticipations = [this.participation];
+
+        const screen = await render(
+          hbs`<Participant::Assessment::Header
+  @participation={{this.participation}}
+  @campaign={{this.campaign}}
+  @allParticipations={{this.allParticipations}}
+/>`,
+        );
+
+        assert.notOk(
+          screen.queryByLabelText(this.intl.t('pages.assessment-individual-results.participation-selector')),
+        );
+      });
+    });
+
+    module('for multipleSending campaigns', function () {
+      test('it should have categories for participations options', async function (assert) {
+        this.participation = {
+          firstName: 'Jean',
+          lastName: 'La fripouille',
+          id: 12345,
+          status: 'TO_SHARE',
+        };
+        const anotherParticipation = {
+          firstName: 'Jean',
+          lastName: 'La fripouille',
+          id: 12346,
+          status: 'SHARED',
+          sharedAt: '2020-01-02',
+        };
+        this.campaign = { multipleSendings: true };
+        this.allParticipations = [this.participation, anotherParticipation];
+
+        const screen = await render(
+          hbs`<Participant::Assessment::Header
+  @participation={{this.participation}}
+  @campaign={{this.campaign}}
+  @allParticipations={{this.allParticipations}}
+/>`,
+        );
+
+        const selector = screen.getByLabelText(
+          this.intl.t('pages.assessment-individual-results.participation-selector'),
+        );
+        await click(selector);
+        await screen.findByRole('listbox');
+
+        assert.ok(
+          within(screen.getByRole('listbox')).getByText(
+            this.intl.t('pages.assessment-individual-results.participation-shared'),
+            { exact: false },
+          ),
+        );
+        assert.ok(
+          within(screen.getByRole('listbox')).getByText(
+            this.intl.t('pages.assessment-individual-results.participation-to-share'),
+            { exact: false },
+          ),
+        );
+      });
+
+      test('it should redirect toward a participation', async function (assert) {
+        const router = this.owner.lookup('service:router');
+        router.transitionTo = sinon.stub();
+
+        this.participation = {
+          firstName: 'Jean',
+          lastName: 'La fripouille',
+          id: 12345,
+          status: 'TO_SHARE',
+        };
+        const anotherParticipation = {
+          firstName: 'Jean',
+          lastName: 'La fripouille',
+          id: 12346,
+          status: 'SHARED',
+          sharedAt: '2020-01-02',
+        };
+        this.campaign = { multipleSendings: true, id: 1 };
+        this.allParticipations = [this.participation, anotherParticipation];
+
+        const screen = await render(
+          hbs`<Participant::Assessment::Header
+  @participation={{this.participation}}
+  @campaign={{this.campaign}}
+  @allParticipations={{this.allParticipations}}
+/>`,
+        );
+
+        const selector = screen.getByLabelText(
+          this.intl.t('pages.assessment-individual-results.participation-selector'),
+        );
+        await click(selector);
+        await screen.findByRole('listbox');
+        await click(
+          screen.getByRole('option', {
+            name: `${this.intl.t('pages.assessment-individual-results.participation-label', { participationNumber: 2 })} - 02/01/2020`,
+          }),
+        );
+
+        assert.ok(
+          router.transitionTo.calledWith(
+            'authenticated.campaigns.participant-assessment',
+            this.campaign.id,
+            this.allParticipations[1].id,
+          ),
+        );
+      });
+    });
   });
 
   test('it displays campaign participation creation date', async function (assert) {

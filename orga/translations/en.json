@@ -317,6 +317,10 @@
       "title": "Results of {firstName} {lastName}",
       "badges": "Thematic results",
       "breadcrumb-current-page-label": "Participation of {firstName} {lastName}",
+      "participation-label": "Participation #{participationNumber}",
+      "participation-selector": "Select a participation",
+      "participation-shared": "Submitted results",
+      "participation-to-share": "Results to submit",
       "progression": "Progression",
       "result": "Result",
       "tab": {
