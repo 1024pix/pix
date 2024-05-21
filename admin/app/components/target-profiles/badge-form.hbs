@@ -84,11 +84,7 @@
     <TargetProfiles::BadgeForm::Criteria @badge={{this.badge}} @areas={{@targetProfile.areas}} />
   </section>
   <section class="admin-form__actions">
-    <PixButtonLink
-      @variant="secondary"
-      @isBorderVisible={{true}}
-      @route="authenticated.target-profiles.target-profile.insights"
-    >
+    <PixButtonLink @variant="secondary" @route="authenticated.target-profiles.target-profile.insights">
       Annuler
     </PixButtonLink>
     <PixButton @variant="success" @type="submit">

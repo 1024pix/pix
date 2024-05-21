@@ -126,12 +126,7 @@
   </:content>
 
   <:footer>
-    <PixButton
-      @size="small"
-      @variant="secondary"
-      @isBorderVisible={{true}}
-      @triggerAction={{this.onCancelButtonsClicked}}
-    >
+    <PixButton @size="small" @variant="secondary" @triggerAction={{this.onCancelButtonsClicked}}>
       Annuler
     </PixButton>
     <PixButton form="candidate-edit-form" @size="small" @type="submit">

@@ -102,12 +102,7 @@
           </PixSelect>
         </div>
         <div class="form-actions">
-          <PixButton
-            @size="small"
-            @variant="secondary"
-            @isBorderVisible={{true}}
-            @triggerAction={{this.cancelEdit}}
-          >Annuler</PixButton>
+          <PixButton @size="small" @variant="secondary" @triggerAction={{this.cancelEdit}}>Annuler</PixButton>
           <PixButton @type="submit" @size="small" @variant="success">Modifier</PixButton>
         </div>
       </form>
@@ -165,7 +160,6 @@
         <div>
           <PixButtonLink
             @variant="secondary"
-            @isBorderVisible={{true}}
             @href={{this.externalURL}}
             @size="small"
             target="_blank"
@@ -178,7 +172,6 @@
           <PixButton
             @size="small"
             @variant="secondary"
-            @isBorderVisible={{true}}
             @triggerAction={{this.changeEditionMode}}
             @isDisabled={{@user.hasBeenAnonymised}}
           >

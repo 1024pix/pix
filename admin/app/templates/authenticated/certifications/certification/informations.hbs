@@ -9,12 +9,7 @@
       </PixButton>
     {{else}}
       <span class="certification-informations__row__actions">
-        <PixButton
-          @variant="secondary"
-          @isBorderVisible="true"
-          @size="small"
-          @triggerAction={{this.onCancelCertificationButtonClick}}
-        >
+        <PixButton @variant="secondary" @size="small" @triggerAction={{this.onCancelCertificationButtonClick}}>
           Annuler la certification
         </PixButton>
 
@@ -172,7 +167,6 @@
                     <section>
                       <PixButton
                         @variant="secondary"
-                        @isBorderVisible="true"
                         @size="small"
                         @triggerAction={{this.onCancelJuryLevelEditButtonClick}}
                       >

@@ -35,12 +35,7 @@
     {{else}}
       <Trainings::TrainingDetailsCard @training={{@model}} />
       {{#if this.canEdit}}
-        <PixButton
-          @size="small"
-          @variant="secondary"
-          @isBorderVisible={{true}}
-          @triggerAction={{this.toggleEditMode}}
-        >Modifier
+        <PixButton @size="small" @variant="secondary" @triggerAction={{this.toggleEditMode}}>Modifier
         </PixButton>
       {{/if}}
     {{/if}}

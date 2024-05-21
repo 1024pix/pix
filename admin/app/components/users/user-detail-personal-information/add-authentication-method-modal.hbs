@@ -19,12 +19,7 @@
   </:content>
 
   <:footer>
-    <PixButton
-      @size="small"
-      @variant="secondary"
-      @isBorderVisible={{true}}
-      @triggerAction={{@toggleAddAuthenticationMethodModal}}
-    >
+    <PixButton @size="small" @variant="secondary" @triggerAction={{@toggleAddAuthenticationMethodModal}}>
       Annuler
     </PixButton>
     <PixButton form="add-authentication-method-modal" @size="small" @type="submit">

@@ -66,7 +66,6 @@
         <PixButton
           class="stages-new-stage"
           @variant="secondary"
-          @isBorderVisible={{true}}
           @triggerAction={{this.addStage}}
           @isDisabled={{this.isAddStageDisabled}}
           @iconBefore="plus"
@@ -79,7 +78,6 @@
               <PixButton
                 class="stages-new-stage"
                 @variant="secondary"
-                @isBorderVisible={{true}}
                 @triggerAction={{this.addFirstSkillStage}}
                 @isDisabled={{this.isAddFirstSkillStageDisabled}}
                 @iconBefore="plus"
@@ -97,7 +95,7 @@
     {{/if}}
     {{#if this.hasNewStage}}
       <div class="stages-actions form-actions">
-        <PixButton @variant="secondary" @isBorderVisible={{true}} @triggerAction={{this.cancelStagesCreation}}>
+        <PixButton @variant="secondary" @triggerAction={{this.cancelStagesCreation}}>
           Annuler
         </PixButton>
         <PixButton type="submit" @variant="success" @triggerAction={{this.createStages}}>

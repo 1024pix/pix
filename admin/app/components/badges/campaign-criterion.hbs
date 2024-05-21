@@ -5,7 +5,6 @@
       <:triggerElement>
         <PixButton
           @variant="secondary"
-          @isBorderVisible={{true}}
           @size="small"
           @triggerAction={{this.toggleEditModal}}
           @isDisabled={{(not @isEditable)}}
@@ -48,7 +47,7 @@
       </PixInput>
     </:content>
     <:footer>
-      <PixButton @triggerAction={{this.toggleEditModal}} @size="small" @variant="secondary" @isBorderVisible={{true}}>
+      <PixButton @triggerAction={{this.toggleEditModal}} @size="small" @variant="secondary">
         Annuler
       </PixButton>
       <PixButton @triggerAction={{this.updateThreshold}} @size="small">

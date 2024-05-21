@@ -51,14 +51,13 @@
       <PixButton
         @type="submit"
         @size="large"
-        @isBorderVisible={{true}}
         @isDisabled={{this.isSubmitDisabled}}
         aria-disabled={{this.isSubmitDisabled}}
         @isLoading={{this.isSubmitting}}
       >
         Rattacher le profil cible
       </PixButton>
-      <PixButton @size="large" @variant="secondary" @isBorderVisible={{true}} @triggerAction={{this.onCancel}}>
+      <PixButton @size="large" @variant="secondary" @triggerAction={{this.onCancel}}>
         Annuler
       </PixButton>
     </div>

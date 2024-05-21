@@ -19,7 +19,6 @@
   <td>
     <PixButtonLink
       @variant="secondary"
-      @isBorderVisible={{true}}
       @route="authenticated.target-profiles.target-profile.stages.stage"
       @size="small"
       @model={{@stage.id}}
@@ -30,7 +29,6 @@
     {{#if this.canDeleteStage}}
       <PixButton
         @variant="error"
-        @isBorderVisible={{true}}
         @size="small"
         @iconBefore="trash"
         @triggerAction={{this.toggleModal}}
@@ -58,10 +56,10 @@
           </p>
         </:content>
         <:footer>
-          <PixButton @variant="secondary" @isBorderVisible={{true}} @triggerAction={{this.toggleModal}}>
+          <PixButton @variant="secondary" @triggerAction={{this.toggleModal}}>
             Annuler
           </PixButton>
-          <PixButton @variant="error" @isBorderVisible={{true}} @triggerAction={{fn @deleteStage @stage}}>
+          <PixButton @variant="error" @triggerAction={{fn @deleteStage @stage}}>
             Valider
           </PixButton>
         </:footer>

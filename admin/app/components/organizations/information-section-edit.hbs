@@ -218,12 +218,7 @@
       </PixCheckbox>
     </div>
     <div class="form-actions">
-      <PixButton
-        @size="small"
-        @variant="secondary"
-        @isBorderVisible={{true}}
-        @triggerAction={{this.closeAndResetForm}}
-      >Annuler</PixButton>
+      <PixButton @size="small" @variant="secondary" @triggerAction={{this.closeAndResetForm}}>Annuler</PixButton>
       <PixButton @type="submit" @size="small" @variant="success">Enregistrer</PixButton>
     </div>
   </form>

@@ -25,12 +25,7 @@
     {{#if this.isEditingJuryComment}}
       <ul class="certification-information-comments">
         <li>
-          <PixButton
-            @size="small"
-            @variant="secondary"
-            @isBorderVisible={{true}}
-            @triggerAction={{this.cancelJuryCommentEdition}}
-          >
+          <PixButton @size="small" @variant="secondary" @triggerAction={{this.cancelJuryCommentEdition}}>
             Annuler
           </PixButton>
         </li>

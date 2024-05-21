@@ -4,13 +4,7 @@
   </header>
   <p>{{t "components.administration.campaigns-import.description"}}</p>
   <br />
-  <PixButtonUpload
-    @id="campaigns-file-upload"
-    @onChange={{this.importCampaigns}}
-    @variant="secondary"
-    @isBorderVisible={{true}}
-    accept=".csv"
-  >
+  <PixButtonUpload @id="campaigns-file-upload" @onChange={{this.importCampaigns}} @variant="secondary" accept=".csv">
     {{t "components.administration.campaigns-import.upload-button"}}
   </PixButtonUpload>
 </section>

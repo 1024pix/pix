@@ -117,7 +117,7 @@
       </ul>
       {{#if this.accessControl.hasAccessToOrganizationActionsScope}}
         <div class="form-actions">
-          <PixButton @variant="secondary" @isBorderVisible={{true}} @size="small" @triggerAction={{@toggleEditMode}}>
+          <PixButton @variant="secondary" @size="small" @triggerAction={{@toggleEditMode}}>
             Modifier
           </PixButton>
           {{#unless @organization.isArchived}}
@@ -131,7 +131,6 @@
     <div>
       <PixButtonLink
         @variant="secondary"
-        @isBorderVisible={{true}}
         @href={{this.externalURL}}
         @size="small"
         target="_blank"

@@ -65,7 +65,7 @@
         <img src={{@model.imageUrl}} role="img" alt="Profil cible" />
       </div>
       <div class="target-profile__actions">
-        <PixButton @size="small" @variant="secondary" @isBorderVisible={{true}} @triggerAction={{this.toggleEditMode}}>
+        <PixButton @size="small" @variant="secondary" @triggerAction={{this.toggleEditMode}}>
           Modifier
         </PixButton>
         <div class="target-profile__actions-separator"></div>
@@ -73,7 +73,6 @@
           <PixButton
             @size="small"
             @variant="secondary"
-            @isBorderVisible={{true}}
             @triggerAction={{this.toggleDisplaySimplifiedAccessPopupConfirm}}
           >
             Marquer comme accès simplifié
@@ -153,12 +152,7 @@
       </p>
     </:content>
     <:footer>
-      <PixButton
-        @size="small"
-        @variant="secondary"
-        @isBorderVisible={{true}}
-        @triggerAction={{this.toggleDisplaySimplifiedAccessPopupConfirm}}
-      >
+      <PixButton @size="small" @variant="secondary" @triggerAction={{this.toggleDisplaySimplifiedAccessPopupConfirm}}>
         Non, annuler
       </PixButton>
       <PixButton @type="submit" @size="small" {{on "click" this.markTargetProfileAsSimplifiedAccess}}>

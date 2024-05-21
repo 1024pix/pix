@@ -155,12 +155,7 @@
             <p>{{this.copyButtonText}}</p>
           {{/if}}
 
-          <PixButton
-            size="small"
-            @triggerAction={{this.copyResultsDownloadLink}}
-            @variant="secondary"
-            @isBorderVisible="true"
-          >
+          <PixButton size="small" @triggerAction={{this.copyResultsDownloadLink}} @variant="secondary">
             <FaIcon @icon="copy" @prefix="far" aria-label="Copier" />
             Lien de téléchargement des résultats
           </PixButton>
@@ -170,7 +165,6 @@
           <PixButton
             @triggerAction={{this.downloadPDFAttestations}}
             @variant="secondary"
-            @isBorderVisible="true"
             class="session-info__download-button"
             @isDisabled={{not this.sessionModel.isPublished}}
             @iconBefore="file-arrow-down"
@@ -183,7 +177,6 @@
               size="small"
               @triggerAction={{this.tagSessionAsSentToPrescriber}}
               @variant="secondary"
-              @isBorderVisible="true"
               class="session-info__download-button"
             >
               Résultats transmis au prescripteur
