@@ -13,8 +13,8 @@ import { BookshelfCertificationCandidate } from '../../../../../lib/infrastructu
 import * as bookshelfToDomainConverter from '../../../../../lib/infrastructure/utils/bookshelf-to-domain-converter.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { normalize } from '../../../../shared/infrastructure/utils/string-utils.js';
-import { ComplementaryCertification } from '../../../complementary-certification/domain/models/ComplementaryCertification.js';
 import { SubscriptionTypes } from '../../../shared/domain/models/SubscriptionTypes.js';
+import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
 
 const linkToUser = async function ({ id, userId }) {
   try {

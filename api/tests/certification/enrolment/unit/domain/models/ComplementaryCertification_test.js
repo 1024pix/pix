@@ -1,7 +1,7 @@
-import { ComplementaryCertification } from '../../../../../../src/certification/session-management/domain/models/ComplementaryCertification.js';
+import { ComplementaryCertification } from '../../../../../../src/certification/enrolment/domain/models/ComplementaryCertification.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 
-describe('Unit | Certification | Session-Management | Domain | Models | ComplementaryCertification', function () {
+describe('Unit | Certification | Enrolment | Domain | Models | ComplementaryCertification', function () {
   it('should return a complementary certification', function () {
     // given
     const complementaryCertification =
