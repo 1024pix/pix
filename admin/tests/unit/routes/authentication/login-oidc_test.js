@@ -151,7 +151,6 @@ module('Unit | Route | login-oidc', function (hooks) {
         code: 'test',
         state: undefined,
       });
-      assert.ok(authenticateStub.getCall(0).args[1].redirectUri.includes('connexion/oidc'));
       assert.deepEqual(sessionStub.data, {});
     });
 
