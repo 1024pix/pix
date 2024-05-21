@@ -1,3 +1,4 @@
+import { OrganizationBatchUpdateDTO } from '../../../../../src/organizational-entities/domain/dtos/OrganizationBatchUpdateDTO.js';
 import { OrganizationForAdmin } from '../../../../../src/organizational-entities/domain/models/OrganizationForAdmin.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
@@ -636,6 +637,150 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationForAdmin
       givenOrganization.updateIdentityProviderForCampaigns(newIdentityProviderForCampaigns);
       // then
       expect(givenOrganization.identityProviderForCampaigns).to.equal(newIdentityProviderForCampaigns);
+    });
+  });
+
+  context('#updateFromOrganizationBatchUpdateDto', function () {
+    it('updates the organization name', function () {
+      // given
+      const name = 'Cliffwater';
+      const organizationToUpdate = domainBuilder.buildOrganizationForAdmin();
+
+      // when
+      organizationToUpdate.updateFromOrganizationBatchUpdateDto(new OrganizationBatchUpdateDTO({ id: '1', name }));
+
+      // then
+      const expectedOrganization = domainBuilder.buildOrganizationForAdmin({ name });
+      expect(organizationToUpdate.name).to.equal(name);
+      expect(organizationToUpdate).to.deep.equal(expectedOrganization);
+    });
+
+    it('updates the organization external identifier', function () {
+      // given
+      const externalId = 'EXT_123';
+      const organizationToUpdate = domainBuilder.buildOrganizationForAdmin();
+
+      // when
+      organizationToUpdate.updateFromOrganizationBatchUpdateDto(
+        new OrganizationBatchUpdateDTO({ id: '1', externalId }),
+      );
+
+      // then
+      const expectedOrganization = domainBuilder.buildOrganizationForAdmin({ externalId });
+      expect(organizationToUpdate.externalId).to.equal(externalId);
+      expect(organizationToUpdate).to.deep.equal(expectedOrganization);
+    });
+
+    it('updates the organization documentation URL', function () {
+      // given
+      const documentationUrl = 'https://cliffwater.org/documentations.pdf';
+      const organizationToUpdate = domainBuilder.buildOrganizationForAdmin();
+
+      // when
+      organizationToUpdate.updateFromOrganizationBatchUpdateDto(
+        new OrganizationBatchUpdateDTO({ id: '1', documentationUrl }),
+      );
+
+      // then
+      const expectedOrganization = domainBuilder.buildOrganizationForAdmin({ documentationUrl });
+      expect(organizationToUpdate.documentationUrl).to.equal(documentationUrl);
+      expect(organizationToUpdate).to.deep.equal(expectedOrganization);
+    });
+
+    it('updates the organization province code', function () {
+      // given
+      const provinceCode = '92';
+      const organizationToUpdate = domainBuilder.buildOrganizationForAdmin();
+
+      // when
+      organizationToUpdate.updateFromOrganizationBatchUpdateDto(
+        new OrganizationBatchUpdateDTO({ id: '1', provinceCode }),
+      );
+
+      // then
+      const expectedOrganization = domainBuilder.buildOrganizationForAdmin({ provinceCode });
+      expect(organizationToUpdate.provinceCode).to.equal(provinceCode);
+      expect(organizationToUpdate).to.deep.equal(expectedOrganization);
+    });
+
+    it('updates the organization identity provider code for campaigns', function () {
+      // given
+      const identityProviderForCampaigns = 'OIDC_EXAMPLE_NET';
+      const organizationToUpdate = domainBuilder.buildOrganizationForAdmin();
+
+      // when
+      organizationToUpdate.updateFromOrganizationBatchUpdateDto(
+        new OrganizationBatchUpdateDTO({ id: '1', identityProviderForCampaigns }),
+      );
+
+      // then
+      const expectedOrganization = domainBuilder.buildOrganizationForAdmin({ identityProviderForCampaigns });
+      expect(organizationToUpdate.identityProviderForCampaigns).to.equal(identityProviderForCampaigns);
+      expect(organizationToUpdate).to.deep.equal(expectedOrganization);
+    });
+
+    it('updates the organization parent identifier', function () {
+      // given
+      const parentOrganizationId = '1024';
+      const organizationToUpdate = domainBuilder.buildOrganizationForAdmin();
+
+      // when
+      organizationToUpdate.updateFromOrganizationBatchUpdateDto(
+        new OrganizationBatchUpdateDTO({ id: '1', parentOrganizationId }),
+      );
+
+      // then
+      const expectedOrganization = domainBuilder.buildOrganizationForAdmin({ parentOrganizationId });
+      expect(organizationToUpdate.parentOrganizationId).to.equal(parentOrganizationId);
+      expect(organizationToUpdate).to.deep.equal(expectedOrganization);
+    });
+
+    it('updates the organization data protection officer first name', function () {
+      // given
+      const dataProtectionOfficerFirstName = 'Adam';
+      const organizationToUpdate = domainBuilder.buildOrganizationForAdmin();
+
+      // when
+      organizationToUpdate.updateFromOrganizationBatchUpdateDto(
+        new OrganizationBatchUpdateDTO({ id: '1', dataProtectionOfficerFirstName }),
+      );
+
+      // then
+      const expectedOrganization = domainBuilder.buildOrganizationForAdmin({ dataProtectionOfficerFirstName });
+      expect(organizationToUpdate.dataProtectionOfficer.firstName).to.equal(dataProtectionOfficerFirstName);
+      expect(organizationToUpdate).to.deep.equal(expectedOrganization);
+    });
+
+    it('updates the organization data protection officer last name', function () {
+      // given
+      const dataProtectionOfficerLastName = 'Troisjour';
+      const organizationToUpdate = domainBuilder.buildOrganizationForAdmin();
+
+      // when
+      organizationToUpdate.updateFromOrganizationBatchUpdateDto(
+        new OrganizationBatchUpdateDTO({ id: '1', dataProtectionOfficerLastName }),
+      );
+
+      // then
+      const expectedOrganization = domainBuilder.buildOrganizationForAdmin({ dataProtectionOfficerLastName });
+      expect(organizationToUpdate.dataProtectionOfficer.lastName).to.equal(dataProtectionOfficerLastName);
+      expect(organizationToUpdate).to.deep.equal(expectedOrganization);
+    });
+
+    it('updates the organization data protection officer e-mail', function () {
+      // given
+      const dataProtectionOfficerEmail = 'adam.troisjour@example.net';
+      const organizationToUpdate = domainBuilder.buildOrganizationForAdmin();
+
+      // when
+      organizationToUpdate.updateFromOrganizationBatchUpdateDto(
+        new OrganizationBatchUpdateDTO({ id: '1', dataProtectionOfficerEmail }),
+      );
+
+      // then
+      const expectedOrganization = domainBuilder.buildOrganizationForAdmin({ dataProtectionOfficerEmail });
+      expect(organizationToUpdate.dataProtectionOfficer.email).to.equal(dataProtectionOfficerEmail);
+      expect(organizationToUpdate).to.deep.equal(expectedOrganization);
     });
   });
 });

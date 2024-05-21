@@ -92,6 +92,34 @@ class OrganizationForAdmin {
     return this.creatorFirstName && this.creatorLastName ? `${this.creatorFirstName} ${this.creatorLastName}` : null;
   }
 
+  /**
+   * @param {OrganizationBatchUpdateDTO} organizationBatchUpdateDto
+   */
+  updateFromOrganizationBatchUpdateDto(organizationBatchUpdateDto) {
+    if (organizationBatchUpdateDto.name) this.name = organizationBatchUpdateDto.name;
+    if (organizationBatchUpdateDto.externalId) this.externalId = organizationBatchUpdateDto.externalId;
+    if (organizationBatchUpdateDto.documentationUrl)
+      this.documentationUrl = organizationBatchUpdateDto.documentationUrl;
+    if (organizationBatchUpdateDto.provinceCode) this.provinceCode = organizationBatchUpdateDto.provinceCode;
+    if (organizationBatchUpdateDto.identityProviderForCampaigns)
+      this.identityProviderForCampaigns = organizationBatchUpdateDto.identityProviderForCampaigns;
+    if (organizationBatchUpdateDto.parentOrganizationId)
+      this.parentOrganizationId = organizationBatchUpdateDto.parentOrganizationId;
+
+    const dataProtectionOfficer = {
+      firstName: this.dataProtectionOfficer.firstName,
+      lastName: this.dataProtectionOfficer.lastName,
+      email: this.dataProtectionOfficer.email,
+    };
+    if (organizationBatchUpdateDto.dataProtectionOfficerFirstName)
+      dataProtectionOfficer.firstName = organizationBatchUpdateDto.dataProtectionOfficerFirstName;
+    if (organizationBatchUpdateDto.dataProtectionOfficerLastName)
+      dataProtectionOfficer.lastName = organizationBatchUpdateDto.dataProtectionOfficerLastName;
+    if (organizationBatchUpdateDto.dataProtectionOfficerEmail)
+      dataProtectionOfficer.email = organizationBatchUpdateDto.dataProtectionOfficerEmail;
+    this.dataProtectionOfficer.updateInformation(dataProtectionOfficer);
+  }
+
   updateParentOrganizationId(parentOrganizationId) {
     this.parentOrganizationId = parentOrganizationId;
   }
