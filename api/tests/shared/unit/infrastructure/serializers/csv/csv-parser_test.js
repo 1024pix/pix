@@ -1,10 +1,10 @@
 import iconv from 'iconv-lite';
 
-import { CsvColumn } from '../../../../../lib/infrastructure/serializers/csv/csv-column.js';
-import { CsvParser } from '../../../../../lib/infrastructure/serializers/csv/csv-parser.js';
-import { catchErr, expect } from '../../../../test-helper.js';
+import { CsvColumn } from '../../../../../../lib/infrastructure/serializers/csv/csv-column.js';
+import { CsvParser } from '../../../../../../src/shared/infrastructure/serializers/csv/csv-parser.js';
+import { catchErr, expect } from '../../../../../test-helper.js';
 
-describe('Unit | Infrastructure | CsvParser', function () {
+describe('Unit | Shared | Infrastructure | Serializer | CsvParser', function () {
   context('The header is correctly formed', function () {
     context('There are lines', function () {
       it('returns an Array of POJO with two key', async function () {
