@@ -193,7 +193,7 @@
             Anonymiser cet utilisateur
           </PixButton>
           {{#if @user.userLogin.blockedAt}}
-            <PixButton @backgroundColor="secondary" @triggerAction={{this.unblockUserAccount}} @size="small">
+            <PixButton @variant="primary-bis" @triggerAction={{this.unblockUserAccount}} @size="small">
               Débloquer l'utilisateur
             </PixButton>
           {{/if}}
