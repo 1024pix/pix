@@ -1,14 +1,14 @@
 ignores:
   [
-    '@babel/plugin-syntax-import-assertions',
+    '@babel/plugin-syntax-import-attributes',
     'bookshelf-validate',
     'hapi-swagger',
     'hapi-sentry',
     'mocha-junit-reporter',
     'eslint-plugin-i18n-json',
   ]
-#  @babel/plugin-syntax-import-assertions is used by eslint
-# see https://github.com/babel/babel/blob/main/packages/babel-plugin-syntax-import-assertions/README.md
+#  @babel/plugin-syntax-import-attributes is used by eslint
+# see https://github.com/babel/babel/blob/main/packages/babel-plugin-syntax-import-attributes/README.md
 
 # "bookshelf-validate" is used in ./lib/infrastructure/bookshelf.js
 # code => bookshelf.plugin('bookshelf-validate',
