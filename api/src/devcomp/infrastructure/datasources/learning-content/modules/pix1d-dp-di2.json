@@ -156,7 +156,7 @@
               ],
               "feedbacks": {
                 "valid": "<p>Bravo, tu sais que tu dois protéger ton image.</p>",
-                "invalid": "<p>Non. Attention, sur internet tout le monde peut voir et enregistrer tes photos et tes vidéos.</p>"
+                "invalid": "<p>Non. Attention, tes photos sont privées, elles ne devraient pas être visibles par tout le monde.</p>"
               },
               "solution": "1"
             },
