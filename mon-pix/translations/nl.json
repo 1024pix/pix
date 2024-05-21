@@ -450,10 +450,7 @@
         "session-not-accessible": "De sessie die u probeert te bezoeken is niet langer toegankelijk.",
         "wrong-account": "De ingevoerde informatie komt overeen met een kandidaat die is geregistreerd voor de sessie en al is ingelogd met een ander account. Controleer of u bent aangemeld bij het account waarmee de certificering is gestart.",
         "wrong-account-sco": "Je gebruikt momenteel een account dat niet aan je school is gekoppeld.\nLog in op het account waarmee je je cursussen hebt afgerond of vraag de supervisor om hulp.",
-        "wrong-account-sco-link": {
-          "label": "Hoe vind ik de rekening die aan de vestiging is gekoppeld?",
-          "url": "https://pix.fr/support/enseignement-scolaire/enseignant-ou-personnel-de-direction/que-faire-si-une-eleve-ne-parvient-pas-rejoindre-sa-session-de-certification"
-        }
+        "wrong-account-sco-link": "Hoe vind ik de rekening die aan de vestiging is gekoppeld?"
       },
       "first-title": "Deelnemen aan een sessie",
       "form": {
@@ -696,8 +693,8 @@
         }
       },
       "has-focused-out-of-window": {
-        "certification": "We hebben een paginawissel geconstateerd. Je antwoord wordt als fout gerekend.'<br>'Als je gedwongen werd om van pagina te wisselen, informeer dan je supervisor en beantwoord de vraag in zijn of haar aanwezigheid.",
-        "default": "We hebben een paginawijziging gedetecteerd.'<br> 'In certificering zou uw antwoord niet worden gevalideerd.",
+        "certification": "We hebben een paginawissel geconstateerd. Je antwoord wordt als fout gerekend. Als je gedwongen werd om van pagina te wisselen, informeer dan je supervisor en beantwoord de vraag in zijn of haar aanwezigheid.",
+        "default": "We hebben een paginawijziging gedetecteerd. In certificering zou uw antwoord niet worden gevalideerd.",
         "v3-certification": "We hebben een paginawijziging gedetecteerd. Je antwoord wordt als fout geteld. Als je gedwongen werd om van pagina te veranderen, vertel dit dan aan je supervisor zodat hij of zij dit kan zien en rapporteren, indien nodig."
       },
       "illustration": {
