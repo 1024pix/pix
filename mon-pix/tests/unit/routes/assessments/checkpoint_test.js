@@ -27,7 +27,8 @@ module('Unit | Route | Assessments | Checkpoint', function (hooks) {
     test('should force the progression reload when assessment is for campaign', async function (assert) {
       // given
       const route = this.owner.lookup('route:assessments/checkpoint');
-      route.store.queryRecord = sinon.stub();
+      const store = this.owner.lookup('service:store');
+      store.queryRecord = sinon.stub();
       const reloadStub = sinon.stub();
       const assessment = {
         isForCampaign: true,

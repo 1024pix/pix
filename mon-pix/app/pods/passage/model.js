@@ -1,5 +1,5 @@
+import { memberAction } from '@1024pix/ember-api-actions';
 import Model, { attr, hasMany } from '@ember-data/model';
-import { memberAction } from 'ember-api-actions';
 
 export default class Passage extends Model {
   @attr('string') moduleId;
