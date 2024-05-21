@@ -3,19 +3,16 @@
   <td>{{@member.firstName}}</td>
   <td>
     {{#if this.isEditionMode}}
-      <div class="members-list-item__container">
-
-        <PixSelect
-          @screenReaderOnly={{true}}
-          @hideDefaultOption={{true}}
-          @placeholder="{{t 'pages.team.members.actions.select-role.label'}}"
-          @onChange={{this.setRoleSelection}}
-          @options={{this.roleOptions}}
-          @value={{@member.role}}
-        >
-          <:label>{{t "pages.team.members.actions.select-role.label"}}</:label>
-        </PixSelect>
-      </div>
+      <PixSelect
+        @screenReaderOnly={{true}}
+        @hideDefaultOption={{true}}
+        @placeholder="{{t 'pages.team.members.actions.select-role.label'}}"
+        @onChange={{this.setRoleSelection}}
+        @options={{this.roleOptions}}
+        @value={{@member.role}}
+      >
+        <:label>{{t "pages.team.members.actions.select-role.label"}}</:label>
+      </PixSelect>
     {{else}}
       {{@member.roleLabel}}
     {{/if}}
