@@ -2,6 +2,7 @@
   "pages": {
     "pix-junior": "Pix Junior",
     "challenge": {
+      "title": "Mission",
       "actions": {
         "skip": "Je passe",
         "check": "Je vérifie",
@@ -30,18 +31,23 @@
       "backHome": "Retour à l'accueil"
     },
     "missions": {
+      "list": {
+        "title": "Mes Missions",
+        "instruction": "Bonjour <strong>{prenom}</strong>, choisis ta mission parmi celles qui te sont proposées ci-dessous !",
+        "back-to-students": "Si tu n'es pas <strong>{prenom}</strong>, <a href=\"{backUrl}\" class=\"internal-link\">clique ici pour retourner à la liste des élèves </a>"
+      },
       "start-page": {
+        "title": "Début de mission",
         "back-to-missions": "Voir toutes les missions",
         "cards": {
           "finished": "Terminé"
         },
-        "instruction": "Bonjour <strong>{prenom}</strong>, choisis ta mission parmi celles qui te sont proposées ci-dessous !",
-        "back-to-students": "Si tu n'es pas <strong>{prenom}</strong>, <a href=\"{backUrl}\" class=\"internal-link\">clique ici pour retourner à la liste des élèves </a>",
         "purpose-title": "Objectif de la mission :",
         "start-mission": "C'est partix !",
         "welcome": "Prépare-toi à résoudre des épreuves et relever des défis."
       },
       "end-page": {
+        "title": "Fin de mission",
         "congratulations": "Bravo ! <br> Tu as terminé ta mission !",
         "back-to-missions": "Voir d'autres missions",
         "details-list": "Tu as pu travailler :"
@@ -57,7 +63,7 @@
         "page-title": "Liste des classes",
         "welcome": "Bienvenue sur la page de l'école : <strong>{schoolName}</strong><br>Maintenant, choisis ta classe."
       },
-      "student-list":{
+      "student-list": {
         "back-to-divisions": "Si ce n'est pas ta classe, <a href=\"{backUrl}\" class=\"internal-link\">clique ici pour retourner à la liste des classes</a>",
         "find-name": "Voici les élèves de la classe : <strong>{division}</strong><br>Clique sur ton prénom dans la liste.",
         "page-title": "Liste des élèves"
