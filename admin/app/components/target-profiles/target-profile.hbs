@@ -50,13 +50,13 @@
           {{#if @model.description}}
             <li>
               <span class="bold">Description&#x20;:&#x20;</span>
-              <MarkdownToHtml @markdown={{@model.description}} />
+              <SafeMarkdownToHtml @markdown={{@model.description}} />
             </li>
           {{/if}}
           {{#if @model.comment}}
             <li>
               <span class="bold">Commentaire (usage interne)&#x20;:&#x20;</span>
-              <MarkdownToHtml @markdown={{@model.comment}} />
+              <SafeMarkdownToHtml @markdown={{@model.comment}} />
             </li>
           {{/if}}
         </ul>

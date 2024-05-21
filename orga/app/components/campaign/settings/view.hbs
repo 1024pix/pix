@@ -104,7 +104,7 @@
       <div class="campaign-settings-content campaign-settings-content--single">
         <dt class="label-text campaign-settings-content__label">{{t "pages.campaign-settings.landing-page-text"}}</dt>
         <dd class="content-text campaign-settings-content__text">
-          <MarkdownToHtml @markdown={{@campaign.customLandingPageText}} />
+          <SafeMarkdownToHtml @markdown={{@campaign.customLandingPageText}} />
         </dd>
       </div>
     </div>

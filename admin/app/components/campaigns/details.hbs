@@ -42,12 +42,12 @@
 
     {{#if @campaign.customLandingPageText}}
       <li>Texte de la page d'accueil :
-        <MarkdownToHtml @markdown={{@campaign.customLandingPageText}} />
+        <SafeMarkdownToHtml @markdown={{@campaign.customLandingPageText}} />
       </li>
     {{/if}}
     {{#if @campaign.customResultPageText}}
       <li>Texte de la page de fin de parcours :
-        <MarkdownToHtml @markdown={{@campaign.customResultPageText}} />
+        <SafeMarkdownToHtml @markdown={{@campaign.customResultPageText}} />
       </li>
     {{/if}}
     {{#if @campaign.customResultPageButtonText}}
