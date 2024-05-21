@@ -41,6 +41,10 @@ class Activity {
     return this.level === levels.TRAINING;
   }
 
+  get isTutorial() {
+    return this.level === levels.TUTORIAL;
+  }
+
   get isSucceeded() {
     return this.status === status.SUCCEEDED;
   }

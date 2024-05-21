@@ -13,13 +13,7 @@ export async function updateCurrentActivity({
   const answers = await activityAnswerRepository.findByActivity(lastActivity.id, domainTransaction);
   const lastAnswer = answers.at(-1);
 
-  if (lastAnswer.result.isKO()) {
-    return activityRepository.updateStatus(
-      { activityId: lastActivity.id, status: Activity.status.FAILED },
-      domainTransaction,
-    );
-  }
-  if (lastAnswer.result.isOK()) {
+  if (lastAnswer.result.isOK() || lastActivity.isTutorial) {
     const { missionId } = await missionAssessmentRepository.getByAssessmentId(assessmentId, domainTransaction);
     const mission = await missionRepository.get(missionId);
     if (_isActivityFinished(mission, lastActivity, answers)) {
@@ -29,6 +23,12 @@ export async function updateCurrentActivity({
       );
     }
     return lastActivity;
+  }
+  if (lastAnswer.result.isKO()) {
+    return activityRepository.updateStatus(
+      { activityId: lastActivity.id, status: Activity.status.FAILED },
+      domainTransaction,
+    );
   }
   return activityRepository.updateStatus(
     { activityId: lastActivity.id, status: Activity.status.SKIPPED },

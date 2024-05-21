@@ -9,26 +9,30 @@ describe('Unit | domain | Activity', function () {
       isDare: true,
       isValidation: false,
       isTraining: false,
+      isTutorial: false,
     },
     {
       level: Activity.levels.VALIDATION,
       isDare: false,
       isValidation: true,
       isTraining: false,
+      isTutorial: false,
     },
     {
       level: Activity.levels.TUTORIAL,
       isDare: false,
       isValidation: false,
       isTraining: false,
+      isTutorial: true,
     },
     {
       level: Activity.levels.TRAINING,
       isDare: false,
       isValidation: false,
       isTraining: true,
+      isTutorial: false,
     },
-  ].forEach(function ({ level, isDare, isValidation, isTraining }) {
+  ].forEach(function ({ level, isDare, isValidation, isTraining, isTutorial }) {
     it(`isDare should return ${isDare} when activity is ${level} level`, function () {
       const activity = new Activity({ level });
       expect(activity.isDare).to.equal(isDare);
@@ -42,6 +46,11 @@ describe('Unit | domain | Activity', function () {
     it(`isTraining should return ${isTraining} when activity is ${level} level`, function () {
       const activity = new Activity({ level });
       expect(activity.isTraining).to.equal(isTraining);
+    });
+
+    it(`isTutorial should return ${isTutorial} when activity is ${level} level`, function () {
+      const activity = new Activity({ level });
+      expect(activity.isTutorial).to.equal(isTutorial);
     });
   });
   /* eslint-enable mocha/no-setup-in-describe */
