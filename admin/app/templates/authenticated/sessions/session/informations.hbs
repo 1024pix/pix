@@ -123,15 +123,15 @@
       <div class="session-info__actions">
         {{#if this.sessionModel.finalizedAt}}
           {{#if this.isCurrentUserAssignedToSession}}
-            <PixButton @size="big" @isDisabled={{true}}>Vous êtes assigné à cette session</PixButton>
+            <PixButton @size="large" @isDisabled={{true}}>Vous êtes assigné à cette session</PixButton>
           {{else}}
-            <PixButton @size="big" @triggerAction={{this.checkForAssignment}}>M'assigner la session</PixButton>
+            <PixButton @size="large" @triggerAction={{this.checkForAssignment}}>M'assigner la session</PixButton>
           {{/if}}
           {{#if this.sessionModel.isPublished}}
             <PixTooltip @position="right" @isWide={{true}}>
               <:triggerElement>
                 <PixButton
-                  @size="big"
+                  @size="large"
                   @isDisabled={{true}}
                   @triggerAction={{this.onUnfinalizeSessionButtonClick}}
                   @backgroundColor="error"
@@ -145,7 +145,7 @@
             </PixTooltip>
           {{else}}
             <PixButton
-              @size="big"
+              @size="large"
               @triggerAction={{this.onUnfinalizeSessionButtonClick}}
               @backgroundColor="error"
             >Définaliser la session
