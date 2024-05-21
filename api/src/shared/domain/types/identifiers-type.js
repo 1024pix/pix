@@ -5,20 +5,18 @@ const postgreSQLSequenceDefaultStart = 1;
 const postgreSQLSequenceEnd = 2 ** 31 - 1;
 
 const implementationType = {
-  positiveInteger32bits: Joi.number()
-    .integer()
-    .min(postgreSQLSequenceDefaultStart)
-    .max(postgreSQLSequenceEnd)
-    .required(),
-  alphanumeric255: Joi.string().max(255).required(),
-  alphanumeric: Joi.string().required(),
+  positiveInteger32bits: Joi.number().integer().min(postgreSQLSequenceDefaultStart).max(postgreSQLSequenceEnd),
+  alphanumeric255: Joi.string().max(255),
+  alphanumeric: Joi.string(),
 };
 
-const valuesToExport = {};
+const paramsToExport = {};
+const queryToExport = {};
 
 function _assignValueToExport(array, implementationType) {
   _.each(array, function (value) {
-    valuesToExport[value] = implementationType;
+    paramsToExport[value] = implementationType.required();
+    queryToExport[value] = implementationType.empty('').allow(null).optional();
   });
 }
 
@@ -70,9 +68,9 @@ _assignValueToExport(typesPositiveInteger32bits, implementationType.positiveInte
 _assignValueToExport(typesAlphanumeric, implementationType.alphanumeric);
 _assignValueToExport(typesAlphanumeric255, implementationType.alphanumeric255);
 
-valuesToExport.positiveInteger32bits = {
+paramsToExport.positiveInteger32bits = {
   min: postgreSQLSequenceDefaultStart,
   max: postgreSQLSequenceEnd,
 };
 
-export { valuesToExport as identifiersType };
+export { paramsToExport as identifiersType, queryToExport as optionalIdentifiersType };

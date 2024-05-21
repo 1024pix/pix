@@ -1,82 +1,150 @@
-import { identifiersType } from '../../../../../src/shared/domain/types/identifiers-type.js';
+import { identifiersType, optionalIdentifiersType } from '../../../../../src/shared/domain/types/identifiers-type.js';
 import { expect } from '../../../../test-helper.js';
 const { userId, competenceId } = identifiersType;
+const { organizationId } = optionalIdentifiersType;
 
 describe('Unit | Domain | Type | identifier-types', function () {
-  describe('#userId', function () {
-    context('when id is valid', function () {
-      it('should not reject', function () {
-        // given
-        const validId = 1;
+  context('identifiersType', function () {
+    describe('#userId', function () {
+      context('when id is valid', function () {
+        it('should not reject', function () {
+          // given
+          const validId = 1;
 
-        // when
-        const { error } = userId.validate(validId);
+          // when
+          const { error } = userId.validate(validId);
 
-        // then
-        expect(error).to.be.undefined;
+          // then
+          expect(error).to.be.undefined;
+        });
+      });
+
+      context('when id is invalid', function () {
+        it('should reject outside of lower bound', async function () {
+          // given
+          const lowerBoundOutOfRangeId = 0;
+
+          // when
+          const { error } = userId.validate(lowerBoundOutOfRangeId);
+
+          // then
+          expect(error.message).to.equal('"value" must be greater than or equal to 1');
+        });
+
+        it('should reject outside of upper bound', async function () {
+          // given
+          const upperBoundOutOfRangeId = 2147483648;
+
+          // when
+          const { error } = userId.validate(upperBoundOutOfRangeId);
+
+          // then
+          expect(error.message).to.equal('"value" must be less than or equal to 2147483647');
+        });
       });
     });
 
-    context('when id is invalid', function () {
-      it('should reject outside of lower bound', async function () {
-        // given
-        const lowerBoundOutOfRangeId = 0;
+    describe('#competenceId', function () {
+      context('when id is valid', function () {
+        it('should not reject', function () {
+          // given
+          const validId = '1234567890123456';
 
-        // when
-        const { error } = userId.validate(lowerBoundOutOfRangeId);
+          // when then
+          const { error } = competenceId.validate(validId);
 
-        // then
-        expect(error.message).to.equal('"value" must be greater than or equal to 1');
+          // then
+          expect(error).to.be.undefined;
+        });
       });
 
-      it('should reject outside of upper bound', async function () {
-        // given
-        const upperBoundOutOfRangeId = 2147483648;
+      context('when id is invalid', function () {
+        it('should reject when empty', async function () {
+          // given
+          const emptyString = '';
 
-        // when
-        const { error } = userId.validate(upperBoundOutOfRangeId);
+          // when
+          const { error } = competenceId.validate(emptyString);
 
-        // then
-        expect(error.message).to.equal('"value" must be less than or equal to 2147483647');
+          // then
+          expect(error.message).to.equal('"value" is not allowed to be empty');
+        });
+
+        it('should reject when too large', async function () {
+          // given
+          const tooLargeString = 'A'.repeat(256);
+
+          // when
+          const { error } = competenceId.validate(tooLargeString);
+
+          // then
+          expect(error.message).to.equal('"value" length must be less than or equal to 255 characters long');
+        });
       });
     });
   });
 
-  describe('#competenceId', function () {
-    context('when id is valid', function () {
-      it('should not reject', function () {
-        // given
-        const validId = '1234567890123456';
+  context('queryIdentifiersType', function () {
+    describe('#organizationId', function () {
+      context('when organizationId is null', function () {
+        it('should not throw', function () {
+          // given
+          const nullId = null;
 
-        // when then
-        const { error } = competenceId.validate(validId);
+          // when
+          const { error } = organizationId.validate(nullId);
 
-        // then
-        expect(error).to.be.undefined;
+          // then
+          expect(error).to.be.undefined;
+        });
       });
-    });
+      context('when organizationId is empty', function () {
+        it('should not throw', function () {
+          // given
+          const emptyId = '';
 
-    context('when id is invalid', function () {
-      it('should reject when empty', async function () {
-        // given
-        const emptyString = '';
+          // when
+          const { error } = organizationId.validate(emptyId);
 
-        // when
-        const { error } = competenceId.validate(emptyString);
-
-        // then
-        expect(error.message).to.equal('"value" is not allowed to be empty');
+          // then
+          expect(error).to.be.undefined;
+        });
       });
+      context('when organizationId is undefined', function () {
+        it('should not throw', function () {
+          // given
+          const undefinedId = '';
 
-      it('should reject when too large', async function () {
-        // given
-        const tooLargeString = 'A'.repeat(256);
+          // when
+          const { error } = organizationId.validate(undefinedId);
 
-        // when
-        const { error } = competenceId.validate(tooLargeString);
+          // then
+          expect(error).to.be.undefined;
+        });
+      });
+      context('when organizationId is lower of range', function () {
+        it('should reject outside of lower bound', async function () {
+          // given
+          const lowerBoundOutOfRangeId = 0;
 
-        // then
-        expect(error.message).to.equal('"value" length must be less than or equal to 255 characters long');
+          // when
+          const { error } = organizationId.validate(lowerBoundOutOfRangeId);
+
+          // then
+          expect(error.message).to.equal('"value" must be greater than or equal to 1');
+        });
+      });
+      context('when organizationId is higher of range', function () {
+        it('should reject outside of upper bound', async function () {
+          // given
+          const upperBoundOutOfRangeId = 2147483648;
+
+          // when
+          const { error } = organizationId.validate(upperBoundOutOfRangeId);
+
+          // then
+          expect(error.message).to.equal('"value" must be less than or equal to 2147483647');
+        });
       });
     });
   });

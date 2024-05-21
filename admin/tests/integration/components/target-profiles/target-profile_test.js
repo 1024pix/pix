@@ -80,7 +80,6 @@ function _findByListItemText(screen, text) {
   return (
     screen.getAllByRole('listitem').find((listitem) => {
       const cleanListItemText = listitem.textContent.replace(/(\r\n|\n|\r)/gm, '').trim();
-      console.log(cleanListItemText);
       return cleanListItemText === text;
     }) || null
   );
