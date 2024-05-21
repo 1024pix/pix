@@ -1,5 +1,40 @@
 # Pix Changelog
 
+## v4.147.0 (21/05/2024)
+
+
+### :rocket: Amélioration
+- [#8974](https://github.com/1024pix/pix/pull/8974) [FEATURE] Ajout de titre aux pages de junior.
+- [#8938](https://github.com/1024pix/pix/pull/8938) [FEATURE] Active l'import élève pour les établissement scolaire du premier degré (PIX-12338).
+- [#8966](https://github.com/1024pix/pix/pull/8966) [FEATURE]  Changement de style dans des page resume/result des missions (Pix-12568).
+- [#8935](https://github.com/1024pix/pix/pull/8935) [FEATURE] Supprimer la colonne "grainId" de la table "element-answers" (PIX-12459).
+- [#8941](https://github.com/1024pix/pix/pull/8941) [FEATURE] Rattrapage de la feature "LEARNER_IMPORT" pour les organisation sco-1d (PIX-12339).
+
+### :building_construction: Tech
+- [#8906](https://github.com/1024pix/pix/pull/8906) [TECH] Migrer la route POST /api/oidc/users vers src/identity-access-management (PIX-12503).
+- [#8921](https://github.com/1024pix/pix/pull/8921) [TECH] Utiliser le composant Pixtoggle pour filtrer les campagnes que l'on souhaite voir (PIX-10467).
+
+### :bug: Correction
+- [#8947](https://github.com/1024pix/pix/pull/8947) [BUGFIX] utilise un nouveau composant pour afficher le markdown (pix-12552).
+- [#8958](https://github.com/1024pix/pix/pull/8958) [BUGFIX] Le codeEcole ne s'actualise pas correctement lors des choix d'oragnisations (Pix-12569).
+
+### :arrow_up: Montée de version
+- [#8956](https://github.com/1024pix/pix/pull/8956) [BUMP] Update dependency @1024pix/pix-ui to v46 (admin).
+- [#8972](https://github.com/1024pix/pix/pull/8972) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.13 (junior).
+- [#8969](https://github.com/1024pix/pix/pull/8969) [BUMP] Update dependency @1024pix/pix-ui to ^46.2.0 (orga).
+- [#8968](https://github.com/1024pix/pix/pull/8968) [BUMP] Update dependency @1024pix/pix-ui to ^46.2.0 (mon-pix).
+- [#8961](https://github.com/1024pix/pix/pull/8961) [BUMP] Update dependency @1024pix/pix-ui to ^46.0.3 (certif).
+- [#8960](https://github.com/1024pix/pix/pull/8960) [BUMP] Lock file maintenance (dossier racine).
+- [#8936](https://github.com/1024pix/pix/pull/8936) [BUMP] Update dependency @1024pix/pix-ui to v46 (certif) (PIX-12547).
+- [#8955](https://github.com/1024pix/pix/pull/8955) [BUMP] Update dependency ember-data to v4.12.8 (certif) (PIX-12572).
+- [#8934](https://github.com/1024pix/pix/pull/8934) [BUMP] Update dependency @1024pix/pix-ui to v46 (mon-pix).
+- [#8953](https://github.com/1024pix/pix/pull/8953) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.14 (orga).
+- [#8952](https://github.com/1024pix/pix/pull/8952) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.14 (mon-pix).
+- [#8951](https://github.com/1024pix/pix/pull/8951) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.14 (junior).
+- [#8949](https://github.com/1024pix/pix/pull/8949) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.14 (certif).
+- [#8948](https://github.com/1024pix/pix/pull/8948) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.14 (admin).
+- [#8946](https://github.com/1024pix/pix/pull/8946) [BUMP] Update dependency @1024pix/pix-ui to ^46.0.3 (orga).
+
 ## v4.146.0 (16/05/2024)
 
 
