@@ -18,7 +18,7 @@
       "grainId": "4a96e2aa-fdeb-4094-8c99-2bc8f088bfbe"
     },
     {
-      "content": "<p>Si comme Lucas, tu veux apprendre ce qu'est une donnée personnelle, regarde attentivement la vidéo. Après la vidéo, tu pourras répondre à la question : \"C'est quoi les données personnelles ?\" puis tu devras trier des données.</p>",
+      "content": "<p>Si comme Lucas, tu veux apprendre ce qu'est une donnée personnelle, regarde attentivement la vidéo.<br>Après la vidéo, tu pourras répondre à la question : \"C'est quoi les données personnelles ?\" puis tu devras trier des données.</p>",
       "grainId": "6de63cda-85ce-4bc6-83a0-f2f3518d4968"
     },
     {
@@ -127,7 +127,7 @@
         {
           "id": "f127b2ed-b484-4642-95e5-19d5ebdad34e",
           "type": "qcm",
-            "instruction": "<p>Regarde le formulaire que Lucas a rempli : On sait déjà qu'il n'aurait pas dû donner son nom, son prénom et son numéro. Peux-tu retrouver les 2 autres données personnelles qu'il n'aurait pas dû remplir ?</p>",
+            "instruction": "<p>Regarde le formulaire que Lucas a rempli : On sait déjà qu'il n'aurait pas dû donner son nom, son prénom et son numéro.<br/>Peux-tu retrouver les 2 autres données personnelles qu'il n'aurait pas dû remplir ?</p>",
             "proposals": [
               {
                 "id": "1",
