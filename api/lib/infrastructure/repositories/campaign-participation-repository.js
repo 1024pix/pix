@@ -6,7 +6,7 @@ import { constants } from '../../domain/constants.js';
 import { Campaign } from '../../domain/models/Campaign.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 
-const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
+const { TO_SHARE } = CampaignParticipationStatuses;
 
 const hasAssessmentParticipations = async function (userId) {
   const { count } = await knex('campaign-participations')
@@ -103,50 +103,11 @@ const isRetrying = async function ({ campaignParticipationId }) {
   );
 };
 
-const getAllParticipationsByCampaignId = async function (campaignId) {
-  const result = await knex
-    .select('masteryRate', 'validatedSkillsCount')
-    .from('campaign-participations')
-    .where('campaign-participations.campaignId', '=', campaignId)
-    .where('campaign-participations.isImproved', '=', false)
-    .where('campaign-participations.deletedAt', 'is', null)
-    .where('campaign-participations.status', 'SHARED');
-
-  return result;
-};
-
-const countParticipationsByStatus = async function (campaignId, campaignType) {
-  const row = await knex('campaign-participations')
-    .select([
-      knex.raw(`sum(case when status = ? then 1 else 0 end) as shared`, SHARED),
-      knex.raw(`sum(case when status = ? then 1 else 0 end) as completed`, TO_SHARE),
-      knex.raw(`sum(case when status = ? then 1 else 0 end) as started`, STARTED),
-    ])
-    .where({ campaignId, isImproved: false, deletedAt: null })
-    .groupBy('campaignId')
-    .first();
-
-  return mapToParticipationByStatus(row, campaignType);
-};
-
 export {
-  countParticipationsByStatus,
   findLatestOngoingByUserId,
   findOneByCampaignIdAndUserId,
   get,
-  getAllParticipationsByCampaignId,
   getCodeOfLastParticipationToProfilesCollectionCampaignForUser,
   hasAssessmentParticipations,
   isRetrying,
 };
-
-function mapToParticipationByStatus(row = {}, campaignType) {
-  const participationByStatus = {
-    shared: row.shared || 0,
-    completed: row.completed || 0,
-  };
-  if (campaignType === CampaignTypes.ASSESSMENT) {
-    participationByStatus.started = row.started || 0;
-  }
-  return participationByStatus;
-}
