@@ -30,7 +30,7 @@
           </PixButton>
           <PixButton
             @size="small"
-            @backgroundColor="transparent-light"
+            @variant="secondary"
             @isBorderVisible={{true}}
             @triggerAction={{this.cancelUpdateRoleOfMember}}
             aria-label="Annuler"
@@ -75,11 +75,7 @@
         </p>
       </:content>
       <:footer>
-        <PixButton
-          @backgroundColor="transparent-light"
-          @isBorderVisible={{true}}
-          @triggerAction={{this.toggleDisplayConfirm}}
-        >
+        <PixButton @variant="secondary" @isBorderVisible={{true}} @triggerAction={{this.toggleDisplayConfirm}}>
           Annuler
         </PixButton>
         <PixButton @triggerAction={{this.disableOrganizationMembership}}>Confirmer</PixButton>

@@ -36,13 +36,7 @@
     <:label>Texte de la page d'accueil :</:label>
   </PixTextarea>
   <div class="form-actions">
-    <PixButton
-      type="reset"
-      @backgroundColor="transparent-light"
-      @isBorderVisible={{true}}
-      @size="small"
-      @triggerAction={{@cancel}}
-    >
+    <PixButton type="reset" @variant="secondary" @isBorderVisible={{true}} @size="small" @triggerAction={{@cancel}}>
       Annuler
     </PixButton>
     <PixButton

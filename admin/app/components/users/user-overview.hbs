@@ -104,7 +104,7 @@
         <div class="form-actions">
           <PixButton
             @size="small"
-            @backgroundColor="transparent-light"
+            @variant="secondary"
             @isBorderVisible={{true}}
             @triggerAction={{this.cancelEdit}}
           >Annuler</PixButton>
@@ -164,7 +164,7 @@
         </div>
         <div>
           <PixButtonLink
-            @backgroundColor="transparent-light"
+            @variant="secondary"
             @isBorderVisible={{true}}
             @href={{this.externalURL}}
             @size="small"
@@ -177,7 +177,7 @@
         {{#if this.accessControl.hasAccessToUsersActionsScope}}
           <PixButton
             @size="small"
-            @backgroundColor="transparent-light"
+            @variant="secondary"
             @isBorderVisible={{true}}
             @triggerAction={{this.changeEditionMode}}
             @isDisabled={{@user.hasBeenAnonymised}}

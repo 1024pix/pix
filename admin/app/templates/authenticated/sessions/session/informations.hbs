@@ -161,7 +161,7 @@
           <PixButton
             size="small"
             @triggerAction={{this.copyResultsDownloadLink}}
-            @backgroundColor="transparent-light"
+            @variant="secondary"
             @isBorderVisible="true"
           >
             <FaIcon @icon="copy" @prefix="far" aria-label="Copier" />
@@ -172,7 +172,7 @@
         <div class="session-info__published-buttons">
           <PixButton
             @triggerAction={{this.downloadPDFAttestations}}
-            @backgroundColor="transparent-light"
+            @variant="secondary"
             @isBorderVisible="true"
             class="session-info__download-button"
             @isDisabled={{not this.sessionModel.isPublished}}
@@ -185,7 +185,7 @@
             <PixButton
               size="small"
               @triggerAction={{this.tagSessionAsSentToPrescriber}}
-              @backgroundColor="transparent-light"
+              @variant="secondary"
               @isBorderVisible="true"
               class="session-info__download-button"
             >

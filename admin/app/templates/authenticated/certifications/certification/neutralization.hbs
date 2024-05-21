@@ -30,7 +30,7 @@
               {{#if answer.isNeutralized}}
                 <PixButton
                   @triggerAction={{fn this.deneutralize answer.challengeId answer.order}}
-                  @backgroundColor="transparent-light"
+                  @variant="secondary"
                   @isBorderVisible="true"
                   @loading-color="grey"
                   @size="small"

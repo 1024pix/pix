@@ -16,7 +16,7 @@
         </PixTextarea>
         <div class="jury-comment__actions">
           {{#if this.commentExists}}
-            <PixButton @triggerAction={{this.exitEditingMode}} @backgroundColor="transparent-light" @size="small">
+            <PixButton @triggerAction={{this.exitEditingMode}} @variant="secondary" @size="small">
               Annuler
             </PixButton>
           {{/if}}
@@ -41,7 +41,7 @@
         <PixButton
           @triggerAction={{this.openDeletionConfirmationModal}}
           @size="small"
-          @backgroundColor="transparent-light"
+          @variant="secondary"
           @isBorderVisible={{true}}
         >
           Supprimer

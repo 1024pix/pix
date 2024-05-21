@@ -65,7 +65,7 @@
       <div class="add-stage-actions">
         <PixButton
           class="stages-new-stage"
-          @backgroundColor="transparent-light"
+          @variant="secondary"
           @isBorderVisible={{true}}
           @triggerAction={{this.addStage}}
           @isDisabled={{this.isAddStageDisabled}}
@@ -78,7 +78,7 @@
             <:triggerElement>
               <PixButton
                 class="stages-new-stage"
-                @backgroundColor="transparent-light"
+                @variant="secondary"
                 @isBorderVisible={{true}}
                 @triggerAction={{this.addFirstSkillStage}}
                 @isDisabled={{this.isAddFirstSkillStageDisabled}}
@@ -97,11 +97,7 @@
     {{/if}}
     {{#if this.hasNewStage}}
       <div class="stages-actions form-actions">
-        <PixButton
-          @backgroundColor="transparent-light"
-          @isBorderVisible={{true}}
-          @triggerAction={{this.cancelStagesCreation}}
-        >
+        <PixButton @variant="secondary" @isBorderVisible={{true}} @triggerAction={{this.cancelStagesCreation}}>
           Annuler
         </PixButton>
         <PixButton type="submit" @backgroundColor="success" @triggerAction={{this.createStages}}>

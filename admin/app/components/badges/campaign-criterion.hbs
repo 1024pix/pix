@@ -4,7 +4,7 @@
     <PixTooltip @hide={{@isEditable}} @isWide={{true}}>
       <:triggerElement>
         <PixButton
-          @backgroundColor="transparent-light"
+          @variant="secondary"
           @isBorderVisible={{true}}
           @size="small"
           @triggerAction={{this.toggleEditModal}}
@@ -48,12 +48,7 @@
       </PixInput>
     </:content>
     <:footer>
-      <PixButton
-        @triggerAction={{this.toggleEditModal}}
-        @size="small"
-        @backgroundColor="transparent-light"
-        @isBorderVisible={{true}}
-      >
+      <PixButton @triggerAction={{this.toggleEditModal}} @size="small" @variant="secondary" @isBorderVisible={{true}}>
         Annuler
       </PixButton>
       <PixButton @triggerAction={{this.updateThreshold}} @size="small">
