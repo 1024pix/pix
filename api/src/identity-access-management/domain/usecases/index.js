@@ -20,7 +20,7 @@ import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/
 import { oidcProviderRepository } from '../../infrastructure/repositories/oidc-provider-repository.js';
 import { authenticationSessionService } from '../services/authentication-session.service.js';
 import { pixAuthenticationService } from '../services/pix-authentication-service.js';
-import * as refreshTokenService from '../services/refresh-token-service.js';
+import { refreshTokenService } from '../services/refresh-token-service.js';
 import { addOidcProviderValidator } from '../validators/add-oidc-provider.validator.js';
 
 const path = dirname(fileURLToPath(import.meta.url));

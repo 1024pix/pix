@@ -1,4 +1,4 @@
-import * as refreshTokenService from '../../../../../src/identity-access-management/domain/services/refresh-token-service.js';
+import { refreshTokenService } from '../../../../../src/identity-access-management/domain/services/refresh-token-service.js';
 import { UnauthorizedError } from '../../../../../src/shared/application/http-errors.js';
 import { config as settings } from '../../../../../src/shared/config.js';
 import { tokenService } from '../../../../../src/shared/domain/services/token-service.js';
