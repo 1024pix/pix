@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { click, findAll } from '@ember/test-helpers';
+// eslint-disable-next-line no-restricted-imports
+import { click, find } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -27,10 +28,13 @@ module('Integration | Component | Module | QCU', function (hooks) {
 
     // then
     assert.ok(screen);
-    assert.strictEqual(findAll('.element-qcu-header__instruction').length, 1);
-    assert.strictEqual(findAll('.element-qcu-header__direction').length, 1);
-    assert.ok(screen.getByText('Instruction'));
     assert.ok(screen.getByRole('group', { legend: this.intl.t('pages.modulix.qcu.direction') }));
+
+    // Pas possible de faire un `getByRole('form')`. Voir https://github.com/1024pix/pix/pull/8835#discussion_r1596407648
+    const form = find('form');
+    assert.dom(form).exists();
+    const formDescription = find(`#${form.getAttribute('aria-describedby')}`);
+    assert.dom(formDescription).hasText('Instruction');
 
     assert.strictEqual(screen.getAllByRole('radio').length, qcuElement.proposals.length);
     assert.ok(screen.getByLabelText('radio1'));

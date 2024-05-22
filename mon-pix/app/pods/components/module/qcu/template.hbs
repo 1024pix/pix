@@ -1,14 +1,16 @@
-<form class="element-qcu">
-  <fieldset>
-    <div class="element-qcu__header">
-      <legend class="element-qcu-header__direction">
-        {{t "pages.modulix.qcu.direction"}}
-      </legend>
+<form class="element-qcu" aria-describedby="instruction-{{this.element.id}}">
+  <fieldset disabled={{this.disableInput}}>
+    <legend class="screen-reader-only">
+      {{t "pages.modulix.qcu.direction"}}
+    </legend>
 
-      <div class="element-qcu-header__instruction">
-        {{html-unsafe this.element.instruction}}
-      </div>
+    <div class="element-qcu__instruction" id="instruction-{{this.element.id}}">
+      {{html-unsafe this.element.instruction}}
     </div>
+
+    <p class="element-qcu__direction" aria-hidden="true">
+      {{t "pages.modulix.qcu.direction"}}
+    </p>
 
     <div class="element-qcu__proposals">
       {{#each this.element.proposals as |proposal|}}

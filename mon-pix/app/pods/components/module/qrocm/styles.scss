@@ -1,11 +1,17 @@
 .element-qrocm {
-  &__header {
-    display: flex;
-    flex-direction: column-reverse;
+  &__instruction {
+    margin-bottom: var(--pix-spacing-2x);
+    font-weight: var(--pix-font-medium);
+  }
+
+  &__direction {
+    @extend %pix-body-s;
+
+    color: var(--pix-neutral-500);
   }
 
   &__proposals {
-    margin-bottom: var(--pix-spacing-4x);
+    margin: var(--pix-spacing-4x) 0;
   }
 
   &__required-field-missing {
@@ -14,20 +20,6 @@
 
   &__feedback {
     margin-bottom: var(--pix-spacing-4x);
-  }
-}
-
-.element-qrocm-header {
-  &__direction {
-    @extend %pix-body-s;
-
-    margin-bottom: var(--pix-spacing-4x);
-    color: var(--pix-neutral-500);
-  }
-
-  &__instruction {
-    margin-bottom: var(--pix-spacing-2x);
-    font-weight: var(--pix-font-medium);
   }
 }
 
