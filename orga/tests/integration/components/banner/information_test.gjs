@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { hbs } from 'ember-cli-htmlbars';
+import Information from 'pix-orga/components/banner/information';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -23,7 +23,7 @@ module('Integration | Component | Banner::Information', function (hooks) {
           this.owner.register('service:current-user', CurrentUserStub);
 
           // when
-          const screen = await render(hbs`<Banner::Information />`);
+          const screen = await render(<template><Information /></template>);
 
           // then
           const link = screen.getByRole('link', { name: 'Plus d’info' });
@@ -39,7 +39,7 @@ module('Integration | Component | Banner::Information', function (hooks) {
           this.owner.register('service:current-user', CurrentUserStub);
 
           // when
-          const screen = await render(hbs`<Banner::Information />`);
+          const screen = await render(<template><Information /></template>);
 
           // then
           const link = screen.getByRole('link', { name: 'importer' });
@@ -60,7 +60,7 @@ module('Integration | Component | Banner::Information', function (hooks) {
         this.owner.register('service:current-user', CurrentUserStub);
 
         // when
-        const screen = await render(hbs`<Banner::Information />`);
+        const screen = await render(<template><Information /></template>);
 
         const link = screen.queryByRole('link', { name: 'importer' });
         // then
@@ -79,7 +79,7 @@ module('Integration | Component | Banner::Information', function (hooks) {
         this.owner.register('service:current-user', CurrentUserStub);
 
         // when
-        await render(hbs`<Banner::Information />`);
+        await render(<template><Information /></template>);
 
         // then
         assert.dom('.pix-banner').doesNotExist();
@@ -93,7 +93,7 @@ module('Integration | Component | Banner::Information', function (hooks) {
 
       hooks.beforeEach(function () {
         dayjs = this.owner.lookup('service:dayjs');
-        sinon.stub(dayjs.self.prototype, 'format').returns('04');
+        sinon.stub(dayjs.self.prototype, 'format').withArgs('MM').returns('04').withArgs('YYYY').returns('2001');
       });
 
       hooks.afterEach(function () {
@@ -106,13 +106,22 @@ module('Integration | Component | Banner::Information', function (hooks) {
           organization = { isSco: true };
           isSCOManagingStudents = true;
         }
+        test('should render the current year', async function (assert) {
+          // given
+          this.owner.register('service:current-user', CurrentUserStub);
 
+          // when
+          const screen = await render(<template><Information /></template>);
+
+          // then
+          assert.ok(screen.getByText(/2001/));
+        });
         test('should render the info link for finalize certification session', async function (assert) {
           // given
           this.owner.register('service:current-user', CurrentUserStub);
 
           // when
-          const screen = await render(hbs`<Banner::Information />`);
+          const screen = await render(<template><Information /></template>);
 
           const link = screen.getByRole('link', { name: 'finaliser les sessions dans Pix Certif' });
 
@@ -135,52 +144,12 @@ module('Integration | Component | Banner::Information', function (hooks) {
           this.owner.register('service:current-user', CurrentUserStub);
 
           // when
-          await render(hbs`<Banner::Information />`);
+          await render(<template><Information /></template>);
 
           // then
           assert.dom('.pix-banner').doesNotExist();
         });
       });
     });
-
-    module(
-      'when prescriber’s organization is of type SCO that manages students and it is not certification period',
-      function () {
-        class CurrentUserStub extends Service {
-          prescriber = { areNewYearOrganizationLearnersImported: false };
-          organization = { isSco: true };
-          isSCOManagingStudents = true;
-        }
-
-        test('should render the more info link', async function (assert) {
-          // given
-          this.owner.register('service:current-user', CurrentUserStub);
-
-          // when
-          const screen = await render(hbs`<Banner::Information />`);
-
-          // then
-          const link = screen.getByRole('link', { name: 'Plus d’info' });
-
-          assert.strictEqual(
-            link.href,
-            'https://view.genial.ly/62cd67b161c1e3001759e818?idSlide=e11f61b2-3047-4be3-9a4d-dd9e7cc698ba',
-          );
-        });
-
-        test('should render the import link banner', async function (assert) {
-          // given
-          this.owner.register('service:current-user', CurrentUserStub);
-
-          // when
-          const screen = await render(hbs`<Banner::Information />`);
-
-          // then
-          const link = screen.getByRole('link', { name: 'importer' });
-
-          assert.dom(link).exists();
-        });
-      },
-    );
   });
 });
