@@ -1,9 +1,8 @@
-import { expect } from 'chai';
-
 import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
 import {
   createServer,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
   mockLearningContent,
   parseJsonStream,
