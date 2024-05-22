@@ -32,7 +32,7 @@ describe('Integration | Identity Access Management | Domain | Service | fwb-oidc
 
       // then
       const expectedResult = await defaultSessionTemporaryStorage.get(key);
-      expect(expectedResult).to.be.undefined;
+      expect(expectedResult).to.be.null;
 
       expect(redirectTarget).to.equal(
         'https://logout-url.org/?id_token_hint=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',

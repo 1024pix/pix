@@ -51,7 +51,7 @@ export class PoleEmploiOidcAuthenticationService extends OidcAuthenticationServi
   async getRedirectLogoutUrl({ userId, logoutUrlUUID }) {
     const redirectTarget = new URL(this.logoutUrl);
     const key = `${userId}:${logoutUrlUUID}`;
-    const idToken = this.sessionTemporaryStorage.get(key);
+    const idToken = await this.sessionTemporaryStorage.get(key);
 
     const params = [
       { key: 'id_token_hint', value: idToken },

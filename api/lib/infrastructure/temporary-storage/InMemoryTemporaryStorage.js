@@ -11,24 +11,24 @@ class InMemoryTemporaryStorage extends TemporaryStorage {
     this._client = new NodeCache();
   }
 
-  save({ key, value, expirationDelaySeconds }) {
+  async save({ key, value, expirationDelaySeconds }) {
     const storageKey = trim(key) || InMemoryTemporaryStorage.generateKey();
     this._client.set(storageKey, value, expirationDelaySeconds);
     return storageKey;
   }
 
-  update(key, value) {
+  async update(key, value) {
     const storageKey = trim(key);
     const timeoutMs = this._client.getTtl(storageKey);
     const expirationDelaySeconds = timeoutMs === 0 ? 0 : (timeoutMs - Date.now()) / 1000;
     this._client.set(storageKey, value, expirationDelaySeconds);
   }
 
-  get(key) {
+  async get(key) {
     return this._client.get(key);
   }
 
-  delete(key) {
+  async delete(key) {
     return this._client.del(key);
   }
 
@@ -36,22 +36,22 @@ class InMemoryTemporaryStorage extends TemporaryStorage {
     noop;
   }
 
-  expire({ key, expirationDelaySeconds }) {
+  async expire({ key, expirationDelaySeconds }) {
     return this._client.ttl(key, expirationDelaySeconds);
   }
 
-  ttl(key) {
+  async ttl(key) {
     return this._client.getTtl(key);
   }
 
-  lpush(key, value) {
+  async lpush(key, value) {
     let list = this._client.get(key) || [];
     list = [value, ...list];
     this._client.set(key, list);
     return list.length;
   }
 
-  lrem(key, value) {
+  async lrem(key, value) {
     const list = this._client.get(key) || [];
     const filtered = list.filter((item) => item !== value);
     const removed = list.filter((item) => item === value);
@@ -59,7 +59,7 @@ class InMemoryTemporaryStorage extends TemporaryStorage {
     return removed.length;
   }
 
-  lrange(key) {
+  async lrange(key) {
     return this._client.get(key) || [];
   }
 }

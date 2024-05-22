@@ -159,7 +159,7 @@
     "test:api": "for testType in 'unit' 'integration' 'acceptance'; do npm run test:api:$testType || status=1 ; done ; exit $status",
     "test:api:path": "NODE_ENV=test mocha --exit --recursive --reporter=${MOCHA_REPORTER:-dot}",
     "test:api:scripts": "npm run test:api:path -- tests/integration/scripts",
-    "test:api:unit": "TEST_DATABASE_URL=postgres://should.not.reach.db.in.unit.tests REDIS_URL= npm run test:api:path -- 'tests/**/unit/**/*test.js'",
+    "test:api:unit": "TEST_DATABASE_URL=postgres://should.not.reach.db.in.unit.tests TEST_REDIS_URL= npm run test:api:path -- 'tests/**/unit/**/*test.js'",
     "test:api:integration": "npm run test:api:path -- 'tests/**/integration/**/*test.js'",
     "test:api:acceptance": "npm run test:api:path -- 'tests/**/acceptance/**/*test.js'",
     "test:api:debug": "NODE_ENV=test mocha --inspect-brk=9229 --recursive --exit --reporter dot tests",

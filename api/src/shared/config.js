@@ -393,7 +393,7 @@ const configuration = (function () {
 
     config.temporaryKey.secret = 'the-password-must-be-at-least-32-characters-long';
 
-    config.temporaryStorage.redisUrl = null;
+    config.temporaryStorage.redisUrl = process.env.TEST_REDIS_URL;
 
     config.saml.accessTokenLifespanMs = 1000;
 
@@ -448,6 +448,7 @@ const configuration = (function () {
     config.logging.enableLogStartingEventDispatch = false;
     config.logging.enableLogEndingEventDispatch = false;
 
+    // TODO: Rather use config.caching.redisUrl = process.env.TEST_REDIS_URL;
     config.caching.redisUrl = null;
     config.caching.redisCacheKeyLockTTL = 100;
     config.caching.redisCacheLockedWaitBeforeRetry = 1;
@@ -456,7 +457,6 @@ const configuration = (function () {
 
     config.redis = {
       url: process.env.TEST_REDIS_URL,
-      database: 1,
     };
 
     config.import = {

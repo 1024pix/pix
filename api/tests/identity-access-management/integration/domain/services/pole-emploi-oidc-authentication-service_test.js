@@ -87,7 +87,7 @@ describe('Integration | Identity Access Management | Domain | Services | pole-em
 
       // then
       const expectedResult = await defaultSessionTemporaryStorage.get(key);
-      expect(expectedResult).to.be.undefined;
+      expect(expectedResult).to.be.null;
 
       expect(redirectTarget).to.equal(
         'https://logout-url.fr/?id_token_hint=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c&redirect_uri=https%3A%2F%2Fafter-logout.fr',
