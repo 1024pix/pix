@@ -9,6 +9,7 @@ const timedOutPageTitle = 'pages.challenge.title.timed-out';
 const focusedPageTitle = 'pages.challenge.title.focused';
 const focusedOutPageTitle = 'pages.challenge.title.focused-out';
 import isInteger from 'lodash/isInteger';
+import ENV from 'mon-pix/config/environment';
 
 export default class ChallengeController extends Controller {
   queryParams = ['newLevel', 'competenceLeveled', 'challengeId'];
@@ -75,6 +76,30 @@ export default class ChallengeController extends Controller {
     return this.model.challenge.focused && !this.hasConfirmedFocusChallengeWarningScreen;
   }
 
+  get isFocusedChallenge() {
+    return ENV.APP.FT_FOCUS_CHALLENGE_ENABLED && this.model.challenge.focused;
+  }
+
+  @action
+  hideOutOfFocusBorder() {
+    if (this.isFocusedChallenge) {
+      this.setFocusedOutOfChallenge(false);
+    }
+  }
+
+  @action
+  showOutOfFocusBorder(event) {
+    if (this.isFocusedChallenge && !this.model.answer) {
+      // linked to a Firefox issue where the mouseleave is triggered
+      // when hovering the select options on mouse navigation
+      // see: https://stackoverflow.com/questions/46831247/select-triggers-mouseleave-event-on-parent-element-in-mozilla-firefox
+      if (this.shouldPreventFirefoxSelectMouseLeaveBehavior(event)) {
+        return;
+      }
+      this.setFocusedOutOfChallenge(true);
+    }
+  }
+
   @action
   setFocusedOutOfChallenge(value) {
     this.hasFocusedOutOfChallenge = value;
@@ -89,6 +114,10 @@ export default class ChallengeController extends Controller {
         challengeId: this.model.challenge.id,
       },
     });
+  }
+
+  shouldPreventFirefoxSelectMouseLeaveBehavior(event) {
+    return event.relatedTarget === null;
   }
 
   get isFocusedCertificationChallengeWithoutAnswer() {
