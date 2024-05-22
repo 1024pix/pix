@@ -293,9 +293,7 @@
     "template-name": "modelo de importación"
   },
   "email-sender-name": {
-    "pix-app": "PIX - No contestar",
-    "pix-orga": "Pix Orga - No contestar",
-    "pix-certif": "Pix Certif - No contestar"
+    "pix-app": "PIX - No contestar"
   },
   "entity-validation-errors": {
     "ACCEPT_CGU": "Debes aceptar las condiciones de uso de Pix para crear una cuenta.",
@@ -362,41 +360,41 @@
   },
   "pix-account-creation-email": {
     "params": {
-      "askForHelp": "¿Necesita ayuda? Póngase en contacto con nosotros",
-      "disclaimer": "Si no creó la cuenta en primer lugar, puede pedir que se elimine.",
-      "doNotAnswer": "Este es un correo electrónico automático, por favor no responda.",
-      "goToPix": "Empezar a probar",
+      "askForHelp": "¿Necesitas ayuda? Ponte en contacto con nosotros",
+      "disclaimer": "Si no has creado tú la cuenta, puedes pedir que se elimine",
+      "doNotAnswer": "Este es un correo electrónico automático, por favor, no respondas directamente.",
+      "goToPix": "Empezar las pruebas",
       "helpdeskLinkLabel": "aquí",
-      "moreOn": "Más información",
-      "pixPresentation": "Pix es el servicio público en línea para evaluar, desarrollar y certificar tus competencias digitales.",
-      "subtitle": "Ya puede empezar a hacer pruebas.",
-      "title": "¡Tu cuenta Pix ha sido creada!"
+      "moreOn": "Más información sobre",
+      "pixPresentation": "Pix es el servicio público en línea para evaluar, desarrollar y certificar las competencias digitales.",
+      "subtitle": "Ya puedes empezar las pruebas.",
+      "title": "¡Tu cuenta Pix ha sido creada correctamente!"
     },
-    "subject": "Su cuenta Pix ha sido creada"
+    "subject": "tu cuenta Pix ha sido creada correctamente"
   },
   "reset-password-demand-email": {
     "params": {
-      "clickOnTheButton": "Haga clic en el botón de abajo para elegir una nueva contraseña.",
-      "contactUs": "póngase en contacto con nosotros",
-      "doNotAnswer": "Este es un correo electrónico automático, por favor no responda. Necesitamos su ayuda,",
-      "linkValidFor": "Este enlace es válido durante 24 horas. Si usted no es el autor de esta solicitud, ignore este correo electrónico.",
-      "moreOn": "Más información",
-      "pixPresentation": "Pix es el servicio público en línea para evaluar, desarrollar y certificar tus competencias digitales.",
-      "resetMyPassword": "Establecer una nueva contraseña",
-      "title": "Restablecer la contraseña",
-      "weCannotSendYourPassword": "Hola, por razones de seguridad, no le enviamos su contraseña por correo electrónico."
+      "clickOnTheButton": "Haz clic en el botón de abajo para elegir una nueva contraseña.",
+      "contactUs": "ponte en contacto con nosotros aquí",
+      "doNotAnswer": "Este es un correo electrónico automático, por favor, no respondas directamente. Necesitas ayuda, ",
+      "linkValidFor": "Este enlace es válido durante 24 horas. Si no eres el autor de esta solicitud, ignora este correo electrónico.",
+      "moreOn": "Más información sobre",
+      "pixPresentation": "Pix es el servicio público en línea para evaluar, desarrollar y certificar las competencias digitales.",
+      "resetMyPassword": "Definir una nueva contraseña",
+      "title": "Restablecer tu contraseña",
+      "weCannotSendYourPassword": "Hola, por razones de seguridad, no te enviaremos tu contraseña por correo electrónico."
     },
-    "subject": "Solicitud de restablecimiento de contraseña de Pix"
+    "subject": "Solicitud de restablecimiento de la contraseña Pix"
   },
   "verification-code-email": {
     "body": {
-      "context": "Desea cambiar la dirección de correo electrónico de su cuenta. Para continuar, introduzca el siguiente código en Pix :",
-      "doNotAnswer": "Este es un correo electrónico automático, por favor no responda.",
-      "greeting": "Hola,",
-      "moreOn": "Más información",
-      "pixPresentation": "Pix es el servicio público en línea para evaluar, desarrollar y certificar tus competencias digitales.",
+      "context": "Deseas cambiar la dirección de correo electrónico de tu cuenta. Para continuar, introduce el siguiente código en Pix:",
+      "doNotAnswer": "Este es un correo electrónico automático, por favor, no respondas directamente.",
+      "greeting": "Hola:",
+      "moreOn": "Más información sobre",
+      "pixPresentation": "Pix es el servicio público en línea para evaluar, desarrollar y certificar las competencias digitales.",
       "seeYouSoon": "Nos vemos pronto en Pix.",
-      "signing": "- El equipo Pix",
+      "signing": "— El equipo Pix",
       "warningMessage": "Si no has sido tú, restablece tu contraseña lo antes posible para garantizar la seguridad de tu cuenta."
     },
     "subject": "Tu código Pix es {code}"
