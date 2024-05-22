@@ -125,7 +125,18 @@ describe('Unit | Domain | Pix Junior | get next activity info', function () {
         '1:VALIDATION:SUCCEEDED',
       ],
       stepCount: 2,
-      expectedActivityInfo: '-:CHALLENGE',
+      expectedActivityInfo: END_OF_MISSION,
+    },
+    {
+      activities: [
+        '0:VALIDATION:FAILED',
+        '0:TRAINING:SUCCEEDED',
+        '1:VALIDATION:FAILED',
+        '1:TUTORIAL:SUCCEEDED',
+        '1:VALIDATION:SUCCEEDED',
+      ],
+      stepCount: 2,
+      expectedActivityInfo: END_OF_MISSION,
     },
     {
       activities: ['0:VALIDATION:FAILED', '0:TRAINING:FAILED', '0:TUTORIAL:SUCCEEDED', '0:TRAINING:FAILED'],
