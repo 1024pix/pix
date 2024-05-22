@@ -54,6 +54,7 @@ import * as campaignAssessmentParticipationRepository from '../../../src/prescri
 import * as campaignAssessmentParticipationResultRepository from '../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-assessment-participation-result-repository.js';
 import * as campaignParticipationBCRepository from '../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
 import * as campaignProfileRepository from '../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-profile-repository.js';
+import * as poleEmploiSendingRepository from '../../../src/prescription/campaign-participation/infrastructure/repositories/pole-emploi-sending-repository.js';
 import * as supOrganizationLearnerRepository from '../../../src/prescription/learner-management/infrastructure/repositories/sup-organization-learner-repository.js';
 import * as organizationLearnerActivityRepository from '../../../src/prescription/organization-learner/infrastructure/repositories/organization-learner-activity-repository.js';
 import * as activityAnswerRepository from '../../../src/school/infrastructure/repositories/activity-answer-repository.js';
@@ -149,7 +150,6 @@ import * as organizationTagRepository from '../../infrastructure/repositories/or
 import * as participantResultRepository from '../../infrastructure/repositories/participant-result-repository.js';
 import { participantResultsSharedRepository } from '../../infrastructure/repositories/participant-results-shared-repository.js';
 import * as participationsForUserManagementRepository from '../../infrastructure/repositories/participations-for-user-management-repository.js';
-import * as poleEmploiSendingRepository from '../../infrastructure/repositories/pole-emploi-sending-repository.js';
 import * as resetPasswordDemandRepository from '../../infrastructure/repositories/reset-password-demands-repository.js';
 import * as scoCertificationCandidateRepository from '../../infrastructure/repositories/sco-certification-candidate-repository.js';
 import * as sessionForSupervisingRepository from '../../infrastructure/repositories/sessions/session-for-supervising-repository.js';
@@ -175,7 +175,6 @@ import * as userReconciliationService from '../services/user-reconciliation-serv
 import * as organizationCreationValidator from '../validators/organization-creation-validator.js';
 import * as organizationValidator from '../validators/organization-with-tags-and-target-profiles-script.js';
 import { findTargetProfileOrganizations as findPaginatedFilteredTargetProfileOrganizations } from './find-paginated-filtered-target-profile-organizations.js';
-
 const oidcAuthenticationServiceRegistry = new OidcAuthenticationServiceRegistry({ oidcProviderRepository });
 
 function requirePoleEmploiNotifier() {

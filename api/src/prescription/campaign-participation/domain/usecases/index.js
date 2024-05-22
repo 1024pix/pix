@@ -19,23 +19,25 @@ import * as campaignParticipantRepository from '../../infrastructure/repositorie
 import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
 import * as campaignProfileRepository from '../../infrastructure/repositories/campaign-profile-repository.js';
 import * as participationsForCampaignManagementRepository from '../../infrastructure/repositories/participations-for-campaign-management-repository.js';
+import * as poleEmploiSendingRepository from '../../infrastructure/repositories/pole-emploi-sending-repository.js';
 
 const dependencies = {
-  campaignRepository,
-  campaignParticipationRepository,
-  campaignParticipantRepository,
-  knowledgeElementRepository,
-  campaignProfileRepository,
   assessmentRepository,
-  competenceEvaluationRepository,
-  learningContentRepository,
-  tutorialRepository,
+  badgeAcquisitionRepository,
   campaignAnalysisRepository,
   campaignAssessmentParticipationRepository,
   campaignAssessmentParticipationResultRepository,
-  badgeAcquisitionRepository,
-  stageCollectionRepository,
+  campaignParticipantRepository,
+  campaignParticipationRepository,
+  campaignProfileRepository,
+  campaignRepository,
+  competenceEvaluationRepository,
+  knowledgeElementRepository,
+  learningContentRepository,
   participationsForCampaignManagementRepository,
+  poleEmploiSendingRepository,
+  stageCollectionRepository,
+  tutorialRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
