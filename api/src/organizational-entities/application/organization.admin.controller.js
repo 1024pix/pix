@@ -14,7 +14,7 @@ const addOrganizationFeatureInBatch = async function (request, h) {
   return h.response().code(204);
 };
 
-export const organizationController = {
+export const organizationAdminController = {
   attachChildOrganization,
   addOrganizationFeatureInBatch,
 };

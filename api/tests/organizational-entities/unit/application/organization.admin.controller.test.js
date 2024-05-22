@@ -1,8 +1,8 @@
-import { organizationController } from '../../../../src/organizational-entities/application/organization-controller.js';
+import { organizationAdminController } from '../../../../src/organizational-entities/application/organization.admin.controller.js';
 import { usecases } from '../../../../src/organizational-entities/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../test-helper.js';
 
-describe('Unit | Application | Organizational Entities | organization-controller', function () {
+describe('Unit | Organizational Entities | Application | Controller | Admin | organization', function () {
   let filePath, request;
 
   beforeEach(function () {
@@ -18,7 +18,7 @@ describe('Unit | Application | Organizational Entities | organization-controller
     };
 
     // when
-    await organizationController.addOrganizationFeatureInBatch(request, hFake);
+    await organizationAdminController.addOrganizationFeatureInBatch(request, hFake);
 
     // then
     expect(usecases.addOrganizationFeatureInBatch).to.have.been.calledWithExactly({

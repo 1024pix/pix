@@ -1,4 +1,4 @@
-import { organizationController } from '../../../../src/organizational-entities/application/organization-controller.js';
+import { organizationAdminController } from '../../../../src/organizational-entities/application/organization.admin.controller.js';
 import { organizationalEntitiesRoutes } from '../../../../src/organizational-entities/application/routes.js';
 import {
   AlreadyExistingOrganizationFeatureError,
@@ -20,14 +20,14 @@ describe('Unit | Router | organization-router', function () {
     beforeEach(async function () {
       sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').resolves(true);
 
-      sinon.stub(organizationController, 'addOrganizationFeatureInBatch');
+      sinon.stub(organizationAdminController, 'addOrganizationFeatureInBatch');
       httpTestServer = new HttpTestServer();
       await httpTestServer.register(organizationalEntitiesRoutes[0]);
     });
 
     it('should return call the `checkAdminMemberHasRoleSuperAdmin` security prehandler', async function () {
       // given
-      organizationController.addOrganizationFeatureInBatch.resolves(true);
+      organizationAdminController.addOrganizationFeatureInBatch.resolves(true);
 
       // when
       await httpTestServer.request(method, url, payload);
@@ -38,7 +38,7 @@ describe('Unit | Router | organization-router', function () {
 
     it('should return call the `addOrganizationFeatureInBatch` controller', async function () {
       // given
-      organizationController.addOrganizationFeatureInBatch.resolves(true);
+      organizationAdminController.addOrganizationFeatureInBatch.resolves(true);
 
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(organizationalEntitiesRoutes[0]);
@@ -47,11 +47,11 @@ describe('Unit | Router | organization-router', function () {
       await httpTestServer.request(method, url, payload);
 
       // then
-      expect(organizationController.addOrganizationFeatureInBatch).to.have.been.calledOnce;
+      expect(organizationAdminController.addOrganizationFeatureInBatch).to.have.been.calledOnce;
     });
 
     it('return a 422 status code when trying to add feature on non existing organization', async function () {
-      organizationController.addOrganizationFeatureInBatch.rejects(new OrganizationNotFound());
+      organizationAdminController.addOrganizationFeatureInBatch.rejects(new OrganizationNotFound());
 
       // when
       const response = await httpTestServer.request(method, url, payload);
@@ -61,7 +61,7 @@ describe('Unit | Router | organization-router', function () {
     });
 
     it('return a 422 status code when trying to add non existing feature', async function () {
-      organizationController.addOrganizationFeatureInBatch.rejects(new FeatureNotFound());
+      organizationAdminController.addOrganizationFeatureInBatch.rejects(new FeatureNotFound());
 
       // when
       const response = await httpTestServer.request(method, url, payload);
@@ -71,7 +71,7 @@ describe('Unit | Router | organization-router', function () {
     });
 
     it('return a 422 status code when trying to add non processable params', async function () {
-      organizationController.addOrganizationFeatureInBatch.rejects(new FeatureParamsNotProcessable());
+      organizationAdminController.addOrganizationFeatureInBatch.rejects(new FeatureParamsNotProcessable());
 
       // when
       const response = await httpTestServer.request(method, url, payload);
@@ -81,7 +81,7 @@ describe('Unit | Router | organization-router', function () {
     });
 
     it('return a 409 status code when trying to add already existing feature on organization', async function () {
-      organizationController.addOrganizationFeatureInBatch.rejects(new AlreadyExistingOrganizationFeatureError());
+      organizationAdminController.addOrganizationFeatureInBatch.rejects(new AlreadyExistingOrganizationFeatureError());
 
       // when
       const response = await httpTestServer.request(method, url, payload);

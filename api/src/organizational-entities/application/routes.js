@@ -3,7 +3,7 @@ import Joi from 'joi';
 import { PayloadTooLargeError, sendJsonApiError } from '../../shared/application/http-errors.js';
 import { securityPreHandlers } from '../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../shared/domain/types/identifiers-type.js';
-import { organizationController } from './organization-controller.js';
+import { organizationAdminController } from './organization.admin.controller.js';
 
 const ERRORS = {
   PAYLOAD_TOO_LARGE: 'PAYLOAD_TOO_LARGE',
@@ -30,7 +30,7 @@ const register = async function (server) {
             childOrganizationId: identifiersType.organizationId,
           }),
         },
-        handler: organizationController.attachChildOrganization,
+        handler: organizationAdminController.attachChildOrganization,
         tags: ['api', 'admin', 'organizational-entities', 'organizations'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant un rôle SUPER_ADMIN, METIER ou SUPPORT permettant un accès à l'application d'administration de Pix**\n" +
@@ -60,7 +60,7 @@ const register = async function (server) {
             );
           },
         },
-        handler: organizationController.addOrganizationFeatureInBatch,
+        handler: organizationAdminController.addOrganizationFeatureInBatch,
         tags: ['api', 'admin', 'organizational-entities', 'organizations', 'organization-features'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant un rôle SUPER_ADMIN permettant un accès à l'application d'administration de Pix**\n" +
