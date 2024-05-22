@@ -1,8 +1,8 @@
-import { AuthenticationKeyExpired, DifferentExternalIdentifierError } from '../../../../lib/domain/errors.js';
-import { findUserForOidcReconciliation } from '../../../../lib/domain/usecases/find-user-for-oidc-reconciliation.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { AuthenticationKeyExpired, DifferentExternalIdentifierError } from '../../../../../lib/domain/errors.js';
+import { findUserForOidcReconciliation } from '../../../../../src/identity-access-management/domain/usecases/find-user-for-oidc-reconciliation.usecase.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
+describe('Unit | Identity Access Management | Domain | UseCase | find-user-for-oidc-reconciliation', function () {
   let authenticationMethodRepository, userRepository, pixAuthenticationService, authenticationSessionService;
 
   beforeEach(function () {
@@ -16,7 +16,7 @@ describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
   });
 
   context('when authentication key is valid', function () {
-    it('should retrieve user session content', async function () {
+    it('retrieves user session content', async function () {
       // given
       authenticationMethodRepository.findByUserId.resolves([]);
       pixAuthenticationService.getUserByUsernameAndPassword.resolves({ id: 2 });
@@ -41,7 +41,7 @@ describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
       expect(authenticationSessionService.getByKey).to.be.calledOnceWith('authenticationKey');
     });
 
-    it('should update the session content with the found user id', async function () {
+    it('updates the session content with the found user id', async function () {
       // given
       const authenticationKey = 'authenticationKey';
       authenticationMethodRepository.findByUserId.resolves([]);
@@ -71,7 +71,7 @@ describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
   });
 
   context('when authentication key is expired', function () {
-    it('should throw an AuthenticationKeyExpired', async function () {
+    it('throws an AuthenticationKeyExpired', async function () {
       // given
       authenticationSessionService.getByKey.resolves(null);
 
@@ -94,7 +94,7 @@ describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
   });
 
   context('when user account is found', function () {
-    it('should return authentication methods and full names', async function () {
+    it('returns authentication methods and full names', async function () {
       // given
       const firstName = 'Sarah';
       const lastName = 'Pix';
@@ -139,7 +139,7 @@ describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
   });
 
   context('when user has an oidc authentication method and external identifiers are different', function () {
-    it('should throw an DifferentExternalIdentifierError', async function () {
+    it('throws an DifferentExternalIdentifierError', async function () {
       // given
       const oidcAuthenticationMethod = domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
         externalIdentifier: '789fge',

@@ -1,5 +1,18 @@
-import { AuthenticationKeyExpired, DifferentExternalIdentifierError } from '../errors.js';
+import { AuthenticationKeyExpired, DifferentExternalIdentifierError } from '../../../../lib/domain/errors.js';
 
+/**
+ * @typedef {function} findUserForOidcReconciliation
+ * @param {Object} params
+ * @param {string} params.authenticationKey
+ * @param {string} params.email
+ * @param {string} params.password
+ * @param {string} params.identityProvider
+ * @param {AuthenticationSessionService} params.authenticationSessionService
+ * @param {PixAuthenticationService} params.pixAuthenticationService
+ * @param {AuthenticationMethodRepository} params.authenticationMethodRepository
+ * @param {UserRepository} params.userRepository
+ * @return {Promise<{fullNameFromPix: string, authenticationMethods: AuthenticationMethod[], fullNameFromExternalIdentityProvider: string, email: string, username: string}>}
+ */
 const findUserForOidcReconciliation = async function ({
   authenticationKey,
   email,
