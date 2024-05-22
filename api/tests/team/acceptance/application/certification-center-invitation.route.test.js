@@ -9,7 +9,7 @@ import {
   sinon,
 } from '../../../test-helper.js';
 
-describe('Acceptance | Team | Route', function () {
+describe('Acceptance | Team | Route | Certification Center Invitation', function () {
   let server, request;
 
   beforeEach(async function () {
