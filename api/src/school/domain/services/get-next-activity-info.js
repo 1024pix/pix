@@ -27,7 +27,12 @@ export function getNextActivityInfo({ activities, stepCount }) {
     return END_OF_MISSION;
   }
   if (lastActivity.isSucceeded || lastActivity.isTutorial) {
-    return _getNextActivityInfoAfterSuccess(currentStepActivities, lastActivity, stepCount);
+    return _getNextActivityInfoAfterSuccess(
+      currentStepActivities,
+      lastActivity,
+      stepCount,
+      _hasAlreadyDoneActivity(activities, TUTORIAL),
+    );
   }
   if (lastActivity.isFailedOrSkipped) {
     return _getNextActivityInfoOnFailure(currentStepActivities, lastActivity);
@@ -49,8 +54,8 @@ function _lastActivity(activities) {
   return activities[0];
 }
 
-function _hasValidatedTheMissionUsingTutorialInFinalStep(lastActivity, currentStepActivities, stepCount) {
-  return _hasValidatedTheMission(lastActivity, stepCount) && _hasAlreadyDoneActivity(currentStepActivities, TUTORIAL);
+function _hasValidatedTheMissionUsingTutorial(lastActivity, stepCount, hasAlreadyDoneTutorial) {
+  return _hasValidatedTheMission(lastActivity, stepCount) && hasAlreadyDoneTutorial;
 }
 
 function _hasValidatedTheMission(lastActivity, stepCount) {
@@ -62,8 +67,8 @@ function _hasValidatedTheMission(lastActivity, stepCount) {
  * @param {Activity} lastActivity
  * @param {number} stepCount
  */
-function _getNextActivityInfoAfterSuccess(currentStepActivities, lastActivity, stepCount) {
-  if (_hasValidatedTheMissionUsingTutorialInFinalStep(lastActivity, currentStepActivities, stepCount)) {
+function _getNextActivityInfoAfterSuccess(currentStepActivities, lastActivity, stepCount, hasAlreadyDoneTutorial) {
+  if (_hasValidatedTheMissionUsingTutorial(lastActivity, stepCount, hasAlreadyDoneTutorial)) {
     return END_OF_MISSION;
   }
   const nextActivityLevel = lastActivity.higherLevel;
