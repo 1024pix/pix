@@ -1,3 +1,4 @@
+import { action } from '@ember/object';
 import { service } from '@ember/service';
 import SessionService from 'ember-simple-auth/services/session';
 import {
@@ -65,6 +66,7 @@ export default class CurrentSessionService extends SessionService {
     });
   }
 
+  @action
   updateDataAttribute(attribute, value) {
     this.data[attribute] = value;
   }
