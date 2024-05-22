@@ -130,7 +130,7 @@ describe('Unit | Domain | Pix Junior | get next activity info', function () {
     {
       activities: ['0:VALIDATION:FAILED', '0:TRAINING:FAILED', '0:TUTORIAL:SUCCEEDED', '0:TRAINING:FAILED'],
       stepCount: 1,
-      expectedActivityInfo: '0:TUTORIAL',
+      expectedActivityInfo: END_OF_MISSION,
     },
     {
       activities: ['0:VALIDATION:FAILED', '0:TRAINING:SUCCEEDED', '0:VALIDATION:SUCCEEDED', '1:VALIDATION:FAILED'],
@@ -145,7 +145,7 @@ describe('Unit | Domain | Pix Junior | get next activity info', function () {
     {
       activities: ['0:VALIDATION:FAILED', '0:TRAINING:FAILED', '0:TUTORIAL:SUCCEEDED', '0:TRAINING:SKIPPED'],
       stepCount: 1,
-      expectedActivityInfo: '0:TUTORIAL',
+      expectedActivityInfo: END_OF_MISSION,
     },
     {
       activities: ['0:VALIDATION:FAILED', '0:TRAINING:SUCCEEDED', '0:VALIDATION:SUCCEEDED', '-:CHALLENGE:SKIPPED'],
@@ -159,8 +159,6 @@ describe('Unit | Domain | Pix Junior | get next activity info', function () {
         '0:TUTORIAL:SUCCEEDED',
         '0:TRAINING:SUCCEEDED',
         '0:VALIDATION:FAILED',
-        '0:TUTORIAL:SUCCEEDED',
-        '0:TRAINING:FAILED',
       ],
       stepCount: 1,
       expectedActivityInfo: END_OF_MISSION,
@@ -171,35 +169,7 @@ describe('Unit | Domain | Pix Junior | get next activity info', function () {
         '0:TRAINING:FAILED',
         '0:TUTORIAL:SUCCEEDED',
         '0:TRAINING:SUCCEEDED',
-        '0:VALIDATION:FAILED',
-        '0:TUTORIAL:SUCCEEDED',
-        '0:TRAINING:SUCCEEDED',
-        '0:VALIDATION:SUCCEEDED',
-      ],
-      stepCount: 1,
-      expectedActivityInfo: END_OF_MISSION,
-    },
-    {
-      activities: [
-        '0:VALIDATION:FAILED',
-        '0:TRAINING:FAILED',
-        '0:TUTORIAL:SUCCEEDED',
-        '0:TRAINING:SUCCEEDED',
-        '0:VALIDATION:FAILED',
-        '0:TUTORIAL:SUCCEEDED',
-        '0:TRAINING:FAILED',
-      ],
-      stepCount: 1,
-      expectedActivityInfo: END_OF_MISSION,
-    },
-    {
-      activities: [
-        '0:VALIDATION:FAILED',
-        '0:TRAINING:FAILED',
-        '0:TUTORIAL:SUCCEEDED',
-        '0:TRAINING:FAILED',
-        '0:TUTORIAL:SUCCEEDED',
-        '0:TRAINING:SKIPPED',
+        '0:VALIDATION:SKIPPED',
       ],
       stepCount: 1,
       expectedActivityInfo: END_OF_MISSION,
