@@ -26,7 +26,7 @@ export function getNextActivityInfo({ activities, stepCount }) {
   if (_hasRunActivityLevel3Times(currentStepActivities, TRAINING) && lastActivity.isFailedOrSkipped) {
     return END_OF_MISSION;
   }
-  if (lastActivity.isSucceeded) {
+  if (lastActivity.isSucceeded || lastActivity.isTutorial) {
     return _getNextActivityInfoAfterSuccess(currentStepActivities, lastActivity, stepCount);
   }
   if (lastActivity.isFailedOrSkipped) {

@@ -75,6 +75,11 @@ describe('Unit | Domain | Pix Junior | get next activity info', function () {
       expectedActivityInfo: '0:TRAINING',
     },
     {
+      activities: ['0:VALIDATION:FAILED', '0:TRAINING:FAILED', '0:TUTORIAL:FAILED'],
+      stepCount: 1,
+      expectedActivityInfo: '0:TRAINING',
+    },
+    {
       activities: ['0:VALIDATION:FAILED', '0:TRAINING:SUCCEEDED', '0:VALIDATION:FAILED'],
       stepCount: 1,
       expectedActivityInfo: '0:TUTORIAL',
@@ -87,7 +92,7 @@ describe('Unit | Domain | Pix Junior | get next activity info', function () {
     {
       activities: ['0:VALIDATION:FAILED', '0:TRAINING:FAILED', '0:TUTORIAL:SKIPPED'],
       stepCount: 1,
-      expectedActivityInfo: '0:TUTORIAL',
+      expectedActivityInfo: '0:TRAINING',
     },
     {
       activities: ['0:VALIDATION:SUCCEEDED', '1:VALIDATION:FAILED', '1:TRAINING:FAILED', '1:TUTORIAL:SUCCEEDED'],

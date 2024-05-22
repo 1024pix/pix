@@ -21,17 +21,16 @@ import * as learningContentBuilder from '../../../../tooling/learning-content-bu
 
 describe('Integration | UseCase | handle activity answer', function () {
   const alwaysTrueExaminer = new Examiner({ validator: new ValidatorAlwaysOK() });
+  const alwaysFalseExaminer = new Examiner({
+    validator: {
+      assess: () =>
+        new Validation({
+          result: AnswerStatus.KO,
+          resultDetails: null,
+        }),
+    },
+  });
   context('when last answer is ko', function () {
-    const alwaysFalseExaminer = new Examiner({
-      validator: {
-        assess: () =>
-          new Validation({
-            result: AnswerStatus.KO,
-            resultDetails: null,
-          }),
-      },
-    });
-
     context('and mission is not finished', function () {
       it('last activity is started with accurate level in started assessment', async function () {
         const activityAnswer = domainBuilder.buildAnswer.uncorrected({
@@ -329,6 +328,55 @@ describe('Integration | UseCase | handle activity answer', function () {
       });
     });
   });
+  context('when challenge belongs to unfinished tutorial and whatever answer it is', function () {
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    [
+      { name: 'correct answer', examiner: alwaysTrueExaminer },
+      {
+        name: 'wrong answer',
+        examiner: alwaysFalseExaminer,
+      },
+    ].forEach(({ name, examiner }) =>
+      it(`last activity is still the started tutorial with ${name}`, async function () {
+        const activityAnswer = domainBuilder.buildAnswer.uncorrected({
+          id: null,
+          challengeId: 'va_challenge_id',
+        });
+        const { assessmentId, missionId } = databaseBuilder.factory.buildMissionAssessment({
+          lastChallengeId: activityAnswer.challengeId,
+        });
+        databaseBuilder.factory.buildActivity({
+          assessmentId,
+          level: Activity.levels.TUTORIAL,
+          status: Activity.status.STARTED,
+          stepIndex: 0,
+        });
+
+        await databaseBuilder.commit();
+
+        mockLearningContentForMission(missionId);
+
+        await handleActivityAnswer({
+          activityAnswer,
+          assessmentId,
+          examiner,
+          challengeRepository,
+          assessmentRepository,
+          activityRepository,
+          activityAnswerRepository,
+          missionAssessmentRepository,
+          missionRepository,
+        });
+
+        await expectStatesAndLevel({
+          assessmentId,
+          activityLevel: Activity.levels.TUTORIAL,
+          activityStatus: Activity.status.STARTED,
+          assessmentState: Assessment.states.STARTED,
+        });
+      }),
+    );
+  });
 
   it('does not record activity answer when error occurs on update mission status', async function () {
     const initialActivityAnswerIds = await knex('activity-answers').select('id');
@@ -396,6 +444,14 @@ function mockLearningContentForMission(missionId) {
     ],
     challenges: [
       learningContentBuilder.buildChallenge({
+        id: 'di_challenge_id',
+        skillId: 'skill_id',
+      }),
+      learningContentBuilder.buildChallenge({
+        id: 'di_next_challenge_id',
+        skillId: 'skill_id',
+      }),
+      learningContentBuilder.buildChallenge({
         id: 'va_challenge_id',
         skillId: 'skill_id',
       }),
@@ -414,6 +470,7 @@ function mockLearningContentForMission(missionId) {
         content: {
           steps: [
             {
+              tutorialChallenges: [['di_challenge_id'], ['di_next_challenge_id']],
               validationChallenges: [['va_challenge_id'], ['va_next_challenge_id']],
             },
           ],
