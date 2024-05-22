@@ -1,5 +1,6 @@
 import Joi from 'joi';
 
+import { certificationCenterInvitationController } from '../../../../lib/application/certification-center-invitations/certification-center-invitation-controller.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { certificationCenterInvitationAdminController } from './certification-center-invitation.admin.controller.js';
@@ -44,6 +45,35 @@ export const certificationCenterInvitationAdminRoutes = [
           "- Elle permet à un administrateur d'inviter des personnes, déjà utilisateurs de Pix ou non, à être membre d'un centre de certification, via leur **email**",
       ],
       tags: ['api', 'admin', 'invitations', 'certification-center'],
+    },
+  },
+  {
+    method: 'DELETE',
+    path: '/api/admin/certification-center-invitations/{certificationCenterInvitationId}',
+    config: {
+      pre: [
+        {
+          method: (request, h) =>
+            securityPreHandlers.hasAtLeastOneAccessOf([
+              securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+              securityPreHandlers.checkAdminMemberHasRoleCertif,
+              securityPreHandlers.checkAdminMemberHasRoleSupport,
+              securityPreHandlers.checkAdminMemberHasRoleMetier,
+            ])(request, h),
+          assign: 'hasAuthorizationToAccessAdminScope',
+        },
+      ],
+      validate: {
+        params: Joi.object({
+          certificationCenterInvitationId: identifiersType.certificationCenterInvitationId,
+        }),
+      },
+      handler: certificationCenterInvitationController.cancelCertificationCenterInvitation,
+      tags: ['api', 'admin', 'invitations', 'certification-center', 'cancel'],
+      notes: [
+        "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+          "- Elle permet d'annuler une invitation envoyée mais non acceptée encore.",
+      ],
     },
   },
 ];

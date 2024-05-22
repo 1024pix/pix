@@ -4,7 +4,6 @@ import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  insertUserWithRoleSuperAdmin,
   knex,
 } from '../../../test-helper.js';
 
@@ -238,33 +237,6 @@ describe('Acceptance | API | Certification center invitations', function () {
           // then
           expect(response.statusCode).to.equal(403);
         });
-      });
-    });
-  });
-
-  context('admin routes', function () {
-    describe('DELETE /api/admin/certification-centers/{id}/invitations/{certificationCenterInvitationId}', function () {
-      it('should return 204 HTTP status code', async function () {
-        // given
-        const adminMember = await insertUserWithRoleSuperAdmin();
-        const certificationCenterInvitation = databaseBuilder.factory.buildCertificationCenterInvitation({
-          certificationCenterId: databaseBuilder.factory.buildCertificationCenter().id,
-          status: CertificationCenterInvitation.StatusType.PENDING,
-        });
-
-        await databaseBuilder.commit();
-
-        // when
-        const response = await server.inject({
-          method: 'DELETE',
-          url: `/api/admin/certification-center-invitations/${certificationCenterInvitation.id}`,
-          headers: {
-            authorization: generateValidRequestAuthorizationHeader(adminMember.id),
-          },
-        });
-
-        // then
-        expect(response.statusCode).to.equal(204);
       });
     });
   });
