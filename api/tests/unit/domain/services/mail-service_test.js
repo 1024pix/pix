@@ -3,10 +3,10 @@ import * as mailService from '../../../../lib/domain/services/mail-service.js';
 import { LOCALE } from '../../../../src/shared/domain/constants.js';
 import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
 import { mailer } from '../../../../src/shared/mail/infrastructure/services/mailer.js';
-import en from '../../../../translations/en.json' assert { type: 'json' };
-import fr from '../../../../translations/fr.json' assert { type: 'json' };
+import en from '../../../../translations/en.json' with { type: 'json' };
+import fr from '../../../../translations/fr.json' with { type: 'json' };
 import { es } from '../../../../translations/index.js';
-import nl from '../../../../translations/nl.json' assert { type: 'json' };
+import nl from '../../../../translations/nl.json' with { type: 'json' };
 import { expect, sinon } from '../../../test-helper.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 
