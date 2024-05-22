@@ -283,6 +283,75 @@ describe('Unit | UseCase | attach-badges', function () {
         });
       });
     });
+
+    context('when there are no complementary certification badges already attached to the profile', function () {
+      it('should attach new complementary certification badges', async function () {
+        // given
+        const domainTransaction = {
+          knexTransaction: Symbol('transaction'),
+        };
+        sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
+          return callback(domainTransaction);
+        });
+        const badge1 = domainBuilder.buildBadge({ id: 123 });
+
+        const complementaryCertificationBadge = {
+          badgeId: 123,
+          label: 'badge_1',
+          level: 1,
+          imageUrl: 'svg.pix.toto.com',
+          stickerUrl: 'svg.pix.toto.com',
+          certificateMessage: null,
+          temporaryCertificateMessage: null,
+        };
+
+        const complementaryCertification = domainBuilder.buildComplementaryCertificationForTargetProfileAttachment({
+          id: 123,
+          hasExternalJury: false,
+        });
+        const complementaryCertificationBadgesRepository = {
+          attach: sinon.stub(),
+          detachByIds: sinon.stub().resolves(),
+          getAllIdsByTargetProfileId: sinon.stub().resolves([
+            domainBuilder.buildBadgeToAttach({
+              id: 1,
+              label: 'pix+ label 1',
+              badgeId: 123,
+              level: 1,
+            }).badgeId,
+          ]),
+          findAttachableBadgesByIds: sinon.stub().resolves([badge1]),
+        };
+
+        // when
+        await attachBadges({
+          userId: 1234,
+          complementaryCertificationBadgesToAttachDTO: [complementaryCertificationBadge],
+          targetProfileIdToDetach: null,
+          complementaryCertification,
+          complementaryCertificationForTargetProfileAttachmentRepository,
+          complementaryCertificationBadgesRepository,
+        });
+
+        // then
+        const newComplementaryCertificationBadge = domainBuilder.buildBadgeToAttach({
+          ...complementaryCertificationBadge,
+          complementaryCertificationId: 123,
+          createdBy: 1234,
+        });
+        expect(complementaryCertificationBadgesRepository.attach).to.have.been.calledWithExactly({
+          complementaryCertificationBadges: [newComplementaryCertificationBadge],
+          domainTransaction,
+        });
+
+        expect(complementaryCertificationBadgesRepository.attach).to.have.been.calledWithExactly({
+          complementaryCertificationBadges: [newComplementaryCertificationBadge],
+          domainTransaction,
+        });
+
+        expect(complementaryCertificationBadgesRepository.detachByIds).not.to.have.been.called;
+      });
+    });
   });
 
   context('when there is no badges associated to target profile', function () {

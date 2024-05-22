@@ -14,28 +14,8 @@ module(
 
     module('when admin member has role "SUPER ADMIN"', function () {
       module('on information section', function () {
-        test('should display complementary certification and current target profile name', async function (assert) {
-          // given
-          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-          server.create('complementary-certification', {
-            id: 1,
-            key: 'KEY',
-            label: 'MARIANNE CERTIF',
-            targetProfilesHistory: [{ name: 'ALEX TARGET', id: 3, attachedAt: dayjs('2023-10-10T10:50:00Z') }],
-          });
-          server.create('target-profile', {
-            id: 3,
-            name: 'ALEX TARGET',
-          });
-          const screen = await visit('/complementary-certifications/1/attach-target-profile/3');
-
-          // then
-          assert.dom(screen.getByRole('heading', { name: 'MARIANNE CERTIF' })).exists();
-          assert.dom(screen.getByRole('link', { name: 'ALEX TARGET' })).exists();
-        });
-
-        module('when user click on target profile link', function () {
-          test('it should redirect to target profile detail page', async function (assert) {
+        module('where there is an existing target profile', function () {
+          test('should display complementary certification and current target profile name', async function (assert) {
             // given
             await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
             server.create('complementary-certification', {
@@ -50,13 +30,53 @@ module(
             });
             const screen = await visit('/complementary-certifications/1/attach-target-profile/3');
 
-            const currentTargetProfileLinks = screen.getAllByRole('link', { name: 'ALEX TARGET' });
+            // then
+            assert.dom(screen.getByRole('heading', { name: 'MARIANNE CERTIF' })).exists();
+            assert.dom(screen.getByRole('link', { name: 'ALEX TARGET' })).exists();
+          });
 
-            // when
-            await click(currentTargetProfileLinks[0]);
+          module('when user click on target profile link', function () {
+            test('it should redirect to target profile detail page', async function (assert) {
+              // given
+              await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+              server.create('complementary-certification', {
+                id: 1,
+                key: 'KEY',
+                label: 'MARIANNE CERTIF',
+                targetProfilesHistory: [{ name: 'ALEX TARGET', id: 3, attachedAt: dayjs('2023-10-10T10:50:00Z') }],
+              });
+              server.create('target-profile', {
+                id: 3,
+                name: 'ALEX TARGET',
+              });
+              const screen = await visit('/complementary-certifications/1/attach-target-profile/3');
+
+              const currentTargetProfileLinks = screen.getAllByRole('link', { name: 'ALEX TARGET' });
+
+              // when
+              await click(currentTargetProfileLinks[0]);
+
+              // then
+              assert.strictEqual(currentURL(), '/target-profiles/3/details');
+            });
+          });
+        });
+
+        module('where there is no existing target profile', function () {
+          test('should not display current target profile name', async function (assert) {
+            // given
+            await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+            server.create('complementary-certification', {
+              id: 1,
+              key: 'KEY',
+              label: 'MARIANNE CERTIF',
+              targetProfilesHistory: [],
+            });
+            const screen = await visit('/complementary-certifications/1/attach-target-profile/-1');
 
             // then
-            assert.strictEqual(currentURL(), '/target-profiles/3/details');
+            assert.dom(screen.getByRole('heading', { name: 'MARIANNE CERTIF' })).exists();
+            assert.dom(screen.queryByRole('link', { name: 'ALEX TARGET' })).doesNotExist();
           });
         });
 
@@ -134,6 +154,95 @@ module(
               .exists();
             assert.dom(await screen.findByRole('row', { name: 'Résultat thématique 200 Badge Arène Feu' })).exists();
             assert.dom(await screen.queryByRole('img', { name: 'loader' })).doesNotExist();
+          });
+
+          module('where there is an existing target profile', function () {
+            test('it should display Notify organisations checkbox', async function (assert) {
+              // given
+              await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+              server.create('complementary-certification', {
+                id: 1,
+                key: 'KEY',
+                label: 'MARIANNE CERTIF',
+                targetProfilesHistory: [{ name: 'ALEX TARGET', id: 3, attachedAt: dayjs('2023-10-10T10:50:00Z') }],
+              });
+              server.create('attachable-target-profile', {
+                id: 5,
+                name: 'ALEX TARGET',
+              });
+              const badge = server.create('badge', {
+                id: 200,
+                title: 'Badge Arène Feu',
+                isCertifiable: true,
+              });
+              server.create('target-profile', {
+                id: 5,
+                name: 'ALEX TARGET',
+                badges: [badge],
+              });
+              const screen = await visit('/complementary-certifications/1/attach-target-profile/3');
+              const input = screen.getByRole('textbox', { name: 'ID du profil cible' });
+              await fillIn(input, '5');
+              await screen.findByRole('listbox');
+              const targetProfileSelectable = await screen.findByRole('option', { name: '5 - ALEX TARGET' });
+
+              // when
+              await targetProfileSelectable.click();
+
+              // then
+              //await new Promise((a) => setTimeout(() => a(), 2000));
+              assert
+                .dom(
+                  await screen.findByRole('checkbox', {
+                    name: 'Notifier les organisations avec une campagne basée sur l’ancien PC',
+                  }),
+                )
+                .exists();
+            });
+          });
+
+          module('where there is no existing target profile', function () {
+            test('it should not display Notify organisations checkbox', async function (assert) {
+              // given
+              await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+              server.create('complementary-certification', {
+                id: 1,
+                key: 'KEY',
+                label: 'MARIANNE CERTIF',
+                targetProfilesHistory: [],
+              });
+              server.create('attachable-target-profile', {
+                id: 5,
+                name: 'ALEX TARGET',
+              });
+              const badge = server.create('badge', {
+                id: 200,
+                title: 'Badge Arène Feu',
+                isCertifiable: true,
+              });
+              server.create('target-profile', {
+                id: 5,
+                name: 'ALEX TARGET',
+                badges: [badge],
+              });
+              const screen = await visit('/complementary-certifications/1/attach-target-profile/3');
+              const input = screen.getByRole('textbox', { name: 'ID du profil cible' });
+              await fillIn(input, '5');
+              await screen.findByRole('listbox');
+              const targetProfileSelectable = await screen.findByRole('option', { name: '5 - ALEX TARGET' });
+
+              // when
+              await targetProfileSelectable.click();
+
+              // then
+              assert
+                .dom(
+                  screen.queryByRole('checkbox', {
+                    name: 'Notifier les organisations avec une campagne basée sur l’ancien PC',
+                  }),
+                )
+                .doesNotExist();
+            });
           });
         });
 

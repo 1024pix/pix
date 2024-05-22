@@ -1,5 +1,7 @@
 /**
  * @typedef {import ('../../domain/usecases/index.js').ComplementaryCertificationBadgesRepository} ComplementaryCertificationBadgesRepository
+ * @typedef {import ('../models/ComplementaryCertification.js').ComplementaryCertification} ComplementaryCertification
+ * @typedef {import ('../models/ComplementaryCertificationBadge.js').ComplementaryCertificationBadge} ComplementaryCertificationBadge
  */
 import lodash from 'lodash';
 
@@ -12,6 +14,10 @@ const { isNil, uniq } = lodash;
 
 /**
  * @param {Object} params
+ * @param {ComplementaryCertification} params.complementaryCertification
+ * @param {number} params.userId
+ * @param {number|null} params.targetProfileIdToDetach
+ * @param {Array<ComplementaryCertificationBadge>} params.complementaryCertificationBadgesToAttachDTO
  * @param {ComplementaryCertificationBadgesRepository} params.complementaryCertificationBadgesRepository
  */
 const attachBadges = async function ({
@@ -46,16 +52,18 @@ const attachBadges = async function ({
   });
 
   await DomainTransaction.execute(async (domainTransaction) => {
-    const relatedComplementaryCertificationBadgesIds =
-      await complementaryCertificationBadgesRepository.getAllIdsByTargetProfileId({
-        targetProfileId: targetProfileIdToDetach,
-      });
+    if (targetProfileIdToDetach) {
+      const relatedComplementaryCertificationBadgesIds =
+        await complementaryCertificationBadgesRepository.getAllIdsByTargetProfileId({
+          targetProfileId: targetProfileIdToDetach,
+        });
 
-    await _detachExistingComplementaryCertificationBadge({
-      complementaryCertificationBadgesRepository,
-      relatedComplementaryCertificationBadgesIds,
-      domainTransaction,
-    });
+      await _detachExistingComplementaryCertificationBadge({
+        complementaryCertificationBadgesRepository,
+        relatedComplementaryCertificationBadgesIds,
+        domainTransaction,
+      });
+    }
 
     await _attachNewComplementaryCertificationBadges({
       complementaryCertificationBadgesRepository,
