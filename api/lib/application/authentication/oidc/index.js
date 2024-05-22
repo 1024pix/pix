@@ -35,32 +35,6 @@ const register = async function (server) {
     ...adminRoutes,
     {
       method: 'POST',
-      path: '/api/oidc/user/check-reconciliation',
-      config: {
-        auth: false,
-        validate: {
-          payload: Joi.object({
-            data: Joi.object({
-              attributes: Joi.object({
-                email: Joi.string().email().required(),
-                password: Joi.string().required(),
-                'identity-provider': Joi.string().required(),
-                'authentication-key': Joi.string().required(),
-              }),
-              type: Joi.string(),
-            }),
-          }),
-        },
-        handler: oidcController.findUserForReconciliation,
-        notes: [
-          "- Cette route permet d'identifier un utilisateur Pix provenant de la double mire OIDC.\n" +
-            "- Elle renvoie un objet contenant des informations sur l'utilisateur.",
-        ],
-        tags: ['api', 'oidc'],
-      },
-    },
-    {
-      method: 'POST',
       path: '/api/oidc/user/reconcile',
       config: {
         auth: false,
