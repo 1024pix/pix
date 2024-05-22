@@ -19,7 +19,7 @@ import { injectDependencies } from '../../../shared/infrastructure/utils/depende
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { oidcProviderRepository } from '../../infrastructure/repositories/oidc-provider-repository.js';
 import { authenticationSessionService } from '../services/authentication-session.service.js';
-import * as pixAuthenticationService from '../services/pix-authentication-service.js';
+import { pixAuthenticationService } from '../services/pix-authentication-service.js';
 import * as refreshTokenService from '../services/refresh-token-service.js';
 import { addOidcProviderValidator } from '../validators/add-oidc-provider.validator.js';
 
