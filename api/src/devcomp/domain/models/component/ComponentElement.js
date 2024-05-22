@@ -1,4 +1,4 @@
-import { assertNotNullOrUndefined } from '../../../shared/domain/models/asserts.js';
+import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
 
 class ComponentElement {
   constructor({ element }) {

@@ -6,7 +6,7 @@ import { BlockInput } from '../block/BlockInput.js';
 import { BlockSelect } from '../block/BlockSelect.js';
 import { BlockSelectOption } from '../block/BlockSelectOption.js';
 import { BlockText } from '../block/BlockText.js';
-import { ComponentElement } from '../ComponentElement.js';
+import { ComponentElement } from '../component/ComponentElement.js';
 import { Image } from '../element/Image.js';
 import { QCM } from '../element/QCM.js';
 import { QCMForAnswerVerification } from '../element/QCM-for-answer-verification.js';
