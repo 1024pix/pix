@@ -206,10 +206,11 @@
     gap: 8px;
     align-items: center;
     justify-content: right;
-    padding: 12px 16px;
+    padding: var(--pix-spacing-3x) var(--pix-spacing-4x);
 
     @include device-is("desktop") {
       flex-direction: row;
+      padding: var(--pix-spacing-2x) var(--pix-spacing-4x);
     }
   }
 

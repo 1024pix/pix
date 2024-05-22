@@ -13,12 +13,7 @@
         {{t "pages.sessions.detail.candidates.list.actions.inscription-multiple.label"}}
       </PixButtonLink>
     {{else}}
-      <PixButton
-        id="add-candidate"
-        class="certification-candidates-add-button__text"
-        @triggerAction={{this.openNewCandidateModal}}
-        @size="small"
-      >
+      <PixButton id="add-candidate" @triggerAction={{this.openNewCandidateModal}} @size="small">
         {{t "pages.sessions.detail.candidates.list.actions.inscription.label"}}
       </PixButton>
     {{/if}}
