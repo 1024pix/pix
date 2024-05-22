@@ -50,30 +50,7 @@ module.exports = [
       'n/no-process-exit': 'error',
       'unicorn/no-empty-file': 'error',
       'unicorn/prefer-node-protocol': 'error',
-      'n/no-unpublished-import': [
-        'error',
-        {
-          allowModules: [
-            'chai',
-            'flush-write-stream',
-            'form-data',
-            'mockdate',
-            'nock',
-            'proxyquire',
-            'sinon',
-            'split2',
-            'stream-to-promise',
-            'pino-pretty',
-            'html-validate',
-            'libxmljs2',
-            'jsdoc-to-markdown',
-            'chai-as-promised',
-            'chai-sorted',
-            'sinon-chai',
-            'mocha',
-          ],
-        },
-      ],
+      'n/no-unpublished-import': 'off',
       'import/no-restricted-paths': [
         'error',
         {
