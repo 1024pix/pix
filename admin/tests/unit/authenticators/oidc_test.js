@@ -13,7 +13,6 @@ module('Unit | Authenticator | oidc', function (hooks) {
     const identityProviderCode = 'OIDC_PARTNER';
     const identityProviderSlug = 'oidc-partner';
     const code = 'code';
-    const redirectUri = 'redirectUri';
     const state = 'state';
     const request = {
       method: 'POST',
@@ -27,7 +26,6 @@ module('Unit | Authenticator | oidc', function (hooks) {
         attributes: {
           identity_provider: identityProviderCode,
           code: code,
-          redirect_uri: redirectUri,
           state,
           audience: 'admin',
         },
@@ -97,14 +95,13 @@ module('Unit | Authenticator | oidc', function (hooks) {
       assert.ok(true);
     });
 
-    test('fetches token with code, redirectUri, and state in body', async function (assert) {
+    test('fetches token with code and state in body', async function (assert) {
       // given
       const authenticator = this.owner.lookup('authenticator:oidc');
 
       // when
       const token = await authenticator.authenticate({
         code,
-        redirectUri,
         state,
         identityProviderSlug,
       });
@@ -138,7 +135,7 @@ module('Unit | Authenticator | oidc', function (hooks) {
         authenticator.session = sessionStub;
 
         // when
-        await authenticator.authenticate({ code, redirectUri, state, identityProviderSlug });
+        await authenticator.authenticate({ code, state, identityProviderSlug });
 
         // then
         request.body = body;

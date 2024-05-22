@@ -11,7 +11,7 @@ export default class OidcAuthenticator extends BaseAuthenticator {
   @service location;
   @service oidcIdentityProviders;
 
-  async authenticate({ code, redirectUri, state, identityProviderSlug, authenticationKey, hostSlug }) {
+  async authenticate({ code, state, identityProviderSlug, authenticationKey, hostSlug }) {
     const request = {
       method: 'POST',
       headers: {
@@ -32,7 +32,6 @@ export default class OidcAuthenticator extends BaseAuthenticator {
       body = {
         identity_provider: identityProvider.code,
         code,
-        redirect_uri: redirectUri,
         state,
       };
 

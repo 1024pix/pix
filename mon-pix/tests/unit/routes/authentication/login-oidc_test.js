@@ -173,7 +173,7 @@ module('Unit | Route | login-oidc', function (hooks) {
   });
 
   module('#model', function () {
-    test('should request to authenticate user with identity provider', async function (assert) {
+    test('authenticates the user with identity provider', async function (assert) {
       // given
       const authenticateStub = sinon.stub().resolves();
       const sessionStub = Service.create({
@@ -191,11 +191,10 @@ module('Unit | Route | login-oidc', function (hooks) {
         code: 'test',
         state: undefined,
       });
-      assert.ok(authenticateStub.getCall(0).args[1].redirectUri.includes('connexion/oidc'));
       assert.deepEqual(sessionStub.data, {});
     });
 
-    test('should return values to be received by after model to validate CGUs', async function (assert) {
+    test('returns values to be received by after model to validate CGUs', async function (assert) {
       // given
       const authenticateStub = sinon.stub().rejects({
         errors: [
@@ -231,26 +230,28 @@ module('Unit | Route | login-oidc', function (hooks) {
       assert.ok(true);
     });
 
-    test('should throw error if CGUs are already validated and authenticate fails', async function (assert) {
-      // given
-      const authenticateStub = sinon.stub().rejects({ errors: [{ detail: 'there was an error' }] });
-      const sessionStub = Service.create({
-        authenticate: authenticateStub,
-        data: {},
-      });
-      const route = this.owner.lookup('route:authentication/login-oidc');
-      route.set('session', sessionStub);
-      route.router = { replaceWith: sinon.stub() };
+    module('when CGUs are already validated and authenticate fails', function () {
+      test('throws an error', async function (assert) {
+        // given
+        const authenticateStub = sinon.stub().rejects({ errors: [{ detail: 'there was an error' }] });
+        const sessionStub = Service.create({
+          authenticate: authenticateStub,
+          data: {},
+        });
+        const route = this.owner.lookup('route:authentication/login-oidc');
+        route.set('session', sessionStub);
+        route.router = { replaceWith: sinon.stub() };
 
-      try {
-        // when
-        await route.model({ identity_provider_slug: 'oidc-partner' }, { to: { queryParams: { code: 'test' } } });
-      } catch (error) {
-        // then
-        sinon.assert.calledOnce(authenticateStub);
-        assert.strictEqual(error.message, 'there was an error');
-        assert.ok(true);
-      }
+        try {
+          // when
+          await route.model({ identity_provider_slug: 'oidc-partner' }, { to: { queryParams: { code: 'test' } } });
+        } catch (error) {
+          // then
+          sinon.assert.calledOnce(authenticateStub);
+          assert.strictEqual(error.message, 'there was an error');
+          assert.ok(true);
+        }
+      });
     });
 
     module('when the identity provider does not provide all the user required information', function () {

@@ -1,23 +1,47 @@
-import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
-import { ForbiddenAccess } from '../../../../src/shared/domain/errors.js';
+import { PIX_ADMIN } from '../../../authorization/domain/constants.js';
+import { ForbiddenAccess } from '../../../shared/domain/errors.js';
 
-const authenticateOidcUser = async function ({
+/**
+ * @typedef {function} authenticateOidcUser
+ * @param {Object} params
+ * @param {string} params.audience
+ * @param {string} params.code
+ * @param {string} params.identityProviderCode
+ * @param {string} params.nonce
+ * @param {string} params.sessionState
+ * @param {string} params.state
+ * @param {AuthenticationSessionService} params.authenticationSessionService
+ * @param {OidcAuthenticationServiceRegistry} params.oidcAuthenticationServiceRegistry
+ * @param {AdminMemberRepository} params.adminMemberRepository
+ * @param {AuthenticationMethodRepository} params.authenticationMethodRepository
+ * @param {UserLoginRepository} params.userLoginRepository
+ * @param {UserRepository} params.userRepository
+ * @return {Promise<{isAuthenticationComplete: boolean, givenName: string, familyName: string, authenticationKey: string, email: string}|{isAuthenticationComplete: boolean, pixAccessToken: string, logoutUrlUUID: string}>}
+ */
+async function authenticateOidcUser({
+  audience,
+  code,
+  identityProviderCode,
+  nonce,
   sessionState,
   state,
-  code,
-  redirectUri,
-  nonce,
-  audience,
-  oidcAuthenticationService,
   authenticationSessionService,
-  authenticationMethodRepository,
-  userRepository,
-  userLoginRepository,
+  oidcAuthenticationServiceRegistry,
   adminMemberRepository,
+  authenticationMethodRepository,
+  userLoginRepository,
+  userRepository,
 }) {
+  await oidcAuthenticationServiceRegistry.loadOidcProviderServices();
+  await oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(identityProviderCode);
+
+  const oidcAuthenticationService = oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
+    identityProviderCode,
+    audience,
+  });
+
   const sessionContent = await oidcAuthenticationService.exchangeCodeForTokens({
     code,
-    redirectUri,
     nonce,
     sessionState,
     state,
@@ -60,7 +84,7 @@ const authenticateOidcUser = async function ({
   await userLoginRepository.updateLastLoggedAt({ userId: user.id });
 
   return { pixAccessToken, logoutUrlUUID, isAuthenticationComplete: true };
-};
+}
 
 export { authenticateOidcUser };
 

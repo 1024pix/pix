@@ -1,13 +1,13 @@
 import { POLE_EMPLOI } from '../../../../../lib/domain/constants/oidc-identity-providers.js';
 import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
 import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';
-import { authenticateOidcUser } from '../../../../../lib/domain/usecases/authentication/authenticate-oidc-user.js';
 import * as appMessages from '../../../../../src/authorization/domain/constants.js';
+import { authenticateOidcUser } from '../../../../../src/identity-access-management/domain/usecases/authenticate-oidc-user.usecase.js';
 import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
 import { AdminMember } from '../../../../../src/shared/domain/models/AdminMember.js';
 import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | authenticate-oidc-user', function () {
+describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oidc-user', function () {
   context('when identityProvider is generic', function () {
     let oidcAuthenticationService;
     let authenticationSessionService;
@@ -15,6 +15,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
     let userRepository;
     let adminMemberRepository;
     let userLoginRepository;
+    let oidcAuthenticationServiceRegistry;
     const externalIdentityId = '094b83ac-2e20-4aa8-b438-0bc91748e4a6';
 
     beforeEach(function () {
@@ -27,15 +28,17 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
         exchangeCodeForTokens: sinon.stub(),
         getUserInfo: sinon.stub(),
       };
-
+      oidcAuthenticationServiceRegistry = {
+        loadOidcProviderServices: sinon.stub().resolves(),
+        configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
+        getOidcProviderServiceByCode: sinon.stub().returns(oidcAuthenticationService),
+      };
       authenticationMethodRepository = {
         updateAuthenticationComplementByUserIdAndIdentityProvider: sinon.stub(),
       };
-
       authenticationSessionService = {
         save: sinon.stub(),
       };
-
       userRepository = { findByExternalIdentifier: sinon.stub() };
       adminMemberRepository = {
         get: sinon.stub(),
@@ -48,7 +51,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
     context('check access by audience', function () {
       context('when audience is pix-admin', function () {
         context('when user has no role and is therefore not an admin member', function () {
-          it('should throw an error', async function () {
+          it('throws an error', async function () {
             // given
             const audience = appMessages.PIX_ADMIN.AUDIENCE;
             _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
@@ -58,7 +61,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
             // when
             const error = await catchErr(authenticateOidcUser)({
               audience,
-              oidcAuthenticationService,
+              oidcAuthenticationServiceRegistry,
               userRepository,
               adminMemberRepository,
             });
@@ -71,7 +74,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
         });
 
         context('when user has a role but admin membership is disabled', function () {
-          it('should throw an error', async function () {
+          it('throws an error', async function () {
             // given
             const audience = appMessages.PIX_ADMIN.AUDIENCE;
             const adminMember = new AdminMember({
@@ -86,7 +89,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
             // when
             const error = await catchErr(authenticateOidcUser)({
               audience,
-              oidcAuthenticationService,
+              oidcAuthenticationServiceRegistry,
               userRepository,
               adminMemberRepository,
             });
@@ -107,11 +110,11 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
       // when
       await authenticateOidcUser({
         code: 'code',
-        redirectUri: 'redirectUri',
         sessionState: 'state',
         state: 'state',
         nonce: 'nonce',
-        oidcAuthenticationService,
+        identityProviderCode: 'OIDC_EXAMPLE_NET',
+        oidcAuthenticationServiceRegistry,
         authenticationSessionService,
         authenticationMethodRepository,
         userRepository,
@@ -119,9 +122,12 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
       });
 
       // then
+      expect(oidcAuthenticationServiceRegistry.loadOidcProviderServices).to.have.been.calledOnce;
+      expect(oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode).to.have.been.calledWithExactly(
+        'OIDC_EXAMPLE_NET',
+      );
       expect(oidcAuthenticationService.exchangeCodeForTokens).to.have.been.calledOnceWithExactly({
         code: 'code',
-        redirectUri: 'redirectUri',
         sessionState: 'state',
         state: 'state',
         nonce: 'nonce',
@@ -136,7 +142,8 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
       await authenticateOidcUser({
         stateReceived: 'state',
         stateSent: 'state',
-        oidcAuthenticationService,
+        identityProviderCode: 'OIDC_EXAMPLE_NET',
+        oidcAuthenticationServiceRegistry,
         authenticationSessionService,
         authenticationMethodRepository,
         userRepository,
@@ -158,7 +165,8 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
       await authenticateOidcUser({
         stateReceived: 'state',
         stateSent: 'state',
-        oidcAuthenticationService,
+        identityProviderCode: 'OIDC_EXAMPLE_NET',
+        oidcAuthenticationServiceRegistry,
         authenticationSessionService,
         authenticationMethodRepository,
         userRepository,
@@ -201,7 +209,8 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
         const result = await authenticateOidcUser({
           stateReceived: 'state',
           stateSent: 'state',
-          oidcAuthenticationService,
+          identityProviderCode: 'OIDC_EXAMPLE_NET',
+          oidcAuthenticationServiceRegistry,
           authenticationSessionService,
           authenticationMethodRepository,
           userRepository,
@@ -228,7 +237,8 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
         await authenticateOidcUser({
           stateReceived: 'state',
           stateSent: 'state',
-          oidcAuthenticationService,
+          identityProviderCode: 'OIDC_EXAMPLE_NET',
+          oidcAuthenticationServiceRegistry,
           authenticationSessionService,
           authenticationMethodRepository,
           userRepository,
@@ -255,7 +265,8 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
           await authenticateOidcUser({
             stateReceived: 'state',
             stateSent: 'state',
-            oidcAuthenticationService,
+            identityProviderCode: 'OIDC_EXAMPLE_NET',
+            oidcAuthenticationServiceRegistry,
             authenticationSessionService,
             authenticationMethodRepository,
             userRepository,
@@ -288,7 +299,8 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
           await authenticateOidcUser({
             stateReceived: 'state',
             stateSent: 'state',
-            oidcAuthenticationService,
+            identityProviderCode: 'OIDC_EXAMPLE_NET',
+            oidcAuthenticationServiceRegistry,
             authenticationSessionService,
             authenticationMethodRepository,
             userRepository,
@@ -314,6 +326,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
     let authenticationMethodRepository;
     let userRepository;
     let userLoginRepository;
+    let oidcAuthenticationServiceRegistry;
     const externalIdentityId = '094b83ac-2e20-4aa8-b438-0bc91748e4a6';
 
     beforeEach(function () {
@@ -326,7 +339,11 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
         exchangeCodeForTokens: sinon.stub(),
         getUserInfo: sinon.stub(),
       };
-
+      oidcAuthenticationServiceRegistry = {
+        loadOidcProviderServices: sinon.stub().resolves(),
+        configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
+        getOidcProviderServiceByCode: sinon.stub().returns(oidcAuthenticationService),
+      };
       authenticationMethodRepository = {
         updateAuthenticationComplementByUserIdAndIdentityProvider: sinon.stub(),
       };
@@ -357,7 +374,8 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
         await authenticateOidcUser({
           stateReceived: 'state',
           stateSent: 'state',
-          oidcAuthenticationService,
+          identityProviderCode: POLE_EMPLOI.code,
+          oidcAuthenticationServiceRegistry,
           authenticationSessionService,
           authenticationMethodRepository,
           userRepository,
@@ -390,7 +408,8 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
         const accessToken = await authenticateOidcUser({
           stateReceived: 'state',
           stateSent: 'state',
-          oidcAuthenticationService,
+          identityProviderCode: POLE_EMPLOI.code,
+          oidcAuthenticationServiceRegistry,
           authenticationSessionService,
           authenticationMethodRepository,
           userRepository,
@@ -426,7 +445,8 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
         await authenticateOidcUser({
           stateReceived: 'state',
           stateSent: 'state',
-          oidcAuthenticationService,
+          identityProviderCode: POLE_EMPLOI.code,
+          oidcAuthenticationServiceRegistry,
           authenticationSessionService,
           authenticationMethodRepository,
           userRepository,

@@ -1,5 +1,49 @@
+import { BadRequestError, UnauthorizedError } from '../../../../lib/application/http-errors.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as oidcProviderSerializer from '../../infrastructure/serializers/jsonapi/oidc-identity-providers.serializer.js';
+
+/**
+ * @typedef {function} authenticateOidcUser
+ * @param request
+ * @param h
+ * @return {Promise<*>}
+ */
+async function authenticateOidcUser(request, h) {
+  const { code, identityProvider: identityProviderCode, state, audience } = request.deserializedPayload;
+
+  const sessionState = request.yar.get('state', true);
+  const nonce = request.yar.get('nonce', true);
+  await request.yar.commit(h);
+
+  if (sessionState === null) {
+    throw new BadRequestError('Required cookie "state" is missing');
+  }
+
+  const result = await usecases.authenticateOidcUser({
+    audience,
+    code,
+    identityProviderCode,
+    nonce,
+    sessionState,
+    state,
+  });
+
+  if (result.isAuthenticationComplete) {
+    return h.response({ access_token: result.pixAccessToken, logout_url_uuid: result.logoutUrlUUID }).code(200);
+  }
+
+  // TODO utiliser un message en anglais au lieu du français
+  const message = "L'utilisateur n'a pas de compte Pix";
+  const responseCode = 'SHOULD_VALIDATE_CGU';
+  const { authenticationKey, givenName, familyName, email } = result;
+  const meta = { authenticationKey, givenName, familyName };
+
+  if (email) {
+    Object.assign(meta, { email });
+  }
+
+  throw new UnauthorizedError(message, responseCode, meta);
+}
 
 /**
  * @typedef {function} createUser
@@ -71,8 +115,15 @@ async function getRedirectLogoutUrl(request, h) {
 
 /**
  * @typedef {Object} OidcProviderController
+ * @property {authenticateOidcUser} authenticateOidcUser
  * @property {getAuthorizationUrl} getAuthorizationUrl
  * @property {getIdentityProviders} getIdentityProviders
  * @property {getRedirectLogoutUrl} getRedirectLogoutUrl
  */
-export const oidcProviderController = { createUser, getAuthorizationUrl, getIdentityProviders, getRedirectLogoutUrl };
+export const oidcProviderController = {
+  authenticateOidcUser,
+  createUser,
+  getAuthorizationUrl,
+  getIdentityProviders,
+  getRedirectLogoutUrl,
+};

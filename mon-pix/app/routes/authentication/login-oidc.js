@@ -64,10 +64,8 @@ export default class LoginOidcRoute extends Route {
 
   async _handleCallbackRequest(code, state, identityProviderSlug) {
     try {
-      const redirectUri = this._getRedirectUri(identityProviderSlug);
       await this.session.authenticate('authenticator:oidc', {
         code,
-        redirectUri,
         state,
         identityProviderSlug,
         hostSlug: 'token',
@@ -84,11 +82,6 @@ export default class LoginOidcRoute extends Route {
 
       throw error;
     }
-  }
-
-  _getRedirectUri(identityProviderSlug) {
-    const { protocol, host } = location;
-    return `${protocol}//${host}/connexion/${identityProviderSlug}`;
   }
 
   async _handleRedirectRequest(identityProviderSlug) {
