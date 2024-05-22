@@ -43,7 +43,7 @@
     "cypress-visual-regression": "^5.0.0",
     "eslint": "^8.0.0",
     "eslint-plugin-cypress": "^2.11.2",
-    "npm-run-all2": "6.1.2"
+    "npm-run-all2": "6.2.0"
   },
   "dependencies": {
     "jsonwebtoken": "8.5.1"
