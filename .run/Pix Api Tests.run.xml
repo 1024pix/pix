@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Pix Api Tests" type="CompoundRunConfigurationType">
+    <toRun name="Acceptance | Pix Api" type="mocha-javascript-test-runner" />
+    <toRun name="Integration | Pix Api" type="mocha-javascript-test-runner" />
+    <toRun name="Unit | Pix Api" type="mocha-javascript-test-runner" />
+    <method v="2" />
+  </configuration>
+</component>
