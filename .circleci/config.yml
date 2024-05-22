@@ -47,7 +47,7 @@ executors:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
       - image: redis:7.2.4-alpine
-      - image: adobe/s3mock:3.7.3
+      - image: adobe/s3mock:3.8.0
         environment:
           - initialBuckets=pix-import-test
     resource_class: small
