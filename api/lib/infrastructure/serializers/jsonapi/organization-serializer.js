@@ -2,7 +2,7 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
 
-import { Organization } from '../../../../src/shared/domain/models/Organization.js';
+import { Organization } from '../../../../src/organizational-entities/domain/models/Organization.js';
 import { Tag } from '../../../domain/models/Tag.js';
 
 const serialize = function (organizations, meta) {

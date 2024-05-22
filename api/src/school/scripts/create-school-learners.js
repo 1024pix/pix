@@ -6,8 +6,8 @@ import { hideBin } from 'yargs/helpers';
 
 import { disconnect, knex } from '../../../db/knex-database-connection.js';
 import * as schoolRepository from '../../../src/school/infrastructure/repositories/school-repository.js';
+import { Organization } from '../../organizational-entities/domain/models/Organization.js';
 import { ORGANIZATION_FEATURE } from '../../shared/domain/constants.js';
-import { Organization } from '../../shared/domain/models/Organization.js';
 import * as codeGenerator from '../../shared/domain/services/code-generator.js';
 import * as organizationRepository from '../../shared/infrastructure/repositories/organization-repository.js';
 import { logger } from '../../shared/infrastructure/utils/logger.js';

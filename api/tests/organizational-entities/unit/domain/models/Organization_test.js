@@ -1,8 +1,8 @@
 import { Tag } from '../../../../../lib/domain/models/Tag.js';
-import { Organization } from '../../../../../src/shared/domain/models/Organization.js';
+import { Organization } from '../../../../../src/organizational-entities/domain/models/Organization.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 
-describe('Unit | Domain | Models | Organization', function () {
+describe('Unit | Organizational Entities | Domain | Model | Organization', function () {
   describe('constructor', function () {
     it('should build an Organization from raw JSON', function () {
       // given

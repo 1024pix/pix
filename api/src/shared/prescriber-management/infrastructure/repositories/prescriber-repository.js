@@ -4,8 +4,8 @@ import { UserNotFoundError } from '../../../../../lib/domain/errors.js';
 import { Membership } from '../../../../../lib/domain/models/index.js';
 import { Tag } from '../../../../../lib/domain/models/Tag.js';
 import { UserOrgaSettings } from '../../../../../lib/domain/models/UserOrgaSettings.js';
+import { Organization } from '../../../../organizational-entities/domain/models/Organization.js';
 import { ForbiddenAccess } from '../../../../shared/domain/errors.js';
-import { Organization } from '../../../domain/models/Organization.js';
 import { Prescriber } from '../../domain/read-models/Prescriber.js';
 
 function _toPrescriberDomain(user, userOrgaSettings, tags, memberships, organizations, schools) {

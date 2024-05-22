@@ -21,6 +21,7 @@ import { Progression } from '../../../src/evaluation/domain/models/Progression.j
 import { UserLogin } from '../../../src/identity-access-management/domain/models/UserLogin.js';
 import { UserToCreate } from '../../../src/identity-access-management/domain/models/UserToCreate.js';
 import { DataProtectionOfficer } from '../../../src/organizational-entities/domain/models/DataProtectionOfficer.js';
+import { Organization } from '../../../src/organizational-entities/domain/models/Organization.js';
 import { OrganizationForAdmin } from '../../../src/organizational-entities/domain/models/OrganizationForAdmin.js';
 import { CampaignCreator } from '../../../src/prescription/campaign/domain/models/CampaignCreator.js';
 import { CampaignForArchiving } from '../../../src/prescription/campaign/domain/models/CampaignForArchiving.js';
@@ -38,7 +39,6 @@ import { AssessmentResult } from '../../../src/shared/domain/models/AssessmentRe
 import { Challenge } from '../../../src/shared/domain/models/Challenge.js';
 import { Competence } from '../../../src/shared/domain/models/Competence.js';
 import { Examiner } from '../../../src/shared/domain/models/Examiner.js';
-import { Organization } from '../../../src/shared/domain/models/Organization.js';
 import { User } from '../../../src/shared/domain/models/User.js';
 import { CampaignParticipant } from './../../../src/prescription/campaign-participation/domain/models/CampaignParticipant.js';
 import { CampaignParticipation } from './../../../src/prescription/campaign-participation/domain/models/CampaignParticipation.js';

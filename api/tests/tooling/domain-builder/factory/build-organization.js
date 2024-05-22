@@ -1,4 +1,4 @@
-import { Organization } from '../../../../src/shared/domain/models/Organization.js';
+import { Organization } from '../../../../src/organizational-entities/domain/models/Organization.js';
 
 function buildOrganization({
   id = 123,

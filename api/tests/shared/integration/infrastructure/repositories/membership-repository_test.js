@@ -1,5 +1,5 @@
 import { Membership } from '../../../../../lib/domain/models/Membership.js';
-import { Organization } from '../../../../../src/shared/domain/models/Organization.js';
+import { Organization } from '../../../../../src/organizational-entities/domain/models/Organization.js';
 import * as membershipRepository from '../../../../../src/shared/infrastructure/repositories/membership-repository.js';
 import { databaseBuilder, expect } from '../../../../test-helper.js';
 
