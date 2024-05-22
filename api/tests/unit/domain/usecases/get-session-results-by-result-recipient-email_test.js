@@ -12,7 +12,7 @@ describe('Unit | Domain | Use Cases | get-session-results-by-result-recipient-em
 
   it('should return session', async function () {
     // given
-    const expectedSession = domainBuilder.buildSession({
+    const expectedSession = domainBuilder.certification.sessionManagement.buildSession({
       certificationCandidates: [],
     });
     sessionRepository.getWithCertificationCandidates.withArgs({ id: 123 }).resolves(expectedSession);
@@ -42,7 +42,7 @@ describe('Unit | Domain | Use Cases | get-session-results-by-result-recipient-em
       id: 789,
       resultRecipientEmail: 'matching@example.net',
     });
-    const expectedSession = domainBuilder.buildSession({
+    const expectedSession = domainBuilder.certification.sessionManagement.buildSession({
       certificationCandidates: [certificationCandidate1, certificationCandidate2],
       date: '2019-06-06',
       time: '12:05:30',

@@ -65,25 +65,6 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/sessions/{id}',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.sessionId,
-          }),
-        },
-        pre: [
-          {
-            method: authorization.verifySessionAuthorization,
-            assign: 'authorizationCheck',
-          },
-        ],
-        handler: sessionController.get,
-        tags: ['api', 'sessions'],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/admin/sessions/to-publish',
       config: {
         validate: {

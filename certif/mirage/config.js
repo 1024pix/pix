@@ -57,19 +57,44 @@ function routes() {
     }
   });
 
-  this.post('/certification-centers/:certificationCenterId/session');
+  this.post('/certification-centers/:certificationCenterId/session', function (schema, request) {
+    const certificationCenterId = request.params.certificationCenterId;
+    const requestBody = JSON.parse(request.requestBody);
+    const sessionEnrolment = schema.sessionEnrolments.create({
+      ...requestBody.data.attributes,
+      certificationCenterId,
+    });
+    schema.sessionManagements.create({
+      id: sessionEnrolment.id,
+      certificationCenterId,
+    });
+
+    return sessionEnrolment;
+  });
+
+  this.get('/sessions/:id/management', function (schema, request) {
+    const sessionId = request.params.id;
+    return schema.sessionManagements.find(sessionId);
+  });
 
   this.get('/sessions/:id', function (schema, request) {
     const sessionId = request.params.id;
 
-    return schema.sessions.find(sessionId);
+    return schema.sessionEnrolments.find(sessionId);
   });
 
   this.get('/certification-centers/:id/members', function (schema) {
     return schema.members.all();
   });
 
-  this.patch('/sessions/:id');
+  this.patch('/sessions/:id', function (schema, request) {
+    const sessionId = request.params.id;
+    const session = schema.sessionEnrolments.find(sessionId);
+    const requestBody = JSON.parse(request.requestBody);
+    session.update({ ...requestBody.data.attributes });
+
+    return session;
+  });
 
   this.get('/sessions/:id/certification-candidates', function (schema, request) {
     const sessionId = request.params.id;
@@ -105,8 +130,7 @@ function routes() {
 
   this.get('/sessions/:id/certification-reports', function (schema, request) {
     const sessionId = request.params.id;
-
-    return schema.sessions.find(sessionId).certificationReports;
+    return schema.sessionManagements.find(sessionId).certificationReports;
   });
 
   this.delete('/sessions/:id/certification-candidates/:candidateId', function (schema, request) {
@@ -209,7 +233,7 @@ function routes() {
 
   this.put('/sessions/:id/finalization', (schema, request) => {
     const sessionId = request.params.id;
-    const session = schema.sessions.find(sessionId);
+    const session = schema.sessionManagements.find(sessionId);
     session.update({ status: 'finalized' });
 
     return session;

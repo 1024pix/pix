@@ -1,9 +1,10 @@
 import lodash from 'lodash';
 
-import { usecases as sessionUsecases } from '../../../src/certification/session/domain/usecases/index.js';
-import * as sessionValidator from '../../../src/certification/session/domain/validators/session-validator.js';
-import * as jurySessionRepository from '../../../src/certification/session/infrastructure/repositories/jury-session-repository.js';
-import * as certificationCandidateSerializer from '../../../src/certification/session/infrastructure/serializers/jsonapi/certification-candidate-serializer.js';
+import { usecases as enrolmentUsecases } from '../../../src/certification/enrolment/domain/usecases/index.js';
+import * as sessionValidator from '../../../src/certification/enrolment/domain/validators/session-validator.js';
+import * as certificationCandidateSerializer from '../../../src/certification/enrolment/infrastructure/serializers/certification-candidate-serializer.js';
+import * as jurySessionRepository from '../../../src/certification/session-management/infrastructure/repositories/jury-session-repository.js';
+import * as sessionManagementSerializer from '../../../src/certification/session-management/infrastructure/serializers/session-serializer.js';
 import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import * as queryParamsUtils from '../../../src/shared/infrastructure/utils/query-params-utils.js';
@@ -14,7 +15,6 @@ import { fillCandidatesImportSheet } from '../../infrastructure/files/candidates
 import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
 import * as juryCertificationSummarySerializer from '../../infrastructure/serializers/jsonapi/jury-certification-summary-serializer.js';
 import * as jurySessionSerializer from '../../infrastructure/serializers/jsonapi/jury-session-serializer.js';
-import * as sessionSerializer from '../../infrastructure/serializers/jsonapi/session-serializer.js';
 import { getSessionCertificationResultsCsv } from '../../infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
 import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 import { SessionPublicationBatchError } from '../http-errors.js';
@@ -46,12 +46,6 @@ const getJurySession = async function (request, h, dependencies = { jurySessionS
   const { jurySession, hasSupervisorAccess } = await usecases.getJurySession({ sessionId });
 
   return dependencies.jurySessionSerializer.serialize(jurySession, hasSupervisorAccess);
-};
-
-const get = async function (request, h, dependencies = { sessionSerializer }) {
-  const sessionId = request.params.id;
-  const { session, hasSupervisorAccess, hasSomeCleaAcquired } = await usecases.getSession({ sessionId });
-  return dependencies.sessionSerializer.serialize({ session, hasSupervisorAccess, hasSomeCleaAcquired });
 };
 
 const getCandidatesImportSheet = async function (request, h, dependencies = { fillCandidatesImportSheet }) {
@@ -172,7 +166,7 @@ const enrolStudentsToSession = async function (
   const studentIds = request.deserializedPayload.organizationLearnerIds;
 
   await usecases.enrolStudentsToSession({ sessionId, referentId, studentIds });
-  const certificationCandidates = await sessionUsecases.getSessionCertificationCandidates({ sessionId });
+  const certificationCandidates = await enrolmentUsecases.getSessionCertificationCandidates({ sessionId });
   const certificationCandidatesSerialized =
     dependencies.certificationCandidateSerializer.serialize(certificationCandidates);
   return h.response(certificationCandidatesSerialized).created();
@@ -198,13 +192,13 @@ const createCandidateParticipation = async function (request, h, dependencies = 
   return event instanceof UserLinkedToCertificationCandidate ? h.response(serialized).created() : serialized;
 };
 
-const publish = async function (request, h, dependencies = { sessionSerializer }) {
+const publish = async function (request, h, dependencies = { sessionManagementSerializer }) {
   const sessionId = request.params.id;
   const i18n = request.i18n;
 
   const session = await usecases.publishSession({ sessionId, i18n });
 
-  return dependencies.sessionSerializer.serialize({ session });
+  return dependencies.sessionManagementSerializer.serialize({ session });
 };
 
 const publishInBatch = async function (request, h) {
@@ -222,18 +216,18 @@ const publishInBatch = async function (request, h) {
   return h.response().code(204);
 };
 
-const unpublish = async function (request, h, dependencies = { sessionSerializer }) {
+const unpublish = async function (request, h, dependencies = { sessionManagementSerializer }) {
   const sessionId = request.params.id;
 
   const session = await usecases.unpublishSession({ sessionId });
 
-  return dependencies.sessionSerializer.serialize({ session });
+  return dependencies.sessionManagementSerializer.serialize({ session });
 };
 
-const flagResultsAsSentToPrescriber = async function (request, h, dependencies = { sessionSerializer }) {
+const flagResultsAsSentToPrescriber = async function (request, h, dependencies = { sessionManagementSerializer }) {
   const sessionId = request.params.id;
   const { resultsFlaggedAsSent, session } = await usecases.flagSessionResultsAsSentToPrescriber({ sessionId });
-  const serializedSession = await dependencies.sessionSerializer.serialize({ session });
+  const serializedSession = await dependencies.sessionManagementSerializer.serialize({ session });
   return resultsFlaggedAsSent ? h.response(serializedSession).created() : serializedSession;
 };
 
@@ -256,7 +250,6 @@ const deleteJuryComment = async function (request, h) {
 const sessionController = {
   findPaginatedFilteredJurySessions,
   getJurySession,
-  get,
   getCandidatesImportSheet,
   getJuryCertificationSummaries,
   generateSessionResultsDownloadLink,

@@ -34,11 +34,13 @@ module('Acceptance | Session Finalization', function (hooks) {
       hasSeenEndTestScreen: false,
       isCompleted: true,
     });
-    session = server.create('session', {
-      certificationCenterId: allowedCertificationCenterAccess.id,
+    session = server.create('session-management', {
       certificationReports,
     });
-    session.update({ certificationReports });
+    server.create('session-enrolment', {
+      id: session.id,
+      certificationCenterId: allowedCertificationCenterAccess.id,
+    });
   });
 
   hooks.afterEach(function () {
@@ -428,7 +430,9 @@ module('Acceptance | Session Finalization', function (hooks) {
               certificationIssueReportUncompleted2,
             ];
             certificationReportUncompleted.update({ certificationIssueReports });
-            session.update({ certificationReports: [certificationReportUncompleted, certificationReportCompleted] });
+            session.update({
+              certificationReports: [certificationReportUncompleted, certificationReportCompleted],
+            });
 
             // when
             const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
@@ -464,7 +468,9 @@ module('Acceptance | Session Finalization', function (hooks) {
             });
             const certificationIssueReports = [certificationIssueReportCompleted, certificationIssueReportCompleted2];
             certificationReportCompleted.update({ certificationIssueReports });
-            session.update({ certificationReports: [certificationReportUncompleted, certificationReportCompleted] });
+            session.update({
+              certificationReports: [certificationReportUncompleted, certificationReportCompleted],
+            });
 
             // when
             const screen = await visitScreen(`/sessions/${session.id}/finalisation`);

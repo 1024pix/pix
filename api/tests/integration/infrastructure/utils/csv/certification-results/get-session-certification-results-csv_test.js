@@ -10,7 +10,10 @@ describe('Integration | Application | UseCases | certification-results | get-ses
     context('when no certification has passed complementary certifications', function () {
       it('should return correct csvContent without complementary certification informations', async function () {
         // given
-        const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
+        const session = domainBuilder.certification.sessionManagement.buildSession({
+          id: 777,
+          certificationCenter: 'CentreCertif',
+        });
         const competencesWithMark = [
           domainBuilder.buildCompetenceMark({ competence_code: '1.1', level: 0 }),
           domainBuilder.buildCompetenceMark({ competence_code: '1.2', level: 1 }),
@@ -53,7 +56,10 @@ describe('Integration | Application | UseCases | certification-results | get-ses
         context('when the reason is insufficient correct answers', function () {
           it('should return correct csvContent with auto jury comment for organization', async function () {
             // given
-            const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
+            const session = domainBuilder.certification.sessionManagement.buildSession({
+              id: 777,
+              certificationCenter: 'CentreCertif',
+            });
 
             const competencesWithMark = [
               domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
@@ -94,7 +100,10 @@ describe('Integration | Application | UseCases | certification-results | get-ses
       context('when the reason is not enough answers', function () {
         it('should return correct csvContent with auto jury comment for organization', async function () {
           // given
-          const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
+          const session = domainBuilder.certification.sessionManagement.buildSession({
+            id: 777,
+            certificationCenter: 'CentreCertif',
+          });
 
           const competencesWithMark = [
             domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
@@ -136,7 +145,10 @@ describe('Integration | Application | UseCases | certification-results | get-ses
   context('when certification is cancelled', function () {
     it('should return correct csvContent with cancelled status and dashes as Pix scores', async function () {
       // given
-      const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
+      const session = domainBuilder.certification.sessionManagement.buildSession({
+        id: 777,
+        certificationCenter: 'CentreCertif',
+      });
       const competencesWithMark = [
         domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
         domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
@@ -176,7 +188,10 @@ describe('Integration | Application | UseCases | certification-results | get-ses
   context('when at least one certification course is in error', function () {
     it('should return correct csvContent with error status and dashes as Pix scores', async function () {
       // given
-      const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
+      const session = domainBuilder.certification.sessionManagement.buildSession({
+        id: 777,
+        certificationCenter: 'CentreCertif',
+      });
       const competencesWithMark = [
         domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
         domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
@@ -217,7 +232,10 @@ describe('Integration | Application | UseCases | certification-results | get-ses
       // given
       const expectedHeader = 'Certification skateboard numérique';
       const label = 'skateboard numérique';
-      const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
+      const session = domainBuilder.certification.sessionManagement.buildSession({
+        id: 777,
+        certificationCenter: 'CentreCertif',
+      });
       const competencesWithMark = [
         domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
         domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
@@ -258,7 +276,10 @@ describe('Integration | Application | UseCases | certification-results | get-ses
       // given
       const expectedHeader = 'Certification skateboard numérique';
       const label = 'skateboard numérique';
-      const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
+      const session = domainBuilder.certification.sessionManagement.buildSession({
+        id: 777,
+        certificationCenter: 'CentreCertif',
+      });
       const competencesWithMark = [
         domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
         domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
@@ -299,7 +320,10 @@ describe('Integration | Application | UseCases | certification-results | get-ses
   context('when there are several complementary certifications', function () {
     it('should return correct csvContent with complementary informations', async function () {
       // given
-      const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
+      const session = domainBuilder.certification.sessionManagement.buildSession({
+        id: 777,
+        certificationCenter: 'CentreCertif',
+      });
       const competencesWithMark = [
         domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
         domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),

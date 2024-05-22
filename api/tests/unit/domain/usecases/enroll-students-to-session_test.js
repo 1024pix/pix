@@ -42,8 +42,8 @@ describe('Unit | UseCase | enrol-students-to-session', function () {
       const countryRepository = { findAll: sinon.stub() };
       countryRepository.findAll.resolves([country]);
       organizationLearnerRepository.findByIds.withArgs({ ids: studentIds }).resolves(organizationLearners);
-      const sessionRepository = { get: sinon.stub() };
-      sessionRepository.get.withArgs({ id: sessionId }).resolves(session);
+      const sessionEnrolmentRepository = { get: sinon.stub() };
+      sessionEnrolmentRepository.get.withArgs({ id: sessionId }).resolves(session);
       const certificationCenterMembershipRepository = { findByUserId: sinon.stub() };
       certificationCenterMembershipRepository.findByUserId
         .withArgs(referentId)
@@ -61,7 +61,7 @@ describe('Unit | UseCase | enrol-students-to-session', function () {
         scoCertificationCandidateRepository,
         certificationCenterMembershipRepository,
         organizationLearnerRepository,
-        sessionRepository,
+        sessionEnrolmentRepository,
         countryRepository,
         organizationRepository,
       });
@@ -113,8 +113,8 @@ describe('Unit | UseCase | enrol-students-to-session', function () {
       const countryRepository = { findAll: sinon.stub() };
       countryRepository.findAll.resolves([country]);
       organizationLearnerRepository.findByIds.withArgs({ ids: [1] }).resolves([organizationLearner]);
-      const sessionRepository = { get: sinon.stub() };
-      sessionRepository.get.withArgs({ id: sessionId }).resolves(session);
+      const sessionEnrolmentRepository = { get: sinon.stub() };
+      sessionEnrolmentRepository.get.withArgs({ id: sessionId }).resolves(session);
       const certificationCenterMembershipRepository = { findByUserId: sinon.stub() };
       certificationCenterMembershipRepository.findByUserId
         .withArgs(referentId)
@@ -132,7 +132,7 @@ describe('Unit | UseCase | enrol-students-to-session', function () {
         scoCertificationCandidateRepository,
         certificationCenterMembershipRepository,
         organizationLearnerRepository,
-        sessionRepository,
+        sessionEnrolmentRepository,
         countryRepository,
         organizationRepository,
       });
@@ -155,8 +155,8 @@ describe('Unit | UseCase | enrol-students-to-session', function () {
 
       const organizationLearnerRepository = { findByIds: sinon.stub() };
       organizationLearnerRepository.findByIds.withArgs({ ids: studentIds }).resolves(organizationLearners);
-      const sessionRepository = { get: sinon.stub() };
-      sessionRepository.get.withArgs({ id: session.id }).resolves(session);
+      const sessionEnrolmentRepository = { get: sinon.stub() };
+      sessionEnrolmentRepository.get.withArgs({ id: session.id }).resolves(session);
       const certificationCenterMembershipRepository = { findByUserId: sinon.stub() };
       certificationCenterMembershipRepository.findByUserId
         .withArgs(referentId)
@@ -173,7 +173,7 @@ describe('Unit | UseCase | enrol-students-to-session', function () {
         referentId,
         organizationLearnerRepository,
         organizationRepository,
-        sessionRepository,
+        sessionEnrolmentRepository,
         certificationCenterMembershipRepository,
       });
 
@@ -191,8 +191,8 @@ describe('Unit | UseCase | enrol-students-to-session', function () {
       certificationCenterMembershipRepository.findByUserId
         .withArgs(referentId)
         .resolves(certificationCenterMemberships);
-      const sessionRepository = { get: sinon.stub() };
-      sessionRepository.get.withArgs({ id: session.id }).resolves(session);
+      const sessionEnrolmentRepository = { get: sinon.stub() };
+      sessionEnrolmentRepository.get.withArgs({ id: session.id }).resolves(session);
 
       // when
       const error = await catchErr(enrolStudentsToSession)({
@@ -202,7 +202,7 @@ describe('Unit | UseCase | enrol-students-to-session', function () {
         certificationCenterMembershipRepository,
         organizationRepository: undefined,
         organizationLearnerRepository: undefined,
-        sessionRepository,
+        sessionEnrolmentRepository,
       });
 
       // then
@@ -229,8 +229,8 @@ describe('Unit | UseCase | enrol-students-to-session', function () {
       organizationLearnerRepository.findByIds.withArgs({ ids: studentIds }).resolves(organizationLearners);
       const countryRepository = { findAll: sinon.stub() };
       countryRepository.findAll.resolves([country]);
-      const sessionRepository = { get: sinon.stub() };
-      sessionRepository.get.withArgs({ id: sessionId }).resolves(session);
+      const sessionEnrolmentRepository = { get: sinon.stub() };
+      sessionEnrolmentRepository.get.withArgs({ id: sessionId }).resolves(session);
       const certificationCenterMembershipRepository = { findByUserId: sinon.stub() };
       certificationCenterMembershipRepository.findByUserId
         .withArgs(referentId)
@@ -248,7 +248,7 @@ describe('Unit | UseCase | enrol-students-to-session', function () {
         scoCertificationCandidateRepository,
         certificationCenterMembershipRepository,
         organizationLearnerRepository,
-        sessionRepository,
+        sessionEnrolmentRepository,
         countryRepository,
         organizationRepository,
       });
@@ -276,8 +276,8 @@ describe('Unit | UseCase | enrol-students-to-session', function () {
       const countryRepository = { findAll: sinon.stub() };
       countryRepository.findAll.resolves([country]);
       organizationLearnerRepository.findByIds.withArgs({ ids: studentIds }).resolves(organizationLearners);
-      const sessionRepository = { get: sinon.stub() };
-      sessionRepository.get.withArgs({ id: sessionId }).resolves(session);
+      const sessionEnrolmentRepository = { get: sinon.stub() };
+      sessionEnrolmentRepository.get.withArgs({ id: sessionId }).resolves(session);
       const certificationCenterMembershipRepository = { findByUserId: sinon.stub() };
       certificationCenterMembershipRepository.findByUserId
         .withArgs(referentId)
@@ -297,7 +297,7 @@ describe('Unit | UseCase | enrol-students-to-session', function () {
         organizationRepository,
         organizationLearnerRepository,
         countryRepository,
-        sessionRepository,
+        sessionEnrolmentRepository,
       });
 
       // then
@@ -308,7 +308,7 @@ describe('Unit | UseCase | enrol-students-to-session', function () {
 
 function _buildMatchingSessionAndCertificationCenterMembership() {
   const certificationCenter = domainBuilder.buildCertificationCenter();
-  const session = domainBuilder.buildSession({
+  const session = domainBuilder.certification.enrolment.buildSession({
     certificationCenterId: certificationCenter.id,
   });
 
@@ -321,7 +321,7 @@ function _buildMatchingSessionAndCertificationCenterMembership() {
 
 function _buildNonMatchingSessionAndCertificationCenterMembership() {
   const certificationCenterForSession = domainBuilder.buildCertificationCenter({ id: 1234 });
-  const session = domainBuilder.buildSession({
+  const session = domainBuilder.certification.enrolment.buildSession({
     certificationCenterId: certificationCenterForSession.id,
   });
 

@@ -20,7 +20,7 @@ export default class SessionsDetailsController extends Controller {
   async fetchInvigilatorKit() {
     try {
       const token = this.session.data.authenticated.access_token;
-      await this.fileSaver.save({ url: this.model.session.urlToDownloadSupervisorKitPdf, token });
+      await this.fileSaver.save({ url: this.model.sessionManagement.urlToDownloadSupervisorKitPdf, token });
     } catch (err) {
       this.notifications.error(this.intl.t('common.api-error-messages.internal-server-error'));
     }

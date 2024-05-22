@@ -32,7 +32,13 @@ module('Acceptance | Session Update', function (hooks) {
   module('when current certification center is blocked', function () {
     test('should redirect to espace-ferme URL', async function (assert) {
       // given
-      const session = server.create('session', { certificationCenterId: allowedCertificationCenterAccess.id });
+      const session = server.create('session-enrolment', {
+        certificationCenterId: allowedCertificationCenterAccess.id,
+      });
+      server.create('session-management', {
+        id: session.id,
+      });
+
       allowedCertificationCenterAccess.update({ isAccessBlockedCollege: true });
 
       // when
@@ -45,7 +51,10 @@ module('Acceptance | Session Update', function (hooks) {
 
   test('it should fill the updating form with the current values of the session', async function (assert) {
     // given
-    const session = server.create('session', { time: '14:00:00', date: '2020-01-01' });
+    const session = server.create('session-enrolment', { time: '14:00:00', date: '2020-01-01' });
+    server.create('session-management', {
+      id: session.id,
+    });
 
     // when
     const screen = await visit(`/sessions/${session.id}/modification`);
@@ -62,11 +71,14 @@ module('Acceptance | Session Update', function (hooks) {
 
   test('it should allow to update a session and redirect to the session details', async function (assert) {
     // given
-    const session = server.create('session', {
+    const session = server.create('session-enrolment', {
       room: 'beforeRoom',
       examiner: 'beforeExaminer',
       date: '2023-12-12',
       time: '10:12',
+    });
+    server.create('session-management', {
+      id: session.id,
     });
     const newRoom = 'New room';
     const newExaminer = 'New examiner';
@@ -87,7 +99,10 @@ module('Acceptance | Session Update', function (hooks) {
 
   test('it should not update a session when cancel button is clicked and redirect to the session #1 details', async function (assert) {
     // given
-    const session = server.create('session', { room: 'beforeRoom', examiner: 'beforeExaminer' });
+    const session = server.create('session-enrolment', { room: 'beforeRoom', examiner: 'beforeExaminer' });
+    server.create('session-management', {
+      id: session.id,
+    });
     const newRoom = 'New room';
     const newExaminer = 'New examiner';
 

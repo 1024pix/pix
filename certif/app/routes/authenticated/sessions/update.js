@@ -11,7 +11,7 @@ export default class SessionsUpdateRoute extends Route {
   }
 
   async model({ session_id }) {
-    const session = await this.store.findRecord('session', session_id);
+    const session = await this.store.findRecord('session-enrolment', session_id);
     this.dayjs.extend('customParseFormat');
     session.time = this.dayjs.self(session.time, 'HH:mm:ss').format('HH:mm');
     return session;

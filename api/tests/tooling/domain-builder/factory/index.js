@@ -26,6 +26,7 @@ import { buildCampaignParticipationResult } from './build-campaign-participation
 import { buildCampaignReport } from './build-campaign-report.js';
 import { buildCampaignToJoin } from './build-campaign-to-join.js';
 import { buildCampaignToStartParticipation } from './build-campaign-to-start-participation.js';
+import { buildCenter } from './build-center.js';
 import { buildCertifiableBadgeAcquisition } from './build-certifiable-badge-acquisition.js';
 import { buildCertifiableProfileForLearningContent } from './build-certifiable-profile-for-learning-content.js';
 import { buildCertificationAssessment } from './build-certification-assessment.js';
@@ -55,6 +56,8 @@ import { buildCertificationReport } from './build-certification-report.js';
 import { buildCertificationRescoringCompletedEvent } from './build-certification-rescoring-completed-event.js';
 import { buildCertificationResult } from './build-certification-result.js';
 import { buildCertificationScoringCompletedEvent } from './build-certification-scoring-completed-event.js';
+import { buildCertificationSessionCandidate } from './build-certification-session-candidate.js';
+import { buildCertificationSessionEnrolledCandidate } from './build-certification-session-enrolled-candidate.js';
 import { buildCertifiedArea } from './build-certified-area.js';
 import { buildCertifiedCompetence } from './build-certified-competence.js';
 import { buildCertifiedProfile } from './build-certified-profile.js';
@@ -127,7 +130,6 @@ import { buildReproducibilityRate } from './build-reproducibility-rate.js';
 import { buildResultCompetenceTree } from './build-result-competence-tree.js';
 import { buildSchoolAssessment } from './build-school-assessment.js';
 import { buildSCOCertificationCandidate } from './build-sco-certification-candidate.js';
-import { buildSession } from './build-session.js';
 import { buildSessionForAttendanceSheet } from './build-session-for-attendance-sheet.js';
 import { buildSessionForInvigilatorKit } from './build-session-for-invigilator-kit.js';
 import { buildSessionForSupervising } from './build-session-for-supervising.js';
@@ -169,16 +171,15 @@ import { buildV3CertificationChallengeLiveAlertForAdministration } from './build
 import { buildV3CertificationCourseDetailsForAdministration } from './build-v3-certification-course-details-for-administration.js';
 import { buildValidation } from './build-validation.js';
 import { buildValidator } from './build-validator.js';
+import { buildSessionEnrolment } from './certification/enrolment/build-session.js';
 import { buildAssessmentResult as buildCertificationScoringAssessmentResult } from './certification/scoring/build-assessment-result.js';
 import { buildCertificationAssessmentHistory } from './certification/scoring/build-certification-assessment-history.js';
 import { buildCertificationChallengeCapacity } from './certification/scoring/build-certification-challenge-capacity.js';
 import { buildCertificationChallengeForScoring } from './certification/scoring/build-certification-challenge-for-scoring.js';
 import { buildCompetenceForScoring } from './certification/scoring/build-competence-for-scoring.js';
 import { buildV3CertificationScoring } from './certification/scoring/build-v3-certification-scoring.js';
-import { buildCenter } from './certification/session/build-center.js';
-import { buildCertificationSessionCandidate } from './certification/session/build-certification-session-candidate.js';
-import { buildCertificationSessionComplementaryCertification } from './certification/session/build-certification-session-complementary-certification.js';
-import { buildCertificationSessionEnrolledCandidate } from './certification/session/build-certification-session-enrolled-candidate.js';
+import { buildCertificationSessionComplementaryCertification } from './certification/session-management/build-certification-session-complementary-certification.js';
+import { buildSessionManagement } from './certification/session-management/build-session.js';
 import { buildJuryComment } from './certification/shared/build-jury-comment.js';
 import { buildCampaign as boundedContextCampaignBuildCampaign } from './prescription/campaign/build-campaign.js';
 import { buildCampaignParticipation as boundedContextCampaignParticipationBuildCampaignParticipation } from './prescription/campaign-participation/build-campaign-participation.js';
@@ -193,11 +194,15 @@ const certification = {
     buildAssessmentResult: buildCertificationScoringAssessmentResult,
     buildV3CertificationScoring,
   },
-  session: {
+  enrolment: {
+    buildSession: buildSessionEnrolment,
     buildCenter,
-    buildCertificationSessionCandidate: buildCertificationSessionCandidate,
-    buildCertificationSessionEnrolledCandidate: buildCertificationSessionEnrolledCandidate,
-    buildCertificationSessionComplementaryCertification: buildCertificationSessionComplementaryCertification,
+    buildCertificationSessionCandidate,
+    buildCertificationSessionEnrolledCandidate,
+  },
+  sessionManagement: {
+    buildCertificationSessionComplementaryCertification,
+    buildSession: buildSessionManagement,
   },
   shared: {
     buildJuryComment: buildJuryComment,
@@ -344,7 +349,6 @@ export {
   buildSchoolAssessment,
   buildSCOCertificationCandidate,
   buildScoringAndCapacitySimulatorReport,
-  buildSession,
   buildSessionForAttendanceSheet,
   buildSessionForInvigilatorKit,
   buildSessionForSupervising,

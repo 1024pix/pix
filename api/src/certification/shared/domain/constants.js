@@ -5,3 +5,10 @@ export const CERTIFICATION_FEATURES = {
       "Permet l'accès pour un centre de certification à l'inscription d'un candidat passant une complémentaire seule.",
   },
 };
+
+export const SESSION_STATUSES = {
+  CREATED: 'created',
+  FINALIZED: 'finalized',
+  IN_PROCESS: 'in_process',
+  PROCESSED: 'processed',
+};

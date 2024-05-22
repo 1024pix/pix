@@ -18,7 +18,7 @@ export default class AuthenticatedSessionsDetailsAddStudentRoute extends Route {
   }
 
   async model(params) {
-    const session = await this.store.findRecord('session', params.session_id);
+    const session = await this.store.findRecord('session-enrolment', params.session_id);
     const certificationCenterId = this.currentUser.currentAllowedCertificationCenterAccess.id;
     const certificationCandidates = await this.store.query('certification-candidate', { sessionId: params.session_id });
     const divisions = await this.store.query('division', { certificationCenterId });

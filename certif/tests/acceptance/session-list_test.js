@@ -119,13 +119,17 @@ module('Acceptance | Session List', function (hooks) {
           date: '2020-01-01',
           time: '14:00',
         });
-        server.create('session', {
+        server.create('session-enrolment', {
           id: 123,
           address: 'Adresse',
           certificationCenterId: 123,
           date: '2020-01-01',
           time: '14:00',
         });
+        server.create('session-management', {
+          id: 123,
+        });
+
         const screen = await visit('/sessions/liste');
 
         // when
@@ -326,12 +330,15 @@ module('Acceptance | Session List', function (hooks) {
           date: '2020-01-01',
           time: '14:00',
         });
-        server.create('session', {
+        server.create('session-enrolment', {
           id: 26,
           address: 'Adresse',
           certificationCenterId: 123,
           date: '2020-01-01',
           time: '14:00',
+        });
+        server.create('session-management', {
+          id: 26,
         });
 
         const screen = await visit('/sessions/liste');

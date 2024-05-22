@@ -16,7 +16,8 @@ import { DatabaseBuilder } from '../../db/database-builder/database-builder.js';
 import { CampaignParticipationStatuses } from '../../lib/domain/models/index.js';
 import { learningContentCache } from '../../lib/infrastructure/caches/learning-content-cache.js';
 import { temporaryStorage } from '../../lib/infrastructure/temporary-storage/index.js';
-import { getNewSessionCode } from '../../src/certification/session/domain/services/session-code-service.js';
+import { getNewSessionCode } from '../../src/certification/enrolment/domain/services/session-code-service.js';
+import * as skillRepository from '../../src/shared/infrastructure/repositories/skill-repository.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 import {
   makeUserCleaCertifiable,
@@ -47,28 +48,23 @@ const PIXCLEA = 'CLEA';
 const PIXDROIT = 'DROIT';
 const PIXEDU2NDDEGRE = 'EDU_2ND_DEGRE';
 const PIXEDU1ERDEGRE = 'EDU_1ER_DEGRE';
-import { badges } from '../../db/constants.js';
-
-const COMPLEMENTARY_CERTIFICATION_BADGES_BY_NAME = {
-  [PIXCLEA]: badges.keys.PIX_EMPLOI_CLEA_V2,
-  [PIXDROIT]: badges.keys.PIX_DROIT_INITIE_CERTIF,
-  [PIXEDU1ERDEGRE]: badges.keys.PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-  [PIXEDU2NDDEGRE]: badges.keys.PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-};
 
 const isInTest = process.env.NODE_ENV === 'test';
 
 async function main({ centerType, candidateNumber, complementaryCertifications = [] }) {
   await _updateDatabaseBuilderSequenceNumber();
+  const time = new Date().getTime();
   const { id: organizationId } = databaseBuilder.factory.buildOrganization({
     type: centerType,
     isManagingStudents: centerType === 'SCO',
-    name: 'CERTIF_ORGA_' + new Date().getTime(),
+    name: 'CERTIF_ORGA_' + time,
+    externalId: 'EXT' + time,
   });
   const { id: certificationCenterId } = databaseBuilder.factory.buildCertificationCenter({
     organizationId,
-    name: 'CERTIF_CENTER_' + new Date().getTime(),
+    name: 'CERTIF_CENTER_' + time,
     type: centerType,
+    externalId: 'EXT' + time,
   });
 
   const userIds = await knex('certification-center-memberships')
@@ -246,20 +242,15 @@ async function _createComplementaryCertificationHability(
     complementaryCertificationId,
     certificationCandidateId,
   });
-  const { id: badgeId, targetProfileId } = await _getBadgeByComplementaryCertificationKey(key);
 
-  const { id: campaignId } = databaseBuilder.factory.buildCampaign({
+  const { id: badgeId, targetProfileId } = await _getBadgeByComplementaryCertificationKey(key);
+  const campaignParticipationId = await createCampaignForComplementary({
     organizationId,
     targetProfileId,
-  });
-
-  const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
-    campaignId,
     userId,
     organizationLearnerId,
-    status: SHARED,
-    isCertifiable: true,
   });
+
   databaseBuilder.factory.buildBadgeAcquisition({ badgeId, userId, campaignParticipationId });
 
   if (PIXDROIT === key) {
@@ -276,9 +267,42 @@ async function _createComplementaryCertificationHability(
   }
 }
 
+async function createCampaignForComplementary({ organizationId, targetProfileId, userId, organizationLearnerId }) {
+  const { id: campaignId } = databaseBuilder.factory.buildCampaign({
+    organizationId,
+    targetProfileId,
+  });
+
+  const tubeIds = await knex('target-profile_tubes').where({ targetProfileId }).pluck('tubeId');
+  const skillsByTube = await Promise.all(tubeIds.map((tubeId) => skillRepository.findOperativeByTubeId(tubeId)));
+  skillsByTube.forEach((skills) =>
+    skills.forEach(({ id: skillId }) =>
+      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId, filterByStatus: 'all' }),
+    ),
+  );
+
+  const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+    campaignId,
+    userId,
+    organizationLearnerId,
+    status: SHARED,
+    isCertifiable: true,
+  });
+
+  return campaignParticipationId;
+}
+
 async function _getBadgeByComplementaryCertificationKey(complementaryCertificationKey) {
-  const key = COMPLEMENTARY_CERTIFICATION_BADGES_BY_NAME[complementaryCertificationKey];
-  return knex('badges').where({ key }).first();
+  return knex('complementary-certifications')
+    .select('badges.*')
+    .innerJoin(
+      'complementary-certification-badges',
+      'complementary-certification-badges.complementaryCertificationId',
+      'complementary-certifications.id',
+    )
+    .innerJoin('badges', 'complementary-certification-badges.badgeId', 'badges.id')
+    .where({ 'complementary-certifications.key': complementaryCertificationKey })
+    .first();
 }
 
 async function _getResults(sessionId) {

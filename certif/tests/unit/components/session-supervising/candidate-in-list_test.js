@@ -18,7 +18,7 @@ module('Unit | Component | session-supervising/candidate-in-list', function (hoo
         component.args.candidate = { userId: 456 };
         component.notifications = { error: sinon.spy() };
         const store = this.owner.lookup('service:store');
-        const adapter = store.adapterFor('session');
+        const adapter = store.adapterFor('session-management');
         adapter.validateLiveAlert = sinon.stub();
         adapter.validateLiveAlert.resolves();
 
@@ -47,7 +47,7 @@ module('Unit | Component | session-supervising/candidate-in-list', function (hoo
         component.args.candidate = { userId: 456 };
         component.notifications = { error: sinon.spy() };
         const store = this.owner.lookup('service:store');
-        const adapter = store.adapterFor('session');
+        const adapter = store.adapterFor('session-management');
         adapter.validateLiveAlert = sinon.stub();
         adapter.validateLiveAlert.rejects();
 
@@ -76,7 +76,7 @@ module('Unit | Component | session-supervising/candidate-in-list', function (hoo
         component.args.candidate = { userId: 456 };
         component.notifications = { error: sinon.spy() };
         const store = this.owner.lookup('service:store');
-        const adapter = store.adapterFor('session');
+        const adapter = store.adapterFor('session-management');
         adapter.dismissLiveAlert = sinon.stub();
         adapter.dismissLiveAlert.resolves();
 
@@ -104,7 +104,7 @@ module('Unit | Component | session-supervising/candidate-in-list', function (hoo
         component.args.candidate = { userId: 456 };
         component.notifications = { error: sinon.spy() };
         const store = this.owner.lookup('service:store');
-        const adapter = store.adapterFor('session');
+        const adapter = store.adapterFor('session-management');
         adapter.dismissLiveAlert = sinon.stub();
         adapter.dismissLiveAlert.rejects();
 

@@ -1,5 +1,7 @@
 import { setupTest } from 'ember-qunit';
+import Session from 'pix-certif/models/session-management.js';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Unit | Controller | authenticated/sessions/details', function (hooks) {
   setupTest(hooks);
@@ -120,6 +122,30 @@ module('Unit | Controller | authenticated/sessions/details', function (hooks) {
 
       // then
       assert.strictEqual(url, 'https://cloud.pix.fr/s/wJc6N3sZNZRC4MZ/download');
+    });
+  });
+
+  module('#fetchInvigilatorKit', function () {
+    test('should call fileSaver save with token', async function (assert) {
+      // given
+      const controller = this.owner.lookup('controller:authenticated/sessions/details');
+      controller.model = {
+        sessionManagement: new Session(),
+      };
+      const fileSaver = this.owner.lookup('service:fileSaver');
+      const session = this.owner.lookup('service:session');
+      sinon.stub(session, 'data').value({ authenticated: { access_token: 'TIK_TOKEN' } });
+      fileSaver.save = sinon.stub();
+
+      // when
+      await controller.fetchInvigilatorKit();
+
+      // then
+      assert.ok(true);
+      sinon.assert.calledOnceWithExactly(fileSaver.save, {
+        url: controller.model.sessionManagement.urlToDownloadSupervisorKitPdf,
+        token: 'TIK_TOKEN',
+      });
     });
   });
 });

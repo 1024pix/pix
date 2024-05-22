@@ -8,7 +8,7 @@ import { CertificationCandidate } from '../../../../../../lib/domain/models/Cert
 
 /**
  *@deprecated this serializer has been deprecated due to API migration, please migrate current usages to session/infrastructure/serializers/jsonapi/certification-candidate-serializer.js
-  {@link file://./../../../../../certification/session/infrastructure/serializers/jsonapi/certification-candidate-serializer.js}
+  {@link file://./../../../../../certification/enrolment/infrastructure/serializers/certification-candidate-serializer.js}
  */
 const serialize = function (certificationCandidates) {
   return new Serializer('certification-candidate', {

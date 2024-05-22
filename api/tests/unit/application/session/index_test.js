@@ -19,22 +19,6 @@ import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Unit | Application | Sessions | Routes', function () {
-  describe('GET /api/sessions/{id}', function () {
-    it('should exist', async function () {
-      // given
-      sinon.stub(authorization, 'verifySessionAuthorization').returns(null);
-      sinon.stub(sessionController, 'get').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('GET', '/api/sessions/3');
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-  });
-
   describe('POST /api/sessions/{id}/certification-candidates/import', function () {
     const testFilePath = `${__dirname}/testFile_temp.ods`;
     const method = 'POST';
@@ -120,82 +104,6 @@ describe('Unit | Application | Sessions | Routes', function () {
 
       // then
       expect(response.statusCode).to.equal(200);
-    });
-  });
-
-  describe('id validation', function () {
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    [
-      { condition: 'session ID params is not a number', request: { method: 'GET', url: '/api/sessions/salut' } },
-      {
-        condition: 'session ID params is out of range for database integer (> 2147483647)',
-        request: { method: 'GET', url: '/api/sessions/9999999999' },
-      },
-      { condition: 'session ID params is not a number', request: { method: 'GET', url: '/api/admin/sessions/salut' } },
-      {
-        condition: 'session ID params is out of range for database integer (> 2147483647)',
-        request: { method: 'GET', url: '/api/admin/sessions/9999999999' },
-      },
-      {
-        condition: 'session ID params is not a number',
-        request: { method: 'GET', url: '/api/admin/sessions/salut/jury-certification-summaries' },
-      },
-      {
-        condition: 'session ID params is out of range for database integer (> 2147483647)',
-        request: { method: 'GET', url: '/api/admin/sessions/9999999999/jury-certification-summaries' },
-      },
-      {
-        condition: 'session ID params is not a number',
-        request: { method: 'POST', url: '/api/sessions/salut/candidate-participation' },
-      },
-      {
-        condition: 'session ID params is out of range for database integer (> 2147483647)',
-        request: { method: 'POST', url: '/api/sessions/9999999999/candidate-participation' },
-      },
-      {
-        condition: 'session ID params is not a number',
-        request: { method: 'PATCH', url: '/api/admin/sessions/salut/publish' },
-      },
-      {
-        condition: 'session ID params is not a number',
-        request: { method: 'PATCH', url: '/api/admin/sessions/salut/unpublish' },
-      },
-      {
-        condition: 'session ID params is out of range for database integer (> 2147483647)',
-        request: { method: 'PATCH', url: '/api/admin/sessions/9999999999/publish' },
-      },
-      {
-        condition: 'session ID params is out of range for database integer (> 2147483647)',
-        request: { method: 'PATCH', url: '/api/admin/sessions/9999999999/unpublish' },
-      },
-      {
-        condition: 'session ID params is not a number',
-        request: { method: 'PUT', url: '/api/admin/sessions/salut/results-sent-to-prescriber' },
-      },
-      {
-        condition: 'session ID params is out of range for database integer (> 2147483647)',
-        request: { method: 'PUT', url: '/api/admin/sessions/9999999999/results-sent-to-prescriber' },
-      },
-      {
-        condition: 'session ID params is not a number',
-        request: { method: 'GET', url: '/api/sessions/hello/certified-clea-candidate-data' },
-      },
-      {
-        condition: 'session ID params is out of range for database integer (> 2147483647)',
-        request: { method: 'GET', url: '/api/sessions/9999999999/certified-clea-candidate-data' },
-      },
-    ].forEach(({ condition, request }) => {
-      it(`should return 400 when ${condition}`, async function () {
-        // given
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-
-        // when
-        const response = await httpTestServer.request(request.method, request.url, request.payload || null);
-
-        // then
-        expect(response.statusCode).to.equal(400);
-      });
     });
   });
 

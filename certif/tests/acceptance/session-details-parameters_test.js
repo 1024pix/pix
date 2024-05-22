@@ -3,7 +3,7 @@ import { click, currentURL } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupIntl } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
-import { CREATED, FINALIZED } from 'pix-certif/models/session';
+import { CREATED, FINALIZED } from 'pix-certif/models/session-management';
 import { module, test } from 'qunit';
 
 import { authenticateSession } from '../helpers/test-init';
@@ -41,7 +41,12 @@ module('Acceptance | Session Details Parameters', function (hooks) {
     module('when current certification center is blocked', function () {
       test('should redirect to espace-ferme URL', async function (assert) {
         // given
-        const sessionCreated = server.create('session', { certificationCenterId: allowedCertificationCenterAccess.id });
+        const sessionCreated = server.create('session-enrolment', {
+          certificationCenterId: allowedCertificationCenterAccess.id,
+        });
+        server.create('session-management', {
+          id: sessionCreated.id,
+        });
         allowedCertificationCenterAccess.update({ isAccessBlockedCollege: true });
 
         // when
@@ -55,7 +60,12 @@ module('Acceptance | Session Details Parameters', function (hooks) {
     module('when looking at the session details', function () {
       test('should display details parameters information', async function (assert) {
         // given
-        const sessionCreated = server.create('session', { certificationCenterId: allowedCertificationCenterAccess.id });
+        const sessionCreated = server.create('session-enrolment', {
+          certificationCenterId: allowedCertificationCenterAccess.id,
+        });
+        server.create('session-management', {
+          id: sessionCreated.id,
+        });
 
         // when
         const screen = await visit(`/sessions/${sessionCreated.id}`);
@@ -79,8 +89,16 @@ module('Acceptance | Session Details Parameters', function (hooks) {
         module('when the session is CREATED', function () {
           test('it should not display the finalize button if no candidate has joined the session', async function (assert) {
             // given
-            const sessionCreated = server.create('session', { id: 123, status: CREATED });
+            const sessionCreated = server.create('session-enrolment', {
+              id: 123,
+              status: CREATED,
+              certificationCenterId: allowedCertificationCenterAccess.id,
+            });
             server.createList('certification-candidate', 2, { isLinked: false, sessionId: sessionCreated.id });
+            server.create('session-management', {
+              id: sessionCreated.id,
+              status: CREATED,
+            });
 
             // when
             const screen = await visit(`/sessions/${sessionCreated.id}`);
@@ -94,9 +112,13 @@ module('Acceptance | Session Details Parameters', function (hooks) {
 
           test('it should display supervisor password', async function (assert) {
             // given
-            const sessionWithSupervisorPassword = server.create('session', {
+            const sessionWithSupervisorPassword = server.create('session-enrolment', {
               supervisorPassword: 'SOWHAT',
               status: CREATED,
+              certificationCenterId: allowedCertificationCenterAccess.id,
+            });
+            server.create('session-management', {
+              id: sessionWithSupervisorPassword.id,
             });
 
             // when
@@ -110,10 +132,16 @@ module('Acceptance | Session Details Parameters', function (hooks) {
           module('when finalize button is clicked', function () {
             test('it should redirect to finalize page', async function (assert) {
               // given
-              const sessionCreatedAndStarted = server.create('session', { status: CREATED });
+              const sessionCreatedAndStarted = server.create('session-enrolment', {
+                certificationCenterId: allowedCertificationCenterAccess.id,
+              });
               server.createList('certification-candidate', 2, {
                 isLinked: true,
                 sessionId: sessionCreatedAndStarted.id,
+              });
+              server.create('session-management', {
+                id: sessionCreatedAndStarted.id,
+                status: CREATED,
               });
 
               // when
@@ -129,10 +157,16 @@ module('Acceptance | Session Details Parameters', function (hooks) {
             module('when certification reports recovery fails', function () {
               test('it should return error message', async function (assert) {
                 // given
-                const sessionCreatedAndStarted = server.create('session', { status: CREATED });
+                const sessionCreatedAndStarted = server.create('session-enrolment', {
+                  status: CREATED,
+                  certificationCenterId: allowedCertificationCenterAccess.id,
+                });
                 server.createList('certification-candidate', 2, {
                   isLinked: true,
                   sessionId: sessionCreatedAndStarted.id,
+                });
+                server.create('session-management', {
+                  id: sessionCreatedAndStarted.id,
                 });
                 this.server.get('/sessions/:id/certification-reports', () => {
                   return new Response(500, {}, { errors: [{ status: '500' }] });
@@ -163,7 +197,13 @@ module('Acceptance | Session Details Parameters', function (hooks) {
         let sessionFinalized;
 
         hooks.beforeEach(function () {
-          sessionFinalized = server.create('session', { status: FINALIZED });
+          sessionFinalized = server.create('session-enrolment', {
+            certificationCenterId: allowedCertificationCenterAccess.id,
+          });
+          server.create('session-management', {
+            id: sessionFinalized.id,
+            status: FINALIZED,
+          });
           server.createList('certification-candidate', 3, { isLinked: true, sessionId: sessionFinalized.id });
         });
 

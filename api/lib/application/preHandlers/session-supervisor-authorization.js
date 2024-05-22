@@ -1,4 +1,4 @@
-import * as supervisorAccessRepository from '../../infrastructure/repositories/supervisor-access-repository.js';
+import * as supervisorAccessRepository from '../../../src/certification/session-management/infrastructure/repositories/supervisor-access-repository.js';
 import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 
 const verifyByCertificationCandidateId = async function (

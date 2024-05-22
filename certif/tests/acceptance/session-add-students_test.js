@@ -30,7 +30,10 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
       allowedCertificationCenterAccesses: [allowedCertificationCenterAccess],
       pixCertifTermsOfServiceAccepted: true,
     });
-    session = server.create('session', { certificationCenterId: allowedCertificationCenterAccess.id });
+    session = server.create('session-enrolment', { certificationCenterId: allowedCertificationCenterAccess.id });
+    server.create('session-management', {
+      id: session.id,
+    });
     server.createList('country', 3);
   });
 

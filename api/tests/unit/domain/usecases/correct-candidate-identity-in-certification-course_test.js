@@ -1,6 +1,6 @@
 import { CertificationCandidatesError } from '../../../../lib/domain/errors.js';
 import { correctCandidateIdentityInCertificationCourse } from '../../../../lib/domain/usecases/correct-candidate-identity-in-certification-course.js';
-import { CpfBirthInformationValidation } from '../../../../src/certification/session/domain/services/certification-cpf-service.js';
+import { CpfBirthInformationValidation } from '../../../../src/certification/enrolment/domain/services/certification-cpf-service.js';
 import { CertificationCourse } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 

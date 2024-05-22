@@ -9,19 +9,21 @@ import * as targetProfileHistoryRepository from '../../../src/certification/comp
 import { endAssessmentBySupervisor } from '../../../src/certification/course/domain/usecases/end-assessment-by-supervisor.js';
 import { getNextChallengeForV2Certification } from '../../../src/certification/course/domain/usecases/get-next-challenge-for-v2-certification.js';
 import { getNextChallengeForV3Certification } from '../../../src/certification/course/domain/usecases/get-next-challenge-for-v3-certification.js';
+import * as certificationCpfService from '../../../src/certification/enrolment/domain/services/certification-cpf-service.js';
+import * as sessionCodeService from '../../../src/certification/enrolment/domain/services/session-code-service.js';
+import * as centerRepository from '../../../src/certification/enrolment/infrastructure/repositories/center-repository.js';
+import * as certificationCandidateRepository from '../../../src/certification/enrolment/infrastructure/repositories/certification-candidate-repository.js';
+import * as certificationCpfCityRepository from '../../../src/certification/enrolment/infrastructure/repositories/certification-cpf-city-repository.js';
+import * as certificationCpfCountryRepository from '../../../src/certification/enrolment/infrastructure/repositories/certification-cpf-country-repository.js';
+import * as sessionEnrolmentRepository from '../../../src/certification/enrolment/infrastructure/repositories/session-repository.js';
 import * as flashAlgorithmService from '../../../src/certification/flash-certification/domain/services/algorithm-methods/flash.js';
 import { pickChallengeService } from '../../../src/certification/flash-certification/domain/services/pick-challenge-service.js';
 import * as flashAlgorithmConfigurationRepository from '../../../src/certification/flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
-import * as certificationCpfService from '../../../src/certification/session/domain/services/certification-cpf-service.js';
-import * as sessionCodeService from '../../../src/certification/session/domain/services/session-code-service.js';
-import * as centerRepository from '../../../src/certification/session/infrastructure/repositories/center-repository.js';
-import * as certificationCandidateRepository from '../../../src/certification/session/infrastructure/repositories/certification-candidate-repository.js';
-import * as certificationCpfCityRepository from '../../../src/certification/session/infrastructure/repositories/certification-cpf-city-repository.js';
-import * as certificationCpfCountryRepository from '../../../src/certification/session/infrastructure/repositories/certification-cpf-country-repository.js';
-import * as certificationOfficerRepository from '../../../src/certification/session/infrastructure/repositories/certification-officer-repository.js';
-import * as finalizedSessionRepository from '../../../src/certification/session/infrastructure/repositories/finalized-session-repository.js';
-import * as jurySessionRepository from '../../../src/certification/session/infrastructure/repositories/jury-session-repository.js';
-import * as sessionRepository from '../../../src/certification/session/infrastructure/repositories/session-repository.js';
+import * as certificationOfficerRepository from '../../../src/certification/session-management/infrastructure/repositories/certification-officer-repository.js';
+import * as finalizedSessionRepository from '../../../src/certification/session-management/infrastructure/repositories/finalized-session-repository.js';
+import * as jurySessionRepository from '../../../src/certification/session-management/infrastructure/repositories/jury-session-repository.js';
+import * as sessionRepository from '../../../src/certification/session-management/infrastructure/repositories/session-repository.js';
+import * as supervisorAccessRepository from '../../../src/certification/session-management/infrastructure/repositories/supervisor-access-repository.js';
 import * as certificationAssessmentRepository from '../../../src/certification/shared/infrastructure/repositories/certification-assessment-repository.js';
 import * as certificationCenterRepository from '../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
 import * as certificationChallengeLiveAlertRepository from '../../../src/certification/shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
@@ -155,7 +157,6 @@ import * as sessionForSupervisingRepository from '../../infrastructure/repositor
 import * as sessionJuryCommentRepository from '../../infrastructure/repositories/sessions/session-jury-comment-repository.js';
 import * as sessionSummaryRepository from '../../infrastructure/repositories/sessions/session-summary-repository.js';
 import * as studentRepository from '../../infrastructure/repositories/student-repository.js';
-import * as supervisorAccessRepository from '../../infrastructure/repositories/supervisor-access-repository.js';
 import * as tagRepository from '../../infrastructure/repositories/tag-repository.js';
 import * as targetProfileForUpdateRepository from '../../infrastructure/repositories/target-profile-for-update-repository.js';
 import * as targetProfileRepository from '../../infrastructure/repositories/target-profile-repository.js';
@@ -331,6 +332,7 @@ const dependencies = {
   sessionForSupervisingRepository,
   sessionJuryCommentRepository,
   sessionPublicationService,
+  sessionEnrolmentRepository,
   sessionRepository,
   sessionSummaryRepository,
   skillRepository,

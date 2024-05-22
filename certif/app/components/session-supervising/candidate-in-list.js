@@ -154,7 +154,7 @@ export default class CandidateInList extends Component {
   @action
   async rejectLiveAlert() {
     try {
-      const adapter = this.store.adapterFor('session');
+      const adapter = this.store.adapterFor('session-management');
       await adapter.dismissLiveAlert(this.args.sessionId, this.args.candidate.userId);
       this.isLiveAlertValidated = false;
       this.displayedModal = Modals.HandledLiveAlertSuccess;
@@ -169,7 +169,7 @@ export default class CandidateInList extends Component {
   @action
   async validateLiveAlert(subcategory) {
     try {
-      const adapter = this.store.adapterFor('session');
+      const adapter = this.store.adapterFor('session-management');
       await adapter.validateLiveAlert({
         sessionId: this.args.sessionId,
         candidateId: this.args.candidate.userId,

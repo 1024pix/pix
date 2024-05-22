@@ -22,7 +22,7 @@ describe('Unit | UseCase | get-candidate-import-sheet-data', function () {
     sessionRepository.doesUserHaveCertificationCenterMembershipForSession
       .withArgs({ userId, sessionId })
       .resolves(true);
-    const session = domainBuilder.buildSession({
+    const session = domainBuilder.certification.enrolment.buildSession({
       certificationCandidates: [
         domainBuilder.buildCertificationCandidate(),
         domainBuilder.buildCertificationCandidate(),

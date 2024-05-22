@@ -30,7 +30,7 @@ module('Unit | Route | authenticated/sessions/finalize', function (hooks) {
 
       // then
       const expectedModel = returnedSession;
-      sinon.assert.calledWith(route.store.findRecord, 'session', session_id, { reload: true });
+      sinon.assert.calledWith(route.store.findRecord, 'session-management', session_id, { reload: true });
       assert.deepEqual(actualModel, expectedModel);
     });
   });

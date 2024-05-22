@@ -4,7 +4,7 @@ import { UserAlreadyLinkedToCertificationCandidate } from '../../../../lib/domai
 import { UserLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserLinkedToCertificationCandidate.js';
 import { SessionPublicationBatchResult } from '../../../../lib/domain/models/index.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { usecases as sessionUsecases } from '../../../../src/certification/session/domain/usecases/index.js';
+import { usecases as enrolmentUsecases } from '../../../../src/certification/enrolment/domain/usecases/index.js';
 import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 import * as queryParamsUtils from '../../../../src/shared/infrastructure/utils/query-params-utils.js';
 import { catchErr, expect, hFake, sinon } from '../../../test-helper.js';
@@ -45,40 +45,6 @@ describe('Unit | Controller | sessionController', function () {
 
         // then
         expect(response).to.deep.equal(serializedJurySession);
-      });
-    });
-  });
-
-  describe('#get', function () {
-    const sessionId = 123;
-
-    beforeEach(function () {
-      sinon.stub(usecases, 'getSession');
-
-      request = {
-        auth: { credentials: { userId } },
-        params: {
-          id: sessionId,
-        },
-      };
-    });
-
-    context('when session exists', function () {
-      it('should reply serialized session informations', async function () {
-        // given
-        const sessionSerializer = { serialize: sinon.stub() };
-        const foundSession = Symbol('foundSession');
-        const serializedSession = Symbol('serializedSession');
-        usecases.getSession.withArgs({ sessionId }).resolves({ session: foundSession, hasSomeCleaAcquired: false });
-        sessionSerializer.serialize
-          .withArgs({ session: foundSession, hasSupervisorAccess: undefined, hasSomeCleaAcquired: false })
-          .returns(serializedSession);
-
-        // when
-        const response = await sessionController.get(request, hFake, { sessionSerializer });
-
-        // then
-        expect(response).to.deep.equal(serializedSession);
       });
     });
   });
@@ -267,7 +233,7 @@ describe('Unit | Controller | sessionController', function () {
       };
       const requestResponseUtils = { extractUserIdFromRequest: sinon.stub() };
       sinon.stub(usecases, 'enrolStudentsToSession');
-      sinon.stub(sessionUsecases, 'getSessionCertificationCandidates');
+      sinon.stub(enrolmentUsecases, 'getSessionCertificationCandidates');
       const certificationCandidateSerializer = { serialize: sinon.stub() };
       dependencies = {
         requestResponseUtils,
@@ -279,7 +245,7 @@ describe('Unit | Controller | sessionController', function () {
       beforeEach(function () {
         dependencies.requestResponseUtils.extractUserIdFromRequest.withArgs(request).returns(userId);
         usecases.enrolStudentsToSession.withArgs({ sessionId, referentId: userId, studentIds }).resolves();
-        sessionUsecases.getSessionCertificationCandidates.withArgs({ sessionId }).resolves(studentList);
+        enrolmentUsecases.getSessionCertificationCandidates.withArgs({ sessionId }).resolves(studentList);
         dependencies.certificationCandidateSerializer.serialize
           .withArgs(studentList)
           .returns(serializedCertificationCandidate);
@@ -406,7 +372,7 @@ describe('Unit | Controller | sessionController', function () {
         const session = Symbol('session');
         const serializedSession = Symbol('serializedSession');
         const i18n = getI18n();
-        const sessionSerializer = { serialize: sinon.stub() };
+        const sessionManagementSerializer = { serialize: sinon.stub() };
         sinon
           .stub(usecases, 'publishSession')
           .withArgs({
@@ -414,7 +380,7 @@ describe('Unit | Controller | sessionController', function () {
             i18n,
           })
           .resolves(session);
-        sessionSerializer.serialize.withArgs({ session }).resolves(serializedSession);
+        sessionManagementSerializer.serialize.withArgs({ session }).resolves(serializedSession);
 
         // when
         const response = await sessionController.publish(
@@ -428,7 +394,7 @@ describe('Unit | Controller | sessionController', function () {
             },
           },
           hFake,
-          { sessionSerializer },
+          { sessionManagementSerializer },
         );
 
         // then
@@ -442,7 +408,7 @@ describe('Unit | Controller | sessionController', function () {
         const sessionId = 123;
         const session = Symbol('session');
         const serializedSession = Symbol('serializedSession');
-        const sessionSerializer = { serialize: sinon.stub() };
+        const sessionManagementSerializer = { serialize: sinon.stub() };
 
         sinon
           .stub(usecases, 'unpublishSession')
@@ -450,7 +416,7 @@ describe('Unit | Controller | sessionController', function () {
             sessionId,
           })
           .resolves(session);
-        sessionSerializer.serialize.withArgs({ session }).resolves(serializedSession);
+        sessionManagementSerializer.serialize.withArgs({ session }).resolves(serializedSession);
 
         // when
         const response = await sessionController.unpublish(
@@ -463,7 +429,7 @@ describe('Unit | Controller | sessionController', function () {
             },
           },
           hFake,
-          { sessionSerializer },
+          { sessionManagementSerializer },
         );
 
         // then
@@ -598,13 +564,15 @@ describe('Unit | Controller | sessionController', function () {
 
       it('should return the serialized session', async function () {
         // given
-        const sessionSerializer = {
+        const sessionManagementSerializer = {
           serialize: sinon.stub(),
         };
-        sessionSerializer.serialize.withArgs({ session }).resolves(serializedSession);
+        sessionManagementSerializer.serialize.withArgs({ session }).resolves(serializedSession);
 
         // when
-        const response = await sessionController.flagResultsAsSentToPrescriber(request, hFake, { sessionSerializer });
+        const response = await sessionController.flagResultsAsSentToPrescriber(request, hFake, {
+          sessionManagementSerializer,
+        });
 
         // then
         expect(response).to.equal(serializedSession);
@@ -619,11 +587,13 @@ describe('Unit | Controller | sessionController', function () {
 
       it('should return the serialized session with code 201', async function () {
         // given
-        const sessionSerializer = { serialize: sinon.stub() };
-        sessionSerializer.serialize.withArgs({ session }).resolves(serializedSession);
+        const sessionManagementSerializer = { serialize: sinon.stub() };
+        sessionManagementSerializer.serialize.withArgs({ session }).resolves(serializedSession);
 
         // when
-        const response = await sessionController.flagResultsAsSentToPrescriber(request, hFake, { sessionSerializer });
+        const response = await sessionController.flagResultsAsSentToPrescriber(request, hFake, {
+          sessionManagementSerializer,
+        });
 
         // then
         expect(response.statusCode).to.equal(201);

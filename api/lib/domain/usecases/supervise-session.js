@@ -7,6 +7,7 @@ const superviseSession = async function ({
   sessionRepository,
   supervisorAccessRepository,
 }) {
+  // should use a specific get from sessionRepository instead
   const session = await sessionRepository.get({ id: sessionId });
   if (!session.isSupervisable(supervisorPassword)) {
     throw new InvalidSessionSupervisingLoginError();

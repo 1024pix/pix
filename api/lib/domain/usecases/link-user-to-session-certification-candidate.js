@@ -7,7 +7,6 @@ import {
   CertificationCandidateByPersonalInfoNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   MatchingReconciledStudentNotFoundError,
-  SessionNotAccessible,
   UnexpectedUserAccountError,
   UserAlreadyLinkedToCandidateInSessionError,
 } from '../errors.js';
@@ -25,14 +24,11 @@ const linkUserToSessionCertificationCandidate = async function ({
   certificationCenterRepository,
   organizationRepository,
   organizationLearnerRepository,
-  sessionRepository,
+  sessionEnrolmentRepository,
   userRepository,
   languageService,
 }) {
-  const session = await sessionRepository.get({ id: sessionId });
-  if (!session.isAccessible()) {
-    throw new SessionNotAccessible();
-  }
+  const session = await sessionEnrolmentRepository.get({ id: sessionId });
 
   if (session.version === CertificationVersion.V3) {
     const user = await userRepository.get(userId);

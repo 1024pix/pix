@@ -14,7 +14,7 @@ const importCertificationCandidatesFromCandidatesImportSheet = async function ({
   certificationCpfCityRepository,
   complementaryCertificationRepository,
   certificationCenterRepository,
-  sessionRepository,
+  sessionEnrolmentRepository,
 }) {
   const linkedCandidateInSessionExists =
     await certificationCandidateRepository.doesLinkedCertificationCandidateInSessionExist({ sessionId });
@@ -23,7 +23,7 @@ const importCertificationCandidatesFromCandidatesImportSheet = async function ({
     throw new CertificationCandidateAlreadyLinkedToUserError('At least one candidate is already linked to a user');
   }
 
-  const isSco = await sessionRepository.isSco({ id: sessionId });
+  const isSco = await sessionEnrolmentRepository.isSco({ id: sessionId });
 
   const certificationCandidates =
     await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({

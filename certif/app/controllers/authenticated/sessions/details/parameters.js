@@ -9,6 +9,7 @@ import { tracked } from '@glimmer/tracking';
 
 export default class SessionParametersController extends Controller {
   @alias('model.session') session;
+  @alias('model.sessionManagement') sessionManagement;
   @alias('model.certificationCandidates') certificationCandidates;
   @tracked sessionNumberTooltipText = '';
   @tracked accessCodeTooltipText = '';
