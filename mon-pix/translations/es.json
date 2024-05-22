@@ -842,10 +842,6 @@
           "title": "Ha superado la prueba",
           "tooltip": "Prueba superada"
         },
-        "partially": {
-          "title": "Ha dado una respuesta parcial",
-          "tooltip": "Respuesta parcial"
-        },
         "solutions": {
           "end": "o...",
           "or": "o"
@@ -1377,7 +1373,6 @@
       },
       "ko": "Respuesta incorrecta",
       "ok": "Respuesta correcta",
-      "partially": "Respuesta parcial",
       "timedout": "Tiempo muerto"
     },
     "send-profile": {

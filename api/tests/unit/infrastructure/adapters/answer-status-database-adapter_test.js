@@ -16,12 +16,6 @@ describe('AnswerStatusDatabaseAdapter', function () {
       expect(result).to.equals('ko');
     });
 
-    it('should convert AnswerStatus.PARTIALLY to "partially"', function () {
-      const answerStatus = AnswerStatus.PARTIALLY;
-      const result = AnswerStatusDatabaseAdapter.adapt(answerStatus);
-      expect(result).to.equals('partially');
-    });
-
     it('should convert AnswerStatus.TIMEDOUT to "timedout"', function () {
       const answerStatus = AnswerStatus.TIMEDOUT;
       const result = AnswerStatusDatabaseAdapter.adapt(answerStatus);
@@ -60,12 +54,6 @@ describe('AnswerStatusDatabaseAdapter', function () {
       expect(result).to.equals('ko');
     });
 
-    it('should convert AnswerStatus.PARTIALLY to "partially"', function () {
-      const answerStatus = AnswerStatus.PARTIALLY;
-      const result = AnswerStatusDatabaseAdapter.toSQLString(answerStatus);
-      expect(result).to.equals('partially');
-    });
-
     it('should convert AnswerStatus.TIMEDOUT to "timedout"', function () {
       const answerStatus = AnswerStatus.TIMEDOUT;
       const result = AnswerStatusDatabaseAdapter.toSQLString(answerStatus);
@@ -102,12 +90,6 @@ describe('AnswerStatusDatabaseAdapter', function () {
       const answerStatusString = 'ko';
       const result = AnswerStatusDatabaseAdapter.fromSQLString(answerStatusString);
       expect(result.isKO()).to.be.true;
-    });
-
-    it('should convert "partially" to AnswerStatus.PARTIALLY', function () {
-      const answerStatusString = 'partially';
-      const result = AnswerStatusDatabaseAdapter.fromSQLString(answerStatusString);
-      expect(result.isPARTIALLY()).to.be.true;
     });
 
     it('should convert "timedout" to AnswerStatus.TIMEDOUT', function () {

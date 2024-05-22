@@ -58,24 +58,6 @@ describe('Unit | Domain | Models | Answer', function () {
     });
   });
 
-  describe('isPartially', function () {
-    it('should return true if answer is partially', function () {
-      // given
-      const answer = new Answer({ result: 'partially' });
-
-      // when
-      expect(answer.isPartially()).to.be.true;
-    });
-
-    it('should return false if answer is different than partially', function () {
-      // given
-      const answer = new Answer({ result: 'notok' });
-
-      // when
-      expect(answer.isPartially()).to.be.false;
-    });
-  });
-
   describe('#maxDifficulty', function () {
     it('should exist', function () {
       // given

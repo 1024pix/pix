@@ -1151,50 +1151,6 @@ describe('Unit | Service | Certification Result Service', function () {
           // then
           expect(certificationAssessmentScore.competenceMarks).to.deep.equal(expectedCertifiedCompetences);
         });
-
-        it('should compute the result of QROCM-dep as only one OK because result is partially right', async function () {
-          // given
-          certificationAssessment.certificationAnswersByDate = _.map(
-            [
-              { challengeId: 'challenge_A_for_competence_5', result: 'ok' },
-              { challengeId: 'challenge_B_for_competence_5', result: 'partially' },
-              { challengeId: 'challenge_A_for_competence_6', result: 'ko' },
-              { challengeId: 'challenge_B_for_competence_6', result: 'ok' },
-              { challengeId: 'challenge_C_for_competence_6', result: 'ok' },
-            ],
-            domainBuilder.buildAnswer,
-          );
-
-          const expectedCertifiedCompetences = [
-            domainBuilder.buildCompetenceMark({
-              competence_code: '5.5',
-              area_code: '5',
-              competenceId: 'competence_5',
-              level: 4,
-              score: 40,
-            }),
-            domainBuilder.buildCompetenceMark({
-              competence_code: '6.6',
-              area_code: '6',
-              competenceId: 'competence_6',
-              level: 2,
-              score: 28,
-            }),
-          ];
-
-          // when
-          const certificationAssessmentScore = await scoringCertificationService.calculateCertificationAssessmentScore({
-            certificationAssessment,
-            continueOnError,
-            dependencies: {
-              areaRepository,
-              placementProfileService,
-            },
-          });
-
-          // then
-          expect(certificationAssessmentScore.competenceMarks).to.deep.equal(expectedCertifiedCompetences);
-        });
       });
 
       context('when there are challenges for non-certifiable competences', function () {

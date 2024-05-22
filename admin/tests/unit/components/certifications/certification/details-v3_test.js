@@ -32,11 +32,6 @@ module('Unit | Component | certifications/certification/details-v3', function (h
       color: 'secondary',
     },
     {
-      value: 'partially',
-      label: 'pages.certifications.certification.details.v3.answer-status.partially-ok',
-      color: 'secondary',
-    },
-    {
       value: 'unimplemented',
       label: 'pages.certifications.certification.details.v3.answer-status.unimplemented',
       color: 'secondary',

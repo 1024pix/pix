@@ -6,7 +6,6 @@ export const AnswerStatus = {
   ABAND: 'aband',
   TIMEDOUT: 'timedout',
   FOCUSEDOUT: 'focusedOut',
-  PARTIALLY: 'partially',
   UNIMPLEMENTED: 'unimplemented',
 };
 export default class CertificationChallengesForAdministration extends Model {

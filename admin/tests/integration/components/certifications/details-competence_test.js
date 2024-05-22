@@ -29,7 +29,7 @@ module('Integration | Component | certifications/details-competence', function (
 
   test('it renders', async function (assert) {
     // given
-    this.set('competenceData', competence('ok', 'ko', 'partially'));
+    this.set('competenceData', competence('ok', 'ko'));
 
     // when
     const screen = await render(

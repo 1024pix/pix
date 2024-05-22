@@ -49,11 +49,6 @@ const answerStatusMap = [
     color: secondaryColor,
   },
   {
-    value: AnswerStatus.PARTIALLY,
-    label: 'pages.certifications.certification.details.v3.answer-status.partially-ok',
-    color: secondaryColor,
-  },
-  {
     value: AnswerStatus.UNIMPLEMENTED,
     label: 'pages.certifications.certification.details.v3.answer-status.unimplemented',
     color: secondaryColor,

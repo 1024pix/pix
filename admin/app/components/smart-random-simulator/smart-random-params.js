@@ -69,7 +69,7 @@ export default class SmartRandomParams extends Component {
     answers: Joi.array()
       .items({
         id: Joi.number().required(),
-        result: Joi.string().valid('ok', 'ko', 'aband', 'timedout', 'focusedOut', 'partially').required(),
+        result: Joi.string().valid('ok', 'ko', 'aband', 'timedout', 'focusedOut').required(),
         challengeId: Joi.string().required(),
       })
       .required(),

@@ -73,17 +73,6 @@ const answers = [
     skillName: '@rec124',
   },
   {
-    id: 7,
-    questionNumber: '6',
-    answerStatus: 'partially',
-    answerStatusName: 'Partiellement OK',
-    validatedLiveAlert: false,
-    answeredAt: new Date('2020-01-01T17:13:00Z'),
-    competenceName: 'Aiguiser les couteaux',
-    competenceIndex: '1.3',
-    skillName: '@rec124',
-  },
-  {
     id: 8,
     questionNumber: '7',
     answerStatus: 'unimplemented',

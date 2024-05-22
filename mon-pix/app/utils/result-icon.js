@@ -15,10 +15,6 @@ const resultIcons = {
     icon: 'circle-xmark',
     color: 'grey',
   },
-  partially: {
-    icon: 'circle-check',
-    color: 'orange',
-  },
   timedout: {
     icon: 'circle-xmark',
     color: 'red',

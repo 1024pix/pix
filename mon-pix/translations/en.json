@@ -842,10 +842,6 @@
           "title": "You correctly answered the question",
           "tooltip": "Question answered correctly "
         },
-        "partially": {
-          "title": "You gave an incomplete answer",
-          "tooltip": "Incomplete answer"
-        },
         "solutions": {
           "end": "or...",
           "or": "or"
@@ -1377,7 +1373,6 @@
       },
       "ko": "Incorrect answer",
       "ok": "Correct answer",
-      "partially": "Incomplete answer",
       "timedout": "Out of time"
     },
     "send-profile": {

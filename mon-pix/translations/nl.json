@@ -842,10 +842,6 @@
           "title": "Je bent geslaagd voor de test",
           "tooltip": "Geslaagde test"
         },
-        "partially": {
-          "title": "Je hebt een gedeeltelijk antwoord gegeven",
-          "tooltip": "Gedeeltelijke reactie"
-        },
         "solutions": {
           "end": "of...",
           "or": "of"
@@ -1377,7 +1373,6 @@
       },
       "ko": "Onjuist antwoord",
       "ok": "Juist antwoord",
-      "partially": "Gedeeltelijke reactie",
       "timedout": "Time-out"
     },
     "send-profile": {

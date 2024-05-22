@@ -47,7 +47,6 @@ module('Unit | Component | result-item-component', function (hooks) {
       { result: 'ok', expectedColor: 'green', expectedIcon: 'circle-check' },
       { result: 'ko', expectedColor: 'red', expectedIcon: 'circle-xmark' },
       { result: 'timedout', expectedColor: 'red', expectedIcon: 'circle-xmark' },
-      { result: 'partially', expectedColor: 'orange', expectedIcon: 'circle-check' },
       { result: 'aband', expectedColor: 'grey', expectedIcon: 'circle-xmark' },
     ].forEach((data) => {
       test(`should return a ${data.expectedColor} ${data.expectedIcon} icon when answer provided has a ${data.result} result`, function (assert) {
@@ -69,7 +68,6 @@ module('Unit | Component | result-item-component', function (hooks) {
       { result: 'ok', expectedTooltip: 'Réponse correcte' },
       { result: 'ko', expectedTooltip: 'Réponse incorrecte' },
       { result: 'timedout', expectedTooltip: 'Temps dépassé' },
-      { result: 'partially', expectedTooltip: 'Réponse partielle' },
       { result: 'aband', expectedTooltip: 'Sans réponse' },
     ].forEach((data) => {
       test(`should return a tooltip text equal to ${data.expectedTooltip}`, function (assert) {

@@ -67,8 +67,6 @@ class AnswerCollectionForScoring {
       if (!challengeWithAnswer.isNeutralized()) {
         if (challengesWithAnswersForCompetence.length < 3 && challengeWithAnswer.isAFullyCorrectQROCMdep()) {
           nbOfCorrectAnswers += 2;
-        } else if (challengesWithAnswersForCompetence.length < 3 && challengeWithAnswer.isAPartiallyCorrectQROCMdep()) {
-          nbOfCorrectAnswers += 1;
         } else if (challengeWithAnswer.isCorrect()) {
           nbOfCorrectAnswers += 1;
         }
@@ -121,10 +119,6 @@ class ChallengeWithAnswer {
 
   isAFullyCorrectQROCMdep() {
     return this.isQROCMdep() && this.isCorrect();
-  }
-
-  isAPartiallyCorrectQROCMdep() {
-    return this.isQROCMdep() && Boolean(this._answer) && this._answer.isPartially();
   }
 
   isNeutralized() {
