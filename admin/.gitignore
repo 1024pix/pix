@@ -13,6 +13,7 @@
 /.pnp*
 /.sass-cache
 /connect.lock
+/.eslintcache
 /coverage/
 /libpeerconnection.log
 /npm-debug.log*
