@@ -1,8 +1,8 @@
-import { certificationCenterInvitationController } from '../../../../src/team/application/certification-center-invitation.controller.js';
+import { certificationCenterInvitationAdminController } from '../../../../src/team/application/certification-center-invitation.admin.controller.js';
 import { usecases } from '../../../../src/team/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../test-helper.js';
 
-describe('Unit | Team | Controller | certifications-center-controller', function () {
+describe('Unit | Team | Controller | Admin | Certification Center Invitation', function () {
   describe('#sendInvitationForAdmin', function () {
     let certificationCenterInvitationSerializerStub;
 
@@ -51,7 +51,7 @@ describe('Unit | Team | Controller | certifications-center-controller', function
       certificationCenterInvitationSerializerStub.serializeForAdmin.withArgs('an invitation').returns(serializedData);
 
       // when
-      const response = await certificationCenterInvitationController.sendInvitationForAdmin(
+      const response = await certificationCenterInvitationAdminController.sendInvitationForAdmin(
         {
           params: { certificationCenterId },
           payload,
@@ -82,7 +82,7 @@ describe('Unit | Team | Controller | certifications-center-controller', function
       certificationCenterInvitationSerializerStub.serializeForAdmin.returns(serializedData);
 
       // when
-      const response = await certificationCenterInvitationController.sendInvitationForAdmin(
+      const response = await certificationCenterInvitationAdminController.sendInvitationForAdmin(
         {
           params: { certificationCenterId: 7 },
           payload: {
