@@ -44,12 +44,7 @@
                     }}</:label>
                 </PixInput>
                 {{#if (is-clipboard-supported)}}
-                  <PixTooltip
-                    @id="copy-email-tooltip"
-                    @position="top"
-                    @isInline={{true}}
-                    class="manage-authentication-window__tooltip"
-                  >
+                  <PixTooltip @id="copy-email-tooltip" @position="top" @isInline={{true}}>
                     <:triggerElement>
                       <CopyButton
                         @text={{@student.email}}
@@ -59,7 +54,7 @@
                           'pages.sco-organization-participants.manage-authentication-method-modal.section.email.copy'
                         }}"
                         aria-describedby="copy-email-tooltip"
-                        class="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey manage-authentication-window__clipboard-button"
+                        class="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey"
                       >
                         <FaIcon @icon="copy" @prefix="far" />
                       </CopyButton>
@@ -103,12 +98,7 @@
                       }}</:label>
                   </PixInput>
                   {{#if (is-clipboard-supported)}}
-                    <PixTooltip
-                      @id="copy-username-tooltip"
-                      @position="top"
-                      @isInline={{true}}
-                      class="manage-authentication-window__tooltip"
-                    >
+                    <PixTooltip @id="copy-username-tooltip" @position="top" @isInline={{true}}>
                       <:triggerElement>
                         <CopyButton
                           @text={{@student.username}}
@@ -118,7 +108,7 @@
                             "pages.sco-organization-participants.manage-authentication-method-modal.section.username.copy"
                           }}
                           aria-describedby="copy-username-tooltip"
-                          class="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey manage-authentication-window__clipboard-button"
+                          class="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey"
                         >
                           <FaIcon @icon="copy" @prefix="far" />
                         </CopyButton>
@@ -147,12 +137,7 @@
                       }}</:label>
                   </PixInput>
                   {{#if (is-clipboard-supported)}}
-                    <PixTooltip
-                      @id="copy-password-tooltip"
-                      @position="top"
-                      @isInline={{true}}
-                      class="manage-authentication-window__tooltip"
-                    >
+                    <PixTooltip @id="copy-password-tooltip" @position="top" @isInline={{true}}>
                       <:triggerElement>
                         <CopyButton
                           @text={{this.generatedPassword}}
@@ -162,7 +147,7 @@
                             "pages.sco-organization-participants.manage-authentication-method-modal.section.password.copy"
                           }}
                           aria-describedby="copy-password-tooltip"
-                          class="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey manage-authentication-window__clipboard-button"
+                          class="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey"
                         >
                           <FaIcon @icon="copy" @prefix="far" class="fa-inverse" />
                         </CopyButton>

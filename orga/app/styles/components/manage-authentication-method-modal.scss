@@ -32,22 +32,16 @@
   }
 
   &__clipboard {
+    display: flex;
+    gap: var(--pix-spacing-4x);
+
+    .pix-input {
+      width: 100%;
+    }
+
     input {
       box-sizing: border-box;
-      width: 85%;
       background-color: var(--pix-neutral-20);
-    }
-  }
-
-  &__clipboard-button {
-    margin: -10px 6px 0 6px;
-  }
-
-  &__tooltip {
-    display: inline-block;
-
-    .pix-tooltip__content {
-      margin-bottom: 6px;
     }
   }
 
