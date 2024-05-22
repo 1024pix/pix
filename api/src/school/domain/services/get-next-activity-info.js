@@ -81,6 +81,9 @@ function _getNextActivityInfoAfterSuccess(currentStepActivities, lastActivity, s
 }
 
 function _getNextActivityInfoOnFailure(activities, lastActivity) {
+  if ((lastActivity.isTraining || lastActivity.isValidation) && _hasAlreadyDoneActivity(activities, TUTORIAL)) {
+    return END_OF_MISSION;
+  }
   if (lastActivity.isValidation && _neverDoneActivity(activities, TRAINING)) {
     return new ActivityInfo({ stepIndex: lastActivity.stepIndex, level: TRAINING });
   }
