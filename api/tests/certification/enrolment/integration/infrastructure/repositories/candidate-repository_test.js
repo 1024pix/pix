@@ -79,6 +79,8 @@ describe('Integration | Certification | Session | Repository | Candidate', funct
         const candidates = await candidateRepository.findBySessionId({ sessionId });
 
         // then
+        expect(candidates).to.have.lengthOf(3);
+
         const firstCandidate = candidates[0];
         const secondCandidate = candidates[1];
         const thirdCandidate = candidates[2];

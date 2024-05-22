@@ -75,6 +75,9 @@ describe('Integration | Repository | SCOCertificationCandidate', function () {
       const actualCandidates = candidatesToBeCompared(candidates);
       const expectedCandidates = candidatesToBeCompared(scoCandidates);
       expect(actualCandidates).to.exactlyContain(expectedCandidates);
+
+      const { count: subscriptionsCount } = await knex('certification-subscriptions').count().first();
+      expect(subscriptionsCount).to.equal(actualCandidates.length);
     });
 
     it('saves candidate subscriptions', async function () {
@@ -84,8 +87,8 @@ describe('Integration | Repository | SCOCertificationCandidate', function () {
         sessionId,
         organizationLearnerId: organizationLearnerId1,
       });
+      const organizationLearnerId2 = databaseBuilder.factory.buildOrganizationLearner().id;
       const organizationLearnerId3 = databaseBuilder.factory.buildOrganizationLearner().id;
-      const organizationLearnerId4 = databaseBuilder.factory.buildOrganizationLearner().id;
       await databaseBuilder.commit();
 
       const scoCandidates = [
@@ -100,12 +103,12 @@ describe('Integration | Repository | SCOCertificationCandidate', function () {
           birthdate: '2001-01-04',
           sex: 'M',
           birthINSEECode: '75005',
-          organizationLearnerId: organizationLearnerId3,
+          organizationLearnerId: organizationLearnerId2,
           sessionId,
         }),
         domainBuilder.buildSCOCertificationCandidate({
           id: null,
-          organizationLearnerId: organizationLearnerId4,
+          organizationLearnerId: organizationLearnerId3,
           sessionId,
         }),
       ];
@@ -118,7 +121,7 @@ describe('Integration | Repository | SCOCertificationCandidate', function () {
 
       // then
       const { count: subscriptionsCount } = await knex('certification-subscriptions').count().first();
-      expect(subscriptionsCount).to.equal(2);
+      expect(subscriptionsCount).to.equal(3);
     });
 
     it('does nothing when no candidate is given', async function () {
@@ -131,6 +134,9 @@ describe('Integration | Repository | SCOCertificationCandidate', function () {
       // then
       const candidates = await knex('certification-candidates').select();
       expect(candidates).to.be.empty;
+
+      const { count: subscriptionsCount } = await knex('certification-subscriptions').count().first();
+      expect(subscriptionsCount).to.equal(0);
     });
   });
 });

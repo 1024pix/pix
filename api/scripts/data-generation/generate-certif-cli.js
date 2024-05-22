@@ -319,10 +319,10 @@ async function _getResults(sessionId) {
     })
     .join('certification-candidates', 'certification-candidates.sessionId', 'sessions.id')
     .join('users', 'users.email', 'certification-candidates.email')
-    .leftJoin(
-      'certification-subscriptions',
-      'certification-subscriptions.certificationCandidateId',
-      'certification-candidates.id',
+    .leftJoin('certification-subscriptions', (builder) =>
+      builder
+        .on('certification-candidates.id', '=', 'certification-subscriptions.certificationCandidateId')
+        .onNotNull('certification-subscriptions.complementaryCertificationId'),
     )
     .leftJoin(
       'complementary-certifications',

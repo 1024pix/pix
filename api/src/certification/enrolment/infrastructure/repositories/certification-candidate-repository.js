@@ -96,10 +96,10 @@ const getBySessionIdAndUserId = async function ({ sessionId, userId }) {
       complementaryCertificationLabel: 'complementary-certifications.label',
     })
     .from('certification-candidates')
-    .leftJoin(
-      'certification-subscriptions',
-      'certification-candidates.id',
-      'certification-subscriptions.certificationCandidateId',
+    .leftJoin('certification-subscriptions', (builder) =>
+      builder
+        .on('certification-candidates.id', '=', 'certification-subscriptions.certificationCandidateId')
+        .onNotNull('certification-subscriptions.complementaryCertificationId'),
     )
     .leftJoin(
       'complementary-certifications',
@@ -122,10 +122,10 @@ const findBySessionId = async function (sessionId) {
     })
     .from('certification-candidates')
     .where({ 'certification-candidates.sessionId': sessionId })
-    .leftJoin(
-      'certification-subscriptions',
-      'certification-candidates.id',
-      'certification-subscriptions.certificationCandidateId',
+    .leftJoin('certification-subscriptions', (builder) =>
+      builder
+        .on('certification-candidates.id', '=', 'certification-subscriptions.certificationCandidateId')
+        .onNotNull('certification-subscriptions.complementaryCertificationId'),
     )
     .leftJoin(
       'complementary-certifications',
@@ -198,10 +198,10 @@ const getWithComplementaryCertification = async function (id) {
       complementaryCertificationKey: 'complementary-certifications.key',
       complementaryCertificationLabel: 'complementary-certifications.label',
     })
-    .leftJoin(
-      'certification-subscriptions',
-      'certification-subscriptions.certificationCandidateId',
-      'certification-candidates.id',
+    .leftJoin('certification-subscriptions', (builder) =>
+      builder
+        .on('certification-candidates.id', '=', 'certification-subscriptions.certificationCandidateId')
+        .onNotNull('certification-subscriptions.complementaryCertificationId'),
     )
     .leftJoin(
       'complementary-certifications',
