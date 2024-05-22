@@ -28,6 +28,7 @@ const usecasesWithoutInjectedDependencies = {
  * @typedef OrganizationalEntitiesUsecases
  * @property {addOrganizationFeatureInBatch} addOrganizationFeatureInBatch
  * @property {attachChildOrganizationToOrganization} attachChildOrganizationToOrganization
+ * @property {updateOrganizationsInBatch} updateOrganizationsInBatch
  */
 
 /**
