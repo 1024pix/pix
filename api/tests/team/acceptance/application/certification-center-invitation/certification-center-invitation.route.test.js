@@ -4,9 +4,9 @@ import {
   expect,
   generateValidRequestAuthorizationHeader,
   knex,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
 
-describe('Acceptance | Team | Route | Certification Center Invitation', function () {
+describe('Acceptance | Team | Application | Route | Certification Center Invitation', function () {
   let server, request;
 
   beforeEach(async function () {

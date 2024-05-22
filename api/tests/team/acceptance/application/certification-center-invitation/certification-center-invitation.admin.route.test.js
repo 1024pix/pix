@@ -1,4 +1,4 @@
-import { CertificationCenterInvitation } from '../../../../src/team/domain/models/CertificationCenterInvitation.js';
+import { CertificationCenterInvitation } from '../../../../../src/team/domain/models/CertificationCenterInvitation.js';
 import {
   createServer,
   databaseBuilder,
@@ -6,8 +6,8 @@ import {
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
   sinon,
-} from '../../../test-helper.js';
-describe('Acceptance | Team | Route | Admin | Certification Center Invitation', function () {
+} from '../../../../test-helper.js';
+describe('Acceptance | Team | Application | Route | Admin | Certification Center Invitation', function () {
   let server;
 
   beforeEach(async function () {

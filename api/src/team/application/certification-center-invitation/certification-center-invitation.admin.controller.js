@@ -1,5 +1,5 @@
-import { usecases } from '../domain/usecases/index.js';
-import { certificationCenterInvitationSerializer } from '../infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
+import { usecases } from '../../domain/usecases/index.js';
+import { certificationCenterInvitationSerializer } from '../../infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
 
 const sendInvitationForAdmin = async function (request, h, dependencies = { certificationCenterInvitationSerializer }) {
   const certificationCenterId = request.params.certificationCenterId;

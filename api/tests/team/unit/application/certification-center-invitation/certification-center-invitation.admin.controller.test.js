@@ -1,6 +1,6 @@
-import { certificationCenterInvitationAdminController } from '../../../../src/team/application/certification-center-invitation.admin.controller.js';
-import { usecases } from '../../../../src/team/domain/usecases/index.js';
-import { expect, hFake, sinon } from '../../../test-helper.js';
+import { certificationCenterInvitationAdminController } from '../../../../../src/team/application/certification-center-invitation/certification-center-invitation.admin.controller.js';
+import { usecases } from '../../../../../src/team/domain/usecases/index.js';
+import { expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Team | Controller | Admin | Certification Center Invitation', function () {
   describe('#sendInvitationForAdmin', function () {

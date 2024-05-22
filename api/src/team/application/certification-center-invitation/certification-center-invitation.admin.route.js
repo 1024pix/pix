@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
-import { securityPreHandlers } from '../../shared/application/security-pre-handlers.js';
-import { identifiersType } from '../../shared/domain/types/identifiers-type.js';
+import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
+import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { certificationCenterInvitationAdminController } from './certification-center-invitation.admin.controller.js';
 
 export const certificationCenterInvitationAdminRoutes = [

@@ -1,6 +1,12 @@
-import { extractLocaleFromRequest } from '../../../lib/infrastructure/utils/request-response-utils.js';
-import { usecases } from '../domain/usecases/index.js';
+import { extractLocaleFromRequest } from '../../../../lib/infrastructure/utils/request-response-utils.js';
+import { usecases } from '../../domain/usecases/index.js';
 
+/**
+ * @callback sendInvitations
+ * @param request
+ * @param h
+ * @returns {Promise<void>}
+ */
 const sendInvitations = async function (request, h) {
   const certificationCenterId = request.params.certificationCenterId;
   const emails = request.payload.data.attributes.emails;
@@ -11,6 +17,4 @@ const sendInvitations = async function (request, h) {
   return h.response().code(204);
 };
 
-const certificationCenterInvitationController = { sendInvitations };
-
-export { certificationCenterInvitationController };
+export const certificationCenterInvitationController = { sendInvitations };
