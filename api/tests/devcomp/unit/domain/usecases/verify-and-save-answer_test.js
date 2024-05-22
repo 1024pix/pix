@@ -28,7 +28,7 @@ describe('Unit | Devcomp | Domain | UseCases | verify-and-save-answer', function
         const elementId = Symbol('elementId');
         const passageId = Symbol('passageId');
         const userResponse = Symbol('userResponse');
-        const moduleRepository = {};
+        const elementRepository = {};
         const elementAnswerRepository = {};
 
         const passageRepository = {
@@ -43,7 +43,7 @@ describe('Unit | Devcomp | Domain | UseCases | verify-and-save-answer', function
           elementId,
           passageId,
           passageRepository,
-          moduleRepository,
+          elementRepository,
           elementAnswerRepository,
         });
 
@@ -65,11 +65,9 @@ describe('Unit | Devcomp | Domain | UseCases | verify-and-save-answer', function
         const moduleId = Symbol('moduleId');
         passageRepository.get.withArgs({ passageId }).resolves({ moduleId });
 
-        const moduleRepository = {
-          getBySlugForVerification: sinon.stub(),
+        const elementRepository = {
+          getByIdForAnswerVerification: sinon.stub(),
         };
-
-        const module = { getGrainByElementId: sinon.stub() };
 
         const element = {
           userResponse: Symbol('UserResponse'),
@@ -80,11 +78,7 @@ describe('Unit | Devcomp | Domain | UseCases | verify-and-save-answer', function
         element.setUserResponse.withArgs(userResponse).returns();
         element.assess.withArgs().returns(correction);
 
-        const grain = { id: 'grain-id', getElementById: sinon.stub() };
-        grain.getElementById.withArgs(elementId).returns(element);
-        module.getGrainByElementId.withArgs(elementId).returns(grain);
-
-        moduleRepository.getBySlugForVerification.withArgs({ slug: moduleId }).resolves(module);
+        elementRepository.getByIdForAnswerVerification.withArgs({ moduleId, elementId }).resolves(element);
 
         const elementAnswerRepository = {
           save: sinon.stub(),
@@ -104,7 +98,7 @@ describe('Unit | Devcomp | Domain | UseCases | verify-and-save-answer', function
           elementId,
           passageId,
           passageRepository,
-          moduleRepository,
+          elementRepository,
           elementAnswerRepository,
         });
 

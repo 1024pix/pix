@@ -6,7 +6,7 @@ async function verifyAndSaveAnswer({
   elementId,
   passageId,
   passageRepository,
-  moduleRepository,
+  elementRepository,
   elementAnswerRepository,
 }) {
   const passage = await _getPassage({ passageId, passageRepository });
@@ -14,10 +14,7 @@ async function verifyAndSaveAnswer({
     throw new PassageTerminatedError();
   }
 
-  const module = await moduleRepository.getBySlugForVerification({ slug: passage.moduleId });
-
-  const grain = module.getGrainByElementId(elementId);
-  const element = grain.getElementById(elementId);
+  const element = await elementRepository.getByIdForAnswerVerification({ moduleId: passage.moduleId, elementId });
 
   element.setUserResponse(userResponse);
 
