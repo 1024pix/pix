@@ -30,7 +30,7 @@ module('Unit | Adapter | authentication-method', function (hooks) {
         const expectedPayload = {
           data: {
             data: {
-              attributes: { 'identity-provider': 'GAR', 'user-id': targetUserId },
+              attributes: { 'user-id': targetUserId },
             },
           },
         };

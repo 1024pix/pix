@@ -8,7 +8,6 @@ export default class AuthenticationMethodAdapter extends ApplicationAdapter {
           data: {
             attributes: {
               'user-id': snapshot.adapterOptions.targetUserId,
-              'identity-provider': snapshot.adapterOptions.identityProvider,
             },
           },
         },
