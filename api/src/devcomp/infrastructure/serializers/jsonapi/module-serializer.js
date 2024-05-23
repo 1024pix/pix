@@ -15,7 +15,7 @@ function serialize(module) {
             id: grain.id,
             title: grain.title,
             type: grain.type,
-            components: grain.components,
+            components: grain.components.filter((component) => component.type === 'element'),
           };
         }),
       };
