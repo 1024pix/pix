@@ -40,6 +40,32 @@
   ],
   "grains": [
     {
+      "id": "47cd065b-dbf2-4adc-b5c3-02fb69cb9ec2",
+      "type": "activity",
+      "title": "Test Stepper",
+      "components": [
+        {
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [{
+                "id": "342183f7-af51-4e4e-ab4c-ebed1e195063",
+                "type": "text",
+                "content": "<p>À la fin de cette vidéo, une question sera posée sur les compétences Pix.</p>"
+              }]
+            },
+            {
+              "elements": [{
+                "id": "342183f7-af51-4e4e-ab4c-ebed1e195063",
+                "type": "text",
+                "content": "<p>À la fin de cette vidéo, une question sera posée sur les compétences Pix.</p>"
+              }]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "f312c33d-e7c9-4a69-9ba0-913957b8f7dd",
       "type": "lesson",
       "title": "Voici une leçon",

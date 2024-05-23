@@ -34,14 +34,33 @@ const elementSchema = Joi.alternatives().conditional('.type', {
   ],
 });
 
+const componentElementSchema = Joi.object({
+  type: Joi.string().valid('element').required(),
+  element: elementSchema.required(),
+});
+
+const componentStepperSchema = Joi.object({
+  type: Joi.string().valid('stepper').required(),
+  steps: Joi.array()
+    .items(
+      Joi.object({
+        elements: Joi.array().items(elementSchema).required(),
+      }),
+    )
+    .min(2)
+    .required(),
+});
+
 const grainSchema = Joi.object({
   id: uuidSchema,
   type: Joi.string().valid('lesson', 'activity').required(),
   title: htmlNotAllowedSchema.required(),
   components: Joi.array().items(
-    Joi.object({
-      type: Joi.string().valid('element').required(),
-      element: elementSchema.required(),
+    Joi.alternatives().conditional('.type', {
+      switch: [
+        { is: 'element', then: componentElementSchema },
+        { is: 'stepper', then: componentStepperSchema },
+      ],
     }),
   ),
 }).required();
