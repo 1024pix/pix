@@ -27,6 +27,10 @@
       "grainId": "eba0b676-c0c4-4b32-b5e4-dd94d13766a5"
     },
     {
+      "content": "<p>Maintenant, vous allez écrire ce que vous avez compris jusqu'à présent ! Il n'y a pas de bonne réponse, l'important est de faire cet exercice pour vous.&nbsp;<span aria-hidden=\"true\">🧠</span>️</p>",
+      "grainId": "ccbc2a4a-9270-461c-a30e-c33815ecd4cc"
+    },
+    {
       "content": "<p>Lorsque vous êtes en ligne, votre adresse IP publique est partagée et utilisée. Mais savez-vous quelles informations cette adresse donne sur vous&#8239;?&nbsp;<span aria-hidden=\"true\">👁️‍🗨️</span>️</p>",
       "grainId": "96cdedc1-2d31-40c2-ac02-d3fd83f26e30"
     },
@@ -152,6 +156,29 @@
               "invalid": "<p>Incorrect. Vous pensez peut-être plutôt à l'adresse <strong>web</strong> ou l'adresse <strong>mail</strong>.<br>Vous pouvez remonter voir la vidéo.<span aria-hidden=\"true\">👆</span>️</p>"
             },
             "solution": "1"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ccbc2a4a-9270-461c-a30e-c33815ecd4cc",
+      "type": "activity",
+      "title": "Rappel libre : IP publique",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "16ddb025-4dc7-4394-9a84-2a201f877a44",
+            "type": "text",
+            "content": "Écrivez ci-dessous ce que vous avez compris jusqu'à présent dans ce module.<br>Vous pouvez écrire comme si vous écriviez à un proche."
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "16dd3025-4dc7-4394-9a84-2a201f877a44",
+            "type": "text",
+            "content": "<p><textarea id=\"story\" name=\"story\" rows=\"10\" cols=\"70\"></textarea></p>"
           }
         }
       ]
