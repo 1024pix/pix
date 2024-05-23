@@ -1,4 +1,4 @@
-import { notify } from '../../../../../lib/infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js';
+import { notify } from '../../../../../src/prescription/campaign-participation/infrastructure/externals/disabled-pole-emploi-notifier.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier', function () {

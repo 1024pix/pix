@@ -1,13 +1,14 @@
 import { AssessmentCompleted } from '../../../../lib/domain/events/AssessmentCompleted.js';
 import { CertificationRescoringCompleted } from '../../../../lib/domain/events/CertificationRescoringCompleted.js';
 import { CertificationScoringCompleted } from '../../../../lib/domain/events/CertificationScoringCompleted.js';
+import { _forTestOnly } from '../../../../lib/domain/events/index.js';
 import { expect } from '../../../test-helper.js';
 import { buildEventDispatcherAndHandlersForTest } from '../../../tooling/events/event-dispatcher-builder.js';
 
 describe('Event Choreography | Score Pix+ Certification', function () {
   it('chains Certification Scoring and Pix+ Certification Scoring on Certification Scoring Completed', async function () {
     // given
-    const { handlerStubs, eventDispatcher } = buildEventDispatcherAndHandlersForTest();
+    const { handlerStubs, eventDispatcher } = buildEventDispatcherAndHandlersForTest(_forTestOnly);
 
     const domainTransaction = Symbol('a transaction');
     const assessmentCompleted = new AssessmentCompleted();
@@ -29,7 +30,7 @@ describe('Event Choreography | Score Pix+ Certification', function () {
 
   it('chains Certification Rescoring and Pix+ Certification Rescoring on Certification Rescoring Completed', async function () {
     // given
-    const { handlerStubs, eventDispatcher } = buildEventDispatcherAndHandlersForTest();
+    const { handlerStubs, eventDispatcher } = buildEventDispatcherAndHandlersForTest(_forTestOnly);
 
     const domainTransaction = Symbol('a transaction');
     const assessmentCompleted = new AssessmentCompleted();

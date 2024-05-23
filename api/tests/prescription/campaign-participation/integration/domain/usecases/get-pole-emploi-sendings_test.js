@@ -1,11 +1,11 @@
 import { config as settings } from '../../../../../../lib/config.js';
-import * as poleEmploiService from '../../../../../../lib/domain/services/pole-emploi-service.js';
-import { usecases } from '../../../../../../lib/domain/usecases/index.js';
+import * as poleEmploiService from '../../../../../../src/prescription/campaign-participation/domain/services/pole-emploi-service.js';
+import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
 import * as poleEmploiSendingRepository from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/pole-emploi-sending-repository.js';
 import { databaseBuilder, expect } from '../../../../../test-helper.js';
 const poleEmploiSendingFactory = databaseBuilder.factory.poleEmploiSendingFactory;
 
-describe('Integration | UseCase | get-campaign-participations-counts-by-stage', function () {
+describe('Integration | UseCase | get-pole-emploi-sendings', function () {
   let originalEnv;
   let sending1;
   let sending2;

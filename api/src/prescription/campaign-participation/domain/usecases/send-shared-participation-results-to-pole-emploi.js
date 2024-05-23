@@ -1,7 +1,7 @@
-import { PoleEmploiPayload } from '../../infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
-import * as httpErrorsHelper from '../../infrastructure/http/errors-helper.js';
-import { httpAgent } from '../../infrastructure/http/http-agent.js';
-import * as monitoringTools from '../../infrastructure/monitoring-tools.js';
+import * as httpErrorsHelper from '../../../../../lib/infrastructure/http/errors-helper.js';
+import { httpAgent } from '../../../../../lib/infrastructure/http/http-agent.js';
+import * as monitoringTools from '../../../../../lib/infrastructure/monitoring-tools.js';
+import { PoleEmploiPayload } from '../../infrastructure/externals/PoleEmploiPayload.js';
 import { PoleEmploiSending } from '../models/PoleEmploiSending.js';
 
 const sendSharedParticipationResultsToPoleEmploi = async ({

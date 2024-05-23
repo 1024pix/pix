@@ -1,5 +1,5 @@
-import { PoleEmploiSending } from '../../../../lib/domain/models/PoleEmploiSending.js';
-import { domainBuilder, expect } from '../../../test-helper.js';
+import { PoleEmploiSending } from '../../../../../../src/prescription/campaign-participation/domain/models/PoleEmploiSending.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | PoleEmploiSending', function () {
   let expectedPoleEmploiSending;
