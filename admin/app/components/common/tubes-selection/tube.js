@@ -42,6 +42,11 @@ export default class Tube extends Component {
   }
 
   @action
+  setChecked() {
+    this.args.checkTube(this.args.tube);
+  }
+
+  @action
   onChange(event) {
     if (event.target.checked) {
       this.args.checkTube(this.args.tube);

@@ -7,7 +7,7 @@
   </label>
 </td>
 <td class="table__column--center">
-  <div class="level-selection">
+  <div class="level-selection" onClick={{this.setChecked}}>
     <PixSelect
       @screenReaderOnly={{true}}
       @options={{this.levelOptions}}
