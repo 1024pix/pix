@@ -2,6 +2,8 @@ import { BlockInput } from '../../../../../../src/devcomp/domain/models/block/Bl
 import { BlockSelect } from '../../../../../../src/devcomp/domain/models/block/BlockSelect.js';
 import { BlockSelectOption } from '../../../../../../src/devcomp/domain/models/block/BlockSelectOption.js';
 import { BlockText } from '../../../../../../src/devcomp/domain/models/block/BlockText.js';
+import { ComponentElement } from '../../../../../../src/devcomp/domain/models/component/ComponentElement.js';
+import { ComponentStepper } from '../../../../../../src/devcomp/domain/models/component/ComponentStepper.js';
 import { Image } from '../../../../../../src/devcomp/domain/models/element/Image.js';
 import { QCM } from '../../../../../../src/devcomp/domain/models/element/QCM.js';
 import { QCU } from '../../../../../../src/devcomp/domain/models/element/QCU.js';
@@ -138,17 +140,66 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
 
 function getComponents() {
   return [
-    { type: 'element', element: new Text({ id: '1', content: 'toto' }) },
-    {
-      type: 'element',
+    new ComponentStepper({
+      steps: [
+        {
+          elements: [
+            {
+              id: 'c23436d4-6261-49f1-b50d-13a547529c29',
+              type: 'qrocm',
+              instruction: '<p>Compléter le texte suivant :</p>',
+              proposals: [
+                {
+                  type: 'text',
+                  content: '<span>Pix est un</span>',
+                },
+                {
+                  input: 'pix-name',
+                  type: 'input',
+                  inputType: 'text',
+                  size: 10,
+                  display: 'inline',
+                  placeholder: '',
+                  ariaLabel: 'Mot à trouver',
+                  defaultValue: '',
+                  tolerances: ['t1', 't3'],
+                  solutions: ['Groupement'],
+                },
+                {
+                  type: 'text',
+                  content: "<span>d'intérêt public qui a été créée en</span>",
+                },
+                {
+                  input: 'pix-birth',
+                  type: 'input',
+                  inputType: 'text',
+                  size: 10,
+                  display: 'inline',
+                  placeholder: '',
+                  ariaLabel: 'Année à trouver',
+                  defaultValue: '',
+                  tolerances: [],
+                  solutions: ['2016'],
+                },
+              ],
+              feedbacks: {
+                valid: '<p>Correct&#8239;! vous nous connaissez bien&nbsp;<span aria-hidden="true">🎉</span></p>',
+                invalid: '<p>Incorrect&#8239;! vous y arriverez la prochaine fois&#8239;!</p>',
+              },
+            },
+          ],
+        },
+      ],
+    }),
+    new ComponentElement({ element: new Text({ id: '1', content: 'toto' }) }),
+    new ComponentElement({
       element: new QCU({
         id: '2',
         proposals: [{ id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'toto' }],
         instruction: 'hello',
       }),
-    },
-    {
-      type: 'element',
+    }),
+    new ComponentElement({
       element: new QCM({
         id: '2000',
         proposals: [
@@ -158,9 +209,8 @@ function getComponents() {
         ],
         instruction: 'hello',
       }),
-    },
-    {
-      type: 'element',
+    }),
+    new ComponentElement({
       element: new QROCM({
         id: '100',
         instruction: '',
@@ -201,10 +251,11 @@ function getComponents() {
           }),
         ],
       }),
-    },
-    { type: 'element', element: new Image({ id: '3', url: 'url', alt: 'alt', alternativeText: 'alternativeText' }) },
-    {
-      type: 'element',
+    }),
+    new ComponentElement({
+      element: new Image({ id: '3', url: 'url', alt: 'alt', alternativeText: 'alternativeText' }),
+    }),
+    new ComponentElement({
       element: new Video({
         id: '4',
         title: 'title',
@@ -212,7 +263,7 @@ function getComponents() {
         subtitles: 'subtitles',
         transcription: 'transcription',
       }),
-    },
+    }),
   ];
 }
 

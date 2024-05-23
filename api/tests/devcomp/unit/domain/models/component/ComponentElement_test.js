@@ -1,7 +1,7 @@
-import { ComponentElement } from '../../../../../src/devcomp/domain/models/ComponentElement.js';
-import { expect } from '../../../../test-helper.js';
+import { ComponentElement } from '../../../../../../src/devcomp/domain/models/component/ComponentElement.js';
+import { expect } from '../../../../../test-helper.js';
 
-describe('Unit | Devcomp | Domain | Models | ComponentElement', function () {
+describe('Unit | Devcomp | Domain | Models | Component | ComponentElement', function () {
   describe('#constructor', function () {
     it('should create a componentElement', function () {
       // given

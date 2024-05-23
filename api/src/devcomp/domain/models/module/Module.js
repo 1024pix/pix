@@ -6,7 +6,9 @@ import { BlockInput } from '../block/BlockInput.js';
 import { BlockSelect } from '../block/BlockSelect.js';
 import { BlockSelectOption } from '../block/BlockSelectOption.js';
 import { BlockText } from '../block/BlockText.js';
-import { ComponentElement } from '../ComponentElement.js';
+import { ComponentElement } from '../component/ComponentElement.js';
+import { ComponentStepper } from '../component/ComponentStepper.js';
+import { Step } from '../component/Step.js';
 import { Image } from '../element/Image.js';
 import { QCM } from '../element/QCM.js';
 import { QCMForAnswerVerification } from '../element/QCM-for-answer-verification.js';
@@ -55,19 +57,38 @@ class Module {
             type: grain.type,
             components: grain.components
               .map((component) => {
-                if (component.type === 'element') {
-                  const element = Module.#mapElement(component.element);
-                  if (element) {
-                    return new ComponentElement({ element });
-                  } else {
-                    return undefined;
+                switch (component.type) {
+                  case 'element': {
+                    const element = Module.#mapElement(component.element);
+                    if (element) {
+                      return new ComponentElement({ element });
+                    } else {
+                      return undefined;
+                    }
                   }
-                } else {
-                  logger.warn({
-                    event: 'module_component_type_unknown',
-                    message: `Component inconnu: ${component.type}`,
-                  });
-                  return undefined;
+                  case 'stepper':
+                    return new ComponentStepper({
+                      steps: component.steps.map((step) => {
+                        return new Step({
+                          elements: step.elements
+                            .map((element) => {
+                              const domainElement = Module.#mapElement(element);
+                              if (domainElement) {
+                                return domainElement;
+                              } else {
+                                return undefined;
+                              }
+                            })
+                            .filter((element) => element !== undefined),
+                        });
+                      }),
+                    });
+                  default:
+                    logger.warn({
+                      event: 'module_component_type_unknown',
+                      message: `Component inconnu: ${component.type}`,
+                    });
+                    return undefined;
                 }
               })
               .filter((component) => component !== undefined),
@@ -116,20 +137,38 @@ class Module {
             title: grain.title,
             type: grain.type,
             components: grain.components
-              .map((component) => {
-                if (component.type === 'element') {
-                  const element = Module.#mapElementForVerification(component.element);
-                  if (element) {
-                    return new ComponentElement({ element });
-                  } else {
-                    return undefined;
+              .flatMap((component) => {
+                switch (component.type) {
+                  case 'element': {
+                    const element = Module.#mapElementForVerification(component.element);
+                    if (element) {
+                      return new ComponentElement({ element });
+                    } else {
+                      return undefined;
+                    }
                   }
-                } else {
-                  logger.warn({
-                    event: 'module_component_type_unknown',
-                    message: `Component inconnu: ${component.type}`,
-                  });
-                  return undefined;
+                  case 'stepper':
+                    return component.steps.flatMap((step) => {
+                      return step.elements
+                        .flatMap((element) => {
+                          const domainElement = Module.#mapElementForVerification(element);
+                          if (domainElement) {
+                            return domainElement;
+                          } else {
+                            return undefined;
+                          }
+                        })
+                        .filter((element) => element !== undefined)
+                        .map((element) => {
+                          return new ComponentElement({ element });
+                        });
+                    });
+                  default:
+                    logger.warn({
+                      event: 'module_component_type_unknown',
+                      message: `Component inconnu: ${component.type}`,
+                    });
+                    return undefined;
                 }
               })
               .filter((component) => component !== undefined),
