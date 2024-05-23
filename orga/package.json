@@ -129,7 +129,7 @@
     "qunit-dom": "^3.0.0",
     "sass": "^1.71.1",
     "showdown": "^2.1.0",
-    "sinon": "^17.0.1",
+    "sinon": "^18.0.0",
     "striptags": "^3.2.0",
     "stylelint": "^16.0.0",
     "webpack": "^5.90.3",
