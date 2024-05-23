@@ -1290,254 +1290,256 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
     });
 
     describe('with answerable elements', function () {
-      it('should instantiate a Module with components', function () {
-        // given
-        const feedbacks = { valid: 'valid', invalid: 'invalid' };
-        const proposals = [
-          { id: '1', content: 'toto' },
-          { id: '2', content: 'foo' },
-        ];
+      describe('with ComponentElement', function () {
+        it('should instantiate a Module with components', function () {
+          // given
+          const feedbacks = { valid: 'valid', invalid: 'invalid' };
+          const proposals = [
+            { id: '1', content: 'toto' },
+            { id: '2', content: 'foo' },
+          ];
 
-        const moduleData = {
-          id: '6282925d-4775-4bca-b513-4c3009ec5886',
-          slug: 'title',
-          title: 'title',
-          details: {
-            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
-            description: 'Description',
-            duration: 5,
-            level: 'Débutant',
-            objectives: ['Objective 1'],
-          },
-          grains: [
-            {
-              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
-              type: 'lesson',
-              title: 'title',
-              components: [
-                {
-                  type: 'element',
-                  element: {
-                    id: '123',
-                    instruction: 'instruction',
-                    locales: ['fr-FR'],
-                    proposals,
-                    feedbacks,
-                    type: 'qcu',
-                    solution: proposals[0].id,
-                  },
-                },
-              ],
+          const moduleData = {
+            id: '6282925d-4775-4bca-b513-4c3009ec5886',
+            slug: 'title',
+            title: 'title',
+            details: {
+              image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+              description: 'Description',
+              duration: 5,
+              level: 'Débutant',
+              objectives: ['Objective 1'],
             },
-          ],
-        };
-
-        // when
-        const module = Module.toDomainForVerification(moduleData);
-
-        // then
-        expect(module).to.be.an.instanceOf(Module);
-        expect(module.grains).not.to.be.empty;
-        for (const grain of module.grains) {
-          expect(grain.components).not.to.be.empty;
-        }
-      });
-
-      it('should instantiate a Module with a ComponentElement with contains a QCUForAnswerVerification Element', function () {
-        // given
-        const feedbacks = { valid: 'valid', invalid: 'invalid' };
-        const proposals = [
-          { id: '1', content: 'toto' },
-          { id: '2', content: 'foo' },
-        ];
-
-        const moduleData = {
-          id: '6282925d-4775-4bca-b513-4c3009ec5886',
-          slug: 'title',
-          title: 'title',
-          details: {
-            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
-            description: 'Description',
-            duration: 5,
-            level: 'Débutant',
-            objectives: ['Objective 1'],
-          },
-          grains: [
-            {
-              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
-              type: 'lesson',
-              title: 'title',
-              components: [
-                {
-                  type: 'element',
-                  element: {
-                    id: '123',
-                    instruction: 'instruction',
-                    locales: ['fr-FR'],
-                    proposals,
-                    feedbacks,
-                    type: 'qcu',
-                    solution: proposals[0].id,
-                  },
-                },
-              ],
-            },
-          ],
-        };
-
-        // when
-        const module = Module.toDomainForVerification(moduleData);
-
-        // then
-        expect(module.grains[0].components[0].element).to.be.an.instanceOf(QCUForAnswerVerification);
-      });
-
-      it('should instantiate a Module with a ComponentElement with contains a QCMForAnswerVerification Element', function () {
-        // given
-        const moduleData = {
-          id: '6282925d-4775-4bca-b513-4c3009ec5886',
-          slug: 'title',
-          title: 'title',
-          details: {
-            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
-            description: 'Description',
-            duration: 5,
-            level: 'Débutant',
-            objectives: ['Objective 1'],
-          },
-          grains: [
-            {
-              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
-              type: 'lesson',
-              title: 'title',
-              components: [
-                {
-                  type: 'element',
-                  element: {
-                    id: '30701e93-1b4d-4da4-b018-fa756c07d53f',
-                    type: 'qcm',
-                    instruction: '<p>Quels sont les 3 piliers de Pix ?</p>',
-                    proposals: [
-                      {
-                        id: '1',
-                        content: 'Evaluer ses connaissances et savoir-faire sur 16 compétences du numérique',
-                      },
-                      {
-                        id: '2',
-                        content: 'Développer son savoir-faire sur les jeux de type TPS',
-                      },
-                      {
-                        id: '3',
-                        content: 'Développer ses compétences numériques',
-                      },
-                      {
-                        id: '4',
-                        content: 'Certifier ses compétences Pix',
-                      },
-                      {
-                        id: '5',
-                        content: 'Evaluer ses compétences de logique et compréhension mathématique',
-                      },
-                    ],
-                    feedbacks: {
-                      valid: '<p>Correct ! Vous nous avez bien cernés :)</p>',
-                      invalid: '<p>Et non ! Pix sert à évaluer, certifier et développer ses compétences numériques.',
-                    },
-                    solutions: ['1', '3', '4'],
-                  },
-                },
-              ],
-            },
-          ],
-        };
-
-        // when
-        const module = Module.toDomainForVerification(moduleData);
-
-        // then
-        expect(module.grains[0].components[0].element).to.be.an.instanceOf(QCMForAnswerVerification);
-      });
-
-      it('should instantiate a Module with a ComponentElement with contains a QROCMForAnswerVerification Element', function () {
-        // given
-        const moduleData = {
-          id: '6282925d-4775-4bca-b513-4c3009ec5886',
-          slug: 'title',
-          title: 'title',
-          details: {
-            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
-            description: 'Description',
-            duration: 5,
-            level: 'Débutant',
-            objectives: ['Objective 1'],
-          },
-          grains: [
-            {
-              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
-              type: 'lesson',
-              title: 'title',
-              components: [
-                {
-                  type: 'element',
-                  element: {
-                    id: '98c51fa7-03b7-49b1-8c5e-49341d35909c',
-                    type: 'qrocm',
-                    instruction:
-                      "<p>Pour être sûr que tout est clair, complétez le texte ci-dessous <span aria-hidden='true'>🧩</span></p><p>Si vous avez besoin d’aide, revenez en arrière <span aria-hidden='true'>⬆️</span></p>",
-                    proposals: [
-                      {
-                        type: 'text',
-                        content: '<p>Le symbole</>',
-                      },
-                      {
-                        input: 'symbole',
-                        type: 'input',
-                        inputType: 'text',
-                        size: 1,
-                        display: 'inline',
-                        placeholder: '',
-                        ariaLabel: 'Réponse 1',
-                        defaultValue: '',
-                        tolerances: ['t1'],
-                        solutions: ['@'],
-                      },
-                      {
-                        input: 'premiere-partie',
-                        type: 'select',
-                        display: 'inline',
-                        placeholder: '',
-                        ariaLabel: 'Réponse 2',
-                        defaultValue: '',
-                        tolerances: [],
-                        options: [
-                          {
-                            id: '1',
-                            content: "l'identifiant",
-                          },
-                          {
-                            id: '2',
-                            content: "le fournisseur d'adresse mail",
-                          },
-                        ],
-                        solutions: ['1'],
-                      },
-                    ],
-                    feedbacks: {
-                      valid: '<p>Bravo ! 🎉 </p>',
-                      invalid: "<p class='pix-list-inline'>Et non !</p>",
+            grains: [
+              {
+                id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+                type: 'lesson',
+                title: 'title',
+                components: [
+                  {
+                    type: 'element',
+                    element: {
+                      id: '123',
+                      instruction: 'instruction',
+                      locales: ['fr-FR'],
+                      proposals,
+                      feedbacks,
+                      type: 'qcu',
+                      solution: proposals[0].id,
                     },
                   },
-                },
-              ],
+                ],
+              },
+            ],
+          };
+
+          // when
+          const module = Module.toDomainForVerification(moduleData);
+
+          // then
+          expect(module).to.be.an.instanceOf(Module);
+          expect(module.grains).not.to.be.empty;
+          for (const grain of module.grains) {
+            expect(grain.components).not.to.be.empty;
+          }
+        });
+
+        it('should instantiate a Module with a ComponentElement with contains a QCUForAnswerVerification Element', function () {
+          // given
+          const feedbacks = { valid: 'valid', invalid: 'invalid' };
+          const proposals = [
+            { id: '1', content: 'toto' },
+            { id: '2', content: 'foo' },
+          ];
+
+          const moduleData = {
+            id: '6282925d-4775-4bca-b513-4c3009ec5886',
+            slug: 'title',
+            title: 'title',
+            details: {
+              image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+              description: 'Description',
+              duration: 5,
+              level: 'Débutant',
+              objectives: ['Objective 1'],
             },
-          ],
-        };
+            grains: [
+              {
+                id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+                type: 'lesson',
+                title: 'title',
+                components: [
+                  {
+                    type: 'element',
+                    element: {
+                      id: '123',
+                      instruction: 'instruction',
+                      locales: ['fr-FR'],
+                      proposals,
+                      feedbacks,
+                      type: 'qcu',
+                      solution: proposals[0].id,
+                    },
+                  },
+                ],
+              },
+            ],
+          };
 
-        // when
-        const module = Module.toDomainForVerification(moduleData);
+          // when
+          const module = Module.toDomainForVerification(moduleData);
 
-        // then
-        expect(module.grains[0].components[0].element).to.be.an.instanceOf(QROCMForAnswerVerification);
+          // then
+          expect(module.grains[0].components[0].element).to.be.an.instanceOf(QCUForAnswerVerification);
+        });
+
+        it('should instantiate a Module with a ComponentElement with contains a QCMForAnswerVerification Element', function () {
+          // given
+          const moduleData = {
+            id: '6282925d-4775-4bca-b513-4c3009ec5886',
+            slug: 'title',
+            title: 'title',
+            details: {
+              image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+              description: 'Description',
+              duration: 5,
+              level: 'Débutant',
+              objectives: ['Objective 1'],
+            },
+            grains: [
+              {
+                id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+                type: 'lesson',
+                title: 'title',
+                components: [
+                  {
+                    type: 'element',
+                    element: {
+                      id: '30701e93-1b4d-4da4-b018-fa756c07d53f',
+                      type: 'qcm',
+                      instruction: '<p>Quels sont les 3 piliers de Pix ?</p>',
+                      proposals: [
+                        {
+                          id: '1',
+                          content: 'Evaluer ses connaissances et savoir-faire sur 16 compétences du numérique',
+                        },
+                        {
+                          id: '2',
+                          content: 'Développer son savoir-faire sur les jeux de type TPS',
+                        },
+                        {
+                          id: '3',
+                          content: 'Développer ses compétences numériques',
+                        },
+                        {
+                          id: '4',
+                          content: 'Certifier ses compétences Pix',
+                        },
+                        {
+                          id: '5',
+                          content: 'Evaluer ses compétences de logique et compréhension mathématique',
+                        },
+                      ],
+                      feedbacks: {
+                        valid: '<p>Correct ! Vous nous avez bien cernés :)</p>',
+                        invalid: '<p>Et non ! Pix sert à évaluer, certifier et développer ses compétences numériques.',
+                      },
+                      solutions: ['1', '3', '4'],
+                    },
+                  },
+                ],
+              },
+            ],
+          };
+
+          // when
+          const module = Module.toDomainForVerification(moduleData);
+
+          // then
+          expect(module.grains[0].components[0].element).to.be.an.instanceOf(QCMForAnswerVerification);
+        });
+
+        it('should instantiate a Module with a ComponentElement with contains a QROCMForAnswerVerification Element', function () {
+          // given
+          const moduleData = {
+            id: '6282925d-4775-4bca-b513-4c3009ec5886',
+            slug: 'title',
+            title: 'title',
+            details: {
+              image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+              description: 'Description',
+              duration: 5,
+              level: 'Débutant',
+              objectives: ['Objective 1'],
+            },
+            grains: [
+              {
+                id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+                type: 'lesson',
+                title: 'title',
+                components: [
+                  {
+                    type: 'element',
+                    element: {
+                      id: '98c51fa7-03b7-49b1-8c5e-49341d35909c',
+                      type: 'qrocm',
+                      instruction:
+                        "<p>Pour être sûr que tout est clair, complétez le texte ci-dessous <span aria-hidden='true'>🧩</span></p><p>Si vous avez besoin d’aide, revenez en arrière <span aria-hidden='true'>⬆️</span></p>",
+                      proposals: [
+                        {
+                          type: 'text',
+                          content: '<p>Le symbole</>',
+                        },
+                        {
+                          input: 'symbole',
+                          type: 'input',
+                          inputType: 'text',
+                          size: 1,
+                          display: 'inline',
+                          placeholder: '',
+                          ariaLabel: 'Réponse 1',
+                          defaultValue: '',
+                          tolerances: ['t1'],
+                          solutions: ['@'],
+                        },
+                        {
+                          input: 'premiere-partie',
+                          type: 'select',
+                          display: 'inline',
+                          placeholder: '',
+                          ariaLabel: 'Réponse 2',
+                          defaultValue: '',
+                          tolerances: [],
+                          options: [
+                            {
+                              id: '1',
+                              content: "l'identifiant",
+                            },
+                            {
+                              id: '2',
+                              content: "le fournisseur d'adresse mail",
+                            },
+                          ],
+                          solutions: ['1'],
+                        },
+                      ],
+                      feedbacks: {
+                        valid: '<p>Bravo ! 🎉 </p>',
+                        invalid: "<p class='pix-list-inline'>Et non !</p>",
+                      },
+                    },
+                  },
+                ],
+              },
+            ],
+          };
+
+          // when
+          const module = Module.toDomainForVerification(moduleData);
+
+          // then
+          expect(module.grains[0].components[0].element).to.be.an.instanceOf(QROCMForAnswerVerification);
+        });
       });
     });
 
