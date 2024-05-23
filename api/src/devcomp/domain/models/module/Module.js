@@ -57,36 +57,38 @@ class Module {
             type: grain.type,
             components: grain.components
               .map((component) => {
-                if (component.type === 'element') {
-                  const element = Module.#mapElement(component.element);
-                  if (element) {
-                    return new ComponentElement({ element });
-                  } else {
-                    return undefined;
+                switch (component.type) {
+                  case 'element': {
+                    const element = Module.#mapElement(component.element);
+                    if (element) {
+                      return new ComponentElement({ element });
+                    } else {
+                      return undefined;
+                    }
                   }
-                } else if (component.type === 'stepper') {
-                  return new ComponentStepper({
-                    steps: component.steps.map((step) => {
-                      return new Step({
-                        elements: step.elements
-                          .map((element) => {
-                            const domainElement = Module.#mapElement(element);
-                            if (domainElement) {
-                              return domainElement;
-                            } else {
-                              return undefined;
-                            }
-                          })
-                          .filter((element) => element !== undefined),
-                      });
-                    }),
-                  });
-                } else {
-                  logger.warn({
-                    event: 'module_component_type_unknown',
-                    message: `Component inconnu: ${component.type}`,
-                  });
-                  return undefined;
+                  case 'stepper':
+                    return new ComponentStepper({
+                      steps: component.steps.map((step) => {
+                        return new Step({
+                          elements: step.elements
+                            .map((element) => {
+                              const domainElement = Module.#mapElement(element);
+                              if (domainElement) {
+                                return domainElement;
+                              } else {
+                                return undefined;
+                              }
+                            })
+                            .filter((element) => element !== undefined),
+                        });
+                      }),
+                    });
+                  default:
+                    logger.warn({
+                      event: 'module_component_type_unknown',
+                      message: `Component inconnu: ${component.type}`,
+                    });
+                    return undefined;
                 }
               })
               .filter((component) => component !== undefined),
@@ -136,35 +138,37 @@ class Module {
             type: grain.type,
             components: grain.components
               .flatMap((component) => {
-                if (component.type === 'element') {
-                  const element = Module.#mapElementForVerification(component.element);
-                  if (element) {
-                    return new ComponentElement({ element });
-                  } else {
-                    return undefined;
+                switch (component.type) {
+                  case 'element': {
+                    const element = Module.#mapElementForVerification(component.element);
+                    if (element) {
+                      return new ComponentElement({ element });
+                    } else {
+                      return undefined;
+                    }
                   }
-                } else if (component.type === 'stepper') {
-                  return component.steps.flatMap((step) => {
-                    return step.elements
-                      .flatMap((element) => {
-                        const domainElement = Module.#mapElementForVerification(element);
-                        if (domainElement) {
-                          return domainElement;
-                        } else {
-                          return undefined;
-                        }
-                      })
-                      .filter((element) => element !== undefined)
-                      .map((element) => {
-                        return new ComponentElement({ element });
-                      });
-                  });
-                } else {
-                  logger.warn({
-                    event: 'module_component_type_unknown',
-                    message: `Component inconnu: ${component.type}`,
-                  });
-                  return undefined;
+                  case 'stepper':
+                    return component.steps.flatMap((step) => {
+                      return step.elements
+                        .flatMap((element) => {
+                          const domainElement = Module.#mapElementForVerification(element);
+                          if (domainElement) {
+                            return domainElement;
+                          } else {
+                            return undefined;
+                          }
+                        })
+                        .filter((element) => element !== undefined)
+                        .map((element) => {
+                          return new ComponentElement({ element });
+                        });
+                    });
+                  default:
+                    logger.warn({
+                      event: 'module_component_type_unknown',
+                      message: `Component inconnu: ${component.type}`,
+                    });
+                    return undefined;
                 }
               })
               .filter((component) => component !== undefined),
