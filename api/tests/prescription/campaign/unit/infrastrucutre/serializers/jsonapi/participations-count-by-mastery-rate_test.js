@@ -1,5 +1,5 @@
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/participations-count-by-mastery-rate.js';
-import { expect } from '../../../../test-helper.js';
+import * as serializer from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/participations-count-by-mastery-rate.js';
+import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | participations-count-by-mastery-rate', function () {
   describe('#serialize', function () {

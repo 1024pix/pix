@@ -1,8 +1,8 @@
-import { usecases } from '../../domain/usecases/index.js';
-import * as participationsByStageSerializer from '../../infrastructure/serializers/jsonapi/campaign-participations-count-by-stage-serializer.js';
-import * as participationsByDaySerializer from '../../infrastructure/serializers/jsonapi/campaign-participations-counts-by-day-serializer.js';
-import * as participationsByStatusSerializer from '../../infrastructure/serializers/jsonapi/campaign-participations-counts-by-status-serializer.js';
-import * as participationsCountByMasteryRateSerializer from '../../infrastructure/serializers/jsonapi/participations-count-by-mastery-rate.js';
+import { usecases } from '../domain/usecases/index.js';
+import * as participationsByStageSerializer from '../infrastructure/serializers/jsonapi/campaign-participations-count-by-stage-serializer.js';
+import * as participationsByDaySerializer from '../infrastructure/serializers/jsonapi/campaign-participations-counts-by-day-serializer.js';
+import * as participationsByStatusSerializer from '../infrastructure/serializers/jsonapi/campaign-participations-counts-by-status-serializer.js';
+import * as participationsCountByMasteryRateSerializer from '../infrastructure/serializers/jsonapi/participations-count-by-mastery-rate.js';
 
 const getParticipationsByStage = async function (request) {
   const { userId } = request.auth.credentials;
@@ -27,7 +27,6 @@ const getParticipationsByStatus = async function (request) {
     ...participantsCounts,
   });
 };
-
 const getParticipationsByDay = async function (request) {
   const { userId } = request.auth.credentials;
   const campaignId = request.params.id;

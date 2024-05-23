@@ -115,7 +115,6 @@ import * as campaignParticipantRepository from '../../infrastructure/repositorie
 import * as campaignParticipationOverviewRepository from '../../infrastructure/repositories/campaign-participation-overview-repository.js';
 import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
 import { campaignParticipationResultRepository } from '../../infrastructure/repositories/campaign-participation-result-repository.js';
-import { CampaignParticipationsStatsRepository as campaignParticipationsStatsRepository } from '../../infrastructure/repositories/campaign-participations-stats-repository.js';
 import * as campaignRepository from '../../infrastructure/repositories/campaign-repository.js';
 import * as certifiableProfileForLearningContentRepository from '../../infrastructure/repositories/certifiable-profile-for-learning-content-repository.js';
 import * as certificateRepository from '../../infrastructure/repositories/certificate-repository.js';
@@ -228,7 +227,6 @@ const dependencies = {
   campaignParticipationOverviewRepository,
   campaignParticipationRepository,
   campaignParticipationResultRepository,
-  campaignParticipationsStatsRepository,
   campaignProfileRepository,
   campaignRepository,
   campaignToJoinRepository,

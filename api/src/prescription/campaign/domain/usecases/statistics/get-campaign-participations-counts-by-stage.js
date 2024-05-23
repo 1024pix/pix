@@ -1,13 +1,11 @@
-// eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
-/* eslint-disable import/no-restricted-paths */
-import * as stageCollectionRepository from '../../infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
-import { NoStagesForCampaign, UserNotAuthorizedToAccessEntityError } from '../errors.js';
+import { NoStagesForCampaign, UserNotAuthorizedToAccessEntityError } from '../../../../../../lib/domain/errors.js';
 
 const getCampaignParticipationsCountByStage = async function ({
   userId,
   campaignId,
   campaignRepository,
-  campaignParticipationRepository,
+  campaignParticipationsStatsRepository,
+  stageCollectionRepository,
 }) {
   if (!(await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignId, userId))) {
     throw new UserNotAuthorizedToAccessEntityError('User does not belong to the organization that owns the campaign');
@@ -19,7 +17,7 @@ const getCampaignParticipationsCountByStage = async function ({
     throw new NoStagesForCampaign();
   }
 
-  const participantsResults = await campaignParticipationRepository.getAllParticipationsByCampaignId(campaignId);
+  const participantsResults = await campaignParticipationsStatsRepository.getAllParticipationsByCampaignId(campaignId);
 
   const participantsByStage = stageCollection.stages.map((stage, index) => ({
     id: stage.id,

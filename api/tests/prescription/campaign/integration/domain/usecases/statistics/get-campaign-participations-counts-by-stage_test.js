@@ -1,12 +1,12 @@
-import { NoStagesForCampaign, UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { NoStagesForCampaign, UserNotAuthorizedToAccessEntityError } from '../../../../../../../lib/domain/errors.js';
+import { usecases } from '../../../../../../../src/prescription/campaign/domain/usecases/index.js';
 import {
   catchErr,
   databaseBuilder,
   expect,
   learningContentBuilder,
   mockLearningContent,
-} from '../../../test-helper.js';
+} from '../../../../../../test-helper.js';
 
 describe('Integration | UseCase | get-campaign-participations-counts-by-stage', function () {
   let organizationId;
