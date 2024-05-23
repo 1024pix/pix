@@ -30,8 +30,10 @@ async function handleCertificationRescoring({
   answerRepository,
   flashAlgorithmConfigurationRepository,
   flashAlgorithmService,
+  scoringDegradationService,
   certificationAssessmentHistoryRepository,
   scoringConfigurationRepository,
+  challengeRepository,
 }) {
   checkEventTypes(event, eventTypes);
 
@@ -52,8 +54,10 @@ async function handleCertificationRescoring({
       competenceMarkRepository,
       flashAlgorithmConfigurationRepository,
       flashAlgorithmService,
+      scoringDegradationService,
       scoringConfigurationRepository,
       scoringCertificationService,
+      challengeRepository,
     });
   }
 
@@ -132,6 +136,8 @@ async function _handleV3CertificationScoring({
   flashAlgorithmService,
   scoringConfigurationRepository,
   scoringCertificationService,
+  scoringDegradationService,
+  challengeRepository,
 }) {
   const certificationCourse = await scoringCertificationService.handleV3CertificationScoring({
     event,
@@ -145,7 +151,9 @@ async function _handleV3CertificationScoring({
     competenceMarkRepository,
     flashAlgorithmConfigurationRepository,
     flashAlgorithmService,
+    scoringDegradationService,
     scoringConfigurationRepository,
+    challengeRepository,
   });
 
   if (certificationCourse.isCancelled()) {

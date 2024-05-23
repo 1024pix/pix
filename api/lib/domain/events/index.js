@@ -14,6 +14,7 @@ import * as certificationAssessmentRepository from '../../../src/certification/s
 import * as certificationCenterRepository from '../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
 import * as certificationCourseRepository from '../../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
 import * as certificationIssueReportRepository from '../../../src/certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
+import { scoringDegradationService } from '../../../src/domain/services/scoring/scoring-degradation-service.js';
 import * as answerRepository from '../../../src/shared/infrastructure/repositories/answer-repository.js';
 import * as assessmentRepository from '../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as assessmentResultRepository from '../../../src/shared/infrastructure/repositories/assessment-result-repository.js';
@@ -52,6 +53,7 @@ import { handleComplementaryCertificationsScoring } from './handle-complementary
 import { handlePoleEmploiParticipationFinished } from './handle-pole-emploi-participation-finished.js';
 import { handlePoleEmploiParticipationStarted } from './handle-pole-emploi-participation-started.js';
 import { handleSessionFinalized } from './handle-session-finalized.js';
+
 const { performance } = perf_hooks;
 
 function requirePoleEmploiNotifier() {
@@ -94,6 +96,7 @@ const dependencies = {
   poleEmploiNotifier: requirePoleEmploiNotifier(),
   poleEmploiSendingRepository,
   scoringCertificationService,
+  scoringDegradationService,
   skillRepository,
   scoringConfigurationRepository,
   supervisorAccessRepository,

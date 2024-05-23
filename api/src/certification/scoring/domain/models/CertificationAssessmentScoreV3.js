@@ -1,6 +1,7 @@
 import { COMPETENCES_COUNT, PIX_COUNT_BY_LEVEL } from '../../../../../lib/domain/constants.js';
 import { config } from '../../../../shared/config.js';
 import { status as CertificationStatus } from '../../../../shared/domain/models/AssessmentResult.js';
+import { ABORT_REASONS } from '../../../shared/domain/models/CertificationCourse.js';
 import { Intervals } from './Intervals.js';
 
 class CertificationAssessmentScoreV3 {
@@ -15,17 +16,30 @@ class CertificationAssessmentScoreV3 {
     algorithm,
     challenges,
     allAnswers,
+    allChallenges,
     abortReason,
     maxReachableLevelOnCertificationDate,
     v3CertificationScoring = [],
+    scoringDegradationService,
   }) {
     const certificationScoringIntervals = v3CertificationScoring.getIntervals();
     const numberOfIntervals = v3CertificationScoring.getNumberOfIntervals();
+    const flashAssessmentAlgorithmConfiguration = algorithm.getConfiguration();
 
-    const { capacity } = algorithm.getCapacityAndErrorRate({
+    let { capacity } = algorithm.getCapacityAndErrorRate({
       challenges,
       allAnswers,
     });
+
+    if (_shouldDowngradeCapacity({ flashAssessmentAlgorithmConfiguration, answers: allAnswers, abortReason })) {
+      capacity = scoringDegradationService.downgradeCapacity({
+        algorithm,
+        capacity,
+        allChallenges,
+        allAnswers,
+        flashAssessmentAlgorithmConfiguration,
+      });
+    }
 
     const nbPix = _calculateScore({
       capacity,
@@ -92,6 +106,18 @@ const _isCertificationRejected = ({ answers, abortReason }) => {
 
 const _hasCandidateAnsweredEnoughQuestions = ({ answers }) => {
   return answers.length >= config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification;
+};
+
+const _hasCandidateCompletedTheCertification = ({ answers, maximumAssessmentLength }) => {
+  return answers.length >= maximumAssessmentLength;
+};
+
+const _shouldDowngradeCapacity = ({ maximumAssessmentLength, answers, abortReason }) => {
+  return (
+    _hasCandidateAnsweredEnoughQuestions({ answers }) &&
+    !_hasCandidateCompletedTheCertification({ answers, maximumAssessmentLength }) &&
+    abortReason === ABORT_REASONS.CANDIDATE
+  );
 };
 
 export { CertificationAssessmentScoreV3 };

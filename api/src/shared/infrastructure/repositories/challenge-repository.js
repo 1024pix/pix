@@ -101,6 +101,12 @@ const findFlashCompatible = async function ({ locale, useObsoleteChallenges } = 
   return _toDomainCollection({ challengeDataObjects, skills });
 };
 
+const findFlashCompatibleWithoutLocale = async function ({ useObsoleteChallenges } = {}) {
+  const challengeDataObjects = await challengeDatasource.findFlashCompatibleWithoutLocale({ useObsoleteChallenges });
+  const skills = await skillDatasource.list();
+  return _toDomainCollection({ challengeDataObjects, skills });
+};
+
 const findValidatedBySkillId = async function (skillId, locale) {
   _assertLocaleIsDefined(locale);
   const challengeDataObjects = await challengeDatasource.findValidatedBySkillId(skillId, locale);
@@ -116,6 +122,7 @@ export async function getManyTypes(ids) {
 export {
   findActiveFlashCompatible,
   findFlashCompatible,
+  findFlashCompatibleWithoutLocale,
   findOperative,
   findOperativeBySkills,
   findOperativeFlashCompatible,

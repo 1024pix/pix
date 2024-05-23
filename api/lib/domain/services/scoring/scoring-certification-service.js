@@ -63,10 +63,15 @@ const handleV3CertificationScoring = async function ({
   competenceMarkRepository,
   flashAlgorithmConfigurationRepository,
   flashAlgorithmService,
+  scoringDegradationService,
   scoringConfigurationRepository,
+  challengeRepository,
 }) {
   const { certificationCourseId, id: assessmentId } = certificationAssessment;
-  const allAnswers = await answerRepository.findByAssessment(assessmentId);
+  const candidateAnswers = await answerRepository.findByAssessment(assessmentId);
+  const allChallenges = await challengeRepository.findFlashCompatibleWithoutLocale({
+    useObsoleteChallenges: true,
+  });
   const certificationChallengesForScoring = await certificationChallengeForScoringRepository.getByCertificationCourseId(
     { certificationCourseId },
   );
@@ -92,30 +97,34 @@ const handleV3CertificationScoring = async function ({
   });
 
   const certificationAssessmentScore = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
-    algorithm,
-    challenges: certificationChallengesForScoring,
-    allAnswers,
     abortReason,
+    algorithm,
+    // The following spread operation prevents the original array to be mutated during the simulation
+    // so that in can be used during the assessment result creation
+    allAnswers: [...candidateAnswers],
+    allChallenges,
+    challenges: certificationChallengesForScoring,
     maxReachableLevelOnCertificationDate: certificationCourse.getMaxReachableLevelOnCertificationDate(),
     v3CertificationScoring,
+    scoringDegradationService,
   });
 
   const assessmentResult = await _createV3AssessmentResult({
-    allAnswers,
+    allAnswers: candidateAnswers,
     certificationAssessment,
     certificationAssessmentScore,
     certificationCourse,
     juryId: event?.juryId,
   });
 
-  if (_hasV3CertificationLacksOfAnswersForTechnicalReason({ allAnswers, certificationCourse })) {
+  if (_hasV3CertificationLacksOfAnswersForTechnicalReason({ allAnswers: candidateAnswers, certificationCourse })) {
     certificationCourse.cancel();
   }
 
   const certificationAssessmentHistory = CertificationAssessmentHistory.fromChallengesAndAnswers({
     algorithm,
     challenges: certificationChallengesForScoring,
-    allAnswers,
+    allAnswers: candidateAnswers,
   });
 
   await certificationAssessmentHistoryRepository.save(certificationAssessmentHistory);

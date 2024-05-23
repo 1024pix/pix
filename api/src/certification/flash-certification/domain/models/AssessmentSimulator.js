@@ -3,8 +3,7 @@ export class AssessmentSimulator {
     this.getStrategy = getStrategy;
   }
 
-  run() {
-    const challengesAnswers = [];
+  run({ challengesAnswers } = { challengesAnswers: [] }) {
     const result = [];
 
     let stepIndex = 0;

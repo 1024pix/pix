@@ -2020,7 +2020,9 @@ describe('Unit | Service | Certification Result Service', function () {
       competenceMarkRepository,
       flashAlgorithmConfigurationRepository,
       flashAlgorithmService,
+      scoringDegradationService,
       scoringConfigurationRepository,
+      challengeRepository,
       baseFlashAlgorithmConfiguration;
     let clock;
     const now = new Date('2019-01-01T05:06:07Z');
@@ -2041,7 +2043,9 @@ describe('Unit | Service | Certification Result Service', function () {
         getCapacityAndErrorRate: sinon.stub(),
         getCapacityAndErrorRateHistory: sinon.stub(),
       };
+      scoringDegradationService = { downgradeCapacity: sinon.stub() };
       scoringConfigurationRepository = { getLatestByDateAndLocale: sinon.stub() };
+      challengeRepository = { findFlashCompatibleWithoutLocale: sinon.stub() };
       baseFlashAlgorithmConfiguration = domainBuilder.buildFlashAlgorithmConfiguration({
         maximumAssessmentLength,
       });
@@ -2179,6 +2183,7 @@ describe('Unit | Service | Certification Result Service', function () {
               flashAlgorithmConfigurationRepository,
               flashAlgorithmService,
               scoringConfigurationRepository,
+              challengeRepository,
             });
 
             // then
@@ -2295,6 +2300,7 @@ describe('Unit | Service | Certification Result Service', function () {
               flashAlgorithmConfigurationRepository,
               flashAlgorithmService,
               scoringConfigurationRepository,
+              challengeRepository,
             });
 
             // then
@@ -2408,6 +2414,7 @@ describe('Unit | Service | Certification Result Service', function () {
               flashAlgorithmConfigurationRepository,
               flashAlgorithmService,
               scoringConfigurationRepository,
+              challengeRepository,
             });
 
             // then
@@ -2512,6 +2519,7 @@ describe('Unit | Service | Certification Result Service', function () {
                 flashAlgorithmConfigurationRepository,
                 flashAlgorithmService,
                 scoringConfigurationRepository,
+                challengeRepository,
               });
 
               // then
@@ -2619,6 +2627,7 @@ describe('Unit | Service | Certification Result Service', function () {
                 flashAlgorithmConfigurationRepository,
                 flashAlgorithmService,
                 scoringConfigurationRepository,
+                challengeRepository,
               });
 
               // then
@@ -2708,6 +2717,13 @@ describe('Unit | Service | Certification Result Service', function () {
                     capacity: expectedCapacity,
                   },
                 ]);
+              challengeRepository.findFlashCompatibleWithoutLocale
+                .withArgs({
+                  useObsoleteChallenges: true,
+                })
+                .returns(challenges);
+
+              scoringDegradationService.downgradeCapacity.returns(expectedCapacity);
 
               // when
               await scoringCertificationService.handleV3CertificationScoring({
@@ -2723,6 +2739,8 @@ describe('Unit | Service | Certification Result Service', function () {
                 flashAlgorithmConfigurationRepository,
                 flashAlgorithmService,
                 scoringConfigurationRepository,
+                challengeRepository,
+                scoringDegradationService,
               });
 
               // then
@@ -2859,6 +2877,7 @@ describe('Unit | Service | Certification Result Service', function () {
               flashAlgorithmConfigurationRepository,
               flashAlgorithmService,
               scoringConfigurationRepository,
+              challengeRepository,
             });
 
             // then
@@ -2979,6 +2998,7 @@ describe('Unit | Service | Certification Result Service', function () {
               flashAlgorithmConfigurationRepository,
               flashAlgorithmService,
               scoringConfigurationRepository,
+              challengeRepository,
             });
 
             // then
@@ -3106,6 +3126,7 @@ describe('Unit | Service | Certification Result Service', function () {
               flashAlgorithmConfigurationRepository,
               flashAlgorithmService,
               scoringConfigurationRepository,
+              challengeRepository,
             });
 
             // then
@@ -3227,6 +3248,7 @@ describe('Unit | Service | Certification Result Service', function () {
             flashAlgorithmConfigurationRepository,
             flashAlgorithmService,
             scoringConfigurationRepository,
+            challengeRepository,
           });
 
           // then
@@ -3358,6 +3380,7 @@ describe('Unit | Service | Certification Result Service', function () {
               flashAlgorithmConfigurationRepository,
               flashAlgorithmService,
               scoringConfigurationRepository,
+              challengeRepository,
             });
 
             // then
@@ -3488,6 +3511,7 @@ describe('Unit | Service | Certification Result Service', function () {
               flashAlgorithmConfigurationRepository,
               flashAlgorithmService,
               scoringConfigurationRepository,
+              challengeRepository,
             });
 
             // then

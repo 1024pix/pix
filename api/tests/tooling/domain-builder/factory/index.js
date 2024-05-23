@@ -172,6 +172,7 @@ import { buildV3CertificationCourseDetailsForAdministration } from './build-v3-c
 import { buildValidation } from './build-validation.js';
 import { buildValidator } from './build-validator.js';
 import { buildSessionEnrolment } from './certification/enrolment/build-session.js';
+import { buildFlashAssessmentAlgorithm } from './certification/flash-certification/build-flash-assessment-algorithm.js';
 import { buildAssessmentResult as buildCertificationScoringAssessmentResult } from './certification/scoring/build-assessment-result.js';
 import { buildCertificationAssessmentHistory } from './certification/scoring/build-certification-assessment-history.js';
 import { buildCertificationChallengeCapacity } from './certification/scoring/build-certification-challenge-capacity.js';
@@ -316,6 +317,7 @@ export {
   buildFeedback,
   buildFinalizedSession,
   buildFlashAlgorithmConfiguration,
+  buildFlashAssessmentAlgorithm,
   buildFlashAssessmentAlgorithmSuccessRateHandlerFixed,
   buildFlashAssessmentAlgorithmSuccessRateHandlerLinear,
   buildFramework,
