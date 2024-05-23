@@ -13,7 +13,9 @@ import { config } from '../../../../shared/config.js';
 
 const notify = async (userId, payload, dependencies) => {
   const { authenticationMethodRepository, httpAgent, httpErrorsHelper, monitoringTools } = dependencies;
-
+  if (config.featureToggles.depracatePoleEmploiPushNotification) {
+    payload = { ...payload, deprecated: true };
+  }
   monitoringTools.logInfoWithCorrelationIds({
     event: 'participation-send-pole-emploi',
     'pole-emploi-action': 'send-results',

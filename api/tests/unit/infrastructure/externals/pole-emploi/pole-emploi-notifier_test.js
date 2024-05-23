@@ -86,6 +86,44 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
     });
 
     context('when access token is valid', function () {
+      context('when pole emploi deprecate push env variable is set', function () {
+        beforeEach(function () {
+          sinon.stub(settings.featureToggles, 'depracatePoleEmploiPushNotification').value('true');
+        });
+        it('should send the notification to Pole Emploi with deprectation message', async function () {
+          // given
+          const expiredDate = dayjs().add(10, 'm').toDate();
+          const authenticationMethod = { authenticationComplement: { accessToken, expiredDate, refreshToken } };
+
+          const expectedHeaders = {
+            Authorization: `Bearer ${authenticationMethod.authenticationComplement.accessToken}`,
+            'Content-type': 'application/json',
+            Accept: 'application/json',
+            'Service-source': 'Pix',
+          };
+
+          authenticationMethodRepository.findOneByUserIdAndIdentityProvider
+            .withArgs({ userId, identityProvider: OidcIdentityProviders.POLE_EMPLOI.code })
+            .resolves(authenticationMethod);
+          httpAgent.post.resolves({ isSuccessful: true, code });
+
+          // when
+          await notify(userId, payload, {
+            authenticationMethodRepository,
+            httpAgent,
+            httpErrorsHelper,
+            monitoringTools,
+          });
+
+          // then
+          expect(httpAgent.post).to.have.been.calledWithExactly({
+            url: settings.poleEmploi.sendingUrl,
+            payload: { ...payload, deprecated: true },
+            headers: expectedHeaders,
+            timeout: settings.partner.fetchTimeOut,
+          });
+        });
+      });
       it('should send the notification to Pole Emploi', async function () {
         // given
         const expiredDate = dayjs().add(10, 'm').toDate();

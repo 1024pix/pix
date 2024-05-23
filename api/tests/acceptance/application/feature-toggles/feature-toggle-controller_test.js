@@ -21,6 +21,7 @@ describe('Acceptance | Controller | feature-toggle-controller', function () {
           type: 'feature-toggles',
           attributes: {
             'are-v3-info-screens-enabled': false,
+            'depracate-pole-emploi-push-notification': false,
             'is-always-ok-validate-next-challenge-endpoint-enabled': false,
             'is-pix1d-enabled': true,
             'is-pix-plus-lower-lever-enabled': false,
