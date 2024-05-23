@@ -15,8 +15,8 @@ import { UserDetailsForAdmin } from '../../../../lib/domain/models/UserDetailsFo
 import { OrganizationLearnerForAdmin } from '../../../../lib/domain/read-models/OrganizationLearnerForAdmin.js';
 import { BookshelfUser } from '../../../../lib/infrastructure/orm-models/User.js';
 import { UserLogin } from '../../../identity-access-management/domain/models/UserLogin.js';
+import { Organization } from '../../../organizational-entities/domain/models/Organization.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import { Organization } from '../../domain/models/Organization.js';
 import { User } from '../../domain/models/User.js';
 import { fetchPage, isUniqConstraintViolated } from '../utils/knex-utils.js';
 

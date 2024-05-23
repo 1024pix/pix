@@ -1,7 +1,7 @@
 import { OrganizationFeature } from '../../../../../src/organizational-entities/domain/models/OrganizationFeature.js';
 import { expect } from '../../../../test-helper.js';
 
-describe('Unit | Domain | Models | OrganizationFeature', function () {
+describe('Unit | Organizational Entities | Domain | Model | OrganizationFeature', function () {
   let organizationFeature, featureId, organizationId, params;
 
   beforeEach(function () {

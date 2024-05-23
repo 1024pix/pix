@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { MembershipCreationError, MembershipUpdateError, NotFoundError } from '../../../../lib/domain/errors.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import * as membershipRepository from '../../../../lib/infrastructure/repositories/membership-repository.js';
-import { Organization } from '../../../../src/shared/domain/models/Organization.js';
+import { Organization } from '../../../../src/organizational-entities/domain/models/Organization.js';
 import { User } from '../../../../src/shared/domain/models/User.js';
 import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 

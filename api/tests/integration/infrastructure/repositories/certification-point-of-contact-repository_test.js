@@ -3,7 +3,7 @@ import { CertificationCenter } from '../../../../lib/domain/models/Certification
 import { CERTIFICATION_CENTER_MEMBERSHIP_ROLES } from '../../../../lib/domain/models/CertificationCenterMembership.js';
 import * as certificationPointOfContactRepository from '../../../../lib/infrastructure/repositories/certification-point-of-contact-repository.js';
 import { CERTIFICATION_FEATURES } from '../../../../src/certification/shared/domain/constants.js';
-import { Organization } from '../../../../src/shared/domain/models/Organization.js';
+import { Organization } from '../../../../src/organizational-entities/domain/models/Organization.js';
 import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | Repository | CertificationPointOfContact', function () {
