@@ -89,7 +89,7 @@
     },
     "new-information-banner": {
       "close-label": "Cerrar el banner",
-      "lvl-seven": "¡Por fin está disponible el nivel 7! Puedes obtener más información en '<'a href=\"{lvlSevenUrl}\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\"'>'esta noticia'</a>'."
+      "lvl-seven": "<h2>¡Pix llega poco a poco en español!</h2><p>\nLa traducción de todas nuestras competencias estará disponible próximamente.</p>"
     },
     "or": "o",
     "pagination": {
@@ -940,7 +940,7 @@
           "text": "Más información",
           "url": "https://pix.fr/actualites/decouvrez-votre-nouveau-tableau-de-bord"
         },
-        "message": "<h2>Hola, { firstname }: descubre tu panel de control.</h2><p>Accede rápida y fácilmente a los tests y pruebas de competencias que ya has empezado.<br/>Comprueba cómo progresa tu puntuación Pix y si tu perfil está listo para la certificación Pix.</p>"
+        "message": "<h2>¡Te damos la bienvenida a Pix en español, { firstname }!</h2><p> Las traducciones de todas nuestras competencias estarán disponibles próximamente.</p>"
       },
       "recommended-competences": {
         "extra-information": "Acceder a todas las competencias recomendadas",
