@@ -7,6 +7,8 @@ import { BlockSelect } from '../block/BlockSelect.js';
 import { BlockSelectOption } from '../block/BlockSelectOption.js';
 import { BlockText } from '../block/BlockText.js';
 import { ComponentElement } from '../component/ComponentElement.js';
+import { ComponentStepper } from '../component/ComponentStepper.js';
+import { Step } from '../component/Step.js';
 import { Image } from '../element/Image.js';
 import { QCM } from '../element/QCM.js';
 import { QCMForAnswerVerification } from '../element/QCM-for-answer-verification.js';
@@ -62,6 +64,23 @@ class Module {
                   } else {
                     return undefined;
                   }
+                } else if (component.type === 'stepper') {
+                  return new ComponentStepper({
+                    steps: component.steps.map((step) => {
+                      return new Step({
+                        elements: step.elements
+                          .map((element) => {
+                            const domainElement = Module.#mapElement(element);
+                            if (domainElement) {
+                              return domainElement;
+                            } else {
+                              return undefined;
+                            }
+                          })
+                          .filter((element) => element !== undefined),
+                      });
+                    }),
+                  });
                 } else {
                   logger.warn({
                     event: 'module_component_type_unknown',
