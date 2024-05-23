@@ -1,9 +1,14 @@
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
+import { t } from 'ember-intl';
 import sumBy from 'lodash/sumBy';
 import pattern from 'patternomaly';
 
+import Chart from '../../ui/chart';
 import { TOOLTIP_CONFIG } from '../../ui/chart';
+import ChartCard from '../../ui/chart-card';
+import ParticipantsByStatusLegend from './participants-by-status-legend';
+import ParticipantsByStatusLoader from './participants-by-status-loader';
 
 export default class ParticipantsByStatus extends Component {
   @service store;
@@ -72,6 +77,36 @@ export default class ParticipantsByStatus extends Component {
       canvas,
     };
   }
+  <template>
+    <ChartCard @title={{t "charts.participants-by-status.title"}} ...attributes>
+      {{#if @loading}}
+        <ParticipantsByStatusLoader />
+      {{else}}
+        <Chart
+          @type="doughnut"
+          @options={{this.options}}
+          @data={{this.data}}
+          aria-hidden="true"
+          class="participants-by-status"
+        />
+
+        <ul class="participants-by-status__legend" aria-hidden="true">
+          {{#each this.datasets as |dataset|}}
+            <li>
+              <ParticipantsByStatusLegend @dataset={{dataset}} />
+            </li>
+          {{/each}}
+        </ul>
+
+        <h2 class="screen-reader-only">{{t "charts.participants-by-status.a11y-title"}}</h2>
+        <ul class="screen-reader-only">
+          {{#each this.datasets as |dataset|}}
+            <li>{{dataset.a11y}}</li>
+          {{/each}}
+        </ul>
+      {{/if}}
+    </ChartCard>
+  </template>
 }
 
 const LABELS_ASSESSMENT = {
