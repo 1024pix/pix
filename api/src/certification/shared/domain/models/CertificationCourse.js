@@ -1,9 +1,11 @@
 import JoiDate from '@joi/date';
 import BaseJoi from 'joi';
 import _ from 'lodash';
-const Joi = BaseJoi.extend(JoiDate);
+
 import { EntityValidationError } from '../../../../shared/domain/errors.js';
 import { CertificationVersion } from './CertificationVersion.js';
+
+const Joi = BaseJoi.extend(JoiDate);
 
 export const ABORT_REASONS = {
   CANDIDATE: 'candidate',
@@ -234,6 +236,10 @@ class CertificationCourse {
 
   doesBelongTo(userId) {
     return this._userId === userId;
+  }
+
+  getAbortReason() {
+    return this._abortReason;
   }
 
   getId() {

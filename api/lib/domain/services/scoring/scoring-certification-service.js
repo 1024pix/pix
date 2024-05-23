@@ -6,7 +6,6 @@ import { CertificationAssessmentHistory } from '../../../../src/certification/sc
 import { CertificationAssessmentScore } from '../../../../src/certification/scoring/domain/models/CertificationAssessmentScore.js';
 import { CertificationAssessmentScoreV3 } from '../../../../src/certification/scoring/domain/models/CertificationAssessmentScoreV3.js';
 import { AssessmentResultFactory } from '../../../../src/certification/scoring/domain/models/factories/AssessmentResultFactory.js';
-import { ABORT_REASONS } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { CertificationVersion } from '../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import * as scoringService from '../../../../src/evaluation/domain/services/scoring/scoring-service.js';
 import { config } from '../../../../src/shared/config.js';
@@ -78,9 +77,7 @@ const handleV3CertificationScoring = async function ({
 
   const certificationCourse = await certificationCourseRepository.get({ id: certificationCourseId });
 
-  const abortReason = certificationCourse.isAbortReasonCandidateRelated()
-    ? ABORT_REASONS.CANDIDATE
-    : ABORT_REASONS.TECHNICAL;
+  const abortReason = certificationCourse.getAbortReason();
 
   const configuration = await flashAlgorithmConfigurationRepository.getMostRecentBeforeDate(
     certificationCourse.getStartDate(),
