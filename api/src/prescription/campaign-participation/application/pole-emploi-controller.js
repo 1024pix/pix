@@ -1,6 +1,6 @@
-import * as poleEmploiService from '../../domain/services/pole-emploi-service.js';
-import { usecases } from '../../domain/usecases/index.js';
-import { UnprocessableEntityError } from '../http-errors.js';
+import { UnprocessableEntityError } from '../../../shared/application/http-errors.js';
+import * as poleEmploiService from '../domain/services/pole-emploi-service.js';
+import { usecases } from '../domain/usecases/index.js';
 
 const getSendings = async function (request, h, dependencies = { poleEmploiService }) {
   let cursorData;
