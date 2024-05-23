@@ -143,49 +143,6 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
         expect(error).to.be.instanceOf(NotFoundError);
       });
     });
-
-    // eslint-disable-next-line mocha/no-skipped-tests
-    describe.skip('Skip those tests, we keep them in order to discuss with business', function () {
-      describe('given a module being created', function () {
-        describe('given a module with less than two grains', function () {
-          // On permet des tests vides tant qu'on n'a pas validé le comportement attendu avec le métier
-          // eslint-disable-next-line no-empty-function
-          it('should throw error', function () {});
-        });
-
-        describe('given a module with two grains which are the same', function () {
-          // On permet des tests vides tant qu'on n'a pas validé le comportement attendu avec le métier
-          // eslint-disable-next-line no-empty-function
-          it('should throw an error', function () {});
-        });
-
-        describe('a grain already associated to another module', function () {
-          // On permet des tests vides tant qu'on n'a pas validé le comportement attendu avec le métier
-          // eslint-disable-next-line no-empty-function
-          it('will not throw an error', function () {});
-        });
-      });
-
-      describe('given a published module', function () {
-        describe('given a module with less than two grains', function () {
-          // On permet des tests vides tant qu'on n'a pas validé le comportement attendu avec le métier
-          // eslint-disable-next-line no-empty-function
-          it('should throw error', function () {});
-        });
-
-        describe('if a module does not have a description', function () {
-          // On permet des tests vides tant qu'on n'a pas validé le comportement attendu avec le métier
-          // eslint-disable-next-line no-empty-function
-          it('should throw an error', function () {});
-        });
-
-        describe('given a module with two grains which are the same', function () {
-          // On permet des tests vides tant qu'on n'a pas validé le comportement attendu avec le métier
-          // eslint-disable-next-line no-empty-function
-          it('should throw an error', function () {});
-        });
-      });
-    });
   });
 
   describe('#toDomain', function () {
