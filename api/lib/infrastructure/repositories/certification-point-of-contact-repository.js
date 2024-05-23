@@ -126,7 +126,6 @@ function _toDomain({ allowedAccessDTOs, centerList }) {
       center: {
         ...center,
         habilitations: _cleanHabilitations(allowedCenterAccessDTO),
-        isComplementaryAlonePilot: center.isComplementaryAlonePilot,
       },
       isRelatedToManagingStudentsOrganization: Boolean(allowedCenterAccessDTO.isRelatedToManagingStudentsOrganization),
       relatedOrganizationTags: _cleanTags(allowedCenterAccessDTO),

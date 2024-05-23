@@ -1,7 +1,7 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
-import { Center } from '../../../enrolment/domain/models/Center.js';
 import { CERTIFICATION_FEATURES } from '../../../shared/domain/constants.js';
+import { Center } from '../../domain/models/Center.js';
 
 const getById = async ({ id }) => {
   const center = await knex

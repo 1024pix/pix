@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { knex } from '../../../db/knex-database-connection.js';
-import { CenterForAdmin } from '../../../src/certification/session/domain/models/CenterForAdmin.js';
+import { CenterForAdmin } from '../../../src/certification/session-management/domain/models/CenterForAdmin.js';
 
 const save = async function (certificationCenter) {
   const data = _toDTO(certificationCenter);
