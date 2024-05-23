@@ -1,9 +1,9 @@
 import _ from 'lodash';
 
-import * as SmartRandom from '../../../../../lib/domain/services/algorithm-methods/smart-random.js';
-import { SmartRandomDetails } from '../../../../../src/evaluation/domain/models/SmartRandomDetails.js';
-import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
-import { domainBuilder, expect } from '../../../../test-helper.js';
+import { SmartRandomDetails } from '../../../../../../src/evaluation/domain/models/SmartRandomDetails.js';
+import * as SmartRandom from '../../../../../../src/evaluation/domain/services/algorithm-methods/smart-random.js';
+import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerStatus.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 const KNOWLEDGE_ELEMENT_STATUS = {
   VALIDATED: 'validated',

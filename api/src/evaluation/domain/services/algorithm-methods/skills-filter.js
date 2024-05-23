@@ -1,10 +1,10 @@
-import { SmartRandomDetails } from '../../../../src/evaluation/domain/models/SmartRandomDetails.js';
-import { STEPS_NAMES } from '../../../../src/evaluation/domain/models/SmartRandomStep.js';
 import {
   DEFAULT_LEVEL_FOR_FIRST_CHALLENGE,
   MAX_DIFF_BETWEEN_USER_LEVEL_AND_SKILL_LEVEL,
   MAX_LEVEL_TO_BE_AN_EASY_TUBE,
-} from '../../constants.js';
+} from '../../../../../lib/domain/constants.js';
+import { SmartRandomDetails } from '../../models/SmartRandomDetails.js';
+import { STEPS_NAMES } from '../../models/SmartRandomStep.js';
 
 const getPlayableSkills = (skills) => skills.filter(({ isPlayable }) => isPlayable);
 const notAlreadyTestedSkill = (knowledgeElements) => (skill) => {
