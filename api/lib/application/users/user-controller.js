@@ -311,8 +311,8 @@ const anonymizeUser = async function (request, h, dependencies = { userAnonymize
 
 const removeAuthenticationMethod = async function (request, h) {
   const userId = request.params.id;
-  const type = request.payload.data.attributes.type;
-  await usecases.removeAuthenticationMethod({ userId, type });
+  const authenticationMethodType = request.payload.data.attributes.type;
+  await usecases.removeAuthenticationMethod({ userId, authenticationMethodType });
   return h.response().code(204);
 };
 

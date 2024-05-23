@@ -620,7 +620,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
   context('#updateIdentityProviderForCampaigns', function () {
     it('should update IdentityProviderForCampaigns', function () {
       // given
-      const initialIdentityProviderForCampaigns = 'FWB';
+      const initialIdentityProviderForCampaigns = 'genericOidcProviderCode';
       const newIdentityProviderForCampaigns = 'GAR';
       const givenOrganization = new OrganizationForAdmin({
         identityProviderForCampaigns: initialIdentityProviderForCampaigns,

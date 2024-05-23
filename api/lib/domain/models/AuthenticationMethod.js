@@ -3,7 +3,7 @@ import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 import { validateEntity } from '../../../src/shared/domain/validators/entity-validator.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
-import { CNAV, FWB, PAYSDELALOIRE, POLE_EMPLOI, PROSANTECONNECT } from '../constants/oidc-identity-providers.js';
+import { POLE_EMPLOI } from '../constants/oidc-identity-providers.js';
 
 class PixAuthenticationComplement {
   constructor({ password, shouldChangePassword } = {}) {
@@ -63,24 +63,20 @@ class GARAuthenticationComplement {
 const validationSchema = Joi.object({
   id: Joi.number().optional(),
   identityProvider: Joi.string().required(),
-  authenticationComplement: Joi.when('identityProvider', [
-    { is: NON_OIDC_IDENTITY_PROVIDERS.PIX.code, then: Joi.object().instance(PixAuthenticationComplement).required() },
-    { is: POLE_EMPLOI.code, then: Joi.object().instance(PoleEmploiOidcAuthenticationComplement).required() },
-    { is: NON_OIDC_IDENTITY_PROVIDERS.GAR.code, then: Joi.any().empty() },
-    { is: CNAV.code, then: Joi.object().instance(OidcAuthenticationComplement).allow(null) },
-    { is: FWB.code, then: Joi.object().instance(OidcAuthenticationComplement).allow(null) },
-    { is: PAYSDELALOIRE.code, then: Joi.object().instance(OidcAuthenticationComplement).allow(null) },
-    { is: PROSANTECONNECT.code, then: Joi.object().instance(OidcAuthenticationComplement).allow(null) },
-  ]),
-  externalIdentifier: Joi.when('identityProvider', [
-    { is: NON_OIDC_IDENTITY_PROVIDERS.PIX.code, then: Joi.any().forbidden() },
-    { is: NON_OIDC_IDENTITY_PROVIDERS.GAR.code, then: Joi.string().required() },
-    { is: POLE_EMPLOI.code, then: Joi.string().required() },
-    { is: CNAV.code, then: Joi.string().required() },
-    { is: FWB.code, then: Joi.string().required() },
-    { is: PAYSDELALOIRE.code, then: Joi.string().required() },
-    { is: PROSANTECONNECT.code, then: Joi.string().required() },
-  ]),
+  authenticationComplement: Joi.when('identityProvider', {
+    switch: [
+      { is: NON_OIDC_IDENTITY_PROVIDERS.PIX.code, then: Joi.object().instance(PixAuthenticationComplement).required() },
+      { is: POLE_EMPLOI.code, then: Joi.object().instance(PoleEmploiOidcAuthenticationComplement).required() },
+      { is: NON_OIDC_IDENTITY_PROVIDERS.GAR.code, then: Joi.any().empty() },
+    ],
+    otherwise: Joi.object().instance(OidcAuthenticationComplement).allow(null),
+  }),
+  externalIdentifier: Joi.when('identityProvider', {
+    is: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
+    then: Joi.any().forbidden(),
+    otherwise: Joi.string().required(),
+  }),
+
   userId: Joi.number().integer().required(),
   createdAt: Joi.date().optional(),
   updatedAt: Joi.date().optional(),

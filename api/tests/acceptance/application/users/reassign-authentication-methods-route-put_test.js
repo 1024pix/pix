@@ -1,4 +1,3 @@
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 import {
   createServer,
   databaseBuilder,
@@ -37,7 +36,6 @@ describe('Acceptance | Route | Users', function () {
           data: {
             attributes: {
               'user-id': targetUserId,
-              'identity-provider': NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
             },
           },
         },
@@ -73,7 +71,6 @@ describe('Acceptance | Route | Users', function () {
           data: {
             attributes: {
               'user-id': targetUserId,
-              'identity-provider': NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
             },
           },
         },

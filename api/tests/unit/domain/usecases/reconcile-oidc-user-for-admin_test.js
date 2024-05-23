@@ -1,4 +1,3 @@
-import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 import { AuthenticationKeyExpired, DifferentExternalIdentifierError } from '../../../../lib/domain/errors.js';
 import { AuthenticationMethod } from '../../../../lib/domain/models/index.js';
 import { reconcileOidcUserForAdmin } from '../../../../lib/domain/usecases/reconcile-oidc-user-for-admin.js';
@@ -10,7 +9,7 @@ describe('Unit | UseCase | reconcile-oidc-user-for-admin', function () {
     userLoginRepository,
     authenticationSessionService,
     oidcAuthenticationService;
-  const identityProvider = 'GOOGLE';
+  const identityProvider = 'genericOidcProviderCode';
 
   beforeEach(function () {
     authenticationMethodRepository = { create: sinon.stub(), findOneByUserIdAndIdentityProvider: sinon.stub() };
@@ -24,7 +23,7 @@ describe('Unit | UseCase | reconcile-oidc-user-for-admin', function () {
     };
   });
 
-  it('should retrieve user session content and user info', async function () {
+  it('retrieves user session content and user info', async function () {
     // given
     const email = 'anne@example.net';
     const userInfo = { externalIdentityId: 'external_id', firstName: 'Anne', email };
@@ -34,10 +33,11 @@ describe('Unit | UseCase | reconcile-oidc-user-for-admin', function () {
       sessionContent: {},
       userInfo,
     });
-    oidcAuthenticationService.createAuthenticationComplement
-      .withArgs({ userInfo })
-      .returns(AuthenticationMethod.OidcAuthenticationComplement);
-
+    oidcAuthenticationService.createAuthenticationComplement.withArgs({ userInfo }).returns(
+      new AuthenticationMethod.OidcAuthenticationComplement({
+        firstName: 'Anne',
+      }),
+    );
     // when
     await reconcileOidcUserForAdmin({
       email,
@@ -53,7 +53,7 @@ describe('Unit | UseCase | reconcile-oidc-user-for-admin', function () {
     expect(authenticationSessionService.getByKey).to.be.calledOnceWith('authenticationKey');
   });
 
-  it('should find user and his authentication methods', async function () {
+  it('finds user and his authentication methods', async function () {
     // given
     const email = 'sarah.pix@example.net';
     const userInfo = { externalIdentityId: 'external_id', firstName: 'Sarah', email };
@@ -63,9 +63,11 @@ describe('Unit | UseCase | reconcile-oidc-user-for-admin', function () {
     });
     userRepository.getByEmail.resolves({ email, id: 2 });
     authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(null);
-    oidcAuthenticationService.createAuthenticationComplement
-      .withArgs({ userInfo })
-      .returns(AuthenticationMethod.OidcAuthenticationComplement);
+    oidcAuthenticationService.createAuthenticationComplement.withArgs({ userInfo }).returns(
+      new AuthenticationMethod.OidcAuthenticationComplement({
+        firstName: 'Anne',
+      }),
+    );
 
     // when
     await reconcileOidcUserForAdmin({
@@ -87,7 +89,7 @@ describe('Unit | UseCase | reconcile-oidc-user-for-admin', function () {
     });
   });
 
-  it('should return an access token and update the last logged date', async function () {
+  it('returns an access token and update the last logged date', async function () {
     // given
     const email = 'anne@example.net';
     const externalIdentifier = 'external_id';
@@ -99,9 +101,11 @@ describe('Unit | UseCase | reconcile-oidc-user-for-admin', function () {
     });
     authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(null);
     userRepository.getByEmail.resolves({ email: 'anne@example.net', id: userId });
-    oidcAuthenticationService.createAuthenticationComplement
-      .withArgs({ userInfo })
-      .returns(AuthenticationMethod.OidcAuthenticationComplement);
+    oidcAuthenticationService.createAuthenticationComplement.withArgs({ userInfo }).returns(
+      new AuthenticationMethod.OidcAuthenticationComplement({
+        firstName: 'Anne',
+      }),
+    );
     oidcAuthenticationService.createAccessToken.withArgs(userId).returns('accessToken');
 
     // when
@@ -121,7 +125,7 @@ describe('Unit | UseCase | reconcile-oidc-user-for-admin', function () {
   });
 
   context('when authentication key is expired', function () {
-    it('should throw an AuthenticationKeyExpired', async function () {
+    it('throws an AuthenticationKeyExpired', async function () {
       // given
       authenticationSessionService.getByKey.resolves(null);
 
@@ -141,11 +145,11 @@ describe('Unit | UseCase | reconcile-oidc-user-for-admin', function () {
   });
 
   context('when user has an oidc authentication method and external identifiers are different', function () {
-    it('should throw an DifferentExternalIdentifierError', async function () {
+    it('throws an DifferentExternalIdentifierError', async function () {
       // given
       const oidcAuthenticationMethod = domainBuilder.buildAuthenticationMethod.withIdentityProvider({
         externalIdentifier: '789fge',
-        identityProvider: OidcIdentityProviders.GOOGLE.code,
+        identityProvider: 'genericOidcProviderCode',
       });
       userRepository.getByEmail.resolves({ email: 'anne@example.net', id: 1 });
       authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(oidcAuthenticationMethod);
@@ -158,7 +162,7 @@ describe('Unit | UseCase | reconcile-oidc-user-for-admin', function () {
       const error = await catchErr(reconcileOidcUserForAdmin)({
         authenticationKey: 'authenticationKey',
         email: 'anne@example.net',
-        identityProvider: 'GOOGLE',
+        identityProvider: 'genericOidcProviderCode',
         oidcAuthenticationService,
         authenticationSessionService,
         authenticationMethodRepository,

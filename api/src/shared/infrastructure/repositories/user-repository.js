@@ -561,27 +561,30 @@ function _toMembershipsDomain(membershipsBookshelf) {
 }
 
 function _getAuthenticationComplementAndExternalIdentifier(authenticationMethodBookshelf) {
-  const identityProvider = authenticationMethodBookshelf.get('identityProvider');
-
+  const identityProviderCode = authenticationMethodBookshelf.get('identityProvider');
   let authenticationComplement = authenticationMethodBookshelf.get('authenticationComplement');
   let externalIdentifier = authenticationMethodBookshelf.get('externalIdentifier');
-
-  if (identityProvider === NON_OIDC_IDENTITY_PROVIDERS.PIX.code) {
-    authenticationComplement = new AuthenticationMethod.PixAuthenticationComplement({
-      password: authenticationComplement.password,
-      shouldChangePassword: Boolean(authenticationComplement.shouldChangePassword),
-    });
-    externalIdentifier = undefined;
-  } else if (identityProvider === OidcIdentityProviders.POLE_EMPLOI.code) {
-    authenticationComplement = new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
-      accessToken: authenticationComplement.accessToken,
-      refreshToken: authenticationComplement.refreshToken,
-      expiredDate: authenticationComplement.expiredDate,
-    });
-  } else if (OidcIdentityProviders.getValidOidcProviderCodes().includes(identityProvider)) {
-    if (authenticationComplement) {
-      authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement(authenticationComplement);
-    }
+  switch (identityProviderCode) {
+    case NON_OIDC_IDENTITY_PROVIDERS.GAR.code:
+      break;
+    case NON_OIDC_IDENTITY_PROVIDERS.PIX.code:
+      authenticationComplement = new AuthenticationMethod.PixAuthenticationComplement({
+        password: authenticationComplement.password,
+        shouldChangePassword: Boolean(authenticationComplement.shouldChangePassword),
+      });
+      externalIdentifier = undefined;
+      break;
+    case OidcIdentityProviders.POLE_EMPLOI.code:
+      authenticationComplement = new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
+        accessToken: authenticationComplement.accessToken,
+        refreshToken: authenticationComplement.refreshToken,
+        expiredDate: authenticationComplement.expiredDate,
+      });
+      break;
+    default:
+      if (authenticationComplement) {
+        authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement(authenticationComplement);
+      }
   }
 
   return { authenticationComplement, externalIdentifier };

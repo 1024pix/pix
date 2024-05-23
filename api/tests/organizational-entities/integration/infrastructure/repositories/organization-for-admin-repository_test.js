@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
 import { MissingAttributesError, NotFoundError } from '../../../../../lib/domain/errors.js';
 import { OrganizationInvitation } from '../../../../../lib/domain/models/OrganizationInvitation.js';
 import { OrganizationForAdmin } from '../../../../../src/organizational-entities/domain/models/OrganizationForAdmin.js';
@@ -276,7 +275,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
         showNPS: true,
         formNPSUrl: 'https://pix.fr/',
         showSkills: false,
-        identityProviderForCampaigns: OidcIdentityProviders.CNAV.code,
+        identityProviderForCampaigns: 'genericOidcProviderCode',
         parentOrganizationId: parentOrganization.id,
       });
 
@@ -325,7 +324,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
         dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
         creatorFirstName: 'Cécile',
         creatorLastName: 'Encieux',
-        identityProviderForCampaigns: OidcIdentityProviders.CNAV.code,
+        identityProviderForCampaigns: 'genericOidcProviderCode',
         features: {
           [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: false,
           [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,

@@ -45,7 +45,7 @@ describe('Integration | Application | Controller | organization-administration-c
               'is-managing-students': false,
               'documentation-url': 'here',
               'show-skills': true,
-              'identity-provider-for-campaigns': 'CNAV',
+              'identity-provider-for-campaigns': 'genericOidcProviderCode',
             },
           },
         },

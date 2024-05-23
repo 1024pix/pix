@@ -4,7 +4,6 @@ import { Issuer } from 'openid-client';
 
 import { config as settings } from '../../../../../lib/config.js';
 import { OIDC_ERRORS } from '../../../../../lib/domain/constants.js';
-import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
 import { OidcMissingFieldsError } from '../../../../../lib/domain/errors.js';
 import {
   AuthenticationMethod,
@@ -143,7 +142,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       it('returns undefined', function () {
         // given
         const userInfo = {};
-        const identityProvider = OidcIdentityProviders.PAYSDELALOIRE.code;
+        const identityProvider = 'genericOidcProviderCode';
         const oidcAuthenticationService = new OidcAuthenticationService({ identityProvider });
 
         // when
@@ -162,7 +161,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         const claimsToStore = 'family_name,given_name';
         const claimsToStoreWithValues = { family_name, given_name };
         const userInfo = { ...claimsToStoreWithValues };
-        const identityProvider = OidcIdentityProviders.FWB.code;
+        const identityProvider = 'genericOidcProviderCode';
         const oidcAuthenticationService = new OidcAuthenticationService({ identityProvider, claimsToStore });
 
         // when
@@ -801,7 +800,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       const userId = 1;
       userToCreateRepository.create.withArgs({ user, domainTransaction }).resolves({ id: userId });
 
-      const identityProvider = OidcIdentityProviders.CNAV.code;
+      const identityProvider = 'genericOidcProviderCode';
       const expectedAuthenticationMethod = new AuthenticationMethod({
         identityProvider,
         externalIdentifier: externalIdentityId,
@@ -838,7 +837,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         const userId = 1;
         userToCreateRepository.create.withArgs({ user, domainTransaction }).resolves({ id: userId });
 
-        const identityProvider = OidcIdentityProviders.CNAV.code;
+        const identityProvider = 'genericOidcProviderCode';
         const expectedAuthenticationMethod = new AuthenticationMethod({
           identityProvider,
           externalIdentifier: externalIdentityId,
@@ -877,7 +876,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         const userId = 1;
         userToCreateRepository.create.withArgs({ user, domainTransaction }).resolves({ id: userId });
 
-        const identityProvider = OidcIdentityProviders.FWB.code;
+        const identityProvider = 'genericOidcProviderCode';
         const expectedAuthenticationMethod = new AuthenticationMethod({
           identityProvider,
           authenticationComplement: new AuthenticationMethod.OidcAuthenticationComplement(claimsToStoreWithValues),

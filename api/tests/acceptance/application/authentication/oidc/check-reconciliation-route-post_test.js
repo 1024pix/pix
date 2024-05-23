@@ -40,7 +40,7 @@ describe('Acceptance | Application | Oidc | Routes', function () {
               attributes: {
                 email: 'eva.poree@example.net',
                 password: 'pix123',
-                'identity-provider': 'CNAV',
+                'identity-provider': 'genericOidcProviderCode',
                 'authentication-key': userAuthenticationKey,
               },
             },

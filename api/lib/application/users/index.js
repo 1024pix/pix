@@ -7,29 +7,9 @@ import { EntityValidationError } from '../../../src/shared/domain/errors.js';
 import { AVAILABLE_LANGUAGES } from '../../../src/shared/domain/services/language-service.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
 import { config } from '../../config.js';
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../domain/constants/identity-providers.js';
-import * as OidcIdentityProviders from '../../domain/constants/oidc-identity-providers.js';
 import { BadRequestError, sendJsonApiError } from '../http-errors.js';
 import { userVerification } from '../preHandlers/user-existence-verification.js';
 import { userController } from './user-controller.js';
-
-const reassignAuthenticationMethodJoiSchema = Joi.object({
-  data: {
-    attributes: {
-      'user-id': identifiersType.userId,
-      'identity-provider': Joi.string()
-        .valid(
-          NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
-          OidcIdentityProviders.POLE_EMPLOI.code,
-          OidcIdentityProviders.CNAV.code,
-          OidcIdentityProviders.FWB.code,
-          OidcIdentityProviders.PAYSDELALOIRE.code,
-          OidcIdentityProviders.PROSANTECONNECT.code,
-        )
-        .required(),
-    },
-  },
-});
 
 const { passwordValidationPattern } = config.account;
 
@@ -325,7 +305,13 @@ const register = async function (server) {
             userId: identifiersType.userId,
             authenticationMethodId: identifiersType.authenticationMethodId,
           }),
-          payload: reassignAuthenticationMethodJoiSchema,
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'user-id': identifiersType.userId,
+              },
+            },
+          }),
           options: {
             abortEarly: false,
           },
@@ -364,17 +350,7 @@ const register = async function (server) {
           payload: Joi.object({
             data: {
               attributes: {
-                type: Joi.string()
-                  .valid(
-                    NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
-                    'EMAIL',
-                    'USERNAME',
-                    OidcIdentityProviders.POLE_EMPLOI.code,
-                    OidcIdentityProviders.CNAV.code,
-                    OidcIdentityProviders.FWB.code,
-                    OidcIdentityProviders.PAYSDELALOIRE.code,
-                  )
-                  .required(),
+                type: Joi.string().required(),
               },
             },
           }),

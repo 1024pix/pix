@@ -92,7 +92,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
           const userId = databaseBuilder.factory.buildUser().id;
           databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
             externalIdentifier: externalIdentityId,
-            identityProvider: OidcIdentityProviders.PAYSDELALOIRE.code,
+            identityProvider: 'genericOidcProviderCode',
             userId,
           });
           await databaseBuilder.commit();
@@ -100,7 +100,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
           // when
           const foundUser = await userRepository.findByExternalIdentifier({
             externalIdentityId,
-            identityProvider: OidcIdentityProviders.PAYSDELALOIRE.code,
+            identityProvider: 'genericOidcProviderCode',
           });
 
           // then
