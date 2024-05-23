@@ -2,8 +2,8 @@ import { updateCertificationCenter } from '../../../../lib/domain/usecases/updat
 import * as certificationCenterForAdminRepository from '../../../../lib/infrastructure/repositories/certification-center-for-admin-repository.js';
 import * as complementaryCertificationHabilitationRepository from '../../../../lib/infrastructure/repositories/complementary-certification-habilitation-repository.js';
 import * as dataProtectionOfficerRepository from '../../../../lib/infrastructure/repositories/data-protection-officer-repository.js';
-import { CenterForAdmin } from '../../../../src/certification/session/domain/models/CenterForAdmin.js';
-import * as centerRepository from '../../../../src/certification/session/infrastructure/repositories/center-repository.js';
+import * as centerRepository from '../../../../src/certification/enrolment/infrastructure/repositories/center-repository.js';
+import { CenterForAdmin } from '../../../../src/certification/session-management/domain/models/CenterForAdmin.js';
 import { CERTIFICATION_FEATURES } from '../../../../src/certification/shared/domain/constants.js';
 import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 
