@@ -3,6 +3,7 @@ import Hapi from '@hapi/hapi';
 import { setupErrorHandling } from '../../../config/server-setup-error-handling.js';
 import { authentication } from '../../../lib/infrastructure/authentication.js';
 import { handleFailAction } from '../../../lib/validate.js';
+import { deserializer } from '../../../src/shared/infrastructure/serializers/jsonapi/deserializer.js';
 
 const routesConfig = {
   routes: {
@@ -55,6 +56,15 @@ class HttpTestServer {
       this.hapiServer.auth.strategy(strategy.name, authentication.schemeName, strategy.configuration),
     );
     this.hapiServer.auth.default(authentication.defaultStrategy);
+  }
+
+  setupDeserialization() {
+    this.hapiServer.ext('onPreHandler', async (request, h) => {
+      if (request.payload?.data) {
+        request.deserializedPayload = await deserializer.deserialize(request.payload);
+      }
+      return h.continue;
+    });
   }
 }
 

@@ -19,8 +19,8 @@ import { injectDependencies } from '../../../shared/infrastructure/utils/depende
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { oidcProviderRepository } from '../../infrastructure/repositories/oidc-provider-repository.js';
 import { authenticationSessionService } from '../services/authentication-session.service.js';
-import * as pixAuthenticationService from '../services/pix-authentication-service.js';
-import * as refreshTokenService from '../services/refresh-token-service.js';
+import { pixAuthenticationService } from '../services/pix-authentication-service.js';
+import { refreshTokenService } from '../services/refresh-token-service.js';
 import { addOidcProviderValidator } from '../validators/add-oidc-provider.validator.js';
 
 const path = dirname(fileURLToPath(import.meta.url));
@@ -62,6 +62,7 @@ const usecases = injectDependencies(usecasesWithoutInjectedDependencies, depende
  * @property {addOidcProvider} addOidcProvider
  * @property {authenticateOidcUser} authenticateOidcUser
  * @property {createOidcUser} createOidcUser
+ * @property {findUserForOidcReconciliation} findUserForOidcReconciliation
  * @property {getAllIdentityProviders} getAllIdentityProviders
  * @property {getAuthorizationUrl} getAuthorizationUrl
  * @property {getReadyIdentityProviders} getReadyIdentityProviders

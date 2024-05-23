@@ -1,25 +1,5 @@
 import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
 import { oidcAuthenticationServiceRegistry, usecases } from '../../../domain/usecases/index.js';
-import * as oidcSerializer from '../../../infrastructure/serializers/jsonapi/oidc-serializer.js';
-
-const findUserForReconciliation = async function (
-  request,
-  h,
-  dependencies = {
-    oidcSerializer,
-  },
-) {
-  const { email, password, identityProvider, authenticationKey } = request.deserializedPayload;
-
-  const result = await usecases.findUserForOidcReconciliation({
-    email,
-    password,
-    identityProvider,
-    authenticationKey,
-  });
-
-  return h.response(dependencies.oidcSerializer.serialize(result)).code(200);
-};
 
 const reconcileUser = async function (
   request,
@@ -73,7 +53,6 @@ const reconcileUserForAdmin = async function (
 };
 
 const oidcController = {
-  findUserForReconciliation,
   reconcileUser,
   reconcileUserForAdmin,
 };

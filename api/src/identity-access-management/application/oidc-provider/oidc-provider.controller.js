@@ -1,4 +1,5 @@
 import { BadRequestError, UnauthorizedError } from '../../../../lib/application/http-errors.js';
+import * as oidcSerializer from '../../../../lib/infrastructure/serializers/jsonapi/oidc-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as oidcProviderSerializer from '../../infrastructure/serializers/jsonapi/oidc-identity-providers.serializer.js';
 
@@ -65,6 +66,25 @@ async function createUser(request, h) {
 }
 
 /**
+ * @param request
+ * @param h
+ * @param dependencies
+ * @return {Promise<*>}
+ */
+async function findUserForReconciliation(request, h, dependencies = { oidcSerializer }) {
+  const { email, password, identityProvider, authenticationKey } = request.deserializedPayload;
+
+  const result = await usecases.findUserForOidcReconciliation({
+    email,
+    password,
+    identityProvider,
+    authenticationKey,
+  });
+
+  return h.response(dependencies.oidcSerializer.serialize(result)).code(200);
+}
+
+/**
  * @typedef {function} getAuthorizationUrl
  * @param request
  * @param h
@@ -116,6 +136,7 @@ async function getRedirectLogoutUrl(request, h) {
 /**
  * @typedef {Object} OidcProviderController
  * @property {authenticateOidcUser} authenticateOidcUser
+ * @property {findUserForReconciliation} findUserForReconciliation
  * @property {getAuthorizationUrl} getAuthorizationUrl
  * @property {getIdentityProviders} getIdentityProviders
  * @property {getRedirectLogoutUrl} getRedirectLogoutUrl
@@ -123,6 +144,7 @@ async function getRedirectLogoutUrl(request, h) {
 export const oidcProviderController = {
   authenticateOidcUser,
   createUser,
+  findUserForReconciliation,
   getAuthorizationUrl,
   getIdentityProviders,
   getRedirectLogoutUrl,

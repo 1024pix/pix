@@ -2,6 +2,15 @@ import { cryptoService } from '../../../shared/domain/services/crypto-service.js
 import * as userLoginRepository from '../../../shared/infrastructure/repositories/user-login-repository.js';
 import { PasswordNotMatching } from '../errors.js';
 
+/**
+ * @typedef {function} getUserByUsernameAndPassword
+ * @param {Object} params
+ * @param {string} params.username
+ * @param {string} params.password
+ * @param {UserRepository} params.userRepository
+ * @param {Object} params.dependencies
+ * @return {Promise<User|UserNotFoundError|PasswordNotMatching>}
+ */
 async function getUserByUsernameAndPassword({
   username,
   password,
@@ -45,4 +54,8 @@ async function getUserByUsernameAndPassword({
   return foundUser;
 }
 
-export { getUserByUsernameAndPassword };
+/**
+ * @typedef {Object} PixAuthenticationService
+ * @property {getUserByUsernameAndPassword} getUserByUsernameAndPassword
+ */
+export const pixAuthenticationService = { getUserByUsernameAndPassword };

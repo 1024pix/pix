@@ -43,8 +43,8 @@ import * as stageCollectionForTargetProfileRepository from '../../../src/evaluat
 import * as stageRepository from '../../../src/evaluation/infrastructure/repositories/stage-repository.js';
 import { authenticationSessionService } from '../../../src/identity-access-management/domain/services/authentication-session.service.js';
 import { OidcAuthenticationServiceRegistry } from '../../../src/identity-access-management/domain/services/oidc-authentication-service-registry.js';
-import * as pixAuthenticationService from '../../../src/identity-access-management/domain/services/pix-authentication-service.js';
-import * as refreshTokenService from '../../../src/identity-access-management/domain/services/refresh-token-service.js';
+import { pixAuthenticationService } from '../../../src/identity-access-management/domain/services/pix-authentication-service.js';
+import { refreshTokenService } from '../../../src/identity-access-management/domain/services/refresh-token-service.js';
 import * as oidcProviderRepository from '../../../src/identity-access-management/infrastructure/repositories/oidc-provider-repository.js';
 import * as organizationForAdminRepository from '../../../src/organizational-entities/infrastructure/repositories/organization-for-admin-repository.js';
 import * as campaignManagementRepository from '../../../src/prescription/campaign/infrastructure/repositories/campaign-management-repository.js';
