@@ -1,5 +1,67 @@
 # Pix Changelog
 
+## v4.148.0 (23/05/2024)
+
+
+### :rocket: Amélioration
+- [#9005](https://github.com/1024pix/pix/pull/9005) [FEATURE] Passe le défi si un didactiel a été vu dans une des missions (PIX-12593).
+- [#9004](https://github.com/1024pix/pix/pull/9004) [FEATURE] Ne pas jouer deux fois le didacticiel (PIX-12571).
+- [#8989](https://github.com/1024pix/pix/pull/8989) [FEATURE] Montée de version ember de 4.12 à 5.8.0 (Pix-12432).
+- [#8976](https://github.com/1024pix/pix/pull/8976) [FEATURE] Enchainer les activités après le didacticiel (PIX-12566).
+- [#8945](https://github.com/1024pix/pix/pull/8945) [FEATURE] Permettre de rattacher un profil cible à une certification complementaire (PIX-12404).
+
+### :building_construction: Tech
+- [#8990](https://github.com/1024pix/pix/pull/8990) [TECH] Migrer les routes statistiques d'une campagne par jour / taux de réussite dans son BoundedContext (Pix-12604).
+- [#8766](https://github.com/1024pix/pix/pull/8766) [TECH] Mise à jour des contextes certif (PIX-12321).
+- [#8937](https://github.com/1024pix/pix/pull/8937) [TECH] Supprimer toutes les références au statut "partially" (PIX-11417).
+- [#8926](https://github.com/1024pix/pix/pull/8926) [TECH] Migrer la route POST /api/oidc/token vers src/identity-access-management (PIX-12524).
+- [#8967](https://github.com/1024pix/pix/pull/8967) [TECH] Ajouter des configurations pour exécuter les tests sur Webstorm.
+- [#8975](https://github.com/1024pix/pix/pull/8975) [TECH] Améliorer l'orchestration du usecase `verifyAndSaveAnswer` (PIX-12456).
+- [#8896](https://github.com/1024pix/pix/pull/8896) [TECH] Convertit les composants du dossier banner sur PixOrga au format GJS (PIX-12532).
+
+### :bug: Correction
+- [#8835](https://github.com/1024pix/pix/pull/8835) [BUGFIX] Réordonnancement des `fieldset` `legend` de Modulix (PIX-12382).
+- [#8971](https://github.com/1024pix/pix/pull/8971) [BUGFIX] Corriger l'affichage des inputs dans la modale de gestion du compte de l'élève sur Pix Orga (PIX-12469).
+- [#8954](https://github.com/1024pix/pix/pull/8954) [BUGFIX] Le InMemoryTemporaryStorage ne suit pas la TemporaryStorage API et est utilisé à tort dans les tests d'intégration (PIX-12551).
+- [#8962](https://github.com/1024pix/pix/pull/8962) [BUGFIX] Ne plus envoyer de 500 lors d'une recherche par ID invalide sur 2 pages PixAdmin (PIX-12576).
+
+### :arrow_up: Montée de version
+- [#9025](https://github.com/1024pix/pix/pull/9025) [BUMP] Update dependency @embroider/webpack to v4 (orga).
+- [#9026](https://github.com/1024pix/pix/pull/9026) [BUMP] Update dependency sinon to v18 (orga).
+- [#9024](https://github.com/1024pix/pix/pull/9024) [BUMP] Update dependency postgres to v14.12.
+- [#9023](https://github.com/1024pix/pix/pull/9023) [BUMP] Update dependency @1024pix/pix-ui to ^46.4.0 (certif).
+- [#9021](https://github.com/1024pix/pix/pull/9021) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.0 (orga).
+- [#9020](https://github.com/1024pix/pix/pull/9020) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.0 (load-testing).
+- [#9019](https://github.com/1024pix/pix/pull/9019) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.0 (junior).
+- [#9018](https://github.com/1024pix/pix/pull/9018) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.0 (dossier racine).
+- [#9017](https://github.com/1024pix/pix/pull/9017) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.0 (audit-logger).
+- [#9015](https://github.com/1024pix/pix/pull/9015) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.0 (api).
+- [#9014](https://github.com/1024pix/pix/pull/9014) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.0 (admin).
+- [#9013](https://github.com/1024pix/pix/pull/9013) [BUMP] Update adobe/s3mock Docker tag to v3.8.0 (dossier racine).
+- [#9012](https://github.com/1024pix/pix/pull/9012) [BUMP] Update adobe/s3mock Docker tag to v3.8.0 (docker).
+- [#9009](https://github.com/1024pix/pix/pull/9009) [BUMP] Update adobe/s3mock Docker tag to v3.8.0 (.circleci).
+- [#8965](https://github.com/1024pix/pix/pull/8965) [BUMP] Update dependency @1024pix/pix-ui to v46 (junior).
+- [#8978](https://github.com/1024pix/pix/pull/8978) [BUMP] Update dependency @1024pix/pix-ui to ^46.3.1 (PIX-12609).
+- [#9002](https://github.com/1024pix/pix/pull/9002) [BUMP] Update dependency @1024pix/pix-ui to ^46.4.0 (mon-pix).
+- [#9003](https://github.com/1024pix/pix/pull/9003) [BUMP] Update dependency @1024pix/pix-ui to ^46.4.0 (orga).
+- [#8973](https://github.com/1024pix/pix/pull/8973) [BUMP] Update dependency @embroider/webpack to v4 (junior).
+- [#8999](https://github.com/1024pix/pix/pull/8999) [BUMP] Update dependency eslint-plugin-n to v17 (admin).
+- [#8997](https://github.com/1024pix/pix/pull/8997) [BUMP] Update dependency @1024pix/pix-ui to ^46.3.1 (orga).
+- [#8996](https://github.com/1024pix/pix/pull/8996) [BUMP] Update dependency @1024pix/pix-ui to ^46.3.1 (mon-pix).
+- [#8994](https://github.com/1024pix/pix/pull/8994) [BUMP] Update dependency eslint-plugin-n to v17 (mon-pix).
+- [#8991](https://github.com/1024pix/pix/pull/8991) [BUMP] Update Node.js to v20.13.1.
+- [#8982](https://github.com/1024pix/pix/pull/8982) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.0 (certif).
+- [#8985](https://github.com/1024pix/pix/pull/8985) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.0 (mon-pix).
+- [#8987](https://github.com/1024pix/pix/pull/8987) [BUMP] Update dependency @1024pix/pix-ui to ^46.2.2 (mon-pix).
+- [#8988](https://github.com/1024pix/pix/pull/8988) [BUMP] Update dependency @1024pix/pix-ui to ^46.2.2 (orga).
+- [#8979](https://github.com/1024pix/pix/pull/8979) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.13 (admin).
+- [#8984](https://github.com/1024pix/pix/pull/8984) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.13 (load-testing).
+- [#8983](https://github.com/1024pix/pix/pull/8983) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.13 (dossier racine).
+- [#8981](https://github.com/1024pix/pix/pull/8981) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.13 (audit-logger).
+- [#8980](https://github.com/1024pix/pix/pull/8980) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.13 (api).
+- [#8986](https://github.com/1024pix/pix/pull/8986) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.13 (orga).
+- [#8970](https://github.com/1024pix/pix/pull/8970) [BUMP] Monter Ember.js en version 5 sur Pix App (PIX-12596).
+
 ## v4.147.0 (21/05/2024)
 
 
