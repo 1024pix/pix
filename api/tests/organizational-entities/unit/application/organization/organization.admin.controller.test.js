@@ -1,6 +1,6 @@
-import { organizationAdminController } from '../../../../src/organizational-entities/application/organization.admin.controller.js';
-import { usecases } from '../../../../src/organizational-entities/domain/usecases/index.js';
-import { expect, hFake, sinon } from '../../../test-helper.js';
+import { organizationAdminController } from '../../../../../src/organizational-entities/application/organization/organization.admin.controller.js';
+import { usecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
+import { expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Organizational Entities | Application | Controller | Admin | organization', function () {
   let filePath, request;

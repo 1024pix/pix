@@ -1,13 +1,13 @@
-import { organizationAdminController } from '../../../../src/organizational-entities/application/organization.admin.controller.js';
-import { organizationalEntitiesRoutes } from '../../../../src/organizational-entities/application/routes.js';
+import { organizationAdminController } from '../../../../../src/organizational-entities/application/organization/organization.admin.controller.js';
+import { organizationalEntitiesRoutes } from '../../../../../src/organizational-entities/application/routes.js';
 import {
   AlreadyExistingOrganizationFeatureError,
   FeatureNotFound,
   FeatureParamsNotProcessable,
   OrganizationNotFound,
-} from '../../../../src/organizational-entities/domain/errors.js';
-import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
+} from '../../../../../src/organizational-entities/domain/errors.js';
+import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
+import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Router | organization-router', function () {
   describe('POST /api/admin/organizations/add-organization-features', function () {

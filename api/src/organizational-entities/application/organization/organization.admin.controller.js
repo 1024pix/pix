@@ -1,4 +1,4 @@
-import { usecases } from '../domain/usecases/index.js';
+import { usecases } from '../../domain/usecases/index.js';
 
 const attachChildOrganization = async function (request, h) {
   const { childOrganizationId } = request.payload;
