@@ -44,8 +44,8 @@ describe('Unit | UseCase | remove-authentication-method', function () {
     ];
   }
 
-  context('When type is EMAIL', function () {
-    const type = 'EMAIL';
+  context('When authentication method type is EMAIL', function () {
+    const authenticationMethodType = 'EMAIL';
 
     it('should set the email to null', async function () {
       // given
@@ -57,7 +57,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       // when
       await removeAuthenticationMethod({
         userId: user.id,
-        type,
+        authenticationMethodType,
         userRepository,
         authenticationMethodRepository,
       });
@@ -77,7 +77,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
         // when
         await removeAuthenticationMethod({
           userId: user.id,
-          type,
+          authenticationMethodType,
           userRepository,
           authenticationMethodRepository,
         });
@@ -101,7 +101,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
         // when
         await removeAuthenticationMethod({
           userId: user.id,
-          type,
+          authenticationMethodType,
           userRepository,
           authenticationMethodRepository,
         });
@@ -112,8 +112,8 @@ describe('Unit | UseCase | remove-authentication-method', function () {
     });
   });
 
-  context('When type is USERNAME', function () {
-    const type = 'USERNAME';
+  context('When authentication method type is USERNAME', function () {
+    const authenticationMethodType = 'USERNAME';
 
     it('should set the username to null', async function () {
       // given
@@ -125,7 +125,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       // when
       await removeAuthenticationMethod({
         userId: user.id,
-        type,
+        authenticationMethodType,
         userRepository,
         authenticationMethodRepository,
       });
@@ -145,7 +145,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
         // when
         await removeAuthenticationMethod({
           userId: user.id,
-          type,
+          authenticationMethodType,
           userRepository,
           authenticationMethodRepository,
         });
@@ -169,7 +169,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
         // when
         await removeAuthenticationMethod({
           userId: user.id,
-          type,
+          authenticationMethodType,
           userRepository,
           authenticationMethodRepository,
         });
@@ -180,8 +180,8 @@ describe('Unit | UseCase | remove-authentication-method', function () {
     });
   });
 
-  context('When type is GAR', function () {
-    const type = 'GAR';
+  context('When authentication method type is GAR', function () {
+    const authenticationMethodType = 'GAR';
 
     it('removes GAR authentication method', async function () {
       // given
@@ -193,7 +193,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       // when
       await removeAuthenticationMethod({
         userId: user.id,
-        type,
+        authenticationMethodType,
         userRepository,
         authenticationMethodRepository,
       });
@@ -206,10 +206,10 @@ describe('Unit | UseCase | remove-authentication-method', function () {
     });
   });
 
-  context('When type is POLE_EMPLOI', function () {
+  context('When authentication method type is POLE_EMPLOI', function () {
     it('removes POLE_EMPLOI authentication method', async function () {
       // given
-      const type = OidcIdentityProviders.POLE_EMPLOI.code;
+      const authenticationMethodType = OidcIdentityProviders.POLE_EMPLOI.code;
       const user = domainBuilder.buildUser();
       userRepository.get.resolves(user);
       const authenticationMethods = buildPIXAndGARAndPoleEmploiAuthenticationMethod(user.id);
@@ -218,7 +218,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       // when
       await removeAuthenticationMethod({
         userId: user.id,
-        type,
+        authenticationMethodType,
         userRepository,
         authenticationMethodRepository,
       });
@@ -230,11 +230,11 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       });
     });
   });
-  context('When type is a generic OIDC SSO', function () {
+  context('When authentication method type is a generic OIDC SSO', function () {
     it('removes the identity provider authentication method', async function () {
       // given
 
-      const type = 'genericOidcProviderCode';
+      const authenticationMethodType = 'genericOidcProviderCode';
       const user = domainBuilder.buildUser();
       userRepository.get.resolves(user);
       const authenticationMethods = buildAllAuthenticationMethodsForUser(user.id);
@@ -243,7 +243,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       // when
       await removeAuthenticationMethod({
         userId: user.id,
-        type,
+        authenticationMethodType,
         userRepository,
         authenticationMethodRepository,
       });
@@ -251,7 +251,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       // then
       expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWithExactly({
         userId: user.id,
-        identityProvider: type,
+        identityProvider: authenticationMethodType,
       });
     });
   });
@@ -268,7 +268,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       // when
       const error = await catchErr(removeAuthenticationMethod)({
         userId: user.id,
-        type: 'EMAIL',
+        authenticationMethodType: 'EMAIL',
         userRepository,
         authenticationMethodRepository,
       });
@@ -289,7 +289,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       // when
       await catchErr(removeAuthenticationMethod)({
         userId: user.id,
-        type: 'EMAIL',
+        authenticationMethodType: 'EMAIL',
         userRepository,
         authenticationMethodRepository,
       });

@@ -4,12 +4,12 @@ import { UserNotAuthorizedToRemoveAuthenticationMethod } from '../errors.js';
 
 export const removeAuthenticationMethod = async function ({
   userId,
-  type,
+  authenticationMethodType,
   userRepository,
   authenticationMethodRepository,
 }) {
   const user = await userRepository.get(userId);
-  switch (type) {
+  switch (authenticationMethodType) {
     case 'EMAIL':
       if (!user.username) {
         await _removeAuthenticationMethod(userId, NON_OIDC_IDENTITY_PROVIDERS.PIX.code, authenticationMethodRepository);
@@ -29,7 +29,7 @@ export const removeAuthenticationMethod = async function ({
       await _removeAuthenticationMethod(userId, OidcIdentityProviders.POLE_EMPLOI.code, authenticationMethodRepository);
       break;
     default:
-      await _removeAuthenticationMethod(userId, type, authenticationMethodRepository);
+      await _removeAuthenticationMethod(userId, authenticationMethodType, authenticationMethodRepository);
   }
 };
 
