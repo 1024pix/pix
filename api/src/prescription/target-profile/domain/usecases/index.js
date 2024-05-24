@@ -9,6 +9,7 @@ import * as targetProfileForAdminRepository from '../../../../shared/infrastruct
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as organizationsToAttachToTargetProfileRepository from '../../infrastructure/repositories/organizations-to-attach-to-target-profile-repository.js';
+import * as targetProfileAdministrationRepository from '../../infrastructure/repositories/target-profile-administration-repository.js';
 import * as targetProfileBondRepository from '../../infrastructure/repositories/target-profile-bond-repository.js';
 import * as targetProfileForSpecifierRepository from '../../infrastructure/repositories/target-profile-for-specifier-repository.js';
 
@@ -21,6 +22,7 @@ const dependencies = {
   organizationsToAttachToTargetProfileRepository,
   targetProfileRepository,
   targetProfileBondRepository,
+  targetProfileAdministrationRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
