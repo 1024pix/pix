@@ -696,8 +696,8 @@
         }
       },
       "has-focused-out-of-window": {
-        "certification": "We hebben een paginawissel geconstateerd. Je antwoord wordt als fout gerekend.'<br>'Als je gedwongen werd om van pagina te wisselen, informeer dan je supervisor en beantwoord de vraag in zijn of haar aanwezigheid.",
-        "default": "We hebben een paginawijziging gedetecteerd.'<br> 'In certificering zou uw antwoord niet worden gevalideerd.",
+        "certification": "We hebben een paginawissel geconstateerd. Je antwoord wordt als fout gerekend. Als je gedwongen werd om van pagina te wisselen, informeer dan je supervisor en beantwoord de vraag in zijn of haar aanwezigheid.",
+        "default": "We hebben een paginawijziging gedetecteerd. In certificering zou uw antwoord niet worden gevalideerd.",
         "v3-certification": "We hebben een paginawijziging gedetecteerd. Je antwoord wordt als fout geteld. Als je gedwongen werd om van pagina te veranderen, vertel dit dan aan je supervisor zodat hij of zij dit kan zien en rapporteren, indien nodig."
       },
       "illustration": {
