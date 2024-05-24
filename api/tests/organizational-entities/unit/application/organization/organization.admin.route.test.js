@@ -25,7 +25,7 @@ describe('Unit | Router | organization-router', function () {
       await httpTestServer.register(organizationalEntitiesRoutes[0]);
     });
 
-    it('should return call the `checkAdminMemberHasRoleSuperAdmin` security prehandler', async function () {
+    it('returns call the "checkAdminMemberHasRoleSuperAdmin" security prehandler', async function () {
       // given
       organizationAdminController.addOrganizationFeatureInBatch.resolves(true);
 
@@ -36,7 +36,7 @@ describe('Unit | Router | organization-router', function () {
       expect(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin).to.have.been.calledOnce;
     });
 
-    it('should return call the `addOrganizationFeatureInBatch` controller', async function () {
+    it('returns call the "addOrganizationFeatureInBatch" controller', async function () {
       // given
       organizationAdminController.addOrganizationFeatureInBatch.resolves(true);
 
@@ -50,44 +50,54 @@ describe('Unit | Router | organization-router', function () {
       expect(organizationAdminController.addOrganizationFeatureInBatch).to.have.been.calledOnce;
     });
 
-    it('return a 422 status code when trying to add feature on non existing organization', async function () {
-      organizationAdminController.addOrganizationFeatureInBatch.rejects(new OrganizationNotFound());
+    context('when trying to add feature on non existing organization', function () {
+      it('returns a 422 HTTP status code', async function () {
+        organizationAdminController.addOrganizationFeatureInBatch.rejects(new OrganizationNotFound());
 
-      // when
-      const response = await httpTestServer.request(method, url, payload);
+        // when
+        const response = await httpTestServer.request(method, url, payload);
 
-      // then
-      expect(response.statusCode).to.equal(422);
+        // then
+        expect(response.statusCode).to.equal(422);
+      });
     });
 
-    it('return a 422 status code when trying to add non existing feature', async function () {
-      organizationAdminController.addOrganizationFeatureInBatch.rejects(new FeatureNotFound());
+    context('when trying to add non existing feature', function () {
+      it('returns a 422 HTTP status code', async function () {
+        organizationAdminController.addOrganizationFeatureInBatch.rejects(new FeatureNotFound());
 
-      // when
-      const response = await httpTestServer.request(method, url, payload);
+        // when
+        const response = await httpTestServer.request(method, url, payload);
 
-      // then
-      expect(response.statusCode).to.equal(422);
+        // then
+        expect(response.statusCode).to.equal(422);
+      });
     });
 
-    it('return a 422 status code when trying to add non processable params', async function () {
-      organizationAdminController.addOrganizationFeatureInBatch.rejects(new FeatureParamsNotProcessable());
+    context('when trying to add non processable params', function () {
+      it('returns a 422 HTTP status code', async function () {
+        organizationAdminController.addOrganizationFeatureInBatch.rejects(new FeatureParamsNotProcessable());
 
-      // when
-      const response = await httpTestServer.request(method, url, payload);
+        // when
+        const response = await httpTestServer.request(method, url, payload);
 
-      // then
-      expect(response.statusCode).to.equal(422);
+        // then
+        expect(response.statusCode).to.equal(422);
+      });
     });
 
-    it('return a 409 status code when trying to add already existing feature on organization', async function () {
-      organizationAdminController.addOrganizationFeatureInBatch.rejects(new AlreadyExistingOrganizationFeatureError());
+    context('when trying to add already existing feature on organization', function () {
+      it('returns a 409 HTTP status code', async function () {
+        organizationAdminController.addOrganizationFeatureInBatch.rejects(
+          new AlreadyExistingOrganizationFeatureError(),
+        );
 
-      // when
-      const response = await httpTestServer.request(method, url, payload);
+        // when
+        const response = await httpTestServer.request(method, url, payload);
 
-      // then
-      expect(response.statusCode).to.equal(409);
+        // then
+        expect(response.statusCode).to.equal(409);
+      });
     });
   });
 });
