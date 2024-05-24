@@ -47,14 +47,12 @@ const saveInSession = async function ({
 
   for (const type of certificationCandidate.subscriptions) {
     if (type === SubscriptionTypes.CORE) {
-      await _insertCertificationSubscription({
-        type,
+      await _insertCoreSubscription({
         certificationCandidateId,
         knexTransaction,
       });
     } else if (type === SubscriptionTypes.COMPLEMENTARY) {
-      await _insertCertificationSubscription({
-        type,
+      await _insertComplementarySubscription({
         complementaryCertificationId: certificationCandidate.complementaryCertification.id,
         certificationCandidateId,
         knexTransaction,
@@ -233,14 +231,21 @@ export {
   update,
 };
 
-async function _insertCertificationSubscription({
+async function _insertCoreSubscription({ certificationCandidateId, knexTransaction }) {
+  return knexTransaction('certification-subscriptions').insert({
+    type: SubscriptionTypes.CORE,
+    certificationCandidateId,
+    complementaryCertificationId: null,
+  });
+}
+
+async function _insertComplementarySubscription({
   complementaryCertificationId,
   certificationCandidateId,
-  type,
   knexTransaction,
 }) {
   return knexTransaction('certification-subscriptions').insert({
-    type,
+    type: SubscriptionTypes.COMPLEMENTARY,
     complementaryCertificationId,
     certificationCandidateId,
   });
