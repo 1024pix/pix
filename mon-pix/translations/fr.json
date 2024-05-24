@@ -758,6 +758,12 @@
           "alternative-instruction": "Cette épreuve contient une illustration avec une alternative textuelle.",
           "embed": "Cette épreuve contient un simulateur."
         },
+        "text-to-speech": {
+          "activate": "Activer la vocalisation",
+          "deactivate": "Désactiver la vocalisation",
+          "play": "Lire à haute voix",
+          "stop": "Arrêter la lecture"
+        },
         "tooltip": {
           "aria-label": "Afficher l'indication sur l'épreuve.",
           "close": "J'ai compris",

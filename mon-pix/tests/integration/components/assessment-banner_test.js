@@ -1,7 +1,9 @@
 import { render } from '@1024pix/ember-testing-library';
+import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
@@ -93,6 +95,58 @@ module('Integration | Component | assessment-banner', function (hooks) {
 
       // then
       assert.dom(screen.queryByRole('heading', { name: "Épreuve pour l'évaluation :" })).doesNotExist();
+    });
+  });
+
+  module('when the text to speech feature toggle is enabled', function (hooks) {
+    hooks.beforeEach(async function () {
+      this.owner.lookup('service:store');
+      class FeatureTogglesStub extends Service {
+        featureToggles = { isTextToSpeechButtonEnabled: true };
+      }
+      this.owner.register('service:featureToggles', FeatureTogglesStub);
+    });
+
+    test('it should display text to speech toggle button', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      store.createRecord('assessment', {
+        title: 'Assessment title',
+      });
+      this.set('toggleTextToSpeech', sinon.stub());
+
+      // when
+      const screen = await render(
+        hbs`<AssessmentBanner @displayHomeLink={{true}} @title={{this.title}} @isTextToSpeechActivated={{true}} @toggleTextToSpeech={{this.toggleTextToSpeech}}/>`,
+      );
+
+      // then
+      assert.dom(screen.getByRole('button', { name: 'Désactiver la vocalisation' })).exists();
+    });
+  });
+
+  module('when the text to speech feature toggle is disabled', function (hooks) {
+    hooks.beforeEach(async function () {
+      this.owner.lookup('service:store');
+      class FeatureTogglesStub extends Service {
+        featureToggles = { isTextToSpeechButtonEnabled: false };
+      }
+      this.owner.register('service:featureToggles', FeatureTogglesStub);
+    });
+
+    test('it should not display text to speech toggle button', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      store.createRecord('assessment', {});
+      this.set('toggleTextToSpeech', sinon.stub());
+
+      // when
+      const screen = await render(
+        hbs`<AssessmentBanner @displayHomeLink={{true}} @displayTextToSpeechActivationButton={{true}} @isTextToSpeechActivated={{true}} @toggleTextToSpeech={{this.toggleTextToSpeech}}/>`,
+      );
+
+      // then
+      assert.dom(screen.queryByRole('button', { name: 'Désactiver la vocalisation' })).doesNotExist();
     });
   });
 });
