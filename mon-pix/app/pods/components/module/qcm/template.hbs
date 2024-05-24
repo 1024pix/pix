@@ -48,9 +48,9 @@
 
   <div class="element-qcm__feedback" role="status" tabindex="-1">
     {{#if this.shouldDisplayFeedback}}
-      <PixMessage @type={{this.feedbackType}} @withIcon={{true}} class="element-qcm-feedback__message">
+      <Modulix::Feedback @answerIsValid={{this.answerIsValid}}>
         {{html-unsafe this.correction.feedback}}
-      </PixMessage>
+      </Modulix::Feedback>
     {{/if}}
   </div>
 

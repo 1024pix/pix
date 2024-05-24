@@ -6,7 +6,7 @@ import createPodsComponent from '../../../helpers/create-pods-component';
 module('Unit | Component | Module | QCU', function (hooks) {
   setupTest(hooks);
 
-  module('#feedbackType', function () {
+  module('#answerIsValid', function () {
     module('When correction status is ko', function () {
       test('should be error', async function (assert) {
         // given
@@ -20,10 +20,10 @@ module('Unit | Component | Module | QCU', function (hooks) {
         const component = createPodsComponent('module/qcu', { qcu: qcuElement, correction: correctionResponse });
 
         // when
-        const feedbackType = component.feedbackType;
+        const answerIsValid = component.answerIsValid;
 
         // then
-        assert.strictEqual(feedbackType, 'error');
+        assert.strictEqual(answerIsValid, false);
       });
     });
 
@@ -40,10 +40,10 @@ module('Unit | Component | Module | QCU', function (hooks) {
         const component = createPodsComponent('module/qcu', { qcu: qcuElement, correction: correctionResponse });
 
         // when
-        const feedbackType = component.feedbackType;
+        const answerIsValid = component.answerIsValid;
 
         // then
-        assert.strictEqual(feedbackType, 'success');
+        assert.strictEqual(answerIsValid, true);
       });
     });
   });
