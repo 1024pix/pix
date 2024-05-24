@@ -1,8 +1,8 @@
 import { knex } from '../../../../db/knex-database-connection.js';
+import { CertificationCandidateForSupervising } from '../../../../src/certification/session-management/domain/models/CertificationCandidateForSupervising.js';
+import { CertificationCandidateForSupervisingV3 } from '../../../../src/certification/session-management/domain/models/CertificationCandidateForSupervisingV3.js';
 import { CertificationChallengeLiveAlertStatus } from '../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
 import { CertificationVersion } from '../../../../src/certification/shared/domain/models/CertificationVersion.js';
-import { CertificationCandidateForSupervising } from '../../../../src/certification/supervision/domain/models/CertificationCandidateForSupervising.js';
-import { CertificationCandidateForSupervisingV3 } from '../../../../src/certification/supervision/domain/models/CertificationCandidateForSupervisingV3.js';
 import { NotFoundError } from '../../../domain/errors.js';
 import { ComplementaryCertificationForSupervising } from '../../../domain/models/ComplementaryCertificationForSupervising.js';
 import { SessionForSupervising } from '../../../domain/read-models/SessionForSupervising.js';

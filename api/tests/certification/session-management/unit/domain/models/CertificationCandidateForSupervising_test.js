@@ -1,4 +1,4 @@
-import { domainBuilder, expect } from '../../../test-helper.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | Certification Candidate for supervising', function () {
   describe('#authorizeToStart', function () {
