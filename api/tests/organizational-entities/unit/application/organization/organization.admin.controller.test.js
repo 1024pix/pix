@@ -27,4 +27,29 @@ describe('Unit | Organizational Entities | Application | Controller | Admin | or
       });
     });
   });
+
+  describe('#updateOrganizationsInBatch', function () {
+    let filePath, request;
+
+    beforeEach(function () {
+      filePath = Symbol('filePath');
+      request = { payload: { path: filePath } };
+      sinon.stub(usecases, 'updateOrganizationsInBatch').resolves();
+    });
+
+    it('calls the usecase to update organizations', async function () {
+      // given
+      hFake.request = {
+        path: '/api/admin/organizations/update-organizations',
+      };
+
+      // when
+      await organizationAdminController.updateOrganizationsInBatch(request, hFake);
+
+      // then
+      expect(usecases.updateOrganizationsInBatch).to.have.been.calledWithExactly({
+        filePath,
+      });
+    });
+  });
 });
