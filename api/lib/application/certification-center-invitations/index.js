@@ -2,6 +2,7 @@ import Joi from 'joi';
 
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
+import { certificationCenterInvitationAdminController } from '../../../src/team/application/certification-center-invitation/certification-center-invitation.admin.controller.js';
 import { certificationCenterInvitationController } from './certification-center-invitation-controller.js';
 
 const register = async function (server) {
@@ -54,7 +55,7 @@ const register = async function (server) {
       method: 'DELETE',
       path: '/api/certification-center-invitations/{certificationCenterInvitationId}',
       config: {
-        handler: certificationCenterInvitationController.cancelCertificationCenterInvitation,
+        handler: certificationCenterInvitationAdminController.cancelCertificationCenterInvitation,
         pre: [
           {
             method: securityPreHandlers.checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationId,

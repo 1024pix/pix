@@ -28,12 +28,6 @@ const getCertificationCenterInvitation = async function (request) {
   return certificationCenterInvitationSerializer.serialize(certificationCenterInvitation);
 };
 
-const cancelCertificationCenterInvitation = async function (request, h) {
-  const certificationCenterInvitationId = request.params.certificationCenterInvitationId;
-  await usecases.cancelCertificationCenterInvitation({ certificationCenterInvitationId });
-  return h.response().code(204);
-};
-
 const resendCertificationCenterInvitation = async function (request, h) {
   const certificationCenterInvitationId = request.params.certificationCenterInvitationId;
   const locale = requestResponseUtils.extractLocaleFromRequest(request);
@@ -49,7 +43,6 @@ const resendCertificationCenterInvitation = async function (request, h) {
 const certificationCenterInvitationController = {
   acceptCertificationCenterInvitation,
   getCertificationCenterInvitation,
-  cancelCertificationCenterInvitation,
   resendCertificationCenterInvitation,
 };
 

@@ -1,6 +1,5 @@
 import Joi from 'joi';
 
-import { certificationCenterInvitationController } from '../../../../lib/application/certification-center-invitations/certification-center-invitation-controller.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { certificationCenterInvitationAdminController } from './certification-center-invitation.admin.controller.js';
@@ -68,7 +67,7 @@ export const certificationCenterInvitationAdminRoutes = [
           certificationCenterInvitationId: identifiersType.certificationCenterInvitationId,
         }),
       },
-      handler: certificationCenterInvitationController.cancelCertificationCenterInvitation,
+      handler: certificationCenterInvitationAdminController.cancelCertificationCenterInvitation,
       tags: ['api', 'admin', 'invitations', 'certification-center', 'cancel'],
       notes: [
         "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
