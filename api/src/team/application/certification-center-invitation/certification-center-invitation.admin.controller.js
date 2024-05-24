@@ -1,4 +1,3 @@
-import { usecases as libUsecases } from '../../../../lib/domain/usecases/index.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { certificationCenterInvitationSerializer } from '../../infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
 
@@ -11,7 +10,7 @@ import { certificationCenterInvitationSerializer } from '../../infrastructure/se
  */
 const cancelCertificationCenterInvitation = async function (request, h) {
   const certificationCenterInvitationId = request.params.certificationCenterInvitationId;
-  await libUsecases.cancelCertificationCenterInvitation({ certificationCenterInvitationId });
+  await usecases.cancelCertificationCenterInvitation({ certificationCenterInvitationId });
   return h.response().code(204);
 };
 
