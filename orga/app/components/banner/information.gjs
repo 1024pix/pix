@@ -27,11 +27,15 @@ export default class InformationBanner extends Component {
     return this.currentUser.isSCOManagingStudents && timeToDisplay.includes(actualMonth);
   }
 
+  get year() {
+    return this.dayjs.self().format('YYYY');
+  }
+
   <template>
     {{#if this.displayNewYearOrganizationLearnersImportBanner}}
       <NewYearBanner />
     {{else if this.displayCertificationBanner}}
-      <CertificationBanner />
+      <CertificationBanner @year={{this.year}} />
     {{/if}}
   </template>
 }
@@ -54,6 +58,7 @@ const CertificationBanner = <template>
       documentationLink="https://view.genial.ly/62cd67b161c1e3001759e818?idSlide=0f1b3413-7fef-4c97-b890-675c5bafbe93"
       linkClasses="link link--banner link--bold link--underlined"
       htmlSafe=true
+      year=@year
     }}
   </PixBanner>
 </template>;

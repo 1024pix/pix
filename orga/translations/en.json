@@ -55,7 +55,7 @@
   },
   "banners": {
     "certification": {
-      "message": "'<strong>'Certifications :'</strong>' n’oubliez pas de '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'finaliser les sessions dans Pix Certif'</a>' puis de télécharger les attestations ici via l'onglet “Certifications” avant la rentrée 2023."
+      "message": "'<strong>'Certifications :'</strong>' n’oubliez pas de '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'finaliser les sessions dans Pix Certif'</a>' puis de télécharger les attestations ici via l'onglet “Certifications” avant la rentrée {year}."
     },
     "import": {
       "message": "The administrator can download certification results and '<'a href=\"/import-participants\" class=\"{linkClasses}\"'>'import'</a>' the students database to create back-to-school campaigns by year level. '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Learn more'</a>'"

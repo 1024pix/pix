@@ -55,7 +55,7 @@
   },
   "banners": {
     "certification": {
-      "message": "'<strong>'Certifications :'</strong>' n’oubliez pas de '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'finaliser les sessions dans Pix Certif'</a>' puis de télécharger les attestations ici via l'onglet “Certifications” avant la rentrée 2023."
+      "message": "'<strong>'Certifications :'</strong>' n’oubliez pas de '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'finaliser les sessions dans Pix Certif'</a>' puis de télécharger les attestations ici via l'onglet “Certifications” avant la rentrée {year}."
     },
     "import": {
       "message": "L'administrateur peut télécharger les résultats de certification et '<'a href=\"/import-participants\" class=\"{linkClasses}\"'>'importer'</a>' la base élèves, afin de créer les campagnes de rentrée par niveau. '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Plus d’info'</a>'"
