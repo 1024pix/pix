@@ -1,0 +1,15 @@
+<section class="page-section">
+  <header class="page-section__header">
+    <h2 class="page-section__title">{{t "components.administration.update-organizations-in-batch.title"}}</h2>
+  </header>
+  <p>{{t "components.administration.update-organizations-in-batch.description"}}</p>
+  <br />
+  <PixButtonUpload
+    @id="update-organizations-in-batch-file-upload"
+    @onChange={{this.updateOrganizationsInBatch}}
+    @variant="secondary"
+    accept=".csv"
+  >
+    {{t "components.administration.update-organizations-in-batch.upload-button"}}
+  </PixButtonUpload>
+</section>

@@ -35,7 +35,7 @@
     "administration": {
       "add-organization-features-in-batch": {
         "title": "Activation de fonctionnalités",
-        "description": "Note: Chercher à activer à nouveau des fonctionnalites déjà existantes sur une organisation renverrait une erreur.",
+        "description": "Note: Chercher à activer à nouveau des fonctionnalités déjà existantes sur une organisation renverrait une erreur.",
         "notifications": {
           "success": "Les fonctionnalités ont bien été activés."
         },
@@ -97,6 +97,14 @@
           },
           "success": "Le code campagne a bien été modifié."
         }
+      },
+      "update-organizations-in-batch": {
+        "title": "Modification des organisations en masse",
+        "description": "Note: Seules les colonnes ayant une valeur seront modifiées.",
+        "notifications": {
+          "success": "Les organisations ont bien été modifiées."
+        },
+        "upload-button": "Importer un fichier CSV"
       }
     },
     "certification-centers": {
