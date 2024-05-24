@@ -30,6 +30,7 @@ const schema = Joi.object({
   NODE_ENV: Joi.string().optional().valid('development', 'test', 'production'),
   FT_ALWAYS_OK_VALIDATE_NEXT_CHALLENGE: Joi.string().optional().valid('true', 'false'),
   FT_ENABLE_PIX_PLUS_LOWER_LEVEL: Joi.string().optional().valid('true', 'false'),
+  FT_ENABLE_TEXT_TO_SPEECH_BUTTON: Joi.string().optional().valid('true', 'false'),
   POLE_EMPLOI_CLIENT_ID: Joi.string().optional(),
   POLE_EMPLOI_CLIENT_SECRET: Joi.string().optional(),
   POLE_EMPLOI_TOKEN_URL: Joi.string().uri().optional(),
