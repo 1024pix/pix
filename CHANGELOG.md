@@ -1,5 +1,29 @@
 # Pix Changelog
 
+## v4.149.0 (24/05/2024)
+
+
+### :rocket: Amélioration
+- [#8992](https://github.com/1024pix/pix/pull/8992) [FEATURE] Updated translations from Phrase.
+- [#9032](https://github.com/1024pix/pix/pull/9032) [FEATURE] Ajouter les modèles liés au Stepper (PIX-12620).
+- [#8821](https://github.com/1024pix/pix/pull/8821) [FEATURE] Dégradation du score d'une certification non terminée (PIX-12315).
+- [#9007](https://github.com/1024pix/pix/pull/9007) [FEATURE] Ajouter un stepper dans le referentiel de Modulix (PIX-12619).
+
+### :building_construction: Tech
+- [#9033](https://github.com/1024pix/pix/pull/9033) [TECH] Passe les composants de cartes et de graphiques au format GJS sur PixOrga (PIX-12647).
+- [#9008](https://github.com/1024pix/pix/pull/9008) [TECH] Migrer la route POST /api/oidc/user/check-reconciliation vers src/identity-access-management (PIX-12618).
+- [#8913](https://github.com/1024pix/pix/pull/8913) [TECH] Supprimer les constantes spécifiques des fournisseurs d'identité OIDC (PIX-12428).
+- [#9006](https://github.com/1024pix/pix/pull/9006) [TECH] Migrer le modèle Organization.js dans src/organizational-entities/ (PIX-12606).
+
+### :bug: Correction
+- [#9001](https://github.com/1024pix/pix/pull/9001) [BUGFIX] Unifier les status et score sur la page de détails admin pour les certif v3 (PIX-12061).
+- [#9000](https://github.com/1024pix/pix/pull/9000) [BUGFIX] met à jour la date dans la banniere d'info sur orga (Pix-12533).
+
+### :arrow_up: Montée de version
+- [#9031](https://github.com/1024pix/pix/pull/9031) [BUMP] Update dependency @embroider/webpack to v4 (certif).
+- [#9022](https://github.com/1024pix/pix/pull/9022) [BUMP] Update dependency @1024pix/pix-ui to ^46.4.0 (admin).
+- [#9027](https://github.com/1024pix/pix/pull/9027) [BUMP] Lock file maintenance (orga).
+
 ## v4.148.0 (23/05/2024)
 
 
