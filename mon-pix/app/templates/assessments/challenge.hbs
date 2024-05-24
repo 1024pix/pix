@@ -30,7 +30,12 @@
         @shouldBlurBanner={{this.shouldBlurBanner}}
       />
     {{else}}
-      <AssessmentBanner @title={{@model.assessment.title}} @displayHomeLink={{this.displayHomeLink}} />
+      <AssessmentBanner
+        @title={{@model.assessment.title}}
+        @displayHomeLink={{this.displayHomeLink}}
+        @isTextToSpeechActivated={{this.isTextToSpeechActivated}}
+        @toggleTextToSpeech={{this.toggleTextToSpeech}}
+      />
     {{/if}}
   </div>
 
@@ -63,6 +68,7 @@
         @onFocusOutOfWindow={{this.focusedOutOfWindow}}
         @hasFocusedOutOfWindow={{this.hasFocusedOutOfWindow}}
         @isFocusedChallengeAndUserHasFocusedOutOfChallenge={{this.isFocusedChallengeAndUserHasFocusedOutOfChallenge}}
+        @isTextToSpeechActivated={{this.isTextToSpeechActivated}}
       />
     {{/if}}
   </main>
