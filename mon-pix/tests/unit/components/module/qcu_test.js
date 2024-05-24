@@ -23,7 +23,7 @@ module('Unit | Component | Module | QCU', function (hooks) {
         const answerIsValid = component.answerIsValid;
 
         // then
-        assert.strictEqual(answerIsValid, false);
+        assert.false(answerIsValid);
       });
     });
 
@@ -43,7 +43,7 @@ module('Unit | Component | Module | QCU', function (hooks) {
         const answerIsValid = component.answerIsValid;
 
         // then
-        assert.strictEqual(answerIsValid, true);
+        assert.true(answerIsValid);
       });
     });
   });
