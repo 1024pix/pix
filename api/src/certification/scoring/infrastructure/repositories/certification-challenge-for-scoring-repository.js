@@ -9,7 +9,8 @@ export const getByCertificationCourseId = async ({ certificationCourseId }) => {
       difficulty: 'difficulty',
       certificationChallengeId: 'id',
     })
-    .where({ courseId: certificationCourseId });
+    .where({ courseId: certificationCourseId })
+    .orderBy('createdAt', 'asc');
 
   return _toDomain(certificationChallengesForScoringDTO);
 };
