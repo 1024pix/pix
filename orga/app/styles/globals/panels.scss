@@ -28,6 +28,10 @@
   .panel-header-title {
     margin: 0;
   }
+
+  &--with-right-content {
+    justify-content: space-between;
+  }
 }
 
 .panel-header__body {
@@ -94,7 +98,6 @@
 }
 
 .navbar {
-  display: flex;
   display: flex;
   width: 100%;
   min-height: 60px;

@@ -317,6 +317,10 @@
       "title": "Résultats de {firstName} {lastName}",
       "badges": "Résultats Thématiques",
       "breadcrumb-current-page-label": "Participation de {firstName} {lastName}",
+      "participation-label": "Participation #{participationNumber}",
+      "participation-selector": "Choisir une participation",
+      "participation-shared": "Résultats envoyés",
+      "participation-to-share": "Résultats non-envoyés",
       "progression": "Avancement",
       "result": "Résultat",
       "tab": {

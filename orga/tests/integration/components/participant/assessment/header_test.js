@@ -1,6 +1,8 @@
-import { render } from '@1024pix/ember-testing-library';
+import { render, within } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
@@ -27,7 +29,128 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
     );
 
     // then
-    assert.dom(screen.getByText('Jean La fripouille')).exists();
+    assert.ok(screen.getByText('Jean La fripouille'));
+  });
+
+  module('participation selector', function () {
+    module('for campaign not multipleSending', function () {
+      test('it should not be displayed', async function (assert) {
+        this.participation = {
+          firstName: 'Jean',
+          lastName: 'La fripouille',
+          id: 12345,
+        };
+        this.campaign = { multipleSendings: false };
+        this.allParticipations = [this.participation];
+
+        const screen = await render(
+          hbs`<Participant::Assessment::Header
+  @participation={{this.participation}}
+  @campaign={{this.campaign}}
+  @allParticipations={{this.allParticipations}}
+/>`,
+        );
+
+        assert.notOk(
+          screen.queryByLabelText(this.intl.t('pages.assessment-individual-results.participation-selector')),
+        );
+      });
+    });
+
+    module('for multipleSending campaigns', function () {
+      test('it should have categories for participations options', async function (assert) {
+        this.participation = {
+          firstName: 'Jean',
+          lastName: 'La fripouille',
+          id: 12345,
+          status: 'TO_SHARE',
+        };
+        const anotherParticipation = {
+          firstName: 'Jean',
+          lastName: 'La fripouille',
+          id: 12346,
+          status: 'SHARED',
+          sharedAt: '2020-01-02',
+        };
+        this.campaign = { multipleSendings: true };
+        this.allParticipations = [this.participation, anotherParticipation];
+
+        const screen = await render(
+          hbs`<Participant::Assessment::Header
+  @participation={{this.participation}}
+  @campaign={{this.campaign}}
+  @allParticipations={{this.allParticipations}}
+/>`,
+        );
+
+        const selector = screen.getByLabelText(
+          this.intl.t('pages.assessment-individual-results.participation-selector'),
+        );
+        await click(selector);
+        await screen.findByRole('listbox');
+
+        assert.ok(
+          within(screen.getByRole('listbox')).getByText(
+            this.intl.t('pages.assessment-individual-results.participation-shared'),
+            { exact: false },
+          ),
+        );
+        assert.ok(
+          within(screen.getByRole('listbox')).getByText(
+            this.intl.t('pages.assessment-individual-results.participation-to-share'),
+            { exact: false },
+          ),
+        );
+      });
+
+      test('it should redirect toward a participation', async function (assert) {
+        const router = this.owner.lookup('service:router');
+        router.transitionTo = sinon.stub();
+
+        this.participation = {
+          firstName: 'Jean',
+          lastName: 'La fripouille',
+          id: 12345,
+          status: 'TO_SHARE',
+        };
+        const anotherParticipation = {
+          firstName: 'Jean',
+          lastName: 'La fripouille',
+          id: 12346,
+          status: 'SHARED',
+          sharedAt: '2020-01-02',
+        };
+        this.campaign = { multipleSendings: true, id: 1 };
+        this.allParticipations = [this.participation, anotherParticipation];
+
+        const screen = await render(
+          hbs`<Participant::Assessment::Header
+  @participation={{this.participation}}
+  @campaign={{this.campaign}}
+  @allParticipations={{this.allParticipations}}
+/>`,
+        );
+
+        const selector = screen.getByLabelText(
+          this.intl.t('pages.assessment-individual-results.participation-selector'),
+        );
+        await click(selector);
+        await screen.findByRole('listbox');
+        await click(
+          screen.getByRole('option', {
+            name: `${this.intl.t('pages.assessment-individual-results.participation-label', { participationNumber: 2 })} - 02/01/2020`,
+          }),
+        );
+
+        assert.ok(
+          router.transitionTo.calledWith(
+            'authenticated.campaigns.participant-assessment',
+            this.campaign.id,
+            this.allParticipations[1].id,
+          ),
+        );
+      });
+    });
   });
 
   test('it displays campaign participation creation date', async function (assert) {
@@ -38,7 +161,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
       hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
     );
 
-    assert.dom(screen.getByText('01 janv. 2020')).exists();
+    assert.ok(screen.getByText('01 janv. 2020'));
   });
 
   test('it displays campaign participation progression', async function (assert) {
@@ -49,8 +172,8 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
       hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
     );
 
-    assert.dom(screen.getByText(this.intl.t('pages.assessment-individual-results.progression'))).exists();
-    assert.dom(screen.getByText('75 %')).exists();
+    assert.ok(screen.getByText(this.intl.t('pages.assessment-individual-results.progression')));
+    assert.ok(screen.getByText('75 %'));
   });
 
   module('is shared', function () {
@@ -67,8 +190,8 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
           hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
         );
 
-        assert.dom(screen.getByText(this.intl.t('pages.campaign-individual-results.shared-date'))).exists();
-        assert.dom(screen.getByText('02 janv. 2020')).exists();
+        assert.ok(screen.getByText(this.intl.t('pages.campaign-individual-results.shared-date')));
+        assert.ok(screen.getByText('02 janv. 2020'));
       });
     });
 
@@ -81,7 +204,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
           hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
         );
 
-        assert.dom(screen.queryByText(this.intl.t('pages.campaign-individual-results.shared-date'))).doesNotExist();
+        assert.notOk(screen.queryByText(this.intl.t('pages.campaign-individual-results.shared-date')));
       });
     });
   });
@@ -99,8 +222,8 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
           hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
         );
 
-        assert.dom(screen.getByText('identifiant de l’élève')).exists();
-        assert.dom(screen.getByText('i12345')).exists();
+        assert.ok(screen.getByText('identifiant de l’élève'));
+        assert.ok(screen.getByText('i12345'));
       });
     });
     module('when the external id is not present', function () {
@@ -115,7 +238,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
           hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
         );
 
-        assert.dom(screen.queryByText('identifiant de l’élève')).doesNotExist();
+        assert.notOk(screen.queryByText('identifiant de l’élève'));
       });
     });
   });
@@ -130,10 +253,10 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
           hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
         );
 
-        assert.dom(screen.queryByText(this.intl.t('pages.assessment-individual-results.progression'))).doesNotExist();
-        assert
-          .dom(screen.queryByText(this.intl.t('common.result.percentage', { value: this.participation.progression })))
-          .doesNotExist();
+        assert.notOk(screen.queryByText(this.intl.t('pages.assessment-individual-results.progression')));
+        assert.notOk(
+          screen.queryByText(this.intl.t('common.result.percentage', { value: this.participation.progression })),
+        );
       });
 
       module('when the campaign has stages', function () {
@@ -156,8 +279,8 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
             hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
           );
 
-          assert.dom(screen.queryByLabelText(this.intl.t('pages.assessment-individual-results.result'))).exists();
-          assert.dom(screen.getByText(this.intl.t('common.result.stages', { count: 1, total: 2 }))).exists();
+          assert.ok(screen.queryByLabelText(this.intl.t('pages.assessment-individual-results.result')));
+          assert.ok(screen.getByText(this.intl.t('common.result.stages', { count: 1, total: 2 })));
         });
       });
 
@@ -172,7 +295,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
 
           // We should keep getAllByText instead of getByText because in the ci the npm run test fails.
           // It finds two occurences instead of one for some reason related to a nbsp; not being present in this context.
-          assert.dom(screen.getAllByText('65%')[0]).exists();
+          assert.ok(screen.getAllByText('65%')[0]);
         });
       });
 
@@ -200,7 +323,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
             hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
           );
 
-          assert.dom(screen.queryByLabelText(this.intl.t('pages.assessment-individual-results.badges'))).doesNotExist();
+          assert.notOk(screen.queryByLabelText(this.intl.t('pages.assessment-individual-results.badges')));
         });
       });
 
@@ -212,7 +335,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
           const screen = await render(
             hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
           );
-          assert.dom(screen.queryByLabelText(this.intl.t('pages.assessment-individual-results.badges'))).doesNotExist();
+          assert.notOk(screen.queryByLabelText(this.intl.t('pages.assessment-individual-results.badges')));
         });
       });
     });
@@ -226,7 +349,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
           hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
         );
 
-        assert.dom(screen.queryByLabelText(this.intl.t('pages.assessment-individual-results.result'))).doesNotExist();
+        assert.notOk(screen.queryByLabelText(this.intl.t('pages.assessment-individual-results.result')));
       });
     });
   });

@@ -13,8 +13,18 @@
 </header>
 
 <section class="panel panel--header">
-  <header class="panel-header__headline">
+  <header class="panel-header__headline panel-header__headline--with-right-content">
     <h2 class="panel-header-title">{{@campaign.name}}</h2>
+    {{#if @campaign.multipleSendings}}
+      <PixSelect
+        @options={{this.participationsListOptions}}
+        @inlineLabel="true"
+        @value={{this.selectedParticipation.value}}
+        @onChange={{this.selectAParticipation}}
+      >
+        <:label>{{t "pages.assessment-individual-results.participation-selector"}}</:label>
+      </PixSelect>
+    {{/if}}
   </header>
 
   <div class="panel-header__body">

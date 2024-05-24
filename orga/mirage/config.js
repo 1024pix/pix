@@ -457,6 +457,10 @@ function routes() {
     return schema.campaignAssessmentParticipations.findBy({ ...request.params });
   });
 
+  this.get('/campaigns/:campaignId/organization-learners/:organizationLearnerId/participations', (schema) => {
+    return schema.availableCampaignParticipations.all();
+  });
+
   this.get('/campaigns/:campaignId/assessment-participations/:id/results', (schema, request) => {
     return schema.campaignAssessmentParticipationResults.findBy({ ...request.params });
   });
