@@ -1,6 +1,6 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { SessionSummary } from '../../../../../lib/domain/read-models/SessionSummary.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
+import { SessionSummary } from '../../domain/read-models/SessionSummary.js';
 
 const findPaginatedByCertificationCenterId = async function ({ certificationCenterId, page }) {
   const query = knex('sessions')

@@ -1,4 +1,4 @@
-import { SESSION_STATUSES } from '../../../src/certification/shared/domain/constants.js';
+import { SESSION_STATUSES } from '../../../shared/domain/constants.js';
 
 class SessionSummary {
   constructor({

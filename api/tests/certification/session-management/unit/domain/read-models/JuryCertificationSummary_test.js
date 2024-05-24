@@ -1,8 +1,8 @@
 import lodash from 'lodash';
 
-import { JuryCertificationSummary } from '../../../../lib/domain/read-models/JuryCertificationSummary.js';
-import { AssessmentResult } from '../../../../src/shared/domain/models/AssessmentResult.js';
-import { domainBuilder, expect } from '../../../test-helper.js';
+import { JuryCertificationSummary } from '../../../../../../src/certification/session-management/domain/read-models/JuryCertificationSummary.js';
+import { AssessmentResult } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 const { forIn } = lodash;
 
 describe('Unit | Domain | Models | JuryCertificationSummary', function () {

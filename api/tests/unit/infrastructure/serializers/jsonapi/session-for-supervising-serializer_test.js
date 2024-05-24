@@ -1,7 +1,7 @@
 import { CertificationCandidateForSupervising } from '../../../../../lib/domain/models/index.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/session-for-supervising-serializer.js';
+import { CertificationCandidateForSupervisingV3 } from '../../../../../src/certification/session-management/domain/models/CertificationCandidateForSupervisingV3.js';
 import { CertificationChallengeLiveAlertStatus } from '../../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
-import { CertificationCandidateForSupervisingV3 } from '../../../../../src/certification/supervision/domain/models/CertificationCandidateForSupervisingV3.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 
