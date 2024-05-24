@@ -6,7 +6,7 @@ import { CertificationAssessmentHistory } from '../../../../src/certification/sc
 import { CertificationAssessmentScore } from '../../../../src/certification/scoring/domain/models/CertificationAssessmentScore.js';
 import { CertificationAssessmentScoreV3 } from '../../../../src/certification/scoring/domain/models/CertificationAssessmentScoreV3.js';
 import { AssessmentResultFactory } from '../../../../src/certification/scoring/domain/models/factories/AssessmentResultFactory.js';
-import { CertificationVersion } from '../../../../src/certification/shared/domain/models/CertificationVersion.js';
+import { CERTIFICATION_VERSIONS } from '../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import * as scoringService from '../../../../src/evaluation/domain/services/scoring/scoring-service.js';
 import { config } from '../../../../src/shared/config.js';
 import { AssessmentResult } from '../../../../src/shared/domain/models/AssessmentResult.js';
@@ -32,7 +32,7 @@ const calculateCertificationAssessmentScore = async function ({
   const testedCompetences = await _getTestedCompetences({
     userId: certificationAssessment.userId,
     limitDate: certificationAssessment.createdAt,
-    version: CertificationVersion.V2,
+    version: CERTIFICATION_VERSIONS.V2,
     placementProfileService: dependencies.placementProfileService,
   });
 

@@ -30,7 +30,7 @@ const linkUserToSessionCertificationCandidate = async function ({
 }) {
   const session = await sessionEnrolmentRepository.get({ id: sessionId });
 
-  if (session.version === CertificationVersion.V3) {
+  if (CertificationVersion.isV3(session.version)) {
     const user = await userRepository.get(userId);
     const isUserLanguageValid = _validateUserLanguage(languageService, user.lang);
 

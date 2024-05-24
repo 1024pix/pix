@@ -72,7 +72,7 @@ const retrieveLastOrCreateCertificationCourse = async function ({
   const { version } = session;
 
   let lang;
-  if (version === CertificationVersion.V3) {
+  if (CertificationVersion.isV3(version)) {
     const user = await userRepository.get(userId);
     const isUserLanguageValid = _validateUserLanguage(languageService, user.lang);
 
@@ -222,7 +222,7 @@ async function _startNewCertification({
   );
 
   let challengesForPixCertification = [];
-  if (version !== CertificationVersion.V3) {
+  if (!CertificationVersion.isV3(version)) {
     challengesForPixCertification = await certificationChallengesService.pickCertificationChallenges(
       placementProfile,
       locale,

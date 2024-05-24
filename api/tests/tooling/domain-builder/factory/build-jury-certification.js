@@ -1,5 +1,5 @@
 import { JuryCertification } from '../../../../lib/domain/models/JuryCertification.js';
-import { CertificationVersion } from '../../../../src/certification/shared/domain/models/CertificationVersion.js';
+import { CERTIFICATION_VERSIONS } from '../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { JuryComment, JuryCommentContexts } from '../../../../src/certification/shared/domain/models/JuryComment.js';
 import { buildCertificationIssueReport } from './build-certification-issue-report.js';
 import { buildCompetenceMark } from './build-competence-mark.js';
@@ -33,7 +33,7 @@ const buildJuryCertification = function ({
   certificationIssueReports = [buildCertificationIssueReport()],
   commonComplementaryCertificationCourseResult,
   complementaryCertificationCourseResultWithExternal,
-  version = CertificationVersion.V2,
+  version = CERTIFICATION_VERSIONS.V2,
 } = {}) {
   return new JuryCertification({
     certificationCourseId,

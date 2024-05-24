@@ -1,4 +1,4 @@
-import { CertificationVersion } from '../../../../../src/certification/shared/domain/models/CertificationVersion.js';
+import { CERTIFICATION_VERSIONS } from '../../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import {
   createServer,
@@ -87,12 +87,12 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
           const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ isV3Pilot: true }).id;
           const sessionId = databaseBuilder.factory.buildSession({
             certificationCenterId,
-            version: CertificationVersion.V3,
+            version: CERTIFICATION_VERSIONS.V3,
           }).id;
           databaseBuilder.factory.buildFlashAlgorithmConfiguration();
           const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
             isPublished: false,
-            version: CertificationVersion.V3,
+            version: CERTIFICATION_VERSIONS.V3,
             userId,
             sessionId,
           }).id;
@@ -151,7 +151,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
           const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ isV3Pilot: true }).id;
           const sessionId = databaseBuilder.factory.buildSession({
             certificationCenterId,
-            version: CertificationVersion.V3,
+            version: CERTIFICATION_VERSIONS.V3,
           }).id;
           databaseBuilder.factory.buildCertificationCandidate({
             userId: user.id,
@@ -159,7 +159,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
           });
           const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
             isPublished: false,
-            version: CertificationVersion.V3,
+            version: CERTIFICATION_VERSIONS.V3,
             userId: user.id,
             sessionId,
           }).id;

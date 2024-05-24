@@ -4,7 +4,7 @@ import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { SessionForSupervising } from '../../../../../lib/domain/read-models/SessionForSupervising.js';
 import * as sessionForSupervisingRepository from '../../../../../lib/infrastructure/repositories/sessions/session-for-supervising-repository.js';
 import { CertificationChallengeLiveAlertStatus } from '../../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
-import { CertificationVersion } from '../../../../../src/certification/shared/domain/models/CertificationVersion.js';
+import { CERTIFICATION_VERSIONS } from '../../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { catchErr, databaseBuilder, expect } from '../../../../test-helper.js';
 
@@ -236,7 +236,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
         // given
         databaseBuilder.factory.buildCertificationCenter({ name: 'Toto', id: 1234 });
         const session = databaseBuilder.factory.buildSession({
-          version: CertificationVersion.V3,
+          version: CERTIFICATION_VERSIONS.V3,
           address: 'centre de certification 1',
           certificationCenter: 'Tour Gamma',
           room: 'Salle A',
@@ -271,7 +271,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
         // given
         databaseBuilder.factory.buildCertificationCenter({ name: 'Toto', id: 1234 });
         const session = databaseBuilder.factory.buildSession({
-          version: CertificationVersion.V3,
+          version: CERTIFICATION_VERSIONS.V3,
           certificationCenter: 'Tour Gamma',
           room: 'Salle A',
           examiner: 'Monsieur Examinateur',
@@ -312,7 +312,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
         });
 
         const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
-          version: CertificationVersion.V3,
+          version: CERTIFICATION_VERSIONS.V3,
           userId: 12345,
           sessionId: session.id,
           createdAt: new Date('2022-10-19T13:37:00Z'),

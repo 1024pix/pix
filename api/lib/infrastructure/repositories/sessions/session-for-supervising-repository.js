@@ -104,7 +104,7 @@ function _toDomain(results) {
   const certificationCandidates = results.certificationCandidates
     .filter((candidate) => candidate?.id !== null)
     .map((candidate) =>
-      results.version === CertificationVersion.V3
+      CertificationVersion.isV3(results.version)
         ? _buildCertificationCandidateForSupervisingV3(candidate)
         : _buildCertificationCandidateForSupervising(candidate),
     );

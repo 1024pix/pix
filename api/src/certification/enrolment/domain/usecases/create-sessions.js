@@ -7,7 +7,7 @@ import bluebird from 'bluebird';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { CertificationCandidate } from '../../../../../lib/domain/models/index.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { CertificationVersion } from '../../../shared/domain/models/CertificationVersion.js';
+import { CERTIFICATION_VERSIONS } from '../../../shared/domain/models/CertificationVersion.js';
 import { SessionEnrolment } from '../models/SessionEnrolment.js';
 
 /**
@@ -80,7 +80,7 @@ function _hasCandidates(certificationCandidates) {
 async function _saveNewSessionReturningId({ sessionRepository, sessionDTO, domainTransaction, isV3Pilot }) {
   const sessionToSave = new SessionEnrolment({
     ...sessionDTO,
-    version: isV3Pilot ? CertificationVersion.V3 : CertificationVersion.V2,
+    version: isV3Pilot ? CERTIFICATION_VERSIONS.V3 : CERTIFICATION_VERSIONS.V2,
   });
   return await sessionRepository.save({ session: sessionToSave, domainTransaction });
 }

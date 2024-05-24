@@ -1,7 +1,10 @@
 import bluebird from 'bluebird';
 import _ from 'lodash';
 
-import { CertificationVersion } from '../../../src/certification/shared/domain/models/CertificationVersion.js';
+import {
+  CERTIFICATION_VERSIONS,
+  CertificationVersion,
+} from '../../../src/certification/shared/domain/models/CertificationVersion.js';
 import * as scoringService from '../../../src/evaluation/domain/services/scoring/scoring-service.js';
 import * as assessmentRepository from '../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as assessmentResultRepository from '../../../src/shared/infrastructure/repositories/assessment-result-repository.js';
@@ -15,12 +18,12 @@ import { UserCompetence } from '../models/UserCompetence.js';
 async function getPlacementProfile({
   userId,
   limitDate,
-  version = CertificationVersion.V2,
+  version = CERTIFICATION_VERSIONS.V2,
   allowExcessPixAndLevels = true,
   locale,
 }) {
   const pixCompetences = await competenceRepository.listPixCompetencesOnly({ locale });
-  if (version !== CertificationVersion.V1) {
+  if (!CertificationVersion.isV1(version)) {
     return _generatePlacementProfile({
       userId,
       profileDate: limitDate,

@@ -33,7 +33,7 @@ async function handleCertificationScoring({
 
   const certificationAssessment = await certificationAssessmentRepository.get(event.assessmentId);
 
-  if (certificationAssessment.version === CertificationVersion.V3) {
+  if (CertificationVersion.isV3(certificationAssessment.version)) {
     return _handleV3CertificationScoring({
       certificationAssessment,
       locale: event.locale,

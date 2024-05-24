@@ -5,7 +5,7 @@
  * @typedef {import ("./index.js").SessionCodeService} SessionCodeService
  */
 
-import { CertificationVersion } from '../../../shared/domain/models/CertificationVersion.js';
+import { CERTIFICATION_VERSIONS } from '../../../shared/domain/models/CertificationVersion.js';
 import { SessionEnrolment } from '../models/SessionEnrolment.js';
 
 /**
@@ -31,7 +31,7 @@ const createSession = async function ({
   const { isV3Pilot, name: certificationCenterName } = await certificationCenterRepository.get({
     id: certificationCenterId,
   });
-  const version = isV3Pilot ? CertificationVersion.V3 : CertificationVersion.V2;
+  const version = isV3Pilot ? CERTIFICATION_VERSIONS.V3 : CERTIFICATION_VERSIONS.V2;
 
   const domainSession = new SessionEnrolment({
     ...session,

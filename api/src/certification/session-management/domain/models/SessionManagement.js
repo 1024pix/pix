@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { SESSION_STATUSES } from '../../../shared/domain/constants.js';
-import { CertificationVersion } from '../../../shared/domain/models/CertificationVersion.js';
+import { CERTIFICATION_VERSIONS } from '../../../shared/domain/models/CertificationVersion.js';
 
 const NO_EXAMINER_GLOBAL_COMMENT = null;
 
@@ -26,7 +26,7 @@ class SessionManagement {
     certificationCenterId,
     assignedCertificationOfficerId,
     supervisorPassword,
-    version = CertificationVersion.V2,
+    version = CERTIFICATION_VERSIONS.V2,
     createdBy,
   } = {}) {
     this.id = id;
