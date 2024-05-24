@@ -1,8 +1,13 @@
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
 import remove from 'lodash/remove';
 import sumBy from 'lodash/sumBy';
+
+import Chart from '../../ui/chart';
+import ChartCard from '../../ui/chart-card';
+import ParticipantsByMasteryPercentageLoader from './participants-by-mastery-percentage-loader';
 
 export default class ParticipantsByMasteryPercentage extends Component {
   @service store;
@@ -106,4 +111,25 @@ export default class ParticipantsByMasteryPercentage extends Component {
 
     return { steps, labels, accessibilityLabels };
   }
+
+  <template>
+    <ChartCard @title={{t "charts.participants-by-mastery-percentage.title"}} ...attributes>
+      {{#if this.loading}}
+        <ParticipantsByMasteryPercentageLoader />
+      {{else}}
+        <Chart
+          @type="bar"
+          @options={{this.options}}
+          @data={{this.data}}
+          aria-hidden="true"
+          class="participants-by-mastery-percentage"
+        />
+      {{/if}}
+    </ChartCard>
+    <ul class="screen-reader-only">
+      {{#each this.accessibilityLabels as |label|}}
+        <li>{{label}}</li>
+      {{/each}}
+    </ul>
+  </template>
 }
