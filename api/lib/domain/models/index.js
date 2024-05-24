@@ -112,7 +112,6 @@ import { ScoringSimulation } from './ScoringSimulation.js';
 import { ScoringSimulationContext } from './ScoringSimulationContext.js';
 import { ScoringSimulationDataset } from './ScoringSimulationDataset.js';
 import { ScoringSimulationResult } from './ScoringSimulationResult.js';
-import { SessionJuryComment } from './SessionJuryComment.js';
 import { SessionPublicationBatchResult } from './SessionPublicationBatchResult.js';
 import { ShareableCertificate } from './ShareableCertificate.js';
 import { Skill } from './Skill.js';
@@ -246,7 +245,6 @@ export {
   ScoringSimulationContext,
   ScoringSimulationDataset,
   ScoringSimulationResult,
-  SessionJuryComment,
   SessionPublicationBatchResult,
   ShareableCertificate,
   Skill,

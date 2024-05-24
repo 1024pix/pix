@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
-import { SessionJuryComment } from '../../../../lib/domain/models/SessionJuryComment.js';
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { SessionJuryComment } from '../../../../../../src/certification/session-management/domain/models/SessionJuryComment.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 const SESSION_JURY_COMMENT_PROPS = ['id', 'comment', 'authorId', 'updatedAt'];
 

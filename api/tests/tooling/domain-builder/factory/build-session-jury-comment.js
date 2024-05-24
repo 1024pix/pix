@@ -1,4 +1,4 @@
-import { SessionJuryComment } from '../../../../lib/domain/models/SessionJuryComment.js';
+import { SessionJuryComment } from '../../../../src/certification/session-management/domain/models/SessionJuryComment.js';
 
 const buildSessionJuryComment = function ({
   id = 123,

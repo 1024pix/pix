@@ -1,6 +1,6 @@
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
-import * as sessionJuryCommentRepository from '../../../../../lib/infrastructure/repositories/sessions/session-jury-comment-repository.js';
-import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../../test-helper.js';
+import { NotFoundError } from '../../../../../../lib/domain/errors.js';
+import * as sessionJuryCommentRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/session-jury-comment-repository.js';
+import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | session-jury-comment-repository', function () {
   context('#get', function () {

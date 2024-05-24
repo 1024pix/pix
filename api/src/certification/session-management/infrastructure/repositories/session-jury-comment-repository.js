@@ -1,6 +1,6 @@
-import { knex } from '../../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../../domain/errors.js';
-import { SessionJuryComment } from '../../../domain/models/SessionJuryComment.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { SessionJuryComment } from '../../domain/models/SessionJuryComment.js';
 
 const get = async function (sessionId) {
   const result = await knex

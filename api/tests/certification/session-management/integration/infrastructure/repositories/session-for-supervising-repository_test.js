@@ -7,6 +7,11 @@ import { CertificationChallengeLiveAlertStatus } from '../../../../../src/certif
 import { CERTIFICATION_VERSIONS } from '../../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { catchErr, databaseBuilder, expect } from '../../../../test-helper.js';
+import { NotFoundError } from '../../../../../../lib/domain/errors.js';
+import * as sessionForSupervisingRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/session-for-supervising-repository.js';
+import { CertificationChallengeLiveAlertStatus } from '../../../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
+import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
+import { catchErr, databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | SessionForSupervising', function () {
   describe('#get', function () {
