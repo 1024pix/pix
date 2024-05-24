@@ -1,4 +1,4 @@
-import { ComplementaryCertificationForSupervising } from '../../../../lib/domain/models/ComplementaryCertificationForSupervising.js';
+import { ComplementaryCertificationForSupervising } from '../../../../src/certification/session-management/domain/models/ComplementaryCertificationForSupervising.js';
 
 const buildComplementaryCertificationForSupervising = function ({
   label = 'Complementary certification name',

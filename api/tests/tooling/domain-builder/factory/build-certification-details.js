@@ -1,5 +1,5 @@
-import { states } from '../../../../lib/domain/models/CertificationAssessment.js';
 import { CertificationDetails } from '../../../../lib/domain/read-models/CertificationDetails.js';
+import { states } from '../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
 
 const buildCertificationDetails = function ({
   id = 123,

@@ -1,10 +1,10 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
-import { ComplementaryCertificationForSupervising } from '../../../../../lib/domain/models/ComplementaryCertificationForSupervising.js';
 import { CertificationChallengeLiveAlertStatus } from '../../../shared/domain/models/CertificationChallengeLiveAlert.js';
 import { CertificationVersion } from '../../../shared/domain/models/CertificationVersion.js';
 import { CertificationCandidateForSupervising } from '../../domain/models/CertificationCandidateForSupervising.js';
 import { CertificationCandidateForSupervisingV3 } from '../../domain/models/CertificationCandidateForSupervisingV3.js';
+import { ComplementaryCertificationForSupervising } from '../../domain/models/ComplementaryCertificationForSupervising.js';
 import { SessionForSupervising } from '../../domain/read-models/SessionForSupervising.js';
 
 const get = async function (idSession) {

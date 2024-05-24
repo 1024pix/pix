@@ -1,3 +1,4 @@
+import { CertificationIssueReportResolutionAttempt } from '../../../../../../src/certification/session-management/domain/models/CertificationIssueReportResolutionAttempt.js';
 import {
   CertificationIssueReportResolutionStrategies,
   doNotResolveStrategy,
@@ -6,13 +7,12 @@ import {
   neutralizeIfTimedChallengeStrategy,
   neutralizeOrValidateIfFocusedChallengeStrategy,
   neutralizeWithoutCheckingStrategy,
-} from '../../../../lib/domain/models/CertificationIssueReportResolutionStrategies.js';
-import { CertificationIssueReportResolutionAttempt } from '../../../../lib/domain/models/index.js';
+} from '../../../../../../src/certification/session-management/domain/models/CertificationIssueReportResolutionStrategies.js';
 import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
-} from '../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+} from '../../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 const ISSUE_REPORT_SUBCATEGORY_NAME_OR_BIRTHDATE = CertificationIssueReportSubcategories.NAME_OR_BIRTHDATE;
 const ISSUE_REPORT_SUBCATEGORY_LEFT_EXAM_ROOM = CertificationIssueReportSubcategories.LEFT_EXAM_ROOM;

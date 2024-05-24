@@ -4,12 +4,12 @@ import {
   ChallengeToBeDeneutralizedNotFoundError,
   ChallengeToBeNeutralizedNotFoundError,
   ObjectValidationError,
-} from '../../../../lib/domain/errors.js';
-import { CertificationAnswerStatusChangeAttempt } from '../../../../lib/domain/models/CertificationAnswerStatusChangeAttempt.js';
-import { CertificationAssessment } from '../../../../lib/domain/models/CertificationAssessment.js';
-import { NeutralizationAttempt } from '../../../../lib/domain/models/NeutralizationAttempt.js';
-import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
-import { domainBuilder, expect } from '../../../test-helper.js';
+} from '../../../../../../lib/domain/errors.js';
+import { CertificationAnswerStatusChangeAttempt } from '../../../../../../src/certification/session-management/domain/models/CertificationAnswerStatusChangeAttempt.js';
+import { CertificationAssessment } from '../../../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
+import { NeutralizationAttempt } from '../../../../../../src/certification/session-management/domain/models/NeutralizationAttempt.js';
+import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerStatus.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | CertificationAssessment', function () {
   describe('constructor', function () {

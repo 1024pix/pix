@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { JurySession } from '../../../../lib/domain/models/JurySession.js';
+import { JurySession } from '../../../../src/certification/session-management/domain/models/JurySession.js';
 import { domainBuilder } from '../domain-builder.js';
 
 const buildJurySession = function ({

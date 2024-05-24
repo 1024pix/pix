@@ -1,5 +1,5 @@
-import { JuryCertificationSummary } from '../../../../lib/domain/read-models/JuryCertificationSummary.js';
 import * as juryCertificationSummaryRepository from '../../../../lib/infrastructure/repositories/jury-certification-summary-repository.js';
+import { JuryCertificationSummary } from '../../../../src/certification/session-management/domain/read-models/JuryCertificationSummary.js';
 import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,

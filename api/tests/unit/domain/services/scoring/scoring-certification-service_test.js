@@ -6,10 +6,13 @@ import { CertificationCourseRejected } from '../../../../../lib/domain/events/Ce
 import { CertificationJuryDone } from '../../../../../lib/domain/events/CertificationJuryDone.js';
 import { ChallengeDeneutralized } from '../../../../../lib/domain/events/ChallengeDeneutralized.js';
 import { ChallengeNeutralized } from '../../../../../lib/domain/events/ChallengeNeutralized.js';
-import { CertificationAssessment, states } from '../../../../../lib/domain/models/CertificationAssessment.js';
 import { CertificationCourse, CertificationResult } from '../../../../../lib/domain/models/index.js';
 import * as scoringCertificationService from '../../../../../lib/domain/services/scoring/scoring-certification-service.js';
 import { CertificationChallengeForScoring } from '../../../../../src/certification/scoring/domain/models/CertificationChallengeForScoring.js';
+import {
+  CertificationAssessment,
+  states,
+} from '../../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
 import { ABORT_REASONS } from '../../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { CERTIFICATION_VERSIONS } from '../../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { AutoJuryCommentKeys } from '../../../../../src/certification/shared/domain/models/JuryComment.js';

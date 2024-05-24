@@ -59,8 +59,6 @@ import { CampaignLearningContent } from './CampaignLearningContent.js';
 import { CampaignParticipationResult } from './CampaignParticipationResult.js';
 import { CertifiableBadgeAcquisition } from './CertifiableBadgeAcquisition.js';
 import { CertifiableProfileForLearningContent } from './CertifiableProfileForLearningContent.js';
-import { CertificationAnswerStatusChangeAttempt } from './CertificationAnswerStatusChangeAttempt.js';
-import { CertificationAssessment } from './CertificationAssessment.js';
 import { CertificationCandidate } from './CertificationCandidate.js';
 import { CertificationCenter } from './CertificationCenter.js';
 import { CertificationCenterInvitedUser } from './CertificationCenterInvitedUser.js';
@@ -68,15 +66,12 @@ import { CertificationCenterMembership } from './CertificationCenterMembership.j
 import { CertificationChallenge } from './CertificationChallenge.js';
 import { CertificationChallengeWithType } from './CertificationChallengeWithType.js';
 import { CertificationContract } from './CertificationContract.js';
-import { CertificationIssueReportResolutionAttempt } from './CertificationIssueReportResolutionAttempt.js';
-import { CertificationIssueReportResolutionStrategies } from './CertificationIssueReportResolutionStrategies.js';
 import { CertificationResult } from './CertificationResult.js';
 import { CertifiedLevel } from './CertifiedLevel.js';
 import { CertifiedScore } from './CertifiedScore.js';
 import { CompetenceMark } from './CompetenceMark.js';
 import { CompetenceResult } from './CompetenceResult.js';
 import { CompetenceTree } from './CompetenceTree.js';
-import { ComplementaryCertificationCourse } from './ComplementaryCertificationCourse.js';
 import { ComplementaryCertificationCourseResult } from './ComplementaryCertificationCourseResult.js';
 import { ComplementaryCertificationHabilitation } from './ComplementaryCertificationHabilitation.js';
 import { ComplementaryCertificationScoringCriteria } from './ComplementaryCertificationScoringCriteria.js';
@@ -89,13 +84,10 @@ import { EmailModificationDemand } from './EmailModificationDemand.js';
 import { FinalizedSession } from './FinalizedSession.js';
 import { Framework } from './Framework.js';
 import { Hint } from './Hint.js';
-import { JuryCertification } from './JuryCertification.js';
-import { JurySession } from './JurySession.js';
 import { KnowledgeElement } from './KnowledgeElement.js';
 import { LearningContent } from './LearningContent.js';
 import { AreaForAdmin, CompetenceForAdmin, ThematicForAdmin, TubeForAdmin } from './LearningContentForAdmin.js';
 import { Membership } from './Membership.js';
-import { NeutralizationAttempt } from './NeutralizationAttempt.js';
 import { OrganizationInvitedUser } from './OrganizationInvitedUser.js';
 import { OrganizationLearner } from './OrganizationLearner.js';
 import { OrganizationMemberIdentity } from './OrganizationMemberIdentity.js';
@@ -169,8 +161,6 @@ export {
   CampaignTypes,
   CertifiableBadgeAcquisition,
   CertifiableProfileForLearningContent,
-  CertificationAnswerStatusChangeAttempt,
-  CertificationAssessment,
   CertificationAssessmentScore,
   CertificationAttestation,
   CertificationCandidate,
@@ -184,8 +174,6 @@ export {
   CertificationCourse,
   CertificationIssueReport,
   CertificationIssueReportCategory,
-  CertificationIssueReportResolutionAttempt,
-  CertificationIssueReportResolutionStrategies,
   CertificationOfficer,
   CertificationReport,
   CertificationResult,
@@ -199,7 +187,6 @@ export {
   CompetenceResult,
   CompetenceTree,
   ComplementaryCertification,
-  ComplementaryCertificationCourse,
   ComplementaryCertificationCourseResult,
   ComplementaryCertificationHabilitation,
   ComplementaryCertificationScoringCriteria,
@@ -216,12 +203,9 @@ export {
   Framework,
   Group,
   Hint,
-  JuryCertification,
-  JurySession,
   KnowledgeElement,
   LearningContent,
   Membership,
-  NeutralizationAttempt,
   Organization,
   OrganizationForAdmin,
   OrganizationInvitation,

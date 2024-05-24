@@ -1,5 +1,5 @@
-import { states } from '../../../../../lib/domain/models/CertificationAssessment.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/certification-details-serializer.js';
+import { states } from '../../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | certification-details-serializer', function () {
