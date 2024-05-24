@@ -763,6 +763,12 @@
             "content": "Puedes utilizar internet o aplicaciones para responder a esta pregunta.",
             "title": "Modo libre"
           }
+        },
+        "text-to-speech": {
+          "activate": "Activar la vocalización",
+          "play": "Leer en voz alta",
+          "deactivate": "Desactivar la vocalización",
+          "stop": "Para de leer"
         }
       },
       "timed": {

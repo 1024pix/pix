@@ -758,6 +758,12 @@
           "alternative-instruction": "This question contains an illustration with a text alternative.",
           "embed": "This question uses a simulator."
         },
+        "text-to-speech": {
+          "activate": "Activate text-to-speech",
+          "deactivate": "Deactivate text-to-speech",
+          "play": "Read out loud",
+          "stop": "Stop reading"
+        },
         "tooltip": {
           "aria-label": "Show question's warning",
           "close": "Ok, got it",

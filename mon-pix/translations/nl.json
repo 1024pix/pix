@@ -763,6 +763,12 @@
             "content": "Je bent vrij om het internet of applicaties te gebruiken om deze vraag te beantwoorden.",
             "title": "Vrije modus"
           }
+        },
+        "text-to-speech": {
+          "activate": "Vocalisatie activeren",
+          "play": "Hardop lezen",
+          "deactivate": "Vocalisatie uitschakelen",
+          "stop": "Stop met lezen"
         }
       },
       "timed": {
