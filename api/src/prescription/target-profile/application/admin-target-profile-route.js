@@ -9,7 +9,7 @@ const register = async function (server) {
   server.route([
     {
       method: 'PUT',
-      path: '/api/admin/target-profiles/{id}/outdate',
+      path: '/api/admin/target-profiles/{targetProfileId}/outdate',
       config: {
         pre: [
           {
@@ -24,7 +24,7 @@ const register = async function (server) {
         ],
         validate: {
           params: Joi.object({
-            id: identifiersType.targetProfileId,
+            targetProfileId: identifiersType.targetProfileId,
           }),
         },
         handler: targetProfileController.outdateTargetProfile,
@@ -37,7 +37,7 @@ const register = async function (server) {
     },
     {
       method: 'PUT',
-      path: '/api/admin/target-profiles/{id}/simplified-access',
+      path: '/api/admin/target-profiles/{targetProfileId}/simplified-access',
       config: {
         pre: [
           {
@@ -52,7 +52,7 @@ const register = async function (server) {
         ],
         validate: {
           params: Joi.object({
-            id: identifiersType.targetProfileId,
+            targetProfileId: identifiersType.targetProfileId,
           }),
         },
         handler: targetProfileController.markTargetProfileAsSimplifiedAccess,

@@ -9,7 +9,7 @@ import {
   mockLearningContent,
 } from '../../../../test-helper.js';
 
-describe('Acceptance | Route | admin-target-profile', function () {
+describe('Acceptance | TargetProfile | Application | Route | admin-target-profile', function () {
   let server;
 
   beforeEach(async function () {
@@ -358,7 +358,7 @@ describe('Acceptance | Route | admin-target-profile', function () {
     });
   });
 
-  describe('PUT /api/admin/target-profiles/{id}/outdate', function () {
+  describe('PUT /api/admin/target-profiles/{targetProfileId}/outdate', function () {
     it('should return 204', async function () {
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
       const user = databaseBuilder.factory.buildUser.withRole();
@@ -385,7 +385,7 @@ describe('Acceptance | Route | admin-target-profile', function () {
     });
   });
 
-  describe('PUT /api/admin/target-profiles/{id}/simplified-access', function () {
+  describe('PUT /api/admin/target-profiles/{targetProfileId}/simplified-access', function () {
     it('should return 200 HTTP status code', async function () {
       // given
       const server = await createServer();

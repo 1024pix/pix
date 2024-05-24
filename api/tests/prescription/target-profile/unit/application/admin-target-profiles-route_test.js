@@ -517,7 +517,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
     });
   });
 
-  describe('PUT /api/admin/target-profiles/{id}/outdate', function () {
+  describe('PUT /api/admin/target-profiles/{targerProfileId}/outdate', function () {
     const method = 'PUT';
     const url = '/api/admin/target-profiles/123/outdate';
     const payload = {};
@@ -525,8 +525,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
     context('when user has role "SUPER_ADMIN", "SUPPORT" or "METIER"', function () {
       it('should return a response with an HTTP status code 204', async function () {
         // given
-        sinon
-          .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
+        securityPreHandlers.hasAtLeastOneAccessOf
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkAdminMemberHasRoleSupport,
@@ -564,8 +563,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
     context('when user has role "CERTIF"', function () {
       it('should return a response with an HTTP status code 403', async function () {
         // given
-        sinon
-          .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
+        securityPreHandlers.hasAtLeastOneAccessOf
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkAdminMemberHasRoleSupport,
@@ -590,7 +588,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
     });
   });
 
-  describe('PUT /api/admin/target-profiles/{id}/simplified-access', function () {
+  describe('PUT /api/admin/target-profiles/{targetProfileId}/simplified-access', function () {
     const method = 'PUT';
     const url = '/api/admin/target-profiles/123/simplified-access';
     const payload = {};
@@ -598,8 +596,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
     context('when user has role "SUPER_ADMIN", "SUPPORT" or "METIER"', function () {
       it('should return a response with an HTTP status code 200', async function () {
         // given
-        sinon
-          .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
+        securityPreHandlers.hasAtLeastOneAccessOf
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkAdminMemberHasRoleSupport,
@@ -640,8 +637,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
     context('when user has role "CERTIF"', function () {
       it('should return a response with an HTTP status code 403', async function () {
         // given
-        sinon
-          .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
+        securityPreHandlers.hasAtLeastOneAccessOf
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkAdminMemberHasRoleSupport,

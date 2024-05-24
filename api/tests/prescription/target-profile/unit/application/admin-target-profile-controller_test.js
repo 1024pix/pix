@@ -243,7 +243,7 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
 
       request = {
         params: {
-          id: 123,
+          targetProfileId: 123,
         },
       };
     });
