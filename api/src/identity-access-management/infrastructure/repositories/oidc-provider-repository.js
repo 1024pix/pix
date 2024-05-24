@@ -1,10 +1,12 @@
+import { knex } from '../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import { AlreadyExistingEntityError } from '../../../shared/domain/errors.js';
+import * as knexUtils from '../../../shared/infrastructure/utils/knex-utils.js';
+import { OidcProvider } from '../../domain/models/OidcProvider.js';
+
 /**
  * @module OidcProviderRepository
  */
-
-import { knex } from '../../../../db/knex-database-connection.js';
-import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import { OidcProvider } from '../../domain/models/OidcProvider.js';
 
 const OIDC_PROVIDERS_TABLE_NAME = 'oidc-providers';
 
@@ -37,7 +39,15 @@ const create = async function (
   dependencies = { domainTransaction: DomainTransaction.emptyTransaction() },
 ) {
   const knexConn = dependencies.domainTransaction.knexTransaction ?? knex;
-  return knexConn(OIDC_PROVIDERS_TABLE_NAME).insert(oidcProviderProperties).returning('*');
+  try {
+    const result = await knexConn(OIDC_PROVIDERS_TABLE_NAME).insert(oidcProviderProperties).returning('*');
+    return result;
+  } catch (err) {
+    if (knexUtils.isUniqConstraintViolated(err)) {
+      throw new AlreadyExistingEntityError();
+    }
+    throw err;
+  }
 };
 
 /**
