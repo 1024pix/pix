@@ -11,7 +11,7 @@ import { databaseBuilder, domainBuilder, expect } from '../../../../../test-help
 
 describe('Integration | Infrastructure | Repository | v3-certification-course-details-for-administration', function () {
   describe('#getV3DetailsByCertificationCourseId', function () {
-    it('should return all challenges by certification course id', async function () {
+    it('should return all challenges by certification course id and last assessment result', async function () {
       // given
       const certificationCourseId = 123;
       const challengeId = 'recCHAL456';
@@ -43,12 +43,28 @@ describe('Integration | Infrastructure | Repository | v3-certification-course-de
         certificationCourseId,
         state: assessmentState,
       });
+
       databaseBuilder.factory.buildAssessmentResult({
+        pixScore: 50,
+        certificationCourseId,
+        assessmentId,
+        assessmentResultStatus,
+        createdAt: new Date('2020-01-01'),
+      });
+
+      const lastAssessmentResultId = databaseBuilder.factory.buildAssessmentResult({
         pixScore,
         certificationCourseId,
         assessmentId,
         assessmentResultStatus,
+        createdAt: new Date('2024-01-01'),
+      }).id;
+
+      databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
+        certificationCourseId,
+        lastAssessmentResultId,
       });
+
       const { maximumAssessmentLength: numberOfChallenges } = databaseBuilder.factory.buildFlashAlgorithmConfiguration({
         maximumAssessmentLength: 1,
         createdAt: flashAlgorithmConfigurationCreationDate,

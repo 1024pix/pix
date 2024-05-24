@@ -39,7 +39,16 @@ const getV3DetailsByCertificationCourseId = async function ({ certificationCours
     })
     .from('certification-courses')
     .leftJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
-    .leftJoin('assessment-results', 'assessments.id', 'assessment-results.assessmentId')
+    .leftJoin(
+      'certification-courses-last-assessment-results',
+      'certification-courses.id',
+      'certification-courses-last-assessment-results.certificationCourseId',
+    )
+    .leftJoin(
+      'assessment-results',
+      'assessment-results.id',
+      'certification-courses-last-assessment-results.lastAssessmentResultId',
+    )
     .where({
       'certification-courses.id': certificationCourseId,
     })
