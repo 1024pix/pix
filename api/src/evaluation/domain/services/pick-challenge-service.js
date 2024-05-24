@@ -1,7 +1,7 @@
 import hashInt from 'hash-int';
 
-import { config } from '../../../../../lib/config.js';
-import { random } from '../../../../../lib/infrastructure/utils/random.js';
+import { config } from '../../../../lib/config.js';
+import { random } from '../../../../lib/infrastructure/utils/random.js';
 const NON_EXISTING_ITEM = null;
 const VALIDATED_STATUS = 'validé';
 

@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 
 import * as certificationResultRepository from '../../../../../lib/infrastructure/repositories/certification-result-repository.js';
 import * as competenceMarkRepository from '../../../../../lib/infrastructure/repositories/competence-mark-repository.js';
+import * as pickChallengeService from '../../../../evaluation/domain/services/pick-challenge-service.js';
 import * as answerRepository from '../../../../shared/infrastructure/repositories/answer-repository.js';
 import * as assessmentResultRepository from '../../../../shared/infrastructure/repositories/assessment-result-repository.js';
 import * as challengeRepository from '../../../../shared/infrastructure/repositories/challenge-repository.js';
@@ -11,7 +12,6 @@ import * as competenceRepository from '../../../../shared/infrastructure/reposit
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as flashAlgorithmService from '../../../flash-certification/domain/services/algorithm-methods/flash.js';
-import * as pickChallengeService from '../../../flash-certification/domain/services/pick-challenge-service.js';
 import * as flashAlgorithmConfigurationRepository from '../../../flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
 import * as certificationChallengeLiveAlertRepository from '../../../shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
 import * as certificationChallengeRepository from '../../../shared/infrastructure/repositories/certification-challenge-repository.js';

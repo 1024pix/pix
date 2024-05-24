@@ -1,6 +1,6 @@
-import { pickChallengeService } from '../../../../../../src/certification/flash-certification/domain/services/pick-challenge-service.js';
-import { LOCALE } from '../../../../../../src/shared/domain/constants.js';
-import { domainBuilder, expect } from '../../../../../test-helper.js';
+import { pickChallengeService } from '../../../../../src/evaluation/domain/services/pick-challenge-service.js';
+import { LOCALE } from '../../../../../src/shared/domain/constants.js';
+import { domainBuilder, expect } from '../../../../test-helper.js';
 
 const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = LOCALE;
 

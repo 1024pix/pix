@@ -6,7 +6,6 @@ import * as campaignParticipationRepository from '../../../../lib/infrastructure
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
 import * as targetProfileRepository from '../../../../lib/infrastructure/repositories/target-profile-repository.js';
-import { pickChallengeService } from '../../../certification/flash-certification/domain/services/pick-challenge-service.js';
 import * as answerRepository from '../../../shared/infrastructure/repositories/answer-repository.js';
 import * as areaRepository from '../../../shared/infrastructure/repositories/area-repository.js';
 import * as assessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
@@ -25,6 +24,7 @@ import * as stageCollectionForTargetProfileRepository from '../../infrastructure
 import * as stageRepository from '../../infrastructure/repositories/stage-repository.js';
 import * as smartRandomService from '../services/algorithm-methods/smart-random.js';
 import { getCompetenceLevel } from '../services/get-competence-level.js';
+import { pickChallengeService } from '../services/pick-challenge-service.js';
 import * as scorecardService from '../services/scorecard-service.js';
 
 const path = dirname(fileURLToPath(import.meta.url));
