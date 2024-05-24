@@ -6,7 +6,7 @@ import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 module('Unit | Component | Module | QCU', function (hooks) {
   setupTest(hooks);
 
-  module('#feedbackType', function () {
+  module('#answerIsValid', function () {
     module('When correction status is ko', function () {
       test('should be error', async function (assert) {
         // given
@@ -23,10 +23,10 @@ module('Unit | Component | Module | QCU', function (hooks) {
         });
 
         // when
-        const feedbackType = component.feedbackType;
+        const answerIsValid = component.answerIsValid;
 
         // then
-        assert.strictEqual(feedbackType, 'error');
+        assert.false(answerIsValid);
       });
     });
 
@@ -46,10 +46,10 @@ module('Unit | Component | Module | QCU', function (hooks) {
         });
 
         // when
-        const feedbackType = component.feedbackType;
+        const answerIsValid = component.answerIsValid;
 
         // then
-        assert.strictEqual(feedbackType, 'success');
+        assert.true(answerIsValid);
       });
     });
   });

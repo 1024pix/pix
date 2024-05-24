@@ -10,8 +10,8 @@ export default class ModuleElement extends Component {
     return this.args.element;
   }
 
-  get feedbackType() {
-    return this.correction?.isOk ? 'success' : 'error';
+  get answerIsValid() {
+    return this.correction?.isOk;
   }
 
   get disableInput() {
