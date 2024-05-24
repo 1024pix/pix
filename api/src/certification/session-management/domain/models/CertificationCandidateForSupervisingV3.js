@@ -1,4 +1,4 @@
-import { CertificationCandidateForSupervising } from '../../../../../lib/domain/models/index.js';
+import { CertificationCandidateForSupervising } from './CertificationCandidateForSupervising.js';
 
 export class CertificationCandidateForSupervisingV3 extends CertificationCandidateForSupervising {
   constructor({ liveAlert = null, ...rest }) {

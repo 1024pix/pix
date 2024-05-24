@@ -1,4 +1,4 @@
-import { CertificationCandidateForSupervising } from '../../../../src/certification/supervision/domain/models/CertificationCandidateForSupervising.js';
+import { CertificationCandidateForSupervising } from '../../../../src/certification/session-management/domain/models/CertificationCandidateForSupervising.js';
 
 const buildCertificationCandidateForSupervising = function ({
   id = 123,
