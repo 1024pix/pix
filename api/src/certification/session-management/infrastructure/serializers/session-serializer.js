@@ -17,6 +17,7 @@ const serialize = function ({ session, hasSupervisorAccess, hasSomeCleaAcquired 
     'certificationReports',
     'hasSupervisorAccess',
     'hasSomeCleaAcquired',
+    'version',
   ];
   return new Serializer('session-management', {
     transform(record) {
@@ -52,6 +53,7 @@ const deserialize = function (json) {
     examinerGlobalComment: attributes['examiner-global-comment'],
     hasIncident: attributes['has-incident'],
     hasJoiningIssue: attributes['has-joining-issue'],
+    version: attributes['version'],
   });
 
   if (_.isEmpty(_.trim(result.examinerGlobalComment))) {

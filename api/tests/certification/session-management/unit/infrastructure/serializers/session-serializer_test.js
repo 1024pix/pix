@@ -21,6 +21,7 @@ describe('Unit | Certification | session-management | Serializer | session-seria
             'finalized-at': new Date('2020-02-17T14:23:56Z'),
             'results-sent-to-prescriber-at': new Date('2020-02-20T14:23:56Z'),
             'published-at': new Date('2020-02-21T14:23:56Z'),
+            version: 3,
           },
           relationships: {
             'certification-reports': {
@@ -39,6 +40,7 @@ describe('Unit | Certification | session-management | Serializer | session-seria
         finalizedAt: new Date('2020-02-17T14:23:56Z'),
         resultsSentToPrescriberAt: new Date('2020-02-20T14:23:56Z'),
         publishedAt: new Date('2020-02-21T14:23:56Z'),
+        version: 3,
       });
     });
 
@@ -100,6 +102,7 @@ describe('Unit | Certification | session-management | Serializer | session-seria
           'has-joining-issue': true,
           'finalized-at': new Date('2020-02-17T14:23:56Z'),
           'results-sent-to-prescriber-at': new Date('2020-02-20T14:23:56Z'),
+          version: 3,
         },
         relationships: {
           certifications: {
@@ -130,6 +133,7 @@ describe('Unit | Certification | session-management | Serializer | session-seria
       expect(session.examinerGlobalComment).to.equal('It was a fine session my dear');
       expect(session.hasIncident).to.be.true;
       expect(session.hasJoiningIssue).to.be.true;
+      expect(session.version).to.equal(3);
     });
 
     // eslint-disable-next-line mocha/no-setup-in-describe
