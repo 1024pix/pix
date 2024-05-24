@@ -27,7 +27,12 @@
         @shouldBlurBanner={{this.shouldBlurBanner}}
       />
     {{else}}
-      <AssessmentBanner @title={{@model.assessment.title}} @displayHomeLink={{this.displayHomeLink}} />
+      <AssessmentBanner
+        @title={{@model.assessment.title}}
+        @displayHomeLink={{this.displayHomeLink}}
+        @isTextToSpeechActivated={{this.isTextToSpeechActivated}}
+        @toggleTextToSpeech={{this.toggleTextToSpeech}}
+      />
     {{/if}}
   </div>
 
@@ -48,7 +53,6 @@
     {{/if}}
 
     {{#if this.displayChallenge}}
-
       <div
         class="focus-zone-warning
           {{if this.isFocusedChallengeAndUserHasFocusedOutOfChallenge 'focus-zone-warning--triggered'}}"
@@ -69,6 +73,7 @@
           @onFocusOutOfWindow={{this.focusedOutOfWindow}}
           @hasFocusedOutOfWindow={{this.hasFocusedOutOfWindow}}
           @isFocusedChallengeAndUserHasFocusedOutOfChallenge={{this.isFocusedChallengeAndUserHasFocusedOutOfChallenge}}
+          @isTextToSpeechActivated={{this.isTextToSpeechActivated}}
         />
 
         <div class="challenge__feedback" role="complementary">
@@ -83,9 +88,7 @@
       {{#if this.isFocusedChallengeAndUserHasFocusedOutOfChallenge}}
         <div class="focus-zone-warning__overlay" />
       {{/if}}
-
     {{/if}}
-
   </main>
 
   {{#if @model.challenge.focused}}
