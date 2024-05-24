@@ -17,6 +17,11 @@ function _toDomain(invitationDTO) {
   });
 }
 
+/**
+ * @callback findPendingByCertificationCenterId
+ * @param {{certificationCenterId: string}} params
+ * @returns {Promise<CertificationCenterInvitation>}
+ */
 const findPendingByCertificationCenterId = async function ({ certificationCenterId }) {
   const pendingCertificationCenterInvitations = await knex(CERTIFICATION_CENTER_INVITATIONS)
     .select('id', 'email', 'certificationCenterId', 'updatedAt', 'role')
@@ -25,6 +30,11 @@ const findPendingByCertificationCenterId = async function ({ certificationCenter
   return pendingCertificationCenterInvitations.map(_toDomain);
 };
 
+/**
+ * @callback getByIdAndCode
+ * @param {id: string, code: string} params
+ * @returns {Promise<CertificationCenterInvitation>}
+ */
 const getByIdAndCode = async function ({ id, code }) {
   const certificationCenterInvitation = await knex(CERTIFICATION_CENTER_INVITATIONS)
     .select({
@@ -51,6 +61,11 @@ const getByIdAndCode = async function ({ id, code }) {
   return _toDomain(certificationCenterInvitation);
 };
 
+/**
+ * @callback get
+ * @param {string} id
+ * @returns {Promise<CertificationCenterInvitation>}
+ */
 const get = async function (id) {
   const certificationCenterInvitation = await knex(CERTIFICATION_CENTER_INVITATIONS).select('*').where({ id }).first();
   if (!certificationCenterInvitation) {
@@ -59,6 +74,11 @@ const get = async function (id) {
   return _toDomain(certificationCenterInvitation);
 };
 
+/**
+ * @callback findOnePendingByEmailAndCertificationCenterId
+ * @param {email: string, certificationCenterId: string} params
+ * @returns {Promise<CertificationCenterInvitation|null>}
+ */
 const findOnePendingByEmailAndCertificationCenterId = async function ({ email, certificationCenterId }) {
   const existingPendingInvitation = await knex(CERTIFICATION_CENTER_INVITATIONS)
     .select('id')
@@ -68,6 +88,11 @@ const findOnePendingByEmailAndCertificationCenterId = async function ({ email, c
   return existingPendingInvitation ? _toDomain(existingPendingInvitation) : null;
 };
 
+/**
+ * @callback create
+ * @param {CertificationCenterInvitation} invitation
+ * @returns {Promise<CertificationCenterInvitation>}
+ */
 const create = async function (invitation) {
   const [newInvitation] = await knex(CERTIFICATION_CENTER_INVITATIONS)
     .insert(invitation)
@@ -81,6 +106,11 @@ const create = async function (invitation) {
   return _toDomain({ ...newInvitation, certificationCenterName });
 };
 
+/**
+ * @callback update
+ * @param {CertificationCenterInvitation} certificationCenterInvitation
+ * @returns {Promise<CertificationCenterInvitation>}
+ */
 const update = async function (certificationCenterInvitation) {
   const [updatedCertificationCenterInvitation] = await knex('certification-center-invitations')
     .update({ updatedAt: new Date() })
@@ -95,6 +125,11 @@ const update = async function (certificationCenterInvitation) {
   return _toDomain({ ...updatedCertificationCenterInvitation, certificationCenterName });
 };
 
+/**
+ * @callback markAsCancelled
+ * @param {{id: string}} params
+ * @returns {Promise<CertificationCenterInvitation>}
+ */
 const markAsCancelled = async function ({ id }) {
   const [certificationCenterInvitation] = await knex('certification-center-invitations')
     .where({ id })
@@ -109,12 +144,27 @@ const markAsCancelled = async function ({ id }) {
   return _toDomain(certificationCenterInvitation);
 };
 
+/**
+ * @callback updateModificationDate
+ * @param {string} certificationCenterInvitationId
+ * @returns {Promise<void>}
+ */
 const updateModificationDate = async function (certificationCenterInvitationId) {
   await knex(CERTIFICATION_CENTER_INVITATIONS)
     .where({ id: certificationCenterInvitationId })
     .update({ updatedAt: new Date() });
 };
 
+/**
+ * @typedef CertificationCenterInvitationRepository
+ * @property {findOnePendingByEmailAndCertificationCenterId} findOnePendingByEmailAndCertificationCenterId
+ * @property {findPendingByCertificationCenterId} findPendingByCertificationCenterId
+ * @property {get} get
+ * @property {getByIdAndCode} getByIdAndCode
+ * @property {markAsCancelled} markAsCancelled
+ * @property {update} update
+ * @property {updateModificationDate} updateModificationDate
+ */
 export {
   create,
   findOnePendingByEmailAndCertificationCenterId,
