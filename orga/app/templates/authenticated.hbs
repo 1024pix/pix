@@ -3,7 +3,7 @@
 
   <div class="main-content">
     <header>
-      <Layout::Topbar @placesCount={{@model.available}} />
+      <Layout::Topbar @placesCount={{@model.available}} @reloadPlaceStatistics={{this.reloadPlaceStatistics}} />
     </header>
 
     <main class="main-content__body page">

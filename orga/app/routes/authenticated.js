@@ -1,3 +1,4 @@
+import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 import get from 'lodash/get';
@@ -27,5 +28,10 @@ export default class AuthenticatedRoute extends Route {
         organizationId: this.currentUser.organization.id,
       });
     } else return null;
+  }
+
+  @action
+  refreshModel() {
+    this.refresh();
   }
 }
