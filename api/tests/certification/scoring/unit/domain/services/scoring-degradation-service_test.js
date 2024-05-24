@@ -1,5 +1,5 @@
 import * as flashAlgorithmService from '../../../../../../src/certification/flash-certification/domain/services/algorithm-methods/flash.js';
-import { scoringDegradationService } from '../../../../../../src/domain/services/scoring/scoring-degradation-service.js';
+import { scoringDegradationService } from '../../../../../../src/certification/scoring/domain/services/scoring-degradation-service.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | services | scoringDegradationService', function () {

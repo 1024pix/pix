@@ -5,6 +5,7 @@ import _ from 'lodash';
 import * as complementaryCertificationBadgesRepository from '../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-badge-repository.js';
 import * as flashAlgorithmService from '../../../src/certification/flash-certification/domain/services/algorithm-methods/flash.js';
 import * as flashAlgorithmConfigurationRepository from '../../../src/certification/flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
+import { scoringDegradationService } from '../../../src/certification/scoring/domain/services/scoring-degradation-service.js';
 import * as certificationAssessmentHistoryRepository from '../../../src/certification/scoring/infrastructure/repositories/certification-assessment-history-repository.js';
 import * as certificationChallengeForScoringRepository from '../../../src/certification/scoring/infrastructure/repositories/certification-challenge-for-scoring-repository.js';
 import * as scoringConfigurationRepository from '../../../src/certification/scoring/infrastructure/repositories/scoring-configuration-repository.js';
@@ -14,7 +15,6 @@ import * as certificationAssessmentRepository from '../../../src/certification/s
 import * as certificationCenterRepository from '../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
 import * as certificationCourseRepository from '../../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
 import * as certificationIssueReportRepository from '../../../src/certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
-import { scoringDegradationService } from '../../../src/domain/services/scoring/scoring-degradation-service.js';
 import * as answerRepository from '../../../src/shared/infrastructure/repositories/answer-repository.js';
 import * as assessmentRepository from '../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as assessmentResultRepository from '../../../src/shared/infrastructure/repositories/assessment-result-repository.js';
