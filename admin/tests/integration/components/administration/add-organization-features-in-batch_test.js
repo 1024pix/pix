@@ -12,7 +12,7 @@ const accessToken = 'An access token';
 const fileContent = 'foo';
 const file = new Blob([fileContent], { type: `valid-file` });
 
-module('Integration | Component |  administration/organizations-batch-update', function (hooks) {
+module('Integration | Component |  administration/add-organization-features-in-batch', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   let fetchStub;
@@ -55,9 +55,9 @@ module('Integration | Component |  administration/organizations-batch-update', f
       this.owner.register('service:notifications', NotificationsStub);
 
       // when
-      const screen = await render(hbs`<Administration::OrganizationsBatchUpdate />`);
+      const screen = await render(hbs`<Administration::AddOrganizationFeaturesInBatch />`);
       const input = await screen.getByLabelText(
-        this.intl.t('components.administration.organizations-batch-update.upload-button'),
+        this.intl.t('components.administration.add-organization-features-in-batch.upload-button'),
       );
       await triggerEvent(input, 'change', { files: [file] });
 
@@ -65,7 +65,7 @@ module('Integration | Component |  administration/organizations-batch-update', f
       assert.ok(true);
       sinon.assert.calledWith(
         notificationSuccessStub,
-        this.intl.t('components.administration.organizations-batch-update.notifications.success'),
+        this.intl.t('components.administration.add-organization-features-in-batch.notifications.success'),
       );
     });
   });
@@ -103,9 +103,9 @@ module('Integration | Component |  administration/organizations-batch-update', f
       this.owner.register('service:notifications', NotificationsStub);
 
       // when
-      const screen = await render(hbs`<Administration::OrganizationsBatchUpdate />`);
+      const screen = await render(hbs`<Administration::AddOrganizationFeaturesInBatch />`);
       const input = await screen.findByLabelText(
-        this.intl.t('components.administration.organizations-batch-update.upload-button'),
+        this.intl.t('components.administration.add-organization-features-in-batch.upload-button'),
       );
       await triggerEvent(input, 'change', { files: [file] });
 

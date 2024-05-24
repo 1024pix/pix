@@ -3,14 +3,14 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import ENV from 'pix-admin/config/environment';
 
-export default class OrganizationsBatchUpdate extends Component {
+export default class AddOrganizationFeaturesInBatch extends Component {
   @service intl;
   @service notifications;
   @service session;
   @service errorResponseHandler;
 
   @action
-  async updateOrganizationsInBatch(files) {
+  async addOrganizationFeaturesInBatch(files) {
     this.notifications.clearAll();
 
     let response;
@@ -29,7 +29,7 @@ export default class OrganizationsBatchUpdate extends Component {
       });
       if (response.ok) {
         this.notifications.success(
-          this.intl.t('components.administration.organizations-batch-update.notifications.success'),
+          this.intl.t('components.administration.add-organization-features-in-batch.notifications.success'),
         );
         return;
       } else {

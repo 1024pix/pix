@@ -33,6 +33,14 @@
   },
   "components": {
     "administration": {
+      "add-organization-features-in-batch": {
+        "title": "Activation de fonctionnalités",
+        "description": "Note: Chercher à activer à nouveau des fonctionnalites déjà existantes sur une organisation renverrait une erreur.",
+        "notifications": {
+          "success": "Les fonctionnalités ont bien été activés."
+        },
+        "upload-button": "Importer un fichier CSV"
+      },
       "campaigns-import": {
         "title": "Création en masse de campagnes",
         "description": "Les campagnes déjà existantes ne seront pas modifiées. Il n'y a pas de contrôle pour empêcher les doublons.",
@@ -48,14 +56,6 @@
           "success": "Les OIDC Providers ont bien été créés."
         },
         "upload-button": "Importer un fichier JSON"
-      },
-      "organizations-batch-update": {
-        "title": "Activation de fonctionnalités",
-        "description": "Note: Chercher à activer à nouveau des fonctionnalites déjà existantes sur une organisation renverrait une erreur.",
-        "notifications": {
-          "success": "Les fonctionnalités ont bien été activés."
-        },
-        "upload-button": "Importer un fichier CSV"
       },
       "organizations-import": {
         "title": "Création en masse d'organisations",
