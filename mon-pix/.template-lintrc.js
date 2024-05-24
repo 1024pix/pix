@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports = {
   plugins: ['ember-template-lint-plugin-prettier'],
 
@@ -21,6 +19,12 @@ module.exports = {
       files: ['**/integration/**/*_test.js'],
       rules: {
         prettier: false,
+      },
+    },
+    {
+      files: ['**/*.gjs'],
+      rules: {
+        prettier: 'off',
       },
     },
   ],

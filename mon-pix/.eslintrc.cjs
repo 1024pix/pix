@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports = {
   root: true,
   parser: '@babel/eslint-parser',
@@ -47,6 +45,18 @@ module.exports = {
   },
   overrides: [
     // node files
+    {
+      files: ['**/*.gjs'],
+      parser: 'ember-eslint-parser',
+      plugins: ['ember', 'qunit'],
+      extends: [
+        '@1024pix',
+        'plugin:ember/recommended',
+        'plugin:ember/recommended-gjs',
+        'plugin:qunit/recommended',
+        'plugin:prettier/recommended',
+      ],
+    },
     {
       files: [
         '.eslintrc.cjs',
