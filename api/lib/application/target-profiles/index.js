@@ -246,64 +246,6 @@ const register = async function (server) {
         ],
       },
     },
-
-    {
-      method: 'PUT',
-      path: '/api/admin/target-profiles/{id}/outdate',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.targetProfileId,
-          }),
-        },
-        handler: targetProfileController.outdateTargetProfile,
-        tags: ['api', 'admin', 'target-profiles'],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            '- Elle permet de marquer un profil cible comme obsolète',
-        ],
-      },
-    },
-    {
-      method: 'PUT',
-      path: '/api/admin/target-profiles/{id}/simplified-access',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.targetProfileId,
-          }),
-        },
-        handler: targetProfileController.markTargetProfileAsSimplifiedAccess,
-        tags: ['api', 'admin', 'target-profiles'],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            '- Elle permet de marquer un profil cible comme étant "Parcours Accès Simplifié"',
-        ],
-      },
-    },
-
     {
       method: 'PATCH',
       path: '/api/admin/target-profiles/{id}',

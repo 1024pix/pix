@@ -292,33 +292,6 @@ describe('Acceptance | Route | target-profiles', function () {
     });
   });
 
-  describe('PUT /api/admin/target-profiles/{id}/outdate', function () {
-    it('should return 204', async function () {
-      const targetProfile = databaseBuilder.factory.buildTargetProfile();
-      const user = databaseBuilder.factory.buildUser.withRole();
-      await databaseBuilder.commit();
-
-      const options = {
-        method: 'PUT',
-        url: `/api/admin/target-profiles/${targetProfile.id}/outdate`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-        payload: {
-          data: {
-            attributes: {
-              outdated: true,
-            },
-          },
-        },
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(204);
-    });
-  });
-
   describe('POST /api/admin/target-profiles/{id}/badges', function () {
     context('Badge with capped tubes', function () {
       let user, targetProfileId;
