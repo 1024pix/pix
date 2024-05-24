@@ -107,7 +107,7 @@ describe('Acceptance | Controller | passage-controller', function () {
           userResponse: [{ input: 'email', answer: 'naomizao457@yahoo.com' }],
           expectedUserResponseValue: { email: 'naomizao457@yahoo.com' },
           expectedFeedback:
-            "<p>Correct.&nbsp;<span aria-hidden=\"true\">🎉</span> Tout est dans l'ordre&nbsp;: l'identifiant, l'arobase puis le fournisseur d'adresse mail</p>",
+            '<span class="feedback__state">Correct.&nbsp;<span aria-hidden="true">🎉</span></span><p>Tout est dans l\'ordre&nbsp;: l\'identifiant, l\'arobase puis le fournisseur d\'adresse mail</p>',
           expectedSolution: {
             email: ['naomizao457@yahoo.com', 'naomizao457@yahoo.fr'],
           },

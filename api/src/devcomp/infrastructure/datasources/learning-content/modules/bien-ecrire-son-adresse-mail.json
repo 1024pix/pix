@@ -183,8 +183,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></p>",
-              "invalid": "<p>Incorrect. Cherchez le symbole @ sur votre clavier pour pouvoir l'écrire.</p>"
+              "valid": "<span class=\"feedback__state\">Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></span>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Cherchez le symbole @ sur votre clavier pour pouvoir l'écrire.</p>"
             }
           }
         },
@@ -253,8 +253,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span>&nbsp;Vous avez retrouvé le bon format d’une adresse mail.</p>",
-              "invalid": "<p>Incorrect&#8239;! Pour avoir de l’aide, revenez en arrière.&nbsp;<span aria-hidden=\"true\">👆</span></p>"
+              "valid": "<span class=\"feedback__state\">Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Vous avez retrouvé le bon format d’une adresse mail.</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span><p>Pour avoir de l’aide, revenez en arrière.&nbsp;<span aria-hidden=\"true\">👆</span></p>"
             }
           }
         }
@@ -329,8 +329,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Et oui&#8239;! Cette adresse est correctement écrite. On peut avoir des chiffres n’importe où dans l’identifiant. On peut aussi utiliser des majuscules.</p>",
-              "invalid": "<p>Et si&#8239;! Cette adresse est correctement écrite. On peut avoir des chiffres n’importe où dans l’identifiant. On peut aussi utiliser des majuscules.</p>"
+              "valid": "<span class=\"feedback__state\">Et oui&#8239;!</span><p>Cette adresse est correctement écrite. On peut avoir des chiffres n’importe où dans l’identifiant. On peut aussi utiliser des majuscules.</p>",
+              "invalid": "<span class=\"feedback__state\">Et si&#8239;!</span><p>Cette adresse est correctement écrite. On peut avoir des chiffres n’importe où dans l’identifiant. On peut aussi utiliser des majuscules.</p>"
             },
             "solution": "1"
           }
@@ -391,7 +391,7 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Bien vu&#8239;! Google n’est effectivement pas le seul fournisseur d’adresse mail. Il y en énormément, vous avez peut-être déjà vu des adresses de chez</p><ul><li>Microsoft (hotmail.com)</li><li>Free (free.fr)</li><li>La Poste (laposte.net).</li></ul>",
+              "valid": "<span class=\"feedback__state\">Bien vu&#8239;!</span><p>Google n’est effectivement pas le seul fournisseur d’adresse mail. Il y en énormément, vous avez peut-être déjà vu des adresses de chez</p><ul><li>Microsoft (hotmail.com)</li><li>Free (free.fr)</li><li>La Poste (laposte.net).</li></ul>",
               "invalid": "<p>Il y a d’autres fournisseurs d’adresses mails que Google (gmail.com).</p><p>Il y en a énormément, vous avez peut-être déjà vu des adresses de chez</p><ul><li>Microsoft (hotmail.com)</li><li>Free (free.fr)</li><li>La Poste (laposte.net).</li></ul>"
             },
             "solution": "2"
@@ -444,8 +444,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct.&nbsp;<span aria-hidden=\"true\">🎉</span> Tout est dans l'ordre&nbsp;: l'identifiant, l'arobase puis le fournisseur d'adresse mail</p>",
-              "invalid": "<p> Incorrect. Pour réussir la prochaine fois, utilisez les indices ci-dessous&nbsp;<span aria-hidden=\"true\">👇</span> </p>"
+              "valid": "<span class=\"feedback__state\">Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Tout est dans l'ordre&nbsp;: l'identifiant, l'arobase puis le fournisseur d'adresse mail</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Pour réussir la prochaine fois, utilisez les indices ci-dessous&nbsp;<span aria-hidden=\"true\">👇</span> </p>"
             }
           }
         },
