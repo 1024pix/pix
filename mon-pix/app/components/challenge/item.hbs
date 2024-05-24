@@ -4,7 +4,11 @@
   data-challenge-id="{{@challenge.id}}"
   role="article"
 >
-  <ChallengeStatement @challenge={{@challenge}} @assessment={{@assessment}} />
+  <ChallengeStatement
+    @challenge={{@challenge}}
+    @assessment={{@assessment}}
+    @isTextToSpeechActivated={{@isTextToSpeechActivated}}
+  />
 
   <this.challengeComponent
     @challenge={{@challenge}}

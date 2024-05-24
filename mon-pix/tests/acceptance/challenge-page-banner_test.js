@@ -57,4 +57,44 @@ module('Acceptance | Challenge page banner', function (hooks) {
       assert.strictEqual(currentURL(), '/accueil');
     });
   });
+
+  module('When the assessment is not a certification', function () {
+    module('When FT_ENABLE_TEXT_TO_SPEECH_BUTTON is true', function (hooks) {
+      let assessment;
+      let challenge;
+
+      hooks.beforeEach(function () {
+        server.create('feature-toggle', { id: 0, isTextToSpeechButtonEnabled: true });
+        assessment = server.create('assessment', 'ofCompetenceEvaluationType', {
+          title: 'Assessment title',
+        });
+        challenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCM', {
+          instruction: 'Instruction à lire',
+        });
+      });
+
+      test("should display text-to-speech button in challenge instruction when it's been activated in the banner", async function (assert) {
+        // given
+        const screen = await visit(`/assessments/${assessment.id}/challenges/${challenge.id}`);
+        await click(screen.getByRole('button', { name: 'Désactiver la vocalisation' }));
+
+        // when
+        await click(screen.getByRole('button', { name: 'Activer la vocalisation' }));
+
+        // then
+        assert.dom(screen.getByRole('button', { name: 'Lire à haute voix' })).exists();
+      });
+
+      test("should hide text-to-speech button in challenge instruction when it's been deactivated in the banner", async function (assert) {
+        // given
+        const screen = await visit(`/assessments/${assessment.id}/challenges/${challenge.id}`);
+
+        // when
+        await click(screen.getByRole('button', { name: 'Désactiver la vocalisation' }));
+
+        // then
+        assert.dom(screen.queryByRole('button', { name: 'Lire à haute voix' })).doesNotExist();
+      });
+    });
+  });
 });
