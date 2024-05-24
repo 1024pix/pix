@@ -14,6 +14,10 @@ export default class Challenge extends Component {
     return this.answerValue === null || this.answerValue === '';
   }
 
+  get disableLessonButton() {
+    return this.args.challenge.hasValidEmbedDocument ? this.answerValue === null || this.answerValue === '' : false;
+  }
+
   get robotMood() {
     if (this.answer?.result === 'ok') {
       return 'happy';

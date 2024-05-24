@@ -8,7 +8,6 @@
     {{#if (eq this.answer.result "ko")}}
       <Bubble @message={{t "pages.challenge.messages.wrong-answer"}} @color="error" aria-live="polite" />
     {{/if}}
-
   </RobotDialog>
   <Challenge::Item
     @setAnswerValue={{this.setAnswerValue}}
@@ -17,6 +16,7 @@
     @challenge={{@challenge}}
     @assessment={{@assessment}}
     @disableCheckButton={{this.disableCheckButton}}
+    @disableLessonButton={{this.disableLessonButton}}
     @answerHasBeenValidated={{this.answerHasBeenValidated}}
     @activity={{@activity}}
     @resume={{this.resume}}

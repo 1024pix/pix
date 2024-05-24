@@ -60,7 +60,7 @@ module('Integration | Component | challenge', function (hooks) {
     assert.dom('.challenge-item__qcm').exists();
   });
 
-  test('display image, embed and qroc', async function (assert) {
+  test('displays image, embed and qroc', async function (assert) {
     this.set('challenge', {
       hasValidEmbedDocument: true,
       autoReply: false,
@@ -75,5 +75,19 @@ module('Integration | Component | challenge', function (hooks) {
     assert.dom('.challenge-item__image').exists();
     assert.dom('.challenge-item__embed').exists();
     assert.dom('.challenge-item__qrocm').exists();
+  });
+
+  test('displays lesson', async function (assert) {
+    this.set('challenge', {
+      hasValidEmbedDocument: true,
+      autoReply: false,
+      focused: true,
+    });
+    this.set('assessment', {});
+
+    const screen = await render(hbs`<Challenge::Item @challenge={{this.challenge}} @assessment={{this.assessment}} />`);
+
+    assert.dom(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.continue') })).exists();
+    assert.dom(screen.queryByRole('button', { name: this.intl.t('pages.challenge.actions.skip') })).doesNotExist();
   });
 });
