@@ -8,6 +8,11 @@ export default Factory.extend({
   embedTitle: 'Applications',
   proposals: 'Rue de : ${Rue#}',
   autoReply: false,
+  focused: false,
+
+  lesson: trait({
+    focused: true,
+  }),
 
   QROCWithTextArea: trait({
     format: 'paragraphe',
