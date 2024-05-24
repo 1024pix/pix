@@ -8,7 +8,9 @@ module('Unit | Service | feature-toggles', function (hooks) {
   setupTest(hooks);
 
   module('feature toggles are loaded', function (hooks) {
-    const featureToggles = Object.create({});
+    const featureToggles = Object.create({
+      isTextToSpeechButtonEnabled: false,
+    });
 
     let storeStub;
 
@@ -28,6 +30,18 @@ module('Unit | Service | feature-toggles', function (hooks) {
 
       // then
       assert.deepEqual(featureToggleService.featureToggles, featureToggles);
+    });
+
+    test('it should initialize the feature toggle isTextToSpeechButtonEnabled to false', async function (assert) {
+      // given
+      const featureToggleService = this.owner.lookup('service:featureToggles');
+      featureToggleService.set('store', storeStub);
+
+      // when
+      await featureToggleService.load();
+
+      // then
+      assert.false(featureToggleService.featureToggles.isTextToSpeechButtonEnabled);
     });
   });
 });
