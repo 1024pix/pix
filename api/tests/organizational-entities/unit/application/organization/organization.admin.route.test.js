@@ -1,3 +1,4 @@
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { organizationAdminController } from '../../../../../src/organizational-entities/application/organization/organization.admin.controller.js';
 import { organizationalEntitiesRoutes } from '../../../../../src/organizational-entities/application/routes.js';
 import {
@@ -10,19 +11,25 @@ import { securityPreHandlers } from '../../../../../src/shared/application/secur
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Router | organization-router', function () {
+  let httpTestServer;
+
+  beforeEach(async function () {
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register(organizationalEntitiesRoutes[0]);
+  });
+
+  afterEach(function () {
+    sinon.restore();
+  });
+
   describe('POST /api/admin/organizations/add-organization-features', function () {
     const method = 'POST';
     const url = '/api/admin/organizations/add-organization-features';
     const payload = {};
 
-    let httpTestServer;
-
     beforeEach(async function () {
       sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').resolves(true);
-
       sinon.stub(organizationAdminController, 'addOrganizationFeatureInBatch');
-      httpTestServer = new HttpTestServer();
-      await httpTestServer.register(organizationalEntitiesRoutes[0]);
     });
 
     it('returns call the "checkAdminMemberHasRoleSuperAdmin" security prehandler', async function () {
@@ -39,9 +46,6 @@ describe('Unit | Router | organization-router', function () {
     it('returns call the "addOrganizationFeatureInBatch" controller', async function () {
       // given
       organizationAdminController.addOrganizationFeatureInBatch.resolves(true);
-
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(organizationalEntitiesRoutes[0]);
 
       // when
       await httpTestServer.request(method, url, payload);
@@ -97,6 +101,51 @@ describe('Unit | Router | organization-router', function () {
 
         // then
         expect(response.statusCode).to.equal(409);
+      });
+    });
+  });
+
+  describe('POST /api/admin/organizations/update-organizations', function () {
+    const method = 'POST';
+    const url = '/api/admin/organizations/update-organizations';
+    const payload = {};
+
+    beforeEach(async function () {
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').resolves(true);
+      sinon.stub(organizationAdminController, 'updateOrganizationsInBatch');
+    });
+
+    it('returns call the "checkAdminMemberHasRoleSuperAdmin" security prehandler', async function () {
+      // given
+      organizationAdminController.updateOrganizationsInBatch.resolves(true);
+
+      // when
+      await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin).to.have.been.calledOnce;
+    });
+
+    it('returns call the "updateOrganizationsInBatch" controller', async function () {
+      // given
+      organizationAdminController.updateOrganizationsInBatch.resolves(true);
+
+      // when
+      await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(organizationAdminController.updateOrganizationsInBatch).to.have.been.calledOnce;
+    });
+
+    context('when trying to update non existing organization', function () {
+      it('returns a 404 HTTP status code', async function () {
+        organizationAdminController.updateOrganizationsInBatch.rejects(new NotFoundError());
+
+        // when
+        const response = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(response.statusCode).to.equal(404);
       });
     });
   });

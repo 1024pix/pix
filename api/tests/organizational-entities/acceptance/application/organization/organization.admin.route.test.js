@@ -6,6 +6,7 @@ import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
+  insertUserWithRoleSuperAdmin,
   knex,
 } from '../../../../test-helper.js';
 
@@ -19,7 +20,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
   });
 
   describe('POST /api/admin/organizations/add-organization-features', function () {
-    context('When a CSV  file is loaded', function () {
+    context('When a CSV file is loaded', function () {
       let feature, firstOrganization, otherOrganization;
 
       beforeEach(async function () {
@@ -32,8 +33,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
 
       it('responds with a 204 - no content', async function () {
         // given
-        const userId = databaseBuilder.factory.buildUser.withRole({ role: PIX_ADMIN.ROLES.SUPER_ADMIN }).id;
-        await databaseBuilder.commit();
+        const user = await insertUserWithRoleSuperAdmin();
 
         const input = `Feature ID;Organization ID;Params
       ${feature.id};${firstOrganization.id};{"id": 123}
@@ -41,7 +41,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
 
         const options = {
           method: 'POST',
-          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
           url: '/api/admin/organizations/add-organization-features',
           payload: iconv.encode(input, 'UTF-8'),
         };
@@ -388,6 +388,89 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
               childOrganizationId,
             },
           });
+        });
+      });
+    });
+  });
+
+  describe('POST /api/admin/organizations/update-organizations', function () {
+    context('when a CSV file is loaded', function () {
+      let firstOrganization, otherOrganization;
+
+      beforeEach(async function () {
+        firstOrganization = databaseBuilder.factory.buildOrganization({ name: 'first organization', type: 'PRO' });
+        otherOrganization = databaseBuilder.factory.buildOrganization({ name: 'other organization', type: 'PRO' });
+
+        await databaseBuilder.commit();
+      });
+
+      it('responds with a 204 - no content', async function () {
+        // given
+        const user = await insertUserWithRoleSuperAdmin();
+        const input = `Organization ID;Organization Name;Organization External ID;Organization Parent ID;Organization Identity Provider Code;Organization Documentation URL;Organization Province Code;DPO Last Name;DPO First Name;DPO E-mail
+      ${firstOrganization.id};MSFT;12;;OIDC_EXAMPLE_NET;https://doc.url;;Troisjour;Adam;
+      ${otherOrganization.id};APPL;;;;;;;Cali;`;
+
+        const options = {
+          method: 'POST',
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+          url: '/api/admin/organizations/update-organizations',
+          payload: iconv.encode(input, 'UTF-8'),
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(204);
+      });
+    });
+
+    context('when user is not authorized to access the resource', function () {
+      const input = `Organization ID;Organization Name;Organization External ID;Organization Parent ID;Organization Identity Provider Code;Organization Documentation URL;Organization Province Code;DPO Last Name;DPO First Name;DPO E-mail`;
+
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      [ROLES.CERTIF, ROLES.SUPPORT, ROLES.METIER].forEach((role) => {
+        context(`when user has "${role}" role`, function () {
+          it('returns a 403 HTTP status code', async function () {
+            // given
+            const userId = databaseBuilder.factory.buildUser.withRole({ role }).id;
+            await databaseBuilder.commit();
+
+            const options = {
+              method: 'POST',
+              url: `/api/admin/organizations/update-organizations`,
+              headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+              payload: iconv.encode(input, 'UTF-8'),
+            };
+
+            // when
+            const response = await server.inject(options);
+
+            // then
+            expect(response.statusCode).to.equal(403);
+          });
+        });
+      });
+
+      context('when user has no role', function () {
+        it('returns a 403 HTTP status code', async function () {
+          // given
+          const userId = databaseBuilder.factory.buildUser().id;
+          await databaseBuilder.commit();
+
+          const options = {
+            method: 'POST',
+            url: `/api/admin/organizations/update-organizations`,
+            headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+            payload: iconv.encode(input, 'UTF-8'),
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(403);
         });
       });
     });

@@ -67,4 +67,34 @@ export const organizationAdminRoutes = [
       ],
     },
   },
+  {
+    method: 'POST',
+    path: '/api/admin/organizations/update-organizations',
+    config: {
+      pre: [
+        {
+          method: (request, h) => securityPreHandlers.checkAdminMemberHasRoleSuperAdmin(request, h),
+          assign: 'hasAuthorizationToAccessAdminScope',
+        },
+      ],
+      payload: {
+        maxBytes: TWENTY_MEGABYTES,
+        output: 'file',
+        failAction: (request, h) => {
+          return sendJsonApiError(
+            new PayloadTooLargeError('An error occurred, payload is too large', ERRORS.PAYLOAD_TOO_LARGE, {
+              maxSize: '20',
+            }),
+            h,
+          );
+        },
+      },
+      handler: (request, h) => organizationAdminController.updateOrganizationsInBatch(request, h),
+      tags: ['api', 'admin', 'organizational-entities', 'organizations'],
+      notes: [
+        "- **Cette route est restreinte aux utilisateurs authentifiés ayant un rôle SUPER_ADMIN permettant un accès à l'application d'administration de Pix**\n" +
+          "- Elle permet de mettre à jour des informations d'une ou plusieurs organisations",
+      ],
+    },
+  },
 ];
