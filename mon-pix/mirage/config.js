@@ -106,4 +106,6 @@ function routes() {
   this.get('/certification-candidates/:id/subscriptions', getCertificationCandidatesSubscriptions);
 
   this.get('/certification-courses/:id');
+
+  this.post('/feedbacks');
 }

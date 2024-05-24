@@ -97,8 +97,8 @@ export default class FeedbackPanel extends Component {
     const feedback = this.store.createRecord('feedback', {
       content: this.content || '',
       category,
-      assessment: this.args.assessment,
-      challenge: this.args.challenge,
+      assessment: await this.args.assessment,
+      challenge: await this.args.challenge,
       answer: get(this.args, 'answer.value', null),
     });
 
