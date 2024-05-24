@@ -2,11 +2,29 @@
   <h2 class="sr-only">{{t "pages.challenge.parts.instruction"}}</h2>
   {{#if this.challengeInstruction}}
     <div class="challenge-statement__instruction-section">
-      <MarkdownToHtmlUnsafe @class="challenge-statement-instruction__text" @markdown={{this.challengeInstruction}} />
-
-      {{#if @challenge.hasValidEmbedDocument}}
-        <div class="sr-only">{{t "pages.challenge.statement.sr-only.embed"}}</div>
-      {{/if}}
+      <div class="challenge-statement__instructions-and-text-to-speech">
+        {{#if this.showTextToSpeechButton}}
+          <PixTooltip @position="right" @isInline={{true}}>
+            <:triggerElement>
+              <button
+                type="button"
+                aria-label={{this.textToSpeechButtonTooltipText}}
+                {{on "click" this.readInstruction}}
+                class="challenge-statement__instruction-text-to-speech"
+              >
+                <FaIcon @icon={{this.textToSpeechButtonIcon}} />
+              </button>
+            </:triggerElement>
+            <:tooltip>
+              {{this.textToSpeechButtonTooltipText}}
+            </:tooltip>
+          </PixTooltip>
+        {{/if}}
+        <MarkdownToHtmlUnsafe @class="challenge-statement-instruction__text" @markdown={{this.challengeInstruction}} />
+        {{#if @challenge.hasValidEmbedDocument}}
+          <div class="sr-only">{{t "pages.challenge.statement.sr-only.embed"}}</div>
+        {{/if}}
+      </div>
 
       {{#if @challenge.alternativeInstruction}}
         <div class="sr-only">{{t "pages.challenge.statement.sr-only.alternative-instruction"}}</div>

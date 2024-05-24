@@ -9,13 +9,23 @@ const PREFERRED_ATTACHMENT_FORMATS = ['docx', 'xlsx', 'pptx'];
 
 export default class ChallengeStatement extends Component {
   @service intl;
+  @service currentUser;
+  @service featureToggles;
+  @service router;
 
   @tracked selectedAttachmentUrl;
   @tracked displayAlternativeInstruction = false;
+  @tracked isSpeaking = false;
+  @tracked textToSpeechButtonTooltipText = this.intl.t('pages.challenge.statement.text-to-speech.play');
+  @tracked textToSpeechButtonIcon = 'volume-high';
 
   constructor() {
     super(...arguments);
     this._initialiseDefaultAttachment();
+    speechSynthesis.cancel();
+    this.router.on('routeWillChange', () => {
+      speechSynthesis.cancel();
+    });
   }
 
   get isFocusedChallengeToggleEnabled() {
@@ -46,6 +56,14 @@ export default class ChallengeStatement extends Component {
     return 'challenge_statement_' + this.args.challenge.id;
   }
 
+  get showTextToSpeechButton() {
+    return (
+      !this.args.assessment.isCertification &&
+      this.featureToggles.featureToggles?.isTextToSpeechButtonEnabled &&
+      this.args.isTextToSpeechActivated
+    );
+  }
+
   @action
   toggleAlternativeInstruction() {
     this.displayAlternativeInstruction = !this.displayAlternativeInstruction;
@@ -54,6 +72,29 @@ export default class ChallengeStatement extends Component {
   @action
   chooseAttachmentUrl(attachementUrl) {
     this.selectedAttachmentUrl = attachementUrl;
+  }
+
+  @action
+  readInstruction() {
+    if (this.isSpeaking) {
+      speechSynthesis.cancel();
+      this.isSpeaking = false;
+      this.textToSpeechButtonTooltipText = this.intl.t('pages.challenge.statement.text-to-speech.play');
+      this.textToSpeechButtonIcon = 'volume-high';
+    } else {
+      const element = document.getElementsByClassName('challenge-statement-instruction__text')[0];
+      const textToSpeech = new SpeechSynthesisUtterance(element.innerText);
+      textToSpeech.lang = this.currentUser.user.lang;
+      textToSpeech.onend = () => {
+        this.isSpeaking = false;
+        this.textToSpeechButtonTooltipText = this.intl.t('pages.challenge.statement.text-to-speech.play');
+        this.textToSpeechButtonIcon = 'volume-high';
+      };
+      this.isSpeaking = true;
+      this.textToSpeechButtonTooltipText = this.intl.t('pages.challenge.statement.text-to-speech.stop');
+      this.textToSpeechButtonIcon = 'circle-stop';
+      speechSynthesis.speak(textToSpeech);
+    }
   }
 
   get orderedAttachments() {

@@ -7,7 +7,11 @@
   {{will-destroy this.clearFocusOutEventListener}}
   role="article"
 >
-  <ChallengeStatement @challenge={{@challenge}} @assessment={{@assessment}} />
+  <ChallengeStatement
+    @challenge={{@challenge}}
+    @assessment={{@assessment}}
+    @isTextToSpeechActivated={{@isTextToSpeechActivated}}
+  />
 
   <this.challengeComponent
     @challenge={{@challenge}}

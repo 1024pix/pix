@@ -22,6 +22,16 @@
   }
 }
 
+.challenge-statement__instructions-and-text-to-speech {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.challenge-statement__instruction-text-to-speech {
+  margin-bottom: 4px;
+}
+
 .challenge-statement-instruction__text blockquote {
   position: relative;
   margin-left: 20px;
