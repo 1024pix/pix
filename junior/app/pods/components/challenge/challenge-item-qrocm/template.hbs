@@ -1,11 +1,7 @@
 <div {{did-render this.resetAnswerValues}} class="challenge-item-proposals">
   {{#each this.proposalBlocks as |block|}}
     {{#if block.showText}}
-      <Markdown::MarkdownToHtml
-        @markdown={{block.text}}
-        @extensions="remove-paragraph-tags"
-        class="qrocm-proposal__label"
-      />
+      <MarkdownToHtml @markdown={{block.text}} @extensions="remove-paragraph-tags" class="qrocm-proposal__label" />
     {{/if}}
     {{#if (eq block.type "select")}}
       <PixSelect
@@ -26,7 +22,7 @@
         <div class="qrocm-proposal__input">
           {{#if block.text}}
             <label for="{{block.input}}">
-              <Markdown::MarkdownToHtml
+              <MarkdownToHtml
                 @markdown={{block.text}}
                 @extensions="remove-paragraph-tags"
                 class="challenge-item-proposals__input-label"
