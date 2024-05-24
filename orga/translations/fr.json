@@ -1298,7 +1298,7 @@
         "title": "Êtes-vous sûr(e) de vouloir remplacer les étudiants existants ?",
         "confirm": "Oui, je remplace",
         "confirmation-checkbox": "Je confirme avoir bien compris les impacts",
-        "footer-content": "Les étudiants existants dans l’application et présents dans le nouvel import ne seront pas modifiés.",
+        "footer-content": "Les étudiants existants dans l'application et présents dans le nouvel import ne seront pas supprimés et seront mis à jour si nécessaire.",
         "last-warning": "Attention, cette action est irréversible. Les étudiants non présents dans le nouvel import vont être supprimés de Pix Orga.",
         "main-content": "Toutes leurs participations aux campagnes seront supprimées. Cela impactera donc les résultats et analyses des campagnes qu’ils ont réalisées. Ils ne pourront plus participer aux campagnes auxquelles ils avaient participé par le passé. Cependant, ils pourront participer à de nouvelles campagnes."
       },

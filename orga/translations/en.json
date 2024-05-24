@@ -1298,7 +1298,7 @@
         "title": "Are you sure you want to overwrite the existing students?",
         "confirm": "Yes, overwrite",
         "confirmation-checkbox": "I have fully understood the effect of this action",
-        "footer-content": "Existing students in the application and included in the new import will not be affected.",
+        "footer-content": "Existing students in the application and included in the new import will not be deleted and will be updated if necessary.",
         "last-warning": "Please note that this action is irreversible, students who are not included in the new import will be deleted from Pix Orga.",
         "main-content": "All of their campaign participations will be deleted. This will have an impact on the results and analytics of your campaigns. They will no longer be able to take part in any previous campaigns. However, they will still be able to take part in new campaigns."
       },
