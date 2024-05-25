@@ -999,14 +999,6 @@ class MissingBadgeCriterionError extends DomainError {
   }
 }
 
-class DifferentExternalIdentifierError extends DomainError {
-  constructor(
-    message = "La valeur de l'externalIdentifier de la méthode de connexion ne correspond pas à celui reçu par le partenaire.",
-  ) {
-    super(message);
-  }
-}
-
 class NoSkillsInCampaignError extends DomainError {
   constructor(message = 'La campagne ne contient aucun acquis opérationnel.') {
     super(message);
@@ -1097,7 +1089,6 @@ export {
   DeletedError,
   DeprecatedCertificationIssueReportCategoryError,
   DeprecatedCertificationIssueReportSubcategoryError,
-  DifferentExternalIdentifierError,
   DomainError,
   EmailModificationDemandNotFoundOrExpiredError,
   FileValidationError,

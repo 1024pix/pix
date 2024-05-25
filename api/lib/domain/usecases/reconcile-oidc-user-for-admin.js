@@ -6,8 +6,10 @@
  * @typedef {import ('./index.js').UserLoginRepository} UserLoginRepository
  */
 
-import { AuthenticationKeyExpired } from '../../../src/identity-access-management/domain/errors.js';
-import { DifferentExternalIdentifierError } from '../errors.js';
+import {
+  AuthenticationKeyExpired,
+  DifferentExternalIdentifierError,
+} from '../../../src/identity-access-management/domain/errors.js';
 import { AuthenticationMethod } from '../models/index.js';
 
 /**

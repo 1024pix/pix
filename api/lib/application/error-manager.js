@@ -341,10 +341,6 @@ function _mapToHttpError(error) {
     return new HttpErrors.ConflictError(error.message);
   }
 
-  if (error instanceof DomainErrors.DifferentExternalIdentifierError) {
-    return new HttpErrors.ConflictError(error.message);
-  }
-
   if (error instanceof DomainErrors.InvalidJuryLevelError) {
     return new HttpErrors.BadRequestError(error.message);
   }

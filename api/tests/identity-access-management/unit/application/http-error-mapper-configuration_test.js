@@ -1,6 +1,7 @@
 import { authenticationDomainErrorMappingConfiguration } from '../../../../src/identity-access-management/application/http-error-mapper-configuration.js';
 import {
   AuthenticationKeyExpired,
+  DifferentExternalIdentifierError,
   MissingOrInvalidCredentialsError,
   PasswordNotMatching,
   UserShouldChangePasswordError,
@@ -31,6 +32,21 @@ describe('Unit | Identity Access Management | Application | HttpErrorMapperConfi
 
       //then
       expect(error).to.be.instanceOf(HttpErrors.UnauthorizedError);
+    });
+  });
+
+  context('when mapping "DifferentExternalIdentifierError"', function () {
+    it('returns an ConflictError Http Error', function () {
+      //given
+      const httpErrorMapper = authenticationDomainErrorMappingConfiguration.find(
+        (httpErrorMapper) => httpErrorMapper.name === DifferentExternalIdentifierError.name,
+      );
+
+      //when
+      const error = httpErrorMapper.httpErrorFn(new DifferentExternalIdentifierError());
+
+      //then
+      expect(error).to.be.instanceOf(HttpErrors.ConflictError);
     });
   });
 

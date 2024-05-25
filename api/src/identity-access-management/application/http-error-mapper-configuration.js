@@ -2,6 +2,7 @@ import { HttpErrors } from '../../shared/application/http-errors.js';
 import { DomainErrorMappingConfiguration } from '../../shared/application/models/domain-error-mapping-configuration.js';
 import {
   AuthenticationKeyExpired,
+  DifferentExternalIdentifierError,
   MissingOrInvalidCredentialsError,
   PasswordNotMatching,
   UserShouldChangePasswordError,
@@ -11,6 +12,10 @@ const authenticationDomainErrorMappingConfiguration = [
   {
     name: AuthenticationKeyExpired.name,
     httpErrorFn: (error) => new HttpErrors.UnauthorizedError(error.message),
+  },
+  {
+    name: DifferentExternalIdentifierError.name,
+    httpErrorFn: (error) => new HttpErrors.ConflictError(error.message),
   },
   {
     name: MissingOrInvalidCredentialsError.name,

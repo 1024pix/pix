@@ -6,6 +6,14 @@ class AuthenticationKeyExpired extends DomainError {
   }
 }
 
+class DifferentExternalIdentifierError extends DomainError {
+  constructor(
+    message = "La valeur de l'externalIdentifier de la méthode de connexion ne correspond pas à celui reçu par le partenaire.",
+  ) {
+    super(message);
+  }
+}
+
 class MissingOrInvalidCredentialsError extends DomainError {
   constructor(message = 'Missing or invalid credentials') {
     super(message);
@@ -27,6 +35,7 @@ class UserShouldChangePasswordError extends DomainError {
 
 export {
   AuthenticationKeyExpired,
+  DifferentExternalIdentifierError,
   MissingOrInvalidCredentialsError,
   PasswordNotMatching,
   UserShouldChangePasswordError,

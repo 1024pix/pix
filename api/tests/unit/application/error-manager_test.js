@@ -12,7 +12,6 @@ import {
   CertificationCandidateNotFoundError,
   CertificationCandidateOnFinalizedSessionError,
   CertificationEndedByFinalizationError,
-  DifferentExternalIdentifierError,
   EmailModificationDemandNotFoundOrExpiredError,
   InvalidExternalAPIResponseError,
   InvalidIdentityProviderError,
@@ -374,19 +373,6 @@ describe('Unit | Application | ErrorManager', function () {
     });
 
     describe('SSO specific errors', function () {
-      it('should instantiate ConflictError when DifferentExternalIdentifierError', async function () {
-        // given
-        const error = new DifferentExternalIdentifierError();
-        sinon.stub(HttpErrors, 'ConflictError');
-        const params = { request: {}, h: hFake, error };
-
-        // when
-        await handle(params.request, params.h, params.error);
-
-        // then
-        expect(HttpErrors.ConflictError).to.have.been.calledWithExactly(error.message);
-      });
-
       it('should instantiate BadRequestError when InvalidIdentityProviderError', async function () {
         // given
         const error = new InvalidIdentityProviderError();
