@@ -18,7 +18,6 @@ import {
   InvalidJuryLevelError,
   InvalidSessionSupervisingLoginError,
   InvalidVerificationCodeError,
-  MissingUserAccountError,
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
   NotEnoughDaysPassedBeforeResetCampaignParticipationError,
   OidcMissingFieldsError,
@@ -50,19 +49,6 @@ describe('Unit | Application | ErrorManager', function () {
 
       // then
       expect(HttpErrors.ConflictError).to.have.been.calledWithExactly(error.message, error.code, error.meta);
-    });
-
-    it('should instantiate BadRequestError when MissingUserAccountError', async function () {
-      // given
-      const error = new MissingUserAccountError();
-      sinon.stub(HttpErrors, 'BadRequestError');
-      const params = { request: {}, h: hFake, error };
-
-      // when
-      await handle(params.request, params.h, params.error);
-
-      // then
-      expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(error.message);
     });
 
     it('should instantiate BadRequestError when AlreadyRegisteredEmailError', async function () {

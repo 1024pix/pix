@@ -4,6 +4,7 @@ import {
   AuthenticationKeyExpired,
   DifferentExternalIdentifierError,
   MissingOrInvalidCredentialsError,
+  MissingUserAccountError,
   PasswordNotMatching,
   UserShouldChangePasswordError,
 } from '../domain/errors.js';
@@ -21,6 +22,10 @@ const authenticationDomainErrorMappingConfiguration = [
     name: MissingOrInvalidCredentialsError.name,
     httpErrorFn: () =>
       new HttpErrors.UnauthorizedError("L'adresse e-mail et/ou le mot de passe saisis sont incorrects."),
+  },
+  {
+    name: MissingUserAccountError.name,
+    httpErrorFn: (error) => new HttpErrors.BadRequestError(error.message),
   },
   {
     name: PasswordNotMatching.name,

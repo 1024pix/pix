@@ -3,6 +3,7 @@ import {
   AuthenticationKeyExpired,
   DifferentExternalIdentifierError,
   MissingOrInvalidCredentialsError,
+  MissingUserAccountError,
   PasswordNotMatching,
   UserShouldChangePasswordError,
 } from '../../../../src/identity-access-management/domain/errors.js';
@@ -62,6 +63,21 @@ describe('Unit | Identity Access Management | Application | HttpErrorMapperConfi
 
       //then
       expect(error).to.be.instanceOf(HttpErrors.UnauthorizedError);
+    });
+  });
+
+  context('when mapping "MissingUserAccountError"', function () {
+    it('returns an BadRequestError Http Error', function () {
+      //given
+      const httpErrorMapper = authenticationDomainErrorMappingConfiguration.find(
+        (httpErrorMapper) => httpErrorMapper.name === MissingUserAccountError.name,
+      );
+
+      //when
+      const error = httpErrorMapper.httpErrorFn(new MissingUserAccountError());
+
+      //then
+      expect(error).to.be.instanceOf(HttpErrors.BadRequestError);
     });
   });
 

@@ -135,9 +135,6 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.UnexpectedUserAccountError) {
     return new HttpErrors.ConflictError(error.message, error.code, error.meta);
   }
-  if (error instanceof DomainErrors.MissingUserAccountError) {
-    return new HttpErrors.BadRequestError(error.message);
-  }
   if (error instanceof DomainErrors.AlreadyExistingEntityError) {
     return new HttpErrors.PreconditionFailedError(error.message);
   }

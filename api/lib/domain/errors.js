@@ -582,12 +582,6 @@ class InvalidPasswordForUpdateEmailError extends DomainError {
   }
 }
 
-class MissingUserAccountError extends DomainError {
-  constructor(message = 'Les informations de compte requises sont manquantes') {
-    super(message);
-  }
-}
-
 class UnexpectedUserAccountError extends DomainError {
   constructor({
     message = "Ce compte utilisateur n'est pas celui qui est attendu.",
@@ -1108,7 +1102,6 @@ export {
   MembershipUpdateError,
   MissingAttributesError,
   MissingBadgeCriterionError,
-  MissingUserAccountError,
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
   NoCampaignParticipationForUserAndCampaign,
   NoOrganizationToAttach,

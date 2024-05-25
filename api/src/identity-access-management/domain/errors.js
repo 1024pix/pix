@@ -20,6 +20,12 @@ class MissingOrInvalidCredentialsError extends DomainError {
   }
 }
 
+class MissingUserAccountError extends DomainError {
+  constructor(message = 'Les informations de compte requises sont manquantes') {
+    super(message);
+  }
+}
+
 class PasswordNotMatching extends DomainError {
   constructor(message = 'Wrong password.') {
     super(message);
@@ -37,6 +43,7 @@ export {
   AuthenticationKeyExpired,
   DifferentExternalIdentifierError,
   MissingOrInvalidCredentialsError,
+  MissingUserAccountError,
   PasswordNotMatching,
   UserShouldChangePasswordError,
 };
