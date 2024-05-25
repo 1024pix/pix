@@ -1,6 +1,6 @@
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../lib/domain/constants/identity-providers.js';
 import { Organization, OrganizationForAdmin } from '../../../../../lib/domain/models/index.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin-serializer.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 

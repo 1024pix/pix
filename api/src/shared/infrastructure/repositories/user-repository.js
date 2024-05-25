@@ -1,5 +1,4 @@
 import { knex } from '../../../../db/knex-database-connection.js';
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 import {
   AlreadyExistingEntityError,
@@ -14,6 +13,7 @@ import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { UserDetailsForAdmin } from '../../../../lib/domain/models/UserDetailsForAdmin.js';
 import { OrganizationLearnerForAdmin } from '../../../../lib/domain/read-models/OrganizationLearnerForAdmin.js';
 import { BookshelfUser } from '../../../../lib/infrastructure/orm-models/User.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../identity-access-management/domain/constants/identity-providers.js';
 import { UserLogin } from '../../../identity-access-management/domain/models/UserLogin.js';
 import { Organization } from '../../../organizational-entities/domain/models/Organization.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';

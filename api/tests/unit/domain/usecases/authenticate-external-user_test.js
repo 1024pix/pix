@@ -1,4 +1,3 @@
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 import {
   UnexpectedUserAccountError,
   UserAlreadyExistsWithAuthenticationMethodError,
@@ -6,6 +5,7 @@ import {
 } from '../../../../lib/domain/errors.js';
 import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
 import { authenticateExternalUser } from '../../../../lib/domain/usecases/authenticate-external-user.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import {
   MissingOrInvalidCredentialsError,
   PasswordNotMatching,

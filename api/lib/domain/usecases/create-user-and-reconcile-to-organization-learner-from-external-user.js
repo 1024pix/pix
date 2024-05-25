@@ -1,7 +1,7 @@
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { User } from '../../../src/shared/domain/models/User.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 import { CampaignCodeError, ObjectValidationError } from '../errors.js';
 import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 

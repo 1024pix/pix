@@ -1,4 +1,4 @@
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { DEFAULT_PASSWORD } from '../../../constants.js';
 import { SCO_ORGANIZATION_ID } from './constants.js';
 

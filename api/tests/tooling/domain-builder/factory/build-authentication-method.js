@@ -1,9 +1,9 @@
 import lodash from 'lodash';
 const { isUndefined } = lodash;
 
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { User } from '../../../../src/shared/domain/models/User.js';
 import { cryptoService } from '../../../../src/shared/domain/services/crypto-service.js';
 

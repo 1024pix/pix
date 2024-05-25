@@ -1,4 +1,3 @@
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 import {
   CampaignCodeError,
   NotFoundError,
@@ -11,6 +10,7 @@ import { createUserAndReconcileToOrganizationLearnerFromExternalUser as createUs
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 import * as studentRepository from '../../../../lib/infrastructure/repositories/student-repository.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
 import * as userService from '../../../../src/shared/domain/services/user-service.js';
 import * as authenticationMethodRepository from '../../../../src/shared/infrastructure/repositories/authentication-method-repository.js';

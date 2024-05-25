@@ -1,8 +1,8 @@
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../lib/domain/constants/identity-providers.js';
 import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
 import { AlreadyExistingEntityError, AuthenticationMethodNotFoundError } from '../../../../../lib/domain/errors.js';
 import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import * as authenticationMethodRepository from '../../../../../src/shared/infrastructure/repositories/authentication-method-repository.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../../test-helper.js';
 
