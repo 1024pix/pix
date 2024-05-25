@@ -1,4 +1,4 @@
-const NON_OIDC_IDENTITY_PROVIDERS = {
+export const NON_OIDC_IDENTITY_PROVIDERS = {
   PIX: {
     code: 'PIX',
   },
@@ -6,5 +6,3 @@ const NON_OIDC_IDENTITY_PROVIDERS = {
     code: 'GAR',
   },
 };
-
-export { NON_OIDC_IDENTITY_PROVIDERS };
