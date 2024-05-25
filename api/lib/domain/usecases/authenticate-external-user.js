@@ -4,12 +4,12 @@ import {
   PasswordNotMatching,
   UserShouldChangePasswordError,
 } from '../../../src/identity-access-management/domain/errors.js';
+import { AuthenticationMethod } from '../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
 import {
   UnexpectedUserAccountError,
   UserAlreadyExistsWithAuthenticationMethodError,
   UserNotFoundError,
 } from '../errors.js';
-import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 
 async function authenticateExternalUser({
   username,

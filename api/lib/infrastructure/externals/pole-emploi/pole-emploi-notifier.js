@@ -7,9 +7,9 @@ import querystring from 'node:querystring';
 import dayjs from 'dayjs';
 
 import * as OidcIdentityProviders from '../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
+import { AuthenticationMethod } from '../../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
 import { config } from '../../../config.js';
 import { UnexpectedUserAccountError } from '../../../domain/errors.js';
-import { AuthenticationMethod } from '../../../domain/models/AuthenticationMethod.js';
 
 const notify = async (userId, payload, dependencies) => {
   const { authenticationMethodRepository, httpAgent, httpErrorsHelper, monitoringTools } = dependencies;

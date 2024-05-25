@@ -3,7 +3,6 @@ import {
   UserAlreadyExistsWithAuthenticationMethodError,
   UserNotFoundError,
 } from '../../../../lib/domain/errors.js';
-import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
 import { authenticateExternalUser } from '../../../../lib/domain/usecases/authenticate-external-user.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import {
@@ -11,6 +10,7 @@ import {
   PasswordNotMatching,
   UserShouldChangePasswordError,
 } from '../../../../src/identity-access-management/domain/errors.js';
+import { AuthenticationMethod } from '../../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | UseCase | authenticate-external-user', function () {

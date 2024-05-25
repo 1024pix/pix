@@ -1,5 +1,5 @@
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
-import { AuthenticationMethod } from '../../models/AuthenticationMethod.js';
+import { AuthenticationMethod } from '../../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
 
 const updateUserForAccountRecovery = async function ({
   password,
