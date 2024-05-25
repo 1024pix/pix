@@ -1,7 +1,7 @@
-import { POLE_EMPLOI } from '../../../../lib/domain/constants/oidc-identity-providers.js';
 import { AuthenticationKeyExpired, MissingUserAccountError } from '../../../../lib/domain/errors.js';
 import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
 import { reconcileOidcUser } from '../../../../lib/domain/usecases/reconcile-oidc-user.js';
+import { POLE_EMPLOI } from '../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
 import { catchErr, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | reconcile-oidc-user', function () {

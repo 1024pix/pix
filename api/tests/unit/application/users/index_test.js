@@ -1,8 +1,8 @@
 import { userVerification } from '../../../../lib/application/preHandlers/user-existence-verification.js';
 import * as moduleUnderTest from '../../../../lib/application/users/index.js';
 import { userController } from '../../../../lib/application/users/user-controller.js';
-import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
+import * as OidcIdentityProviders from '../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 

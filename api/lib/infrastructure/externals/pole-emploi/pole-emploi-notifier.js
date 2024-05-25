@@ -6,8 +6,8 @@ import querystring from 'node:querystring';
 
 import dayjs from 'dayjs';
 
+import * as OidcIdentityProviders from '../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
 import { config } from '../../../config.js';
-import * as OidcIdentityProviders from '../../../domain/constants/oidc-identity-providers.js';
 import { UnexpectedUserAccountError } from '../../../domain/errors.js';
 import { AuthenticationMethod } from '../../../domain/models/AuthenticationMethod.js';
 

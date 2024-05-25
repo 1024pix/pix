@@ -3,10 +3,10 @@ import querystring from 'node:querystring';
 import dayjs from 'dayjs';
 
 import { config as settings } from '../../../../../lib/config.js';
-import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
 import { UnexpectedUserAccountError } from '../../../../../lib/domain/errors.js';
 import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
 import { notify } from '../../../../../lib/infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
+import * as OidcIdentityProviders from '../../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
 import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier', function () {

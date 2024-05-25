@@ -1,8 +1,8 @@
 import lodash from 'lodash';
 const { isUndefined } = lodash;
-import * as OidcIdentityProviders from '../../../lib/domain/constants/oidc-identity-providers.js';
 import { AuthenticationMethod } from '../../../lib/domain/models/AuthenticationMethod.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../src/identity-access-management/domain/constants/identity-providers.js';
+import * as OidcIdentityProviders from '../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
 import { cryptoService } from '../../../src/shared/domain/services/crypto-service.js';
 import { databaseBuffer } from '../database-buffer.js';
 import { buildUser } from './build-user.js';
