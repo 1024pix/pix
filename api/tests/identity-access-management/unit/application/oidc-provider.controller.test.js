@@ -289,4 +289,40 @@ describe('Unit | Identity Access Management | Application | Controller | oidc-pr
       });
     });
   });
+
+  describe('#reconcileUser', function () {
+    it('calls use case and return the result', async function () {
+      // given
+      const identityProvider = 'OIDC';
+      const oidcAuthenticationServiceRegistryStub = {
+        loadOidcProviderServices: sinon.stub(),
+        configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
+        getOidcProviderServiceByCode: sinon.stub(),
+      };
+      const request = {
+        deserializedPayload: {
+          identityProvider: 'OIDC',
+          authenticationKey: '123abc',
+        },
+      };
+
+      const dependencies = {
+        oidcAuthenticationServiceRegistry: oidcAuthenticationServiceRegistryStub,
+      };
+      sinon.stub(usecases, 'reconcileOidcUser').resolves({
+        accessToken: 'accessToken',
+        logoutUrlUUID: 'logoutUrlUUID',
+      });
+
+      // when
+      const result = await oidcProviderController.reconcileUser(request, hFake, dependencies);
+
+      // then
+      expect(oidcAuthenticationServiceRegistryStub.loadOidcProviderServices).to.have.been.calledOnce;
+      expect(
+        oidcAuthenticationServiceRegistryStub.configureReadyOidcProviderServiceByCode,
+      ).to.have.been.calledWithExactly(identityProvider);
+      expect(result.source).to.deep.equal({ access_token: 'accessToken', logout_url_uuid: 'logoutUrlUUID' });
+    });
+  });
 });
