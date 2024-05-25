@@ -1,10 +1,7 @@
-import {
-  AuthenticationKeyExpired,
-  DifferentExternalIdentifierError,
-  UserNotFoundError,
-} from '../../../../lib/domain/errors.js';
+import { DifferentExternalIdentifierError, UserNotFoundError } from '../../../../lib/domain/errors.js';
 import { oidcProviderController } from '../../../../src/identity-access-management/application/oidc-provider/oidc-provider.controller.js';
 import { identityAccessManagementRoutes } from '../../../../src/identity-access-management/application/routes.js';
+import { AuthenticationKeyExpired } from '../../../../src/identity-access-management/domain/errors.js';
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 const routesUnderTest = identityAccessManagementRoutes[0];

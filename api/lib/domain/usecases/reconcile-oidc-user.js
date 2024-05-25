@@ -1,5 +1,6 @@
+import { AuthenticationKeyExpired } from '../../../src/identity-access-management/domain/errors.js';
 import { AuthenticationMethod } from '../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
-import { AuthenticationKeyExpired, MissingUserAccountError } from '../errors.js';
+import { MissingUserAccountError } from '../errors.js';
 
 const reconcileOidcUser = async function ({
   authenticationKey,

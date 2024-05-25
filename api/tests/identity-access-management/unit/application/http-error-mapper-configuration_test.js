@@ -1,5 +1,6 @@
 import { authenticationDomainErrorMappingConfiguration } from '../../../../src/identity-access-management/application/http-error-mapper-configuration.js';
 import {
+  AuthenticationKeyExpired,
   MissingOrInvalidCredentialsError,
   PasswordNotMatching,
   UserShouldChangePasswordError,
@@ -16,6 +17,21 @@ describe('Unit | Identity Access Management | Application | HttpErrorMapperConfi
     authenticationDomainErrorMappingConfiguration.forEach((domainErrorMappingConfiguration) =>
       expect(domainErrorMappingConfiguration).to.be.instanceOf(DomainErrorMappingConfiguration),
     );
+  });
+
+  context('when mapping "AuthenticationKeyExpired"', function () {
+    it('returns an UnauthorizedError Http Error', function () {
+      //given
+      const httpErrorMapper = authenticationDomainErrorMappingConfiguration.find(
+        (httpErrorMapper) => httpErrorMapper.name === AuthenticationKeyExpired.name,
+      );
+
+      //when
+      const error = httpErrorMapper.httpErrorFn(new AuthenticationKeyExpired());
+
+      //then
+      expect(error).to.be.instanceOf(HttpErrors.UnauthorizedError);
+    });
   });
 
   context('when mapping "MissingOrInvalidCredentialsError"', function () {

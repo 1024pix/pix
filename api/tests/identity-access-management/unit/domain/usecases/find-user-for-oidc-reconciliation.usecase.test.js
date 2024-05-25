@@ -1,4 +1,5 @@
-import { AuthenticationKeyExpired, DifferentExternalIdentifierError } from '../../../../../lib/domain/errors.js';
+import { DifferentExternalIdentifierError } from '../../../../../lib/domain/errors.js';
+import { AuthenticationKeyExpired } from '../../../../../src/identity-access-management/domain/errors.js';
 import { findUserForOidcReconciliation } from '../../../../../src/identity-access-management/domain/usecases/find-user-for-oidc-reconciliation.usecase.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 

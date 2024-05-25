@@ -198,12 +198,6 @@ class NoStagesForCampaign extends DomainError {
   }
 }
 
-class AuthenticationKeyExpired extends DomainError {
-  constructor(message = 'This authentication key has expired.') {
-    super(message);
-  }
-}
-
 class AccountRecoveryDemandExpired extends DomainError {
   constructor(message = 'This account recovery demand has expired.') {
     super(message);
@@ -1066,7 +1060,6 @@ export {
   AssessmentEndedError,
   AssessmentNotCompletedError,
   AuditLoggerApiError,
-  AuthenticationKeyExpired,
   AuthenticationMethodAlreadyExistsError,
   AuthenticationMethodNotFoundError,
   CampaignCodeError,

@@ -19,9 +19,6 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.MissingAttributesError) {
     return new HttpErrors.UnprocessableEntityError(error.message);
   }
-  if (error instanceof DomainErrors.AuthenticationKeyExpired) {
-    return new HttpErrors.UnauthorizedError(error.message);
-  }
   if (error instanceof DomainErrors.AuthenticationMethodAlreadyExistsError) {
     return new HttpErrors.UnprocessableEntityError(error.message);
   }

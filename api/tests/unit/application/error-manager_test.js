@@ -6,7 +6,6 @@ import {
   AlreadyRegisteredEmailAndUsernameError,
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
-  AuthenticationKeyExpired,
   CampaignTypeError,
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
@@ -135,19 +134,6 @@ describe('Unit | Application | ErrorManager', function () {
     it('should instantiate UnauthorizedError when AccountRecoveryDemandExpired', async function () {
       // given
       const error = new AccountRecoveryDemandExpired();
-      sinon.stub(HttpErrors, 'UnauthorizedError');
-      const params = { request: {}, h: hFake, error };
-
-      // when
-      await handle(params.request, params.h, params.error);
-
-      // then
-      expect(HttpErrors.UnauthorizedError).to.have.been.calledWithExactly(error.message);
-    });
-
-    it('should instantiate UnauthorizedError when AuthenticationKeyExpired', async function () {
-      // given
-      const error = new AuthenticationKeyExpired();
       sinon.stub(HttpErrors, 'UnauthorizedError');
       const params = { request: {}, h: hFake, error };
 

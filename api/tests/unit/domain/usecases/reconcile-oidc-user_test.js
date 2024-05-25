@@ -1,6 +1,7 @@
-import { AuthenticationKeyExpired, MissingUserAccountError } from '../../../../lib/domain/errors.js';
+import { MissingUserAccountError } from '../../../../lib/domain/errors.js';
 import { reconcileOidcUser } from '../../../../lib/domain/usecases/reconcile-oidc-user.js';
 import { POLE_EMPLOI } from '../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
+import { AuthenticationKeyExpired } from '../../../../src/identity-access-management/domain/errors.js';
 import { AuthenticationMethod } from '../../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
 import { catchErr, expect, sinon } from '../../../test-helper.js';
 
