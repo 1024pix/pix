@@ -9,11 +9,12 @@ import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | UseCase | reconcile-oidc-user', function () {
   context('when identityProvider is generic', function () {
-    let identityProvider;
-    let authenticationMethodRepository;
-    let userLoginRepository;
-    let authenticationSessionService;
-    let oidcAuthenticationService;
+    let authenticationMethodRepository,
+      authenticationSessionService,
+      identityProvider,
+      oidcAuthenticationService,
+      oidcAuthenticationServiceRegistry,
+      userLoginRepository;
 
     beforeEach(function () {
       identityProvider = 'genericOidcProviderCode';
@@ -28,6 +29,11 @@ describe('Unit | Identity Access Management | Domain | UseCase | reconcile-oidc-
         saveIdToken: sinon.stub(),
         createAuthenticationComplement: sinon.stub(),
       };
+      oidcAuthenticationServiceRegistry = {
+        loadOidcProviderServices: sinon.stub().resolves(),
+        configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
+        getOidcProviderServiceByCode: sinon.stub().returns(oidcAuthenticationService),
+      };
     });
 
     context('when authentication key is expired', function () {
@@ -38,9 +44,10 @@ describe('Unit | Identity Access Management | Domain | UseCase | reconcile-oidc-
         // when
         const error = await catchErr(reconcileOidcUser)({
           authenticationKey: 'authenticationKey',
-          oidcAuthenticationService,
+          identityProvider,
           authenticationSessionService,
           authenticationMethodRepository,
+          oidcAuthenticationServiceRegistry,
           userLoginRepository,
         });
 
@@ -61,9 +68,10 @@ describe('Unit | Identity Access Management | Domain | UseCase | reconcile-oidc-
       // when
       await reconcileOidcUser({
         authenticationKey: 'authenticationKey',
-        oidcAuthenticationService,
+        identityProvider,
         authenticationSessionService,
         authenticationMethodRepository,
+        oidcAuthenticationServiceRegistry,
         userLoginRepository,
       });
 
@@ -81,9 +89,10 @@ describe('Unit | Identity Access Management | Domain | UseCase | reconcile-oidc-
         // when
         const error = await catchErr(reconcileOidcUser)({
           authenticationKey: 'authenticationKey',
-          oidcAuthenticationService,
+          identityProvider,
           authenticationSessionService,
           authenticationMethodRepository,
+          oidcAuthenticationServiceRegistry,
           userLoginRepository,
         });
 
@@ -113,9 +122,10 @@ describe('Unit | Identity Access Management | Domain | UseCase | reconcile-oidc-
       // when
       await reconcileOidcUser({
         authenticationKey: 'authenticationKey',
-        oidcAuthenticationService,
+        identityProvider,
         authenticationSessionService,
         authenticationMethodRepository,
+        oidcAuthenticationServiceRegistry,
         userLoginRepository,
       });
 
@@ -130,11 +140,12 @@ describe('Unit | Identity Access Management | Domain | UseCase | reconcile-oidc-
   });
 
   context('when identityProvider is POLE_EMPLOI', function () {
-    let identityProvider;
-    let authenticationMethodRepository;
-    let userLoginRepository;
-    let authenticationSessionService;
-    let oidcAuthenticationService;
+    let authenticationMethodRepository,
+      authenticationSessionService,
+      identityProvider,
+      oidcAuthenticationService,
+      oidcAuthenticationServiceRegistry,
+      userLoginRepository;
 
     beforeEach(function () {
       identityProvider = POLE_EMPLOI.code;
@@ -149,6 +160,11 @@ describe('Unit | Identity Access Management | Domain | UseCase | reconcile-oidc-
         createAccessToken: sinon.stub(),
         saveIdToken: sinon.stub(),
         createAuthenticationComplement: sinon.stub(),
+      };
+      oidcAuthenticationServiceRegistry = {
+        loadOidcProviderServices: sinon.stub().resolves(),
+        configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
+        getOidcProviderServiceByCode: sinon.stub().returns(oidcAuthenticationService),
       };
     });
 
@@ -172,9 +188,10 @@ describe('Unit | Identity Access Management | Domain | UseCase | reconcile-oidc-
       // when
       await reconcileOidcUser({
         authenticationKey: 'authenticationKey',
-        oidcAuthenticationService,
+        identityProvider,
         authenticationSessionService,
         authenticationMethodRepository,
+        oidcAuthenticationServiceRegistry,
         userLoginRepository,
       });
 
@@ -211,9 +228,10 @@ describe('Unit | Identity Access Management | Domain | UseCase | reconcile-oidc-
       // when
       const result = await reconcileOidcUser({
         authenticationKey: 'authenticationKey',
-        oidcAuthenticationService,
+        identityProvider,
         authenticationSessionService,
         authenticationMethodRepository,
+        oidcAuthenticationServiceRegistry,
         userLoginRepository,
       });
 

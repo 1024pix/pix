@@ -1,13 +1,32 @@
 import { AuthenticationKeyExpired, MissingUserAccountError } from '../errors.js';
 import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 
+/**
+ * @typedef {function} reconcileOidcUserUseCase
+ * @param {Object} params
+ * @param {string} params.authenticationKey
+ * @param {string} params.identityProvider
+ * @param {AuthenticationSessionService} params.authenticationSessionService
+ * @param {AuthenticationMethodRepository} params.authenticationMethodRepository
+ * @param {OidcAuthenticationServiceRegistry} params.oidcAuthenticationServiceRegistry
+ * @param {UserLoginRepository} params.userLoginRepository
+ * @return {Promise<{accessToken: string, logoutUrlUUID: string}|AuthenticationKeyExpired|MissingUserAccountError>}
+ */
 export const reconcileOidcUser = async function ({
   authenticationKey,
-  oidcAuthenticationService,
+  identityProvider,
   authenticationSessionService,
   authenticationMethodRepository,
+  oidcAuthenticationServiceRegistry,
   userLoginRepository,
 }) {
+  await oidcAuthenticationServiceRegistry.loadOidcProviderServices();
+  await oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(identityProvider);
+
+  const oidcAuthenticationService = oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
+    identityProviderCode: identityProvider,
+  });
+
   const sessionContentAndUserInfo = await authenticationSessionService.getByKey(authenticationKey);
   if (!sessionContentAndUserInfo) {
     throw new AuthenticationKeyExpired();

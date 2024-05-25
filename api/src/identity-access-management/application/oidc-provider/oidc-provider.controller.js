@@ -1,5 +1,4 @@
 import { BadRequestError, UnauthorizedError } from '../../../../lib/application/http-errors.js';
-import { oidcAuthenticationServiceRegistry } from '../../../../lib/domain/usecases/index.js';
 import * as oidcSerializer from '../../../../lib/infrastructure/serializers/jsonapi/oidc-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as oidcProviderSerializer from '../../infrastructure/serializers/jsonapi/oidc-identity-providers.serializer.js';
@@ -138,28 +137,14 @@ async function getRedirectLogoutUrl(request, h) {
  * @callback reconcileUser
  * @param request
  * @param h
- * @param dependencies
  * @return {Promise<{access_token: string, logout_url_uuid: string}>}
  */
-async function reconcileUser(
-  request,
-  h,
-  dependencies = {
-    oidcAuthenticationServiceRegistry,
-  },
-) {
+async function reconcileUser(request, h) {
   const { identityProvider, authenticationKey } = request.deserializedPayload;
-
-  await dependencies.oidcAuthenticationServiceRegistry.loadOidcProviderServices();
-  await dependencies.oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(identityProvider);
-
-  const oidcAuthenticationService = dependencies.oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
-    identityProviderCode: identityProvider,
-  });
 
   const result = await usecases.reconcileOidcUser({
     authenticationKey,
-    oidcAuthenticationService,
+    identityProvider,
   });
 
   return h.response({ access_token: result.accessToken, logout_url_uuid: result.logoutUrlUUID }).code(200);
