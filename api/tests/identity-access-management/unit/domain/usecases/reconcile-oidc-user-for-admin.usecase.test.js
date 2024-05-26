@@ -1,12 +1,12 @@
-import { AuthenticationMethod } from '../../../../lib/domain/models/index.js';
-import { reconcileOidcUserForAdmin } from '../../../../lib/domain/usecases/reconcile-oidc-user-for-admin.js';
 import {
   AuthenticationKeyExpired,
   DifferentExternalIdentifierError,
-} from '../../../../src/identity-access-management/domain/errors.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
+} from '../../../../../src/identity-access-management/domain/errors.js';
+import { AuthenticationMethod } from '../../../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
+import { reconcileOidcUserForAdmin } from '../../../../../src/identity-access-management/domain/usecases/reconcile-oidc-user-for-admin.usecase.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | reconcile-oidc-user-for-admin', function () {
+describe('Unit | Identity Access Management | Domain | UseCase | reconcile-oidc-user-for-admin', function () {
   let authenticationMethodRepository,
     userRepository,
     userLoginRepository,
