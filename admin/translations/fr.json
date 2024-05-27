@@ -42,7 +42,7 @@
         "upload-button": "Importer un fichier CSV"
       },
       "campaigns-import": {
-        "title": "Création en masse de campagnes",
+        "title": "Création de campagnes en masse",
         "description": "Les campagnes déjà existantes ne seront pas modifiées. Il n'y a pas de contrôle pour empêcher les doublons.",
         "notifications": {
           "success": "Les campagnes ont bien été créées."
@@ -58,7 +58,7 @@
         "upload-button": "Importer un fichier JSON"
       },
       "organizations-import": {
-        "title": "Création en masse d'organisations",
+        "title": "Création d'organisations en masse",
         "description": "Les organisations déjà existantes ne seront pas modifiées.",
         "notifications": {
           "success": "Les organisations ont bien été créées."
