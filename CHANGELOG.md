@@ -1,5 +1,28 @@
 # Pix Changelog
 
+## v4.150.0 (27/05/2024)
+
+
+### :rocket: Amélioration
+- [#8998](https://github.com/1024pix/pix/pull/8998) [FEATURE] Afficher un sélecteur de participation (PIX-11643).
+- [#9045](https://github.com/1024pix/pix/pull/9045) [FEATURE] Modification du wording de la modale lors du remplacement à l’import SUP (PIX-10092).
+
+### :building_construction: Tech
+- [#9035](https://github.com/1024pix/pix/pull/9035) [TECH] Éviter l'existance constante d'une raison d'abandon dans la gestion du scoring V3 (PIX-12629).
+
+### :bug: Correction
+- [#9047](https://github.com/1024pix/pix/pull/9047) [BUGFIX] Chercher les certification-challenges par date de création pour le scoring V3 (PIX-12671).
+- [#9058](https://github.com/1024pix/pix/pull/9058) [BUGFIX] Corriger l'envoi de signalement depuis la correction d'une épreuve.
+- [#9038](https://github.com/1024pix/pix/pull/9038) [BUGFIX] [Admin] Gérer le cas des imports OIDC Providers suivants qui produisent des 500 (PIX-12333).
+- [#9049](https://github.com/1024pix/pix/pull/9049) [BUGFIX] Retire l'icône de suppression de signalement effectué en live lors d'une certif V3 (PIX-12655).
+
+### :arrow_up: Montée de version
+- [#9053](https://github.com/1024pix/pix/pull/9053) [BUMP] Update dependency npm-run-all2 to v6.2.0 (e2e).
+- [#9055](https://github.com/1024pix/pix/pull/9055) [BUMP] Lock file maintenance (orga).
+
+### :coffee: Autre
+- [#9041](https://github.com/1024pix/pix/pull/9041) [FEATURES] Avoir uniquement un bouton "Je continue" pour les activités "leçon".
+
 ## v4.149.0 (24/05/2024)
 
 
