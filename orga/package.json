@@ -69,7 +69,7 @@
     "@embroider/webpack": "^4.0.0",
     "@faker-js/faker": "^8.0.0",
     "@formatjs/intl-getcanonicallocales": "^2.0.5",
-    "@formatjs/intl-locale": "^3.0.11",
+    "@formatjs/intl-locale": "^4.0.0",
     "@formatjs/intl-pluralrules": "^5.1.8",
     "@fortawesome/ember-fontawesome": "^2.0.0",
     "@fortawesome/fontawesome-svg-core": "^6.5.0",
