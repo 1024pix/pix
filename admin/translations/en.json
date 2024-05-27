@@ -33,6 +33,14 @@
   },
   "components": {
     "administration": {
+      "add-organization-features-in-batch": {
+        "title": "Enable features on organizations",
+        "description": "Note: Trying to enable already existing features on organizations would produce an error.",
+        "notifications": {
+          "success": "Features have been enabled."
+        },
+        "upload-button": "Import CSV file"
+      },
       "oidc-providers-import": {
         "title": "OIDC Providers import",
         "description": "Note: Trying to import already existing OIDC Providers would produce an error.",
@@ -40,14 +48,6 @@
           "success": "The OIDC Providers have been created."
         },
         "upload-button": "Import JSON file"
-      },
-      "organizations-batch-update": {
-        "title": "Enable features on organizations",
-        "description": "Note: Trying to enable already existing features on organizations would produce an error.",
-        "notifications": {
-          "success": "Features have been enabled."
-        },
-        "upload-button": "Import CSV file"
       },
       "organizations-import": {
         "title": "Mass creation of organizations",
@@ -89,6 +89,14 @@
           },
           "success": "Campaign code update succeed."
         }
+      },
+      "update-organizations-in-batch": {
+        "title": "Mass modification of organisations",
+        "description": "Note: Only columns with a value will be modified.",
+        "notifications": {
+          "success": "The organisations have been modified."
+        },
+        "upload-button": "Import CSV file"
       }
     },
     "certification-centers": {

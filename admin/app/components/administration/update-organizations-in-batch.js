@@ -3,7 +3,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import ENV from 'pix-admin/config/environment';
 
-export default class OrganizationsBatchUpdate extends Component {
+export default class UpdateOrganizationsInBatch extends Component {
   @service intl;
   @service notifications;
   @service session;
@@ -14,39 +14,32 @@ export default class OrganizationsBatchUpdate extends Component {
     this.notifications.clearAll();
 
     let response;
-    try {
-      const fileContent = await readFileAsText(files[0]);
 
+    try {
       const token = this.session.data.authenticated.access_token;
-      response = await window.fetch(`${ENV.APP.API_HOST}/api/admin/organizations/add-organization-features`, {
+
+      response = await window.fetch(`${ENV.APP.API_HOST}/api/admin/organizations/update-organizations`, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'text/csv',
           Accept: 'application/json',
         },
         method: 'POST',
-        body: fileContent,
+        body: files[0],
       });
+
       if (response.ok) {
         this.notifications.success(
-          this.intl.t('components.administration.organizations-batch-update.notifications.success'),
+          this.intl.t('components.administration.update-organizations-in-batch.notifications.success'),
         );
         return;
-      } else {
-        this.errorResponseHandler.notify(await response.json());
       }
+
+      this.errorResponseHandler.notify(await response.json());
     } catch (error) {
-      this.notifications.error(this.intl.t('common.notifications.generic-error'));
+      this.notifications.error(this.intl.t('common.notifications.generic-error'), { autoClear: false });
     } finally {
       this.isLoading = false;
     }
   }
 }
-
-const readFileAsText = (file) =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = (event) => resolve(event.target.result);
-    reader.onerror = reject;
-    reader.readAsText(file);
-  });
