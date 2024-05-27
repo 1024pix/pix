@@ -4,6 +4,7 @@ import { escapeFileName } from '../../../../lib/infrastructure/utils/request-res
 import { usecases } from '../domain/usecases/index.js';
 import * as targetProfileAttachOrganizationSerializer from '../infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer.js';
 import * as targetProfileDetachOrganizationsSerializer from '../infrastructure/serializers/jsonapi/target-profile-detach-organizations-serializer.js';
+import * as targetProfileSerializer from '../infrastructure/serializers/jsonapi/target-profile-serializer.js';
 import * as learningContentPDFPresenter from './presenter/pdf/learning-content-pdf-presenter.js';
 
 const getContentAsJsonFile = async function (request, h) {
@@ -83,7 +84,23 @@ const detachOrganizations = async function (request, h, dependencies = { targetP
     .code(200);
 };
 
+const outdateTargetProfile = async function (request, h) {
+  const id = request.params.targetProfileId;
+
+  await usecases.outdateTargetProfile({ id });
+  return h.response({}).code(204);
+};
+
+const markTargetProfileAsSimplifiedAccess = async function (request, h) {
+  const id = request.params.targetProfileId;
+
+  const targetProfile = await usecases.markTargetProfileAsSimplifiedAccess({ id });
+  return h.response(targetProfileSerializer.serialize(targetProfile));
+};
+
 const targetProfileController = {
+  outdateTargetProfile,
+  markTargetProfileAsSimplifiedAccess,
   attachTargetProfiles,
   attachOrganizations,
   detachOrganizations,

@@ -3,12 +3,12 @@ import * as trainingSummarySerializer from '../../../src/devcomp/infrastructure/
 import { evaluationUsecases } from '../../../src/evaluation/domain/usecases/index.js';
 import { deserializer as badgeCreationDeserializer } from '../../../src/evaluation/infrastructure/serializers/jsonapi/badge-creation-serializer.js';
 import * as badgeSerializer from '../../../src/evaluation/infrastructure/serializers/jsonapi/badge-serializer.js';
+import * as targetProfileSerializer from '../../../src/prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-serializer.js';
 import * as queryParamsUtils from '../../../src/shared/infrastructure/utils/query-params-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import * as organizationSerializer from '../../infrastructure/serializers/jsonapi/organization-serializer.js';
 import * as targetProfileForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-for-admin-serializer.js';
-import * as targetProfileSerializer from '../../infrastructure/serializers/jsonapi/target-profile-serializer.js';
 import * as targetProfileSummaryForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 
 const findPaginatedFilteredTargetProfileSummariesForAdmin = async function (request) {
@@ -67,13 +67,6 @@ const updateTargetProfile = async function (request, h) {
   return h.response({}).code(204);
 };
 
-const outdateTargetProfile = async function (request, h) {
-  const id = request.params.id;
-
-  await usecases.outdateTargetProfile({ id });
-  return h.response({}).code(204);
-};
-
 const createTargetProfile = async function (request) {
   const targetProfileCreationCommand = targetProfileSerializer.deserializeCreationCommand(request.payload);
 
@@ -110,23 +103,14 @@ const createBadge = async function (request, h) {
   return h.response(badgeSerializer.serialize(createdBadge)).created();
 };
 
-const markTargetProfileAsSimplifiedAccess = async function (request, h) {
-  const id = request.params.id;
-
-  const targetProfile = await usecases.markTargetProfileAsSimplifiedAccess({ id });
-  return h.response(targetProfileSerializer.serialize(targetProfile));
-};
-
 const targetProfileController = {
   findPaginatedFilteredTargetProfileSummariesForAdmin,
   getTargetProfileForAdmin,
   findPaginatedFilteredTargetProfileOrganizations,
   updateTargetProfile,
-  outdateTargetProfile,
   createTargetProfile,
   findPaginatedTrainings,
   createBadge,
-  markTargetProfileAsSimplifiedAccess,
 };
 
 export { targetProfileController };

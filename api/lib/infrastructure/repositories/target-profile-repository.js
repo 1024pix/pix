@@ -51,26 +51,6 @@ const findByIds = async function (targetProfileIds) {
   });
 };
 
-const update = async function (targetProfile) {
-  let results;
-  const editedAttributes = _.pick(targetProfile, ['name', 'outdated', 'description', 'comment', 'isSimplifiedAccess']);
-
-  try {
-    results = await knex(TARGET_PROFILE_TABLE)
-      .where({ id: targetProfile.id })
-      .update(editedAttributes)
-      .returning(['id', 'isSimplifiedAccess']);
-  } catch (error) {
-    throw new ObjectValidationError();
-  }
-
-  if (!results.length) {
-    throw new NotFoundError(`Le profil cible avec l'id ${targetProfile.id} n'existe pas`);
-  }
-
-  return new TargetProfile(results[0]);
-};
-
 const findOrganizationIds = async function (targetProfileId) {
   const targetProfile = await knex(TARGET_PROFILE_TABLE).select('id').where({ id: targetProfileId }).first();
   if (!targetProfile) {
@@ -107,4 +87,4 @@ const hasTubesWithLevels = async function (
   }
 };
 
-export { create, findByIds, findOrganizationIds, get, hasTubesWithLevels, update };
+export { create, findByIds, findOrganizationIds, get, hasTubesWithLevels };

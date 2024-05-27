@@ -101,38 +101,6 @@ describe('Unit | Controller | target-profile-controller', function () {
     });
   });
 
-  describe('#outdateTargetProfile', function () {
-    let request;
-
-    beforeEach(function () {
-      sinon.stub(usecases, 'outdateTargetProfile');
-
-      request = {
-        params: {
-          id: 123,
-        },
-      };
-    });
-
-    context('successful case', function () {
-      it('should succeed', async function () {
-        // when
-        const response = await targetProfileController.outdateTargetProfile(request, hFake);
-
-        // then
-        expect(response.statusCode).to.equal(204);
-      });
-
-      it('should outdate target profile', async function () {
-        // when
-        await targetProfileController.outdateTargetProfile(request, hFake);
-
-        // then
-        expect(usecases.outdateTargetProfile).to.have.been.calledWithMatch({ id: 123 });
-      });
-    });
-  });
-
   describe('#findPaginatedTrainings', function () {
     it('should return trainings summaries', async function () {
       // given

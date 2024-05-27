@@ -9,7 +9,7 @@ import {
   mockLearningContent,
 } from '../../../../test-helper.js';
 
-describe('Acceptance | Route | admin-target-profile', function () {
+describe('Acceptance | TargetProfile | Application | Route | admin-target-profile', function () {
   let server;
 
   beforeEach(async function () {
@@ -355,6 +355,67 @@ describe('Acceptance | Route | admin-target-profile', function () {
 
       // then
       expect(response.statusCode).to.equal(200);
+    });
+  });
+
+  describe('PUT /api/admin/target-profiles/{targetProfileId}/outdate', function () {
+    it('should return 204', async function () {
+      const targetProfile = databaseBuilder.factory.buildTargetProfile();
+      const user = databaseBuilder.factory.buildUser.withRole();
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'PUT',
+        url: `/api/admin/target-profiles/${targetProfile.id}/outdate`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+        payload: {
+          data: {
+            attributes: {
+              outdated: true,
+            },
+          },
+        },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+    });
+  });
+
+  describe('PUT /api/admin/target-profiles/{targetProfileId}/simplified-access', function () {
+    it('should return 200 HTTP status code', async function () {
+      // given
+      const server = await createServer();
+
+      const user = databaseBuilder.factory.buildUser.withRole();
+      const targetProfile = databaseBuilder.factory.buildTargetProfile({ isSimplifiedAccess: false });
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'PUT',
+        url: `/api/admin/target-profiles/${targetProfile.id}/simplified-access`,
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(user.id),
+        },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.payload).to.equal(
+        JSON.stringify({
+          data: {
+            type: 'target-profiles',
+            id: targetProfile.id.toString(),
+            attributes: { 'is-simplified-access': true },
+          },
+        }),
+      );
     });
   });
 });
