@@ -1,11 +1,15 @@
-import { visit } from '@1024pix/ember-testing-library';
+import { clickByText, visit } from '@1024pix/ember-testing-library';
 import { click, findAll } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
+import { clickByLabel } from '../helpers/click-by-label';
+import setupIntl from '../helpers/setup-intl';
+
 module('Compare answers and solutions for QCM questions', function (hooks) {
   setupApplicationTest(hooks);
+  setupIntl(hooks);
   setupMirage(hooks);
   let assessment;
 
@@ -75,6 +79,29 @@ module('Compare answers and solutions for QCM questions', function (hooks) {
 
       assert.dom('.pix-modal__overlay--hidden .comparison-window').doesNotExist();
       assert.dom('.pix-modal__overlay .comparison-window').exists();
+    });
+
+    test('should be able to send a feedback', async function (assert) {
+      // given
+      await visit(`/assessments/${assessment.id}/results`);
+      await click('.result-item__correction-button');
+
+      // when
+      await clickByText(this.intl.t('pages.challenge.feedback-panel.actions.open-close'));
+
+      await clickByLabel(this.intl.t('pages.challenge.feedback-panel.form.fields.detail-selection.aria-first'));
+      await clickByText(this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.question'));
+
+      await clickByLabel(this.intl.t('pages.challenge.feedback-panel.form.fields.detail-selection.aria-secondary'));
+      await clickByText(
+        this.intl.t('pages.challenge.feedback-panel.form.fields.detail-selection.options.question-not-understood'),
+      );
+
+      await clickByText(this.intl.t('pages.challenge.feedback-panel.form.actions.submit'));
+      await clickByText(this.intl.t('common.actions.validate'));
+
+      // then
+      assert.dom('.feedback-panel__view--mercix').exists();
     });
   });
 
