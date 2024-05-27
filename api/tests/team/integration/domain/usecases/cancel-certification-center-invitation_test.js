@@ -1,4 +1,5 @@
-import { NotFoundError, UncancellableCertificationCenterInvitationError } from '../../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { UncancellableCertificationCenterInvitationError } from '../../../../../src/team/domain/errors.js';
 import { CertificationCenterInvitation } from '../../../../../src/team/domain/models/CertificationCenterInvitation.js';
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
 import { catchErr, databaseBuilder, expect, sinon } from '../../../../test-helper.js';

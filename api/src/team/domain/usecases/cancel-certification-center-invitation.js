@@ -1,4 +1,4 @@
-import { UncancellableCertificationCenterInvitationError } from '../../../../lib/domain/errors.js';
+import { UncancellableCertificationCenterInvitationError } from '../errors.js';
 
 /**
  * @typedef {import('../models/CertificationCenterInvitation.js').CertificationCenterInvitation} CertificationCenterInvitation
@@ -9,6 +9,7 @@ import { UncancellableCertificationCenterInvitationError } from '../../../../lib
  * @param {string} certificationCenterInvitationId
  * @param {CertificationCenterInvitationRepository} certificationCenterInvitationRepository
  * @returns {Promise<CertificationCenterInvitation>}
+ * @throws {UncancellableCertificationCenterInvitationError}
  */
 const cancelCertificationCenterInvitation = async function ({
   certificationCenterInvitationId,
