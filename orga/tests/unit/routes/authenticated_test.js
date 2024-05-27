@@ -124,4 +124,18 @@ module('Unit | Route | authenticated', function (hooks) {
       assert.notOk(queryRecordStub.calledWithExactly('organization-place-statistic', { organizationId }));
     });
   });
+
+  module('refreshModel', function () {
+    test('should call refresh', async function (assert) {
+      // given
+      const route = this.owner.lookup('route:authenticated');
+      route.refresh = sinon.stub();
+
+      // when
+      route.refreshModel();
+
+      // then
+      assert.ok(route.refresh.called);
+    });
+  });
 });
