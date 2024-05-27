@@ -1,4 +1,5 @@
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+
 /**
  * @typedef {import ('../usecases/index.js').OidcProviderRepository} OidcProviderRepository
  */
