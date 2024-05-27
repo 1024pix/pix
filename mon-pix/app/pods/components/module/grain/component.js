@@ -30,7 +30,9 @@ export default class ModuleGrain extends Component {
           return undefined;
         }
       })
-      .filter((element) => ModuleGrain.AVAILABLE_ELEMENT_TYPES.includes(element.type));
+      .filter((element) => {
+        return element !== undefined && ModuleGrain.AVAILABLE_ELEMENT_TYPES.includes(element.type);
+      });
   }
 
   get displayableElements() {

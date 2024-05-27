@@ -139,55 +139,51 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
 });
 
 function getComponents() {
+  const qrocmElement = new QROCM({
+    id: '100',
+    instruction: '',
+    locales: ['fr-FR'],
+    proposals: [
+      new BlockText({
+        content: '<p>Adresse mail de Naomi : ${email}</p>',
+      }),
+      new BlockInput({
+        input: 'email',
+        inputType: 'text',
+        size: 10,
+        display: 'inline',
+        placeholder: '',
+        ariaLabel: 'Adresse mail de Naomi',
+        defaultValue: '',
+        tolerances: [],
+        solutions: ['naomizao@yahoo.com', 'naomizao@yahoo.fr'],
+      }),
+      new BlockSelect({
+        input: 'seconde-partie',
+        display: 'inline',
+        placeholder: '',
+        ariaLabel: 'Réponse 3',
+        defaultValue: '',
+        tolerances: [],
+        options: [
+          new BlockSelectOption({
+            id: '1',
+            content: "l'identifiant",
+          }),
+          new BlockSelectOption({
+            id: '2',
+            content: "le fournisseur d'adresse mail",
+          }),
+        ],
+        solutions: ['2'],
+      }),
+    ],
+  });
   return [
     new ComponentStepper({
       steps: [
         {
-          elements: [
-            {
-              id: 'c23436d4-6261-49f1-b50d-13a547529c29',
-              type: 'qrocm',
-              instruction: '<p>Compléter le texte suivant :</p>',
-              proposals: [
-                {
-                  type: 'text',
-                  content: '<span>Pix est un</span>',
-                },
-                {
-                  input: 'pix-name',
-                  type: 'input',
-                  inputType: 'text',
-                  size: 10,
-                  display: 'inline',
-                  placeholder: '',
-                  ariaLabel: 'Mot à trouver',
-                  defaultValue: '',
-                  tolerances: ['t1', 't3'],
-                  solutions: ['Groupement'],
-                },
-                {
-                  type: 'text',
-                  content: "<span>d'intérêt public qui a été créée en</span>",
-                },
-                {
-                  input: 'pix-birth',
-                  type: 'input',
-                  inputType: 'text',
-                  size: 10,
-                  display: 'inline',
-                  placeholder: '',
-                  ariaLabel: 'Année à trouver',
-                  defaultValue: '',
-                  tolerances: [],
-                  solutions: ['2016'],
-                },
-              ],
-              feedbacks: {
-                valid: '<p>Correct&#8239;! vous nous connaissez bien&nbsp;<span aria-hidden="true">🎉</span></p>',
-                invalid: '<p>Incorrect&#8239;! vous y arriverez la prochaine fois&#8239;!</p>',
-              },
-            },
-          ],
+          elements: [qrocmElement],
         },
       ],
     }),
@@ -211,46 +207,7 @@ function getComponents() {
       }),
     }),
     new ComponentElement({
-      element: new QROCM({
-        id: '100',
-        instruction: '',
-        locales: ['fr-FR'],
-        proposals: [
-          new BlockText({
-            content: '<p>Adresse mail de Naomi : ${email}</p>',
-          }),
-          new BlockInput({
-            input: 'email',
-            inputType: 'text',
-            size: 10,
-            display: 'inline',
-            placeholder: '',
-            ariaLabel: 'Adresse mail de Naomi',
-            defaultValue: '',
-            tolerances: [],
-            solutions: ['naomizao@yahoo.com', 'naomizao@yahoo.fr'],
-          }),
-          new BlockSelect({
-            input: 'seconde-partie',
-            display: 'inline',
-            placeholder: '',
-            ariaLabel: 'Réponse 3',
-            defaultValue: '',
-            tolerances: [],
-            options: [
-              new BlockSelectOption({
-                id: '1',
-                content: "l'identifiant",
-              }),
-              new BlockSelectOption({
-                id: '2',
-                content: "le fournisseur d'adresse mail",
-              }),
-            ],
-            solutions: ['2'],
-          }),
-        ],
-      }),
+      element: qrocmElement,
     }),
     new ComponentElement({
       element: new Image({ id: '3', url: 'url', alt: 'alt', alternativeText: 'alternativeText' }),
@@ -268,7 +225,60 @@ function getComponents() {
 }
 
 function getAttributesComponents() {
+  const expectedQrocm = {
+    id: '100',
+    instruction: '',
+    isAnswerable: true,
+    locales: ['fr-FR'],
+    proposals: [
+      {
+        content: '<p>Adresse mail de Naomi : ${email}</p>',
+        type: 'text',
+      },
+      {
+        ariaLabel: 'Adresse mail de Naomi',
+        defaultValue: '',
+        display: 'inline',
+        input: 'email',
+        inputType: 'text',
+        placeholder: '',
+        size: 10,
+        solutions: ['naomizao@yahoo.com', 'naomizao@yahoo.fr'],
+        tolerances: [],
+        type: 'input',
+      },
+      {
+        ariaLabel: 'Réponse 3',
+        defaultValue: '',
+        display: 'inline',
+        input: 'seconde-partie',
+        options: [
+          {
+            content: "l'identifiant",
+            id: '1',
+          },
+          {
+            content: "le fournisseur d'adresse mail",
+            id: '2',
+          },
+        ],
+        placeholder: '',
+        solutions: ['2'],
+        tolerances: [],
+        type: 'select',
+      },
+    ],
+    type: 'qrocm',
+  };
   return [
+    {
+      type: 'stepper',
+      steps: [
+        {
+          elements: [expectedQrocm],
+        },
+      ],
+    },
     {
       type: 'element',
       element: {
@@ -320,51 +330,7 @@ function getAttributesComponents() {
     },
     {
       type: 'element',
-      element: {
-        id: '100',
-        instruction: '',
-        isAnswerable: true,
-        locales: ['fr-FR'],
-        proposals: [
-          {
-            content: '<p>Adresse mail de Naomi : ${email}</p>',
-            type: 'text',
-          },
-          {
-            ariaLabel: 'Adresse mail de Naomi',
-            defaultValue: '',
-            display: 'inline',
-            input: 'email',
-            inputType: 'text',
-            placeholder: '',
-            size: 10,
-            solutions: ['naomizao@yahoo.com', 'naomizao@yahoo.fr'],
-            tolerances: [],
-            type: 'input',
-          },
-          {
-            ariaLabel: 'Réponse 3',
-            defaultValue: '',
-            display: 'inline',
-            input: 'seconde-partie',
-            options: [
-              {
-                content: "l'identifiant",
-                id: '1',
-              },
-              {
-                content: "le fournisseur d'adresse mail",
-                id: '2',
-              },
-            ],
-            placeholder: '',
-            solutions: ['2'],
-            tolerances: [],
-            type: 'select',
-          },
-        ],
-        type: 'qrocm',
-      },
+      element: expectedQrocm,
     },
     {
       type: 'element',

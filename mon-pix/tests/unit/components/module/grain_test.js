@@ -144,4 +144,45 @@ module('Unit | Component | Module | Grain', function (hooks) {
       });
     });
   });
+
+  module('#displayableElements', function () {
+    module('when component.type is supported', function () {
+      test('should return the displayable element', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const qcu = { id: 'qcu-id-1', type: 'qcu' };
+        const grain = store.createRecord('grain', {
+          components: [{ type: 'element', element: qcu }],
+        });
+
+        const component = createPodsComponent('module/grain', { grain });
+
+        // when
+        const displayableElements = component.displayableElements;
+
+        // then
+        assert.strictEqual(displayableElements.length, 1);
+        assert.strictEqual(displayableElements[0], qcu);
+      });
+    });
+
+    module('when component.type is not supported', function () {
+      test('should return an empty array', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const qcu = { id: 'qcu-id-1', type: 'qcu' };
+        const grain = store.createRecord('grain', {
+          components: [{ type: 'toto', element: qcu }],
+        });
+
+        const component = createPodsComponent('module/grain', { grain });
+
+        // when
+        const displayableElements = component.displayableElements;
+
+        // then
+        assert.strictEqual(displayableElements.length, 0);
+      });
+    });
+  });
 });
