@@ -2,12 +2,13 @@ import { clickByName, render, waitFor } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
-import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+
 module('Integration | Component | users | user-overview', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   module('when the admin member has access to users actions scope', function (hooks) {
     class AccessControlStub extends Service {
@@ -93,6 +94,64 @@ module('Integration | Component | users | user-overview', function (hooks) {
           assert.dom(screen.getByText(`Langue : ${expected.lang}`)).exists();
           assert.dom(screen.getByText(`Locale : ${expected.locale}`)).exists();
           assert.dom(screen.getByText('Date de création :')).exists();
+        });
+      });
+
+      module('copy feature', function () {
+        module('when information is provided', function () {
+          test('displays copy button after the user e-mail', async function (assert) {
+            // given
+            const email = 'pat.ate@example.net';
+            const store = this.owner.lookup('service:store');
+            const user = store.createRecord('user', {
+              firstName: 'Pat',
+              lastName: 'Ate',
+              email,
+              lang: 'fr',
+              locale: 'fr-FR',
+              createdAt: new Date('2021-12-10'),
+            });
+            this.set('user', user);
+
+            // when
+            const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
+
+            // then
+            assert.ok(
+              screen
+                .getByRole('button', {
+                  name: this.intl.t('components.users.user-detail-personal-information.actions.copy-email'),
+                })
+                .hasAttribute('data-clipboard-text', email),
+            );
+          });
+
+          test('displays copy button after the user ID', async function (assert) {
+            // given
+            const username = 'mouss.tique';
+            const store = this.owner.lookup('service:store');
+            const user = store.createRecord('user', {
+              firstName: 'Mouss',
+              lastName: 'Tique',
+              username,
+              lang: 'fr',
+              locale: 'fr-FR',
+              createdAt: new Date('2021-12-10'),
+            });
+            this.set('user', user);
+
+            // when
+            const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
+
+            // then
+            assert.ok(
+              screen
+                .getByRole('button', {
+                  name: this.intl.t('components.users.user-detail-personal-information.actions.copy-username'),
+                })
+                .hasAttribute('data-clipboard-text', username),
+            );
+          });
         });
       });
 
@@ -438,8 +497,6 @@ module('Integration | Component | users | user-overview', function (hooks) {
           .exists();
       });
 
-      // TODO Fix arai-hidden PixUI Modal before this test pass
-      test.skip('should close the modal to cancel action', async function (assert) {
       // TODO Fix aria-hidden PixUI Modal before this test pass
       test.skip('closes the modal to cancel action', async function (assert) {
         // given

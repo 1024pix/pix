@@ -129,10 +129,36 @@
             </li>
           </ul>
           <ul class="user-detail-personal-information-section__infogroup">
-            <li class="user-detail-personal-information-section__user-informations">Adresse e-mail :
-              {{@user.email}}</li>
-            <li class="user-detail-personal-information-section__user-informations">Identifiant :
-              {{@user.username}}</li>
+            <li class="user-detail-personal-information-section__user-informations flex space-between gap-4x">
+              <span>Adresse e-mail : {{@user.email}}</span>
+              <span>
+                {{#if (is-clipboard-supported)}}
+                  <CopyButton
+                    @text={{@user.email}}
+                    aria-label="{{t 'components.users.user-detail-personal-information.actions.copy-email'}}"
+                    aria-describedby="copy-user-email"
+                    class="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey"
+                  >
+                    <FaIcon @icon="copy" @prefix="far" />
+                  </CopyButton>
+                {{/if}}
+              </span>
+            </li>
+            <li class="user-detail-personal-information-section__user-informations flex space-between gap-4x">
+              <span>Identifiant : {{@user.username}}</span>
+              <span>
+                {{#if (is-clipboard-supported)}}
+                  <CopyButton
+                    @text={{@user.username}}
+                    aria-label="{{t 'components.users.user-detail-personal-information.actions.copy-username'}}"
+                    aria-describedby="copy-user-id"
+                    class="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey"
+                  >
+                    <FaIcon @icon="copy" @prefix="far" />
+                  </CopyButton>
+                {{/if}}
+              </span>
+            </li>
           </ul>
           <ul class="user-detail-personal-information-section__infogroup">
             <li class="user-detail-personal-information-section__user-informations">CGU Pix App validé :

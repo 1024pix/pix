@@ -64,3 +64,15 @@ a.pix-button {
   justify-content: flex-end;
   padding: 0.75rem;
 }
+
+.flex {
+  display: flex;
+
+  &.space-between {
+    justify-content: space-between;
+  }
+
+  &.gap-4x {
+    gap: var(--pix-spacing-4x);
+  }
+}
