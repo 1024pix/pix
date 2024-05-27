@@ -97,3 +97,9 @@ Then(`je vois {string} comme {string}`, (value, label) => {
     .parent()
     .within(() => cy.contains(value));
 });
+
+Then('la page devrait être accessible', function() {
+  cy.injectAxe();
+  cy.checkA11yAndShowViolations({});
+});
+

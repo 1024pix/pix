@@ -1,5 +1,6 @@
 const jsonwebtoken = require('jsonwebtoken');
 const { addCompareSnapshotCommand } = require('cypress-visual-regression/dist/command');
+require('@testing-library/cypress/add-commands');
 
 function getLoginBody(username, password) {
   return {
