@@ -200,9 +200,14 @@
         }
       },
       "user-detail-personal-information": {
+        "actions": {
+          "copy-email": "Copier l’adresse e-mail",
+          "copy-username": "Copier l’identifiant"
+        },
         "authentication-method": {
           "should-change-password-status": "Mot de passe temporaire :"
-        }
+        },
+        "copied": "Copié !"
       }
     }
   },

@@ -190,9 +190,14 @@
         }
       },
       "user-detail-personal-information": {
+        "actions": {
+          "copy-email": "Copy user e-mail address",
+          "copy-username": "Copy user id"
+        },
         "authentication-method": {
           "should-change-password-status": "Temporary password :"
-        }
+        },
+        "copied": "Copied!"
       }
     }
   },
