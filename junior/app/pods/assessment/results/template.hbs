@@ -15,7 +15,7 @@
       <ul class="details-list">
         {{#each this.validatedObjectives as |element|}}
           <li>
-            <Markdown::MarkdownToHtml @markdown={{element}} class="details-list__item" />
+            <MarkdownToHtml @markdown={{element}} class="details-list__item" />
           </li>
         {{/each}}
       </ul>

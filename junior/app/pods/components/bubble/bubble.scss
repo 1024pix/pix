@@ -12,7 +12,14 @@
 
   ul, ol {
     padding: revert;
-    list-style: auto;
+  }
+
+  ul {
+    list-style-type: disc;
+  }
+
+  ol {
+    list-style-type: decimal;
   }
 
   a {
