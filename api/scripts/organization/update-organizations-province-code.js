@@ -6,7 +6,7 @@ import _ from 'lodash';
 import { disconnect } from '../../db/knex-database-connection.js';
 import { updateOrganizationProvinceCode } from '../../lib/domain/usecases/organizations-administration/update-organization-province-code.js';
 import { DomainTransaction } from '../../lib/infrastructure/DomainTransaction.js';
-import * as organizationForAdminRepository from '../../src/organizational-entities/infrastructure/repositories/organization-for-admin-repository.js';
+import { organizationForAdminRepository } from '../../src/organizational-entities/infrastructure/repositories/organization-for-admin.repository.js';
 import { checkCsvHeader, parseCsvWithHeader } from '../helpers/csvHelpers.js';
 
 const modulePath = fileURLToPath(import.meta.url);

@@ -1,12 +1,13 @@
+import { OrganizationBatchUpdateDTO } from '../../../../../src/organizational-entities/domain/dtos/OrganizationBatchUpdateDTO.js';
 import { OrganizationForAdmin } from '../../../../../src/organizational-entities/domain/models/OrganizationForAdmin.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 
-describe('Unit | Domain | Models | OrganizationForAdmin', function () {
+describe('Unit | Organizational Entities | Domain | Model | OrganizationForAdmin', function () {
   describe('features', function () {
     context('for sco organizations', function () {
       context('when organization isManagingStudent is true', function () {
-        it('should build an OrganizationForAdmin with compute organization learner certificability enabled', function () {
+        it('builds an OrganizationForAdmin with compute organization learner certificability enabled', function () {
           // given
           const expectedOrganization = domainBuilder.buildOrganizationForAdmin({
             type: 'SCO',
@@ -24,7 +25,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       });
 
       context('when organization isManagingStudent is false', function () {
-        it('should build an OrganizationForAdmin without compute organization learner certificability feature', function () {
+        it('builds an OrganizationForAdmin without compute organization learner certificability feature', function () {
           // given
           const expectedOrganization = domainBuilder.buildOrganizationForAdmin({
             type: 'SCO',
@@ -39,26 +40,33 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
         });
       });
     });
+
     context('for SCO-1D organizations', function () {
-      it('should build an OrganizationForAdmin with MISSIONS_MANAGEMENT feature', function () {
+      it('builds an OrganizationForAdmin with MISSIONS_MANAGEMENT feature', function () {
+        // given
         const expectedOrganization = domainBuilder.buildOrganizationForAdmin({
           type: 'SCO-1D',
         });
 
+        // when
         const organization = new OrganizationForAdmin(expectedOrganization);
 
+        // then
         expect(organization.features).to.include({
           [ORGANIZATION_FEATURE.MISSIONS_MANAGEMENT.key]: true,
         });
       });
 
-      it('should build an OrganizationForAdmin with LEARNER-IMPORT feature', function () {
+      it('builds an OrganizationForAdmin with LEARNER-IMPORT feature', function () {
+        // given
         const expectedOrganization = domainBuilder.buildOrganizationForAdmin({
           type: 'SCO-1D',
         });
 
+        // when
         const organization = new OrganizationForAdmin(expectedOrganization);
 
+        // then
         expect(organization.features).to.include({
           [ORGANIZATION_FEATURE.LEARNER_IMPORT.key]: 'ONDE',
         });
@@ -67,7 +75,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
   });
 
   context('#archivistFullName', function () {
-    it('should return the full name of user who archived the organization', function () {
+    it('returns the full name of user who archived the organization', function () {
       // given
       const organization = new OrganizationForAdmin({ archivistFirstName: 'Sarah', archivistLastName: 'Visseuse' });
 
@@ -75,7 +83,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       expect(organization.archivistFullName).equal('Sarah Visseuse');
     });
 
-    it('should return null if organization is not archived', function () {
+    it('returns null if organization is not archived', function () {
       // given
       const organization = new OrganizationForAdmin({ archivistFirstName: null, archivistLastName: null });
 
@@ -85,7 +93,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
   });
 
   context('#creatorFullName', function () {
-    it('should return the full name of user who create the organization', function () {
+    it('returns the full name of user who create the organization', function () {
       // given
       const organization = new OrganizationForAdmin({ creatorFirstName: 'Sarah', creatorLastName: 'Croche' });
 
@@ -93,7 +101,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       expect(organization.creatorFullName).equal('Sarah Croche');
     });
 
-    it('should return null if organization has no creator', function () {
+    it('returns null if organization has no creator', function () {
       // given
       const organization = new OrganizationForAdmin({ creatorFirstName: null, creatorLastName: null });
 
@@ -102,8 +110,8 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
     });
   });
 
-  context('#updateInformation', function () {
-    it('should update organization name', function () {
+  context('#updateWithDataProtectionOfficerAndTags', function () {
+    it('updates organization name', function () {
       // given
       const originalName = 'original name';
       const newName = 'New name';
@@ -118,7 +126,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       expect(givenOrganization.name).to.equal(newName);
     });
 
-    it('should not update organization name to empty value', function () {
+    it('does not update organization name to empty value', function () {
       // given
       const originalName = 'original name';
       const newName = '';
@@ -133,7 +141,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       expect(givenOrganization.name).to.equal(originalName);
     });
 
-    it('should update organization type', function () {
+    it('updates organization type', function () {
       // given
       const initialType = 'SCO';
       const newType = 'PRO';
@@ -151,7 +159,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       expect(givenOrganization.type).to.equal(newType);
     });
 
-    it('should not update organization type to empty value', function () {
+    it('does not update organization type to empty value', function () {
       // given
       const initialType = 'SCO';
       const newType = '';
@@ -169,7 +177,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       expect(givenOrganization.type).to.equal(initialType);
     });
 
-    it('should update organization identityProviderForCampaigns', function () {
+    it('updates organization identityProviderForCampaigns', function () {
       // given
       const initialIdentityProviderForCampaigns = '';
       const newIdentityProviderForCampaigns = 'GAR';
@@ -187,7 +195,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       expect(givenOrganization.identityProviderForCampaigns).to.equal(newIdentityProviderForCampaigns);
     });
 
-    it('should update organization logo URL', function () {
+    it('updates organization logo URL', function () {
       // given
       const initialLogoUrl = 'https://initial.logo.url';
       const newLogoUrl = 'http://new.logo.url';
@@ -205,7 +213,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       expect(givenOrganization.logoUrl).to.equal(newLogoUrl);
     });
 
-    it('should not update organization logo URL to empty value', function () {
+    it('does not update organization logo URL to empty value', function () {
       // given
       const initialLogoUrl = 'https://initial.logo.url';
       const newLogoUrl = '';
@@ -223,7 +231,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       expect(givenOrganization.logoUrl).to.equal(initialLogoUrl);
     });
 
-    it('should update organization external id even if empty value', function () {
+    it('updates organization external id even if empty value', function () {
       // given
       const initialExternalId = 'ABCDEFGH';
       const newExternalId = '';
@@ -241,7 +249,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       expect(givenOrganization.externalId).to.equal(newExternalId);
     });
 
-    it('should update organization province code even if empty value', function () {
+    it('updates organization province code even if empty value', function () {
       // given
       const initialProvinceCode = '888';
       const newProvinceCode = '';
@@ -259,7 +267,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       expect(givenOrganization.provinceCode).to.equal(newProvinceCode);
     });
 
-    it('should update organization isManagingStudents', function () {
+    it('updates organization isManagingStudents', function () {
       // given
       const givenOrganization = new OrganizationForAdmin({
         isManagingStudents: false,
@@ -275,7 +283,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       expect(givenOrganization.isManagingStudents).to.equal(true);
     });
 
-    it('should enable compute organization learner certificability when updating SCO organization isManagingStudents to true', function () {
+    it('enables compute organization learner certificability when updating SCO organization isManagingStudents to true', function () {
       // given
       const givenOrganization = new OrganizationForAdmin({
         isManagingStudents: false,
@@ -298,7 +306,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
     });
 
     context('when updating AEFE tags', function () {
-      it('should enable compute organization learner certificability for SCO organization', function () {
+      it('enables compute organization learner certificability for SCO organization', function () {
         // given
         const givenOrganization = new OrganizationForAdmin({
           isManagingStudents: false,
@@ -317,7 +325,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
         ).to.equal(true);
       });
 
-      it('should disable compute organization learner certificability on removing AEFE', function () {
+      it('disables compute organization learner certificability on removing AEFE', function () {
         // given
         const givenOrganization = new OrganizationForAdmin({
           isManagingStudents: false,
@@ -336,7 +344,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
         ).to.equal(false);
       });
 
-      it('should not enable compute organization learner certificability for SUP organization', function () {
+      it('does not enable compute organization learner certificability for SUP organization', function () {
         // given
         const givenOrganization = new OrganizationForAdmin({
           isManagingStudents: false,
@@ -355,7 +363,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
         ).to.equal(false);
       });
 
-      it('should not enable compute organization learner certificability for PRO organization', function () {
+      it('does not enable compute organization learner certificability for PRO organization', function () {
         // given
         const givenOrganization = new OrganizationForAdmin({
           isManagingStudents: false,
@@ -375,7 +383,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       });
     });
 
-    it('should disable compute organization learner certificability when updating SCO organization isManagingStudents to false', function () {
+    it('disables compute organization learner certificability when updating SCO organization isManagingStudents to false', function () {
       // given
       const givenOrganization = new OrganizationForAdmin({
         isManagingStudents: true,
@@ -397,7 +405,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       ).to.equal(false);
     });
 
-    it('should not enable compute organization learner certificability when updating SUP organization isManagingStudents to true', function () {
+    it('does not enable compute organization learner certificability when updating SUP organization isManagingStudents to true', function () {
       // given
       const givenOrganization = new OrganizationForAdmin({
         isManagingStudents: false,
@@ -419,7 +427,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       ).to.equal(false);
     });
 
-    it('should update organization email even if empty value', function () {
+    it('updates organization email even if empty value', function () {
       // given
       const documentationUrl = 'initial@email.fr';
       const newEmail = '';
@@ -437,7 +445,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       expect(givenOrganization.email).to.equal(newEmail);
     });
 
-    it('should update organization credit even if null value', function () {
+    it('updates organization credit even if null value', function () {
       // given
       const initialCredit = 1000;
       const newCredits = null;
@@ -455,7 +463,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       expect(givenOrganization.credit).to.equal(newCredits);
     });
 
-    it('should update organization documentationUrl even if empty value', function () {
+    it('updates organization documentationUrl even if empty value', function () {
       // given
       const initialDocumentationUrl = 'https://initial.pix.fr/';
       const newDocumentationUrl = '';
@@ -473,7 +481,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       expect(givenOrganization.documentationUrl).to.equal(newDocumentationUrl);
     });
 
-    it('should update organization showSkills flag', function () {
+    it('updates organization showSkills flag', function () {
       // given
       const givenOrganization = new OrganizationForAdmin({
         showSkills: false,
@@ -489,7 +497,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       expect(givenOrganization.showSkills).to.equal(true);
     });
 
-    it('should update organization tags', function () {
+    it('updates organization tags', function () {
       // given
       const organizationId = 1;
       const initialTagId = 1;
@@ -509,7 +517,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       expect(givenOrganization.tagsToAdd).to.deep.equal([{ tagId: newTagId, organizationId }]);
     });
 
-    it('should update data protection officier', function () {
+    it('updates data protection officier', function () {
       // given
       const givenOrganization = new OrganizationForAdmin({
         dataProtectionOfficerFirstName: 'Michel',
@@ -531,7 +539,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       });
     });
 
-    it('should update data protection officier with empty values', function () {
+    it('updates data protection officier with empty values', function () {
       // given
       const givenOrganization = new OrganizationForAdmin({
         dataProtectionOfficerFirstName: 'Michel',
@@ -549,7 +557,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       expect(givenOrganization.dataProtectionOfficer).to.includes({}, { firstName: '', lastName: '', email: '' });
     });
 
-    it('should enable multiple sending for assessment campaign feature', function () {
+    it('enables multiple sending for assessment campaign feature', function () {
       // given
       const givenOrganization = new OrganizationForAdmin({
         features: {
@@ -568,7 +576,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       });
     });
 
-    it('should disable multiple sending for assessment campaign feature', function () {
+    it('disables multiple sending for assessment campaign feature', function () {
       // given
       const givenOrganization = new OrganizationForAdmin({
         features: {
@@ -603,7 +611,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
   });
 
   context('#updateProvinceCode', function () {
-    it('should update ProvinceCode', function () {
+    it('updates ProvinceCode', function () {
       // given
       const initialProvinceCode = '44200';
       const newProvinceCode = '44119';
@@ -618,7 +626,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
   });
 
   context('#updateIdentityProviderForCampaigns', function () {
-    it('should update IdentityProviderForCampaigns', function () {
+    it('updates IdentityProviderForCampaigns', function () {
       // given
       const initialIdentityProviderForCampaigns = 'genericOidcProviderCode';
       const newIdentityProviderForCampaigns = 'GAR';
@@ -629,6 +637,150 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       givenOrganization.updateIdentityProviderForCampaigns(newIdentityProviderForCampaigns);
       // then
       expect(givenOrganization.identityProviderForCampaigns).to.equal(newIdentityProviderForCampaigns);
+    });
+  });
+
+  context('#updateFromOrganizationBatchUpdateDto', function () {
+    it('updates the organization name', function () {
+      // given
+      const name = 'Cliffwater';
+      const organizationToUpdate = domainBuilder.buildOrganizationForAdmin();
+
+      // when
+      organizationToUpdate.updateFromOrganizationBatchUpdateDto(new OrganizationBatchUpdateDTO({ id: '1', name }));
+
+      // then
+      const expectedOrganization = domainBuilder.buildOrganizationForAdmin({ name });
+      expect(organizationToUpdate.name).to.equal(name);
+      expect(organizationToUpdate).to.deep.equal(expectedOrganization);
+    });
+
+    it('updates the organization external identifier', function () {
+      // given
+      const externalId = 'EXT_123';
+      const organizationToUpdate = domainBuilder.buildOrganizationForAdmin();
+
+      // when
+      organizationToUpdate.updateFromOrganizationBatchUpdateDto(
+        new OrganizationBatchUpdateDTO({ id: '1', externalId }),
+      );
+
+      // then
+      const expectedOrganization = domainBuilder.buildOrganizationForAdmin({ externalId });
+      expect(organizationToUpdate.externalId).to.equal(externalId);
+      expect(organizationToUpdate).to.deep.equal(expectedOrganization);
+    });
+
+    it('updates the organization documentation URL', function () {
+      // given
+      const documentationUrl = 'https://cliffwater.org/documentations.pdf';
+      const organizationToUpdate = domainBuilder.buildOrganizationForAdmin();
+
+      // when
+      organizationToUpdate.updateFromOrganizationBatchUpdateDto(
+        new OrganizationBatchUpdateDTO({ id: '1', documentationUrl }),
+      );
+
+      // then
+      const expectedOrganization = domainBuilder.buildOrganizationForAdmin({ documentationUrl });
+      expect(organizationToUpdate.documentationUrl).to.equal(documentationUrl);
+      expect(organizationToUpdate).to.deep.equal(expectedOrganization);
+    });
+
+    it('updates the organization province code', function () {
+      // given
+      const provinceCode = '92';
+      const organizationToUpdate = domainBuilder.buildOrganizationForAdmin();
+
+      // when
+      organizationToUpdate.updateFromOrganizationBatchUpdateDto(
+        new OrganizationBatchUpdateDTO({ id: '1', provinceCode }),
+      );
+
+      // then
+      const expectedOrganization = domainBuilder.buildOrganizationForAdmin({ provinceCode });
+      expect(organizationToUpdate.provinceCode).to.equal(provinceCode);
+      expect(organizationToUpdate).to.deep.equal(expectedOrganization);
+    });
+
+    it('updates the organization identity provider code for campaigns', function () {
+      // given
+      const identityProviderForCampaigns = 'OIDC_EXAMPLE_NET';
+      const organizationToUpdate = domainBuilder.buildOrganizationForAdmin();
+
+      // when
+      organizationToUpdate.updateFromOrganizationBatchUpdateDto(
+        new OrganizationBatchUpdateDTO({ id: '1', identityProviderForCampaigns }),
+      );
+
+      // then
+      const expectedOrganization = domainBuilder.buildOrganizationForAdmin({ identityProviderForCampaigns });
+      expect(organizationToUpdate.identityProviderForCampaigns).to.equal(identityProviderForCampaigns);
+      expect(organizationToUpdate).to.deep.equal(expectedOrganization);
+    });
+
+    it('updates the organization parent identifier', function () {
+      // given
+      const parentOrganizationId = '1024';
+      const organizationToUpdate = domainBuilder.buildOrganizationForAdmin();
+
+      // when
+      organizationToUpdate.updateFromOrganizationBatchUpdateDto(
+        new OrganizationBatchUpdateDTO({ id: '1', parentOrganizationId }),
+      );
+
+      // then
+      const expectedOrganization = domainBuilder.buildOrganizationForAdmin({ parentOrganizationId });
+      expect(organizationToUpdate.parentOrganizationId).to.equal(parentOrganizationId);
+      expect(organizationToUpdate).to.deep.equal(expectedOrganization);
+    });
+
+    it('updates the organization data protection officer first name', function () {
+      // given
+      const dataProtectionOfficerFirstName = 'Adam';
+      const organizationToUpdate = domainBuilder.buildOrganizationForAdmin();
+
+      // when
+      organizationToUpdate.updateFromOrganizationBatchUpdateDto(
+        new OrganizationBatchUpdateDTO({ id: '1', dataProtectionOfficerFirstName }),
+      );
+
+      // then
+      const expectedOrganization = domainBuilder.buildOrganizationForAdmin({ dataProtectionOfficerFirstName });
+      expect(organizationToUpdate.dataProtectionOfficer.firstName).to.equal(dataProtectionOfficerFirstName);
+      expect(organizationToUpdate).to.deep.equal(expectedOrganization);
+    });
+
+    it('updates the organization data protection officer last name', function () {
+      // given
+      const dataProtectionOfficerLastName = 'Troisjour';
+      const organizationToUpdate = domainBuilder.buildOrganizationForAdmin();
+
+      // when
+      organizationToUpdate.updateFromOrganizationBatchUpdateDto(
+        new OrganizationBatchUpdateDTO({ id: '1', dataProtectionOfficerLastName }),
+      );
+
+      // then
+      const expectedOrganization = domainBuilder.buildOrganizationForAdmin({ dataProtectionOfficerLastName });
+      expect(organizationToUpdate.dataProtectionOfficer.lastName).to.equal(dataProtectionOfficerLastName);
+      expect(organizationToUpdate).to.deep.equal(expectedOrganization);
+    });
+
+    it('updates the organization data protection officer e-mail', function () {
+      // given
+      const dataProtectionOfficerEmail = 'adam.troisjour@example.net';
+      const organizationToUpdate = domainBuilder.buildOrganizationForAdmin();
+
+      // when
+      organizationToUpdate.updateFromOrganizationBatchUpdateDto(
+        new OrganizationBatchUpdateDTO({ id: '1', dataProtectionOfficerEmail }),
+      );
+
+      // then
+      const expectedOrganization = domainBuilder.buildOrganizationForAdmin({ dataProtectionOfficerEmail });
+      expect(organizationToUpdate.dataProtectionOfficer.email).to.equal(dataProtectionOfficerEmail);
+      expect(organizationToUpdate).to.deep.equal(expectedOrganization);
     });
   });
 });

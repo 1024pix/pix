@@ -5,8 +5,8 @@
 import { createReadStream } from 'node:fs';
 
 import { CsvColumn } from '../../../../lib/infrastructure/serializers/csv/csv-column.js';
-import { CsvParser } from '../../../../lib/infrastructure/serializers/csv/csv-parser.js';
 import { getDataBuffer } from '../../../prescription/learner-management/infrastructure/utils/bufferize/get-data-buffer.js';
+import { CsvParser } from '../../../shared/infrastructure/serializers/csv/csv-parser.js';
 import { FeatureParamsNotProcessable } from '../errors.js';
 import { OrganizationFeature } from '../models/OrganizationFeature.js';
 

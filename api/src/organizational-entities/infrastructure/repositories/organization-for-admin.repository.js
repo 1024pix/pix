@@ -8,8 +8,18 @@ import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransact
 import { ORGANIZATION_FEATURE } from '../../../shared/domain/constants.js';
 import { OrganizationForAdmin } from '../../domain/models/OrganizationForAdmin.js';
 
+const DATA_PROTECTION_OFFICERS_TABLE_NAME = 'data-protection-officers';
+const ORGANIZATION_FEATURES_TABLE_NAME = 'organization-features';
+const ORGANIZATION_TAGS_TABLE_NAME = 'organization-tags';
 const ORGANIZATIONS_TABLE_NAME = 'organizations';
 
+/**
+ * @type {function}
+ * @param {Object} params
+ * @param {string|number} params.id
+ * @param {string|number} params.archivedBy
+ * @return {Promise<void|MissingAttributesError>}
+ */
 const archive = async function ({ id, archivedBy }) {
   if (!archivedBy) {
     throw new MissingAttributesError();
@@ -30,16 +40,32 @@ const archive = async function ({ id, archivedBy }) {
     .update({ archivedBy: archivedBy, archivedAt: archiveDate });
 };
 
+/**
+ * @type {function}
+ * @param {string|number} organizationId
+ * @return {Promise<boolean>}
+ */
 const exist = async function (organizationId) {
   const organization = await knex(ORGANIZATIONS_TABLE_NAME).where({ id: organizationId }).first();
   return Boolean(organization);
 };
 
+/**
+ * @type {function}
+ * @param {string|number} parentOrganizationId
+ * @return {Promise<OrganizationForAdmin[]>}
+ */
 const findChildrenByParentOrganizationId = async function (parentOrganizationId) {
   const children = await knex(ORGANIZATIONS_TABLE_NAME).where({ parentOrganizationId }).orderBy('name', 'ASC');
   return children.map(_toDomain);
 };
 
+/**
+ * @type {function}
+ * @param {string|number} id
+ * @param {DomainTransaction} domainTransaction
+ * @return {Promise<OrganizationForAdmin|NotFoundError>}
+ */
 const get = async function (id, domainTransaction = DomainTransaction.emptyTransaction()) {
   const knexConn = domainTransaction.transaction ?? knex;
   const organization = await knexConn(ORGANIZATIONS_TABLE_NAME)
@@ -88,12 +114,12 @@ const get = async function (id, domainTransaction = DomainTransaction.emptyTrans
 
   const tags = await knexConn('tags')
     .select('tags.*')
-    .join('organization-tags', 'organization-tags.tagId', 'tags.id')
+    .join(ORGANIZATION_TAGS_TABLE_NAME, 'organization-tags.tagId', 'tags.id')
     .where('organization-tags.organizationId', organization.id);
 
   const availableFeatures = await knexConn('features')
     .select('key', knex.raw('"organization-features"."organizationId" IS NOT NULL as enabled'))
-    .leftJoin('organization-features', function () {
+    .leftJoin(ORGANIZATION_FEATURES_TABLE_NAME, function () {
       this.on('features.id', 'organization-features.featureId').andOn(
         'organization-features.organizationId',
         organization.id,
@@ -112,6 +138,11 @@ const get = async function (id, domainTransaction = DomainTransaction.emptyTrans
   return _toDomain(organization);
 };
 
+/**
+ * @type {function}
+ * @param {OrganizationForAdmin} organization
+ * @return {Promise<OrganizationForAdmin>}
+ */
 const save = async function (organization) {
   const data = _.pick(organization, ['name', 'type', 'documentationUrl', 'credit', 'createdBy']);
   const [organizationCreated] = await knex(ORGANIZATIONS_TABLE_NAME).returning('*').insert(data);
@@ -123,6 +154,12 @@ const save = async function (organization) {
   return savedOrganization;
 };
 
+/**
+ * @type {function}
+ * @param {OrganizationForAdmin} organization
+ * @param {DomainTransaction} domainTransaction
+ * @return {Promise<void>}
+ */
 const update = async function (organization, domainTransaction = DomainTransaction.emptyTransaction()) {
   const knexConn = domainTransaction.transaction ?? knex;
   const organizationRawData = _.pick(organization, [
@@ -151,18 +188,33 @@ const update = async function (organization, domainTransaction = DomainTransacti
   await knexConn(ORGANIZATIONS_TABLE_NAME).update(organizationRawData).where({ id: organization.id });
 };
 
-export { archive, exist, findChildrenByParentOrganizationId, get, save, update };
+/**
+ * @typedef {Object} OrganizationForAdminRepository
+ * @property {archive} archive
+ * @property {exist} exist
+ * @property {findChildrenByParentOrganizationId} findChildrenByParentOrganizationId
+ * @property {get} get
+ * @property {save} save
+ * @property {update} update
+ */
+export const organizationForAdminRepository = { archive, exist, findChildrenByParentOrganizationId, get, save, update };
 
 async function _addOrUpdateDataProtectionOfficer(knexConn, dataProtectionOfficer) {
-  await knexConn('data-protection-officers').insert(dataProtectionOfficer).onConflict('organizationId').merge();
+  await knexConn(DATA_PROTECTION_OFFICERS_TABLE_NAME)
+    .insert(dataProtectionOfficer)
+    .onConflict('organizationId')
+    .merge();
 }
 
 async function _addTags(knexConn, organizationTags) {
-  await knexConn('organization-tags').insert(organizationTags).onConflict(['tagId', 'organizationId']).ignore();
+  await knexConn(ORGANIZATION_TAGS_TABLE_NAME)
+    .insert(organizationTags)
+    .onConflict(['tagId', 'organizationId'])
+    .ignore();
 }
 
 async function _disableFeatures(knexConn, features, organizationId) {
-  await knexConn('organization-features')
+  await knexConn(ORGANIZATION_FEATURES_TABLE_NAME)
     .join('features', 'organization-features.featureId', 'features.id')
     .where('organization-features.organizationId', organizationId)
     .whereIn(
@@ -176,7 +228,7 @@ async function _enableFeatures(knexConn, featuresToEnable, organizationId) {
   const features = await knexConn('features');
   const importFormats = await knexConn('organization-learner-import-formats').select('name', 'id');
 
-  await knexConn('organization-features')
+  await knexConn(ORGANIZATION_FEATURES_TABLE_NAME)
     .insert(
       _.keys(featuresToEnable)
         .filter((key) => featuresToEnable[key])
@@ -198,7 +250,7 @@ function _paramsForFeature(importFormats, key, value) {
 }
 
 async function _removeTags(knexConn, organizationTags) {
-  await knexConn('organization-tags')
+  await knexConn(ORGANIZATION_TAGS_TABLE_NAME)
     .whereIn(
       ['organizationId', 'tagId'],
       organizationTags.map((organizationTag) => [organizationTag.organizationId, organizationTag.tagId]),

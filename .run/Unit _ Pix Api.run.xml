@@ -8,7 +8,7 @@
     <envs>
       <env name="NODE_ENV" value="test" />
       <env name="TEST_DATABASE_URL" value="postgres://should.not.reach.db.in.unit.tests" />
-      <env name="REDIS_URL" value="" />
+      <env name="TEST_REDIS_URL" value="" />
     </envs>
     <ui>bdd</ui>
     <extra-mocha-options>--exit --recursive</extra-mocha-options>

@@ -1,4 +1,4 @@
-import { usecases } from '../domain/usecases/index.js';
+import { usecases } from '../../domain/usecases/index.js';
 
 const attachChildOrganization = async function (request, h) {
   const { childOrganizationId } = request.payload;
@@ -14,7 +14,13 @@ const addOrganizationFeatureInBatch = async function (request, h) {
   return h.response().code(204);
 };
 
-export const organizationController = {
+const updateOrganizationsInBatch = async function (request, h) {
+  await usecases.updateOrganizationsInBatch({ filePath: request.payload.path });
+  return h.response().code(204);
+};
+
+export const organizationAdminController = {
   attachChildOrganization,
   addOrganizationFeatureInBatch,
+  updateOrganizationsInBatch,
 };
