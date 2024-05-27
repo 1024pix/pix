@@ -1,5 +1,23 @@
 # Pix Changelog
 
+## v4.151.0 (27/05/2024)
+
+
+### :rocket: Amélioration
+- [#9010](https://github.com/1024pix/pix/pull/9010) [FEATURE] Ajouter une API interne pour récupérer la liste des features d'une organisation (PIX-12558).
+- [#9044](https://github.com/1024pix/pix/pull/9044) [FEATURE][ADMIN] Ajouter une section dans l'onglet Administration pour la modification en masse d'organisations (PIX-12033).
+- [#9039](https://github.com/1024pix/pix/pull/9039) [FEATURE][API] Ajouter une nouvelle route pour importer un fichier CSV pour modifier les informations d'une liste d'organisations (PIX-12032).
+- [#9050](https://github.com/1024pix/pix/pull/9050) [FEATURE] Vérifier l'accessibilité des pages de Modulix (PIX-12521).
+- [#9043](https://github.com/1024pix/pix/pull/9043) [FEATURE] Envoyer le composant stepper vers le client (PIX-12621).
+
+### :building_construction: Tech
+- [#9062](https://github.com/1024pix/pix/pull/9062) [TECH] Remettre la version 14.11 de postgres.
+
+### :arrow_up: Montée de version
+- [#9040](https://github.com/1024pix/pix/pull/9040) [BUMP] Update dependency @formatjs/intl-locale to v4 (orga).
+- [#9054](https://github.com/1024pix/pix/pull/9054) [BUMP] Update dependency eslint-plugin-cypress to v3 (e2e).
+- [#9034](https://github.com/1024pix/pix/pull/9034) [BUMP] Update dependency @embroider/webpack to v4 (mon-pix).
+
 ## v4.150.0 (27/05/2024)
 
 
