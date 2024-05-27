@@ -9,7 +9,7 @@ import sinon from 'sinon';
 module('Integration | Component | users | user-overview', function (hooks) {
   setupRenderingTest(hooks);
 
-  module('When the admin member has access to users actions scope', function (hooks) {
+  module('when the admin member has access to users actions scope', function (hooks) {
     class AccessControlStub extends Service {
       hasAccessToUsersActionsScope = true;
     }
@@ -18,8 +18,8 @@ module('Integration | Component | users | user-overview', function (hooks) {
       this.owner.register('service:access-control', AccessControlStub);
     });
 
-    module('When the admin look at user details', function () {
-      test('should display the update button', async function (assert) {
+    module('when the admin look at user details', function () {
+      test('displays the update button', async function (assert) {
         // given
         this.set('user', {
           firstName: 'John',
@@ -35,7 +35,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
         assert.dom(screen.getByRole('button', { name: 'Modifier' })).exists();
       });
 
-      test('should display user’s information', async function (assert) {
+      test('displays user’s information', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const user = store.createRecord('user', {
@@ -97,8 +97,8 @@ module('Integration | Component | users | user-overview', function (hooks) {
       });
 
       module('terms of service', function () {
-        module('should display yes by application', function () {
-          test('should display "OUI" with date when user accepted Pix App terms of service', async function (assert) {
+        module('displays yes by application', function () {
+          test('displays "OUI" with date when user accepted Pix App terms of service', async function (assert) {
             // given
             this.set('user', { cgu: true, lastTermsOfServiceValidatedAt: new Date('2021-12-10') });
 
@@ -109,7 +109,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
             assert.dom(screen.getByText('CGU Pix App validé : OUI, le 10/12/2021')).exists();
           });
 
-          test('should display "OUI" with date when user accepted Pix Orga terms of service', async function (assert) {
+          test('displays "OUI" with date when user accepted Pix Orga terms of service', async function (assert) {
             // given
             this.set('user', {
               pixOrgaTermsOfServiceAccepted: true,
@@ -123,7 +123,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
             assert.dom(screen.getByText('CGU Pix Orga validé : OUI, le 14/12/2021')).exists();
           });
 
-          test('should display "OUI" with date when user accepted Pix Certif terms of service', async function (assert) {
+          test('displays "OUI" with date when user accepted Pix Certif terms of service', async function (assert) {
             // given
             this.set('user', {
               pixCertifTermsOfServiceAccepted: true,
@@ -138,7 +138,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
           });
         });
 
-        test('should display "NON" when user not accepted Pix App terms of service', async function (assert) {
+        test('displays "NON" when user not accepted Pix App terms of service', async function (assert) {
           // given
           this.set('user', { pixCertifTermsOfServiceAccepted: true, pixOrgaTermsOfServiceAccepted: true, cgu: false });
 
@@ -149,7 +149,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
           assert.dom(screen.getByText('CGU Pix App validé : NON')).exists();
         });
 
-        test('should display "NON" when user not accepted Pix Orga terms of service', async function (assert) {
+        test('displays "NON" when user not accepted Pix Orga terms of service', async function (assert) {
           // given
           this.set('user', { pixCertifTermsOfServiceAccepted: true, pixOrgaTermsOfServiceAccepted: false, cgu: true });
 
@@ -160,7 +160,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
           assert.dom(screen.getByText('CGU Pix Orga validé : NON')).exists();
         });
 
-        test('should display "NON" when user not accepted Pix Certif terms of service and "OUI" with no date when terms of service for an app are validated but no date provided', async function (assert) {
+        test('displays "NON" when user not accepted Pix Certif terms of service and "OUI" with no date when terms of service for an app are validated but no date provided', async function (assert) {
           // given
           this.set('user', { pixCertifTermsOfServiceAccepted: false, pixOrgaTermsOfServiceAccepted: true, cgu: true });
 
@@ -186,7 +186,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
           clock.restore();
         });
 
-        test('should only display failure count if user is not blocked', async function (assert) {
+        test('displays failure count if user is not blocked', async function (assert) {
           // given
           const store = this.owner.lookup('service:store');
           const userLogin = store.createRecord('user-login', {
@@ -206,7 +206,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
           assert.dom(screen.getByText('Nombre de tentatives de connexion en erreur : 0')).exists();
         });
 
-        test('should display dates when user is temporarily blocked', async function (assert) {
+        test('displays dates when user is temporarily blocked', async function (assert) {
           // given
           const store = this.owner.lookup('service:store');
           const userLogin = store.createRecord('user-login', {
@@ -228,7 +228,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
           assert.dom(screen.queryByText('Utilisateur totalement bloqué le :')).doesNotExist();
         });
 
-        test('should display dates when user is blocked', async function (assert) {
+        test('displays dates when user is blocked', async function (assert) {
           // given
           const store = this.owner.lookup('service:store');
           const userLogin = store.createRecord('user-login', {
@@ -324,7 +324,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
       });
 
       module('when user has an email only', function () {
-        test('should display user’s email in edit mode', async function (assert) {
+        test('displays user’s email in edit mode', async function (assert) {
           // given
           this.set('user', user);
 
@@ -336,7 +336,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
           assert.dom(screen.getByRole('textbox', { name: 'Adresse e-mail :' })).hasValue(this.user.email);
         });
 
-        test('should not display username in edit mode', async function (assert) {
+        test('does not display username in edit mode', async function (assert) {
           // given
           this.set('user', user);
 
@@ -350,7 +350,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
       });
 
       module('when user has a username only', function () {
-        test('should display user’s username in edit mode', async function (assert) {
+        test('displays user’s username in edit mode', async function (assert) {
           // given
           const user = EmberObject.create({
             lastName: 'Harry',
@@ -368,7 +368,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
           assert.dom(screen.getByRole('textbox', { name: 'Identifiant :' })).hasValue(this.user.username);
         });
 
-        test('should display email', async function (assert) {
+        test('displays email', async function (assert) {
           // given
           const user = EmberObject.create({
             lastName: 'Harry',
@@ -388,7 +388,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
       });
 
       module('when user has no username and no email', function () {
-        test('should not display email', async function (assert) {
+        test('does not display email', async function (assert) {
           // given
           const user = EmberObject.create({
             lastName: 'Harry',
@@ -420,7 +420,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
         });
       });
 
-      test('should show modal', async function (assert) {
+      test('shows modal', async function (assert) {
         // given
         this.set('user', user);
         const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
@@ -440,6 +440,8 @@ module('Integration | Component | users | user-overview', function (hooks) {
 
       // TODO Fix arai-hidden PixUI Modal before this test pass
       test.skip('should close the modal to cancel action', async function (assert) {
+      // TODO Fix aria-hidden PixUI Modal before this test pass
+      test.skip('closes the modal to cancel action', async function (assert) {
         // given
         this.set('user', user);
         const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
@@ -455,7 +457,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
         assert.dom(screen.queryByRole('button', { name: 'Annuler' })).doesNotExist();
       });
 
-      test('should display an anonymisation message with the full name of the admin member', async function (assert) {
+      test('displays an anonymisation message with the full name of the admin member', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const user = store.createRecord('user', { hasBeenAnonymised: true, anonymisedByFullName: 'Laurent Gina' });
@@ -468,7 +470,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
         assert.dom(screen.getByText('Utilisateur anonymisé par Laurent Gina.')).exists();
       });
 
-      test('should disable action buttons "Modifier" and "Anonymiser cet utilisateur"', async function (assert) {
+      test('disables action buttons "Modifier" and "Anonymiser cet utilisateur"', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const user = store.createRecord('user', { hasBeenAnonymised: true, anonymisedByFullName: 'Laurent Gina' });
@@ -483,7 +485,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
       });
 
       module('When the admin member who anonymised the user is not set in database', function () {
-        test('should display an anonymisation message', async function (assert) {
+        test('displays an anonymisation message', async function (assert) {
           // given
           const store = this.owner.lookup('service:store');
           const user = store.createRecord('user', { hasBeenAnonymised: true, anonymisedByFullName: null });
@@ -500,7 +502,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
   });
 
   module('When the admin member does not have access to users actions scope', function () {
-    test('it should not be able to see action buttons "Modifier" and "Anonymiser cet utilisateur"', async function (assert) {
+    test('does not display the action buttons "Modifier" and "Anonymiser cet utilisateur"', async function (assert) {
       // given
       class AccessControlStub extends Service {
         hasAccessToUsersActionsScope = false;
