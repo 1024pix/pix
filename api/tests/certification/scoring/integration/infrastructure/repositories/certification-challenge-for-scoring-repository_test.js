@@ -26,14 +26,24 @@ describe('Integration | Infrastructure | Repository | CertificationChallengeForS
       });
     });
 
-    describe('when there are 2 challenges', function () {
-      it('should return all certification challenges for scoring for the certification course', async function () {
+    describe('when there are 2 or more challenges', function () {
+      it('should return all certification challenges for scoring for the certification course ordered by creation date', async function () {
         databaseBuilder.factory.buildCertificationChallenge({
           id: 1,
           challengeId: 'challenge_id_1',
           courseId: certificationCourseId,
           discriminant: 1.1,
           difficulty: 1,
+          createdAt: new Date('2020-01-01T00:00:00Z'),
+        });
+
+        databaseBuilder.factory.buildCertificationChallenge({
+          id: 3,
+          challengeId: 'challenge_id_3',
+          courseId: certificationCourseId,
+          discriminant: 1.2,
+          difficulty: 1,
+          createdAt: new Date('2020-01-03T00:00:00Z'),
         });
 
         databaseBuilder.factory.buildCertificationChallenge({
@@ -42,14 +52,18 @@ describe('Integration | Infrastructure | Repository | CertificationChallengeForS
           courseId: certificationCourseId,
           discriminant: 1.2,
           difficulty: 1,
+          createdAt: new Date('2020-01-02T00:00:00Z'),
         });
 
         await databaseBuilder.commit();
 
         const challenges = await getByCertificationCourseId({ certificationCourseId });
 
-        expect(challenges.length).to.equal(2);
+        expect(challenges.length).to.equal(3);
         expect(challenges[0]).to.be.instanceOf(CertificationChallengeForScoring);
+        expect(challenges[0].id).to.equal('challenge_id_1');
+        expect(challenges[1].id).to.equal('challenge_id_2');
+        expect(challenges[2].id).to.equal('challenge_id_3');
       });
     });
   });
