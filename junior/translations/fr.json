@@ -14,7 +14,10 @@
       "messages": {
         "correct-answer": "Bien joué, tu as répondu correctement !",
         "wrong-answer": "Mauvaise réponse. Tu peux passer à la suite."
-      }
+      },
+        "qcu-hint": "Sélectionne une seule réponse.",
+        "qcm-hint": "Sélectionne plusieurs réponses."
+
     },
     "home": {
       "page-title": "Page d'accueil",
