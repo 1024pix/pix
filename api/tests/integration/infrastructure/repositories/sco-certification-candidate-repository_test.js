@@ -22,10 +22,12 @@ describe('Integration | Repository | SCOCertificationCandidate', function () {
         sessionId,
         organizationLearnerId: organizationLearnerId1,
       });
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: scoCandidateAlreadySaved1.id });
       const scoCandidateAlreadySaved2 = databaseBuilder.factory.buildCertificationCandidate({
         sessionId,
         organizationLearnerId: organizationLearnerId2,
       });
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: scoCandidateAlreadySaved2.id });
       const organizationLearnerId3 = databaseBuilder.factory.buildOrganizationLearner().id;
       const organizationLearnerId4 = databaseBuilder.factory.buildOrganizationLearner().id;
       await databaseBuilder.commit();
@@ -87,6 +89,7 @@ describe('Integration | Repository | SCOCertificationCandidate', function () {
         sessionId,
         organizationLearnerId: organizationLearnerId1,
       });
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: scoCandidateAlreadySaved1.id });
       const organizationLearnerId2 = databaseBuilder.factory.buildOrganizationLearner().id;
       const organizationLearnerId3 = databaseBuilder.factory.buildOrganizationLearner().id;
       await databaseBuilder.commit();

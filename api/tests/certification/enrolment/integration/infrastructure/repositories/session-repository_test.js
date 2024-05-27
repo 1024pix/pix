@@ -213,8 +213,10 @@ describe('Integration | Repository | certification | enrolment | SessionEnrolmen
         it('should remove candidates and delete the session', async function () {
           // given
           const sessionId = databaseBuilder.factory.buildSession().id;
-          databaseBuilder.factory.buildCertificationCandidate({ sessionId });
-          databaseBuilder.factory.buildCertificationCandidate({ sessionId });
+          const candidateA = databaseBuilder.factory.buildCertificationCandidate({ sessionId });
+          databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateA.id });
+          const candidateB = databaseBuilder.factory.buildCertificationCandidate({ sessionId });
+          databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateB.id });
 
           await databaseBuilder.commit();
 
@@ -233,6 +235,7 @@ describe('Integration | Repository | certification | enrolment | SessionEnrolmen
             // given
             const sessionId = databaseBuilder.factory.buildSession().id;
             const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id;
+            databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId });
 
             const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
               id: 123,

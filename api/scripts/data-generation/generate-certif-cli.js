@@ -182,6 +182,8 @@ async function _createNonScoCertificationCandidates(
       authorizedToStart: true,
     });
 
+    databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId });
+
     const complementaryCertification = complementaryCertifications.find(
       ({ candidateNumber }) => candidateNumber === i + 1,
     );
@@ -215,7 +217,7 @@ async function _createScoCertificationCandidates({ candidateNumber, sessionId, o
       databaseBuilder,
     );
 
-    databaseBuilder.factory.buildCertificationCandidate({
+    const candidate = databaseBuilder.factory.buildCertificationCandidate({
       firstName,
       lastName,
       birthdate,
@@ -226,6 +228,7 @@ async function _createScoCertificationCandidates({ candidateNumber, sessionId, o
       createdAt: new Date(),
       authorizedToStart: true,
     });
+    databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
   }
 }
 

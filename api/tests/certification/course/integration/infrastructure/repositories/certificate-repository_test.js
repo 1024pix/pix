@@ -1075,11 +1075,12 @@ describe('Integration | Infrastructure | Repository | Certification', function (
           certificationCenterId,
         });
         _buildCertificationAttestationWithSeveralResults(certificationAttestationDataRejected, status.REJECTED);
-        databaseBuilder.factory.buildCertificationCandidate({
+        const candidate = databaseBuilder.factory.buildCertificationCandidate({
           userId: 456,
           sessionId: certificationAttestationDataRejected.sessionId,
           organizationLearnerId: 55,
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
 
         await databaseBuilder.commit();
 
@@ -1350,9 +1351,10 @@ function _linkCertificationAttestationToOrganization({
       division,
       isDisabled,
     }).id;
-  databaseBuilder.factory.buildCertificationCandidate({
+  const candidate = databaseBuilder.factory.buildCertificationCandidate({
     userId: certificationAttestationData.userId,
     sessionId: certificationAttestationData.sessionId,
     organizationLearnerId: srId,
   });
+  databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
 }

@@ -17,6 +17,7 @@ describe('Integration | Repository | certification candidate for supervising', f
           userId: user.id,
           authorizedToStart: false,
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
         const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
           userId: user.id,
           sessionId: session.id,
@@ -56,7 +57,7 @@ describe('Integration | Repository | certification candidate for supervising', f
         // given
         const session = databaseBuilder.factory.buildSession({ id: 23049 });
         databaseBuilder.factory.buildUser({ id: 1234 });
-        databaseBuilder.factory.buildCertificationCandidate({
+        const candidate = databaseBuilder.factory.buildCertificationCandidate({
           sessionId: session.id,
           userId: 1234,
           authorizedToStart: false,
@@ -66,6 +67,7 @@ describe('Integration | Repository | certification candidate for supervising', f
           id: 456,
           lastName: 'last-name',
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
 
         await databaseBuilder.commit();
         const wrongCandidateId = 1298;
@@ -95,6 +97,7 @@ describe('Integration | Repository | certification candidate for supervising', f
           id: 456,
           lastName: 'last-name',
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: certificationCandidate.id });
 
         await databaseBuilder.commit();
 
@@ -121,7 +124,7 @@ describe('Integration | Repository | certification candidate for supervising', f
         // given
         const session = databaseBuilder.factory.buildSession({ id: 23049 });
         databaseBuilder.factory.buildUser({ id: 1234 });
-        databaseBuilder.factory.buildCertificationCandidate({
+        const candidate = databaseBuilder.factory.buildCertificationCandidate({
           sessionId: session.id,
           userId: 1234,
           authorizedToStart: false,
@@ -131,6 +134,7 @@ describe('Integration | Repository | certification candidate for supervising', f
           id: 456,
           lastName: 'last-name',
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
 
         await databaseBuilder.commit();
         const wrongCandidateId = 1298;

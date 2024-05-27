@@ -566,7 +566,8 @@ describe('Acceptance | API | Certification Center', function () {
         publishedAt: null,
         certificationCenterId,
       });
-      databaseBuilder.factory.buildCertificationCandidate({ sessionId: 123 });
+      const candidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId: 123 });
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
       await databaseBuilder.commit();
       const request = {
         headers: {

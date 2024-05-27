@@ -183,6 +183,7 @@ describe('Acceptance | Route | certification-attestation', function () {
         organizationLearnerId: organizationLearner.id,
         userId: student.id,
       });
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
 
       const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
         userId: candidate.userId,

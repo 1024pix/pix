@@ -62,6 +62,7 @@ describe('Integration | Repository | supervisor-access-repository', function () 
       const sessionId = databaseBuilder.factory.buildSession().id;
       databaseBuilder.factory.buildSupervisorAccess({ sessionId, userId: supervisorId });
       const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id;
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId });
       await databaseBuilder.commit();
 
       // when
@@ -80,6 +81,7 @@ describe('Integration | Repository | supervisor-access-repository', function () 
       const sessionId = databaseBuilder.factory.buildSession().id;
       databaseBuilder.factory.buildSupervisorAccess({ sessionId, userId: supervisorId });
       const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate().id;
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId });
       await databaseBuilder.commit();
 
       // when

@@ -153,10 +153,11 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
             certificationCenterId,
             version: CERTIFICATION_VERSIONS.V3,
           }).id;
-          databaseBuilder.factory.buildCertificationCandidate({
+          const candidate = databaseBuilder.factory.buildCertificationCandidate({
             userId: user.id,
             sessionId,
           });
+          databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
           const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
             isPublished: false,
             version: CERTIFICATION_VERSIONS.V3,
@@ -206,10 +207,11 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
           const sessionId = databaseBuilder.factory.buildSession({
             certificationCenterId,
           }).id;
-          databaseBuilder.factory.buildCertificationCandidate({
+          const candidate = databaseBuilder.factory.buildCertificationCandidate({
             userId: user.id,
             sessionId,
           });
+          databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
           const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
             isPublished: false,
             userId: user.id,

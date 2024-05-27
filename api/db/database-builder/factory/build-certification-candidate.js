@@ -1,7 +1,6 @@
 import _ from 'lodash';
 
 import { databaseBuffer } from '../database-buffer.js';
-import { buildCoreSubscription } from './build-certification-subscription.js';
 import { buildSession } from './build-session.js';
 import { buildUser } from './build-user.js';
 
@@ -27,7 +26,6 @@ const buildCertificationCandidate = function ({
   authorizedToStart = false,
   billingMode = null,
   prepaymentCode = null,
-  coreSubscriptionId = null,
 } = {}) {
   sessionId = _.isUndefined(sessionId) ? buildSession().id : sessionId;
   userId = _.isUndefined(userId) ? buildUser().id : userId;
@@ -56,13 +54,10 @@ const buildCertificationCandidate = function ({
     prepaymentCode,
   };
 
-  const candidate = databaseBuffer.pushInsertable({
+  databaseBuffer.pushInsertable({
     tableName: 'certification-candidates',
     values,
   });
-
-  // A core subscription is required for every candidate
-  coreSubscriptionId ?? buildCoreSubscription({ certificationCandidateId: candidate.id });
 
   return {
     id,
@@ -86,7 +81,6 @@ const buildCertificationCandidate = function ({
     authorizedToStart,
     billingMode,
     prepaymentCode,
-    coreSubscriptionId,
   };
 };
 

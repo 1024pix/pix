@@ -493,6 +493,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         sessionId,
         userId: firstUserId,
       }).id;
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId });
 
       const firstUserCertificationCourseId = databaseBuilder.factory.buildCertificationCourse({
         sessionId,

@@ -29,6 +29,7 @@ describe('Acceptance | API | Certifications candidates', function () {
             sessionId,
             userId: candidateUserId,
           });
+          databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
           databaseBuilder.factory.buildAssessment({
             state: 'started',
             userId: candidateUserId,
@@ -82,6 +83,7 @@ describe('Acceptance | API | Certifications candidates', function () {
             sessionId,
             userId: candidateUserId,
           });
+          databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
           databaseBuilder.factory.buildAssessment({
             state: 'started',
             userId: candidateUserId,
@@ -128,11 +130,12 @@ describe('Acceptance | API | Certifications candidates', function () {
             sessionId,
             userId: candidateUserId,
           }).id;
-          databaseBuilder.factory.buildCertificationCandidate({
+          const candidate = databaseBuilder.factory.buildCertificationCandidate({
             id: 1001,
             sessionId,
             userId: candidateUserId,
           });
+          databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
           databaseBuilder.factory.buildAssessment({
             state: 'started',
             userId: candidateUserId,
@@ -202,6 +205,8 @@ describe('Acceptance | API | Certifications candidates', function () {
       const candidate = databaseBuilder.factory.buildCertificationCandidate({
         sessionId: session.id,
       });
+
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
 
       databaseBuilder.factory.buildComplementaryCertificationSubscription({
         certificationCandidateId: candidate.id,

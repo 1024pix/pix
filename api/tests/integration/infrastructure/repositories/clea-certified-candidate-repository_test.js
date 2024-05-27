@@ -8,18 +8,20 @@ describe('Integration | Repository | clea-certified-candidate-repository', funct
         // given
         const sessionId = databaseBuilder.factory.buildSession().id;
         const userId = databaseBuilder.factory.buildUser({}).id;
-        databaseBuilder.factory.buildCertificationCandidate({
+        const candidateA = databaseBuilder.factory.buildCertificationCandidate({
           userId,
           sessionId,
           resultRecipientEmail: 'jean-mi@coco.fr',
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateA.id });
 
         const userId2 = databaseBuilder.factory.buildUser({}).id;
-        databaseBuilder.factory.buildCertificationCandidate({
+        const candidateB = databaseBuilder.factory.buildCertificationCandidate({
           userId: userId2,
           sessionId,
           resultRecipientEmail: 'marie-mi@coco.fr',
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateB.id });
 
         const candidateCleaSuccess = {
           firstName: 'Jean-Mi',
@@ -120,11 +122,12 @@ describe('Integration | Repository | clea-certified-candidate-repository', funct
           // given
           const sessionId = databaseBuilder.factory.buildSession().id;
           const userId = databaseBuilder.factory.buildUser().id;
-          databaseBuilder.factory.buildCertificationCandidate({
+          const candidate = databaseBuilder.factory.buildCertificationCandidate({
             userId,
             sessionId,
             resultRecipientEmail: 'jean-mi@coco.fr',
           });
+          databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
           const candidateCleaSuccess = {
             firstName: 'Jean-Mi',
             lastName: 'Mi',

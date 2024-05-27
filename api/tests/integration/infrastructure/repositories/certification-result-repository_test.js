@@ -560,18 +560,30 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         userId: userId1,
         sessionId,
       }).id;
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: certificationCandidateId1.id });
+
       const certificationCandidateId2 = databaseBuilder.factory.buildCertificationCandidate({
         userId: userId2,
         sessionId,
       }).id;
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: certificationCandidateId2.id });
+
       const certificationCandidateId3 = databaseBuilder.factory.buildCertificationCandidate({
         userId: userId3,
         sessionId,
       }).id;
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: certificationCandidateId3.id });
+
       const certificationCandidateIdNotInSession = databaseBuilder.factory.buildCertificationCandidate({
         userId: userId3,
       }).id;
+      databaseBuilder.factory.buildCoreSubscription({
+        certificationCandidateId: certificationCandidateIdNotInSession.id,
+      });
+
       const certificationCandidateIdNoResult = databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id;
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: certificationCandidateIdNoResult.id });
+
       await databaseBuilder.commit();
 
       // when

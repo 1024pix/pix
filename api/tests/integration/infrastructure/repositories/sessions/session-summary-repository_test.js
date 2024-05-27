@@ -165,11 +165,13 @@ describe('Integration | Repository | Session Summary', function () {
 });
 
 function _buildEnrolledOnlyCandidate(sessionId) {
-  databaseBuilder.factory.buildCertificationCandidate({ sessionId });
+  const candidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId });
+  databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
 }
 
 function _buildEnrolledAndEffectiveCandidate(sessionId) {
   const userId = databaseBuilder.factory.buildUser().id;
-  databaseBuilder.factory.buildCertificationCandidate({ userId, sessionId });
+  const candidate = databaseBuilder.factory.buildCertificationCandidate({ userId, sessionId });
+  databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
   databaseBuilder.factory.buildCertificationCourse({ userId, sessionId });
 }

@@ -123,7 +123,8 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
           },
         ],
         (candidate) => {
-          databaseBuilder.factory.buildCertificationCandidate(candidate);
+          const aCandidate = databaseBuilder.factory.buildCertificationCandidate(candidate);
+          databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: aCandidate.id });
         },
       );
 
@@ -191,12 +192,13 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         extraTimePercentage: 1.5,
         complementaryCertification: null,
       });
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: cleaNumeriqueCandidate.id });
       databaseBuilder.factory.buildComplementaryCertificationSubscription({
         certificationCandidateId: cleaNumeriqueCandidate.id,
         complementaryCertificationId: cleaNumerique.id,
       });
 
-      databaseBuilder.factory.buildCertificationCandidate({
+      const candidate = databaseBuilder.factory.buildCertificationCandidate({
         lastName: 'No',
         firstName: 'Complementary certifications',
         sex: 'M',
@@ -212,6 +214,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         extraTimePercentage: 0.15,
         complementaryCertification: null,
       });
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
 
       await databaseBuilder.commit();
       // when
@@ -311,6 +314,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         extraTimePercentage: 0.6,
         complementaryCertification: pixPlusEdu2ndDegre,
       });
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: onlyPixPlusEdu2ndDegreCandidate.id });
       databaseBuilder.factory.buildComplementaryCertificationSubscription({
         certificationCandidateId: onlyPixPlusEdu2ndDegreCandidate.id,
         complementaryCertificationId: pixPlusEdu2ndDegre.id,
@@ -332,6 +336,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         extraTimePercentage: null,
         complementaryCertification: pixPlusDroit,
       });
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: onlyPixPlusDroitCandidate.id });
       databaseBuilder.factory.buildComplementaryCertificationSubscription({
         certificationCandidateId: onlyPixPlusDroitCandidate.id,
         complementaryCertificationId: pixPlusDroit.id,
@@ -353,12 +358,13 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         extraTimePercentage: 1.5,
         complementaryCertification: cleaNumerique,
       });
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: onlyCleaNumeriqueCandidate.id });
       databaseBuilder.factory.buildComplementaryCertificationSubscription({
         certificationCandidateId: onlyCleaNumeriqueCandidate.id,
         complementaryCertificationId: cleaNumerique.id,
       });
 
-      databaseBuilder.factory.buildCertificationCandidate({
+      const candidate = databaseBuilder.factory.buildCertificationCandidate({
         lastName: 'No',
         firstName: 'Complementary certifications',
         sex: 'M',
@@ -374,6 +380,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         extraTimePercentage: 0.15,
         complementaryCertification: null,
       });
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
 
       await databaseBuilder.commit();
       // when
@@ -424,34 +431,42 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         description: 'La super description',
       }).id;
 
-      databaseBuilder.factory.buildCertificationCandidate({
+      const candidateA = databaseBuilder.factory.buildCertificationCandidate({
         firstName: 'Certif',
         lastName: 'Gratos',
         billingMode: 'FREE',
         prepaymentCode: null,
         sessionId,
       });
-      databaseBuilder.factory.buildCertificationCandidate({
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateA.id });
+
+      const candidateB = databaseBuilder.factory.buildCertificationCandidate({
         firstName: 'Candidat',
         lastName: 'Qui Raque',
         billingMode: 'PAID',
         prepaymentCode: null,
         sessionId,
       });
-      databaseBuilder.factory.buildCertificationCandidate({
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateB.id });
+
+      const candidateC = databaseBuilder.factory.buildCertificationCandidate({
         firstName: 'A Man',
         lastName: 'With A Code',
         billingMode: 'PREPAID',
         prepaymentCode: 'CODECODECODEC',
         sessionId,
       });
-      databaseBuilder.factory.buildCertificationCandidate({
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateC.id });
+
+      const candidateD = databaseBuilder.factory.buildCertificationCandidate({
         firstName: 'Yo',
         lastName: 'Lo',
         billingMode: null,
         prepaymentCode: null,
         sessionId,
       });
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateD.id });
+
       await databaseBuilder.commit();
       const { session } = await usecases.getCandidateImportSheetData({ sessionId, userId });
 
@@ -509,7 +524,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
           prepaymentCode: null,
           sessionId,
         });
-
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: cleaNumeriqueCandidate.id });
         databaseBuilder.factory.buildComplementaryCertificationSubscription({
           certificationCandidateId: cleaNumeriqueCandidate.id,
           complementaryCertificationId: cleaNumerique.id,

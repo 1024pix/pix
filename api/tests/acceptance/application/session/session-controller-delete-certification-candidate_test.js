@@ -36,6 +36,7 @@ describe('Acceptance | Controller | session-controller-delete-certification-cand
     context('when the candidate is linked', function () {
       beforeEach(function () {
         certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id;
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId });
         options.url = `/api/sessions/${sessionId}/certification-candidates/${certificationCandidateId}`;
         return databaseBuilder.commit();
       });
@@ -52,6 +53,7 @@ describe('Acceptance | Controller | session-controller-delete-certification-cand
     context('when the candidate is not linked', function () {
       beforeEach(function () {
         certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId: null }).id;
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId });
         options.url = `/api/sessions/${sessionId}/certification-candidates/${certificationCandidateId}`;
         return databaseBuilder.commit();
       });

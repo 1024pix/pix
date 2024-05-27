@@ -22,7 +22,8 @@ describe('Acceptance | Controller | session-controller-get-attendance-sheet', fu
       });
 
       const sessionIdAllowed = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
-      databaseBuilder.factory.buildCertificationCandidate({ sessionId: sessionIdAllowed });
+      const candidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId: sessionIdAllowed });
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
 
       await databaseBuilder.commit();
       const server = await createServer();
