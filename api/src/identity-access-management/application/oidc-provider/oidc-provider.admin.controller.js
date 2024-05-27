@@ -1,6 +1,8 @@
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as oidcProviderSerializer from '../../infrastructure/serializers/jsonapi/oidc-identity-providers.serializer.js';
+import { oidcAuthenticationServiceRegistry } from '../../../../lib/domain/usecases/index.js';
+import { PIX_ADMIN } from '../../../authorization/domain/constants.js';
 
 /**
  * @param request
@@ -30,8 +32,43 @@ async function getAllIdentityProvidersForAdmin(request, h) {
 }
 
 /**
- * @typedef {Object} OidcProviderAdminController
- * @property {createInBatch} createInBatch
- * @property {getAllIdentityProvidersForAdmin} getAllIdentityProvidersForAdmin
+ * @param request
+ * @param h
+ * @param dependencies
+ * @return {Promise<{access_token: string}>}
  */
-export const oidcProviderAdminController = { createInBatch, getAllIdentityProvidersForAdmin };
+async function reconcileUserForAdmin(
+  request,
+  h,
+  dependencies = {
+    oidcAuthenticationServiceRegistry,
+  },
+) {
+  const { email, identityProvider, authenticationKey } = request.deserializedPayload;
+
+  await dependencies.oidcAuthenticationServiceRegistry.loadOidcProviderServices();
+  await dependencies.oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(identityProvider);
+
+  const oidcAuthenticationService = dependencies.oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
+    identityProviderCode: identityProvider,
+    audience: PIX_ADMIN.AUDIENCE,
+  });
+
+  const accessToken = await usecases.reconcileOidcUserForAdmin({
+    email,
+    identityProvider,
+    authenticationKey,
+    oidcAuthenticationService,
+  });
+
+  return h.response({ access_token: accessToken }).code(200);
+}
+
+/**
+ * @typedef {{
+ * reconcileUserForAdmin: (function(*, *, {oidcAuthenticationServiceRegistry: OidcAuthenticationServiceRegistry}=): Promise<*>),
+ * createInBatch: (function(*, *): Promise<*>),
+ * getAllIdentityProvidersForAdmin: (function(*, *): Promise<*>)
+ * }} oidcProviderAdminController
+ */
+export const oidcProviderAdminController = { createInBatch, getAllIdentityProvidersForAdmin, reconcileUserForAdmin };

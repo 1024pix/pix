@@ -3,7 +3,7 @@ import { usecases } from '../../../../src/identity-access-management/domain/usec
 import { DomainTransaction } from '../../../../src/shared/domain/DomainTransaction.js';
 import { expect, hFake, sinon } from '../../../test-helper.js';
 
-describe('Unit | Identity Access Management | Application | Controller | oidc-provider.admin', function () {
+describe('Unit | Identity Access Management | Application | Controller | Admin | oidc-provider', function () {
   describe('#createInBatch', function () {
     it('returns an HTTP status code 204', async function () {
       // given
@@ -150,6 +150,40 @@ describe('Unit | Identity Access Management | Application | Controller | oidc-pr
           },
         },
       ]);
+    });
+  });
+
+  describe('#reconcileUserForAdmin', function () {
+    it('calls use case and return the result', async function () {
+      // given
+      const identityProvider = 'OIDC';
+      const oidcAuthenticationServiceRegistryStub = {
+        loadOidcProviderServices: sinon.stub(),
+        configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
+        getOidcProviderServiceByCode: sinon.stub(),
+      };
+      const request = {
+        deserializedPayload: {
+          identityProvider: 'OIDC',
+          authenticationKey: '123abc',
+          email: 'user@example.net',
+        },
+      };
+
+      const dependencies = {
+        oidcAuthenticationServiceRegistry: oidcAuthenticationServiceRegistryStub,
+      };
+      sinon.stub(usecases, 'reconcileOidcUserForAdmin').resolves('accessToken');
+
+      // when
+      const result = await oidcProviderAdminController.reconcileUserForAdmin(request, hFake, dependencies);
+
+      // then
+      expect(oidcAuthenticationServiceRegistryStub.loadOidcProviderServices).to.have.been.calledOnce;
+      expect(
+        oidcAuthenticationServiceRegistryStub.configureReadyOidcProviderServiceByCode,
+      ).to.have.been.calledWithExactly(identityProvider);
+      expect(result.source).to.deep.equal({ access_token: 'accessToken' });
     });
   });
 });
