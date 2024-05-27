@@ -7,7 +7,7 @@ import { CertificationCandidateForSupervisingV3 } from '../../domain/models/Cert
 import { ComplementaryCertificationForSupervising } from '../../domain/models/ComplementaryCertificationForSupervising.js';
 import { SessionForSupervising } from '../../domain/read-models/SessionForSupervising.js';
 
-const get = async function (idSession) {
+const get = async function ({ id }) {
   const results = await knex
     .with('ongoing-live-alerts', (queryBuilder) => {
       queryBuilder
@@ -69,7 +69,7 @@ const get = async function (idSession) {
     )
     .leftJoin('ongoing-live-alerts', 'ongoing-live-alerts.assessmentId', 'assessments.id')
     .groupBy('sessions.id')
-    .where({ 'sessions.id': idSession })
+    .where({ 'sessions.id': id })
     .first();
   if (!results) {
     throw new NotFoundError("La session n'existe pas");

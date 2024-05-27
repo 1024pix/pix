@@ -5,9 +5,9 @@ import {
   expect,
   generateValidRequestAuthorizationHeader,
   knex,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
 
-describe('Acceptance | Controller | session-for-supervising-controller-supervise', function () {
+describe('Acceptance | Controller | Certification | Session management | session-for-supervising-controller-supervise', function () {
   let server;
 
   beforeEach(async function () {
@@ -34,7 +34,7 @@ describe('Acceptance | Controller | session-for-supervising-controller-supervise
       url: '/api/sessions/supervise',
       payload: {
         data: {
-          id: '1234',
+          id: '121',
           type: 'supervisor-authentications',
           attributes: {
             'session-id': '121',

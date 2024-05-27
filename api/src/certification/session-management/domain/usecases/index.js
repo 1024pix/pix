@@ -2,6 +2,7 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import * as certificationBadgesService from '../../../../../lib/domain/services/certification-badges-service.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { assessmentRepository, sessionRepositories } from '../../infrastructure/repositories/index.js';
@@ -18,21 +19,25 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
  * @typedef {import('../../infrastructure/repositories/index.js').IssueReportCategoryRepository} IssueReportCategoryRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationIssueReportRepository} CertificationIssueReportRepository
  * @typedef {import('../../infrastructure/repositories/index.js').SessionRepository} SessionRepository
+ * @typedef {import('../../infrastructure/repositories/index.js'.SessionForSupervisingRepository} SessionForSupervisingRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationReportRepository} CertificationReportRepository
  * @typedef {import('../../infrastructure/storage/cpf-receipts-storage.js')} CpfReceiptsStorage
  * @typedef {import('../../infrastructure/storage/cpf-exports-storage.js')} CpfExportsStorage
+ * @typedef {import('../../../../../lib/domain/services/certification-badges-service.js')} CertificationBadgesService
  **/
 
 /**
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
  *
  * @typedef {assessmentRepository} AssessmentRepository
+ * @typedef {certificationBadgesService} CertificationBadgesService
  * @typedef {certificationCourseRepository} CertificationCourseRepository
  * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
  * @typedef {certificationOfficerRepository} CertificationOfficerRepository
  * @typedef {finalizedSessionRepository} FinalizedSessionRepository
  * @typedef {jurySessionRepository} JurySessionRepository
  * @typedef {sessionForInvigilatorKitRepository} SessionForInvigilatorKitRepository
+ * @typedef {sessionForSupervisingRepository} SessionForSupervisingRepository
  * @typedef {issueReportCategoryRepository} IssueReportCategoryRepository
  * @typedef {certificationIssueReportRepository} CertificationIssueReportRepository
  * @typedef {sessionRepository} SessionRepository
@@ -45,6 +50,7 @@ const dependencies = {
   assessmentRepository,
   cpfReceiptsStorage,
   cpfExportsStorage,
+  certificationBadgesService,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

@@ -3,9 +3,9 @@ import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
 
-describe('Acceptance | Controller | session-for-supervising-controller-get', function () {
+describe('Acceptance | Controller | Certification | Session management | session-for-supervising-controller-get', function () {
   let server;
 
   beforeEach(async function () {

@@ -1,15 +1,25 @@
 import bluebird from 'bluebird';
 import dayjs from 'dayjs';
 
-import { constants as infraConstants } from '../../infrastructure/constants.js';
-import { constants as domainConstants } from '../constants.js';
+import { constants as domainConstants } from '../../../../../lib/domain/constants.js';
+import { constants as infraConstants } from '../../../../../lib/infrastructure/constants.js';
 
+/**
+ * @typedef {import('./index.js').SessionForSupervisingRepository} SessionForSupervisingRepository
+ * @typedef {import('./index.js').CertificationBadgesService} CertificationBadgesService
+ */
+
+/**
+ * @param {Object} params
+ * @param {SessionForSupervisingRepository} params.sessionForSupervisingRepository
+ * @param {CertificationBadgesService} params.certificationBadgesService
+ */
 const getSessionForSupervising = async function ({
   sessionId,
   sessionForSupervisingRepository,
   certificationBadgesService,
 }) {
-  const sessionForSupervising = await sessionForSupervisingRepository.get(sessionId);
+  const sessionForSupervising = await sessionForSupervisingRepository.get({ id: sessionId });
 
   await bluebird.map(
     sessionForSupervising.certificationCandidates,
@@ -24,6 +34,9 @@ const getSessionForSupervising = async function ({
 
 export { getSessionForSupervising };
 
+/**
+ * @param {CertificationBadgesService} certificationBadgesService
+ */
 function _computeComplementaryCertificationEligibility(certificationBadgesService) {
   return async (candidate) => {
     if (candidate.enrolledComplementaryCertification?.key) {
@@ -34,6 +47,9 @@ function _computeComplementaryCertificationEligibility(certificationBadgesServic
   };
 }
 
+/**
+ * @param {CertificationCandidateForAd} certificationBadgesService
+ */
 function _computeTheoricalEndDateTime(candidate) {
   const startDateTime = dayjs(candidate.startDateTime || null);
   if (!startDateTime.isValid()) {

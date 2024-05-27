@@ -4,12 +4,9 @@ const Joi = BaseJoi.extend(JoiDate);
 
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
-import { sendJsonApiError, UnprocessableEntityError } from '../http-errors.js';
 import { authorization } from '../preHandlers/authorization.js';
-import { assessmentSupervisorAuthorization } from '../preHandlers/session-supervisor-authorization.js';
 import { finalizedSessionController } from './finalized-session-controller.js';
 import { sessionController } from './session-controller.js';
-import { sessionForSupervisingController } from './session-for-supervising-controller.js';
 import { sessionWithCleaCertifiedCandidateController } from './session-with-clea-certified-candidate-controller.js';
 
 const register = async function (server) {
@@ -233,56 +230,6 @@ const register = async function (server) {
         notes: [
           "Cette route est accessible via un token envoyé par email lors de l'envoi automatique des résultats de certification",
           "Elle retourne les résultats de certifications d'une session agrégés par email de destinataire des résultats, sous format CSV",
-        ],
-      },
-    },
-    {
-      method: 'GET',
-      path: '/api/sessions/{id}/supervising',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.sessionId,
-          }),
-        },
-        pre: [
-          {
-            method: assessmentSupervisorAuthorization.verifyBySessionId,
-            assign: 'isSupervisorForSession',
-          },
-        ],
-        handler: sessionForSupervisingController.get,
-        tags: ['api', 'sessions', 'supervising'],
-        notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés',
-          "Elle retourne les informations d'une session à surveiller",
-        ],
-      },
-    },
-    {
-      method: 'POST',
-      path: '/api/sessions/supervise',
-      config: {
-        validate: {
-          payload: Joi.object({
-            data: {
-              id: identifiersType.supervisorAccessesId,
-              type: 'supervisor-authentications',
-              attributes: {
-                'supervisor-password': Joi.string().required(),
-                'session-id': identifiersType.sessionId,
-              },
-            },
-          }),
-          failAction: (request, h) => {
-            return sendJsonApiError(new UnprocessableEntityError('Un des champs saisis n’est pas valide.'), h);
-          },
-        },
-        handler: sessionForSupervisingController.supervise,
-        tags: ['api', 'sessions', 'supervising'],
-        notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés',
-          "Elle valide l'accès du'un surveillant à l'espace surveillant",
         ],
       },
     },

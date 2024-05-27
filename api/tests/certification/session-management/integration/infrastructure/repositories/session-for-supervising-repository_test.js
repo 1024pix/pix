@@ -1,12 +1,12 @@
 import _ from 'lodash';
 
 import { NotFoundError } from '../../../../../../lib/domain/errors.js';
-import { catchErr, databaseBuilder, expect } from '../../../../../test-helper.js';
-import { CERTIFICATION_VERSIONS } from '../../../../../src/certification/shared/domain/models/CertificationVersion.js';
-import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { catchErr, databaseBuilder, expect } from '../../../../test-helper.js';
 import { SessionForSupervising } from '../../../../../../src/certification/session-management/domain/read-models/SessionForSupervising.js';
 import * as sessionForSupervisingRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/session-for-supervising-repository.js';
+import { CertificationChallengeLiveAlertStatus } from '../../../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
+import { CERTIFICATION_VERSIONS } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
+import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
+import { catchErr, databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | SessionForSupervising', function () {
   describe('#get', function () {
@@ -28,7 +28,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
         await databaseBuilder.commit();
 
         // when
-        const actualSession = await sessionForSupervisingRepository.get(session.id);
+        const actualSession = await sessionForSupervisingRepository.get({ id: session.id });
 
         // then
         expect(actualSession).to.be.deepEqualInstance(
@@ -110,7 +110,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
         await databaseBuilder.commit();
 
         // when
-        const actualSession = await sessionForSupervisingRepository.get(session.id);
+        const actualSession = await sessionForSupervisingRepository.get({ id: session.id });
 
         // then
         const actualCandidates = _.map(actualSession.certificationCandidates, (item) =>
@@ -204,7 +204,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
         await databaseBuilder.commit();
 
         // when
-        const actualSession = await sessionForSupervisingRepository.get(session.id);
+        const actualSession = await sessionForSupervisingRepository.get({ id: session.id });
 
         // then
         const actualCandidates = _.map(actualSession.certificationCandidates, (item) =>
@@ -233,7 +233,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
 
       it('should return a Not found error when no session was found', async function () {
         // when
-        const error = await catchErr(sessionForSupervisingRepository.get)(123123);
+        const error = await catchErr(sessionForSupervisingRepository.get)({ id: 123123 });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
@@ -259,7 +259,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
         await databaseBuilder.commit();
 
         // when
-        const actualSession = await sessionForSupervisingRepository.get(session.id);
+        const actualSession = await sessionForSupervisingRepository.get({ id: session.id });
 
         // then
         expect(actualSession).to.be.deepEqualInstance(
@@ -348,7 +348,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
         await databaseBuilder.commit();
 
         // when
-        const actualSession = await sessionForSupervisingRepository.get(session.id);
+        const actualSession = await sessionForSupervisingRepository.get({ id: session.id });
 
         // then
         const actualCandidates = _.map(actualSession.certificationCandidates, (item) =>
@@ -411,7 +411,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
 
       it('should return a Not found error when no session was found', async function () {
         // when
-        const error = await catchErr(sessionForSupervisingRepository.get)(123123);
+        const error = await catchErr(sessionForSupervisingRepository.get)({ id: 123123 });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);

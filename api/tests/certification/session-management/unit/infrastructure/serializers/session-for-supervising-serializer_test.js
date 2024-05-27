@@ -1,9 +1,9 @@
-import { CertificationCandidateForSupervising } from '../../../../../lib/domain/models/index.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/session-for-supervising-serializer.js';
-import { CertificationCandidateForSupervisingV3 } from '../../../../../src/certification/session-management/domain/models/CertificationCandidateForSupervisingV3.js';
-import { CertificationChallengeLiveAlertStatus } from '../../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
-import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { domainBuilder, expect } from '../../../../test-helper.js';
+import { CertificationCandidateForSupervising } from '../../../../../../src/certification/session-management/domain/models/CertificationCandidateForSupervising.js';
+import { CertificationCandidateForSupervisingV3 } from '../../../../../../src/certification/session-management/domain/models/CertificationCandidateForSupervisingV3.js';
+import * as serializer from '../../../../../../src/certification/session-management/infrastructure/serializers/session-for-supervising-serializer.js';
+import { CertificationChallengeLiveAlertStatus } from '../../../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
+import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', function () {
   describe('#serialize()', function () {
