@@ -1,7 +1,6 @@
 import { certificationCenterInvitationController } from '../../../../lib/application/certification-center-invitations/certification-center-invitation-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { requestResponseUtils } from '../../../../lib/infrastructure/utils/request-response-utils.js';
-import { CertificationCenterInvitation } from '../../../../src/team/domain/models/CertificationCenterInvitation.js';
 import { certificationCenterInvitationSerializer } from '../../../../src/team/infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 
@@ -35,37 +34,6 @@ describe('Unit | Application | Certification-center-Invitations | Certification-
         email: notValidEmail.trim().toLowerCase(),
         localeFromCookie: undefined,
       });
-      expect(response.statusCode).to.equal(204);
-    });
-  });
-
-  describe('#cancelCertificationCenterInvitation', function () {
-    it('should call the use case to cancel invitation with certificationCenterInvitationId', async function () {
-      //given
-      const certificationCenterInvitationId = 123;
-
-      const cancelledCertificationCenterInvitation = domainBuilder.buildCertificationCenterInvitation({
-        id: certificationCenterInvitationId,
-        status: CertificationCenterInvitation.StatusType.CANCELLED,
-      });
-
-      sinon
-        .stub(usecases, 'cancelCertificationCenterInvitation')
-        .withArgs({
-          certificationCenterInvitationId: cancelledCertificationCenterInvitation.id,
-        })
-        .resolves(cancelledCertificationCenterInvitation);
-
-      // when
-      const response = await certificationCenterInvitationController.cancelCertificationCenterInvitation(
-        {
-          auth: { credentials: { userId: 1 } },
-          params: { certificationCenterInvitationId },
-        },
-        hFake,
-      );
-
-      // then
       expect(response.statusCode).to.equal(204);
     });
   });

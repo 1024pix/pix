@@ -1,14 +1,16 @@
-import { extractLocaleFromRequest } from '../../../lib/infrastructure/utils/request-response-utils.js';
-import { usecases } from '../domain/usecases/index.js';
-import { certificationCenterInvitationSerializer } from '../infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
+import { usecases } from '../../domain/usecases/index.js';
+import { certificationCenterInvitationSerializer } from '../../infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
 
-const sendInvitations = async function (request, h) {
-  const certificationCenterId = request.params.certificationCenterId;
-  const emails = request.payload.data.attributes.emails;
-  const locale = extractLocaleFromRequest(request);
-
-  await usecases.createOrUpdateCertificationCenterInvitation({ certificationCenterId, emails, locale });
-
+/**
+ *
+ * @callback cancelCertificationCenterInvitation
+ * @param request
+ * @param h
+ * @returns {Promise<void>}
+ */
+const cancelCertificationCenterInvitation = async function (request, h) {
+  const certificationCenterInvitationId = request.params.certificationCenterInvitationId;
+  await usecases.cancelCertificationCenterInvitation({ certificationCenterInvitationId });
   return h.response().code(204);
 };
 
@@ -32,6 +34,7 @@ const sendInvitationForAdmin = async function (request, h, dependencies = { cert
   return h.response(serializedCertificationCenterInvitation);
 };
 
-const certificationCenterInvitationController = { sendInvitations, sendInvitationForAdmin };
-
-export { certificationCenterInvitationController };
+export const certificationCenterInvitationAdminController = {
+  cancelCertificationCenterInvitation,
+  sendInvitationForAdmin,
+};

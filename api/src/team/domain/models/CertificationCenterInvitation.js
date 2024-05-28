@@ -33,7 +33,7 @@ const validationScheme = Joi.object({
   code: Joi.string().optional(),
 });
 
-class CertificationCenterInvitation {
+export class CertificationCenterInvitation {
   constructor({ id, email, updatedAt, role, status, certificationCenterId, certificationCenterName, code } = {}) {
     this.id = id;
     this.email = email;
@@ -80,5 +80,3 @@ class CertificationCenterInvitation {
 
 CertificationCenterInvitation.StatusType = statuses;
 CertificationCenterInvitation.Roles = roles;
-
-export { CertificationCenterInvitation };

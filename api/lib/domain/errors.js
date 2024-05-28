@@ -165,15 +165,6 @@ class UncancellableOrganizationInvitationError extends DomainError {
   }
 }
 
-class UncancellableCertificationCenterInvitationError extends DomainError {
-  constructor(
-    message = "L'invitation à ce centre de certification ne peut pas être annulée.",
-    code = 'UNCANCELLABLE_CERTIFICATION_CENTER_INVITATION_CODE',
-  ) {
-    super(message, code);
-  }
-}
-
 class CantImproveCampaignParticipationError extends DomainError {
   constructor(message = 'Une campagne de collecte de profils ne peut pas être retentée.') {
     super(message);
@@ -1140,7 +1131,6 @@ export {
   TargetProfileCannotBeCreated,
   TargetProfileInvalidError,
   TooManyRows,
-  UncancellableCertificationCenterInvitationError,
   UncancellableOrganizationInvitationError,
   UnexpectedUserAccountError,
   UnknownCountryForStudentEnrolmentError,

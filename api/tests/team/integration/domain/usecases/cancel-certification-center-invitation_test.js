@@ -1,9 +1,10 @@
-import { NotFoundError, UncancellableCertificationCenterInvitationError } from '../../../../lib/domain/errors.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { CertificationCenterInvitation } from '../../../../src/team/domain/models/CertificationCenterInvitation.js';
-import { catchErr, databaseBuilder, expect, sinon } from '../../../test-helper.js';
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { UncancellableCertificationCenterInvitationError } from '../../../../../src/team/domain/errors.js';
+import { CertificationCenterInvitation } from '../../../../../src/team/domain/models/CertificationCenterInvitation.js';
+import { usecases } from '../../../../../src/team/domain/usecases/index.js';
+import { catchErr, databaseBuilder, expect, sinon } from '../../../../test-helper.js';
 
-describe('Integration | UseCases | cancel-certification-center-invitation', function () {
+describe('Integration | Team | Domain | UseCase | cancel-certification-center-invitation', function () {
   describe('when the invitation exists', function () {
     let clock;
     const now = new Date('2022-09-25');
@@ -17,7 +18,7 @@ describe('Integration | UseCases | cancel-certification-center-invitation', func
     });
 
     describe('when the invitation is pending', function () {
-      it('should be possible to cancel a certification center invitation', async function () {
+      it('is possible to cancel a certification center invitation', async function () {
         // given
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
 
@@ -55,7 +56,7 @@ describe('Integration | UseCases | cancel-certification-center-invitation', func
     });
 
     describe('when the invitation is already accepted or cancelled', function () {
-      it('should throw an error', async function () {
+      it('throws an error', async function () {
         // given
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
 
@@ -81,7 +82,7 @@ describe('Integration | UseCases | cancel-certification-center-invitation', func
   });
 
   describe('when the invitation does not exist', function () {
-    it('should throw an error', async function () {
+    it('throws an error', async function () {
       // given
       const certificationCenterInvitationId = 123;
 

@@ -1,8 +1,40 @@
-import { certificationCenterInvitationController } from '../../../../src/team/application/certification-center-invitation.controller.js';
-import { usecases } from '../../../../src/team/domain/usecases/index.js';
-import { expect, hFake, sinon } from '../../../test-helper.js';
+import { certificationCenterInvitationAdminController } from '../../../../../src/team/application/certification-center-invitation/certification-center-invitation.admin.controller.js';
+import { CertificationCenterInvitation } from '../../../../../src/team/domain/models/CertificationCenterInvitation.js';
+import { usecases } from '../../../../../src/team/domain/usecases/index.js';
+import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Team | Controller | certifications-center-controller', function () {
+describe('Unit | Team | Application | Controller | Admin | Certification Center Invitation', function () {
+  describe('#cancelCertificationCenterInvitation', function () {
+    it('calls the usecase to cancel invitation with certificationCenterInvitationId', async function () {
+      //given
+      const certificationCenterInvitationId = 123;
+
+      const cancelledCertificationCenterInvitation = domainBuilder.buildCertificationCenterInvitation({
+        id: certificationCenterInvitationId,
+        status: CertificationCenterInvitation.StatusType.CANCELLED,
+      });
+
+      sinon
+        .stub(usecases, 'cancelCertificationCenterInvitation')
+        .withArgs({
+          certificationCenterInvitationId: cancelledCertificationCenterInvitation.id,
+        })
+        .resolves(cancelledCertificationCenterInvitation);
+
+      // when
+      const response = await certificationCenterInvitationAdminController.cancelCertificationCenterInvitation(
+        {
+          auth: { credentials: { userId: 1 } },
+          params: { certificationCenterInvitationId },
+        },
+        hFake,
+      );
+
+      // then
+      expect(response.statusCode).to.equal(204);
+    });
+  });
+
   describe('#sendInvitationForAdmin', function () {
     let certificationCenterInvitationSerializerStub;
 
@@ -51,7 +83,7 @@ describe('Unit | Team | Controller | certifications-center-controller', function
       certificationCenterInvitationSerializerStub.serializeForAdmin.withArgs('an invitation').returns(serializedData);
 
       // when
-      const response = await certificationCenterInvitationController.sendInvitationForAdmin(
+      const response = await certificationCenterInvitationAdminController.sendInvitationForAdmin(
         {
           params: { certificationCenterId },
           payload,
@@ -82,7 +114,7 @@ describe('Unit | Team | Controller | certifications-center-controller', function
       certificationCenterInvitationSerializerStub.serializeForAdmin.returns(serializedData);
 
       // when
-      const response = await certificationCenterInvitationController.sendInvitationForAdmin(
+      const response = await certificationCenterInvitationAdminController.sendInvitationForAdmin(
         {
           params: { certificationCenterId: 7 },
           payload: {
