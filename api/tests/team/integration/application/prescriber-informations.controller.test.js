@@ -1,5 +1,5 @@
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
-import * as moduleUnderTest from '../../../../src/shared/prescriber-management/application/prescriber-informations-route.js';
+import { teamRoutes } from '../../../../src/team/application/routes.js';
 import { usecases } from '../../../../src/team/domain/usecases/index.js';
 import { domainBuilder, expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
@@ -13,7 +13,7 @@ describe('Integration | Team | Application | Controller | prescriber-information
     sandbox.stub(usecases, 'getPrescriber');
 
     httpTestServer = new HttpTestServer();
-    await httpTestServer.register(moduleUnderTest);
+    await httpTestServer.register(teamRoutes);
   });
 
   afterEach(function () {

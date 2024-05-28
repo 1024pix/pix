@@ -1,11 +1,15 @@
 import { certificationCenterInvitationAdminRoutes } from './certification-center-invitation/certification-center-invitation.admin.route.js';
 import { certificationCenterInvitationRoutes } from './certification-center-invitation/certification-center-invitation.route.js';
+import { prescriberInformationsRoute } from './prescriber-informations.route.js';
 
 const register = async function (server) {
-  server.route([...certificationCenterInvitationRoutes, ...certificationCenterInvitationAdminRoutes]);
+  server.route([
+    ...certificationCenterInvitationRoutes,
+    ...certificationCenterInvitationAdminRoutes,
+    ...prescriberInformationsRoute,
+  ]);
 };
 
 const name = 'team-api';
-const teamRoutes = [{ register, name }];
 
-export { teamRoutes };
+export const teamRoutes = [{ register, name }];

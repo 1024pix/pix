@@ -1,9 +1,9 @@
-import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import * as moduleUnderTest from '../../../../../src/shared/prescriber-management/application/prescriber-informations-route.js';
-import { prescriberInformationsController } from '../../../../../src/team/application/prescriber-informations.controller.js';
-import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
+import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
+import { prescriberInformationsController } from '../../../../src/team/application/prescriber-informations.controller.js';
+import { teamRoutes } from '../../../../src/team/application/routes.js';
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
-describe('Integration | Router | prescriber-informations-route', function () {
+describe('Integration | Team | Application | Route | prescriber-informations', function () {
   let httpTestServer;
   const method = 'GET';
 
@@ -13,7 +13,7 @@ describe('Integration | Router | prescriber-informations-route', function () {
     sinon.stub(prescriberInformationsController, 'get').returns('ok');
 
     httpTestServer = new HttpTestServer();
-    await httpTestServer.register(moduleUnderTest);
+    await httpTestServer.register(teamRoutes);
   });
 
   describe('GET /api/prescription/prescribers/{id}', function () {
