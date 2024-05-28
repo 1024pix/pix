@@ -5,6 +5,7 @@ import {
   CertificationCandidatesError,
 } from '../../../../lib/domain/errors.js';
 import { CertificationCandidate } from '../../../../lib/domain/models/index.js';
+import { SubscriptionTypes } from '../../../../src/certification/shared/domain/models/SubscriptionTypes.js';
 import { catchErr, domainBuilder, expect } from '../../../test-helper.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 
@@ -18,7 +19,7 @@ const translate = i18n.__;
 
 describe('Unit | Domain | Models | Certification Candidate', function () {
   describe('constructor', function () {
-    it('should build a Certification Candidate from JSON', function () {
+    it('should build a Certification Candidate', function () {
       // given
       const rawData = {
         firstName: 'Jean-Pierre',
@@ -38,17 +39,32 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       const certificationCandidate = new CertificationCandidate(rawData);
 
       // then
-      expect(certificationCandidate.firstName).to.equal('Jean-Pierre');
-      expect(certificationCandidate.lastName).to.equal('Foucault');
-      expect(certificationCandidate.birthCity).to.equal('Marseille');
-      expect(certificationCandidate.birthProvinceCode).to.equal('13');
-      expect(certificationCandidate.birthCountry).to.equal('France');
-      expect(certificationCandidate.email).to.equal('jp@fou.cau');
-      expect(certificationCandidate.externalId).to.equal('QVGDM');
-      expect(certificationCandidate.birthdate).to.equal('1940-05-05');
-      expect(certificationCandidate.extraTimePercentage).to.equal(0.3);
-      expect(certificationCandidate.sessionId).to.equal(1);
-      expect(certificationCandidate.userId).to.equal(2);
+      expect(certificationCandidate).to.deep.equal({
+        id: undefined,
+        firstName: 'Jean-Pierre',
+        lastName: 'Foucault',
+        birthCity: 'Marseille',
+        birthProvinceCode: '13',
+        birthCountry: 'France',
+        externalId: 'QVGDM',
+        email: 'jp@fou.cau',
+        birthdate: '1940-05-05',
+        extraTimePercentage: 0.3,
+        sessionId: 1,
+        userId: 2,
+        authorizedToStart: undefined,
+        billingMode: null,
+        birthINSEECode: undefined,
+        birthPostalCode: undefined,
+        createdAt: undefined,
+        organizationLearnerId: null,
+        prepaymentCode: null,
+        resultRecipientEmail: undefined,
+        sex: undefined,
+      });
+
+      expect(certificationCandidate.complementaryCertification).to.be.null;
+      expect(certificationCandidate.subscriptions).to.deepEqualArray([SubscriptionTypes.CORE]);
     });
   });
 
@@ -290,6 +306,24 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       const certificationCandidatesError = new CertificationCandidatesError({
         code: 'CANDIDATE_SEX_NOT_VALID',
         meta: 'something_else',
+      });
+
+      // when
+      const error = await catchErr(certificationCandidate.validate, certificationCandidate)();
+
+      // then
+      expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
+    });
+
+    it('should throw an error when the complementary certification format is not valid', async function () {
+      // given
+      const certificationCandidate = buildCertificationCandidate({
+        ...validAttributes,
+        complementaryCertification: {},
+      });
+      const certificationCandidatesError = new CertificationCandidatesError({
+        code: '"complementaryCertification.id" is required',
+        meta: null,
       });
 
       // when

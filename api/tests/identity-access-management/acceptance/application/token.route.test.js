@@ -172,7 +172,8 @@ describe('Acceptance | Identity Access Management | Route | Token', function () 
         //given
         databaseBuilder.factory.buildCertificationCenter({ id: 345 });
         databaseBuilder.factory.buildSession({ id: 121, certificationCenterId: 345 });
-        databaseBuilder.factory.buildCertificationCandidate({ sessionId: 121 });
+        const candidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId: 121 });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
         databaseBuilder.factory.buildSupervisorAccess({ userId, sessionId: 121 });
         await databaseBuilder.commit();
 

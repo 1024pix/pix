@@ -574,28 +574,28 @@ function _addCertificationCandidatesToScoSession(
   hasJoinSession,
 ) {
   organizationLearners.forEach((organizationLearner, index) => {
-    certificationCandidates.push(
-      databaseBuilder.factory.buildCertificationCandidate({
-        firstName: organizationLearner.firstName,
-        lastName: organizationLearner.lastName,
-        sex: organizationLearner.sex,
-        birthPostalCode: null,
-        birthCityCode: null,
-        birthINSEECode: '75115',
-        birthCity: 'PARIS 15',
-        birthCountry: 'FRANCE',
-        email: `${organizationLearner.firstName}-${organizationLearner.lastName}@example.net`,
-        birthdate: '2000-01-04',
-        sessionId,
-        createdAt: new Date(),
-        extraTimePercentage: extraTimePercentages[index % extraTimePercentages.length],
-        userId: hasJoinSession ? organizationLearner.userId : null,
-        organizationLearnerId: organizationLearner.id,
-        authorizedToStart: false,
-        billingMode: null,
-        prepaymentCode: null,
-      }),
-    );
+    const candidate = databaseBuilder.factory.buildCertificationCandidate({
+      firstName: organizationLearner.firstName,
+      lastName: organizationLearner.lastName,
+      sex: organizationLearner.sex,
+      birthPostalCode: null,
+      birthCityCode: null,
+      birthINSEECode: '75115',
+      birthCity: 'PARIS 15',
+      birthCountry: 'FRANCE',
+      email: `${organizationLearner.firstName}-${organizationLearner.lastName}@example.net`,
+      birthdate: '2000-01-04',
+      sessionId,
+      createdAt: new Date(),
+      extraTimePercentage: extraTimePercentages[index % extraTimePercentages.length],
+      userId: hasJoinSession ? organizationLearner.userId : null,
+      organizationLearnerId: organizationLearner.id,
+      authorizedToStart: false,
+      billingMode: null,
+      prepaymentCode: null,
+    });
+    databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
+    certificationCandidates.push(candidate);
   });
 }
 
@@ -680,6 +680,7 @@ async function _registerCandidatesToSession({
         prepaymentCode: randomPrepaymentCode,
       });
 
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: certificationCandidate.id });
       certificationCandidate.complementaryCertificationSubscribedId = null;
 
       const randomComplementaryCertificationId =
@@ -763,6 +764,7 @@ async function _registerSomeCandidatesToSession({ databaseBuilder, sessionId, co
         prepaymentCode: randomPrepaymentCode,
       });
 
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: certificationCandidate.id });
       certificationCandidate.complementaryCertificationSubscribedId = null;
 
       const randomComplementaryCertificationId =

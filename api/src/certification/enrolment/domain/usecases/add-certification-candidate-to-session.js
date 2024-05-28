@@ -102,7 +102,7 @@ const addCertificationCandidateToSession = async function ({
     }
   }
 
-  return await certificationCandidateRepository.saveInSession({
+  return certificationCandidateRepository.saveInSession({
     certificationCandidate,
     sessionId: certificationCandidate.sessionId,
   });

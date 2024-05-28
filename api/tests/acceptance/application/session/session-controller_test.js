@@ -54,11 +54,18 @@ describe('Acceptance | Controller | session-controller', function () {
           lastName: 'A',
           sessionId,
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: certificationCandidateA.id });
+
         const certificationCandidateB = databaseBuilder.factory.buildCertificationCandidate({
           lastName: 'B',
           sessionId,
         });
-        _.times(5, databaseBuilder.factory.buildCertificationCandidate());
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: certificationCandidateB.id });
+
+        _.times(5, () => {
+          const candidate = databaseBuilder.factory.buildCertificationCandidate();
+          databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
+        });
         expectedCertificationCandidateAAttributes = {
           'first-name': certificationCandidateA.firstName,
           'last-name': certificationCandidateA.lastName,

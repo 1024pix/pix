@@ -9,10 +9,10 @@ const findBySessionId = async function ({ sessionId }) {
     })
     .from('certification-candidates')
     .where({ 'certification-candidates.sessionId': sessionId })
-    .leftJoin(
-      'certification-subscriptions',
-      'certification-candidates.id',
-      'certification-subscriptions.certificationCandidateId',
+    .leftJoin('certification-subscriptions', (builder) =>
+      builder
+        .on('certification-candidates.id', '=', 'certification-subscriptions.certificationCandidateId')
+        .onNotNull('certification-subscriptions.complementaryCertificationId'),
     )
     .groupBy('certification-candidates.id', 'certification-subscriptions.complementaryCertificationId')
     .orderByRaw('LOWER("certification-candidates"."lastName") asc')

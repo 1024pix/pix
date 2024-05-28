@@ -19,10 +19,12 @@ describe('Acceptance | Controller | session-controller-get-session-results-by-re
           sessionId,
           resultRecipientEmail: 'recipientEmail@example.net',
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate1.id });
         const candidate2 = dbf.buildCertificationCandidate({
           sessionId,
           resultRecipientEmail: 'recipientEmail@example.net',
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate2.id });
 
         const certif1 = dbf.buildCertificationCourse({
           sessionId: candidate1.sessionId,

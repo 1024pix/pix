@@ -33,11 +33,12 @@ describe('Acceptance | Scripts | update-certification-infos', function () {
         userId: user.id,
         sessionId: session.id,
       });
-      databaseBuilder.factory.buildCertificationCandidate({
+      const candidate = databaseBuilder.factory.buildCertificationCandidate({
         id: 50,
         externalId: '123',
         userId: user.id,
       });
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
 
       await databaseBuilder.commit();
 
@@ -87,7 +88,7 @@ describe('Acceptance | Scripts | update-certification-infos', function () {
     context('when there is no certification course for the candidate', function () {
       it('should not update candidate', async function () {
         // given
-        databaseBuilder.factory.buildCertificationCandidate({
+        const candidate = databaseBuilder.factory.buildCertificationCandidate({
           id: 52,
           externalId: '123',
           userId: null,
@@ -97,6 +98,7 @@ describe('Acceptance | Scripts | update-certification-infos', function () {
           birthCity: 'y',
           birthCountry: 'y',
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
 
         await databaseBuilder.commit();
 
@@ -168,7 +170,7 @@ describe('Acceptance | Scripts | update-certification-infos', function () {
           birthplace: 'y',
           birthCountry: 'y',
         });
-        databaseBuilder.factory.buildCertificationCandidate({
+        const candidate = databaseBuilder.factory.buildCertificationCandidate({
           id: 52,
           externalId: '123',
           userId: user.id,
@@ -178,6 +180,7 @@ describe('Acceptance | Scripts | update-certification-infos', function () {
           birthCity: 'y',
           birthCountry: 'y',
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
 
         await databaseBuilder.commit();
         await _createSessionIdsFile(sessionIdsFile, session.id);

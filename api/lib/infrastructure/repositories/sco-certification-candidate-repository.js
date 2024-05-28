@@ -1,4 +1,5 @@
 import { knex } from '../../../db/knex-database-connection.js';
+import { SubscriptionTypes } from '../../../src/certification/shared/domain/models/SubscriptionTypes.js';
 
 const addNonEnrolledCandidatesToSession = async function ({ sessionId, scoCertificationCandidates }) {
   const organizationLearnerIds = scoCertificationCandidates.map((candidate) => candidate.organizationLearnerId);
@@ -18,7 +19,15 @@ const addNonEnrolledCandidatesToSession = async function ({ sessionId, scoCertif
     .filter((candidate) => !alreadyEnrolledCandidateOrganizationLearnerIds.includes(candidate.organizationLearnerId))
     .map(scoCandidateToDTO);
 
-  await knex.batchInsert('certification-candidates', candidatesToBeEnrolledDTOs);
+  const addedCandidateIds = await knex
+    .batchInsert('certification-candidates', candidatesToBeEnrolledDTOs)
+    .returning(knex.raw('id as "certificationCandidateId", \'??\' as type', [SubscriptionTypes.CORE]));
+
+  // addedCandidateIds.forEach((candidate) => {
+  //   candidate.type = SubscriptionTypes.CORE;
+  // });
+
+  await knex.batchInsert('certification-subscriptions', addedCandidateIds);
 };
 
 export { addNonEnrolledCandidatesToSession };

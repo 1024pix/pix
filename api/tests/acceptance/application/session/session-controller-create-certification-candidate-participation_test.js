@@ -97,10 +97,14 @@ describe('Acceptance | Controller | session-controller-create-certification-cand
 
       context('when no certification candidates match with the provided info', function () {
         beforeEach(function () {
-          _.times(
-            10,
-            databaseBuilder.factory.buildCertificationCandidate({ firstName: 'Alain', userId: null, sessionId }),
-          );
+          _.times(10, () => {
+            const candidate = databaseBuilder.factory.buildCertificationCandidate({
+              firstName: 'Alain',
+              userId: null,
+              sessionId,
+            });
+            databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
+          });
           return databaseBuilder.commit();
         });
 
@@ -115,20 +119,23 @@ describe('Acceptance | Controller | session-controller-create-certification-cand
 
       context('when more than one certification candidates match with the provided info', function () {
         beforeEach(function () {
-          databaseBuilder.factory.buildCertificationCandidate({
+          const candidateA = databaseBuilder.factory.buildCertificationCandidate({
             firstName: 'José',
             lastName: 'Bové',
             birthdate: '2000-01-01',
             sessionId,
             userId: null,
           });
-          databaseBuilder.factory.buildCertificationCandidate({
+          databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateA.id });
+
+          const candidateB = databaseBuilder.factory.buildCertificationCandidate({
             firstName: 'José',
             lastName: 'Bové',
             birthdate: '2000-01-01',
             sessionId,
             userId: null,
           });
+          databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateB.id });
           return databaseBuilder.commit();
         });
 
@@ -167,25 +174,27 @@ describe('Acceptance | Controller | session-controller-create-certification-cand
       context('when a unique certification candidate matches with the personal info provided', function () {
         context('when found certification candidate is not linked yet', function () {
           beforeEach(function () {
-            databaseBuilder.factory.buildCertificationCandidate({
+            const candidate = databaseBuilder.factory.buildCertificationCandidate({
               firstName: 'José',
               lastName: 'Bové',
               birthdate: '2000-01-01',
               sessionId,
               userId: null,
             });
+            databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
             return databaseBuilder.commit();
           });
 
           context('when user already linked to another candidate in the same session', function () {
             beforeEach(function () {
-              databaseBuilder.factory.buildCertificationCandidate({
+              const candidate = databaseBuilder.factory.buildCertificationCandidate({
                 firstName: 'Noël',
                 lastName: 'Mamère',
                 birthdate: '1998-06-25',
                 sessionId,
                 userId,
               });
+              databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
               return databaseBuilder.commit();
             });
 
@@ -223,13 +232,14 @@ describe('Acceptance | Controller | session-controller-create-certification-cand
         context('when found certification candidate is already linked', function () {
           context('when the candidate is linked to the same user as the requesting user', function () {
             beforeEach(function () {
-              databaseBuilder.factory.buildCertificationCandidate({
+              const candidate = databaseBuilder.factory.buildCertificationCandidate({
                 firstName: 'José',
                 lastName: 'Bové',
                 birthdate: '2000-01-01',
                 sessionId,
                 userId,
               });
+              databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
               return databaseBuilder.commit();
             });
 
@@ -256,13 +266,14 @@ describe('Acceptance | Controller | session-controller-create-certification-cand
           context('when the candidate is linked to the another user than the requesting user', function () {
             beforeEach(function () {
               databaseBuilder.factory.buildUser({ id: 101 });
-              databaseBuilder.factory.buildCertificationCandidate({
+              const candidate = databaseBuilder.factory.buildCertificationCandidate({
                 firstName: 'José',
                 lastName: 'Bové',
                 birthdate: '2000-01-01',
                 sessionId,
                 userId: 101,
               });
+              databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
               return databaseBuilder.commit();
             });
 

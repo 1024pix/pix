@@ -336,7 +336,8 @@ describe('Integration | Repository | Certification | session | SessionManagement
             publishedAt: '2022-01-01',
           }).id;
           const userId = databaseBuilder.factory.buildUser().id;
-          databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
+          const candidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
+          databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
           const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
             sessionId,
             userId,
@@ -375,7 +376,8 @@ describe('Integration | Repository | Certification | session | SessionManagement
           publishedAt: null,
         }).id;
         const userId = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
+        const candidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
         const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
           sessionId,
           userId,
@@ -411,7 +413,8 @@ describe('Integration | Repository | Certification | session | SessionManagement
         // given
         const sessionId = databaseBuilder.factory.buildSession().id;
         const userId = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
+        const candidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
         const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
           sessionId,
           userId,
@@ -447,7 +450,8 @@ describe('Integration | Repository | Certification | session | SessionManagement
         // given
         const sessionId = databaseBuilder.factory.buildSession().id;
         const userId = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
+        const candidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
 
         await databaseBuilder.commit();
 
@@ -481,7 +485,8 @@ describe('Integration | Repository | Certification | session | SessionManagement
         // given
         const sessionId = databaseBuilder.factory.buildSession({}).id;
         const userId = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
+        const candidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
         databaseBuilder.factory.buildCertificationCourse({
           sessionId,
           userId,
@@ -519,7 +524,8 @@ describe('Integration | Repository | Certification | session | SessionManagement
         // given
         const sessionId = databaseBuilder.factory.buildSession({}).id;
         const userId1 = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId: userId1 });
+        const candidateA = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId: userId1 });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateA.id });
         databaseBuilder.factory.buildCertificationCourse({
           id: 97,
           sessionId,
@@ -531,7 +537,8 @@ describe('Integration | Repository | Certification | session | SessionManagement
         });
 
         const userId2 = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId: userId2 });
+        const candidateB = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId: userId2 });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateB.id });
         databaseBuilder.factory.buildCertificationCourse({
           id: 98,
           sessionId,
@@ -543,7 +550,8 @@ describe('Integration | Repository | Certification | session | SessionManagement
         });
 
         const userId3 = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId: userId3 });
+        const candidateC = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId: userId3 });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateC.id });
         databaseBuilder.factory.buildCertificationCourse({
           id: 99,
           sessionId,
@@ -555,7 +563,8 @@ describe('Integration | Repository | Certification | session | SessionManagement
         });
 
         const userId4 = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId: userId4 });
+        const candidateD = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId: userId4 });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateD.id });
         databaseBuilder.factory.buildCertificationCourse({
           id: 100,
           sessionId,
@@ -583,7 +592,8 @@ describe('Integration | Repository | Certification | session | SessionManagement
         // given
         const sessionId = databaseBuilder.factory.buildSession({}).id;
         const userId1 = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId: userId1 });
+        const candidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId: userId1 });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
         databaseBuilder.factory.buildCertificationCourse({
           id: 97,
           sessionId,
@@ -637,22 +647,31 @@ describe('Integration | Repository | Certification | session | SessionManagement
     it('should return associated certification candidates ordered by lastname and firstname', async function () {
       // given
       const session = databaseBuilder.factory.buildSession();
-      databaseBuilder.factory.buildCertificationCandidate({
+      const candidateA = databaseBuilder.factory.buildCertificationCandidate({
         lastName: 'Jackson',
         firstName: 'Michael',
         sessionId: session.id,
       });
-      databaseBuilder.factory.buildCertificationCandidate({
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateA.id });
+
+      const candidateB = databaseBuilder.factory.buildCertificationCandidate({
         lastName: 'Stardust',
         firstName: 'Ziggy',
         sessionId: session.id,
       });
-      databaseBuilder.factory.buildCertificationCandidate({
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateB.id });
+
+      const candidateC = databaseBuilder.factory.buildCertificationCandidate({
         lastName: 'Jackson',
         firstName: 'Janet',
         sessionId: session.id,
       });
-      _.times(5, () => databaseBuilder.factory.buildCertificationCandidate());
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateC.id });
+
+      _.times(5, () => {
+        const candidate = databaseBuilder.factory.buildCertificationCandidate();
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
+      });
       await databaseBuilder.commit();
 
       // when
@@ -732,16 +751,19 @@ describe('Integration | Repository | Certification | session | SessionManagement
     it('should return an empty candidates complementary certifications if there is no complementary certification', async function () {
       // given
       const session = databaseBuilder.factory.buildSession();
-      databaseBuilder.factory.buildCertificationCandidate({
+      const candidateA = databaseBuilder.factory.buildCertificationCandidate({
         lastName: 'Jackson',
         firstName: 'Michael',
         sessionId: session.id,
       });
-      databaseBuilder.factory.buildCertificationCandidate({
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateA.id });
+
+      const candidateB = databaseBuilder.factory.buildCertificationCandidate({
         lastName: 'Stardust',
         firstName: 'Ziggy',
         sessionId: session.id,
       });
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateB.id });
       await databaseBuilder.commit();
 
       // when

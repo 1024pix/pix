@@ -144,7 +144,8 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
         const options = generateOptions({ odsFilePath, userId: user.id, sessionId: sessionIdAllowed });
 
         const userId = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCertificationCandidate({ sessionId: sessionIdAllowed, userId });
+        const candidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId: sessionIdAllowed, userId });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
         await databaseBuilder.commit();
 
         // when

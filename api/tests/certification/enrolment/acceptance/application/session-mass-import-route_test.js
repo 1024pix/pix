@@ -116,9 +116,12 @@ describe('Acceptance | Controller | Session | session-mass-import-route', functi
             });
             databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
             const sessionId = databaseBuilder.factory.buildSession({ id: 1234, certificationCenterId }).id;
-            databaseBuilder.factory.buildCertificationCandidate({ sessionId, lastName: 'Toto' });
-            databaseBuilder.factory.buildCertificationCandidate({ sessionId, lastName: 'Foo' });
-            databaseBuilder.factory.buildCertificationCandidate({ sessionId, lastName: 'Bar' });
+            const toto = databaseBuilder.factory.buildCertificationCandidate({ sessionId, lastName: 'Toto' });
+            databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: toto.id });
+            const foo = databaseBuilder.factory.buildCertificationCandidate({ sessionId, lastName: 'Foo' });
+            databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: foo.id });
+            const bar = databaseBuilder.factory.buildCertificationCandidate({ sessionId, lastName: 'Bar' });
+            databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: bar.id });
             await databaseBuilder.commit();
 
             const newBuffer = `Numéro de session préexistante;* Nom du site;* Nom de la salle;* Date de début (format: JJ/MM/AAAA);* Heure de début (heure locale format: HH:MM);* Surveillant(s);Observations (optionnel);* Nom de naissance;* Prénom;* Date de naissance (format: JJ/MM/AAAA);* Sexe (M ou F);Code INSEE de la commune de naissance;Code postal de la commune de naissance;Nom de la commune de naissance;* Pays de naissance;E-mail du destinataire des résultats (formateur, enseignant…);E-mail de convocation;Identifiant externe;Temps majoré ? (exemple format: 33%);* Tarification part Pix (Gratuite, Prépayée ou Payante);Code de prépaiement (si Tarification part Pix Prépayée)

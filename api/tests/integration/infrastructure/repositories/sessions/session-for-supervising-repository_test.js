@@ -58,35 +58,42 @@ describe('Integration | Repository | SessionForSupervising', function () {
         });
 
         databaseBuilder.factory.buildUser({ id: 11111 });
-        databaseBuilder.factory.buildCertificationCandidate({
+        const candidateA = databaseBuilder.factory.buildCertificationCandidate({
           userId: 11111,
           lastName: 'Jackson',
           firstName: 'Michael',
           sessionId: session.id,
           authorizedToStart: true,
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateA.id });
+
         databaseBuilder.factory.buildUser({ id: 22222 });
-        databaseBuilder.factory.buildCertificationCandidate({
+        const candidateB = databaseBuilder.factory.buildCertificationCandidate({
           userId: 22222,
           lastName: 'Stardust',
           firstName: 'Ziggy',
           sessionId: session.id,
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateB.id });
+
         databaseBuilder.factory.buildUser({ id: 33333 });
-        databaseBuilder.factory.buildCertificationCandidate({
+        const candidateC = databaseBuilder.factory.buildCertificationCandidate({
           userId: 33333,
           lastName: 'Jackson',
           firstName: 'Janet',
           sessionId: session.id,
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateC.id });
+
         databaseBuilder.factory.buildUser({ id: 12345 });
-        databaseBuilder.factory.buildCertificationCandidate({
+        const candidateD = databaseBuilder.factory.buildCertificationCandidate({
           lastName: 'Joplin',
           firstName: 'Janis',
           sessionId: session.id,
           userId: 12345,
           authorizedToStart: true,
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateD.id });
 
         const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
           userId: 12345,
@@ -172,14 +179,16 @@ describe('Integration | Repository | SessionForSupervising', function () {
           firstName: 'Janet',
           sessionId: session.id,
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: certificationCandidate.id });
 
         databaseBuilder.factory.buildUser({ id: 22222 });
-        databaseBuilder.factory.buildCertificationCandidate({
+        const candidateB = databaseBuilder.factory.buildCertificationCandidate({
           userId: 22222,
           lastName: 'Joplin',
           firstName: 'Janis',
           sessionId: session.id,
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateB.id });
 
         const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
           label: 'Pix+ Édu 1er degré',
@@ -281,35 +290,42 @@ describe('Integration | Repository | SessionForSupervising', function () {
         });
 
         databaseBuilder.factory.buildUser({ id: 11111 });
-        databaseBuilder.factory.buildCertificationCandidate({
+        const candidateA = databaseBuilder.factory.buildCertificationCandidate({
           userId: 11111,
           lastName: 'Jackson',
           firstName: 'Michael',
           sessionId: session.id,
           authorizedToStart: true,
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateA.id });
+
         databaseBuilder.factory.buildUser({ id: 22222 });
-        databaseBuilder.factory.buildCertificationCandidate({
+        const candidateB = databaseBuilder.factory.buildCertificationCandidate({
           userId: 22222,
           lastName: 'Stardust',
           firstName: 'Ziggy',
           sessionId: session.id,
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateB.id });
+
         databaseBuilder.factory.buildUser({ id: 33333 });
-        databaseBuilder.factory.buildCertificationCandidate({
+        const candidateC = databaseBuilder.factory.buildCertificationCandidate({
           userId: 33333,
           lastName: 'Jackson',
           firstName: 'Janet',
           sessionId: session.id,
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateC.id });
+
         databaseBuilder.factory.buildUser({ id: 12345 });
-        databaseBuilder.factory.buildCertificationCandidate({
+        const candidateD = databaseBuilder.factory.buildCertificationCandidate({
           lastName: 'Joplin',
           firstName: 'Janis',
           sessionId: session.id,
           userId: 12345,
           authorizedToStart: true,
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateD.id });
 
         const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
           version: CERTIFICATION_VERSIONS.V3,
@@ -327,7 +343,8 @@ describe('Integration | Repository | SessionForSupervising', function () {
           assessmentId: assessmentWithLiveAlert.id,
         });
 
-        databaseBuilder.factory.buildCertificationCandidate();
+        const candidate = databaseBuilder.factory.buildCertificationCandidate();
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
         await databaseBuilder.commit();
 
         // when

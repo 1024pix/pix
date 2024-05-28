@@ -182,6 +182,8 @@ async function _createNonScoCertificationCandidates(
       authorizedToStart: true,
     });
 
+    databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId });
+
     const complementaryCertification = complementaryCertifications.find(
       ({ candidateNumber }) => candidateNumber === i + 1,
     );
@@ -215,7 +217,7 @@ async function _createScoCertificationCandidates({ candidateNumber, sessionId, o
       databaseBuilder,
     );
 
-    databaseBuilder.factory.buildCertificationCandidate({
+    const candidate = databaseBuilder.factory.buildCertificationCandidate({
       firstName,
       lastName,
       birthdate,
@@ -226,6 +228,7 @@ async function _createScoCertificationCandidates({ candidateNumber, sessionId, o
       createdAt: new Date(),
       authorizedToStart: true,
     });
+    databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
   }
 }
 
@@ -319,10 +322,10 @@ async function _getResults(sessionId) {
     })
     .join('certification-candidates', 'certification-candidates.sessionId', 'sessions.id')
     .join('users', 'users.email', 'certification-candidates.email')
-    .leftJoin(
-      'certification-subscriptions',
-      'certification-subscriptions.certificationCandidateId',
-      'certification-candidates.id',
+    .leftJoin('certification-subscriptions', (builder) =>
+      builder
+        .on('certification-candidates.id', '=', 'certification-subscriptions.certificationCandidateId')
+        .onNotNull('certification-subscriptions.complementaryCertificationId'),
     )
     .leftJoin(
       'complementary-certifications',

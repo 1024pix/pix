@@ -1022,6 +1022,7 @@ function _createNonExistingCertifCourseSetup({ learningContent, sessionId, userI
     userId,
     authorizedToStart: true,
   });
+  databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: certificationCandidate.id });
   databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas({
     learningContent,
     userId,
@@ -1036,5 +1037,6 @@ function _createNonExistingCertifCourseSetup({ learningContent, sessionId, userI
 function _createExistingCertifCourseSetup({ userId, sessionId, version = 2 }) {
   const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId, version }).id;
   databaseBuilder.factory.buildAssessment({ userId, certificationCourseId });
-  databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId, authorizedToStart: true });
+  const candidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId, authorizedToStart: true });
+  databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
 }

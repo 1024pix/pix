@@ -40,6 +40,7 @@ describe('Acceptance | Controller | Session | certification-candidate-route', fu
         userId: candidateUserId,
         billingMode: CertificationCandidate.BILLING_MODES.PREPAID,
       }).id;
+      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateId });
       const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
         id: 10000006,
         key: ComplementaryCertificationKeys.CLEA,

@@ -130,10 +130,10 @@ const getWithCertificationCandidates = async function ({ id }) {
       complementaryCertificationLabel: 'complementary-certifications.label',
     })
     .from('certification-candidates')
-    .leftJoin(
-      'certification-subscriptions',
-      'certification-subscriptions.certificationCandidateId',
-      'certification-candidates.id',
+    .leftJoin('certification-subscriptions', (builder) =>
+      builder
+        .on('certification-candidates.id', '=', 'certification-subscriptions.certificationCandidateId')
+        .onNotNull('certification-subscriptions.complementaryCertificationId'),
     )
     .leftJoin(
       'complementary-certifications',

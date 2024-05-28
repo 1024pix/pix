@@ -57,10 +57,10 @@ const get = async function (idSession) {
       this.on('certification-courses.userId', '=', 'certification-candidates.userId');
     })
     .leftJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
-    .leftJoin(
-      'certification-subscriptions',
-      'certification-subscriptions.certificationCandidateId',
-      'certification-candidates.id',
+    .leftJoin('certification-subscriptions', (builder) =>
+      builder
+        .on('certification-candidates.id', '=', 'certification-subscriptions.certificationCandidateId')
+        .onNotNull('certification-subscriptions.complementaryCertificationId'),
     )
     .leftJoin(
       'complementary-certifications',

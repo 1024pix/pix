@@ -53,16 +53,19 @@ describe('Integration | Certification | Session | Repository | Candidate', funct
           firstName: 'Matthieu',
           sessionId,
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: matthieuChedid.id });
         const louisChedid = databaseBuilder.factory.buildCertificationCandidate({
           lastName: 'Chedid',
           firstName: 'Louis',
           sessionId,
         });
-        databaseBuilder.factory.buildCertificationCandidate({
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: louisChedid.id });
+        const herbie = databaseBuilder.factory.buildCertificationCandidate({
           lastName: 'Herbie',
           firstName: 'Hancock',
           sessionId,
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: herbie.id });
 
         databaseBuilder.factory.buildComplementaryCertificationSubscription({
           complementaryCertificationId: rockCertification.id,
@@ -79,6 +82,8 @@ describe('Integration | Certification | Session | Repository | Candidate', funct
         const candidates = await candidateRepository.findBySessionId({ sessionId });
 
         // then
+        expect(candidates).to.have.lengthOf(3);
+
         const firstCandidate = candidates[0];
         const secondCandidate = candidates[1];
         const thirdCandidate = candidates[2];

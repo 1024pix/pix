@@ -33,16 +33,19 @@ describe('Integration | Repository | Session-for-attendance-sheet', function () 
           firstName: 'Michael',
           sessionId: session.id,
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate1.id });
         const candidate2 = databaseBuilder.factory.buildCertificationCandidate({
           lastName: 'Stardust',
           firstName: 'Ziggy',
           sessionId: session.id,
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate2.id });
         const candidate3 = databaseBuilder.factory.buildCertificationCandidate({
           lastName: 'Jackson',
           firstName: 'Janet',
           sessionId: session.id,
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate3.id });
 
         await databaseBuilder.commit();
 
@@ -103,18 +106,21 @@ describe('Integration | Repository | Session-for-attendance-sheet', function () 
           sessionId: session.id,
           organizationLearnerId: organizationLearner1.id,
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate1.id });
         const candidate2 = databaseBuilder.factory.buildCertificationCandidate({
           lastName: 'Stardust',
           firstName: 'Ziggy',
           sessionId: session.id,
           organizationLearnerId: organizationLearner2.id,
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate2.id });
         const candidate3 = databaseBuilder.factory.buildCertificationCandidate({
           lastName: 'Jackson',
           firstName: 'Janet',
           sessionId: session.id,
           organizationLearnerId: organizationLearner3.id,
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate3.id });
         await databaseBuilder.commit();
 
         const expectedSessionValues = new SessionForAttendanceSheet({

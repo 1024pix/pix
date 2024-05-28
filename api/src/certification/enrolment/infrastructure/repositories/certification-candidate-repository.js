@@ -11,7 +11,6 @@ import { CertificationCandidate } from '../../../../../lib/domain/models/Certifi
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { BookshelfCertificationCandidate } from '../../../../../lib/infrastructure/orm-models/CertificationCandidate.js';
 import * as bookshelfToDomainConverter from '../../../../../lib/infrastructure/utils/bookshelf-to-domain-converter.js';
-import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { normalize } from '../../../../shared/infrastructure/utils/string-utils.js';
 import { SubscriptionTypes } from '../../../shared/domain/models/SubscriptionTypes.js';
 import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
@@ -38,43 +37,34 @@ const saveInSession = async function ({
   domainTransaction = DomainTransaction.emptyTransaction(),
 }) {
   const certificationCandidateDataToSave = _adaptModelToDb(certificationCandidate);
+  const knexTransaction = domainTransaction?.knexTransaction
+    ? domainTransaction.knexTransaction
+    : await knex.transaction();
 
-  try {
-    const insertCertificationCandidateQuery = knex('certification-candidates')
-      .insert({ ...certificationCandidateDataToSave, sessionId })
-      .returning('*');
+  const [{ id: certificationCandidateId }] = await knexTransaction('certification-candidates')
+    .insert({ ...certificationCandidateDataToSave, sessionId })
+    .returning('id');
 
-    if (domainTransaction.knexTransaction) {
-      insertCertificationCandidateQuery.transacting(domainTransaction.knexTransaction);
-    }
-
-    const [addedCertificationCandidate] = await insertCertificationCandidateQuery;
-
-    if (certificationCandidate.complementaryCertification) {
-      const complementaryCertificationSubscriptionToSave = {
+  for (const type of certificationCandidate.subscriptions) {
+    if (type === SubscriptionTypes.CORE) {
+      await _insertCoreSubscription({
+        certificationCandidateId,
+        knexTransaction,
+      });
+    } else if (type === SubscriptionTypes.COMPLEMENTARY) {
+      await _insertComplementarySubscription({
         complementaryCertificationId: certificationCandidate.complementaryCertification.id,
-        certificationCandidateId: addedCertificationCandidate.id,
-        type: SubscriptionTypes.COMPLEMENTARY,
-      };
-
-      const insertComplementaryCertificationSubscriptionQuery = knex('certification-subscriptions').insert(
-        complementaryCertificationSubscriptionToSave,
-      );
-
-      if (domainTransaction.knexTransaction) {
-        insertComplementaryCertificationSubscriptionQuery.transacting(domainTransaction.knexTransaction);
-      }
-
-      await insertComplementaryCertificationSubscriptionQuery;
+        certificationCandidateId,
+        knexTransaction,
+      });
     }
-
-    return new CertificationCandidate(addedCertificationCandidate);
-  } catch (error) {
-    logger.error(error);
-    throw new CertificationCandidateCreationOrUpdateError(
-      'An error occurred while saving the certification candidate in a session',
-    );
   }
+
+  if (!domainTransaction?.knexTransaction) {
+    await knexTransaction.commit();
+  }
+
+  return certificationCandidateId;
 };
 
 const remove = async function ({ id }) {
@@ -104,10 +94,10 @@ const getBySessionIdAndUserId = async function ({ sessionId, userId }) {
       complementaryCertificationLabel: 'complementary-certifications.label',
     })
     .from('certification-candidates')
-    .leftJoin(
-      'certification-subscriptions',
-      'certification-candidates.id',
-      'certification-subscriptions.certificationCandidateId',
+    .leftJoin('certification-subscriptions', (builder) =>
+      builder
+        .on('certification-candidates.id', '=', 'certification-subscriptions.certificationCandidateId')
+        .onNotNull('certification-subscriptions.complementaryCertificationId'),
     )
     .leftJoin(
       'complementary-certifications',
@@ -130,10 +120,10 @@ const findBySessionId = async function (sessionId) {
     })
     .from('certification-candidates')
     .where({ 'certification-candidates.sessionId': sessionId })
-    .leftJoin(
-      'certification-subscriptions',
-      'certification-candidates.id',
-      'certification-subscriptions.certificationCandidateId',
+    .leftJoin('certification-subscriptions', (builder) =>
+      builder
+        .on('certification-candidates.id', '=', 'certification-subscriptions.certificationCandidateId')
+        .onNotNull('certification-subscriptions.complementaryCertificationId'),
     )
     .leftJoin(
       'complementary-certifications',
@@ -206,10 +196,10 @@ const getWithComplementaryCertification = async function (id) {
       complementaryCertificationKey: 'complementary-certifications.key',
       complementaryCertificationLabel: 'complementary-certifications.label',
     })
-    .leftJoin(
-      'certification-subscriptions',
-      'certification-subscriptions.certificationCandidateId',
-      'certification-candidates.id',
+    .leftJoin('certification-subscriptions', (builder) =>
+      builder
+        .on('certification-candidates.id', '=', 'certification-subscriptions.certificationCandidateId')
+        .onNotNull('certification-subscriptions.complementaryCertificationId'),
     )
     .leftJoin(
       'complementary-certifications',
@@ -240,6 +230,26 @@ export {
   saveInSession,
   update,
 };
+
+async function _insertCoreSubscription({ certificationCandidateId, knexTransaction }) {
+  return knexTransaction('certification-subscriptions').insert({
+    type: SubscriptionTypes.CORE,
+    certificationCandidateId,
+    complementaryCertificationId: null,
+  });
+}
+
+async function _insertComplementarySubscription({
+  complementaryCertificationId,
+  certificationCandidateId,
+  knexTransaction,
+}) {
+  return knexTransaction('certification-subscriptions').insert({
+    type: SubscriptionTypes.COMPLEMENTARY,
+    complementaryCertificationId,
+    certificationCandidateId,
+  });
+}
 
 function _buildCertificationCandidates(results) {
   if (results?.models[0]) {
