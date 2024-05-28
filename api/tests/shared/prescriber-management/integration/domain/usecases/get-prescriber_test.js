@@ -1,6 +1,6 @@
 import * as membershipRepository from '../../../../../../src/shared/infrastructure/repositories/membership-repository.js';
 import { getPrescriber } from '../../../../../../src/shared/prescriber-management/domain/usecases/get-prescriber.js';
-import * as prescriberRepository from '../../../../../../src/shared/prescriber-management/infrastructure/repositories/prescriber-repository.js';
+import * as prescriberRepository from '../../../../../../src/team/infrastructure/repositories/prescriber-repository.js';
 import * as userOrgaSettingsRepository from '../../../../../../src/shared/prescriber-management/infrastructure/repositories/user-orga-settings-repository.js';
 import { databaseBuilder, expect, knex } from '../../../../../test-helper.js';
 
