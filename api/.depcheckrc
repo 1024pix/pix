@@ -5,7 +5,6 @@ ignores:
     'hapi-swagger',
     'hapi-sentry',
     'mocha-junit-reporter',
-    'eslint-plugin-i18n-json',
   ]
 #  @babel/plugin-syntax-import-attributes is used by eslint
 # see https://github.com/babel/babel/blob/main/packages/babel-plugin-syntax-import-attributes/README.md
@@ -24,4 +23,3 @@ ignores:
 # code =>  MOCHA_REPORTER: mocha-junit-reporter
 # see https://github.com/michaelleeallen/mocha-junit-reporter#usage
 
-# eslint-plugin-i18n-json is used by npm run lint:translations
