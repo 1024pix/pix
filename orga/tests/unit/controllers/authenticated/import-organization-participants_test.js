@@ -21,7 +21,7 @@ module('Unit | Controller | authenticated/import-organization-participant', func
     currentUser = { organization: { id: 1 } };
     controller.currentUser = currentUser;
     const store = this.owner.lookup('service:store');
-    const adapter = store.adapterFor('students-import');
+    const adapter = store.adapterFor('organization-learners-import');
     addStudentsCsvStub = sinon.stub(adapter, 'addStudentsCsv');
     replaceStudentsCsvStub = sinon.stub(adapter, 'replaceStudentsCsv');
     importScoStudentStub = sinon.stub(adapter, 'importStudentsSiecle');

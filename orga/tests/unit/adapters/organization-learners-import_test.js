@@ -2,12 +2,12 @@ import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-module('Unit | Adapters | Students import', function (hooks) {
+module('Unit | Adapters | organization learners import', function (hooks) {
   setupTest(hooks);
   let adapter;
 
   hooks.beforeEach(function () {
-    adapter = this.owner.lookup('adapter:students-import');
+    adapter = this.owner.lookup('adapter:organization-learners-import');
     adapter.ajax = sinon.stub();
   });
 

@@ -20,7 +20,7 @@ export default class ImportController extends Controller {
   async importSupStudents(files) {
     this._initializeUpload();
 
-    const adapter = this.store.adapterFor('students-import');
+    const adapter = this.store.adapterFor('organization-learners-import');
     const organizationId = this.currentUser.organization.id;
 
     try {
@@ -36,7 +36,7 @@ export default class ImportController extends Controller {
   async importScoStudents(files) {
     this._initializeUpload();
 
-    const adapter = this.store.adapterFor('students-import');
+    const adapter = this.store.adapterFor('organization-learners-import');
     const organizationId = this.currentUser.organization.id;
     const format = this.currentUser.isAgriculture ? 'csv' : 'xml';
 
@@ -60,7 +60,7 @@ export default class ImportController extends Controller {
   async replaceStudents(files) {
     this._initializeUpload();
 
-    const adapter = this.store.adapterFor('students-import');
+    const adapter = this.store.adapterFor('organization-learners-import');
     const organizationId = this.currentUser.organization.id;
 
     try {
@@ -76,7 +76,7 @@ export default class ImportController extends Controller {
   async importOrganizationLearners(files) {
     this._initializeUpload;
 
-    const adapter = this.store.adapterFor('students-import');
+    const adapter = this.store.adapterFor('organization-learners-import');
     const organizationId = this.currentUser.organization.id;
 
     try {

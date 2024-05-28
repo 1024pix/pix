@@ -1,6 +1,6 @@
 import ApplicationAdapter from './application';
 
-export default class StudentImportsAdapter extends ApplicationAdapter {
+export default class OrganizationLearnersImportAdapter extends ApplicationAdapter {
   addStudentsCsv(organizationId, files) {
     if (!files || files.length === 0) return;
 
