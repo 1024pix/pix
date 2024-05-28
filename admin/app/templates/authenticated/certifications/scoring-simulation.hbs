@@ -19,26 +19,42 @@
     <PixMessage class="scoring-simulation__error-message" @type="error">{{error}}</PixMessage>
   {{/each}}
 
-  <dl class="scoring-simulation__data">
+  <dl class="scoring-simulation__data scoring-simulation-card">
     <div class="scoring-simulation-data__container">
-      <dt>{{t "pages.certifications.scoring-simulation.labels.score"}}</dt>
+      <dt class="scoring-simulation-data-container__label">{{t
+          "pages.certifications.scoring-simulation.labels.score"
+        }}</dt>
       <dd>{{this.simulatorReport.data.attributes.score}}</dd>
     </div>
     <div class="scoring-simulation-data__container">
-      <dt>{{t "pages.certifications.scoring-simulation.labels.capacity"}}</dt>
+      <dt class="scoring-simulation-data-container__label">{{t
+          "pages.certifications.scoring-simulation.labels.capacity"
+        }}</dt>
       <dd>{{this.simulatorReport.data.attributes.capacity}}</dd>
     </div>
   </dl>
 
-  <ul class="scoring-simulation__competences">
-    {{#each this.simulatorReport.data.attributes.competences as |competence|}}
-      <li
-        class="scoring-simulation-competences__item"
-        aria-label="Niveau de la compétence {{competence.competenceCode}}"
+  {{#if this.simulatorReport.data.attributes.competences}}
+    <div class="scoring-simulation__competences scoring-simulation-card">
+      <table
+        aria-label="{{t 'pages.certifications.scoring-simulation.table.label'}}"
+        class="scoring-simulation-competences__table"
       >
-        <span aria-hidden="true">{{competence.competenceCode}}</span>
-        <span>{{t "pages.certifications.scoring-simulation.labels.level"}} {{competence.level}}</span>
-      </li>
-    {{/each}}
-  </ul>
+        <thead class="scoring-simulation-competences-table__header">
+          <tr>
+            <th scope="col">{{t "pages.certifications.scoring-simulation.table.headers.competence"}}</th>
+            <th scope="col">{{t "pages.certifications.scoring-simulation.table.headers.level"}}</th>
+          </tr>
+        </thead>
+        <tbody class="scoring-simulation-competences-table__body">
+          {{#each this.simulatorReport.data.attributes.competences as |competence|}}
+            <tr>
+              <th scope="row">{{competence.competenceCode}}</th>
+              <td>{{competence.level}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  {{/if}}
 </section>

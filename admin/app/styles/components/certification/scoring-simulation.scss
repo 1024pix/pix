@@ -7,6 +7,10 @@
   gap: var(--pix-spacing-1x)
 }
 
+.scoring-simulation-data-container__label {
+  font-weight: bold;
+}
+
 .scoring-simulation__form {
   display: flex;
   flex-flow: row nowrap;
@@ -18,28 +22,28 @@
 }
 
 .scoring-simulation__error-message {
-  width: fit-content;
   margin-top: 10px;
 }
 
-.scoring-simulation__competences {
-  margin: 0;
-  padding: 0;
-  list-style: none;
+.scoring-simulation-card {
+  padding: 1rem;
+  background: var(--pix-neutral-0);
+  border-radius: 8px;
 }
 
-.scoring-simulation-competences__item {
-  display: flex;
-  flex-flow: row wrap;
-  margin-bottom: 0.5em;
-  padding-bottom: 0.5em;
-  border-bottom: 1px solid var(--pix-neutral-20);
-
-  > *:not(:last-of-type) {
-    min-width: 6em;
+.scoring-simulation-competences__table {
+  & tr {
+    // Reset custom default style localized in the file app/styles/globals/tables.scss
+    height: var(--pix-spacing-12x);
+    border-bottom: 1px solid var(--pix-neutral-20);
   }
 
-  &:last-of-type {
+  & tr:last-child {
     border-bottom: none;
+  }
+
+  // Reset custom default style localized in the file app/styles/globals/tables.scss
+  & th, td {
+    padding-left: 0;
   }
 }

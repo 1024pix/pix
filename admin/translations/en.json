@@ -335,6 +335,13 @@
           "level": "Level :",
           "score": "Score :",
           "score-input": "Global score in Pix"
+        },
+        "table": {
+          "headers": {
+            "competence": "Competence",
+            "level": "Level"
+          },
+          "label": "Level by competence"
         }
       }
     },
