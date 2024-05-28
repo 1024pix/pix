@@ -134,14 +134,19 @@
               <span>
                 {{#if @user.email}}
                   {{#if (is-clipboard-supported)}}
-                    <CopyButton
-                      @text={{@user.email}}
-                      aria-label="{{t 'components.users.user-detail-personal-information.actions.copy-email'}}"
-                      aria-describedby="copy-user-email"
-                      class="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey"
-                    >
-                    <FaIcon @icon="copy" @prefix="far" />
-                  </CopyButton>
+                    <PixTooltip @id="copy-email-tooltip" @position="top" @isInline={{true}}>
+                      <:triggerElement>
+                        <CopyButton
+                          @text={{@user.email}}
+                          aria-label="{{t 'components.users.user-detail-personal-information.actions.copy-email'}}"
+                          aria-describedby="copy-user-email"
+                          class="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey"
+                        >
+                          <FaIcon @icon="copy" @prefix="far" />
+                        </CopyButton>
+                      </:triggerElement>
+                      <:tooltip>{{this.tooltipTextEmail}}</:tooltip>
+                    </PixTooltip>
                   {{/if}}
                 {{/if}}
               </span>
@@ -151,14 +156,19 @@
               <span>
                 {{#if @user.username}}
                   {{#if (is-clipboard-supported)}}
-                    <CopyButton
-                      @text={{@user.username}}
-                      aria-label="{{t 'components.users.user-detail-personal-information.actions.copy-username'}}"
-                      aria-describedby="copy-user-id"
-                      class="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey"
-                    >
-                    <FaIcon @icon="copy" @prefix="far" />
-                  </CopyButton>
+                    <PixTooltip @id="copy-username-tooltip" @position="top" @isInline={{true}}>
+                      <:triggerElement>
+                        <CopyButton
+                          @text={{@user.username}}
+                          aria-label="{{t 'components.users.user-detail-personal-information.actions.copy-username'}}"
+                          aria-describedby="copy-user-id"
+                          class="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey"
+                        >
+                          <FaIcon @icon="copy" @prefix="far" />
+                        </CopyButton>
+                      </:triggerElement>
+                      <:tooltip>{{this.tooltipTextUsername}}</:tooltip>
+                    </PixTooltip>
                   {{/if}}
                 {{/if}}
               </span>

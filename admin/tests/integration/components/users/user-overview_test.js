@@ -1,6 +1,7 @@
 import { clickByName, render, waitFor } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
+import { triggerEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -126,6 +127,35 @@ module('Integration | Component | users | user-overview', function (hooks) {
             );
           });
 
+          test('displays tooltip on copy user e-mail button hover', async function (assert) {
+            // given
+            const email = 'pat.ate@example.net';
+            const store = this.owner.lookup('service:store');
+            const user = store.createRecord('user', {
+              firstName: 'Pat',
+              lastName: 'Ate',
+              email,
+              lang: 'fr',
+              locale: 'fr-FR',
+              createdAt: new Date('2021-12-10'),
+            });
+            this.set('user', user);
+
+            // when
+            const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
+            const copyButton = await screen.getByRole('button', {
+              name: this.intl.t('components.users.user-detail-personal-information.actions.copy-email'),
+            });
+            await triggerEvent(copyButton, 'mouseenter');
+
+            // then
+            assert
+              .dom(
+                screen.getByText(this.intl.t('components.users.user-detail-personal-information.actions.copy-email')),
+              )
+              .exists();
+          });
+
           test('displays copy button after the user ID', async function (assert) {
             // given
             const username = 'mouss.tique';
@@ -151,6 +181,37 @@ module('Integration | Component | users | user-overview', function (hooks) {
                 })
                 .hasAttribute('data-clipboard-text', username),
             );
+          });
+
+          test('displays tooltip on copy username button hover', async function (assert) {
+            // given
+            const username = 'mouss.tique';
+            const store = this.owner.lookup('service:store');
+            const user = store.createRecord('user', {
+              firstName: 'Mouss',
+              lastName: 'Tique',
+              username,
+              lang: 'fr',
+              locale: 'fr-FR',
+              createdAt: new Date('2021-12-10'),
+            });
+            this.set('user', user);
+
+            // when
+            const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
+            const copyButton = await screen.getByRole('button', {
+              name: this.intl.t('components.users.user-detail-personal-information.actions.copy-username'),
+            });
+            await triggerEvent(copyButton, 'mouseenter');
+
+            // then
+            assert
+              .dom(
+                screen.getByText(
+                  this.intl.t('components.users.user-detail-personal-information.actions.copy-username'),
+                ),
+              )
+              .exists();
           });
         });
 
