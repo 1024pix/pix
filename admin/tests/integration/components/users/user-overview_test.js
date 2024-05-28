@@ -153,6 +153,60 @@ module('Integration | Component | users | user-overview', function (hooks) {
             );
           });
         });
+
+        module('when information is not provided', function () {
+          test('does not display copy button after the user e-mail', async function (assert) {
+            // given
+            const store = this.owner.lookup('service:store');
+            const user = store.createRecord('user', {
+              firstName: 'Pat',
+              lastName: 'Ate',
+              username: 'pat.ate',
+              lang: 'fr',
+              locale: 'fr-FR',
+              createdAt: new Date('2021-12-10'),
+            });
+            this.set('user', user);
+
+            // when
+            const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
+
+            // then
+            assert
+              .dom(
+                screen.queryByRole('button', {
+                  name: this.intl.t('components.users.user-detail-personal-information.actions.copy-email'),
+                }),
+              )
+              .doesNotExist();
+          });
+
+          test('does not display copy button after the user ID', async function (assert) {
+            // given
+            const store = this.owner.lookup('service:store');
+            const user = store.createRecord('user', {
+              firstName: 'Mouss',
+              lastName: 'Tique',
+              email: 'mouss.tique@example.net',
+              lang: 'fr',
+              locale: 'fr-FR',
+              createdAt: new Date('2021-12-10'),
+            });
+            this.set('user', user);
+
+            // when
+            const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
+
+            // then
+            assert
+              .dom(
+                screen.queryByRole('button', {
+                  name: this.intl.t('components.users.user-detail-personal-information.actions.copy-username'),
+                }),
+              )
+              .doesNotExist();
+          });
+        });
       });
 
       module('terms of service', function () {
