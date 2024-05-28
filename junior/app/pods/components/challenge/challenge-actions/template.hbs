@@ -1,6 +1,6 @@
 <div class="challenge-actions">
   {{#unless (or this.hideSkipButton @isLesson)}}
-    <PixButton class="pix1d-button pix1d-button--skip" @triggerAction={{@skipChallenge}} @shape="rounded" @size="big">
+    <PixButton class="pix1d-button pix1d-button--skip" @triggerAction={{@skipChallenge}} @shape="rounded" @size="large">
       <span>
         {{t "pages.challenge.actions.skip"}}
       </span>
@@ -11,8 +11,7 @@
       class="pix1d-button pix1d-button--success"
       @iconAfter="arrow-right"
       @triggerAction={{@nextAction}}
-      @shape="rounded"
-      @size="big"
+      @size="large"
     >
       <span>
         {{t "pages.challenge.actions.continue"}}
@@ -24,8 +23,7 @@
       @iconAfter="arrow-right"
       @isDisabled={{@disableLessonButton}}
       @triggerAction={{@skipChallenge}}
-      @shape="rounded"
-      @size="big"
+      @size="large"
     >
       <span>
         {{t "pages.challenge.actions.continue"}}
@@ -36,8 +34,7 @@
       class="pix1d-button"
       @isDisabled={{@disableCheckButton}}
       @triggerAction={{@validateAnswer}}
-      @shape="rounded"
-      @size="big"
+      @size="large"
     >
       <span>
         {{t "pages.challenge.actions.check"}}
