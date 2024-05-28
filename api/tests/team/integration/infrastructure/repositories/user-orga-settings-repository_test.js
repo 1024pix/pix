@@ -1,11 +1,11 @@
 import _ from 'lodash';
 
-import { UserOrgaSettingsCreationError } from '../../../../../../lib/domain/errors.js';
-import { UserOrgaSettings } from '../../../../../../lib/domain/models/UserOrgaSettings.js';
-import * as userOrgaSettingsRepository from '../../../../../../src/shared/prescriber-management/infrastructure/repositories/user-orga-settings-repository.js';
-import { catchErr, databaseBuilder, expect, knex } from '../../../../../test-helper.js';
+import { UserOrgaSettingsCreationError } from '../../../../../lib/domain/errors.js';
+import { UserOrgaSettings } from '../../../../../lib/domain/models/UserOrgaSettings.js';
+import * as userOrgaSettingsRepository from '../../../../../src/team/infrastructure/repositories/user-orga-settings-repository.js';
+import { catchErr, databaseBuilder, expect, knex } from '../../../../test-helper.js';
 
-describe('Integration | Repository | UserOrgaSettings', function () {
+describe('Integration | Team | Infrastructure | Repository | UserOrgaSettings', function () {
   const USER_PICKED_PROPERTIES = [
     'id',
     'firstName',

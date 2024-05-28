@@ -5,7 +5,7 @@ import * as membershipRepository from '../../../../shared/infrastructure/reposit
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as prescriberRepository from '../../../../team/infrastructure/repositories/prescriber-repository.js';
-import * as userOrgaSettingsRepository from '../../infrastructure/repositories/user-orga-settings-repository.js';
+import * as userOrgaSettingsRepository from '../../../../team/infrastructure/repositories/user-orga-settings-repository.js';
 
 const dependencies = {
   prescriberRepository,
