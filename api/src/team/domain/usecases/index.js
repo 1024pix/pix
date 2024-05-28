@@ -3,9 +3,12 @@ import { fileURLToPath } from 'node:url';
 
 import * as mailService from '../../../../lib/domain/services/mail-service.js';
 import * as certificationCenterRepository from '../../../certification/shared/infrastructure/repositories/certification-center-repository.js';
+import * as membershipRepository from '../../../shared/infrastructure/repositories/membership-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as certificationCenterInvitationRepository from '../../infrastructure/repositories/certification-center-invitation-repository.js';
+import * as prescriberRepository from '../../infrastructure/repositories/prescriber-repository.js';
+import * as userOrgaSettingsRepository from '../../infrastructure/repositories/user-orga-settings-repository.js';
 import * as certificationCenterInvitationService from '../services/certification-center-invitation-service.js';
 
 const path = dirname(fileURLToPath(import.meta.url));
@@ -13,6 +16,9 @@ const path = dirname(fileURLToPath(import.meta.url));
 const dependencies = {
   certificationCenterRepository,
   certificationCenterInvitationRepository,
+  prescriberRepository,
+  membershipRepository,
+  userOrgaSettingsRepository,
   certificationCenterInvitationService,
   mailService,
 };

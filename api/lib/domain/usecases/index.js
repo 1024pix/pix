@@ -90,9 +90,9 @@ import * as dateUtils from '../../../src/shared/infrastructure/utils/date-utils.
 import { injectDependencies } from '../../../src/shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../src/shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as writeOdsUtils from '../../../src/shared/infrastructure/utils/ods/write-ods-utils.js';
-import * as userOrgaSettingsRepository from '../../../src/team/infrastructure/repositories/user-orga-settings-repository.js';
 import * as certificationCenterInvitationService from '../../../src/team/domain/services/certification-center-invitation-service.js';
 import * as certificationCenterInvitationRepository from '../../../src/team/infrastructure/repositories/certification-center-invitation-repository.js';
+import * as userOrgaSettingsRepository from '../../../src/team/infrastructure/repositories/user-orga-settings-repository.js';
 import { config } from '../../config.js';
 import * as certificationBadgesService from '../../domain/services/certification-badges-service.js';
 import * as certificationCandidatesOdsService from '../../domain/services/certification-candidates-ods-service.js';
