@@ -134,12 +134,30 @@ async function getRedirectLogoutUrl(request, h) {
 }
 
 /**
+ * @callback reconcileUser
+ * @param request
+ * @param h
+ * @return {Promise<{access_token: string, logout_url_uuid: string}>}
+ */
+async function reconcileUser(request, h) {
+  const { identityProvider, authenticationKey } = request.deserializedPayload;
+
+  const result = await usecases.reconcileOidcUser({
+    authenticationKey,
+    identityProvider,
+  });
+
+  return h.response({ access_token: result.accessToken, logout_url_uuid: result.logoutUrlUUID }).code(200);
+}
+
+/**
  * @typedef {Object} OidcProviderController
  * @property {authenticateOidcUser} authenticateOidcUser
  * @property {findUserForReconciliation} findUserForReconciliation
  * @property {getAuthorizationUrl} getAuthorizationUrl
  * @property {getIdentityProviders} getIdentityProviders
  * @property {getRedirectLogoutUrl} getRedirectLogoutUrl
+ * @property {reconcileUser} reconcileUser
  */
 export const oidcProviderController = {
   authenticateOidcUser,
@@ -148,4 +166,5 @@ export const oidcProviderController = {
   getAuthorizationUrl,
   getIdentityProviders,
   getRedirectLogoutUrl,
+  reconcileUser,
 };

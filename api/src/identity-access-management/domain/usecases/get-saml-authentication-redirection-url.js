@@ -1,5 +1,5 @@
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
-import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
+import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 
 const getSamlAuthenticationRedirectionUrl = async function ({
   userAttributes,

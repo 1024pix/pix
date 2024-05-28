@@ -1,4 +1,4 @@
-import { AuthenticationKeyExpired, DifferentExternalIdentifierError } from '../../../../lib/domain/errors.js';
+import { AuthenticationKeyExpired, DifferentExternalIdentifierError } from '../errors.js';
 
 /**
  * @typedef {function} findUserForOidcReconciliation

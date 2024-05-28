@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 
-import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
 import { temporaryStorage } from '../../../../../lib/infrastructure/temporary-storage/index.js';
+import * as OidcIdentityProviders from '../../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
 import { UserToCreate } from '../../../../../src/identity-access-management/domain/models/UserToCreate.js';
 import { PoleEmploiOidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/pole-emploi-oidc-authentication-service.js';
 import { config } from '../../../../../src/shared/config.js';

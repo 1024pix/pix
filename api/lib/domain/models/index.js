@@ -18,6 +18,7 @@ import { UserSavedTutorial } from '../../../src/devcomp/domain/models/UserSavedT
 import { Answer } from '../../../src/evaluation/domain/models/Answer.js';
 import { CompetenceEvaluation } from '../../../src/evaluation/domain/models/CompetenceEvaluation.js';
 import { Progression } from '../../../src/evaluation/domain/models/Progression.js';
+import { AuthenticationMethod } from '../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
 import { UserLogin } from '../../../src/identity-access-management/domain/models/UserLogin.js';
 import { UserToCreate } from '../../../src/identity-access-management/domain/models/UserToCreate.js';
 import { DataProtectionOfficer } from '../../../src/organizational-entities/domain/models/DataProtectionOfficer.js';
@@ -46,7 +47,6 @@ import { AccountRecoveryDemand } from './AccountRecoveryDemand.js';
 import { AnswerCollectionForScoring } from './AnswerCollectionForScoring.js';
 import { Area } from './Area.js';
 import { Authentication } from './Authentication.js';
-import { AuthenticationMethod } from './AuthenticationMethod.js';
 import { AuthenticationSessionContent } from './AuthenticationSessionContent.js';
 import { BadgeAcquisition } from './BadgeAcquisition.js';
 import { BadgeCriterionForCalculation } from './BadgeCriterionForCalculation.js';

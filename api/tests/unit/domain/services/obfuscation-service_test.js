@@ -1,6 +1,6 @@
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import * as obfuscationService from '../../../../lib/domain/services/obfuscation-service.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { User } from '../../../../src/shared/domain/models/User.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 

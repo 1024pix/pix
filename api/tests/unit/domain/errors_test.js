@@ -375,10 +375,6 @@ describe('Unit | Domain | Errors', function () {
     expect(errors.MissingAttributesError).to.exist;
   });
 
-  it('should export an DifferentExternalIdentifierError', function () {
-    expect(errors.DifferentExternalIdentifierError).to.exist;
-  });
-
   it('exports SendingEmailToInvalidEmailAddressError', function () {
     expect(errors.SendingEmailToInvalidEmailAddressError).to.exist;
   });

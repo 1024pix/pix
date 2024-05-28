@@ -198,12 +198,6 @@ class NoStagesForCampaign extends DomainError {
   }
 }
 
-class AuthenticationKeyExpired extends DomainError {
-  constructor(message = 'This authentication key has expired.') {
-    super(message);
-  }
-}
-
 class AccountRecoveryDemandExpired extends DomainError {
   constructor(message = 'This account recovery demand has expired.') {
     super(message);
@@ -584,12 +578,6 @@ class CsvParsingError extends DomainError {
 
 class InvalidPasswordForUpdateEmailError extends DomainError {
   constructor(message = 'Le mot de passe que vous avez saisi est invalide.') {
-    super(message);
-  }
-}
-
-class MissingUserAccountError extends DomainError {
-  constructor(message = 'Les informations de compte requises sont manquantes') {
     super(message);
   }
 }
@@ -1005,14 +993,6 @@ class MissingBadgeCriterionError extends DomainError {
   }
 }
 
-class DifferentExternalIdentifierError extends DomainError {
-  constructor(
-    message = "La valeur de l'externalIdentifier de la méthode de connexion ne correspond pas à celui reçu par le partenaire.",
-  ) {
-    super(message);
-  }
-}
-
 class NoSkillsInCampaignError extends DomainError {
   constructor(message = 'La campagne ne contient aucun acquis opérationnel.') {
     super(message);
@@ -1066,7 +1046,6 @@ export {
   AssessmentEndedError,
   AssessmentNotCompletedError,
   AuditLoggerApiError,
-  AuthenticationKeyExpired,
   AuthenticationMethodAlreadyExistsError,
   AuthenticationMethodNotFoundError,
   CampaignCodeError,
@@ -1104,7 +1083,6 @@ export {
   DeletedError,
   DeprecatedCertificationIssueReportCategoryError,
   DeprecatedCertificationIssueReportSubcategoryError,
-  DifferentExternalIdentifierError,
   DomainError,
   EmailModificationDemandNotFoundOrExpiredError,
   FileValidationError,
@@ -1124,7 +1102,6 @@ export {
   MembershipUpdateError,
   MissingAttributesError,
   MissingBadgeCriterionError,
-  MissingUserAccountError,
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
   NoCampaignParticipationForUserAndCampaign,
   NoOrganizationToAttach,

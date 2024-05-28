@@ -1,16 +1,20 @@
-import { POLE_EMPLOI } from '../../../../lib/domain/constants/oidc-identity-providers.js';
-import { AuthenticationKeyExpired, MissingUserAccountError } from '../../../../lib/domain/errors.js';
-import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
-import { reconcileOidcUser } from '../../../../lib/domain/usecases/reconcile-oidc-user.js';
-import { catchErr, expect, sinon } from '../../../test-helper.js';
+import { POLE_EMPLOI } from '../../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
+import {
+  AuthenticationKeyExpired,
+  MissingUserAccountError,
+} from '../../../../../src/identity-access-management/domain/errors.js';
+import { AuthenticationMethod } from '../../../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
+import { reconcileOidcUser } from '../../../../../src/identity-access-management/domain/usecases/reconcile-oidc-user.usecase.js';
+import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | reconcile-oidc-user', function () {
+describe('Unit | Identity Access Management | Domain | UseCase | reconcile-oidc-user', function () {
   context('when identityProvider is generic', function () {
-    let identityProvider;
-    let authenticationMethodRepository;
-    let userLoginRepository;
-    let authenticationSessionService;
-    let oidcAuthenticationService;
+    let authenticationMethodRepository,
+      authenticationSessionService,
+      identityProvider,
+      oidcAuthenticationService,
+      oidcAuthenticationServiceRegistry,
+      userLoginRepository;
 
     beforeEach(function () {
       identityProvider = 'genericOidcProviderCode';
@@ -25,6 +29,11 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
         saveIdToken: sinon.stub(),
         createAuthenticationComplement: sinon.stub(),
       };
+      oidcAuthenticationServiceRegistry = {
+        loadOidcProviderServices: sinon.stub().resolves(),
+        configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
+        getOidcProviderServiceByCode: sinon.stub().returns(oidcAuthenticationService),
+      };
     });
 
     context('when authentication key is expired', function () {
@@ -35,9 +44,10 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
         // when
         const error = await catchErr(reconcileOidcUser)({
           authenticationKey: 'authenticationKey',
-          oidcAuthenticationService,
+          identityProvider,
           authenticationSessionService,
           authenticationMethodRepository,
+          oidcAuthenticationServiceRegistry,
           userLoginRepository,
         });
 
@@ -58,9 +68,10 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
       // when
       await reconcileOidcUser({
         authenticationKey: 'authenticationKey',
-        oidcAuthenticationService,
+        identityProvider,
         authenticationSessionService,
         authenticationMethodRepository,
+        oidcAuthenticationServiceRegistry,
         userLoginRepository,
       });
 
@@ -78,9 +89,10 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
         // when
         const error = await catchErr(reconcileOidcUser)({
           authenticationKey: 'authenticationKey',
-          oidcAuthenticationService,
+          identityProvider,
           authenticationSessionService,
           authenticationMethodRepository,
+          oidcAuthenticationServiceRegistry,
           userLoginRepository,
         });
 
@@ -110,9 +122,10 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
       // when
       await reconcileOidcUser({
         authenticationKey: 'authenticationKey',
-        oidcAuthenticationService,
+        identityProvider,
         authenticationSessionService,
         authenticationMethodRepository,
+        oidcAuthenticationServiceRegistry,
         userLoginRepository,
       });
 
@@ -127,11 +140,12 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
   });
 
   context('when identityProvider is POLE_EMPLOI', function () {
-    let identityProvider;
-    let authenticationMethodRepository;
-    let userLoginRepository;
-    let authenticationSessionService;
-    let oidcAuthenticationService;
+    let authenticationMethodRepository,
+      authenticationSessionService,
+      identityProvider,
+      oidcAuthenticationService,
+      oidcAuthenticationServiceRegistry,
+      userLoginRepository;
 
     beforeEach(function () {
       identityProvider = POLE_EMPLOI.code;
@@ -146,6 +160,11 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
         createAccessToken: sinon.stub(),
         saveIdToken: sinon.stub(),
         createAuthenticationComplement: sinon.stub(),
+      };
+      oidcAuthenticationServiceRegistry = {
+        loadOidcProviderServices: sinon.stub().resolves(),
+        configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
+        getOidcProviderServiceByCode: sinon.stub().returns(oidcAuthenticationService),
       };
     });
 
@@ -169,9 +188,10 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
       // when
       await reconcileOidcUser({
         authenticationKey: 'authenticationKey',
-        oidcAuthenticationService,
+        identityProvider,
         authenticationSessionService,
         authenticationMethodRepository,
+        oidcAuthenticationServiceRegistry,
         userLoginRepository,
       });
 
@@ -208,9 +228,10 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
       // when
       const result = await reconcileOidcUser({
         authenticationKey: 'authenticationKey',
-        oidcAuthenticationService,
+        identityProvider,
         authenticationSessionService,
         authenticationMethodRepository,
+        oidcAuthenticationServiceRegistry,
         userLoginRepository,
       });
 

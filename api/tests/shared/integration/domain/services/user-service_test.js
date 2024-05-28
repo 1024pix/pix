@@ -1,9 +1,9 @@
 import lodash from 'lodash';
 const { pick } = lodash;
 
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../lib/domain/constants/identity-providers.js';
 import { OrganizationLearnerNotFound } from '../../../../../lib/domain/errors.js';
 import * as organizationLearnerRepository from '../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import * as userService from '../../../../../src/shared/domain/services/user-service.js';
 import * as authenticationMethodRepository from '../../../../../src/shared/infrastructure/repositories/authentication-method-repository.js';
 import * as userRepository from '../../../../../src/shared/infrastructure/repositories/user-repository.js';

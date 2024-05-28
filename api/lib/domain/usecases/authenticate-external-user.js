@@ -1,15 +1,15 @@
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../src/identity-access-management/domain/constants/identity-providers.js';
 import {
   MissingOrInvalidCredentialsError,
   PasswordNotMatching,
   UserShouldChangePasswordError,
 } from '../../../src/identity-access-management/domain/errors.js';
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
+import { AuthenticationMethod } from '../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
 import {
   UnexpectedUserAccountError,
   UserAlreadyExistsWithAuthenticationMethodError,
   UserNotFoundError,
 } from '../errors.js';
-import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 
 async function authenticateExternalUser({
   username,

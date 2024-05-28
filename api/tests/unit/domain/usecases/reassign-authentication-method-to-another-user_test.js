@@ -1,6 +1,6 @@
-import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 import { AuthenticationMethodAlreadyExistsError, UserNotFoundError } from '../../../../lib/domain/errors.js';
 import { reassignAuthenticationMethodToAnotherUser } from '../../../../lib/domain/usecases/reassign-authentication-method-to-another-user.js';
+import * as OidcIdentityProviders from '../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | reassign-authentication-method-to-another-user', function () {

@@ -1,5 +1,5 @@
-import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/authentication-methods-serializer.js';
+import * as OidcIdentityProviders from '../../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | authentication-methods-serializer', function () {

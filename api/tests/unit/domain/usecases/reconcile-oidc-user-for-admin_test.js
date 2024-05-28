@@ -1,6 +1,9 @@
-import { AuthenticationKeyExpired, DifferentExternalIdentifierError } from '../../../../lib/domain/errors.js';
 import { AuthenticationMethod } from '../../../../lib/domain/models/index.js';
 import { reconcileOidcUserForAdmin } from '../../../../lib/domain/usecases/reconcile-oidc-user-for-admin.js';
+import {
+  AuthenticationKeyExpired,
+  DifferentExternalIdentifierError,
+} from '../../../../src/identity-access-management/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | reconcile-oidc-user-for-admin', function () {

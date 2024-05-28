@@ -67,5 +67,6 @@ const usecases = injectDependencies(usecasesWithoutInjectedDependencies, depende
  * @property {getAuthorizationUrl} getAuthorizationUrl
  * @property {getReadyIdentityProviders} getReadyIdentityProviders
  * @property {getRedirectLogoutUrl} getRedirectLogoutUrl
+ * @property {reconcileOidcUser} reconcileOidcUser
  */
 export { usecases };

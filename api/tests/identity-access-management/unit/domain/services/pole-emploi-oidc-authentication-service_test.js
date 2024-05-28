@@ -1,6 +1,6 @@
 import { Issuer } from 'openid-client';
 
-import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
+import { AuthenticationMethod } from '../../../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
 import { PoleEmploiOidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/pole-emploi-oidc-authentication-service.js';
 import { config as settings } from '../../../../../src/shared/config.js';
 import { expect, sinon } from '../../../../test-helper.js';

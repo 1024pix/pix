@@ -1,4 +1,4 @@
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../lib/domain/constants/identity-providers.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../src/identity-access-management/domain/constants/identity-providers.js';
 const up = function (knex) {
   // eslint-disable-next-line knex/avoid-injections
   return knex.raw(

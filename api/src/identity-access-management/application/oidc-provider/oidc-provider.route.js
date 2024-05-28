@@ -132,4 +132,29 @@ export const oidcProviderRoutes = [
       tags: ['identity-access-management', 'api', 'oidc'],
     },
   },
+  {
+    method: 'POST',
+    path: '/api/oidc/user/reconcile',
+    config: {
+      auth: false,
+      validate: {
+        payload: Joi.object({
+          data: Joi.object({
+            attributes: Joi.object({
+              identity_provider: Joi.string().required(),
+              authentication_key: Joi.string().required(),
+            }),
+            type: Joi.string(),
+          }),
+        }),
+      },
+      handler: (request, h) => oidcProviderController.reconcileUser(request, h),
+      notes: [
+        "- Cette route permet d'ajouter le fournisseur d'identité d'où provient l'utilisateur comme méthode de connexion à son compte Pix.\n" +
+          "- Cette action se fait suite à la double mire OIDC, quand l'utilisateur s'est identifié auprès de son fournisseur d'identité et a confirmé la réconciliation.\n" +
+          '- Elle retourne un access token et une uri de déconnexion',
+      ],
+      tags: ['identity-access-management', 'api', 'oidc'],
+    },
+  },
 ];
