@@ -35,7 +35,7 @@ module('Acceptance | Student Import', function (hooks) {
 
         // when
         await click(
-          screen.getByRole('link', { name: this.intl.t('pages.sup-organization-participants.actions.import-file') }),
+          screen.getByRole('link', { name: this.intl.t('components.organization-participants-header.import-button') }),
         );
         // then
         assert.strictEqual(currentURL(), '/import-participants');

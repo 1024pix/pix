@@ -260,6 +260,10 @@
       "in-progress-link": "(check import status).",
       "success": "Participants have been imported."
     },
+    "organization-participants-header": {
+      "title": "{count, plural, =0 {Participants} =1 {Participant ({count})} other {Participants ({count})}}",
+      "import-button": "Import"
+    },
     "participation-status": {
       "SHARED-ASSESSMENT": "Submitted results",
       "SHARED-PROFILES_COLLECTION": "Submitted profile",
@@ -880,7 +884,6 @@
       "title": "Participant activity"
     },
     "organization-participants": {
-      "title": "{count, plural, =0 {Participants} =1 {Participant ({count})} other {Participants ({count})}}",
       "action-bar": {
         "delete-button": "Delete",
         "error-message": "{count, plural, =1 {An error has occurred. {firstname} {lastname} has not been deleted from the participants list.} other {An error has occurred. The {count} selected participants have not been deleted from the list}}",
@@ -1096,7 +1099,6 @@
         "reset-password-button": "Reset passwords for selected students"
       },
       "actions": {
-        "import-file": "Import",
         "manage-account": "Manage the account",
         "show-actions": "Show actions"
       },
@@ -1240,7 +1242,6 @@
       "actions": {
         "download-template": "Download the template",
         "edit-student-number": "Edit the student number",
-        "import-file": "Import",
         "show-actions": "Show actions"
       },
       "deletion-modal": {

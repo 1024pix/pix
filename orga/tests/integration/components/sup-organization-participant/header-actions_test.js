@@ -61,7 +61,7 @@ module('Integration | Component | SupOrganizationParticipant::HeaderActions', fu
       const screen = await render(hbs`<SupOrganizationParticipant::HeaderActions />`);
 
       // then
-      assert.ok(screen.getByText(this.intl.t('pages.sup-organization-participants.actions.import-file')));
+      assert.ok(screen.getByText(this.intl.t('components.organization-participants-header.import-button')));
     });
   });
 
@@ -88,7 +88,7 @@ module('Integration | Component | SupOrganizationParticipant::HeaderActions', fu
       // then
       assert.notOk(screen.queryByText('Importer (.csv)'));
       assert.notOk(
-        screen.queryByText(`${this.intl.t('pages.sup-organization-participants.actions.import-file')} (.csv)`),
+        screen.queryByText(`${this.intl.t('components.organization-participants-header.import-button')} (.csv)`),
       );
     });
   });

@@ -254,11 +254,15 @@
       "SUP": "Groupe"
     },
     "import-information-banner": {
-      "error": "Échec de l’import",
+      "error": "Échec de l'import",
       "error-link": "(voir la page d'import).",
       "in-progress": "Un import est en cours",
       "in-progress-link": "(consulter l'état de l'import).",
       "success": "Les participants ont bien été importés."
+    },
+    "organization-participants-header": {
+      "title": "{count, plural, =0 {Participants} =1 {Participant ({count})} other {Participants ({count})}}",
+      "import-button": "Importer"
     },
     "participation-status": {
       "SHARED-ASSESSMENT": "Résultats reçus",
@@ -880,7 +884,6 @@
       "title": "Activité du participant"
     },
     "organization-participants": {
-      "title": "{count, plural, =0 {Participants} =1 {Participant ({count})} other {Participants ({count})}}",
       "action-bar": {
         "delete-button": "Supprimer",
         "error-message": "{count, plural, =1 {Une erreur est survenue, {firstname} {lastname} n'a pas été supprimé de la liste des participants.} other {Une erreur est survenue, les {count} participants sélectionnés n'ont pas été supprimés de la liste.}}",
@@ -1096,7 +1099,6 @@
         "reset-password-button": "Réinitialiser les mots de passe des élèves sélectionnés"
       },
       "actions": {
-        "import-file": "Importer",
         "manage-account": "Gérer le compte",
         "show-actions": "Afficher les actions"
       },
@@ -1240,7 +1242,6 @@
       "actions": {
         "download-template": "Télécharger le modèle",
         "edit-student-number": "Éditer le numéro étudiant",
-        "import-file": "Importer",
         "show-actions": "Afficher les actions"
       },
       "deletion-modal": {
