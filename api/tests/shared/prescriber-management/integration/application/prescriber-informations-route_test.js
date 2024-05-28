@@ -1,6 +1,6 @@
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import { prescriberController } from '../../../../../src/shared/prescriber-management/application/prescriber-informations-controller.js';
 import * as moduleUnderTest from '../../../../../src/shared/prescriber-management/application/prescriber-informations-route.js';
+import { prescriberInformationsController } from '../../../../../src/team/application/prescriber-informations.controller.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Router | prescriber-informations-route', function () {
@@ -10,7 +10,7 @@ describe('Integration | Router | prescriber-informations-route', function () {
   beforeEach(async function () {
     sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser');
 
-    sinon.stub(prescriberController, 'get').returns('ok');
+    sinon.stub(prescriberInformationsController, 'get').returns('ok');
 
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);

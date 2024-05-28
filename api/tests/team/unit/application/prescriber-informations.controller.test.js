@@ -1,8 +1,8 @@
-import { prescriberController } from '../../../../../src/shared/prescriber-management/application/prescriber-informations-controller.js';
-import { usecases } from '../../../../../src/shared/prescriber-management/domain/usecases/index.js';
-import { expect, hFake, sinon } from '../../../../test-helper.js';
+import { prescriberInformationsController } from '../../../../src/team/application/prescriber-informations.controller.js';
+import { usecases } from '../../../../src/team/domain/usecases/index.js';
+import { expect, hFake, sinon } from '../../../test-helper.js';
 
-describe('Unit | Controller | prescriber-informations-controller', function () {
+describe('Unit | Team | Application | Controller | prescriber-informations', function () {
   describe('#get', function () {
     let request;
 
@@ -21,7 +21,7 @@ describe('Unit | Controller | prescriber-informations-controller', function () {
       prescriberSerializer.serialize.withArgs({}).returns('ok');
 
       // when
-      const response = await prescriberController.get(request, hFake, { prescriberSerializer });
+      const response = await prescriberInformationsController.get(request, hFake, { prescriberSerializer });
 
       // then
       expect(response).to.be.equal('ok');

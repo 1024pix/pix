@@ -1,14 +1,14 @@
 import _ from 'lodash';
 
-import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
 import {
   createServer,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-} from '../../../../test-helper.js';
+} from '../../../test-helper.js';
 
-describe('Acceptance | Controller | prescriber-informations-controller', function () {
+describe('Acceptance | Team | Application | Controller | prescriber-informations', function () {
   let user;
   let organization;
   let membership;

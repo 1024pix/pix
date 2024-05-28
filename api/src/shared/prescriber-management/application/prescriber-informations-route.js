@@ -1,8 +1,8 @@
 import Joi from 'joi';
 
 import { identifiersType } from '../../../../src/shared/domain/types/identifiers-type.js';
+import { prescriberInformationsController } from '../../../team/application/prescriber-informations.controller.js';
 import { securityPreHandlers } from '../../application/security-pre-handlers.js';
-import { prescriberController } from './prescriber-informations-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -21,7 +21,7 @@ const register = async function (server) {
             assign: 'requestedUserIsAuthenticatedUser',
           },
         ],
-        handler: prescriberController.get,
+        handler: prescriberInformationsController.get,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
             '- Récupération d’un prescripteur.\n' +
