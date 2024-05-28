@@ -3,7 +3,10 @@ import { CertificationAssessment } from '../../../../lib/domain/models/Certifica
 import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 import { CertificationIssueReportCategory } from '../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
-import { CertificationVersion } from '../../../../src/certification/shared/domain/models/CertificationVersion.js';
+import {
+  CERTIFICATION_VERSIONS,
+  CertificationVersion,
+} from '../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
 import {
   createServer,
@@ -699,13 +702,13 @@ describe('Acceptance | API | Certification Course', function () {
           // then
           const certificationCourses = await knex('certification-courses').where({ userId, sessionId });
           expect(certificationCourses).to.have.length(1);
-          expect(certificationCourses[0].version).to.equal(CertificationVersion.V2);
+          expect(certificationCourses[0].version).to.equal(CERTIFICATION_VERSIONS.V2);
         });
 
         context('when the session is v3', function () {
           it('should have created a v3 certification course without any challenges', async function () {
             // given
-            const { options, userId, sessionId } = _createRequestOptions({ version: CertificationVersion.V3 });
+            const { options, userId, sessionId } = _createRequestOptions({ version: CERTIFICATION_VERSIONS.V3 });
             _createNonExistingCertifCourseSetup({ learningContent, userId, sessionId });
             await databaseBuilder.commit();
 
@@ -714,7 +717,7 @@ describe('Acceptance | API | Certification Course', function () {
 
             // then
             const [certificationCourse] = await knex('certification-courses').where({ userId, sessionId });
-            expect(certificationCourse.version).to.equal(CertificationVersion.V3);
+            expect(certificationCourse.version).to.equal(CERTIFICATION_VERSIONS.V3);
             expect(response.result.data.attributes).to.include({
               'nb-challenges': config.v3Certification.numberOfChallengesPerCourse,
             });
@@ -796,7 +799,7 @@ describe('Acceptance | API | Certification Course', function () {
       it('should retrieve the already existing V2 certification course', async function () {
         // given
         const { options, userId, sessionId } = _createRequestOptions();
-        _createExistingCertifCourseSetup({ userId, sessionId, version: CertificationVersion.V2 });
+        _createExistingCertifCourseSetup({ userId, sessionId, version: CERTIFICATION_VERSIONS.V2 });
         await databaseBuilder.commit();
 
         // when
@@ -809,14 +812,14 @@ describe('Acceptance | API | Certification Course', function () {
         });
         expect(otherCertificationCourses).to.have.length(0);
         expect(certificationCourse.id + '').to.equal(response.result.data.id);
-        expect(certificationCourse.version).to.equal(CertificationVersion.V2);
+        expect(certificationCourse.version).to.equal(CERTIFICATION_VERSIONS.V2);
       });
 
       context('when the session is v3', function () {
         it('should retrieve the already existing V3 certification course', async function () {
           // given
-          const { options, userId, sessionId } = _createRequestOptions({ version: CertificationVersion.V3 });
-          _createExistingCertifCourseSetup({ userId, sessionId, version: CertificationVersion.V3 });
+          const { options, userId, sessionId } = _createRequestOptions({ version: CERTIFICATION_VERSIONS.V3 });
+          _createExistingCertifCourseSetup({ userId, sessionId, version: CERTIFICATION_VERSIONS.V3 });
           await databaseBuilder.commit();
 
           // when
@@ -824,7 +827,7 @@ describe('Acceptance | API | Certification Course', function () {
 
           // then
           const [certificationCourse] = await knex('certification-courses').where({ userId, sessionId });
-          expect(certificationCourse.version).to.equal(CertificationVersion.V3);
+          expect(certificationCourse.version).to.equal(CERTIFICATION_VERSIONS.V3);
         });
       });
     });
@@ -980,9 +983,9 @@ describe('Acceptance | API | Certification Course', function () {
 });
 
 function _createRequestOptions(
-  { locale = 'fr-fr', version = CertificationVersion.V2 } = { locale: 'fr-fr', version: CertificationVersion.V2 },
+  { locale = 'fr-fr', version = CERTIFICATION_VERSIONS.V2 } = { locale: 'fr-fr', version: CERTIFICATION_VERSIONS.V2 },
 ) {
-  const isV3Pilot = version === CertificationVersion.V3;
+  const isV3Pilot = CertificationVersion.isV3(version);
   const userId = databaseBuilder.factory.buildUser().id;
   const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ isV3Pilot }).id;
   const sessionId = databaseBuilder.factory.buildSession({ accessCode: '123', certificationCenterId, version }).id;

@@ -3,7 +3,7 @@ import { CertificationCenter } from '../../../../../../lib/domain/models/Certifi
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 import { SessionEnrolment } from '../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import { createSessions } from '../../../../../../src/certification/enrolment/domain/usecases/create-sessions.js';
-import { CertificationVersion } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
+import { CERTIFICATION_VERSIONS } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | sessions-mass-import | create-sessions', function () {
@@ -183,7 +183,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           // then
           const expectedSession = new SessionEnrolment({
             ...temporaryCachedSessions[0],
-            version: CertificationVersion.V3,
+            version: CERTIFICATION_VERSIONS.V3,
             createdBy: sessionCreatorId,
           });
           expect(sessionRepository.save).to.have.been.calledOnceWith({ session: expectedSession, domainTransaction });
@@ -231,7 +231,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           // then
           const expectedSession = new SessionEnrolment({
             ...temporaryCachedSessions[0],
-            version: CertificationVersion.V2,
+            version: CERTIFICATION_VERSIONS.V2,
             createdBy: sessionCreatorId,
           });
           expect(sessionRepository.save).to.have.been.calledOnceWith({ session: expectedSession, domainTransaction });

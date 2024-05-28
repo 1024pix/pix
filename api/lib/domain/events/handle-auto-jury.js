@@ -1,6 +1,5 @@
 import bluebird from 'bluebird';
 
-import { CertificationVersion } from '../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { CertificationIssueReportResolutionAttempt } from '../models/CertificationIssueReportResolutionAttempt.js';
 import { CertificationIssueReportResolutionStrategies } from '../models/CertificationIssueReportResolutionStrategies.js';
 import { CertificationAssessment } from '../models/index.js';
@@ -101,7 +100,7 @@ async function _handleAutoJuryV2({
 }
 
 function _areV3CertificationCourses(certificationCourses) {
-  return certificationCourses[0].getVersion() === CertificationVersion.V3;
+  return certificationCourses[0].isV3();
 }
 
 async function _handleAutoJuryV3({ certificationCourses, certificationAssessmentRepository, event }) {

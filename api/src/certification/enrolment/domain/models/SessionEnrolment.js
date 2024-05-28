@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { config } from '../../../../shared/config.js';
 import { SESSION_STATUSES } from '../../../shared/domain/constants.js';
-import { CertificationVersion } from '../../../shared/domain/models/CertificationVersion.js';
+import { CERTIFICATION_VERSIONS } from '../../../shared/domain/models/CertificationVersion.js';
 
 const availableCharactersForPasswordGeneration =
   `${config.availableCharacterForCode.numbers}${config.availableCharacterForCode.letters}`.split('');
@@ -22,7 +22,7 @@ class SessionEnrolment {
     certificationCandidates,
     certificationCenterId,
     supervisorPassword = SessionEnrolment.generateSupervisorPassword(),
-    version = CertificationVersion.V2,
+    version = CERTIFICATION_VERSIONS.V2,
     createdBy,
     finalizedAt,
   } = {}) {

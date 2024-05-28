@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { AssessmentEndedError } from '../../../../../../lib/domain/errors.js';
 import { CertificationChallenge } from '../../../../../../lib/domain/models/CertificationChallenge.js';
-import { CertificationVersion } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
+import { CERTIFICATION_VERSIONS } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import * as certificationChallengeRepository from '../../../../../../src/certification/shared/infrastructure/repositories/certification-challenge-repository.js';
 import { databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';
 
@@ -135,7 +135,7 @@ describe('Integration | Repository | Certification Challenge', function () {
         const userId = databaseBuilder.factory.buildUser({}).id;
         certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
           userId,
-          version: CertificationVersion.V3,
+          version: CERTIFICATION_VERSIONS.V3,
         }).id;
         challengeId = databaseBuilder.factory.buildCertificationChallenge({
           challengeId: 'recChallenge1',
@@ -171,7 +171,7 @@ describe('Integration | Repository | Certification Challenge', function () {
         const userId = databaseBuilder.factory.buildUser({}).id;
         certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
           userId,
-          version: CertificationVersion.V3,
+          version: CERTIFICATION_VERSIONS.V3,
         }).id;
 
         const answeredChallenge = databaseBuilder.factory.buildCertificationChallenge({

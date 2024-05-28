@@ -41,7 +41,7 @@ async function handleCertificationRescoring({
     certificationCourseId: event.certificationCourseId,
   });
 
-  if (certificationAssessment.version === CertificationVersion.V3) {
+  if (CertificationVersion.isV3(certificationAssessment.version)) {
     return _handleV3CertificationScoring({
       certificationAssessment,
       event,

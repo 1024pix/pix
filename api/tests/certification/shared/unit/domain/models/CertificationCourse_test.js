@@ -1,5 +1,5 @@
 import { CertificationCourse } from '../../../../../../src/certification/shared/domain/models/CertificationCourse.js';
-import { CertificationVersion } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
+import { CERTIFICATION_VERSIONS } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 import * as languageService from '../../../../../../src/shared/domain/services/language-service.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
@@ -327,7 +327,7 @@ describe('Unit | Domain | Models | CertificationCourse', function () {
         // given
         const numberOfChallenges = 5;
         const certificationCourse = domainBuilder.buildCertificationCourse({
-          version: CertificationVersion.V3,
+          version: CERTIFICATION_VERSIONS.V3,
           numberOfChallenges,
         });
 
@@ -345,7 +345,7 @@ describe('Unit | Domain | Models | CertificationCourse', function () {
         const numberOfChallenges = 5;
         const challenges = generateChallengeList({ length: numberOfChallenges });
         const certificationCourse = domainBuilder.buildCertificationCourse({
-          version: CertificationVersion.V2,
+          version: CERTIFICATION_VERSIONS.V2,
           challenges,
         });
 

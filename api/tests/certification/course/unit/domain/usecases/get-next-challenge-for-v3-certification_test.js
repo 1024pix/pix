@@ -1,6 +1,6 @@
 import { AssessmentEndedError } from '../../../../../../lib/domain/errors.js';
 import { getNextChallengeForV3Certification } from '../../../../../../src/certification/course/domain/usecases/get-next-challenge-for-v3-certification.js';
-import { CertificationVersion } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
+import { CERTIFICATION_VERSIONS } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { config } from '../../../../../../src/shared/config.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
@@ -54,7 +54,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
         // given
         const nextChallengeToAnswer = domainBuilder.buildChallenge();
         const v3CertificationCourse = domainBuilder.buildCertificationCourse({
-          version: CertificationVersion.V3,
+          version: CERTIFICATION_VERSIONS.V3,
         });
         const assessment = domainBuilder.buildAssessment();
         const locale = 'fr-FR';
@@ -130,7 +130,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
           const locale = 'fr-FR';
 
           const v3CertificationCourse = domainBuilder.buildCertificationCourse({
-            version: CertificationVersion.V3,
+            version: CERTIFICATION_VERSIONS.V3,
           });
           const assessment = domainBuilder.buildAssessment();
 
@@ -183,7 +183,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
         const skill = domainBuilder.buildSkill({ id: 'skill1' });
 
         const v3CertificationCourse = domainBuilder.buildCertificationCourse({
-          version: CertificationVersion.V3,
+          version: CERTIFICATION_VERSIONS.V3,
         });
         const assessment = domainBuilder.buildAssessment();
 
@@ -272,7 +272,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
         const secondSkill = domainBuilder.buildSkill({ id: 'skill2' });
 
         const v3CertificationCourse = domainBuilder.buildCertificationCourse({
-          version: CertificationVersion.V3,
+          version: CERTIFICATION_VERSIONS.V3,
         });
         const assessment = domainBuilder.buildAssessment();
 
@@ -369,7 +369,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
         const answeredChallenge = domainBuilder.buildChallenge();
         const answer = domainBuilder.buildAnswer({ challengeId: answeredChallenge.id });
         const v3CertificationCourse = domainBuilder.buildCertificationCourse({
-          version: CertificationVersion.V3,
+          version: CERTIFICATION_VERSIONS.V3,
         });
         const assessment = domainBuilder.buildAssessment();
         const locale = 'fr-FR';
@@ -471,7 +471,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
             });
 
             const v3CertificationCourse = domainBuilder.buildCertificationCourse({
-              version: CertificationVersion.V3,
+              version: CERTIFICATION_VERSIONS.V3,
             });
 
             flashAlgorithmConfigurationRepository.getMostRecentBeforeDate.reset();

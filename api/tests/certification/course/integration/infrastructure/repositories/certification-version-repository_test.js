@@ -1,5 +1,5 @@
 import * as certificationVersionRepository from '../../../../../../src/certification/course/infrastructure/repositories/certification-version-repository.js';
-import { CertificationVersion } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
+import { CERTIFICATION_VERSIONS } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Certification | Course | Integration | Repository | course-assessment-result', function () {
@@ -17,7 +17,7 @@ describe('Certification | Course | Integration | Repository | course-assessment-
       });
 
       // then
-      expect(certificationVersion).to.equal(CertificationVersion.V2);
+      expect(certificationVersion).to.equal(CERTIFICATION_VERSIONS.V2);
     });
   });
 });

@@ -1,4 +1,4 @@
-import { CertificationVersion } from '../../../src/certification/shared/domain/models/CertificationVersion.js';
+import { CERTIFICATION_VERSIONS } from '../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { CertificationDetails } from '../read-models/CertificationDetails.js';
 
 const getCertificationDetails = async function ({
@@ -39,7 +39,7 @@ async function _computeCertificationDetailsOnTheFly(
   const placementProfile = await placementProfileService.getPlacementProfile({
     userId: certificationAssessment.userId,
     limitDate: certificationAssessment.createdAt,
-    version: CertificationVersion.V2,
+    version: CERTIFICATION_VERSIONS.V2,
     allowExcessPixAndLevels: false,
   });
 
@@ -58,7 +58,7 @@ async function _retrievePersistedCertificationDetails(
   const placementProfile = await placementProfileService.getPlacementProfile({
     userId: certificationAssessment.userId,
     limitDate: certificationAssessment.createdAt,
-    version: CertificationVersion.V2,
+    version: CERTIFICATION_VERSIONS.V2,
     allowExcessPixAndLevels: false,
   });
 
