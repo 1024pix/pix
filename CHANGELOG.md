@@ -1,5 +1,30 @@
 # Pix Changelog
 
+## v4.152.0 (28/05/2024)
+
+
+### :rocket: Amélioration
+- [#8939](https://github.com/1024pix/pix/pull/8939) [FEATURE] Gérer l'inscription à une certification coeur pour un candidat en certif V2 (PIX-12212).
+
+### :building_construction: Tech
+- [#9063](https://github.com/1024pix/pix/pull/9063) [TECH] Récupération de la version de certification dans le modèle (PIX-11689).
+- [#9057](https://github.com/1024pix/pix/pull/9057) [TECH] Déplacer l'archivage et l'accès simplifié d'un profile cible dans son BC (PIX-12677).
+
+### :bug: Correction
+- [#9046](https://github.com/1024pix/pix/pull/9046) [BUGFIX] recharge les places  lorsque le prescrit change d'organisation (PIX-12653).
+- [#9064](https://github.com/1024pix/pix/pull/9064) [BUGFIX] Afficher les puces adéquates dans l'instruction d'épreuve (PIX-12578).
+
+### :arrow_up: Montée de version
+- [#9070](https://github.com/1024pix/pix/pull/9070) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.1 (dossier racine).
+- [#9069](https://github.com/1024pix/pix/pull/9069) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.1 (certif).
+- [#9068](https://github.com/1024pix/pix/pull/9068) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.1 (audit-logger).
+- [#9067](https://github.com/1024pix/pix/pull/9067) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.1 (api).
+- [#9066](https://github.com/1024pix/pix/pull/9066) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.1 (admin).
+- [#9029](https://github.com/1024pix/pix/pull/9029) [BUMP] Update dependency @embroider/webpack to v4 (admin).
+
+### :coffee: Autre
+- [#9061](https://github.com/1024pix/pix/pull/9061) [FEATURES] Ajout d'un label informatif pour les QCU / QCM (Pix-12592).
+
 ## v4.151.0 (27/05/2024)
 
 
