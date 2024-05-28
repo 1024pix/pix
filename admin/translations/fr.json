@@ -356,6 +356,13 @@
           "level": "Niveau :",
           "score": "Score :",
           "score-input": "Score global en Pix"
+        },
+        "table": {
+          "headers": {
+            "competence": "Compétence",
+            "level": "Niveau"
+          },
+          "label": "Niveau par compétence"
         }
       }
     },

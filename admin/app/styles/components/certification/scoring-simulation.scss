@@ -1,10 +1,16 @@
-.scoring-simulation__data {
-  margin: 20px 0;
+.scoring-simulation > .pix-block {
+  margin-bottom: 20px;
+  padding: 1rem;
+  border-radius: 8px;
 }
 
 .scoring-simulation-data__container {
   display: flex;
   gap: var(--pix-spacing-1x)
+}
+
+.scoring-simulation-data-container__label {
+  font-weight: bold;
 }
 
 .scoring-simulation__form {
@@ -18,28 +24,5 @@
 }
 
 .scoring-simulation__error-message {
-  width: fit-content;
   margin-top: 10px;
-}
-
-.scoring-simulation__competences {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.scoring-simulation-competences__item {
-  display: flex;
-  flex-flow: row wrap;
-  margin-bottom: 0.5em;
-  padding-bottom: 0.5em;
-  border-bottom: 1px solid var(--pix-neutral-20);
-
-  > *:not(:last-of-type) {
-    min-width: 6em;
-  }
-
-  &:last-of-type {
-    border-bottom: none;
-  }
 }
