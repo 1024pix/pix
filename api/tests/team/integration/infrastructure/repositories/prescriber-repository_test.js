@@ -8,7 +8,7 @@ import { UserOrgaSettings } from '../../../../../lib/domain/models/UserOrgaSetti
 import { Organization } from '../../../../../src/organizational-entities/domain/models/Organization.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
 import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
-import { Prescriber } from '../../../../../src/shared/prescriber-management/domain/read-models/Prescriber.js';
+import { Prescriber } from '../../../../../src/team/domain/read-models/Prescriber.js';
 import * as prescriberRepository from '../../../../../src/team/infrastructure/repositories/prescriber-repository.js';
 import { catchErr, databaseBuilder, expect } from '../../../../test-helper.js';
 
