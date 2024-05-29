@@ -1,5 +1,5 @@
-import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
 import { findPendingOrganizationInvitations } from '../../../../lib/domain/usecases/find-pending-organization-invitations.js';
+import { OrganizationInvitation } from '../../../../src/team/domain/models/OrganizationInvitation.js';
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | find-pending-organization-invitations', function () {

@@ -1,4 +1,4 @@
-import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
+import { OrganizationInvitation } from '../../../../src/team/domain/models/OrganizationInvitation.js';
 import {
   createServer,
   databaseBuilder,

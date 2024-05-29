@@ -4,7 +4,7 @@ import {
 } from '../../../../../lib/domain/errors.js';
 import { EmailingAttempt } from '../../../../../lib/domain/models/EmailingAttempt.js';
 import { Membership } from '../../../../../lib/domain/models/Membership.js';
-import { OrganizationInvitation } from '../../../../../lib/domain/models/OrganizationInvitation.js';
+import { OrganizationInvitation } from '../../../../../src/team/domain/models/OrganizationInvitation.js';
 import { organizationInvitationService } from '../../../../../src/team/domain/services/organization-invitation.service.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 

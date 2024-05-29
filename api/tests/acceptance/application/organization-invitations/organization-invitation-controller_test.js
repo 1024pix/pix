@@ -1,5 +1,5 @@
 import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
+import { OrganizationInvitation } from '../../../../src/team/domain/models/OrganizationInvitation.js';
 import { createServer, databaseBuilder, expect } from '../../../test-helper.js';
 
 describe('Acceptance | Application | organization-invitation-controller', function () {

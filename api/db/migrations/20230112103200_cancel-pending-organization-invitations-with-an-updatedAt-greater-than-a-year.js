@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import { statuses as StatusType } from '../../lib/domain/models/OrganizationInvitation.js';
+import { statuses as StatusType } from '../../src/team/domain/models/OrganizationInvitation.js';
 
 const up = function (knex) {
   return knex('organization-invitations')

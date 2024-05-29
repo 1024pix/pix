@@ -1,7 +1,9 @@
 import JoiDate from '@joi/date';
 import BaseJoi from 'joi';
+
+import { validateEntity } from '../../../shared/domain/validators/entity-validator.js';
+
 const Joi = BaseJoi.extend(JoiDate);
-import { validateEntity } from '../../../src/shared/domain/validators/entity-validator.js';
 
 const statuses = {
   PENDING: 'pending',

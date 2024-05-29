@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { SendingEmailError } from '../../../../../lib/domain/errors.js';
 import { EmailingAttempt } from '../../../../../lib/domain/models/EmailingAttempt.js';
 import { Membership } from '../../../../../lib/domain/models/Membership.js';
-import { OrganizationInvitation } from '../../../../../lib/domain/models/OrganizationInvitation.js';
+import { OrganizationInvitation } from '../../../../../src/team/domain/models/OrganizationInvitation.js';
 import { mailService } from '../../../../../lib/domain/services/mail-service.js';
 import { organizationInvitationRepository } from '../../../../../src/team/infrastructure/repositories/organization-invitation.repository.js';
 import * as organizationRepository from '../../../../../src/shared/infrastructure/repositories/organization-repository.js';

@@ -1,7 +1,7 @@
 import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
 import { OrganizationInvitedUser } from '../../../../lib/domain/models/OrganizationInvitedUser.js';
 import * as organizationInvitedUserRepository from '../../../../lib/infrastructure/repositories/organization-invited-user-repository.js';
+import { OrganizationInvitation } from '../../../../src/team/domain/models/OrganizationInvitation.js';
 import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 describe('Integration | Repository | OrganizationInvitedUserRepository', function () {

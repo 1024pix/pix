@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { knex } from '../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
+import { OrganizationInvitation } from '../../domain/models/OrganizationInvitation.js';
 
 /**
  * @param {Object} params

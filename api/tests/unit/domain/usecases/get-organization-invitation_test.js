@@ -3,7 +3,7 @@ import {
   CancelledInvitationError,
   NotFoundError,
 } from '../../../../lib/domain/errors.js';
-import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
+import { OrganizationInvitation } from '../../../../src/team/domain/models/OrganizationInvitation.js';
 import { getOrganizationInvitation } from '../../../../lib/domain/usecases/get-organization-invitation.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 

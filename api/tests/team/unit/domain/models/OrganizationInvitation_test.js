@@ -1,10 +1,10 @@
-import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
-import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
-import { expect } from '../../../test-helper.js';
+import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
+import { OrganizationInvitation } from '../../../../../src/team/domain/models/OrganizationInvitation.js';
+import { expect } from '../../../../test-helper.js';
 
-describe('Unit | Domain | Models | OrganizationInvitation', function () {
+describe('Unit | Team | Domain | Model | OrganizationInvitation', function () {
   describe('constructor', function () {
-    it('should build an OrganizationInvitation from raw JSON', function () {
+    it('builds an OrganizationInvitation from raw JSON', function () {
       // given
       const today = new Date();
 
@@ -27,7 +27,7 @@ describe('Unit | Domain | Models | OrganizationInvitation', function () {
       expect(invitation).to.deep.equal(rawData);
     });
 
-    it('should not build an OrganizationInvitation if JSON is not valid', async function () {
+    it('does not build an OrganizationInvitation if JSON is not valid', async function () {
       // given
       const today = new Date();
 
@@ -51,7 +51,7 @@ describe('Unit | Domain | Models | OrganizationInvitation', function () {
   });
 
   describe('isPending', function () {
-    it('should return true if status is pending', function () {
+    it('returns true if status is pending', function () {
       // given
       const invitation = new OrganizationInvitation({ status: 'pending' });
 
@@ -62,7 +62,7 @@ describe('Unit | Domain | Models | OrganizationInvitation', function () {
       expect(result).to.be.true;
     });
 
-    it('should return false if status is different than pending', function () {
+    it('returns false if status is different than pending', function () {
       // given
       const invitation = new OrganizationInvitation({ status: 'accepted' });
 
@@ -75,7 +75,7 @@ describe('Unit | Domain | Models | OrganizationInvitation', function () {
   });
 
   describe('isAccepted', function () {
-    it('should return true if status is isAccepted', function () {
+    it('returns true if status is isAccepted', function () {
       // given
       const invitation = new OrganizationInvitation({ status: 'accepted' });
 
@@ -86,7 +86,7 @@ describe('Unit | Domain | Models | OrganizationInvitation', function () {
       expect(result).to.be.true;
     });
 
-    it('should return false if status is different than accepted', function () {
+    it('returns false if status is different than accepted', function () {
       // given
       const invitation = new OrganizationInvitation({ status: 'pending' });
 
@@ -99,7 +99,7 @@ describe('Unit | Domain | Models | OrganizationInvitation', function () {
   });
 
   describe('isCancelled', function () {
-    it('should return true if status is cancelled', function () {
+    it('returns true if status is cancelled', function () {
       // given
       const invitation = new OrganizationInvitation({ status: 'cancelled' });
 
@@ -110,7 +110,7 @@ describe('Unit | Domain | Models | OrganizationInvitation', function () {
       expect(result).to.be.true;
     });
 
-    it('should return false if status is different than cancelled', function () {
+    it('returns false if status is different than cancelled', function () {
       // given
       const invitation = new OrganizationInvitation({ status: 'pending' });
 
