@@ -9,7 +9,7 @@ import { Organization } from '../../../../../src/organizational-entities/domain/
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
 import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
 import { Prescriber } from '../../../../../src/team/domain/read-models/Prescriber.js';
-import * as prescriberRepository from '../../../../../src/team/infrastructure/repositories/prescriber-repository.js';
+import { prescriberRepository } from '../../../../../src/team/infrastructure/repositories/prescriber-repository.js';
 import { catchErr, databaseBuilder, expect } from '../../../../test-helper.js';
 
 describe('Integration | Team | Infrastructure | Repository | Prescriber', function () {

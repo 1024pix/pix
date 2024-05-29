@@ -1,7 +1,7 @@
 import * as membershipRepository from '../../../../../src/shared/infrastructure/repositories/membership-repository.js';
 import { getPrescriber } from '../../../../../src/team/domain/usecases/get-prescriber.js';
-import * as prescriberRepository from '../../../../../src/team/infrastructure/repositories/prescriber-repository.js';
-import * as userOrgaSettingsRepository from '../../../../../src/team/infrastructure/repositories/user-orga-settings-repository.js';
+import { prescriberRepository } from '../../../../../src/team/infrastructure/repositories/prescriber-repository.js';
+import { userOrgaSettingsRepository } from '../../../../../src/team/infrastructure/repositories/user-orga-settings-repository.js';
 import { databaseBuilder, expect, knex } from '../../../../test-helper.js';
 
 describe('Integration | Team | Domain | UseCases | get-prescriber', function () {

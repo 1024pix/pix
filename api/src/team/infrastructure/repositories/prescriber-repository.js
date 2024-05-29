@@ -8,6 +8,48 @@ import { Organization } from '../../../organizational-entities/domain/models/Org
 import { ForbiddenAccess } from '../../../shared/domain/errors.js';
 import { Prescriber } from '../../domain/read-models/Prescriber.js';
 
+/**
+ * @param {string} userId
+ * @return {Promise<Prescriber>}
+ */
+const getPrescriber = async function (userId) {
+  const user = await knex('users')
+    .select('id', 'firstName', 'lastName', 'pixOrgaTermsOfServiceAccepted', 'lang')
+    .where({ id: userId })
+    .first();
+
+  if (!user) {
+    throw new UserNotFoundError(`User not found for ID ${userId}`);
+  }
+
+  const memberships = await knex('memberships').where({ userId, disabledAt: null }).orderBy('id');
+
+  if (memberships.length === 0) {
+    throw new ForbiddenAccess(`User of ID ${userId} is not a prescriber`);
+  }
+
+  const organizationIds = memberships.map((membership) => membership.organizationId);
+  const organizations = await knex('organizations').whereIn('id', organizationIds);
+  const userOrgaSettings = await knex('user-orga-settings').where({ userId }).first();
+  const tags = await knex('tags')
+    .join('organization-tags', 'organization-tags.tagId', 'tags.id')
+    .where({ organizationId: userOrgaSettings.currentOrganizationId });
+
+  const schools = await knex('schools').whereIn('organizationId', organizationIds);
+
+  const prescriber = _toPrescriberDomain(user, userOrgaSettings, tags, memberships, organizations, schools);
+
+  const currentOrganizationId = prescriber.userOrgaSettings.currentOrganization.id;
+  prescriber.areNewYearOrganizationLearnersImported =
+    await _areNewYearOrganizationLearnersImportedForPrescriber(currentOrganizationId);
+  prescriber.participantCount = await _getParticipantCount(currentOrganizationId);
+  prescriber.features = await _organizationFeatures(currentOrganizationId);
+
+  return prescriber;
+};
+
+export const prescriberRepository = { getPrescriber };
+
 function _toPrescriberDomain(user, userOrgaSettings, tags, memberships, organizations, schools) {
   return new Prescriber({
     ...user,
@@ -89,41 +131,3 @@ function _availableFeaturesQueryBuilder(currentOrganizationId) {
     })
     .pluck('key');
 }
-
-const getPrescriber = async function (userId) {
-  const user = await knex('users')
-    .select('id', 'firstName', 'lastName', 'pixOrgaTermsOfServiceAccepted', 'lang')
-    .where({ id: userId })
-    .first();
-
-  if (!user) {
-    throw new UserNotFoundError(`User not found for ID ${userId}`);
-  }
-
-  const memberships = await knex('memberships').where({ userId, disabledAt: null }).orderBy('id');
-
-  if (memberships.length === 0) {
-    throw new ForbiddenAccess(`User of ID ${userId} is not a prescriber`);
-  }
-
-  const organizationIds = memberships.map((membership) => membership.organizationId);
-  const organizations = await knex('organizations').whereIn('id', organizationIds);
-  const userOrgaSettings = await knex('user-orga-settings').where({ userId }).first();
-  const tags = await knex('tags')
-    .join('organization-tags', 'organization-tags.tagId', 'tags.id')
-    .where({ organizationId: userOrgaSettings.currentOrganizationId });
-
-  const schools = await knex('schools').whereIn('organizationId', organizationIds);
-
-  const prescriber = _toPrescriberDomain(user, userOrgaSettings, tags, memberships, organizations, schools);
-
-  const currentOrganizationId = prescriber.userOrgaSettings.currentOrganization.id;
-  prescriber.areNewYearOrganizationLearnersImported =
-    await _areNewYearOrganizationLearnersImportedForPrescriber(currentOrganizationId);
-  prescriber.participantCount = await _getParticipantCount(currentOrganizationId);
-  prescriber.features = await _organizationFeatures(currentOrganizationId);
-
-  return prescriber;
-};
-
-export { getPrescriber };

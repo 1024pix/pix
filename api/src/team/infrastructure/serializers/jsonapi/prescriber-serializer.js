@@ -2,6 +2,10 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
 
+/**
+ * @param {Prescriber} prescriber
+ * @return {Object}
+ */
 const serialize = function (prescriber) {
   return new Serializer('prescriber', {
     transform: (record) => {
@@ -115,4 +119,4 @@ const serialize = function (prescriber) {
   }).serialize(prescriber);
 };
 
-export { serialize };
+export const prescriberSerializer = { serialize };

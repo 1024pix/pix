@@ -7,8 +7,8 @@ import * as membershipRepository from '../../../shared/infrastructure/repositori
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as certificationCenterInvitationRepository from '../../infrastructure/repositories/certification-center-invitation-repository.js';
-import * as prescriberRepository from '../../infrastructure/repositories/prescriber-repository.js';
-import * as userOrgaSettingsRepository from '../../infrastructure/repositories/user-orga-settings-repository.js';
+import { prescriberRepository } from '../../infrastructure/repositories/prescriber-repository.js';
+import { userOrgaSettingsRepository } from '../../infrastructure/repositories/user-orga-settings-repository.js';
 import * as certificationCenterInvitationService from '../services/certification-center-invitation-service.js';
 
 const path = dirname(fileURLToPath(import.meta.url));

@@ -1,6 +1,12 @@
 import { usecases } from '../domain/usecases/index.js';
-import * as prescriberSerializer from '../infrastructure/serializers/jsonapi/prescriber-serializer.js';
+import { prescriberSerializer } from '../infrastructure/serializers/jsonapi/prescriber-serializer.js';
 
+/**
+ * @param request
+ * @param h
+ * @param dependencies
+ * @return {Promise<*>}
+ */
 const get = async function (request, h, dependencies = { prescriberSerializer }) {
   const authenticatedUserId = request.auth.credentials.userId;
 

@@ -4,6 +4,10 @@ import { Organization, User } from '../../../../lib/domain/models/index.js';
 import { UserOrgaSettings } from '../../../../lib/domain/models/UserOrgaSettings.js';
 import * as knexUtils from '../../../shared/infrastructure/utils/knex-utils.js';
 
+/**
+ * @param {string} userId
+ * @return {Promise<{}|UserOrgaSettings>}
+ */
 const findOneByUserId = async function (userId) {
   const userOrgaSettings = await knex('user-orga-settings').where({ userId }).first();
   if (!userOrgaSettings) return {};
@@ -18,6 +22,11 @@ const findOneByUserId = async function (userId) {
   });
 };
 
+/**
+ * @param {string} userId
+ * @param {string} currentOrganizationId
+ * @return {Promise<UserOrgaSettings>}
+ */
 const create = async function (userId, currentOrganizationId) {
   try {
     const [userOrgaSettingsCreated] = await knex('user-orga-settings')
@@ -41,6 +50,11 @@ const create = async function (userId, currentOrganizationId) {
   }
 };
 
+/**
+ * @param {string} userId
+ * @param {string} organizationId
+ * @return {Promise<UserOrgaSettings>}
+ */
 const update = async function (userId, organizationId) {
   const [userOrgaSettingsUpdated] = await knex('user-orga-settings')
     .where({ userId })
@@ -53,6 +67,10 @@ const update = async function (userId, organizationId) {
   return new UserOrgaSettings({ id: userOrgaSettingsUpdated.id, user, currentOrganization });
 };
 
+/**
+ * @param {{userId: string, organizationId: string}} params
+ * @return {Promise<UserOrgaSettings>}
+ */
 const createOrUpdate = async function ({ userId, organizationId }) {
   const knexUserOrgaSetting = (
     await knex('user-orga-settings')
@@ -73,4 +91,4 @@ const createOrUpdate = async function ({ userId, organizationId }) {
   });
 };
 
-export { create, createOrUpdate, findOneByUserId, update };
+export const userOrgaSettingsRepository = { create, createOrUpdate, findOneByUserId, update };

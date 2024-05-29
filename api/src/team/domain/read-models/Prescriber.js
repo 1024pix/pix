@@ -1,4 +1,18 @@
 class Prescriber {
+  /**
+   * @param {{
+   *   id: string,
+   *   firstName: string,
+   *   lastName: string,
+   *   pixOrgaTermsOfServiceAccepted: boolean,
+   *   lang: string,
+   *   areNewYearOrganizationLearnersImported: boolean,
+   *   participantCount: number,
+   *   memberships: *[],
+   *   userOrgaSettings: UserOrgaSettings,
+   *   features: *
+   * }} data
+   */
   constructor({
     id,
     firstName,

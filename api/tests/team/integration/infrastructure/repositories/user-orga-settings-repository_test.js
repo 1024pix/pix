@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { UserOrgaSettingsCreationError } from '../../../../../lib/domain/errors.js';
 import { UserOrgaSettings } from '../../../../../lib/domain/models/UserOrgaSettings.js';
-import * as userOrgaSettingsRepository from '../../../../../src/team/infrastructure/repositories/user-orga-settings-repository.js';
+import { userOrgaSettingsRepository } from '../../../../../src/team/infrastructure/repositories/user-orga-settings-repository.js';
 import { catchErr, databaseBuilder, expect, knex } from '../../../../test-helper.js';
 
 describe('Integration | Team | Infrastructure | Repository | UserOrgaSettings', function () {
