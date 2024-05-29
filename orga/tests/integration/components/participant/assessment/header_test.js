@@ -97,7 +97,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
         );
         assert.ok(
           within(screen.getByRole('listbox')).getByText(
-            this.intl.t('pages.assessment-individual-results.participation-to-share'),
+            this.intl.t('pages.assessment-individual-results.participation-not-shared'),
             { exact: false },
           ),
         );
@@ -138,7 +138,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
         await screen.findByRole('listbox');
         await click(
           screen.getByRole('option', {
-            name: `${this.intl.t('pages.assessment-individual-results.participation-label', { participationNumber: 2 })} - 02/01/2020`,
+            name: `${this.intl.t('pages.assessment-individual-results.participation-label', { participationNumber: 1 })} - 02/01/2020`,
           }),
         );
 
