@@ -20,21 +20,11 @@ module('Acceptance | Module | Routes | retryQrocm', function (hooks) {
           content: '<p>Le symbole</>',
         },
         {
-          input: 'symbole',
-          type: 'input',
-          inputType: 'text',
-          size: 1,
-          display: 'block',
-          placeholder: '',
-          ariaLabel: 'Réponse 1',
-          defaultValue: '',
-        },
-        {
           input: 'premiere-partie',
           type: 'select',
           display: 'block',
           placeholder: '',
-          ariaLabel: 'Réponse 2',
+          ariaLabel: 'Réponse 1',
           defaultValue: '',
           options: [
             {
@@ -71,7 +61,7 @@ module('Acceptance | Module | Routes | retryQrocm', function (hooks) {
       id: 'elementId-1',
       feedback: 'Faux',
       status: 'ko',
-      solution: { symbole: '@', 'premiere-partie': '2' },
+      solution: { 'premiere-partie': '2' },
     });
 
     // when
@@ -79,12 +69,9 @@ module('Acceptance | Module | Routes | retryQrocm', function (hooks) {
 
     const verifyButton = screen.queryByRole('button', { name: 'Vérifier' });
     const qrocmForm = screen.getByRole('group');
-    const input = screen.getByLabelText('Réponse 1');
 
-    // answer input proposal
-    await fillIn(input, '#');
-    // answer select proposal
-    await clickByName('Réponse 2');
+    // answer select proposal initially
+    await clickByName('Réponse 1');
     await screen.findByRole('listbox');
     await click(
       screen.queryByRole('option', {
@@ -101,11 +88,11 @@ module('Acceptance | Module | Routes | retryQrocm', function (hooks) {
     const retryButton = screen.getByRole('button', { name: 'Réessayer' });
     await click(retryButton);
 
-    await screen.findByRole('listbox');
-
     // then
     assert.strictEqual(screen.queryByRole('status').innerText, '');
     assert.false(qrocmForm.disabled);
+    await clickByName('Réponse 1');
+    await screen.findByRole('listbox');
     assert.strictEqual(
       screen
         .queryByRole('option', {
@@ -114,14 +101,11 @@ module('Acceptance | Module | Routes | retryQrocm', function (hooks) {
         .getAttribute('aria-selected'),
       'false',
     );
-    assert.strictEqual(input.value, '');
 
     const qrocmVerifyButtonCameBack = screen.getByRole('button', { name: 'Vérifier' });
 
-    // answer input proposal
-    await fillIn(input, '#');
-    // answer select proposal
-    await clickByName('Réponse 2');
+    // re-answer select proposal
+    await clickByName('Réponse 1');
     await screen.findByRole('listbox');
     await click(
       screen.queryByRole('option', {
