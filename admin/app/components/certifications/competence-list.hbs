@@ -20,15 +20,22 @@
     </div>
   {{/each}}
 {{else}}
-  <ul class="competence-list-details">
-    {{#each @competences as |competence|}}
-      <li class="competence-list-details__item" aria-label="Informations de la compétence {{competence.index}}">
-        <span aria-hidden="true">{{competence.index}}</span>
-        {{#if @shouldDisplayPixScore}}
-          <span>{{competence.score}} Pix</span>
-        {{/if}}
-        <span>Niveau: {{competence.level}}</span>
-      </li>
-    {{/each}}
-  </ul>
+  <table aria-label="{{t 'pages.certifications.certification.result.table.label'}}" class="competence-list__table">
+    <thead>
+      <tr>
+        <th scope="col">{{t "pages.certifications.certification.result.table.headers.competence"}}</th>
+        <th scope="col">{{t "pages.certifications.certification.result.table.headers.score"}}</th>
+        <th scope="col">{{t "pages.certifications.certification.result.table.headers.level"}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each @competences as |competence|}}
+        <tr>
+          <th scope="row">{{competence.index}}</th>
+          <td>{{competence.score}}</td>
+          <td>{{competence.level}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
 {{/if}}

@@ -318,6 +318,16 @@
               }
             }
           }
+        },
+        "result": {
+          "table": {
+            "headers": {
+              "competence": "Competence",
+              "level": "Level",
+              "score": "Score"
+            },
+            "label": "Result details by competence"
+          }
         }
       },
       "scoring-simulation": {
