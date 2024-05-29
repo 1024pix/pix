@@ -18,9 +18,10 @@
     {{#if @campaign.multipleSendings}}
       <PixSelect
         @options={{this.participationsListOptions}}
-        @inlineLabel="true"
         @value={{this.selectedParticipation.value}}
         @onChange={{this.selectAParticipation}}
+        @inlineLabel={{true}}
+        @hideDefaultOption={{true}}
       >
         <:label>{{t "pages.assessment-individual-results.participation-selector"}}</:label>
       </PixSelect>

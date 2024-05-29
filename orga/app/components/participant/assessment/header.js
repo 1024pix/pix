@@ -41,10 +41,9 @@ export default class Header extends Component {
   }
 
   get participationsListOptions() {
-    let participationNumber = 0;
-    const options = this.args.allParticipations.map((participation) => {
-      participationNumber++;
+    let participationNumber = this.args.allParticipations.length;
 
+    const options = this.args.allParticipations.map((participation) => {
       let category;
       let label = this.intl.t('pages.assessment-individual-results.participation-label', { participationNumber });
 
@@ -55,12 +54,13 @@ export default class Header extends Component {
 
       if (participation.status === 'SHARED') {
         category = `— ${this.intl.t('pages.assessment-individual-results.participation-shared')} —`;
-      } else if (participation.status === 'TO_SHARE') {
-        category = `— ${this.intl.t('pages.assessment-individual-results.participation-to-share')} —`;
+      } else {
+        category = `— ${this.intl.t('pages.assessment-individual-results.participation-not-shared')} —`;
       }
 
+      participationNumber--;
+
       return {
-        id: participationNumber,
         value: participation.id,
         label,
         category,
