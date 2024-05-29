@@ -18,9 +18,6 @@
 {{/if}}
 
 <div class="background-banner-wrapper challenge">
-  {{#if this.isFocusedChallengeAndUserHasFocusedOutOfChallenge}}
-    <div class="challenge__focused-out-overlay"></div>
-  {{/if}}
 
   <div class="challenge__banner">
     {{#if @model.assessment.isCertification}}
@@ -51,30 +48,45 @@
     {{/if}}
 
     {{#if this.displayChallenge}}
-      <Challenge::Item
-        @challenge={{@model.challenge}}
-        @assessment={{@model.assessment}}
-        @answer={{@model.answer}}
-        @timeoutChallenge={{this.timeoutChallenge}}
-        @resetAllChallengeInfo={{this.resetAllChallengeInfo}}
-        @resetChallengeInfoOnResume={{this.resetChallengeInfoOnResume}}
-        @onFocusIntoChallenge={{fn this.setFocusedOutOfChallenge false}}
-        @onFocusOutOfChallenge={{fn this.setFocusedOutOfChallenge true}}
-        @onFocusOutOfWindow={{this.focusedOutOfWindow}}
-        @hasFocusedOutOfWindow={{this.hasFocusedOutOfWindow}}
-        @isFocusedChallengeAndUserHasFocusedOutOfChallenge={{this.isFocusedChallengeAndUserHasFocusedOutOfChallenge}}
-      />
-    {{/if}}
-  </main>
-  {{#if this.displayChallenge}}
-    <div class="challenge__feedback" role="complementary">
-      {{#if (eq @model.assessment.certificationCourse.version 3)}}
-        <FeedbackPanelV3 @submitLiveAlert={{this.submitLiveAlert}} @assessment={{@model.assessment}} />
-      {{else}}
-        <FeedbackPanel @assessment={{@model.assessment}} @challenge={{@model.challenge}} />
+
+      <div
+        class="focus-zone-warning
+          {{if this.isFocusedChallengeAndUserHasFocusedOutOfChallenge 'focus-zone-warning--triggered'}}"
+        data-challenge-id="{{@challenge.id}}"
+        {{on "mouseenter" this.hideOutOfFocusBorder}}
+        {{on "mouseleave" this.showOutOfFocusBorder}}
+      >
+
+        <Challenge::Item
+          @challenge={{@model.challenge}}
+          @assessment={{@model.assessment}}
+          @answer={{@model.answer}}
+          @timeoutChallenge={{this.timeoutChallenge}}
+          @resetAllChallengeInfo={{this.resetAllChallengeInfo}}
+          @resetChallengeInfoOnResume={{this.resetChallengeInfoOnResume}}
+          @onFocusIntoChallenge={{fn this.setFocusedOutOfChallenge false}}
+          @onFocusOutOfChallenge={{fn this.setFocusedOutOfChallenge true}}
+          @onFocusOutOfWindow={{this.focusedOutOfWindow}}
+          @hasFocusedOutOfWindow={{this.hasFocusedOutOfWindow}}
+          @isFocusedChallengeAndUserHasFocusedOutOfChallenge={{this.isFocusedChallengeAndUserHasFocusedOutOfChallenge}}
+        />
+
+        <div class="challenge__feedback" role="complementary">
+          {{#if (eq @model.assessment.certificationCourse.version 3)}}
+            <FeedbackPanelV3 @submitLiveAlert={{this.submitLiveAlert}} @assessment={{@model.assessment}} />
+          {{else}}
+            <FeedbackPanel @assessment={{@model.assessment}} @challenge={{@model.challenge}} />
+          {{/if}}
+        </div>
+      </div>
+
+      {{#if this.isFocusedChallengeAndUserHasFocusedOutOfChallenge}}
+        <div class="focus-zone-warning__overlay" />
       {{/if}}
-    </div>
-  {{/if}}
+
+    {{/if}}
+
+  </main>
 
   {{#if @model.challenge.focused}}
     <div

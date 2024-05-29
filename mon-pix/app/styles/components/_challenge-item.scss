@@ -1,12 +1,5 @@
 .challenge-item {
   padding: $pix-spacing-xxs;
-
-  &--focused {
-    z-index: 1;
-    border-radius: 10px;
-    outline: 3px dashed $pix-neutral-70;
-    outline-offset: -3px;
-  }
 }
 
 .challenge-response {

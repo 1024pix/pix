@@ -1,10 +1,7 @@
 <article
-  class="rounded-panel rounded-panel--no-margin-bottom challenge-item
-    {{if @isFocusedChallengeAndUserHasFocusedOutOfChallenge 'challenge-item--focused'}}"
-  data-challenge-id="{{@challenge.id}}"
-  {{on "mouseenter" this.hideOutOfFocusBorder}}
-  {{on "mouseleave" this.showOutOfFocusBorder}}
+  class="rounded-panel rounded-panel--no-margin-bottom challenge-item"
   {{will-destroy this.clearFocusOutEventListener}}
+  data-challenge-id="{{@challenge.id}}"
   role="article"
 >
   <ChallengeStatement @challenge={{@challenge}} @assessment={{@assessment}} />
