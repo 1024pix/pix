@@ -107,21 +107,38 @@ module('Integration | Component | assessment-banner', function (hooks) {
       this.owner.register('service:featureToggles', FeatureTogglesStub);
     });
 
-    test('it should display text to speech toggle button', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      store.createRecord('assessment', {
-        title: 'Assessment title',
+    module('when displayTextToSpeechActivationButton is true', function () {
+      test('it should display text to speech toggle button', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        store.createRecord('assessment', {});
+        this.set('toggleTextToSpeech', sinon.stub());
+
+        // when
+        const screen = await render(
+          hbs`<AssessmentBanner @displayHomeLink={{true}} @displayTextToSpeechActivationButton={{true}} @isTextToSpeechActivated={{true}} @toggleTextToSpeech={{this.toggleTextToSpeech}}/>`,
+        );
+
+        // then
+        assert.dom(screen.getByRole('button', { name: 'Désactiver la vocalisation' })).exists();
       });
-      this.set('toggleTextToSpeech', sinon.stub());
+    });
 
-      // when
-      const screen = await render(
-        hbs`<AssessmentBanner @displayHomeLink={{true}} @title={{this.title}} @isTextToSpeechActivated={{true}} @toggleTextToSpeech={{this.toggleTextToSpeech}}/>`,
-      );
+    module('when displayTextToSpeechActivationButton is false', function () {
+      test('it should not display text to speech toggle button', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        store.createRecord('assessment', {});
+        this.set('toggleTextToSpeech', sinon.stub());
 
-      // then
-      assert.dom(screen.getByRole('button', { name: 'Désactiver la vocalisation' })).exists();
+        // when
+        const screen = await render(
+          hbs`<AssessmentBanner @displayHomeLink={{true}} @displayTextToSpeechActivationButton={{false}} @isTextToSpeechActivated={{true}} @toggleTextToSpeech={{this.toggleTextToSpeech}}/>`,
+        );
+
+        // then
+        assert.dom(screen.queryByRole('button', { name: 'Désactiver la vocalisation' })).doesNotExist();
+      });
     });
   });
 

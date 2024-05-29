@@ -20,7 +20,9 @@ export default class AssessmentBanner extends Component {
   }
 
   get showTextToSpeechActivationButton() {
-    return this.featureToggles.featureToggles?.isTextToSpeechButtonEnabled;
+    return (
+      this.featureToggles.featureToggles?.isTextToSpeechButtonEnabled && this.args.displayTextToSpeechActivationButton
+    );
   }
 
   @action toggleClosingModal() {

@@ -3,7 +3,11 @@
 <div class="background-banner-wrapper challenge">
 
   <div class="challenge__banner">
-    <AssessmentBanner @title={{@model.title}} @displayHomeLink={{this.displayHomeLink}} />
+    <AssessmentBanner
+      @title={{@model.title}}
+      @displayHomeLink={{this.displayHomeLink}}
+      @displayTextToSpeechActivationButton={{false}}
+    />
   </div>
 
   <div class="checkpoint__container rounded-panel--over-background-banner">

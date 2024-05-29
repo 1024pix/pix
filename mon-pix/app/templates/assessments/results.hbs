@@ -3,7 +3,12 @@
 <div class="assessment-results">
 
   <div class="assessment-results__assessment-banner">
-    <AssessmentBanner @title={{@model.title}} @checkpoint={{false}} @displayHomeLink={{false}} />
+    <AssessmentBanner
+      @title={{@model.title}}
+      @checkpoint={{false}}
+      @displayHomeLink={{false}}
+      @displayTextToSpeechActivationButton={{false}}
+    />
   </div>
 
   <div class="assessment-results__content">
