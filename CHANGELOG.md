@@ -1,5 +1,32 @@
 # Pix Changelog
 
+## v4.153.0 (29/05/2024)
+
+
+### :rocket: Amélioration
+- [#9011](https://github.com/1024pix/pix/pull/9011) [FEATURE] déprécie le push de donnés FT (Pix-12561).
+- [#8993](https://github.com/1024pix/pix/pull/8993) [FEATURE] Englober les signalements dans la zone de focus (PIX-12025).
+- [#9065](https://github.com/1024pix/pix/pull/9065) [FEATURE] Permettre d'extraire les contenus des modules en format "tableur" (PIX-12285).
+
+### :building_construction: Tech
+- [#9080](https://github.com/1024pix/pix/pull/9080) [TECH] Ajout d'un feature toggle pour les écrans d'informations de certif V3 (PIX-11844).
+- [#8995](https://github.com/1024pix/pix/pull/8995) [TECH] Utiliser le nouveau format de config ESLint sur l'API.
+- [#9073](https://github.com/1024pix/pix/pull/9073) [TECH] Migrer la route DELETE /api/admin/certification-centers/{id}/invitations/{certificationCenterInvitationId} (PIX-12623).
+- [#9059](https://github.com/1024pix/pix/pull/9059) [TECH] Migrer la route POST /api/oidc/user/reconcile vers src/identity-access-management (PIX-12660).
+
+### :bug: Correction
+- [#9074](https://github.com/1024pix/pix/pull/9074) [BUGFIX] Correctif de l'affichage des boutons de challenges.
+
+### :arrow_up: Montée de version
+- [#9093](https://github.com/1024pix/pix/pull/9093) [BUMP] Update dependency @1024pix/eslint-plugin to ^1.2.1 (api).
+- [#9092](https://github.com/1024pix/pix/pull/9092) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.1 (orga).
+- [#9090](https://github.com/1024pix/pix/pull/9090) [BUMP] Update dependency sinon to v18 (api).
+- [#9089](https://github.com/1024pix/pix/pull/9089) [BUMP] Update dependency eslint-plugin-n to v17 (orga).
+- [#9088](https://github.com/1024pix/pix/pull/9088) [BUMP] Update dependency eslint-plugin-n to v17 (junior).
+- [#9087](https://github.com/1024pix/pix/pull/9087) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.1 (mon-pix).
+- [#9086](https://github.com/1024pix/pix/pull/9086) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.1 (load-testing).
+- [#9071](https://github.com/1024pix/pix/pull/9071) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.1 (junior).
+
 ## v4.152.0 (28/05/2024)
 
 
