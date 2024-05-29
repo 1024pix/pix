@@ -61,9 +61,9 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         prepaymentCode: null,
         resultRecipientEmail: undefined,
         sex: undefined,
+        complementaryCertification: null,
       });
 
-      expect(certificationCandidate.complementaryCertification).to.be.null;
       expect(certificationCandidate.subscriptions).to.deepEqualArray([SubscriptionTypes.CORE]);
     });
   });
