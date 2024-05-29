@@ -5,7 +5,20 @@ import {
   OrganizationArchivedError,
   OrganizationNotFoundError,
   OrganizationWithoutEmailError,
-} from '../errors.js';
+} from '../../../../lib/domain/errors.js';
+
+/**
+ *
+ * @param {Object} params
+ * @param {string} params.uai
+ * @param {string} params.firstName
+ * @param {string} params.lastName
+ * @param {string} params.locale
+ * @param {OrganizationInvitationRepository} organizationInvitationRepository
+ * @param {OrganizationInvitationService} organizationInvitationService
+ * @param {OrganizationRepository} organizationRepository
+ * @returns {Promise<OrganizationInvitation>}
+ */
 
 const sendScoInvitation = async function ({
   uai,

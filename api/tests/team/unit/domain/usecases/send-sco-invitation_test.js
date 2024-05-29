@@ -3,11 +3,11 @@ import {
   OrganizationArchivedError,
   OrganizationNotFoundError,
   OrganizationWithoutEmailError,
-} from '../../../../lib/domain/errors.js';
-import { sendScoInvitation } from '../../../../lib/domain/usecases/send-sco-invitation.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
+} from '../../../../../lib/domain/errors.js';
+import { sendScoInvitation } from '../../../../../src/team/domain/usecases/send-sco-invitation.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | send-sco-invitation', function () {
+describe('Unit | Team | Domain | UseCase | send-sco-invitation', function () {
   let organizationRepository, organizationInvitationRepository, organizationInvitationService;
 
   beforeEach(function () {
@@ -19,7 +19,7 @@ describe('Unit | UseCase | send-sco-invitation', function () {
     };
   });
 
-  it('should call createScoOrganizationInvitation service', async function () {
+  it('calls createScoOrganizationInvitation service', async function () {
     // given
     const firstName = 'Guy';
     const lastName = 'Tar';
@@ -57,7 +57,7 @@ describe('Unit | UseCase | send-sco-invitation', function () {
 
   context('Error cases', function () {
     context('when uai did not match', function () {
-      it('should throw an NotFoundOrganizationError', async function () {
+      it('calls an NotFoundOrganizationError', async function () {
         // given
         const uai = '1234567A';
         domainBuilder.buildOrganization({ type: 'SCO', externalId: uai });
@@ -75,7 +75,7 @@ describe('Unit | UseCase | send-sco-invitation', function () {
     });
 
     context('when email is not present', function () {
-      it('should throw an OrganizationWithoutEmailError', async function () {
+      it('calls an OrganizationWithoutEmailError', async function () {
         // given
         const uai = '1234567A';
         const organization = domainBuilder.buildOrganization({ type: 'SCO', externalId: uai, email: null });
@@ -95,7 +95,7 @@ describe('Unit | UseCase | send-sco-invitation', function () {
     });
 
     context('when many organizations found', function () {
-      it('should throw a ManyOrganizationsFoundError', async function () {
+      it('throws a ManyOrganizationsFoundError', async function () {
         // given
         const uai = '1234567A';
         const organization1 = domainBuilder.buildOrganization({ type: 'SCO', externalId: uai });
@@ -118,7 +118,7 @@ describe('Unit | UseCase | send-sco-invitation', function () {
     });
 
     context('when organization is archived', function () {
-      it('should throw a OrganizationArchivedError', async function () {
+      it('throws an OrganizationArchivedError', async function () {
         // given
         const uai = '1234567A';
         const archivedOrganization = domainBuilder.buildOrganization({
