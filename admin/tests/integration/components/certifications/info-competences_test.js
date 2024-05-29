@@ -1,10 +1,11 @@
-import { render } from '@1024pix/ember-testing-library';
+import { render, within } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
-import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+
 module('Integration | Component | certifications/competence-list', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   test('it should display an entry per competence', async function (assert) {
     // given
@@ -15,12 +16,29 @@ module('Integration | Component | certifications/competence-list', function (hoo
     ]);
 
     // when
-    const screen = await render(hbs`<Certifications::CompetenceList @competences={{this.competences}} />`);
+    const screen = await render(
+      hbs`<Certifications::CompetenceList @competences={{this.competences}} @shouldDisplayPixScore={{true}}//>`,
+    );
 
     // then
-    assert.dom(screen.getByLabelText('Informations de la compétence 1.1')).exists();
-    assert.dom(screen.getByLabelText('Informations de la compétence 2.1')).exists();
-    assert.dom(screen.getByLabelText('Informations de la compétence 5.2')).exists();
+    const table = screen.getByRole('table', { name: 'Détails du résultat par compétence' });
+    const rows = await within(table).findAllByRole('row');
+
+    assert.dom(within(rows[0]).getByRole('columnheader', { name: 'Compétence' })).exists();
+    assert.dom(within(rows[0]).getByRole('columnheader', { name: 'Score' })).exists();
+    assert.dom(within(rows[0]).getByRole('columnheader', { name: 'Niveau' })).exists();
+
+    assert.dom(within(rows[1]).getByRole('rowheader', { name: '1.1' })).exists();
+    assert.dom(within(rows[1]).getByRole('cell', { name: '30' })).exists();
+    assert.dom(within(rows[1]).getByRole('cell', { name: '3' })).exists();
+
+    assert.dom(within(rows[2]).getByRole('rowheader', { name: '2.1' })).exists();
+    assert.dom(within(rows[2]).getByRole('cell', { name: '20' })).exists();
+    assert.dom(within(rows[2]).getByRole('cell', { name: '2' })).exists();
+
+    assert.dom(within(rows[3]).getByRole('rowheader', { name: '5.2' })).exists();
+    assert.dom(within(rows[3]).getByRole('cell', { name: '10' })).exists();
+    assert.dom(within(rows[3]).getByRole('cell', { name: '1' })).exists();
   });
 
   test('it should display competence index, score and level', async function (assert) {
@@ -33,8 +51,15 @@ module('Integration | Component | certifications/competence-list', function (hoo
     );
 
     // then
-    assert.dom(screen.getByLabelText('Informations de la compétence 1.1')).containsText('30 Pix');
-    assert.dom(screen.getByLabelText('Informations de la compétence 1.1')).containsText('Niveau: 3');
+    const table = screen.getByRole('table', { name: 'Détails du résultat par compétence' });
+    const rows = await within(table).findAllByRole('row');
+
+    assert.dom(within(table).getByRole('columnheader', { name: 'Compétence' })).exists();
+    assert.dom(within(table).getByRole('columnheader', { name: 'Score' })).exists();
+    assert.dom(within(table).getByRole('columnheader', { name: 'Niveau' })).exists();
+    assert.dom(within(rows[1]).getByRole('rowheader', { name: '1.1' })).exists();
+    assert.dom(within(rows[1]).getByRole('cell', { name: '30' })).exists();
+    assert.dom(within(rows[1]).getByRole('cell', { name: '3' })).exists();
   });
 
   test('it should display 16 entries in edition mode', async function (assert) {
@@ -83,11 +108,7 @@ module('Integration | Component | certifications/competence-list', function (hoo
   module('when certification is V3', function () {
     test('it should not display competence scores', async function (assert) {
       // given
-      this.set('competences', [
-        { index: '1.1', score: '0', level: '3' },
-        { index: '2.1', score: '0', level: '2' },
-        { index: '2.2', score: '0', level: '5' },
-      ]);
+      this.set('competences', [{ index: '1.1', score: '0', level: '3' }]);
 
       // when
       const screen = await render(
@@ -96,9 +117,18 @@ module('Integration | Component | certifications/competence-list', function (hoo
 
       // then
       assert.dom(screen.queryByText('0 Pix')).doesNotExist();
-      assert.dom(screen.getByText('Niveau: 3')).exists();
-      assert.dom(screen.getByText('Niveau: 2')).exists();
-      assert.dom(screen.getByText('Niveau: 5')).exists();
+
+      const table = screen.getByRole('table', { name: 'Détails du résultat par compétence' });
+      const rows = await within(table).findAllByRole('row');
+
+      assert.dom(within(rows[0]).getByRole('columnheader', { name: 'Compétence' })).exists();
+      assert.dom(within(rows[0]).getByRole('columnheader', { name: 'Niveau' })).exists();
+
+      assert.dom(within(rows[1]).getByRole('rowheader', { name: '1.1' })).exists();
+      assert.dom(within(rows[1]).getByRole('cell', { name: '3' })).exists();
+
+      assert.dom(screen.queryByText('Score')).doesNotExist();
+      assert.dom(screen.queryByText('O')).doesNotExist();
     });
   });
 });

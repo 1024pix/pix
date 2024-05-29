@@ -339,6 +339,16 @@
               }
             }
           }
+        },
+        "result": {
+          "table": {
+            "headers": {
+              "competence": "Compétence",
+              "level": "Niveau",
+              "score": "Score"
+            },
+            "label": "Détails du résultat par compétence"
+          }
         }
       },
       "scoring-simulation": {

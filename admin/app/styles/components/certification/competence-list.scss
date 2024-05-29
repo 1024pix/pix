@@ -1,26 +1,3 @@
-.competence-list-details {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-
-  &__item {
-    display: flex;
-    flex-flow: row wrap;
-    margin-bottom: 0.5em;
-    padding-bottom: 0.5em;
-    border-bottom: 1px solid var(--pix-neutral-20);
-
-    > *:not(:last-of-type) {
-      min-width: 6em;
-    }
-
-
-    &:last-of-type {
-      border-bottom: none;
-    }
-  }
-}
-
 div.competence-list-edited {
   display: flex;
   gap: 150px;
