@@ -167,20 +167,24 @@ class CertificationCandidate {
     this.sessionId = sessionId;
     this.userId = userId;
     this.organizationLearnerId = organizationLearnerId;
-    this.complementaryCertification = complementaryCertification;
     this.billingMode = billingMode;
     this.prepaymentCode = prepaymentCode;
-  }
 
-  get complementaryCertification() {
-    return this.#complementaryCertification;
-  }
+    Object.defineProperty(this, 'complementaryCertification', {
+      enumerable: true,
+      get: function () {
+        return this.#complementaryCertification;
+      },
 
-  set complementaryCertification(complementaryCertification) {
-    this.#complementaryCertification = complementaryCertification;
-    if (complementaryCertification?.id) {
-      this.#subscriptions?.add(SubscriptionTypes.COMPLEMENTARY);
-    }
+      set: function (complementaryCertification) {
+        this.#complementaryCertification = complementaryCertification;
+        if (complementaryCertification?.id) {
+          this.#subscriptions?.add(SubscriptionTypes.COMPLEMENTARY);
+        }
+      },
+    });
+
+    this.complementaryCertification = complementaryCertification;
   }
 
   get subscriptions() {
