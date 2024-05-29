@@ -1,8 +1,8 @@
 import {
-  ALL_ORGANIZATION_USER_ID,
   FEATURE_LEARNER_IMPORT_ID,
   FEATURE_MISSIONS_MANAGEMENT_ID,
   ONDE_IMPORT_FORMAT_ID,
+  USER_ID_MEMBER_ORGANIZATION,
 } from '../common/constants.js';
 import * as tooling from '../common/tooling/index.js';
 
@@ -48,7 +48,7 @@ async function _createSco1dOrganizations(databaseBuilder) {
     externalId: 'PIX1D_1',
     tagIds: [],
     adminIds: [TEAM_1D_USER_ID],
-    memberIds: [ALL_ORGANIZATION_USER_ID],
+    memberIds: [USER_ID_MEMBER_ORGANIZATION],
     featureIds: [FEATURE_MISSIONS_MANAGEMENT_ID],
   });
   await databaseBuilder.factory.buildOrganizationFeature({

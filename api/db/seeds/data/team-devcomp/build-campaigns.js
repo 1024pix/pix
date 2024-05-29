@@ -1,4 +1,4 @@
-import { SCO_ORGANIZATION_ID, SCO_ORGANIZATION_USER_ID } from '../common/constants.js';
+import { SCO_ORGANIZATION_ID, USER_ID_ADMIN_ORGANIZATION } from '../common/constants.js';
 import { createAssessmentCampaign } from '../common/tooling/campaign-tooling.js';
 import { PIX_EDU_SMALL_TARGET_PROFILE_ID } from './constants.js';
 
@@ -6,7 +6,7 @@ async function _createScoCampaigns(databaseBuilder, trainingIds) {
   await createAssessmentCampaign({
     databaseBuilder,
     organizationId: SCO_ORGANIZATION_ID,
-    ownerId: SCO_ORGANIZATION_USER_ID,
+    ownerId: USER_ID_ADMIN_ORGANIZATION,
     name: 'PIX+ EDU - SCO - envoi simple',
     code: 'EDUSIMPLE',
     targetProfileId: PIX_EDU_SMALL_TARGET_PROFILE_ID,
@@ -19,7 +19,7 @@ async function _createScoCampaigns(databaseBuilder, trainingIds) {
   await createAssessmentCampaign({
     databaseBuilder,
     organizationId: SCO_ORGANIZATION_ID,
-    ownerId: SCO_ORGANIZATION_USER_ID,
+    ownerId: USER_ID_ADMIN_ORGANIZATION,
     name: 'PIX+ EDU - SCO- envoi multiple',
     code: 'EDUMULTIP',
     multipleSendings: true,

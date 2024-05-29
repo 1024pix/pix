@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
 import { REAL_PIX_SUPER_ADMIN_ID } from '../../common/common-builder.js';
-import { ALL_ORGANIZATION_USER_ID, PRO_ORGANIZATION_USER_ID } from '../../common/constants.js';
+import { USER_ID_ADMIN_ORGANIZATION, USER_ID_MEMBER_ORGANIZATION } from '../../common/constants.js';
 import * as tooling from '../../common/tooling/index.js';
 import { AUTONOMOUS_COURSES_ID } from '../constants.js';
 
@@ -13,8 +13,8 @@ export default async function initUser(databaseBuilder) {
     externalId: 'AUTONOMOUS_COURSES',
     name: 'Autonomous courses organization',
     isManagingStudents: false,
-    adminIds: [PRO_ORGANIZATION_USER_ID],
-    memberIds: [ALL_ORGANIZATION_USER_ID],
+    adminIds: [USER_ID_ADMIN_ORGANIZATION],
+    memberIds: [USER_ID_MEMBER_ORGANIZATION],
   });
 
   // 2. Create membership between superadmin user and our specific organization
