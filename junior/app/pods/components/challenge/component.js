@@ -83,6 +83,6 @@ export default class Challenge extends Component {
     this.answerValue = null;
     this.answer = null;
 
-    this.router.transitionTo('assessment.resume');
+    this.router.replaceWith('assessment.resume');
   }
 }

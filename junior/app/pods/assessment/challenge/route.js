@@ -1,3 +1,4 @@
+import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 
@@ -20,5 +21,13 @@ export default class ChallengeRoute extends Route {
     }
     const activity = await this.store.queryRecord('activity', { assessmentId: assessment.id });
     return { assessment, challenge, activity };
+  }
+
+  @action
+  loading(_transition, _originRoute) {
+    // eslint-disable-next-line ember/no-controller-access-in-routes
+    const controller = this.controllerFor('assessment.challenge');
+    controller.set('currentlyLoading', true);
+    return true;
   }
 }
