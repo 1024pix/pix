@@ -90,7 +90,7 @@
     "qunit-dom": "^3.0.0",
     "sass": "^1.59.3",
     "showdown": "^2.1.0",
-    "sinon": "^17.0.0",
+    "sinon": "^18.0.0",
     "stylelint": "^16.0.0",
     "stylelint-order": "^6.0.3",
     "tracked-built-ins": "^3.3.0",
