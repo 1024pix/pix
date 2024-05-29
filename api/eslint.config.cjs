@@ -18,7 +18,7 @@ module.exports = [
   n,
   { plugins: { import: fixupPluginRules(_import) } },
   { plugins: { knex: fixupPluginRules(knex) } },
-  { plugins: { unicorn: fixupPluginRules(unicorn) } },
+  { plugins: { unicorn } },
   {
     files: ['**/*.cjs'],
     languageOptions: {
