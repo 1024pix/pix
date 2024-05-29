@@ -5,7 +5,7 @@ import { EmailingAttempt } from '../../../../../lib/domain/models/EmailingAttemp
 import { Membership } from '../../../../../lib/domain/models/Membership.js';
 import { OrganizationInvitation } from '../../../../../lib/domain/models/OrganizationInvitation.js';
 import { mailService } from '../../../../../lib/domain/services/mail-service.js';
-import * as organizationInvitationRepository from '../../../../../lib/infrastructure/repositories/organization-invitation-repository.js';
+import { organizationInvitationRepository } from '../../../../../src/team/infrastructure/repositories/organization-invitation.repository.js';
 import * as organizationRepository from '../../../../../src/shared/infrastructure/repositories/organization-repository.js';
 import { organizationInvitationService } from '../../../../../src/team/domain/services/organization-invitation.service.js';
 import { catchErr, databaseBuilder, expect, sinon } from '../../../../test-helper.js';

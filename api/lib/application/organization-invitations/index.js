@@ -33,30 +33,6 @@ const register = async function (server) {
       },
     },
     {
-      method: 'POST',
-      path: '/api/organization-invitations/sco',
-      config: {
-        auth: false,
-        handler: organizationInvitationController.sendScoInvitation,
-        validate: {
-          payload: Joi.object({
-            data: {
-              attributes: {
-                uai: Joi.string().required(),
-                'first-name': Joi.string().required(),
-                'last-name': Joi.string().required(),
-              },
-              type: 'sco-organization-invitations',
-            },
-          }),
-        },
-        notes: [
-          "- Cette route permet d'envoyer une invitation pour rejoindre une organisation de type SCO en tant que ADMIN, en renseignant un **UAI**, un **NOM** et un **PRÉNOM**",
-        ],
-        tags: ['api', 'invitations', 'SCO'],
-      },
-    },
-    {
       method: 'GET',
       path: '/api/organization-invitations/{id}',
       config: {

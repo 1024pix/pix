@@ -18,6 +18,7 @@ import * as schoolRepository from '../../../../src/school/infrastructure/reposit
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
 import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
 import * as organizationRepository from '../../../../src/shared/infrastructure/repositories/organization-repository.js';
+import { organizationInvitationRepository } from '../../../../src/team/infrastructure/repositories/organization-invitation.repository.js';
 import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 const { omit } = lodash;

@@ -9,12 +9,12 @@ import { createOrganizationsWithTagsAndTargetProfiles } from '../lib/domain/usec
 import * as organizationValidator from '../lib/domain/validators/organization-with-tags-and-target-profiles-script.js';
 import { DomainTransaction as domainTransaction } from '../lib/infrastructure/DomainTransaction.js';
 import * as dataProtectionOfficerRepository from '../lib/infrastructure/repositories/data-protection-officer-repository.js';
-import * as organizationInvitationRepository from '../lib/infrastructure/repositories/organization-invitation-repository.js';
 import * as organizationTagRepository from '../lib/infrastructure/repositories/organization-tag-repository.js';
 import * as tagRepository from '../lib/infrastructure/repositories/tag-repository.js';
 import * as targetProfileShareRepository from '../lib/infrastructure/repositories/target-profile-share-repository.js';
 import { temporaryStorage } from '../lib/infrastructure/temporary-storage/index.js';
 import * as organizationRepository from '../src/shared/infrastructure/repositories/organization-repository.js';
+import { organizationInvitationRepository } from '../src/team/infrastructure/repositories/organization-invitation.repository.js';
 import { checkCsvHeader, parseCsvWithHeader } from './helpers/csvHelpers.js';
 
 const { isEmpty } = lodash;
