@@ -19,52 +19,108 @@ const translate = i18n.__;
 
 describe('Unit | Domain | Models | Certification Candidate', function () {
   describe('constructor', function () {
-    it('should build a Certification Candidate', function () {
-      // given
-      const rawData = {
-        firstName: 'Jean-Pierre',
-        lastName: 'Foucault',
-        birthCity: 'Marseille',
-        birthProvinceCode: '13',
-        birthCountry: 'France',
-        externalId: 'QVGDM',
-        email: 'jp@fou.cau',
-        birthdate: '1940-05-05',
-        extraTimePercentage: 0.3,
-        sessionId: 1,
-        userId: 2,
-      };
+    describe('when there is no complementary certification', function () {
+      it('should build a Certification Candidate', function () {
+        // given
+        const rawData = {
+          firstName: 'Jean-Pierre',
+          lastName: 'Foucault',
+          birthCity: 'Marseille',
+          birthProvinceCode: '13',
+          birthCountry: 'France',
+          externalId: 'QVGDM',
+          email: 'jp@fou.cau',
+          birthdate: '1940-05-05',
+          extraTimePercentage: 0.3,
+          sessionId: 1,
+          userId: 2,
+        };
 
-      // when
-      const certificationCandidate = new CertificationCandidate(rawData);
+        // when
+        const certificationCandidate = new CertificationCandidate(rawData);
 
-      // then
-      expect(certificationCandidate).to.deep.equal({
-        id: undefined,
-        firstName: 'Jean-Pierre',
-        lastName: 'Foucault',
-        birthCity: 'Marseille',
-        birthProvinceCode: '13',
-        birthCountry: 'France',
-        externalId: 'QVGDM',
-        email: 'jp@fou.cau',
-        birthdate: '1940-05-05',
-        extraTimePercentage: 0.3,
-        sessionId: 1,
-        userId: 2,
-        authorizedToStart: undefined,
-        billingMode: null,
-        birthINSEECode: undefined,
-        birthPostalCode: undefined,
-        createdAt: undefined,
-        organizationLearnerId: null,
-        prepaymentCode: null,
-        resultRecipientEmail: undefined,
-        sex: undefined,
-        complementaryCertification: null,
+        // then
+        expect(certificationCandidate).to.deep.equal({
+          id: undefined,
+          firstName: 'Jean-Pierre',
+          lastName: 'Foucault',
+          birthCity: 'Marseille',
+          birthProvinceCode: '13',
+          birthCountry: 'France',
+          externalId: 'QVGDM',
+          email: 'jp@fou.cau',
+          birthdate: '1940-05-05',
+          extraTimePercentage: 0.3,
+          sessionId: 1,
+          userId: 2,
+          authorizedToStart: undefined,
+          billingMode: null,
+          birthINSEECode: undefined,
+          birthPostalCode: undefined,
+          createdAt: undefined,
+          organizationLearnerId: null,
+          prepaymentCode: null,
+          resultRecipientEmail: undefined,
+          sex: undefined,
+          complementaryCertification: null,
+        });
+
+        expect(certificationCandidate.subscriptions).to.deepEqualArray([SubscriptionTypes.CORE]);
       });
+    });
 
-      expect(certificationCandidate.subscriptions).to.deepEqualArray([SubscriptionTypes.CORE]);
+    describe('when there is a complementary certification', function () {
+      it('should build a Certification Candidate', function () {
+        // given
+        const rawData = {
+          firstName: 'Jean-Pierre',
+          lastName: 'Foucault',
+          birthCity: 'Marseille',
+          birthProvinceCode: '13',
+          birthCountry: 'France',
+          externalId: 'QVGDM',
+          email: 'jp@fou.cau',
+          birthdate: '1940-05-05',
+          extraTimePercentage: 0.3,
+          sessionId: 1,
+          userId: 2,
+          complementaryCertification: { id: 99 },
+        };
+
+        // when
+        const certificationCandidate = new CertificationCandidate(rawData);
+
+        // then
+        expect(certificationCandidate).to.deep.equal({
+          id: undefined,
+          firstName: 'Jean-Pierre',
+          lastName: 'Foucault',
+          birthCity: 'Marseille',
+          birthProvinceCode: '13',
+          birthCountry: 'France',
+          externalId: 'QVGDM',
+          email: 'jp@fou.cau',
+          birthdate: '1940-05-05',
+          extraTimePercentage: 0.3,
+          sessionId: 1,
+          userId: 2,
+          authorizedToStart: undefined,
+          billingMode: null,
+          birthINSEECode: undefined,
+          birthPostalCode: undefined,
+          createdAt: undefined,
+          organizationLearnerId: null,
+          prepaymentCode: null,
+          resultRecipientEmail: undefined,
+          sex: undefined,
+          complementaryCertification: { id: 99 },
+        });
+
+        expect(certificationCandidate.subscriptions).to.deepEqualArray([
+          SubscriptionTypes.CORE,
+          SubscriptionTypes.COMPLEMENTARY,
+        ]);
+      });
     });
   });
 
