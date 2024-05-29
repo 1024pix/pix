@@ -1,9 +1,8 @@
-import { assert } from 'chai';
-
 import {
   findMaxRewardingSkills,
   getPredictedLevel,
 } from '../../../../../lib/domain/services/algorithm-methods/cat-algorithm.js';
+import { expect } from '../../../../test-helper.js';
 import { buildKnowledgeElement, buildSkill, buildTube } from '../../../../tooling/domain-builder/factory/index.js';
 
 describe('Unit | Domain | services | cat-algorithm', function () {
@@ -994,7 +993,7 @@ describe('Unit | Domain | services | cat-algorithm', function () {
       const predictedLevel = getPredictedLevel(knowledgeElements, skills);
 
       // then
-      assert.equal(predictedLevel, 6.5);
+      expect(predictedLevel).to.equal(6.5);
     });
   });
 
@@ -1015,15 +1014,14 @@ describe('Unit | Domain | services | cat-algorithm', function () {
       ].map(buildSkill);
 
       // when / then
-      assert.deepEqual(
+      expect(
         findMaxRewardingSkills({
           predictedLevel,
           availableSkills: skills,
           tubes,
           knowledgeElements,
         }),
-        expectedMaxRewardingSkills,
-      );
+      ).to.deep.equal(expectedMaxRewardingSkills);
     });
   });
 });

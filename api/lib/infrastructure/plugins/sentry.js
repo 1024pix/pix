@@ -1,6 +1,6 @@
 import hapiSentry from 'hapi-sentry';
 
-import packageJSON from '../../../package.json' assert { type: 'json' };
+import packageJSON from '../../../package.json' with { type: 'json' };
 import { config } from '../../config.js';
 
 const plugin = hapiSentry;

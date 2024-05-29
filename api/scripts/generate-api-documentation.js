@@ -2,7 +2,6 @@ import 'dotenv/config';
 
 import * as url from 'node:url';
 
-// eslint-disable-next-line n/no-unpublished-import
 import jsdocToMarkdown from 'jsdoc-to-markdown';
 
 import { logger } from '../src/shared/infrastructure/utils/logger.js';

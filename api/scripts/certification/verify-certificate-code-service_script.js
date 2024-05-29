@@ -2,7 +2,7 @@
 /* eslint-disable import/namespace */
 import _ from 'lodash';
 
-// eslint-disable-next-line n/no-missing-import, import/no-unresolved, n/no-unpublished-import
+// eslint-disable-next-line n/no-missing-import, import/no-unresolved
 import * as verifyCertificateCodeRepository from '../../../../lib/infrastructure/repositories/verify-certificate-code-repository.js';
 import * as verifyCertificationCodeService from '../../lib/domain/services/verify-certificate-code-service.js';
 

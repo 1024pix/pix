@@ -1,4 +1,3 @@
-// eslint-disable-next-line n/no-unpublished-import
 import Runnable from 'mocha/lib/runnable.js';
 
 const superRun = Runnable.prototype.run;

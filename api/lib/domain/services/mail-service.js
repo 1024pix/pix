@@ -3,10 +3,10 @@ import dayjs from 'dayjs';
 import { LOCALE } from '../../../src/shared/domain/constants.js';
 import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import { mailer } from '../../../src/shared/mail/infrastructure/services/mailer.js';
-import enTranslations from '../../../translations/en.json' assert { type: 'json' };
-import frTranslations from '../../../translations/fr.json' assert { type: 'json' };
+import enTranslations from '../../../translations/en.json' with { type: 'json' };
+import frTranslations from '../../../translations/fr.json' with { type: 'json' };
 import { es as esTranslations } from '../../../translations/index.js';
-import nlTranslations from '../../../translations/nl.json' assert { type: 'json' };
+import nlTranslations from '../../../translations/nl.json' with { type: 'json' };
 import { config } from '../../config.js';
 
 const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN, DUTCH_SPOKEN, SPANISH_SPOKEN } = LOCALE;
