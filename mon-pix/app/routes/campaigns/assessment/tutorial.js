@@ -26,7 +26,9 @@ export default class TutorialRoute extends Route {
     this.campaignCode = this.paramsFor('campaigns').code;
     return {
       title: this.intl.t(`pages.tutorial.pages.page${this.tutorialPageId}.title`),
-      icon: this.intl.t(`pages.tutorial.pages.page${this.tutorialPageId}.icon`),
+      icon: this.intl.t(`pages.tutorial.pages.page${this.tutorialPageId}.icon`, {
+        locale: 'fr',
+      }),
       explanation: this.intl.t(`pages.tutorial.pages.page${this.tutorialPageId}.explanation`),
       showNextButton: this.tutorialPageId < this.tutorialPageCount - 1,
       paging: this._setupPaging(this.tutorialPageCount, this.tutorialPageId),
