@@ -139,8 +139,10 @@ async function _handleV3CertificationScoring({
   scoringDegradationService,
   challengeRepository,
 }) {
+  const emitter = _getEmitterFromEvent(event);
   const certificationCourse = await scoringCertificationService.handleV3CertificationScoring({
     event,
+    emitter,
     certificationAssessment,
     locale,
     answerRepository,
