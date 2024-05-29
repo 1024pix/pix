@@ -20,6 +20,7 @@ describe('Acceptance | Controller | feature-toggle-controller', function () {
           id: '0',
           type: 'feature-toggles',
           attributes: {
+            'are-v3-info-screens-enabled': false,
             'is-always-ok-validate-next-challenge-endpoint-enabled': false,
             'is-pix1d-enabled': true,
             'is-pix-plus-lower-lever-enabled': false,
