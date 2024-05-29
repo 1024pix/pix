@@ -1,11 +1,12 @@
 import { CampaignParticipationStarted } from '../../../../lib/domain/events/CampaignParticipationStarted.js';
+import { _forTestOnly } from '../../../../src/prescription/campaign-participation/domain/events/index.js';
 import { expect } from '../../../test-helper.js';
 import { buildEventDispatcherAndHandlersForTest } from '../../../tooling/events/event-dispatcher-builder.js';
 
 describe('Event Choreography | Pole Emploi Participation Started', function () {
   it('Should trigger Pole Emploi participation started handler on CampaignParticipationStarted event', async function () {
     // given
-    const { handlerStubs, eventDispatcher } = buildEventDispatcherAndHandlersForTest();
+    const { handlerStubs, eventDispatcher } = buildEventDispatcherAndHandlersForTest(_forTestOnly);
     const event = new CampaignParticipationStarted();
     const domainTransaction = Symbol('a transaction');
 

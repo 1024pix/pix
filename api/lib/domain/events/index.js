@@ -30,8 +30,6 @@ import { config } from '../../config.js';
 import * as eventBusBuilder from '../../infrastructure/events/EventBusBuilder.js';
 import { EventDispatcher } from '../../infrastructure/events/EventDispatcher.js';
 import { EventDispatcherLogger } from '../../infrastructure/events/EventDispatcherLogger.js';
-import * as disabledPoleEmploiNotifier from '../../infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js';
-import * as poleEmploiNotifier from '../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
 import { monitoringTools as MonitoringTools } from '../../infrastructure/monitoring-tools.js';
 import * as badgeAcquisitionRepository from '../../infrastructure/repositories/badge-acquisition-repository.js';
 import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
@@ -43,26 +41,15 @@ import * as complementaryCertificationScoringCriteriaRepository from '../../infr
 import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
 import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
 import { participantResultsSharedRepository } from '../../infrastructure/repositories/participant-results-shared-repository.js';
-import * as poleEmploiSendingRepository from '../../infrastructure/repositories/pole-emploi-sending-repository.js';
 import * as targetProfileRepository from '../../infrastructure/repositories/target-profile-repository.js';
 import * as scoringCertificationService from '../services/scoring/scoring-certification-service.js';
 import { handleAutoJury } from './handle-auto-jury.js';
 import { handleCertificationRescoring } from './handle-certification-rescoring.js';
 import { handleCertificationScoring } from './handle-certification-scoring.js';
 import { handleComplementaryCertificationsScoring } from './handle-complementary-certifications-scoring.js';
-import { handlePoleEmploiParticipationFinished } from './handle-pole-emploi-participation-finished.js';
-import { handlePoleEmploiParticipationStarted } from './handle-pole-emploi-participation-started.js';
 import { handleSessionFinalized } from './handle-session-finalized.js';
 
 const { performance } = perf_hooks;
-
-function requirePoleEmploiNotifier() {
-  if (config.poleEmploi.pushEnabled) {
-    return poleEmploiNotifier;
-  } else {
-    return disabledPoleEmploiNotifier;
-  }
-}
 
 const dependencies = {
   answerRepository,
@@ -93,8 +80,6 @@ const dependencies = {
   logger,
   organizationRepository,
   participantResultsSharedRepository,
-  poleEmploiNotifier: requirePoleEmploiNotifier(),
-  poleEmploiSendingRepository,
   scoringCertificationService,
   scoringDegradationService,
   skillRepository,
@@ -109,8 +94,6 @@ const handlersToBeInjected = {
   handleCertificationScoring,
   handleCertificationRescoring,
   handleComplementaryCertificationsScoring,
-  handlePoleEmploiParticipationFinished,
-  handlePoleEmploiParticipationStarted,
   handleSessionFinalized,
 };
 

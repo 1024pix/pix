@@ -4,9 +4,9 @@ import dayjs from 'dayjs';
 
 import { config as settings } from '../../../../../lib/config.js';
 import { UnexpectedUserAccountError } from '../../../../../lib/domain/errors.js';
-import { notify } from '../../../../../lib/infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
 import * as OidcIdentityProviders from '../../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
 import { AuthenticationMethod } from '../../../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
+import { notify } from '../../../../../src/prescription/campaign-participation/infrastructure/externals/pole-emploi-notifier.js';
 import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier', function () {
@@ -86,6 +86,44 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
     });
 
     context('when access token is valid', function () {
+      context('when pole emploi deprecate push env variable is set', function () {
+        beforeEach(function () {
+          sinon.stub(settings.featureToggles, 'depracatePoleEmploiPushNotification').value('true');
+        });
+        it('should send the notification to Pole Emploi with deprectation message', async function () {
+          // given
+          const expiredDate = dayjs().add(10, 'm').toDate();
+          const authenticationMethod = { authenticationComplement: { accessToken, expiredDate, refreshToken } };
+
+          const expectedHeaders = {
+            Authorization: `Bearer ${authenticationMethod.authenticationComplement.accessToken}`,
+            'Content-type': 'application/json',
+            Accept: 'application/json',
+            'Service-source': 'Pix',
+          };
+
+          authenticationMethodRepository.findOneByUserIdAndIdentityProvider
+            .withArgs({ userId, identityProvider: OidcIdentityProviders.POLE_EMPLOI.code })
+            .resolves(authenticationMethod);
+          httpAgent.post.resolves({ isSuccessful: true, code });
+
+          // when
+          await notify(userId, payload, {
+            authenticationMethodRepository,
+            httpAgent,
+            httpErrorsHelper,
+            monitoringTools,
+          });
+
+          // then
+          expect(httpAgent.post).to.have.been.calledWithExactly({
+            url: settings.poleEmploi.sendingUrl,
+            payload: { ...payload, deprecated: true },
+            headers: expectedHeaders,
+            timeout: settings.partner.fetchTimeOut,
+          });
+        });
+      });
       it('should send the notification to Pole Emploi', async function () {
         // given
         const expiredDate = dayjs().add(10, 'm').toDate();

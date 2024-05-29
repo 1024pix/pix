@@ -29,6 +29,7 @@ import { CampaignForArchiving } from '../../../src/prescription/campaign/domain/
 import { CampaignForCreation } from '../../../src/prescription/campaign/domain/models/CampaignForCreation.js';
 import { Group } from '../../../src/prescription/campaign/domain/models/Group.js';
 import { CampaignToStartParticipation } from '../../../src/prescription/campaign-participation/domain/models/CampaignToStartParticipation.js';
+import { PoleEmploiSending } from '../../../src/prescription/campaign-participation/domain/models/PoleEmploiSending.js';
 import { OrganizationPlacesLot } from '../../../src/prescription/organization-place/domain/models/OrganizationPlacesLot.js';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../src/prescription/shared/domain/constants.js';
 import { OrganizationsToAttachToTargetProfile } from '../../../src/prescription/target-profile/domain/models/OrganizationsToAttachToTargetProfile.js';
@@ -103,7 +104,6 @@ import { OrganizationTag } from './OrganizationTag.js';
 import { ParticipantResultsShared } from './ParticipantResultsShared.js';
 import { PartnerCertificationScoring } from './PartnerCertificationScoring.js';
 import { PlacementProfile } from './PlacementProfile.js';
-import { PoleEmploiSending } from './PoleEmploiSending.js';
 import { PrivateCertificate } from './PrivateCertificate.js';
 import { ReproducibilityRate } from './ReproducibilityRate.js';
 import { ResultCompetence } from './ResultCompetence.js';
