@@ -14,7 +14,7 @@ describe('Unit | Application | learner-list-controller', function () {
     beforeEach(function () {
       request = {
         auth: { credentials: { userId: connectedUserId } },
-        params: { id: organizationId },
+        params: { organizationId },
       };
 
       sinon.stub(usecases, 'findPaginatedFilteredParticipants');
@@ -105,7 +105,7 @@ describe('Unit | Application | learner-list-controller', function () {
       // given
       request = {
         auth: { credentials: { userId: connectedUserId } },
-        params: { id: organizationId },
+        params: { organizationId },
         query: {
           'filter[certificability][]': ['eligible', 'non-eligible', 'not-available'],
         },

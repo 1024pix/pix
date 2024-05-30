@@ -11,7 +11,7 @@ const findPaginatedFilteredParticipants = async function (
     organizationParticipantsSerializer,
   },
 ) {
-  const organizationId = request.params.id;
+  const organizationId = request.params.organizationId;
   const { page, filter: filters, sort } = dependencies.queryParamsUtils.extractParameters(request.query);
 
   if (filters.certificability) {

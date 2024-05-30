@@ -160,7 +160,7 @@ describe('Integration | Application | SecurityPreHandlers', function () {
       expect(response.statusCode).to.equal(403);
     });
 
-    context('returns 200 when the user belongs to the organization', function() {
+    context('returns 200 when the user belongs to the organization', function () {
       it('given id on params', async function () {
         const { id: userId } = databaseBuilder.factory.buildUser();
         const { id: organizationId } = databaseBuilder.factory.buildOrganization();
@@ -194,7 +194,7 @@ describe('Integration | Application | SecurityPreHandlers', function () {
 
         expect(response.statusCode).to.equal(200);
       });
-    })
+    });
   });
 
   describe('#checkUserIsMemberOfAnOrganization', function () {
