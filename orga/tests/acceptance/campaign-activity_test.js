@@ -34,7 +34,7 @@ module('Acceptance | Campaign Activity', function (hooks) {
       id: 1,
       lastName: 'Bacri',
       status: 'SHARED',
-      lastSharedOrCurrentCampaignParticipationId: 1,
+      lastCampaignParticipationId: 1,
     });
 
     await authenticateSession(user.id);
@@ -61,7 +61,7 @@ module('Acceptance | Campaign Activity', function (hooks) {
         server.create('campaign-participant-activity', {
           id: 1,
           lastName: 'Bacri',
-          lastSharedOrCurrentCampaignParticipationId: 1,
+          lastCampaignParticipationId: 1,
         });
       });
 
