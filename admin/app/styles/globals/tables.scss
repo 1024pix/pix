@@ -12,7 +12,6 @@ thead {
 }
 
 tbody {
-
   tr.tr--clickable {
     cursor: pointer;
 
@@ -66,6 +65,18 @@ td.td--bold {
 
   &--break-word {
     word-break: break-all;
+  }
+}
+
+.table__cell--percentage {
+  display: flex;
+  align-items: center;
+
+  span {
+    margin-left: var(--pix-spacing-1x);
+    color: var(--pix-neutral-60);
+    font-weight: var(--pix-font-medium);
+    font-size: var(--font-size-small);
   }
 }
 

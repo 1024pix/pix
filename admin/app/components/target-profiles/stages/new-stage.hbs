@@ -15,19 +15,22 @@
           @id={{concat "threshold-" @index}}
         />
       {{else}}
-        <PixInput
-          @id={{concat "threshold-" @index}}
-          @errorMessage="Le seuil est invalide"
-          @validationStatus={{this.thresholdStatus}}
-          @requiredLabel="Champ obligatoire"
-          type="number"
-          @value={{this.threshold}}
-          readonly={{@stage.isZeroStage}}
-          @screenReaderOnly={{true}}
-          {{on "focusout" this.checkThresholdValidity}}
-        >
-          <:label>Seuil du palier</:label>
-        </PixInput>
+        <div class="table__cell--percentage">
+          <PixInput
+            @id={{concat "threshold-" @index}}
+            @errorMessage="Le seuil est invalide"
+            @validationStatus={{this.thresholdStatus}}
+            @requiredLabel="Champ obligatoire"
+            type="number"
+            @value={{this.threshold}}
+            readonly={{@stage.isZeroStage}}
+            @screenReaderOnly={{true}}
+            {{on "focusout" this.checkThresholdValidity}}
+          >
+            <:label>Seuil du palier</:label>
+          </PixInput>
+          <span>%</span>
+        </div>
       {{/if}}
     {{/if}}
   </td>

@@ -334,8 +334,8 @@ module('Acceptance | Target Profile Insights', function (hooks) {
           assert.true(firstStageThresholdInput.hasAttributes('value', '0'));
           assert.dom(screen.getAllByText('mon premier palier')[0]).exists();
           assert.dom(screen.getAllByText('mon deuxième palier')[0]).exists();
-          assert.dom(screen.getAllByText(0)[0]).exists();
-          assert.dom(screen.getAllByText(50)[0]).exists();
+          assert.dom(screen.getAllByText('0%')[0]).exists();
+          assert.dom(screen.getAllByText('50%')[0]).exists();
           assert.dom(screen.getByText('mon message 1')).exists();
           assert.dom(screen.getByText('mon message 2')).exists();
           assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
