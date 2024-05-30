@@ -1,4 +1,6 @@
+import { DomainError } from '../errors.js';
 import { AreaForAdmin } from './index.js';
+import { categories } from './TargetProfile.js';
 
 class TargetProfileForAdmin {
   constructor({
@@ -67,6 +69,27 @@ class TargetProfileForAdmin {
   get maxLevel() {
     const levels = this.areas.map((area) => area.maxLevel);
     return Math.max(...levels);
+  }
+
+  update(attributes) {
+    const hasTubeToUpdate = attributes.tubes?.length > 0;
+
+    if (hasTubeToUpdate && this.hasLinkedCampaign) {
+      throw new DomainError('Le profil cible est relié à une campagne, interdiction de modifier le référentiel');
+    }
+
+    const validCategories = Object.values(categories);
+    if (!validCategories.includes(attributes.category)) {
+      throw new DomainError("La catégorie de profil cible renseignée n'est pas valide");
+    }
+
+    this.name = attributes.name;
+    this.imageUrl = attributes.imageUrl;
+    this.description = attributes.description;
+    this.comment = attributes.comment;
+    this.category = attributes.category;
+    this.areKnowledgeElementsResettable = attributes.areKnowledgeElementsResettable;
+    this.tubes = attributes.tubes;
   }
 }
 

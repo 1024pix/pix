@@ -58,44 +58,42 @@ describe('Unit | Controller | target-profile-controller', function () {
   });
 
   describe('#updateTargetProfile', function () {
-    let request;
-
-    beforeEach(function () {
-      sinon.stub(usecases, 'updateTargetProfile');
-
-      request = {
-        params: {
-          id: 123,
-        },
-        payload: {
-          data: {
-            attributes: {
-              name: 'Pixer123',
-              'are-knowledge-elements-resettable': false,
-              description: 'description changée',
-              comment: 'commentaire changée',
-              'image-url': 'image changée',
-            },
-          },
-        },
-      };
-    });
-
     context('successful case', function () {
       it('should succeed', async function () {
+        // given
+        const payload = Symbol('some payload');
+
+        const request = {
+          params: {
+            id: 123,
+          },
+          payload,
+        };
+
+        const attributesToUpdate = Symbol('deserialized attributes to update');
+
+        const dependencies = {
+          usecases: {
+            updateTargetProfile: sinon.stub(),
+          },
+          targetProfileSerializer: {
+            deserialize: sinon.stub().returns(attributesToUpdate),
+          },
+        };
+
+        const domainTransaction = Symbol('domain transaction');
+        sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
+
         // when
-        const response = await targetProfileController.updateTargetProfile(request, hFake);
+        const response = await targetProfileController.updateTargetProfile(request, hFake, dependencies);
 
         // then
         expect(response.statusCode).to.equal(204);
-        expect(usecases.updateTargetProfile).to.have.been.calledOnce;
-        expect(usecases.updateTargetProfile).to.have.been.calledWithMatch({
-          id: 123,
-          name: 'Pixer123',
-          description: 'description changée',
-          comment: 'commentaire changée',
-          imageUrl: 'image changée',
-          areKnowledgeElementsResettable: false,
+        expect(dependencies.targetProfileSerializer.deserialize).to.have.been.calledOnceWith(payload);
+        expect(dependencies.usecases.updateTargetProfile).to.have.been.calledOnceWithExactly({
+          id: request.params.id,
+          attributesToUpdate,
+          domainTransaction,
         });
       });
     });
