@@ -1,8 +1,7 @@
 import { setupTest } from 'ember-qunit';
+import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-
-import createPodsComponent from '../../../helpers/create-pods-component';
 
 module('Unit | Component | Module | Image', function (hooks) {
   setupTest(hooks);
@@ -12,7 +11,7 @@ module('Unit | Component | Module | Image', function (hooks) {
       // given
       const image = { url: '', alt: '', alternativeText: 'hello' };
 
-      const component = createPodsComponent('module/image', { image });
+      const component = createGlimmerComponent('module/image', { image });
 
       // when & then
       assert.true(component.hasAlternativeText);
@@ -22,7 +21,7 @@ module('Unit | Component | Module | Image', function (hooks) {
       // given
       const image = { url: '', alt: '', alternativeText: '' };
 
-      const component = createPodsComponent('module/image', { image });
+      const component = createGlimmerComponent('module/image', { image });
 
       // when & then
       assert.false(component.hasAlternativeText);
@@ -34,7 +33,7 @@ module('Unit | Component | Module | Image', function (hooks) {
       // given
       const image = { id: 'image-id' };
 
-      const component = createPodsComponent('module/image', { image });
+      const component = createGlimmerComponent('module/image', { image });
       assert.false(component.modalIsOpen);
 
       // when
@@ -52,7 +51,7 @@ module('Unit | Component | Module | Image', function (hooks) {
       const metrics = this.owner.lookup('service:metrics');
       metrics.add = sinon.stub();
 
-      const component = createPodsComponent('module/image', { image, moduleId });
+      const component = createGlimmerComponent('module/image', { image, moduleId });
       assert.false(component.modalIsOpen);
 
       // when
@@ -76,7 +75,7 @@ module('Unit | Component | Module | Image', function (hooks) {
         // given
         const image = { id: 'image-id' };
 
-        const component = createPodsComponent('module/image', { image });
+        const component = createGlimmerComponent('module/image', { image });
         assert.false(component.modalIsOpen);
 
         component.showModal();
