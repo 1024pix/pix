@@ -1,4 +1,5 @@
 import * as organizationEntitiesApi from '../../../../../src/organizational-entities/application/api/organization-features-api.js';
+import { OrganizationFeaturesDTO } from '../../../../../src/organizational-entities/application/api/OrganizationFeaturesDTO.js';
 import { OrganizationFeatureItem } from '../../../../../src/organizational-entities/domain/models/OrganizationFeatureItem.js';
 import { usecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
 import { expect, sinon } from '../../../../test-helper.js';
@@ -20,7 +21,8 @@ describe('Unit | Organizational Entities | Application | API | organization-feat
       const result = await organizationEntitiesApi.getAllFeaturesFromOrganization(organizationId);
 
       // then
-      expect(result[0]).not.to.be.instanceOf(OrganizationFeatureItem);
+      expect(result).to.be.instanceOf(OrganizationFeaturesDTO);
+      expect(result.features[0]).not.to.be.instanceOf(OrganizationFeatureItem);
     });
   });
 });
