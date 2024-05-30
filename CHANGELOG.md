@@ -1,5 +1,31 @@
 # Pix Changelog
 
+## v4.154.0 (30/05/2024)
+
+
+### :rocket: Amélioration
+- [#8842](https://github.com/1024pix/pix/pull/8842) [FEATURE] Permettre la modification des sujets d'un profil cible non relié à une campagne (PIX-12436).
+
+### :building_construction: Tech
+- [#9095](https://github.com/1024pix/pix/pull/9095) [TECH] Corrige un test flaky sur le comportement QROCM (PIX-12730).
+- [#9104](https://github.com/1024pix/pix/pull/9104) [TECH] Monter la version d'`eslint` minimum du dossier racine.
+
+### :bug: Correction
+- [#9091](https://github.com/1024pix/pix/pull/9091) [BUGFIX] Interdire les actions utilisateurs pendant la transition entre épreuves (PIX-12658).
+- [#9083](https://github.com/1024pix/pix/pull/9083) [BUGFIX] Numéroter les participations dans le bon ordre dans le selecteur de participation (pix-12713).
+- [#9096](https://github.com/1024pix/pix/pull/9096) [BUGFIX] Import en masse de session KO pour l'inscription aux complémentaires (PIX-12718).
+
+### :arrow_up: Montée de version
+- [#9111](https://github.com/1024pix/pix/pull/9111) [BUMP] Update dependency pino to v9 (api).
+- [#9110](https://github.com/1024pix/pix/pull/9110) [BUMP] Update dependency eslint-plugin-unicorn to v53 (api).
+- [#9109](https://github.com/1024pix/pix/pull/9109) [BUMP] Update dependency eslint-plugin-unicorn to v52 (api).
+- [#9108](https://github.com/1024pix/pix/pull/9108) [BUMP] Update dependency @1024pix/pix-ui to ^46.5.2 (mon-pix).
+- [#9106](https://github.com/1024pix/pix/pull/9106) [BUMP] Update dependency sinon to v18 (certif).
+- [#9105](https://github.com/1024pix/pix/pull/9105) [BUMP] Update dependency sinon to v18 (mon-pix).
+- [#9103](https://github.com/1024pix/pix/pull/9103) [BUMP] Update dependency sinon to v18 (load-testing).
+- [#9102](https://github.com/1024pix/pix/pull/9102) [BUMP] Update dependency sinon to v18 (junior).
+- [#9101](https://github.com/1024pix/pix/pull/9101) [BUMP] Update dependency sinon to v18 (admin).
+
 ## v4.153.0 (29/05/2024)
 
 
