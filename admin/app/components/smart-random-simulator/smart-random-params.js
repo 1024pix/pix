@@ -5,6 +5,7 @@ import Joi from 'joi';
 
 export default class SmartRandomParams extends Component {
   @tracked errors = {};
+  @tracked campaignId = 1;
 
   acceptedLocales = [
     { value: 'en', label: 'en' },
@@ -12,7 +13,6 @@ export default class SmartRandomParams extends Component {
     { value: 'fr-fr', label: 'fr-fr' },
     { value: 'nl', label: 'nl' },
   ];
-
   skillsExample = [{ id: 'skillId', name: '@requete2', difficulty: 3 }];
   challengesExample = [
     {
@@ -21,7 +21,6 @@ export default class SmartRandomParams extends Component {
       locales: ['fr-fr'],
     },
   ];
-
   knowledgeElementsExample = [
     {
       id: 'rec1xAgCoZux1Lxq8',
@@ -105,7 +104,16 @@ export default class SmartRandomParams extends Component {
     this.args.updateParametersValue(key, event.target.value);
   }
 
+  @action
+  updateCampaignIdValue(event) {
+    this.campaignId = event.target.value;
+  }
+
   @action updateLocaleValue(value) {
     this.args.updateParametersValue('locale', value);
+  }
+
+  @action loadCampaignParams() {
+    this.args.loadCampaignParams(this.campaignId);
   }
 }

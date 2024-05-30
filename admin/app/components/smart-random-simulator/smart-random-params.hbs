@@ -1,7 +1,26 @@
 <form class="admin-form">
-  <section class="admin-form__content admin-form__content--with-counters">
+  <section class="admin-form__content">
 
     <Card class="admin-form__card" @title="Évaluation (campagne ou positionnement)">
+
+      <div class="load-campaign-params">
+
+        <p>
+          Charger les paramètres depuis un identifiant de campagne :
+        </p>
+
+        <PixInput
+          @id="campaignId"
+          @placeholder="12345"
+          @value={{this.campaignId}}
+          {{on "change" this.updateCampaignIdValue}}
+        />
+
+        <PixButton @triggerAction={{this.loadCampaignParams}} @size="small">
+          Charger
+        </PixButton>
+      </div>
+
       <PixTextarea
         @id="skills"
         @value={{fn this.stringify @skills}}

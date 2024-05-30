@@ -18,9 +18,45 @@ module('Unit | Controller | authenticated/smart-random-simulator/get-next-challe
     focused: false,
   };
 
-  const apiResponseBody = {
+  const getNextChallengeApiResponseBody = {
     challenge: returnedChallenge,
     smartRandomDetails: { predictedLevel: 8, steps: [] },
+  };
+
+  const getCampaignParamsApiResponseBody = {
+    skills: [
+      {
+        id: 'rec1al9C9yGMQwK6S',
+        name: '@developperProjet3',
+        competenceId: 'recFpYXCKcyhLI3Nu',
+        tubeId: 'recuvo92yAymf7l3r',
+        difficulty: 3,
+      },
+      {
+        id: 'rec1xAgCoZux1Lxq8',
+        name: '@requete2',
+        competenceId: 'recsvLz0W2ShyfD63',
+        tubeId: 'recYmSqXBdRWCbTL6',
+        difficulty: 2,
+      },
+    ],
+    challenges: [
+      {
+        id: 'challenge1AEDN4duRipYiK',
+        format: 'mots',
+        instruction: 'Jean-Michel utilise son ordinateur pour naviguer sur le web.',
+        status: 'validé',
+        type: 'QCM',
+        locales: ['fr-fr'],
+        skill: {
+          id: 'rec1al9C9yGMQwK6S',
+          name: '@developperProjet3',
+          competenceId: 'recFpYXCKcyhLI3Nu',
+          tubeId: 'recuvo92yAymf7l3r',
+          difficulty: 3,
+        },
+      },
+    ],
   };
 
   hooks.beforeEach(async function () {
@@ -93,7 +129,7 @@ module('Unit | Controller | authenticated/smart-random-simulator/get-next-challe
   module('#requestNextChallenge', function () {
     test('it should call window fetch function', async function (assert) {
       // given
-      const apiResponse = new Response(JSON.stringify(apiResponseBody), { status: 200 });
+      const apiResponse = new Response(JSON.stringify(getNextChallengeApiResponseBody), { status: 200 });
       fetchStub.resolves(apiResponse);
 
       // when
@@ -101,12 +137,13 @@ module('Unit | Controller | authenticated/smart-random-simulator/get-next-challe
 
       // then
       assert.ok(controller);
+      assert.ok(fetchStub.calledOnce);
     });
 
     module('when api answer is 200', function () {
       test('it should add returned challenge to current challenges', async function (assert) {
         // given
-        const apiResponse = new Response(JSON.stringify(apiResponseBody), { status: 200 });
+        const apiResponse = new Response(JSON.stringify(getNextChallengeApiResponseBody), { status: 200 });
         fetchStub.resolves(apiResponse);
 
         // when
@@ -145,7 +182,7 @@ module('Unit | Controller | authenticated/smart-random-simulator/get-next-challe
     });
 
     module('when api answer is not 200 or 204', function () {
-      test('it should call notification services with errors ', async function (assert) {
+      test('it should call error notification service function', async function (assert) {
         // given
         const apiResponse = new Response(
           JSON.stringify({ errors: [{ detail: 'A serious error' }, { detail: 'This error will amaze you' }] }),
@@ -162,6 +199,74 @@ module('Unit | Controller | authenticated/smart-random-simulator/get-next-challe
         // then
         assert.ok(controller);
         assert.ok(controller.notifications.error.calledTwice);
+      });
+    });
+  });
+
+  module('#loadCampaignParams', function () {
+    test('it should call window fetch function', async function (assert) {
+      // given
+      const apiResponse = new Response(JSON.stringify(getCampaignParamsApiResponseBody), { status: 200 });
+      fetchStub.resolves(apiResponse);
+
+      // when
+      await controller.loadCampaignParams(1);
+
+      // then
+      assert.ok(controller);
+      assert.ok(fetchStub.calledOnce);
+    });
+
+    module('when api answer is 200', function () {
+      test('it should assign local values based on API response', async function (assert) {
+        // given
+        const apiResponse = new Response(JSON.stringify(getCampaignParamsApiResponseBody), { status: 200 });
+        fetchStub.resolves(apiResponse);
+
+        // when
+        await controller.loadCampaignParams(1);
+        assert.deepEqual(controller.challenges, getCampaignParamsApiResponseBody.challenges);
+        assert.deepEqual(controller.skills, getCampaignParamsApiResponseBody.skills);
+      });
+      test('it should call success notification service function', async function (assert) {
+        // given
+        const apiResponse = new Response(JSON.stringify(getCampaignParamsApiResponseBody), { status: 200 });
+        fetchStub.resolves(apiResponse);
+        controller.notifications = {
+          success: sinon.stub(),
+        };
+
+        // when
+        await controller.loadCampaignParams(1);
+
+        // then
+        assert.ok(controller);
+        assert.ok(
+          controller.notifications.success.calledOnceWithExactly('Données chargées: 2 compétences et 1 challenges'),
+        );
+      });
+    });
+
+    module('when api answer is not 200', function () {
+      test('it should call error notification service function', async function (assert) {
+        // given
+        const apiResponse = new Response(
+          JSON.stringify({ errors: [{ detail: 'An other error' }, { detail: 'This error will blow your mind' }] }),
+          { status: 400 },
+        );
+        fetchStub.resolves(apiResponse);
+        controller.notifications = {
+          error: sinon.stub(),
+        };
+
+        // when
+        await controller.requestNextChallenge();
+
+        // then
+        assert.ok(controller);
+        const stubCalls = controller.notifications.error.getCalls();
+        assert.deepEqual(stubCalls[0].args, ['An other error']);
+        assert.deepEqual(stubCalls[1].args, ['This error will blow your mind']);
       });
     });
   });

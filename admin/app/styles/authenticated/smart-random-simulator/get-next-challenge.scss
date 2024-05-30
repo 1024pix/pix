@@ -2,6 +2,22 @@
   display: flex;
   flex-direction: row;
 
+  .load-campaign-params{
+    display: flex;
+    flex-direction: row;
+    gap: var(--pix-spacing-4x);
+    align-items: center;
+    justify-content: left;
+    margin-right: 20px;
+
+    p{
+      display: block;
+      color: var(--pix-neutral-900);
+      font-weight: var(--pix-font-medium);
+      line-height: 1.5;
+    }
+  }
+
   section {
     position: relative;
     width: 100%;

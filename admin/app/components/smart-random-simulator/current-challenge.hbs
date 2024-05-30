@@ -28,15 +28,15 @@
 
   <div class="current-challenge__actions">
 
-    <PixButton @variant="error" @size="large" @triggerAction={{@failCurrentChallenge}}>
+    <PixButton @variant="error" @triggerAction={{@failCurrentChallenge}}>
       Rater l'épreuve
     </PixButton>
 
-    <PixButton @variant="success" @size="large" @triggerAction={{@succeedCurrentChallenge}}>
+    <PixButton @variant="success" @triggerAction={{@succeedCurrentChallenge}}>
       Réussir l'épreuve
     </PixButton>
 
-    <PixButton @variant="tertiary" @size="large" @triggerAction={{@reset}}>
+    <PixButton @variant="secondary" @triggerAction={{@reset}}>
       Redémarrer la simulation
     </PixButton>
 
