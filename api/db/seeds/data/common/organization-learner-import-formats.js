@@ -1,4 +1,4 @@
-import { IMPORT_FORMAT_ONDE_ID, REAL_PIX_SUPER_ADMIN_ID } from './constants.js';
+import { IMPORT_FORMAT_GENERIC_ID, IMPORT_FORMAT_ONDE_ID, REAL_PIX_SUPER_ADMIN_ID } from './constants.js';
 
 export const organizationLearnerImportFormat = async function ({ databaseBuilder }) {
   await databaseBuilder.factory.buildOrganizationLearnerImportFormat({
@@ -30,5 +30,33 @@ export const organizationLearnerImportFormat = async function ({ databaseBuilder
     createdAt: new Date('2024-01-01'),
     createdBy: REAL_PIX_SUPER_ADMIN_ID,
     updatedAt: new Date('2021-02-01'),
+  });
+
+  await databaseBuilder.factory.buildOrganizationLearnerImportFormat({
+    id: IMPORT_FORMAT_GENERIC_ID,
+    name: 'GENERIC',
+    fileType: 'csv',
+    config: {
+      acceptedEncoding: ['utf8'],
+      unicityColumns: ['unicity key'],
+      validationRules: {
+        formats: [
+          { name: 'Nom apprenant', type: 'string', required: true },
+          { name: 'Prénom apprenant', type: 'string', required: true },
+          { name: 'unicity key', type: 'string', required: true },
+          { name: 'catégorie', type: 'string', required: true },
+          { name: 'Date de naissance', type: 'date', format: 'YYYY-MM-DD', required: true },
+        ],
+      },
+      headers: [
+        { name: 'Nom apprenant', property: 'lastName', required: true },
+        { name: 'Prénom apprenant', property: 'firstName', required: true },
+        { name: 'unicity key', required: true },
+        { name: 'catégorie', required: true },
+        { name: 'Date de naissance', required: true },
+      ],
+    },
+    createdAt: new Date('2024-01-01'),
+    createdBy: REAL_PIX_SUPER_ADMIN_ID,
   });
 };

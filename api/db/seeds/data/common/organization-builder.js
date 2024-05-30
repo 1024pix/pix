@@ -2,8 +2,11 @@ import {
   AGRICULTURE_TAG,
   DEFAULT_PASSWORD,
   FEATURE_COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY_ID,
+  FEATURE_LEARNER_IMPORT_ID,
   FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID,
   FEATURE_PLACES_MANAGEMENT_ID,
+  IMPORT_FORMAT_GENERIC_ID,
+  PRO_MANAGING_ORGANIZATION_ID,
   PRO_ORGANIZATION_ID,
   SCO_FREGATA_MANAGING_ORGANIZATION_ID,
   SCO_MANAGING_ORGANIZATION_ID,
@@ -22,7 +25,7 @@ async function _createScoOrganization(databaseBuilder) {
     type: 'SCO',
     name: 'SCO SIECLE',
     isManagingStudents: true,
-    externalId: 'SCO_MANAGING',
+    externalId: 'SCO_SIECLE_MANAGING',
     adminIds: [USER_ID_ADMIN_ORGANIZATION],
     memberIds: [USER_ID_MEMBER_ORGANIZATION],
     features: [
@@ -94,6 +97,21 @@ async function _createProOrganization(databaseBuilder) {
     adminIds: [USER_ID_ADMIN_ORGANIZATION],
     memberIds: [USER_ID_MEMBER_ORGANIZATION],
     features: [{ id: FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID }, { id: FEATURE_PLACES_MANAGEMENT_ID }],
+  });
+
+  await organization.createOrganization({
+    databaseBuilder,
+    organizationId: PRO_MANAGING_ORGANIZATION_ID,
+    type: 'PRO',
+    name: 'PRO Import (Generic)',
+    isManagingStudents: false,
+    externalId: 'PRO_MANAGING',
+    adminIds: [USER_ID_ADMIN_ORGANIZATION],
+    memberIds: [USER_ID_MEMBER_ORGANIZATION],
+    features: [
+      { id: FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID },
+      { id: FEATURE_LEARNER_IMPORT_ID, params: { organizationLearnerImportFormatId: IMPORT_FORMAT_GENERIC_ID } },
+    ],
   });
 }
 
