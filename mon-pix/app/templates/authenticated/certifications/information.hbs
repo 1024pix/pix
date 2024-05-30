@@ -1,9 +1,24 @@
 {{page-title (t "pages.certification-information.title")}}
-
 <main class="certification-information">
-  <PixBackgroundHeader id="main">
-    <PixBlock @shadow="heavy" class="certification-start-page__block">
-      <CertificationInformation />
-    </PixBlock>
-  </PixBackgroundHeader>
+  <header class="certification-information__header">
+    <img class="certification-information-header__logo" src="/images/pix-logo-blanc.svg" alt="">
+    <span class="certification-information-header__separator"></span>
+    <h1 class="certification-information-header__title">{{t "pages.certification-information.title"}}</h1>
+  </header>
+  <PixBlock @shadow="heavy" class="certification-information__card">
+    <CertificationInformation />
+    <footer class="certification-information__footer">
+      <div class="certification-information-footer__dots">
+        <img class="certification-information-footer-dots__dot {{if true 'active'}}" src="/images/illustrations/certification-information-screens/ellipse.svg" alt="">
+        <img class="certification-information-footer-dots__dot" src="/images/illustrations/certification-information-screens/ellipse.svg" alt="">
+        <img class="certification-information-footer-dots__dot" src="/images/illustrations/certification-information-screens/ellipse.svg" alt="">
+        <img class="certification-information-footer-dots__dot" src="/images/illustrations/certification-information-screens/ellipse.svg" alt="">
+        <img class="certification-information-footer-dots__dot" src="/images/illustrations/certification-information-screens/ellipse.svg" alt="">
+      </div>
+      <div class="certification-information-footer__buttons">
+        <PixButton @size="large" @variant="secondary" @triggerAction={{this.cancelEdit}}>{{t "pages.certification-information.buttons.previous"}}</PixButton>
+        <PixButton @size="large">{{t "pages.certification-information.buttons.continuous"}}</PixButton>
+      </div>
+    </footer>
+  </PixBlock>
 </main>

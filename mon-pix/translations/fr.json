@@ -428,7 +428,11 @@
       }
     },
     "certification-information": {
-      "title": "information",
+      "title": "Explication de la certification",
+      "buttons": {
+        "previous": "Précédent",
+        "continuous": "Continuer"
+      },
       "screens": {
         "first": {
           "title": "Bienvenue à la certification Pix",

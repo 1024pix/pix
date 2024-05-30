@@ -1,9 +1,56 @@
 .certification-information {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
   min-height: 100vh;
   background: $pix-primary-certif-gradient;
+  padding: 32px 80px;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    font-size: 1.125rem;
+    margin-bottom: 110px;
+    gap: 16px;
+  }
+
+  &__card {
+    max-width: 846px;
+    padding: 24px;
+    margin: auto;
+    border-radius: 24px;
+  }
+
+  &__footer {
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    justify-content: start;
+    gap: 24px;
+  }
+}
+
+.certification-information-header {
+  &__logo {
+    max-width: 60px;
+  }
+
+  &__separator {
+    width: 1px;
+    background-color: var(--pix-neutral-0);
+    height: 32px;
+  }
+
+  &__title {
+    color: var(--pix-neutral-0);
+  }
+}
+
+.certification-information-footer {
+  &__buttons {
+    display: flex;
+    gap: 32px;
+  }
+}
+
+.certification-information-footer-dots__dot.active {
+    filter: brightness(0) saturate(100%) invert(17%) sepia(28%) saturate(7283%) hue-rotate(246deg) brightness(90%) contrast(94%);
 }
