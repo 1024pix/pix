@@ -9,4 +9,8 @@ export default class CertificationCandidateSubscription extends Model {
   get hasSubscription() {
     return this.eligibleSubscription || this.nonEligibleSubscription;
   }
+
+  get isSessionVersion3() {
+    return this.sessionVersion === 3;
+  }
 }
