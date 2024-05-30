@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 import { knex } from '../../../db/knex-database-connection.js';
 import * as flash from '../../../src/certification/flash-certification/domain/services/algorithm-methods/flash.js';
+import * as dataFetcher from '../../../src/evaluation/domain/services/algorithm-methods/data-fetcher.js';
 import { convertLevelStagesIntoThresholds } from '../../../src/evaluation/domain/services/stages/convert-level-stages-into-thresholds-service.js';
 import * as answerRepository from '../../../src/shared/infrastructure/repositories/answer-repository.js';
 import * as areaRepository from '../../../src/shared/infrastructure/repositories/area-repository.js';
@@ -11,7 +12,6 @@ import * as skillRepository from '../../../src/shared/infrastructure/repositorie
 import { NotFoundError } from '../../domain/errors.js';
 import { Assessment } from '../../domain/models/index.js';
 import { AssessmentResult } from '../../domain/read-models/participant-results/AssessmentResult.js';
-import * as dataFetcher from '../../domain/services/algorithm-methods/data-fetcher.js';
 import * as campaignRepository from './campaign-repository.js';
 import * as flashAssessmentResultRepository from './flash-assessment-result-repository.js';
 import * as knowledgeElementRepository from './knowledge-element-repository.js';

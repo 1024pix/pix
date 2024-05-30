@@ -1,5 +1,5 @@
-import * as algorithmDataFetcherService from '../../../../lib/domain/services/algorithm-methods/data-fetcher.js';
 import { getNextChallengeForCampaignAssessment } from '../../../../lib/domain/usecases/get-next-challenge-for-campaign-assessment.js';
+import * as algorithmDataFetcherService from '../../../../src/evaluation/domain/services/algorithm-methods/data-fetcher.js';
 import { LOCALE } from '../../../../src/shared/domain/constants.js';
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 

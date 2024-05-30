@@ -33,6 +33,8 @@ import * as certificationIssueReportRepository from '../../../src/certification/
 import * as issueReportCategoryRepository from '../../../src/certification/shared/infrastructure/repositories/issue-report-category-repository.js';
 import * as certificationCandidateForSupervisingRepository from '../../../src/certification/supervision/infrastructure/repositories/certification-candidate-for-supervising-repository.js';
 import * as userSavedTutorialRepository from '../../../src/devcomp/infrastructure/repositories/user-saved-tutorial-repository.js';
+import * as algorithmDataFetcherService from '../../../src/evaluation/domain/services/algorithm-methods/data-fetcher.js';
+import * as smartRandom from '../../../src/evaluation/domain/services/algorithm-methods/smart-random.js';
 import { getCompetenceLevel } from '../../../src/evaluation/domain/services/get-competence-level.js';
 import * as scorecardService from '../../../src/evaluation/domain/services/scorecard-service.js';
 import * as stageAndStageAcquisitionComparisonService from '../../../src/evaluation/domain/services/stages/stage-and-stage-acquisition-comparison-service.js';
@@ -91,8 +93,6 @@ import * as userOrgaSettingsRepository from '../../../src/shared/prescriber-mana
 import * as certificationCenterInvitationService from '../../../src/team/domain/services/certification-center-invitation-service.js';
 import * as certificationCenterInvitationRepository from '../../../src/team/infrastructure/repositories/certification-center-invitation-repository.js';
 import { config } from '../../config.js';
-import * as algorithmDataFetcherService from '../../domain/services/algorithm-methods/data-fetcher.js';
-import * as smartRandom from '../../domain/services/algorithm-methods/smart-random.js';
 import * as certificationBadgesService from '../../domain/services/certification-badges-service.js';
 import * as certificationCandidatesOdsService from '../../domain/services/certification-candidates-ods-service.js';
 import * as certificationChallengesService from '../../domain/services/certification-challenges-service.js';
