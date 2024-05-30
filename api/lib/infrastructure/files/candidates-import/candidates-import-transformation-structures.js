@@ -94,65 +94,27 @@ function getTransformationStructsForPixCertifCandidatesImport({ i18n, complement
 }
 
 function _includeComplementaryCertificationColumns({ complementaryCertifications, transformationStruct, translate }) {
-  const containsClea = complementaryCertifications.some(
-    (complementaryCertification) => complementaryCertification.key === ComplementaryCertificationKeys.CLEA,
-  );
-  const containsPixPlusDroit = complementaryCertifications.some(
-    (complementaryCertification) => complementaryCertification.key === ComplementaryCertificationKeys.PIX_PLUS_DROIT,
-  );
-  const containsPixPlusEdu1erDegre = complementaryCertifications.some(
-    (complementaryCertification) =>
-      complementaryCertification.key === ComplementaryCertificationKeys.PIX_PLUS_EDU_1ER_DEGRE,
-  );
-  const containsPixPlusEdu2ndDegre = complementaryCertifications.some(
-    (complementaryCertification) =>
-      complementaryCertification.key === ComplementaryCertificationKeys.PIX_PLUS_EDU_2ND_DEGRE,
-  );
-
-  const containsPixPlusProSante = complementaryCertifications.some(
-    (complementaryCertification) =>
-      complementaryCertification.key === ComplementaryCertificationKeys.PIX_PLUS_PRO_SANTE,
-  );
-
-  if (containsClea) {
-    transformationStruct.push({
-      header: `CléA Numérique${translate('candidate-list-template.yes-or-empty')}`,
+  [
+    {
+      key: ComplementaryCertificationKeys.CLEA,
       property: 'hasCleaNumerique',
-      transformFn: (val) => _toBooleanIfValueEqualsOuiOrNull({ val, translate }),
-    });
-  }
-
-  if (containsPixPlusDroit) {
-    transformationStruct.push({
-      header: `Pix+ Droit${translate('candidate-list-template.yes-or-empty')}`,
-      property: 'hasPixPlusDroit',
-      transformFn: (val) => _toBooleanIfValueEqualsOuiOrNull({ val, translate }),
-    });
-  }
-
-  if (containsPixPlusEdu1erDegre) {
-    transformationStruct.push({
-      header: `Pix+ Édu 1er degré${translate('candidate-list-template.yes-or-empty')}`,
-      property: 'hasPixPlusEdu1erDegre',
-      transformFn: (val) => _toBooleanIfValueEqualsOuiOrNull({ val, translate }),
-    });
-  }
-
-  if (containsPixPlusEdu2ndDegre) {
-    transformationStruct.push({
-      header: `Pix+ Édu 2nd degré${translate('candidate-list-template.yes-or-empty')}`,
-      property: 'hasPixPlusEdu2ndDegre',
-      transformFn: (val) => _toBooleanIfValueEqualsOuiOrNull({ val, translate }),
-    });
-  }
-
-  if (containsPixPlusProSante) {
-    transformationStruct.push({
-      header: `Pix+ Pro Santé${translate('candidate-list-template.yes-or-empty')}`,
-      property: 'hasPixPlusProSante',
-      transformFn: (val) => _toBooleanIfValueEqualsOuiOrNull({ val, translate }),
-    });
-  }
+    },
+    { key: ComplementaryCertificationKeys.PIX_PLUS_DROIT, property: 'hasPixPlusDroit' },
+    { key: ComplementaryCertificationKeys.PIX_PLUS_EDU_1ER_DEGRE, property: 'hasPixPlusEdu1erDegre' },
+    { key: ComplementaryCertificationKeys.PIX_PLUS_EDU_2ND_DEGRE, property: 'hasPixPlusEdu2ndDegre' },
+    { key: ComplementaryCertificationKeys.PIX_PLUS_PRO_SANTE, property: 'hasPixPlusProSante' },
+  ].forEach(({ key, property }) => {
+    const complementaryCertification = complementaryCertifications.find(
+      (complementaryCertification) => complementaryCertification.key === key,
+    );
+    if (complementaryCertification) {
+      transformationStruct.push({
+        header: `${complementaryCertification.label}${translate('candidate-list-template.yes-or-empty')}`,
+        property,
+        transformFn: (val) => _toBooleanIfValueEqualsOuiOrNull({ val, translate }),
+      });
+    }
+  });
 }
 
 function _includeBillingColumns({ transformationStruct, translate }) {
