@@ -1,7 +1,10 @@
 import dayjs from 'dayjs';
 
-import { REAL_PIX_SUPER_ADMIN_ID } from '../../common/common-builder.js';
-import { USER_ID_ADMIN_ORGANIZATION, USER_ID_MEMBER_ORGANIZATION } from '../../common/constants.js';
+import {
+  REAL_PIX_SUPER_ADMIN_ID,
+  USER_ID_ADMIN_ORGANIZATION,
+  USER_ID_MEMBER_ORGANIZATION,
+} from '../../common/constants.js';
 import * as tooling from '../../common/tooling/index.js';
 import { AUTONOMOUS_COURSES_ID } from '../constants.js';
 

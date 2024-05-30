@@ -1,9 +1,8 @@
-import { REAL_PIX_SUPER_ADMIN_ID } from '../common/common-builder.js';
-import { ONDE_IMPORT_FORMAT_ID } from '../common/constants.js';
+import { IMPORT_FORMAT_ONDE_ID, REAL_PIX_SUPER_ADMIN_ID } from './constants.js';
 
-export async function buildOrganizationLearnerImportFormat(databaseBuilder) {
+export const organizationLearnerImportFormat = async function ({ databaseBuilder }) {
   await databaseBuilder.factory.buildOrganizationLearnerImportFormat({
-    id: ONDE_IMPORT_FORMAT_ID,
+    id: IMPORT_FORMAT_ONDE_ID,
     name: 'ONDE',
     fileType: 'csv',
     config: {
@@ -32,4 +31,4 @@ export async function buildOrganizationLearnerImportFormat(databaseBuilder) {
     createdBy: REAL_PIX_SUPER_ADMIN_ID,
     updatedAt: new Date('2021-02-01'),
   });
-}
+};

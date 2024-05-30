@@ -5,7 +5,7 @@ import {
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
-} from '../common-builder.js';
+} from '../complementary-certification-builder.js';
 import * as generic from './generic.js';
 import * as learningContent from './learning-content.js';
 

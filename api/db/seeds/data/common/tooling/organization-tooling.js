@@ -4,6 +4,11 @@ export { createOrganization };
  * Fonction générique pour créer une organisation selon une configuration donnée.
  * Retourne l'ID de l'organisation.
  *
+ * @typedef Feature
+ * @type {object}
+ * @property {number} id
+ * @property {object} params
+ *
  * @param {DatabaseBuilder} databaseBuilder
  * @param {number} organizationId
  * @param {string} type
@@ -28,7 +33,7 @@ export { createOrganization };
  * @param {Array<number>} adminIds
  * @param {Array<number>} memberIds
  * @param {Array<number>} tagIds
- * @param {Array<number>} featureIds
+ * @param {Array<Feature>} features
  * @param configOrganization {learnerCount: number }
  * @returns {Promise<{organizationId: number}>}
  */
@@ -56,7 +61,7 @@ async function createOrganization({
   adminIds = [],
   memberIds = [],
   tagIds = [],
-  featureIds = [],
+  features = [],
   configOrganization,
   parentOrganizationId,
 }) {
@@ -100,7 +105,7 @@ async function createOrganization({
   _buildOrganizationFeatures({
     databaseBuilder,
     organizationId,
-    featureIds,
+    features,
   });
 
   _buildOrganizationLearners({
@@ -147,11 +152,12 @@ function _buildOrganizationLearners({ databaseBuilder, organizationId, configOrg
   }
 }
 
-function _buildOrganizationFeatures({ databaseBuilder, organizationId, featureIds }) {
-  featureIds.forEach((featureId) =>
+function _buildOrganizationFeatures({ databaseBuilder, organizationId, features }) {
+  features.forEach((feature) =>
     databaseBuilder.factory.buildOrganizationFeature({
       organizationId,
-      featureId,
+      featureId: feature.id,
+      params: feature.params,
     }),
   );
 }

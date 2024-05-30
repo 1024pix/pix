@@ -25,7 +25,10 @@ async function _createScoOrganization(databaseBuilder) {
     externalId: 'SCO_MANAGING',
     adminIds: [USER_ID_ADMIN_ORGANIZATION],
     memberIds: [USER_ID_MEMBER_ORGANIZATION],
-    featureIds: [FEATURE_COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY_ID, FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID],
+    features: [
+      { id: FEATURE_COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY_ID },
+      { id: FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID },
+    ],
   });
 
   await organization.createOrganization({
@@ -37,7 +40,7 @@ async function _createScoOrganization(databaseBuilder) {
     externalId: 'SCO_NOT_MANAGING',
     adminIds: [USER_ID_ADMIN_ORGANIZATION],
     memberIds: [USER_ID_MEMBER_ORGANIZATION],
-    featureIds: [FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID],
+    features: [{ id: FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID }],
   });
 
   await organization.createOrganization({
@@ -49,7 +52,7 @@ async function _createScoOrganization(databaseBuilder) {
     externalId: 'SCO_FREGATA_MANAGING',
     adminIds: [USER_ID_ADMIN_ORGANIZATION],
     memberIds: [USER_ID_MEMBER_ORGANIZATION],
-    featureIds: [FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID],
+    features: [{ id: FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID }],
     tagIds: [AGRICULTURE_TAG.id],
   });
 }
@@ -64,7 +67,7 @@ async function _createSupOrganization(databaseBuilder) {
     externalId: 'SUP_MANAGING',
     adminIds: [USER_ID_ADMIN_ORGANIZATION],
     memberIds: [USER_ID_MEMBER_ORGANIZATION],
-    featureIds: [FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID],
+    features: [{ id: FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID }],
   });
 
   await organization.createOrganization({
@@ -76,7 +79,7 @@ async function _createSupOrganization(databaseBuilder) {
     externalId: 'SUP_NOT_MANAGING',
     adminIds: [USER_ID_ADMIN_ORGANIZATION],
     memberIds: [USER_ID_MEMBER_ORGANIZATION],
-    featureIds: [FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID],
+    features: [{ id: FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID }],
   });
 }
 
@@ -90,7 +93,7 @@ async function _createProOrganization(databaseBuilder) {
     externalId: 'PRO_NOT_MANAGING',
     adminIds: [USER_ID_ADMIN_ORGANIZATION],
     memberIds: [USER_ID_MEMBER_ORGANIZATION],
-    featureIds: [FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID, FEATURE_PLACES_MANAGEMENT_ID],
+    features: [{ id: FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID }, { id: FEATURE_PLACES_MANAGEMENT_ID }],
   });
 }
 

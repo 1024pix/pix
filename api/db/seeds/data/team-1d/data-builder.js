@@ -1,7 +1,7 @@
 import {
   FEATURE_LEARNER_IMPORT_ID,
   FEATURE_MISSIONS_MANAGEMENT_ID,
-  ONDE_IMPORT_FORMAT_ID,
+  IMPORT_FORMAT_ONDE_ID,
   USER_ID_MEMBER_ORGANIZATION,
 } from '../common/constants.js';
 import * as tooling from '../common/tooling/index.js';
@@ -49,12 +49,10 @@ async function _createSco1dOrganizations(databaseBuilder) {
     tagIds: [],
     adminIds: [TEAM_1D_USER_ID],
     memberIds: [USER_ID_MEMBER_ORGANIZATION],
-    featureIds: [FEATURE_MISSIONS_MANAGEMENT_ID],
-  });
-  await databaseBuilder.factory.buildOrganizationFeature({
-    organizationId: TEAM_1D_ORGANIZATION_1_ID,
-    featureId: FEATURE_LEARNER_IMPORT_ID,
-    params: { organizationLearnerImportFormatId: ONDE_IMPORT_FORMAT_ID },
+    features: [
+      { id: FEATURE_MISSIONS_MANAGEMENT_ID },
+      { id: FEATURE_LEARNER_IMPORT_ID, params: { organizationLearnerImportFormatId: IMPORT_FORMAT_ONDE_ID } },
+    ],
   });
 
   await databaseBuilder.factory.buildSchool({ organizationId: TEAM_1D_ORGANIZATION_1_ID, code: 'MINIPIXOU' });
@@ -123,16 +121,13 @@ async function _createSco1dOrganizations(databaseBuilder) {
     externalId: 'PIX1D_2',
     tagIds: [],
     adminIds: [TEAM_1D_USER_ID],
-    featureIds: [FEATURE_MISSIONS_MANAGEMENT_ID],
+    features: [
+      { id: FEATURE_MISSIONS_MANAGEMENT_ID },
+      { id: FEATURE_LEARNER_IMPORT_ID, params: { organizationLearnerImportFormatId: IMPORT_FORMAT_ONDE_ID } },
+    ],
   });
 
   await databaseBuilder.factory.buildSchool({ organizationId: TEAM_1D_ORGANIZATION_2_ID, code: 'MAXIPIXOU' });
-
-  await databaseBuilder.factory.buildOrganizationFeature({
-    organizationId: TEAM_1D_ORGANIZATION_2_ID,
-    featureId: FEATURE_LEARNER_IMPORT_ID,
-    params: { organizationLearnerImportFormatId: ONDE_IMPORT_FORMAT_ID },
-  });
 
   await _buildSchoolStudent({
     databaseBuilder,
