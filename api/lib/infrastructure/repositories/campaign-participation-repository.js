@@ -24,7 +24,7 @@ const getCodeOfLastParticipationToProfilesCollectionCampaignForUser = async func
     .select('campaigns.code')
     .join('campaigns', 'campaigns.id', 'campaignId')
     .where({ userId })
-    .whereNull('deletedAt')
+    .whereNull('campaign-participations.deletedAt')
     .whereNull('archivedAt')
     .andWhere({ status: TO_SHARE })
     .andWhere({ 'campaigns.type': CampaignTypes.PROFILES_COLLECTION })
