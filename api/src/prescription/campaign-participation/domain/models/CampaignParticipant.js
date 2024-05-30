@@ -70,7 +70,7 @@ class CampaignParticipant {
       throw new ForbiddenAccess(couldNotJoinCampaignErrorMessage);
     }
 
-    if (this.campaignToStartParticipation.isArchived) {
+    if (this.campaignToStartParticipation.isArchived || this.campaignToStartParticipation.isDeleted) {
       throw new ForbiddenAccess(couldNotJoinCampaignErrorMessage);
     }
 

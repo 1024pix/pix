@@ -568,6 +568,27 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
       expect(error.message).to.equal("Vous n'êtes pas autorisé à rejoindre la campagne");
     });
 
+    it('throws a ForbiddenAccess exception when the campaign is deleted', async function () {
+      const userIdentity = { id: 13 };
+      const campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation({
+        deletedAt: new Date('2022-01-01'),
+        idPixLabel: null,
+      });
+
+      const campaignParticipant = new CampaignParticipant({
+        campaignToStartParticipation,
+        userIdentity,
+        organizationLearner: {
+          id: null,
+          hasParticipated: false,
+        },
+      });
+      const error = await catchErr(campaignParticipant.start, campaignParticipant)({ participantExternalId: null });
+
+      expect(error).to.be.an.instanceof(ForbiddenAccess);
+      expect(error.message).to.equal("Vous n'êtes pas autorisé à rejoindre la campagne");
+    });
+
     context('when campaign does not allow multiple participation', function () {
       it('throws a AlreadyExistingCampaignParticipationError exception when there is a previous participation', async function () {
         const userIdentity = { id: 13 };
