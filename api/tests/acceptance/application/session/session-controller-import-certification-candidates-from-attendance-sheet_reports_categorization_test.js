@@ -34,8 +34,8 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
     beforeEach(async function () {
       // given
       user = databaseBuilder.factory.buildUser();
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-      databaseBuilder.factory.buildCertificationCenterMembership({ userId: user.id, certificationCenterId });
+      databaseBuilder.factory.buildCertificationCenter({ id: 22 });
+      databaseBuilder.factory.buildCertificationCenterMembership({ userId: user.id, certificationCenterId: 22 });
 
       const otherUserId = databaseBuilder.factory.buildUser().id;
       const otherCertificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -44,7 +44,7 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
         certificationCenterId: otherCertificationCenterId,
       });
 
-      sessionIdAllowed = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
+      sessionIdAllowed = databaseBuilder.factory.buildSession({ certificationCenterId: 22 }).id;
 
       databaseBuilder.factory.buildCertificationCpfCountry({
         code: '99100',
@@ -84,6 +84,35 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
 
             // then
             expect(response.statusCode).to.equal(204);
+          });
+
+          context('when there is one candidate registered for a complementary certification', function () {
+            it('should return an 204 status after success in importing the ods file', async function () {
+              // given
+              databaseBuilder.factory.buildComplementaryCertification({
+                id: 99,
+                key: 'PRO_SANTE',
+                label: 'Label de bonne santé',
+              });
+
+              databaseBuilder.factory.buildComplementaryCertificationHabilitation({
+                complementaryCertificationId: 99,
+                certificationCenterId: 22,
+              });
+
+              await databaseBuilder.commit();
+
+              const odsFileName =
+                'files/1.5/import-certification-candidates-reports-categorization-test-complementary-ok.ods';
+              const odsFilePath = `${__dirname}/${odsFileName}`;
+              const options = generateOptions({ odsFilePath, userId: user.id, sessionId: sessionIdAllowed });
+
+              // when
+              const response = await server.inject(options);
+
+              // then
+              expect(response.statusCode).to.equal(204);
+            });
           });
         });
 
