@@ -12,6 +12,7 @@ export default class ChallengeStatement extends Component {
   @service currentUser;
   @service featureToggles;
   @service router;
+  @service metrics;
 
   @tracked selectedAttachmentUrl;
   @tracked displayAlternativeInstruction = false;
@@ -91,6 +92,16 @@ export default class ChallengeStatement extends Component {
       this.textToSpeechButtonIcon = 'circle-stop';
       speechSynthesis.speak(textToSpeech);
     }
+    this.addMetrics();
+  }
+
+  addMetrics() {
+    this.metrics.add({
+      event: 'custom-event',
+      'pix-event-category': 'Vocalisation',
+      'pix-event-action': `Assessment : ${this.args.assessment.id} Epreuve : ${this.args.challenge.id}`,
+      'pix-event-name': `Click sur le bouton de vocalisation : ${this.isSpeaking ? 'lecture' : 'stop'}`,
+    });
   }
 
   stopTextToSpeechOnLeaveOrRefresh() {

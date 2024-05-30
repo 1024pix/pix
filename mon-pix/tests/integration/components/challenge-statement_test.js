@@ -4,6 +4,7 @@ import Service from '@ember/service';
 import { click, find, findAll } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
@@ -241,7 +242,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
                 // given
                 addAssessmentToContext(this, { id: '267567' });
                 addChallengeToContext(this, {
-                  instruction: 'La consigne du test avec un bouton de lecture à haute voix',
+                  instruction: "Test d'intégration vocalisation",
                   id: 'rec_challenge1',
                 });
                 const screen = await render(hbs`<ChallengeStatement
@@ -265,6 +266,43 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
                     }),
                   )
                   .exists();
+              });
+            });
+
+            module('when user clicks on text-to-speech button', function () {
+              test('should push matomo event', async function (assert) {
+                // given
+                addAssessmentToContext(this, { id: '267567' });
+                addChallengeToContext(this, {
+                  instruction: "Test d'intégration vocalisation",
+                  id: 'rec_challenge4',
+                });
+                const add = sinon.stub();
+
+                class MetricsStubService extends Service {
+                  add = add;
+                }
+                this.owner.register('service:metrics', MetricsStubService);
+
+                const screen = await render(hbs`<ChallengeStatement
+                          @challenge={{this.challenge}}
+                          @assessment={{this.assessment}}
+                          @isTextToSpeechActivated={{true}}
+                          />`);
+
+                // when
+                await click(
+                  screen.getByRole('button', { name: this.intl.t('pages.challenge.statement.text-to-speech.play') }),
+                );
+
+                // then
+                sinon.assert.calledWithExactly(add, {
+                  event: 'custom-event',
+                  'pix-event-category': 'Vocalisation',
+                  'pix-event-action': `Assessment : ${this.assessment.id} Epreuve : ${this.challenge.id}`,
+                  'pix-event-name': 'Click sur le bouton de vocalisation : lecture',
+                });
+                assert.ok(true);
               });
             });
           });

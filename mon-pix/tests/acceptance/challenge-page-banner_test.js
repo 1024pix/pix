@@ -1,8 +1,10 @@
 import { visit } from '@1024pix/ember-testing-library';
+import Service from '@ember/service';
 import { click, currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import { authenticate } from '../helpers/authentication';
 import setupIntl from '../helpers/setup-intl';
@@ -75,6 +77,12 @@ module('Acceptance | Challenge page banner', function (hooks) {
 
       test("should display text-to-speech button in challenge instruction when it's been activated in the banner", async function (assert) {
         // given
+        class MetricsStubService extends Service {
+          add = sinon.stub();
+          initialize = sinon.stub();
+        }
+        this.owner.register('service:metrics', MetricsStubService);
+
         const screen = await visit(`/assessments/${assessment.id}/challenges/${challenge.id}`);
         await click(screen.getByRole('button', { name: 'Désactiver la vocalisation' }));
 
