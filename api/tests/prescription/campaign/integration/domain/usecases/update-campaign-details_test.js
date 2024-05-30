@@ -2,6 +2,7 @@ import {
   IsForAbsoluteNoviceUpdateError,
   MultipleSendingsUpdateError,
 } from '../../../../../../src/prescription/campaign/domain/errors.js';
+import { Campaign } from '../../../../../../src/prescription/campaign/domain/models/Campaign.js';
 import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { catchErr, databaseBuilder, expect, knex, mockLearningContent } from '../../../../../test-helper.js';
@@ -54,7 +55,7 @@ describe('Integration | UseCases | update-campaign-details', function () {
       customResultPageButtonText: 'new result button text',
       customResultPageButtonUrl: 'http://some.url.com',
     };
-    const expectedCampaign = { ...campaign, ...campaignAttributes };
+    const expectedCampaign = new Campaign({ ...campaign, ...campaignAttributes });
 
     await usecases.updateCampaignDetails({
       campaignId,
@@ -62,7 +63,7 @@ describe('Integration | UseCases | update-campaign-details', function () {
     });
 
     const actualCampaign = await knex.select('*').from('campaigns').first();
-    expect(actualCampaign).to.deep.equal(expectedCampaign);
+    expect(new Campaign(actualCampaign)).to.deep.equal(expectedCampaign);
   });
 
   describe('#multipleSendings', function () {
