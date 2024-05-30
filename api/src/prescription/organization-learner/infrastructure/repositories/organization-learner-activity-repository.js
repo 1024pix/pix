@@ -1,5 +1,4 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
 import { OrganizationLearnerActivity } from '../../domain/read-models/OrganizationLearnerActivity.js';
 import { OrganizationLearnerParticipation } from '../../domain/read-models/OrganizationLearnerParticipation.js';
 
@@ -24,11 +23,10 @@ async function get(organizationLearnerId) {
         .select('campaign-participations.id')
         .whereRaw('"campaignId" = "campaigns"."id"')
         .where('organizationLearnerId', organizationLearnerId)
-        .and.where('status', CampaignParticipationStatuses.SHARED)
         .whereNull('deletedAt')
-        .orderBy('sharedAt', 'desc')
+        .orderBy('createdAt', 'desc')
         .limit(1)
-        .as('lastSharedCampaignsParticipationId'),
+        .as('lastCampaignParticipationId'),
     )
     .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
     .where('campaign-participations.organizationLearnerId', '=', organizationLearnerId)
@@ -47,7 +45,7 @@ async function get(organizationLearnerId) {
         campaignType: participation.type,
         campaignId: participation.campaignId,
         participationCount: participation.participationsCount,
-        lastSharedOrCurrentCampaignParticipationId: participation.lastSharedCampaignsParticipationId,
+        lastCampaignParticipationId: participation.lastCampaignParticipationId,
       }),
   );
   return new OrganizationLearnerActivity({ organizationLearnerId, participations });

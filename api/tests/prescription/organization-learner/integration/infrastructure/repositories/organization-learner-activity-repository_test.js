@@ -278,7 +278,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-activ
       expect(undeletedParticipation.participationCount).to.equal(1);
     });
 
-    it('Should return the shared participation by campaignId', async function () {
+    it('Should return the last participation by campaignId', async function () {
       //given
       const { id: campaignId } = databaseBuilder.factory.buildCampaign({
         organizationId,
@@ -287,7 +287,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-activ
         multipleSendings: true,
       });
 
-      const sharedParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+      databaseBuilder.factory.buildCampaignParticipation({
         id: 202,
         status: SHARED,
         campaignId,
@@ -297,7 +297,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-activ
         isImproved: true,
       }).id;
 
-      databaseBuilder.factory.buildCampaignParticipation({
+      const lastParticipationId = databaseBuilder.factory.buildCampaignParticipation({
         id: 203,
         status: STARTED,
         campaignId,
@@ -314,76 +314,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-activ
       const campaignParticipations = participations.find((participation) => participation.campaignName === 'Hulk');
 
       //then
-      expect(campaignParticipations.lastSharedOrCurrentCampaignParticipationId).to.deep.equal(sharedParticipationId);
-    });
-
-    it('Should return the last participation for a campaign if not shared', async function () {
-      //given
-      const { id: campaignId } = databaseBuilder.factory.buildCampaign({
-        organizationId,
-        name: 'Iron man',
-        type: CampaignTypes.PROFILES_COLLECTION,
-      });
-
-      const participationId = databaseBuilder.factory.buildCampaignParticipation({
-        id: 201,
-        status: STARTED,
-        campaignId: campaignId,
-        organizationLearnerId,
-        createdAt: new Date('2000-01-01'),
-        sharedAt: null,
-      }).id;
-
-      await databaseBuilder.commit();
-
-      //when
-      const { participations } = await organizationLearnerActivityRepository.get(organizationLearnerId);
-
-      const campaignParticipations = participations.find((participation) => participation.campaignName === 'Iron man');
-
-      //then
-      expect(campaignParticipations.lastSharedOrCurrentCampaignParticipationId).to.deep.equal(participationId);
-    });
-
-    it('Should return the last shared participation by campaignId', async function () {
-      //given
-      const { id: campaignId } = databaseBuilder.factory.buildCampaign({
-        organizationId,
-        name: 'Hulk',
-        type: CampaignTypes.ASSESSMENT,
-        multipleSendings: true,
-      });
-
-      databaseBuilder.factory.buildCampaignParticipation({
-        id: 201,
-        status: SHARED,
-        campaignId,
-        organizationLearnerId,
-        createdAt: new Date('2000-01-01'),
-        sharedAt: new Date('2000-01-02'),
-      }).id;
-
-      const secondSharedParticipationId = databaseBuilder.factory.buildCampaignParticipation({
-        id: 202,
-        status: SHARED,
-        campaignId,
-        organizationLearnerId,
-        createdAt: new Date('2000-01-03'),
-        sharedAt: new Date('2000-12-12'),
-        isImproved: true,
-      }).id;
-
-      await databaseBuilder.commit();
-
-      //when
-      const { participations } = await organizationLearnerActivityRepository.get(organizationLearnerId);
-
-      const campaignParticipations = participations.find((participation) => participation.campaignName === 'Hulk');
-
-      //then
-      expect(campaignParticipations.lastSharedOrCurrentCampaignParticipationId).to.deep.equal(
-        secondSharedParticipationId,
-      );
+      expect(campaignParticipations.lastCampaignParticipationId).to.deep.equal(lastParticipationId);
     });
 
     it('Should return the right participation for a given campaignId', async function () {
@@ -426,7 +357,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-activ
       const campaignParticipations = participations.find((participation) => participation.campaignName === 'Iron Man');
 
       //then
-      expect(campaignParticipations.lastSharedOrCurrentCampaignParticipationId).to.deep.equal(rightParticipationId);
+      expect(campaignParticipations.lastCampaignParticipationId).to.deep.equal(rightParticipationId);
     });
   });
 });

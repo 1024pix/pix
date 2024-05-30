@@ -16,7 +16,7 @@ describe('Unit | Domain | Read-Models | OrganizationLearner | OrganizationLearne
         status: SHARED,
         campaignId: 404,
         participationCount: 1,
-        lastSharedOrCurrentCampaignParticipationId: 202,
+        lastCampaignParticipationId: 202,
       });
 
       expect(organizationLearnerParticipation).to.deep.equal({
@@ -28,7 +28,7 @@ describe('Unit | Domain | Read-Models | OrganizationLearner | OrganizationLearne
         status: 'SHARED',
         campaignId: 404,
         participationCount: 1,
-        lastSharedOrCurrentCampaignParticipationId: 202,
+        lastCampaignParticipationId: 202,
       });
     });
 
@@ -44,7 +44,7 @@ describe('Unit | Domain | Read-Models | OrganizationLearner | OrganizationLearne
         participationCount: 1,
       });
 
-      expect(organizationLearnerParticipation.lastSharedOrCurrentCampaignParticipationId).to.deep.equal(
+      expect(organizationLearnerParticipation.lastCampaignParticipationId).to.deep.equal(
         organizationLearnerParticipation.id,
       );
     });

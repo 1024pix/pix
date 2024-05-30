@@ -178,6 +178,8 @@ async function _createProCampaigns(databaseBuilder) {
     organizationLearnerId,
     userId,
     isImproved: true,
+    createdAt: '2023-12-27T15:07:57.376Z',
+    sharedAt: '2024-01-04T15:07:57.376Z',
   });
   await databaseBuilder.factory.buildAssessment({
     userId,
@@ -196,6 +198,8 @@ async function _createProCampaigns(databaseBuilder) {
     userId,
     campaignId,
     isImproved: true,
+    createdAt: '2024-03-12T15:07:57.376Z',
+    sharedAt: '2024-03-24T15:07:57.376Z',
   });
 
   await databaseBuilder.factory.buildAssessment({
@@ -217,6 +221,7 @@ async function _createProCampaigns(databaseBuilder) {
     isImproved: false,
     status: CampaignParticipationStatuses.TO_SHARE,
     sharedAt: null,
+    createdAt: '2024-06-01T15:07:57.376Z',
   });
 
   await databaseBuilder.factory.buildAssessment({

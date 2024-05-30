@@ -22,7 +22,7 @@ const serialize = function (organizationLearnerActivity) {
         'status',
         'campaignId',
         'participationCount',
-        'lastSharedOrCurrentCampaignParticipationId',
+        'lastCampaignParticipationId',
       ],
     },
     organizationLearnerStatistics: {
