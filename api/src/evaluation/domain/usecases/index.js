@@ -6,6 +6,7 @@ import * as campaignParticipationRepository from '../../../../lib/infrastructure
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
 import * as targetProfileRepository from '../../../../lib/infrastructure/repositories/target-profile-repository.js';
+import * as challengeRepository from '../../../../src/shared/infrastructure/repositories/challenge-repository.js';
 import * as answerRepository from '../../../shared/infrastructure/repositories/answer-repository.js';
 import * as areaRepository from '../../../shared/infrastructure/repositories/area-repository.js';
 import * as assessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
@@ -43,6 +44,7 @@ const dependencies = {
   badgeCriteriaRepository,
   campaignRepository,
   campaignParticipationRepository,
+  challengeRepository,
   competenceEvaluationRepository,
   competenceRepository,
   feedbackRepository,
