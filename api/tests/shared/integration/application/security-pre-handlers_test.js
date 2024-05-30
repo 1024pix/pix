@@ -1,14 +1,14 @@
-import { config as settings } from '../../../lib/config.js';
-import { PIX_ADMIN } from '../../../src/authorization/domain/constants.js';
-import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
-import { ORGANIZATION_FEATURE } from '../../../src/shared/domain/constants.js';
+import { config as settings } from '../../../../lib/config.js';
+import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
+import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
+import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
 import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   HttpTestServer,
   sinon,
-} from '../../test-helper.js';
+} from '../../../test-helper.js';
 
 const { ROLES } = PIX_ADMIN;
 
@@ -114,7 +114,19 @@ describe('Integration | Application | SecurityPreHandlers', function () {
           server.route([
             {
               method: 'GET',
-              path: '/check/{id}',
+              path: '/check/{organizationId}',
+              handler: (r, h) => h.response().code(200),
+              config: {
+                pre: [
+                  {
+                    method: securityPreHandlers.checkUserBelongsToOrganization,
+                  },
+                ],
+              },
+            },
+            {
+              method: 'GET',
+              path: '/checkwithId/{id}',
               handler: (r, h) => h.response().code(200),
               config: {
                 pre: [
@@ -148,22 +160,41 @@ describe('Integration | Application | SecurityPreHandlers', function () {
       expect(response.statusCode).to.equal(403);
     });
 
-    it('returns 200 when the user belongs to the organization', async function () {
-      const { id: userId } = databaseBuilder.factory.buildUser();
-      const { id: organizationId } = databaseBuilder.factory.buildOrganization();
-      databaseBuilder.factory.buildMembership({ userId, organizationId });
-      await databaseBuilder.commit();
+    context('returns 200 when the user belongs to the organization', function() {
+      it('given id on params', async function () {
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+        databaseBuilder.factory.buildMembership({ userId, organizationId });
+        await databaseBuilder.commit();
 
-      const options = {
-        method: 'GET',
-        url: `/check/${organizationId}`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
-      };
+        const options = {
+          method: 'GET',
+          url: `/checkwithId/${organizationId}`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        };
 
-      const response = await httpServerTest.requestObject(options);
+        const response = await httpServerTest.requestObject(options);
 
-      expect(response.statusCode).to.equal(200);
-    });
+        expect(response.statusCode).to.equal(200);
+      });
+
+      it('given  organizationId on params', async function () {
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+        databaseBuilder.factory.buildMembership({ userId, organizationId });
+        await databaseBuilder.commit();
+
+        const options = {
+          method: 'GET',
+          url: `/check/${organizationId}`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        };
+
+        const response = await httpServerTest.requestObject(options);
+
+        expect(response.statusCode).to.equal(200);
+      });
+    })
   });
 
   describe('#checkUserIsMemberOfAnOrganization', function () {
