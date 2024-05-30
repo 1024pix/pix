@@ -129,8 +129,10 @@ async function _handleV3CertificationScoring({
   scoringDegradationService,
   challengeRepository,
 }) {
+  const emitter = AssessmentResult.emitters.PIX_ALGO;
   const certificationCourse = await scoringCertificationService.handleV3CertificationScoring({
     certificationAssessment,
+    emitter,
     locale,
     answerRepository,
     assessmentResultRepository,

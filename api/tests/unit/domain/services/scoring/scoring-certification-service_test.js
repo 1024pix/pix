@@ -1974,7 +1974,7 @@ describe('Unit | Service | Certification Result Service', function () {
                   reproducibilityRate: 33,
                   status: AssessmentResult.status.REJECTED,
                   assessmentId: 123,
-                  emitter: AssessmentResult.emitters.PIX_ALGO,
+                  emitter: CertificationResult.emitters.PIX_ALGO_NEUTRALIZATION,
                   juryId: 7,
                 });
 
@@ -2112,6 +2112,8 @@ describe('Unit | Service | Certification Result Service', function () {
               abortReason: ABORT_REASONS.CANDIDATE,
             });
 
+            const emitter = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
+
             const challenges = _generateCertificationChallengeForScoringList({
               length: minimumAnswersRequiredToValidateACertification - 1,
             });
@@ -2172,6 +2174,7 @@ describe('Unit | Service | Certification Result Service', function () {
             // when
             await scoringCertificationService.handleV3CertificationScoring({
               event,
+              emitter,
               certificationAssessment,
               locale: 'fr',
               answerRepository,
@@ -2196,7 +2199,7 @@ describe('Unit | Service | Certification Result Service', function () {
               reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
               status: status.REJECTED,
               assessmentId: certificationAssessment.id,
-              emitter: AssessmentResult.emitters.PIX_ALGO,
+              emitter: CertificationResult.emitters.PIX_ALGO_AUTO_JURY,
               commentForCandidate: domainBuilder.certification.shared.buildJuryComment.candidate({
                 commentByAutoJury: AutoJuryCommentKeys.REJECTED_DUE_TO_LACK_OF_ANSWERS,
               }),
@@ -2219,6 +2222,7 @@ describe('Unit | Service | Certification Result Service', function () {
           it('should cancel the certification and reject the assessment result', async function () {
             // given
             const abortReason = ABORT_REASONS.TECHNICAL;
+            const emitter = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
             const expectedCapacity = 2;
             const scoreForCapacity = 639;
             const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
@@ -2289,6 +2293,7 @@ describe('Unit | Service | Certification Result Service', function () {
             // when
             await scoringCertificationService.handleV3CertificationScoring({
               event,
+              emitter,
               certificationAssessment,
               locale: 'fr',
               answerRepository,
@@ -2313,7 +2318,7 @@ describe('Unit | Service | Certification Result Service', function () {
               reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
               status: status.REJECTED,
               assessmentId: certificationAssessment.id,
-              emitter: AssessmentResult.emitters.PIX_ALGO,
+              emitter: CertificationResult.emitters.PIX_ALGO_AUTO_JURY,
               commentForCandidate: domainBuilder.certification.shared.buildJuryComment.candidate({
                 commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_LACK_OF_ANSWERS_FOR_TECHNICAL_REASON,
               }),
@@ -2403,6 +2408,7 @@ describe('Unit | Service | Certification Result Service', function () {
             // when
             await scoringCertificationService.handleV3CertificationScoring({
               event,
+              emitter: CertificationResult.emitters.PIX_ALGO,
               certificationAssessment,
               locale: 'fr',
               answerRepository,
@@ -2505,9 +2511,12 @@ describe('Unit | Service | Certification Result Service', function () {
                   },
                 ]);
 
+              const emitter = CertificationResult.emitters.PIX_ALGO;
+
               // when
               await scoringCertificationService.handleV3CertificationScoring({
                 event,
+                emitter,
                 certificationAssessment,
                 locale: 'fr',
                 answerRepository,
@@ -2547,6 +2556,7 @@ describe('Unit | Service | Certification Result Service', function () {
 
         describe('when the certification was not completed', function () {
           describe('when the candidate did not finish due to technical difficulties', function () {
+            // TODO Move this to rescoring section
             it('should build and save an assessment result with a validated status with the raw score', async function () {
               // given
               const expectedCapacity = 2;
@@ -2574,6 +2584,8 @@ describe('Unit | Service | Certification Result Service', function () {
               const certificationAssessmentHistory = domainBuilder.buildCertificationAssessmentHistory({
                 capacityHistory,
               });
+
+              const emitter = CertificationResult.emitters.PIX_ALGO;
 
               certificationChallengeForScoringRepository.getByCertificationCourseId
                 .withArgs({ certificationCourseId })
@@ -2616,6 +2628,7 @@ describe('Unit | Service | Certification Result Service', function () {
               // when
               await scoringCertificationService.handleV3CertificationScoring({
                 event,
+                emitter,
                 certificationAssessment,
                 locale: 'fr',
                 answerRepository,
@@ -2667,6 +2680,7 @@ describe('Unit | Service | Certification Result Service', function () {
                 completedAt: null,
                 abortReason,
               });
+              const emitter = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
 
               const answers = generateAnswersForChallenges({ challenges });
 
@@ -2728,6 +2742,7 @@ describe('Unit | Service | Certification Result Service', function () {
               // when
               await scoringCertificationService.handleV3CertificationScoring({
                 event,
+                emitter,
                 certificationAssessment,
                 locale: 'fr',
                 answerRepository,
@@ -2753,7 +2768,7 @@ describe('Unit | Service | Certification Result Service', function () {
                 reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
                 status: status.VALIDATED,
                 assessmentId: certificationAssessment.id,
-                emitter: AssessmentResult.emitters.PIX_ALGO,
+                emitter: CertificationResult.emitters.PIX_ALGO_AUTO_JURY,
               });
               expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
                 certificationCourseId: 1234,
@@ -2862,10 +2877,12 @@ describe('Unit | Service | Certification Result Service', function () {
             const event = new CertificationJuryDone({
               certificationCourseId,
             });
+            const emitter = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
 
             // when
             await scoringCertificationService.handleV3CertificationScoring({
               event,
+              emitter,
               certificationAssessment,
               locale: 'fr',
               answerRepository,
@@ -2884,7 +2901,7 @@ describe('Unit | Service | Certification Result Service', function () {
             const expectedResult = {
               certificationCourseId,
               assessmentResult: new AssessmentResult({
-                emitter: AssessmentResult.emitters.PIX_ALGO,
+                emitter: CertificationResult.emitters.PIX_ALGO_AUTO_JURY,
                 pixScore: scoreForCapacity,
                 reproducibilityRate: 100,
                 status: AssessmentResult.status.REJECTED,
@@ -2983,10 +3000,12 @@ describe('Unit | Service | Certification Result Service', function () {
             const event = new CertificationJuryDone({
               certificationCourseId,
             });
+            const emitter = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
 
             // when
             await scoringCertificationService.handleV3CertificationScoring({
               event,
+              emitter,
               certificationAssessment,
               locale: 'fr',
               answerRepository,
@@ -3005,7 +3024,7 @@ describe('Unit | Service | Certification Result Service', function () {
             const expectedResult = {
               certificationCourseId,
               assessmentResult: new AssessmentResult({
-                emitter: AssessmentResult.emitters.PIX_ALGO,
+                emitter: CertificationResult.emitters.PIX_ALGO_AUTO_JURY,
                 pixScore: scoreForCapacity,
                 reproducibilityRate: 100,
                 status: AssessmentResult.status.REJECTED,
@@ -3111,10 +3130,12 @@ describe('Unit | Service | Certification Result Service', function () {
             const event = new CertificationJuryDone({
               certificationCourseId,
             });
+            const emitter = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
 
             // when
             await scoringCertificationService.handleV3CertificationScoring({
               event,
+              emitter,
               certificationAssessment,
               locale: 'fr',
               answerRepository,
@@ -3133,7 +3154,7 @@ describe('Unit | Service | Certification Result Service', function () {
             const expectedResult = {
               certificationCourseId,
               assessmentResult: new AssessmentResult({
-                emitter: AssessmentResult.emitters.PIX_ALGO,
+                emitter: CertificationResult.emitters.PIX_ALGO_AUTO_JURY,
                 pixScore: rawScore,
                 reproducibilityRate: 100,
                 status: AssessmentResult.status.VALIDATED,
@@ -3150,6 +3171,7 @@ describe('Unit | Service | Certification Result Service', function () {
         });
       });
 
+      // TODO Move this in "for scoring certification". If all questions are answered, there is no rescoring
       describe('when all the questions were answered', function () {
         it('should save the score', async function () {
           // given
@@ -3159,7 +3181,6 @@ describe('Unit | Service | Certification Result Service', function () {
           });
 
           const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
-            abortReason: ABORT_REASONS.TECHNICAL,
             createdAt: certificationCourseStartDate,
           });
 
@@ -3237,6 +3258,7 @@ describe('Unit | Service | Certification Result Service', function () {
           // when
           await scoringCertificationService.handleV3CertificationScoring({
             event,
+            emitter: AssessmentResult.emitters.PIX_ALGO,
             certificationAssessment,
             locale: 'fr',
             answerRepository,
@@ -3403,8 +3425,9 @@ describe('Unit | Service | Certification Result Service', function () {
 
         describe('when the certification would reach a very high score', function () {
           it('should return the score capped based on the maximum available level when the certification was done', async function () {
-            const certificationCourseStartDate = new Date('2022-01-01');
             // given
+            const certificationCourseStartDate = new Date('2022-01-01');
+
             const certificationAssessment = domainBuilder.buildCertificationAssessment({
               version: CERTIFICATION_VERSIONS.V3,
             });
@@ -3484,7 +3507,7 @@ describe('Unit | Service | Certification Result Service', function () {
             const expectedResult = {
               certificationCourseId,
               assessmentResult: new AssessmentResult({
-                emitter: AssessmentResult.emitters.PIX_ALGO,
+                emitter: CertificationResult.emitters.PIX_ALGO_AUTO_JURY,
                 pixScore: cappedscoreForCapacity,
                 reproducibilityRate: 100,
                 status: AssessmentResult.status.VALIDATED,
@@ -3496,10 +3519,12 @@ describe('Unit | Service | Certification Result Service', function () {
             const event = new CertificationJuryDone({
               certificationCourseId,
             });
+            const emitter = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
 
             // when
             await scoringCertificationService.handleV3CertificationScoring({
               event,
+              emitter,
               certificationAssessment,
               locale: 'fr',
               answerRepository,

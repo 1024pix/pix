@@ -52,6 +52,7 @@ const calculateCertificationAssessmentScore = async function ({
 
 const handleV3CertificationScoring = async function ({
   event,
+  emitter,
   certificationAssessment,
   locale,
   answerRepository,
@@ -108,6 +109,7 @@ const handleV3CertificationScoring = async function ({
 
   const assessmentResult = await _createV3AssessmentResult({
     allAnswers: candidateAnswers,
+    emitter,
     certificationAssessment,
     certificationAssessmentScore,
     certificationCourse,
@@ -305,6 +307,7 @@ async function _getTestedCompetences({ userId, limitDate, version, placementProf
 
 function _createV3AssessmentResult({
   allAnswers,
+  emitter,
   certificationAssessment,
   certificationAssessmentScore,
   certificationCourse,
@@ -325,7 +328,7 @@ function _createV3AssessmentResult({
       reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
       status: certificationAssessmentScore.status,
       assessmentId: certificationAssessment.id,
-      emitter: AssessmentResult.emitters.PIX_ALGO,
+      emitter,
       juryId,
     });
   }
@@ -336,7 +339,7 @@ function _createV3AssessmentResult({
       reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
       status: certificationAssessmentScore.status,
       assessmentId: certificationAssessment.id,
-      emitter: AssessmentResult.emitters.PIX_ALGO,
+      emitter,
       juryId,
     });
   }
@@ -346,7 +349,7 @@ function _createV3AssessmentResult({
     reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
     status: certificationAssessmentScore.status,
     assessmentId: certificationAssessment.id,
-    emitter: AssessmentResult.emitters.PIX_ALGO,
+    emitter,
     juryId,
   });
 }
@@ -401,7 +404,7 @@ function _createV2AssessmentResult({
 
   if (isLackOfAnswersForTechnicalReason({ certificationAssessmentScore, certificationCourse })) {
     return AssessmentResultFactory.buildLackOfAnswersForTechnicalReason({
-      emitter: AssessmentResult.emitters.PIX_ALGO,
+      emitter,
       pixScore: certificationAssessmentScore.nbPix,
       reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
       assessmentId: certificationAssessment.id,
