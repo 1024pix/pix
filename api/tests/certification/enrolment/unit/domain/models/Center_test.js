@@ -3,7 +3,7 @@ import { CenterTypes } from '../../../../../../src/certification/enrolment/domai
 import { CERTIFICATION_FEATURES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { catchErrSync, domainBuilder, expect } from '../../../../../test-helper.js';
 
-describe('Unit | Certification | Session | Domain | Models | Center', function () {
+describe('Unit | Certification | Enrolment | Domain | Models | Center', function () {
   describe('#hasBillingMode', function () {
     it('should return false when center is of type SCO', function () {
       // given
