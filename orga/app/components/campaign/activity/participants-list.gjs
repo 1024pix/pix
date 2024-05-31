@@ -108,10 +108,7 @@ export default class ParticipantsList extends Component {
               {{#each @participations as |participation|}}
                 <tr
                   aria-label={{t "pages.campaign-activity.table.row-title"}}
-                  {{on
-                    "click"
-                    (fn @onClickParticipant @campaign.id participation.lastSharedOrCurrentCampaignParticipationId)
-                  }}
+                  {{on "click" (fn @onClickParticipant @campaign.id participation.lastCampaignParticipationId)}}
                   class="tr--clickable"
                 >
                   <td>
@@ -121,7 +118,7 @@ export default class ParticipantsList extends Component {
                         "authenticated.campaigns.participant-assessment"
                         "authenticated.campaigns.participant-profile"
                       }}
-                      @models={{array @campaign.id participation.lastSharedOrCurrentCampaignParticipationId}}
+                      @models={{array @campaign.id participation.lastCampaignParticipationId}}
                     >
                       <span
                         aria-label="{{t

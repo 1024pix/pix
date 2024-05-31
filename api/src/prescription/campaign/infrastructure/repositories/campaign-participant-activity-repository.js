@@ -1,7 +1,6 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { filterByFullName } from '../../../../../lib/infrastructure/utils/filter-utils.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
-import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
 import { CampaignParticipantActivity } from '../../domain/read-models/CampaignParticipantActivity.js';
 
 const campaignParticipantActivityRepository = {
@@ -40,12 +39,11 @@ function _buildCampaignParticipationByParticipant(queryBuilder, campaignId, filt
       knex('campaign-participations')
         .select('id')
         .whereRaw('"organizationLearnerId" = "view-active-organization-learners"."id"')
-        .and.where('status', CampaignParticipationStatuses.SHARED)
         .and.whereNull('campaign-participations.deletedAt')
         .and.where('campaignId', campaignId)
-        .orderBy('sharedAt', 'desc')
+        .orderBy('createdAt', 'desc')
         .limit(1)
-        .as('lastSharedCampaignParticipationId'),
+        .as('lastCampaignParticipationId'),
       knex('campaign-participations')
         .whereRaw('"organizationLearnerId" = "view-active-organization-learners"."id"')
         .and.whereNull('campaign-participations.deletedAt')

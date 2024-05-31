@@ -15,7 +15,7 @@ describe('Unit | Domain | Read-Models | CampaignResults | CampaignParticipantAct
         participantExternalId: 'Alba67',
         sharedAt,
         status: CampaignParticipationStatuses.SHARED,
-        lastSharedCampaignParticipationId: null,
+        lastCampaignParticipationId: null,
         participationCount: null,
       });
 
@@ -27,13 +27,13 @@ describe('Unit | Domain | Read-Models | CampaignResults | CampaignParticipantAct
         participantExternalId: 'Alba67',
         sharedAt,
         status: CampaignParticipationStatuses.SHARED,
-        lastSharedOrCurrentCampaignParticipationId: 45,
+        lastCampaignParticipationId: 45,
         participationCount: 0,
       });
     });
 
-    it('should use lastSharedCampaignParticipationId if provided', function () {
-      const lastSharedCampaignParticipationId = 42;
+    it('should use lastCampaignParticipationId if provided', function () {
+      const lastCampaignParticipationId = 42;
 
       const campaignParticipantActivity = new CampaignParticipantActivity({
         campaignParticipationId: 45,
@@ -43,12 +43,10 @@ describe('Unit | Domain | Read-Models | CampaignResults | CampaignParticipantAct
         participantExternalId: 'Alba67',
         sharedAt: new Date(),
         status: CampaignParticipationStatuses.SHARED,
-        lastSharedCampaignParticipationId: lastSharedCampaignParticipationId,
+        lastCampaignParticipationId: lastCampaignParticipationId,
       });
 
-      expect(campaignParticipantActivity.lastSharedOrCurrentCampaignParticipationId).to.deep.equal(
-        lastSharedCampaignParticipationId,
-      );
+      expect(campaignParticipantActivity.lastCampaignParticipationId).to.deep.equal(lastCampaignParticipationId);
     });
   });
 });

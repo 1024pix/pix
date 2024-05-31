@@ -86,18 +86,20 @@ describe('Integration | Repository | Campaign Participant activity', function ()
         const user = databaseBuilder.factory.buildUser();
         const learner = databaseBuilder.factory.buildOrganizationLearner({ userId: user.id });
 
-        const firstParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        databaseBuilder.factory.buildCampaignParticipation({
           participantExternalId: 'The bad',
           campaignId: campaign.id,
+          createdAt: '2023-12-27T15:07:57.376Z',
           status: SHARED,
           userId: user.id,
           organizationLearnerId: learner.id,
           isImproved: true,
         });
 
-        databaseBuilder.factory.buildCampaignParticipation({
+        const lastParticipation = databaseBuilder.factory.buildCampaignParticipation({
           participantExternalId: 'The good',
           campaignId: campaign.id,
+          createdAt: '2024-02-17T15:07:57.376Z',
           status: STARTED,
           userId: user.id,
           organizationLearnerId: learner.id,
@@ -110,9 +112,7 @@ describe('Integration | Repository | Campaign Participant activity', function ()
         const { campaignParticipantsActivities } =
           await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
         //then
-        expect(campaignParticipantsActivities[0].lastSharedOrCurrentCampaignParticipationId).to.equal(
-          firstParticipation.id,
-        );
+        expect(campaignParticipantsActivities[0].lastCampaignParticipationId).to.equal(lastParticipation.id);
       });
 
       it('Returns the most recent participation of the RIGHT campaign with the shared participation Id', async function () {
@@ -150,9 +150,7 @@ describe('Integration | Repository | Campaign Participant activity', function ()
           await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
 
         //then
-        expect(campaignParticipantsActivities[0].lastSharedOrCurrentCampaignParticipationId).to.equal(
-          firstParticipation.id,
-        );
+        expect(campaignParticipantsActivities[0].lastCampaignParticipationId).to.equal(firstParticipation.id);
       });
 
       it('Returns the last participation if no shared participation', async function () {
@@ -176,9 +174,7 @@ describe('Integration | Repository | Campaign Participant activity', function ()
         const { campaignParticipantsActivities } =
           await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
         //then
-        expect(campaignParticipantsActivities[0].lastSharedOrCurrentCampaignParticipationId).to.equal(
-          lastParticipation.id,
-        );
+        expect(campaignParticipantsActivities[0].lastCampaignParticipationId).to.equal(lastParticipation.id);
       });
     });
 

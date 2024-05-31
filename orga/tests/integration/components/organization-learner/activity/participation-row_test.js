@@ -78,7 +78,7 @@ module('Integration | Component | OrganizationLearner | Activity::ParticipationR
       createdAt: new Date('2023-02-01'),
       sharedAt: new Date('2023-03-01'),
       status: 'SHARED',
-      lastSharedOrCurrentCampaignParticipationId: 345,
+      lastCampaignParticipationId: 345,
     };
     this.route = 'authenticated.campaigns.participant-assessment';
 
@@ -94,7 +94,7 @@ module('Integration | Component | OrganizationLearner | Activity::ParticipationR
       router.transitionTo.calledWith(
         this.route,
         this.participation.campaignId,
-        this.participation.lastSharedOrCurrentCampaignParticipationId,
+        this.participation.lastCampaignParticipationId,
       ),
     );
   });
@@ -109,7 +109,7 @@ module('Integration | Component | OrganizationLearner | Activity::ParticipationR
       createdAt: new Date('2023-02-01'),
       sharedAt: new Date('2023-03-01'),
       status: 'SHARED',
-      lastSharedOrCurrentCampaignParticipationId: 345,
+      lastCampaignParticipationId: 345,
     };
     this.route = 'authenticated.campaigns.participant-profile';
 
@@ -125,7 +125,7 @@ module('Integration | Component | OrganizationLearner | Activity::ParticipationR
       router.transitionTo.calledWith(
         this.route,
         this.participation.campaignId,
-        this.participation.lastSharedOrCurrentCampaignParticipationId,
+        this.participation.lastCampaignParticipationId,
       ),
     );
   });

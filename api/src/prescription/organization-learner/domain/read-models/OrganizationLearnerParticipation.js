@@ -8,7 +8,7 @@ class OrganizationLearnerParticipation {
     status,
     campaignId,
     participationCount,
-    lastSharedOrCurrentCampaignParticipationId,
+    lastCampaignParticipationId,
   }) {
     this.id = id;
     this.campaignType = campaignType;
@@ -18,7 +18,7 @@ class OrganizationLearnerParticipation {
     this.status = status;
     this.campaignId = campaignId;
     this.participationCount = participationCount;
-    this.lastSharedOrCurrentCampaignParticipationId = lastSharedOrCurrentCampaignParticipationId || id;
+    this.lastCampaignParticipationId = lastCampaignParticipationId || id;
   }
 }
 

@@ -8,7 +8,7 @@ export default class OrganizationLearnerParticipation extends Model {
   @attr('string') status;
   @attr('number') campaignId;
   @attr('number') participationCount;
-  @attr('number') lastSharedOrCurrentCampaignParticipationId;
+  @attr('number') lastCampaignParticipationId;
 
   @belongsTo('OrganizationLearnerActivity', { async: true, inverse: 'organizationLearnerParticipations' })
   organizationLearnerActivity;
