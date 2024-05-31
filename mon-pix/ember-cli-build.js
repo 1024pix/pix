@@ -56,7 +56,6 @@ module.exports = function (defaults) {
     staticAddonTrees: true,
     staticHelpers: true,
     staticModifiers: true,
-    staticComponents: true,
     packagerOptions: {
       webpackConfig: {
         devtool: sourceMapConfig[process.env.CI ? 'test' : process.env.NODE_ENV ?? 'default'],
