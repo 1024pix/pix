@@ -1,5 +1,6 @@
 import { CertificationCandidate } from '../../../../lib/domain/models/CertificationCandidate.js';
 import { buildComplementaryCertification } from './build-complementary-certification.js';
+import { buildCoreSubscription } from './certification/enrolment/build-subscription.js';
 
 const buildCertificationCandidate = function ({
   id = 123,
@@ -21,10 +22,15 @@ const buildCertificationCandidate = function ({
   sessionId = 456,
   userId = 789,
   organizationLearnerId,
-  complementaryCertification = buildComplementaryCertification(),
+  complementaryCertification = null,
   billingMode = null,
   prepaymentCode = null,
+  subscriptions = [buildCoreSubscription()],
 } = {}) {
+  if (complementaryCertification === undefined) {
+    complementaryCertification = buildComplementaryCertification();
+  }
+
   return new CertificationCandidate({
     id,
     firstName,
@@ -48,6 +54,7 @@ const buildCertificationCandidate = function ({
     complementaryCertification,
     billingMode,
     prepaymentCode,
+    subscriptions,
   });
 };
 
@@ -69,6 +76,7 @@ buildCertificationCandidate.pro = function ({
   sessionId = 456,
   complementaryCertification = null,
   billingMode = 'FREE',
+  subscriptions = [buildCoreSubscription()],
 }) {
   return new CertificationCandidate({
     firstName,
@@ -88,6 +96,7 @@ buildCertificationCandidate.pro = function ({
     authorizedToStart,
     complementaryCertification,
     billingMode,
+    subscriptions,
   });
 };
 
@@ -108,6 +117,7 @@ buildCertificationCandidate.notPersisted = function ({
   authorizedToStart = false,
   sessionId = 456,
   complementaryCertification = null,
+  subscriptions = [buildCoreSubscription()],
 }) {
   return new CertificationCandidate({
     firstName,
@@ -126,6 +136,7 @@ buildCertificationCandidate.notPersisted = function ({
     extraTimePercentage,
     authorizedToStart,
     complementaryCertification,
+    subscriptions,
   });
 };
 

@@ -3,6 +3,7 @@
  */
 
 import { SubscriptionTypes } from '../../../shared/domain/models/SubscriptionTypes.js';
+import { validate } from '../../../shared/domain/validators/subscription-validator.js';
 
 class Subscription {
   /**
@@ -15,6 +16,7 @@ class Subscription {
     this.certificationCandidateId = certificationCandidateId;
     this.type = type;
     this.complementaryCertificationId = complementaryCertificationId;
+    validate(this);
   }
 
   /**
