@@ -42,12 +42,12 @@ phrase:
       params:
         locale_id: 'en'
 
-    - file: ./1d/translations/fr.json
+    - file: ./junior/translations/fr.json
       project_id: "dd99bbfc9e880398e292a808e7013896"
       params:
         locale_id: 'fr'
 
-    - file: ./1d/translations/en.json
+    - file: ./junior/translations/en.json
       project_id: "dd99bbfc9e880398e292a808e7013896"
       params:
         locale_id: 'en'
