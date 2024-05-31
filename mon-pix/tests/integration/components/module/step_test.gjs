@@ -116,5 +116,54 @@ module('Integration | Component | Module | Step', function (hooks) {
       // then
       assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).exists();
     });
+
+    test('should display a step with a qrocm element', async function (assert) {
+      // given
+      const element = {
+        id: '994b6a96-a3c2-47ae-a461-87548ac6e02b',
+        instruction: 'Mon instruction',
+        proposals: [
+          { content: '<span>Ma première proposition</span>', type: 'text' },
+          {
+            input: 'symbole',
+            inputType: 'text',
+            display: 'inline',
+            size: 1,
+            placeholder: '',
+            ariaLabel: 'input-aria',
+            defaultValue: '',
+            type: 'input',
+          },
+          {
+            input: 'premiere-partie',
+            type: 'select',
+            display: 'inline',
+            placeholder: '',
+            ariaLabel: 'select-aria',
+            defaultValue: '',
+            options: [
+              {
+                id: '1',
+                content: "l'identifiant",
+              },
+              {
+                id: '2',
+                content: "le fournisseur d'adresse mail",
+              },
+            ],
+          },
+        ],
+        type: 'qrocm',
+      };
+      const step = {
+        elements: [element],
+      };
+
+      // when
+      const screen = await render(<template><ModulixStep @step={{step}} /></template>);
+
+      // then
+      assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).exists();
+    });
   });
 });

@@ -3,6 +3,7 @@ import { eq } from 'ember-truth-helpers';
 import ImageElement from 'mon-pix/components/module/image';
 import QcmElement from 'mon-pix/components/module/qcm';
 import QcuElement from 'mon-pix/components/module/qcu';
+import QrocmElement from 'mon-pix/components/module/qrocm';
 import TextElement from 'mon-pix/components/module/text';
 import VideoElement from 'mon-pix/components/module/video';
 
@@ -29,6 +30,13 @@ export default class ModulixStep extends Component {
           />
         {{else if (eq element.type "qcm")}}
           <QcmElement
+            @element={{element}}
+            @submitAnswer={{@submitAnswer}}
+            @retryElement={{@retryElement}}
+            @correction={{this.getLastCorrectionForElement element}}
+          />
+        {{else if (eq element.type "qrocm")}}
+          <QrocmElement
             @element={{element}}
             @submitAnswer={{@submitAnswer}}
             @retryElement={{@retryElement}}
