@@ -2,18 +2,27 @@ import { findPaginatedFilteredParticipants } from '../../../../../../src/prescri
 import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCases | get-paginated-participants-for-an-organization', function () {
-  it('should call organizationParticipantRepository', async function () {
-    // given
-    const organizationId = 90000;
-    const page = {};
-    const sort = { participationCount: 'asc' };
-    const organizationParticipantRepository = {
+  let organizationId, page, sort, filters, organizationParticipantRepository, organizationFeaturesAPI;
+
+  beforeEach(function () {
+    organizationId = Symbol('organizationId');
+    page = Symbol('page');
+    sort = Symbol('sort');
+    filters = Symbol('filter');
+
+    organizationParticipantRepository = {
       findPaginatedFilteredParticipants: sinon.stub(),
-    };
-    const filters = {
-      fullName: 'name',
+      findPaginatedFilteredImportedParticipants: sinon.stub(),
     };
 
+    organizationFeaturesAPI = {
+      getAllFeaturesFromOrganization: sinon.stub(),
+    };
+  });
+
+  it('should call findPaginatedFilteredParticipants when import not enabled', async function () {
+    // given
+    organizationFeaturesAPI.getAllFeaturesFromOrganization.resolves({ hasLeanersImportFeature: false });
     // when
     await findPaginatedFilteredParticipants({
       organizationId,
@@ -21,10 +30,33 @@ describe('Unit | UseCases | get-paginated-participants-for-an-organization', fun
       page,
       sort,
       organizationParticipantRepository,
+      organizationFeaturesAPI,
     });
 
     // then
     expect(organizationParticipantRepository.findPaginatedFilteredParticipants).to.have.been.calledWithExactly({
+      organizationId,
+      page,
+      sort,
+      filters,
+    });
+  });
+
+  it('should call findPaginatedFilteredImportedParticipants when import is enabled', async function () {
+    // given
+    organizationFeaturesAPI.getAllFeaturesFromOrganization.resolves({ hasLeanersImportFeature: true });
+    // when
+    await findPaginatedFilteredParticipants({
+      organizationId,
+      filters,
+      page,
+      sort,
+      organizationParticipantRepository,
+      organizationFeaturesAPI,
+    });
+
+    // then
+    expect(organizationParticipantRepository.findPaginatedFilteredImportedParticipants).to.have.been.calledWithExactly({
       organizationId,
       page,
       sort,
