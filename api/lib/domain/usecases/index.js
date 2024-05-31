@@ -18,7 +18,6 @@ import * as certificationCpfCityRepository from '../../../src/certification/enro
 import * as certificationCpfCountryRepository from '../../../src/certification/enrolment/infrastructure/repositories/certification-cpf-country-repository.js';
 import * as sessionEnrolmentRepository from '../../../src/certification/enrolment/infrastructure/repositories/session-repository.js';
 import * as flashAlgorithmService from '../../../src/certification/flash-certification/domain/services/algorithm-methods/flash.js';
-import { pickChallengeService } from '../../../src/certification/flash-certification/domain/services/pick-challenge-service.js';
 import * as flashAlgorithmConfigurationRepository from '../../../src/certification/flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
 import * as certificationOfficerRepository from '../../../src/certification/session-management/infrastructure/repositories/certification-officer-repository.js';
 import * as finalizedSessionRepository from '../../../src/certification/session-management/infrastructure/repositories/finalized-session-repository.js';
@@ -37,6 +36,7 @@ import * as userSavedTutorialRepository from '../../../src/devcomp/infrastructur
 import * as algorithmDataFetcherService from '../../../src/evaluation/domain/services/algorithm-methods/data-fetcher.js';
 import * as smartRandom from '../../../src/evaluation/domain/services/algorithm-methods/smart-random.js';
 import { getCompetenceLevel } from '../../../src/evaluation/domain/services/get-competence-level.js';
+import { pickChallengeService } from '../../../src/evaluation/domain/services/pick-challenge-service.js';
 import * as scorecardService from '../../../src/evaluation/domain/services/scorecard-service.js';
 import * as stageAndStageAcquisitionComparisonService from '../../../src/evaluation/domain/services/stages/stage-and-stage-acquisition-comparison-service.js';
 import * as badgeRepository from '../../../src/evaluation/infrastructure/repositories/badge-repository.js';

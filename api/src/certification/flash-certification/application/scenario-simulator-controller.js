@@ -8,8 +8,8 @@ import { scenarioSimulatorBatchSerializer } from '../../../../lib/infrastructure
 import { random } from '../../../../lib/infrastructure/utils/random.js';
 import { extractLocaleFromRequest } from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import { parseCsv } from '../../../../scripts/helpers/csvHelpers.js';
+import { pickChallengeService } from '../../../evaluation/domain/services/pick-challenge-service.js';
 import { FlashAssessmentSuccessRateHandler } from '../domain/models/FlashAssessmentSuccessRateHandler.js';
-import { pickChallengeService } from '../domain/services/pick-challenge-service.js';
 import { usecases } from '../domain/usecases/index.js';
 
 async function simulateFlashAssessmentScenario(

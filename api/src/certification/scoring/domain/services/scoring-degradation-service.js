@@ -1,7 +1,7 @@
-import { AnswerStatus, AssessmentSimulator } from '../../../../lib/domain/models/index.js';
-import { pickAnswerStatusService } from '../../../../lib/domain/services/pick-answer-status-service.js';
-import { AssessmentSimulatorSingleMeasureStrategy } from '../../../certification/flash-certification/domain/models/AssessmentSimulatorSingleMeasureStrategy.js';
-import { pickChallengeService } from '../../../certification/flash-certification/domain/services/pick-challenge-service.js';
+import { AnswerStatus, AssessmentSimulator } from '../../../../../lib/domain/models/index.js';
+import { pickAnswerStatusService } from '../../../../../lib/domain/services/pick-answer-status-service.js';
+import { pickChallengeService } from '../../../../evaluation/domain/services/pick-challenge-service.js';
+import { AssessmentSimulatorSingleMeasureStrategy } from '../../../flash-certification/domain/models/AssessmentSimulatorSingleMeasureStrategy.js';
 
 const downgradeCapacity = ({
   algorithm,

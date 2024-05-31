@@ -1,8 +1,8 @@
 import { pickAnswerStatusService } from '../../../../../lib/domain/services/pick-answer-status-service.js';
 import { random } from '../../../../../lib/infrastructure/utils/random.js';
 import * as moduleUnderTest from '../../../../../src/certification/flash-certification/application/scenario-simulator-route.js';
-import { pickChallengeService } from '../../../../../src/certification/flash-certification/domain/services/pick-challenge-service.js';
 import { usecases } from '../../../../../src/certification/flash-certification/domain/usecases/index.js';
+import { pickChallengeService } from '../../../../../src/evaluation/domain/services/pick-challenge-service.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { domainBuilder, expect, HttpTestServer, parseJsonStream, sinon } from '../../../../test-helper.js';
 
