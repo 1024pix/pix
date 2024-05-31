@@ -172,7 +172,7 @@ import { buildV3CertificationCourseDetailsForAdministration } from './build-v3-c
 import { buildValidation } from './build-validation.js';
 import { buildValidator } from './build-validator.js';
 import { buildSessionEnrolment } from './certification/enrolment/build-session.js';
-import { buildSubscription } from './certification/enrolment/build-subscription.js';
+import { buildComplementarySubscription, buildCoreSubscription } from './certification/enrolment/build-subscription.js';
 import { buildFlashAssessmentAlgorithm } from './certification/flash-certification/build-flash-assessment-algorithm.js';
 import { buildAssessmentResult as buildCertificationScoringAssessmentResult } from './certification/scoring/build-assessment-result.js';
 import { buildCertificationAssessmentHistory } from './certification/scoring/build-certification-assessment-history.js';
@@ -311,6 +311,8 @@ export {
   buildComplementaryCertificationScoringWithComplementaryReferential,
   buildComplementaryCertificationScoringWithoutComplementaryReferential,
   buildComplementaryCertificationTargetProfileHistory,
+  buildComplementarySubscription,
+  buildCoreSubscription,
   buildCountry,
   buildCourse,
   buildCpfCertificationResult,
@@ -366,7 +368,6 @@ export {
   buildStageAcquisition,
   buildStageCollectionForTargetProfileManagement,
   buildStageCollectionForUserCampaignResults,
-  buildSubscription,
   buildSupOrganizationLearner,
   buildTag,
   buildTargetProfile,

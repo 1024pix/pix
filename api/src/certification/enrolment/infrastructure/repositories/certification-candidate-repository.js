@@ -12,8 +12,8 @@ import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTrans
 import { BookshelfCertificationCandidate } from '../../../../../lib/infrastructure/orm-models/CertificationCandidate.js';
 import * as bookshelfToDomainConverter from '../../../../../lib/infrastructure/utils/bookshelf-to-domain-converter.js';
 import { normalize } from '../../../../shared/infrastructure/utils/string-utils.js';
-import { SubscriptionTypes } from '../../../shared/domain/models/SubscriptionTypes.js';
 import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
+import { Subscription } from '../../domain/models/Subscription.js';
 
 const linkToUser = async function ({ id, userId }) {
   try {
@@ -45,19 +45,12 @@ const saveInSession = async function ({
     .insert({ ...certificationCandidateDataToSave, sessionId })
     .returning('id');
 
-  for (const type of certificationCandidate.subscriptions) {
-    if (type === SubscriptionTypes.CORE) {
-      await _insertCoreSubscription({
-        certificationCandidateId,
-        knexTransaction,
-      });
-    } else if (type === SubscriptionTypes.COMPLEMENTARY) {
-      await _insertComplementarySubscription({
-        complementaryCertificationId: certificationCandidate.complementaryCertification.id,
-        certificationCandidateId,
-        knexTransaction,
-      });
-    }
+  for (const subscription of certificationCandidate.subscriptions) {
+    await knexTransaction('certification-subscriptions').insert({
+      certificationCandidateId,
+      type: subscription.type,
+      complementaryCertificationId: subscription.complementaryCertificationId,
+    });
   }
 
   if (!domainTransaction?.knexTransaction) {
@@ -86,60 +79,21 @@ const isNotLinked = async function ({ id }) {
 };
 
 const getBySessionIdAndUserId = async function ({ sessionId, userId }) {
-  const certificationCandidate = await knex
-    .select({
-      certificationCandidate: 'certification-candidates.*',
-      complementaryCertificationId: 'complementary-certifications.id',
-      complementaryCertificationKey: 'complementary-certifications.key',
-      complementaryCertificationLabel: 'complementary-certifications.label',
-    })
-    .from('certification-candidates')
-    .leftJoin('certification-subscriptions', (builder) =>
-      builder
-        .on('certification-candidates.id', '=', 'certification-subscriptions.certificationCandidateId')
-        .onNotNull('certification-subscriptions.complementaryCertificationId'),
-    )
-    .leftJoin(
-      'complementary-certifications',
-      'certification-subscriptions.complementaryCertificationId',
-      'complementary-certifications.id',
-    )
-    .where({ sessionId, userId })
-    .groupBy('certification-candidates.id', 'complementary-certifications.id')
-    .first();
+  const certificationCandidate = await _candidateBaseQuery().where({ sessionId, userId }).first();
   return certificationCandidate ? _toDomain(certificationCandidate) : undefined;
 };
 
 const findBySessionId = async function (sessionId) {
-  const results = await knex
-    .select({
-      certificationCandidate: 'certification-candidates.*',
-      complementaryCertificationId: 'complementary-certifications.id',
-      complementaryCertificationKey: 'complementary-certifications.key',
-      complementaryCertificationLabel: 'complementary-certifications.label',
-    })
-    .from('certification-candidates')
+  const results = await _candidateBaseQuery()
     .where({ 'certification-candidates.sessionId': sessionId })
-    .leftJoin('certification-subscriptions', (builder) =>
-      builder
-        .on('certification-candidates.id', '=', 'certification-subscriptions.certificationCandidateId')
-        .onNotNull('certification-subscriptions.complementaryCertificationId'),
-    )
-    .leftJoin(
-      'complementary-certifications',
-      'certification-subscriptions.complementaryCertificationId',
-      'complementary-certifications.id',
-    )
-    .groupBy('certification-candidates.id', 'complementary-certifications.id')
     .orderByRaw('LOWER("certification-candidates"."lastName") asc')
     .orderByRaw('LOWER("certification-candidates"."firstName") asc');
   return results.map(_toDomain);
 };
 
 const findBySessionIdAndPersonalInfo = async function ({ sessionId, firstName, lastName, birthdate }) {
-  const results = await BookshelfCertificationCandidate.where({ sessionId, birthdate }).fetchAll();
-
-  const certificationCandidates = _buildCertificationCandidates(results);
+  const results = await _candidateBaseQuery().where({ sessionId, birthdate });
+  const certificationCandidates = results.map(_toDomain);
 
   const normalizedInputNames = {
     lastName: normalize(lastName),
@@ -189,25 +143,7 @@ const deleteBySessionId = async function ({ sessionId, domainTransaction = Domai
 };
 
 const getWithComplementaryCertification = async function (id) {
-  const candidateData = await knex('certification-candidates')
-    .select({
-      certificationCandidate: 'certification-candidates.*',
-      complementaryCertificationId: 'complementary-certifications.id',
-      complementaryCertificationKey: 'complementary-certifications.key',
-      complementaryCertificationLabel: 'complementary-certifications.label',
-    })
-    .leftJoin('certification-subscriptions', (builder) =>
-      builder
-        .on('certification-candidates.id', '=', 'certification-subscriptions.certificationCandidateId')
-        .onNotNull('certification-subscriptions.complementaryCertificationId'),
-    )
-    .leftJoin(
-      'complementary-certifications',
-      'complementary-certifications.id',
-      'certification-subscriptions.complementaryCertificationId',
-    )
-    .where('certification-candidates.id', id)
-    .first();
+  const candidateData = await _candidateBaseQuery().where('certification-candidates.id', id).first();
 
   if (!candidateData) {
     throw new NotFoundError('Candidate not found');
@@ -230,26 +166,6 @@ export {
   saveInSession,
   update,
 };
-
-async function _insertCoreSubscription({ certificationCandidateId, knexTransaction }) {
-  return knexTransaction('certification-subscriptions').insert({
-    type: SubscriptionTypes.CORE,
-    certificationCandidateId,
-    complementaryCertificationId: null,
-  });
-}
-
-async function _insertComplementarySubscription({
-  complementaryCertificationId,
-  certificationCandidateId,
-  knexTransaction,
-}) {
-  return knexTransaction('certification-subscriptions').insert({
-    type: SubscriptionTypes.COMPLEMENTARY,
-    complementaryCertificationId,
-    certificationCandidateId,
-  });
-}
 
 function _buildCertificationCandidates(results) {
   if (results?.models[0]) {
@@ -291,6 +207,7 @@ function _adaptModelToDb(certificationCandidateToSave) {
 function _toDomain(candidateData) {
   return new CertificationCandidate({
     ...candidateData,
+    subscriptions: [Subscription.buildCore({ id: candidateData.certificationCandidateId })],
     complementaryCertification: candidateData.complementaryCertificationId
       ? new ComplementaryCertification({
           id: candidateData.complementaryCertificationId,
@@ -299,4 +216,26 @@ function _toDomain(candidateData) {
         })
       : null,
   });
+}
+
+function _candidateBaseQuery() {
+  return knex
+    .select({
+      certificationCandidate: 'certification-candidates.*',
+      complementaryCertificationId: 'complementary-certifications.id',
+      complementaryCertificationKey: 'complementary-certifications.key',
+      complementaryCertificationLabel: 'complementary-certifications.label',
+    })
+    .from('certification-candidates')
+    .leftJoin('certification-subscriptions', (builder) =>
+      builder
+        .on('certification-candidates.id', '=', 'certification-subscriptions.certificationCandidateId')
+        .onNotNull('certification-subscriptions.complementaryCertificationId'),
+    )
+    .leftJoin(
+      'complementary-certifications',
+      'certification-subscriptions.complementaryCertificationId',
+      'complementary-certifications.id',
+    )
+    .groupBy('certification-candidates.id', 'complementary-certifications.id');
 }

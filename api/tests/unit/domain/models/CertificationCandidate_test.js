@@ -5,8 +5,8 @@ import {
   CertificationCandidatesError,
 } from '../../../../lib/domain/errors.js';
 import { CertificationCandidate } from '../../../../lib/domain/models/index.js';
-import { SubscriptionTypes } from '../../../../src/certification/shared/domain/models/SubscriptionTypes.js';
-import { catchErr, domainBuilder, expect } from '../../../test-helper.js';
+import { Subscription } from '../../../../src/certification/enrolment/domain/models/Subscription.js';
+import { catchErr, catchErrSync, domainBuilder, expect } from '../../../test-helper.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 
 const FIRST_NAME_ERROR_CODE = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FIRST_NAME_REQUIRED.code;
@@ -18,108 +18,77 @@ const i18n = getI18n();
 const translate = i18n.__;
 
 describe('Unit | Domain | Models | Certification Candidate', function () {
+  let rawData;
+  let expectedData;
+  let coreSubscription;
+
+  beforeEach(function () {
+    coreSubscription = domainBuilder.buildCoreSubscription();
+
+    rawData = {
+      firstName: 'Jean-Pierre',
+      lastName: 'Foucault',
+      birthCity: 'Marseille',
+      birthProvinceCode: '13',
+      birthCountry: 'France',
+      externalId: 'QVGDM',
+      email: 'jp@fou.com',
+      birthdate: '1940-05-05',
+      extraTimePercentage: 0.3,
+      sessionId: 1,
+      userId: 2,
+      sex: 'M',
+      subscriptions: [coreSubscription],
+      billingMode: 'FREE',
+    };
+
+    expectedData = {
+      ...rawData,
+      id: undefined,
+      authorizedToStart: undefined,
+      billingMode: 'FREE',
+      birthINSEECode: undefined,
+      birthPostalCode: undefined,
+      createdAt: undefined,
+      organizationLearnerId: null,
+      prepaymentCode: null,
+      resultRecipientEmail: undefined,
+      complementaryCertification: null,
+      subscriptions: [coreSubscription],
+    };
+  });
+
   describe('constructor', function () {
     describe('when there is no complementary certification', function () {
       it('should build a Certification Candidate', function () {
-        // given
-        const rawData = {
-          firstName: 'Jean-Pierre',
-          lastName: 'Foucault',
-          birthCity: 'Marseille',
-          birthProvinceCode: '13',
-          birthCountry: 'France',
-          externalId: 'QVGDM',
-          email: 'jp@fou.cau',
-          birthdate: '1940-05-05',
-          extraTimePercentage: 0.3,
-          sessionId: 1,
-          userId: 2,
-        };
-
-        // when
         const certificationCandidate = new CertificationCandidate(rawData);
 
-        // then
-        expect(certificationCandidate).to.deep.equal({
-          id: undefined,
-          firstName: 'Jean-Pierre',
-          lastName: 'Foucault',
-          birthCity: 'Marseille',
-          birthProvinceCode: '13',
-          birthCountry: 'France',
-          externalId: 'QVGDM',
-          email: 'jp@fou.cau',
-          birthdate: '1940-05-05',
-          extraTimePercentage: 0.3,
-          sessionId: 1,
-          userId: 2,
-          authorizedToStart: undefined,
-          billingMode: null,
-          birthINSEECode: undefined,
-          birthPostalCode: undefined,
-          createdAt: undefined,
-          organizationLearnerId: null,
-          prepaymentCode: null,
-          resultRecipientEmail: undefined,
-          sex: undefined,
-          complementaryCertification: null,
-        });
-
-        expect(certificationCandidate.subscriptions).to.deepEqualArray([SubscriptionTypes.CORE]);
+        expect(certificationCandidate).to.deep.equal(expectedData);
       });
     });
 
     describe('when there is a complementary certification', function () {
       it('should build a Certification Candidate', function () {
         // given
-        const rawData = {
-          firstName: 'Jean-Pierre',
-          lastName: 'Foucault',
-          birthCity: 'Marseille',
-          birthProvinceCode: '13',
-          birthCountry: 'France',
-          externalId: 'QVGDM',
-          email: 'jp@fou.cau',
-          birthdate: '1940-05-05',
-          extraTimePercentage: 0.3,
-          sessionId: 1,
-          userId: 2,
+        rawData = {
+          ...rawData,
           complementaryCertification: { id: 99 },
+        };
+
+        expectedData = {
+          ...expectedData,
+          complementaryCertification: { id: 99 },
+          subscriptions: [
+            coreSubscription,
+            domainBuilder.buildComplementarySubscription({ complementaryCertificationId: 99 }),
+          ],
         };
 
         // when
         const certificationCandidate = new CertificationCandidate(rawData);
 
         // then
-        expect(certificationCandidate).to.deep.equal({
-          id: undefined,
-          firstName: 'Jean-Pierre',
-          lastName: 'Foucault',
-          birthCity: 'Marseille',
-          birthProvinceCode: '13',
-          birthCountry: 'France',
-          externalId: 'QVGDM',
-          email: 'jp@fou.cau',
-          birthdate: '1940-05-05',
-          extraTimePercentage: 0.3,
-          sessionId: 1,
-          userId: 2,
-          authorizedToStart: undefined,
-          billingMode: null,
-          birthINSEECode: undefined,
-          birthPostalCode: undefined,
-          createdAt: undefined,
-          organizationLearnerId: null,
-          prepaymentCode: null,
-          resultRecipientEmail: undefined,
-          sex: undefined,
-          complementaryCertification: { id: 99 },
-        });
-
-        expect(certificationCandidate.subscriptions).to.deepEqualArray([
-          SubscriptionTypes.CORE,
-          SubscriptionTypes.COMPLEMENTARY,
-        ]);
+        expect(certificationCandidate).to.deep.equal(expectedData);
       });
     });
   });
@@ -127,27 +96,13 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
   describe('validate', function () {
     const buildCertificationCandidate = (attributes) => new CertificationCandidate(attributes);
 
-    const validAttributes = {
-      firstName: 'Oren',
-      lastName: 'Ishii',
-      sex: 'F',
-      birthPostalCode: '75001',
-      birthINSEECode: '',
-      birthCountry: 'France',
-      birthdate: '2010-01-01',
-      sessionId: 123,
-      resultRecipientEmail: 'orga@example.net',
-      billingMode: 'FREE',
-    };
-
     context('when all required fields are presents', function () {
-      it('should be ok when object is valid', function () {
-        try {
-          const certificationCandidate = buildCertificationCandidate(validAttributes);
-          certificationCandidate.validate();
-        } catch (e) {
-          expect.fail('certificationCandidate is valid when all required fields are present');
-        }
+      it('should not throw when object is valid', function () {
+        // given
+        const certificationCandidate = buildCertificationCandidate(rawData);
+
+        // when, then
+        certificationCandidate.validate();
       });
     });
 
@@ -159,14 +114,14 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
     ].forEach((field) => {
       it(`should throw an error when field ${field.name} is not a string`, async function () {
         // given
-        const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field.name]: 123 });
         const certificationCandidatesError = new CertificationCandidatesError({
           code: field.code,
           meta: 123,
         });
 
         // when
-        const error = await catchErr(certificationCandidate.validate, certificationCandidate)();
+        const candidate = buildCertificationCandidate({ ...rawData, [field.name]: 123 });
+        const error = catchErrSync(() => candidate.validate())();
 
         // then
         expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
@@ -178,7 +133,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       ].forEach((field) => {
         it(`should throw an error when field ${field.name} is not present`, async function () {
           //given
-          const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field.name]: undefined });
+          const certificationCandidate = buildCertificationCandidate({ ...rawData, [field.name]: undefined });
           const certificationCandidatesError = new CertificationCandidatesError({
             code: field.code,
           });
@@ -192,7 +147,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
         it(`should throw an error when field ${field.name} contains only spaces`, async function () {
           //given
-          const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field.name]: ' ' });
+          const certificationCandidate = buildCertificationCandidate({ ...rawData, [field.name]: ' ' });
           const certificationCandidatesError = new CertificationCandidatesError({
             code: field.code,
           });
@@ -206,7 +161,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
         it(`should throw an error when field ${field.name} is not present because null`, async function () {
           // given
-          const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field.name]: null });
+          const certificationCandidate = buildCertificationCandidate({ ...rawData, [field.name]: null });
           const certificationCandidatesError = new CertificationCandidatesError({
             code: field.code,
           });
@@ -222,7 +177,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
     it('should throw an error when field sessionId is not a number', async function () {
       //given
-      const certificationCandidate = buildCertificationCandidate({ ...validAttributes, sessionId: 'salut' });
+      const certificationCandidate = buildCertificationCandidate({ ...rawData, sessionId: 'salut' });
       const certificationCandidatesError = new CertificationCandidatesError({
         code: 'CANDIDATE_SESSION_ID_NOT_A_NUMBER',
         meta: 'salut',
@@ -237,7 +192,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
     it('should throw an error when field sessionId is not present', async function () {
       //given
-      const certificationCandidate = buildCertificationCandidate({ ...validAttributes, sessionId: undefined });
+      const certificationCandidate = buildCertificationCandidate({ ...rawData, sessionId: undefined });
       const certificationCandidatesError = new CertificationCandidatesError({
         code: 'CANDIDATE_SESSION_ID_REQUIRED',
       });
@@ -251,7 +206,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
     it('should throw an error when field sessionId is not present because null', async function () {
       //given
-      const certificationCandidate = buildCertificationCandidate({ ...validAttributes, sessionId: null });
+      const certificationCandidate = buildCertificationCandidate({ ...rawData, sessionId: null });
       const certificationCandidatesError = new CertificationCandidatesError({
         code: 'CANDIDATE_SESSION_ID_REQUIRED',
       });
@@ -265,7 +220,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
     it('should throw an error when field externalId is not a string', async function () {
       //given
-      const certificationCandidate = buildCertificationCandidate({ ...validAttributes, externalId: 1235 });
+      const certificationCandidate = buildCertificationCandidate({ ...rawData, externalId: 1235 });
       const certificationCandidatesError = new CertificationCandidatesError({
         code: 'CANDIDATE_EXTERNAL_ID_MUST_BE_A_STRING',
         meta: 1235,
@@ -281,7 +236,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
     it('should throw an error when birthdate is not a date', async function () {
       // given
       const certificationCandidate = buildCertificationCandidate({
-        ...validAttributes,
+        ...rawData,
         birthdate: 'je mange des légumes',
       });
       const certificationCandidatesError = new CertificationCandidatesError({
@@ -298,7 +253,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
     it('should throw an error when birthdate is not a valid format', async function () {
       // given
-      const certificationCandidate = buildCertificationCandidate({ ...validAttributes, birthdate: '2020/02/01' });
+      const certificationCandidate = buildCertificationCandidate({ ...rawData, birthdate: '2020/02/01' });
       const certificationCandidatesError = new CertificationCandidatesError({
         code: 'CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID',
         meta: '2020/02/01',
@@ -313,7 +268,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
     it('should throw an error when birthdate is null', async function () {
       // given
-      const certificationCandidate = buildCertificationCandidate({ ...validAttributes, birthdate: null });
+      const certificationCandidate = buildCertificationCandidate({ ...rawData, birthdate: null });
       const certificationCandidatesError = new CertificationCandidatesError({
         code: 'CANDIDATE_BIRTHDATE_REQUIRED',
       });
@@ -327,7 +282,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
     it('should throw an error when birthdate is not present', async function () {
       // given
-      const certificationCandidate = buildCertificationCandidate({ ...validAttributes, birthdate: undefined });
+      const certificationCandidate = buildCertificationCandidate({ ...rawData, birthdate: undefined });
       const certificationCandidatesError = new CertificationCandidatesError({
         code: 'CANDIDATE_BIRTHDATE_REQUIRED',
       });
@@ -341,7 +296,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
     it('should throw an error when field extraTimePercentage is not a number', async function () {
       const certificationCandidate = buildCertificationCandidate({
-        ...validAttributes,
+        ...rawData,
         extraTimePercentage: 'salut',
       });
       const certificationCandidatesError = new CertificationCandidatesError({
@@ -358,7 +313,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
     it('should throw an error when sex is neither M nor F', async function () {
       // given
-      const certificationCandidate = buildCertificationCandidate({ ...validAttributes, sex: 'something_else' });
+      const certificationCandidate = buildCertificationCandidate({ ...rawData, sex: 'something_else' });
       const certificationCandidatesError = new CertificationCandidatesError({
         code: 'CANDIDATE_SEX_NOT_VALID',
         meta: 'something_else',
@@ -374,7 +329,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
     it('should throw an error when the complementary certification format is not valid', async function () {
       // given
       const certificationCandidate = buildCertificationCandidate({
-        ...validAttributes,
+        ...rawData,
         complementaryCertification: {},
       });
       const certificationCandidatesError = new CertificationCandidatesError({
@@ -392,7 +347,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
     it('should return a report when email is not a valid format', async function () {
       // given
       const certificationCandidate = buildCertificationCandidate({
-        ...validAttributes,
+        ...rawData,
         email: 'email@example.net, anotheremail@example.net',
       });
       const certificationCandidatesError = new CertificationCandidatesError({
@@ -410,7 +365,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
     it('should return a report when resultRecipientEmail is not a valid format', async function () {
       // given
       const certificationCandidate = buildCertificationCandidate({
-        ...validAttributes,
+        ...rawData,
         resultRecipientEmail: 'email@example.net, anotheremail@example.net',
       });
       const certificationCandidatesError = new CertificationCandidatesError({
@@ -430,7 +385,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         it('should not throw an error', async function () {
           // given
           const certificationCandidate = domainBuilder.buildCertificationCandidate({
-            ...validAttributes,
+            ...rawData,
             billingMode: null,
           });
           const isSco = true;
@@ -449,7 +404,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       it('should throw an error if billingMode is null', async function () {
         // given
         const certificationCandidate = domainBuilder.buildCertificationCandidate({
-          ...validAttributes,
+          ...rawData,
           billingMode: null,
         });
 
@@ -468,7 +423,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       it('should throw an error if billingMode is not an expected value', async function () {
         // given
         const certificationCandidate = domainBuilder.buildCertificationCandidate({
-          ...validAttributes,
+          ...rawData,
           billingMode: 'NOT_ALLOWED_VALUE',
         });
         const isSco = false;
@@ -491,7 +446,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         it(`should not throw if billing mode is an expected value ${billingMode}`, async function () {
           // given
           const certificationCandidate = domainBuilder.buildCertificationCandidate({
-            ...validAttributes,
+            ...rawData,
             billingMode,
             prepaymentCode: billingMode === CertificationCandidate.BILLING_MODES.PREPAID ? '12345' : undefined,
           });
@@ -510,7 +465,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         it('should throw an error if prepaymentCode is not null', async function () {
           // given
           const certificationCandidate = domainBuilder.buildCertificationCandidate({
-            ...validAttributes,
+            ...rawData,
             billingMode: 'PAID',
             prepaymentCode: 'NOT_NULL',
           });
@@ -532,7 +487,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         it('should not throw an error if prepaymentCode is not null', function () {
           // given
           const certificationCandidate = domainBuilder.buildCertificationCandidate({
-            ...validAttributes,
+            ...rawData,
             billingMode: 'PREPAID',
             prepaymentCode: 'NOT_NULL',
           });
@@ -552,24 +507,10 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
   describe('validateForMassSessionImport', function () {
     const buildCertificationCandidate = (attributes) => new CertificationCandidate(attributes);
 
-    const validAttributes = {
-      firstName: 'Oren',
-      lastName: 'Ishii',
-      sex: 'F',
-      birthPostalCode: '75001',
-      birthINSEECode: '',
-      birthCountry: 'France',
-      birthdate: '2010-01-01',
-      sessionId: 123,
-      resultRecipientEmail: 'orga@example.net',
-      billingMode: 'FREE',
-      extraTimePercentage: 1,
-    };
-
     context('when all required fields are presents', function () {
       it('should return nothing', function () {
         // given
-        const certificationCandidate = buildCertificationCandidate(validAttributes);
+        const certificationCandidate = buildCertificationCandidate(rawData);
 
         // when
         const report = certificationCandidate.validateForMassSessionImport();
@@ -592,7 +533,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
     ].forEach(({ field, expectedCode }) => {
       it(`should return a report when field ${field} is not present`, async function () {
         // given
-        const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field]: undefined });
+        const certificationCandidate = buildCertificationCandidate({ ...rawData, [field]: undefined });
 
         // when
         const report = certificationCandidate.validateForMassSessionImport();
@@ -603,7 +544,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
       it(`should return a report when field ${field} is null`, async function () {
         // given
-        const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field]: null });
+        const certificationCandidate = buildCertificationCandidate({ ...rawData, [field]: null });
 
         // when
         const report = certificationCandidate.validateForMassSessionImport();
@@ -615,7 +556,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
     it('should return a report when birthdate is not a valid format', async function () {
       // given
-      const certificationCandidate = buildCertificationCandidate({ ...validAttributes, birthdate: '2020/02/01' });
+      const certificationCandidate = buildCertificationCandidate({ ...rawData, birthdate: '2020/02/01' });
 
       // when
       const report = certificationCandidate.validateForMassSessionImport();
@@ -626,7 +567,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
     it('should return a report when birthdate is null', async function () {
       // given
-      const certificationCandidate = buildCertificationCandidate({ ...validAttributes, birthdate: null });
+      const certificationCandidate = buildCertificationCandidate({ ...rawData, birthdate: null });
 
       // when
       const report = certificationCandidate.validateForMassSessionImport();
@@ -639,7 +580,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       it('should return a report when field extraTimePercentage is not a number', async function () {
         // given
         const certificationCandidate = buildCertificationCandidate({
-          ...validAttributes,
+          ...rawData,
           extraTimePercentage: 'salut',
         });
 
@@ -652,7 +593,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
       it('should throw an error when field extraTimePercentage is greater than 10', async function () {
         const certificationCandidate = buildCertificationCandidate({
-          ...validAttributes,
+          ...rawData,
           extraTimePercentage: 11,
         });
 
@@ -665,7 +606,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
     it('should return a report when sex is neither M nor F', async function () {
       // given
-      const certificationCandidate = buildCertificationCandidate({ ...validAttributes, sex: 'something_else' });
+      const certificationCandidate = buildCertificationCandidate({ ...rawData, sex: 'something_else' });
 
       // when
       const report = certificationCandidate.validateForMassSessionImport();
@@ -676,7 +617,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
     it('should return a report when sex is null', async function () {
       // given
-      const certificationCandidate = buildCertificationCandidate({ ...validAttributes, sex: null });
+      const certificationCandidate = buildCertificationCandidate({ ...rawData, sex: null });
 
       // when
       const report = certificationCandidate.validateForMassSessionImport();
@@ -691,7 +632,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
           it('should return nothing', async function () {
             // given
             const certificationCandidate = domainBuilder.buildCertificationCandidate({
-              ...validAttributes,
+              ...rawData,
               billingMode: null,
             });
             const isSco = true;
@@ -708,7 +649,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
           it('should return a report', async function () {
             // given
             const certificationCandidate = domainBuilder.buildCertificationCandidate({
-              ...validAttributes,
+              ...rawData,
               billingMode: 'FREE',
             });
             const isSco = true;
@@ -728,7 +669,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
             // given
             const isSco = false;
             const certificationCandidate = domainBuilder.buildCertificationCandidate({
-              ...validAttributes,
+              ...rawData,
               billingMode: null,
             });
 
@@ -744,7 +685,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
           it('should return a report', async function () {
             // given
             const certificationCandidate = domainBuilder.buildCertificationCandidate({
-              ...validAttributes,
+              ...rawData,
               billingMode: 'NOT_ALLOWED_VALUE',
             });
             const isSco = false;
@@ -764,7 +705,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
             it(`should return nothing for ${billingMode}`, async function () {
               // given
               const certificationCandidate = domainBuilder.buildCertificationCandidate({
-                ...validAttributes,
+                ...rawData,
                 billingMode,
                 prepaymentCode: billingMode === CertificationCandidate.BILLING_MODES.PREPAID ? '12345' : undefined,
               });
@@ -783,7 +724,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
             it('should return a report', async function () {
               // given
               const certificationCandidate = domainBuilder.buildCertificationCandidate({
-                ...validAttributes,
+                ...rawData,
                 billingMode: 'PAID',
                 prepaymentCode: 'NOT_NULL',
               });
@@ -803,7 +744,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
           it('should return nothing if prepaymentCode is not null', function () {
             // given
             const certificationCandidate = domainBuilder.buildCertificationCandidate({
-              ...validAttributes,
+              ...rawData,
               billingMode: 'PREPAID',
               prepaymentCode: 'NOT_NULL',
             });
@@ -818,7 +759,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
           it('should return report if prepaymentCode is null', function () {
             // given
             const certificationCandidate = domainBuilder.buildCertificationCandidate({
-              ...validAttributes,
+              ...rawData,
               billingMode: 'PREPAID',
               prepaymentCode: '',
             });
@@ -837,7 +778,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       it('should return multiple message', function () {
         // given
         const certificationCandidate = buildCertificationCandidate({
-          ...validAttributes,
+          ...rawData,
           firstName: undefined,
           birthdate: undefined,
           billingMode: 'FREE',
@@ -855,10 +796,9 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
   describe('validateParticipation', function () {
     it('should not throw when the object is valid', function () {
       // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate();
+      const certificationCandidate = domainBuilder.buildCertificationCandidate(rawData);
 
-      // when
-      // then
+      // when, then
       certificationCandidate.validateParticipation();
     });
 
@@ -1182,6 +1122,127 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
       // when / then
       expect(certificationCandidate.extraTimePercentage).to.equal(0.2);
+    });
+  });
+
+  describe('#addSubscription', function () {
+    describe('when there is no subscription yet', function () {
+      describe('when adding a CORE subscription', function () {
+        it('should add CORE', function () {
+          // given
+          const coreSubscription = Subscription.buildCore({ id: 1 });
+          const certificationCandidate = domainBuilder.buildCertificationCandidate({
+            subscriptions: [],
+            complementaryCertification: null,
+          });
+
+          // when
+          certificationCandidate.addSubscription(coreSubscription);
+
+          // when / then
+          expect(certificationCandidate.subscriptions).to.deep.equal([coreSubscription]);
+        });
+      });
+
+      describe('when adding a complementary subscription', function () {
+        it('should add a complementary', function () {
+          // given
+          const complementarySubscription = Subscription.buildComplementary({ complementaryCertificationId: 99 });
+          const certificationCandidate = domainBuilder.buildCertificationCandidate({
+            subscriptions: [],
+            complementaryCertification: null,
+          });
+
+          // when
+          certificationCandidate.addSubscription(complementarySubscription);
+
+          // when / then
+          expect(certificationCandidate.subscriptions).to.deep.equal([complementarySubscription]);
+        });
+      });
+    });
+
+    describe('when there is a already subscription', function () {
+      describe('when the subscription is CORE', function () {
+        describe('when adding a CORE subscription', function () {
+          it('should replace the CORE', function () {
+            // given
+            const coreSubscription = Subscription.buildCore({ id: 1 });
+            const certificationCandidate = domainBuilder.buildCertificationCandidate({
+              subscriptions: [Subscription.buildCore({ id: 22 })],
+              complementaryCertification: null,
+            });
+
+            // when
+            certificationCandidate.addSubscription(coreSubscription);
+
+            // when / then
+            expect(certificationCandidate.subscriptions).to.deep.equal([coreSubscription]);
+          });
+        });
+
+        describe('when adding a complementary subscription', function () {
+          it('should add a complementary', function () {
+            // given
+            const complementarySubscription = Subscription.buildComplementary({ complementaryCertificationId: 99 });
+            const coreSubscription = Subscription.buildCore({ id: 22 });
+            const certificationCandidate = domainBuilder.buildCertificationCandidate({
+              subscriptions: [coreSubscription],
+              complementaryCertification: null,
+            });
+
+            // when
+            certificationCandidate.addSubscription(complementarySubscription);
+
+            // when / then
+            expect(certificationCandidate.subscriptions).to.deep.equal([coreSubscription, complementarySubscription]);
+          });
+        });
+      });
+
+      describe('when the subscription is complementary', function () {
+        describe('when adding a CORE subscription', function () {
+          it('should add the core', function () {
+            // given
+            const certificationCandidate = domainBuilder.buildCertificationCandidate({
+              subscriptions: [],
+              complementaryCertification: { id: 99 },
+            });
+            const coreSubscription = Subscription.buildCore({ certificationCandidate: certificationCandidate.id });
+
+            // when
+            certificationCandidate.addSubscription(coreSubscription);
+
+            // when / then
+            expect(certificationCandidate.subscriptions).to.deep.equal([
+              Subscription.buildComplementary({
+                certificationCandidateId: certificationCandidate.id,
+                complementaryCertificationId: 99,
+              }),
+              coreSubscription,
+            ]);
+          });
+        });
+
+        describe('when adding a complementary subscription', function () {
+          it('should replace the complementary', function () {
+            // given
+            const complementarySubscription = Subscription.buildComplementary({ complementaryCertificationId: 99 });
+            const certificationCandidate = domainBuilder.buildCertificationCandidate({
+              subscriptions: [],
+              complementaryCertification: { id: 99 },
+            });
+
+            // when
+            certificationCandidate.addSubscription(complementarySubscription);
+
+            // when / then
+            expect(certificationCandidate.subscriptions).to.deep.equal([
+              Subscription.buildComplementary({ complementaryCertificationId: 99 }),
+            ]);
+          });
+        });
+      });
     });
   });
 });
