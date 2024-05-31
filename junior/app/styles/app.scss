@@ -27,11 +27,11 @@ b {
   max-width: 1730px;
 
   @include device-is('tablet') {
-    margin: 32px 80px;
+    margin: 32px;
   }
 
   @include device-is('desktop') {
-    margin: 32px 95px;
+    margin: 32px 50px;
   }
 
   @include device-is('large-screen') {

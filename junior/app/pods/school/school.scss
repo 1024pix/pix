@@ -1,21 +1,26 @@
+@import '../../styles/globals/breakpoints';
+
 .list {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
+  max-width: 1200px;
   min-height: 300px;
-  margin: auto 50px 35px;
+  margin: 0 auto 0 130px;
+
+  @include device-is('tablet') {
+    margin-left: 115px;
+  }
 
   &__students {
     justify-content: normal;
     min-height: 0;
-    margin: 30px auto 35px 170px;
   }
 
   .students__item {
     width: 190px;
     height: 55px;
-    margin: 20px;
+    margin: 12px;
     color: var(--pix-neutral-900);
     font-size: 1.125rem;
     background: var(--pix-neutral-0);
@@ -31,7 +36,7 @@
   .divisions__item {
     width: 190px;
     height: 190px;
-    margin: 20px;
+    margin: 12px;
     color: var(--pix-neutral-900);
     background-color: var(--pix-neutral-0);
     background-image: url('/images/division.svg');
@@ -47,16 +52,28 @@
       top: 140px;
       font-weight: 800;
     }
+
+    @include device-is('desktop') {
+      width: 240px;
+      height: 240px;
+      background-position-y: 50px;
+      background-size: 155px;
+
+      .item__title {
+        position: relative;
+        top: 175px;
+      }
+    }
   }
 }
 
 .pix-button.students__item, .divisions__item {
   &:hover, &:active {
-    background-color: var(--pix-primary-10);
+    background-color: var(--pix-primary-50);
   }
 
   &:focus, &:focus-visible {
-    background-color: var(--pix-primary-10);
+    background-color: var(--pix-primary-50);
     outline: 2px solid var(--pix-primary-300);
     outline-offset: 0;
   }
