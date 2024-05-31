@@ -55,7 +55,7 @@
   }
 
   code {
-    font-family: var(--pix-font-family-monospace);
+    @extend %pix-monospace;
   }
 
   details {

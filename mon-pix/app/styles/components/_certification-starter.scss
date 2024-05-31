@@ -143,6 +143,8 @@
 }
 
 #certificationStarterSessionCode {
+  @extend %pix-monospace;
+
   $space-between-dashes: 0.6ch;
   $nb-characters: 6;
   $total-width: $nb-characters * (1ch + $space-between-dashes);
@@ -153,7 +155,6 @@
   height: 50px;
   padding: 0 0.2ch 1px 0.5ch;
   font-size: 1.875rem;
-  font-family: var(--pix-font-family-monospace);
   letter-spacing: $space-between-dashes;
   text-transform: uppercase;
   background: repeating-linear-gradient(
