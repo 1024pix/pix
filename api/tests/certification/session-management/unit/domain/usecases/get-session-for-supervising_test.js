@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
-import { constants } from '../../../../../../lib/domain/constants.js';
 import { getSessionForSupervising } from '../../../../../../src/certification/session-management/domain/usecases/get-session-for-supervising.js';
+import { DEFAULT_SESSION_DURATION_MINUTES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 const START_DATETIME_STUB = new Date('2022-10-01T13:00:00Z');
@@ -59,7 +59,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
             const expectedTheoricalEndDateTime = dayjs(
               certificationCandidateWithNoComplementaryCertification.startDateTime,
             )
-              .add(constants.PIX_CERTIF.DEFAULT_SESSION_DURATION_MINUTES, 'minute')
+              .add(DEFAULT_SESSION_DURATION_MINUTES, 'minute')
               .toDate();
 
             // when
@@ -131,7 +131,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
                     userId: 1234,
                     startDateTime: START_DATETIME_STUB,
                     theoricalEndDateTime: expectedSessionEndDateTimeFromStartDateTime(START_DATETIME_STUB, [
-                      constants.PIX_CERTIF.DEFAULT_SESSION_DURATION_MINUTES,
+                      DEFAULT_SESSION_DURATION_MINUTES,
                       COMPLEMENTARY_EXTRATIME_STUB,
                     ]),
                     enrolledComplementaryCertification: complementaryCertification,
@@ -182,7 +182,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
             expect(actualSession.certificationCandidates[0].startDateTime).to.deep.equal(START_DATETIME_STUB);
             expect(actualSession.certificationCandidates[0].theoricalEndDateTime).to.deep.equal(
               expectedSessionEndDateTimeFromStartDateTime(START_DATETIME_STUB, [
-                constants.PIX_CERTIF.DEFAULT_SESSION_DURATION_MINUTES,
+                DEFAULT_SESSION_DURATION_MINUTES,
                 COMPLEMENTARY_EXTRATIME_STUB,
               ]),
             );
@@ -226,7 +226,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
                     userId: 1234,
                     startDateTime: START_DATETIME_STUB,
                     theoricalEndDateTime: expectedSessionEndDateTimeFromStartDateTime(START_DATETIME_STUB, [
-                      constants.PIX_CERTIF.DEFAULT_SESSION_DURATION_MINUTES,
+                      DEFAULT_SESSION_DURATION_MINUTES,
                     ]),
                     enrolledComplementaryCertification: complementaryCertification,
                     stillValidBadgeAcquisitions: [],
@@ -271,9 +271,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
             expect(actualSession.certificationCandidates).to.have.lengthOf(1);
             expect(actualSession.certificationCandidates[0].startDateTime).to.deep.equal(START_DATETIME_STUB);
             expect(actualSession.certificationCandidates[0].theoricalEndDateTime).to.deep.equal(
-              expectedSessionEndDateTimeFromStartDateTime(START_DATETIME_STUB, [
-                constants.PIX_CERTIF.DEFAULT_SESSION_DURATION_MINUTES,
-              ]),
+              expectedSessionEndDateTimeFromStartDateTime(START_DATETIME_STUB, [DEFAULT_SESSION_DURATION_MINUTES]),
             );
           });
         });

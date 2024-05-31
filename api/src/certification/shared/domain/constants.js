@@ -12,3 +12,6 @@ export const SESSION_STATUSES = {
   IN_PROCESS: 'in_process',
   PROCESSED: 'processed',
 };
+
+export const DEFAULT_SESSION_DURATION_MINUTES = 105;
+export const CURRENT_CERTIFICATION_VERSION = 2;

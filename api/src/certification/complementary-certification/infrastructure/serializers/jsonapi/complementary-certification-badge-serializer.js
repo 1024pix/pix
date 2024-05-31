@@ -1,7 +1,7 @@
 import bluebird from 'bluebird';
 import jsonapiSerializer from 'jsonapi-serializer';
 
-import { constants as infraConstants } from '../../../../../../lib/infrastructure/constants.js';
+import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../../shared/infrastructure/constants.js';
 
 const { Deserializer } = jsonapiSerializer;
 
@@ -17,7 +17,7 @@ const deserialize = async function (json) {
     complementaryCertificationBadgesToDeserialize,
     async (complementaryCertificationBadgesToDeserialize) =>
       await deserialize.deserialize(complementaryCertificationBadgesToDeserialize),
-    { concurrency: infraConstants.CONCURRENCY_HEAVY_OPERATIONS },
+    { concurrency: CONCURRENCY_HEAVY_OPERATIONS },
   );
 
   return deserializedComplementaryCertification;

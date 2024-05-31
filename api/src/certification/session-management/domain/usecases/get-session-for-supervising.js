@@ -1,8 +1,8 @@
 import bluebird from 'bluebird';
 import dayjs from 'dayjs';
 
-import { constants as domainConstants } from '../../../../../lib/domain/constants.js';
-import { constants as infraConstants } from '../../../../../lib/infrastructure/constants.js';
+import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../shared/infrastructure/constants.js';
+import { DEFAULT_SESSION_DURATION_MINUTES } from '../../../shared/domain/constants.js';
 
 /**
  * @typedef {import('./index.js').SessionForSupervisingRepository} SessionForSupervisingRepository
@@ -24,7 +24,7 @@ const getSessionForSupervising = async function ({
   await bluebird.map(
     sessionForSupervising.certificationCandidates,
     _computeComplementaryCertificationEligibility(certificationBadgesService),
-    { concurrency: infraConstants.CONCURRENCY_HEAVY_OPERATIONS },
+    { concurrency: CONCURRENCY_HEAVY_OPERATIONS },
   );
 
   sessionForSupervising.certificationCandidates.forEach(_computeTheoricalEndDateTime);
@@ -56,7 +56,7 @@ function _computeTheoricalEndDateTime(candidate) {
     return;
   }
 
-  let theoricalEndDateTime = startDateTime.add(domainConstants.PIX_CERTIF.DEFAULT_SESSION_DURATION_MINUTES, 'minute');
+  let theoricalEndDateTime = startDateTime.add(DEFAULT_SESSION_DURATION_MINUTES, 'minute');
 
   if (candidate.isStillEligibleToComplementaryCertification) {
     const extraMinutes = candidate.enrolledComplementaryCertification.certificationExtraTime ?? 0;
