@@ -1,7 +1,7 @@
 import * as errors from '../../../../../src/certification/session-management/domain/errors.js';
 import { expect } from '../../../../test-helper.js';
 
-describe('Certification | session | Unit | Domain | Errors', function () {
+describe('Certification | session-management | Unit | Domain | Errors', function () {
   it('should export a SessionAlreadyFinalizedError', function () {
     expect(errors.SessionAlreadyFinalizedError).to.exist;
   });
@@ -20,5 +20,17 @@ describe('Certification | session | Unit | Domain | Errors', function () {
 
   it('should export a CsvWithNoSessionDataError', function () {
     expect(errors.CsvWithNoSessionDataError).to.exist;
+  });
+
+  it('should export a ChallengeToBeDeneutralizedNotFoundError', function () {
+    expect(errors.ChallengeToBeDeneutralizedNotFoundError).to.exist;
+  });
+
+  it('should export a ChallengeToBeNeutralizedNotFoundError', function () {
+    expect(errors.ChallengeToBeNeutralizedNotFoundError).to.exist;
+  });
+
+  it('should export a SessionNotAccessible error', function () {
+    expect(errors.SessionNotAccessible).to.exist;
   });
 });

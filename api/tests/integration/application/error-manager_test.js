@@ -143,13 +143,6 @@ describe('Integration | API | Controller Error', function () {
       expect(response.statusCode).to.equal(PRECONDITION_FAILED);
     });
 
-    it('responds Precondition Failed when a SessionNotAccessible error occurs', async function () {
-      routeHandler.throws(new DomainErrors.SessionNotAccessible());
-      const response = await server.requestObject(request);
-
-      expect(response.statusCode).to.equal(PRECONDITION_FAILED);
-    });
-
     it('responds Precondition Failed when a NoCampaignParticipationForUserAndCampaign error occurs', async function () {
       routeHandler.throws(new DomainErrors.NoCampaignParticipationForUserAndCampaign());
       const response = await server.requestObject(request);
@@ -233,26 +226,6 @@ describe('Integration | API | Controller Error', function () {
 
       expect(response.statusCode).to.equal(NOT_FOUND_ERROR);
       expect(responseDetail(response)).to.equal("La demande de réinitialisation de mot de passe n'existe pas.");
-    });
-
-    it('responds Not Found when a ChallengeToBeNeutralizedNotFoundError error occurs', async function () {
-      routeHandler.throws(new DomainErrors.ChallengeToBeNeutralizedNotFoundError());
-      const response = await server.requestObject(request);
-
-      expect(response.statusCode).to.equal(NOT_FOUND_ERROR);
-      expect(responseDetail(response)).to.equal(
-        "La question à neutraliser n'a pas été posée lors du test de certification",
-      );
-    });
-
-    it('responds Not Found when a ChallengeToBeDeneutralizedNotFoundError error occurs', async function () {
-      routeHandler.throws(new DomainErrors.ChallengeToBeDeneutralizedNotFoundError());
-      const response = await server.requestObject(request);
-
-      expect(response.statusCode).to.equal(NOT_FOUND_ERROR);
-      expect(responseDetail(response)).to.equal(
-        "La question à dé-neutraliser n'a pas été posée lors du test de certification",
-      );
     });
   });
 

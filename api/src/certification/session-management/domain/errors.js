@@ -1,4 +1,5 @@
 import { DomainError } from '../../../shared/domain/errors.js';
+import { SESSION_SUPERVISING } from './constants.js';
 
 class SessionAlreadyFinalizedError extends DomainError {
   constructor(message = 'Cannot finalize session more than once.') {
@@ -45,10 +46,39 @@ class CsvWithNoSessionDataError extends DomainError {
   }
 }
 
+class ChallengeToBeNeutralizedNotFoundError extends DomainError {
+  constructor() {
+    super("La question à neutraliser n'a pas été posée lors du test de certification");
+  }
+}
+
+class ChallengeToBeDeneutralizedNotFoundError extends DomainError {
+  constructor() {
+    super("La question à dé-neutraliser n'a pas été posée lors du test de certification");
+  }
+}
+
+class InvalidSessionSupervisingLoginError extends DomainError {
+  constructor(message = SESSION_SUPERVISING.INCORRECT_DATA.getMessage()) {
+    super(message);
+    this.code = SESSION_SUPERVISING.INCORRECT_DATA.code;
+  }
+}
+
+class SessionNotAccessible extends DomainError {
+  constructor(message = "La session de certification n'est plus accessible.") {
+    super(message);
+  }
+}
+
 export {
+  ChallengeToBeDeneutralizedNotFoundError,
+  ChallengeToBeNeutralizedNotFoundError,
   CsvWithNoSessionDataError,
+  InvalidSessionSupervisingLoginError,
   SessionAlreadyFinalizedError,
   SessionAlreadyPublishedError,
+  SessionNotAccessible,
   SessionWithAbortReasonOnCompletedCertificationCourseError,
   SessionWithMissingAbortReasonError,
   SessionWithoutStartedCertificationError,

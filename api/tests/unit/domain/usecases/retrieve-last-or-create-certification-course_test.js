@@ -5,11 +5,11 @@ import {
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
   NotFoundError,
-  SessionNotAccessible,
   UnexpectedUserAccountError,
   UserNotAuthorizedToCertifyError,
 } from '../../../../lib/domain/errors.js';
 import { retrieveLastOrCreateCertificationCourse } from '../../../../lib/domain/usecases/retrieve-last-or-create-certification-course.js';
+import { SessionNotAccessible } from '../../../../src/certification/session-management/domain/errors.js';
 import { ComplementaryCertificationCourse } from '../../../../src/certification/session-management/domain/models/ComplementaryCertificationCourse.js';
 import { CertificationCourse } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { LanguageNotSupportedError } from '../../../../src/shared/domain/errors.js';

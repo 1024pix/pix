@@ -1,5 +1,4 @@
 import { AssessmentEndedError } from '../../src/shared/domain/errors.js';
-import { SESSION_SUPERVISING } from './constants/session-supervising.js';
 
 class DomainError extends Error {
   constructor(message, code, meta) {
@@ -549,18 +548,6 @@ class ChallengeNotAskedError extends DomainError {
   }
 }
 
-class ChallengeToBeNeutralizedNotFoundError extends DomainError {
-  constructor() {
-    super("La question à neutraliser n'a pas été posée lors du test de certification");
-  }
-}
-
-class ChallengeToBeDeneutralizedNotFoundError extends DomainError {
-  constructor() {
-    super("La question à dé-neutraliser n'a pas été posée lors du test de certification");
-  }
-}
-
 class CsvParsingError extends DomainError {
   constructor(message = "Les données n'ont pas pu être parsées.") {
     super(message);
@@ -710,12 +697,6 @@ class PasswordResetDemandNotFoundError extends DomainError {
 // FIXME: used ?
 class SessionWithIdAndInformationOnMassImportError extends DomainError {
   constructor(message = 'Merci de ne pas renseigner les informations de session') {
-    super(message);
-  }
-}
-
-class SessionNotAccessible extends DomainError {
-  constructor(message = "La session de certification n'est plus accessible.") {
     super(message);
   }
 }
@@ -933,15 +914,6 @@ class EmailModificationDemandNotFoundOrExpiredError extends DomainError {
   }
 }
 
-class InvalidSessionSupervisingLoginError extends DomainError {
-  constructor(
-    message = SESSION_SUPERVISING.INCORRECT_DATA.getMessage(),
-    code = SESSION_SUPERVISING.INCORRECT_DATA.code,
-  ) {
-    super(message, code);
-  }
-}
-
 class CandidateNotAuthorizedToJoinSessionError extends DomainError {
   constructor(
     message = 'Votre surveillant n’a pas confirmé votre présence dans la salle de test. Vous ne pouvez donc pas encore commencer votre test de certification. Merci de prévenir votre surveillant.',
@@ -1068,8 +1040,6 @@ export {
   CertificationIssueReportAutomaticallyResolvedShouldNotBeUpdatedManually,
   ChallengeAlreadyAnsweredError,
   ChallengeNotAskedError,
-  ChallengeToBeDeneutralizedNotFoundError,
-  ChallengeToBeNeutralizedNotFoundError,
   CsvParsingError,
   DeletedError,
   DeprecatedCertificationIssueReportCategoryError,
@@ -1084,7 +1054,6 @@ export {
   InvalidJuryLevelError,
   InvalidMembershipOrganizationRoleError,
   InvalidPasswordForUpdateEmailError,
-  InvalidSessionSupervisingLoginError,
   InvalidStageError,
   InvalidVerificationCodeError,
   ManyOrganizationsFoundError,
@@ -1124,7 +1093,6 @@ export {
   SendingEmailToInvalidEmailAddressError,
   SendingEmailToRefererError,
   SendingEmailToResultRecipientError,
-  SessionNotAccessible,
   SessionWithIdAndInformationOnMassImportError,
   SIECLE_ERRORS,
   SupervisorAccessNotAuthorizedError,

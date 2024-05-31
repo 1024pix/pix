@@ -1,10 +1,10 @@
 import _ from 'lodash';
 
+import { ObjectValidationError } from '../../../../../../lib/domain/errors.js';
 import {
   ChallengeToBeDeneutralizedNotFoundError,
   ChallengeToBeNeutralizedNotFoundError,
-  ObjectValidationError,
-} from '../../../../../../lib/domain/errors.js';
+} from '../../../../../../src/certification/session-management/domain/errors.js';
 import { CertificationAnswerStatusChangeAttempt } from '../../../../../../src/certification/session-management/domain/models/CertificationAnswerStatusChangeAttempt.js';
 import { CertificationAssessment } from '../../../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
 import { NeutralizationAttempt } from '../../../../../../src/certification/session-management/domain/models/NeutralizationAttempt.js';

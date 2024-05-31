@@ -3,13 +3,10 @@ import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 import _ from 'lodash';
 
-import {
-  ChallengeToBeDeneutralizedNotFoundError,
-  ChallengeToBeNeutralizedNotFoundError,
-} from '../../../../../lib/domain/errors.js';
 import { AnswerStatus } from '../../../../shared/domain/models/AnswerStatus.js';
 import { validateEntity } from '../../../../shared/domain/validators/entity-validator.js';
 import { CertificationVersion } from '../../../shared/domain/models/CertificationVersion.js';
+import { ChallengeToBeDeneutralizedNotFoundError, ChallengeToBeNeutralizedNotFoundError } from '../errors.js';
 import { CertificationAnswerStatusChangeAttempt } from './CertificationAnswerStatusChangeAttempt.js';
 import { NeutralizationAttempt } from './NeutralizationAttempt.js';
 

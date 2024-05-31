@@ -1,4 +1,7 @@
-import { InvalidSessionSupervisingLoginError, SessionNotAccessible } from '../../../../../../lib/domain/errors.js';
+import {
+  InvalidSessionSupervisingLoginError,
+  SessionNotAccessible,
+} from '../../../../../../src/certification/session-management/domain/errors.js';
 import { superviseSession } from '../../../../../../src/certification/session-management/domain/usecases/supervise-session.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
