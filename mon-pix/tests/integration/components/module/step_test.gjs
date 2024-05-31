@@ -72,5 +72,27 @@ module('Integration | Component | Module | Step', function (hooks) {
       assert.strictEqual(findAll('.element-video').length, 1);
       assert.dom(screen.getByRole('button', { name: 'Afficher la transcription' })).exists();
     });
+
+    test('should display a step with a qcu element', async function (assert) {
+      // given
+      const element = {
+        id: 'd0690f26-978c-41c3-9a21-da931857739c',
+        instruction: 'Instruction',
+        proposals: [
+          { id: '1', content: 'radio1' },
+          { id: '2', content: 'radio2' },
+        ],
+        type: 'qcu',
+      };
+      const step = {
+        elements: [element],
+      };
+
+      // when
+      const screen = await render(<template><ModulixStep @step={{step}} /></template>);
+
+      // then
+      assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).exists();
+    });
   });
 });
