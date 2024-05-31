@@ -962,18 +962,18 @@
     "organization-participants-import": {
       "title": "Importer",
       "actions": {
-        "add-sco": {
-          "title": "Importer la liste des élèves",
-          "details": "Cette action vous permet de :",
-          "details-add-student": "ajouter de nouveaux élèves",
-          "details-disable-student": "désactiver les anciens élèves",
-          "details-update-student": "modifier les élèves déjà importés",
-          "label": "Importer la liste"
-        },
         "add-sup": {
           "title": "Ajouter / modifier",
-          "details": "Permet d’ajouter une liste d'étudiants à celle déjà importée et/ou modifier les informations des étudiants déjà importés.",
+          "details": "Permet d'ajouter une liste d'étudiants à celle déjà importée et/ou modifier les informations des étudiants déjà importés.",
           "label": "Ajouter des étudiants"
+        },
+        "participants": {
+          "title": "Importer la liste des participants",
+          "details": "Cette action vous permet de :",
+          "details-add": "ajouter de nouveaux participants",
+          "details-disable": "désactiver les anciens participants",
+          "details-update": "modifier les participants déjà importés",
+          "label": "Importer la liste"
         },
         "replace": {
           "title": "Remplacer",

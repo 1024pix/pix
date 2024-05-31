@@ -52,7 +52,7 @@ module('Integration | Component | Import', function (hooks) {
 
       // then
       const addButton = screen.getByRole('button', {
-        name: this.intl.t('pages.organization-participants-import.actions.add-sco.label'),
+        name: this.intl.t('pages.organization-participants-import.actions.participants.label'),
       });
       assert.ok(addButton.hasAttribute('disabled'));
     });
@@ -336,7 +336,9 @@ module('Integration | Component | Import', function (hooks) {
       );
 
       const file = new Blob(['foo'], { type: 'valid-file' });
-      const input = screen.getByLabelText(this.intl.t('pages.organization-participants-import.actions.add-sco.label'));
+      const input = screen.getByLabelText(
+        this.intl.t('pages.organization-participants-import.actions.participants.label'),
+      );
 
       await triggerEvent(input, 'change', { files: [file] });
 
@@ -369,7 +371,9 @@ module('Integration | Component | Import', function (hooks) {
       );
 
       const file = new Blob(['foo'], { type: 'valid-file' });
-      const input = screen.getByLabelText(this.intl.t('pages.organization-participants-import.actions.add-sco.label'));
+      const input = screen.getByLabelText(
+        this.intl.t('pages.organization-participants-import.actions.participants.label'),
+      );
 
       await triggerEvent(input, 'change', { files: [file] });
 
@@ -412,7 +416,9 @@ module('Integration | Component | Import', function (hooks) {
       );
 
       const file = new Blob(['foo'], { type: 'valid-file' });
-      const input = screen.getByLabelText(this.intl.t('pages.organization-participants-import.actions.add-sco.label'));
+      const input = screen.getByLabelText(
+        this.intl.t('pages.organization-participants-import.actions.participants.label'),
+      );
 
       await triggerEvent(input, 'change', { files: [file] });
       assert.ok(this.onImportLearners.calledWithExactly([file]));

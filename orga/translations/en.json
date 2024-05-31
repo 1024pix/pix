@@ -960,20 +960,20 @@
       }
     },
     "organization-participants-import": {
-      "title": "Import students",
+      "title": "Import participants",
       "actions": {
-        "add-sco": {
-          "title": "Import list of students",
-          "details": "This action allows you to :",
-          "details-add-student": "add new students",
-          "details-disable-student": "deactivate old students",
-          "details-update-student": "edit previously imported students",
-          "label": "Import list"
-        },
         "add-sup": {
           "title": "Add / Edit",
           "details": "Add a list of students to the one already imported and/or edit the information of students already imported.",
           "label": "Add students"
+        },
+        "participants": {
+          "title": "Import list of participants",
+          "details": "This action allows you to :",
+          "details-add": "add new participants",
+          "details-disable": "deactivate old participants",
+          "details-update": "edit previously imported participants",
+          "label": "Import list"
         },
         "replace": {
           "title": "Overwrite",
