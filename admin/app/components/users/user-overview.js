@@ -7,6 +7,7 @@ import ENV from 'pix-admin/config/environment';
 
 export default class UserOverview extends Component {
   @service accessControl;
+  @service intl;
   @service notifications;
   @service references;
   @service store;
@@ -16,6 +17,8 @@ export default class UserOverview extends Component {
 
   languages = this.references.availableLanguages;
   locales = this.references.availableLocales;
+  tooltipTextEmail = this.intl.t('components.users.user-detail-personal-information.actions.copy-email');
+  tooltipTextUsername = this.intl.t('components.users.user-detail-personal-information.actions.copy-username');
 
   constructor() {
     super(...arguments);
