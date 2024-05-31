@@ -11,11 +11,12 @@
     }
 
     &__form {
+        @extend %pix-monospace;
+
         position: sticky;
         top: 0;
         height: 84vh;
         margin: var(--pix-spacing-12x) var(--pix-spacing-2x);
-        font-family: var(--pix-font-family-monospace);
 
         .pix-textarea {
             height: 100%;
