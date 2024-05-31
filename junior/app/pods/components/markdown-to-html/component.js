@@ -12,7 +12,7 @@ function modifyWhiteList() {
     td: ['style'],
     tr: ['style'],
     table: ['style'],
-    a: ['href', 'rel', 'target', 'title'],
+    a: ['href', 'rel', 'target', 'title', 'class'],
   };
 }
 
