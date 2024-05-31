@@ -13,7 +13,7 @@
         @requiredLabel="Champ obligatoire"
         {{on "change" (fn this.updateAutonomousCourseValue "internalTitle")}}
       >
-        <:label>Nom interne : </:label>
+        <:label>Nom interne :</:label>
       </PixInput>
       <PixFilterableAndSearchableSelect
         @placeholder="Choisir un profil cible"
@@ -40,10 +40,11 @@
         placeholder="Exemple : Le super nom de mon parcours autonome"
         required={{true}}
         @requiredLabel="Champ obligatoire"
+        maxlength="50"
         @subLabel="Le nom du parcours autonome sera affiché sur la page de démarrage du candidat."
         {{on "change" (fn this.updateAutonomousCourseValue "publicTitle")}}
       >
-        <:label>Nom public : </:label>
+        <:label>Nom public <small>(50 caractères maximum)</small> :</:label>
       </PixInput>
       <PixTextarea
         @id="text-page-accueil"
