@@ -1,6 +1,7 @@
 import Component from '@glimmer/component';
 import { eq } from 'ember-truth-helpers';
 import ImageElement from 'mon-pix/components/module/image';
+import QcmElement from 'mon-pix/components/module/qcm';
 import QcuElement from 'mon-pix/components/module/qcu';
 import TextElement from 'mon-pix/components/module/text';
 import VideoElement from 'mon-pix/components/module/video';
@@ -21,6 +22,13 @@ export default class ModulixStep extends Component {
           <VideoElement @video={{element}} @moduleId={{@grain.module.id}} />
         {{else if (eq element.type "qcu")}}
           <QcuElement
+            @element={{element}}
+            @submitAnswer={{@submitAnswer}}
+            @retryElement={{@retryElement}}
+            @correction={{this.getLastCorrectionForElement element}}
+          />
+        {{else if (eq element.type "qcm")}}
+          <QcmElement
             @element={{element}}
             @submitAnswer={{@submitAnswer}}
             @retryElement={{@retryElement}}

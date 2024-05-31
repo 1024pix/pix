@@ -94,5 +94,27 @@ module('Integration | Component | Module | Step', function (hooks) {
       // then
       assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).exists();
     });
+
+    test('should display a step with a qcm element', async function (assert) {
+      // given
+      const element = {
+        instruction: 'Instruction',
+        proposals: [
+          { id: '1', content: 'checkbox1' },
+          { id: '2', content: 'checkbox2' },
+          { id: '3', content: 'checkbox3' },
+        ],
+        type: 'qcm',
+      };
+      const step = {
+        elements: [element],
+      };
+
+      // when
+      const screen = await render(<template><ModulixStep @step={{step}} /></template>);
+
+      // then
+      assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).exists();
+    });
   });
 });
