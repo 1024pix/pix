@@ -1,6 +1,6 @@
 import { action } from '@ember/object';
 
-import ModuleElement from '../element/component';
+import ModuleElement from '../../pods/components/module/element/component';
 
 export default class ModuleQcm extends ModuleElement {
   selectedAnswerIds = new Set();
