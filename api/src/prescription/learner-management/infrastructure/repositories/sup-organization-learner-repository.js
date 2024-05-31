@@ -26,7 +26,7 @@ const updateStudentNumber = async function (studentId, studentNumber) {
 };
 
 const findOneByStudentNumberAndBirthdate = async function ({ organizationId, studentNumber, birthdate }) {
-  const organizationLearner = await knex('organization-learners')
+  const organizationLearner = await knex('view-active-organization-learners')
     .where('organizationId', organizationId)
     .where('birthdate', birthdate)
     .where('isDisabled', false)
@@ -37,8 +37,9 @@ const findOneByStudentNumberAndBirthdate = async function ({ organizationId, stu
 };
 
 const findOneByStudentNumber = async function ({ organizationId, studentNumber }) {
-  const organizationLearner = await knex('organization-learners')
+  const organizationLearner = await knex('view-active-organization-learners')
     .where('organizationId', organizationId)
+    .where('isDisabled', false)
     .whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber'])
     .first();
 

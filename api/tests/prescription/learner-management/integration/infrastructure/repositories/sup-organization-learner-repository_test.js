@@ -4,41 +4,73 @@ import { databaseBuilder, domainBuilder, expect, knex } from '../../../../../tes
 
 describe('Integration | Infrastructure | Repository | sup-organization-learner-repository', function () {
   describe('#findOneByStudentNumber', function () {
-    let organization;
-    let organizationLearner;
+    let organizationId;
+    let studentNumber;
 
     beforeEach(async function () {
-      organization = databaseBuilder.factory.buildOrganization();
-      organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
-        organizationId: organization.id,
-        studentNumber: '123A',
-      });
+      studentNumber = '123A';
+      organizationId = databaseBuilder.factory.buildOrganization().id;
       await databaseBuilder.commit();
     });
 
-    it('should return found organizationLearners with student number', async function () {
-      // when
-      const result = await supOrganizationLearnerRepository.findOneByStudentNumber({
-        organizationId: organization.id,
-        studentNumber: '123A',
+    context('When there is no registered organization learners', function () {
+      beforeEach(async function () {
+        databaseBuilder.factory.buildOrganizationLearner({ organizationId, studentNumber });
+        await databaseBuilder.commit();
       });
 
-      // then
-      expect(result.id).to.deep.equal(organizationLearner.id);
+      it('should return null', async function () {
+        // when
+        const result = await supOrganizationLearnerRepository.findOneByStudentNumber({
+          organizationId,
+          studentNumber: 'XXX',
+        });
+
+        // then
+        expect(result).to.equal(null);
+      });
     });
 
-    it('should return empty array when there is no organization-learners with the given student number', async function () {
-      // when
-      const result = await supOrganizationLearnerRepository.findOneByStudentNumber({
-        organizationId: organization.id,
-        studentNumber: '123B',
+    context('When there is no active registered organization learners', function () {
+      beforeEach(async function () {
+        const userId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          studentNumber,
+          isDisabled: true,
+        });
+
+        databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          studentNumber,
+          isDisabled: false,
+          deletedAt: new Date('2021-01-01'),
+          deletedBy: userId,
+        });
+        await databaseBuilder.commit();
       });
 
-      // then
-      expect(result).to.equal(null);
+      it('should return null', async function () {
+        // when
+        const result = await supOrganizationLearnerRepository.findOneByStudentNumber({
+          organizationId,
+          studentNumber,
+        });
+
+        // then
+        expect(result).to.equal(null);
+      });
     });
 
     it('should return empty array when there is no organization-learners with the given organizationId', async function () {
+      //given
+      databaseBuilder.factory.buildOrganizationLearner({
+        organizationId,
+        studentNumber,
+      });
+
+      await databaseBuilder.commit();
+
       // when
       const result = await supOrganizationLearnerRepository.findOneByStudentNumber({
         organizationId: '999',
@@ -47,6 +79,25 @@ describe('Integration | Infrastructure | Repository | sup-organization-learner-r
 
       // then
       expect(result).to.equal(null);
+    });
+
+    it('should return found organizationLearners with student number', async function () {
+      //given
+      const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId,
+        studentNumber,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const result = await supOrganizationLearnerRepository.findOneByStudentNumber({
+        organizationId,
+        studentNumber: '123A',
+      });
+
+      // then
+      expect(result.id).to.deep.equal(organizationLearner.id);
     });
   });
 
@@ -81,11 +132,21 @@ describe('Integration | Infrastructure | Repository | sup-organization-learner-r
 
     context('When there is no active registered organization learners', function () {
       beforeEach(async function () {
+        const userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildOrganizationLearner({
           organizationId,
           studentNumber,
           birthdate,
           isDisabled: true,
+        });
+
+        databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          studentNumber,
+          birthdate,
+          isDisabled: false,
+          deletedAt: new Date('2021-01-01'),
+          deletedBy: userId,
         });
         await databaseBuilder.commit();
       });
