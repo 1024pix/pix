@@ -1,9 +1,9 @@
-import { CertificationCenterForAdmin } from '../../../../lib/domain/models/index.js';
 import { updateCertificationCenter } from '../../../../lib/domain/usecases/update-certification-center.js';
 import * as certificationCenterForAdminRepository from '../../../../lib/infrastructure/repositories/certification-center-for-admin-repository.js';
 import * as complementaryCertificationHabilitationRepository from '../../../../lib/infrastructure/repositories/complementary-certification-habilitation-repository.js';
 import * as dataProtectionOfficerRepository from '../../../../lib/infrastructure/repositories/data-protection-officer-repository.js';
 import * as centerRepository from '../../../../src/certification/enrolment/infrastructure/repositories/center-repository.js';
+import { CenterForAdmin } from '../../../../src/certification/session-management/domain/models/CenterForAdmin.js';
 import { CERTIFICATION_FEATURES } from '../../../../src/certification/shared/domain/constants.js';
 import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 
@@ -22,14 +22,18 @@ describe('Integration | UseCases | update-certification-center', function () {
     });
 
     const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification();
-    const certificationCenterInformation = domainBuilder.buildCertificationCenterForAdmin({
-      id: certificationCenterId,
-      name: 'Pix Super Center',
-      type: 'PRO',
-      habilitations: [],
-      dataProtectionOfficerFirstName: 'Justin',
-      dataProtectionOfficerLastName: 'Ptipeu',
-      dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
+    const certificationCenterInformation = domainBuilder.buildCenterForAdmin({
+      center: {
+        id: certificationCenterId,
+        name: 'Pix Super Center',
+        type: 'PRO',
+        habilitations: [],
+      },
+      dataProtectionOfficer: {
+        firstName: 'Justin',
+        lastName: 'Ptipeu',
+        email: 'justin.ptipeu@example.net',
+      },
     });
     const complementaryCertificationIds = [complementaryCertification.id];
 
@@ -47,7 +51,7 @@ describe('Integration | UseCases | update-certification-center', function () {
     });
 
     // then
-    expect(updatedCertificationCenter).to.be.an.instanceOf(CertificationCenterForAdmin);
+    expect(updatedCertificationCenter).to.be.an.instanceOf(CenterForAdmin);
 
     expect(updatedCertificationCenter.name).to.equal('Pix Super Center');
 
@@ -74,15 +78,19 @@ describe('Integration | UseCases | update-certification-center', function () {
           featureId: feature.id,
         });
         const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification();
-        const certificationCenterInformation = domainBuilder.buildCertificationCenterForAdmin({
-          id: certificationCenterId,
-          name: 'Pix Super Center',
-          type: 'PRO',
-          habilitations: [],
-          dataProtectionOfficerFirstName: 'Justin',
-          dataProtectionOfficerLastName: 'Ptipeu',
-          dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
-          isV3Pilot: true,
+        const certificationCenterInformation = domainBuilder.buildCenterForAdmin({
+          center: {
+            id: certificationCenterId,
+            name: 'Pix Super Center',
+            type: 'PRO',
+            habilitations: [],
+            isV3Pilot: true,
+          },
+          dataProtectionOfficer: {
+            firstName: 'Justin',
+            lastName: 'Ptipeu',
+            email: 'justin.ptipeu@example.net',
+          },
         });
         const complementaryCertificationIds = [complementaryCertification.id];
 

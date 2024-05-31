@@ -288,7 +288,7 @@ describe('Acceptance | API | Certification Center', function () {
         // then
         expect(response.statusCode).to.equal(404);
         expect(response.result.errors[0].title).to.equal('Not Found');
-        expect(response.result.errors[0].detail).to.equal('Certification center with id: 112334 not found');
+        expect(response.result.errors[0].detail).to.equal('Center not found');
       });
     });
 

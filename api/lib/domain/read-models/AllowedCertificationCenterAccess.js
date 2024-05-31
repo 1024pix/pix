@@ -1,26 +1,16 @@
+import { CERTIFICATION_FEATURES } from '../../../src/certification/shared/domain/constants.js';
 import { config } from '../../config.js';
 const { features } = config;
 class AllowedCertificationCenterAccess {
-  constructor({
-    id,
-    name,
-    externalId,
-    type,
-    isRelatedToManagingStudentsOrganization,
-    relatedOrganizationTags,
-    habilitations,
-    isV3Pilot,
-    isComplementaryAlonePilot,
-  }) {
-    this.id = id;
-    this.name = name;
-    this.externalId = externalId;
-    this.type = type;
+  constructor({ center, isRelatedToManagingStudentsOrganization, relatedOrganizationTags }) {
+    this.id = center.id;
+    this.name = center.name;
+    this.externalId = center.externalId;
+    this.type = center.type;
+    this.habilitations = center.habilitations;
+    this.isV3Pilot = center.isV3Pilot;
     this.isRelatedToManagingStudentsOrganization = isRelatedToManagingStudentsOrganization;
     this.relatedOrganizationTags = relatedOrganizationTags;
-    this.habilitations = habilitations;
-    this.isV3Pilot = isV3Pilot;
-    this.isComplementaryAlonePilot = isComplementaryAlonePilot;
   }
 
   isAccessBlockedCollege() {
@@ -80,6 +70,10 @@ class AllowedCertificationCenterAccess {
 
   get pixCertifScoBlockedAccessDateCollege() {
     return features.pixCertifScoBlockedAccessDateCollege ?? null;
+  }
+
+  get isComplementaryAlonePilot() {
+    return this.features.includes(CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key);
   }
 }
 

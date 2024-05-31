@@ -2,20 +2,28 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
 
-import { CertificationCenterForAdmin } from '../../../domain/models/CertificationCenterForAdmin.js';
+import { CenterForAdmin } from '../../../../src/certification/session-management/domain/models/CenterForAdmin.js';
 
 const deserialize = function ({ data }) {
-  return new CertificationCenterForAdmin({
+  const center = {
     createdAt: null,
-    dataProtectionOfficerFirstName: data.attributes['data-protection-officer-first-name'],
-    dataProtectionOfficerLastName: data.attributes['data-protection-officer-last-name'],
-    dataProtectionOfficerEmail: data.attributes['data-protection-officer-email'],
     externalId: data.attributes['external-id'],
     habilitations: [],
     id: data.id,
     name: data.attributes.name,
     type: data.attributes.type,
     isV3Pilot: data.attributes['is-v3-pilot'],
+    isComplementaryAlonePilot: data.attributes['is-complementary-alone-pilot'],
+  };
+  const dataProtectionOfficer = {
+    firstName: data.attributes['data-protection-officer-first-name'],
+    lastName: data.attributes['data-protection-officer-last-name'],
+    email: data.attributes['data-protection-officer-email'],
+  };
+
+  return new CenterForAdmin({
+    center,
+    dataProtectionOfficer,
   });
 };
 

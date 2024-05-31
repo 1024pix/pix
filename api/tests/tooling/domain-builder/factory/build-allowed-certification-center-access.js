@@ -14,15 +14,17 @@ function buildAllowedCertificationCenterAccess({
   isComplementaryAlonePilot = false,
 } = {}) {
   return new AllowedCertificationCenterAccess({
-    id,
-    name,
-    externalId,
-    type,
+    center: {
+      id,
+      name,
+      externalId,
+      type,
+      habilitations,
+      isV3Pilot,
+      isComplementaryAlonePilot,
+    },
     isRelatedToManagingStudentsOrganization,
     relatedOrganizationTags,
-    habilitations,
-    isV3Pilot,
-    isComplementaryAlonePilot,
   });
 }
 
@@ -31,7 +33,9 @@ buildAllowedCertificationCenterAccess.notSco = function ({
   isRelatedToManagingStudentsOrganization = true,
 }) {
   return new AllowedCertificationCenterAccess({
-    type,
+    center: {
+      type,
+    },
     isRelatedToManagingStudentsOrganization,
   });
 };

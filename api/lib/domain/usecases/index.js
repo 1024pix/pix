@@ -11,6 +11,7 @@ import { getNextChallengeForV2Certification } from '../../../src/certification/c
 import { getNextChallengeForV3Certification } from '../../../src/certification/course/domain/usecases/get-next-challenge-for-v3-certification.js';
 import * as certificationCpfService from '../../../src/certification/enrolment/domain/services/certification-cpf-service.js';
 import * as sessionCodeService from '../../../src/certification/enrolment/domain/services/session-code-service.js';
+import { getCenterForAdmin } from '../../../src/certification/enrolment/domain/usecases/get-center-for-admin.js';
 import * as centerRepository from '../../../src/certification/enrolment/infrastructure/repositories/center-repository.js';
 import * as certificationCandidateRepository from '../../../src/certification/enrolment/infrastructure/repositories/certification-candidate-repository.js';
 import * as certificationCpfCityRepository from '../../../src/certification/enrolment/infrastructure/repositories/certification-cpf-city-repository.js';
@@ -373,6 +374,7 @@ const usecasesWithoutInjectedDependencies = {
   findPaginatedFilteredTargetProfileOrganizations,
   getNextChallengeForV2Certification,
   getNextChallengeForV3Certification,
+  getCenterForAdmin,
   endAssessmentBySupervisor,
 };
 

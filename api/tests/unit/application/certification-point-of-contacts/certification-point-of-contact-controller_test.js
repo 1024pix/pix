@@ -93,7 +93,6 @@ describe('Unit | Controller | certifications-point-of-contact-controller', funct
               'is-access-blocked-aefe': false,
               'is-access-blocked-agri': false,
               'is-v3-pilot': false,
-              'is-complementary-alone-pilot': false,
               'is-related-to-managing-students-organization': false,
               'pix-certif-sco-blocked-access-date-college': null,
               'pix-certif-sco-blocked-access-date-lycee': null,

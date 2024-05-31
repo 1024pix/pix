@@ -36,9 +36,12 @@ describe('Integration | Certification |  Center | Repository | center-repository
         // then
         const expectedCenter = domainBuilder.certification.enrolment.buildCenter({
           id: centerId,
+          name: 'some name',
           type: 'PRO',
+          externalId: 'EX123',
           habilitations: [],
           features: [],
+          isV3Pilot: false,
         });
         expect(result).to.deepEqualInstance(expectedCenter);
       });
@@ -69,9 +72,12 @@ describe('Integration | Certification |  Center | Repository | center-repository
         // then
         const expectedCenter = domainBuilder.certification.enrolment.buildCenter({
           id: centerId,
+          name: 'some name',
           type: 'PRO',
+          externalId: 'EX123',
           habilitations: [],
           features: [CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key],
+          isV3Pilot: false,
         });
         expect(result).to.deepEqualInstance(expectedCenter);
       });
@@ -104,9 +110,12 @@ describe('Integration | Certification |  Center | Repository | center-repository
       // then
       const expectedCenter = domainBuilder.certification.enrolment.buildCenter({
         id: centerId,
+        name: 'some name',
         type: 'SCO',
+        externalId: 'EX123',
         habilitations: [cleaId, droitId],
         features: [],
+        isV3Pilot: false,
       });
       expect(result).to.deepEqualInstance(expectedCenter);
     });
