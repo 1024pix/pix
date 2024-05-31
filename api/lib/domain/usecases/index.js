@@ -23,7 +23,6 @@ import * as certificationCandidateForSupervisingRepository from '../../../src/ce
 import * as certificationOfficerRepository from '../../../src/certification/session-management/infrastructure/repositories/certification-officer-repository.js';
 import * as finalizedSessionRepository from '../../../src/certification/session-management/infrastructure/repositories/finalized-session-repository.js';
 import * as jurySessionRepository from '../../../src/certification/session-management/infrastructure/repositories/jury-session-repository.js';
-import * as sessionJuryCommentRepository from '../../../src/certification/session-management/infrastructure/repositories/session-jury-comment-repository.js';
 import * as sessionRepository from '../../../src/certification/session-management/infrastructure/repositories/session-repository.js';
 import * as sessionSummaryRepository from '../../../src/certification/session-management/infrastructure/repositories/session-summary-repository.js';
 import * as supervisorAccessRepository from '../../../src/certification/session-management/infrastructure/repositories/supervisor-access-repository.js';
@@ -315,7 +314,6 @@ const dependencies = {
   scorecardService,
   scoringCertificationService,
   sessionCodeService,
-  sessionJuryCommentRepository,
   sessionPublicationService,
   sessionEnrolmentRepository,
   sessionRepository,

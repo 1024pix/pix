@@ -4,9 +4,9 @@ import {
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
 
-describe('Acceptance | Controller | sessions-controller', function () {
+describe('Acceptance | Controller | Certification | session-management| jury-comment-controller', function () {
   describe('PUT /sessions/{id}/comment', function () {
     it('should respond with 204', async function () {
       // given

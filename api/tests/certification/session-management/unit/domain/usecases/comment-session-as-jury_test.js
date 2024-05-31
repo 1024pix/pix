@@ -1,7 +1,7 @@
-import { commentSessionAsJury } from '../../../../lib/domain/usecases/comment-session-as-jury.js';
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { commentSessionAsJury } from '../../../../../../src/certification/session-management/domain/usecases/comment-session-as-jury.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | UseCase | comment-session-as-jury', function () {
+describe('Unit | UseCase | Certification | session-management | comment-session-as-jury', function () {
   const sessionJuryCommentRepository = { get: null, save: null };
 
   beforeEach(function () {
@@ -14,7 +14,7 @@ describe('Unit | UseCase | comment-session-as-jury', function () {
     const sessionJuryComment = domainBuilder.buildSessionJuryComment({
       juryCommentAuthorId: 789,
     });
-    sessionJuryCommentRepository.get.withArgs(123).resolves(sessionJuryComment);
+    sessionJuryCommentRepository.get.withArgs({ id: 123 }).resolves(sessionJuryComment);
     const updateSpy = sinon.spy(sessionJuryComment, 'update');
 
     // when
@@ -30,6 +30,6 @@ describe('Unit | UseCase | comment-session-as-jury', function () {
       comment: 'a jury comment',
       authorId: 456,
     });
-    expect(sessionJuryCommentRepository.save).to.have.been.calledWithExactly(sessionJuryComment);
+    expect(sessionJuryCommentRepository.save).to.have.been.calledWithExactly({ sessionJuryComment });
   });
 });

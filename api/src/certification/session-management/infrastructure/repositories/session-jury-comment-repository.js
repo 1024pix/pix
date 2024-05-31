@@ -2,7 +2,7 @@ import { knex } from '../../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { SessionJuryComment } from '../../domain/models/SessionJuryComment.js';
 
-const get = async function (sessionId) {
+const get = async function ({ id }) {
   const result = await knex
     .select({
       id: 'id',
@@ -11,17 +11,17 @@ const get = async function (sessionId) {
       updatedAt: 'juryCommentedAt',
     })
     .from('sessions')
-    .where({ id: sessionId })
+    .where({ id })
     .first();
 
   if (!result) {
-    throw new NotFoundError(`La session ${sessionId} n'existe pas ou son accès est restreint.`);
+    throw new NotFoundError(`La session ${id} n'existe pas ou son accès est restreint.`);
   }
 
   return new SessionJuryComment(result);
 };
 
-const save = async function (sessionJuryComment) {
+const save = async function ({ sessionJuryComment }) {
   const columnsToSave = {
     juryComment: sessionJuryComment.comment,
     juryCommentAuthorId: sessionJuryComment.authorId,
@@ -30,13 +30,13 @@ const save = async function (sessionJuryComment) {
   await _persist(sessionJuryComment.id, columnsToSave);
 };
 
-const remove = async function (sessionJuryCommentId) {
+const remove = async function ({ id }) {
   const columnsToSave = {
     juryComment: null,
     juryCommentAuthorId: null,
     juryCommentedAt: null,
   };
-  await _persist(sessionJuryCommentId, columnsToSave);
+  await _persist(id, columnsToSave);
 };
 
 export { get, remove, save };

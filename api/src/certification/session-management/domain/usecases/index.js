@@ -18,6 +18,7 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
  * @typedef {import('../../infrastructure/repositories/index.js').AssessmentRepository} AssessmentRepository
  * @typedef {import('../../infrastructure/repositories/index.js').IssueReportCategoryRepository} IssueReportCategoryRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationIssueReportRepository} CertificationIssueReportRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').SessionJuryCommentRepository} SessionJuryCommentRepository
  * @typedef {import('../../infrastructure/repositories/index.js').SessionRepository} SessionRepository
  * @typedef {import('../../infrastructure/repositories/index.js'.SessionForSupervisingRepository} SessionForSupervisingRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationReportRepository} CertificationReportRepository
@@ -40,6 +41,7 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
  * @typedef {sessionForSupervisingRepository} SessionForSupervisingRepository
  * @typedef {issueReportCategoryRepository} IssueReportCategoryRepository
  * @typedef {certificationIssueReportRepository} CertificationIssueReportRepository
+ * @typedef {sessionJuryCommentRepository} SessionJuryCommentRepository
  * @typedef {sessionRepository} SessionRepository
  * @typedef {certificationReportRepository} CertificationReportRepository
  * @typedef {cpfReceiptsStorage} CpfReceiptsStorage

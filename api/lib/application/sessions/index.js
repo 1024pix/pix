@@ -387,63 +387,6 @@ const register = async function (server) {
         ],
       },
     },
-
-    {
-      method: 'PUT',
-      path: '/api/admin/sessions/{id}/comment',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.sessionId,
-          }),
-        },
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        handler: sessionController.commentAsJury,
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            "- Ajoute/modifie un commentaire d'un membre du pôle certification (certification-officer)",
-        ],
-        tags: ['api', 'session', 'assignment'],
-      },
-    },
-    {
-      method: 'DELETE',
-      path: '/api/admin/sessions/{id}/comment',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.sessionId,
-          }),
-        },
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        handler: sessionController.deleteJuryComment,
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            "- Supprime le commentaire d'un membre du pôle certification (certification-officer)",
-        ],
-        tags: ['api', 'session', 'assignment'],
-      },
-    },
     {
       method: 'PUT',
       path: '/api/sessions/{id}/enrol-students-to-session',

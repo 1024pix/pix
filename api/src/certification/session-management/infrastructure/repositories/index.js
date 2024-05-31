@@ -10,6 +10,7 @@ import * as finalizedSessionRepository from './finalized-session-repository.js';
 import * as jurySessionRepository from './jury-session-repository.js';
 import * as sessionForInvigilatorKitRepository from './session-for-invigilator-kit-repository.js';
 import * as sessionForSupervisingRepository from './session-for-supervising-repository.js';
+import * as sessionJuryCommentRepository from './session-jury-comment-repository.js';
 import * as sessionRepository from './session-repository.js';
 import * as supervisorAccessRepository from './supervisor-access-repository.js';
 
@@ -26,6 +27,7 @@ import * as supervisorAccessRepository from './supervisor-access-repository.js';
  * @typedef {issueReportCategoryRepository} IssueReportCategoryRepository
  * @typedef {certificationIssueReportRepository} CertificationIssueReportRepository
  * @typedef {sessionForSupervisingRepository} SessionForSupervisingRepository
+ * @typedef {sessionJuryCommentRepository} SessionJuryCommentRepository
  * @typedef {sessionRepository} SessionRepository
  * @typedef {supervisorAccessRepository} SupervisorAccessRepository
  * @typedef {certificationReportRepository} CertificationReportRepository
@@ -42,6 +44,7 @@ const repositoriesWithoutInjectedDependencies = {
   certificationIssueReportRepository,
   sessionRepository,
   sessionForSupervisingRepository,
+  sessionJuryCommentRepository,
   supervisorAccessRepository,
   certificationReportRepository,
 };

@@ -20,7 +20,7 @@ describe('Integration | Infrastructure | Repository | session-jury-comment-repos
         await databaseBuilder.commit();
 
         // when
-        const sessionJuryComment = await sessionJuryCommentRepository.get(session.id);
+        const sessionJuryComment = await sessionJuryCommentRepository.get({ id: session.id });
 
         // then
         const expectedSessionJuryComment = domainBuilder.buildSessionJuryComment({
@@ -43,7 +43,7 @@ describe('Integration | Infrastructure | Repository | session-jury-comment-repos
         await databaseBuilder.commit();
 
         // when
-        const sessionJuryComment = await sessionJuryCommentRepository.get(session.id);
+        const sessionJuryComment = await sessionJuryCommentRepository.get({ id: session.id });
 
         // then
         const expectedSessionJuryComment = domainBuilder.buildSessionJuryComment({
@@ -63,7 +63,7 @@ describe('Integration | Infrastructure | Repository | session-jury-comment-repos
         await databaseBuilder.commit();
 
         // when
-        const error = await catchErr(sessionJuryCommentRepository.get)(456);
+        const error = await catchErr(sessionJuryCommentRepository.get)({ id: 456 });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
@@ -94,10 +94,10 @@ describe('Integration | Infrastructure | Repository | session-jury-comment-repos
         });
 
         // when
-        await sessionJuryCommentRepository.save(sessionJuryCommentToSave);
+        await sessionJuryCommentRepository.save({ sessionJuryComment: sessionJuryCommentToSave });
 
         // then
-        const expectedSessionJuryComment = await sessionJuryCommentRepository.get(123);
+        const expectedSessionJuryComment = await sessionJuryCommentRepository.get({ id: 123 });
         expect(sessionJuryCommentToSave).to.deepEqualInstance(expectedSessionJuryComment);
       });
     });
@@ -122,7 +122,9 @@ describe('Integration | Infrastructure | Repository | session-jury-comment-repos
         });
 
         // when
-        const error = await catchErr(sessionJuryCommentRepository.save)(sessionJuryCommentToSave);
+        const error = await catchErr(sessionJuryCommentRepository.save)({
+          sessionJuryComment: sessionJuryCommentToSave,
+        });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
@@ -151,10 +153,10 @@ describe('Integration | Infrastructure | Repository | session-jury-comment-repos
         });
 
         // when
-        await sessionJuryCommentRepository.remove(123);
+        await sessionJuryCommentRepository.remove({ id: 123 });
 
         // then
-        const deletedSessionJuryComment = await sessionJuryCommentRepository.get(123);
+        const deletedSessionJuryComment = await sessionJuryCommentRepository.get({ id: 123 });
         expect(deletedSessionJuryComment).to.deepEqualInstance(expectedSessionJuryComment);
       });
     });
@@ -179,7 +181,9 @@ describe('Integration | Infrastructure | Repository | session-jury-comment-repos
         });
 
         // when
-        const error = await catchErr(sessionJuryCommentRepository.save)(sessionJuryCommentToSave);
+        const error = await catchErr(sessionJuryCommentRepository.save)({
+          sessionJuryComment: sessionJuryCommentToSave,
+        });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);

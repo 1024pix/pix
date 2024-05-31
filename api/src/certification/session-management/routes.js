@@ -2,6 +2,7 @@ import * as certificationOfficer from './application/certification-officer-route
 import * as certificationReport from './application/certification-report-route.js';
 import * as finalize from './application/finalize-route.js';
 import * as invigilatorKit from './application/invigilator-kit-route.js';
+import * as juryComment from './application/jury-comment-route.js';
 import * as sessionForSupervising from './application/session-for-supervising-route.js';
 import * as sessionLiveAlert from './application/session-live-alert-route.js';
 import * as session from './application/session-route.js';
@@ -20,6 +21,7 @@ const certificationSessionRoutes = [
   sessionForSupervising,
   supervise,
   unfinalize,
+  juryComment,
 ];
 
 export { certificationSessionRoutes };
