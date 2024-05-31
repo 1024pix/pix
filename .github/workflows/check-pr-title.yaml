@@ -9,6 +9,4 @@ jobs:
     permissions:
       pull-requests: read
     steps:
-      - uses: Slashgear/action-check-pr-title@v4.3.0
-        with:
-          regexp: '^\[[A-Z]+\] '
+      - uses: 1024pix/pix-actions/check-pr-title@main
