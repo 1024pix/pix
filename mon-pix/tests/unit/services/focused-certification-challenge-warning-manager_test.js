@@ -10,15 +10,25 @@ module('Unit | Service | focused-certification-challenge-warning-manager', funct
   const originalRemoveItem = window.localStorage.removeItem;
 
   hooks.beforeEach(function () {
-    window.localStorage.getItem = sinon.stub();
-    window.localStorage.setItem = sinon.stub();
-    window.localStorage.removeItem = sinon.stub();
+    Object.defineProperty(window, 'localStorage', {
+      value: {
+        getItem: sinon.stub(),
+        setItem: sinon.stub(),
+        removeItem: sinon.stub(),
+      },
+      writable: true,
+    });
   });
 
   hooks.afterEach(function () {
-    window.localStorage.getItem = originalGetItem;
-    window.localStorage.setItem = originalSetItem;
-    window.localStorage.removeItem = originalRemoveItem;
+    Object.defineProperty(window, 'localStorage', {
+      value: {
+        getItem: originalGetItem,
+        setItem: originalSetItem,
+        removeItem: originalRemoveItem,
+      },
+      writable: true,
+    });
   });
 
   module('#setToConfirmed', function () {
