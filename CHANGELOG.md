@@ -1,5 +1,25 @@
 # Pix Changelog
 
+## v4.155.0 (31/05/2024)
+
+
+### :rocket: Amélioration
+- [#9075](https://github.com/1024pix/pix/pull/9075) [FEATURE][ADMIN] Permettre la copie de l'adresse e-mail et de l'identifiant via un bouton (PIX-12636).
+- [#9113](https://github.com/1024pix/pix/pull/9113) [FEATURE] Ajoute les colonnes deletedBy et deletedAt sur la table campaigns (PIX-12688).
+
+### :building_construction: Tech
+- [#9077](https://github.com/1024pix/pix/pull/9077) [TECH] configuration pour le TMS Phrase.
+- [#9048](https://github.com/1024pix/pix/pull/9048) [TECH] Deplacer PickChallengeService vers Evaluation (PIX-12657).
+- [#9078](https://github.com/1024pix/pix/pull/9078) [TECH] Regrouper la gestion des centres (PIX-12462).
+- [#9117](https://github.com/1024pix/pix/pull/9117) [TECH] Migre les composants des pages de campagnes activité et analyse vers GJS (PIX-12755).
+- [#9030](https://github.com/1024pix/pix/pull/9030) [TECH] Move smart random services in evaluation context (PIX-12625).
+
+### :bug: Correction
+- [#9119](https://github.com/1024pix/pix/pull/9119) [BUGFIX] Rediriger vers la bonne participation depuis l'activité d'une campagne et le détail d'un participant (PIX-12673).
+- [#9100](https://github.com/1024pix/pix/pull/9100) [BUGFIX] Ne pas prendre en compte les learner supprimés lors de la réconciliation SUP (PIX-12734).
+- [#9116](https://github.com/1024pix/pix/pull/9116) [BUGFIX] Permettre d'inscrire un candidat à Pix Santé via l'ODS (PIX-12718).
+- [#9085](https://github.com/1024pix/pix/pull/9085) [BUGFIX] Renseigner le bon emitter lors d'un rescoring de certification v3 (PIX-12520).
+
 ## v4.154.0 (30/05/2024)
 
 
