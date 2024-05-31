@@ -1,4 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
+import { findAll } from '@ember/test-helpers';
 import ModulixStep from 'mon-pix/components/module/step';
 import { module, test } from 'qunit';
 
@@ -48,6 +49,28 @@ module('Integration | Component | Module | Step', function (hooks) {
         .exists()
         .hasAttribute('src', element.url);
       assert.dom(screen.getByRole('button', { name: "Afficher l'alternative textuelle" })).exists();
+    });
+
+    test('should display a step with a video element', async function (assert) {
+      // given
+      const element = {
+        id: '3a9f2269-99ba-4631-b6fd-6802c88d5c26',
+        type: 'video',
+        title: 'Vidéo de présentation de Pix',
+        url: 'https://videos.pix.fr/modulix/didacticiel/presentation.mp4',
+        subtitles: '',
+        transcription: '<p>transcription</p>',
+      };
+      const step = {
+        elements: [element],
+      };
+
+      // when
+      const screen = await render(<template><ModulixStep @step={{step}} /></template>);
+
+      // then
+      assert.strictEqual(findAll('.element-video').length, 1);
+      assert.dom(screen.getByRole('button', { name: 'Afficher la transcription' })).exists();
     });
   });
 });

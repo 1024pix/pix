@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import { eq } from 'ember-truth-helpers';
 import ImageElement from 'mon-pix/components/module/image';
 import TextElement from 'mon-pix/components/module/text';
+import VideoElement from 'mon-pix/components/module/video';
 
 export default class ModulixStep extends Component {
   get elements() {
@@ -15,6 +16,8 @@ export default class ModulixStep extends Component {
           <TextElement @text={{element}} />
         {{else if (eq element.type "image")}}
           <ImageElement @image={{element}} @moduleId={{@grain.module.id}} />
+        {{else if (eq element.type "video")}}
+          <VideoElement @video={{element}} @moduleId={{@grain.module.id}} />
         {{/if}}
       </div>
     {{/each}}
