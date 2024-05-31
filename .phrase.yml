@@ -5,73 +5,61 @@ phrase:
     - file: ./mon-pix/translations/fr.json
       project_id: "9ca9a54c81b5a85168c8df3d6953a49e"
       params:
-        update_translations: true
         locale_id: 'fr'
 
     - file: ./mon-pix/translations/en.json
       project_id: "9ca9a54c81b5a85168c8df3d6953a49e"
       params:
-        update_translations: true
         locale_id: 'en'
 
     - file: ./orga/translations/fr.json
       project_id: "93a23f4b74a86dbb53244134fb21ef43"
       params:
-        update_translations: true
         locale_id: 'fr'
 
     - file: ./orga/translations/en.json
       project_id: "93a23f4b74a86dbb53244134fb21ef43"
       params:
-        update_translations: true
         locale_id: 'en'
 
     - file: ./certif/translations/fr.json
       project_id: "3371843f0a06e47d0fba1374b19b439c"
       params:
-        update_translations: true
         locale_id: 'fr'
 
     - file: ./certif/translations/en.json
       project_id: "3371843f0a06e47d0fba1374b19b439c"
       params:
-        update_translations: true
         locale_id: 'en'
 
     - file: ./admin/translations/fr.json
       project_id: "0e242bea62d0ac0d989d082b8d1d96d7"
       params:
-        update_translations: true
         locale_id: 'fr'
 
     - file: ./admin/translations/en.json
       project_id: "0e242bea62d0ac0d989d082b8d1d96d7"
       params:
-        update_translations: true
         locale_id: 'en'
 
-    - file: ./1d/translations/fr.json
+    - file: ./junior/translations/fr.json
       project_id: "dd99bbfc9e880398e292a808e7013896"
       params:
-        update_translations: true
         locale_id: 'fr'
 
-    - file: ./1d/translations/en.json
+    - file: ./junior/translations/en.json
       project_id: "dd99bbfc9e880398e292a808e7013896"
       params:
-        update_translations: true
         locale_id: 'en'
 
     - file: ./api/translations/fr.json
       project_id: "88f30f82bdab4e25ac5e57b6663a941a"
       params:
-        update_translations: true
         locale_id: 'fr'
 
     - file: ./api/translations/en.json
       project_id: "88f30f82bdab4e25ac5e57b6663a941a"
       params:
-        update_translations: true
         locale_id: 'en'
 
   pull:
@@ -85,26 +73,6 @@ phrase:
        project_id: "9ca9a54c81b5a85168c8df3d6953a49e"
        params:
          locale_id: 'es'
-
-     - file: ./orga/translations/nl.json
-       project_id: "93a23f4b74a86dbb53244134fb21ef43"
-       params:
-         locale_id: 'nl'
-
-     - file: ./certif/translations/nl.json
-       project_id: "3371843f0a06e47d0fba1374b19b439c"
-       params:
-         locale_id: 'nl'
-
-     - file: ./admin/translations/nl.json
-       project_id: "0e242bea62d0ac0d989d082b8d1d96d7"
-       params:
-         locale_id: 'nl'
-
-     - file: ./1d/translations/nl.json
-       project_id: "dd99bbfc9e880398e292a808e7013896"
-       params:
-         locale_id: 'nl'
 
      - file: ./api/translations/nl.json
        project_id: "88f30f82bdab4e25ac5e57b6663a941a"
