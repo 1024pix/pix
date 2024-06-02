@@ -7,9 +7,12 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 module('Integration | Component | Campaign::EmptyState', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  test('it displays the empty message', async function (assert) {
-    const screen = await render(hbs`<Campaign::EmptyState @campaignCode='ABDC123' />`);
+  module('when a campaign code is provided', function () {
+    test('it displays the empty message with copy button', async function (assert) {
+      const screen = await render(hbs`<Campaign::EmptyState @campaignCode='ABDC123' />`);
 
-    assert.dom(screen.getByText(this.intl.t('pages.campaign.empty-state-with-copy-link'))).exists();
+      assert.dom(screen.getByText(this.intl.t('pages.campaign.empty-state-with-copy-link'))).exists();
+      assert.dom(screen.getByRole('button', { name: this.intl.t('pages.campaign.copy.link.default') })).exists();
+    });
   });
 });
