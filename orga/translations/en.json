@@ -363,6 +363,7 @@
       },
       "created-by": "Owner",
       "created-on": "Created on",
+      "empty-state": "No participants yet!",
       "empty-state-with-copy-link": "No participants yet! Share with them the following link to join this campaign.",
       "multiple-sendings": {
         "title": "Multiple Sendings",

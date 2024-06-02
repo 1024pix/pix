@@ -363,6 +363,7 @@
       },
       "created-by": "Propriétaire",
       "created-on": "Créée le",
+      "empty-state": "Aucun participant pour l’instant !",
       "empty-state-with-copy-link": "Aucun participant pour l’instant ! Envoyez-leur le lien suivant pour rejoindre votre campagne.",
       "multiple-sendings": {
         "title": "Envoi multiple",

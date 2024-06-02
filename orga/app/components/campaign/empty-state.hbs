@@ -2,12 +2,16 @@
   <img src="{{this.rootURL}}/images/empty-state.svg" alt="" role="none" />
 
   <div class="empty-state__text">
-    <p>{{t "pages.campaign.empty-state-with-copy-link"}}</p>
+    {{#if this.campaignCode}}
+      <p>{{t "pages.campaign.empty-state-with-copy-link"}}</p>
 
-    <CopyPasteButton
-      @clipBoardtext={{this.campaignUrl}}
-      @successMessage={{t "pages.campaign.copy.link.success"}}
-      @defaultMessage={{t "pages.campaign.copy.link.default"}}
-    />
+      <CopyPasteButton
+        @clipBoardtext={{this.campaignUrl}}
+        @successMessage={{t "pages.campaign.copy.link.success"}}
+        @defaultMessage={{t "pages.campaign.copy.link.default"}}
+      />
+    {{else}}
+      <p>{{t "pages.campaign.empty-state"}}</p>
+    {{/if}}
   </div>
 </section>

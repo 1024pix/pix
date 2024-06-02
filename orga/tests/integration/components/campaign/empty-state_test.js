@@ -15,4 +15,17 @@ module('Integration | Component | Campaign::EmptyState', function (hooks) {
       assert.dom(screen.getByRole('button', { name: this.intl.t('pages.campaign.copy.link.default') })).exists();
     });
   });
+
+  module('when no campaign code is given', function () {
+    test('displays the empty message without copy button', async function (assert) {
+      // when
+      const screen = await render(hbs`<Campaign::EmptyState />`);
+
+      // then
+      assert.dom(screen.getByText(this.intl.t('pages.campaign.empty-state'))).exists();
+      assert
+        .dom(screen.queryByRole('button', { name: this.intl.t('pages.campaign.copy.link.default') }))
+        .doesNotExist();
+    });
+  });
 });
