@@ -251,6 +251,28 @@ module('Unit | Service | current-user', function (hooks) {
       });
     });
 
+    module('when organization has "GAR" as identity provider for campaigns', function () {
+      test('sets isGARAuthenticationMethod to true', async function (assert) {
+        // given
+        const organization = Object.create({
+          id: 9,
+          type: 'SUP',
+          isManagingStudents: false,
+          isSup: true,
+          identityProviderForCampaigns: 'GAR',
+        });
+        const membership = Object.create({ organization });
+        connectedUser.memberships = [membership];
+        connectedUser.userOrgaSettings = Object.create({ organization });
+
+        // when
+        await currentUserService.load();
+
+        // then
+        assert.true(currentUserService.isGARAuthenticationMethod);
+      });
+    });
+
     module('#canAccessPlacesPage', function () {
       test('should return true if user is admin and organization has feature activated', function (assert) {
         currentUserService.isAdminInOrganization = true;
@@ -413,6 +435,7 @@ module('Unit | Service | current-user', function (hooks) {
         });
       });
     });
+
     module('#hasLearnerImportFeature', function () {
       test('should return true if user has learnerImport feature activated', function (assert) {
         currentUserService.prescriber = {
