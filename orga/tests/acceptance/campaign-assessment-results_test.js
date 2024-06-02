@@ -6,7 +6,11 @@ import { module, test } from 'qunit';
 
 import authenticateSession from '../helpers/authenticate-session';
 import setupIntl from '../helpers/setup-intl';
-import { createPrescriberByUser, createUserWithMembershipAndTermsOfServiceAccepted } from '../helpers/test-init';
+import {
+  createPrescriberByUser,
+  createPrescriberForOrganization,
+  createUserWithMembershipAndTermsOfServiceAccepted,
+} from '../helpers/test-init';
 
 const pageSize = 50;
 const rowCount = 100;
@@ -144,6 +148,42 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
 
       // then
       assert.strictEqual(currentURL(), '/campagnes/1/resultats-evaluation?search=Choupette');
+    });
+  });
+
+  module('when organization uses "GAR" as identity provider for campaigns', function () {
+    module('when there is no assessment result', function () {
+      test('displays an empty state message without copy button', async function (assert) {
+        // given
+        const userAttributes = {
+          id: 777,
+          firstName: 'Luc',
+          lastName: 'Harne',
+          email: 'luc@har.ne',
+          lang: 'fr',
+        };
+        const organizationAttributes = {
+          id: 777,
+          name: 'Cali Ber',
+          externalId: 'EXT_CALIBER',
+          identityProviderForCampaigns: 'GAR',
+        };
+        const organizationRole = 'ADMIN';
+        const user = createPrescriberForOrganization(userAttributes, organizationAttributes, organizationRole);
+
+        server.create('campaign', 'ofTypeAssessment', { id: 7654, participationsCount: 0, ownerId: user.id });
+
+        await authenticateSession(user.id);
+
+        // when
+        const screen = await visit('/campagnes/7654/resultats-evaluation');
+
+        // then
+        assert.dom(screen.getByText(this.intl.t('pages.campaign.empty-state'))).exists();
+        assert
+          .dom(screen.queryByRole('button', { name: this.intl.t('pages.campaign.copy.link.default') }))
+          .doesNotExist();
+      });
     });
   });
 });

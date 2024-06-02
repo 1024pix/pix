@@ -27,5 +27,9 @@
     class="assessment-results__list"
   />
 {{else}}
-  <Campaign::EmptyState @campaignCode={{@model.campaign.code}} />
+  {{#if this.isGARAuthenticationMethod}}
+    <Campaign::EmptyState />
+  {{else}}
+    <Campaign::EmptyState @campaignCode={{@model.campaign.code}} />
+  {{/if}}
 {{/if}}
