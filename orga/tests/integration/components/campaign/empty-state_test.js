@@ -10,6 +10,6 @@ module('Integration | Component | Campaign::EmptyState', function (hooks) {
   test('it displays the empty message', async function (assert) {
     const screen = await render(hbs`<Campaign::EmptyState @campaignCode='ABDC123' />`);
 
-    assert.dom(screen.getByText(this.intl.t('pages.campaign.empty-state'))).exists();
+    assert.dom(screen.getByText(this.intl.t('pages.campaign.empty-state-with-copy-link'))).exists();
   });
 });
