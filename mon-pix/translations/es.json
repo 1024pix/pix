@@ -1238,6 +1238,11 @@
           "lesson": "lección"
         }
       },
+      "stepper": {
+        "step": {
+          "position": "Paso {currentStep} de {totalSteps}"
+        }
+      },
       "modals": {
         "alternativeText": {
           "title": "Texto alternativo"
