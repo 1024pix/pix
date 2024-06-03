@@ -1183,6 +1183,53 @@ describe('Unit | Devcomp | Application | Trainings | Router | training-router', 
         // then
         expect(result.statusCode).to.equal(400);
       });
+
+      it('should return bad request when tubes array is empty', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+        const invalidPayload = {
+          data: {
+            attributes: {
+              type: 'prerequisite',
+              threshold: 50,
+              tubes: [],
+            },
+            type: 'training-triggers',
+          },
+        };
+
+        // when
+        const result = await httpTestServer.request('PUT', '/api/admin/trainings/12344/triggers', invalidPayload);
+
+        // then
+        expect(result.statusCode).to.equal(400);
+      });
+
+      it('should return 200 OK when payload is valid', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').resolves(true);
+        sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').resolves(true);
+        sinon.stub(trainingController, 'createOrUpdateTrigger').callsFake((request, h) => h.response().created());
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+        const validPayload = {
+          data: {
+            attributes: {
+              type: 'prerequisite',
+              threshold: 50,
+              tubes: [{ tubeId: 'recTube123', level: 2 }],
+            },
+            type: 'training-triggers',
+          },
+        };
+
+        // when
+        const result = await httpTestServer.request('PUT', '/api/admin/trainings/12344/triggers', validPayload);
+
+        // then
+        expect(result.statusCode).to.equal(201);
+      });
     });
   });
 
