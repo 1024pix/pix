@@ -87,6 +87,7 @@
     "domains:trust-self-signed-certificate:linux": "cd ./scripts/local-domains/ && sudo docker cp caddy:/data/caddy/pki/authorities/local/root.crt /usr/local/share/ca-certificates/root.crt && sudo update-ca-certificates --fresh"
   },
   "dependencies": {
+    "@1024pix/pix-ui": "^46.6.2",
     "npm-run-all2": "^6.0.0"
   },
   "devDependencies": {
