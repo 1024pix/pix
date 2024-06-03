@@ -1,5 +1,4 @@
 import { memberAction } from '@1024pix/ember-api-actions';
-import { computed } from '@ember/object';
 import Model, { attr, hasMany } from '@ember-data/model';
 
 export default class CertificationReport extends Model {
@@ -12,7 +11,6 @@ export default class CertificationReport extends Model {
 
   @hasMany('certification-issue-report', { async: false, inverse: 'certificationReport' }) certificationIssueReports;
 
-  @computed('certificationIssueReports.@each.description')
   get firstIssueReportDescription() {
     const firstIssueReport = this.certificationIssueReports[0];
     return firstIssueReport ? firstIssueReport.description : '';

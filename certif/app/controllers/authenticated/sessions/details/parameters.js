@@ -1,6 +1,4 @@
 import Controller from '@ember/controller';
-// eslint-disable-next-line ember/no-computed-properties-in-native-classes
-import { computed } from '@ember/object';
 import { action } from '@ember/object';
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { alias } from '@ember/object/computed';
@@ -17,7 +15,6 @@ export default class SessionParametersController extends Controller {
   @service currentUser;
   @service intl;
 
-  @computed('certificationCandidates.@each.isLinked')
   get sessionHasStarted() {
     return this.certificationCandidates.some(({ isLinked }) => isLinked);
   }

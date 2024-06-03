@@ -1,10 +1,8 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
-/* eslint-disable ember/no-computed-properties-in-native-classes*/
-import { computed } from '@ember/object';
+// eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { alias } from '@ember/object/computed';
 import { service } from '@ember/service';
-/* eslint-enable ember/no-computed-properties-in-native-classes*/
 
 export default class SessionsDetailsController extends Controller {
   @service currentUser;
@@ -40,19 +38,16 @@ export default class SessionsDetailsController extends Controller {
     return `${this.intl.t('pages.sessions.detail.page-title')} | Session ${this.model.session.id} | Pix Certif`;
   }
 
-  @computed('certificationCandidates.length')
   get certificationCandidatesCount() {
     const certificationCandidatesCount = this.certificationCandidates.length;
     return certificationCandidatesCount > 0 ? `(${certificationCandidatesCount})` : '';
   }
 
-  @computed('certificationCandidates.length')
   get hasOneOrMoreCandidates() {
     const certificationCandidatesCount = this.certificationCandidates.length;
     return certificationCandidatesCount > 0;
   }
 
-  @computed('hasOneOrMoreCandidates')
   get shouldDisplayDownloadButton() {
     return this.hasOneOrMoreCandidates;
   }
