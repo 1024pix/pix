@@ -1,6 +1,4 @@
 import Component from '@glimmer/component';
-import PixMessage from '@1024pix/pix-ui/components/pix-message';
-import { htmlUnsafe } from 'mon-pix/helpers/html-unsafe';
 
 export default class ModulixFeedback extends Component {
   get type() {
@@ -8,8 +6,8 @@ export default class ModulixFeedback extends Component {
   }
 
   <template>
-    <PixMessage @type={{this.type}} @withIcon={{true}} class="element-qcm-feedback__message">
+    <div class="feedback feedback--{{this.type}}">
       {{yield}}
-    </PixMessage>
+    </div>
   </template>
 }
