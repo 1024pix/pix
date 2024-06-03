@@ -104,3 +104,13 @@ input:invalid {
     display: none;
   }
 }
+
+/**
+ * to fix on pix-ui
+ * since the dropdown is hide using visibility, cypress take the content in account
+ * which can lead to failing test since it see some content overlaping and
+ * can't click on the element below.
+*/
+.pix-select__dropdown--closed {
+  z-index: -1;
+}
