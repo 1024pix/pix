@@ -1,5 +1,5 @@
-import Model, { attr } from '@ember-data/model';
 import { memberAction } from '@1024pix/ember-api-actions';
+import Model, { attr } from '@ember-data/model';
 
 const assessmentStates = {
   COMPLETED: 'completed',

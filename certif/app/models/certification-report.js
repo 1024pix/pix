@@ -1,7 +1,6 @@
-// eslint-disable-next-line ember/no-computed-properties-in-native-classes
+import { memberAction } from '@1024pix/ember-api-actions';
 import { computed } from '@ember/object';
 import Model, { attr, hasMany } from '@ember-data/model';
-import { memberAction } from '@1024pix/ember-api-actions';
 
 export default class CertificationReport extends Model {
   @attr('number') certificationCourseId;
