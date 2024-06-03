@@ -64,7 +64,6 @@
 
   z-index: 1;
   height: 1.5rem;
-  margin-left: auto;
   color: $pix-neutral-0;
   text-align: right;
 
@@ -80,4 +79,15 @@
   & > * + * {
     margin-left: $pix-spacing-xs;
   }
+}
+
+.assessment-banner__actions {
+  display: flex;
+  gap: var(--pix-spacing-12x);
+  align-items: center;
+  margin-left: auto;
+}
+
+.assessment-banner__text-to-speech-toggle {
+  z-index: 1;
 }

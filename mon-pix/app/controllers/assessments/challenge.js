@@ -17,12 +17,14 @@ export default class ChallengeController extends Controller {
   @service store;
   @service currentUser;
   @service focusedCertificationChallengeWarningManager;
+  @service metrics;
 
   @tracked newLevel = null;
   @tracked competenceLeveled = null;
   @tracked challengeTitle = defaultPageTitle;
   @tracked hasFocusedOutOfChallenge = false;
   @tracked hasUserConfirmedTimedChallengeWarning = false;
+  @tracked isTextToSpeechActivated = true;
 
   get showLevelup() {
     return this.model.assessment.showLevelup && this.newLevel;
@@ -219,5 +221,22 @@ export default class ChallengeController extends Controller {
 
   _hasAlreadyAnswered() {
     return this.model.answer;
+  }
+
+  @action toggleTextToSpeech() {
+    this.isTextToSpeechActivated = !this.isTextToSpeechActivated;
+    if (!this.isTextToSpeechActivated) {
+      speechSynthesis.cancel();
+    }
+    this.addMetrics();
+  }
+
+  addMetrics() {
+    this.metrics.add({
+      event: 'custom-event',
+      'pix-event-category': 'Vocalisation',
+      'pix-event-action': `Assessment : ${this.model.assessment.id} Epreuve : ${this.model.challenge.id}`,
+      'pix-event-name': `Click sur le bouton d'activation de la vocalisation : ${this.isTextToSpeechActivated ? 'activé' : 'désactivé'}`,
+    });
   }
 }

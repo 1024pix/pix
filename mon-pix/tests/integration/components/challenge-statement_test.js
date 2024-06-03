@@ -4,6 +4,7 @@ import Service from '@ember/service';
 import { click, find, findAll } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
@@ -173,7 +174,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
 
       // then
       assert.ok(
-        find('.challenge-statement__instruction-section > .sr-only').textContent.includes(
+        find('.challenge-statement__instructions-and-text-to-speech-container > .sr-only').textContent.includes(
           this.intl.t('pages.challenge.statement.sr-only.embed'),
         ),
       );
@@ -197,6 +198,236 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
           this.intl.t('pages.challenge.statement.sr-only.alternative-instruction'),
         ),
       );
+    });
+
+    module('Text to speech button:', function () {
+      module('when FT_ENABLE_TEXT_TO_SPEECH_BUTTON is enabled', function (hooks) {
+        hooks.beforeEach(async function () {
+          this.owner.lookup('service:store');
+          class FeatureTogglesStub extends Service {
+            featureToggles = { isTextToSpeechButtonEnabled: true };
+          }
+          this.owner.register('service:featureToggles', FeatureTogglesStub);
+        });
+
+        module('when the assessment is not a certification', function () {
+          module('when text to speech button is activated', function () {
+            test('it should render the text to speech button', async function (assert) {
+              // given
+              addAssessmentToContext(this, { id: '267567' });
+              addChallengeToContext(this, {
+                instruction: 'La consigne du test avec un bouton de lecture à haute voix',
+                id: 'rec_challenge1',
+              });
+
+              // when
+              const screen = await render(hbs`<ChallengeStatement
+                          @challenge={{this.challenge}}
+                          @assessment={{this.assessment}}
+                          @isTextToSpeechActivated={{true}}
+                          />`);
+
+              // then
+              assert
+                .dom(
+                  screen.getByRole('button', {
+                    name: this.intl.t('pages.challenge.statement.text-to-speech.play'),
+                  }),
+                )
+                .exists();
+            });
+
+            module('when the text to speech has started', function () {
+              test('it should display a stop button', async function (assert) {
+                // given
+                addAssessmentToContext(this, { id: '267567' });
+                addChallengeToContext(this, {
+                  instruction: "Test d'intégration vocalisation",
+                  id: 'rec_challenge1',
+                });
+                const screen = await render(hbs`<ChallengeStatement
+                          @challenge={{this.challenge}}
+                          @assessment={{this.assessment}}
+                          @isTextToSpeechActivated={{true}}
+                          />`);
+
+                // when
+                await click(
+                  screen.getByRole('button', {
+                    name: this.intl.t('pages.challenge.statement.text-to-speech.play'),
+                  }),
+                );
+
+                // then
+                assert
+                  .dom(
+                    screen.getByRole('button', {
+                      name: this.intl.t('pages.challenge.statement.text-to-speech.stop'),
+                    }),
+                  )
+                  .exists();
+              });
+            });
+
+            module('when user clicks on text-to-speech button', function () {
+              test('should push matomo event', async function (assert) {
+                // given
+                addAssessmentToContext(this, { id: '267567' });
+                addChallengeToContext(this, {
+                  instruction: "Test d'intégration vocalisation",
+                  id: 'rec_challenge4',
+                });
+                const add = sinon.stub();
+
+                class MetricsStubService extends Service {
+                  add = add;
+                }
+                this.owner.register('service:metrics', MetricsStubService);
+
+                const screen = await render(hbs`<ChallengeStatement
+                          @challenge={{this.challenge}}
+                          @assessment={{this.assessment}}
+                          @isTextToSpeechActivated={{true}}
+                          />`);
+
+                // when
+                await click(
+                  screen.getByRole('button', { name: this.intl.t('pages.challenge.statement.text-to-speech.play') }),
+                );
+
+                // then
+                sinon.assert.calledWithExactly(add, {
+                  event: 'custom-event',
+                  'pix-event-category': 'Vocalisation',
+                  'pix-event-action': `Assessment : ${this.assessment.id} Epreuve : ${this.challenge.id}`,
+                  'pix-event-name': 'Click sur le bouton de vocalisation : lecture',
+                });
+                assert.ok(true);
+              });
+            });
+          });
+
+          module('when text to speech button is deactivated', function () {
+            test('it should not render the text to speech button', async function (assert) {
+              // given
+              addAssessmentToContext(this, { id: '267567' });
+              addChallengeToContext(this, {
+                instruction: 'La consigne du test avec un bouton de lecture à haute voix',
+                id: 'rec_challenge1',
+              });
+
+              // when
+              const screen = await render(hbs`<ChallengeStatement
+                          @challenge={{this.challenge}}
+                          @assessment={{this.assessment}}
+                          @isTextToSpeechActivated={{false}}
+                          />`);
+
+              // then
+              assert
+                .dom(
+                  screen.queryByRole('button', {
+                    name: this.intl.t('pages.challenge.statement.text-to-speech.play'),
+                  }),
+                )
+                .doesNotExist();
+            });
+          });
+        });
+
+        module('when the assessment is a certification', function () {
+          test('it should not render the text to speech button', async function (assert) {
+            // given
+            addAssessmentToContext(this, { id: '267567', isCertification: true });
+            addChallengeToContext(this, {
+              instruction: 'La consigne du test avec un bouton de lecture à haute voix',
+              id: 'rec_challenge1',
+            });
+
+            // when
+            const screen = await render(hbs`<ChallengeStatement
+                          @challenge={{this.challenge}}
+                          @assessment={{this.assessment}}
+                          @isTextToSpeechActivated={{true}}
+                          />`);
+
+            // then
+            assert
+              .dom(
+                screen.queryByRole('button', {
+                  name: this.intl.t('pages.challenge.statement.text-to-speech.play'),
+                }),
+              )
+              .doesNotExist();
+          });
+        });
+      });
+
+      module('when FT_ENABLE_TEXT_TO_SPEECH_BUTTON is disabled', function (hooks) {
+        hooks.beforeEach(async function () {
+          this.owner.lookup('service:store');
+          class FeatureTogglesStub extends Service {
+            featureToggles = { isTextToSpeechButtonEnabled: false };
+          }
+          this.owner.register('service:featureToggles', FeatureTogglesStub);
+        });
+
+        module('when the assessment is not a certification', function () {
+          module('when text to speech button is activated', function () {
+            test('it should not render the text to speech button', async function (assert) {
+              // given
+              addAssessmentToContext(this, { id: '267567' });
+              addChallengeToContext(this, {
+                instruction: 'La consigne du test avec un bouton de lecture à haute voix',
+                id: 'rec_challenge1',
+              });
+
+              // when
+              const screen = await render(hbs`<ChallengeStatement
+                          @challenge={{this.challenge}}
+                          @assessment={{this.assessment}}
+                          @isTextToSpeechActivated={{true}}
+                          />`);
+
+              // then
+              assert
+                .dom(
+                  screen.queryByRole('button', {
+                    name: this.intl.t('pages.challenge.statement.text-to-speech.play'),
+                  }),
+                )
+                .doesNotExist();
+            });
+          });
+
+          module('when text to speech button is deactivated', function () {
+            test('it should not render the text to speech button', async function (assert) {
+              // given
+              addAssessmentToContext(this, { id: '267567' });
+              addChallengeToContext(this, {
+                instruction: 'La consigne du test avec un bouton de lecture à haute voix',
+                id: 'rec_challenge1',
+              });
+
+              // when
+              const screen = await render(hbs`<ChallengeStatement
+                          @challenge={{this.challenge}}
+                          @assessment={{this.assessment}}
+                          @isTextToSpeechActivated={{false}}
+                          />`);
+
+              // then
+              assert
+                .dom(
+                  screen.queryByRole('button', {
+                    name: this.intl.t('pages.challenge.statement.text-to-speech.play'),
+                  }),
+                )
+                .doesNotExist();
+            });
+          });
+        });
+      });
     });
   });
 

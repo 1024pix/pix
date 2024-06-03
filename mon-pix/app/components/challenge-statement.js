@@ -9,15 +9,22 @@ const PREFERRED_ATTACHMENT_FORMATS = ['docx', 'xlsx', 'pptx'];
 
 export default class ChallengeStatement extends Component {
   @service intl;
+  @service currentUser;
+  @service featureToggles;
+  @service router;
+  @service metrics;
 
   @tracked selectedAttachmentUrl;
   @tracked displayAlternativeInstruction = false;
+  @tracked isSpeaking = false;
+  @tracked textToSpeechButtonTooltipText = this.intl.t('pages.challenge.statement.text-to-speech.play');
+  @tracked textToSpeechButtonIcon = 'volume-high';
 
   constructor() {
     super(...arguments);
     this._initialiseDefaultAttachment();
+    this.stopTextToSpeechOnLeaveOrRefresh();
   }
-
   get isFocusedChallengeToggleEnabled() {
     return ENV.APP.FT_FOCUS_CHALLENGE_ENABLED;
   }
@@ -46,6 +53,14 @@ export default class ChallengeStatement extends Component {
     return 'challenge_statement_' + this.args.challenge.id;
   }
 
+  get showTextToSpeechButton() {
+    return (
+      !this.args.assessment.isCertification &&
+      this.featureToggles.featureToggles?.isTextToSpeechButtonEnabled &&
+      this.args.isTextToSpeechActivated
+    );
+  }
+
   @action
   toggleAlternativeInstruction() {
     this.displayAlternativeInstruction = !this.displayAlternativeInstruction;
@@ -54,6 +69,46 @@ export default class ChallengeStatement extends Component {
   @action
   chooseAttachmentUrl(attachementUrl) {
     this.selectedAttachmentUrl = attachementUrl;
+  }
+
+  @action
+  toggleInstructionTextToSpeech() {
+    if (this.isSpeaking) {
+      speechSynthesis.cancel();
+      this.isSpeaking = false;
+      this.textToSpeechButtonTooltipText = this.intl.t('pages.challenge.statement.text-to-speech.play');
+      this.textToSpeechButtonIcon = 'volume-high';
+    } else {
+      const element = document.getElementsByClassName('challenge-statement-instruction__text')[0];
+      const textToSpeech = new SpeechSynthesisUtterance(element.innerText);
+      textToSpeech.lang = this.currentUser.user.lang;
+      textToSpeech.onend = () => {
+        this.isSpeaking = false;
+        this.textToSpeechButtonTooltipText = this.intl.t('pages.challenge.statement.text-to-speech.play');
+        this.textToSpeechButtonIcon = 'volume-high';
+      };
+      this.isSpeaking = true;
+      this.textToSpeechButtonTooltipText = this.intl.t('pages.challenge.statement.text-to-speech.stop');
+      this.textToSpeechButtonIcon = 'circle-stop';
+      speechSynthesis.speak(textToSpeech);
+    }
+    this.addMetrics();
+  }
+
+  addMetrics() {
+    this.metrics.add({
+      event: 'custom-event',
+      'pix-event-category': 'Vocalisation',
+      'pix-event-action': `Assessment : ${this.args.assessment.id} Epreuve : ${this.args.challenge.id}`,
+      'pix-event-name': `Click sur le bouton de vocalisation : ${this.isSpeaking ? 'lecture' : 'stop'}`,
+    });
+  }
+
+  stopTextToSpeechOnLeaveOrRefresh() {
+    speechSynthesis.cancel();
+    this.router.on('routeWillChange', () => {
+      speechSynthesis.cancel();
+    });
   }
 
   get orderedAttachments() {
