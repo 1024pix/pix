@@ -1,5 +1,29 @@
 # Pix Changelog
 
+## v4.156.0 (03/06/2024)
+
+
+### :rocket: Amélioration
+- [#9081](https://github.com/1024pix/pix/pull/9081) [FEATURE] Permettre la vocalisation des consignes des épreuves (PIX-11050).
+- [#9121](https://github.com/1024pix/pix/pull/9121) [FEATURE] Ajouter le suffixe "%" pour les paliers par seuil (PIX-11911).
+- [#9118](https://github.com/1024pix/pix/pull/9118) [FEATURE] Ajouter les nouvelles couleurs (Pix-11932).
+
+### :building_construction: Tech
+- [#9079](https://github.com/1024pix/pix/pull/9079) [TECH] Migration de prescriber-management de src/shared vers src/team (PIX-12697).
+- [#9115](https://github.com/1024pix/pix/pull/9115) [TECH] Migrer la route POST /api/admin/oidc/user/reconcile vers src/identity-access-management (PIX-12661).
+- [#9123](https://github.com/1024pix/pix/pull/9123) [TECH] Utiliser notre action de lint des titres de PR .
+
+### :bug: Correction
+- [#9124](https://github.com/1024pix/pix/pull/9124) [BUGFIX] Echec du job sendSharedParticipationResults... (Pix-12762).
+
+### :arrow_up: Montée de version
+- [#9112](https://github.com/1024pix/pix/pull/9112) [BUMP] Update dependency @sentry/ember to v8 (mon-pix).
+- [#9131](https://github.com/1024pix/pix/pull/9131) [BUMP] Update dependency @1024pix/pix-ui to ^46.6.0 (mon-pix).
+- [#9129](https://github.com/1024pix/pix/pull/9129) [BUMP] Update dependency @1024pix/pix-ui to ^46.6.0 (mon-pix).
+
+### :coffee: Autre
+- [#9130](https://github.com/1024pix/pix/pull/9130) Revert "[BUMP] Update dependency @1024pix/pix-ui to ^46.6.0 (mon-pix)".
+
 ## v4.155.0 (31/05/2024)
 
 
