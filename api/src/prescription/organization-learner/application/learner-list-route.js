@@ -9,7 +9,7 @@ const register = async function (server) {
   server.route([
     {
       method: 'GET',
-      path: '/api/organizations/{id}/participants',
+      path: '/api/organizations/{organizationId}/participants',
       config: {
         pre: [
           {
@@ -18,7 +18,7 @@ const register = async function (server) {
         ],
         validate: {
           params: Joi.object({
-            id: identifiersType.organizationId,
+            organizationId: identifiersType.organizationId,
           }),
           query: Joi.object({
             'page[size]': Joi.number().integer().empty(''),

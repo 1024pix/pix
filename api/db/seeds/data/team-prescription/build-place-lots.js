@@ -4,7 +4,7 @@ import {
   T2,
   T3,
 } from '../../../../src/prescription/organization-place/domain/constants/organization-places-categories.js';
-import { REAL_PIX_SUPER_ADMIN_ID } from '../common/common-builder.js';
+import { REAL_PIX_SUPER_ADMIN_ID } from '../common/constants.js';
 import { PRO_ORGANIZATION_ID } from '../common/constants.js';
 
 function _buildPlaceLotsForProOrganization(databaseBuilder) {

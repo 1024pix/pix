@@ -254,11 +254,15 @@
       "SUP": "Groupe"
     },
     "import-information-banner": {
-      "error": "Échec de l’import",
+      "error": "Échec de l'import",
       "error-link": "(voir la page d'import).",
       "in-progress": "Un import est en cours",
       "in-progress-link": "(consulter l'état de l'import).",
       "success": "Les participants ont bien été importés."
+    },
+    "organization-participants-header": {
+      "title": "{count, plural, =0 {Participants} =1 {Participant ({count})} other {Participants ({count})}}",
+      "import-button": "Importer"
     },
     "participation-status": {
       "SHARED-ASSESSMENT": "Résultats reçus",
@@ -880,7 +884,6 @@
       "title": "Activité du participant"
     },
     "organization-participants": {
-      "title": "{count, plural, =0 {Participants} =1 {Participant ({count})} other {Participants ({count})}}",
       "action-bar": {
         "delete-button": "Supprimer",
         "error-message": "{count, plural, =1 {Une erreur est survenue, {firstname} {lastname} n'a pas été supprimé de la liste des participants.} other {Une erreur est survenue, les {count} participants sélectionnés n'ont pas été supprimés de la liste.}}",
@@ -959,18 +962,18 @@
     "organization-participants-import": {
       "title": "Importer",
       "actions": {
-        "add-sco": {
-          "title": "Importer la liste des élèves",
-          "details": "Cette action vous permet de :",
-          "details-add-student": "ajouter de nouveaux élèves",
-          "details-disable-student": "désactiver les anciens élèves",
-          "details-update-student": "modifier les élèves déjà importés",
-          "label": "Importer la liste"
-        },
         "add-sup": {
           "title": "Ajouter / modifier",
-          "details": "Permet d’ajouter une liste d'étudiants à celle déjà importée et/ou modifier les informations des étudiants déjà importés.",
+          "details": "Permet d'ajouter une liste d'étudiants à celle déjà importée et/ou modifier les informations des étudiants déjà importés.",
           "label": "Ajouter des étudiants"
+        },
+        "participants": {
+          "title": "Importer la liste des participants",
+          "details": "Cette action vous permet de :",
+          "details-add": "ajouter de nouveaux participants",
+          "details-disable": "désactiver les anciens participants",
+          "details-update": "modifier les participants déjà importés",
+          "label": "Importer la liste"
         },
         "replace": {
           "title": "Remplacer",
@@ -1096,7 +1099,6 @@
         "reset-password-button": "Réinitialiser les mots de passe des élèves sélectionnés"
       },
       "actions": {
-        "import-file": "Importer",
         "manage-account": "Gérer le compte",
         "show-actions": "Afficher les actions"
       },
@@ -1240,7 +1242,6 @@
       "actions": {
         "download-template": "Télécharger le modèle",
         "edit-student-number": "Éditer le numéro étudiant",
-        "import-file": "Importer",
         "show-actions": "Afficher les actions"
       },
       "deletion-modal": {

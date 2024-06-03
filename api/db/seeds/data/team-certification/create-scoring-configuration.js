@@ -1,4 +1,4 @@
-import { REAL_PIX_SUPER_ADMIN_ID } from '../common/common-builder.js';
+import { REAL_PIX_SUPER_ADMIN_ID } from '../common/constants.js';
 
 const configuration = [
   {

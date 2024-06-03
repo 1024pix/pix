@@ -50,7 +50,7 @@ module('Integration | Component | ScoOrganizationParticipant::HeaderActions', fu
         const screen = await render(hbs`<ScoOrganizationParticipant::HeaderActions />`);
 
         // then
-        assert.ok(screen.getByText(this.intl.t('pages.sco-organization-participants.actions.import-file')));
+        assert.ok(screen.getByText(this.intl.t('components.organization-participants-header.import-button')));
       });
     });
   });
@@ -65,13 +65,13 @@ module('Integration | Component | ScoOrganizationParticipant::HeaderActions', fu
 
       assert.strictEqual(
         screen.queryByLabelText(
-          this.intl.t('pages.sco-organization-participants.actions.import-file.label', { types: '.csv' }),
+          this.intl.t('components.organization-participants-header.import-button.label', { types: '.csv' }),
         ),
         null,
       );
       assert.strictEqual(
         screen.queryByLabelText(
-          this.intl.t('pages.sco-organization-participants.actions.import-file.label', { types: '.xml ou .zip' }),
+          this.intl.t('components.organization-participants-header.import-button.label', { types: '.xml ou .zip' }),
         ),
         null,
       );

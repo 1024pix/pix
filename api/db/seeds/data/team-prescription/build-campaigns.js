@@ -4,11 +4,9 @@ import { CampaignParticipationStatuses } from '../../../../src/prescription/shar
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import {
   PRO_ORGANIZATION_ID,
-  PRO_ORGANIZATION_USER_ID,
   SCO_MANAGING_ORGANIZATION_ID,
-  SCO_ORGANIZATION_USER_ID,
   SUP_MANAGING_ORGANIZATION_ID,
-  SUP_ORGANIZATION_USER_ID,
+  USER_ID_ADMIN_ORGANIZATION,
 } from '../common/constants.js';
 import { createAssessmentCampaign, createProfilesCollectionCampaign } from '../common/tooling/campaign-tooling.js';
 import { TARGET_PROFILE_BADGES_STAGES_ID, TARGET_PROFILE_NO_BADGES_NO_STAGES_ID } from './constants.js';
@@ -18,7 +16,7 @@ async function _createScoCampaigns(databaseBuilder) {
     databaseBuilder,
     targetProfileId: TARGET_PROFILE_BADGES_STAGES_ID,
     organizationId: SCO_MANAGING_ORGANIZATION_ID,
-    ownerId: SCO_ORGANIZATION_USER_ID,
+    ownerId: USER_ID_ADMIN_ORGANIZATION,
     name: "Campagne d'évaluation SCO",
     code: 'SCOASSIMP',
     createdAt: dayjs().subtract(30, 'days').toDate(),
@@ -37,7 +35,7 @@ async function _createScoCampaigns(databaseBuilder) {
     databaseBuilder,
     targetProfileId: TARGET_PROFILE_BADGES_STAGES_ID,
     organizationId: SCO_MANAGING_ORGANIZATION_ID,
-    ownerId: SCO_ORGANIZATION_USER_ID,
+    ownerId: USER_ID_ADMIN_ORGANIZATION,
     name: "Campagne d'évaluation SCO envoi multiple",
     code: 'SCOASSMUL',
     multipleSendings: true,
@@ -56,7 +54,7 @@ async function _createScoCampaigns(databaseBuilder) {
   await createProfilesCollectionCampaign({
     databaseBuilder,
     organizationId: SCO_MANAGING_ORGANIZATION_ID,
-    ownerId: SCO_ORGANIZATION_USER_ID,
+    ownerId: USER_ID_ADMIN_ORGANIZATION,
     name: 'Campagne de collecte de profil SCO',
     multipleSendings: true,
     type: 'PROFILES_COLLECTION',
@@ -71,7 +69,7 @@ async function _createSupCampaigns(databaseBuilder) {
     databaseBuilder,
     targetProfileId: TARGET_PROFILE_NO_BADGES_NO_STAGES_ID,
     organizationId: SUP_MANAGING_ORGANIZATION_ID,
-    ownerId: SUP_ORGANIZATION_USER_ID,
+    ownerId: USER_ID_ADMIN_ORGANIZATION,
     name: "Campagne d'évaluation SUP",
     code: 'SUPASSIMP',
     createdAt: dayjs().subtract(30, 'days').toDate(),
@@ -90,7 +88,7 @@ async function _createSupCampaigns(databaseBuilder) {
     databaseBuilder,
     targetProfileId: TARGET_PROFILE_NO_BADGES_NO_STAGES_ID,
     organizationId: SUP_MANAGING_ORGANIZATION_ID,
-    ownerId: SUP_ORGANIZATION_USER_ID,
+    ownerId: USER_ID_ADMIN_ORGANIZATION,
     name: "Campagne d'évaluation SUP envoi multiple",
     code: 'SUPASSMUL',
     multipleSendings: true,
@@ -109,7 +107,7 @@ async function _createSupCampaigns(databaseBuilder) {
   await createProfilesCollectionCampaign({
     databaseBuilder,
     organizationId: SUP_MANAGING_ORGANIZATION_ID,
-    ownerId: SUP_ORGANIZATION_USER_ID,
+    ownerId: USER_ID_ADMIN_ORGANIZATION,
     name: 'Campagne de collecte de profil SUP',
     code: 'SUPCOLMUL',
     multipleSendings: true,
@@ -124,7 +122,7 @@ async function _createProCampaigns(databaseBuilder) {
     databaseBuilder,
     targetProfileId: TARGET_PROFILE_NO_BADGES_NO_STAGES_ID,
     organizationId: PRO_ORGANIZATION_ID,
-    ownerId: PRO_ORGANIZATION_USER_ID,
+    ownerId: USER_ID_ADMIN_ORGANIZATION,
     name: "Campagne d'évaluation PRO",
     code: 'PROASSIMP',
     createdAt: dayjs().subtract(30, 'days').toDate(),
@@ -143,7 +141,7 @@ async function _createProCampaigns(databaseBuilder) {
     databaseBuilder,
     targetProfileId: TARGET_PROFILE_NO_BADGES_NO_STAGES_ID,
     organizationId: PRO_ORGANIZATION_ID,
-    ownerId: PRO_ORGANIZATION_USER_ID,
+    ownerId: USER_ID_ADMIN_ORGANIZATION,
     name: "Campagne d'évaluation PRO envoi multiple",
     code: 'PROASSMUL',
     multipleSendings: true,
@@ -239,7 +237,7 @@ async function _createProCampaigns(databaseBuilder) {
   await createProfilesCollectionCampaign({
     databaseBuilder,
     organizationId: PRO_ORGANIZATION_ID,
-    ownerId: PRO_ORGANIZATION_USER_ID,
+    ownerId: USER_ID_ADMIN_ORGANIZATION,
     name: 'Campagne de collecte de profil PRO',
     multipleSendings: true,
     code: 'PROCOLMUL',

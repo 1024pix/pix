@@ -4,7 +4,7 @@ import { securityPreHandlers } from '../../../../../src/shared/application/secur
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Application | Routes | Learner List', function () {
-  describe('GET /api/organizations/{id}/participants', function () {
+  describe('GET /api/organizations/{organizationId}/participants', function () {
     const method = 'GET';
     const url = '/api/organizations/1/participants';
 
@@ -19,17 +19,8 @@ describe('Integration | Application | Routes | Learner List', function () {
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
-      const payload = {
-        data: {
-          type: 'organization-invitations',
-          attributes: {
-            id: '1',
-          },
-        },
-      };
-
       // when
-      const response = await httpTestServer.request(method, url, payload);
+      const response = await httpTestServer.request(method, url, null);
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -45,17 +36,8 @@ describe('Integration | Application | Routes | Learner List', function () {
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
-      const payload = {
-        data: {
-          type: 'organization-participants',
-          attributes: {
-            id: '1',
-          },
-        },
-      };
-
       // when
-      const response = await httpTestServer.request(method, url, payload);
+      const response = await httpTestServer.request(method, url, null);
 
       // then
       expect(response.statusCode).to.equal(403);

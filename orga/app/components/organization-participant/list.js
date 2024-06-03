@@ -10,7 +10,7 @@ export default class List extends Component {
   @service currentUser;
 
   get showCheckbox() {
-    return this.currentUser.isAdminInOrganization;
+    return this.currentUser.isAdminInOrganization && !this.currentUser.hasLearnerImportFeature;
   }
 
   get headerId() {

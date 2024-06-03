@@ -1,19 +1,20 @@
 import {
   AGRICULTURE_TAG,
-  ALL_ORGANIZATION_USER_ID,
   DEFAULT_PASSWORD,
   FEATURE_COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY_ID,
+  FEATURE_LEARNER_IMPORT_ID,
   FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID,
   FEATURE_PLACES_MANAGEMENT_ID,
+  IMPORT_FORMAT_GENERIC_ID,
+  PRO_MANAGING_ORGANIZATION_ID,
   PRO_ORGANIZATION_ID,
-  PRO_ORGANIZATION_USER_ID,
   SCO_FREGATA_MANAGING_ORGANIZATION_ID,
   SCO_MANAGING_ORGANIZATION_ID,
   SCO_ORGANIZATION_ID,
-  SCO_ORGANIZATION_USER_ID,
   SUP_MANAGING_ORGANIZATION_ID,
   SUP_ORGANIZATION_ID,
-  SUP_ORGANIZATION_USER_ID,
+  USER_ID_ADMIN_ORGANIZATION,
+  USER_ID_MEMBER_ORGANIZATION,
 } from './constants.js';
 import { organization } from './tooling/index.js';
 
@@ -22,36 +23,39 @@ async function _createScoOrganization(databaseBuilder) {
     databaseBuilder,
     organizationId: SCO_MANAGING_ORGANIZATION_ID,
     type: 'SCO',
-    name: 'SCO Orga - Managing Students',
+    name: 'SCO SIECLE',
     isManagingStudents: true,
-    externalId: 'SCO_MANAGING',
-    adminIds: [SCO_ORGANIZATION_USER_ID],
-    memberIds: [ALL_ORGANIZATION_USER_ID],
-    featureIds: [FEATURE_COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY_ID, FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID],
+    externalId: 'SCO_SIECLE_MANAGING',
+    adminIds: [USER_ID_ADMIN_ORGANIZATION],
+    memberIds: [USER_ID_MEMBER_ORGANIZATION],
+    features: [
+      { id: FEATURE_COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY_ID },
+      { id: FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID },
+    ],
   });
 
   await organization.createOrganization({
     databaseBuilder,
     organizationId: SCO_ORGANIZATION_ID,
     type: 'SCO',
-    name: 'SCO Orga - Not Managing Students',
+    name: 'SCO Classic',
     isManagingStudents: false,
     externalId: 'SCO_NOT_MANAGING',
-    adminIds: [SCO_ORGANIZATION_USER_ID],
-    memberIds: [ALL_ORGANIZATION_USER_ID],
-    featureIds: [FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID],
+    adminIds: [USER_ID_ADMIN_ORGANIZATION],
+    memberIds: [USER_ID_MEMBER_ORGANIZATION],
+    features: [{ id: FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID }],
   });
 
   await organization.createOrganization({
     databaseBuilder,
     organizationId: SCO_FREGATA_MANAGING_ORGANIZATION_ID,
     type: 'SCO',
-    name: 'SCO Orga - FREGATA Managing Students',
+    name: 'SCO FREGATA',
     isManagingStudents: true,
     externalId: 'SCO_FREGATA_MANAGING',
-    adminIds: [SCO_ORGANIZATION_USER_ID],
-    memberIds: [ALL_ORGANIZATION_USER_ID],
-    featureIds: [FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID],
+    adminIds: [USER_ID_ADMIN_ORGANIZATION],
+    memberIds: [USER_ID_MEMBER_ORGANIZATION],
+    features: [{ id: FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID }],
     tagIds: [AGRICULTURE_TAG.id],
   });
 }
@@ -61,24 +65,24 @@ async function _createSupOrganization(databaseBuilder) {
     databaseBuilder,
     organizationId: SUP_MANAGING_ORGANIZATION_ID,
     type: 'SUP',
-    name: 'SUP Orga - Managing Students',
+    name: 'SUP Import',
     isManagingStudents: true,
     externalId: 'SUP_MANAGING',
-    adminIds: [SUP_ORGANIZATION_USER_ID],
-    memberIds: [ALL_ORGANIZATION_USER_ID],
-    featureIds: [FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID],
+    adminIds: [USER_ID_ADMIN_ORGANIZATION],
+    memberIds: [USER_ID_MEMBER_ORGANIZATION],
+    features: [{ id: FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID }],
   });
 
   await organization.createOrganization({
     databaseBuilder,
     organizationId: SUP_ORGANIZATION_ID,
     type: 'SUP',
-    name: 'SUP Orga - Not Managing Students',
+    name: 'SUP Classic',
     isManagingStudents: false,
     externalId: 'SUP_NOT_MANAGING',
-    adminIds: [SUP_ORGANIZATION_USER_ID],
-    memberIds: [ALL_ORGANIZATION_USER_ID],
-    featureIds: [FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID],
+    adminIds: [USER_ID_ADMIN_ORGANIZATION],
+    memberIds: [USER_ID_MEMBER_ORGANIZATION],
+    features: [{ id: FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID }],
   });
 }
 
@@ -87,21 +91,36 @@ async function _createProOrganization(databaseBuilder) {
     databaseBuilder,
     organizationId: PRO_ORGANIZATION_ID,
     type: 'PRO',
-    name: 'PRO Orga',
+    name: 'PRO Classic',
     isManagingStudents: false,
     externalId: 'PRO_NOT_MANAGING',
-    adminIds: [PRO_ORGANIZATION_USER_ID],
-    memberIds: [ALL_ORGANIZATION_USER_ID],
-    featureIds: [FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID, FEATURE_PLACES_MANAGEMENT_ID],
+    adminIds: [USER_ID_ADMIN_ORGANIZATION],
+    memberIds: [USER_ID_MEMBER_ORGANIZATION],
+    features: [{ id: FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID }, { id: FEATURE_PLACES_MANAGEMENT_ID }],
+  });
+
+  await organization.createOrganization({
+    databaseBuilder,
+    organizationId: PRO_MANAGING_ORGANIZATION_ID,
+    type: 'PRO',
+    name: 'PRO Import (Generic)',
+    isManagingStudents: false,
+    externalId: 'PRO_MANAGING',
+    adminIds: [USER_ID_ADMIN_ORGANIZATION],
+    memberIds: [USER_ID_MEMBER_ORGANIZATION],
+    features: [
+      { id: FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID },
+      { id: FEATURE_LEARNER_IMPORT_ID, params: { organizationLearnerImportFormatId: IMPORT_FORMAT_GENERIC_ID } },
+    ],
   });
 }
 
-function _createUserAdminForScoOrganization(databaseBuilder) {
+function _createUserAdminForOrganizations(databaseBuilder) {
   databaseBuilder.factory.buildUser.withRawPassword({
-    id: SCO_ORGANIZATION_USER_ID,
-    firstName: 'Scholar',
-    lastName: 'pleure',
-    email: 'sco-orga@example.net',
+    id: USER_ID_ADMIN_ORGANIZATION,
+    firstName: 'Ad',
+    lastName: 'min hominen',
+    email: 'admin-orga@example.net',
     cgu: true,
     lang: 'fr',
     rawPassword: DEFAULT_PASSWORD,
@@ -110,40 +129,12 @@ function _createUserAdminForScoOrganization(databaseBuilder) {
   });
 }
 
-function _createUserAdminForSupOrganization(databaseBuilder) {
+function _createUserMemberForOrganizations(databaseBuilder) {
   databaseBuilder.factory.buildUser.withRawPassword({
-    id: SUP_ORGANIZATION_USER_ID,
-    firstName: 'Supra',
-    lastName: 'conducteur',
-    email: 'sup-orga@example.net',
-    cgu: true,
-    lang: 'fr',
-    rawPassword: DEFAULT_PASSWORD,
-    shouldChangePassword: false,
-    pixOrgaTermsOfServiceAccepted: true,
-  });
-}
-
-function _createUserAdminForProOrganization(databaseBuilder) {
-  databaseBuilder.factory.buildUser.withRawPassword({
-    id: PRO_ORGANIZATION_USER_ID,
-    firstName: 'Pro',
-    lastName: 'tips',
-    email: 'pro-orga@example.net',
-    cgu: true,
-    lang: 'fr',
-    rawPassword: DEFAULT_PASSWORD,
-    shouldChangePassword: false,
-    pixOrgaTermsOfServiceAccepted: true,
-  });
-}
-
-function _createUserMemberWithAllTypesOfOrga(databaseBuilder) {
-  databaseBuilder.factory.buildUser.withRawPassword({
-    id: ALL_ORGANIZATION_USER_ID,
-    firstName: 'Juste',
-    lastName: 'un member',
-    email: 'all-orga@example.net',
+    id: USER_ID_MEMBER_ORGANIZATION,
+    firstName: 'Justin',
+    lastName: 'member',
+    email: 'member-orga@example.net',
     cgu: true,
     lang: 'en',
     rawPassword: DEFAULT_PASSWORD,
@@ -153,10 +144,8 @@ function _createUserMemberWithAllTypesOfOrga(databaseBuilder) {
 }
 
 export async function organizationBuilder({ databaseBuilder }) {
-  _createUserAdminForScoOrganization(databaseBuilder);
-  _createUserAdminForSupOrganization(databaseBuilder);
-  _createUserAdminForProOrganization(databaseBuilder);
-  _createUserMemberWithAllTypesOfOrga(databaseBuilder);
+  _createUserAdminForOrganizations(databaseBuilder);
+  _createUserMemberForOrganizations(databaseBuilder);
 
   await _createScoOrganization(databaseBuilder);
   await _createSupOrganization(databaseBuilder);

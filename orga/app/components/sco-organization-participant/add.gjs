@@ -4,16 +4,16 @@ import ImportCard from '../import-card';
 import UploadButton from '../upload-button';
 
 <template>
-  <ImportCard @cardTitle={{t "pages.organization-participants-import.actions.add-sco.title"}}>
+  <ImportCard @cardTitle={{t "pages.organization-participants-import.actions.participants.title"}}>
     <:cardDetails>
       <p class="import-card__sub-title">
-        {{t "pages.organization-participants-import.actions.add-sco.details"}}
+        {{t "pages.organization-participants-import.actions.participants.details"}}
       </p>
 
       <ul class="import-card__list">
-        <li>{{t "pages.organization-participants-import.actions.add-sco.details-add-student"}}</li>
-        <li>{{t "pages.organization-participants-import.actions.add-sco.details-update-student"}}</li>
-        <li>{{t "pages.organization-participants-import.actions.add-sco.details-disable-student"}}</li>
+        <li>{{t "pages.organization-participants-import.actions.participants.details-add"}}</li>
+        <li>{{t "pages.organization-participants-import.actions.participants.details-update"}}</li>
+        <li>{{t "pages.organization-participants-import.actions.participants.details-disable"}}</li>
       </ul>
     </:cardDetails>
     <:cardFooter>
@@ -24,7 +24,7 @@ import UploadButton from '../upload-button';
         @onChange={{@importHandler}}
         @supportedFormats={{@supportedFormats}}
       >
-        {{t "pages.organization-participants-import.actions.add-sco.label"}}
+        {{t "pages.organization-participants-import.actions.participants.label"}}
       </UploadButton>
     </:cardFooter>
   </ImportCard>

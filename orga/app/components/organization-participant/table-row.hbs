@@ -27,13 +27,15 @@
   </td>
   <td>
     <div class="organization-participant-list-page__last-participation">
-      <span>{{dayjs-format @participant.lastParticipationDate "DD/MM/YYYY"}}</span>
-      <Ui::LastParticipationDateTooltip
-        @id={{@participant.id}}
-        @campaignName={{@participant.campaignName}}
-        @campaignType={{@participant.campaignType}}
-        @participationStatus={{@participant.participationStatus}}
-      />
+      {{#if @participant.lastParticipationDate}}
+        <span>{{dayjs-format @participant.lastParticipationDate "DD/MM/YYYY"}}</span>
+        <Ui::LastParticipationDateTooltip
+          @id={{@participant.id}}
+          @campaignName={{@participant.campaignName}}
+          @campaignType={{@participant.campaignType}}
+          @participationStatus={{@participant.participationStatus}}
+        />
+      {{/if}}
     </div>
   </td>
   <td class="table__column--center">

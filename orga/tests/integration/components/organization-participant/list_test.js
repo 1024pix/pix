@@ -1214,11 +1214,41 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     });
   });
 
-  module('when user is not admin of organisation', function () {
-    test('it should not display checkboxes', async function (assert) {
+  module('hide checkbox context', function () {
+    test('when user is not admin of organisation', async function (assert) {
       //given
       class CurrentUserStub extends Service {
         isAdminInOrganization = false;
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+
+      const participants = [{ id: 1, firstName: 'Spider', lastName: 'Man' }];
+      this.set('participants', participants);
+      this.triggerFiltering = sinon.stub();
+      this.set('certificabilityFilter', []);
+      this.set('fullNameFilter', null);
+
+      //when
+      const screen = await render(
+        hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.triggerFiltering}}
+  @onClickLearner={{this.noop}}
+  @fullName={{this.fullNameFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+/>`,
+      );
+      const checkboxes = screen.queryAllByRole('checkbox');
+
+      //then
+      assert.deepEqual(checkboxes.length, 0);
+    });
+
+    test('when feature import is enabled of organisation', async function (assert) {
+      //given
+      class CurrentUserStub extends Service {
+        isAdminInOrganization = true;
+        hasLearnerImportFeature = true;
       }
       this.owner.register('service:current-user', CurrentUserStub);
 
