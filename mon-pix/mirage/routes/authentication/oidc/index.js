@@ -3,7 +3,15 @@ import { Response } from 'miragejs';
 export default function (config) {
   config.post('/oidc/token', (schema, request) => {
     if (!request.requestHeaders.Authorization) {
-      return new Response(401, {}, { errors: [{ code: 'SHOULD_VALIDATE_CGU', meta: { authenticationKey: 'key' } }] });
+      return new Response(
+        401,
+        {},
+        {
+          errors: [
+            { code: 'SHOULD_VALIDATE_CGU', meta: { authenticationKey: 'key', familyName: 'PIX', givenName: 'test' } },
+          ],
+        },
+      );
     }
 
     const createdUser = schema.users.create({
