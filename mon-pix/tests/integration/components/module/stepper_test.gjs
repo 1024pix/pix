@@ -36,6 +36,8 @@ module('Integration | Component | Module | Stepper', function (hooks) {
 
       // then
       assert.strictEqual(screen.getAllByRole('heading', { level: 3 }).length, 2);
+      assert.dom(screen.getByRole('heading', { level: 3, name: 'Étape 1 sur 2' })).exists();
+      assert.dom(screen.getByRole('heading', { level: 3, name: 'Étape 2 sur 2' })).exists();
     });
   });
 });
