@@ -13,7 +13,7 @@ import { config } from '../../../../shared/config.js';
 
 const notify = async (userId, payload, dependencies) => {
   const { authenticationMethodRepository, httpAgent, httpErrorsHelper, monitoringTools } = dependencies;
-  if (config.featureToggles.depracatePoleEmploiPushNotification) {
+  if (config.featureToggles.deprecatePoleEmploiPushNotification) {
     payload = { ...payload, deprecated: true };
   }
   monitoringTools.logInfoWithCorrelationIds({

@@ -88,7 +88,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
     context('when access token is valid', function () {
       context('when pole emploi deprecate push env variable is set', function () {
         beforeEach(function () {
-          sinon.stub(settings.featureToggles, 'depracatePoleEmploiPushNotification').value('true');
+          sinon.stub(settings.featureToggles, 'deprecatePoleEmploiPushNotification').value('true');
         });
         it('should send the notification to Pole Emploi with deprectation message', async function () {
           // given

@@ -56,7 +56,7 @@ const dependencies = {
   organizationRepository,
   participationsForCampaignManagementRepository,
   poleEmploiSendingRepository,
-  poleEmploiNotifier: requirePoleEmploiNotifier,
+  poleEmploiNotifier: requirePoleEmploiNotifier(),
   stageCollectionRepository,
   targetProfileRepository,
   tutorialRepository,
