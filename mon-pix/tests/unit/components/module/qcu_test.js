@@ -1,7 +1,7 @@
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
-import createPodsComponent from '../../../helpers/create-pods-component';
+import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 
 module('Unit | Component | Module | QCU', function (hooks) {
   setupTest(hooks);
@@ -17,7 +17,7 @@ module('Unit | Component | Module | QCU', function (hooks) {
           correction: correctionResponse,
           element: qcuElement,
         });
-        const component = createPodsComponent('module/qcu', { qcu: qcuElement, correction: correctionResponse });
+        const component = createGlimmerComponent('module/qcu', { qcu: qcuElement, correction: correctionResponse });
 
         // when
         const feedbackType = component.feedbackType;
@@ -37,7 +37,7 @@ module('Unit | Component | Module | QCU', function (hooks) {
           correction: correctionResponse,
           elementId: qcuElement.id,
         });
-        const component = createPodsComponent('module/qcu', { qcu: qcuElement, correction: correctionResponse });
+        const component = createGlimmerComponent('module/qcu', { qcu: qcuElement, correction: correctionResponse });
 
         // when
         const feedbackType = component.feedbackType;
