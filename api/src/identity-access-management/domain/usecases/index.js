@@ -68,5 +68,6 @@ const usecases = injectDependencies(usecasesWithoutInjectedDependencies, depende
  * @property {getReadyIdentityProviders} getReadyIdentityProviders
  * @property {getRedirectLogoutUrl} getRedirectLogoutUrl
  * @property {reconcileOidcUser} reconcileOidcUser
+ * @property {reconcileOidcUserForAdmin} reconcileOidcUserForAdmin
  */
 export { usecases };

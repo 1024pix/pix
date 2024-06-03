@@ -1,16 +1,13 @@
 /**
- * @typedef {import ('./index.js').OidcAuthenticationService} OidcAuthenticationService
- * @typedef {import ('./index.js').AuthenticationSessionService} AuthenticationSessionService
- * @typedef {import ('./index.js').AuthenticationMethodRepository} AuthenticationMethodRepository
- * @typedef {import ('./index.js').UserRepository} UserRepository
- * @typedef {import ('./index.js').UserLoginRepository} UserLoginRepository
+ * @typedef {import ('../../../../lib/domain/usecases/index.js').OidcAuthenticationService} OidcAuthenticationService
+ * @typedef {import ('../../../../lib/domain/usecases/index.js').AuthenticationSessionService} AuthenticationSessionService
+ * @typedef {import ('../../../../lib/domain/usecases/index.js').AuthenticationMethodRepository} AuthenticationMethodRepository
+ * @typedef {import ('../../../../lib/domain/usecases/index.js').UserRepository} UserRepository
+ * @typedef {import ('../../../../lib/domain/usecases/index.js').UserLoginRepository} UserLoginRepository
  */
 
-import {
-  AuthenticationKeyExpired,
-  DifferentExternalIdentifierError,
-} from '../../../src/identity-access-management/domain/errors.js';
-import { AuthenticationMethod } from '../models/index.js';
+import { AuthenticationKeyExpired, DifferentExternalIdentifierError } from '../errors.js';
+import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 
 /**
  * @param {Object} params
@@ -23,7 +20,7 @@ import { AuthenticationMethod } from '../models/index.js';
  * @param {UserRepository} params.userRepository
  * @param {UserLoginRepository} params.userLoginRepository
  */
-const reconcileOidcUserForAdmin = async function ({
+export const reconcileOidcUserForAdmin = async function ({
   authenticationKey,
   email,
   identityProvider,
@@ -66,8 +63,6 @@ const reconcileOidcUserForAdmin = async function ({
 
   return accessToken;
 };
-
-export { reconcileOidcUserForAdmin };
 
 async function _assertExternalIdentifier({
   sessionContentAndUserInfo,
