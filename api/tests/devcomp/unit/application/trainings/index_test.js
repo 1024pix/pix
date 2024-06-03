@@ -1090,46 +1090,46 @@ describe('Unit | Devcomp | Application | Trainings | Router | training-router', 
     });
 
     describe('Security Prehandlers', function () {
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      [
-        {
-          role: 'SUPER_ADMIN',
-          securityPreHandlersResponses: {
-            checkAdminMemberHasRoleSuperAdmin: (request, h) => h.response(true),
-            checkAdminMemberHasRoleMetier: (request, h) => h.response({ errors: new Error('forbidden') }).code(403),
-          },
-        },
-        {
-          role: 'METIER',
-          securityPreHandlersResponses: {
-            checkAdminMemberHasRoleSuperAdmin: (request, h) => h.response({ errors: new Error('forbidden') }).code(403),
-            checkAdminMemberHasRoleMetier: (request, h) => h.response(true),
-          },
-        },
-      ].forEach(({ role, securityPreHandlersResponses }) => {
-        it(`should verify user identity and return success update when user role is "${role}"`, async function () {
-          // given
-          sinon.stub(trainingController, 'createOrUpdateTrigger').returns('ok');
-          sinon
-            .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
-            .callsFake(securityPreHandlersResponses.checkAdminMemberHasRoleSuperAdmin);
-          sinon
-            .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
-            .callsFake(securityPreHandlersResponses.checkAdminMemberHasRoleMetier);
-          const httpTestServer = new HttpTestServer();
-          await httpTestServer.register(moduleUnderTest);
+      it(`should verify user identity and return success update when user role is "SUPER_ADMIN"`, async function () {
+        // given
+        sinon.stub(trainingController, 'createOrUpdateTrigger').returns('ok');
+        sinon
+          .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+          .callsFake((request, h) => h.response(true));
+        sinon
+          .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
 
-          const payload = validPayload;
+        // when
+        const result = await httpTestServer.request('PUT', '/api/admin/trainings/12344/triggers', validPayload);
 
-          // when
-          const result = await httpTestServer.request('PUT', '/api/admin/trainings/12344/triggers', payload);
+        // then
+        sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
+        sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleMetier);
+        sinon.assert.calledOnce(trainingController.createOrUpdateTrigger);
+        expect(result.statusCode).to.equal(200);
+      });
 
-          // then
-          sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
-          sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleMetier);
-          sinon.assert.calledOnce(trainingController.createOrUpdateTrigger);
-          expect(result.statusCode).to.equal(200);
-        });
+      it(`should verify user identity and return success update when user role is "METIER"`, async function () {
+        // given
+        sinon.stub(trainingController, 'createOrUpdateTrigger').returns('ok');
+        sinon
+          .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const result = await httpTestServer.request('PUT', '/api/admin/trainings/12344/triggers', validPayload);
+
+        // then
+        sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
+        sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleMetier);
+        sinon.assert.calledOnce(trainingController.createOrUpdateTrigger);
+        expect(result.statusCode).to.equal(200);
       });
 
       it(`should return 403 when user does not have access METIER`, async function () {
