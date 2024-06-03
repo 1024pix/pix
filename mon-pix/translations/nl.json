@@ -505,8 +505,7 @@
       "screens": {
         "first": {
           "title": "Bienvenue à la certification Pix",
-          "how": "Comment fonctionne le test de certification ?",
-          "text": "Il s'agit d'un test adaptatif. C’est-à-dire, que votre capacité à répondre correctement (ou non) aux questions détermine en temps réel la difficulté des questions suivantes. <br/> <br/>Si vous ne savez pas répondre à une question, vous avez la possibilité de “passer” cette question. Les questions passées seront considérées comme échouées et ne vous seront pas proposées à nouveau.<br/><br/>Il est important d'aller jusqu'au bout du test, et donc de bien gérer votre temps. Une pénalité tenant compte du nombre de questions restantes sera appliquée."
+          "text": "Comment fonctionne le test de certification ? \n Il s'agit d'un test adaptatif. C’est-à-dire, que votre capacité à répondre correctement (ou non) aux questions détermine en temps réel la difficulté des questions suivantes. <br/> <br/>Si vous ne savez pas répondre à une question, vous avez la possibilité de “passer” cette question. Les questions passées seront considérées comme échouées et ne vous seront pas proposées à nouveau.<br/><br/>Il est important d'aller jusqu'au bout du test, et donc de bien gérer votre temps. Une pénalité tenant compte du nombre de questions restantes sera appliquée."
         }
       }
     },

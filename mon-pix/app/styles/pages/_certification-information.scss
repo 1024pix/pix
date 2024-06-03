@@ -3,6 +3,17 @@
   background: $pix-primary-certif-gradient;
   padding: 32px 80px;
 
+  &__title {
+    @extend %pix-title-m;
+    margin-bottom: var(--pix-spacing-8x);
+  }
+
+  &__text {
+    &--bold {
+      font-weight: 700;
+    }
+  }
+
   &__header {
     display: flex;
     align-items: center;
@@ -20,6 +31,7 @@
   }
 
   &__footer {
+    margin-top: var(--pix-spacing-10x);
     display: flex;
     flex-flow: column wrap;
     align-items: center;
