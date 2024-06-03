@@ -1,10 +1,11 @@
 .certification-information {
   min-height: 100vh;
-  background: $pix-primary-certif-gradient;
   padding: 32px 80px;
+  background: $pix-primary-certif-gradient;
 
   &__title {
     @extend %pix-title-m;
+
     margin-bottom: var(--pix-spacing-8x);
   }
 
@@ -16,27 +17,27 @@
 
   &__header {
     display: flex;
+    gap: 16px;
     align-items: center;
     justify-content: start;
-    font-size: 1.125rem;
     margin-bottom: 110px;
-    gap: 16px;
+    font-size: 1.125rem;
   }
 
   &__card {
     max-width: 846px;
-    padding: 24px;
     margin: auto;
+    padding: 24px;
     border-radius: 24px;
   }
 
   &__footer {
-    margin-top: var(--pix-spacing-10x);
     display: flex;
     flex-flow: column wrap;
+    gap: 24px;
     align-items: center;
     justify-content: start;
-    gap: 24px;
+    margin-top: var(--pix-spacing-10x);
   }
 }
 
@@ -47,8 +48,8 @@
 
   &__separator {
     width: 1px;
-    background-color: var(--pix-neutral-0);
     height: 32px;
+    background-color: var(--pix-neutral-0);
   }
 
   &__title {

@@ -42,7 +42,7 @@ Router.map(function () {
 
     this.route('certifications', function () {
       this.route('join', { path: '/' });
-      this.route('information', { path: '/informations' });
+      this.route('information', { path: '/candidat/:certification_candidate_id/informations' });
       this.route('start', { path: '/candidat/:certification_candidate_id' });
       this.route('resume', { path: '/:certification_course_id' });
       this.route('results', { path: '/:certification_id/results' });

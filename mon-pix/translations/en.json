@@ -430,11 +430,11 @@
     "certification-information": {
       "title": "Explanation of certification",
       "buttons": {
-        "previous": "Previous",
-        "continuous": "Continue"
+        "continuous": "Continue",
+        "previous": "Previous"
       },
       "screens": {
-        "first": {
+        "page1": {
           "title": "Bienvenue à la certification Pix",
           "text": "'<span class=\"certification-information__text--bold\">'Comment fonctionne le test de certification ?'</span>' '<br><br>' '<span class=\"certification-information__text--bold\">'Il s'agit d'un test adaptatif.'</span>' C’est-à-dire, que votre capacité à répondre correctement (ou non) aux questions détermine en temps réel la difficulté des questions suivantes. '<br><br>'Si vous ne savez pas répondre à une question, '<span class=\"certification-information__text--bold\">'vous avez la possibilité de \"passer\" cette question.'</span>' Les questions passées seront considérées comme échouées et ne vous seront pas proposées à nouveau. '<br><br>' '<span class=\"certification-information__text--bold\">'Il est important d'aller jusqu'au bout du test'</span>', et donc de bien gérer votre temps. Une pénalité tenant compte du nombre de questions restantes sera appliquée."
         },

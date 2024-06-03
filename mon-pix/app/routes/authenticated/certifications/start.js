@@ -16,7 +16,7 @@ export default class StartRoute extends Route {
       certificationCandidateSubscription.isSessionVersion3 &&
       this.featureToggles.featureToggles.areV3InfoScreensEnabled
     ) {
-      this.router.replaceWith('authenticated.certifications.information');
+      this.router.replaceWith('authenticated.certifications.information', params.certification_candidate_id);
     }
 
     return certificationCandidateSubscription;
