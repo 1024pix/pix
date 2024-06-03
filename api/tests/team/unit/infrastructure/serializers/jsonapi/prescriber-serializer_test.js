@@ -1,10 +1,10 @@
-import { Membership } from '../../../../../../../lib/domain/models/index.js';
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../../../src/identity-access-management/domain/constants/identity-providers.js';
-import { ORGANIZATION_FEATURE } from '../../../../../../../src/shared/domain/constants.js';
-import * as serializer from '../../../../../../../src/shared/prescriber-management/infrastructure/serializers/jsonapi/prescriber-serializer.js';
-import { domainBuilder, expect } from '../../../../../../test-helper.js';
+import { Membership } from '../../../../../../lib/domain/models/index.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../../src/identity-access-management/domain/constants/identity-providers.js';
+import { ORGANIZATION_FEATURE } from '../../../../../../src/shared/domain/constants.js';
+import { prescriberSerializer } from '../../../../../../src/team/infrastructure/serializers/jsonapi/prescriber-serializer.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
-describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
+describe('Unit | Team | Infrastructure | Serializer | JSONAPI | prescriber', function () {
   describe('#serialize', function () {
     let user;
 
@@ -56,7 +56,7 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
         });
 
         // when
-        const result = serializer.serialize(prescriber);
+        const result = prescriberSerializer.serialize(prescriber);
 
         // then
         expect(result).to.be.deep.equal(expectedPrescriberSerialized);
@@ -104,7 +104,7 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
         });
 
         // when
-        const result = serializer.serialize(prescriber);
+        const result = prescriberSerializer.serialize(prescriber);
 
         // then
         expect(result).to.be.deep.equal(expectedPrescriberSerialized);
@@ -143,7 +143,7 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
         });
 
         // when
-        const result = serializer.serialize(prescriber);
+        const result = prescriberSerializer.serialize(prescriber);
 
         // then
         expect(result).to.be.deep.equal(expectedPrescriberSerialized);
@@ -192,7 +192,7 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
         });
 
         // when
-        const result = serializer.serialize(prescriber);
+        const result = prescriberSerializer.serialize(prescriber);
 
         // then
         expect(result).to.be.deep.equal(expectedPrescriberSerialized);

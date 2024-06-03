@@ -31,7 +31,6 @@ import { organizationPlaceRoutes } from './src/prescription/organization-place/r
 import { targetProfileRoutes } from './src/prescription/target-profile/routes.js';
 import { schoolRoutes } from './src/school/routes.js';
 import { deserializer } from './src/shared/infrastructure/serializers/jsonapi/deserializer.js';
-import { prescriberManagementRoutes } from './src/shared/prescriber-management/routes.js';
 // bounded context migration
 import { sharedRoutes } from './src/shared/routes.js';
 import { teamRoutes } from './src/team/application/routes.js';
@@ -53,7 +52,6 @@ const prescriptionRoutes = [
   organizationPlaceRoutes,
   campaignParticipationsRoutes,
 ];
-const prescriptionSharedRoutes = [prescriberManagementRoutes];
 
 monitoringTools.installHapiHook();
 
@@ -153,7 +151,6 @@ const setupRoutesAndPlugins = async function (server) {
     teamRoutes,
     ...certificationRoutes,
     ...prescriptionRoutes,
-    ...prescriptionSharedRoutes,
   );
   await server.register(configuration);
 };

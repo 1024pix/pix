@@ -1,8 +1,8 @@
-import { UserNotMemberOfOrganizationError } from '../../../../../../lib/domain/errors.js';
-import { getPrescriber } from '../../../../../../src/shared/prescriber-management/domain/usecases/get-prescriber.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
+import { UserNotMemberOfOrganizationError } from '../../../../../lib/domain/errors.js';
+import { getPrescriber } from '../../../../../src/team/domain/usecases/get-prescriber.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | get-prescriber', function () {
+describe('Unit | Team | Domain | UseCase | get-prescriber', function () {
   const userId = 1;
   let prescriberRepository;
   let membershipRepository;

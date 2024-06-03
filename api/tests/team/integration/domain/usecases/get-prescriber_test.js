@@ -1,10 +1,10 @@
-import * as membershipRepository from '../../../../../../src/shared/infrastructure/repositories/membership-repository.js';
-import { getPrescriber } from '../../../../../../src/shared/prescriber-management/domain/usecases/get-prescriber.js';
-import * as prescriberRepository from '../../../../../../src/shared/prescriber-management/infrastructure/repositories/prescriber-repository.js';
-import * as userOrgaSettingsRepository from '../../../../../../src/shared/prescriber-management/infrastructure/repositories/user-orga-settings-repository.js';
-import { databaseBuilder, expect, knex } from '../../../../../test-helper.js';
+import * as membershipRepository from '../../../../../src/shared/infrastructure/repositories/membership-repository.js';
+import { getPrescriber } from '../../../../../src/team/domain/usecases/get-prescriber.js';
+import { prescriberRepository } from '../../../../../src/team/infrastructure/repositories/prescriber-repository.js';
+import { userOrgaSettingsRepository } from '../../../../../src/team/infrastructure/repositories/user-orga-settings-repository.js';
+import { databaseBuilder, expect, knex } from '../../../../test-helper.js';
 
-describe('Integration | UseCases | get-prescriber', function () {
+describe('Integration | Team | Domain | UseCases | get-prescriber', function () {
   context('When prescriber does not have a userOrgaSettings', function () {
     it("should create it with the first membership's organization", async function () {
       // given

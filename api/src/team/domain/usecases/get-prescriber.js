@@ -1,13 +1,18 @@
 import _ from 'lodash';
 
-import { UserNotMemberOfOrganizationError } from '../../../../../lib/domain/errors.js';
+import { UserNotMemberOfOrganizationError } from '../../../../lib/domain/errors.js';
 
-function _isCurrentOrganizationInMemberships(userOrgaSettings, memberships) {
-  const currentOrganizationId = userOrgaSettings.currentOrganization.id;
-  return _.find(memberships, { organization: { id: currentOrganizationId } });
-}
-
-const getPrescriber = async function ({
+/**
+ * @param {{
+ * userId: string,
+ * prescriberRepository: PrescriberRepository,
+ * membershipRepository: MembershipRepository,
+ * userOrgaSettingsRepository: UserOrgaSettingsRepository
+ * }} params
+ * @return {Promise<Prescriber>}
+ * @throws {UserNotMemberOfOrganizationError}
+ */
+export const getPrescriber = async function ({
   userId,
   prescriberRepository,
   membershipRepository,
@@ -33,4 +38,7 @@ const getPrescriber = async function ({
   return prescriberRepository.getPrescriber(userId);
 };
 
-export { getPrescriber };
+function _isCurrentOrganizationInMemberships(userOrgaSettings, memberships) {
+  const currentOrganizationId = userOrgaSettings.currentOrganization.id;
+  return _.find(memberships, { organization: { id: currentOrganizationId } });
+}

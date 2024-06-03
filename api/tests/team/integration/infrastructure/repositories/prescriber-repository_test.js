@@ -1,18 +1,18 @@
 import bcrypt from 'bcrypt';
 
-import { config as settings } from '../../../../../../lib/config.js';
-import { UserNotFoundError } from '../../../../../../lib/domain/errors.js';
-import { Membership } from '../../../../../../lib/domain/models/Membership.js';
-import { Tag } from '../../../../../../lib/domain/models/Tag.js';
-import { UserOrgaSettings } from '../../../../../../lib/domain/models/UserOrgaSettings.js';
-import { Organization } from '../../../../../../src/organizational-entities/domain/models/Organization.js';
-import { ORGANIZATION_FEATURE } from '../../../../../../src/shared/domain/constants.js';
-import { ForbiddenAccess } from '../../../../../../src/shared/domain/errors.js';
-import { Prescriber } from '../../../../../../src/shared/prescriber-management/domain/read-models/Prescriber.js';
-import * as prescriberRepository from '../../../../../../src/shared/prescriber-management/infrastructure/repositories/prescriber-repository.js';
-import { catchErr, databaseBuilder, expect } from '../../../../../test-helper.js';
+import { config as settings } from '../../../../../lib/config.js';
+import { UserNotFoundError } from '../../../../../lib/domain/errors.js';
+import { Membership } from '../../../../../lib/domain/models/Membership.js';
+import { Tag } from '../../../../../lib/domain/models/Tag.js';
+import { UserOrgaSettings } from '../../../../../lib/domain/models/UserOrgaSettings.js';
+import { Organization } from '../../../../../src/organizational-entities/domain/models/Organization.js';
+import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
+import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
+import { Prescriber } from '../../../../../src/team/domain/read-models/Prescriber.js';
+import { prescriberRepository } from '../../../../../src/team/infrastructure/repositories/prescriber-repository.js';
+import { catchErr, databaseBuilder, expect } from '../../../../test-helper.js';
 
-describe('Integration | Infrastructure | Repository | Prescriber', function () {
+describe('Integration | Team | Infrastructure | Repository | Prescriber', function () {
   const userToInsert = {
     firstName: 'estelle',
     lastName: 'popopo',
