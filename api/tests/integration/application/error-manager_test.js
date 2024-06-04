@@ -766,14 +766,6 @@ describe('Integration | API | Controller Error', function () {
       expect(responseDetail(response)).to.equal('Erreur, vous devez changer votre mot de passe.');
     });
 
-    it('responds Unauthorized when a UserCantBeCreatedError error occurs', async function () {
-      routeHandler.throws(new DomainErrors.UserCantBeCreatedError("L'utilisateur ne peut pas être créé"));
-      const response = await server.requestObject(request);
-
-      expect(response.statusCode).to.equal(UNAUTHORIZED_ERROR);
-      expect(responseDetail(response)).to.equal("L'utilisateur ne peut pas être créé");
-    });
-
     it('responds Unauthorized when a ApplicationWithInvalidClientSecretError error occurs', async function () {
       routeHandler.throws(new DomainErrors.ApplicationWithInvalidClientSecretError());
       const response = await server.requestObject(request);

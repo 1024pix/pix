@@ -1,5 +1,5 @@
-import { UserCantBeCreatedError } from '../../../../lib/domain/errors.js';
 import { authenticateAnonymousUser } from '../../../../lib/domain/usecases/authenticate-anonymous-user.js';
+import { UserCantBeCreatedError } from '../../../../src/identity-access-management/domain/errors.js';
 import { catchErr, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | authenticate-anonymous-user', function () {

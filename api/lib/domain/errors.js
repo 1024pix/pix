@@ -789,12 +789,6 @@ class OrganizationLearnerNotFound extends NotFoundError {
   }
 }
 
-class UserCantBeCreatedError extends DomainError {
-  constructor(message = "L'utilisateur ne peut pas être créé") {
-    super(message);
-  }
-}
-
 class UserNotFoundError extends NotFoundError {
   constructor(message = 'Ce compte est introuvable.', code = 'USER_ACCOUNT_NOT_FOUND') {
     super(message, code);
@@ -1104,7 +1098,6 @@ export {
   UnknownCountryForStudentEnrolmentError,
   UserAlreadyExistsWithAuthenticationMethodError,
   UserAlreadyLinkedToCandidateInSessionError,
-  UserCantBeCreatedError,
   UserCouldNotBeReconciledError,
   UserHasAlreadyLeftSCO,
   UserIsBlocked,
