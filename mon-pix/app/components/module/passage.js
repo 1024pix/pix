@@ -3,7 +3,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
-import ModuleGrain from '../grain/component.js';
+import ModuleGrain from './grain.js';
 
 export default class ModulePassage extends Component {
   @service router;

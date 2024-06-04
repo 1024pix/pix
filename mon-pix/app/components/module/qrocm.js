@@ -1,7 +1,6 @@
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-
-import ModuleElement from '../../pods/components/module/element/component';
+import ModuleElement from 'mon-pix/components/module/module-element';
 
 export default class ModuleQrocm extends ModuleElement {
   @tracked selectedValues;
