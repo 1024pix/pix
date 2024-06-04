@@ -12,6 +12,6 @@ export default class ModuleRecapRoute extends Route {
   }
 
   model() {
-    return this.modelFor('module.get');
+    return this.modelFor('module.passage');
   }
 }

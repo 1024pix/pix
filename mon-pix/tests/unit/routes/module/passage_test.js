@@ -2,12 +2,12 @@ import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-module('Unit | Route | modules | get', function (hooks) {
+module('Unit | Route | modules | passage', function (hooks) {
   setupTest(hooks);
 
   test('should exist', function (assert) {
     // when
-    const route = this.owner.lookup('route:module.get');
+    const route = this.owner.lookup('route:module.passage');
 
     // then
     assert.ok(route);
@@ -15,7 +15,7 @@ module('Unit | Route | modules | get', function (hooks) {
 
   test('should find the corresponding module', async function (assert) {
     // given
-    const route = this.owner.lookup('route:module.get');
+    const route = this.owner.lookup('route:module.passage');
     const store = this.owner.lookup('service:store');
     const module = Symbol('the module');
     route.modelFor = sinon.stub();
@@ -35,7 +35,7 @@ module('Unit | Route | modules | get', function (hooks) {
     // given
     const passage = Symbol('passage');
 
-    const route = this.owner.lookup('route:module.get');
+    const route = this.owner.lookup('route:module.passage');
     const store = this.owner.lookup('service:store');
     const module = { id: 'my-module' };
 
