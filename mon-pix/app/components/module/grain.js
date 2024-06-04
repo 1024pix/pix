@@ -7,6 +7,15 @@ export default class ModuleGrain extends Component {
   grain = this.args.grain;
 
   static AVAILABLE_ELEMENT_TYPES = ['text', 'image', 'video', 'qcu', 'qcm', 'qrocm'];
+  static AVAILABLE_GRAIN_TYPES = ['lesson', 'activity'];
+
+  get grainType() {
+    if (ModuleGrain.AVAILABLE_GRAIN_TYPES.includes(this.args.grain.type)) {
+      return this.args.grain.type;
+    } else {
+      return 'lesson';
+    }
+  }
 
   @action
   getLastCorrectionForElement(element) {

@@ -8,9 +8,9 @@
   {{/if}}
 
   <div class="grain-card__tag">
-    <Module::Grain::Tag @type={{@grain.type}} />
+    <Module::Grain::Tag @type={{this.grainType}} />
   </div>
-  <div class="grain__card grain-card--{{@grain.type}}">
+  <div class="grain__card grain-card--{{this.grainType}}">
     <div class="grain-card__content">
       {{#each this.displayableElements as |element|}}
         <div class="grain-card-content__element">
