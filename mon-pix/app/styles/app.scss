@@ -13,9 +13,6 @@
 @import 'globals/text';
 @import 'globals/layout';
 
-// pods
-@import 'pod-styles';
-
 /* components */
 @import 'components/authentication/login-or-register-oidc';
 @import 'components/authentication/oidc-reconciliation';
@@ -61,6 +58,12 @@ of an adaptative/mobile-first approach — refactoring is welcome here */
 @import 'components/levelup-notif';
 @import 'components/login-form';
 @import 'components/login-or-register';
+@import 'components/module/details';
+@import 'components/module/grain';
+@import 'components/module/grain/tag';
+@import 'components/module/objectives';
+@import 'components/module/passage';
+@import 'components/module/recap';
 @import 'components/module/image';
 @import 'components/module/video';
 @import 'components/module/qcu';
@@ -132,6 +135,7 @@ of an adaptative/mobile-first approach — refactoring is welcome here */
 @import 'pages/fill-in-participant-external-id';
 @import 'pages/inscription';
 @import 'pages/join-restricted-campaign';
+@import 'pages/module';
 @import 'pages/module-preview';
 @import 'pages/student-sco';
 @import 'pages/not-connected';
