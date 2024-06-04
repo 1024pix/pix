@@ -1,6 +1,6 @@
+import { requestResponseUtils } from '../../../src/shared/infrastructure/utils/request-response-utils.js';
 import { certificationCenterInvitationSerializer } from '../../../src/team/infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
-import { requestResponseUtils } from '../../infrastructure/utils/request-response-utils.js';
 
 const acceptCertificationCenterInvitation = async function (request, h) {
   const certificationCenterInvitationId = request.params.id;

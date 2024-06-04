@@ -1,7 +1,7 @@
+import { extractLocaleFromRequest } from '../../../src/shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as frameworkAreasSerializer from '../../infrastructure/serializers/jsonapi/framework-areas-serializer.js';
 import * as frameworkSerializer from '../../infrastructure/serializers/jsonapi/framework-serializer.js';
-import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
 
 const getFrameworks = async function (request, h, dependencies = { frameworkSerializer }) {
   const frameworks = await usecases.getFrameworks();

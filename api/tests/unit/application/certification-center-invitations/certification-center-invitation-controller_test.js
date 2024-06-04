@@ -1,6 +1,6 @@
 import { certificationCenterInvitationController } from '../../../../lib/application/certification-center-invitations/certification-center-invitation-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { requestResponseUtils } from '../../../../lib/infrastructure/utils/request-response-utils.js';
+import { requestResponseUtils } from '../../../../src/shared/infrastructure/utils/request-response-utils.js';
 import { certificationCenterInvitationSerializer } from '../../../../src/team/infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 

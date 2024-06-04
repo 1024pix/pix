@@ -1,5 +1,5 @@
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
+import * as requestResponseUtils from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { evaluationUsecases } from '../../domain/usecases/index.js';
 import * as answerSerializer from '../../infrastructure/serializers/jsonapi/answer-serializer.js';
 import * as correctionSerializer from '../../infrastructure/serializers/jsonapi/correction-serializer.js';

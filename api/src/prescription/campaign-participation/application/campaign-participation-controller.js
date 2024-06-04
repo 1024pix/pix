@@ -1,6 +1,6 @@
-import { extractLocaleFromRequest } from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { extractParameters } from '../../../shared/infrastructure/utils/query-params-utils.js';
+import { extractLocaleFromRequest } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as availableCampaignParticipationsSerializer from '../infrastructure/serializers/jsonapi/available-campaign-participation-serializer.js';
 import * as campaignAnalysisSerializer from '../infrastructure/serializers/jsonapi/campaign-analysis-serializer.js';

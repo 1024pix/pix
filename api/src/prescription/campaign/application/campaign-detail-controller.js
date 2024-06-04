@@ -1,10 +1,10 @@
 import stream from 'node:stream';
 
 import { MissingQueryParamError } from '../../../../lib/application/http-errors.js';
-import { escapeFileName } from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
 import * as queryParamsUtils from '../../../shared/infrastructure/utils/query-params-utils.js';
 import { extractParameters } from '../../../shared/infrastructure/utils/query-params-utils.js';
+import { escapeFileName } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as campaignDetailsManagementSerializer from '../infrastructure/serializers/jsonapi/campaign-details-management-serializer.js';
 import * as campaignParticipantsActivitySerializer from '../infrastructure/serializers/jsonapi/campaign-participant-activity-serializer.js';
