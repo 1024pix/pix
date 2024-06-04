@@ -45,7 +45,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
     expectedData = {
       ...rawData,
       id: undefined,
-      authorizedToStart: undefined,
+      authorizedToStart: false,
       billingMode: 'FREE',
       birthINSEECode: undefined,
       birthPostalCode: undefined,
