@@ -5,6 +5,7 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
   let certificationBadgesService;
   let certificationCandidateRepository;
   let certificationCenterRepository;
+  let sessionRepository;
 
   beforeEach(function () {
     certificationBadgesService = {
@@ -16,6 +17,10 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
 
     certificationCenterRepository = {
       getBySessionId: sinon.stub(),
+    };
+
+    sessionRepository = {
+      getVersion: sinon.stub(),
     };
   });
 
@@ -52,6 +57,8 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
           .withArgs(certificationCandidateId)
           .resolves(candidateWithComplementaryCertification);
 
+        sessionRepository.getVersion.withArgs({ id: sessionId }).resolves(2);
+
         certificationCenterRepository.getBySessionId.withArgs({ sessionId }).resolves(certificationCenter);
 
         certificationBadgesService.findStillValidBadgeAcquisitions
@@ -64,6 +71,7 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
           certificationBadgesService,
           certificationCandidateRepository,
           certificationCenterRepository,
+          sessionRepository,
         });
 
         // then
@@ -73,6 +81,7 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
             sessionId,
             eligibleSubscription: null,
             nonEligibleSubscription: null,
+            sessionVersion: 2,
           }),
         );
       });
@@ -111,6 +120,8 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
           .withArgs(certificationCandidateId)
           .resolves(candidateWithoutComplementaryCertification);
 
+        sessionRepository.getVersion.withArgs({ id: sessionId }).resolves(2);
+
         certificationCenterRepository.getBySessionId.withArgs({ sessionId }).resolves(certificationCenter);
 
         certificationBadgesService.findStillValidBadgeAcquisitions
@@ -123,6 +134,7 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
           certificationBadgesService,
           certificationCandidateRepository,
           certificationCenterRepository,
+          sessionRepository,
         });
 
         // then
@@ -132,6 +144,7 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
             sessionId,
             eligibleSubscription: null,
             nonEligibleSubscription: null,
+            sessionVersion: 2,
           }),
         );
       });

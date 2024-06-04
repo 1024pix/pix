@@ -5,9 +5,12 @@ const getCertificationCandidateSubscription = async function ({
   certificationBadgesService,
   certificationCandidateRepository,
   certificationCenterRepository,
+  sessionRepository,
 }) {
   const certificationCandidate =
     await certificationCandidateRepository.getWithComplementaryCertification(certificationCandidateId);
+
+  const sessionVersion = await sessionRepository.getVersion({ id: certificationCandidate.sessionId });
 
   if (!certificationCandidate.complementaryCertification) {
     return new CertificationCandidateSubscription({
@@ -15,6 +18,7 @@ const getCertificationCandidateSubscription = async function ({
       sessionId: certificationCandidate.sessionId,
       eligibleSubscription: null,
       nonEligibleSubscription: null,
+      sessionVersion,
     });
   }
 
@@ -46,6 +50,7 @@ const getCertificationCandidateSubscription = async function ({
     sessionId: certificationCandidate.sessionId,
     eligibleSubscription,
     nonEligibleSubscription,
+    sessionVersion,
   });
 };
 

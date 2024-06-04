@@ -230,6 +230,7 @@ describe('Acceptance | API | Certifications candidates', function () {
         type: 'certification-candidate-subscriptions',
         attributes: {
           'session-id': session.id,
+          'session-version': session.version,
           'eligible-subscription': null,
           'non-eligible-subscription': {
             id: cleaComplementaryCertification.id,

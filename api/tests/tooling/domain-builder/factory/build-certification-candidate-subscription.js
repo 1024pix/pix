@@ -5,12 +5,14 @@ const buildCertificationCandidateSubscription = function ({
   sessionId = 1234,
   eligibleSubscription = null,
   nonEligibleSubscription = null,
+  sessionVersion = 2,
 } = {}) {
   return new CertificationCandidateSubscription({
     id,
     sessionId,
     eligibleSubscription,
     nonEligibleSubscription,
+    sessionVersion,
   });
 };
 

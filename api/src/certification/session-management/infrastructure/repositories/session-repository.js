@@ -15,6 +15,14 @@ const get = async function ({ id }) {
   return new SessionManagement({ ...foundSession });
 };
 
+const getVersion = async function ({ id }) {
+  const result = await knex.select('version').from('sessions').where({ id }).first();
+  if (!result) {
+    throw new NotFoundError("La session n'existe pas ou son accès est restreint");
+  }
+  return result.version;
+};
+
 const isFinalized = async function ({ id }) {
   const session = await knex.select('id').from('sessions').where({ id }).whereNotNull('finalizedAt').first();
   return Boolean(session);
@@ -153,6 +161,7 @@ export {
   finalize,
   flagResultsAsSentToPrescriber,
   get,
+  getVersion,
   getWithCertificationCandidates,
   hasNoStartedCertification,
   hasSomeCleaAcquired,

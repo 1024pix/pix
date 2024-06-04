@@ -4,7 +4,7 @@ const { Serializer } = jsonapiSerializer;
 
 const serialize = function (certificationCandidateSubscription) {
   return new Serializer('certification-candidate-subscription', {
-    attributes: ['sessionId', 'eligibleSubscription', 'nonEligibleSubscription'],
+    attributes: ['sessionId', 'eligibleSubscription', 'nonEligibleSubscription', 'sessionVersion'],
   }).serialize(certificationCandidateSubscription);
 };
 

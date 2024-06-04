@@ -11,6 +11,7 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-subscription-ser
           key: 'FIRST_COMPLEMENTARY',
           label: 'First Complementary Certification',
         }),
+        sessionVersion: 2,
 
         nonEligibleSubscription: domainBuilder.buildComplementaryCertification({
           key: 'SECOND_COMPLEMENTARY',
@@ -34,6 +35,7 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-subscription-ser
               label: 'Second Complementary Certification',
             },
             'session-id': 456,
+            'session-version': 2,
           },
         },
       };
