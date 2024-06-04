@@ -20,3 +20,10 @@ services:
       - initialBuckets=pix-import-dev, pix-import-test
     ports:
       - '${PIX_CACHE_PORT:-9090}:9090'
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: pix-api-smtp-server
+    ports:
+      - 1025:1025
+      - 8025:8025
