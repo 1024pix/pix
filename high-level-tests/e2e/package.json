@@ -5,7 +5,7 @@
   "homepage": "https://github.com/1024pix/pix#readme",
   "author": "GIP Pix",
   "engines": {
-    "node": "^20.13.1"
+    "node": "^20.14.0"
   },
   "license": "AGPL-3.0",
   "repository": {
