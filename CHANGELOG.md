@@ -1,5 +1,32 @@
 # Pix Changelog
 
+## v4.157.0 (04/06/2024)
+
+
+### :rocket: Amélioration
+- [#9135](https://github.com/1024pix/pix/pull/9135) [FEATURE] Ajout d'une section étape dans un module (PIX-12790).
+- [#9097](https://github.com/1024pix/pix/pull/9097) [FEATURE] Récupération de la version de la session après réconciliation (PIX-11842).
+- [#9076](https://github.com/1024pix/pix/pull/9076) [FEATURE] Ajouter l'import générique sur la page des participants d'une Organisation (Pix-12554).
+
+### :building_construction: Tech
+- [#9128](https://github.com/1024pix/pix/pull/9128) [TECH] Mise en place des composants `Element` & `Step` (PIX-12622).
+
+### :bug: Correction
+- [#9147](https://github.com/1024pix/pix/pull/9147) [BUGFIX] Corriger l'injection de dépendance manquante sur pole emploi notifier (PIX-12812).
+- [#9146](https://github.com/1024pix/pix/pull/9146) [BUGFIX] Mettre à jour la colonne `updatedAt` de la table `assessments` lors de la mise à jour d'un assessment (PIX-11293).
+- [#9136](https://github.com/1024pix/pix/pull/9136) [BUGFIX] Gérer le cas où le paramètre tubes est vide à la création de déclencheurs de contenus formatifs (PIX-12738).
+- [#9133](https://github.com/1024pix/pix/pull/9133) [BUGFIX] Afficher la bonne langue dans le Language Switcher (PIX-10753).
+
+### :arrow_up: Montée de version
+- [#9144](https://github.com/1024pix/pix/pull/9144) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.2 (mon-pix).
+- [#9143](https://github.com/1024pix/pix/pull/9143) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.2 (load-testing).
+- [#9142](https://github.com/1024pix/pix/pull/9142) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.2 (junior).
+- [#9141](https://github.com/1024pix/pix/pull/9141) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.2 (dossier racine).
+- [#9140](https://github.com/1024pix/pix/pull/9140) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.2 (certif).
+- [#9139](https://github.com/1024pix/pix/pull/9139) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.2 (audit-logger).
+- [#9137](https://github.com/1024pix/pix/pull/9137) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.2 (admin).
+- [#9082](https://github.com/1024pix/pix/pull/9082) [BUMP] Update dependency @1024pix/pix-ui to ^46.6.2 (orga).
+
 ## v4.156.0 (03/06/2024)
 
 
