@@ -5,6 +5,7 @@ import { alias } from '@ember/object/computed';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
 
 export default class SessionsUpdateController extends Controller {
   @alias('model') session;
@@ -12,11 +13,11 @@ export default class SessionsUpdateController extends Controller {
   @service intl;
   @service notifications;
 
-  @tracked isSessionAddressMissing;
-  @tracked isSessionRoomMissing;
   @tracked isSessionDateMissing;
   @tracked isSessionTimeMissing;
-  @tracked isSessionExaminerMissing;
+  @tracked address;
+  @tracked room;
+  @tracked examiner;
 
   get pageTitle() {
     return `${this.intl.t('pages.sessions.update.title')} | Session ${this.session.id} | Pix Certif`;
@@ -48,19 +49,19 @@ export default class SessionsUpdateController extends Controller {
 
   @action
   cancel() {
+    this.isSessionDateMissing = false;
+    this.isSessionTimeMissing = false;
     this.router.transitionTo('authenticated.sessions.details', this.session.id);
   }
 
   @action
   onChangeAddress(event) {
     this.session.address = event.target.value;
-    this.isSessionAddressMissing = false;
   }
 
   @action
   onChangeRoom(event) {
     this.session.room = event.target.value;
-    this.isSessionRoomMissing = false;
   }
 
   @action
@@ -78,22 +79,34 @@ export default class SessionsUpdateController extends Controller {
   @action
   onChangeExaminer(event) {
     this.session.examiner = event.target.value;
-    this.isSessionExaminerMissing = false;
+  }
+
+  @action
+  onChangeDescription(event) {
+    this.session.description = event.target.value;
+  }
+
+  @action
+  validateInput(input) {
+    this[input] = null;
+    const value = this.session[input];
+
+    const isInvalidInput = isEmpty(value?.trim());
+    if (isInvalidInput) {
+      this[input] = this.intl.t(`pages.sessions.new.errors.SESSION_${input.toUpperCase()}_REQUIRED`);
+    }
   }
 
   checkMissingSessionFields() {
-    this.isSessionAddressMissing = !this.session.address;
-    this.isSessionRoomMissing = !this.session.room;
     this.isSessionDateMissing = !this.session.date;
     this.isSessionTimeMissing = !this.session.time;
-    this.isSessionExaminerMissing = !this.session.examiner;
 
     return (
-      this.isSessionAddressMissing ||
-      this.isSessionRoomMissing ||
       this.isSessionDateMissing ||
       this.isSessionTimeMissing ||
-      this.isSessionExaminerMissing
+      !this.session.address?.trim() ||
+      !this.session.room?.trim() ||
+      !this.session.examiner?.trim()
     );
   }
 }
