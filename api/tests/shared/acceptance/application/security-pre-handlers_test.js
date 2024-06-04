@@ -1,7 +1,12 @@
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
-import { createServer, databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
+import {
+  createServer,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../test-helper.js';
 
 describe('Acceptance | Application | SecurityPreHandlers', function () {
   const jsonApiError403 = {

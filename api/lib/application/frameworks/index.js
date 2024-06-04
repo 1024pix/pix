@@ -71,19 +71,6 @@ const register = async function (server) {
         ],
       },
     },
-    {
-      method: 'GET',
-      path: '/api/frameworks/for-target-profile-submission',
-      config: {
-        handler: frameworkController.getFrameworksForTargetProfileSubmission,
-        pre: [{ method: securityPreHandlers.checkUserIsMemberOfAnOrganization }],
-        tags: ['api', 'framework'],
-        notes: [
-          "Cette route est restreinte aux utilisateurs authentifiés membre d'une organisation",
-          'Elle permet de récupérer tous le contenu pédagogique à disposition pour formuler une demande de création de profil cible',
-        ],
-      },
-    },
   ]);
 };
 

@@ -3,7 +3,7 @@ import * as moduleUnderTest from '../../../../../src/prescription/target-profile
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Application | Target Profiles | Routes', function () {
+describe('Unit | Application | Admin Target Profiles | Routes', function () {
   beforeEach(function () {
     sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport');
     sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin');

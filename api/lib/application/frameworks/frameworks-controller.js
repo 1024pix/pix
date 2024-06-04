@@ -24,21 +24,10 @@ const getPixFrameworkAreasWithoutThematics = async function (
   return dependencies.frameworkAreasSerializer.serialize(areas, { withoutThematics: true });
 };
 
-const getFrameworksForTargetProfileSubmission = async function (
-  request,
-  h,
-  dependencies = { extractLocaleFromRequest, frameworkSerializer },
-) {
-  const locale = dependencies.extractLocaleFromRequest(request);
-  const learningContent = await usecases.getLearningContentForTargetProfileSubmission({ locale });
-  return dependencies.frameworkSerializer.serializeDeepWithoutSkills(learningContent.frameworks);
-};
-
 const frameworksController = {
   getFrameworks,
   getFrameworkAreas,
   getPixFrameworkAreasWithoutThematics,
-  getFrameworksForTargetProfileSubmission,
 };
 
 export { frameworksController };
