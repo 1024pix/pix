@@ -17,7 +17,10 @@ module('Unit | Component | Module | QCU', function (hooks) {
           correction: correctionResponse,
           element: qcuElement,
         });
-        const component = createGlimmerComponent('module/qcu', { qcu: qcuElement, correction: correctionResponse });
+        const component = createGlimmerComponent('module/element/qcu', {
+          qcu: qcuElement,
+          correction: correctionResponse,
+        });
 
         // when
         const feedbackType = component.feedbackType;
@@ -37,7 +40,10 @@ module('Unit | Component | Module | QCU', function (hooks) {
           correction: correctionResponse,
           elementId: qcuElement.id,
         });
-        const component = createGlimmerComponent('module/qcu', { qcu: qcuElement, correction: correctionResponse });
+        const component = createGlimmerComponent('module/element/qcu', {
+          qcu: qcuElement,
+          correction: correctionResponse,
+        });
 
         // when
         const feedbackType = component.feedbackType;

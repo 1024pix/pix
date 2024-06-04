@@ -4,7 +4,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import Plyr from 'plyr';
 
-import player_fr from './plyr-translation/player_fr';
+import player_fr from '../plyr-translation/player_fr';
 
 export default class ModuleVideo extends Component {
   @tracked modalIsOpen = false;

@@ -22,7 +22,7 @@ module('Integration | Component | Module | Video', function (hooks) {
     this.set('video', videoElement);
 
     //  when
-    const screen = await render(hbs`<Module::Video @video={{this.video}}/>`);
+    const screen = await render(hbs`<Module::Element::Video @video={{this.video}}/>`);
 
     // then
     assert.ok(screen);
@@ -44,7 +44,7 @@ module('Integration | Component | Module | Video', function (hooks) {
     this.set('video', videoElement);
 
     //  when
-    await render(hbs`<Module::Video @video={{this.video}}/>`);
+    await render(hbs`<Module::Element::Video @video={{this.video}}/>`);
 
     // then
     assert.dom('video > track').exists();
@@ -64,7 +64,7 @@ module('Integration | Component | Module | Video', function (hooks) {
     this.set('video', videoElement);
 
     //  when
-    await render(hbs`<Module::Video @video={{this.video}}/>`);
+    await render(hbs`<Module::Element::Video @video={{this.video}}/>`);
 
     // then
     assert.dom('video > track').doesNotExist();
@@ -84,7 +84,7 @@ module('Integration | Component | Module | Video', function (hooks) {
     this.set('video', videoElement);
 
     //  when
-    const screen = await render(hbs`<Module::Video @video={{this.video}}/>`);
+    const screen = await render(hbs`<Module::Element::Video @video={{this.video}}/>`);
 
     // then
     await click(screen.getByRole('button', { name: 'Afficher la transcription' }));
@@ -106,7 +106,7 @@ module('Integration | Component | Module | Video', function (hooks) {
     this.set('video', video);
 
     //  when
-    const screen = await render(hbs`<Module::Video @video={{this.video}}/>`);
+    const screen = await render(hbs`<Module::Element::Video @video={{this.video}}/>`);
 
     // then
     const transcriptionButton = await screen.queryByRole('button', { name: 'Afficher la transcription' });

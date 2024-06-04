@@ -24,7 +24,7 @@ module('Integration | Component | Module | QCU', function (hooks) {
     const givenSubmitAnswerStub = sinon.stub();
     this.set('el', qcuElement);
     this.set('submitAnswer', givenSubmitAnswerStub);
-    const screen = await render(hbs`<Module::Qcu @element={{this.el}} @submitAnswer={{this.submitAnswer}} />`);
+    const screen = await render(hbs`<Module::Element::Qcu @element={{this.el}} @submitAnswer={{this.submitAnswer}} />`);
 
     // then
     assert.ok(screen);
@@ -57,7 +57,7 @@ module('Integration | Component | Module | QCU', function (hooks) {
     const userResponse = [answeredProposal.id];
     const givenSubmitAnswerSpy = sinon.spy();
     this.set('submitAnswer', givenSubmitAnswerSpy);
-    const screen = await render(hbs`<Module::Qcu @element={{this.el}} @submitAnswer={{this.submitAnswer}} />`);
+    const screen = await render(hbs`<Module::Element::Qcu @element={{this.el}} @submitAnswer={{this.submitAnswer}} />`);
     const verifyButton = screen.queryByRole('button', { name: 'Vérifier' });
 
     // when
@@ -83,7 +83,7 @@ module('Integration | Component | Module | QCU', function (hooks) {
     const submitAnswerSpy = sinon.spy();
     this.set('el', qcuElement);
     this.set('submitAnswer', submitAnswerSpy);
-    const screen = await render(hbs`<Module::Qcu @element={{this.el}} @submitAnswer={{this.submitAnswer}} />`);
+    const screen = await render(hbs`<Module::Element::Qcu @element={{this.el}} @submitAnswer={{this.submitAnswer}} />`);
 
     // when
     await click(screen.queryByRole('button', { name: 'Vérifier' }));
@@ -107,7 +107,7 @@ module('Integration | Component | Module | QCU', function (hooks) {
     const givenSubmitAnswerStub = function () {};
     this.set('submitAnswer', givenSubmitAnswerStub);
     this.set('el', qcuElement);
-    const screen = await render(hbs`<Module::Qcu @element={{this.el}} @submitAnswer={{this.submitAnswer}} />`);
+    const screen = await render(hbs`<Module::Element::Qcu @element={{this.el}} @submitAnswer={{this.submitAnswer}} />`);
 
     // when
     await click(screen.queryByRole('button', { name: 'Vérifier' }));
@@ -133,7 +133,7 @@ module('Integration | Component | Module | QCU', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Module::Qcu @element={{this.el}} @submitAnswer={{this.submitAnswer}} @correction={{this.correctionResponse}} />`,
+      hbs`<Module::Element::Qcu @element={{this.el}} @submitAnswer={{this.submitAnswer}} @correction={{this.correctionResponse}} />`,
     );
 
     // then
@@ -158,7 +158,7 @@ module('Integration | Component | Module | QCU', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Module::Qcu @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+      hbs`<Module::Element::Qcu @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
     );
 
     // then
@@ -183,7 +183,7 @@ module('Integration | Component | Module | QCU', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Module::Qcu @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+      hbs`<Module::Element::Qcu @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
     );
 
     // then
@@ -204,7 +204,7 @@ module('Integration | Component | Module | QCU', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Module::Qcu @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+      hbs`<Module::Element::Qcu @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
     );
 
     // then

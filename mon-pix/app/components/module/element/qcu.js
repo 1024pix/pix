@@ -1,6 +1,6 @@
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import ModuleElement from 'mon-pix/components/module/module-element';
+import ModuleElement from 'mon-pix/components/module/element/module-element';
 
 export default class ModuleQcu extends ModuleElement {
   @tracked selectedAnswerId = null;
