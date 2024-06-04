@@ -6,19 +6,18 @@ import { disconnect, knex } from '../../db/knex-database-connection.js';
 import { handleAutoJury } from '../../lib/domain/events/handle-auto-jury.js';
 import * as events from '../../lib/domain/events/index.js';
 import { SessionFinalized } from '../../lib/domain/events/SessionFinalized.js';
-import { logErrorWithCorrelationIds } from '../../lib/infrastructure/monitoring-tools.js';
+import { logErrorWithCorrelationIds, logInfoWithCorrelationIds } from '../../lib/infrastructure/monitoring-tools.js';
 import * as certificationAssessmentRepository from '../../src/certification/shared/infrastructure/repositories/certification-assessment-repository.js';
 import * as certificationCourseRepository from '../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
 import * as certificationIssueReportRepository from '../../src/certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
 import * as challengeRepository from '../../src/shared/infrastructure/repositories/challenge-repository.js';
-import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 
 const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   const id = process.argv[2];
-  logger.info(`Launch auto jury for session ${id}`);
+  logInfoWithCorrelationIds(`Launch auto jury for session ${id}`);
 
   const { sessionId, finalizedAt, certificationCenterName, sessionDate, sessionTime, examinerGlobalComment } =
     await knex('sessions')
@@ -47,11 +46,10 @@ async function main() {
     certificationAssessmentRepository,
     certificationCourseRepository,
     challengeRepository,
-    logger,
   });
   await events.eventDispatcher.dispatch(event);
 
-  logger.info('Done !');
+  logInfoWithCorrelationIds('Done !');
 }
 
 (async () => {

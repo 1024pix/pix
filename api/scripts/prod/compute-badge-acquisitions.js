@@ -14,25 +14,24 @@ import yargs from 'yargs/yargs';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
 import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
-import { logErrorWithCorrelationIds } from '../../lib/infrastructure/monitoring-tools.js';
+import { logErrorWithCorrelationIds, logInfoWithCorrelationIds } from '../../lib/infrastructure/monitoring-tools.js';
 import * as badgeAcquisitionRepository from '../../lib/infrastructure/repositories/badge-acquisition-repository.js';
 import * as badgeForCalculationRepository from '../../lib/infrastructure/repositories/badge-for-calculation-repository.js';
 import * as knowledgeElementRepository from '../../lib/infrastructure/repositories/knowledge-element-repository.js';
 import { CampaignParticipation } from '../../src/prescription/campaign-participation/domain/models/CampaignParticipation.js';
-import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 
 const MAX_RANGE_SIZE = 100_000;
 
 async function main() {
   const startTime = performance.now();
-  logger.info(`Script compute badge acquisitions has started`);
+  logInfoWithCorrelationIds(`Script compute badge acquisitions has started`);
   const { idMin, idMax, dryRun } = _getAllArgs();
   const range = normalizeRange({ idMin, idMax });
   const numberOfCreatedBadges = await computeAllBadgeAcquisitions({ ...range, dryRun });
-  logger.info(`${numberOfCreatedBadges} badges created`);
+  logInfoWithCorrelationIds(`${numberOfCreatedBadges} badges created`);
   const endTime = performance.now();
   const duration = Math.round(endTime - startTime);
-  logger.info(`Script has ended: took ${duration} milliseconds`);
+  logInfoWithCorrelationIds(`Script has ended: took ${duration} milliseconds`);
 }
 
 function _getAllArgs() {
@@ -58,7 +57,7 @@ function normalizeRange({ idMin, idMax }) {
   const rangeSize = idMax - idMin;
   if (rangeSize > MAX_RANGE_SIZE) {
     const newIdMax = idMin + MAX_RANGE_SIZE;
-    logger.info(`Max range size exceeded : new idMax is ${newIdMax}`);
+    logInfoWithCorrelationIds(`Max range size exceeded : new idMax is ${newIdMax}`);
     return { idMin, idMax: newIdMax };
   }
   return { idMin, idMax };
@@ -69,7 +68,7 @@ async function computeAllBadgeAcquisitions({ idMin, idMax, dryRun }) {
   const numberOfBadgeCreatedByCampaignParticipation = await bluebird.mapSeries(
     campaignParticipations,
     async (campaignParticipation, index) => {
-      logger.info(`${index}/${campaignParticipations.length}`);
+      logInfoWithCorrelationIds(`${index}/${campaignParticipations.length}`);
       return computeBadgeAcquisition({
         campaignParticipation,
         dryRun,

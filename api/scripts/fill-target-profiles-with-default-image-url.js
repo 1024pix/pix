@@ -4,8 +4,7 @@ import perf_hooks from 'node:perf_hooks';
 import * as url from 'node:url';
 
 import { disconnect, knex } from '../db/knex-database-connection.js';
-import { logErrorWithCorrelationIds } from '../lib/infrastructure/monitoring-tools.js';
-import { logger } from '../src/shared/infrastructure/utils/logger.js';
+import { logErrorWithCorrelationIds, logInfoWithCorrelationIds } from '../lib/infrastructure/monitoring-tools.js';
 
 const { performance } = perf_hooks;
 
@@ -23,11 +22,11 @@ async function fillTargetProfilesWithDefaultImageUrl() {
 
 async function main() {
   const startTime = performance.now();
-  logger.info(`Script ${__filename} has started`);
+  logInfoWithCorrelationIds(`Script ${__filename} has started`);
   await fillTargetProfilesWithDefaultImageUrl();
   const endTime = performance.now();
   const duration = Math.round(endTime - startTime);
-  logger.info(`Script has ended: took ${duration} milliseconds`);
+  logInfoWithCorrelationIds(`Script has ended: took ${duration} milliseconds`);
 }
 
 (async () => {

@@ -1,4 +1,4 @@
-import { logErrorWithCorrelationIds } from '../../monitoring-tools.js';
+import { logErrorWithCorrelationIds, logInfoWithCorrelationIds } from '../../monitoring-tools.js';
 
 class MonitoredJobHandler {
   constructor(handler, logger) {
@@ -19,7 +19,7 @@ class MonitoredJobHandler {
   }
 
   logJobStarting(data) {
-    this.logger.info({
+    logInfoWithCorrelationIds({
       data,
       handlerName: this.handler.name,
       type: 'JOB_LOG',

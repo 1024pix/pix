@@ -3,7 +3,6 @@ import 'dotenv/config';
 import lodash from 'lodash';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
-import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 /**
  * Usage: node scripts/certification/import-certification-cpf-cities.js path/file.csv
  * File is semi-colon separated values, headers being:
@@ -16,7 +15,7 @@ import { checkCsvHeader, parseCsv } from '../helpers/csvHelpers.js';
 const { uniqBy, values } = lodash;
 import * as url from 'node:url';
 
-import { logErrorWithCorrelationIds } from '../../lib/infrastructure/monitoring-tools.js';
+import { logErrorWithCorrelationIds, logInfoWithCorrelationIds } from '../../lib/infrastructure/monitoring-tools.js';
 
 const wordsToReplace = [
   {
@@ -395,31 +394,31 @@ const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main(filePath) {
-  logger.info('Starting script import-certification-cpf-cities');
+  logInfoWithCorrelationIds('Starting script import-certification-cpf-cities');
 
   let trx;
   try {
-    logger.info(`Checking ${filePath} data file...`);
+    logInfoWithCorrelationIds(`Checking ${filePath} data file...`);
     await checkCsvHeader({ filePath, requiredFieldNames: values(headers) });
-    logger.info('✅ ');
+    logInfoWithCorrelationIds('✅ ');
 
-    logger.info('Reading and parsing csv data file... ');
+    logInfoWithCorrelationIds('Reading and parsing csv data file... ');
     const csvData = await parseCsv(filePath, { header: true, delimiter: ';', skipEmptyLines: true });
-    logger.info('✅ ');
+    logInfoWithCorrelationIds('✅ ');
 
-    logger.info('Retrieving postal code, INSEE code and city name... ');
+    logInfoWithCorrelationIds('Retrieving postal code, INSEE code and city name... ');
     const cities = buildCities({ csvData }).concat(getCitiesWithDistricts());
-    logger.info('✅ ');
+    logInfoWithCorrelationIds('✅ ');
 
-    logger.info('Inserting cities in database... ');
+    logInfoWithCorrelationIds('Inserting cities in database... ');
     trx = await knex.transaction();
     await trx('certification-cpf-cities').del();
     const batchInfo = await trx.batchInsert('certification-cpf-cities', cities);
     const insertedLines = _getInsertedLineNumber(batchInfo);
-    logger.info('✅ ');
+    logInfoWithCorrelationIds('✅ ');
     await trx.commit();
-    logger.info(`Added lines: ${insertedLines} (${districtCities.length} exception cases)`);
-    logger.info('Done.');
+    logInfoWithCorrelationIds(`Added lines: ${insertedLines} (${districtCities.length} exception cases)`);
+    logInfoWithCorrelationIds('Done.');
   } catch (error) {
     if (trx) {
       await trx.rollback();

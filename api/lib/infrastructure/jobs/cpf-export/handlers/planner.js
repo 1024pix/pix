@@ -1,10 +1,11 @@
 import dayjs from 'dayjs';
 
 import { config } from '../../../../config.js';
+import { logInfoWithCorrelationIds } from '../../../monitoring-tools.js';
 
 const { plannerJob } = config.cpf;
 
-const planner = async function ({ job, pgBoss, cpfCertificationResultRepository, logger }) {
+const planner = async function ({ job, pgBoss, cpfCertificationResultRepository }) {
   const startDate = dayjs()
     .utc()
     .subtract(plannerJob.minimumReliabilityPeriod + (plannerJob.monthsToProcess - 1), 'months')
@@ -16,7 +17,7 @@ const planner = async function ({ job, pgBoss, cpfCertificationResultRepository,
     await cpfCertificationResultRepository.countExportableCertificationCoursesByTimeRange({ startDate, endDate });
   const cpfCertificationResultChunksCount = Math.ceil(cpfCertificationResultCount / plannerJob.chunkSize);
 
-  logger.info(
+  logInfoWithCorrelationIds(
     `Start from ${startDate.toLocaleDateString()} to ${endDate.toLocaleDateString()}, plan ${cpfCertificationResultChunksCount} job(s) for ${cpfCertificationResultCount} certifications`,
   );
 
@@ -32,7 +33,7 @@ const planner = async function ({ job, pgBoss, cpfCertificationResultRepository,
     });
 
     newJobs.push(batchId);
-    logger.info(`${batchId} created for (${index + 1}/${cpfCertificationResultChunksCount})`);
+    logInfoWithCorrelationIds(`${batchId} created for (${index + 1}/${cpfCertificationResultChunksCount})`);
   }
 
   await pgBoss.insert(newJobs.map((batchId) => ({ name: 'CpfExportBuilderJob', data: { batchId } })));

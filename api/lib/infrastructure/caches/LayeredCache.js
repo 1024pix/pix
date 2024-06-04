@@ -1,4 +1,4 @@
-import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
+import { logInfoWithCorrelationIds } from '../monitoring-tools.js';
 import { Cache } from './Cache.js';
 
 class LayeredCache extends Cache {
@@ -10,7 +10,7 @@ class LayeredCache extends Cache {
 
   get(key, generator) {
     return this._firstLevelCache.get(key, () => {
-      logger.info(
+      logInfoWithCorrelationIds(
         { event: 'cache-event', key },
         'Cannot found the key from the firstLevelCache. Fetching on the second one.',
       );

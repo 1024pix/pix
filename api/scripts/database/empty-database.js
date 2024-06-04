@@ -1,11 +1,10 @@
 import { disconnect, emptyAllTables } from '../../db/knex-database-connection.js';
-import { logErrorWithCorrelationIds } from '../../lib/infrastructure/monitoring-tools.js';
-import { logger } from '../../src/shared/infrastructure/utils/logger.js';
+import { logErrorWithCorrelationIds, logInfoWithCorrelationIds } from '../../lib/infrastructure/monitoring-tools.js';
 
 const main = async () => {
-  logger.info('Emptying all tables...');
+  logInfoWithCorrelationIds('Emptying all tables...');
   await emptyAllTables();
-  logger.info('Done!');
+  logInfoWithCorrelationIds('Done!');
 };
 
 (async () => {

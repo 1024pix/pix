@@ -6,8 +6,7 @@ import _ from 'lodash';
 
 import { disconnect, knex } from '../../../db/knex-database-connection.js';
 import { learningContentCache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
-import { logErrorWithCorrelationIds } from '../../../lib/infrastructure/monitoring-tools.js';
-import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
+import { logErrorWithCorrelationIds, logInfoWithCorrelationIds } from '../../../lib/infrastructure/monitoring-tools.js';
 import { autoMigrateTargetProfile } from './common.js';
 
 async function main() {
@@ -26,14 +25,14 @@ async function main() {
 async function doJob(dryRun) {
   const targetProfileIds = await _findTargetProfileIdsToConvert();
   if (targetProfileIds.length === 0) {
-    logger.info('Aucun profil cible à convertir.');
+    logInfoWithCorrelationIds('Aucun profil cible à convertir.');
     return;
   }
-  logger.info(`${targetProfileIds.length} à convertir...`);
+  logInfoWithCorrelationIds(`${targetProfileIds.length} à convertir...`);
   for (const targetProfileId of targetProfileIds) {
     const trx = await knex.transaction();
     try {
-      logger.info(`Conversion de ${targetProfileId}...`);
+      logInfoWithCorrelationIds(`Conversion de ${targetProfileId}...`);
       await _convertTargetProfile(targetProfileId, trx);
       if (dryRun) await trx.rollback();
       else await trx.commit();

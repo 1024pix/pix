@@ -1,7 +1,7 @@
 import 'dotenv/config';
 
 import { knex } from '../db/knex-database-connection.js';
-import { logger } from '../src/shared/infrastructure/utils/logger.js';
+import { logInfoWithCorrelationIds } from '../lib/infrastructure/monitoring-tools.js';
 
 async function fillInAssessmentMethod() {
   const chunkSize = 50000;
@@ -23,10 +23,10 @@ async function fillInAssessmentMethod() {
 	      END`),
       });
 
-    logger.info(`Updated rows : ${rowsUpdatedCount}`);
+    logInfoWithCorrelationIds(`Updated rows : ${rowsUpdatedCount}`);
   }
 
-  logger.info('End fillInAssessmentMethod');
+  logInfoWithCorrelationIds('End fillInAssessmentMethod');
 }
 
 (async () => {

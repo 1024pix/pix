@@ -13,10 +13,12 @@ import i18n from 'i18n';
 
 import { disconnect } from '../../../../db/knex-database-connection.js';
 import { learningContentCache as cache } from '../../../../lib/infrastructure/caches/learning-content-cache.js';
-import { logErrorWithCorrelationIds } from '../../../../lib/infrastructure/monitoring-tools.js';
+import {
+  logErrorWithCorrelationIds,
+  logInfoWithCorrelationIds,
+} from '../../../../lib/infrastructure/monitoring-tools.js';
 import { options } from '../../../../lib/infrastructure/plugins/i18n.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
-import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import * as certificationCourseRepository from '../../shared/infrastructure/repositories/certification-course-repository.js';
 import * as certificateRepository from '../infrastructure/repositories/certificate-repository.js';
 import * as certificationAttestationPdf from '../infrastructure/utils/pdf/certification-attestation-pdf.js';
@@ -33,10 +35,10 @@ i18n.configure({
  * Usage: LOG_LEVEL=info NODE_TLS_REJECT_UNAUTHORIZED='0' PGSSLMODE=require node scripts/certification/generate-certification-attestations-by-session-ids.js 86781
  */
 async function main() {
-  logger.info("Début du script de génération d'attestations pour une session.");
+  logInfoWithCorrelationIds("Début du script de génération d'attestations pour une session.");
 
   if (process.argv.length <= 2) {
-    logger.info(
+    logInfoWithCorrelationIds(
       'Usage: NODE_TLS_REJECT_UNAUTHORIZED="0" PGSSLMODE=require node scripts/generate-certification-attestations-by-session-id.js 1234,5678,9012',
     );
     return;
@@ -71,7 +73,9 @@ async function main() {
       return;
     }
 
-    logger.info(`${certificationAttestations.length} attestations récupérées pour la session ${sessionId}.`);
+    logInfoWithCorrelationIds(
+      `${certificationAttestations.length} attestations récupérées pour la session ${sessionId}.`,
+    );
 
     const { buffer } = await certificationAttestationPdf.getCertificationAttestationsPdfBuffer({
       certificates: certificationAttestations,
@@ -79,12 +83,12 @@ async function main() {
     });
 
     const filename = `attestation-pix-session-${sessionId}.pdf`;
-    logger.info(`Génération du fichier pdf ${filename}.`);
+    logInfoWithCorrelationIds(`Génération du fichier pdf ${filename}.`);
 
     await fs.promises.writeFile(filename, buffer);
   });
 
-  logger.info('Fin du script.');
+  logInfoWithCorrelationIds('Fin du script.');
 }
 
 const modulePath = url.fileURLToPath(import.meta.url);

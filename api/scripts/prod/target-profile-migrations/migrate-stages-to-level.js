@@ -10,12 +10,11 @@ import { utils as xlsxUtils, writeXLSX } from 'xlsx';
 
 import { disconnect } from '../../../db/knex-database-connection.js';
 import { learningContentCache as cache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
-import { logErrorWithCorrelationIds } from '../../../lib/infrastructure/monitoring-tools.js';
+import { logErrorWithCorrelationIds, logInfoWithCorrelationIds } from '../../../lib/infrastructure/monitoring-tools.js';
 import * as stageCollectionRepository from '../../../src/evaluation/infrastructure/repositories/stage-collection-repository.js';
 import * as organizationRepository from '../../../src/shared/infrastructure/repositories/organization-repository.js';
 import * as skillRepository from '../../../src/shared/infrastructure/repositories/skill-repository.js';
 import * as targetProfileForAdminRepository from '../../../src/shared/infrastructure/repositories/target-profile-for-admin-repository.js';
-import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 
 const modulePath = fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
@@ -207,12 +206,12 @@ async function _writeReport(migrations) {
 async function main() {
   const startTime = performance.now();
   const dryRun = process.env.DRY_RUN !== 'false';
-  logger.info({ dryRun }, `Script ${modulePath} has started`);
+  logInfoWithCorrelationIds({ dryRun }, `Script ${modulePath} has started`);
   const inputFile = resolve(process.cwd(), process.argv[2]);
   await migrateStagesToLevel(inputFile, dryRun);
   const endTime = performance.now();
   const duration = Math.round(endTime - startTime);
-  logger.info(`Script has ended: took ${duration} milliseconds`);
+  logInfoWithCorrelationIds(`Script has ended: took ${duration} milliseconds`);
 }
 
 (async () => {

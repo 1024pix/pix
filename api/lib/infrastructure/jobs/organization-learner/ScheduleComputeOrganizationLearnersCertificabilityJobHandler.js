@@ -2,6 +2,7 @@ import cronParser from 'cron-parser';
 import dayjs from 'dayjs';
 
 import { knex } from '../../../../db/knex-database-connection.js';
+import { logInfoWithCorrelationIds } from '../../monitoring-tools.js';
 import { ComputeCertificabilityJob } from './ComputeCertificabilityJob.js';
 import { ScheduleComputeOrganizationLearnersCertificabilityJob } from './ScheduleComputeOrganizationLearnersCertificabilityJob.js';
 
@@ -37,7 +38,7 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobHandler {
         });
 
         const chunkCount = Math.ceil(count / chunkSize);
-        this.logger.info(
+        this.logInfoWithCorrelationIds(
           `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Total learners to compute : ${count}`,
         );
 
@@ -45,7 +46,9 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobHandler {
 
         for (let index = 0; index < chunkCount; index++) {
           const offset = index * chunkSize;
-          this.logger.info(`ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Offset : ${offset}`);
+          logInfoWithCorrelationIds(
+            `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Offset : ${offset}`,
+          );
 
           const organizationLearnerIds =
             await this.organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
@@ -58,7 +61,7 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobHandler {
               domainTransaction: { knexTransaction: trx },
             });
 
-          this.logger.info(
+          this.logInfoWithCorrelationIds(
             `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Ids count  : ${organizationLearnerIds.length}`,
           );
 
@@ -73,12 +76,12 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobHandler {
           const jobsInserted = await this.pgBossRepository.insert(jobsToInsert, { knexTransaction: trx });
           totalJobsInserted += jobsInserted.rowCount;
 
-          this.logger.info(
+          this.logInfoWithCorrelationIds(
             `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Jobs inserted count  : ${jobsInserted.rowCount}`,
           );
         }
 
-        this.logger.info(
+        this.logInfoWithCorrelationIds(
           `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Total jobs inserted count : ${totalJobsInserted}`,
         );
       },

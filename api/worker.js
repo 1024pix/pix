@@ -19,17 +19,16 @@ import { ComputeCertificabilityJob } from './lib/infrastructure/jobs/organizatio
 import { ComputeCertificabilityJobHandler } from './lib/infrastructure/jobs/organization-learner/ComputeCertificabilityJobHandler.js';
 import { ScheduleComputeOrganizationLearnersCertificabilityJob } from './lib/infrastructure/jobs/organization-learner/ScheduleComputeOrganizationLearnersCertificabilityJob.js';
 import { ScheduleComputeOrganizationLearnersCertificabilityJobHandler } from './lib/infrastructure/jobs/organization-learner/ScheduleComputeOrganizationLearnersCertificabilityJobHandler.js';
-import { logErrorWithCorrelationIds } from './lib/infrastructure/monitoring-tools.js';
+import { logErrorWithCorrelationIds, logInfoWithCorrelationIds } from './lib/infrastructure/monitoring-tools.js';
 import * as organizationLearnerRepository from './lib/infrastructure/repositories/organization-learner-repository.js';
 import * as pgBossRepository from './lib/infrastructure/repositories/pgboss-repository.js';
 import { ImportOrganizationLearnersJob } from './src/prescription/learner-management/infrastructure/jobs/ImportOrganizationLearnersJob.js';
 import { ImportOrganizationLearnersJobHandler } from './src/prescription/learner-management/infrastructure/jobs/ImportOrganizationLearnersJobHandler.js';
 import { ValidateOrganizationImportFileJob } from './src/prescription/learner-management/infrastructure/jobs/ValidateOrganizationImportFileJob.js';
 import { ValidateOrganizationImportFileJobHandler } from './src/prescription/learner-management/infrastructure/jobs/ValidateOrganizationImportFileJobHandler.js';
-import { logger } from './src/shared/infrastructure/utils/logger.js';
 
 async function startPgBoss() {
-  logger.info('Starting pg-boss');
+  logInfoWithCorrelationIds('Starting pg-boss');
   const monitorStateIntervalSeconds = config.pgBoss.monitorStateIntervalSeconds;
   const pgBoss = new PgBoss({
     connectionString: process.env.DATABASE_URL,
@@ -38,16 +37,16 @@ async function startPgBoss() {
     archiveFailedAfterSeconds: config.pgBoss.archiveFailedAfterSeconds,
   });
   pgBoss.on('monitor-states', (state) => {
-    logger.info({ event: 'pg-boss-state', name: 'global' }, { ...state, queues: undefined });
+    logInfoWithCorrelationIds({ event: 'pg-boss-state', name: 'global' }, { ...state, queues: undefined });
     _.each(state.queues, (queueState, queueName) => {
-      logger.info({ event: 'pg-boss-state', name: queueName }, queueState);
+      logInfoWithCorrelationIds({ event: 'pg-boss-state', name: queueName }, queueState);
     });
   });
   pgBoss.on('error', (err) => {
     logErrorWithCorrelationIds({ event: 'pg-boss-error' }, err);
   });
   pgBoss.on('wip', (data) => {
-    logger.info({ event: 'pg-boss-wip' }, data);
+    logInfoWithCorrelationIds({ event: 'pg-boss-wip' }, data);
   });
   await pgBoss.start();
   return pgBoss;

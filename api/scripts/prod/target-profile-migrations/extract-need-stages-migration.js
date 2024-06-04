@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import * as dotenv from 'dotenv';
 import { read as readXlsx, utils as xlsxUtils } from 'xlsx';
 
-import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
+import { logErrorWithCorrelationIds, logInfoWithCorrelationIds } from '../../../lib/infrastructure/monitoring-tools.js';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
@@ -31,7 +31,7 @@ async function doJob(multiFormFiles) {
   const outputFile = resolve(__dirname, 'need-stages-migration.json');
   await writeFile(resolve(__dirname, 'need-stages-migration.json'), JSON.stringify(targetProfileIds, null, 2));
 
-  logger.info(`Wrote ${outputFile}`);
+  logInfoWithCorrelationIds(`Wrote ${outputFile}`);
 }
 
 async function parseMultiformFileStage(file) {
@@ -78,12 +78,12 @@ const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   const startTime = performance.now();
-  logger.info(`Script ${modulePath} has started`);
+  logInfoWithCorrelationIds(`Script ${modulePath} has started`);
   const [, , ...files] = process.argv;
   await doJob(files);
   const endTime = performance.now();
   const duration = Math.round(endTime - startTime);
-  logger.info(`Script has ended: took ${duration} milliseconds`);
+  logInfoWithCorrelationIds(`Script has ended: took ${duration} milliseconds`);
 }
 
 (async () => {
@@ -91,7 +91,7 @@ async function main() {
     try {
       await main();
     } catch (error) {
-      logger.error(error);
+      logErrorWithCorrelationIds(error);
       process.exitCode = 1;
     }
   }

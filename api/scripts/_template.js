@@ -7,8 +7,7 @@ const { performance } = perf_hooks;
 
 import { disconnect, knex } from '../db/knex-database-connection.js';
 import { learningContentCache as cache } from '../lib/infrastructure/caches/learning-content-cache.js';
-import { logErrorWithCorrelationIds } from '../lib/infrastructure/monitoring-tools.js';
-import { logger } from '../src/shared/infrastructure/utils/logger.js';
+import { logErrorWithCorrelationIds, logInfoWithCorrelationIds } from '../lib/infrastructure/monitoring-tools.js';
 
 const doSomething = async ({ throwError }) => {
   if (throwError) {
@@ -24,11 +23,11 @@ const __filename = modulePath;
 
 async function main() {
   const startTime = performance.now();
-  logger.info(`Script ${__filename} has started`);
+  logInfoWithCorrelationIds(`Script ${__filename} has started`);
   await doSomething({ throwError: false });
   const endTime = performance.now();
   const duration = Math.round(endTime - startTime);
-  logger.info(`Script has ended: took ${duration} milliseconds`);
+  logInfoWithCorrelationIds(`Script has ended: took ${duration} milliseconds`);
 }
 
 (async () => {

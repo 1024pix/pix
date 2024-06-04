@@ -1,8 +1,10 @@
 import bluebird from 'bluebird';
 
-import { logErrorWithCorrelationIds } from '../../../../../lib/infrastructure/monitoring-tools.js';
+import {
+  logErrorWithCorrelationIds,
+  logInfoWithCorrelationIds,
+} from '../../../../../lib/infrastructure/monitoring-tools.js';
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../shared/infrastructure/constants.js';
-import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 const EVENT_NAME = 'attach-target-profile-certif';
 
 export { sendTargetProfileNotifications };
@@ -39,7 +41,7 @@ async function sendTargetProfileNotifications({
       { concurrency: CONCURRENCY_HEAVY_OPERATIONS },
     );
 
-    logger.info({
+    logInfoWithCorrelationIds({
       event: EVENT_NAME,
       message: `${sucessCounter} email(s) sent to notify organisation users of ${complementaryCertificationName}'s target profile change`,
     });

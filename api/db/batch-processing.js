@@ -1,7 +1,6 @@
-import { logErrorWithCorrelationIds } from '../lib/infrastructure/monitoring-tools.js';
+import { logErrorWithCorrelationIds, logInfoWithCorrelationIds } from '../lib/infrastructure/monitoring-tools.js';
 
 const BATCH_SIZE = 10;
-import { logger } from '../src/shared/infrastructure/utils/logger.js';
 
 function batch(knex, elementsToUpdate, treatment) {
   function _innerTreatment(knex, remainingElementsToUpdate, countOfBatches, batchesDone) {
@@ -20,7 +19,7 @@ function batch(knex, elementsToUpdate, treatment) {
 
     return Promise.all(promises)
       .then((results) => {
-        logger.info(
+        logInfoWithCorrelationIds(
           `---- Lot ${batchesDone} : ${results.length} processed - (total: ${countOfBatches} lots, ${
             (batchesDone / countOfBatches) * 100
           }%)`,

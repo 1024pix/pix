@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone.js';
 import utc from 'dayjs/plugin/utc.js';
 
-import { logErrorWithCorrelationIds } from '../../../monitoring-tools.js';
+import { logErrorWithCorrelationIds, logInfoWithCorrelationIds } from '../../../monitoring-tools.js';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -28,7 +28,9 @@ const createAndUpload = async function ({
   }
 
   const certificationCourseIds = cpfCertificationResults.map(({ id }) => id);
-  logger.info(`Create CPF results for ${certificationCourseIds.length} certifications (batchId ${batchId})`);
+  logInfoWithCorrelationIds(
+    `Create CPF results for ${certificationCourseIds.length} certifications (batchId ${batchId})`,
+  );
 
   const gzipStream = createGzip();
   cpfCertificationXmlExportService.buildXmlExport({
@@ -50,7 +52,7 @@ const createAndUpload = async function ({
     filename,
   });
 
-  logger.info(`${filename} generated in ${_getTimeInSec(start)}s.`);
+  logInfoWithCorrelationIds(`${filename} generated in ${_getTimeInSec(start)}s.`);
 };
 
 export { createAndUpload };

@@ -1,4 +1,4 @@
-import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
+import { logInfoWithCorrelationIds } from '../monitoring-tools.js';
 import { RedisClient } from '../utils/RedisClient.js';
 import { Cache } from './Cache.js';
 
@@ -21,10 +21,10 @@ class DistributedCache extends Cache {
   clientSubscriberCallback(_channel, rawMessage) {
     const message = JSON.parse(rawMessage);
     if (message.type === 'flushAll') {
-      logger.info({ event: 'cache-event' }, 'Flushing the local cache');
+      logInfoWithCorrelationIds({ event: 'cache-event' }, 'Flushing the local cache');
       return this._underlyingCache.flushAll();
     } else if (message.type === 'patch') {
-      logger.info({ event: 'cache-event' }, 'Patching the local cache');
+      logInfoWithCorrelationIds({ event: 'cache-event' }, 'Patching the local cache');
       this._underlyingCache.patch(message.cacheKey, message.patch);
     }
   }

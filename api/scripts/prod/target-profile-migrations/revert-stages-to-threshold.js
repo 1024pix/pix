@@ -10,10 +10,9 @@ import { readFile, set_fs, utils as xlsxUtils } from 'xlsx';
 
 import { disconnect } from '../../../db/knex-database-connection.js';
 import { learningContentCache as cache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
-import { logErrorWithCorrelationIds } from '../../../lib/infrastructure/monitoring-tools.js';
+import { logErrorWithCorrelationIds, logInfoWithCorrelationIds } from '../../../lib/infrastructure/monitoring-tools.js';
 import * as stageCollectionRepository from '../../../src/evaluation/infrastructure/repositories/stage-collection-repository.js';
 import * as targetProfileForAdminRepository from '../../../src/shared/infrastructure/repositories/target-profile-for-admin-repository.js';
-import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 
 set_fs(fs);
 
@@ -41,7 +40,7 @@ async function _computeReverts(inputFile, sample) {
 
   if (sample) {
     targetProfileIds = fp.sampleSize(10, targetProfileIds);
-    logger.info({ targetProfileIds }, `Using sample target profiles`);
+    logInfoWithCorrelationIds({ targetProfileIds }, `Using sample target profiles`);
   }
 
   const targetProfiles = await Promise.all(targetProfileIds.map((id) => targetProfileForAdminRepository.get({ id })));
@@ -53,7 +52,7 @@ async function _computeReverts(inputFile, sample) {
       );
 
       if (stagesWLevel.length === 0) {
-        logger.info(`Skipping target profile ${targetProfile.id} which has no stages with level`);
+        logInfoWithCorrelationIds(`Skipping target profile ${targetProfile.id} which has no stages with level`);
         return null;
       }
 
@@ -63,7 +62,7 @@ async function _computeReverts(inputFile, sample) {
       );
 
       if (stageReverts.length === 0) {
-        logger.info(`Skipping target profile ${targetProfile.id} which had no migrations`);
+        logInfoWithCorrelationIds(`Skipping target profile ${targetProfile.id} which had no migrations`);
         return null;
       }
 
@@ -119,12 +118,12 @@ async function main() {
   const dryRun = process.env.DRY_RUN !== 'false';
   const sample = process.env.SAMPLE === 'true';
   if (!dryRun && sample) throw new Error('SAMPLE=true is not allowed when DRY_RUN=false');
-  logger.info({ dryRun, sample }, `Script ${modulePath} has started`);
+  logInfoWithCorrelationIds({ dryRun, sample }, `Script ${modulePath} has started`);
   const inputFile = resolve(process.cwd(), process.argv[2]);
   await revertStagesToThreshold(inputFile, dryRun, sample);
   const endTime = performance.now();
   const duration = Math.round(endTime - startTime);
-  logger.info(`Script has ended: took ${duration} milliseconds`);
+  logInfoWithCorrelationIds(`Script has ended: took ${duration} milliseconds`);
 }
 
 (async () => {

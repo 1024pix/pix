@@ -17,7 +17,7 @@ import XLSX from 'xlsx';
 import { disconnect, knex } from '../../../db/knex-database-connection.js';
 import { normalizeAndRemoveAccents } from '../../../lib/domain/services/validation-treatments.js';
 import { learningContentCache as cache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
-import { logErrorWithCorrelationIds } from '../../../lib/infrastructure/monitoring-tools.js';
+import { logErrorWithCorrelationIds, logInfoWithCorrelationIds } from '../../../lib/infrastructure/monitoring-tools.js';
 import * as tubeRepository from '../../../lib/infrastructure/repositories/tube-repository.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import { autoMigrateTargetProfile } from './common.js';
@@ -164,7 +164,7 @@ async function migrateTargetProfiles(targetProfiles, multiFormData, dryRun) {
           if (targetProfile.obsolete) {
             _checkIfTPHasUnexpectedMultiformInstructions(targetProfile.id, multiFormData);
             await _outdate(targetProfile.id, trx);
-            logger.info(
+            logInfoWithCorrelationIds(
               { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
               `Profil cible marqué comme obsolète`,
             );
@@ -172,7 +172,7 @@ async function migrateTargetProfiles(targetProfiles, multiFormData, dryRun) {
           }
           if (targetProfile.auto) {
             _checkIfTPHasUnexpectedMultiformInstructions(targetProfile.id, multiFormData);
-            logger.info(
+            logInfoWithCorrelationIds(
               { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
               `Profil cible migré automatiquement`,
             );
@@ -181,7 +181,7 @@ async function migrateTargetProfiles(targetProfiles, multiFormData, dryRun) {
           if (targetProfile.uncap) {
             _checkIfTPHasUnexpectedMultiformInstructions(targetProfile.id, multiFormData);
             await _uncap(targetProfile.id, trx);
-            logger.info(
+            logInfoWithCorrelationIds(
               { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
               `Profil cible décappé`,
             );
@@ -190,7 +190,7 @@ async function migrateTargetProfiles(targetProfiles, multiFormData, dryRun) {
           if (typeof targetProfile.uniformCap === 'number') {
             _checkIfTPHasUnexpectedMultiformInstructions(targetProfile.id, multiFormData);
             await _uniformCap(targetProfile.id, targetProfile.uniformCap, trx);
-            logger.info(
+            logInfoWithCorrelationIds(
               { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
               'Profil cible cappé uniformément à %s',
               targetProfile.uniformCap,
@@ -202,7 +202,7 @@ async function migrateTargetProfiles(targetProfiles, multiFormData, dryRun) {
             if (!targetProfileMultiFormData || targetProfileMultiFormData.length === 0)
               throw new Error('Profil cible cappé multiforme sans instructions');
             await _multiformCap(targetProfile, targetProfileMultiFormData, trx);
-            logger.info(
+            logInfoWithCorrelationIds(
               { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
               `Profil cible cappé multiformément`,
             );
@@ -303,13 +303,13 @@ const __filename = modulePath;
 
 async function main() {
   const startTime = performance.now();
-  logger.info(`Script ${__filename} has started`);
+  logInfoWithCorrelationIds(`Script ${__filename} has started`);
   const [, , mainFile, ...multiFormFiles] = process.argv;
   const dryRun = process.env.DRY_RUN === 'true';
   await doJob(mainFile, multiFormFiles, dryRun);
   const endTime = performance.now();
   const duration = Math.round(endTime - startTime);
-  logger.info(`Script has ended: took ${duration} milliseconds`);
+  logInfoWithCorrelationIds(`Script has ended: took ${duration} milliseconds`);
 }
 
 (async () => {

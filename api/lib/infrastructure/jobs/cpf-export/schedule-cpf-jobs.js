@@ -1,6 +1,6 @@
 import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 import { config } from '../../../config.js';
-import { logErrorWithCorrelationIds } from '../../monitoring-tools.js';
+import { logErrorWithCorrelationIds, logInfoWithCorrelationIds } from '../../monitoring-tools.js';
 import { cpfExport } from './index.js';
 const { plannerJob, sendEmailJob } = config.cpf;
 
@@ -38,7 +38,7 @@ function buildLogger(job) {
   const handlerName = job.name;
   const jobId = job.id;
   return {
-    info: (message, ...args) => logger.info({ ...args, handlerName, jobId, type: 'JOB_LOG', message }),
+    info: (message, ...args) => logInfoWithCorrelationIds({ ...args, handlerName, jobId, type: 'JOB_LOG', message }),
     error: (message, ...args) =>
       logErrorWithCorrelationIds({ ...args, handlerName, jobId, type: 'JOB_ERROR', message }),
     trace: (message, ...args) => logger.trace({ ...args, handlerName, jobId, type: 'JOB_TRACE', message }),

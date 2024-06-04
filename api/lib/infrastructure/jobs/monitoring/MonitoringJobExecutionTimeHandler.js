@@ -1,5 +1,7 @@
 import dayjs from 'dayjs';
 
+import { logInfoWithCorrelationIds } from '../../monitoring-tools.js';
+
 class MonitoringJobExecutionTimeHandler {
   constructor({ logger }) {
     this.logger = logger;
@@ -12,7 +14,7 @@ class MonitoringJobExecutionTimeHandler {
     const totalTime = completedOn.diff(createdOn, 'second', true);
     const executionTime = completedOn.diff(startedOn, 'second', true);
 
-    this.logger.info({
+    logInfoWithCorrelationIds({
       event: 'pg-boss-execution-time',
       type: 'JOB_LOG_EXEC_TIME',
       handlerName: job.data.request.name,

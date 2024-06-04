@@ -2,6 +2,7 @@ import { knex } from '../../../../../db/knex-database-connection.js';
 import { AssessmentEndedError } from '../../../../../lib/domain/errors.js';
 import { CertificationChallenge } from '../../../../../lib/domain/models/CertificationChallenge.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import { logInfoWithCorrelationIds } from '../../../../../lib/infrastructure/monitoring-tools.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 
 const logContext = {
@@ -38,7 +39,7 @@ const getNextNonAnsweredChallengeByCourseId = async function (assessmentId, cour
     .first();
 
   if (!certificationChallenge) {
-    logger.info(logContext, `no found challenges for certificationCourseId : ${courseId}`);
+    logInfoWithCorrelationIds(logContext, `no found challenges for certificationCourseId : ${courseId}`);
     throw new AssessmentEndedError();
   }
 

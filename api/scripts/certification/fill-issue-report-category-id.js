@@ -3,7 +3,7 @@ import * as url from 'node:url';
 import bluebird from 'bluebird';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
-import { logger } from '../../src/shared/infrastructure/utils/logger.js';
+import { logInfoWithCorrelationIds } from '../../lib/infrastructure/monitoring-tools.js';
 
 const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
@@ -14,11 +14,11 @@ async function _getIdCategorySubcategoryFromCertificationIssueReport() {
 }
 
 async function main() {
-  logger.info(`Script ${__filename} est lancé !`);
+  logInfoWithCorrelationIds(`Script ${__filename} est lancé !`);
 
   const certificationIssueReports = await _getIdCategorySubcategoryFromCertificationIssueReport();
 
-  logger.info(`Nb de certification issue reports à modifier : ${certificationIssueReports.length}`);
+  logInfoWithCorrelationIds(`Nb de certification issue reports à modifier : ${certificationIssueReports.length}`);
 
   const categories = await knex('issue-report-categories').select('name', 'id');
 
@@ -27,11 +27,11 @@ async function main() {
   const { count: reportsNotUpdated } = await knex('certification-issue-reports').count('*').whereNull('categoryId');
 
   if (reportsNotUpdated > 0) {
-    logger.info(
+    logInfoWithCorrelationIds(
       `Nb de certification issue reports non mis à jour : ${reportsNotUpdated.length} / ${certificationIssueReports.length}`,
     );
   } else {
-    logger.info(`${certificationIssueReports.length} certification issue reports mis à jour`);
+    logInfoWithCorrelationIds(`${certificationIssueReports.length} certification issue reports mis à jour`);
   }
 }
 
@@ -62,6 +62,6 @@ async function _updateIssueReportsWithCategoryId(certificationIssueReports, cate
       updatedAt: new Date(),
     });
     count++;
-    if (count % 1000 === 0) logger.info('Nombre de certification issue report mis à jour : ', count);
+    if (count % 1000 === 0) logInfoWithCorrelationIds('Nombre de certification issue report mis à jour : ', count);
   });
 }

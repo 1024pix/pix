@@ -2,6 +2,7 @@ import Redis from 'ioredis';
 import Redlock from 'redlock';
 
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
+import { logInfoWithCorrelationIds } from '../monitoring-tools.js';
 
 class RedisClient {
   constructor(redisUrl, { name, prefix } = {}) {
@@ -11,8 +12,12 @@ class RedisClient {
 
     this._client = new Redis(redisUrl);
 
-    this._client.on('connect', () => logger.info({ redisClient: this._clientName }, 'Connected to server'));
-    this._client.on('end', () => logger.info({ redisClient: this._clientName }, 'Disconnected from server'));
+    this._client.on('connect', () =>
+      logInfoWithCorrelationIds({ redisClient: this._clientName }, 'Connected to server'),
+    );
+    this._client.on('end', () =>
+      logInfoWithCorrelationIds({ redisClient: this._clientName }, 'Disconnected from server'),
+    );
     this._client.on('error', (err) => logger.warn({ redisClient: this._clientName, err }, 'Error encountered'));
 
     this._clientWithLock = new Redlock(
@@ -45,13 +50,13 @@ class RedisClient {
 
   subscribe(channel) {
     this._client.subscribe(channel, () =>
-      logger.info({ redisClient: this._clientName }, `Subscribed to channel '${channel}'`),
+      logInfoWithCorrelationIds({ redisClient: this._clientName }, `Subscribed to channel '${channel}'`),
     );
   }
 
   publish(channel, message) {
     this._client.publish(channel, message, () =>
-      logger.info({ redisClient: this._clientName }, `Published on channel '${channel}'`),
+      logInfoWithCorrelationIds({ redisClient: this._clientName }, `Published on channel '${channel}'`),
     );
   }
 

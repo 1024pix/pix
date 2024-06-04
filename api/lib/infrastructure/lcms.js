@@ -1,6 +1,6 @@
-import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 import { config } from '../config.js';
 import { httpAgent } from './http/http-agent.js';
+import { logInfoWithCorrelationIds } from './monitoring-tools.js';
 
 const { lcms: lcmsConfig } = config;
 const getLatestRelease = async function () {
@@ -26,7 +26,7 @@ const getLatestRelease = async function () {
   const createdAt = response.data.createdAt;
   const message = `Release ${version} created on ${createdAt} successfully received from LCMS`;
 
-  logger.info(message);
+  logInfoWithCorrelationIds(message);
   return response.data.content;
 };
 

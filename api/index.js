@@ -6,11 +6,10 @@ validateEnvironmentVariables();
 
 import { disconnect } from './db/knex-database-connection.js';
 import { learningContentCache } from './lib/infrastructure/caches/learning-content-cache.js';
-import { logErrorWithCorrelationIds } from './lib/infrastructure/monitoring-tools.js';
+import { logErrorWithCorrelationIds, logInfoWithCorrelationIds } from './lib/infrastructure/monitoring-tools.js';
 import { temporaryStorage } from './lib/infrastructure/temporary-storage/index.js';
 import { redisMonitor } from './lib/infrastructure/utils/redis-monitor.js';
 import { createServer } from './server.js';
-import { logger } from './src/shared/infrastructure/utils/logger.js';
 
 let server;
 
@@ -20,22 +19,22 @@ const start = async function () {
 };
 
 async function _exitOnSignal(signal) {
-  logger.info(`Received signal: ${signal}.`);
-  logger.info('Stopping HAPI server...');
+  logInfoWithCorrelationIds(`Received signal: ${signal}.`);
+  logInfoWithCorrelationIds('Stopping HAPI server...');
   await server.stop({ timeout: 30000 });
   if (server.oppsy) {
-    logger.info('Stopping HAPI Oppsy server...');
+    logInfoWithCorrelationIds('Stopping HAPI Oppsy server...');
     await server.oppsy.stop();
   }
-  logger.info('Closing connexions to database...');
+  logInfoWithCorrelationIds('Closing connexions to database...');
   await disconnect();
-  logger.info('Closing connexions to cache...');
+  logInfoWithCorrelationIds('Closing connexions to cache...');
   await learningContentCache.quit();
-  logger.info('Closing connexions to temporary storage...');
+  logInfoWithCorrelationIds('Closing connexions to temporary storage...');
   await temporaryStorage.quit();
-  logger.info('Closing connexions to redis monitor...');
+  logInfoWithCorrelationIds('Closing connexions to redis monitor...');
   await redisMonitor.quit();
-  logger.info('Exiting process...');
+  logInfoWithCorrelationIds('Exiting process...');
 }
 
 process.on('SIGTERM', () => {

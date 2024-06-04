@@ -6,7 +6,7 @@ import Redlock from 'redlock';
 
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import { config } from '../../config.js';
-import { logErrorWithCorrelationIds } from '../monitoring-tools.js';
+import { logErrorWithCorrelationIds, logInfoWithCorrelationIds } from '../monitoring-tools.js';
 import { RedisClient } from '../utils/RedisClient.js';
 import { applyPatch } from './apply-patch.js';
 import { Cache } from './Cache.js';
@@ -40,7 +40,7 @@ class RedisCache extends Cache {
   async _manageValueNotFoundInCache(key, generator) {
     const keyToLock = REDIS_LOCK_PREFIX + key;
     const retrieveAndSetValue = async () => {
-      logger.info({ key }, 'Executing generator for Redis key');
+      logInfoWithCorrelationIds({ key }, 'Executing generator for Redis key');
       const value = await generator();
       return this.set(key, value);
     };
@@ -65,7 +65,7 @@ class RedisCache extends Cache {
   async set(key, object) {
     const objectAsString = JSON.stringify(object);
 
-    logger.info({ key, length: objectAsString.length }, 'Setting Redis key');
+    logInfoWithCorrelationIds({ key, length: objectAsString.length }, 'Setting Redis key');
 
     await this._client.set(key, objectAsString);
     await this._client.del(`${key}:${PATCHES_KEY}`);
@@ -80,7 +80,7 @@ class RedisCache extends Cache {
   }
 
   flushAll() {
-    logger.info('Flushing Redis database');
+    logInfoWithCorrelationIds('Flushing Redis database');
 
     return this._client.flushall();
   }

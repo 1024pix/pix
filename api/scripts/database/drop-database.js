@@ -1,8 +1,7 @@
 import 'dotenv/config';
 
 import { PGSQL_NON_EXISTENT_DATABASE_ERROR } from '../../db/pgsql-errors.js';
-import { logErrorWithCorrelationIds } from '../../lib/infrastructure/monitoring-tools.js';
-import { logger } from '../../src/shared/infrastructure/utils/logger.js';
+import { logErrorWithCorrelationIds, logInfoWithCorrelationIds } from '../../lib/infrastructure/monitoring-tools.js';
 import { PgClient } from '../PgClient.js';
 
 function isPlatformScalingo() {
@@ -30,11 +29,11 @@ PgClient.getClient(url.href).then(async (client) => {
   try {
     const WITH_FORCE = _withForceOption();
     await client.query_and_log(`DROP DATABASE ${DB_TO_DELETE_NAME}${WITH_FORCE};`);
-    logger.info('Database dropped');
+    logInfoWithCorrelationIds('Database dropped');
     await client.end();
   } catch (error) {
     if (error.code === PGSQL_NON_EXISTENT_DATABASE_ERROR) {
-      logger.info(`Database ${DB_TO_DELETE_NAME} does not exist`);
+      logInfoWithCorrelationIds(`Database ${DB_TO_DELETE_NAME} does not exist`);
     } else {
       logErrorWithCorrelationIds(`Database drop failed: ${error.detail}`);
     }

@@ -4,7 +4,7 @@ import { stdSerializers } from 'pino';
 
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import { config } from '../../config.js';
-import { logErrorWithCorrelationIds, monitoringTools } from '../monitoring-tools.js';
+import { logErrorWithCorrelationIds, logInfoWithCorrelationIds, monitoringTools } from '../monitoring-tools.js';
 
 const serializersSym = Symbol.for('pino.serializers');
 
@@ -43,15 +43,15 @@ const plugin = {
     logger[serializersSym] = Object.assign({}, serializers, logger[serializersSym]);
 
     server.ext('onPostStart', async function () {
-      logger.info(server.info, 'server started');
+      logInfoWithCorrelationIds(server.info, 'server started');
     });
 
     server.ext('onPostStop', async function () {
-      logger.info(server.info, 'server stopped');
+      logInfoWithCorrelationIds(server.info, 'server stopped');
     });
 
     server.events.on('log', function (event) {
-      logger.info({ tags: event.tags, data: event.data });
+      logInfoWithCorrelationIds({ tags: event.tags, data: event.data });
     });
 
     server.events.on('request', function (request, event) {
@@ -71,7 +71,7 @@ const plugin = {
 
     server.events.on('response', (request) => {
       const info = request.info;
-      logger.info(
+      logInfoWithCorrelationIds(
         {
           queryParams: request.query,
           req: request,

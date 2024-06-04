@@ -7,6 +7,7 @@ import fs from 'node:fs';
 import Joi from 'joi';
 
 import { disconnect } from '../../../db/knex-database-connection.js';
+import { logInfoWithCorrelationIds } from '../../../lib/infrastructure/monitoring-tools.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import { ScalingoClient } from './helpers/scalingo/scalingo-client.js';
 
@@ -45,7 +46,7 @@ async function getScalingoBackup(configuration) {
   const client = await ScalingoClient.getInstance(configuration);
 
   const addon = await client.getAddon(postgresDatabaseAddonProviderId);
-  logger.info('Add-on ID: ' + addon.id);
+  logInfoWithCorrelationIds('Add-on ID: ' + addon.id);
 
   const dbClient = await client.getDatabaseClient(addon.id);
 
@@ -62,11 +63,11 @@ async function getScalingoBackup(configuration) {
   const lastBackupId = lastBackup.id;
   const expectedSize = lastBackup.size;
 
-  logger.info(`About to download backup id ${lastBackupId} created at ${lastBackupDate}`);
+  logInfoWithCorrelationIds(`About to download backup id ${lastBackupId} created at ${lastBackupDate}`);
 
-  logger.info('Backup download - Doing..');
+  logInfoWithCorrelationIds('Backup download - Doing..');
   await dbClient.downloadBackup(lastBackupId, process.env.DUMP_FILE_PATH);
-  logger.info('Backup download - Done');
+  logInfoWithCorrelationIds('Backup download - Done');
 
   checkDumpSize({ dumpFilePath, expectedSize });
 }

@@ -5,13 +5,12 @@ import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
 import { disconnect, knex } from '../../../db/knex-database-connection.js';
-import { logErrorWithCorrelationIds } from '../../../lib/infrastructure/monitoring-tools.js';
+import { logErrorWithCorrelationIds, logInfoWithCorrelationIds } from '../../../lib/infrastructure/monitoring-tools.js';
 import * as schoolRepository from '../../../src/school/infrastructure/repositories/school-repository.js';
 import { Organization } from '../../organizational-entities/domain/models/Organization.js';
 import { ORGANIZATION_FEATURE } from '../../shared/domain/constants.js';
 import * as codeGenerator from '../../shared/domain/services/code-generator.js';
 import * as organizationRepository from '../../shared/infrastructure/repositories/organization-repository.js';
-import { logger } from '../../shared/infrastructure/utils/logger.js';
 
 const STUDENT_NAMES = [
   { firstName: 'Ichigo', lastName: 'Hara-Masuda' },
@@ -52,22 +51,22 @@ const STUDENT_NAMES = [
 ];
 
 async function buildSchoolOrganization({ name }) {
-  logger.info(`Create organization with name: ${name}`);
+  logInfoWithCorrelationIds(`Create organization with name: ${name}`);
   const savedOrganization = await organizationRepository.create(
     new Organization({ name, type: Organization.types.SCO1D, isManagingStudents: true }),
   );
 
-  logger.info(`Add link with Missions feature`);
+  logInfoWithCorrelationIds(`Add link with Missions feature`);
   const { id: featureId } = await knex('features')
     .select('id')
     .where({ key: ORGANIZATION_FEATURE.MISSIONS_MANAGEMENT.key })
     .first();
   await knex('organization-features').insert({ organizationId: savedOrganization.id, featureId }).onConflict().ignore();
 
-  logger.info(`Create school related to organization with id: ${savedOrganization.id}`);
+  logInfoWithCorrelationIds(`Create school related to organization with id: ${savedOrganization.id}`);
   const code = await codeGenerator.generate(schoolRepository);
   await schoolRepository.save({ organizationId: savedOrganization.id, code });
-  logger.info(`School created with code: ${code}`);
+  logInfoWithCorrelationIds(`School created with code: ${code}`);
   return savedOrganization;
 }
 
@@ -75,7 +74,7 @@ async function buildLearners({ organizationId, quantity = STUDENT_NAMES.length }
   if (quantity > STUDENT_NAMES.length) {
     quantity = STUDENT_NAMES.length;
   }
-  logger.info('Create learners for organization.');
+  logInfoWithCorrelationIds('Create learners for organization.');
   await bluebird.map(STUDENT_NAMES.slice(0, quantity), async (studentName) => {
     await knex('organization-learners').insert({
       organizationId,
@@ -84,7 +83,7 @@ async function buildLearners({ organizationId, quantity = STUDENT_NAMES.length }
       attributes: { 'Libellé classe': 'CM2' },
     });
   });
-  logger.info(`${quantity} learners created.`);
+  logInfoWithCorrelationIds(`${quantity} learners created.`);
 }
 
 async function showSchools() {
@@ -94,8 +93,8 @@ async function showSchools() {
     .where({ type: Organization.types.SCO1D })
     .returning('*');
 
-  logger.info('code | organizationId | name');
-  schools.forEach((school) => logger.info(`${school.code} | ${school.organizationId} | ${school.name}`));
+  logInfoWithCorrelationIds('code | organizationId | name');
+  schools.forEach((school) => logInfoWithCorrelationIds(`${school.code} | ${school.organizationId} | ${school.name}`));
 }
 
 function _validateArgs({ generate, name, quantity }) {
