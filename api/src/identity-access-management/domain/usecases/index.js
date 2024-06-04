@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { mailService } from '../../../../lib/domain/services/mail-service.js';
 import { oidcAuthenticationServiceRegistry } from '../../../../lib/domain/usecases/index.js';
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
+import * as campaignToJoinRepository from '../../../prescription/campaign/infrastructure/repositories/campaign-to-join-repository.js';
 import { config } from '../../../shared/config.js';
 import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
@@ -29,6 +30,7 @@ const repositories = {
   adminMemberRepository,
   authenticationMethodRepository,
   campaignRepository,
+  campaignToJoinRepository,
   oidcProviderRepository,
   userLoginRepository,
   userRepository,
