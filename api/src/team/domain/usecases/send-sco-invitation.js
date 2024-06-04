@@ -25,9 +25,9 @@ const sendScoInvitation = async function ({
   firstName,
   lastName,
   locale,
-  organizationRepository,
   organizationInvitationRepository,
   organizationInvitationService,
+  organizationRepository,
 }) {
   const organizationWithGivenUAI = await _getOrganizationWithGivenUAI({ uai, organizationRepository });
   _ensureOrganizationHasAnEmail({ email: organizationWithGivenUAI.email, uai });

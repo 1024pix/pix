@@ -3,8 +3,8 @@ import {
   CancelledInvitationError,
   NotFoundError,
 } from '../../../../lib/domain/errors.js';
-import { OrganizationInvitation } from '../../../../src/team/domain/models/OrganizationInvitation.js';
 import { getOrganizationInvitation } from '../../../../lib/domain/usecases/get-organization-invitation.js';
+import { OrganizationInvitation } from '../../../../src/team/domain/models/OrganizationInvitation.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | get-organization-invitation', function () {

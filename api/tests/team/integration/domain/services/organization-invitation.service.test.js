@@ -3,11 +3,11 @@ import _ from 'lodash';
 import { SendingEmailError } from '../../../../../lib/domain/errors.js';
 import { EmailingAttempt } from '../../../../../lib/domain/models/EmailingAttempt.js';
 import { Membership } from '../../../../../lib/domain/models/Membership.js';
-import { OrganizationInvitation } from '../../../../../src/team/domain/models/OrganizationInvitation.js';
 import { mailService } from '../../../../../lib/domain/services/mail-service.js';
-import { organizationInvitationRepository } from '../../../../../src/team/infrastructure/repositories/organization-invitation.repository.js';
 import * as organizationRepository from '../../../../../src/shared/infrastructure/repositories/organization-repository.js';
+import { OrganizationInvitation } from '../../../../../src/team/domain/models/OrganizationInvitation.js';
 import { organizationInvitationService } from '../../../../../src/team/domain/services/organization-invitation.service.js';
+import { organizationInvitationRepository } from '../../../../../src/team/infrastructure/repositories/organization-invitation.repository.js';
 import { catchErr, databaseBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Team | Domain | Service | organization-invitation', function () {
