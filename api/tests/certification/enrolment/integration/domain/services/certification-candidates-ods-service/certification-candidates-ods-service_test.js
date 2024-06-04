@@ -1,8 +1,6 @@
 import fs from 'node:fs';
 import * as url from 'node:url';
 
-import _ from 'lodash';
-
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../../lib/domain/constants/certification-candidates-errors.js';
 import { CertificationCandidatesError } from '../../../../../../../lib/domain/errors.js';
 import { CertificationCandidate } from '../../../../../../../lib/domain/models/index.js';
@@ -28,6 +26,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
   let userId;
   let sessionId;
   let mailCheck;
+  let candidateList;
 
   beforeEach(async function () {
     const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
@@ -64,6 +63,8 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     await databaseBuilder.commit();
 
     mailCheck = { checkDomainIsValid: sinon.stub() };
+
+    candidateList = _buildCertificationCandidateList({ sessionId });
   });
 
   it('should throw a CertificationCandidatesError if there is an error in the file', async function () {
@@ -206,117 +207,8 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       });
 
     // then
-    const expectedCertificationCandidates = _.map(
-      [
-        {
-          lastName: 'Gallagher',
-          firstName: 'Jack',
-          birthdate: '1980-08-10',
-          sex: 'M',
-          birthCity: 'Londres',
-          birthCountry: 'ANGLETERRE',
-          birthINSEECode: '99132',
-          birthPostalCode: null,
-          resultRecipientEmail: 'destinataire@gmail.com',
-          email: 'jack@d.it',
-          externalId: null,
-          extraTimePercentage: 0.15,
-          sessionId,
-        },
-        {
-          lastName: 'Jackson',
-          firstName: 'Janet',
-          birthdate: '2005-12-05',
-          sex: 'F',
-          birthCity: 'AJACCIO',
-          birthCountry: 'FRANCE',
-          birthINSEECode: '2A004',
-          birthPostalCode: null,
-          resultRecipientEmail: 'destinataire@gmail.com',
-          email: 'jaja@hotmail.fr',
-          externalId: 'DEF456',
-          extraTimePercentage: null,
-          sessionId,
-        },
-        {
-          lastName: 'Jackson',
-          firstName: 'Michael',
-          birthdate: '2004-04-04',
-          sex: 'M',
-          birthCity: 'PARIS 18',
-          birthCountry: 'FRANCE',
-          birthINSEECode: null,
-          birthPostalCode: '75018',
-          resultRecipientEmail: 'destinataire@gmail.com',
-          email: 'jackson@gmail.com',
-          externalId: 'ABC123',
-          extraTimePercentage: 0.6,
-          sessionId,
-        },
-        {
-          lastName: 'Mercury',
-          firstName: 'Freddy',
-          birthdate: '1925-06-28',
-          sex: 'M',
-          birthCity: 'SAINT-ANNE',
-          birthCountry: 'FRANCE',
-          birthINSEECode: null,
-          birthPostalCode: '97180',
-          resultRecipientEmail: null,
-          email: null,
-          externalId: 'GHI789',
-          extraTimePercentage: 1.5,
-          sessionId,
-        },
-        {
-          firstName: 'Annie',
-          lastName: 'Cordy',
-          birthCity: 'BUELLAS',
-          birthProvinceCode: undefined,
-          birthCountry: 'FRANCE',
-          birthPostalCode: '01310',
-          birthINSEECode: null,
-          sex: 'M',
-          email: null,
-          resultRecipientEmail: null,
-          externalId: 'GHI769',
-          birthdate: '1928-06-16',
-          extraTimePercentage: 1.5,
-          createdAt: undefined,
-          authorizedToStart: undefined,
-          userId: undefined,
-          organizationLearnerId: null,
-          complementaryCertification: null,
-          billingMode: null,
-          prepaymentCode: null,
-          sessionId,
-        },
-        {
-          firstName: 'Demis',
-          lastName: 'Roussos',
-          birthCity: 'BUELLAS',
-          birthProvinceCode: undefined,
-          birthCountry: 'FRANCE',
-          birthPostalCode: null,
-          birthINSEECode: '01065',
-          sex: 'M',
-          email: null,
-          resultRecipientEmail: null,
-          externalId: 'GHI799',
-          birthdate: '1946-06-15',
-          extraTimePercentage: 1.5,
-          createdAt: undefined,
-          authorizedToStart: undefined,
-          userId: undefined,
-          organizationLearnerId: null,
-          complementaryCertification: null,
-          billingMode: null,
-          prepaymentCode: null,
-          sessionId,
-        },
-      ],
-      (candidate) => new CertificationCandidate(candidate),
-    );
+    candidateList = _buildCertificationCandidateList({ sessionId });
+    const expectedCertificationCandidates = candidateList.map((candidate) => new CertificationCandidate(candidate));
     expect(actualCertificationCandidates).to.deep.equal(expectedCertificationCandidates);
   });
 
@@ -435,104 +327,17 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
       const odsFilePath = `${__dirname}/attendance_sheet_extract_with_complementary_certifications_ok_test.ods`;
       const odsBuffer = await readFile(odsFilePath);
-      const expectedCertificationCandidates = _.map(
-        [
-          {
-            lastName: 'Gallagher',
-            firstName: 'Jack',
-            birthdate: '1980-08-10',
-            sex: 'M',
-            birthCity: 'Londres',
-            birthCountry: 'ANGLETERRE',
-            birthINSEECode: '99132',
-            birthPostalCode: null,
-            resultRecipientEmail: 'destinataire@gmail.com',
-            email: 'jack@d.it',
-            externalId: null,
-            extraTimePercentage: 0.15,
-            sessionId,
-            billingMode: 'FREE',
-            complementaryCertification: domainBuilder.buildComplementaryCertification(
-              pixPlusEdu1erDegreComplementaryCertification,
-            ),
-          },
-          {
-            lastName: 'Jackson',
-            firstName: 'Janet',
-            birthdate: '2005-12-05',
-            sex: 'F',
-            birthCity: 'AJACCIO',
-            birthCountry: 'FRANCE',
-            birthINSEECode: '2A004',
-            birthPostalCode: null,
-            resultRecipientEmail: 'destinataire@gmail.com',
-            email: 'jaja@hotmail.fr',
-            externalId: 'DEF456',
-            extraTimePercentage: null,
-            sessionId,
-            billingMode: 'FREE',
-            complementaryCertification: domainBuilder.buildComplementaryCertification(
-              pixPlusDroitComplementaryCertification,
-            ),
-          },
-          {
-            lastName: 'Jackson',
-            firstName: 'Michael',
-            birthdate: '2004-04-04',
-            sex: 'M',
-            birthCity: 'PARIS 18',
-            birthCountry: 'FRANCE',
-            birthINSEECode: null,
-            birthPostalCode: '75018',
-            resultRecipientEmail: 'destinataire@gmail.com',
-            email: 'jackson@gmail.com',
-            externalId: 'ABC123',
-            extraTimePercentage: 0.6,
-            sessionId,
-            billingMode: 'FREE',
-            complementaryCertification: domainBuilder.buildComplementaryCertification(cleaComplementaryCertification),
-          },
-          {
-            lastName: 'Mercury',
-            firstName: 'Freddy',
-            birthdate: '1925-06-28',
-            sex: 'M',
-            birthCity: 'SAINT-ANNE',
-            birthCountry: 'FRANCE',
-            birthINSEECode: null,
-            birthPostalCode: '97180',
-            resultRecipientEmail: null,
-            email: null,
-            externalId: 'GHI789',
-            extraTimePercentage: 1.5,
-            sessionId,
-            billingMode: 'FREE',
-            complementaryCertification: domainBuilder.buildComplementaryCertification(
-              pixPlusEdu2ndDegreComplementaryCertification,
-            ),
-          },
-          {
-            lastName: 'Cendy',
-            firstName: 'Alain',
-            birthdate: '1988-06-28',
-            sex: 'M',
-            birthCity: 'SAINT-ANNE',
-            birthCountry: 'FRANCE',
-            birthINSEECode: null,
-            birthPostalCode: '97180',
-            resultRecipientEmail: null,
-            email: null,
-            externalId: 'SDQ987',
-            extraTimePercentage: null,
-            sessionId,
-            billingMode: 'FREE',
-            complementaryCertification: domainBuilder.buildComplementaryCertification(
-              PixPlusProSanteComplementaryCertification,
-            ),
-          },
-        ],
-        (candidate) => new CertificationCandidate(candidate),
-      );
+      candidateList = _buildCertificationCandidateList({
+        sessionId,
+        complementaryCertification: {
+          cleaComplementaryCertification,
+          pixPlusDroitComplementaryCertification,
+          pixPlusEdu1erDegreComplementaryCertification,
+          pixPlusEdu2ndDegreComplementaryCertification,
+          PixPlusProSanteComplementaryCertification,
+        },
+      });
+      const expectedCertificationCandidates = candidateList.map((candidate) => new CertificationCandidate(candidate));
 
       // when
       const actualCertificationCandidates =
@@ -568,76 +373,8 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
     const odsFilePath = `${__dirname}/attendance_sheet_extract_with_billing_ok_test.ods`;
     const odsBuffer = await readFile(odsFilePath);
-    const expectedCertificationCandidates = _.map(
-      [
-        {
-          lastName: 'Gallagher',
-          firstName: 'Jack',
-          birthdate: '1980-08-10',
-          sex: 'M',
-          birthCity: 'Londres',
-          birthCountry: 'ANGLETERRE',
-          birthINSEECode: '99132',
-          birthPostalCode: null,
-          resultRecipientEmail: 'destinataire@gmail.com',
-          email: 'jack@d.it',
-          externalId: null,
-          extraTimePercentage: 0.15,
-          sessionId,
-          billingMode: 'PAID',
-        },
-        {
-          lastName: 'Jackson',
-          firstName: 'Janet',
-          birthdate: '2005-12-05',
-          sex: 'F',
-          birthCity: 'AJACCIO',
-          birthCountry: 'FRANCE',
-          birthINSEECode: '2A004',
-          birthPostalCode: null,
-          resultRecipientEmail: 'destinataire@gmail.com',
-          email: 'jaja@hotmail.fr',
-          externalId: 'DEF456',
-          extraTimePercentage: null,
-          sessionId,
-          billingMode: 'FREE',
-        },
-        {
-          lastName: 'Jackson',
-          firstName: 'Michael',
-          birthdate: '2004-04-04',
-          sex: 'M',
-          birthCity: 'PARIS 18',
-          birthCountry: 'FRANCE',
-          birthINSEECode: null,
-          birthPostalCode: '75018',
-          resultRecipientEmail: 'destinataire@gmail.com',
-          email: 'jackson@gmail.com',
-          externalId: 'ABC123',
-          extraTimePercentage: 0.6,
-          sessionId,
-          billingMode: 'FREE',
-        },
-        {
-          lastName: 'Mercury',
-          firstName: 'Freddy',
-          birthdate: '1925-06-28',
-          sex: 'M',
-          birthCity: 'SAINT-ANNE',
-          birthCountry: 'FRANCE',
-          birthINSEECode: null,
-          birthPostalCode: '97180',
-          resultRecipientEmail: null,
-          email: null,
-          externalId: 'GHI789',
-          extraTimePercentage: 1.5,
-          sessionId,
-          billingMode: 'PREPAID',
-          prepaymentCode: 'CODE1',
-        },
-      ],
-      (candidate) => new CertificationCandidate(candidate),
-    );
+    candidateList = _buildCertificationCandidateList({ hasBillingMode: true, sessionId: 100505 });
+    const expectedCertificationCandidates = candidateList.map((candidate) => new CertificationCandidate(candidate));
 
     // when
     const actualCertificationCandidates =
@@ -681,117 +418,181 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       });
 
     // then
-    const expectedCertificationCandidates = _.map(
-      [
-        {
-          lastName: 'Gallagher',
-          firstName: 'Jack',
-          birthdate: '1980-08-10',
-          sex: 'M',
-          birthCity: 'Londres',
-          birthCountry: 'ANGLETERRE',
-          birthINSEECode: '99132',
-          birthPostalCode: null,
-          resultRecipientEmail: 'destinataire@gmail.com',
-          email: 'jack@d.it',
-          externalId: null,
-          extraTimePercentage: 0.15,
-          sessionId,
-        },
-        {
-          lastName: 'Jackson',
-          firstName: 'Janet',
-          birthdate: '2005-12-05',
-          sex: 'F',
-          birthCity: 'AJACCIO',
-          birthCountry: 'FRANCE',
-          birthINSEECode: '2A004',
-          birthPostalCode: null,
-          resultRecipientEmail: 'destinataire@gmail.com',
-          email: 'jaja@hotmail.fr',
-          externalId: 'DEF456',
-          extraTimePercentage: null,
-          sessionId,
-        },
-        {
-          lastName: 'Jackson',
-          firstName: 'Michael',
-          birthdate: '2004-04-04',
-          sex: 'M',
-          birthCity: 'PARIS 18',
-          birthCountry: 'FRANCE',
-          birthINSEECode: null,
-          birthPostalCode: '75018',
-          resultRecipientEmail: 'destinataire@gmail.com',
-          email: 'jackson@gmail.com',
-          externalId: 'ABC123',
-          extraTimePercentage: 0.6,
-          sessionId,
-        },
-        {
-          lastName: 'Mercury',
-          firstName: 'Freddy',
-          birthdate: '1925-06-28',
-          sex: 'M',
-          birthCity: 'SAINT-ANNE',
-          birthCountry: 'FRANCE',
-          birthINSEECode: null,
-          birthPostalCode: '97180',
-          resultRecipientEmail: null,
-          email: null,
-          externalId: 'GHI789',
-          extraTimePercentage: 1.5,
-          sessionId,
-        },
-        {
-          firstName: 'Annie',
-          lastName: 'Cordy',
-          birthCity: 'BUELLAS',
-          birthProvinceCode: undefined,
-          birthCountry: 'FRANCE',
-          birthPostalCode: '01310',
-          birthINSEECode: null,
-          sex: 'M',
-          email: null,
-          resultRecipientEmail: null,
-          externalId: 'GHI769',
-          birthdate: '1928-06-16',
-          extraTimePercentage: 1.5,
-          createdAt: undefined,
-          authorizedToStart: undefined,
-          userId: undefined,
-          organizationLearnerId: null,
-          complementaryCertification: null,
-          billingMode: null,
-          prepaymentCode: null,
-          sessionId,
-        },
-        {
-          firstName: 'Demis',
-          lastName: 'Roussos',
-          birthCity: 'BUELLAS',
-          birthProvinceCode: undefined,
-          birthCountry: 'FRANCE',
-          birthPostalCode: null,
-          birthINSEECode: '01065',
-          sex: 'M',
-          email: null,
-          resultRecipientEmail: null,
-          externalId: 'GHI799',
-          birthdate: '1946-06-15',
-          extraTimePercentage: 1.5,
-          createdAt: undefined,
-          authorizedToStart: undefined,
-          userId: undefined,
-          organizationLearnerId: null,
-          complementaryCertification: null,
-          billingMode: null,
-          prepaymentCode: null,
-          sessionId,
-        },
-      ],
-      (candidate) => new CertificationCandidate(candidate),
-    );
+    const expectedCertificationCandidates = candidateList.map((candidate) => new CertificationCandidate(candidate));
     expect(actualCertificationCandidates).to.deep.equal(expectedCertificationCandidates);
   });
 });
+
+function _buildCertificationCandidateList({ hasBillingMode = false, sessionId, complementaryCertification = null }) {
+  let candidateList;
+  const firstCandidate = {
+    lastName: 'Gallagher',
+    firstName: 'Jack',
+    birthdate: '1980-08-10',
+    sex: 'M',
+    birthCity: 'Londres',
+    birthCountry: 'ANGLETERRE',
+    birthINSEECode: '99132',
+    birthPostalCode: null,
+    resultRecipientEmail: 'destinataire@gmail.com',
+    email: 'jack@d.it',
+    externalId: null,
+    extraTimePercentage: 0.15,
+  };
+  const secondCandidate = {
+    lastName: 'Jackson',
+    firstName: 'Janet',
+    birthdate: '2005-12-05',
+    sex: 'F',
+    birthCity: 'AJACCIO',
+    birthCountry: 'FRANCE',
+    birthINSEECode: '2A004',
+    birthPostalCode: null,
+    resultRecipientEmail: 'destinataire@gmail.com',
+    email: 'jaja@hotmail.fr',
+    externalId: 'DEF456',
+    extraTimePercentage: null,
+  };
+  const thirdCandidate = {
+    lastName: 'Jackson',
+    firstName: 'Michael',
+    birthdate: '2004-04-04',
+    sex: 'M',
+    birthCity: 'PARIS 18',
+    birthCountry: 'FRANCE',
+    birthINSEECode: null,
+    birthPostalCode: '75018',
+    resultRecipientEmail: 'destinataire@gmail.com',
+    email: 'jackson@gmail.com',
+    externalId: 'ABC123',
+    extraTimePercentage: 0.6,
+  };
+  const fourthCandidate = {
+    lastName: 'Mercury',
+    firstName: 'Freddy',
+    birthdate: '1925-06-28',
+    sex: 'M',
+    birthCity: 'SAINT-ANNE',
+    birthCountry: 'FRANCE',
+    birthINSEECode: null,
+    birthPostalCode: '97180',
+    resultRecipientEmail: null,
+    email: null,
+    externalId: 'GHI789',
+    extraTimePercentage: 1.5,
+  };
+  const fifthCandidate = {
+    firstName: 'Annie',
+    lastName: 'Cordy',
+    birthCity: 'BUELLAS',
+    birthProvinceCode: undefined,
+    birthCountry: 'FRANCE',
+    birthPostalCode: '01310',
+    birthINSEECode: null,
+    sex: 'M',
+    email: null,
+    resultRecipientEmail: null,
+    externalId: 'GHI769',
+    birthdate: '1928-06-16',
+    extraTimePercentage: 1.5,
+    createdAt: undefined,
+    authorizedToStart: undefined,
+    userId: undefined,
+    organizationLearnerId: null,
+    complementaryCertification: null,
+    billingMode: null,
+    prepaymentCode: null,
+  };
+  const sixthCandidate = {
+    firstName: 'Demis',
+    lastName: 'Roussos',
+    birthCity: 'BUELLAS',
+    birthProvinceCode: undefined,
+    birthCountry: 'FRANCE',
+    birthPostalCode: null,
+    birthINSEECode: '01065',
+    sex: 'M',
+    email: null,
+    resultRecipientEmail: null,
+    externalId: 'GHI799',
+    birthdate: '1946-06-15',
+    extraTimePercentage: 1.5,
+    createdAt: undefined,
+    authorizedToStart: undefined,
+    userId: undefined,
+    organizationLearnerId: null,
+    complementaryCertification: null,
+    billingMode: null,
+    prepaymentCode: null,
+  };
+  const seventhCandidate = {
+    lastName: 'Cendy',
+    firstName: 'Alain',
+    birthdate: '1988-06-28',
+    sex: 'M',
+    birthCity: 'SAINT-ANNE',
+    birthCountry: 'FRANCE',
+    birthINSEECode: null,
+    birthPostalCode: '97180',
+    resultRecipientEmail: null,
+    email: null,
+    externalId: 'SDQ987',
+    extraTimePercentage: null,
+    sessionId,
+  };
+
+  if (hasBillingMode) {
+    candidateList = [
+      { ...firstCandidate, billingMode: 'PAID' },
+      { ...secondCandidate, billingMode: 'FREE' },
+      { ...thirdCandidate, billingMode: 'FREE' },
+      { ...fourthCandidate, billingMode: 'PREPAID', prepaymentCode: 'CODE1' },
+    ];
+  } else if (complementaryCertification) {
+    candidateList = [
+      {
+        ...firstCandidate,
+        billingMode: 'FREE',
+        complementaryCertification: domainBuilder.buildComplementaryCertification(
+          complementaryCertification.pixPlusEdu1erDegreComplementaryCertification,
+        ),
+      },
+      {
+        ...secondCandidate,
+        billingMode: 'FREE',
+        complementaryCertification: domainBuilder.buildComplementaryCertification(
+          complementaryCertification.pixPlusDroitComplementaryCertification,
+        ),
+      },
+      {
+        ...thirdCandidate,
+        billingMode: 'FREE',
+        complementaryCertification: domainBuilder.buildComplementaryCertification(
+          complementaryCertification.cleaComplementaryCertification,
+        ),
+      },
+      {
+        ...fourthCandidate,
+        billingMode: 'FREE',
+        complementaryCertification: domainBuilder.buildComplementaryCertification(
+          complementaryCertification.pixPlusEdu2ndDegreComplementaryCertification,
+        ),
+      },
+      {
+        ...seventhCandidate,
+        billingMode: 'FREE',
+        complementaryCertification: domainBuilder.buildComplementaryCertification(
+          complementaryCertification.PixPlusProSanteComplementaryCertification,
+        ),
+      },
+    ];
+  } else {
+    candidateList = [firstCandidate, secondCandidate, thirdCandidate, fourthCandidate, fifthCandidate, sixthCandidate];
+  }
+
+  return candidateList.map((candidate) => ({
+    ...candidate,
+    sessionId,
+    subscriptions: [domainBuilder.buildCoreSubscription()],
+  }));
+}
