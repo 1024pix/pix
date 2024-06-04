@@ -24,8 +24,24 @@ class AlreadyExistingOrganizationFeatureError extends DomainError {
   }
 }
 
+class DpoEmailInvalid extends DomainError {
+  constructor({ code = 'DPO_EMAIL_INVALID', message = 'DPO email invalid', meta } = {}) {
+    super(message);
+    this.code = code;
+    this.meta = meta;
+  }
+}
+
 class OrganizationNotFound extends DomainError {
   constructor({ code = 'ORGANIZATION_NOT_FOUND', message = 'Organization does not exist', meta } = {}) {
+    super(message);
+    this.code = code;
+    this.meta = meta;
+  }
+}
+
+class OrganizationBatchUpdateError extends DomainError {
+  constructor({ code = 'ORGANIZATION_BATCH_UPDATE_ERROR', message = 'Organization batch update failed', meta } = {}) {
     super(message);
     this.code = code;
     this.meta = meta;
@@ -50,8 +66,10 @@ class FeatureParamsNotProcessable extends DomainError {
 
 export {
   AlreadyExistingOrganizationFeatureError,
+  DpoEmailInvalid,
   FeatureNotFound,
   FeatureParamsNotProcessable,
+  OrganizationBatchUpdateError,
   OrganizationNotFound,
   UnableToAttachChildOrganizationToParentOrganizationError,
 };

@@ -2,8 +2,10 @@ import { HttpErrors } from '../../shared/application/http-errors.js';
 import { DomainErrorMappingConfiguration } from '../../shared/application/models/domain-error-mapping-configuration.js';
 import {
   AlreadyExistingOrganizationFeatureError,
+  DpoEmailInvalid,
   FeatureNotFound,
   FeatureParamsNotProcessable,
+  OrganizationBatchUpdateError,
   OrganizationNotFound,
   UnableToAttachChildOrganizationToParentOrganizationError,
 } from '../domain/errors.js';
@@ -27,6 +29,14 @@ const organizationalEntitiesDomainErrorMappingConfiguration = [
   },
   {
     name: FeatureParamsNotProcessable.name,
+    httpErrorFn: (error) => new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta),
+  },
+  {
+    name: DpoEmailInvalid.name,
+    httpErrorFn: (error) => new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta),
+  },
+  {
+    name: OrganizationBatchUpdateError.name,
     httpErrorFn: (error) => new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta),
   },
 ].map((domainErrorMappingConfiguration) => new DomainErrorMappingConfiguration(domainErrorMappingConfiguration));
