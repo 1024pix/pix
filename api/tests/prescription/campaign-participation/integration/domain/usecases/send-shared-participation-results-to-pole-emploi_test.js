@@ -1,4 +1,5 @@
 import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
+import * as poleEmploiNotifier from '../../../../../../src/prescription/campaign-participation/infrastructure/externals/pole-emploi-notifier.js';
 import {
   databaseBuilder,
   expect,
@@ -10,13 +11,13 @@ import {
 
 describe('Integration | Domain | UseCases | send-shared-participation-results-to-pole-emploi', function () {
   let campaignParticipationId, userId, responseCode;
-  let poleEmploiNotifier;
+  let httpAgentStub, httpErrorsHelperStub, monitoringToolsStub;
 
   beforeEach(async function () {
+    httpAgentStub = { post: sinon.stub() };
+    monitoringToolsStub = { logErrorWithCorrelationIds: sinon.stub(), logInfoWithCorrelationIds: sinon.stub() };
+    httpErrorsHelperStub = { serializeHttpErrorResponse: sinon.stub() };
     responseCode = Symbol('responseCode');
-    poleEmploiNotifier = {
-      notify: sinon.stub(),
-    };
 
     userId = databaseBuilder.factory.buildUser().id;
     databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({ userId });
@@ -35,15 +36,45 @@ describe('Integration | Domain | UseCases | send-shared-participation-results-to
 
   it('should save success of this notification', async function () {
     // given
-    poleEmploiNotifier.notify.resolves({ isSuccessful: true, code: responseCode });
+    httpAgentStub.post.resolves({
+      isSuccessful: true,
+      code: responseCode,
+      data: {
+        access_token: 'token',
+        expires_in: new Date(),
+        refresh_token: 'refresh_token',
+      },
+    });
 
     // when
-    await usecases.sendSharedParticipationResultsToPoleEmploi({ campaignParticipationId, poleEmploiNotifier });
+    await usecases.sendSharedParticipationResultsToPoleEmploi({
+      campaignParticipationId,
+      poleEmploiNotifier,
+      notifierDependencies: {
+        httpAgent: httpAgentStub,
+        httpErrorsHelper: httpErrorsHelperStub,
+        monitoringTools: monitoringToolsStub,
+      },
+    });
 
     // then
     const poleEmploiSendings = await knex('pole-emploi-sendings').where({ campaignParticipationId });
     expect(poleEmploiSendings.length).to.equal(1);
     expect(poleEmploiSendings[0].responseCode).to.equal(responseCode.toString());
+    expect(poleEmploiSendings[0].type).to.equal('CAMPAIGN_PARTICIPATION_SHARING');
+  });
+
+  it('should return a disable send notification by default (if push is disabled) ', async function () {
+    // when
+    await usecases.sendSharedParticipationResultsToPoleEmploi({
+      campaignParticipationId,
+    });
+
+    // then
+    const poleEmploiSendings = await knex('pole-emploi-sendings').where({ campaignParticipationId });
+    expect(poleEmploiSendings.length).to.equal(1);
+    expect(poleEmploiSendings[0].isSuccessful).to.be.false;
+    expect(poleEmploiSendings[0].responseCode).to.equal('SENDING-DISABLED');
     expect(poleEmploiSendings[0].type).to.equal('CAMPAIGN_PARTICIPATION_SHARING');
   });
 });
