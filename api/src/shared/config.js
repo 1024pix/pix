@@ -240,6 +240,9 @@ const configuration = (function () {
       enabled: toBoolean(process.env.MAILING_ENABLED),
       provider: process.env.MAILING_PROVIDER || 'brevo',
       smtpUrl: process.env.MAILING_SMTP_URL || 'smtp://username:password@localhost:1025/',
+      mailpit: {
+        templates: {},
+      },
       brevo: {
         apiKey: process.env.BREVO_API_KEY,
         templates: {
