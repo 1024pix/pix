@@ -317,4 +317,115 @@ module('Integration | Component | Module | Passage', function (hooks) {
       assert.ok(true);
     });
   });
+
+  module('when user click on an answerable element verify button', function () {
+    test('should save the element answer', async function (assert) {
+      // given
+      const metrics = this.owner.lookup('service:metrics');
+      metrics.add = sinon.stub();
+
+      const store = this.owner.lookup('service:store');
+      const qcuElement = {
+        id: 'element-id',
+        instruction: 'instruction',
+        proposals: [
+          { id: '1', content: 'radio1' },
+          { id: '2', content: 'radio2' },
+        ],
+        type: 'qcu',
+        isAnswerable: true,
+      };
+      const grain1 = store.createRecord('grain', { components: [{ type: 'element', element: qcuElement }] });
+
+      const module = store.createRecord('module', { id: 'module-id', title: 'Module title', grains: [grain1] });
+      const passage = store.createRecord('passage', { id: 'passage-id' });
+
+      const saveStub = sinon.stub();
+      const createRecordMock = sinon.mock();
+      createRecordMock.returns({ save: saveStub });
+      store.createRecord = createRecordMock;
+
+      await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
+
+      // when
+      await clickByName(qcuElement.proposals[0].content);
+      await clickByName(this.intl.t('pages.modulix.buttons.activity.verify'));
+
+      // then
+      sinon.assert.calledWith(saveStub, { adapterOptions: { passageId: passage.id } });
+      assert.ok(true);
+    });
+
+    test('should push metrics event', async function (assert) {
+      // given
+      const metrics = this.owner.lookup('service:metrics');
+      metrics.add = sinon.stub();
+
+      const store = this.owner.lookup('service:store');
+      const qcuElement = {
+        id: 'element-id',
+        instruction: 'instruction',
+        proposals: [
+          { id: '1', content: 'radio1' },
+          { id: '2', content: 'radio2' },
+        ],
+        type: 'qcu',
+        isAnswerable: true,
+      };
+      const grain1 = store.createRecord('grain', { components: [{ type: 'element', element: qcuElement }] });
+
+      const module = store.createRecord('module', { id: 'module-id', title: 'Module title', grains: [grain1] });
+      const passage = store.createRecord('passage');
+
+      const createRecordMock = sinon.mock();
+      createRecordMock.returns({ save: function () {} });
+      store.createRecord = createRecordMock;
+
+      await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
+
+      // when
+      await clickByName(qcuElement.proposals[0].content);
+      await clickByName(this.intl.t('pages.modulix.buttons.activity.verify'));
+
+      // then
+      sinon.assert.calledWithExactly(metrics.add, {
+        event: 'custom-event',
+        'pix-event-category': 'Modulix',
+        'pix-event-action': `Passage du module : ${module.id}`,
+        'pix-event-name': `Click sur le bouton vérifier de l'élément : ${qcuElement.id}`,
+      });
+      assert.ok(true);
+    });
+  });
+
+  module('when user click on an answerable element retry button', function () {
+    test('should push metrics event', async function (assert) {
+      // given
+      const metrics = this.owner.lookup('service:metrics');
+      metrics.add = sinon.stub();
+
+      // given
+      const store = this.owner.lookup('service:store');
+      const element = { id: 'qcu-id', type: 'qcu', isAnswerable: true };
+      const grain = store.createRecord('grain', { title: 'Grain title', components: [{ type: 'element', element }] });
+      const module = store.createRecord('module', { id: 'module-id', title: 'Module title', grains: [grain] });
+      const passage = store.createRecord('passage');
+
+      const correction = store.createRecord('correction-response', { status: 'ko' });
+      store.createRecord('element-answer', { elementId: element.id, correction, passage });
+
+      // when
+      await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
+      await clickByName(this.intl.t('pages.modulix.buttons.activity.retry'));
+
+      // then
+      sinon.assert.calledWithExactly(metrics.add, {
+        event: 'custom-event',
+        'pix-event-category': 'Modulix',
+        'pix-event-action': `Passage du module : ${module.id}`,
+        'pix-event-name': `Click sur le bouton réessayer de l'élément : ${element.id}`,
+      });
+      assert.ok(true);
+    });
+  });
 });

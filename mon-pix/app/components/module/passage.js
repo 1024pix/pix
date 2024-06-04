@@ -8,6 +8,8 @@ import ModuleGrain from './grain.js';
 export default class ModulePassage extends Component {
   @service router;
   @service metrics;
+  @service store;
+
   displayableGrains = this.args.module.grains.filter((grain) => ModuleGrain.getSupportedElements(grain).length > 0);
   @tracked grainsToDisplay = this.displayableGrains.length > 0 ? [this.displayableGrains[0]] : [];
 
@@ -91,5 +93,35 @@ export default class ModulePassage extends Component {
   terminateModule() {
     this.args.passage.terminate();
     return this.router.transitionTo('module.recap', this.args.module);
+  }
+
+  @action
+  async submitAnswer(answerData) {
+    await this.store
+      .createRecord('element-answer', {
+        userResponse: answerData.userResponse,
+        elementId: answerData.element.id,
+        passage: this.args.passage,
+      })
+      .save({
+        adapterOptions: { passageId: this.args.passage.id },
+      });
+
+    this.metrics.add({
+      event: 'custom-event',
+      'pix-event-category': 'Modulix',
+      'pix-event-action': `Passage du module : ${this.args.module.id}`,
+      'pix-event-name': `Click sur le bouton vérifier de l'élément : ${answerData.element.id}`,
+    });
+  }
+
+  @action
+  async trackRetry(answerData) {
+    this.metrics.add({
+      event: 'custom-event',
+      'pix-event-category': 'Modulix',
+      'pix-event-action': `Passage du module : ${this.args.module.id}`,
+      'pix-event-name': `Click sur le bouton réessayer de l'élément : ${answerData.element.id}`,
+    });
   }
 }
