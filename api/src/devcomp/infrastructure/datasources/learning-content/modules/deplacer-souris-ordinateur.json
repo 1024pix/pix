@@ -1,0 +1,385 @@
+{
+    "id": "e8cee13e-1d4d-47eb-bd26-d7ea6a10b1e6",
+    "slug": "deplacer-souris-ordinateur",
+    "title": "Déplacer une souris d'ordinateur",    
+"details": {
+      "image": "https://images.pix.fr/modulix/placeholder-details.svg",
+      "description": "Dans ce module, vous découvrirez ce qu’est une souris et à quoi elle sert. Vous apprendrez à la prendre en main et à la déplacer pour intéragir avec votre ordinateur.",
+      "duration": 10,
+      "level": "Débutant",
+      "objectives": [
+        "Reconnaître une souris et connaître son utilité",
+        "Prendre en main une souris et la déplacer",
+        "Déplacer le pointeur de sa souris avec précision"
+      ]
+    },
+    "transitionTexts": [
+      {
+        "grainId": "f0db9bcb-a896-4801-827d-d0ceeddde3e5",
+        "content": "<p>Dans ce module, vous allez prendre en main une souris d'ordinateur.<ul><li>Passez autant de temps que nécessaire sur chaque étape de ce module.</li><li>Pour passer d’une étape à une autre, appuyez sur la touche Entrée du clavier. <span aria-hidden=\"true\"> ↩️ </span>️</li></ul></p>"
+      },
+      {
+        "grainId": "33c855c8-64c3-43c8-878f-2f83ca3412cf",
+        "content": "<p>Voyons si vous avez retenu l'essentiel.</p>"
+      },
+      {
+        "grainId": "115f2b94-ba20-4158-a1b1-efb159d82808",
+        "content": "<p>Dans la vidéo suivante, vous allez voir comment bien prendre en main une souris d'ordinateur.&nbsp;<span aria-hidden=\"true\">📺</span>️</p>"
+      },
+      {
+        "grainId": "395f9865-bb44-4cd8-a4dd-03ffddf598f7",
+        "content": "<p>À vous de jouer. Vous allez vous entraîner à déplacer votre souris.</p>"
+      },
+      {
+        "grainId": "8a9618f5-c8d8-447e-83ae-cf66914c0aa0",
+        "content": "<p>Dans la vidéo suivante, vous allez voir comment contrôler la souris sur votre écran.&nbsp;<span aria-hidden=\"true\">📺</span>️</p>"
+      },
+      {
+        "grainId": "713aeb31-6bbd-4e0c-930a-ad24164f5b9c",
+        "content": "<p>Vous allez maintenant passer à la pratique. À vous de déplacer le pointeur sur votre écran.</p>"
+      },
+      {
+        "grainId": "194be335-f3c1-468e-9ad1-0a7287b95f37",
+        "content": "<p>Vous savez déplacer le pointeur de la souris à l'écran. Maintenant, entraînez-vous à être plus précis dans vos mouvements. <span aria-hidden=\"true\">🎯</span>️ </p>"
+      },
+      {
+        "grainId": "03e0657a-7caf-49eb-8dfb-da0f5e52b7ba",
+        "content": "<p>Vous savez maintenant déplacer le pointeur de votre souris de façon précise. Voici quelques informations qui pourront vous servir. <span aria-hidden=\"true\">📚</span>️ </p>"
+      }
+    ],
+    "grains": [
+      {
+        "id": "f0db9bcb-a896-4801-827d-d0ceeddde3e5",
+        "type": "lesson",
+        "title": "B.A.BA de la souris",
+        "components": [
+          {
+            "type": "element",
+             "element":
+              {
+                "id": "9c538063-dd21-40a8-b47d-12e14423b0ff",
+                "type": "text",
+                "content": "<p>La souris fait partie de l'équipement de base d’un ordinateur, avec le clavier.<br>Une souris est un petit boitier arrondi.<br> Elle se place à plat sur la table et se déplace avec la main.</p>"
+              }
+          },
+          {
+            "type": "element",
+            "element": 
+            {
+            "id": "a13ea7fa-39db-48c8-9a3d-9c354d828dca",
+            "type": "image",
+            "url": "https://i.imgur.com/Fa889h1.jpeg",
+            "alt": "Photographie illustrative d'une souris",
+            "alternativeText": "Photographie illustrative d'une souris d'ordinateur. Une main est posée sur la souris."
+               }
+          },
+          {
+            "type": "element",
+             "element":
+              {
+                "id": "5199f3a3-977d-4fb2-b111-7bcd428cc704",
+                "type": "text",
+                "content": "<hr>"
+              }
+          },
+          {
+            "type": "element",
+             "element":
+              {
+                "id": "bf0d6931-cd41-4223-946c-14b4bc46e403",
+                "type": "text",
+                "content": "<p>La souris sert à interagir avec l’ordinateur.<ul><li>Elle permet de se déplacer facilement sur l'écran de l'ordinateur.</li><li>Elle permet également d’effectuer des actions sur votre ordinateur.</li></ul></p>"
+              }
+          },
+          {
+            "type": "element",
+            "element": 
+            {
+            "id": "a00fb3ea-ac08-4688-b54b-77a659284f73",
+            "type": "image",
+            "url": "https://i.imgur.com/OdJDnEL.png",
+            "alt": "",
+            "alternativeText": "Photographie d'une souris et d'un écran d'ordinateur"
+               }
+          },
+          {
+            "type": "element",
+             "element":
+              {
+                "id": "5199f3a3-977d-4fb2-b111-7bcd428cc704",
+                "type": "text",
+                "content": "<hr>"
+              }
+          },
+          {
+            "type": "element",
+             "element":
+              {
+                "id": "48708070-39c3-4af4-8914-ab61d61dfee8",
+                "type": "text",
+                "content": "<p>Les souris peuvent avoir différentes formes, tailles ou couleurs. <br>Il y a deux types de souris : <ul> <li>Les souris qui ont un fil, </li><li> Les souris  qui n’ont pas de fil.</li></ul></p><p>Peu importe votre type de souris, vous l’utiliserez de la même manière et pour faire les mêmes choses.</p>"
+              }
+          },
+          {
+            "type": "element",
+            "element": 
+            {
+            "id": "c849cbc5-931e-4a00-ae6a-083e2ff0614d",
+            "type": "image",
+            "url": "https://i.imgur.com/H35G15b.jpeg",
+            "alt": "-",
+            "alternativeText": "-"
+               }
+          },
+          {
+            "type": "element",
+             "element":
+              {
+                "id": "1cf8be4d-5774-4720-bd61-29c98f33dd37",
+                "type": "text",
+                "content": "<hr>"
+              }
+          },
+          {
+            "type": "element",
+             "element":
+              {
+                "id": "c0389b30-2034-45f1-8f9c-08f90de26c6c",
+                "type": "text",
+                "content": "<h3><span aria-hidden=\"true\">📖</span>️ Bon à savoir</h3> <p> Voici comment vérifier qu’une souris est allumée :</p> <ul> <li>Si vous avez une souris avec un fil : vérifiez qu'elle est branchée à l’ordinateur. </li> <li> Si vous avez une souris sans fil : vous pouvez la retourner. Vérifiez que le bouton situé en dessous est bien sur ON.</li></ul>"
+              }
+          }
+        ]
+      },
+      {
+        "id": "33c855c8-64c3-43c8-878f-2f83ca3412cf",
+        "type": "activity",
+        "title": "La main manipule la souris",
+        "components": [
+          {
+            "type": "element",
+            "element":
+                  {
+                    "id": "1ede5a28-3b91-401a-983a-f1042f927209",
+                    "type": "text",
+                    "content": "<p>Répondez à la question ci-dessous.<br>Pour dévoiler la réponse, passez votre souris sur la carte.</p>"
+                  }
+          },
+          {
+            "type": "element",
+            "element":
+              {
+                  "id": "0b32f7be-6c66-4f0e-843f-3461163e83fc",
+                  "type": "text",
+                  "content": "<h3>[Embed carte]</h3> <p>Question : Avec quoi déplace-t-on une souris d’ordinateur ? <br>Réponse : Avec la main.</p>"
+              }
+          }
+        ]
+      },
+      {
+        "id": "115f2b94-ba20-4158-a1b1-efb159d82808",
+        "type": "lesson",
+        "title": "Prise en main de la souris",
+        "components": [
+          {
+            "type": "element",
+             "element":
+              {
+                "id": "75894ade-d0b9-4662-ba37-edf72c9e74e5",
+                "type": "text",
+                "content": "<p>Après cette vidéo, vous devrez suivre les étapes pour prendre en main votre souris.</p>"
+              }
+          },
+          {
+            "type": "element",
+            "element":
+              {
+                    "id": "c2f89648-1f06-4e58-b5a5-422677d24417",
+                    "type": "text",
+                    "content": "<iframe title=\"video\" src=\"https://tube-numerique-educatif.apps.education.fr/videos/embed/01e5732a-32bb-4232-b4f5-7e70936191a7?title=0&amp;warningTitle=0&amp;peertubeLink=0&amp;p2p=0\" width=\"100%\" height=\"410\"></iframe>"
+              }
+          }
+        ]
+      },
+      {
+        "id": "395f9865-bb44-4cd8-a4dd-03ffddf598f7",
+        "type": "activity",
+        "title": "Exercice de prise en main de la souris",
+        "components": [
+          {
+            "type": "element",
+            "element":
+              {
+                    "id": "6b6eeef4-bb9b-4769-906d-47e72db93543",
+                    "type": "text",
+                    "content": "<p>Regardez bien votre souris. Ne regardez pas de ce qu'il se passe à l'écran.<br></p><p>Pour déplacer votre souris, voici les étapes à suivre :</p> <ul> <li>Étape 1 : Posez votre main confortablement sur la souris.</li><li>Étape 2 : Faites glissez la souris doucement sur la table.</li></ul></p>"
+              }
+          },
+            {
+                "type": "element",
+                "element": {
+                  "id": "a0773d08-47df-4302-965e-1a8f2d69ae92",
+                  "type": "text",
+                  "content": "<hr>"
+                }
+            },
+            {
+                "type": "element",
+                "element":
+                  {
+                        "id": "d1dd9768-1b88-4a76-af7c-4290c3fe5a2f",
+                        "type": "text",
+                        "content": "<p><span aria-hidden=\"true\">🙋🏽‍♂️ 🙋🏿‍♀️ 🙋‍♂️</span>️Si vous êtes accompagné, demandez conseil à la personne qui vous accompagne.<br>Elle vous aidera à trouver une position confortable.</p>"
+                  }
+              }
+        ]
+      },
+      {
+        "id": "8a9618f5-c8d8-447e-83ae-cf66914c0aa0",
+        "type": "lesson",
+        "title": "Déplacer son pointeur",
+        "components": [
+          {
+            "type": "element",
+            "element":
+              {
+                "id": "7dad11c9-fafd-4e94-bd81-003e3944ff6d",
+                "type": "text",
+                "content": "<p>Après cette vidéo, vous devrez déplacez votre souris dans une situation concrète.</p>"
+              }
+          },
+          {
+            "type": "element",
+            "element":
+            {
+                    "id": "52a71515-a085-4a85-8c43-86e06c1cb9b8",
+                    "type": "text",
+                    "content": "<iframe title=\"video\" src=\"https://tube-numerique-educatif.apps.education.fr/videos/embed/9198fd60-2669-4cd8-b3f7-b88257f740d1?title=0&amp;warningTitle=0&amp;peertubeLink=0&amp;p2p=0\" width=\"100%\" height=\"410\"></iframe>"
+            }
+          },
+          {
+            "type": "element",
+            "element":
+            {
+                    "id": "ed696ae2-4946-4066-87a7-9c6b25fb4033",
+                    "type": "text",
+                    "content": "<hr>"
+            }
+  
+          },
+          {
+            "type": "element",
+            "element":
+            {
+                    "id": "37d12159-50a1-4c83-955f-d33d0d45e6f2",
+                    "type": "text",
+                    "content": "<h3> <span aria-hidden=\"true\">📖</span>️ Bon à savoir :</h3> <p> Les mots <b>pointeur de souris</b> et <b>curseur de souris</b> veulent dire la même chose.</p>"
+            }
+  
+          }
+            ]
+      },
+      {
+        "id": "713aeb31-6bbd-4e0c-930a-ad24164f5b9c",
+        "type": "activity",
+        "title": "Carte à gratter",
+        "components": [
+          {
+            "type": "element",
+            "element":
+            {
+                    "id": "0dc90047-776b-48cd-944e-72ca51c69cfc",
+                    "type": "text",
+                    "content": "<p>Dans la zone rose ci-dessous, déplacez le pointeur de votre souris.<br>Passez dans toute la zone pour découvrir l'image qui est cachée.</p>"
+            }
+          },
+          {
+            "type": "element",
+            "element":
+            {
+                "id": "ccaefecd-db35-40ea-a6f9-8d42fb907e63",
+                "type": "text",
+                "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/RPE/premiere-marche-souris-1-carte-gratter/index.html\" width=\"100%\" height=\"310\"></iframe>"
+            }
+          }
+            ]
+      },
+      {
+        "id": "194be335-f3c1-468e-9ad1-0a7287b95f37",
+        "type": "activity",
+        "title": "Se déplacer précisément",
+        "components": [
+          {
+            "type": "element",
+            "element":
+            {
+                    "id": "a33ac061-ab23-4e94-b60e-904e701e7d76",
+                    "type": "text",
+                    "content": "<p>À vous de jouer ! Dans le cadre ci-dessous, déplacez le pointeur sur chacun des éléments qui apparaissent. <br>Vous pouvez essayer autant de fois que vous voulez.</p>"
+            }
+          },
+          {
+            "type": "element",
+            "element":
+            {
+                    "id": "57d7453d-58a9-43f0-830c-f5f392b06f9e",
+                    "type": "text",
+                    "content": "<a href=\"https://gd.games/instant-builds/5b8229b3-3310-4f8a-a64d-900a04044ef6\" target=\"_blank\">Lien vers l'activité</a>"
+            }
+          },
+          {
+            "type": "element",
+            "element":
+            {
+                    "id": "9c1c4342-96a6-4c14-a5b0-5ed0d202fb8f",
+                    "type": "text",
+                    "content": "<h3> <span aria-hidden=\"true\">💡</span>️ Que faire si je ne voits plus mon pointeur ?</h3> <p> Bougez de gauche à droite votre souris doucement sur la table.<br> Vous verrez le pointeur bouger à l'écran.</p>"
+            }
+          }
+            ]
+      },
+      {
+        "id": "03e0657a-7caf-49eb-8dfb-da0f5e52b7ba",
+        "type": "lesson",
+        "title": "Les types de pointeurs",
+        "components": [
+           {
+                "type": "element",
+                "element":
+                {
+                        "id": "af44ed34-f3a3-46f1-813d-c801a6e0b073",
+                        "type": "text",
+                        "content": "<p>Quand vous déplacez votre souris sur un élément, le pointeur peut changer de forme. C’est tout à fait normal. Le pointeur change de forme quand une action est possible. </p><p><br>Déplacez votre pointeur sur les trois zones ci-dessous. Vous allez découvrir les trois formes de pointeur les plus courantes et leur utilité.</p>"
+                }
+            },
+            {
+            "type": "element",
+            "element":
+            {
+                    "id": "1ad8190f-46b6-43b5-82b1-cd81640b1700",
+                    "type": "text",
+                    "content": "<a href=\"https://gd.games/instant-builds/08091579-7c85-46af-888a-f4198dbe632f\" target=\"_blank\">Lien vers la leçon</a>"
+            }
+          },
+          {
+            "type": "element",
+            "element":
+            {
+                    "id": "8c07cbe0-14aa-4a0e-898d-7ddf9c4ff3be",
+                    "type": "text",
+                    "content": "<h3> <span aria-hidden=\"true\">📖</span>️ Bon à savoir : </h3><p>Parfois, le pointeur peut être en forme de roue, de sablier ou de pointillés. C’est un pointeur qui est souvent animé.</p> <p> Quand ce pointeur apparaît, cela signifie qu’il faut patienter. Attendez que le pointeur reprenne sa forme de flèche pour utiliser votre souris.</p>"
+            }
+          },
+          {"type": "element",
+          "element": {
+            "id": "3e773e63-59e0-4311-b03b-005060bb8f7e",
+            "type": "image",
+            "url": "https://i.imgur.com/Sd0yXhE.png",
+            "alt": "Visuel des différentes représentation des curseurs d'attente",
+            "alternativeText": "Représentation des différents aspect du curseur d'attente selon les ordinateurs, leur marque et leur année : un sablier, une roue, des pointillés formant un cercle, des tirets format un cercle et une roue multicolore."
+               }
+          }
+            ]
+      }
+    ]
+  }
