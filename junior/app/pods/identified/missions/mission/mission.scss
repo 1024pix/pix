@@ -36,12 +36,11 @@
       }
 
       &__loader {
-        visibility: hidden;
+        display: none;
 
         &--visible {
           width: 200px;
           height: 58px;
-          visibility: visible;
         }
       }
     }
