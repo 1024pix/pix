@@ -29,11 +29,33 @@ export const tokenRoutes = [
       },
       pre: [{ method: securityPreHandlers.checkIfUserIsBlocked }],
       handler: (request, h) => tokenController.createToken(request, h),
-      tags: ['api', 'authentication', 'token'],
+      tags: ['identity-access-management', 'api', 'token'],
       notes: [
         "Cette route permet d'obtenir un refresh token et access token à partir d'un couple identifiant / mot de passe" +
           " ou un access token à partir d'un refresh token valide.",
       ],
+    },
+  },
+  {
+    method: 'POST',
+    path: '/api/token/anonymous',
+    config: {
+      auth: false,
+      payload: {
+        allow: 'application/x-www-form-urlencoded',
+      },
+      validate: {
+        payload: Joi.object().required().keys({
+          campaign_code: Joi.string().required(),
+          lang: Joi.string().required(),
+        }),
+      },
+      handler: (request, h) => tokenController.authenticateAnonymousUser(request, h),
+      notes: [
+        "- Cette route permet de créer un utilisateur à partir d'un code parcours Accès Simplifié\n" +
+          "- Elle retournera un access token Pix correspondant à l'utilisateur.",
+      ],
+      tags: ['identity-access-management', 'api', 'token'],
     },
   },
 ];
