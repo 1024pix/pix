@@ -1238,6 +1238,11 @@
           "lesson": "les"
         }
       },
+      "stepper": {
+        "step": {
+          "position": "Stap {currentStep} van {totalSteps}"
+        }
+      },
       "modals": {
         "alternativeText": {
           "title": "Tekst alternatief"

@@ -1264,6 +1264,11 @@
         "goToForm": "Répondre au questionnaire",
         "subtitle": "Vous avez atteint les objectifs suivants :"
       },
+      "stepper": {
+        "step": {
+          "position": "Étape {currentStep} sur {totalSteps}"
+        }
+      },
       "verification-precondition-failed-alert": {
         "qcm": "Pour valider, sélectionnez au moins deux réponses.",
         "qcu": "Pour valider, sélectionnez une réponse.",

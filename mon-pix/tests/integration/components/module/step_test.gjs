@@ -20,10 +20,13 @@ module('Integration | Component | Module | Step', function (hooks) {
       };
 
       // when
-      const screen = await render(<template><ModulixStep @step={{step}} /></template>);
+      const screen = await render(
+        <template><ModulixStep @step={{step}} @currentStep={{1}} @totalSteps={{4}} /></template>,
+      );
 
       // then
       assert.dom(screen.getByText(element.content)).exists();
+      assert.dom(screen.getByRole('heading', { name: 'Étape 1 sur 4', level: 3 })).exists();
     });
 
     test('should display a step with a qcu element', async function (assert) {
