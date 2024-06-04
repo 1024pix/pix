@@ -3,6 +3,8 @@ import { pickAnswerStatusService } from '../../../../../lib/domain/services/pick
 import { pickChallengeService } from '../../../../evaluation/domain/services/pick-challenge-service.js';
 import { AssessmentSimulatorSingleMeasureStrategy } from '../../../flash-certification/domain/models/AssessmentSimulatorSingleMeasureStrategy.js';
 
+const PROBABILITY_TO_PICK_THE_MOST_USEFUL_CHALLENGE_FOR_CANDIDATE_EVALUATION = 100;
+
 const downgradeCapacity = ({
   algorithm,
   capacity,
@@ -16,7 +18,9 @@ const downgradeCapacity = ({
   const answerStatusArray = Array.from({ length: numberOfUnansweredChallenges }, () => AnswerStatus.SKIPPED);
 
   const pickAnswerStatus = pickAnswerStatusService.pickAnswerStatusFromArray(answerStatusArray);
-  const pickChallenge = pickChallengeService.chooseNextChallenge();
+  const pickChallenge = pickChallengeService.chooseNextChallenge(
+    PROBABILITY_TO_PICK_THE_MOST_USEFUL_CHALLENGE_FOR_CANDIDATE_EVALUATION,
+  );
 
   const singleMeasureStrategy = new AssessmentSimulatorSingleMeasureStrategy({
     algorithm,
