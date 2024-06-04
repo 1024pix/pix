@@ -6,7 +6,7 @@ import { CertificationCourseRejected } from '../../../../../lib/domain/events/Ce
 import { CertificationJuryDone } from '../../../../../lib/domain/events/CertificationJuryDone.js';
 import { ChallengeDeneutralized } from '../../../../../lib/domain/events/ChallengeDeneutralized.js';
 import { ChallengeNeutralized } from '../../../../../lib/domain/events/ChallengeNeutralized.js';
-import { CertificationCourse, CertificationResult } from '../../../../../lib/domain/models/index.js';
+import { CertificationResult } from '../../../../../lib/domain/models/index.js';
 import * as scoringCertificationService from '../../../../../lib/domain/services/scoring/scoring-certification-service.js';
 import { CertificationChallengeForScoring } from '../../../../../src/certification/scoring/domain/models/CertificationChallengeForScoring.js';
 import {
@@ -1484,65 +1484,6 @@ describe('Unit | Service | Certification Result Service', function () {
           });
         });
       });
-
-      context('when the certification stopped due to technical issue with insufficient correct answers', function () {
-        it('builds and save an insufficient correct answers for technical reason assessment result', async function () {
-          // given
-          const certificationCourseId = 123;
-          const certificationCourse = domainBuilder.buildCertificationCourse({
-            id: certificationCourseId,
-            abortReason: ABORT_REASONS.TECHNICAL,
-          });
-          const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
-            competenceMarks: [],
-            percentageCorrectAnswers: 49,
-            hasEnoughNonNeutralizedChallengesToBeTrusted: true,
-          });
-          const certificationAssessment = domainBuilder.buildCertificationAssessment({
-            id: 45674567,
-            certificationCourseId,
-            userId: 4567,
-          });
-          const savedAssessmentResult = { id: 123123 };
-
-          calculateCertificationAssessmentScoreInjected.resolves(certificationAssessmentScore);
-          certificationCourseRepository.get
-            .withArgs({ id: certificationAssessment.certificationCourseId })
-            .resolves(certificationCourse);
-          assessmentResultRepository.save.resolves(savedAssessmentResult);
-          competenceMarkRepository.save.resolves();
-
-          // when
-          await scoringCertificationService.handleV2CertificationScoring({
-            emitter: AssessmentResult.emitters.PIX_ALGO,
-            certificationAssessment,
-            assessmentResultRepository,
-            certificationCourseRepository,
-            competenceMarkRepository,
-            calculateCertificationAssessmentScoreInjected,
-          });
-
-          // then
-          const expectedAssessmentResult = new AssessmentResult({
-            pixScore: 0,
-            reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
-            status: status.REJECTED,
-            assessmentId: certificationAssessment.id,
-            emitter: AssessmentResult.emitters.PIX_ALGO,
-            commentForCandidate: domainBuilder.certification.shared.buildJuryComment.candidate({
-              commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_LACK_OF_ANSWERS_FOR_TECHNICAL_REASON,
-            }),
-            commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
-              commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_LACK_OF_ANSWERS_FOR_TECHNICAL_REASON,
-            }),
-          });
-
-          expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
-            certificationCourseId: 123,
-            assessmentResult: expectedAssessmentResult,
-          });
-        });
-      });
     });
 
     context('for rescoring certification', function () {
@@ -2067,6 +2008,8 @@ describe('Unit | Service | Certification Result Service', function () {
       const certificationCourseId = 1234;
       const userId = 4567;
       const certificationCourseStartDate = new Date('2022-02-01');
+      let scoringConfiguration;
+      let baseFlashAlgorithmConfig;
 
       beforeEach(function () {
         event = new AssessmentCompleted({
@@ -2087,7 +2030,7 @@ describe('Unit | Service | Certification Result Service', function () {
           completedAt: null,
         });
 
-        const scoringConfiguration = domainBuilder.buildV3CertificationScoring({
+        scoringConfiguration = domainBuilder.buildV3CertificationScoring({
           competencesForScoring: [domainBuilder.buildCompetenceForScoring()],
         });
 
@@ -2101,253 +2044,140 @@ describe('Unit | Service | Certification Result Service', function () {
           }),
         );
         competenceMarkRepository.save.resolves();
+
+        baseFlashAlgorithmConfiguration = domainBuilder.buildFlashAlgorithmConfiguration({
+          maximumAssessmentLength,
+        });
       });
 
-      describe('when less than the minimum number of answers required by the config has been answered', function () {
-        describe('when the candidate did not finish due to a lack of time', function () {
-          it('builds and save a lack of answers assessment result', async function () {
-            // given
-            const expectedCapacity = 2;
-            const scoreForCapacity = 639;
-            const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
-              id: certificationCourseId,
-              createdAt: certificationCourseStartDate,
-              abortReason: ABORT_REASONS.CANDIDATE,
-            });
-
-            const emitter = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
-
-            const challenges = _generateCertificationChallengeForScoringList({
-              length: minimumAnswersRequiredToValidateACertification - 1,
-            });
-
-            const capacityHistory = [
-              domainBuilder.buildCertificationChallengeCapacity({
-                certificationChallengeId: challenges[0].certificationChallengeId,
-                capacity: expectedCapacity,
-              }),
-            ];
-
-            const certificationAssessmentHistory = domainBuilder.buildCertificationAssessmentHistory({
-              capacityHistory,
-            });
-
-            const answers = generateAnswersForChallenges({ challenges });
-
-            flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
-              .withArgs(certificationCourseStartDate)
-              .resolves(baseFlashAlgorithmConfiguration);
-
-            certificationChallengeForScoringRepository.getByCertificationCourseId
-              .withArgs({ certificationCourseId })
-              .resolves(challenges);
-            answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
-            certificationCourseRepository.get
-              .withArgs({ id: certificationCourseId })
-              .resolves(abortedCertificationCourse);
-
-            flashAlgorithmService.getCapacityAndErrorRate
-              .withArgs({
-                challenges,
-                allAnswers: answers,
-                capacity: sinon.match.number,
-                variationPercent: undefined,
-                variationPercentUntil: undefined,
-                doubleMeasuresUntil: undefined,
-              })
-              .returns({
-                capacity: expectedCapacity,
-              });
-
-            flashAlgorithmService.getCapacityAndErrorRateHistory
-              .withArgs({
-                challenges,
-                allAnswers: answers,
-                capacity: sinon.match.number,
-                variationPercent: undefined,
-                variationPercentUntil: undefined,
-                doubleMeasuresUntil: undefined,
-              })
-              .returns([
-                {
-                  capacity: expectedCapacity,
-                },
-              ]);
-
-            // when
-            await scoringCertificationService.handleV3CertificationScoring({
-              event,
-              emitter,
-              certificationAssessment,
-              locale: 'fr',
-              answerRepository,
-              assessmentResultRepository,
-              certificationAssessmentHistoryRepository,
-              certificationChallengeForScoringRepository,
-              certificationCourseRepository,
-              competenceMarkRepository,
-              flashAlgorithmConfigurationRepository,
-              flashAlgorithmService,
-              scoringConfigurationRepository,
-              challengeRepository,
-            });
-
-            // then
-            const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScoreV3({
-              nbPix: scoreForCapacity,
-              status: status.REJECTED,
-            });
-            const expectedAssessmentResult = new AssessmentResult({
-              pixScore: scoreForCapacity,
-              reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
-              status: status.REJECTED,
-              assessmentId: certificationAssessment.id,
-              emitter: CertificationResult.emitters.PIX_ALGO_AUTO_JURY,
-              commentForCandidate: domainBuilder.certification.shared.buildJuryComment.candidate({
-                commentByAutoJury: AutoJuryCommentKeys.REJECTED_DUE_TO_LACK_OF_ANSWERS,
-              }),
-              commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
-                commentByAutoJury: AutoJuryCommentKeys.REJECTED_DUE_TO_LACK_OF_ANSWERS,
-              }),
-            });
-
-            expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
-              certificationCourseId: 1234,
-              assessmentResult: expectedAssessmentResult,
-            });
-            expect(certificationAssessmentHistoryRepository.save).to.have.been.calledWithExactly(
-              certificationAssessmentHistory,
-            );
-          });
+      it('should save the score', async function () {
+        // given
+        const certificationCourseStartDate = new Date('2022-01-01');
+        const certificationAssessment = domainBuilder.buildCertificationAssessment({
+          version: CERTIFICATION_VERSIONS.V3,
         });
 
-        describe('when the candidate did not finish due to technical difficulties', function () {
-          it('should cancel the certification and reject the assessment result', async function () {
-            // given
-            const abortReason = ABORT_REASONS.TECHNICAL;
-            const emitter = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
-            const expectedCapacity = 2;
-            const scoreForCapacity = 639;
-            const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
-              id: certificationCourseId,
-              createdAt: certificationCourseStartDate,
-              completedAt: null,
-              abortReason,
-            });
-
-            const challenges = _generateCertificationChallengeForScoringList({
-              length: minimumAnswersRequiredToValidateACertification - 1,
-            });
-
-            const capacityHistory = [
-              domainBuilder.buildCertificationChallengeCapacity({
-                certificationChallengeId: challenges[0].certificationChallengeId,
-                capacity: expectedCapacity,
-              }),
-            ];
-
-            const certificationAssessmentHistory = domainBuilder.buildCertificationAssessmentHistory({
-              capacityHistory,
-            });
-
-            const answers = generateAnswersForChallenges({ challenges });
-
-            flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
-              .withArgs(certificationCourseStartDate)
-              .resolves(baseFlashAlgorithmConfiguration);
-
-            certificationChallengeForScoringRepository.getByCertificationCourseId
-              .withArgs({ certificationCourseId })
-              .resolves(challenges);
-
-            answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
-            certificationCourseRepository.get
-              .withArgs({ id: certificationCourseId })
-              .resolves(abortedCertificationCourse);
-
-            flashAlgorithmService.getCapacityAndErrorRate
-              .withArgs({
-                challenges,
-                allAnswers: answers,
-                capacity: sinon.match.number,
-                variationPercent: undefined,
-                variationPercentUntil: undefined,
-                doubleMeasuresUntil: undefined,
-              })
-              .returns({
-                capacity: expectedCapacity,
-              });
-
-            flashAlgorithmService.getCapacityAndErrorRateHistory
-              .withArgs({
-                challenges,
-                allAnswers: answers,
-                capacity: sinon.match.number,
-                variationPercent: undefined,
-                variationPercentUntil: undefined,
-                doubleMeasuresUntil: undefined,
-              })
-              .returns([
-                {
-                  capacity: expectedCapacity,
-                },
-              ]);
-
-            // when
-            await scoringCertificationService.handleV3CertificationScoring({
-              event,
-              emitter,
-              certificationAssessment,
-              locale: 'fr',
-              answerRepository,
-              assessmentResultRepository,
-              certificationAssessmentHistoryRepository,
-              certificationChallengeForScoringRepository,
-              certificationCourseRepository,
-              competenceMarkRepository,
-              flashAlgorithmConfigurationRepository,
-              flashAlgorithmService,
-              scoringConfigurationRepository,
-              challengeRepository,
-            });
-
-            // then
-            const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScoreV3({
-              nbPix: scoreForCapacity,
-              status: status.REJECTED,
-            });
-            const expectedAssessmentResult = new AssessmentResult({
-              pixScore: scoreForCapacity,
-              reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
-              status: status.REJECTED,
-              assessmentId: certificationAssessment.id,
-              emitter: CertificationResult.emitters.PIX_ALGO_AUTO_JURY,
-              commentForCandidate: domainBuilder.certification.shared.buildJuryComment.candidate({
-                commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_LACK_OF_ANSWERS_FOR_TECHNICAL_REASON,
-              }),
-              commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
-                commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_LACK_OF_ANSWERS_FOR_TECHNICAL_REASON,
-              }),
-            });
-
-            expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
-              certificationCourseId: 1234,
-              assessmentResult: expectedAssessmentResult,
-            });
-
-            expect(abortedCertificationCourse).to.deep.equal(
-              new CertificationCourse({
-                ...certificationCourse.toDTO(),
-                isCancelled: true,
-                abortReason,
-              }),
-            );
-
-            expect(certificationAssessmentHistoryRepository.save).to.have.been.calledWithExactly(
-              certificationAssessmentHistory,
-            );
-          });
+        const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
+          createdAt: certificationCourseStartDate,
         });
+
+        const challenges = generateChallengeList({ length: maximumAssessmentLength });
+        const certificationChallengesForScoring = challenges.map((challenge) =>
+          domainBuilder.buildCertificationChallengeForScoring(challenge),
+        );
+        const answers = generateAnswersForChallenges({ challenges });
+
+        const expectedCapacity = 2;
+        const scoreForCapacity = 639;
+        const { certificationCourseId } = certificationAssessment;
+
+        const capacityHistory = [
+          domainBuilder.buildCertificationChallengeCapacity({
+            certificationChallengeId: certificationChallengesForScoring[0].certificationChallengeId,
+            capacity: expectedCapacity,
+          }),
+        ];
+
+        const certificationAssessmentHistory = domainBuilder.buildCertificationAssessmentHistory({
+          capacityHistory,
+        });
+
+        certificationChallengeForScoringRepository.getByCertificationCourseId
+          .withArgs({ certificationCourseId })
+          .resolves(certificationChallengesForScoring);
+
+        scoringConfigurationRepository.getLatestByDateAndLocale
+          .withArgs({ locale: 'fr', date: abortedCertificationCourse.getStartDate() })
+          .resolves(scoringConfiguration);
+
+        flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
+          .withArgs(certificationCourseStartDate)
+          .resolves(baseFlashAlgorithmConfig);
+
+        answerRepository.findByAssessment.withArgs(certificationAssessment.id).resolves(answers);
+
+        certificationCourseRepository.get
+          .withArgs({ id: certificationAssessment.certificationCourseId })
+          .resolves(abortedCertificationCourse);
+
+        flashAlgorithmService.getCapacityAndErrorRate
+          .withArgs({
+            challenges: certificationChallengesForScoring,
+            allAnswers: answers,
+            capacity: sinon.match.number,
+            variationPercent: undefined,
+            variationPercentUntil: undefined,
+            doubleMeasuresUntil: undefined,
+          })
+          .returns({
+            capacity: expectedCapacity,
+          });
+
+        flashAlgorithmService.getCapacityAndErrorRateHistory
+          .withArgs({
+            challenges: certificationChallengesForScoring,
+            allAnswers: answers,
+            capacity: sinon.match.number,
+            variationPercent: undefined,
+            variationPercentUntil: undefined,
+            doubleMeasuresUntil: undefined,
+          })
+          .returns([
+            {
+              capacity: expectedCapacity,
+            },
+          ]);
+
+        const event = new CertificationJuryDone({
+          certificationCourseId,
+        });
+
+        // when
+        await scoringCertificationService.handleV3CertificationScoring({
+          event,
+          emitter: AssessmentResult.emitters.PIX_ALGO,
+          certificationAssessment,
+          locale: 'fr',
+          answerRepository,
+          assessmentResultRepository,
+          certificationAssessmentHistoryRepository,
+          certificationChallengeForScoringRepository,
+          certificationCourseRepository,
+          competenceMarkRepository,
+          flashAlgorithmConfigurationRepository,
+          flashAlgorithmService,
+          scoringConfigurationRepository,
+          challengeRepository,
+        });
+
+        // then
+        const expectedResult = {
+          certificationCourseId,
+          assessmentResult: new AssessmentResult({
+            emitter: AssessmentResult.emitters.PIX_ALGO,
+            pixScore: scoreForCapacity,
+            reproducibilityRate: 100,
+            status: AssessmentResult.status.VALIDATED,
+            competenceMarks: [],
+            assessmentId: 123,
+          }),
+        };
+
+        expect(assessmentResultRepository.save).to.have.been.calledWith(expectedResult);
+        expect(certificationAssessmentHistoryRepository.save).to.have.been.calledWithExactly(
+          certificationAssessmentHistory,
+        );
+        expect(competenceMarkRepository.save).to.have.been.calledWithExactly(
+          domainBuilder.buildCompetenceMark({
+            id: undefined,
+            assessmentResultId: 99,
+            area_code: '1',
+            competenceId: 'recCompetenceId',
+            competence_code: '1.1',
+            level: 2,
+            score: 0,
+          }),
+        );
       });
 
       describe('when at least the minimum number of answers required by the config has been answered', function () {
@@ -2556,240 +2386,30 @@ describe('Unit | Service | Certification Result Service', function () {
             });
           });
         });
-
-        describe('when the certification was not completed', function () {
-          describe('when the candidate did not finish due to technical difficulties', function () {
-            // TODO Move this to rescoring section
-            it('should build and save an assessment result with a validated status with the raw score', async function () {
-              // given
-              const expectedCapacity = 2;
-              const rawScore = 639;
-              const challenges = _generateCertificationChallengeForScoringList({
-                length: minimumAnswersRequiredToValidateACertification,
-              });
-              const abortReason = ABORT_REASONS.TECHNICAL;
-              const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
-                id: certificationCourseId,
-                completedAt: null,
-                createdAt: certificationCourseStartDate,
-                abortReason,
-              });
-
-              const answers = generateAnswersForChallenges({ challenges });
-
-              const capacityHistory = [
-                domainBuilder.buildCertificationChallengeCapacity({
-                  certificationChallengeId: challenges[0].certificationChallengeId,
-                  capacity: expectedCapacity,
-                }),
-              ];
-
-              const certificationAssessmentHistory = domainBuilder.buildCertificationAssessmentHistory({
-                capacityHistory,
-              });
-
-              const emitter = CertificationResult.emitters.PIX_ALGO;
-
-              certificationChallengeForScoringRepository.getByCertificationCourseId
-                .withArgs({ certificationCourseId })
-                .resolves(challenges);
-              answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
-              certificationCourseRepository.get
-                .withArgs({ id: certificationCourseId })
-                .resolves(abortedCertificationCourse);
-              flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
-                .withArgs(certificationCourseStartDate)
-                .resolves(baseFlashAlgorithmConfiguration);
-              flashAlgorithmService.getCapacityAndErrorRate
-                .withArgs({
-                  challenges,
-                  allAnswers: answers,
-                  capacity: sinon.match.number,
-                  variationPercent: undefined,
-                  variationPercentUntil: undefined,
-                  doubleMeasuresUntil: undefined,
-                })
-                .returns({
-                  capacity: expectedCapacity,
-                });
-
-              flashAlgorithmService.getCapacityAndErrorRateHistory
-                .withArgs({
-                  challenges,
-                  allAnswers: answers,
-                  capacity: sinon.match.number,
-                  variationPercent: undefined,
-                  variationPercentUntil: undefined,
-                  doubleMeasuresUntil: undefined,
-                })
-                .returns([
-                  {
-                    capacity: expectedCapacity,
-                  },
-                ]);
-
-              // when
-              await scoringCertificationService.handleV3CertificationScoring({
-                event,
-                emitter,
-                certificationAssessment,
-                locale: 'fr',
-                answerRepository,
-                assessmentResultRepository,
-                certificationAssessmentHistoryRepository,
-                certificationChallengeForScoringRepository,
-                certificationCourseRepository,
-                competenceMarkRepository,
-                flashAlgorithmConfigurationRepository,
-                flashAlgorithmService,
-                scoringConfigurationRepository,
-                challengeRepository,
-              });
-
-              // then
-              const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScoreV3({
-                nbPix: rawScore,
-                status: status.VALIDATED,
-              });
-              const expectedAssessmentResult = new AssessmentResult({
-                pixScore: rawScore,
-                reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
-                status: status.VALIDATED,
-                assessmentId: certificationAssessment.id,
-                emitter: AssessmentResult.emitters.PIX_ALGO,
-              });
-              expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
-                certificationCourseId: 1234,
-                assessmentResult: expectedAssessmentResult,
-              });
-              expect(certificationAssessmentHistoryRepository.save).to.have.been.calledWithExactly(
-                certificationAssessmentHistory,
-              );
-            });
-          });
-
-          describe('when the candidate did not finish in time', function () {
-            it('should build and save an assessment result with a validated status', async function () {
-              // given
-              const expectedCapacity = 2;
-              const pixScore = 639;
-              const challenges = _generateCertificationChallengeForScoringList({
-                length: minimumAnswersRequiredToValidateACertification,
-              });
-              const abortReason = ABORT_REASONS.CANDIDATE;
-              const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
-                id: certificationCourseId,
-                createdAt: certificationCourseStartDate,
-                completedAt: null,
-                abortReason,
-              });
-              const emitter = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
-
-              const answers = generateAnswersForChallenges({ challenges });
-
-              const capacityHistory = [
-                domainBuilder.buildCertificationChallengeCapacity({
-                  certificationChallengeId: challenges[0].certificationChallengeId,
-                  capacity: expectedCapacity,
-                }),
-              ];
-
-              const certificationAssessmentHistory = domainBuilder.buildCertificationAssessmentHistory({
-                capacityHistory,
-              });
-
-              certificationChallengeForScoringRepository.getByCertificationCourseId
-                .withArgs({ certificationCourseId })
-                .resolves(challenges);
-              answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
-              certificationCourseRepository.get
-                .withArgs({ id: certificationCourseId })
-                .resolves(abortedCertificationCourse);
-              flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
-                .withArgs(certificationCourseStartDate)
-                .resolves(baseFlashAlgorithmConfiguration);
-              flashAlgorithmService.getCapacityAndErrorRate
-                .withArgs({
-                  challenges,
-                  allAnswers: answers,
-                  capacity: sinon.match.number,
-                  variationPercent: undefined,
-                  variationPercentUntil: undefined,
-                  doubleMeasuresUntil: undefined,
-                })
-                .returns({
-                  capacity: expectedCapacity,
-                });
-              flashAlgorithmService.getCapacityAndErrorRateHistory
-                .withArgs({
-                  challenges,
-                  allAnswers: answers,
-                  capacity: sinon.match.number,
-                  variationPercent: undefined,
-                  variationPercentUntil: undefined,
-                  doubleMeasuresUntil: undefined,
-                })
-                .returns([
-                  {
-                    capacity: expectedCapacity,
-                  },
-                ]);
-              challengeRepository.findFlashCompatibleWithoutLocale
-                .withArgs({
-                  useObsoleteChallenges: true,
-                })
-                .returns(challenges);
-
-              scoringDegradationService.downgradeCapacity.returns(expectedCapacity);
-
-              // when
-              await scoringCertificationService.handleV3CertificationScoring({
-                event,
-                emitter,
-                certificationAssessment,
-                locale: 'fr',
-                answerRepository,
-                assessmentResultRepository,
-                certificationAssessmentHistoryRepository,
-                certificationChallengeForScoringRepository,
-                certificationCourseRepository,
-                competenceMarkRepository,
-                flashAlgorithmConfigurationRepository,
-                flashAlgorithmService,
-                scoringConfigurationRepository,
-                challengeRepository,
-                scoringDegradationService,
-              });
-
-              // then
-              const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScoreV3({
-                nbPix: pixScore,
-                status: status.VALIDATED,
-              });
-              const expectedAssessmentResult = new AssessmentResult({
-                pixScore,
-                reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
-                status: status.VALIDATED,
-                assessmentId: certificationAssessment.id,
-                emitter: CertificationResult.emitters.PIX_ALGO_AUTO_JURY,
-              });
-              expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
-                certificationCourseId: 1234,
-                assessmentResult: expectedAssessmentResult,
-              });
-              expect(certificationAssessmentHistoryRepository.save).to.have.been.calledWithExactly(
-                certificationAssessmentHistory,
-              );
-            });
-          });
-        });
       });
     });
 
     context('for rescoring certification', function () {
-      let baseFlashAlgorithmConfig, scoringConfiguration;
+      let baseFlashAlgorithmConfig,
+        scoringConfiguration,
+        assessmentId,
+        certificationCourseId,
+        certificationCourseStartDate,
+        event,
+        certificationAssessment;
 
       beforeEach(function () {
+        assessmentId = 1214;
+        certificationCourseId = 1234;
+        certificationCourseStartDate = new Date('2022-01-01');
+        event = new CertificationJuryDone({
+          certificationCourseId,
+        });
+        certificationAssessment = domainBuilder.buildCertificationAssessment({
+          certificationCourseId,
+          id: assessmentId,
+          version: CERTIFICATION_VERSIONS.V3,
+        });
         baseFlashAlgorithmConfig = domainBuilder.buildFlashAlgorithmConfiguration({
           maximumAssessmentLength,
         });
@@ -2800,6 +2420,126 @@ describe('Unit | Service | Certification Result Service', function () {
 
         assessmentResultRepository.save.resolves(domainBuilder.buildAssessmentResult());
         competenceMarkRepository.save.resolves();
+      });
+
+      describe('when the certification was not completed', function () {
+        describe('when the candidate did not finish in time', function () {
+          it('should build and save an assessment result with a validated status', async function () {
+            // given
+            const expectedCapacity = 2;
+            const pixScore = 639;
+            const challenges = _generateCertificationChallengeForScoringList({
+              length: minimumAnswersRequiredToValidateACertification,
+            });
+            const abortReason = ABORT_REASONS.CANDIDATE;
+            const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
+              id: certificationCourseId,
+              createdAt: certificationCourseStartDate,
+              completedAt: null,
+              abortReason,
+            });
+            const emitter = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
+
+            const answers = generateAnswersForChallenges({ challenges });
+
+            const capacityHistory = [
+              domainBuilder.buildCertificationChallengeCapacity({
+                certificationChallengeId: challenges[0].certificationChallengeId,
+                capacity: expectedCapacity,
+              }),
+            ];
+
+            const certificationAssessmentHistory = domainBuilder.buildCertificationAssessmentHistory({
+              capacityHistory,
+            });
+
+            certificationChallengeForScoringRepository.getByCertificationCourseId
+              .withArgs({ certificationCourseId })
+              .resolves(challenges);
+            answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
+            certificationCourseRepository.get
+              .withArgs({ id: certificationCourseId })
+              .resolves(abortedCertificationCourse);
+            flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
+              .withArgs(certificationCourseStartDate)
+              .resolves(baseFlashAlgorithmConfiguration);
+            flashAlgorithmService.getCapacityAndErrorRate
+              .withArgs({
+                challenges,
+                allAnswers: answers,
+                capacity: sinon.match.number,
+                variationPercent: undefined,
+                variationPercentUntil: undefined,
+                doubleMeasuresUntil: undefined,
+              })
+              .returns({
+                capacity: expectedCapacity,
+              });
+            flashAlgorithmService.getCapacityAndErrorRateHistory
+              .withArgs({
+                challenges,
+                allAnswers: answers,
+                capacity: sinon.match.number,
+                variationPercent: undefined,
+                variationPercentUntil: undefined,
+                doubleMeasuresUntil: undefined,
+              })
+              .returns([
+                {
+                  capacity: expectedCapacity,
+                },
+              ]);
+            challengeRepository.findFlashCompatibleWithoutLocale
+              .withArgs({
+                useObsoleteChallenges: true,
+              })
+              .returns(challenges);
+            scoringConfigurationRepository.getLatestByDateAndLocale
+              .withArgs({ locale: 'fr', date: abortedCertificationCourse.getStartDate() })
+              .resolves(scoringConfiguration);
+
+            scoringDegradationService.downgradeCapacity.returns(expectedCapacity);
+
+            // when
+            await scoringCertificationService.handleV3CertificationScoring({
+              event,
+              emitter,
+              certificationAssessment,
+              locale: 'fr',
+              answerRepository,
+              assessmentResultRepository,
+              certificationAssessmentHistoryRepository,
+              certificationChallengeForScoringRepository,
+              certificationCourseRepository,
+              competenceMarkRepository,
+              flashAlgorithmConfigurationRepository,
+              flashAlgorithmService,
+              scoringConfigurationRepository,
+              challengeRepository,
+              scoringDegradationService,
+            });
+
+            // then
+            const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScoreV3({
+              nbPix: pixScore,
+              status: status.VALIDATED,
+            });
+            const expectedAssessmentResult = new AssessmentResult({
+              pixScore,
+              reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+              status: status.VALIDATED,
+              assessmentId: certificationAssessment.id,
+              emitter: CertificationResult.emitters.PIX_ALGO_AUTO_JURY,
+            });
+            expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
+              certificationCourseId,
+              assessmentResult: expectedAssessmentResult,
+            });
+            expect(certificationAssessmentHistoryRepository.save).to.have.been.calledWithExactly(
+              certificationAssessmentHistory,
+            );
+          });
+        });
       });
 
       describe('when less than the minimum number of answers required by the config has been answered', function () {
@@ -2924,6 +2664,124 @@ describe('Unit | Service | Certification Result Service', function () {
               certificationAssessmentHistory,
             );
           });
+
+          it('builds and save a lack of answers assessment result', async function () {
+            // given
+            const expectedCapacity = 2;
+            const scoreForCapacity = 639;
+            const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
+              id: certificationCourseId,
+              createdAt: certificationCourseStartDate,
+              abortReason: ABORT_REASONS.CANDIDATE,
+            });
+
+            const emitter = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
+
+            const challenges = _generateCertificationChallengeForScoringList({
+              length: minimumAnswersRequiredToValidateACertification - 1,
+            });
+
+            const capacityHistory = [
+              domainBuilder.buildCertificationChallengeCapacity({
+                certificationChallengeId: challenges[0].certificationChallengeId,
+                capacity: expectedCapacity,
+              }),
+            ];
+
+            const certificationAssessmentHistory = domainBuilder.buildCertificationAssessmentHistory({
+              capacityHistory,
+            });
+
+            const answers = generateAnswersForChallenges({ challenges });
+
+            flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
+              .withArgs(certificationCourseStartDate)
+              .resolves(baseFlashAlgorithmConfiguration);
+
+            certificationChallengeForScoringRepository.getByCertificationCourseId
+              .withArgs({ certificationCourseId })
+              .resolves(challenges);
+            answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
+            certificationCourseRepository.get
+              .withArgs({ id: certificationCourseId })
+              .resolves(abortedCertificationCourse);
+
+            flashAlgorithmService.getCapacityAndErrorRate
+              .withArgs({
+                challenges,
+                allAnswers: answers,
+                capacity: sinon.match.number,
+                variationPercent: undefined,
+                variationPercentUntil: undefined,
+                doubleMeasuresUntil: undefined,
+              })
+              .returns({
+                capacity: expectedCapacity,
+              });
+
+            flashAlgorithmService.getCapacityAndErrorRateHistory
+              .withArgs({
+                challenges,
+                allAnswers: answers,
+                capacity: sinon.match.number,
+                variationPercent: undefined,
+                variationPercentUntil: undefined,
+                doubleMeasuresUntil: undefined,
+              })
+              .returns([
+                {
+                  capacity: expectedCapacity,
+                },
+              ]);
+            scoringConfigurationRepository.getLatestByDateAndLocale
+              .withArgs({ locale: 'fr', date: abortedCertificationCourse.getStartDate() })
+              .resolves(scoringConfiguration);
+
+            // when
+            await scoringCertificationService.handleV3CertificationScoring({
+              event,
+              emitter,
+              certificationAssessment,
+              locale: 'fr',
+              answerRepository,
+              assessmentResultRepository,
+              certificationAssessmentHistoryRepository,
+              certificationChallengeForScoringRepository,
+              certificationCourseRepository,
+              competenceMarkRepository,
+              flashAlgorithmConfigurationRepository,
+              flashAlgorithmService,
+              scoringConfigurationRepository,
+              challengeRepository,
+            });
+
+            // then
+            const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScoreV3({
+              nbPix: scoreForCapacity,
+              status: status.REJECTED,
+            });
+            const expectedAssessmentResult = new AssessmentResult({
+              pixScore: scoreForCapacity,
+              reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+              status: status.REJECTED,
+              assessmentId: certificationAssessment.id,
+              emitter: CertificationResult.emitters.PIX_ALGO_AUTO_JURY,
+              commentForCandidate: domainBuilder.certification.shared.buildJuryComment.candidate({
+                commentByAutoJury: AutoJuryCommentKeys.REJECTED_DUE_TO_LACK_OF_ANSWERS,
+              }),
+              commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+                commentByAutoJury: AutoJuryCommentKeys.REJECTED_DUE_TO_LACK_OF_ANSWERS,
+              }),
+            });
+
+            expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
+              certificationCourseId: 1234,
+              assessmentResult: expectedAssessmentResult,
+            });
+            expect(certificationAssessmentHistoryRepository.save).to.have.been.calledWithExactly(
+              certificationAssessmentHistory,
+            );
+          });
         });
 
         describe('when the certification was not finished due to technical difficulties', function () {
@@ -3042,6 +2900,128 @@ describe('Unit | Service | Certification Result Service', function () {
               }),
             };
             expect(assessmentResultRepository.save).to.have.been.calledWith(expectedResult);
+            expect(certificationAssessmentHistoryRepository.save).to.have.been.calledWithExactly(
+              certificationAssessmentHistory,
+            );
+          });
+
+          it('should reject the assessment result', async function () {
+            // given
+            const abortReason = ABORT_REASONS.TECHNICAL;
+            const emitter = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
+            const expectedCapacity = 2;
+            const scoreForCapacity = 639;
+            const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
+              id: certificationCourseId,
+              createdAt: certificationCourseStartDate,
+              completedAt: null,
+              abortReason,
+            });
+
+            const challenges = _generateCertificationChallengeForScoringList({
+              length: minimumAnswersRequiredToValidateACertification - 1,
+            });
+
+            const capacityHistory = [
+              domainBuilder.buildCertificationChallengeCapacity({
+                certificationChallengeId: challenges[0].certificationChallengeId,
+                capacity: expectedCapacity,
+              }),
+            ];
+
+            const certificationAssessmentHistory = domainBuilder.buildCertificationAssessmentHistory({
+              capacityHistory,
+            });
+
+            const answers = generateAnswersForChallenges({ challenges });
+
+            flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
+              .withArgs(certificationCourseStartDate)
+              .resolves(baseFlashAlgorithmConfiguration);
+
+            certificationChallengeForScoringRepository.getByCertificationCourseId
+              .withArgs({ certificationCourseId })
+              .resolves(challenges);
+
+            answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
+            certificationCourseRepository.get
+              .withArgs({ id: certificationCourseId })
+              .resolves(abortedCertificationCourse);
+
+            scoringConfigurationRepository.getLatestByDateAndLocale
+              .withArgs({ locale: 'fr', date: abortedCertificationCourse.getStartDate() })
+              .resolves(scoringConfiguration);
+
+            flashAlgorithmService.getCapacityAndErrorRate
+              .withArgs({
+                challenges,
+                allAnswers: answers,
+                capacity: sinon.match.number,
+                variationPercent: undefined,
+                variationPercentUntil: undefined,
+                doubleMeasuresUntil: undefined,
+              })
+              .returns({
+                capacity: expectedCapacity,
+              });
+
+            flashAlgorithmService.getCapacityAndErrorRateHistory
+              .withArgs({
+                challenges,
+                allAnswers: answers,
+                capacity: sinon.match.number,
+                variationPercent: undefined,
+                variationPercentUntil: undefined,
+                doubleMeasuresUntil: undefined,
+              })
+              .returns([
+                {
+                  capacity: expectedCapacity,
+                },
+              ]);
+
+            // when
+            await scoringCertificationService.handleV3CertificationScoring({
+              event,
+              emitter,
+              certificationAssessment,
+              locale: 'fr',
+              answerRepository,
+              assessmentResultRepository,
+              certificationAssessmentHistoryRepository,
+              certificationChallengeForScoringRepository,
+              certificationCourseRepository,
+              competenceMarkRepository,
+              flashAlgorithmConfigurationRepository,
+              flashAlgorithmService,
+              scoringConfigurationRepository,
+              challengeRepository,
+            });
+
+            // then
+            const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScoreV3({
+              nbPix: scoreForCapacity,
+              status: status.REJECTED,
+            });
+            const expectedAssessmentResult = new AssessmentResult({
+              pixScore: scoreForCapacity,
+              reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+              status: status.REJECTED,
+              assessmentId: certificationAssessment.id,
+              emitter: CertificationResult.emitters.PIX_ALGO_AUTO_JURY,
+              commentForCandidate: domainBuilder.certification.shared.buildJuryComment.candidate({
+                commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_LACK_OF_ANSWERS_FOR_TECHNICAL_REASON,
+              }),
+              commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+                commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_LACK_OF_ANSWERS_FOR_TECHNICAL_REASON,
+              }),
+            });
+
+            expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
+              certificationCourseId: 1234,
+              assessmentResult: expectedAssessmentResult,
+            });
+
             expect(certificationAssessmentHistoryRepository.save).to.have.been.calledWithExactly(
               certificationAssessmentHistory,
             );
@@ -3174,138 +3154,7 @@ describe('Unit | Service | Certification Result Service', function () {
         });
       });
 
-      // TODO Move this in "for scoring certification". If all questions are answered, there is no rescoring
       describe('when all the questions were answered', function () {
-        it('should save the score', async function () {
-          // given
-          const certificationCourseStartDate = new Date('2022-01-01');
-          const certificationAssessment = domainBuilder.buildCertificationAssessment({
-            version: CERTIFICATION_VERSIONS.V3,
-          });
-
-          const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
-            createdAt: certificationCourseStartDate,
-          });
-
-          const challenges = generateChallengeList({ length: maximumAssessmentLength });
-          const certificationChallengesForScoring = challenges.map((challenge) =>
-            domainBuilder.buildCertificationChallengeForScoring(challenge),
-          );
-          const answers = generateAnswersForChallenges({ challenges });
-
-          const expectedCapacity = 2;
-          const scoreForCapacity = 639;
-          const { certificationCourseId } = certificationAssessment;
-
-          const capacityHistory = [
-            domainBuilder.buildCertificationChallengeCapacity({
-              certificationChallengeId: certificationChallengesForScoring[0].certificationChallengeId,
-              capacity: expectedCapacity,
-            }),
-          ];
-
-          const certificationAssessmentHistory = domainBuilder.buildCertificationAssessmentHistory({
-            capacityHistory,
-          });
-
-          certificationChallengeForScoringRepository.getByCertificationCourseId
-            .withArgs({ certificationCourseId })
-            .resolves(certificationChallengesForScoring);
-
-          scoringConfigurationRepository.getLatestByDateAndLocale
-            .withArgs({ locale: 'fr', date: abortedCertificationCourse.getStartDate() })
-            .resolves(scoringConfiguration);
-
-          flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
-            .withArgs(certificationCourseStartDate)
-            .resolves(baseFlashAlgorithmConfig);
-
-          answerRepository.findByAssessment.withArgs(certificationAssessment.id).resolves(answers);
-
-          certificationCourseRepository.get
-            .withArgs({ id: certificationAssessment.certificationCourseId })
-            .resolves(abortedCertificationCourse);
-
-          flashAlgorithmService.getCapacityAndErrorRate
-            .withArgs({
-              challenges: certificationChallengesForScoring,
-              allAnswers: answers,
-              capacity: sinon.match.number,
-              variationPercent: undefined,
-              variationPercentUntil: undefined,
-              doubleMeasuresUntil: undefined,
-            })
-            .returns({
-              capacity: expectedCapacity,
-            });
-
-          flashAlgorithmService.getCapacityAndErrorRateHistory
-            .withArgs({
-              challenges: certificationChallengesForScoring,
-              allAnswers: answers,
-              capacity: sinon.match.number,
-              variationPercent: undefined,
-              variationPercentUntil: undefined,
-              doubleMeasuresUntil: undefined,
-            })
-            .returns([
-              {
-                capacity: expectedCapacity,
-              },
-            ]);
-
-          const event = new CertificationJuryDone({
-            certificationCourseId,
-          });
-
-          // when
-          await scoringCertificationService.handleV3CertificationScoring({
-            event,
-            emitter: AssessmentResult.emitters.PIX_ALGO,
-            certificationAssessment,
-            locale: 'fr',
-            answerRepository,
-            assessmentResultRepository,
-            certificationAssessmentHistoryRepository,
-            certificationChallengeForScoringRepository,
-            certificationCourseRepository,
-            competenceMarkRepository,
-            flashAlgorithmConfigurationRepository,
-            flashAlgorithmService,
-            scoringConfigurationRepository,
-            challengeRepository,
-          });
-
-          // then
-          const expectedResult = {
-            certificationCourseId,
-            assessmentResult: new AssessmentResult({
-              emitter: AssessmentResult.emitters.PIX_ALGO,
-              pixScore: scoreForCapacity,
-              reproducibilityRate: 100,
-              status: AssessmentResult.status.VALIDATED,
-              competenceMarks: [],
-              assessmentId: 123,
-            }),
-          };
-
-          expect(assessmentResultRepository.save).to.have.been.calledWith(expectedResult);
-          expect(certificationAssessmentHistoryRepository.save).to.have.been.calledWithExactly(
-            certificationAssessmentHistory,
-          );
-          expect(competenceMarkRepository.save).to.have.been.calledWithExactly(
-            domainBuilder.buildCompetenceMark({
-              id: undefined,
-              assessmentResultId: 123,
-              area_code: '1',
-              competenceId: 'recCompetenceId',
-              competence_code: '1.1',
-              level: 2,
-              score: 0,
-            }),
-          );
-        });
-
         describe('when certification is rejected for fraud', function () {
           it('should save the score with rejected status', async function () {
             const certificationCourseStartDate = new Date('2022-01-01');
