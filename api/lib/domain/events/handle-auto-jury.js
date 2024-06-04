@@ -1,5 +1,6 @@
 import bluebird from 'bluebird';
 
+import { logErrorWithCorrelationIds } from '../../infrastructure/monitoring-tools.js';
 import { CertificationIssueReportResolutionAttempt } from '../models/CertificationIssueReportResolutionAttempt.js';
 import { CertificationIssueReportResolutionStrategies } from '../models/CertificationIssueReportResolutionStrategies.js';
 import { CertificationAssessment } from '../models/index.js';
@@ -174,7 +175,6 @@ async function _autoResolveCertificationIssueReport({
   certificationIssueReportRepository,
   certificationAssessmentRepository,
   resolutionStrategies,
-  logger,
 }) {
   const certificationIssueReports = await certificationIssueReportRepository.findByCertificationCourseId({
     certificationCourseId: certificationCourse.getId(),
@@ -187,7 +187,7 @@ async function _autoResolveCertificationIssueReport({
     try {
       return await resolutionStrategies.resolve({ certificationIssueReport, certificationAssessment });
     } catch (e) {
-      logger.error(e);
+      logErrorWithCorrelationIds(e);
       return CertificationIssueReportResolutionAttempt.unresolved();
     }
   });

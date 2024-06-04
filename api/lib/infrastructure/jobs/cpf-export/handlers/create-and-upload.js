@@ -5,6 +5,8 @@ import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone.js';
 import utc from 'dayjs/plugin/utc.js';
 
+import { logErrorWithCorrelationIds } from '../../../monitoring-tools.js';
+
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
@@ -21,7 +23,7 @@ const createAndUpload = async function ({
   const cpfCertificationResults = await cpfCertificationResultRepository.findByBatchId(batchId);
 
   if (cpfCertificationResults.length == 0) {
-    logger.error(`Create CPF results, with no certification found (batchId ${batchId})`);
+    logErrorWithCorrelationIds(`Create CPF results, with no certification found (batchId ${batchId})`);
     return;
   }
 

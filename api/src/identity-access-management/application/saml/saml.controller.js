@@ -1,6 +1,6 @@
 import { config } from '../../../../lib/config.js';
+import { logErrorWithCorrelationIds } from '../../../../lib/infrastructure/monitoring-tools.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
-import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as saml from '../../infrastructure/saml.js';
 
@@ -17,7 +17,7 @@ const assert = async function (request, h) {
   try {
     userAttributes = await saml.parsePostResponse(request.payload);
   } catch (e) {
-    logger.error({ e }, 'SAML: Error while parsing post response');
+    logErrorWithCorrelationIds({ e }, 'SAML: Error while parsing post response');
     return h.response(e.toString()).code(400);
   }
 
@@ -30,7 +30,7 @@ const assert = async function (request, h) {
 
     return h.redirect(redirectionUrl);
   } catch (e) {
-    logger.error({ e }, 'SAML: Error while get external authentication redirection url');
+    logErrorWithCorrelationIds({ e }, 'SAML: Error while get external authentication redirection url');
     return h.response(e.toString()).code(500);
   }
 };

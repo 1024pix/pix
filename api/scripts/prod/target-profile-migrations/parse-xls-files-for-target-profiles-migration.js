@@ -17,6 +17,7 @@ import XLSX from 'xlsx';
 import { disconnect, knex } from '../../../db/knex-database-connection.js';
 import { normalizeAndRemoveAccents } from '../../../lib/domain/services/validation-treatments.js';
 import { learningContentCache as cache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
+import { logErrorWithCorrelationIds } from '../../../lib/infrastructure/monitoring-tools.js';
 import * as tubeRepository from '../../../lib/infrastructure/repositories/tube-repository.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import { autoMigrateTargetProfile } from './common.js';
@@ -60,7 +61,7 @@ const mapperFnc = (line) => {
       multiformCap: ouiNonToBoolean(line.multiformCap),
     };
   } catch (_e) {
-    logger.error(
+    logErrorWithCorrelationIds(
       { targetProfileId: line.id, targetProfileName: line.name },
       "Erreur lors de la migration d'un profil cible: Ligne EXCEL incorrecte, valeur de cellule invalide",
     );
@@ -217,7 +218,7 @@ async function migrateTargetProfiles(targetProfiles, multiFormData, dryRun) {
         }
       });
     } catch (e) {
-      logger.error(
+      logErrorWithCorrelationIds(
         { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
         "Erreur lors de la migration d'un profil cible: %s",
         e,
@@ -316,7 +317,7 @@ async function main() {
     try {
       await main();
     } catch (error) {
-      logger.error(error);
+      logErrorWithCorrelationIds(error);
       process.exitCode = 1;
     } finally {
       await disconnect();

@@ -4,7 +4,7 @@ import * as url from 'node:url';
 
 import jsdocToMarkdown from 'jsdoc-to-markdown';
 
-import { logger } from '../src/shared/infrastructure/utils/logger.js';
+import { logErrorWithCorrelationIds } from '../lib/infrastructure/monitoring-tools.js';
 
 async function main(baseFolder) {
   const docs = await jsdocToMarkdown.render({ files: `${baseFolder}/**/application/api/*.js` });
@@ -20,7 +20,7 @@ const isLaunchedFromCommandLine = process.argv[1] === modulePath;
     try {
       await main(process.argv[2]);
     } catch (error) {
-      logger.error(error);
+      logErrorWithCorrelationIds(error);
       process.exitCode = 1;
     }
   }

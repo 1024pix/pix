@@ -10,6 +10,7 @@ import { readFile, set_fs, utils as xlsxUtils } from 'xlsx';
 
 import { disconnect } from '../../../db/knex-database-connection.js';
 import { learningContentCache as cache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
+import { logErrorWithCorrelationIds } from '../../../lib/infrastructure/monitoring-tools.js';
 import * as stageCollectionRepository from '../../../src/evaluation/infrastructure/repositories/stage-collection-repository.js';
 import * as targetProfileForAdminRepository from '../../../src/shared/infrastructure/repositories/target-profile-for-admin-repository.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
@@ -75,7 +76,7 @@ async function _computeReverts(inputFile, sample) {
       );
 
       if (!precheckNoChanges || !precheckUnknownStage) {
-        logger.error(
+        logErrorWithCorrelationIds(
           { stageReverts, stagesWLevel },
           `Skipping target profile ${targetProfile.id} which had changes since migration`,
         );
@@ -131,7 +132,7 @@ async function main() {
     try {
       await main();
     } catch (error) {
-      logger.error(error);
+      logErrorWithCorrelationIds(error);
       process.exitCode = 1;
     } finally {
       await disconnect();

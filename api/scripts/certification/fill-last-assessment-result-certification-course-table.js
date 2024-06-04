@@ -6,7 +6,7 @@ import bluebird from 'bluebird';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
 import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
-import { logger } from '../../src/shared/infrastructure/utils/logger.js';
+import { logErrorWithCorrelationIds } from '../../lib/infrastructure/monitoring-tools.js';
 
 const ASSOC_TABLE_NAME = 'certification-courses-last-assessment-results';
 
@@ -19,7 +19,7 @@ const addLastAssessmentResultCertificationCourse = async () => {
         const lastAssessmentResultId = await _getLatestAssessmentResultId(certificationCourseId);
         if (lastAssessmentResultId) return { certificationCourseId, lastAssessmentResultId };
       } catch (err) {
-        logger.error(`Went wrong for certification ${certificationCourseId}`);
+        logErrorWithCorrelationIds(`Went wrong for certification ${certificationCourseId}`);
       }
     })
     .filter(Boolean);
@@ -27,7 +27,7 @@ const addLastAssessmentResultCertificationCourse = async () => {
   try {
     await knex(ASSOC_TABLE_NAME).insert(data);
   } catch (e) {
-    logger.error(e);
+    logErrorWithCorrelationIds(e);
   }
 };
 
@@ -43,7 +43,7 @@ function main() {
     try {
       await main();
     } catch (error) {
-      logger.error(error);
+      logErrorWithCorrelationIds(error);
       process.exitCode = 1;
     } finally {
       await disconnect();

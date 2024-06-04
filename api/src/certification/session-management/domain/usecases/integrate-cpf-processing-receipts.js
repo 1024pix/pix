@@ -6,6 +6,7 @@
 import bluebird from 'bluebird';
 
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../../lib/infrastructure/constants.js';
+import { logErrorWithCorrelationIds } from '../../../../../lib/infrastructure/monitoring-tools.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 
 /**
@@ -26,7 +27,7 @@ const integrateCpfProccessingReceipts = async function ({ cpfReceiptsStorage, cp
       await cpfReceiptsStorage.deleteReceipt({ cpfReceipt });
     } catch (error) {
       // Do not block next CPF receipt integration
-      logger.error('An error occured while integrating a CPF receipt', error);
+      logErrorWithCorrelationIds('An error occured while integrating a CPF receipt', error);
     }
   }
 

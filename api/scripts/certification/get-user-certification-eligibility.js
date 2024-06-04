@@ -10,6 +10,7 @@ import * as certificationBadgesService from '../../lib/domain/services/certifica
 import * as placementProfileService from '../../lib/domain/services/placement-profile-service.js';
 import { usecases } from '../../lib/domain/usecases/index.js';
 import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
+import { logErrorWithCorrelationIds } from '../../lib/infrastructure/monitoring-tools.js';
 import { temporaryStorage } from '../../lib/infrastructure/temporary-storage/index.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 
@@ -76,7 +77,7 @@ async function main() {
     try {
       await main();
     } catch (error) {
-      logger.error(error);
+      logErrorWithCorrelationIds(error);
       process.exitCode = 1;
     } finally {
       await disconnect();

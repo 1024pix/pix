@@ -13,6 +13,7 @@ import i18n from 'i18n';
 
 import { disconnect } from '../../../../db/knex-database-connection.js';
 import { learningContentCache as cache } from '../../../../lib/infrastructure/caches/learning-content-cache.js';
+import { logErrorWithCorrelationIds } from '../../../../lib/infrastructure/monitoring-tools.js';
 import { options } from '../../../../lib/infrastructure/plugins/i18n.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
@@ -47,7 +48,7 @@ async function main() {
     const certificationCourses = await certificationCourseRepository.findCertificationCoursesBySessionId({ sessionId });
 
     if (isEmpty(certificationCourses)) {
-      logger.error(`Pas de certifications trouvées pour la session ${sessionId}.`);
+      logErrorWithCorrelationIds(`Pas de certifications trouvées pour la session ${sessionId}.`);
       return;
     }
 
@@ -66,7 +67,7 @@ async function main() {
     );
 
     if (isEmpty(certificationAttestations)) {
-      logger.error(`Pas d'attestation trouvée pour la session ${sessionId}.`);
+      logErrorWithCorrelationIds(`Pas d'attestation trouvée pour la session ${sessionId}.`);
       return;
     }
 
@@ -93,7 +94,7 @@ const isLaunchedFromCommandLine = process.argv[1] === modulePath;
     try {
       await main();
     } catch (error) {
-      logger.error(error);
+      logErrorWithCorrelationIds(error);
       process.exitCode = 1;
     } finally {
       await disconnect();

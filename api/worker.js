@@ -19,6 +19,7 @@ import { ComputeCertificabilityJob } from './lib/infrastructure/jobs/organizatio
 import { ComputeCertificabilityJobHandler } from './lib/infrastructure/jobs/organization-learner/ComputeCertificabilityJobHandler.js';
 import { ScheduleComputeOrganizationLearnersCertificabilityJob } from './lib/infrastructure/jobs/organization-learner/ScheduleComputeOrganizationLearnersCertificabilityJob.js';
 import { ScheduleComputeOrganizationLearnersCertificabilityJobHandler } from './lib/infrastructure/jobs/organization-learner/ScheduleComputeOrganizationLearnersCertificabilityJobHandler.js';
+import { logErrorWithCorrelationIds } from './lib/infrastructure/monitoring-tools.js';
 import * as organizationLearnerRepository from './lib/infrastructure/repositories/organization-learner-repository.js';
 import * as pgBossRepository from './lib/infrastructure/repositories/pgboss-repository.js';
 import { ImportOrganizationLearnersJob } from './src/prescription/learner-management/infrastructure/jobs/ImportOrganizationLearnersJob.js';
@@ -43,7 +44,7 @@ async function startPgBoss() {
     });
   });
   pgBoss.on('error', (err) => {
-    logger.error({ event: 'pg-boss-error' }, err);
+    logErrorWithCorrelationIds({ event: 'pg-boss-error' }, err);
   });
   pgBoss.on('wip', (data) => {
     logger.info({ event: 'pg-boss-wip' }, data);
@@ -115,7 +116,7 @@ if (!isTestEnv) {
   if (!startInWebProcess || (startInWebProcess && isEntryPointFromOtherFile)) {
     await runJobs();
   } else {
-    logger.error(
+    logErrorWithCorrelationIds(
       'Worker process is started in the web process. Please unset the START_JOB_IN_WEB_PROCESS environment variable to start a dedicated worker process.',
     );
     // eslint-disable-next-line n/no-process-exit

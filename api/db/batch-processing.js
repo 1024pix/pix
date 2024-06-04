@@ -1,3 +1,5 @@
+import { logErrorWithCorrelationIds } from '../lib/infrastructure/monitoring-tools.js';
+
 const BATCH_SIZE = 10;
 import { logger } from '../src/shared/infrastructure/utils/logger.js';
 
@@ -10,7 +12,7 @@ function batch(knex, elementsToUpdate, treatment) {
     const assessments = remainingElementsToUpdate.splice(0, BATCH_SIZE);
     const promises = assessments.map((assessment) => {
       return treatment(assessment).catch((err) => {
-        logger.error('Treatment failed for :', assessment);
+        logErrorWithCorrelationIds('Treatment failed for :', assessment);
 
         throw err;
       });

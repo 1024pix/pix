@@ -1,5 +1,6 @@
 import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 import { config } from '../../../config.js';
+import { logErrorWithCorrelationIds } from '../../monitoring-tools.js';
 import { cpfExport } from './index.js';
 const { plannerJob, sendEmailJob } = config.cpf;
 
@@ -28,7 +29,7 @@ async function _processJob(job, handler, params) {
   try {
     await handler({ ...params, job, logger: buildLogger(job) });
   } catch (error) {
-    logger.error(error);
+    logErrorWithCorrelationIds(error);
     throw error;
   }
 }
@@ -38,7 +39,8 @@ function buildLogger(job) {
   const jobId = job.id;
   return {
     info: (message, ...args) => logger.info({ ...args, handlerName, jobId, type: 'JOB_LOG', message }),
-    error: (message, ...args) => logger.error({ ...args, handlerName, jobId, type: 'JOB_ERROR', message }),
+    error: (message, ...args) =>
+      logErrorWithCorrelationIds({ ...args, handlerName, jobId, type: 'JOB_ERROR', message }),
     trace: (message, ...args) => logger.trace({ ...args, handlerName, jobId, type: 'JOB_TRACE', message }),
   };
 }

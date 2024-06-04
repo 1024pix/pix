@@ -8,12 +8,11 @@ import { Issuer } from 'openid-client';
 import { OIDC_ERRORS } from '../../../../lib/domain/constants.js';
 import { OidcMissingFieldsError } from '../../../../lib/domain/errors.js';
 import { AuthenticationMethod, AuthenticationSessionContent } from '../../../../lib/domain/models/index.js';
-import { monitoringTools } from '../../../../lib/infrastructure/monitoring-tools.js';
+import { logErrorWithCorrelationIds, monitoringTools } from '../../../../lib/infrastructure/monitoring-tools.js';
 import { temporaryStorage } from '../../../../lib/infrastructure/temporary-storage/index.js';
 import { config } from '../../../shared/config.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { OidcError } from '../../../shared/domain/errors.js';
-import { logger } from '../../../shared/infrastructure/utils/logger.js';
 
 const DEFAULT_SCOPE = 'openid profile';
 const DEFAULT_REQUIRED_CLAIMS = ['sub', 'family_name', 'given_name'];
@@ -115,7 +114,7 @@ export class OidcAuthenticationService {
 
       this.client = new issuer.Client(metadata);
     } catch (error) {
-      logger.error(`OIDC Provider "${this.identityProvider}" is UNAVAILABLE: ${error}`);
+      logErrorWithCorrelationIds(`OIDC Provider "${this.identityProvider}" is UNAVAILABLE: ${error}`);
     }
   }
 

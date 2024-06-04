@@ -1,5 +1,6 @@
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import { usecases } from '../../domain/usecases/index.js';
+import { logErrorWithCorrelationIds } from '../../infrastructure/monitoring-tools.js';
 
 const createRelease = async function (request, h) {
   usecases
@@ -8,7 +9,7 @@ const createRelease = async function (request, h) {
       logger.info('Release created and cache reloaded');
     })
     .catch((e) => {
-      logger.error('Error while creating the release and reloading cache', e);
+      logErrorWithCorrelationIds('Error while creating the release and reloading cache', e);
     });
   return h.response({}).code(204);
 };

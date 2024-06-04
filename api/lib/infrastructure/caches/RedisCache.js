@@ -6,6 +6,7 @@ import Redlock from 'redlock';
 
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import { config } from '../../config.js';
+import { logErrorWithCorrelationIds } from '../monitoring-tools.js';
 import { RedisClient } from '../utils/RedisClient.js';
 import { applyPatch } from './apply-patch.js';
 import { Cache } from './Cache.js';
@@ -43,7 +44,8 @@ class RedisCache extends Cache {
       const value = await generator();
       return this.set(key, value);
     };
-    const unlockErrorHandler = (err) => logger.error({ key }, 'Error while trying to unlock Redis key', err);
+    const unlockErrorHandler = (err) =>
+      logErrorWithCorrelationIds({ key }, 'Error while trying to unlock Redis key', err);
 
     try {
       const locker = this._client.lockDisposer(keyToLock, config.caching.redisCacheKeyLockTTL, unlockErrorHandler);
@@ -55,7 +57,7 @@ class RedisCache extends Cache {
         await new Promise((resolve) => setTimeout(resolve, config.caching.redisCacheLockedWaitBeforeRetry));
         return this.get(key, generator);
       }
-      logger.error({ err }, 'Error while trying to update value in Redis cache');
+      logErrorWithCorrelationIds({ err }, 'Error while trying to update value in Redis cache');
       throw err;
     }
   }

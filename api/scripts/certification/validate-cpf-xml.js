@@ -3,6 +3,7 @@ import * as url from 'node:url';
 
 import { parseXml } from 'libxmljs2';
 
+import { logErrorWithCorrelationIds } from '../../lib/infrastructure/monitoring-tools.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
@@ -24,7 +25,7 @@ async function main(xmlPath) {
       message.replace(/Element '\{urn:cdc:cpf:pc5:schema:1.0.0\}(.*)'/, '$1').replace('\n', '');
     parsedXmlToExport.validationErrors.forEach((error) => set.add(extractMessage(error)));
 
-    set.forEach((errorSet) => logger.error(errorSet));
+    set.forEach((errorSet) => logErrorWithCorrelationIds(errorSet));
 
     logger.warn(`${parsedXmlToExport.validationErrors.length} erreurs dans le fichier`);
   }
@@ -36,7 +37,7 @@ async function main(xmlPath) {
     const xmlPath = process.argv[2];
     await main(xmlPath);
   } catch (error) {
-    logger.error(error);
+    logErrorWithCorrelationIds(error);
     process.exitCode = 1;
   }
 })();

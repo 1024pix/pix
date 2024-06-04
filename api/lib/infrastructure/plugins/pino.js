@@ -4,7 +4,7 @@ import { stdSerializers } from 'pino';
 
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import { config } from '../../config.js';
-import { monitoringTools } from '../monitoring-tools.js';
+import { logErrorWithCorrelationIds, monitoringTools } from '../monitoring-tools.js';
 
 const serializersSym = Symbol.for('pino.serializers');
 
@@ -59,7 +59,7 @@ const plugin = {
         return;
       }
       if (event.error) {
-        logger.error(
+        logErrorWithCorrelationIds(
           {
             tags: event.tags,
             err: event.error,

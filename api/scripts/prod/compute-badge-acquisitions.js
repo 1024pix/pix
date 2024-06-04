@@ -14,6 +14,7 @@ import yargs from 'yargs/yargs';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
 import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
+import { logErrorWithCorrelationIds } from '../../lib/infrastructure/monitoring-tools.js';
 import * as badgeAcquisitionRepository from '../../lib/infrastructure/repositories/badge-acquisition-repository.js';
 import * as badgeForCalculationRepository from '../../lib/infrastructure/repositories/badge-for-calculation-repository.js';
 import * as knowledgeElementRepository from '../../lib/infrastructure/repositories/knowledge-element-repository.js';
@@ -147,7 +148,7 @@ const isLaunchedFromCommandLine = process.argv[1] === modulePath;
     try {
       await main();
     } catch (error) {
-      logger.error(error);
+      logErrorWithCorrelationIds(error);
       process.exitCode = 1;
     } finally {
       await disconnect();

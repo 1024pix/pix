@@ -11,6 +11,7 @@ import bluebird from 'bluebird';
 import lodash from 'lodash';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { logErrorWithCorrelationIds } from '../../lib/infrastructure/monitoring-tools.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 // Usage: node scripts/certification/update-certifications-infos path/data.csv path/sessionsId.csv
 // data.csv
@@ -106,7 +107,7 @@ async function updateCertificationInfos(dataFilePath, sessionIdsFilePath) {
     if (trx) {
       await trx.rollback();
     }
-    logger.error(error);
+    logErrorWithCorrelationIds(error);
     throw error;
   }
 
@@ -127,7 +128,7 @@ async function main() {
     try {
       await main();
     } catch (error) {
-      logger.error(error);
+      logErrorWithCorrelationIds(error);
       process.exitCode = 1;
     } finally {
       await disconnect();

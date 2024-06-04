@@ -7,6 +7,7 @@ const { performance } = perf_hooks;
 
 import { disconnect, knex } from '../db/knex-database-connection.js';
 import { learningContentCache as cache } from '../lib/infrastructure/caches/learning-content-cache.js';
+import { logErrorWithCorrelationIds } from '../lib/infrastructure/monitoring-tools.js';
 import { logger } from '../src/shared/infrastructure/utils/logger.js';
 
 const doSomething = async ({ throwError }) => {
@@ -35,7 +36,7 @@ async function main() {
     try {
       await main();
     } catch (error) {
-      logger.error(error);
+      logErrorWithCorrelationIds(error);
       process.exitCode = 1;
     } finally {
       await disconnect();

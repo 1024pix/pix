@@ -1,3 +1,5 @@
+import { logErrorWithCorrelationIds } from '../../monitoring-tools.js';
+
 class MonitoredJobHandler {
   constructor(handler, logger) {
     this.handler = handler;
@@ -26,7 +28,7 @@ class MonitoredJobHandler {
   }
 
   logJobFailed(data, error) {
-    this.logger.error({
+    logErrorWithCorrelationIds({
       data,
       handlerName: this.handler.name,
       error: error?.message ? error.message + ' (see dedicated log for more information)' : undefined,

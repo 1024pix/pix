@@ -6,6 +6,7 @@ validateEnvironmentVariables();
 
 import { disconnect } from './db/knex-database-connection.js';
 import { learningContentCache } from './lib/infrastructure/caches/learning-content-cache.js';
+import { logErrorWithCorrelationIds } from './lib/infrastructure/monitoring-tools.js';
 import { temporaryStorage } from './lib/infrastructure/temporary-storage/index.js';
 import { redisMonitor } from './lib/infrastructure/utils/redis-monitor.js';
 import { createServer } from './server.js';
@@ -51,7 +52,7 @@ process.on('SIGINT', () => {
       import('./worker.js');
     }
   } catch (error) {
-    logger.error(error);
+    logErrorWithCorrelationIds(error);
     throw error;
   }
 })();

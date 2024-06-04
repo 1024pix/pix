@@ -1,4 +1,4 @@
-import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
+import { logErrorWithCorrelationIds } from '../../../../lib/infrastructure/monitoring-tools.js';
 import { OidcAuthenticationService } from '../../domain/services/oidc-authentication-service.js';
 
 export class FwbOidcAuthenticationService extends OidcAuthenticationService {
@@ -7,7 +7,7 @@ export class FwbOidcAuthenticationService extends OidcAuthenticationService {
 
     if (!oidcProvider.additionalRequiredProperties) {
       this.isReady = false;
-      logger.error(
+      logErrorWithCorrelationIds(
         `OIDC Provider "${this.identityProvider}" has been DISABLED because of missing "additionalRequiredProperties" object.`,
       );
       return;

@@ -1,4 +1,4 @@
-import { logger } from '../../../shared/infrastructure/utils/logger.js';
+import { logErrorWithCorrelationIds } from '../../../../lib/infrastructure/monitoring-tools.js';
 import { Activity } from '../models/Activity.js';
 import { ActivityInfo } from '../models/ActivityInfo.js';
 
@@ -38,7 +38,9 @@ export function getNextActivityInfo({ activities, stepCount }) {
     return _getNextActivityInfoOnFailure(currentStepActivities, lastActivity);
   }
 
-  logger.error(`Pix1D - Unexpected status '${lastActivity.status}' on last activity with id: '${lastActivity.id}'`);
+  logErrorWithCorrelationIds(
+    `Pix1D - Unexpected status '${lastActivity.status}' on last activity with id: '${lastActivity.id}'`,
+  );
   return END_OF_MISSION;
 }
 

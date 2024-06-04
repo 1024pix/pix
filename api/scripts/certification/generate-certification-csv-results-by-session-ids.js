@@ -13,6 +13,7 @@ const { isEmpty } = lodash;
 import { disconnect } from '../../db/knex-database-connection.js';
 import { usecases } from '../../lib/domain/usecases/index.js';
 import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
+import { logErrorWithCorrelationIds } from '../../lib/infrastructure/monitoring-tools.js';
 import { temporaryStorage } from '../../lib/infrastructure/temporary-storage/index.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 
@@ -36,7 +37,7 @@ async function main() {
     const { session, certificationResults } = await usecases.getSessionResults({ sessionId });
 
     if (isEmpty(certificationResults)) {
-      logger.error(`Pas de résultat trouvé pour la session ${sessionId}`);
+      logErrorWithCorrelationIds(`Pas de résultat trouvé pour la session ${sessionId}`);
       return;
     }
 
@@ -61,7 +62,7 @@ const isLaunchedFromCommandLine = process.argv[1] === modulePath;
     try {
       await main();
     } catch (error) {
-      logger.error(error);
+      logErrorWithCorrelationIds(error);
       process.exitCode = 1;
     } finally {
       await _disconnect();

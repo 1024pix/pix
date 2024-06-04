@@ -8,9 +8,9 @@ import dayjs from 'dayjs';
 import _ from 'lodash';
 import { PDFDocument, rgb } from 'pdf-lib';
 
+import { logErrorWithCorrelationIds } from '../../../../../../lib/infrastructure/monitoring-tools.js';
 import { CertificationAttestationGenerationError } from '../../../../../shared/domain/errors.js';
 import { LANGUAGES_CODE } from '../../../../../shared/domain/services/language-service.js';
-import { logger } from '../../../../../shared/infrastructure/utils/logger.js';
 import { AttestationViewModel } from './AttestationViewModel.js';
 
 const { ENGLISH } = LANGUAGES_CODE;
@@ -126,7 +126,7 @@ async function _embedCertificationImage(pdfDocument, certificationImagePath) {
       responseType: 'arraybuffer',
     });
   } catch (error) {
-    logger.error(error);
+    logErrorWithCorrelationIds(error);
     throw new CertificationAttestationGenerationError();
   }
   const [page] = await pdfDocument.embedPdf(response.data);

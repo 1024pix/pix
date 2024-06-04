@@ -11,7 +11,7 @@ import { hideBin } from 'yargs/helpers';
 
 import { disconnect, knex } from '../../../db/knex-database-connection.js';
 import { learningContentCache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
-import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
+import { logErrorWithCorrelationIds } from '../../../lib/infrastructure/monitoring-tools.js';
 
 async function main() {
   try {
@@ -19,7 +19,7 @@ async function main() {
     console.log(`Récupération du profil cible ${targetProfileId} / ${withBadges ? 'avec' : 'sans'} les RTs`);
     await doJob(targetProfileId, withBadges);
   } catch (err) {
-    logger.error(err);
+    logErrorWithCorrelationIds(err);
     throw err;
   } finally {
     await disconnect();

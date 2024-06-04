@@ -6,6 +6,7 @@ import _ from 'lodash';
 
 import { disconnect, knex } from '../../../db/knex-database-connection.js';
 import { learningContentCache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
+import { logErrorWithCorrelationIds } from '../../../lib/infrastructure/monitoring-tools.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import { autoMigrateTargetProfile } from './common.js';
 
@@ -14,7 +15,7 @@ async function main() {
     const dryRun = process.env.DRY_RUN === 'true';
     await doJob(dryRun);
   } catch (err) {
-    logger.error(err);
+    logErrorWithCorrelationIds(err);
     throw err;
   } finally {
     await disconnect();
@@ -37,7 +38,7 @@ async function doJob(dryRun) {
       if (dryRun) await trx.rollback();
       else await trx.commit();
     } catch (err) {
-      logger.error(`${targetProfileId} Echec. Raison : ${err}`);
+      logErrorWithCorrelationIds(`${targetProfileId} Echec. Raison : ${err}`);
       await trx.rollback();
     }
   }

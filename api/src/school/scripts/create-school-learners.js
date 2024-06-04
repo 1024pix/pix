@@ -5,6 +5,7 @@ import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
 import { disconnect, knex } from '../../../db/knex-database-connection.js';
+import { logErrorWithCorrelationIds } from '../../../lib/infrastructure/monitoring-tools.js';
 import * as schoolRepository from '../../../src/school/infrastructure/repositories/school-repository.js';
 import { Organization } from '../../organizational-entities/domain/models/Organization.js';
 import { ORGANIZATION_FEATURE } from '../../shared/domain/constants.js';
@@ -135,7 +136,7 @@ async function main() {
     try {
       await main();
     } catch (error) {
-      logger.error('\x1b[31mErreur : %s\x1b[0m', error.message);
+      logErrorWithCorrelationIds('\x1b[31mErreur : %s\x1b[0m', error.message);
       process.exitCode = 1;
     } finally {
       disconnect();

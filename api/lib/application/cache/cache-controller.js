@@ -2,12 +2,12 @@ import _ from 'lodash';
 
 import * as learningContentDatasource from '../../../src/shared/infrastructure/datasources/learning-content/datasource.js';
 import * as LearningContentDatasources from '../../../src/shared/infrastructure/datasources/learning-content/index.js';
-import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
+import { logErrorWithCorrelationIds } from '../../infrastructure/monitoring-tools.js';
 
 const refreshCacheEntries = function (_, h, dependencies = { learningContentDatasource }) {
   dependencies.learningContentDatasource
     .refreshLearningContentCacheRecords()
-    .catch((e) => logger.error('Error while reloading cache', e));
+    .catch((e) => logErrorWithCorrelationIds('Error while reloading cache', e));
   return h.response({}).code(202);
 };
 

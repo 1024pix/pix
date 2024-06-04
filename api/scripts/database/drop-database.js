@@ -1,6 +1,7 @@
 import 'dotenv/config';
 
 import { PGSQL_NON_EXISTENT_DATABASE_ERROR } from '../../db/pgsql-errors.js';
+import { logErrorWithCorrelationIds } from '../../lib/infrastructure/monitoring-tools.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 import { PgClient } from '../PgClient.js';
 
@@ -10,7 +11,7 @@ function isPlatformScalingo() {
 
 function preventDatabaseDropAsItCannotBeCreatedAgain() {
   if (isPlatformScalingo()) {
-    logger.error('Database will not be dropped, as it would require to recreate the addon');
+    logErrorWithCorrelationIds('Database will not be dropped, as it would require to recreate the addon');
     process.exitCode = 1;
   }
 }
@@ -35,7 +36,7 @@ PgClient.getClient(url.href).then(async (client) => {
     if (error.code === PGSQL_NON_EXISTENT_DATABASE_ERROR) {
       logger.info(`Database ${DB_TO_DELETE_NAME} does not exist`);
     } else {
-      logger.error(`Database drop failed: ${error.detail}`);
+      logErrorWithCorrelationIds(`Database drop failed: ${error.detail}`);
     }
   } finally {
     await client.end();

@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
 import { AuthenticationMethod } from '../../../../lib/domain/models/index.js';
-import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
+import { logErrorWithCorrelationIds } from '../../../../lib/infrastructure/monitoring-tools.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { OidcAuthenticationService } from '../../domain/services/oidc-authentication-service.js';
 
@@ -11,7 +11,7 @@ export class PoleEmploiOidcAuthenticationService extends OidcAuthenticationServi
 
     if (!oidcProvider.additionalRequiredProperties) {
       this.isReady = false;
-      logger.error(
+      logErrorWithCorrelationIds(
         `OIDC Provider "${this.identityProvider}" has been DISABLED because of missing "additionalRequiredProperties" object.`,
       );
       return;

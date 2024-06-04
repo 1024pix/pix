@@ -13,6 +13,7 @@ import { checkCsvHeader, parseCsv } from '../helpers/csvHelpers.js';
 const { values } = lodash;
 import * as url from 'node:url';
 
+import { logErrorWithCorrelationIds } from '../../lib/infrastructure/monitoring-tools.js';
 import { CERTIFICATION_FEATURES } from '../../src/certification/shared/domain/constants.js';
 
 const headers = {
@@ -108,7 +109,7 @@ async function main(filePath) {
       const filePath = process.argv[2];
       await main(filePath);
     } catch (error) {
-      logger.error(error);
+      logErrorWithCorrelationIds(error);
       process.exitCode = 1;
     } finally {
       await disconnect();

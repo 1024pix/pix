@@ -7,8 +7,7 @@ const { get } = _;
 import perf_hooks from 'node:perf_hooks';
 
 import { config } from '../lib/config.js';
-import { monitoringTools } from '../lib/infrastructure/monitoring-tools.js';
-import { logger } from '../src/shared/infrastructure/utils/logger.js';
+import { logErrorWithCorrelationIds, monitoringTools } from '../lib/infrastructure/monitoring-tools.js';
 
 const { performance } = perf_hooks;
 
@@ -46,7 +45,7 @@ try {
   });
 } catch (e) {
   if (e.message !== "Can't extend QueryBuilder with existing method ('whereInArray').") {
-    logger.error(e);
+    logErrorWithCorrelationIds(e);
   }
 }
 /* -------------------- */

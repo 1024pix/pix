@@ -6,6 +6,7 @@ import { disconnect, knex } from '../../db/knex-database-connection.js';
 import { handleAutoJury } from '../../lib/domain/events/handle-auto-jury.js';
 import * as events from '../../lib/domain/events/index.js';
 import { SessionFinalized } from '../../lib/domain/events/SessionFinalized.js';
+import { logErrorWithCorrelationIds } from '../../lib/infrastructure/monitoring-tools.js';
 import * as certificationAssessmentRepository from '../../src/certification/shared/infrastructure/repositories/certification-assessment-repository.js';
 import * as certificationCourseRepository from '../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
 import * as certificationIssueReportRepository from '../../src/certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
@@ -58,7 +59,7 @@ async function main() {
     try {
       await main();
     } catch (error) {
-      logger.error(error);
+      logErrorWithCorrelationIds(error);
       process.exitCode = 1;
     } finally {
       await disconnect();

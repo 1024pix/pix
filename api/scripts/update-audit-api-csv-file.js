@@ -1,7 +1,7 @@
 import url from 'node:url';
 
 import { parseCsvWithHeader } from '../lib/infrastructure/helpers/csv.js';
-import { logger } from '../src/shared/infrastructure/utils/logger.js';
+import { logErrorWithCorrelationIds } from '../lib/infrastructure/monitoring-tools.js';
 const swaggerUrl = `https://app.pix.fr/api/swagger.json`;
 
 /**
@@ -79,7 +79,7 @@ if (isLaunchedFromCommandLine) {
   try {
     await main();
   } catch (error) {
-    logger.error(error);
+    logErrorWithCorrelationIds(error);
     throw error;
   }
 }

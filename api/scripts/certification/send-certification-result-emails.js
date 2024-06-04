@@ -9,6 +9,7 @@ import i18n from 'i18n';
 import { disconnect } from '../../db/knex-database-connection.js';
 import * as mailService from '../../lib/domain/services/mail-service.js';
 import { manageEmails } from '../../lib/domain/services/session-publication-service.js';
+import { logErrorWithCorrelationIds } from '../../lib/infrastructure/monitoring-tools.js';
 import * as sessionRepository from '../../src/certification/session-management/infrastructure/repositories/session-repository.js';
 import * as certificationCenterRepository from '../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
@@ -45,12 +46,12 @@ async function main() {
     try {
       session = await sessionRepository.getWithCertificationCandidates({ id: parseInt(sessionId) });
     } catch (e) {
-      logger.error({ e });
+      logErrorWithCorrelationIds({ e });
       return;
     }
 
     if (!session.isPublished()) {
-      logger.error(`La session ${sessionId} n'est pas publiée`);
+      logErrorWithCorrelationIds(`La session ${sessionId} n'est pas publiée`);
       return;
     }
 
@@ -68,7 +69,7 @@ async function main() {
 
       successes++;
     } catch (e) {
-      logger.error(e);
+      logErrorWithCorrelationIds(e);
     }
   });
 
@@ -83,7 +84,7 @@ const isLaunchedFromCommandLine = process.argv[1] === modulePath;
     try {
       await main();
     } catch (error) {
-      logger.error(error);
+      logErrorWithCorrelationIds(error);
       process.exitCode = 1;
     } finally {
       await disconnect();

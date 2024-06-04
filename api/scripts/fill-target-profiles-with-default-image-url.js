@@ -4,6 +4,7 @@ import perf_hooks from 'node:perf_hooks';
 import * as url from 'node:url';
 
 import { disconnect, knex } from '../db/knex-database-connection.js';
+import { logErrorWithCorrelationIds } from '../lib/infrastructure/monitoring-tools.js';
 import { logger } from '../src/shared/infrastructure/utils/logger.js';
 
 const { performance } = perf_hooks;
@@ -34,7 +35,7 @@ async function main() {
     try {
       await main();
     } catch (error) {
-      logger.error(error);
+      logErrorWithCorrelationIds(error);
       process.exitCode = 1;
     } finally {
       await disconnect();

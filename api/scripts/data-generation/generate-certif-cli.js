@@ -15,6 +15,7 @@ import { databaseBuffer } from '../../db/database-builder/database-buffer.js';
 import { DatabaseBuilder } from '../../db/database-builder/database-builder.js';
 import { CampaignParticipationStatuses } from '../../lib/domain/models/index.js';
 import { learningContentCache } from '../../lib/infrastructure/caches/learning-content-cache.js';
+import { logErrorWithCorrelationIds } from '../../lib/infrastructure/monitoring-tools.js';
 import { temporaryStorage } from '../../lib/infrastructure/temporary-storage/index.js';
 import { getNewSessionCode } from '../../src/certification/enrolment/domain/services/session-code-service.js';
 import * as skillRepository from '../../src/shared/infrastructure/repositories/skill-repository.js';
@@ -384,7 +385,7 @@ if (!isInTest) {
     complementaryCertifications: JSON.parse(complementaryCertifications) || [],
   })
     .catch((error) => {
-      logger.error(error);
+      logErrorWithCorrelationIds(error);
       throw error;
     })
     .finally(_disconnect);

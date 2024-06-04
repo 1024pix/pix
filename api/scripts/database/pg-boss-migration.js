@@ -3,7 +3,7 @@ import 'dotenv/config';
 import PgBoss from 'pg-boss';
 
 import { disconnect } from '../../db/knex-database-connection.js';
-import { logger } from '../../src/shared/infrastructure/utils/logger.js';
+import { logErrorWithCorrelationIds } from '../../lib/infrastructure/monitoring-tools.js';
 
 async function main() {
   console.log('run pgboss migrations');
@@ -17,7 +17,7 @@ async function main() {
   try {
     await main();
   } catch (error) {
-    logger.error(error);
+    logErrorWithCorrelationIds(error);
     process.exitCode = 1;
   } finally {
     await disconnect();

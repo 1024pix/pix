@@ -16,6 +16,8 @@ import { checkCsvHeader, parseCsv } from '../helpers/csvHelpers.js';
 const { uniqBy, values } = lodash;
 import * as url from 'node:url';
 
+import { logErrorWithCorrelationIds } from '../../lib/infrastructure/monitoring-tools.js';
+
 const wordsToReplace = [
   {
     regex: /(^|\s)STE($|\s)/,
@@ -432,7 +434,7 @@ async function main(filePath) {
       const filePath = process.argv[2];
       await main(filePath);
     } catch (error) {
-      logger.error(error);
+      logErrorWithCorrelationIds(error);
       process.exitCode = 1;
     } finally {
       await disconnect();

@@ -1,6 +1,7 @@
 import 'dotenv/config';
 
 import { PGSQL_DUPLICATE_DATABASE_ERROR } from '../../db/pgsql-errors.js';
+import { logErrorWithCorrelationIds } from '../../lib/infrastructure/monitoring-tools.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 import { PgClient } from '../PgClient.js';
 
@@ -21,7 +22,7 @@ PgClient.getClient(url.href).then(async (client) => {
     if (error.code === PGSQL_DUPLICATE_DATABASE_ERROR) {
       logger.info(`Database ${DB_TO_CREATE_NAME} already created`);
     } else {
-      logger.error(`Database creation failed: ${error.detail}`);
+      logErrorWithCorrelationIds(`Database creation failed: ${error.detail}`);
     }
   } finally {
     await client.end();

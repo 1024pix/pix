@@ -1,5 +1,6 @@
 import bluebird from 'bluebird';
 
+import { logErrorWithCorrelationIds } from '../../../../../lib/infrastructure/monitoring-tools.js';
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../shared/infrastructure/constants.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 const EVENT_NAME = 'attach-target-profile-certif';
@@ -26,7 +27,7 @@ async function sendTargetProfileNotifications({
           email,
         });
         if (result.hasFailed()) {
-          logger.error({
+          logErrorWithCorrelationIds({
             event: EVENT_NAME,
             message: `Failed to send email to notify organisation user "${email}" of ${complementaryCertificationName}'s target profile change`,
           });

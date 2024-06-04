@@ -10,6 +10,7 @@ import { utils as xlsxUtils, writeXLSX } from 'xlsx';
 
 import { disconnect } from '../../../db/knex-database-connection.js';
 import { learningContentCache as cache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
+import { logErrorWithCorrelationIds } from '../../../lib/infrastructure/monitoring-tools.js';
 import * as stageCollectionRepository from '../../../src/evaluation/infrastructure/repositories/stage-collection-repository.js';
 import * as organizationRepository from '../../../src/shared/infrastructure/repositories/organization-repository.js';
 import * as skillRepository from '../../../src/shared/infrastructure/repositories/skill-repository.js';
@@ -219,7 +220,7 @@ async function main() {
     try {
       await main();
     } catch (error) {
-      logger.error(error);
+      logErrorWithCorrelationIds(error);
       process.exitCode = 1;
     } finally {
       await disconnect();
