@@ -1,10 +1,12 @@
+@import '../../../../styles/globals/breakpoints';
+
 .challenge-item {
   display: flex;
   align-content: center;
-  margin: 0 152px;
+  margin: 0 140px;
 
   @include device-is('tablet') {
-    margin: 0 122px;
+    margin: 0 120px;
   }
 
   &--single-display {

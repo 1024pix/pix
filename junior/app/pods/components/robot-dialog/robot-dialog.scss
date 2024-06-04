@@ -1,3 +1,5 @@
+@import '../../../styles/globals/breakpoints';
+
 .robot-speaking {
   display: flex;
   width: 100%;
@@ -8,7 +10,6 @@
     max-width: 80%;
     margin-top: auto;
     margin-bottom: var(--pix-spacing-12x);
-
   }
 
   &__logo {
@@ -20,6 +21,7 @@
     @include device-is('tablet') {
       width: 106px;
       margin-right: var(--pix-spacing-4x);
+      margin-bottom: -18px;
     }
   }
 }

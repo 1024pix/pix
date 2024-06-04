@@ -1,12 +1,23 @@
+@import '../../../../styles/globals/breakpoints';
+
 .mission-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  &__body {
+    display: flex;
+    width: 960px;
+    margin-top: 20px;
+    margin-left: 145px;
+
+    @include device-is('tablet') {
+      margin-left: 125px;
+    }
+  }
 
   &__details {
     display: flex;
     flex-direction: column;
     margin-top: 43px;
+    margin-right: 40px;
+    margin-left: 25px;
     text-align: left;
 
     .details-action {
@@ -16,17 +27,20 @@
       font-size: 18px;
       border-radius: 100px;
 
+      @include device-is('tablet') {
+        margin: 32px 60px 0 auto;
+      }
+
       &__icon {
         margin-left: 8px;
       }
 
       &__loader {
-        visibility: hidden;
+        display: none;
 
         &--visible {
           width: 200px;
           height: 58px;
-          visibility: visible;
         }
       }
     }
@@ -69,14 +83,6 @@
         }
       }
     }
-  }
-
-  &__body {
-    display: flex;
-    gap: 25px;
-    width: 960px;
-    margin-top: 20px;
-    padding-left: 60px;
   }
 }
 
