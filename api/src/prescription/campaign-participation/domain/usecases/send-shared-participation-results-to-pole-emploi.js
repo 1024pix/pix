@@ -5,10 +5,10 @@ import { PoleEmploiPayload } from '../../infrastructure/externals/PoleEmploiPayl
 import { PoleEmploiSending } from '../models/PoleEmploiSending.js';
 
 const sendSharedParticipationResultsToPoleEmploi = async ({
+  campaignParticipationId,
   authenticationMethodRepository,
   badgeRepository,
   badgeAcquisitionRepository,
-  campaignParticipationId,
   campaignParticipationRepository,
   campaignParticipationResultRepository,
   campaignRepository,
@@ -17,6 +17,11 @@ const sendSharedParticipationResultsToPoleEmploi = async ({
   poleEmploiSendingRepository,
   targetProfileRepository,
   userRepository,
+  notifierDependencies = {
+    httpAgent,
+    httpErrorsHelper,
+    monitoringTools,
+  },
 }) => {
   const participation = await campaignParticipationRepository.get(campaignParticipationId);
   const campaign = await campaignRepository.get(participation.campaignId);
@@ -45,9 +50,7 @@ const sendSharedParticipationResultsToPoleEmploi = async ({
 
     const response = await poleEmploiNotifier.notify(user.id, payload, {
       authenticationMethodRepository,
-      httpAgent,
-      httpErrorsHelper,
-      monitoringTools,
+      ...notifierDependencies,
     });
 
     const poleEmploiSending = PoleEmploiSending.buildForParticipationShared({

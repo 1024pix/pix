@@ -16,6 +16,7 @@ import * as tutorialRepository from '../../../../devcomp/infrastructure/reposito
 import * as competenceEvaluationRepository from '../../../../evaluation/infrastructure/repositories/competence-evaluation-repository.js';
 import { config } from '../../../../shared/config.js';
 import * as assessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
+import * as authenticationMethodRepository from '../../../../shared/infrastructure/repositories/authentication-method-repository.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
@@ -39,6 +40,7 @@ function requirePoleEmploiNotifier() {
 
 const dependencies = {
   assessmentRepository,
+  authenticationMethodRepository,
   badgeRepository,
   badgeAcquisitionRepository,
   campaignAnalysisRepository,
