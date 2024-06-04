@@ -2,6 +2,8 @@ import { config } from '../../../../../../src/shared/config.js';
 import { logger } from '../../../../../../src/shared/infrastructure/utils/logger.js';
 import { EmailingAttempt } from '../../../../../../src/shared/mail/domain/models/EmailingAttempt.js';
 import { MailingProviderInvalidEmailError } from '../../../../../../src/shared/mail/domain/models/MailingProviderInvalidEmailError.js';
+import { BrevoProvider } from '../../../../../../src/shared/mail/infrastructure/providers/BrevoProvider.js';
+import { MailpitProvider } from '../../../../../../src/shared/mail/infrastructure/providers/MailpitProvider.js';
 import { Mailer } from '../../../../../../src/shared/mail/infrastructure/services/mailer.js';
 import { expect, sinon } from '../../../../../test-helper.js';
 
@@ -15,6 +17,34 @@ describe('Unit | Infrastructure | Mailers | mailer', function () {
       checkDomainIsValid: sinon.stub(),
     };
     sinon.stub(mailing, 'provider').value('brevo');
+  });
+
+  describe('constructor', function () {
+    context('when the provider is brevo', function () {
+      it('selects the brevo provider', function () {
+        // given
+        sinon.stub(mailing, 'provider').value('brevo');
+
+        // when
+        const mailer = new Mailer();
+
+        // then
+        expect(mailer._provider).to.be.instanceof(BrevoProvider);
+      });
+    });
+
+    context('when the provider is mailpit', function () {
+      it('selects the mailpit provider', function () {
+        // given
+        sinon.stub(mailing, 'provider').value('mailpit');
+
+        // when
+        const mailer = new Mailer();
+
+        // then
+        expect(mailer._provider).to.be.instanceof(MailpitProvider);
+      });
+    });
   });
 
   describe('#sendEmail', function () {
