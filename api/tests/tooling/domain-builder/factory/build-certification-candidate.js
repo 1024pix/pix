@@ -1,5 +1,5 @@
 import { CertificationCandidate } from '../../../../lib/domain/models/CertificationCandidate.js';
-import { buildComplementaryCertification } from './build-complementary-certification.js';
+import { domainBuilder } from '../domain-builder.js';
 
 const buildCertificationCandidate = function ({
   id = 123,
@@ -17,19 +17,15 @@ const buildCertificationCandidate = function ({
   extraTimePercentage = 0.3,
   externalId = 'externalId',
   createdAt = new Date('2020-01-01'),
-  authorizedToStart = false,
+  authorizedToStart,
   sessionId = 456,
   userId = 789,
   organizationLearnerId,
   complementaryCertification = null,
   billingMode = null,
   prepaymentCode = null,
-  subscriptions,
+  subscriptions = [domainBuilder.buildCoreSubscription()],
 } = {}) {
-  if (complementaryCertification === undefined) {
-    complementaryCertification = buildComplementaryCertification();
-  }
-
   return new CertificationCandidate({
     id,
     firstName,
@@ -71,7 +67,7 @@ buildCertificationCandidate.pro = function ({
   birthdate = '1990-05-06',
   extraTimePercentage = 0.3,
   externalId = 'externalId',
-  authorizedToStart = false,
+  authorizedToStart,
   sessionId = 456,
   complementaryCertification = null,
   billingMode = 'FREE',
@@ -113,7 +109,7 @@ buildCertificationCandidate.notPersisted = function ({
   birthdate = '1990-05-06',
   extraTimePercentage = 0.3,
   externalId = 'externalId',
-  authorizedToStart = false,
+  authorizedToStart,
   sessionId = 456,
   complementaryCertification = null,
   subscriptions = null,

@@ -76,7 +76,7 @@ class CertificationCandidate {
     birthdate,
     extraTimePercentage,
     createdAt,
-    authorizedToStart,
+    authorizedToStart = false,
     sessionId,
     userId,
     organizationLearnerId = null,
