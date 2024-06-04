@@ -238,7 +238,7 @@ const configuration = (function () {
     logOpsMetrics: toBoolean(process.env.LOG_OPS_METRICS),
     mailing: {
       enabled: toBoolean(process.env.MAILING_ENABLED),
-      provider: process.env.MAILING_PROVIDER || 'brevo',
+      provider: process.env.MAILING_PROVIDER || 'mailpit',
       smtpUrl: process.env.MAILING_SMTP_URL || 'smtp://username:password@localhost:1025/',
       mailpit: {
         templates: {},
