@@ -2,6 +2,18 @@ import { BadRequestError } from '../../../../lib/application/http-errors.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
 import { usecases } from '../../domain/usecases/index.js';
 
+const authenticateAnonymousUser = async function (request, h) {
+  const { campaign_code: campaignCode, lang } = request.payload;
+  const accessToken = await usecases.authenticateAnonymousUser({ campaignCode, lang });
+
+  const response = {
+    token_type: 'bearer',
+    access_token: accessToken,
+  };
+
+  return h.response(response).code(200);
+};
+
 const createToken = async function (request, h, dependencies = { tokenService }) {
   let accessToken, refreshToken;
   let expirationDelaySeconds;
@@ -44,8 +56,4 @@ const createToken = async function (request, h, dependencies = { tokenService })
     .header('Pragma', 'no-cache');
 };
 
-const tokenController = {
-  createToken,
-};
-
-export { tokenController };
+export const tokenController = { authenticateAnonymousUser, createToken };

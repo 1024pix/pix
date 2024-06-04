@@ -3,28 +3,6 @@ import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | Controller | Authentication', function () {
-  describe('#authenticateAnonymousUser', function () {
-    it('should return an access token', async function () {
-      // given
-      const campaignCode = 'SIMPLIFIE';
-      const lang = 'fr';
-      const request = {
-        headers: {
-          'content-type': 'application/x-www-form-urlencoded',
-        },
-        payload: { campaign_code: campaignCode, lang },
-      };
-      sinon.stub(usecases, 'authenticateAnonymousUser').withArgs({ campaignCode, lang }).resolves('valid access token');
-
-      // when
-      const { statusCode, source } = await authenticationController.authenticateAnonymousUser(request, hFake);
-
-      // then
-      expect(statusCode).to.equal(200);
-      expect(source).to.deep.equal({ access_token: 'valid access token', token_type: 'bearer' });
-    });
-  });
-
   describe('#authenticateExternalUser', function () {
     it('should return an access token', async function () {
       // given
