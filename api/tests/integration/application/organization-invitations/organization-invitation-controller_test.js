@@ -1,7 +1,7 @@
 import * as moduleUnderTest from '../../../../lib/application/organization-invitations/index.js';
 import { AlreadyExistingInvitationError, NotFoundError, UserNotFoundError } from '../../../../lib/domain/errors.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { serializer as scoOrganizationInvitationSerializer } from '../../../../lib/infrastructure/serializers/jsonapi/sco-organization-invitation-serializer.js';
+import { serializer as scoOrganizationInvitationSerializer } from '../../../../src/team/infrastructure/serializers/jsonapi/sco-organization-invitation.serializer.js';
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Integration | Application | Organization-invitations | organization-invitation-controller', function () {

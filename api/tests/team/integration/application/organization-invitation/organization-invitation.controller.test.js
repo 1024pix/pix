@@ -4,9 +4,9 @@ import {
   OrganizationNotFoundError,
   OrganizationWithoutEmailError,
 } from '../../../../../lib/domain/errors.js';
-import { serializer as scoOrganizationInvitationSerializer } from '../../../../../lib/infrastructure/serializers/jsonapi/sco-organization-invitation-serializer.js';
 import { teamRoutes } from '../../../../../src/team/application/routes.js';
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
+import { serializer as scoOrganizationInvitationSerializer } from '../../../../../src/team/infrastructure/serializers/jsonapi/sco-organization-invitation.serializer.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 const routesUnderTest = teamRoutes[0];
