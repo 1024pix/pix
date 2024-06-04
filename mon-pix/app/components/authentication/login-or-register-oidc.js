@@ -22,6 +22,7 @@ export default class LoginOrRegisterOidcComponent extends Component {
   @service currentDomain;
   @service oidcIdentityProviders;
   @service store;
+  @service url;
 
   @tracked isTermsOfServiceValidated = false;
   @tracked loginErrorMessage = null;
@@ -50,17 +51,11 @@ export default class LoginOrRegisterOidcComponent extends Component {
   }
 
   get cguUrl() {
-    if (this.currentLanguage === 'en') {
-      return 'https://pix.org/en-gb/terms-and-conditions';
-    }
-    return `https://pix.${this.currentDomain.getExtension()}/conditions-generales-d-utilisation`;
+    return this.url.cguUrl;
   }
 
   get dataProtectionPolicyUrl() {
-    if (this.currentLanguage === 'en') {
-      return 'https://pix.org/en-gb/personal-data-protection-policy';
-    }
-    return `https://pix.${this.currentDomain.getExtension()}/politique-protection-donnees-personnelles-app`;
+    return this.url.dataProtectionPolicyUrl;
   }
 
   @action

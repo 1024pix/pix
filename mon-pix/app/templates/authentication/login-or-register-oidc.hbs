@@ -28,4 +28,8 @@
     {{/if}}
 
   </PixBlock>
+
+  {{#if this.isInternationalDomain}}
+    <LanguageSwitcher @selectedLanguage={{this.selectedLanguage}} @onLanguageChange={{this.onLanguageChange}} />
+  {{/if}}
 </PixBackgroundHeader>
