@@ -435,6 +435,8 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         userId,
         type: Assessment.types.COMPETENCE_EVALUATION,
         state: Assessment.states.STARTED,
+        createdAt: new Date('2020-01-01'),
+        updatedAt: new Date('2020-01-01'),
       }).id;
 
       return databaseBuilder.commit();
@@ -447,13 +449,16 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       });
 
       // then
-      const assessmentsInDb = await knex('assessments').where('id', assessmentId).first('state');
-      expect(assessmentsInDb.state).to.equal(Assessment.states.COMPLETED);
+      const assessmentInDb = await knex('assessments')
+        .where('id', assessmentId)
+        .first('state', 'updatedAt', 'createdAt');
+      expect(assessmentInDb.state).to.equal(Assessment.states.COMPLETED);
+      expect(assessmentInDb.updatedAt).not.to.deep.equal(assessmentInDb.createdAt);
     });
 
     it('should not complete an assessment if not already existing but rolled back', async function () {
       // when
-      await catchErr(async () => {
+      catchErr(async () => {
         await DomainTransaction.execute(async (domainTransaction) => {
           await assessmentRepository.completeByAssessmentId(assessmentId, domainTransaction);
           throw new Error('an error occurs within the domain transaction');
@@ -546,6 +551,8 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       const lastQuestionDate = new Date();
       const assessment = databaseBuilder.factory.buildAssessment({
         lastQuestionDate: new Date('2020-01-10'),
+        createdAt: new Date('2020-01-01'),
+        updatedAt: new Date('2020-01-01'),
       });
       await databaseBuilder.commit();
 
@@ -553,8 +560,11 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       await assessmentRepository.updateLastQuestionDate({ id: assessment.id, lastQuestionDate });
 
       // then
-      const assessmentsInDb = await knex('assessments').where('id', assessment.id).first('lastQuestionDate');
-      expect(assessmentsInDb.lastQuestionDate).to.deep.equal(lastQuestionDate);
+      const assessmentInDb = await knex('assessments')
+        .where('id', assessment.id)
+        .first('lastQuestionDate', 'updatedAt', 'createdAt');
+      expect(assessmentInDb.lastQuestionDate).to.deep.equal(lastQuestionDate);
+      expect(assessmentInDb.updatedAt).not.to.deep.equal(assessmentInDb.createdAt);
     });
 
     context('when assessment does not exist', function () {
@@ -581,6 +591,8 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       const assessment = databaseBuilder.factory.buildAssessment({
         lastChallengeId: 'recPreviousChallenge',
         lastQuestionState: 'focusedout',
+        createdAt: new Date('2020-01-01'),
+        updatedAt: new Date('2020-01-01'),
       });
       await databaseBuilder.commit();
 
@@ -588,9 +600,10 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       await assessmentRepository.updateWhenNewChallengeIsAsked({ id: assessment.id, lastChallengeId });
 
       // then
-      const assessmentsInDb = await knex('assessments').where('id', assessment.id).first();
-      expect(assessmentsInDb.lastChallengeId).to.deep.equal(lastChallengeId);
-      expect(assessmentsInDb.lastQuestionState).to.deep.equal(Assessment.statesOfLastQuestion.ASKED);
+      const assessmentInDb = await knex('assessments').where('id', assessment.id).first();
+      expect(assessmentInDb.lastChallengeId).to.deep.equal(lastChallengeId);
+      expect(assessmentInDb.lastQuestionState).to.deep.equal(Assessment.statesOfLastQuestion.ASKED);
+      expect(assessmentInDb.updatedAt).not.to.deep.equal(assessmentInDb.createdAt);
     });
 
     context('when assessment does not exist', function () {
@@ -614,6 +627,8 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       // given
       const assessment = databaseBuilder.factory.buildAssessment({
         lastQuestionState: Assessment.statesOfLastQuestion.ASKED,
+        createdAt: new Date('2020-01-01'),
+        updatedAt: new Date('2020-01-01'),
       });
       await databaseBuilder.commit();
 
@@ -625,8 +640,11 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       });
 
       // then
-      const assessmentsInDb = await knex('assessments').where('id', assessment.id).first('lastQuestionState');
-      expect(assessmentsInDb.lastQuestionState).to.equal(lastQuestionState);
+      const assessmentInDb = await knex('assessments')
+        .where('id', assessment.id)
+        .first('lastQuestionState', 'updatedAt', 'createdAt');
+      expect(assessmentInDb.lastQuestionState).to.equal(lastQuestionState);
+      expect(assessmentInDb.updatedAt).not.to.deep.equal(assessmentInDb.createdAt);
     });
 
     context('when assessment does not exist', function () {
@@ -702,8 +720,16 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     it('should update assessments state to started', async function () {
       // given
       const assessments = [
-        databaseBuilder.factory.buildAssessment({ state: Assessment.states.COMPLETED }),
-        databaseBuilder.factory.buildAssessment({ state: Assessment.states.COMPLETED }),
+        databaseBuilder.factory.buildAssessment({
+          state: Assessment.states.COMPLETED,
+          createdAt: new Date('2020-01-01'),
+          updatedAt: new Date('2020-01-01'),
+        }),
+        databaseBuilder.factory.buildAssessment({
+          state: Assessment.states.COMPLETED,
+          createdAt: new Date('2020-01-01'),
+          updatedAt: new Date('2020-01-01'),
+        }),
       ];
       const assessmentIds = assessments.map(({ id }) => id);
 
@@ -713,8 +739,10 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       await assessmentRepository.setAssessmentsAsStarted({ assessmentIds });
 
       // then
-      const statesInDb = await knex('assessments').whereIn('id', assessmentIds).pluck('state');
+      const assessmentsInDb = await knex('assessments').whereIn('id', assessmentIds);
+      const statesInDb = assessmentsInDb.map(({ state }) => state);
       expect(statesInDb).to.deep.equal([Assessment.states.STARTED, Assessment.states.STARTED]);
+      assessmentsInDb.forEach(({ createdAt, updatedAt }) => expect(updatedAt).not.to.deep.equal(createdAt));
     });
   });
 });
