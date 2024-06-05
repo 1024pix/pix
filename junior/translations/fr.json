@@ -15,9 +15,8 @@
         "correct-answer": "Bien joué, tu as répondu correctement !",
         "wrong-answer": "Mauvaise réponse. Tu peux passer à la suite."
       },
-        "qcu-hint": "Sélectionne une seule réponse.",
-        "qcm-hint": "Sélectionne plusieurs réponses."
-
+      "qcu-hint": "Sélectionne une seule réponse.",
+      "qcm-hint": "Sélectionne plusieurs réponses."
     },
     "home": {
       "page-title": "Page d'accueil",
@@ -46,7 +45,7 @@
           "finished": "Terminé"
         },
         "purpose-title": "Objectif de la mission :",
-        "start-mission": "C'est partix !",
+        "start-mission": "C'est parti",
         "welcome": "Prépare-toi à résoudre des épreuves et relever des défis."
       },
       "end-page": {
