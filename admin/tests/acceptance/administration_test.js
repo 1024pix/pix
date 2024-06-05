@@ -62,7 +62,7 @@ module('Acceptance | administration', function (hooks) {
       await clickByName('Recharger le cache');
 
       // then
-      assert.dom(screen.getByText('La demande de rechargement du cache a bien été prise en compte.')).exists();
+      assert.dom(await screen.findByText('La demande de rechargement du cache a bien été prise en compte.')).exists();
     });
   });
 
@@ -77,7 +77,7 @@ module('Acceptance | administration', function (hooks) {
       // then
       assert
         .dom(
-          screen.getByText(
+          await screen.findByText(
             'La création de la version du référentiel et le rechargement du cache a bien été prise en compte.',
           ),
         )
