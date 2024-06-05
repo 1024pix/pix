@@ -1,10 +1,10 @@
+# renovate datasource=node-version depName=node
 FROM node:20.14.0 as dev
-
 
 EXPOSE 3000
 
 USER node
-COPY --chown=node:node . /code 
+COPY --chown=node:node . /code
 
 WORKDIR /code
 RUN npm ci
