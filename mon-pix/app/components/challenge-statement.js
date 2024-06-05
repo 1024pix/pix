@@ -55,6 +55,7 @@ export default class ChallengeStatement extends Component {
 
   get showTextToSpeechButton() {
     return (
+      window.speechSynthesis &&
       !this.args.assessment.isCertification &&
       this.featureToggles.featureToggles?.isTextToSpeechButtonEnabled &&
       this.args.isTextToSpeechActivated
@@ -105,10 +106,12 @@ export default class ChallengeStatement extends Component {
   }
 
   stopTextToSpeechOnLeaveOrRefresh() {
-    speechSynthesis.cancel();
-    this.router.on('routeWillChange', () => {
+    if (window.speechSynthesis) {
       speechSynthesis.cancel();
-    });
+      this.router.on('routeWillChange', () => {
+        speechSynthesis.cancel();
+      });
+    }
   }
 
   get orderedAttachments() {
