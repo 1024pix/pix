@@ -1,5 +1,10 @@
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { OrganizationBatchUpdateDTO } from '../../../../../src/organizational-entities/domain/dtos/OrganizationBatchUpdateDTO.js';
+import {
+  DpoEmailInvalid,
+  OrganizationBatchUpdateError,
+  OrganizationNotFound,
+  UnableToAttachChildOrganizationToParentOrganizationError,
+} from '../../../../../src/organizational-entities/domain/errors.js';
 import { updateOrganizationsInBatch } from '../../../../../src/organizational-entities/domain/usecases/update-organizations-in-batch.usecase.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import { catchErr, createTempFile, domainBuilder, expect, removeTempFile, sinon } from '../../../../test-helper.js';
@@ -20,6 +25,7 @@ describe('Unit | Organizational Entities | Domain | UseCase | update-organizatio
     organizationForAdminRepository = {
       get: sinon.stub(),
       update: sinon.stub(),
+      exist: sinon.stub(),
     };
   });
 
@@ -52,7 +58,7 @@ describe('Unit | Organizational Entities | Domain | UseCase | update-organizatio
 
     beforeEach(async function () {
       const fileData = `${csvHeaders}
-      1;;12;;OIDC_EXAMPLE_NET;https://doc.url;;Troisjour;Adam;
+      1;;12;;OIDC_EXAMPLE_NET;https://doc.url;;Troisjour;Adam;foo@email.com
       2;New Name;;;;;;;Cali;`;
       filePath = await createTempFile('test.csv', fileData);
       csvData = [
@@ -63,6 +69,7 @@ describe('Unit | Organizational Entities | Domain | UseCase | update-organizatio
           documentationUrl: 'https://doc.url',
           dataProtectionOfficerLastName: 'Troisjour',
           dataProtectionOfficerFirstName: 'Adam',
+          dataProtectionOfficerEmail: 'foo@email.com',
         }),
         new OrganizationBatchUpdateDTO({
           id: '2',
@@ -74,6 +81,7 @@ describe('Unit | Organizational Entities | Domain | UseCase | update-organizatio
 
     it('calls n times "organizationForAdminRepository.get" to retrieve an organization', async function () {
       // given
+      organizationForAdminRepository.exist.resolves(true);
       organizationForAdminRepository.get.onCall(0).resolves(domainBuilder.buildOrganizationForAdmin({ id: 1 }));
       organizationForAdminRepository.get.onCall(1).resolves(domainBuilder.buildOrganizationForAdmin({ id: 2 }));
 
@@ -91,6 +99,7 @@ describe('Unit | Organizational Entities | Domain | UseCase | update-organizatio
       // given
       const firstOrganization = domainBuilder.buildOrganizationForAdmin({ id: 1 });
       const secondOrganization = domainBuilder.buildOrganizationForAdmin({ id: 2 });
+      organizationForAdminRepository.exist.resolves(true);
       organizationForAdminRepository.get.onCall(0).resolves(firstOrganization);
       organizationForAdminRepository.get.onCall(1).resolves(secondOrganization);
 
@@ -114,21 +123,89 @@ describe('Unit | Organizational Entities | Domain | UseCase | update-organizatio
         domainTransaction,
       );
     });
+  });
 
+  context('when CSV files contains some errors in the list of organizations to update', function () {
     context('when an organization does not exist', function () {
-      it('throws an NotFoundError', async function () {
+      it('throws an OrganizationNotFound', async function () {
         // given
-        organizationForAdminRepository.get.rejects(new NotFoundError('Not found organization for ID 1'));
+        const fileData = `${csvHeaders}
+        1;;12;;OIDC_EXAMPLE_NET;https://doc.url;;Troisjour;Adam;
+        `;
+        filePath = await createTempFile('test.csv', fileData);
+        organizationForAdminRepository.exist.resolves(false);
 
         // when
         const error = await catchErr(updateOrganizationsInBatch)({ filePath, organizationForAdminRepository });
 
         // then
-        expect(DomainTransaction.execute).to.have.been.called;
-        expect(organizationForAdminRepository.get).to.have.been.called;
+        expect(organizationForAdminRepository.exist).to.have.been.called;
         expect(organizationForAdminRepository.update).to.not.have.been.called;
-        expect(error).to.be.instanceOf(NotFoundError);
-        expect(error.message).to.equal('Not found organization for ID 1');
+        expect(error).to.be.instanceOf(OrganizationNotFound);
+        expect(error.message).to.equal('Organization does not exist');
+        expect(error.meta.organizationId).to.equal('1');
+      });
+    });
+
+    context('when parent organization does not exist', function () {
+      it('throws an UnableToAttachChildOrganizationToParentOrganizationError', async function () {
+        // given
+        const fileData = `${csvHeaders}
+        1;;12;2;OIDC_EXAMPLE_NET;https://doc.url;;Troisjour;Adam;
+        `;
+        filePath = await createTempFile('test.csv', fileData);
+        organizationForAdminRepository.exist.onCall(0).resolves(true);
+        organizationForAdminRepository.exist.onCall(1).resolves(false);
+
+        // when
+        const error = await catchErr(updateOrganizationsInBatch)({ filePath, organizationForAdminRepository });
+
+        // then
+        expect(organizationForAdminRepository.update).to.not.have.been.called;
+        expect(error).to.be.instanceOf(UnableToAttachChildOrganizationToParentOrganizationError);
+        expect(error.message).to.equal('Unable to attach child organization to parent organization');
+        expect(error.meta.organizationId).to.equal('1');
+      });
+    });
+
+    context('when data protection officer email is not valid', function () {
+      it('throws an DpoEmailInvalid', async function () {
+        // given
+        const fileData = `${csvHeaders}
+        1;;12;2;OIDC_EXAMPLE_NET;https://doc.url;;Troisjour;Adam;foo
+        `;
+        filePath = await createTempFile('test.csv', fileData);
+        organizationForAdminRepository.exist.resolves(true);
+
+        // when
+        const error = await catchErr(updateOrganizationsInBatch)({ filePath, organizationForAdminRepository });
+
+        // then
+        expect(organizationForAdminRepository.update).to.not.have.been.called;
+        expect(error).to.be.instanceOf(DpoEmailInvalid);
+        expect(error.message).to.equal('DPO email invalid');
+        expect(error.meta.organizationId).to.equal('1');
+      });
+    });
+
+    context('when an unexpected error happens', function () {
+      it('throws an OrganizationBatchUpdateError', async function () {
+        // given
+        const fileData = `${csvHeaders}
+        1;;12;2;OIDC_EXAMPLE_NET;https://doc.url;;Troisjour;Adam;
+        `;
+        filePath = await createTempFile('test.csv', fileData);
+        organizationForAdminRepository.exist.resolves(true);
+        organizationForAdminRepository.get.onCall(0).resolves(domainBuilder.buildOrganizationForAdmin({ id: 1 }));
+        organizationForAdminRepository.update.rejects('Unexpected error');
+
+        // when
+        const error = await catchErr(updateOrganizationsInBatch)({ filePath, organizationForAdminRepository });
+
+        // then
+        expect(error).to.be.instanceOf(OrganizationBatchUpdateError);
+        expect(error.message).to.equal('Organization batch update failed');
+        expect(error.meta.organizationId).to.equal('1');
       });
     });
   });
