@@ -23,16 +23,16 @@ export default class TrainingDetailsTargetProfilesController extends Controller 
     e.preventDefault();
     if (this.noTargetProfilesToAttach) return;
 
-    const training = this.model;
+    const { training, targetProfileSummaries } = this.model;
 
     try {
-      const targetProfileIdsBefore = training.get('targetProfileSummaries').map(({ id }) => id);
+      const targetProfileIdsBefore = targetProfileSummaries.map(({ id }) => id);
       const targetProfileIdsToAttach = this._getUniqueTargetProfileIds();
       await training.attachTargetProfiles({
         'target-profile-ids': targetProfileIdsToAttach,
       });
-      await training.get('targetProfileSummaries').reload();
-      const targetProfileIdsAfter = training.get('targetProfileSummaries').map(({ id }) => id);
+      await targetProfileSummaries.reload();
+      const targetProfileIdsAfter = targetProfileSummaries.map(({ id }) => id);
       const attachedIds = targetProfileIdsAfter.filter((id) => !targetProfileIdsBefore.includes(id));
       const duplicatedIds = targetProfileIdsBefore.filter((id) => targetProfileIdsToAttach.includes(id));
       const hasInserted = attachedIds.length > 0;

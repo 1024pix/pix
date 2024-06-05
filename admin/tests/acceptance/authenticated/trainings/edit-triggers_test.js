@@ -99,17 +99,17 @@ module('Acceptance | Trainings | Triggers edit', function (hooks) {
       const thresholdInputs = screen.getByLabelText('Seuil en % :');
       await fillIn(thresholdInputs, 20);
 
-      await click(screen.getByText('area_f1_a1 code', { exact: false }));
-      await click(screen.getByText('competence_f1_a1_c1 index', { exact: false }));
-      await click(screen.getByText('thematic_f1_a1_c1_th1 name', { exact: false }));
-      assert.dom(screen.getByText('2/5')).exists();
+      await click(await screen.findByText('area_f1_a1 code', { exact: false }));
+      await click(await screen.findByText('competence_f1_a1_c1 index', { exact: false }));
+      await click(await screen.findByText('thematic_f1_a1_c1_th1 name', { exact: false }));
+      assert.dom(await screen.findByText('2/5')).exists();
 
       await clickByName('Enregistrer le déclencheur');
 
       // then
       assert.strictEqual(currentURL(), `/trainings/${trainingId}/triggers`);
-      assert.dom(screen.getByText('Seuil : 20%', { exact: false })).exists();
-      assert.dom(screen.getByText('2 sujets', { exact: false })).exists();
+      assert.dom(await screen.findByText('Seuil : 20%', { exact: false })).exists();
+      assert.dom(await screen.findByText('2 sujets', { exact: false })).exists();
     });
 
     module('when admin member is "SUPPORT"', function () {

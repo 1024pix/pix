@@ -5,6 +5,6 @@ export default class TrainingTrigger extends Model {
   @attr('number') threshold;
   @attr('number') tubesCount;
 
-  @belongsTo('training') training;
-  @hasMany('area') areas;
+  @belongsTo('training', { async: true, inverse: 'trainingTriggers' }) training;
+  @hasMany('area', { async: true, inverse: null }) areas;
 }

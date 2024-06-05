@@ -1,5 +1,5 @@
+import { memberAction } from '@1024pix/ember-api-actions';
 import Model, { attr, hasMany } from '@ember-data/model';
-import { memberAction } from 'ember-api-actions';
 
 import formatList from '../utils/format-select-options';
 
@@ -40,8 +40,8 @@ export default class Training extends Model {
   })
   duration;
 
-  @hasMany('training-trigger') trainingTriggers;
-  @hasMany('target-profile-summary') targetProfileSummaries;
+  @hasMany('training-trigger', { async: true, inverse: 'training' }) trainingTriggers;
+  @hasMany('target-profile-summary', { async: true, inverse: null }) targetProfileSummaries;
 
   attachTargetProfiles = memberAction({
     path: 'attach-target-profiles',
@@ -49,14 +49,16 @@ export default class Training extends Model {
   });
 
   get prerequisiteTrigger() {
-    return this.trainingTriggers.findBy('type', 'prerequisite');
+    const trainingTriggers = this.hasMany('trainingTriggers').value() || [];
+    return trainingTriggers.findBy('type', 'prerequisite');
   }
 
   get goalTrigger() {
-    return this.trainingTriggers.findBy('type', 'goal');
+    const trainingTriggers = this.hasMany('trainingTriggers').value() || [];
+    return trainingTriggers.findBy('type', 'goal');
   }
 
   get sortedTargetProfileSummaries() {
-    return this.targetProfileSummaries.sortBy('id');
+    return this.hasMany('targetProfileSummaries').value().sortBy('id');
   }
 }

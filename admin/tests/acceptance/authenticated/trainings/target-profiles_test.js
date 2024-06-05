@@ -64,7 +64,7 @@ module('Acceptance | Trainings | Target profiles', function (hooks) {
         await clickByName('Valider');
 
         // then
-        assert.dom(screen.queryByRole('link', { name: 'Super profil cible' })).exists();
+        assert.dom(await screen.findByRole('link', { name: 'Super profil cible' })).exists();
       });
     });
 

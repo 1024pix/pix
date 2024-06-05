@@ -37,7 +37,7 @@
               </tr>
             </thead>
             <tbody>
-              {{#each @model.sortedTargetProfileSummaries as |summary|}}
+              {{#each @model.training.sortedTargetProfileSummaries as |summary|}}
                 <tr aria-label="Profil cible">
                   <td class="table__column table__column--id">{{summary.id}}</td>
                   <td headers="target-profile-name">
