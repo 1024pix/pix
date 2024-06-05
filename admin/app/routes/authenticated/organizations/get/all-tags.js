@@ -16,10 +16,10 @@ export default class AllTags extends Route {
 
   async model() {
     const organization = this.modelFor('authenticated.organizations.get');
+    const organizationTags = await organization.tags;
     const allTags = await this.store.query('tag', { getAllTags: true });
-
-    const organizationTagsNames = map(organization.tags.toArray(), 'name');
-    const sortedTags = sortBy(allTags.toArray(), 'name');
+    const organizationTagsNames = map(organizationTags, 'name');
+    const sortedTags = sortBy(allTags, 'name');
     const tagsWithAssignedToOrganizationInformation = map(sortedTags, (tag) => {
       tag.isTagAssignedToOrganization = organizationTagsNames.includes(tag.name);
       return tag;

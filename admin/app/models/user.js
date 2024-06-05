@@ -22,14 +22,14 @@ export default class User extends Model {
   @attr() anonymisedByFullName;
 
   // includes
-  @belongsTo('profile') profile;
-  @belongsTo('user-login') userLogin;
+  @belongsTo('profile', { async: true, inverse: null }) profile;
+  @belongsTo('user-login', { async: true, inverse: null }) userLogin;
 
-  @hasMany('organization-membership') organizationMemberships;
-  @hasMany('certification-center-membership') certificationCenterMemberships;
-  @hasMany('organization-learner') organizationLearners;
-  @hasMany('authentication-method') authenticationMethods;
-  @hasMany('user-participation') participations;
+  @hasMany('organization-membership', { async: true, inverse: 'user' }) organizationMemberships;
+  @hasMany('certification-center-membership', { async: true, inverse: 'user' }) certificationCenterMemberships;
+  @hasMany('organization-learner', { async: true, inverse: 'user' }) organizationLearners;
+  @hasMany('authentication-method', { async: true, inverse: null }) authenticationMethods;
+  @hasMany('user-participation', { async: true, inverse: null }) participations;
 
   @computed('firstName', 'lastName')
   get fullName() {

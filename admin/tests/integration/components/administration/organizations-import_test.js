@@ -12,16 +12,27 @@ module('Integration | Component |  administration/organizations-import', functio
   setupIntlRenderingTest(hooks);
   setupMirage(hooks);
 
+  let store, adapter, notificationSuccessStub, clearAllStub, saveAdapterStub, notificationErrorStub;
+  hooks.beforeEach(function () {
+    store = this.owner.lookup('service:store');
+    adapter = store.adapterFor('organizations-import');
+    saveAdapterStub = sinon.stub(adapter, 'addOrganizationsCsv');
+    notificationSuccessStub = sinon.stub();
+    notificationErrorStub = sinon.stub().returns();
+
+    clearAllStub = sinon.stub();
+  });
+
   module('when import succeeds', function () {
     test.skip('it displays a success notification', async function (assert) {
       // given
       const file = new Blob(['foo'], { type: `valid-file` });
-      const notificationSuccessStub = sinon.stub();
       class NotificationsStub extends Service {
         success = notificationSuccessStub;
-        clearAll = sinon.stub();
+        clearAll = clearAllStub;
       }
       this.owner.register('service:notifications', NotificationsStub);
+      saveAdapterStub.withArgs(file).resolves();
 
       // when
       const screen = await render(hbs`<Administration::OrganizationsImport />`);
@@ -53,7 +64,6 @@ module('Integration | Component |  administration/organizations-import', functio
         412,
       );
       const file = new Blob(['foo'], { type: `valid-file` });
-      const notificationErrorStub = sinon.stub().returns();
       class NotificationsStub extends Service {
         error = notificationErrorStub;
         clearAll = sinon.stub();

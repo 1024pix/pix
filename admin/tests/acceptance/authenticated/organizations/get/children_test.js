@@ -81,7 +81,7 @@ module('Acceptance | Organizations | Children', function (hooks) {
         await clickByName('Ajouter');
 
         // then
-        assert.dom(screen.getByRole('cell', { name: 'Child Organization Name' })).exists();
+        assert.dom(await screen.findByRole('cell', { name: 'Child Organization Name' })).exists();
         assert.dom(screen.getByText(`L'organisation fille a bien été liée à l'organisation mère`)).exists();
       });
     });

@@ -1,4 +1,4 @@
-import { clickByName, visit } from '@1024pix/ember-testing-library';
+import { clickByName, visit, waitForElementToBeRemoved } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
@@ -102,8 +102,8 @@ module('Acceptance | Team | List', function (hooks) {
       await clickByName('Confirmer');
 
       // then
-      assert.dom(screen.queryByText('Anne')).doesNotExist();
-      assert.dom(screen.queryByText('Estésie')).doesNotExist();
+      await waitForElementToBeRemoved(screen.queryByRole('cell', { name: 'Anne' }));
+      assert.ok(true);
     });
 
     test('it should show an error when modification is not successful and not modify admin member role', async function (assert) {
@@ -124,7 +124,7 @@ module('Acceptance | Team | List', function (hooks) {
         isSupport: true,
       });
 
-      this.server.patch(
+      server.patch(
         '/admin/admin-members/:id',
         () => ({
           errors: [

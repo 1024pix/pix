@@ -1,7 +1,7 @@
 <div class="organization__data">
   <h2 class="organization__name">{{@organization.name}}</h2>
 
-  {{#if @organization.tags}}
+  {{#if this.tags}}
     <ul class="organization-tags-list">
       {{#each @organization.tags as |tag|}}
         <li class="organization-tags-list__tag">
@@ -15,7 +15,7 @@
     </PixMessage>
   {{/if}}
   <div class="organization__network-label">
-    {{#if @organization.children}}
+    {{#if this.hasOrganizationChildren}}
       <PixTag @color="success">{{t "components.organizations.information-section-view.parent-organization"}}</PixTag>
     {{/if}}
     {{#if @organization.parentOrganizationId}}

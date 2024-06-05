@@ -1,8 +1,8 @@
+import { memberAction } from '@1024pix/ember-api-actions';
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { equal } from '@ember/object/computed';
 import Model, { attr, hasMany } from '@ember-data/model';
 import dayjs from 'dayjs';
-import { memberAction } from 'ember-api-actions';
 
 export default class Organization extends Model {
   @attr('nullable-string') name;
@@ -33,10 +33,10 @@ export default class Organization extends Model {
   @equal('type', 'SCO') isOrganizationSCO;
   @equal('type', 'SUP') isOrganizationSUP;
 
-  @hasMany('organizationMembership') organizationMemberships;
-  @hasMany('targetProfileSummary') targetProfileSummaries;
-  @hasMany('tag') tags;
-  @hasMany('organization', { inverse: null }) children;
+  @hasMany('organizationMembership', { async: true, inverse: 'organization' }) organizationMemberships;
+  @hasMany('targetProfileSummary', { async: true, inverse: null }) targetProfileSummaries;
+  @hasMany('tag', { async: true, inverse: null }) tags;
+  @hasMany('organization', { async: true, inverse: null }) children;
 
   static get featureList() {
     return {
@@ -90,10 +90,6 @@ export default class Organization extends Model {
 
   get isArchived() {
     return !!this.archivedAt;
-  }
-
-  get sortedTargetProfileSummaries() {
-    return this.targetProfileSummaries.sortBy('id');
   }
 
   get dataProtectionOfficerFullName() {

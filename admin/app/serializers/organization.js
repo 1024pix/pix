@@ -1,6 +1,6 @@
-import JSONAPISerializer from '@ember-data/serializer/json-api';
+import ApplicationSerializer from './application';
 
-export default class Organization extends JSONAPISerializer {
+export default class Organization extends ApplicationSerializer {
   attrs = {
     formNPSUrl: {
       key: 'form-nps-url',

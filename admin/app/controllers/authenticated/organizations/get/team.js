@@ -50,7 +50,7 @@ export default class GetTeamController extends Controller {
 
   @action
   async addOrganizationMembership() {
-    const organization = this.model;
+    const { organization } = this.model;
     const email = this.userEmailToAdd.trim();
     const user = await this._getUser(email);
     if (!user) {
@@ -64,7 +64,7 @@ export default class GetTeamController extends Controller {
     try {
       await this.store.createRecord('organization-membership', { organization, user }).save();
 
-      await organization.organizationMemberships.reload({
+      await this.model.organizationMemberships.reload({
         adapterOptions: {
           'page[size]': this.pageSize,
           'page[number]': this.pageNumber,

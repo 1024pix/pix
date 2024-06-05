@@ -1,5 +1,6 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
+import RSVP from 'rsvp';
 
 export default class OrganizationTeamRoute extends Route {
   @service router;
@@ -43,7 +44,10 @@ export default class OrganizationTeamRoute extends Route {
       this._handleResponseError(errorResponse);
     }
 
-    return organization;
+    return RSVP.hash({
+      organization,
+      organizationMemberships: organization.organizationMemberships,
+    });
   }
 
   resetController(controller, isExiting) {

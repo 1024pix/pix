@@ -11,7 +11,7 @@ export default class OrganizationInvitation extends Model {
   @attr role;
   @attr('date') updatedAt;
 
-  @belongsTo('organization') organization;
+  @belongsTo('organization', { async: true, inverse: null }) organization;
 
   @equal('status', 'pending') isPending;
   @equal('status', 'accepted') isAccepted;

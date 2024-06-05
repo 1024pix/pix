@@ -20,7 +20,7 @@ export default class AuthenticatedOrganizationsGetChildrenController extends Con
         this.intl.t('pages.organization-children.notifications.success.attach-child-organization'),
       );
 
-      await this.model.organization.children.reload();
+      await this.model.organization.hasMany('children').reload();
     } catch (responseError) {
       const error = get(responseError, 'errors[0]');
       let message;
