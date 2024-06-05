@@ -2,7 +2,6 @@ import _ from 'lodash';
 
 import {
   ManyOrganizationsFoundError,
-  OrganizationArchivedError,
   OrganizationNotFoundError,
   OrganizationWithoutEmailError,
 } from '../../../../lib/domain/errors.js';
@@ -31,7 +30,6 @@ const sendScoInvitation = async function ({
 }) {
   const organizationWithGivenUAI = await _getOrganizationWithGivenUAI({ uai, organizationRepository });
   _ensureOrganizationHasAnEmail({ email: organizationWithGivenUAI.email, uai });
-  _ensureOrganizationIsNotArchived(organizationWithGivenUAI);
 
   return await organizationInvitationService.createScoOrganizationInvitation({
     organizationId: organizationWithGivenUAI.id,
@@ -47,7 +45,7 @@ const sendScoInvitation = async function ({
 export { sendScoInvitation };
 
 async function _getOrganizationWithGivenUAI({ uai, organizationRepository }) {
-  const organizationsFound = await organizationRepository.findScoOrganizationsByUai({ uai: uai.trim() });
+  const organizationsFound = await organizationRepository.findActiveScoOrganizationsByExternalId(uai.trim());
   _ensureThereIsNoMoreThanOneOrganization({ organizationCount: organizationsFound.length, uai });
   _ensureThereIsAtLeastOneOrganization({ organizationCount: organizationsFound.length, uai });
   return organizationsFound[0];
@@ -71,11 +69,5 @@ function _ensureOrganizationHasAnEmail({ email, uai }) {
   if (_.isEmpty(email)) {
     const errorMessage = `Nous n’avons pas d’adresse e-mail de contact associée à l'établissement concernant l'UAI/RNE ${uai}.`;
     throw new OrganizationWithoutEmailError(errorMessage);
-  }
-}
-
-function _ensureOrganizationIsNotArchived(organization) {
-  if (organization.isArchived) {
-    throw new OrganizationArchivedError();
   }
 }
