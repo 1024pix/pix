@@ -8,7 +8,7 @@ module('Integration | Component | Module | Stepper', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   module('A Stepper with 2 steps', function () {
-    test('should display 2 steps', async function (assert) {
+    test('should display the first step', async function (assert) {
       // given
       const steps = [
         {
@@ -35,9 +35,8 @@ module('Integration | Component | Module | Stepper', function (hooks) {
       const screen = await render(<template><ModulixStepper @steps={{steps}} /></template>);
 
       // then
-      assert.strictEqual(screen.getAllByRole('heading', { level: 3 }).length, 2);
+      assert.strictEqual(screen.getAllByRole('heading', { level: 3 }).length, 1);
       assert.dom(screen.getByRole('heading', { level: 3, name: 'Étape 1 sur 2' })).exists();
-      assert.dom(screen.getByRole('heading', { level: 3, name: 'Étape 2 sur 2' })).exists();
     });
   });
 });
