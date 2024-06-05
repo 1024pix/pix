@@ -74,8 +74,21 @@ function archiveOrganization(schema, request) {
   return organization.update({ archivistFullName: 'Clément Tine', archivedAt: new Date('2022-02-02') });
 }
 
+function findPaginatedFilteredOrganizations(schema) {
+  const organizations = schema.organizations.all().models;
+  const json = this.serialize({ modelName: 'organization', models: organizations }, 'organization');
+  json.meta = {
+    page: 1,
+    pageSize: 5,
+    rowCount: 5,
+    pageCount: 1,
+  };
+  return json;
+}
+
 export {
   archiveOrganization,
+  findPaginatedFilteredOrganizations,
   findPaginatedOrganizationMemberships,
   getOrganizationInvitations,
   getOrganizationPlaces,

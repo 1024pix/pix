@@ -1,6 +1,6 @@
 import ApplicationSerializer from './application';
 
-const include = ['tubes', 'triggerTubes'];
+const include = [];
 
 export default ApplicationSerializer.extend({
   include,

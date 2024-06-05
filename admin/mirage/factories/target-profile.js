@@ -57,6 +57,24 @@ export default Factory.extend({
 
   afterCreate(targetProfile, server) {
     if (targetProfile.areas.models.length === 0) {
+      const skill = server.create('skill', {
+        id: 'skill1',
+        name: 'Super Skill',
+        difficulty: 1,
+        level: 1,
+      });
+      const skill2 = server.create('skill', {
+        id: 'skill2',
+        name: 'Super Skill',
+        difficulty: 1,
+        level: 1,
+      });
+      const skill3 = server.create('skill', {
+        id: 'skill3',
+        name: 'Super Skill',
+        difficulty: 1,
+        level: 1,
+      });
       const tubeTrois = server.create('tube', {
         id: 'tubeNiveauTrois',
         name: '@tubeNiveauTrois',
@@ -65,6 +83,7 @@ export default Factory.extend({
         mobile: true,
         tablet: false,
         level: 3,
+        skills: [skill3],
       });
       const tubeQuatre = server.create('tube', {
         id: 'tubeNiveauQuatre',
@@ -74,6 +93,7 @@ export default Factory.extend({
         mobile: false,
         tablet: true,
         level: 4,
+        skills: [skill2],
       });
       const tubeDeux = server.create('tube', {
         id: 'tubeNiveauDeux',
@@ -82,6 +102,7 @@ export default Factory.extend({
         mobile: false,
         tablet: false,
         level: 2,
+        skills: [skill],
       });
       const thematicUn = server.create('thematic', {
         id: 'thematicUn',

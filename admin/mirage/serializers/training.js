@@ -1,6 +1,9 @@
 import ApplicationSerializer from './application';
 
+const include = ['trainingTriggers'];
+
 export default ApplicationSerializer.extend({
+  include,
   links(training) {
     return {
       targetProfileSummaries: {

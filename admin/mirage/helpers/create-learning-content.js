@@ -53,6 +53,7 @@ function _createThematic(variableName, competence, server) {
     name: `${variableName} name`,
     index: `${variableName} index`,
     tubes: [],
+    triggerTubes: [],
   });
   competence.update({ thematics: [...competence.thematics.models, thematic] });
   return thematic;
