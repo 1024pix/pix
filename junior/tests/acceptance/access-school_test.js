@@ -68,6 +68,17 @@ module('Acceptance | School', function (hooks) {
       assert.dom(screen.getByRole('link', { name: 'CM2 A' })).exists();
       assert.dom(screen.getByRole('link', { name: 'CM2-B' })).exists();
     });
+
+    test('should ignore code case from direct link', async function (assert) {
+      // given
+      const school = this.server.create('school');
+      // when
+      const screen = await visit('/schools/minipixou');
+      // then
+      assert.dom(screen.getByText(school.name)).exists();
+      assert.dom(screen.getByRole('link', { name: 'CM2 A' })).exists();
+      assert.dom(screen.getByRole('link', { name: 'CM2-B' })).exists();
+    });
   });
 
   module('with invalid school code', function () {
