@@ -2,11 +2,13 @@ import Component from '@glimmer/component';
 
 export default class CappedTubesCriterion extends Component {
   get areasForView() {
-    return this.args.targetProfile.areas
+    return this.args.targetProfile
+      .hasMany('areas')
+      .value()
       .sortBy('code')
       .map((area) => ({
         area,
-        competences: this._buildCompetencesViewModel(area.competences),
+        competences: this._buildCompetencesViewModel(area.hasMany('competences').value()),
       }))
       .filter(({ competences }) => competences.length !== 0)
       .map(({ area, competences }) => ({
@@ -21,7 +23,7 @@ export default class CappedTubesCriterion extends Component {
       .sortBy('index')
       .map((competence) => ({
         competence,
-        thematics: this._buildThematicsViewModel(competence.thematics),
+        thematics: this._buildThematicsViewModel(competence.hasMany('thematics').value()),
       }))
       .filter(({ thematics }) => thematics.length !== 0)
       .map(({ competence, thematics }) => ({
@@ -35,7 +37,7 @@ export default class CappedTubesCriterion extends Component {
       .sortBy('index')
       .map((thematic) => ({
         thematic,
-        tubes: this._buildTubesViewModel(thematic.tubes),
+        tubes: this._buildTubesViewModel(thematic.hasMany('tubes').value()),
       }))
       .filter(({ tubes }) => tubes.length !== 0)
       .map(({ thematic, tubes }) => ({

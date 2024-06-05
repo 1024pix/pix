@@ -5,9 +5,17 @@ import { tracked } from '@glimmer/tracking';
 export default class CappedTubesCriterion extends Component {
   @tracked selectedTubeIds = [];
   @tracked tubeLevels = {};
+  @tracked areasList = [];
+
+  constructor() {
+    super(...arguments);
+    Promise.resolve(this.args.areas).then((areas) => {
+      this.areasList = areas;
+    });
+  }
 
   get areas() {
-    return this.args.areas.sortBy('code');
+    return this.areasList.sortBy('code');
   }
 
   @action
@@ -55,13 +63,12 @@ export default class CappedTubesCriterion extends Component {
 
   get _selectedTubes() {
     return (
-      this.args.areas
-        .toArray()
+      this.areasList
         .flatMap((area) => {
-          const competences = area.competences.toArray();
+          const competences = area.hasMany('competences').value().toArray();
           return competences.flatMap((competence) => {
-            const thematics = competence.thematics.toArray();
-            return thematics.flatMap((thematic) => thematic.tubes.toArray());
+            const thematics = competence.hasMany('thematics').value().toArray();
+            return thematics.flatMap((thematic) => thematic.hasMany('tubes').value().toArray());
           });
         })
         .filter((tube) => this.selectedTubeIds.includes(tube.id)) ?? []

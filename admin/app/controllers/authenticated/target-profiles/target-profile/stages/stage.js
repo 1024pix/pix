@@ -9,17 +9,13 @@ export default class StageController extends Controller {
   @service store;
 
   get availableLevels() {
-    const unavailableLevels = this.model.stageCollection.stages.map((stage) =>
-      stage.id === this.model.stage.id ? null : stage.level,
-    );
+    const unavailableLevels = this.model.stages.map((stage) => (stage.id === this.model.stage.id ? null : stage.level));
     const allLevels = Array.from({ length: this.model.targetProfile.maxLevel + 1 }, (_, i) => i);
     return difference(allLevels, unavailableLevels);
   }
 
   get unavailableThresholds() {
-    return this.model.stageCollection.stages.map((stage) =>
-      this.model.stage.id === stage.id ? null : stage.threshold,
-    );
+    return this.model.stages.map((stage) => (this.model.stage.id === stage.id ? null : stage.threshold));
   }
 
   get hasLinkedCampaign() {
@@ -33,8 +29,8 @@ export default class StageController extends Controller {
 
   @action
   async update() {
-    await this.store
-      .createRecord('stage', this.model.stage)
-      .save({ adapterOptions: { stage: this.model.stage, targetProfileId: Number(this.model.targetProfile.id) } });
+    await this.model.stage.save({
+      adapterOptions: { stage: this.model.stage, targetProfileId: Number(this.model.targetProfile.id) },
+    });
   }
 }

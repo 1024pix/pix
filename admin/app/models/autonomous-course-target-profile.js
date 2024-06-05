@@ -7,5 +7,5 @@ export default class AutonomousCourseTargetProfile extends Model {
   @attr('nullable-string') name;
   @attr('string') category;
 
-  @belongsTo('organization') organization;
+  @belongsTo('organization', { async: true, inverse: null }) organization;
 }

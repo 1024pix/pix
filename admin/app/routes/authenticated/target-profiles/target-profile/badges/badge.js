@@ -1,5 +1,6 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
+import RSVP from 'rsvp';
 
 export default class BadgeRoute extends Route {
   @service store;
@@ -9,11 +10,12 @@ export default class BadgeRoute extends Route {
     this.accessControl.restrictAccessTo(['isSuperAdmin', 'isSupport', 'isMetier'], 'authenticated');
   }
 
-  model(params) {
+  async model(params) {
     const targetProfile = this.modelFor('authenticated.target-profiles.target-profile');
-    return {
+    const badges = await targetProfile.badges;
+    return RSVP.hash({
       targetProfile: targetProfile,
-      badge: targetProfile.badges.find((badge) => badge.id === params.badge_id),
-    };
+      badge: badges.find((badge) => badge.id === params.badge_id),
+    });
   }
 }
