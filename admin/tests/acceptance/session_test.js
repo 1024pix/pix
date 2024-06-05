@@ -86,6 +86,7 @@ module('Acceptance | Session pages', function (hooks) {
         test('tab "Certifications" is clickable', async function (assert) {
           // when
           const screen = await visit('/sessions/1');
+
           await click(screen.getByLabelText('Liste des certifications de la session'));
 
           // then
@@ -162,13 +163,16 @@ module('Acceptance | Session pages', function (hooks) {
         module('copy link button', function () {
           test("it should copy 'http://link-to-results.fr?lang=fr' in navigator clipboard on click", async function (assert) {
             // given
+            const screen = await visit('/sessions/1');
 
             // We were unable to access clipboard in test environment so we used a stub
             const writeTextStub = sinon.stub();
-            sinon.stub(navigator, 'clipboard').value({ writeText: writeTextStub.returns() });
 
+            sinon.stub(navigator, 'clipboard').value({ writeText: writeTextStub.returns() });
             // when
+
             await clickByName('Lien de téléchargement des résultats');
+            await screen.findByText('Copié');
 
             // then
             assert.ok(writeTextStub.calledWithExactly('http://link-to-results.fr?lang=fr'));

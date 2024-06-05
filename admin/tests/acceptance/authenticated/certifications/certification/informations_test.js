@@ -604,9 +604,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
             // when
             await clickByName('Enregistrer');
-
             // then
-            assert.dom(screen.getByText("Candidate's first name must not be blank or empty")).exists();
+            assert.dom(await screen.findByText("Candidate's first name must not be blank or empty")).exists();
           });
 
           test('should leave the modal opened', async function (assert) {
@@ -705,8 +704,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
                 await click(screen.getAllByRole('button', { name: 'Résoudre ce signalement' }).at(0));
 
                 // then
-                assert.dom(screen.getByText('Le signalement a été résolu.')).exists();
-                assert.dom(screen.getByText('Résolution : Fraude')).exists();
+                assert.dom(await screen.findByText('Le signalement a été résolu.')).exists();
+                assert.dom(await screen.findByText('Résolution : Fraude')).exists();
               });
             });
           });
@@ -737,7 +736,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
               await click(screen.getAllByRole('button', { name: 'Résoudre ce signalement' }).at(0));
 
               // then
-              assert.dom(screen.getByText(/une erreur est survenue/i)).exists();
+              assert.dom(await screen.findByText(/une erreur est survenue/i)).exists();
               assert.dom(screen.queryByLabelText('Fraud')).doesNotExist();
             });
           });
@@ -796,7 +795,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           await clickByName('Confirmer');
 
           // then
-          assert.dom(screen.getByRole('button', { name: 'Désannuler la certification' })).exists();
+          assert.dom(await screen.findByRole('button', { name: 'Désannuler la certification' })).exists();
         });
       });
 
@@ -849,7 +848,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           await clickByName('Confirmer');
 
           // then
-          assert.dom(screen.getByRole('button', { name: 'Annuler la certification' })).exists();
+          assert.dom(await screen.findByRole('button', { name: 'Annuler la certification' })).exists();
         });
       });
     });
@@ -930,9 +929,9 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         await clickByName('Confirmer');
 
         // then
-        assert.dom(screen.getByText('Rejetée')).exists();
+        assert.dom(await screen.findByText('Rejetée')).exists();
         assert.dom(screen.queryByText('Validée')).doesNotExist();
-        assert.dom(screen.getByRole('button', { name: 'Annuler le rejet' })).exists();
+        assert.dom(await screen.findByRole('button', { name: 'Annuler le rejet' })).exists();
       });
 
       test('should display an error notification when the certification cannot be rejected', async function (assert) {
@@ -1059,9 +1058,9 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         await clickByName('Confirmer');
 
         // then
-        assert.dom(screen.getByText('Validée')).exists();
+        assert.dom(await screen.findByText('Validée')).exists();
         assert.dom(screen.queryByText('Rejetée')).doesNotExist();
-        assert.dom(screen.getByRole('button', { name: 'Rejeter la certification' })).exists();
+        assert.dom(await screen.findByRole('button', { name: 'Rejeter la certification' })).exists();
       });
 
       test('should display an error notification when the certification cannot be unrejected', async function (assert) {

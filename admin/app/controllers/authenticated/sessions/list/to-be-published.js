@@ -62,6 +62,11 @@ export default class SessionToBePublishedController extends Controller {
   }
 
   _removePublishedSessionsFromStore(sessions) {
-    sessions.map((session) => session.unloadRecord());
+    // unloadRecord supprime la référence, et change donc la taille du tableau a chaque itération
+    const allSessions = [...sessions];
+    while (allSessions.length > 0) {
+      const session = allSessions.pop();
+      session.unloadRecord();
+    }
   }
 }

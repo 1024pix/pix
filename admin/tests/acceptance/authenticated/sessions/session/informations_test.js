@@ -1,4 +1,11 @@
-import { clickByName, fillByLabel, getByTextWithHtml, visit, within } from '@1024pix/ember-testing-library';
+import {
+  clickByName,
+  fillByLabel,
+  getByTextWithHtml,
+  visit,
+  waitForElementToBeRemoved,
+  within,
+} from '@1024pix/ember-testing-library';
 import { currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
@@ -287,6 +294,7 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
 
             // when
             const screen = await visit('/sessions/6');
+
             await clickByName('Supprimer');
 
             await screen.findByRole('dialog');
@@ -294,9 +302,10 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
             await clickByName('Confirmer');
 
             // then
-            assert
-              .dom(screen.queryByText("Le surveillant prétend qu'une météorite est tombée sur le centre."))
-              .doesNotExist();
+            await waitForElementToBeRemoved(() =>
+              screen.queryByText("Le surveillant prétend qu'une météorite est tombée sur le centre."),
+            );
+            assert.ok(true);
           });
         });
 
@@ -329,10 +338,11 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
             await screen.findByRole('dialog');
 
             await clickByName('Confirmer');
-
             // then
+            assert
+              .dom(await screen.findByText('Une erreur est survenue pendant la suppression du commentaire.'))
+              .exists();
             assert.dom(screen.getByText("Le surveillant prétend qu'une météorite est tombée sur le centre.")).exists();
-            assert.dom(screen.getByText('Une erreur est survenue pendant la suppression du commentaire.')).exists();
           });
         });
       });
@@ -378,7 +388,9 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
           await clickByName('Enregistrer');
 
           // then
-          assert.dom(screen.getByText("Une erreur est survenue pendant l'enregistrement du commentaire.")).exists();
+          assert
+            .dom(await screen.findByText("Une erreur est survenue pendant l'enregistrement du commentaire."))
+            .exists();
         });
       });
     });

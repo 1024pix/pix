@@ -114,7 +114,8 @@ module('Integration | Component | certification-centers/creation-form', function
       await click(screen.getByRole('checkbox', { name: 'Pix+Surf' }));
 
       // then
-      assert.ok(this.certificationCenter.habilitations.includes(habilitation2));
+      const habilitations = await this.certificationCenter.habilitations;
+      assert.ok(habilitations.includes(habilitation2));
     });
 
     test('should remove habilitation to certification center on unchecked checkbox', async function (assert) {
@@ -141,7 +142,8 @@ module('Integration | Component | certification-centers/creation-form', function
       await click(screen.getByRole('checkbox', { name: 'Pix+Surf' }));
 
       // then
-      assert.notOk(this.certificationCenter.habilitations.includes(habilitation2));
+      const habilitations = await this.certificationCenter.habilitations;
+      assert.notOk(habilitations.includes(habilitation2));
     });
   });
 

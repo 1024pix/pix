@@ -1,8 +1,8 @@
+import { memberAction } from '@1024pix/ember-api-actions';
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from '@ember/object';
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 import dayjs from 'dayjs';
-import { memberAction } from 'ember-api-actions';
 
 export const ACQUIRED = 'acquired';
 export const REJECTED = 'rejected';
@@ -45,11 +45,13 @@ export default class Certification extends Model {
   @attr() competencesWithMark;
   @attr('boolean', { defaultValue: false }) isPublished;
   @attr('number') version;
-  @belongsTo('complementary-certification-course-result-with-external')
-  complementaryCertificationCourseResultWithExternal;
-  @belongsTo('common-complementary-certification-course-result') commonComplementaryCertificationCourseResult;
 
-  @hasMany('certification-issue-report') certificationIssueReports;
+  @belongsTo('complementary-certification-course-result-with-external', { async: true, inverse: null })
+  complementaryCertificationCourseResultWithExternal;
+  @belongsTo('common-complementary-certification-course-result', { async: true, inverse: null })
+  commonComplementaryCertificationCourseResult;
+
+  @hasMany('certification-issue-report', { async: true, inverse: 'certification' }) certificationIssueReports;
 
   @computed('createdAt')
   get creationDate() {

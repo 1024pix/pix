@@ -1,7 +1,8 @@
 import Model, { attr, belongsTo } from '@ember-data/model';
 
 export default class ComplementaryCertificationBadge extends Model {
-  @belongsTo('complementary-certification') complementaryCertification;
+  @belongsTo('complementary-certification', { async: true, inverse: 'complementaryCertificationBadges' })
+  complementaryCertification;
 
   @attr('number') badgeId;
   @attr('number') level;

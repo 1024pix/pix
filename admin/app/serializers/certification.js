@@ -1,6 +1,6 @@
-import JSONAPISerializer from '@ember-data/serializer/json-api';
+import ApplicationSerializer from './application';
 
-export default class Certification extends JSONAPISerializer {
+export default class Certification extends ApplicationSerializer {
   serialize(snapshot, options) {
     if (options && options.onlyInformation) {
       const data = {};

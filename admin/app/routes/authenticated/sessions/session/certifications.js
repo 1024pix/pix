@@ -1,4 +1,5 @@
 import Route from '@ember/routing/route';
+import RSVP from 'rsvp';
 
 export default class CertificationsRoute extends Route {
   queryParams = {
@@ -8,17 +9,17 @@ export default class CertificationsRoute extends Route {
 
   async model({ pageSize, pageNumber }) {
     const session = this.modelFor('authenticated.sessions.session');
-    const juryCertificationSummaries = session.hasMany('juryCertificationSummaries');
+    const juryCertificationSummaries = await session.juryCertificationSummaries;
 
     const adapterOptions = {
       'page[size]': pageSize,
       'page[number]': pageNumber,
     };
-    if (juryCertificationSummaries.value() === null) {
+    if (juryCertificationSummaries === null) {
       juryCertificationSummaries.load({ adapterOptions });
     } else {
       juryCertificationSummaries.reload({ adapterOptions });
     }
-    return session;
+    return RSVP.hash({ session, juryCertificationSummaries });
   }
 }

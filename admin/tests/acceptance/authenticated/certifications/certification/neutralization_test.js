@@ -198,7 +198,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             await clickByName('Dé-neutraliser');
 
             // then
-            assert.dom(screen.getByRole('button', { name: 'Neutraliser' })).exists();
+            assert.dom(await screen.findByRole('button', { name: 'Neutraliser' })).exists();
           });
         });
 
@@ -230,7 +230,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             await clickByName('Neutraliser');
 
             // then
-            assert.dom(screen.getByRole('button', { name: 'Dé-neutraliser' })).exists();
+            assert.dom(await screen.findByRole('button', { name: 'Dé-neutraliser' })).exists();
           });
         });
       });

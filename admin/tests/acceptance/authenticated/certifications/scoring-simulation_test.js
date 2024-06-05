@@ -84,14 +84,11 @@ module('Acceptance | Route | routes/authenticated/certifications/scoring-simulat
     await clickByName('Générer un profil');
 
     // then
-    const termsList = screen.getAllByRole('term');
-    const definitionsList = screen.getAllByRole('definition');
 
-    assert.strictEqual(termsList[0].textContent.trim(), 'Score :');
-    assert.strictEqual(definitionsList[0].textContent.trim(), '768');
-
-    assert.strictEqual(termsList[1].textContent.trim(), 'Capacité :');
-    assert.strictEqual(definitionsList[1].textContent.trim(), '1');
+    assert.ok(await screen.findByText('Score :'));
+    assert.ok(await screen.findByText('768'));
+    assert.ok(await screen.findByText('Capacité :'));
+    assert.ok(await screen.findByText('1'));
 
     assert.dom(screen.getByLabelText('Niveau de la compétence 1.1')).exists();
   });
@@ -105,14 +102,10 @@ module('Acceptance | Route | routes/authenticated/certifications/scoring-simulat
     await clickByName('Générer un profil');
 
     // then
-    const termsList = screen.getAllByRole('term');
-    const definitionsList = screen.getAllByRole('definition');
-
-    assert.strictEqual(termsList[0].textContent.trim(), 'Score :');
-    assert.strictEqual(definitionsList[0].textContent.trim(), '768');
-
-    assert.strictEqual(termsList[1].textContent.trim(), 'Capacité :');
-    assert.strictEqual(definitionsList[1].textContent.trim(), '1');
+    assert.ok(await screen.findByText('Score :'));
+    assert.ok(await screen.findByText('768'));
+    assert.ok(await screen.findByText('Capacité :'));
+    assert.ok(await screen.findByText('1'));
 
     assert.dom(screen.getByLabelText('Niveau de la compétence 1.1')).exists();
   });

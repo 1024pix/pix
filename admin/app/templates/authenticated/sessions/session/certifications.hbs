@@ -8,7 +8,7 @@
       {{#if this.accessControl.hasAccessToCertificationActionsScope}}
         <div class="btn-group" role="group">
 
-          {{#if this.model.isPublished}}
+          {{#if this.model.session.isPublished}}
             <PixButton @triggerAction={{this.displayCertificationStatusUpdateConfirmationModal}}>Dépublier la session</PixButton>
           {{else}}
 
@@ -41,7 +41,7 @@
       <Certifications::List
         @certifications={{this.sortedCertificationJurySummaries}}
         @pagination={{this.model.juryCertificationSummaries.meta}}
-        @displayHasSeenEndTestScreenColumn={{this.model.displayHasSeenEndTestScreenColumn}}
+        @displayHasSeenEndTestScreenColumn={{this.model.session.displayHasSeenEndTestScreenColumn}}
       />
     </div>
   </div>

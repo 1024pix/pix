@@ -7,8 +7,11 @@ export default class CertificationInformationsRoute extends Route {
   @service store;
 
   async model() {
+    const certification = await this.modelFor('authenticated.certifications.certification').reload();
+    const certificationIssueReports = await certification.certificationIssueReports;
     return RSVP.hash({
-      certification: this.modelFor('authenticated.certifications.certification').reload(),
+      certification,
+      certificationIssueReports,
       countries: this.store.findAll('country'),
     });
   }

@@ -1,8 +1,8 @@
+import { memberAction } from '@1024pix/ember-api-actions';
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from '@ember/object';
 import Model, { attr } from '@ember-data/model';
 import dayjs from 'dayjs';
-import { memberAction } from 'ember-api-actions';
 import groupBy from 'lodash/groupBy';
 import sortBy from 'lodash/sortBy';
 

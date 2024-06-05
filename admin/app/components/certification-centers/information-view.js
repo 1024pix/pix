@@ -1,9 +1,18 @@
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import ENV from 'pix-admin/config/environment';
 
 export default class InformationView extends Component {
   @service intl;
+  @tracked habilitations = [];
+
+  constructor() {
+    super(...arguments);
+    Promise.resolve(this.args.certificationCenter.habilitations).then((habilitations) => {
+      this.habilitations = habilitations;
+    });
+  }
   get availableHabilitations() {
     return this.args.availableHabilitations?.sortBy('id');
   }

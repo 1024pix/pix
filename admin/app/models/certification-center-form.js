@@ -76,5 +76,5 @@ export default class CertificationCenterFrom extends Model.extend(Validations) {
   @attr() dataProtectionOfficerEmail;
   @attr() isV3Pilot;
 
-  @hasMany('complementary-certification') habilitations;
+  @hasMany('complementary-certification', { async: true, inverse: null }) habilitations;
 }

@@ -8,7 +8,7 @@ export default class CertificationCenterInvitationModel extends Model {
   @attr updatedAt;
   @attr role;
 
-  @belongsTo('certificationCenter') certificationCenter;
+  @belongsTo('certificationCenter', { async: true, inverse: null }) certificationCenter;
 
   get roleLabel() {
     switch (this.role) {

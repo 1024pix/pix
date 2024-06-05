@@ -16,8 +16,8 @@ export default class ListController extends Controller {
   @tracked confirmMessage = null;
 
   get canPublish() {
-    const juryCertificationSummaries = this.model.juryCertificationSummaries.toArray();
-    const session = this.model;
+    const juryCertificationSummaries = this.model.juryCertificationSummaries;
+    const { session } = this.model;
 
     return (
       !juryCertificationSummaries.some(
@@ -34,7 +34,7 @@ export default class ListController extends Controller {
 
   @action
   displayCertificationStatusUpdateConfirmationModal() {
-    const sessionIsPublished = this.model.isPublished;
+    const sessionIsPublished = this.model.session.isPublished;
 
     if (!this.canPublish && !sessionIsPublished) return;
 
@@ -46,7 +46,7 @@ export default class ListController extends Controller {
 
   @action
   async toggleSessionPublication() {
-    const isPublished = this.model.isPublished;
+    const isPublished = this.model.session.isPublished;
     if (isPublished) {
       await this.unpublishSession();
     } else {
@@ -56,8 +56,8 @@ export default class ListController extends Controller {
 
   async unpublishSession() {
     try {
-      await this.model.save({ adapterOptions: { updatePublishedCertifications: true, toPublish: false } });
-      this.model.juryCertificationSummaries.reload();
+      await this.model.session.save({ adapterOptions: { updatePublishedCertifications: true, toPublish: false } });
+      await this.model.juryCertificationSummaries.reload();
       this.notifications.success('Les certifications ont été correctement dépubliées.');
     } catch (e) {
       this.notifyError(e);
@@ -67,14 +67,14 @@ export default class ListController extends Controller {
 
   async publishSession() {
     try {
-      await this.model.save({ adapterOptions: { updatePublishedCertifications: true, toPublish: true } });
+      await this.model.session.save({ adapterOptions: { updatePublishedCertifications: true, toPublish: true } });
     } catch (e) {
       this.notifyError(e);
       await this.forceRefreshModelFromBackend();
     }
 
     await this.model.juryCertificationSummaries.reload();
-    if (this.model.isPublished) {
+    if (this.model.session.isPublished) {
       this.notifications.success('Les certifications ont été correctement publiées.');
     }
     this.hideConfirmationModal();
@@ -90,7 +90,7 @@ export default class ListController extends Controller {
   }
 
   async forceRefreshModelFromBackend() {
-    await this.store.findRecord('session', this.model.id, { reload: true });
+    await this.store.findRecord('session', this.model.session.id, { reload: true });
   }
 
   hideConfirmationModal() {

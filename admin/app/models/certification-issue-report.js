@@ -1,5 +1,5 @@
+import { memberAction } from '@1024pix/ember-api-actions';
 import Model, { attr, belongsTo } from '@ember-data/model';
-import { memberAction } from 'ember-api-actions';
 import isNull from 'lodash/isNull';
 
 export const certificationIssueReportCategories = {
@@ -99,7 +99,7 @@ export default class CertificationIssueReportModel extends Model {
   @attr() resolution;
   @attr('boolean') hasBeenAutomaticallyResolved;
 
-  @belongsTo('certification') certification;
+  @belongsTo('certification', { async: true, inverse: 'certificationIssueReports' }) certification;
 
   get categoryLabel() {
     return categoryToLabel[this.category];
