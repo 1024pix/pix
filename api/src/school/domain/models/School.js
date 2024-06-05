@@ -33,8 +33,12 @@ class School {
   #shortestLastNamePostfix(lastName, otherLastNames) {
     let nbOfLettersToKeep = 1;
     const lastNameLength = lastName.length;
+    const normalizedLastName = lastName.toLowerCase();
+    const normalizedOtherLastNames = otherLastNames.map((s) => s.toLowerCase());
     while (
-      otherLastNames.some((otherLastName) => otherLastName.startsWith(lastName.substring(0, nbOfLettersToKeep))) &&
+      normalizedOtherLastNames.some((otherLastName) =>
+        otherLastName.startsWith(normalizedLastName.substring(0, nbOfLettersToKeep)),
+      ) &&
       nbOfLettersToKeep < lastNameLength
     ) {
       nbOfLettersToKeep++;
@@ -52,7 +56,7 @@ class School {
     const otherLearnersWithSameFirstNameAndDivision = this.#organizationLearners.filter(
       (otherLearner) =>
         otherLearner !== learner &&
-        otherLearner.firstName === learner.firstName &&
+        otherLearner.firstName.toLowerCase() === learner.firstName.toLowerCase() &&
         otherLearner.division === learner.division,
     );
     if (otherLearnersWithSameFirstNameAndDivision.length === 0) {

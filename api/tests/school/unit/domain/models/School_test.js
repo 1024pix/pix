@@ -35,6 +35,7 @@ describe('Unit | Domain | School', function () {
             lastNames: ['Abricot', 'Abricotier', 'Abricotierer'],
             expectedLastNameLetters: ['Abricot', 'Abricotier', 'Abricotiere.'],
           },
+          { lastNames: ['Abricotier', 'AbriCoteur'], expectedLastNameLetters: ['Abricoti.', 'AbriCote.'] },
         ];
 
         // eslint-disable-next-line mocha/no-setup-in-describe
@@ -60,6 +61,26 @@ describe('Unit | Domain | School', function () {
                   }),
               ),
             );
+          });
+        });
+
+        context('when firstnames do not have the same case', function () {
+          it('should return display name: firstname + first different lastname letter', function () {
+            // given
+            const organizationLearners = [
+              new OrganizationLearner({ firstName: 'Ernest', lastName: 'Abea', division: 'CM1' }),
+              new OrganizationLearner({ firstName: 'ERNEST', lastName: 'Beaba', division: 'CM1' }),
+            ];
+
+            // when
+            const school = new School({ organizationLearners });
+
+            // then
+
+            expect(school.organizationLearners).to.deep.equal([
+              new OrganizationLearnerDTO({ firstName: 'Ernest', displayName: 'Ernest A.', division: 'CM1' }),
+              new OrganizationLearnerDTO({ firstName: 'ERNEST', displayName: 'ERNEST B.', division: 'CM1' }),
+            ]);
           });
         });
       });
