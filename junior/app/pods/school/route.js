@@ -6,6 +6,7 @@ import { styleToolkit } from '../../utils/layout';
 export default class SchoolRoute extends Route {
   @service store;
   @service currentLearner;
+  @service router;
 
   async beforeModel() {
     this.currentLearner.remove();

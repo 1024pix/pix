@@ -1,4 +1,5 @@
 const bodyStyle = document.querySelector('body').style;
+
 export const styleToolkit = {
   backgroundBlob: {
     apply: (imageBlobUrl) => {
