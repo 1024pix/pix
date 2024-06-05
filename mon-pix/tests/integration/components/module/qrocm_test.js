@@ -477,7 +477,7 @@ function prepareContextRecords(store, correctionResponse) {
   };
   store.createRecord('element-answer', {
     correction: correctionResponse,
-    element: qrocm,
+    elementId: qrocm.id,
   });
   store.createRecord('grain', { id: 'id', components: [{ type: 'element', element: qrocm }] });
   store.createRecord('element-answer', {

@@ -224,7 +224,7 @@ function prepareContextRecords(store, correctionResponse) {
   };
   store.createRecord('element-answer', {
     correction: correctionResponse,
-    element: qcuElement,
+    elementId: qcuElement.id,
   });
   store.createRecord('grain', { id: 'id', components: [{ type: 'element', element: qcuElement }] });
   store.createRecord('element-answer', {

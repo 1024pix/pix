@@ -263,7 +263,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
     test('should not display skip button', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const element = { type: 'qcu', isAnswerable: true };
+      const element = { id: 'qcu-id', type: 'qcu', isAnswerable: true };
       const grain = store.createRecord('grain', {
         title: 'Grain title',
         components: [{ type: 'element', element }],
@@ -273,7 +273,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
       this.set('passage', passage);
 
       const correction = store.createRecord('correction-response');
-      store.createRecord('element-answer', { element, correction, passage });
+      store.createRecord('element-answer', { elementId: element.id, correction, passage });
 
       // when
       const screen = await render(hbs`
@@ -289,7 +289,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
       test('should display continue button', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        const element = { type: 'qcu', isAnswerable: true };
+        const element = { id: 'qcu-id', type: 'qcu', isAnswerable: true };
         const grain = store.createRecord('grain', {
           title: '1st Grain title',
           components: [{ type: 'element', element }],
@@ -300,7 +300,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
         this.set('passage', passage);
 
         const correction = store.createRecord('correction-response');
-        store.createRecord('element-answer', { element, correction, passage });
+        store.createRecord('element-answer', { elementId: element.id, correction, passage });
 
         // when
         const screen = await render(hbs`
@@ -553,7 +553,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
     test('should call retryElement pass in argument', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const element = { type: 'qcu', isAnswerable: true };
+      const element = { id: 'qcu-id', type: 'qcu', isAnswerable: true };
       const grain = store.createRecord('grain', { title: 'Grain title', components: [{ type: 'element', element }] });
       this.set('grain', grain);
       const passage = store.createRecord('passage');
@@ -563,7 +563,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
       this.set('retryElement', retryElementStub);
 
       const correction = store.createRecord('correction-response', { status: 'ko' });
-      store.createRecord('element-answer', { element, correction, passage });
+      store.createRecord('element-answer', { elementId: element.id, correction, passage });
 
       // when
       await render(hbs`
