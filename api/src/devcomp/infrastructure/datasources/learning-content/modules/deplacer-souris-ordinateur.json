@@ -324,7 +324,7 @@
             {
                     "id": "57d7453d-58a9-43f0-830c-f5f392b06f9e",
                     "type": "text",
-                    "content": "<a href=\"https://gd.games/instant-builds/5b8229b3-3310-4f8a-a64d-900a04044ef6\" target=\"_blank\">Lien vers l'activité</a>"
+                    "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/RPE/Déplacement%20curseur/index.html\" width=\"100%\" height=\"330\"></iframe>"
             }
           },
           {
@@ -333,7 +333,7 @@
             {
                     "id": "9c1c4342-96a6-4c14-a5b0-5ed0d202fb8f",
                     "type": "text",
-                    "content": "<h3> <span aria-hidden=\"true\">💡</span>️ Que faire si je ne voits plus mon pointeur ?</h3> <p> Bougez de gauche à droite votre souris doucement sur la table.<br> Vous verrez le pointeur bouger à l'écran.</p>"
+                    "content": "<h3> <span aria-hidden=\"true\">💡</span>️ Que faire si je ne vois plus mon pointeur ?</h3> <p> Bougez de gauche à droite votre souris doucement sur la table.<br> Vous verrez le pointeur bouger à l'écran.</p>"
             }
           }
             ]
@@ -358,7 +358,7 @@
             {
                     "id": "1ad8190f-46b6-43b5-82b1-cd81640b1700",
                     "type": "text",
-                    "content": "<a href=\"https://gd.games/instant-builds/08091579-7c85-46af-888a-f4198dbe632f\" target=\"_blank\">Lien vers la leçon</a>"
+                    "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/RPE/premiere-marche-differents-curseurs/index.html\" width=\"100%\" height=\"330\"></iframe>"
             }
           },
           {
