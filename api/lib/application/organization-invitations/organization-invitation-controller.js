@@ -1,8 +1,4 @@
-import _ from 'lodash';
-
-import { serializer as organizationInvitationSerializer } from '../../../src/team/infrastructure/serializers/jsonapi/organization-invitation.serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
-import { MissingQueryParamError } from '../http-errors.js';
 
 const acceptOrganizationInvitation = async function (request) {
   const organizationInvitationId = request.params.id;
@@ -20,20 +16,5 @@ const acceptOrganizationInvitation = async function (request) {
   return null;
 };
 
-const getOrganizationInvitation = async function (request, h, dependencies = { organizationInvitationSerializer }) {
-  const organizationInvitationId = request.params.id;
-  const organizationInvitationCode = request.query.code;
-
-  if (_.isEmpty(organizationInvitationCode)) {
-    throw new MissingQueryParamError('code');
-  }
-
-  const organizationInvitation = await usecases.getOrganizationInvitation({
-    organizationInvitationId,
-    organizationInvitationCode,
-  });
-  return dependencies.organizationInvitationSerializer.serialize(organizationInvitation);
-};
-
-const organizationInvitationController = { acceptOrganizationInvitation, getOrganizationInvitation };
+const organizationInvitationController = { acceptOrganizationInvitation };
 export { organizationInvitationController };
