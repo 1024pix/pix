@@ -40,18 +40,29 @@ module('Integration | Component | organizations/target-profiles-section', functi
 
     test('it calls the organization action when the input is not empty and user clicks on button', async function (assert) {
       // given
-      const getStub = sinon.stub();
-      getStub.returns([]);
+      class NotificationsStub extends Service {
+        success = sinon.stub();
+      }
+      this.owner.register('service:notifications', NotificationsStub);
+      const targetProfileSummary = store.createRecord('target-profile-summary', {
+        id: 666,
+        name: 'Number of The Beast',
+      });
       const organization = EmberObject.create({
         id: 1,
         targetProfiles: [],
         attachTargetProfiles: sinon.stub(),
-        get: getStub,
       });
       this.set('organization', organization);
 
+      const targetProfileSummaries = [targetProfileSummary];
+      targetProfileSummaries.reload = sinon.stub();
+      this.set('targetProfileSummaries', targetProfileSummaries);
+
       // when
-      await render(hbs`<Organizations::TargetProfilesSection @organization={{this.organization}} />`);
+      await render(
+        hbs`<Organizations::TargetProfilesSection @organization={{this.organization}} @targetProfileSummaries={{this.targetProfileSummaries}} />`,
+      );
       await fillByLabel('ID du ou des profil(s) cible(s)', '1');
       await clickByName('Valider');
 
@@ -64,16 +75,21 @@ module('Integration | Component | organizations/target-profiles-section', functi
         id: 666,
         name: 'Number of The Beast',
       });
+
+      const targetProfileSummaries = [targetProfileSummary];
+      this.set('targetProfileSummaries', targetProfileSummaries);
+
       const organization = store.createRecord('organization', {
         id: 1,
         targetProfiles: [],
-        targetProfileSummaries: [targetProfileSummary],
       });
 
       this.set('organization', organization);
 
       // when
-      const screen = await render(hbs`<Organizations::TargetProfilesSection @organization={{this.organization}} />`);
+      const screen = await render(
+        hbs`<Organizations::TargetProfilesSection @organization={{this.organization}} @targetProfileSummaries={{this.targetProfileSummaries}}/>`,
+      );
 
       assert
         .dom(screen.getByRole('link', { name: 'Number of The Beast' }))
@@ -96,13 +112,16 @@ module('Integration | Component | organizations/target-profiles-section', functi
         const organization = store.createRecord('organization', {
           id: 1,
           targetProfiles: [],
-          targetProfileSummaries: [publicTargetProfileSummary, privateTargetProfileSummary],
         });
+        const targetProfileSummaries = [publicTargetProfileSummary, privateTargetProfileSummary];
 
+        this.set('targetProfileSummaries', targetProfileSummaries);
         this.set('organization', organization);
 
         // when
-        const screen = await render(hbs`<Organizations::TargetProfilesSection @organization={{this.organization}} />`);
+        const screen = await render(
+          hbs`<Organizations::TargetProfilesSection @organization={{this.organization}} @targetProfileSummaries={{this.targetProfileSummaries}}/>`,
+        );
 
         //then
         assert.ok(screen.getByText('Actions'));
@@ -120,12 +139,15 @@ module('Integration | Component | organizations/target-profiles-section', functi
         const organization = store.createRecord('organization', {
           id: 1,
           targetProfiles: [],
-          targetProfileSummaries: [targetProfileSummary],
         });
+        const targetProfileSummaries = [targetProfileSummary];
 
+        this.set('targetProfileSummaries', targetProfileSummaries);
         this.set('organization', organization);
         // when
-        const screen = await render(hbs`<Organizations::TargetProfilesSection @organization={{this.organization}} />`);
+        const screen = await render(
+          hbs`<Organizations::TargetProfilesSection @organization={{this.organization}} @targetProfileSummaries={{this.targetProfileSummaries}}/>`,
+        );
         const detachButton = screen.getByRole('button', { name: 'Détacher' });
         await click(detachButton);
         await screen.findByRole('dialog');
@@ -149,14 +171,17 @@ module('Integration | Component | organizations/target-profiles-section', functi
         const organization = store.createRecord('organization', {
           id: 1,
           targetProfiles: [],
-          targetProfileSummaries: [targetProfileSummary],
           get: sinon.stub().returns({ reload: sinon.stub() }),
         });
+        const targetProfileSummaries = [targetProfileSummary];
 
+        this.set('targetProfileSummaries', targetProfileSummaries);
         this.set('organization', organization);
 
         //when
-        const screen = await render(hbs`<Organizations::TargetProfilesSection @organization={{this.organization}} />`);
+        const screen = await render(
+          hbs`<Organizations::TargetProfilesSection @organization={{this.organization}} @targetProfileSummaries={{this.targetProfileSummaries}}/>`,
+        );
         const detachButton = screen.getByRole('button', { name: 'Détacher' });
         await click(detachButton);
         const confirmButton = await screen.findByRole('button', { name: 'Confirmer' });
@@ -176,19 +201,22 @@ module('Integration | Component | organizations/target-profiles-section', functi
         const organization = store.createRecord('organization', {
           id: 1,
           targetProfiles: [],
-          targetProfileSummaries: [
-            store.createRecord('target-profile-summary', {
-              id: 666,
-              name: 'Number of The Beast',
-              canDetach: true,
-            }),
-          ],
-          get: sinon.stub().returns({ reload: sinon.stub() }),
         });
+        const targetProfileSummaries = [
+          store.createRecord('target-profile-summary', {
+            id: 666,
+            name: 'Number of The Beast',
+            canDetach: true,
+          }),
+        ];
+        targetProfileSummaries.reload = sinon.stub();
 
+        this.set('targetProfileSummaries', targetProfileSummaries);
         this.set('organization', organization);
         // when
-        const screen = await render(hbs`<Organizations::TargetProfilesSection @organization={{this.organization}} />`);
+        const screen = await render(
+          hbs`<Organizations::TargetProfilesSection @organization={{this.organization}} @targetProfileSummaries={{this.targetProfileSummaries}}/>`,
+        );
         const detachButton = screen.getByRole('button', { name: 'Détacher' });
         await click(detachButton);
         const confirmButton = await screen.findByRole('button', { name: 'Confirmer' });

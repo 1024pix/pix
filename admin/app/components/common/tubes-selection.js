@@ -1,4 +1,3 @@
-import { A as EmberArray } from '@ember/array';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -15,7 +14,7 @@ export default class TubesSelection extends Component {
   @tracked tubesWithLevelAndSkills;
   @tracked downloadContent;
 
-  @tracked selectedTubeIds = EmberArray();
+  @tracked selectedTubeIds = [];
   @tracked totalTubesCount = 0;
   @tracked areas;
   @tracked tubeLevels = {};
@@ -85,8 +84,7 @@ export default class TubesSelection extends Component {
     const selectedFrameworksAreas = (
       await Promise.all(
         this.selectedFrameworks.map(async (framework) => {
-          const frameworkAreas = await framework.areas.reload();
-          return frameworkAreas.toArray();
+          return framework.hasMany('areas').reload();
         }),
       )
     ).flat();
@@ -120,10 +118,10 @@ export default class TubesSelection extends Component {
     return (
       this.areas
         ?.flatMap((area) => {
-          const competences = area.competences.toArray();
+          const competences = area.hasMany('competences').value();
           return competences.flatMap((competence) => {
-            const thematics = competence.thematics.toArray();
-            return thematics.flatMap((thematic) => thematic.tubes.toArray());
+            const thematics = competence.hasMany('thematics').value();
+            return thematics.flatMap((thematic) => thematic.hasMany('tubes').value());
           });
         })
         .filter((tube) => this.selectedTubeIds.includes(tube.id)) ?? []
@@ -153,13 +151,13 @@ export default class TubesSelection extends Component {
   }
 
   _loadTubesPreselection(tubeIds) {
-    this.selectedTubeIds = EmberArray(tubeIds);
+    this.selectedTubeIds = tubeIds;
     this.tubeLevels = {};
     this.setDefaultFrameworks();
   }
 
   _loadTargetProfile(tubes) {
-    this.selectedTubeIds = EmberArray(tubes.map(({ id }) => id));
+    this.selectedTubeIds = tubes.map(({ id }) => id);
     this.tubeLevels = Object.fromEntries(tubes.map(({ id, level }) => [id, level]));
     if (tubes[0].frameworkId) {
       this.selectedFrameworkIds = [...new Set(tubes.map(({ frameworkId }) => frameworkId))];
@@ -169,11 +167,15 @@ export default class TubesSelection extends Component {
   }
 
   async _calculateNumberOfTubes(areas) {
-    const competences = (await Promise.all(areas.map(async (area) => await area.competences.toArray()))).flat();
-    const thematics = (
-      await Promise.all(competences.map(async (competence) => await competence.thematics.toArray()))
+    const competences = (
+      await Promise.all(areas.map(async (area) => await area.hasMany('competences').value()))
     ).flat();
-    const tubes = (await Promise.all(thematics.map(async (thematic) => await thematic.tubes.toArray()))).flat();
+    const thematics = (
+      await Promise.all(competences.map(async (competence) => await competence.hasMany('thematics').value()))
+    ).flat();
+    const tubes = (
+      await Promise.all(thematics.map(async (thematic) => await thematic.hasMany('tubes').value()))
+    ).flat();
     return tubes.length;
   }
 

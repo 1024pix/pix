@@ -19,18 +19,18 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
       test('it displays a success message', async function (assert) {
         const component = createComponent('component:organizations/target-profiles-section');
         component.notifications = { success: sinon.stub() };
-        const getStub = sinon.stub();
+        const reloadStub = sinon.stub();
         const mapStub = sinon.stub();
-        getStub.returns({
-          reload: sinon.stub(),
-          map: mapStub,
-        });
+
         mapStub.onCall(0).returns([]);
         mapStub.onCall(1).returns(['1', '2']);
         component.args = {
           organization: {
             attachTargetProfiles: sinon.stub(),
-            get: getStub,
+          },
+          targetProfileSummaries: {
+            map: mapStub,
+            reload: reloadStub,
           },
         };
         component.args.organization.attachTargetProfiles.resolves();
@@ -50,18 +50,17 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
       test('it displays a message with duplicated ids when trying to attach already attached target profiles', async function (assert) {
         const component = createComponent('component:organizations/target-profiles-section');
         component.notifications = { success: sinon.stub() };
-        const getStub = sinon.stub();
+        const reloadStub = sinon.stub();
         const mapStub = sinon.stub();
-        getStub.returns({
-          reload: sinon.stub(),
-          map: mapStub,
-        });
         mapStub.onCall(0).returns(['1', '2']);
         mapStub.onCall(1).returns(['1', '2', '3']);
         component.args = {
           organization: {
             attachTargetProfiles: sinon.stub(),
-            get: getStub,
+          },
+          targetProfileSummaries: {
+            map: mapStub,
+            reload: reloadStub,
           },
         };
         component.args.organization.attachTargetProfiles.resolves();
@@ -91,9 +90,16 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
             ],
           };
           component.notifications = { error: sinon.stub() };
-          const getStub = sinon.stub();
-          getStub.returns([]);
-          component.args = { organization: { get: getStub, attachTargetProfiles: sinon.stub().rejects(errors) } };
+          const reloadStub = sinon.stub();
+          const mapStub = sinon.stub();
+          reloadStub.returns([]);
+          component.args = {
+            organization: { attachTargetProfiles: sinon.stub().rejects(errors) },
+            targetProfileSummaries: {
+              reload: reloadStub,
+              map: mapStub,
+            },
+          };
           component.targetProfilesToAttach = '1,1,2,3,3';
 
           await component.attachTargetProfiles(event);
@@ -112,9 +118,16 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
             ],
           };
           component.notifications = { error: sinon.stub() };
-          const getStub = sinon.stub();
-          getStub.returns([]);
-          component.args = { organization: { get: getStub, attachTargetProfiles: sinon.stub().rejects(errors) } };
+          const reloadStub = sinon.stub();
+          const mapStub = sinon.stub();
+          reloadStub.returns([]);
+          component.args = {
+            organization: { attachTargetProfiles: sinon.stub().rejects(errors) },
+            targetProfileSummaries: {
+              reload: reloadStub,
+              map: mapStub,
+            },
+          };
           component.targetProfilesToAttach = '1,1,5,3,3';
 
           await component.attachTargetProfiles(event);
@@ -125,7 +138,10 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
         });
 
         test('it display default notification for all other error found', async function (assert) {
-          const component = createComponent('component:organizations/target-profiles-section');
+          const component = createComponent('component:organizations/target-profiles-section', {
+            organization: {},
+            targetProfileSummaries: [],
+          });
           const errors = {
             errors: [
               { status: '400', detail: 'message' },
@@ -133,9 +149,16 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
             ],
           };
           component.notifications = { error: sinon.stub() };
-          const getStub = sinon.stub();
-          getStub.returns([]);
-          component.args = { organization: { get: getStub, attachTargetProfiles: sinon.stub().rejects(errors) } };
+          const reloadStub = sinon.stub();
+          const mapStub = sinon.stub();
+          reloadStub.returns([]);
+          component.args = {
+            organization: { attachTargetProfiles: sinon.stub().rejects(errors) },
+            targetProfileSummaries: {
+              reload: reloadStub,
+              map: mapStub,
+            },
+          };
           component.targetProfilesToAttach = '1,1,2,3,3';
 
           await component.attachTargetProfiles(event);
@@ -149,10 +172,19 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
         test('it displays a default notification', async function (assert) {
           const component = createComponent('component:organizations/target-profiles-section');
           const errors = {};
-          component.notifications = { error: sinon.stub() };
+          const organization = {
+            attachTargetProfiles: sinon.stub().rejects(),
+          };
+          const targetProfileSummaries = [];
+          targetProfileSummaries.reload = sinon.stub();
+          component.notifications = { error: sinon.stub(), success: sinon.stub() };
           const getStub = sinon.stub();
           getStub.returns([]);
-          component.args = { targetProfile: { get: getStub, attachOrganizations: sinon.stub().rejects(errors) } };
+          component.args = {
+            targetProfile: { get: getStub, attachOrganizations: sinon.stub().rejects(errors) },
+            targetProfileSummaries,
+            organization,
+          };
           component.targetProfilesToAttach = '1,1,2,3,3';
 
           await component.attachTargetProfiles(event);

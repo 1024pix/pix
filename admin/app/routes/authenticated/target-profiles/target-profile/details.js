@@ -9,6 +9,8 @@ export default class TargetProfileDetailsRoute extends Route {
   }
 
   async model() {
-    return this.modelFor('authenticated.target-profiles.target-profile');
+    const model = this.modelFor('authenticated.target-profiles.target-profile');
+    const areas = await model.areas;
+    return { areas };
   }
 }

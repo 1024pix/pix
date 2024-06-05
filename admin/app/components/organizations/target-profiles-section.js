@@ -18,6 +18,10 @@ export default class OrganizationTargetProfilesSectionComponent extends Componen
     return this.targetProfilesToAttach === '';
   }
 
+  get sortedTargetProfileSummaries() {
+    return [...this.args.targetProfileSummaries].sort((a, b) => Number(a.id) - Number(b.id));
+  }
+
   @action
   canDetachTargetProfile({ canDetach }) {
     return canDetach;
@@ -29,15 +33,16 @@ export default class OrganizationTargetProfilesSectionComponent extends Componen
     if (this.isDisabled) return;
 
     const organization = this.args.organization;
+    const targetProfileSummaries = this.args.targetProfileSummaries;
 
     try {
-      const targetProfileIdsBefore = organization.get('targetProfileSummaries').map(({ id }) => id);
+      const targetProfileIdsBefore = targetProfileSummaries.map(({ id }) => id);
       const targetProfileIdsToAttach = this._getUniqueTargetProfileIds();
       await organization.attachTargetProfiles({
         'target-profile-ids': targetProfileIdsToAttach,
       });
-      await organization.get('targetProfileSummaries').reload();
-      const targetProfileIdsAfter = organization.get('targetProfileSummaries').map(({ id }) => id);
+      await targetProfileSummaries.reload();
+      const targetProfileIdsAfter = targetProfileSummaries.map(({ id }) => id);
       const attachedIds = targetProfileIdsAfter.filter((id) => !targetProfileIdsBefore.includes(id));
       const duplicatedIds = targetProfileIdsBefore.filter((id) => targetProfileIdsToAttach.includes(id));
       const hasInserted = attachedIds.length > 0;

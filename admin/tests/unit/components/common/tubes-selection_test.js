@@ -192,38 +192,39 @@ module('Unit | Component | common/tubes-selection', function (hooks) {
   module('#_getSelectedTubesWithLevel', function () {
     test('it should return selected tubes with level', async function (assert) {
       // given
-      const tubes1 = [{ id: 'tubeId1' }, { id: 'tubeId2' }];
+      const store = this.owner.lookup('service:store');
+      const tubes1 = [store.createRecord('tube', { id: 'tubeId1' }), store.createRecord('tube', { id: 'tubeId2' })];
 
       const tubes2 = [
-        {
+        store.createRecord('tube', {
           id: 'tubeId3',
           practicalTitle: 'Tube 3',
           practicalDescription: 'Description 3',
-        },
-        {
+        }),
+        store.createRecord('tube', {
           id: 'tubeId4',
           practicalTitle: 'Tube 4',
           practicalDescription: 'Description 4',
-        },
+        }),
       ];
 
       const thematics = [
-        { id: 'thematicId1', tubes: tubes1 },
-        { id: 'thematicId2', tubes: tubes2 },
+        store.createRecord('thematic', { id: 'thematicId1', tubes: tubes1 }),
+        store.createRecord('thematic', { id: 'thematicId2', tubes: tubes2 }),
       ];
 
       const competences = [
-        {
+        store.createRecord('competence', {
           id: 'competenceId',
           thematics,
-        },
+        }),
       ];
 
       component.areas = [
-        {
+        store.createRecord('area', {
           id: 'areaId',
           competences,
-        },
+        }),
       ];
 
       component.selectedTubeIds = EmberArray(['tubeId2', 'tubeId3']);

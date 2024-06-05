@@ -50,13 +50,20 @@ module('Integration | Component | Common::TubesSelection', function (hooks) {
 
     const areas = [
       store.createRecord('area', {
+        id: 'areaId',
         title: 'Titre domaine',
         code: 1,
         competences,
       }),
     ];
+    const framework = store.createRecord('framework', { id: 'frameworkId', name: 'Pix', areas });
+    const frameworks = [framework];
 
-    const frameworks = [store.createRecord('framework', { id: 'frameworkId', name: 'Pix', areas })];
+    sinon.stub(framework, 'hasMany');
+    framework.hasMany.returns({
+      reload: sinon.stub().resolves(areas),
+    });
+
     this.set('frameworks', frameworks);
 
     const onChangeFunction = sinon.stub();

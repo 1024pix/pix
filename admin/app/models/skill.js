@@ -6,5 +6,5 @@ export default class Skill extends Model {
   @attr('number') difficulty;
   @attr('number') level;
 
-  @belongsTo('tube') tube;
+  @belongsTo('tube', { async: true, inverse: 'skills' }) tube;
 }

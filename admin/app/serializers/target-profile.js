@@ -1,6 +1,6 @@
-import JSONAPISerializer from '@ember-data/serializer/json-api';
+import ApplicationSerializer from './application';
 
-export default class TargetProfileSerializer extends JSONAPISerializer {
+export default class TargetProfileSerializer extends ApplicationSerializer {
   serialize(snapshot, options) {
     const {
       data: { attributes },

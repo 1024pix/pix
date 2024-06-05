@@ -6,9 +6,9 @@ export default class Area extends Model {
   @attr() color;
   @attr() frameworkId;
 
-  @hasMany('competence') competences;
+  @hasMany('competence', { async: true, inverse: null }) competences;
 
   get sortedCompetences() {
-    return this.competences.sortBy('index');
+    return this.hasMany('competences').value().sortBy('index');
   }
 }

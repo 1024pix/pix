@@ -9,7 +9,11 @@ export default class TargetProfileDetailsController extends Controller {
     return {
       title: `${area.code} · ${area.title}`,
       color: area.color,
-      competences: area.competences.sortBy('index').map((competence) => this.buildCompetenceViewModel(competence)),
+      competences: area
+        .hasMany('competences')
+        .value()
+        .sortBy('index')
+        .map((competence) => this.buildCompetenceViewModel(competence)),
     };
   }
 
@@ -17,15 +21,23 @@ export default class TargetProfileDetailsController extends Controller {
     return {
       id: competence.id,
       title: `${competence.index} ${competence.name}`,
-      thematics: competence.thematics.sortBy('index').map((thematic) => this.buildThematicViewModel(thematic)),
+      thematics: competence
+        .hasMany('thematics')
+        .value()
+        .sortBy('index')
+        .map((thematic) => this.buildThematicViewModel(thematic)),
     };
   }
 
   buildThematicViewModel(thematic) {
     return {
       name: thematic.name,
-      nbTubes: thematic.tubes.length,
-      tubes: thematic.tubes.sortBy('practicalTitle').map((tube) => this.buildTubeViewModel(tube)),
+      nbTubes: thematic.hasMany('tubes').value().length,
+      tubes: thematic
+        .hasMany('tubes')
+        .value()
+        .sortBy('practicalTitle')
+        .map((tube) => this.buildTubeViewModel(tube)),
     };
   }
 
@@ -36,7 +48,11 @@ export default class TargetProfileDetailsController extends Controller {
       level: tube.level,
       mobile: tube.mobile,
       tablet: tube.tablet,
-      skills: tube.skills.sortBy('difficulty').map((skill) => this.buildSkillViewModel(skill)),
+      skills: tube
+        .hasMany('skills')
+        .value()
+        .sortBy('difficulty')
+        .map((skill) => this.buildSkillViewModel(skill)),
     };
   }
 

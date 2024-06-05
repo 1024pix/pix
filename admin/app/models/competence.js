@@ -4,9 +4,9 @@ export default class Competence extends Model {
   @attr() name;
   @attr() index;
 
-  @hasMany('thematic') thematics;
+  @hasMany('thematic', { async: true, inverse: null }) thematics;
 
   get sortedThematics() {
-    return this.thematics.sortBy('index');
+    return this.hasMany('thematics').value().sortBy('index');
   }
 }

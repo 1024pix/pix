@@ -1,6 +1,6 @@
+import { memberAction } from '@1024pix/ember-api-actions';
 import { service } from '@ember/service';
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
-import { memberAction } from 'ember-api-actions';
 
 import formatList from '../utils/format-select-options';
 
@@ -34,11 +34,11 @@ export default class TargetProfile extends Model {
   @attr('boolean') hasLinkedAutonomousCourse;
   @attr('number') maxLevel;
 
-  @hasMany('badge') badges;
-  @belongsTo('stage-collection') stageCollection;
-  @hasMany('training-summary') trainingSummaries;
+  @hasMany('badge', { async: true, inverse: null }) badges;
+  @belongsTo('stage-collection', { async: true, inverse: null }) stageCollection;
+  @hasMany('training-summary', { async: true, inverse: null }) trainingSummaries;
 
-  @hasMany('area') areas;
+  @hasMany('area', { async: true, inverse: null }) areas;
 
   attachOrganizations = memberAction({
     path: 'attach-organizations',
