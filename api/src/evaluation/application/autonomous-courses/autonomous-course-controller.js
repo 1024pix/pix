@@ -1,5 +1,5 @@
-import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import * as queryParamsUtils from '../../../shared/infrastructure/utils/query-params-utils.js';
+import * as requestResponseUtils from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { evaluationUsecases as usecases } from '../../domain/usecases/index.js';
 import * as autonomousCoursePaginatedListSerializer from '../../infrastructure/serializers/jsonapi/autonomous-course-paginated-list-serializer.js';
 import * as autonomousCourseSerializer from '../../infrastructure/serializers/jsonapi/autonomous-course-serializer.js';

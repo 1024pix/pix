@@ -1,7 +1,7 @@
-import { NotFoundError } from '../../../lib/domain/errors.js';
-import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
-import { tokenService } from '../../../src/shared/domain/services/token-service.js';
-import { domainBuilder, expect, hFake, sinon } from '../../test-helper.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
+import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
+import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | SecurityPreHandlers', function () {
   describe('#checkAdminMemberHasRoleSuperAdmin', function () {

@@ -7,7 +7,7 @@ const { get, set, update, omit } = lodash;
 import async_hooks from 'node:async_hooks';
 
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
-import * as requestResponseUtils from '../infrastructure/utils/request-response-utils.js';
+import * as requestResponseUtils from '../../src/shared/infrastructure/utils/request-response-utils.js';
 
 const { AsyncLocalStorage } = async_hooks;
 

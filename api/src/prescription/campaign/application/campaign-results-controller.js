@@ -1,5 +1,5 @@
-import { extractLocaleFromRequest } from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import { extractParameters } from '../../../shared/infrastructure/utils/query-params-utils.js';
+import { extractLocaleFromRequest } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { certificabilityByLabel } from '../../shared/application/helpers.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as campaignAssessmentResultMinimalSerializer from '../infrastructure/serializers/jsonapi/campaign-assessment-result-minimal-serializer.js';

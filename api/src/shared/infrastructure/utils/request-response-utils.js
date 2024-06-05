@@ -5,7 +5,7 @@ import { LANGUAGES_CODE } from '../../../shared/domain/services/language-service
 import { tokenService } from '../../../shared/domain/services/token-service.js';
 
 const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = LOCALE;
-const { DUTCH } = LANGUAGES_CODE;
+const { DUTCH, SPANISH } = LANGUAGES_CODE;
 const requestResponseUtils = { escapeFileName, extractUserIdFromRequest, extractLocaleFromRequest };
 
 export { escapeFileName, extractLocaleFromRequest, extractUserIdFromRequest, requestResponseUtils };
@@ -34,6 +34,6 @@ function extractLocaleFromRequest(request) {
   if (!languageHeader) {
     return defaultLocale;
   }
-  const acceptedLanguages = [ENGLISH_SPOKEN, FRENCH_SPOKEN, FRENCH_FRANCE, DUTCH];
+  const acceptedLanguages = [ENGLISH_SPOKEN, FRENCH_SPOKEN, FRENCH_FRANCE, DUTCH, SPANISH];
   return accept.language(languageHeader, acceptedLanguages) || defaultLocale;
 }

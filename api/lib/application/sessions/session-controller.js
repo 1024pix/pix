@@ -8,6 +8,7 @@ import * as sessionManagementSerializer from '../../../src/certification/session
 import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import * as queryParamsUtils from '../../../src/shared/infrastructure/utils/query-params-utils.js';
+import * as requestResponseUtils from '../../../src/shared/infrastructure/utils/request-response-utils.js';
 import { UserLinkedToCertificationCandidate } from '../../domain/events/UserLinkedToCertificationCandidate.js';
 import * as sessionResultsLinkService from '../../domain/services/session-results-link-service.js';
 import { usecases } from '../../domain/usecases/index.js';
@@ -16,7 +17,6 @@ import * as juryCertificationSummaryRepository from '../../infrastructure/reposi
 import * as juryCertificationSummarySerializer from '../../infrastructure/serializers/jsonapi/jury-certification-summary-serializer.js';
 import * as jurySessionSerializer from '../../infrastructure/serializers/jsonapi/jury-session-serializer.js';
 import { getSessionCertificationResultsCsv } from '../../infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
-import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 import { SessionPublicationBatchError } from '../http-errors.js';
 
 const { trim } = lodash;

@@ -1,7 +1,6 @@
 import jsonapiSerializer from 'jsonapi-serializer';
 import _ from 'lodash';
 
-import { extractLocaleFromRequest } from '../../../lib/infrastructure/utils/request-response-utils.js';
 import * as translations from '../../../translations/index.js';
 import { AdminMemberError } from '../../authorization/domain/errors.js';
 import { CsvWithNoSessionDataError } from '../../certification/session-management/domain/errors.js';
@@ -10,6 +9,7 @@ import { ArchivedCampaignError } from '../../prescription/campaign/domain/errors
 import { CampaignParticipationDeletedError } from '../../prescription/campaign-participation/domain/errors.js';
 import { AggregateImportError, SiecleXmlImportError } from '../../prescription/learner-management/domain/errors.js';
 import { OrganizationCantGetPlacesStatisticsError } from '../../prescription/organization-place/domain/errors.js';
+import { extractLocaleFromRequest } from '../../shared/infrastructure/utils/request-response-utils.js';
 import * as DomainErrors from '../domain/errors.js';
 import {
   AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError,

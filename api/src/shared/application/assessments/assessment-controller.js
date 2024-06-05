@@ -3,10 +3,6 @@ import { Serializer as JSONAPISerializer } from 'jsonapi-serializer';
 import * as events from '../../../../lib/domain/events/index.js';
 import { ValidatorAlwaysOK } from '../../../../lib/domain/models/index.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import {
-  extractLocaleFromRequest,
-  extractUserIdFromRequest,
-} from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import { usecases as certificationUsecases } from '../../../certification/course/domain/usecases/index.js';
 import * as certificationVersionRepository from '../../../certification/course/infrastructure/repositories/certification-version-repository.js';
 import { CertificationVersion } from '../../../certification/shared/domain/models/CertificationVersion.js';
@@ -14,6 +10,10 @@ import * as certificationChallengeRepository from '../../../certification/shared
 import { usecases as devcompUsecases } from '../../../devcomp/domain/usecases/index.js';
 import { Answer } from '../../../evaluation/domain/models/Answer.js';
 import * as competenceEvaluationSerializer from '../../../evaluation/infrastructure/serializers/jsonapi/competence-evaluation-serializer.js';
+import {
+  extractLocaleFromRequest,
+  extractUserIdFromRequest,
+} from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { DomainTransaction } from '../../domain/DomainTransaction.js';
 import { AssessmentEndedError } from '../../domain/errors.js';
 import { Examiner } from '../../domain/models/Examiner.js';

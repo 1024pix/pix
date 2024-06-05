@@ -19,11 +19,9 @@ describe('Unit | Controller | frameworks-controller', function () {
 
     sinon.stub(usecases, 'getFrameworks').returns(frameworks);
     sinon.stub(usecases, 'getFrameworkAreas').returns(areas);
-    sinon.stub(usecases, 'getLearningContentForTargetProfileSubmission').returns({ frameworks });
     frameworkAreasSerializer = { serialize: sinon.stub().returns(serializedAreas) };
     frameworkSerializer = {
       serialize: sinon.stub().returns(serializedFrameworks),
-      serializeDeepWithoutSkills: sinon.stub().returns(serializedFrameworks),
     };
     requestResponseUtils = { extractLocaleFromRequest: sinon.stub().returns('en') };
   });
@@ -79,28 +77,6 @@ describe('Unit | Controller | frameworks-controller', function () {
       expect(result).to.equal(serializedAreas);
       expect(usecases.getFrameworkAreas).to.have.been.calledWithExactly({ frameworkName: 'Pix', locale: 'en' });
       expect(frameworkAreasSerializer.serialize).to.have.been.calledWithExactly(areas, { withoutThematics: true });
-    });
-  });
-
-  describe('#getFrameworksForTargetProfileSubmission', function () {
-    it('should fetch and return frameworks, serialized as JSONAPI', async function () {
-      // given
-      const request = {
-        headers: {
-          'accept-language': 'en',
-        },
-      };
-
-      // when
-      const result = await frameworksController.getFrameworksForTargetProfileSubmission(request, hFake, {
-        extractLocaleFromRequest: requestResponseUtils.extractLocaleFromRequest,
-        frameworkSerializer,
-      });
-
-      // then
-      expect(result).to.equal(serializedFrameworks);
-      expect(usecases.getLearningContentForTargetProfileSubmission).to.have.been.calledWithExactly({ locale: 'en' });
-      expect(frameworkSerializer.serializeDeepWithoutSkills).to.have.been.calledWithExactly(frameworks);
     });
   });
 });

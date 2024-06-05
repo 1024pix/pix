@@ -1,7 +1,7 @@
 import * as userSerializer from '../../../src/shared/infrastructure/serializers/jsonapi/user-serializer.js';
+import { extractLocaleFromRequest } from '../../../src/shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as passwordResetSerializer from '../../infrastructure/serializers/jsonapi/password-reset-serializer.js';
-import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
 
 const createResetDemand = async function (
   request,

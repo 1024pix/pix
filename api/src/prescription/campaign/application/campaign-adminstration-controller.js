@@ -2,9 +2,9 @@ import _ from 'lodash';
 
 import * as checkAdminMemberHasRoleSuperAdminUseCase from '../../../../lib/application/usecases/checkAdminMemberHasRoleSuperAdmin.js';
 import * as csvSerializer from '../../../../lib/infrastructure/serializers/csv/csv-serializer.js';
-import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../../../src/prescription/campaign/domain/usecases/index.js';
 import * as queryParamsUtils from '../../../shared/infrastructure/utils/query-params-utils.js';
+import * as requestResponseUtils from '../../../shared/infrastructure/utils/request-response-utils.js';
 import * as csvCampaignsIdsParser from '../infrastructure/serializers/csv/csv-campaigns-ids-parser.js';
 import * as campaignManagementSerializer from '../infrastructure/serializers/jsonapi/campaign-management-serializer.js';
 import * as campaignReportSerializer from '../infrastructure/serializers/jsonapi/campaign-report-serializer.js';

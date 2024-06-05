@@ -34,4 +34,42 @@ describe('Unit | Application | Target Profile | target-profile-controller', func
       expect(response).to.deep.equal({});
     });
   });
+
+  describe('#getFrameworksForTargetProfileSubmission', function () {
+    let frameworks;
+    let frameworkwithoutskillserializer;
+    let requestResponseUtils;
+    let serializedFrameworks;
+
+    beforeEach(function () {
+      frameworks = Symbol('frameworks');
+      serializedFrameworks = Symbol('serializedFrameworks');
+
+      sinon.stub(usecases, 'getLearningContentForTargetProfileSubmission').returns({ frameworks });
+      frameworkwithoutskillserializer = {
+        serialize: sinon.stub().returns(serializedFrameworks),
+      };
+      requestResponseUtils = { extractLocaleFromRequest: sinon.stub().returns('en') };
+    });
+
+    it('should fetch and return frameworks, serialized as JSONAPI', async function () {
+      // given
+      const request = {
+        headers: {
+          'accept-language': 'en',
+        },
+      };
+
+      // when
+      const result = await targetProfileController.getFrameworksForTargetProfileSubmission(request, hFake, {
+        extractLocaleFromRequest: requestResponseUtils.extractLocaleFromRequest,
+        frameworkwithoutskillserializer,
+      });
+
+      // then
+      expect(result).to.equal(serializedFrameworks);
+      expect(usecases.getLearningContentForTargetProfileSubmission).to.have.been.calledWithExactly({ locale: 'en' });
+      expect(frameworkwithoutskillserializer.serialize).to.have.been.calledWithExactly(frameworks);
+    });
+  });
 });

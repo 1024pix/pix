@@ -1,7 +1,12 @@
-import { Membership } from '../../../lib/domain/models/Membership.js';
-import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
-import { ORGANIZATION_FEATURE } from '../../../src/shared/domain/constants.js';
-import { createServer, databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../test-helper.js';
+import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
+import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
+import {
+  createServer,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../test-helper.js';
 
 describe('Acceptance | Application | SecurityPreHandlers', function () {
   const jsonApiError403 = {
@@ -403,20 +408,80 @@ describe('Acceptance | Application | SecurityPreHandlers', function () {
   });
 
   describe('#checkUserIsMemberOfAnOrganization', function () {
-    it('should return a well formed JSON API error when user is not authorized', async function () {
-      // given
+    beforeEach(async function () {
+      server.route({
+        method: 'GET',
+        path: '/test_route_user_is_member_of_one_organization',
+        handler: (r, h) => h.response({}).code(200),
+        config: {
+          pre: [
+            {
+              method: securityPreHandlers.checkUserIsMemberOfAnOrganization,
+            },
+          ],
+        },
+      });
+    });
+
+    it('respond 403 when the user is mamber of any orgnization', async function () {
+      const userId = databaseBuilder.factory.buildUser().id;
+
+      await databaseBuilder.commit();
+
       const options = {
         method: 'GET',
-        url: '/api/frameworks/for-target-profile-submission',
-        headers: { authorization: generateValidRequestAuthorizationHeader() },
+        url: `/test_route_user_is_member_of_one_organization`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 
-      // when
       const response = await server.inject(options);
 
-      // then
       expect(response.statusCode).to.equal(403);
       expect(response.result).to.deep.equal(jsonApiError403);
+    });
+
+    it('respond 200 when the user is member of at least one orgnization', async function () {
+      const userId = databaseBuilder.factory.buildUser().id;
+      const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true }).id;
+      databaseBuilder.factory.buildMembership({
+        userId,
+        organizationId,
+        organizationRole: Membership.roles.MEMBER,
+      });
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/test_route_user_is_member_of_one_organization`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('respond 200 when the user is admin of at least one orgnization', async function () {
+      const userId = databaseBuilder.factory.buildUser().id;
+      const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true }).id;
+      databaseBuilder.factory.buildMembership({
+        userId,
+        organizationId,
+        organizationRole: Membership.roles.ADMIN,
+      });
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/test_route_user_is_member_of_one_organization`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(200);
     });
   });
 

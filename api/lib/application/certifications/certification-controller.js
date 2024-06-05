@@ -1,8 +1,8 @@
+import * as requestResponseUtils from '../../../src/shared/infrastructure/utils/request-response-utils.js';
 import * as events from '../../domain/events/index.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as privateCertificateSerializer from '../../infrastructure/serializers/jsonapi/private-certificate-serializer.js';
 import * as shareableCertificateSerializer from '../../infrastructure/serializers/jsonapi/shareable-certificate-serializer.js';
-import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 
 const findUserCertifications = async function (request) {
   const userId = request.auth.credentials.userId;

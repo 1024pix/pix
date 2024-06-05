@@ -1,4 +1,4 @@
-import { extractLocaleFromRequest } from '../../../../lib/infrastructure/utils/request-response-utils.js';
+import { extractLocaleFromRequest } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
 
 /**

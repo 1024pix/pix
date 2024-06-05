@@ -1,10 +1,10 @@
 import dayjs from 'dayjs';
 
+import * as requestResponseUtils from '../../../src/shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import * as scoOrganizationLearnerSerializer from '../../infrastructure/serializers/jsonapi/sco-organization-learner-serializer.js';
 import * as studentInformationForAccountRecoverySerializer from '../../infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer.js';
-import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 
 const reconcileScoOrganizationLearnerManually = async function (
   request,
