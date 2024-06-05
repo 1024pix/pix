@@ -40,35 +40,68 @@ module('Integration | Component | Module | Stepper', function (hooks) {
       assert.dom(screen.getByRole('button', { name: this.intl.t('pages.modulix.buttons.stepper.next') })).exists();
     });
 
-    test('should display the next step by clicking on the Next button', async function (assert) {
-      // given
-      const steps = [
-        {
-          elements: [
-            {
-              id: '342183f7-af51-4e4e-ab4c-ebed1e195063',
-              type: 'text',
-              content: '<p>Text 1</p>',
-            },
-          ],
-        },
-        {
-          elements: [
-            {
-              id: '768441a5-a7d6-4987-ada9-7253adafd842',
-              type: 'text',
-              content: '<p>Text 2</p>',
-            },
-          ],
-        },
-      ];
-      const screen = await render(<template><ModulixStepper @steps={{steps}} /></template>);
+    module('When user clicks on the Next button', function () {
+      test('should display the next step', async function (assert) {
+        // given
+        const steps = [
+          {
+            elements: [
+              {
+                id: '342183f7-af51-4e4e-ab4c-ebed1e195063',
+                type: 'text',
+                content: '<p>Text 1</p>',
+              },
+            ],
+          },
+          {
+            elements: [
+              {
+                id: '768441a5-a7d6-4987-ada9-7253adafd842',
+                type: 'text',
+                content: '<p>Text 2</p>',
+              },
+            ],
+          },
+        ];
+        const screen = await render(<template><ModulixStepper @steps={{steps}} /></template>);
 
-      // when
-      await clickByName(this.intl.t('pages.modulix.buttons.stepper.next'));
+        // when
+        await clickByName(this.intl.t('pages.modulix.buttons.stepper.next'));
 
-      // then
-      assert.strictEqual(screen.getAllByRole('heading', { level: 3 }).length, 2);
+        // then
+        assert.strictEqual(screen.getAllByRole('heading', { level: 3 }).length, 2);
+      });
+
+      test('should not display the Next button when there are no steps left', async function (assert) {
+        // given
+        const steps = [
+          {
+            elements: [
+              {
+                id: '342183f7-af51-4e4e-ab4c-ebed1e195063',
+                type: 'text',
+                content: '<p>Text 1</p>',
+              },
+            ],
+          },
+          {
+            elements: [
+              {
+                id: '768441a5-a7d6-4987-ada9-7253adafd842',
+                type: 'text',
+                content: '<p>Text 2</p>',
+              },
+            ],
+          },
+        ];
+        const screen = await render(<template><ModulixStepper @steps={{steps}} /></template>);
+
+        // when
+        await clickByName(this.intl.t('pages.modulix.buttons.stepper.next'));
+        assert
+          .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.stepper.next') }))
+          .doesNotExist();
+      });
     });
   });
 });

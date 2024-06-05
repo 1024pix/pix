@@ -20,13 +20,19 @@ export default class ModulixStepper extends Component {
     return this.stepsToDisplay.length - 1;
   }
 
+  get hasNextStep() {
+    return this.stepsToDisplay.length < this.args.steps.length;
+  }
+
   <template>
     {{#each this.stepsToDisplay as |step index|}}
       <Step @step={{step}} @currentStep={{inc index}} @totalSteps={{@steps.length}} />
     {{/each}}
-    <PixButton @size="large" @variant="primary" @iconAfter="arrow-down" @triggerAction={{this.displayNextStep}}>{{t
-        "pages.modulix.buttons.stepper.next"
-      }}
-    </PixButton>
+    {{#if this.hasNextStep}}
+      <PixButton @size="large" @variant="primary" @iconAfter="arrow-down" @triggerAction={{this.displayNextStep}}>{{t
+          "pages.modulix.buttons.stepper.next"
+        }}
+      </PixButton>
+    {{/if}}
   </template>
 }
