@@ -1,3 +1,4 @@
+# renovate datasource=node-version depName=node
 FROM node:20.14.0
 
 # To run chrome headless with no-sandbox.

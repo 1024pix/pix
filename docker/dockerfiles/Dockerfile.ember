@@ -1,10 +1,11 @@
+# renovate datasource=node-version depName=node
 FROM node:20.14.0 as dev
 
 WORKDIR /code
 COPY . .
 
 RUN npm ci
-RUN npm install -g ember-cli 
+RUN npm install -g ember-cli
 
 CMD [ "npm", "run", "start:watch" ]
 
