@@ -5,14 +5,14 @@ import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
-module('Integration | Component | certification-information', function (hooks) {
+module('Integration | Component | steps', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   module('when user accesses to v3 certification information page', function () {
     test('should display the first page information', async function (assert) {
       // given
       // when
-      const screen = await render(hbs`<CertificationInformation/>`);
+      const screen = await render(hbs`<CertificationInstructions::Steps/>`);
 
       // then
       assert.dom(screen.getByRole('heading', { name: 'Bienvenue à la certification Pix', level: 2 })).exists();
@@ -23,7 +23,7 @@ module('Integration | Component | certification-information', function (hooks) {
       test('should not display the previous button', async function (assert) {
         // given
         // when
-        const screen = await render(hbs`<CertificationInformation/>`);
+        const screen = await render(hbs`<CertificationInstructions::Steps/>`);
 
         // then
         assert.dom(screen.queryByRole('button', { name: "Revenir vers l'écran précédent" })).doesNotExist();
@@ -33,7 +33,7 @@ module('Integration | Component | certification-information', function (hooks) {
     module('on all pages except the first', function () {
       test('should display the previous button', async function (assert) {
         // given
-        const screen = await render(hbs`<CertificationInformation/>`);
+        const screen = await render(hbs`<CertificationInstructions::Steps/>`);
 
         // when
         await click(screen.getByRole('button', { name: "Continuer vers l'écran suivant" }));
@@ -46,7 +46,7 @@ module('Integration | Component | certification-information', function (hooks) {
     module('on the last page', function () {
       test('should change the continue aria label button', async function (assert) {
         // given
-        const screen = await render(hbs`<CertificationInformation/>`);
+        const screen = await render(hbs`<CertificationInstructions::Steps/>`);
 
         // when
         for (let i = 0; i < 4; i++) {
@@ -59,7 +59,7 @@ module('Integration | Component | certification-information', function (hooks) {
 
       test('should disable the continue button', async function (assert) {
         // given
-        const screen = await render(hbs`<CertificationInformation/>`);
+        const screen = await render(hbs`<CertificationInstructions::Steps/>`);
 
         // when
         for (let i = 0; i < 4; i++) {

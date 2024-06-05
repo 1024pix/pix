@@ -3,7 +3,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
-export default class CertificationInformation extends Component {
+export default class Steps extends Component {
   @service intl;
   @tracked pageId = 1;
   @tracked pageCount = 5;
@@ -14,13 +14,8 @@ export default class CertificationInformation extends Component {
     return classOfPages;
   }
 
-  get information() {
-    return {
-      title: this.intl.t(`pages.certification-information.screens.page${this.pageId}.title`),
-      text: this.intl.t(`pages.certification-information.screens.page${this.pageId}.text`, {
-        htmlSafe: true,
-      }),
-    };
+  get title() {
+    return this.intl.t(`pages.certification-instructions.steps.${this.pageId}.title`);
   }
 
   get paging() {
@@ -37,7 +32,7 @@ export default class CertificationInformation extends Component {
 
   get nextButtonAriaLabel() {
     const translationKey = this.pageId === this.pageCount ? 'last-page.aria-label' : 'aria-label';
-    return this.intl.t(`pages.certification-information.buttons.continuous.${translationKey}`);
+    return this.intl.t(`pages.certification-instructions.buttons.continuous.${translationKey}`);
   }
 
   @action
