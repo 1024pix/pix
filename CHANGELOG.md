@@ -1,5 +1,33 @@
 # Pix Changelog
 
+## v4.158.0 (05/06/2024)
+
+
+### :rocket: Amélioration
+- [#9173](https://github.com/1024pix/pix/pull/9173) [FEATURE] Amélioration wording et logo.
+- [#9134](https://github.com/1024pix/pix/pull/9134) [FEATURE] Ajouter un sélecteur de langue sur la double mire OIDC (PIX-12151).
+
+### :building_construction: Tech
+- [#9132](https://github.com/1024pix/pix/pull/9132) [TECH] Migrer la route POST /api/organization-invitations/sco vers src/team (pix-12628).
+- [#9170](https://github.com/1024pix/pix/pull/9170) [TECH] Ajouter les montées de version Node.js des dockerfiles au groupement Renovate.
+- [#9175](https://github.com/1024pix/pix/pull/9175) [TECH] Supprimer Pix UI de la racine du monorepo.
+
+### :bug: Correction
+- [#9174](https://github.com/1024pix/pix/pull/9174) [BUGFIX] Ignorer la casse lors de la détermination des noms d'élèves à afficher (PIX-12800).
+- [#9125](https://github.com/1024pix/pix/pull/9125) [BUGFIX] Améliorer le design pour les tablettes (Pix-11931).
+
+### :arrow_up: Montée de version
+- [#9172](https://github.com/1024pix/pix/pull/9172) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.15 (orga).
+- [#9171](https://github.com/1024pix/pix/pull/9171) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.15 (mon-pix).
+- [#9169](https://github.com/1024pix/pix/pull/9169) [BUMP] Update Node.js to v20.14.0.
+- [#9168](https://github.com/1024pix/pix/pull/9168) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.15 (junior).
+- [#9167](https://github.com/1024pix/pix/pull/9167) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.15 (certif).
+- [#9166](https://github.com/1024pix/pix/pull/9166) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.15 (admin).
+- [#9165](https://github.com/1024pix/pix/pull/9165) [BUMP] Update dependency @1024pix/pix-ui to ^46.6.4 (mon-pix).
+- [#9154](https://github.com/1024pix/pix/pull/9154) [BUMP] Update dependency @1024pix/pix-ui to ^46.6.4 (dossier racine).
+- [#9163](https://github.com/1024pix/pix/pull/9163) [BUMP] Update dependency node to v20.14.0.
+- [#9149](https://github.com/1024pix/pix/pull/9149) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.2 (orga).
+
 ## v4.157.0 (04/06/2024)
 
 
