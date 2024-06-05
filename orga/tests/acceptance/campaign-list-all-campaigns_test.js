@@ -255,5 +255,20 @@ module('Acceptance | campaigns/all-campaigns', function (hooks) {
         assert.ok(screen.getByText(this.intl.t('pages.campaigns-list.no-campaign')));
       });
     });
+
+    module('When the user can access to campaigns pages', function () {
+      test('it should not access to mission page', async function (assert) {
+        // given
+        const user = createUserWithMembershipAndTermsOfServiceAccepted();
+        createPrescriberByUser({ user });
+        await authenticateSession(user.id);
+
+        // when
+        await visit('missions');
+
+        // then
+        assert.deepEqual(currentURL(), '/campagnes/les-miennes');
+      });
+    });
   });
 });
