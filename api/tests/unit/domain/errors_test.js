@@ -77,10 +77,6 @@ describe('Unit | Domain | Errors', function () {
     expect(errors.CampaignTypeError).to.exist;
   });
 
-  it('should export a SessionNotAccessible error', function () {
-    expect(errors.SessionNotAccessible).to.exist;
-  });
-
   describe('#UserNotFoundError', function () {
     it('should export a UserNotFoundError', function () {
       expect(errors.UserNotFoundError).to.exist;

@@ -55,12 +55,6 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.ChallengeNotAskedError) {
     return new HttpErrors.ConflictError('This challenge has not been asked to the user.');
   }
-  if (error instanceof DomainErrors.ChallengeToBeNeutralizedNotFoundError) {
-    return new HttpErrors.NotFoundError(error.message);
-  }
-  if (error instanceof DomainErrors.ChallengeToBeDeneutralizedNotFoundError) {
-    return new HttpErrors.NotFoundError(error.message);
-  }
   if (error instanceof DomainErrors.NotFoundError) {
     return new HttpErrors.NotFoundError(error.message, error.code);
   }
@@ -258,9 +252,6 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.NoStagesForCampaign) {
     return new HttpErrors.PreconditionFailedError(error.message);
   }
-  if (error instanceof DomainErrors.SessionNotAccessible) {
-    return new HttpErrors.PreconditionFailedError(error.message);
-  }
   if (error instanceof DomainErrors.CampaignTypeError) {
     return new HttpErrors.PreconditionFailedError(error.message);
   }
@@ -270,10 +261,6 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.EmailModificationDemandNotFoundOrExpiredError) {
     return new HttpErrors.ForbiddenError(error.message, error.code);
   }
-  if (error instanceof DomainErrors.InvalidSessionSupervisingLoginError) {
-    return new HttpErrors.ForbiddenError(error.message, error.code);
-  }
-
   if (error instanceof DomainErrors.TargetProfileCannotBeCreated) {
     return new HttpErrors.UnprocessableEntityError(error.message);
   }

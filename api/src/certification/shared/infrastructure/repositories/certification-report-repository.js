@@ -1,16 +1,14 @@
 import bluebird from 'bluebird';
 import _ from 'lodash';
 
-import {
-  CertificationCourse,
-  CertificationIssueReport,
-  ComplementaryCertificationCourse,
-} from '../../../../../lib/domain/models/index.js';
 import { Bookshelf } from '../../../../../lib/infrastructure/bookshelf.js';
 import { BookshelfAssessment } from '../../../../../lib/infrastructure/orm-models/Assessment.js';
 import { BookshelfCertificationCourse } from '../../../../../lib/infrastructure/orm-models/CertificationCourse.js';
 import * as bookshelfToDomainConverter from '../../../../../lib/infrastructure/utils/bookshelf-to-domain-converter.js';
+import { ComplementaryCertificationCourse } from '../../../session-management/domain/models/ComplementaryCertificationCourse.js';
 import { CertificationCourseUpdateError } from '../../domain/errors.js';
+import { CertificationCourse } from '../../domain/models/CertificationCourse.js';
+import { CertificationIssueReport } from '../../domain/models/CertificationIssueReport.js';
 import { CertificationReport } from '../../domain/models/CertificationReport.js';
 
 const findBySessionId = async function ({ sessionId }) {

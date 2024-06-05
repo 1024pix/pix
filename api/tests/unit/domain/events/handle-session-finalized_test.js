@@ -1,7 +1,7 @@
 import { AutoJuryDone } from '../../../../lib/domain/events/AutoJuryDone.js';
 import { handleSessionFinalized as handleFinalizedSession } from '../../../../lib/domain/events/handle-session-finalized.js';
 import { FinalizedSession } from '../../../../lib/domain/models/FinalizedSession.js';
-import { JuryCertificationSummary } from '../../../../lib/domain/read-models/JuryCertificationSummary.js';
+import { JuryCertificationSummary } from '../../../../src/certification/session-management/domain/read-models/JuryCertificationSummary.js';
 import { status as assessmentResultStatuses } from '../../../../src/shared/domain/models/AssessmentResult.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 

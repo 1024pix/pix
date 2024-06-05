@@ -1,8 +1,11 @@
 import _ from 'lodash';
 
 import { NotFoundError } from '../../../../../../lib/domain/errors.js';
-import { JurySession, statuses } from '../../../../../../lib/domain/models/JurySession.js';
 import { CertificationOfficer } from '../../../../../../src/certification/session-management/domain/models/CertificationOfficer.js';
+import {
+  JurySession,
+  statuses,
+} from '../../../../../../src/certification/session-management/domain/models/JurySession.js';
 import * as jurySessionRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/jury-session-repository.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 

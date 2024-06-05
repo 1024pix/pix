@@ -1,6 +1,5 @@
 import { handle } from '../../../lib/application/error-manager.js';
 import { HttpErrors } from '../../../lib/application/http-errors.js';
-import { SESSION_SUPERVISING } from '../../../lib/domain/constants/session-supervising.js';
 import {
   AccountRecoveryDemandExpired,
   AlreadyRegisteredEmailAndUsernameError,
@@ -16,7 +15,6 @@ import {
   InvalidExternalAPIResponseError,
   InvalidIdentityProviderError,
   InvalidJuryLevelError,
-  InvalidSessionSupervisingLoginError,
   InvalidVerificationCodeError,
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
   NotEnoughDaysPassedBeforeResetCampaignParticipationError,
@@ -166,22 +164,6 @@ describe('Unit | Application | ErrorManager', function () {
 
       // then
       expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(error.message, error.code);
-    });
-
-    it('should instantiate ForbiddenError when InvalidSessionSupervisingLoginError', async function () {
-      // given
-      const error = new InvalidSessionSupervisingLoginError();
-      sinon.stub(HttpErrors, 'ForbiddenError');
-      const params = { request: {}, h: hFake, error };
-
-      // when
-      await handle(params.request, params.h, params.error);
-
-      // then
-      expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(
-        SESSION_SUPERVISING.INCORRECT_DATA.getMessage(),
-        SESSION_SUPERVISING.INCORRECT_DATA.code,
-      );
     });
 
     it('should instantiate PreconditionFailedError when NotEnoughDaysPassedBeforeResetCampaignParticipationError', async function () {

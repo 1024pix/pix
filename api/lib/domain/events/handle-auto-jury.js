@@ -1,8 +1,8 @@
 import bluebird from 'bluebird';
 
-import { CertificationIssueReportResolutionAttempt } from '../models/CertificationIssueReportResolutionAttempt.js';
-import { CertificationIssueReportResolutionStrategies } from '../models/CertificationIssueReportResolutionStrategies.js';
-import { CertificationAssessment } from '../models/index.js';
+import { CertificationAssessment } from '../../../src/certification/session-management/domain/models/CertificationAssessment.js';
+import { CertificationIssueReportResolutionAttempt } from '../../../src/certification/session-management/domain/models/CertificationIssueReportResolutionAttempt.js';
+import { CertificationIssueReportResolutionStrategies } from '../../../src/certification/session-management/domain/models/CertificationIssueReportResolutionStrategies.js';
 import { AutoJuryDone } from './AutoJuryDone.js';
 import { CertificationJuryDone } from './CertificationJuryDone.js';
 import { checkEventTypes } from './check-event-types.js';

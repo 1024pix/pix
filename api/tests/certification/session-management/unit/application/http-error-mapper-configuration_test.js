@@ -1,5 +1,7 @@
 import { sessionDomainErrorMappingConfiguration } from '../../../../../src/certification/session-management/application/http-error-mapper-configuration.js';
+import { SESSION_SUPERVISING } from '../../../../../src/certification/session-management/domain/constants.js';
 import {
+  InvalidSessionSupervisingLoginError,
   SessionAlreadyFinalizedError,
   SessionAlreadyPublishedError,
   SessionWithAbortReasonOnCompletedCertificationCourseError,
@@ -93,5 +95,20 @@ describe('Unit | Certification | Session | Application | HttpErrorMapperConfigur
       expect(error).to.be.instanceOf(HttpErrors.BadRequestError);
       expect(error.message).to.equal(message);
     });
+  });
+
+  it('should instantiate ForbiddenError when InvalidSessionSupervisingLoginError', async function () {
+    // given
+    const httpErrorMapper = sessionDomainErrorMappingConfiguration.find(
+      (httpErrorMapper) => httpErrorMapper.name === InvalidSessionSupervisingLoginError.name,
+    );
+
+    // when
+    const error = httpErrorMapper.httpErrorFn(new InvalidSessionSupervisingLoginError());
+
+    // then
+    expect(error).to.be.instanceOf(HttpErrors.ForbiddenError);
+    expect(error.message).to.equal(SESSION_SUPERVISING.INCORRECT_DATA.getMessage());
+    expect(error.code).to.equal(SESSION_SUPERVISING.INCORRECT_DATA.code);
   });
 });

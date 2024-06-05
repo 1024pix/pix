@@ -1,6 +1,5 @@
-import { PIX_CERTIF } from '../../../../../lib/domain/constants.js';
 import { UserNotFoundError } from '../../../../../lib/domain/errors.js';
-import { PIX_ADMIN, PIX_ORGA } from '../../../../../src/authorization/domain/constants.js';
+import { PIX_ADMIN, PIX_CERTIF, PIX_ORGA } from '../../../../../src/authorization/domain/constants.js';
 import {
   MissingOrInvalidCredentialsError,
   UserShouldChangePasswordError,

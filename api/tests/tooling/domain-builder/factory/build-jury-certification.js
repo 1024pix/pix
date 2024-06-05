@@ -1,4 +1,4 @@
-import { JuryCertification } from '../../../../lib/domain/models/JuryCertification.js';
+import { JuryCertification } from '../../../../src/certification/session-management/domain/models/JuryCertification.js';
 import { CERTIFICATION_VERSIONS } from '../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { JuryComment, JuryCommentContexts } from '../../../../src/certification/shared/domain/models/JuryComment.js';
 import { buildCertificationIssueReport } from './build-certification-issue-report.js';

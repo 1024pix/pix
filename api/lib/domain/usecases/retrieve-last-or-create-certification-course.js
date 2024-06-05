@@ -1,5 +1,7 @@
 import bluebird from 'bluebird';
 
+import { SessionNotAccessible } from '../../../src/certification/session-management/domain/errors.js';
+import { ComplementaryCertificationCourse } from '../../../src/certification/session-management/domain/models/ComplementaryCertificationCourse.js';
 import { CertificationCourse } from '../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { CertificationVersion } from '../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { LanguageNotSupportedError } from '../../../src/shared/domain/errors.js';
@@ -9,11 +11,9 @@ import {
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
   NotFoundError,
-  SessionNotAccessible,
   UnexpectedUserAccountError,
   UserNotAuthorizedToCertifyError,
 } from '../errors.js';
-import { ComplementaryCertificationCourse } from '../models/ComplementaryCertificationCourse.js';
 
 const { features } = config;
 

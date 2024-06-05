@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
 import { NotFoundError } from '../../../../../../lib/domain/errors.js';
-import { CertificationAssessment } from '../../../../../../lib/domain/models/CertificationAssessment.js';
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
+import { CertificationAssessment } from '../../../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
 import { SessionManagement } from '../../../../../../src/certification/session-management/domain/models/SessionManagement.js';
 import * as sessionRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/session-repository.js';
 import { SESSION_STATUSES } from '../../../../../../src/certification/shared/domain/constants.js';

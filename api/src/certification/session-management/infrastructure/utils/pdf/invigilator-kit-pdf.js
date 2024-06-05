@@ -4,8 +4,8 @@ import * as url from 'node:url';
 import pdfLibFontkit from '@pdf-lib/fontkit';
 import { PDFDocument, rgb } from 'pdf-lib';
 
-import { PIX_CERTIF } from '../../../../../../lib/domain/constants.js';
 import { LOCALE } from '../../../../../shared/domain/constants.js';
+import { CURRENT_CERTIFICATION_VERSION } from '../../../../shared/domain/constants.js';
 
 const { ENGLISH_SPOKEN, FRENCH_SPOKEN } = LOCALE;
 
@@ -14,7 +14,6 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const MAX_SESSION_DETAIL_WIDTH = 155;
 const SESSION_DETAIL_FONT_SIZE = 7;
 const SESSION_DETAIL_LINE_HEIGHT = 8;
-const { CURRENT_CERTIFICATION_VERSION } = PIX_CERTIF;
 
 async function getInvigilatorKitPdfBuffer({
   sessionForInvigilatorKit,

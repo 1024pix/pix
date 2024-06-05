@@ -1,7 +1,7 @@
 import { config } from '../../../../lib/config.js';
-import { CertificationAssessment } from '../../../../lib/domain/models/CertificationAssessment.js';
 import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { CertificationAssessment } from '../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
 import { CertificationIssueReportCategory } from '../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
 import {
   CERTIFICATION_VERSIONS,

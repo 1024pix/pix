@@ -16,4 +16,8 @@ const PIX_ORGA = {
   SCOPE: 'pix-orga',
 };
 
-export { PIX_ADMIN, PIX_ORGA };
+const PIX_CERTIF = {
+  SCOPE: 'pix-certif',
+};
+
+export { PIX_ADMIN, PIX_CERTIF, PIX_ORGA };

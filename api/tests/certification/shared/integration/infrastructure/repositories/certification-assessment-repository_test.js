@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import _ from 'lodash';
 
 import { NotFoundError } from '../../../../../../lib/domain/errors.js';
-import { CertificationAssessment } from '../../../../../../lib/domain/models/index.js';
+import { CertificationAssessment } from '../../../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
 import * as certificationAssessmentRepository from '../../../../../../src/certification/shared/infrastructure/repositories/certification-assessment-repository.js';
 import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerStatus.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';

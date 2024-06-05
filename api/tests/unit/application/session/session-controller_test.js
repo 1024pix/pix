@@ -636,54 +636,6 @@ describe('Unit | Controller | sessionController', function () {
       expect(result).to.equal(serializedJurySessionsForPaginatedList);
     });
   });
-
-  describe('#commentAsJury', function () {
-    it('should update the session with a comment', async function () {
-      // given
-      const sessionId = 1;
-      const userId = 1;
-      sinon.stub(usecases, 'commentSessionAsJury');
-      request = {
-        params: { id: sessionId },
-        auth: {
-          credentials: {
-            userId,
-          },
-        },
-        payload: {
-          'jury-comment': 'Un commentaire du pôle certif',
-        },
-      };
-
-      // when
-      await sessionController.commentAsJury(request, hFake);
-
-      // then
-      expect(usecases.commentSessionAsJury).to.have.been.calledWithExactly({
-        sessionId,
-        juryCommentAuthorId: userId,
-        juryComment: 'Un commentaire du pôle certif',
-      });
-    });
-  });
-
-  describe('#deleteJuryComment', function () {
-    it('should delete the session comment', async function () {
-      // given
-      const sessionId = 1;
-      sinon.stub(usecases, 'deleteSessionJuryComment');
-      request = { params: { id: sessionId } };
-
-      // when
-      const response = await sessionController.deleteJuryComment(request, hFake);
-
-      // then
-      expect(usecases.deleteSessionJuryComment).to.have.been.calledWithExactly({
-        sessionId,
-      });
-      expect(response.statusCode).to.equal(204);
-    });
-  });
 });
 
 function buildRequest(sessionId, userId, firstName, lastName, birthdate) {

@@ -1,5 +1,5 @@
-import { JuryCertificationSummary } from '../../../../../lib/domain/read-models/JuryCertificationSummary.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/jury-certification-summary-serializer.js';
+import { JuryCertificationSummary } from '../../../../../src/certification/session-management/domain/read-models/JuryCertificationSummary.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', function () {

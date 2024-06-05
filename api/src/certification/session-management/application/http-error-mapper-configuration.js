@@ -1,8 +1,12 @@
 import { HttpErrors } from '../../../shared/application/http-errors.js';
 import { DomainErrorMappingConfiguration } from '../../../shared/application/models/domain-error-mapping-configuration.js';
 import {
+  ChallengeToBeDeneutralizedNotFoundError,
+  ChallengeToBeNeutralizedNotFoundError,
+  InvalidSessionSupervisingLoginError,
   SessionAlreadyFinalizedError,
   SessionAlreadyPublishedError,
+  SessionNotAccessible,
   SessionWithAbortReasonOnCompletedCertificationCourseError,
   SessionWithMissingAbortReasonError,
   SessionWithoutStartedCertificationError,
@@ -28,6 +32,22 @@ const sessionDomainErrorMappingConfiguration = [
   {
     name: SessionAlreadyPublishedError.name,
     httpErrorFn: (error) => new HttpErrors.BadRequestError(error.message, error.code),
+  },
+  {
+    name: ChallengeToBeDeneutralizedNotFoundError.name,
+    httpErrorFn: (error) => new HttpErrors.NotFoundError(error.message, error.code),
+  },
+  {
+    name: ChallengeToBeNeutralizedNotFoundError.name,
+    httpErrorFn: (error) => new HttpErrors.NotFoundError(error.message, error.code),
+  },
+  {
+    name: SessionNotAccessible.name,
+    httpErrorFn: (error) => new HttpErrors.PreconditionFailedError(error.message, error.code),
+  },
+  {
+    name: InvalidSessionSupervisingLoginError.name,
+    httpErrorFn: (error) => new HttpErrors.ForbiddenError(error.message, error.code),
   },
 ].map((domainErrorMappingConfiguration) => new DomainErrorMappingConfiguration(domainErrorMappingConfiguration));
 

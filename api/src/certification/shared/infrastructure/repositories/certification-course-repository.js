@@ -6,13 +6,11 @@ import bluebird from 'bluebird';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
-import {
-  Assessment,
-  CertificationCourse,
-  ComplementaryCertificationCourse,
-} from '../../../../../lib/domain/models/index.js';
+import { Assessment } from '../../../../../lib/domain/models/index.js';
 import { config } from '../../../../shared/config.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { ComplementaryCertificationCourse } from '../../../session-management/domain/models/ComplementaryCertificationCourse.js';
+import { CertificationCourse } from '../../domain/models/CertificationCourse.js';
 import { CertificationIssueReport } from '../../domain/models/CertificationIssueReport.js';
 import * as certificationChallengeRepository from './certification-challenge-repository.js';
 

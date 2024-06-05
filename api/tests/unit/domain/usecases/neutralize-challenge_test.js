@@ -1,6 +1,6 @@
 import { ChallengeNeutralized } from '../../../../lib/domain/events/ChallengeNeutralized.js';
-import { CertificationAssessment } from '../../../../lib/domain/models/CertificationAssessment.js';
 import { neutralizeChallenge } from '../../../../lib/domain/usecases/neutralize-challenge.js';
+import { CertificationAssessment } from '../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | neutralize-challenge', function () {

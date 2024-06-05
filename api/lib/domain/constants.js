@@ -29,14 +29,6 @@ const PIX_ORIGIN = 'Pix';
 
 const AUTONOMOUS_COURSES_ORGANIZATION_ID = config.autonomousCourse.autonomousCoursesOrganizationId;
 
-const PIX_CERTIF = {
-  SCOPE: 'pix-certif',
-  NOT_LINKED_CERTIFICATION_MSG:
-    "L'accès à Pix Certif est limité aux centres de certification Pix. Contactez le référent de votre centre de certification si vous pensez avoir besoin d'y accéder.",
-  DEFAULT_SESSION_DURATION_MINUTES: 105,
-  CURRENT_CERTIFICATION_VERSION: 2,
-};
-
 const STUDENT_RECONCILIATION_ERRORS = {
   RECONCILIATION: {
     IN_OTHER_ORGANIZATION: {
@@ -104,7 +96,6 @@ const constants = {
   MAX_DIFF_BETWEEN_USER_LEVEL_AND_SKILL_LEVEL,
   ALL_TREATMENTS,
   PIX_ORIGIN,
-  PIX_CERTIF,
   STUDENT_RECONCILIATION_ERRORS,
   OIDC_ERRORS,
   CERTIFICATION_CENTER_TYPES,
@@ -133,7 +124,6 @@ export {
   MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED,
   MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED,
   OIDC_ERRORS,
-  PIX_CERTIF,
   PIX_COUNT_BY_LEVEL,
   PIX_ORIGIN,
   STUDENT_RECONCILIATION_ERRORS,
