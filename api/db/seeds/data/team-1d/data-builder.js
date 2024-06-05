@@ -98,6 +98,18 @@ async function _createSco1dOrganizations(databaseBuilder) {
     division: 'CM1-B',
     organizationId: TEAM_1D_ORGANIZATION_1_ID,
   });
+  await databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
+    firstName: 'BOB',
+    lastName: 'Le coyotte',
+    division: 'CM1-B',
+    organizationId: TEAM_1D_ORGANIZATION_1_ID,
+  });
+  await databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
+    firstName: 'Bob',
+    lastName: 'Le CObaye',
+    division: 'CM1-B',
+    organizationId: TEAM_1D_ORGANIZATION_1_ID,
+  });
 
   await databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
     firstName: 'Aya',
