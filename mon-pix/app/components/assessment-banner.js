@@ -21,7 +21,9 @@ export default class AssessmentBanner extends Component {
 
   get showTextToSpeechActivationButton() {
     return (
-      this.featureToggles.featureToggles?.isTextToSpeechButtonEnabled && this.args.displayTextToSpeechActivationButton
+      this.featureToggles.featureToggles?.isTextToSpeechButtonEnabled &&
+      this.args.displayTextToSpeechActivationButton &&
+      window.speechSynthesis
     );
   }
 

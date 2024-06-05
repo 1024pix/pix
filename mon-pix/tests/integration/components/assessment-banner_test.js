@@ -122,6 +122,24 @@ module('Integration | Component | assessment-banner', function (hooks) {
         // then
         assert.dom(screen.getByRole('button', { name: 'Désactiver la vocalisation' })).exists();
       });
+
+      module('when the browers speech synthesis is disabled', function () {
+        test('it should not display text to speech button', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          store.createRecord('assessment', {});
+          this.set('toggleTextToSpeech', sinon.stub());
+          delete window.speechSynthesis;
+
+          // when
+          const screen = await render(
+            hbs`<AssessmentBanner @displayHomeLink={{true}} @displayTextToSpeechActivationButton={{true}} @isTextToSpeechActivated={{true}} @toggleTextToSpeech={{this.toggleTextToSpeech}}/>`,
+          );
+
+          // then
+          assert.dom(screen.queryByRole('button', { name: 'Désactiver la vocalisation' })).doesNotExist();
+        });
+      });
     });
 
     module('when displayTextToSpeechActivationButton is false', function () {

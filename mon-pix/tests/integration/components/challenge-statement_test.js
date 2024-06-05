@@ -428,6 +428,34 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
           });
         });
       });
+
+      module('when the browers speech synthesis is disabled', function () {
+        test('it should not display text to speech button', async function (assert) {
+          // given
+          addAssessmentToContext(this, { id: '267567' });
+          addChallengeToContext(this, {
+            instruction: 'La consigne du test avec un bouton de lecture à haute voix',
+            id: 'rec_challenge1',
+          });
+          delete window.speechSynthesis;
+
+          // when
+          const screen = await render(hbs`<ChallengeStatement
+                    @challenge={{this.challenge}}
+                    @assessment={{this.assessment}}
+                    @isTextToSpeechActivated={{true}}
+                    />`);
+
+          // then
+          assert
+            .dom(
+              screen.queryByRole('button', {
+                name: this.intl.t('pages.challenge.statement.text-to-speech.play'),
+              }),
+            )
+            .doesNotExist();
+        });
+      });
     });
   });
 
