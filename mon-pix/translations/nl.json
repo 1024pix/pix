@@ -1220,6 +1220,9 @@
           "continue": "Ga verder met",
           "skip": "Overslaan",
           "terminate": "Afwerking"
+        },
+        "stepper": {
+          "next": "Volgende"
         }
       },
       "details": {

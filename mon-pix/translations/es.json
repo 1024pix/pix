@@ -1220,6 +1220,9 @@
           "continue": "Continuar",
           "skip": "Ir a",
           "terminate": "Finalizar"
+        },
+        "stepper": {
+          "next": "Siguiente"
         }
       },
       "details": {

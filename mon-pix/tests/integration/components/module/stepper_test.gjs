@@ -8,7 +8,7 @@ module('Integration | Component | Module | Stepper', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   module('A Stepper with 2 steps', function () {
-    test('should display the first step', async function (assert) {
+    test('should display the first step with the button Next', async function (assert) {
       // given
       const steps = [
         {
@@ -37,6 +37,7 @@ module('Integration | Component | Module | Stepper', function (hooks) {
       // then
       assert.strictEqual(screen.getAllByRole('heading', { level: 3 }).length, 1);
       assert.dom(screen.getByRole('heading', { level: 3, name: 'Étape 1 sur 2' })).exists();
+      assert.dom(screen.getByRole('button', { name: this.intl.t('pages.modulix.buttons.stepper.next') })).exists();
     });
   });
 });
