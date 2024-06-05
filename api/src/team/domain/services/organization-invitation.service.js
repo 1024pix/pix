@@ -1,17 +1,25 @@
 import randomString from 'randomstring';
 
-import * as mailService from '../../domain/services/mail-service.js';
 import {
   SendingEmailError,
   SendingEmailToInvalidDomainError,
   SendingEmailToInvalidEmailAddressError,
-} from '../errors.js';
-import { Membership } from '../models/Membership.js';
+} from '../../../../lib/domain/errors.js';
+import { Membership } from '../../../../lib/domain/models/Membership.js';
+import * as mailService from '../../../../lib/domain/services/mail-service.js';
 
-const _generateCode = () => {
-  return randomString.generate({ length: 10, capitalization: 'uppercase' });
-};
-
+/**
+ * @param {Object} params
+ * @param {OrganizationRepository} params.organizationRepository
+ * @param {OrganizationInvitationRepository} params.organizationInvitationRepository
+ * @param {string} params.organizationId
+ * @param {string} params.email
+ * @param {string} params.locale
+ * @param {*[]} params.tags
+ * @param {string} params.role
+ * @param {Object} params.dependencies
+ * @returns {Promise<*>}
+ */
 const createOrUpdateOrganizationInvitation = async ({
   organizationRepository,
   organizationInvitationRepository,
@@ -62,6 +70,18 @@ const createOrUpdateOrganizationInvitation = async ({
   return await organizationInvitationRepository.updateModificationDate(organizationInvitation.id);
 };
 
+/**
+ * @param {Object} params
+ * @param {OrganizationInvitationRepository} params.organizationInvitationRepository
+ * @param {string} params.organizationId
+ * @param {string} params.email
+ * @param {string} params.locale
+ * @param {*[]} params.tags
+ * @param {string} params.name
+ * @param {string} params.role
+ * @param {Object} params.dependencies
+ * @returns {Promise<*>}
+ */
 const createProOrganizationInvitation = async ({
   organizationInvitationRepository,
   organizationId,
@@ -96,6 +116,19 @@ const createProOrganizationInvitation = async ({
   return organizationInvitation;
 };
 
+/**
+ * @param {Object} params
+ * @param {OrganizationRepository} params.organizationRepository
+ * @param {OrganizationInvitationRepository} params.organizationInvitationRepository
+ * @param {string} params.organizationId
+ * @param {string} params.email
+ * @param {string} params.locale
+ * @param {*[]} params.tags
+ * @param {string} params.firstName
+ * @param {string} params.lastName
+ * @param {Object} params.dependencies
+ * @returns {Promise<*>}
+ */
 const createScoOrganizationInvitation = async ({
   organizationRepository,
   organizationInvitationRepository,
@@ -136,4 +169,12 @@ const createScoOrganizationInvitation = async ({
   return organizationInvitation;
 };
 
-export { createOrUpdateOrganizationInvitation, createProOrganizationInvitation, createScoOrganizationInvitation };
+export const organizationInvitationService = {
+  createOrUpdateOrganizationInvitation,
+  createProOrganizationInvitation,
+  createScoOrganizationInvitation,
+};
+
+const _generateCode = () => {
+  return randomString.generate({ length: 10, capitalization: 'uppercase' });
+};

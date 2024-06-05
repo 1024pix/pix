@@ -1,6 +1,6 @@
 import { NotFoundError, UncancellableOrganizationInvitationError } from '../../../../lib/domain/errors.js';
-import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
 import { cancelOrganizationInvitation } from '../../../../lib/domain/usecases/cancel-organization-invitation.js';
+import { OrganizationInvitation } from '../../../../src/team/domain/models/OrganizationInvitation.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | cancel-organization-invitation', function () {

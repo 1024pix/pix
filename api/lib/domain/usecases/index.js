@@ -91,7 +91,9 @@ import { injectDependencies } from '../../../src/shared/infrastructure/utils/dep
 import { importNamedExportsFromDirectory } from '../../../src/shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as writeOdsUtils from '../../../src/shared/infrastructure/utils/ods/write-ods-utils.js';
 import * as certificationCenterInvitationService from '../../../src/team/domain/services/certification-center-invitation-service.js';
+import { organizationInvitationService } from '../../../src/team/domain/services/organization-invitation.service.js';
 import * as certificationCenterInvitationRepository from '../../../src/team/infrastructure/repositories/certification-center-invitation-repository.js';
+import { organizationInvitationRepository } from '../../../src/team/infrastructure/repositories/organization-invitation.repository.js';
 import { userOrgaSettingsRepository } from '../../../src/team/infrastructure/repositories/user-orga-settings-repository.js';
 import { config } from '../../config.js';
 import * as certificationBadgesService from '../../domain/services/certification-badges-service.js';
@@ -141,7 +143,6 @@ import * as juryCertificationSummaryRepository from '../../infrastructure/reposi
 import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
 import * as learningContentRepository from '../../infrastructure/repositories/learning-content-repository.js';
 import * as membershipRepository from '../../infrastructure/repositories/membership-repository.js';
-import * as organizationInvitationRepository from '../../infrastructure/repositories/organization-invitation-repository.js';
 import * as organizationInvitedUserRepository from '../../infrastructure/repositories/organization-invited-user-repository.js';
 import * as organizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
 import * as organizationMemberIdentityRepository from '../../infrastructure/repositories/organization-member-identity-repository.js';
@@ -168,7 +169,6 @@ import * as userEmailRepository from '../../infrastructure/repositories/user-ema
 import * as userOrganizationsForAdminRepository from '../../infrastructure/repositories/user-organizations-for-admin-repository.js';
 import * as writeCsvUtils from '../../infrastructure/utils/csv/write-csv-utils.js';
 import * as learningContentConversionService from '../services/learning-content/learning-content-conversion-service.js';
-import * as organizationInvitationService from '../services/organization-invitation-service.js';
 import * as scoAccountRecoveryService from '../services/sco-account-recovery-service.js';
 import * as userReconciliationService from '../services/user-reconciliation-service.js';
 import * as organizationCreationValidator from '../validators/organization-creation-validator.js';

@@ -6,12 +6,10 @@ import {
   TargetProfileInvalidError,
 } from '../../../../lib/domain/errors.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
-import * as organizationInvitationService from '../../../../lib/domain/services/organization-invitation-service.js';
 import { createOrganizationsWithTagsAndTargetProfiles } from '../../../../lib/domain/usecases/create-organizations-with-tags-and-target-profiles.js';
 import * as organizationValidator from '../../../../lib/domain/validators/organization-with-tags-and-target-profiles-script.js';
 import { DomainTransaction as domainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import * as dataProtectionOfficerRepository from '../../../../lib/infrastructure/repositories/data-protection-officer-repository.js';
-import * as organizationInvitationRepository from '../../../../lib/infrastructure/repositories/organization-invitation-repository.js';
 import * as organizationTagRepository from '../../../../lib/infrastructure/repositories/organization-tag-repository.js';
 import * as tagRepository from '../../../../lib/infrastructure/repositories/tag-repository.js';
 import * as targetProfileShareRepository from '../../../../lib/infrastructure/repositories/target-profile-share-repository.js';
@@ -19,6 +17,8 @@ import * as schoolRepository from '../../../../src/school/infrastructure/reposit
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
 import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
 import * as organizationRepository from '../../../../src/shared/infrastructure/repositories/organization-repository.js';
+import { organizationInvitationService } from '../../../../src/team/domain/services/organization-invitation.service.js';
+import { organizationInvitationRepository } from '../../../../src/team/infrastructure/repositories/organization-invitation.repository.js';
 import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 const { omit } = lodash;

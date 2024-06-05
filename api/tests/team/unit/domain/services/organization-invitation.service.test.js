@@ -1,18 +1,14 @@
 import {
   SendingEmailToInvalidDomainError,
   SendingEmailToInvalidEmailAddressError,
-} from '../../../../lib/domain/errors.js';
-import { EmailingAttempt } from '../../../../lib/domain/models/EmailingAttempt.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
-import {
-  createOrUpdateOrganizationInvitation,
-  createProOrganizationInvitation,
-  createScoOrganizationInvitation,
-} from '../../../../lib/domain/services/organization-invitation-service.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
+} from '../../../../../lib/domain/errors.js';
+import { EmailingAttempt } from '../../../../../lib/domain/models/EmailingAttempt.js';
+import { Membership } from '../../../../../lib/domain/models/Membership.js';
+import { OrganizationInvitation } from '../../../../../src/team/domain/models/OrganizationInvitation.js';
+import { organizationInvitationService } from '../../../../../src/team/domain/services/organization-invitation.service.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Service | Organization-Invitation Service', function () {
+describe('Unit | Team | Domain | Service | organization-invitation', function () {
   const userEmailAddress = 'user@example.net';
   const code = 'ABCDEFGH01';
   let organizationInvitationRepository;
@@ -55,7 +51,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         organizationRepository.get.resolves(organization);
 
         // when
-        await createOrUpdateOrganizationInvitation({
+        await organizationInvitationService.createOrUpdateOrganizationInvitation({
           organizationRepository,
           organizationInvitationRepository,
           organizationId: organization.id,
@@ -104,7 +100,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
           );
 
           // when
-          const error = await catchErr(createOrUpdateOrganizationInvitation)({
+          const error = await catchErr(organizationInvitationService.createOrUpdateOrganizationInvitation)({
             organizationRepository,
             organizationInvitationRepository,
             organizationId: organization.id,
@@ -139,7 +135,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         organizationRepository.get.resolves(organization);
 
         // when
-        await createOrUpdateOrganizationInvitation({
+        await organizationInvitationService.createOrUpdateOrganizationInvitation({
           organizationRepository,
           organizationInvitationRepository,
           organizationId: organization.id,
@@ -175,7 +171,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         organizationRepository.get.resolves(organization);
 
         // when
-        await createOrUpdateOrganizationInvitation({
+        await organizationInvitationService.createOrUpdateOrganizationInvitation({
           organizationRepository,
           organizationInvitationRepository,
           organizationId: organization.id,
@@ -217,7 +213,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         );
 
         // when
-        const error = await catchErr(createOrUpdateOrganizationInvitation)({
+        const error = await catchErr(organizationInvitationService.createOrUpdateOrganizationInvitation)({
           organizationRepository,
           organizationInvitationRepository,
           organizationId: organization.id,
@@ -265,7 +261,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         organizationRepository.get.resolves(organization);
 
         // when
-        await createScoOrganizationInvitation({
+        await organizationInvitationService.createScoOrganizationInvitation({
           organizationRepository,
           organizationInvitationRepository,
           organizationId: organization.id,
@@ -313,7 +309,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         organizationRepository.get.resolves(organization);
 
         // when
-        await createScoOrganizationInvitation({
+        await organizationInvitationService.createScoOrganizationInvitation({
           organizationRepository,
           organizationInvitationRepository,
           organizationId: organization.id,
@@ -358,7 +354,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         organizationRepository.get.resolves(organization);
 
         // when
-        await createScoOrganizationInvitation({
+        await organizationInvitationService.createScoOrganizationInvitation({
           organizationRepository,
           organizationInvitationRepository,
           organizationId: organization.id,
@@ -400,7 +396,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         organizationRepository.get.resolves(organization);
 
         // when
-        await createScoOrganizationInvitation({
+        await organizationInvitationService.createScoOrganizationInvitation({
           organizationRepository,
           organizationInvitationRepository,
           organizationId: organization.id,
@@ -453,7 +449,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         };
 
         // when
-        await createProOrganizationInvitation({
+        await organizationInvitationService.createProOrganizationInvitation({
           organizationRepository,
           organizationInvitationRepository,
           organizationId: organization.id,
@@ -486,7 +482,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves(organizationInvitation);
 
         // when
-        await createProOrganizationInvitation({
+        await organizationInvitationService.createProOrganizationInvitation({
           organizationRepository,
           organizationInvitationRepository,
           organizationId: organization.id,
@@ -525,7 +521,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves(organizationInvitation);
 
         // when
-        await createProOrganizationInvitation({
+        await organizationInvitationService.createProOrganizationInvitation({
           organizationRepository,
           organizationInvitationRepository,
           organizationId: organization.id,

@@ -1,9 +1,17 @@
 import _ from 'lodash';
 
-import { knex } from '../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../domain/errors.js';
+import { knex } from '../../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { OrganizationInvitation } from '../../domain/models/OrganizationInvitation.js';
 
+/**
+ * @param {Object} params
+ * @param {string} params.organizationId
+ * @param {string} params.email
+ * @param {string} params.code
+ * @param {string} params.role
+ * @returns {Promise<OrganizationInvitation>}
+ */
 const create = async function ({ organizationId, email, code, role }) {
   const status = OrganizationInvitation.StatusType.PENDING;
   const [organizationInvitationCreated] = await knex('organization-invitations')
@@ -13,12 +21,22 @@ const create = async function ({ organizationId, email, code, role }) {
   return new OrganizationInvitation(organizationInvitationCreated);
 };
 
+/**
+ * @param {string} id
+ * @returns {Promise<OrganizationInvitation>}
+ */
 const get = async function (id) {
   const organizationInvitation = await knex('organization-invitations').where('id', id).first();
   if (!organizationInvitation) throw new NotFoundError(`Not found organization-invitation for ID ${id}`);
   return new OrganizationInvitation(organizationInvitation);
 };
 
+/**
+ * @param {Object} params
+ * @param {string} params.id
+ * @param {string} params.code
+ * @returns {Promise<OrganizationInvitation>}
+ */
 const getByIdAndCode = async function ({ id, code }) {
   const organizationInvitation = await knex('organization-invitations').where({ id, code }).first();
   if (!organizationInvitation)
@@ -26,6 +44,10 @@ const getByIdAndCode = async function ({ id, code }) {
   return new OrganizationInvitation(organizationInvitation);
 };
 
+/**
+ * @param {string} id
+ * @returns {Promise<OrganizationInvitation>}
+ */
 const markAsAccepted = async function (id) {
   const status = OrganizationInvitation.StatusType.ACCEPTED;
 
@@ -37,6 +59,11 @@ const markAsAccepted = async function (id) {
   return new OrganizationInvitation(organizationInvitationAccepted);
 };
 
+/**
+ * @param {Object} params
+ * @param {string} params.id
+ * @returns {Promise<OrganizationInvitation>}
+ */
 const markAsCancelled = async function ({ id }) {
   const [organizationInvitation] = await knex('organization-invitations')
     .where({ id })
@@ -52,6 +79,11 @@ const markAsCancelled = async function ({ id }) {
   return new OrganizationInvitation(organizationInvitation);
 };
 
+/**
+ * @param {Object} params
+ * @param {string} params.organizationId
+ * @returns {Promise<OrganizationInvitation>}
+ */
 const findPendingByOrganizationId = async function ({ organizationId }) {
   const pendingOrganizationInvitations = await knex('organization-invitations')
     .where({ organizationId, status: OrganizationInvitation.StatusType.PENDING })
@@ -61,6 +93,12 @@ const findPendingByOrganizationId = async function ({ organizationId }) {
   });
 };
 
+/**
+ * @param {Object} params
+ * @param {string} params.organizationId
+ * @param {string} params.email
+ * @returns {Promise<OrganizationInvitation>}
+ */
 const findOnePendingByOrganizationIdAndEmail = async function ({ organizationId, email }) {
   const pendingOrganizationInvitation = await knex('organization-invitations')
     .where({ organizationId, status: OrganizationInvitation.StatusType.PENDING })
@@ -70,6 +108,10 @@ const findOnePendingByOrganizationIdAndEmail = async function ({ organizationId,
   return new OrganizationInvitation(pendingOrganizationInvitation);
 };
 
+/**
+ * @param {string} id
+ * @returns {Promise<OrganizationInvitation>}
+ */
 const updateModificationDate = async function (id) {
   const organizationInvitation = await knex('organization-invitations')
     .where({ id })
@@ -83,7 +125,7 @@ const updateModificationDate = async function (id) {
   return new OrganizationInvitation(organizationInvitation);
 };
 
-export {
+export const organizationInvitationRepository = {
   create,
   findOnePendingByOrganizationIdAndEmail,
   findPendingByOrganizationId,

@@ -9,7 +9,6 @@ describe('Integration | Application | Organization-invitations | Routes', functi
     sinon
       .stub(organizationInvitationController, 'acceptOrganizationInvitation')
       .callsFake((request, h) => h.response().code(204));
-    sinon.stub(organizationInvitationController, 'sendScoInvitation').callsFake((request, h) => h.response().code(201));
     sinon
       .stub(organizationInvitationController, 'getOrganizationInvitation')
       .callsFake((request, h) => h.response().code(200));
@@ -45,50 +44,6 @@ describe('Integration | Application | Organization-invitations | Routes', functi
     it('should return 400 when payload is missing', async function () {
       // when
       const response = await httpTestServer.request(method, url);
-
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
-  });
-
-  describe('POST /api/organization-invitations/sco', function () {
-    const method = 'POST';
-    const url = '/api/organization-invitations/sco';
-
-    it('should send invitation when payload is valid', async function () {
-      // given
-      const payload = {
-        data: {
-          type: 'sco-organization-invitations',
-          attributes: {
-            uai: '1234567A',
-            'first-name': 'john',
-            'last-name': 'harry',
-          },
-        },
-      };
-
-      // when
-      const response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(201);
-    });
-
-    it('should return bad request when payload is not valid', async function () {
-      // given
-      const payload = {
-        data: {
-          type: 'sco-organization-invitations',
-          attributes: {
-            uai: '1234567A',
-            lastName: 'harry',
-          },
-        },
-      };
-
-      // when
-      const response = await httpTestServer.request(method, url, payload);
 
       // then
       expect(response.statusCode).to.equal(400);

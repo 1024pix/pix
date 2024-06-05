@@ -2,8 +2,6 @@ import _ from 'lodash';
 
 import { usecases } from '../../domain/usecases/index.js';
 import * as organizationInvitationSerializer from '../../infrastructure/serializers/jsonapi/organization-invitation-serializer.js';
-import { serializer as scoOrganizationInvitationSerializer } from '../../infrastructure/serializers/jsonapi/sco-organization-invitation-serializer.js';
-import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 import { MissingQueryParamError } from '../http-errors.js';
 
 const acceptOrganizationInvitation = async function (request) {
@@ -22,20 +20,6 @@ const acceptOrganizationInvitation = async function (request) {
   return null;
 };
 
-const sendScoInvitation = async function (
-  request,
-  h,
-  dependencies = { requestResponseUtils, scoOrganizationInvitationSerializer },
-) {
-  const { uai, 'first-name': firstName, 'last-name': lastName } = request.payload.data.attributes;
-
-  const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
-
-  const organizationScoInvitation = await usecases.sendScoInvitation({ uai, firstName, lastName, locale });
-
-  return h.response(dependencies.scoOrganizationInvitationSerializer.serialize(organizationScoInvitation)).created();
-};
-
 const getOrganizationInvitation = async function (request, h, dependencies = { organizationInvitationSerializer }) {
   const organizationInvitationId = request.params.id;
   const organizationInvitationCode = request.query.code;
@@ -51,5 +35,5 @@ const getOrganizationInvitation = async function (request, h, dependencies = { o
   return dependencies.organizationInvitationSerializer.serialize(organizationInvitation);
 };
 
-const organizationInvitationController = { acceptOrganizationInvitation, sendScoInvitation, getOrganizationInvitation };
+const organizationInvitationController = { acceptOrganizationInvitation, getOrganizationInvitation };
 export { organizationInvitationController };

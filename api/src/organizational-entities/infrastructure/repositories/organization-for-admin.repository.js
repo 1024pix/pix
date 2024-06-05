@@ -2,10 +2,10 @@ import _ from 'lodash';
 
 import { knex } from '../../../../db/knex-database-connection.js';
 import { MissingAttributesError, NotFoundError } from '../../../../lib/domain/errors.js';
-import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
 import { Tag } from '../../../../lib/domain/models/Tag.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { ORGANIZATION_FEATURE } from '../../../shared/domain/constants.js';
+import { OrganizationInvitation } from '../../../team/domain/models/OrganizationInvitation.js';
 import { OrganizationForAdmin } from '../../domain/models/OrganizationForAdmin.js';
 
 const DATA_PROTECTION_OFFICERS_TABLE_NAME = 'data-protection-officers';
