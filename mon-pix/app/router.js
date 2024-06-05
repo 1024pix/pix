@@ -119,7 +119,7 @@ Router.map(function () {
   this.route('module-preview', { path: '/modules/preview' });
   this.route('module', { path: '/modules/:slug' }, function () {
     this.route('details');
-    this.route('get', { path: '/passage' });
+    this.route('passage');
     this.route('recap');
   });
 

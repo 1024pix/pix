@@ -58,34 +58,66 @@ module('Integration | Component | Module | Grain', function (hooks) {
     });
   });
 
-  test('should have the "activity" color and tag if grain is of type activity', async function (assert) {
-    // given
-    const store = this.owner.lookup('service:store');
-    const grain = store.createRecord('grain', { type: 'activity', title: 'Grain title' });
-    this.set('grain', grain);
+  module('type', function () {
+    test('should have the "activity" color and tag if grain is of type activity', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const grain = store.createRecord('grain', { type: 'activity', title: 'Grain title' });
+      this.set('grain', grain);
 
-    // when
-    const screen = await render(hbs`
-        <Module::Grain @grain={{this.grain}} />`);
+      // when
+      const screen = await render(hbs`
+          <Module::Grain @grain={{this.grain}} />`);
 
-    // then
-    assert.ok(find('.grain-card--activity'));
-    assert.dom(screen.getByText('activité'));
-  });
+      // then
+      assert.dom(find('.grain-card--activity')).exists();
+      assert.dom(screen.getByText('activité')).exists();
+    });
 
-  test('should have the "lesson" color and tag if grain is of type lesson', async function (assert) {
-    // given
-    const store = this.owner.lookup('service:store');
-    const grain = store.createRecord('grain', { type: 'lesson', title: 'Grain title' });
-    this.set('grain', grain);
+    test('should have the "lesson" color and tag if grain is of type lesson', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const grain = store.createRecord('grain', { type: 'lesson', title: 'Grain title' });
+      this.set('grain', grain);
 
-    // when
-    const screen = await render(hbs`
-        <Module::Grain @grain={{this.grain}} />`);
+      // when
+      const screen = await render(hbs`
+          <Module::Grain @grain={{this.grain}} />`);
 
-    // then
-    assert.ok(find('.grain-card--lesson'));
-    assert.dom(screen.getByText('leçon'));
+      // then
+      assert.dom(find('.grain-card--lesson')).exists();
+      assert.dom(screen.getByText('leçon')).exists();
+    });
+
+    test('should have the "lesson" color and tag if grain is of undefined type', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const grain = store.createRecord('grain', { title: 'Grain title' });
+      this.set('grain', grain);
+
+      // when
+      const screen = await render(hbs`
+          <Module::Grain @grain={{this.grain}} />`);
+
+      // then
+      assert.dom(find('.grain-card--lesson')).exists();
+      assert.dom(screen.getByText('leçon')).exists();
+    });
+
+    test('should have the "lesson" color and tag if grain is of unknown type', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const grain = store.createRecord('grain', { type: 'yolo', title: 'Grain title' });
+      this.set('grain', grain);
+
+      // when
+      const screen = await render(hbs`
+          <Module::Grain @grain={{this.grain}} />`);
+
+      // then
+      assert.dom(find('.grain-card--lesson')).exists();
+      assert.dom(screen.getByText('leçon')).exists();
+    });
   });
 
   module('when element is a text', function () {
@@ -231,7 +263,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
     test('should not display skip button', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const element = { type: 'qcu', isAnswerable: true };
+      const element = { id: 'qcu-id', type: 'qcu', isAnswerable: true };
       const grain = store.createRecord('grain', {
         title: 'Grain title',
         components: [{ type: 'element', element }],
@@ -241,7 +273,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
       this.set('passage', passage);
 
       const correction = store.createRecord('correction-response');
-      store.createRecord('element-answer', { element, correction, passage });
+      store.createRecord('element-answer', { elementId: element.id, correction, passage });
 
       // when
       const screen = await render(hbs`
@@ -257,7 +289,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
       test('should display continue button', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        const element = { type: 'qcu', isAnswerable: true };
+        const element = { id: 'qcu-id', type: 'qcu', isAnswerable: true };
         const grain = store.createRecord('grain', {
           title: '1st Grain title',
           components: [{ type: 'element', element }],
@@ -268,7 +300,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
         this.set('passage', passage);
 
         const correction = store.createRecord('correction-response');
-        store.createRecord('element-answer', { element, correction, passage });
+        store.createRecord('element-answer', { elementId: element.id, correction, passage });
 
         // when
         const screen = await render(hbs`
@@ -521,7 +553,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
     test('should call retryElement pass in argument', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const element = { type: 'qcu', isAnswerable: true };
+      const element = { id: 'qcu-id', type: 'qcu', isAnswerable: true };
       const grain = store.createRecord('grain', { title: 'Grain title', components: [{ type: 'element', element }] });
       this.set('grain', grain);
       const passage = store.createRecord('passage');
@@ -531,7 +563,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
       this.set('retryElement', retryElementStub);
 
       const correction = store.createRecord('correction-response', { status: 'ko' });
-      store.createRecord('element-answer', { element, correction, passage });
+      store.createRecord('element-answer', { elementId: element.id, correction, passage });
 
       // when
       await render(hbs`

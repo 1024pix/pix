@@ -11,7 +11,7 @@ module('Unit | Component | Module | Image', function (hooks) {
       // given
       const image = { url: '', alt: '', alternativeText: 'hello' };
 
-      const component = createGlimmerComponent('module/image', { image });
+      const component = createGlimmerComponent('module/element/image', { image });
 
       // when & then
       assert.true(component.hasAlternativeText);
@@ -21,7 +21,7 @@ module('Unit | Component | Module | Image', function (hooks) {
       // given
       const image = { url: '', alt: '', alternativeText: '' };
 
-      const component = createGlimmerComponent('module/image', { image });
+      const component = createGlimmerComponent('module/element/image', { image });
 
       // when & then
       assert.false(component.hasAlternativeText);
@@ -33,7 +33,7 @@ module('Unit | Component | Module | Image', function (hooks) {
       // given
       const image = { id: 'image-id' };
 
-      const component = createGlimmerComponent('module/image', { image });
+      const component = createGlimmerComponent('module/element/image', { image });
       assert.false(component.modalIsOpen);
 
       // when
@@ -51,7 +51,7 @@ module('Unit | Component | Module | Image', function (hooks) {
       const metrics = this.owner.lookup('service:metrics');
       metrics.add = sinon.stub();
 
-      const component = createGlimmerComponent('module/image', { image, moduleId });
+      const component = createGlimmerComponent('module/element/image', { image, moduleId });
       assert.false(component.modalIsOpen);
 
       // when
@@ -75,7 +75,7 @@ module('Unit | Component | Module | Image', function (hooks) {
         // given
         const image = { id: 'image-id' };
 
-        const component = createGlimmerComponent('module/image', { image });
+        const component = createGlimmerComponent('module/element/image', { image });
         assert.false(component.modalIsOpen);
 
         component.showModal();

@@ -1,7 +1,7 @@
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
-import createPodsComponent from '../../../helpers/create-pods-component';
+import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 
 module('Unit | Component | Module | Grain', function (hooks) {
   setupTest(hooks);
@@ -23,7 +23,7 @@ module('Unit | Component | Module | Grain', function (hooks) {
             { type: 'element', element: text },
           ],
         });
-        const component = createPodsComponent('module/grain', { grain });
+        const component = createGlimmerComponent('module/grain', { grain });
 
         // when
         const hasAnswerableElements = component.hasAnswerableElements;
@@ -41,7 +41,7 @@ module('Unit | Component | Module | Grain', function (hooks) {
         const grain = store.createRecord('grain', {
           components: [{ type: 'element', element: text }],
         });
-        const component = createPodsComponent('module/grain', { grain });
+        const component = createGlimmerComponent('module/grain', { grain });
 
         // when
         const hasAnswerableElements = component.hasAnswerableElements;
@@ -69,7 +69,7 @@ module('Unit | Component | Module | Grain', function (hooks) {
             { type: 'element', element: text },
           ],
         });
-        const component = createPodsComponent('module/grain', { grain });
+        const component = createGlimmerComponent('module/grain', { grain });
 
         // when
         const answerableElements = component.answerableElements;
@@ -88,7 +88,7 @@ module('Unit | Component | Module | Grain', function (hooks) {
         const grain = store.createRecord('grain', {
           components: [{ type: 'element', element: text }],
         });
-        const component = createPodsComponent('module/grain', { grain });
+        const component = createGlimmerComponent('module/grain', { grain });
 
         // when
         const answerableElements = component.answerableElements;
@@ -115,7 +115,7 @@ module('Unit | Component | Module | Grain', function (hooks) {
           components: [{ type: 'element', element: qcu }],
         });
 
-        const component = createPodsComponent('module/grain', { grain, passage });
+        const component = createGlimmerComponent('module/grain', { grain, passage });
 
         // when
         const allElementsAreAnswered = component.allElementsAreAnswered;
@@ -134,7 +134,7 @@ module('Unit | Component | Module | Grain', function (hooks) {
           components: [{ type: 'element', element: qcu }],
         });
         const passage = store.createRecord('passage');
-        const component = createPodsComponent('module/grain', { grain, passage });
+        const component = createGlimmerComponent('module/grain', { grain, passage });
 
         // when
         const allElementsAreAnswered = component.allElementsAreAnswered;
@@ -155,7 +155,7 @@ module('Unit | Component | Module | Grain', function (hooks) {
           components: [{ type: 'element', element: qcu }],
         });
 
-        const component = createPodsComponent('module/grain', { grain });
+        const component = createGlimmerComponent('module/grain', { grain });
 
         // when
         const displayableElements = component.displayableElements;
@@ -175,7 +175,7 @@ module('Unit | Component | Module | Grain', function (hooks) {
           components: [{ type: 'toto', element: qcu }],
         });
 
-        const component = createPodsComponent('module/grain', { grain });
+        const component = createGlimmerComponent('module/grain', { grain });
 
         // when
         const displayableElements = component.displayableElements;

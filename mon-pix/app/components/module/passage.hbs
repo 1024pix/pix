@@ -1,0 +1,26 @@
+{{page-title @module.title}}
+<Module::BetaBanner />
+
+<main class="module-passage">
+  <div class="module-passage__title">
+    <h1>{{@module.title}}</h1>
+  </div>
+
+  <div class="module-passage__content" aria-live="assertive" {{did-insert this.setGrainScrollOffsetCssProperty}}>
+    {{#each this.grainsToDisplay as |grain index|}}
+      <Module::Grain
+        @grain={{grain}}
+        @retryElement={{this.trackRetry}}
+        @passage={{@passage}}
+        @transition={{this.grainTransition grain.id}}
+        @submitAnswer={{this.submitAnswer}}
+        @canMoveToNextGrain={{this.grainCanMoveToNextGrain index}}
+        @continueAction={{this.continueToNextGrain}}
+        @skipAction={{this.skipToNextGrain}}
+        @shouldDisplayTerminateButton={{this.grainShouldDisplayTerminateButton index}}
+        @terminateAction={{this.terminateModule}}
+        @hasJustAppeared={{this.hasGrainJustAppeared index}}
+      />
+    {{/each}}
+  </div>
+</main>

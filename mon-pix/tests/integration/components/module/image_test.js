@@ -22,7 +22,7 @@ module('Integration | Component | Module | Image', function (hooks) {
     this.set('image', imageElement);
 
     //  when
-    const screen = await render(hbs`<Module::Image @image={{this.image}}/>`);
+    const screen = await render(hbs`<Module::Element::Image @image={{this.image}}/>`);
 
     // then
     assert.ok(screen);
@@ -44,7 +44,7 @@ module('Integration | Component | Module | Image', function (hooks) {
     this.set('image', imageElement);
 
     //  when
-    const screen = await render(hbs`<Module::Image @image={{this.image}}/>`);
+    const screen = await render(hbs`<Module::Element::Image @image={{this.image}}/>`);
 
     // then
     await click(screen.getByRole('button', { name: "Afficher l'alternative textuelle" }));
@@ -63,7 +63,7 @@ module('Integration | Component | Module | Image', function (hooks) {
     this.set('image', imageElement);
 
     //  when
-    const screen = await render(hbs`<Module::Image @image={{this.image}}/>`);
+    const screen = await render(hbs`<Module::Element::Image @image={{this.image}}/>`);
 
     // then
     const alternativeTextButton = await screen.queryByRole('button', { name: "Afficher l'alternative textuelle" });

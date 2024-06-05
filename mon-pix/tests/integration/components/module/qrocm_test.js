@@ -49,7 +49,7 @@ module('Integration | Component | Module | QROCM', function (hooks) {
       type: 'qrocm',
     };
     this.set('el', qrocm);
-    const screen = await render(hbs`<Module::Qrocm @element={{this.el}} />`);
+    const screen = await render(hbs`<Module::Element::Qrocm @element={{this.el}} />`);
     const direction = this.intl.t('pages.modulix.qrocm.direction', {
       count: qrocm.proposals.filter(({ type }) => type !== 'text').length,
     });
@@ -111,7 +111,7 @@ module('Integration | Component | Module | QROCM', function (hooks) {
     };
     this.set('el', qrocm);
     const screen = await render(hbs`
-        <Module::Qrocm @element={{this.el}} />`);
+        <Module::Element::Qrocm @element={{this.el}} />`);
 
     // then
     assert.ok(screen);
@@ -158,7 +158,7 @@ module('Integration | Component | Module | QROCM', function (hooks) {
     };
     this.set('el', qrocm);
     const screen = await render(hbs`
-        <Module::Qrocm @element={{this.el}} />`);
+        <Module::Element::Qrocm @element={{this.el}} />`);
 
     // when
     await clickByName('select-aria');
@@ -202,7 +202,7 @@ module('Integration | Component | Module | QROCM', function (hooks) {
       type: 'qrocm',
     };
     this.set('el', qrocm);
-    const screen = await render(hbs`<Module::Qrocm @element={{this.el}} />`);
+    const screen = await render(hbs`<Module::Element::Qrocm @element={{this.el}} />`);
 
     // when
     await click(screen.queryByRole('button', { name: 'Vérifier' }));
@@ -240,7 +240,9 @@ module('Integration | Component | Module | QROCM', function (hooks) {
     const givenSubmitAnswerStub = function () {};
     this.set('submitAnswer', givenSubmitAnswerStub);
     this.set('el', qrocm);
-    const screen = await render(hbs`<Module::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}} />`);
+    const screen = await render(
+      hbs`<Module::Element::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}} />`,
+    );
 
     // when
     await click(screen.queryByRole('button', { name: 'Vérifier' }));
@@ -283,7 +285,9 @@ module('Integration | Component | Module | QROCM', function (hooks) {
       const userResponse = 'user-response';
       const givenSubmitAnswerSpy = sinon.spy();
       this.set('submitAnswer', givenSubmitAnswerSpy);
-      const screen = await render(hbs`<Module::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}} />`);
+      const screen = await render(
+        hbs`<Module::Element::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}} />`,
+      );
       const verifyButton = screen.queryByRole('button', { name: 'Vérifier' });
 
       // when
@@ -334,7 +338,9 @@ module('Integration | Component | Module | QROCM', function (hooks) {
       const userResponse = { input: 'premiere-partie', answer: '2' };
       const givenSubmitAnswerSpy = sinon.spy();
       this.set('submitAnswer', givenSubmitAnswerSpy);
-      const screen = await render(hbs`<Module::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}} />`);
+      const screen = await render(
+        hbs`<Module::Element::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}} />`,
+      );
       const verifyButton = screen.queryByRole('button', { name: 'Vérifier' });
 
       // when
@@ -367,7 +373,7 @@ module('Integration | Component | Module | QROCM', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Module::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+      hbs`<Module::Element::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
     );
 
     // then
@@ -390,7 +396,7 @@ module('Integration | Component | Module | QROCM', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Module::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}} @correction={{this.correctionResponse}} />`,
+      hbs`<Module::Element::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}} @correction={{this.correctionResponse}} />`,
     );
 
     // then
@@ -414,7 +420,7 @@ module('Integration | Component | Module | QROCM', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Module::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+      hbs`<Module::Element::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
     );
 
     // then
@@ -435,7 +441,7 @@ module('Integration | Component | Module | QROCM', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Module::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+      hbs`<Module::Element::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
     );
 
     // then
@@ -471,7 +477,7 @@ function prepareContextRecords(store, correctionResponse) {
   };
   store.createRecord('element-answer', {
     correction: correctionResponse,
-    element: qrocm,
+    elementId: qrocm.id,
   });
   store.createRecord('grain', { id: 'id', components: [{ type: 'element', element: qrocm }] });
   store.createRecord('element-answer', {

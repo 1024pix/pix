@@ -16,7 +16,7 @@ module('Unit | Component | Module | Video', function (hooks) {
         transcription: '',
       };
 
-      const component = createGlimmerComponent('module/video', { video });
+      const component = createGlimmerComponent('module/element/video', { video });
 
       // when & then
       assert.true(component.hasSubtitles);
@@ -31,7 +31,7 @@ module('Unit | Component | Module | Video', function (hooks) {
         transcription: '',
       };
 
-      const component = createGlimmerComponent('module/video', { video });
+      const component = createGlimmerComponent('module/element/video', { video });
 
       // when & then
       assert.false(component.hasSubtitles);
@@ -48,7 +48,7 @@ module('Unit | Component | Module | Video', function (hooks) {
         transcription: 'hello',
       };
 
-      const component = createGlimmerComponent('module/video', { video });
+      const component = createGlimmerComponent('module/element/video', { video });
 
       // when & then
       assert.true(component.hasTranscription);
@@ -63,7 +63,7 @@ module('Unit | Component | Module | Video', function (hooks) {
         transcription: '',
       };
 
-      const component = createGlimmerComponent('module/video', { video });
+      const component = createGlimmerComponent('module/element/video', { video });
 
       // when & then
       assert.false(component.hasTranscription);
@@ -78,7 +78,7 @@ module('Unit | Component | Module | Video', function (hooks) {
       const metrics = this.owner.lookup('service:metrics');
       metrics.add = () => {};
 
-      const component = createGlimmerComponent('module/video', { video });
+      const component = createGlimmerComponent('module/element/video', { video });
       assert.false(component.modalIsOpen);
 
       // when
@@ -96,7 +96,7 @@ module('Unit | Component | Module | Video', function (hooks) {
       const metrics = this.owner.lookup('service:metrics');
       metrics.add = sinon.stub();
 
-      const component = createGlimmerComponent('module/video', { video, moduleId });
+      const component = createGlimmerComponent('module/element/video', { video, moduleId });
       assert.false(component.modalIsOpen);
 
       // when
@@ -120,7 +120,7 @@ module('Unit | Component | Module | Video', function (hooks) {
         // given
         const video = { id: 'video-id' };
 
-        const component = createGlimmerComponent('module/video', { video });
+        const component = createGlimmerComponent('module/element/video', { video });
         assert.false(component.modalIsOpen);
 
         component.showModal();

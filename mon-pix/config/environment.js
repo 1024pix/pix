@@ -21,7 +21,6 @@ module.exports = function (environment) {
   const analyticsEnabled = _isFeatureEnabled(process.env.WEB_ANALYTICS_ENABLED);
   const ENV = {
     modulePrefix: 'mon-pix',
-    podModulePrefix: 'mon-pix/pods',
     environment: environment,
     rootURL: '/',
     locationType: 'history',

@@ -1,0 +1,51 @@
+<article class="grain {{if @hasJustAppeared 'grain--active'}}" tabindex="-1" {{did-insert this.focusAndScroll}}>
+  <h2 class="screen-reader-only">{{@grain.title}}</h2>
+
+  {{#if @transition}}
+    <header class="grain__header">
+      {{html-unsafe @transition.content}}
+    </header>
+  {{/if}}
+
+  <div class="grain-card__tag">
+    <Module::Grain::Tag @type={{this.grainType}} />
+  </div>
+  <div class="grain__card grain-card--{{this.grainType}}">
+    <div class="grain-card__content">
+      {{#each this.displayableElements as |element|}}
+        <div class="grain-card-content__element">
+          <Module::Element
+            @element={{element}}
+            @submitAnswer={{@submitAnswer}}
+            @retryElement={{@retryElement}}
+            @getLastCorrectionForElement={{this.getLastCorrectionForElement}}
+          />
+        </div>
+      {{/each}}
+    </div>
+
+    {{#if this.shouldDisplaySkipButton}}
+      <footer class="grain-card__footer">
+        <PixButton @variant="secondary" @triggerAction={{@skipAction}}>
+          {{t "pages.modulix.buttons.grain.skip"}}
+        </PixButton>
+      </footer>
+    {{/if}}
+
+    {{#if this.shouldDisplayContinueButton}}
+      <footer class="grain-card__footer">
+        <PixButton @variant="primary" @triggerAction={{@continueAction}}>
+          {{t "pages.modulix.buttons.grain.continue"}}
+        </PixButton>
+      </footer>
+    {{/if}}
+
+    {{#if @shouldDisplayTerminateButton}}
+      <footer class="grain-card__footer">
+        <PixButton @variant="primary" @triggerAction={{@terminateAction}}>
+          {{t "pages.modulix.buttons.grain.terminate"}}
+        </PixButton>
+      </footer>
+    {{/if}}
+  </div>
+</article>

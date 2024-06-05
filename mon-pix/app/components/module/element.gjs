@@ -1,12 +1,12 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { eq } from 'ember-truth-helpers';
-import ImageElement from 'mon-pix/components/module/image';
-import QcmElement from 'mon-pix/components/module/qcm';
-import QcuElement from 'mon-pix/components/module/qcu';
-import QrocmElement from 'mon-pix/components/module/qrocm';
-import TextElement from 'mon-pix/components/module/text';
-import VideoElement from 'mon-pix/components/module/video';
+import ImageElement from 'mon-pix/components/module/element/image';
+import QcmElement from 'mon-pix/components/module/element/qcm';
+import QcuElement from 'mon-pix/components/module/element/qcu';
+import QrocmElement from 'mon-pix/components/module/element/qrocm';
+import TextElement from 'mon-pix/components/module/element/text';
+import VideoElement from 'mon-pix/components/module/element/video';
 
 export default class ModulixElement extends Component {
   @action
