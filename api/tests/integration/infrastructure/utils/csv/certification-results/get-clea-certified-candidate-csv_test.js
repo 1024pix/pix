@@ -1,4 +1,4 @@
-import { getCleaCertifiedCandidateCsv } from '../../../../../../lib/infrastructure/utils/csv/certification-results/get-clea-certified-candidate-csv.js';
+import { getCleaCertifiedCandidateCsv } from '../../../../../../src/certification/course/infrastructure/utils/csv/certification-results/get-clea-certified-candidate-csv.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Application | UseCases | certification-results | get-clea-certified-candidate-csv', function () {

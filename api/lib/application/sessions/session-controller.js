@@ -1,5 +1,6 @@
 import lodash from 'lodash';
 
+import { getSessionCertificationResultsCsv } from '../../../src/certification/course/infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
 import { usecases as enrolmentUsecases } from '../../../src/certification/enrolment/domain/usecases/index.js';
 import * as sessionValidator from '../../../src/certification/enrolment/domain/validators/session-validator.js';
 import * as certificationCandidateSerializer from '../../../src/certification/enrolment/infrastructure/serializers/certification-candidate-serializer.js';
@@ -16,7 +17,6 @@ import { fillCandidatesImportSheet } from '../../infrastructure/files/candidates
 import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
 import * as juryCertificationSummarySerializer from '../../infrastructure/serializers/jsonapi/jury-certification-summary-serializer.js';
 import * as jurySessionSerializer from '../../infrastructure/serializers/jsonapi/jury-session-serializer.js';
-import { getSessionCertificationResultsCsv } from '../../infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
 import { SessionPublicationBatchError } from '../http-errors.js';
 
 const { trim } = lodash;

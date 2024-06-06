@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import { getCsvContent } from '../write-csv-utils.js';
+import { getCsvContent } from '../../../../../../../lib/infrastructure/utils/csv/write-csv-utils.js';
 
 const getCleaCertifiedCandidateCsv = async function ({ cleaCertifiedCandidates }) {
   const fileHeaders = _buildFileHeadersForCleaCandidates(cleaCertifiedCandidates);
