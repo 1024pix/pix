@@ -499,8 +499,17 @@
     "certification-information": {
       "title": "information",
       "buttons": {
-        "previous": "Précédent",
-        "continuous": "Continuer"
+        "continuous": {
+          "label": "Continuer",
+          "aria-label": "Continuer vers l'écran suivant",
+          "last-page": {
+            "aria-label": "Continuer vers la page d'entrée en certification"
+          }
+        },
+        "previous":{
+          "label": "Précédent",
+          "aria-label": "Revenir vers l'écran précédent"
+        }
       },
       "screens": {
         "page1": {

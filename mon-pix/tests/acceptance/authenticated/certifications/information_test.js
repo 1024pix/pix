@@ -54,7 +54,7 @@ module('Acceptance | Certifications | Information', function (hooks) {
         assert.strictEqual(currentURL(), '/certifications/candidat/2/informations');
         assert.dom(screen.getByRole('heading', { name: 'Explication de la certification', level: 1 })).exists();
         assert.dom(screen.getByRole('heading', { name: 'Bienvenue à la certification Pix', level: 2 })).exists();
-        assert.dom(screen.getByRole('button', { name: 'Continuer' })).exists();
+        assert.dom(screen.getByRole('button', { name: "Continuer vers l'écran suivant" })).exists();
       });
     });
 

@@ -16,7 +16,7 @@ module('Integration | Component | certification-information', function (hooks) {
 
       // then
       assert.dom(screen.getByRole('heading', { name: 'Bienvenue à la certification Pix', level: 2 })).exists();
-      assert.dom(screen.getByRole('button', { name: 'Continuer' })).exists();
+      assert.dom(screen.getByRole('button', { name: "Continuer vers l'écran suivant" })).exists();
     });
 
     module('on first page', function () {
@@ -26,7 +26,7 @@ module('Integration | Component | certification-information', function (hooks) {
         const screen = await render(hbs`<CertificationInformation/>`);
 
         // then
-        assert.dom(screen.queryByRole('button', { name: 'Précédent' })).doesNotExist();
+        assert.dom(screen.queryByRole('button', { name: "Revenir vers l'écran précédent" })).doesNotExist();
       });
     });
 
@@ -36,25 +36,40 @@ module('Integration | Component | certification-information', function (hooks) {
         const screen = await render(hbs`<CertificationInformation/>`);
 
         // when
-        await click(screen.getByRole('button', { name: 'Continuer' }));
+        await click(screen.getByRole('button', { name: "Continuer vers l'écran suivant" }));
 
         // then
-        assert.dom(screen.getByRole('button', { name: 'Précédent' })).exists();
+        assert.dom(screen.getByRole('button', { name: "Revenir vers l'écran précédent" })).exists();
       });
     });
 
     module('on the last page', function () {
+      test('should change the continue aria label button', async function (assert) {
+        // given
+        const screen = await render(hbs`<CertificationInformation/>`);
+
+        // when
+        for (let i = 0; i < 4; i++) {
+          await click(screen.getByRole('button', { name: "Continuer vers l'écran suivant" }));
+        }
+
+        // then
+        assert.dom(screen.getByRole('button', { name: "Continuer vers la page d'entrée en certification" })).exists();
+      });
+
       test('should disable the continue button', async function (assert) {
         // given
         const screen = await render(hbs`<CertificationInformation/>`);
 
         // when
         for (let i = 0; i < 4; i++) {
-          await click(screen.getByRole('button', { name: 'Continuer' }));
+          await click(screen.getByRole('button', { name: "Continuer vers l'écran suivant" }));
         }
 
         // then
-        assert.dom(screen.getByRole('button', { name: 'Continuer' })).isDisabled();
+        assert
+          .dom(screen.getByRole('button', { name: "Continuer vers la page d'entrée en certification" }))
+          .isDisabled();
       });
     });
   });

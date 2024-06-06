@@ -35,6 +35,11 @@ export default class CertificationInformation extends Component {
     return this.pageId === this.pageCount;
   }
 
+  get nextButtonAriaLabel() {
+    const translationKey = this.pageId === this.pageCount ? 'last-page.aria-label' : 'aria-label';
+    return this.intl.t(`pages.certification-information.buttons.continuous.${translationKey}`);
+  }
+
   @action
   previousStep() {
     this.pageId = this.pageId - 1;

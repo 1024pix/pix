@@ -14,12 +14,22 @@
   </div>
   <div class="certification-information-footer__buttons">
     {{#if this.showPreviousButton}}
-      <PixButton @size="large" @variant="secondary" @triggerAction={{this.previousStep}}>{{t
-          "pages.certification-information.buttons.previous"
-        }}</PixButton>
+      <PixButton
+        @size="large"
+        @variant="secondary"
+        @triggerAction={{this.previousStep}}
+        aria-label={{t "pages.certification-information.buttons.previous.aria-label"}}
+      >
+        {{t "pages.certification-information.buttons.previous.label"}}
+      </PixButton>
     {{/if}}
-    <PixButton @size="large" @triggerAction={{this.nextStep}} @isDisabled={{this.isNextButtonDisabled}}>{{t
-        "pages.certification-information.buttons.continuous"
-      }}</PixButton>
+    <PixButton
+      @size="large"
+      @triggerAction={{this.nextStep}}
+      @isDisabled={{this.isNextButtonDisabled}}
+      aria-label={{this.nextButtonAriaLabel}}
+    >
+      {{t "pages.certification-information.buttons.continuous.label"}}
+    </PixButton>
   </div>
 </footer>

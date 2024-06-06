@@ -430,8 +430,17 @@
     "certification-information": {
       "title": "Explanation of certification",
       "buttons": {
-        "continuous": "Continue",
-        "previous": "Previous"
+        "continuous": {
+          "aria-label": "Continuer vers l'écran suivant",
+          "label": "Continuer",
+          "last-page": {
+            "aria-label": "Continuer vers la page d'entrée en certification"
+          }
+        },
+        "previous": {
+          "aria-label": "Revenir vers l'écran précédent",
+          "label": "Précédent"
+        }
       },
       "screens": {
         "page1": {
