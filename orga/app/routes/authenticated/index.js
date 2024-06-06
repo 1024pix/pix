@@ -5,10 +5,6 @@ export default class IndexRoute extends Route {
   @service router;
   @service currentUser;
   beforeModel() {
-    if (this.currentUser.shouldAccessMissionsPage) {
-      return this.router.replaceWith('authenticated.missions');
-    } else {
-      return this.router.replaceWith('authenticated.campaigns');
-    }
+    return this.router.replaceWith(this.currentUser.homePage);
   }
 }

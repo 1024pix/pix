@@ -59,6 +59,13 @@ export default class CurrentUserService extends Service {
     this.organization = organization;
   }
 
+  get homePage() {
+    if (this.shouldAccessMissionsPage) {
+      return 'authenticated.missions';
+    }
+    return 'authenticated.campaigns';
+  }
+
   get shouldAccessImportPage() {
     return Boolean(
       (this.isSCOManagingStudents || this.isSUPManagingStudents || this.hasLearnerImportFeature) &&
