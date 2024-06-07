@@ -20,7 +20,7 @@ services:
       - '${PIX_CACHE_PORT:-6379}:6379'
 
   s3:
-    image: adobe/s3mock:3.8.0
+    image: adobe/s3mock:3.9.1
     container_name: pix-api-s3
     environment:
       - initialBuckets=pix-import-dev,pix-import-test
