@@ -1,5 +1,5 @@
-import { findCampaignParticipationsForUserManagement } from '../../../../lib/domain/usecases/find-campaign-participations-for-user-management.js';
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { findCampaignParticipationsForUserManagement } from '../../../../../../src/prescription/campaign-participation/domain/usecases/find-campaign-participations-for-user-management.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | findCampaignParticipationsForUserManagement', function () {
   const userId = 1;
