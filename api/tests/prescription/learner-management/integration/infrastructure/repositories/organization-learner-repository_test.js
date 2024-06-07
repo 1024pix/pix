@@ -9,6 +9,7 @@ import {
   addOrUpdateOrganizationOfOrganizationLearners,
   disableAllOrganizationLearnersInOrganization,
   disableCommonOrganizationLearnersFromOrganizationId,
+  findAllCommonLearnersFromOrganizationId,
   removeByIds,
   saveCommonOrganizationLearners,
 } from '../../../../../../src/prescription/learner-management/infrastructure/repositories/organization-learner-repository.js';
@@ -1117,6 +1118,133 @@ describe('Integration | Repository | Organization Learner Management | Organizat
         .first();
 
       expect(organizationLearnerFromDatabase.isDisabled).to.equal(false);
+    });
+  });
+
+  describe('#findAllCommonLearnersFromOrganizationId', function () {
+    let organizationId;
+
+    beforeEach(async function () {
+      organizationId = databaseBuilder.factory.buildOrganization().id;
+      await databaseBuilder.commit();
+    });
+
+    it('should retrieve active learners', async function () {
+      // given
+      const firstLearnerData = new CommonOrganizationLearner({
+        firstName: 'Sacha',
+        lastName: 'Du Bourg Palette',
+        organizationId,
+        INE: '234567890',
+        hooby: 'Pokemon Hunter',
+      });
+
+      const { firstName, lastName, id, userId, attributes, isDisabled } =
+        await databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+          ...firstLearnerData,
+          isDisabled: false,
+          organizationId,
+        });
+
+      await databaseBuilder.commit();
+
+      // when
+      const organizationLearners = await findAllCommonLearnersFromOrganizationId({
+        organizationId,
+      });
+
+      // then
+      expect(organizationLearners).lengthOf(1);
+      expect(organizationLearners[0]).instanceOf(CommonOrganizationLearner);
+      expect(organizationLearners[0]).to.be.deep.equal({
+        firstName,
+        lastName,
+        id,
+        isDisabled,
+        userId,
+        attributes,
+        organizationId,
+      });
+    });
+
+    it('should retrieve disable learner', async function () {
+      // given
+      const learnerData = new CommonOrganizationLearner({
+        firstName: 'Sacha',
+        lastName: 'Du Bourg Palette',
+        organizationId,
+        INE: '234567890',
+      });
+
+      await databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+        ...learnerData,
+        isDisabled: true,
+        organizationId,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const organizationLearners = await findAllCommonLearnersFromOrganizationId({
+        organizationId,
+      });
+
+      // then
+      expect(organizationLearners).lengthOf(1);
+    });
+
+    it('should not retrieve deleted learner', async function () {
+      // given
+      const learnerData = new CommonOrganizationLearner({
+        firstName: 'Sacha',
+        lastName: 'Du Bourg Palette',
+        organizationId,
+        INE: '234567890',
+      });
+
+      const userId = databaseBuilder.factory.buildUser().id;
+
+      await databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+        ...learnerData,
+        isDisabled: false,
+        deletedAt: new Date('2020-01-01'),
+        deletedBy: userId,
+        organizationId,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const organizationLearners = await findAllCommonLearnersFromOrganizationId({
+        organizationId,
+      });
+
+      // then
+      expect(organizationLearners).lengthOf(0);
+    });
+
+    it('should not retrieve learner from otherOrganizationId', async function () {
+      // given
+      const otherOrganizationId = databaseBuilder.factory.buildOrganization({}).id;
+      const learnerData = new CommonOrganizationLearner({
+        firstName: 'Sacha',
+        lastName: 'Du Bourg Palette',
+        organizationId: otherOrganizationId,
+        INE: '234567890',
+      });
+
+      await databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+        ...learnerData,
+        isDisabled: false,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const organizationLearners = await findAllCommonLearnersFromOrganizationId({
+        organizationId,
+      });
+
+      // then
+      expect(organizationLearners).lengthOf(0);
     });
   });
 });
