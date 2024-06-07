@@ -1,11 +1,11 @@
-import { poleEmploiController } from '../../../../../src/prescription/campaign-participation/application/pole-emploi-controller.js';
-import * as moduleUnderTest from '../../../../../src/prescription/campaign-participation/application/pole-emploi-route.js';
+import * as moduleUnderTest from '../../../../lib/application/pole-emploi/index.js';
+import { poleEmploiController } from '../../../../lib/application/pole-emploi/pole-emploi-controller.js';
 import {
   expect,
   generateValidRequestAuthorizationHeaderForApplication,
   HttpTestServer,
   sinon,
-} from '../../../../test-helper.js';
+} from '../../../test-helper.js';
 
 describe('Unit | Router | pole-emploi-router', function () {
   describe('GET /api/pole-emploi/envois', function () {

@@ -29,21 +29,17 @@ import * as campaignParticipationRepository from '../../infrastructure/repositor
 import * as campaignProfileRepository from '../../infrastructure/repositories/campaign-profile-repository.js';
 import * as participationsForCampaignManagementRepository from '../../infrastructure/repositories/participations-for-campaign-management-repository.js';
 import * as participationsForUserManagementRepository from '../../infrastructure/repositories/participations-for-user-management-repository.js';
-import * as poleEmploiSendingRepository from '../../infrastructure/repositories/pole-emploi-sending-repository.js';
-
-function requirePoleEmploiNotifier() {
-  if (config.poleEmploi.pushEnabled) {
-    return poleEmploiNotifier;
-  } else {
-    return disabledPoleEmploiNotifier;
-  }
-}
 
 const dependencies = {
+  campaignRepository,
+  campaignParticipationRepository,
+  campaignParticipantRepository,
+  knowledgeElementRepository,
+  campaignProfileRepository,
   assessmentRepository,
-  authenticationMethodRepository,
-  badgeRepository,
-  badgeAcquisitionRepository,
+  competenceEvaluationRepository,
+  learningContentRepository,
+  tutorialRepository,
   campaignAnalysisRepository,
   campaignAssessmentParticipationRepository,
   campaignAssessmentParticipationResultRepository,
@@ -59,12 +55,6 @@ const dependencies = {
   learningContentRepository,
   organizationRepository,
   participationsForCampaignManagementRepository,
-  poleEmploiSendingRepository,
-  poleEmploiNotifier: requirePoleEmploiNotifier(),
-  stageCollectionRepository,
-  targetProfileRepository,
-  tutorialRepository,
-  userRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
