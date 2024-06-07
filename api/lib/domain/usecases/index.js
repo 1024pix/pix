@@ -108,6 +108,8 @@ import * as resetPasswordService from '../../domain/services/reset-password-serv
 import * as scoringCertificationService from '../../domain/services/scoring/scoring-certification-service.js';
 import * as sessionPublicationService from '../../domain/services/session-publication-service.js';
 import * as verifyCertificateCodeService from '../../domain/services/verify-certificate-code-service.js';
+import * as disabledPoleEmploiNotifier from '../../infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js';
+import * as poleEmploiNotifier from '../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
 import * as accountRecoveryDemandRepository from '../../infrastructure/repositories/account-recovery-demand-repository.js';
 import * as attachableTargetProfileRepository from '../../infrastructure/repositories/attachable-target-profiles-repository.js';
 import * as badgeAcquisitionRepository from '../../infrastructure/repositories/badge-acquisition-repository.js';
@@ -173,6 +175,14 @@ import * as organizationValidator from '../validators/organization-with-tags-and
 import { findTargetProfileOrganizations as findPaginatedFilteredTargetProfileOrganizations } from './find-paginated-filtered-target-profile-organizations.js';
 
 const oidcAuthenticationServiceRegistry = new OidcAuthenticationServiceRegistry({ oidcProviderRepository });
+
+function requirePoleEmploiNotifier() {
+  if (config.poleEmploi.pushEnabled) {
+    return poleEmploiNotifier;
+  } else {
+    return disabledPoleEmploiNotifier;
+  }
+}
 
 /**
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
@@ -303,6 +313,7 @@ const dependencies = {
   pickChallengeService,
   pixAuthenticationService,
   placementProfileService,
+  poleEmploiNotifier: requirePoleEmploiNotifier(),
   poleEmploiSendingRepository,
   refreshTokenService,
   resetPasswordDemandRepository,

@@ -1,5 +1,4 @@
 import { AutoJuryDone } from '../../../../lib/domain/events/AutoJuryDone.js';
-import { _forTestOnly } from '../../../../lib/domain/events/index.js';
 import { SessionFinalized } from '../../../../lib/domain/events/SessionFinalized.js';
 import { expect } from '../../../test-helper.js';
 import { buildEventDispatcherAndHandlersForTest } from '../../../tooling/events/event-dispatcher-builder.js';
@@ -7,7 +6,7 @@ import { buildEventDispatcherAndHandlersForTest } from '../../../tooling/events/
 describe('Event Choreography | Finalized session', function () {
   it('Should trigger the automated jury', async function () {
     // given
-    const { handlerStubs, eventDispatcher } = buildEventDispatcherAndHandlersForTest(_forTestOnly);
+    const { handlerStubs, eventDispatcher } = buildEventDispatcherAndHandlersForTest();
     const event = new SessionFinalized({});
 
     // when
@@ -19,7 +18,7 @@ describe('Event Choreography | Finalized session', function () {
 
   it('Should trigger persisting a finalized session on Auto Jury Done event', async function () {
     // given
-    const { handlerStubs, eventDispatcher } = buildEventDispatcherAndHandlersForTest(_forTestOnly);
+    const { handlerStubs, eventDispatcher } = buildEventDispatcherAndHandlersForTest();
     const event = new AutoJuryDone({});
 
     // when

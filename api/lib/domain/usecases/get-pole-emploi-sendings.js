@@ -1,4 +1,4 @@
-import * as poleEmploiService from '../services/pole-emploi-service.js';
+import * as poleEmploiService from '../../domain/services/pole-emploi-service.js';
 
 const getPoleEmploiSendings = async function ({ cursorData, poleEmploiSendingRepository, filters }) {
   const sendings = await poleEmploiSendingRepository.find(cursorData, filters);

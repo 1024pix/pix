@@ -1,4 +1,4 @@
-import { config } from '../../../../../lib/config.js';
+import { config } from '../../config.js';
 
 function generateLink(sending, filters = {}) {
   const host = config.apiManager.url;

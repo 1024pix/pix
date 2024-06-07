@@ -1,6 +1,6 @@
 import { CampaignParticipationResultsShared } from '../../../../../lib/domain/events/CampaignParticipationResultsShared.js';
+import { usecases } from '../../../../../lib/domain/usecases/index.js';
 import { SendSharedParticipationResultsToPoleEmploiHandler } from '../../../../../lib/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiHandler.js';
-import { usecases } from '../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
 import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Jobs | SendSharedParticipationResultsToPoleEmploiHandler', function () {

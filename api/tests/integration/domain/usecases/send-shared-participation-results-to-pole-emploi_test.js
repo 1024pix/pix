@@ -1,5 +1,5 @@
-import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
-import * as poleEmploiNotifier from '../../../../../../src/prescription/campaign-participation/infrastructure/externals/pole-emploi-notifier.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import * as poleEmploiNotifier from '../../../../lib/infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
 import {
   databaseBuilder,
   expect,
@@ -7,7 +7,7 @@ import {
   learningContentBuilder,
   mockLearningContent,
   sinon,
-} from '../../../../../test-helper.js';
+} from '../../../test-helper.js';
 
 describe('Integration | Domain | UseCases | send-shared-participation-results-to-pole-emploi', function () {
   let campaignParticipationId, userId, responseCode;

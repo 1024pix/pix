@@ -5,7 +5,7 @@ import * as poleEmploiSendingRepository from '../../../../lib/infrastructure/rep
 import { databaseBuilder, expect } from '../../../test-helper.js';
 const poleEmploiSendingFactory = databaseBuilder.factory.poleEmploiSendingFactory;
 
-describe('Integration | UseCase | get-pole-emploi-sendings', function () {
+describe('Integration | UseCase | get-campaign-participations-counts-by-stage', function () {
   let originalEnv;
   let sending1;
   let sending2;
