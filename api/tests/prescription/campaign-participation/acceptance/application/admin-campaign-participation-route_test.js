@@ -3,9 +3,9 @@ import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
 
-describe('Acceptance | Controller | GET /api/admin/users/{id}/participations', function () {
+describe('Acceptance | Controller | GET /api/admin/users/{userId}/participations', function () {
   let server;
 
   beforeEach(async function () {

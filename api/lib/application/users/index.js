@@ -113,31 +113,6 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/admin/users/{id}/participations',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.userId,
-          }),
-        },
-        handler: userController.findCampaignParticipationsForUserManagement,
-        notes: ["- Permet à un administrateur de lister les participations d'un utilisateur à une campagne"],
-        tags: ['api', 'user', 'campaign-participations'],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/admin/users/{id}/organizations',
       config: {
         pre: [

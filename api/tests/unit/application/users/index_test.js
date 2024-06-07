@@ -1195,42 +1195,5 @@ describe('Unit | Router | user-router', function () {
         sinon.assert.notCalled(userController.reassignAuthenticationMethods);
       });
     });
-
-    describe('GET /api/admin/users/{id}/participations', function () {
-      it('returns an HTTP status code 200', async function () {
-        // given
-        sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
-        sinon.stub(userController, 'findCampaignParticipationsForUserManagement').resolves('ok');
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-
-        // when
-        const response = await httpTestServer.request('GET', '/api/admin/users/8/participations');
-
-        // then
-        expect(response.statusCode).to.equal(200);
-        sinon.assert.calledOnce(securityPreHandlers.hasAtLeastOneAccessOf);
-        sinon.assert.calledOnce(userController.findCampaignParticipationsForUserManagement);
-      });
-
-      it('returns an HTTP status code 403', async function () {
-        // given
-        sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns((request, h) =>
-          h
-            .response({ errors: new Error('') })
-            .code(403)
-            .takeover(),
-        );
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-
-        // when
-        const response = await httpTestServer.request('GET', '/api/admin/users/8/participations');
-
-        // then
-        expect(response.statusCode).to.equal(403);
-        sinon.assert.calledOnce(securityPreHandlers.hasAtLeastOneAccessOf);
-      });
-    });
   });
 });
