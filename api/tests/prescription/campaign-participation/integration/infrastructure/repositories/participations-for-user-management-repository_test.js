@@ -1,9 +1,9 @@
 import _ from 'lodash';
 
-import { CampaignParticipationForUserManagement } from '../../../../lib/domain/read-models/CampaignParticipationForUserManagement.js';
-import * as participationsForUserManagementRepository from '../../../../lib/infrastructure/repositories/participations-for-user-management-repository.js';
-import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
-import { databaseBuilder, expect } from '../../../test-helper.js';
+import { CampaignParticipationForUserManagement } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignParticipationForUserManagement.js';
+import * as participationsForUserManagementRepository from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/participations-for-user-management-repository.js';
+import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { databaseBuilder, expect } from '../../../../../test-helper.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 

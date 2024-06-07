@@ -150,7 +150,7 @@ import * as organizationMemberIdentityRepository from '../../infrastructure/repo
 import * as organizationTagRepository from '../../infrastructure/repositories/organization-tag-repository.js';
 import * as participantResultRepository from '../../infrastructure/repositories/participant-result-repository.js';
 import { participantResultsSharedRepository } from '../../infrastructure/repositories/participant-results-shared-repository.js';
-import * as participationsForUserManagementRepository from '../../infrastructure/repositories/participations-for-user-management-repository.js';
+import * as participationsForUserManagementRepository from '../../../src/prescription/campaign-participation/infrastructure/repositories/participations-for-user-management-repository.js';
 import * as resetPasswordDemandRepository from '../../infrastructure/repositories/reset-password-demands-repository.js';
 import * as scoCertificationCandidateRepository from '../../infrastructure/repositories/sco-certification-candidate-repository.js';
 import * as studentRepository from '../../infrastructure/repositories/student-repository.js';
