@@ -1,6 +1,6 @@
 import { knex } from '../../../db/knex-database-connection.js';
+import { ComplementaryCertificationCourseResult } from '../../../src/certification/complementary-certification/domain/models/ComplementaryCertificationCourseResult.js';
 import { CertificationResult } from '../../domain/models/CertificationResult.js';
-import { ComplementaryCertificationCourseResult } from '../../domain/models/ComplementaryCertificationCourseResult.js';
 
 const findBySessionId = async function ({ sessionId }) {
   const certificationResultDTOs = await _selectCertificationResults()

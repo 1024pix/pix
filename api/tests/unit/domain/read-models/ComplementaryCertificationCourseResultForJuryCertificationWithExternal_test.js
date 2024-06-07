@@ -1,5 +1,5 @@
-import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
 import { ComplementaryCertificationCourseResultForJuryCertificationWithExternal } from '../../../../lib/domain/read-models/ComplementaryCertificationCourseResultForJuryCertificationWithExternal.js';
+import { ComplementaryCertificationCourseResult } from '../../../../src/certification/complementary-certification/domain/models/ComplementaryCertificationCourseResult.js';
 import { domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | ComplementaryCertificationCourseResultForJuryCertificationWithExternal', function () {

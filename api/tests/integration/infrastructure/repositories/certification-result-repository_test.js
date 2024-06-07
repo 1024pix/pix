@@ -1,6 +1,6 @@
 import { CertificationResult } from '../../../../lib/domain/models/CertificationResult.js';
-import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
 import * as certificationResultRepository from '../../../../lib/infrastructure/repositories/certification-result-repository.js';
+import { ComplementaryCertificationCourseResult } from '../../../../src/certification/complementary-certification/domain/models/ComplementaryCertificationCourseResult.js';
 import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
 import { databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 

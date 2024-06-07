@@ -1,4 +1,4 @@
-import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
+import { ComplementaryCertificationCourseResult } from '../../../../src/certification/complementary-certification/domain/models/ComplementaryCertificationCourseResult.js';
 import {
   createServer,
   databaseBuilder,

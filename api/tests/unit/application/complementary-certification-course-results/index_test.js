@@ -1,6 +1,6 @@
 import { complementaryCertificationCourseResultsController } from '../../../../lib/application/complementary-certification-course-results/complementary-certification-course-results-controller.js';
 import * as moduleUnderTest from '../../../../lib/application/complementary-certification-course-results/index.js';
-import { juryOptions } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
+import { juryOptions } from '../../../../src/certification/complementary-certification/domain/models/ComplementaryCertificationCourseResult.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 

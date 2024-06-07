@@ -1,6 +1,6 @@
+import { ComplementaryCertificationCourseResult } from '../../../src/certification/complementary-certification/domain/models/ComplementaryCertificationCourseResult.js';
 import { config } from '../../config.js';
 import { AnswerCollectionForScoring } from '../models/AnswerCollectionForScoring.js';
-import { ComplementaryCertificationCourseResult } from '../models/ComplementaryCertificationCourseResult.js';
 import { ComplementaryCertificationScoringWithComplementaryReferential } from '../models/ComplementaryCertificationScoringWithComplementaryReferential.js';
 import { ComplementaryCertificationScoringWithoutComplementaryReferential } from '../models/ComplementaryCertificationScoringWithoutComplementaryReferential.js';
 import { ReproducibilityRate } from '../models/ReproducibilityRate.js';

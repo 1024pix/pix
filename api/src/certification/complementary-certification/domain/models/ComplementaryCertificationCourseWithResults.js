@@ -8,7 +8,7 @@
  * @property {Source} source
  */
 
-import { _ } from '../../infrastructure/utils/lodash-utils.js';
+import { _ } from '../../../../../lib/infrastructure/utils/lodash-utils.js';
 import { sources } from './ComplementaryCertificationCourseResult.js';
 
 class ComplementaryCertificationCourseWithResults {

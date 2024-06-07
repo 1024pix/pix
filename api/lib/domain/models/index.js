@@ -1,4 +1,5 @@
 import { ComplementaryCertification } from '../../../src/certification/complementary-certification/domain/models/ComplementaryCertification.js';
+import { ComplementaryCertificationCourseResult } from '../../../src/certification/complementary-certification/domain/models/ComplementaryCertificationCourseResult.js';
 import { CertificationAttestation } from '../../../src/certification/course/domain/models/CertificationAttestation.js';
 import { AssessmentSimulator } from '../../../src/certification/flash-certification/domain/models/AssessmentSimulator.js';
 import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certification/domain/models/FlashAssessmentAlgorithm.js';
@@ -72,7 +73,6 @@ import { CertifiedScore } from './CertifiedScore.js';
 import { CompetenceMark } from './CompetenceMark.js';
 import { CompetenceResult } from './CompetenceResult.js';
 import { CompetenceTree } from './CompetenceTree.js';
-import { ComplementaryCertificationCourseResult } from './ComplementaryCertificationCourseResult.js';
 import { ComplementaryCertificationHabilitation } from './ComplementaryCertificationHabilitation.js';
 import { ComplementaryCertificationScoringCriteria } from './ComplementaryCertificationScoringCriteria.js';
 import { ComplementaryCertificationScoringWithComplementaryReferential } from './ComplementaryCertificationScoringWithComplementaryReferential.js';

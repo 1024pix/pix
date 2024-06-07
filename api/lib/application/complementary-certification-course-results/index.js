@@ -1,8 +1,8 @@
 import Joi from 'joi';
 
+import { juryOptions } from '../../../src/certification/complementary-certification/domain/models/ComplementaryCertificationCourseResult.js';
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
-import { juryOptions } from '../../domain/models/ComplementaryCertificationCourseResult.js';
 import { complementaryCertificationCourseResultsController } from './complementary-certification-course-results-controller.js';
 
 const register = async function (server) {

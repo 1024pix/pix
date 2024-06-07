@@ -1,5 +1,5 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { ComplementaryCertificationCourseWithResults } from '../../../../../lib/domain/models/ComplementaryCertificationCourseWithResults.js';
+import { ComplementaryCertificationCourseWithResults } from '../../domain/models/ComplementaryCertificationCourseWithResults.js';
 
 const findByUserId = async function ({ userId }) {
   const results = await knex

@@ -1,6 +1,6 @@
 import { config } from '../../../../lib/config.js';
-import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { ComplementaryCertificationCourseResult } from '../../../../src/certification/complementary-certification/domain/models/ComplementaryCertificationCourseResult.js';
 import { CertificationAssessment } from '../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
 import { CertificationIssueReportCategory } from '../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
 import {
