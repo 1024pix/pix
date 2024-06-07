@@ -31,7 +31,7 @@ const saveOrganizationLearnersFile = async function ({
 
     learnerSet.addLearners(learners);
 
-    await organizationLearnerRepository.disableCommonOrganizationLearnersFromOrganizationId(organizationId);
+    await organizationLearnerRepository.disableCommonOrganizationLearnersFromOrganizationId({ organizationId });
     await organizationLearnerRepository.saveCommonOrganizationLearners(learnerSet.learners);
   } catch (error) {
     if (Array.isArray(error)) {

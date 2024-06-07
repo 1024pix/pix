@@ -68,9 +68,17 @@ const saveCommonOrganizationLearners = function (learners) {
   const knex = ApplicationTransaction.getConnection();
   return knex('organization-learners').insert(learners);
 };
-const disableCommonOrganizationLearnersFromOrganizationId = function (organizationId) {
+
+const disableCommonOrganizationLearnersFromOrganizationId = function ({
+  organizationId,
+  excludeOrganizationLearnerIds = [],
+}) {
   const knex = ApplicationTransaction.getConnection();
-  return knex('organization-learners').where({ organizationId }).update({ isDisabled: true, updatedAt: new Date() });
+  return knex('organization-learners')
+    .where({ organizationId, isDisabled: false })
+    .whereNull('deletedAt')
+    .update({ isDisabled: true, updatedAt: new Date() })
+    .whereNotIn('id', excludeOrganizationLearnerIds);
 };
 
 export {

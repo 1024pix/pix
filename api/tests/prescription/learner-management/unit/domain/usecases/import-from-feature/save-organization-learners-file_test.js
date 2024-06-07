@@ -111,9 +111,9 @@ describe('Unit | UseCase | saveOrganizationLearnersFile', function () {
 
       // then
       expect(
-        organizationLearnerRepositoryStub.disableCommonOrganizationLearnersFromOrganizationId.calledOnceWithExactly(
+        organizationLearnerRepositoryStub.disableCommonOrganizationLearnersFromOrganizationId.calledOnceWithExactly({
           organizationId,
-        ),
+        }),
         'organizationLearnerRepository.disableCommonOrganizationLearnersFromOrganizationId',
       ).to.be.true;
       expect(

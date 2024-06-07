@@ -1033,7 +1033,7 @@ describe('Integration | Repository | Organization Learner Management | Organizat
       await databaseBuilder.commit();
 
       // when
-      await disableCommonOrganizationLearnersFromOrganizationId(organizationId);
+      await disableCommonOrganizationLearnersFromOrganizationId({ organizationId });
 
       // then
       const [organizationLearner] = await knex.from('organization-learners');
@@ -1058,7 +1058,7 @@ describe('Integration | Repository | Organization Learner Management | Organizat
       await databaseBuilder.commit();
 
       // when
-      await disableCommonOrganizationLearnersFromOrganizationId(organizationId);
+      await disableCommonOrganizationLearnersFromOrganizationId({ organizationId });
 
       // then
       const organizationLearners = await knex.from('organization-learners').where({
@@ -1069,13 +1069,43 @@ describe('Integration | Repository | Organization Learner Management | Organizat
       expect(organizationLearners.map(({ id }) => id)).to.have.members([learner1.id, learner2.id]);
     });
 
+    it('should disable organization learners not in list from an organizationId', async function () {
+      // given
+      const learner1 = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId,
+      });
+
+      const learner2 = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId,
+      });
+
+      const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+      databaseBuilder.factory.buildOrganizationLearner({ organizationId: otherOrganizationId });
+
+      await databaseBuilder.commit();
+
+      // when
+      await disableCommonOrganizationLearnersFromOrganizationId({
+        organizationId,
+        excludeOrganizationLearnerIds: [learner1.id],
+      });
+
+      // then
+      const organizationLearners = await knex.from('organization-learners').where({
+        isDisabled: true,
+      });
+
+      expect(organizationLearners).lengthOf(1);
+      expect(organizationLearners.map(({ id }) => id)).to.have.members([learner2.id]);
+    });
+
     it('should not disable the learner when error occured', async function () {
       const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
       await databaseBuilder.commit();
 
       try {
         await ApplicationTransaction.execute(async () => {
-          await disableCommonOrganizationLearnersFromOrganizationId(organizationId);
+          await disableCommonOrganizationLearnersFromOrganizationId({ organizationId });
           throw new Error();
         });
       } catch {
