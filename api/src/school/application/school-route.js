@@ -25,6 +25,24 @@ const register = async function (server) {
         ],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/pix1d/schools/{organizationId}/session/activate',
+      config: {
+        pre: [
+          { method: securityPreHandlers.checkPix1dActivated },
+          { method: securityPreHandlers.checkUserBelongsToOrganization },
+        ],
+        validate: {
+          params: Joi.object({
+            organizationId: identifiersType.organizationId,
+          }),
+        },
+        handler: schoolController.activateSchoolSession,
+        tags: ['api', 'pix1d', 'school'],
+        notes: ["- Elle permet de d'activer une session d'une orga"],
+      },
+    },
   ]);
 };
 

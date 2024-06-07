@@ -308,6 +308,9 @@
       "link": "voir le détail",
       "number": "{count, plural, =0 {0 place disponible} =1 {1 place disponible} other {{count} places disponibles}}"
     },
+    "school-sessions": {
+      "activate-button": "Activer la session"
+    },
     "team-members": {
       "aria-label": "Navigation de la section équipe"
     },

@@ -31,4 +31,7 @@ const getById = async function (organizationId) {
   return result.code;
 };
 
-export { getByCode, getById, isCodeAvailable, save };
+const updateSessionExpirationDate = async function (organizationId, sessionExpirationDate) {
+  await knex('schools').where({ organizationId }).update({ sessionExpirationDate });
+};
+export { getByCode, getById, isCodeAvailable, save, updateSessionExpirationDate };

@@ -7,5 +7,11 @@ const getSchool = async function (request) {
   return schoolSerializer.serialize(school);
 };
 
-const schoolController = { getSchool };
+const activateSchoolSession = async function (request, h) {
+  const { organizationId } = request.params;
+  await usecases.activateSchoolSession({ organizationId });
+  return h.response().code(204);
+};
+
+const schoolController = { getSchool, activateSchoolSession };
 export { schoolController };
