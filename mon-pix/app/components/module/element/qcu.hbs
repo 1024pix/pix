@@ -14,18 +14,17 @@
 
     <div class="element-qcu__proposals">
       {{#each this.element.proposals as |proposal|}}
-        <div class="element-qcu-proposals__proposal">
-          <PixRadioButton
-            name={{this.element.id}}
-            @value={{proposal.id}}
-            @isDisabled={{this.disableInput}}
-            {{on "click" (fn this.radioClicked proposal.id)}}
-          >
-            <:label>
-              {{proposal.content}}
-            </:label>
-          </PixRadioButton>
-        </div>
+        <PixRadioButton
+          name={{this.element.id}}
+          @value={{proposal.id}}
+          @isDisabled={{this.disableInput}}
+          @variant="tile"
+          {{on "click" (fn this.radioClicked proposal.id)}}
+        >
+          <:label>
+            {{proposal.content}}
+          </:label>
+        </PixRadioButton>
       {{/each}}
     </div>
   </fieldset>
