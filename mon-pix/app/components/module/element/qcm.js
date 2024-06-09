@@ -13,7 +13,7 @@ export default class ModuleQcm extends ModuleElement {
   }
 
   get disableInput() {
-    return super.disableInput ? 'true' : null;
+    return super.disableInput ? true : null;
   }
 
   resetAnswers() {
