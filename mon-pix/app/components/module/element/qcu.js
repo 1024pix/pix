@@ -23,6 +23,6 @@ export default class ModuleQcu extends ModuleElement {
   }
 
   get disableInput() {
-    return super.disableInput ? 'true' : null;
+    return super.disableInput ? true : null;
   }
 }
