@@ -1,5 +1,40 @@
 # Pix Changelog
 
+## v4.159.0 (10/06/2024)
+
+
+### :rocket: Amélioration
+- [#9099](https://github.com/1024pix/pix/pull/9099) [FEATURE] Ajouter le chargement d'une campagne dans le simulateur Smart Random (PIX-12731).
+- [#9185](https://github.com/1024pix/pix/pull/9185) [FEATURE] Ouvre Pix Junior depuis Pix Orga dans un nouvel onglet.
+
+### :building_construction: Tech
+- [#9127](https://github.com/1024pix/pix/pull/9127) [TECH] Montée de version ember pix-certif (PIX-12776).
+- [#9189](https://github.com/1024pix/pix/pull/9189) [TECH] Migrer la route `/api/admin/users/{id}/participations` vers src (Pix-12849).
+- [#9160](https://github.com/1024pix/pix/pull/9160) [TECH] Réorganisation des tests de scoring-certification-service.js (PIX-12827).
+- [#9159](https://github.com/1024pix/pix/pull/9159) [TECH] Migrer `/api/frameworks/for-target-profile-submission` vers le context target profile (PIX-12832).
+- [#9156](https://github.com/1024pix/pix/pull/9156) [TECH] Arrêter d'utiliser les Ember Pods sur Modulix (PIX-12699).
+- [#9056](https://github.com/1024pix/pix/pull/9056) [TECH] Migrer supervising vers session-management (PIX-12676).
+
+### :bug: Correction
+- [#9181](https://github.com/1024pix/pix/pull/9181) [BUGFIX] Blob rouge de page d'erreur tronqué.
+- [#9153](https://github.com/1024pix/pix/pull/9153) [BUGFIX] Corriger l'absence de langue à utiliser pour les épreuves de preview (PIX-12813).
+- [#9182](https://github.com/1024pix/pix/pull/9182) [BUGFIX] Ignore la casse du code école dans l'URL d'accès direct (PIX-12852).
+- [#9184](https://github.com/1024pix/pix/pull/9184) [BUGFIX] Ajoute le point d'exclamation dans le bouton de démarrage de mission sur Pix Junior.
+- [#9179](https://github.com/1024pix/pix/pull/9179) [BUGFIX] Ne pas afficher les boutons de vocalisation si la fonctionnalité a été désactivée sur le navigateur (PIX-12831).
+
+### :arrow_up: Montée de version
+- [#9204](https://github.com/1024pix/pix/pull/9204) [BUMP] Lock file maintenance (load-testing).
+- [#9202](https://github.com/1024pix/pix/pull/9202) [BUMP] Lock file maintenance (dossier racine).
+- [#9201](https://github.com/1024pix/pix/pull/9201) [BUMP] Lock file maintenance (api).
+- [#9199](https://github.com/1024pix/pix/pull/9199) [BUMP] Update nginx Docker tag to v1.27.0.
+- [#9198](https://github.com/1024pix/pix/pull/9198) [BUMP] Update dependency @1024pix/pix-ui to ^46.9.0 (orga).
+- [#9197](https://github.com/1024pix/pix/pull/9197) [BUMP] Update dependency @1024pix/pix-ui to ^46.9.0 (junior).
+- [#9177](https://github.com/1024pix/pix/pull/9177) [BUMP] Update adobe/s3mock Docker tag to v3.9.1 (.circleci).
+- [#9196](https://github.com/1024pix/pix/pull/9196) [BUMP] Update dependency @1024pix/pix-ui to ^46.9.0 (admin).
+- [#9195](https://github.com/1024pix/pix/pull/9195) [BUMP] Update adobe/s3mock Docker tag to v3.9.1 (dossier racine).
+- [#9183](https://github.com/1024pix/pix/pull/9183) [BUMP] Update adobe/s3mock Docker tag to v3.9.1 (docker).
+- [#9193](https://github.com/1024pix/pix/pull/9193) [BUMP] Update dependency @1024pix/pix-ui to ^46.9.0 (mon-pix).
+
 ## v4.158.0 (05/06/2024)
 
 
