@@ -76,8 +76,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Bien vu&#8239;! C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/a-huit-mois-un-bebe-comprend-deja-la-notion-d-outil-y-compris-les-nouvelles-technologies_176388\" target=\"_blank\">article du magazine Sciences et Avenir</a>.</p>",
-              "invalid": "<p>Et pourtant, c'est vrai&#8239;! C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/a-huit-mois-un-bebe-comprend-deja-la-notion-d-outil-y-compris-les-nouvelles-technologies_176388\" target=\"_blank\">article du magazine Sciences et Avenir</a>.</p>"
+              "valid": "<span class=\"feedback__state\">Bien vu&#8239;!</span><p>C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/a-huit-mois-un-bebe-comprend-deja-la-notion-d-outil-y-compris-les-nouvelles-technologies_176388\" target=\"_blank\">article du magazine Sciences et Avenir</a>.</p>",
+              "invalid": "<span class=\"feedback__state\">Et pourtant, c'est vrai&#8239;!</span><p> C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/a-huit-mois-un-bebe-comprend-deja-la-notion-d-outil-y-compris-les-nouvelles-technologies_176388\" target=\"_blank\">article du magazine Sciences et Avenir</a>.</p>"
             },
             "solution": "1"
           }
@@ -117,8 +117,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Bravo&#8239;! C'est le titre d'un <a href=\"https://www.slate.fr/story/252022/san-francisco-navettes-sans-conducteurs-autonomes\" target=\"_blank\">article de Slate</a>.</p>",
-              "invalid": "<p>Et pourtant, c'est vrai&#8239;! C'est le titre d'un <a href=\"https://www.slate.fr/story/252022/san-francisco-navettes-sans-conducteurs-autonomes\" target=\"_blank\">article de Slate</a>.</p>"
+              "valid": "<span class=\"feedback__state\">Bravo&#8239;!</span><p> C'est le titre d'un <a href=\"https://www.slate.fr/story/252022/san-francisco-navettes-sans-conducteurs-autonomes\" target=\"_blank\">article de Slate</a>.</p>",
+              "invalid": "<span class=\"feedback__state\">Et pourtant, c'est vrai&#8239;!</span><p> C'est le titre d'un <a href=\"https://www.slate.fr/story/252022/san-francisco-navettes-sans-conducteurs-autonomes\" target=\"_blank\">article de Slate</a>.</p>"
             },
             "solution": "1"
           }
@@ -158,8 +158,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Oui, c'est une fake news&#8239;! C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a>.</p>",
-              "invalid": "<p>Attention, c'est une fake news&#8239;! C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a>.</p>"
+              "valid": "<span class=\"feedback__state\">Oui, c'est une fake news&#8239;!</span><p> C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a>.</p>",
+              "invalid": "<span class=\"feedback__state\">Attention, c'est une fake news&#8239;!</span><p> C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a>.</p>"
             },
             "solution": "2"
           }
@@ -226,8 +226,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct. C'est une opinion, c'est-à-dire un point de vue exprimé.</p>",
-              "invalid": "<p>Incorrect. C'est une opinion, c'est-à-dire un point de vue exprimé.</p>"
+              "valid": "<span class=\"feedback__state\">Correct.</span><p> C'est une opinion, c'est-à-dire un point de vue exprimé.</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> C'est une opinion, c'est-à-dire un point de vue exprimé.</p>"
             },
             "solution": "1"
           }
@@ -261,8 +261,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct. C'est un détail, c'est un fait qui n'est pas intéressant pour les gens.</p>",
-              "invalid": "<p>Incorrect. C'est un détail, c'est un fait qui n'est pas intéressant pour les gens.</p>"
+              "valid": "<span class=\"feedback__state\">Correct.</span><p> C'est un détail, c'est un fait qui n'est pas intéressant pour les gens.</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> C'est un détail, c'est un fait qui n'est pas intéressant pour les gens.</p>"
             },
             "solution": "3"
           }
@@ -296,8 +296,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct. Ce qu'a entendu Yann n'est soutenu par aucune source. C'est donc une rumeur.</p>",
-              "invalid": "<p>Incorrect. Ce qu'a entendu Yann n'est soutenu par aucune source. C'est donc une rumeur.</p>"
+              "valid": "<span class=\"feedback__state\">Correct.</span><p> Ce qu'a entendu Yann n'est soutenu par aucune source. C'est donc une rumeur.</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Ce qu'a entendu Yann n'est soutenu par aucune source. C'est donc une rumeur.</p>"
             },
             "solution": "2"
           }
@@ -385,8 +385,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct. Tous ces éléments permettent de vérifier une information. </p>",
-              "invalid": "<p>Incorrect. Retournez voir la leçon ci-dessus si besoin&nbsp;<span aria-hidden=\"true\">⬆</span>️!</p>"
+              "valid": "<span class=\"feedback__state\">Correct.</span><p> Tous ces éléments permettent de vérifier une information. </p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Retournez voir la leçon ci-dessus si besoin&nbsp;<span aria-hidden=\"true\">⬆</span>️!</p>"
             },
             "solutions": [
               "2",
@@ -441,8 +441,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct. FanDuRealMadrid annonce la venue de Mbappé dans son club favori alors que l’article utilisé comme source ne l’annonce pas du tout&#8239;!</p>",
-              "invalid": "<p>Incorrect. L’article utilisé comme source n’annonce pas du tout la venue de Mbappé. Ce fan a sûrement été influencé par ses envies.</p>"
+              "valid": "<span class=\"feedback__state\">Correct.</span><p> FanDuRealMadrid annonce la venue de Mbappé dans son club favori alors que l’article utilisé comme source ne l’annonce pas du tout&#8239;!</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> L’article utilisé comme source n’annonce pas du tout la venue de Mbappé. Ce fan a sûrement été influencé par ses envies.</p>"
             },
             "solution": "1"
           }
@@ -486,8 +486,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct. Il faudrait que Jean-Eude précise l’étude qui donne ce résultat pour pouvoir vérifier l’information.</p>",
-              "invalid": "<p>Incorrect. Pour partager sa source, il faudrait que Jean-Eude précise l’étude qui partage ce résultat. </p>"
+              "valid": "<span class=\"feedback__state\">Correct.</span><p> Il faudrait que Jean-Eude précise l’étude qui donne ce résultat pour pouvoir vérifier l’information.</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Pour partager sa source, il faudrait que Jean-Eude précise l’étude qui partage ce résultat. </p>"
             },
             "solution": "3"
           }
@@ -539,8 +539,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct. La publication de Stéphanie date de 2023 alors que l’article utilisé comme source date de 2021.</p>",
-              "invalid": "<p>Incorrect. En regardant l'article, on voit qu'il a été publié en 2021. Le message de Stéphanie date de 2023, la date de l'information est donc erronée.</p>"
+              "valid": "<span class=\"feedback__state\">Correct.</span><p> La publication de Stéphanie date de 2023 alors que l’article utilisé comme source date de 2021.</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> En regardant l'article, on voit qu'il a été publié en 2021. Le message de Stéphanie date de 2023, la date de l'information est donc erronée.</p>"
             },
             "solution": "2"
           }
@@ -620,8 +620,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct. Plusieurs indices, comme l'absence de source ou le code promotionnel, poussent à vouloir en savoir plus avant de tester ou de partager ces astuces.</p>",
-              "invalid": "<p>Incorrect. Plusieurs indices, comme l'absence de source ou le code promotionnel, poussent à vouloir en savoir plus avant de tester ou de partager ces astuces.</p>"
+              "valid": "<span class=\"feedback__state\">Correct.</span><p> Plusieurs indices, comme l'absence de source ou le code promotionnel, poussent à vouloir en savoir plus avant de tester ou de partager ces astuces.</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Plusieurs indices, comme l'absence de source ou le code promotionnel, poussent à vouloir en savoir plus avant de tester ou de partager ces astuces.</p>"
             },
             "solutions": [
               "2",
