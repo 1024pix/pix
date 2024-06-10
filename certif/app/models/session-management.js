@@ -1,5 +1,3 @@
-// eslint-disable-next-line ember/no-computed-properties-in-native-classes
-import { computed } from '@ember/object';
 import { service } from '@ember/service';
 import Model, { attr, hasMany } from '@ember-data/model';
 import ENV from 'pix-certif/config/environment';
@@ -23,12 +21,10 @@ export default class Session extends Model {
   @attr('number') version;
   @hasMany('certificationReport', { async: true, inverse: null }) certificationReports;
 
-  @computed('status')
   get isFinalized() {
     return this.status === FINALIZED || this.status === IN_PROCESS || this.status === PROCESSED;
   }
 
-  @computed('id')
   get urlToDownloadSupervisorKitPdf() {
     return `${ENV.APP.API_HOST}/api/sessions/${this.id}/supervisor-kit`;
   }

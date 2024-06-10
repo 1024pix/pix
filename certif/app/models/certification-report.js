@@ -1,7 +1,5 @@
-// eslint-disable-next-line ember/no-computed-properties-in-native-classes
-import { computed } from '@ember/object';
+import { memberAction } from '@1024pix/ember-api-actions';
 import Model, { attr, hasMany } from '@ember-data/model';
-import { memberAction } from 'ember-api-actions';
 
 export default class CertificationReport extends Model {
   @attr('number') certificationCourseId;
@@ -13,7 +11,6 @@ export default class CertificationReport extends Model {
 
   @hasMany('certification-issue-report', { async: false, inverse: 'certificationReport' }) certificationIssueReports;
 
-  @computed('certificationIssueReports.@each.description')
   get firstIssueReportDescription() {
     const firstIssueReport = this.certificationIssueReports[0];
     return firstIssueReport ? firstIssueReport.description : '';

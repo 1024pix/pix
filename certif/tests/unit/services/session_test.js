@@ -24,12 +24,10 @@ module('Unit | Service | session', function (hooks) {
     service.currentUser = { load: sinon.stub(), certificationPointOfContact: null };
 
     localeService = this.owner.lookup('service:locale');
-    Object.assign(localeService, {
-      setLocaleCookie: sinon.stub(),
-      hasLocaleCookie: sinon.stub(),
-      handleUnsupportedLanguage: sinon.stub(),
-      setLocale: sinon.stub(),
-    });
+    localeService.setLocaleCookie = sinon.stub();
+    localeService.hasLocaleCookie = sinon.stub();
+    localeService.handleUnsupportedLanguage = sinon.stub();
+    localeService.setLocale = sinon.stub();
   });
 
   module('#handleAuthentication', function () {

@@ -1,6 +1,4 @@
 import Controller from '@ember/controller';
-// eslint-disable-next-line ember/no-computed-properties-in-native-classes
-import { computed } from '@ember/object';
 import { action } from '@ember/object';
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { alias } from '@ember/object/computed';
@@ -24,14 +22,12 @@ export default class CertificationCandidatesController extends Controller {
     } | Pix Certif`;
   }
 
-  @computed('certificationCandidates', 'certificationCandidates.@each.isLinked')
   get importAllowed() {
     return this.certificationCandidates.every((certificationCandidate) => {
       return !certificationCandidate.isLinked;
     });
   }
 
-  @computed('model.certificationCandidates.length')
   get hasOneOrMoreCandidates() {
     const certificationCandidatesCount = this.model.certificationCandidates.length;
     return certificationCandidatesCount > 0;
