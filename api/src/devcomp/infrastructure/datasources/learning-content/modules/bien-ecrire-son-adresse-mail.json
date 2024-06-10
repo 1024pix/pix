@@ -298,8 +298,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p class=\"pix-list-inline\">Oui, aucun problème&#8239;! Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>",
-              "invalid": "<p class=\"pix-list-inline\">Et si&#8239;! Les chiffres sont autorisés dans l’identifiant d’une adresse mail. Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>"
+              "valid": "<span class=\"feedback__state\">Oui, aucun problème&#8239;!</span><p class=\"pix-list-inline\">Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>",
+              "invalid": "<span class=\"feedback__state\">Et si&#8239;!</span><p class=\"pix-list-inline\">Les chiffres sont autorisés dans l’identifiant d’une adresse mail. Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>"
             },
             "solution": "1"
           }
@@ -360,8 +360,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Il faut pouvoir séparer l’identifiant et le fournisseur d’adresse. Il y a donc un seul symbole @ entre les deux.</p>",
-              "invalid": "<p>Il faut pouvoir séparer l’identifiant et le fournisseur d’adresse. Il y a donc un seul symbole @ entre les deux.</p>"
+              "valid": "<span class=\"feedback__state\">Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Il faut pouvoir séparer l’identifiant et le fournisseur d’adresse. Il y a donc un seul symbole @ entre les deux.</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span><p>Il faut pouvoir séparer l’identifiant et le fournisseur d’adresse. Il y a donc un seul symbole @ entre les deux.</p>"
             },
             "solution": "1"
           }
@@ -392,7 +392,7 @@
             ],
             "feedbacks": {
               "valid": "<span class=\"feedback__state\">Bien vu&#8239;!</span><p>Google n’est effectivement pas le seul fournisseur d’adresse mail. Il y en énormément, vous avez peut-être déjà vu des adresses de chez</p><ul><li>Microsoft (hotmail.com)</li><li>Free (free.fr)</li><li>La Poste (laposte.net).</li></ul>",
-              "invalid": "<p>Il y a d’autres fournisseurs d’adresses mails que Google (gmail.com).</p><p>Il y en a énormément, vous avez peut-être déjà vu des adresses de chez</p><ul><li>Microsoft (hotmail.com)</li><li>Free (free.fr)</li><li>La Poste (laposte.net).</li></ul>"
+              "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span><p>Il y a d’autres fournisseurs d’adresses mails que Google (gmail.com).</p><p>Il y en a énormément, vous avez peut-être déjà vu des adresses de chez</p><ul><li>Microsoft (hotmail.com)</li><li>Free (free.fr)</li><li>La Poste (laposte.net).</li></ul>"
             },
             "solution": "2"
           }
