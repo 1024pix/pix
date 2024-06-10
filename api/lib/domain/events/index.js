@@ -15,6 +15,7 @@ import * as certificationAssessmentRepository from '../../../src/certification/s
 import * as certificationCenterRepository from '../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
 import * as certificationCourseRepository from '../../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
 import * as certificationIssueReportRepository from '../../../src/certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
+import * as userRepository from '../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import * as answerRepository from '../../../src/shared/infrastructure/repositories/answer-repository.js';
 import * as assessmentRepository from '../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as assessmentResultRepository from '../../../src/shared/infrastructure/repositories/assessment-result-repository.js';
@@ -23,7 +24,6 @@ import * as challengeRepository from '../../../src/shared/infrastructure/reposit
 import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
 import * as organizationRepository from '../../../src/shared/infrastructure/repositories/organization-repository.js';
 import * as skillRepository from '../../../src/shared/infrastructure/repositories/skill-repository.js';
-import * as userRepository from '../../../src/shared/infrastructure/repositories/user-repository.js';
 import { injectDefaults } from '../../../src/shared/infrastructure/utils/dependency-injection.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import { config } from '../../config.js';

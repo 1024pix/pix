@@ -52,6 +52,7 @@ import { refreshTokenService } from '../../../src/identity-access-management/dom
 import * as resetPasswordService from '../../../src/identity-access-management/domain/services/reset-password.service.js';
 import * as oidcProviderRepository from '../../../src/identity-access-management/infrastructure/repositories/oidc-provider-repository.js';
 import * as resetPasswordDemandRepository from '../../../src/identity-access-management/infrastructure/repositories/reset-password-demand.repository.js';
+import * as userRepository from '../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { userToCreateRepository } from '../../../src/identity-access-management/infrastructure/repositories/user-to-create.repository.js';
 import { organizationForAdminRepository } from '../../../src/organizational-entities/infrastructure/repositories/organization-for-admin.repository.js';
 import * as campaignManagementRepository from '../../../src/prescription/campaign/infrastructure/repositories/campaign-management-repository.js';
@@ -86,7 +87,6 @@ import * as organizationRepository from '../../../src/shared/infrastructure/repo
 import * as skillRepository from '../../../src/shared/infrastructure/repositories/skill-repository.js';
 import * as targetProfileForAdminRepository from '../../../src/shared/infrastructure/repositories/target-profile-for-admin-repository.js';
 import * as userLoginRepository from '../../../src/shared/infrastructure/repositories/user-login-repository.js';
-import * as userRepository from '../../../src/shared/infrastructure/repositories/user-repository.js';
 import * as codeUtils from '../../../src/shared/infrastructure/utils/code-utils.js';
 import * as dateUtils from '../../../src/shared/infrastructure/utils/date-utils.js';
 import { injectDependencies } from '../../../src/shared/infrastructure/utils/dependency-injection.js';

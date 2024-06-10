@@ -14,11 +14,11 @@ import * as userValidator from '../../../shared/domain/validators/user-validator
 import * as adminMemberRepository from '../../../shared/infrastructure/repositories/admin-member-repository.js';
 import * as authenticationMethodRepository from '../../../shared/infrastructure/repositories/authentication-method-repository.js';
 import * as userLoginRepository from '../../../shared/infrastructure/repositories/user-login-repository.js';
-import * as userRepository from '../../../shared/infrastructure/repositories/user-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { oidcProviderRepository } from '../../infrastructure/repositories/oidc-provider-repository.js';
 import * as resetPasswordDemandRepository from '../../infrastructure/repositories/reset-password-demand.repository.js';
+import * as userRepository from '../../infrastructure/repositories/user.repository.js';
 import { userToCreateRepository } from '../../infrastructure/repositories/user-to-create.repository.js';
 import { authenticationSessionService } from '../services/authentication-session.service.js';
 import { pixAuthenticationService } from '../services/pix-authentication-service.js';

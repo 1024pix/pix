@@ -1,6 +1,6 @@
 import lodash from 'lodash';
 
-import * as userRepository from '../../../../src/shared/infrastructure/repositories/user-repository.js';
+import * as userRepository from '../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { createServer, domainBuilder, expect, nock } from '../../../test-helper.js';
 
 const { pick } = lodash;

@@ -2,7 +2,7 @@ import { AlreadyExistingEntityError, UserNotFoundError } from '../../../../lib/d
 import { CertificationCenterMembership } from '../../../../lib/domain/models/CertificationCenterMembership.js';
 import { createCertificationCenterMembershipByEmail } from '../../../../lib/domain/usecases/create-certification-center-membership-by-email.js';
 import * as certificationCenterMembershipRepository from '../../../../lib/infrastructure/repositories/certification-center-membership-repository.js';
-import * as userRepository from '../../../../src/shared/infrastructure/repositories/user-repository.js';
+import * as userRepository from '../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | UseCases | create-certification-center-membership-by-email', function () {

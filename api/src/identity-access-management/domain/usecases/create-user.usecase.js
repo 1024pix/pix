@@ -120,7 +120,7 @@ function _validatePassword(password, passwordValidator) {
  * @param {Object} dataToValidate
  * @property {string} password
  * @property {string} user
- * @property {import('../../../shared/infrastructure/repositories/user-repository.js').UserRepository} userRepository
+ * @property {import('../../infrastructure/repositories/user.repository.js').UserRepository} userRepository
  * @property {import('../../../shared/domain/validators/user-validator.js').UserValidator} userValidator
  * @property {import('../../../shared/domain/validators/password-validator.js').PasswordValidator} passwordValidator
  * @return {Promise<boolean>}

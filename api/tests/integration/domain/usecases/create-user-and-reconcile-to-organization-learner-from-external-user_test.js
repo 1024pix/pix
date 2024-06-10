@@ -11,12 +11,12 @@ import * as campaignRepository from '../../../../lib/infrastructure/repositories
 import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 import * as studentRepository from '../../../../lib/infrastructure/repositories/student-repository.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
+import * as userRepository from '../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { userToCreateRepository } from '../../../../src/identity-access-management/infrastructure/repositories/user-to-create.repository.js';
 import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
 import * as userService from '../../../../src/shared/domain/services/user-service.js';
 import * as authenticationMethodRepository from '../../../../src/shared/infrastructure/repositories/authentication-method-repository.js';
 import * as userLoginRepository from '../../../../src/shared/infrastructure/repositories/user-login-repository.js';
-import * as userRepository from '../../../../src/shared/infrastructure/repositories/user-repository.js';
 import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | UseCases | create-user-and-reconcile-to-organization-learner-from-external-user', function () {

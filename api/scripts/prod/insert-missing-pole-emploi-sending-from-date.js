@@ -11,12 +11,12 @@ import * as campaignRepository from '../../lib/infrastructure/repositories/campa
 import * as poleEmploiSendingRepository from '../../lib/infrastructure/repositories/pole-emploi-sending-repository.js';
 import * as targetProfileRepository from '../../lib/infrastructure/repositories/target-profile-repository.js';
 import * as badgeRepository from '../../src/evaluation/infrastructure/repositories/badge-repository.js';
+import * as userRepository from '../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import * as campaignParticipationRepository from '../../src/prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
 import { CampaignParticipationStatuses } from '../../src/prescription/shared/domain/constants.js';
 import { Assessment } from '../../src/shared/domain/models/Assessment.js';
 import * as assessmentRepository from '../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as organizationRepository from '../../src/shared/infrastructure/repositories/organization-repository.js';
-import * as userRepository from '../../src/shared/infrastructure/repositories/user-repository.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 
 async function insertMissingPoleEmploiSendingFromDate(startDate, endDate = new Date(), campaignCode = 'YOURCODE') {
