@@ -22,16 +22,16 @@ export default class SidebarMenu extends Component {
   }
 
   get shouldDisplayPlacesEntry() {
-    return this.currentUser.shouldAccessPlacesPage;
+    return this.currentUser.canAccessPlacesPage;
   }
   get shouldDisplayMissionsEntry() {
-    return this.currentUser.shouldAccessMissionsPage;
+    return this.currentUser.canAccessMissionsPage;
   }
   get shouldDisplayCampaignsEntry() {
-    return this.currentUser.shouldAccessCampaignsPage;
+    return this.currentUser.canAccessCampaignsPage;
   }
   get shouldDisplayParticipantsEntry() {
-    return this.currentUser.shouldAccessParticipantsPage;
+    return this.currentUser.canAccessParticipantsPage;
   }
 
   get organizationLearnersList() {

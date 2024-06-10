@@ -13,7 +13,7 @@ module('Unit | Route | authenticated/import-organization-participants', function
     store = this.owner.lookup('service:store');
     replaceWithStub = sinon.stub(route.router, 'replaceWith');
     sinon.stub(store, 'queryRecord');
-    route.currentUser = { shouldAccessImportPage: true, organization: { id: Symbol('organization-id') } };
+    route.currentUser = { canAccessImportPage: true, organization: { id: Symbol('organization-id') } };
   });
 
   test('should return organization-import-detail', async function (assert) {
@@ -32,9 +32,9 @@ module('Unit | Route | authenticated/import-organization-participants', function
   });
 
   module('beforeModel', function () {
-    test('should redirect to application when shouldAccessImportPage is false', function (assert) {
+    test('should redirect to application when canAccessImportPage is false', function (assert) {
       // given
-      route.currentUser.shouldAccessImportPage = false;
+      route.currentUser.canAccessImportPage = false;
 
       // when
       route.beforeModel();
@@ -45,7 +45,7 @@ module('Unit | Route | authenticated/import-organization-participants', function
 
     test('should not redirect to application when currentUser.isAdminInOrganization and currentUser.isSCOManagingStudents are true', function (assert) {
       // given
-      route.currentUser.shouldAccessImportPage = true;
+      route.currentUser.canAccessImportPage = true;
 
       // when
       route.beforeModel();

@@ -72,7 +72,7 @@ module('Unit | Route | authenticated/sup-organization-participants/list', functi
     test('should return import information model', async function (assert) {
       //given
 
-      route.currentUser.shouldAccessImportPage = true;
+      route.currentUser.canAccessImportPage = true;
       //when
       const { importDetail } = await route.model(params);
 
@@ -84,7 +84,7 @@ module('Unit | Route | authenticated/sup-organization-participants/list', functi
   module('when user is member of organization', function () {
     test('should not return import information model', async function (assert) {
       //given
-      route.currentUser.shouldAccessImportPage = false;
+      route.currentUser.canAccessImportPage = false;
 
       //when
       const { importDetail } = await route.model(params);

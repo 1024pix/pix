@@ -251,14 +251,14 @@ module('Unit | Service | current-user', function (hooks) {
       });
     });
 
-    module('#shouldAccessPlacesPage', function () {
+    module('#canAccessPlacesPage', function () {
       test('should return true if user is admin and organization has feature activated', function (assert) {
         currentUserService.isAdminInOrganization = true;
         currentUserService.prescriber = {
           placesManagement: true,
         };
 
-        assert.true(currentUserService.shouldAccessPlacesPage);
+        assert.true(currentUserService.canAccessPlacesPage);
       });
 
       test('should return false if user is admin and organization does not have feature activated', function (assert) {
@@ -267,7 +267,7 @@ module('Unit | Service | current-user', function (hooks) {
           placesManagement: false,
         };
 
-        assert.false(currentUserService.shouldAccessPlacesPage);
+        assert.false(currentUserService.canAccessPlacesPage);
       });
 
       test('should return false if user is not admin', function (assert) {
@@ -276,17 +276,17 @@ module('Unit | Service | current-user', function (hooks) {
           placesManagement: true,
         };
 
-        assert.false(currentUserService.shouldAccessPlacesPage);
+        assert.false(currentUserService.canAccessPlacesPage);
       });
     });
 
-    module('#shouldAccessMissionsPage', function () {
+    module('#canAccessMissionsPage', function () {
       test('should return true if user has feature activated', function (assert) {
         currentUserService.prescriber = {
           missionsManagement: true,
         };
 
-        assert.true(currentUserService.shouldAccessMissionsPage);
+        assert.true(currentUserService.canAccessMissionsPage);
       });
 
       test('should return false if user does not have feature activated', function (assert) {
@@ -294,17 +294,17 @@ module('Unit | Service | current-user', function (hooks) {
           missionsManagement: false,
         };
 
-        assert.false(currentUserService.shouldAccessMissionsPage);
+        assert.false(currentUserService.canAccessMissionsPage);
       });
     });
 
-    module('#shouldAccessCampaignsPage', function () {
+    module('#canAccessCampaignsPage', function () {
       test('should return false if user has mission feature activated', function (assert) {
         currentUserService.prescriber = {
           missionsManagement: true,
         };
 
-        assert.false(currentUserService.shouldAccessCampaignsPage);
+        assert.false(currentUserService.canAccessCampaignsPage);
       });
 
       test('should return true if user does not have missions feature activated', function (assert) {
@@ -312,17 +312,17 @@ module('Unit | Service | current-user', function (hooks) {
           missionsManagement: false,
         };
 
-        assert.true(currentUserService.shouldAccessCampaignsPage);
+        assert.true(currentUserService.canAccessCampaignsPage);
       });
     });
 
-    module('#shouldAccessParticipantsPage', function () {
+    module('#canAccessParticipantsPage', function () {
       test('should return false if user has mission feature activated', function (assert) {
         currentUserService.prescriber = {
           missionsManagement: true,
         };
 
-        assert.false(currentUserService.shouldAccessParticipantsPage);
+        assert.false(currentUserService.canAccessParticipantsPage);
       });
 
       test('should return true if user does not have missions feature activated', function (assert) {
@@ -330,11 +330,11 @@ module('Unit | Service | current-user', function (hooks) {
           missionsManagement: false,
         };
 
-        assert.true(currentUserService.shouldAccessParticipantsPage);
+        assert.true(currentUserService.canAccessParticipantsPage);
       });
     });
 
-    module('#shouldAccessImportPage', function (hooks) {
+    module('#canAccessImportPage', function (hooks) {
       hooks.beforeEach(function () {
         currentUserService.prescriber = { hasOrganizationLearnerImport: false };
       });
@@ -344,35 +344,35 @@ module('Unit | Service | current-user', function (hooks) {
           currentUserService.isAdminInOrganization = true;
           currentUserService.isSCOManagingStudents = false;
 
-          assert.false(currentUserService.shouldAccessImportPage);
+          assert.false(currentUserService.canAccessImportPage);
         });
 
         test('should return true if organization is sco managing student', function (assert) {
           currentUserService.isAdminInOrganization = true;
           currentUserService.isSCOManagingStudents = true;
 
-          assert.true(currentUserService.shouldAccessImportPage);
+          assert.true(currentUserService.canAccessImportPage);
         });
 
         test('should return false if organization not sup managing student', function (assert) {
           currentUserService.isAdminInOrganization = true;
           currentUserService.isSUPManagingStudents = false;
 
-          assert.false(currentUserService.shouldAccessImportPage);
+          assert.false(currentUserService.canAccessImportPage);
         });
 
         test('should return true if organization is sup managing student', function (assert) {
           currentUserService.isAdminInOrganization = true;
           currentUserService.isSUPManagingStudents = true;
 
-          assert.true(currentUserService.shouldAccessImportPage);
+          assert.true(currentUserService.canAccessImportPage);
         });
 
         test('should return true if user can use import learner feature', function (assert) {
           currentUserService.isAdminInOrganization = true;
           currentUserService.prescriber = { hasOrganizationLearnerImport: true };
 
-          assert.true(currentUserService.shouldAccessImportPage);
+          assert.true(currentUserService.canAccessImportPage);
         });
       });
 
@@ -381,35 +381,35 @@ module('Unit | Service | current-user', function (hooks) {
           currentUserService.isAdminInOrganization = false;
           currentUserService.isSCOManagingStudents = false;
 
-          assert.false(currentUserService.shouldAccessImportPage);
+          assert.false(currentUserService.canAccessImportPage);
         });
 
         test('should return false if organization is sco managing student', function (assert) {
           currentUserService.isAdminInOrganization = false;
           currentUserService.isSCOManagingStudents = true;
 
-          assert.false(currentUserService.shouldAccessImportPage);
+          assert.false(currentUserService.canAccessImportPage);
         });
 
         test('should return false if organization not sup managing student', function (assert) {
           currentUserService.isAdminInOrganization = false;
           currentUserService.isSUPManagingStudents = false;
 
-          assert.false(currentUserService.shouldAccessImportPage);
+          assert.false(currentUserService.canAccessImportPage);
         });
 
         test('should return false if organization is sup managing student', function (assert) {
           currentUserService.isAdminInOrganization = false;
           currentUserService.isSUPManagingStudents = true;
 
-          assert.false(currentUserService.shouldAccessImportPage);
+          assert.false(currentUserService.canAccessImportPage);
         });
 
         test('should return false if user can use import learner feature', function (assert) {
           currentUserService.isAdminInOrganization = false;
           currentUserService.prescriber = { hasOrganizationLearnerImport: true };
 
-          assert.false(currentUserService.shouldAccessImportPage);
+          assert.false(currentUserService.canAccessImportPage);
         });
       });
     });

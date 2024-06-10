@@ -22,7 +22,7 @@ export default class ListRoute extends Route {
   async model(params) {
     const organizationId = this.currentUser.organization.id;
     return RSVP.hash({
-      importDetail: this.currentUser.shouldAccessImportPage
+      importDetail: this.currentUser.canAccessImportPage
         ? await this.store.queryRecord('organization-import-detail', {
             organizationId: this.currentUser.organization.id,
           })
