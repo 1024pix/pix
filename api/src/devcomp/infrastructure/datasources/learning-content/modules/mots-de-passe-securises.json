@@ -101,8 +101,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Bien vu&#8239;! Voici la liste des 5 mots de passe les plus utilisés&nbsp;: 123456&#8239;; 123456789&#8239;; azerty&#8239;; 1234561&#8239;; qwerty.<br>Ce sont donc de mauvais mots de passe.</p>",
-              "invalid": "<p>Dommage&#8239;! Voici la liste des 5 mots de passe les plus utilisés&nbsp;: 123456&#8239;; 123456789&#8239;; azerty&#8239;; 1234561&#8239;; qwerty.<br>Ce sont donc de mauvais mots de passe.</p>"
+              "valid": "<span class=\"feedback__state\">Bien vu&#8239;!</span><p> Voici la liste des 5 mots de passe les plus utilisés&nbsp;: 123456&#8239;; 123456789&#8239;; azerty&#8239;; 1234561&#8239;; qwerty.<br>Ce sont donc de mauvais mots de passe.</p>",
+              "invalid": "<span class=\"feedback__state\">Dommage&#8239;!</span><p> Voici la liste des 5 mots de passe les plus utilisés&nbsp;: 123456&#8239;; 123456789&#8239;; azerty&#8239;; 1234561&#8239;; qwerty.<br>Ce sont donc de mauvais mots de passe.</p>"
             }
           }
         }
@@ -224,8 +224,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct. C’est un <strong>mot de passe faible</strong>, c’est-à-dire  facile à trouver.</p>",
-              "invalid": "<p>Incorrect. Plusieurs réponses sont possibles. Avez-vous utilisé la date de naissance d’Austin, par exemple 151184&#8239;? Et utilisé le prénom de son fils Bill&#8239;?</p>"
+              "valid": "<span class=\"feedback__state\">Correct.</span><p> C’est un <strong>mot de passe faible</strong>, c’est-à-dire  facile à trouver.</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Plusieurs réponses sont possibles. Avez-vous utilisé la date de naissance d’Austin, par exemple 151184&#8239;? Et utilisé le prénom de son fils Bill&#8239;?</p>"
             }
           }
         }
@@ -308,8 +308,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span> </p>",
-              "invalid": "<p>Incorrect&#8239;!</p>"
+              "valid": "<span class=\"feedback__state\">Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span></span>",
+              "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span>"
             },
             "solution": "1"
           }
@@ -339,8 +339,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span> </p>",
-              "invalid": "<p>Incorrect&#8239;!</p>"
+              "valid": "<span class=\"feedback__state\">Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span> </span>",
+              "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span>"
             },
             "solution": "2"
           }
@@ -370,8 +370,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span> </p>",
-              "invalid": "<p>Incorrect&#8239;!</p>"
+              "valid": "<span class=\"feedback__state\">Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span> </span>",
+              "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span>"
             },
             "solution": "1"
           }
@@ -455,8 +455,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct. Un mot de passe long est plus solide. Se servir d'une phrase permet de mieux s'en souvenir. </p>",
-              "invalid": "<p>Incorrect. Un mot de passe long est plus solide. Se servir d'une phrase permet de mieux s'en souvenir.</p>"
+              "valid": "<span class=\"feedback__state\">Correct.</span><p> Un mot de passe long est plus solide. Se servir d'une phrase permet de mieux s'en souvenir. </p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Un mot de passe long est plus solide. Se servir d'une phrase permet de mieux s'en souvenir.</p>"
             },
             "solutions": [
               "1",
