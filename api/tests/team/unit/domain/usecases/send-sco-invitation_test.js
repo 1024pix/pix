@@ -1,6 +1,5 @@
 import {
   ManyOrganizationsFoundError,
-  OrganizationArchivedError,
   OrganizationNotFoundError,
   OrganizationWithoutEmailError,
 } from '../../../../../lib/domain/errors.js';
@@ -12,7 +11,7 @@ describe('Unit | Team | Domain | UseCase | send-sco-invitation', function () {
 
   beforeEach(function () {
     organizationRepository = {
-      findScoOrganizationsByUai: sinon.stub(),
+      findActiveScoOrganizationsByExternalId: sinon.stub(),
     };
     organizationInvitationService = {
       createScoOrganizationInvitation: sinon.stub(),
@@ -32,7 +31,7 @@ describe('Unit | Team | Domain | UseCase | send-sco-invitation', function () {
       email: 'sco.orga@example.net',
     });
 
-    organizationRepository.findScoOrganizationsByUai.withArgs({ uai }).resolves([organization]);
+    organizationRepository.findActiveScoOrganizationsByExternalId.withArgs(uai).resolves([organization]);
 
     await sendScoInvitation({
       firstName,
@@ -62,7 +61,7 @@ describe('Unit | Team | Domain | UseCase | send-sco-invitation', function () {
         const uai = '1234567A';
         domainBuilder.buildOrganization({ type: 'SCO', externalId: uai });
 
-        organizationRepository.findScoOrganizationsByUai.withArgs({ uai }).resolves([]);
+        organizationRepository.findActiveScoOrganizationsByExternalId.withArgs(uai).resolves([]);
 
         const requestErr = await catchErr(sendScoInvitation)({
           uai,
@@ -80,7 +79,7 @@ describe('Unit | Team | Domain | UseCase | send-sco-invitation', function () {
         const uai = '1234567A';
         const organization = domainBuilder.buildOrganization({ type: 'SCO', externalId: uai, email: null });
 
-        organizationRepository.findScoOrganizationsByUai.withArgs({ uai }).resolves([organization]);
+        organizationRepository.findActiveScoOrganizationsByExternalId.withArgs(uai).resolves([organization]);
 
         const requestErr = await catchErr(sendScoInvitation)({
           uai,
@@ -101,7 +100,9 @@ describe('Unit | Team | Domain | UseCase | send-sco-invitation', function () {
         const organization1 = domainBuilder.buildOrganization({ type: 'SCO', externalId: uai });
         const organization2 = domainBuilder.buildOrganization({ type: 'SCO', externalId: uai });
 
-        organizationRepository.findScoOrganizationsByUai.withArgs({ uai }).resolves([organization1, organization2]);
+        organizationRepository.findActiveScoOrganizationsByExternalId
+          .withArgs(uai)
+          .resolves([organization1, organization2]);
 
         // when
         const requestErr = await catchErr(sendScoInvitation)({
@@ -114,29 +115,6 @@ describe('Unit | Team | Domain | UseCase | send-sco-invitation', function () {
         expect(requestErr.message).to.be.equal(
           "Plusieurs établissements de type SCO ont été retrouvés pour L'UAI/RNE 1234567A.",
         );
-      });
-    });
-
-    context('when organization is archived', function () {
-      it('throws an OrganizationArchivedError', async function () {
-        // given
-        const uai = '1234567A';
-        const archivedOrganization = domainBuilder.buildOrganization({
-          type: 'SCO',
-          externalId: uai,
-          archivedAt: '2022-02-02',
-        });
-
-        organizationRepository.findScoOrganizationsByUai.withArgs({ uai }).resolves([archivedOrganization]);
-
-        // when
-        const requestErr = await catchErr(sendScoInvitation)({
-          uai,
-          organizationRepository,
-        });
-
-        // then
-        expect(requestErr).to.be.instanceOf(OrganizationArchivedError);
       });
     });
   });

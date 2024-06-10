@@ -484,6 +484,49 @@ describe('Integration | Repository | Organization', function () {
     });
   });
 
+  describe('#findActiveScoOrganizationsByExternalId', function () {
+    const uai = '0587996a';
+
+    beforeEach(async function () {
+      [
+        {
+          type: 'SCO',
+          name: 'organization sco 1',
+          externalId: uai,
+          email: 'sco1.generic.account@example.net',
+        },
+        {
+          type: 'SCO',
+          name: 'organization sco 2',
+          externalId: uai,
+          email: 'sco2.generic.account@example.net',
+          archivedAt: new Date(),
+        },
+      ].forEach((organization) => databaseBuilder.factory.buildOrganization(organization));
+
+      await databaseBuilder.commit();
+    });
+
+    it('returns active organizations matching given UAI', async function () {
+      // when
+      const activeOrganizations = await organizationRepository.findActiveScoOrganizationsByExternalId(uai);
+
+      // then
+      expect(activeOrganizations).to.have.lengthOf(1);
+      expect(activeOrganizations[0].archivedAt).to.be.null;
+    });
+
+    context('when given UAI does not exist', function () {
+      it('returns an empty array', async function () {
+        // when
+        const activeOrganizations = await organizationRepository.findActiveScoOrganizationsByExternalId('given_uai');
+
+        // then
+        expect(activeOrganizations).to.have.lengthOf(0);
+      });
+    });
+  });
+
   describe('#findPaginatedFiltered', function () {
     context('when there are Organizations in the database', function () {
       beforeEach(function () {

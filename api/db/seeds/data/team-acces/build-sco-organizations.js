@@ -2,7 +2,7 @@ import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { PIX_PUBLIC_TARGET_PROFILE_ID, REAL_PIX_SUPER_ADMIN_ID } from '../common/constants.js';
 import { PIX_ORGA_ADMIN_LEAVING_ID, PIX_ORGA_ALL_ORGA_ID } from './build-organization-users.js';
-import { SCO_ORGANIZATION_ID } from './constants.js';
+import { ACCESS_SCO_BAUDELAIRE_EXTERNAL_ID, SCO_ORGANIZATION_ID } from './constants.js';
 
 export function buildScoOrganizations(databaseBuilder) {
   _buildCollegeHouseOfTheDragonOrganization(databaseBuilder);
@@ -70,7 +70,7 @@ function _buildJosephineBaker(databaseBuilder) {
     name: 'Lycée Joséphine Baker',
     isManagingStudents: true,
     email: 'josephine.baker@example.net',
-    externalId: 'ACCESS_SCO_BAUDELAIRE',
+    externalId: ACCESS_SCO_BAUDELAIRE_EXTERNAL_ID,
     documentationUrl: 'https://pix.fr/',
     provinceCode: '13',
     identityProviderForCampaigns: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,

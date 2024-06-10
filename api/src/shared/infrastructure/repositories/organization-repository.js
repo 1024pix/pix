@@ -214,6 +214,14 @@ const findScoOrganizationsByUai = async function ({ uai }) {
   return organizationsDB.map((model) => _toDomain(model));
 };
 
+const findActiveScoOrganizationsByExternalId = async function (externalId) {
+  const organizationsDB = await knex(ORGANIZATIONS_TABLE_NAME)
+    .where({ type: Organization.types.SCO, archivedAt: null })
+    .whereRaw('LOWER("externalId") = ?', `${externalId.toLowerCase()}`);
+
+  return organizationsDB.map((model) => _toDomain(model));
+};
+
 const findPaginatedFiltered = async function ({ filter, page }) {
   const query = knex(ORGANIZATIONS_TABLE_NAME).modify(_setSearchFiltersForQueryBuilder, filter).orderBy('name', 'ASC');
 
@@ -237,6 +245,7 @@ const findPaginatedFilteredByTargetProfile = async function ({ targetProfileId, 
 export {
   batchCreateOrganizations,
   create,
+  findActiveScoOrganizationsByExternalId,
   findByExternalIdsFetchingIdsOnly,
   findPaginatedFiltered,
   findPaginatedFilteredByTargetProfile,
