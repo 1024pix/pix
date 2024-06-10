@@ -250,9 +250,27 @@ Si vous souhaitez le désactiver
 npm run local:remove-optional-checks
 ```
 
-#### Tracer de manière détaillée l'envoi d'email
+#### Tester les envois d'e-mails
 
-On peut tracer de manière détaillée (debug) l'appel de l'API d'email avec la
+##### Avec une interface web
+
+Il est possible de tester les envois d'e-mails avec [Mailpit](https://mailpit.axllent.org/), un outil qui simule un
+serveur SMTP et offre une interface web permettant de voir les e-mails envoyés.
+
+Il faut pour cela ajouter deux variables d'environnement au `.env`:
+
+```shell
+MAILING_ENABLED=true
+MAILING_PROVIDER=mailpit
+```
+
+Mailpit est inclus dans les images du fichier docker-compose.yml et sera donc lancé automatiquement.  
+
+On peut accéder à l'interface web Mailpit à l'adresse http://localhost:8025.
+
+##### Dans un terminal
+
+On peut également tracer de manière détaillée (debug) l'appel de l'API d'email avec la
 configuration d'une variable d'environnement :
 
 ```shell
