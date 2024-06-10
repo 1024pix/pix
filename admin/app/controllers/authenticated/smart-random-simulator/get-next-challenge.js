@@ -146,15 +146,15 @@ export default class SmartRandomSimulator extends Controller {
     });
 
     switch (apiResponse.status) {
-      case 204: {
-        this.assessmentComplete = true;
-        break;
-      }
       case 200: {
         const responseBody = await apiResponse.json();
-        this.returnedChallenges = [...this.returnedChallenges, responseBody.challenge];
         this.smartRandomDetails = responseBody.smartRandomDetails;
         this.displayedStepIndex = this.smartRandomDetails.steps.length - 1;
+        if (!responseBody.challenge) {
+          this.assessmentComplete = true;
+          break;
+        }
+        this.returnedChallenges = [...this.returnedChallenges, responseBody.challenge];
         break;
       }
       default: {

@@ -8,7 +8,7 @@
   </header>
 
   <main class="page-body smart-random-simulator">
-    <section>
+    <section class="admin-form__content">
       <SmartRandomSimulator::SmartRandomParams
         @knowledgeElements={{this.knowledgeElements}}
         @answers={{this.answers}}
@@ -29,42 +29,46 @@
       <section class="admin-form__content">
 
         {{#if this.assessmentComplete}}
+
           <SmartRandomSimulator::Reset @reset={{this.reset}} />
+
+          <SmartRandomSimulator::TubesViewer
+            @tubes={{this.skillsByTube}}
+            @currentSkillId={{this.currentChallenge.skill.id}}
+            @knowledgeElements={{this.knowledgeElements}}
+            @smartRandomDetails={{this.smartRandomDetails}}
+            @totalNumberOfSkills={{this.skills.length}}
+            @numberOfSkillsStillAvailable={{this.numberOfSkillsStillAvailable}}
+            @displayedStepIndex={{this.displayedStepIndex}}
+            @selectDisplayedStepIndex={{this.selectDisplayedStepIndex}}
+          />
+
         {{else if this.currentChallenge}}
 
-          <Card
-            class="admin-form__card current-challenge"
-            @title="Épreuve en cours: {{this.currentChallenge.skill.name}}"
-          >
+          <SmartRandomSimulator::CurrentChallenge
+            @assessmentComplete={{this.assessmentComplete}}
+            @challenge={{this.currentChallenge}}
+            @reset={{this.reset}}
+            @succeedCurrentChallenge={{this.succeedCurrentChallenge}}
+            @failCurrentChallenge={{this.failCurrentChallenge}}
+            @getNextChallenge={{this.getNextChallenge}}
+          />
 
-            <h2 class="current-challenge__title">Détails</h2>
-
-            <SmartRandomSimulator::CurrentChallenge
-              @assessmentComplete={{this.assessmentComplete}}
-              @challenge={{this.currentChallenge}}
-              @reset={{this.reset}}
-              @succeedCurrentChallenge={{this.succeedCurrentChallenge}}
-              @failCurrentChallenge={{this.failCurrentChallenge}}
-              @getNextChallenge={{this.getNextChallenge}}
-            />
-
-            <h2 class="current-challenge__title">Étapes de sélection</h2>
-
-            <SmartRandomSimulator::TubesViewer
-              @tubes={{this.skillsByTube}}
-              @currentSkillId={{this.currentChallenge.skill.id}}
-              @knowledgeElements={{this.knowledgeElements}}
-              @smartRandomDetails={{this.smartRandomDetails}}
-              @totalNumberOfSkills={{this.skills.length}}
-              @numberOfSkillsStillAvailable={{this.numberOfSkillsStillAvailable}}
-              @displayedStepIndex={{this.displayedStepIndex}}
-              @selectDisplayedStepIndex={{this.selectDisplayedStepIndex}}
-            />
-
-          </Card>
+          <SmartRandomSimulator::TubesViewer
+            @tubes={{this.skillsByTube}}
+            @currentSkillId={{this.currentChallenge.skill.id}}
+            @knowledgeElements={{this.knowledgeElements}}
+            @smartRandomDetails={{this.smartRandomDetails}}
+            @totalNumberOfSkills={{this.skills.length}}
+            @numberOfSkillsStillAvailable={{this.numberOfSkillsStillAvailable}}
+            @displayedStepIndex={{this.displayedStepIndex}}
+            @selectDisplayedStepIndex={{this.selectDisplayedStepIndex}}
+          />
 
         {{else}}
+
           <SmartRandomSimulator::Start @startAssessment={{this.startAssessment}} />
+
         {{/if}}
       </section>
     </section>

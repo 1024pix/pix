@@ -1,91 +1,88 @@
-<form class="admin-form">
-  <section class="admin-form__content">
+<Card class="admin-form__card" @title="Évaluation (campagne ou positionnement)">
 
-    <Card class="admin-form__card" @title="Évaluation (campagne ou positionnement)">
+  <div class="load-campaign-params">
 
-      <div class="load-campaign-params">
+    <p>
+      Charger les paramètres depuis un identifiant de campagne :
+    </p>
 
-        <p>
-          Charger les paramètres depuis un identifiant de campagne :
-        </p>
+    <PixInput
+      @id="campaignId"
+      @placeholder="12345"
+      @value={{this.campaignId}}
+      {{on "change" this.updateCampaignIdValue}}
+      type="number"
+    />
 
-        <PixInput
-          @id="campaignId"
-          @placeholder="12345"
-          @value={{this.campaignId}}
-          {{on "change" this.updateCampaignIdValue}}
-          type="number"
-        />
+    <PixButton @triggerAction={{this.loadCampaignParams}} @size="small">
+      Charger
+    </PixButton>
 
-        <PixButton @triggerAction={{this.loadCampaignParams}} @size="small">
-          Charger
-        </PixButton>
-      </div>
+  </div>
 
-      <PixTextarea
-        @id="skills"
-        @value={{fn this.stringify @skills}}
-        spellcheck="false"
-        class="form-field"
-        placeholder={{this.stringify this.skillsExample}}
-        @subLabel={{fn this.stringify this.skillsExample}}
-        {{on "change" (fn this.updateJsonFieldValue "skills")}}
-        @errorMessage={{this.errors.skills}}
-      >
-        <:label>Acquis ({{@skills.length}}) :</:label>
-      </PixTextarea>
-      <PixTextarea
-        @id="challenges"
-        @value={{fn this.stringify @challenges}}
-        spellcheck="false"
-        class="form-field"
-        placeholder={{this.stringify this.challengesExample}}
-        @subLabel={{fn this.stringify this.challengesExample}}
-        {{on "change" (fn this.updateJsonFieldValue "challenges")}}
-        @errorMessage={{this.errors.challenges}}
-      >
-        <:label>Épreuves ({{@challenges.length}}) :</:label>
-      </PixTextarea>
-    </Card>
+  <PixTextarea
+    @id="skills"
+    @value={{fn this.stringify @skills}}
+    spellcheck="false"
+    class="form-field"
+    placeholder={{this.stringify this.skillsExample}}
+    @subLabel={{fn this.stringify this.skillsExample}}
+    {{on "change" (fn this.updateJsonFieldValue "skills")}}
+    @errorMessage={{this.errors.skills}}
+  >
+    <:label>Acquis ({{@skills.length}}) :</:label>
+  </PixTextarea>
 
-    <Card class="admin-form__card" @title="Infos de l'utilisateur">
-      <PixTextarea
-        @id="knowledge-elements"
-        class="form-field"
-        placeholder={{this.stringify this.knowledgeElementsExample}}
-        @subLabel={{fn this.stringify this.knowledgeElementsExample}}
-        spellcheck="false"
-        @value={{fn this.stringify @knowledgeElements}}
-        {{on "change" (fn this.updateJsonFieldValue "knowledgeElements")}}
-        @errorMessage={{this.errors.knowledgeElements}}
-      >
-        <:label>Knowledge elements de l'utilisateur ({{@knowledgeElements.length}}) :</:label>
-      </PixTextarea>
-      <PixTextarea
-        @id="answers"
-        @value={{fn this.stringify @answers}}
-        spellcheck="false"
-        class="form-field"
-        placeholder={{this.stringify this.answersExample}}
-        @subLabel={{fn this.stringify this.answersExample}}
-        {{on "change" (fn this.updateJsonFieldValue "answers")}}
-        @errorMessage={{this.errors.answers}}
-      >
-        <:label>Réponses de l'utilisateur ({{@answers.length}}) :</:label>
-      </PixTextarea>
-      <PixInput
-        @id="assessment-id"
-        @value={{@assessmentId}}
-        placeholder="12345"
-        type="text"
-        {{on "change" (fn this.updateFormFieldValue "assessmentId")}}
-      >
-        <:label>ID de l'assessment</:label>
-      </PixInput>
-      <PixSelect @options={{this.acceptedLocales}} @onChange={{this.updateLocaleValue}} @value={{@locale}}>
-        <:label>Langue de l'utilisateur</:label>
-      </PixSelect>
-    </Card>
+  <PixTextarea
+    @id="challenges"
+    @value={{fn this.stringify @challenges}}
+    spellcheck="false"
+    class="form-field"
+    placeholder={{this.stringify this.challengesExample}}
+    @subLabel={{fn this.stringify this.challengesExample}}
+    {{on "change" (fn this.updateJsonFieldValue "challenges")}}
+    @errorMessage={{this.errors.challenges}}
+  >
+    <:label>Épreuves ({{@challenges.length}}) :</:label>
+  </PixTextarea>
 
-  </section>
-</form>
+</Card>
+
+<Card class="admin-form__card" @title="Infos de l'utilisateur">
+  <PixTextarea
+    @id="knowledge-elements"
+    class="form-field"
+    placeholder={{this.stringify this.knowledgeElementsExample}}
+    @subLabel={{fn this.stringify this.knowledgeElementsExample}}
+    spellcheck="false"
+    @value={{fn this.stringify @knowledgeElements}}
+    {{on "change" (fn this.updateJsonFieldValue "knowledgeElements")}}
+    @errorMessage={{this.errors.knowledgeElements}}
+  >
+    <:label>Knowledge elements de l'utilisateur ({{@knowledgeElements.length}}) :</:label>
+  </PixTextarea>
+  <PixTextarea
+    @id="answers"
+    @value={{fn this.stringify @answers}}
+    spellcheck="false"
+    class="form-field"
+    placeholder={{this.stringify this.answersExample}}
+    @subLabel={{fn this.stringify this.answersExample}}
+    {{on "change" (fn this.updateJsonFieldValue "answers")}}
+    @errorMessage={{this.errors.answers}}
+  >
+    <:label>Réponses de l'utilisateur ({{@answers.length}}) :</:label>
+  </PixTextarea>
+  <PixInput
+    @id="assessment-id"
+    @value={{@assessmentId}}
+    placeholder="12345"
+    type="text"
+    {{on "change" (fn this.updateFormFieldValue "assessmentId")}}
+  >
+    <:label>ID de l'assessment</:label>
+  </PixInput>
+  <PixSelect @options={{this.acceptedLocales}} @onChange={{this.updateLocaleValue}} @value={{@locale}}>
+    <:label>Langue de l'utilisateur</:label>
+  </PixSelect>
+</Card>
