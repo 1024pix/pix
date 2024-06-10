@@ -3,7 +3,7 @@ import { UserAnonymizedEventLoggingJobHandler } from '../../../../../lib/infrast
 import { auditLoggerRepository } from '../../../../../lib/infrastructure/repositories/audit-logger-repository.js';
 import { expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Infrastructure | Jobs | audit-log | ', function () {
+describe('Unit | Infrastructure | Jobs | audit-log | User anonymized event logging', function () {
   let clock;
 
   beforeEach(function () {
