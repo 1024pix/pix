@@ -10,7 +10,6 @@ import { eventBus } from '../../domain/events/index.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import * as authenticationMethodsSerializer from '../../infrastructure/serializers/jsonapi/authentication-methods-serializer.js';
-import * as campaignParticipationForUserManagementSerializer from '../../infrastructure/serializers/jsonapi/campaign-participation-for-user-management-serializer.js';
 import * as campaignParticipationOverviewSerializer from '../../infrastructure/serializers/jsonapi/campaign-participation-overview-serializer.js';
 import * as certificationCenterMembershipSerializer from '../../infrastructure/serializers/jsonapi/certification-center-membership-serializer.js';
 import * as certificationEligibilitySerializer from '../../infrastructure/serializers/jsonapi/certification-eligibility-serializer.js';
@@ -378,18 +377,6 @@ const reassignAuthenticationMethods = async function (request, h) {
   return h.response().code(204);
 };
 
-const findCampaignParticipationsForUserManagement = async function (
-  request,
-  h,
-  dependencies = { campaignParticipationForUserManagementSerializer },
-) {
-  const userId = request.params.id;
-  const campaignParticipations = await usecases.findCampaignParticipationsForUserManagement({
-    userId,
-  });
-  return h.response(dependencies.campaignParticipationForUserManagementSerializer.serialize(campaignParticipations));
-};
-
 const findUserOrganizationsForAdmin = async function (
   request,
   h,
@@ -436,7 +423,6 @@ const userController = {
   addPixAuthenticationMethodByEmail,
   anonymizeUser,
   changeLang,
-  findCampaignParticipationsForUserManagement,
   findCertificationCenterMembershipsByUser,
   findPaginatedFilteredUsers,
   findPaginatedUserRecommendedTrainings,

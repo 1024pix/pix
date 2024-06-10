@@ -1,5 +1,5 @@
-import { knex } from '../../../db/knex-database-connection.js';
-import { CampaignParticipationForUserManagement } from '../../domain/read-models/CampaignParticipationForUserManagement.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { CampaignParticipationForUserManagement } from '../../domain/models/CampaignParticipationForUserManagement.js';
 
 const findByUserId = async function (userId) {
   const campaignParticipations = await knex('campaign-participations')

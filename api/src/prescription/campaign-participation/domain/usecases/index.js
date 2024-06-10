@@ -28,6 +28,7 @@ import * as campaignParticipantRepository from '../../infrastructure/repositorie
 import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
 import * as campaignProfileRepository from '../../infrastructure/repositories/campaign-profile-repository.js';
 import * as participationsForCampaignManagementRepository from '../../infrastructure/repositories/participations-for-campaign-management-repository.js';
+import * as participationsForUserManagementRepository from '../../infrastructure/repositories/participations-for-user-management-repository.js';
 import * as poleEmploiSendingRepository from '../../infrastructure/repositories/pole-emploi-sending-repository.js';
 
 function requirePoleEmploiNotifier() {
@@ -48,6 +49,7 @@ const dependencies = {
   campaignAssessmentParticipationResultRepository,
   campaignParticipantRepository,
   campaignParticipationRepository,
+  participationsForUserManagementRepository,
   campaignParticipationResultRepository,
   campaignProfileRepository,
   campaignRepository,

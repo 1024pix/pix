@@ -24,9 +24,9 @@ class CampaignParticipationForUserManagement {
     this.deletedAt = deletedAt;
     this.deletedBy = deletedBy;
     if (this.deletedAt) {
-      this.deletedByFullName = deletedByFirstName + ' ' + deletedByLastName;
+      this.deletedByFullName = `${deletedByFirstName} ${deletedByLastName}`;
     }
-    this.organizationLearnerFullName = organizationLearnerFirstName + ' ' + organizationLearnerLastName;
+    this.organizationLearnerFullName = `${organizationLearnerFirstName} ${organizationLearnerLastName}`;
   }
 }
 
