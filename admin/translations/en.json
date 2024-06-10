@@ -94,6 +94,12 @@
         "title": "Mass modification of organisations",
         "description": "Note: Only columns with a value will be modified.",
         "notifications": {
+          "errors": {
+            "data-protection-email-invalid": "DPO email format invalid \"{value}\" for the organization \"{organizationId}\".",
+            "organization-batch-update-error": "An error occurred for organization \"{organizationId}\".",
+            "organization-not-found": "Organization id not found: \"{organizationId}\".",
+            "parent-organization-not-found": "Parent organization for \"{organizationId}\" not found."
+          },
           "success": "The organisations have been modified."
         },
         "upload-button": "Import CSV file"

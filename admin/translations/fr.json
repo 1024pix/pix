@@ -102,6 +102,12 @@
         "title": "Modification des organisations en masse",
         "description": "Note: Seules les colonnes ayant une valeur seront modifiées.",
         "notifications": {
+          "errors": {
+            "data-protection-email-invalid": "Le format de l'email du DPO est incorrect \"{value}\" pour l'organisation \"{organizationId}\".",
+            "organization-batch-update-error": "Une erreur s'est produite sur l'organisation \"{organizationId}\".",
+            "organization-not-found": "Identifiant non trouvé pour l'organisation \"{organizationId}\".",
+            "parent-organization-not-found": "L'organisation parente de l'organisation \"{organizationId}\" non trouvée en base de données."
+          },
           "success": "Les organisations ont bien été modifiées."
         },
         "upload-button": "Importer un fichier CSV"
