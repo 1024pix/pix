@@ -10,4 +10,4 @@ const match = function (answers, solutions) {
   return AnswerStatus.KO;
 };
 
-export { match };
+export default { match };

@@ -134,7 +134,7 @@ function _formatResult(resultDetails) {
   return AnswerStatus.OK;
 }
 
-export {
+export default {
   _applyTolerancesToAnswers,
   _applyTolerancesToSolutions,
   _areAnswersComparableToSolutions,

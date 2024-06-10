@@ -7,4 +7,4 @@ const match = function (answer, solution) {
   return AnswerStatus.KO;
 };
 
-export { match };
+export default { match };

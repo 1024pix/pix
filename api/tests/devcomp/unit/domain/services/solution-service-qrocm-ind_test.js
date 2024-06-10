@@ -1,4 +1,4 @@
-import * as service from '../../../../../src/devcomp/domain/services/solution-service-qrocm-ind.js';
+import service from '../../../../../src/devcomp/domain/services/solution-service-qrocm-ind.js';
 import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
 import { catchErr, expect } from '../../../../test-helper.js';
 
