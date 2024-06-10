@@ -3,10 +3,10 @@ import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTrans
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import * as OidcIdentityProviders from '../../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
 import { AuthenticationMethod } from '../../../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
-import * as authenticationMethodRepository from '../../../../../src/shared/infrastructure/repositories/authentication-method-repository.js';
+import * as authenticationMethodRepository from '../../../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../../test-helper.js';
 
-describe('Integration | Shared | Infrastructure | Repository | AuthenticationMethod', function () {
+describe('Integration | Identity Access Management | Infrastructure | Repository | AuthenticationMethod', function () {
   const hashedPassword = 'ABCDEF1234';
   const newHashedPassword = '1234ABCDEF';
 

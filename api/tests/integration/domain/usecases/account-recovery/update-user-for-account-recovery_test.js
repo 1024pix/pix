@@ -1,9 +1,9 @@
 import { updateUserForAccountRecovery } from '../../../../../lib/domain/usecases/account-recovery/update-user-for-account-recovery.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import * as accountRecoveryDemandRepository from '../../../../../lib/infrastructure/repositories/account-recovery-demand-repository.js';
+import * as authenticationMethodRepository from '../../../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import * as userRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { cryptoService } from '../../../../../src/shared/domain/services/crypto-service.js';
-import * as authenticationMethodRepository from '../../../../../src/shared/infrastructure/repositories/authentication-method-repository.js';
 import { catchErr, databaseBuilder, expect, knex } from '../../../../test-helper.js';
 
 describe('Integration | UseCases | Account-recovery | updateUserForAccountRecovery', function () {

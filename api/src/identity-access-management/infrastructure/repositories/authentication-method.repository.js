@@ -3,10 +3,10 @@ import _ from 'lodash';
 import { knex } from '../../../../db/knex-database-connection.js';
 import { AlreadyExistingEntityError, AuthenticationMethodNotFoundError } from '../../../../lib/domain/errors.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../identity-access-management/domain/constants/identity-providers.js';
-import * as OidcIdentityProviders from '../../../identity-access-management/domain/constants/oidc-identity-providers.js';
-import { AuthenticationMethod } from '../../../identity-access-management/domain/models/AuthenticationMethod.js';
-import * as knexUtils from '../utils/knex-utils.js';
+import * as knexUtils from '../../../shared/infrastructure/utils/knex-utils.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../domain/constants/identity-providers.js';
+import * as OidcIdentityProviders from '../../domain/constants/oidc-identity-providers.js';
+import { AuthenticationMethod } from '../../domain/models/AuthenticationMethod.js';
 
 const AUTHENTICATION_METHODS_TABLE = 'authentication-methods';
 const COLUMNS = Object.freeze([

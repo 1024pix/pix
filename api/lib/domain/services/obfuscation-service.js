@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../src/identity-access-management/domain/constants/identity-providers.js';
-import * as authenticationMethodRepository from '../../../src/shared/infrastructure/repositories/authentication-method-repository.js';
+import * as authenticationMethodRepository from '../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import { NotFoundError } from '../errors.js';
 
 const CONNEXION_TYPES = {

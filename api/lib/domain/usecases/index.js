@@ -50,6 +50,7 @@ import { OidcAuthenticationServiceRegistry } from '../../../src/identity-access-
 import { pixAuthenticationService } from '../../../src/identity-access-management/domain/services/pix-authentication-service.js';
 import { refreshTokenService } from '../../../src/identity-access-management/domain/services/refresh-token-service.js';
 import * as resetPasswordService from '../../../src/identity-access-management/domain/services/reset-password.service.js';
+import * as authenticationMethodRepository from '../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import * as oidcProviderRepository from '../../../src/identity-access-management/infrastructure/repositories/oidc-provider-repository.js';
 import * as resetPasswordDemandRepository from '../../../src/identity-access-management/infrastructure/repositories/reset-password-demand.repository.js';
 import * as userRepository from '../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
@@ -80,7 +81,6 @@ import * as answerRepository from '../../../src/shared/infrastructure/repositori
 import * as areaRepository from '../../../src/shared/infrastructure/repositories/area-repository.js';
 import * as assessmentRepository from '../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as assessmentResultRepository from '../../../src/shared/infrastructure/repositories/assessment-result-repository.js';
-import * as authenticationMethodRepository from '../../../src/shared/infrastructure/repositories/authentication-method-repository.js';
 import * as challengeRepository from '../../../src/shared/infrastructure/repositories/challenge-repository.js';
 import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
 import * as organizationRepository from '../../../src/shared/infrastructure/repositories/organization-repository.js';

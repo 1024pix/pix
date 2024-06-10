@@ -8,7 +8,7 @@ import { EntityValidationError } from '../../../shared/domain/errors.js';
  * @property {string} localeFromHeader
  * @property {string} password
  * @property {string} user
- * @property {import('../../../shared/infrastructure/repositories/authentication-method-repository.js').AuthenticationMethodRepository} authenticationMethodRepository
+ * @property {import('../../infrastructure/repositories/authentication-method.repository.js').AuthenticationMethodRepository} authenticationMethodRepository
  * @property {Object} campaignRepository
  * @property {import('../../../shared/infrastructure/repositories').UserRepository} userRepository
  * @property {import('../../../shared/infrastructure/repositories').UserToCreateRepository} userToCreateRepository
