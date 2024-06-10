@@ -1,15 +1,15 @@
 <form class="form update-autonomous-course" {{on "submit" this.onSubmit}}>
-  <p>
+  <span class="form__instructions">
     Les champs marqués de
-    <span class="mandatory-mark">*</span>
+    <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
     sont obligatoires.
-  </p>
+  </span>
   <PixInput
     class="form-field"
     @id="autonomousCourseName"
     required={{true}}
-    @value={{@autonomousCourse.internalTitle}}
     @requiredLabel="Champ obligatoire"
+    @value={{@autonomousCourse.internalTitle}}
     {{on "change" (fn this.updateAutonomousCourseValue "internalTitle")}}
   >
     <:label>Nom interne :</:label>
@@ -19,12 +19,13 @@
     class="form-field"
     placeholder="Exemple&nbsp;:&nbsp;Le super nom de mon parcours autonome"
     required={{true}}
+    maxlength="50"
     @value={{@autonomousCourse.publicTitle}}
     @requiredLabel="Champ obligatoire"
     @subLabel="Le nom du parcours autonome sera affiché sur la page de démarrage du candidat."
     {{on "change" (fn this.updateAutonomousCourseValue "publicTitle")}}
   >
-    <:label>Nom public </:label>
+    <:label>Nom public <small>(50 caractères maximum)</small> :</:label>
   </PixInput>
   <PixTextarea
     @id="text-page-accueil"
