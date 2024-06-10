@@ -58,7 +58,7 @@ class CertificationCandidate {
 
   /**
    * @param {Object} param
-   * @param {Array<Subscription>} param.subscriptions - cannot be empty. {@link Subscription>}
+   * @param {Array<Subscription>} param.subscriptions {@link Subscription>}
    */
   constructor({
     id,

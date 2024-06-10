@@ -7,6 +7,7 @@ import bluebird from 'bluebird';
 import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
 import { SessionEnrolment } from '../models/SessionEnrolment.js';
 import { SessionMassImportReport } from '../models/SessionMassImportReport.js';
+import { Subscription } from '../models/Subscription.js';
 
 /**
  * @param {Object} params
@@ -138,6 +139,7 @@ async function _createValidCertificationCandidates({
       sessionId,
       billingMode: billingMode || certificationCandidate.billingMode,
       complementaryCertification,
+      subscriptions: [Subscription.buildCore({ certificationCandidateId: certificationCandidate.id })],
     });
 
     const candidateBirthInformationValidation =

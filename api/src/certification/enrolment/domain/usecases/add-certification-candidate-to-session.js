@@ -13,6 +13,7 @@ import {
   CertificationCandidatesError,
 } from '../../../../../lib/domain/errors.js';
 import * as mailCheckImplementation from '../../../../shared/mail/infrastructure/services/mail-check.js';
+import { Subscription } from '../models/Subscription.js';
 
 /**
  * @param {Object} params
@@ -79,6 +80,9 @@ const addCertificationCandidateToSession = async function ({
 
   certificationCandidate.updateBirthInformation(cpfBirthInformation);
 
+  certificationCandidate.addSubscription(
+    Subscription.buildCore({ certificationCandidateId: certificationCandidate.id }),
+  );
   certificationCandidate.complementaryCertification = complementaryCertification;
 
   if (certificationCandidate.resultRecipientEmail) {

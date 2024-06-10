@@ -147,7 +147,9 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
         sessionId,
         complementaryCertification,
         billingMode,
-        subscriptions: [Subscription.buildCore({ id: certificationCandidateData.certificationCandidateId })],
+        subscriptions: [
+          Subscription.buildCore({ certificationCandidateId: certificationCandidateData.certificationCandidateId }),
+        ],
       });
 
       try {

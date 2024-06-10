@@ -24,7 +24,7 @@ const buildCertificationCandidate = function ({
   complementaryCertification = null,
   billingMode = null,
   prepaymentCode = null,
-  subscriptions = [domainBuilder.buildCoreSubscription()],
+  subscriptions = [domainBuilder.buildCoreSubscription({ certificationCandidateId: 123 })],
 } = {}) {
   return new CertificationCandidate({
     id,
@@ -54,6 +54,7 @@ const buildCertificationCandidate = function ({
 };
 
 buildCertificationCandidate.pro = function ({
+  id = 123,
   firstName = 'Poison',
   lastName = 'Ivy',
   sex = 'F',
@@ -71,9 +72,10 @@ buildCertificationCandidate.pro = function ({
   sessionId = 456,
   complementaryCertification = null,
   billingMode = 'FREE',
-  subscriptions = null,
+  subscriptions = [],
 }) {
   return new CertificationCandidate({
+    id,
     firstName,
     lastName,
     sex,

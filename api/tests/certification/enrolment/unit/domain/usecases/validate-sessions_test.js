@@ -71,7 +71,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
       externalId: 'popi',
       birthdate: '1981-03-12',
       extraTimePercentage: '20',
-      subscriptions: [domainBuilder.buildCoreSubscription()],
+      subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: 123 })],
       billingMode: 'Gratuite',
       sessionId: 1,
     };
@@ -89,7 +89,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
       externalId: 'souris',
       birthdate: '2003-07-04',
       extraTimePercentage: '20',
-      subscriptions: [domainBuilder.buildCoreSubscription()],
+      subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: 456 })],
       billingMode: 'Gratuite',
       sessionId: 2,
     };
