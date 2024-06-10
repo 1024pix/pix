@@ -56,6 +56,37 @@ function _generateAnEmailIfNecessary(email, id, lastName, firstName) {
   return null;
 }
 
+/**
+ * @typedef SeedUser
+ * @type {object}
+ *
+ * @property {number} id
+ * @property {string} firstName
+ * @property {string} lastName
+ * @property {string} email
+ * @property {string} username
+ * @property {boolean} cgu
+ * @property {string} lang
+ * @property {string} locale
+ * @property {Date} lastTermsOfServiceValidatedAt
+ * @property {Date} lastPixOrgaTermsOfServiceValidatedAt
+ * @property {Date} lastPixCertifTermsOfServiceValidatedAt
+ * @property {boolean} mustValidateTermsOfService
+ * @property {boolean} pixOrgaTermsOfServiceAccepted
+ * @property {boolean} pixCertifTermsOfServiceAccepted
+ * @property {boolean} hasSeenAssessmentInstructions
+ * @property {boolean} hasSeenNewDashboardInfo
+ * @property {boolean} hasSeenLevelSevenInfo
+ * @property {boolean} hasSeenFocusedChallengeTooltip
+ * @property {boolean} hasSeenOtherChallengesTooltip
+ * @property {boolean} isAnonymous
+ * @property {Date} createdAt
+ * @property {Date} updatedAt
+ * @property {Date} emailConfirmedAt
+ * @property {boolean} hasBeenAnonymised
+ * @property {number} hasBeenAnonymisedBy
+ * @property {Date} lastDataProtectionPolicySeenAt
+ */
 const buildUser = function buildUser({
   id = databaseBuffer.getNextId(),
   firstName = 'Billy',
@@ -402,5 +433,11 @@ buildUser.withCertificationCenterMembership = function buildUserWithCertificatio
 
   return user;
 };
+
+/**
+ * @typedef {
+ *  function(Partial<SeedUser>): SeedUser
+ * } BuildUser
+ */
 
 export { buildUser };

@@ -1,5 +1,20 @@
 import { databaseBuffer } from '../database-buffer.js';
 
+/**
+ * @typedef {{
+ *  id: number,
+ *  title: string,
+ *  link: string,
+ *  type: string,
+ *  duration: string,
+ *  locale: string,
+ *  editorName: string,
+ *  editorLogoUrl: string,
+ *  createdAt: Date,
+ *  updatedAt: Date
+ * }} Training
+ */
+
 function buildTraining({
   id = databaseBuffer.getNextId(),
   title = 'title',
@@ -32,4 +47,9 @@ function buildTraining({
   });
 }
 
+/**
+ * @typedef {
+ *  function(Partial<Training>): Training
+ * } BuildTraining
+ */
 export { buildTraining };
