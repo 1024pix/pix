@@ -118,7 +118,8 @@ describe('Acceptance | Controller | passage-controller', function () {
           elementId: '30701e93-1b4d-4da4-b018-fa756c07d53f',
           userResponse: ['1', '3', '4'],
           expectedUserResponseValue: ['1', '3', '4'],
-          expectedFeedback: '<p>Correct&#8239;! Vous nous avez bien cernés&nbsp;:)</p>',
+          expectedFeedback:
+            '<span class="feedback__state">Correct&#8239;!</span><p>Vous nous avez bien cernés&nbsp;:)</p>',
           expectedSolution: ['1', '3', '4'],
         },
       ];

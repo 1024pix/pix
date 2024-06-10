@@ -25,8 +25,10 @@ describe('Integration | DevComp | Repositories | ElementRepository', function ()
           },
         ],
         feedbacks: {
-          valid: '<p>Correct&#8239;! Ces 16 compétences sont rangées dans 5 domaines.</p>',
-          invalid: '<p>Incorrect. Retourner voir la vidéo si besoin&nbsp;<span aria-hidden="true">👆</span>️!</p>',
+          valid:
+            '<span class="feedback__state">Correct&#8239;!</span><p> Ces 16 compétences sont rangées dans 5 domaines.</p>',
+          invalid:
+            '<span class="feedback__state">Incorrect.</span><p> Retourner voir la vidéo si besoin&nbsp;<span aria-hidden="true">👆</span>️!</p>',
         },
         solution: '1',
       });
