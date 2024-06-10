@@ -25,5 +25,5 @@ services:
     image: axllent/mailpit:latest
     container_name: pix-api-smtp-server
     ports:
-      - 1025:1025
-      - 8025:8025
+      - '${PIX_MAILPIT_WEB_PORT:-1025}:1025'
+      - '${PIX_MAILPIT_SMTP_PORT:-8025}:8025'
