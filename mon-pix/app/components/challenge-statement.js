@@ -82,7 +82,7 @@ export default class ChallengeStatement extends Component {
     } else {
       const element = document.getElementsByClassName('challenge-statement-instruction__text')[0];
       const textToSpeech = new SpeechSynthesisUtterance(element.innerText);
-      textToSpeech.lang = this.currentUser.user.lang;
+      textToSpeech.lang = this.currentUser.user?.lang ? this.currentUser.user?.lang : 'fr';
       textToSpeech.onend = () => {
         this.isSpeaking = false;
         this.textToSpeechButtonTooltipText = this.intl.t('pages.challenge.statement.text-to-speech.play');
