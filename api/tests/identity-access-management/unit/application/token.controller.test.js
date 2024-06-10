@@ -3,6 +3,29 @@ import { usecases } from '../../../../src/identity-access-management/domain/usec
 import { expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Application | Controller | Token', function () {
+  describe('#authenticateAnonymousUser', function () {
+    it('returns an access token', async function () {
+      // given
+      const campaignCode = 'SIMPLIFIE';
+      const lang = 'fr';
+      const request = {
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+        },
+        payload: { campaign_code: campaignCode, lang },
+      };
+      sinon.stub(usecases, 'authenticateAnonymousUser').resolves('valid access token');
+
+      // when
+      const { statusCode, source } = await tokenController.authenticateAnonymousUser(request, hFake);
+
+      // then
+      expect(statusCode).to.equal(200);
+      expect(source).to.deep.equal({ access_token: 'valid access token', token_type: 'bearer' });
+      expect(usecases.authenticateAnonymousUser).to.have.been.calledWithExactly({ campaignCode, lang });
+    });
+  });
+
   describe('#createToken', function () {
     const accessToken = 'jwt.access.token';
     const USER_ID = 1;

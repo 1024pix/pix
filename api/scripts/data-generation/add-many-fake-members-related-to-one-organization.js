@@ -1,11 +1,12 @@
 import lodash from 'lodash';
 
-import { MembershipUpdateError, UserCantBeCreatedError } from '../../lib/domain/errors.js';
+import { MembershipUpdateError } from '../../lib/domain/errors.js';
 import { DomainTransaction } from '../../lib/infrastructure/DomainTransaction.js';
 const { times } = lodash;
 import * as url from 'node:url';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { UserCantBeCreatedError } from '../../src/identity-access-management/domain/errors.js';
 import { ForbiddenAccess } from '../../src/shared/domain/errors.js';
 
 const INITIAL_ID = 300000;

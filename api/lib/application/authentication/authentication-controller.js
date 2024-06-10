@@ -29,18 +29,6 @@ const authenticateExternalUser = async function (request, h) {
   return h.response(response).code(200);
 };
 
-const authenticateAnonymousUser = async function (request, h) {
-  const { campaign_code: campaignCode, lang } = request.payload;
-  const accessToken = await usecases.authenticateAnonymousUser({ campaignCode, lang });
-
-  const response = {
-    token_type: 'bearer',
-    access_token: accessToken,
-  };
-
-  return h.response(response).code(200);
-};
-
 const authenticateApplication = async function (request, h) {
   const { client_id: clientId, client_secret: clientSecret, scope } = request.payload;
 
@@ -67,7 +55,6 @@ const revokeToken = async function (request, h) {
 
 const authenticationController = {
   authenticateExternalUser,
-  authenticateAnonymousUser,
   authenticateApplication,
   revokeToken,
 };

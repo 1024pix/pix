@@ -6,13 +6,17 @@ import { createServer, databaseBuilder, expect, knex } from '../../../test-helpe
 const { ROLES } = PIX_ADMIN;
 
 describe('Acceptance | Identity Access Management | Route | Token', function () {
+  let server;
+
+  beforeEach(async function () {
+    server = await createServer();
+  });
+
   describe('POST /api/token', function () {
     const orgaRoleInDB = { id: 1, name: 'ADMIN' };
-
     const userEmailAddress = 'user@example.net';
     const userPassword = 'A124B2C3#!';
 
-    let server;
     let userId;
 
     beforeEach(async function () {
@@ -24,10 +28,9 @@ describe('Acceptance | Identity Access Management | Route | Token', function () 
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       databaseBuilder.factory.buildMembership({ userId, organizationId, organizationRoleId: orgaRoleInDB.id });
       await databaseBuilder.commit();
-      server = await createServer();
     });
 
-    it('should return a 200 with an access token and a refresh token when authentication is ok', async function () {
+    it('returns a 200 with an access token and a refresh token when authentication is ok', async function () {
       // given / when
       const response = await server.inject({
         method: 'POST',
@@ -52,7 +55,7 @@ describe('Acceptance | Identity Access Management | Route | Token', function () 
       expect(result.refresh_token).to.exist;
     });
 
-    it('should return a 400 if grant type is invalid', async function () {
+    it('returns a 400 if grant type is invalid', async function () {
       // when
       const errorResponse = await server.inject({
         method: 'POST',
@@ -69,7 +72,7 @@ describe('Acceptance | Identity Access Management | Route | Token', function () 
       expect(errorResponse.statusCode).to.equal(400);
     });
 
-    it('should return http code 401 when user should change password', async function () {
+    it('returns http code 401 when user should change password', async function () {
       // given
       databaseBuilder.factory.buildUser.withRawPassword({
         username: 'beth.rave1212',
@@ -143,7 +146,7 @@ describe('Acceptance | Identity Access Management | Route | Token', function () 
 
     context('when scope is admin', function () {
       context('when admin member has allowed role but has been disabled', function () {
-        it('should return http code 403', async function () {
+        it('returns http code 403', async function () {
           //given
           const user = databaseBuilder.factory.buildUser.withRawPassword({
             email: 'email@example.net',
@@ -168,7 +171,7 @@ describe('Acceptance | Identity Access Management | Route | Token', function () 
     });
 
     context('when scope is pix-certif', function () {
-      it('should return http code 200 with accessToken when authentication is ok', async function () {
+      it('returns http code 200 with accessToken when authentication is ok', async function () {
         //given
         databaseBuilder.factory.buildCertificationCenter({ id: 345 });
         databaseBuilder.factory.buildSession({ id: 121, certificationCenterId: 345 });
@@ -341,6 +344,91 @@ describe('Acceptance | Identity Access Management | Route | Token', function () 
           expect(user.locale).to.not.equal(localeFromCookie);
           expect(user.locale).to.equal(userLocale);
         });
+      });
+    });
+  });
+
+  describe('POST /api/token/anonymous', function () {
+    let options;
+
+    context('when is not simplified Access Campaign', function () {
+      const campaignCode = 'RANDOM123';
+      const lang = 'en';
+
+      beforeEach(async function () {
+        const targetProfile = databaseBuilder.factory.buildTargetProfile({ isSimplifiedAccess: false });
+        databaseBuilder.factory.buildCampaign({ code: campaignCode, targetProfile });
+
+        options = {
+          method: 'POST',
+          url: '/api/token/anonymous',
+          headers: {
+            'content-type': 'application/x-www-form-urlencoded',
+          },
+          payload: querystring.stringify({
+            campaign_code: campaignCode,
+            lang,
+          }),
+        };
+
+        await databaseBuilder.commit();
+      });
+
+      it('returns an 401', async function () {
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(401);
+        expect(response.result.errors[0].detail).to.equal("L'utilisateur ne peut pas être créé");
+      });
+    });
+
+    context('when is simplified Access Campaign', function () {
+      const simplifiedAccessCampaignCode = 'SIMPLIFIE';
+      const firstName = '';
+      const lastName = '';
+      const isAnonymous = true;
+      const lang = 'en';
+
+      beforeEach(async function () {
+        const targetProfileId = databaseBuilder.factory.buildTargetProfile({ isSimplifiedAccess: true }).id;
+        databaseBuilder.factory.buildCampaign({ code: simplifiedAccessCampaignCode, targetProfileId });
+
+        options = {
+          method: 'POST',
+          url: '/api/token/anonymous',
+          headers: {
+            'content-type': 'application/x-www-form-urlencoded',
+          },
+          payload: querystring.stringify({
+            campaign_code: simplifiedAccessCampaignCode,
+            lang,
+          }),
+        };
+
+        await databaseBuilder.commit();
+      });
+
+      it('returns a 200 with accessToken', async function () {
+        // when
+        const response = await server.inject(options);
+        const result = response.result;
+
+        // then
+        expect(response.statusCode).to.equal(200);
+
+        expect(result.token_type).to.equal('bearer');
+        expect(result.access_token).to.exist;
+      });
+
+      it('creates an anonymous user', async function () {
+        // when
+        await server.inject(options);
+
+        // then
+        const users = await knex('users').where({ firstName, lastName, isAnonymous });
+        expect(users[0]).to.exist;
       });
     });
   });

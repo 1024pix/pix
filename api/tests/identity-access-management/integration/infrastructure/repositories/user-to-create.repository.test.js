@@ -1,10 +1,10 @@
 import { OrganizationLearnerAlreadyLinkedToUserError } from '../../../../../lib/domain/errors.js';
 import { UserToCreate } from '../../../../../src/identity-access-management/domain/models/UserToCreate.js';
+import { userToCreateRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/user-to-create.repository.js';
 import { User } from '../../../../../src/shared/domain/models/User.js';
-import * as UserToCreateRepository from '../../../../../src/shared/infrastructure/repositories/user-to-create-repository.js';
 import { catchErr, databaseBuilder, expect, knex } from '../../../../test-helper.js';
 
-describe('Integration | Shared | Infrastructure | Repository | UserToCreateRepository', function () {
+describe('Integration | Identity Access Management | Infrastructure | Repository | user-to-create', function () {
   describe('#create', function () {
     it('returns a domain User object', async function () {
       // given
@@ -18,7 +18,7 @@ describe('Integration | Shared | Infrastructure | Repository | UserToCreateRepos
       });
 
       // when
-      const userSaved = await UserToCreateRepository.create({ user });
+      const userSaved = await userToCreateRepository.create({ user });
 
       // then
       const usersSavedInDatabase = await knex('users').select();
@@ -31,26 +31,28 @@ describe('Integration | Shared | Infrastructure | Repository | UserToCreateRepos
       expect(userSaved.locale).to.equal(user.locale);
     });
 
-    it('should throw a custom error when username is already taken', async function () {
-      // given
-      const alreadyExistingUserName = 'thierryDicule1234';
-      databaseBuilder.factory.buildUser({ id: 7, username: alreadyExistingUserName });
-      await databaseBuilder.commit();
+    context('when username is already taken', function () {
+      it('throws a custom error', async function () {
+        // given
+        const alreadyExistingUserName = 'thierryDicule1234';
+        databaseBuilder.factory.buildUser({ id: 7, username: alreadyExistingUserName });
+        await databaseBuilder.commit();
 
-      const now = new Date('2022-02-01');
-      const user = new UserToCreate({
-        firstName: 'Thierry',
-        lastName: 'Dicule',
-        username: alreadyExistingUserName,
-        createdAt: now,
-        updatedAt: now,
+        const now = new Date('2022-02-01');
+        const user = new UserToCreate({
+          firstName: 'Thierry',
+          lastName: 'Dicule',
+          username: alreadyExistingUserName,
+          createdAt: now,
+          updatedAt: now,
+        });
+
+        // when
+        const error = await catchErr(userToCreateRepository.create)({ user });
+
+        // then
+        expect(error).to.be.instanceOf(OrganizationLearnerAlreadyLinkedToUserError);
       });
-
-      // when
-      const error = await catchErr(UserToCreateRepository.create)({ user });
-
-      // then
-      expect(error).to.be.instanceOf(OrganizationLearnerAlreadyLinkedToUserError);
     });
   });
 });

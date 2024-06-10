@@ -5,6 +5,7 @@ import {
   MissingOrInvalidCredentialsError,
   MissingUserAccountError,
   PasswordNotMatching,
+  UserCantBeCreatedError,
   UserShouldChangePasswordError,
 } from '../../../../src/identity-access-management/domain/errors.js';
 import { HttpErrors } from '../../../../src/shared/application/http-errors.js';
@@ -91,6 +92,23 @@ describe('Unit | Identity Access Management | Application | HttpErrorMapperConfi
 
       //when
       const error = httpErrorMapper.httpErrorFn(new PasswordNotMatching(message));
+
+      //then
+      expect(error).to.be.instanceOf(HttpErrors.UnauthorizedError);
+      expect(error.message).to.equal(message);
+    });
+  });
+
+  context('when mapping "UserCantBeCreatedError"', function () {
+    it('returns an UnauthorizedError Http Error', function () {
+      //given
+      const httpErrorMapper = authenticationDomainErrorMappingConfiguration.find(
+        (httpErrorMapper) => httpErrorMapper.name === UserCantBeCreatedError.name,
+      );
+      const message = 'Test message error';
+
+      //when
+      const error = httpErrorMapper.httpErrorFn(new UserCantBeCreatedError(message));
 
       //then
       expect(error).to.be.instanceOf(HttpErrors.UnauthorizedError);

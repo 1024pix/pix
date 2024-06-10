@@ -1,7 +1,18 @@
-import { UserToCreate } from '../../../src/identity-access-management/domain/models/UserToCreate.js';
 import { UserCantBeCreatedError } from '../errors.js';
+import { UserToCreate } from '../models/UserToCreate.js';
 
-const authenticateAnonymousUser = async function ({
+/**
+ * @param {{
+ *   campaignCode: string,
+ *   lang: string,
+ *   campaignToJoinRepository,
+ *   userToCreateRepository,
+ *   tokenService
+ * }} params
+ * @return {Promise<string>}
+ * @throws {UserCantBeCreatedError}
+ */
+export const authenticateAnonymousUser = async function ({
   campaignCode,
   lang = 'fr',
   campaignToJoinRepository,
@@ -18,5 +29,3 @@ const authenticateAnonymousUser = async function ({
 
   return tokenService.createAccessTokenFromAnonymousUser(newUser.id);
 };
-
-export { authenticateAnonymousUser };

@@ -1,8 +1,8 @@
-import { UserCantBeCreatedError } from '../../../../lib/domain/errors.js';
-import { authenticateAnonymousUser } from '../../../../lib/domain/usecases/authenticate-anonymous-user.js';
-import { catchErr, expect, sinon } from '../../../test-helper.js';
+import { UserCantBeCreatedError } from '../../../../../src/identity-access-management/domain/errors.js';
+import { authenticateAnonymousUser } from '../../../../../src/identity-access-management/domain/usecases/authenticate-anonymous-user.usecase.js';
+import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | authenticate-anonymous-user', function () {
+describe('Unit | Identity Access Management | Domain | UseCase | authenticate-anonymous-user', function () {
   let campaignCode;
   let lang;
   let campaignToJoinRepository;
@@ -24,7 +24,7 @@ describe('Unit | UseCase | authenticate-anonymous-user', function () {
     campaignToJoinRepository.getByCode.withArgs(campaignCode).resolves({ isSimplifiedAccess: true });
   });
 
-  it('should create an anonymous user', async function () {
+  it('creates an anonymous user', async function () {
     // given
     userToCreateRepository.create.resolves({ id: 1 });
     tokenService.createAccessTokenFromAnonymousUser.returns('access-token');
@@ -51,7 +51,7 @@ describe('Unit | UseCase | authenticate-anonymous-user', function () {
     expect(userToCreateRepository.create).to.have.been.calledWithMatch({ user: expectedUser });
   });
 
-  it('should create and return an access token', async function () {
+  it('creates and returns an access token', async function () {
     // given
     const userId = 1;
     const accessToken = 'access.token';
@@ -71,7 +71,7 @@ describe('Unit | UseCase | authenticate-anonymous-user', function () {
     expect(result).to.equal(accessToken);
   });
 
-  it('should throw a UserCantBeCreatedError', async function () {
+  it('throws a UserCantBeCreatedError', async function () {
     // given
     const userId = 1;
     campaignCode = 'RANDOM123';

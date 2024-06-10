@@ -32,6 +32,12 @@ class PasswordNotMatching extends DomainError {
   }
 }
 
+class UserCantBeCreatedError extends DomainError {
+  constructor(message = "L'utilisateur ne peut pas être créé") {
+    super(message);
+  }
+}
+
 class UserShouldChangePasswordError extends DomainError {
   constructor(message = 'User password must be changed.', meta) {
     super(message);
@@ -45,5 +51,6 @@ export {
   MissingOrInvalidCredentialsError,
   MissingUserAccountError,
   PasswordNotMatching,
+  UserCantBeCreatedError,
   UserShouldChangePasswordError,
 };

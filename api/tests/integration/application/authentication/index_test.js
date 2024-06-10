@@ -1,15 +1,11 @@
 import querystring from 'node:querystring';
 
-import { authenticationController } from '../../../../lib/application/authentication/authentication-controller.js';
-import { createServer, expect, sinon } from '../../../test-helper.js';
+import { createServer, expect } from '../../../test-helper.js';
 
 describe('Integration | Application | Route | AuthenticationRouter', function () {
   let server;
 
   beforeEach(async function () {
-    sinon
-      .stub(authenticationController, 'authenticateAnonymousUser')
-      .callsFake((request, h) => h.response('ok').code(200));
     server = await createServer();
   });
 
@@ -148,43 +144,6 @@ describe('Integration | Application | Route | AuthenticationRouter', function ()
 
       // when
       const response = await server.inject({ method, url, payload });
-
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
-  });
-
-  describe('POST /api/token/anonymous', function () {
-    const method = 'POST';
-    const url = '/api/token/anonymous';
-    const headers = {
-      'content-type': 'application/x-www-form-urlencoded',
-    };
-    const code = 'SIMPLIFIE';
-
-    let payload;
-
-    beforeEach(function () {
-      payload = querystring.stringify({
-        campaign_code: code,
-        lang: 'fr',
-      });
-    });
-
-    it('should return a response with HTTP status code 200', async function () {
-      // when
-      const response = await server.inject({ method, url, payload, auth: null, headers });
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-
-    it('should return 400 when campaignCode is missing', async function () {
-      // given
-      payload = querystring.stringify({});
-
-      // when
-      const response = await server.inject({ method, url, payload, auth: null, headers });
 
       // then
       expect(response.statusCode).to.equal(400);
