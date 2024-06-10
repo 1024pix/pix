@@ -200,6 +200,11 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
       );
     });
 
+    /*
+     * Vocalisation
+     * ------------------------------------------------
+     */
+
     module('Text to speech button:', function () {
       module('when FT_ENABLE_TEXT_TO_SPEECH_BUTTON is enabled', function (hooks) {
         hooks.beforeEach(async function () {
@@ -218,6 +223,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
               addChallengeToContext(this, {
                 instruction: 'La consigne du test avec un bouton de lecture à haute voix',
                 id: 'rec_challenge1',
+                locales: ['fr'],
               });
 
               // when
@@ -244,6 +250,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
                 addChallengeToContext(this, {
                   instruction: "Test d'intégration vocalisation",
                   id: 'rec_challenge1',
+                  locales: ['fr'],
                 });
                 const screen = await render(hbs`<ChallengeStatement
                           @challenge={{this.challenge}}
@@ -276,6 +283,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
                 addChallengeToContext(this, {
                   instruction: "Test d'intégration vocalisation",
                   id: 'rec_challenge4',
+                  locales: ['fr'],
                 });
                 const add = sinon.stub();
 
@@ -314,6 +322,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
               addChallengeToContext(this, {
                 instruction: 'La consigne du test avec un bouton de lecture à haute voix',
                 id: 'rec_challenge1',
+                locales: ['fr'],
               });
 
               // when
@@ -342,6 +351,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
             addChallengeToContext(this, {
               instruction: 'La consigne du test avec un bouton de lecture à haute voix',
               id: 'rec_challenge1',
+              locales: ['fr'],
             });
 
             // when
@@ -380,6 +390,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
               addChallengeToContext(this, {
                 instruction: 'La consigne du test avec un bouton de lecture à haute voix',
                 id: 'rec_challenge1',
+                locales: ['fr'],
               });
 
               // when
@@ -407,6 +418,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
               addChallengeToContext(this, {
                 instruction: 'La consigne du test avec un bouton de lecture à haute voix',
                 id: 'rec_challenge1',
+                locales: ['fr'],
               });
 
               // when
@@ -436,6 +448,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
           addChallengeToContext(this, {
             instruction: 'La consigne du test avec un bouton de lecture à haute voix',
             id: 'rec_challenge1',
+            locales: ['fr'],
           });
           const speechSynthesis = window.speechSynthesis;
           delete window.speechSynthesis;
