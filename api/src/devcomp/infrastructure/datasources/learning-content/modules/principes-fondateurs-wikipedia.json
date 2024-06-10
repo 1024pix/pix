@@ -92,8 +92,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct&#8239;!</p>",
-              "invalid": "<p>Incorrect. La construction permanente et les différentes langues de Wikipédia sont symbolisées prioritairement à travers ce logo.</p>"
+              "valid": "<span class=\"feedback__state\">Correct&#8239;!</span>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> La construction permanente et les différentes langues de Wikipédia sont symbolisées prioritairement à travers ce logo.</p>"
             },
             "solutions": ["1", "4"]
           }
@@ -213,8 +213,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct. Vous avez bien identifié les principes de Wikipédia. </p>",
-              "invalid": "<p>Incorrect. Remonter la page pour relire la leçon.&nbsp;<span aria-hidden=\"true\">⬆</span>️</p>"
+              "valid": "<span class=\"feedback__state\">Correct.</span><p> Vous avez bien identifié les principes de Wikipédia. </p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Remonter la page pour relire la leçon.&nbsp;<span aria-hidden=\"true\">⬆</span>️</p>"
             },
             "solutions": ["1", "3", "4"]
           }
@@ -251,8 +251,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct. Il y a une représentation inégale entre ces langues&nbsp;: on compte environ 7 millions d’articles en anglais, 2 millions en français et 7 000 en tibétain.</p>",
-              "invalid": "<p>Incorrect. La réponse est 250.<br>Il y a une représentation inégale entre ces langues&nbsp;: on compte environ 7 millions d’articles en anglais, 2 millions en français et 7 000 en tibétain.</p>"
+              "valid": "<span class=\"feedback__state\">Correct.</span><p> Il y a une représentation inégale entre ces langues&nbsp;: on compte environ 7 millions d’articles en anglais, 2 millions en français et 7 000 en tibétain.</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> La réponse est 250.<br>Il y a une représentation inégale entre ces langues&nbsp;: on compte environ 7 millions d’articles en anglais, 2 millions en français et 7 000 en tibétain.</p>"
             },
             "solution": "2"
           }
@@ -285,8 +285,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Oui. Wikipédia est géré par une association à but non lucratif, financé par des donations d’utilisateurs.</p>",
-              "invalid": "<p>Incorrect. Dans ce cas, le principe de neutralité ne serait pas respecté. Wikipédia est géré par une association à but non lucratif, financé par des donations d’utilisateurs.</p>"
+              "valid": "<span class=\"feedback__state\">Oui, c'est correct.</span><p> Wikipédia est géré par une association à but non lucratif, financé par des donations d’utilisateurs.</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Dans ce cas, le principe de neutralité ne serait pas respecté. Wikipédia est géré par une association à but non lucratif, financé par des donations d’utilisateurs.</p>"
             },
             "solution": "3"
           }
@@ -365,8 +365,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct&#8239;!</p>",
-              "invalid": "<p>Incorrect.</p>"
+              "valid": "<span class=\"feedback__state\">Correct&#8239;!</span>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span>"
             }
           }
         },
@@ -403,8 +403,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct&#8239;!</p>",
-              "invalid": "<p>Incorrect.</p>"
+              "valid": "<span class=\"feedback__state\">Correct&#8239;!</span>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span>"
             }
           }
         },
@@ -453,8 +453,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct&#8239;!</p>",
-              "invalid": "<p>Incorrect.</p>"
+              "valid": "<span class=\"feedback__state\">Correct&#8239;!</span>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span>"
             }
           }
         }
