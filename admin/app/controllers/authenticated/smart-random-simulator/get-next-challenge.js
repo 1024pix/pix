@@ -4,6 +4,7 @@ import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
 const GET_NEXT_CHALLENGE_API_ROUTE = '/api/admin/smart-random-simulator/get-next-challenge';
+const GET_CAMPAIGN_PARAMS_API_ROUTE = '/api/admin/smart-random-simulator/campaign-parameters';
 
 const ANSWER_STATUSES = { OK: 'ok', KO: 'ko' };
 const KNOWLEDGE_ELEMENTS_STATUSES = { VALIDATED: 'validated', INVALIDATED: 'invalidated' };
@@ -59,6 +60,32 @@ export default class SmartRandomSimulator extends Controller {
   @action
   selectDisplayedStepIndex(value) {
     this.displayedStepIndex = value;
+  }
+
+  @action
+  async loadCampaignParams(campaignId) {
+    const apiResponse = await window.fetch(`${GET_CAMPAIGN_PARAMS_API_ROUTE}/${this.locale}/${campaignId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${this.session.data.authenticated.access_token}`,
+      },
+    });
+
+    if (apiResponse.status === 200) {
+      const responseBody = await apiResponse.json();
+      this.skills = responseBody.skills;
+      this.challenges = responseBody.challenges;
+      this.notifications.success(
+        `Données chargées: ${this.skills.length} compétences et ${this.challenges.length} challenges`,
+      );
+      return;
+    }
+
+    const response = await apiResponse.json();
+    response.errors.map(({ detail }) => {
+      this.notifications.error(detail);
+    });
   }
 
   get previousChallenges() {
