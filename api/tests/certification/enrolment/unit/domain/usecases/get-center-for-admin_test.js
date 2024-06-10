@@ -4,11 +4,19 @@ import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | get-center-for-admin', function () {
   let certificationCenterForAdmin;
+  let dataProtectionOfficer;
   let centerRepository;
   let dataProtectionOfficerRepository;
+  const certificationCenterId = 1234;
 
   beforeEach(function () {
-    certificationCenterForAdmin = domainBuilder.buildCenterForAdmin({ center: { id: 1234 } });
+    certificationCenterForAdmin = domainBuilder.buildCenterForAdmin({
+      center: { id: certificationCenterId, name: 'Center for admin' },
+    });
+    dataProtectionOfficer =
+      domainBuilder.buildDataProtectionOfficer.buildDataProtectionOfficerWithCertificationCenterId({
+        certificationCenterId,
+      });
     centerRepository = {
       getById: sinon.stub(),
     };
@@ -19,7 +27,8 @@ describe('Unit | UseCase | get-center-for-admin', function () {
 
   it('should get the certification center for admin', async function () {
     // given
-    centerRepository.getById.withArgs({ id: 1234 }).resolves({ ...certificationCenterForAdmin });
+    centerRepository.getById.withArgs({ id: certificationCenterId }).resolves({ ...certificationCenterForAdmin });
+    dataProtectionOfficerRepository.get.withArgs({ certificationCenterId }).resolves({ ...dataProtectionOfficer });
 
     // when
     const actualCertificationCourse = await getCenterForAdmin({
@@ -29,7 +38,11 @@ describe('Unit | UseCase | get-center-for-admin', function () {
     });
 
     // then
-    expect(actualCertificationCourse.id).to.equal(1234);
     expect(actualCertificationCourse).to.be.instanceOf(CenterForAdmin);
+    expect(actualCertificationCourse.id).to.equal(certificationCenterId);
+    expect(actualCertificationCourse.name).to.equal(certificationCenterForAdmin.name);
+    expect(actualCertificationCourse.dataProtectionOfficerFirstName).to.equal(dataProtectionOfficer.firstName);
+    expect(actualCertificationCourse.dataProtectionOfficerLastName).to.equal(dataProtectionOfficer.lastName);
+    expect(actualCertificationCourse.dataProtectionOfficerEmail).to.equal(dataProtectionOfficer.email);
   });
 });
