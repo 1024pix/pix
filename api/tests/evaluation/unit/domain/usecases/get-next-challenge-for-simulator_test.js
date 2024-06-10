@@ -18,7 +18,7 @@ describe('Unit | UseCase | get-next-challenge-for-simulator', function () {
     });
 
     context('when smartRandomService hasAssessmentEnded property is true', function () {
-      it('should return null and call only smartRandomService', function () {
+      it('should only return smartRandom details and call only smartRandomService', function () {
         // given
         smartRandomService.getPossibleSkillsForNextChallenge.returns({
           hasAssessmentEnded: true,
@@ -26,7 +26,7 @@ describe('Unit | UseCase | get-next-challenge-for-simulator', function () {
         });
 
         // when
-        const result = getNextChallengeForSimulator({
+        const { challenge } = getNextChallengeForSimulator({
           simulationParameters: {
             answers: [],
           },
@@ -37,7 +37,7 @@ describe('Unit | UseCase | get-next-challenge-for-simulator', function () {
         // then
         expect(smartRandomService.getPossibleSkillsForNextChallenge).to.have.been.calledOnce;
         expect(pickChallengeService.pickChallenge).to.not.have.been.called;
-        expect(result).to.be.null;
+        expect(challenge).to.be.null;
       });
     });
 

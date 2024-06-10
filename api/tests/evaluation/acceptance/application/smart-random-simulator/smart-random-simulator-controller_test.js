@@ -101,11 +101,12 @@ describe('Acceptance | API | Smart Random Simulator', function () {
           response = await server.inject(options);
         });
 
-        it('should return a 204 status code', async function () {
-          expect(response.statusCode).to.equal(204);
+        it('should return a 200 status code', async function () {
+          expect(response.statusCode).to.equal(200);
         });
-        it('should return an empty payload', async function () {
-          expect(response.payload).to.be.empty;
+        it('should return smart random details and no challenge', async function () {
+          expect(JSON.parse(response.payload).challenge).to.be.null;
+          expect(JSON.parse(response.payload).smartRandomDetails).to.exist;
         });
       });
     });
