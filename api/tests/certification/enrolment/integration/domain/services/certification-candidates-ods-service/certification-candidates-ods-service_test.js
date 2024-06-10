@@ -364,16 +364,9 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     mailCheck.checkDomainIsValid.resolves();
     const isSco = false;
 
-    const userId = databaseBuilder.factory.buildUser().id;
-    const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-    databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
-    const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
-
-    await databaseBuilder.commit();
-
     const odsFilePath = `${__dirname}/attendance_sheet_extract_with_billing_ok_test.ods`;
     const odsBuffer = await readFile(odsFilePath);
-    candidateList = _buildCertificationCandidateList({ hasBillingMode: true, sessionId: 100505 });
+    candidateList = _buildCertificationCandidateList({ hasBillingMode: true, sessionId });
     const expectedCertificationCandidates = candidateList.map((candidate) => new CertificationCandidate(candidate));
 
     // when

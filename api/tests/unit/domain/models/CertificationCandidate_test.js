@@ -1170,7 +1170,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       });
     });
 
-    describe('when there is a already subscription', function () {
+    describe('when there already is a subscription', function () {
       describe('when the subscription is CORE', function () {
         describe('when adding a CORE subscription', function () {
           it('should replace the CORE', function () {
@@ -1221,7 +1221,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
             // when
             certificationCandidate.addSubscription(coreSubscription);
 
-            // when / then
+            // then
             expect(certificationCandidate.subscriptions).to.deep.equal([
               Subscription.buildComplementary({
                 certificationCandidateId: certificationCandidate.id,

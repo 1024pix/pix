@@ -7,6 +7,10 @@ import {
 import { CpfBirthInformationValidation } from '../../../../../../src/certification/enrolment/domain/services/certification-cpf-service.js';
 import { addCertificationCandidateToSession } from '../../../../../../src/certification/enrolment/domain/usecases/add-certification-candidate-to-session.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
+import {
+  buildComplementarySubscription,
+  buildCoreSubscription,
+} from '../../../../../tooling/domain-builder/factory/index.js';
 
 describe('Unit | UseCase | add-certification-candidate-to-session', function () {
   let certificationCandidateRepository;
@@ -175,9 +179,20 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
           mailCheck,
         });
 
+        const expectedCertificationCandidate = domainBuilder.buildCertificationCandidate.pro({
+          ...certificationCandidate,
+          subscriptions: [
+            buildCoreSubscription({ certificationCandidateId: certificationCandidate.id }),
+            buildComplementarySubscription({
+              certificationCandidateId: certificationCandidate.id,
+              complementaryCertificationId: complementaryCertification.id,
+            }),
+          ],
+        });
+
         // then
-        expect(certificationCandidateRepository.saveInSession).to.has.been.calledWithExactly({
-          certificationCandidate,
+        expect(certificationCandidateRepository.saveInSession).to.have.been.calledWithExactly({
+          certificationCandidate: expectedCertificationCandidate,
           sessionId,
         });
       });
