@@ -24,7 +24,7 @@ describe('Unit | UseCase | get-campaign-parameters-for-simulator', function () {
         buildChallenge({
           id: 'rec2',
           instruction:
-            'Des instructions qui devraient être tronquées à partir de 160 caractères pour éviter le spoil, des instructions qui devraient être tronquées à partir de 160 caractères pour éviter le spoil',
+            'Des instructions qui devraient être tronquées à partir de 130 caractères pour éviter le spoil, des instructions qui devraient être tronquées à partir de 130 caractères pour éviter le spoil',
         }),
       ];
 
@@ -66,7 +66,7 @@ describe('Unit | UseCase | get-campaign-parameters-for-simulator', function () {
             id: 'rec2',
             format: 'petit',
             instruction:
-              'Des instructions qui devraient être tronquées à partir de 160 caractères pour éviter le spoil, des instructions qui devraient être',
+              'Des instructions qui devraient être tronquées à partir de 130 caractères pour éviter le spoil, des instructions qui devraient être',
             status: 'validé',
             timer: undefined,
             type: 'QCM',
