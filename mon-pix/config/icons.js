@@ -2,6 +2,7 @@ module.exports = function () {
   return {
     'free-brands-svg-icons': ['facebook-f', 'linkedin-in', 'twitter'],
     'free-solid-svg-icons': [
+      'arrow-down',
       'arrow-left',
       'arrow-right',
       'arrows-rotate',
