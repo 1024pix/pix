@@ -37,7 +37,11 @@ module('Unit | Route | Certification | Start', function (hooks) {
         await route.model(params);
 
         // then
-        sinon.assert.calledWith(route.router.replaceWith, 'authenticated.certifications.information');
+        sinon.assert.calledWithExactly(
+          route.router.replaceWith,
+          'authenticated.certifications.information',
+          certificationCandidateId,
+        );
         assert.ok(true);
       });
     });

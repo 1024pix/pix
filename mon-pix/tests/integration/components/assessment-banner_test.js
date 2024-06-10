@@ -129,6 +129,7 @@ module('Integration | Component | assessment-banner', function (hooks) {
           const store = this.owner.lookup('service:store');
           store.createRecord('assessment', {});
           this.set('toggleTextToSpeech', sinon.stub());
+          const speechSynthesis = window.speechSynthesis;
           delete window.speechSynthesis;
 
           // when
@@ -138,6 +139,8 @@ module('Integration | Component | assessment-banner', function (hooks) {
 
           // then
           assert.dom(screen.queryByRole('button', { name: 'Désactiver la vocalisation' })).doesNotExist();
+
+          window.speechSynthesis = speechSynthesis;
         });
       });
     });

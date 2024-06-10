@@ -1,9 +1,69 @@
 .certification-information {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
   min-height: 100vh;
+  padding: 32px 80px;
   background: $pix-primary-certif-gradient;
+
+  &__title {
+    @extend %pix-title-m;
+
+    margin-bottom: var(--pix-spacing-8x);
+  }
+
+  &__text {
+    &--bold {
+      font-weight: 700;
+    }
+  }
+
+  &__header {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: start;
+    margin-bottom: 110px;
+    font-size: 1.125rem;
+  }
+
+  &__card {
+    max-width: 846px;
+    margin: auto;
+    padding: 24px;
+    border-radius: 24px;
+  }
+
+  &__footer {
+    display: flex;
+    flex-flow: column wrap;
+    gap: 24px;
+    align-items: center;
+    justify-content: start;
+    margin-top: var(--pix-spacing-10x);
+  }
+}
+
+.certification-information-header {
+  &__logo {
+    max-width: 60px;
+  }
+
+  &__separator {
+    width: 1px;
+    height: 32px;
+    background-color: var(--pix-neutral-0);
+  }
+
+  &__title {
+    color: var(--pix-neutral-0);
+  }
+}
+
+.certification-information-footer {
+  &__buttons {
+    display: flex;
+    gap: 32px;
+  }
+}
+
+.certification-information-footer-dots__dot.active {
+    filter: brightness(0) saturate(100%) invert(17%) sepia(28%) saturate(7283%) hue-rotate(246deg) brightness(90%) contrast(94%);
 }
