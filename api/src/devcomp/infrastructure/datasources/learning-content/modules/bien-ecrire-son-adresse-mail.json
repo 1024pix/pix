@@ -298,8 +298,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Oui, aucun problème&#8239;!</span><p class=\"pix-list-inline\">Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>",
-              "invalid": "<span class=\"feedback__state\">Et si&#8239;!</span><p class=\"pix-list-inline\">Les chiffres sont autorisés dans l’identifiant d’une adresse mail. Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>"
+              "valid": "<p class=\"feedback__state\">Oui, aucun problème&#8239;!</p><p class=\"pix-list-inline\">Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>",
+              "invalid": "<p class=\"feedback__state\">Et si&#8239;!</p><p class=\"pix-list-inline\">Les chiffres sont autorisés dans l’identifiant d’une adresse mail. Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>"
             },
             "solution": "1"
           }
