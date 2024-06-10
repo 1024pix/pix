@@ -12,6 +12,7 @@ import { LanguageNotSupportedError } from '../../../../src/shared/domain/errors.
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | link-user-to-session-certification-candidate', function () {
+  let certificationCandidateData;
   const sessionId = 42;
   const userId = 'userId';
   const firstName = 'Charlie';
@@ -26,6 +27,14 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
       sessionEnrolmentRepository.get
         .withArgs({ id: 42 })
         .resolves(domainBuilder.certification.enrolment.buildSession.created());
+
+      certificationCandidateData = {
+        userId,
+        firstName,
+        lastName,
+        birthdate,
+        subscriptions: [domainBuilder.buildCoreSubscription()],
+      };
     });
 
     context('when there is a problem with the personal info', function () {
@@ -100,7 +109,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
           context('when the linked user is the same as the user being linked', function () {
             it('should not create a link and return the matching certification candidate', async function () {
               // given
-              const certificationCandidate = domainBuilder.buildCertificationCandidate({ userId });
+              const certificationCandidate = domainBuilder.buildCertificationCandidate(certificationCandidateData);
               const certificationCandidateRepository =
                 _buildFakeCertificationCandidateRepository().withFindBySessionIdAndPersonalInfo({
                   args: {
@@ -138,7 +147,10 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
           context('when the linked user is not the same as the user being linked', function () {
             it('should throw a CertificationCandidateAlreadyLinkedToUserError', async function () {
               // given
-              const certificationCandidate = domainBuilder.buildCertificationCandidate({ userId: 'otherUserId' });
+              const certificationCandidate = domainBuilder.buildCertificationCandidate({
+                ...certificationCandidateData,
+                userId: 'otherUserId',
+              });
               const certificationCandidateRepository =
                 _buildFakeCertificationCandidateRepository().withFindBySessionIdAndPersonalInfo({
                   args: {
@@ -178,7 +190,10 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
           context('when the user is already linked to another candidate in the session', function () {
             it('should throw a UserAlreadyLinkedToCandidateInSessionError', async function () {
               // given
-              const certificationCandidate = domainBuilder.buildCertificationCandidate({ userId: null });
+              const certificationCandidate = domainBuilder.buildCertificationCandidate({
+                ...certificationCandidateData,
+                userId: null,
+              });
               const certificationCandidateRepository = _buildFakeCertificationCandidateRepository()
                 .withFindBySessionIdAndPersonalInfo({
                   args: {
@@ -221,6 +236,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
             it('should create a link between the candidate and the user and return the linked certification candidate', async function () {
               // given
               const certificationCandidate = domainBuilder.buildCertificationCandidate({
+                ...certificationCandidateData,
                 userId: null,
                 id: 'candidateId',
               });
@@ -273,10 +289,8 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
           it('throws MatchingReconciledStudentNotFoundError', async function () {
             // given
             const certificationCandidate = domainBuilder.buildCertificationCandidate({
+              ...certificationCandidateData,
               userId: null,
-              firstName,
-              lastName,
-              birthdate,
             });
             const certificationCandidateRepository =
               _buildFakeCertificationCandidateRepository().withFindBySessionIdAndPersonalInfo({
@@ -339,10 +353,8 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
               // given
               const organizationLearner = domainBuilder.buildOrganizationLearner();
               const certificationCandidate = domainBuilder.buildCertificationCandidate({
+                ...certificationCandidateData,
                 userId: null,
-                firstName,
-                lastName,
-                birthdate,
                 organizationLearnerId: organizationLearner.id,
               });
               const certificationCandidateRepository = _buildFakeCertificationCandidateRepository()
@@ -419,10 +431,8 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
               // given
               const organizationLearner = domainBuilder.buildOrganizationLearner();
               const certificationCandidate = domainBuilder.buildCertificationCandidate({
+                ...certificationCandidateData,
                 userId: null,
-                firstName,
-                lastName,
-                birthdate,
                 organizationLearnerId: organizationLearner.id,
               });
               const certificationCandidateRepository = _buildFakeCertificationCandidateRepository()
@@ -440,7 +450,10 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
                     sessionId,
                     userId,
                   },
-                  resolves: domainBuilder.buildCertificationCandidate({ id: 'another candidate' }),
+                  resolves: domainBuilder.buildCertificationCandidate({
+                    id: 'another candidate',
+                    ...certificationCandidateData,
+                  }),
                 });
 
               const certificationCenter = domainBuilder.buildCertificationCenter({
@@ -496,6 +509,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
         it('should return the linked certification candidate', async function () {
           // given
           const certificationCandidate = domainBuilder.buildCertificationCandidate({
+            ...certificationCandidateData,
             userId: null,
             id: 'candidateId',
           });

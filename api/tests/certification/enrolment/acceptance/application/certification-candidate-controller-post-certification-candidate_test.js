@@ -10,7 +10,7 @@ import {
   sinon,
 } from '../../../../test-helper.js';
 
-describe('Acceptance | Controller | session-controller-post-certification-candidate', function () {
+describe('Acceptance | Controller | Certification | Enrolment | session-controller-post-certification-candidate', function () {
   let server;
   let resolveMx;
 
@@ -40,6 +40,7 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
         birthINSEECode: '75115',
         birthPostalCode: null,
         birthCity: null,
+        subscriptions: [domainBuilder.buildCoreSubscription()],
       });
       userId = databaseBuilder.factory.buildUser().id;
 

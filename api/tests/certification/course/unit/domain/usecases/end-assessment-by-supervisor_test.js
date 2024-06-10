@@ -15,7 +15,9 @@ describe('Unit | UseCase | end-assessment-by-supervisor', function () {
   context('when assessment is already completed', function () {
     it('should not end the assessment', async function () {
       // when
-      const certificationCandidateId = domainBuilder.buildCertificationCandidate().id;
+      const certificationCandidateId = domainBuilder.buildCertificationCandidate({
+        subscriptions: [domainBuilder.buildCoreSubscription()],
+      }).id;
       const completedCertificationAssessment = domainBuilder.buildCertificationAssessment({
         state: CertificationAssessment.states.COMPLETED,
       });
@@ -37,7 +39,9 @@ describe('Unit | UseCase | end-assessment-by-supervisor', function () {
   context('when assessment is not completed', function () {
     it('should end the assessment', async function () {
       // when
-      const certificationCandidateId = domainBuilder.buildCertificationCandidate().id;
+      const certificationCandidateId = domainBuilder.buildCertificationCandidate({
+        subscriptions: [domainBuilder.buildCoreSubscription()],
+      }).id;
       const startedCertificationAssessment = domainBuilder.buildCertificationAssessment({
         state: CertificationAssessment.states.STARTED,
       });

@@ -2,9 +2,7 @@ import JoiDate from '@joi/date';
 import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../lib/domain/constants/certification-candidates-errors.js';
-import { complementaryCertificationController } from '../../../complementary-certification/application/complementary-certification-controller.js';
-import { Subscription } from '../../../enrolment/domain/models/Subscription.js';
-import {subscriptionSchema} from './subscription-validator.js';
+import { subscriptionSchema } from './subscription-validator.js';
 
 const BILLING_MODES = {
   FREE: 'FREE',

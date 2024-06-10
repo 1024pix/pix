@@ -79,6 +79,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           const odsBuffer = 'buffer';
           const complementaryCertification = domainBuilder.buildComplementaryCertification();
           const certificationCandidate = domainBuilder.buildCertificationCandidate({
+            subscriptions: [domainBuilder.buildCoreSubscription()],
             complementaryCertification,
           });
           const certificationCandidates = [certificationCandidate];

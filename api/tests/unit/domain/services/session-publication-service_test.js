@@ -33,15 +33,19 @@ describe('Unit | UseCase | session-publication-service', function () {
   beforeEach(function () {
     candidateWithRecipient1 = domainBuilder.buildCertificationCandidate({
       resultRecipientEmail: recipient1,
+      subscriptions: [domainBuilder.buildCoreSubscription()],
     });
     candidateWithRecipient2 = domainBuilder.buildCertificationCandidate({
       resultRecipientEmail: recipient2,
+      subscriptions: [domainBuilder.buildCoreSubscription()],
     });
     candidate2WithRecipient2 = domainBuilder.buildCertificationCandidate({
       resultRecipientEmail: recipient2,
+      subscriptions: [domainBuilder.buildCoreSubscription()],
     });
     candidateWithNoRecipient = domainBuilder.buildCertificationCandidate({
       resultRecipientEmail: null,
+      subscriptions: [domainBuilder.buildCoreSubscription()],
     });
     originalSession = domainBuilder.certification.sessionManagement.buildSession({
       id: sessionId,
@@ -385,6 +389,7 @@ describe('Unit | UseCase | session-publication-service', function () {
       it('should leave resultSentToPrescriberAt untouched', async function () {
         // given
         const candidateWithNoRecipient = domainBuilder.buildCertificationCandidate({
+          subscriptions: [domainBuilder.buildCoreSubscription()],
           resultRecipientEmail: null,
         });
         const sessionWithoutResultsRecipient = domainBuilder.certification.sessionManagement.buildSession({

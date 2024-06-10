@@ -885,5 +885,6 @@ function _buildValidCandidateData({ lineNumber = 0, candidateNumber = 2 } = { ca
     extraTimePercentage: 20,
     billingMode: 'PAID',
     line: lineNumber,
+    subscriptions: [domainBuilder.buildCoreSubscription()],
   });
 }
