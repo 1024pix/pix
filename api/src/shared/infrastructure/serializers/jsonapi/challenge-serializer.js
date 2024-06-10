@@ -24,6 +24,7 @@ const serialize = function (challenges) {
       'alternativeInstruction',
       'focused',
       'shuffled',
+      'locales',
     ],
     transform: (record) => {
       const challenge = _.pickBy(record, (value) => !_.isUndefined(value));
