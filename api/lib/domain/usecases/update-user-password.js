@@ -1,4 +1,4 @@
-import { UserNotAuthorizedToUpdatePasswordError } from '../errors.js';
+import { UserNotAuthorizedToUpdatePasswordError } from '../../../src/shared/domain/errors.js';
 
 const updateUserPassword = async function ({
   userId,

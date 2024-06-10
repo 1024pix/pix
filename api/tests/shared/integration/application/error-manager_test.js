@@ -4,6 +4,7 @@ import {
   SessionWithoutStartedCertificationError,
 } from '../../../../src/certification/session-management/domain/errors.js';
 import { SiecleXmlImportError } from '../../../../src/prescription/learner-management/domain/errors.js';
+import { UserNotAuthorizedToUpdatePasswordError } from '../../../../src/shared/domain/errors.js';
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Integration | API | Controller Error', function () {
@@ -87,6 +88,24 @@ describe('Integration | API | Controller Error', function () {
         "This session hasn't started, you can't finalise it. However, you can delete it.",
       );
       expect(responseCode(response)).to.equal('SESSION_WITHOUT_STARTED_CERTIFICATION');
+    });
+  });
+
+  context('403 Forbidden', function () {
+    const FORBIDDEN_ERROR = 403;
+
+    it('responds Forbidden when a UserNotAuthorizedToUpdatePasswordError error occurs', async function () {
+      routeHandler.throws(
+        new UserNotAuthorizedToUpdatePasswordError(
+          "Cet utilisateur n'est pas autorisé à récupérer les résultats de la campagne.",
+        ),
+      );
+      const response = await server.requestObject(request);
+
+      expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
+      expect(responseDetail(response)).to.equal(
+        "Cet utilisateur n'est pas autorisé à récupérer les résultats de la campagne.",
+      );
     });
   });
 });

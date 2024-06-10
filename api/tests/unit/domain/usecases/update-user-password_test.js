@@ -1,8 +1,6 @@
-import {
-  PasswordResetDemandNotFoundError,
-  UserNotAuthorizedToUpdatePasswordError,
-} from '../../../../lib/domain/errors.js';
+import { PasswordResetDemandNotFoundError } from '../../../../lib/domain/errors.js';
 import { updateUserPassword } from '../../../../lib/domain/usecases/update-user-password.js';
+import { UserNotAuthorizedToUpdatePasswordError } from '../../../../src/shared/domain/errors.js';
 import { User } from '../../../../src/shared/domain/models/User.js';
 import { catchErr, expect, sinon } from '../../../test-helper.js';
 

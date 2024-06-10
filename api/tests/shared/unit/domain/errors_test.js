@@ -11,6 +11,10 @@ describe('Unit | Shared | Domain | Errors', function () {
     expect(errors.UserNotAuthorizedToAccessEntityError).to.exist;
   });
 
+  it('should export a UserNotAuthorizedToUpdatePasswordError', function () {
+    expect(errors.UserNotAuthorizedToUpdatePasswordError).to.exist;
+  });
+
   it('should export NoCertificationAttestationForDivisionError', function () {
     expect(errors.NoCertificationAttestationForDivisionError).to.exist;
   });
