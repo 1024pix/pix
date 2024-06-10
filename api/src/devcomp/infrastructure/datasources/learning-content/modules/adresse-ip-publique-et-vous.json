@@ -88,8 +88,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct.</p>",
-              "invalid": "<p>Incorrect. La page indique à côté de la localisation que c'est <strong>d'après votre adresse IP.</strong></p>"
+              "valid": "<span class=\"feedback__state\">Correct.</span>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>La page indique à côté de la localisation que c'est <strong>d'après votre adresse IP.</strong></p>"
             },
             "solution": "2"
           }
@@ -148,8 +148,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct. L'adresse IP publique est l’équivalent d’une adresse postale pour identifier où est une personne.</p>",
-              "invalid": "<p>Incorrect. Vous pensez peut-être plutôt à l'adresse <strong>web</strong> ou l'adresse <strong>mail</strong>.<br>Vous pouvez remonter voir la vidéo.<span aria-hidden=\"true\">👆</span>️</p>"
+              "valid": "<span class=\"feedback__state\">Correct</span>.<p>L'adresse IP publique est l’équivalent d’une adresse postale pour identifier où est une personne.</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect</span>.<p>Vous pensez peut-être plutôt à l'adresse <strong>web</strong> ou l'adresse <strong>mail</strong>.<br>Vous pouvez remonter voir la vidéo.<span aria-hidden=\"true\">👆</span>️</p>"
             },
             "solution": "1"
           }
@@ -194,8 +194,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct. Les plages d’adresses IP sont réparties dans 5 grandes régions du monde puis partagées dans chaque pays.</p>",
-              "invalid": "<p>Incorrect. Les plages d’adresses IP sont réparties dans 5 grandes régions du monde puis partagées dans chaque pays. Elles sont donc <strong>localisées</strong>.</p>"
+              "valid": "<span class=\"feedback__state\">Correct.</span><p>Les plages d’adresses IP sont réparties dans 5 grandes régions du monde puis partagées dans chaque pays.</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect</span><p>Les plages d’adresses IP sont réparties dans 5 grandes régions du monde puis partagées dans chaque pays. Elles sont donc <strong>localisées</strong>.</p>"
             },
             "solution": "1"
           }
@@ -225,8 +225,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct. Il s’agit par exemple de l’adresse IP publique de votre box internet si vous êtes chez vous ou celle du réseau de votre employeur au travail.</p>",
-              "invalid": "<p>Incorrect. Il s’agit par exemple de l’adresse IP publique de votre box internet si vous êtes chez vous ou celle du réseau de votre employeur au travail.</p>"
+              "valid": "<span class=\"feedback__state\">Correct.</span><p>Il s’agit par exemple de l’adresse IP publique de votre box internet si vous êtes chez vous ou celle du réseau de votre employeur au travail.</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Il s’agit par exemple de l’adresse IP publique de votre box internet si vous êtes chez vous ou celle du réseau de votre employeur au travail.</p>"
             },
             "solution": "1"
           }
@@ -256,8 +256,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct. Au mieux, avec une adresse IP publique, on peut connaître votre pays ou votre ville. Si besoin, les autorités peuvent cependant accéder à plus d'informations dans un cadre prévu par la loi.</p>",
-              "invalid": "<p>Incorrect. Une adresse IP publique permet d'identifier un pays, voire une ville de connexion, mais difficile d’en savoir plus&#8239;!</p>"
+              "valid": "<span class=\"feedback__state\">Correct.</span><p> Au mieux, avec une adresse IP publique, on peut connaître votre pays ou votre ville. Si besoin, les autorités peuvent cependant accéder à plus d'informations dans un cadre prévu par la loi.</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Une adresse IP publique permet d'identifier un pays, voire une ville de connexion, mais difficile d’en savoir plus&#8239;!</p>"
             },
             "solution": "2"
           }
@@ -287,8 +287,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct. C’est effectivement le point d’accès internet qui détermine l’adresse IP publique.</p>",
-              "invalid": "<p>Incorrect. Il n'y a pas plusieurs adresses IP publiques pour un même point d'accès internet. L'adresse est unique. </p>"
+              "valid": "<span class=\"feedback__state\">Correct.</span><p> C’est effectivement le point d’accès internet qui détermine l’adresse IP publique.</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Il n'y a pas plusieurs adresses IP publiques pour un même point d'accès internet. L'adresse est unique. </p>"
             },
             "solution": "1"
           }
@@ -344,8 +344,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></p>",
-              "invalid": "<p>Incorrect. Pour réussir, utilisez un site internet dédié. Pour le trouver, faites une recherche sur internet avec les mots-clés \"localisation adresse IP\".</p>"
+              "valid": "<span class=\"feedback__state\">Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></span>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Pour réussir, utilisez un site internet dédié. Pour le trouver, faites une recherche sur internet avec les mots-clés \"localisation adresse IP\".</p>"
             }
           }
         },
@@ -430,8 +430,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></p>",
-              "invalid": "<p>Incorrect. L'adresse IP privée (locale) est visible uniquement par les appareils du réseau local.</p>"
+              "valid": "<span class=\"feedback__state\">Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></span>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> L'adresse IP privée (locale) est visible uniquement par les appareils du réseau local.</p>"
             },
             "solution": "1"
           }
@@ -461,8 +461,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></p>",
-              "invalid": "<p>Incorrect. L'adresse IP publique permet les échanges entre une box internet et les sites visités.</p>"
+              "valid": "<span class=\"feedback__state\">Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></span>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> L'adresse IP publique permet les échanges entre une box internet et les sites visités.</p>"
             },
             "solution": "2"
           }
@@ -492,8 +492,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></p>",
-              "invalid": "<p>Incorrect. L'adresse IP publique est spécifique à la box internet, pas aux appareils qui y sont connectés.</p>"
+              "valid": "<span class=\"feedback__state\">Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></span>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> L'adresse IP publique est spécifique à la box internet, pas aux appareils qui y sont connectés.</p>"
             },
             "solution": "2"
           }
@@ -523,7 +523,7 @@
             ],
             "feedbacks": {
               "valid": "<p> Pour vérifier votre réponse, suivez le lien vers <a href=\"https://monip.org/\" target=\"_blank\">https://monip.org/</a>.</p>",
-              "invalid": "<p>Suivez le lien vers <a href=\"https://monip.org/\" target=\"_blank\">https://monip.org/</a> pour la trouver.</p>"
+              "invalid": "<p> Suivez le lien vers <a href=\"https://monip.org/\" target=\"_blank\">https://monip.org/</a> pour la trouver.</p>"
             },
             "solution": "1"
           }
