@@ -2,7 +2,7 @@ import { CenterForAdmin } from '../../../session-management/domain/models/Center
 
 const getCenterForAdmin = async function ({ id, centerRepository, dataProtectionOfficerRepository }) {
   const center = await centerRepository.getById({ id });
-  const dataProtectionOfficer = dataProtectionOfficerRepository.get({ certificationCenterId: id });
+  const dataProtectionOfficer = await dataProtectionOfficerRepository.get({ certificationCenterId: id });
 
   return new CenterForAdmin({ center, dataProtectionOfficer });
 };
