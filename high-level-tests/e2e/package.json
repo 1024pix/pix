@@ -41,7 +41,7 @@
     "axe-core": "^4.4.3",
     "cypress": "^12.0.0",
     "cypress-axe": "^1.4.0",
-    "cypress-visual-regression": "^5.0.0",
+    "cypress-visual-regression": "^5.0.2",
     "eslint": "^8.0.0",
     "eslint-plugin-cypress": "^3.0.0",
     "npm-run-all2": "6.2.0"
