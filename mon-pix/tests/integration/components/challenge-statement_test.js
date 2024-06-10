@@ -437,6 +437,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
             instruction: 'La consigne du test avec un bouton de lecture à haute voix',
             id: 'rec_challenge1',
           });
+          const speechSynthesis = window.speechSynthesis;
           delete window.speechSynthesis;
 
           // when
@@ -454,6 +455,8 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
               }),
             )
             .doesNotExist();
+
+          window.speechSynthesis = speechSynthesis;
         });
       });
     });
