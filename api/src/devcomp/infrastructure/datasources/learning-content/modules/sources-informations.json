@@ -197,8 +197,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct. La source d'une information est la personne <strong>témoin</strong> de l'information.</p>",
-              "invalid": "<p>Incorrect. La date ou le moyen de partage ne sont pas la source d'une information.</p>"
+              "valid": "<span class=\"feedback__state\">Correct.</span><p> La source d'une information est la personne <strong>témoin</strong> de l'information.</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> La date ou le moyen de partage ne sont pas la source d'une information.</p>"
             },
             "solution": "3"
           }
@@ -258,8 +258,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Oui, la professeure Saturne explique qu'il n'y avait pas de soucoupe volante. Son équipe et elle ont pu observer l'aurore boréale au télescope.</p>",
-              "invalid": "<p>Incorrect. Madame Sarah n'est pas présente et le journaliste Dupont écoute le témoignage de la professeure Saturne.</p>"
+              "valid": "<span class=\"feedback__state\">Oui,c'est correct.</span><p> la professeure Saturne explique qu'il n'y avait pas de soucoupe volante. Son équipe et elle ont pu observer l'aurore boréale au télescope.</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Madame Sarah n'est pas présente et le journaliste Dupont écoute le témoignage de la professeure Saturne.</p>"
             },
             "solution": "2"
           }
@@ -381,8 +381,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct. Les publications de JournalDeBlagues ont pour objectif de faire rire.</p>",
-              "invalid": "<p>Incorrect. Les publications de JournalDeBlagues ont pour objectif de faire rire.</p>"
+              "valid": "<span class=\"feedback__state\">Correct.</span><p> Les publications de JournalDeBlagues ont pour objectif de faire rire.</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Les publications de JournalDeBlagues ont pour objectif de faire rire.</p>"
             },
             "solution": "2"
           }
@@ -426,8 +426,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct. Ce journal est reconnu et vérifie les informations qu’il publie. Ces informations sont donc très souvent vraies.</p>",
-              "invalid": "<p>Incorrect. Ce journal est reconnu et vérifie les informations qu’il publie. Ces informations sont donc très souvent vraies.</p>"
+              "valid": "<span class=\"feedback__state\">Correct.</span><p> Ce journal est reconnu et vérifie les informations qu’il publie. Ces informations sont donc très souvent vraies.</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Ce journal est reconnu et vérifie les informations qu’il publie. Ces informations sont donc très souvent vraies.</p>"
             },
             "solution": "1"
           }
@@ -471,8 +471,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct. L’auteur présente des informations fausses ou incomplètes et qui servent ses intérêts. Il n’est pas neutre ou expert.</p>",
-              "invalid": "<p>Incorrect. L’auteur présente des informations fausses ou incomplètes et qui servent ses intérêts. Il n’est pas neutre ou expert.</p>"
+              "valid": "<span class=\"feedback__state\">Correct.</span><p> L’auteur présente des informations fausses ou incomplètes et qui servent ses intérêts. Il n’est pas neutre ou expert.</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> L’auteur présente des informations fausses ou incomplètes et qui servent ses intérêts. Il n’est pas neutre ou expert.</p>"
             },
             "solution": "3"
           }

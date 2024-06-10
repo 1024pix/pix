@@ -3,7 +3,7 @@ import { module, test } from 'qunit';
 
 import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 
-module('Unit | Component | Module | QCU', function (hooks) {
+module('Unit | Component | Module | QCM', function (hooks) {
   setupTest(hooks);
 
   module('#answerIsValid', function () {
@@ -12,13 +12,13 @@ module('Unit | Component | Module | QCU', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const correctionResponse = store.createRecord('correction-response', { status: 'ko' });
-        const qcuElement = { id: '994b6a96-a3c2-47ae-a461-87548ac6e02b' };
+        const qcmElement = { id: '994b6a96-a3c2-47ae-a461-87548ac6e02b' };
         store.createRecord('element-answer', {
           correction: correctionResponse,
-          element: qcuElement,
+          element: qcmElement,
         });
-        const component = createGlimmerComponent('module/element/qcu', {
-          qcu: qcuElement,
+        const component = createGlimmerComponent('module/element/qcm', {
+          qcm: qcmElement,
           correction: correctionResponse,
         });
 
@@ -35,13 +35,13 @@ module('Unit | Component | Module | QCU', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const correctionResponse = store.createRecord('correction-response', { status: 'ok' });
-        const qcuElement = { id: 'qcu-id' };
+        const qcmElement = { id: 'qcm-id' };
         store.createRecord('element-answer', {
           correction: correctionResponse,
-          elementId: qcuElement.id,
+          elementId: qcmElement.id,
         });
-        const component = createGlimmerComponent('module/element/qcu', {
-          qcu: qcuElement,
+        const component = createGlimmerComponent('module/element/qcm', {
+          qcm: qcmElement,
           correction: correctionResponse,
         });
 

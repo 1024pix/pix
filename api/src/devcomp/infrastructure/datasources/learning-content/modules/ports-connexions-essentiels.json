@@ -256,8 +256,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Oui&#8239;! cette souris filaire se branche à un port USB.</p>",
-              "invalid": "<p>Attention&#8239;! Regardez bien l’extrémité du fil de cette souris. Elle se branche à un port USB.</p>"
+              "valid": "<span class=\"feedback__state\">Oui&#8239;!</span><p> cette souris filaire se branche à un port USB.</p>",
+              "invalid": "<span class=\"feedback__state\">Attention&#8239;!</span><p> Regardez bien l’extrémité du fil de cette souris. Elle se branche à un port USB.</p>"
             },
             "solution": "1"
           }
@@ -297,8 +297,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct&#8239;! Ce casque audio ne se branche pas à un port USB. Il se branche à un port jack.</p>",
-              "invalid": "<p>Attention&#8239;! Regardez bien l’extrémité du fil de ce casque audio. Il ne se branche pas en USB.</p>"
+              "valid": "<span class=\"feedback__state\">Correct&#8239;!</span><p> Ce casque audio ne se branche pas à un port USB. Il se branche à un port jack.</p>",
+              "invalid": "<span class=\"feedback__state\">Attention&#8239;!</span><p> Regardez bien l’extrémité du fil de ce casque audio. Il ne se branche pas en USB.</p>"
             },
             "solution": "2"
           }
@@ -338,8 +338,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Bien vu&#8239;! Ce symbole peut changer un peu sur des ports USB plus récents.</p>",
-              "invalid": "<p>Et si&#8239;! Retenez ce symbole, il vous aidera à trouver les branchements USB.</p>"
+              "valid": "<span class=\"feedback__state\">Bien vu&#8239;!</span><p> Ce symbole peut changer un peu sur des ports USB plus récents.</p>",
+              "invalid": "<span class=\"feedback__state\">Et si&#8239;!</span><p> Retenez ce symbole, il vous aidera à trouver les branchements USB.</p>"
             },
             "solution": "1"
           }
@@ -579,8 +579,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct. Vous avez bien identifié le port USB.</p>",
-              "invalid": "<p>Incorrect. Remontez voir les différents ports pour trouver le port <strong>USB</strong>.</p>"
+              "valid": "<span class=\"feedback__state\">Correct.</span><p> Vous avez bien identifié le port USB.</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Remontez voir les différents ports pour trouver le port <strong>USB</strong>.</p>"
             },
             "solution": "4"
           }

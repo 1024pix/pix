@@ -1,4 +1,4 @@
-import * as solutionServiceQCM from '../../services/solution-service-qcm.js';
+import solutionServiceQCM from '../../services/solution-service-qcm.js';
 import { Validation } from './Validation.js';
 import { Validator } from './Validator.js';
 

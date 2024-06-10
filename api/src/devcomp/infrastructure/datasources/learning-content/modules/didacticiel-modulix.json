@@ -146,8 +146,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct&#8239;! Ces 16 compétences sont rangées dans 5 domaines.</p>",
-              "invalid": "<p>Incorrect. Retourner voir la vidéo si besoin&nbsp;<span aria-hidden=\"true\">👆</span>️!</p>"
+              "valid": "<span class=\"feedback__state\">Correct&#8239;!</span><p> Ces 16 compétences sont rangées dans 5 domaines.</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Retourner voir la vidéo si besoin&nbsp;<span aria-hidden=\"true\">👆</span>️!</p>"
             },
             "solution": "1"
           }
@@ -188,8 +188,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct&#8239;! Vous nous avez bien cernés&nbsp;:)</p>",
-              "invalid": "<p>Et non&#8239;! Pix sert à évaluer, certifier et développer ses compétences numériques.</p>"
+              "valid": "<span class=\"feedback__state\">Correct&#8239;!</span><p>Vous nous avez bien cernés&nbsp;:)</p>",
+              "invalid": "<span class=\"feedback__state\">Et non&#8239;!</span><p> Pix sert à évaluer, certifier et développer ses compétences numériques.</p>"
             },
             "solutions": ["1", "3", "4"]
           }
@@ -222,8 +222,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct&#8239;! Vous avez bien remonté la page</p>",
-              "invalid": "<p>Incorrect. Remonter la page pour retrouver le premier mot&#8239;!</p>"
+              "valid": "<span class=\"feedback__state\">Correct&#8239;!</span><p> Vous avez bien remonté la page</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Remonter la page pour retrouver le premier mot&#8239;!</p>"
             },
             "solution": "2"
           }
@@ -276,8 +276,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct&#8239;! vous nous connaissez bien&nbsp;<span aria-hidden=\"true\">🎉</span></p>",
-              "invalid": "<p>Incorrect&#8239;! vous y arriverez la prochaine fois&#8239;!</p>"
+              "valid": "<span class=\"feedback__state\">Correct&#8239;!</span><p> vous nous connaissez bien&nbsp;<span aria-hidden=\"true\">🎉</span></p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span><p> vous y arriverez la prochaine fois&#8239;!</p>"
             }
           }
         }
@@ -309,8 +309,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p>Correct&#8239;! vous êtes prêt à explorer&nbsp;<span aria-hidden=\"true\">🎉</span></p>",
-              "invalid": "<p>Incorrect&#8239;! vous y arriverez la prochaine fois&#8239;!</p>"
+              "valid": "<span class=\"feedback__state\">Correct&#8239;!</span><p> Vous êtes prêt à explorer&nbsp;<span aria-hidden=\"true\">🎉</span></p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span><p> Vous y arriverez la prochaine fois&#8239;!</p>"
             }
           }
         }
