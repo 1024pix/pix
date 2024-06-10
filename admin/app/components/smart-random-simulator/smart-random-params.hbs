@@ -14,6 +14,7 @@
           @placeholder="12345"
           @value={{this.campaignId}}
           {{on "change" this.updateCampaignIdValue}}
+          type="number"
         />
 
         <PixButton @triggerAction={{this.loadCampaignParams}} @size="small">
