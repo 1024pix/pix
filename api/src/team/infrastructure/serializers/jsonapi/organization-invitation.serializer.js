@@ -17,5 +17,4 @@ const deserializeForCreateOrganizationInvitationAndSendEmail = function (payload
     };
   });
 };
-
-export { deserializeForCreateOrganizationInvitationAndSendEmail, serialize };
+export const organizationInvitationSerializer = { deserializeForCreateOrganizationInvitationAndSendEmail, serialize };

@@ -32,26 +32,6 @@ const register = async function (server) {
         tags: ['api', 'invitations'],
       },
     },
-    {
-      method: 'GET',
-      path: '/api/organization-invitations/{id}',
-      config: {
-        auth: false,
-        handler: organizationInvitationController.getOrganizationInvitation,
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationInvitationId,
-          }),
-          query: Joi.object({
-            code: Joi.string().required(),
-          }),
-        },
-        notes: [
-          "- Cette route permet de récupérer les détails d'une invitation selon un **id d'invitation** et un **code**\n",
-        ],
-        tags: ['api', 'invitations'],
-      },
-    },
   ]);
 };
 

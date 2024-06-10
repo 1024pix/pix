@@ -7,6 +7,9 @@ describe('Integration | Team | Application | Route | organization-invitations', 
 
   beforeEach(async function () {
     sinon.stub(organizationInvitationController, 'sendScoInvitation').callsFake((request, h) => h.response().code(201));
+    sinon
+      .stub(organizationInvitationController, 'getOrganizationInvitation')
+      .callsFake((request, h) => h.response().code(200));
 
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(teamRoutes[0]);
@@ -16,11 +19,29 @@ describe('Integration | Team | Application | Route | organization-invitations', 
     sinon.restore();
   });
 
+  describe('GET /api/organization-invitations/:id', function () {
+    it('returns 200 when query is valid', async function () {
+      // when
+      const response = await httpTestServer.request('GET', '/api/organization-invitations/1?code=DZWMP7L5UM');
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('returns 400 when query is invalid', async function () {
+      // when
+      const response = await httpTestServer.request('GET', '/api/organization-invitations/1');
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+  });
+
   describe('POST /api/organization-invitations/sco', function () {
     const method = 'POST';
     const url = '/api/organization-invitations/sco';
 
-    it('should send invitation when payload is valid', async function () {
+    it('sends invitation when payload is valid', async function () {
       // given
       const payload = {
         data: {
@@ -40,7 +61,7 @@ describe('Integration | Team | Application | Route | organization-invitations', 
       expect(response.statusCode).to.equal(201);
     });
 
-    it('should return bad request when payload is not valid', async function () {
+    it('returns bad request when payload is not valid', async function () {
       // given
       const payload = {
         data: {

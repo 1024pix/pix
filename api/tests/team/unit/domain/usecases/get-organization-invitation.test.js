@@ -2,12 +2,12 @@ import {
   AlreadyExistingInvitationError,
   CancelledInvitationError,
   NotFoundError,
-} from '../../../../lib/domain/errors.js';
-import { getOrganizationInvitation } from '../../../../lib/domain/usecases/get-organization-invitation.js';
-import { OrganizationInvitation } from '../../../../src/team/domain/models/OrganizationInvitation.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
+} from '../../../../../lib/domain/errors.js';
+import { OrganizationInvitation } from '../../../../../src/team/domain/models/OrganizationInvitation.js';
+import { getOrganizationInvitation } from '../../../../../src/team/domain/usecases/get-organization-invitation.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | get-organization-invitation', function () {
+describe('Unit | Team | Domain | UseCase | get-organization-invitation', function () {
   let organizationInvitationRepository;
   let organizationRepository;
 
@@ -21,7 +21,7 @@ describe('Unit | UseCase | get-organization-invitation', function () {
   });
 
   context('when invitation with id and code does not exist', function () {
-    it('should throw a NotFoundError', async function () {
+    it('throws a NotFoundError', async function () {
       // given
       organizationInvitationRepository.getByIdAndCode.rejects(new NotFoundError());
 
@@ -39,7 +39,7 @@ describe('Unit | UseCase | get-organization-invitation', function () {
   });
 
   context('when organization with id does not exist', function () {
-    it('should throw a NotFoundError', async function () {
+    it('throws a NotFoundError', async function () {
       // given
       const organizationInvitation = domainBuilder.buildOrganizationInvitation();
       organizationInvitationRepository.getByIdAndCode.resolves(organizationInvitation);
@@ -59,7 +59,7 @@ describe('Unit | UseCase | get-organization-invitation', function () {
   });
 
   context('when invitation is already accepted', function () {
-    it('should throw an AlreadyExistingInvitationError', async function () {
+    it('throws an AlreadyExistingInvitationError', async function () {
       // given
       const status = OrganizationInvitation.StatusType.ACCEPTED;
       const organizationInvitation = domainBuilder.buildOrganizationInvitation({ status });
@@ -78,7 +78,7 @@ describe('Unit | UseCase | get-organization-invitation', function () {
   });
 
   context('when invitation is not accepted yet', function () {
-    it('should return found organization invitation', async function () {
+    it('returns found organization invitation', async function () {
       // given
       const organization = domainBuilder.buildOrganization();
       const organizationInvitationPending = domainBuilder.buildOrganizationInvitation({
@@ -105,7 +105,7 @@ describe('Unit | UseCase | get-organization-invitation', function () {
     });
 
     context('when invitation is cancelled', function () {
-      it('should throw an CancelledInvitationError', async function () {
+      it('throws an CancelledInvitationError', async function () {
         // given
         const status = OrganizationInvitation.StatusType.CANCELLED;
         const organization = domainBuilder.buildOrganization();

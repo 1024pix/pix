@@ -1,5 +1,5 @@
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/organization-invitation-serializer.js';
-import { domainBuilder, expect } from '../../../../test-helper.js';
+import { organizationInvitationSerializer } from '../../../../../../src/team/infrastructure/serializers/jsonapi/organization-invitation.serializer.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | organization-invitation-serializer', function () {
   describe('#serialize', function () {
@@ -8,7 +8,7 @@ describe('Unit | Serializer | JSONAPI | organization-invitation-serializer', fun
       const invitationObject = domainBuilder.buildOrganizationInvitation();
 
       // when
-      const json = serializer.serialize(invitationObject);
+      const json = organizationInvitationSerializer.serialize(invitationObject);
 
       // then
       const jsonInvitationExpected = {
@@ -45,7 +45,8 @@ describe('Unit | Serializer | JSONAPI | organization-invitation-serializer', fun
       };
 
       // when
-      const json = await serializer.deserializeForCreateOrganizationInvitationAndSendEmail(payload);
+      const json =
+        await organizationInvitationSerializer.deserializeForCreateOrganizationInvitationAndSendEmail(payload);
 
       // then
       const expectedJsonApi = {
@@ -70,7 +71,8 @@ describe('Unit | Serializer | JSONAPI | organization-invitation-serializer', fun
       };
 
       // when
-      const json = await serializer.deserializeForCreateOrganizationInvitationAndSendEmail(payload);
+      const json =
+        await organizationInvitationSerializer.deserializeForCreateOrganizationInvitationAndSendEmail(payload);
 
       // then
       expect(json.email).to.deep.equal('email@example.net');

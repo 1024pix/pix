@@ -1,5 +1,13 @@
-import { AlreadyExistingInvitationError, CancelledInvitationError } from '../../domain/errors.js';
+import { AlreadyExistingInvitationError, CancelledInvitationError } from '../../../../lib/domain/errors.js';
 
+/**
+ * @param {Object} params
+ * @param {string} params.organizationInvitationId
+ * @param {string} params.organizationInvitationCode
+ * @param {OrganizationRepository} params.organizationRepository
+ * @param {OrganizationInvitationRepository} params.organizationInvitationRepository
+ * @returns {Promise<OrganizationInvitation>}
+ */
 const getOrganizationInvitation = async function ({
   organizationInvitationId,
   organizationInvitationCode,
