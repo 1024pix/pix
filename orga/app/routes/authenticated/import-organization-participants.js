@@ -10,7 +10,7 @@ export default class ImportOrganizationParticipantsRoute extends Route {
   beforeModel() {
     super.beforeModel(...arguments);
 
-    if (!this.currentUser.shouldAccessImportPage) {
+    if (!this.currentUser.canAccessImportPage) {
       return this.router.replaceWith('application');
     }
   }

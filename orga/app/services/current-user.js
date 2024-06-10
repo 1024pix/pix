@@ -59,23 +59,30 @@ export default class CurrentUserService extends Service {
     this.organization = organization;
   }
 
-  get shouldAccessImportPage() {
+  get homePage() {
+    if (this.canAccessMissionsPage) {
+      return 'authenticated.missions';
+    }
+    return 'authenticated.campaigns';
+  }
+
+  get canAccessImportPage() {
     return Boolean(
       (this.isSCOManagingStudents || this.isSUPManagingStudents || this.hasLearnerImportFeature) &&
         this.isAdminInOrganization,
     );
   }
 
-  get shouldAccessPlacesPage() {
+  get canAccessPlacesPage() {
     return this.isAdminInOrganization && this.prescriber.placesManagement;
   }
-  get shouldAccessMissionsPage() {
+  get canAccessMissionsPage() {
     return this.prescriber.missionsManagement;
   }
-  get shouldAccessCampaignsPage() {
+  get canAccessCampaignsPage() {
     return !this.prescriber.missionsManagement;
   }
-  get shouldAccessParticipantsPage() {
+  get canAccessParticipantsPage() {
     return !this.prescriber.missionsManagement;
   }
   get hasLearnerImportFeature() {

@@ -6,7 +6,7 @@ export default class MissionListRoute extends Route {
   @service router;
 
   beforeModel() {
-    if (!this.currentUser.shouldAccessMissionsPage) {
+    if (!this.currentUser.canAccessMissionsPage) {
       this.router.replaceWith('application');
     }
   }

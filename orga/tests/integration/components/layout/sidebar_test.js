@@ -38,7 +38,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
     test('the logo should redirect to campaigns page', async function (assert) {
       class CurrentUserStub extends Service {
         organization = Object.create({ id: 5 });
-        shouldAccessCampaignsPage = true;
+        canAccessCampaignsPage = true;
       }
       this.owner.register('service:current-user', CurrentUserStub);
       const intl = this.owner.lookup('service:intl');
@@ -54,8 +54,8 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
     test('should display Campagne and Équipe menu for all organisation members', async function (assert) {
       class CurrentUserStub extends Service {
         organization = Object.create({ id: 1 });
-        shouldAccessCampaignsPage = true;
-        shouldAccessParticipantsPage = true;
+        canAccessCampaignsPage = true;
+        canAccessParticipantsPage = true;
       }
       this.owner.register('service:current-user', CurrentUserStub);
       const intl = this.owner.lookup('service:intl');
@@ -80,10 +80,10 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       assert.dom(screen.getByText('Documentation')).exists();
     });
 
-    test('should display Places menu if shouldAccessPlacesPage is true', async function (assert) {
+    test('should display Places menu if canAccessPlacesPage is true', async function (assert) {
       class CurrentUserStub extends Service {
         organization = Object.create({ id: 1 });
-        shouldAccessPlacesPage = true;
+        canAccessPlacesPage = true;
       }
       this.owner.register('service:current-user', CurrentUserStub);
 
@@ -92,10 +92,10 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       assert.ok(screen.getByText(this.intl.t('navigation.main.places')));
     });
 
-    test('should not display Places menu if shouldAccessPlacesPage is false', async function (assert) {
+    test('should not display Places menu if canAccessPlacesPage is false', async function (assert) {
       class CurrentUserStub extends Service {
         organization = Object.create({ id: 1 });
-        shouldAccessPlacesPage = false;
+        canAccessPlacesPage = false;
       }
       this.owner.register('service:current-user', CurrentUserStub);
 
@@ -110,7 +110,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       // given
       class CurrentUserStub extends Service {
         organization = Object.create({ id: 1, type: 'PRO' });
-        shouldAccessParticipantsPage = true;
+        canAccessParticipantsPage = true;
       }
 
       this.owner.register('service:current-user', CurrentUserStub);
@@ -131,7 +131,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       class CurrentUserStub extends Service {
         organization = Object.create({ id: 1, type: 'SUP' });
         isSUPManagingStudents = true;
-        shouldAccessParticipantsPage = true;
+        canAccessParticipantsPage = true;
       }
 
       this.owner.register('service:current-user', CurrentUserStub);
@@ -150,7 +150,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       class CurrentUserStub extends Service {
         organization = Object.create({ id: 1, type: 'SUP' });
         isSUPManagingStudents = false;
-        shouldAccessParticipantsPage = true;
+        canAccessParticipantsPage = true;
       }
 
       this.owner.register('service:current-user', CurrentUserStub);
@@ -171,8 +171,8 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       class CurrentUserStub extends Service {
         organization = Object.create({ id: 1, type: 'SCO' });
         isSCOManagingStudents = true;
-        shouldAccessMissionsPage = false;
-        shouldAccessParticipantsPage = true;
+        canAccessMissionsPage = false;
+        canAccessParticipantsPage = true;
       }
 
       this.owner.register('service:current-user', CurrentUserStub);
@@ -191,7 +191,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       class CurrentUserStub extends Service {
         organization = Object.create({ id: 1, type: 'SCO' });
         isSCOManagingStudents = false;
-        shouldAccessParticipantsPage = true;
+        canAccessParticipantsPage = true;
       }
 
       this.owner.register('service:current-user', CurrentUserStub);
@@ -248,7 +248,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
     test('the logo should redirect to mission page', async function (assert) {
       class CurrentUserStub extends Service {
         organization = Object.create({ id: 5 });
-        shouldAccessMissionsPage = true;
+        canAccessMissionsPage = true;
       }
       this.owner.register('service:current-user', CurrentUserStub);
       const intl = this.owner.lookup('service:intl');
@@ -263,7 +263,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
     test('should display Mission menu', async function (assert) {
       class CurrentUserStub extends Service {
         organization = Object.create({ id: 5 });
-        shouldAccessMissionsPage = true;
+        canAccessMissionsPage = true;
       }
       this.owner.register('service:current-user', CurrentUserStub);
       const intl = this.owner.lookup('service:intl');
@@ -277,7 +277,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
     test('should not display Campagne and Participants menus', async function (assert) {
       class CurrentUserStub extends Service {
         organization = Object.create({ id: 5 });
-        shouldAccessMissionsPage = true;
+        canAccessMissionsPage = true;
       }
       this.owner.register('service:current-user', CurrentUserStub);
       const intl = this.owner.lookup('service:intl');

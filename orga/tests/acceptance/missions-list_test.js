@@ -166,5 +166,33 @@ module('Acceptance | Missions List', function (hooks) {
       // then
       assert.deepEqual(currentURL(), '/missions/1');
     });
+
+    test('should not access to my-campaigns page', async function (assert) {
+      const user = createUserWithMembershipAndTermsOfServiceAccepted();
+      const prescriber = createPrescriberByUser({ user });
+      prescriber.features = { ...prescriber.features, MISSIONS_MANAGEMENT: true };
+      await authenticateSession(user.id);
+
+      server.create('mission', { id: 1, name: 'Super Mission', competenceName: 'Super competence' });
+
+      await visit('/campagnes/les-miennes');
+
+      // then
+      assert.deepEqual(currentURL(), '/missions');
+    });
+
+    test('should not access to all-campaigns page', async function (assert) {
+      const user = createUserWithMembershipAndTermsOfServiceAccepted();
+      const prescriber = createPrescriberByUser({ user });
+      prescriber.features = { ...prescriber.features, MISSIONS_MANAGEMENT: true };
+      await authenticateSession(user.id);
+
+      server.create('mission', { id: 1, name: 'Super Mission', competenceName: 'Super competence' });
+
+      await visit('/campagnes/toutes');
+
+      // then
+      assert.deepEqual(currentURL(), '/missions');
+    });
   });
 });

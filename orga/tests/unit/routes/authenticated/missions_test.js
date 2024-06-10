@@ -7,10 +7,10 @@ module('Unit | Route | authenticated/missions', function (hooks) {
   setupTest(hooks);
 
   module('beforeModel', function () {
-    test('should not redirect to application when currentUser.shouldAccessMissionsPage is true', function (assert) {
+    test('should not redirect to application when currentUser.canAccessMissionsPage is true', function (assert) {
       // given
       class CurrentUserStub extends Service {
-        shouldAccessMissionsPage = true;
+        canAccessMissionsPage = true;
       }
 
       this.owner.register('service:current-user', CurrentUserStub);
@@ -25,10 +25,10 @@ module('Unit | Route | authenticated/missions', function (hooks) {
       assert.notOk(route.router.replaceWith.calledWith(expectedRedirection));
     });
 
-    test('should redirect to application when currentUser.shouldAccessMissionsPage is false', function (assert) {
+    test('should redirect to application when currentUser.canAccessMissionsPage is false', function (assert) {
       // given
       class CurrentUserStub extends Service {
-        shouldAccessMissionsPage = false;
+        canAccessMissionsPage = false;
       }
 
       this.owner.register('service:current-user', CurrentUserStub);
