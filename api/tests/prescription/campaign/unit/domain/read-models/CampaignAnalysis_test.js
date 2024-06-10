@@ -1,5 +1,5 @@
-import { CampaignAnalysis } from '../../../../lib/domain/read-models/CampaignAnalysis.js';
-import { domainBuilder, expect } from '../../../test-helper.js';
+import { CampaignAnalysis } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignAnalysis.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
   describe('constructor', function () {

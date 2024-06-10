@@ -1,6 +1,6 @@
 import { campaignController } from '../../../../lib/application/campaigns/campaign-controller.js';
 import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../src/prescription/campaign/domain/usecases/index.js';
 import { LOCALE } from '../../../../src/shared/domain/constants.js';
 import { catchErr, expect, hFake, sinon } from '../../../test-helper.js';
 

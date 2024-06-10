@@ -115,7 +115,6 @@ import * as accountRecoveryDemandRepository from '../../infrastructure/repositor
 import * as attachableTargetProfileRepository from '../../infrastructure/repositories/attachable-target-profiles-repository.js';
 import * as badgeAcquisitionRepository from '../../infrastructure/repositories/badge-acquisition-repository.js';
 import * as badgeForCalculationRepository from '../../infrastructure/repositories/badge-for-calculation-repository.js';
-import * as campaignAnalysisRepository from '../../infrastructure/repositories/campaign-analysis-repository.js';
 import * as campaignParticipantRepository from '../../infrastructure/repositories/campaign-participant-repository.js';
 import * as campaignParticipationOverviewRepository from '../../infrastructure/repositories/campaign-participation-overview-repository.js';
 import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
@@ -216,7 +215,6 @@ const dependencies = {
   badgeAcquisitionRepository,
   badgeForCalculationRepository,
   badgeRepository,
-  campaignAnalysisRepository,
   campaignAssessmentParticipationRepository,
   campaignAssessmentParticipationResultRepository,
   campaignManagementRepository,

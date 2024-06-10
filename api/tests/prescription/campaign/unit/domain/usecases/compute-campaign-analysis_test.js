@@ -1,7 +1,7 @@
-import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { LOCALE } from '../../../../src/shared/domain/constants.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
+import { LOCALE } from '../../../../../../src/shared/domain/constants.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 const { FRENCH_SPOKEN } = LOCALE;
 const { computeCampaignAnalysis } = usecases;

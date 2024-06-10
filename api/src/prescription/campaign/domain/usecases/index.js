@@ -35,12 +35,15 @@ import * as groupRepository from '../../infrastructure/repositories/group-reposi
 import * as targetProfileRepository from '../../infrastructure/repositories/target-profile-repository.js';
 import * as campaignCsvExportService from '../services/campaign-csv-export-service.js';
 import * as campaignUpdateValidator from '../validators/campaign-update-validator.js';
+import * as campaignAnalysisRepository from '../../../campaign-participation/infrastructure/repositories/campaign-analysis-repository.js';
+import { repositories } from '../../../../../lib/infrastructure/repositories/index.js';
 
 const dependencies = {
   badgeAcquisitionRepository,
   badgeRepository,
   campaignRepository,
   campaignAdministrationRepository,
+  campaignAnalysisRepository,
   campaignManagementRepository,
   campaignCreatorRepository,
   campaignCsvExportService,
@@ -68,6 +71,7 @@ const dependencies = {
   campaignCollectiveResultRepository,
   campaignToJoinRepository,
   campaignParticipationsStatsRepository,
+  tutorialRepository: repositories.tutorialRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
