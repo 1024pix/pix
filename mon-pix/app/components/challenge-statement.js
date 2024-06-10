@@ -83,6 +83,8 @@ export default class ChallengeStatement extends Component {
       const element = document.getElementsByClassName('challenge-statement-instruction__text')[0];
       const textToSpeech = new SpeechSynthesisUtterance(element.innerText);
       textToSpeech.lang = this.getChallengeLanguage();
+      textToSpeech.pitch = 0.8;
+      textToSpeech.rate = 0.8;
       textToSpeech.onend = () => {
         this.isSpeaking = false;
         this.textToSpeechButtonTooltipText = this.intl.t('pages.challenge.statement.text-to-speech.play');
