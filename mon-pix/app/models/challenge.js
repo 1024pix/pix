@@ -7,6 +7,7 @@ import Model, { attr, belongsTo } from '@ember-data/model';
 export default class Challenge extends Model {
   // attributes
   @attr('array') attachments;
+  @attr('array') locales;
   @attr('string') embedUrl;
   @attr('string') embedTitle;
   @attr('string') embedHeight;
