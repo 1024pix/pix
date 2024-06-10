@@ -4,10 +4,10 @@ import {
   extractLocaleFromRequest,
   extractUserIdFromRequest,
 } from '../../../src/shared/infrastructure/utils/request-response-utils.js';
+import { organizationInvitationSerializer } from '../../../src/team/infrastructure/serializers/jsonapi/organization-invitation.serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as csvSerializer from '../../infrastructure/serializers/csv/csv-serializer.js';
 import * as membershipSerializer from '../../infrastructure/serializers/jsonapi/membership-serializer.js';
-import * as organizationInvitationSerializer from '../../infrastructure/serializers/jsonapi/organization-invitation-serializer.js';
 import * as organizationMemberIdentitySerializer from '../../infrastructure/serializers/jsonapi/organization-member-identity-serializer.js';
 import * as organizationSerializer from '../../infrastructure/serializers/jsonapi/organization-serializer.js';
 import * as organizationForAdminSerializer from '../../infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin-serializer.js';

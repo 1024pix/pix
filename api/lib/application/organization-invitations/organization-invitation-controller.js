@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
+import { serializer as organizationInvitationSerializer } from '../../../src/team/infrastructure/serializers/jsonapi/organization-invitation.serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
-import * as organizationInvitationSerializer from '../../infrastructure/serializers/jsonapi/organization-invitation-serializer.js';
 import { MissingQueryParamError } from '../http-errors.js';
 
 const acceptOrganizationInvitation = async function (request) {
