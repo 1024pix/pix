@@ -37,7 +37,7 @@ describe('Acceptance | Controllers | CreateAuditLogController', () => {
   });
 
   describe('when user credentials are invalid', () => {
-    test('returns a unauthorized http status', async() => {
+    test('returns a unauthorized http status', async () => {
       // when
       options = {
         ...options,
@@ -51,12 +51,43 @@ describe('Acceptance | Controllers | CreateAuditLogController', () => {
   });
 
   describe('when request is valid', () => {
-    test('returns a no content http status', async () => {
-      // when
-      const response = await server.inject(options);
+    describe('with a single event log', () => {
+      test('returns a no content http status', async () => {
+        // when
+        const response = await server.inject(options);
 
-      // then
-      expect(response.statusCode).toEqual(204);
+        // then
+        expect(response.statusCode).toEqual(204);
+      });
+    });
+
+    describe('with multiple event logs', () => {
+      test('returns a no content http status', async () => {
+        // when
+        const response = await server.inject(options);
+
+        options.payload = [
+          {
+            targetUserId: '2',
+            userId: 3,
+            action: 'READ',
+            occurredAt: new Date('2023-07-05'),
+            role: 'METIER',
+            client: 'PIX_APP',
+          },
+          {
+            targetUserId: '2',
+            userId: 3,
+            action: 'READ',
+            occurredAt: new Date('2023-07-06'),
+            role: 'METIER',
+            client: 'PIX_APP',
+          },
+        ];
+
+        // then
+        expect(response.statusCode).toEqual(204);
+      });
     });
   });
 
