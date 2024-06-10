@@ -6,7 +6,7 @@ import { AlreadyExistingEntityError } from '../../domain/errors.js';
 const { omit } = lodash;
 
 import { knex } from '../../../db/knex-database-connection.js';
-import { Tag } from '../../domain/models/Tag.js';
+import { Tag } from '../../../src/organizational-entities/domain/models/Tag.js';
 
 const create = async function (tag) {
   try {

@@ -1,5 +1,5 @@
-import { Tag } from '../../../../lib/domain/models/Tag.js';
 import { createTag } from '../../../../lib/domain/usecases/create-tag.js';
+import { Tag } from '../../../../src/organizational-entities/domain/models/Tag.js';
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | create-tag', function () {

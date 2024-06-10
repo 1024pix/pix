@@ -1,7 +1,7 @@
 import { AlreadyExistingEntityError } from '../../../../lib/domain/errors.js';
-import { Tag } from '../../../../lib/domain/models/Tag.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import * as tagRepository from '../../../../lib/infrastructure/repositories/tag-repository.js';
+import { Tag } from '../../../../src/organizational-entities/domain/models/Tag.js';
 import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | Repository | TagRepository', function () {

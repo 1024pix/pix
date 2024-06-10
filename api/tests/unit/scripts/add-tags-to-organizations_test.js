@@ -1,5 +1,5 @@
-import { Tag } from '../../../lib/domain/models/Tag.js';
 import { addTagsToOrganizations } from '../../../scripts/add-tags-to-organizations.js';
+import { Tag } from '../../../src/organizational-entities/domain/models/Tag.js';
 import { expect, sinon } from '../../test-helper.js';
 
 describe('Unit | Scripts | add-tags-to-organizations.js', function () {

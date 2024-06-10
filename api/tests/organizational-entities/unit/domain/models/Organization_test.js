@@ -1,5 +1,5 @@
-import { Tag } from '../../../../../lib/domain/models/Tag.js';
 import { Organization } from '../../../../../src/organizational-entities/domain/models/Organization.js';
+import { Tag } from '../../../../../src/organizational-entities/domain/models/Tag.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Unit | Organizational Entities | Domain | Model | Organization', function () {
