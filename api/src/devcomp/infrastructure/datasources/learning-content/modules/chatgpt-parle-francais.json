@@ -1,0 +1,130 @@
+{
+  "id": "01151659-77c1-41cc-8724-89091357af3d",
+  "slug": "chatgpt-parle-francais",
+  "title": "ChatGPT parle-t-il vraiment français ?",
+  "details": {
+    "image": "https://images.pix.fr/modulix/placeholder-details.svg",
+    "description": "Les LLM ont l’air de parler toutes les langues, et d’avoir réponse à tout. Dans ce module, vous allez apprendre à reconnaître les biais culturels et linguistiques dans l’usage des LLM. Vous pourrez qualifier ces biais et comprendre les enjeux du développement d’une grande variété de LLM.",
+    "duration": 15,
+    "level": "Avancé",
+    "objectives": [
+      "Identifier les biais culturels et linguistiques des LLM",
+      "Connaître différents LLM et leurs caractéristiques",
+      "Comparer les résultats de deux LLMs différents"
+    ]
+  },
+  "transitionTexts": [
+    {
+      "content": "<p>Les grands modèles de données, ou LLM, sont des outils très pratiques et performants pour une grande variété de tâches qui demandaient il n’y a pas si longtemps un travail humain : rédiger, inventer, résumer, pour n’en citer que quelques uns. Mais parfois, la pertinence des résultats est au moins discutable, voire même complètement décalée. Commençons par un exemple concret !</p>",
+      "grainId": "0bfa08bd-7052-49bb-89e8-150efa589926"
+    },
+    {
+      "content": "<p>On s’en doutait, il arrive que les LLM ne soient pas vraiment pertinents. Ici, par exemple, nous avons pu observer un biais lié à la langue utilisée, qui n’est pas celle avec laquelle le modèle a été entraîné. La traduction mot à mot du jeu de mot n’a pas fonctionné, comme souvent dans ce type d’humour. Étudions maintenant les causes de ce genre de problèmes.</p>",
+      "grainId": "c8722f6e-7534-4fdc-9f2d-515c2a96641f"
+    }
+  ],
+  "grains": [
+    {
+      "id": "0bfa08bd-7052-49bb-89e8-150efa589926",
+      "type": "activity",
+      "title": "Pris dans le filet !",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "e2c5ab9f-b834-4e34-b9e4-361c9942f5a5",
+            "type": "image",
+            "url": "https://i.imgur.com/wJ7QFDA.jpeg",
+            "alt": "Dessin détaillé dans l'alternative textuelle",
+            "alternativeText": "Dessin d'un ordinateur dans un univers spatial."
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "73144a95-d977-4f7c-90ce-1c59612b4654",
+            "type": "qcu",
+            "instruction": "<p>À votre avis, que s’est il passé dans cet échange ? Pourquoi le jeu de mot communiqué par ChatGPT est-il raté ?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "ChatGPT ne sait pas ce qu’est un jeu de mot puisqu’il n’entend pas."
+              },
+              {
+                "id": "2",
+                "content": "C’est une blague absurde mais pas un jeu de mots"
+              },
+              {
+                "id": "3",
+                "content": "Le jeu de mot fonctionne, mais en anglais ! (net signifie filet)"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct !</p>",
+              "invalid": "<p>Incorrect !</p>"
+            },
+            "solution": "3"
+          }
+        }
+      ]
+    },
+    {
+      "id": "c8722f6e-7534-4fdc-9f2d-515c2a96641f",
+      "type": "lesson",
+      "title": "D'où viennent les biais des LLM ?",
+      "components": [
+        {
+          "type": "element",
+          "element":
+          {
+            "id": "45afde99-371b-4754-8bb4-33577df23ab4",
+            "type": "video",
+            "title": "Une vidéo",
+            "url": "https://videos.pix.fr/modulix/placeholder-video.mp4",
+            "subtitles": "https://videos.pix.fr/modulix/placeholder-video.vtt",
+            "transcription": "<p>Vidéo manquante</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element":
+          {
+            "id": "5f6a7570-4d0a-4cc3-be65-188312270acf",
+            "type": "qcm",
+            "instruction": "<p>Je demande à un LLM de me lister les activités criminelles les plus courantes. L’outil répond qu’il ne peut pas encourager d'activités illégales et qu’il ne peut donc pas répondre à ce prompt. Pourquoi ?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "Le modèle a inféré des données d’entraînement que les activités illégales ne doivent pas faire l’objet de publicité et refuse de répondre."
+              },
+              {
+                "id": "2",
+                "content": "Les développeurs du modèle ont spécifié au moteur de ne pas répondre aux prompts qui font mention d’activités illégales."
+              },
+              {
+                "id": "3",
+                "content": "Le modèle a intégré tous les textes réglementaires existants et ne veut pas être condamné pour complicité d’activité criminelle."
+              },
+              {
+                "id": "4",
+                "content": "Le modèle craint que j’interprète mal ses réponses et que je commette des actes illégaux."
+              },
+              {
+                "id": "5",
+                "content": "Le modèle a été programmé pour se conformer aux directives des lois sur la technologie responsable et ne peut donc pas encourager ou faciliter des activités criminelles."
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct !</p>",
+              "invalid": "<p>Incorrect !</p>"
+            },
+            "solutions": [
+              "2",
+              "5"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
