@@ -24,8 +24,8 @@ describe('Unit | UseCase | get-candidate-import-sheet-data', function () {
       .resolves(true);
     const session = domainBuilder.certification.enrolment.buildSession({
       certificationCandidates: [
-        domainBuilder.buildCertificationCandidate(),
-        domainBuilder.buildCertificationCandidate(),
+        domainBuilder.buildCertificationCandidate({ subscriptions: [domainBuilder.buildCoreSubscription()] }),
+        domainBuilder.buildCertificationCandidate({ subscriptions: [domainBuilder.buildCoreSubscription()] }),
       ],
     });
     sessionRepository.getWithCertificationCandidates.withArgs({ id: sessionId }).resolves(session);

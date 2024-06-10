@@ -804,7 +804,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
     it('should return an error if firstName is not defined', function () {
       // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate();
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ ...rawData, firstName: null });
       certificationCandidate.firstName = undefined;
 
       // when
@@ -819,8 +819,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
     it('should return an error if firstName is not a string', function () {
       // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({ firstName: 123 });
-
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ ...rawData, firstName: 123 });
       // when
       try {
         certificationCandidate.validateParticipation();
@@ -833,7 +832,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
     it('should return an error if lastName is not defined', function () {
       // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate();
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ ...rawData, lastName: null });
       certificationCandidate.lastName = undefined;
 
       // when
@@ -848,7 +847,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
     it('should return an error if lastName is not a string', function () {
       // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({ lastName: 123 });
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ ...rawData, lastName: 123 });
 
       // when
       try {
@@ -862,7 +861,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
     it('should return an error if birthdate is not defined', function () {
       // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate();
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ ...rawData, birthdate: null });
       certificationCandidate.birthdate = undefined;
 
       // when
@@ -877,7 +876,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
     it('should return an error if birthdate is not a date in iso format', function () {
       // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthdate: '04/01/1990' });
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ ...rawData, birthdate: '04/01/1990' });
 
       // when
       try {
@@ -891,7 +890,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
     it('should return an error if birthdate not greater than 1900-01-01', function () {
       // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthdate: '1899-06-06' });
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ ...rawData, birthdate: '1899-06-06' });
 
       // when
       try {
@@ -905,7 +904,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
     it('should return an error if birthdate does not exist (such as 31th November)', function () {
       // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthdate: '1999-11-31' });
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ ...rawData, birthdate: '1999-11-31' });
 
       // when
       try {
@@ -919,7 +918,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
     it('should return an error if sessionId is not defined', function () {
       // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate();
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ ...rawData, sessionId: null });
       certificationCandidate.sessionId = undefined;
 
       // when
@@ -934,7 +933,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
     it('should return an error if sessionId is not a number', function () {
       // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId: 'a' });
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ ...rawData, sessionId: 'a' });
 
       // when
       try {
@@ -952,6 +951,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       it(`should not throw if billing mode is expected value ${billingMode}`, async function () {
         // given
         const certificationCandidate = domainBuilder.buildCertificationCandidate({
+          ...rawData,
           billingMode,
           prepaymentCode: billingMode === CertificationCandidate.BILLING_MODES.PREPAID ? '12345' : undefined,
         });
@@ -968,7 +968,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
     it('should throw an error when billing mode is none of the expected values', async function () {
       // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({ billingMode: 'Cadeau !' });
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ ...rawData, billingMode: 'Cadeau !' });
 
       // when
       try {
@@ -982,7 +982,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
     it('should throw an error if billing mode is "Prépayée" but prepaymentCode is empty', async function () {
       // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({ billingMode: 'PREPAID' });
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ ...rawData, billingMode: 'PREPAID' });
 
       // when
       try {
@@ -1003,7 +1003,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       const birthPostalCode = 'birthPostalCode';
       const birthCity = 'birthCity';
 
-      const certificationCandidate = domainBuilder.buildCertificationCandidate();
+      const certificationCandidate = domainBuilder.buildCertificationCandidate(rawData);
 
       // when
       certificationCandidate.updateBirthInformation({ birthCountry, birthINSEECode, birthPostalCode, birthCity });
@@ -1019,7 +1019,10 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
   describe('isAuthorizedToStart', function () {
     it('should return false when authorizedToStart is false', function () {
       // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({ authorizedToStart: false });
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({
+        ...rawData,
+        authorizedToStart: false,
+      });
 
       // then
       expect(certificationCandidate.isAuthorizedToStart()).to.be.false;
@@ -1027,7 +1030,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
     it('should return true when authorizedToStart is true', function () {
       // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({ authorizedToStart: true });
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ ...rawData, authorizedToStart: true });
 
       // then
       expect(certificationCandidate.isAuthorizedToStart()).to.be.true;
@@ -1038,6 +1041,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
     it('should return false when billingMode is not prepaid', function () {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({
+        ...rawData,
         billingMode: CertificationCandidate.BILLING_MODES.FREE,
       });
 
@@ -1048,6 +1052,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
     it('should return true when billingMode is prepaid', function () {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({
+        ...rawData,
         billingMode: CertificationCandidate.BILLING_MODES.PREPAID,
       });
 
@@ -1092,6 +1097,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
     it('should return true when certification candidate has acquired complementary certification', function () {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({
+        ...rawData,
         complementaryCertification: domainBuilder.buildComplementaryCertification({ key: 'PIX+' }),
       });
 
@@ -1102,6 +1108,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
     it('should return false when certification candidate has not acquired complementary certification', function () {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({
+        ...rawData,
         complementaryCertification: domainBuilder.buildComplementaryCertification({ key: 'toto' }),
       });
 
@@ -1114,6 +1121,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
     it('should convert extraTimePercentageToDecimal integer to decimal', function () {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({
+        ...rawData,
         extraTimePercentage: 20,
       });
 

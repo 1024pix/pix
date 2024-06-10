@@ -37,10 +37,12 @@ describe('Unit | Domain | Use Cases | get-session-results-by-result-recipient-em
     const certificationCandidate1 = domainBuilder.buildCertificationCandidate({
       id: 456,
       resultRecipientEmail: 'notMatching@example.net',
+      subscriptions: [domainBuilder.buildCoreSubscription()],
     });
     const certificationCandidate2 = domainBuilder.buildCertificationCandidate({
       id: 789,
       resultRecipientEmail: 'matching@example.net',
+      subscriptions: [domainBuilder.buildCoreSubscription()],
     });
     const expectedSession = domainBuilder.certification.sessionManagement.buildSession({
       certificationCandidates: [certificationCandidate1, certificationCandidate2],

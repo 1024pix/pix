@@ -5,6 +5,10 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
   let certificationBadgesService;
   let certificationCandidateRepository;
   let certificationCenterRepository;
+  let certificationCandidateData;
+  const certificationCandidateId = 123;
+  const userId = 456;
+  const sessionId = 789;
   let sessionRepository;
 
   beforeEach(function () {
@@ -19,6 +23,13 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
       getBySessionId: sinon.stub(),
     };
 
+    certificationCandidateData = {
+      id: certificationCandidateId,
+      userId,
+      sessionId,
+      subscriptions: [domainBuilder.buildCoreSubscription()],
+    };
+
     sessionRepository = {
       getVersion: sinon.stub(),
     };
@@ -28,9 +39,6 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
     context('when the candidate is registered and eligible to one complementary certification', function () {
       it('should return the candidate without eligible complementary certification', async function () {
         // given
-        const certificationCandidateId = 123;
-        const userId = 456;
-        const sessionId = 789;
 
         const complementaryCertification = domainBuilder.buildComplementaryCertification({ key: 'PIX+' });
 
@@ -43,9 +51,7 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
         });
 
         const candidateWithComplementaryCertification = domainBuilder.buildCertificationCandidate({
-          id: certificationCandidateId,
-          userId,
-          sessionId,
+          ...certificationCandidateData,
           complementaryCertification,
         });
 
@@ -111,9 +117,7 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
         });
 
         const candidateWithoutComplementaryCertification = domainBuilder.buildCertificationCandidate({
-          id: certificationCandidateId,
-          userId,
-          sessionId,
+          ...certificationCandidateData,
           complementaryCertification: null,
         });
         certificationCandidateRepository.getWithComplementaryCertification

@@ -12,6 +12,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
   let sessionRepository;
   let dependencies;
   let temporarySessionsStorageForMassImportService;
+  let certificationCandidateData;
 
   beforeEach(function () {
     certificationCenterRepository = { get: sinon.stub() };
@@ -27,6 +28,11 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
       certificationCandidateRepository,
       sessionRepository,
       temporarySessionsStorageForMassImportService,
+    };
+
+    certificationCandidateData = {
+      sessionId: undefined,
+      subscriptions: [domainBuilder.buildCoreSubscription()],
     };
   });
 
@@ -99,7 +105,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           // given
           const certificationCenter = new CertificationCenter({ id: 567 });
           certificationCenterRepository.get.withArgs({ id: certificationCenter.id }).resolves(certificationCenter);
-          const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId: undefined });
+          const certificationCandidate = domainBuilder.buildCertificationCandidate(certificationCandidateData);
           const sessionCreatorId = 1234;
           const temporaryCachedSessions = [
             {
@@ -244,7 +250,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
         // given
         const certificationCenter = new CertificationCenter();
         certificationCenterRepository.get.withArgs({ id: certificationCenter.id }).resolves(certificationCenter);
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId: undefined });
+        const certificationCandidate = domainBuilder.buildCertificationCandidate(certificationCandidateData);
         const temporaryCachedSessions = [
           {
             id: 1234,
@@ -282,7 +288,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
       // given
       const certificationCenter = new CertificationCenter();
       certificationCenterRepository.get.withArgs({ id: certificationCenter.id }).resolves(certificationCenter);
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId: undefined });
+      const certificationCandidate = domainBuilder.buildCertificationCandidate(certificationCandidateData);
       const temporaryCachedSessions = [
         {
           id: 1234,

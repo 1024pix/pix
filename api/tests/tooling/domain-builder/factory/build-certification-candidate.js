@@ -1,6 +1,5 @@
 import { CertificationCandidate } from '../../../../lib/domain/models/CertificationCandidate.js';
 import { buildComplementaryCertification } from './build-complementary-certification.js';
-import { buildCoreSubscription } from './certification/enrolment/build-subscription.js';
 
 const buildCertificationCandidate = function ({
   id = 123,
@@ -25,7 +24,7 @@ const buildCertificationCandidate = function ({
   complementaryCertification = null,
   billingMode = null,
   prepaymentCode = null,
-  subscriptions = [buildCoreSubscription()],
+  subscriptions,
 } = {}) {
   if (complementaryCertification === undefined) {
     complementaryCertification = buildComplementaryCertification();
@@ -76,7 +75,7 @@ buildCertificationCandidate.pro = function ({
   sessionId = 456,
   complementaryCertification = null,
   billingMode = 'FREE',
-  subscriptions = [buildCoreSubscription()],
+  subscriptions = null,
 }) {
   return new CertificationCandidate({
     firstName,
@@ -117,7 +116,7 @@ buildCertificationCandidate.notPersisted = function ({
   authorizedToStart = false,
   sessionId = 456,
   complementaryCertification = null,
-  subscriptions = [buildCoreSubscription()],
+  subscriptions = null,
 }) {
   return new CertificationCandidate({
     firstName,
