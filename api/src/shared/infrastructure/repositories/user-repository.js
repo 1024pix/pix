@@ -10,7 +10,6 @@ import { CertificationCenterMembership } from '../../../../lib/domain/models/Cer
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { UserDetailsForAdmin } from '../../../../lib/domain/models/UserDetailsForAdmin.js';
 import { OrganizationLearnerForAdmin } from '../../../../lib/domain/read-models/OrganizationLearnerForAdmin.js';
-import { BookshelfUser } from '../../../../lib/infrastructure/orm-models/User.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../identity-access-management/domain/constants/identity-providers.js';
 import * as OidcIdentityProviders from '../../../identity-access-management/domain/constants/oidc-identity-providers.js';
 import { AuthenticationMethod } from '../../../identity-access-management/domain/models/AuthenticationMethod.js';
@@ -18,6 +17,7 @@ import { UserLogin } from '../../../identity-access-management/domain/models/Use
 import { Organization } from '../../../organizational-entities/domain/models/Organization.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { User } from '../../domain/models/User.js';
+import { BookshelfUser } from '../orm-models/User.js';
 import { fetchPage, isUniqConstraintViolated } from '../utils/knex-utils.js';
 
 const getByEmail = async function (email) {

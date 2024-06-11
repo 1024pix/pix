@@ -1,4 +1,4 @@
-import { BookshelfAssessment } from '../../../../../lib/infrastructure/orm-models/Assessment.js';
+import { BookshelfAssessment } from '../../../../../src/shared/infrastructure/orm-models/Assessment.js';
 import {
   createServer,
   databaseBuilder,

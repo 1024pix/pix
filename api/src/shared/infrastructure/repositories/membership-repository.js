@@ -1,5 +1,5 @@
-import { BookshelfMembership } from '../../../../lib/infrastructure/orm-models/Membership.js';
 import * as bookshelfToDomainConverter from '../../../../lib/infrastructure/utils/bookshelf-to-domain-converter.js';
+import { BookshelfMembership } from '../../../shared/infrastructure/orm-models/Membership.js';
 
 const findByUserId = function ({ userId }) {
   return BookshelfMembership.where({ userId, disabledAt: null })

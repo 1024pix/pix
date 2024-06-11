@@ -1,5 +1,4 @@
 import { Membership } from '../../../lib/domain/models/Membership.js';
-import { BookshelfCertificationCenterMembership } from '../../../lib/infrastructure/orm-models/CertificationCenterMembership.js';
 import {
   createCertificationCenterMemberships,
   fetchCertificationCenterMembershipsByExternalId,
@@ -7,6 +6,7 @@ import {
   getCertificationCenterIdWithMembershipsUserIdByExternalId,
   prepareDataForInsert,
 } from '../../../scripts/create-certification-center-memberships-from-organization-admins.js';
+import { BookshelfCertificationCenterMembership } from '../../../src/shared/infrastructure/orm-models/CertificationCenterMembership.js';
 import { databaseBuilder, expect } from '../../test-helper.js';
 
 describe('Integration | Scripts | create-certification-center-memberships-from-organization-admins.js', function () {

@@ -9,8 +9,8 @@ import {
 } from '../../../../../lib/domain/errors.js';
 import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
-import { BookshelfCertificationCandidate } from '../../../../../lib/infrastructure/orm-models/CertificationCandidate.js';
 import * as bookshelfToDomainConverter from '../../../../../lib/infrastructure/utils/bookshelf-to-domain-converter.js';
+import { BookshelfCertificationCandidate } from '../../../../shared/infrastructure/orm-models/CertificationCandidate.js';
 import { normalize } from '../../../../shared/infrastructure/utils/string-utils.js';
 import { SubscriptionTypes } from '../../../shared/domain/models/SubscriptionTypes.js';
 import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
