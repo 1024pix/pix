@@ -138,7 +138,7 @@
     "db:reload": "npm run db:empty && npm run db:seed",
     "db:reset": "npm run db:prepare && npm run db:seed",
     "doc:api:prescription": "node scripts/generate-api-documentation.js src/prescription > src/prescription/API.md",
-    "lint": "run-p --continue-on-error 'lint:!(ci|fix)'",
+    "lint": "run-p --continue-on-error 'lint:!(ci|database|fix)'",
     "lint:ci": "run-p --continue-on-error 'lint:!(fix)'",
     "lint:fix": "run-p --continue-on-error lint:*:fix",
     "lint:dependencies": "depcheck",
