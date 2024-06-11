@@ -1,5 +1,5 @@
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { User } from '../../../../src/shared/domain/models/User.js';
+import { User } from '../../../../src/identity-access-management/domain/models/User.js';
 import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | find-paginated-filtered-users', function () {

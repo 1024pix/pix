@@ -2,7 +2,7 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
 
-import { User } from '../../../domain/models/User.js';
+import { User } from '../../../../identity-access-management/domain/models/User.js';
 
 const serialize = function (users, meta) {
   return new Serializer('user', {

@@ -13,11 +13,11 @@ import { OrganizationLearnerForAdmin } from '../../../../lib/domain/read-models/
 import { BookshelfUser } from '../../../../lib/infrastructure/orm-models/User.js';
 import { Organization } from '../../../organizational-entities/domain/models/Organization.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import { User } from '../../../shared/domain/models/User.js';
 import { fetchPage, isUniqConstraintViolated } from '../../../shared/infrastructure/utils/knex-utils.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../domain/constants/identity-providers.js';
 import * as OidcIdentityProviders from '../../domain/constants/oidc-identity-providers.js';
 import { AuthenticationMethod } from '../../domain/models/AuthenticationMethod.js';
+import { User } from '../../domain/models/User.js';
 import { UserLogin } from '../../domain/models/UserLogin.js';
 
 const getByEmail = async function (email) {

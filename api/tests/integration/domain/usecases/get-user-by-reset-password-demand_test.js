@@ -1,9 +1,9 @@
 import { PasswordResetDemandNotFoundError, UserNotFoundError } from '../../../../lib/domain/errors.js';
 import { getUserByResetPasswordDemand } from '../../../../lib/domain/usecases/get-user-by-reset-password-demand.js';
+import { User } from '../../../../src/identity-access-management/domain/models/User.js';
 import * as resetPasswordService from '../../../../src/identity-access-management/domain/services/reset-password.service.js';
 import * as userRepository from '../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { InvalidTemporaryKeyError } from '../../../../src/shared/domain/errors.js';
-import { User } from '../../../../src/shared/domain/models/User.js';
 import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
 import { catchErr, databaseBuilder, expect } from '../../../test-helper.js';
 

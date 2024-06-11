@@ -1,8 +1,8 @@
 import lodash from 'lodash';
 const { isNil } = lodash;
 
+import { User } from '../../../src/identity-access-management/domain/models/User.js';
 import { EntityValidationError } from '../../../src/shared/domain/errors.js';
-import { User } from '../../../src/shared/domain/models/User.js';
 import { getCampaignUrl } from '../../infrastructure/utils/url-builder.js';
 import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
 import {

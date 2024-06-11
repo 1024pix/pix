@@ -1,7 +1,7 @@
-import { User } from '../../../../../src/shared/domain/models/User.js';
+import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Domain | Models | User', function () {
+describe('Unit | Identity Access Management | Domain | Model | User', function () {
   let config;
   let languageService;
   let localeService;

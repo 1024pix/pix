@@ -4,10 +4,10 @@ import {
   MissingOrInvalidCredentialsError,
   UserShouldChangePasswordError,
 } from '../../../../../src/identity-access-management/domain/errors.js';
+import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { authenticateUser } from '../../../../../src/identity-access-management/domain/usecases/authenticate-user.js';
 import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
 import { AdminMember } from '../../../../../src/shared/domain/models/AdminMember.js';
-import { User } from '../../../../../src/shared/domain/models/User.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | UseCases | authenticate-user', function () {

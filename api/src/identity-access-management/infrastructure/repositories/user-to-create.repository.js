@@ -3,7 +3,7 @@ import { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } from '../../../../db/pgsql-er
 import { STUDENT_RECONCILIATION_ERRORS } from '../../../../lib/domain/constants.js';
 import { OrganizationLearnerAlreadyLinkedToUserError } from '../../../../lib/domain/errors.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import { User } from '../../../shared/domain/models/User.js';
+import { User } from '../../domain/models/User.js';
 
 /**
  * @param {Object} data

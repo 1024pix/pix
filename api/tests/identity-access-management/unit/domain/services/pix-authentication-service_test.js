@@ -1,8 +1,8 @@
 import { UserNotFoundError } from '../../../../../lib/domain/errors.js';
 import { PasswordNotMatching } from '../../../../../src/identity-access-management/domain/errors.js';
+import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { UserLogin } from '../../../../../src/identity-access-management/domain/models/UserLogin.js';
 import { pixAuthenticationService } from '../../../../../src/identity-access-management/domain/services/pix-authentication-service.js';
-import { User } from '../../../../../src/shared/domain/models/User.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | Services | pix-authentication-service', function () {

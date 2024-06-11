@@ -1,7 +1,7 @@
 import { PasswordResetDemandNotFoundError } from '../../../../../lib/domain/errors.js';
+import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { updateUserPassword } from '../../../../../src/identity-access-management/domain/usecases/update-user-password.usecase.js';
 import { UserNotAuthorizedToUpdatePasswordError } from '../../../../../src/shared/domain/errors.js';
-import { User } from '../../../../../src/shared/domain/models/User.js';
 import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | UseCase | update-user-password', function () {

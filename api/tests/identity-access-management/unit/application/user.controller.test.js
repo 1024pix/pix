@@ -1,6 +1,6 @@
 import { userController } from '../../../../src/identity-access-management/application/user/user.controller.js';
+import { User } from '../../../../src/identity-access-management/domain/models/User.js';
 import { usecases } from '../../../../src/identity-access-management/domain/usecases/index.js';
-import { User } from '../../../../src/shared/domain/models/User.js';
 import * as requestResponseUtils from '../../../../src/shared/infrastructure/utils/request-response-utils.js';
 import { expect, hFake, sinon } from '../../../test-helper.js';
 
