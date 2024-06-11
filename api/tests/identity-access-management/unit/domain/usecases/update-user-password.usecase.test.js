@@ -1,10 +1,10 @@
-import { PasswordResetDemandNotFoundError } from '../../../../lib/domain/errors.js';
-import { updateUserPassword } from '../../../../lib/domain/usecases/update-user-password.js';
-import { UserNotAuthorizedToUpdatePasswordError } from '../../../../src/shared/domain/errors.js';
-import { User } from '../../../../src/shared/domain/models/User.js';
-import { catchErr, expect, sinon } from '../../../test-helper.js';
+import { PasswordResetDemandNotFoundError } from '../../../../../lib/domain/errors.js';
+import { updateUserPassword } from '../../../../../src/identity-access-management/domain/usecases/update-user-password.usecase.js';
+import { UserNotAuthorizedToUpdatePasswordError } from '../../../../../src/shared/domain/errors.js';
+import { User } from '../../../../../src/shared/domain/models/User.js';
+import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | update-user-password', function () {
+describe('Unit | Identity Access Management | Domain | UseCase | update-user-password', function () {
   const userId = 1;
   const user = new User({
     id: userId,

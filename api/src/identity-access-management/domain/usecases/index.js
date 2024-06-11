@@ -63,17 +63,4 @@ const usecasesWithoutInjectedDependencies = {
 
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
 
-/**
- * @typedef {Object} AuthenticationUsecases
- * @property {addOidcProvider} addOidcProvider
- * @property {authenticateOidcUser} authenticateOidcUser
- * @property {createOidcUser} createOidcUser
- * @property {findUserForOidcReconciliation} findUserForOidcReconciliation
- * @property {getAllIdentityProviders} getAllIdentityProviders
- * @property {getAuthorizationUrl} getAuthorizationUrl
- * @property {getReadyIdentityProviders} getReadyIdentityProviders
- * @property {getRedirectLogoutUrl} getRedirectLogoutUrl
- * @property {reconcileOidcUser} reconcileOidcUser
- * @property {reconcileOidcUserForAdmin} reconcileOidcUserForAdmin
- */
 export { usecases };

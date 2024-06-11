@@ -1,6 +1,6 @@
-import { UserNotAuthorizedToUpdatePasswordError } from '../../../src/shared/domain/errors.js';
+import { UserNotAuthorizedToUpdatePasswordError } from '../../../shared/domain/errors.js';
 
-const updateUserPassword = async function ({
+export const updateUserPassword = async function ({
   userId,
   password,
   temporaryKey,
@@ -26,5 +26,3 @@ const updateUserPassword = async function ({
 
   return updatedUser;
 };
-
-export { updateUserPassword };
