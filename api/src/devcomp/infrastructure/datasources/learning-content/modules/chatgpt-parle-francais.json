@@ -15,12 +15,16 @@
   },
   "transitionTexts": [
     {
-      "content": "<p>Les grands modèles de données, ou LLM, sont des outils très pratiques et performants pour une grande variété de tâches qui demandaient il n’y a pas si longtemps un travail humain : rédiger, inventer, résumer, pour n’en citer que quelques uns. Mais parfois, la pertinence des résultats est au moins discutable, voire même complètement décalée. Commençons par un exemple concret !</p>",
+      "content": "<p><span aria-hidden=\"true\">⚙️</span>Les grands modèles de données, ou LLM, sont des outils très pratiques et performants pour une grande variété de tâches qui demandaient il n’y a pas si longtemps un travail humain : rédiger, inventer, résumer, pour n’en citer que quelques uns. <br><span aria-hidden=\"true\">😶‍🌫️</span>Mais parfois, la pertinence des résultats est au moins discutable, voire même complètement décalée. Commençons par un exemple concret !</p>",
       "grainId": "0bfa08bd-7052-49bb-89e8-150efa589926"
     },
     {
-      "content": "<p>On s’en doutait, il arrive que les LLM ne soient pas vraiment pertinents. Ici, par exemple, nous avons pu observer un biais lié à la langue utilisée, qui n’est pas celle avec laquelle le modèle a été entraîné. La traduction mot à mot du jeu de mot n’a pas fonctionné, comme souvent dans ce type d’humour. Étudions maintenant les causes de ce genre de problèmes.</p>",
+      "content": "<p><span aria-hidden=\"true\">😞</span>On s’en doutait, il arrive que les LLM ne soient pas vraiment pertinents. Ici, par exemple, nous avons pu observer un biais lié à la langue utilisée, qui n’est pas celle avec laquelle le modèle a été entraîné. La traduction mot à mot du jeu de mot n’a pas fonctionné, comme souvent dans ce type d’humour. <br><span aria-hidden=\"true\">🔎</span>Étudions maintenant les causes de ce genre de problèmes.</p>",
       "grainId": "c8722f6e-7534-4fdc-9f2d-515c2a96641f"
+    },
+    {
+      "content":"<p>Vous en savez désormais plus sur les biais des LLM. <span aria-hidden=\"true\">👩‍💻️👨🏿‍💻️</span><br>Soumettons maintenant plusieurs prompts à PixGPT, et vérifions ensemble les résultats.</p>",
+      "grainId": "e7ca9d7e-6d77-4705-83a5-a6864c77f4b5"
     }
   ],
   "grains": [
@@ -122,6 +126,131 @@
               "2",
               "5"
             ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e7ca9d7e-6d77-4705-83a5-a6864c77f4b5",
+      "type": "activity",
+      "title": "Corriger la copie d'un LLM",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+              "id": "629aeb61-028b-41f7-97f2-512e83000fa5",
+              "type": "qcu",
+              "instruction": "<p>Prompt : Quel est le jour de la fête nationale ?<br>PixGPT: La fête nationale de la France aussi connue sous le nom de la Bastille Day est célébrée le 14 juillet. C’est un jour commémorant la prise de la Bastille en 1789, un événement majeur de la révolution française.</p>",
+              "proposals": [
+                {
+                  "id": "1",
+                  "content": "Il s’agit d’un biais de conjonction : le modèle combine à tort plusieurs éléments pour conclure que la fête nationale française est la réponse, en croyant à une connexion plus forte entre la langue de la question et la réponse spécifique."
+                },
+                {
+                  "id": "2",
+                  "content": "Il s’agit d’un biais d’ancrage : le modèle ancre sa réponse sur la première interprétation possible de la question, qui dans ce cas est liée à la France en raison de la langue utilisée."
+                },
+                {
+                  "id": "3",
+                  "content": "Il s’agit d’un biais de récence : le modèle privilégie les informations les plus récentes dans ses données, ici la fête nationale de la France, au détriment d’informations plus pertinentes."
+                }
+              ],
+              "feedbacks": {
+                "valid": "<p>Correct !</p>",
+                "invalid": "<p>Incorrect !</p>"
+              },
+              "solution": "2"
+            }
+          },
+          {
+            "type": "element",
+            "element":
+            {
+              "id": "635d34d8-c748-44cd-ad02-bde721270723",
+              "type": "qcu",
+              "instruction": "<p>Prompt : Je rédige un roman et j’ai besoin que tu me définisses un personnage dont l’activité principale est de faire le ménage chez les particuliers.<br>PixGPT: Claire, une femme minutieuse et discrète de 40 ans, consacre ses journées à apporter ordre et propreté dans les foyers de ses clients, veillant à chaque détail avec un soin exceptionnel.</p>",
+              "proposals": [
+                {
+                  "id": "1",
+                  "content": "Il s’agit d’un stéréotype d'âge associé à la profession."
+                },
+                {
+                  "id": "2",
+                  "content": "Il s’agit d’un stéréotype de genre associé à la profession."
+                },
+                {
+                  "id": "3",
+                  "content": "Il s’agit d’un stéréotype de classe sociale associé à la profession."
+                }
+              ],
+              "feedbacks": {
+                "valid": "<p>Correct !</p>",
+                "invalid": "<p>Incorrect !</p>"
+              },
+              "solution": "2"
+            }
+          },
+          {
+            "type": "element",
+            "element":
+            {
+              "id": "060c7558-92fb-47bf-b8fa-3639ebfef67d",
+              "type": "qcu",
+              "instruction": "<p>Prompt : Je suis verseau, comment ma journée va-t-elle se passer ?<br>PixGPT:  En tant que Verseau, attendez-vous à une journée pleine de surprises stimulantes et de nouvelles opportunités pour exprimer votre créativité.</p>",
+              "proposals": [
+                {
+                  "id": "1",
+                  "content": "Il s’agit d’un biais lié à l’utilisateur : l’outil ne remet pas en question les croyances qui lui sont communiquées dans le prompt."
+                },
+                {
+                  "id": "2",
+                  "content": "Il s’agit d’un biais ethnique : le modèle donne une réponse spécifique en pensant que l’utilisateur est un verseau."
+                },
+                {
+                  "id": "3",
+                  "content": "Il s’agit d’un biais de sélection : les verseau sont sur représentés dans les données d’entraînement."
+                }
+              ],
+              "feedbacks": {
+                "valid": "<p>Correct !</p>",
+                "invalid": "<p>Incorrect !</p>"
+              },
+              "solution": "1"
+            }
+          }
+
+      ]
+    },
+    {
+      "id": "018ad06a-f11c-4db3-b954-ac8a6466d947",
+      "type": "lesson",
+      "title": "Géopolitique des LLM",
+      "components": [
+        {
+          "type": "element",
+          "element":
+          {
+            "id": "2cfc4200-35bd-4d40-84c9-922996e01914",
+            "type": "text",
+            "content": "<h3><span aria-hidden=\"true\">👩‍💻&nbsp;</span>Quels sont les grands modèles de langage ?</h3><p>Les modèles de langage, ou LLM (Language Language Model), sont des outils numériques capables de comprendre, de générer et de traiter du langage naturel. Leurs usages sont en forte croissance dans des domaines et contextes divers, et peuvent&nbsp;:<ul><li>rédiger et traduire du contenu textuel et audio&nbsp;;</li><li>réaliser des calculs et opérations complexes&nbsp;;</li><li>ou encore tirer des conclusions d’après une situation donnée.</li></ul>"
+          }
+        },
+        {
+          "type": "element",
+          "element":
+          {
+            "id": "ec182563-1090-4794-8a5f-e179d244fa3e",
+            "type": "text",
+            "content": "<h3><span aria-hidden=\"true\">🏢&nbsp;</span>Les entreprises derrière les LLM</h3><p>Les LLM sont développés par des entreprises spécialisées dans l'intelligence artificielle et le traitement automatique du langage. Parmi les plus importantes, on retrouve notamment les géants du net, ainsi que d’autres acteurs internationaux&nbsp;:<ul><li>Google, qui a développé GEMINI.</li><li>OpenAI, une entreprise spécialisée dans la recherche en intelligence artificielle, qui a développé le modèle de langage GPT qui est derrière l’outil ChatGPT.</li><li>Meta, qui a développé le modèle de langage LLAMA.</li><li>Ou encore Baidu, qui est derrière Ernie Bot (Wenxin Yiyan).</li></ul></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element":
+          {
+            "id": "a5b4912d-7882-47ed-a782-bf87d73ead55",
+            "type": "text",
+            "content": "<h3><span aria-hidden=\"true\">🏢&nbsp;</span>La course aux LLM</h3><p>Ces acteurs mènent une véritable course effrénée à l’Intelligence Artificielle en développant leurs propres modèles de langage.</p><p>Principalement entraînés sur des données anglo-saxonnes, les LLM actuels ne sont pas capables de refléter la vision de chaque État. L’IA est donc une priorité stratégique des gouvernements qui cherchent à développer leurs modèles, entraînés sur des données locales. C’est la souveraineté et la visibilité culturelle des pays qui est en jeu.</p>"
           }
         }
       ]
