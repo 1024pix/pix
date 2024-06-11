@@ -25,11 +25,16 @@
 
   &__menu-and-content {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: center;
+
+    @include device-is('mobile') {
+      flex-wrap: wrap;
+    }
 
     .pix-block {
       width: auto;
+      min-width: 336px;
     }
   }
 
@@ -61,7 +66,7 @@
 
       &__link {
         display: block;
-        padding: 16px 60px 16px 20px;
+        padding: var(--pix-spacing-4x);
         color: $pix-neutral-60;
 
         svg {
