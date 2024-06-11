@@ -42,7 +42,7 @@ module.exports = function (defaults) {
     staticModifiers: true,
     packagerOptions: {
       webpackConfig: {
-        devtool: sourceMapConfig[process.env.CI ? 'test' : (process.env.NODE_ENV ?? 'default')],
+        devtool: sourceMapConfig[process.env.CI ? 'test' : process.env.NODE_ENV ?? 'default'],
       },
     },
   });

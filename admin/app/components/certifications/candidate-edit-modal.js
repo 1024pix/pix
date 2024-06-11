@@ -22,6 +22,7 @@ export default class CandidateEditModal extends Component {
   constructor() {
     super(...arguments);
     this._initForm();
+    this.lastName.focus();
   }
 
   get isBirthGeoCodeRequired() {

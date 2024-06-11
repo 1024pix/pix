@@ -9,8 +9,8 @@ module('Integration | Modifiers | focus', function (hooks) {
   test('it should focus the item', async function (assert) {
     // when
     const screen = await render(
-      hbs`<label>Pas Focus<input placeholder='Je suis pas focus' /></label>
-<label>Focus<input placeholder='Je suis focus' {{focus}} /></label>`,
+      hbs`<label>Pas Focus<PixInput placeholder='Je suis pas focus' /></label>
+<label>Focus<PixInput placeholder='Je suis focus' {{focus}} /></label>`,
     );
 
     // then

@@ -8,6 +8,7 @@
       <div class="training__forms-section">
         <form class="training__sub-form form" {{on "submit" this.attachTargetProfiles}}>
           <PixInput
+            aria-label="ID du ou des profil(s) cible(s)"
             @value={{this.targetProfilesToAttach}}
             @screenReaderOnly={{true}}
             class="training-sub-form__input form-field__text form-control"

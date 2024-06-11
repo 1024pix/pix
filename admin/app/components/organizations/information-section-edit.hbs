@@ -1,0 +1,227 @@
+{{! template-lint-disable no-builtin-form-components}}
+{{! TODO: Use PixUI components instead }}
+<div class="organization__edit-form">
+  <form class="form" {{on "submit" this.updateOrganization}}>
+
+    <span class="form__instructions">
+      Les champs marqués de
+      <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
+      sont obligatoires.
+    </span>
+
+    <div class="form-field">
+      <label for="name" class="form-field__label">
+        <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
+        Nom
+      </label>
+      {{#if (v-get this.form "name" "isInvalid")}}
+        <div class="form-field__error">
+          {{v-get this.form "name" "message"}}
+        </div>
+      {{/if}}
+      <PixInput
+        id="name"
+        @type="text"
+        class={{if (v-get this.form "name" "isInvalid") "form-control is-invalid" "form-control"}}
+        @value={{this.form.name}}
+        required={{true}}
+      />
+    </div>
+
+    <div class="form-field">
+      <label for="externalId" class="form-field__label">Identifiant externe</label>
+      {{#if (v-get this.form "externalId" "isInvalid")}}
+        <div class="form-field__error">
+          {{v-get this.form "externalId" "message"}}
+        </div>
+      {{/if}}
+      <PixInput
+        id="externalId"
+        @type="text"
+        class={{if (v-get this.form "externalId" "isInvalid") "form-control is-invalid" "form-control"}}
+        @value={{this.form.externalId}}
+      />
+    </div>
+
+    <div class="form-field">
+      <label for="provinceCode" class="form-field__label">Département (en 3 chiffres)</label>
+      {{#if (v-get this.form "provinceCode" "isInvalid")}}
+        <div class="form-field__error">
+          {{v-get this.form "provinceCode" "message"}}
+        </div>
+      {{/if}}
+      <PixInput
+        id="provinceCode"
+        @type="text"
+        class={{if (v-get this.form "provinceCode" "isInvalid") "form-control is-invalid" "form-control"}}
+        @value={{this.form.provinceCode}}
+      />
+    </div>
+
+    <div class="form-field">
+      <label for="dataProtectionOfficerFirstName" class="form-field__label">Prénom du DPO</label>
+      {{#if (v-get this.form "dataProtectionOfficerFirstName" "isInvalid")}}
+        <div class="form-field__error">
+          {{v-get this.form "dataProtectionOfficerFirstName" "message"}}
+        </div>
+      {{/if}}
+      <PixInput
+        id="dataProtectionOfficerFirstName"
+        @type="text"
+        class={{if
+          (v-get this.form "dataProtectionOfficerFirstName" "isInvalid")
+          "form-control is-invalid"
+          "form-control"
+        }}
+        @value={{this.form.dataProtectionOfficerFirstName}}
+      />
+    </div>
+
+    <div class="form-field">
+      <label for="dataProtectionOfficerLastName" class="form-field__label">Nom du DPO</label>
+      {{#if (v-get this.form "dataProtectionOfficerLastName" "isInvalid")}}
+        <div class="form-field__error">
+          {{v-get this.form "dataProtectionOfficerLastName" "message"}}
+        </div>
+      {{/if}}
+      <PixInput
+        id="dataProtectionOfficerLastName"
+        @type="text"
+        class={{if
+          (v-get this.form "dataProtectionOfficerLastName" "isInvalid")
+          "form-control is-invalid"
+          "form-control"
+        }}
+        @value={{this.form.dataProtectionOfficerLastName}}
+      />
+    </div>
+
+    <div class="form-field">
+      <label for="dataProtectionOfficerEmail" class="form-field__label">Adresse e-mail du DPO</label>
+      {{#if (v-get this.form "dataProtectionOfficerEmail" "isInvalid")}}
+        <div class="form-field__error">
+          {{v-get this.form "dataProtectionOfficerEmail" "message"}}
+        </div>
+      {{/if}}
+      <PixInput
+        id="dataProtectionOfficerEmail"
+        @type="text"
+        class={{if (v-get this.form "dataProtectionOfficerEmail" "isInvalid") "form-control is-invalid" "form-control"}}
+        @value={{this.form.dataProtectionOfficerEmail}}
+      />
+    </div>
+
+    <div class="form-field">
+      <label for="credits" class="form-field__label">Crédits</label>
+      {{#if (v-get this.form "credit" "isInvalid")}}
+        <div class="form-field__error">
+          {{v-get this.form "credit" "message"}}
+        </div>
+      {{/if}}
+      <PixInput
+        id="credits"
+        @type="number"
+        class={{if (v-get this.form "credit" "isInvalid") "form-control is-invalid" "form-control"}}
+        @value={{this.form.credit}}
+      />
+    </div>
+
+    <div class="form-field">
+      <label for="documentationUrl" class="form-field__label">Lien vers la documentation</label>
+      {{#if (v-get this.form "documentationUrl" "isInvalid")}}
+        <div class="form-field__error">
+          {{v-get this.form "documentationUrl" "message"}}
+        </div>
+      {{/if}}
+      <PixInput
+        id="documentationUrl"
+        @type="text"
+        class={{if (v-get this.form "documentationUrl" "isInvalid") "form-control is-invalid" "form-control"}}
+        @value={{this.form.documentationUrl}}
+      />
+    </div>
+
+    <div class="form-field organization-edit-form__checkbox">
+      <PixInput
+        id="showSkills"
+        @type="checkbox"
+        class={{if (v-get this.form "showSkills" "isInvalid") "form-control is-invalid" "form-control"}}
+        @checked={{this.form.showSkills}}
+      />
+      <label for="showSkills" class="form-field__label">Affichage des acquis dans l'export de résultats</label>
+      {{#if (v-get this.form "showSkills" "isInvalid")}}
+        <div class="form-field__error">
+          {{v-get this.form "showSkills" "message"}}
+        </div>
+      {{/if}}
+    </div>
+
+    <div class="form-field">
+      <PixSelect
+        @options={{this.identityProviderOptions}}
+        @value={{this.form.identityProviderForCampaigns}}
+        @onChange={{this.onChangeIdentityProvider}}
+        @hideDefaultOption={{true}}
+      >
+        <:label>SSO</:label>
+      </PixSelect>
+    </div>
+
+    <div class="form-field">
+      <label for="email" class="form-field__label">Adresse e-mail d'activation SCO</label>
+      {{#if (v-get this.form "email" "isInvalid")}}
+        <div class="form-field__error">
+          {{v-get this.form "email" "message"}}
+        </div>
+      {{/if}}
+      <PixInput
+        id="email"
+        @type="text"
+        class={{if (v-get this.form "email" "isInvalid") "form-control is-invalid" "form-control"}}
+        @value={{this.form.email}}
+      />
+    </div>
+
+    {{#if (or @organization.isOrganizationSCO @organization.isOrganizationSUP)}}
+      <div class="form-field organization-edit-form__checkbox">
+        <PixInput
+          id="isManagingStudents"
+          @type="checkbox"
+          class={{if (v-get this.form "isManagingStudents" "isInvalid") "form-control is-invalid" "form-control"}}
+          @checked={{this.form.isManagingStudents}}
+        />
+        <label for="isManagingStudents" class="form-field__label">Gestion d’élèves/étudiants</label>
+        {{#if (v-get this.form "isManagingStudents" "isInvalid")}}
+          <div class="form-field__error">
+            {{v-get this.form "isManagingStudents" "message"}}
+          </div>
+        {{/if}}
+      </div>
+    {{/if}}
+
+    <div class="form-field organization-edit-form__checkbox">
+      <PixCheckbox
+        @id="isMultipleSendingAssessmentEnabled"
+        {{on "change" this.onChangeMultipleSendingAssessment}}
+        @checked={{this.form.isMultipleSendingAssessmentEnabled}}
+        @class="form-field__label"
+      >
+        <:label>Activer l'envoi multiple pour les campagnes de type évaluation</:label>
+      </PixCheckbox>
+    </div>
+    <div class="form-field organization-edit-form__checkbox">
+      <PixCheckbox
+        @id="isPlacesManagementEnabled"
+        {{on "change" this.onChangePlacesManagement}}
+        @checked={{this.form.isPlacesManagementEnabled}}
+        @class="form-field__label"
+      >
+        <:label>Activer la page Places sur PixOrga</:label>
+      </PixCheckbox>
+    </div>
+    <div class="form-actions">
+      <PixButton @size="small" @variant="secondary" @triggerAction={{this.closeAndResetForm}}>Annuler</PixButton>
+      <PixButton @type="submit" @size="small" @variant="success">Enregistrer</PixButton>
+    </div>
+  </form>
+</div>
