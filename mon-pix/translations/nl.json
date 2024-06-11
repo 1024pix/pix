@@ -427,6 +427,32 @@
         "title": "Mijn certificeringsresultaten raadplegen en delen?"
       }
     },
+    "certification-information": {
+      "buttons": {
+        "continuous": {
+          "aria-label": "Doorgaan naar het volgende scherm",
+          "label": "Ga verder met",
+          "last-page": {
+            "aria-label": "Ga door naar de invoerpagina voor certificaten"
+          }
+        },
+        "previous": {
+          "aria-label": "Terug naar vorig scherm",
+          "label": "Vorige"
+        }
+      },
+      "screens": {
+        "page1": {
+          "text": "<span class=\"certification-information__text--bold\">'Hoe werkt de certificeringstest?'</span>' '<br><br>' '<span class=\"certification-information__text--bold\">'Dit is een adaptieve test.'</span>' Met andere woorden, uw vermogen om vragen correct te beantwoorden (of niet) bepaalt de moeilijkheidsgraad van de volgende vragen in real time. <br><br>'Als u een vraag niet kunt beantwoorden, '<span class=\"certification-information__text--bold\">'kunt u die vraag 'overslaan'.'</span>'Overgeslagen vragen worden als mislukt beschouwd en worden niet opnieuw aangeboden. <br><br>''<span class=\"certification-information__text--bold\">'Het is belangrijk dat u de toets afmaakt'</span>' en dus goed met uw tijd omgaat. Er wordt een boete toegepast waarbij rekening wordt gehouden met het aantal resterende vragen.",
+          "title": "Welkom bij Pix-certificering"
+        },
+        "page2": {
+          "text": "Tekst pagina 2",
+          "title": "Titelpagina 2"
+        }
+      },
+      "title": "Verklaring van certificering"
+    },
     "certification-joiner": {
       "congratulation-banner": {
         "complementary-certification": {
@@ -495,32 +521,6 @@
       },
       "flag-alt": "Vlag",
       "title": "Test voltooid"
-    },
-    "certification-information": {
-      "title": "information",
-      "buttons": {
-        "continuous": {
-          "label": "Continuer",
-          "aria-label": "Continuer vers l'écran suivant",
-          "last-page": {
-            "aria-label": "Continuer vers la page d'entrée en certification"
-          }
-        },
-        "previous":{
-          "label": "Précédent",
-          "aria-label": "Revenir vers l'écran précédent"
-        }
-      },
-      "screens": {
-        "page1": {
-          "title": "Bienvenue à la certification Pix",
-          "text": "<span class=\"certification-information__text--bold\"> Comment fonctionne le test de certification ? </span> '<br> <br>' <span class=\"certification-information__text--bold\"> Il s'agit d'un test adaptatif.</span> C’est-à-dire, que votre capacité à répondre correctement (ou non) aux questions détermine en temps réel la difficulté des questions suivantes. '<br> <br>'Si vous ne savez pas répondre à une question, <span class=\"certification-information__text--bold\">vous avez la possibilité de “passer” cette question.</span> Les questions passées seront considérées comme échouées et ne vous seront pas proposées à nouveau. '<br> <br>' <span class=\"certification-information__text--bold\">Il est important d'aller jusqu'au bout du test</span>, et donc de bien gérer votre temps. Une pénalité tenant compte du nombre de questions restantes sera appliquée."
-        },
-        "page2": {
-          "title": "Titre page 2",
-          "text": "Texte page 2"
-        }
-      }
     },
     "certification-start": {
       "access-code": "Toegangscode gegeven door de supervisor",
@@ -778,6 +778,12 @@
           "alternative-instruction": "Deze proefdruk bevat een illustratie met een tekstalternatief.",
           "embed": "Deze test bevat een simulator."
         },
+        "text-to-speech": {
+          "activate": "Activeer vocalisatie",
+          "deactivate": "Stem uitschakelen",
+          "play": "Voorlezen",
+          "stop": "Stoppen met lezen"
+        },
         "tooltip": {
           "aria-label": "Geef de indicatie op het bewijs weer.",
           "close": "Ik snap het.",
@@ -789,12 +795,6 @@
             "content": "Je bent vrij om het internet of applicaties te gebruiken om deze vraag te beantwoorden.",
             "title": "Vrije modus"
           }
-        },
-        "text-to-speech": {
-          "activate": "Vocalisatie activeren",
-          "play": "Hardop lezen",
-          "deactivate": "Vocalisatie uitschakelen",
-          "stop": "Stop met lezen"
         }
       },
       "timed": {
@@ -1257,11 +1257,6 @@
           "lesson": "les"
         }
       },
-      "stepper": {
-        "step": {
-          "position": "Stap {currentStep} van {totalSteps}"
-        }
-      },
       "modals": {
         "alternativeText": {
           "title": "Tekst alternatief"
@@ -1287,6 +1282,11 @@
         "goToForm": "Beantwoord de vragenlijst",
         "subtitle": "Je hebt de volgende doelen bereikt:",
         "title": "Gefeliciteerd! Module voltooid"
+      },
+      "stepper": {
+        "step": {
+          "position": "{currentStep} Stap op {totalSteps}"
+        }
       },
       "verification-precondition-failed-alert": {
         "qcm": "Selecteer ten minste twee antwoorden om te bevestigen.",
