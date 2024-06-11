@@ -9,22 +9,39 @@ import { validateCommonOrganizationLearner } from '../validators/common-organiza
 
 class ImportOrganizationLearnerSet {
   #learners;
-  #hasValidationFormats;
-  #unicityKeys;
-  #errors;
   #organizationId;
+
+  #validationRuleList;
+  #hasValidationFormats;
+
   #columnMapping;
+
+  #unicityKeys;
+  #unicityKeysObject;
+
+  #unicityColumns;
+  #unicityColumnMapping;
+
+  #errors;
 
   constructor({ organizationId, importFormat }) {
     this.#organizationId = organizationId;
-    this.#learners = [];
-    this.validationRules = importFormat.config.validationRules;
+
+    this.#validationRuleList = importFormat.config.validationRules;
+    this.#unicityColumns = importFormat.config.unicityColumns;
+
     this.#hasValidationFormats = !!importFormat.config.validationRules?.formats;
+
     this.#columnMapping = importFormat.config.headers;
-    this.unicityColumns = importFormat.config.unicityColumns;
+
+    this.#learners = [];
+
     this.#unicityKeys = [];
+    this.#unicityKeysObject = [];
     this.#errors = [];
     this.#constructorValidation();
+
+    this.#setUnicityColumnMapping();
   }
 
   static buildSet() {
@@ -32,7 +49,7 @@ class ImportOrganizationLearnerSet {
   }
 
   #constructorValidation() {
-    if (!this.unicityColumns || this.unicityColumns.length === 0) {
+    if (!this.#unicityColumns || this.#unicityColumns.length === 0) {
       this.#errors.push(
         new ImportLearnerConfigurationError(
           'Missing unicity configuration',
@@ -68,10 +85,18 @@ class ImportOrganizationLearnerSet {
     }
   }
 
+  #setUnicityColumnMapping() {
+    this.#unicityColumnMapping = this.#unicityColumns.reduce((unicityColumnMapping, unicityKey) => {
+      const { property } = this.#columnMapping.find((column) => column.name === unicityKey);
+
+      unicityColumnMapping[unicityKey] = property || unicityKey;
+
+      return unicityColumnMapping;
+    }, {});
+  }
+
   #lineToOrganizationLearnerAttributes(learner) {
-    const learnerAttributes = {
-      organizationId: this.#organizationId,
-    };
+    const learnerAttributes = { organizationId: this.#organizationId };
 
     this.#columnMapping.forEach((column) => {
       const value = learner[column.name];
@@ -89,7 +114,9 @@ class ImportOrganizationLearnerSet {
     if (!attribute) return null;
 
     if (this.#hasValidationFormats) {
-      const dateFormat = this.validationRules.formats.find((rule) => rule.type === 'date' && rule.name === columnName);
+      const dateFormat = this.#validationRuleList.formats.find(
+        (rule) => rule.type === 'date' && rule.name === columnName,
+      );
 
       if (dateFormat) {
         return convertDateValue({
@@ -148,23 +175,27 @@ class ImportOrganizationLearnerSet {
   }
 
   #checkUnicityRule(learner) {
-    const learnerUnicityValues = this.#getLearnerUnicityValues(learner);
-    if (!this.#unicityKeys.includes(learnerUnicityValues)) {
-      this.#unicityKeys.push(learnerUnicityValues);
+    const learnerUnicityObject = this.#getLearnerUnicityObject(learner);
+    this.#unicityKeysObject.push(learnerUnicityObject);
+
+    const aggregateUnicityKeys = Object.values(learnerUnicityObject).join('-');
+
+    if (!this.#unicityKeys.includes(aggregateUnicityKeys)) {
+      this.#unicityKeys.push(aggregateUnicityKeys);
       return null;
     } else {
       return ModelValidationError.unicityError({
-        key: this.unicityColumns.join('-'),
+        key: this.#unicityColumns.join('-'),
       });
     }
   }
 
-  #getLearnerUnicityValues(learner) {
-    const unicityKeys = [];
-    this.unicityColumns.forEach((rule) => {
-      unicityKeys.push(learner[rule]);
-    });
-    return unicityKeys.join('-');
+  #getLearnerUnicityObject(learner) {
+    return this.#unicityColumns.reduce((unicityObjectKeys, rule) => {
+      unicityObjectKeys[rule] = learner[rule];
+
+      return unicityObjectKeys;
+    }, {});
   }
 
   #validateRules(learner) {
@@ -190,7 +221,7 @@ class ImportOrganizationLearnerSet {
   }
 
   #checkValidations(learner) {
-    return validateCommonOrganizationLearner(learner, this.validationRules.formats);
+    return validateCommonOrganizationLearner(learner, this.#validationRuleList.formats);
   }
 
   get learners() {
