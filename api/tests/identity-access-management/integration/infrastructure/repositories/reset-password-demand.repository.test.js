@@ -1,20 +1,26 @@
 import { PasswordResetDemandNotFoundError } from '../../../../../lib/domain/errors.js';
+import { ResetPasswordDemand } from '../../../../../src/identity-access-management/domain/models/ResetPasswordDemand.js';
 import * as resetPasswordDemandRepository from '../../../../../src/identity-access-management/infrastructure/repositories/reset-password-demand.repository.js';
 import { catchErr, databaseBuilder, expect, knex } from '../../../../test-helper.js';
 
 describe('Integration | Identity Access Management | Infrastructure | Repository | reset-password-demand', function () {
   describe('#create', function () {
     it('creates a reset password demand', async function () {
-      // when
+      // given
       const email = 'someMail@example.net';
       const temporaryKey = 'someKey';
-      await resetPasswordDemandRepository.create({ email, temporaryKey });
+
+      // when
+      const resetPasswordDemand = await resetPasswordDemandRepository.create({ email, temporaryKey });
 
       // then
-      const demand = await knex('reset-password-demands').select('email', 'temporaryKey', 'used').first();
-      expect(demand.email).to.equal(email);
-      expect(demand.temporaryKey).to.equal(temporaryKey);
-      expect(demand.used).to.be.false;
+      expect(resetPasswordDemand).to.be.instanceOf(ResetPasswordDemand);
+      expect(resetPasswordDemand.id).to.exist;
+      expect(resetPasswordDemand.email).to.equal(email);
+      expect(resetPasswordDemand.temporaryKey).to.equal(temporaryKey);
+      expect(resetPasswordDemand.used).to.be.false;
+      expect(resetPasswordDemand.createdAt).to.be.a('Date');
+      expect(resetPasswordDemand.updatedAt).to.be.a('Date');
     });
   });
 
