@@ -70,6 +70,11 @@ const getByUsernameOrEmailWithRolesAndPassword = async function (username) {
   return _toDomainFromDTO({ userDTO, membershipsDTO, certificationCenterMembershipsDTO, authenticationMethodsDTO });
 };
 
+/**
+ * @param {string} userId
+ * @return {Promise<User>}
+ * @throws {UserNotFoundError}
+ */
 const get = async function (userId) {
   const foundUser = await knex('users').where('id', userId).first();
   if (!foundUser) throw new UserNotFoundError(`User not found for ID ${userId}`);

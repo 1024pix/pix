@@ -36,6 +36,8 @@ export const updateUserPassword = async function ({
     hashedPassword,
   });
   await resetPasswordService.invalidateOldResetPasswordDemand(user.email);
+  user.markEmailAsValid();
+  await userRepository.update(user.mapToDatabaseDto());
 
   return updatedUser;
 };

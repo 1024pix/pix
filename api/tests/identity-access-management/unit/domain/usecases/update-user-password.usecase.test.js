@@ -2,7 +2,7 @@ import { PasswordResetDemandNotFoundError } from '../../../../../lib/domain/erro
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { updateUserPassword } from '../../../../../src/identity-access-management/domain/usecases/update-user-password.usecase.js';
 import { UserNotAuthorizedToUpdatePasswordError } from '../../../../../src/shared/domain/errors.js';
-import { catchErr, expect, sinon } from '../../../../test-helper.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | UseCase | update-user-password', function () {
   const userId = 1;
@@ -158,5 +158,25 @@ describe('Unit | Identity Access Management | Domain | UseCase | update-user-pas
       // then
       expect(error).to.be.an.instanceOf(PasswordResetDemandNotFoundError);
     });
+  });
+
+  it('updates user attribute "emailConfirmedAt"', async function () {
+    // given
+    const user = domainBuilder.buildUser();
+    userRepository.get.resolves(user);
+
+    // when
+    await updateUserPassword({
+      password,
+      userId,
+      temporaryKey,
+      cryptoService,
+      resetPasswordService,
+      authenticationMethodRepository,
+      userRepository,
+    });
+
+    // then
+    expect(userRepository.update).to.have.been.calledWithExactly(user.mapToDatabaseDto());
   });
 });
