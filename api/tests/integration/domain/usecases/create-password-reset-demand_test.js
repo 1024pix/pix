@@ -2,7 +2,7 @@ import { UserNotFoundError } from '../../../../lib/domain/errors.js';
 import * as mailService from '../../../../lib/domain/services/mail-service.js';
 import * as resetPasswordService from '../../../../lib/domain/services/reset-password-service.js';
 import { createPasswordResetDemand } from '../../../../lib/domain/usecases/create-password-reset-demand.js';
-import * as resetPasswordDemandRepository from '../../../../lib/infrastructure/repositories/reset-password-demands-repository.js';
+import * as resetPasswordDemandRepository from '../../../../src/identity-access-management/infrastructure/repositories/reset-password-demand.repository.js';
 import * as userRepository from '../../../../src/shared/infrastructure/repositories/user-repository.js';
 import { catchErr, databaseBuilder, expect } from '../../../test-helper.js';
 

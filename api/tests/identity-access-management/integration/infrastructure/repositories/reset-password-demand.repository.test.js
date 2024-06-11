@@ -1,14 +1,14 @@
-import { PasswordResetDemandNotFoundError } from '../../../../lib/domain/errors.js';
-import * as resetPasswordDemandsRepository from '../../../../lib/infrastructure/repositories/reset-password-demands-repository.js';
-import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
+import { PasswordResetDemandNotFoundError } from '../../../../../lib/domain/errors.js';
+import * as resetPasswordDemandRepository from '../../../../../src/identity-access-management/infrastructure/repositories/reset-password-demand.repository.js';
+import { catchErr, databaseBuilder, expect, knex } from '../../../../test-helper.js';
 
-describe('Integration | Infrastructure | Repository | reset-password-demands-repository', function () {
+describe('Integration | Identity Access Management | Infrastructure | Repository | reset-password-demand', function () {
   describe('#create', function () {
-    it('should create a password reset demand', async function () {
+    it('creates a reset password demand', async function () {
       // when
       const email = 'someMail@example.net';
       const temporaryKey = 'someKey';
-      await resetPasswordDemandsRepository.create({ email, temporaryKey });
+      await resetPasswordDemandRepository.create({ email, temporaryKey });
 
       // then
       const demand = await knex('reset-password-demands').select('email', 'temporaryKey', 'used').first();
@@ -26,19 +26,19 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
       return databaseBuilder.commit();
     });
 
-    it('should mark demand as used', async function () {
+    it('marks reset password demand as used', async function () {
       // when
-      await resetPasswordDemandsRepository.markAsBeingUsed(email);
+      await resetPasswordDemandRepository.markAsBeingUsed(email);
 
       // then
       const demand = await knex('reset-password-demands').select('used').where({ email }).first();
       expect(demand.used).to.be.true;
     });
 
-    it('should be case insensitive', async function () {
+    it('is case insensitive', async function () {
       // when
       const emailWithUppercase = email.toUpperCase();
-      await resetPasswordDemandsRepository.markAsBeingUsed(emailWithUppercase);
+      await resetPasswordDemandRepository.markAsBeingUsed(emailWithUppercase);
 
       // then
       const demand = await knex('reset-password-demands').select('used').where({ email }).first();
@@ -46,12 +46,12 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
     });
 
     context('when case is not identical', function () {
-      it('should mark demand as used', async function () {
+      it('marks reset password demand as used', async function () {
         // given
         const sameEmailWithAnotherCase = 'SomeEmaIL@example.net';
 
         // when
-        await resetPasswordDemandsRepository.markAsBeingUsed(sameEmailWithAnotherCase);
+        await resetPasswordDemandRepository.markAsBeingUsed(sameEmailWithAnotherCase);
 
         // then
         const demand = await knex('reset-password-demands').select('used').where({ email }).first();
@@ -62,9 +62,9 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
 
   describe('#findByTemporaryKey', function () {
     context('when demand does not exist', function () {
-      it('should throw a PasswordResetDemandNotFoundError', async function () {
+      it('throws a PasswordResetDemandNotFoundError', async function () {
         // when
-        const error = await catchErr(resetPasswordDemandsRepository.findByTemporaryKey)('salut les noobs');
+        const error = await catchErr(resetPasswordDemandRepository.findByTemporaryKey)('salut les noobs');
 
         // then
         expect(error).to.be.instanceOf(PasswordResetDemandNotFoundError);
@@ -80,9 +80,9 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
           return databaseBuilder.commit();
         });
 
-        it('should throw a PasswordResetDemandNotFoundError', async function () {
+        it('throws a PasswordResetDemandNotFoundError', async function () {
           // when
-          const error = await catchErr(resetPasswordDemandsRepository.findByTemporaryKey)(temporaryKey);
+          const error = await catchErr(resetPasswordDemandRepository.findByTemporaryKey)(temporaryKey);
 
           // then
           expect(error).to.be.instanceOf(PasswordResetDemandNotFoundError);
@@ -99,9 +99,9 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
           return databaseBuilder.commit();
         });
 
-        it('should return the bookshelf demand', async function () {
+        it('returns the bookshelf demand', async function () {
           // when
-          const demand = await resetPasswordDemandsRepository.findByTemporaryKey(temporaryKey);
+          const demand = await resetPasswordDemandRepository.findByTemporaryKey(temporaryKey);
 
           // then
           expect(demand.attributes.id).to.equal(demandId);
@@ -115,9 +115,9 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
 
   describe('#findByUserEmail', function () {
     context('when demand does not exist', function () {
-      it('should throw a PasswordResetDemandNotFoundError', async function () {
+      it('throws a PasswordResetDemandNotFoundError', async function () {
         // when
-        const error = await catchErr(resetPasswordDemandsRepository.findByUserEmail)(
+        const error = await catchErr(resetPasswordDemandRepository.findByUserEmail)(
           'bolossdu66@example.net',
           'salut les noobs',
         );
@@ -137,9 +137,9 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
           return databaseBuilder.commit();
         });
 
-        it('should throw a PasswordResetDemandNotFoundError', async function () {
+        it('throws a PasswordResetDemandNotFoundError', async function () {
           // when
-          const error = await catchErr(resetPasswordDemandsRepository.findByUserEmail)(email, temporaryKey);
+          const error = await catchErr(resetPasswordDemandRepository.findByUserEmail)(email, temporaryKey);
 
           // then
           expect(error).to.be.instanceOf(PasswordResetDemandNotFoundError);
@@ -156,9 +156,9 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
           return databaseBuilder.commit();
         });
 
-        it('should return the bookshelf demand', async function () {
+        it('returns the bookshelf demand', async function () {
           // when
-          const demand = await resetPasswordDemandsRepository.findByUserEmail(email, temporaryKey);
+          const demand = await resetPasswordDemandRepository.findByUserEmail(email, temporaryKey);
 
           // then
           expect(demand.attributes.id).to.equal(demandId);
@@ -167,10 +167,10 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
           expect(demand.attributes.used).to.equal(false);
         });
 
-        it('should be case insensitive', async function () {
+        it('is case insensitive', async function () {
           // when
           const emailWithUppercase = email.toUpperCase();
-          const demand = await resetPasswordDemandsRepository.findByUserEmail(emailWithUppercase, temporaryKey);
+          const demand = await resetPasswordDemandRepository.findByUserEmail(emailWithUppercase, temporaryKey);
 
           // then
           expect(demand.attributes.id).to.equal(demandId);
@@ -180,12 +180,12 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
         });
 
         context('when case is not identical', function () {
-          it('should return the bookshelf demand', async function () {
+          it('returns the bookshelf demand', async function () {
             // given
             const sameEmailWithAnotherCase = 'SomeMaIL@example.net';
 
             // when
-            const demand = await resetPasswordDemandsRepository.findByUserEmail(sameEmailWithAnotherCase, temporaryKey);
+            const demand = await resetPasswordDemandRepository.findByUserEmail(sameEmailWithAnotherCase, temporaryKey);
 
             // then
             expect(demand.attributes.id).to.equal(demandId);
