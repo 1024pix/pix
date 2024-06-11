@@ -24,13 +24,19 @@ export default class ModulixStepper extends Component {
     return this.stepsToDisplay.length < this.args.steps.length;
   }
 
-  get hasAnswerableElementInCurrentStep() {
+  get answerableElementsInCurrentStep() {
     const currentStep = this.stepsToDisplay[this.stepsToDisplay.length - 1];
-    return currentStep.elements.some((element) => element.isAnswerable);
+    return currentStep.elements.filter((element) => element.isAnswerable);
+  }
+
+  get allAnswerableElementsAreAnsweredInCurrentStep() {
+    return this.answerableElementsInCurrentStep.every((element) => {
+      return this.args.passage.getLastCorrectionForElement(element) !== undefined;
+    });
   }
 
   get shouldDisplayNextButton() {
-    return this.hasNextStep && !this.hasAnswerableElementInCurrentStep;
+    return this.hasNextStep && this.allAnswerableElementsAreAnsweredInCurrentStep;
   }
 
   <template>
