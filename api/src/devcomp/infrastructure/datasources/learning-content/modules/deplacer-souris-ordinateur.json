@@ -19,6 +19,10 @@
         "content": "<p>Dans ce module, vous allez prendre en main une souris d'ordinateur.<ul><li>Passez autant de temps que nécessaire sur chaque étape de ce module.</li><li>Pour passer d’une étape à une autre, appuyez sur la touche Entrée du clavier. <span aria-hidden=\"true\"> ↩️ </span>️</li></ul></p>"
       },
       {
+        "grainId": "f3ec5b87-c673-4181-b792-6a521f438315",
+        "content": "<p>Maintenant, découvrez à quoi sert une souris.</p>"
+      },
+      {
         "grainId": "33c855c8-64c3-43c8-878f-2f83ca3412cf",
         "content": "<p>Voyons si vous avez retenu l'essentiel.</p>"
       },
@@ -50,6 +54,69 @@
     "grains": [
       {
         "id": "f0db9bcb-a896-4801-827d-d0ceeddde3e5",
+        "type": "lesson",
+        "title": "Reconnaitre une souris",
+        "components": [
+                 {
+            "type": "element",
+             "element":
+              {
+                "id": "48708070-39c3-4af4-8914-ab61d61dfee8",
+                "type": "text",
+                "content": "<p>Les souris peuvent avoir différentes formes, tailles ou couleurs. <br>Il y a deux types de souris : <ul> <li>Les souris qui ont un fil, </li><li> Les souris  qui n’ont pas de fil.</li></ul></p>"
+              }
+          },
+          {
+            "type": "element",
+            "element": 
+            {
+            "id": "c849cbc5-931e-4a00-ae6a-083e2ff0614d",
+            "type": "image",
+            "url": "https://i.imgur.com/H35G15b.jpeg",
+            "alt": "-",
+            "alternativeText": "Photographies de quatres souris filaires de tailles, formes et couleurs différentes. Photographies de 3 souris sans fil différentes. Une souris blanche d'ordinateur mac, une souris sans fil reliée par un connecteur USB Bluetooth et une souris reliée par bluetooth."
+               }
+          },
+          {
+            "type": "element",
+             "element":
+              {
+                "id": "1cf8be4d-5774-4720-bd61-29c98f33dd37",
+                "type": "text",
+                "content": "<hr>"
+              }
+          },
+          {
+            "type": "element",
+             "element":
+              {
+                "id": "c785bfd1-e8b8-42a0-8354-333d5acf6555",
+                "type": "text",
+                "content": "<h3>Et vous, quel est le type de votre souris ?</h3><p>Peu importe votre type de souris, vous l’utiliserez de la même manière et pour faire les mêmes choses.</p>"
+              }
+          },
+          {
+            "type": "element",
+             "element":
+              {
+                "id": "e8e89496-d4bf-44fd-8739-d851e96e17d1",
+                "type": "text",
+                "content": "<hr>"
+              }
+          },
+          {
+            "type": "element",
+             "element":
+              {
+                "id": "c0389b30-2034-45f1-8f9c-08f90de26c6c",
+                "type": "text",
+                "content": "<h3><span aria-hidden=\"true\">📖</span>️ Bon à savoir</h3> <p> Voici comment vérifier qu’une souris est allumée :</p> <ul> <li>Si vous avez une souris avec un fil : vérifiez qu'elle est branchée à l’ordinateur. </li> <li> Si vous avez une souris sans fil : vous pouvez la retourner. Vérifiez que le bouton situé en dessous est bien sur ON.</li></ul>"
+              }
+          }
+        ]
+      },
+      {
+        "id": "f3ec5b87-c673-4181-b792-6a521f438315",
         "type": "lesson",
         "title": "B.A.BA de la souris",
         "components": [
@@ -99,55 +166,8 @@
             "type": "image",
             "url": "https://i.imgur.com/OdJDnEL.png",
             "alt": "",
-            "alternativeText": "Photographie d'une souris et d'un écran d'ordinateur"
+            "alternativeText": "Photographie d'une souris et d'une souris à écran."
                }
-          },
-          {
-            "type": "element",
-             "element":
-              {
-                "id": "5199f3a3-977d-4fb2-b111-7bcd428cc704",
-                "type": "text",
-                "content": "<hr>"
-              }
-          },
-          {
-            "type": "element",
-             "element":
-              {
-                "id": "48708070-39c3-4af4-8914-ab61d61dfee8",
-                "type": "text",
-                "content": "<p>Les souris peuvent avoir différentes formes, tailles ou couleurs. <br>Il y a deux types de souris : <ul> <li>Les souris qui ont un fil, </li><li> Les souris  qui n’ont pas de fil.</li></ul></p><p>Peu importe votre type de souris, vous l’utiliserez de la même manière et pour faire les mêmes choses.</p>"
-              }
-          },
-          {
-            "type": "element",
-            "element": 
-            {
-            "id": "c849cbc5-931e-4a00-ae6a-083e2ff0614d",
-            "type": "image",
-            "url": "https://i.imgur.com/H35G15b.jpeg",
-            "alt": "-",
-            "alternativeText": "-"
-               }
-          },
-          {
-            "type": "element",
-             "element":
-              {
-                "id": "1cf8be4d-5774-4720-bd61-29c98f33dd37",
-                "type": "text",
-                "content": "<hr>"
-              }
-          },
-          {
-            "type": "element",
-             "element":
-              {
-                "id": "c0389b30-2034-45f1-8f9c-08f90de26c6c",
-                "type": "text",
-                "content": "<h3><span aria-hidden=\"true\">📖</span>️ Bon à savoir</h3> <p> Voici comment vérifier qu’une souris est allumée :</p> <ul> <li>Si vous avez une souris avec un fil : vérifiez qu'elle est branchée à l’ordinateur. </li> <li> Si vous avez une souris sans fil : vous pouvez la retourner. Vérifiez que le bouton situé en dessous est bien sur ON.</li></ul>"
-              }
           }
         ]
       },
@@ -171,7 +191,7 @@
               {
                   "id": "0b32f7be-6c66-4f0e-843f-3461163e83fc",
                   "type": "text",
-                  "content": "<h3>[Embed carte]</h3> <p>Question : Avec quoi déplace-t-on une souris d’ordinateur ? <br>Réponse : Avec la main.</p>"
+                  "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/RPE/premire-marche-souris-FlashCarte-main/index.html\" width=\"100%\" height=\"310\"></iframe>"
               }
           }
         ]
