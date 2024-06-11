@@ -1,17 +1,12 @@
 import Joi from 'joi';
-import XRegExp from 'xregexp';
 
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { SUPPORTED_LOCALES } from '../../../src/shared/domain/constants.js';
 import { EntityValidationError } from '../../../src/shared/domain/errors.js';
 import { AVAILABLE_LANGUAGES } from '../../../src/shared/domain/services/language-service.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
-import { config } from '../../config.js';
 import { BadRequestError, sendJsonApiError } from '../http-errors.js';
-import { userVerification } from '../preHandlers/user-existence-verification.js';
 import { userController } from './user-controller.js';
-
-const { passwordValidationPattern } = config.account;
 
 const register = async function (server) {
   const adminRoutes = [
@@ -574,41 +569,6 @@ const register = async function (server) {
             "- Elle permet la récupération des contenus formatifs de l'utilisateur courant.",
         ],
         tags: ['api', 'user', 'trainings'],
-      },
-    },
-
-    {
-      method: 'PATCH',
-      path: '/api/users/{id}/password-update',
-      config: {
-        auth: false,
-        pre: [
-          {
-            method: userVerification.verifyById,
-            assign: 'user',
-          },
-        ],
-        handler: userController.updatePassword,
-        validate: {
-          options: {
-            allowUnknown: true,
-          },
-          params: Joi.object({
-            id: identifiersType.userId,
-          }),
-          payload: Joi.object({
-            data: {
-              attributes: {
-                password: Joi.string().pattern(XRegExp(passwordValidationPattern)).required(),
-              },
-            },
-          }),
-        },
-        notes: [
-          "- Met à jour le mot de passe d'un utilisateur identifié par son id\n" +
-            "- Une clé d'identification temporaire permet de vérifier l'identité du demandeur",
-        ],
-        tags: ['api', 'user'],
       },
     },
     {
