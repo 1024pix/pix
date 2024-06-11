@@ -503,4 +503,44 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
       expect(user.emailConfirmedAt).to.deep.equal(now);
     });
   });
+
+  describe('#mapToDatabaseDto', function () {
+    it('maps user model into user database DTO', function () {
+      // given
+      const expectedAttributes = [
+        'id',
+        'firstName',
+        'lastName',
+        'username',
+        'email',
+        'emailConfirmedAt',
+        'cgu',
+        'lastTermsOfServiceValidatedAt',
+        'lastPixOrgaTermsOfServiceValidatedAt',
+        'lastPixCertifTermsOfServiceValidatedAt',
+        'lastDataProtectionPolicySeenAt',
+        'mustValidateTermsOfService',
+        'pixOrgaTermsOfServiceAccepted',
+        'pixCertifTermsOfServiceAccepted',
+        'hasSeenAssessmentInstructions',
+        'hasSeenOtherChallengesTooltip',
+        'hasSeenNewDashboardInfo',
+        'hasSeenLevelSevenInfo',
+        'hasSeenFocusedChallengeTooltip',
+        'lang',
+        'locale',
+        'isAnonymous',
+        'hasBeenAnonymised',
+        'hasBeenAnonymisedBy',
+      ];
+      const user = domainBuilder.buildUser();
+
+      // when
+      const dto = user.mapToDatabaseDto();
+      const attributes = Object.keys(dto);
+
+      // then
+      expect(attributes).to.deep.equal(expectedAttributes);
+    });
+  });
 });
