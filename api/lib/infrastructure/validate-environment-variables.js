@@ -8,7 +8,7 @@ const schema = Joi.object({
   DATABASE_CONNECTION_POOL_MAX_SIZE: Joi.number().integer().min(0).optional(),
   DATABASE_CONNECTION_POOL_MIN_SIZE: Joi.number().integer().min(0).optional(),
   MAILING_ENABLED: Joi.string().optional().valid('true', 'false'),
-  MAILING_PROVIDER: Joi.string().optional().valid('brevo'),
+  MAILING_PROVIDER: Joi.string().optional().valid('brevo', 'mailpit'),
   BREVO_API_KEY: Joi.string().optional(),
   BREVO_ACCOUNT_CREATION_TEMPLATE_ID: Joi.number().optional(),
   BREVO_ORGANIZATION_INVITATION_TEMPLATE_ID: Joi.number().optional(),

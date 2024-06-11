@@ -5,6 +5,7 @@ import { logger } from '../../../infrastructure/utils/logger.js';
 import { EmailingAttempt } from '../../domain/models/EmailingAttempt.js';
 import { MailingProviderInvalidEmailError } from '../../domain/models/MailingProviderInvalidEmailError.js';
 import { BrevoProvider } from '../providers/BrevoProvider.js';
+import { MailpitProvider } from '../providers/MailpitProvider.js';
 import * as mailCheck from '../services/mail-check.js';
 
 const { mailing } = config;
@@ -17,6 +18,9 @@ class Mailer {
     switch (this._providerName) {
       case 'brevo':
         this._provider = new BrevoProvider();
+        break;
+      case 'mailpit':
+        this._provider = new MailpitProvider();
         break;
       default:
         logger.warn('Undefined mailing provider');
