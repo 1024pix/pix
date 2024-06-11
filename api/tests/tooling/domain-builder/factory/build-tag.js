@@ -1,4 +1,4 @@
-import { Tag } from '../../../../lib/domain/models/Tag.js';
+import { Tag } from '../../../../src/organizational-entities/domain/models/Tag.js';
 
 function buildTag({ id = 123, name = 'Type' } = {}) {
   return new Tag({

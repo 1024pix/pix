@@ -1,4 +1,4 @@
-import { Tag } from '../models/Tag.js';
+import { Tag } from '../../../src/organizational-entities/domain/models/Tag.js';
 
 const createTag = async function ({ tagName, tagRepository }) {
   const tag = new Tag({ name: tagName });

@@ -6,8 +6,8 @@ import { AlreadyExistingEntityError } from '../../domain/errors.js';
 const { omit } = lodash;
 
 import { knex } from '../../../db/knex-database-connection.js';
+import { Tag } from '../../../src/organizational-entities/domain/models/Tag.js';
 import { OrganizationTag } from '../../domain/models/index.js';
-import { Tag } from '../../domain/models/Tag.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 
 const create = async function (organizationTag) {

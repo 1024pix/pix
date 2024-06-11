@@ -24,6 +24,7 @@ import { UserToCreate } from '../../../src/identity-access-management/domain/mod
 import { DataProtectionOfficer } from '../../../src/organizational-entities/domain/models/DataProtectionOfficer.js';
 import { Organization } from '../../../src/organizational-entities/domain/models/Organization.js';
 import { OrganizationForAdmin } from '../../../src/organizational-entities/domain/models/OrganizationForAdmin.js';
+import { Tag } from '../../../src/organizational-entities/domain/models/Tag.js';
 import { CampaignCreator } from '../../../src/prescription/campaign/domain/models/CampaignCreator.js';
 import { CampaignForArchiving } from '../../../src/prescription/campaign/domain/models/CampaignForArchiving.js';
 import { CampaignForCreation } from '../../../src/prescription/campaign/domain/models/CampaignForCreation.js';
@@ -109,7 +110,6 @@ import { ShareableCertificate } from './ShareableCertificate.js';
 import { Skill } from './Skill.js';
 import { Solution } from './Solution.js';
 import { Student } from './Student.js';
-import { Tag } from './Tag.js';
 import { TargetProfile } from './TargetProfile.js';
 import { TargetProfileForAdmin } from './TargetProfileForAdmin.js';
 import { TargetProfileForCreation } from './TargetProfileForCreation.js';
