@@ -1,9 +1,8 @@
 <td>
   <label>
-    <Common::TubesSelection::Checkbox id="tube-{{@tube.id}}" @state={{this.state}} {{on "change" this.onChange}} />
-    {{@tube.name}}
-    :
-    {{@tube.practicalTitle}}
+    <PixCheckbox @id="tube-{{@tube.id}}" @checked={{this.state}} {{on "change" this.onChange}} @size="small">
+      <:label>{{@tube.name}} : {{@tube.practicalTitle}}</:label>
+    </PixCheckbox>
   </label>
 </td>
 <td class="table__column--center">
@@ -11,11 +10,11 @@
     <PixSelect
       @screenReaderOnly={{true}}
       @options={{this.levelOptions}}
-      @onChange={{this.setLevelTube}}
       @value={{this.selectedLevel}}
-      @isDisabled={{not this.checked}}
+      @onChange={{this.setLevelTube}}
+      @placeholder="À sélectionner"
+      @hideDefaultOption={{true}}
       class="tubes-selection__level-select"
-      @isComputeWidthDisabled={{true}}
     >
       <:label>Sélection du niveau du sujet suivant : {{@tube.practicalTitle}}</:label>
     </PixSelect>

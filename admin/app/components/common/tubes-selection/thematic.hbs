@@ -1,10 +1,10 @@
 <th rowspan={{@thematic.tubes.length}}>
-  <label>
-    <Common::TubesSelection::Checkbox
-      id="thematic-{{@thematic.id}}"
-      @state={{this.state}}
-      {{on "change" this.onChange}}
-    />
-    {{@thematic.name}}
-  </label>
+  <PixCheckbox
+    @id="thematic-{{@thematic.id}}"
+    @checked={{this.state}}
+    {{on "change" this.onChange}}
+    @isIndeterminate={{this.isIndeterminate}}
+  >
+    <:label>{{@thematic.name}}</:label>
+  </PixCheckbox>
 </th>

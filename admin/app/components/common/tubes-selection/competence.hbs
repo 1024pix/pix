@@ -32,7 +32,7 @@
         <tbody>
           {{#each @competence.sortedThematics as |thematic|}}
             {{#each thematic.tubes as |tube index|}}
-              <tr class="row-tube" aria-label="Sujet">
+              <tr class={{if (eq index 0) "row-thematic"}} aria-label="Sujet">
                 {{#if (eq index 0)}}
                   <Common::TubesSelection::Thematic
                     @thematic={{thematic}}

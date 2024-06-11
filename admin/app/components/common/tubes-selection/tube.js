@@ -21,6 +21,7 @@ export default class Tube extends Component {
       }
     }
   }
+
   get levelOptions() {
     return Array.from({ length: this._maxLevel }, (_, index) => ({
       value: index + 1,
@@ -33,11 +34,11 @@ export default class Tube extends Component {
   }
 
   get state() {
-    return isTubeSelected(this.args.selectedTubeIds, this.args.tube) ? 'checked' : 'unchecked';
+    return isTubeSelected(this.args.selectedTubeIds, this.args.tube);
   }
 
   get selectedLevel() {
-    return this.args.tubeLevels[this.args.tube.id] ?? this._maxLevel;
+    return this.args.tubeLevels[this.args.tube.id] || null;
   }
 
   get checked() {
@@ -50,6 +51,7 @@ export default class Tube extends Component {
       this.args.checkTube(this.args.tube);
     } else {
       this.args.uncheckTube(this.args.tube);
+      this.setLevelTube(null);
     }
   }
 
@@ -57,5 +59,9 @@ export default class Tube extends Component {
   setLevelTube(level) {
     const tubeId = this.args.tube.id;
     this.args.setLevelTube(tubeId, level);
+
+    if (level) {
+      this.args.checkTube(this.args.tube);
+    }
   }
 }
