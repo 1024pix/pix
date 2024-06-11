@@ -232,7 +232,7 @@
           {
             "id": "2cfc4200-35bd-4d40-84c9-922996e01914",
             "type": "text",
-            "content": "<h3><span aria-hidden=\"true\">👩‍💻&nbsp;</span>Quels sont les grands modèles de langage ?</h3><p>Les modèles de langage, ou LLM (Language Language Model), sont des outils numériques capables de comprendre, de générer et de traiter du langage naturel. Leurs usages sont en forte croissance dans des domaines et contextes divers, et peuvent&nbsp;:<ul><li>rédiger et traduire du contenu textuel et audio&nbsp;;</li><li>réaliser des calculs et opérations complexes&nbsp;;</li><li>ou encore tirer des conclusions d’après une situation donnée.</li></ul>"
+            "content": "<h3><span aria-hidden=\"true\">👩‍💻&nbsp;</span>Quels sont les grands modèles de langage ?</h3><p>Les modèles de langage, ou LLM (Language Language Model), sont des outils numériques capables de comprendre, de générer et de traiter du langage naturel. Leurs usages sont en forte croissance dans des domaines et contextes divers, et peuvent&nbsp;:</p><ul><li>rédiger et traduire du contenu textuel et audio&nbsp;;</li><li>réaliser des calculs et opérations complexes&nbsp;;</li><li>ou encore tirer des conclusions d’après une situation donnée.</li></ul>"
           }
         },
         {
@@ -241,7 +241,7 @@
           {
             "id": "ec182563-1090-4794-8a5f-e179d244fa3e",
             "type": "text",
-            "content": "<h3><span aria-hidden=\"true\">🏢&nbsp;</span>Les entreprises derrière les LLM</h3><p>Les LLM sont développés par des entreprises spécialisées dans l'intelligence artificielle et le traitement automatique du langage. Parmi les plus importantes, on retrouve notamment les géants du net, ainsi que d’autres acteurs internationaux&nbsp;:<ul><li>Google, qui a développé GEMINI.</li><li>OpenAI, une entreprise spécialisée dans la recherche en intelligence artificielle, qui a développé le modèle de langage GPT qui est derrière l’outil ChatGPT.</li><li>Meta, qui a développé le modèle de langage LLAMA.</li><li>Ou encore Baidu, qui est derrière Ernie Bot (Wenxin Yiyan).</li></ul></p>"
+            "content": "<h3><span aria-hidden=\"true\">🏢&nbsp;</span>Les entreprises derrière les LLM</h3><p>Les LLM sont développés par des entreprises spécialisées dans l'intelligence artificielle et le traitement automatique du langage. Parmi les plus importantes, on retrouve notamment les géants du net, ainsi que d’autres acteurs internationaux&nbsp;:</p><ul><li>Google, qui a développé GEMINI.</li><li>OpenAI, une entreprise spécialisée dans la recherche en intelligence artificielle, qui a développé le modèle de langage GPT qui est derrière l’outil ChatGPT.</li><li>Meta, qui a développé le modèle de langage LLAMA.</li><li>Ou encore Baidu, qui est derrière Ernie Bot (Wenxin Yiyan).</li></ul>"
           }
         },
         {
@@ -250,7 +250,7 @@
           {
             "id": "a5b4912d-7882-47ed-a782-bf87d73ead55",
             "type": "text",
-            "content": "<h3><span aria-hidden=\"true\">🏢&nbsp;</span>La course aux LLM</h3><p>Ces acteurs mènent une véritable course effrénée à l’Intelligence Artificielle en développant leurs propres modèles de langage.</p><p>Principalement entraînés sur des données anglo-saxonnes, les LLM actuels ne sont pas capables de refléter la vision de chaque État. L’IA est donc une priorité stratégique des gouvernements qui cherchent à développer leurs modèles, entraînés sur des données locales. C’est la souveraineté et la visibilité culturelle des pays qui est en jeu.</p>"
+            "content": "<h3><span aria-hidden=\"true\">🏃&nbsp;</span>La course aux LLM</h3><p>Ces acteurs mènent une véritable course effrénée à l’Intelligence Artificielle en développant leurs propres modèles de langage.<br>Principalement entraînés sur des données anglo-saxonnes, les LLM actuels ne sont pas capables de refléter la vision de chaque État. L’IA est donc une priorité stratégique des gouvernements qui cherchent à développer leurs modèles, entraînés sur des données locales. C’est la souveraineté et la visibilité culturelle des pays qui est en jeu.</p>"
           }
         }
       ]
