@@ -1,7 +1,7 @@
 {
   "api-error-messages": {
     "join-error": {
-      "r11": "Ya tiene una cuenta Pix con la dirección de correo electrónico'<br>'{ value }'<br><br>'Para continuar, inicie sesión con esta cuenta o pida ayuda a un profesor'<br><br>'(Para el profesor: vea el 'Kit de solución de problemas' en Pix Orga &gt; ) Documentación - Código R11)",
+      "r11": "Ya dispones de una cuenta Pix con la dirección de correo electrónico'<br>'{ value }'<br><br>'Para continuar, conéctate a esta cuenta o pide ayuda a un profesor.'<br><br>'(Para el profesor: ver el 'Kit de solución de problemas' en Pix Orga > Documentación - Código R11)",
       "r12": "Ya dispones de una cuenta Pix utilizada con el nombre de usuario con la forma nombre.apellido seguido de 4 dígitos:'<br>'{ value }'<br><br>'Para continuar, conéctate a esta cuenta o pide ayuda a un profesor.'<br><br>'(Para el profesor: ver el 'Kit de solución de problemas' en Pix Orga > Documentación - Código R12)",
       "r13": "Ya dispones de una cuenta Pix a través del ENT en otro centro escolar.'<br><br>'Para continuar, ponte en contacto con un profesor para que te dé acceso a esa cuenta utilizando Pix Orga.'<br><br>'(Para el profesor: ver el 'Kit de solución de problemas' en Pix Orga > Documentación - Código R13)",
       "r31": "Ya dispones de una cuenta Pix con la dirección de correo electrónico'<br>'{ value }'<br><br>'Para continuar, conéctate a esta cuenta o pide ayuda a un profesor.'<br><br>'(Para el profesor: ver el 'Kit de solución de problemas' en Pix Orga > Documentación - Código R31)",
@@ -14,7 +14,7 @@
           "code": "(especificando el código R90)",
           "contact-support": {
             "link-text": " ponte en contacto con el servicio de asistencia ",
-            "link-url": "https://support.pix.org/en/support/tickets/new"
+            "link-url": "https://support.pix.org/fr/support/tickets/new"
           },
           "disconnect-user": "De lo contrario, desconéctate y únete a la campaña desde tu cuenta",
           "if-account-belonging-to-user": "Si la cuenta es tuya,"
@@ -89,7 +89,7 @@
     },
     "new-information-banner": {
       "close-label": "Cerrar el banner",
-      "lvl-seven": "<h2>¡Pix llega poco a poco en español!</h2><p>\nLa traducción de todas nuestras competencias estará disponible próximamente.</p>"
+      "lvl-seven": "¡Por fin está disponible el nivel 7! Puedes obtener más información en '<'a href=\"{lvlSevenUrl}\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\"'>'esta noticia'</a>'."
     },
     "or": "o",
     "pagination": {
@@ -131,7 +131,7 @@
       "dashboard": "Inicio",
       "help": "Ayuda",
       "label": "Menú principal",
-      "link-help": "https://support.pix.org/en/support/home",
+      "link-help": "https://support.pix.org/fr/support/home",
       "skills": "Competencias",
       "start-certification": "Certificación",
       "trainings": "Mis formaciones",
@@ -214,7 +214,7 @@
         },
         "contact-support": {
           "link-text": "ponte en contacto con el servicio de asistencia.",
-          "link-url": "https://support.pix.org/en/support/tickets/new"
+          "link-url": "https://support.pix.org/fr/support/tickets/new"
         },
         "send-email-confirmation": {
           "check-spam": "Si no ves este correo electrónico, comprueba tu carpeta de correo no deseado.",
@@ -259,7 +259,7 @@
       },
       "support": {
         "recover": " para obtener asistencia.",
-        "url": "https://support.pix.org/en/support/tickets/new",
+        "url": "https://support.pix.org/fr/support/tickets/new",
         "url-text": "Ponte en contacto con el servicio de asistencia"
       },
       "update-sco-record": {
@@ -496,32 +496,6 @@
       "flag-alt": "Bandera",
       "title": "Prueba finalizada"
     },
-    "certification-information": {
-      "title": "information",
-      "buttons": {
-        "continuous": {
-          "label": "Continuer",
-          "aria-label": "Continuer vers l'écran suivant",
-          "last-page": {
-            "aria-label": "Continuer vers la page d'entrée en certification"
-          }
-        },
-        "previous":{
-          "label": "Précédent",
-          "aria-label": "Revenir vers l'écran précédent"
-        }
-      },
-      "screens": {
-        "page1": {
-          "title": "Bienvenue à la certification Pix",
-          "text": "'<span class=\"certification-information__text--bold\">'Comment fonctionne le test de certification ?'</span>' '<br><br>' '<span class=\"certification-information__text--bold\">'Il s'agit d'un test adaptatif.'</span>' C’est-à-dire, que votre capacité à répondre correctement (ou non) aux questions détermine en temps réel la difficulté des questions suivantes. '<br><br>'Si vous ne savez pas répondre à une question, '<span class=\"certification-information__text--bold\">'vous avez la possibilité de \"passer\" cette question.'</span>' Les questions passées seront considérées comme échouées et ne vous seront pas proposées à nouveau. '<br><br>' '<span class=\"certification-information__text--bold\">'Il est important d'aller jusqu'au bout du test'</span>', et donc de bien gérer votre temps. Une pénalité tenant compte du nombre de questions restantes sera appliquée."
-        },
-        "page2": {
-          "title": "Titre page 2",
-          "text": "Texte page 2"
-        }
-      }
-    },
     "certification-start": {
       "access-code": "Código de acceso comunicado por el supervisor",
       "actions": {
@@ -713,7 +687,7 @@
           }
         },
         "information": {
-          "data-usage": "'<p>'Pix trata los datos en este ámbito para gestionar y analizar la dificultad identificada y beneficiarse de tus comentarios. Puedes ejercer tus derechos en relación con tus datos dirigiéndote a: <strong>dpo@pix.fr</strong>.'</p><p><a href=\"https://pix.org/en-gb/personal-data-reporting-test\" target=\"_blank\" class=\"link\">'Para obtener más información sobre la protección de tus datos y tus derechos.'</a></p>'",
+          "data-usage": "'<p>'Pix trata los datos en este ámbito para gestionar y analizar la dificultad identificada y beneficiarse de tus comentarios. Puedes ejercer tus derechos en relación con tus datos dirigiéndote a: <strong>dpo@pix.fr</strong>.'</p><p><a href=\"https://pix.fr/dp-formulaire-signalement-epreuve\" target=\"_blank\" class=\"link\">'Para obtener más información sobre la protección de tus datos y tus derechos.'</a></p>'",
           "guidance": "'<p>'* Ten cuidado con lo que escribes en esta área: mantén la objetividad y los hechos en tu propio beneficio y en el de los demás.'</p><p>'En particular, no introduzcas ninguna información, que te concierna a ti o a terceros, sobre salud, religión, opiniones políticas, sindicales o filosóficas, orígenes étnicos o sanciones y condenas.'</p>'"
         },
         "modal": {
@@ -772,7 +746,7 @@
           },
           "description": "Pix te permite elegir el formato del archivo que deseas descargar. Si no sabes qué opción elegir, quédate con la opción por defecto. Este es el formato de archivo admitido por el mayor número de aplicaciones de software.",
           "file-type": "archivo .{fileExtension}",
-          "help": "¿Necesitas ayuda con '<a href=\"https://support.pix.org/en/support/solutions/articles/15000036390\" class=\"challenge-statement__action-help--link\" target=\"_blank\" aria-label=\"abrir, modificar o encontrar este archivo (abrir en una nueva ventana)\">'abrir, modificar o encontrar este archivo'</a>'?"
+          "help": "¿Necesitas ayuda con '<a href=\"https://support.pix.org/fr/support/solutions/articles/15000036390\" class=\"challenge-statement__action-help--link\" target=\"_blank\" aria-label=\"abrir, modificar o encontrar este archivo (abrir en una nueva ventana)\">'abrir, modificar o encontrar este archivo'</a>'?"
         },
         "sr-only": {
           "alternative-instruction": "Esta prueba contiene una ilustración con un texto alternativo.",
@@ -789,12 +763,6 @@
             "content": "Puedes utilizar internet o aplicaciones para responder a esta pregunta.",
             "title": "Modo libre"
           }
-        },
-        "text-to-speech": {
-          "activate": "Activar la vocalización",
-          "play": "Leer en voz alta",
-          "deactivate": "Desactivar la vocalización",
-          "stop": "Para de leer"
         }
       },
       "timed": {
@@ -972,7 +940,7 @@
           "text": "Más información",
           "url": "https://pix.fr/actualites/decouvrez-votre-nouveau-tableau-de-bord"
         },
-        "message": "<h2>¡Te damos la bienvenida a Pix en español, { firstname }!</h2><p> Las traducciones de todas nuestras competencias estarán disponibles próximamente.</p>"
+        "message": "<h2>Hola, { firstname }: descubre tu panel de control.</h2><p>Accede rápida y fácilmente a los tests y pruebas de competencias que ya has empezado.<br/>Comprueba cómo progresa tu puntuación Pix y si tu perfil está listo para la certificación Pix.</p>"
       },
       "recommended-competences": {
         "extra-information": "Acceder a todas las competencias recomendadas",
@@ -990,7 +958,7 @@
       "title": "Inicio"
     },
     "error": {
-      "content-text": "'<p>'Por favor, vuelve a cargar esta página o vuelve a la página de inicio.'</p><p>'También puedes ponerte en contacto con nosotros con '<a href=\"https://pix.org/en-gb/contact-form\">'el formulario del centro de ayuda.'</a>'especificando el código de error que aparece a continuación en la descripción.'</p><p>Te pedimos disculpas por las molestias ocasionadas.'</p><p>'El equipo Pix.'</p>'",
+      "content-text": "'<p>'Por favor, vuelve a cargar esta página o vuelve a la página de inicio.'</p><p>'También puedes ponerte en contacto con nosotros con '<a href=\"https://support.pix.fr/support/tickets/new\">'el formulario del centro de ayuda.'</a>'especificando el código de error que aparece a continuación en la descripción.'</p><p>Te pedimos disculpas por las molestias ocasionadas.'</p><p>'El equipo Pix.'</p>'",
       "first-title": "¡Uy, se ha producido un error!"
     },
     "fill-in-campaign-code": {
@@ -1000,7 +968,7 @@
         "missing-code": "Por favor, introduce un código.",
         "not-found": "Tu código es incorrecto, comprueba el formato (por ejemplo, ABCDEF234) o ponte en contacto con el organizador."
       },
-      "explanation-link": "https://support.pix.org/en/support/solutions/articles/15000029147-what-is-a-customised-test-code-and-how-do-i-use-it-",
+      "explanation-link": "https://support.pix.org/fr/support/solutions/articles/15000029147-qu-est-ce-qu-un-code-parcours-et-comment-l-utiliser-",
       "explanation-message": "¿Qué es un código de test y cómo se utiliza?",
       "first-title-connected": "{ firstName }, introduce tu código",
       "first-title-not-connected": "Introduce tu código",
@@ -1184,7 +1152,7 @@
               "placeholder": "AAAA"
             }
           },
-          "cgu": "Acepto las '<a href=\"https://pix.org/en-gb/terms-and-conditions\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\">'condiciones de uso de Pix'</a>'",
+          "cgu": "Acepto las '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\">'condiciones de uso de Pix'</a>'",
           "email": {
             "error": "Tu correo electrónico no es válido.",
             "help": "(por ejemplo, nombre@ejemplo.fr)",
@@ -1236,9 +1204,6 @@
           "continue": "Continuar",
           "skip": "Ir a",
           "terminate": "Finalizar"
-        },
-        "stepper": {
-          "next": "Siguiente"
         }
       },
       "details": {
@@ -1255,11 +1220,6 @@
         "tag": {
           "activity": "Actividad",
           "lesson": "lección"
-        }
-      },
-      "stepper": {
-        "step": {
-          "position": "Paso {currentStep} de {totalSteps}"
         }
       },
       "modals": {
@@ -1596,7 +1556,7 @@
       }
     },
     "terms-of-service": {
-      "cgu": "Acepto las '<a href=\"https://pix.org/en-gb/terms-and-conditions\" class=\"link\" target=\"_blank\">'condiciones de uso de Pix'</a>'",
+      "cgu": "Acepto las '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\">'condiciones de uso de Pix'</a>'",
       "form": {
         "button": "Continúo",
         "error-message": "Debes aceptar las condiciones de uso de Pix."

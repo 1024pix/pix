@@ -496,32 +496,6 @@
       "flag-alt": "Vlag",
       "title": "Test voltooid"
     },
-    "certification-information": {
-      "title": "information",
-      "buttons": {
-        "continuous": {
-          "label": "Continuer",
-          "aria-label": "Continuer vers l'écran suivant",
-          "last-page": {
-            "aria-label": "Continuer vers la page d'entrée en certification"
-          }
-        },
-        "previous":{
-          "label": "Précédent",
-          "aria-label": "Revenir vers l'écran précédent"
-        }
-      },
-      "screens": {
-        "page1": {
-          "title": "Bienvenue à la certification Pix",
-          "text": "<span class=\"certification-information__text--bold\"> Comment fonctionne le test de certification ? </span> '<br> <br>' <span class=\"certification-information__text--bold\"> Il s'agit d'un test adaptatif.</span> C’est-à-dire, que votre capacité à répondre correctement (ou non) aux questions détermine en temps réel la difficulté des questions suivantes. '<br> <br>'Si vous ne savez pas répondre à une question, <span class=\"certification-information__text--bold\">vous avez la possibilité de “passer” cette question.</span> Les questions passées seront considérées comme échouées et ne vous seront pas proposées à nouveau. '<br> <br>' <span class=\"certification-information__text--bold\">Il est important d'aller jusqu'au bout du test</span>, et donc de bien gérer votre temps. Une pénalité tenant compte du nombre de questions restantes sera appliquée."
-        },
-        "page2": {
-          "title": "Titre page 2",
-          "text": "Texte page 2"
-        }
-      }
-    },
     "certification-start": {
       "access-code": "Toegangscode gegeven door de supervisor",
       "actions": {
@@ -789,12 +763,6 @@
             "content": "Je bent vrij om het internet of applicaties te gebruiken om deze vraag te beantwoorden.",
             "title": "Vrije modus"
           }
-        },
-        "text-to-speech": {
-          "activate": "Vocalisatie activeren",
-          "play": "Hardop lezen",
-          "deactivate": "Vocalisatie uitschakelen",
-          "stop": "Stop met lezen"
         }
       },
       "timed": {
@@ -1236,9 +1204,6 @@
           "continue": "Ga verder met",
           "skip": "Overslaan",
           "terminate": "Afwerking"
-        },
-        "stepper": {
-          "next": "Volgende"
         }
       },
       "details": {
@@ -1255,11 +1220,6 @@
         "tag": {
           "activity": "activiteit",
           "lesson": "les"
-        }
-      },
-      "stepper": {
-        "step": {
-          "position": "Stap {currentStep} van {totalSteps}"
         }
       },
       "modals": {
