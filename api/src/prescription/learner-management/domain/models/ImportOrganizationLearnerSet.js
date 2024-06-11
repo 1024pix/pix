@@ -9,6 +9,7 @@ import { validateCommonOrganizationLearner } from '../validators/common-organiza
 
 class ImportOrganizationLearnerSet {
   #learners;
+  #existingLearners;
   #organizationId;
 
   #validationRuleList;
@@ -35,6 +36,7 @@ class ImportOrganizationLearnerSet {
     this.#columnMapping = importFormat.config.headers;
 
     this.#learners = [];
+    this.#existingLearners = [];
 
     this.#unicityKeys = [];
     this.#unicityKeysObject = [];
@@ -149,6 +151,10 @@ class ImportOrganizationLearnerSet {
     }
   }
 
+  setExistingLearners(existingLearners = []) {
+    this.#existingLearners = existingLearners;
+  }
+
   #handleValidationError(errors, index) {
     errors.forEach((error) => {
       const line = this.#getCsvLine(index);
@@ -225,18 +231,54 @@ class ImportOrganizationLearnerSet {
   }
 
   get learners() {
-    return this.#learners;
+    const learners = {
+      create: [],
+      update: [],
+      existinglearnerIds: [],
+    };
+
+    this.#learners.forEach((learner) => {
+      learner.updateLearner({
+        learnerList: this.#existingLearners,
+        unicityKey: Object.values(this.#unicityColumnMapping),
+      });
+
+      if (learner.id) {
+        learners.update.push(learner);
+        learners.existinglearnerIds.push(learner.id);
+      } else {
+        learners.create.push(learner);
+      }
+    });
+
+    return learners;
   }
 }
 
 class CommonOrganizationLearner {
   constructor({ id, userId, lastName, firstName, organizationId, ...attributes } = {}) {
-    if (id) this.id = id;
-    if (userId) this.userId = userId;
     this.lastName = lastName;
     this.firstName = firstName;
     this.organizationId = organizationId;
+    this.isDisabled = false;
+
     if (attributes) this.attributes = attributes;
+    if (id) this.id = id;
+    if (userId) this.userId = userId;
+  }
+
+  updateLearner({ learnerList, unicityKey }) {
+    const existingLearner = learnerList.find((learner) => {
+      return unicityKey.every((key) => {
+        if (['firstName', 'lastName'].includes(key)) return this[key] === learner[key];
+        else return this.attributes[key] === learner.attributes[key];
+      });
+    });
+
+    if (existingLearner) {
+      this.id = existingLearner.id;
+      this.userId = existingLearner.userId;
+    }
   }
 }
 

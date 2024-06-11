@@ -28,7 +28,7 @@ describe('Unit | UseCase | saveOrganizationLearnersFile', function () {
     fileEncoding = Symbol('file encoding');
     dataBuffer = Symbol('DataBuffer');
     dataStream = Symbol('DataStream');
-    buildLearners = Symbol('build learners');
+    buildLearners = Symbol('saved learners');
 
     importFormat = Symbol('importFormat');
 
@@ -63,7 +63,9 @@ describe('Unit | UseCase | saveOrganizationLearnersFile', function () {
     sinon.stub(ImportOrganizationLearnerSet, 'buildSet');
     importOrganizationLearnerSetStub = {
       addLearners: sinon.stub(),
-      learners: buildLearners,
+      learners: {
+        create: buildLearners,
+      },
     };
 
     organizationLearnerImportFormatRepositoryStub = {
