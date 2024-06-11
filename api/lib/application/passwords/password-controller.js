@@ -1,13 +1,13 @@
+import * as resetPasswordSerializer from '../../../src/identity-access-management/infrastructure/serializers/jsonapi/reset-password.serializer.js';
 import * as userSerializer from '../../../src/shared/infrastructure/serializers/jsonapi/user-serializer.js';
 import { extractLocaleFromRequest } from '../../../src/shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
-import * as passwordResetSerializer from '../../infrastructure/serializers/jsonapi/password-reset-serializer.js';
 
 const createResetDemand = async function (
   request,
   h,
   dependencies = {
-    passwordResetSerializer,
+    resetPasswordSerializer,
   },
 ) {
   const { email } = request.payload.data.attributes;
@@ -17,7 +17,7 @@ const createResetDemand = async function (
     email,
     locale,
   });
-  const serializedPayload = dependencies.passwordResetSerializer.serialize(passwordResetDemand.attributes);
+  const serializedPayload = dependencies.resetPasswordSerializer.serialize(passwordResetDemand.attributes);
 
   return h.response(serializedPayload).created();
 };
