@@ -6,7 +6,7 @@ import { usecases } from '../../domain/usecases/index.js';
 /**
  * @param request
  * @param h
- * @param {object} dependencies
+ * @param {Object} dependencies
  * @param {LocaleService} dependencies.localeService
  * @param {RequestResponseUtils} dependencies.requestResponseUtils
  * @param {UserSerializer} dependencies.userSerializer
@@ -34,9 +34,25 @@ const save = async function (request, h, dependencies = { userSerializer, reques
 };
 
 /**
- * @typedef {object} UserController
- * @property {function} save
+ * @param request
+ * @param h
+ * @param {Object} dependencies
+ * @param {UserSerializer} dependencies.userSerializer
+ * @return {Promise<*>}
  */
-const userController = { save };
+const updatePassword = async function (request, h, dependencies = { userSerializer }) {
+  const userId = request.params.id;
+  const password = request.payload.data.attributes.password;
+
+  const updatedUser = await usecases.updateUserPassword({
+    userId,
+    password,
+    temporaryKey: request.query['temporary-key'] || '',
+  });
+
+  return dependencies.userSerializer.serialize(updatedUser);
+};
+
+const userController = { save, updatePassword };
 
 export { userController };

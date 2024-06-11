@@ -23,54 +23,6 @@ describe('Unit | Controller | user-controller', function () {
     };
   });
 
-  describe('#updatePassword', function () {
-    const userId = 7;
-    const userPassword = 'Pix2017!';
-    const userTemporaryKey = 'good-temporary-key';
-    const payload = {
-      data: {
-        attributes: {
-          password: userPassword,
-        },
-      },
-    };
-    const request = {
-      params: {
-        id: userId,
-      },
-      query: {
-        'temporary-key': userTemporaryKey,
-      },
-      payload,
-    };
-
-    beforeEach(function () {
-      sinon.stub(usecases, 'updateUserPassword');
-    });
-
-    it('should update password', async function () {
-      // given
-      userSerializer.deserialize.withArgs(payload).returns({
-        password: userPassword,
-        temporaryKey: userTemporaryKey,
-      });
-      usecases.updateUserPassword
-        .withArgs({
-          userId,
-          password: userPassword,
-          temporaryKey: userTemporaryKey,
-        })
-        .resolves({});
-      userSerializer.serialize.withArgs({}).returns('ok');
-
-      // when
-      const response = await userController.updatePassword(request, hFake, { userSerializer });
-
-      // then
-      expect(response).to.be.equal('ok');
-    });
-  });
-
   describe('#updateUserDetailsForAdministration', function () {
     const userId = 1132;
     const newEmail = 'partiel@update.com';

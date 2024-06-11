@@ -35,19 +35,6 @@ const getUserDetailsForAdmin = async function (request, h, dependencies = { user
   return dependencies.userDetailsForAdminSerializer.serialize(userDetailsForAdmin);
 };
 
-const updatePassword = async function (request, h, dependencies = { userSerializer }) {
-  const userId = request.params.id;
-  const password = request.payload.data.attributes.password;
-
-  const updatedUser = await usecases.updateUserPassword({
-    userId,
-    password,
-    temporaryKey: request.query['temporary-key'] || '',
-  });
-
-  return dependencies.userSerializer.serialize(updatedUser);
-};
-
 const updateUserDetailsForAdministration = async function (
   request,
   h,
@@ -447,7 +434,6 @@ const userController = {
   removeAuthenticationMethod,
   resetScorecard,
   sendVerificationCode,
-  updatePassword,
   updateUserDetailsForAdministration,
   updateUserEmailWithValidation,
 };
