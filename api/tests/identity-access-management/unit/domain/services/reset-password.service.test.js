@@ -2,11 +2,11 @@ import crypto from 'node:crypto';
 
 import jsonwebtoken from 'jsonwebtoken';
 
-import { config as settings } from '../../../../lib/config.js';
-import * as resetPasswordService from '../../../../lib/domain/services/reset-password-service.js';
-import { expect, sinon } from '../../../test-helper.js';
+import * as resetPasswordService from '../../../../../src/identity-access-management/domain/services/reset-password.service.js';
+import { config as settings } from '../../../../../src/shared/config.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Service | Password Service', function () {
+describe('Unit | Identity Access Management | Domain | Service | reset-password', function () {
   describe('#generateTemporaryKey', function () {
     let randomGeneratedString;
 
@@ -16,7 +16,7 @@ describe('Unit | Service | Password Service', function () {
       sinon.stub(crypto, 'randomBytes').returns(randomGeneratedString);
     });
 
-    it('should call sign function from jwt', function () {
+    it('calls sign function from jwt', function () {
       // given
       const signParams = {
         payload: { data: randomGeneratedString },
@@ -42,7 +42,7 @@ describe('Unit | Service | Password Service', function () {
       };
     });
 
-    it('should call reset password repository', function () {
+    it('calls reset password repository', function () {
       // given
       const userEmail = 'shi@fu.me';
       resetPasswordDemandRepository.markAsBeingUsed.resolves();

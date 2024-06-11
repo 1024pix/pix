@@ -1,5 +1,5 @@
 import { config } from '../../../../lib/config.js';
-import * as resetPasswordService from '../../../../lib/domain/services/reset-password-service.js';
+import * as resetPasswordService from '../../../../src/identity-access-management/domain/services/reset-password.service.js';
 import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
 import { createServer, databaseBuilder, expect } from '../../../test-helper.js';
 

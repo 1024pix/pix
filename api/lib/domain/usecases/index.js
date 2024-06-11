@@ -49,6 +49,7 @@ import { authenticationSessionService } from '../../../src/identity-access-manag
 import { OidcAuthenticationServiceRegistry } from '../../../src/identity-access-management/domain/services/oidc-authentication-service-registry.js';
 import { pixAuthenticationService } from '../../../src/identity-access-management/domain/services/pix-authentication-service.js';
 import { refreshTokenService } from '../../../src/identity-access-management/domain/services/refresh-token-service.js';
+import * as resetPasswordService from '../../../src/identity-access-management/domain/services/reset-password.service.js';
 import * as oidcProviderRepository from '../../../src/identity-access-management/infrastructure/repositories/oidc-provider-repository.js';
 import * as resetPasswordDemandRepository from '../../../src/identity-access-management/infrastructure/repositories/reset-password-demand.repository.js';
 import { userToCreateRepository } from '../../../src/identity-access-management/infrastructure/repositories/user-to-create.repository.js';
@@ -105,7 +106,6 @@ import * as mailService from '../../domain/services/mail-service.js';
 import * as obfuscationService from '../../domain/services/obfuscation-service.js';
 import * as passwordGenerator from '../../domain/services/password-generator.js';
 import * as placementProfileService from '../../domain/services/placement-profile-service.js';
-import * as resetPasswordService from '../../domain/services/reset-password-service.js';
 import * as scoringCertificationService from '../../domain/services/scoring/scoring-certification-service.js';
 import * as sessionPublicationService from '../../domain/services/session-publication-service.js';
 import * as verifyCertificateCodeService from '../../domain/services/verify-certificate-code-service.js';
