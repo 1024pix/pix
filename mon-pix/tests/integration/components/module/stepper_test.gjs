@@ -40,6 +40,51 @@ module('Integration | Component | Module | Stepper', function (hooks) {
       assert.dom(screen.getByRole('button', { name: this.intl.t('pages.modulix.buttons.stepper.next') })).exists();
     });
 
+    module('When step contains at least one answerable element', function () {
+      test('should not display the Next button', async function (assert) {
+        // given
+        const steps = [
+          {
+            elements: [
+              {
+                id: 'd0690f26-978c-41c3-9a21-da931857739c',
+                instruction: 'Instruction',
+                proposals: [
+                  { id: '1', content: 'radio1' },
+                  { id: '2', content: 'radio2' },
+                ],
+                isAnswerable: true,
+                type: 'qcu',
+              },
+            ],
+          },
+          {
+            elements: [
+              {
+                id: '768441a5-a7d6-4987-ada9-7253adafd842',
+                type: 'text',
+                content: '<p>Text 2</p>',
+                isAnswerable: false,
+              },
+            ],
+          },
+        ];
+        function getLastCorrectionForElementStub() {}
+
+        // when
+        const screen = await render(
+          <template>
+            <ModulixStepper @steps={{steps}} @getLastCorrectionForElement={{getLastCorrectionForElementStub}} />
+          </template>,
+        );
+
+        // then
+        assert
+          .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.stepper.next') }))
+          .doesNotExist();
+      });
+    });
+
     module('When user clicks on the Next button', function () {
       test('should display the next step', async function (assert) {
         // given

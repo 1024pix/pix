@@ -24,11 +24,25 @@ export default class ModulixStepper extends Component {
     return this.stepsToDisplay.length < this.args.steps.length;
   }
 
+  get hasAnswerableElementInCurrentStep() {
+    const currentStep = this.stepsToDisplay[this.stepsToDisplay.length - 1];
+    return currentStep.elements.some((element) => element.isAnswerable);
+  }
+
+  get shouldDisplayNextButton() {
+    return this.hasNextStep && !this.hasAnswerableElementInCurrentStep;
+  }
+
   <template>
     {{#each this.stepsToDisplay as |step index|}}
-      <Step @step={{step}} @currentStep={{inc index}} @totalSteps={{@steps.length}} />
+      <Step
+        @step={{step}}
+        @currentStep={{inc index}}
+        @totalSteps={{@steps.length}}
+        @getLastCorrectionForElement={{@getLastCorrectionForElement}}
+      />
     {{/each}}
-    {{#if this.hasNextStep}}
+    {{#if this.shouldDisplayNextButton}}
       <PixButton @size="large" @variant="primary" @iconAfter="arrow-down" @triggerAction={{this.displayNextStep}}>{{t
           "pages.modulix.buttons.stepper.next"
         }}
