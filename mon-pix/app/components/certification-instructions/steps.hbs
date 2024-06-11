@@ -13,6 +13,9 @@
   {{#if (eq this.pageId 4)}}
     <CertificationInstructions::StepFour />
   {{/if}}
+  {{#if (eq this.pageId 5)}}
+    <CertificationInstructions::StepFive @enableNextButton={{this.enableNextButton}} />
+  {{/if}}
 </div>
 
 <footer class="certification-instructions__footer">
