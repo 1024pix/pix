@@ -1,4 +1,4 @@
-const createPasswordResetDemand = async function ({
+export const createResetPasswordDemand = async function ({
   email,
   locale,
   mailService,
@@ -15,5 +15,3 @@ const createPasswordResetDemand = async function ({
 
   return passwordResetDemand;
 };
-
-export { createPasswordResetDemand };

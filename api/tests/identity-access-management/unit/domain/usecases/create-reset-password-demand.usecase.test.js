@@ -1,10 +1,8 @@
-import { UserNotFoundError } from '../../../../lib/domain/errors.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { catchErr, expect, sinon } from '../../../test-helper.js';
+import { UserNotFoundError } from '../../../../../lib/domain/errors.js';
+import { createResetPasswordDemand } from '../../../../../src/identity-access-management/domain/usecases/create-reset-password-demand.usecase.js';
+import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
-const { createPasswordResetDemand } = usecases;
-
-describe('Unit | UseCase | create-password-reset-demand', function () {
+describe('Unit | Identity Access Management | Domain | UseCase | create-reset-password-demand', function () {
   const email = 'user@example.net';
   const locale = 'fr';
   const temporaryKey = 'ABCDEF123';
@@ -43,7 +41,7 @@ describe('Unit | UseCase | create-password-reset-demand', function () {
 
   it('should create a password reset demand if user email exists', async function () {
     // when
-    const result = await createPasswordResetDemand({
+    const result = await createResetPasswordDemand({
       email,
       locale,
       mailService,
@@ -66,7 +64,7 @@ describe('Unit | UseCase | create-password-reset-demand', function () {
     userRepository.isUserExistingByEmail.throws(new UserNotFoundError());
 
     // when
-    const error = await catchErr(createPasswordResetDemand)({
+    const error = await catchErr(createResetPasswordDemand)({
       email,
       locale,
       mailService,

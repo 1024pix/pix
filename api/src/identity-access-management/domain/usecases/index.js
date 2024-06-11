@@ -18,10 +18,12 @@ import * as userRepository from '../../../shared/infrastructure/repositories/use
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { oidcProviderRepository } from '../../infrastructure/repositories/oidc-provider-repository.js';
+import * as resetPasswordDemandRepository from '../../infrastructure/repositories/reset-password-demand.repository.js';
 import { userToCreateRepository } from '../../infrastructure/repositories/user-to-create.repository.js';
 import { authenticationSessionService } from '../services/authentication-session.service.js';
 import { pixAuthenticationService } from '../services/pix-authentication-service.js';
 import { refreshTokenService } from '../services/refresh-token-service.js';
+import * as resetPasswordService from '../services/reset-password.service.js';
 import { addOidcProviderValidator } from '../validators/add-oidc-provider.validator.js';
 
 const path = dirname(fileURLToPath(import.meta.url));
@@ -32,6 +34,7 @@ const repositories = {
   campaignRepository,
   campaignToJoinRepository,
   oidcProviderRepository,
+  resetPasswordDemandRepository,
   userLoginRepository,
   userRepository,
   userToCreateRepository,
@@ -43,6 +46,7 @@ const services = {
   oidcAuthenticationServiceRegistry,
   pixAuthenticationService,
   refreshTokenService,
+  resetPasswordService,
   tokenService,
   userService,
 };
