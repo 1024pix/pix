@@ -23,6 +23,11 @@ module('Unit | Controller | authenticated/smart-random-simulator/get-next-challe
     smartRandomDetails: { predictedLevel: 8, steps: [] },
   };
 
+  const getAssessmentCompleteApiResponseBody = {
+    challenge: null,
+    smartRandomDetails: { predictedLevel: 8, steps: [] },
+  };
+
   const getCampaignParamsApiResponseBody = {
     skills: [
       {
@@ -165,10 +170,10 @@ module('Unit | Controller | authenticated/smart-random-simulator/get-next-challe
       });
     });
 
-    module('when api answer is 204', function () {
+    module('when api answer is 200 and does not contain a challenge', function () {
       test('it should set assessmentComplete', async function (assert) {
         // given
-        const apiResponse = new Response(null, { status: 204 });
+        const apiResponse = new Response(JSON.stringify(getAssessmentCompleteApiResponseBody), { status: 200 });
         fetchStub.resolves(apiResponse);
         assert.false(controller.assessmentComplete);
 
@@ -181,7 +186,7 @@ module('Unit | Controller | authenticated/smart-random-simulator/get-next-challe
       });
     });
 
-    module('when api answer is not 200 or 204', function () {
+    module('when api answer is not 200', function () {
       test('it should call error notification service function', async function (assert) {
         // given
         const apiResponse = new Response(

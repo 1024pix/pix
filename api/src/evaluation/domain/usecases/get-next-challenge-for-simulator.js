@@ -4,7 +4,7 @@ import { STEPS_NAMES } from '../models/SmartRandomStep.js';
  * @param {simulationParameters: SimulationParameters} simulationParameters
  * @param pickChallengeService
  * @param smartRandomService
- * @returns {Promise<{challenge: Challenge, smartRandomDetails: SmartRandomDetails} | null>}
+ * @returns {Promise<{challenge: Challenge | null, smartRandomDetails: SmartRandomDetails}}
  */
 const getNextChallengeForSimulator = function ({ simulationParameters, pickChallengeService, smartRandomService }) {
   const { possibleSkillsForNextChallenge, hasAssessmentEnded, smartRandomDetails } =
@@ -20,7 +20,10 @@ const getNextChallengeForSimulator = function ({ simulationParameters, pickChall
     });
 
   if (hasAssessmentEnded) {
-    return null;
+    return {
+      challenge: null,
+      smartRandomDetails,
+    };
   }
 
   const challenge = pickChallengeService.pickChallenge({

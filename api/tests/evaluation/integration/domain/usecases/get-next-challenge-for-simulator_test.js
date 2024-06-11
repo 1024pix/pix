@@ -51,7 +51,7 @@ describe('Integration | Usecases | Get next challenge for simulator', function (
   });
 
   context('when there is no more challenge', function () {
-    it('should return null', async function () {
+    it('should return only smartRandom details', async function () {
       // given
       const simulationParameters = new SimulationParameters({
         skills: [],
@@ -62,12 +62,13 @@ describe('Integration | Usecases | Get next challenge for simulator', function (
       });
 
       // when
-      const nextChallenge = await evaluationUsecases.getNextChallengeForSimulator({
+      const { challenge, smartRandomDetails } = await evaluationUsecases.getNextChallengeForSimulator({
         simulationParameters,
       });
 
       // then
-      expect(nextChallenge).to.be.null;
+      expect(challenge).to.be.null;
+      expect(smartRandomDetails).to.be.instanceOf(SmartRandomDetails);
     });
   });
 });
