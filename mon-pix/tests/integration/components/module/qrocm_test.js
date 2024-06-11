@@ -379,7 +379,6 @@ module('Integration | Component | Module | QROCM', function (hooks) {
     // then
     const status = screen.getByRole('status');
     assert.strictEqual(status.innerText, 'Good job!');
-    assert.ok(screen.getByRole('group').disabled);
     assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
   });
 
@@ -402,7 +401,6 @@ module('Integration | Component | Module | QROCM', function (hooks) {
     // then
     const status = screen.getByRole('status');
     assert.strictEqual(status.innerText, 'Too Bad!');
-    assert.ok(screen.getByRole('group').disabled);
     assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
   });
 
@@ -425,6 +423,79 @@ module('Integration | Component | Module | QROCM', function (hooks) {
 
     // then
     assert.dom(screen.queryByRole('button', { name: 'Réessayer' })).exists();
+  });
+
+  test('should be able to focus back an input to proposals when feedback appears', async function (assert) {
+    // given
+    const qrocm = {
+      id: '994b6a96-a3c2-47ae-a461-87548ac6e02b',
+      instruction: 'Mon instruction',
+      proposals: [
+        {
+          input: 'symbole',
+          inputType: 'text',
+          display: 'block',
+          size: 1,
+          placeholder: '',
+          ariaLabel: 'input-aria',
+          defaultValue: '',
+          type: 'input',
+        },
+      ],
+      type: 'qrocm',
+    };
+    this.set('el', qrocm);
+    const store = this.owner.lookup('service:store');
+    const correctionResponse = store.createRecord('correction-response', {
+      feedback: 'Too Bad!',
+      status: 'ko',
+      solution: 'solution',
+    });
+    store.createRecord('element-answer', {
+      correction: correctionResponse,
+      elementId: qrocm.id,
+    });
+    store.createRecord('grain', { id: 'id', components: [{ type: 'element', element: qrocm }] });
+    store.createRecord('element-answer', {
+      correction: correctionResponse,
+      elementId: qrocm.id,
+    });
+    this.set('el', qrocm);
+    this.set('correctionResponse', correctionResponse);
+    this.set('submitAnswer', () => {});
+
+    // when
+    const screen = await render(
+      hbs`<Module::Element::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+    );
+
+    // then
+    const textbox = screen.getByRole('textbox', { name: 'input-aria', disabled: true });
+    textbox.focus();
+    assert.deepEqual(document.activeElement, textbox);
+  });
+
+  test('should be able to focus back a select to proposals when feedback appears', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const correctionResponse = store.createRecord('correction-response', {
+      feedback: 'Too Bad!',
+      status: 'ko',
+      solution: 'solution',
+    });
+
+    prepareContextRecords.call(this, store, correctionResponse);
+    this.set('submitAnswer', () => {});
+
+    // when
+    const screen = await render(
+      hbs`<Module::Element::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+    );
+
+    // then
+    const selectButton = screen.getByRole('button', { name: 'select-aria', disabled: true });
+    selectButton.focus();
+    assert.deepEqual(document.activeElement, selectButton);
   });
 
   test('should not display retry button when an ok feedback appears', async function (assert) {

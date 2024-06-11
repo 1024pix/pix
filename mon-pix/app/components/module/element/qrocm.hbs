@@ -6,7 +6,7 @@
   autocorrect="off"
   spellcheck="false"
 >
-  <fieldset disabled={{this.disableInput}}>
+  <fieldset>
     <legend class="screen-reader-only">
       {{t "pages.modulix.qrocm.direction" count=this.nbOfProposals}}
     </legend>
@@ -35,6 +35,7 @@
                 @screenReaderOnly={{true}}
                 {{on "change" (fn this.onInputChanged block)}}
                 size={{block.size}}
+                readonly={{this.disableInput}}
               >
                 <:label>{{block.ariaLabel}}</:label>
               </PixInput>
@@ -49,6 +50,7 @@
               @hideDefaultOption={{true}}
               @onChange={{fn this.onSelectChanged block}}
               @screenReaderOnly={{true}}
+              @isDisabled={{this.disableInput}}
             >
               <:label>{{block.ariaLabel}}</:label>
             </PixSelect>
