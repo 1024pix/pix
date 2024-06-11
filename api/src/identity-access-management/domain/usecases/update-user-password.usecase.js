@@ -1,5 +1,18 @@
 import { UserNotAuthorizedToUpdatePasswordError } from '../../../shared/domain/errors.js';
 
+/**
+ * @param {{
+ *   userId: string,
+ *   password: string,
+ *   temporaryKey: string,
+ *   cryptoService: CryptoService,
+ *   resetPasswordService: ResetPasswordService,
+ *   authenticationMethodRepository: AuthenticationMethodRepository,
+ *   userRepository: UserRepository,
+ * }} params
+ * @return {Promise<*>}
+ * @throws {UserNotAuthorizedToUpdatePasswordError}
+ */
 export const updateUserPassword = async function ({
   userId,
   password,
