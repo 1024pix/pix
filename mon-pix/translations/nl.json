@@ -427,6 +427,32 @@
         "title": "Mijn certificeringsresultaten raadplegen en delen?"
       }
     },
+    "certification-information": {
+      "buttons": {
+        "continuous": {
+          "aria-label": "Doorgaan naar het volgende scherm",
+          "label": "Ga verder met",
+          "last-page": {
+            "aria-label": "Ga door naar de invoerpagina voor certificaten"
+          }
+        },
+        "previous": {
+          "aria-label": "Terug naar vorig scherm",
+          "label": "Vorige"
+        }
+      },
+      "screens": {
+        "page1": {
+          "text": "<span class=\"certification-information__text--bold\">'Hoe werkt de certificeringstest?'</span>' '<br><br>' '<span class=\"certification-information__text--bold\">'Dit is een adaptieve test.'</span>' Met andere woorden, uw vermogen om vragen correct te beantwoorden (of niet) bepaalt de moeilijkheidsgraad van de volgende vragen in real time. <br><br>'Als u een vraag niet kunt beantwoorden, '<span class=\"certification-information__text--bold\">'kunt u die vraag 'overslaan'.'</span>'Overgeslagen vragen worden als mislukt beschouwd en worden niet opnieuw aangeboden. <br><br>''<span class=\"certification-information__text--bold\">'Het is belangrijk dat u de toets afmaakt'</span>' en dus goed met uw tijd omgaat. Er wordt een boete toegepast waarbij rekening wordt gehouden met het aantal resterende vragen.",
+          "title": "Welkom bij Pix-certificering"
+        },
+        "page2": {
+          "text": "Tekst pagina 2",
+          "title": "Titelpagina 2"
+        }
+      },
+      "title": "Verklaring van certificering"
+    },
     "certification-joiner": {
       "congratulation-banner": {
         "complementary-certification": {
@@ -751,6 +777,12 @@
         "sr-only": {
           "alternative-instruction": "Deze proefdruk bevat een illustratie met een tekstalternatief.",
           "embed": "Deze test bevat een simulator."
+        },
+        "text-to-speech": {
+          "activate": "Activeer vocalisatie",
+          "deactivate": "Stem uitschakelen",
+          "play": "Voorlezen",
+          "stop": "Stoppen met lezen"
         },
         "tooltip": {
           "aria-label": "Geef de indicatie op het bewijs weer.",
@@ -1204,6 +1236,9 @@
           "continue": "Ga verder met",
           "skip": "Overslaan",
           "terminate": "Afwerking"
+        },
+        "stepper": {
+          "next": "Volgende"
         }
       },
       "details": {
@@ -1247,6 +1282,11 @@
         "goToForm": "Beantwoord de vragenlijst",
         "subtitle": "Je hebt de volgende doelen bereikt:",
         "title": "Gefeliciteerd! Module voltooid"
+      },
+      "stepper": {
+        "step": {
+          "position": "{currentStep} Stap op {totalSteps}"
+        }
       },
       "verification-precondition-failed-alert": {
         "qcm": "Selecteer ten minste twee antwoorden om te bevestigen.",
