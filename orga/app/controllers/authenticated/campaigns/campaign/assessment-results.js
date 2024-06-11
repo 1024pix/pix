@@ -4,6 +4,7 @@ import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
 export default class AssessmentResultsController extends Controller {
+  @service currentUser;
   @service router;
 
   @tracked pageNumber = 1;
@@ -13,6 +14,10 @@ export default class AssessmentResultsController extends Controller {
   @tracked badges = [];
   @tracked stages = [];
   @tracked search = null;
+
+  get isGARAuthenticationMethod() {
+    return this.currentUser.isGARAuthenticationMethod;
+  }
 
   @action
   goToAssessmentPage(campaignId, participantId, event) {

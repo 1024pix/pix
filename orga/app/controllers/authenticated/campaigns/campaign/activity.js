@@ -4,9 +4,10 @@ import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
 export default class ActivityController extends Controller {
-  @service router;
-  @service notifications;
+  @service currentUser;
   @service intl;
+  @service notifications;
+  @service router;
 
   @tracked pageNumber = 1;
   @tracked pageSize = 50;
@@ -16,6 +17,10 @@ export default class ActivityController extends Controller {
   @tracked campaign;
   @tracked participations;
   @tracked search = null;
+
+  get isGARAuthenticationMethod() {
+    return this.currentUser.isGARAuthenticationMethod;
+  }
 
   @action
   goToParticipantPage(campaignId, participationId) {

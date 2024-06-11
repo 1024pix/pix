@@ -4,6 +4,7 @@ import { tracked } from '@glimmer/tracking';
 export default class CurrentUserService extends Service {
   @service session;
   @service store;
+
   @tracked prescriber;
   @tracked memberships;
   @tracked organization;
@@ -11,6 +12,7 @@ export default class CurrentUserService extends Service {
   @tracked isSCOManagingStudents;
   @tracked isSUPManagingStudents;
   @tracked isAgriculture;
+  @tracked isGARAuthenticationMethod;
 
   async load() {
     if (this.session.isAuthenticated) {
@@ -44,18 +46,15 @@ export default class CurrentUserService extends Service {
 
   async _setOrganizationProperties(membership) {
     const organization = await membership.organization;
-
     const isAdminInOrganization = membership.isAdmin;
-
     const isSCOManagingStudents = organization.isSco && organization.isManagingStudents;
     const isSUPManagingStudents = organization.isSup && organization.isManagingStudents;
 
     this.isAdminInOrganization = isAdminInOrganization;
     this.isSCOManagingStudents = isSCOManagingStudents;
     this.isSUPManagingStudents = isSUPManagingStudents;
-
+    this.isGARAuthenticationMethod = organization.identityProviderForCampaigns === 'GAR';
     this.isAgriculture = organization.isAgriculture;
-
     this.organization = organization;
   }
 
@@ -76,15 +75,19 @@ export default class CurrentUserService extends Service {
   get canAccessPlacesPage() {
     return this.isAdminInOrganization && this.prescriber.placesManagement;
   }
+
   get canAccessMissionsPage() {
     return this.prescriber.missionsManagement;
   }
+
   get canAccessCampaignsPage() {
     return !this.prescriber.missionsManagement;
   }
+
   get canAccessParticipantsPage() {
     return !this.prescriber.missionsManagement;
   }
+
   get hasLearnerImportFeature() {
     return this.prescriber.hasOrganizationLearnerImport;
   }
