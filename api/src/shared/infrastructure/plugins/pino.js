@@ -2,9 +2,9 @@ import crypto from 'node:crypto';
 
 import { stdSerializers } from 'pino';
 
-import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
+import { monitoringTools } from '../../../../lib/infrastructure/monitoring-tools.js';
 import { config } from '../../config.js';
-import { monitoringTools } from '../monitoring-tools.js';
+import { logger } from '../utils/logger.js';
 
 const serializersSym = Symbol.for('pino.serializers');
 

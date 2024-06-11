@@ -4,7 +4,7 @@ import pino from 'pino';
 
 import { config } from '../../../../lib/config.js';
 import { monitoringTools } from '../../../../lib/infrastructure/monitoring-tools.js';
-import * as pinoPlugin from '../../../../lib/infrastructure/plugins/pino.js';
+import * as pinoPlugin from '../../../../src/shared/infrastructure/plugins/pino.js';
 import { expect, generateValidRequestAuthorizationHeader, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Integration | Infrastructure | plugins | pino', function () {

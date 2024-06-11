@@ -3,7 +3,7 @@ import * as url from 'node:url';
 
 import { I18n } from 'i18n';
 
-import { options } from '../../../lib/infrastructure/plugins/i18n.js';
+import { options } from '../../../src/shared/infrastructure/plugins/i18n.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 function getI18n() {
