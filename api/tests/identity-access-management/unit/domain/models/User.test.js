@@ -478,4 +478,29 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
       });
     });
   });
+
+  describe('#markEmailAsValid', function () {
+    let clock, now;
+
+    beforeEach(function () {
+      now = new Date('2024-06-11');
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+    });
+
+    afterEach(function () {
+      clock.restore();
+    });
+
+    it('marks user email as valid by setting a date on "emailConfirmedAt" attribute', function () {
+      // given
+      const user = domainBuilder.buildUser();
+
+      // when
+      user.markEmailAsValid();
+
+      // then
+      expect(user.emailConfirmedAt).to.be.a('Date');
+      expect(user.emailConfirmedAt).to.deep.equal(now);
+    });
+  });
 });

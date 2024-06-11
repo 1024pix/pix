@@ -131,6 +131,10 @@ class User {
         isNil(certificationCenterMembership.disabledAt),
     );
   }
+
+  markEmailAsValid() {
+    this.emailConfirmedAt = new Date();
+  }
 }
 
 export { User };
