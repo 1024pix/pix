@@ -31,9 +31,22 @@ const saveOrganizationLearnersFile = async function ({
 
     learnerSet.addLearners(learnersData);
 
+    const existingLearners = await organizationLearnerRepository.findAllCommonLearnersFromOrganizationId({
+      organizationId,
+    });
+
+    learnerSet.setExistingLearners(existingLearners);
+
     const learners = learnerSet.learners;
 
-    await organizationLearnerRepository.disableCommonOrganizationLearnersFromOrganizationId({ organizationId });
+    await organizationLearnerRepository.disableCommonOrganizationLearnersFromOrganizationId({
+      organizationId,
+      excludeOrganizationLearnerIds: learners.existinglearnerIds,
+    });
+    await organizationLearnerRepository.updateCommonLearnersFromOrganizationId({
+      organizationId,
+      learners: learners.update,
+    });
     await organizationLearnerRepository.saveCommonOrganizationLearners(learners.create);
   } catch (error) {
     if (Array.isArray(error)) {
