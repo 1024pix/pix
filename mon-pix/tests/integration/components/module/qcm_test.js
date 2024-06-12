@@ -203,6 +203,29 @@ module('Integration | Component | Module | QCM', function (hooks) {
     assert.dom(screen.queryByRole('button', { name: 'Réessayer' })).exists();
   });
 
+  test('should be able to focus back to proposals when feedback appears', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const correctionResponse = store.createRecord('correction-response', {
+      feedback: 'Too Bad!',
+      status: 'ko',
+      solution: 'solution',
+    });
+
+    prepareContextRecords.call(this, store, correctionResponse);
+    this.set('submitAnswer', () => {});
+
+    // when
+    const screen = await render(
+      hbs`<Module::Element::Qcm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+    );
+
+    // then
+    const checkbox1 = screen.getByRole('checkbox', { name: 'checkbox1', disabled: true });
+    checkbox1.focus();
+    assert.deepEqual(document.activeElement, checkbox1);
+  });
+
   test('should not display retry button when an ok feedback appears', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
