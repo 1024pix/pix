@@ -1,3 +1,5 @@
+import { Tag } from '../../../../src/organizational-entities/domain/models/Tag.js';
+
 const DEFAULT_PASSWORD = 'pix123';
 const COMMON_OFFSET_ID = 1000;
 
@@ -35,39 +37,39 @@ const IMPORT_FORMAT_GENERIC_ID = COMMON_OFFSET_ID + 2;
 //TAGS
 const AGRICULTURE_TAG = {
   id: 1,
-  name: 'AGRICULTURE',
+  name: Tag.AGRICULTURE,
 };
 const PUBLIC_TAG = {
   id: 2,
-  name: 'PUBLIC',
+  name: Tag.PUBLIC,
 };
 const PRIVE_TAG = {
   id: 3,
-  name: 'PRIVE',
+  name: Tag.PRIVE,
 };
 const POLE_EMPLOI_TAG = {
   id: 4,
-  name: 'POLE_EMPLOI',
+  name: Tag.POLE_EMPLOI,
 };
 const CFA_TAG = {
   id: 5,
-  name: 'CFA',
+  name: Tag.CFA,
 };
 const AEFE_TAG = {
   id: 6,
-  name: 'AEFE',
+  name: Tag.AEFE,
 };
 const MEDNUM_TAG = {
   id: 7,
-  name: 'MEDNUM',
+  name: Tag.MEDIATION_NUMERIQUE,
 };
 const COLLEGE_TAG = {
   id: 8,
-  name: 'COLLEGE',
+  name: Tag.COLLEGE,
 };
 const LYCEE_TAG = {
   id: 9,
-  name: 'LYCEE',
+  name: Tag.LYCEE,
 };
 
 export {
