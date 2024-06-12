@@ -1,4 +1,3 @@
-import { config } from '../../../../lib/config.js';
 import * as resetPasswordService from '../../../../src/identity-access-management/domain/services/reset-password.service.js';
 import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
 import { createServer, databaseBuilder, expect } from '../../../test-helper.js';
@@ -10,51 +9,6 @@ describe('Acceptance | Controller | password-controller', function () {
 
   beforeEach(async function () {
     server = await createServer();
-  });
-
-  describe('POST /api/password-reset-demands', function () {
-    let options;
-
-    beforeEach(async function () {
-      options = {
-        method: 'POST',
-        url: '/api/password-reset-demands',
-        payload: {
-          data: {
-            attributes: { email },
-          },
-        },
-      };
-
-      config.mailing.enabled = false;
-
-      const userId = databaseBuilder.factory.buildUser({ email }).id;
-      databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({ userId });
-      await databaseBuilder.commit();
-    });
-
-    context('when email provided is unknown', function () {
-      it('should reply with 404', async function () {
-        // given
-        options.payload.data.attributes.email = 'unknown@example.net';
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(404);
-      });
-    });
-
-    context('when existing email is provided and email is delivered', function () {
-      it('should reply with 201', async function () {
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(201);
-      });
-    });
   });
 
   describe('GET /api/password-reset-demands/{temporaryKey}', function () {

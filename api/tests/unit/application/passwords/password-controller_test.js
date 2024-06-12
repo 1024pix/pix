@@ -3,63 +3,6 @@ import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Controller | PasswordController', function () {
-  describe('#createResetDemand', function () {
-    const email = 'user@example.net';
-    const locale = 'fr';
-    const temporaryKey = 'ABCDEF123';
-
-    const request = {
-      headers: {
-        'accept-language': locale,
-      },
-      payload: {
-        data: {
-          attributes: { email },
-        },
-      },
-    };
-
-    const resetPasswordDemand = {
-      attributes: {
-        id: 1,
-        email,
-        temporaryKey,
-      },
-    };
-
-    let dependencies;
-
-    beforeEach(function () {
-      sinon.stub(usecases, 'createPasswordResetDemand');
-
-      const passwordResetSerializerStub = {
-        serialize: sinon.stub(),
-      };
-
-      usecases.createPasswordResetDemand.resolves(resetPasswordDemand);
-      passwordResetSerializerStub.serialize.returns();
-
-      dependencies = {
-        passwordResetSerializer: passwordResetSerializerStub,
-      };
-    });
-
-    it('should reply with serialized password reset demand when all went well', async function () {
-      // when
-      const response = await passwordController.createResetDemand(request, hFake, dependencies);
-
-      // then
-      expect(response.statusCode).to.equal(201);
-      expect(usecases.createPasswordResetDemand).to.have.been.calledWithExactly({
-        email,
-        locale,
-      });
-      expect(dependencies.passwordResetSerializer.serialize).to.have.been.calledWithExactly(
-        resetPasswordDemand.attributes,
-      );
-    });
-  });
-
   describe('#checkResetDemand', function () {
     const email = 'user@example.net';
     const temporaryKey = 'ABCDEF123';

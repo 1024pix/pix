@@ -8,70 +8,11 @@ describe('Integration | Application | Passwords | password-controller', function
   let httpTestServer;
 
   beforeEach(async function () {
-    sinon.stub(usecases, 'createPasswordResetDemand');
     sinon.stub(usecases, 'getUserByResetPasswordDemand');
     sinon.stub(usecases, 'updateExpiredPassword');
 
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);
-  });
-
-  describe('#createResetDemand', function () {
-    const email = 'user@example.net';
-    const temporaryKey = 'ABCDEF123';
-
-    const method = 'POST';
-    const url = '/api/password-reset-demands';
-    const headers = {
-      'accept-language': 'fr',
-    };
-    const payload = {
-      data: {
-        type: 'password-reset-demands',
-        attributes: { email },
-      },
-    };
-
-    context('Success cases', function () {
-      it('should return an HTTP response with status code 201', async function () {
-        // given
-        const resetPasswordDemand = {
-          attributes: {
-            id: 1,
-            email,
-            temporaryKey,
-          },
-        };
-        const expectedResult = {
-          data: {
-            id: '1',
-            type: 'password-reset-demands',
-            attributes: { email },
-          },
-        };
-        usecases.createPasswordResetDemand.resolves(resetPasswordDemand);
-
-        // when
-        const response = await httpTestServer.request(method, url, payload, null, headers);
-
-        // then
-        expect(response.statusCode).to.equal(201);
-        expect(response.result).to.deep.equal(expectedResult);
-      });
-    });
-
-    context('Error cases', function () {
-      it('should respond an HTTP response with status code 404 when UserNotFoundError', async function () {
-        // given
-        usecases.createPasswordResetDemand.throws(new UserNotFoundError());
-
-        // when
-        const response = await httpTestServer.request(method, url, payload, null, headers);
-
-        // then
-        expect(response.statusCode).to.equal(404);
-      });
-    });
   });
 
   describe('#checkResetDemand', function () {
