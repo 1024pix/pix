@@ -32,7 +32,10 @@
           Importer un fichier JSON
         </PixButtonUpload>
       {{/if}}
-      <div class="tubes-selection__count">{{this.selectedTubesCount}}/{{this.totalTubesCount}}</div>
+      <PixTag class="tubes-selection__count" @color="neutral">
+        {{this.selectedTubesCount}}/{{this.totalTubesCount}}
+        sujet(s) sélectionné(s)
+      </PixTag>
     </div>
   </Card>
 

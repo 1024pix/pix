@@ -1,0 +1,20 @@
+{{page-title "Modification du profil cible : " @model.targetProfile.name}}
+<header class="page-header">
+  <div class="page-title">
+    <LinkTo @route="authenticated.target-profiles.target-profile" @model={{@model.targetProfile.id}}>
+      {{@model.targetProfile.name}}
+    </LinkTo>
+    <span role="presentation" class="wire">&nbsp;>&nbsp;</span>
+    <h1>Modification du profil cible</h1>
+  </div>
+</header>
+
+<main class="main-admin-form">
+  <TargetProfiles::EditTargetProfileForm
+    @targetProfile={{this.model.targetProfile}}
+    @frameworks={{this.model.frameworks}}
+    @onSubmit={{this.editTargetProfile}}
+    @onCancel={{this.goBackToTargetProfilePage}}
+    @updateMode={{true}}
+  />
+</main>

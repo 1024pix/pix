@@ -8,6 +8,8 @@
 
   &__inline-layout {
     display: flex;
+    flex-wrap: wrap;
+    gap: var(--pix-spacing-4x);
     align-items: center;
   }
 
@@ -33,7 +35,6 @@
 
   &__vertical-delimiter {
     height: 2rem;
-    margin: 0 1em;
     border-left: 1px solid var(--pix-neutral-100);
   }
 

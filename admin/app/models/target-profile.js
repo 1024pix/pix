@@ -33,6 +33,7 @@ export default class TargetProfile extends Model {
   @attr('boolean') hasLinkedCampaign;
   @attr('boolean') hasLinkedAutonomousCourse;
   @attr('number') maxLevel;
+  @attr() cappedTubes;
 
   @hasMany('badge', { async: true, inverse: null }) badges;
   @belongsTo('stage-collection', { async: true, inverse: null }) stageCollection;

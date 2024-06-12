@@ -77,16 +77,25 @@ module('Acceptance | Target profile creation', function (hooks) {
       await clickByName('Nouveau profil cible');
       await fillByLabel(/Nom/, 'Un profil cible, et vite !');
       await fillByLabel(/Identifiant de l'organisation de référence/, 1);
+      await clickByName(/Public/);
+      await clickByName(/Permettre la remise à zéro des acquis du profil cible/);
+
       await fillByLabel(/Référentiel/, 'Pi');
       const otherFrameworkChoice = screen.getByLabelText('Pix + Cuisine');
       await click(otherFrameworkChoice);
       await _selectLearningContent(screen);
+
+      await fillByLabel(/Lien de l'image du profil cible/, 'http://pix.fr');
+      await fillByLabel(/Description/, 'une description');
+      await fillByLabel(/Commentaire/, 'un commentaire');
 
       // when
       await clickByName('Créer le profil cible');
 
       // then
       assert.strictEqual(currentURL(), '/target-profiles/1/details');
+      assert.dom(screen.getByText('Le profil cible a été créé avec succès.')).exists();
+
       await _unfoldLearningContent();
       assert.dom(screen.getByRole('heading', { name: 'Un profil cible, et vite !', level: 2 })).exists();
       let isMobileCompliant = screen.getByTestId('mobile-compliant-tube_f1_a1_c1_th1_tu1').getAttribute('aria-label');

@@ -8,11 +8,7 @@ const MAX_TUBE_LEVEL = 8;
 export default class TubesSelection extends Component {
   @service notifications;
 
-  @tracked selectedFrameworkIds;
-
-  @tracked isDownloadModalOpened = false;
-  @tracked tubesWithLevelAndSkills;
-  @tracked downloadContent;
+  @tracked selectedFrameworkIds = [];
 
   @tracked selectedTubeIds = [];
   @tracked totalTubesCount = 0;
@@ -21,12 +17,35 @@ export default class TubesSelection extends Component {
 
   constructor(...args) {
     super(...args);
-    this.setDefaultFrameworks();
+
+    if (this.args.initialAreas?.length > 0) {
+      this.setInitialFrameworks();
+    } else {
+      this.setDefaultFrameworks();
+    }
+
+    if (this.args.initialCappedTubes?.length > 0) {
+      this.setInitialCheckedTubes();
+    }
+  }
+
+  setInitialFrameworks() {
+    Promise.resolve(this.args.initialAreas).then((initialAreas) => {
+      const initialAreasFrameworks = initialAreas.map((area) => area.frameworkId);
+      this.selectedFrameworkIds = Array.from(new Set(initialAreasFrameworks));
+    });
   }
 
   setDefaultFrameworks() {
     const pixFramework = this.args.frameworks.find((framework) => framework.name === 'Pix');
     this.selectedFrameworkIds = [pixFramework.id];
+  }
+
+  setInitialCheckedTubes() {
+    this.selectedTubeIds = this.args.initialCappedTubes.map((tube) => {
+      this.tubeLevels[tube.id] = tube.level;
+      return tube.id;
+    });
   }
 
   get frameworkOptions() {
@@ -84,7 +103,9 @@ export default class TubesSelection extends Component {
     const selectedFrameworksAreas = (
       await Promise.all(
         this.selectedFrameworks.map(async (framework) => {
-          return framework.hasMany('areas').reload();
+          if (framework.areas.isFulfilled) await framework.areas.reload();
+          const frameworkAreas = await framework.areas;
+          return frameworkAreas.toArray();
         }),
       )
     ).flat();
