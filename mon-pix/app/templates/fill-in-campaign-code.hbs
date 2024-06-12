@@ -1,4 +1,4 @@
-{{! template-lint-disable no-action require-input-label no-invalid-interactive no-triple-curlies no-unknown-arguments-for-builtin-components }}
+{{! template-lint-disable no-action require-input-label no-invalid-interactive no-unknown-arguments-for-builtin-components }}
 {{page-title (t "pages.fill-in-campaign-code.title")}}
 
 <div class="pix-communication-banner">
@@ -15,11 +15,11 @@
       <h1 class="fill-in-campaign-code__title rounded-panel-title">
         {{this.firstTitle}}
       </h1>
-      <p id="campaign-code-description" class="fill-in-campaign-code__instruction">{{{t
+      <p id="campaign-code-description" class="fill-in-campaign-code__instruction">{{t
           "pages.fill-in-campaign-code.description"
-        }}}</p>
+        }}</p>
 
-      <label for="campaign-code" class="screen-reader-only">{{{t "pages.fill-in-campaign-code.label"}}}</label>
+      <label for="campaign-code" class="screen-reader-only">{{t "pages.fill-in-campaign-code.label"}}</label>
       <form class="fill-in-campaign-code__form" autocomplete="off">
 
         <div class="fill-in-campaign-code__form-field">
