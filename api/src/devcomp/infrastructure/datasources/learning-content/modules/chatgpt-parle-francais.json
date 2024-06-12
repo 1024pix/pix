@@ -431,6 +431,32 @@
           }
         }
       ]
+    },
+    {
+      "id": "e52da884-2233-4101-96a5-befd5c7d7975",
+      "type": "activity",
+      "title": "Découverte de l'arène",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "7223bbde-941a-4bfb-80a9-4b1f7ced8e6b",
+            "type": "image",
+            "url": "https://i.imgur.com/hRR3Vjk.jpeg",
+            "alt": "Capture d'écran détaillée dans l'alternative textuelle",
+            "alternativeText": "Capture d'écran temporaire."
+          }
+        },
+        {
+          "type":"element",
+          "element":
+          {
+            "id": "7509dcdf-2d6c-4a99-ac50-21e25cb4e876",
+            "type": "text",
+            "content": "<p>Grain de découverte de l'arène LANGU:IA.</p>"
+          }
+        }
+      ]
     }
   ]
 }
