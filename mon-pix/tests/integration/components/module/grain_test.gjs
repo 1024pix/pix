@@ -427,6 +427,28 @@ module('Integration | Component | Module | Grain', function (hooks) {
     });
   });
 
+  module('when component is a stepper', function () {
+    test('should display the stepper', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const textElement = {
+        content: 'element content',
+        type: 'text',
+        isAnswerable: false,
+      };
+      const grain = store.createRecord('grain', {
+        title: 'Grain title',
+        components: [{ type: 'stepper', steps: [{ elements: [textElement] }] }],
+      });
+
+      // when
+      const screen = await render(<template><ModuleGrain @grain={{grain}} /></template>);
+
+      // then
+      assert.ok(screen.getByText('element content'));
+    });
+  });
+
   module('when continueAction is called', function () {
     test('should call continueAction pass in argument', async function (assert) {
       // given
