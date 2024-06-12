@@ -124,6 +124,6 @@ export default class SmartRandomParams extends Component {
   }
 
   @action loadCampaignParams() {
-    this.args.loadCampaignParams(this.campaignId);
+    return this.args.loadCampaignParams(this.campaignId);
   }
 }

@@ -10,6 +10,7 @@ describe('Unit | UseCase | get-campaign-parameters-for-simulator', function () {
     beforeEach(function () {
       campaignRepository = {
         findSkills: sinon.stub(),
+        get: sinon.stub(),
       };
 
       challengeRepository = {
@@ -29,6 +30,8 @@ describe('Unit | UseCase | get-campaign-parameters-for-simulator', function () {
       ];
 
       // given
+      campaignRepository.get.withArgs(12).resolves({ id: 12 });
+
       campaignRepository.findSkills
         .withArgs({
           campaignId: 12,
