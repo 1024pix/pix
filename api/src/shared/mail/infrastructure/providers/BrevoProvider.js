@@ -40,10 +40,8 @@ class BrevoProvider extends MailingProvider {
   constructor() {
     super();
 
-    const defaultClient = Brevo.ApiClient.instance;
-    defaultClient.authentications['api-key'].apiKey = mailing.brevo.apiKey;
-
     this._client = BrevoProvider.createBrevoSMTPApi();
+    this._client.authentications['apiKey'].apiKey = mailing.brevo.apiKey;
   }
 
   static createBrevoSMTPApi() {
