@@ -3,9 +3,12 @@ import { organizationAdminController } from '../../../../../src/organizational-e
 import { organizationalEntitiesRoutes } from '../../../../../src/organizational-entities/application/routes.js';
 import {
   AlreadyExistingOrganizationFeatureError,
+  DpoEmailInvalid,
   FeatureNotFound,
   FeatureParamsNotProcessable,
+  OrganizationBatchUpdateError,
   OrganizationNotFound,
+  UnableToAttachChildOrganizationToParentOrganizationError,
 } from '../../../../../src/organizational-entities/domain/errors.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
@@ -137,15 +140,59 @@ describe('Unit | Router | organization-router', function () {
       expect(organizationAdminController.updateOrganizationsInBatch).to.have.been.calledOnce;
     });
 
-    context('when trying to update non existing organization', function () {
-      it('returns a 404 HTTP status code', async function () {
-        organizationAdminController.updateOrganizationsInBatch.rejects(new NotFoundError());
+    context('when managing import errors', function () {
+      context('when trying to update non existing organization', function () {
+        it('returns a 404 HTTP status code', async function () {
+          // given
+          organizationAdminController.updateOrganizationsInBatch.rejects(new NotFoundError());
 
-        // when
-        const response = await httpTestServer.request(method, url, payload);
+          // when
+          const response = await httpTestServer.request(method, url, payload);
 
-        // then
-        expect(response.statusCode).to.equal(404);
+          // then
+          expect(response.statusCode).to.equal(404);
+        });
+      });
+
+      context('when it is not able to link to the parent organization', function () {
+        it('returns a 409 HTTP status code', async function () {
+          // given
+          organizationAdminController.updateOrganizationsInBatch.rejects(
+            new UnableToAttachChildOrganizationToParentOrganizationError(),
+          );
+
+          // when
+          const response = await httpTestServer.request(method, url, payload);
+
+          // then
+          expect(response.statusCode).to.equal(409);
+        });
+      });
+
+      context('when data protection officer email is invalid', function () {
+        it('returns a 422 HTTP status code', async function () {
+          // given
+          organizationAdminController.updateOrganizationsInBatch.rejects(new DpoEmailInvalid());
+
+          // when
+          const response = await httpTestServer.request(method, url, payload);
+
+          // then
+          expect(response.statusCode).to.equal(422);
+        });
+      });
+
+      context('when an unexpected import error happens', function () {
+        it('returns a 422 HTTP status code', async function () {
+          // given
+          organizationAdminController.updateOrganizationsInBatch.rejects(new OrganizationBatchUpdateError());
+
+          // when
+          const response = await httpTestServer.request(method, url, payload);
+
+          // then
+          expect(response.statusCode).to.equal(422);
+        });
       });
     });
   });

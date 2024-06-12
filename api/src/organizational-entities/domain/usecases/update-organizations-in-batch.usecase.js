@@ -1,10 +1,17 @@
 import { createReadStream } from 'node:fs';
 
+import { emailIsValid } from '../../../../lib/domain/services/email-validator.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { CsvColumn } from '../../../shared/infrastructure/serializers/csv/csv-column.js';
 import { CsvParser } from '../../../shared/infrastructure/serializers/csv/csv-parser.js';
 import { getDataBuffer } from '../../../shared/infrastructure/utils/buffer.js';
 import { OrganizationBatchUpdateDTO } from '../dtos/OrganizationBatchUpdateDTO.js';
+import {
+  DpoEmailInvalid,
+  OrganizationBatchUpdateError,
+  OrganizationNotFound,
+  UnableToAttachChildOrganizationToParentOrganizationError,
+} from '../errors.js';
 
 const CSV_HEADER = {
   columns: [
@@ -67,13 +74,65 @@ export const updateOrganizationsInBatch = async function ({ filePath, organizati
   await DomainTransaction.execute(async (domainTransaction) => {
     await Promise.all(
       organizationBatchUpdateDtos.map(async (organizationBatchUpdateDto) => {
-        const organization = await organizationForAdminRepository.get(organizationBatchUpdateDto.id, domainTransaction);
-        organization.updateFromOrganizationBatchUpdateDto(organizationBatchUpdateDto);
-        await organizationForAdminRepository.update(organization, domainTransaction);
+        await checkOrganizationUpdate(organizationBatchUpdateDto, organizationForAdminRepository);
+
+        try {
+          const organization = await organizationForAdminRepository.get(
+            organizationBatchUpdateDto.id,
+            domainTransaction,
+          );
+          organization.updateFromOrganizationBatchUpdateDto(organizationBatchUpdateDto);
+
+          await organizationForAdminRepository.update(organization, domainTransaction);
+        } catch (error) {
+          throw new OrganizationBatchUpdateError({
+            meta: { organizationId: organizationBatchUpdateDto.id },
+          });
+        }
       }),
     );
   });
 };
+
+async function checkOrganizationUpdate(organizationBatchUpdateDto, organizationForAdminRepository) {
+  const organization = await organizationForAdminRepository.exist(organizationBatchUpdateDto.id);
+  if (!organization) {
+    throw new OrganizationNotFound({
+      meta: {
+        organizationId: organizationBatchUpdateDto.id,
+        value: organizationBatchUpdateDto.id,
+      },
+    });
+  }
+
+  if (organizationBatchUpdateDto.parentOrganizationId) {
+    const parentOrganization = await organizationForAdminRepository.exist(
+      organizationBatchUpdateDto.parentOrganizationId,
+    );
+    if (!parentOrganization) {
+      throw new UnableToAttachChildOrganizationToParentOrganizationError({
+        meta: {
+          organizationId: organizationBatchUpdateDto.id,
+          value: organizationBatchUpdateDto.parentOrganizationId,
+        },
+      });
+    }
+  }
+
+  if (
+    organizationBatchUpdateDto.dataProtectionOfficerEmail &&
+    !emailIsValid(organizationBatchUpdateDto.dataProtectionOfficerEmail)
+  ) {
+    throw new DpoEmailInvalid({
+      meta: {
+        organizationId: organizationBatchUpdateDto.id,
+        value: organizationBatchUpdateDto.dataProtectionOfficerEmail,
+      },
+    });
+  }
+
+  return organization;
+}
 
 async function _getCsvData(filePath) {
   const stream = createReadStream(filePath);

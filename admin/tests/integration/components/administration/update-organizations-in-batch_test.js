@@ -53,23 +53,28 @@ module('Integration | Component |  administration/update-organizations-in-batch'
     });
   });
 
-  module('when import fails', function () {
-    test('it displays an error notification', async function (assert) {
-      // given
-      window.fetch.resolves(
-        fetchResponse({
-          body: {
-            errors: [{ status: '412', title: "Un soucis avec l'import", code: '412', detail: 'Erreur d’import' }],
-          },
-          status: 400,
-        }),
-      );
-      const notificationErrorStub = sinon.stub().returns();
+  module('when import fails', function (hooks) {
+    let notificationErrorStub;
+
+    hooks.beforeEach(function () {
+      notificationErrorStub = sinon.stub().returns();
       class NotificationsStub extends Service {
         error = notificationErrorStub;
         clearAll = sinon.stub();
       }
       this.owner.register('service:notifications', NotificationsStub);
+    });
+
+    test('it displays an error when organization not found', async function (assert) {
+      // given
+      window.fetch.resolves(
+        fetchResponse({
+          body: {
+            errors: [{ code: 'ORGANIZATION_NOT_FOUND', meta: { organizationId: '123' } }],
+          },
+          status: 404,
+        }),
+      );
 
       // when
       const screen = await render(hbs`<Administration::UpdateOrganizationsInBatch />`);
@@ -80,7 +85,92 @@ module('Integration | Component |  administration/update-organizations-in-batch'
 
       // then
       assert.ok(true);
-      sinon.assert.calledWith(notificationErrorStub, 'Les préconditions ne sont pas réunies.');
+      sinon.assert.calledWith(notificationErrorStub, 'Identifiant non trouvé pour l\'organisation "123".');
+    });
+
+    test('it displays an error when parent organization not found', async function (assert) {
+      // given
+      window.fetch.resolves(
+        fetchResponse({
+          body: {
+            errors: [
+              {
+                code: 'UNABLE_TO_ATTACH_CHILD_ORGANIZATION_TO_PARENT_ORGANIZATION',
+                meta: { organizationId: '123' },
+              },
+            ],
+          },
+          status: 409,
+        }),
+      );
+
+      // when
+      const screen = await render(hbs`<Administration::UpdateOrganizationsInBatch />`);
+      const input = await screen.findByLabelText(
+        this.intl.t('components.administration.update-organizations-in-batch.upload-button'),
+      );
+      await triggerEvent(input, 'change', { files: [file] });
+
+      // then
+      assert.ok(true);
+      sinon.assert.calledWith(
+        notificationErrorStub,
+        'L\'organisation parente de l\'organisation "123" non trouvée en base de données.',
+      );
+    });
+
+    test('it displays an error when DPO email invalid', async function (assert) {
+      // given
+      window.fetch.resolves(
+        fetchResponse({
+          body: {
+            errors: [
+              {
+                code: 'DPO_EMAIL_INVALID',
+                meta: { organizationId: '123', value: 'foo' },
+              },
+            ],
+          },
+          status: 422,
+        }),
+      );
+
+      // when
+      const screen = await render(hbs`<Administration::UpdateOrganizationsInBatch />`);
+      const input = await screen.findByLabelText(
+        this.intl.t('components.administration.update-organizations-in-batch.upload-button'),
+      );
+      await triggerEvent(input, 'change', { files: [file] });
+
+      // then
+      assert.ok(true);
+      sinon.assert.calledWith(
+        notificationErrorStub,
+        'Le format de l\'email du DPO est incorrect "foo" pour l\'organisation "123".',
+      );
+    });
+
+    test('it displays an error when an unexpected issue happend during import', async function (assert) {
+      // given
+      window.fetch.resolves(
+        fetchResponse({
+          body: {
+            errors: [{ code: 'ORGANIZATION_BATCH_UPDATE_ERROR', meta: { organizationId: '123' } }],
+          },
+          status: 422,
+        }),
+      );
+
+      // when
+      const screen = await render(hbs`<Administration::UpdateOrganizationsInBatch />`);
+      const input = await screen.findByLabelText(
+        this.intl.t('components.administration.update-organizations-in-batch.upload-button'),
+      );
+      await triggerEvent(input, 'change', { files: [file] });
+
+      // then
+      assert.ok(true);
+      sinon.assert.calledWith(notificationErrorStub, 'Une erreur s\'est produite sur l\'organisation "123".');
     });
   });
 });

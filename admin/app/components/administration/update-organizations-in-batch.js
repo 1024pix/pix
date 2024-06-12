@@ -33,6 +33,39 @@ export default class UpdateOrganizationsInBatch extends Component {
           this.intl.t('components.administration.update-organizations-in-batch.notifications.success'),
         );
         return;
+      } else {
+        const json = await response.json();
+        const error = json.errors[0];
+
+        if (error.code === 'ORGANIZATION_NOT_FOUND') {
+          return this.notifications.error(
+            this.intl.t(
+              'components.administration.update-organizations-in-batch.notifications.errors.organization-not-found',
+              error.meta,
+            ),
+          );
+        } else if (error.code === 'UNABLE_TO_ATTACH_CHILD_ORGANIZATION_TO_PARENT_ORGANIZATION') {
+          return this.notifications.error(
+            this.intl.t(
+              'components.administration.update-organizations-in-batch.notifications.errors.parent-organization-not-found',
+              error.meta,
+            ),
+          );
+        } else if (error.code === 'DPO_EMAIL_INVALID') {
+          return this.notifications.error(
+            this.intl.t(
+              'components.administration.update-organizations-in-batch.notifications.errors.data-protection-email-invalid',
+              error.meta,
+            ),
+          );
+        } else if (error.code === 'ORGANIZATION_BATCH_UPDATE_ERROR') {
+          return this.notifications.error(
+            this.intl.t(
+              'components.administration.update-organizations-in-batch.notifications.errors.organization-batch-update-error',
+              error.meta,
+            ),
+          );
+        }
       }
 
       this.errorResponseHandler.notify(await response.json());
