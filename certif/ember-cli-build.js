@@ -27,6 +27,9 @@ module.exports = function (defaults) {
         '@ember-data/store': {
           polyfillUUID: true,
         },
+        'ember-qunit': {
+          theme: 'ember',
+        },
       },
     },
   });
