@@ -18,9 +18,9 @@ module('Unit | Controller | authenticated/certifications/certification/informati
           store,
         ),
       });
-
+      const certificationChallengesForAdministration = await controller.model.certificationChallengesForAdministration;
       // when
-      const updatedModel = controller.assignQuestionNumberForDisplay(controller.model);
+      const updatedModel = controller.assignQuestionNumberForDisplay(certificationChallengesForAdministration);
 
       // then
       assert.strictEqual(updatedModel[0].questionNumber, '1');

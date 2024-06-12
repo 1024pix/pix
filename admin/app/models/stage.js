@@ -1,7 +1,7 @@
 import Model, { attr, belongsTo } from '@ember-data/model';
 
 export default class Stage extends Model {
-  @belongsTo('stage-collection') stageCollection;
+  @belongsTo('stage-collection', { async: true, inverse: 'stages' }) stageCollection;
 
   @attr('number') threshold;
   @attr('number') level;

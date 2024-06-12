@@ -6,7 +6,8 @@ export default class ComplementaryCertification extends Model {
   @attr() hasExternalJury;
   @attr() targetProfilesHistory;
 
-  @hasMany('complementary-certification-badge', { async: false }) complementaryCertificationBadges;
+  @hasMany('complementary-certification-badge', { async: false, inverse: 'complementaryCertification' })
+  complementaryCertificationBadges;
 
   get currentTargetProfiles() {
     return this.targetProfilesHistory?.filter(({ detachedAt }) => !detachedAt);

@@ -21,13 +21,13 @@ export default class UserInformationController extends Controller {
 
   @action
   async removeAuthenticationMethod(type) {
-    await this.model.save({ adapterOptions: { removeAuthenticationMethod: true, type } });
+    await this.model.userProfile.save({ adapterOptions: { removeAuthenticationMethod: true, type } });
     this.send('refreshModel');
   }
 
   @action
   async addPixAuthenticationMethod(newEmail) {
-    await this.model.save({ adapterOptions: { addPixAuthenticationMethod: true, newEmail } });
+    await this.model.userProfile.save({ adapterOptions: { addPixAuthenticationMethod: true, newEmail } });
   }
 
   @action
@@ -37,12 +37,11 @@ export default class UserInformationController extends Controller {
     const reassignedAuthenticationMethodLabel = oidcIdentityProvider
       ? oidcIdentityProvider.organizationName
       : 'Médiacentre';
-
     try {
       await authenticationMethod.destroyRecord({
         adapterOptions: {
           reassignAuthenticationMethodToAnotherUser: true,
-          originUserId: this.model.id,
+          originUserId: this.model.userProfile.id,
           targetUserId,
           identityProvider,
         },

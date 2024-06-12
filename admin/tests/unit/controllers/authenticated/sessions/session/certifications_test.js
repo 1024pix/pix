@@ -10,7 +10,12 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
 
   hooks.beforeEach(function () {
     controller = this.owner.lookup('controller:authenticated/sessions/session/certifications');
-    model = EmberObject.create({ id: Symbol('an id'), certifications: [{}, {}], isPublished: null });
+    model = EmberObject.create({
+      id: Symbol('an id'),
+      certifications: [{}, {}],
+      session: { isPublished: null },
+      juryCertificationSummaries: {},
+    });
   });
 
   module('#canPublish', function () {
@@ -18,7 +23,7 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
       test('should not publish the session', async function (assert) {
         // given
         controller.set('model', model);
-        controller.model.isFinalized = true;
+        controller.model.session.isFinalized = true;
         controller.model.juryCertificationSummaries = [
           { status: 'validated' },
           { status: 'error', isCancelled: false },
@@ -36,9 +41,8 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
       test('should publish the session', async function (assert) {
         // given
         controller.set('model', model);
-        controller.model.isFinalized = true;
+        controller.model.session.isFinalized = true;
         controller.model.juryCertificationSummaries = [{ status: 'validated' }, { status: 'error', isCancelled: true }];
-
         // when
         const result = controller.canPublish;
 
@@ -51,7 +55,7 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
       test('should not publish the session', async function (assert) {
         // given
         controller.set('model', model);
-        controller.model.isFinalized = false;
+        controller.model.session.isFinalized = false;
         controller.model.juryCertificationSummaries = [{ status: 'started' }];
 
         // when
@@ -66,7 +70,7 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
       test('should publish the session', async function (assert) {
         // given
         controller.set('model', model);
-        controller.model.isFinalized = true;
+        controller.model.session.isFinalized = true;
         controller.model.juryCertificationSummaries = [{ status: 'validated' }, { status: 'rejected' }];
 
         // when
@@ -87,8 +91,8 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
       test('should update modal message to publish', async function (assert) {
         // given
         model.canPublish = true;
-        model.isPublished = false;
-        model.isFinalized = true;
+        model.session.isPublished = false;
+        model.session.isFinalized = true;
         model.juryCertificationSummaries = [{ status: 'validated' }];
 
         // when
@@ -103,8 +107,8 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
     module('when session is published', function () {
       test('should update modal message to unpublish', async function (assert) {
         // given
-        model.isPublished = true;
-        model.isFinalized = true;
+        model.session.isPublished = true;
+        model.session.isFinalized = true;
         model.juryCertificationSummaries = [{ status: 'validated' }];
 
         // when
@@ -130,9 +134,9 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
       controller.set('model', model);
       controller.set('notifications', notificationsStub);
       controller.set('displayConfirm', true);
-      controller.model.save = sinon.stub();
+      controller.model.session.save = sinon.stub();
       isPublishedGetterStub = sinon.stub();
-      sinon.stub(controller.model, 'isPublished').get(isPublishedGetterStub);
+      sinon.stub(controller.model.session, 'isPublished').get(isPublishedGetterStub);
       controller.model.juryCertificationSummaries = { reload: sinon.stub() };
     });
 
@@ -141,14 +145,14 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
       const anError = 'anError';
       Object.assign(notificationsStub, { error: sinon.stub() });
 
-      controller.model.save = sinon.stub().throws(anError);
+      controller.model.session.save = sinon.stub().throws(anError);
 
       // when
       await controller.actions.toggleSessionPublication.call(controller);
       store.findRecord.resolves(model);
 
       // then
-      assert.throws(model.save, anError);
+      assert.throws(model.session.save, anError);
       sinon.assert.called(notificationsStub.error);
       assert.false(controller.displayConfirm);
     });
@@ -163,7 +167,7 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
         await controller.actions.toggleSessionPublication.call(controller);
 
         // then
-        sinon.assert.calledWith(controller.model.save, {
+        sinon.assert.calledWith(controller.model.session.save, {
           adapterOptions: { updatePublishedCertifications: true, toPublish: true },
         });
         sinon.assert.calledWith(notificationsStub.success, 'Les certifications ont été correctement publiées.');
@@ -181,7 +185,7 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
         await controller.actions.toggleSessionPublication.call(controller);
 
         // then
-        sinon.assert.calledWith(model.save, {
+        sinon.assert.calledWith(model.session.save, {
           adapterOptions: { updatePublishedCertifications: true, toPublish: false },
         });
         sinon.assert.calledWith(notificationsStub.success, 'Les certifications ont été correctement dépubliées.');

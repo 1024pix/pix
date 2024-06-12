@@ -4,9 +4,9 @@ import { service } from '@ember/service';
 export default class DetailsController extends Controller {
   @service intl;
 
-  assignQuestionNumberForDisplay(model) {
+  assignQuestionNumberForDisplay(certificationChallengesForAdministration) {
     let index = 1;
-    return model.certificationChallengesForAdministration.map((challenge) => {
+    return certificationChallengesForAdministration.map((challenge) => {
       challenge.questionNumber = index;
       if (!challenge.validatedLiveAlert) {
         index += 1;

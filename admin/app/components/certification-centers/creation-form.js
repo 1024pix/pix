@@ -1,11 +1,19 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 
 import { types } from '../../models/certification-center';
 
 export default class CertificationCenterForm extends Component {
+  @tracked habilitations = [];
   certificationCenterTypes = types;
 
+  constructor() {
+    super(...arguments);
+    Promise.resolve(this.args.certificationCenter.habilitations).then((habilitations) => {
+      this.habilitations = habilitations;
+    });
+  }
   @action
   handleCenterNameChange(event) {
     this.args.certificationCenter.name = event.target.value;
@@ -43,7 +51,7 @@ export default class CertificationCenterForm extends Component {
 
   @action
   updateGrantedHabilitation(habilitation) {
-    const habilitations = this.args.certificationCenter.habilitations;
+    const habilitations = this.habilitations;
     if (habilitations.includes(habilitation)) {
       habilitations.removeObject(habilitation);
     } else {

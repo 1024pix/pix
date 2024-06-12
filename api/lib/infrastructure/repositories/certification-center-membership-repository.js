@@ -78,6 +78,8 @@ const findByCertificationCenterIdAndUserId = async function ({ certificationCent
 const findByUserId = async function (userId) {
   const certificationCenterMemberships = await knex
     .select(
+      'users.lastName',
+      'users.firstName',
       'certification-center-memberships.*',
       'certification-centers.name',
       'certification-centers.type',
@@ -91,11 +93,11 @@ const findByUserId = async function (userId) {
       'certification-centers.id',
       'certification-center-memberships.certificationCenterId',
     )
+    .join('users', 'users.id', 'certification-center-memberships.userId')
     .where({
       userId,
       disabledAt: null,
     });
-
   return certificationCenterMemberships.map(_toDomain);
 };
 

@@ -14,8 +14,8 @@ export default class OrganizationMembership extends Model {
   @attr() organizationType;
   @attr() organizationExternalId;
 
-  @belongsTo('organization') organization;
-  @belongsTo('user') user;
+  @belongsTo('organization', { async: true, inverse: 'organizationMemberships' }) organization;
+  @belongsTo('user', { async: true, inverse: 'organizationMemberships' }) user;
 
   get roleLabel() {
     return ROLE_LABELS[this.organizationRole];

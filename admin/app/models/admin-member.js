@@ -1,5 +1,5 @@
+import { memberAction } from '@1024pix/ember-api-actions';
 import Model, { attr } from '@ember-data/model';
-import { memberAction } from 'ember-api-actions';
 
 export default class AdminMember extends Model {
   @attr() userId;

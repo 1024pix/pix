@@ -13,7 +13,10 @@ export default class Tube extends Component {
     super(...args);
     if (this.args.displaySkillDifficultyAvailability) {
       for (let i = 1; i <= MAX_TUBE_LEVEL; ++i) {
-        const hasSkill = this.args.tube.skills.find((skill) => skill.difficulty === i);
+        const hasSkill = this.args.tube
+          .hasMany('skills')
+          .value()
+          .find((skill) => skill.difficulty === i);
         this.skillAvailabilityMap.push({ difficulty: i, availability: hasSkill ? 'active' : 'missing' });
       }
     }

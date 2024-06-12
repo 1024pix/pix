@@ -34,9 +34,9 @@
           </tr>
         </thead>
 
-        {{#if @organization.targetProfileSummaries}}
+        {{#if @targetProfileSummaries}}
           <tbody>
-            {{#each @organization.sortedTargetProfileSummaries as |summary|}}
+            {{#each this.sortedTargetProfileSummaries as |summary|}}
               <tr aria-label="Profil cible">
                 <td class="table__column table__column--id">{{summary.id}}</td>
                 <td headers="target-profile-name">
@@ -59,7 +59,7 @@
         {{/if}}
       </table>
 
-      {{#unless @organization.targetProfileSummaries}}
+      {{#unless @targetProfileSummaries}}
         <div class="table__empty">Aucun résultat</div>
       {{/unless}}
     </div>

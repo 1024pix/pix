@@ -19,34 +19,6 @@ module('Unit | Component | certification-centers/information-edit', function (ho
     });
   });
 
-  module('#updateGrantedHabilitation', function () {
-    test('it should add the habilitation to the certification center', function (assert) {
-      // given
-      const habilitation = store.createRecord('complementary-certification', { key: 'E', label: 'Pix+Surf' });
-
-      component.form.habilitations = [];
-
-      // when
-      component.updateGrantedHabilitation(habilitation);
-
-      // then
-      assert.true(component.form.habilitations.includes(habilitation));
-    });
-
-    test('it should remove the habilitation from the certification center', function (assert) {
-      // given
-      const habilitation = store.createRecord('complementary-certification', { key: 'E', label: 'Pix+Surf' });
-
-      component.form.habilitations = [habilitation];
-
-      // when
-      component.updateGrantedHabilitation(habilitation);
-
-      // then
-      assert.false(component.form.habilitations.includes(habilitation));
-    });
-  });
-
   module('#updateIsV3Pilot', function () {
     test('should add isV3Pilot to certification center on checked checkbox', async function (assert) {
       // given
@@ -79,6 +51,7 @@ module('Unit | Component | certification-centers/information-edit', function (ho
         certificationCenter: {
           id: 1,
           getProperties: sinon.stub().returns({}),
+          habilitations: [],
         },
         onSubmit: sinon.stub(),
       });
@@ -97,28 +70,6 @@ module('Unit | Component | certification-centers/information-edit', function (ho
 
       // then
       assert.strictEqual(component.form.type, 'My Super Duper Type');
-    });
-  });
-
-  module('#updateCertificationCenter', function () {
-    test('it should update the certification center data', async function (assert) {
-      // given
-      component.form.name = '67W';
-      component.form.type = 'My Type';
-      component.form.dataProtectionOfficerFirstName = 'Justin';
-      component.form.dataProtectionOfficerLastName = 'Ptipeu';
-      component.form.dataProtectionOfficerEmail = 'justin.ptipeu@example.net';
-      component.form.isV3Pilot = true;
-
-      // when
-      await component.updateCertificationCenter({ preventDefault: sinon.stub() });
-
-      // then
-      assert.strictEqual(component.args.certificationCenter.name, '67W');
-      assert.strictEqual(component.args.certificationCenter.dataProtectionOfficerFirstName, 'Justin');
-      assert.strictEqual(component.args.certificationCenter.dataProtectionOfficerLastName, 'Ptipeu');
-      assert.strictEqual(component.args.certificationCenter.dataProtectionOfficerEmail, 'justin.ptipeu@example.net');
-      assert.true(component.args.certificationCenter.isV3Pilot);
     });
   });
 });

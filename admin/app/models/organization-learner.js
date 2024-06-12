@@ -13,5 +13,5 @@ export default class OrganizationLearner extends Model {
   @attr() isDisabled;
   @attr() canBeDissociated;
 
-  @belongsTo('user') user;
+  @belongsTo('user', { async: true, inverse: 'organizationLearners' }) user;
 }

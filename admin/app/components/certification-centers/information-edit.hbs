@@ -115,7 +115,7 @@
         <Input
           id="habilitation-checkbox__{{habilitation.id}}"
           @type="checkbox"
-          @checked={{contains habilitation @certificationCenter.habilitations}}
+          @checked={{contains habilitation this.habilitations}}
           {{on "input" (fn this.updateGrantedHabilitation habilitation)}}
         />
         <label class="field-label" for="habilitation-checkbox__{{habilitation.id}}">

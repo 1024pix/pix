@@ -1,7 +1,7 @@
 {{! template-lint-disable require-input-label }}
 <div class="content-text content-text--small">
   <form class="form" {{on "submit" this.createStages}}>
-    {{#if @stageCollection.stages}}
+    {{#if this.stages}}
       <div class="table-admin">
         <table class="stages-table">
           <thead>

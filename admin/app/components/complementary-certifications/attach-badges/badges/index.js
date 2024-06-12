@@ -30,33 +30,37 @@ export default class Badges extends Component {
     this.args.onBadgeUpdated({ update: { badgeId, fieldName, fieldValue } });
   }
 
-  #initBadges(targetProfile) {
+  async #initBadges({ id } = {}) {
     this.isLoading = true;
-    if (!targetProfile?.id) {
+    if (!id) {
       this.#onfetchBadgesError(new ReferenceError('No target profile provided'));
       this.isLoading = false;
       return;
     }
 
-    this.store
-      .queryRecord('target-profile', {
-        targetProfileId: targetProfile.id,
+    try {
+      const targetProfile = await this.store.queryRecord('target-profile', {
+        targetProfileId: id,
         filter: {
           badges: 'certifiable',
         },
-      })
-      .then((targetProfile) => {
-        if (this.isDestroyed) {
-          return;
-        }
-        this.badges = targetProfile.badges?.map((badge) => ({
+      });
+      if (this.isDestroyed) {
+        return;
+      }
+      this.badges = targetProfile
+        .hasMany('badges')
+        .value()
+        ?.map((badge) => ({
           id: badge.id,
           label: badge.title,
           isCertifiable: badge.isCertifiable,
         }));
-      })
-      .catch(this.#onfetchBadgesError)
-      .finally(() => (this.isLoading = false));
+    } catch {
+      this.#onfetchBadgesError();
+    } finally {
+      this.isLoading = false;
+    }
   }
 
   #onfetchBadgesError() {

@@ -29,33 +29,29 @@ export default class CertificationInformationsController extends Controller {
 
   @tracked selectedJuryLevel = null;
 
-  @computed('certification.certificationIssueReports.@each.isImpactful')
+  @computed('model.certificationIssueReports.@each.isImpactful')
   get impactfulCertificationIssueReports() {
-    return this.certification.certificationIssueReports.filter((issueReport) => issueReport.isImpactful);
+    return this.model.certificationIssueReports.filter((issueReport) => issueReport.isImpactful);
   }
 
-  @computed('certification.certificationIssueReports.@each.isImpactful')
+  @computed('model.certificationIssueReports.@each.isImpactful')
   get unimpactfulCertificationIssueReports() {
-    return this.certification.certificationIssueReports.filter((issueReport) => !issueReport.isImpactful);
+    return this.model.certificationIssueReports.filter((issueReport) => !issueReport.isImpactful);
   }
 
-  @computed('certification.certificationIssueReports.@each.isImpactful')
+  @computed('model.certificationIssueReports.@each.isImpactful')
   get hasIssueReports() {
-    return Boolean(this.certification.certificationIssueReports.length);
+    return Boolean(this.model.certificationIssueReports.length);
   }
 
-  @computed('certification.certificationIssueReports.@each.isImpactful')
+  @computed('model.certificationIssueReports.@each.isImpactful')
   get hasImpactfulIssueReports() {
-    return Boolean(
-      this.certification.certificationIssueReports.filter((issueReport) => issueReport.isImpactful).length,
-    );
+    return Boolean(this.model.certificationIssueReports.filter((issueReport) => issueReport.isImpactful).length);
   }
 
-  @computed('certification.certificationIssueReports.@each.isImpactful')
+  @computed('model.certificationIssueReports.@each.isImpactful')
   get hasUnimpactfulIssueReports() {
-    return Boolean(
-      this.certification.certificationIssueReports.filter((issueReport) => !issueReport.isImpactful).length,
-    );
+    return Boolean(this.model.certificationIssueReports.filter((issueReport) => !issueReport.isImpactful).length);
   }
 
   @computed('certification.status')
@@ -100,8 +96,9 @@ export default class CertificationInformationsController extends Controller {
     return this.certification.save({ adapterOptions: { updateJuryComment: true } });
   }
 
-  saveCertificationCourse() {
-    return this.certification.save({ adapterOptions: { updateJuryComment: false } });
+  async saveCertificationCourse() {
+    const save = await this.certification.save({ adapterOptions: { updateJuryComment: false } });
+    return save;
   }
 
   @action

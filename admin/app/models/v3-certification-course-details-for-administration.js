@@ -28,11 +28,14 @@ export default class V3CertificationCourseDetailsForAdministration extends Model
   @attr('string') abortReason;
   @attr('number') pixScore;
   @attr('number') numberOfChallenges;
-  @hasMany('certification-challenges-for-administration') certificationChallengesForAdministration;
+  @hasMany('certification-challenges-for-administration', { async: true, inverse: null })
+  certificationChallengesForAdministration;
   version = 3;
 
   get numberOfAnsweredQuestions() {
-    return this.certificationChallengesForAdministration.filter((challenge) => {
+    const certificationChallengesForAdministration = this.hasMany('certificationChallengesForAdministration').value();
+    if (!certificationChallengesForAdministration) return 0;
+    return certificationChallengesForAdministration.filter((challenge) => {
       return challenge.answerStatus;
     }).length;
   }
@@ -50,19 +53,27 @@ export default class V3CertificationCourseDetailsForAdministration extends Model
   }
 
   get numberOfOkAnswers() {
-    return this.certificationChallengesForAdministration.filter((challenge) => challenge.isOk()).length;
+    const certificationChallengesForAdministration = this.hasMany('certificationChallengesForAdministration').value();
+    if (!certificationChallengesForAdministration) return 0;
+    return certificationChallengesForAdministration.filter((challenge) => challenge.isOk()).length;
   }
 
   get numberOfKoAnswers() {
-    return this.certificationChallengesForAdministration.filter((challenge) => challenge.isKo()).length;
+    const certificationChallengesForAdministration = this.hasMany('certificationChallengesForAdministration').value();
+    if (!certificationChallengesForAdministration) return 0;
+    return certificationChallengesForAdministration.filter((challenge) => challenge.isKo()).length;
   }
 
   get numberOfAbandAnswers() {
-    return this.certificationChallengesForAdministration.filter((challenge) => challenge.isAband()).length;
+    const certificationChallengesForAdministration = this.hasMany('certificationChallengesForAdministration').value();
+    if (!certificationChallengesForAdministration) return 0;
+    return certificationChallengesForAdministration.filter((challenge) => challenge.isAband()).length;
   }
 
   get numberOfValidatedLiveAlerts() {
-    return this.certificationChallengesForAdministration.filter((challenge) => challenge.hasLiveAlert()).length;
+    const certificationChallengesForAdministration = this.hasMany('certificationChallengesForAdministration').value();
+    if (!certificationChallengesForAdministration) return 0;
+    return certificationChallengesForAdministration.filter((challenge) => challenge.hasLiveAlert()).length;
   }
 
   get duration() {

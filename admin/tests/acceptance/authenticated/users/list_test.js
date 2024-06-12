@@ -53,6 +53,12 @@ module('Acceptance | authenticated/users | list', function (hooks) {
         test('it displays the current user', async function (assert) {
           // given
           const result = {
+            meta: {
+              page: 1,
+              pageSize: 5,
+              rowCount: 5,
+              pageCount: 1,
+            },
             data: [
               {
                 type: 'users',
@@ -84,6 +90,12 @@ module('Acceptance | authenticated/users | list', function (hooks) {
         test('it should display the current user', async function (assert) {
           // given
           const result = {
+            meta: {
+              page: 1,
+              pageSize: 5,
+              rowCount: 5,
+              pageCount: 1,
+            },
             data: [
               {
                 type: 'users',
@@ -114,6 +126,12 @@ module('Acceptance | authenticated/users | list', function (hooks) {
         test('it should display the current user', async function (assert) {
           // given
           const result = {
+            meta: {
+              page: 1,
+              pageSize: 5,
+              rowCount: 5,
+              pageCount: 1,
+            },
             data: [
               {
                 type: 'users',

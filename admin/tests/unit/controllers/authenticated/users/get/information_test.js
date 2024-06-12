@@ -34,9 +34,9 @@ module('Unit | Controller | authenticated/users/get/information', function (hook
             rollbackAttributes: rollbackAttributesStub,
           }),
         ];
-        const user = EmberObject.create({ id: originUserId, authenticationMethods });
+        const userProfile = EmberObject.create({ id: originUserId, authenticationMethods });
 
-        controller.model = user;
+        controller.model = { userProfile, authenticationMethods };
         controller.notifications = {
           success: sinon.stub(),
           error: sinon.stub(),

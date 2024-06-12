@@ -1,7 +1,7 @@
+import { memberAction } from '@1024pix/ember-api-actions';
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from '@ember/object';
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
-import { memberAction } from 'ember-api-actions';
 import isEmpty from 'lodash/isEmpty';
 import sumBy from 'lodash/sumBy';
 import trim from 'lodash/trim';
@@ -47,9 +47,9 @@ export default class Session extends Model {
   @attr('boolean') hasSupervisorAccess;
   @attr() version;
 
-  @hasMany('jury-certification-summary') juryCertificationSummaries;
-  @belongsTo('user') assignedCertificationOfficer;
-  @belongsTo('user') juryCommentAuthor;
+  @hasMany('jury-certification-summary', { async: true, inverse: null }) juryCertificationSummaries;
+  @belongsTo('user', { async: true, inverse: null }) assignedCertificationOfficer;
+  @belongsTo('user', { async: true, inverse: null }) juryCommentAuthor;
 
   @computed('status')
   get isFinalized() {
@@ -78,7 +78,7 @@ export default class Session extends Model {
         : 0;
       return totalOfCertificationIssueReports + numberOfCertificationIssueReports;
     };
-    return this.juryCertificationSummaries.reduce(reducer, 0);
+    return this.hasMany('juryCertificationSummaries').value().reduce(reducer, 0);
   }
 
   @computed('juryCertificationSummaries.[]')
@@ -90,13 +90,13 @@ export default class Session extends Model {
           : 0;
       return totalOfCertificationIssueReports + numberOfCertificationIssueReportsWithRequiredAction;
     };
-    return this.juryCertificationSummaries.reduce(reducer, 0);
+    return this.hasMany('juryCertificationSummaries').value().reduce(reducer, 0);
   }
 
   @computed('juryCertificationSummaries.[]')
   get countNotCheckedEndScreen() {
     return _getNumberOf(
-      this.juryCertificationSummaries,
+      this.hasMany('juryCertificationSummaries').value(),
       (juryCertificationSummary) => !juryCertificationSummary.hasSeenEndTestScreen,
     );
   }
@@ -104,7 +104,7 @@ export default class Session extends Model {
   @computed('juryCertificationSummaries.@each.status')
   get countStartedAndInErrorCertifications() {
     return _getNumberOf(
-      this.juryCertificationSummaries,
+      this.hasMany('juryCertificationSummaries').value(),
       (juryCertificationSummary) =>
         juryCertificationSummary.isCertificationStarted || juryCertificationSummary.isCertificationInError,
     );
@@ -113,7 +113,7 @@ export default class Session extends Model {
   @computed('juryCertificationSummaries.@each.isFlaggedAborted')
   get countCertificationsFlaggedAsAborted() {
     return _getNumberOf(
-      this.juryCertificationSummaries,
+      this.hasMany('juryCertificationSummaries').value(),
       (juryCertificationSummary) => juryCertificationSummary.isFlaggedAborted,
     );
   }

@@ -1,12 +1,31 @@
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import partition from 'lodash/partition';
 import ENV from 'pix-admin/config/environment';
 
 export default class CertifiedProfile extends Component {
-  get certifiedCompetenceList() {
-    const { certifiedAreas } = this.args.certifiedProfile;
+  @tracked certifiedAreas = [];
+  @tracked certifiedCompetences = [];
+  @tracked certifiedTubes = [];
+  @tracked certifiedSkills = [];
+  constructor() {
+    super(...arguments);
+    this.args.certifiedProfile.certifiedAreas.then((certifiedAreas) => {
+      this.certifiedAreas = certifiedAreas;
+    });
+    this.args.certifiedProfile.certifiedCompetences.then((certifiedCompetences) => {
+      this.certifiedCompetences = certifiedCompetences;
+    });
+    this.args.certifiedProfile.certifiedTubes.then((certifiedTubes) => {
+      this.certifiedTubes = certifiedTubes;
+    });
+    this.args.certifiedProfile.certifiedSkills.then((certifiedSkills) => {
+      this.certifiedSkills = certifiedSkills;
+    });
+  }
 
-    const competencesOfCertifiedAreas = certifiedAreas
+  get certifiedCompetenceList() {
+    const competencesOfCertifiedAreas = this.certifiedAreas
       .toArray()
       .flatMap((certifiedArea) => this._buildCertifiedCompetencesOfCertifiedArea(certifiedArea));
 
@@ -21,8 +40,7 @@ export default class CertifiedProfile extends Component {
   }
 
   _buildCertifiedCompetencesOfCertifiedArea(certifiedArea) {
-    const { certifiedCompetences } = this.args.certifiedProfile;
-    return certifiedCompetences
+    return this.certifiedCompetences
       .filter((certifiedCompetence) => certifiedCompetence.areaId === certifiedArea.id)
       .map((certifiedCompetence) => ({
         name: certifiedCompetence.name,
@@ -33,8 +51,7 @@ export default class CertifiedProfile extends Component {
   }
 
   _buildCertifiedTubeOfCertifiedCompetence(certifiedCompetenceId) {
-    const { certifiedTubes } = this.args.certifiedProfile;
-    return certifiedTubes
+    return this.certifiedTubes
       .filter((certifiedTube) => certifiedTube.competenceId === certifiedCompetenceId)
       .map((certifiedTube) => ({
         name: certifiedTube.name,
@@ -43,8 +60,7 @@ export default class CertifiedProfile extends Component {
   }
 
   _buildCertifiedTubeSkillsByLevel(certifiedTubeId) {
-    const { certifiedSkills } = this.args.certifiedProfile;
-    const tubeSkills = certifiedSkills.filter((certifiedSkill) => certifiedSkill.tubeId === certifiedTubeId);
+    const tubeSkills = this.certifiedSkills.filter((certifiedSkill) => certifiedSkill.tubeId === certifiedTubeId);
     return this.difficultyLevels.map((_, index) => {
       return tubeSkills.find((skill) => skill.difficulty === index + 1);
     });

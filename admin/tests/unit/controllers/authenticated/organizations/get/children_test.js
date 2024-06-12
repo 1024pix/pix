@@ -29,7 +29,11 @@ module('Unit | Controller | authenticated/organizations/get/children', function 
       controller.model = {
         organization: store.createRecord('organization', { id: '12' }),
       };
-      controller.model.organization.children.reload = sinon.stub().resolves();
+      const reloadStub = sinon.stub();
+      controller.model.organization.hasMany = sinon.stub();
+      controller.model.organization.hasMany.returns({
+        reload: reloadStub,
+      });
 
       // when
       await controller.handleFormSubmitted(childOrganizationId);
@@ -45,7 +49,7 @@ module('Unit | Controller | authenticated/organizations/get/children', function 
       assert.true(
         notifications.success.calledWithExactly(`L'organisation fille a bien été liée à l'organisation mère`),
       );
-      assert.true(controller.model.organization.children.reload.calledOnce);
+      assert.true(reloadStub.calledOnce);
     });
 
     module('when form submit fails', function () {

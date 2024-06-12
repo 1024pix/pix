@@ -14,17 +14,23 @@ export default class Stages extends Component {
   @tracked
   stageType = undefined;
 
+  @tracked stages = [];
+
+  constructor() {
+    super(...arguments);
+    Promise.resolve(this.args.stageCollection.stages).then((stages) => {
+      this.stages = stages;
+    });
+  }
+
   get availableLevels() {
-    const unavailableLevels = this.args.stageCollection
-      .get('stages')
-      .filter((stage) => !stage.isBeingCreated)
-      .map((stage) => stage.level);
+    const unavailableLevels = this.stages.filter((stage) => !stage.isBeingCreated).map((stage) => stage.level);
     const allLevels = Array.from({ length: this.args.maxLevel + 1 }, (_, i) => i);
     return difference(allLevels, unavailableLevels);
   }
 
   get unavailableThresholds() {
-    return this.args.stageCollection.stages.map((stage) => (stage.isBeingCreated ? null : stage.threshold));
+    return this.stages.map((stage) => (stage.isBeingCreated ? null : stage.threshold));
   }
 
   get isLevelType() {
@@ -32,11 +38,11 @@ export default class Stages extends Component {
   }
 
   get hasNewStage() {
-    return this.args.stageCollection.stages.any((stage) => stage.isBeingCreated);
+    return this.stages.any((stage) => stage.isBeingCreated);
   }
 
   get newStages() {
-    return this.args.stageCollection.stages.filter((stage) => stage.isBeingCreated);
+    return this.stages.filter((stage) => stage.isBeingCreated);
   }
 
   get columnNameByStageType() {
@@ -44,7 +50,7 @@ export default class Stages extends Component {
   }
 
   get hasAvailableStages() {
-    const allNewStages = this.args.stageCollection.stages.filter((stage) => stage.isBeingCreated) || [];
+    const allNewStages = this.stages.filter((stage) => stage.isBeingCreated) || [];
 
     return (this.isLevelType && this.availableLevels.length > allNewStages.length) || !this.isLevelType;
   }
@@ -54,14 +60,14 @@ export default class Stages extends Component {
   }
 
   get collectionHasNonZeroStages() {
-    const nonZeroStages = this.args.stageCollection.stages.filter(
+    const nonZeroStages = this.stages.filter(
       (stage) => !stage.isBeingCreated && stage.threshold !== 0 && stage.level !== 0,
     );
     return nonZeroStages.length > 0;
   }
 
   get isAddFirstSkillStageDisabled() {
-    return this.args.stageCollection.stages.find((stage) => stage.isFirstSkill);
+    return this.stages.find((stage) => stage.isFirstSkill);
   }
 
   @action
@@ -73,12 +79,12 @@ export default class Stages extends Component {
       title: null,
       message: null,
     });
-    this.args.stageCollection.stages.pushObject(stage);
+    this.stages.pushObject(stage);
   }
 
   @action
   addStage() {
-    const shouldAddZeroStage = this.args.stageCollection.stages.length === 0;
+    const shouldAddZeroStage = this.stages.length === 0;
     let stage;
     if (shouldAddZeroStage) {
       stage = this.store.createRecord('stage', {
@@ -101,7 +107,7 @@ export default class Stages extends Component {
         message: null,
       });
     }
-    this.args.stageCollection.stages.pushObject(stage);
+    this.stages.pushObject(stage);
   }
 
   @action
@@ -130,18 +136,17 @@ export default class Stages extends Component {
     event.preventDefault();
 
     try {
-      await this.args.stageCollection.save({ adapterOptions: { stages: this.args.stageCollection.stages } });
+      await this.args.stageCollection.save({ adapterOptions: { stages: this.stages } });
       await this.args.targetProfile.reload();
       this.store
         .peekAll('stage')
         .filter(({ id }) => !id)
         .forEach((stage) => {
-          this.args.stageCollection.stages.removeObject(stage);
+          this.stages.removeObject(stage);
           stage.deleteRecord();
         });
       this.notifications.success('Palier(s) ajouté(s) avec succès.');
     } catch (e) {
-      console.log(e);
       this.notifications.error(e.errors?.[0]?.detail ?? 'Une erreur est survenue.');
     }
   }
@@ -153,9 +158,9 @@ export default class Stages extends Component {
 
   @action
   async deleteStage(stage) {
-    this.args.stageCollection.stages.removeObject(stage);
+    this.stages.removeObject(stage);
     stage.deleteRecord();
-    await this.args.stageCollection.save({ adapterOptions: { stages: this.args.stageCollection.stages } });
+    await this.args.stageCollection.save({ adapterOptions: { stages: this.stages } });
   }
 
   @action

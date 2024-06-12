@@ -16,7 +16,7 @@ export default class CertificationCenter extends Model {
   @attr() isV3Pilot;
   @attr() isComplementaryAlonePilot;
 
-  @hasMany('complementary-certification') habilitations;
+  @hasMany('complementary-certification', { async: true, inverse: null }) habilitations;
 
   get typeLabel() {
     return types.find((type) => type.value === this.type).label;

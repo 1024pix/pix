@@ -196,7 +196,14 @@ module('Acceptance | Target Profile Management', function (hooks) {
       await clickByName('Oui, marquer comme obsolète');
 
       // then
-      assert.dom(_findByListItemText(screen, 'Obsolète : Oui')).exists();
+      assert
+        .dom(
+          await screen.findByText((_, e) => {
+            return e.textContent.trim() === 'Obsolète : Oui';
+          }),
+        )
+        .exists();
+      assert.dom(screen.queryByRole('button', { name: 'Marquer comme obsolète' })).doesNotExist();
     });
   });
 });

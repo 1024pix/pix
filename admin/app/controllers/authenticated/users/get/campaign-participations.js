@@ -10,7 +10,9 @@ export default class UserCampaignParticipationsController extends Controller {
     try {
       await campaignParticipation.deleteRecord();
       await campaignParticipation.save();
-      await this.model.hasMany('participations').reload();
+      await campaignParticipation.unloadRecord();
+      await this.model.reload();
+      this.send('refreshModel');
       this.notifications.success('La participation du prescrit a été supprimée avec succès.');
     } catch (e) {
       this.notifications.error('Une erreur est survenue lors de la suppression de la participation.');

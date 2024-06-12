@@ -8,5 +8,5 @@ export default class Tube extends Model {
   @attr() mobile;
   @attr() tablet;
 
-  @hasMany('skill') skills;
+  @hasMany('skill', { async: true, inverse: 'tube' }) skills;
 }

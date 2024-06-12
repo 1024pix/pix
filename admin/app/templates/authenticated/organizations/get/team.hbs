@@ -1,4 +1,4 @@
-{{page-title "Orga " @model.id " | Équipe"}}
+{{page-title "Orga " @model.organization.id " | Équipe"}}
 {{#if this.accessControl.hasAccessToOrganizationActionsScope}}
   <Organizations::TeamActionsSection
     @addOrganizationMembership={{this.addOrganizationMembership}}

@@ -62,7 +62,7 @@ module('Integration | Component | actions-on-users-role-in-organization', functi
         reload: sinon.stub(),
       });
 
-      sinon.stub(organizationMembership, 'save').resolves();
+      sinon.stub(organizationMembership, 'destroyRecord').resolves();
 
       this.set('organizationMembership', organizationMembership);
 
@@ -85,7 +85,7 @@ module('Integration | Component | actions-on-users-role-in-organization', functi
 
       // then
       sinon.assert.calledWith(notificationSuccessStub, 'Le membre a été désactivé avec succès.');
-      assert.ok(organizationMembership.save.calledWith({ adapterOptions: { disable: true } }));
+      assert.ok(organizationMembership.destroyRecord.calledWith({ adapterOptions: { disable: true } }));
     });
   });
 

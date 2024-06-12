@@ -1,4 +1,4 @@
-import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
+import { clickByName, fillByLabel, visit, within } from '@1024pix/ember-testing-library';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
@@ -31,12 +31,14 @@ module('Acceptance | Organizations | Target profiles management', function (hook
 
     // when
     const screen = await visit(`/organizations/${organization.id}/target-profiles`);
+    const input = screen.getByLabelText('ID du ou des profil(s) cible(s)');
+    const parentInput = input.parentNode;
+
     await fillByLabel('ID du ou des profil(s) cible(s)', '66');
     await clickByName('Valider');
-
     // then
-    assert.dom(screen.getByLabelText('Profil cible')).includesText('66');
-    assert.dom(screen.getByLabelText('ID du ou des profil(s) cible(s)')).hasNoValue();
+    assert.dom(await screen.findByLabelText('Profil cible')).includesText('66');
+    assert.dom(await within(parentInput).findByDisplayValue('')).hasAria('label', 'ID du ou des profil(s) cible(s)');
   });
 
   test('should not display organization target profiles when user does not have access', async function (assert) {

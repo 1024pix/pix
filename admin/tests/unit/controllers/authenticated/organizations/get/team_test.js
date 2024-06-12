@@ -46,9 +46,9 @@ module('Unit | Controller | authenticated/organizations/get/team', function (hoo
 
         store.query = sinon.stub().resolves([user]);
         controller.model = {
-          hasMember: sinon.stub().resolves(true),
           organization: {
             id: 1,
+            hasMember: sinon.stub().resolves(true),
           },
         };
         controller.userEmailToAdd = emailInLowerCase.toUpperCase();
@@ -72,12 +72,12 @@ module('Unit | Controller | authenticated/organizations/get/team', function (hoo
         store.createRecord = sinon.stub().returns({ save: sinon.stub() });
 
         controller.model = {
-          hasMember: sinon.stub().resolves(false),
           organizationMemberships: {
             reload: sinon.stub().resolves(true),
           },
           organization: {
             id: 1,
+            hasMember: sinon.stub().resolves(false),
           },
         };
         controller.userEmailToAdd = email;
@@ -100,11 +100,11 @@ module('Unit | Controller | authenticated/organizations/get/team', function (hoo
         store.query = sinon.stub().resolves([user]);
         store.createRecord = sinon.stub().returns({ save: sinon.stub() });
         controller.model = {
-          hasMember: sinon.stub().resolves(false),
           organizationMemberships: {
             reload: sinon.stub().rejects('some error'),
           },
           organization: {
+            hasMember: sinon.stub().resolves(false),
             id: 1,
           },
         };

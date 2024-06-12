@@ -111,7 +111,7 @@ module('Integration | Component | users | user-detail-personal-information/authe
       });
 
       module('when user has a PIX authentication method', function () {
-        test('it displays the should change password status', async function (assert) {
+        test('it displays user has to change password', async function (assert) {
           // given
           this.set('user', {
             authenticationMethods: [
@@ -133,6 +133,37 @@ module('Integration | Component | users | user-detail-personal-information/authe
             'components.users.user-detail-personal-information.authentication-method.should-change-password-status',
           );
           const expectedValue = this.intl.t('common.words.yes');
+          assert
+            .dom(
+              screen.getAllByRole('listitem').find((listItem) => {
+                const childrenText = listItem.textContent.trim().split('\n');
+                return childrenText[0]?.trim() === expectedLabel && childrenText[1]?.trim() === expectedValue;
+              }),
+            )
+            .exists();
+        });
+        test('it displays user has not to change password', async function (assert) {
+          // given
+          this.set('user', {
+            authenticationMethods: [
+              {
+                identityProvider: 'PIX',
+                authenticationComplement: { shouldChangePassword: false },
+              },
+            ],
+          });
+          this.owner.register('service:access-control', AccessControlStub);
+
+          // when
+          const screen = await render(
+            hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`,
+          );
+
+          // then
+          const expectedLabel = this.intl.t(
+            'components.users.user-detail-personal-information.authentication-method.should-change-password-status',
+          );
+          const expectedValue = this.intl.t('common.words.no');
           assert
             .dom(
               screen.getAllByRole('listitem').find((listItem) => {
@@ -299,11 +330,35 @@ module('Integration | Component | users | user-detail-personal-information/authe
   @user={{this.user}}
   @toggleDisplayRemoveAuthenticationMethodModal={{this.toggleDisplayRemoveAuthenticationMethodModal}}
 />`);
-
             // then
             assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion Sunlight Navigations")).exists();
             assert.dom(screen.getByRole('button', { name: 'Déplacer cette méthode de connexion' })).exists();
             assert.strictEqual(screen.getAllByRole('button', { name: 'Supprimer' }).length, 2);
+          });
+          test('should not display delete and reassign buttons', async function (assert) {
+            // given
+            const toggleDisplayRemoveAuthenticationMethodModalStub = sinon.stub();
+            this.set('user', {
+              username: 'PixAile',
+              authenticationMethods: [{ identityProvider: 'PIX' }],
+            });
+            this.set('toggleDisplayRemoveAuthenticationMethodModal', toggleDisplayRemoveAuthenticationMethodModalStub);
+            this.owner.register('service:access-control', AccessControlStub);
+            this.owner.register('service:oidc-identity-providers', OidcIdentityProvidersStub);
+
+            // when
+            const screen = await render(hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod
+  @user={{this.user}}
+  @toggleDisplayRemoveAuthenticationMethodModal={{this.toggleDisplayRemoveAuthenticationMethodModal}}
+/>`);
+            // then
+            assert.dom(screen.queryByRole('button', { name: 'Déplacer cette méthode de connexion' })).doesNotExist();
+            assert.dom(screen.queryByRole('button', { name: 'Supprimer' })).doesNotExist();
+            assert.ok(
+              screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Sunlight Navigations", {
+                exact: false,
+              }),
+            );
           });
         });
       });
@@ -321,6 +376,36 @@ module('Integration | Component | users | user-detail-personal-information/authe
 
           // then
           assert.dom(screen.queryByRole('button', { name: 'Supprimer' })).doesNotExist();
+        });
+
+        test('it should display reassign button if it is the last authentication method', async function (assert) {
+          class OidcIdentityProvidersStub extends Service {
+            get list() {
+              return [
+                {
+                  code: 'SUNLIGHT_NAVIGATIONS',
+                  organizationName: 'Sunlight Navigations',
+                },
+              ];
+            }
+          }
+          this.owner.register('service:oidc-identity-providers', OidcIdentityProvidersStub);
+
+          // given
+          this.set('user', {
+            username: 'PixAile',
+            authenticationMethods: [{ identityProvider: 'SUNLIGHT_NAVIGATIONS' }],
+          });
+          this.owner.register('service:access-control', AccessControlStub);
+
+          // when
+          const screen = await render(
+            hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`,
+          );
+
+          // then
+          assert.ok(screen.getByRole('button', { name: 'Déplacer cette méthode de connexion' }));
+          assert.ok(screen.getByLabelText("L'utilisateur a une méthode de connexion Sunlight Navigations"));
         });
 
         module('When user does not have pix authentication method', function () {

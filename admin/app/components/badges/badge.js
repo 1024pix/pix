@@ -9,6 +9,14 @@ export default class Badge extends Component {
 
   @tracked editMode = false;
   @tracked form = {};
+  @tracked criteria = [];
+
+  constructor() {
+    super(...arguments);
+    Promise.resolve(this.args.badge.criteria).then((criteria) => {
+      this.criteria = criteria;
+    });
+  }
 
   IMAGE_BASE_URL = 'https://images.pix.fr/badges/';
 
@@ -33,11 +41,11 @@ export default class Badge extends Component {
   }
 
   get campaignScopeCriterion() {
-    return this.args.badge.criteria.find((criterion) => criterion.isCampaignScope) || null;
+    return this.criteria.find((criterion) => criterion.isCampaignScope) || null;
   }
 
   get cappedTubesCriteria() {
-    return this.args.badge.criteria.filter((criterion) => criterion.isCappedTubesScope);
+    return this.criteria.filter((criterion) => criterion.isCappedTubesScope);
   }
 
   @action

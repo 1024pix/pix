@@ -1,2 +1,5 @@
 {{page-title "Orga " @model.id " | Profils cibles"}}
-<Organizations::TargetProfilesSection @organization={{@model}} />
+<Organizations::TargetProfilesSection
+  @organization={{@model.organization}}
+  @targetProfileSummaries={{@model.targetProfileSummaries}}
+/>

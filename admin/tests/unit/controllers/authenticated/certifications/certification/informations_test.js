@@ -52,12 +52,10 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         EmberObject.create({ isImpactful: false }),
         EmberObject.create({ isImpactful: false }),
       ];
-      controller.model = {
-        certification: EmberObject.create({
-          certificationIssueReports,
-        }),
+      controller.model = EmberObject.create({
+        certificationIssueReports,
         countries: [],
-      };
+      });
 
       // when/then
       assert.true(controller.hasImpactfulIssueReports);
@@ -71,11 +69,9 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         EmberObject.create({ isImpactful: false }),
         EmberObject.create({ isImpactful: false }),
       ];
-      controller.model = {
-        certification: EmberObject.create({
-          certificationIssueReports,
-        }),
-      };
+      controller.model = EmberObject.create({
+        certificationIssueReports,
+      });
 
       // when/then
       assert.false(controller.hasImpactfulIssueReports);
@@ -91,11 +87,9 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         EmberObject.create({ isImpactful: true }),
         EmberObject.create({ isImpactful: true }),
       ];
-      controller.model = {
-        certification: EmberObject.create({
-          certificationIssueReports,
-        }),
-      };
+      controller.model = EmberObject.create({
+        certificationIssueReports,
+      });
 
       // when/then
       assert.true(controller.hasUnimpactfulIssueReports);
@@ -109,11 +103,9 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         EmberObject.create({ isImpactful: true }),
         EmberObject.create({ isImpactful: true }),
       ];
-      controller.model = {
-        certification: EmberObject.create({
-          certificationIssueReports,
-        }),
-      };
+      controller.model = EmberObject.create({
+        certificationIssueReports,
+      });
 
       // when/then
       assert.false(controller.hasUnimpactfulIssueReports);
@@ -129,11 +121,9 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         EmberObject.create({ isImpactful: true }),
         EmberObject.create({ isImpactful: false }),
       ];
-      controller.model = {
-        certification: EmberObject.create({
-          certificationIssueReports,
-        }),
-      };
+      controller.model = EmberObject.create({
+        certificationIssueReports,
+      });
 
       // when/then
       assert.true(controller.hasIssueReports);
@@ -142,11 +132,9 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     test('it should return false when there are no issue reports', async function (assert) {
       // given
       const certificationIssueReports = [];
-      controller.model = {
-        certification: EmberObject.create({
-          certificationIssueReports,
-        }),
-      };
+      controller.model = EmberObject.create({
+        certificationIssueReports,
+      });
 
       // when/then
       assert.false(controller.hasIssueReports);
@@ -263,11 +251,9 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         EmberObject.create({ isImpactful: true }),
         EmberObject.create({ isImpactful: false }),
       ];
-      controller.model = {
-        certification: EmberObject.create({
-          certificationIssueReports,
-        }),
-      };
+      controller.model = EmberObject.create({
+        certificationIssueReports,
+      });
 
       // when/then
       assert.strictEqual(controller.impactfulCertificationIssueReports.length, 2);
@@ -284,11 +270,9 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         EmberObject.create({ isImpactful: false }),
         EmberObject.create({ isImpactful: false }),
       ];
-      controller.model = {
-        certification: EmberObject.create({
-          certificationIssueReports,
-        }),
-      };
+      controller.model = EmberObject.create({
+        certificationIssueReports,
+      });
 
       // when/then
       assert.strictEqual(controller.unimpactfulCertificationIssueReports.length, 3);

@@ -10,6 +10,8 @@ import {
   updateAutonomousCourse,
 } from './handlers/autonomous-courses';
 import { updateBadgeCriterion } from './handlers/badge-criteria';
+import { findPaginatedFilteredCampaignParticipations } from './handlers/campaign-participations';
+import { findPaginatedFilteredCertificationCenters } from './handlers/certification-centers';
 import { findPaginatedAndFilteredSessions } from './handlers/find-paginated-and-filtered-sessions';
 import { findFrameworkAreas } from './handlers/frameworks';
 import { getPaginatedJuryCertificationSummariesBySessionId } from './handlers/get-jury-certification-summaries-by-session-id';
@@ -18,6 +20,7 @@ import { getWithRequiredActionSessions } from './handlers/get-with-required-acti
 import { createOrganizationMembership } from './handlers/organization-memberships';
 import {
   archiveOrganization,
+  findPaginatedFilteredOrganizations,
   findPaginatedOrganizationMemberships,
   getOrganizationInvitations,
   getOrganizationPlaces,
@@ -48,6 +51,7 @@ import {
   getTraining,
   updateTraining,
 } from './handlers/trainings';
+import { findPaginatedFilteredUsers } from './handlers/users';
 
 export default function makeServer(config) {
   const finalConfig = {
@@ -78,9 +82,7 @@ function routes() {
   this.patch('/admin/badge-criteria/:id', updateBadgeCriterion);
 
   this.get('/admin/campaigns/:id');
-  this.get('/admin/campaigns/:id/participations', (schema) => {
-    return schema.campaignParticipations.all();
-  });
+  this.get('/admin/campaigns/:id/participations', findPaginatedFilteredCampaignParticipations);
 
   this.get('/admin/admin-members', (schema) => {
     return schema.adminMembers.all();
@@ -144,7 +146,7 @@ function routes() {
     };
   });
 
-  this.get('/admin/users');
+  this.get('/admin/users', findPaginatedFilteredUsers);
   this.get('/admin/users/:id');
   this.get('/admin/users/:id/participations', (schema) => {
     return schema.userParticipations.all();
@@ -239,7 +241,7 @@ function routes() {
     return new Response(204);
   });
 
-  this.get('/admin/certification-centers');
+  this.get('/admin/certification-centers', findPaginatedFilteredCertificationCenters);
   this.get('/admin/certification-centers/:id');
   this.get('/admin/certification-centers/:id/certification-center-memberships', (schema, request) => {
     const certificationCenterId = request.params.id;
@@ -323,7 +325,7 @@ function routes() {
     return organizationMembership.update({ disabledAt: new Date() });
   });
 
-  this.get('/admin/organizations');
+  this.get('/admin/organizations', findPaginatedFilteredOrganizations);
   this.post('/admin/organizations', (schema, request) => {
     const requestBody = JSON.parse(request.requestBody);
     const attributes = requestBody.data.attributes;

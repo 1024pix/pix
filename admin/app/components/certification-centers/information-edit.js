@@ -1,16 +1,21 @@
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 
 import { types } from '../../models/certification-center';
 
 export default class InformationEdit extends Component {
   @service store;
+  @tracked habilitations = [];
   certificationCenterTypes = types;
 
   constructor() {
     super(...arguments);
     this.form = this.store.createRecord('certification-center-form');
+    Promise.resolve(this.args.certificationCenter.habilitations).then((habilitations) => {
+      this.habilitations = habilitations;
+    });
 
     this._initForm();
   }
@@ -30,12 +35,12 @@ export default class InformationEdit extends Component {
   }
 
   @action
-  updateGrantedHabilitation(habilitation) {
-    const habilitations = this.form.habilitations;
+  async updateGrantedHabilitation(habilitation) {
+    const habilitations = await this.form.habilitations;
     if (habilitations.includes(habilitation)) {
-      this.form.habilitations.removeObject(habilitation);
+      habilitations.removeObject(habilitation);
     } else {
-      this.form.habilitations.addObject(habilitation);
+      habilitations.addObject(habilitation);
     }
   }
 
@@ -47,11 +52,11 @@ export default class InformationEdit extends Component {
     if (!validations.isValid) {
       return;
     }
-
+    const habilitations = await this.form.habilitations;
     this.args.certificationCenter.set('name', this.form.name);
     this.args.certificationCenter.set('externalId', !this.form.externalId ? null : this.form.externalId);
     this.args.certificationCenter.set('type', this.form.type);
-    this.args.certificationCenter.set('habilitations', this.form.habilitations);
+    this.args.certificationCenter.set('habilitations', habilitations);
     this.args.certificationCenter.set('dataProtectionOfficerFirstName', this.form.dataProtectionOfficerFirstName);
     this.args.certificationCenter.set('dataProtectionOfficerLastName', this.form.dataProtectionOfficerLastName);
     this.args.certificationCenter.set('dataProtectionOfficerEmail', this.form.dataProtectionOfficerEmail);
@@ -61,9 +66,9 @@ export default class InformationEdit extends Component {
     return this.args.onSubmit();
   }
 
-  _initForm() {
+  async _initForm() {
+    const habilitations = await this.args.certificationCenter.habilitations;
     const properties = this.args.certificationCenter.getProperties(
-      'habilitations',
       'name',
       'externalId',
       'type',
@@ -72,6 +77,6 @@ export default class InformationEdit extends Component {
       'dataProtectionOfficerEmail',
       'isV3Pilot',
     );
-    this.form.setProperties(properties);
+    this.form.setProperties({ ...properties, habilitations });
   }
 }

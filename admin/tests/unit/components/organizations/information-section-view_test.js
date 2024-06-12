@@ -22,7 +22,7 @@ module('Unit | Component | organizations/information-section-view', function (ho
       }
       this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
       const component = createGlimmerComponent('component:organizations/information-section-view', {
-        organization: { identityProviderForCampaigns: 'GAR' },
+        organization: { identityProviderForCampaigns: 'GAR', tags: [], children: [] },
       });
 
       // when / then
@@ -43,7 +43,7 @@ module('Unit | Component | organizations/information-section-view', function (ho
       }
       this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
       const component = createGlimmerComponent('component:organizations/information-section-view', {
-        organization: { identityProviderForCampaigns: 'OIDC' },
+        organization: { identityProviderForCampaigns: 'OIDC', tags: [], children: [] },
       });
 
       // when / then

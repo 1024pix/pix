@@ -9,9 +9,10 @@ module('Unit | Component | organizations/information-section', function (hooks) 
 
   test('it should generate link based on environment and object', async function (assert) {
     // given
-    const component = createGlimmerComponent('component:organizations/information-section-view');
+    const component = createGlimmerComponent('component:organizations/information-section-view', {
+      organization: { id: 1, tags: [] },
+    });
     ENV.APP.ORGANIZATION_DASHBOARD_URL = 'https://metabase.pix.fr/dashboard/137/?id=';
-    component.args = { organization: { id: 1 } };
 
     // when & then
     assert.strictEqual(component.externalURL, 'https://metabase.pix.fr/dashboard/137/?id=1');

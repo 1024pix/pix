@@ -1,11 +1,21 @@
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 
 export default class Details extends Component {
   @service store;
 
+  @tracked areas = [];
+
+  constructor() {
+    super(...arguments);
+    Promise.resolve(this.args.areas).then((areas) => {
+      this.areas = areas;
+    });
+  }
+
   get areasList() {
-    return this.args.areas.sortBy('code').map((area) => this.buildAreaViewModel(area));
+    return this.areas.sortBy('code').map((area) => this.buildAreaViewModel(area));
   }
 
   buildAreaViewModel(area) {
@@ -20,17 +30,23 @@ export default class Details extends Component {
     return {
       id: competence.id,
       title: `${competence.index} ${competence.name}`,
-      thematics: competence.thematics.map((thematic) => this.buildThematicViewModel(thematic)),
+      thematics: competence
+        .hasMany('thematics')
+        .value()
+        .map((thematic) => this.buildThematicViewModel(thematic)),
     };
   }
 
   buildThematicViewModel(thematic) {
     return {
       name: thematic.name,
-      nbTubes: thematic.triggerTubes.length,
-      tubes: thematic.triggerTubes.map((triggerTube) => {
-        return this.buildTubeViewModel(triggerTube.get('tube'), triggerTube.level);
-      }),
+      nbTubes: thematic.hasMany('triggerTubes').value().length,
+      tubes: thematic
+        .hasMany('triggerTubes')
+        .value()
+        .map((triggerTube) => {
+          return this.buildTubeViewModel(triggerTube.get('tube'), triggerTube.level);
+        }),
     };
   }
 

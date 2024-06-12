@@ -1,4 +1,4 @@
-import { visit } from '@1024pix/ember-testing-library';
+import { visit, waitForElementToBeRemoved } from '@1024pix/ember-testing-library';
 import { clickByName } from '@1024pix/ember-testing-library';
 import { currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -195,7 +195,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
       });
 
       test('it should be clickable if current user is Certif', async function (assert) {
-        assert.expect(2);
+        assert.expect(1);
         // given
         await authenticateAdminMemberWithRole({ isCertif: true })(server);
         const sessionDate = '2021-01-01';
@@ -227,9 +227,9 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
         await clickByName('Confirmer');
 
         // then
-        _assertPublishAllSessionsButtonHidden(assert, screen);
-        _assertNoSessionInList(assert, screen);
-        //_assertConfirmModalIsClosed(assert, screen);
+
+        await waitForElementToBeRemoved(() => screen.queryByRole('button', { name: 'Publier toutes les sessions' }));
+        assert.dom(await screen.findByText('Aucun résultat')).exists();
       });
     });
   });
@@ -277,13 +277,6 @@ function _assertSecondSessionIsNotDisplayed(assert, screen) {
   assert.dom(screen.queryByRole('heading', { name: 'Centre SUP et rieur' })).doesNotExist();
 }
 
-function _assertPublishAllSessionsButtonHidden(assert, screen) {
-  assert.dom(screen.queryByRole('button', { name: 'Publier toutes les sessions' })).doesNotExist();
-}
-
-function _assertNoSessionInList(assert, screen) {
-  assert.dom(screen.getByText('Aucun résultat')).exists();
-}
 /*
 function _assertConfirmModalIsClosed(assert, screen) {
   assert.throws(screen.getByRole('heading', { name: 'Merci de confirmer' }));

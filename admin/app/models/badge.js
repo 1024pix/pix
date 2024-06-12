@@ -9,7 +9,7 @@ export default class Badge extends Model {
   @attr('boolean') isCertifiable;
   @attr('boolean') isAlwaysVisible;
 
-  @hasMany('badge-criterion') criteria;
+  @hasMany('badge-criterion', { async: true, inverse: 'badge' }) criteria;
 
   // creation only fields
   @attr('number') campaignThreshold;

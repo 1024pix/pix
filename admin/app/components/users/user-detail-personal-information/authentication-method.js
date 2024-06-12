@@ -15,41 +15,40 @@ export default class AuthenticationMethod extends Component {
   @tracked targetUserId = '';
   @tracked showAlreadyExistingEmailError = false;
   @tracked selectedOidcAuthenticationMethod = null;
+  @tracked authenticationMethods = [];
+
+  constructor() {
+    super(...arguments);
+    Promise.resolve(this.args.user.authenticationMethods).then((authenticationMethods) => {
+      this.authenticationMethods = authenticationMethods;
+    });
+  }
 
   get hasPixAuthenticationMethod() {
-    return this.args.user.authenticationMethods.any(
-      (authenticationMethod) => authenticationMethod.identityProvider === 'PIX',
-    );
+    return this.authenticationMethods.any((authenticationMethod) => authenticationMethod.identityProvider === 'PIX');
   }
 
   get shouldChangePassword() {
-    return !!this.args.user.authenticationMethods.find(
-      (authenticationMethod) => authenticationMethod.identityProvider === 'PIX',
-    )?.authenticationComplement?.shouldChangePassword;
+    return !!this.authenticationMethods.find((authenticationMethod) => authenticationMethod.identityProvider === 'PIX')
+      ?.authenticationComplement?.shouldChangePassword;
   }
 
   get hasEmailAuthenticationMethod() {
     return (
       this.args.user.email &&
-      this.args.user.authenticationMethods.any(
-        (authenticationMethod) => authenticationMethod.identityProvider === 'PIX',
-      )
+      this.authenticationMethods.any((authenticationMethod) => authenticationMethod.identityProvider === 'PIX')
     );
   }
 
   get hasUsernameAuthenticationMethod() {
     return (
       this.args.user.username &&
-      this.args.user.authenticationMethods.any(
-        (authenticationMethod) => authenticationMethod.identityProvider === 'PIX',
-      )
+      this.authenticationMethods.any((authenticationMethod) => authenticationMethod.identityProvider === 'PIX')
     );
   }
 
   get hasGarAuthenticationMethod() {
-    return this.args.user.authenticationMethods.any(
-      (authenticationMethod) => authenticationMethod.identityProvider === 'GAR',
-    );
+    return this.authenticationMethods.any((authenticationMethod) => authenticationMethod.identityProvider === 'GAR');
   }
 
   get isAllowedToRemoveEmailAuthenticationMethod() {
@@ -69,7 +68,7 @@ export default class AuthenticationMethod extends Component {
   }
 
   _hasMultipleAuthenticationMethods() {
-    const userAuthenticationMethods = this.args.user.authenticationMethods;
+    const userAuthenticationMethods = this.authenticationMethods;
     const hasUsername = !!this.args.user.username;
     const hasEmail = !!this.args.user.email;
 
@@ -78,7 +77,7 @@ export default class AuthenticationMethod extends Component {
 
   get userOidcAuthenticationMethods() {
     return this.oidcIdentityProviders.list.map((oidcIdentityProvider) => {
-      const userHasThisOidcAuthenticationMethod = this.args.user.authenticationMethods.any(
+      const userHasThisOidcAuthenticationMethod = this.authenticationMethods.any(
         (authenticationMethod) => authenticationMethod.identityProvider === oidcIdentityProvider.code,
       );
 

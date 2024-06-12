@@ -81,4 +81,37 @@ module('Integration | Component | Badges::Badge', function (hooks) {
       "L'évalué doit obtenir 95% sur tous les sujets plafonnés par niveau suivants :",
     );
   });
+
+  test('should not display criterias sections if does not exists', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const targetProfile = store.createRecord('target-profile', {
+      areas: [],
+    });
+
+    const badge = store.createRecord('badge', {
+      id: 42,
+      title: 'mon titre',
+      message: 'mon message',
+      imageUrl: 'data:,',
+      key: 'ma clef',
+      altMessage: 'mon message alternatif',
+      isCertifiable: true,
+      isAlwaysVisible: true,
+      criteria: [],
+    });
+    this.set('badge', badge);
+    this.set('targetProfile', targetProfile);
+
+    // when
+    const screen = await render(hbs`<Badges::Badge @badge={{this.badge}} @targetProfile={{this.targetProfile}} />`);
+
+    // then
+    assert.dom(screen.queryByText("Critère d'obtention basé sur l'ensemble du profil cible&nbsp;:")).doesNotExist();
+    assert
+      .dom(
+        screen.queryByText("Liste des critères d'obtention basés sur une sélection de sujets du profil cible&nbsp;:"),
+      )
+      .doesNotExist();
+  });
 });

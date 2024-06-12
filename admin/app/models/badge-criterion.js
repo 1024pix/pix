@@ -6,7 +6,7 @@ export default class BadgeCriterion extends Model {
   @attr() cappedTubes;
   @attr() name;
 
-  @belongsTo('badge') badge;
+  @belongsTo('badge', { async: true, inverse: 'criteria' }) badge;
 
   get isCampaignScope() {
     return this.scope === 'CampaignParticipation';

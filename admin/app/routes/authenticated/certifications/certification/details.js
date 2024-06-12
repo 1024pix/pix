@@ -13,11 +13,12 @@ export default class CertificationDetailsRoute extends Route {
     return this.store.findRecord('certification-details', certification_id);
   }
 
-  setupController(controller, model) {
+  async setupController(controller, model) {
     super.setupController(controller, model);
     controller.certificationId = model.id;
     if (model.version === 3) {
-      controller.assignQuestionNumberForDisplay(model);
+      const certificationChallengesForAdministration = await model.certificationChallengesForAdministration;
+      controller.assignQuestionNumberForDisplay(certificationChallengesForAdministration);
     }
   }
 }

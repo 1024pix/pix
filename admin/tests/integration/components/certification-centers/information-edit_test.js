@@ -191,6 +191,124 @@ module('Integration | Component | certification-centers/information-edit', funct
         sinon.assert.calledOnce(this.onSubmit);
         assert.ok(true);
       });
+
+      test('it should update the certification center data', async function (assert) {
+        // given
+
+        const screen = await render(
+          hbs`<CertificationCenters::InformationEdit
+  @certificationCenter={{this.certificationCenter}}
+  @toggleEditMode={{this.toggleEditModeStub}}
+  @onSubmit={{this.onSubmit}}
+/>`,
+        );
+        // when
+        await fillByLabel('Nom du centre', 'newName', { exact: false });
+        await click(screen.getByRole('button', { name: 'Type' }));
+        await screen.findByRole('listbox');
+        await click(screen.getByRole('option', { name: 'Établissement supérieur' }));
+        await fillByLabel('Identifiant externe', 'newId');
+        await fillByLabel('Prénom du DPO', 'newFirstname');
+        await fillByLabel('Nom du DPO', 'newLastname');
+        await fillByLabel('Adresse e-mail du DPO', 'newMail@example.net');
+        await click(
+          screen.getByRole('checkbox', {
+            name: 'Pilote Certification V3 (ce centre de certification ne pourra organiser que des sessions V3)',
+          }),
+        );
+
+        await click(screen.getByRole('button', { name: 'Enregistrer' }));
+
+        // then
+        assert.ok(this.onSubmit.called);
+        assert.strictEqual(this.certificationCenter.name, 'newName');
+        assert.strictEqual(this.certificationCenter.type, 'SUP');
+        assert.strictEqual(this.certificationCenter.externalId, 'newId');
+        assert.strictEqual(this.certificationCenter.dataProtectionOfficerFirstName, 'newFirstname');
+        assert.strictEqual(this.certificationCenter.dataProtectionOfficerLastName, 'newLastname');
+        assert.strictEqual(this.certificationCenter.dataProtectionOfficerEmail, 'newMail@example.net');
+        assert.false(this.certificationCenter.isV3Pilot);
+      });
+
+      test('it should add the habilitation to the certification center', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const availableHabilitations = [
+          store.createRecord('complementary-certification', {
+            id: 0,
+            key: 'DROIT',
+            label: 'Pix+Droit',
+          }),
+        ];
+        this.availableHabilitations = availableHabilitations;
+
+        const certificationCenter = store.createRecord('certification-center', {
+          name: 'Centre SCO',
+          type: 'SCO',
+          externalId: 'AX129',
+          dataProtectionOfficerFirstName: 'Lucky',
+          dataProtectionOfficerLastName: 'Number',
+          dataProtectionOfficerEmail: 'lucky@example.net',
+          habilitations: [],
+        });
+        this.certificationCenter = certificationCenter;
+
+        const screen = await render(
+          hbs`<CertificationCenters::InformationEdit @certificationCenter={{this.certificationCenter}} @availableHabilitations={{this.availableHabilitations}} @toggleEditMode={{this.toggleEditModeStub}} @onSubmit={{this.onSubmit}}/>`,
+        );
+
+        // when
+
+        await click(screen.getByLabelText('Pix+Droit'));
+
+        await click(screen.getByRole('button', { name: 'Enregistrer' }));
+
+        // then
+        assert.ok(this.toggleEditModeStub.called);
+        assert.ok(this.onSubmit.called);
+        const habilitations = await this.certificationCenter.habilitations;
+        assert.ok(habilitations.includes(this.availableHabilitations[0]));
+      });
+
+      test('it should remove the habilitation to the certification center', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const availableHabilitations = [
+          store.createRecord('complementary-certification', {
+            id: 0,
+            key: 'DROIT',
+            label: 'Pix+Droit',
+          }),
+        ];
+        this.availableHabilitations = availableHabilitations;
+
+        const certificationCenter = store.createRecord('certification-center', {
+          name: 'Centre SCO',
+          type: 'SCO',
+          externalId: 'AX129',
+          dataProtectionOfficerFirstName: 'Lucky',
+          dataProtectionOfficerLastName: 'Number',
+          dataProtectionOfficerEmail: 'lucky@example.net',
+          habilitations: [this.availableHabilitations[0]],
+        });
+        this.certificationCenter = certificationCenter;
+
+        const screen = await render(
+          hbs`<CertificationCenters::InformationEdit @certificationCenter={{this.certificationCenter}} @availableHabilitations={{this.availableHabilitations}} @toggleEditMode={{this.toggleEditModeStub}} @onSubmit={{this.onSubmit}}/>`,
+        );
+
+        // when
+
+        await click(screen.getByLabelText('Pix+Droit'));
+
+        await click(screen.getByRole('button', { name: 'Enregistrer' }));
+
+        // then
+        assert.ok(this.toggleEditModeStub.called);
+        assert.ok(this.onSubmit.called);
+        const habilitations = await this.certificationCenter.habilitations;
+        assert.strictEqual(habilitations.length, 0);
+      });
     });
   });
 });

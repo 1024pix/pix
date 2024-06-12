@@ -1,10 +1,27 @@
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import ENV from 'pix-admin/config/environment';
 
 export default class OrganizationInformationSection extends Component {
   @service oidcIdentityProviders;
   @service accessControl;
+  @tracked tags;
+  @tracked hasOrganizationChildren;
+
+  constructor() {
+    super(...arguments);
+    if (this.args.organization.tags) {
+      Promise.resolve(this.args.organization.tags).then((tags) => {
+        this.tags = tags;
+      });
+    }
+    if (this.args.organization.children) {
+      Promise.resolve(this.args.organization.children).then((children) => {
+        this.hasOrganizationChildren = children.length > 0;
+      });
+    }
+  }
 
   get identityProviderName() {
     const GARIdentityProvider = { code: 'GAR', organizationName: 'GAR' };

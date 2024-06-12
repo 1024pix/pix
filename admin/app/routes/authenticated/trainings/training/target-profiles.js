@@ -1,9 +1,14 @@
 import Route from '@ember/routing/route';
+import RSVP from 'rsvp';
 
 export default class TrainingDetailsTargetProfilesRoute extends Route {
   async model() {
-    const training = await this.modelFor('authenticated.trainings.training');
-    training.targetProfileSummaries.reload();
-    return training;
+    const training = this.modelFor('authenticated.trainings.training');
+    await training.targetProfileSummaries.reload();
+    const targetProfileSummaries = await training.targetProfileSummaries;
+    return RSVP.hash({
+      training,
+      targetProfileSummaries,
+    });
   }
 }

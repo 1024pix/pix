@@ -12,16 +12,27 @@ module('Integration | Component |  administration/campaigns-import', function (h
   setupIntlRenderingTest(hooks);
   setupMirage(hooks);
 
+  let store, adapter, notificationSuccessStub, clearAllStub, saveAdapterStub, notificationErrorStub;
+  hooks.beforeEach(function () {
+    store = this.owner.lookup('service:store');
+    adapter = store.adapterFor('campaigns-import');
+    saveAdapterStub = sinon.stub(adapter, 'addCampaignsCsv');
+    notificationSuccessStub = sinon.stub();
+    notificationErrorStub = sinon.stub().returns();
+
+    clearAllStub = sinon.stub();
+  });
+
   module('when import succeeds', function () {
     test('it displays a success notification', async function (assert) {
       // given
       const file = new Blob(['foo'], { type: `valid-file` });
-      const notificationSuccessStub = sinon.stub();
       class NotificationsStub extends Service {
         success = notificationSuccessStub;
-        clearAll = sinon.stub();
+        clearAll = clearAllStub;
       }
       this.owner.register('service:notifications', NotificationsStub);
+      saveAdapterStub.withArgs(file).resolves();
 
       // when
       const screen = await render(hbs`<Administration::CampaignsImport />`);
@@ -53,10 +64,9 @@ module('Integration | Component |  administration/campaigns-import', function (h
         422,
       );
       const file = new Blob(['foo'], { type: `valid-file` });
-      const notificationErrorStub = sinon.stub().returns();
       class NotificationsStub extends Service {
         error = notificationErrorStub;
-        clearAll = sinon.stub();
+        clearAll = clearAllStub;
       }
       this.owner.register('service:notifications', NotificationsStub);
 

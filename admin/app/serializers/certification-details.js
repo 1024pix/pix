@@ -1,7 +1,8 @@
 import { service } from '@ember/service';
-import JSONAPISerializer from '@ember-data/serializer/json-api';
 
-export default class CertificationDetails extends JSONAPISerializer {
+import ApplicationSerializer from './application';
+
+export default class CertificationDetails extends ApplicationSerializer {
   @service featureToggles;
 
   normalizeFindRecordResponse(store, primaryModelClass, payload, id) {

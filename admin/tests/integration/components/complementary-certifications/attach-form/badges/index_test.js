@@ -38,8 +38,11 @@ module('Integration | Component | complementary-certifications/attach-badges/bad
         // given
         const store = this.owner.lookup('service:store');
         store.queryRecord = sinon.stub().resolves({
-          badges: [],
+          hasMany: sinon.stub().returns({
+            value: sinon.stub().returns([]),
+          }),
         });
+
         const attachableTargetProfile = store.createRecord('attachable-target-profile', {
           name: 'ALEX TARGET',
           id: 1,
@@ -71,13 +74,15 @@ module('Integration | Component | complementary-certifications/attach-badges/bad
         // given
         const store = this.owner.lookup('service:store');
         store.queryRecord = sinon.stub().resolves({
-          badges: [
-            {
-              id: 1000,
-              title: 'canards',
-              isCertifiable: true,
-            },
-          ],
+          hasMany: sinon.stub().returns({
+            value: sinon.stub().returns([
+              {
+                id: 1000,
+                title: 'canards',
+                isCertifiable: true,
+              },
+            ]),
+          }),
         });
         const attachableTargetProfile = store.createRecord('attachable-target-profile', {
           name: 'ALEX TARGET',
