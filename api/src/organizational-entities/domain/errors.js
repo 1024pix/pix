@@ -40,6 +40,7 @@ class FeatureNotFound extends DomainError {
   }
 }
 
+// No use commit
 class FeatureParamsNotProcessable extends DomainError {
   constructor({ code = 'FEATURE_PARAMS_NOT_PROCESSABLE', message = 'Feature params are not processable', meta } = {}) {
     super(message);
