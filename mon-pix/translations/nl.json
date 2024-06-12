@@ -513,7 +513,7 @@
       },
       "steps": {
         "1": {
-          "text": "<span class=\"certification-information__text--bold\">'Hoe werkt de certificeringstest?'</span>' '<br><br>' '<span class=\"certification-information__text--bold\">'Dit is een adaptieve test.'</span>' Met andere woorden, uw vermogen om vragen correct te beantwoorden (of niet) bepaalt de moeilijkheidsgraad van de volgende vragen in real time. <br><br>'Als u een vraag niet kunt beantwoorden, '<span class=\"certification-information__text--bold\">'kunt u die vraag 'overslaan'.'</span>'Overgeslagen vragen worden als mislukt beschouwd en worden niet opnieuw aangeboden. <br><br>''<span class=\"certification-information__text--bold\">'Het is belangrijk dat u de toets afmaakt'</span>' en dus goed met uw tijd omgaat. Er wordt een boete toegepast waarbij rekening wordt gehouden met het aantal resterende vragen.",
+          "text": "<span class=\"certification-information__text--bold\">'Hoe werkt de certificeringstest?'</span>' '<br><br>' '<span class=\"certification-information__text--bold\">'Dit is een adaptieve test.'</span>' Met andere woorden, uw vermogen om vragen correct te beantwoorden (of niet) bepaalt de moeilijkheidsgraad van de volgende vragen in real time. <br><br>'Als u een vraag niet kunt beantwoorden, '<span class=\"certification-information__text--bold\">'kunt u die vraag 'overslaan'.'</span>'Overgeslagen vragen worden als mislukt beschouwd en worden niet opnieuw aangeboden. <br><br>''<span class=\"certification-information__text--bold\">'Het is belangrijk dat u de toets afmaakt'</span>' en dus goed met uw tijd omgaat. Er wordt een '<span class=\"certification-instructions__text--bold\">'boete'</span>' toegepast waarbij rekening wordt gehouden met het aantal resterende vragen.",
           "title": "Welkom bij Pix-certificering"
         },
         "2": {
@@ -529,7 +529,7 @@
         },
         "4": {
           "title": "Que faire en cas de problème ?",
-          "text": "Si une '<span class=\"certification-instructions__text--bold\">'question vous pose problème'</span>' (par exemple, l'image refuse de s'afficher), suivez ces étapes : '<br><br>' cliquez sur \"'<span class=\"certification-instructions__text--bold\">'Signaler un problème avec la question'</span>'\", puis sur \"Oui, je suis sûr(e)\" et informez votre surveillant."
+          "text": "'<span class=\"certification-instructions__text--bold\">'En cas de problème technique'</span>' (par exemple, l'image refuse de s'afficher), suivez ces étapes : '<br><br>' cliquez sur \"'<span class=\"certification-instructions__text--bold\">'Signaler un problème avec la question'</span>'\", puis sur \"Oui, je suis sûr(e)\" et informez votre surveillant."
         }
       }
     },

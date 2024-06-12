@@ -445,7 +445,7 @@
       "steps": {
         "1": {
           "title": "Bienvenue à la certification Pix",
-          "text": "'<span class=\"certification-instructions__question--bold\">'Comment fonctionne le test de certification ?'</span>' '<br><br>' '<span class=\"certification-instructions__text--bold\">'Il s'agit d'un test adaptatif.'</span>' C’est-à-dire, que votre capacité à répondre correctement (ou non) aux questions détermine en temps réel la difficulté des questions suivantes. '<br><br>'Si vous ne savez pas répondre à une question, '<span class=\"certification-instructions__text--bold\">'vous avez la possibilité de \"passer\" cette question.'</span>' Les questions passées seront considérées comme échouées et ne vous seront pas proposées à nouveau. '<br><br>' '<span class=\"certification-instructions__text--bold\">'Il est important d'aller jusqu'au bout du test'</span>', et donc de bien gérer votre temps. Une pénalité tenant compte du nombre de questions restantes sera appliquée."
+          "text": "'<span class=\"certification-instructions__question--bold\">'Comment fonctionne le test de certification ?'</span>' '<br><br>' '<span class=\"certification-instructions__text--bold\">'Il s'agit d'un test adaptatif.'</span>' C’est-à-dire, que votre capacité à répondre correctement (ou non) aux questions détermine en temps réel la difficulté des questions suivantes. '<br><br>'Si vous ne savez pas répondre à une question, '<span class=\"certification-instructions__text--bold\">'vous avez la possibilité de \"passer\" cette question.'</span>' Les questions passées seront considérées comme échouées et ne vous seront pas proposées à nouveau. '<br><br>' '<span class=\"certification-instructions__text--bold\">'Il est important d'aller jusqu'au bout du test'</span>', et donc de bien gérer votre temps. Une '<span class=\"certification-instructions__text--bold\">'pénalité'</span>' tenant compte du nombre de questions restantes sera appliquée."
         },
         "2": {
           "title": "Comment se passe le test de certification ?",
@@ -460,7 +460,7 @@
         },
         "4": {
           "title": "Que faire en cas de problème ?",
-          "text": "Si une '<span class=\"certification-instructions__text--bold\">'question vous pose problème'</span>' (par exemple, l'image refuse de s'afficher), suivez ces étapes : '<br>' cliquez sur \"'<span class=\"certification-instructions__text--bold\">'Signaler un problème avec la question'</span>'\", puis sur \"Oui, je suis sûr(e)\" et informez votre surveillant."
+          "text": "'<span class=\"certification-instructions__text--bold\">'En cas de problème technique'</span>' (par exemple, l'image refuse de s'afficher), suivez ces étapes : '<br>' cliquez sur \"'<span class=\"certification-instructions__text--bold\">'Signaler un problème avec la question'</span>'\", puis sur \"Oui, je suis sûr(e)\" et informez votre surveillant."
         }
       }
     },

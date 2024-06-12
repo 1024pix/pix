@@ -513,7 +513,7 @@
       },
       "steps": {
         "1": {
-          "text": "'<span class=\"certification-information__text--bold\">'¿Cómo funciona la prueba de certificación?'</span>' '<br><br>' '<span class=\"certification-information__text--bold\">'Se trata de una prueba adaptativa.'</span>' En otras palabras, tu capacidad para responder correctamente (o no) a las preguntas determina la dificultad de las preguntas siguientes en tiempo real. '<br><br>'Si no puedes responder a una pregunta,'<span class=\"certification-information__text--bold\">'tienes la opción de \"saltarte\" esa pregunta.'</span>' Las preguntas saltadas se considerarán fallidas y no se volverán a ofrecer. '<br><br>' '<span class=\"certification-information__text--bold\">'Es importante completar la prueba'</span><br>', y por tanto gestionar bien el tiempo. Se aplicará una penalización teniendo en cuenta el número de preguntas restantes.",
+          "text": "'<span class=\"certification-information__text--bold\">'¿Cómo funciona la prueba de certificación?'</span>' '<br><br>' '<span class=\"certification-information__text--bold\">'Se trata de una prueba adaptativa.'</span>' En otras palabras, tu capacidad para responder correctamente (o no) a las preguntas determina la dificultad de las preguntas siguientes en tiempo real. '<br><br>'Si no puedes responder a una pregunta,'<span class=\"certification-information__text--bold\">'tienes la opción de \"saltarte\" esa pregunta.'</span>' Las preguntas saltadas se considerarán fallidas y no se volverán a ofrecer. '<br><br>' '<span class=\"certification-information__text--bold\">'Es importante completar la prueba'</span><br>', y por tanto gestionar bien el tiempo. Se aplicará una '<span class=\"certification-instructions__text--bold\">'penalización'</span>' teniendo en cuenta el número de preguntas restantes.",
           "title": "Bienvenido a la certificación Pix"
         },
         "2": {
@@ -529,7 +529,7 @@
         },
         "4": {
           "title": "Que faire en cas de problème ?",
-          "text": "Si une '<span class=\"certification-instructions__text--bold\">'question vous pose problème'</span>' (par exemple, l'image refuse de s'afficher), suivez ces étapes : '<br>' cliquez sur \"'<span class=\"certification-instructions__text--bold\">'Signaler un problème avec la question'</span>'\", puis sur \"Oui, je suis sûr(e)\" et informez votre surveillant."
+          "text": "'<span class=\"certification-instructions__text--bold\">'En cas de problème technique'</span>' (par exemple, l'image refuse de s'afficher), suivez ces étapes : '<br>' cliquez sur \"'<span class=\"certification-instructions__text--bold\">'Signaler un problème avec la question'</span>'\", puis sur \"Oui, je suis sûr(e)\" et informez votre surveillant."
         }
       }
     },
