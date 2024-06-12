@@ -3,54 +3,6 @@ import { passwordController } from '../../../../lib/application/passwords/passwo
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Unit | Router | Password router', function () {
-  describe('POST /api/password-reset-demands', function () {
-    const method = 'POST';
-    const url = '/api/password-reset-demands';
-
-    it('should return 200 http status code', async function () {
-      // given
-      sinon.stub(passwordController, 'createResetDemand').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const payload = {
-        data: {
-          attributes: {
-            email: 'uzinagaz@example.net',
-            'temporary-key': 'clé',
-          },
-          type: 'password-reset',
-        },
-      };
-
-      // when
-      const response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-
-    context('When payload has a bad format or no email is provided', function () {
-      it('should return 400 http status code', async function () {
-        // given
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-
-        const payload = {
-          data: {
-            attributes: {},
-          },
-        };
-
-        // when
-        const response = await httpTestServer.request(method, url, payload);
-
-        // then
-        expect(response.statusCode).to.equal(400);
-      });
-    });
-  });
-
   describe('GET /api/password-reset-demands/{temporaryKey}', function () {
     const method = 'GET';
     const url = '/api/password-reset-demands/ABCDEF123';

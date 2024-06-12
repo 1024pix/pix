@@ -2,8 +2,8 @@ import crypto from 'node:crypto';
 
 import jsonwebtoken from 'jsonwebtoken';
 
-import { config } from '../../config.js';
-import * as passwordResetDemandRepository from '../../infrastructure/repositories/reset-password-demands-repository.js';
+import { config } from '../../../shared/config.js';
+import * as passwordResetDemandRepository from '../../infrastructure/repositories/reset-password-demand.repository.js';
 
 const generateTemporaryKey = function () {
   return jsonwebtoken.sign(

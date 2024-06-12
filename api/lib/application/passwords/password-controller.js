@@ -1,26 +1,5 @@
 import * as userSerializer from '../../../src/shared/infrastructure/serializers/jsonapi/user-serializer.js';
-import { extractLocaleFromRequest } from '../../../src/shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
-import * as passwordResetSerializer from '../../infrastructure/serializers/jsonapi/password-reset-serializer.js';
-
-const createResetDemand = async function (
-  request,
-  h,
-  dependencies = {
-    passwordResetSerializer,
-  },
-) {
-  const { email } = request.payload.data.attributes;
-  const locale = extractLocaleFromRequest(request);
-
-  const passwordResetDemand = await usecases.createPasswordResetDemand({
-    email,
-    locale,
-  });
-  const serializedPayload = dependencies.passwordResetSerializer.serialize(passwordResetDemand.attributes);
-
-  return h.response(serializedPayload).created();
-};
 
 const checkResetDemand = async function (request, h, dependencies = { userSerializer }) {
   const temporaryKey = request.params.temporaryKey;
@@ -45,6 +24,6 @@ const updateExpiredPassword = async function (request, h) {
     .created();
 };
 
-const passwordController = { createResetDemand, checkResetDemand, updateExpiredPassword };
+const passwordController = { checkResetDemand, updateExpiredPassword };
 
 export { passwordController };
