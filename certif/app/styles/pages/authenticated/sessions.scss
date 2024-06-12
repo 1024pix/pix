@@ -16,6 +16,12 @@
   &__field {
     display: flex;
     flex-direction: column;
+
+    &--error {
+      .input {
+        border: 2px solid var(--pix-error-700);
+      }
+    }
   }
 
   &__actions {
@@ -30,6 +36,7 @@
   }
 
   &__error {
-    padding-top: var(--pix-spacing-2x);
+    padding-top: var(--pix-spacing-1x);
+    font-size: 0.75rem;
   }
 }

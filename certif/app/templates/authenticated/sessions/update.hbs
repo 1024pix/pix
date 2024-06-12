@@ -33,7 +33,7 @@
       <:label>{{t "common.forms.session-labels.room-name"}}</:label>
     </PixInput>
 
-    <div class="session-form__field">
+    <div class="session-form__field {{if this.isSessionDateMissing 'session-form__field--error'}}">
       <label for="session-date" class="label">
         <abbr title={{t "common.forms.required"}} class="mandatory-mark" aria-hidden="true">*</abbr>
         {{t "common.forms.session-labels.date-start"}}
@@ -58,7 +58,7 @@
       </p>
     </div>
 
-    <div class="session-form__field">
+    <div class="session-form__field {{if this.isSessionTimeMissing 'session-form__field--error'}}">
       <label for="session-time" class="label">
         <abbr title={{t "common.forms.required"}} class="mandatory-mark" aria-hidden="true">*</abbr>
         {{t "common.forms.session-labels.time-start"}}
