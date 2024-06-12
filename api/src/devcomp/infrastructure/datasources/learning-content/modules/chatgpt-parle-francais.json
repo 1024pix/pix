@@ -15,16 +15,20 @@
   },
   "transitionTexts": [
     {
-      "content": "<p><span aria-hidden=\"true\">⚙️</span>Les grands modèles de données, ou LLM, sont des outils très pratiques et performants pour une grande variété de tâches qui demandaient il n’y a pas si longtemps un travail humain : rédiger, inventer, résumer, pour n’en citer que quelques uns. <br><span aria-hidden=\"true\">😶‍🌫️</span>Mais parfois, la pertinence des résultats est au moins discutable, voire même complètement décalée. Commençons par un exemple concret !</p>",
+      "content": "<p><span aria-hidden=\"true\">⚙️&nbsp;</span>Les grands modèles de données, ou LLM, sont des outils très pratiques et performants pour une grande variété de tâches qui demandaient il n’y a pas si longtemps un travail humain : rédiger, inventer, résumer, pour n’en citer que quelques uns. <br><span aria-hidden=\"true\">😶‍🌫️&nbsp;</span>Mais parfois, la pertinence des résultats est au moins discutable, voire même complètement décalée. Commençons par un exemple concret !</p>",
       "grainId": "0bfa08bd-7052-49bb-89e8-150efa589926"
     },
     {
-      "content": "<p><span aria-hidden=\"true\">😞</span>On s’en doutait, il arrive que les LLM ne soient pas vraiment pertinents. Ici, par exemple, nous avons pu observer un biais lié à la langue utilisée, qui n’est pas celle avec laquelle le modèle a été entraîné. La traduction mot à mot du jeu de mot n’a pas fonctionné, comme souvent dans ce type d’humour. <br><span aria-hidden=\"true\">🔎</span>Étudions maintenant les causes de ce genre de problèmes.</p>",
+      "content": "<p><span aria-hidden=\"true\">😞&nbsp;</span>On s’en doutait, il arrive que les LLM ne soient pas vraiment pertinents. Ici, par exemple, nous avons pu observer un biais lié à la langue utilisée, qui n’est pas celle avec laquelle le modèle a été entraîné. <br><span aria-hidden=\"true\">🔎&nbsp;</span>Étudions maintenant les causes de ce genre de problèmes.</p>",
       "grainId": "c8722f6e-7534-4fdc-9f2d-515c2a96641f"
     },
     {
-      "content":"<p>Vous en savez désormais plus sur les biais des LLM. <span aria-hidden=\"true\">👩‍💻️👨🏿‍💻️</span><br>Soumettons maintenant plusieurs prompts à PixGPT, et vérifions ensemble les résultats.</p>",
+      "content":"<p>Vous en savez désormais plus sur les biais des LLM. <span aria-hidden=\"true\">👩‍💻️👨🏿‍💻️</span><br>Soumettons maintenant plusieurs prompts à PixGPT, et vérifions ensemble les résultats.<br>Choisissez la phrase qui qualifie le mieux la situation.</p>",
       "grainId": "e7ca9d7e-6d77-4705-83a5-a6864c77f4b5"
+    },
+    {
+      "content":"<p>C’est un fait, on retrouve différentes formes de biais dans tous les LLM. Ces biais sont principalement liés aux données d’entraînement et au développement des modèles. Mais quels sont ces grands modèles de langage et qui sont les principaux acteurs qui contribuent à leur développement&nbsp;?<span aria-hidden=\"true\">🔍</span>",
+      "grainId": "e487a78b-2e0c-4972-a318-e922c2aa0060"
     }
   ],
   "grains": [
@@ -40,7 +44,7 @@
             "type": "image",
             "url": "https://i.imgur.com/wJ7QFDA.jpeg",
             "alt": "Dessin détaillé dans l'alternative textuelle",
-            "alternativeText": "Dessin d'un ordinateur dans un univers spatial."
+            "alternativeText": "<ul><li>Vous<br>peux tu faire un jeu de mot ?</li><li>ChatGPT<br>Bien sûr, voici un jeu de mots pour vous :<br>Pourquoi les poissons n'utilisent-ils pas d'ordinateurs ?<br>Parce qu'ils ont peur du net !/li></ul>"
           }
         },
         {
@@ -256,189 +260,162 @@
       ]
     },
     {
-      "id":"78039d7b-de75-4863-80b9-1ba9bfd43a9a",
+      "id": "e487a78b-2e0c-4972-a318-e922c2aa0060",
       "type": "activity",
-      "title": "Géopolitique des LLM",
+      "title":"Géopolitique des LLM",
       "components":
       [
         {
-          "type":"element",
+          "type": "element",
           "element":
           {
-            "id": "4dd467dd-4875-46be-ae1c-9ed431189982",
-            "type": "qrocm",
-            "instruction": "<p>Faites correspondre pour chaque acteur, le nom du LLM correspondant (une partie des réponses se trouve dans ce module, n'hésitez pas à remonter la page).</p><p>Par exemple, <span aria-hidden=\"true\">🇺🇸&nbsp;</span>OpenAI est l’entreprise américaine derrière ChatGPT. À vous jouer !</p>",
-            "proposals": [
-              {
-                "type": "text",
-                "content": "<span>Le modèle Ernie Bot appartient à l'entreprise &nbsp;:</span>"
-              },
-              {
-                "input": "modulix",
-                "type": "select",
-                "display": "block",
-                "placeholder": "",
-                "ariaLabel": "Choisir l'entreprise qui convient",
-                "defaultValue": "",
-                "tolerances": [],
-                "options": [
-                  {
-                    "id": "1",
-                    "content": "🇨🇳 Baidu"
-                  },
-                  {
-                    "id": "2",
-                    "content": "🇺🇸 Amazon"
-                  },
-                  {
-                    "id": "3",
-                    "content": "🇫🇷 Mistral AI"
-                  }
-                ],
-                "solutions": [
-                  "1"
-                ]
-              }
-            ],
-            "feedbacks": {
-              "valid": "<p>Correct !</p>",
-              "invalid": "<p>Incorrect !</p>"
-            }
+            "id": "bbf9882c-4b11-4894-8e74-85413d9c1195",
+            "type": "text",
+            "content": "<p>Faites correspondre pour chaque acteur, le nom du LLM correspondant (une partie des réponses se trouve dans ce module, n'hésitez pas à remonter la page).</p><p>Par exemple, <span aria-hidden=\"true\">🇺🇸&nbsp;</span>OpenAI est l’entreprise américaine derrière ChatGPT. À vous jouer !</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "284ac419-77f8-4be1-a26d-7d1e268c54a9",
+            "type": "text",
+            "content": "<hr>"
           }
         },
         {
           "type": "element",
           "element":
           {
-            "id": "b8a1bbc3-6495-4fed-a103-54f2bb2ac420",
-            "type": "qrocm",
-            "instruction": "",
+            "id": "873ff33b-6ecf-4954-94cf-936e0d983009",
+            "type": "qcu",
+            "instruction": "<p>Le modèle Ernie Bot appartient à l'entreprise &nbsp;:</p>",
             "proposals": [
               {
-                "type": "text",
-                "content": "<span>Le modèle Bloom appartient à l'entreprise &nbsp;:</span>"
+                "id": "1",
+                "content": "<span aria-hidden=\"true\">🇨🇳&bsp;</span>Baidu"
               },
               {
-                "input": "modulix",
-                "type": "select",
-                "display": "block",
-                "placeholder": "",
-                "ariaLabel": "Choisir l'entreprise qui convient",
-                "defaultValue": "",
-                "tolerances": [],
-                "options": [
-                  {
-                    "id": "1",
-                    "content": "🇨🇳 Baidu"
-                  },
-                  {
-                    "id": "2",
-                    "content": "🇺🇸 Hugging Face"
-                  },
-                  {
-                    "id": "3",
-                    "content": "🇺🇸 OpenAI"
-                  }
-                ],
-                "solutions": [
-                  "1"
-                ]
+                "id": "2",
+                "content": "<span aria-hidden=\"true\">🇺🇸&nbsp;</span>Amazon"
+              },
+              {
+                "id": "3",
+                "content": "<span aria-hidden=\"true\">🇺🇸&nbsp;</span>Mistral AI"
               }
             ],
             "feedbacks": {
               "valid": "<p>Correct !</p>",
               "invalid": "<p>Incorrect !</p>"
-            }
+            },
+            "solution": "1"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "3a353dba-4858-4271-bfe8-31d73ef06938",
+            "type": "text",
+            "content": "<hr>"
           }
         },
         {
           "type": "element",
           "element":
           {
-            "id": "949ff919-c879-494a-84e3-c9d1d044a7bb",
-            "type": "qrocm",
-            "instruction": "",
+            "id": "873ff33b-6ecf-4954-94cf-936e0d983009",
+            "type": "qcu",
+            "instruction": "<p>Le modèle Bloom appartient à l'entreprise &nbsp;:</p>",
             "proposals": [
               {
-                "type": "text",
-                "content": "<span>Le modèle Alfred appartient à l'entreprise &nbsp;:</span>"
+                "id": "1",
+                "content": "<span aria-hidden=\"true\">🇨🇳&bsp;</span>Baidu"
               },
               {
-                "input": "modulix",
-                "type": "select",
-                "display": "block",
-                "placeholder": "",
-                "ariaLabel": "Choisir l'entreprise qui convient",
-                "defaultValue": "",
-                "tolerances": [],
-                "options": [
-                  {
-                    "id": "1",
-                    "content": "🇺🇸 Hugging Face"
-                  },
-                  {
-                    "id": "2",
-                    "content": "🇺🇸 Meta"
-                  },
-                  {
-                    "id": "3",
-                    "content": "🇫🇷 LightOn"
-                  }
-                ],
-                "solutions": [
-                  "3"
-                ]
+                "id": "2",
+                "content": "<span aria-hidden=\"true\">🇺🇸&nbsp;</span>Hugging Face"
+              },
+              {
+                "id": "3",
+                "content": "<span aria-hidden=\"true\">🇫🇷&nbsp;</span>OpenAI"
               }
             ],
             "feedbacks": {
               "valid": "<p>Correct !</p>",
               "invalid": "<p>Incorrect !</p>"
-            }
+            },
+            "solution": "2"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "7231e5bf-3d64-4837-981a-43c5fb893118",
+            "type": "text",
+            "content": "<hr>"
           }
         },
         {
           "type": "element",
           "element":
           {
-            "id": "949ff919-c879-494a-84e3-c9d1d044a7bb",
-            "type": "qrocm",
-            "instruction": "",
+            "id": "574b0cb7-bf3b-4bb3-92f4-b717c64e8028",
+            "type": "qcu",
+            "instruction": "<p>Le modèle Alfred appartient à l'entreprise &nbsp;:</p>",
             "proposals": [
               {
-                "type": "text",
-                "content": "<span>Le modèle Neuro appartient à l'entreprise &nbsp;:</span>"
+                "id": "1",
+                "content": "<span aria-hidden=\"true\">🇺🇸&bsp;</span>Hugging Face"
               },
               {
-                "input": "modulix",
-                "type": "select",
-                "display": "block",
-                "placeholder": "",
-                "ariaLabel": "Choisir l'entreprise qui convient",
-                "defaultValue": "",
-                "tolerances": [],
-                "options": [
-                  {
-                    "id": "1",
-                    "content": "🇷🇺 Yandex"
-                  },
-                  {
-                    "id": "2",
-                    "content": "🇺🇸 Google"
-                  },
-                  {
-                    "id": "3",
-                    "content": "🇫🇷 MistralAI"
-                  }
-                ],
-                "solutions": [
-                  "1"
-                ]
+                "id": "2",
+                "content": "<span aria-hidden=\"true\">🇺🇸&nbsp;</span>Meta"
+              },
+              {
+                "id": "3",
+                "content": "<span aria-hidden=\"true\">🇫🇷&nbsp;</span>LightOn"
               }
             ],
             "feedbacks": {
               "valid": "<p>Correct !</p>",
               "invalid": "<p>Incorrect !</p>"
-            }
+            },
+            "solution": "3"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "275ee9f8-c8c4-4a7b-a2d1-a94891847b7a",
+            "type": "text",
+            "content": "<hr>"
+          }
+        },
+        {
+          "type": "element",
+          "element":
+          {
+            "id": "2830e3aa-fecd-444a-b26a-2e8fbbf9dc22",
+            "type": "qcu",
+            "instruction": "<p>Le modèle Alfred appartient à l'entreprise &nbsp;:</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<span aria-hidden=\"true\">🇷🇺&bsp;</span>Yandex"
+              },
+              {
+                "id": "2",
+                "content": "<span aria-hidden=\"true\">🇺🇸&nbsp;</span>Google"
+              },
+              {
+                "id": "3",
+                "content": "<span aria-hidden=\"true\">🇫🇷&nbsp;</span>MistralAI"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct !</p>",
+              "invalid": "<p>Incorrect !</p>"
+            },
+            "solution": "1"
           }
         }
       ]
