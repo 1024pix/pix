@@ -427,32 +427,6 @@
         "title": "Mijn certificeringsresultaten raadplegen en delen?"
       }
     },
-    "certification-information": {
-      "buttons": {
-        "continuous": {
-          "aria-label": "Doorgaan naar het volgende scherm",
-          "label": "Ga verder met",
-          "last-page": {
-            "aria-label": "Ga door naar de invoerpagina voor certificaten"
-          }
-        },
-        "previous": {
-          "aria-label": "Terug naar vorig scherm",
-          "label": "Vorige"
-        }
-      },
-      "screens": {
-        "page1": {
-          "text": "<span class=\"certification-information__text--bold\">'Hoe werkt de certificeringstest?'</span>' '<br><br>' '<span class=\"certification-information__text--bold\">'Dit is een adaptieve test.'</span>' Met andere woorden, uw vermogen om vragen correct te beantwoorden (of niet) bepaalt de moeilijkheidsgraad van de volgende vragen in real time. <br><br>'Als u een vraag niet kunt beantwoorden, '<span class=\"certification-information__text--bold\">'kunt u die vraag 'overslaan'.'</span>'Overgeslagen vragen worden als mislukt beschouwd en worden niet opnieuw aangeboden. <br><br>''<span class=\"certification-information__text--bold\">'Het is belangrijk dat u de toets afmaakt'</span>' en dus goed met uw tijd omgaat. Er wordt een boete toegepast waarbij rekening wordt gehouden met het aantal resterende vragen.",
-          "title": "Welkom bij Pix-certificering"
-        },
-        "page2": {
-          "text": "Tekst pagina 2",
-          "title": "Titelpagina 2"
-        }
-      },
-      "title": "Verklaring van certificering"
-    },
     "certification-joiner": {
       "congratulation-banner": {
         "complementary-certification": {
@@ -521,6 +495,43 @@
       },
       "flag-alt": "Vlag",
       "title": "Test voltooid"
+    },
+    "certification-instructions": {
+      "title": "Verklaring van certificering",
+      "buttons": {
+        "continuous": {
+          "aria-label": "Doorgaan naar het volgende scherm",
+          "label": "Ga verder met",
+          "last-page": {
+            "aria-label": "Ga door naar de invoerpagina voor certificaten"
+          }
+        },
+        "previous": {
+          "aria-label": "Terug naar vorig scherm",
+          "label": "Vorige"
+        }
+      },
+      "steps": {
+        "1": {
+          "text": "<span class=\"certification-information__text--bold\">'Hoe werkt de certificeringstest?'</span>' '<br><br>' '<span class=\"certification-information__text--bold\">'Dit is een adaptieve test.'</span>' Met andere woorden, uw vermogen om vragen correct te beantwoorden (of niet) bepaalt de moeilijkheidsgraad van de volgende vragen in real time. <br><br>'Als u een vraag niet kunt beantwoorden, '<span class=\"certification-information__text--bold\">'kunt u die vraag 'overslaan'.'</span>'Overgeslagen vragen worden als mislukt beschouwd en worden niet opnieuw aangeboden. <br><br>''<span class=\"certification-information__text--bold\">'Het is belangrijk dat u de toets afmaakt'</span>' en dus goed met uw tijd omgaat. Er wordt een '<span class=\"certification-instructions__text--bold\">'boete'</span>' toegepast waarbij rekening wordt gehouden met het aantal resterende vragen.",
+          "title": "Welkom bij Pix-certificering"
+        },
+        "2": {
+          "title": "Comment se passe le test de certification ?",
+          "image-text": "'<span class=\"certification-instructions__question--bold\">'32 QUESTIONS'</span>' '<br>' 1 H 45 min",
+          "second-text": "'<span class=\"certification-instructions__question--bold\">'La durée du test ?'</span>' '<br>' Vous avez au maximum '<span class=\"certification-instructions__text--bold\">'1h45*'</span>'. '<br>' '<span class=\"certification-instructions__text--light\">'*sauf éventuel temps majoré.'</span>'",
+          "text": "'<span class=\"certification-instructions__question--bold\">'Le nombre de question ?'</span>' '<br>' La certification contient '<span class=\"certification-instructions__text--bold\">'32 questions'</span>'."
+        },
+        "3": {
+          "title": "Deux modes de questions",
+          "second-text": "'<span class=\"certification-instructions__question--bold\">'Le mode focus :'</span>' '<br>' Pour les questions en '<span class=\"certification-instructions__text--bold\">'mode focus'</span>', signalées par une icône jaune: vous ne serez pas autorisé à quitter la page et à faire des recherches.",
+          "text": "'<span class=\"certification-instructions__question--bold\">'Le mode libre :'</span>' '<br>' Pour les questions en '<span class=\"certification-instructions__text--bold\">'mode libre'</span>' signalées par une icône verte: vous aurez le droit d’effectuer des recherches sur le web et d’utiliser l’environnement numérique à disposition."
+        },
+        "4": {
+          "title": "Que faire en cas de problème ?",
+          "text": "'<span class=\"certification-instructions__text--bold\">'En cas de problème technique'</span>' (par exemple, l'image refuse de s'afficher), suivez ces étapes : '<br><br>' cliquez sur \"'<span class=\"certification-instructions__text--bold\">'Signaler un problème avec la question'</span>'\", puis sur \"Oui, je suis sûr(e)\" et informez votre surveillant."
+        }
+      }
     },
     "certification-start": {
       "access-code": "Toegangscode gegeven door de supervisor",

@@ -1,0 +1,136 @@
+import { render } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+
+module('Integration | Component | steps', function (hooks) {
+  setupIntlRenderingTest(hooks);
+
+  module('when user accesses to v3 certification instructions page', function () {
+    module('on first page', function () {
+      test('should display instructions', async function (assert) {
+        // given
+        // when
+        const screen = await render(hbs`<CertificationInstructions::Steps/>`);
+
+        // then
+        assert.dom(screen.getByRole('heading', { name: 'Bienvenue à la certification Pix', level: 2 })).exists();
+        assert.dom(screen.getByText('Comment fonctionne le test de certification ?')).exists();
+        assert.dom(screen.getByRole('button', { name: "Continuer vers l'écran suivant" })).exists();
+      });
+
+      test('should not display the previous button', async function (assert) {
+        // given
+        // when
+        const screen = await render(hbs`<CertificationInstructions::Steps/>`);
+
+        // then
+        assert.dom(screen.queryByRole('button', { name: "Revenir vers l'écran précédent" })).doesNotExist();
+      });
+    });
+
+    module('on second page', function () {
+      test('should display instructions', async function (assert) {
+        // given
+        // when
+        const screen = await render(hbs`<CertificationInstructions::Steps/>`);
+        await click(screen.getByRole('button', { name: "Continuer vers l'écran suivant" }));
+
+        // then
+        assert
+          .dom(screen.getByRole('heading', { name: 'Comment se passe le test de certification ?', level: 2 }))
+          .exists();
+        const images = screen.getAllByRole('img');
+        assert.strictEqual(
+          images[0].getAttribute('src'),
+          '/images/illustrations/certification-instructions-steps/clock.svg',
+        );
+        assert.dom(screen.getByText('Le nombre de question ?')).exists();
+      });
+    });
+
+    module('on third page', function () {
+      test('should display instructions', async function (assert) {
+        // given
+        // when
+        const screen = await render(hbs`<CertificationInstructions::Steps/>`);
+        await click(screen.getByRole('button', { name: "Continuer vers l'écran suivant" }));
+        await click(screen.getByRole('button', { name: "Continuer vers l'écran suivant" }));
+
+        // then
+        assert.dom(screen.getByRole('heading', { name: 'Deux modes de questions', level: 2 })).exists();
+        const images = screen.getAllByRole('img');
+        assert.strictEqual(
+          images[0].getAttribute('src'),
+          '/images/illustrations/certification-instructions-steps/regular-challenge-round.svg',
+        );
+        assert.strictEqual(
+          images[1].getAttribute('src'),
+          '/images/illustrations/certification-instructions-steps/focus-challenge-round.svg',
+        );
+        assert.dom(screen.getByText('Le mode libre :')).exists();
+        assert.dom(screen.getByText('Le mode focus :')).exists();
+      });
+    });
+
+    module('on fourth page', function () {
+      test('should display instructions', async function (assert) {
+        // given
+        // when
+        const screen = await render(hbs`<CertificationInstructions::Steps/>`);
+        for (let i = 0; i < 3; i++) {
+          await click(screen.getByRole('button', { name: "Continuer vers l'écran suivant" }));
+        }
+
+        // then
+        assert.dom(screen.getByRole('heading', { name: 'Que faire en cas de problème ?', level: 2 })).exists();
+        assert.dom(screen.getByText('En cas de problème technique')).exists();
+      });
+    });
+
+    module('on the last page', function () {
+      test('should change the continue aria label button', async function (assert) {
+        // given
+        const screen = await render(hbs`<CertificationInstructions::Steps/>`);
+
+        // when
+        for (let i = 0; i < 4; i++) {
+          await click(screen.getByRole('button', { name: "Continuer vers l'écran suivant" }));
+        }
+
+        // then
+        assert.dom(screen.getByRole('button', { name: "Continuer vers la page d'entrée en certification" })).exists();
+      });
+
+      test('should disable the continue button', async function (assert) {
+        // given
+        const screen = await render(hbs`<CertificationInstructions::Steps/>`);
+
+        // when
+        for (let i = 0; i < 4; i++) {
+          await click(screen.getByRole('button', { name: "Continuer vers l'écran suivant" }));
+        }
+
+        // then
+        assert
+          .dom(screen.getByRole('button', { name: "Continuer vers la page d'entrée en certification" }))
+          .isDisabled();
+      });
+    });
+
+    module('on all pages except the first', function () {
+      test('should display the previous button', async function (assert) {
+        // given
+        const screen = await render(hbs`<CertificationInstructions::Steps/>`);
+
+        // when
+        await click(screen.getByRole('button', { name: "Continuer vers l'écran suivant" }));
+
+        // then
+        assert.dom(screen.getByRole('button', { name: "Revenir vers l'écran précédent" })).exists();
+      });
+    });
+  });
+});

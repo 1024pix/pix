@@ -1,17 +1,37 @@
-.certification-information {
+.certification-instructions {
   min-height: 100vh;
   padding: 32px 80px;
   background: $pix-primary-certif-gradient;
 
   &__title {
     @extend %pix-title-m;
-
-    margin-bottom: var(--pix-spacing-8x);
   }
 
   &__text {
     &--bold {
+      font-weight: var(--pix-font-bold);
+    }
+
+    &--light {
+      font-size: 0.875rem;
+    }
+  }
+
+  &__content {
+    display: flex;
+    gap: var(--pix-spacing-8x);
+
+    &:last-child {
+      flex-direction: column;
+    }
+  }
+
+  &__question {
+    &--bold {
+      @extend %pix-title-xs;
+
       font-weight: 700;
+      line-height: 2.1;
     }
   }
 
@@ -25,6 +45,9 @@
   }
 
   &__card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-8x);
     max-width: 846px;
     margin: auto;
     padding: 24px;
@@ -34,14 +57,13 @@
   &__footer {
     display: flex;
     flex-flow: column wrap;
-    gap: 24px;
+    gap: var(--pix-spacing-8x);
     align-items: center;
     justify-content: start;
-    margin-top: var(--pix-spacing-10x);
   }
 }
 
-.certification-information-header {
+.certification-instructions-header {
   &__logo {
     max-width: 60px;
   }
@@ -57,13 +79,32 @@
   }
 }
 
-.certification-information-footer {
+.certification-instructions-content {
+  &__images {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &__size {
+    min-width: 120px;
+    min-height: 120px;
+  }
+}
+
+.certification-instructions-content-images {
+  &__image-text {
+    text-align: center;
+  }
+}
+
+.certification-instructions-footer {
   &__buttons {
     display: flex;
     gap: 32px;
   }
 }
 
-.certification-information-footer-dots__dot.active {
+.certification-instructions-footer-dots__dot.active {
     filter: brightness(0) saturate(100%) invert(17%) sepia(28%) saturate(7283%) hue-rotate(246deg) brightness(90%) contrast(94%);
 }

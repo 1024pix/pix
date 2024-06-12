@@ -427,32 +427,6 @@
         "title": "¿Consultar y compartir mis resultados de certificación?"
       }
     },
-    "certification-information": {
-      "buttons": {
-        "continuous": {
-          "aria-label": "Pasar a la pantalla siguiente",
-          "label": "Continuar",
-          "last-page": {
-            "aria-label": "Continuar a la página de entrada de la certificación"
-          }
-        },
-        "previous": {
-          "aria-label": "Volver a la pantalla anterior",
-          "label": "Anterior"
-        }
-      },
-      "screens": {
-        "page1": {
-          "text": "'<span class=\"certification-information__text--bold\">'¿Cómo funciona la prueba de certificación?'</span>' '<br><br>' '<span class=\"certification-information__text--bold\">'Se trata de una prueba adaptativa.'</span>' En otras palabras, tu capacidad para responder correctamente (o no) a las preguntas determina la dificultad de las preguntas siguientes en tiempo real. '<br><br>'Si no puedes responder a una pregunta,'<span class=\"certification-information__text--bold\">'tienes la opción de \"saltarte\" esa pregunta.'</span>' Las preguntas saltadas se considerarán fallidas y no se volverán a ofrecer. '<br><br>' '<span class=\"certification-information__text--bold\">'Es importante completar la prueba'</span><br>', y por tanto gestionar bien el tiempo. Se aplicará una penalización teniendo en cuenta el número de preguntas restantes.",
-          "title": "Bienvenido a la certificación Pix"
-        },
-        "page2": {
-          "text": "Texto página 2",
-          "title": "Portada 2"
-        }
-      },
-      "title": "Explicación de la certificación"
-    },
     "certification-joiner": {
       "congratulation-banner": {
         "complementary-certification": {
@@ -521,6 +495,43 @@
       },
       "flag-alt": "Bandera",
       "title": "Prueba finalizada"
+    },
+    "certification-instructions": {
+      "title": "Explicación de la certificación",
+      "buttons": {
+        "continuous": {
+          "aria-label": "Pasar a la pantalla siguiente",
+          "label": "Continuar",
+          "last-page": {
+            "aria-label": "Continuar a la página de entrada de la certificación"
+          }
+        },
+        "previous": {
+          "aria-label": "Volver a la pantalla anterior",
+          "label": "Anterior"
+        }
+      },
+      "steps": {
+        "1": {
+          "text": "'<span class=\"certification-information__text--bold\">'¿Cómo funciona la prueba de certificación?'</span>' '<br><br>' '<span class=\"certification-information__text--bold\">'Se trata de una prueba adaptativa.'</span>' En otras palabras, tu capacidad para responder correctamente (o no) a las preguntas determina la dificultad de las preguntas siguientes en tiempo real. '<br><br>'Si no puedes responder a una pregunta,'<span class=\"certification-information__text--bold\">'tienes la opción de \"saltarte\" esa pregunta.'</span>' Las preguntas saltadas se considerarán fallidas y no se volverán a ofrecer. '<br><br>' '<span class=\"certification-information__text--bold\">'Es importante completar la prueba'</span><br>', y por tanto gestionar bien el tiempo. Se aplicará una '<span class=\"certification-instructions__text--bold\">'penalización'</span>' teniendo en cuenta el número de preguntas restantes.",
+          "title": "Bienvenido a la certificación Pix"
+        },
+        "2": {
+          "title": "Comment se passe le test de certification ?",
+          "image-text": "'<span class=\"certification-instructions__question--bold\">'32 QUESTIONS'</span>' '<br>' 1 H 45 min",
+          "second-text": "'<span class=\"certification-instructions__question--bold\">'La durée du test ?'</span>' '<br>' Vous avez au maximum '<span class=\"certification-instructions__text--bold\">'1h45*'</span>'. '<br>' '<span class=\"certification-instructions__text--light\">'*sauf éventuel temps majoré.'</span>'",
+          "text": "'<span class=\"certification-instructions__question--bold\">'Le nombre de question ?'</span>' '<br>' La certification contient '<span class=\"certification-instructions__text--bold\">'32 questions'</span>'."
+        },
+        "3": {
+          "title": "Deux modes de questions",
+          "second-text": "'<span class=\"certification-instructions__question--bold\">'Le mode focus :'</span>' '<br>' Pour les questions en '<span class=\"certification-instructions__text--bold\">'mode focus'</span>', signalées par une icône jaune: vous ne serez pas autorisé à quitter la page et à faire des recherches.",
+          "text": "'<span class=\"certification-instructions__question--bold\">'Le mode libre :'</span>' '<br>' Pour les questions en '<span class=\"certification-instructions__text--bold\">'mode libre'</span>' signalées par une icône verte: vous aurez le droit d’effectuer des recherches sur le web et d’utiliser l’environnement numérique à disposition."
+        },
+        "4": {
+          "title": "Que faire en cas de problème ?",
+          "text": "'<span class=\"certification-instructions__text--bold\">'En cas de problème technique'</span>' (par exemple, l'image refuse de s'afficher), suivez ces étapes : '<br>' cliquez sur \"'<span class=\"certification-instructions__text--bold\">'Signaler un problème avec la question'</span>'\", puis sur \"Oui, je suis sûr(e)\" et informez votre surveillant."
+        }
+      }
     },
     "certification-start": {
       "access-code": "Código de acceso comunicado por el supervisor",

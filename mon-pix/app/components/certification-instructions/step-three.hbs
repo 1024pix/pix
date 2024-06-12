@@ -1,0 +1,10 @@
+<div class="certification-instructions-content__images">
+  {{#each this.information.images as |image|}}
+    <img class="certification-instructions-content__size" src={{image}} alt="" />
+  {{/each}}
+</div>
+
+<div class="certification-instructions__content">
+  <p>{{this.information.text}}</p>
+  <p>{{this.information.secondText}}</p>
+</div>

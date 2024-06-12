@@ -1,0 +1,48 @@
+<h2 class="certification-instructions__title">{{this.title}}</h2>
+
+<div class="certification-instructions__content">
+  {{#if (eq this.pageId 1)}}
+    <CertificationInstructions::StepOne />
+  {{/if}}
+  {{#if (eq this.pageId 2)}}
+    <CertificationInstructions::StepTwo />
+  {{/if}}
+  {{#if (eq this.pageId 3)}}
+    <CertificationInstructions::StepThree />
+  {{/if}}
+  {{#if (eq this.pageId 4)}}
+    <CertificationInstructions::StepFour />
+  {{/if}}
+</div>
+
+<footer class="certification-instructions__footer">
+  <div class="certification-instructions-footer__dots">
+    {{#each this.paging as |page-class|}}
+      <img
+        class="certification-instructions-footer-dots__dot {{page-class}}"
+        src="/images/illustrations/certification-instructions-steps/ellipse.svg"
+        alt=""
+      />
+    {{/each}}
+  </div>
+  <div class="certification-instructions-footer__buttons">
+    {{#if this.showPreviousButton}}
+      <PixButton
+        @size="large"
+        @variant="secondary"
+        @triggerAction={{this.previousStep}}
+        aria-label={{t "pages.certification-instructions.buttons.previous.aria-label"}}
+      >
+        {{t "pages.certification-instructions.buttons.previous.label"}}
+      </PixButton>
+    {{/if}}
+    <PixButton
+      @size="large"
+      @triggerAction={{this.nextStep}}
+      @isDisabled={{this.isNextButtonDisabled}}
+      aria-label={{this.nextButtonAriaLabel}}
+    >
+      {{t "pages.certification-instructions.buttons.continuous.label"}}
+    </PixButton>
+  </div>
+</footer>
