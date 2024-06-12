@@ -10,9 +10,9 @@ export class CreateAuditLogController {
   constructor(private readonly createAuditLogUseCase: CreateAuditLogUseCase) {}
 
   async handle(request: Request, h: ResponseToolkit): Promise<ResponseObject> {
-    const auditLog = request.payload as AuditLog;
+    const auditLogs = request.payload as AuditLog[];
 
-    await this.createAuditLogUseCase.execute(auditLog);
+    await Promise.all(auditLogs.map(async (auditLog) => { await this.createAuditLogUseCase.execute(auditLog); }));
 
     return h.response().code(204);
   }
@@ -27,14 +27,18 @@ export const CREATE_AUDIT_LOG_ROUTE: ServerRoute = {
     auth: 'simple',
     handler: createAuditLogController.handle.bind(createAuditLogController),
     validate: {
-      payload: Joi.object({
-        targetUserId: Joi.string().required(),
-        userId: Joi.string().required(),
-        action: Joi.string().valid(...AuditLogActionTypes).required(),
-        occurredAt: Joi.string().isoDate().required(),
-        role: Joi.string().valid(...AuditLogRoleTypes).required(),
-        client: Joi.string().valid(...AuditLogClientTypes).required(),
-      }),
+      payload: Joi.array()
+        .items(
+          Joi.object({
+            targetUserId: Joi.string().required(),
+            userId: Joi.string().required(),
+            action: Joi.string().valid(...AuditLogActionTypes).required(),
+            occurredAt: Joi.string().isoDate().required(),
+            role: Joi.string().valid(...AuditLogRoleTypes).required(),
+            client: Joi.string().valid(...AuditLogClientTypes).required(),
+          }),
+        )
+        .single(),
     },
   },
 };
