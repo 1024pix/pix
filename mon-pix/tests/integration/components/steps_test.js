@@ -95,9 +95,7 @@ module('Integration | Component | steps', function (hooks) {
         // given
         // when
         const screen = await render(hbs`<CertificationInstructions::Steps/>`);
-        for (let i = 0; i < 4; i++) {
-          await click(screen.getByRole('button', { name: "Continuer vers l'écran suivant" }));
-        }
+        await _goToLastPage(screen);
 
         // then
         assert.dom(screen.getByRole('heading', { name: 'Règles à respecter', level: 2 })).exists();
@@ -116,9 +114,7 @@ module('Integration | Component | steps', function (hooks) {
         const screen = await render(hbs`<CertificationInstructions::Steps/>`);
 
         // when
-        for (let i = 0; i < 4; i++) {
-          await click(screen.getByRole('button', { name: "Continuer vers l'écran suivant" }));
-        }
+        await _goToLastPage(screen);
 
         // then
         assert.dom(screen.getByRole('button', { name: "Continuer vers la page d'entrée en certification" })).exists();
@@ -129,9 +125,7 @@ module('Integration | Component | steps', function (hooks) {
         const screen = await render(hbs`<CertificationInstructions::Steps/>`);
 
         // when
-        for (let i = 0; i < 4; i++) {
-          await click(screen.getByRole('button', { name: "Continuer vers l'écran suivant" }));
-        }
+        await _goToLastPage(screen);
 
         // then
         assert
@@ -143,9 +137,7 @@ module('Integration | Component | steps', function (hooks) {
         test('should enable the continue button', async function (assert) {
           // given
           const screen = await render(hbs`<CertificationInstructions::Steps/>`);
-          for (let i = 0; i < 4; i++) {
-            await click(screen.getByRole('button', { name: "Continuer vers l'écran suivant" }));
-          }
+          await _goToLastPage(screen);
 
           // when
           await click(
@@ -176,3 +168,10 @@ module('Integration | Component | steps', function (hooks) {
     });
   });
 });
+
+async function _goToLastPage(screen) {
+  const pageCount = 4;
+  for (let i = 0; i < pageCount; i++) {
+    await click(screen.getByRole('button', { name: "Continuer vers l'écran suivant" }));
+  }
+}

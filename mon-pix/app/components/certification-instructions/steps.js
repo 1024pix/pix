@@ -8,6 +8,7 @@ export default class Steps extends Component {
   @tracked pageId = 1;
   @tracked pageCount = 5;
   @tracked isConfirmationCheckboxChecked = false;
+  @service router;
 
   _setupPaging(numberOfPages, currentPageId) {
     const classOfPages = new Array(numberOfPages);
@@ -45,6 +46,14 @@ export default class Steps extends Component {
   nextStep() {
     if (this.pageId < this.pageCount) {
       this.pageId = this.pageId + 1;
+    }
+
+    if (this.isConfirmationCheckboxChecked) {
+      this.router.transitionTo('authenticated.certifications.start', this.args.candidateId, {
+        queryParams: {
+          isConfirmationCheckboxChecked: this.isConfirmationCheckboxChecked,
+        },
+      });
     }
   }
 
