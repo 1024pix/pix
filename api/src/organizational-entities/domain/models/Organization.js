@@ -32,6 +32,7 @@ class Organization {
     formNPSUrl,
     showSkills,
     schoolCode,
+    sessionExpirationDate,
     archivedAt,
   } = {}) {
     this.id = id;
@@ -53,6 +54,7 @@ class Organization {
     this.formNPSUrl = formNPSUrl;
     this.showSkills = showSkills;
     this.schoolCode = schoolCode;
+    this.sessionExpirationDate = sessionExpirationDate;
     this.archivedAt = archivedAt;
   }
 

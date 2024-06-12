@@ -63,6 +63,7 @@ const serialize = function (prescriber) {
           'documentationUrl',
           'groups',
           'schoolCode',
+          'sessionExpirationDate',
         ],
         memberships: {
           ref: 'id',

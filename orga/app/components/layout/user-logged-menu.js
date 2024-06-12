@@ -56,7 +56,7 @@ export default class UserLoggedMenu extends Component {
     this.router.replaceWith('authenticated', { queryParams });
 
     await this.currentUser.load();
-    this.args.reloadPlaceStatistics();
+    this.args.refreshAuthenticatedModel();
 
     this.closeMenu();
   }

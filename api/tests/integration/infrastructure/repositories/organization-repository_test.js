@@ -120,6 +120,7 @@ describe('Integration | Repository | Organization', function () {
         createdBy: userId,
         targetProfileShares: [],
         schoolCode: undefined,
+        sessionExpirationDate: undefined,
       });
       expect(organizationSaved.tags[0].id).to.be.equal(tagId);
     });
@@ -193,6 +194,7 @@ describe('Integration | Repository | Organization', function () {
           showSkills: false,
           archivedAt: null,
           schoolCode: undefined,
+          sessionExpirationDate: undefined,
         });
       });
 

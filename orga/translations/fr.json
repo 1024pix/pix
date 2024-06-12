@@ -18,7 +18,6 @@
     },
     "global": "Une erreur est survenue. Veuillez réessayer ultérieurement.",
     "or-separator": " ou ",
-
     "student-csv-import": {
       "bad-csv-format": "Le fichier doit être au format csv avec séparateur virgule ou point-virgule.",
       "encoding-not-supported": "Encodage du fichier non supporté.",
@@ -313,7 +312,15 @@
       "number": "{count, plural, =0 {0 place disponible} =1 {1 place disponible} other {{count} places disponibles}}"
     },
     "school-sessions": {
-      "activate-button": "Activer la session"
+      "activate-button": "Activer la session",
+      "extend-button": "Prolonger la session",
+      "status": {
+        "title": "Statut de la session",
+        "active-label": "Session active jusqu'à {sessionExpirationDate}",
+        "aria-label": "Explication sur la session",
+        "inactive-label": "Session inactive",
+        "info-text": "Les missions sont accessibles par les élèves uniquement lorsque la session est active.'<br>' À la fin de la session, les élèves en cours de mission ne seront pas déconnectés."
+      }
     },
     "team-members": {
       "aria-label": "Navigation de la section équipe"

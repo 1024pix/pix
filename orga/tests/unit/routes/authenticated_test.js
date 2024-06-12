@@ -25,6 +25,7 @@ module('Unit | Route | authenticated', function (hooks) {
     test('should redirect towards cgu if not accepted yet', async function (assert) {
       // given
       const organizationId = Symbol('organizationId');
+
       class CurrentUserStub extends Service {
         prescriber = { placesManagement: true, pixOrgaTermsOfServiceAccepted: false };
         organization = {
@@ -51,6 +52,7 @@ module('Unit | Route | authenticated', function (hooks) {
     test('should not redirect towards cgu if already accepted yet', async function (assert) {
       // given
       const organizationId = Symbol('organizationId');
+
       class CurrentUserStub extends Service {
         prescriber = { placesManagement: true, pixOrgaTermsOfServiceAccepted: true };
         organization = {
@@ -79,6 +81,7 @@ module('Unit | Route | authenticated', function (hooks) {
     test('should query record organization-place-statistic', async function (assert) {
       // given
       const organizationId = Symbol('organizationId');
+
       class CurrentUserStub extends Service {
         prescriber = { placesManagement: true };
         organization = {
@@ -103,6 +106,7 @@ module('Unit | Route | authenticated', function (hooks) {
     test('should not query record organization-place-statistic if user organization does not have placeManagement feature', async function (assert) {
       // given
       const organizationId = Symbol('organizationId');
+
       class CurrentUserStub extends Service {
         prescriber = { placesManagement: false };
         organization = {

@@ -7,7 +7,7 @@ export default class AuthenticatedController extends Controller {
   @service store;
 
   @action
-  reloadPlaceStatistics() {
+  refreshAuthenticatedModel() {
     this.send('refreshModel');
   }
 }

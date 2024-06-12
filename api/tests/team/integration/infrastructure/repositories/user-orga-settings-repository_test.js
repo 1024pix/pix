@@ -32,6 +32,7 @@ describe('Integration | Team | Infrastructure | Repository | UserOrgaSettings', 
     'identityProviderForCampaigns',
     'parentOrganizationId',
     'schoolCode',
+    'sessionExpirationDate',
   ];
 
   let user;

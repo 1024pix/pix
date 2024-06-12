@@ -11,7 +11,7 @@ module('Unit | Controller | authenticated', function (hooks) {
     controller.send = sinon.stub();
 
     // when
-    controller.reloadPlaceStatistics();
+    controller.refreshAuthenticatedModel();
     // then
     assert.true(controller.send.calledWithExactly('refreshModel'));
   });
