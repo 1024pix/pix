@@ -14,20 +14,28 @@
         title={{t "pages.oidc-reconciliation.current-authentication-methods"}}
       >
         {{#if this.shouldShowEmail}}
-          <dt>{{t "pages.oidc-reconciliation.email"}}</dt>
-          <dd>{{@email}}</dd>
+          <div>
+            <dt>{{t "pages.oidc-reconciliation.email"}}</dt>
+            <dd>{{@email}}</dd>
+          </div>
         {{/if}}
         {{#if this.shouldShowUsername}}
-          <dt>{{t "pages.oidc-reconciliation.username"}}</dt>
-          <dd>{{@username}}</dd>
+          <div>
+            <dt>{{t "pages.oidc-reconciliation.username"}}</dt>
+            <dd>{{@username}}</dd>
+          </div>
         {{/if}}
         {{#if this.shouldShowGarAuthenticationMethod}}
-          <dt>{{t "pages.oidc-reconciliation.external-connection"}}</dt>
-          <dd>{{t "pages.user-account.connexion-methods.authentication-methods.gar"}}</dd>
+          <div>
+            <dt>{{t "pages.oidc-reconciliation.external-connection"}}</dt>
+            <dd>{{t "pages.user-account.connexion-methods.authentication-methods.gar"}}</dd>
+          </div>
         {{/if}}
         {{#each this.oidcAuthenticationMethodOrganizationNames as |organizationName|}}
-          <dt>{{t "pages.oidc-reconciliation.external-connection"}}</dt>
-          <dd>{{organizationName}}</dd>
+          <div>
+            <dt>{{t "pages.oidc-reconciliation.external-connection"}}</dt>
+            <dd>{{organizationName}}</dd>
+          </div>
         {{/each}}
       </dl>
     </div>
