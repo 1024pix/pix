@@ -1,5 +1,44 @@
 # Pix Changelog
 
+## v4.160.0 (12/06/2024)
+
+
+### :rocket: Amélioration
+- [#9208](https://github.com/1024pix/pix/pull/9208) [FEATURE] Gestion des erreurs dans mise à jour d'orga par CSV (PIX-12034).
+- [#9072](https://github.com/1024pix/pix/pull/9072) [FEATURE] Montée de version ember-data en 5.0 sur PixAdmin (PIX-12557).
+- [#9192](https://github.com/1024pix/pix/pull/9192) [FEATURE] Ouverture de session d'école Pix Junior depuis Orga (PIX-12724).
+- [#9209](https://github.com/1024pix/pix/pull/9209) [FEATURE] Afficher les étapes de sélection de l'algorithme après que l'évaluation soit terminée (PIX-12763) .
+- [#9150](https://github.com/1024pix/pix/pull/9150) [FEATURE] Ne pas afficher le bouton pour copier le code de campagne pour les organisations rattachées au GAR (PIX-5974).
+- [#9126](https://github.com/1024pix/pix/pull/9126) [FEATURE] Afficher le nombre max de caractères du champ nom interne d'un parcours autonome (PIX-12778).
+- [#9138](https://github.com/1024pix/pix/pull/9138) [FEATURE] Rendre dynamique le carousel des écrans d'instruction pour la certification V3 sur Pix App (PIX-12757).
+- [#9060](https://github.com/1024pix/pix/pull/9060) [FEATURE] Découper les feedbacks de constat et de diagnostique - v0 (PIX-9783).
+- [#9151](https://github.com/1024pix/pix/pull/9151) [FEATURE] Suppression de l'aléatoire dans le choix de questions pour la dégradation (PIX-12811).
+- [#9178](https://github.com/1024pix/pix/pull/9178) [FEATURE] Ajouter le bouton `suivant` dans le stepper (PIX-12839).
+- [#9206](https://github.com/1024pix/pix/pull/9206) [FEATURE] Rendre séléctionnable toute la zone de réponse QCU/QCM Modulix (PIX-12851).
+
+### :building_construction: Tech
+- [#9158](https://github.com/1024pix/pix/pull/9158) [TECH] Permettre de contextualiser les seeds (PIX-12833).
+- [#9221](https://github.com/1024pix/pix/pull/9221) [TECH] Accélerer le `lint` local de l'API.
+- [#9217](https://github.com/1024pix/pix/pull/9217) [TECH] déplace les fichiers de `lib/infrastructure/plugins` vers `src/shared`.
+- [#9148](https://github.com/1024pix/pix/pull/9148) [TECH] Supprime un workflow github qui ne sert à rien.
+- [#9216](https://github.com/1024pix/pix/pull/9216) [TECH] migration du fichier `Tag.js` vers `src/organizational-entities`.
+- [#9155](https://github.com/1024pix/pix/pull/9155) [TECH] Ajouter un serveur SMTP pour le développement local.
+- [#8212](https://github.com/1024pix/pix/pull/8212) [TECH] Faciliter le build des seeds en base de données avec JSDoc.
+- [#9176](https://github.com/1024pix/pix/pull/9176) [TECH] Migrer la route GET /api/organization-invitation vers src/team (pix-12825).
+- [#9161](https://github.com/1024pix/pix/pull/9161) [TECH] Migrer la route POST /api/token/anonymous vers src/identity-access-management (PIX-12826).
+
+### :bug: Correction
+- [#9230](https://github.com/1024pix/pix/pull/9230) [BUGFIX] Permettre de focus sur les propositions de QCU/QCM/QROCM une fois répondu (PIX-12906).
+- [#9219](https://github.com/1024pix/pix/pull/9219) [BUGFIX] Missing EN translation of SSO reconciliation page (PIX-12821).
+- [#9213](https://github.com/1024pix/pix/pull/9213) [BUGFIX] Régression sur l'affichage des données DPO (PIX-12868).
+- [#9210](https://github.com/1024pix/pix/pull/9210) [BUGFIX] Prendre en compte uniquement les organisations actives lors de la recherche par UAI (PIX-5677).
+- [#9186](https://github.com/1024pix/pix/pull/9186) [BUGFIX] Empecher d'accéder à la page mission si l'utilisateur n'appartient pas à une orga SCO-1D (PIX-12853).
+
+### :arrow_up: Montée de version
+- [#9224](https://github.com/1024pix/pix/pull/9224) [BUMP] Update dependency @1024pix/pix-ui to ^46.9.3 (mon-pix).
+- [#9200](https://github.com/1024pix/pix/pull/9200) [BUMP] Lock file maintenance (mon-pix).
+- [#9203](https://github.com/1024pix/pix/pull/9203) [BUMP] Lock file maintenance (e2e).
+
 ## v4.159.0 (10/06/2024)
 
 
