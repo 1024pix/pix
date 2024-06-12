@@ -27,7 +27,7 @@
       "grainId": "e7ca9d7e-6d77-4705-83a5-a6864c77f4b5"
     },
     {
-      "content":"<p>C’est un fait, on retrouve différentes formes de biais dans tous les LLM. Ces biais sont principalement liés aux données d’entraînement et au développement des modèles. Mais quels sont ces grands modèles de langage et qui sont les principaux acteurs qui contribuent à leur développement&nbsp;?<span aria-hidden=\"true\">🔍</span>",
+      "content":"<p>C’est un fait, on retrouve différentes formes de biais dans tous les LLM. Ces biais sont principalement liés aux données d’entraînement et au développement des modèles. Mais quels sont ces grands modèles de langage et qui sont les principaux acteurs qui contribuent à leur développement&nbsp;?<span aria-hidden=\"true\">🔍</span></p>",
       "grainId": "e487a78b-2e0c-4972-a318-e922c2aa0060"
     }
   ],
@@ -44,7 +44,7 @@
             "type": "image",
             "url": "https://i.imgur.com/wJ7QFDA.jpeg",
             "alt": "Dessin détaillé dans l'alternative textuelle",
-            "alternativeText": "<ul><li>Vous<br>peux tu faire un jeu de mot ?</li><li>ChatGPT<br>Bien sûr, voici un jeu de mots pour vous :<br>Pourquoi les poissons n'utilisent-ils pas d'ordinateurs ?<br>Parce qu'ils ont peur du net !/li></ul>"
+            "alternativeText": "<ul><li>Vous<br>peux tu faire un jeu de mot ?</li><li>ChatGPT<br>Bien sûr, voici un jeu de mots pour vous :<br>Pourquoi les poissons n'utilisent-ils pas d'ordinateurs ?<br>Parce qu'ils ont peur du net !</li></ul>"
           }
         },
         {
@@ -85,14 +85,26 @@
           "type": "element",
           "element":
           {
-            "id": "45afde99-371b-4754-8bb4-33577df23ab4",
-            "type": "video",
-            "title": "Une vidéo",
-            "url": "https://videos.pix.fr/modulix/placeholder-video.mp4",
-            "subtitles": "https://videos.pix.fr/modulix/placeholder-video.vtt",
-            "transcription": "<p>Vidéo manquante</p>"
+            "id": "35211b74-4a65-4eeb-8037-e41d8446d008",
+            "type": "text",
+            "content": "<iframe title=\"video\" src=\"https://tube-numerique-educatif.apps.education.fr/videos/embed/9a7f622d-c46c-44af-a041-e488c718b447?title=0&amp;warningTitle=0&amp;peertubeLink=0&amp;p2p=0\" width=\"100%\" height=\"410\"></iframe>"
           }
         },
+        {
+          "type": "element",
+          "element": {
+            "id": "6c69a919-4fc6-4039-9abc-ad70c49be7d8",
+            "type": "text",
+            "content": "<details><summary>Afficher la transcription</summary><p>Joy Buolamwini est informaticienne, elle a étudié au MIT dans le domaine de la vision par ordinateur. Lors d’un projet de recherche demandé par un de ses professeurs, elle se rend compte que les briques logicielles de reconnaissance faciale n'arrivent pas à trouver son visage. Lorsqu’elle teste avec son colocataire, le visage du jeune homme est reconnu, et pire encore ça fonctionne très bien lorsqu’elle porte un masque blanc. Elle finit donc par se rendre compte que c’est sa couleur de peau qui n'est pas gérée par le logiciel. Depuis elle a conduit des recherches sur les biais racistes dans le domaine de l’IA et lutte contre les discriminations induites par ces technologies. Dans le cas des grands modèles de langage, ou LLM, on va retrouver le même type de mécanisme, mais dans le domaine des textes et non plus de l’image.</p><p>Lorsqu’un logiciel se comporte d’une façon non appropriée, c’est-à-dire lorsque ses résultats ne sont pas neutres, loyaux, ou équitables, on va parler de biais. Un biais, qu’est-ce que c’est ? Dans la plupart des domaines scientifiques, un biais est une déviation par rapport à une norme ou un idéal donné. Mais cette norme n'est pas universelle, elle va varier selon l'époque, selon la culture, selon la zone géographique et bien d'autres paramètres. Cette norme peut concerner des domaines très variés comme : l’expression du genre, les pratiques culturelles ou encore linguistiques. Ainsi, lorsqu’on met à disposition du monde entier des outils qui sont capables de rédiger, de résumer ou d’inventer une situation, il est évident que les réponses proposées vont comporter des biais. Mais alors, comment ces biais se retrouvent à l'intérieur d'un LLM ?</p><p>On détermine 3 causes majeures à ces biais. Première cause, Les données d'entraînement, qui sont la source principale des biais qui peuvent exister dans les LLM. Par exemple, on cherche à recruter des professionnels de la petite enfance et on utilise un modèle pour trier les CV. Le modèle entraîné à partir des données des personnes déjà en activité dans ce secteur aura tendance à privilégier des candidatures féminines, déjà surreprésentées dans ces métiers. La deuxieme cause des biais a lieu pendant le développement du LLM. Il peut y avoir des développeurs qui vont programmer consciemment ou non leurs propres biais, et ils peuvent aussi faire des réglages après l'entraînement pour censurer certains comportements non souhaités, ou en favoriser d'autres principalement pour des raisons éthiques ou politiques. Par exemple, lorsqu'on interroge l’intelligence artificielle chinoise de Baidu sur des sujets sensibles comme la répression des manifestations de la place Tiananmen, le modèle suggère à l’utilisateur de changer de sujet avant de le rediriger à l'accueil, sans répondre à la question. Enfin les biais peuvent également provenir de ce qui est rédigé par l’utilisateur du LLM, c’est à dire le prompt. L'utilisateur peut poser une question orientée, sans avoir conscience de ses propre biais.Par exemple si un utilisateur demande quels sont les bienfaits de l'alimentation japonaise, le modèle ne listera que les aspects positifs en occultant les aspects négatifs potentiels.</p><p>Les biais dans les LLM peuvent avoir des causes diverses. Mais quels sont les principaux biais rencontrés ? Regardons ensemble les deux types de biais les plus fréquents. Premier biais, le biais de confirmation  En effet, Les modèles peuvent être biaisés en faveur des informations qui confirment leurs croyances ou hypothèses préalables. Il peut s'agit des croyances du développeur (entrainement et réglages) ou de l'utilisateur (prompt). Par exemple, si je dis avoir vu des extraterrestres hier soir et demande comment en voir à nouveau, le modèle va me donner de nombreux conseils en ce sens, sans remettre en question mon observation. Enfin, les biais culturels. Les modèles peuvent être biaisés en fonction des valeurs, des normes et des pratiques culturelles dominantes dans les données d'entraînement. Par exemple si je demande la description d'un personnage de fiction qui plaît aux femmes, le modèle va me proposer un personnage caricatural : occidental, beau, athlétique, charismatique, riche etc.</p><p>Qu'ils proviennent des données d'entraînement, du développement des modèles ou des prompts générés par les utilisateurs, les LLM peuvent présenter de nombreux biais, à vous d'y prêter attention la prochaine fois que vous testerez ces outils.</p></details>"
+          }
+        }
+      ]
+    },
+    {
+      "id":"37677521-4498-4779-b526-9e89e3f6e6a3",
+      "type":"activity",
+      "title":"D'où viennent les biais des LLM ?",
+      "components":[
         {
           "type": "element",
           "element":
@@ -271,7 +283,7 @@
           {
             "id": "bbf9882c-4b11-4894-8e74-85413d9c1195",
             "type": "text",
-            "content": "<p>Faites correspondre pour chaque acteur, le nom du LLM correspondant (une partie des réponses se trouve dans ce module, n'hésitez pas à remonter la page).</p><p>Par exemple, <span aria-hidden=\"true\">🇺🇸&nbsp;</span>OpenAI est l’entreprise américaine derrière ChatGPT. À vous jouer !</p>"
+            "content": "<p>Faites correspondre pour chaque acteur, le nom du LLM correspondant (une partie des réponses se trouve dans ce module, n'hésitez pas à remonter la page).</p><p>Par exemple, OpenAI<span aria-hidden=\"true\">&nbsp;🇺🇸</span> est l’entreprise américaine derrière ChatGPT. À vous jouer !</p>"
           }
         },
         {
@@ -292,15 +304,15 @@
             "proposals": [
               {
                 "id": "1",
-                "content": "<span aria-hidden=\"true\">🇨🇳&bsp;</span>Baidu"
+                "content": "Baidu 🇨🇳"
               },
               {
                 "id": "2",
-                "content": "<span aria-hidden=\"true\">🇺🇸&nbsp;</span>Amazon"
+                "content": "Amazon 🇺🇸"
               },
               {
                 "id": "3",
-                "content": "<span aria-hidden=\"true\">🇺🇸&nbsp;</span>Mistral AI"
+                "content": "Mistral AI 🇫🇷"
               }
             ],
             "feedbacks": {
@@ -328,15 +340,15 @@
             "proposals": [
               {
                 "id": "1",
-                "content": "<span aria-hidden=\"true\">🇨🇳&bsp;</span>Baidu"
+                "content": "Baidu 🇨🇳"
               },
               {
                 "id": "2",
-                "content": "<span aria-hidden=\"true\">🇺🇸&nbsp;</span>Hugging Face"
+                "content": "Hugging Face 🇺🇸"
               },
               {
                 "id": "3",
-                "content": "<span aria-hidden=\"true\">🇫🇷&nbsp;</span>OpenAI"
+                "content": "OpenAI 🇫🇷"
               }
             ],
             "feedbacks": {
@@ -364,15 +376,15 @@
             "proposals": [
               {
                 "id": "1",
-                "content": "<span aria-hidden=\"true\">🇺🇸&bsp;</span>Hugging Face"
+                "content": "Hugging Face 🇺🇸"
               },
               {
                 "id": "2",
-                "content": "<span aria-hidden=\"true\">🇺🇸&nbsp;</span>Meta"
+                "content": "Meta 🇺🇸"
               },
               {
                 "id": "3",
-                "content": "<span aria-hidden=\"true\">🇫🇷&nbsp;</span>LightOn"
+                "content": "LightOn 🇫🇷"
               }
             ],
             "feedbacks": {
@@ -396,19 +408,19 @@
           {
             "id": "2830e3aa-fecd-444a-b26a-2e8fbbf9dc22",
             "type": "qcu",
-            "instruction": "<p>Le modèle Alfred appartient à l'entreprise &nbsp;:</p>",
+            "instruction": "<p>Le modèle Neuro appartient à l'entreprise &nbsp;:</p>",
             "proposals": [
               {
                 "id": "1",
-                "content": "<span aria-hidden=\"true\">🇷🇺&bsp;</span>Yandex"
+                "content": "Yandex 🇷🇺"
               },
               {
                 "id": "2",
-                "content": "<span aria-hidden=\"true\">🇺🇸&nbsp;</span>Google"
+                "content": "Google 🇺🇸"
               },
               {
                 "id": "3",
-                "content": "<span aria-hidden=\"true\">🇫🇷&nbsp;</span>MistralAI"
+                "content": "MistralAI 🇫🇷"
               }
             ],
             "feedbacks": {
