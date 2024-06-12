@@ -254,6 +254,194 @@
           }
         }
       ]
+    },
+    {
+      "id":"78039d7b-de75-4863-80b9-1ba9bfd43a9a",
+      "type": "activity",
+      "title": "Géopolitique des LLM",
+      "components":
+      [
+        {
+          "type":"element",
+          "element":
+          {
+            "id": "4dd467dd-4875-46be-ae1c-9ed431189982",
+            "type": "qrocm",
+            "instruction": "<p>Faites correspondre pour chaque acteur, le nom du LLM correspondant (une partie des réponses se trouve dans ce module, n'hésitez pas à remonter la page).</p><p>Par exemple, <span aria-hidden=\"true\">🇺🇸&nbsp;</span>OpenAI est l’entreprise américaine derrière ChatGPT. À vous jouer !</p>",
+            "proposals": [
+              {
+                "type": "text",
+                "content": "<span>Le modèle Ernie Bot appartient à l'entreprise &nbsp;:</span>"
+              },
+              {
+                "input": "modulix",
+                "type": "select",
+                "display": "block",
+                "placeholder": "",
+                "ariaLabel": "Choisir l'entreprise qui convient",
+                "defaultValue": "",
+                "tolerances": [],
+                "options": [
+                  {
+                    "id": "1",
+                    "content": "🇨🇳 Baidu"
+                  },
+                  {
+                    "id": "2",
+                    "content": "🇺🇸 Amazon"
+                  },
+                  {
+                    "id": "3",
+                    "content": "🇫🇷 Mistral AI"
+                  }
+                ],
+                "solutions": [
+                  "1"
+                ]
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct !</p>",
+              "invalid": "<p>Incorrect !</p>"
+            }
+          }
+        },
+        {
+          "type": "element",
+          "element":
+          {
+            "id": "b8a1bbc3-6495-4fed-a103-54f2bb2ac420",
+            "type": "qrocm",
+            "instruction": "",
+            "proposals": [
+              {
+                "type": "text",
+                "content": "<span>Le modèle Bloom appartient à l'entreprise &nbsp;:</span>"
+              },
+              {
+                "input": "modulix",
+                "type": "select",
+                "display": "block",
+                "placeholder": "",
+                "ariaLabel": "Choisir l'entreprise qui convient",
+                "defaultValue": "",
+                "tolerances": [],
+                "options": [
+                  {
+                    "id": "1",
+                    "content": "🇨🇳 Baidu"
+                  },
+                  {
+                    "id": "2",
+                    "content": "🇺🇸 Hugging Face"
+                  },
+                  {
+                    "id": "3",
+                    "content": "🇺🇸 OpenAI"
+                  }
+                ],
+                "solutions": [
+                  "1"
+                ]
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct !</p>",
+              "invalid": "<p>Incorrect !</p>"
+            }
+          }
+        },
+        {
+          "type": "element",
+          "element":
+          {
+            "id": "949ff919-c879-494a-84e3-c9d1d044a7bb",
+            "type": "qrocm",
+            "instruction": "",
+            "proposals": [
+              {
+                "type": "text",
+                "content": "<span>Le modèle Alfred appartient à l'entreprise &nbsp;:</span>"
+              },
+              {
+                "input": "modulix",
+                "type": "select",
+                "display": "block",
+                "placeholder": "",
+                "ariaLabel": "Choisir l'entreprise qui convient",
+                "defaultValue": "",
+                "tolerances": [],
+                "options": [
+                  {
+                    "id": "1",
+                    "content": "🇺🇸 Hugging Face"
+                  },
+                  {
+                    "id": "2",
+                    "content": "🇺🇸 Meta"
+                  },
+                  {
+                    "id": "3",
+                    "content": "🇫🇷 LightOn"
+                  }
+                ],
+                "solutions": [
+                  "3"
+                ]
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct !</p>",
+              "invalid": "<p>Incorrect !</p>"
+            }
+          }
+        },
+        {
+          "type": "element",
+          "element":
+          {
+            "id": "949ff919-c879-494a-84e3-c9d1d044a7bb",
+            "type": "qrocm",
+            "instruction": "",
+            "proposals": [
+              {
+                "type": "text",
+                "content": "<span>Le modèle Neuro appartient à l'entreprise &nbsp;:</span>"
+              },
+              {
+                "input": "modulix",
+                "type": "select",
+                "display": "block",
+                "placeholder": "",
+                "ariaLabel": "Choisir l'entreprise qui convient",
+                "defaultValue": "",
+                "tolerances": [],
+                "options": [
+                  {
+                    "id": "1",
+                    "content": "🇷🇺 Yandex"
+                  },
+                  {
+                    "id": "2",
+                    "content": "🇺🇸 Google"
+                  },
+                  {
+                    "id": "3",
+                    "content": "🇫🇷 MistralAI"
+                  }
+                ],
+                "solutions": [
+                  "1"
+                ]
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct !</p>",
+              "invalid": "<p>Incorrect !</p>"
+            }
+          }
+        }
+      ]
     }
   ]
 }
