@@ -1,5 +1,23 @@
 # Pix Changelog
 
+## v4.161.0 (12/06/2024)
+
+
+### :rocket: Amélioration
+- [#8850](https://github.com/1024pix/pix/pull/8850) [FEATURE] Ajouter la page de modification d'infos et référentiel d'un profil cible (PIX-12442).
+- [#9226](https://github.com/1024pix/pix/pull/9226) [FEATURE] Gérer l'affichage du bouton "Suivant" avec des éléments répondables (PIX-12856).
+- [#9223](https://github.com/1024pix/pix/pull/9223) [FEATURE] Add a link to smart random simulator (PIX-12889).
+- [#9212](https://github.com/1024pix/pix/pull/9212) [FEATURE] Audit logger peut log des events en masse (PIX-12808).
+
+### :building_construction: Tech
+- [#9152](https://github.com/1024pix/pix/pull/9152) [TECH] Migrer la route POST /api/password-reset-demands vers src/identity-access-management (PIX-12748).
+- [#9245](https://github.com/1024pix/pix/pull/9245) [TECH] ajoute la configuration pour activer les synchros de traduction dans orga (pix-12923).
+- [#9234](https://github.com/1024pix/pix/pull/9234) [TECH] MAJ du thème QUnit pour les tests certifs.
+
+### :bug: Correction
+- [#9242](https://github.com/1024pix/pix/pull/9242) [BUGFIX] Corriger le tag 'POLE EMPLOI' dans les seeds (PIX-12919).
+- [#9194](https://github.com/1024pix/pix/pull/9194) [BUGFIX] Revert la migration des Job/handler PE (PIX-12850).
+
 ## v4.160.0 (12/06/2024)
 
 
