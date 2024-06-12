@@ -48,19 +48,28 @@ export default class ModuleGrain extends Component {
     return ModuleGrain.getSupportedElements(this.args.grain);
   }
 
+  static getSupportedComponentElement(component) {
+    if (ModuleGrain.AVAILABLE_ELEMENT_TYPES.includes(component.element.type)) {
+      return component;
+    } else {
+      return undefined;
+    }
+  }
+
+  static getSupportedComponentStepper(component) {
+    return component;
+  }
+
   static getSupportedComponents(grain) {
     return grain.components
       .map((component) => {
-        if (component.type === 'element') {
-          if (ModuleGrain.AVAILABLE_ELEMENT_TYPES.includes(component.element.type)) {
-            return component;
-          } else {
+        switch (component.type) {
+          case 'element':
+            return ModuleGrain.getSupportedComponentElement(component);
+          case 'stepper':
+            return ModuleGrain.getSupportedComponentStepper(component);
+          default:
             return undefined;
-          }
-        } else if (component.type === 'stepper') {
-          return component;
-        } else {
-          return undefined;
         }
       })
       .filter((component) => {
