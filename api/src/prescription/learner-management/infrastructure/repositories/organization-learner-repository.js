@@ -82,6 +82,19 @@ const disableCommonOrganizationLearnersFromOrganizationId = function ({
     .whereNotIn('id', excludeOrganizationLearnerIds);
 };
 
+const updateCommonLearnersFromOrganizationId = function ({ learners, organizationId }) {
+  const knex = ApplicationTransaction.getConnection();
+
+  return Promise.all(
+    learners.map((learner) => {
+      return knex('organization-learners')
+        .where({ id: learner.id, organizationId })
+        .whereNull('deletedAt')
+        .update({ ...learner, isDisabled: false, updatedAt: new Date() });
+    }),
+  );
+};
+
 const findAllCommonLearnersFromOrganizationId = async function ({ organizationId }) {
   const knex = ApplicationTransaction.getConnection();
 
@@ -102,4 +115,5 @@ export {
   findAllCommonLearnersFromOrganizationId,
   removeByIds,
   saveCommonOrganizationLearners,
+  updateCommonLearnersFromOrganizationId,
 };

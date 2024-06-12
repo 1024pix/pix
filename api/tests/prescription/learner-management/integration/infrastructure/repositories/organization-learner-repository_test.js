@@ -12,6 +12,7 @@ import {
   findAllCommonLearnersFromOrganizationId,
   removeByIds,
   saveCommonOrganizationLearners,
+  updateCommonLearnersFromOrganizationId,
 } from '../../../../../../src/prescription/learner-management/infrastructure/repositories/organization-learner-repository.js';
 import { ApplicationTransaction } from '../../../../../../src/prescription/shared/infrastructure/ApplicationTransaction.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../../../test-helper.js';
@@ -1140,7 +1141,7 @@ describe('Integration | Repository | Organization Learner Management | Organizat
       });
 
       const { firstName, lastName, id, userId, attributes, isDisabled } =
-        await databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+        databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
           ...firstLearnerData,
           isDisabled: false,
           organizationId,
@@ -1176,7 +1177,7 @@ describe('Integration | Repository | Organization Learner Management | Organizat
         INE: '234567890',
       });
 
-      await databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+      databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
         ...learnerData,
         isDisabled: true,
         organizationId,
@@ -1203,7 +1204,7 @@ describe('Integration | Repository | Organization Learner Management | Organizat
 
       const userId = databaseBuilder.factory.buildUser().id;
 
-      await databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+      databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
         ...learnerData,
         isDisabled: false,
         deletedAt: new Date('2020-01-01'),
@@ -1231,7 +1232,7 @@ describe('Integration | Repository | Organization Learner Management | Organizat
         INE: '234567890',
       });
 
-      await databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+      databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
         ...learnerData,
         isDisabled: false,
       });
@@ -1245,6 +1246,187 @@ describe('Integration | Repository | Organization Learner Management | Organizat
 
       // then
       expect(organizationLearners).lengthOf(0);
+    });
+  });
+
+  describe('#updateCommonLearnersFromOrganizationId', function () {
+    let clock;
+    let organizationId;
+    let firstLearner, secondLearner;
+    const now = new Date('2023-02-02');
+
+    beforeEach(async function () {
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+
+      organizationId = databaseBuilder.factory.buildOrganization().id;
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(function () {
+      clock.restore();
+    });
+
+    context('non deleted users', function () {
+      beforeEach(async function () {
+        const firstLearnerData = new CommonOrganizationLearner({
+          firstName: 'Sacha',
+          lastName: 'Du Bourg Palette',
+          organizationId,
+          INE: '234567890',
+          hooby: 'Pokemon Hunter',
+        });
+
+        const secondLearnerData = new CommonOrganizationLearner({
+          firstName: 'Kasumi',
+          lastName: 'Yawa',
+          organizationId,
+          INE: '0987654321',
+          hooby: 'Pokemon master',
+        });
+
+        firstLearner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+          ...firstLearnerData,
+          isDisabled: true,
+          organizationId,
+        });
+
+        secondLearner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+          ...secondLearnerData,
+          isDisabled: true,
+          updatedAt: new Date('2020-01-01'),
+          organizationId,
+        });
+
+        await databaseBuilder.commit();
+      });
+
+      it('update given learners', async function () {
+        const updatedLearner = {
+          ...firstLearner,
+          firstName: 'Sakura',
+          lastName: 'Kādokyaputā',
+          attributes: {
+            hooby: 'Card Captor',
+          },
+        };
+
+        await updateCommonLearnersFromOrganizationId({ organizationId, learners: [updatedLearner] });
+
+        const learnerFromDB = await knex('organization-learners').where({ id: firstLearner.id }).first();
+
+        expect(learnerFromDB.isDisabled).to.be.false;
+        expect(learnerFromDB.updatedAt).to.be.deep.equal(now);
+        expect(learnerFromDB.deletedAt).to.be.null;
+        expect(learnerFromDB.attributes.hooby).to.be.equal('Card Captor');
+        expect(learnerFromDB.firstName).to.be.equal('Sakura');
+        expect(learnerFromDB.lastName).to.be.equal('Kādokyaputā');
+      });
+
+      it('should not update other learners', async function () {
+        const updatedLearner = {
+          ...firstLearner,
+          firstName: 'Sakura',
+          lastName: 'Kādokyaputā',
+          attributes: {
+            hooby: 'Card Captor',
+          },
+        };
+
+        await updateCommonLearnersFromOrganizationId({ organizationId, learners: [updatedLearner] });
+
+        const learnerFromDB = await knex('organization-learners').where({ id: secondLearner.id }).first();
+
+        expect(learnerFromDB.isDisabled).to.be.true;
+        expect(learnerFromDB.updatedAt).to.deep.equal(new Date('2020-01-01'));
+        expect(learnerFromDB.deletedAt).to.be.null;
+        expect(learnerFromDB.attributes.hooby).to.be.equal('Pokemon master');
+        expect(learnerFromDB.attributes.INE).to.be.equal('0987654321');
+        expect(learnerFromDB.firstName).to.be.equal('Kasumi');
+        expect(learnerFromDB.lastName).to.be.equal('Yawa');
+      });
+    });
+
+    it('should not update deleted learners', async function () {
+      const learnerData = new CommonOrganizationLearner({
+        firstName: 'Sacha',
+        lastName: 'Du Bourg Palette',
+        organizationId,
+        INE: '234567890',
+        hooby: 'Pokemon Hunter',
+      });
+
+      const learner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+        ...learnerData,
+        deletedAt: new Date('2020-01-01'),
+        updatedAt: new Date('2020-01-01'),
+        isDisabled: true,
+        organizationId,
+      });
+
+      const updatedLearner = {
+        ...learner,
+        firstName: 'Sakura',
+        lastName: 'Kādokyaputā',
+        attributes: {
+          hooby: 'Card Captor',
+        },
+      };
+
+      await databaseBuilder.commit();
+
+      await updateCommonLearnersFromOrganizationId({ organizationId, learners: [updatedLearner] });
+
+      const learnerFromDB = await knex('organization-learners').where({ id: learner.id }).first();
+
+      expect(learnerFromDB.isDisabled).to.be.true;
+      expect(learnerFromDB.updatedAt).to.deep.equal(new Date('2020-01-01'));
+      expect(learnerFromDB.deletedAt).to.deep.equal(new Date('2020-01-01'));
+      expect(learnerFromDB.attributes.hooby).to.be.equal('Pokemon Hunter');
+      expect(learnerFromDB.attributes.INE).to.be.equal('234567890');
+      expect(learnerFromDB.firstName).to.be.equal('Sacha');
+      expect(learnerFromDB.lastName).to.be.equal('Du Bourg Palette');
+    });
+
+    it('should not update learners from other organizationId', async function () {
+      const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+      const learnerData = new CommonOrganizationLearner({
+        firstName: 'Sacha',
+        lastName: 'Du Bourg Palette',
+        organizationId,
+        INE: '234567890',
+        hooby: 'Pokemon Hunter',
+      });
+
+      const learner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+        ...learnerData,
+        updatedAt: new Date('2020-01-01'),
+        isDisabled: true,
+        organizationId: otherOrganizationId,
+      });
+
+      const updatedLearner = {
+        ...learner,
+        firstName: 'Sakura',
+        lastName: 'Kādokyaputā',
+        attributes: {
+          hooby: 'Card Captor',
+        },
+      };
+
+      await databaseBuilder.commit();
+
+      await updateCommonLearnersFromOrganizationId({ organizationId, learners: [updatedLearner] });
+
+      const learnerFromDB = await knex('organization-learners').where({ id: learner.id }).first();
+
+      expect(learnerFromDB.isDisabled).to.be.true;
+      expect(learnerFromDB.organizationId).to.be.equal(otherOrganizationId);
+      expect(learnerFromDB.updatedAt).to.deep.equal(new Date('2020-01-01'));
+      expect(learnerFromDB.attributes.hooby).to.be.equal('Pokemon Hunter');
+      expect(learnerFromDB.attributes.INE).to.be.equal('234567890');
+      expect(learnerFromDB.firstName).to.be.equal('Sacha');
+      expect(learnerFromDB.lastName).to.be.equal('Du Bourg Palette');
     });
   });
 });
