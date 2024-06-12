@@ -8,26 +8,26 @@
     "duration": 15,
     "level": "Avancé",
     "objectives": [
-      "Identifier les biais culturels et linguistiques des LLM",
       "Connaître différents LLM et leurs caractéristiques",
-      "Comparer les résultats de deux LLMs différents"
+      "Identifier les biais culturels et linguistiques des LLM",
+      "Comparer les résultats de deux LLM différents"
     ]
   },
   "transitionTexts": [
     {
-      "content": "<p><span aria-hidden=\"true\">⚙️&nbsp;</span>Les grands modèles de données, ou LLM, sont des outils très pratiques et performants pour une grande variété de tâches qui demandaient il n’y a pas si longtemps un travail humain : rédiger, inventer, résumer, pour n’en citer que quelques uns. <br><span aria-hidden=\"true\">😶‍🌫️&nbsp;</span>Mais parfois, la pertinence des résultats est au moins discutable, voire même complètement décalée. Commençons par un exemple concret !</p>",
+      "content": "<p>Les grands modèles de données, ou LLM, sont des outils très pratiques et performants pour une grande variété de tâches qui demandaient il n’y a pas si longtemps un travail humain : rédiger, inventer, résumer, ... <span aria-hidden=\"true\">&nbsp;⚙️</span><br>Mais parfois, la pertinence des résultats est au moins discutable, voire même complètement décalée.<span aria-hidden=\"true\">&nbsp;😶‍🌫️</span><br>Commençons par un exemple concret !</p>",
       "grainId": "0bfa08bd-7052-49bb-89e8-150efa589926"
     },
     {
-      "content": "<p><span aria-hidden=\"true\">😞&nbsp;</span>On s’en doutait, il arrive que les LLM ne soient pas vraiment pertinents. Ici, par exemple, nous avons pu observer un biais lié à la langue utilisée, qui n’est pas celle avec laquelle le modèle a été entraîné. <br><span aria-hidden=\"true\">🔎&nbsp;</span>Étudions maintenant les causes de ce genre de problèmes.</p>",
+      "content": "<p>Comme on vient de le voir, il arrive que les propositions faites par les LLM ne soient pas toujours pertinentes. <span aria-hidden=\"true\">&nbsp;😞</span> Dans cet exemple, on a pu observer un biais lié à la langue utilisée, qui n’est pas celle avec laquelle le modèle a été entraîné. La traduction mot à mot du jeu de mots n’a pas fonctionné.<br>Penchons-nous à présent sur les causes de ce genre de problèmes.<span aria-hidden=\"true\">&nbsp;🔎</span></p>",
       "grainId": "c8722f6e-7534-4fdc-9f2d-515c2a96641f"
     },
     {
-      "content":"<p>Vous en savez désormais plus sur les biais des LLM. <span aria-hidden=\"true\">👩‍💻️👨🏿‍💻️</span><br>Soumettons maintenant plusieurs prompts à PixGPT, et vérifions ensemble les résultats.<br>Choisissez la phrase qui qualifie le mieux la situation.</p>",
+      "content":"<p>Vous en savez désormais plus sur les biais des LLM. <span aria-hidden=\"true\">👩‍💻️👨🏿‍💻️</span><br>Observons et analysons ensemble quelques réponses du LLM PixGPT.<br>Choisissez la phrase qui qualifie le mieux la situation.</p>",
       "grainId": "e7ca9d7e-6d77-4705-83a5-a6864c77f4b5"
     },
     {
-      "content":"<p>C’est un fait, on retrouve différentes formes de biais dans tous les LLM. Ces biais sont principalement liés aux données d’entraînement et au développement des modèles. Mais quels sont ces grands modèles de langage et qui sont les principaux acteurs qui contribuent à leur développement&nbsp;?<span aria-hidden=\"true\">🔍</span></p>",
+      "content":"<p>On a pu voir qu’on retrouvait différentes formes de biais dans tous les LLM. Ces biais sont principalement liés aux données d’entraînement et au développement des modèles.</p><p> Voyons de plus près à quoi servent ces grands modèles de langage et qui sont les principaux acteurs qui contribuent à leur développement.<span aria-hidden=\"true\">&nbsp;🔍</span></p>",
       "grainId": "e487a78b-2e0c-4972-a318-e922c2aa0060"
     }
   ],
@@ -52,7 +52,7 @@
           "element": {
             "id": "73144a95-d977-4f7c-90ce-1c59612b4654",
             "type": "qcu",
-            "instruction": "<p>À votre avis, que s’est il passé dans cet échange ? Pourquoi le jeu de mot communiqué par ChatGPT est-il raté ?</p>",
+            "instruction": "<p>Dans cet échange, ChatGPT n’a pas réussi à proposer un vrai jeu de mots. À votre avis, pourquoi ?</p>",
             "proposals": [
               {
                 "id": "1",
@@ -60,16 +60,16 @@
               },
               {
                 "id": "2",
-                "content": "C’est une blague absurde mais pas un jeu de mots"
+                "content": "ChatGPT n’a pas la capacité de faire des jeux de mots drôles."
               },
               {
                 "id": "3",
-                "content": "Le jeu de mot fonctionne, mais en anglais ! (net signifie filet)"
+                "content": "Le jeu de mot fonctionne, mais en anglais !"
               }
             ],
             "feedbacks": {
               "valid": "<p>Correct !</p>",
-              "invalid": "<p>Incorrect !</p>"
+              "invalid": "<p>Incorrect ! C'est un jeu de mots, mais en anglais ! \"Net\" en anglais signifie \"filet\"</p>"
             },
             "solution": "3"
           }
@@ -81,6 +81,15 @@
       "type": "lesson",
       "title": "D'où viennent les biais des LLM ?",
       "components": [
+        {
+          "type": "element",
+          "element":
+          {
+            "id": "b510a523-dc46-44bc-9cef-7d254ddd5831",
+            "type": "text",
+            "content": "<p>Dans la vidéo suivante, vous allez mieux comprendre les différents biais des LLM et d’où ils proviennent. <span aria-hidden=\"true\">&nbsp;📺</span></p><p>À la suite de cette vidéo, une question en lien avec les biais possibles des LLM vous sera posée.</p>"
+          }
+        },
         {
           "type": "element",
           "element":
@@ -111,27 +120,27 @@
           {
             "id": "5f6a7570-4d0a-4cc3-be65-188312270acf",
             "type": "qcm",
-            "instruction": "<p>Je demande à un LLM de me lister les activités criminelles les plus courantes. L’outil répond qu’il ne peut pas encourager d'activités illégales et qu’il ne peut donc pas répondre à ce prompt. Pourquoi ?</p>",
+            "instruction": "<p>Quand on demande à un LLM de lister les activités criminelles les plus courantes, il ne nous donne pas de réponse. À la place, l’outil indique qu’il ne peut pas répondre à notre demande parce qu’il ne doit pas encourager d'activités illégales. Pour quelle raison ?</p>",
             "proposals": [
               {
                 "id": "1",
-                "content": "Le modèle a inféré des données d’entraînement que les activités illégales ne doivent pas faire l’objet de publicité et refuse de répondre."
+                "content": "À partir des données d’entraînement le LLM a conclu que les activités illégales ne devaient pas faire l’objet de publicité. Il refuse donc de répondre."
               },
               {
                 "id": "2",
-                "content": "Les développeurs du modèle ont spécifié au moteur de ne pas répondre aux prompts qui font mention d’activités illégales."
+                "content": "Les développeurs du LLM ont précisé au moteur de ne pas répondre aux demandes (ou prompts) qui font mention d’activités illégales."
               },
               {
                 "id": "3",
-                "content": "Le modèle a intégré tous les textes réglementaires existants et ne veut pas être condamné pour complicité d’activité criminelle."
+                "content": "Le LLM a intégré tous les textes réglementaires existants. Il ne veut pas être condamné pour complicité d’activité criminelle."
               },
               {
                 "id": "4",
-                "content": "Le modèle craint que j’interprète mal ses réponses et que je commette des actes illégaux."
+                "content": "Le LLM craint qu’on interprète mal ses réponses et qu’on commette des actes illégaux."
               },
               {
                 "id": "5",
-                "content": "Le modèle a été programmé pour se conformer aux directives des lois sur la technologie responsable et ne peut donc pas encourager ou faciliter des activités criminelles."
+                "content": "Le LLM a été programmé pour être conforme aux directives et lois sur la technologie responsable. Il ne peut donc pas encourager ou faciliter des activités criminelles."
               }
             ],
             "feedbacks": {
@@ -154,9 +163,28 @@
         {
           "type": "element",
           "element": {
+            "id": "5b0422cd-22d0-4261-aa48-bd7fafc20607",
+            "type": "text",
+            "content": "<p>Dans les échanges ci-dessous, des prompts, ou « instructions », sont donnés à PixGPT.</p><p>Pour chaque échange, choisissez le biais qui décrit le mieux la réponse de PixGPT.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element":
+          {
+            "id": "e53de197-48ce-4af7-be65-dc75139b391c",
+            "type": "image",
+            "url": "https://i.imgur.com/wwVt6p8.png",
+            "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
+            "alternativeText": "<p>Prompt : Quel est le jour de la fête nationale ?</p><p>PixGPT : La fête nationale de la France aussi connue sous le nom de la Bastille Day est célébrée le 14 juillet. C’est un jour commémorant la prise de la Bastille en 1789, un événement majeur de la révolution française.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
               "id": "629aeb61-028b-41f7-97f2-512e83000fa5",
               "type": "qcu",
-              "instruction": "<p>Prompt : Quel est le jour de la fête nationale ?<br>PixGPT: La fête nationale de la France aussi connue sous le nom de la Bastille Day est célébrée le 14 juillet. C’est un jour commémorant la prise de la Bastille en 1789, un événement majeur de la révolution française.</p>",
+              "instruction": "&nbsp;",
               "proposals": [
                 {
                   "id": "1",
@@ -184,7 +212,7 @@
             {
               "id": "635d34d8-c748-44cd-ad02-bde721270723",
               "type": "qcu",
-              "instruction": "<p>Prompt : Je rédige un roman et j’ai besoin que tu me définisses un personnage dont l’activité principale est de faire le ménage chez les particuliers.<br>PixGPT: Claire, une femme minutieuse et discrète de 40 ans, consacre ses journées à apporter ordre et propreté dans les foyers de ses clients, veillant à chaque détail avec un soin exceptionnel.</p>",
+              "instruction": "<p>Prompt : J’écris un roman. J’ai besoin que tu crées un personnage. Son activité principale est de faire le ménage chez les gens.<br>PixGPT: Claire, une femme minutieuse et discrète de 40 ans, consacre ses journées à apporter ordre et propreté dans les foyers de ses clients, veillant à chaque détail avec un soin exceptionnel.</p>",
               "proposals": [
                 {
                   "id": "1",
@@ -212,7 +240,7 @@
             {
               "id": "060c7558-92fb-47bf-b8fa-3639ebfef67d",
               "type": "qcu",
-              "instruction": "<p>Prompt : Je suis verseau, comment ma journée va-t-elle se passer ?<br>PixGPT:  En tant que Verseau, attendez-vous à une journée pleine de surprises stimulantes et de nouvelles opportunités pour exprimer votre créativité.</p>",
+              "instruction": "<p>Prompt : Je suis Verseau. Comment ma journée va-t-elle se passer ?<br>PixGPT:  En tant que Verseau, attendez-vous à une journée pleine de surprises stimulantes et de nouvelles opportunités pour exprimer votre créativité.</p>",
               "proposals": [
                 {
                   "id": "1",
@@ -248,7 +276,7 @@
           {
             "id": "2cfc4200-35bd-4d40-84c9-922996e01914",
             "type": "text",
-            "content": "<h3><span aria-hidden=\"true\">👩‍💻&nbsp;</span>Quels sont les grands modèles de langage ?</h3><p>Les modèles de langage, ou LLM (Language Language Model), sont des outils numériques capables de comprendre, de générer et de traiter du langage naturel. Leurs usages sont en forte croissance dans des domaines et contextes divers, et peuvent&nbsp;:</p><ul><li>rédiger et traduire du contenu textuel et audio&nbsp;;</li><li>réaliser des calculs et opérations complexes&nbsp;;</li><li>ou encore tirer des conclusions d’après une situation donnée.</li></ul>"
+            "content": "<h3><span aria-hidden=\"true\">👩‍💻&nbsp;</span>Comment sont utilisés les grands modèles de langage ? ?</h3><p>Les modèles de langage, ou LLM (Large Language Models), sont des outils numériques capables de comprendre, de générer et de traiter du langage naturel. Leurs usages sont en forte croissance dans des domaines et contextes divers. Les LLM peuvent&nbsp;:</p><ul><li>rédiger et traduire du contenu textuel et audio&nbsp;;</li><li>réaliser des calculs et opérations complexes&nbsp;;</li><li>ou encore tirer des conclusions d’après une situation donnée.</li></ul>"
           }
         },
         {
@@ -257,7 +285,7 @@
           {
             "id": "ec182563-1090-4794-8a5f-e179d244fa3e",
             "type": "text",
-            "content": "<h3><span aria-hidden=\"true\">🏢&nbsp;</span>Les entreprises derrière les LLM</h3><p>Les LLM sont développés par des entreprises spécialisées dans l'intelligence artificielle et le traitement automatique du langage. Parmi les plus importantes, on retrouve notamment les géants du net, ainsi que d’autres acteurs internationaux&nbsp;:</p><ul><li>Google, qui a développé GEMINI.</li><li>OpenAI, une entreprise spécialisée dans la recherche en intelligence artificielle, qui a développé le modèle de langage GPT qui est derrière l’outil ChatGPT.</li><li>Meta, qui a développé le modèle de langage LLAMA.</li><li>Ou encore Baidu, qui est derrière Ernie Bot (Wenxin Yiyan).</li></ul>"
+            "content": "<h3><span aria-hidden=\"true\">🏢&nbsp;</span>Les entreprises qui ont créé les LLM</h3><p>Les LLM sont développés par des entreprises spécialisées dans l'intelligence artificielle et le traitement automatique du langage. Parmi les plus importantes, on retrouve notamment les géants du net, ainsi que d’autres acteurs internationaux :</p><ul><li>Google, qui a développé GEMINI.</li><li>OpenAI, une entreprise spécialisée dans la recherche en intelligence artificielle, qui a développé le modèle de langage GPT utilisé par l’outil ChatGPT.</li><li>Meta, qui a développé le modèle de langage LLAMA,</li><li>Baidu, avec Ernie Bot (ou Wenxin Yiyan).</li></ul>"
           }
         },
         {
@@ -266,7 +294,7 @@
           {
             "id": "a5b4912d-7882-47ed-a782-bf87d73ead55",
             "type": "text",
-            "content": "<h3><span aria-hidden=\"true\">🏃&nbsp;</span>La course aux LLM</h3><p>Ces acteurs mènent une véritable course effrénée à l’Intelligence Artificielle en développant leurs propres modèles de langage.<br>Principalement entraînés sur des données anglo-saxonnes, les LLM actuels ne sont pas capables de refléter la vision de chaque État. L’IA est donc une priorité stratégique des gouvernements qui cherchent à développer leurs modèles, entraînés sur des données locales. C’est la souveraineté et la visibilité culturelle des pays qui est en jeu.</p>"
+            "content": "<h3><span aria-hidden=\"true\">🏃&nbsp;</span>La course aux LLM</h3><p>Ces acteurs mènent une véritable course à l’Intelligence Artificielle en développant chacun leur propre modèle de langage.<br>Principalement entraînés sur des données anglo-saxonnes, les LLM actuels ne sont pas capables de refléter la vision de chaque langue ou pays. L’IA est donc une priorité stratégique des gouvernements qui cherchent à développer leurs modèles, entraînés sur des données locales. C’est la souveraineté et la visibilité culturelle des pays qui est en jeu.</p>"
           }
         }
       ]
