@@ -1,6 +1,7 @@
+import { _forTestOnly } from '../../../lib/domain/events/index.js';
 import { sinon } from '../../test-helper.js';
 
-function buildEventDispatcherAndHandlersForTest(_forTestOnly) {
+function buildEventDispatcherAndHandlersForTest() {
   const handlerStubs = {};
   Object.keys(_forTestOnly.handlers).forEach((h) => {
     handlerStubs[h] = sinon.stub();
