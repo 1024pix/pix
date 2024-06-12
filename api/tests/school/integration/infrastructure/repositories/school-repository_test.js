@@ -88,4 +88,22 @@ describe('Integration | Repository | School', function () {
       expect(code).to.equal('BADOIT710');
     });
   });
+
+  describe('#updateSessionExpirationDate', function () {
+    it('should update the sessionExpirationDate into given school', async function () {
+      //given
+      const { organizationId } = databaseBuilder.factory.buildSchool({ code: 'BADOIT710' });
+      await databaseBuilder.commit();
+
+      const sessionExpirationDate = new Date();
+
+      // when
+      await schoolRepository.updateSessionExpirationDate(organizationId, sessionExpirationDate);
+
+      // then
+      const school = await knex('schools').first();
+
+      expect(school.sessionExpirationDate).to.deep.equal(sessionExpirationDate);
+    });
+  });
 });

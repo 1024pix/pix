@@ -1,5 +1,6 @@
 import { schoolController } from '../../../../src/school/application/school-controller.js';
 import * as moduleUnderTest from '../../../../src/school/application/school-route.js';
+import { usecases } from '../../../../src/school/domain/usecases/index.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
@@ -18,6 +19,44 @@ describe('Unit | Router | school-router', function () {
 
       // then
       expect(response.statusCode).to.equal(200);
+    });
+  });
+
+  describe('POST /api/pix1d/schools/{organizationId}/session/activate', function () {
+    context('when user does not belong to organization', function () {
+      it('should return 403', async function () {
+        // given
+        sinon
+          .stub(securityPreHandlers, 'checkUserBelongsToOrganization')
+          .callsFake((request, h) => h.response().code(403).takeover());
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/pix1d/schools/123456/session/activate');
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+
+    context('when user belongs to organization', function () {
+      it('should return 204', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'checkUserBelongsToOrganization').callsFake((_, h) => h.response(true));
+        sinon.spy(schoolController, 'activateSchoolSession');
+        sinon.stub(usecases, 'activateSchoolSession').returns('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/pix1d/schools/123456/session/activate');
+
+        // then
+        expect(schoolController.activateSchoolSession).to.have.been.called;
+        expect(usecases.activateSchoolSession).to.have.been.calledWith({ organizationId: 123456 });
+        expect(response.statusCode).to.equal(204);
+      });
     });
   });
 });

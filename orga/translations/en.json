@@ -308,6 +308,9 @@
       "link": "See details",
       "number": "{count, plural, =0 {0 seat available} =1 {1 seat available} other {{count, number} seats available}}"
     },
+    "school-sessions": {
+      "activate-button": "Activate session"
+    },
     "team-members": {
       "aria-label": "Team members navigation"
     },
