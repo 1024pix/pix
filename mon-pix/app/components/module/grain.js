@@ -57,7 +57,15 @@ export default class ModuleGrain extends Component {
   }
 
   static getSupportedComponentStepper(component) {
-    return component;
+    const steps = [];
+    for (const step of component.steps) {
+      const elements = step.elements.filter((element) => ModuleGrain.AVAILABLE_ELEMENT_TYPES.includes(element.type));
+      if (elements.length > 0) {
+        steps.push({ ...step, elements });
+      }
+    }
+
+    return steps.length > 0 ? { ...component, steps } : undefined;
   }
 
   static getSupportedComponents(grain) {
