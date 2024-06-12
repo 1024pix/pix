@@ -11,7 +11,7 @@ export default class Campaign extends Model {
   @attr('boolean') isRestricted;
   @attr('boolean') isSimplifiedAccess;
   @attr('boolean') isForAbsoluteNovice;
-  @attr('boolean') isArchived;
+  @attr('boolean') isAccessible;
   @attr() organizationId;
   @attr('string') organizationName;
   @attr('string') organizationType;

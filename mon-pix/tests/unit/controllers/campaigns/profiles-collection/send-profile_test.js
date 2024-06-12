@@ -18,7 +18,7 @@ module('Unit | Controller | campaigns/profiles-collection/send-profile', functio
     campaign: {
       id: 1243,
       code: 'CODECAMPAIGN',
-      isArchived: false,
+      isAccessible: true,
     },
     campaignParticipation,
   };
@@ -36,10 +36,10 @@ module('Unit | Controller | campaigns/profiles-collection/send-profile', functio
   });
 
   module('#isDisabled', function () {
-    test('should return false if campaignParticipation is not deleted and campaign is not archived', function (assert) {
+    test('should return false if campaignParticipation is not deleted and campaign is accessible', function (assert) {
       // given
       controller.model.campaignParticipation.deletedAt = null;
-      controller.model.campaign.isArchived = false;
+      controller.model.campaign.isAccessible = true;
 
       // then
       assert.false(controller.isDisabled);
@@ -47,14 +47,14 @@ module('Unit | Controller | campaigns/profiles-collection/send-profile', functio
     test('should return true if campaignParticipation is deleted', function (assert) {
       // given
       controller.model.campaignParticipation.deletedAt = new Date();
-      controller.model.campaign.isArchived = false;
+      controller.model.campaign.isAccessible = true;
 
       // then
       assert.true(controller.isDisabled);
     });
-    test('should return true if campaign is archived', function (assert) {
+    test('should return true if campaign is not accessible', function (assert) {
       // given
-      controller.model.campaign.isArchived = true;
+      controller.model.campaign.isAccessible = false;
       controller.model.campaignParticipation.deletedAt = null;
 
       // then
