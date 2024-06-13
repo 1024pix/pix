@@ -1,7 +1,5 @@
-import bluebird from 'bluebird';
 import dayjs from 'dayjs';
 
-import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../shared/infrastructure/constants.js';
 import { DEFAULT_SESSION_DURATION_MINUTES } from '../../../shared/domain/constants.js';
 
 /**
@@ -14,18 +12,8 @@ import { DEFAULT_SESSION_DURATION_MINUTES } from '../../../shared/domain/constan
  * @param {SessionForSupervisingRepository} params.sessionForSupervisingRepository
  * @param {CertificationBadgesService} params.certificationBadgesService
  */
-const getSessionForSupervising = async function ({
-  sessionId,
-  sessionForSupervisingRepository,
-  certificationBadgesService,
-}) {
+const getSessionForSupervising = async function ({ sessionId, sessionForSupervisingRepository }) {
   const sessionForSupervising = await sessionForSupervisingRepository.get({ id: sessionId });
-
-  await bluebird.map(
-    sessionForSupervising.certificationCandidates,
-    _computeComplementaryCertificationEligibility(certificationBadgesService),
-    { concurrency: CONCURRENCY_HEAVY_OPERATIONS },
-  );
 
   sessionForSupervising.certificationCandidates.forEach(_computeTheoricalEndDateTime);
 
@@ -33,19 +21,6 @@ const getSessionForSupervising = async function ({
 };
 
 export { getSessionForSupervising };
-
-/**
- * @param {CertificationBadgesService} certificationBadgesService
- */
-function _computeComplementaryCertificationEligibility(certificationBadgesService) {
-  return async (candidate) => {
-    if (candidate.enrolledComplementaryCertification?.key) {
-      candidate.stillValidBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
-        userId: candidate.userId,
-      });
-    }
-  };
-}
 
 /**
  * @param {CertificationCandidateForAd} certificationBadgesService

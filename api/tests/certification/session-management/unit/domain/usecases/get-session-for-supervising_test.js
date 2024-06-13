@@ -85,11 +85,6 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
         context('when some candidates are still eligible to complementary certifications', function () {
           it("should return the session with the candidates' eligibility", async function () {
             // given
-            const stillValidBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
-              complementaryCertificationKey: 'aKey',
-              complementaryCertificationBadgeLabel: 'une certif complémentaire',
-            });
-
             const complementaryCertification = domainBuilder.buildComplementaryCertificationForSupervising({
               key: 'aKey',
               label: 'une certif complémentaire',
@@ -102,25 +97,17 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
                   userId: 1234,
                   startDateTime: START_DATETIME_STUB,
                   enrolledComplementaryCertification: complementaryCertification,
-                  stillValidBadgeAcquisitions: [],
+                  isComplementaryCertificationInProgress: true,
                 }),
               ],
             });
 
             sessionForSupervisingRepository.get.withArgs({ id: 1 }).resolves(retrievedSessionForSupervising);
 
-            const certificationBadgesService = {
-              findStillValidBadgeAcquisitions: sinon.stub(),
-            };
-            certificationBadgesService.findStillValidBadgeAcquisitions
-              .withArgs({ userId: 1234 })
-              .resolves([stillValidBadgeAcquisition]);
-
             // when
             const actualSession = await getSessionForSupervising({
               sessionId: 1,
               sessionForSupervisingRepository,
-              certificationBadgesService,
             });
 
             // then
@@ -135,7 +122,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
                       COMPLEMENTARY_EXTRATIME_STUB,
                     ]),
                     enrolledComplementaryCertification: complementaryCertification,
-                    stillValidBadgeAcquisitions: [stillValidBadgeAcquisition],
+                    isComplementaryCertificationInProgress: true,
                   }),
                 ],
               }),
@@ -143,10 +130,6 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
           });
 
           it('should compute a theorical end datetime with extra time', async function () {
-            const stillValidBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
-              complementaryCertificationKey: 'aKey',
-            });
-
             const complementaryCertification = domainBuilder.buildComplementaryCertificationForSupervising({
               key: 'aKey',
               certificationExtraTime: COMPLEMENTARY_EXTRATIME_STUB,
@@ -159,22 +142,16 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
                     userId: 1234,
                     startDateTime: START_DATETIME_STUB,
                     enrolledComplementaryCertification: complementaryCertification,
-                    stillValidBadgeAcquisitions: [],
+                    isComplementaryCertificationInProgress: true,
                   }),
                 ],
               }),
             );
 
-            const certificationBadgesService = { findStillValidBadgeAcquisitions: sinon.stub() };
-            certificationBadgesService.findStillValidBadgeAcquisitions
-              .withArgs({ userId: 1234 })
-              .resolves([stillValidBadgeAcquisition]);
-
             // when
             const actualSession = await getSessionForSupervising({
               sessionId: 1,
               sessionForSupervisingRepository,
-              certificationBadgesService,
             });
 
             // then
@@ -199,23 +176,17 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
                   userId: 1234,
                   startDateTime: START_DATETIME_STUB,
                   enrolledComplementaryCertification: complementaryCertification,
-                  stillValidBadgeAcquisitions: [],
+                  isComplementaryCertificationInProgress: false,
                 }),
               ],
             });
 
             sessionForSupervisingRepository.get.withArgs({ id: 1 }).resolves(retrievedSessionForSupervising);
 
-            const certificationBadgesService = {
-              findStillValidBadgeAcquisitions: sinon.stub(),
-            };
-            certificationBadgesService.findStillValidBadgeAcquisitions.withArgs({ userId: 1234 }).resolves([]);
-
             // when
             const actualSession = await getSessionForSupervising({
               sessionId: 1,
               sessionForSupervisingRepository,
-              certificationBadgesService,
             });
 
             // then
@@ -251,20 +222,16 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
                     userId: 1234,
                     startDateTime: START_DATETIME_STUB,
                     enrolledComplementaryCertification: complementaryCertification,
-                    stillValidBadgeAcquisitions: [],
+                    isComplementaryCertificationInProgress: false,
                   }),
                 ],
               }),
             );
 
-            const certificationBadgesService = { findStillValidBadgeAcquisitions: sinon.stub() };
-            certificationBadgesService.findStillValidBadgeAcquisitions.withArgs({ userId: 1234 }).resolves([]);
-
             // when
             const actualSession = await getSessionForSupervising({
               sessionId: 1,
               sessionForSupervisingRepository,
-              certificationBadgesService,
             });
 
             // then
