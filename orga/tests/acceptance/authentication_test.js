@@ -4,8 +4,10 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import authenticateSession from '../helpers/authenticate-session';
+import setupIntl from '../helpers/setup-intl';
 import {
   createPrescriberByUser,
   createPrescriberForOrganization,
@@ -16,6 +18,7 @@ import {
 
 module('Acceptance | authentication', function (hooks) {
   setupApplicationTest(hooks);
+  setupIntl(hooks);
   setupMirage(hooks);
 
   module('When user is not logged in', function () {
@@ -262,6 +265,38 @@ module('Acceptance | authentication', function (hooks) {
 
       // then
       assert.strictEqual(currentURL(), '/campagnes/les-miennes');
+    });
+
+    module('When prescriber can access missions', function (hooks) {
+      let clock;
+      hooks.afterEach(function () {
+        clock.restore();
+      });
+
+      test('should display session status', async function (assert) {
+        const now = new Date(2024, 5, 12, 14);
+        const sessionExpirationDate = new Date(2024, 5, 12, 16);
+        clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+        const user = createPrescriberForOrganization(
+          { lang: 'fr', pixOrgaTermsOfServiceAccepted: true },
+          {
+            schoolCode: 'AZERTY',
+            sessionExpirationDate,
+          },
+          'MEMBER',
+          {
+            MISSIONS_MANAGEMENT: true,
+          },
+        );
+        await authenticateSession(user.id);
+        const screen = await visit('/');
+
+        assert.ok(
+          screen.getByText(
+            this.intl.t('navigation.school-sessions.status.active-label', { sessionExpirationDate: '16:00' }),
+          ),
+        );
+      });
     });
   });
 });

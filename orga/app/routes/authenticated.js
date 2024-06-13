@@ -2,6 +2,7 @@ import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 import get from 'lodash/get';
+import RSVP from 'rsvp';
 
 export default class AuthenticatedRoute extends Route {
   @service currentUser;
@@ -24,10 +25,15 @@ export default class AuthenticatedRoute extends Route {
 
   async model() {
     if (this.currentUser.prescriber.placesManagement) {
-      return await this.store.queryRecord('organization-place-statistic', {
-        organizationId: this.currentUser.organization.id,
+      return RSVP.hash({
+        available: this.store.queryRecord('organization-place-statistic', {
+          organizationId: this.currentUser.organization.id,
+        }),
       });
-    } else return null;
+    }
+    if (this.currentUser.canAccessMissionsPage) {
+      await this.currentUser.load();
+    }
   }
 
   @action

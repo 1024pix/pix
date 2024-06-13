@@ -51,6 +51,8 @@ const getPrescriber = async function (userId) {
 export const prescriberRepository = { getPrescriber };
 
 function _toPrescriberDomain(user, userOrgaSettings, tags, memberships, organizations, schools) {
+  const currentSchool = schools.find((school) => school.organizationId === userOrgaSettings.currentOrganizationId);
+
   return new Prescriber({
     ...user,
     memberships: memberships.map(
@@ -67,7 +69,8 @@ function _toPrescriberDomain(user, userOrgaSettings, tags, memberships, organiza
       id: userOrgaSettings.id,
       currentOrganization: new Organization({
         ...organizations.find((organization) => organization.id === userOrgaSettings.currentOrganizationId),
-        schoolCode: schools.find((school) => school.organizationId === userOrgaSettings.currentOrganizationId)?.code,
+        schoolCode: currentSchool?.code,
+        sessionExpirationDate: currentSchool?.sessionExpirationDate,
         tags: tags.map((tag) => new Tag(tag)),
       }),
     }),

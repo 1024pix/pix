@@ -1,5 +1,5 @@
 <div class="topbar">
   <Layout::OrganizationPlacesOrCreditInfo @placesCount={{@placesCount}} />
-  <Layout::SchoolSessionManagement />
-  <Layout::UserLoggedMenu class="topbar__user-logged-menu" @reloadPlaceStatistics={{@reloadPlaceStatistics}} />
+  <Layout::SchoolSessionManagement @refreshAuthenticatedModel={{@refreshAuthenticatedModel}} />
+  <Layout::UserLoggedMenu class="topbar__user-logged-menu" @refreshAuthenticatedModel={{@refreshAuthenticatedModel}} />
 </div>

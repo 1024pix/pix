@@ -181,7 +181,7 @@ describe('Integration | Team | Infrastructure | Repository | Prescriber', functi
           expect(foundPrescriber.userOrgaSettings.currentOrganization.tags[0]).to.be.instanceOf(Tag);
         });
       });
-      context('when organizations have school codes', function () {
+      context('when organization is a school', function () {
         it('should set code into organizations associated to the prescriber', async function () {
           // given
           const school = databaseBuilder.factory.buildSchool();
@@ -199,6 +199,23 @@ describe('Integration | Team | Infrastructure | Repository | Prescriber', functi
             (membership) => membership.organization.id === school.organizationId,
           );
           expect(schoolMembership.organization.schoolCode).to.equal(school.code);
+        });
+
+        it('should set sessionExpirationDate into current organization associated to the prescriber', async function () {
+          // given
+          const school = databaseBuilder.factory.buildSchool({
+            organizationId: userOrgaSettings.currentOrganizationId,
+            sessionExpirationDate: new Date('2013-03-04'),
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const foundPrescriber = await prescriberRepository.getPrescriber(user.id);
+
+          // then
+          expect(foundPrescriber.userOrgaSettings.currentOrganization.sessionExpirationDate).to.deep.equal(
+            school.sessionExpirationDate,
+          );
         });
       });
 

@@ -8,7 +8,21 @@
   margin-bottom: var(--pix-spacing-6x);
   background-color: var(--pix-neutral-0);
 
-  .button-activate-session {
-    margin-right: var(--pix-spacing-3x);
+  .school-session {
+
+    &__button {
+      margin: 0 var(--pix-spacing-3x);
+    }
+
+    &__status {
+      @extend %pix-body-s;
+
+      margin: 0 var(--pix-spacing-1x);
+      font-weight: var(--pix-font-bold);
+
+      &__icon-info {
+        width: var(--pix-spacing-6x);
+      }
+    }
   }
 }

@@ -312,7 +312,15 @@
       "number": "{count, plural, =0 {0 seat available} =1 {1 seat available} other {{count, number} seats available}}"
     },
     "school-sessions": {
-      "activate-button": "Activate session"
+      "activate-button": "Activate session",
+      "extend-button": "Extend session",
+      "status": {
+        "title": "Session status",
+        "active-label": "Active session until {sessionExpirationDate}",
+        "aria-label": "How does the session work ?",
+        "inactive-label": "Inactive session",
+        "info-text": "Students can only access missions when the session is active.'<br>'At the end of the session, students who are in the middle of a mission will not be disconnected."
+      }
     },
     "team-members": {
       "aria-label": "Team members navigation"
