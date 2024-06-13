@@ -1,8 +1,38 @@
-<div class="certification-instructions-content__images">
-  <img class="certification-instructions-content__size" src={{this.information.image}} alt="" />
-  <p class="certification-instructions-content-images__image-text">{{this.information.imageText}}</p>
-</div>
-<div class="certification-instructions__content">
-  <p>{{this.information.text}}</p>
-  <p>{{this.information.secondText}}</p>
+<div class="instructions-content-with-images">
+  <div class="instructions-content-with-images__legend">
+    <img
+      class="instructions-content__image"
+      src="/images/illustrations/certification-instructions-steps/clock.svg"
+      alt=""
+    />
+    <p>
+      <span class="instructions-content-with-images__legend--bold">
+        {{t "pages.certification-instructions.steps.2.legend.strong-text"}}
+      </span>
+
+      {{t "pages.certification-instructions.steps.2.legend.text"}}
+    </p>
+  </div>
+
+  <div class="instructions-content-step-two">
+    <h3 class="instructions-content__title--bold">
+      {{t "pages.certification-instructions.steps.2.paragraphs.1.question"}}
+    </h3>
+
+    <p class="instructions-content-step-two__paragraph">
+      {{t "pages.certification-instructions.steps.2.paragraphs.1.text" htmlSafe=true}}
+    </p>
+
+    <h3 class="instructions-content__title--bold">
+      {{t "pages.certification-instructions.steps.2.paragraphs.2.question"}}
+    </h3>
+    <p>
+      {{t "pages.certification-instructions.steps.2.paragraphs.2.text" htmlSafe=true}}
+
+      <br />
+      <span class="instructions-content__text--light">
+        {{t "pages.certification-instructions.steps.2.paragraphs.2.light-text"}}
+      </span>
+    </p>
+  </div>
 </div>

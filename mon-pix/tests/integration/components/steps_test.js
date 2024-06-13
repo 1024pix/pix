@@ -44,12 +44,13 @@ module('Integration | Component | steps', function (hooks) {
         assert
           .dom(screen.getByRole('heading', { name: 'Comment se passe le test de certification ?', level: 2 }))
           .exists();
+        assert.dom(screen.getByRole('heading', { name: 'Le nombre de questions ?', level: 3 })).exists();
+        assert.dom(screen.getByRole('heading', { name: 'La durée du test ?', level: 3 })).exists();
         const images = screen.getAllByRole('img');
         assert.strictEqual(
           images[0].getAttribute('src'),
           '/images/illustrations/certification-instructions-steps/clock.svg',
         );
-        assert.dom(screen.getByText('Le nombre de question ?')).exists();
       });
     });
 

@@ -445,7 +445,6 @@
       "steps": {
         "1": {
           "title": "Bienvenue à la certification Pix",
-
           "paragraphs": {
             "1": {
               "text": "'<strong>'Il s'agit d'un test adaptatif'</strong>'. C’est-à-dire, que votre capacité à répondre correctement (ou non) aux questions détermine en temps réel la difficulté des questions suivantes."
@@ -461,9 +460,21 @@
         },
         "2": {
           "title": "Comment se passe le test de certification ?",
-          "image-text": "'<span class=\"certification-instructions__question--bold\">'32 QUESTIONS'</span>' '<br>' 1 H 45 min",
-          "second-text": "'<span class=\"certification-instructions__question--bold\">'La durée du test ?'</span>' '<br>' Vous avez au maximum '<span class=\"certification-instructions__text--bold\">'1h45*'</span>'. '<br>' '<span class=\"certification-instructions__text--light\">'*sauf éventuel temps majoré.'</span>'",
-          "text": "'<span class=\"certification-instructions__question--bold\">'Le nombre de question ?'</span>' '<br>' La certification contient '<span class=\"certification-instructions__text--bold\">'32 questions'</span>'."
+          "legend": {
+            "strong-text": "32 QUESTIONS",
+            "text": "1 H 45 min"
+          },
+          "paragraphs": {
+            "1": {
+              "question": "Le nombre de questions ?",
+              "text": "La certification contient '<strong>'32 questions'</strong>'."
+            },
+            "2": {
+              "light-text": "*sauf éventuel temps majoré.",
+              "question": "La durée du test ?",
+              "text": "Vous avez au maximum '<strong>'1h45*'</strong>'."
+            }
+          }
         },
         "3": {
           "title": "Deux modes de questions",
