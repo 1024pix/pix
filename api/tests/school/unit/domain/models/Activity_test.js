@@ -59,11 +59,11 @@ describe('Unit | domain | Activity', function () {
     context('when level is TUTORIAL', function () {
       it('return true', function () {
         const activity = new Activity({ level: 'TUTORIAL' });
-        expect(activity.isLevel(Activity.levels.TUTORIAL)).to.be.true;
+        expect(activity.hasLevel(Activity.levels.TUTORIAL)).to.be.true;
       });
       it('return false', function () {
         const activity = new Activity({ level: 'VALIDATION' });
-        expect(activity.isLevel(Activity.levels.TUTORIAL)).to.be.false;
+        expect(activity.hasLevel(Activity.levels.TUTORIAL)).to.be.false;
       });
     });
   });
