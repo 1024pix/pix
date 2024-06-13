@@ -8,7 +8,7 @@ const START_DATETIME_STUB = new Date('2022-10-01T13:00:00Z');
 const COMPLEMENTARY_EXTRATIME_STUB = 45;
 const sessionForSupervisingRepository = { get: sinon.stub() };
 
-const expectedSessionEndDateTimeFromStartDateTime = (startDateTime, extraMinutes = []) => {
+const _expectedSessionEndDateTimeFromStartDateTime = (startDateTime, extraMinutes = []) => {
   let computedEndDateTime = dayjs(startDateTime);
   extraMinutes.forEach((plusMinutes) => {
     computedEndDateTime = computedEndDateTime.add(plusMinutes, 'minute');
@@ -28,7 +28,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
           const session = domainBuilder.buildSessionForSupervising({
             certificationCandidates: [certificationCandidateNotStarted],
           });
-          sessionForSupervisingRepository.get.resolves(session);
+          sessionForSupervisingRepository.get.withArgs({ id: 1 }).resolves(session);
 
           // when
           const sessionForSupervising = await getSessionForSupervising({
@@ -55,7 +55,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
             const session = domainBuilder.buildSessionForSupervising({
               certificationCandidates: [certificationCandidateWithNoComplementaryCertification],
             });
-            sessionForSupervisingRepository.get.resolves(session);
+            sessionForSupervisingRepository.get.withArgs({ id: 1 }).resolves(session);
             const expectedTheoricalEndDateTime = dayjs(
               certificationCandidateWithNoComplementaryCertification.startDateTime,
             )
@@ -107,7 +107,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
               ],
             });
 
-            sessionForSupervisingRepository.get.resolves(retrievedSessionForSupervising);
+            sessionForSupervisingRepository.get.withArgs({ id: 1 }).resolves(retrievedSessionForSupervising);
 
             const certificationBadgesService = {
               findStillValidBadgeAcquisitions: sinon.stub(),
@@ -130,7 +130,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
                   domainBuilder.buildCertificationCandidateForSupervising({
                     userId: 1234,
                     startDateTime: START_DATETIME_STUB,
-                    theoricalEndDateTime: expectedSessionEndDateTimeFromStartDateTime(START_DATETIME_STUB, [
+                    theoricalEndDateTime: _expectedSessionEndDateTimeFromStartDateTime(START_DATETIME_STUB, [
                       DEFAULT_SESSION_DURATION_MINUTES,
                       COMPLEMENTARY_EXTRATIME_STUB,
                     ]),
@@ -152,7 +152,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
               certificationExtraTime: COMPLEMENTARY_EXTRATIME_STUB,
             });
 
-            sessionForSupervisingRepository.get.resolves(
+            sessionForSupervisingRepository.get.withArgs({ id: 1 }).resolves(
               domainBuilder.buildSessionForSupervising({
                 certificationCandidates: [
                   domainBuilder.buildCertificationCandidateForSupervising({
@@ -181,7 +181,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
             expect(actualSession.certificationCandidates).to.have.lengthOf(1);
             expect(actualSession.certificationCandidates[0].startDateTime).to.deep.equal(START_DATETIME_STUB);
             expect(actualSession.certificationCandidates[0].theoricalEndDateTime).to.deep.equal(
-              expectedSessionEndDateTimeFromStartDateTime(START_DATETIME_STUB, [
+              _expectedSessionEndDateTimeFromStartDateTime(START_DATETIME_STUB, [
                 DEFAULT_SESSION_DURATION_MINUTES,
                 COMPLEMENTARY_EXTRATIME_STUB,
               ]),
@@ -204,7 +204,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
               ],
             });
 
-            sessionForSupervisingRepository.get.resolves(retrievedSessionForSupervising);
+            sessionForSupervisingRepository.get.withArgs({ id: 1 }).resolves(retrievedSessionForSupervising);
 
             const certificationBadgesService = {
               findStillValidBadgeAcquisitions: sinon.stub(),
@@ -225,7 +225,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
                   domainBuilder.buildCertificationCandidateForSupervising({
                     userId: 1234,
                     startDateTime: START_DATETIME_STUB,
-                    theoricalEndDateTime: expectedSessionEndDateTimeFromStartDateTime(START_DATETIME_STUB, [
+                    theoricalEndDateTime: _expectedSessionEndDateTimeFromStartDateTime(START_DATETIME_STUB, [
                       DEFAULT_SESSION_DURATION_MINUTES,
                     ]),
                     enrolledComplementaryCertification: complementaryCertification,
@@ -244,7 +244,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
               certificationExtraTime: COMPLEMENTARY_EXTRATIME_STUB,
             });
 
-            sessionForSupervisingRepository.get.resolves(
+            sessionForSupervisingRepository.get.withArgs({ id: 1 }).resolves(
               domainBuilder.buildSessionForSupervising({
                 certificationCandidates: [
                   domainBuilder.buildCertificationCandidateForSupervising({
@@ -271,7 +271,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
             expect(actualSession.certificationCandidates).to.have.lengthOf(1);
             expect(actualSession.certificationCandidates[0].startDateTime).to.deep.equal(START_DATETIME_STUB);
             expect(actualSession.certificationCandidates[0].theoricalEndDateTime).to.deep.equal(
-              expectedSessionEndDateTimeFromStartDateTime(START_DATETIME_STUB, [DEFAULT_SESSION_DURATION_MINUTES]),
+              _expectedSessionEndDateTimeFromStartDateTime(START_DATETIME_STUB, [DEFAULT_SESSION_DURATION_MINUTES]),
             );
           });
         });
