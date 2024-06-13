@@ -1,4 +1,8 @@
-<Card class="admin-form__card" @title="Évaluation (campagne ou positionnement)">
+<Card
+  class="admin-form__card"
+  @title="Évaluation (campagne ou positionnement)"
+  {{did-insert this.loadParamsFromCampaignIdSearchQuery}}
+>
 
   <div class="load-campaign-params">
 

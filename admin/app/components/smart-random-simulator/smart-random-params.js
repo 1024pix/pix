@@ -79,6 +79,16 @@ export default class SmartRandomParams extends Component {
   }
 
   @action
+  loadParamsFromCampaignIdSearchQuery() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const campaignIdSearchQuery = urlParams.get('campaignId');
+    if (campaignIdSearchQuery) {
+      this.campaignId = campaignIdSearchQuery;
+      this.loadCampaignParams();
+    }
+  }
+
+  @action
   updateJsonFieldValue(key, event) {
     const value = event.target.value;
     delete this.errors[key];
