@@ -80,6 +80,7 @@
         "already-exists": "Cette adresse e-mail est déjà enregistrée, connectez-vous.",
         "format": "Le champ adresse e-mail n’est pas valide."
       },
+      "fill-mandatory-fields": "Veuillez remplir tous les champs obligatoires avant de valider.",
       "firstname": {
         "mandatory": "Le champ prénom est obligatoire."
       },

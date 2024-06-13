@@ -86,6 +86,29 @@ module('Acceptance | Session Update', function (hooks) {
     });
   });
 
+  module('when user tries to confirm form without filling mandatory fields', function () {
+    test('should display error notification', async function (assert) {
+      // given
+      const session = server.create('session-enrolment', {
+        address: ' ',
+        room: 'Salle 3',
+        time: '14:00:00',
+        date: '2020-01-01',
+        examiner: 'George',
+      });
+      server.create('session-management', {
+        id: session.id,
+      });
+      const screen = await visit(`/sessions/${session.id}/modification`);
+
+      // when
+      await click(screen.getByRole('button', { name: 'Modifier la session' }));
+
+      // then
+      assert.dom(screen.getByText(t('common.form-errors.fill-mandatory-fields'))).exists();
+    });
+  });
+
   test('it should fill the updating form with the current values of the session', async function (assert) {
     // given
     const session = server.create('session-enrolment', { time: '14:00:00', date: '2020-01-01' });

@@ -29,7 +29,8 @@ export default class SessionsNewController extends Controller {
   @action
   async createSession(event) {
     event.preventDefault();
-    if (this.checkMissingSessionFields()) return;
+    if (this.checkMissingSessionFields())
+      return this.notifications.error(this.intl.t('common.form-errors.fill-mandatory-fields'));
     try {
       await this.session.save();
     } catch (responseError) {

@@ -86,6 +86,37 @@ module('Acceptance | Session creation', function (hooks) {
       });
     });
 
+    module('when user tries to confirm form without filling mandatory fields', function () {
+      test('should display error notification', async function (assert) {
+        // given
+        const screen = await visit('/sessions/creation');
+        await fillIn(
+          screen.getByRole('textbox', {
+            name: `${t('common.forms.required')} ${t('common.forms.session-labels.center-name')}`,
+          }),
+          ' ',
+        );
+        await fillIn(
+          screen.getByRole('textbox', {
+            name: `${t('common.forms.required')} ${t('common.forms.session-labels.room-name')}`,
+          }),
+          ' ',
+        );
+        await fillIn(
+          screen.getByRole('textbox', {
+            name: `${t('common.forms.required')} ${t('common.forms.session-labels.invigilator')}`,
+          }),
+          ' ',
+        );
+
+        // when
+        await click(screen.getByRole('button', { name: t('pages.sessions.new.actions.create-session') }));
+
+        // then
+        assert.dom(screen.getByText(t('common.form-errors.fill-mandatory-fields'))).exists();
+      });
+    });
+
     test('it should create a session and redirect to session details', async function (assert) {
       // given
       const sessionDate = '2029-12-25';
