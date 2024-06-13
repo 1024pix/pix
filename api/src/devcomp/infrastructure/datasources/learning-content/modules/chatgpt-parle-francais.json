@@ -62,9 +62,9 @@
           "element": {
             "id": "e2c5ab9f-b834-4e34-b9e4-361c9942f5a5",
             "type": "image",
-            "url": "https://i.imgur.com/wJ7QFDA.jpeg",
+            "url": "https://i.imgur.com/wPgGbVX.png",
             "alt": "Dessin détaillé dans l'alternative textuelle",
-            "alternativeText": "<ul><li>Vous<br>peux tu faire un jeu de mots ?</li><li>ChatGPT<br>Bien sûr, voici un jeu de mots pour vous :<br>Pourquoi les poissons n'utilisent-ils pas d'ordinateurs ?<br>Parce qu'ils ont peur du net !</li></ul>"
+            "alternativeText": "<ul><li>Vous<br>Peux-tu faire un jeu de mots ?</li><li>ChatGPT<br>Bien sûr, voici un jeu de mots pour vous :<br>Pourquoi les poissons n'utilisent-ils pas d'ordinateurs ?<br>Parce qu'ils ont peur du net !</li></ul>"
           }
         },
         {
@@ -149,7 +149,7 @@
           {
           "id": "475cd5d7-e113-4c7d-9aaf-5a4cec02844b",
           "type": "image",
-          "url": "https://i.imgur.com/QfyMQ0y.png",
+          "url": "https://i.imgur.com/4izD9is.png",
           "alt": "",
           "alternativeText": ""
           }
@@ -223,7 +223,7 @@
           {
             "id": "e53de197-48ce-4af7-be65-dc75139b391c",
             "type": "image",
-            "url": "https://i.imgur.com/wwVt6p8.png",
+            "url": "https://i.imgur.com/UNO1Jkg.png",
             "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
             "alternativeText": "<p>Prompt : Quel est le jour de la fête nationale ?</p><p>PixGPT : La fête nationale de la France aussi connue sous le nom de la Bastille Day est célébrée le 14 juillet. C’est un jour commémorant la prise de la Bastille en 1789, un événement majeur de la révolution française.</p>"
           }
@@ -277,7 +277,7 @@
             {
               "id": "dc202072-43a0-4478-936e-5b3d4f3360c2",
               "type": "image",
-              "url": "",
+              "url": "https://i.imgur.com/EAkfnRA.png",
               "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
               "alternativeText": "<p>Prompt : J’écris un roman. J’ai besoin que tu crées un personnage. Son activité principale est de faire le ménage chez les gens.<br>PixGPT: Claire, une femme minutieuse et discrète de 40 ans, consacre ses journées à apporter ordre et propreté dans les foyers de ses clients, veillant à chaque détail avec un soin exceptionnel.</p>"
             }
@@ -332,7 +332,7 @@
             {
               "id": "58ca3642-557a-41f3-ade4-60bf78fea803",
               "type": "image",
-              "url": "",
+              "url": "https://i.imgur.com/nzL3BgW.png",
               "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
               "alternativeText": "<p>Prompt : Je suis Verseau. Comment ma journée va-t-elle se passer ?<br>PixGPT:  En tant que Verseau, attendez-vous à une journée pleine de surprises stimulantes et de nouvelles opportunités pour exprimer votre créativité.</p>"
             }
