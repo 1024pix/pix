@@ -222,6 +222,102 @@ module('Integration | Component | Module | Stepper', function (hooks) {
       });
     });
 
+    module('When stepper contains unsupported elements', function () {
+      module('When there is no supported elements in one step', function () {
+        test('should not display the Step', async function (assert) {
+          // given
+          const steps = [
+            {
+              elements: [
+                {
+                  id: '768441a5-a7d6-4987-ada9-7253adafd842',
+                  type: 'unknown',
+                  content: 'content',
+                },
+              ],
+            },
+            {
+              elements: [
+                {
+                  id: 'd0690f26-978c-41c3-9a21-da931857739c',
+                  type: 'text',
+                  content: '<p>Text 2</p>',
+                  isAnswerable: false,
+                },
+              ],
+            },
+          ];
+          function getLastCorrectionForElementStub() {}
+
+          const store = this.owner.lookup('service:store');
+          const passage = store.createRecord('passage');
+
+          // when
+          const screen = await render(
+            <template>
+              <ModulixStepper
+                @passage={{passage}}
+                @steps={{steps}}
+                @getLastCorrectionForElement={{getLastCorrectionForElementStub}}
+              />
+            </template>,
+          );
+
+          // then
+          assert.strictEqual(screen.getAllByRole('heading', { level: 3 }).length, 1);
+          assert.dom(screen.getByRole('heading', { level: 3, name: 'Étape 1 sur 1' })).exists();
+          assert
+            .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.stepper.next') }))
+            .doesNotExist();
+        });
+      });
+
+      module('When there are no supported elements at all', function () {
+        test('should not display the Stepper', async function (assert) {
+          // given
+          const steps = [
+            {
+              elements: [
+                {
+                  id: '768441a5-a7d6-4987-ada9-7253adafd842',
+                  type: 'unknown',
+                  content: 'content',
+                },
+              ],
+            },
+            {
+              elements: [
+                {
+                  id: 'd0690f26-978c-41c3-9a21-da931857739c',
+                  type: 'unknown',
+                  content: '<p>Text 2</p>',
+                },
+              ],
+            },
+          ];
+          function getLastCorrectionForElementStub() {}
+
+          const store = this.owner.lookup('service:store');
+          const passage = store.createRecord('passage');
+
+          // when
+          const screen = await render(
+            <template>
+              <ModulixStepper
+                @passage={{passage}}
+                @steps={{steps}}
+                @getLastCorrectionForElement={{getLastCorrectionForElementStub}}
+              />
+            </template>,
+          );
+
+          // then
+          assert.strictEqual(screen.queryAllByRole('heading', { level: 3 }).length, 0);
+          assert.dom(screen.queryByRole('heading', { level: 3, name: 'Étape 1 sur 1' })).doesNotExist();
+        });
+      });
+    });
+
     module('When user clicks on the Next button', function () {
       test('should display the next step', async function (assert) {
         // given

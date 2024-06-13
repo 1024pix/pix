@@ -12,15 +12,23 @@
   </div>
   <div class="grain__card grain-card--{{this.grainType}}">
     <div class="grain-card__content">
-      {{#each this.displayableElements as |element|}}
-        <div class="grain-card-content__element">
-          <Module::Element
-            @element={{element}}
-            @submitAnswer={{@submitAnswer}}
-            @retryElement={{@retryElement}}
+      {{#each this.displayableComponents as |component|}}
+        {{#if (eq component.type "element")}}
+          <div class="grain-card-content__element">
+            <Module::Element
+              @element={{component.element}}
+              @submitAnswer={{@submitAnswer}}
+              @retryElement={{@retryElement}}
+              @getLastCorrectionForElement={{this.getLastCorrectionForElement}}
+            />
+          </div>
+        {{else if (eq component.type "stepper")}}
+          <Module::Stepper
+            @steps={{component.steps}}
+            @passage={{@passage}}
             @getLastCorrectionForElement={{this.getLastCorrectionForElement}}
           />
-        </div>
+        {{/if}}
       {{/each}}
     </div>
 

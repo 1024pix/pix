@@ -60,8 +60,8 @@ module('Integration | Component | Module | Passage', function (hooks) {
           element: nonExistingElement1,
         },
         {
-          type: 'element',
-          element: nonExistingElement2,
+          type: 'stepper',
+          steps: [{ elements: [nonExistingElement2] }],
         },
       ];
       const grain = store.createRecord('grain', { id: 'grainId1', components });

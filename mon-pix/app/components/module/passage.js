@@ -10,7 +10,7 @@ export default class ModulePassage extends Component {
   @service metrics;
   @service store;
 
-  displayableGrains = this.args.module.grains.filter((grain) => ModuleGrain.getSupportedElements(grain).length > 0);
+  displayableGrains = this.args.module.grains.filter((grain) => ModuleGrain.getSupportedComponents(grain).length > 0);
   @tracked grainsToDisplay = this.displayableGrains.length > 0 ? [this.displayableGrains[0]] : [];
 
   static SCROLL_OFFSET_PX = 70;

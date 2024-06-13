@@ -56,4 +56,58 @@ module('Integration | Component | Module | Step', function (hooks) {
       assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).exists();
     });
   });
+
+  module('unsupported element', function () {
+    module('when there is no supported elements', function () {
+      test('should not display a step', async function (assert) {
+        // given
+        const element = {
+          id: '768441a5-a7d6-4987-ada9-7253adafd842',
+          type: 'unknown',
+          content: 'content',
+        };
+        const step = {
+          elements: [element],
+        };
+
+        // when
+        const screen = await render(
+          <template><ModulixStep @step={{step}} @currentStep={{1}} @totalSteps={{4}} /></template>,
+        );
+
+        // then
+        assert.dom(screen.queryByText(element.content)).doesNotExist();
+        assert.dom(screen.queryByRole('heading', { name: 'Étape 1 sur 4', level: 3 })).doesNotExist();
+      });
+    });
+
+    module('when one of the elements is not supported', function () {
+      test('should not display this element', async function (assert) {
+        // given
+        const unknownElement = {
+          id: '768441a5-a7d6-4987-ada9-7253adafd842',
+          type: 'unknown',
+          content: 'content',
+        };
+        const textElement = {
+          id: 'd0690f26-978c-41c3-9a21-da931857739c',
+          content: 'Instruction',
+          type: 'text',
+        };
+        const step = {
+          elements: [unknownElement, textElement],
+        };
+
+        // when
+        const screen = await render(
+          <template><ModulixStep @step={{step}} @currentStep={{1}} @totalSteps={{4}} /></template>,
+        );
+
+        // then
+        assert.dom(screen.getByText(textElement.content)).exists();
+        assert.dom(screen.queryByText(unknownElement.content)).doesNotExist();
+        assert.dom(screen.getByRole('heading', { name: 'Étape 1 sur 4', level: 3 })).exists();
+      });
+    });
+  });
 });

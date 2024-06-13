@@ -18,6 +18,7 @@ Fonctionnalité: Accessibilité de Modulix
     Quand je vais au grain suivant
     Quand je vais au grain suivant
     Quand je vais au grain suivant
+    Quand je vais au grain suivant
     Alors la page devrait être accessible
     Quand je clique sur "Terminer"
     Et que j'attends 500 ms
