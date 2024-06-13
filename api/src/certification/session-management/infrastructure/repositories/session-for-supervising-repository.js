@@ -46,7 +46,8 @@ const get = async function ({ id }) {
             'key', "complementary-certifications"."key",
             'label', "complementary-certifications"."label",
             'certificationExtraTime', "complementary-certifications"."certificationExtraTime"
-          )
+          ),
+          'complementaryCertificationCourseId', "complementary-certification-courses".id
         ) order by "ongoing-live-alerts".status, lower("certification-candidates"."lastName"), lower("certification-candidates"."firstName"))
     `),
     })
@@ -66,6 +67,11 @@ const get = async function ({ id }) {
       'complementary-certifications',
       'complementary-certifications.id',
       'certification-subscriptions.complementaryCertificationId',
+    )
+    .leftJoin(
+      'complementary-certification-courses',
+      'complementary-certification-courses.certificationCourseId',
+      'certification-courses.id',
     )
     .leftJoin('ongoing-live-alerts', 'ongoing-live-alerts.assessmentId', 'assessments.id')
     .groupBy('sessions.id')
@@ -90,6 +96,7 @@ function _buildCertificationCandidateForSupervising(candidateDto) {
   return new CertificationCandidateForSupervising({
     ...candidateDto,
     enrolledComplementaryCertification: _toDomainComplementaryCertification(candidateDto.complementaryCertification),
+    isComplementaryCertificationInProgress: Boolean(candidateDto.complementaryCertificationCourseId),
   });
 }
 

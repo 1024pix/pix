@@ -179,6 +179,11 @@ describe('Integration | Repository | SessionForSupervising', function () {
           firstName: 'Janet',
           sessionId: session.id,
         });
+        const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
+          id: 9998,
+          sessionId: session.id,
+          userId: 11111,
+        });
         databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: certificationCandidate.id });
 
         databaseBuilder.factory.buildUser({ id: 22222 });
@@ -201,6 +206,20 @@ describe('Integration | Repository | SessionForSupervising', function () {
           complementaryCertificationId: complementaryCertification.id,
         });
 
+        databaseBuilder.factory.buildUser({ id: 22222 });
+        const candidateB = databaseBuilder.factory.buildCertificationCandidate({
+          userId: 22222,
+          lastName: 'Joplin',
+          firstName: 'Janis',
+          sessionId: session.id,
+        });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateB.id });
+        databaseBuilder.factory.buildCertificationCourse({
+          id: 9999,
+          sessionId: session.id,
+          userId: 22222,
+        });
+
         await databaseBuilder.commit();
 
         // when
@@ -208,7 +227,14 @@ describe('Integration | Repository | SessionForSupervising', function () {
 
         // then
         const actualCandidates = _.map(actualSession.certificationCandidates, (item) =>
-          _.pick(item, ['userId', 'sessionId', 'lastName', 'firstName', 'enrolledComplementaryCertification']),
+          _.pick(item, [
+            'userId',
+            'sessionId',
+            'lastName',
+            'firstName',
+            'enrolledComplementaryCertification',
+            'isComplementaryCertificationInProgress',
+          ]),
         );
 
         expect(actualCandidates).to.have.deep.ordered.members([
@@ -216,6 +242,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
             userId: 11111,
             lastName: 'Jackson',
             firstName: 'Janet',
+            isComplementaryCertificationInProgress: true,
             enrolledComplementaryCertification: {
               key: complementaryCertification.key,
               label: complementaryCertification.label,
@@ -226,6 +253,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
             userId: 22222,
             lastName: 'Joplin',
             firstName: 'Janis',
+            isComplementaryCertificationInProgress: false,
             enrolledComplementaryCertification: null,
           },
         ]);
