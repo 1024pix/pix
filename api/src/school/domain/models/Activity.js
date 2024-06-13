@@ -74,6 +74,10 @@ class Activity {
   hasLevel(level) {
     return this.level === level;
   }
+
+  hasStepIndex(stepIndex) {
+    return this.stepIndex === stepIndex;
+  }
 }
 
 Activity.levels = levels;
