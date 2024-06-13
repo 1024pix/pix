@@ -1,6 +1,6 @@
 import { userController } from '../../../../src/identity-access-management/application/user/user.controller.js';
+import { User } from '../../../../src/identity-access-management/domain/models/User.js';
 import { usecases } from '../../../../src/identity-access-management/domain/usecases/index.js';
-import { User } from '../../../../src/shared/domain/models/User.js';
 import * as requestResponseUtils from '../../../../src/shared/infrastructure/utils/request-response-utils.js';
 import { expect, hFake, sinon } from '../../../test-helper.js';
 
@@ -133,6 +133,54 @@ describe('Unit | Identity Access Management | Application | Controller | User', 
           expect(response.statusCode).to.equal(201);
         });
       });
+    });
+  });
+
+  describe('#updatePassword', function () {
+    const userId = 7;
+    const userPassword = 'Pix2017!';
+    const userTemporaryKey = 'good-temporary-key';
+    const payload = {
+      data: {
+        attributes: {
+          password: userPassword,
+        },
+      },
+    };
+    const request = {
+      params: {
+        id: userId,
+      },
+      query: {
+        'temporary-key': userTemporaryKey,
+      },
+      payload,
+    };
+
+    beforeEach(function () {
+      sinon.stub(usecases, 'updateUserPassword');
+    });
+
+    it('updates password', async function () {
+      // given
+      userSerializer.deserialize.withArgs(payload).returns({
+        password: userPassword,
+        temporaryKey: userTemporaryKey,
+      });
+      usecases.updateUserPassword
+        .withArgs({
+          userId,
+          password: userPassword,
+          temporaryKey: userTemporaryKey,
+        })
+        .resolves({});
+      userSerializer.serialize.withArgs({}).returns('ok');
+
+      // when
+      const response = await userController.updatePassword(request, hFake, { userSerializer });
+
+      // then
+      expect(response).to.be.equal('ok');
     });
   });
 });

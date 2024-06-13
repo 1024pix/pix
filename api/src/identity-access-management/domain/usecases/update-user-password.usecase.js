@@ -1,6 +1,19 @@
-import { UserNotAuthorizedToUpdatePasswordError } from '../errors.js';
+import { UserNotAuthorizedToUpdatePasswordError } from '../../../shared/domain/errors.js';
 
-const updateUserPassword = async function ({
+/**
+ * @param {{
+ *   userId: string,
+ *   password: string,
+ *   temporaryKey: string,
+ *   cryptoService: CryptoService,
+ *   resetPasswordService: ResetPasswordService,
+ *   authenticationMethodRepository: AuthenticationMethodRepository,
+ *   userRepository: UserRepository,
+ * }} params
+ * @return {Promise<*>}
+ * @throws {UserNotAuthorizedToUpdatePasswordError}
+ */
+export const updateUserPassword = async function ({
   userId,
   password,
   temporaryKey,
@@ -23,8 +36,8 @@ const updateUserPassword = async function ({
     hashedPassword,
   });
   await resetPasswordService.invalidateOldResetPasswordDemand(user.email);
+  user.markEmailAsValid();
+  await userRepository.update(user.mapToDatabaseDto());
 
   return updatedUser;
 };
-
-export { updateUserPassword };

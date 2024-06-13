@@ -1,7 +1,7 @@
 import lodash from 'lodash';
 
-import * as userRepository from '../../../../src/shared/infrastructure/repositories/user-repository.js';
-import { createServer, domainBuilder, expect, nock } from '../../../test-helper.js';
+import * as userRepository from '../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
+import { createServer, databaseBuilder, domainBuilder, expect, knex, nock } from '../../../test-helper.js';
 
 const { pick } = lodash;
 
@@ -164,4 +164,78 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
       });
     });
   });
+
+  describe('PATCH /api/users/{id}/password-update', function () {
+    const temporaryKey = 'good-temporary-key';
+    let options, user;
+
+    beforeEach(async function () {
+      user = databaseBuilder.factory.buildUser.withRawPassword({
+        email: 'harry.cover@truc.so',
+        rawPassword: 'Password2020',
+      });
+      await databaseBuilder.commit();
+      await _insertPasswordResetDemand(temporaryKey, user.email);
+    });
+
+    describe('Error case', function () {
+      context('when temporary key is invalid', function () {
+        it('replies with an error', async function () {
+          // given
+          options = {
+            method: 'PATCH',
+            url: `/api/users/${user.id}/password-update?temporary-key=bad-temporary-key`,
+            payload: {
+              data: {
+                id: user.id,
+                attributes: {
+                  password: 'Password2021',
+                },
+              },
+            },
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(404);
+        });
+      });
+    });
+
+    describe('Success case', function () {
+      const newPassword = 'Password2021';
+
+      beforeEach(function () {
+        options = {
+          method: 'PATCH',
+          url: `/api/users/${user.id}/password-update?temporary-key=${temporaryKey}`,
+          payload: {
+            data: {
+              id: user.id,
+              attributes: {
+                password: newPassword,
+              },
+            },
+          },
+        };
+      });
+
+      context('when password is updated', function () {
+        it('replies with 200 status code', async function () {
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(200);
+        });
+      });
+    });
+  });
 });
+
+function _insertPasswordResetDemand(temporaryKey, email) {
+  const resetDemandRaw = { email, temporaryKey };
+  return knex('reset-password-demands').insert(resetDemandRaw);
+}

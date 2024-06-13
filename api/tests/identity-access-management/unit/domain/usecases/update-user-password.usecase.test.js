@@ -1,12 +1,10 @@
-import {
-  PasswordResetDemandNotFoundError,
-  UserNotAuthorizedToUpdatePasswordError,
-} from '../../../../lib/domain/errors.js';
-import { updateUserPassword } from '../../../../lib/domain/usecases/update-user-password.js';
-import { User } from '../../../../src/shared/domain/models/User.js';
-import { catchErr, expect, sinon } from '../../../test-helper.js';
+import { PasswordResetDemandNotFoundError } from '../../../../../lib/domain/errors.js';
+import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
+import { updateUserPassword } from '../../../../../src/identity-access-management/domain/usecases/update-user-password.usecase.js';
+import { UserNotAuthorizedToUpdatePasswordError } from '../../../../../src/shared/domain/errors.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | update-user-password', function () {
+describe('Unit | Identity Access Management | Domain | UseCase | update-user-password', function () {
   const userId = 1;
   const user = new User({
     id: userId,
@@ -33,6 +31,7 @@ describe('Unit | UseCase | update-user-password', function () {
     };
     userRepository = {
       get: sinon.stub(),
+      update: sinon.stub(),
     };
 
     cryptoService.hashPassword.resolves();
@@ -43,7 +42,7 @@ describe('Unit | UseCase | update-user-password', function () {
     userRepository.get.resolves(user);
   });
 
-  it('should get user by his id', async function () {
+  it('retrieves user by his id', async function () {
     // when
     await updateUserPassword({
       password,
@@ -59,26 +58,28 @@ describe('Unit | UseCase | update-user-password', function () {
     expect(userRepository.get).to.have.been.calledWithExactly(userId);
   });
 
-  it('should throw a UserNotAuthorizedToUpdatePasswordError when user does not have an email', async function () {
-    // given
-    userRepository.get.resolves({ email: undefined });
+  context('when user does not have an email', function () {
+    it('throws a UserNotAuthorizedToUpdatePasswordError', async function () {
+      // given
+      userRepository.get.resolves({ email: undefined });
 
-    // when
-    const error = await catchErr(updateUserPassword)({
-      password,
-      userId,
-      temporaryKey,
-      cryptoService,
-      resetPasswordService,
-      authenticationMethodRepository,
-      userRepository,
+      // when
+      const error = await catchErr(updateUserPassword)({
+        password,
+        userId,
+        temporaryKey,
+        cryptoService,
+        resetPasswordService,
+        authenticationMethodRepository,
+        userRepository,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(UserNotAuthorizedToUpdatePasswordError);
     });
-
-    // then
-    expect(error).to.be.instanceOf(UserNotAuthorizedToUpdatePasswordError);
   });
 
-  it('should check if user has a current password reset demand', async function () {
+  it('checks if user has a current password reset demand', async function () {
     // when
     await updateUserPassword({
       password,
@@ -97,7 +98,7 @@ describe('Unit | UseCase | update-user-password', function () {
     );
   });
 
-  it('should update user password with a hashed password', async function () {
+  it('updates user password with a hashed password', async function () {
     const hashedPassword = 'ABCD1234';
     cryptoService.hashPassword.resolves(hashedPassword);
 
@@ -120,7 +121,7 @@ describe('Unit | UseCase | update-user-password', function () {
     });
   });
 
-  it('should invalidate current password reset demand (mark as being used)', async function () {
+  it('invalidates current password reset demand (mark as being used)', async function () {
     // when
     await updateUserPassword({
       password,
@@ -136,8 +137,8 @@ describe('Unit | UseCase | update-user-password', function () {
     expect(resetPasswordService.invalidateOldResetPasswordDemand).to.have.been.calledWithExactly(user.email);
   });
 
-  describe('When user has not a current password reset demand', function () {
-    it('should return PasswordResetDemandNotFoundError', async function () {
+  context('When user has not a current password reset demand', function () {
+    it('throws a PasswordResetDemandNotFoundError', async function () {
       // given
       resetPasswordService.hasUserAPasswordResetDemandInProgress
         .withArgs(user.email, temporaryKey)
@@ -157,5 +158,25 @@ describe('Unit | UseCase | update-user-password', function () {
       // then
       expect(error).to.be.an.instanceOf(PasswordResetDemandNotFoundError);
     });
+  });
+
+  it('updates user attribute "emailConfirmedAt"', async function () {
+    // given
+    const user = domainBuilder.buildUser();
+    userRepository.get.resolves(user);
+
+    // when
+    await updateUserPassword({
+      password,
+      userId,
+      temporaryKey,
+      cryptoService,
+      resetPasswordService,
+      authenticationMethodRepository,
+      userRepository,
+    });
+
+    // then
+    expect(userRepository.update).to.have.been.calledWithExactly(user.mapToDatabaseDto());
   });
 });

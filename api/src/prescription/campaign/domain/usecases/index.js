@@ -10,10 +10,10 @@ import * as learningContentRepository from '../../../../../lib/infrastructure/re
 import * as membershipRepository from '../../../../../lib/infrastructure/repositories/membership-repository.js';
 import * as stageCollectionRepository from '../../../../../lib/infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
 import * as badgeRepository from '../../../../evaluation/infrastructure/repositories/badge-repository.js';
+import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
 import * as codeGenerator from '../../../../shared/domain/services/code-generator.js';
 import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
-import * as userRepository from '../../../../shared/infrastructure/repositories/user-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as campaignAdministrationRepository from '../../infrastructure/repositories/campaign-administration-repository.js';

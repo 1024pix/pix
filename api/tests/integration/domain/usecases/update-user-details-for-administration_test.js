@@ -1,7 +1,7 @@
 import { AlreadyRegisteredEmailError, AlreadyRegisteredUsernameError } from '../../../../lib/domain/errors.js';
 import { UserDetailsForAdmin } from '../../../../lib/domain/models/UserDetailsForAdmin.js';
 import { updateUserDetailsForAdministration } from '../../../../lib/domain/usecases/update-user-details-for-administration.js';
-import * as userRepository from '../../../../src/shared/infrastructure/repositories/user-repository.js';
+import * as userRepository from '../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { catchErr, databaseBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | UseCases | updateUserDetailsForAdministration', function () {

@@ -26,6 +26,13 @@ const verifyDemand = function (temporaryKey, resetPasswordDemandRepository = pas
   return resetPasswordDemandRepository.findByTemporaryKey(temporaryKey).then((fetchedDemand) => fetchedDemand.toJSON());
 };
 
+/**
+ * @callback hasUserAPasswordResetDemandInProgress
+ * @param {string} email
+ * @param {string} temporaryKey
+ * @param {ResetPasswordDemandRepository} resetPasswordDemandRepository
+ * @return {Promise<*>}
+ */
 const hasUserAPasswordResetDemandInProgress = function (
   email,
   temporaryKey,
@@ -34,4 +41,11 @@ const hasUserAPasswordResetDemandInProgress = function (
   return resetPasswordDemandRepository.findByUserEmail(email, temporaryKey);
 };
 
+/**
+ * @typedef {Object} ResetPasswordService
+ * @property generateTemporaryKey
+ * @property hasUserAPasswordResetDemandInProgress
+ * @property invalidateOldResetPasswordDemand
+ * @property verifyDemand
+ */
 export { generateTemporaryKey, hasUserAPasswordResetDemandInProgress, invalidateOldResetPasswordDemand, verifyDemand };

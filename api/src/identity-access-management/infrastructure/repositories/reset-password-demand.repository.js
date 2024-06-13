@@ -46,6 +46,9 @@ const findByUserEmail = function (email, temporaryKey) {
     });
 };
 
+/**
+ * @typedef {Object} ResetPasswordDemandRepository
+ */
 export { create, findByTemporaryKey, findByUserEmail, markAsBeingUsed };
 
 function _toDomain(data) {

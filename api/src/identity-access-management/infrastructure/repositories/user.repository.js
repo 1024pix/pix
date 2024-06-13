@@ -11,14 +11,14 @@ import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { UserDetailsForAdmin } from '../../../../lib/domain/models/UserDetailsForAdmin.js';
 import { OrganizationLearnerForAdmin } from '../../../../lib/domain/read-models/OrganizationLearnerForAdmin.js';
 import { BookshelfUser } from '../../../../lib/infrastructure/orm-models/User.js';
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../identity-access-management/domain/constants/identity-providers.js';
-import * as OidcIdentityProviders from '../../../identity-access-management/domain/constants/oidc-identity-providers.js';
-import { AuthenticationMethod } from '../../../identity-access-management/domain/models/AuthenticationMethod.js';
-import { UserLogin } from '../../../identity-access-management/domain/models/UserLogin.js';
 import { Organization } from '../../../organizational-entities/domain/models/Organization.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import { fetchPage, isUniqConstraintViolated } from '../../../shared/infrastructure/utils/knex-utils.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../domain/constants/identity-providers.js';
+import * as OidcIdentityProviders from '../../domain/constants/oidc-identity-providers.js';
+import { AuthenticationMethod } from '../../domain/models/AuthenticationMethod.js';
 import { User } from '../../domain/models/User.js';
-import { fetchPage, isUniqConstraintViolated } from '../utils/knex-utils.js';
+import { UserLogin } from '../../domain/models/UserLogin.js';
 
 const getByEmail = async function (email) {
   const foundUser = await knex.from('users').whereRaw('LOWER("email") = ?', email.toLowerCase()).first();
@@ -70,6 +70,11 @@ const getByUsernameOrEmailWithRolesAndPassword = async function (username) {
   return _toDomainFromDTO({ userDTO, membershipsDTO, certificationCenterMembershipsDTO, authenticationMethodsDTO });
 };
 
+/**
+ * @param {string} userId
+ * @return {Promise<User>}
+ * @throws {UserNotFoundError}
+ */
 const get = async function (userId) {
   const foundUser = await knex('users').where('id', userId).first();
   if (!foundUser) throw new UserNotFoundError(`User not found for ID ${userId}`);

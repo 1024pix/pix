@@ -5,9 +5,9 @@ const { toLower, isNil } = lodash;
 import dayjs from 'dayjs';
 
 import { config } from '../../../../lib/config.js';
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../identity-access-management/domain/constants/identity-providers.js';
-import * as languageService from '../services/language-service.js';
-import * as localeService from '../services/locale-service.js';
+import * as languageService from '../../../shared/domain/services/language-service.js';
+import * as localeService from '../../../shared/domain/services/locale-service.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 
 class User {
   constructor(
@@ -130,6 +130,39 @@ class User {
         certificationCenterMembership.certificationCenter.id === certificationCenterId &&
         isNil(certificationCenterMembership.disabledAt),
     );
+  }
+
+  markEmailAsValid() {
+    this.emailConfirmedAt = new Date();
+  }
+
+  mapToDatabaseDto() {
+    return {
+      id: this.id,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      username: this.username,
+      email: this.email,
+      emailConfirmedAt: this.emailConfirmedAt,
+      cgu: this.cgu,
+      lastTermsOfServiceValidatedAt: this.lastTermsOfServiceValidatedAt,
+      lastPixOrgaTermsOfServiceValidatedAt: this.lastPixOrgaTermsOfServiceValidatedAt,
+      lastPixCertifTermsOfServiceValidatedAt: this.lastPixCertifTermsOfServiceValidatedAt,
+      lastDataProtectionPolicySeenAt: this.lastDataProtectionPolicySeenAt,
+      mustValidateTermsOfService: this.mustValidateTermsOfService,
+      pixOrgaTermsOfServiceAccepted: this.pixOrgaTermsOfServiceAccepted,
+      pixCertifTermsOfServiceAccepted: this.pixCertifTermsOfServiceAccepted,
+      hasSeenAssessmentInstructions: this.hasSeenAssessmentInstructions,
+      hasSeenOtherChallengesTooltip: this.hasSeenOtherChallengesTooltip,
+      hasSeenNewDashboardInfo: this.hasSeenNewDashboardInfo,
+      hasSeenLevelSevenInfo: this.hasSeenLevelSevenInfo,
+      hasSeenFocusedChallengeTooltip: this.hasSeenFocusedChallengeTooltip,
+      lang: this.lang,
+      locale: this.locale,
+      isAnonymous: this.isAnonymous,
+      hasBeenAnonymised: this.hasBeenAnonymised,
+      hasBeenAnonymisedBy: this.hasBeenAnonymisedBy,
+    };
   }
 }
 

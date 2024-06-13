@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { knex } from '../../../db/knex-database-connection.js';
-import { User } from '../../../src/shared/domain/models/User.js';
+import { User } from '../../../src/identity-access-management/domain/models/User.js';
 import * as knexUtils from '../../../src/shared/infrastructure/utils/knex-utils.js';
 import {
   AlreadyExistingMembershipError,

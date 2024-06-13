@@ -1,5 +1,5 @@
+import { User } from '../../../../../../src/identity-access-management/domain/models/User.js';
 import { LocaleFormatError, LocaleNotSupportedError } from '../../../../../../src/shared/domain/errors.js';
-import { User } from '../../../../../../src/shared/domain/models/User.js';
 import * as serializer from '../../../../../../src/shared/infrastructure/serializers/jsonapi/user-serializer.js';
 import { catchErrSync, expect } from '../../../../../test-helper.js';
 

@@ -1,5 +1,5 @@
 import { rememberUserHasSeenLastDataProtectionPolicyInformation } from '../../../../lib/domain/usecases/remember-user-has-seen-last-data-protection-policy-information.js';
-import { User } from '../../../../src/shared/domain/models/User.js';
+import { User } from '../../../../src/identity-access-management/domain/models/User.js';
 import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | remember-user-has-seen-data-protection-policy-information', function () {

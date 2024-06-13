@@ -1,9 +1,10 @@
 import { VALIDATION_ERRORS } from './constants.js';
 
 class DomainError extends Error {
-  constructor(message) {
+  constructor(message, code) {
     super(message);
     this.name = this.constructor.name;
+    this.code = code;
   }
 }
 
@@ -52,6 +53,7 @@ class CsvImportError extends DomainError {
     this.meta = meta;
   }
 }
+
 class ImportLearnerConfigurationError extends DomainError {
   constructor(message, code) {
     super(message);
@@ -277,6 +279,15 @@ class UserNotAuthorizedToAccessEntityError extends DomainError {
   }
 }
 
+class UserNotAuthorizedToUpdatePasswordError extends DomainError {
+  constructor(
+    message = "L'utilisateur n'est pas autorisé à mettre à jour ce mot de passe.",
+    code = 'USER_NOT_AUTHORIZED_TO_UPDATE_PASSWORD',
+  ) {
+    super(message, code);
+  }
+}
+
 class V3PilotNotAuthorizedForCertificationCenterError extends DomainError {
   constructor(
     message = 'Certification center is not authorized to switch to a V3 pilot.',
@@ -314,5 +325,6 @@ export {
   OidcError,
   TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization,
   UserNotAuthorizedToAccessEntityError,
+  UserNotAuthorizedToUpdatePasswordError,
   V3PilotNotAuthorizedForCertificationCenterError,
 };

@@ -7,7 +7,7 @@ import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransact
 import { usecases as devcompUsecases } from '../../../../src/devcomp/domain/usecases/index.js';
 import { evaluationUsecases } from '../../../../src/evaluation/domain/usecases/index.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
-import { User } from '../../../../src/shared/domain/models/User.js';
+import { User } from '../../../../src/identity-access-management/domain/models/User.js';
 import * as queryParamsUtils from '../../../../src/shared/infrastructure/utils/query-params-utils.js';
 import * as requestResponseUtils from '../../../../src/shared/infrastructure/utils/request-response-utils.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
@@ -21,54 +21,6 @@ describe('Unit | Controller | user-controller', function () {
       deserialize: sinon.stub(),
       serialize: sinon.stub(),
     };
-  });
-
-  describe('#updatePassword', function () {
-    const userId = 7;
-    const userPassword = 'Pix2017!';
-    const userTemporaryKey = 'good-temporary-key';
-    const payload = {
-      data: {
-        attributes: {
-          password: userPassword,
-        },
-      },
-    };
-    const request = {
-      params: {
-        id: userId,
-      },
-      query: {
-        'temporary-key': userTemporaryKey,
-      },
-      payload,
-    };
-
-    beforeEach(function () {
-      sinon.stub(usecases, 'updateUserPassword');
-    });
-
-    it('should update password', async function () {
-      // given
-      userSerializer.deserialize.withArgs(payload).returns({
-        password: userPassword,
-        temporaryKey: userTemporaryKey,
-      });
-      usecases.updateUserPassword
-        .withArgs({
-          userId,
-          password: userPassword,
-          temporaryKey: userTemporaryKey,
-        })
-        .resolves({});
-      userSerializer.serialize.withArgs({}).returns('ok');
-
-      // when
-      const response = await userController.updatePassword(request, hFake, { userSerializer });
-
-      // then
-      expect(response).to.be.equal('ok');
-    });
   });
 
   describe('#updateUserDetailsForAdministration', function () {

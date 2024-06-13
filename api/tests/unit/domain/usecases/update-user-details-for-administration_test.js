@@ -4,7 +4,7 @@ import {
   AlreadyRegisteredUsernameError,
 } from '../../../../lib/domain/errors.js';
 import { updateUserDetailsForAdministration } from '../../../../lib/domain/usecases/update-user-details-for-administration.js';
-import { User } from '../../../../src/shared/domain/models/User.js';
+import { User } from '../../../../src/identity-access-management/domain/models/User.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | update-user-details-for-administration', function () {

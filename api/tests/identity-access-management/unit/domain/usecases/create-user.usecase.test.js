@@ -1,7 +1,7 @@
 import { AlreadyRegisteredEmailError } from '../../../../../lib/domain/errors.js';
+import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { createUser } from '../../../../../src/identity-access-management/domain/usecases/create-user.usecase.js';
 import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
-import { User } from '../../../../../src/shared/domain/models/User.js';
 import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | UseCase | create-user', function () {

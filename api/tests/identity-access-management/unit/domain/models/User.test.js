@@ -1,7 +1,7 @@
-import { User } from '../../../../../src/shared/domain/models/User.js';
+import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Domain | Models | User', function () {
+describe('Unit | Identity Access Management | Domain | Model | User', function () {
   let config;
   let languageService;
   let localeService;
@@ -476,6 +476,71 @@ describe('Unit | Domain | Models | User', function () {
         // then
         expect(user.shouldSeeDataProtectionPolicyInformationBanner).to.be.false;
       });
+    });
+  });
+
+  describe('#markEmailAsValid', function () {
+    let clock, now;
+
+    beforeEach(function () {
+      now = new Date('2024-06-11');
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+    });
+
+    afterEach(function () {
+      clock.restore();
+    });
+
+    it('marks user email as valid by setting a date on "emailConfirmedAt" attribute', function () {
+      // given
+      const user = domainBuilder.buildUser();
+
+      // when
+      user.markEmailAsValid();
+
+      // then
+      expect(user.emailConfirmedAt).to.be.a('Date');
+      expect(user.emailConfirmedAt).to.deep.equal(now);
+    });
+  });
+
+  describe('#mapToDatabaseDto', function () {
+    it('maps user model into user database DTO', function () {
+      // given
+      const expectedAttributes = [
+        'id',
+        'firstName',
+        'lastName',
+        'username',
+        'email',
+        'emailConfirmedAt',
+        'cgu',
+        'lastTermsOfServiceValidatedAt',
+        'lastPixOrgaTermsOfServiceValidatedAt',
+        'lastPixCertifTermsOfServiceValidatedAt',
+        'lastDataProtectionPolicySeenAt',
+        'mustValidateTermsOfService',
+        'pixOrgaTermsOfServiceAccepted',
+        'pixCertifTermsOfServiceAccepted',
+        'hasSeenAssessmentInstructions',
+        'hasSeenOtherChallengesTooltip',
+        'hasSeenNewDashboardInfo',
+        'hasSeenLevelSevenInfo',
+        'hasSeenFocusedChallengeTooltip',
+        'lang',
+        'locale',
+        'isAnonymous',
+        'hasBeenAnonymised',
+        'hasBeenAnonymisedBy',
+      ];
+      const user = domainBuilder.buildUser();
+
+      // when
+      const dto = user.mapToDatabaseDto();
+      const attributes = Object.keys(dto);
+
+      // then
+      expect(attributes).to.deep.equal(expectedAttributes);
     });
   });
 });

@@ -12,13 +12,13 @@ import * as userService from '../../../shared/domain/services/user-service.js';
 import * as passwordValidator from '../../../shared/domain/validators/password-validator.js';
 import * as userValidator from '../../../shared/domain/validators/user-validator.js';
 import * as adminMemberRepository from '../../../shared/infrastructure/repositories/admin-member-repository.js';
-import * as authenticationMethodRepository from '../../../shared/infrastructure/repositories/authentication-method-repository.js';
 import * as userLoginRepository from '../../../shared/infrastructure/repositories/user-login-repository.js';
-import * as userRepository from '../../../shared/infrastructure/repositories/user-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
+import * as authenticationMethodRepository from '../../infrastructure/repositories/authentication-method.repository.js';
 import { oidcProviderRepository } from '../../infrastructure/repositories/oidc-provider-repository.js';
 import * as resetPasswordDemandRepository from '../../infrastructure/repositories/reset-password-demand.repository.js';
+import * as userRepository from '../../infrastructure/repositories/user.repository.js';
 import { userToCreateRepository } from '../../infrastructure/repositories/user-to-create.repository.js';
 import { authenticationSessionService } from '../services/authentication-session.service.js';
 import { pixAuthenticationService } from '../services/pix-authentication-service.js';
@@ -63,17 +63,4 @@ const usecasesWithoutInjectedDependencies = {
 
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
 
-/**
- * @typedef {Object} AuthenticationUsecases
- * @property {addOidcProvider} addOidcProvider
- * @property {authenticateOidcUser} authenticateOidcUser
- * @property {createOidcUser} createOidcUser
- * @property {findUserForOidcReconciliation} findUserForOidcReconciliation
- * @property {getAllIdentityProviders} getAllIdentityProviders
- * @property {getAuthorizationUrl} getAuthorizationUrl
- * @property {getReadyIdentityProviders} getReadyIdentityProviders
- * @property {getRedirectLogoutUrl} getRedirectLogoutUrl
- * @property {reconcileOidcUser} reconcileOidcUser
- * @property {reconcileOidcUserForAdmin} reconcileOidcUserForAdmin
- */
 export { usecases };

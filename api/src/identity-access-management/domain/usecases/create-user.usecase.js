@@ -8,7 +8,7 @@ import { EntityValidationError } from '../../../shared/domain/errors.js';
  * @property {string} localeFromHeader
  * @property {string} password
  * @property {string} user
- * @property {import('../../../shared/infrastructure/repositories/authentication-method-repository.js').AuthenticationMethodRepository} authenticationMethodRepository
+ * @property {import('../../infrastructure/repositories/authentication-method.repository.js').AuthenticationMethodRepository} authenticationMethodRepository
  * @property {Object} campaignRepository
  * @property {import('../../../shared/infrastructure/repositories').UserRepository} userRepository
  * @property {import('../../../shared/infrastructure/repositories').UserToCreateRepository} userToCreateRepository
@@ -120,7 +120,7 @@ function _validatePassword(password, passwordValidator) {
  * @param {Object} dataToValidate
  * @property {string} password
  * @property {string} user
- * @property {import('../../../shared/infrastructure/repositories/user-repository.js').UserRepository} userRepository
+ * @property {import('../../infrastructure/repositories/user.repository.js').UserRepository} userRepository
  * @property {import('../../../shared/domain/validators/user-validator.js').UserValidator} userValidator
  * @property {import('../../../shared/domain/validators/password-validator.js').PasswordValidator} passwordValidator
  * @return {Promise<boolean>}

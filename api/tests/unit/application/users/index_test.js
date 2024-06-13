@@ -1,4 +1,3 @@
-import { userVerification } from '../../../../lib/application/preHandlers/user-existence-verification.js';
 import * as moduleUnderTest from '../../../../lib/application/users/index.js';
 import { userController } from '../../../../lib/application/users/user-controller.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
@@ -27,75 +26,6 @@ describe('Unit | Router | user-router', function () {
 
       // then
       expect(response.statusCode).to.equal(200);
-    });
-  });
-
-  describe('PATCH /api/users/{id}/password-update', function () {
-    const method = 'PATCH';
-    const url = '/api/users/12344/password-update';
-
-    it('exists and pass through user verification pre-handler', async function () {
-      // given
-      sinon.stub(userController, 'updatePassword').returns('ok');
-      sinon.stub(userVerification, 'verifyById').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const payloadAttributes = { password: 'Pix2019!' };
-      const payload = { data: { attributes: payloadAttributes } };
-
-      // when
-      const result = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(result.statusCode).to.equal(200);
-      sinon.assert.calledOnce(userVerification.verifyById);
-    });
-
-    describe('Payload schema validation', function () {
-      it('has a payload', async function () {
-        // when
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-
-        const result = await httpTestServer.request(method, url);
-
-        // then
-        expect(result.statusCode).to.equal(400);
-      });
-
-      it('has a password attribute in payload', async function () {
-        // given
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-
-        const payload = { data: { attributes: {} } };
-
-        // when
-        const result = await httpTestServer.request(method, url, payload);
-
-        // then
-        expect(result.statusCode).to.equal(400);
-      });
-
-      describe('password validation', function () {
-        it('has a valid password format in payload', async function () {
-          // given
-          const httpTestServer = new HttpTestServer();
-          await httpTestServer.register(moduleUnderTest);
-
-          const payloadAttributes = {
-            password: 'Mot de passe mal formé',
-          };
-          const payload = { data: { attributes: payloadAttributes } };
-
-          // when
-          const result = await httpTestServer.request(method, url, payload);
-
-          // then
-          expect(result.statusCode).to.equal(400);
-        });
-      });
     });
   });
 

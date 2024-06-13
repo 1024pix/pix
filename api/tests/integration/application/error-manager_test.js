@@ -367,20 +367,6 @@ describe('Integration | API | Controller Error', function () {
       );
     });
 
-    it('responds Forbidden when a UserNotAuthorizedToUpdatePasswordError error occurs', async function () {
-      routeHandler.throws(
-        new DomainErrors.UserNotAuthorizedToUpdatePasswordError(
-          "Cet utilisateur n'est pas autorisé à récupérer les résultats de la campagne.",
-        ),
-      );
-      const response = await server.requestObject(request);
-
-      expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
-      expect(responseDetail(response)).to.equal(
-        "Cet utilisateur n'est pas autorisé à récupérer les résultats de la campagne.",
-      );
-    });
-
     it('responds Forbidden when a UserNotAuthorizedToCreateResourceError error occurs', async function () {
       routeHandler.throws(
         new DomainErrors.UserNotAuthorizedToCreateResourceError(

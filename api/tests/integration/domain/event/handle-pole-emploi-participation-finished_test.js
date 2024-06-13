@@ -4,9 +4,9 @@ import * as campaignParticipationRepository from '../../../../lib/infrastructure
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as poleEmploiSendingRepository from '../../../../lib/infrastructure/repositories/pole-emploi-sending-repository.js';
 import * as targetProfileRepository from '../../../../lib/infrastructure/repositories/target-profile-repository.js';
+import * as userRepository from '../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import * as assessmentRepository from '../../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as organizationRepository from '../../../../src/shared/infrastructure/repositories/organization-repository.js';
-import * as userRepository from '../../../../src/shared/infrastructure/repositories/user-repository.js';
 import {
   databaseBuilder,
   expect,
