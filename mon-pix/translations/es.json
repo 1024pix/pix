@@ -564,7 +564,9 @@
         },
         "4": {
           "title": "Que faire en cas de problème ?",
-          "text": "'<span class=\"certification-instructions__text--bold\">'En cas de problème technique'</span>' (par exemple, l'image refuse de s'afficher), suivez ces étapes : '<br>' cliquez sur \"'<span class=\"certification-instructions__text--bold\">'Signaler un problème avec la question'</span>'\", puis sur \"Oui, je suis sûr(e)\" et informez votre surveillant."
+          "paragraph": {
+            "text": "'<strong>'En cas de problème technique'</strong>' (par exemple, l'image refuse de s'afficher), suivez ces étapes : '<br><br>' cliquez sur '<strong>'\"Signaler un problème avec la question\"'</strong>', puis sur \"Oui, je suis sûr(e)\" et informez votre surveillant."
+          }
         },
         "5": {
           "title": "Règles à respecter",
