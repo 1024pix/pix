@@ -17,7 +17,9 @@ module('Integration | Component | steps', function (hooks) {
 
         // then
         assert.dom(screen.getByRole('heading', { name: 'Bienvenue à la certification Pix', level: 2 })).exists();
-        assert.dom(screen.getByText('Comment fonctionne le test de certification ?')).exists();
+        assert
+          .dom(screen.getByRole('heading', { name: 'Comment fonctionne le test de certification ?', level: 3 }))
+          .exists();
         assert.dom(screen.getByRole('button', { name: "Continuer vers l'écran suivant" })).exists();
       });
 

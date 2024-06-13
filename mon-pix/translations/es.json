@@ -513,8 +513,19 @@
       },
       "steps": {
         "1": {
-          "text": "'<span class=\"certification-information__text--bold\">'¿Cómo funciona la prueba de certificación?'</span>' '<br><br>' '<span class=\"certification-information__text--bold\">'Se trata de una prueba adaptativa.'</span>' En otras palabras, tu capacidad para responder correctamente (o no) a las preguntas determina la dificultad de las preguntas siguientes en tiempo real. '<br><br>'Si no puedes responder a una pregunta,'<span class=\"certification-information__text--bold\">'tienes la opción de \"saltarte\" esa pregunta.'</span>' Las preguntas saltadas se considerarán fallidas y no se volverán a ofrecer. '<br><br>' '<span class=\"certification-information__text--bold\">'Es importante completar la prueba'</span><br>', y por tanto gestionar bien el tiempo. Se aplicará una '<span class=\"certification-instructions__text--bold\">'penalización'</span>' teniendo en cuenta el número de preguntas restantes.",
-          "title": "Bienvenido a la certificación Pix"
+          "title": "Bienvenido a la certificación Pix",
+          "question" : "¿Cómo funciona la prueba de certificación?",
+          "paragraphs": {
+            "1": {
+              "text": "'<strong>'Se trata de una prueba adaptativa'</strong>'. En otras palabras, tu capacidad para responder correctamente (o no) a las preguntas determina la dificultad de las preguntas siguientes en tiempo real."
+            },
+            "2": {
+              "text": "Si vous ne savez pas répondre à une question, '<strong>'vous avez la possibilité de \"passer\" cette question'</strong>'. '<br>'Les questions passées seront considérées comme échouées et ne vous seront pas proposées à nouveau."
+            },
+            "3": {
+              "text": "'<strong>'Es importante completar la prueba'</strong>', y por tanto gestionar bien el tiempo. Se aplicará una '<strong>'penalización'</strong>' teniendo en cuenta el número de preguntas restantes."
+            }
+          }
         },
         "2": {
           "title": "Comment se passe le test de certification ?",
