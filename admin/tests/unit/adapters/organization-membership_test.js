@@ -20,7 +20,7 @@ module('Unit | Adapter | organization-membership', function (hooks) {
     module('when disabled adapter option is provided', function () {
       test('it should trigger a POST request to /admin/memberships/{id}/disable', async function (assert) {
         // when
-        const data = Symbol('organizationMembership');
+        const data = {};
         await adapter.deleteRecord(
           {},
           { modelName: 'organizationMembership' },
