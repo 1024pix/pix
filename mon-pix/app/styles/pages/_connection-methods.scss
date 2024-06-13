@@ -1,10 +1,11 @@
 .user-account-panel__item {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: $pix-spacing-m;
   justify-content: space-between;
   padding-top: 16px;
   padding-bottom: 16px;
+  word-break: break-word;
   border-top: $pix-neutral-15 1px solid;
 
   &--with-success-message {

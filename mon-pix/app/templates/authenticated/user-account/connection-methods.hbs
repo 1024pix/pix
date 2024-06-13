@@ -14,13 +14,15 @@
             </p>
             <p class="user-account-panel-item__value" data-test-email>{{@model.user.email}}</p>
           </div>
-          <PixButton
-            class="user-account-panel-item__button"
-            @triggerAction={{this.enableEmailEditionMode}}
-            @size="small"
-          >
-            {{t "pages.user-account.connexion-methods.edit-button"}}
-          </PixButton>
+          <div>
+            <PixButton
+              class="user-account-panel-item__button"
+              @triggerAction={{this.enableEmailEditionMode}}
+              @size="small"
+            >
+              {{t "pages.user-account.connexion-methods.edit-button"}}
+            </PixButton>
+          </div>
         </div>
 
         {{#if this.showEmailUpdatedMessage}}
