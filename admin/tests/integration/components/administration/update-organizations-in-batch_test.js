@@ -30,41 +30,24 @@ module('Integration | Component |  administration/update-organizations-in-batch'
     test('it displays a success notification', async function (assert) {
       // given
       window.fetch.resolves(fetchResponse({ status: 204 }));
-      const notificationSuccessStub = sinon.stub();
-      class NotificationsStub extends Service {
-        success = notificationSuccessStub;
-        clearAll = sinon.stub();
-      }
-      this.owner.register('service:notifications', NotificationsStub);
 
       // when
-      const screen = await render(hbs`<Administration::UpdateOrganizationsInBatch />`);
+      const screen = await render(hbs`<Administration::UpdateOrganizationsInBatch /><NotificationContainer />`);
       const input = await screen.getByLabelText(
         this.intl.t('components.administration.update-organizations-in-batch.upload-button'),
       );
       await triggerEvent(input, 'change', { files: [file] });
 
       // then
-      assert.ok(true);
-      sinon.assert.calledWith(
-        notificationSuccessStub,
-        this.intl.t('components.administration.update-organizations-in-batch.notifications.success'),
+      assert.ok(
+        await screen.findByText(
+          this.intl.t('components.administration.update-organizations-in-batch.notifications.success'),
+        ),
       );
     });
   });
 
-  module('when import fails', function (hooks) {
-    let notificationErrorStub;
-
-    hooks.beforeEach(function () {
-      notificationErrorStub = sinon.stub().returns();
-      class NotificationsStub extends Service {
-        error = notificationErrorStub;
-        clearAll = sinon.stub();
-      }
-      this.owner.register('service:notifications', NotificationsStub);
-    });
-
+  module('when import fails', function () {
     test('it displays an error when organization not found', async function (assert) {
       // given
       window.fetch.resolves(
@@ -77,15 +60,21 @@ module('Integration | Component |  administration/update-organizations-in-batch'
       );
 
       // when
-      const screen = await render(hbs`<Administration::UpdateOrganizationsInBatch />`);
+      const screen = await render(hbs`<Administration::UpdateOrganizationsInBatch /><NotificationContainer />`);
       const input = await screen.findByLabelText(
         this.intl.t('components.administration.update-organizations-in-batch.upload-button'),
       );
       await triggerEvent(input, 'change', { files: [file] });
 
       // then
-      assert.ok(true);
-      sinon.assert.calledWith(notificationErrorStub, 'Identifiant non trouvé pour l\'organisation "123".');
+      assert.ok(
+        await screen.findByText(
+          this.intl.t(
+            'components.administration.update-organizations-in-batch.notifications.errors.organization-not-found',
+            { organizationId: '123' },
+          ),
+        ),
+      );
     });
 
     test('it displays an error when parent organization not found', async function (assert) {
@@ -105,17 +94,20 @@ module('Integration | Component |  administration/update-organizations-in-batch'
       );
 
       // when
-      const screen = await render(hbs`<Administration::UpdateOrganizationsInBatch />`);
+      const screen = await render(hbs`<Administration::UpdateOrganizationsInBatch /><NotificationContainer />`);
       const input = await screen.findByLabelText(
         this.intl.t('components.administration.update-organizations-in-batch.upload-button'),
       );
       await triggerEvent(input, 'change', { files: [file] });
 
       // then
-      assert.ok(true);
-      sinon.assert.calledWith(
-        notificationErrorStub,
-        'L\'organisation parente de l\'organisation "123" non trouvée en base de données.',
+      assert.ok(
+        await screen.findByText(
+          this.intl.t(
+            'components.administration.update-organizations-in-batch.notifications.errors.parent-organization-not-found',
+            { organizationId: '123' },
+          ),
+        ),
       );
     });
 
@@ -136,17 +128,20 @@ module('Integration | Component |  administration/update-organizations-in-batch'
       );
 
       // when
-      const screen = await render(hbs`<Administration::UpdateOrganizationsInBatch />`);
+      const screen = await render(hbs`<Administration::UpdateOrganizationsInBatch /><NotificationContainer />`);
       const input = await screen.findByLabelText(
         this.intl.t('components.administration.update-organizations-in-batch.upload-button'),
       );
       await triggerEvent(input, 'change', { files: [file] });
 
       // then
-      assert.ok(true);
-      sinon.assert.calledWith(
-        notificationErrorStub,
-        'Le format de l\'email du DPO est incorrect "foo" pour l\'organisation "123".',
+      assert.ok(
+        await screen.findByText(
+          this.intl.t(
+            'components.administration.update-organizations-in-batch.notifications.errors.data-protection-email-invalid',
+            { organizationId: '123', value: 'foo' },
+          ),
+        ),
       );
     });
 
@@ -162,15 +157,21 @@ module('Integration | Component |  administration/update-organizations-in-batch'
       );
 
       // when
-      const screen = await render(hbs`<Administration::UpdateOrganizationsInBatch />`);
+      const screen = await render(hbs`<Administration::UpdateOrganizationsInBatch /><NotificationContainer />`);
       const input = await screen.findByLabelText(
         this.intl.t('components.administration.update-organizations-in-batch.upload-button'),
       );
       await triggerEvent(input, 'change', { files: [file] });
 
       // then
-      assert.ok(true);
-      sinon.assert.calledWith(notificationErrorStub, 'Une erreur s\'est produite sur l\'organisation "123".');
+      assert.ok(
+        await screen.findByText(
+          this.intl.t(
+            'components.administration.update-organizations-in-batch.notifications.errors.organization-batch-update-error',
+            { organizationId: '123' },
+          ),
+        ),
+      );
     });
   });
 });
