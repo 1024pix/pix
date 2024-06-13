@@ -1,14 +1,10 @@
 import { config } from '../../../../../../src/shared/config.js';
 import { MailingProviderInvalidEmailError } from '../../../../../../src/shared/mail/domain/models/MailingProviderInvalidEmailError.js';
 import { BrevoProvider } from '../../../../../../src/shared/mail/infrastructure/providers/BrevoProvider.js';
-import { catchErr, expect, nock, sinon } from '../../../../../test-helper.js';
+import { catchErr, expect, sinon } from '../../../../../test-helper.js';
 const { mailing } = config;
 
 describe('Unit | Class | BrevoProvider', function () {
-  beforeEach(function () {
-    nock('https://api.sendinblue.com:443').post('/v3/smtp/email').reply();
-  });
-
   describe('#sendEmail', function () {
     const senderEmailAddress = 'no-reply@example.net';
     const userEmailAddress = 'user@example.net';
@@ -23,8 +19,7 @@ describe('Unit | Class | BrevoProvider', function () {
         sinon.stub(mailing, 'provider').value('brevo');
 
         sinon.stub(BrevoProvider, 'createBrevoSMTPApi');
-
-        stubbedBrevoSMTPApi = { sendTransacEmail: sinon.stub() };
+        stubbedBrevoSMTPApi = { sendTransacEmail: sinon.stub(), authentications: { apiKey: {} } };
         BrevoProvider.createBrevoSMTPApi.returns(stubbedBrevoSMTPApi);
 
         mailingProvider = new BrevoProvider();
@@ -169,7 +164,7 @@ describe('Unit | Class | BrevoProvider', function () {
         });
       });
 
-      context('when an underlying infrascture error is thrown', function () {
+      context('when an underlying infrastructure error is thrown', function () {
         it('should throw an error with the message', async function () {
           // given
           const options = {
