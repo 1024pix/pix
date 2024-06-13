@@ -37,36 +37,6 @@
   ],
   "grains": [
     {
-      "id": "47cd065b-dbf2-4adc-b5c3-02fb69cb9ec2",
-      "type": "activity",
-      "title": "Test Stepper",
-      "components": [
-        {
-          "type": "stepper",
-          "steps": [
-            {
-              "elements": [
-                {
-                  "id": "342183f7-af51-4e4e-ab4c-ebed1e195063",
-                  "type": "text",
-                  "content": "<p>À la fin de cette vidéo, une question sera posée sur les compétences Pix.</p>"
-                }
-              ]
-            },
-            {
-              "elements": [
-                {
-                  "id": "342183f7-af51-4e4e-ab4c-ebed1e195063",
-                  "type": "text",
-                  "content": "<p>À la fin de cette vidéo, une question sera posée sur les compétences Pix.</p>"
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
       "id": "f312c33d-e7c9-4a69-9ba0-913957b8f7dd",
       "type": "lesson",
       "title": "Voici une leçon",
@@ -80,22 +50,34 @@
           }
         },
         {
-          "type": "element",
-          "element": {
-            "id": "a2372bf4-86a4-4ecc-a188-b51f4f98bca2",
-            "type": "text",
-            "content": "<p>Voici un texte de leçon. Parfois, il y a des émojis pour aider à la lecture&nbsp;<span aria-hidden=\"true\">📚</span>.<br>Et là, voici une image&#8239;!</p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "8d7687c8-4a02-4d7e-bf6c-693a6d481c78",
-            "type": "image",
-            "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
-            "alt": "Dessin détaillé dans l'alternative textuelle",
-            "alternativeText": "Dessin d'un ordinateur dans un univers spatial."
-          }
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "a2372bf4-86a4-4ecc-a188-b51f4f98bca2",
+                  "type": "text",
+                  "content": "<p>Voici un texte de leçon. Parfois, il y a des émojis pour aider à la lecture&nbsp;<span aria-hidden=\"true\">📚</span>.</p>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "4cfd27d5-0947-47af-bfb6-52467143c38b",
+                  "type": "text",
+                  "content": "<p>Et là, voici une image&#8239;!</p>"
+                },
+                {
+                  "id": "8d7687c8-4a02-4d7e-bf6c-693a6d481c78",
+                  "type": "image",
+                  "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
+                  "alt": "Dessin détaillé dans l'alternative textuelle",
+                  "alternativeText": "Dessin d'un ordinateur dans un univers spatial."
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -131,27 +113,81 @@
       "title": "Voici un vrai-faux",
       "components": [
         {
-          "type": "element",
-          "element": {
-            "id": "71de6394-ff88-4de3-8834-a40057a50ff4",
-            "type": "qcu",
-            "instruction": "<p>Pix évalue 16 compétences numériques différentes.</p>",
-            "proposals": [
-              {
-                "id": "1",
-                "content": "Vrai"
-              },
-              {
-                "id": "2",
-                "content": "Faux"
-              }
-            ],
-            "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Correct&#8239;!</span><p> Ces 16 compétences sont rangées dans 5 domaines.</p>",
-              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Retourner voir la vidéo si besoin&nbsp;<span aria-hidden=\"true\">👆</span>!</p>"
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "71de6394-ff88-4de3-8834-a40057a50ff4",
+                  "type": "qcu",
+                  "instruction": "<p>Pix évalue 16 compétences numériques différentes.</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "Vrai"
+                    },
+                    {
+                      "id": "2",
+                      "content": "Faux"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Correct&#8239;!</span><p> Ces 16 compétences sont rangées dans 5 domaines.</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Retourner voir la vidéo si besoin&nbsp;<span aria-hidden=\"true\">👆</span>!</p>"
+                  },
+                  "solution": "1"
+                }
+              ]
             },
-            "solution": "1"
-          }
+            {
+              "elements": [
+                {
+                  "id": "79dc17f9-142b-4e19-bcbe-bfde4e170d3f",
+                  "type": "qcu",
+                  "instruction": "<p>Pix est découpé en 6 domaines.</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "Vrai"
+                    },
+                    {
+                      "id": "2",
+                      "content": "Faux"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Correct&#8239;!</span><p> Bien vu !</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Et non ! Il y a seulement 5 domaines sur Pix.</p>"
+                  },
+                  "solution": "2"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "9c73500d-abd9-4cc4-ab2d-a3876285b13c",
+                  "type": "qcu",
+                  "instruction": "<p>Les compétences de Pix sont sur 8 niveaux.</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "Vrai"
+                    },
+                    {
+                      "id": "2",
+                      "content": "Faux"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Correct&#8239;!</span><p> Et oui ! A noter, seulement 7 sont actifs aujourd’hui.</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Incorrect ! Il existe 8 niveaux par compétence.</p>"
+                  },
+                  "solution": "1"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
