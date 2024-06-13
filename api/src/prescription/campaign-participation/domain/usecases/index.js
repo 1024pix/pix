@@ -2,7 +2,6 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import * as badgeAcquisitionRepository from '../../../../../lib/infrastructure/repositories/badge-acquisition-repository.js';
-import * as campaignAnalysisRepository from '../../../../../lib/infrastructure/repositories/campaign-analysis-repository.js';
 // TODO : use an API for this import
 import * as campaignRepository from '../../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as knowledgeElementRepository from '../../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
@@ -13,6 +12,7 @@ import * as competenceEvaluationRepository from '../../../../evaluation/infrastr
 import * as assessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
+import * as campaignAnalysisRepository from '../../infrastructure/repositories/campaign-analysis-repository.js';
 import * as campaignAssessmentParticipationRepository from '../../infrastructure/repositories/campaign-assessment-participation-repository.js';
 import * as campaignAssessmentParticipationResultRepository from '../../infrastructure/repositories/campaign-assessment-participation-result-repository.js';
 import * as campaignParticipantRepository from '../../infrastructure/repositories/campaign-participant-repository.js';

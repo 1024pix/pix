@@ -1,11 +1,11 @@
 import bluebird from 'bluebird';
 import _ from 'lodash';
 
-import { knex } from '../../../db/knex-database-connection.js';
-import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.js';
-import { CampaignAnalysis } from '../../domain/read-models/CampaignAnalysis.js';
-import { constants } from '../constants.js';
-import * as knowledgeElementRepository from './knowledge-element-repository.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { constants } from '../../../../../lib/infrastructure/constants.js';
+import * as knowledgeElementRepository from '../../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
+import { CampaignAnalysis } from '../../../campaign/domain/read-models/CampaignAnalysis.js';
+import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 

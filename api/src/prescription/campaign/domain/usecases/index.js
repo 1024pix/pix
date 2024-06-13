@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import * as placementProfileService from '../../../../../lib/domain/services/placement-profile-service.js';
 import * as badgeAcquisitionRepository from '../../../../../lib/infrastructure/repositories/badge-acquisition-repository.js';
 import * as campaignRepository from '../../../../../lib/infrastructure/repositories/campaign-repository.js';
+import { repositories } from '../../../../../lib/infrastructure/repositories/index.js';
 import * as knowledgeElementRepository from '../../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
 import * as knowledgeElementSnapshotRepository from '../../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js';
 import * as learningContentRepository from '../../../../../lib/infrastructure/repositories/learning-content-repository.js';
@@ -16,6 +17,7 @@ import * as competenceRepository from '../../../../shared/infrastructure/reposit
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
+import * as campaignAnalysisRepository from '../../../campaign-participation/infrastructure/repositories/campaign-analysis-repository.js';
 import * as campaignAdministrationRepository from '../../infrastructure/repositories/campaign-administration-repository.js';
 import * as campaignAssessmentParticipationResultListRepository from '../../infrastructure/repositories/campaign-assessment-participation-result-list-repository.js';
 import * as campaignCollectiveResultRepository from '../../infrastructure/repositories/campaign-collective-result-repository.js';
@@ -41,6 +43,7 @@ const dependencies = {
   badgeRepository,
   campaignRepository,
   campaignAdministrationRepository,
+  campaignAnalysisRepository,
   campaignManagementRepository,
   campaignCreatorRepository,
   campaignCsvExportService,
@@ -68,6 +71,7 @@ const dependencies = {
   campaignCollectiveResultRepository,
   campaignToJoinRepository,
   campaignParticipationsStatsRepository,
+  tutorialRepository: repositories.tutorialRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

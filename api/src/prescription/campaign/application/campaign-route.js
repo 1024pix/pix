@@ -39,6 +39,23 @@ const register = async function (server) {
         tags: ['api', 'group'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/campaigns/{id}/analyses',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.campaignId,
+          }),
+        },
+        handler: campaignController.getAnalysis,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            "- Récupération de l'analyse de la campagne par son id",
+        ],
+        tags: ['api', 'campaign'],
+      },
+    },
   ]);
 };
 
