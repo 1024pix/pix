@@ -39,6 +39,11 @@ export const organizationLearnerImportFormat = async function ({ databaseBuilder
     config: {
       acceptedEncoding: ['utf8'],
       unicityColumns: ['unicity key'],
+      reconciliationMappingColumns: [
+        { key: 'reconcileField1', columnName: 'Nom apprenant' },
+        { key: 'reconcileField2', columnName: 'catégorie' },
+        { key: 'reconcileField3', columnName: 'Date de naissance' },
+      ],
       validationRules: {
         formats: [
           { name: 'Nom apprenant', type: 'string', required: true },
