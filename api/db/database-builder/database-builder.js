@@ -234,14 +234,6 @@ class DatabaseBuilder {
 
         if (!_.isEmpty(tableName)) {
           if (tableName === 'pgboss.version') return;
-          if (tableName === 'certification-subscriptions') {
-            // View are not part of pg_class, or due to a table migration
-            // we temporarily need to mark as dirty any operation on the view
-            // for retrocompatibility purpose
-            this._setTableAsDirty('complementary-certification-subscriptions');
-            return;
-          }
-
           this._setTableAsDirty(tableName);
         }
       }
