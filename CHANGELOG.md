@@ -1,5 +1,38 @@
 # Pix Changelog
 
+## v4.163.0 (13/06/2024)
+
+
+### :rocket: Amélioration
+- [#9120](https://github.com/1024pix/pix/pull/9120) [FEATURE] Empêche un prescrit de démarrer une participation à une campagne supprimée (PIX-12692).
+- [#9247](https://github.com/1024pix/pix/pull/9247) [FEATURE] Afficher un Stepper dans un Grain (PIX-12840).
+- [#9227](https://github.com/1024pix/pix/pull/9227) [FEATURE] Afficher la dernière page des écrans d'instructions sur Pix App (PIX-12900).
+- [#9122](https://github.com/1024pix/pix/pull/9122) [FEATURE] Accepter un id de campagne dans l'url du simulateur (PIX-12760).
+- [#9220](https://github.com/1024pix/pix/pull/9220) [FEATURE] Valider l'e-mail d'un compte utilisateur après réinitialisation du mot de passe (PIX-11122).
+
+### :building_construction: Tech
+- [#9218](https://github.com/1024pix/pix/pull/9218) [TECH] migration de la route `/api/campaigns/{id}/analyses`  (Pix-12829).
+- [#9214](https://github.com/1024pix/pix/pull/9214) [TECH] Renommage de la table complementary-certification-subscriptions (PIX-12210).
+- [#9248](https://github.com/1024pix/pix/pull/9248) [TECH] check autonomous course id presence (PIX-12938).
+
+### :bug: Correction
+- [#9255](https://github.com/1024pix/pix/pull/9255) [BUGFIX] Tourner sur les déclinaisons entre 2 passages d'une épreuve.
+- [#9250](https://github.com/1024pix/pix/pull/9250) [BUGFIX] Afficher un message d'erreur lorsqu'une donnée n'est pas unique (Pix-12936).
+- [#9237](https://github.com/1024pix/pix/pull/9237) [BUGFIX] Améliorer le design (Pix-12910).
+- [#9222](https://github.com/1024pix/pix/pull/9222) [BUGFIX] Corriger l'affichage des methodes de connexion dans Mon Compte.
+
+### :arrow_up: Montée de version
+- [#9263](https://github.com/1024pix/pix/pull/9263) [BUMP] Update dependency @1024pix/pix-ui to ^46.9.4 (admin).
+- [#9262](https://github.com/1024pix/pix/pull/9262) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.3 (orga).
+- [#9260](https://github.com/1024pix/pix/pull/9260) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.3 (mon-pix).
+- [#9259](https://github.com/1024pix/pix/pull/9259) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.3 (load-testing).
+- [#9258](https://github.com/1024pix/pix/pull/9258) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.3 (junior).
+- [#9257](https://github.com/1024pix/pix/pull/9257) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.3 (dossier racine).
+- [#9256](https://github.com/1024pix/pix/pull/9256) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.3 (certif).
+- [#9254](https://github.com/1024pix/pix/pull/9254) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.3 (audit-logger).
+- [#9252](https://github.com/1024pix/pix/pull/9252) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.3 (admin).
+- [#9207](https://github.com/1024pix/pix/pull/9207) [BUMP] Update dependency @getbrevo/brevo to v2 (api) (PIX-12911).
+
 ## v4.162.0 (13/06/2024)
 
 
