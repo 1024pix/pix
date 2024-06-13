@@ -96,7 +96,7 @@ function _getNextActivityInfoOnFailure(activities, lastActivity) {
 }
 
 function _nbOfActivitiesOfLevel(activities, level) {
-  return activities.filter((activity) => activity.isLevel(level)).length;
+  return activities.filter((activity) => activity.hasLevel(level)).length;
 }
 
 function _hasAlreadyDoneActivity(activities, level) {

@@ -71,8 +71,12 @@ class Activity {
     return levels.TRAINING;
   }
 
-  isLevel(level) {
+  hasLevel(level) {
     return this.level === level;
+  }
+
+  hasStepIndex(stepIndex) {
+    return this.stepIndex === stepIndex;
   }
 }
 
