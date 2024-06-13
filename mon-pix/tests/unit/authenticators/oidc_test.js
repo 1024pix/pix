@@ -4,8 +4,11 @@ import * as fetch from 'fetch';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import setupIntl from '../../helpers/setup-intl';
+
 module('Unit | Authenticator | oidc', function (hooks) {
   setupTest(hooks);
+  setupIntl(hooks);
 
   module('#authenticate', function (hooks) {
     const userId = 1;
@@ -78,6 +81,7 @@ module('Unit | Authenticator | oidc', function (hooks) {
       });
 
       // then
+      request.headers['Accept-Language'] = 'fr';
       request.body = JSON.stringify({
         data: {
           attributes: {

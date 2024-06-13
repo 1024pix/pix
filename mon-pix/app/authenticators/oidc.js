@@ -7,15 +7,17 @@ import { decodeToken } from 'mon-pix/helpers/jwt';
 import RSVP from 'rsvp';
 
 export default class OidcAuthenticator extends BaseAuthenticator {
-  @service session;
+  @service intl;
   @service location;
   @service oidcIdentityProviders;
+  @service session;
 
   async authenticate({ code, state, identityProviderSlug, authenticationKey, hostSlug }) {
     const request = {
       method: 'POST',
       headers: {
         Accept: 'application/json',
+        'Accept-Language': this.intl.primaryLocale,
         'Content-Type': 'application/json',
       },
     };
