@@ -15,7 +15,16 @@ async function getByIdForAnswerVerification({ moduleId, elementId, moduleDatasou
 
   const foundElement = moduleData.grains
     .flatMap(({ components }) => components)
-    .find((component) => component.type === 'element' && component.element.id === elementId);
+    .flatMap((component) => {
+      if (component.type === 'element') {
+        return component.element;
+      } else if (component.type === 'stepper') {
+        return component.steps.flatMap(({ elements }) => elements);
+      }
+    })
+    .find((element) => {
+      return element.id === elementId;
+    });
 
   if (foundElement === undefined) {
     throw new NotFoundError();
