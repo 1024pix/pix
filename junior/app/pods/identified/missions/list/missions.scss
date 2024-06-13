@@ -2,8 +2,11 @@
   display: flex;
   flex-wrap: wrap;
   gap: 24px;
-  justify-content: center;
-  margin: auto 100px 40px;
+  margin: auto 145px 40px;
+
+  @include device-is('tablet') {
+    margin-left: 120px;
+  }
 }
 
 .card {

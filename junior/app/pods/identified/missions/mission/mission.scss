@@ -3,8 +3,6 @@
 .mission-page {
   &__body {
     display: flex;
-    width: 960px;
-    margin-top: 20px;
     margin-left: 145px;
 
     @include device-is('tablet') {
