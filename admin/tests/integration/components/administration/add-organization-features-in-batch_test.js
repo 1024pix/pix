@@ -40,38 +40,31 @@ module('Integration | Component |  administration/add-organization-features-in-b
             Accept: 'application/json',
           },
           method: 'POST',
-          body: fileContent,
+          body: file,
         })
         .resolves(fetchResponse({ status: 204 }));
     });
 
     test('it displays a success notification', async function (assert) {
-      // given
-      const notificationSuccessStub = sinon.stub();
-      class NotificationsStub extends Service {
-        success = notificationSuccessStub;
-        clearAll = sinon.stub();
-      }
-      this.owner.register('service:notifications', NotificationsStub);
-
       // when
-      const screen = await render(hbs`<Administration::AddOrganizationFeaturesInBatch />`);
+      const screen = await render(hbs`<Administration::AddOrganizationFeaturesInBatch /><NotificationContainer />`);
       const input = await screen.getByLabelText(
         this.intl.t('components.administration.add-organization-features-in-batch.upload-button'),
       );
       await triggerEvent(input, 'change', { files: [file] });
 
       // then
-      assert.ok(true);
-      sinon.assert.calledWith(
-        notificationSuccessStub,
-        this.intl.t('components.administration.add-organization-features-in-batch.notifications.success'),
+      assert.ok(
+        await screen.findByText(
+          this.intl.t('components.administration.add-organization-features-in-batch.notifications.success'),
+        ),
       );
     });
   });
 
-  module('when import fails', function (hooks) {
-    hooks.beforeEach(function () {
+  module('when import fails', function () {
+    test('it displays an error notification by status', async function (assert) {
+      // given
       fetchStub
         .withArgs(`${ENV.APP.API_HOST}/api/admin/organizations/add-organization-features`, {
           headers: {
@@ -80,37 +73,50 @@ module('Integration | Component |  administration/add-organization-features-in-b
             Accept: 'application/json',
           },
           method: 'POST',
-          body: fileContent,
+          body: file,
         })
-        .returns(
+        .resolves(
           fetchResponse({
             body: {
               errors: [{ status: '412', title: "Un soucis avec l'import", code: '412', detail: 'Erreur d’import' }],
             },
-            status: 400,
+            status: 412,
           }),
         );
-    });
-
-    test('it displays an error notification', async function (assert) {
-      // given
-      const file = new Blob(['foo'], { type: `valid-file` });
-      const notificationErrorStub = sinon.stub().returns();
-      class NotificationsStub extends Service {
-        error = notificationErrorStub;
-        clearAll = sinon.stub();
-      }
-      this.owner.register('service:notifications', NotificationsStub);
 
       // when
-      const screen = await render(hbs`<Administration::AddOrganizationFeaturesInBatch />`);
+      const screen = await render(hbs`<Administration::AddOrganizationFeaturesInBatch /><NotificationContainer />`);
       const input = await screen.findByLabelText(
         this.intl.t('components.administration.add-organization-features-in-batch.upload-button'),
       );
       await triggerEvent(input, 'change', { files: [file] });
 
       // then
-      assert.ok(notificationErrorStub.called);
+      assert.ok(await screen.findByText('Les préconditions ne sont pas réunies.'));
+    });
+
+    test('it displays an error notification', async function (assert) {
+      // given
+      fetchStub
+        .withArgs(`${ENV.APP.API_HOST}/api/admin/organizations/add-organization-features`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'text/csv',
+            Accept: 'application/json',
+          },
+          method: 'POST',
+          body: file,
+        })
+        .rejects();
+      // when
+      const screen = await render(hbs`<Administration::AddOrganizationFeaturesInBatch /><NotificationContainer />`);
+      const input = await screen.findByLabelText(
+        this.intl.t('components.administration.add-organization-features-in-batch.upload-button'),
+      );
+      await triggerEvent(input, 'change', { files: [file] });
+
+      // then
+      assert.ok(await screen.findByText(this.intl.t('common.notifications.generic-error')));
     });
   });
 });
@@ -123,5 +129,5 @@ function fetchResponse({ body, status }) {
     },
   });
 
-  return Promise.resolve(mockResponse);
+  return mockResponse;
 }
