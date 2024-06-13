@@ -38,21 +38,29 @@ describe('Unit | Domain | Models | CampaignToJoin', function () {
     });
   });
 
-  describe('#isArchived', function () {
-    it('should return true if the campaign is archived', function () {
+  describe('#isAccessible', function () {
+    it('should return false if the campaign is archived', function () {
       // given
       const campaignToJoin = domainBuilder.buildCampaignToJoin({ archivedAt: new Date('2020-02-02') });
 
       // when / then
-      expect(campaignToJoin.isArchived).to.be.true;
+      expect(campaignToJoin.isAccessible).to.be.false;
     });
 
-    it('should return false if the campaign is not archived', function () {
+    it('should return false if the campaign is deleted', function () {
       // given
-      const campaignToJoin = domainBuilder.buildCampaignToJoin({ archivedAt: null });
+      const campaignToJoin = domainBuilder.buildCampaignToJoin({ deletedAt: new Date('2020-02-02') });
 
       // when / then
-      expect(campaignToJoin.isArchived).to.be.false;
+      expect(campaignToJoin.isAccessible).to.be.false;
+    });
+
+    it('should return true if the campaign is not archived and not deleted', function () {
+      // given
+      const campaignToJoin = domainBuilder.buildCampaignToJoin({ archivedAt: null, deletedAt: null });
+
+      // when / then
+      expect(campaignToJoin.isAccessible).to.be.true;
     });
   });
 });

@@ -30,6 +30,10 @@ export default Factory.extend({
     return false;
   },
 
+  isAccessible() {
+    return true;
+  },
+
   targetProfileName() {
     return 'Target Profile';
   },

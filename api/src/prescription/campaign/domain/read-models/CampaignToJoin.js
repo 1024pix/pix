@@ -11,6 +11,7 @@ class CampaignToJoin {
     externalIdHelpImageUrl,
     alternativeTextToExternalIdHelpImage,
     archivedAt,
+    deletedAt,
     type,
     isForAbsoluteNovice,
     organizationId,
@@ -39,6 +40,7 @@ class CampaignToJoin {
     this.externalIdHelpImageUrl = externalIdHelpImageUrl;
     this.alternativeTextToExternalIdHelpImage = alternativeTextToExternalIdHelpImage;
     this.archivedAt = archivedAt;
+    this.deletedAt = deletedAt;
     this.isRestricted = organizationIsManagingStudents;
     this.isSimplifiedAccess = targetProfileIsSimplifiedAccess;
     this.isForAbsoluteNovice = isForAbsoluteNovice;
@@ -66,8 +68,11 @@ class CampaignToJoin {
     return this.type === CampaignTypes.PROFILES_COLLECTION;
   }
 
-  get isArchived() {
-    return Boolean(this.archivedAt);
+  get isAccessible() {
+    if (Boolean(this.archivedAt) || Boolean(this.deletedAt)) {
+      return false;
+    }
+    return true;
   }
 
   get isFlash() {

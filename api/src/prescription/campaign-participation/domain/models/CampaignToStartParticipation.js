@@ -11,6 +11,7 @@ class CampaignToStartParticipation {
     assessmentMethod,
     skillCount,
     organizationId,
+    deletedAt,
   } = {}) {
     this.id = id;
     this.type = type;
@@ -21,6 +22,7 @@ class CampaignToStartParticipation {
     this.assessmentMethod = assessmentMethod;
     this.skillCount = skillCount;
     this.organizationId = organizationId;
+    this.deletedAt = deletedAt;
   }
 
   get isAssessment() {
@@ -29,6 +31,10 @@ class CampaignToStartParticipation {
 
   get isArchived() {
     return Boolean(this.archivedAt);
+  }
+
+  get isDeleted() {
+    return Boolean(this.deletedAt);
   }
 }
 

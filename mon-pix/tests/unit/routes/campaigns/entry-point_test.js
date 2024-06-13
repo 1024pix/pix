@@ -13,6 +13,7 @@ module('Unit | Route | Entry Point', function (hooks) {
     campaign = EmberObject.create({
       id: 3,
       code: 'NEW_CODE',
+      isAccessible: true,
     });
     route = this.owner.lookup('route:campaigns.entry-point');
 
@@ -102,9 +103,9 @@ module('Unit | Route | Entry Point', function (hooks) {
         assert.ok(true);
       });
 
-      module('archived campaign', function (hooks) {
+      module('non acessible campaign', function (hooks) {
         hooks.beforeEach(function () {
-          campaign.isArchived = true;
+          campaign.isAccessible = false;
         });
 
         test('should redirect to campaign archived error', async function (assert) {
@@ -188,9 +189,9 @@ module('Unit | Route | Entry Point', function (hooks) {
         assert.ok(true);
       });
 
-      module('archived campaign', function (hooks) {
+      module('non accessible campaign', function (hooks) {
         hooks.beforeEach(function () {
-          campaign.isArchived = true;
+          campaign.isAccessible = false;
         });
 
         test('should redirect to campaign archived error with no participation', async function (assert) {

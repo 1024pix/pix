@@ -59,8 +59,7 @@ export default class EntryPoint extends Route {
     }
 
     const isAutonomousCourse = campaign.organizationId === ENV.APP.AUTONOMOUS_COURSES_ORGANIZATION_ID;
-
-    if (campaign.isArchived && !hasParticipated) {
+    if (!campaign.isAccessible && !hasParticipated) {
       this.router.replaceWith('campaigns.archived-error', campaign.code);
     } else if (hasParticipated && !isAutonomousCourse) {
       this.router.replaceWith('campaigns.entrance', campaign.code);

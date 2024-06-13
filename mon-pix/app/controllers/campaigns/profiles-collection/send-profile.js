@@ -10,7 +10,7 @@ export default class SendProfileController extends Controller {
   @tracked errorMessage = null;
 
   get isDisabled() {
-    return Boolean(this.model.campaignParticipation?.deletedAt) || this.model.campaign.isArchived;
+    return Boolean(this.model.campaignParticipation?.deletedAt) || !this.model.campaign.isAccessible;
   }
 
   @action

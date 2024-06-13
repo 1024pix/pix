@@ -12,7 +12,7 @@ const serialize = function (campaignsToJoin) {
       'customLandingPageText',
       'externalIdHelpImageUrl',
       'alternativeTextToExternalIdHelpImage',
-      'isArchived',
+      'isAccessible',
       'isForAbsoluteNovice',
       'isRestricted',
       'isSimplifiedAccess',

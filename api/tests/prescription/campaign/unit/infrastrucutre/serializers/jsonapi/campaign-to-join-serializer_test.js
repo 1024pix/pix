@@ -23,7 +23,7 @@ describe('Unit | Serializer | JSONAPI | campaign-to-join-serializer', function (
             'custom-landing-page-text': campaignToJoin.customLandingPageText,
             'external-id-help-image-url': campaignToJoin.externalIdHelpImageUrl,
             'alternative-text-to-external-id-help-image': campaignToJoin.alternativeTextToExternalIdHelpImage,
-            'is-archived': campaignToJoin.isArchived,
+            'is-accessible': campaignToJoin.isAccessible,
             'is-restricted': campaignToJoin.isRestricted,
             'is-simplified-access': campaignToJoin.isSimplifiedAccess,
             'is-for-absolute-novice': campaignToJoin.isForAbsoluteNovice,
