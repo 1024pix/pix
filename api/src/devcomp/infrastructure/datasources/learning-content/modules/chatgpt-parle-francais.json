@@ -225,7 +225,7 @@
             "type": "image",
             "url": "https://i.imgur.com/UNO1Jkg.png",
             "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
-            "alternativeText": "<p>Prompt : Quel est le jour de la fête nationale ?</p><p>PixGPT : La fête nationale de la France aussi connue sous le nom de la Bastille Day est célébrée le 14 juillet. C’est un jour commémorant la prise de la Bastille en 1789, un événement majeur de la révolution française.</p>"
+            "alternativeText": "<p>Vous : Quel est le jour de la fête nationale ?</p><p>PixGPT : La fête nationale de la France aussi connue sous le nom de la Bastille Day est célébrée le 14 juillet. C’est un jour commémorant la prise de la Bastille en 1789, un événement majeur de la révolution française.</p>"
           }
         },
         {
@@ -279,7 +279,7 @@
               "type": "image",
               "url": "https://i.imgur.com/EAkfnRA.png",
               "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
-              "alternativeText": "<p>Prompt : J’écris un roman. J’ai besoin que tu crées un personnage. Son activité principale est de faire le ménage chez les gens.<br>PixGPT: Claire, une femme minutieuse et discrète de 40 ans, consacre ses journées à apporter ordre et propreté dans les foyers de ses clients, veillant à chaque détail avec un soin exceptionnel.</p>"
+              "alternativeText": "<p>Vous : J’écris un roman. J’ai besoin que tu crées un personnage. Son activité principale est de faire le ménage chez les gens.<br>PixGPT: Claire, une femme minutieuse et discrète de 40 ans, consacre ses journées à apporter ordre et propreté dans les foyers de ses clients, veillant à chaque détail avec un soin exceptionnel.</p>"
             }
           },
           {
@@ -292,15 +292,16 @@
               "proposals": [
                 {
                   "id": "1",
-                  "content": "Il a reproduit dans sa réponse un stéréotype d'âge associé à cette profession, du fait de ses données d'entraînement."
+                  "content": "Il a reproduit dans sa réponse un stéréotype d'âge associé à cette profession."
                 },
                 {
                   "id": "2",
-                  "content": "[TODO] Il s’agit d’un stéréotype de genre associé à la profession."
+                  "content": "Il a reproduit dans sa réponse un stéréotype de niveau d'éducation associé à cette profession."
                 },
                 {
                   "id": "3",
-                  "content": "[TODO] Il s’agit d’un stéréotype de classe sociale associé à la profession."
+                  "content": "Il a reproduit dans sa réponse un stéréotype de classe sociale associé à cette profession.
+"
                 }
               ],
               "feedbacks": {
@@ -334,7 +335,7 @@
               "type": "image",
               "url": "https://i.imgur.com/nzL3BgW.png",
               "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
-              "alternativeText": "<p>Prompt : Je suis Verseau. Comment ma journée va-t-elle se passer ?<br>PixGPT:  En tant que Verseau, attendez-vous à une journée pleine de surprises stimulantes et de nouvelles opportunités pour exprimer votre créativité.</p>"
+              "alternativeText": "<p>Vous : Je suis Verseau. Comment ma journée va-t-elle se passer ?<br>PixGPT:  En tant que Verseau, attendez-vous à une journée pleine de surprises stimulantes et de nouvelles opportunités pour exprimer votre créativité.</p>"
             }
           },
           {
