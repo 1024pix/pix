@@ -9,6 +9,9 @@
       "target-profile-required": "Please select a customised test for your campaign.",
       "title_too_long": "Please choose a shorter title."
     },
+    "csv-import": {
+      "property-not-uniq": "Row {line} : The field “{field}” must be unique within the file."
+    },
     "default": "The service is temporarily unavailable. Please try again later.",
     "edit-student-number": {
       "student-number-exists": "The student number entered is already used by {firstName} {lastName}"
