@@ -64,17 +64,15 @@ module('Integration | Component | steps', function (hooks) {
 
         // then
         assert.dom(screen.getByRole('heading', { name: 'Deux modes de questions', level: 2 })).exists();
-        const images = screen.getAllByRole('img');
-        assert.strictEqual(
-          images[0].getAttribute('src'),
-          '/images/illustrations/certification-instructions-steps/regular-challenge-round.svg',
-        );
-        assert.strictEqual(
-          images[1].getAttribute('src'),
-          '/images/illustrations/certification-instructions-steps/focus-challenge-round.svg',
-        );
-        assert.dom(screen.getByText('Le mode libre :')).exists();
-        assert.dom(screen.getByText('Le mode focus :')).exists();
+        const terms = screen.getAllByRole('term');
+        assert.strictEqual(terms[0].textContent.trim(), 'Le mode libre :');
+        assert.strictEqual(terms[1].textContent.trim(), 'Le mode focus :');
+        assert
+          .dom(screen.getByRole('img', { name: 'Mode libre' }))
+          .hasAttribute('src', '/images/illustrations/certification-instructions-steps/regular-challenge-round.svg');
+        assert
+          .dom(screen.getByRole('img', { name: 'Mode focus' }))
+          .hasAttribute('src', '/images/illustrations/certification-instructions-steps/focus-challenge-round.svg');
       });
     });
 

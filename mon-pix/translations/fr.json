@@ -478,8 +478,20 @@
         },
         "3": {
           "title": "Deux modes de questions",
-          "second-text": "'<span class=\"certification-instructions__question--bold\">'Le mode focus :'</span>' '<br>' Pour les questions en '<span class=\"certification-instructions__text--bold\">'mode focus'</span>', signalées par une icône jaune: vous ne serez pas autorisé à quitter la page et à faire des recherches.",
-          "text": "'<span class=\"certification-instructions__question--bold\">'Le mode libre :'</span>' '<br>' Pour les questions en '<span class=\"certification-instructions__text--bold\">'mode libre'</span>' signalées par une icône verte: vous aurez le droit d’effectuer des recherches sur le web et d’utiliser l’environnement numérique à disposition."
+          "images": {
+            "focus-challenge": "Mode focus",
+            "regular-challenge": "Mode libre"
+          },
+          "paragraphs": {
+            "1": {
+              "title": "Le mode libre :",
+              "text": "Pour les questions en '<strong>'mode libre'</strong>', signalées par une icône verte : vous aurez le droit d’effectuer des recherches sur le web et d’utiliser l’environnement numérique à disposition."
+            },
+            "2": {
+              "title": "Le mode focus :",
+              "text": "Pour les questions en '<strong>'mode focus'</strong>', signalées par une icône jaune : vous ne serez pas autorisé à quitter la page et à faire des recherches."
+            }
+          }
         },
         "4": {
           "title": "Que faire en cas de problème ?",
