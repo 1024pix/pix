@@ -50,32 +50,26 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
               domainBuilder.buildCertificationCandidateForSupervising({
                 complementaryCertification: undefined,
                 complementaryCertificationKey: undefined,
+                isComplementaryCertificationInProgress: false,
+                startDateTime: START_DATETIME_STUB,
               });
 
             const session = domainBuilder.buildSessionForSupervising({
               certificationCandidates: [certificationCandidateWithNoComplementaryCertification],
             });
             sessionForSupervisingRepository.get.withArgs({ id: 1 }).resolves(session);
-            const expectedTheoricalEndDateTime = dayjs(
-              certificationCandidateWithNoComplementaryCertification.startDateTime,
-            )
-              .add(DEFAULT_SESSION_DURATION_MINUTES, 'minute')
-              .toDate();
 
             // when
-            const sessionForSupervising = await getSessionForSupervising({
+            const { certificationCandidates } = await getSessionForSupervising({
               sessionId: 1,
               sessionForSupervisingRepository,
             });
+
             // then
-            expect(sessionForSupervising.certificationCandidates).to.have.lengthOf(1);
-            expect(sessionForSupervising.certificationCandidates[0]).to.have.deep.property(
-              'startDateTime',
-              certificationCandidateWithNoComplementaryCertification.startDateTime,
-            );
-            expect(sessionForSupervising.certificationCandidates[0]).to.have.deep.property(
-              'theoricalEndDateTime',
-              expectedTheoricalEndDateTime,
+            const [{ startDateTime, theoricalEndDateTime }] = certificationCandidates;
+            expect(startDateTime).to.deep.equal(START_DATETIME_STUB);
+            expect(theoricalEndDateTime).to.deep.equal(
+              _expectedSessionEndDateTimeFromStartDateTime(START_DATETIME_STUB, [DEFAULT_SESSION_DURATION_MINUTES]),
             );
           });
         });
@@ -149,15 +143,15 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
             );
 
             // when
-            const actualSession = await getSessionForSupervising({
+            const { certificationCandidates } = await getSessionForSupervising({
               sessionId: 1,
               sessionForSupervisingRepository,
             });
 
             // then
-            expect(actualSession.certificationCandidates).to.have.lengthOf(1);
-            expect(actualSession.certificationCandidates[0].startDateTime).to.deep.equal(START_DATETIME_STUB);
-            expect(actualSession.certificationCandidates[0].theoricalEndDateTime).to.deep.equal(
+            const [{ startDateTime, theoricalEndDateTime }] = certificationCandidates;
+            expect(startDateTime).to.deep.equal(START_DATETIME_STUB);
+            expect(theoricalEndDateTime).to.deep.equal(
               _expectedSessionEndDateTimeFromStartDateTime(START_DATETIME_STUB, [
                 DEFAULT_SESSION_DURATION_MINUTES,
                 COMPLEMENTARY_EXTRATIME_STUB,
@@ -229,15 +223,15 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
             );
 
             // when
-            const actualSession = await getSessionForSupervising({
+            const { certificationCandidates } = await getSessionForSupervising({
               sessionId: 1,
               sessionForSupervisingRepository,
             });
 
             // then
-            expect(actualSession.certificationCandidates).to.have.lengthOf(1);
-            expect(actualSession.certificationCandidates[0].startDateTime).to.deep.equal(START_DATETIME_STUB);
-            expect(actualSession.certificationCandidates[0].theoricalEndDateTime).to.deep.equal(
+            const [{ startDateTime, theoricalEndDateTime }] = certificationCandidates;
+            expect(startDateTime).to.deep.equal(START_DATETIME_STUB);
+            expect(theoricalEndDateTime).to.deep.equal(
               _expectedSessionEndDateTimeFromStartDateTime(START_DATETIME_STUB, [DEFAULT_SESSION_DURATION_MINUTES]),
             );
           });
