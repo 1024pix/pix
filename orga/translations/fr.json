@@ -9,12 +9,16 @@
       "target-profile-required": "Veuillez sélectionner un parcours pour votre campagne.",
       "title_too_long": "Le titre de la campagne est trop long."
     },
+    "csv-import": {
+      "property-not-uniq": "Ligne {line} : Le champ “{field}” doit être unique au sein du fichier."
+    },
     "default": "Le service est momentanément indisponible. Veuillez réessayer ultérieurement.",
     "edit-student-number": {
       "student-number-exists": "Le numéro étudiant saisi est déjà utilisé par l’étudiant {firstName} {lastName}"
     },
     "global": "Une erreur est survenue. Veuillez réessayer ultérieurement.",
     "or-separator": " ou ",
+
     "student-csv-import": {
       "bad-csv-format": "Le fichier doit être au format csv avec séparateur virgule ou point-virgule.",
       "encoding-not-supported": "Encodage du fichier non supporté.",

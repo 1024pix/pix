@@ -25,6 +25,7 @@ const CSV_IMPORT_ERRORS = {
   IDENTIFIER_UNIQUE: 'api-error-messages.student-csv-import.identifier-unique',
   INSEE_CODE_INVALID: 'api-error-messages.student-csv-import.insee-code-invalid',
   PAYLOAD_TOO_LARGE: 'api-error-messages.student-csv-import.payload-too-large',
+  PROPERTY_NOT_UNIQ: 'api-error-messages.csv-import.property-not-uniq',
   STUDENT_NUMBER_UNIQUE: 'api-error-messages.student-csv-import.student-number-unique',
   STUDENT_NUMBER_FORMAT: 'api-error-messages.student-csv-import.student-number-format',
 };
