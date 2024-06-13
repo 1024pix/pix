@@ -446,6 +446,7 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
         method: 'POST',
         url: '/api/oidc/users',
         headers: {
+          'accept-language': 'fr',
           cookie: 'locale=fr-FR',
         },
         payload: {

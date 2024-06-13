@@ -115,6 +115,9 @@ describe('Unit | Identity Access Management | Application | Controller | oidc-pr
       // given
       const request = {
         deserializedPayload: { identityProvider: 'OIDC', authenticationKey: 'abcde' },
+        headers: {
+          'accept-language': 'fr',
+        },
         state: {
           locale: 'fr-FR',
         },
@@ -132,6 +135,7 @@ describe('Unit | Identity Access Management | Application | Controller | oidc-pr
         identityProvider: 'OIDC',
         authenticationKey: 'abcde',
         localeFromCookie: 'fr-FR',
+        language: 'fr',
       });
       expect(response.statusCode).to.equal(200);
       expect(response.source).to.deep.equal({

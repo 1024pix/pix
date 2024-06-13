@@ -2,6 +2,9 @@ import { BadRequestError, UnauthorizedError } from '../../../../lib/application/
 import * as oidcSerializer from '../../../../lib/infrastructure/serializers/jsonapi/oidc-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as oidcProviderSerializer from '../../infrastructure/serializers/jsonapi/oidc-identity-providers.serializer.js';
+import {
+  requestResponseUtils,
+} from '../../../shared/infrastructure/utils/request-response-utils.js';
 
 /**
  * @typedef {function} authenticateOidcUser
@@ -52,14 +55,16 @@ async function authenticateOidcUser(request, h) {
  * @param h
  * @return {Promise<{access_token: string, logout_url_uuid: string}>}
  */
-async function createUser(request, h) {
+async function createUser(request, h, dependencies = { requestResponseUtils }) {
   const { identityProvider, authenticationKey } = request.deserializedPayload;
   const localeFromCookie = request.state?.locale;
+  const language = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
 
   const { accessToken: access_token, logoutUrlUUID: logout_url_uuid } = await usecases.createOidcUser({
     authenticationKey,
     identityProvider,
     localeFromCookie,
+    language,
   });
 
   return h.response({ access_token, logout_url_uuid }).code(200);
