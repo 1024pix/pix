@@ -91,14 +91,30 @@ module('Integration | Component | steps', function (hooks) {
     });
 
     module('on the last page', function () {
+      test('should display information', async function (assert) {
+        // given
+        // when
+        const screen = await render(hbs`<CertificationInstructions::Steps/>`);
+        await _goToLastPage(screen);
+
+        // then
+        assert.dom(screen.getByRole('heading', { name: 'Règles à respecter', level: 2 })).exists();
+        assert.dom(screen.getByText('En certification, il est interdit de :')).exists();
+        assert
+          .dom(
+            screen.getByRole('checkbox', {
+              name: 'En cochant cette case, je reconnais avoir pris connaissances de ces règles et je m’engage à les respecter.',
+            }),
+          )
+          .exists();
+      });
+
       test('should change the continue aria label button', async function (assert) {
         // given
         const screen = await render(hbs`<CertificationInstructions::Steps/>`);
 
         // when
-        for (let i = 0; i < 4; i++) {
-          await click(screen.getByRole('button', { name: "Continuer vers l'écran suivant" }));
-        }
+        await _goToLastPage(screen);
 
         // then
         assert.dom(screen.getByRole('button', { name: "Continuer vers la page d'entrée en certification" })).exists();
@@ -109,14 +125,32 @@ module('Integration | Component | steps', function (hooks) {
         const screen = await render(hbs`<CertificationInstructions::Steps/>`);
 
         // when
-        for (let i = 0; i < 4; i++) {
-          await click(screen.getByRole('button', { name: "Continuer vers l'écran suivant" }));
-        }
+        await _goToLastPage(screen);
 
         // then
         assert
           .dom(screen.getByRole('button', { name: "Continuer vers la page d'entrée en certification" }))
           .isDisabled();
+      });
+
+      module('when the checkbox is checked', function () {
+        test('should enable the continue button', async function (assert) {
+          // given
+          const screen = await render(hbs`<CertificationInstructions::Steps/>`);
+          await _goToLastPage(screen);
+
+          // when
+          await click(
+            screen.getByRole('checkbox', {
+              name: 'En cochant cette case, je reconnais avoir pris connaissances de ces règles et je m’engage à les respecter.',
+            }),
+          );
+
+          // then
+          assert
+            .dom(screen.getByRole('button', { name: "Continuer vers la page d'entrée en certification" }))
+            .isEnabled();
+        });
       });
     });
 
@@ -134,3 +168,10 @@ module('Integration | Component | steps', function (hooks) {
     });
   });
 });
+
+async function _goToLastPage(screen) {
+  const pageCount = 4;
+  for (let i = 0; i < pageCount; i++) {
+    await click(screen.getByRole('button', { name: "Continuer vers l'écran suivant" }));
+  }
+}

@@ -461,6 +461,37 @@
         "4": {
           "title": "Que faire en cas de problème ?",
           "text": "'<span class=\"certification-instructions__text--bold\">'En cas de problème technique'</span>' (par exemple, l'image refuse de s'afficher), suivez ces étapes : '<br><br>' cliquez sur \"'<span class=\"certification-instructions__text--bold\">'Signaler un problème avec la question'</span>'\", puis sur \"Oui, je suis sûr(e)\" et informez votre surveillant."
+        },
+        "5": {
+          "title": "Règles à respecter",
+          "checkbox-label": "En cochant cette case, je reconnais avoir pris connaissances de ces règles et je m’engage à les respecter.",
+          "list": {
+            "no-artificial-intelligence": {
+              "strong-text": "Avoir recours à un système d’intelligence artificielle",
+              "text": " ou un chatbot"
+            },
+            "no-cheat-sheet": {
+              "strong-text": "Utiliser des antisèches",
+              "text": "(physiques ou électroniques), des ressources de spoil ou des notes personnelles"
+            },
+            "no-communication": {
+              "strong-text": "Communiquer avec quelqu’un d’autre",
+              "text": ", dans la salle ou à l’extérieur, par voie physique ou électronique"
+            },
+            "no-connected-device": {
+              "strong-text": "Utiliser un téléphone mobile ou tout appareil connecté",
+              "text": "(autre que l’ordinateur mobilisé dans le cadre de la certification)"
+            },
+            "no-forum": {
+              "strong-text": "Consulter un forum d’entraide",
+              "text": " apportant directement la réponse à une épreuve"
+            },
+            "other": {
+              "strong-text": "Mobiliser tout autre moyen délivrant directement la réponse",
+              "text": ", sans avoir effectué le travail requis par la consigne."
+            }
+          },
+          "text": "En certification, il est interdit de :"
         }
       }
     },

@@ -90,6 +90,13 @@
     min-width: 120px;
     min-height: 120px;
   }
+
+  &__list {
+    li {
+      margin-left: var(--pix-spacing-4x);
+      list-style: disc;
+    }
+  }
 }
 
 .certification-instructions-content-images {
