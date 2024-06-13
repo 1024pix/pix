@@ -26,7 +26,7 @@ module('Integration | Component | Organizations | Places | List', function (hook
     module('Display places', function () {
       test('it should display places', async function (assert) {
         // given
-        const places = store.createRecord('organizationPlace', {
+        const places = store.createRecord('organization-place', {
           count: 7777,
           reference: 'FFVII',
           category: 'FULL_RATE',
@@ -67,7 +67,7 @@ module('Integration | Component | Organizations | Places | List', function (hook
 
       test('it should call onDelete', async function (assert) {
         // given
-        const places = store.createRecord('organizationPlace', {
+        const places = store.createRecord('organization-place', {
           count: 7777,
           reference: 'FFVII',
           category: 'FULL_RATE',

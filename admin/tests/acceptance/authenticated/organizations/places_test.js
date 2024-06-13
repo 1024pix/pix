@@ -29,7 +29,7 @@ module('Acceptance | Organizations | places', function (hooks) {
     test('should display organization places', async function (assert) {
       // given
       const ownerOrganizationId = this.server.create('organization').id;
-      this.server.create('organizationPlace', {
+      this.server.create('organization-place', {
         count: 7777,
         reference: 'FFVII',
         category: 'SquareEnix',

@@ -68,7 +68,7 @@ module('Unit | Controller | authenticated/certification-centers/get/invitations'
       const controller = this.owner.lookup('controller:authenticated/certification-centers/get/invitations');
 
       const store = this.owner.lookup('service:store');
-      store.createRecord('certificationCenterInvitation', {
+      store.createRecord('certification-center-invitation', {
         destroyRecord: sinon.stub().rejects('an error'),
       });
 

@@ -46,7 +46,7 @@ module('Integration | Component | Organizations | Places', function (hooks) {
 
       test('it should display places', async function (assert) {
         // given
-        const places = store.createRecord('organizationPlace', {
+        const places = store.createRecord('organization-place', {
           count: 7777,
           reference: 'FFVII',
           category: 'FULL_RATE',
@@ -69,7 +69,7 @@ module('Integration | Component | Organizations | Places', function (hooks) {
 
       test('it should display modal to delete places lot', async function (assert) {
         // given
-        const places = store.createRecord('organizationPlace', {
+        const places = store.createRecord('organization-place', {
           count: 7777,
           reference: 'FFVII',
           category: 'FULL_RATE',
@@ -109,7 +109,7 @@ module('Integration | Component | Organizations | Places', function (hooks) {
 
     test('it should not display button to delete places lot', async function (assert) {
       // given
-      const places = store.createRecord('organizationPlace', {
+      const places = store.createRecord('organization-place', {
         count: 7777,
         reference: 'FFVII',
         category: 'FULL_RATE',

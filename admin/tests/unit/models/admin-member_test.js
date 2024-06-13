@@ -12,7 +12,7 @@ module('Unit | Model | admin-member', function (hooks) {
   module('#fullName', function () {
     test('it should return the fullname, combination of first and last name', function (assert) {
       // given
-      const adminMember = store.createRecord('adminMember', { firstName: 'Jean-Baptiste', lastName: 'Poquelin' });
+      const adminMember = store.createRecord('admin-member', { firstName: 'Jean-Baptiste', lastName: 'Poquelin' });
 
       // when
       const fullName = adminMember.fullName;

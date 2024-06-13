@@ -13,7 +13,7 @@ module('Unit | Component | actions-on-users-role-in-organization', function (hoo
       test('it should show an error notification and clode edition mode', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        const organizationMembership = store.createRecord('organizationMembership', {
+        const organizationMembership = store.createRecord('organization-membership', {
           role: 'ADMIN',
           save: sinon.stub().rejects('an error'),
         });
@@ -47,7 +47,7 @@ module('Unit | Component | actions-on-users-role-in-organization', function (hoo
       test('it should show an error notification and clode confirm modale', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        const organizationMembership = store.createRecord('organizationMembership', {
+        const organizationMembership = store.createRecord('organization-membership', {
           role: 'ADMIN',
           save: sinon.stub().rejects('an error'),
         });
