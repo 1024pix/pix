@@ -89,9 +89,10 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-oidc-use
     });
   });
 
-  it('creates the user account and returns an access token, the logout url uuid and update the last logged date with the existing external user id', async function () {
+  it('creates the user account with given language and returns an access token, the logout url uuid and update the last logged date with the existing external user id', async function () {
     // given
     const idToken = 'idToken';
+    const language = 'nl';
     authenticationSessionService.getByKey.withArgs('AUTHENTICATION_KEY').resolves({
       sessionContent: { idToken, accessToken: 'accessToken' },
       userInfo: { firstName: 'Jean', lastName: 'Heymar', externalIdentityId: 'externalId' },
@@ -107,7 +108,8 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-oidc-use
     const result = await createOidcUser({
       identityProvider: 'SOME_IDP',
       authenticationKey: 'AUTHENTICATION_KEY',
-      localeFromCookie: 'fr-FR',
+      localeFromCookie: 'nl-BE',
+      language,
       authenticationSessionService,
       oidcAuthenticationServiceRegistry,
       authenticationMethodRepository,
@@ -120,7 +122,8 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-oidc-use
       user: {
         firstName: 'Jean',
         lastName: 'Heymar',
-        locale: 'fr-FR',
+        locale: 'nl-BE',
+        lang: 'nl',
         cgu: true,
         lastTermsOfServiceValidatedAt: now,
       },
