@@ -1,7 +1,10 @@
-import { getElements, getElementsListAsCsv } from '../../../../scripts/modulix/get-elements-csv.js';
+import {
+  getAnswerableElements,
+  getAnswerableElementsListAsCsv,
+} from '../../../../scripts/modulix/get-answerable-elements-csv.js';
 import { expect } from '../../../test-helper.js';
 
-describe('Acceptance | Script | Get Elements as CSV', function () {
+describe('Acceptance | Script | Get Answerable Elements as CSV', function () {
   const modulesListAsJs = [
     {
       id: '6282925d-4775-4bca-b513-4c3009ec5886',
@@ -338,10 +341,10 @@ describe('Acceptance | Script | Get Elements as CSV', function () {
     },
   ];
 
-  describe('#getElements', function () {
+  describe('#getAnswerableElements', function () {
     it('should filter out elements that are not activities', async function () {
       // When
-      const elementsListAsJs = await getElements(modulesListAsJs);
+      const elementsListAsJs = await getAnswerableElements(modulesListAsJs);
 
       // Then
       expect(elementsListAsJs).to.be.an('array');
@@ -350,7 +353,7 @@ describe('Acceptance | Script | Get Elements as CSV', function () {
 
     it('should add some meta info to elements', async function () {
       // When
-      const elementsListAsJs = await getElements(modulesListAsJs);
+      const elementsListAsJs = await getAnswerableElements(modulesListAsJs);
 
       // Then
       expect(elementsListAsJs).to.be.an('array');
@@ -362,10 +365,10 @@ describe('Acceptance | Script | Get Elements as CSV', function () {
     });
   });
 
-  describe('#getElementsListAsCsv', function () {
+  describe('#getAnswerableElementsListAsCsv', function () {
     it(`should return elements list as CSV`, async function () {
       // When
-      const elementsListAsCsv = await getElementsListAsCsv(modulesListAsJs);
+      const elementsListAsCsv = await getAnswerableElementsListAsCsv(modulesListAsJs);
 
       // Then
       expect(elementsListAsCsv).to.be.a('string');

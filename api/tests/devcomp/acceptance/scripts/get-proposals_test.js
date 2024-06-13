@@ -1,4 +1,4 @@
-import { getElements } from '../../../../scripts/modulix/get-elements-csv.js';
+import { getAnswerableElements } from '../../../../scripts/modulix/get-answerable-elements-csv.js';
 import { getProposals, getProposalsListAsCsv } from '../../../../scripts/modulix/get-proposals-csv.js';
 import { expect } from '../../../test-helper.js';
 
@@ -343,7 +343,7 @@ describe('Acceptance | Script | Get Proposals as CSV', function () {
     let elementsListAsJs;
 
     beforeEach(async function () {
-      elementsListAsJs = getElements(modulesListAsJs);
+      elementsListAsJs = getAnswerableElements(modulesListAsJs);
     });
 
     it('should filter out elements that are not activities', async function () {

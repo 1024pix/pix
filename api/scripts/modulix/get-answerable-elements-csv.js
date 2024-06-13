@@ -3,8 +3,8 @@ import { fileURLToPath } from 'node:url';
 import { getCsvContent } from '../../lib/infrastructure/utils/csv/write-csv-utils.js';
 import moduleDatasource from '../../src/devcomp/infrastructure/datasources/learning-content/module-datasource.js';
 
-export async function getElementsListAsCsv(modules) {
-  const elements = getElements(modules);
+export async function getAnswerableElementsListAsCsv(modules) {
+  const elements = getAnswerableElements(modules);
 
   return await getCsvContent({
     data: elements,
@@ -28,11 +28,11 @@ if (import.meta.url.startsWith('file:')) {
 
   if (process.argv[1] === modulePath) {
     const modules = await moduleDatasource.list();
-    console.log(await getElementsListAsCsv(modules));
+    console.log(await getAnswerableElementsListAsCsv(modules));
   }
 }
 
-export function getElements(modules) {
+export function getAnswerableElements(modules) {
   const ANSWERABLE_ELEMENT_TYPES = ['qcm', 'qcu', 'qrocm'];
 
   const elements = [];
