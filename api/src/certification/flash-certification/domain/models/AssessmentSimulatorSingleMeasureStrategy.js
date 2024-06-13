@@ -1,11 +1,12 @@
 import { Answer } from '../../../../evaluation/domain/models/Answer.js';
 
 export class AssessmentSimulatorSingleMeasureStrategy {
-  constructor({ algorithm, challenges, pickChallenge, pickAnswerStatus, initialCapacity }) {
+  constructor({ algorithm, challenges, pickChallenge, pickAnswerStatus, initialCapacity, challengePickProbability }) {
     this.algorithm = algorithm;
     this.challenges = challenges;
     this.pickAnswerStatus = pickAnswerStatus;
     this.pickChallenge = pickChallenge;
+    this.challengePickProbability = challengePickProbability;
     this.initialCapacity = initialCapacity;
   }
 
@@ -16,7 +17,7 @@ export class AssessmentSimulatorSingleMeasureStrategy {
       initialCapacity: this.initialCapacity,
     });
 
-    const nextChallenge = this.pickChallenge({ possibleChallenges });
+    const nextChallenge = this.pickChallenge.chooseNextChallenge(this.challengePickProbability)({ possibleChallenges });
 
     const answerStatus = this.pickAnswerStatus({
       answerIndex: stepIndex,

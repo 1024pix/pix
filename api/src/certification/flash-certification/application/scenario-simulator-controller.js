@@ -52,12 +52,11 @@ async function simulateFlashAssessmentScenario(
     const iterations = _.range(0, numberOfIterations);
 
     for (const index of iterations) {
-      const pickChallenge = dependencies.pickChallengeService.chooseNextChallenge(challengePickProbability);
-
       const usecaseParams = _.omitBy(
         {
           pickAnswerStatus,
-          pickChallenge,
+          pickChallenge: dependencies.pickChallengeService,
+          challengePickProbability,
           locale,
           stopAtChallenge,
           initialCapacity,

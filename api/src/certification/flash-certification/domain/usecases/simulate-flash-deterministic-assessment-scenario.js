@@ -7,6 +7,7 @@ import { FlashAssessmentAlgorithmConfiguration } from '../models/FlashAssessment
 export async function simulateFlashDeterministicAssessmentScenario({
   locale,
   pickChallenge,
+  challengePickProbability,
   pickAnswerStatus,
   stopAtChallenge,
   initialCapacity,
@@ -45,6 +46,7 @@ export async function simulateFlashDeterministicAssessmentScenario({
     algorithm: flashAssessmentAlgorithm,
     challenges,
     pickChallenge,
+    challengePickProbability,
     pickAnswerStatus,
     initialCapacity,
   });
@@ -53,6 +55,7 @@ export async function simulateFlashDeterministicAssessmentScenario({
     algorithm: flashAssessmentAlgorithm,
     challenges,
     pickChallenge,
+    challengePickProbability,
     pickAnswerStatus,
     initialCapacity,
   });

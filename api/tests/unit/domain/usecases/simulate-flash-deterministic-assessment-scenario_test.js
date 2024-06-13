@@ -16,13 +16,20 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
     context('when no initial capacity is provided', function () {
       it('should return an array of capacity, challenge, reward and error rate for each answer', async function () {
         // given
-        const { challengeRepository, pickChallenge, pickAnswerStatus, flashAlgorithmService } = prepareStubs();
+        const {
+          challengeRepository,
+          pickChallenge,
+          pickAnswerStatus,
+          flashAlgorithmService,
+          challengePickProbability,
+        } = prepareStubs();
 
         // when
         const result = await simulateFlashDeterministicAssessmentScenario({
           challengeRepository,
           locale,
           pickChallenge,
+          challengePickProbability,
           pickAnswerStatus,
           flashAlgorithmService,
           enablePassageByAllCompetences: false,
@@ -45,10 +52,16 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
         // given
         const initialCapacity = 7;
 
-        const { challengeRepository, firstChallenge, pickChallenge, pickAnswerStatus, flashAlgorithmService } =
-          prepareStubs({
-            initialCapacity,
-          });
+        const {
+          challengeRepository,
+          firstChallenge,
+          pickChallenge,
+          pickAnswerStatus,
+          flashAlgorithmService,
+          challengePickProbability,
+        } = prepareStubs({
+          initialCapacity,
+        });
 
         flashAlgorithmService.getReward
           .withArgs({
@@ -63,6 +76,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
           challengeRepository,
           locale,
           pickChallenge,
+          challengePickProbability,
           pickAnswerStatus,
           initialCapacity,
           flashAlgorithmService,
@@ -91,6 +105,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
         const {
           challengeRepository,
           pickChallenge,
+          challengePickProbability,
           pickAnswerStatus,
           flashAlgorithmService: baseFlashAlgorithmService,
           getNextChallengesOptionsMatcher,
@@ -130,6 +145,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
           challengeRepository,
           locale,
           pickChallenge,
+          challengePickProbability,
           pickAnswerStatus,
           limitToOneQuestionPerTube,
           flashAlgorithmService,
@@ -161,7 +177,13 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
           }),
         ];
 
-        const { challengeRepository, pickChallenge, pickAnswerStatus, flashAlgorithmService } = prepareStubs({
+        const {
+          challengeRepository,
+          pickChallenge,
+          challengePickProbability,
+          pickAnswerStatus,
+          flashAlgorithmService,
+        } = prepareStubs({
           minimalSuccessRate: 0.8,
         });
 
@@ -170,6 +192,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
           challengeRepository,
           locale,
           pickChallenge,
+          challengePickProbability,
           pickAnswerStatus,
           minimumEstimatedSuccessRateRanges,
           flashAlgorithmService,
@@ -192,7 +215,13 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
     context('when doing a double measure', function () {
       it('should return an array of estimated level, challenge, reward and error rate for each answer', async function () {
         // given
-        const { challengeRepository, pickChallenge, pickAnswerStatus, flashAlgorithmService } = prepareStubs({
+        const {
+          challengeRepository,
+          pickChallenge,
+          challengePickProbability,
+          pickAnswerStatus,
+          flashAlgorithmService,
+        } = prepareStubs({
           doubleMeasuresUntil: 2,
         });
 
@@ -201,6 +230,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
           challengeRepository,
           locale,
           pickChallenge,
+          challengePickProbability,
           pickAnswerStatus,
           flashAlgorithmService,
           enablePassageByAllCompetences: false,
@@ -220,6 +250,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
   context('when there are not enough flash challenges left', function () {
     it('should stop simulating', async function () {
       // given
+      const challengePickProbability = 0.51;
       const limitToOneQuestionPerTube = false;
       const enablePassageByAllCompetences = false;
       const challenge = domainBuilder.buildChallenge({ id: 1 });
@@ -228,7 +259,10 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
       };
       challengeRepository.findFlashCompatible.resolves([challenge]);
 
-      const pickChallenge = sinon.stub();
+      const pickChallenge = {
+        chooseNextChallenge: sinon.stub(),
+      };
+      const pickChallengeReturnedFunction = sinon.stub();
       const pickAnswerStatus = sinon.stub();
 
       const flashAlgorithmService = {
@@ -257,7 +291,8 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
       });
       flashAlgorithmService.getReward.returns(1);
 
-      pickChallenge
+      pickChallenge.chooseNextChallenge.withArgs(challengePickProbability).returns(pickChallengeReturnedFunction);
+      pickChallengeReturnedFunction
         .withArgs({
           possibleChallenges: [challenge],
         })
@@ -270,6 +305,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
         challengeRepository,
         locale,
         pickChallenge,
+        challengePickProbability,
         pickAnswerStatus,
         flashAlgorithmService,
         limitToOneQuestionPerTube,
@@ -295,6 +331,7 @@ function prepareStubs({
   minimalSuccessRate,
   doubleMeasuresUntil = 0,
 } = {}) {
+  const challengePickProbability = 0.51;
   const firstSkill = domainBuilder.buildSkill({ id: 'firstSkill', tubeId: '1' });
   const secondSkill = domainBuilder.buildSkill({ id: 'secondSkill', tubeId: '2' });
   const thirdSkill = domainBuilder.buildSkill({ id: 'thirdSkill', tubeId: '3' });
@@ -325,13 +362,16 @@ function prepareStubs({
   const challengeRepository = {
     findFlashCompatible: sinon.stub(),
   };
-  const pickChallenge = sinon.stub();
+  const pickChallenge = {
+    chooseNextChallenge: sinon.stub(),
+  };
   const pickAnswerStatus = sinon.stub();
   const flashAlgorithmService = {
     getPossibleNextChallenges: sinon.stub(),
     getCapacityAndErrorRate: sinon.stub(),
     getReward: sinon.stub(),
   };
+  const pickChallengeReturnedFunction = sinon.stub();
 
   const getNextChallengesOptionsMatcher = sinon.match(
     _.omitBy(
@@ -434,15 +474,22 @@ function prepareStubs({
 
   challengeRepository.findFlashCompatible.resolves([firstChallenge, secondChallenge, thirdChallenge]);
 
-  pickChallenge
+  pickChallenge.chooseNextChallenge.withArgs(0.51).returns(pickChallengeReturnedFunction);
+  pickChallengeReturnedFunction
     .withArgs({
       possibleChallenges: [firstChallenge, thirdChallenge, secondChallenge],
     })
     .returns(firstChallenge)
+    .withArgs(0.51)
+    .returns(pickChallengeReturnedFunction);
+  pickChallengeReturnedFunction
     .withArgs({
       possibleChallenges: [thirdChallenge, secondChallenge],
     })
     .returns(secondChallenge)
+    .withArgs(0.51)
+    .returns(pickChallengeReturnedFunction);
+  pickChallengeReturnedFunction
     .withArgs({
       possibleChallenges: [thirdChallenge],
     })
@@ -454,6 +501,7 @@ function prepareStubs({
 
   return {
     pickChallenge,
+    challengePickProbability,
     pickAnswerStatus,
     challengeRepository,
     flashAlgorithmService,

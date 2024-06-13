@@ -17,7 +17,11 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
             getCapacityAndErrorRate: sinon.stub(),
             getReward: sinon.stub(),
           };
-          const pickChallenge = sinon.stub();
+          const pickChallenge = {
+            chooseNextChallenge: sinon.stub(),
+          };
+          const pickChallengeReturnedFunction = sinon.stub();
+          const challengePickProbability = 0.51;
           const pickAnswerStatus = sinon.stub();
 
           algorithm.getPossibleNextChallenges
@@ -28,7 +32,8 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
             })
             .returns([challenge2, challenge1]);
 
-          pickChallenge.withArgs({ possibleChallenges: [challenge2, challenge1] }).returns(challenge2);
+          pickChallenge.chooseNextChallenge.withArgs(challengePickProbability).returns(pickChallengeReturnedFunction);
+          pickChallengeReturnedFunction.withArgs({ possibleChallenges: [challenge2, challenge1] }).returns(challenge2);
           pickAnswerStatus.withArgs({ nextChallenge: challenge2, answerIndex: 0 }).returns(undefined);
 
           // when
@@ -36,6 +41,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
             algorithm,
             challenges: allChallenges,
             pickChallenge,
+            challengePickProbability,
             pickAnswerStatus,
             initialCapacity,
           });
@@ -64,7 +70,11 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
             getCapacityAndErrorRate: sinon.stub(),
             getReward: sinon.stub(),
           };
-          const pickChallenge = sinon.stub();
+          const pickChallenge = {
+            chooseNextChallenge: sinon.stub(),
+          };
+          const pickChallengeReturnedFunction = sinon.stub();
+          const challengePickProbability = 0.51;
           const pickAnswerStatus = sinon.stub();
 
           algorithm.getCapacityAndErrorRate
@@ -91,7 +101,8 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
             })
             .returns([challenge2, challenge1]);
 
-          pickChallenge.withArgs({ possibleChallenges: [challenge2, challenge1] }).returns(challenge2);
+          pickChallenge.chooseNextChallenge.withArgs(challengePickProbability).returns(pickChallengeReturnedFunction);
+          pickChallengeReturnedFunction.withArgs({ possibleChallenges: [challenge2, challenge1] }).returns(challenge2);
           pickAnswerStatus.withArgs({ nextChallenge: challenge2, answerIndex: 0 }).returns(answerForSimulator);
 
           algorithm.getReward
@@ -126,6 +137,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
             algorithm,
             challenges: allChallenges,
             pickChallenge,
+            challengePickProbability,
             pickAnswerStatus,
             initialCapacity,
           });
@@ -151,7 +163,11 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
             getReward: sinon.stub(),
           };
           const challengeAnswer = domainBuilder.buildAnswer({ challengeId: challenge1.id });
-          const pickChallenge = sinon.stub();
+          const pickChallenge = {
+            chooseNextChallenge: sinon.stub(),
+          };
+          const pickChallengeReturnedFunction = sinon.stub();
+          const challengePickProbability = 0.51;
           const pickAnswerStatus = sinon.stub();
 
           algorithm.getPossibleNextChallenges
@@ -162,7 +178,8 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
             })
             .returns([challenge1, challenge2]);
 
-          pickChallenge.withArgs({ possibleChallenges: [challenge1, challenge2] }).returns(challenge2);
+          pickChallenge.chooseNextChallenge.withArgs(challengePickProbability).returns(pickChallengeReturnedFunction);
+          pickChallengeReturnedFunction.withArgs({ possibleChallenges: [challenge1, challenge2] }).returns(challenge2);
 
           pickAnswerStatus.withArgs({ nextChallenge: challenge2, answerIndex: 1 }).returns(undefined);
 
@@ -171,6 +188,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
             algorithm,
             challenges: allChallenges,
             pickChallenge,
+            challengePickProbability,
             pickAnswerStatus,
             initialCapacity: capacityAfterFirstChallenge,
           });
@@ -200,7 +218,11 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
             getReward: sinon.stub(),
           };
           const challengeAnswer = domainBuilder.buildAnswer({ challengeId: challenge1.id });
-          const pickChallenge = sinon.stub();
+          const pickChallenge = {
+            chooseNextChallenge: sinon.stub(),
+          };
+          const pickChallengeReturnedFunction = sinon.stub();
+          const challengePickProbability = 0.51;
           const pickAnswerStatus = sinon.stub();
 
           algorithm.getCapacityAndErrorRate
@@ -227,7 +249,8 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
             })
             .returns([challenge1, challenge2]);
 
-          pickChallenge.withArgs({ possibleChallenges: [challenge1, challenge2] }).returns(challenge2);
+          pickChallenge.chooseNextChallenge.withArgs(challengePickProbability).returns(pickChallengeReturnedFunction);
+          pickChallengeReturnedFunction.withArgs({ possibleChallenges: [challenge1, challenge2] }).returns(challenge2);
 
           pickAnswerStatus.withArgs({ nextChallenge: challenge2, answerIndex: 1 }).returns(answerForSimulator);
 
@@ -263,6 +286,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
             algorithm,
             challenges: allChallenges,
             pickChallenge,
+            challengePickProbability,
             pickAnswerStatus,
             initialCapacity: capacityAfterFirstChallenge,
           });

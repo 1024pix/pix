@@ -2,11 +2,20 @@ import { Answer } from '../../../../evaluation/domain/models/Answer.js';
 
 const NUMBER_OF_MEASURES = 2;
 export class AssessmentSimulatorDoubleMeasureStrategy {
-  constructor({ algorithm, challenges, pickChallenge, pickAnswerStatus, initialCapacity, doubleMeasuresUntil }) {
+  constructor({
+    algorithm,
+    challenges,
+    pickChallenge,
+    pickAnswerStatus,
+    initialCapacity,
+    doubleMeasuresUntil,
+    challengePickProbability,
+  }) {
     this.algorithm = algorithm;
     this.challenges = challenges;
     this.pickAnswerStatus = pickAnswerStatus;
     this.pickChallenge = pickChallenge;
+    this.challengePickProbability = challengePickProbability;
     this.initialCapacity = initialCapacity;
     this.doubleMeasuresUntil = doubleMeasuresUntil;
   }
@@ -36,6 +45,7 @@ export class AssessmentSimulatorDoubleMeasureStrategy {
       const { hasAssessmentEnded, nextChallenge, answer } = this._getNextChallengeAndAnswer({
         possibleChallenges: availableChallenges,
         stepIndex: stepIndex + index,
+        challengePickProbability: this.challengePickProbability,
       });
 
       if (hasAssessmentEnded) {
@@ -71,8 +81,8 @@ export class AssessmentSimulatorDoubleMeasureStrategy {
     };
   }
 
-  _getNextChallengeAndAnswer({ possibleChallenges, stepIndex }) {
-    const nextChallenge = this.pickChallenge({ possibleChallenges });
+  _getNextChallengeAndAnswer({ possibleChallenges, stepIndex, challengePickProbability }) {
+    const nextChallenge = this.pickChallenge.chooseNextChallenge(challengePickProbability)({ possibleChallenges });
 
     const answerStatus = this.pickAnswerStatus({
       answerIndex: stepIndex,

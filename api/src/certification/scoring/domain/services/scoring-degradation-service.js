@@ -18,14 +18,13 @@ const downgradeCapacity = ({
   const answerStatusArray = Array.from({ length: numberOfUnansweredChallenges }, () => AnswerStatus.SKIPPED);
 
   const pickAnswerStatus = pickAnswerStatusService.pickAnswerStatusFromArray(answerStatusArray);
-  const pickChallenge = pickChallengeService.chooseNextChallenge(
-    PROBABILITY_TO_PICK_THE_MOST_USEFUL_CHALLENGE_FOR_CANDIDATE_EVALUATION,
-  );
+  const pickChallenge = pickChallengeService;
 
   const singleMeasureStrategy = new AssessmentSimulatorSingleMeasureStrategy({
     algorithm,
     challenges: allChallenges,
     pickChallenge,
+    challengePickProbability: PROBABILITY_TO_PICK_THE_MOST_USEFUL_CHALLENGE_FOR_CANDIDATE_EVALUATION,
     pickAnswerStatus,
     initialCapacity: capacity,
   });

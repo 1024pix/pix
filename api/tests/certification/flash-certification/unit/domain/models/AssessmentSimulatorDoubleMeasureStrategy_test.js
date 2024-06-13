@@ -17,7 +17,11 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
           getCapacityAndErrorRate: sinon.stub(),
           getReward: sinon.stub(),
         };
-        const pickChallenge = sinon.stub();
+        const pickChallenge = {
+          chooseNextChallenge: sinon.stub(),
+        };
+        const pickChallengeReturnedFunction = sinon.stub();
+        const challengePickProbability = 0.51;
         const pickAnswerStatus = sinon.stub();
 
         algorithm.getCapacityAndErrorRate
@@ -40,7 +44,8 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
           })
           .returns([challenge2, challenge1]);
 
-        pickChallenge.withArgs({ possibleChallenges: [challenge2, challenge1] }).returns(challenge2);
+        pickChallenge.chooseNextChallenge.withArgs(challengePickProbability).returns(pickChallengeReturnedFunction);
+        pickChallengeReturnedFunction.withArgs({ possibleChallenges: [challenge2, challenge1] }).returns(challenge2);
         pickAnswerStatus.withArgs({ nextChallenge: challenge2, answerIndex: 0 }).returns(undefined);
 
         // when
@@ -48,6 +53,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
           algorithm,
           challenges: allChallenges,
           pickChallenge,
+          challengePickProbability,
           pickAnswerStatus,
           initialCapacity,
           doubleMeasuresUntil,
@@ -80,7 +86,11 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
           getCapacityAndErrorRate: sinon.stub(),
           getReward: sinon.stub(),
         };
-        const pickChallenge = sinon.stub();
+        const pickChallenge = {
+          chooseNextChallenge: sinon.stub(),
+        };
+        const pickChallengeReturnedFunction = sinon.stub();
+        const challengePickProbability = 0.51;
         const pickAnswerStatus = sinon.stub();
 
         algorithm.getPossibleNextChallenges
@@ -133,11 +143,10 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
           })
           .returns(challenge2Reward);
 
-        pickChallenge
-          .withArgs({ possibleChallenges: [challenge2, challenge1] })
-          .returns(challenge2)
-          .withArgs({ possibleChallenges: [challenge1] })
-          .returns(challenge1);
+        pickChallenge.chooseNextChallenge.withArgs(challengePickProbability).returns(pickChallengeReturnedFunction);
+        pickChallengeReturnedFunction.withArgs({ possibleChallenges: [challenge2, challenge1] }).returns(challenge2);
+        pickChallenge.chooseNextChallenge.withArgs(challengePickProbability).returns(pickChallengeReturnedFunction);
+        pickChallengeReturnedFunction.withArgs({ possibleChallenges: [challenge1] }).returns(challenge1);
 
         pickAnswerStatus
           .withArgs({ nextChallenge: challenge2, answerIndex: 0 })
@@ -178,6 +187,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
           algorithm,
           challenges: allChallenges,
           pickChallenge,
+          challengePickProbability,
           pickAnswerStatus,
           initialCapacity,
           doubleMeasuresUntil: 2,

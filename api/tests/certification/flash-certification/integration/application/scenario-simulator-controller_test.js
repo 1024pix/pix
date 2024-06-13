@@ -65,8 +65,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
             const answerStatusArray = ['ok'];
             const forcedCompetences = ['compA', 'compB', 'compC'];
 
-            const pickChallengeImplementation = sinon.stub();
-            pickChallengeService.chooseNextChallenge.withArgs().returns(pickChallengeImplementation);
             const pickAnswerStatusFromArrayImplementation = sinon.stub();
             pickAnswerStatusService.pickAnswerStatusFromArray
               .withArgs(['ok'])
@@ -76,7 +74,7 @@ describe('Integration | Application | scenario-simulator-controller', function (
               .withArgs({
                 pickAnswerStatus: pickAnswerStatusFromArrayImplementation,
                 locale: 'en',
-                pickChallenge: pickChallengeImplementation,
+                pickChallenge: pickChallengeService,
                 initialCapacity,
                 forcedCompetences,
               })
@@ -127,8 +125,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
           const answerStatusArray = ['ok'];
           const challengesBetweenSameCompetence = 2;
 
-          const pickChallengeImplementation = sinon.stub();
-          pickChallengeService.chooseNextChallenge.withArgs().returns(pickChallengeImplementation);
           const pickAnswerStatusFromArrayImplementation = sinon.stub();
           pickAnswerStatusService.pickAnswerStatusFromArray
             .withArgs(['ok'])
@@ -138,7 +134,7 @@ describe('Integration | Application | scenario-simulator-controller', function (
             .withArgs({
               pickAnswerStatus: pickAnswerStatusFromArrayImplementation,
               locale: 'en',
-              pickChallenge: pickChallengeImplementation,
+              pickChallenge: pickChallengeService,
               initialCapacity,
               challengesBetweenSameCompetence,
             })
@@ -188,10 +184,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
           const answerStatusArray = ['ok'];
           const challengePickProbability = 40;
 
-          const pickChallengeImplementation = sinon.stub();
-          pickChallengeService.chooseNextChallenge
-            .withArgs(challengePickProbability)
-            .returns(pickChallengeImplementation);
           const pickAnswerStatusFromArrayImplementation = sinon.stub();
           pickAnswerStatusService.pickAnswerStatusFromArray
             .withArgs(['ok'])
@@ -201,7 +193,8 @@ describe('Integration | Application | scenario-simulator-controller', function (
             .withArgs({
               pickAnswerStatus: pickAnswerStatusFromArrayImplementation,
               locale: 'en',
-              pickChallenge: pickChallengeImplementation,
+              pickChallenge: pickChallengeService,
+              challengePickProbability,
               initialCapacity,
             })
             .resolves(simulationResults);
@@ -250,8 +243,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
           const limitToOneQuestionPerTube = true;
           const answerStatusArray = ['ok'];
 
-          const pickChallengeImplementation = sinon.stub();
-          pickChallengeService.chooseNextChallenge.withArgs().returns(pickChallengeImplementation);
           const pickAnswerStatusFromArrayImplementation = sinon.stub();
           pickAnswerStatusService.pickAnswerStatusFromArray
             .withArgs(['ok'])
@@ -261,7 +252,7 @@ describe('Integration | Application | scenario-simulator-controller', function (
             .withArgs({
               pickAnswerStatus: pickAnswerStatusFromArrayImplementation,
               locale: 'en',
-              pickChallenge: pickChallengeImplementation,
+              pickChallenge: pickChallengeService,
               initialCapacity,
               limitToOneQuestionPerTube,
             })
@@ -341,8 +332,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
               }),
             ];
 
-            const pickChallengeImplementation = sinon.stub();
-            pickChallengeService.chooseNextChallenge.withArgs().returns(pickChallengeImplementation);
             const pickAnswerStatusFromArrayImplementation = sinon.stub();
             pickAnswerStatusService.pickAnswerStatusFromArray
               .withArgs(['ok'])
@@ -352,7 +341,7 @@ describe('Integration | Application | scenario-simulator-controller', function (
               .withArgs({
                 pickAnswerStatus: pickAnswerStatusFromArrayImplementation,
                 locale: 'en',
-                pickChallenge: pickChallengeImplementation,
+                pickChallenge: pickChallengeService,
                 initialCapacity,
                 minimumEstimatedSuccessRateRanges: expectedSuccessRateRanges,
               })
@@ -522,8 +511,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
           const enablePassageByAllCompetences = true;
           const answerStatusArray = ['ok'];
 
-          const pickChallengeImplementation = sinon.stub();
-          pickChallengeService.chooseNextChallenge.withArgs().returns(pickChallengeImplementation);
           const pickAnswerStatusFromArrayImplementation = sinon.stub();
           pickAnswerStatusService.pickAnswerStatusFromArray
             .withArgs(['ok'])
@@ -533,7 +520,7 @@ describe('Integration | Application | scenario-simulator-controller', function (
             .withArgs({
               pickAnswerStatus: pickAnswerStatusFromArrayImplementation,
               locale: 'en',
-              pickChallenge: pickChallengeImplementation,
+              pickChallenge: pickChallengeService,
               initialCapacity,
               enablePassageByAllCompetences,
             })
@@ -584,8 +571,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
               // given
               const answerStatusArray = ['ok'];
 
-              const pickChallengeImplementation = sinon.stub();
-              pickChallengeService.chooseNextChallenge.returns(pickChallengeImplementation);
               const pickAnswerStatusFromArrayImplementation = sinon.stub();
               pickAnswerStatusService.pickAnswerStatusFromArray
                 .withArgs(['ok'])
@@ -595,7 +580,7 @@ describe('Integration | Application | scenario-simulator-controller', function (
                 .withArgs({
                   pickAnswerStatus: pickAnswerStatusFromArrayImplementation,
                   locale: 'en',
-                  pickChallenge: pickChallengeImplementation,
+                  pickChallenge: pickChallengeService,
                   initialCapacity,
                 })
                 .resolves(simulationResults);
@@ -642,8 +627,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
               // given
               const answerStatusArray = ['ok'];
 
-              const pickChallengeImplementation = sinon.stub();
-              pickChallengeService.chooseNextChallenge.returns(pickChallengeImplementation);
               const pickAnswerStatusFromArrayImplementation = sinon.stub();
               pickAnswerStatusService.pickAnswerStatusFromArray
                 .withArgs(['ok'])
@@ -652,7 +635,7 @@ describe('Integration | Application | scenario-simulator-controller', function (
               usecases.simulateFlashDeterministicAssessmentScenario
                 .withArgs({
                   pickAnswerStatus: pickAnswerStatusFromArrayImplementation,
-                  pickChallenge: pickChallengeImplementation,
+                  pickChallenge: pickChallengeService,
                   locale: 'en',
                 })
                 .resolves(simulationResults);
@@ -699,10 +682,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
               const answerStatusArray = ['ok'];
               const numberOfIterations = 2;
 
-              const pickChallengeImplementation = sinon.stub();
-              pickChallengeService.chooseNextChallenge
-                .returns(pickChallengeImplementation)
-                .returns(pickChallengeImplementation);
               const pickAnswerStatusFromArrayImplementation = sinon.stub();
               pickAnswerStatusService.pickAnswerStatusFromArray
                 .withArgs(['ok'])
@@ -711,7 +690,7 @@ describe('Integration | Application | scenario-simulator-controller', function (
               usecases.simulateFlashDeterministicAssessmentScenario
                 .withArgs({
                   pickAnswerStatus: pickAnswerStatusFromArrayImplementation,
-                  pickChallenge: pickChallengeImplementation,
+                  pickChallenge: pickChallengeService,
                   locale: 'en',
                 })
                 .resolves(simulationResults);
@@ -769,8 +748,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
               const probabilities = { ok: 0.3, ko: 0.4, aband: 0.3 };
               random.weightedRandoms.withArgs(probabilities, length).returns(['ok']);
 
-              const pickChallengeImplementation = sinon.stub();
-              pickChallengeService.chooseNextChallenge.returns(pickChallengeImplementation);
               const pickAnswerStatusFromArrayImplementation = sinon.stub();
               pickAnswerStatusService.pickAnswerStatusFromArray
                 .withArgs(['ok'])
@@ -778,7 +755,7 @@ describe('Integration | Application | scenario-simulator-controller', function (
 
               usecases.simulateFlashDeterministicAssessmentScenario
                 .withArgs({
-                  pickChallenge: pickChallengeImplementation,
+                  pickChallenge: pickChallengeService,
                   locale: 'en',
                   pickAnswerStatus: pickAnswerStatusFromArrayImplementation,
                 })
@@ -828,8 +805,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
               const probabilities = { ok: 0.3, ko: 0.4, aband: 0.3 };
               random.weightedRandoms.withArgs(probabilities, length).returns(['ok']);
 
-              const pickChallengeImplementation = sinon.stub();
-              pickChallengeService.chooseNextChallenge.returns(pickChallengeImplementation);
               const pickAnswerStatusFromArrayImplementation = sinon.stub();
               pickAnswerStatusService.pickAnswerStatusFromArray
                 .withArgs(['ok'])
@@ -837,7 +812,7 @@ describe('Integration | Application | scenario-simulator-controller', function (
 
               usecases.simulateFlashDeterministicAssessmentScenario
                 .withArgs({
-                  pickChallenge: pickChallengeImplementation,
+                  pickChallenge: pickChallengeService,
                   locale: 'en',
                   pickAnswerStatus: pickAnswerStatusFromArrayImplementation,
                   initialCapacity,
@@ -891,8 +866,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
               // given
               const capacity = -3.1;
 
-              const pickChallengeImplementation = sinon.stub();
-              pickChallengeService.chooseNextChallenge.returns(pickChallengeImplementation);
               const pickAnswerStatusFromCapacityImplementation = sinon.stub();
               pickAnswerStatusService.pickAnswerStatusForCapacity
                 .withArgs(capacity)
@@ -900,7 +873,7 @@ describe('Integration | Application | scenario-simulator-controller', function (
 
               usecases.simulateFlashDeterministicAssessmentScenario
                 .withArgs({
-                  pickChallenge: pickChallengeImplementation,
+                  pickChallenge: pickChallengeService,
                   locale: 'en',
                   pickAnswerStatus: pickAnswerStatusFromCapacityImplementation,
                 })
@@ -947,8 +920,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
               // given
               const capacity = -3.1;
 
-              const pickChallengeImplementation = sinon.stub();
-              pickChallengeService.chooseNextChallenge.returns(pickChallengeImplementation);
               const pickAnswerStatusFromCapacityImplementation = sinon.stub();
               pickAnswerStatusService.pickAnswerStatusForCapacity
                 .withArgs(capacity)
@@ -956,7 +927,7 @@ describe('Integration | Application | scenario-simulator-controller', function (
 
               usecases.simulateFlashDeterministicAssessmentScenario
                 .withArgs({
-                  pickChallenge: pickChallengeImplementation,
+                  pickChallenge: pickChallengeService,
                   locale: 'en',
                   pickAnswerStatus: pickAnswerStatusFromCapacityImplementation,
                   initialCapacity,
