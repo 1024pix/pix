@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v4.162.0 (13/06/2024)
+
+
+### :rocket: Amélioration
+- [#9187](https://github.com/1024pix/pix/pull/9187) [FEATURE] Ajouter le contenu de plusieurs écrans d'instruction sur Pix App (PIX-12841).
+
+### :bug: Correction
+- [#9180](https://github.com/1024pix/pix/pull/9180) [BUGFIX] Créer un script afin de recréer des données manquantes sur les états des participations à une campagne définit (PIX-12837).
+
 ## v4.161.0 (12/06/2024)
 
 
