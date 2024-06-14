@@ -20,6 +20,7 @@
     },
     "home": {
       "page-title": "Page d'accueil",
+      "beta": "Version Bêta",
       "welcome": "Bienvenue sur Pix Junior !",
       "code-instruction": "Saisis le code de ton école pour accéder à ta classe",
       "code-label": "Code de l'école",

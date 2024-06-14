@@ -1,11 +1,18 @@
 @import '../../styles/globals/fonts';
 
+
 .school-code {
   display: flex;
   flex-direction: column;
-  margin-top: 120px;
+  margin-top: 100px;
 
   p, label {
+    width: fit-content;
+  }
+
+  &__welcome-with-bubble {
+    display: flex;
+    flex-direction: column;
     width: fit-content;
   }
 
@@ -28,6 +35,32 @@
   &__input {
     font-family: $font-nunito;
     text-transform: uppercase;
+  }
+
+  &__rotated-bubble {
+    align-self: flex-end;
+    width: fit-content;
+    height: fit-content;
+    margin-bottom: 30px;
+    padding: 12px 24px;
+    color: var(--pix-neutral-0);
+    font-size: 1.5rem;
+    text-align: left;
+    background-color: var(--pix-primary-500);
+    border-radius: 16px;
+    transform: rotate(-8deg);
+
+    &::after {
+      position: absolute;
+      bottom: -14px;
+      left: 20px;
+      display: block;
+      width: 0;
+      border-color: transparent var(--pix-primary-500);
+      border-style: solid;
+      border-width: 0px 0px 15px 25px;
+      content: "";
+    }
   }
 
   .pix1d-button {
