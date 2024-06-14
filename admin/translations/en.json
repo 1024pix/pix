@@ -329,6 +329,16 @@
               }
             }
           }
+        },
+        "result": {
+          "table": {
+            "headers": {
+              "competence": "Competence",
+              "level": "Level",
+              "score": "Score"
+            },
+            "label": "Result details by competence"
+          }
         }
       },
       "scoring-simulation": {
@@ -346,6 +356,13 @@
           "level": "Level :",
           "score": "Score :",
           "score-input": "Global score in Pix"
+        },
+        "table": {
+          "headers": {
+            "competence": "Competence",
+            "level": "Level"
+          },
+          "label": "Level by competence"
         }
       }
     },

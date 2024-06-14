@@ -38,7 +38,18 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       birthCountry: 'JAPON',
       birthInseeCode: '99217',
       birthPostalCode: null,
-      competencesWithMark: [],
+      version: 2,
+      competencesWithMark: [
+        {
+          id: 152825,
+          area_code: '1',
+          competence_code: '1.1',
+          competenceId: 'competence1I1RdLLWjvuLVE',
+          level: 4,
+          score: 10,
+          assessmentResultId: 164409,
+        },
+      ],
       listChallengesAndAnswers: [],
       createdAt: new Date('2020-01-01'),
     });
@@ -84,6 +95,25 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       assert.dom(_getInfoNodeFromLabel(screen, 'Code INSEE de naissance :').getByText('99217')).exists();
       assert.dom(_getInfoNodeFromLabel(screen, 'Code postal de naissance :').getByText('')).exists();
       assert.dom(_getInfoNodeFromLabel(screen, 'Pays de naissance :').getByText('JAPON')).exists();
+    });
+
+    test('it displays the score details by competence', async function (assert) {
+      // given
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+      // when
+      const screen = await visit(`/certifications/${certification.id}`);
+
+      // then
+      const table = screen.getByRole('table', { name: 'Détails du résultat par compétence' });
+      const rows = await within(table).findAllByRole('row');
+
+      assert.dom(within(table).getByRole('columnheader', { name: 'Compétence' })).exists();
+      assert.dom(within(table).getByRole('columnheader', { name: 'Score' })).exists();
+      assert.dom(within(table).getByRole('columnheader', { name: 'Niveau' })).exists();
+      assert.dom(within(rows[1]).getByRole('rowheader', { name: '1.1' })).exists();
+      assert.dom(within(rows[1]).getByRole('cell', { name: '10' })).exists();
+      assert.dom(within(rows[1]).getByRole('cell', { name: '4' })).exists();
     });
 
     module('Certification issue reports section', function () {

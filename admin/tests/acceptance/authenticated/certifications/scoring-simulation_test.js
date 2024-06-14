@@ -1,4 +1,4 @@
-import { clickByName, visit } from '@1024pix/ember-testing-library';
+import { clickByName, visit, within } from '@1024pix/ember-testing-library';
 import { fillIn } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
@@ -90,7 +90,13 @@ module('Acceptance | Route | routes/authenticated/certifications/scoring-simulat
     assert.ok(await screen.findByText('Capacité :'));
     assert.ok(await screen.findByText('1'));
 
-    assert.dom(screen.getByLabelText('Niveau de la compétence 1.1')).exists();
+    const table = screen.getByRole('table', { name: 'Niveau par compétence' });
+    const rows = await within(table).findAllByRole('row');
+
+    assert.dom(within(table).getByRole('columnheader', { name: 'Compétence' })).exists();
+    assert.dom(within(table).getByRole('columnheader', { name: 'Niveau' })).exists();
+    assert.dom(within(rows[1]).getByRole('rowheader', { name: '1.1' })).exists();
+    assert.dom(within(rows[1]).getByRole('cell', { name: '3' })).exists();
   });
 
   test('should display a competence and competence levels list when a score is given', async function (assert) {
@@ -107,6 +113,12 @@ module('Acceptance | Route | routes/authenticated/certifications/scoring-simulat
     assert.ok(await screen.findByText('Capacité :'));
     assert.ok(await screen.findByText('1'));
 
-    assert.dom(screen.getByLabelText('Niveau de la compétence 1.1')).exists();
+    const table = screen.getByRole('table', { name: 'Niveau par compétence' });
+    const rows = await within(table).findAllByRole('row');
+
+    assert.dom(within(table).getByRole('columnheader', { name: 'Compétence' })).exists();
+    assert.dom(within(table).getByRole('columnheader', { name: 'Niveau' })).exists();
+    assert.dom(within(rows[1]).getByRole('rowheader', { name: '1.1' })).exists();
+    assert.dom(within(rows[1]).getByRole('cell', { name: '3' })).exists();
   });
 });
