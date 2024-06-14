@@ -171,7 +171,6 @@ import * as scoAccountRecoveryService from '../services/sco-account-recovery-ser
 import * as userReconciliationService from '../services/user-reconciliation-service.js';
 import * as organizationCreationValidator from '../validators/organization-creation-validator.js';
 import * as organizationValidator from '../validators/organization-with-tags-and-target-profiles-script.js';
-import { findTargetProfileOrganizations as findPaginatedFilteredTargetProfileOrganizations } from './find-paginated-filtered-target-profile-organizations.js';
 
 const oidcAuthenticationServiceRegistry = new OidcAuthenticationServiceRegistry({ oidcProviderRepository });
 
@@ -375,7 +374,6 @@ const usecasesWithoutInjectedDependencies = {
   ...(await importNamedExportsFromDirectory({ path: join(path, './certificate') })),
   ...(await importNamedExportsFromDirectory({ path: join(path, './organizations-administration') })),
   ...(await importNamedExportsFromDirectory({ path: join(path, './stages') })),
-  findPaginatedFilteredTargetProfileOrganizations,
   getNextChallengeForV2Certification,
   getNextChallengeForV3Certification,
   getCenterForAdmin,

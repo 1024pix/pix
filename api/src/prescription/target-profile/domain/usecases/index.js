@@ -5,6 +5,7 @@ import * as learningContentConversionService from '../../../../../lib/domain/ser
 import * as learningContentRepository from '../../../../../lib/infrastructure/repositories/learning-content-repository.js';
 import * as targetProfileRepository from '../../../../../lib/infrastructure/repositories/target-profile-repository.js';
 import * as adminMemberRepository from '../../../../shared/infrastructure/repositories/admin-member-repository.js';
+import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
 import * as targetProfileForAdminRepository from '../../../../shared/infrastructure/repositories/target-profile-for-admin-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
@@ -19,6 +20,7 @@ const dependencies = {
   learningContentRepository,
   adminMemberRepository,
   targetProfileForSpecifierRepository,
+  organizationRepository,
   organizationsToAttachToTargetProfileRepository,
   targetProfileRepository,
   targetProfileBondRepository,
