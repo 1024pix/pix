@@ -33,6 +33,23 @@ const importOrganizationLearnerFromFeature = async function (request, h) {
   return h.response().code(204);
 };
 
-const organizationLearnersController = { deleteOrganizationLearners, importOrganizationLearnerFromFeature };
+const reconcileCommonOrganizationLearner = async function (request, h) {
+  const authenticatedUserId = request.auth.credentials.userId;
+  const { campaignCode, reconciliationInfos } = request.deserializedPayload;
+
+  await usecases.reconcileCommonOrganizationLearner({
+    campaignCode,
+    userId: authenticatedUserId,
+    reconciliationInfos,
+  });
+
+  return h.response().code(204);
+};
+
+const organizationLearnersController = {
+  reconcileCommonOrganizationLearner,
+  deleteOrganizationLearners,
+  importOrganizationLearnerFromFeature,
+};
 
 export { organizationLearnersController };

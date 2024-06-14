@@ -81,6 +81,28 @@ const register = async (server) => {
         tags: ['api', 'organization-learners'],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/organization-learners/reconcile',
+      config: {
+        validate: {
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'campaign-code': Joi.string().required(),
+                'reconciliation-infos': Joi.object().required(),
+              },
+            },
+          }),
+        },
+        handler: organizationLearnersController.reconcileCommonOrganizationLearner,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            "- Elle permet de mettre se reconcilier auprès d'une organisation ayant la fonctionnalité d'import.",
+        ],
+        tags: ['api', 'organization-learners', 'reconciliation'],
+      },
+    },
   ]);
 };
 
