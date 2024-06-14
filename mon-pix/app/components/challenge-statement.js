@@ -82,7 +82,7 @@ export default class ChallengeStatement extends Component {
     } else {
       const element = document.getElementsByClassName('challenge-statement-instruction__text')[0];
       const textToSpeech = new SpeechSynthesisUtterance(element.innerText);
-      textToSpeech.lang = this.getChallengeLanguage();
+      textToSpeech.lang = this.getTextToSpeechLanguage();
       textToSpeech.pitch = 0.8;
       textToSpeech.rate = 0.8;
       textToSpeech.onend = () => {
@@ -98,7 +98,7 @@ export default class ChallengeStatement extends Component {
     this.addMetrics();
   }
 
-  getChallengeLanguage() {
+  getTextToSpeechLanguage() {
     if (this.args.challenge.locales.length) {
       return this.args.challenge.locales[0];
     }
