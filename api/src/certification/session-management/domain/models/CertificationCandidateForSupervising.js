@@ -1,4 +1,7 @@
+import dayjs from 'dayjs';
 import lodash from 'lodash';
+
+import { DEFAULT_SESSION_DURATION_MINUTES } from '../../../shared/domain/constants.js';
 
 const { isNil } = lodash;
 class CertificationCandidateForSupervising {
@@ -12,7 +15,6 @@ class CertificationCandidateForSupervising {
     authorizedToStart,
     assessmentStatus,
     startDateTime,
-    theoricalEndDateTime,
     enrolledComplementaryCertification,
     isComplementaryCertificationInProgress,
   } = {}) {
@@ -25,18 +27,38 @@ class CertificationCandidateForSupervising {
     this.authorizedToStart = authorizedToStart;
     this.assessmentStatus = assessmentStatus;
     this.startDateTime = startDateTime;
-    this.theoricalEndDateTime = theoricalEndDateTime;
     this.enrolledComplementaryCertification = enrolledComplementaryCertification;
     this.isComplementaryCertificationInProgress = isComplementaryCertificationInProgress;
+    this.theoricalEndDateTime = _computeTheoricalEndDateTime(
+      startDateTime,
+      isComplementaryCertificationInProgress,
+      enrolledComplementaryCertification,
+    );
   }
 
   authorizeToStart() {
     this.authorizedToStart = true;
   }
+}
 
-  get isStillEligibleToComplementaryCertification() {
-    return this.isComplementaryCertificationInProgress;
+function _computeTheoricalEndDateTime(
+  startDateTime,
+  isComplementaryCertificationInProgress,
+  enrolledComplementaryCertification,
+) {
+  let theoricalEndDateTime = dayjs(startDateTime || null);
+  if (!theoricalEndDateTime.isValid()) {
+    return;
   }
+
+  theoricalEndDateTime = theoricalEndDateTime.add(DEFAULT_SESSION_DURATION_MINUTES, 'minute');
+  let extraMinutes;
+  if (isComplementaryCertificationInProgress) {
+    extraMinutes = enrolledComplementaryCertification.certificationExtraTime ?? 0;
+    theoricalEndDateTime = theoricalEndDateTime.add(extraMinutes, 'minute');
+  }
+
+  return theoricalEndDateTime.toDate();
 }
 
 export { CertificationCandidateForSupervising };
