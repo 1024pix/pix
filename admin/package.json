@@ -92,7 +92,7 @@
     "ember-qunit": "^8.0.0",
     "ember-resolver": "^11.0.0",
     "ember-simple-auth": "^6.0.0",
-    "ember-source": "^5.0.0",
+    "ember-source": "^5.8.0",
     "ember-template-imports": "^4.1.1",
     "ember-template-lint": "^6.0.0",
     "ember-template-lint-plugin-prettier": "^5.0.0",
@@ -127,7 +127,7 @@
   },
   "overrides": {
     "ember-dayjs": {
-      "ember-source": "^5.0.0"
+      "ember-source": "^5.8.0"
     }
   }
 }
