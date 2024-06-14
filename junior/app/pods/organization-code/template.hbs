@@ -1,7 +1,10 @@
 {{page-title (t "pages.home.page-title")}}
 
 <form onSubmit={{this.goToSchool}} class="school-code">
-  <p class="school-code__welcome">{{t "pages.home.welcome"}}</p>
+  <div class="school-code__welcome-with-bubble">
+    <div class="school-code__rotated-bubble">{{t "pages.home.beta"}}</div>
+    <p class="school-code__welcome">{{t "pages.home.welcome"}}</p>
+  </div>
   <p class="school-code__instructions">{{t "pages.home.code-instruction"}}</p>
   <label for="organization-code" class="school-code__label">{{t "pages.home.code-label"}}</label>
   <PixInputCode
