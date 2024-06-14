@@ -180,6 +180,7 @@ async function _createNonScoCertificationCandidates(
       userId: null,
       createdAt: new Date(),
       authorizedToStart: true,
+      extraTimePercentage: 0,
     });
 
     databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId });
@@ -227,6 +228,7 @@ async function _createScoCertificationCandidates({ candidateNumber, sessionId, o
       organizationLearnerId,
       createdAt: new Date(),
       authorizedToStart: true,
+      extraTimePercentage: 0,
     });
     databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
   }
@@ -305,6 +307,7 @@ async function _getBadgeByComplementaryCertificationKey(complementaryCertificati
     )
     .innerJoin('badges', 'complementary-certification-badges.badgeId', 'badges.id')
     .where({ 'complementary-certifications.key': complementaryCertificationKey })
+    .whereNull('detachedAt')
     .first();
 }
 
