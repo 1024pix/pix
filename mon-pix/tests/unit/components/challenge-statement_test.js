@@ -96,4 +96,47 @@ module('Unit | Component | challenge statement', function (hooks) {
       assert.ok(orderedAttachments[3].includes('ods'));
     });
   });
+
+  module('#getTextToSpeechLanguage', function () {
+    test('should return the challenge language if given', function (assert) {
+      // given
+      const challenge = EmberObject.create({ locales: ['en'] });
+      const component = createGlimmerComponent('challenge-statement', { challenge });
+
+      // when
+      const textToSpeechLanguage = component.getTextToSpeechLanguage();
+
+      // then
+      assert.strictEqual(textToSpeechLanguage, 'en');
+    });
+
+    test('should return the user language if challenge has no defined', function (assert) {
+      // given
+      const challenge = EmberObject.create({ locales: [] });
+      const component = createGlimmerComponent('challenge-statement', { challenge });
+      component.currentUser = EmberObject.create({
+        user: {
+          lang: 'nl',
+        },
+      });
+
+      // when
+      const textToSpeechLanguage = component.getTextToSpeechLanguage();
+
+      // then
+      assert.strictEqual(textToSpeechLanguage, 'nl');
+    });
+
+    test('should return FR as default language', function (assert) {
+      // given
+      const challenge = EmberObject.create({ locales: [] });
+      const component = createGlimmerComponent('challenge-statement', { challenge });
+
+      // when
+      const textToSpeechLanguage = component.getTextToSpeechLanguage();
+
+      // then
+      assert.strictEqual(textToSpeechLanguage, 'fr');
+    });
+  });
 });

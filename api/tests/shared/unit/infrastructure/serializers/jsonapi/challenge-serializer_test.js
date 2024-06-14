@@ -25,6 +25,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function () {
         embedHeight: 500,
         format: 'mots',
         shuffled: false,
+        locales: ['fr', 'en'],
       });
 
       // when
@@ -48,6 +49,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function () {
             'embed-height': 500,
             format: 'mots',
             shuffled: false,
+            locales: ['fr', 'en'],
           },
         },
       });
