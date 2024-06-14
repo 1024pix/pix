@@ -185,7 +185,9 @@ const update = async function (organization, domainTransaction = DomainTransacti
   await _addTags(knexConn, organization.tagsToAdd);
   await _removeTags(knexConn, organization.tagsToRemove);
 
-  await knexConn(ORGANIZATIONS_TABLE_NAME).update(organizationRawData).where({ id: organization.id });
+  await knexConn(ORGANIZATIONS_TABLE_NAME)
+    .update({ ...organizationRawData, updatedAt: new Date() })
+    .where({ id: organization.id });
 };
 
 /**

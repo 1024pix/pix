@@ -527,6 +527,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
       // then
       const updatedOrganization = await knex('organizations').where({ id: childOrganization.id }).first();
       expect(updatedOrganization.parentOrganizationId).to.equal(parentOrganizationId);
+      expect(updatedOrganization.updatedAt).to.deep.equal(new Date('2022-02-02'));
     });
 
     it('should enable feature', async function () {
