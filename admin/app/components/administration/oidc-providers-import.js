@@ -15,7 +15,7 @@ export default class OidcProvidersImport extends Component {
 
     let response;
     try {
-      const fileContent = await readFileAsText(files[0]);
+      const fileContent = files[0];
 
       const token = this.session.data.authenticated.access_token;
       response = await fetch(`${ENV.APP.API_HOST}/api/admin/oidc-providers/import`, {
@@ -49,11 +49,3 @@ export default class OidcProvidersImport extends Component {
     }
   }
 }
-
-const readFileAsText = (file) =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = (event) => resolve(event.target.result);
-    reader.onerror = reject;
-    reader.readAsText(file);
-  });
