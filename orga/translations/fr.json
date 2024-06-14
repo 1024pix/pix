@@ -838,7 +838,7 @@
             "info": " depuis Onde (fichier exportable dans le menu Listes & documents > Extractions > Élèves de l’école ou leur responsable)."
           },
           "copypaste-container": {
-            "abstract": "Démarrez vos premières missions avec vos élèves en utilisant le",
+            "abstract": "Démarrez vos premières missions avec vos élèves en activant la session via le bouton ci-dessus et en utilisant le",
             "button": {
               "success": "copié !",
               "tooltip": "copier le lien"
