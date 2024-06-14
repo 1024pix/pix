@@ -19,11 +19,15 @@
       "grainId": "0bfa08bd-7052-49bb-89e8-150efa589926"
     },
     {
-      "content": "<p>Et oui, comme tous les LLM, ChatGPT est biaisé. Par exemple, il peut écrire en français mais a été principalement entraîné avec des données d'une autre langue.<p>Dans la vidéo suivante, vous allez mieux comprendre les différents biais des LLM et d’où ils proviennent.<span aria-hidden=\"true\">&nbsp;📺</span></p>",
+      "content": "<p>Et oui, comme tous les LLM, ChatGPT est biaisé. Par exemple, ses réponses en français sont influencées de par ses données d'entraînement en majorité anglo-saxonne.<p>Dans la vidéo suivante, vous allez mieux comprendre les différents biais des LLM et d’où ils proviennent.<span aria-hidden=\"true\">&nbsp;📺</span></p>",
       "grainId": "c8722f6e-7534-4fdc-9f2d-515c2a96641f"
     },
     {
-      "content": "<p>[TODO]</p>",
+      "content": "<p>Vérifiez que vous avez retenu l'essentiel avec cette question. <span aria-hidden=\"true\">&nbsp;🎯</span></p>",
+      "grainId": "89dbbcf3-7205-470a-baf0-4aa4aac1a87e"
+    },
+    {
+      "content": "<p>Maintenant, à vous de jouer en inteprétant une réponse biaisée de LLMPix.</p>",
       "grainId": "37677521-4498-4779-b526-9e89e3f6e6a3"
     },
     {
@@ -31,12 +35,8 @@
       "grainId": "e7ca9d7e-6d77-4705-83a5-a6864c77f4b5"
     },
     {
-      "content":"<p>Les biais des LLM expliquent les réponses douteuses qu'ils apportent parfois à nos prompts. Ces biais sont principalement dûs aux données d’entraînement et au développement des modèles.</p><p> Voyons de plus près les usages actuels liés à ces grands modèles de langage et les principaux acteurs qui contribuent à leur développement.<span aria-hidden=\"true\">&nbsp;🔍</span></p>",
+      "content":"<p>Avant de passer à la pratique, il faut réaliser une chose : les LLM sont développés par des acteurs de différentes natures et nationalités.</p>Voici des explications.<span aria-hidden=\"true\">&nbsp;🔍</span></p>",
       "grainId": "018ad06a-f11c-4db3-b954-ac8a6466d947"
-    },
-    {
-        "content":"À vous jouer en associant des acteurs aux modèles qu'ils développent ! Certaines questions peuvent nécessiter une recherche en ligne.",
-        "grainId": "e487a78b-2e0c-4972-a318-e922c2aa0060"
     },
     {
         "content":"Développés par des acteurs de pays différents et chacun avec leurs biais respectifs, les LLM ont des performances différentes.<br>Alors, quel LLM privilégier ? Le mieux est de les comparer !<span aria-hidden=\"true\">&nbsp;⚖️</span>",
@@ -107,7 +107,7 @@
           {
             "id": "b510a523-dc46-44bc-9cef-7d254ddd5831",
             "type": "text",
-            "content": "<p>À la suite de cette vidéo, vous devrez interpréter une situation concrète où la réponse d'un LLM est clairement biaisée.</p>"
+            "content": "<p>À la suite de cette vidéo, vous devrez retrouvez les causes des biais des LLM et interpréter une situation concrète où la réponse d'un LLM est biaisée.</p>"
           }
         },
         {
@@ -127,6 +127,53 @@
             "content": "<details><summary>Afficher la transcription</summary><p>Joy Buolamwini est informaticienne, elle a étudié au MIT dans le domaine de la vision par ordinateur. Lors d’un projet de recherche demandé par un de ses professeurs, elle se rend compte que les briques logicielles de reconnaissance faciale n'arrivent pas à trouver son visage. Lorsqu’elle teste avec son colocataire, le visage du jeune homme est reconnu, et pire encore ça fonctionne très bien lorsqu’elle porte un masque blanc. Elle finit donc par se rendre compte que c’est sa couleur de peau qui n'est pas gérée par le logiciel. Depuis elle a conduit des recherches sur les biais racistes dans le domaine de l’IA et lutte contre les discriminations induites par ces technologies. Dans le cas des grands modèles de langage, ou LLM, on va retrouver le même type de mécanisme, mais dans le domaine des textes et non plus de l’image.</p><p>Lorsqu’un logiciel se comporte d’une façon non appropriée, c’est-à-dire lorsque ses résultats ne sont pas neutres, loyaux, ou équitables, on va parler de biais. Un biais, qu’est-ce que c’est ? Dans la plupart des domaines scientifiques, un biais est une déviation par rapport à une norme ou un idéal donné. Mais cette norme n'est pas universelle, elle va varier selon l'époque, selon la culture, selon la zone géographique et bien d'autres paramètres. Cette norme peut concerner des domaines très variés comme : l’expression du genre, les pratiques culturelles ou encore linguistiques. Ainsi, lorsqu’on met à disposition du monde entier des outils qui sont capables de rédiger, de résumer ou d’inventer une situation, il est évident que les réponses proposées vont comporter des biais. Mais alors, comment ces biais se retrouvent à l'intérieur d'un LLM ?</p><p>On détermine 3 causes majeures à ces biais. Première cause, Les données d'entraînement, qui sont la source principale des biais qui peuvent exister dans les LLM. Par exemple, on cherche à recruter des professionnels de la petite enfance et on utilise un modèle pour trier les CV. Le modèle entraîné à partir des données des personnes déjà en activité dans ce secteur aura tendance à privilégier des candidatures féminines, déjà surreprésentées dans ces métiers. La deuxieme cause des biais a lieu pendant le développement du LLM. Il peut y avoir des développeurs qui vont programmer consciemment ou non leurs propres biais, et ils peuvent aussi faire des réglages après l'entraînement pour censurer certains comportements non souhaités, ou en favoriser d'autres principalement pour des raisons éthiques ou politiques. Par exemple, lorsqu'on interroge l’intelligence artificielle chinoise de Baidu sur des sujets sensibles comme la répression des manifestations de la place Tiananmen, le modèle suggère à l’utilisateur de changer de sujet avant de le rediriger à l'accueil, sans répondre à la question. Enfin les biais peuvent également provenir de ce qui est rédigé par l’utilisateur du LLM, c’est à dire le prompt. L'utilisateur peut poser une question orientée, sans avoir conscience de ses propre biais.Par exemple si un utilisateur demande quels sont les bienfaits de l'alimentation japonaise, le modèle ne listera que les aspects positifs en occultant les aspects négatifs potentiels.</p><p>Les biais dans les LLM peuvent avoir des causes diverses. Mais quels sont les principaux biais rencontrés ? Regardons ensemble les deux types de biais les plus fréquents. Premier biais, le biais de confirmation  En effet, Les modèles peuvent être biaisés en faveur des informations qui confirment leurs croyances ou hypothèses préalables. Il peut s'agit des croyances du développeur (entrainement et réglages) ou de l'utilisateur (prompt). Par exemple, si je dis avoir vu des extraterrestres hier soir et demande comment en voir à nouveau, le modèle va me donner de nombreux conseils en ce sens, sans remettre en question mon observation. Enfin, les biais culturels. Les modèles peuvent être biaisés en fonction des valeurs, des normes et des pratiques culturelles dominantes dans les données d'entraînement. Par exemple si je demande la description d'un personnage de fiction qui plaît aux femmes, le modèle va me proposer un personnage caricatural : occidental, beau, athlétique, charismatique, riche etc.</p><p>Qu'ils proviennent des données d'entraînement, du développement des modèles ou des prompts générés par les utilisateurs, les LLM peuvent présenter de nombreux biais, à vous d'y prêter attention la prochaine fois que vous testerez ces outils.</p></details>"
           }
         }
+      ]
+    },
+    {
+      "id":"89dbbcf3-7205-470a-baf0-4aa4aac1a87e",
+      "type":"activity",
+      "title":"Les sources de biais des LLM",
+      "components":[
+        {
+          "type": "element",
+          "element":
+          {
+              "id": "aef486da-4994-4992-b15b-b127afebb371",
+              "type": "qcm",
+              "instruction": "<p>Quels sont les trois causes majeures des biais d'un LLM ?</p>",
+              "proposals": [
+                {
+                  "id": "1",
+                  "content": "Les corpus de données, utilisés lors de la phase d'entraînement."
+                },
+                {
+                  "id": "2",
+                  "content": "Proposition 2"
+                },
+                {
+                  "id": "3",
+                  "content": "Les représentations humaines, transposées inconsciemment lors des développement."
+                },
+                {
+                  "id": "4",
+                  "content": "Proposition 4"
+                },
+                {
+                  "id": "5",
+                  "content": "Les prompts des utilisateurs, potentiellement porteurs de connotations et de croyances."
+                }
+              ],
+              "feedbacks": {
+                "valid": "<p>Correct !</p>",
+                "invalid": "<p>Incorrect !</p>"
+              },
+              "solutions": [
+                "1",
+                "2"
+              ]
+            }
+
+          }
       ]
     },
     {
@@ -176,7 +223,7 @@
               },
               {
                 "id": "4",
-                "content": "Il a été programmé pour respecter les lois et ne peut pas encourager des actes illégaux."
+                "content": "Il a été programmé pour être respectueux les lois et ne peut pas encourager des actes illégaux."
               }
             ],
             "feedbacks": {
@@ -377,27 +424,9 @@
           "type": "element",
           "element":
           {
-            "id": "2cfc4200-35bd-4d40-84c9-922996e01914",
-            "type": "text",
-            "content": "<h3><span aria-hidden=\"true\">👩‍💻&nbsp;</span>Comment sont utilisés les grands modèles de langage ?</h3><p>Les usages des LLM sont en forte croissance dans des domaines divers : art, éducation, informatique, etc.<br>Les LLM peuvent par exemple&nbsp;:</p><ul><li>écrire un poème à la manière d'un écrivain célèbre&nbsp;;</li><li>résoudre des problèmes mathématiques complexes&nbsp;;</li><li>produire ou diagnostiquer du code informatique.</li></ul>"
-          }
-        },
-        {
-          "type": "element",
-          "element":
-          {
-            "id": "7ff52c00-af2d-4ebc-bd1d-0f1d386271c7",
-            "type": "text",
-            "content": "<hr>"
-          }
-        },
-        {
-          "type": "element",
-          "element":
-          {
             "id": "ec182563-1090-4794-8a5f-e179d244fa3e",
             "type": "text",
-            "content": "<h3><span aria-hidden=\"true\">🏢&nbsp;</span>Quelles acteurs développent ces LLM ?</h3><p>Les LLM sont notamment développés par des entreprises spécialisées dans l'intelligence artificielle (IA) et le traitement automatique du langage.<br>Parmi les plus importantes, on trouve :</p><ul><li>Google, avec GEMINI ;</li><li>OpenAI, avec ChatGPT ;</li><li>Meta, avec LLAMA ;</li><li>Baidu, avec Ernie Bot (ou Wenxin Yiyan).</li></ul>"
+            "content": "<h3><span aria-hidden=\"true\">🏢&nbsp;</span>Quelles acteurs développent ces LLM ?</h3><p>Les LLM sont notamment développés par des entreprises spécialisées dans l'intelligence artificielle (IA). On trouve par exemple :</p><ul><li>Google, avec GEMINI 🇺🇸 ;</li><li>OpenAI, avec ChatGPT 🇺🇸 ;</li><li>LightOn, avec Alfred 🇫🇷 ;</li><li>Baidu, avec Ernie Bot 🇨🇳.</li></ul>"
           }
         },
         {
@@ -415,30 +444,14 @@
           {
             "id": "a5b4912d-7882-47ed-a782-bf87d73ead55",
             "type": "text",
-            "content": "<h3><span aria-hidden=\"true\">🏃&nbsp;</span>La course aux LLM, qu'est-ce que c'est ?</h3><p>Ces acteurs mènent une véritable course à l’IA en développant chacun leur propre modèle de langage.<br>Principalement entraînés sur des données anglo-saxonnes, les LLM actuels ne sont pas capables de refléter la vision de chaque langue ou pays.</p><p><span aria-hidden=\"true\">👉&nbsp;</span>L’IA est donc une priorité stratégique des gouvernements qui cherchent à développer rapidement leurs modèles, entraînés sur des données locales. C’est la compétitivité, la souveraineté et la visibilité culturelle des pays qui sont en jeu.</p>"
-          }
-        }
-      ]
-    },
-    {
-      "id": "e487a78b-2e0c-4972-a318-e922c2aa0060",
-      "type": "activity",
-      "title":"Géopolitique des LLM",
-      "components":
-      [
-        {
-          "type": "element",
-          "element":
-          {
-            "id": "bbf9882c-4b11-4894-8e74-85413d9c1195",
-            "type": "text",
-            "content": "<p>Pour chaque modèle proposé, trouvez le nom du LLM qui lui correspond.</p><p>Par exemple, OpenAI<span aria-hidden=\"true\">&nbsp;🇺🇸</span> est l’entreprise américaine qui développe ChatGPT.</p>"
+            "content": "<h3><span aria-hidden=\"true\">🏃&nbsp;</span>La course aux LLM, qu'est-ce que c'est ?</h3><p>Ces acteurs mènent une véritable course à l’IA en développant chacun leur propre modèle de langage. Principalement entraînés sur des données anglo-saxonnes, les LLM actuels ne sont pas capables de refléter la vision de chaque langue ou pays.</p>"
           }
         },
         {
           "type": "element",
-          "element": {
-            "id": "284ac419-77f8-4be1-a26d-7d1e268c54a9",
+          "element":
+          {
+            "id": "6515d939-b35b-494a-a122-2c6961726a13",
             "type": "text",
             "content": "<hr>"
           }
@@ -447,136 +460,9 @@
           "type": "element",
           "element":
           {
-            "id": "873ff33b-6ecf-4954-94cf-936e0d983009",
-            "type": "qcu",
-            "instruction": "<p>À quelle entreprise appartient le modèle <strong>Ernie Bot</strong>&nbsp;?</p>",
-            "proposals": [
-              {
-                "id": "1",
-                "content": "Baidu 🇨🇳"
-              },
-              {
-                "id": "2",
-                "content": "Amazon 🇺🇸"
-              },
-              {
-                "id": "3",
-                "content": "Mistral AI 🇫🇷"
-              }
-            ],
-            "feedbacks": {
-              "valid": "<p>Correct !</p>",
-              "invalid": "<p>Incorrect !</p>"
-            },
-            "solution": "1"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "3a353dba-4858-4271-bfe8-31d73ef06938",
+            "id": "a5b4912d-7882-47ed-a782-bf87d73ead55",
             "type": "text",
-            "content": "<hr>"
-          }
-        },
-        {
-          "type": "element",
-          "element":
-          {
-            "id": "873ff33b-6ecf-4954-94cf-936e0d983009",
-            "type": "qcu",
-            "instruction": "<p>À quelle entreprise appartient le modèle <strong>Bloom</strong>&nbsp;?</p>",
-            "proposals": [
-              {
-                "id": "1",
-                "content": "Baidu 🇨🇳"
-              },
-              {
-                "id": "2",
-                "content": "Hugging Face 🇺🇸"
-              },
-              {
-                "id": "3",
-                "content": "Helm & Nagel 🇩🇪"
-              }
-            ],
-            "feedbacks": {
-              "valid": "<p>Correct !</p>",
-              "invalid": "<p>Incorrect !</p>"
-            },
-            "solution": "2"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "7231e5bf-3d64-4837-981a-43c5fb893118",
-            "type": "text",
-            "content": "<hr>"
-          }
-        },
-        {
-          "type": "element",
-          "element":
-          {
-            "id": "574b0cb7-bf3b-4bb3-92f4-b717c64e8028",
-            "type": "qcu",
-            "instruction": "<p>À quelle entreprise appartient le modèle <strong>Alfred</strong>&nbsp;?</p>",
-            "proposals": [
-              {
-                "id": "1",
-                "content": "Hugging Face 🇺🇸"
-              },
-              {
-                "id": "2",
-                "content": "Meta 🇺🇸"
-              },
-              {
-                "id": "3",
-                "content": "LightOn 🇫🇷"
-              }
-            ],
-            "feedbacks": {
-              "valid": "<p>Correct !</p>",
-              "invalid": "<p>Incorrect !</p>"
-            },
-            "solution": "3"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "275ee9f8-c8c4-4a7b-a2d1-a94891847b7a",
-            "type": "text",
-            "content": "<hr>"
-          }
-        },
-        {
-          "type": "element",
-          "element":
-          {
-            "id": "2830e3aa-fecd-444a-b26a-2e8fbbf9dc22",
-            "type": "qcu",
-            "instruction": "<p>À quelle entreptise appartient le modèle <strong>Neuro</strong>&nbsp;?</p>",
-            "proposals": [
-              {
-                "id": "1",
-                "content": "Yandex 🇷🇺"
-              },
-              {
-                "id": "2",
-                "content": "Google 🇺🇸"
-              },
-              {
-                "id": "3",
-                "content": "MistralAI 🇫🇷"
-              }
-            ],
-            "feedbacks": {
-              "valid": "<p>Correct !</p>",
-              "invalid": "<p>Incorrect !</p>"
-            },
-            "solution": "1"
+            "content": "<p><span aria-hidden=\"true\">👉&nbsp;</span>L’IA est donc une priorité stratégique des gouvernements qui cherchent à développer rapidement leurs modèles, entraînés sur des données locales. C’est la compétitivité, la souveraineté et la visibilité culturelle des pays qui sont en jeu.</p>"
           }
         }
       ]
