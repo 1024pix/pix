@@ -838,7 +838,7 @@
             "info": "from Onde (exportable file in the menu Lists & documents > Extractions > School pupils or their supervisor)."
           },
           "copypaste-container": {
-            "abstract": "Start your missions with your students by using this ",
+            "abstract": "Start your missions with your students by activating a session with the above button and using this ",
             "button": {
               "success": "copied !",
               "tooltip": "copy link"
