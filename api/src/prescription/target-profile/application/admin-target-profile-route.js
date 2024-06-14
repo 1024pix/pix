@@ -257,7 +257,7 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/admin/target-profiles/{id}/organizations',
+      path: '/api/admin/target-profiles/{targetProfileId}/organizations',
       config: {
         pre: [
           {
@@ -272,7 +272,7 @@ const register = async function (server) {
         ],
         validate: {
           params: Joi.object({
-            id: identifiersType.targetProfileId,
+            targetProfileId: identifiersType.targetProfileId,
           }),
           query: Joi.object({
             'filter[id]': optionalIdentifiersType.organizationId,

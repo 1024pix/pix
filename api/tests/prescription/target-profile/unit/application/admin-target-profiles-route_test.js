@@ -669,8 +669,7 @@ describe('Unit | Application | Admin Target Profiles | Routes', function () {
     context('when user has role "SUPER_ADMIN", "SUPPORT" or "METIER"', function () {
       it('should return a response with an HTTP status code 200', async function () {
         // given
-        sinon
-          .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
+        securityPreHandlers.hasAtLeastOneAccessOf
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkAdminMemberHasRoleSupport,
@@ -693,7 +692,7 @@ describe('Unit | Application | Admin Target Profiles | Routes', function () {
       context('when there is no filter nor pagination', function () {
         it('should resolve with an HTTP status code 200', async function () {
           // given
-          sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
+          securityPreHandlers.hasAtLeastOneAccessOf.returns(() => true);
           sinon
             .stub(targetProfileController, 'findPaginatedFilteredTargetProfileOrganizations')
             .callsFake((request, h) => h.response('ok').code(200));
@@ -711,7 +710,7 @@ describe('Unit | Application | Admin Target Profiles | Routes', function () {
       context('when there are filters and pagination', function () {
         it('should resolve with an HTTP status code 200', async function () {
           // given
-          sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
+          securityPreHandlers.hasAtLeastOneAccessOf.returns(() => true);
           sinon
             .stub(targetProfileController, 'findPaginatedFilteredTargetProfileOrganizations')
             .callsFake((request, h) => h.response('ok').code(200));
@@ -778,8 +777,7 @@ describe('Unit | Application | Admin Target Profiles | Routes', function () {
     context('when user has role "CERTIF"', function () {
       it('should return a response with an HTTP status code 403', async function () {
         // given
-        sinon
-          .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
+        securityPreHandlers.hasAtLeastOneAccessOf
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkAdminMemberHasRoleSupport,
