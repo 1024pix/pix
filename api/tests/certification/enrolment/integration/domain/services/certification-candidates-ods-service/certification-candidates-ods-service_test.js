@@ -9,10 +9,28 @@ import * as complementaryCertificationRepository from '../../../../../../../src/
 import * as certificationCpfService from '../../../../../../../src/certification/enrolment/domain/services/certification-cpf-service.js';
 import * as certificationCpfCityRepository from '../../../../../../../src/certification/enrolment/infrastructure/repositories/certification-cpf-city-repository.js';
 import * as certificationCpfCountryRepository from '../../../../../../../src/certification/enrolment/infrastructure/repositories/certification-cpf-country-repository.js';
-import { ComplementaryCertificationKeys } from '../../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import * as certificationCenterRepository from '../../../../../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, sinon } from '../../../../../../test-helper.js';
+import { CertificationCandidateBuilder } from '../../../../../../tooling/domain-builder/factory/build-certification-candidate.js';
 import { getI18n } from '../../../../../../tooling/i18n/i18n.js';
+import {
+  candidateEvy,
+  candidateJean,
+  candidateLara,
+  candidateLena,
+  candidateOtto,
+  candidatePat,
+  candidateSarah,
+} from '../../../../../shared/fixtures/data/candidates-data.js';
+import * as complementaryData from '../../../../../shared/fixtures/data/complementary-data.js';
+import {
+  cityBordeaux,
+  cityLyon,
+  cityMarseille,
+  cityNice,
+  citySainteAnne,
+} from '../../../../../shared/fixtures/data/cpf-cities-data.js';
+import { countryAngleterre, countryFrance } from '../../../../../shared/fixtures/data/cpf-countries-data.js';
 
 const { promises } = fs;
 
@@ -34,37 +52,56 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
     sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
 
-    databaseBuilder.factory.buildCertificationCpfCountry({
-      code: '99100',
-      commonName: 'FRANCE',
-      originalName: 'FRANCE',
-      matcher: 'ACEFNR',
-    });
-    databaseBuilder.factory.buildCertificationCpfCountry({
-      code: '99132',
-      commonName: 'ANGLETERRE',
-      originalName: 'ANGLETERRE',
-      matcher: 'AEEEGLNRRT',
-    });
+    databaseBuilder.factory.buildCertificationCpfCountry(countryFrance);
+    databaseBuilder.factory.buildCertificationCpfCountry(countryAngleterre);
 
-    databaseBuilder.factory.buildCertificationCpfCity({ name: 'AJACCIO', INSEECode: '2A004', isActualName: true });
-    databaseBuilder.factory.buildCertificationCpfCity({ name: 'PARIS 18', postalCode: '75018', isActualName: true });
-    databaseBuilder.factory.buildCertificationCpfCity({
-      name: 'SAINT-ANNE',
-      postalCode: '97180',
-      isActualName: true,
-    });
+    databaseBuilder.factory.buildCertificationCpfCity(cityLyon);
+    databaseBuilder.factory.buildCertificationCpfCity(citySainteAnne);
+    databaseBuilder.factory.buildCertificationCpfCity(cityMarseille);
+    databaseBuilder.factory.buildCertificationCpfCity(cityNice);
+    databaseBuilder.factory.buildCertificationCpfCity(cityBordeaux);
 
-    databaseBuilder.factory.buildCertificationCpfCity({
-      name: 'BUELLAS',
-      postalCode: '01310',
-      INSEECode: '01065',
-    });
     await databaseBuilder.commit();
 
     mailCheck = { checkDomainIsValid: sinon.stub() };
 
-    candidateList = _buildCertificationCandidateList({ sessionId });
+    const lena = new CertificationCandidateBuilder({
+      ...candidateLena,
+      sessionId,
+      subscriptions: [domainBuilder.buildCoreSubscription()],
+    }).build();
+    const lara = new CertificationCandidateBuilder({
+      ...candidateLara,
+      sessionId,
+      subscriptions: [domainBuilder.buildCoreSubscription()],
+    }).build();
+    const otto = new CertificationCandidateBuilder({
+      ...candidateOtto,
+      sessionId,
+      subscriptions: [domainBuilder.buildCoreSubscription()],
+    }).build();
+    const pat = new CertificationCandidateBuilder({
+      ...candidatePat,
+      sessionId,
+      subscriptions: [domainBuilder.buildCoreSubscription()],
+    }).build();
+    const jean = new CertificationCandidateBuilder({
+      ...candidateJean,
+      sessionId,
+      subscriptions: [domainBuilder.buildCoreSubscription()],
+    }).build();
+    const evy = new CertificationCandidateBuilder({
+      ...candidateEvy,
+      sessionId,
+      subscriptions: [domainBuilder.buildCoreSubscription()],
+    }).build();
+    const sarah = new CertificationCandidateBuilder({
+      ...candidateSarah,
+      sessionId,
+      subscriptions: [domainBuilder.buildCoreSubscription()],
+    }).build();
+
+    candidateList = [lena, lara, otto, pat, jean, evy, sarah];
   });
 
   it('should throw a CertificationCandidatesError if there is an error in the file', async function () {
@@ -207,23 +244,19 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       });
 
     // then
-    candidateList = _buildCertificationCandidateList({ sessionId });
-    const expectedCertificationCandidates = candidateList.map((candidate) => new CertificationCandidate(candidate));
-    expect(actualCertificationCandidates).to.deep.equal(expectedCertificationCandidates);
+    expect(actualCertificationCandidates).to.deep.equal(candidateList);
   });
 
   context('when certification center has habilitations', function () {
     context('when a candidate is imported with more than one complementary certification', function () {
       it('should throw an error', async function () {
         // given
-        const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-          label: 'CléA Numérique',
-          key: ComplementaryCertificationKeys.CLEA,
-        });
-        const pixPlusDroitComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-          label: 'Pix+ Droit',
-          key: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
-        });
+        const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification(
+          complementaryData.Clea,
+        );
+        const pixPlusDroitComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification(
+          complementaryData.PixDroit,
+        );
 
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
         databaseBuilder.factory.buildComplementaryCertificationHabilitation({
@@ -276,26 +309,21 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     it('should return extracted and validated certification candidates with complementary certification', async function () {
       // given
       mailCheck.checkDomainIsValid.resolves();
-      const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-        label: 'CléA Numérique',
-        key: ComplementaryCertificationKeys.CLEA,
-      });
-      const pixPlusDroitComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-        label: 'Pix+ Droit',
-        key: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
-      });
-      const pixPlusEdu1erDegreComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-        label: 'Pix+ Édu 1er degré',
-        key: ComplementaryCertificationKeys.PIX_PLUS_EDU_1ER_DEGRE,
-      });
-      const pixPlusEdu2ndDegreComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-        label: 'Pix+ Édu 2nd degré',
-        key: ComplementaryCertificationKeys.PIX_PLUS_EDU_2ND_DEGRE,
-      });
-      const PixPlusProSanteComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-        label: 'Pix+ Pro Santé',
-        key: ComplementaryCertificationKeys.PIX_PLUS_PRO_SANTE,
-      });
+      const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification(
+        complementaryData.Clea,
+      );
+      const pixPlusDroitComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification(
+        complementaryData.PixDroit,
+      );
+      const pixPlusEdu1erDegreComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification(
+        complementaryData.PixEdu1,
+      );
+      const pixPlusEdu2ndDegreComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification(
+        complementaryData.PixEdu2,
+      );
+      const PixPlusProSanteComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification(
+        complementaryData.PixProSante,
+      );
 
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
@@ -327,17 +355,23 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
       const odsFilePath = `${__dirname}/attendance_sheet_extract_with_complementary_certifications_ok_test.ods`;
       const odsBuffer = await readFile(odsFilePath);
-      candidateList = _buildCertificationCandidateList({
-        sessionId,
-        complementaryCertification: {
-          cleaComplementaryCertification,
-          pixPlusDroitComplementaryCertification,
-          pixPlusEdu1erDegreComplementaryCertification,
-          pixPlusEdu2ndDegreComplementaryCertification,
-          PixPlusProSanteComplementaryCertification,
-        },
-      });
-      const expectedCertificationCandidates = candidateList.map((candidate) => new CertificationCandidate(candidate));
+      const complementaryCertification = {
+        cleaComplementaryCertification,
+        pixPlusDroitComplementaryCertification,
+        pixPlusEdu1erDegreComplementaryCertification,
+        pixPlusEdu2ndDegreComplementaryCertification,
+        PixPlusProSanteComplementaryCertification,
+      };
+      const candidateListWithComplementary = candidateList.map(
+        (candidate) => (candidate.complementaryCertification = complementaryCertification),
+      );
+      const expectedCertificationCandidates = candidateListWithComplementary.map((candidate) =>
+        new CertificationCandidateBuilder({
+          ...candidate,
+          sessionId,
+          subscriptions: [domainBuilder.buildCoreSubscription()],
+        }).build(),
+      );
 
       // when
       const actualCertificationCandidates =
@@ -366,7 +400,11 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
     const odsFilePath = `${__dirname}/attendance_sheet_extract_with_billing_ok_test.ods`;
     const odsBuffer = await readFile(odsFilePath);
-    candidateList = _buildCertificationCandidateList({ hasBillingMode: true, sessionId });
+
+    candidateList = generateCertificationCandidatesWithBillingModes(4);
+    candidateList.push(generateCertificationCandidatesWithBillingModes(1, { sessionId }));
+    candidateList.push(generateCertificationCandidateList(2));
+
     const expectedCertificationCandidates = candidateList.map((candidate) => new CertificationCandidate(candidate));
 
     // when
@@ -415,177 +453,3 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     expect(actualCertificationCandidates).to.deep.equal(expectedCertificationCandidates);
   });
 });
-
-function _buildCertificationCandidateList({ hasBillingMode = false, sessionId, complementaryCertification = null }) {
-  let candidateList;
-  const firstCandidate = {
-    lastName: 'Gallagher',
-    firstName: 'Jack',
-    birthdate: '1980-08-10',
-    sex: 'M',
-    birthCity: 'Londres',
-    birthCountry: 'ANGLETERRE',
-    birthINSEECode: '99132',
-    birthPostalCode: null,
-    resultRecipientEmail: 'destinataire@gmail.com',
-    email: 'jack@d.it',
-    externalId: null,
-    extraTimePercentage: 0.15,
-  };
-  const secondCandidate = {
-    lastName: 'Jackson',
-    firstName: 'Janet',
-    birthdate: '2005-12-05',
-    sex: 'F',
-    birthCity: 'AJACCIO',
-    birthCountry: 'FRANCE',
-    birthINSEECode: '2A004',
-    birthPostalCode: null,
-    resultRecipientEmail: 'destinataire@gmail.com',
-    email: 'jaja@hotmail.fr',
-    externalId: 'DEF456',
-    extraTimePercentage: null,
-  };
-  const thirdCandidate = {
-    lastName: 'Jackson',
-    firstName: 'Michael',
-    birthdate: '2004-04-04',
-    sex: 'M',
-    birthCity: 'PARIS 18',
-    birthCountry: 'FRANCE',
-    birthINSEECode: null,
-    birthPostalCode: '75018',
-    resultRecipientEmail: 'destinataire@gmail.com',
-    email: 'jackson@gmail.com',
-    externalId: 'ABC123',
-    extraTimePercentage: 0.6,
-  };
-  const fourthCandidate = {
-    lastName: 'Mercury',
-    firstName: 'Freddy',
-    birthdate: '1925-06-28',
-    sex: 'M',
-    birthCity: 'SAINT-ANNE',
-    birthCountry: 'FRANCE',
-    birthINSEECode: null,
-    birthPostalCode: '97180',
-    resultRecipientEmail: null,
-    email: null,
-    externalId: 'GHI789',
-    extraTimePercentage: 1.5,
-  };
-  const fifthCandidate = {
-    firstName: 'Annie',
-    lastName: 'Cordy',
-    birthCity: 'BUELLAS',
-    birthProvinceCode: undefined,
-    birthCountry: 'FRANCE',
-    birthPostalCode: '01310',
-    birthINSEECode: null,
-    sex: 'M',
-    email: null,
-    resultRecipientEmail: null,
-    externalId: 'GHI769',
-    birthdate: '1928-06-16',
-    extraTimePercentage: 1.5,
-    createdAt: undefined,
-    authorizedToStart: undefined,
-    userId: undefined,
-    organizationLearnerId: null,
-    complementaryCertification: null,
-    billingMode: null,
-    prepaymentCode: null,
-  };
-  const sixthCandidate = {
-    firstName: 'Demis',
-    lastName: 'Roussos',
-    birthCity: 'BUELLAS',
-    birthProvinceCode: undefined,
-    birthCountry: 'FRANCE',
-    birthPostalCode: null,
-    birthINSEECode: '01065',
-    sex: 'M',
-    email: null,
-    resultRecipientEmail: null,
-    externalId: 'GHI799',
-    birthdate: '1946-06-15',
-    extraTimePercentage: 1.5,
-    createdAt: undefined,
-    authorizedToStart: undefined,
-    userId: undefined,
-    organizationLearnerId: null,
-    complementaryCertification: null,
-    billingMode: null,
-    prepaymentCode: null,
-  };
-  const seventhCandidate = {
-    lastName: 'Cendy',
-    firstName: 'Alain',
-    birthdate: '1988-06-28',
-    sex: 'M',
-    birthCity: 'SAINT-ANNE',
-    birthCountry: 'FRANCE',
-    birthINSEECode: null,
-    birthPostalCode: '97180',
-    resultRecipientEmail: null,
-    email: null,
-    externalId: 'SDQ987',
-    extraTimePercentage: null,
-    sessionId,
-  };
-
-  if (hasBillingMode) {
-    candidateList = [
-      { ...firstCandidate, billingMode: 'PAID' },
-      { ...secondCandidate, billingMode: 'FREE' },
-      { ...thirdCandidate, billingMode: 'FREE' },
-      { ...fourthCandidate, billingMode: 'PREPAID', prepaymentCode: 'CODE1' },
-    ];
-  } else if (complementaryCertification) {
-    candidateList = [
-      {
-        ...firstCandidate,
-        billingMode: 'FREE',
-        complementaryCertification: domainBuilder.buildComplementaryCertification(
-          complementaryCertification.pixPlusEdu1erDegreComplementaryCertification,
-        ),
-      },
-      {
-        ...secondCandidate,
-        billingMode: 'FREE',
-        complementaryCertification: domainBuilder.buildComplementaryCertification(
-          complementaryCertification.pixPlusDroitComplementaryCertification,
-        ),
-      },
-      {
-        ...thirdCandidate,
-        billingMode: 'FREE',
-        complementaryCertification: domainBuilder.buildComplementaryCertification(
-          complementaryCertification.cleaComplementaryCertification,
-        ),
-      },
-      {
-        ...fourthCandidate,
-        billingMode: 'FREE',
-        complementaryCertification: domainBuilder.buildComplementaryCertification(
-          complementaryCertification.pixPlusEdu2ndDegreComplementaryCertification,
-        ),
-      },
-      {
-        ...seventhCandidate,
-        billingMode: 'FREE',
-        complementaryCertification: domainBuilder.buildComplementaryCertification(
-          complementaryCertification.PixPlusProSanteComplementaryCertification,
-        ),
-      },
-    ];
-  } else {
-    candidateList = [firstCandidate, secondCandidate, thirdCandidate, fourthCandidate, fifthCandidate, sixthCandidate];
-  }
-
-  return candidateList.map((candidate) => ({
-    ...candidate,
-    sessionId,
-    subscriptions: [domainBuilder.buildCoreSubscription()],
-  }));
-}

@@ -34,7 +34,7 @@ import { buildCertificationAssessment } from './build-certification-assessment.j
 import { buildCertificationAssessmentScore } from './build-certification-assessment-score.js';
 import { buildCertificationAssessmentScoreV3 } from './build-certification-assessment-score-v3.js';
 import { buildCertificationAttestation } from './build-certification-attestation.js';
-import { buildCertificationCandidate } from './build-certification-candidate.js';
+// import { buildCertificationCandidate } from './build-certification-candidate.js';
 import { buildCertificationCandidateForAttendanceSheet } from './build-certification-candidate-for-attendance-sheet.js';
 import { buildCertificationCandidateForSupervising } from './build-certification-candidate-for-supervising.js';
 import { buildCertificationCandidateSubscription } from './build-certification-candidate-subscription.js';
@@ -260,7 +260,7 @@ export {
   buildCertificationAssessmentScore,
   buildCertificationAssessmentScoreV3,
   buildCertificationAttestation,
-  buildCertificationCandidate,
+  // buildCertificationCandidate,
   buildCertificationCandidateForAttendanceSheet,
   buildCertificationCandidateForSupervising,
   buildCertificationCandidateSubscription,

@@ -1,32 +1,11 @@
-import { CertificationCandidate } from '../../../../lib/domain/models/CertificationCandidate.js';
-import { domainBuilder } from '../domain-builder.js';
+class CertificationCandidate {
+  #complementaryCertification = null;
 
-const buildCertificationCandidate = function ({
-  id = 123,
-  firstName = 'Poison',
-  lastName = 'Ivy',
-  sex = 'F',
-  birthPostalCode = null,
-  birthINSEECode = '75101',
-  birthCity = 'Perpignan',
-  birthProvinceCode = '66',
-  birthCountry = 'France',
-  email = 'poison.ivy@example.net',
-  resultRecipientEmail = 'napoleon@example.net',
-  birthdate = '1990-05-06',
-  extraTimePercentage = 0.3,
-  externalId = 'externalId',
-  createdAt = new Date('2020-01-01'),
-  authorizedToStart,
-  sessionId = 456,
-  userId = 789,
-  organizationLearnerId,
-  complementaryCertification = null,
-  billingMode = null,
-  prepaymentCode = null,
-  subscriptions = [domainBuilder.buildCoreSubscription({ certificationCandidateId: 123 })],
-} = {}) {
-  return new CertificationCandidate({
+  /**
+   * @param {Object} param
+   * @param {Array<Subscription>} param.subscriptions {@link Subscription>}
+   */
+  constructor({
     id,
     firstName,
     lastName,
@@ -38,103 +17,134 @@ const buildCertificationCandidate = function ({
     birthCountry,
     email,
     resultRecipientEmail,
-    birthdate,
-    sessionId,
     externalId,
+    birthdate,
     extraTimePercentage,
     createdAt,
-    authorizedToStart,
+    authorizedToStart = false,
+    sessionId,
     userId,
-    organizationLearnerId,
-    complementaryCertification,
-    billingMode,
-    prepaymentCode,
-    subscriptions,
-  });
-};
+    organizationLearnerId = null,
+    complementaryCertification = null,
+    billingMode = null,
+    prepaymentCode = null,
+    subscriptions = [],
+  } = {}) {
+    this.id = id;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.birthCity = birthCity;
+    this.birthProvinceCode = birthProvinceCode;
+    this.birthCountry = birthCountry;
+    this.birthPostalCode = birthPostalCode;
+    this.birthINSEECode = birthINSEECode;
+    this.sex = sex;
+    this.email = email;
+    this.resultRecipientEmail = resultRecipientEmail;
+    this.externalId = externalId;
+    this.birthdate = birthdate;
+    this.extraTimePercentage = extraTimePercentage;
+    this.createdAt = createdAt;
+    this.authorizedToStart = authorizedToStart;
+    this.sessionId = sessionId;
+    this.userId = userId;
+    this.organizationLearnerId = organizationLearnerId;
+    this.subscriptions = subscriptions;
+    this.billingMode = billingMode;
+    this.prepaymentCode = prepaymentCode;
+  }
+}
 
-buildCertificationCandidate.pro = function ({
-  id = 123,
-  firstName = 'Poison',
-  lastName = 'Ivy',
-  sex = 'F',
-  birthPostalCode = '75001',
-  birthINSEECode = '',
-  birthCity = 'Perpignan',
-  birthProvinceCode = '66',
-  birthCountry = 'France',
-  email = 'poison.ivy@example.net',
-  resultRecipientEmail = 'napoleon@example.net',
-  birthdate = '1990-05-06',
-  extraTimePercentage = 0.3,
-  externalId = 'externalId',
-  authorizedToStart,
-  sessionId = 456,
-  complementaryCertification = null,
-  billingMode = 'FREE',
-  subscriptions = [],
-}) {
-  return new CertificationCandidate({
-    id,
-    firstName,
-    lastName,
-    sex,
-    birthPostalCode,
-    birthINSEECode,
-    birthCity,
-    birthProvinceCode,
-    birthCountry,
-    email,
-    resultRecipientEmail,
-    birthdate,
-    sessionId,
-    externalId,
-    extraTimePercentage,
-    authorizedToStart,
-    complementaryCertification,
-    billingMode,
-    subscriptions,
-  });
-};
+export class CertificationCandidateBuilder {
+  constructor() {
+    this.firstName = 'Lena';
+    this.lastName = 'Rine';
+    this.birthCity = 'Paris';
+    this.birthCountry = 'France';
+    this.birthPostalCode = '75001';
+    this.birthINSEECode = '75101';
+    this.birthProvinceCode = '11';
+    this.sex = 'F';
+    this.email = 'lena.rine@example.com';
+    this.birthdate = '1990-05-15';
+    this.externalId = null;
+    this.extraTimePercentage = null;
+    this.subscriptions = [];
+  }
 
-buildCertificationCandidate.notPersisted = function ({
-  firstName = 'Poison',
-  lastName = 'Ivy',
-  sex = 'F',
-  birthPostalCode = '75001',
-  birthINSEECode = '75101',
-  birthCity = 'Perpignan',
-  birthProvinceCode = '66',
-  birthCountry = 'France',
-  email = 'poison.ivy@example.net',
-  resultRecipientEmail = 'napoleon@example.net',
-  birthdate = '1990-05-06',
-  extraTimePercentage = 0.3,
-  externalId = 'externalId',
-  authorizedToStart,
-  sessionId = 456,
-  complementaryCertification = null,
-  subscriptions = null,
-}) {
-  return new CertificationCandidate({
-    firstName,
-    lastName,
-    sex,
-    birthPostalCode,
-    birthINSEECode,
-    birthCity,
-    birthProvinceCode,
-    birthCountry,
-    email,
-    resultRecipientEmail,
-    birthdate,
-    sessionId,
-    externalId,
-    extraTimePercentage,
-    authorizedToStart,
-    complementaryCertification,
-    subscriptions,
-  });
-};
+  withFirstName(firstName) {
+    this.firstName = firstName;
+    return this;
+  }
 
-export { buildCertificationCandidate };
+  withLastName(lastName) {
+    this.lastName = lastName;
+    return this;
+  }
+
+  withBirthCity(birthCity) {
+    this.birthCity = birthCity;
+    return this;
+  }
+
+  withBirthCountry(birthCountry) {
+    this.birthCountry = birthCountry;
+    return this;
+  }
+
+  withBirthINSEECode(birthINSEECode) {
+    this.birthINSEECode = birthINSEECode;
+    return this;
+  }
+
+  withBirthPostalCode(birthPostalCode) {
+    this.birthPostalCode = birthPostalCode;
+    return this;
+  }
+
+  withBirthProvinceCode(birthProvinceCode) {
+    this.birthProvinceCode = birthProvinceCode;
+    return this;
+  }
+
+  withSex(sex) {
+    this.sex = sex;
+    return this;
+  }
+
+  withEmail(email) {
+    this.email = email;
+    return this;
+  }
+
+  withBirthdate(birthdate) {
+    this.birthdate = birthdate;
+    return this;
+  }
+
+  withExternalId(externalId) {
+    this.externalId = externalId;
+    return this;
+  }
+
+  withExtraTimePercentage(extraTimePercentage) {
+    this.extraTimePercentage = extraTimePercentage;
+    return this;
+  }
+
+  withSubscriptions(subscriptions) {
+    this.subscriptions = subscriptions;
+    return this;
+  }
+
+  build() {
+    return new CertificationCandidate(this);
+  }
+}
+
+// example
+// const candidate = new CertificationCandidateBuilder()
+//   .withEmail('coucou@test.fr')
+//   .withExternalId('myExternalId')
+//   .build();
+// console.log(candidate);
