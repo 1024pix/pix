@@ -5,7 +5,8 @@
       "cancel": "Cancel",
       "close": "Close",
       "deactivate": "Deactivate",
-      "save": "Save"
+      "save": "Save",
+      "validate": "Validate"
     },
     "api-error-messages": {
       "bad-request-error": "The data entered was not in the correct format.",
@@ -486,6 +487,18 @@
       }
     },
     "target-profiles": {
+      "copy": {
+        "button": {
+          "label": "Duplicate this target profile"
+        },
+        "modal": {
+          "title": "Confirm the target profile duplication ?",
+          "label": "Confirming will duplicate the current target profiles and its tubes."
+        },
+        "notifications": {
+          "success": "The target profile has been duplicated."
+        }
+      },
       "resettable-checkbox": {
         "label": "Allow resetting for evaluation-type campaigns when multiple submissions are enabled for the organisation"
       }

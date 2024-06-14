@@ -28,6 +28,19 @@ function attachOrganizationsFromExistingTargetProfile(schema, request) {
   return new Response(204);
 }
 
+function copyTargetProfile(schema, request) {
+  const targetProfileId = request.params.id;
+  const targetProfile = schema.targetProfiles.find(targetProfileId);
+  delete targetProfile.attrs.id;
+
+  const { id } = schema.create('target-profile', {
+    ...targetProfile.attrs,
+    name: '[Copie] ' + targetProfile.attrs.name,
+  });
+
+  return id;
+}
+
 function createTargetProfile(schema, request) {
   const params = JSON.parse(request.requestBody);
 
@@ -218,6 +231,7 @@ export {
   attachOrganizationsFromExistingTargetProfile,
   attachTargetProfiles,
   attachTargetProfileToOrganizations,
+  copyTargetProfile,
   createBadge,
   createTargetProfile,
   findOrganizationTargetProfileSummaries,
