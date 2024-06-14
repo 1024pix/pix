@@ -1,6 +1,7 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import ModulixStepper from 'mon-pix/components/module/stepper';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
@@ -91,6 +92,130 @@ module('Integration | Component | Module | Stepper', function (hooks) {
           assert
             .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.stepper.next') }))
             .doesNotExist();
+        });
+      });
+
+      module('When we verify an answerable element', function () {
+        test('should call the submitAnswer action', async function (assert) {
+          // given
+          const steps = [
+            {
+              elements: [
+                {
+                  id: 'd0690f26-978c-41c3-9a21-da931857739c',
+                  instruction: 'Instruction',
+                  proposals: [
+                    { id: '1', content: 'radio1' },
+                    { id: '2', content: 'radio2' },
+                  ],
+                  isAnswerable: true,
+                  type: 'qcu',
+                },
+              ],
+            },
+            {
+              elements: [
+                {
+                  id: '768441a5-a7d6-4987-ada9-7253adafd842',
+                  type: 'text',
+                  content: '<p>Text 2</p>',
+                  isAnswerable: false,
+                },
+              ],
+            },
+          ];
+          function getLastCorrectionForElementStub() {}
+          const submitAnswerStub = sinon.stub();
+          const store = this.owner.lookup('service:store');
+          const passage = store.createRecord('passage');
+          passage.getLastCorrectionForElement = getLastCorrectionForElementStub;
+
+          // when
+          await render(
+            <template>
+              <ModulixStepper
+                @passage={{passage}}
+                @steps={{steps}}
+                @submitAnswer={{submitAnswerStub}}
+                @getLastCorrectionForElement={{getLastCorrectionForElementStub}}
+              />
+            </template>,
+          );
+
+          // then
+          await clickByName('radio1');
+          await clickByName(this.intl.t('pages.modulix.buttons.activity.verify'));
+          sinon.assert.calledOnce(submitAnswerStub);
+          assert.ok(true);
+        });
+      });
+
+      module('When we retry an answerable element', function () {
+        test('should call the retryElement action', async function (assert) {
+          // given
+          const steps = [
+            {
+              elements: [
+                {
+                  id: 'd0690f26-978c-41c3-9a21-da931857739c',
+                  instruction: 'Instruction',
+                  proposals: [
+                    { id: '1', content: 'radio1' },
+                    { id: '2', content: 'radio2' },
+                  ],
+                  isAnswerable: true,
+                  type: 'qcu',
+                },
+              ],
+            },
+            {
+              elements: [
+                {
+                  id: '768441a5-a7d6-4987-ada9-7253adafd842',
+                  type: 'text',
+                  content: '<p>Text 2</p>',
+                  isAnswerable: false,
+                },
+              ],
+            },
+          ];
+          const retryElementStub = sinon.stub();
+          const store = this.owner.lookup('service:store');
+          const passage = store.createRecord('passage');
+          const correctionResponse = store.createRecord('correction-response', {
+            feedback: 'Too bad!',
+            status: 'ko',
+            solution: '1',
+          });
+          store.createRecord('element-answer', {
+            correction: correctionResponse,
+            elementId: 'd0690f26-978c-41c3-9a21-da931857739c',
+            passage,
+          });
+          function getLastCorrectionForElementStub(element) {
+            if (element.id === 'd0690f26-978c-41c3-9a21-da931857739c') {
+              return correctionResponse;
+            }
+            return undefined;
+          }
+
+          // when
+          await render(
+            <template>
+              <ModulixStepper
+                @passage={{passage}}
+                @steps={{steps}}
+                @retryElement={{retryElementStub}}
+                @getLastCorrectionForElement={{getLastCorrectionForElementStub}}
+              />
+            </template>,
+          );
+
+          // then
+          await clickByName('radio1');
+          await clickByName(this.intl.t('pages.modulix.buttons.activity.retry'));
+          sinon.assert.calledOnce(retryElementStub);
+          assert.ok(true);
         });
       });
 

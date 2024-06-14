@@ -55,6 +55,8 @@ export default class ModulixStepper extends Component {
           @step={{step}}
           @currentStep={{inc index}}
           @totalSteps={{this.displayableSteps.length}}
+          @submitAnswer={{@submitAnswer}}
+          @retryElement={{@retryElement}}
           @getLastCorrectionForElement={{@getLastCorrectionForElement}}
         />
       {{/each}}
