@@ -29,7 +29,7 @@ module('Integration | Component | Organizations | Places | Delete-modal', functi
     this.owner.register('service:notifications', NotificationsStub);
 
     store = this.owner.lookup('service:store');
-    places = store.createRecord('organizationPlace', {
+    places = store.createRecord('organization-place', {
       count: 7777,
       reference: 'FFVII',
       category: 'FULL_RATE',

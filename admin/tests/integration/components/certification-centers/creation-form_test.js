@@ -152,7 +152,7 @@ module('Integration | Component | certification-centers/creation-form', function
     this.onSubmit = () => {};
     this.onCancel = () => {};
     const store = this.owner.lookup('service:store');
-    this.certificationCenter = store.createRecord('certificationCenter', { name: 'Super centre' });
+    this.certificationCenter = store.createRecord('certification-center', { name: 'Super centre' });
     await render(
       hbs`<CertificationCenters::CreationForm @certificationCenter={{this.certificationCenter}} @onSubmit={{this.onSubmit}} @onCancel={{this.onCancel}} />`,
     );

@@ -10,7 +10,7 @@ module('Unit | Model | organization place', function (hooks) {
       const store = this.owner.lookup('service:store');
 
       // when
-      const model = store.createRecord('organizationPlace', { status: 'ACTIVE' });
+      const model = store.createRecord('organization-place', { status: 'ACTIVE' });
 
       // then
       assert.strictEqual(model.displayStatus, 'Actif');
@@ -21,7 +21,7 @@ module('Unit | Model | organization place', function (hooks) {
       const store = this.owner.lookup('service:store');
 
       // when
-      const model = store.createRecord('organizationPlace', { status: 'EXPIRED' });
+      const model = store.createRecord('organization-place', { status: 'EXPIRED' });
 
       // then
       assert.strictEqual(model.displayStatus, 'Expiré');
@@ -32,7 +32,7 @@ module('Unit | Model | organization place', function (hooks) {
       const store = this.owner.lookup('service:store');
 
       // when
-      const model = store.createRecord('organizationPlace', { status: 'PENDING' });
+      const model = store.createRecord('organization-place', { status: 'PENDING' });
 
       // then
       assert.strictEqual(model.displayStatus, 'À venir');
@@ -44,7 +44,7 @@ module('Unit | Model | organization place', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       // when
-      const model = store.createRecord('organizationPlace', {
+      const model = store.createRecord('organization-place', {
         category: 'FREE_RATE',
       });
 
@@ -56,7 +56,7 @@ module('Unit | Model | organization place', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       // when
-      const model = store.createRecord('organizationPlace', {
+      const model = store.createRecord('organization-place', {
         category: 'PUBLIC_RATE',
       });
 
@@ -68,7 +68,7 @@ module('Unit | Model | organization place', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       // when
-      const model = store.createRecord('organizationPlace', {
+      const model = store.createRecord('organization-place', {
         category: 'REDUCE_RATE',
       });
 
@@ -80,7 +80,7 @@ module('Unit | Model | organization place', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       // when
-      const model = store.createRecord('organizationPlace', {
+      const model = store.createRecord('organization-place', {
         category: 'SPECIAL_REDUCE_RATE',
       });
 
@@ -92,7 +92,7 @@ module('Unit | Model | organization place', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       // when
-      const model = store.createRecord('organizationPlace', {
+      const model = store.createRecord('organization-place', {
         category: 'FULL_RATE',
       });
 

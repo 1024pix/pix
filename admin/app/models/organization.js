@@ -33,8 +33,8 @@ export default class Organization extends Model {
   @equal('type', 'SCO') isOrganizationSCO;
   @equal('type', 'SUP') isOrganizationSUP;
 
-  @hasMany('organizationMembership', { async: true, inverse: 'organization' }) organizationMemberships;
-  @hasMany('targetProfileSummary', { async: true, inverse: null }) targetProfileSummaries;
+  @hasMany('organization-membership', { async: true, inverse: 'organization' }) organizationMemberships;
+  @hasMany('target-profile-summary', { async: true, inverse: null }) targetProfileSummaries;
   @hasMany('tag', { async: true, inverse: null }) tags;
   @hasMany('organization', { async: true, inverse: null }) children;
 

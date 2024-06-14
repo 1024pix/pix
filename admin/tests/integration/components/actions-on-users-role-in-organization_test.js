@@ -18,7 +18,7 @@ module('Integration | Component | actions-on-users-role-in-organization', functi
       this.owner.register('service:access-control', AccessControlStub);
 
       const store = this.owner.lookup('service:store');
-      const organizationMembership = store.createRecord('organizationMembership', {
+      const organizationMembership = store.createRecord('organization-membership', {
         role: 'ADMIN',
         save: sinon.stub(),
       });
@@ -57,7 +57,7 @@ module('Integration | Component | actions-on-users-role-in-organization', functi
 
       const store = this.owner.lookup('service:store');
 
-      const organizationMembership = store.createRecord('organizationMembership', {
+      const organizationMembership = store.createRecord('organization-membership', {
         role: 'ADMIN',
         reload: sinon.stub(),
       });
