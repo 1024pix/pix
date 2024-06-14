@@ -185,24 +185,17 @@ describe('Integration | Repository | SessionForSupervising', function () {
           userId: 11111,
         });
         databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: certificationCandidate.id });
-
-        databaseBuilder.factory.buildUser({ id: 22222 });
-        const candidateB = databaseBuilder.factory.buildCertificationCandidate({
-          userId: 22222,
-          lastName: 'Joplin',
-          firstName: 'Janis',
-          sessionId: session.id,
-        });
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateB.id });
-
         const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
           label: 'Pix+ Édu 1er degré',
           key: 'EDU_1ER_DEGRE',
           certificationExtraTime: 45,
         });
-
         databaseBuilder.factory.buildComplementaryCertificationSubscription({
           certificationCandidateId: certificationCandidate.id,
+          complementaryCertificationId: complementaryCertification.id,
+        });
+        databaseBuilder.factory.buildComplementaryCertificationCourse({
+          certificationCourseId: certificationCourse.id,
           complementaryCertificationId: complementaryCertification.id,
         });
 

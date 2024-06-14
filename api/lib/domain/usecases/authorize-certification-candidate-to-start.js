@@ -3,8 +3,8 @@ const authorizeCertificationCandidateToStart = async function ({
   authorizedToStart,
   certificationCandidateForSupervisingRepository,
 }) {
-  await certificationCandidateForSupervisingRepository.update({
-    id: certificationCandidateForSupervisingId,
+  return certificationCandidateForSupervisingRepository.authorizeToStart({
+    certificationCandidateId: certificationCandidateForSupervisingId,
     authorizedToStart,
   });
 };

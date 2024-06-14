@@ -1,32 +1,27 @@
 import { authorizeCertificationCandidateToResume } from '../../../../lib/domain/usecases/authorize-certification-candidate-to-resume.js';
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | authorize-certification-candidate-to-resume', function () {
   let certificationCandidateForSupervisingRepository;
 
   beforeEach(function () {
-    certificationCandidateForSupervisingRepository = { get: sinon.stub(), update: sinon.stub() };
+    certificationCandidateForSupervisingRepository = { authorizeToStart: sinon.stub() };
   });
 
   it('should authorize the candidate to resume test', async function () {
     // given
-    const candidateToUpdate = domainBuilder.buildCertificationCandidateForSupervising({
-      authorizedToStart: false,
-    });
-
-    certificationCandidateForSupervisingRepository.get.resolves(candidateToUpdate);
+    const certificationCandidateId = 1234;
 
     // when
     await authorizeCertificationCandidateToResume({
-      certificationCandidateId: 1234,
+      certificationCandidateId,
       certificationCandidateForSupervisingRepository,
     });
 
     // then
-    expect(certificationCandidateForSupervisingRepository.update).to.have.been.calledWithExactly(
-      domainBuilder.buildCertificationCandidateForSupervising({
-        authorizedToStart: true,
-      }),
-    );
+    expect(certificationCandidateForSupervisingRepository.authorizeToStart).to.have.been.calledWithExactly({
+      certificationCandidateId,
+      authorizedToStart: true,
+    });
   });
 });

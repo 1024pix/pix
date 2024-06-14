@@ -43,8 +43,8 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
                 'last-name': 'tata',
                 'authorized-to-start': true,
                 'assessment-status': Assessment.states.STARTED,
-                'start-date-time': new Date('2022-10-01T13:37:00Z'),
-                'theorical-end-date-time': new Date('2022-10-01T16:01:00Z'),
+                'start-date-time': new Date('2022-10-01T13:00:00Z'),
+                'theorical-end-date-time': new Date('2022-10-01T14:55:00Z'),
                 'enrolled-complementary-certification-label': 'Super Certification Complémentaire',
                 'is-complementary-certification-in-progress': true,
                 'user-id': 6789,
@@ -78,6 +78,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
               enrolledComplementaryCertification: domainBuilder.buildComplementaryCertificationForSupervising({
                 key: 'aKey',
                 label: 'Super Certification Complémentaire',
+                certificationExtraTime: 10,
               }),
               isComplementaryCertificationInProgress: true,
             }),
@@ -165,7 +166,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
               extraTimePercentage: 33,
               authorizedToStart: true,
               assessmentStatus: Assessment.states.STARTED,
-              startDateTime: new Date('2022-10-01T13:37:00Z'),
+              startDateTime: new Date('2022-10-01T13:00:00Z'),
               liveAlert: {
                 status: CertificationChallengeLiveAlertStatus.ONGOING,
                 hasImage: false,

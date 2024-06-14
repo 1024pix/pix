@@ -5,7 +5,7 @@ describe('Unit | Domain | Use Cases | authorize-certification-candidate-to-start
   let certificationCandidateForSupervisingRepository;
 
   beforeEach(function () {
-    certificationCandidateForSupervisingRepository = { update: sinon.stub() };
+    certificationCandidateForSupervisingRepository = { authorizeToStart: sinon.stub() };
   });
 
   it('should return the updated certification candidate for supervising', async function () {
