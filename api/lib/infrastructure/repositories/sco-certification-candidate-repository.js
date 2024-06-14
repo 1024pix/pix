@@ -18,11 +18,7 @@ const addNonEnrolledCandidatesToSession = async function ({ sessionId, scoCertif
     .filter((candidate) => !alreadyEnrolledCandidateOrganizationLearnerIds.includes(candidate.organizationLearnerId))
     .map(scoCandidateToDTO);
 
-  const addedCandidateIds = await knex
-    .batchInsert('certification-candidates', candidatesToBeEnrolledDTOs)
-    .returning(knex.raw('id as "certificationCandidateId", \'CORE\' as type'));
-
-  await knex.batchInsert('certification-subscriptions', addedCandidateIds);
+  await _batchInsertCandidatesAndCoreSubscriptions(candidatesToBeEnrolledDTOs);
 };
 
 export { addNonEnrolledCandidatesToSession };
@@ -41,4 +37,13 @@ function _scoCandidateToDTOForSession(sessionId) {
       sessionId,
     };
   };
+}
+
+async function _batchInsertCandidatesAndCoreSubscriptions(candidatesToBeEnrolledDTOs) {
+  await knex
+    .batchInsert('certification-candidates', candidatesToBeEnrolledDTOs)
+    .returning([knex.raw('id as "certificationCandidateId"'), knex.raw("'CORE' as type")])
+    .then(async function (coreSubscriptions) {
+      await knex.batchInsert('certification-subscriptions', coreSubscriptions);
+    });
 }
