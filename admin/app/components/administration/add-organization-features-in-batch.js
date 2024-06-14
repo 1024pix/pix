@@ -15,7 +15,7 @@ export default class AddOrganizationFeaturesInBatch extends Component {
 
     let response;
     try {
-      const fileContent = await readFileAsText(files[0]);
+      const fileContent = files[0];
 
       const token = this.session.data.authenticated.access_token;
       response = await window.fetch(`${ENV.APP.API_HOST}/api/admin/organizations/add-organization-features`, {
@@ -42,11 +42,3 @@ export default class AddOrganizationFeaturesInBatch extends Component {
     }
   }
 }
-
-const readFileAsText = (file) =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = (event) => resolve(event.target.result);
-    reader.onerror = reject;
-    reader.readAsText(file);
-  });
