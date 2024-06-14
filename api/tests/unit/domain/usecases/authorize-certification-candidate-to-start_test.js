@@ -1,5 +1,4 @@
 import { authorizeCertificationCandidateToStart } from '../../../../lib/domain/usecases/authorize-certification-candidate-to-start.js';
-import { CertificationCandidateForSupervising } from '../../../../src/certification/session-management/domain/models/CertificationCandidateForSupervising.js';
 import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | authorize-certification-candidate-to-start', function () {
@@ -10,27 +9,17 @@ describe('Unit | Domain | Use Cases | authorize-certification-candidate-to-start
   });
 
   it('should return the updated certification candidate for supervising', async function () {
-    // given
-    const updatedCertificationCandidateForSupervising = new CertificationCandidateForSupervising({
-      id: 1234,
-      firstName: 'toto',
-      lastName: 'tutu',
-      birthdate: '2020-01-01',
-      extraTimePercentage: 0.5,
-      authorizedToStart: true,
-    });
-
-    // when
+    // given, when
     await authorizeCertificationCandidateToStart({
-      certificationCandidateForSupervisingId: 1234,
-      authorizedToStart: true,
+      certificationCandidateForSupervisingId: 123,
+      authorizedToStart: false,
       certificationCandidateForSupervisingRepository,
     });
 
     // then
-    expect(certificationCandidateForSupervisingRepository.update).to.have.been.calledWithExactly({
-      id: updatedCertificationCandidateForSupervising.id,
-      authorizedToStart: updatedCertificationCandidateForSupervising.authorizedToStart,
+    expect(certificationCandidateForSupervisingRepository.authorizeToStart).to.have.been.calledWithExactly({
+      certificationCandidateId: 123,
+      authorizedToStart: false,
     });
   });
 });

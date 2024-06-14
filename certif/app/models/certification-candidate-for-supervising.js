@@ -19,7 +19,7 @@ export default class CertificationCandidateForSupervising extends Model {
   @attr('date') theoricalEndDateTime;
   @attr('string') enrolledComplementaryCertificationLabel;
   @attr('string') userId;
-  @attr('boolean') isStillEligibleToComplementaryCertification;
+  @attr('boolean') isComplementaryCertificationInProgress;
   @attr() liveAlert;
 
   get hasStarted() {

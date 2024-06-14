@@ -6,7 +6,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
     // given
     const sessionForSupervising = domainBuilder.buildSessionForSupervising();
     const sessionForSupervisingRepository = { get: sinon.stub() };
-    sessionForSupervisingRepository.get.withArgs({ id: 1 }).resolves();
+    sessionForSupervisingRepository.get.withArgs({ id: 1 }).resolves(sessionForSupervising);
 
     // when
     const returnedSessionForSupervising = await getSessionForSupervising({
