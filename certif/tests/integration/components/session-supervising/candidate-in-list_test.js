@@ -220,7 +220,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           id: 123,
           enrolledComplementaryCertificationLabel: 'Super Certification Complémentaire',
           userId: 678,
-          isStillEligibleToComplementaryCertification: false,
+          isComplementaryCertificationInProgress: false,
         });
 
         // when
@@ -246,7 +246,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           id: 123,
           enrolledComplementaryCertificationLabel: 'Super Certification Complémentaire',
           userId: 678,
-          isStillEligibleToComplementaryCertification: true,
+          isComplementaryCertificationInProgress: true,
         });
 
         // when
@@ -272,7 +272,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       this.candidate = store.createRecord('certification-candidate-for-supervising', {
         id: 123,
         enrolledComplementaryCertificationLabel: 'Super Certification Complémentaire',
-        isStillEligibleToComplementaryCertification: false,
+        isComplementaryCertificationInProgress: false,
       });
 
       // when

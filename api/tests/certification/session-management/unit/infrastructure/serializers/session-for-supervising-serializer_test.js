@@ -46,7 +46,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
                 'start-date-time': new Date('2022-10-01T13:37:00Z'),
                 'theorical-end-date-time': new Date('2022-10-01T16:01:00Z'),
                 'enrolled-complementary-certification-label': 'Super Certification Complémentaire',
-                'is-still-eligible-to-complementary-certification': true,
+                'is-complementary-certification-in-progress': true,
                 'user-id': 6789,
                 'live-alert': null,
               },
@@ -74,18 +74,12 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
               extraTimePercentage: 33,
               authorizedToStart: true,
               assessmentStatus: Assessment.states.STARTED,
-              startDateTime: new Date('2022-10-01T13:37:00Z'),
-              theoricalEndDateTime: new Date('2022-10-01T16:01:00Z'),
+              startDateTime: new Date('2022-10-01T13:00:00Z'),
               enrolledComplementaryCertification: domainBuilder.buildComplementaryCertificationForSupervising({
                 key: 'aKey',
                 label: 'Super Certification Complémentaire',
               }),
-              stillValidBadgeAcquisitions: [
-                domainBuilder.buildCertifiableBadgeAcquisition({
-                  complementaryCertificationKey: 'aKey',
-                  complementaryCertificationBadgeLabel: 'Super Certification Complémentaire',
-                }),
-              ],
+              isComplementaryCertificationInProgress: true,
             }),
           ],
         });
@@ -134,10 +128,10 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
                 'last-name': 'tata',
                 'authorized-to-start': true,
                 'assessment-status': Assessment.states.STARTED,
-                'start-date-time': new Date('2022-10-01T13:37:00Z'),
-                'theorical-end-date-time': new Date('2022-10-01T16:01:00Z'),
-                'enrolled-complementary-certification-label': 'Super Certification Complémentaire',
-                'is-still-eligible-to-complementary-certification': true,
+                'start-date-time': new Date('2022-10-01T13:00:00Z'),
+                'theorical-end-date-time': new Date('2022-10-01T14:45:00Z'),
+                'enrolled-complementary-certification-label': null,
+                'is-complementary-certification-in-progress': false,
                 'user-id': 6789,
                 'live-alert': {
                   status: 'ongoing',
@@ -172,17 +166,6 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
               authorizedToStart: true,
               assessmentStatus: Assessment.states.STARTED,
               startDateTime: new Date('2022-10-01T13:37:00Z'),
-              theoricalEndDateTime: new Date('2022-10-01T16:01:00Z'),
-              enrolledComplementaryCertification: domainBuilder.buildComplementaryCertificationForSupervising({
-                key: 'aKey',
-                label: 'Super Certification Complémentaire',
-              }),
-              stillValidBadgeAcquisitions: [
-                domainBuilder.buildCertifiableBadgeAcquisition({
-                  complementaryCertificationKey: 'aKey',
-                  complementaryCertificationBadgeLabel: 'Super Certification Complémentaire',
-                }),
-              ],
               liveAlert: {
                 status: CertificationChallengeLiveAlertStatus.ONGOING,
                 hasImage: false,
