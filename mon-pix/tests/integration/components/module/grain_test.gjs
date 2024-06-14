@@ -19,7 +19,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
     // when
     const screen = await render(hbs`
-        <Module::Grain @grain={{this.grain}} />`);
+      <Module::Grain @grain={{this.grain}} />`);
 
     // then
     assert.ok(screen.getByRole('heading', { name: grain.title, level: 2 }));
@@ -36,7 +36,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
       // when
       const screen = await render(hbs`
-          <Module::Grain @grain={{this.grain}} @transition={{this.transition}} />`);
+        <Module::Grain @grain={{this.grain}} @transition={{this.transition}} />`);
 
       // then
       assert.ok(screen.getByText('transition text'));
@@ -52,7 +52,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
       // when
       await render(hbs`
-          <Module::Grain @grain={{this.grain}} />`);
+        <Module::Grain @grain={{this.grain}} />`);
 
       // then
       assert.dom('.grain__header').doesNotExist();
@@ -68,7 +68,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
       // when
       const screen = await render(hbs`
-          <Module::Grain @grain={{this.grain}} />`);
+        <Module::Grain @grain={{this.grain}} />`);
 
       // then
       assert.dom(find('.grain-card--activity')).exists();
@@ -83,7 +83,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
       // when
       const screen = await render(hbs`
-          <Module::Grain @grain={{this.grain}} />`);
+        <Module::Grain @grain={{this.grain}} />`);
 
       // then
       assert.dom(find('.grain-card--lesson')).exists();
@@ -98,7 +98,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
       // when
       const screen = await render(hbs`
-          <Module::Grain @grain={{this.grain}} />`);
+        <Module::Grain @grain={{this.grain}} />`);
 
       // then
       assert.dom(find('.grain-card--lesson')).exists();
@@ -113,7 +113,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
       // when
       const screen = await render(hbs`
-          <Module::Grain @grain={{this.grain}} />`);
+        <Module::Grain @grain={{this.grain}} />`);
 
       // then
       assert.dom(find('.grain-card--lesson')).exists();
@@ -139,7 +139,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
         // when
         const screen = await render(hbs`
-              <Module::Grain @grain={{this.grain}} />`);
+          <Module::Grain @grain={{this.grain}} />`);
 
         // then
         assert.ok(screen.getByText('element content'));
@@ -166,7 +166,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
         // when
         const screen = await render(hbs`
-              <Module::Grain @grain={{this.grain}} @passage={{this.passage}} />`);
+          <Module::Grain @grain={{this.grain}} @passage={{this.passage}} />`);
 
         // then
         assert.strictEqual(screen.getAllByRole('radio').length, qcuElement.proposals.length);
@@ -226,7 +226,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
         // when
         const screen = await render(hbs`
-              <Module::Grain @grain={{this.grain}} @passage={{this.passage}} />`);
+          <Module::Grain @grain={{this.grain}} @passage={{this.passage}} />`);
 
         // then
         assert.ok(screen);
@@ -254,7 +254,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
         // when
         const screen = await render(hbs`
-              <Module::Grain @grain={{this.grain}} />`);
+          <Module::Grain @grain={{this.grain}} />`);
 
         // then
         assert.ok(screen.getByRole('img', { name: 'alt text' }).hasAttribute('src', url));
@@ -279,7 +279,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
         // when
         const screen = await render(hbs`
-            <Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{true}} @passage={{this.passage}} />`);
+          <Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{true}} @passage={{this.passage}} />`);
 
         // then
         assert
@@ -306,7 +306,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
           // when
           const screen = await render(hbs`
-              <Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{true}} @passage={{this.passage}} />`);
+            <Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{true}} @passage={{this.passage}} />`);
 
           // then
           assert.dom(screen.queryByRole('button', { name: 'Continuer' })).exists();
@@ -328,7 +328,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
           // when
           const screen = await render(hbs`
-              <Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{false}} @passage={{this.passage}} />`);
+            <Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{false}} @passage={{this.passage}} />`);
 
           // then
           assert.dom(screen.queryByRole('button', { name: 'Continuer' })).doesNotExist();
@@ -352,7 +352,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
           // when
           const screen = await render(hbs`
-              <Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{true}} @passage={{this.passage}} />`);
+            <Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{true}} @passage={{this.passage}} />`);
 
           // then
           assert.dom(screen.queryByRole('button', { name: 'Continuer' })).doesNotExist();
@@ -373,7 +373,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
           // when
           const screen = await render(hbs`
-              <Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{true}} @passage={{this.passage}} />`);
+            <Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{true}} @passage={{this.passage}} />`);
 
           // then
           assert.dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.skip') })).exists();
@@ -395,7 +395,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
           // when
           const screen = await render(hbs`
-              <Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{false}} @passage={{this.passage}} />`);
+            <Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{false}} @passage={{this.passage}} />`);
 
           // then
           assert.dom(screen.queryByRole('button', { name: 'Continuer' })).doesNotExist();
@@ -416,7 +416,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
           // when
           const screen = await render(hbs`
-              <Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{false}} @passage={{this.passage}} />`);
+            <Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{false}} @passage={{this.passage}} />`);
 
           // then
           assert
@@ -467,8 +467,8 @@ module('Integration | Component | Module | Grain', function (hooks) {
       // when
       await render(
         hbs`
-              <Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{true}}
-                             @continueAction={{this.continueAction}} />`,
+          <Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{true}}
+                         @continueAction={{this.continueAction}} />`,
       );
       await clickByName('Continuer');
 
@@ -497,8 +497,9 @@ module('Integration | Component | Module | Grain', function (hooks) {
       // when
       await render(
         hbs`
-              <Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{true}}
-                             @continueAction={{this.continueAction}} @skipAction={{this.skipAction}} @passage={{this.passage}} />`,
+          <Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{true}}
+                         @continueAction={{this.continueAction}} @skipAction={{this.skipAction}}
+                         @passage={{this.passage}} />`,
       );
       await clickByName(this.intl.t('pages.modulix.buttons.grain.skip'));
 
@@ -518,7 +519,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
       // when
       const screen = await render(hbs`
-            <Module::Grain @grain={{this.grain}} @shouldDisplayTerminateButton={{true}} />`);
+        <Module::Grain @grain={{this.grain}} @shouldDisplayTerminateButton={{true}} />`);
 
       // then
       assert.dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.terminate') })).exists();
@@ -543,8 +544,8 @@ module('Integration | Component | Module | Grain', function (hooks) {
         // when
         await render(
           hbs`
-              <Module::Grain @grain={{this.grain}} @shouldDisplayTerminateButton={{true}}
-                             @terminateAction={{this.terminateAction}} @passage={{this.passage}} />`,
+            <Module::Grain @grain={{this.grain}} @shouldDisplayTerminateButton={{true}}
+                           @terminateAction={{this.terminateAction}} @passage={{this.passage}} />`,
         );
         await clickByName(this.intl.t('pages.modulix.buttons.grain.terminate'));
 
@@ -565,7 +566,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
       // when
       const screen = await render(hbs`
-            <Module::Grain @grain={{this.grain}} @shouldDisplayTerminateButton={{false}} />`);
+        <Module::Grain @grain={{this.grain}} @shouldDisplayTerminateButton={{false}} />`);
 
       // then
       assert
@@ -592,12 +593,141 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
       // when
       await render(hbs`
-            <Module::Grain @grain={{this.grain}} @retryElement={{this.retryElement}} @canMoveToNextGrain={{true}} @passage={{this.passage}} />`);
+        <Module::Grain @grain={{this.grain}} @retryElement={{this.retryElement}} @canMoveToNextGrain={{true}}
+                       @passage={{this.passage}} />`);
       await clickByName(this.intl.t('pages.modulix.buttons.activity.retry'));
 
       // then
       sinon.assert.calledOnce(retryElementStub);
       assert.ok(true);
+    });
+  });
+
+  module('when grain contains a stepper', function () {
+    module('When we verify an answerable element', function () {
+      test('should call the submitAnswer action', async function (assert) {
+        // given
+        const steps = [
+          {
+            elements: [
+              {
+                id: 'd0690f26-978c-41c3-9a21-da931857739c',
+                instruction: 'Instruction',
+                proposals: [
+                  { id: '1', content: 'radio1' },
+                  { id: '2', content: 'radio2' },
+                ],
+                isAnswerable: true,
+                type: 'qcu',
+              },
+            ],
+          },
+          {
+            elements: [
+              {
+                id: '768441a5-a7d6-4987-ada9-7253adafd842',
+                type: 'text',
+                content: '<p>Text 2</p>',
+                isAnswerable: false,
+              },
+            ],
+          },
+        ];
+        function getLastCorrectionForElementStub() {}
+        const submitAnswerStub = sinon.stub();
+        const store = this.owner.lookup('service:store');
+        const grain = store.createRecord('grain', {
+          title: 'Grain title',
+          components: [
+            {
+              type: 'stepper',
+              steps,
+            },
+          ],
+        });
+        const passage = store.createRecord('passage');
+        passage.getLastCorrectionForElement = getLastCorrectionForElementStub;
+        this.set('grain', grain);
+        this.set('passage', passage);
+        this.set('submitAnswer', submitAnswerStub);
+
+        // when
+        await render(hbs`
+          <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @submitAnswer={{this.submitAnswer}} />`);
+
+        // then
+        await clickByName('radio1');
+        await clickByName(this.intl.t('pages.modulix.buttons.activity.verify'));
+        sinon.assert.calledOnce(submitAnswerStub);
+        assert.ok(true);
+      });
+    });
+
+    module('When we retry an answerable element', function () {
+      test('should call the retryElement action', async function (assert) {
+        // given
+        const steps = [
+          {
+            elements: [
+              {
+                id: 'd0690f26-978c-41c3-9a21-da931857739c',
+                instruction: 'Instruction',
+                proposals: [
+                  { id: '1', content: 'radio1' },
+                  { id: '2', content: 'radio2' },
+                ],
+                isAnswerable: true,
+                type: 'qcu',
+              },
+            ],
+          },
+          {
+            elements: [
+              {
+                id: '768441a5-a7d6-4987-ada9-7253adafd842',
+                type: 'text',
+                content: '<p>Text 2</p>',
+                isAnswerable: false,
+              },
+            ],
+          },
+        ];
+        const retryElementStub = sinon.stub();
+        const store = this.owner.lookup('service:store');
+        const grain = store.createRecord('grain', {
+          title: 'Grain title',
+          components: [
+            {
+              type: 'stepper',
+              steps,
+            },
+          ],
+        });
+        const passage = store.createRecord('passage');
+        const correctionResponse = store.createRecord('correction-response', {
+          feedback: 'Too bad!',
+          status: 'ko',
+          solution: '1',
+        });
+        store.createRecord('element-answer', {
+          correction: correctionResponse,
+          elementId: 'd0690f26-978c-41c3-9a21-da931857739c',
+          passage,
+        });
+        this.set('grain', grain);
+        this.set('passage', passage);
+        this.set('retryElement', retryElementStub);
+
+        // when
+        await render(hbs`
+          <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @retryElement={{this.retryElement}} />`);
+
+        // then
+        await clickByName('radio1');
+        await clickByName(this.intl.t('pages.modulix.buttons.activity.retry'));
+        sinon.assert.calledOnce(retryElementStub);
+        assert.ok(true);
+      });
     });
   });
 });
