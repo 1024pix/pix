@@ -11,6 +11,7 @@ const downgradeCapacity = ({
   allChallenges,
   allAnswers,
   flashAssessmentAlgorithmConfiguration,
+  isSimulation,
 }) => {
   const numberOfUnansweredChallenges =
     flashAssessmentAlgorithmConfiguration.maximumAssessmentLength - allAnswers.length;
@@ -37,7 +38,7 @@ const downgradeCapacity = ({
 
   const result = simulator.run({ challengesAnswers: allAnswers });
 
-  return result.at(-1).capacity;
+  return isSimulation ? result.at(-1) : result.at(-1).capacity;
 };
 
 export const scoringDegradationService = { downgradeCapacity };
