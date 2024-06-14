@@ -1,21 +1,23 @@
 <div class="challenge-item {{unless this.isMediaWithForm 'challenge-item--single-display'}}">
-  <div class="challenge-item__media {{unless this.isMediaWithForm 'challenge-item__media--single-display'}}">
-    {{#if @challenge.illustrationUrl}}
-      <div class="challenge-item__image">
-        <Challenge::ChallengeIllustration @src={{@challenge.illustrationUrl}} @alt={{@challenge.illustrationAlt}} />
-      </div>
-    {{/if}}
-    {{#if @challenge.hasValidEmbedDocument}}
-      <div class="challenge-item__embed">
-        <Challenge::ChallengeEmbedSimulator
-          @url={{@challenge.embedUrl}}
-          @title={{@challenge.embedTitle}}
-          @height={{@challenge.embedHeight}}
-          @hideSimulator={{@isDisabled}}
-        />
-      </div>
-    {{/if}}
-  </div>
+  {{#if this.hasMedia}}
+    <div class="challenge-item__media {{unless this.isMediaWithForm 'challenge-item__media--single-display'}}">
+      {{#if @challenge.illustrationUrl}}
+        <div class="challenge-item__image">
+          <Challenge::ChallengeIllustration @src={{@challenge.illustrationUrl}} @alt={{@challenge.illustrationAlt}} />
+        </div>
+      {{/if}}
+      {{#if @challenge.hasValidEmbedDocument}}
+        <div class="challenge-item__embed">
+          <Challenge::ChallengeEmbedSimulator
+            @url={{@challenge.embedUrl}}
+            @title={{@challenge.embedTitle}}
+            @height={{@challenge.embedHeight}}
+            @hideSimulator={{@isDisabled}}
+          />
+        </div>
+      {{/if}}
+    </div>
+  {{/if}}
   <div class="challenge-item__proposals {{unless this.isMediaWithForm 'challenge-item__proposals--single-display'}}">
     {{#if @challenge.autoReply}}
       <div class="challenge-item__autoreply">
