@@ -15,11 +15,11 @@
   },
   "transitionTexts": [
     {
-      "content": "<p>Vous avez sûrement déjà utilisé un LLM, ces grands modèles de données capables d'écrire du texte et d'inventer des histoires.<span aria-hidden=\"true\">&nbsp;✒️ 💭</span><br>Ces textes sont parfois discutables ou complètement faux.<span aria-hidden=\"true\">&nbsp;❌</span><br>Surprenant ? Pas vraiment. Commençons par un exemple concret !</p>",
+      "content": "<p>Vous avez sûrement déjà utilisé un <abbr title=\"Large Language Model\">LLM</abbr> tel que ChatGPT, ces grands modèles de données capables d'écrire du texte et d'inventer des histoires.<span aria-hidden=\"true\">&nbsp;✒️ 💭</span></p><p>Ces textes sont parfois discutables ou complètement faux.<span aria-hidden=\"true\">&nbsp;❌</span><br>Surprenant ? Pas vraiment. Commençons par un exemple concret !</p>",
       "grainId": "0bfa08bd-7052-49bb-89e8-150efa589926"
     },
     {
-      "content": "<p>Et oui, comme tous les LLM, ChatGPT est biaisé : il peut écrire en français mais a été principalement entraîné avec des données d'une autre langue.<p>Dans la vidéo suivante, vous allez mieux comprendre les différents biais des LLM et d’où ils proviennent.<span aria-hidden=\"true\">&nbsp;📺</span></p>",
+      "content": "<p>Et oui, comme tous les LLM, ChatGPT est biaisé. Par exemple, il peut écrire en français mais a été principalement entraîné avec des données d'une autre langue.<p>Dans la vidéo suivante, vous allez mieux comprendre les différents biais des LLM et d’où ils proviennent.<span aria-hidden=\"true\">&nbsp;📺</span></p>",
       "grainId": "c8722f6e-7534-4fdc-9f2d-515c2a96641f"
     },
     {
@@ -80,11 +80,11 @@
               },
               {
                 "id": "2",
-                "content": "ChatGPT n’a pas la capacité de faire des jeux de mots drôles."
+                "content": "ChatGPT n’est pas capable de faire des jeux de mots drôles."
               },
               {
                 "id": "3",
-                "content": "ChatGPT n'a pas raté son jeu de mots : il fonctionne en anglais."
+                "content": "ChatGPT n'a pas raté son jeu de mots : il est réussi mais en anglais."
               }
             ],
             "feedbacks": {
@@ -176,7 +176,7 @@
               },
               {
                 "id": "4",
-                "content": "Il a été programmé pour être respecter les lois et ne peut pas encourager des activités criminelles."
+                "content": "Il a été programmé pour respecter les lois et ne peut pas encourager des actes illégaux."
               }
             ],
             "feedbacks": {
@@ -233,7 +233,7 @@
           "element": {
               "id": "629aeb61-028b-41f7-97f2-512e83000fa5",
               "type": "qcu",
-              "instruction": "Quelle est la cause du résultat biaisé fournit par PixGPT ?",
+              "instruction": "Quelle est la cause du résultat biaisé fourni par PixGPT ?",
               "proposals": [
                 {
                   "id": "1",
@@ -288,7 +288,7 @@
             {
               "id": "635d34d8-c748-44cd-ad02-bde721270723",
               "type": "qcu",
-              "instruction": "Quelle est la cause du résultat biaisé fournit par PixGPT ?",
+              "instruction": "Quelle est la cause du résultat biaisé fourni par PixGPT ?",
               "proposals": [
                 {
                   "id": "1",
@@ -300,8 +300,7 @@
                 },
                 {
                   "id": "3",
-                  "content": "Il a reproduit dans sa réponse un stéréotype de classe sociale associé à cette profession.
-"
+                  "content": "Il a reproduit dans sa réponse un stéréotype de classe sociale associé à cette profession."
                 }
               ],
               "feedbacks": {
@@ -344,7 +343,7 @@
             {
               "id": "060c7558-92fb-47bf-b8fa-3639ebfef67d",
               "type": "qcu",
-              "instruction": "Quelle est la cause du résultat biaisé fournit par PixGPT ?",
+              "instruction": "Quelle est la cause du résultat biaisé fourni par PixGPT ?",
               "proposals": [
                 {
                   "id": "1",
@@ -352,11 +351,11 @@
                 },
                 {
                   "id": "2",
-                  "content": "Il donne une réponse spécifique en pensant que l’utilisateur est un verseau."
+                  "content": "Il donne une réponse spécifique en pensant que l’utilisateur est un Verseau."
                 },
                 {
                   "id": "3",
-                  "content": "Il est biaisé par ses données d'entraînement où les verseau sont sur représentés."
+                  "content": "Il est biaisé par ses données d'entraînement où les Verseaux sont surreprésentés."
                 }
               ],
               "feedbacks": {
