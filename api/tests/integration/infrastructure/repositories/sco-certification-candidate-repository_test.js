@@ -1,17 +1,25 @@
 import _ from 'lodash';
 
 import * as scoCertificationCandidateRepository from '../../../../lib/infrastructure/repositories/sco-certification-candidate-repository.js';
-import { databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
+import { databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 describe('Integration | Repository | SCOCertificationCandidate', function () {
   describe('#addNonEnrolledCandidatesToSession', function () {
     let sessionId;
+    let clock;
+    const now = new Date('2024-06-17T00:00:00Z');
 
     beforeEach(function () {
       // given
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+
       sessionId = databaseBuilder.factory.buildSession().id;
 
       return databaseBuilder.commit();
+    });
+
+    afterEach(function () {
+      clock.restore();
     });
 
     it('adds only the unenrolled candidates', async function () {
@@ -89,7 +97,10 @@ describe('Integration | Repository | SCOCertificationCandidate', function () {
         sessionId,
         organizationLearnerId: organizationLearnerId1,
       });
-      databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: scoCandidateAlreadySaved1.id });
+      databaseBuilder.factory.buildCoreSubscription({
+        certificationCandidateId: scoCandidateAlreadySaved1.id,
+        createdAt: new Date('2024-01-01'),
+      });
       const organizationLearnerId2 = databaseBuilder.factory.buildOrganizationLearner().id;
       const organizationLearnerId3 = databaseBuilder.factory.buildOrganizationLearner().id;
       await databaseBuilder.commit();
@@ -123,8 +134,20 @@ describe('Integration | Repository | SCOCertificationCandidate', function () {
       });
 
       // then
-      const { count: subscriptionsCount } = await knex('certification-subscriptions').count().first();
-      expect(subscriptionsCount).to.equal(3);
+      const subscriptions = await knex('certification-subscriptions');
+      expect(subscriptions.length).to.equal(3);
+      sinon.assert.match(subscriptions[0], {
+        certificationCandidateId: scoCandidateAlreadySaved1.id,
+        complementaryCertificationId: null,
+        createdAt: new Date('2024-01-01'),
+        type: 'CORE',
+      });
+      sinon.assert.match(subscriptions[1], {
+        certificationCandidateId: sinon.match.number,
+        complementaryCertificationId: null,
+        createdAt: sinon.match.date,
+        type: 'CORE',
+      });
     });
 
     it('does nothing when no candidate is given', async function () {
