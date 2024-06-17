@@ -3,7 +3,7 @@ import Joi from 'joi';
 import { EntityValidationError } from '../../../../shared/domain/errors.js';
 
 const complementaryCertificationHabilitationSchema = Joi.object({
-  id: Joi.number().required(),
+  complementaryCertificationId: Joi.number().required(),
   key: Joi.string().required(),
   label: Joi.string().required(),
 });

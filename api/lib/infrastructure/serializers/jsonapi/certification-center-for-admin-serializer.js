@@ -57,7 +57,7 @@ const serialize = function (certificationCenters, meta) {
     },
     habilitations: {
       include: true,
-      ref: 'id',
+      ref: 'complementaryCertificationId',
       attributes: ['key', 'label'],
     },
     meta,

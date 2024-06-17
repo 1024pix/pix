@@ -62,7 +62,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-for-admin-serialize
     describe('#serialize', function () {
       it('should convert a CertificationCenterForAdmin model object into JSON API data', function () {
         // given
-        const complementaryCertification = domainBuilder.buildComplementaryCertification({
+        const complementaryCertification = domainBuilder.certification.enrolment.buildHabilitation({
           id: 1,
           label: 'Pix+surf',
           key: 'SURF',
@@ -137,7 +137,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-for-admin-serialize
     describe('#serialize', function () {
       it('should convert a CertificationCenterForAdmin model object into JSON API data', function () {
         // given
-        const complementaryCertification = domainBuilder.buildComplementaryCertification({
+        const complementaryCertification = domainBuilder.certification.enrolment.buildHabilitation({
           id: 1,
           label: 'Pix+surf',
           key: 'SURF',

@@ -2,6 +2,7 @@ import { knex } from '../../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CERTIFICATION_FEATURES } from '../../../shared/domain/constants.js';
 import { Center } from '../../domain/models/Center.js';
+import { Habilitation } from '../../domain/models/Habilitation.js';
 
 const getById = async ({ id }) => {
   const center = await knex
@@ -11,21 +12,27 @@ const getById = async ({ id }) => {
       type: 'certification-centers.type',
       externalId: 'certification-centers.externalId',
       habilitations: knex.raw(
-        'array_remove(array_agg("complementary-certification-habilitations"."complementaryCertificationId" order by "complementary-certification-habilitations"."complementaryCertificationId"), NULL)',
+        `json_agg(json_build_object(
+        'complementaryCertificationId', "complementary-certification-habilitations"."complementaryCertificationId",
+        'key', "complementary-certifications"."key",
+        'label', "complementary-certifications"."label"
+        ))`,
       ),
       features: knex.raw('array_remove(array_agg("certificationCenterFeatures"."key"), NULL)'),
       createdAt: 'certification-centers.createdAt',
       updatedAt: 'certification-centers.updatedAt',
       isV3Pilot: 'certification-centers.isV3Pilot',
-      isComplementaryAlonePilot: knex.raw(
-        'CASE WHEN count("complementaryCertificationAloneFeature"."certificationCenterId") > 0 THEN TRUE ELSE FALSE END',
-      ),
     })
     .from('certification-centers')
     .leftJoin(
       'complementary-certification-habilitations',
       'certification-centers.id',
       'complementary-certification-habilitations.certificationCenterId',
+    )
+    .leftJoin(
+      'complementary-certifications',
+      'complementary-certification-habilitations.complementaryCertificationId',
+      'complementary-certifications.id',
     )
     .leftJoin(
       _getCertificationCenterFeatures({ id }),
@@ -61,7 +68,23 @@ const getById = async ({ id }) => {
 export { getById };
 
 function _toDomain(row) {
-  return new Center(row);
+  return new Center({
+    id: row.id,
+    name: row.name,
+    externalId: row.externalId,
+    isV3Pilot: row.isV3Pilot,
+    type: row.type,
+    habilitations: _toDomainHabilitation(row.habilitations),
+    features: row.features,
+  });
+}
+
+function _toDomainHabilitation(complementaryCertificationHabilitations = []) {
+  return complementaryCertificationHabilitations
+    .filter((data) => !!data.complementaryCertificationId)
+    .map(
+      ({ complementaryCertificationId, key, label }) => new Habilitation({ complementaryCertificationId, key, label }),
+    );
 }
 
 function _getCertificationCenterFeatures({ id }) {
