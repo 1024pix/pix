@@ -1,14 +1,12 @@
-{{! template-lint-disable no-builtin-form-components}}
-{{! TODO: Use PixUI components instead }}
 <div class="certification-info-field">
   {{#if @edition}}
     <label for={{@fieldId}} class="certification-info-field__label">
       {{@label}}
     </label>
     {{#if @isTextarea}}
-      <Textarea id={{@fieldId}} @value={{@value}} class="form-control" ...attributes />
+      <PixTextarea id={{@fieldId}} @value={{@value}} class="form-control" ...attributes />
     {{else}}
-      <Input id={{@fieldId}} @type="text" @value={{@value}} class="form-control" ...attributes />
+      <PixInput id={{@fieldId}} @type="text" @value={{@value}} class="form-control" ...attributes />
     {{/if}}
     {{#if @suffix}}
       <span class="certification-info-field__suffix">{{@suffix}}</span>

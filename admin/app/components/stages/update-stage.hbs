@@ -1,5 +1,3 @@
-{{! template-lint-disable no-builtin-form-components}}
-{{! TODO: Use PixUI components instead }}
 <section class="page-section">
 
   <form class="form stage-form" {{on "submit" this.updateStage}}>
@@ -57,15 +55,24 @@
       </PixTextarea>
       <br />
 
-      <label for="prescriberTitle" class="form-field__label">
-        Titre pour le prescripteur
-      </label>
-      <Input id="prescriberTitle" @type="text" class="form-control" @value={{this.prescriberTitle}} maxlength="255" />
+      <PixInput
+        @type="text"
+        class="form-control"
+        @value={{this.prescriberTitle}}
+        maxlength="255"
+        {{on "input" (pick "target.value" (set this "prescriberTitle"))}}
+      ><:label>
+          Titre pour le prescripteur
+        </:label></PixInput>
 
-      <label for="prescriberDescription" class="form-field__label">
-        Description pour le prescripteur
-      </label>
-      <Textarea id="prescriberDescription" class="form-control" @value={{this.prescriberDescription}} rows="4" />
+      <PixTextarea
+        class="form-control"
+        @value={{this.prescriberDescription}}
+        rows="4"
+        {{on "input" (pick "target.value" (set this "prescriberDescription"))}}
+      ><:label>
+          Description pour le prescripteur
+        </:label></PixTextarea>
     </div>
     <div class="form-actions">
       <PixButton @variant="secondary" @size="small" @triggerAction={{@toggleEditMode}}>Annuler

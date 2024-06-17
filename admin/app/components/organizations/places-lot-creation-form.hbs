@@ -1,5 +1,3 @@
-{{! template-lint-disable no-builtin-form-components}}
-{{! TODO: Use PixUI components instead }}
 <section class="page-section">
   <div class="places__add-form">
     <form class="form" {{on "submit" this.onSubmit}}>
@@ -9,15 +7,11 @@
         sont obligatoires.
       </span>
       <div class="form-field">
-        <label for="count" class="form-field__label">
-          Nombre :
-        </label>
-        <Input
-          id="count"
-          @type="string"
+        <PixInput
           class={{if @errors.count "form-control is-invalid" "form-control"}}
           @value={{this.count}}
-        />
+          {{on "input" (pick "target.value" (set this "count"))}}
+        ><:label>Nombre :</:label></PixInput>
 
         {{#if @errors.count}}
           <div class="form-field__error">
@@ -26,16 +20,13 @@
         {{/if}}
       </div>
       <div class="form-field">
-        <label for="activationDate" class="form-field__label">
-          <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-          Date d'activation :
-        </label>
-        <Input
-          id="activationDate"
-          @type="date"
+        <PixInput
+          type="date"
           class={{if @errors.activationDate "form-control is-invalid" "form-control"}}
           @value={{this.activationDate}}
-        />
+          @requiredLabel={{true}}
+          {{on "input" (pick "target.value" (set this "activationDate"))}}
+        ><:label>Date d'activation : </:label></PixInput>
 
         {{#if @errors.activationDate}}
           <div class="form-field__error">
@@ -44,13 +35,12 @@
         {{/if}}
       </div>
       <div class="form-field">
-        <label for="expirationDate" class="form-field__label">Date d'expiration :</label>
-        <Input
-          id="expirationDate"
+        <PixInput
           class={{if @errors.expirationDate "form-control is-invalid" "form-control"}}
-          @type="date"
+          type="date"
           @value={{this.expirationDate}}
-        />
+          {{on "input" (pick "target.value" (set this "expirationDate"))}}
+        ><:label>Date d'expiration : </:label></PixInput>
 
         {{#if @errors.expirationDate}}
           <div class="form-field__error">
@@ -71,16 +61,13 @@
         </PixSelect>
       </div>
       <div class="form-field">
-        <label for="reference" class="form-field__label">
-          <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-          Référence :</label>
-        <Input
-          id="reference"
-          @type="text"
+        <PixInput
           @value={{this.reference}}
           class={{if @errors.reference "form-control is-invalid" "form-control"}}
           maxlength="255"
-        />
+          @requiredLabel={{true}}
+          {{on "input" (pick "target.value" (set this "reference"))}}
+        ><:label>Référence :</:label></PixInput>
 
         {{#if @errors.reference}}
           <div class="form-field__error">

@@ -1,5 +1,4 @@
-{{! template-lint-disable require-input-label no-builtin-form-components }}
-{{! TODO: Use PixUI components instead }}
+{{! template-lint-disable require-input-label }}
 {{page-title "Session " @model.id}}
 <header class="page-header">
   <div class="page-title">
@@ -9,11 +8,12 @@
   </div>
   <div class="page-actions">
     <form class="form-inline" {{on "submit" this.loadSession}}>
-      <Input
+      <PixInput
         placeholder="Identifiant"
         aria-label="Rechercher une session avec un identifiant"
         @type="text"
         @value={{this.inputId}}
+        {{on "input" (pick "target.value" (set this "inputId"))}}
       />
       <PixButton @size="small" @type="submit">Charger</PixButton>
     </form>

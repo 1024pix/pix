@@ -1,16 +1,15 @@
-{{! template-lint-disable no-builtin-form-components}}
-{{! TODO: Use PixUI components instead }}
 <section class="page-section target-profile-organizations">
   <div class="organization__forms-section">
     <form class="organization__form" {{on "submit" this.attachOrganizations}}>
       <label for="attach-organizations">Rattacher une ou plusieurs organisation(s)</label>
       <div class="organization__sub-form">
-        <Input
+        <PixInput
           id="attach-organizations"
           @value={{this.organizationsToAttach}}
           class="form-field__text form-control"
           placeholder="1, 2"
           aria-describedby="attach-organizations-info"
+          {{on "input" (pick "target.value" (set this "organizationsToAttach"))}}
         />
         <p id="attach-organizations-info" hidden>Ids des organisations, séparés par une virgule</p>
         <PixButton
@@ -28,12 +27,13 @@
       <label for="attach-organizations-from-existing-target-profile">Rattacher les organisations d'un profil cible
         existant</label>
       <div class="organization__sub-form">
-        <Input
+        <PixInput
           id="attach-organizations-from-existing-target-profile"
           @value={{this.existingTargetProfile}}
           class="form-field__text form-control"
           placeholder="1135"
           aria-describedby="attach-organizations-from-existing-target-profile-info"
+          {{on "input" (pick "target.value" (set this "existingTargetProfile"))}}
         />
         <p id="attach-organizations-from-existing-target-profile-info" hidden>Id du profil cible existant</p>
         <PixButton

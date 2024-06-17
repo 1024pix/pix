@@ -1,5 +1,3 @@
-{{! template-lint-disable no-builtin-form-components}}
-{{! TODO: Use PixUI components instead }}
 <div class="page-section attach-target-profile">
   <h1 class="attach-target-profile__header">
     Rattacher un nouveau profil cible à la certification
@@ -32,15 +30,14 @@
       {{#if @currentTargetProfile}}
 
         <div class="badge-edit-form__field attach-target-profile__notification">
-          <Input
+          <PixCheckbox
             class="badge-edit-form__control attach-target-profile__notification__checkbox"
-            @type="checkbox"
             @checked="false"
             {{on "change" this.onNotificationUpdated}}
-            id="notification-checkbox"
-          />
+          >
+            <:label>Notifier les organisations avec une campagne basée sur l’ancien PC</:label>
+          </PixCheckbox>
 
-          <label for="notification-checkbox">Notifier les organisations avec une campagne basée sur l’ancien PC</label>
           <PixTooltip @position="top-left" @isLight={{true}} @isWide={{true}}>
             <:triggerElement>
               <FaIcon @icon="circle-question" tabindex="0" />

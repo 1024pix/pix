@@ -1,5 +1,3 @@
-{{! template-lint-disable no-builtin-form-components}}
-{{! TODO: Use PixUI components instead }}
 <section class="page-section">
   <div class="user-detail-personal-information-section">
     {{#if this.isEditionMode}}
@@ -10,56 +8,53 @@
           sont obligatoires.
         </span>
         <div class="form-field">
-          <label for="firstName" class="form-field__label">
-            <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-            Prénom :
-          </label>
           {{#if (v-get this.form "firstName" "isInvalid")}}
             <div class="form-field__error" aria-label="Message d'erreur du champ prénom">
               {{v-get this.form "firstName" "message"}}
             </div>
           {{/if}}
-          <Input
-            id="firstName"
-            @type="text"
+          <PixInput
             class="form-control {{if (v-get this.form 'firstName' 'isInvalid') 'is-invalid'}}"
             @value={{this.form.firstName}}
-          />
+            {{on "input" (pick "target.value" (set this "form.firstName"))}}
+          ><:label>
+              <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
+              Prénom :
+            </:label></PixInput>
         </div>
         <div class="form-field">
-          <label for="lastName" class="form-field__label">
-            <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-            Nom :
-          </label>
           {{#if (v-get this.form "lastName" "isInvalid")}}
             <div class="form-field__error" aria-label="Message d'erreur du champ nom">
               {{v-get this.form "lastName" "message"}}
             </div>
           {{/if}}
-          <Input
-            id="lastName"
-            @type="text"
+          <PixInput
             class="form-control {{if (v-get this.form 'lastName' 'isInvalid') 'is-invalid'}}"
             @value={{this.form.lastName}}
-          />
+            {{on "input" (pick "target.value" (set this "form.lastName"))}}
+          >
+            <:label>
+              <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
+              Nom :
+            </:label></PixInput>
         </div>
         {{#if this.canModifyEmail}}
           <div class="form-field">
-            <label for="email" class="form-field__label">
-              <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-              Adresse e-mail :
-            </label>
             {{#if (v-get this.form "email" "isInvalid")}}
               <div class="form-field__error" aria-label="Message d'erreur du champ email">
                 {{v-get this.form "email" "message"}}
               </div>
             {{/if}}
-            <Input
-              id="email"
-              @type="email"
+            <PixInput
+              type="email"
               class="form-control {{if (v-get this.form 'email' 'isInvalid') 'is-invalid'}}"
               @value={{this.form.email}}
-            />
+              {{on "input" (pick "target.value" (set this "form.email"))}}
+            >
+              <:label>
+                <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
+                Adresse e-mail :
+              </:label></PixInput>
           </div>
         {{/if}}
         {{#if @user.username}}
@@ -73,12 +68,15 @@
                 {{v-get this.form "username" "message"}}
               </div>
             {{/if}}
-            <Input
-              id="username"
+            <PixInput
               @type="text"
               class="form-control {{if (v-get this.form 'username' 'isInvalid') 'is-invalid'}}"
               @value={{this.form.username}}
-            />
+              {{on "input" (pick "target.value" (set this "form.username"))}}
+            ><:label>
+                <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
+                Identifiant :
+              </:label></PixInput>
           </div>
         {{/if}}
         <div class="form-field">

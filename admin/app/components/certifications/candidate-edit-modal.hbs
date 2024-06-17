@@ -1,5 +1,4 @@
-{{! template-lint-disable no-at-ember-render-modifiers no-builtin-form-components }}
-{{! TODO: Use PixUI components instead }}
+{{! template-lint-disable no-at-ember-render-modifiers }}
 {{! TODO: Use this documentation to remove usage of did-insert and did-update
 https://guides.emberjs.com/release/components/template-lifecycle-dom-and-modifiers/#toc_communicating-between-elements-in-a-component}}
 <PixModal
@@ -14,17 +13,22 @@ https://guides.emberjs.com/release/components/template-lifecycle-dom-and-modifie
       </p>
 
       <div class="candidate-edit-modal--content__field">
-        <label for="last-name">
-          Nom de famille
-        </label>
-        <Input id="last-name" @type="text" class="input" @value={{this.lastName}} {{did-insert this.focus}} required />
+        <PixInput
+          class="input"
+          @value={{this.lastName}}
+          {{did-insert this.focus}}
+          {{on "input" (pick "target.value" (set this "lastName"))}}
+          required
+        ><:label>Nom de famille</:label></PixInput>
       </div>
 
       <div class="candidate-edit-modal--content__field">
-        <label for="first-name">
-          Prénom
-        </label>
-        <Input id="first-name" @type="text" class="input" @value={{this.firstName}} required />
+        <PixInput
+          class="input"
+          @value={{this.firstName}}
+          required
+          {{on "input" (pick "target.value" (set this "firstName"))}}
+        ><:label>Prénom</:label></PixInput>
       </div>
 
       <div class="candidate-edit-modal--content__field-radio-button">
@@ -102,28 +106,40 @@ https://guides.emberjs.com/release/components/template-lifecycle-dom-and-modifie
 
       {{#if this.isBirthInseeCodeRequired}}
         <div class="candidate-edit-modal--content__field">
-          <label for="birth-insee-code">
-            Code Insee de naissance
-          </label>
-          <Input id="birth-insee-code" @type="text" class="input" @value={{this.birthInseeCode}} required />
+          <PixInput
+            class="input"
+            @value={{this.birthInseeCode}}
+            required
+            {{on "input" (pick "target.value" (set this "birthInseeCode"))}}
+          ><:label>
+              Code Insee de naissance
+            </:label></PixInput>
         </div>
       {{/if}}
 
       {{#if this.isBirthPostalCodeRequired}}
         <div class="candidate-edit-modal--content__field">
-          <label for="birth-postal-code">
-            Code postal de naissance
-          </label>
-          <Input id="birth-postal-code" @type="text" class="input" @value={{this.birthPostalCode}} required />
+          <PixInput
+            class="input"
+            @value={{this.birthPostalCode}}
+            required
+            {{on "input" (pick "target.value" (set this "birthPostalCode"))}}
+          ><:label>
+              Code postal de naissance
+            </:label></PixInput>
         </div>
       {{/if}}
 
       {{#if this.isBirthCityRequired}}
         <div class="candidate-edit-modal--content__field">
-          <label for="birth-city">
-            Commune de naissance
-          </label>
-          <Input id="birth-city" @type="text" class="input" @value={{this.birthCity}} required />
+          <PixInput
+            class="input"
+            @value={{this.birthCity}}
+            required
+            {{on "input" (pick "target.value" (set this "birthCity"))}}
+          ><:label>
+              Commune de naissance
+            </:label></PixInput>
         </div>
       {{/if}}
     </form>
