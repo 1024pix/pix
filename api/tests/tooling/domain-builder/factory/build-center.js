@@ -3,7 +3,7 @@ import { CenterTypes } from '../../../../src/certification/enrolment/domain/mode
 
 const buildCenter = function ({
   id = 1,
-  name,
+  name = 'A Certif Center',
   type = CenterTypes.SUP,
   externalId = 'EX123',
   habilitations,
