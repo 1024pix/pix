@@ -10,6 +10,10 @@ export default class ConnectionMethodsController extends Controller {
   @tracked isEmailEditionMode = false;
   @tracked showEmailUpdatedMessage = false;
 
+  get shouldShowEmailConfirmedBanner() {
+    return !!this.model.user.emailConfirmed;
+  }
+
   get shouldShowEmail() {
     return !!this.model.user.email;
   }
