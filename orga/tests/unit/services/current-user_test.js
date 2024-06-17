@@ -252,7 +252,7 @@ module('Unit | Service | current-user', function (hooks) {
     });
 
     module('when organization has "GAR" as identity provider for campaigns', function () {
-      test('sets isGARAuthenticationMethod to true', async function (assert) {
+      test('sets isGarAuthenticationMethod to true', async function (assert) {
         // given
         const organization = Object.create({
           id: 9,
@@ -269,7 +269,7 @@ module('Unit | Service | current-user', function (hooks) {
         await currentUserService.load();
 
         // then
-        assert.true(currentUserService.isGARAuthenticationMethod);
+        assert.true(currentUserService.isGarAuthenticationMethod);
       });
     });
 

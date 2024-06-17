@@ -15,8 +15,8 @@ export default class AssessmentResultsController extends Controller {
   @tracked stages = [];
   @tracked search = null;
 
-  get isGARAuthenticationMethod() {
-    return this.currentUser.isGARAuthenticationMethod;
+  get isGarAuthenticationMethod() {
+    return this.currentUser.isGarAuthenticationMethod;
   }
 
   @action

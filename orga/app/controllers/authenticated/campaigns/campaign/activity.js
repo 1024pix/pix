@@ -18,8 +18,8 @@ export default class ActivityController extends Controller {
   @tracked participations;
   @tracked search = null;
 
-  get isGARAuthenticationMethod() {
-    return this.currentUser.isGARAuthenticationMethod;
+  get isGarAuthenticationMethod() {
+    return this.currentUser.isGarAuthenticationMethod;
   }
 
   @action

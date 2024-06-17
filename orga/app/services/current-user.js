@@ -12,7 +12,7 @@ export default class CurrentUserService extends Service {
   @tracked isSCOManagingStudents;
   @tracked isSUPManagingStudents;
   @tracked isAgriculture;
-  @tracked isGARAuthenticationMethod;
+  @tracked isGarAuthenticationMethod;
 
   async load() {
     if (this.session.isAuthenticated) {
@@ -53,7 +53,7 @@ export default class CurrentUserService extends Service {
     this.isAdminInOrganization = isAdminInOrganization;
     this.isSCOManagingStudents = isSCOManagingStudents;
     this.isSUPManagingStudents = isSUPManagingStudents;
-    this.isGARAuthenticationMethod = organization.identityProviderForCampaigns === 'GAR';
+    this.isGarAuthenticationMethod = organization.identityProviderForCampaigns === 'GAR';
     this.isAgriculture = organization.isAgriculture;
     this.organization = organization;
   }

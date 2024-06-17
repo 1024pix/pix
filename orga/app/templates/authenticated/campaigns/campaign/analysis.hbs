@@ -12,5 +12,9 @@
     @campaignCollectiveResult={{@model.campaignCollectiveResult}}
   />
 {{else}}
-  <Campaign::EmptyState @campaignCode={{@model.code}} />
+  {{#if this.isGarAuthenticationMethod}}
+    <Campaign::EmptyState />
+  {{else}}
+    <Campaign::EmptyState @campaignCode={{@model.code}} />
+  {{/if}}
 {{/if}}

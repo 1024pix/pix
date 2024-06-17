@@ -26,7 +26,7 @@
     class="activity__participants-list"
   />
 {{else}}
-  {{#if this.isGARAuthenticationMethod}}
+  {{#if this.isGarAuthenticationMethod}}
     <Campaign::EmptyState />
   {{else}}
     <Campaign::EmptyState @campaignCode={{@model.campaign.code}} />
