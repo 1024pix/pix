@@ -104,7 +104,7 @@ module('Integration | Component | steps', function (hooks) {
         assert
           .dom(
             screen.getByRole('checkbox', {
-              name: 'En cochant cette case, je reconnais avoir pris connaissances de ces règles et je m’engage à les respecter.',
+              name: 'En cochant cette case, je reconnais avoir pris connaissance de ces règles et je m’engage à les respecter.',
             }),
           )
           .exists();
@@ -143,7 +143,7 @@ module('Integration | Component | steps', function (hooks) {
           // when
           await click(
             screen.getByRole('checkbox', {
-              name: 'En cochant cette case, je reconnais avoir pris connaissances de ces règles et je m’engage à les respecter.',
+              name: 'En cochant cette case, je reconnais avoir pris connaissance de ces règles et je m’engage à les respecter.',
             }),
           );
 
