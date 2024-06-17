@@ -54,7 +54,7 @@
     "grains": [
       {
         "id": "f0db9bcb-a896-4801-827d-d0ceeddde3e5",
-        "type": "lesson",
+        "type": "activity",
         "title": "Reconnaitre une souris",
         "components": [
                  {
@@ -63,7 +63,7 @@
               {
                 "id": "48708070-39c3-4af4-8914-ab61d61dfee8",
                 "type": "text",
-                "content": "<p>Les souris peuvent avoir différentes formes, tailles ou couleurs. <br>Il y a deux types de souris : <ul> <li>Les souris qui ont un fil, </li><li> Les souris  qui n’ont pas de fil.</li></ul></p>"
+                "content": "<p>Les souris peuvent avoir différentes formes, tailles ou couleurs. <br>Il y a deux types de souris : <ul> <li>Les souris qui ont un fil (filaires), </li><li> Les souris  qui n’ont pas de fil.</li></ul></p><p>Globalement, toutes ces souris servent à faire les mêmes choses.</p>"
               }
           },
           {
@@ -92,7 +92,7 @@
               {
                 "id": "c785bfd1-e8b8-42a0-8354-333d5acf6555",
                 "type": "text",
-                "content": "<h3>Et vous, quel est le type de votre souris ?</h3><p>Peu importe votre type de souris, vous l’utiliserez de la même manière et pour faire les mêmes choses.</p>"
+                "content": "<h3>À vous de jouer : trouvez quel est le type de votre souris.</h3>"
               }
           },
           {
