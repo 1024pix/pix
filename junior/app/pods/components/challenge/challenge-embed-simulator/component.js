@@ -4,7 +4,8 @@ import Component from '@glimmer/component';
 export default class ChallengeEmbedSimulator extends Component {
   get embedDocumentHeightStyle() {
     const baseHeight = this.args.height ?? '600';
-    const height = this.args.isMediaWithForm ? (baseHeight * window.innerHeight) / 950 : baseHeight;
-    return htmlSafe(`height: ${height}px`);
+    const itemMedia = document.getElementsByClassName('challenge-item__media ')[0];
+    const height = this.args.isMediaWithForm ? (baseHeight * itemMedia.offsetWidth) / 710 : baseHeight;
+    return htmlSafe(`height: ${height}px; max-height: ${baseHeight}px`);
   }
 }
