@@ -18,5 +18,11 @@ module.exports = {
         prettier: false,
       },
     },
+    {
+      files: ['**/*.gjs'],
+      rules: {
+        prettier: 'off',
+      },
+    },
   ],
 };

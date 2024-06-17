@@ -36,7 +36,7 @@
   {{#each this.availableHabilitations as |habilitation|}}
     <CertificationCenters::HabilitationTag
       @label={{habilitation.label}}
-      @active={{(contains habilitation this.habilitations)}}
+      @active={{contains habilitation this.habilitations}}
     />
   {{/each}}
 </ul>

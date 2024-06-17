@@ -18,9 +18,9 @@
               <PixTag @color="{{this.getStepTagColor index}}">
                 <p>{{this.getStepName step.name}}</p>
                 <p>
-                  {{(this.getEliminatedSkillsByStepCount index)}}
+                  {{this.getEliminatedSkillsByStepCount index}}
                   acquis filtrés /
-                  {{(this.getRemainingSkillsCountAfterStep index)}}
+                  {{this.getRemainingSkillsCountAfterStep index}}
                   restants
                 </p>
               </PixTag>
