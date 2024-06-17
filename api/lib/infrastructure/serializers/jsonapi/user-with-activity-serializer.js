@@ -8,6 +8,7 @@ const serialize = function (users, meta) {
       'firstName',
       'lastName',
       'email',
+      'emailConfirmed',
       'username',
       'cgu',
       'lastTermsOfServiceValidatedAt',

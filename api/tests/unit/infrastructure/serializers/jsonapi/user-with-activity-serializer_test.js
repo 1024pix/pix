@@ -35,7 +35,7 @@ describe('Unit | Serializer | JSONAPI | user-with-activity-serializer', function
     });
 
     describe('when user has no userOrgaSettings', function () {
-      it('should serialize excluding password', function () {
+      it('serializes excluding password', function () {
         // given
         const expectedSerializedUser = {
           data: {
@@ -45,6 +45,7 @@ describe('Unit | Serializer | JSONAPI | user-with-activity-serializer', function
               'first-name': userModelObject.firstName,
               'last-name': userModelObject.lastName,
               email: userModelObject.email,
+              'email-confirmed': false,
               username: userModelObject.username,
               cgu: userModelObject.cgu,
               lang: userModelObject.lang,

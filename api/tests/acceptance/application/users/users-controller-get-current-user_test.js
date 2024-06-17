@@ -55,6 +55,7 @@ describe('Acceptance | Controller | users-controller-get-current-user', function
             'first-name': user.firstName,
             'last-name': user.lastName,
             email: user.email.toLowerCase(),
+            'email-confirmed': false,
             username: user.username,
             cgu: user.cgu,
             lang: 'fr',
