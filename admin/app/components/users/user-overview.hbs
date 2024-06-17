@@ -1,3 +1,5 @@
+{{! template-lint-disable no-builtin-form-components}}
+{{! TODO: Use PixUI components instead }}
 <section class="page-section">
   <div class="user-detail-personal-information-section">
     {{#if this.isEditionMode}}
@@ -81,7 +83,7 @@
         {{/if}}
         <div class="form-field">
           <PixSelect
-            @placeholder={{"-- Sélectionnez une langue --"}}
+            @placeholder="-- Sélectionnez une langue --"
             @options={{this.languageOptions}}
             @value={{this.form.lang}}
             @onChange={{this.onChangeLanguage}}
@@ -92,7 +94,7 @@
         </div>
         <div class="form-field">
           <PixSelect
-            @placeholder={{"-- Sélectionnez une locale --"}}
+            @placeholder="-- Sélectionnez une locale --"
             @options={{this.localeOptions}}
             @value={{this.form.locale}}
             @onChange={{this.onLocaleChange}}

@@ -68,7 +68,7 @@
               <td>{{organization.externalId}}</td>
               {{#if @showDetachColumn}}
                 <td>
-                  <PixButton @variant="error" @size="small" @triggerAction={{(fn this.openModal organization)}}>
+                  <PixButton @variant="error" @size="small" @triggerAction={{fn this.openModal organization}}>
                     Détacher
                   </PixButton>
 
@@ -94,7 +94,7 @@
   @title="Détacher l'organisation du profil cible"
   @onCloseButtonClick={{this.closeModal}}
   @showModal={{this.showModal}}
-  aria-hidden="{{(not this.showModal)}}"
+  aria-hidden="{{not this.showModal}}"
 >
   <:content>
     <p>

@@ -21,12 +21,12 @@
         <:label>Lien</:label>
       </PixInput>
       <PixSelect
-        @placeholder={{"-- Sélectionnez un format --"}}
+        @placeholder="-- Sélectionnez un format --"
         @value={{this.form.type}}
         @options={{this.optionsTypeList}}
         required={{true}}
         aria-required={{true}}
-        @onChange={{(fn this.updateSelect "type")}}
+        @onChange={{fn this.updateSelect "type"}}
       >
         <:label>Format</:label>
       </PixSelect>
@@ -69,10 +69,10 @@
       </div>
       <PixSelect
         @id="trainingLocale"
-        @placeholder={{"-- Sélectionnez une langue --"}}
+        @placeholder="-- Sélectionnez une langue --"
         @options={{this.optionsLocaleList}}
         @value={{this.form.locale}}
-        @onChange={{(fn this.updateSelect "locale")}}
+        @onChange={{fn this.updateSelect "locale"}}
         required={{true}}
         aria-required={{true}}
       >

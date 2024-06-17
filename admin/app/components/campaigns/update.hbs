@@ -108,7 +108,7 @@
               name="isForAbsoluteNovice"
               @value={{false}}
               {{on "change" (fn this.updateFormValue "isForAbsoluteNovice")}}
-              checked={{(not this.form.isForAbsoluteNovice)}}
+              checked={{not this.form.isForAbsoluteNovice}}
             >
               <:label>Non</:label>
             </PixRadioButton>
