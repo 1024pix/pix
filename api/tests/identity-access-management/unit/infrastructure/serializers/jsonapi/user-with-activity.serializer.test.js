@@ -1,6 +1,6 @@
 import { User } from '../../../../../../src/identity-access-management/domain/models/User.js';
 import { UserWithActivity } from '../../../../../../src/identity-access-management/domain/read-models/UserWithActivity.js';
-import * as serializer from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/user-with-activity.serializer.js';
+import { userWithActivitySerializer } from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/user-with-activity.serializer.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Infrastructure | Serializer | JSONAPI | user-with-activity', function () {
@@ -87,7 +87,7 @@ describe('Unit | Identity Access Management | Infrastructure | Serializer | JSON
         };
 
         // when
-        const json = serializer.serialize(userModelObject);
+        const json = userWithActivitySerializer.serialize(userModelObject);
 
         // then
         expect(json).to.be.deep.equal(expectedSerializedUser);

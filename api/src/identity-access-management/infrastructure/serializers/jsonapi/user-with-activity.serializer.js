@@ -65,4 +65,4 @@ const serialize = function (users, meta) {
   }).serialize(users);
 };
 
-export { serialize };
+export const userWithActivitySerializer = { serialize };
