@@ -1,4 +1,4 @@
-import { UserWithActivity } from '../read-models/UserWithActivity.js';
+import { UserWithActivity } from '../../../src/identity-access-management/domain/read-models/UserWithActivity.js';
 
 const getCurrentUser = async function ({
   authenticatedUserId,
