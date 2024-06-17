@@ -1,5 +1,34 @@
 # Pix Changelog
 
+## v4.164.0 (17/06/2024)
+
+
+### :rocket: Amélioration
+- [#9278](https://github.com/1024pix/pix/pull/9278) [FEATURE] Ajouter un cadre autour des média des épreuves (Pix-12894) .
+- [#9274](https://github.com/1024pix/pix/pull/9274) [FEATURE] Changement de traduction pour informer de l'activation de session (Pix-12728).
+- [#9279](https://github.com/1024pix/pix/pull/9279) [FEATURE] Afficher une étiquette "Version Bêta" sur la page d'accueil de Pix Junior (PIX-12954).
+- [#9241](https://github.com/1024pix/pix/pull/9241) [FEATURE] Utiliser la langue de l'épreuve en cas d'absence de langue utilisateur (PIX-12862).
+- [#9243](https://github.com/1024pix/pix/pull/9243) [FEATURE] Signaler si la campagne n'existe pas dans le simulateur (PIX-12892).
+- [#9233](https://github.com/1024pix/pix/pull/9233) [FEATURE] Affichage du statut de session d'école dans Pix Orga (PIX-12725).
+
+### :building_construction: Tech
+- [#9228](https://github.com/1024pix/pix/pull/9228) [TECH] Creer une souscription "Coeur" pour chaque candidat existant (PIX-12526).
+- [#9229](https://github.com/1024pix/pix/pull/9229) [TECH] :broom: suppression des fichiers inutilisés.
+- [#9235](https://github.com/1024pix/pix/pull/9235) [TECH] Mettre à jour le fichier CODEOWNERS.
+- [#9253](https://github.com/1024pix/pix/pull/9253) [TECH] Corriger un test flaky sur PixAdmin (PIX-12942).
+- [#9114](https://github.com/1024pix/pix/pull/9114) [TECH] Améliorer l'accessibilité sur l'affichage des compétences (PIX-12360).
+- [#9266](https://github.com/1024pix/pix/pull/9266) [TECH] Monter de version ember-data en 5.3.3 sur PixAdmin (PIX-12950).
+
+### :bug: Correction
+- [#9267](https://github.com/1024pix/pix/pull/9267) [BUGFIX] Fix transaction et updateAt dans le repo organization-for-admin.
+- [#9275](https://github.com/1024pix/pix/pull/9275) [BUGFIX] Corrige un flaky sur l'import d'OIDC provider.
+- [#9238](https://github.com/1024pix/pix/pull/9238) [BUGFIX] Afficher une connexion externe par ligne sur l'écran de rattachement d'un compte externe à un compte Pix (PIX-12858).
+
+### :arrow_up: Montée de version
+- [#9269](https://github.com/1024pix/pix/pull/9269) [BUMP] Update dependency @1024pix/pix-ui to ^46.9.4 (orga).
+- [#9268](https://github.com/1024pix/pix/pull/9268) [BUMP] Update dependency @1024pix/pix-ui to ^46.9.4 (mon-pix).
+- [#9265](https://github.com/1024pix/pix/pull/9265) [BUMP] Update dependency @1024pix/pix-ui to ^46.9.4 (junior).
+
 ## v4.163.0 (13/06/2024)
 
 
