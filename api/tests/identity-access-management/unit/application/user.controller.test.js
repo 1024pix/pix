@@ -163,10 +163,6 @@ describe('Unit | Identity Access Management | Application | Controller | User', 
 
     it('updates password', async function () {
       // given
-      userSerializer.deserialize.withArgs(payload).returns({
-        password: userPassword,
-        temporaryKey: userTemporaryKey,
-      });
       usecases.updateUserPassword
         .withArgs({
           userId,
@@ -174,13 +170,12 @@ describe('Unit | Identity Access Management | Application | Controller | User', 
           temporaryKey: userTemporaryKey,
         })
         .resolves({});
-      userSerializer.serialize.withArgs({}).returns('ok');
 
       // when
-      const response = await userController.updatePassword(request, hFake, { userSerializer });
+      const response = await userController.updatePassword(request, hFake);
 
       // then
-      expect(response).to.be.equal('ok');
+      expect(response.statusCode).to.equal(204);
     });
   });
 });

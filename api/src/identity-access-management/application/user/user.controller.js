@@ -36,21 +36,19 @@ const save = async function (request, h, dependencies = { userSerializer, reques
 /**
  * @param request
  * @param h
- * @param {Object} dependencies
- * @param {UserSerializer} dependencies.userSerializer
  * @return {Promise<*>}
  */
-const updatePassword = async function (request, h, dependencies = { userSerializer }) {
+const updatePassword = async function (request, h) {
   const userId = request.params.id;
   const password = request.payload.data.attributes.password;
 
-  const updatedUser = await usecases.updateUserPassword({
+  await usecases.updateUserPassword({
     userId,
     password,
     temporaryKey: request.query['temporary-key'] || '',
   });
 
-  return dependencies.userSerializer.serialize(updatedUser);
+  return h.response().code(204);
 };
 
 const userController = { save, updatePassword };
