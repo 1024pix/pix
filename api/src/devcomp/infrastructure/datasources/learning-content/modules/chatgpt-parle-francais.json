@@ -35,7 +35,7 @@
       "grainId": "e7ca9d7e-6d77-4705-83a5-a6864c77f4b5"
     },
     {
-      "content":"<p>Avant de passer à la pratique, il faut réaliser une chose : les LLM sont développés par des acteurs de différentes natures et nationalités.</p>Voici des explications.<span aria-hidden=\"true\">&nbsp;🔍</span></p>",
+      "content":"<p>Avant de passer à la pratique, il faut réaliser une chose : les LLM sont développés par des acteurs de différentes natures et nationalités.</p>Voici quelques explications.<span aria-hidden=\"true\">&nbsp;🔍</span></p>",
       "grainId": "018ad06a-f11c-4db3-b954-ac8a6466d947"
     },
     {
@@ -152,7 +152,7 @@
                 },
                 {
                   "id": "3",
-                  "content": "Les représentations humaines, transposées inconsciemment lors des développement."
+                  "content": "Les représentations humaines, transposées inconsciemment lors des développements."
                 },
                 {
                   "id": "4",
@@ -223,7 +223,7 @@
               },
               {
                 "id": "4",
-                "content": "Il a été programmé pour être respectueux les lois et ne peut pas encourager des actes illégaux."
+                "content": "Il a été programmé pour être respectueux des lois et ne peut pas encourager des actes illégaux."
               }
             ],
             "feedbacks": {
@@ -478,7 +478,7 @@
             {
               "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
               "type": "text",
-              "content": "<p>Voici l'arène LANGU:IA, qui vous permet notamment de solliciter deux LLM en parallèle, avec le même prompt.</p><p>Utilisez cette arène pour explorer le fonctionnement des LLM. À la suite de cette activité, des questions vrai-faux vous seront posées sur leur fonctionnement.</p>"
+              "content": "<p>Voici l'arène LANGU:IA, qui vous permet notamment de solliciter deux LLM en parallèle, avec le même prompt.</p><p>Utilisez cette arène pour explorer le fonctionnement des LLM. À la suite de cette activité, des questions \"Vrai ou faux\" ? vous seront posées sur leur fonctionnement.</p>"
             }
           },
         {
