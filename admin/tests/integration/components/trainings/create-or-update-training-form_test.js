@@ -49,7 +49,7 @@ module('Integration | Component | Trainings::CreateOrUpdateTrainingForm', functi
     assert.dom(screen.getByLabelText('Heures (HH)')).exists();
     assert.dom(screen.getByLabelText('Minutes (MM)')).exists();
     assert.dom(screen.getByLabelText('Langue localisée')).exists();
-    assert.dom(screen.getByLabelText('Nom du fichier du logo éditeur (.svg)')).exists();
+    assert.dom(screen.getByLabelText('Nom du fichier du logo éditeur', { exact: false })).exists();
     assert.dom(screen.queryByLabelText('Mettre en pause')).doesNotExist();
     assert
       .dom(
@@ -126,7 +126,7 @@ module('Integration | Component | Trainings::CreateOrUpdateTrainingForm', functi
       assert.dom(screen.getByLabelText('Heures (HH)')).hasValue(model.duration.hours.toString());
       assert.dom(screen.getByLabelText('Minutes (MM)')).hasValue(model.duration.minutes.toString());
       assert.strictEqual(screen.getByLabelText('Langue localisée').innerText, localeCategories[model.locale]);
-      assert.dom(screen.getByLabelText('Nom du fichier du logo éditeur (.svg)')).hasValue(editorLogo);
+      assert.dom(screen.getByLabelText('Nom du fichier du logo éditeur', { exact: false })).hasValue(editorLogo);
       assert.strictEqual(screen.getByLabelText('Mettre en pause').checked, model.isDisabled);
       assert
         .dom(
