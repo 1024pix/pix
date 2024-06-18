@@ -14,7 +14,7 @@ module('Integration | Component | Layout::UserLoggedMenu', function (hooks) {
   let prescriber, organization, organization2, organization3, loadStub;
 
   hooks.beforeEach(function () {
-    organization = Object.create({ id: 1, name: 'Main organization', externalId: 'EXT' });
+    organization = Object.create({ id: '1', name: 'Main organization', externalId: 'EXT' });
     prescriber = Object.create({
       firstName: 'givenFirstName',
       lastName: 'givenLastName',
@@ -22,8 +22,8 @@ module('Integration | Component | Layout::UserLoggedMenu', function (hooks) {
         id: 234,
       }),
     });
-    organization2 = Object.create({ id: 2, name: 'Organization 2', externalId: 'EXT2' });
-    organization3 = Object.create({ id: 3, name: 'Organization 3', externalId: 'EXT3' });
+    organization2 = Object.create({ id: '2', name: 'Organization 2', externalId: 'EXT2' });
+    organization3 = Object.create({ id: '3', name: 'Organization 3', externalId: 'EXT3' });
     loadStub = sinon.stub();
 
     class CurrentUserStub extends Service {

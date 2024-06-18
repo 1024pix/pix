@@ -7,7 +7,7 @@ import sinon from 'sinon';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 class CurrentUserStub extends Service {
-  organization = { id: 1 };
+  organization = { id: '1' };
 }
 
 module('Integration | Component | Team::InvitationsList', function (hooks) {
@@ -56,7 +56,7 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
     // given
     const pendingInvitationDate = '2019-10-08T10:50:00Z';
     const invitation = {
-      id: 777,
+      id: '777',
       email: 'gigi@example.net',
       isPending: true,
       updatedAt: pendingInvitationDate,
@@ -87,7 +87,7 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
     // given
     const pendingInvitationDate = '2019-10-08T10:50:00Z';
     const invitation = {
-      id: 777,
+      id: '777',
       email: 'gigi@example.net',
       updatedAt: pendingInvitationDate,
       isPending: true,

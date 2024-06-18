@@ -16,7 +16,7 @@ module('Integration | Component | Ui::GroupsFilter', function (hooks) {
 
   module('when there is no group', function () {
     test('it should not display the filter', async function (assert) {
-      this.campaign = store.createRecord('campaign', { id: 1, groups: [] });
+      this.campaign = store.createRecord('campaign', { id: '1', groups: [] });
 
       const screen = await render(hbs`<Ui::GroupsFilter @campaign={{this.campaign}} />`);
 
@@ -27,7 +27,7 @@ module('Integration | Component | Ui::GroupsFilter', function (hooks) {
   module('when there is group', function () {
     test('it should display the filter and campaign groups', async function (assert) {
       const group = store.createRecord('group', { id: 'd1', name: 'd1' });
-      this.campaign = store.createRecord('campaign', { id: 1, groups: [group] });
+      this.campaign = store.createRecord('campaign', { id: '1', groups: [group] });
 
       const screen = await render(hbs`<Ui::GroupsFilter @campaign={{this.campaign}} />`);
 
@@ -37,7 +37,7 @@ module('Integration | Component | Ui::GroupsFilter', function (hooks) {
 
     test('it should trigger onSelect when a group is selected', async function (assert) {
       const group = store.createRecord('group', { id: 'L1', name: 'L1' });
-      this.campaign = store.createRecord('campaign', { id: 1, groups: [group] });
+      this.campaign = store.createRecord('campaign', { id: '1', groups: [group] });
       this.onSelect = sinon.stub();
 
       const screen = await render(
@@ -57,7 +57,7 @@ module('Integration | Component | Ui::GroupsFilter', function (hooks) {
       const group1 = store.createRecord('group', { id: 'L1', name: 'L1' });
       const group2 = store.createRecord('group', { id: 'L2', name: 'L2' });
       const group3 = store.createRecord('group', { id: 'L3', name: 'L3' });
-      this.campaign = store.createRecord('campaign', { id: 1, groups: [group1, group2, group3] });
+      this.campaign = store.createRecord('campaign', { id: '1', groups: [group1, group2, group3] });
       this.selected = ['L1', 'L2'];
 
       const screen = await render(

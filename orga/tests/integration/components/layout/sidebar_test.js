@@ -21,7 +21,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
 
     test('it should display documentation url given by current organization', async function (assert) {
       class CurrentUserStub extends Service {
-        organization = Object.create({ id: 1, isPro: true, documentationUrl: 'https://pix.fr' });
+        organization = Object.create({ id: '1', isPro: true, documentationUrl: 'https://pix.fr' });
       }
       this.owner.register('service:current-user', CurrentUserStub);
 
@@ -53,7 +53,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
 
     test('should display Campagne and Équipe menu for all organisation members', async function (assert) {
       class CurrentUserStub extends Service {
-        organization = Object.create({ id: 1 });
+        organization = Object.create({ id: '1' });
         canAccessCampaignsPage = true;
         canAccessParticipantsPage = true;
       }
@@ -69,7 +69,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
 
     test('should display Documentation menu when the organization has a documentation url', async function (assert) {
       class CurrentUserStub extends Service {
-        organization = Object.create({ id: 1, documentationUrl: 'www.amazing-doc.fr' });
+        organization = Object.create({ id: '1', documentationUrl: 'www.amazing-doc.fr' });
       }
       this.owner.register('service:current-user', CurrentUserStub);
       const intl = this.owner.lookup('service:intl');
@@ -82,7 +82,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
 
     test('should display Places menu if canAccessPlacesPage is true', async function (assert) {
       class CurrentUserStub extends Service {
-        organization = Object.create({ id: 1 });
+        organization = Object.create({ id: '1' });
         canAccessPlacesPage = true;
       }
       this.owner.register('service:current-user', CurrentUserStub);
@@ -94,7 +94,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
 
     test('should not display Places menu if canAccessPlacesPage is false', async function (assert) {
       class CurrentUserStub extends Service {
-        organization = Object.create({ id: 1 });
+        organization = Object.create({ id: '1' });
         canAccessPlacesPage = false;
       }
       this.owner.register('service:current-user', CurrentUserStub);
@@ -109,7 +109,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
     test('it should display Participants menu for all organisation members', async function (assert) {
       // given
       class CurrentUserStub extends Service {
-        organization = Object.create({ id: 1, type: 'PRO' });
+        organization = Object.create({ id: '1', type: 'PRO' });
         canAccessParticipantsPage = true;
       }
 
@@ -129,7 +129,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
     test('it should display Étudiants menu for all organisation members when the organization is isSUPManagingStudents', async function (assert) {
       // given
       class CurrentUserStub extends Service {
-        organization = Object.create({ id: 1, type: 'SUP' });
+        organization = Object.create({ id: '1', type: 'SUP' });
         isSUPManagingStudents = true;
         canAccessParticipantsPage = true;
       }
@@ -148,7 +148,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
     test('it should display Participants menu for all organisation members when the organization is not isSUPManagingStudents', async function (assert) {
       // given
       class CurrentUserStub extends Service {
-        organization = Object.create({ id: 1, type: 'SUP' });
+        organization = Object.create({ id: '1', type: 'SUP' });
         isSUPManagingStudents = false;
         canAccessParticipantsPage = true;
       }
@@ -169,7 +169,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
     test('it should display Élèves menu for all organisation members when the organization is isSCOManagingStudents', async function (assert) {
       // given
       class CurrentUserStub extends Service {
-        organization = Object.create({ id: 1, type: 'SCO' });
+        organization = Object.create({ id: '1', type: 'SCO' });
         isSCOManagingStudents = true;
         canAccessMissionsPage = false;
         canAccessParticipantsPage = true;
@@ -189,7 +189,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
     test('it should display Participants menu for all organisation members when the organization is not isSCOManagingStudents ', async function (assert) {
       // given
       class CurrentUserStub extends Service {
-        organization = Object.create({ id: 1, type: 'SCO' });
+        organization = Object.create({ id: '1', type: 'SCO' });
         isSCOManagingStudents = false;
         canAccessParticipantsPage = true;
       }
@@ -208,7 +208,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
     test('it should display Certifications menu in the sidebar-menu when user is SCOManagingStudents', async function (assert) {
       // given
       class CurrentUserStub extends Service {
-        organization = Object.create({ id: 1, type: 'SCO' });
+        organization = Object.create({ id: '1', type: 'SCO' });
         isAdminInOrganization = true;
         isSCOManagingStudents = true;
       }
@@ -227,7 +227,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
     test('it should hide Certification menu in the sidebar-menu', async function (assert) {
       // given
       class CurrentUserStub extends Service {
-        organization = Object.create({ id: 1, type: 'SCO' });
+        organization = Object.create({ id: '1', type: 'SCO' });
         isAdminInOrganization = false;
         isSCOManagingStudents = true;
       }
@@ -295,7 +295,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
   test('[a11y] it should contain accessibility aria-label nav', async function (assert) {
     // given
     class CurrentUserStub extends Service {
-      organization = Object.create({ id: 1, isPro: true });
+      organization = Object.create({ id: '1', isPro: true });
     }
     this.owner.register('service:current-user', CurrentUserStub);
     const intl = this.owner.lookup('service:intl');

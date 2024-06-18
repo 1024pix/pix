@@ -21,19 +21,19 @@ module('Integration | Component | Team::MembersList', function (hooks) {
 
     const members = [
       {
-        id: 1,
+        id: '1',
         organizationRole: 'ADMIN',
         user: {
-          id: 111,
+          id: '111',
           firstName: 'Gigi',
           lastName: 'La Terreur',
         },
       },
       {
-        id: 2,
+        id: '2',
         organizationRole: 'MEMBER',
         user: {
-          id: 121,
+          id: '121',
           firstName: 'Jojo',
           lastName: 'La Panique',
         },

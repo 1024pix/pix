@@ -11,7 +11,7 @@ module('Integration | Component | OrganizationParticipant::NoParticipantPanel', 
   test('it should display the empty state with message, call to action and action for PRO', async function (assert) {
     // given
     class CurrentUserStub extends Service {
-      organization = Object.create({ id: 1, type: 'PRO' });
+      organization = Object.create({ id: '1', type: 'PRO' });
       isSCOManagingStudents = false;
       isSUPManagingStudents = false;
     }
@@ -37,7 +37,7 @@ module('Integration | Component | OrganizationParticipant::NoParticipantPanel', 
   test('it should only display the empty state message for SCO', async function (assert) {
     // given
     class CurrentUserStub extends Service {
-      organization = Object.create({ id: 1, type: 'SCO' });
+      organization = Object.create({ id: '1', type: 'SCO' });
       isSCOManagingStudents = true;
     }
     this.owner.register('service:current-user', CurrentUserStub);
@@ -61,7 +61,7 @@ module('Integration | Component | OrganizationParticipant::NoParticipantPanel', 
   test('it should only display the empty state message for SUP', async function (assert) {
     // given
     class CurrentUserStub extends Service {
-      organization = Object.create({ id: 1, type: 'SUP' });
+      organization = Object.create({ id: '1', type: 'SUP' });
       isSUPManagingStudents = true;
     }
     this.owner.register('service:current-user', CurrentUserStub);

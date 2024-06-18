@@ -23,7 +23,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       prescriber = {};
       isSCOManagingStudents = true;
       organization = store.createRecord('organization', {
-        id: 1,
+        id: '1',
         divisions: [division],
       });
     }
@@ -1178,7 +1178,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       class CurrentUserStub extends Service {
         prescriber = {};
         organization = store.createRecord('organization', {
-          id: 1,
+          id: '1',
           divisions: [division],
           type: 'SCO',
           isManagingStudents: true,
@@ -1186,7 +1186,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       }
       this.owner.register('service:current-user', CurrentUserStub);
 
-      const students = [{ id: 1, firstName: 'Spider', lastName: 'Man' }];
+      const students = [{ id: '1', firstName: 'Spider', lastName: 'Man' }];
       this.set('students', students);
       this.set('search', null);
       this.set('divisions', []);
@@ -1231,7 +1231,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       class CurrentUserStub extends Service {
         prescriber = {};
         organization = store.createRecord('organization', {
-          id: 1,
+          id: '1',
           divisions: [store.createRecord('division', { id: '3Z', name: '3Z' })],
           type: 'SCO',
           isManagingStudents: true,
@@ -1253,8 +1253,8 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
     test('displays action bar', async function (assert) {
       // given
       const students = [
-        { id: 1, firstName: 'Spider', lastName: 'Man' },
-        { id: 2, firstName: 'Spider', lastName: 'Woman' },
+        { id: '1', firstName: 'Spider', lastName: 'Man' },
+        { id: '2', firstName: 'Spider', lastName: 'Woman' },
       ];
 
       this.set('students', students);
@@ -1287,14 +1287,14 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
     test('opens the reset password modal', async function (assert) {
       // given
-      const spiderStudent = { id: 1, firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] };
+      const spiderStudent = { id: '1', firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] };
       const peterStudent = {
-        id: 2,
+        id: '2',
         firstName: 'Peter',
         lastName: 'Parker',
         authenticationMethods: ['email', 'identifiant'],
       };
-      const milesStudent = { id: 3, firstName: 'Miles', lastName: 'Morales', authenticationMethods: ['identifiant'] };
+      const milesStudent = { id: '3', firstName: 'Miles', lastName: 'Morales', authenticationMethods: ['identifiant'] };
       const students = [spiderStudent, peterStudent, milesStudent];
 
       this.set('students', students);
@@ -1348,7 +1348,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       module('when there is no student selected with "identifiant" as an authentication method', function () {
         test('"Confirm" button is disabled', async function (assert) {
           // given
-          const students = [{ id: 1, firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] }];
+          const students = [{ id: '1', firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] }];
 
           this.set('students', students);
 
@@ -1395,8 +1395,8 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         test('"Confirm" button is enabled', async function (assert) {
           // given
           const students = [
-            { id: 1, firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] },
-            { id: 2, firstName: 'Miles', lastName: 'Morales', authenticationMethods: ['identifiant'] },
+            { id: '1', firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] },
+            { id: '2', firstName: 'Miles', lastName: 'Morales', authenticationMethods: ['identifiant'] },
           ];
 
           this.set('students', students);
@@ -1445,8 +1445,8 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
           sinon.stub(store, 'adapterFor').returns({ resetOrganizationLearnersPassword: sinon.stub().resolves() });
 
           const students = [
-            { id: 1, firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] },
-            { id: 2, firstName: 'Miles', lastName: 'Morales', authenticationMethods: ['identifiant'] },
+            { id: '1', firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] },
+            { id: '2', firstName: 'Miles', lastName: 'Morales', authenticationMethods: ['identifiant'] },
           ];
 
           this.set('students', students);
@@ -1497,8 +1497,8 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
           sinon.stub(notificationsStub, 'sendSuccess');
 
           const students = [
-            { id: 1, firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] },
-            { id: 2, firstName: 'Miles', lastName: 'Morales', authenticationMethods: ['identifiant'] },
+            { id: '1', firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] },
+            { id: '2', firstName: 'Miles', lastName: 'Morales', authenticationMethods: ['identifiant'] },
           ];
 
           this.set('students', students);
@@ -1555,8 +1555,8 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
               sinon.stub(notificationsStub, 'sendError');
 
               const students = [
-                { id: 1, firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] },
-                { id: 2, firstName: 'Miles', lastName: 'Morales', authenticationMethods: ['identifiant'] },
+                { id: '1', firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] },
+                { id: '2', firstName: 'Miles', lastName: 'Morales', authenticationMethods: ['identifiant'] },
               ];
 
               this.set('students', students);
@@ -1616,8 +1616,8 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
               sinon.stub(notificationsStub, 'sendError');
 
               const students = [
-                { id: 1, firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] },
-                { id: 2, firstName: 'Miles', lastName: 'Morales', authenticationMethods: ['identifiant'] },
+                { id: '1', firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] },
+                { id: '2', firstName: 'Miles', lastName: 'Morales', authenticationMethods: ['identifiant'] },
               ];
 
               this.set('students', students);
@@ -1681,8 +1681,8 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
               sinon.stub(notificationsStub, 'sendError');
 
               const students = [
-                { id: 1, firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] },
-                { id: 2, firstName: 'Miles', lastName: 'Morales', authenticationMethods: ['identifiant'] },
+                { id: '1', firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] },
+                { id: '2', firstName: 'Miles', lastName: 'Morales', authenticationMethods: ['identifiant'] },
               ];
 
               this.set('students', students);
@@ -1740,8 +1740,8 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
               sinon.stub(notificationsStub, 'sendError');
 
               const students = [
-                { id: 1, firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] },
-                { id: 2, firstName: 'Miles', lastName: 'Morales', authenticationMethods: ['identifiant'] },
+                { id: '1', firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] },
+                { id: '2', firstName: 'Miles', lastName: 'Morales', authenticationMethods: ['identifiant'] },
               ];
 
               this.set('students', students);

@@ -205,7 +205,7 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
       test('it displays the trash to delete the participation', async function (assert) {
         class CurrentUserStub extends Service {
           isAdminInOrganization = false;
-          prescriber = EmberObject.create({ id: 109 });
+          prescriber = EmberObject.create({ id: '109' });
         }
         this.owner.register('service:current-user', CurrentUserStub);
 
@@ -234,7 +234,7 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
       test('it should not display the trash to delete the participation', async function (assert) {
         class CurrentUserStub extends Service {
           isAdminInOrganization = false;
-          prescriber = EmberObject.create({ id: 109 });
+          prescriber = EmberObject.create({ id: '109' });
         }
         this.owner.register('service:current-user', CurrentUserStub);
 

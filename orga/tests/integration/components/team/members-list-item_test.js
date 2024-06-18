@@ -24,19 +24,19 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
     prescriber = store.createRecord('prescriber', { id: '344535' });
 
     const user = store.createRecord('user', {
-      id: 111,
+      id: '111',
       firstName: 'Gigi',
       lastName: 'La Terreur',
     });
 
     const secondUser = store.createRecord('user', {
-      id: 112,
+      id: '112',
       firstName: 'Jojo',
       lastName: 'La Panique',
     });
 
     adminMembership = store.createRecord('membership', {
-      id: 1,
+      id: '1',
       displayRole: this.intl.t('pages.team-members.actions.select-role.options.admin'),
       organizationRole: 'ADMIN',
       user,
@@ -45,7 +45,7 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
     });
 
     memberMembership = store.createRecord('membership', {
-      id: 2,
+      id: '2',
       displayRole: 'Membre',
       organizationRole: 'MEMBER',
       user: secondUser,
@@ -334,11 +334,11 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
         const sessionService = this.owner.lookup('service:session');
 
         const leavingAdminMembership = store.createRecord('membership', {
-          id: 3,
+          id: '3',
           displayRole: 'Administrateur',
           organizationRole: 'ADMIN',
           user: store.createRecord('user', {
-            id: 113,
+            id: '113',
             firstName: 'Dimi',
             lastName: 'Trie',
           }),

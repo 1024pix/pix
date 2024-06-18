@@ -22,7 +22,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
   test('it should display a link to access to result page', async function (assert) {
     // given
     this.owner.setupRouter();
-    const campaign = store.createRecord('campaign', { id: 1 });
+    const campaign = store.createRecord('campaign', { id: '1' });
 
     const participations = [
       {
@@ -57,7 +57,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
     test('it should display the participant’s results', async function (assert) {
       // given
       const campaign = store.createRecord('campaign', {
-        id: 1,
+        id: '1',
         name: 'campagne 1',
         participationsCount: 1,
       });
@@ -104,7 +104,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
 
     test('it should display badge and tooltip', async function (assert) {
       // given
-      const badge = store.createRecord('badge', { id: 1, imageUrl: 'url-badge', title: 'je suis un badge' });
+      const badge = store.createRecord('badge', { id: '1', imageUrl: 'url-badge', title: 'je suis un badge' });
       const campaign = store.createRecord('campaign', {
         targetProfileThematicResultCount: 1,
         badges: [badge],

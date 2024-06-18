@@ -763,7 +763,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
     test('it should display checkboxes', async function (assert) {
       // given
-      const students = [{ id: 1, firstName: 'Spider', lastName: 'Man', group: 'A1' }];
+      const students = [{ id: '1', firstName: 'Spider', lastName: 'Man', group: 'A1' }];
       students.meta = { participantCount: students.length };
       this.set('students', students);
 
@@ -844,8 +844,8 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       sinon.stub(routerService, 'replaceWith');
 
       const students = [
-        { id: 1, firstName: 'Spider', lastName: 'Man' },
-        { id: 2, firstName: 'Captain', lastName: 'America' },
+        { id: '1', firstName: 'Spider', lastName: 'Man' },
+        { id: '2', firstName: 'Captain', lastName: 'America' },
       ];
 
       students.meta = { page: 1, pageSize: 1, rowCount: 2, pageCount: 2 };
@@ -895,8 +895,8 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       sinon.stub(routerService, 'replaceWith');
 
       const students = [
-        { id: 1, firstName: 'Spider', lastName: 'Man' },
-        { id: 2, firstName: 'Captain', lastName: 'America' },
+        { id: '1', firstName: 'Spider', lastName: 'Man' },
+        { id: '2', firstName: 'Captain', lastName: 'America' },
       ];
 
       students.meta = { page: 1, pageSize: 1, rowCount: 2, pageCount: 2 };
@@ -942,8 +942,8 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       sinon.stub(routerService, 'replaceWith');
 
       const students = [
-        { id: 1, firstName: 'Spider', lastName: 'Man' },
-        { id: 2, firstName: 'Captain', lastName: 'America' },
+        { id: '1', firstName: 'Spider', lastName: 'Man' },
+        { id: '2', firstName: 'Captain', lastName: 'America' },
       ];
 
       students.meta = { page: 1, pageSize: 1, rowCount: 2, pageCount: 2 };
@@ -991,8 +991,8 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       sinon.stub(routerService, 'replaceWith');
 
       const students = [
-        { id: 1, firstName: 'Spider', lastName: 'Man' },
-        { id: 2, firstName: 'Captain', lastName: 'America' },
+        { id: '1', firstName: 'Spider', lastName: 'Man' },
+        { id: '2', firstName: 'Captain', lastName: 'America' },
       ];
 
       students.meta = { page: 1, pageSize: 1, rowCount: 2, pageCount: 2 };
@@ -1037,8 +1037,8 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       test('it display action bar', async function (assert) {
         //given
         const students = [
-          { id: 1, firstName: 'Spider', lastName: 'Man' },
-          { id: 2, firstName: 'Captain', lastName: 'America' },
+          { id: '1', firstName: 'Spider', lastName: 'Man' },
+          { id: '2', firstName: 'Captain', lastName: 'America' },
         ];
 
         students.meta = { page: 1, pageSize: 2, rowCount: 2, pageCount: 1 };
@@ -1082,9 +1082,9 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
       test('it should open the deletion modale', async function (assert) {
         //given
-        const spiderLearner = { id: 1, firstName: 'Spider', lastName: 'Man' };
-        const peterLearner = { id: 2, firstName: 'Peter', lastName: 'Parker' };
-        const milesLearner = { id: 3, firstName: 'Miles', lastName: 'Morales' };
+        const spiderLearner = { id: '1', firstName: 'Spider', lastName: 'Man' };
+        const peterLearner = { id: '2', firstName: 'Peter', lastName: 'Parker' };
+        const milesLearner = { id: '3', firstName: 'Miles', lastName: 'Morales' };
         const students = [spiderLearner, peterLearner, milesLearner];
 
         students.meta = { page: 1, pageSize: 3, rowCount: 3, pageCount: 1 };
@@ -1141,9 +1141,9 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
       test('it should delete students', async function (assert) {
         //given
-        const spiderLearner = { id: 1, firstName: 'Spider', lastName: 'Man' };
-        const peterLearner = { id: 2, firstName: 'Peter', lastName: 'Parker' };
-        const milesLearner = { id: 3, firstName: 'Miles', lastName: 'Morales' };
+        const spiderLearner = { id: '1', firstName: 'Spider', lastName: 'Man' };
+        const peterLearner = { id: '2', firstName: 'Peter', lastName: 'Parker' };
+        const milesLearner = { id: '3', firstName: 'Miles', lastName: 'Morales' };
         const students = [spiderLearner, peterLearner, milesLearner];
 
         students.meta = { page: 1, pageSize: 3, rowCount: 3, pageCount: 1 };
@@ -1207,9 +1207,9 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
       test('it should reset selected participants after deletion', async function (assert) {
         //given
-        const spiderLearner = { id: 1, firstName: 'Spider', lastName: 'Man' };
-        const peterLearner = { id: 2, firstName: 'Peter', lastName: 'Parker' };
-        const milesLearner = { id: 3, firstName: 'Miles', lastName: 'Morales' };
+        const spiderLearner = { id: '1', firstName: 'Spider', lastName: 'Man' };
+        const peterLearner = { id: '2', firstName: 'Peter', lastName: 'Parker' };
+        const milesLearner = { id: '3', firstName: 'Miles', lastName: 'Morales' };
         const students = [spiderLearner, peterLearner, milesLearner];
 
         students.meta = { page: 1, pageSize: 3, rowCount: 3, pageCount: 1 };
@@ -1283,7 +1283,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       }
       this.owner.register('service:current-user', CurrentUserStub);
 
-      const students = [{ id: 1, firstName: 'Spider', lastName: 'Man' }];
+      const students = [{ id: '1', firstName: 'Spider', lastName: 'Man' }];
       students.meta = { participantCount: 0 };
       this.set('students', students);
 

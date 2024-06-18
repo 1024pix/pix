@@ -26,7 +26,7 @@ module('Integration | Component | Campaign::Analysis::Competences', function (ho
     });
 
     const campaignCollectiveResult = store.createRecord('campaign-collective-result', {
-      id: 1,
+      id: '1',
       campaignCompetenceCollectiveResults: [campaignCompetenceCollectiveResult],
     });
 

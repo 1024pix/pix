@@ -972,7 +972,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
 
   test('it should send campaign creation action when submitted', async function (assert) {
     // given
-    const targetProfile = store.createRecord('target-profile', { name: 'targetProfile1', id: 123 });
+    const targetProfile = store.createRecord('target-profile', { name: 'targetProfile1', id: '123' });
     this.targetProfiles = [targetProfile];
     this.createCampaignSpy = sinon.stub();
 
