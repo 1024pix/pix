@@ -18,6 +18,7 @@ import { UserSavedTutorial } from '../../../src/devcomp/domain/models/UserSavedT
 import { Answer } from '../../../src/evaluation/domain/models/Answer.js';
 import { CompetenceEvaluation } from '../../../src/evaluation/domain/models/CompetenceEvaluation.js';
 import { Progression } from '../../../src/evaluation/domain/models/Progression.js';
+import { AccountRecoveryDemand } from '../../../src/identity-access-management/domain/models/AccountRecoveryDemand.js';
 import { AuthenticationMethod } from '../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
 import { User } from '../../../src/identity-access-management/domain/models/User.js';
 import { UserLogin } from '../../../src/identity-access-management/domain/models/UserLogin.js';
@@ -45,7 +46,6 @@ import { Examiner } from '../../../src/shared/domain/models/Examiner.js';
 import { OrganizationInvitation } from '../../../src/team/domain/models/OrganizationInvitation.js';
 import { CampaignParticipant } from './../../../src/prescription/campaign-participation/domain/models/CampaignParticipant.js';
 import { CampaignParticipation } from './../../../src/prescription/campaign-participation/domain/models/CampaignParticipation.js';
-import { AccountRecoveryDemand } from './AccountRecoveryDemand.js';
 import { AnswerCollectionForScoring } from './AnswerCollectionForScoring.js';
 import { Area } from './Area.js';
 import { Authentication } from './Authentication.js';
