@@ -1769,6 +1769,7 @@
         "menu-link-title": "Log in methods",
         "username": "Username"
       },
+      "email-confirmed": "Adresse e-mail vérifiée.",
       "email-verification": {
         "title": "Verify your email address",
         "code-explanation-of-use": "To move from one field to another, use either the tabulation, or the left and right arrows of the keyboard. To fill in a field, type a number between 1 and 9, or use the up and down arrows of the keyboard.",

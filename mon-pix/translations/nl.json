@@ -1768,6 +1768,7 @@
         "menu-link-title": "Mijn verbindingsmethoden",
         "username": "Inloggen"
       },
+      "email-confirmed": "Adresse e-mail vérifiée.",
       "email-verification": {
         "code-explanation-of-use": "Om van veld naar veld te gaan, gebruik je tab of de pijlen naar links en rechts op het toetsenbord. Om een veld in te vullen, voer je getallen in van 1 tot 9 of gebruik je de pijlen omhoog en omlaag op het toetsenbord.",
         "code-label": "Veld",

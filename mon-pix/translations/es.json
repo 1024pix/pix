@@ -1768,6 +1768,7 @@
         "menu-link-title": "Mis métodos de conexión",
         "username": "Nombre de usuario"
       },
+      "email-confirmed": "Adresse e-mail vérifiée.",
       "email-verification": {
         "code-explanation-of-use": "Para pasar de un campo a otro, utiliza el tabulador o las flechas izquierda y derecha del teclado. Para rellenar un campo, introduce dígitos del 1 al 9 o utiliza las flechas arriba y abajo del teclado.",
         "code-label": "Campo",

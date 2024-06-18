@@ -69,6 +69,46 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
       assert.ok(screen.getByText(this.intl.t('pages.user-account.connexion-methods.authentication-methods.label')));
       assert.ok(screen.getByText('via Partenaire OIDC'));
     });
+
+    module('e-mail address', function () {
+      module('when e-mail address is verified', function () {
+        test('displays a success message', async function (assert) {
+          // given
+          const userDetails = {
+            email: 'jean.ticipe@example.net',
+            emailConfirmed: true,
+          };
+          const user = server.create('user', 'withEmail', userDetails);
+          server.create('authentication-method', 'withPixIdentityProvider', { user });
+          await authenticate(user);
+
+          // when
+          const screen = await visit('/mon-compte/methodes-de-connexion');
+
+          // then
+          assert.dom(screen.getByText(this.intl.t('pages.user-account.email-confirmed'))).exists();
+        });
+      });
+
+      module('when e-mail address is not verified', function () {
+        test('does not display the success message', async function (assert) {
+          // given
+          const userDetails = {
+            email: 'jean.ticipe@example.net',
+            emailConfirmed: false,
+          };
+          const user = server.create('user', 'withEmail', userDetails);
+          server.create('authentication-method', 'withPixIdentityProvider', { user });
+          await authenticate(user);
+
+          // when
+          const screen = await visit('/mon-compte/methodes-de-connexion');
+
+          // then
+          assert.dom(screen.queryByText(this.intl.t('pages.user-account.email-confirmed'))).doesNotExist();
+        });
+      });
+    });
   });
 
   module('when user does not have an email', function () {
