@@ -4,7 +4,6 @@
     <div class="form-field">
       {{#if @stage.isFirstSkill}}
         <label class="form-field__label">1er acquis</label>
-        <br />
       {{else if @isTypeLevel}}
         <Stages::StageLevelSelect
           @id="threshold-or-level"
@@ -30,7 +29,6 @@
           <:label>{{@stageTypeName}}</:label>
         </PixInput>
       {{/if}}
-      <br />
 
       <PixInput
         @id="title"
@@ -43,7 +41,6 @@
       >
         <:label>Titre du palier</:label>
       </PixInput>
-      <br />
 
       <PixTextarea
         @id="message"
@@ -53,7 +50,6 @@
       >
         <:label>Message</:label>
       </PixTextarea>
-      <br />
 
       <PixInput
         @type="text"
