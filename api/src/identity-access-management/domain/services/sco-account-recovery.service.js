@@ -66,6 +66,8 @@ async function retrieveAndValidateAccountRecoveryDemand({
   return { id, userId, newEmail, organizationLearnerId };
 }
 
+export const scoAccountRecoveryService = { retrieveAndValidateAccountRecoveryDemand, retrieveOrganizationLearner };
+
 function _demandHasExpired(demandCreationDate) {
   const minutesInADay = 60 * 24;
   const lifetimeInMinutes = parseInt(features.scoAccountRecoveryKeyLifetimeMinutes) || minutesInADay;
@@ -103,5 +105,3 @@ async function _checkIfThereAreMultipleUserForTheSameAccount({ userId, organizat
     throw new MultipleOrganizationLearnersWithDifferentNationalStudentIdError();
   }
 }
-
-export const scoAccountRecoveryService = { retrieveAndValidateAccountRecoveryDemand, retrieveOrganizationLearner };
