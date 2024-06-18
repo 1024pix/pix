@@ -757,7 +757,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
                           feedbacks: {
                             valid: '<p>Correct&#8239;! Ces 16 compétences sont rangées dans 5 domaines.</p>',
                             invalid:
-                              '<p>Incorrect. Retourner voir la vidéo si besoin&nbsp;<span aria-hidden="true">👆</span>️!</p>',
+                              '<p>Incorrect. Retourner voir la vidéo si besoin&nbsp;<span aria-hidden="true">👆</span>!</p>',
                           },
                           solution: '1',
                         },
