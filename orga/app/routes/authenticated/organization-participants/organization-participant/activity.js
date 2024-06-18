@@ -9,7 +9,7 @@ export default class ActivityRoute extends Route {
   async model() {
     try {
       const organizationLearner = this.modelFor('authenticated.organization-participants.organization-participant');
-      const activity = await this.store.queryRecord('organizationLearnerActivity', {
+      const activity = await this.store.queryRecord('organization-learner-activity', {
         organizationLearnerId: organizationLearner.id,
       });
       return RSVP.hash({
