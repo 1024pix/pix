@@ -104,4 +104,4 @@ async function _checkIfThereAreMultipleUserForTheSameAccount({ userId, organizat
   }
 }
 
-export { retrieveAndValidateAccountRecoveryDemand, retrieveOrganizationLearner };
+export const scoAccountRecoveryService = { retrieveAndValidateAccountRecoveryDemand, retrieveOrganizationLearner };

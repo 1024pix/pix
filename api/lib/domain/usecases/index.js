@@ -50,7 +50,7 @@ import { OidcAuthenticationServiceRegistry } from '../../../src/identity-access-
 import { pixAuthenticationService } from '../../../src/identity-access-management/domain/services/pix-authentication-service.js';
 import { refreshTokenService } from '../../../src/identity-access-management/domain/services/refresh-token-service.js';
 import * as resetPasswordService from '../../../src/identity-access-management/domain/services/reset-password.service.js';
-import * as scoAccountRecoveryService from '../../../src/identity-access-management/domain/services/sco-account-recovery.service.js';
+import { scoAccountRecoveryService } from '../../../src/identity-access-management/domain/services/sco-account-recovery.service.js';
 import { accountRecoveryDemandRepository } from '../../../src/identity-access-management/infrastructure/repositories/account-recovery-demand.repository.js';
 import * as authenticationMethodRepository from '../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import * as oidcProviderRepository from '../../../src/identity-access-management/infrastructure/repositories/oidc-provider-repository.js';
