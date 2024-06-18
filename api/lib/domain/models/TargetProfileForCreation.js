@@ -1,3 +1,4 @@
+import { TARGET_PROFILE_COPY_NAME_PREFIX } from '../../../src/shared/domain/constants.js';
 import { validate } from '../validators/target-profile/creation-command-validation.js';
 
 const DEFAULT_IMAGE_URL = 'https://images.pix.fr/profil-cible/Illu_GEN.svg';
@@ -37,6 +38,22 @@ class TargetProfileForCreation {
       ownerOrganizationId: creationCommand.ownerOrganizationId,
       tubes: creationCommand.tubes,
       areKnowledgeElementsResettable: creationCommand.areKnowledgeElementsResettable,
+    });
+  }
+
+  static copyTargetProfile(targetProfileToCopy) {
+    const copiedTargetProfileName = TARGET_PROFILE_COPY_NAME_PREFIX + targetProfileToCopy.name;
+
+    return new TargetProfileForCreation({
+      name: copiedTargetProfileName,
+      category: targetProfileToCopy.category,
+      description: targetProfileToCopy.description,
+      comment: targetProfileToCopy.comment,
+      isPublic: targetProfileToCopy.isPublic,
+      imageUrl: targetProfileToCopy.imageUrl || DEFAULT_IMAGE_URL,
+      ownerOrganizationId: targetProfileToCopy.ownerOrganizationId,
+      tubes: targetProfileToCopy.tubes,
+      areKnowledgeElementsResettable: targetProfileToCopy.areKnowledgeElementsResettable,
     });
   }
 }
