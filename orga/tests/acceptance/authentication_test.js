@@ -297,6 +297,31 @@ module('Acceptance | authentication', function (hooks) {
           ),
         );
       });
+
+      test('should handle starting session', async function (assert) {
+        const now = new Date(2024, 5, 12, 14);
+        clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+        const user = createPrescriberForOrganization(
+          { lang: 'fr', pixOrgaTermsOfServiceAccepted: true },
+          {
+            schoolCode: 'AZERTY',
+            sessionExpirationDate: null,
+          },
+          'MEMBER',
+          {
+            MISSIONS_MANAGEMENT: true,
+          },
+        );
+        await authenticateSession(user.id);
+        const screen = await visit('/');
+        await clickByName(this.intl.t('navigation.school-sessions.activate-button'));
+
+        assert.ok(
+          screen.getByText(
+            this.intl.t('navigation.school-sessions.status.active-label', { sessionExpirationDate: '18:00' }),
+          ),
+        );
+      });
     });
   });
 });
