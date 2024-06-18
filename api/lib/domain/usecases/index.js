@@ -50,6 +50,7 @@ import { OidcAuthenticationServiceRegistry } from '../../../src/identity-access-
 import { pixAuthenticationService } from '../../../src/identity-access-management/domain/services/pix-authentication-service.js';
 import { refreshTokenService } from '../../../src/identity-access-management/domain/services/refresh-token-service.js';
 import * as resetPasswordService from '../../../src/identity-access-management/domain/services/reset-password.service.js';
+import * as accountRecoveryDemandRepository from '../../../src/identity-access-management/infrastructure/repositories/account-recovery-demand.repository.js';
 import * as authenticationMethodRepository from '../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import * as oidcProviderRepository from '../../../src/identity-access-management/infrastructure/repositories/oidc-provider-repository.js';
 import * as resetPasswordDemandRepository from '../../../src/identity-access-management/infrastructure/repositories/reset-password-demand.repository.js';
@@ -112,7 +113,6 @@ import * as sessionPublicationService from '../../domain/services/session-public
 import * as verifyCertificateCodeService from '../../domain/services/verify-certificate-code-service.js';
 import * as disabledPoleEmploiNotifier from '../../infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js';
 import * as poleEmploiNotifier from '../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
-import * as accountRecoveryDemandRepository from '../../infrastructure/repositories/account-recovery-demand-repository.js';
 import * as attachableTargetProfileRepository from '../../infrastructure/repositories/attachable-target-profiles-repository.js';
 import * as badgeAcquisitionRepository from '../../infrastructure/repositories/badge-acquisition-repository.js';
 import * as badgeForCalculationRepository from '../../infrastructure/repositories/badge-for-calculation-repository.js';

@@ -1,9 +1,9 @@
 import _ from 'lodash';
 
-import { knex } from '../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../domain/errors.js';
-import { AccountRecoveryDemand } from '../../domain/models/AccountRecoveryDemand.js';
-import { DomainTransaction } from '../DomainTransaction.js';
+import { knex } from '../../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { AccountRecoveryDemand } from '../../../../lib/domain/models/AccountRecoveryDemand.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 
 const _toDomain = (accountRecoveryDemandDTO) => {
   return new AccountRecoveryDemand(accountRecoveryDemandDTO);
