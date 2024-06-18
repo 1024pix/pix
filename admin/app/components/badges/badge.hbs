@@ -68,7 +68,7 @@
                 class="badge-form-check-field__control"
                 @checked={{this.form.isCertifiable}}
                 {{on "change" (toggle "form.isCertifiable" this)}}
-              ><:label>Certifiable : </:label></PixCheckbox>
+              ><:label>Certifiable</:label></PixCheckbox>
             </div>
             <div class="badge-edit-form__field">
               <PixCheckbox
@@ -76,7 +76,7 @@
                 @type="checkbox"
                 @checked={{this.form.isAlwaysVisible}}
                 {{on "change" (toggle "form.isAlwaysVisible" this)}}
-              ><:label>Lacunes : </:label></PixCheckbox>
+              ><:label>Lacunes</:label></PixCheckbox>
             </div>
             <div class="badge-edit-form__actions">
               <PixButton @size="small" @variant="secondary" @triggerAction={{this.cancel}}>Annuler</PixButton>
