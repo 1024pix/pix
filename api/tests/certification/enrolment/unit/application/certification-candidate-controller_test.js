@@ -24,7 +24,7 @@ describe('Unit | Controller | certification-candidate-controller', function () {
         .withArgs({
           sessionId,
           certificationCandidate,
-          complementaryCertification: null,
+          subscription: null,
         })
         .resolves(addedCertificationCandidateId);
       const certificationCandidateSerializer = {

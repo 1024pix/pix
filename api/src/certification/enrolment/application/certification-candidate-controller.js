@@ -7,11 +7,11 @@ import * as sessionCertificationCandidateSerializer from '../infrastructure/seri
 const addCandidate = async function (request, h, dependencies = { certificationCandidateSerializer }) {
   const sessionId = request.params.id;
   const certificationCandidate = await dependencies.certificationCandidateSerializer.deserialize(request.payload);
-  const complementaryCertification = _getSubscriptionParameter(request) ?? null;
+  const subscription = _getSubscriptionParameter(request) ?? null;
   const certificationCandidateId = await usecases.addCertificationCandidateToSession({
     sessionId,
     certificationCandidate,
-    complementaryCertification,
+    subscription,
   });
 
   return h
