@@ -236,7 +236,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
           name: 'Garfield school',
           identityProviderForCampaigns: null,
         });
-        const userOrgaSettings = store.createRecord('userOrgaSetting', { organization });
+        const userOrgaSettings = store.createRecord('user-orga-setting', { organization });
         const membership = store.createRecord('membership', { organizationRole: 'ADMIN', organization });
         const memberships = [membership];
         const prescriber = store.createRecord('prescriber', { memberships, userOrgaSettings });
@@ -262,7 +262,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
           name: 'Willow school',
           identityProviderForCampaigns: 'GAR',
         });
-        const userOrgaSettings = store.createRecord('userOrgaSetting', { organization });
+        const userOrgaSettings = store.createRecord('user-orga-setting', { organization });
         const membership = store.createRecord('membership', { organizationRole: 'ADMIN', organization });
         const memberships = [membership];
         const prescriber = store.createRecord('prescriber', { memberships, userOrgaSettings });

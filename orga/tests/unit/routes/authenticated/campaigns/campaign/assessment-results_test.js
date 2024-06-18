@@ -36,7 +36,7 @@ module('Unit | Route | authenticated/campaigns/campaign/assessment-results', fun
       ];
 
       store.query
-        .withArgs('campaignAssessmentResultMinimal', {
+        .withArgs('campaign-assessment-result-minimal', {
           page: {
             number: params.pageNumber,
             size: params.pageSize,

@@ -23,14 +23,14 @@ module('Integration | Component | Participant::Assessment::Results', function (h
 
   test('it should display results when displayResults is true', async function (assert) {
     // given
-    const competenceResult = store.createRecord('campaignAssessmentParticipationCompetenceResult', {
+    const competenceResult = store.createRecord('campaign-assessment-participation-competence-result', {
       name: 'Compétence 1',
       index: '1.1',
       areaColor: 'jaffa',
       competenceMasteryRate: 0.5,
     });
 
-    const campaignAssessmentParticipationResult = store.createRecord('campaignAssessmentParticipationResult', {
+    const campaignAssessmentParticipationResult = store.createRecord('campaign-assessment-participation-result', {
       competenceResults: [competenceResult],
     });
 
