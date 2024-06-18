@@ -3,7 +3,12 @@ export class AssessmentSimulator {
     this.getStrategy = getStrategy;
   }
 
-  run({ challengesAnswers } = { challengesAnswers: [] }) {
+  run(
+    { challengesAnswers = [], startCapacityDegradationAt = 32 } = {
+      challengesAnswers: [],
+      startCapacityDegradationAt: 32,
+    },
+  ) {
     const result = [];
 
     let stepIndex = 0;
@@ -11,14 +16,16 @@ export class AssessmentSimulator {
     // eslint-disable-next-line no-constant-condition
     while (true) {
       try {
-        const simulatorStepResult = this.getStrategy(stepIndex).run({ challengesAnswers, stepIndex });
+        if (stepIndex <= startCapacityDegradationAt) {
+          const simulatorStepResult = this.getStrategy(stepIndex).run({ challengesAnswers, stepIndex });
 
-        if (!simulatorStepResult) {
-          break;
+          if (!simulatorStepResult) {
+            break;
+          }
+          stepIndex = simulatorStepResult.nextStepIndex;
+          challengesAnswers.push(...simulatorStepResult.challengeAnswers);
+          result.push(...simulatorStepResult.results);
         }
-        stepIndex = simulatorStepResult.nextStepIndex;
-        challengesAnswers.push(...simulatorStepResult.challengeAnswers);
-        result.push(...simulatorStepResult.results);
       } catch (err) {
         break;
       }

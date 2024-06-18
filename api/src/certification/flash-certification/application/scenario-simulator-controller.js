@@ -38,6 +38,7 @@ async function simulateFlashAssessmentScenario(
     doubleMeasuresUntil,
     variationPercent,
     variationPercentUntil,
+    startCapacityDegradationAt,
   } = request.payload;
 
   const pickAnswerStatus = _getPickAnswerStatusMethod(dependencies.pickAnswerStatusService, request.payload);
@@ -70,6 +71,7 @@ async function simulateFlashAssessmentScenario(
           doubleMeasuresUntil,
           variationPercent,
           variationPercentUntil,
+          startCapacityDegradationAt,
         },
         _.isUndefined,
       );

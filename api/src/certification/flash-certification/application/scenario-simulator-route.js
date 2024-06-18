@@ -34,6 +34,7 @@ const _baseScenarioParametersValidator = Joi.object().keys({
   doubleMeasuresUntil: Joi.number().min(0),
   variationPercent: Joi.number().min(0).max(1),
   variationPercentUntil: Joi.number().min(0),
+  startCapacityDegradationAt: Joi.number().integer().min(0),
 });
 
 const register = async (server) => {

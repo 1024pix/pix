@@ -23,6 +23,7 @@ export async function simulateFlashDeterministicAssessmentScenario({
   variationPercentUntil,
   challengeRepository,
   flashAlgorithmService,
+  startCapacityDegradationAt,
 }) {
   const challenges = await challengeRepository.findFlashCompatible({ locale, useObsoleteChallenges });
 
@@ -67,5 +68,5 @@ export async function simulateFlashDeterministicAssessmentScenario({
     getStrategy,
   });
 
-  return simulator.run();
+  return simulator.run({ startCapacityDegradationAt });
 }
