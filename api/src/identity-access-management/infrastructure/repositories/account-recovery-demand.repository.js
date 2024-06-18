@@ -50,4 +50,4 @@ const markAsBeingUsed = async function (temporaryKey, { knexTransaction } = Doma
   return query;
 };
 
-export { findByTemporaryKey, findByUserId, markAsBeingUsed, save };
+export const accountRecoveryDemandRepository = { findByTemporaryKey, findByUserId, markAsBeingUsed, save };

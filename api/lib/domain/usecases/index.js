@@ -51,7 +51,7 @@ import { pixAuthenticationService } from '../../../src/identity-access-managemen
 import { refreshTokenService } from '../../../src/identity-access-management/domain/services/refresh-token-service.js';
 import * as resetPasswordService from '../../../src/identity-access-management/domain/services/reset-password.service.js';
 import * as scoAccountRecoveryService from '../../../src/identity-access-management/domain/services/sco-account-recovery.service.js';
-import * as accountRecoveryDemandRepository from '../../../src/identity-access-management/infrastructure/repositories/account-recovery-demand.repository.js';
+import { accountRecoveryDemandRepository } from '../../../src/identity-access-management/infrastructure/repositories/account-recovery-demand.repository.js';
 import * as authenticationMethodRepository from '../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import * as oidcProviderRepository from '../../../src/identity-access-management/infrastructure/repositories/oidc-provider-repository.js';
 import * as resetPasswordDemandRepository from '../../../src/identity-access-management/infrastructure/repositories/reset-password-demand.repository.js';
