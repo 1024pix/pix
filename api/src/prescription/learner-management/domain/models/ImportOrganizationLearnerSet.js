@@ -5,6 +5,7 @@ import {
   ModelValidationError,
 } from '../../../../shared/domain/errors.js';
 import { convertDateValue } from '../../../../shared/infrastructure/utils/date-utils.js';
+import { CommonOrganizationLearner } from '../models/CommonOrganizationLearner.js';
 import { validateCommonOrganizationLearner } from '../validators/common-organization-learner-validator.js';
 
 class ImportOrganizationLearnerSet {
@@ -255,31 +256,4 @@ class ImportOrganizationLearnerSet {
   }
 }
 
-class CommonOrganizationLearner {
-  constructor({ id, userId, lastName, firstName, organizationId, ...attributes } = {}) {
-    this.lastName = lastName;
-    this.firstName = firstName;
-    this.organizationId = organizationId;
-    this.isDisabled = false;
-
-    if (attributes) this.attributes = attributes;
-    if (id) this.id = id;
-    if (userId) this.userId = userId;
-  }
-
-  updateLearner({ learnerList, unicityKey }) {
-    const existingLearner = learnerList.find((learner) => {
-      return unicityKey.every((key) => {
-        if (['firstName', 'lastName'].includes(key)) return this[key] === learner[key];
-        else return this.attributes[key] === learner.attributes[key];
-      });
-    });
-
-    if (existingLearner) {
-      this.id = existingLearner.id;
-      this.userId = existingLearner.userId;
-    }
-  }
-}
-
-export { CommonOrganizationLearner, ImportOrganizationLearnerSet };
+export { ImportOrganizationLearnerSet };

@@ -1,7 +1,5 @@
-import {
-  CommonOrganizationLearner,
-  ImportOrganizationLearnerSet,
-} from '../../../../../../src/prescription/learner-management/domain/models/ImportOrganizationLearnerSet.js';
+import { CommonOrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/models/CommonOrganizationLearner.js';
+import { ImportOrganizationLearnerSet } from '../../../../../../src/prescription/learner-management/domain/models/ImportOrganizationLearnerSet.js';
 import { VALIDATION_ERRORS } from '../../../../../../src/shared/domain/constants.js';
 import { CsvImportError, ImportLearnerConfigurationError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, expect } from '../../../../../test-helper.js';
@@ -170,7 +168,6 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           {
             firstName: 'Tomie',
             lastName: 'Katana',
-            isDisabled: false,
             organizationId,
             attributes: {
               "nom d'usage": 'Yolo',
@@ -185,7 +182,6 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
             userId: 42,
             firstName: 'Edgar',
             lastName: 'Paslatugène',
-            isDisabled: false,
             organizationId,
             attributes: {
               "nom d'usage": 'Edou',

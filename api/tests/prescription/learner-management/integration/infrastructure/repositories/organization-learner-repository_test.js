@@ -4,7 +4,7 @@ import { OrganizationLearnersCouldNotBeSavedError } from '../../../../../../lib/
 import { OrganizationLearner } from '../../../../../../lib/domain/models/index.js';
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 import * as organizationLearnerRepository from '../../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
-import { CommonOrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/models/ImportOrganizationLearnerSet.js';
+import { CommonOrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/models/CommonOrganizationLearner.js';
 import {
   addOrUpdateOrganizationOfOrganizationLearners,
   disableAllOrganizationLearnersInOrganization,
@@ -1140,7 +1140,7 @@ describe('Integration | Repository | Organization Learner Management | Organizat
         hooby: 'Pokemon Hunter',
       });
 
-      const { firstName, lastName, id, userId, attributes, isDisabled } =
+      const { firstName, lastName, id, userId, attributes } =
         databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
           ...firstLearnerData,
           isDisabled: false,
@@ -1161,7 +1161,6 @@ describe('Integration | Repository | Organization Learner Management | Organizat
         firstName,
         lastName,
         id,
-        isDisabled,
         userId,
         attributes,
         organizationId,
