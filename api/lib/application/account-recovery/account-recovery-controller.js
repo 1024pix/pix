@@ -1,5 +1,4 @@
 import { usecases } from '../../domain/usecases/index.js';
-import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import * as studentInformationForAccountRecoverySerializer from '../../infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer.js';
 
 const sendEmailForAccountRecovery = async function (
@@ -26,25 +25,7 @@ const checkAccountRecoveryDemand = async function (
   return dependencies.studentInformationForAccountRecoverySerializer.serializeAccountRecovery(studentInformation);
 };
 
-const updateUserAccountFromRecoveryDemand = async function (request, h) {
-  const temporaryKey = request.payload.data.attributes['temporary-key'];
-  const password = request.payload.data.attributes.password;
-
-  await DomainTransaction.execute(async (domainTransaction) => {
-    await usecases.updateUserForAccountRecovery({
-      password,
-      temporaryKey,
-      domainTransaction,
-    });
-  });
-
-  return h.response().code(204);
-};
-
-const accountRecoveryController = {
+export const accountRecoveryController = {
   sendEmailForAccountRecovery,
   checkAccountRecoveryDemand,
-  updateUserAccountFromRecoveryDemand,
 };
-
-export { accountRecoveryController };
