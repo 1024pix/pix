@@ -1,22 +1,22 @@
 import dayjs from 'dayjs';
 
-import { config } from '../../../../lib/config.js';
 import {
   AccountRecoveryDemandExpired,
   AlreadyRegisteredEmailError,
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
   UserHasAlreadyLeftSCO,
   UserNotFoundError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../../lib/domain/errors.js';
 import {
   retrieveAndValidateAccountRecoveryDemand,
   retrieveOrganizationLearner,
-} from '../../../../lib/domain/services/sco-account-recovery-service.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
+} from '../../../../../src/identity-access-management/domain/services/sco-account-recovery.service.js';
+import { config } from '../../../../../src/shared/config.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 const { features } = config;
 
-describe('Unit | Service | sco-account-recovery-service', function () {
+describe('Unit | Identity Access Management | Domain | Service | sco-account-recovery', function () {
   describe('#retrieveOrganizationLearner', function () {
     let organizationLearnerRepository;
     let userRepository;

@@ -1,15 +1,14 @@
 import lodash from 'lodash';
 
-import { config } from '../../config.js';
 import {
   AccountRecoveryDemandExpired,
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
   UserHasAlreadyLeftSCO,
   UserNotFoundError,
-} from '../errors.js';
+} from '../../../../lib/domain/errors.js';
+import { config } from '../../../shared/config.js';
 
 const { uniqBy } = lodash;
-
 const { features } = config;
 
 async function retrieveOrganizationLearner({
