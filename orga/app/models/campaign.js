@@ -38,8 +38,8 @@ export default class Campaign extends Model {
 
   @hasMany('badge', { async: true, inverse: null }) badges;
   @hasMany('stage', { async: true, inverse: null }) stages;
-  @hasMany('divisions', { async: true, inverse: null }) divisions;
-  @hasMany('groups', { async: true, inverse: null }) groups;
+  @hasMany('division', { async: true, inverse: null }) divisions;
+  @hasMany('group', { async: true, inverse: null }) groups;
 
   get hasBadges() {
     return this.targetProfileThematicResultCount > 0;

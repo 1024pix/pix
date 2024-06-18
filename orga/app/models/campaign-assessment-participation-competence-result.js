@@ -6,6 +6,6 @@ export default class CampaignAssessmentParticipationCompetenceResult extends Mod
   @attr('string') areaColor;
   @attr('number') competenceMasteryRate;
 
-  @belongsTo('campaignAssessmentParticipationResult', { async: true, inverse: 'competenceResults' })
+  @belongsTo('campaign-assessment-participation-result', { async: true, inverse: 'competenceResults' })
   campaignAssessmentParticipationResult;
 }
