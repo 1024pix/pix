@@ -16,18 +16,18 @@
   </div>
   {{#if @inChallengeCategory.isChecked}}
     <div class="candidate-information-change-certification-issue-report-fields__details">
-      <label for="input-for-category-in-challenge-question-number">{{t
-          "pages.session-finalization.add-issue-modal.actions.enter-question-number"
-        }}</label>
-      <Input
-        id="input-for-category-in-challenge-question-number"
+      <PixInput
         name="question-number"
-        @type="number"
+        type="number"
         max="64"
+        @requiredLabel={{t "common.forms.required"}}
         required="true"
-        @value={{@inChallengeCategory.questionNumber}}
+        {{on "change" this.onChangeQuestionNumber}}
         placeholder="7"
-      />
+      >
+        <:label>{{t "pages.session-finalization.add-issue-modal.actions.enter-question-number"}}</:label>
+      </PixInput>
+
       <PixSelect
         aria-label="{{t 'pages.session-finalization.add-issue-modal.actions.select-subcategory-label'}}"
         @id="subcategory-for-category-in-challenge"

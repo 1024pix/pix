@@ -155,6 +155,11 @@ export default class AddIssueReportModal extends Component {
   }
 
   @action
+  changeQuestionNumber(value) {
+    this.inChallengeCategory.questionNumber = value;
+  }
+
+  @action
   updateCandidateInformationChangeCategory(event) {
     this.candidateInformationChangeCategory.description = event.target.value;
   }

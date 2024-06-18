@@ -80,6 +80,7 @@
         "already-exists": "This email address is already registered, please login.",
         "format": "Your email address is invalid."
       },
+      "fill-mandatory-fields": "Please fill in all the required fields before confirming.",
       "firstname": {
         "mandatory": "Please enter a first name."
       },

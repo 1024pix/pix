@@ -102,7 +102,7 @@
     "ember-resolver": "^11.0.0",
     "ember-simple-auth": "^6.0.0",
     "ember-source": "^5.8.0",
-    "ember-template-lint": "^5.0.0",
+    "ember-template-lint": "^6.0.0",
     "ember-template-lint-plugin-prettier": "^5.0.0",
     "ember-truth-helpers": "^4.0.0",
     "eslint": "^8.48.0",

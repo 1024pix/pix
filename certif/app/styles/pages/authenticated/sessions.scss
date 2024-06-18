@@ -2,33 +2,41 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 30px;
+  gap: var(--pix-spacing-3x);
 
   @include device-is('desktop') {
     max-width: 500px;
+    gap: var(--pix-spacing-6x);
   }
 
   &__mandatory-information {
-    padding-bottom: $pix-spacing-m;
-    color: var(--pix-neutral-800);
-    font-size: 1rem;
+    @extend %pix-body-m;
   }
 
   &__field {
     display: flex;
     flex-direction: column;
-    margin-bottom: 30px;
+
+    &--error {
+      .input {
+        border: 2px solid var(--pix-error-700);
+      }
+    }
   }
 
   &__actions {
-    margin-top: $pix-spacing-l;
-    margin-bottom: 0;
+    margin-top: var(--pix-spacing-4x);
     display: flex;
     justify-content: flex-end;
-    gap: $pix-spacing-m;
-    list-style: none;
+    gap: var(--pix-spacing-6x);
+  }
+
+  &__textarea {
+   height: 140px;
   }
 
   &__error {
-    padding-top: 4px;
+    padding-top: var(--pix-spacing-1x);
+    font-size: 0.75rem;
   }
 }

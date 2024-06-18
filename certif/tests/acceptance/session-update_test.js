@@ -1,6 +1,7 @@
 import { visit } from '@1024pix/ember-testing-library';
-import { click, currentURL, fillIn } from '@ember/test-helpers';
+import { click, currentURL, fillIn, triggerEvent } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -49,6 +50,65 @@ module('Acceptance | Session Update', function (hooks) {
     });
   });
 
+  module('when user focus out required inputs without completing it', function () {
+    test('should display error messages', async function (assert) {
+      // given
+      const session = server.create('session-enrolment', { time: '14:00:00', date: '2020-01-01' });
+      server.create('session-management', {
+        id: session.id,
+      });
+      const screen = await visit(`/sessions/${session.id}/modification`);
+
+      // when
+      await fillIn(
+        screen.getByRole('textbox', {
+          name: `${t('common.forms.required')} ${t('common.forms.session-labels.center-name')}`,
+        }),
+        '',
+      );
+      await fillIn(
+        screen.getByRole('textbox', {
+          name: `${t('common.forms.required')} ${t('common.forms.session-labels.room-name')}`,
+        }),
+        '',
+      );
+
+      const examinerInput = screen.getByRole('textbox', {
+        name: `${t('common.forms.required')} ${t('common.forms.session-labels.invigilator')}`,
+      });
+      await fillIn(examinerInput, '');
+      await triggerEvent(examinerInput, 'focusout');
+
+      // then
+      assert.dom(screen.getByText(t('pages.sessions.new.errors.SESSION_ADDRESS_REQUIRED'))).exists();
+      assert.dom(screen.getByText(t('pages.sessions.new.errors.SESSION_ROOM_REQUIRED'))).exists();
+      assert.dom(screen.getByText(t('pages.sessions.new.errors.SESSION_EXAMINER_REQUIRED'))).exists();
+    });
+  });
+
+  module('when user tries to confirm form without filling mandatory fields', function () {
+    test('should display error notification', async function (assert) {
+      // given
+      const session = server.create('session-enrolment', {
+        address: ' ',
+        room: 'Salle 3',
+        time: '14:00:00',
+        date: '2020-01-01',
+        examiner: 'George',
+      });
+      server.create('session-management', {
+        id: session.id,
+      });
+      const screen = await visit(`/sessions/${session.id}/modification`);
+
+      // when
+      await click(screen.getByRole('button', { name: 'Modifier la session' }));
+
+      // then
+      assert.dom(screen.getByText(t('common.form-errors.fill-mandatory-fields'))).exists();
+    });
+  });
+
   test('it should fill the updating form with the current values of the session', async function (assert) {
     // given
     const session = server.create('session-enrolment', { time: '14:00:00', date: '2020-01-01' });
@@ -60,9 +120,9 @@ module('Acceptance | Session Update', function (hooks) {
     const screen = await visit(`/sessions/${session.id}/modification`);
 
     // then
-    assert.dom(screen.getByRole('textbox', { name: 'Nom de la salle' })).hasValue(session.room);
-    assert.dom(screen.getByRole('textbox', { name: 'Surveillant(s)' })).hasValue(session.examiner);
-    assert.dom(screen.getByRole('textbox', { name: 'Nom du site' })).hasValue(session.address);
+    assert.dom(screen.getByRole('textbox', { name: 'Obligatoire Nom de la salle' })).hasValue(session.room);
+    assert.dom(screen.getByRole('textbox', { name: 'Obligatoire Surveillant(s)' })).hasValue(session.examiner);
+    assert.dom(screen.getByRole('textbox', { name: 'Obligatoire Nom du site' })).hasValue(session.address);
     assert.dom(screen.getByRole('textbox', { name: 'Observations' })).hasValue(session.description);
     assert.dom(screen.getByRole('textbox', { name: 'Heure de début (heure locale)' })).hasValue('14:00');
     assert.dom(screen.getByText('Date de début')).exists();
@@ -84,8 +144,8 @@ module('Acceptance | Session Update', function (hooks) {
     const newExaminer = 'New examiner';
 
     const screen = await visit(`/sessions/${session.id}/modification`);
-    await fillIn(screen.getByRole('textbox', { name: 'Nom de la salle' }), newRoom);
-    await fillIn(screen.getByRole('textbox', { name: 'Surveillant(s)' }), newExaminer);
+    await fillIn(screen.getByRole('textbox', { name: 'Obligatoire Nom de la salle' }), newRoom);
+    await fillIn(screen.getByRole('textbox', { name: 'Obligatoire Surveillant(s)' }), newExaminer);
 
     // when
     await click(screen.getByRole('button', { name: 'Modifier la session' }));
@@ -107,8 +167,8 @@ module('Acceptance | Session Update', function (hooks) {
     const newExaminer = 'New examiner';
 
     const screen = await visit(`/sessions/${session.id}/modification`);
-    await fillIn(screen.getByRole('textbox', { name: 'Nom de la salle' }), newRoom);
-    await fillIn(screen.getByRole('textbox', { name: 'Surveillant(s)' }), newExaminer);
+    await fillIn(screen.getByRole('textbox', { name: 'Obligatoire Nom de la salle' }), newRoom);
+    await fillIn(screen.getByRole('textbox', { name: 'Obligatoire Surveillant(s)' }), newExaminer);
 
     // when
     await click(

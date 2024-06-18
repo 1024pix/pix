@@ -252,11 +252,11 @@
                 {{t "pages.sessions.detail.candidates.add-modal.prepayment-tooltip" htmlSafe=true}}
               </:tooltip>
             </PixTooltip>
-            <Input
+            <input
               id="prepayment-code"
-              @type="text"
+              type="text"
               class="input"
-              @value={{@candidateData.prepaymentCode}}
+              value={{@candidateData.prepaymentCode}}
               {{on "input" (fn @updateCandidateData @candidateData "prepaymentCode")}}
             />
           </div>

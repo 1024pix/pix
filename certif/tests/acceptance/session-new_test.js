@@ -1,5 +1,5 @@
 import { visit } from '@1024pix/ember-testing-library';
-import { click, currentURL, fillIn } from '@ember/test-helpers';
+import { click, currentURL, fillIn, triggerEvent } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setFlatpickrDate } from 'ember-flatpickr/test-support/helpers';
 import { setupIntl, t } from 'ember-intl/test-support';
@@ -54,6 +54,69 @@ module('Acceptance | Session creation', function (hooks) {
       });
     });
 
+    module('when user focus out required inputs without completing it', function () {
+      test('should display error messages', async function (assert) {
+        // given
+        const screen = await visit('/sessions/creation');
+
+        // when
+        await fillIn(
+          screen.getByRole('textbox', {
+            name: `${t('common.forms.required')} ${t('common.forms.session-labels.center-name')}`,
+          }),
+          '',
+        );
+        await fillIn(
+          screen.getByRole('textbox', {
+            name: `${t('common.forms.required')} ${t('common.forms.session-labels.room-name')}`,
+          }),
+          '',
+        );
+
+        const examinerInput = screen.getByRole('textbox', {
+          name: `${t('common.forms.required')} ${t('common.forms.session-labels.invigilator')}`,
+        });
+        await fillIn(examinerInput, '');
+        await triggerEvent(examinerInput, 'focusout');
+
+        // then
+        assert.dom(screen.getByText(t('pages.sessions.new.errors.SESSION_ADDRESS_REQUIRED'))).exists();
+        assert.dom(screen.getByText(t('pages.sessions.new.errors.SESSION_ROOM_REQUIRED'))).exists();
+        assert.dom(screen.getByText(t('pages.sessions.new.errors.SESSION_EXAMINER_REQUIRED'))).exists();
+      });
+    });
+
+    module('when user tries to confirm form without filling mandatory fields', function () {
+      test('should display error notification', async function (assert) {
+        // given
+        const screen = await visit('/sessions/creation');
+        await fillIn(
+          screen.getByRole('textbox', {
+            name: `${t('common.forms.required')} ${t('common.forms.session-labels.center-name')}`,
+          }),
+          ' ',
+        );
+        await fillIn(
+          screen.getByRole('textbox', {
+            name: `${t('common.forms.required')} ${t('common.forms.session-labels.room-name')}`,
+          }),
+          ' ',
+        );
+        await fillIn(
+          screen.getByRole('textbox', {
+            name: `${t('common.forms.required')} ${t('common.forms.session-labels.invigilator')}`,
+          }),
+          ' ',
+        );
+
+        // when
+        await click(screen.getByRole('button', { name: t('pages.sessions.new.actions.create-session') }));
+
+        // then
+        assert.dom(screen.getByText(t('common.form-errors.fill-mandatory-fields'))).exists();
+      });
+    });
+
     test('it should create a session and redirect to session details', async function (assert) {
       // given
       const sessionDate = '2029-12-25';
@@ -68,9 +131,24 @@ module('Acceptance | Session creation', function (hooks) {
         .dom(screen.getByRole('button', { name: t('pages.sessions.new.actions.cancel-extra-information') }))
         .exists();
 
-      await fillIn(screen.getByRole('textbox', { name: t('common.forms.session-labels.center-name') }), 'My address');
-      await fillIn(screen.getByRole('textbox', { name: t('common.forms.session-labels.room-name') }), 'My room');
-      await fillIn(screen.getByRole('textbox', { name: t('common.forms.session-labels.invigilator') }), 'My examiner');
+      await fillIn(
+        screen.getByRole('textbox', {
+          name: `${t('common.forms.required')} ${t('common.forms.session-labels.center-name')}`,
+        }),
+        'My address',
+      );
+      await fillIn(
+        screen.getByRole('textbox', {
+          name: `${t('common.forms.required')} ${t('common.forms.session-labels.room-name')}`,
+        }),
+        'My room',
+      );
+      await fillIn(
+        screen.getByRole('textbox', {
+          name: `${t('common.forms.required')} ${t('common.forms.session-labels.invigilator')}`,
+        }),
+        'My examiner',
+      );
       await fillIn(
         screen.getByRole('textbox', { name: t('common.forms.session-labels.observations') }),
         'My description',
