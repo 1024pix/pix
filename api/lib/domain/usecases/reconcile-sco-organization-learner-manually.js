@@ -15,6 +15,7 @@ const reconcileScoOrganizationLearnerManually = async function ({
   withReconciliation,
   campaignRepository,
   organizationLearnerRepository,
+  registrationOrganizationLearnerRepository,
   studentRepository,
   userRepository,
   obfuscationService,
@@ -42,7 +43,7 @@ const reconcileScoOrganizationLearnerManually = async function ({
   await _checkIfAnotherStudentIsAlreadyReconciledWithTheSameOrganizationAndUser(
     reconciliationInfo.id,
     campaign.organizationId,
-    organizationLearnerRepository,
+    registrationOrganizationLearnerRepository,
   );
 
   await _checkIfUserIsConnectedOnAnotherAccount({
@@ -64,9 +65,9 @@ export { reconcileScoOrganizationLearnerManually };
 async function _checkIfAnotherStudentIsAlreadyReconciledWithTheSameOrganizationAndUser(
   userId,
   organizationId,
-  organizationLearnerRepository,
+  registrationOrganizationLearnerRepository,
 ) {
-  const organizationLearnerFound = await organizationLearnerRepository.findOneByUserIdAndOrganizationId({
+  const organizationLearnerFound = await registrationOrganizationLearnerRepository.findOneByUserIdAndOrganizationId({
     userId,
     organizationId,
   });
