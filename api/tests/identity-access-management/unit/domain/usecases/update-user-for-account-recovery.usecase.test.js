@@ -1,11 +1,11 @@
-import { updateUserForAccountRecovery } from '../../../../../lib/domain/usecases/account-recovery/update-user-for-account-recovery.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { AuthenticationMethod } from '../../../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
+import { updateUserForAccountRecovery } from '../../../../../src/identity-access-management/domain/usecases/update-user-for-account-recovery.usecase.js';
 import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Usecases | update-user-for-account-recovery', function () {
+describe('Unit | Identity Access Management | Domain | UseCase | update-user-for-account-recovery', function () {
   let userRepository,
     authenticationMethodRepository,
     cryptoService,
@@ -44,7 +44,7 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
   });
 
   context('when user has no Pix authentication method', function () {
-    it('should add Pix authentication method', async function () {
+    it('adds Pix authentication method', async function () {
       // given
       const password = 'pix123';
       const hashedPassword = 'hashedpassword';
@@ -89,7 +89,7 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
   });
 
   context('when user has Pix authentication method', function () {
-    it('should only update password', async function () {
+    it('updates only password', async function () {
       // given
       const password = 'pix123';
       const hashedPassword = 'hashedpassword';
@@ -130,66 +130,68 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
     });
   });
 
-  it('should mark account recovery demand as being used when user id updated', async function () {
-    // given
-    const temporaryKey = 'temporarykey';
-    const password = 'pix123';
-    const hashedPassword = 'hashedpassword';
-    const newEmail = 'newemail@example.net';
-    const emailConfirmedAt = new Date();
-    const domainTransaction = Symbol();
+  context('when user id updated', function () {
+    it('marks account recovery demand as being used', async function () {
+      // given
+      const temporaryKey = 'temporarykey';
+      const password = 'pix123';
+      const hashedPassword = 'hashedpassword';
+      const newEmail = 'newemail@example.net';
+      const emailConfirmedAt = new Date();
+      const domainTransaction = Symbol();
 
-    const user = domainBuilder.buildUser({
-      id: 1234,
-      email: null,
-      username: 'manuella.philippe0702',
-    });
+      const user = domainBuilder.buildUser({
+        id: 1234,
+        email: null,
+        username: 'manuella.philippe0702',
+      });
 
-    scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand
-      .withArgs({
+      scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand
+        .withArgs({
+          temporaryKey,
+          accountRecoveryDemandRepository,
+          userRepository,
+        })
+        .resolves({ userId: user.id, newEmail });
+      cryptoService.hashPassword.withArgs(password).resolves(hashedPassword);
+      authenticationMethodRepository.hasIdentityProviderPIX.withArgs({ userId: user.id }).resolves(true);
+      const userUpdate = new User({
+        ...user,
+        cgu: true,
+        email: newEmail,
+        emailConfirmedAt,
+      });
+      const userAttributes = { cgu: true, email: newEmail, emailConfirmedAt };
+
+      userRepository.updateWithEmailConfirmed
+        .withArgs({ id: user.id, userAttributes, domainTransaction })
+        .resolves(userUpdate);
+
+      sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
+        return lambda(domainTransaction);
+      });
+
+      // when
+      await updateUserForAccountRecovery({
+        password,
         temporaryKey,
-        accountRecoveryDemandRepository,
         userRepository,
-      })
-      .resolves({ userId: user.id, newEmail });
-    cryptoService.hashPassword.withArgs(password).resolves(hashedPassword);
-    authenticationMethodRepository.hasIdentityProviderPIX.withArgs({ userId: user.id }).resolves(true);
-    const userUpdate = new User({
-      ...user,
-      cgu: true,
-      email: newEmail,
-      emailConfirmedAt,
+        authenticationMethodRepository,
+        scoAccountRecoveryService,
+        cryptoService,
+        accountRecoveryDemandRepository,
+        domainTransaction,
+      });
+
+      // then
+      expect(accountRecoveryDemandRepository.markAsBeingUsed).to.have.been.calledWithExactly(
+        temporaryKey,
+        domainTransaction,
+      );
     });
-    const userAttributes = { cgu: true, email: newEmail, emailConfirmedAt };
-
-    userRepository.updateWithEmailConfirmed
-      .withArgs({ id: user.id, userAttributes, domainTransaction })
-      .resolves(userUpdate);
-
-    sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
-      return lambda(domainTransaction);
-    });
-
-    // when
-    await updateUserForAccountRecovery({
-      password,
-      temporaryKey,
-      userRepository,
-      authenticationMethodRepository,
-      scoAccountRecoveryService,
-      cryptoService,
-      accountRecoveryDemandRepository,
-      domainTransaction,
-    });
-
-    // then
-    expect(accountRecoveryDemandRepository.markAsBeingUsed).to.have.been.calledWithExactly(
-      temporaryKey,
-      domainTransaction,
-    );
   });
 
-  it('should save last terms of service validated at date', async function () {
+  it('saves last terms of service validated at date', async function () {
     // given
     const temporaryKey = 'temporarykey';
     const password = 'pix123';
