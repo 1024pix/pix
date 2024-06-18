@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v4.166.0 (18/06/2024)
+
+
+### :rocket: Amélioration
+- [#9232](https://github.com/1024pix/pix/pull/9232) [FEATURE] Améliorer l'UX de sélection de sujet d'un profil cible (PIX-11910).
+
+### :building_construction: Tech
+- [#9283](https://github.com/1024pix/pix/pull/9283) [TECH] Mettre a jour ember-source en 5.8.0 sur PixAdmin (PIX-12963).
+
+### :bug: Correction
+- [#9284](https://github.com/1024pix/pix/pull/9284) [BUGFIX] Adapter la hauteur de l'embed en fonction de la hauteur de l'écran (Pix-12973).
+
+### :arrow_up: Montée de version
+- [#8957](https://github.com/1024pix/pix/pull/8957) [BUMP] Update dependency ember-template-lint to v6 (certif) (PIX-12573).
+
 ## v4.165.0 (18/06/2024)
 
 
