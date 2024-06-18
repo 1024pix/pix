@@ -546,4 +546,14 @@ function routes() {
 
     return new Response(204);
   });
+
+  this.post('/pix1d/schools/:school_id/session/activate', (schema, request) => {
+    const schoolId = request.params.school_id;
+    const organization = schema.organizations.find(schoolId);
+    organization.sessionExpirationDate = new Date();
+    organization.sessionExpirationDate.setHours(organization.sessionExpirationDate.getHours() + 4);
+    organization.save();
+
+    return new Response(204);
+  });
 }
