@@ -45,7 +45,7 @@ export default class ModulePreviewController extends Controller {
           "element": {
             "id": "3333333a-3333-3bcd-e333-3f3333gh3333",
             "type": "text",
-            "content": "<p>Voici un texte de leçon. Parfois, il y a des émojis pour aider à la lecture&nbsp;<span aria-hidden='true'>📚</span>️.<br>Et là, voici une image&#8239;!</p>"
+            "content": "<p>Voici un texte de leçon. Parfois, il y a des émojis pour aider à la lecture&nbsp;<span aria-hidden='true'>📚</span>.<br>Et là, voici une image&#8239;!</p>"
           }
         },
         {
