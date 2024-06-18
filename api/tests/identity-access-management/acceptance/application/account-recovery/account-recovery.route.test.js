@@ -1,9 +1,9 @@
-import { createServer, databaseBuilder, expect, knex } from '../../../test-helper.js';
+import { createServer, databaseBuilder, expect, knex } from '../../../../test-helper.js';
 
-describe('Acceptance | Route | Account-recovery', function () {
+describe('Acceptance | Identity Access Management | Application | Route | account-recovery', function () {
   describe('PATCH /api/account-recovery', function () {
     context('when user has pix authentication method', function () {
-      it("should proceed to the account recover by changing user's password and email", async function () {
+      it("proceeds to the account recover by changing user's password and email", async function () {
         // given
         const server = await createServer();
         const userId = databaseBuilder.factory.buildUser.withRawPassword({
@@ -50,7 +50,7 @@ describe('Acceptance | Route | Account-recovery', function () {
     });
 
     context('when user has no pix authentication method', function () {
-      it('should proceed to the account recover by create pix authentication method', async function () {
+      it('proceeds to the account recover by create pix authentication method', async function () {
         // given
         const server = await createServer();
         const userWithGarAuthenticationMethod = databaseBuilder.factory.buildUser.withoutPixAuthenticationMethod({
