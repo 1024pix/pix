@@ -1,86 +1,87 @@
 <form class="form certification-center-form" {{on "submit" @onSubmit}}>
 
-  <section class="form-section">
+  <PixInput
+    @id="certificationCenterName"
+    onchange={{this.handleCenterNameChange}}
+    class="form-field"
+    required={{true}}
+    aria-required={{true}}
+  >
+    <:label>Nom du centre</:label>
+  </PixInput>
 
-    <PixInput
-      @id="certificationCenterName"
-      onchange={{this.handleCenterNameChange}}
-      class="form-field"
+  <div class="form-field">
+    <PixSelect
+      @options={{this.certificationCenterTypes}}
+      @placeholder="-- Choisissez --"
+      @hideDefaultOption={{true}}
+      @onChange={{this.selectCertificationCenterType}}
+      @value={{@certificationCenter.type}}
       required={{true}}
       aria-required={{true}}
     >
-      <:label>Nom du centre</:label>
-    </PixInput>
+      <:label>Type d'établissement</:label>
+      <:default as |certificationCenterType|>{{certificationCenterType.label}}</:default>
+    </PixSelect>
+  </div>
 
-    <div class="form-field">
-      <PixSelect
-        @options={{this.certificationCenterTypes}}
-        @placeholder="-- Choisissez --"
-        @hideDefaultOption={{true}}
-        @onChange={{this.selectCertificationCenterType}}
-        @value={{@certificationCenter.type}}
-        required={{true}}
-        aria-required={{true}}
-      >
-        <:label>Type d'établissement</:label>
-        <:default as |certificationCenterType|>{{certificationCenterType.label}}</:default>
-      </PixSelect>
-    </div>
+  <PixInput @id="certificationCenterExternalId" onchange={{this.handleExternalIdChange}} class="form-field">
+    <:label>Identifiant externe</:label>
+  </PixInput>
 
-    <PixInput @id="certificationCenterExternalId" onchange={{this.handleExternalIdChange}} class="form-field">
-      <:label>Identifiant externe</:label>
-    </PixInput>
+  <PixInput
+    @id="dataProtectionOfficerFirstName"
+    {{on "change" this.handleDataProtectionOfficerFirstNameChange}}
+    class="form-field"
+  >
+    <:label>Prénom du DPO</:label>
+  </PixInput>
 
-    <PixInput
-      @id="dataProtectionOfficerFirstName"
-      {{on "change" this.handleDataProtectionOfficerFirstNameChange}}
-      class="form-field"
-    >
-      <:label>Prénom du DPO</:label>
-    </PixInput>
+  <PixInput
+    @id="dataProtectionOfficerLastName"
+    {{on "change" this.handleDataProtectionOfficerLastNameChange}}
+    class="form-field"
+  >
+    <:label>Nom du DPO</:label>
+  </PixInput>
 
-    <PixInput
-      @id="dataProtectionOfficerLastName"
-      {{on "change" this.handleDataProtectionOfficerLastNameChange}}
-      class="form-field"
-    >
-      <:label>Nom du DPO</:label>
-    </PixInput>
+  <PixInput
+    @id="dataProtectionOfficerEmail"
+    {{on "change" this.handleDataProtectionOfficerEmailChange}}
+    class="form-field"
+  >
+    <:label>Adresse e-mail du DPO</:label>
+  </PixInput>
 
-    <PixInput
-      @id="dataProtectionOfficerEmail"
-      {{on "change" this.handleDataProtectionOfficerEmailChange}}
-      class="form-field"
-    >
-      <:label>Adresse e-mail du DPO</:label>
-    </PixInput>
+  <div class="form-field">
+    <PixCheckbox @id="isV3Pilot" @size="small" onChange={{this.handleIsV3PilotChange}}>
+      <:label>{{t "components.certification-centers.is-v3-pilot-label"}}</:label>
+    </PixCheckbox>
+  </div>
 
-    <div class="form-field">
-      <PixCheckbox @id="isV3Pilot" @size="small" onChange={{this.handleIsV3PilotChange}}>
-        <:label>{{t "components.certification-centers.is-v3-pilot-label"}}</:label>
-      </PixCheckbox>
-    </div>
-
-    <section>
-      <h2 class="habilitations-title">Habilitations aux certifications complémentaires</h2>
-      <ul class="form-field habilitations-checkbox-list">
-        {{#each @habilitations as |habilitation index|}}
-          <li class="habilitation-entry">
-            <PixCheckbox
-              @id={{concat "habilitation_" index}}
-              @size="small"
-              onChange={{fn this.updateGrantedHabilitation habilitation}}
-            >
-              <:label>{{habilitation.label}}</:label>
-            </PixCheckbox>
-          </li>
-        {{/each}}
-      </ul>
-    </section>
+  <section>
+    <h2 class="habilitations-title">Habilitations aux certifications complémentaires</h2>
+    <ul class="form-field habilitations-checkbox-list">
+      {{#each @habilitations as |habilitation index|}}
+        <li class="habilitation-entry">
+          <PixCheckbox
+            @id={{concat "habilitation_" index}}
+            @size="small"
+            onChange={{fn this.updateGrantedHabilitation habilitation}}
+          >
+            <:label>{{habilitation.label}}</:label>
+          </PixCheckbox>
+        </li>
+      {{/each}}
+    </ul>
   </section>
 
-  <section class="form-section form-actions">
-    <PixButton @size="small" @variant="secondary" @triggerAction={{@onCancel}}>Annuler</PixButton>
-    <PixButton @type="submit" @size="small">Ajouter</PixButton>
-  </section>
+  <ul class="form-actions">
+    <li>
+      <PixButton @size="small" @variant="secondary" @triggerAction={{@onCancel}}>Annuler</PixButton>
+    </li>
+    <li>
+      <PixButton @type="submit" @size="small">Ajouter</PixButton>
+    </li>
+  </ul>
 </form>
