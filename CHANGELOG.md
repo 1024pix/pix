@@ -1,5 +1,33 @@
 # Pix Changelog
 
+## v4.165.0 (18/06/2024)
+
+
+### :rocket: Amélioration
+- [#9285](https://github.com/1024pix/pix/pull/9285) [FEATURE][ORGA] Ne pas afficher le bouton pour copier le code de campagne pour les organisations rattachées au GAR (PIX-12916).
+
+### :building_construction: Tech
+- [#9303](https://github.com/1024pix/pix/pull/9303) [TECH] Suppression d'avertissements liés à des dépréciations à venir d'Ember data.
+- [#9270](https://github.com/1024pix/pix/pull/9270) [TECH] Mettre en place la configuration pour faire des composants GJS sur PixAdmin (PIX-12956).
+
+### :bug: Correction
+- [#9305](https://github.com/1024pix/pix/pull/9305) [BUGFIX] Corriger l'affichage des places dans le Header Et sur la pages des Places sur PixOrga (PIX-13017).
+- [#9286](https://github.com/1024pix/pix/pull/9286) [BUGFIX] Erreur lors du reset de mot de passe (PIX-12935).
+
+### :arrow_up: Montée de version
+- [#9301](https://github.com/1024pix/pix/pull/9301) [BUMP] Update dependency @1024pix/pix-ui to ^46.10.2 (orga).
+- [#9300](https://github.com/1024pix/pix/pull/9300) [BUMP] Update dependency @1024pix/pix-ui to ^46.10.2 (mon-pix).
+- [#9299](https://github.com/1024pix/pix/pull/9299) [BUMP] Update dependency @1024pix/pix-ui to ^46.10.2 (junior).
+- [#9298](https://github.com/1024pix/pix/pull/9298) [BUMP] Update dependency @1024pix/pix-ui to ^46.10.2 (admin).
+- [#9297](https://github.com/1024pix/pix/pull/9297) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.4 (orga).
+- [#9296](https://github.com/1024pix/pix/pull/9296) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.4 (mon-pix).
+- [#9295](https://github.com/1024pix/pix/pull/9295) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.4 (load-testing).
+- [#9294](https://github.com/1024pix/pix/pull/9294) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.4 (junior).
+- [#9293](https://github.com/1024pix/pix/pull/9293) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.4 (dossier racine).
+- [#9292](https://github.com/1024pix/pix/pull/9292) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.4 (certif).
+- [#9290](https://github.com/1024pix/pix/pull/9290) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.4 (audit-logger).
+- [#9289](https://github.com/1024pix/pix/pull/9289) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.4 (admin).
+
 ## v4.164.0 (17/06/2024)
 
 
