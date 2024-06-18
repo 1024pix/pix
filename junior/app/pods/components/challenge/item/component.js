@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 
 export default class Item extends Component {
   get isMediaWithForm() {
-    return this.args.challenge.hasForm && this.hasMedia;
+    return this.args.challenge.hasForm && this.hasMedia && this.args.challenge.type !== undefined;
   }
 
   get hasMedia() {
