@@ -10,7 +10,7 @@ import { UserNotAuthorizedToUpdatePasswordError } from '../../../shared/domain/e
  *   authenticationMethodRepository: AuthenticationMethodRepository,
  *   userRepository: UserRepository,
  * }} params
- * @return {Promise<*>}
+ * @return {Promise<void>}
  * @throws {UserNotAuthorizedToUpdatePasswordError}
  */
 export const updateUserPassword = async function ({
@@ -31,13 +31,12 @@ export const updateUserPassword = async function ({
 
   await resetPasswordService.hasUserAPasswordResetDemandInProgress(user.email, temporaryKey);
 
-  const updatedUser = await authenticationMethodRepository.updateChangedPassword({
+  await authenticationMethodRepository.updateChangedPassword({
     userId: user.id,
     hashedPassword,
   });
   await resetPasswordService.invalidateOldResetPasswordDemand(user.email);
+
   user.markEmailAsValid();
   await userRepository.update(user.mapToDatabaseDto());
-
-  return updatedUser;
 };

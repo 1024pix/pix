@@ -228,7 +228,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
           const response = await server.inject(options);
 
           // then
-          expect(response.statusCode).to.equal(200);
+          expect(response.statusCode).to.equal(204);
         });
       });
     });

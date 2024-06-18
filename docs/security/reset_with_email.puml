@@ -20,7 +20,7 @@ API -> MonPix : 201 Created \n { data: {\ntype: "password-reset-demands", \nid: 
 User -> MonPix : /changer-mot-de-passe/<TOKEN>
 note left: Saisie nouveau mot de passe \nclic sur Envoyer
 MonPix -> API : PATCH /api/users/{id}/password-update\n&temporaryKey=<TOKEN>\n\n { data: { \ntype: "users", \nattributes: {  \nid: <ID>,  \nemail: <EMAIL>, \npassword:<PASSWORD>}\n}}
-API -> MonPix : 200 OK Created \n{ data: { \ntype: "users", \nattributes: (..)} \n}
+API -> MonPix : 204 No Content
 MonPix -> User : "Votre mot de passe a été modifié avec succès."
 note left: Clic sur connectez-vous
 @enduml
