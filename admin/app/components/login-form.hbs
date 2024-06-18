@@ -31,25 +31,23 @@
       {{/if}}
     {{else}}
       <PixInput
-        class="login-form__fields login-form__email-field"
-        placeholder={{t "pages.login.fields.email.label"}}
-        aria-label={{t "pages.login.fields.email.label"}}
         required="true"
         @value={{this.email}}
         autocomplete="true"
         {{on "input" (pick "target.value" (set this "email"))}}
-      />
+      >
+        <:label>{{t "pages.login.fields.email.label"}} </:label>
+      </PixInput>
 
       <PixInput
-        class="login-form__fields"
-        placeholder={{t "pages.login.fields.password.label"}}
-        aria-label={{t "pages.login.fields.password.label"}}
         required="true"
         type="password"
         @value={{this.password}}
         autocomplete="true"
         {{on "input" (pick "target.value" (set this "password"))}}
-      />
+      >
+        <:label>{{t "pages.login.fields.password.label"}} </:label>
+      </PixInput>
 
       {{#if this.errorMessage}}
         <p class="login-form__error">{{this.errorMessage}}</p>
