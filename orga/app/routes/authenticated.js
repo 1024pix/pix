@@ -32,6 +32,8 @@ export default class AuthenticatedRoute extends Route {
       });
     }
     if (this.currentUser.canAccessMissionsPage) {
+      // when user can access mission page, we force load currentUser
+      // so the page is re rendered and session status can be live updated
       await this.currentUser.load();
     }
   }
