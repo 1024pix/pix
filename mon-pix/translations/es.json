@@ -1723,6 +1723,7 @@
         },
         "edit-button": "Modificar",
         "email": "Dirección de correo electrónico",
+        "email-confirmed": "Dirección de correo electrónico verificada.",
         "menu-link-title": "Mis métodos de conexión",
         "username": "Nombre de usuario"
       },
