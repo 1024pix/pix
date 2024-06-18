@@ -5,8 +5,10 @@
     {
       "files": "*.hbs",
       "options": {
-        "singleQuote": false
+        "singleQuote": false,
+        "templateSingleQuote": false
       }
     }
-  ]
+  ],
+  "plugins": ["prettier-plugin-ember-template-tag"]
 }
