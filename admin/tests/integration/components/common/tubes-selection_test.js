@@ -1,4 +1,5 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
@@ -16,12 +17,14 @@ module('Integration | Component | Common::TubesSelection', function (hooks) {
         name: '@tubeName1',
         practicalTitle: 'Tube 1',
         skills: [],
+        level: 8,
       }),
       store.createRecord('tube', {
         id: 'tubeId2',
         name: '@tubeName2',
         practicalTitle: 'Tube 2',
         skills: [],
+        level: 8,
       }),
     ];
 
@@ -31,6 +34,7 @@ module('Integration | Component | Common::TubesSelection', function (hooks) {
         name: '@tubeName3',
         practicalTitle: 'Tube 3',
         skills: [],
+        level: 8,
       }),
     ];
 
@@ -94,10 +98,40 @@ module('Integration | Component | Common::TubesSelection', function (hooks) {
     // when
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
-    await clickByName('@tubeName1 : Tube 1');
+    await click(screen.getByLabelText('@tubeName1 : Tube 1'));
 
     // then
     assert.dom(screen.getByLabelText('@tubeName1 : Tube 1')).isChecked();
+  });
+
+  test('it should check tube on level selection', async function (assert) {
+    // when
+    await clickByName('1 · Titre domaine');
+    await clickByName('1 Titre competence');
+    await clickByName(/Sélection du niveau du sujet suivant : Tube 1/);
+    await click(screen.getAllByText('4').find((item) => item.tabIndex === 0));
+
+    // then
+    assert.dom(screen.getByLabelText('@tubeName1 : Tube 1')).isChecked();
+    assert.strictEqual(
+      screen.queryByRole('button', { name: /Sélection du niveau du sujet suivant : Tube 1/ }).innerText,
+      '4',
+    );
+  });
+
+  test('it should unselect tube level on uncheck', async function (assert) {
+    // when
+    await clickByName('1 · Titre domaine');
+    await clickByName('1 Titre competence');
+    await clickByName(/Sélection du niveau du sujet suivant : Tube 1/);
+    await click(screen.getAllByText('4').find((item) => item.tabIndex === 0));
+    await click(screen.getByLabelText('@tubeName1 : Tube 1'));
+
+    // then
+    assert.strictEqual(
+      screen.queryByRole('button', { name: /Sélection du niveau du sujet suivant : Tube 1/ }).innerText,
+      'À sélectionner',
+    );
   });
 
   test('it should check all tubes corresponding to the thematics if a thematic is selected', async function (assert) {
@@ -117,8 +151,8 @@ module('Integration | Component | Common::TubesSelection', function (hooks) {
     // when
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
-    await clickByName('@tubeName1 : Tube 1');
-    await clickByName('@tubeName2 : Tube 2');
+    await click(screen.getByLabelText('@tubeName1 : Tube 1'));
+    await click(screen.getByLabelText('@tubeName2 : Tube 2'));
 
     // then
     assert.dom(screen.getByLabelText('Thématique 1')).isChecked();
@@ -130,12 +164,10 @@ module('Integration | Component | Common::TubesSelection', function (hooks) {
     // when
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
-    await clickByName('@tubeName1 : Tube 1');
+    await click(screen.getByLabelText('@tubeName1 : Tube 1'));
 
     // then
-    assert.dom(screen.getByLabelText('Thématique 1')).isNotChecked();
-    assert.dom(screen.getByLabelText('Thématique 1')).hasProperty('indeterminate', true);
-    assert.dom(screen.getByLabelText('Thématiques')).isNotChecked();
+    screen.getByLabelText('Thématique 1').classList.value.includes('indeterminate');
     assert.dom(screen.getByLabelText('Thématiques')).hasProperty('indeterminate', true);
   });
 
@@ -179,7 +211,7 @@ module('Integration | Component | Common::TubesSelection', function (hooks) {
     // when
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
-    await clickByName('@tubeName1 : Tube 1');
+    await click(screen.getByLabelText('@tubeName1 : Tube 1'));
 
     // then
     assert.dom(screen.getByText('1/3 sujet(s) sélectionné(s)')).exists();

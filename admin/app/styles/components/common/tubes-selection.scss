@@ -94,6 +94,10 @@
 
   tr:not(:first-child) {
     border-top: solid 1px var(--pix-neutral-20);
+
+    &.row-thematic {
+      border-top: dashed 1px var(--pix-neutral-100);
+    }
   }
 }
 

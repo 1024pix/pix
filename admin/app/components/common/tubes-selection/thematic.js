@@ -8,16 +8,17 @@ export default class Thematic extends Component {
     const checked = this.args.thematic
       .hasMany('tubes')
       .value()
-      .every((tube) => isTubeSelected(this.args.selectedTubeIds, tube));
-    if (checked) return 'checked';
+      .any((tube) => isTubeSelected(this.args.selectedTubeIds, tube));
 
-    const indeterminate = this.args.thematic
+    return checked;
+  }
+
+  get isIndeterminate() {
+    const isEverythingChecked = this.args.thematic
       .hasMany('tubes')
       .value()
-      .any((tube) => isTubeSelected(this.args.selectedTubeIds, tube));
-    if (indeterminate) return 'indeterminate';
-
-    return 'unchecked';
+      .every((tube) => isTubeSelected(this.args.selectedTubeIds, tube));
+    return this.state && !isEverythingChecked;
   }
 
   @action

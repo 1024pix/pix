@@ -156,7 +156,7 @@ async function _selectLearningContent(screen) {
   await clickByName('thematic_f1_a1_c1_th1 name');
   await clickByName('area_f1_a2 code · area_f1_a2 title');
   await clickByName('competence_f1_a2_c1 index competence_f1_a2_c1 name');
-  await clickByName('tube_f1_a2_c1_th1_tu1 name : tube_f1_a2_c1_th1_tu1 practicalTitle');
+  await click(screen.getByLabelText('tube_f1_a2_c1_th1_tu1 name : tube_f1_a2_c1_th1_tu1 practicalTitle'));
 
   await click(
     screen.getByRole('button', { name: 'Sélection du niveau du sujet suivant : tube_f1_a2_c1_th1_tu1 practicalTitle' }),
