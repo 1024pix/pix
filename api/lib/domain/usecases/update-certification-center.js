@@ -1,3 +1,6 @@
+/**
+ * @typedef {import('./index.js').CenterRepository} CenterRepository
+ */
 import bluebird from 'bluebird';
 
 import { V3PilotNotAuthorizedForCertificationCenterError } from '../../../src/shared/domain/errors.js';
@@ -29,6 +32,10 @@ async function _addOrUpdateDataProtectionOfficer({
   return dataProtectionOfficerRepository.create(dataProtectionOfficer);
 }
 
+/**
+ * @param {Object} params
+ * @param {CenterRepository} params.centerRepository
+ */
 const updateCertificationCenter = async function ({
   certificationCenterId,
   certificationCenterInformation,
