@@ -262,4 +262,27 @@ describe('Integration | Repository | Target-profile', function () {
       });
     });
   });
+
+  describe('#getTubesByTargetProfileId', function () {
+    it('should return tubes linked to targetProfiles', async function () {
+      // given
+      const targetProfile1 = databaseBuilder.factory.buildTargetProfile({ id: 1 });
+      const targetProfile2 = databaseBuilder.factory.buildTargetProfile({ id: 2 });
+      // profile 1
+      const targetProfileTube1 = databaseBuilder.factory.buildTargetProfileTube({ targetProfileId: targetProfile1.id });
+      const targetProfileTube2 = databaseBuilder.factory.buildTargetProfileTube({ targetProfileId: targetProfile1.id });
+      // profile 2
+      databaseBuilder.factory.buildTargetProfileTube({ targetProfileId: targetProfile2.id });
+      databaseBuilder.factory.buildTargetProfileTube({ targetProfileId: targetProfile2.id });
+      await databaseBuilder.commit();
+
+      // when
+      const tubes = await targetProfileRepository.getTubesByTargetProfileId(targetProfile1.id);
+
+      // Then
+      expect(tubes.length).to.equal(2);
+      expect(tubes[0].tubeId).to.equal(targetProfileTube1.tubeId);
+      expect(tubes[1].tubeId).to.equal(targetProfileTube2.tubeId);
+    });
+  });
 });
