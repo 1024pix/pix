@@ -3,22 +3,24 @@ import { AuthenticationKeyExpired } from '../errors.js';
 import { UserToCreate } from '../models/UserToCreate.js';
 
 /**
- * @typedef {function} createOidcUser
- * @param {Object} params
- * @param {string} params.identityProvider
- * @param {string} params.authenticationKey
- * @param {string} params.localeFromCookie
- * @param {AuthenticationSessionService} params.authenticationSessionService
- * @param {OidcAuthenticationServiceRegistry} params.oidcAuthenticationServiceRegistry
- * @param {AuthenticationMethodRepository} params.authenticationMethodRepository
- * @param {UserToCreateRepository} params.userToCreateRepository
- * @param {UserLoginRepository} params.userLoginRepository
+ * @param {{
+ *   identityProvider: string,
+ *   authenticationKey: string,
+ *   localeFromCookie: string,
+ *   language: string,
+ *   authenticationSessionService: AuthenticationSessionService,
+ *   oidcAuthenticationServiceRegistry: OidcAuthenticationServiceRegistry,
+ *   authenticationMethodRepository: AuthenticationMethodRepository,
+ *   userToCreateRepository: UserToCreateRepository,
+ *   userLoginRepository: UserLoginRepository,
+ * }} params
  * @return {Promise<{accessToken: string, logoutUrlUUID: string}>}
  */
 async function createOidcUser({
   identityProvider,
   authenticationKey,
   localeFromCookie,
+  language,
   authenticationSessionService,
   oidcAuthenticationServiceRegistry,
   authenticationMethodRepository,
@@ -47,6 +49,7 @@ async function createOidcUser({
     firstName: userInfo.firstName,
     lastName: userInfo.lastName,
     locale: localeFromCookie,
+    lang: language,
   });
 
   await oidcAuthenticationServiceRegistry.loadOidcProviderServices();
