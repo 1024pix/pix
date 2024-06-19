@@ -36,7 +36,7 @@ export default class ActivityRoute extends Route {
   }
 
   fetchParticipantsActivity(params) {
-    return this.store.query('campaignParticipantActivity', {
+    return this.store.query('campaign-participant-activity', {
       campaignId: params.campaignId,
       page: {
         number: params.pageNumber,

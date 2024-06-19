@@ -7,7 +7,7 @@ import sinon from 'sinon';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 class CurrentUserStub extends Service {
-  organization = { id: 1 };
+  organization = { id: '1' };
 }
 
 module('Integration | Component | Team::InvitationsListItem', function (hooks) {
@@ -41,7 +41,7 @@ module('Integration | Component | Team::InvitationsListItem', function (hooks) {
       adapterOptions: {
         resendInvitation: true,
         email: 'fifi@example.net',
-        organizationId: 1,
+        organizationId: '1',
       },
     });
     sinon.assert.calledWith(

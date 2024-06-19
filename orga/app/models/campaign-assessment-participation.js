@@ -18,8 +18,8 @@ export default class CampaignAssessmentParticipation extends Model {
   @attr('string') prescriberDescription;
   @attr('number') progression;
 
-  @belongsTo('campaignAnalysis', { async: true, inverse: null }) campaignAnalysis;
-  @belongsTo('campaignAssessmentParticipationResult', { async: true, inverse: 'campaignAssessmentParticipation' })
+  @belongsTo('campaign-analysis', { async: true, inverse: null }) campaignAnalysis;
+  @belongsTo('campaign-assessment-participation-result', { async: true, inverse: 'campaignAssessmentParticipation' })
   campaignAssessmentParticipationResult;
 
   @hasMany('badge', { async: true, inverse: null }) badges;

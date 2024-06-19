@@ -39,7 +39,7 @@ module('Integration | Component | SupOrganizationParticipant::HeaderActions', fu
   module('when user is admin', function (hooks) {
     hooks.beforeEach(function () {
       class CurrentUserStub extends Service {
-        organization = Object.create({ id: 1 });
+        organization = Object.create({ id: '1' });
         isAdminInOrganization = true;
         prescriber = {
           lang: 'fr',

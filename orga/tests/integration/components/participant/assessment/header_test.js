@@ -120,7 +120,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
           status: 'SHARED',
           sharedAt: '2020-01-02',
         };
-        this.campaign = { multipleSendings: true, id: 1 };
+        this.campaign = { multipleSendings: true, id: '1' };
         this.allParticipations = [this.participation, anotherParticipation];
 
         const screen = await render(
@@ -302,7 +302,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
       module('when the campaign has badges', function () {
         test('it displays badges acquired', async function (assert) {
           this.campaign = { hasBadges: true };
-          this.participation = { isShared: true, masteryRate: 0.85, badges: [{ id: 1, title: 'Les bases' }] };
+          this.participation = { isShared: true, masteryRate: 0.85, badges: [{ id: '1', title: 'Les bases' }] };
 
           const screen = await render(
             hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
@@ -317,7 +317,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
       module('when the campaign has no badges', function () {
         test('it does not display badges acquired', async function (assert) {
           this.campaign = { hasBadges: false };
-          this.participation = { isShared: true, masteryRate: 0.85, badges: [{ id: 1, title: 'Les bases' }] };
+          this.participation = { isShared: true, masteryRate: 0.85, badges: [{ id: '1', title: 'Les bases' }] };
 
           const screen = await render(
             hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,

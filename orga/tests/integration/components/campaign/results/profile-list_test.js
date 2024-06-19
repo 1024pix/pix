@@ -21,7 +21,7 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
     test('it should display the profile list', async function (assert) {
       // given
       this.campaign = store.createRecord('campaign', {
-        id: 1,
+        id: '1',
         name: 'campagne 1',
         participationsCount: 1,
       });
@@ -66,7 +66,7 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
     test('it should display the profile list with external id', async function (assert) {
       // given
       this.campaign = store.createRecord('campaign', {
-        id: 1,
+        id: '1',
         name: 'campagne 1',
         idPixLabel: 'identifiant externe',
         participationsCount: 1,
@@ -94,7 +94,7 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
     test('it should display participant certification profile info when shared', async function (assert) {
       // given
       this.campaign = store.createRecord('campaign', {
-        id: 1,
+        id: '1',
         name: 'campagne 1',
         idPixLabel: 'identifiant externe',
         participationsCount: 1,
@@ -134,7 +134,7 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
       // given
       this.owner.setupRouter();
       this.campaign = store.createRecord('campaign', {
-        id: 1,
+        id: '1',
         name: 'campagne 1',
         code: 'AAAAAA111',
         participationsCount: 1,
@@ -168,7 +168,7 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
     test('it should display no profil when hasParticipations filtered', async function (assert) {
       // given
       this.campaign = store.createRecord('campaign', {
-        id: 1,
+        id: '1',
         name: 'campagne 1',
         participationsCount: 1,
       });

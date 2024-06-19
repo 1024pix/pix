@@ -24,7 +24,7 @@ module('Integration | Component | Campaign::Header::ArchivedBanner', function (h
       }
       this.owner.register('service:currentUser', CurrentUserStub);
       this.campaign = store.createRecord('campaign', {
-        id: 1,
+        id: '1',
         isArchived: false,
       });
 
@@ -46,7 +46,7 @@ module('Integration | Component | Campaign::Header::ArchivedBanner', function (h
         }
         this.owner.register('service:currentUser', CurrentUserStub);
         this.campaign = store.createRecord('campaign', {
-          id: 1,
+          id: '1',
           isArchived: true,
         });
 
@@ -65,7 +65,7 @@ module('Integration | Component | Campaign::Header::ArchivedBanner', function (h
         }
         this.owner.register('service:currentUser', CurrentUserStub);
         this.campaign = store.createRecord('campaign', {
-          id: 1,
+          id: '1',
           isArchived: true,
           unarchive: sinon.stub(),
         });
@@ -87,7 +87,7 @@ module('Integration | Component | Campaign::Header::ArchivedBanner', function (h
         }
         this.owner.register('service:currentUser', CurrentUserStub);
         this.campaign = store.createRecord('campaign', {
-          id: 1,
+          id: '1',
           isArchived: true,
           ownerId: 109,
         });
@@ -107,7 +107,7 @@ module('Integration | Component | Campaign::Header::ArchivedBanner', function (h
         }
         this.owner.register('service:currentUser', CurrentUserStub);
         this.campaign = store.createRecord('campaign', {
-          id: 1,
+          id: '1',
           isArchived: true,
           ownerId: 109,
           unarchive: sinon.stub(),
@@ -130,7 +130,7 @@ module('Integration | Component | Campaign::Header::ArchivedBanner', function (h
         }
         this.owner.register('service:currentUser', CurrentUserStub);
         this.campaign = store.createRecord('campaign', {
-          id: 1,
+          id: '1',
           isArchived: true,
         });
 
@@ -148,7 +148,7 @@ module('Integration | Component | Campaign::Header::ArchivedBanner', function (h
         }
         this.owner.register('service:currentUser', CurrentUserStub);
         this.campaign = store.createRecord('campaign', {
-          id: 1,
+          id: '1',
           isArchived: true,
         });
 

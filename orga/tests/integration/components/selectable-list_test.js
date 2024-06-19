@@ -12,8 +12,8 @@ module('Integration | Component | Selectable List', function (hooks) {
     test('should toggle the main checkbox', async function (assert) {
       // given
       const items = [
-        { id: 1, label: 'Item 1' },
-        { id: 2, label: 'Item 2' },
+        { id: '1', label: 'Item 1' },
+        { id: '2', label: 'Item 2' },
       ];
       this.set('items', items);
 

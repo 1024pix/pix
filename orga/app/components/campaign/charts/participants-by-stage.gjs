@@ -42,7 +42,7 @@ export default class ParticipantsByStage extends Component {
           title: stage.title,
           description: stage.description,
           masteryRate,
-          barWidth: `width: ${width}%`,
+          barWidth: htmlSafe(`width: ${width}%`),
           tooltip: buildTooltipText(stage.title, stage.description),
           displayTooltip: stage.title || stage.description,
         };

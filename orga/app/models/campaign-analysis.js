@@ -1,5 +1,5 @@
 import Model, { hasMany } from '@ember-data/model';
 
 export default class CampaignAnalysis extends Model {
-  @hasMany('CampaignTubeRecommendation', { async: true, inverse: 'campaignAnalysis' }) campaignTubeRecommendations;
+  @hasMany('campaign-tube-recommendation', { async: true, inverse: 'campaignAnalysis' }) campaignTubeRecommendations;
 }

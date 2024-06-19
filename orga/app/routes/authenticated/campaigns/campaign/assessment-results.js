@@ -46,7 +46,7 @@ export default class AssessmentResultsRoute extends Route {
   }
 
   fetchResultMinimalList(params) {
-    return this.store.query('campaignAssessmentResultMinimal', {
+    return this.store.query('campaign-assessment-result-minimal', {
       page: {
         number: params.pageNumber,
         size: params.pageSize,

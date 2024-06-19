@@ -43,7 +43,7 @@ export default class ProfilesRoute extends Route {
   }
 
   fetchProfileSummaries(params) {
-    return this.store.query('CampaignProfilesCollectionParticipationSummary', {
+    return this.store.query('campaign-profiles-collection-participation-summary', {
       filter: {
         campaignId: params.campaignId,
         divisions: params.divisions,

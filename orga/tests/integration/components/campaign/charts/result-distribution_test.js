@@ -25,7 +25,7 @@ module('Integration | Component | Campaign::Charts::ResultDistribution', functio
     });
 
     test('it should display chart for participation distribution', async function (assert) {
-      this.campaign = { id: 12, hasStages: false };
+      this.campaign = { id: '12', hasStages: false };
       dataFetcher.resolves({ data: { attributes: { 'result-distribution': [] } } });
 
       const screen = await render(hbs`<Campaign::Charts::ResultDistribution @campaign={{this.campaign}} />`);
@@ -42,7 +42,7 @@ module('Integration | Component | Campaign::Charts::ResultDistribution', functio
     });
 
     test('it should display chart for participation distribution by status', async function (assert) {
-      this.campaign = { id: 12, hasStages: true };
+      this.campaign = { id: '12', hasStages: true };
       this.onSelectStage = () => {};
       dataFetcher.resolves({ data: { attributes: { data: [{ id: 100498, value: 0 }] } } });
 

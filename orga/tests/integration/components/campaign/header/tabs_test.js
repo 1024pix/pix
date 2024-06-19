@@ -46,7 +46,7 @@ module('Integration | Component | Campaign::Header::Tabs', function (hooks) {
 
   module('Common campaign navigation', function (hooks) {
     hooks.beforeEach(async function () {
-      this.campaign = store.createRecord('campaign', { id: 12 });
+      this.campaign = store.createRecord('campaign', { id: '12' });
       screen = await render(hbs`<Campaign::Header::Tabs @campaign={{this.campaign}} />`);
     });
 
@@ -76,7 +76,7 @@ module('Integration | Component | Campaign::Header::Tabs', function (hooks) {
   module('When campaign type is ASSESSMENT', function (hooks) {
     hooks.beforeEach(async function () {
       this.campaign = store.createRecord('campaign', {
-        id: 13,
+        id: '13',
         sharedParticipationsCount: 10,
         type: 'ASSESSMENT',
       });
@@ -113,7 +113,7 @@ module('Integration | Component | Campaign::Header::Tabs', function (hooks) {
     hooks.beforeEach(async function () {
       // given
       this.campaign = store.createRecord('campaign', {
-        id: 13,
+        id: '13',
         type: 'PROFILES_COLLECTION',
         sharedParticipationsCount: 6,
       });

@@ -51,13 +51,13 @@ module('Integration | Component | Campaign::List', function (hooks) {
       const store = this.owner.lookup('service:store');
 
       const campaign1 = store.createRecord('campaign', {
-        id: 1,
+        id: '1',
         name: 'campagne 1',
         code: 'AAAAAA111',
         type: 'PROFILES_COLLECTION',
       });
       const campaign2 = store.createRecord('campaign', {
-        id: 2,
+        id: '2',
         name: 'campagne 2',
         code: 'BBBBBB222',
         type: 'ASSESSMENT',
@@ -86,7 +86,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
       const store = this.owner.lookup('service:store');
 
       const campaign1 = store.createRecord('campaign', {
-        id: 1,
+        id: '1',
         name: 'campagne 1',
         code: 'AAAAAA111',
         type: 'PROFILES_COLLECTION',
@@ -110,13 +110,13 @@ module('Integration | Component | Campaign::List', function (hooks) {
       const store = this.owner.lookup('service:store');
 
       const campaign1 = store.createRecord('campaign', {
-        id: 1,
+        id: '1',
         name: 'campagne 1',
         code: 'AAAAAA111',
         type: 'PROFILES_COLLECTION',
       });
       const campaign2 = store.createRecord('campaign', {
-        id: 2,
+        id: '2',
         name: 'campagne 2',
         code: 'BBBBBB222',
         type: 'ASSESSMENT',
@@ -141,13 +141,13 @@ module('Integration | Component | Campaign::List', function (hooks) {
       const store = this.owner.lookup('service:store');
 
       const campaign1 = store.createRecord('campaign', {
-        id: 1,
+        id: '1',
         name: 'campagne 1',
         code: 'AAAAAA111',
         type: 'PROFILES_COLLECTION',
       });
       const campaign2 = store.createRecord('campaign', {
-        id: 2,
+        id: '2',
         name: 'campagne 2',
         code: 'BBBBBB222',
         type: 'ASSESSMENT',
@@ -172,7 +172,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
       const store = this.owner.lookup('service:store');
 
       const campaign1 = store.createRecord('campaign', {
-        id: 1,
+        id: '1',
         name: 'campagne 1',
         code: 'AAAAAA111',
         type: 'PROFILES_COLLECTION',
@@ -180,7 +180,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
         ownerLastName: 'Jarre',
       });
       const campaign2 = store.createRecord('campaign', {
-        id: 2,
+        id: '2',
         name: 'campagne 2',
         code: 'BBBBBB222',
         type: 'ASSESSMENT',
@@ -207,14 +207,14 @@ module('Integration | Component | Campaign::List', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const campaign1 = store.createRecord('campaign', {
-        id: 1,
+        id: '1',
         name: 'campagne 1',
         type: 'ASSESSMENT',
         code: 'AAAAAA111',
         createdAt: '03/02/2020',
       });
       const campaign2 = store.createRecord('campaign', {
-        id: 2,
+        id: '2',
         name: 'campagne 2',
         type: 'ASSESSMENT',
         code: 'BBBBBB222',

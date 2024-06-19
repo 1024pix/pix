@@ -18,7 +18,7 @@ module('Unit | Model | campaign', function (hooks) {
     test('it should construct the url to result of the campaign with type assessment', function (assert) {
       const store = this.owner.lookup('service:store');
       const model = store.createRecord('campaign', {
-        id: 1,
+        id: '1',
         name: 'Fake name',
         code: 'ABC123',
         tokenForCampaignResults: 'token',
@@ -30,7 +30,7 @@ module('Unit | Model | campaign', function (hooks) {
     test('it should construct the url to result of the campaign with type profiles collection', function (assert) {
       const store = this.owner.lookup('service:store');
       const model = store.createRecord('campaign', {
-        id: 1,
+        id: '1',
         name: 'Fake name',
         code: 'ABC123',
         tokenForCampaignResults: 'token',

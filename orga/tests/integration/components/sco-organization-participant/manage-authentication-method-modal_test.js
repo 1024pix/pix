@@ -18,7 +18,7 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
 
     hooks.beforeEach(function () {
       this.studentWithUsernameAndEmail = EmberObject.create({
-        id: 1,
+        id: '1',
         username,
         email,
         firstName: 'John',
@@ -29,7 +29,7 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
         hasEmail: true,
       });
       this.studentWithEmailOnly = EmberObject.create({
-        id: 1,
+        id: '1',
         username,
         email,
         firstName: 'John',
@@ -350,7 +350,7 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
   module('When Student is connected with GAR method', function (hooks) {
     hooks.beforeEach(function () {
       this.studentGAR = EmberObject.create({
-        id: 2,
+        id: '2',
         isAuthenticatedFromGar: true,
         displayAddUsernameAuthentication: true,
       });

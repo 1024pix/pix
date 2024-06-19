@@ -32,7 +32,7 @@ module('Unit | Route | authenticated/campaigns/campaign/profile-results', functi
       ];
 
       store.query
-        .withArgs('CampaignProfilesCollectionParticipationSummary', {
+        .withArgs('campaign-profiles-collection-participation-summary', {
           page: {
             number: params.pageNumber,
             size: params.pageSize,

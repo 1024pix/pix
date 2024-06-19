@@ -10,7 +10,7 @@ import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 module('Integration | Component | Campaign::Filter::ParticipationFilters', function (hooks) {
   setupIntlRenderingTest(hooks);
   let store;
-  const campaignId = 1;
+  const campaignId = '1';
 
   hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
@@ -564,7 +564,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
     test('it should display 2 statuses for profiles collection campaign', async function (assert) {
       // given
       const campaign = store.createRecord('campaign', {
-        id: 1,
+        id: '1',
         name: 'campagne 1',
         type: 'PROFILES_COLLECTION',
         targetProfileHasStage: false,
@@ -595,7 +595,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
   module('search', function () {
     test('that in the fullname search input we will have the value that we put', async function (assert) {
       const campaign = store.createRecord('campaign', {
-        id: 1,
+        id: '1',
         name: 'campagne 1',
       });
       this.set('campaign', campaign);
@@ -646,7 +646,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
   module('certificability', function () {
     test('display certificability filter', async function (assert) {
       const campaign = store.createRecord('campaign', {
-        id: 1,
+        id: '1',
         type: 'PROFILE_COLLECTION',
         name: 'campagne 1',
       });
@@ -671,7 +671,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 
     test('hide certificability filter on assessment campaign', async function (assert) {
       const campaign = store.createRecord('campaign', {
-        id: 1,
+        id: '1',
         type: 'ASSESSMENT',
         name: 'campagne 1',
       });
@@ -737,7 +737,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
       hooks.beforeEach(function () {
         this.owner.register('service:current-user', CurrentUserStub);
         const division = store.createRecord('division', { id: 'd1', name: 'd1' });
-        this.campaign = store.createRecord('campaign', { id: 1, divisions: [division] });
+        this.campaign = store.createRecord('campaign', { id: '1', divisions: [division] });
         this.set('selectedDivisions', []);
       });
 
@@ -812,7 +812,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
     });
 
     test('it should not display group filter', async function (assert) {
-      this.campaign = store.createRecord('campaign', { id: 1 });
+      this.campaign = store.createRecord('campaign', { id: '1' });
       this.set('selectedDivisions', []);
       // when
       const screen = await render(hbs`<Campaign::Filter::ParticipationFilters
@@ -838,7 +838,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
       hooks.beforeEach(function () {
         this.owner.register('service:current-user', CurrentUserStub);
         const group = store.createRecord('group', { id: 'd1', name: 'd1' });
-        this.campaign = store.createRecord('campaign', { id: 1, groups: [group] });
+        this.campaign = store.createRecord('campaign', { id: '1', groups: [group] });
         this.set('selectedGroups', []);
       });
 
@@ -921,7 +921,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
       });
       this.set('selectedGroups', []);
       this.campaign = store.createRecord('campaign', {
-        id: 1,
+        id: '1',
         name: 'campagne 1',
         divisions: [division],
       });

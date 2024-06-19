@@ -6,6 +6,6 @@ export default class OrganizationLearnerStatistic extends Model {
   @attr('number') to_share;
   @attr('number') total;
 
-  @belongsTo('OrganizationLearnerActivity', { async: true, inverse: 'organizationLearnerStatistics' })
+  @belongsTo('organization-learner-activity', { async: true, inverse: 'organizationLearnerStatistics' })
   organizationLearnerActivity;
 }

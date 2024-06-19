@@ -14,7 +14,7 @@ export default class CampaignProfile extends Model {
   @attr('number') competencesCount;
   @attr('boolean') isCertifiable;
 
-  @hasMany('campaignProfileCompetence', { async: true, inverse: null }) competences;
+  @hasMany('campaign-profile-competence', { async: true, inverse: null }) competences;
 
   get sortedCompetences() {
     const competences = this.hasMany('competences').value();

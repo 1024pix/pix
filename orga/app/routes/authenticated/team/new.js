@@ -15,6 +15,6 @@ export default class NewRoute extends Route {
 
   model() {
     const organization = this.currentUser.organization;
-    return this.store.createRecord('organizationInvitation', { organizationId: organization.id });
+    return this.store.createRecord('organization-invitation', { organizationId: organization.id });
   }
 }

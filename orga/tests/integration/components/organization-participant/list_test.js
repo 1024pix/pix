@@ -843,7 +843,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
     test('it should display checkboxes', async function (assert) {
       //given
-      const participants = [{ id: 1, firstName: 'Spider', lastName: 'Man' }];
+      const participants = [{ id: '1', firstName: 'Spider', lastName: 'Man' }];
       this.set('participants', participants);
 
       //when
@@ -904,8 +904,8 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
       sinon.stub(routerService, 'replaceWith');
 
       const participants = [
-        { id: 1, firstName: 'Spider', lastName: 'Man' },
-        { id: 2, firstName: 'Captain', lastName: 'America' },
+        { id: '1', firstName: 'Spider', lastName: 'Man' },
+        { id: '2', firstName: 'Captain', lastName: 'America' },
       ];
 
       participants.meta = { page: 1, pageSize: 1, rowCount: 2, pageCount: 2 };
@@ -942,7 +942,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
       const routerService = this.owner.lookup('service:router');
       sinon.stub(routerService, 'replaceWith');
 
-      const participants = [{ id: 1, firstName: 'Spider', lastName: 'Man' }];
+      const participants = [{ id: '1', firstName: 'Spider', lastName: 'Man' }];
 
       participants.meta = { page: 1, pageSize: 10, rowCount: 50, pageCount: 5 };
 
@@ -1014,7 +1014,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
       const routerService = this.owner.lookup('service:router');
       sinon.stub(routerService, 'replaceWith');
 
-      const participants = [{ id: 1, firstName: 'Spider', lastName: 'Man' }];
+      const participants = [{ id: '1', firstName: 'Spider', lastName: 'Man' }];
 
       participants.meta = { page: 1, pageSize: 10, rowCount: 50, pageCount: 5 };
 
@@ -1049,7 +1049,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     module('action bar', function () {
       test('it display action bar', async function (assert) {
         //given
-        const participants = [{ id: 1, firstName: 'Spider', lastName: 'Man' }];
+        const participants = [{ id: '1', firstName: 'Spider', lastName: 'Man' }];
 
         this.set('participants', participants);
         this.deleteParticipants = sinon.stub();
@@ -1075,9 +1075,9 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
       test('it should open the deletion modale', async function (assert) {
         //given
-        const spiderLearner = { id: 1, firstName: 'Spider', lastName: 'Man' };
-        const peterLearner = { id: 2, firstName: 'Peter', lastName: 'Parker' };
-        const milesLearner = { id: 3, firstName: 'Miles', lastName: 'Morales' };
+        const spiderLearner = { id: '1', firstName: 'Spider', lastName: 'Man' };
+        const peterLearner = { id: '2', firstName: 'Peter', lastName: 'Parker' };
+        const milesLearner = { id: '3', firstName: 'Miles', lastName: 'Morales' };
         const participants = [spiderLearner, peterLearner, milesLearner];
 
         this.set('participants', participants);
@@ -1117,9 +1117,9 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
       test('it should delete participants', async function (assert) {
         //given
-        const spiderLearner = { id: 1, firstName: 'Spider', lastName: 'Man' };
-        const peterLearner = { id: 2, firstName: 'Peter', lastName: 'Parker' };
-        const milesLearner = { id: 3, firstName: 'Miles', lastName: 'Morales' };
+        const spiderLearner = { id: '1', firstName: 'Spider', lastName: 'Man' };
+        const peterLearner = { id: '2', firstName: 'Peter', lastName: 'Parker' };
+        const milesLearner = { id: '3', firstName: 'Miles', lastName: 'Morales' };
         const participants = [spiderLearner, peterLearner, milesLearner];
 
         this.set('participants', participants);
@@ -1167,9 +1167,9 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
       test('it should reset selected participants after deletion', async function (assert) {
         //given
-        const spiderLearner = { id: 1, firstName: 'Spider', lastName: 'Man' };
-        const peterLearner = { id: 2, firstName: 'Peter', lastName: 'Parker' };
-        const milesLearner = { id: 3, firstName: 'Miles', lastName: 'Morales' };
+        const spiderLearner = { id: '1', firstName: 'Spider', lastName: 'Man' };
+        const peterLearner = { id: '2', firstName: 'Peter', lastName: 'Parker' };
+        const milesLearner = { id: '3', firstName: 'Miles', lastName: 'Morales' };
         const participants = [spiderLearner, peterLearner, milesLearner];
 
         this.set('participants', participants);
@@ -1222,7 +1222,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
       }
       this.owner.register('service:current-user', CurrentUserStub);
 
-      const participants = [{ id: 1, firstName: 'Spider', lastName: 'Man' }];
+      const participants = [{ id: '1', firstName: 'Spider', lastName: 'Man' }];
       this.set('participants', participants);
       this.triggerFiltering = sinon.stub();
       this.set('certificabilityFilter', []);
@@ -1252,7 +1252,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
       }
       this.owner.register('service:current-user', CurrentUserStub);
 
-      const participants = [{ id: 1, firstName: 'Spider', lastName: 'Man' }];
+      const participants = [{ id: '1', firstName: 'Spider', lastName: 'Man' }];
       this.set('participants', participants);
       this.triggerFiltering = sinon.stub();
       this.set('certificabilityFilter', []);

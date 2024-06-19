@@ -9,7 +9,7 @@ module('Unit | Model | prescriber', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const organization = store.createRecord('organization', { name: 'Willow school' });
-      const userOrgaSettings = store.createRecord('userOrgaSetting', { organization });
+      const userOrgaSettings = store.createRecord('user-orga-setting', { organization });
       const membership = store.createRecord('membership', { organizationRole: 'MEMBER', organization });
       const memberships = [membership];
       const model = store.createRecord('prescriber', { memberships, userOrgaSettings });
@@ -25,7 +25,7 @@ module('Unit | Model | prescriber', function (hooks) {
         name: 'Willow school',
         identityProviderForCampaigns: 'GAR',
       });
-      const userOrgaSettings = store.createRecord('userOrgaSetting', { organization });
+      const userOrgaSettings = store.createRecord('user-orga-setting', { organization });
       const membership = store.createRecord('membership', { organizationRole: 'MEMBER', organization });
       const memberships = [membership];
       const model = store.createRecord('prescriber', { memberships, userOrgaSettings });
@@ -40,7 +40,7 @@ module('Unit | Model | prescriber', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const organization = store.createRecord('organization', { name: 'Willow school' });
-      const userOrgaSettings = store.createRecord('userOrgaSetting', { organization });
+      const userOrgaSettings = store.createRecord('user-orga-setting', { organization });
       const membership = store.createRecord('membership', { organizationRole: 'ADMIN', organization });
       const memberships = [membership];
       const model = store.createRecord('prescriber', { memberships, userOrgaSettings });
@@ -53,7 +53,7 @@ module('Unit | Model | prescriber', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const organization = store.createRecord('organization', { name: 'Willow school' });
-      const userOrgaSettings = store.createRecord('userOrgaSetting', { organization });
+      const userOrgaSettings = store.createRecord('user-orga-setting', { organization });
       const membership = store.createRecord('membership', { organizationRole: 'MEMBER', organization });
       const memberships = [membership];
       const model = store.createRecord('prescriber', { memberships, userOrgaSettings });
@@ -65,9 +65,9 @@ module('Unit | Model | prescriber', function (hooks) {
     test('it should return false if prescriber is MEMBER of the current organization and ADMIN in another', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const currentOrganization = store.createRecord('organization', { id: 7, name: 'Willow school' });
-      const otherOrganization = store.createRecord('organization', { id: 123, name: 'Tanglewood school' });
-      const userOrgaSettings = store.createRecord('userOrgaSetting', { organization: currentOrganization });
+      const currentOrganization = store.createRecord('organization', { id: '7', name: 'Willow school' });
+      const otherOrganization = store.createRecord('organization', { id: '123', name: 'Tanglewood school' });
+      const userOrgaSettings = store.createRecord('user-orga-setting', { organization: currentOrganization });
       const membership = store.createRecord('membership', { organizationRole: 'MEMBER', currentOrganization });
       const membership2 = store.createRecord('membership', { organizationRole: 'ADMIN', otherOrganization });
       const memberships = [membership, membership2];

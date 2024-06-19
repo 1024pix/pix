@@ -16,9 +16,9 @@ module('Integration | Component | Campaign::Activity::DeleteParticipationModal',
       const closeModal = sinon.stub();
 
       hooks.beforeEach(async function () {
-        campaign = { id: 90, idPixLabel: 'id', type: 'ASSESSMENT' };
+        campaign = { id: '90', idPixLabel: 'id', type: 'ASSESSMENT' };
         participation = {
-          id: 56,
+          id: '56',
           firstName: 'Joe',
           lastName: 'La frite',
           status: 'TO_SHARE',

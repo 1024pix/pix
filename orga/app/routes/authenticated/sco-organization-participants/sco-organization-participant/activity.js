@@ -13,7 +13,7 @@ export default class ActivityRoute extends Route {
     try {
       return RSVP.hash({
         organizationLearner,
-        activity: await this.store.queryRecord('organizationLearnerActivity', {
+        activity: await this.store.queryRecord('organization-learner-activity', {
           organizationLearnerId: organizationLearner.id,
         }),
       });
