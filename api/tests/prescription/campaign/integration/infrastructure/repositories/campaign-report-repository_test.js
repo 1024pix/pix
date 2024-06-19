@@ -371,6 +371,45 @@ describe('Integration | Repository | Campaign-Report', function () {
       page = { number: 1, size: 4 };
     });
 
+    context('when the given organization has deleted campaigns', function () {
+      it('should return an empty array', async function () {
+        // given
+        databaseBuilder.factory.buildCampaign({ organizationId, deletedAt: new Date() });
+        await databaseBuilder.commit();
+
+        // when
+        const { models: campaignsWithReports, meta } =
+          await campaignReportRepository.findPaginatedFilteredByOrganizationId({
+            organizationId,
+            filter,
+            page,
+          });
+
+        // then
+        expect(campaignsWithReports.length).to.deep.equal(0);
+        expect(meta.hasCampaigns).to.equal(false);
+      });
+
+      it('should return one campaign', async function () {
+        // given
+        databaseBuilder.factory.buildCampaign({ organizationId, deletedAt: new Date() });
+        databaseBuilder.factory.buildCampaign({ organizationId });
+        await databaseBuilder.commit();
+
+        // when
+        const { models: campaignsWithReports, meta } =
+          await campaignReportRepository.findPaginatedFilteredByOrganizationId({
+            organizationId,
+            filter,
+            page,
+          });
+
+        // then
+        expect(campaignsWithReports.length).to.deep.equal(1);
+        expect(meta.hasCampaigns).to.equal(true);
+      });
+    });
+
     context('when the given organization has no campaign', function () {
       it('should return an empty array', async function () {
         // given
