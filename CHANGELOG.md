@@ -1,5 +1,27 @@
 # Pix Changelog
 
+## v4.167.0 (19/06/2024)
+
+
+### :rocket: Amélioration
+- [#9261](https://github.com/1024pix/pix/pull/9261) [FEATURE] Ajouter un script pour récupérer tous les éléments d'un module en CSV (PIX-12952).
+
+### :building_construction: Tech
+- [#9319](https://github.com/1024pix/pix/pull/9319) [TECH] Flaky sur database-builder test.
+- [#9310](https://github.com/1024pix/pix/pull/9310) [TECH] Ajout de la configuration pour .gjs sur Pix Certif (PIX-13024).
+- [#9314](https://github.com/1024pix/pix/pull/9314) [TECH] Supprimer les warnings des dépréciations pour la futur v6.0 de Ember-Data (PIX-13018).
+- [#9281](https://github.com/1024pix/pix/pull/9281) [TECH] Migrer la route `/api/admin/target-profiles/{targetProfileId}/organizations` vers son BC (PIX-12970).
+- [#9311](https://github.com/1024pix/pix/pull/9311) [TECH] Migrer la route `/api/organization-learners` Vers le BC organization-learner (PIX-13026).
+
+### :bug: Correction
+- [#9291](https://github.com/1024pix/pix/pull/9291) [BUGFIX] Modification de la valeur CORE en BDD (PIX-12981).
+- [#9306](https://github.com/1024pix/pix/pull/9306) [BUGFIX] Réparer les caractères de balises HTML incorrects (PIX-13036).
+- [#9282](https://github.com/1024pix/pix/pull/9282) [BUGFIX][MON-PIX] Prendre en compte le choix de la langue lors de la création d'un compte via un SSO (PIX-12860).
+
+### :arrow_up: Montée de version
+- [#9320](https://github.com/1024pix/pix/pull/9320) [BUMP] Update dependency postgres to v15.
+- [#9316](https://github.com/1024pix/pix/pull/9316) [BUMP] Update dependency @1024pix/pix-ui to ^46.10.3 (orga).
+
 ## v4.166.0 (18/06/2024)
 
 
