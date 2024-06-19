@@ -4,6 +4,37 @@ import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransa
 import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Application | Controller | account-recovery', function () {
+  describe('#checkAccountRecoveryDemand', function () {
+    it('returns serialized account recovery details', async function () {
+      // given
+      const temporaryKey = 'ABCDEFZEFDD';
+      const studentInformation = { id: 1234, email: 'philipe@example.net', firstName: 'philipe' };
+      const request = {
+        params: { temporaryKey },
+      };
+      sinon.stub(usecases, 'getAccountRecoveryDetails');
+
+      const studentInformationForAccountRecoverySerializerStub = {
+        serializeAccountRecovery: sinon.stub(),
+      };
+
+      const dependencies = {
+        studentInformationForAccountRecoverySerializer: studentInformationForAccountRecoverySerializerStub,
+      };
+
+      usecases.getAccountRecoveryDetails.resolves(studentInformation);
+
+      // when
+      await accountRecoveryController.checkAccountRecoveryDemand(request, hFake, dependencies);
+
+      // then
+      expect(usecases.getAccountRecoveryDetails).to.have.been.calledWithExactly({ temporaryKey });
+      expect(
+        studentInformationForAccountRecoverySerializerStub.serializeAccountRecovery,
+      ).to.have.been.calledWithExactly(studentInformation);
+    });
+  });
+
   describe('#updateUserForAccountRecovery', function () {
     it('calls updateUserForAccountRecovery usecase and return 204', async function () {
       // given
