@@ -19,7 +19,7 @@
       "grainId": "0bfa08bd-7052-49bb-89e8-150efa589926"
     },
     {
-      "content": "<p>Et oui, comme tous les LLM, ChatGPT est biaisé. Par exemple, ses réponses en français sont influencées de par ses données d'entraînement en majorité anglo-saxonne.<p>Dans la vidéo suivante, vous allez mieux comprendre les différents biais des LLM et d’où ils proviennent.<span aria-hidden=\"true\">&nbsp;📺</span></p>",
+      "content": "<p>Et oui, comme tous les LLM, ChatGPT est biaisé. Par exemple, ses réponses en français sont influencées de par ses données d'entraînement en majorité anglo-saxonne.</p><p>Dans la vidéo suivante, vous allez mieux comprendre les différents biais des LLM et d’où ils proviennent.<span aria-hidden=\"true\">&nbsp;📺</span></p>",
       "grainId": "c8722f6e-7534-4fdc-9f2d-515c2a96641f"
     },
     {
@@ -31,7 +31,7 @@
       "grainId": "37677521-4498-4779-b526-9e89e3f6e6a3"
     },
     {
-      "content":"<p>Vous en savez désormais plus sur les biais des LLM. <span aria-hidden=\"true\">👩‍💻️👨🏿‍💻️</span><br>Observons et analysons ensemble quelques réponses du LLM PixGPT.</p>",
+      "content":"<p>Vous en savez désormais plus sur les biais des LLM. <span aria-hidden=\"true\">👩‍💻️👨🏿‍💻️</span><br>Observons et analysons ensemble quelques réponses du LLM LLM-GPT.</p>",
       "grainId": "e7ca9d7e-6d77-4705-83a5-a6864c77f4b5"
     },
     {
@@ -107,7 +107,7 @@
           {
             "id": "b510a523-dc46-44bc-9cef-7d254ddd5831",
             "type": "text",
-            "content": "<p>À la suite de cette vidéo, vous devrez retrouvez les causes des biais des LLM et interpréter une situation concrète où la réponse d'un LLM est biaisée.</p>"
+            "content": "<p>À la suite de cette vidéo, vous devrez retrouver les causes des biais des LLM et interpréter une situation concrète où la réponse d'un LLM est biaisée.</p>"
           }
         },
         {
@@ -223,7 +223,7 @@
               },
               {
                 "id": "4",
-                "content": "Il a été programmé pour être respectueux des lois et ne peut pas encourager des actes illégaux."
+                "content": "Il est programmé pour être respectueux des lois et ne peut pas encourager des actes illégaux."
               }
             ],
             "feedbacks": {
@@ -245,7 +245,7 @@
           "element": {
             "id": "5b0422cd-22d0-4261-aa48-bd7fafc20607",
             "type": "text",
-            "content": "<p>Dans les situations suivantes, les prompts fournis à PixGPT mènent à des réponses partielles, stéréotypées ou scientifiquement infondées.</p><p>Pour chaque situation, choisissez la cause principale de ces résultats biaisés.</p>"
+            "content": "<p>Dans les situations suivantes, les prompts fournis à LLM-GPT mènent à des réponses partielles, stéréotypées ou scientifiquement infondées.</p><p>Pour chaque situation, choisissez la cause principale de ces résultats biaisés.</p>"
           }
         },
         {
@@ -261,7 +261,7 @@
           "element": {
             "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
             "type": "text",
-            "content": "Michel est belge et teste PixGPT pour la première fois."
+            "content": "Michel est belge et teste LLM-GPT pour la première fois. Il reçoit une réponse qui concerne la France."
           }
         },
         {
@@ -272,7 +272,7 @@
             "type": "image",
             "url": "https://i.imgur.com/UNO1Jkg.png",
             "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
-            "alternativeText": "<p>Vous : Quel est le jour de la fête nationale ?</p><p>PixGPT : La fête nationale de la France aussi connue sous le nom de la Bastille Day est célébrée le 14 juillet. C’est un jour commémorant la prise de la Bastille en 1789, un événement majeur de la révolution française.</p>"
+            "alternativeText": "<p>Vous : Quel est le jour de la fête nationale ?</p><p>LLM-GPT : La fête nationale de la France aussi connue sous le nom de la Bastille Day est célébrée le 14 juillet. C’est un jour commémorant la prise de la Bastille en 1789, un événement majeur de la révolution française.</p>"
           }
         },
         {
@@ -280,7 +280,7 @@
           "element": {
               "id": "629aeb61-028b-41f7-97f2-512e83000fa5",
               "type": "qcu",
-              "instruction": "Quelle est la cause du résultat biaisé fourni par PixGPT ?",
+              "instruction": "Quelle est la cause du résultat biaisé fourni par LLM-GPT ?",
               "proposals": [
                 {
                   "id": "1",
@@ -315,7 +315,7 @@
             "element": {
               "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
               "type": "text",
-              "content": "Claire est romancière et cherche de l'inspiration pour l'un de ses personnages."
+              "content": "Erica est romancière et cherche de l'inspiration pour l'un de ses personnages."
             }
           },
           {
@@ -326,7 +326,7 @@
               "type": "image",
               "url": "https://i.imgur.com/EAkfnRA.png",
               "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
-              "alternativeText": "<p>Vous : J’écris un roman. J’ai besoin que tu crées un personnage. Son activité principale est de faire le ménage chez les gens.<br>PixGPT: Claire, une femme minutieuse et discrète de 40 ans, consacre ses journées à apporter ordre et propreté dans les foyers de ses clients, veillant à chaque détail avec un soin exceptionnel.</p>"
+              "alternativeText": "<p>Vous : J’écris un roman. J’ai besoin que tu crées un personnage. Son activité principale est de faire le ménage chez les gens.<br>LLM-GPT: Claire, une femme minutieuse et discrète de 40 ans, consacre ses journées à apporter ordre et propreté dans les foyers de ses clients, veillant à chaque détail avec un soin exceptionnel.</p>"
             }
           },
           {
@@ -335,7 +335,7 @@
             {
               "id": "635d34d8-c748-44cd-ad02-bde721270723",
               "type": "qcu",
-              "instruction": "Quelle est la cause du résultat biaisé fourni par PixGPT ?",
+              "instruction": "Quelle est la cause du résultat biaisé fourni par LLM-GPT ?",
               "proposals": [
                 {
                   "id": "1",
@@ -381,7 +381,7 @@
               "type": "image",
               "url": "https://i.imgur.com/nzL3BgW.png",
               "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
-              "alternativeText": "<p>Vous : Je suis Verseau. Comment ma journée va-t-elle se passer ?<br>PixGPT:  En tant que Verseau, attendez-vous à une journée pleine de surprises stimulantes et de nouvelles opportunités pour exprimer votre créativité.</p>"
+              "alternativeText": "<p>Vous : Je suis Verseau. Comment ma journée va-t-elle se passer ?<br>LLM-GPT:  En tant que Verseau, attendez-vous à une journée pleine de surprises stimulantes et de nouvelles opportunités pour exprimer votre créativité.</p>"
             }
           },
           {
@@ -390,7 +390,7 @@
             {
               "id": "060c7558-92fb-47bf-b8fa-3639ebfef67d",
               "type": "qcu",
-              "instruction": "Quelle est la cause du résultat biaisé fourni par PixGPT ?",
+              "instruction": "Quelle est la cause du résultat biaisé fourni par LLM-GPT ?",
               "proposals": [
                 {
                   "id": "1",
