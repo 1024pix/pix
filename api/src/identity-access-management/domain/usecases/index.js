@@ -2,6 +2,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { mailService } from '../../../../lib/domain/services/mail-service.js';
+import * as userReconciliationService from '../../../../lib/domain/services/user-reconciliation-service.js';
 import { oidcAuthenticationServiceRegistry } from '../../../../lib/domain/usecases/index.js';
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
@@ -54,6 +55,7 @@ const services = {
   resetPasswordService,
   scoAccountRecoveryService,
   tokenService,
+  userReconciliationService,
   userService,
 };
 const validators = {
