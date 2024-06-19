@@ -1,7 +1,7 @@
 {
     "id": "e8cee13e-1d4d-47eb-bd26-d7ea6a10b1e6",
     "slug": "deplacer-souris-ordinateur",
-    "title": "Déplacer une souris d'ordinateur",    
+    "title": "Déplacer une souris d'ordinateur",
 "details": {
       "image": "https://images.pix.fr/modulix/placeholder-details.svg",
       "description": "Dans ce module, vous découvrirez ce qu’est une souris et à quoi elle sert. Vous apprendrez à la prendre en main et à la déplacer pour intéragir avec votre ordinateur.",
@@ -16,7 +16,7 @@
     "transitionTexts": [
       {
         "grainId": "f0db9bcb-a896-4801-827d-d0ceeddde3e5",
-        "content": "<p>Dans ce module, vous allez prendre en main une souris d'ordinateur.</p><ul><li>Passez autant de temps que nécessaire sur chaque étape de ce module.</li><li>Pour passer d’une étape à une autre, appuyez sur la touche Entrée du clavier. <span aria-hidden=\"true\"> ↩️ </span>️</li></ul>"
+        "content": "<p>Dans ce module, vous allez prendre en main une souris d'ordinateur.</p><ul><li>Passez autant de temps que nécessaire sur chaque étape de ce module.</li><li>Pour passer d’une étape à une autre, appuyez sur la touche Entrée du clavier. <span aria-hidden=\"true\"> ↩️ </span></li></ul>"
       },
       {
         "grainId": "f3ec5b87-c673-4181-b792-6a521f438315",
@@ -28,7 +28,7 @@
       },
       {
         "grainId": "115f2b94-ba20-4158-a1b1-efb159d82808",
-        "content": "<p>Dans la vidéo suivante, vous allez voir comment bien prendre en main une souris d'ordinateur.&nbsp;<span aria-hidden=\"true\">📺</span>️</p>"
+        "content": "<p>Dans la vidéo suivante, vous allez voir comment bien prendre en main une souris d'ordinateur.&nbsp;<span aria-hidden=\"true\">📺</span></p>"
       },
       {
         "grainId": "395f9865-bb44-4cd8-a4dd-03ffddf598f7",
@@ -36,7 +36,7 @@
       },
       {
         "grainId": "8a9618f5-c8d8-447e-83ae-cf66914c0aa0",
-        "content": "<p>Dans la vidéo suivante, vous allez voir comment contrôler la souris sur votre écran.&nbsp;<span aria-hidden=\"true\">📺</span>️</p>"
+        "content": "<p>Dans la vidéo suivante, vous allez voir comment contrôler la souris sur votre écran.&nbsp;<span aria-hidden=\"true\">📺</span></p>"
       },
       {
         "grainId": "713aeb31-6bbd-4e0c-930a-ad24164f5b9c",
@@ -44,11 +44,11 @@
       },
       {
         "grainId": "194be335-f3c1-468e-9ad1-0a7287b95f37",
-        "content": "<p>Vous savez déplacer le pointeur de la souris à l'écran. Maintenant, entraînez-vous à être plus précis dans vos mouvements. <span aria-hidden=\"true\">🎯</span>️ </p>"
+        "content": "<p>Vous savez déplacer le pointeur de la souris à l'écran. Maintenant, entraînez-vous à être plus précis dans vos mouvements. <span aria-hidden=\"true\">🎯</span> </p>"
       },
       {
         "grainId": "03e0657a-7caf-49eb-8dfb-da0f5e52b7ba",
-        "content": "<p>Vous savez maintenant déplacer le pointeur de votre souris de façon précise. Voici quelques informations qui pourront vous servir. <span aria-hidden=\"true\">📚</span>️ </p>"
+        "content": "<p>Vous savez maintenant déplacer le pointeur de votre souris de façon précise. Voici quelques informations qui pourront vous servir. <span aria-hidden=\"true\">📚</span> </p>"
       }
     ],
     "grains": [
@@ -68,7 +68,7 @@
           },
           {
             "type": "element",
-            "element": 
+            "element":
             {
             "id": "c849cbc5-931e-4a00-ae6a-083e2ff0614d",
             "type": "image",
@@ -110,7 +110,7 @@
               {
                 "id": "c0389b30-2034-45f1-8f9c-08f90de26c6c",
                 "type": "text",
-                "content": "<h3><span aria-hidden=\"true\">📖</span>️ Bon à savoir</h3> <p> Voici comment vérifier qu’une souris est allumée :</p> <ul> <li>Si vous avez une souris avec un fil : vérifiez qu'elle est branchée à l’ordinateur. </li> <li> Si vous avez une souris sans fil : vous pouvez la retourner. Vérifiez que le bouton situé en dessous est bien sur ON.</li></ul>"
+                "content": "<h3><span aria-hidden=\"true\">📖</span> Bon à savoir</h3> <p> Voici comment vérifier qu’une souris est allumée :</p> <ul> <li>Si vous avez une souris avec un fil : vérifiez qu'elle est branchée à l’ordinateur. </li> <li> Si vous avez une souris sans fil : vous pouvez la retourner. Vérifiez que le bouton situé en dessous est bien sur ON.</li></ul>"
               }
           }
         ]
@@ -131,7 +131,7 @@
           },
           {
             "type": "element",
-            "element": 
+            "element":
             {
             "id": "a13ea7fa-39db-48c8-9a3d-9c354d828dca",
             "type": "image",
@@ -160,7 +160,7 @@
           },
           {
             "type": "element",
-            "element": 
+            "element":
             {
             "id": "a00fb3ea-ac08-4688-b54b-77a659284f73",
             "type": "image",
@@ -249,7 +249,7 @@
                   {
                         "id": "d1dd9768-1b88-4a76-af7c-4290c3fe5a2f",
                         "type": "text",
-                        "content": "<p><span aria-hidden=\"true\">🙋🏽‍♂️ 🙋🏿‍♀️ 🙋‍♂️</span>️Si vous êtes accompagné, demandez conseil à la personne qui vous accompagne.<br>Elle vous aidera à trouver une position confortable.</p>"
+                        "content": "<p><span aria-hidden=\"true\">🙋🏽‍♂️ 🙋🏿‍♀️ 🙋‍♂️</span>Si vous êtes accompagné, demandez conseil à la personne qui vous accompagne.<br>Elle vous aidera à trouver une position confortable.</p>"
                   }
               }
         ]
@@ -285,7 +285,7 @@
                     "type": "text",
                     "content": "<hr>"
             }
-  
+
           },
           {
             "type": "element",
@@ -293,9 +293,9 @@
             {
                     "id": "37d12159-50a1-4c83-955f-d33d0d45e6f2",
                     "type": "text",
-                    "content": "<h3> <span aria-hidden=\"true\">📖</span>️ Bon à savoir :</h3> <p> Les mots <b>pointeur de souris</b> et <b>curseur de souris</b> veulent dire la même chose.</p>"
+                    "content": "<h3> <span aria-hidden=\"true\">📖</span> Bon à savoir :</h3> <p> Les mots <b>pointeur de souris</b> et <b>curseur de souris</b> veulent dire la même chose.</p>"
             }
-  
+
           }
             ]
       },
@@ -353,7 +353,7 @@
             {
                     "id": "9c1c4342-96a6-4c14-a5b0-5ed0d202fb8f",
                     "type": "text",
-                    "content": "<h3> <span aria-hidden=\"true\">💡</span>️ Que faire si je ne vois plus mon pointeur ?</h3> <p> Bougez de gauche à droite votre souris doucement sur la table.<br> Vous verrez le pointeur bouger à l'écran.</p>"
+                    "content": "<h3> <span aria-hidden=\"true\">💡</span> Que faire si je ne vois plus mon pointeur ?</h3> <p> Bougez de gauche à droite votre souris doucement sur la table.<br> Vous verrez le pointeur bouger à l'écran.</p>"
             }
           }
             ]
@@ -387,7 +387,7 @@
             {
                     "id": "8c07cbe0-14aa-4a0e-898d-7ddf9c4ff3be",
                     "type": "text",
-                    "content": "<h3> <span aria-hidden=\"true\">📖</span>️ Bon à savoir : </h3><p>Parfois, le pointeur peut être en forme de roue, de sablier ou de pointillés. C’est un pointeur qui est souvent animé.</p> <p> Quand ce pointeur apparaît, cela signifie qu’il faut patienter. Attendez que le pointeur reprenne sa forme de flèche pour utiliser votre souris.</p>"
+                    "content": "<h3> <span aria-hidden=\"true\">📖</span> Bon à savoir : </h3><p>Parfois, le pointeur peut être en forme de roue, de sablier ou de pointillés. C’est un pointeur qui est souvent animé.</p> <p> Quand ce pointeur apparaît, cela signifie qu’il faut patienter. Attendez que le pointeur reprenne sa forme de flèche pour utiliser votre souris.</p>"
             }
           },
           {"type": "element",
