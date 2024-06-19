@@ -922,4 +922,56 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       });
     });
   });
+
+  describe('POST /api/admin/target-profiles/{targetProfileId}/copy', function () {
+    describe('When user has role SUPER_ADMIN', function () {
+      it('Should return a response with 200 status code', async function () {
+        // given
+        const method = 'POST';
+        const url = '/api/admin/target-profiles/123/copy';
+
+        sinon
+          .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
+          .withArgs([
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
+          ])
+          .callsFake(() => (request, h) => h.response(true));
+        sinon.stub(targetProfileController, 'copyTargetProfile').callsFake((request, h) => h.response('ok').code(200));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const { statusCode } = await httpTestServer.request(method, url);
+
+        // then
+        sinon.assert.calledOnce(targetProfileController.copyTargetProfile);
+        expect(statusCode).to.equal(200);
+      });
+    });
+
+    context('when user has role CERTIF or SUPPORT', function () {
+      it('should return a response with an HTTP status code 403', async function () {
+        // given
+        const method = 'POST';
+        const url = '/api/admin/target-profiles/123/copy';
+        sinon.stub(targetProfileController, 'copyTargetProfile').returns('ko');
+        sinon
+          .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const { statusCode } = await httpTestServer.request(method, url);
+
+        // then
+        expect(targetProfileController.copyTargetProfile).not.to.have.been.called;
+        expect(statusCode).to.equal(403);
+      });
+    });
+  });
 });

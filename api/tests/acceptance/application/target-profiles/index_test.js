@@ -199,20 +199,16 @@ describe('Acceptance | Route | target-profiles', function () {
 
       // when
       const response = await server.inject({
-        method: 'GET',
-        url: `/api/admin/target-profiles/${targetProfile.id}?filter[badges]=certifiable`,
+        method: 'POST',
+        url: `/api/admin/target-profiles/${targetProfile.id}/copy`,
         headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
       });
 
       // then
+      const { id: targetProfileId, name } = await knex('target-profiles').where('id', response.result).first();
       expect(response.statusCode).to.equal(200);
-      expect(response.result.data.attributes).to.deep.equal({
-        name: 'Super Profil Cible',
-      });
-      expect(response.result.included[0].attributes).to.deep.equal({
-        'is-certifiable': true,
-        title: 'Badge certifiable',
-      });
+      expect(name).to.equal('[Copie] ' + targetProfile.name);
+      expect(targetProfileId).not.to.equal(targetProfile.id);
     });
   });
 
