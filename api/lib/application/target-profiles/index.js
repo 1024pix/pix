@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
-import { identifiersType, optionalIdentifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
+import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
 import { BadRequestError, sendJsonApiError } from '../http-errors.js';
 import { targetProfileController } from './target-profile-controller.js';
 
@@ -73,42 +73,6 @@ const register = async function (server) {
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             '- Elle permet de récupérer toutes les informations d’un profil cible',
-        ],
-      },
-    },
-    {
-      method: 'GET',
-      path: '/api/admin/target-profiles/{id}/organizations',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.targetProfileId,
-          }),
-          query: Joi.object({
-            'filter[id]': optionalIdentifiersType.organizationId,
-            'filter[name]': Joi.string().empty('').allow(null).optional(),
-            'filter[type]': Joi.string().empty('').allow(null).optional(),
-            'filter[external-id]': Joi.string().empty('').allow(null).optional(),
-            'page[number]': Joi.number().integer().empty('').allow(null).optional(),
-            'page[size]': Joi.number().integer().empty('').allow(null).optional(),
-          }).options({ allowUnknown: true }),
-        },
-        handler: targetProfileController.findPaginatedFilteredTargetProfileOrganizations,
-        tags: ['api', 'admin', 'target-profiles', 'organizations'],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            '- Elle permet de récupérer les organisations auxquelles est rattaché le profil cible',
         ],
       },
     },

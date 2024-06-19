@@ -7,7 +7,6 @@ import * as targetProfileSerializer from '../../../src/prescription/target-profi
 import * as queryParamsUtils from '../../../src/shared/infrastructure/utils/query-params-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
-import * as organizationSerializer from '../../infrastructure/serializers/jsonapi/organization-serializer.js';
 import * as targetProfileForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-for-admin-serializer.js';
 import * as targetProfileSummaryForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 
@@ -31,18 +30,6 @@ const getTargetProfileForAdmin = async function (
 
   const targetProfile = await usecases.getTargetProfileForAdmin({ targetProfileId });
   return dependencies.targetProfileForAdminSerializer.serialize({ targetProfile, filter });
-};
-
-const findPaginatedFilteredTargetProfileOrganizations = async function (request) {
-  const targetProfileId = request.params.id;
-  const options = queryParamsUtils.extractParameters(request.query);
-
-  const { models: organizations, pagination } = await usecases.findPaginatedFilteredTargetProfileOrganizations({
-    targetProfileId,
-    filter: options.filter,
-    page: options.page,
-  });
-  return organizationSerializer.serialize(organizations, pagination);
 };
 
 const updateTargetProfile = async function (request, h, dependencies = { usecases, targetProfileSerializer }) {
@@ -99,7 +86,6 @@ const createBadge = async function (request, h) {
 const targetProfileController = {
   findPaginatedFilteredTargetProfileSummariesForAdmin,
   getTargetProfileForAdmin,
-  findPaginatedFilteredTargetProfileOrganizations,
   updateTargetProfile,
   createTargetProfile,
   findPaginatedTrainings,
