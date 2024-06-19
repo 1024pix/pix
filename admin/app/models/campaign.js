@@ -3,6 +3,7 @@ export default class Campaign extends Model {
   @attr('nullable-string') name;
   @attr('nullable-string') title;
   @attr('date') archivedAt;
+  @attr('date') deletedAt;
   @attr('nullable-string') type;
   @attr('string') code;
   @attr('nullable-string') idPixLabel;
