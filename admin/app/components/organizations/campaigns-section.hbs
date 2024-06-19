@@ -15,6 +15,7 @@
             <th>Créée par</th>
             <th>Propriétaire</th>
             <th class="table__column--medium">Archivée le</th>
+            <th class="table__column--medium">Supprimée le</th>
           </tr>
         </thead>
 
@@ -57,6 +58,13 @@
                 <td>
                   {{#if campaign.archivedAt}}
                     {{dayjs-format campaign.archivedAt "DD/MM/YYYY"}}
+                  {{else}}
+                    -
+                  {{/if}}
+                </td>
+                <td>
+                  {{#if campaign.deletedAt}}
+                    {{dayjs-format campaign.deletedAt "DD/MM/YYYY"}}
                   {{else}}
                     -
                   {{/if}}
