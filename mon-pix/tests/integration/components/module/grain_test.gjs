@@ -487,72 +487,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
     });
   });
 
-  module('when shouldDisplayTerminateButton is true', function () {
-    test('should display the terminate button', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const element = { type: 'text', isAnswerable: false };
-      const grain = store.createRecord('grain', { title: 'Grain title', components: [{ type: 'element', element }] });
-      this.set('grain', grain);
-
-      // when
-      const screen = await render(hbs`
-        <Module::Grain @grain={{this.grain}} @shouldDisplayTerminateButton={{true}} />`);
-
-      // then
-      assert.dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.terminate') })).exists();
-    });
-
-    module('when terminateAction is called', function () {
-      test('should call terminateAction passed in argument', async function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-        const element = { type: 'qcu', isAnswerable: true };
-        const grain = store.createRecord('grain', {
-          title: 'Grain title',
-          components: [{ type: 'element', element }],
-        });
-        this.set('grain', grain);
-        const passage = store.createRecord('passage');
-        this.set('passage', passage);
-
-        const terminateActionStub = sinon.stub();
-        this.set('terminateAction', terminateActionStub);
-
-        // when
-        await render(
-          hbs`
-            <Module::Grain @grain={{this.grain}} @shouldDisplayTerminateButton={{true}}
-                           @terminateAction={{this.terminateAction}} @passage={{this.passage}} />`,
-        );
-        await clickByName(this.intl.t('pages.modulix.buttons.grain.terminate'));
-
-        // then
-        sinon.assert.calledOnce(terminateActionStub);
-        assert.ok(true);
-      });
-    });
-  });
-
-  module('when shouldDisplayTerminateButton is false', function () {
-    test('should not display the terminate button', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const element = { type: 'text', isAnswerable: false };
-      const grain = store.createRecord('grain', { title: 'Grain title', components: [{ type: 'element', element }] });
-      this.set('grain', grain);
-
-      // when
-      const screen = await render(hbs`
-        <Module::Grain @grain={{this.grain}} @shouldDisplayTerminateButton={{false}} />`);
-
-      // then
-      assert
-        .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.terminate') }))
-        .doesNotExist();
-    });
-  });
-
   module('when retryElement is called', function () {
     test('should call retryElement pass in argument', async function (assert) {
       // given
@@ -728,7 +662,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
       });
     });
 
-    module.only('when there are only unanswerable elements in stepper', function () {
+    module('when there are only unanswerable elements in stepper', function () {
       module('when there are still steps to display', function () {
         test('should display skip button', async function (assert) {
           // given

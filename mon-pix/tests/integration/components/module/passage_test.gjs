@@ -428,4 +428,78 @@ module('Integration | Component | Module | Passage', function (hooks) {
       assert.ok(true);
     });
   });
+
+  module('when there is no more grain to display', function () {
+    test('should display the terminate button', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const element = { type: 'text', isAnswerable: false };
+      const grain = store.createRecord('grain', { title: 'Grain title', components: [{ type: 'element', element }] });
+
+      const module = store.createRecord('module', { title: 'Module title', grains: [grain], transitionTexts: [] });
+      const passage = store.createRecord('passage');
+
+      // when
+      const screen = await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
+
+      // then
+      assert.dom(screen.getByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.terminate') })).exists();
+    });
+
+    module('when there is an answerable element', function () {
+      module('and it is not answered', function () {
+        test('should display the terminate button', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const qcuElement = {
+            instruction: 'instruction',
+            proposals: ['radio1', 'radio2'],
+            type: 'qcu',
+          };
+          const grain = store.createRecord('grain', {
+            title: 'Grain title',
+            components: [{ type: 'element', element: qcuElement }],
+          });
+
+          const module = store.createRecord('module', { title: 'Module title', grains: [grain], transitionTexts: [] });
+          const passage = store.createRecord('passage');
+
+          // when
+          const screen = await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
+
+          // then
+          assert
+            .dom(screen.getByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.terminate') }))
+            .exists();
+        });
+      });
+
+      module('and it answered', function () {
+        test('should display the terminate button', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const qcuElement = {
+            instruction: 'instruction',
+            proposals: ['radio1', 'radio2'],
+            type: 'qcu',
+          };
+          const grain = store.createRecord('grain', {
+            title: 'Grain title',
+            components: [{ type: 'element', element: qcuElement }],
+          });
+
+          const module = store.createRecord('module', { title: 'Module title', grains: [grain], transitionTexts: [] });
+          const passage = store.createRecord('passage');
+
+          // when
+          const screen = await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
+
+          // then
+          assert
+            .dom(screen.getByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.terminate') }))
+            .exists();
+        });
+      });
+    });
+  });
 });
