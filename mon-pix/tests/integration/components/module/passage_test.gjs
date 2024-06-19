@@ -501,5 +501,60 @@ module('Integration | Component | Module | Passage', function (hooks) {
         });
       });
     });
+
+    module('when there is a stepper', function () {
+      module('when it is not finished', function () {
+        test('should display the terminate button', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const textElement = { type: 'text', isAnswerable: false };
+          const qcuElement = {
+            instruction: 'instruction',
+            proposals: ['radio1', 'radio2'],
+            type: 'qcu',
+          };
+          const grain = store.createRecord('grain', {
+            title: 'Grain title',
+            components: [{ type: 'stepper', steps: [{ elements: [textElement] }, { elements: [qcuElement] }] }],
+          });
+
+          const module = store.createRecord('module', { title: 'Module title', grains: [grain], transitionTexts: [] });
+          const passage = store.createRecord('passage');
+
+          // when
+          const screen = await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
+
+          // then
+          assert
+            .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.terminate') }))
+            .exists();
+        });
+      });
+
+      module('when it is finished', function () {
+        test('should display the terminate button', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const text1Element = { type: 'text', isAnswerable: false };
+          const text2Element = { type: 'text', isAnswerable: false };
+          const grain = store.createRecord('grain', {
+            title: 'Grain title',
+            components: [{ type: 'stepper', steps: [{ elements: [text1Element] }, { elements: [text2Element] }] }],
+          });
+
+          const module = store.createRecord('module', { title: 'Module title', grains: [grain], transitionTexts: [] });
+          const passage = store.createRecord('passage');
+
+          // when
+          const screen = await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
+          await clickByName(this.intl.t('pages.modulix.buttons.stepper.next'));
+
+          // then
+          assert
+            .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.terminate') }))
+            .exists();
+        });
+      });
+    });
   });
 });
