@@ -35,10 +35,10 @@ export default class ModuleGrain extends Component {
   }
 
   get shouldDisplayContinueButton() {
-    if (!this.hasStepper) {
-      return this.args.canMoveToNextGrain && this.allElementsAreAnswered;
+    if (this.hasStepper) {
+      return this.args.canMoveToNextGrain && this.isStepperFinished && this.allElementsAreAnswered;
     } else {
-      return this.args.canMoveToNextGrain && this.isStepperFinished;
+      return this.args.canMoveToNextGrain && this.allElementsAreAnswered;
     }
   }
 
@@ -46,17 +46,20 @@ export default class ModuleGrain extends Component {
     if (this.hasStepper && !this.isStepperFinished) {
       return this.args.canMoveToNextGrain;
     } else {
-      return this.args.canMoveToNextGrain && !this.isStepperFinished;
+      return this.args.canMoveToNextGrain && this.hasAnswerableElements && !this.allElementsAreAnswered;
     }
   }
 
   static getSupportedElements(grain) {
     return grain.components
-      .map((component) => {
-        if (component.type === 'element') {
-          return component.element;
-        } else {
-          return undefined;
+      .flatMap((component) => {
+        switch (component.type) {
+          case 'element':
+            return component.element;
+          case 'stepper':
+            return component.steps.flatMap(({ elements }) => elements);
+          default:
+            return undefined;
         }
       })
       .filter((element) => {
