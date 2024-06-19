@@ -2,10 +2,10 @@ import {
   CampaignCodeError,
   OrganizationLearnerDisabledError,
   UserNotAuthorizedToAccessEntityError,
-} from '../../../../lib/domain/errors.js';
-import { OrganizationLearner } from '../../../../lib/domain/models/OrganizationLearner.js';
-import { findAssociationBetweenUserAndOrganizationLearner } from '../../../../lib/domain/usecases/find-association-between-user-and-organization-learner.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
+} from '../../../../../../lib/domain/errors.js';
+import { OrganizationLearner } from '../../../../../../lib/domain/models/OrganizationLearner.js';
+import { findAssociationBetweenUserAndOrganizationLearner } from '../../../../../../src/prescription/organization-learner/domain/usecases/find-association-between-user-and-organization-learner.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | find-association-between-user-and-organization-learner', function () {
   let organizationLearnerReceivedStub;
@@ -15,7 +15,7 @@ describe('Unit | UseCase | find-association-between-user-and-organization-learne
   let userId;
   let campaign;
   let campaignRepository;
-  let organizationLearnerRepository;
+  let registrationOrganizationLearnerRepository;
 
   beforeEach(function () {
     userId = domainBuilder.buildUser().id;
@@ -24,9 +24,9 @@ describe('Unit | UseCase | find-association-between-user-and-organization-learne
     organizationLearner = domainBuilder.buildOrganizationLearner({ organization, userId });
     campaignRepository = { getByCode: sinon.stub() };
     getCampaignStub = campaignRepository.getByCode.throws('unexpected call');
-    organizationLearnerRepository = { findOneByUserIdAndOrganizationId: sinon.stub() };
+    registrationOrganizationLearnerRepository = { findOneByUserIdAndOrganizationId: sinon.stub() };
     organizationLearnerReceivedStub =
-      organizationLearnerRepository.findOneByUserIdAndOrganizationId.throws('unexpected call');
+      registrationOrganizationLearnerRepository.findOneByUserIdAndOrganizationId.throws('unexpected call');
   });
 
   describe('There is an organizationLearner linked to the given userId', function () {
@@ -41,7 +41,7 @@ describe('Unit | UseCase | find-association-between-user-and-organization-learne
         requestedUserId: userId,
         campaignCode: campaign.code,
         campaignRepository,
-        organizationLearnerRepository,
+        registrationOrganizationLearnerRepository,
       });
 
       // then
@@ -61,7 +61,7 @@ describe('Unit | UseCase | find-association-between-user-and-organization-learne
         requestedUserId: userId,
         campaignCode: campaign.code,
         campaignRepository,
-        organizationLearnerRepository,
+        registrationOrganizationLearnerRepository,
       });
 
       // then
@@ -82,7 +82,7 @@ describe('Unit | UseCase | find-association-between-user-and-organization-learne
         requestedUserId: userId,
         campaignCode: campaign.code,
         campaignRepository,
-        organizationLearnerRepository,
+        registrationOrganizationLearnerRepository,
       });
 
       // then
@@ -103,7 +103,7 @@ describe('Unit | UseCase | find-association-between-user-and-organization-learne
         requestedUserId: userId,
         campaignCode: campaign.code,
         campaignRepository,
-        organizationLearnerRepository,
+        registrationOrganizationLearnerRepository,
       });
 
       // then
@@ -130,7 +130,7 @@ describe('Unit | UseCase | find-association-between-user-and-organization-learne
         requestedUserId: userId,
         campaignCode: campaign.code,
         campaignRepository,
-        organizationLearnerRepository,
+        registrationOrganizationLearnerRepository,
       });
 
       // then
@@ -150,7 +150,7 @@ describe('Unit | UseCase | find-association-between-user-and-organization-learne
         requestedUserId: userId,
         campaignCode: campaign.code,
         campaignRepository,
-        organizationLearnerRepository,
+        registrationOrganizationLearnerRepository,
       });
 
       // then
@@ -169,7 +169,7 @@ describe('Unit | UseCase | find-association-between-user-and-organization-learne
         requestedUserId: userId,
         campaignCode: campaign.code,
         campaignRepository,
-        organizationLearnerRepository,
+        registrationOrganizationLearnerRepository,
       });
 
       // then

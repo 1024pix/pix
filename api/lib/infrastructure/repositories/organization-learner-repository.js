@@ -239,19 +239,6 @@ function _queryBuilderDissociation(knexConn) {
   });
 }
 
-const findOneByUserIdAndOrganizationId = async function ({
-  userId,
-  organizationId,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
-  const organizationLearner = await knex('view-active-organization-learners')
-    .transacting(domainTransaction)
-    .where({ userId, organizationId })
-    .first('*');
-  if (!organizationLearner) return null;
-  return new OrganizationLearner(organizationLearner);
-};
-
 const get = async function (organizationLearnerId) {
   const organizationLearner = await knex
     .select('*')
@@ -430,7 +417,6 @@ export {
   findByOrganizationIdAndUpdatedAtOrderByDivision,
   findByOrganizationsWhichNeedToComputeCertificability,
   findByUserId,
-  findOneByUserIdAndOrganizationId,
   get,
   getLatestOrganizationLearner,
   getOrganizationLearnerForAdmin,

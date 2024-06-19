@@ -2,14 +2,14 @@ import {
   CampaignCodeError,
   OrganizationLearnerDisabledError,
   UserNotAuthorizedToAccessEntityError,
-} from '../errors.js';
+} from '../../../../../lib/domain/errors.js';
 
 const findAssociationBetweenUserAndOrganizationLearner = async function ({
   authenticatedUserId,
   requestedUserId,
   campaignCode,
   campaignRepository,
-  organizationLearnerRepository,
+  registrationOrganizationLearnerRepository,
 }) {
   if (authenticatedUserId !== requestedUserId) {
     throw new UserNotAuthorizedToAccessEntityError();
@@ -20,7 +20,7 @@ const findAssociationBetweenUserAndOrganizationLearner = async function ({
     throw new CampaignCodeError();
   }
 
-  const organizationLearner = await organizationLearnerRepository.findOneByUserIdAndOrganizationId({
+  const organizationLearner = await registrationOrganizationLearnerRepository.findOneByUserIdAndOrganizationId({
     userId: authenticatedUserId,
     organizationId: campaign.organizationId,
   });

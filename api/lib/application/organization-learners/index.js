@@ -37,22 +37,7 @@ const register = async function (server) {
     },
   ];
 
-  server.route([
-    ...adminRoutes,
-    {
-      method: 'GET',
-      path: '/api/organization-learners',
-      config: {
-        handler: organizationLearnerController.findAssociation,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            '- Récupération du prescrit\n' +
-            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
-        ],
-        tags: ['api', 'organization-learners'],
-      },
-    },
-  ]);
+  server.route([...adminRoutes]);
 };
 
 const name = 'organization-learners-api';
