@@ -14,6 +14,7 @@ describe('Integration | Controller | mission-learner-controller', function () {
         organizationId,
         division: 'CP',
         status: 'not-started',
+        result: undefined,
       });
       const pagination = {
         page: 1,
@@ -42,6 +43,7 @@ describe('Integration | Controller | mission-learner-controller', function () {
             division: missionLearner.division,
             'organization-id': missionLearner.organizationId,
             status: missionLearner.status,
+            result: undefined,
           },
           id: missionLearner.id.toString(),
           type: 'mission-learners',

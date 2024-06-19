@@ -823,7 +823,15 @@
               "division": "Classe",
               "first-name": "Prénom",
               "last-name": "Nom",
+              "result": "Positionnement",
               "status": "Statut de la mission"
+            },
+            "mission-result": {
+              "exceeded": "Dépassé",
+              "not-reached": "Non atteint",
+              "partially-reached": "Partiellement atteint",
+              "reached": "Atteint",
+              "undefined": "-"
             },
             "mission-status": {
               "completed": "Terminée",
