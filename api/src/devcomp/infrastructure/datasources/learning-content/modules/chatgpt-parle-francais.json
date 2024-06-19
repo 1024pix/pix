@@ -230,7 +230,7 @@
               "valid": "<p>Correct !</p>",
               "invalid": "<p>Incorrect !</p>"
             },
-            "solutions": "4"
+            "solution": "4"
           }
         }
       ]
