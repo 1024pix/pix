@@ -466,7 +466,12 @@ module('Integration | Component | Module | Stepper', function (hooks) {
             ],
           },
         ];
-        const screen = await render(<template><ModulixStepper @steps={{steps}} /></template>);
+
+        function stepperIsFinished() {}
+
+        const screen = await render(
+          <template><ModulixStepper @steps={{steps}} @stepperIsFinished={{stepperIsFinished}} /></template>,
+        );
 
         // when
         await clickByName(this.intl.t('pages.modulix.buttons.stepper.next'));
@@ -497,7 +502,12 @@ module('Integration | Component | Module | Stepper', function (hooks) {
             ],
           },
         ];
-        const screen = await render(<template><ModulixStepper @steps={{steps}} /></template>);
+
+        function stepperIsFinished() {}
+
+        const screen = await render(
+          <template><ModulixStepper @steps={{steps}} @stepperIsFinished={{stepperIsFinished}} /></template>,
+        );
 
         // when
         await clickByName(this.intl.t('pages.modulix.buttons.stepper.next'));

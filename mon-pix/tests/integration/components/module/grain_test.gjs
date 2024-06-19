@@ -718,13 +718,230 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
         // when
         await render(hbs`
-          <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @retryElement={{this.retryElement}} />`);
+          <Module::Grain @grain={{this.grain}} @passage={{this.passage}}  @retryElement={{this.retryElement}} />`);
 
         // then
         await clickByName('radio1');
         await clickByName(this.intl.t('pages.modulix.buttons.activity.retry'));
         sinon.assert.calledOnce(retryElementStub);
         assert.ok(true);
+      });
+    });
+
+    module.only('when there are only unanswerable elements in stepper', function () {
+      module('when there are still steps to display', function () {
+        test('should display skip button', async function (assert) {
+          // given
+          const steps = [
+            {
+              elements: [
+                {
+                  id: 'd0690f26-978c-41c3-9a21-da931857739c',
+                  type: 'text',
+                  content: '<p>Text 1</p>',
+                  isAnswerable: false,
+                },
+              ],
+            },
+            {
+              elements: [
+                {
+                  id: '768441a5-a7d6-4987-ada9-7253adafd842',
+                  type: 'text',
+                  content: '<p>Text 2</p>',
+                  isAnswerable: false,
+                },
+              ],
+            },
+          ];
+
+          const store = this.owner.lookup('service:store');
+          const grain = store.createRecord('grain', {
+            title: 'Grain title',
+            components: [
+              {
+                type: 'stepper',
+                steps,
+              },
+            ],
+          });
+
+          const passage = store.createRecord('passage');
+          const retryElementStub = sinon.stub();
+
+          this.set('grain', grain);
+          this.set('passage', passage);
+          this.set('retryElement', retryElementStub);
+
+          // when
+          const screen = await render(hbs`
+          <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @retryElement={{this.retryElement}}  />`);
+
+          // then
+          assert.dom(screen.getByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.skip') })).exists();
+        });
+        test('should not display continue button', async function (assert) {
+          // given
+          const steps = [
+            {
+              elements: [
+                {
+                  id: 'd0690f26-978c-41c3-9a21-da931857739c',
+                  type: 'text',
+                  content: '<p>Text 1</p>',
+                  isAnswerable: false,
+                },
+              ],
+            },
+            {
+              elements: [
+                {
+                  id: '768441a5-a7d6-4987-ada9-7253adafd842',
+                  type: 'text',
+                  content: '<p>Text 2</p>',
+                  isAnswerable: false,
+                },
+              ],
+            },
+          ];
+
+          const store = this.owner.lookup('service:store');
+          const grain = store.createRecord('grain', {
+            title: 'Grain title',
+            components: [
+              {
+                type: 'stepper',
+                steps,
+              },
+            ],
+          });
+
+          const passage = store.createRecord('passage');
+          const retryElementStub = sinon.stub();
+
+          this.set('grain', grain);
+          this.set('passage', passage);
+          this.set('retryElement', retryElementStub);
+
+          // when
+          const screen = await render(hbs`
+          <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @retryElement={{this.retryElement}}  />`);
+
+          // then
+          assert
+            .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.continue') }))
+            .doesNotExist();
+        });
+      });
+
+      module('when there is no more steps to display', function () {
+        test('should display continue button', async function (assert) {
+          // given
+          const steps = [
+            {
+              elements: [
+                {
+                  id: 'd0690f26-978c-41c3-9a21-da931857739c',
+                  type: 'text',
+                  content: '<p>Text 1</p>',
+                  isAnswerable: false,
+                },
+              ],
+            },
+            {
+              elements: [
+                {
+                  id: '768441a5-a7d6-4987-ada9-7253adafd842',
+                  type: 'text',
+                  content: '<p>Text 2</p>',
+                  isAnswerable: false,
+                },
+              ],
+            },
+          ];
+
+          const store = this.owner.lookup('service:store');
+          const grain = store.createRecord('grain', {
+            title: 'Grain title',
+            components: [
+              {
+                type: 'stepper',
+                steps,
+              },
+            ],
+          });
+
+          const passage = store.createRecord('passage');
+          const retryElementStub = sinon.stub();
+
+          this.set('grain', grain);
+          this.set('passage', passage);
+          this.set('retryElement', retryElementStub);
+
+          // when
+          const screen = await render(hbs`
+          <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @retryElement={{this.retryElement}}  />`);
+          await clickByName(this.intl.t('pages.modulix.buttons.stepper.next'));
+
+          // then
+          assert
+            .dom(screen.getByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.continue') }))
+            .exists();
+        });
+
+        test('should not display skip button', async function (assert) {
+          // given
+          const steps = [
+            {
+              elements: [
+                {
+                  id: 'd0690f26-978c-41c3-9a21-da931857739c',
+                  type: 'text',
+                  content: '<p>Text 1</p>',
+                  isAnswerable: false,
+                },
+              ],
+            },
+            {
+              elements: [
+                {
+                  id: '768441a5-a7d6-4987-ada9-7253adafd842',
+                  type: 'text',
+                  content: '<p>Text 2</p>',
+                  isAnswerable: false,
+                },
+              ],
+            },
+          ];
+
+          const store = this.owner.lookup('service:store');
+          const grain = store.createRecord('grain', {
+            title: 'Grain title',
+            components: [
+              {
+                type: 'stepper',
+                steps,
+              },
+            ],
+          });
+
+          const passage = store.createRecord('passage');
+          const retryElementStub = sinon.stub();
+
+          this.set('grain', grain);
+          this.set('passage', passage);
+          this.set('retryElement', retryElementStub);
+
+          // when
+          const screen = await render(hbs`
+          <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @retryElement={{this.retryElement}}  />`);
+          await clickByName(this.intl.t('pages.modulix.buttons.stepper.next'));
+
+          // then
+          assert
+            .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.skip') }))
+            .doesNotExist();
+        });
       });
     });
   });

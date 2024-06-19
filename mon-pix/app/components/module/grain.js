@@ -1,5 +1,6 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 
 import ModulePassage from './passage';
 
@@ -8,6 +9,12 @@ export default class ModuleGrain extends Component {
 
   static AVAILABLE_ELEMENT_TYPES = ['text', 'image', 'video', 'qcu', 'qcm', 'qrocm'];
   static AVAILABLE_GRAIN_TYPES = ['lesson', 'activity'];
+
+  @tracked isStepperFinished = this.hasStepper === false;
+
+  get hasStepper() {
+    return this.args.grain.components.some((component) => component.type === 'stepper');
+  }
 
   get grainType() {
     if (ModuleGrain.AVAILABLE_GRAIN_TYPES.includes(this.args.grain.type)) {
@@ -22,12 +29,25 @@ export default class ModuleGrain extends Component {
     return this.args.passage.getLastCorrectionForElement(element);
   }
 
+  @action
+  stepperIsFinished() {
+    this.isStepperFinished = true;
+  }
+
   get shouldDisplayContinueButton() {
-    return this.args.canMoveToNextGrain && this.allElementsAreAnswered;
+    if (!this.hasStepper) {
+      return this.args.canMoveToNextGrain && this.allElementsAreAnswered;
+    } else {
+      return this.args.canMoveToNextGrain && this.isStepperFinished;
+    }
   }
 
   get shouldDisplaySkipButton() {
-    return this.args.canMoveToNextGrain && this.hasAnswerableElements && !this.allElementsAreAnswered;
+    if (this.hasStepper && !this.isStepperFinished) {
+      return this.args.canMoveToNextGrain;
+    } else {
+      return this.args.canMoveToNextGrain && !this.isStepperFinished;
+    }
   }
 
   static getSupportedElements(grain) {

@@ -23,6 +23,10 @@ export default class ModulixStepper extends Component {
   displayNextStep() {
     const nextStep = this.displayableSteps[this.lastIndex + 1];
     this.stepsToDisplay = [...this.stepsToDisplay, nextStep];
+
+    if (!this.hasNextStep) {
+      this.args.stepperIsFinished();
+    }
   }
 
   get lastIndex() {
