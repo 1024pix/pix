@@ -55,6 +55,7 @@ const findPaginatedCampaignManagements = async function ({ organizationId, page 
       idPixLabel: 'campaigns.idPixLabel',
       createdAt: 'campaigns.createdAt',
       archivedAt: 'campaigns.archivedAt',
+      deletedAt: 'campaigns.deletedAt',
       type: 'campaigns.type',
       creatorLastName: 'creatorUser.lastName',
       creatorFirstName: 'creatorUser.firstName',

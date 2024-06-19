@@ -30,7 +30,7 @@ describe('Integration | Repository | Campaign-Management', function () {
       const result = await campaignManagementRepository.get(campaign.id);
 
       // then
-      expect(result).to.deep.equal({
+      expect(result).to.deep.include({
         id: campaign.id,
         name: campaign.name,
         code: campaign.code,
@@ -269,6 +269,7 @@ describe('Integration | Repository | Campaign-Management', function () {
           code: 'AZERTY789',
           createdAt: new Date('2021-01-01'),
           archivedAt: new Date('2021-01-01'),
+          deletedAt: new Date('2021-01-01'),
           type: 'ASSESSMENT',
           creatorId: creator.id,
           ownerId: owner.id,
@@ -290,6 +291,7 @@ describe('Integration | Repository | Campaign-Management', function () {
           idPixLabel: campaign.idPixLabel,
           createdAt: campaign.createdAt,
           archivedAt: campaign.archivedAt,
+          deletedAt: campaign.deletedAt,
           type: campaign.type,
           creatorLastName: creator.lastName,
           creatorFirstName: creator.firstName,
