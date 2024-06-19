@@ -10,6 +10,7 @@ const serialize = function (campaignManagement, meta) {
       'type',
       'createdAt',
       'archivedAt',
+      'deletedAt',
       'creatorId',
       'creatorLastName',
       'creatorFirstName',
