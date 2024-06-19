@@ -198,7 +198,7 @@ Valeur concernée à rechercher : "b7ea7630-824"
                   ],
                   errorCount: 1,
                   warningCount: 0,
-                  source: "<p>Incorrect. Remonter la page pour relire la leçon <span aria-hidden='true'>⬆</span>️</p>",
+                  source: "<p>Incorrect. Remonter la page pour relire la leçon <span aria-hidden='true'>⬆</span></p>",
                 },
               ],
               errorCount: 1,
@@ -265,7 +265,7 @@ Error(attr-quotes): Attribute "aria-hidden" used ' instead of expected "
 https://html-validate.org/rules/attr-quotes.html
 
 Valeur concernée à rechercher :
-<p>Incorrect. Remonter la page pour relire la leçon <span aria-hidden='true'>⬆</span>️</p>
+<p>Incorrect. Remonter la page pour relire la leçon <span aria-hidden='true'>⬆</span></p>
 
 ============================================================
 `;

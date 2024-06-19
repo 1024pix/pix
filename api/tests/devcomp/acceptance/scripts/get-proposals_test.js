@@ -38,12 +38,12 @@ describe('Acceptance | Script | Get Proposals as CSV', function () {
         },
         {
           content:
-            '<p>Vous l\'avez peut-être remarqué&nbsp;: dans un module, vous pouvez voir tous les contenus en remontant la page&nbsp;<span aria-hidden="true">👆</span>️</p>',
+            '<p>Vous l\'avez peut-être remarqué&nbsp;: dans un module, vous pouvez voir tous les contenus en remontant la page&nbsp;<span aria-hidden="true">👆</span></p>',
           grainId: '2a77a10f-19a3-4544-80f9-8012dad6506a',
         },
         {
           content:
-            '<p>Vous arrivez à la fin de ce didacticiel. Une dernière activité et vous serez prêt à explorer tous les modules que vous souhaitez&#8239;!<span aria-hidden="true">🌟</span>️ </p>',
+            '<p>Vous arrivez à la fin de ce didacticiel. Une dernière activité et vous serez prêt à explorer tous les modules que vous souhaitez&#8239;!<span aria-hidden="true">🌟</span> </p>',
           grainId: '7cf75e70-8749-4392-8081-f2c02badb0fb',
         },
       ],
@@ -98,7 +98,7 @@ describe('Acceptance | Script | Get Proposals as CSV', function () {
                 id: 'a2372bf4-86a4-4ecc-a188-b51f4f98bca2',
                 type: 'text',
                 content:
-                  '<p>Voici un texte de leçon. Parfois, il y a des émojis pour aider à la lecture&nbsp;<span aria-hidden="true">📚</span>️.<br>Et là, voici une image&#8239;!</p>',
+                  '<p>Voici un texte de leçon. Parfois, il y a des émojis pour aider à la lecture&nbsp;<span aria-hidden="true">📚</span>.<br>Et là, voici une image&#8239;!</p>',
               },
             },
             {
@@ -164,7 +164,7 @@ describe('Acceptance | Script | Get Proposals as CSV', function () {
                 feedbacks: {
                   valid: '<p>Correct&#8239;! Ces 16 compétences sont rangées dans 5 domaines.</p>',
                   invalid:
-                    '<p>Incorrect. Retourner voir la vidéo si besoin&nbsp;<span aria-hidden="true">👆</span>️!</p>',
+                    '<p>Incorrect. Retourner voir la vidéo si besoin&nbsp;<span aria-hidden="true">👆</span>!</p>',
                 },
                 solution: '1',
               },

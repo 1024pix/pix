@@ -15,23 +15,23 @@
   },
   "transitionTexts": [
     {
-      "content": "<p>En naviguant sur internet, il arrive qu'un site sache où vous vous trouvez alors que vous ne lui avez pas partagé votre localisation.<span aria-hidden=\"true\">📍</span>️<br>Mystère&#8239;? Pas vraiment. On vous explique tout dans ce module.</p>",
+      "content": "<p>En naviguant sur internet, il arrive qu'un site sache où vous vous trouvez alors que vous ne lui avez pas partagé votre localisation.<span aria-hidden=\"true\">📍</span><br>Mystère&#8239;? Pas vraiment. On vous explique tout dans ce module.</p>",
       "grainId": "1d516eb9-e7b7-48a3-a3b5-7971ad171d6f"
     },
     {
-      "content": "<p>Dans la vidéo suivante, vous allez découvrir ce qu'est une adresse IP publique et à quoi elle sert.&nbsp;<span aria-hidden=\"true\">📺</span>️</p>",
+      "content": "<p>Dans la vidéo suivante, vous allez découvrir ce qu'est une adresse IP publique et à quoi elle sert.&nbsp;<span aria-hidden=\"true\">📺</span></p>",
       "grainId": "4f4ada91-e239-4991-9fc8-ab491aabc424"
     },
     {
-      "content": "<p>Vous en savez désormais plus sur les adresses IP publiques.&nbsp;<span aria-hidden=\"true\">👩‍💻</span>️<span aria-hidden=\"true\">👨🏿‍💻</span>️ Vérifions ensemble. </p>",
+      "content": "<p>Vous en savez désormais plus sur les adresses IP publiques.&nbsp;<span aria-hidden=\"true\">👩‍💻</span><span aria-hidden=\"true\">👨🏿‍💻</span> Vérifions ensemble. </p>",
       "grainId": "eba0b676-c0c4-4b32-b5e4-dd94d13766a5"
     },
     {
-      "content": "<p>Lorsque vous êtes en ligne, votre adresse IP publique est partagée et utilisée. Mais savez-vous quelles informations cette adresse donne sur vous&#8239;?&nbsp;<span aria-hidden=\"true\">👁️‍🗨️</span>️</p>",
+      "content": "<p>Lorsque vous êtes en ligne, votre adresse IP publique est partagée et utilisée. Mais savez-vous quelles informations cette adresse donne sur vous&#8239;?&nbsp;<span aria-hidden=\"true\">👁️‍🗨️</span></p>",
       "grainId": "96cdedc1-2d31-40c2-ac02-d3fd83f26e30"
     },
     {
-      "content": "<p>On l'a vu, on peut déterminer une zone géographique à partir d'une adresse IP publique. Place à la pratique.&nbsp;<span aria-hidden=\"true\">🌍</span>️</p>",
+      "content": "<p>On l'a vu, on peut déterminer une zone géographique à partir d'une adresse IP publique. Place à la pratique.&nbsp;<span aria-hidden=\"true\">🌍</span></p>",
       "grainId": "09304128-193f-4ea8-bda7-edffd72b1bf2"
     },
     {
@@ -54,7 +54,7 @@
           "element": {
             "id": "67b68f2a-349d-4df7-90a5-c9f5dc930a1a",
             "type": "text",
-            "content": "<p> Voici la page de résultats d'une recherche en ligne sur des recettes végétariennes.<span aria-hidden=\"true\">🥗</span>️<br>Le moteur de recherche indique que l'utilisateur se trouve actuellement vers Toulouse.</p>"
+            "content": "<p> Voici la page de résultats d'une recherche en ligne sur des recettes végétariennes.<span aria-hidden=\"true\">🥗</span><br>Le moteur de recherche indique que l'utilisateur se trouve actuellement vers Toulouse.</p>"
           }
         },
         {
@@ -149,7 +149,7 @@
             ],
             "feedbacks": {
               "valid": "<span class=\"feedback__state\">Correct</span>.<p>L'adresse IP publique est l’équivalent d’une adresse postale pour identifier où est une personne.</p>",
-              "invalid": "<span class=\"feedback__state\">Incorrect</span>.<p>Vous pensez peut-être plutôt à l'adresse <strong>web</strong> ou l'adresse <strong>mail</strong>.<br>Vous pouvez remonter voir la vidéo.<span aria-hidden=\"true\">👆</span>️</p>"
+              "invalid": "<span class=\"feedback__state\">Incorrect</span>.<p>Vous pensez peut-être plutôt à l'adresse <strong>web</strong> ou l'adresse <strong>mail</strong>.<br>Vous pouvez remonter voir la vidéo.<span aria-hidden=\"true\">👆</span></p>"
             },
             "solution": "1"
           }
@@ -305,7 +305,7 @@
           "element": {
             "id": "27fc867a-7258-4f85-b8cc-bdd1ab2d26a5",
             "type": "text",
-            "content": "<h3>Ce qu'il faut retenir&nbsp;<span aria-hidden=\"true\">🎓</span>️</h3><ul><li>L’adresse IP publique donne une information sur la zone géographique de la connexion.</li><li>Votre adresse IP publique est celle de votre box internet.</li><li>Les personnes connectées à la même box internet ont la même adresse IP publique.</li><li>À partir d'une adresse IP publique, on peut seulement identifier un pays, voire une ville de connexion.</li></ul>"
+            "content": "<h3>Ce qu'il faut retenir&nbsp;<span aria-hidden=\"true\">🎓</span></h3><ul><li>L’adresse IP publique donne une information sur la zone géographique de la connexion.</li><li>Votre adresse IP publique est celle de votre box internet.</li><li>Les personnes connectées à la même box internet ont la même adresse IP publique.</li><li>À partir d'une adresse IP publique, on peut seulement identifier un pays, voire une ville de connexion.</li></ul>"
           }
         }
       ]
@@ -335,12 +335,8 @@
                 "placeholder": "",
                 "ariaLabel": "Nom du pays :",
                 "defaultValue": "",
-                "tolerances": [
-                  "t1"
-                ],
-                "solutions": [
-                  "France"
-                ]
+                "tolerances": ["t1"],
+                "solutions": ["France"]
               }
             ],
             "feedbacks": {
@@ -510,7 +506,7 @@
           "element": {
             "id": "eed9177c-4bc9-401c-928f-13585df010f7",
             "type": "qcu",
-            "instruction": "<p>Pour finir ce module, cherchez votre adresse IP publique actuelle.<span aria-hidden=\"true\">🕵️‍♂️</span>️<span aria-hidden=\"true\">🕵🏽‍♀️</span>️</p><p>Pensez-vous avoir réussi à la trouver&#8239;?</p>",
+            "instruction": "<p>Pour finir ce module, cherchez votre adresse IP publique actuelle.<span aria-hidden=\"true\">🕵️‍♂️</span><span aria-hidden=\"true\">🕵🏽‍♀️</span></p><p>Pensez-vous avoir réussi à la trouver&#8239;?</p>",
             "proposals": [
               {
                 "id": "1",

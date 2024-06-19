@@ -15,15 +15,15 @@
   },
   "transitionTexts": [
     {
-      "content": "<p>Commençons par un jeu.&nbsp;<span aria-hidden=\"true\">🎮</span>️<br>Sans chercher sur internet, essayez de deviner si chaque information proposée dans ces articles de journaux est plutôt vraie ou plutôt fausse. Bonne chance&#8239;!</p>",
+      "content": "<p>Commençons par un jeu.&nbsp;<span aria-hidden=\"true\">🎮</span><br>Sans chercher sur internet, essayez de deviner si chaque information proposée dans ces articles de journaux est plutôt vraie ou plutôt fausse. Bonne chance&#8239;!</p>",
       "grainId": "f242e81e-b182-44a1-a668-557f26b5ff8b"
     },
     {
-      "content": "<p>Vous l'avez remarqué, en lisant seulement le titre d’un article, c’est presque impossible de savoir si une information est vraie ou fausse.&nbsp;<span aria-hidden=\"true\">🤔</span>️<br>Parfois, ce ne sont même pas des informations mais par exemple des opinions.&nbsp;<span aria-hidden=\"true\">📚</span>️ Vous allez découvrir la différence dans la vidéo suivante.</p>",
+      "content": "<p>Vous l'avez remarqué, en lisant seulement le titre d’un article, c’est presque impossible de savoir si une information est vraie ou fausse.&nbsp;<span aria-hidden=\"true\">🤔</span><br>Parfois, ce ne sont même pas des informations mais par exemple des opinions.&nbsp;<span aria-hidden=\"true\">📚</span> Vous allez découvrir la différence dans la vidéo suivante.</p>",
       "grainId": "eb83569f-2e37-49ed-aa6f-31c420b673b9"
     },
     {
-      "content": "<p>Vous savez maintenant mieux repérer une information. Mais une information peut être fausse ...<br>Voyons ensemble des questions à se poser pour vérifier une information.&nbsp;<span aria-hidden=\"true\">🗒️</span>️</p>",
+      "content": "<p>Vous savez maintenant mieux repérer une information. Mais une information peut être fausse ...<br>Voyons ensemble des questions à se poser pour vérifier une information.&nbsp;<span aria-hidden=\"true\">🗒️</span></p>",
       "grainId": "ed22ab38-ec6d-47df-88ea-4894f1cd6c8a"
     },
     {
@@ -39,7 +39,7 @@
       "grainId": "428ea826-6e21-4c56-a5a2-f97373f1e833"
     },
     {
-      "content": "<p>Maintenant, à vous d’étudier une nouvelle situation.&nbsp;<span aria-hidden=\"true\">🕵️</span>️<span aria-hidden=\"true\">🕵🏿‍♀️</span>️</p>",
+      "content": "<p>Maintenant, à vous d’étudier une nouvelle situation.&nbsp;<span aria-hidden=\"true\">🕵️</span><span aria-hidden=\"true\">🕵🏿‍♀️</span></p>",
       "grainId": "9f56f75e-3e2d-4a6e-8623-9b74747b236d"
     }
   ],
@@ -314,7 +314,7 @@
           "element": {
             "id": "332d9e96-d12e-4809-9d25-173a57ed93be",
             "type": "text",
-            "content": "<h3>Question n°1&nbsp;: qui est l’auteur de cette information&#8239;?&nbsp;<span aria-hidden=\"true\">🖋️</span>️</h3><p>En vous posant cette question, vous pourrez mieux évaluer l’information.<br>Par exemple, si vous connaissez ou non l’auteur, si l’auteur est reconnu ou encore si l’auteur a un intérêt particulier à ce que cette information circule.</p>"
+            "content": "<h3>Question n°1&nbsp;: qui est l’auteur de cette information&#8239;?&nbsp;<span aria-hidden=\"true\">🖋️</span></h3><p>En vous posant cette question, vous pourrez mieux évaluer l’information.<br>Par exemple, si vous connaissez ou non l’auteur, si l’auteur est reconnu ou encore si l’auteur a un intérêt particulier à ce que cette information circule.</p>"
           }
         },
         {
@@ -330,7 +330,7 @@
           "element": {
             "id": "8aa4a733-4a92-4007-897d-ab884a7add85",
             "type": "text",
-            "content": "<h3>Question n°2&nbsp;: quelle est la date de l’information&#8239;?&nbsp;<span aria-hidden=\"true\">📅</span>️</h3><p>C’est simple à vérifier et très important&#8239;! Des informations vraies un jour peuvent être fausses le lendemain. <br>Par exemple, une alerte inondation ou une promotion dans un magasin.</p>"
+            "content": "<h3>Question n°2&nbsp;: quelle est la date de l’information&#8239;?&nbsp;<span aria-hidden=\"true\">📅</span></h3><p>C’est simple à vérifier et très important&#8239;! Des informations vraies un jour peuvent être fausses le lendemain. <br>Par exemple, une alerte inondation ou une promotion dans un magasin.</p>"
           }
         },
         {
@@ -346,7 +346,7 @@
           "element": {
             "id": "36577421-d9d0-4f49-ac43-b4e804ba5635",
             "type": "text",
-            "content": "<h3>Question n°3&nbsp;: d’où provient cette information&#8239;?&nbsp;<span aria-hidden=\"true\">ℹ️</span>️</h3><p>C'est-à-dire, son origine, sa source. Cherchez à savoir si c’est une observation, un témoignage, un résultat d’expérience, etc.<br>Regardez également si vous pouvez vérifier cette information par vous-même et si l’auteur a partagé ses sources.</p>"
+            "content": "<h3>Question n°3&nbsp;: d’où provient cette information&#8239;?&nbsp;<span aria-hidden=\"true\">ℹ️</span></h3><p>C'est-à-dire, son origine, sa source. Cherchez à savoir si c’est une observation, un témoignage, un résultat d’expérience, etc.<br>Regardez également si vous pouvez vérifier cette information par vous-même et si l’auteur a partagé ses sources.</p>"
           }
         }
       ]
@@ -386,13 +386,9 @@
             ],
             "feedbacks": {
               "valid": "<span class=\"feedback__state\">Correct.</span><p> Tous ces éléments permettent de vérifier une information. </p>",
-              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Retournez voir la leçon ci-dessus si besoin&nbsp;<span aria-hidden=\"true\">⬆</span>️!</p>"
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Retournez voir la leçon ci-dessus si besoin&nbsp;<span aria-hidden=\"true\">⬆</span>!</p>"
             },
-            "solutions": [
-              "2",
-              "3",
-              "5"
-            ]
+            "solutions": ["2", "3", "5"]
           }
         }
       ]
@@ -582,7 +578,7 @@
           "element": {
             "id": "eb90d3ea-797f-4e4a-9675-e679b9f5bf3c",
             "type": "text",
-            "content": "<p>Stéphane n'arrive pas à faire pousser sa nouvelle plante verte d’intérieur&nbsp;<span aria-hidden=\"true\">🪴</span>️. Il cherche des astuces sur les réseaux sociaux.<br>Il trouve les informations suivantes, publiées le 28 août 2023, par SuperJardinier&nbsp;:</p>"
+            "content": "<p>Stéphane n'arrive pas à faire pousser sa nouvelle plante verte d’intérieur&nbsp;<span aria-hidden=\"true\">🪴</span>. Il cherche des astuces sur les réseaux sociaux.<br>Il trouve les informations suivantes, publiées le 28 août 2023, par SuperJardinier&nbsp;:</p>"
           }
         },
         {
@@ -623,10 +619,7 @@
               "valid": "<span class=\"feedback__state\">Correct.</span><p> Plusieurs indices, comme l'absence de source ou le code promotionnel, poussent à vouloir en savoir plus avant de tester ou de partager ces astuces.</p>",
               "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Plusieurs indices, comme l'absence de source ou le code promotionnel, poussent à vouloir en savoir plus avant de tester ou de partager ces astuces.</p>"
             },
-            "solutions": [
-              "2",
-              "3"
-            ]
+            "solutions": ["2", "3"]
           }
         }
       ]

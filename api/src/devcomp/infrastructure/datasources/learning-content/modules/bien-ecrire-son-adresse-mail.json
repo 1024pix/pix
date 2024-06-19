@@ -15,7 +15,7 @@
   },
   "transitionTexts": [
     {
-      "content": "<p>Naomi a oublié l’adresse mail de son ami Mickaël.&nbsp;<span aria-hidden=\"true\">🤷‍♀</span>️<br> Elle en a besoin pour envoyer un document à son ami. Naomi lui demande donc par SMS de lui redonner son adresse mail. <br> Lancez la vidéo pour voir leur discussion.&nbsp;<span aria-hidden=\"true\">📺</span></p>",
+      "content": "<p>Naomi a oublié l’adresse mail de son ami Mickaël.&nbsp;<span aria-hidden=\"true\">🤷‍♀</span><br> Elle en a besoin pour envoyer un document à son ami. Naomi lui demande donc par SMS de lui redonner son adresse mail. <br> Lancez la vidéo pour voir leur discussion.&nbsp;<span aria-hidden=\"true\">📺</span></p>",
       "grainId": "34d225e8-5d52-4ebd-9acd-8bde8438cfc9"
     },
     {

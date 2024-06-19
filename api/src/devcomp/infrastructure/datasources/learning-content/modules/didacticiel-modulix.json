@@ -7,10 +7,7 @@
     "description": "Découvrez avec ce didacticiel comment fonctionne Modulix !",
     "duration": 5,
     "level": "Débutant",
-    "objectives": [
-      "Naviguer dans Modulix",
-      "Découvrir les leçons et les activités"
-    ]
+    "objectives": ["Naviguer dans Modulix", "Découvrir les leçons et les activités"]
   },
   "transitionTexts": [
     {
@@ -30,11 +27,11 @@
       "grainId": "0be0f5eb-4cb6-47c2-b9d3-cb2ceb4cd21c"
     },
     {
-      "content": "<p>Vous l'avez peut-être remarqué&nbsp;: dans un module, vous pouvez voir tous les contenus en remontant la page&nbsp;<span aria-hidden=\"true\">👆</span>️</p>",
+      "content": "<p>Vous l'avez peut-être remarqué&nbsp;: dans un module, vous pouvez voir tous les contenus en remontant la page&nbsp;<span aria-hidden=\"true\">👆</span></p>",
       "grainId": "2a77a10f-19a3-4544-80f9-8012dad6506a"
     },
     {
-      "content": "<p>Vous arrivez à la fin de ce didacticiel. Une dernière activité et vous serez prêt à explorer tous les modules que vous souhaitez&#8239;!<span aria-hidden=\"true\">🌟</span>️ </p>",
+      "content": "<p>Vous arrivez à la fin de ce didacticiel. Une dernière activité et vous serez prêt à explorer tous les modules que vous souhaitez&#8239;!<span aria-hidden=\"true\">🌟</span> </p>",
       "grainId": "7cf75e70-8749-4392-8081-f2c02badb0fb"
     }
   ],
@@ -48,18 +45,22 @@
           "type": "stepper",
           "steps": [
             {
-              "elements": [{
-                "id": "342183f7-af51-4e4e-ab4c-ebed1e195063",
-                "type": "text",
-                "content": "<p>À la fin de cette vidéo, une question sera posée sur les compétences Pix.</p>"
-              }]
+              "elements": [
+                {
+                  "id": "342183f7-af51-4e4e-ab4c-ebed1e195063",
+                  "type": "text",
+                  "content": "<p>À la fin de cette vidéo, une question sera posée sur les compétences Pix.</p>"
+                }
+              ]
             },
             {
-              "elements": [{
-                "id": "342183f7-af51-4e4e-ab4c-ebed1e195063",
-                "type": "text",
-                "content": "<p>À la fin de cette vidéo, une question sera posée sur les compétences Pix.</p>"
-              }]
+              "elements": [
+                {
+                  "id": "342183f7-af51-4e4e-ab4c-ebed1e195063",
+                  "type": "text",
+                  "content": "<p>À la fin de cette vidéo, une question sera posée sur les compétences Pix.</p>"
+                }
+              ]
             }
           ]
         }
@@ -83,7 +84,7 @@
           "element": {
             "id": "a2372bf4-86a4-4ecc-a188-b51f4f98bca2",
             "type": "text",
-            "content": "<p>Voici un texte de leçon. Parfois, il y a des émojis pour aider à la lecture&nbsp;<span aria-hidden=\"true\">📚</span>️.<br>Et là, voici une image&#8239;!</p>"
+            "content": "<p>Voici un texte de leçon. Parfois, il y a des émojis pour aider à la lecture&nbsp;<span aria-hidden=\"true\">📚</span>.<br>Et là, voici une image&#8239;!</p>"
           }
         },
         {
@@ -147,7 +148,7 @@
             ],
             "feedbacks": {
               "valid": "<span class=\"feedback__state\">Correct&#8239;!</span><p> Ces 16 compétences sont rangées dans 5 domaines.</p>",
-              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Retourner voir la vidéo si besoin&nbsp;<span aria-hidden=\"true\">👆</span>️!</p>"
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Retourner voir la vidéo si besoin&nbsp;<span aria-hidden=\"true\">👆</span>!</p>"
             },
             "solution": "1"
           }
