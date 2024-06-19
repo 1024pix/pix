@@ -2,10 +2,10 @@ import { fileURLToPath } from 'node:url';
 
 import { getCsvContent } from '../../lib/infrastructure/utils/csv/write-csv-utils.js';
 import moduleDatasource from '../../src/devcomp/infrastructure/datasources/learning-content/module-datasource.js';
-import { getElements } from './get-elements-csv.js';
+import { getAnswerableElements } from './get-answerable-elements-csv.js';
 
 export async function getProposalsListAsCsv(modules) {
-  const elements = getElements(modules);
+  const elements = getAnswerableElements(modules);
   const proposals = getProposals(elements);
 
   return await getCsvContent({

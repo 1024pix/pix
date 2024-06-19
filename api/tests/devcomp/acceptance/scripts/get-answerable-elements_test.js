@@ -1,8 +1,10 @@
-import { getAnswerableElements } from '../../../../scripts/modulix/get-answerable-elements-csv.js';
-import { getProposals, getProposalsListAsCsv } from '../../../../scripts/modulix/get-proposals-csv.js';
+import {
+  getAnswerableElements,
+  getAnswerableElementsListAsCsv,
+} from '../../../../scripts/modulix/get-answerable-elements-csv.js';
 import { expect } from '../../../test-helper.js';
 
-describe('Acceptance | Script | Get Proposals as CSV', function () {
+describe('Acceptance | Script | Get Answerable Elements as CSV', function () {
   const modulesListAsJs = [
     {
       id: '6282925d-4775-4bca-b513-4c3009ec5886',
@@ -339,57 +341,44 @@ describe('Acceptance | Script | Get Proposals as CSV', function () {
     },
   ];
 
-  describe('#getProposals', function () {
-    let elementsListAsJs;
-
-    beforeEach(async function () {
-      elementsListAsJs = getAnswerableElements(modulesListAsJs);
-    });
-
+  describe('#getAnswerableElements', function () {
     it('should filter out elements that are not activities', async function () {
       // When
-      const proposalsListAsJs = await getProposals(elementsListAsJs);
+      const elementsListAsJs = await getAnswerableElements(modulesListAsJs);
 
       // Then
-      expect(proposalsListAsJs).to.be.an('array');
-      expect(proposalsListAsJs.every((proposalElement) => ['qcm', 'qcu', 'qrocm'].includes(proposalElement.type))).to.be
-        .true;
+      expect(elementsListAsJs).to.be.an('array');
+      expect(elementsListAsJs.every((element) => ['qcm', 'qcu', 'qrocm'].includes(element.type))).to.be.true;
     });
 
-    it('should add some meta info to proposals', async function () {
+    it('should add some meta info to elements', async function () {
       // When
-      const proposalsListAsJs = await getProposals(elementsListAsJs);
+      const elementsListAsJs = await getAnswerableElements(modulesListAsJs);
 
       // Then
-      expect(proposalsListAsJs).to.be.an('array');
-      expect(proposalsListAsJs.every((proposal) => proposal.isSolution !== undefined)).to.be.true;
-      expect(proposalsListAsJs.every((proposal) => proposal.moduleSlug !== undefined)).to.be.true;
-      expect(proposalsListAsJs.every((proposal) => proposal.activityElementPosition !== undefined)).to.be.true;
-      expect(proposalsListAsJs.every((proposal) => proposal.grainPosition !== undefined)).to.be.true;
-      expect(proposalsListAsJs.every((proposal) => proposal.grainId !== undefined)).to.be.true;
-      expect(proposalsListAsJs.every((proposal) => proposal.grainTitle !== undefined)).to.be.true;
+      expect(elementsListAsJs).to.be.an('array');
+      expect(elementsListAsJs.every((element) => element.moduleSlug !== undefined)).to.be.true;
+      expect(elementsListAsJs.every((element) => element.activityElementPosition !== undefined)).to.be.true;
+      expect(elementsListAsJs.every((element) => element.grainPosition !== undefined)).to.be.true;
+      expect(elementsListAsJs.every((element) => element.grainId !== undefined)).to.be.true;
+      expect(elementsListAsJs.every((element) => element.grainTitle !== undefined)).to.be.true;
     });
   });
 
-  describe('#getProposalsListAsCsv', function () {
-    it(`should return proposals list as CSV`, async function () {
+  describe('#getAnswerableElementsListAsCsv', function () {
+    it(`should return elements list as CSV`, async function () {
       // When
-      const proposalsListAsCsv = await getProposalsListAsCsv(modulesListAsJs);
+      const elementsListAsCsv = await getAnswerableElementsListAsCsv(modulesListAsJs);
 
       // Then
-      expect(proposalsListAsCsv).to.be.a('string');
-      expect(proposalsListAsCsv).to
-        .equal(`\ufeff"ProposalElementId"	"ProposalElementType"	"ProposalActivityElementPosition"	"ProposalElementInstruction"	"ProposalId"	"ProposalContent"	"ProposalIsSolution"	"ProposalGrainPosition"	"ProposalGrainId"	"ProposalGrainTitle"	"ProposalModuleSlug"
-"71de6394-ff88-4de3-8834-a40057a50ff4"	"qcu"	1	"<p>Pix évalue 16 compétences numériques différentes.</p>"	"'1"	"'Vrai"	"=TRUE"	4	"533c69b8-a836-41be-8ffc-8d4636e31224"	"Voici un vrai-faux"	"didacticiel-modulix"
-"71de6394-ff88-4de3-8834-a40057a50ff4"	"qcu"	1	"<p>Pix évalue 16 compétences numériques différentes.</p>"	"'2"	"'Faux"	"=FALSE"	4	"533c69b8-a836-41be-8ffc-8d4636e31224"	"Voici un vrai-faux"	"didacticiel-modulix"
-"30701e93-1b4d-4da4-b018-fa756c07d53f"	"qcm"	2	"<p>Quels sont les 3 piliers de Pix&#8239;?</p>"	"'1"	"'Evaluer ses connaissances et savoir-faire sur 16 compétences du numérique"	"=TRUE"	5	"0be0f5eb-4cb6-47c2-b9d3-cb2ceb4cd21c"	"Les 3 piliers de Pix"	"didacticiel-modulix"
-"30701e93-1b4d-4da4-b018-fa756c07d53f"	"qcm"	2	"<p>Quels sont les 3 piliers de Pix&#8239;?</p>"	"'2"	"'Développer son savoir-faire sur les jeux de type TPS"	"=FALSE"	5	"0be0f5eb-4cb6-47c2-b9d3-cb2ceb4cd21c"	"Les 3 piliers de Pix"	"didacticiel-modulix"
-"30701e93-1b4d-4da4-b018-fa756c07d53f"	"qcm"	2	"<p>Quels sont les 3 piliers de Pix&#8239;?</p>"	"'3"	"'Développer ses compétences numériques"	"=TRUE"	5	"0be0f5eb-4cb6-47c2-b9d3-cb2ceb4cd21c"	"Les 3 piliers de Pix"	"didacticiel-modulix"
-"30701e93-1b4d-4da4-b018-fa756c07d53f"	"qcm"	2	"<p>Quels sont les 3 piliers de Pix&#8239;?</p>"	"'4"	"'Certifier ses compétences Pix"	"=TRUE"	5	"0be0f5eb-4cb6-47c2-b9d3-cb2ceb4cd21c"	"Les 3 piliers de Pix"	"didacticiel-modulix"
-"30701e93-1b4d-4da4-b018-fa756c07d53f"	"qcm"	2	"<p>Quels sont les 3 piliers de Pix&#8239;?</p>"	"'5"	"'Evaluer ses compétences de logique et compréhension mathématique"	"=FALSE"	5	"0be0f5eb-4cb6-47c2-b9d3-cb2ceb4cd21c"	"Les 3 piliers de Pix"	"didacticiel-modulix"
-"0a5e77e8-1c8e-4cb6-a41d-cf6ad7935447"	"qcu"	3	"<p>Remontez la page pour trouver le premier mot de ce module.<br>Quel est ce mot&#8239;?</p>"	"'1"	"'Bienvenue"	"=FALSE"	6	"2a77a10f-19a3-4544-80f9-8012dad6506a"	"Activité remonter dans la page"	"didacticiel-modulix"
-"0a5e77e8-1c8e-4cb6-a41d-cf6ad7935447"	"qcu"	3	"<p>Remontez la page pour trouver le premier mot de ce module.<br>Quel est ce mot&#8239;?</p>"	"'2"	"'Bonjour"	"=TRUE"	6	"2a77a10f-19a3-4544-80f9-8012dad6506a"	"Activité remonter dans la page"	"didacticiel-modulix"
-"0a5e77e8-1c8e-4cb6-a41d-cf6ad7935447"	"qcu"	3	"<p>Remontez la page pour trouver le premier mot de ce module.<br>Quel est ce mot&#8239;?</p>"	"'3"	"'Nous"	"=FALSE"	6	"2a77a10f-19a3-4544-80f9-8012dad6506a"	"Activité remonter dans la page"	"didacticiel-modulix"`);
+      expect(elementsListAsCsv).to.be.a('string');
+      expect(elementsListAsCsv).to
+        .equal(`\ufeff"ElementId"	"ElementType"	"ActivityElementPosition"	"ElementInstruction"	"ElementGrainPosition"	"ElementGrainId"	"ElementGrainTitle"	"ElementModuleSlug"
+"71de6394-ff88-4de3-8834-a40057a50ff4"	"qcu"	1	"<p>Pix évalue 16 compétences numériques différentes.</p>"	4	"533c69b8-a836-41be-8ffc-8d4636e31224"	"Voici un vrai-faux"	"didacticiel-modulix"
+"30701e93-1b4d-4da4-b018-fa756c07d53f"	"qcm"	2	"<p>Quels sont les 3 piliers de Pix&#8239;?</p>"	5	"0be0f5eb-4cb6-47c2-b9d3-cb2ceb4cd21c"	"Les 3 piliers de Pix"	"didacticiel-modulix"
+"0a5e77e8-1c8e-4cb6-a41d-cf6ad7935447"	"qcu"	3	"<p>Remontez la page pour trouver le premier mot de ce module.<br>Quel est ce mot&#8239;?</p>"	6	"2a77a10f-19a3-4544-80f9-8012dad6506a"	"Activité remonter dans la page"	"didacticiel-modulix"
+"c23436d4-6261-49f1-b50d-13a547529c29"	"qrocm"	4	"<p>Compléter le texte suivant :</p>"	7	"4ce2a31a-6584-4dae-87c6-d08b58d0f3b9"	"Connaissez-vous bien Pix"	"didacticiel-modulix"
+"98c51fa7-03b7-49b1-8c5e-49341d35909c"	"qrocm"	5	"<p>Quel est le nom de ce nouveau produit Pix&#8239;?</p>"	8	"7cf75e70-8749-4392-8081-f2c02badb0fb"	"Le nom de ce produit"	"didacticiel-modulix"`);
     });
   });
 });

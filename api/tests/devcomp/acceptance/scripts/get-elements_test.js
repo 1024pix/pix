@@ -37,12 +37,12 @@ describe('Acceptance | Script | Get Elements as CSV', function () {
         },
         {
           content:
-            '<p>Vous l\'avez peut-être remarqué&nbsp;: dans un module, vous pouvez voir tous les contenus en remontant la page&nbsp;<span aria-hidden="true">👆</span></p>',
+            '<p>Vous l\'avez peut-être remarqué&nbsp;: dans un module, vous pouvez voir tous les contenus en remontant la page&nbsp;<span aria-hidden="true">👆</span>️</p>',
           grainId: '2a77a10f-19a3-4544-80f9-8012dad6506a',
         },
         {
           content:
-            '<p>Vous arrivez à la fin de ce didacticiel. Une dernière activité et vous serez prêt à explorer tous les modules que vous souhaitez&#8239;!<span aria-hidden="true">🌟</span> </p>',
+            '<p>Vous arrivez à la fin de ce didacticiel. Une dernière activité et vous serez prêt à explorer tous les modules que vous souhaitez&#8239;!<span aria-hidden="true">🌟</span>️ </p>',
           grainId: '7cf75e70-8749-4392-8081-f2c02badb0fb',
         },
       ],
@@ -97,7 +97,7 @@ describe('Acceptance | Script | Get Elements as CSV', function () {
                 id: 'a2372bf4-86a4-4ecc-a188-b51f4f98bca2',
                 type: 'text',
                 content:
-                  '<p>Voici un texte de leçon. Parfois, il y a des émojis pour aider à la lecture&nbsp;<span aria-hidden="true">📚</span>.<br>Et là, voici une image&#8239;!</p>',
+                  '<p>Voici un texte de leçon. Parfois, il y a des émojis pour aider à la lecture&nbsp;<span aria-hidden="true">📚</span>️.<br>Et là, voici une image&#8239;!</p>',
               },
             },
             {
@@ -163,7 +163,7 @@ describe('Acceptance | Script | Get Elements as CSV', function () {
                 feedbacks: {
                   valid: '<p>Correct&#8239;! Ces 16 compétences sont rangées dans 5 domaines.</p>',
                   invalid:
-                    '<p>Incorrect. Retourner voir la vidéo si besoin&nbsp;<span aria-hidden="true">👆</span>!</p>',
+                    '<p>Incorrect. Retourner voir la vidéo si besoin&nbsp;<span aria-hidden="true">👆</span>️!</p>',
                 },
                 solution: '1',
               },
@@ -345,7 +345,9 @@ describe('Acceptance | Script | Get Elements as CSV', function () {
 
       // Then
       expect(elementsListAsJs).to.be.an('array');
-      expect(elementsListAsJs.every((element) => ['qcm', 'qcu', 'qrocm'].includes(element.type))).to.be.true;
+      expect(
+        elementsListAsJs.every((element) => ['text', 'video', 'image', 'qcm', 'qcu', 'qrocm'].includes(element.type)),
+      ).to.be.true;
     });
 
     it('should add some meta info to elements', async function () {
@@ -355,7 +357,7 @@ describe('Acceptance | Script | Get Elements as CSV', function () {
       // Then
       expect(elementsListAsJs).to.be.an('array');
       expect(elementsListAsJs.every((element) => element.moduleSlug !== undefined)).to.be.true;
-      expect(elementsListAsJs.every((element) => element.activityElementPosition !== undefined)).to.be.true;
+      expect(elementsListAsJs.every((element) => element.elementPosition !== undefined)).to.be.true;
       expect(elementsListAsJs.every((element) => element.grainPosition !== undefined)).to.be.true;
       expect(elementsListAsJs.every((element) => element.grainId !== undefined)).to.be.true;
       expect(elementsListAsJs.every((element) => element.grainTitle !== undefined)).to.be.true;
@@ -370,12 +372,19 @@ describe('Acceptance | Script | Get Elements as CSV', function () {
       // Then
       expect(elementsListAsCsv).to.be.a('string');
       expect(elementsListAsCsv).to
-        .equal(`\ufeff"ElementId"	"ElementType"	"ActivityElementPosition"	"ElementInstruction"	"ElementGrainPosition"	"ElementGrainId"	"ElementGrainTitle"	"ElementModuleSlug"
-"71de6394-ff88-4de3-8834-a40057a50ff4"	"qcu"	1	"<p>Pix évalue 16 compétences numériques différentes.</p>"	4	"533c69b8-a836-41be-8ffc-8d4636e31224"	"Voici un vrai-faux"	"didacticiel-modulix"
-"30701e93-1b4d-4da4-b018-fa756c07d53f"	"qcm"	2	"<p>Quels sont les 3 piliers de Pix&#8239;?</p>"	5	"0be0f5eb-4cb6-47c2-b9d3-cb2ceb4cd21c"	"Les 3 piliers de Pix"	"didacticiel-modulix"
-"0a5e77e8-1c8e-4cb6-a41d-cf6ad7935447"	"qcu"	3	"<p>Remontez la page pour trouver le premier mot de ce module.<br>Quel est ce mot&#8239;?</p>"	6	"2a77a10f-19a3-4544-80f9-8012dad6506a"	"Activité remonter dans la page"	"didacticiel-modulix"
-"c23436d4-6261-49f1-b50d-13a547529c29"	"qrocm"	4	"<p>Compléter le texte suivant :</p>"	7	"4ce2a31a-6584-4dae-87c6-d08b58d0f3b9"	"Connaissez-vous bien Pix"	"didacticiel-modulix"
-"98c51fa7-03b7-49b1-8c5e-49341d35909c"	"qrocm"	5	"<p>Quel est le nom de ce nouveau produit Pix&#8239;?</p>"	8	"7cf75e70-8749-4392-8081-f2c02badb0fb"	"Le nom de ce produit"	"didacticiel-modulix"`);
+        .equal(`\ufeff"ElementId"	"ElementType"	"ElementPosition"	"ElementGrainPosition"	"ElementGrainId"	"ElementGrainTitle"	"ElementModuleSlug"
+"342183f7-af51-4e4e-ab4c-ebed1e195063"	"text"	1	1	"47cd065b-dbf2-4adc-b5c3-02fb69cb9ec2"	"Test Stepper"	"didacticiel-modulix"
+"342183f7-af51-4e4e-ab4c-ebed1e195063"	"text"	2	1	"47cd065b-dbf2-4adc-b5c3-02fb69cb9ec2"	"Test Stepper"	"didacticiel-modulix"
+"84726001-1665-457d-8f13-4a74dc4768ea"	"text"	3	2	"f312c33d-e7c9-4a69-9ba0-913957b8f7dd"	"Voici une leçon"	"didacticiel-modulix"
+"a2372bf4-86a4-4ecc-a188-b51f4f98bca2"	"text"	4	2	"f312c33d-e7c9-4a69-9ba0-913957b8f7dd"	"Voici une leçon"	"didacticiel-modulix"
+"8d7687c8-4a02-4d7e-bf6c-693a6d481c78"	"image"	5	2	"f312c33d-e7c9-4a69-9ba0-913957b8f7dd"	"Voici une leçon"	"didacticiel-modulix"
+"342183f7-af51-4e4e-ab4c-ebed1e195063"	"text"	6	3	"73ac3644-7637-4cee-86d4-1a75f53f0b9c"	"Vidéo de présentation de Pix"	"didacticiel-modulix"
+"3a9f2269-99ba-4631-b6fd-6802c88d5c26"	"video"	7	3	"73ac3644-7637-4cee-86d4-1a75f53f0b9c"	"Vidéo de présentation de Pix"	"didacticiel-modulix"
+"71de6394-ff88-4de3-8834-a40057a50ff4"	"qcu"	8	4	"533c69b8-a836-41be-8ffc-8d4636e31224"	"Voici un vrai-faux"	"didacticiel-modulix"
+"30701e93-1b4d-4da4-b018-fa756c07d53f"	"qcm"	9	5	"0be0f5eb-4cb6-47c2-b9d3-cb2ceb4cd21c"	"Les 3 piliers de Pix"	"didacticiel-modulix"
+"0a5e77e8-1c8e-4cb6-a41d-cf6ad7935447"	"qcu"	10	6	"2a77a10f-19a3-4544-80f9-8012dad6506a"	"Activité remonter dans la page"	"didacticiel-modulix"
+"c23436d4-6261-49f1-b50d-13a547529c29"	"qrocm"	11	7	"4ce2a31a-6584-4dae-87c6-d08b58d0f3b9"	"Connaissez-vous bien Pix"	"didacticiel-modulix"
+"98c51fa7-03b7-49b1-8c5e-49341d35909c"	"qrocm"	12	8	"7cf75e70-8749-4392-8081-f2c02badb0fb"	"Le nom de ce produit"	"didacticiel-modulix"`);
     });
   });
 });
