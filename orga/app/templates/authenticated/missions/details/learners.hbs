@@ -11,12 +11,13 @@
           <Table::Header scope="col">{{t "pages.missions.details.learners.list.headers.first-name"}}</Table::Header>
           <Table::Header scope="col">{{t "pages.missions.details.learners.list.headers.last-name"}}</Table::Header>
           <Table::Header scope="col">{{t "pages.missions.details.learners.list.headers.division"}}</Table::Header>
+          <Table::Header scope="col">{{t "pages.missions.details.learners.list.headers.status"}}</Table::Header>
         </tr>
       </thead>
       <tbody>
 
         {{#each this.model.missionLearners as |missionLearner|}}
-          <tr>
+          <tr aria-label={{t "pages.missions.details.learners.list.aria-label"}}>
             <td>
               {{missionLearner.firstName}}
             </td>
@@ -25,6 +26,9 @@
             </td>
             <td>
               {{missionLearner.division}}
+            </td>
+            <td>
+              <PixTag @color={{this.statusColor missionLearner.status}}>{{t missionLearner.displayableStatus}}</PixTag>
             </td>
           </tr>
         {{/each}}

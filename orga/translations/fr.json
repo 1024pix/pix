@@ -817,11 +817,18 @@
         "learners": {
           "title": "Liste des participations",
           "list": {
+            "aria-label": "Élève",
             "caption": "Tableau des élèves avec le résultat de leur participation à la mission {missionName}",
             "headers": {
               "division": "Classe",
               "first-name": "Prénom",
-              "last-name": "Nom"
+              "last-name": "Nom",
+              "status": "Statut de la mission"
+            },
+            "mission-status": {
+              "completed": "Terminée",
+              "not-started": "Non débutée",
+              "started": "En cours"
             }
           },
           "no-data": "Il n'y a aucun participant"
@@ -831,6 +838,7 @@
         }
       },
       "list": {
+        "aria-label": "Mission",
         "banner": {
           "admin": {
             "abstract": "Pour commencer, veuillez ",

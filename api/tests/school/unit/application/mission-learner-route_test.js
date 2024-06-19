@@ -4,7 +4,7 @@ import { securityPreHandlers } from '../../../../src/shared/application/security
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Unit | Route | mission-learner-route', function () {
-  describe('GET /api/organizations/{id}/mission-learners', function () {
+  describe('GET /api/organizations/{id}/missions/{missionId}/learners', function () {
     it('should check user belongs to organization and pix1d is activated', async function () {
       // given
       const mock = sinon.mock(securityPreHandlers);
@@ -14,7 +14,7 @@ describe('Unit | Route | mission-learner-route', function () {
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      await httpTestServer.request('GET', '/api/organizations/4/mission-learners');
+      await httpTestServer.request('GET', '/api/organizations/4/missions/1/learners');
 
       // then
       mock.verify();
@@ -30,7 +30,7 @@ describe('Unit | Route | mission-learner-route', function () {
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      const response = await httpTestServer.request('GET', '/api/organizations/4/mission-learners');
+      const response = await httpTestServer.request('GET', '/api/organizations/4/missions/1/learners');
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -45,7 +45,22 @@ describe('Unit | Route | mission-learner-route', function () {
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      const response = await httpTestServer.request('GET', '/api/organizations/AZRTY/mission-learners');
+      const response = await httpTestServer.request('GET', '/api/organizations/AZRTY/missions/1/learners');
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return 400 when the missionId is not a number', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserBelongsToOrganization').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkPix1dActivated').callsFake((request, h) => h.response(true));
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('GET', '/api/organizations/4/missions/UIOP/learners');
 
       // then
       expect(response.statusCode).to.equal(400);

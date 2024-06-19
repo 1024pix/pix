@@ -8,7 +8,7 @@ const register = async function (server) {
   server.route([
     {
       method: 'GET',
-      path: '/api/organizations/{id}/mission-learners',
+      path: '/api/organizations/{organizationId}/missions/{missionId}/learners',
       config: {
         pre: [
           { method: securityPreHandlers.checkUserBelongsToOrganization },
@@ -16,7 +16,8 @@ const register = async function (server) {
         ],
         validate: {
           params: Joi.object({
-            id: identifiersType.organizationId,
+            organizationId: identifiersType.organizationId,
+            missionId: identifiersType.missionId,
           }),
           query: Joi.object({
             'page[number]': Joi.number().integer().empty(''),
@@ -27,7 +28,7 @@ const register = async function (server) {
         tags: ['api', 'pix1d', 'mission-learners'],
         notes: [
           '- **Cette route est restreinte aux personnes authentifiées' +
-            "- Elle permet de récupérer tous les participants (organization-leaner) d'une orga",
+            "- Elle permet de récupérer tous les participants (mission-learner) à une mission au sein d'une organisation donnée",
         ],
       },
     },

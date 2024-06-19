@@ -112,4 +112,55 @@ describe('Integration | Repository | mission-assessment-repository', function ()
       expect(result).to.deep.equal([]);
     });
   });
+
+  describe('#getStatusesForLearners', function () {
+    it('should return references or last assessment started and completed', async function () {
+      const organizationLearnerWithCompletedAssessment = databaseBuilder.factory.buildOrganizationLearner();
+      const organizationLearnerWithStartedAssessment = databaseBuilder.factory.buildOrganizationLearner();
+      const organizationLearnerWithoutAssessment = databaseBuilder.factory.buildOrganizationLearner();
+      const missionId = 1;
+
+      databaseBuilder.factory.buildMissionAssessment({
+        missionId,
+        organizationLearnerId: organizationLearnerWithStartedAssessment.id,
+        state: Assessment.states.STARTED,
+        createdAt: new Date('2023-10-10'),
+      });
+
+      databaseBuilder.factory.buildMissionAssessment({
+        missionId,
+        organizationLearnerId: organizationLearnerWithCompletedAssessment.id,
+        state: Assessment.states.STARTED,
+        createdAt: new Date('2023-10-10'),
+      });
+
+      databaseBuilder.factory.buildMissionAssessment({
+        missionId,
+        organizationLearnerId: organizationLearnerWithCompletedAssessment.id,
+        state: Assessment.states.COMPLETED,
+        createdAt: new Date('2024-10-10'),
+      });
+
+      await databaseBuilder.commit();
+
+      const organizationLearners = [
+        organizationLearnerWithCompletedAssessment,
+        organizationLearnerWithoutAssessment,
+        organizationLearnerWithStartedAssessment,
+      ];
+      const results = await missionAssessmentRepository.getStatusesForLearners(
+        missionId,
+        organizationLearners,
+        (learner, status) => {
+          return [learner.id, status];
+        },
+      );
+
+      expect(results).to.deep.equal([
+        [organizationLearnerWithCompletedAssessment.id, 'completed'],
+        [organizationLearnerWithoutAssessment.id, undefined],
+        [organizationLearnerWithStartedAssessment.id, 'started'],
+      ]);
+    });
+  });
 });

@@ -24,11 +24,12 @@ export default class MissionLearnersRoute extends Route {
   }
   model(params) {
     const organizationId = this.currentUser.organization.id;
-    const mission = this.modelFor('authenticated.missions.details');
+    const missionModel = this.modelFor('authenticated.missions.details');
     const missionLearners = this.store.query(
       'mission-learner',
       {
         organizationId,
+        missionId: missionModel.mission.id,
         page: {
           number: params.pageNumber,
           size: params.pageSize,
@@ -36,6 +37,6 @@ export default class MissionLearnersRoute extends Route {
       },
       { reload: true },
     );
-    return RSVP.hash({ missionLearners, mission });
+    return RSVP.hash({ missionLearners, mission: missionModel });
   }
 }

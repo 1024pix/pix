@@ -3,9 +3,9 @@ import { usecases } from '../domain/usecases/index.js';
 import * as missionLearnerSerializer from '../infrastructure/serializers/mission-learner-serializer.js';
 
 const findPaginatedMissionLearners = async function (request) {
-  const organizationId = request.params.id;
+  const { organizationId, missionId } = request.params;
   const { page } = extractParameters(request.query);
-  const result = await usecases.findPaginatedMissionLearners({ organizationId, page });
+  const result = await usecases.findPaginatedMissionLearners({ organizationId, missionId, page });
   return missionLearnerSerializer.serialize(result);
 };
 
