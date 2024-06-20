@@ -1,5 +1,3 @@
-import iconv from 'iconv-lite';
-
 import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
 import { identityAccessManagementRoutes } from '../../../../src/identity-access-management/application/routes.js';
 import {
@@ -55,7 +53,7 @@ describe('Integration | Identity Access Management | Application | Route | Anony
           method: 'POST',
           headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
           url: '/api/admin/anonymize/gar',
-          payload: iconv.encode(input, 'UTF-8'),
+          payload: input,
         };
         // when
         const response = await httpTestServer.requestObject(options);
@@ -80,7 +78,7 @@ describe('Integration | Identity Access Management | Application | Route | Anony
           method: 'POST',
           headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
           url: '/api/admin/anonymize/gar',
-          payload: iconv.encode(input, 'UTF-8'),
+          payload: input,
         };
         // when
         const response = await httpTestServer.requestObject(options);
