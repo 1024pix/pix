@@ -600,7 +600,10 @@
         "candidate-not-authorized-to-resume": "Neem contact op met je surveillant om toestemming te vragen om je toets te hervatten.",
         "candidate-not-authorized-to-start": "Je surveillant heeft je aanwezigheid in de testruimte nog niet bevestigd. Je kunt daarom nog niet beginnen met je certificeringstoets. Stel je surveillant hiervan op de hoogte.",
         "generic": "Er is zojuist een onverwachte serverfout opgetreden.",
-        "session-not-accessible": "De certificeringssessie is niet langer toegankelijk."
+        "session-not-accessible": "De certificeringssessie is niet langer toegankelijk.",
+        "unknown": {
+          "summary-label": "Afficher plus de détails :"
+        }
       },
       "first-title": "Je staat op het punt om aan je certificeringstest te beginnen",
       "link-to-user-certification": "Bekijk mijn certificaten",

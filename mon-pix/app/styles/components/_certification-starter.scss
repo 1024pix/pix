@@ -19,24 +19,21 @@
     }
   }
 
-  &__errors {
-    margin: 5px;
-    color: $pix-warning-60;
-    font-size: 0.875rem;
-    text-align: start;
+  &__information {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-3x);
+    align-items: center;
+    margin-top: var(--pix-spacing-3x);
 
-    &__list {
-      li {
-        margin: 8px 0 0 16px;
-        text-align: start;
-        list-style: disc;
-      }
+    @extend %pix-body-s;
+
+    &--error {
+      color: var(--pix-error-500);
     }
 
-    a,
-    a:visited {
-      color: $pix-warning-60;
-      text-decoration: underline;
+    details {
+      text-align: center;
     }
   }
 

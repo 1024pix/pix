@@ -51,7 +51,15 @@
         spellcheck={{false}}
       />
       {{#if this.errorMessage}}
-        <div class="certification-start-page__errors">{{this.errorMessage}}</div>
+        <div class="certification-start-page__information">
+          <p class="certification-start-page__information--error">{{this.errorMessage}}</p>
+          {{#if this.technicalErrorInfo}}
+            <details>
+              <summary>{{t "pages.certification-start.error-messages.unknown.summary-label"}}</summary>
+              <p>{{this.technicalErrorInfo}}</p>
+            </details>
+          {{/if}}
+        </div>
       {{/if}}
     </div>
 

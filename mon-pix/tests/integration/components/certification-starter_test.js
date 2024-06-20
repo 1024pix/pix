@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { fillIn } from '@ember/test-helpers';
+import { click, fillIn } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -401,40 +401,46 @@ module('Integration | Component | certification-starter', function (hooks) {
           });
         });
 
-        test('should display a generic error message when error status unknown', async function (assert) {
-          // given
-          const replaceWithStub = sinon.stub();
+        module('when error status unknown', function () {
+          test('should display a generic error message', async function (assert) {
+            // given
+            const replaceWithStub = sinon.stub();
 
-          class RouterServiceStub extends Service {
-            replaceWith = replaceWithStub;
-          }
+            class RouterServiceStub extends Service {
+              replaceWith = replaceWithStub;
+            }
 
-          this.owner.register('service:router', RouterServiceStub);
-          const createRecordStub = sinon.stub();
+            this.owner.register('service:router', RouterServiceStub);
+            const createRecordStub = sinon.stub();
 
-          class StoreStubService extends Service {
-            createRecord = createRecordStub;
-          }
+            class StoreStubService extends Service {
+              createRecord = createRecordStub;
+            }
 
-          this.owner.register('service:store', StoreStubService);
-          const certificationCourse = {
-            id: 123,
-            save: sinon.stub(),
-            deleteRecord: sinon.stub(),
-          };
-          createRecordStub.returns(certificationCourse);
-          this.set('certificationCandidateSubscription', { sessionId: 123 });
-          const screen = await render(
-            hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`,
-          );
-          await fillIn('#certificationStarterSessionCode', 'ABC123');
-          certificationCourse.save.rejects({ errors: [{ status: 'other' }] });
+            this.owner.register('service:store', StoreStubService);
+            const certificationCourse = {
+              id: 123,
+              save: sinon.stub(),
+              deleteRecord: sinon.stub(),
+            };
+            createRecordStub.returns(certificationCourse);
+            this.set('certificationCandidateSubscription', { sessionId: 123 });
+            const screen = await render(
+              hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`,
+            );
+            await fillIn('#certificationStarterSessionCode', 'ABC123');
+            certificationCourse.save.throws(new Error("Détails de l'erreur à envoyer à Pix"));
 
-          // when
-          await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
+            // when
+            await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
 
-          // then
-          assert.ok(screen.getByText('Une erreur serveur inattendue vient de se produire.'));
+            // then
+            assert.ok(screen.getByText('Une erreur serveur inattendue vient de se produire.'));
+            await click(screen.getByText('Afficher plus de détails :'));
+            const group = screen.getByRole('group');
+
+            assert.ok(group.textContent.includes("Détails de l'erreur à envoyer à Pix"));
+          });
         });
       });
     });

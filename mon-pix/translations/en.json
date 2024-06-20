@@ -601,7 +601,10 @@
         "candidate-not-authorized-to-resume": "Please contact your invigilator to resume your certification test.",
         "candidate-not-authorized-to-start": "Your invigilator has not confirmed your presence in the test room. Therefore, you cannot start your certification test yet. Please inform your invigilator.",
         "generic": "An unexpected server error has occurred.",
-        "session-not-accessible": "The certification session is no longer available."
+        "session-not-accessible": "The certification session is no longer available.",
+        "unknown": {
+          "summary-label": "Show more details:"
+        }
       },
       "first-title": "You are about to begin your certification test.",
       "link-to-user-certification": "See my certificates",

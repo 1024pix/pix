@@ -600,7 +600,10 @@
         "candidate-not-authorized-to-resume": "Ponte en contacto con el supervisor para que autorice la reanudación de tu examen.",
         "candidate-not-authorized-to-start": "El supervisor no ha confirmado tu presencia en la sala de prueba. Por lo tanto, aún no puedes empezar la prueba de certificación. Por favor, informa al supervisor.",
         "generic": "Acaba de producirse un error inesperado en el servidor.",
-        "session-not-accessible": "La sesión de certificación ya no está disponible."
+        "session-not-accessible": "La sesión de certificación ya no está disponible.",
+        "unknown": {
+          "summary-label": "Afficher plus de détails :"
+        }
       },
       "first-title": "Estás a punto de empezar tu prueba de certificación",
       "link-to-user-certification": "Ver mis certificaciones",
