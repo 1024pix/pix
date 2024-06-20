@@ -46,8 +46,8 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
         habilitations: [],
       });
       certificationPointOfContact = server.create('certification-point-of-contact', {
-        firstName: 'Buffy',
-        lastName: 'Summers',
+        firstName: 'Lena',
+        lastName: 'Rine',
         allowedCertificationCenterAccesses: [allowedCertificationCenterAccess],
         pixCertifTermsOfServiceAccepted: true,
       });
@@ -349,7 +349,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
 
       module('when the addCandidate button is clicked a second time', function (hooks) {
         hooks.beforeEach(async function () {
-          server.createList('country', 2, { code: '99100' });
+          server.createList('country', 2, { code: '99100', name: 'France' });
         });
 
         test('it should open the new Certification Candidate Modal with empty input', async function (assert) {
@@ -390,8 +390,8 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
 
           // when
           await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
-
           // then
+
           assert.strictEqual(screen.getByLabelText('* Nom de naissance').value, '');
           assert.strictEqual(screen.getByLabelText('* Prénom').value, '');
           assert.false(screen.getByLabelText('Homme').checked);
@@ -592,8 +592,8 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
                 habilitations: [{ id: 0, label: complementaryCertificationLabel, key: 'COMP_1' }],
               });
               certificationPointOfContact = server.create('certification-point-of-contact', {
-                firstName: 'Buffy',
-                lastName: 'Summers',
+                firstName: 'Lena',
+                lastName: 'Rine',
                 allowedCertificationCenterAccesses: [allowedCertificationCenterAccess],
                 pixCertifTermsOfServiceAccepted: true,
               });
