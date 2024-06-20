@@ -1,0 +1,10 @@
+<section class="page-section">
+  <header class="page-section__header">
+    <h2 class="page-section__title">{{t "components.administration.anonymize-gar-import.title"}}</h2>
+  </header>
+  <p>{{t "components.administration.anonymize-gar-import.description"}}</p>
+  <br />
+  <PixButtonUpload @id="anonymize-gar-upload" @onChange={{this.anonymizeGar}} @variant="secondary" accept=".csv">
+    {{t "components.administration.anonymize-gar-import.upload-button"}}
+  </PixButtonUpload>
+</section>
