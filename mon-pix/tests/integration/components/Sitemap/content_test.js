@@ -111,7 +111,7 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
           name: `${this.intl.t('navigation.main.help')} ${this.intl.t('navigation.external-link-title')}`,
         }),
       )
-      .hasAttribute('href', 'https://support.pix.org/fr/support/home');
+      .hasAttribute('href', 'https://pix.org/fr/support');
   });
 
   test('should contain an external link to accessibility page', async function (assert) {

@@ -35,7 +35,7 @@ module('Acceptance | Footer', function (hooks) {
       assert.dom('.footer').doesNotExist();
     });
 
-    test('should contain link to support.pix.org', async function (assert) {
+    test('should contain link to pix.org/fr/support', async function (assert) {
       // when
       await visit('/');
 
@@ -43,7 +43,7 @@ module('Acceptance | Footer', function (hooks) {
       assert.ok(
         find('.footer-container-content__navigation ul li:nth-child(1) a')
           .getAttribute('href')
-          .includes('support.pix.org'),
+          .includes('pix.org/fr/support'),
       );
     });
 
