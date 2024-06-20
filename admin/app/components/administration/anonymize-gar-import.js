@@ -1,6 +1,7 @@
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import ENV from 'pix-admin/config/environment';
 
 export default class AnonymizeGarImport extends Component {
@@ -8,8 +9,11 @@ export default class AnonymizeGarImport extends Component {
   @service notifications;
   @service session;
 
+  @tracked isLoading = false;
+
   @action
   async anonymizeGar(files) {
+    this.isLoading = true;
     this.notifications.clearAll();
 
     try {
@@ -56,6 +60,8 @@ export default class AnonymizeGarImport extends Component {
       this.errorResponseHandler.notify(await response.json());
     } catch (error) {
       this.notifications.error(this.intl.t('common.notifications.generic-error'));
+    } finally {
+      this.isLoading = false;
     }
   }
 }

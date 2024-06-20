@@ -2,9 +2,21 @@
   <header class="page-section__header">
     <h2 class="page-section__title">{{t "components.administration.anonymize-gar-import.title"}}</h2>
   </header>
+
   <p>{{t "components.administration.anonymize-gar-import.description"}}</p>
   <br />
-  <PixButtonUpload @id="anonymize-gar-upload" @onChange={{this.anonymizeGar}} @variant="secondary" accept=".csv">
-    {{t "components.administration.anonymize-gar-import.upload-button"}}
+
+  <PixButtonUpload
+    @id="anonymize-gar-upload"
+    @onChange={{this.anonymizeGar}}
+    @variant="secondary"
+    disabled={{this.isLoading}}
+    accept=".csv"
+  >
+    {{#if this.isLoading}}
+      {{t "common.forms.loading"}}
+    {{else}}
+      {{t "components.administration.anonymize-gar-import.upload-button"}}
+    {{/if}}
   </PixButtonUpload>
 </section>
