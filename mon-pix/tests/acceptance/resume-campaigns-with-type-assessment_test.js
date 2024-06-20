@@ -19,7 +19,11 @@ module('Acceptance | Campaigns | Resume Campaigns with type Assessment', functio
   hooks.beforeEach(async function () {
     studentInfo = server.create('user', 'withEmail');
     await authenticate(studentInfo);
-    campaign = server.create('campaign', { idPixLabel: 'email', type: ASSESSMENT });
+    campaign = server.create('campaign', {
+      id: 23456,
+      idPixLabel: 'email',
+      type: ASSESSMENT,
+    });
     await resumeCampaignOfTypeAssessmentByCode(campaign.code, true);
   });
 
