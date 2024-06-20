@@ -114,11 +114,16 @@ const findPaginatedFilteredByOrganizationId = async function ({ organizationId, 
     .join('users', 'users.id', 'campaigns.ownerId')
     .leftJoin('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id')
     .where('campaigns.organizationId', organizationId)
+    .whereNull('campaigns.deletedAt')
     .modify(_setSearchFiltersForQueryBuilder, filter, userId)
     .orderBy('campaigns.createdAt', 'DESC');
 
   const { results, pagination } = await fetchPage(query, page);
-  const atLeastOneCampaign = await knex('campaigns').select('id').where({ organizationId }).first(1);
+  const atLeastOneCampaign = await knex('campaigns')
+    .select('id')
+    .where({ organizationId })
+    .whereNull('deletedAt')
+    .first(1);
   const hasCampaigns = Boolean(atLeastOneCampaign);
 
   const campaignReports = results.map((result) => new CampaignReport(result));
