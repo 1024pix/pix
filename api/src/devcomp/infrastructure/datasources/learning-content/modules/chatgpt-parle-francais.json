@@ -182,7 +182,7 @@
           "element": {
             "id": "5b0422cd-22d0-4261-aa48-bd7fafc20607",
             "type": "text",
-            "content": "<p>Dans les situations suivantes, les prompts fournis à LLM mènent à des réponses partielles, stéréotypées ou scientifiquement infondées.</p><p>Pour chaque situation, choisissez la cause principale de ces résultats biaisés.</p>"
+            "content": "<p>Dans les situations suivantes, les prompts fournis au LLM mènent à des réponses partielles, stéréotypées ou scientifiquement infondées.</p><p>Pour chaque situation, choisissez la cause principale de ces résultats biaisés.</p>"
           }
         },
         {
@@ -198,7 +198,7 @@
           "element": {
             "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
             "type": "text",
-            "content": "Michel est belge et teste LLM pour la première fois. Il reçoit une réponse qui concerne la France."
+            "content": "<p>Michel est <strong>belge</strong> et teste ce LLM pour la première fois. Il reçoit une réponse qui concerne la <strong>France</strong><span aria-hidden=\"true\">&nbsp;👇</span>.</p>"
           }
         },
         {
@@ -217,19 +217,19 @@
           "element": {
               "id": "629aeb61-028b-41f7-97f2-512e83000fa5",
               "type": "qcu",
-              "instruction": "Quelle est la cause du résultat biaisé fourni par LLM ?",
+              "instruction": "Quelle est la cause de ce malentendu avec le LLM ?",
               "proposals": [
                 {
                   "id": "1",
-                  "content": "Il combine plusieurs éléments pour conclure que la fête nationale française est la réponse, en faisant le lien entre la langue de la question et la réponse à donner."
+                  "content": "Le LLM pense que Michel est français."
                 },
                 {
                   "id": "2",
-                  "content": "Il appuie sa réponse sur la première information qu’il reçoit à la lecture de la question : si la langue utilisée est le français alors la question est forcément liée à la France."
+                  "content": "Le LLM s'est basé sur la langue de la question qu'il a reçue."
                 },
                 {
                   "id": "3",
-                  "content": "Il privilégie les informations les plus récentes dans ses données au détriment d’informations plus pertinentes."
+                  "content": "Le LLM a été réglé pour ignorer la Belgique."
                 }
               ],
               "feedbacks": {
@@ -252,7 +252,7 @@
             "element": {
               "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
               "type": "text",
-              "content": "Erica est romancière et cherche de l'inspiration pour l'un de ses personnages."
+              "content": "<p>Erica est romancière et cherche de l'inspiration pour l'un de ses personnages. Elle a oublié de préciser qu'elle souhaitait un personnage masculin. <span aria-hidden=\"true\">&nbsp;🧹</span></p>"
             }
           },
           {
@@ -272,19 +272,19 @@
             {
               "id": "635d34d8-c748-44cd-ad02-bde721270723",
               "type": "qcu",
-              "instruction": "Quelle est la cause du résultat biaisé fourni par LLM ?",
+              "instruction": "Quelle est la cause de ce malentendu avec le LLM ?",
               "proposals": [
                 {
                   "id": "1",
-                  "content": "Il a reproduit dans sa réponse un stéréotype d'âge associé à cette profession."
+                  "content": "Les développeurs du LLM ont spécifié que les personnages de fiction sont âgés d'une quarantaine d'annés."
                 },
                 {
                   "id": "2",
-                  "content": "Il a reproduit dans sa réponse un stéréotype de niveau d'éducation associé à cette profession."
+                  "content": "Les femmes sont surreprésentées dans les données d'entrainement."
                 },
                 {
                   "id": "3",
-                  "content": "Il a reproduit dans sa réponse un stéréotype de classe sociale associé à cette profession."
+                  "content": "Le LLM s'est basé sur le genre de son utilisatrice."
                 }
               ],
               "feedbacks": {
@@ -307,7 +307,7 @@
             "element": {
               "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
               "type": "text",
-              "content": "Stéphane est fan d'astrologie et cherche à savoir son horoscope du jour."
+              "content": "Stéphane est féru d'astrologie et cherche son horoscope du jour."
             }
           },
           {
@@ -327,19 +327,19 @@
             {
               "id": "060c7558-92fb-47bf-b8fa-3639ebfef67d",
               "type": "qcu",
-              "instruction": "Quelle est la cause du résultat biaisé fourni par LLM ?",
+              "instruction": "Quelle est la cause du biais présent dans le résultat fourni par le LLM ?",
               "proposals": [
                 {
                   "id": "1",
-                  "content": "Il prend pour acquis les croyances qui lui sont communiquées dans le prompt."
+                  "content": "Le LLM se base sur les croyances qui lui sont communiquées dans le prompt."
                 },
                 {
                   "id": "2",
-                  "content": "Il donne une réponse spécifique en pensant que l’utilisateur est un Verseau."
+                  "content": "Le LLM a été programmé pour que les Verseaux aient toujours un excellent horoscope."
                 },
                 {
                   "id": "3",
-                  "content": "Il est biaisé par ses données d'entraînement où les Verseaux sont surreprésentés."
+                  "content": "Le LLM est biaisé par ses données d'entraînement où les Verseaux sont surreprésentés."
                 }
               ],
               "feedbacks": {
