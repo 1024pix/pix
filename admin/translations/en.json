@@ -16,7 +16,8 @@
       "login-user-temporary-blocked-error": "You have reached too many failed login attempts. Please try again later or '<'a href=\"{url}\"'>'reset your password here'</a>'."
     },
     "forms": {
-      "mandatory-fields": "The fields marked '<abbr title=\"required\" class=\"mandatory-mark\">'*'</abbr>' are required"
+      "mandatory-fields": "The fields marked '<abbr title=\"required\" class=\"mandatory-mark\">'*'</abbr>' are required",
+      "loading": "Loading..."
     },
     "notifications": {
       "generic-error": "An error occurred."
@@ -40,6 +41,20 @@
           "success": "Features have been enabled."
         },
         "upload-button": "Import CSV file"
+      },
+      "anonymize-gar-import": {
+        "title": "Anonymize GAR Data",
+        "description": "Note: Anonymization should be done once a year. Provide the list of user IDs to be anonymized.",
+        "notifications": {
+          "error": {
+            "payload-too-large": "The CSV file must be a maximum size of {maxSize}Mb."
+          },
+          "success": {
+            "full": "All GAR data has been successfully anonymized for the {anonymized} users provided.",
+            "partial": "GAR data has been anonymized for {anonymized} users for a total of {total}."
+          }
+        },
+        "upload-button": "Anonymize from a CSV file"
       },
       "oidc-providers-import": {
         "title": "OIDC Providers import",

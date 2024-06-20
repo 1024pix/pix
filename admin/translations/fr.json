@@ -16,7 +16,8 @@
       "login-user-temporary-blocked-error": "Vous avez effectué trop de tentatives de connexion. Réessayez plus tard ou cliquez sur '<'a href=\"{url}\"'>'mot de passe oublié'</a>' pour le réinitialiser."
     },
     "forms": {
-      "mandatory-fields": "Les champs marqués de '<abbr title=\"obligatoire\" class=\"mandatory-mark\">'*'</abbr>' sont obligatoires"
+      "mandatory-fields": "Les champs marqués de '<abbr title=\"obligatoire\" class=\"mandatory-mark\">'*'</abbr>' sont obligatoires",
+      "loading": "Chargement..."
     },
     "notifications": {
       "generic-error": "Une erreur est survenue."
@@ -40,6 +41,20 @@
           "success": "Les fonctionnalités ont bien été activés."
         },
         "upload-button": "Importer un fichier CSV"
+      },
+      "anonymize-gar-import": {
+        "title": "Anonymiser les données du GAR",
+        "description": "Note: Anonymisation à effectuer 1 fois par an. Fournir la liste des identifiants utilisateurs à anonymiser.",
+        "notifications": {
+          "error": {
+            "payload-too-large": "Le fichier CSV doit avoir une taille maximum de {maxSize}Mb."
+          },
+          "success": {
+            "full": "Toutes les données du GAR ont bien été anonymisés pour les {anonymized} utilisateurs fournis.",
+            "partial": "Les données du GAR ont été anonymisés pour {anonymized} utilisateurs sur un total de {total}."
+          }
+        },
+        "upload-button": "Anonymiser à partir d'un fichier CSV"
       },
       "campaigns-import": {
         "title": "Création de campagnes en masse",
