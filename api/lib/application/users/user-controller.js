@@ -2,7 +2,6 @@ import { usecases as devcompUsecases } from '../../../src/devcomp/domain/usecase
 import * as trainingSerializer from '../../../src/devcomp/infrastructure/serializers/jsonapi/training-serializer.js';
 import { evaluationUsecases } from '../../../src/evaluation/domain/usecases/index.js';
 import * as scorecardSerializer from '../../../src/evaluation/infrastructure/serializers/jsonapi/scorecard-serializer.js';
-import { userWithActivitySerializer } from '../../../src/identity-access-management/infrastructure/serializers/jsonapi/user-with-activity.serializer.js';
 import * as campaignParticipationSerializer from '../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/campaign-participation-serializer.js';
 import * as userSerializer from '../../../src/shared/infrastructure/serializers/jsonapi/user-serializer.js';
 import * as queryParamsUtils from '../../../src/shared/infrastructure/utils/query-params-utils.js';
@@ -23,11 +22,6 @@ import * as userAnonymizedDetailsForAdminSerializer from '../../infrastructure/s
 import * as userDetailsForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-details-for-admin-serializer.js';
 import * as userForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-for-admin-serializer.js';
 import * as userOrganizationForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-organization-for-admin-serializer.js';
-
-const getCurrentUser = function (request, h, dependencies = { userWithActivitySerializer }) {
-  const authenticatedUserId = request.auth.credentials.userId;
-  return usecases.getCurrentUser({ authenticatedUserId }).then(dependencies.userWithActivitySerializer.serialize);
-};
 
 const getUserDetailsForAdmin = async function (request, h, dependencies = { userDetailsForAdminSerializer }) {
   const userId = request.params.id;
@@ -416,7 +410,6 @@ const userController = {
   findUserOrganizationsForAdmin,
   getCampaignParticipationOverviews,
   getCampaignParticipations,
-  getCurrentUser,
   getProfile,
   getProfileForAdmin,
   getUserAuthenticationMethods,
