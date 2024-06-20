@@ -234,6 +234,14 @@
   },
   "pages": {
     "administration": {
+      "certification": {
+        "certification-scoring-configuration": {
+          "title": "Configuration des mailles pour le score global",
+          "form": {
+            "label": "Ajout de la configuration de score de certification (JSON)"
+          }
+        }
+      },
       "navigation": {
         "aria-label": "Navigation de la section administration",
         "common": {

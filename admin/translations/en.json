@@ -224,6 +224,14 @@
   },
   "pages": {
     "administration": {
+      "certification": {
+        "certification-scoring-configuration": {
+          "title": "Mesh configuration for global score",
+          "form": {
+            "label": "Add certification score configuration (JSON)"
+          }
+        }
+      },
       "navigation": {
         "aria-label": "Administration section navigation",
         "common": {

@@ -9,15 +9,4 @@
     </PixTextarea>
     <PixButton @type="submit">Envoyer</PixButton>
   </form>
-
-  <form {{on "submit" this.onCertificationScoringConfigurationSubmit}}>
-    <PixTextarea
-      @id="certification-scoring-configuration"
-      @value={{this.certificationScoringConfiguration}}
-      {{on "change" this.onCertificationScoringConfigurationChange}}
-    >
-      <:label>Ajout de la configuration de score de certification (JSON) :</:label>
-    </PixTextarea>
-    <PixButton @type="submit">Envoyer</PixButton>
-  </form>
 </section>
