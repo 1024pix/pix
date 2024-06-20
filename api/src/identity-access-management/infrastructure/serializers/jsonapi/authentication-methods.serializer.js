@@ -8,4 +8,7 @@ const serialize = function (authenticationMethods) {
   }).serialize(authenticationMethods);
 };
 
-export { serialize };
+/**
+ * @typedef AuthenticationMethodsSerializer
+ */
+export const authenticationMethodsSerializer = { serialize };
