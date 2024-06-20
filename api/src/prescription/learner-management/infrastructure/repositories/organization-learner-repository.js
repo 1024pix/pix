@@ -4,6 +4,7 @@ import { OrganizationLearnersCouldNotBeSavedError } from '../../../../../lib/dom
 import { OrganizationLearner } from '../../../../../lib/domain/models/index.js';
 import * as organizationLearnerRepository from '../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 import { ApplicationTransaction } from '../../../shared/infrastructure/ApplicationTransaction.js';
+import { CommonOrganizationLearner } from '../../domain/models/ImportOrganizationLearnerSet.js';
 
 const removeByIds = function ({ organizationLearnerIds, userId, domainTransaction }) {
   return domainTransaction
@@ -68,15 +69,51 @@ const saveCommonOrganizationLearners = function (learners) {
   const knex = ApplicationTransaction.getConnection();
   return knex('organization-learners').insert(learners);
 };
-const disableCommonOrganizationLearnersFromOrganizationId = function (organizationId) {
+
+const disableCommonOrganizationLearnersFromOrganizationId = function ({
+  organizationId,
+  excludeOrganizationLearnerIds = [],
+}) {
   const knex = ApplicationTransaction.getConnection();
-  return knex('organization-learners').where({ organizationId }).update({ isDisabled: true, updatedAt: new Date() });
+  return knex('organization-learners')
+    .where({ organizationId, isDisabled: false })
+    .whereNull('deletedAt')
+    .update({ isDisabled: true, updatedAt: new Date() })
+    .whereNotIn('id', excludeOrganizationLearnerIds);
+};
+
+const updateCommonLearnersFromOrganizationId = function ({ learners, organizationId }) {
+  const knex = ApplicationTransaction.getConnection();
+
+  return Promise.all(
+    learners.map((learner) => {
+      return knex('organization-learners')
+        .where({ id: learner.id, organizationId })
+        .whereNull('deletedAt')
+        .update({ ...learner, isDisabled: false, updatedAt: new Date() });
+    }),
+  );
+};
+
+const findAllCommonLearnersFromOrganizationId = async function ({ organizationId }) {
+  const knex = ApplicationTransaction.getConnection();
+
+  const existingLearners = await knex('view-active-organization-learners')
+    .select(['firstName', 'id', 'lastName', 'userId', 'organizationId', 'attributes'])
+    .where({ organizationId });
+
+  return existingLearners.map(
+    ({ firstName, lastName, id, userId, organizationId, attributes }) =>
+      new CommonOrganizationLearner({ firstName, lastName, id, userId, organizationId, ...attributes }),
+  );
 };
 
 export {
   addOrUpdateOrganizationOfOrganizationLearners,
   disableAllOrganizationLearnersInOrganization,
   disableCommonOrganizationLearnersFromOrganizationId,
+  findAllCommonLearnersFromOrganizationId,
   removeByIds,
   saveCommonOrganizationLearners,
+  updateCommonLearnersFromOrganizationId,
 };

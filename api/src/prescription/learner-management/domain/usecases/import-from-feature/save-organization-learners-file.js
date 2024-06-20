@@ -22,17 +22,32 @@ const saveOrganizationLearnersFile = async function ({
 
     const parser = CommonCsvLearnerParser.buildParser({ buffer, importFormat });
 
-    const learners = parser.parse(organizationImport.encoding);
+    const learnersData = parser.parse(organizationImport.encoding);
 
     const learnerSet = ImportOrganizationLearnerSet.buildSet({
       organizationId,
       importFormat,
     });
 
-    learnerSet.addLearners(learners);
+    learnerSet.addLearners(learnersData);
 
-    await organizationLearnerRepository.disableCommonOrganizationLearnersFromOrganizationId(organizationId);
-    await organizationLearnerRepository.saveCommonOrganizationLearners(learnerSet.learners);
+    const existingLearners = await organizationLearnerRepository.findAllCommonLearnersFromOrganizationId({
+      organizationId,
+    });
+
+    learnerSet.setExistingLearners(existingLearners);
+
+    const learners = learnerSet.learners;
+
+    await organizationLearnerRepository.disableCommonOrganizationLearnersFromOrganizationId({
+      organizationId,
+      excludeOrganizationLearnerIds: learners.existinglearnerIds,
+    });
+    await organizationLearnerRepository.updateCommonLearnersFromOrganizationId({
+      organizationId,
+      learners: learners.update,
+    });
+    await organizationLearnerRepository.saveCommonOrganizationLearners(learners.create);
   } catch (error) {
     if (Array.isArray(error)) {
       errors.push(...error);
