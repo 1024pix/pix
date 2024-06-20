@@ -1,14 +1,14 @@
-import { acceptPixOrgaTermsOfService } from '../../../../lib/domain/usecases/accept-pix-orga-terms-of-service.js';
-import { expect, sinon } from '../../../test-helper.js';
+import { acceptPixOrgaTermsOfService } from '../../../../../src/identity-access-management/domain/usecases/accept-pix-orga-terms-of-service.usecase.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | accept-pix-orga-terms-of-service', function () {
+describe('Unit | Identity Access Management | Domain | UseCase | accept-pix-orga-terms-of-service', function () {
   let userRepository;
 
   beforeEach(function () {
     userRepository = { updatePixOrgaTermsOfServiceAcceptedToTrue: sinon.stub() };
   });
 
-  it('should accept terms of service of pix-orga', async function () {
+  it('accepts terms of service of pix-orga', async function () {
     // given
     const userId = Symbol('userId');
     const updatedUser = Symbol('updateduser');
