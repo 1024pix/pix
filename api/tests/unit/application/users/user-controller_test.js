@@ -898,42 +898,6 @@ describe('Unit | Controller | user-controller', function () {
     });
   });
 
-  describe('#getUserAuthenticationMethods', function () {
-    it('should call the usecase to find user authentication methods', async function () {
-      // given
-      const user = domainBuilder.buildUser();
-      const authenticationMethods = [
-        domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({ userId: user.id }),
-      ];
-
-      const responseSerialized = Symbol('an response serialized');
-      sinon.stub(usecases, 'findUserAuthenticationMethods');
-      const authenticationMethodsSerializer = { serialize: sinon.stub() };
-
-      usecases.findUserAuthenticationMethods.withArgs({ userId: user.id }).resolves(authenticationMethods);
-      authenticationMethodsSerializer.serialize.withArgs(authenticationMethods).returns(responseSerialized);
-
-      const request = {
-        auth: {
-          credentials: {
-            userId: user.id,
-          },
-        },
-        params: {
-          id: user.id,
-        },
-      };
-
-      // when
-      const response = await userController.getUserAuthenticationMethods(request, hFake, {
-        authenticationMethodsSerializer,
-      });
-
-      // then
-      expect(response).to.deep.equal(responseSerialized);
-    });
-  });
-
   describe('#addPixAuthenticationMethodByEmail', function () {
     it('should return the user with the new pix authentication method by user email', async function () {
       // given

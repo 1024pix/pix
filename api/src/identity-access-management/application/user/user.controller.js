@@ -3,6 +3,8 @@ import * as userSerializer from '../../../shared/infrastructure/serializers/json
 import { requestResponseUtils } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { userWithActivitySerializer } from '../../infrastructure/serializers/jsonapi/user-with-activity.serializer.js';
+import * as authenticationMethodsSerializer
+  from '../../../../lib/infrastructure/serializers/jsonapi/authentication-methods-serializer.js';
 
 /**
  * @param request
@@ -18,6 +20,22 @@ const getCurrentUser = async function (request, h, dependencies = { userWithActi
   const result = await usecases.getCurrentUser({ authenticatedUserId });
 
   return dependencies.userWithActivitySerializer.serialize(result);
+};
+
+/**
+ * @param request
+ * @param h
+ * @param {{
+ *   authenticationMethodsSerializer: AuthenticationMethodsSerializer
+ * }} dependencies
+ * @return {Promise<*>}
+ */
+const getUserAuthenticationMethods = async function (request, h, dependencies = { authenticationMethodsSerializer }) {
+  const userId = request.params.id;
+
+  const authenticationMethods = await usecases.findUserAuthenticationMethods({ userId });
+
+  return dependencies.authenticationMethodsSerializer.serialize(authenticationMethods);
 };
 
 /**
@@ -70,6 +88,7 @@ const updatePassword = async function (request, h) {
 
 export const userController = {
   getCurrentUser,
+  getUserAuthenticationMethods,
   save,
   updatePassword,
 };

@@ -9,7 +9,6 @@ import * as requestResponseUtils from '../../../src/shared/infrastructure/utils/
 import { eventBus } from '../../domain/events/index.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
-import * as authenticationMethodsSerializer from '../../infrastructure/serializers/jsonapi/authentication-methods-serializer.js';
 import * as campaignParticipationOverviewSerializer from '../../infrastructure/serializers/jsonapi/campaign-participation-overview-serializer.js';
 import * as certificationCenterMembershipSerializer from '../../infrastructure/serializers/jsonapi/certification-center-membership-serializer.js';
 import * as certificationEligibilitySerializer from '../../infrastructure/serializers/jsonapi/certification-eligibility-serializer.js';
@@ -322,14 +321,6 @@ const updateUserEmailWithValidation = async function (request, h, dependencies =
   return dependencies.updateEmailSerializer.serialize(updatedUserAttributes);
 };
 
-const getUserAuthenticationMethods = async function (request, h, dependencies = { authenticationMethodsSerializer }) {
-  const userId = request.params.id;
-
-  const authenticationMethods = await usecases.findUserAuthenticationMethods({ userId });
-
-  return dependencies.authenticationMethodsSerializer.serialize(authenticationMethods);
-};
-
 const addPixAuthenticationMethodByEmail = async function (
   request,
   h,
@@ -412,7 +403,6 @@ const userController = {
   getCampaignParticipations,
   getProfile,
   getProfileForAdmin,
-  getUserAuthenticationMethods,
   getUserCampaignAssessmentResult,
   getUserCampaignParticipationToCampaign,
   getUserDetailsForAdmin,

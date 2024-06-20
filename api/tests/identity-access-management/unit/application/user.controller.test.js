@@ -2,7 +2,7 @@ import { userController } from '../../../../src/identity-access-management/appli
 import { User } from '../../../../src/identity-access-management/domain/models/User.js';
 import { usecases } from '../../../../src/identity-access-management/domain/usecases/index.js';
 import * as requestResponseUtils from '../../../../src/shared/infrastructure/utils/request-response-utils.js';
-import { expect, hFake, sinon } from '../../../test-helper.js';
+import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Application | Controller | User', function () {
   let userSerializer;
@@ -32,6 +32,42 @@ describe('Unit | Identity Access Management | Application | Controller | User', 
       expect(response).to.be.equal('ok');
       expect(getCurrentUserStub).to.have.been.calledWithExactly({ authenticatedUserId: 1 });
       expect(userWithActivitySerializer.serialize).to.have.been.calledWithExactly(currentUser);
+    });
+  });
+
+  describe('#getUserAuthenticationMethods', function () {
+    it('calls the usecase to find user authentication methods', async function () {
+      // given
+      const user = domainBuilder.buildUser();
+      const authenticationMethods = [
+        domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({ userId: user.id }),
+      ];
+
+      const responseSerialized = Symbol('an response serialized');
+      sinon.stub(usecases, 'findUserAuthenticationMethods');
+      const authenticationMethodsSerializer = { serialize: sinon.stub() };
+
+      usecases.findUserAuthenticationMethods.withArgs({ userId: user.id }).resolves(authenticationMethods);
+      authenticationMethodsSerializer.serialize.withArgs(authenticationMethods).returns(responseSerialized);
+
+      const request = {
+        auth: {
+          credentials: {
+            userId: user.id,
+          },
+        },
+        params: {
+          id: user.id,
+        },
+      };
+
+      // when
+      const response = await userController.getUserAuthenticationMethods(request, hFake, {
+        authenticationMethodsSerializer,
+      });
+
+      // then
+      expect(response).to.deep.equal(responseSerialized);
     });
   });
 
