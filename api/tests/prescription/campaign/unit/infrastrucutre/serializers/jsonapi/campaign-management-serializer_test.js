@@ -23,6 +23,7 @@ describe('Unit | Serializer | JSONAPI | campaign-management-serializer', functio
             name: campaignManagement.name,
             type: campaignManagement.type,
             'archived-at': campaignManagement.archivedAt,
+            'deleted-at': campaignManagement.deletedAt,
             'created-at': campaignManagement.createdAt,
             'creator-id': campaignManagement.creatorId,
             'creator-first-name': campaignManagement.creatorFirstName,

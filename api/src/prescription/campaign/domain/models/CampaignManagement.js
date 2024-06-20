@@ -7,6 +7,7 @@ class CampaignManagement {
     idPixLabel,
     createdAt,
     archivedAt,
+    deletedAt,
     type,
     creatorLastName,
     creatorFirstName,
@@ -36,6 +37,7 @@ class CampaignManagement {
     this.idPixLabel = idPixLabel;
     this.createdAt = createdAt;
     this.archivedAt = archivedAt;
+    this.deletedAt = deletedAt;
     this.creatorLastName = creatorLastName;
     this.creatorFirstName = creatorFirstName;
     this.creatorId = creatorId;

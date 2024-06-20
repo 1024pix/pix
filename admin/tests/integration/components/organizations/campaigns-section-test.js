@@ -50,6 +50,7 @@ module('Integration | Component | organizations/campaigns-section', function (ho
       assert.dom(screen.getByText('Créée par')).exists();
       assert.dom(screen.getByText('Propriétaire')).exists();
       assert.dom(screen.getByText('Archivée le')).exists();
+      assert.dom(screen.getByText('Supprimée le')).exists();
     });
 
     test('it should display a list of campaigns', async function (assert) {
@@ -93,6 +94,7 @@ module('Integration | Component | organizations/campaigns-section', function (ho
         id: 1,
         name: 'Nom de campagne 1',
         archivedAt: new Date('2021-01-01'),
+        deletedAt: new Date('2023-12-31'),
         type: 'ASSESSMENT',
         code: '123',
         createdAt: new Date('2021-01-02'),
@@ -134,6 +136,7 @@ module('Integration | Component | organizations/campaigns-section', function (ho
       assert.dom(screen.getByRole('link', { name: 'Nom du profil cible' })).exists();
       assert.dom(screen.getByText('01/01/2021')).exists();
       assert.dom(screen.getByText('02/01/2021')).exists();
+      assert.dom(screen.getByText('31/12/2023')).exists();
 
       assert.dom(screen.getByRole('link', { name: '456' })).exists();
       assert.dom(screen.getByText('456')).exists();
@@ -141,7 +144,6 @@ module('Integration | Component | organizations/campaigns-section', function (ho
       assert.dom(screen.getByText('Nom de campagne 2')).exists();
       assert.dom(screen.getByText('Queen Elizabeth')).exists();
       assert.dom(screen.getByText('Amer Credi')).exists();
-      assert.dom(screen.getByText('-')).exists();
       assert.dom(screen.getByText('03/01/2021')).exists();
       assert.dom(screen.getByText('04/01/2021')).exists();
     });
@@ -152,6 +154,31 @@ module('Integration | Component | organizations/campaigns-section', function (ho
         id: 1,
         name: 'Nom de campagne 1',
         archivedAt: null,
+        deletedAt: new Date('2021-01-02'),
+        type: 'ASSESSMENT',
+        code: '123',
+        createdAt: new Date('2021-01-02'),
+        creatorLastName: 'King',
+        creatorFirstName: 'Karam',
+      };
+      const campaigns = [campaign];
+      campaigns.meta = { rowCount: 1 };
+      this.set('campaigns', campaigns);
+
+      // when
+      const screen = await render(hbs`<Organizations::CampaignsSection @campaigns={{this.campaigns}} />`);
+
+      // then
+      assert.dom(screen.getByText('-')).exists();
+    });
+
+    test('it should display - when there is no deletedAt date', async function (assert) {
+      // given
+      const campaign = {
+        id: 1,
+        name: 'Nom de campagne 1',
+        archivedAt: new Date('2021-01-02'),
+        deletedAt: null,
         type: 'ASSESSMENT',
         code: '123',
         createdAt: new Date('2021-01-02'),
