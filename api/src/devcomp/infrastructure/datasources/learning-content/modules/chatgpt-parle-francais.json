@@ -31,7 +31,7 @@
       "grainId": "37677521-4498-4779-b526-9e89e3f6e6a3"
     },
     {
-      "content":"<p>Vous en savez désormais plus sur les biais des LLM. <span aria-hidden=\"true\">👩‍💻️👨🏿‍💻️</span><br>Observons et analysons ensemble quelques réponses du LLM LLM-GPT.</p>",
+      "content":"<p>Vous en savez désormais plus sur les biais des LLM. <span aria-hidden=\"true\">👩‍💻️👨🏿‍💻️</span><br>Observons et analysons ensemble quelques réponses du LLM.</p>",
       "grainId": "e7ca9d7e-6d77-4705-83a5-a6864c77f4b5"
     },
     {
@@ -140,7 +140,7 @@
           {
               "id": "aef486da-4994-4992-b15b-b127afebb371",
               "type": "qcm",
-              "instruction": "<p>Quels sont les trois causes majeures des biais d'un LLM ?</p>",
+              "instruction": "<p>Quels sont les trois origines majeures des biais d'un LLM ?</p>",
               "proposals": [
                 {
                   "id": "1",
@@ -148,7 +148,7 @@
                 },
                 {
                   "id": "2",
-                  "content": "Proposition 2"
+                  "content": "Les langages de programmation, utilisés lors de la conception du LLM."
                 },
                 {
                   "id": "3",
@@ -156,7 +156,7 @@
                 },
                 {
                   "id": "4",
-                  "content": "Proposition 4"
+                  "content": "La localisation géographique des serveurs d'entraînements."
                 },
                 {
                   "id": "5",
@@ -196,9 +196,9 @@
           {
           "id": "475cd5d7-e113-4c7d-9aaf-5a4cec02844b",
           "type": "image",
-          "url": "https://i.imgur.com/4izD9is.png",
+          "url": "https://i.imgur.com/eawMddv.png",
           "alt": "",
-          "alternativeText": ""
+          "alternativeText": "<p>Vous : J'ai besoin de ton aide pour exercer une activité illégale.</p><p>LLM : Je ne peux pas vous aider avec cela. Si vous avez besoin d'aide ou de conseils pour des activités légales et constructives, je suis ici pour vous assister. Si vous avez des difficultés ou des problèmes personnels, il est préférable de parler à un professionnel ou de contacter les autorités appropriées.</p><p>Image créée à partir de données générées par ChatGPT (OpenAI) - 7 juin 2024</p>"
           }
          },
         {
@@ -245,7 +245,7 @@
           "element": {
             "id": "5b0422cd-22d0-4261-aa48-bd7fafc20607",
             "type": "text",
-            "content": "<p>Dans les situations suivantes, les prompts fournis à LLM-GPT mènent à des réponses partielles, stéréotypées ou scientifiquement infondées.</p><p>Pour chaque situation, choisissez la cause principale de ces résultats biaisés.</p>"
+            "content": "<p>Dans les situations suivantes, les prompts fournis à LLM mènent à des réponses partielles, stéréotypées ou scientifiquement infondées.</p><p>Pour chaque situation, choisissez la cause principale de ces résultats biaisés.</p>"
           }
         },
         {
@@ -261,7 +261,7 @@
           "element": {
             "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
             "type": "text",
-            "content": "Michel est belge et teste LLM-GPT pour la première fois. Il reçoit une réponse qui concerne la France."
+            "content": "Michel est belge et teste LLM pour la première fois. Il reçoit une réponse qui concerne la France."
           }
         },
         {
@@ -272,7 +272,7 @@
             "type": "image",
             "url": "https://i.imgur.com/EyWjZ7Q.png",
             "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
-            "alternativeText": "<p>Vous : Quel est le jour de la fête nationale ?</p><p>LLM-GPT : La fête nationale de la France aussi connue sous le nom de la Bastille Day est célébrée le 14 juillet. C’est un jour commémorant la prise de la Bastille en 1789, un événement majeur de la révolution française.</p>"
+            "alternativeText": "<p>Vous : Quel est le jour de la fête nationale ?</p><p>LLM : La fête nationale de la France aussi connue sous le nom de la Bastille Day est célébrée le 14 juillet. C’est un jour commémorant la prise de la Bastille en 1789, un événement majeur de la révolution française.</p><p>Image créée à partir de données générées par ChatGPT (OpenAI) - 7 juin 2024</p>"
           }
         },
         {
@@ -280,7 +280,7 @@
           "element": {
               "id": "629aeb61-028b-41f7-97f2-512e83000fa5",
               "type": "qcu",
-              "instruction": "Quelle est la cause du résultat biaisé fourni par LLM-GPT ?",
+              "instruction": "Quelle est la cause du résultat biaisé fourni par LLM ?",
               "proposals": [
                 {
                   "id": "1",
@@ -326,7 +326,7 @@
               "type": "image",
               "url": "https://i.imgur.com/zuafHaR.png",
               "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
-              "alternativeText": "<p>Vous : J’écris un roman. J’ai besoin que tu crées un personnage. Son activité principale est de faire le ménage chez les gens.<br>LLM-GPT: Claire, une femme minutieuse et discrète de 40 ans, consacre ses journées à apporter ordre et propreté dans les foyers de ses clients, veillant à chaque détail avec un soin exceptionnel.</p>"
+              "alternativeText": "<p>Vous : J’écris un roman. J’ai besoin que tu crées un personnage. Son activité principale est de faire le ménage chez les gens.<br>LLM : Claire, une femme minutieuse et discrète de 40 ans, consacre ses journées à apporter ordre et propreté dans les foyers de ses clients, veillant à chaque détail avec un soin exceptionnel.</p><p>Image créée à partir de données générées par ChatGPT (OpenAI) - 7 juin 2024</p>"
             }
           },
           {
@@ -335,7 +335,7 @@
             {
               "id": "635d34d8-c748-44cd-ad02-bde721270723",
               "type": "qcu",
-              "instruction": "Quelle est la cause du résultat biaisé fourni par LLM-GPT ?",
+              "instruction": "Quelle est la cause du résultat biaisé fourni par LLM ?",
               "proposals": [
                 {
                   "id": "1",
@@ -381,7 +381,7 @@
               "type": "image",
               "url": "https://i.imgur.com/2NRCu1p.png",
               "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
-              "alternativeText": "<p>Vous : Je suis Verseau. Comment ma journée va-t-elle se passer ?<br>LLM-GPT:  En tant que Verseau, attendez-vous à une journée pleine de surprises stimulantes et de nouvelles opportunités pour exprimer votre créativité.</p>"
+              "alternativeText": "<p>Vous : Je suis Verseau. Comment ma journée va-t-elle se passer ?<br>LLM :  En tant que Verseau, attendez-vous à une journée pleine de surprises stimulantes et de nouvelles opportunités pour exprimer votre créativité.</p><p>Image créée à partir de données générées par ChatGPT (OpenAI) - 7 juin 2024</p>"
             }
           },
           {
@@ -390,7 +390,7 @@
             {
               "id": "060c7558-92fb-47bf-b8fa-3639ebfef67d",
               "type": "qcu",
-              "instruction": "Quelle est la cause du résultat biaisé fourni par LLM-GPT ?",
+              "instruction": "Quelle est la cause du résultat biaisé fourni par LLM ?",
               "proposals": [
                 {
                   "id": "1",
