@@ -230,6 +230,12 @@
           "form": {
             "label": "Add certification score configuration (JSON)"
           }
+        },
+        "competence-scoring-configuration": {
+          "title": "Configuration of thresholds by skill",
+          "form": {
+            "label": "Level configuration by skill added (JSON)"
+          }
         }
       },
       "navigation": {

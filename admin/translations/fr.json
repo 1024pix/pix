@@ -240,6 +240,12 @@
           "form": {
             "label": "Ajout de la configuration de score de certification (JSON)"
           }
+        },
+        "competence-scoring-configuration": {
+          "title": "Configuration des seuils par compétence",
+          "form": {
+            "label": "Ajout de la configuration de niveau par compétence (JSON)"
+          }
         }
       },
       "navigation": {
