@@ -1,3 +1,4 @@
+import { anonymizationAdminRoutes } from './anonymization/anonymization.admin.route.js';
 import { oidcProviderAdminRoutes } from './oidc-provider/oidc-provider.admin.route.js';
 import { oidcProviderRoutes } from './oidc-provider/oidc-provider.route.js';
 import { passwordRoutes } from './password/password.route.js';
@@ -8,6 +9,7 @@ import { userRoutes } from './user/user.route.js';
 
 const register = async function (server) {
   server.route([
+    ...anonymizationAdminRoutes,
     ...oidcProviderAdminRoutes,
     ...oidcProviderRoutes,
     ...passwordRoutes,
