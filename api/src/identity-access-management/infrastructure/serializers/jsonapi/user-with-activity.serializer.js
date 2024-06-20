@@ -8,6 +8,7 @@ const serialize = function (users, meta) {
       'firstName',
       'lastName',
       'email',
+      'emailConfirmed',
       'username',
       'cgu',
       'lastTermsOfServiceValidatedAt',
@@ -64,4 +65,4 @@ const serialize = function (users, meta) {
   }).serialize(users);
 };
 
-export { serialize };
+export const userWithActivitySerializer = { serialize };

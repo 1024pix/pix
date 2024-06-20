@@ -21,6 +21,7 @@ export default class User extends Model {
   @attr('string') locale;
   @attr('boolean') isAnonymous;
   @attr('boolean') shouldSeeDataProtectionPolicyInformationBanner;
+  @attr('boolean') emailConfirmed;
   @attr() lastDataProtectionPolicySeenAt;
 
   // includes

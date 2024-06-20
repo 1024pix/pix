@@ -100,4 +100,42 @@ module('Unit | Controller | user-account | connection-methods', function (hooks)
       assert.ok(controller.oidcAuthenticationMethodOrganizationNames.includes('France Connect'));
     });
   });
+
+  module('#shouldShowEmailConfirmedBanner', function () {
+    module('when email is confirmed', function () {
+      test('returns true', function (assert) {
+        // given
+        const controller = this.owner.lookup('controller:authenticated/user-account/connection-methods');
+        const authenticationMethods = [EmberObject.create({ identityProvider: 'PIX' })];
+        const model = {
+          user: { emailConfirmed: true },
+          authenticationMethods,
+        };
+
+        // when
+        controller.set('model', model);
+
+        // then
+        assert.true(controller.shouldShowEmailConfirmedBanner);
+      });
+    });
+
+    module('when email is not confirmed', function () {
+      test('returns false', function (assert) {
+        // given
+        const controller = this.owner.lookup('controller:authenticated/user-account/connection-methods');
+        const authenticationMethods = [EmberObject.create({ identityProvider: 'PIX' })];
+        const model = {
+          user: { emailConfirmed: false },
+          authenticationMethods,
+        };
+
+        // when
+        controller.set('model', model);
+
+        // then
+        assert.false(controller.shouldShowEmailConfirmedBanner);
+      });
+    });
+  });
 });

@@ -68,6 +68,28 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
         });
       });
     });
+
+    context('email confirmation', function () {
+      context('when emailConfirmedAt is defined', function () {
+        it('returns "true" for attribute "emailConfirmed"', function () {
+          // when
+          const user = new User({ emailConfirmedAt: new Date() });
+
+          // then
+          expect(user.emailConfirmed).to.be.true;
+        });
+      });
+
+      context('when emailConfirmedAt is not defined', function () {
+        it('returns "false" for attribute "emailConfirmed"', function () {
+          // when
+          const user = new User();
+
+          // then
+          expect(user.emailConfirmed).to.false;
+        });
+      });
+    });
   });
 
   describe('setLocaleIfNotAlreadySet', function () {

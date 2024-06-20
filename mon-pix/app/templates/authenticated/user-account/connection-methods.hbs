@@ -30,6 +30,12 @@
             {{t "pages.user-account.email-verification.update-successful"}}
           </PixMessage>
         {{/if}}
+
+        {{#if this.shouldShowEmailConfirmedBanner}}
+          <PixMessage @type="success" @withIcon={{true}} class="user-account-panel__success-message">
+            {{t "pages.user-account.email-confirmed"}}
+          </PixMessage>
+        {{/if}}
       {{/if}}
 
       {{#if this.shouldShowUsername}}

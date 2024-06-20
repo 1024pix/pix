@@ -1,9 +1,9 @@
-import { UserWithActivity } from '../../../../../lib/domain/read-models/UserWithActivity.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/user-with-activity-serializer.js';
-import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
-import { expect } from '../../../../test-helper.js';
+import { User } from '../../../../../../src/identity-access-management/domain/models/User.js';
+import { UserWithActivity } from '../../../../../../src/identity-access-management/domain/read-models/UserWithActivity.js';
+import { userWithActivitySerializer } from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/user-with-activity.serializer.js';
+import { expect } from '../../../../../test-helper.js';
 
-describe('Unit | Serializer | JSONAPI | user-with-activity-serializer', function () {
+describe('Unit | Identity Access Management | Infrastructure | Serializer | JSONAPI | user-with-activity', function () {
   describe('#serialize', function () {
     let userModelObject;
 
@@ -35,7 +35,7 @@ describe('Unit | Serializer | JSONAPI | user-with-activity-serializer', function
     });
 
     describe('when user has no userOrgaSettings', function () {
-      it('should serialize excluding password', function () {
+      it('serializes excluding password', function () {
         // given
         const expectedSerializedUser = {
           data: {
@@ -45,6 +45,7 @@ describe('Unit | Serializer | JSONAPI | user-with-activity-serializer', function
               'first-name': userModelObject.firstName,
               'last-name': userModelObject.lastName,
               email: userModelObject.email,
+              'email-confirmed': false,
               username: userModelObject.username,
               cgu: userModelObject.cgu,
               lang: userModelObject.lang,
@@ -86,7 +87,7 @@ describe('Unit | Serializer | JSONAPI | user-with-activity-serializer', function
         };
 
         // when
-        const json = serializer.serialize(userModelObject);
+        const json = userWithActivitySerializer.serialize(userModelObject);
 
         // then
         expect(json).to.be.deep.equal(expectedSerializedUser);
