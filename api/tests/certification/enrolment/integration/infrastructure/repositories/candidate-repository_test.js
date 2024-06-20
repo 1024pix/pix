@@ -115,6 +115,39 @@ describe('Integration | Certification | Session | Repository | Candidate', funct
     });
   });
 
+  describe('#get', function () {
+    describe('when the candidate exists', function () {
+      it('should return the candidate', async function () {
+        // when
+        const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate();
+
+        await databaseBuilder.commit();
+
+        const result = await candidateRepository.get({ certificationCandidateId: certificationCandidate.id });
+
+        // then
+        expect(result).to.deepEqualInstance(
+          new Candidate({
+            ...certificationCandidate,
+          }),
+        );
+      });
+    });
+
+    describe('when the candidate does not exist', function () {
+      it('return null', async function () {
+        // given
+        const wrongCertificationCandidateId = 4568;
+
+        //when
+        const result = await candidateRepository.get({ certificationCandidateId: wrongCertificationCandidateId });
+
+        // then
+        expect(result).to.be.null;
+      });
+    });
+  });
+
   describe('#update', function () {
     describe('when the candidate exists', function () {
       it('should update the candidate', async function () {

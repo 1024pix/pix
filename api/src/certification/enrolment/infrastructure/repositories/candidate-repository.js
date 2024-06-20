@@ -1,6 +1,6 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { Candidate } from '../../../enrolment/domain/models/Candidate.js';
 import { CertificationCandidateNotFoundError } from '../../domain/errors.js';
+import { Candidate } from '../../domain/models/Candidate.js';
 
 const findBySessionId = async function ({ sessionId }) {
   const results = await knex
@@ -19,6 +19,23 @@ const findBySessionId = async function ({ sessionId }) {
     .orderByRaw('LOWER("certification-candidates"."lastName") asc')
     .orderByRaw('LOWER("certification-candidates"."firstName") asc');
   return results.map(_toDomain);
+};
+
+/**
+ * @function
+ * @param {Candidate} params
+ * @param {number} params.certificationCandidateId
+ *
+ * @return {Candidate}
+ */
+const get = async function ({ certificationCandidateId }) {
+  const certificationCandidate = await knex('certification-candidates')
+    .where({
+      id: certificationCandidateId,
+    })
+    .first();
+
+  return _toDomain(certificationCandidate);
 };
 
 /**
@@ -67,7 +84,7 @@ const update = async function (certificationCandidate) {
   return _toDomain(updatedCertificationCandidate);
 };
 
-export { findBySessionId, update };
+export { findBySessionId, get, update };
 
 function _toDomain(result) {
   return result ? new Candidate(result) : null;
