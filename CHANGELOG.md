@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v4.169.0 (20/06/2024)
+
+
+### :rocket: Amélioration
+- [#9325](https://github.com/1024pix/pix/pull/9325) [FEATURE] Gestion des actions du Grain (PIX-12927).
+- [#9318](https://github.com/1024pix/pix/pull/9318) [FEATURE] Affiche la date de suppression d'une campagne sur PixAdmin (13054).
+- [#9211](https://github.com/1024pix/pix/pull/9211) [FEATURE] Ajouter une route pour anonymiser en masse les données du GAR.
+- [#9317](https://github.com/1024pix/pix/pull/9317) [FEATURE] Cache les campagnes supprimées sur PixOrga (PIX-13019).
+- [#9190](https://github.com/1024pix/pix/pull/9190) [FEATURE] Permettre la pérénité des `organization-learners` via l'import générique d'un import à l'autre (PIX-12788).
+- [#9304](https://github.com/1024pix/pix/pull/9304) [FEATURE][MON-PIX] Afficher une bannière informative lorsque l'adresse e-mail du compte est vérifiée (PIX-11710).
+
 ## v4.168.0 (20/06/2024)
 
 
