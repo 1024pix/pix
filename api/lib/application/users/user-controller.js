@@ -44,16 +44,6 @@ const updateUserDetailsForAdministration = async function (
   return dependencies.userDetailsForAdminSerializer.serializeForUpdate(updatedUser);
 };
 
-const acceptPixLastTermsOfService = async function (request, h, dependencies = { userSerializer }) {
-  const authenticatedUserId = request.auth.credentials.userId;
-
-  const updatedUser = await usecases.acceptPixLastTermsOfService({
-    userId: authenticatedUserId,
-  });
-
-  return dependencies.userSerializer.serialize(updatedUser);
-};
-
 const changeLang = async function (request, h, dependencies = { userSerializer }) {
   const authenticatedUserId = request.auth.credentials.userId;
   const lang = request.params.lang;
@@ -390,7 +380,6 @@ const rememberUserHasSeenLastDataProtectionPolicyInformation = async function (
 
 const userController = {
   acceptPixCertifTermsOfService,
-  acceptPixLastTermsOfService,
   acceptPixOrgaTermsOfService,
   addPixAuthenticationMethodByEmail,
   anonymizeUser,

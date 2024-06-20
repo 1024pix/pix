@@ -99,33 +99,6 @@ describe('Unit | Controller | user-controller', function () {
     });
   });
 
-  describe('#acceptPixLastTermsOfService', function () {
-    let request;
-    const userId = 1;
-
-    beforeEach(function () {
-      request = {
-        auth: { credentials: { userId } },
-        params: { id: userId },
-      };
-
-      sinon.stub(usecases, 'acceptPixLastTermsOfService');
-    });
-
-    it('should accept pix terms of service', async function () {
-      // given
-      usecases.acceptPixLastTermsOfService.withArgs({ userId }).resolves({});
-      const stubSerializedObject = 'ok';
-      userSerializer.serialize.withArgs({}).returns(stubSerializedObject);
-
-      // when
-      const response = await userController.acceptPixLastTermsOfService(request, hFake, { userSerializer });
-
-      // then
-      expect(response).to.be.equal(stubSerializedObject);
-    });
-  });
-
   describe('#acceptPixOrgaTermsOfService', function () {
     let request;
     const userId = 1;
