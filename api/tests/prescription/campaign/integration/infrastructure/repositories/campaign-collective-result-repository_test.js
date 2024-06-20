@@ -923,15 +923,18 @@ describe('Integration | Repository | Campaign collective result repository', fun
       context('when there is one participant who shared his participation and try to improve it', function () {
         beforeEach(async function () {
           const { id: userId } = databaseBuilder.factory.buildUser();
+          const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ userId }).id;
           databaseBuilder.factory.buildCampaignParticipation({
             campaignId,
             userId,
+            organizationLearnerId,
             sharedAt: new Date('2020-01-01'),
             isImproved: true,
           });
           databaseBuilder.factory.buildCampaignParticipation({
             campaignId,
             userId,
+            organizationLearnerId,
             sharedAt: new Date('2020-01-04'),
             isImproved: false,
           });
