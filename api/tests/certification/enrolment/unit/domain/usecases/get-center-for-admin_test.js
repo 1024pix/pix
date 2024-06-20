@@ -1,5 +1,5 @@
+import { CenterForAdmin } from '../../../../../../src/certification/enrolment/domain/models/CenterForAdmin.js';
 import { getCenterForAdmin } from '../../../../../../src/certification/enrolment/domain/usecases/get-center-for-admin.js';
-import { CenterForAdmin } from '../../../../../../src/certification/session-management/domain/models/CenterForAdmin.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | get-center-for-admin', function () {

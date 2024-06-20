@@ -1,5 +1,5 @@
 import * as CertificationCenterForAdminRepository from '../../../../lib/infrastructure/repositories/certification-center-for-admin-repository.js';
-import { CenterForAdmin } from '../../../../src/certification/session-management/domain/models/CenterForAdmin.js';
+import { CenterForAdmin } from '../../../../src/certification/enrolment/domain/models/CenterForAdmin.js';
 import { databaseBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Integration | Repository | certification-center-for-admin', function () {

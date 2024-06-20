@@ -2,7 +2,7 @@
  * @typedef {import('./index.js').CenterRepository} CenterRepository
  */
 
-import { CenterForAdmin } from '../../../session-management/domain/models/CenterForAdmin.js';
+import { CenterForAdmin } from '../models/CenterForAdmin.js';
 
 /**
  * @param {Object} params
