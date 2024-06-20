@@ -81,7 +81,7 @@ describe('Unit | Service | MailService', function () {
           expect(options.variables).to.include({
             homeName: 'pix.org',
             homeUrl: 'https://pix.org/fr/',
-            helpdeskUrl: 'https://support.pix.org',
+            helpdeskUrl: 'https://pix.org/fr/support',
             displayNationalLogo: false,
             redirectionUrl: 'https://app.pix.org/connexion/?lang=fr',
             ...mainTranslationsMapping.fr['pix-account-creation-email'].params,
@@ -101,7 +101,7 @@ describe('Unit | Service | MailService', function () {
           expect(options.variables).to.include({
             homeName: 'pix.fr',
             homeUrl: 'https://pix.fr',
-            helpdeskUrl: 'https://support.pix.fr',
+            helpdeskUrl: 'https://pix.fr/support',
             displayNationalLogo: true,
             redirectionUrl: 'https://app.pix.fr/connexion',
             ...mainTranslationsMapping.fr['pix-account-creation-email'].params,
@@ -121,7 +121,7 @@ describe('Unit | Service | MailService', function () {
           expect(options.variables).to.include({
             homeName: 'pix.org',
             homeUrl: 'https://pix.org/en-gb/',
-            helpdeskUrl: 'https://support.pix.org/en/support/home',
+            helpdeskUrl: 'https://pix.org/en/support',
             displayNationalLogo: false,
             redirectionUrl: 'https://app.pix.org/connexion/?lang=en',
             ...mainTranslationsMapping.en['pix-account-creation-email'].params,
@@ -161,7 +161,7 @@ describe('Unit | Service | MailService', function () {
           expect(options.variables).to.include({
             homeName: 'pix.org',
             homeUrl: 'https://pix.org/en-gb/',
-            helpdeskUrl: 'https://support.pix.org/en/support/home',
+            helpdeskUrl: 'https://pix.org/en/support',
             displayNationalLogo: false,
             redirectionUrl: 'https://app.pix.org/connexion/?lang=es',
             ...mainTranslationsMapping.es['pix-account-creation-email'].params,
@@ -250,7 +250,7 @@ describe('Unit | Service | MailService', function () {
             homeName: 'pix.org',
             homeUrl: 'https://pix.org/en-gb/',
             resetUrl: `https://app.pix.org/changer-mot-de-passe/${temporaryKey}/?lang=en`,
-            helpdeskURL: 'https://support.pix.org/en/support/home',
+            helpdeskURL: 'https://pix.org/en/support',
           },
         };
 
@@ -308,7 +308,7 @@ describe('Unit | Service | MailService', function () {
             homeName: 'pix.org',
             homeUrl: 'https://pix.org/en-gb/',
             resetUrl: `https://app.pix.org/changer-mot-de-passe/${temporaryKey}/?lang=es`,
-            helpdeskURL: 'https://support.pix.org/en/support/home',
+            helpdeskURL: 'https://pix.org/en/support',
           },
         };
 
@@ -337,7 +337,7 @@ describe('Unit | Service | MailService', function () {
             homeName: 'pix.org',
             homeUrl: 'https://pix.org/fr/',
             resetUrl: `https://app.pix.org/changer-mot-de-passe/${temporaryKey}/?lang=fr`,
-            helpdeskURL: 'https://support.pix.org',
+            helpdeskURL: 'https://pix.org/fr/support',
           },
         };
 
@@ -366,7 +366,7 @@ describe('Unit | Service | MailService', function () {
             homeName: 'pix.fr',
             homeUrl: 'https://pix.fr',
             resetUrl: `https://app.pix.fr/changer-mot-de-passe/${temporaryKey}`,
-            helpdeskURL: 'https://support.pix.fr',
+            helpdeskURL: 'https://pix.fr/support',
           },
         };
 
@@ -395,7 +395,7 @@ describe('Unit | Service | MailService', function () {
             homeName: 'pix.fr',
             homeUrl: 'https://pix.fr',
             resetUrl: `https://app.pix.fr/changer-mot-de-passe/${temporaryKey}`,
-            helpdeskURL: 'https://support.pix.fr',
+            helpdeskURL: 'https://pix.fr/support',
           },
         };
 
@@ -506,7 +506,7 @@ describe('Unit | Service | MailService', function () {
             pixHomeUrl: 'https://pix.org/fr/',
             pixOrgaHomeUrl: 'https://orga.pix.org/?lang=fr',
             redirectionUrl: `https://orga.pix.org/rejoindre?invitationId=${organizationInvitationId}&code=${code}&lang=fr`,
-            supportUrl: 'https://support.pix.org',
+            supportUrl: 'https://pix.org/fr/support',
             ...mainTranslationsMapping.fr['organization-invitation-email'].params,
           });
         });
@@ -529,7 +529,7 @@ describe('Unit | Service | MailService', function () {
             pixHomeUrl: 'https://pix.fr',
             pixOrgaHomeUrl: 'https://orga.pix.fr/',
             redirectionUrl: `https://orga.pix.fr/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
-            supportUrl: 'https://support.pix.fr',
+            supportUrl: 'https://pix.fr/support',
             ...mainTranslationsMapping.fr['organization-invitation-email'].params,
           });
         });
@@ -552,7 +552,7 @@ describe('Unit | Service | MailService', function () {
             pixHomeUrl: 'https://pix.fr',
             pixOrgaHomeUrl: 'https://orga.pix.fr/',
             redirectionUrl: `https://orga.pix.fr/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
-            supportUrl: 'https://support.pix.fr',
+            supportUrl: 'https://pix.fr/support',
             ...mainTranslationsMapping.fr['organization-invitation-email'].params,
           });
         });
@@ -575,7 +575,7 @@ describe('Unit | Service | MailService', function () {
             pixHomeUrl: 'https://pix.org/en-gb/',
             pixOrgaHomeUrl: 'https://orga.pix.org/?lang=en',
             redirectionUrl: `https://orga.pix.org/rejoindre?invitationId=${organizationInvitationId}&code=${code}&lang=en`,
-            supportUrl: 'https://support.pix.org/en/support/home',
+            supportUrl: 'https://pix.org/en/support',
             ...mainTranslationsMapping.en['organization-invitation-email'].params,
           });
         });
@@ -653,7 +653,7 @@ describe('Unit | Service | MailService', function () {
         pixHomeUrl: 'https://pix.fr',
         pixCertifHomeUrl: 'https://certif.pix.fr/',
         redirectionUrl: `https://certif.pix.fr/rejoindre?invitationId=7&code=ABCDEFGH01`,
-        supportUrl: 'https://support.pix.fr',
+        supportUrl: 'https://pix.fr/support',
         ...mainTranslationsMapping.fr['certification-center-invitation-email'].params,
       });
     });
@@ -684,7 +684,7 @@ describe('Unit | Service | MailService', function () {
           pixHomeUrl: 'https://pix.org/fr/',
           pixCertifHomeUrl: 'https://certif.pix.org/?lang=fr',
           redirectionUrl: `https://certif.pix.org/rejoindre?invitationId=7&code=AAABBBCCC7&lang=fr`,
-          supportUrl: 'https://support.pix.org',
+          supportUrl: 'https://pix.org/fr/support',
           ...mainTranslationsMapping.fr['certification-center-invitation-email'].params,
         });
       });
@@ -716,7 +716,7 @@ describe('Unit | Service | MailService', function () {
           pixHomeUrl: 'https://pix.org/en-gb/',
           pixCertifHomeUrl: 'https://certif.pix.org/?lang=en',
           redirectionUrl: `https://certif.pix.org/rejoindre?invitationId=777&code=LLLJJJVVV1&lang=en`,
-          supportUrl: 'https://support.pix.org/en/support/home',
+          supportUrl: 'https://pix.org/en/support',
           ...mainTranslationsMapping.en['certification-center-invitation-email'].params,
         });
       });
