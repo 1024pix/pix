@@ -27,10 +27,6 @@
       "grainId": "89dbbcf3-7205-470a-baf0-4aa4aac1a87e"
     },
     {
-      "content": "<p>Maintenant, à vous de jouer en inteprétant une réponse biaisée de LLMPix.</p>",
-      "grainId": "37677521-4498-4779-b526-9e89e3f6e6a3"
-    },
-    {
       "content":"<p>Vous en savez désormais plus sur les biais des LLM. <span aria-hidden=\"true\">👩‍💻️👨🏿‍💻️</span><br>Observons et analysons ensemble quelques réponses du LLM.</p>",
       "grainId": "e7ca9d7e-6d77-4705-83a5-a6864c77f4b5"
     },
@@ -174,65 +170,6 @@
             }
 
           }
-      ]
-    },
-    {
-      "id":"37677521-4498-4779-b526-9e89e3f6e6a3",
-      "type":"activity",
-      "title":"D'où viennent les biais des LLM ?",
-      "components":[
-        {
-          "type": "element",
-          "element":
-          {
-              "id": "bec92f3f-f53a-4934-b4bc-493520b0e50e",
-              "type": "text",
-              "content": "<p>Dans la situation ci-dessous, l'utilisateur demande de l'aide sur un sujet qui sort de l'ordinaire. Ce LLM refuse d'y répondre.</p>"
-          }
-         },
-        {
-          "type": "element",
-          "element":
-          {
-          "id": "475cd5d7-e113-4c7d-9aaf-5a4cec02844b",
-          "type": "image",
-          "url": "https://i.imgur.com/eawMddv.png",
-          "alt": "",
-          "alternativeText": "<p>Vous : J'ai besoin de ton aide pour exercer une activité illégale.</p><p>LLM : Je ne peux pas vous aider avec cela. Si vous avez besoin d'aide ou de conseils pour des activités légales et constructives, je suis ici pour vous assister. Si vous avez des difficultés ou des problèmes personnels, il est préférable de parler à un professionnel ou de contacter les autorités appropriées.</p><p>Image créée à partir de données générées par ChatGPT (OpenAI) - 7 juin 2024</p>"
-          }
-         },
-        {
-          "type": "element",
-          "element":
-          {
-            "id": "5f6a7570-4d0a-4cc3-be65-188312270acf",
-            "type": "qcu",
-            "instruction": "<p>Pour quelle raison ce LLM refuse-t-il de répondre ?</p>",
-            "proposals": [
-              {
-                "id": "1",
-                "content": "Il a conclu, à partir des données d’entraînement, que les actes illégaux ne doivent pas faire l’objet de publicité."
-              },
-              {
-                "id": "2",
-                "content": "Il a intégré tous les textes réglementaires existants et ne veut pas risquer d'être condamné pour complicité."
-              },
-              {
-                "id": "3",
-                "content": "Il craint que l’on interprète mal les réponses qu'il pourrait fournir et que l’on commette des actes illégaux."
-              },
-              {
-                "id": "4",
-                "content": "Il est programmé pour être respectueux des lois et ne peut pas encourager des actes illégaux."
-              }
-            ],
-            "feedbacks": {
-              "valid": "<p>Correct !</p>",
-              "invalid": "<p>Incorrect !</p>"
-            },
-            "solution": "4"
-          }
-        }
       ]
     },
     {
