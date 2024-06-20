@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v4.168.0 (20/06/2024)
+
+
+### :building_construction: Tech
+- [#9312](https://github.com/1024pix/pix/pull/9312) [TECH] Ajout d'un index sur la table `certification-subscriptions` (PIX-13028).
+
 ## v4.167.0 (19/06/2024)
 
 
