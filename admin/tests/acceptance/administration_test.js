@@ -5,7 +5,7 @@ import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import { module, test } from 'qunit';
 
-module('Acceptance | administration', function (hooks) {
+module('Acceptance | administration | common ', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
@@ -14,12 +14,12 @@ module('Acceptance | administration', function (hooks) {
   });
 
   module('Access', function () {
-    test('Administration page should be accessible from /administration', async function (assert) {
+    test('Administration page should be accessible from /administration/common', async function (assert) {
       // given & when
       await visit('/administration');
 
       // then
-      assert.strictEqual(currentURL(), '/administration');
+      assert.strictEqual(currentURL(), '/administration/common');
     });
 
     test('it should set administration menubar item active', async function (assert) {
@@ -34,7 +34,7 @@ module('Acceptance | administration', function (hooks) {
   module('Rendering', function () {
     test('Should display "Learning content" information', async function (assert) {
       // given & when
-      const screen = await visit('/administration');
+      const screen = await visit('/administration/common');
 
       // then
       assert.dom(screen.getByRole('heading', { name: 'Référentiel' })).exists();
@@ -56,7 +56,7 @@ module('Acceptance | administration', function (hooks) {
   module('Refresh cache content', function () {
     test('it request the cache refresh', async function (assert) {
       // given
-      const screen = await visit('/administration');
+      const screen = await visit('/administration/common');
 
       // when
       await clickByName('Recharger le cache');
@@ -69,7 +69,7 @@ module('Acceptance | administration', function (hooks) {
   module('Create release and refresh cache content', function () {
     test('it request the release creation and refresh cache', async function (assert) {
       // given
-      const screen = await visit('/administration');
+      const screen = await visit('/administration/common');
 
       // when
       await clickByName('Créer une nouvelle version du référentiel et recharger le cache');
@@ -87,7 +87,7 @@ module('Acceptance | administration', function (hooks) {
 
   test('it should be possible to create a new tag', async function (assert) {
     // given
-    const screen = await visit('/administration');
+    const screen = await visit('/administration/common');
 
     // when
     await fillByLabel('Nom du tag', 'Mon super tag');
@@ -96,5 +96,15 @@ module('Acceptance | administration', function (hooks) {
     // then
     assert.dom(screen.getByText('Le tag a bien été créé !')).exists();
     assert.dom(screen.getByRole('textbox', { name: 'Nom du tag' })).hasNoValue();
+  });
+
+  test('should display a navigation with tabs', async function (assert) {
+    // given
+    // when
+    const screen = await visit('/administration/common');
+
+    // then
+    assert.dom(screen.getByRole('navigation', { name: 'Navigation de la section administration' })).exists();
+    assert.dom(screen.getByRole('link', { name: 'Commun' })).exists();
   });
 });

@@ -142,7 +142,10 @@ Router.map(function () {
       });
     });
 
-    this.route('administration');
+    this.route('administration', function () {
+      this.route('common');
+    });
+
     this.route('tools');
 
     this.route('smart-random-simulator', function () {

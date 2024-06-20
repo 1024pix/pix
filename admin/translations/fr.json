@@ -233,6 +233,14 @@
     }
   },
   "pages": {
+    "administration": {
+      "navigation": {
+        "aria-label": "Navigation de la section administration",
+        "common": {
+          "label": "Commun"
+        }
+      }
+    },
     "certification-centers": {
       "information-view": {
         "feature-habilitations": {
