@@ -25,8 +25,11 @@
         {{else if (eq component.type "stepper")}}
           <Module::Stepper
             @steps={{component.steps}}
+            @submitAnswer={{@submitAnswer}}
+            @retryElement={{@retryElement}}
             @passage={{@passage}}
             @getLastCorrectionForElement={{this.getLastCorrectionForElement}}
+            @stepperIsFinished={{this.stepperIsFinished}}
           />
         {{/if}}
       {{/each}}
