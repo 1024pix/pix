@@ -19,7 +19,7 @@ class CampaignForCreation {
   } = {}) {
     this.name = name;
     this.title = title;
-    this.idPixLabel = idPixLabel;
+    this.idPixLabel = idPixLabel === '' ? null : idPixLabel;
     this.customLandingPageText = customLandingPageText;
     this.type = type;
     this.targetProfileId = targetProfileId;
