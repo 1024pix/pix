@@ -90,4 +90,7 @@ const deserialize = function (json) {
   });
 };
 
+/**
+ * @typedef UserSerializer
+ */
 export { deserialize, serialize };
