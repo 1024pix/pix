@@ -2,9 +2,8 @@ import * as localeService from '../../../shared/domain/services/locale-service.j
 import * as userSerializer from '../../../shared/infrastructure/serializers/jsonapi/user-serializer.js';
 import { requestResponseUtils } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
+import * as authenticationMethodsSerializer from '../../infrastructure/serializers/jsonapi/authentication-methods.serializer.js';
 import { userWithActivitySerializer } from '../../infrastructure/serializers/jsonapi/user-with-activity.serializer.js';
-import * as authenticationMethodsSerializer
-  from '../../../../lib/infrastructure/serializers/jsonapi/authentication-methods-serializer.js';
 
 /**
  * @param request
