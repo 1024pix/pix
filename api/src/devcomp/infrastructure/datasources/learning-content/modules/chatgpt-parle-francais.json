@@ -35,7 +35,7 @@
       "grainId": "e7ca9d7e-6d77-4705-83a5-a6864c77f4b5"
     },
     {
-      "content":"<p>Avant de passer à la pratique, il faut réaliser une chose : les LLM sont développés par des acteurs de différentes natures et nationalités.</p>Voici quelques explications.<span aria-hidden=\"true\">&nbsp;🔍</span></p>",
+      "content":"<p>Avant de passer à la pratique, il faut réaliser une chose : les LLM sont développés par des acteurs de différentes natures et nationalités.</p><p>Voici quelques explications.<span aria-hidden=\"true\">&nbsp;🔍</span></p>",
       "grainId": "018ad06a-f11c-4db3-b954-ac8a6466d947"
     },
     {
@@ -416,58 +416,6 @@
       ]
     },
     {
-      "id": "018ad06a-f11c-4db3-b954-ac8a6466d947",
-      "type": "lesson",
-      "title": "Géopolitique des LLM",
-      "components": [
-        {
-          "type": "element",
-          "element":
-          {
-            "id": "ec182563-1090-4794-8a5f-e179d244fa3e",
-            "type": "text",
-            "content": "<h3><span aria-hidden=\"true\">🏢&nbsp;</span>Quelles acteurs développent ces LLM ?</h3><p>Les LLM sont notamment développés par des entreprises spécialisées dans l'intelligence artificielle (IA). On trouve par exemple :</p><ul><li>Google, avec GEMINI 🇺🇸 ;</li><li>OpenAI, avec ChatGPT 🇺🇸 ;</li><li>LightOn, avec Alfred 🇫🇷 ;</li><li>Baidu, avec Ernie Bot 🇨🇳.</li></ul>"
-          }
-        },
-        {
-          "type": "element",
-          "element":
-          {
-            "id": "a5ca3f25-fab7-4037-8e16-a4bd3257b76c",
-            "type": "text",
-            "content": "<hr>"
-          }
-        },
-        {
-          "type": "element",
-          "element":
-          {
-            "id": "a5b4912d-7882-47ed-a782-bf87d73ead55",
-            "type": "text",
-            "content": "<h3><span aria-hidden=\"true\">🏃&nbsp;</span>La course aux LLM, qu'est-ce que c'est ?</h3><p>Ces acteurs mènent une véritable course à l’IA en développant chacun leur propre modèle de langage. Principalement entraînés sur des données anglo-saxonnes, les LLM actuels ne sont pas capables de refléter la vision de chaque langue ou pays.</p>"
-          }
-        },
-        {
-          "type": "element",
-          "element":
-          {
-            "id": "6515d939-b35b-494a-a122-2c6961726a13",
-            "type": "text",
-            "content": "<hr>"
-          }
-        },
-        {
-          "type": "element",
-          "element":
-          {
-            "id": "a5b4912d-7882-47ed-a782-bf87d73ead55",
-            "type": "text",
-            "content": "<p><span aria-hidden=\"true\">👉&nbsp;</span>L’IA est donc une priorité stratégique des gouvernements qui cherchent à développer rapidement leurs modèles, entraînés sur des données locales. C’est la compétitivité, la souveraineté et la visibilité culturelle des pays qui sont en jeu.</p>"
-          }
-        }
-      ]
-    },
-    {
       "id": "e52da884-2233-4101-96a5-befd5c7d7975",
       "type": "activity",
       "title": "Découverte de l'arène",
@@ -596,6 +544,58 @@
         }
         }
         ]
-      }
+    },
+    {
+      "id": "018ad06a-f11c-4db3-b954-ac8a6466d947",
+      "type": "lesson",
+      "title": "Géopolitique des LLM",
+      "components": [
+        {
+          "type": "element",
+          "element":
+          {
+            "id": "ec182563-1090-4794-8a5f-e179d244fa3e",
+            "type": "text",
+            "content": "<h3><span aria-hidden=\"true\">🏢&nbsp;</span>Quelles acteurs développent ces LLM ?</h3><p>Les LLM sont notamment développés par des entreprises spécialisées dans l'intelligence artificielle (IA). On trouve par exemple :</p><ul><li>Google, avec GEMINI 🇺🇸 ;</li><li>OpenAI, avec ChatGPT 🇺🇸 ;</li><li>LightOn, avec Alfred 🇫🇷 ;</li><li>Baidu, avec Ernie Bot 🇨🇳.</li></ul>"
+          }
+        },
+        {
+          "type": "element",
+          "element":
+          {
+            "id": "a5ca3f25-fab7-4037-8e16-a4bd3257b76c",
+            "type": "text",
+            "content": "<hr>"
+          }
+        },
+        {
+          "type": "element",
+          "element":
+          {
+            "id": "a5b4912d-7882-47ed-a782-bf87d73ead55",
+            "type": "text",
+            "content": "<h3><span aria-hidden=\"true\">🏃&nbsp;</span>La course aux LLM, qu'est-ce que c'est ?</h3><p>Ces acteurs mènent une véritable course à l’IA en développant chacun leur propre modèle de langage. Principalement entraînés sur des données anglo-saxonnes, les LLM actuels ne sont pas capables de refléter la vision de chaque langue ou pays.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element":
+          {
+            "id": "6515d939-b35b-494a-a122-2c6961726a13",
+            "type": "text",
+            "content": "<hr>"
+          }
+        },
+        {
+          "type": "element",
+          "element":
+          {
+            "id": "a5b4912d-7882-47ed-a782-bf87d73ead55",
+            "type": "text",
+            "content": "<p><span aria-hidden=\"true\">👉&nbsp;</span>L’IA est donc une priorité stratégique des gouvernements qui cherchent à développer rapidement leurs modèles, entraînés sur des données locales. C’est la compétitivité, la souveraineté et la visibilité culturelle des pays qui sont en jeu.</p>"
+          }
+        }
+      ]
+    }
   ]
 }
