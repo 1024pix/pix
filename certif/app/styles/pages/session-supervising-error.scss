@@ -26,18 +26,14 @@
   }
 
   &__title {
-    color: var(--pix-neutral-800);
-
     @extend %pix-title-s;
-
-    font-weight: normal;
   }
 
   &__subtitle {
-    margin: 8px 0;
-    color: var(--pix-neutral-500);
-    font-weight: normal;
-    font-size: 0.8rem;
+    margin: var(--pix-spacing-2x) 0;
+
+    @extend %pix-body-s;
+
     text-align: center;
   }
 
