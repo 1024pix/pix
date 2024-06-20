@@ -1,14 +1,14 @@
-import { acceptPixLastTermsOfService } from '../../../../lib/domain/usecases/accept-pix-last-terms-of-service.js';
-import { expect, sinon } from '../../../test-helper.js';
+import { acceptPixLastTermsOfService } from '../../../../../src/identity-access-management/domain/usecases/accept-pix-last-terms-of-service.usecase.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | accept-pix-last-terms-of-service', function () {
+describe('Unit | Identity Access Management | Domain | UseCase | accept-pix-last-terms-of-service', function () {
   let userRepository;
 
   beforeEach(function () {
     userRepository = { acceptPixLastTermsOfService: sinon.stub() };
   });
 
-  it('should accept terms of service of pix', async function () {
+  it('accepts terms of service of pix', async function () {
     // given
     const userId = Symbol('userId');
     const updatedUser = Symbol('updateduser');
