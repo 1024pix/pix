@@ -1,6 +1,7 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { eventBus } from '../../../../lib/domain/events/index.js';
 import { mailService } from '../../../../lib/domain/services/mail-service.js';
 import * as userReconciliationService from '../../../../lib/domain/services/user-reconciliation-service.js';
 import { oidcAuthenticationServiceRegistry } from '../../../../lib/domain/usecases/index.js';
@@ -67,7 +68,7 @@ const validators = {
   passwordValidator,
   userValidator,
 };
-const dependencies = Object.assign({ config }, repositories, services, validators);
+const dependencies = Object.assign({ config }, eventBus, repositories, services, validators);
 
 const usecasesWithoutInjectedDependencies = {
   ...(await importNamedExportsFromDirectory({ path: join(path, './'), ignoredFileNames: ['index.js'] })),

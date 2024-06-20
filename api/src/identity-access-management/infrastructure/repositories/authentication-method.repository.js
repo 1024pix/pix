@@ -272,14 +272,21 @@ const batchUpdatePasswordThatShouldBeChanged = function ({
 /**
  * @param {number[]} userIds
  * @param {number} chunkSize
+ * @param {Object} dependencies
+ * @param {DomainTransaction} dependencies.domainTransaction
  * @returns {Promise<{anonymizedUserCount: number}>}
  */
-const batchAnonymizeByUserIds = async function ({ userIds, chunkSize = 1000 }) {
+const batchAnonymizeByUserIds = async function (
+  { userIds, chunkSize = 1000 },
+  dependencies = { domainTransaction: DomainTransaction.emptyTransaction() },
+) {
+  const knexConn = dependencies.domainTransaction.knexTransaction ?? knex;
+
   const userIdBatches = _.chunk(userIds, chunkSize);
   let anonymizedUserCount = 0;
 
   for (const userIdBatch of userIdBatches) {
-    const anonymizedUserIdBatch = await knex(AUTHENTICATION_METHODS_TABLE)
+    const anonymizedUserIdBatch = await knexConn(AUTHENTICATION_METHODS_TABLE)
       .whereIn('userId', userIdBatch)
       .andWhere('identityProvider', 'GAR')
       .update(
@@ -288,7 +295,7 @@ const batchAnonymizeByUserIds = async function ({ userIds, chunkSize = 1000 }) {
           updatedAt: knex.fn.now(),
           externalIdentifier: knex.raw('CONCAT(\'anonymized-\', "authentication-methods".id)'),
         },
-        [COLUMNS],
+        ['id'],
       );
     anonymizedUserCount += anonymizedUserIdBatch.length;
   }

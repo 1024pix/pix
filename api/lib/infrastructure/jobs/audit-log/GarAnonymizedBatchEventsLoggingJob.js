@@ -1,10 +1,10 @@
 import { JobPgBoss } from '../JobPgBoss.js';
 
-export class UserAnonymizedBatchEventsLoggingJob extends JobPgBoss {
+export class GarAnonymizedBatchEventsLoggingJob extends JobPgBoss {
   constructor(queryBuilder) {
     super(
       {
-        name: 'UserAnonymizedBatchEventsLoggingJob',
+        name: 'GarAnonymizedBatchEventsLoggingJob',
         retryLimit: 10,
         retryDelay: 30,
         retryBackoff: true,

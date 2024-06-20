@@ -5,9 +5,10 @@ describe('Unit | Identity Access Management | Infrastructure | Serializer | JSON
   describe('#serialize', function () {
     it('converts GAR anonymized results into JSON API data', function () {
       //given
-      const anonymized = 7307;
+      const anonymizedUserCount = 7307;
       const total = 7351;
-      const anonymizedResults = { anonymized, total };
+      const userIds = [1001, 1002, 1003];
+      const anonymizedResults = { anonymizedUserCount, total, userIds };
 
       //when
       const json = anonymizeGarResultSerializer.serialize(anonymizedResults);
@@ -17,8 +18,9 @@ describe('Unit | Identity Access Management | Infrastructure | Serializer | JSON
         data: {
           type: 'anonymize-gar-results',
           attributes: {
-            anonymized,
+            'anonymized-user-count': anonymizedUserCount,
             total,
+            'user-ids': userIds,
           },
         },
       };

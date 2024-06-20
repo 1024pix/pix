@@ -2,6 +2,7 @@ import { anonymizationAdminController } from '../../../../src/identity-access-ma
 import { GarAnonymizationParser } from '../../../../src/identity-access-management/domain/services/GarAnonymizationParser.js';
 import { usecases } from '../../../../src/identity-access-management/domain/usecases/index.js';
 import { anonymizeGarResultSerializer } from '../../../../src/identity-access-management/infrastructure/serializers/jsonapi/anonymize-gar-result.serializer.js';
+import { DomainTransaction } from '../../../../src/shared/domain/DomainTransaction.js';
 import { createTempFile, expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Application | Controller | Admin | anonymization', function () {
@@ -11,7 +12,8 @@ describe('Unit | Identity Access Management | Application | Controller | Admin |
     let filePath;
     let request;
     let total;
-    let anonymized;
+    let anonymizedUserCount;
+    let userIds;
     let expectedJSON;
 
     beforeEach(async function () {
@@ -19,21 +21,34 @@ describe('Unit | Identity Access Management | Application | Controller | Admin |
       fileData = `${csvHeaders}
       1;4;6;15;78`;
       filePath = await createTempFile('test.csv', fileData);
-      request = { payload: { path: filePath } };
-      anonymized = 4;
+      request = {
+        auth: {
+          credentials: {
+            userId: 777,
+          },
+        },
+        payload: { path: filePath },
+      };
+      anonymizedUserCount = 4;
       total = 5;
+      userIds = [4, 6, 15, 78];
       expectedJSON = {
         data: {
           type: 'anonymize-gar-results',
           attributes: {
-            anonymized,
+            anonymizedUserCount,
             total,
+            userIds,
           },
         },
       };
 
       sinon.stub(GarAnonymizationParser, 'getCsvData').resolves([1, 4, 6, 15, 78]);
-      sinon.stub(usecases, 'anonymizeGarAuthenticationMethods').resolves({ total, anonymized });
+      sinon.stub(usecases, 'anonymizeGarAuthenticationMethods').resolves({ anonymizedUserCount, total, userIds });
+
+      const domainTransaction = Symbol('domain transaction');
+      sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
+
       sinon.stub(anonymizeGarResultSerializer, 'serialize').returns(expectedJSON);
     });
 
