@@ -272,7 +272,7 @@
           "information": "Inscrivez des élèves et c'est partix !"
         },
         "information": "Si certain(e)s élèves n’apparaissent pas dans cette liste, merci de ré-importer le fichier élèves dans Pix Orga.'<br>' Si malgré tout des élèves ne sont pas visibles, merci de contacter",
-        "link-label": "support.pix.org",
+        "link-label": "pix.org/en/support",
         "list": {
           "action-bar": {
             "candidate-already-enrolled": "candidat(s) déjà inscrit(s) à la session",

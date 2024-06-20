@@ -247,7 +247,7 @@ module('Unit | Service | url', function (hooks) {
         const supportUrl = service.supportUrl;
 
         // then
-        assert.strictEqual(supportUrl, 'https://support.pix.fr');
+        assert.strictEqual(supportUrl, 'https://pix.fr/support');
       });
     });
 
@@ -263,7 +263,7 @@ module('Unit | Service | url', function (hooks) {
           const supportUrl = service.supportUrl;
 
           // then
-          assert.strictEqual(supportUrl, 'https://support.pix.org/en/support/home');
+          assert.strictEqual(supportUrl, 'https://pix.org/en/support');
         });
       });
 
@@ -278,7 +278,7 @@ module('Unit | Service | url', function (hooks) {
           const supportUrl = service.supportUrl;
 
           // then
-          assert.strictEqual(supportUrl, 'https://support.pix.org');
+          assert.strictEqual(supportUrl, 'https://pix.org/fr/support');
         });
       });
     });
