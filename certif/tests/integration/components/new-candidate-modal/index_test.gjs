@@ -1,7 +1,7 @@
-import { render as renderScreen } from '@1024pix/ember-testing-library';
+import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, fillIn } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import NewCandidateModal from 'pix-certif/components/new-candidate-modal';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -31,11 +31,8 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
     const closeModalStub = sinon.stub();
     const updateCandidateStub = sinon.stub();
     const updateCandidateWithEventStub = sinon.stub();
-    this.set('closeModal', closeModalStub);
-    this.set('updateCandidateStub', updateCandidateStub);
-    this.set('updateCandidateWithEventStub', updateCandidateWithEventStub);
-    this.set('countries', []);
-    this.set('candidateData', {
+    const countries = [];
+    const candidateData = {
       firstName: '',
       lastName: '',
       birthdate: '',
@@ -48,19 +45,21 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
       birthInseeCode: '',
       sex: '',
       extraTimePercentage: '',
-    });
+    };
 
     // when
-    const screen = await renderScreen(hbs`
-      <NewCandidateModal
-        @showModal={{true}}
-        @closeModal={{this.closeModal}}
-        @countries={{this.countries}}
-        @updateCandidateData={{this.updateCandidateStub}}
-        @updateCandidateDataWithEvent={{this.updateCandidateStub}}
-        @candidateData={{this.candidateData}}
-      />
-    `);
+    const screen = await render(
+      <template>
+        <NewCandidateModal
+          @showModal={{true}}
+          @closeModal={{closeModalStub}}
+          @countries={{countries}}
+          @updateCandidateData={{updateCandidateStub}}
+          @updateCandidateDataWithEvent={{updateCandidateWithEventStub}}
+          @candidateData={{candidateData}}
+        />
+      </template>,
+    );
 
     // then
     assert.dom(screen.getByRole('textbox', { name: 'Obligatoire Nom de naissance' })).exists();
@@ -92,21 +91,20 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
     const closeModalStub = sinon.stub();
     const updateCandidateStub = sinon.stub();
     const updateCandidateWithEventStub = sinon.stub();
-    this.set('closeModal', closeModalStub);
-    this.set('updateCandidateStub', updateCandidateStub);
-    this.set('updateCandidateWithEventStub', updateCandidateWithEventStub);
-    this.set('countries', []);
+    const countries = [];
 
     // when
-    const screen = await renderScreen(hbs`
-      <NewCandidateModal
-        @showModal={{true}}
-        @closeModal={{this.closeModal}}
-        @countries={{this.countries}}
-        @updateCandidateData={{this.updateCandidateStub}}
-        @updateCandidateDataWithEvent={{this.updateCandidateStub}}
-      />
-    `);
+    const screen = await render(
+      <template>
+        <NewCandidateModal
+          @showModal={{true}}
+          @closeModal={{closeModalStub}}
+          @countries={{countries}}
+          @updateCandidateData={{updateCandidateStub}}
+          @updateCandidateDataWithEvent={{updateCandidateWithEventStub}}
+        />
+      </template>,
+    );
 
     // then
     assert.dom(screen.getByRole('textbox', { name: 'Obligatoire Nom de naissance' })).hasAttribute('required');
@@ -127,12 +125,12 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
 
       const saveCandidateStub = sinon.stub();
 
-      this.set('closeModal', closeModalStub);
-      this.set('updateCandidateFromValueStub', updateCandidateFromValueStub);
-      this.set('updateCandidateFromEventStub', updateCandidateFromEventStub);
-      this.set('countries', [{ code: '99123', name: 'Borduristan' }]);
-      this.set('saveCandidate', saveCandidateStub);
-      this.set('candidateData', {
+      const countries = [
+        { id: 1, code: '99123', name: 'Syldavie' },
+        { id: 2, code: '99100', name: 'France' },
+        { id: 3, code: '99345', name: 'Botswana' },
+      ];
+      const candidateData = {
         firstName: '',
         lastName: '',
         birthdate: '',
@@ -145,21 +143,23 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
         birthInseeCode: '',
         sex: '',
         extraTimePercentage: '',
-      });
-      this.set('countries', [{ code: '99100', name: 'FRANCE' }]);
+      };
 
       // when
-      const screen = await renderScreen(hbs`
-        <NewCandidateModal
-          @showModal={{true}}
-          @closeModal={{this.closeModal}}
-          @countries={{this.countries}}
-          @updateCandidateData={{this.updateCandidateFromEventStub}}
-          @updateCandidateDataFromValue={{this.updateCandidateFromValueStub}}
-          @candidateData={{this.candidateData}}
-          @saveCandidate={{this.saveCandidate}}
+      const screen = await render(
+        <template>
+          <NewCandidateModal
+            @showModal={{true}}
+            @closeModal={{closeModalStub}}
+            @countries={{countries}}
+            @updateCandidateData={{updateCandidateFromEventStub}}
+            @updateCandidateDataFromValue={{updateCandidateFromValueStub}}
+            @candidateData={{candidateData}}
+            @saveCandidate={{saveCandidateStub}}
           />
-      `);
+        </template>,
+      );
+
       await fillIn(screen.getByLabelText('* Prénom'), 'Guybrush');
       await fillIn(screen.getByLabelText('* Nom de naissance'), 'Threepwood');
       await fillIn(screen.getByLabelText('* Date de naissance'), '28/04/2019');
@@ -167,7 +167,7 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
       await click(screen.getByLabelText('* Pays de naissance'));
       await click(
         await screen.findByRole('option', {
-          name: 'FRANCE',
+          name: 'France',
         }),
       );
       await click(screen.getByRole('radio', { name: 'Code INSEE' }));
@@ -188,7 +188,7 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
         lastName: 'Threepwood',
         birthdate: '2019-04-28',
         birthCity: '',
-        birthCountry: 'FRANCE',
+        birthCountry: 'France',
         email: 'email.convocation@example.net',
         externalId: '44AA3355',
         resultRecipientEmail: 'email.destinataire@example.net',
@@ -207,15 +207,10 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
       const shouldDisplayPaymentOptions = true;
       const closeModalStub = sinon.stub();
       const updateCandidateStub = sinon.stub();
-      const updateCandidateWithEventStub = sinon.stub();
       const updateCandidateFromValueStub = sinon.stub();
-      this.set('updateCandidateFromValueStub', updateCandidateFromValueStub);
-      this.set('shouldDisplayPaymentOptions', shouldDisplayPaymentOptions);
-      this.set('closeModal', closeModalStub);
-      this.set('updateCandidateStub', updateCandidateStub);
-      this.set('updateCandidateWithEventStub', updateCandidateWithEventStub);
-      this.set('countries', []);
-      this.set('candidateData', {
+      const updateCandidateWithEventStub = sinon.stub();
+      const countries = [];
+      const candidateData = {
         firstName: '',
         lastName: '',
         birthdate: '',
@@ -228,23 +223,23 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
         birthInseeCode: '',
         sex: '',
         extraTimePercentage: '',
-        billingMode: '',
-        prepaymentCode: '',
-      });
+      };
 
       // when
-      const screen = await renderScreen(hbs`
-        <NewCandidateModal
-          @showModal={{true}}
-          @closeModal={{this.closeModal}}
-          @countries={{this.countries}}
-          @updateCandidateData={{this.updateCandidateStub}}
-          @updateCandidateDataWithEvent={{this.updateCandidateStub}}
-          @candidateData={{this.candidateData}}
-          @shouldDisplayPaymentOptions={{this.shouldDisplayPaymentOptions}}
-          @updateCandidateDataFromValue={{this.updateCandidateFromValueStub}}
-        />
-      `);
+      const screen = await render(
+        <template>
+          <NewCandidateModal
+            @showModal={{true}}
+            @closeModal={{closeModalStub}}
+            @countries={{countries}}
+            @updateCandidateData={{updateCandidateStub}}
+            @updateCandidateDataWithEvent={{updateCandidateWithEventStub}}
+            @candidateData={{candidateData}}
+            @shouldDisplayPaymentOptions={{shouldDisplayPaymentOptions}}
+            @updateCandidateDataFromValue={{updateCandidateFromValueStub}}
+          />
+        </template>,
+      );
 
       // then
       assert.dom(screen.getByRole('button', { name: 'Obligatoire Tarification part Pix' })).exists();
@@ -258,10 +253,12 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
     const closeModalStub = sinon.stub();
     const updateCandidateStub = sinon.stub();
     const updateCandidateWithEventStub = sinon.stub();
-    this.set('closeModal', closeModalStub);
-    this.set('updateCandidateStub', updateCandidateStub);
-    this.set('updateCandidateWithEventStub', updateCandidateWithEventStub);
-    this.set('candidateData', {
+    const countries = [
+      { id: 1, code: '99123', name: 'Syldavie' },
+      { id: 2, code: '99100', name: 'France' },
+      { id: 3, code: '99345', name: 'Botswana' },
+    ];
+    const candidateData = {
       firstName: '',
       lastName: '',
       birthdate: '',
@@ -274,24 +271,21 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
       birthInseeCode: '',
       sex: '',
       extraTimePercentage: '',
-    });
-    this.set('countries', [
-      { id: 1, code: '99123', name: 'Syldavie' },
-      { id: 2, code: '99100', name: 'France' },
-      { id: 3, code: '99345', name: 'Botswana' },
-    ]);
+    };
 
     // when
-    const screen = await renderScreen(hbs`
-      <NewCandidateModal
-        @showModal={{true}}
-        @closeModal={{this.closeModal}}
-        @countries={{this.countries}}
-        @updateCandidateData={{this.updateCandidateStub}}
-        @updateCandidateDataWithEvent={{this.updateCandidateStub}}
-        @candidateData={{this.candidateData}}
-      />
-    `);
+    const screen = await render(
+      <template>
+        <NewCandidateModal
+          @showModal={{true}}
+          @closeModal={{closeModalStub}}
+          @countries={{countries}}
+          @updateCandidateData={{updateCandidateStub}}
+          @updateCandidateDataWithEvent={{updateCandidateWithEventStub}}
+          @candidateData={{candidateData}}
+        />
+      </template>,
+    );
 
     // then
     assert.dom(screen.getByRole('button', { name: 'Obligatoire Pays de naissance' })).includesText('France');
@@ -299,14 +293,12 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
 
   module('when close button cross icon is clicked', () => {
     test('it closes candidate details modal', async function (assert) {
+      // given
       const closeModalStub = sinon.stub();
       const updateCandidateStub = sinon.stub();
       const updateCandidateWithEventStub = sinon.stub();
-      this.set('closeModal', closeModalStub);
-      this.set('updateCandidateStub', updateCandidateStub);
-      this.set('updateCandidateWithEventStub', updateCandidateWithEventStub);
-      this.set('countries', []);
-      this.set('candidateData', {
+      const countries = [];
+      const candidateData = {
         firstName: '',
         lastName: '',
         birthdate: '',
@@ -319,19 +311,21 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
         birthInseeCode: '',
         sex: '',
         extraTimePercentage: '',
-      });
+      };
 
       // when
-      const screen = await renderScreen(hbs`
-        <NewCandidateModal
-          @showModal={{true}}
-          @closeModal={{this.closeModal}}
-          @countries={{this.countries}}
-          @updateCandidateData={{this.updateCandidateStub}}
-          @updateCandidateDataWithEvent={{this.updateCandidateStub}}
-          @candidateData={{this.candidateData}}
-        />
-      `);
+      const screen = await render(
+        <template>
+          <NewCandidateModal
+            @showModal={{true}}
+            @closeModal={{closeModalStub}}
+            @countries={{countries}}
+            @updateCandidateData={{updateCandidateStub}}
+            @updateCandidateDataWithEvent={{updateCandidateWithEventStub}}
+            @candidateData={{candidateData}}
+          />
+        </template>,
+      );
 
       await click(screen.getByRole('button', { name: 'Fermer' }));
 
@@ -343,14 +337,12 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
 
   module('when close bottom button is clicked', () => {
     test('it closes candidate details modal ', async function (assert) {
+      // given
       const closeModalStub = sinon.stub();
       const updateCandidateStub = sinon.stub();
       const updateCandidateWithEventStub = sinon.stub();
-      this.set('closeModal', closeModalStub);
-      this.set('updateCandidateStub', updateCandidateStub);
-      this.set('updateCandidateWithEventStub', updateCandidateWithEventStub);
-      this.set('countries', []);
-      this.set('candidateData', {
+      const countries = [];
+      const candidateData = {
         firstName: '',
         lastName: '',
         birthdate: '',
@@ -363,19 +355,21 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
         birthInseeCode: '',
         sex: '',
         extraTimePercentage: '',
-      });
+      };
 
       // when
-      const screen = await renderScreen(hbs`
-        <NewCandidateModal
-          @showModal={{true}}
-          @closeModal={{this.closeModal}}
-          @countries={{this.countries}}
-          @updateCandidateData={{this.updateCandidateStub}}
-          @updateCandidateDataWithEvent={{this.updateCandidateStub}}
-          @candidateData={{this.candidateData}}
-        />
-      `);
+      const screen = await render(
+        <template>
+          <NewCandidateModal
+            @showModal={{true}}
+            @closeModal={{closeModalStub}}
+            @countries={{countries}}
+            @updateCandidateData={{updateCandidateStub}}
+            @updateCandidateDataWithEvent={{updateCandidateWithEventStub}}
+            @candidateData={{candidateData}}
+          />
+        </template>,
+      );
 
       await click(screen.getByRole('button', { name: 'Fermer' }));
 
@@ -387,14 +381,12 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
 
   module('when a foreign country is selected', () => {
     test('it shows city field and hides insee code and postal code fields', async function (assert) {
+      // given
       const closeModalStub = sinon.stub();
-      const updateCandidateFromValueStub = sinon.stub();
-      const updateCandidateFromEventStub = sinon.stub();
-      this.set('closeModal', closeModalStub);
-      this.set('updateCandidateFromValueStub', updateCandidateFromValueStub);
-      this.set('updateCandidateFromEventStub', updateCandidateFromEventStub);
-      this.set('countries', [{ code: '99123', name: 'Borduristan' }]);
-      this.set('candidateData', {
+      const updateCandidateWithEventStub = sinon.stub();
+      const updateCandidateDataFromValue = sinon.stub();
+      const countries = [{ code: '99123', name: 'Borduristan' }];
+      const candidateData = {
         firstName: '',
         lastName: '',
         birthdate: '',
@@ -407,19 +399,21 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
         birthInseeCode: '',
         sex: '',
         extraTimePercentage: '',
-      });
+      };
 
       // when
-      const screen = await renderScreen(hbs`
-        <NewCandidateModal
-          @showModal={{true}}
-          @closeModal={{this.closeModal}}
-          @countries={{this.countries}}
-          @updateCandidateData={{this.updateCandidateFromEventStub}}
-          @updateCandidateDataFromValue={{this.updateCandidateFromValueStub}}
-          @candidateData={{this.candidateData}}
-        />
-      `);
+      const screen = await render(
+        <template>
+          <NewCandidateModal
+            @showModal={{true}}
+            @closeModal={{closeModalStub}}
+            @countries={{countries}}
+            @updateCandidateData={{updateCandidateWithEventStub}}
+            @updateCandidateDataFromValue={{updateCandidateDataFromValue}}
+            @candidateData={{candidateData}}
+          />
+        </template>,
+      );
 
       await click(screen.getByRole('button', { name: 'Obligatoire Pays de naissance' }));
       await click(
@@ -437,14 +431,12 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
 
   module('when the insee code option is selected', () => {
     test('it shows insee code field and hides postal code and city fields', async function (assert) {
+      // given
       const closeModalStub = sinon.stub();
       const updateCandidateFromValueStub = sinon.stub();
       const updateCandidateFromEventStub = sinon.stub();
-      this.set('closeModal', closeModalStub);
-      this.set('updateCandidateFromValueStub', updateCandidateFromValueStub);
-      this.set('updateCandidateFromEventStub', updateCandidateFromEventStub);
-      this.set('countries', [{ code: '99123', name: 'Borduristan' }]);
-      this.set('candidateData', {
+      const countries = [{ code: '99123', name: 'Borduristan' }];
+      const candidateData = {
         firstName: '',
         lastName: '',
         birthdate: '',
@@ -457,19 +449,22 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
         birthInseeCode: '',
         sex: '',
         extraTimePercentage: '',
-      });
+      };
 
       // when
-      const screen = await renderScreen(hbs`
-        <NewCandidateModal
-          @showModal={{true}}
-          @closeModal={{this.closeModal}}
-          @countries={{this.countries}}
-          @updateCandidateData={{this.updateCandidateFromEventStub}}
-          @updateCandidateDataFromValue={{this.updateCandidateFromValueStub}}
-          @candidateData={{this.candidateData}}
-        />
-      `);
+      const screen = await render(
+        <template>
+          <NewCandidateModal
+            @showModal={{true}}
+            @closeModal={{closeModalStub}}
+            @countries={{countries}}
+            @updateCandidateData={{updateCandidateFromEventStub}}
+            @updateCandidateDataFromValue={{updateCandidateFromValueStub}}
+            @candidateData={{candidateData}}
+          />
+        </template>,
+      );
+
       await click(screen.getByRole('radio', { name: 'Code INSEE' }));
 
       // then
@@ -481,14 +476,12 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
 
   module('when the postal code option is selected', () => {
     test('it shows postal code and city fields and hides insee code field', async function (assert) {
+      // given
       const closeModalStub = sinon.stub();
       const updateCandidateFromValueStub = sinon.stub();
       const updateCandidateFromEventStub = sinon.stub();
-      this.set('closeModal', closeModalStub);
-      this.set('updateCandidateFromValueStub', updateCandidateFromValueStub);
-      this.set('updateCandidateFromEventStub', updateCandidateFromEventStub);
-      this.set('countries', [{ code: '99123', name: 'Borduristan' }]);
-      this.set('candidateData', {
+      const countries = [{ code: '99123', name: 'Borduristan' }];
+      const candidateData = {
         firstName: '',
         lastName: '',
         birthdate: '',
@@ -501,19 +494,21 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
         birthInseeCode: '',
         sex: '',
         extraTimePercentage: '',
-      });
+      };
 
       // when
-      const screen = await renderScreen(hbs`
-        <NewCandidateModal
-          @showModal={{true}}
-          @closeModal={{this.closeModal}}
-          @countries={{this.countries}}
-          @updateCandidateData={{this.updateCandidateFromEventStub}}
-          @updateCandidateDataFromValue={{this.updateCandidateFromValueStub}}
-          @candidateData={{this.candidateData}}
-        />
-      `);
+      const screen = await render(
+        <template>
+          <NewCandidateModal
+            @showModal={{true}}
+            @closeModal={{closeModalStub}}
+            @countries={{countries}}
+            @updateCandidateData={{updateCandidateFromEventStub}}
+            @updateCandidateDataFromValue={{updateCandidateFromValueStub}}
+            @candidateData={{candidateData}}
+          />
+        </template>,
+      );
 
       await click(screen.getByRole('radio', { name: 'Code postal' }));
 
@@ -528,17 +523,18 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
     test('it display complementary certification options', async function (assert) {
       // given
       const updateCandidateFromEventStub = sinon.stub();
-      this.set('updateCandidateFromEventStub', updateCandidateFromEventStub);
-      this.set('countries', [{ code: '99123', name: 'Borduristan' }]);
+      const countries = [{ code: '99123', name: 'Borduristan' }];
 
       // when
-      const screen = await renderScreen(hbs`
-      <NewCandidateModal
-        @showModal={{true}}
-        @countries={{this.countries}}
-        @updateCandidateData={{this.updateCandidateFromEventStub}}
-      />
-      `);
+      const screen = await render(
+        <template>
+          <NewCandidateModal
+            @showModal={{true}}
+            @countries={{countries}}
+            @updateCandidateData={{updateCandidateFromEventStub}}
+          />
+        </template>,
+      );
 
       // then
       assert.dom(screen.getByRole('group', { name: 'Certification complémentaire' })).exists();
@@ -564,9 +560,8 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
           this.owner.register('service:current-user', CurrentUserStub);
 
           const updateCandidateFromEventStub = sinon.stub();
-          this.set('updateCandidateFromEventStub', updateCandidateFromEventStub);
-          this.set('countries', [{ code: '99123', name: 'Borduristan' }]);
-          this.set('candidateData', {
+          const countries = [{ code: '99123', name: 'Borduristan' }];
+          const candidateData = {
             firstName: '',
             lastName: '',
             birthdate: '',
@@ -579,17 +574,19 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
             birthInseeCode: '',
             sex: '',
             extraTimePercentage: '',
-          });
+          };
 
           // when
-          const screen = await renderScreen(hbs`
-            <NewCandidateModal
-              @showModal={{true}}
-              @countries={{this.countries}}
-              @updateCandidateData={{this.updateCandidateFromEventStub}}
-              @candidateData={{this.candidateData}}
-            />
-            `);
+          const screen = await render(
+            <template>
+              <NewCandidateModal
+                @showModal={{true}}
+                @countries={{countries}}
+                @updateCandidateData={{updateCandidateFromEventStub}}
+                @candidateData={{candidateData}}
+              />
+            </template>,
+          );
 
           const complementaryWithReferential = screen.getByRole('radio', { name: 'Certif complémentaire 2' });
 
@@ -619,9 +616,8 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
           this.owner.register('service:current-user', CurrentUserStub);
 
           const updateCandidateFromEventStub = sinon.stub();
-          this.set('updateCandidateFromEventStub', updateCandidateFromEventStub);
-          this.set('countries', [{ code: '99123', name: 'Borduristan' }]);
-          this.set('candidateData', {
+          const countries = [{ code: '99123', name: 'Borduristan' }];
+          const candidateData = {
             firstName: '',
             lastName: '',
             birthdate: '',
@@ -634,17 +630,19 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
             birthInseeCode: '',
             sex: '',
             extraTimePercentage: '',
-          });
+          };
 
           // when
-          const screen = await renderScreen(hbs`
-            <NewCandidateModal
-              @showModal={{true}}
-              @countries={{this.countries}}
-              @updateCandidateData={{this.updateCandidateFromEventStub}}
-              @candidateData={{this.candidateData}}
-            />
-            `);
+          const screen = await render(
+            <template>
+              <NewCandidateModal
+                @showModal={{true}}
+                @countries={{countries}}
+                @updateCandidateData={{updateCandidateFromEventStub}}
+                @candidateData={{candidateData}}
+              />
+            </template>,
+          );
 
           const complementaryWithoutReferential = screen.getByRole('radio', { name: 'Certif complémentaire 1' });
           await click(complementaryWithoutReferential);
@@ -675,9 +673,8 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
           this.owner.register('service:current-user', CurrentUserStub);
 
           const updateCandidateFromEventStub = sinon.stub();
-          this.set('updateCandidateFromEventStub', updateCandidateFromEventStub);
-          this.set('countries', [{ code: '99123', name: 'Borduristan' }]);
-          this.set('candidateData', {
+          const countries = [{ code: '99123', name: 'Borduristan' }];
+          const candidateData = {
             firstName: '',
             lastName: '',
             birthdate: '',
@@ -690,17 +687,19 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
             birthInseeCode: '',
             sex: '',
             extraTimePercentage: '',
-          });
+          };
 
           // when
-          const screen = await renderScreen(hbs`
-            <NewCandidateModal
-              @showModal={{true}}
-              @countries={{this.countries}}
-              @updateCandidateData={{this.updateCandidateFromEventStub}}
-              @candidateData={{this.candidateData}}
-            />
-            `);
+          const screen = await render(
+            <template>
+              <NewCandidateModal
+                @showModal={{true}}
+                @countries={{countries}}
+                @updateCandidateData={{updateCandidateFromEventStub}}
+                @candidateData={{candidateData}}
+              />
+            </template>,
+          );
 
           const noComplementaryCertificationOption = screen.getByRole('radio', { name: 'Aucune' });
           await click(noComplementaryCertificationOption);
@@ -717,11 +716,9 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
 
     module('when certification center is not a complementary alone pilot', function () {
       test('it not display complementary alone options', async function (assert) {
-        // given
         const updateCandidateFromEventStub = sinon.stub();
-        this.set('updateCandidateFromEventStub', updateCandidateFromEventStub);
-        this.set('countries', [{ code: '99123', name: 'Borduristan' }]);
-        this.set('candidateData', {
+        const countries = [{ code: '99123', name: 'Borduristan' }];
+        const candidateData = {
           firstName: '',
           lastName: '',
           birthdate: '',
@@ -734,17 +731,19 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
           birthInseeCode: '',
           sex: '',
           extraTimePercentage: '',
-        });
+        };
 
         // when
-        const screen = await renderScreen(hbs`
+        const screen = await render(
+          <template>
             <NewCandidateModal
               @showModal={{true}}
-              @countries={{this.countries}}
-              @updateCandidateData={{this.updateCandidateFromEventStub}}
-              @candidateData={{this.candidateData}}
+              @countries={{countries}}
+              @updateCandidateData={{updateCandidateFromEventStub}}
+              @candidateData={{candidateData}}
             />
-            `);
+          </template>,
+        );
 
         const complementaryWithReferential = screen.getByRole('radio', { name: 'Certif complémentaire 2' });
         await click(complementaryWithReferential);
