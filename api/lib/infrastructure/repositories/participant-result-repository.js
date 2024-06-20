@@ -41,6 +41,7 @@ const getByUserIdAndCampaignId = async function ({ userId, campaignId, badges, r
   const isCampaignMultipleSendings = await _isCampaignMultipleSendings(campaignId);
   const isOrganizationLearnerActive = await _isOrganizationLearnerActive(userId, campaignId);
   const isCampaignArchived = await _isCampaignArchived(campaignId);
+  const isCampaignDeleted = await _isCampaignDeleted(campaignId);
   const competences = await _findTargetedCompetences(campaignId, locale);
   if (stages && stages.length) {
     const skillIds = competences.flatMap(({ targetedSkillIds }) => targetedSkillIds);
@@ -65,6 +66,7 @@ const getByUserIdAndCampaignId = async function ({ userId, campaignId, badges, r
     isCampaignMultipleSendings,
     isOrganizationLearnerActive,
     isCampaignArchived,
+    isCampaignDeleted,
     flashScoringResults,
     isTargetProfileResetAllowed,
   });
@@ -237,6 +239,11 @@ async function _isCampaignMultipleSendings(campaignId) {
 async function _isCampaignArchived(campaignId) {
   const campaign = await knex('campaigns').select('archivedAt').where({ 'campaigns.id': campaignId }).first();
   return Boolean(campaign.archivedAt);
+}
+
+async function _isCampaignDeleted(campaignId) {
+  const campaign = await knex('campaigns').select('deletedAt').where({ 'campaigns.id': campaignId }).first();
+  return Boolean(campaign.deletedAt);
 }
 
 async function _isOrganizationLearnerActive(userId, campaignId) {

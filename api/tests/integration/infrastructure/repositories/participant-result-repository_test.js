@@ -390,6 +390,32 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
         // then
         expect(participantResult).to.contain({ isDisabled: false });
       });
+
+      it('returns true when campaign is deleted', async function () {
+        // given
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ deletedAt: new Date(), archivedAt: null });
+        _buildCampaignSkills(campaignId);
+        const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId,
+          deletedAt: null,
+        });
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
+        await databaseBuilder.commit();
+
+        // when
+        const participantResult = await participantResultRepository.getByUserIdAndCampaignId({
+          userId,
+          campaignId,
+          targetProfile,
+          badges: [],
+          locale: 'FR',
+        });
+
+        // then
+        expect(participantResult).to.contain({ isDisabled: true });
+      });
     });
 
     it('compute the number of skills, the number of skill tested and the number of skill validated', async function () {
