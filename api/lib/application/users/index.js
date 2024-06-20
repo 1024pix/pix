@@ -538,31 +538,6 @@ const register = async function (server) {
     },
     {
       method: 'PATCH',
-      path: '/api/users/{id}/pix-terms-of-service-acceptance',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-            assign: 'requestedUserIsAuthenticatedUser',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.userId,
-          }),
-        },
-        handler: userController.acceptPixLastTermsOfService,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            "- Sauvegarde le fait que l'utilisateur a accepté les dernières Conditions Générales d'Utilisation de Pix App\n" +
-            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié\n' +
-            "- Le contenu de la requête n'est pas pris en compte.",
-        ],
-        tags: ['api', 'user'],
-      },
-    },
-    {
-      method: 'PATCH',
       path: '/api/users/{id}/pix-orga-terms-of-service-acceptance',
       config: {
         pre: [
