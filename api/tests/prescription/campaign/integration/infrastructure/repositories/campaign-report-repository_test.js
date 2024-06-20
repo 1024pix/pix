@@ -283,8 +283,22 @@ describe('Integration | Repository | Campaign-Report', function () {
 
     it('should return array with result', async function () {
       // given
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0.1, validatedSkillsCount: 18 });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0.3, validatedSkillsCount: 42 });
+      const firstLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
+      const secondLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        masteryRate: 0.1,
+        validatedSkillsCount: 18,
+        organizationLearnerId: firstLearnerId,
+        sharedAt: new Date(),
+      });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        masteryRate: 0.3,
+        validatedSkillsCount: 42,
+        organizationLearnerId: secondLearnerId,
+        sharedAt: new Date(),
+      });
       await databaseBuilder.commit();
 
       // when
@@ -294,19 +308,6 @@ describe('Integration | Repository | Campaign-Report', function () {
       expect(result).to.be.instanceOf(Object);
       expect(result.masteryRates).to.have.members([0.1, 0.3]);
       expect(result.validatedSkillsCounts).to.have.members([18, 42]);
-    });
-
-    it('should only take into account participations not improved', async function () {
-      // given
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0.1, isImproved: true });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0.3, isImproved: false });
-      await databaseBuilder.commit();
-
-      // when
-      const result = await campaignReportRepository.findMasteryRatesAndValidatedSkillsCount(campaignId);
-
-      // then
-      expect(result).to.deep.equal({ masteryRates: [0.3], validatedSkillsCounts: [0] });
     });
 
     it('should only take into account participations not deleted', async function () {
@@ -342,6 +343,35 @@ describe('Integration | Repository | Campaign-Report', function () {
 
       // then
       expect(result).to.deep.equal({ masteryRates: [0.1], validatedSkillsCounts: [0] });
+    });
+
+    it('should only take latest shared participations by learner', async function () {
+      // given
+      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        masteryRate: 0.1,
+        isImproved: true,
+        sharedAt: new Date('2020-01-01'),
+        status: SHARED,
+        organizationLearnerId,
+      });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        masteryRate: 0.3,
+        isImproved: false,
+        sharedAt: new Date('2024-09-09'),
+        organizationLearnerId,
+        status: SHARED,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const result = await campaignReportRepository.findMasteryRatesAndValidatedSkillsCount(campaignId);
+
+      // then
+      expect(result).to.deep.equal({ masteryRates: [0.3], validatedSkillsCounts: [0] });
     });
 
     it('should return empty array if campaign can not be found', async function () {
