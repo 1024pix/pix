@@ -203,8 +203,23 @@ describe('Integration | Repository | Campaign Participations Stats', function ()
       it('counts the last participation for each participant', async function () {
         const { id: campaignId } = databaseBuilder.factory.buildCampaign();
         const { id: userId } = databaseBuilder.factory.buildUser();
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId, masteryRate: 0.5, isImproved: true });
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId, masteryRate: 1, isImproved: false });
+        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ userId }).id;
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          userId,
+          organizationLearnerId,
+          masteryRate: 0.5,
+          isImproved: true,
+          sharedAt: new Date('2021-01-01'),
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          userId,
+          organizationLearnerId,
+          masteryRate: 1,
+          isImproved: false,
+          sharedAt: new Date('2024-03-03'),
+        });
 
         await databaseBuilder.commit();
         const resultDistribution = await campaignParticipationsStatsRepository.countParticipationsByMasteryRate({

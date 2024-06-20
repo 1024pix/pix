@@ -1,5 +1,6 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../shared/domain/constants.js';
+import { getLatestParticipationSharedForOneLearner } from './helpers/get-latest-participation-shared-for-one-learner.js';
 
 const { TO_SHARE, SHARED, STARTED } = CampaignParticipationStatuses;
 
@@ -12,13 +13,24 @@ const getParticipationsActivityByDate = async function (campaignId) {
 };
 
 const countParticipationsByMasteryRate = async function ({ campaignId }) {
-  return knex('campaign-participations')
+  const results = await knex
     .select('masteryRate')
-    .count()
-    .where({ campaignId, status: SHARED, isImproved: false, deletedAt: null })
+    .count('masteryRate')
+    .from(
+      knex
+        .from('campaign-participations as cp')
+        .select(['organizationLearnerId', getLatestParticipationSharedForOneLearner(knex, 'masteryRate', campaignId)])
+        .groupBy('organizationLearnerId')
+        .where('status', SHARED)
+        .where('deletedAt', null)
+        .where({ campaignId })
+        .as('subQuery'),
+    )
     .whereNotNull('masteryRate')
     .groupBy('masteryRate')
-    .orderBy('masteryRate', 'ASC');
+    .orderBy('masteryRate', 'asc');
+
+  return results;
 };
 
 async function _getCumulativeParticipationCountsByDay(campaignId, column) {
