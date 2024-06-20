@@ -1,7 +1,7 @@
-import { getCurrentUser } from '../../../../lib/domain/usecases/get-current-user.js';
-import { expect, sinon } from '../../../test-helper.js';
+import { getCurrentUser } from '../../../../../src/identity-access-management/domain/usecases/get-current-user.usecase.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | get-current-user', function () {
+describe('Unit | Identity Access Management | Domain | UseCase | get-current-user', function () {
   let userRepository;
   let campaignParticipationRepository;
   let userRecommendedTrainingRepository;
@@ -17,7 +17,7 @@ describe('Unit | UseCase | get-current-user', function () {
     };
   });
 
-  it('should get the current user', async function () {
+  it('gets the current user', async function () {
     // given
     userRepository.get.withArgs(1).resolves({ id: 1, shouldSeeDataProtectionPolicyInformationBanner: true });
     campaignParticipationRepository.hasAssessmentParticipations.withArgs(1).resolves(false);

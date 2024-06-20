@@ -4,8 +4,10 @@ import { fileURLToPath } from 'node:url';
 import { mailService } from '../../../../lib/domain/services/mail-service.js';
 import * as userReconciliationService from '../../../../lib/domain/services/user-reconciliation-service.js';
 import { oidcAuthenticationServiceRegistry } from '../../../../lib/domain/usecases/index.js';
+import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
+import * as userRecommendedTrainingRepository from '../../../devcomp/infrastructure/repositories/user-recommended-training-repository.js';
 import * as campaignToJoinRepository from '../../../prescription/campaign/infrastructure/repositories/campaign-to-join-repository.js';
 import { config } from '../../../shared/config.js';
 import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
@@ -36,12 +38,14 @@ const repositories = {
   accountRecoveryDemandRepository,
   adminMemberRepository,
   authenticationMethodRepository,
+  campaignParticipationRepository,
   campaignRepository,
   campaignToJoinRepository,
   oidcProviderRepository,
   organizationLearnerRepository,
   resetPasswordDemandRepository,
   userLoginRepository,
+  userRecommendedTrainingRepository,
   userRepository,
   userToCreateRepository,
 };
