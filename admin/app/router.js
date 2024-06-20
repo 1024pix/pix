@@ -142,6 +142,7 @@ Router.map(function () {
 
     this.route('administration', function () {
       this.route('common');
+      this.route('certification');
     });
 
     this.route('tools');

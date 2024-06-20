@@ -265,6 +265,9 @@
       },
       "navigation": {
         "aria-label": "Administration section navigation",
+        "certification": {
+          "label": "Certification"
+        },
         "common": {
           "label": "Common"
         }

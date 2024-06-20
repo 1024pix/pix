@@ -1,5 +1,5 @@
 import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
-import { currentURL } from '@ember/test-helpers';
+import { click, currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
@@ -106,5 +106,23 @@ module('Acceptance | administration | common ', function (hooks) {
     // then
     assert.dom(screen.getByRole('navigation', { name: 'Navigation de la section administration' })).exists();
     assert.dom(screen.getByRole('link', { name: 'Commun' })).exists();
+    assert.dom(screen.getByRole('link', { name: 'Certification' })).exists();
+  });
+
+  module('when certification tab is clicked', function () {
+    test('should display certification sections', async function (assert) {
+      // given
+      const screen = await visit('/administration/common');
+
+      // when
+      await click(screen.getByRole('link', { name: 'Certification' }));
+
+      // then
+      assert
+        .dom(screen.getByRole('heading', { name: 'Configuration des mailles pour le score global', level: 2 }))
+        .exists();
+      assert.dom(screen.getByRole('heading', { name: 'Configuration des seuils par compétence', level: 2 })).exists();
+      assert.dom(screen.getByRole('heading', { name: 'Simulateur de scoring', level: 2 })).exists();
+    });
   });
 });
