@@ -1,9 +1,6 @@
 import bluebird from 'bluebird';
 import _ from 'lodash';
 
-import { knex } from '../../db/knex-database-connection.js';
-import * as campaignRepository from '../../lib/infrastructure/repositories/campaign-repository.js';
-import { ComplementaryCertificationKeys } from '../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import * as challengeRepository from '../../src/shared/infrastructure/repositories/challenge-repository.js';
 import * as competenceRepository from '../../src/shared/infrastructure/repositories/competence-repository.js';
 import * as skillRepository from '../../src/shared/infrastructure/repositories/skill-repository.js';
@@ -43,24 +40,10 @@ async function makeUserPixEduCertifiable({ userId, databaseBuilder }) {
 async function makeUserCleaCertifiable({ userId, databaseBuilder }) {
   await _cacheLearningContent();
   const assessmentId = _createComplementeCompetenceEvaluationAssessment({ userId, databaseBuilder });
-  const [campaignId] = await knex
-    .from('badges')
-    .pluck('campaigns.id')
-    .innerJoin('complementary-certification-badges', 'badges.id', 'complementary-certification-badges.badgeId')
-    .innerJoin(
-      'complementary-certifications',
-      'complementary-certifications.id',
-      'complementary-certification-badges.complementaryCertificationId',
-    )
-    .innerJoin('campaigns', 'campaigns.targetProfileId', 'badges.targetProfileId')
-    .where({ 'complementary-certifications.key': ComplementaryCertificationKeys.CLEA })
-    .whereNull('complementary-certification-badges.detachedAt');
-
-  const skillIds = await campaignRepository.findSkillIds({ campaignId });
-
-  return bluebird.mapSeries(skillIds, async (skillId) => {
-    const skill = await skillRepository.get(skillId);
-    return _addAnswerAndKnowledgeElementForSkill({ assessmentId, userId, skill, databaseBuilder });
+  allPixCompetences.forEach(({ id }) => {
+    skillsByCompetenceId[id].forEach((skill) => {
+      _addAnswerAndKnowledgeElementForSkill({ assessmentId, userId, skill, databaseBuilder });
+    });
   });
 }
 

@@ -1,4 +1,4 @@
-import * as certificationVersionRepository from '../../../../../../src/certification/course/infrastructure/repositories/certification-version-repository.js';
+import * as certificationVersionRepository from '../../../../../../src/certification/results/infrastructure/repositories/certification-version-repository.js';
 import { CERTIFICATION_VERSIONS } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { databaseBuilder, expect } from '../../../../../test-helper.js';
 

@@ -1,4 +1,4 @@
-import * as courseAssessmentResultRepository from '../../../../../../src/certification/course/infrastructure/repositories/course-assessment-result-repository.js';
+import * as courseAssessmentResultRepository from '../../../../../../src/certification/results/infrastructure/repositories/course-assessment-result-repository.js';
 import { AutoJuryCommentKeys } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { AssessmentResult } from '../../../../../../src/shared/domain/models/AssessmentResult.js';

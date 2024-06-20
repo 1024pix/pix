@@ -1,4 +1,4 @@
-import * as certificationRepository from '../../../../../../src/certification/course/infrastructure/repositories/certificate-repository.js';
+import * as certificationRepository from '../../../../../../src/certification/results/infrastructure/repositories/certificate-repository.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { status } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
 import {

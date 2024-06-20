@@ -4,7 +4,7 @@ import * as url from 'node:url';
 import dayjs from 'dayjs';
 import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
 
-import { getCertificationAttestationsPdfBuffer } from '../../../../../../../src/certification/course/infrastructure/utils/pdf/certification-attestation-pdf.js';
+import { getCertificationAttestationsPdfBuffer } from '../../../../../../../src/certification/results/infrastructure/utils/pdf/certification-attestation-pdf.js';
 import { CertificationAttestationGenerationError } from '../../../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, nock, sinon } from '../../../../../../test-helper.js';
 import { isSameBinary } from '../../../../../../tooling/binary-comparator.js';
