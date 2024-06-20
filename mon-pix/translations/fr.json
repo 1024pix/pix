@@ -820,7 +820,7 @@
           },
           "description": "Pix vous laisse le choix du format de fichier à télécharger. Si vous ne savez pas quelle option retenir, conservez le choix par défaut. Il correspond au format de fichier pris en charge par le plus grand nombre de logiciels.",
           "file-type": "fichier .{fileExtension}",
-          "help": "Besoin d'aide pour '<a href=\"https://support.pix.org/fr/support/solutions/articles/15000036390\" class=\"challenge-statement__action-help--link\" target=\"_blank\" aria-label=\"ouvrir, modifier ou retrouver ce fichier (ouverture dans une nouvelle fenêtre)\">'ouvrir, modifier ou retrouver ce fichier'</a>' ?"
+          "help": "Besoin d'aide pour '<a href=\"https://pix.org/fr/aide-ouvrir-modifier-retrouver-un-fichier-telecharge-depuis-une-question-pix\" class=\"challenge-statement__action-help--link\" target=\"_blank\" aria-label=\"ouvrir, modifier ou retrouver ce fichier (ouverture dans une nouvelle fenêtre)\">'ouvrir, modifier ou retrouver ce fichier'</a>' ?"
         },
         "sr-only": {
           "alternative-instruction": "Cette épreuve contient une illustration avec une alternative textuelle.",
