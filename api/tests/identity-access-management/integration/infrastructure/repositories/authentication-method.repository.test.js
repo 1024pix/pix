@@ -1,9 +1,9 @@
 import { AlreadyExistingEntityError, AuthenticationMethodNotFoundError } from '../../../../../lib/domain/errors.js';
-import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import * as OidcIdentityProviders from '../../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
 import { AuthenticationMethod } from '../../../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
 import * as authenticationMethodRepository from '../../../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
+import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Identity Access Management | Infrastructure | Repository | AuthenticationMethod', function () {
@@ -1242,6 +1242,50 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
           .where({ id: 123 });
         expect(authenticationComplement.password).to.equal(hashedPassword);
         expect(authenticationComplement.shouldChangePassword).to.be.false;
+      });
+    });
+  });
+
+  describe('#batchAnonymizeByUserIds', function () {
+    it('anonymizes firstName, lastName in authentication complements and externalId for provided users list', async function () {
+      // given
+      const userId1 = databaseBuilder.factory.buildUser().id;
+      const userId2 = databaseBuilder.factory.buildUser().id;
+      const userId3 = databaseBuilder.factory.buildUser().id;
+
+      databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
+        userId: userId1,
+        externalIdentifier: 'externalId1',
+      });
+      databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
+        userId: userId2,
+        externalIdentifier: 'externalId2',
+      });
+      databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
+        userId: userId3,
+        externalIdentifier: 'externalId3',
+      });
+      databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndPassword({
+        userId: userId3,
+        externalIdentifier: 'externalId3',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await authenticationMethodRepository.batchAnonymizeByUserIds({
+        userIds: [userId1, userId2, userId3],
+        chunkSize: 1,
+      });
+
+      // then
+      expect(result.anonymizedUserCount).to.equal(3);
+      const anonymizedAuthenticationMethods = await knex('authentication-methods')
+        .whereIn('userId', [userId1, userId2, userId3])
+        .andWhere('identityProvider', 'GAR');
+      anonymizedAuthenticationMethods.forEach(({ authenticationComplement, externalIdentifier, id }) => {
+        expect(authenticationComplement.firstName).to.equal('anonymized');
+        expect(authenticationComplement.lastName).to.equal('anonymized');
+        expect(externalIdentifier).to.equal(`anonymized-${id}`);
       });
     });
   });

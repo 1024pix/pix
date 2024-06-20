@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { knex } from '../../../../db/knex-database-connection.js';
 import { AlreadyExistingEntityError, AuthenticationMethodNotFoundError } from '../../../../lib/domain/errors.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import * as knexUtils from '../../../shared/infrastructure/utils/knex-utils.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../domain/constants/identity-providers.js';
 import * as OidcIdentityProviders from '../../domain/constants/oidc-identity-providers.js';
@@ -270,6 +270,33 @@ const batchUpdatePasswordThatShouldBeChanged = function ({
 };
 
 /**
+ * @param {number[]} userIds
+ * @param {number} chunkSize
+ * @returns {Promise<{anonymizedUserCount: number}>}
+ */
+const batchAnonymizeByUserIds = async function ({ userIds, chunkSize = 1000 }) {
+  const userIdBatches = _.chunk(userIds, chunkSize);
+  let anonymizedUserCount = 0;
+
+  for (const userIdBatch of userIdBatches) {
+    const anonymizedUserIdBatch = await knex(AUTHENTICATION_METHODS_TABLE)
+      .whereIn('userId', userIdBatch)
+      .andWhere('identityProvider', 'GAR')
+      .update(
+        {
+          authenticationComplement: { firstName: 'anonymized', lastName: 'anonymized' },
+          updatedAt: knex.fn.now(),
+          externalIdentifier: knex.raw('CONCAT(\'anonymized-\', "authentication-methods".id)'),
+        },
+        [COLUMNS],
+      );
+    anonymizedUserCount += anonymizedUserIdBatch.length;
+  }
+
+  return { anonymizedUserCount };
+};
+
+/**
  * @typedef {Object} AuthenticationMethodRepository
  * @property {function} batchUpdatePasswordThatShouldBeChanged
  * @property {function} create
@@ -290,6 +317,7 @@ const batchUpdatePasswordThatShouldBeChanged = function ({
  * @property {function} updatePasswordThatShouldBeChanged
  */
 export {
+  batchAnonymizeByUserIds,
   batchUpdatePasswordThatShouldBeChanged,
   create,
   createPasswordThatShouldBeChanged,
