@@ -1,7 +1,9 @@
 import _ from 'lodash';
 
+import { CertificationCandidateNotFoundError } from '../../../../../../src/certification/enrolment/domain/errors.js';
+import { Candidate } from '../../../../../../src/certification/enrolment/domain/models/Candidate.js';
 import * as candidateRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/candidate-repository.js';
-import { databaseBuilder, expect } from '../../../../../test-helper.js';
+import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Certification | Session | Repository | Candidate', function () {
   describe('#findBySessionId', function () {
@@ -109,6 +111,49 @@ describe('Integration | Certification | Session | Repository | Candidate', funct
 
         // then
         expect(actualCandidates).to.deep.equal([]);
+      });
+    });
+  });
+
+  describe('#update', function () {
+    describe('when the candidate exists', function () {
+      it('should update the candidate', async function () {
+        // when
+        const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
+          firstName: 'toto',
+        });
+
+        await databaseBuilder.commit();
+
+        const certificationCandidateToUpdate = domainBuilder.certification.enrolment.buildCertificationSessionCandidate(
+          {
+            ...certificationCandidate,
+          },
+        );
+
+        certificationCandidateToUpdate.firstName = 'tutu';
+
+        const updatedCertificationCandidate = await candidateRepository.update(certificationCandidateToUpdate);
+
+        // then
+        expect(updatedCertificationCandidate).to.be.instanceOf(Candidate);
+        expect(updatedCertificationCandidate.firstName).to.equal('tutu');
+      });
+    });
+
+    describe('when the candidate does not exist', function () {
+      it('should throw', async function () {
+        // when
+        const certificationCandidateToUpdate = domainBuilder.certification.enrolment.buildCertificationSessionCandidate(
+          { firstName: 'candidate unknown' },
+        );
+
+        certificationCandidateToUpdate.firstName = 'tutu';
+
+        const error = await catchErr(candidateRepository.update)(certificationCandidateToUpdate);
+
+        // then
+        expect(error).to.be.instanceOf(CertificationCandidateNotFoundError);
       });
     });
   });

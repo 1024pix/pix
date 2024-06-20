@@ -1,5 +1,6 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { Candidate } from '../../../enrolment/domain/models/Candidate.js';
+import { CertificationCandidateNotFoundError } from '../../domain/errors.js';
 
 const findBySessionId = async function ({ sessionId }) {
   const results = await knex
@@ -20,7 +21,53 @@ const findBySessionId = async function ({ sessionId }) {
   return results.map(_toDomain);
 };
 
-export { findBySessionId };
+/**
+ * @function
+ * @param {Object} certificationCandidate
+ *
+ * @return {Candidate}
+ * @throws {CertificationCandidateNotFoundError} Certification candidate not found
+ */
+const update = async function (certificationCandidate) {
+  const [updatedCertificationCandidate] = await knex('certification-candidates')
+    .where({
+      id: certificationCandidate.id,
+    })
+    .update({
+      id: certificationCandidate.id,
+      firstName: certificationCandidate.firstName,
+      lastName: certificationCandidate.lastName,
+      sex: certificationCandidate.sex,
+      birthPostalCode: certificationCandidate.birthPostalCode,
+      birthINSEECode: certificationCandidate.birthINSEECode,
+      birthCity: certificationCandidate.birthCity,
+      birthProvinceCode: certificationCandidate.birthProvinceCode,
+      birthCountry: certificationCandidate.birthCountry,
+      email: certificationCandidate.email,
+      resultRecipientEmail: certificationCandidate.resultRecipientEmail,
+      externalId: certificationCandidate.externalId,
+      birthdate: certificationCandidate.birthdate,
+      extraTimePercentage: certificationCandidate.extraTimePercentage,
+      createdAt: certificationCandidate.createdAt,
+      authorizedToStart: certificationCandidate.authorizedToStart,
+      sessionId: certificationCandidate.sessionId,
+      userId: certificationCandidate.userId,
+      organizationLearnerId: certificationCandidate.organizationLearnerId,
+      complementaryCertificationId: certificationCandidate.complementaryCertificationId,
+      billingMode: certificationCandidate.billingMode,
+      prepaymentCode: certificationCandidate.prepaymentCode,
+      hasSeenCertificationInstructions: certificationCandidate.hasSeenCertificationInstructions,
+    })
+    .returning('*');
+
+  if (!updatedCertificationCandidate) {
+    throw new CertificationCandidateNotFoundError();
+  }
+
+  return _toDomain(updatedCertificationCandidate);
+};
+
+export { findBySessionId, update };
 
 function _toDomain(result) {
   return result ? new Candidate(result) : null;
