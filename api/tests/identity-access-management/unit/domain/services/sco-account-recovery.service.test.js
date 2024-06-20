@@ -1,22 +1,19 @@
 import dayjs from 'dayjs';
 
-import { config } from '../../../../lib/config.js';
 import {
   AccountRecoveryDemandExpired,
   AlreadyRegisteredEmailError,
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
   UserHasAlreadyLeftSCO,
   UserNotFoundError,
-} from '../../../../lib/domain/errors.js';
-import {
-  retrieveAndValidateAccountRecoveryDemand,
-  retrieveOrganizationLearner,
-} from '../../../../lib/domain/services/sco-account-recovery-service.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
+} from '../../../../../lib/domain/errors.js';
+import { scoAccountRecoveryService } from '../../../../../src/identity-access-management/domain/services/sco-account-recovery.service.js';
+import { config } from '../../../../../src/shared/config.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 const { features } = config;
 
-describe('Unit | Service | sco-account-recovery-service', function () {
+describe('Unit | Identity Access Management | Domain | Service | sco-account-recovery', function () {
   describe('#retrieveOrganizationLearner', function () {
     let organizationLearnerRepository;
     let userRepository;
@@ -54,7 +51,7 @@ describe('Unit | Service | sco-account-recovery-service', function () {
           .resolves();
 
         // when
-        const error = await catchErr(retrieveOrganizationLearner)({
+        const error = await catchErr(scoAccountRecoveryService.retrieveOrganizationLearner)({
           studentInformation,
           organizationLearnerRepository,
           userRepository,
@@ -87,7 +84,7 @@ describe('Unit | Service | sco-account-recovery-service', function () {
           .resolves(organizationLearner);
 
         // when
-        const error = await catchErr(retrieveOrganizationLearner)({
+        const error = await catchErr(scoAccountRecoveryService.retrieveOrganizationLearner)({
           studentInformation,
           organizationLearnerRepository,
           userRepository,
@@ -168,7 +165,7 @@ describe('Unit | Service | sco-account-recovery-service', function () {
           userRepository.get.withArgs(expectedUser.id).resolves(expectedUser);
 
           // when
-          const result = await retrieveOrganizationLearner({
+          const result = await scoAccountRecoveryService.retrieveOrganizationLearner({
             accountRecoveryDemandRepository,
             studentInformation,
             organizationLearnerRepository,
@@ -252,7 +249,7 @@ describe('Unit | Service | sco-account-recovery-service', function () {
           accountRecoveryDemandRepository.findByUserId.withArgs(user.id).resolves([accountRecoveryDemand]);
 
           // when
-          const result = await catchErr(retrieveOrganizationLearner)({
+          const result = await catchErr(scoAccountRecoveryService.retrieveOrganizationLearner)({
             accountRecoveryDemandRepository,
             studentInformation,
             organizationLearnerRepository,
@@ -318,7 +315,7 @@ describe('Unit | Service | sco-account-recovery-service', function () {
         userRepository.get.withArgs(expectedUser.id).resolves(expectedUser);
 
         // when
-        const result = await retrieveOrganizationLearner({
+        const result = await scoAccountRecoveryService.retrieveOrganizationLearner({
           accountRecoveryDemandRepository,
           studentInformation,
           organizationLearnerRepository,
@@ -370,7 +367,7 @@ describe('Unit | Service | sco-account-recovery-service', function () {
           .resolves(undefined);
 
         // when
-        const error = await catchErr(retrieveOrganizationLearner)({
+        const error = await catchErr(scoAccountRecoveryService.retrieveOrganizationLearner)({
           studentInformation,
           organizationLearnerRepository,
           userRepository,
@@ -445,7 +442,7 @@ describe('Unit | Service | sco-account-recovery-service', function () {
         });
 
         // when
-        const error = await catchErr(retrieveOrganizationLearner)({
+        const error = await catchErr(scoAccountRecoveryService.retrieveOrganizationLearner)({
           accountRecoveryDemandRepository,
           studentInformation,
           organizationLearnerRepository,
@@ -493,7 +490,7 @@ describe('Unit | Service | sco-account-recovery-service', function () {
       accountRecoveryDemandRepository.findByUserId.withArgs(userId).resolves([{ used: false }]);
 
       // when
-      const result = await retrieveAndValidateAccountRecoveryDemand({
+      const result = await scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand({
         userRepository,
         accountRecoveryDemandRepository,
       });
@@ -510,7 +507,7 @@ describe('Unit | Service | sco-account-recovery-service', function () {
       userRepository.checkIfEmailIsAvailable.withArgs(newEmail).rejects(new AlreadyRegisteredEmailError());
 
       // when
-      const error = await catchErr(retrieveAndValidateAccountRecoveryDemand)({
+      const error = await catchErr(scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand)({
         userRepository,
         accountRecoveryDemandRepository,
       });
@@ -530,7 +527,7 @@ describe('Unit | Service | sco-account-recovery-service', function () {
       accountRecoveryDemandRepository.findByUserId.withArgs(userId).resolves([{ used: true }]);
 
       // when
-      const error = await catchErr(retrieveAndValidateAccountRecoveryDemand)({
+      const error = await catchErr(scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand)({
         userRepository,
         accountRecoveryDemandRepository,
       });
@@ -553,7 +550,7 @@ describe('Unit | Service | sco-account-recovery-service', function () {
         accountRecoveryDemandRepository.findByUserId.withArgs(userId).resolves([{ used: false }]);
 
         // when
-        const error = await catchErr(retrieveAndValidateAccountRecoveryDemand)({
+        const error = await catchErr(scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand)({
           userRepository,
           accountRecoveryDemandRepository,
         });
@@ -573,7 +570,7 @@ describe('Unit | Service | sco-account-recovery-service', function () {
         accountRecoveryDemandRepository.findByUserId.withArgs(userId).resolves([{ used: false }]);
 
         // when
-        const error = await catchErr(retrieveAndValidateAccountRecoveryDemand)({
+        const error = await catchErr(scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand)({
           userRepository,
           accountRecoveryDemandRepository,
         });

@@ -15,6 +15,7 @@ import * as adminMemberRepository from '../../../shared/infrastructure/repositor
 import * as userLoginRepository from '../../../shared/infrastructure/repositories/user-login-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
+import { accountRecoveryDemandRepository } from '../../infrastructure/repositories/account-recovery-demand.repository.js';
 import * as authenticationMethodRepository from '../../infrastructure/repositories/authentication-method.repository.js';
 import { oidcProviderRepository } from '../../infrastructure/repositories/oidc-provider-repository.js';
 import * as resetPasswordDemandRepository from '../../infrastructure/repositories/reset-password-demand.repository.js';
@@ -24,11 +25,13 @@ import { authenticationSessionService } from '../services/authentication-session
 import { pixAuthenticationService } from '../services/pix-authentication-service.js';
 import { refreshTokenService } from '../services/refresh-token-service.js';
 import * as resetPasswordService from '../services/reset-password.service.js';
+import { scoAccountRecoveryService } from '../services/sco-account-recovery.service.js';
 import { addOidcProviderValidator } from '../validators/add-oidc-provider.validator.js';
 
 const path = dirname(fileURLToPath(import.meta.url));
 
 const repositories = {
+  accountRecoveryDemandRepository,
   adminMemberRepository,
   authenticationMethodRepository,
   campaignRepository,
@@ -47,6 +50,7 @@ const services = {
   pixAuthenticationService,
   refreshTokenService,
   resetPasswordService,
+  scoAccountRecoveryService,
   tokenService,
   userService,
 };

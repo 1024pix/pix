@@ -1,16 +1,16 @@
 import lodash from 'lodash';
 
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { AccountRecoveryDemand } from '../../../../lib/domain/models/AccountRecoveryDemand.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import * as accountRecoveryDemandRepository from '../../../../lib/infrastructure/repositories/account-recovery-demand-repository.js';
-import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import { AccountRecoveryDemand } from '../../../../../src/identity-access-management/domain/models/AccountRecoveryDemand.js';
+import { accountRecoveryDemandRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/account-recovery-demand.repository.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../test-helper.js';
 const { omit } = lodash;
 
-describe('Integration | Infrastructure | Repository | account-recovery-demand-repository', function () {
+describe('Integration | Identity Access Management | Infrastructure | Repository | account-recovery-demand', function () {
   describe('#findByTemporaryKey', function () {
     context('when demand does not exist', function () {
-      it('should throw a not found error', async function () {
+      it('throws a not found error', async function () {
         // when
         const error = await catchErr(accountRecoveryDemandRepository.findByTemporaryKey)('temporary key not found');
 
@@ -22,7 +22,7 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
 
     context('when demand exists', function () {
       context('when demand has been used already', function () {
-        it('should return the account recovery demand', async function () {
+        it('returns the account recovery demand', async function () {
           // given
           const email = 'someMail@example.net';
           const temporaryKey = 'someTemporaryKey';
@@ -53,33 +53,35 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
       });
 
       context('when demand is not used yet', function () {
-        it('should return the account recovery demand when demand is still valid', async function () {
-          // given
-          const email = 'someMail@example.net';
-          const temporaryKey = 'someTemporaryKey';
-          const {
-            id: demandId,
-            userId,
-            organizationLearnerId,
-            createdAt,
-          } = await databaseBuilder.factory.buildAccountRecoveryDemand({ email, temporaryKey, used: false });
-          await databaseBuilder.factory.buildAccountRecoveryDemand({ email, used: false });
-          await databaseBuilder.commit();
-          const expectedAccountRecoveryDemand = {
-            id: demandId,
-            userId,
-            oldEmail: null,
-            organizationLearnerId,
-            newEmail: 'philipe@example.net',
-            temporaryKey: 'someTemporaryKey',
-            used: false,
-            createdAt,
-          };
-          // when
-          const demand = await accountRecoveryDemandRepository.findByTemporaryKey(temporaryKey);
+        context('when demand is still valid', function () {
+          it('returns the account recovery demand', async function () {
+            // given
+            const email = 'someMail@example.net';
+            const temporaryKey = 'someTemporaryKey';
+            const {
+              id: demandId,
+              userId,
+              organizationLearnerId,
+              createdAt,
+            } = await databaseBuilder.factory.buildAccountRecoveryDemand({ email, temporaryKey, used: false });
+            await databaseBuilder.factory.buildAccountRecoveryDemand({ email, used: false });
+            await databaseBuilder.commit();
+            const expectedAccountRecoveryDemand = {
+              id: demandId,
+              userId,
+              oldEmail: null,
+              organizationLearnerId,
+              newEmail: 'philipe@example.net',
+              temporaryKey: 'someTemporaryKey',
+              used: false,
+              createdAt,
+            };
+            // when
+            const demand = await accountRecoveryDemandRepository.findByTemporaryKey(temporaryKey);
 
-          // then
-          expect(demand).to.deep.equal(expectedAccountRecoveryDemand);
+            // then
+            expect(demand).to.deep.equal(expectedAccountRecoveryDemand);
+          });
         });
       });
     });
@@ -87,7 +89,7 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
 
   describe('#findByUserId', function () {
     context('when there is no demand', function () {
-      it('should return an empty array', async function () {
+      it('returns an empty array', async function () {
         //given
         const userId = 1;
 
@@ -100,7 +102,7 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
     });
 
     context('when there are several demands for several users', function () {
-      it('should return only the user ones', async function () {
+      it('returns only the user ones', async function () {
         // given
         databaseBuilder.factory.buildAccountRecoveryDemand();
         const expectedUser = databaseBuilder.factory.buildUser();
@@ -131,7 +133,7 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
   });
 
   describe('#markAsBeingUsed', function () {
-    it('should mark demand as used', async function () {
+    it('marks demand as used', async function () {
       // given
       const temporaryKey = 'temporaryKey';
       databaseBuilder.factory.buildAccountRecoveryDemand({ temporaryKey, used: false });
@@ -145,7 +147,7 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
       expect(demand.used).to.be.true;
     });
 
-    it('should change updatedAt', async function () {
+    it('changes updatedAt', async function () {
       // given
       const temporaryKey = 'temporaryKey';
       const oldUpdatedAt = new Date('2013-01-01T15:00:00Z');
@@ -161,28 +163,30 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
       expect(newUpdatedAt).to.be.above(oldUpdatedAt);
     });
 
-    it('should rollback update if error occurs in transaction', async function () {
-      // given
-      const temporaryKey = 'temporaryKey';
-      databaseBuilder.factory.buildAccountRecoveryDemand({ temporaryKey, used: false });
-      await databaseBuilder.commit();
+    context('when an error occurs in transaction', function () {
+      it('rollbacks update', async function () {
+        // given
+        const temporaryKey = 'temporaryKey';
+        databaseBuilder.factory.buildAccountRecoveryDemand({ temporaryKey, used: false });
+        await databaseBuilder.commit();
 
-      // when
-      await catchErr(async () => {
-        await DomainTransaction.execute(async (domainTransaction) => {
-          await accountRecoveryDemandRepository.markAsBeingUsed(temporaryKey, domainTransaction);
-          throw new Error('Error occurs in transaction');
+        // when
+        await catchErr(async () => {
+          await DomainTransaction.execute(async (domainTransaction) => {
+            await accountRecoveryDemandRepository.markAsBeingUsed(temporaryKey, domainTransaction);
+            throw new Error('Error occurs in transaction');
+          });
         });
-      });
 
-      // then
-      const demand = await knex('account-recovery-demands').select('used').where({ temporaryKey }).first();
-      expect(demand.used).to.be.false;
+        // then
+        const demand = await knex('account-recovery-demands').select('used').where({ temporaryKey }).first();
+        expect(demand.used).to.be.false;
+      });
     });
   });
 
   describe('#save', function () {
-    it('should persist the account recovery demand', async function () {
+    it('persists the account recovery demand', async function () {
       // given
       const user = databaseBuilder.factory.buildUser();
       const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ userId: user.id }).id;
@@ -216,15 +220,17 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
       expect(result.temporaryKey).to.equal(temporaryKey);
     });
 
-    it('should throw an error if no row is saved', async function () {
-      // given
-      const notValidAccountRecoveryDemand = 123;
+    context('when no row is saved', function () {
+      it('throws an error', async function () {
+        // given
+        const notValidAccountRecoveryDemand = 123;
 
-      // when
-      const error = await catchErr(accountRecoveryDemandRepository.save)(notValidAccountRecoveryDemand);
+        // when
+        const error = await catchErr(accountRecoveryDemandRepository.save)(notValidAccountRecoveryDemand);
 
-      // then
-      expect(error).to.be.instanceOf(Error);
+        // then
+        expect(error).to.be.instanceOf(Error);
+      });
     });
   });
 });

@@ -1,15 +1,14 @@
 import lodash from 'lodash';
 
-import { config } from '../../config.js';
 import {
   AccountRecoveryDemandExpired,
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
   UserHasAlreadyLeftSCO,
   UserNotFoundError,
-} from '../errors.js';
+} from '../../../../lib/domain/errors.js';
+import { config } from '../../../shared/config.js';
 
 const { uniqBy } = lodash;
-
 const { features } = config;
 
 async function retrieveOrganizationLearner({
@@ -67,6 +66,8 @@ async function retrieveAndValidateAccountRecoveryDemand({
   return { id, userId, newEmail, organizationLearnerId };
 }
 
+export const scoAccountRecoveryService = { retrieveAndValidateAccountRecoveryDemand, retrieveOrganizationLearner };
+
 function _demandHasExpired(demandCreationDate) {
   const minutesInADay = 60 * 24;
   const lifetimeInMinutes = parseInt(features.scoAccountRecoveryKeyLifetimeMinutes) || minutesInADay;
@@ -104,5 +105,3 @@ async function _checkIfThereAreMultipleUserForTheSameAccount({ userId, organizat
     throw new MultipleOrganizationLearnersWithDifferentNationalStudentIdError();
   }
 }
-
-export { retrieveAndValidateAccountRecoveryDemand, retrieveOrganizationLearner };

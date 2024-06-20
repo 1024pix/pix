@@ -1,6 +1,6 @@
 import crypto from 'node:crypto';
 
-import { AccountRecoveryDemand } from '../../models/AccountRecoveryDemand.js';
+import { AccountRecoveryDemand } from '../../../../src/identity-access-management/domain/models/AccountRecoveryDemand.js';
 
 const sendEmailForAccountRecovery = async function ({
   studentInformation,

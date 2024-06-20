@@ -1,15 +1,28 @@
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
-import { AuthenticationMethod } from '../../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
+import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 
-const updateUserForAccountRecovery = async function ({
+/**
+ * @param {{
+ *   password: string,
+ *   temporaryKey: string,
+ *   accountRecoveryDemandRepository: AccountRecoveryDemandRepository,
+ *   authenticationMethodRepository: AuthenticationMethodRepository,
+ *   userRepository: UserRepository,
+ *   cryptoService: CryptoService,
+ *   scoAccountRecoveryService: ScoAccountRecoveryService,
+ *   domainTransaction: DomainTransaction,
+ * }} params
+ * @return {Promise<void>}
+ */
+export const updateUserForAccountRecovery = async function ({
   password,
   temporaryKey,
   userRepository,
+  domainTransaction,
   authenticationMethodRepository,
   accountRecoveryDemandRepository,
   scoAccountRecoveryService,
   cryptoService,
-  domainTransaction,
 }) {
   const { userId, newEmail } = await scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand({
     temporaryKey,
@@ -60,5 +73,3 @@ const updateUserForAccountRecovery = async function ({
   });
   await accountRecoveryDemandRepository.markAsBeingUsed(temporaryKey, domainTransaction);
 };
-
-export { updateUserForAccountRecovery };

@@ -1,9 +1,9 @@
 import _ from 'lodash';
 
-import { knex } from '../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../domain/errors.js';
+import { knex } from '../../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { AccountRecoveryDemand } from '../../domain/models/AccountRecoveryDemand.js';
-import { DomainTransaction } from '../DomainTransaction.js';
 
 const _toDomain = (accountRecoveryDemandDTO) => {
   return new AccountRecoveryDemand(accountRecoveryDemandDTO);
@@ -50,4 +50,4 @@ const markAsBeingUsed = async function (temporaryKey, { knexTransaction } = Doma
   return query;
 };
 
-export { findByTemporaryKey, findByUserId, markAsBeingUsed, save };
+export const accountRecoveryDemandRepository = { findByTemporaryKey, findByUserId, markAsBeingUsed, save };

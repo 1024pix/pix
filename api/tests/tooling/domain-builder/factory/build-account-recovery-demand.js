@@ -1,4 +1,4 @@
-import { AccountRecoveryDemand } from '../../../../lib/domain/models/AccountRecoveryDemand.js';
+import { AccountRecoveryDemand } from '../../../../src/identity-access-management/domain/models/AccountRecoveryDemand.js';
 
 const buildAccountRecoveryDemand = function ({
   userId = 7,
