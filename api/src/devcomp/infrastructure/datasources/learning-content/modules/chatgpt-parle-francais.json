@@ -353,6 +353,21 @@
       ]
     },
     {
+      "id": "256e2ddc-3ffc-4906-8c52-3026f353c0a0",
+      "type": "lesson",
+      "title": "Les biais des LLM : à retenir",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "27fc867a-7258-4f85-b8cc-bdd1ab2d26a5",
+            "type": "text",
+            "content": "<h3>Ce qu'il faut retenir&nbsp;<span aria-hidden=\"true\">🎓</span></h3><p>Les biais dans les LLM peuvent avoir différentes origines.</p><ul><li>Les <strong>données d'entraînement</strong> reflètent les stéréotypes et inégalités existant dans les sociétés qui les produisent.</li><li>Les <strong>développeurs</strong> peuvent inscrire dans le modèle des biais conscients ou non.</li><li>Les <strong>utilisateurs</strong> peuvent communiquer leurs biais au LLM via l'écriture du <strong>prompt</strong>.</li></ul>"
+          }
+        }
+      ]
+    },
+    {
       "id": "e52da884-2233-4101-96a5-befd5c7d7975",
       "type": "activity",
       "title": "Découverte de l'arène",
