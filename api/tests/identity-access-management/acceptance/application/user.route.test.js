@@ -1,6 +1,7 @@
 import lodash from 'lodash';
 
 import { constants } from '../../../../lib/domain/constants.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import * as userRepository from '../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import {
   createServer,
@@ -265,6 +266,45 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
       // then
       expect(response.statusCode).to.equal(200);
       expect(response.result).to.deep.equal(expectedUserJSONApi);
+    });
+  });
+
+  describe('GET /api/users/{id}/authentication-methods', function () {
+    it('returns 200 HTTP status code', async function () {
+      // given
+      const user = databaseBuilder.factory.buildUser({});
+      const garAuthenticationMethod = databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
+        userId: user.id,
+      });
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/api/users/${user.id}/authentication-methods`,
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(user.id),
+        },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      const expectedJson = {
+        data: [
+          {
+            type: 'authentication-methods',
+            id: garAuthenticationMethod.id.toString(),
+            attributes: {
+              'identity-provider': NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
+            },
+          },
+        ],
+      };
+
+      expect(response.statusCode).to.equal(200);
+      expect(response.result).to.deep.equal(expectedJson);
     });
   });
 

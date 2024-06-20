@@ -2,6 +2,7 @@ import Joi from 'joi';
 import XRegExp from 'xregexp';
 
 import { userVerification } from '../../../../lib/application/preHandlers/user-existence-verification.js';
+import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { config } from '../../../shared/config.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { userController } from './user.controller.js';
@@ -41,6 +42,29 @@ export const userRoutes = [
           '- Récupération de l’utilisateur courant\n',
       ],
       tags: ['identity-access-management', 'api', 'user'],
+    },
+  },
+  {
+    method: 'GET',
+    path: '/api/users/{id}/authentication-methods',
+    config: {
+      validate: {
+        params: Joi.object({
+          id: identifiersType.userId,
+        }),
+      },
+      pre: [
+        {
+          method: (request, h) => securityPreHandlers.checkRequestedUserIsAuthenticatedUser(request, h),
+          assign: 'requestedUserIsAuthenticatedUser',
+        },
+      ],
+      handler: (request, h) => userController.getUserAuthenticationMethods(request, h),
+      notes: [
+        '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          "- Elle permet la récupération des noms des méthodes de connexion de l'utilisateur.",
+      ],
+      tags: ['identity-access-management', 'api', 'user', 'authentication-methods'],
     },
   },
   {

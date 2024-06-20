@@ -515,29 +515,6 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/users/{id}/authentication-methods',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.userId,
-          }),
-        },
-        pre: [
-          {
-            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-            assign: 'requestedUserIsAuthenticatedUser',
-          },
-        ],
-        handler: userController.getUserAuthenticationMethods,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            "- Elle permet la récupération des noms des méthodes de connexion de l'utilisateur.",
-        ],
-        tags: ['api', 'user', 'authentication-methods'],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/users/{id}/trainings',
       config: {
         validate: {
