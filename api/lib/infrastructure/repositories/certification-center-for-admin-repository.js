@@ -11,13 +11,7 @@ const save = async function (certificationCenter) {
 
 const update = async function (certificationCenter) {
   const data = _toDTO(certificationCenter);
-
-  const [certificationCenterRow] = await knex('certification-centers')
-    .update(data)
-    .where({ id: certificationCenter.id })
-    .returning('*');
-
-  return _toDomain(certificationCenterRow);
+  return knex('certification-centers').update(data).where({ id: certificationCenter.id });
 };
 
 export { save, update };

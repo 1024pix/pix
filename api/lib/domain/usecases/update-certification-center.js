@@ -3,13 +3,9 @@
  */
 import bluebird from 'bluebird';
 
-import { Habilitation } from '../../../src/certification/enrolment/domain/models/Habilitation.js';
+import { CenterForAdminFactory } from '../../../src/certification/enrolment/domain/models/factories/CenterForAdminFactory.js';
 import { V3PilotNotAuthorizedForCertificationCenterError } from '../../../src/shared/domain/errors.js';
-import {
-  ComplementaryCertification,
-  ComplementaryCertificationHabilitation,
-  DataProtectionOfficer,
-} from '../models/index.js';
+import { ComplementaryCertificationHabilitation, DataProtectionOfficer } from '../models/index.js';
 import * as certificationCenterCreationValidator from '../validators/certification-center-creation-validator.js';
 
 async function _addOrUpdateDataProtectionOfficer({
@@ -68,31 +64,19 @@ const updateCertificationCenter = async function ({
     });
   }
 
-  const updatedCertificationCenter = await certificationCenterForAdminRepository.update(certificationCenterInformation);
-
-  const complementaryCertificationsHabilitated =
-    await complementaryCertificationHabilitationRepository.findByCertificationCenterId(updatedCertificationCenter.id);
-
-  updatedCertificationCenter.habilitations = complementaryCertificationsHabilitated.map(
-    (complementaryCertification) => {
-      return new Habilitation({
-        complementaryCertificationId: complementaryCertification.id,
-        key: complementaryCertification.key,
-        label: complementaryCertification.label,
-      });
-    },
-  );
+  await certificationCenterForAdminRepository.update(certificationCenterInformation);
+  const updatedCertificationCenter = await centerRepository.getById({ id: certificationCenterId });
 
   const dataProtectionOfficer = await _addOrUpdateDataProtectionOfficer({
     certificationCenterId,
     certificationCenterInformation,
     dataProtectionOfficerRepository,
   });
-  updatedCertificationCenter.dataProtectionOfficerFirstName = dataProtectionOfficer.firstName;
-  updatedCertificationCenter.dataProtectionOfficerLastName = dataProtectionOfficer.lastName;
-  updatedCertificationCenter.dataProtectionOfficerEmail = dataProtectionOfficer.email;
 
-  return updatedCertificationCenter;
+  return CenterForAdminFactory.fromCenterAndDataProtectionOfficer({
+    center: updatedCertificationCenter,
+    dataProtectionOfficer,
+  });
 };
 
 export { updateCertificationCenter };

@@ -1,6 +1,6 @@
 import * as CertificationCenterForAdminRepository from '../../../../lib/infrastructure/repositories/certification-center-for-admin-repository.js';
 import { CenterForAdmin } from '../../../../src/certification/enrolment/domain/models/CenterForAdmin.js';
-import { databaseBuilder, expect, sinon } from '../../../test-helper.js';
+import { databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 describe('Integration | Repository | certification-center-for-admin', function () {
   let clock;
@@ -56,24 +56,21 @@ describe('Integration | Repository | certification-center-for-admin', function (
 
     it('should update the given certification center', async function () {
       // when
-      const updatedCertificationCenter = await CertificationCenterForAdminRepository.update({
+      await CertificationCenterForAdminRepository.update({
         id: center.id,
         name: 'Great Oak Certification Center',
         updatedAt: now,
         isV3Pilot: true,
       });
 
-      const expectedCertificationCenter = new CenterForAdmin({
-        center: {
-          ...center,
-          name: 'Great Oak Certification Center',
-          updatedAt: updatedCertificationCenter.updatedAt,
-          isV3Pilot: true,
-        },
-      });
-
       // then
-      expect(updatedCertificationCenter).to.deepEqualInstance(expectedCertificationCenter);
+      const updatedCertificationCenter = await knex('certification-centers').select().where({ id: center.id }).first();
+      expect(updatedCertificationCenter).to.deep.equal({
+        ...center,
+        name: 'Great Oak Certification Center',
+        updatedAt: updatedCertificationCenter.updatedAt,
+        isV3Pilot: true,
+      });
     });
   });
 });
