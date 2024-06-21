@@ -16,7 +16,7 @@ describe('Unit | UseCase | get-campaign-by-code', function () {
   it('should return the campaign to join', async function () {
     // given
     const campaignToJoin = Symbol('someCampaign');
-    campaignToJoinRepository.getByCode.withArgs(code).resolves(campaignToJoin);
+    campaignToJoinRepository.getByCode.withArgs({ code }).resolves(campaignToJoin);
 
     // when
     const actualCampaignToJoin = await usecases.getCampaignByCode({

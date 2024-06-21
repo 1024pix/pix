@@ -30,10 +30,9 @@ import * as campaignParticipationInfoRepository from '../../infrastructure/repos
 import * as campaignParticipationsStatsRepository from '../../infrastructure/repositories/campaign-participations-stats-repository.js';
 import * as campaignProfilesCollectionParticipationSummaryRepository from '../../infrastructure/repositories/campaign-profiles-collection-participation-summary-repository.js';
 import * as campaignReportRepository from '../../infrastructure/repositories/campaign-report-repository.js';
-import * as campaignToJoinRepository from '../../infrastructure/repositories/campaign-to-join-repository.js';
 import * as divisionRepository from '../../infrastructure/repositories/division-repository.js';
 import * as groupRepository from '../../infrastructure/repositories/group-repository.js';
-import { repositories } from '../../infrastructure/repositories/index.js';
+import { repositories as campaignRepositories } from '../../infrastructure/repositories/index.js';
 import * as targetProfileRepository from '../../infrastructure/repositories/target-profile-repository.js';
 import * as campaignCsvExportService from '../services/campaign-csv-export-service.js';
 import * as campaignUpdateValidator from '../validators/campaign-update-validator.js';
@@ -52,7 +51,7 @@ const dependencies = {
   campaignProfilesCollectionParticipationSummaryRepository,
   campaignParticipationInfoRepository,
   campaignReportRepository,
-  organizationMembershipRepository: repositories.organizationMembershipRepository,
+  organizationMembershipRepository: campaignRepositories.organizationMembershipRepository,
   campaignAssessmentParticipationResultListRepository,
   codeGenerator,
   campaignUpdateValidator,
@@ -69,7 +68,7 @@ const dependencies = {
   targetProfileRepository, // TODO
   userRepository,
   campaignCollectiveResultRepository,
-  campaignToJoinRepository,
+  campaignToJoinRepository: campaignRepositories.campaignToJoinRepository,
   campaignParticipationsStatsRepository,
   tutorialRepository: libRepositories.tutorialRepository,
 };
