@@ -1,5 +1,5 @@
-import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
-import { click, currentURL } from '@ember/test-helpers';
+import { clickByName, fillByLabel, visit, within } from '@1024pix/ember-testing-library';
+import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
@@ -123,6 +123,63 @@ module('Acceptance | administration | common ', function (hooks) {
         .exists();
       assert.dom(screen.getByRole('heading', { name: 'Configuration des seuils par compétence', level: 2 })).exists();
       assert.dom(screen.getByRole('heading', { name: 'Simulateur de scoring', level: 2 })).exists();
+    });
+  });
+
+  module('certification tab', function () {
+    module('scoring simulator', function () {
+      module('when a capacity is given', function () {
+        test('should display a score and competence levels list', async function (assert) {
+          // given
+          const screen = await visit('/administration/common');
+          await click(screen.getByRole('link', { name: 'Certification' }));
+
+          // when
+          await fillIn(screen.getByLabelText('Capacité'), 1);
+          await clickByName('Générer un profil');
+
+          // then
+
+          assert.ok(await screen.findByText('Score :'));
+          assert.ok(await screen.findByText('768'));
+          assert.ok(await screen.findByText('Capacité :'));
+          assert.ok(await screen.findByText('1'));
+
+          const table = screen.getByRole('table', { name: 'Niveau par compétence' });
+          const rows = await within(table).findAllByRole('row');
+
+          assert.dom(within(table).getByRole('columnheader', { name: 'Compétence' })).exists();
+          assert.dom(within(table).getByRole('columnheader', { name: 'Niveau' })).exists();
+          assert.dom(within(rows[1]).getByRole('rowheader', { name: '1.1' })).exists();
+          assert.dom(within(rows[1]).getByRole('cell', { name: '3' })).exists();
+        });
+      });
+
+      module('when a score is given', function () {
+        test('should display a competence and competence levels list', async function (assert) {
+          // given
+          const screen = await visit('/administration/common');
+          await click(screen.getByRole('link', { name: 'Certification' }));
+
+          // when
+          await fillIn(screen.getByLabelText('Score global en Pix'), 768);
+          await clickByName('Générer un profil');
+
+          // then
+          assert.ok(await screen.findByText('Score :'));
+          assert.ok(await screen.findByText('768'));
+          assert.ok(await screen.findByText('Capacité :'));
+          assert.ok(await screen.findByText('1'));
+
+          const table = screen.getByRole('table', { name: 'Niveau par compétence' });
+          const rows = await within(table).findAllByRole('row');
+
+          assert.dom(within(table).getByRole('columnheader', { name: 'Compétence' })).exists();
+          assert.dom(within(table).getByRole('columnheader', { name: 'Niveau' })).exists();
+          assert.dom(within(rows[1]).getByRole('rowheader', { name: '1.1' })).exists();
+          assert.dom(within(rows[1]).getByRole('cell', { name: '3' })).exists();
+        });
+      });
     });
   });
 });
