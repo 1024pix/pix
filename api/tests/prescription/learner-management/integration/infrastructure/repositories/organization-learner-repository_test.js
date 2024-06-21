@@ -4,14 +4,16 @@ import { OrganizationLearnersCouldNotBeSavedError } from '../../../../../../lib/
 import { OrganizationLearner } from '../../../../../../lib/domain/models/index.js';
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 import * as organizationLearnerRepository from '../../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
-import { CommonOrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/models/ImportOrganizationLearnerSet.js';
+import { CommonOrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/models/CommonOrganizationLearner.js';
 import {
   addOrUpdateOrganizationOfOrganizationLearners,
   disableAllOrganizationLearnersInOrganization,
   disableCommonOrganizationLearnersFromOrganizationId,
   findAllCommonLearnersFromOrganizationId,
+  findAllCommonOrganizationLearnerByReconciliationInfos,
   removeByIds,
   saveCommonOrganizationLearners,
+  update,
   updateCommonLearnersFromOrganizationId,
 } from '../../../../../../src/prescription/learner-management/infrastructure/repositories/organization-learner-repository.js';
 import { ApplicationTransaction } from '../../../../../../src/prescription/shared/infrastructure/ApplicationTransaction.js';
@@ -1029,7 +1031,7 @@ describe('Integration | Repository | Organization Learner Management | Organizat
 
     it('should set isDisabled to true and set updatedAt with today on organization learner', async function () {
       // given
-      await databaseBuilder.factory.buildOrganizationLearner({
+      databaseBuilder.factory.buildOrganizationLearner({
         organizationId,
       });
       await databaseBuilder.commit();
@@ -1140,7 +1142,7 @@ describe('Integration | Repository | Organization Learner Management | Organizat
         hooby: 'Pokemon Hunter',
       });
 
-      const { firstName, lastName, id, userId, attributes, isDisabled } =
+      const { firstName, lastName, id, userId, attributes } =
         databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
           ...firstLearnerData,
           isDisabled: false,
@@ -1161,7 +1163,6 @@ describe('Integration | Repository | Organization Learner Management | Organizat
         firstName,
         lastName,
         id,
-        isDisabled,
         userId,
         attributes,
         organizationId,
@@ -1427,6 +1428,307 @@ describe('Integration | Repository | Organization Learner Management | Organizat
       expect(learnerFromDB.attributes.INE).to.be.equal('234567890');
       expect(learnerFromDB.firstName).to.be.equal('Sacha');
       expect(learnerFromDB.lastName).to.be.equal('Du Bourg Palette');
+    });
+  });
+
+  describe('#findAllCommonOrganizationLearnerByReconciliationInfos', function () {
+    let organizationId;
+
+    beforeEach(async function () {
+      organizationId = databaseBuilder.factory.buildOrganization().id;
+
+      databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+        firstName: 'Edgar',
+        lastName: 'Aheurfix',
+        attributes: {
+          'date de naissance': '2020-01-01',
+          hobby: 'manger',
+        },
+        userId: null,
+        organizationId,
+      });
+
+      await databaseBuilder.commit();
+    });
+
+    describe('matching cases', function () {
+      it('if use only attributes data to reconcile user to the correct learner', async function () {
+        // given
+        const organizationLeaner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+          firstName: 'Amandine',
+          lastName: 'AheurFix',
+          attributes: {
+            'date de naissance': '2021-01-01',
+            hobby: 'manger',
+          },
+          userId: null,
+          organizationId,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const matchingLearner = await findAllCommonOrganizationLearnerByReconciliationInfos({
+          organizationId,
+          reconciliationInformations: {
+            attributes: {
+              hobby: 'manger',
+              'date de naissance': '2021-01-01',
+            },
+          },
+        });
+
+        // then
+        expect(matchingLearner).to.deep.equal([
+          new CommonOrganizationLearner({
+            firstName: organizationLeaner.firstName,
+            lastName: organizationLeaner.lastName,
+            organizationId: organizationLeaner.organizationId,
+            id: organizationLeaner.id,
+            ...organizationLeaner.attributes,
+          }),
+        ]);
+      });
+
+      it('if use attributes and firstName to reconcile user to the correct learner', async function () {
+        // given
+        const organizationLeaner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+          firstName: 'Amandine',
+          lastName: 'AheurFix',
+          attributes: {
+            'date de naissance': '2021-01-01',
+            hobby: 'manger',
+          },
+          userId: null,
+          organizationId,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const matchingLearner = await findAllCommonOrganizationLearnerByReconciliationInfos({
+          organizationId,
+          reconciliationInformations: {
+            firstName: organizationLeaner.firstName,
+            attributes: {
+              hobby: 'manger',
+            },
+          },
+        });
+
+        // then
+        expect(matchingLearner).to.deep.equal([
+          new CommonOrganizationLearner({
+            firstName: organizationLeaner.firstName,
+            lastName: organizationLeaner.lastName,
+            organizationId: organizationLeaner.organizationId,
+            id: organizationLeaner.id,
+            ...organizationLeaner.attributes,
+          }),
+        ]);
+      });
+
+      it('if use attributes and lastName to reconcile user to the correct learner', async function () {
+        // given
+        const organizationLeaner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+          firstName: 'Edgar',
+          lastName: 'AheurFix',
+          attributes: {
+            'date de naissance': '2021-01-01',
+            hobby: 'manger',
+          },
+          userId: null,
+          organizationId,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const matchingLearner = await findAllCommonOrganizationLearnerByReconciliationInfos({
+          organizationId,
+          reconciliationInformations: {
+            lastName: organizationLeaner.lastName,
+            attributes: {
+              'date de naissance': '2021-01-01',
+            },
+          },
+        });
+
+        // then
+        expect(matchingLearner).to.deep.equal([
+          new CommonOrganizationLearner({
+            firstName: organizationLeaner.firstName,
+            lastName: organizationLeaner.lastName,
+            organizationId: organizationLeaner.organizationId,
+            id: organizationLeaner.id,
+            ...organizationLeaner.attributes,
+          }),
+        ]);
+      });
+
+      it('if use lasntName and firstName to reconcile user to the correct learner', async function () {
+        // given
+        const organizationLeaner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+          firstName: 'Amandine',
+          lastName: 'AheurFix',
+          attributes: {
+            'date de naissance': '2021-01-01',
+            hobby: 'manger',
+          },
+          userId: null,
+          organizationId,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const matchingLearner = await findAllCommonOrganizationLearnerByReconciliationInfos({
+          organizationId,
+          reconciliationInformations: {
+            firstName: organizationLeaner.firstName,
+            lastName: organizationLeaner.lastName,
+          },
+        });
+
+        // then
+        expect(matchingLearner).to.deep.equal([
+          new CommonOrganizationLearner({
+            firstName: organizationLeaner.firstName,
+            lastName: organizationLeaner.lastName,
+            organizationId: organizationLeaner.organizationId,
+            id: organizationLeaner.id,
+            ...organizationLeaner.attributes,
+          }),
+        ]);
+      });
+    });
+
+    describe('no matching cases', function () {
+      it('if learner is in another organization', async function () {
+        // given
+        const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+        const organizationLeaner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+          firstName: 'Amandine',
+          lastName: 'AheurFix',
+          attributes: {
+            'date de naissance': '2020-01-01',
+            hobby: 'manger',
+          },
+          organizationId: otherOrganizationId,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const matchingLearner = await findAllCommonOrganizationLearnerByReconciliationInfos({
+          organizationId,
+          reconciliationInformations: {
+            firstName: organizationLeaner.firstName,
+            attributes: {
+              hobby: 'manger',
+            },
+          },
+        });
+
+        // then
+        expect(matchingLearner).to.deep.equal([]);
+      });
+
+      it('if learner is deleted', async function () {
+        // given
+        const organizationLeaner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+          firstName: 'Amandine',
+          lastName: 'AheurFix',
+          deletedAt: new Date('2020-01-01'),
+          attributes: {
+            'date de naissance': '2020-01-01',
+            hobby: 'manger',
+          },
+          organizationId,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const matchingLearner = await findAllCommonOrganizationLearnerByReconciliationInfos({
+          organizationId,
+          reconciliationInformations: {
+            firstName: organizationLeaner.firstName,
+            attributes: {
+              hobby: 'manger',
+            },
+          },
+        });
+
+        // then
+        expect(matchingLearner).to.deep.equal([]);
+      });
+
+      it('if learner is disabled', async function () {
+        // given
+        const organizationLeaner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+          firstName: 'Amandine',
+          lastName: 'AheurFix',
+          isDisabled: true,
+          attributes: {
+            'date de naissance': '2020-01-01',
+            hobby: 'manger',
+          },
+          organizationId,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const matchingLearner = await findAllCommonOrganizationLearnerByReconciliationInfos({
+          organizationId,
+          reconciliationInformations: {
+            firstName: organizationLeaner.firstName,
+            attributes: {
+              hobby: 'manger',
+            },
+          },
+        });
+
+        // then
+        expect(matchingLearner).to.deep.equal([]);
+      });
+    });
+  });
+
+  describe('#update', function () {
+    let organizationLearner;
+
+    beforeEach(async function () {
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+
+      organizationLearner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+        firstName: 'Edgar',
+        lastName: 'Aheurfix',
+        attributes: {
+          'date de naissance': '2020-01-01',
+          hobby: 'manger',
+        },
+        userId: null,
+        organizationId,
+      });
+      await databaseBuilder.commit();
+    });
+
+    it('should update an organizationLearner that match the id', async function () {
+      const user = databaseBuilder.factory.buildUser();
+      await databaseBuilder.commit();
+
+      organizationLearner.userId = user.id;
+      const updated = await update(organizationLearner);
+      expect(updated).to.be.true;
+
+      const learner = await knex('view-active-organization-learners')
+        .select('userId')
+        .where({ id: organizationLearner.id })
+        .first();
+
+      expect(learner.userId).to.be.equal(user.id);
     });
   });
 });

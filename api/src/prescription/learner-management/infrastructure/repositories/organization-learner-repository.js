@@ -4,7 +4,7 @@ import { OrganizationLearnersCouldNotBeSavedError } from '../../../../../lib/dom
 import { OrganizationLearner } from '../../../../../lib/domain/models/index.js';
 import * as organizationLearnerRepository from '../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 import { ApplicationTransaction } from '../../../shared/infrastructure/ApplicationTransaction.js';
-import { CommonOrganizationLearner } from '../../domain/models/ImportOrganizationLearnerSet.js';
+import { CommonOrganizationLearner } from '../../domain/models/CommonOrganizationLearner.js';
 
 const removeByIds = function ({ organizationLearnerIds, userId, domainTransaction }) {
   return domainTransaction
@@ -108,12 +108,60 @@ const findAllCommonLearnersFromOrganizationId = async function ({ organizationId
   );
 };
 
+/**
+ * @function
+ * @name findAllCommonOrganizationLearnerByReconciliationInfos
+ * @param {Object} params
+ * @param {number} params.organizationId
+ * @param {Object} params.reconciliationInformations
+ * @returns {Promise<CommonOrganizationLearner[]>}
+ */
+const findAllCommonOrganizationLearnerByReconciliationInfos = async function ({
+  organizationId,
+  reconciliationInformations,
+}) {
+  const knex = ApplicationTransaction.getConnection();
+
+  const query = knex('view-active-organization-learners')
+    .select('firstName', 'lastName', 'id', 'attributes', 'userId')
+    .where({ organizationId, isDisabled: false });
+
+  if (reconciliationInformations.attributes) {
+    query.whereJsonSupersetOf('attributes', reconciliationInformations.attributes);
+  }
+
+  if (reconciliationInformations.firstName) {
+    query.where('firstName', reconciliationInformations.firstName);
+  }
+
+  if (reconciliationInformations.lastName) {
+    query.where('lastName', reconciliationInformations.lastName);
+  }
+
+  const result = await query;
+
+  return result.map(
+    ({ firstName, lastName, id, userId, attributes }) =>
+      new CommonOrganizationLearner({ id, firstName, lastName, organizationId, userId, ...attributes }),
+  );
+};
+
+const update = async function (organizationLearner) {
+  const knex = ApplicationTransaction.getConnection();
+
+  const { id, ...attributes } = organizationLearner;
+  const updatedRows = await knex('organization-learners').update(attributes).where({ id });
+  return updatedRows === 1;
+};
+
 export {
   addOrUpdateOrganizationOfOrganizationLearners,
   disableAllOrganizationLearnersInOrganization,
   disableCommonOrganizationLearnersFromOrganizationId,
   findAllCommonLearnersFromOrganizationId,
+  findAllCommonOrganizationLearnerByReconciliationInfos,
   removeByIds,
   saveCommonOrganizationLearners,
+  update,
   updateCommonLearnersFromOrganizationId,
 };

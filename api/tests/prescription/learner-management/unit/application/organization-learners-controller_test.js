@@ -3,48 +3,79 @@ import { usecases } from '../../../../../src/prescription/learner-management/dom
 import { ApplicationTransaction } from '../../../../../src/prescription/shared/infrastructure/ApplicationTransaction.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Application | Learner Management | organization-learner-controller', function () {
-  let saveOrganizationLearnersFileStub, sendOrganizationLearnersFileStub, validateOrganizationLearnersFileStub;
+describe('Unit | Prescription | Learner Management | Application | organization-learner-controller', function () {
+  describe('#importOrganizationLearnerFromFeature', function () {
+    let saveOrganizationLearnersFileStub, sendOrganizationLearnersFileStub, validateOrganizationLearnersFileStub;
 
-  beforeEach(function () {
-    sinon.stub(ApplicationTransaction, 'execute');
-    ApplicationTransaction.execute.callsFake((callback) => callback());
-    saveOrganizationLearnersFileStub = sinon.stub(usecases, 'saveOrganizationLearnersFile');
-    sendOrganizationLearnersFileStub = sinon.stub(usecases, 'sendOrganizationLearnersFile');
-    validateOrganizationLearnersFileStub = sinon.stub(usecases, 'validateOrganizationLearnersFile');
+    beforeEach(function () {
+      sinon.stub(ApplicationTransaction, 'execute');
+      ApplicationTransaction.execute.callsFake((callback) => callback());
+      saveOrganizationLearnersFileStub = sinon.stub(usecases, 'saveOrganizationLearnersFile');
+      sendOrganizationLearnersFileStub = sinon.stub(usecases, 'sendOrganizationLearnersFile');
+      validateOrganizationLearnersFileStub = sinon.stub(usecases, 'validateOrganizationLearnersFile');
+    });
+
+    it('should call usecases in correct order', async function () {
+      const userId = Symbol('userId');
+      const organizationId = Symbol('organizationId');
+      const payload = Symbol('payload');
+      const request = {
+        auth: { credentials: { userId } },
+        params: { organizationId },
+        payload,
+      };
+
+      const response = await organizationLearnersController.importOrganizationLearnerFromFeature(request, hFake);
+
+      expect(ApplicationTransaction.execute.calledThrice, 'ApplicationTransaction.execute').to.be.true;
+      expect(
+        sinon.assert.callOrder(
+          sendOrganizationLearnersFileStub,
+          validateOrganizationLearnersFileStub,
+          saveOrganizationLearnersFileStub,
+        ),
+      ).to.not.throws;
+      expect(
+        usecases.sendOrganizationLearnersFile.calledWithExactly({ payload, organizationId, userId }),
+        'sendOrganizationLearnerFile',
+      ).to.be.true;
+      expect(
+        usecases.validateOrganizationLearnersFile.calledWithExactly({ organizationId }),
+        'validateOrganizationLearnerFile',
+      ).to.be.true;
+      expect(usecases.saveOrganizationLearnersFile.calledWithExactly({ organizationId }), 'saveOrganizationLearnerFile')
+        .to.be.true;
+
+      expect(response.statusCode).to.be.equal(204);
+    });
   });
 
-  it('should call usecases in correct order', async function () {
-    const userId = Symbol('userId');
-    const organizationId = Symbol('organizationId');
-    const payload = Symbol('payload');
-    const request = {
-      auth: { credentials: { userId } },
-      params: { organizationId },
-      payload,
-    };
+  describe('#reconcileCommonOrganizationLearner', function () {
+    let reconcileCommonOrganizationLearnerStub;
 
-    const response = await organizationLearnersController.importOrganizationLearnerFromFeature(request, hFake);
+    beforeEach(function () {
+      reconcileCommonOrganizationLearnerStub = sinon.stub(usecases, 'reconcileCommonOrganizationLearner');
+    });
 
-    expect(ApplicationTransaction.execute.calledThrice, 'ApplicationTransaction.execute').to.be.true;
-    expect(
-      sinon.assert.callOrder(
-        sendOrganizationLearnersFileStub,
-        validateOrganizationLearnersFileStub,
-        saveOrganizationLearnersFileStub,
-      ),
-    ).to.not.throws;
-    expect(
-      usecases.sendOrganizationLearnersFile.calledWithExactly({ payload, organizationId, userId }),
-      'sendOrganizationLearnerFile',
-    ).to.be.true;
-    expect(
-      usecases.validateOrganizationLearnersFile.calledWithExactly({ organizationId }),
-      'validateOrganizationLearnerFile',
-    ).to.be.true;
-    expect(usecases.saveOrganizationLearnersFile.calledWithExactly({ organizationId }), 'saveOrganizationLearnerFile')
-      .to.be.true;
+    it('called usecases with correct parameters', async function () {
+      const userId = Symbol('userId');
+      const campaignCode = Symbol('campaignCode');
+      const reconciliationInfos = Symbol('reconciliationInfos');
+      const request = {
+        auth: { credentials: { userId } },
+        deserializedPayload: {
+          campaignCode,
+          reconciliationInfos,
+        },
+      };
 
-    expect(response.statusCode).to.be.equal(204);
+      const response = await organizationLearnersController.reconcileCommonOrganizationLearner(request, hFake);
+
+      expect(
+        reconcileCommonOrganizationLearnerStub.calledWithExactly({ userId, campaignCode, reconciliationInfos }),
+        'reconcileCommonOrganizationLearner',
+      ).to.be.true;
+      expect(response.statusCode).to.be.equal(204);
+    });
   });
 });
