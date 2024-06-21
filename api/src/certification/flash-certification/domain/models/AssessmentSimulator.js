@@ -14,23 +14,25 @@ export class AssessmentSimulator {
     let stepIndex = 0;
 
     // eslint-disable-next-line no-constant-condition
-    while (true) {
+    while (this._shouldRunSimulator(startCapacityDegradationAt, stepIndex)) {
       try {
-        if (stepIndex <= startCapacityDegradationAt) {
-          const simulatorStepResult = this.getStrategy(stepIndex).run({ challengesAnswers, stepIndex });
+        const simulatorStepResult = this.getStrategy(stepIndex).run({ challengesAnswers, stepIndex });
 
-          if (!simulatorStepResult) {
-            break;
-          }
-          stepIndex = simulatorStepResult.nextStepIndex;
-          challengesAnswers.push(...simulatorStepResult.challengeAnswers);
-          result.push(...simulatorStepResult.results);
+        if (!simulatorStepResult) {
+          break;
         }
+        stepIndex = simulatorStepResult.nextStepIndex;
+        challengesAnswers.push(...simulatorStepResult.challengeAnswers);
+        result.push(...simulatorStepResult.results);
       } catch (err) {
         break;
       }
     }
 
     return result;
+  }
+
+  _shouldRunSimulator(startCapacityDegradationAt, stepIndex) {
+    return startCapacityDegradationAt ? stepIndex < startCapacityDegradationAt : true;
   }
 }

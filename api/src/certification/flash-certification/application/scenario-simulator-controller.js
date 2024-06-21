@@ -9,6 +9,7 @@ import { random } from '../../../../lib/infrastructure/utils/random.js';
 import { parseCsv } from '../../../../scripts/helpers/csvHelpers.js';
 import { pickChallengeService } from '../../../evaluation/domain/services/pick-challenge-service.js';
 import { extractLocaleFromRequest } from '../../../shared/infrastructure/utils/request-response-utils.js';
+import { scoringDegradationService } from '../../scoring/domain/services/scoring-degradation-service.js';
 import { FlashAssessmentSuccessRateHandler } from '../domain/models/FlashAssessmentSuccessRateHandler.js';
 import { usecases } from '../domain/usecases/index.js';
 
@@ -20,6 +21,7 @@ async function simulateFlashAssessmentScenario(
     random,
     pickAnswerStatusService,
     pickChallengeService,
+    scoringDegradationService,
     extractLocaleFromRequest,
   },
 ) {
@@ -72,6 +74,7 @@ async function simulateFlashAssessmentScenario(
           variationPercent,
           variationPercentUntil,
           startCapacityDegradationAt,
+          scoringDegradationService,
         },
         _.isUndefined,
       );

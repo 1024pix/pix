@@ -23,8 +23,11 @@ export async function simulateFlashDeterministicAssessmentScenario({
   variationPercentUntil,
   challengeRepository,
   flashAlgorithmService,
+  scoringDegradationService,
   startCapacityDegradationAt,
 }) {
+  let simulationResult;
+
   const challenges = await challengeRepository.findFlashCompatible({ locale, useObsoleteChallenges });
 
   const flashAssessmentAlgorithm = new FlashAssessmentAlgorithm({
@@ -68,5 +71,23 @@ export async function simulateFlashDeterministicAssessmentScenario({
     getStrategy,
   });
 
-  return simulator.run({ startCapacityDegradationAt });
+  simulationResult = simulator.run({ startCapacityDegradationAt });
+  // console.log(simulationResult);
+
+  if (startCapacityDegradationAt) {
+    const challenges = simulationResult.map((result) => result.challenges);
+    const allAnswers = simulationResult.map((result) => result.answerStatus);
+    const capacity = simulationResult.at(-1).capacity;
+    simulationResult = scoringDegradationService.downgradeCapacity({
+      algorithm: flashAssessmentAlgorithm,
+      flashAssessmentAlgorithmConfiguration: flashAssessmentAlgorithm.getConfiguration(),
+      isSimulation: true,
+      challenges,
+      capacity,
+      allAnswers,
+      startCapacityDegradationAt,
+    });
+  }
+
+  return simulationResult;
 }
