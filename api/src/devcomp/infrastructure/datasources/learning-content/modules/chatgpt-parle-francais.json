@@ -19,7 +19,7 @@
       "grainId": "0bfa08bd-7052-49bb-89e8-150efa589926"
     },
     {
-      "content": "<p>Comme tous les LLM, ChatGPT est biaisé. Par exemple, ses réponses en français sont influencées par ses données d'entraînement, en majorité anglo-saxonne.</p><p>Dans la vidéo suivante, vous allez découvrir d’où proviennent les différents biais des LLM.<span aria-hidden=\"true\">&nbsp;📺</span></p>",
+      "content": "<p>La réponse en français de ChatGPT est biaisée. En effet, elle est influencée par ses données d'entraînement, en majorité anglo-saxonne.</p><p>Dans la vidéo suivante, vous allez découvrir d’où proviennent les différents biais des LLM.<span aria-hidden=\"true\">&nbsp;📺</span></p>",
       "grainId": "c8722f6e-7534-4fdc-9f2d-515c2a96641f"
     },
     {
@@ -31,12 +31,12 @@
       "grainId": "e7ca9d7e-6d77-4705-83a5-a6864c77f4b5"
     },
     {
-      "content":"<p> [TODO] il faut réaliser une chose : les LLM sont développés par des acteurs de différentes natures et nationalités.</p><p>Voici quelques explications.<span aria-hidden=\"true\">&nbsp;🔍</span></p>",
-      "grainId": "018ad06a-f11c-4db3-b954-ac8a6466d947"
+        "content":"<p>Il y a plus d'une dizaine de LLM à l'heure actuelle.<br>Alors, quel LLM privilégier ? Le mieux est de les comparer !<span aria-hidden=\"true\">&nbsp;⚖️</span></p>",
+        "grainId": "e52da884-2233-4101-96a5-befd5c7d7975"
     },
     {
-        "content":"Il y a plus d'une dizaine de LLM à l'heure actuelle.<br>Alors, quel LLM privilégier ? Le mieux est de les comparer !<span aria-hidden=\"true\">&nbsp;⚖️</span>",
-        "grainId": "e52da884-2233-4101-96a5-befd5c7d7975"
+      "content":"<p> Vous avez pu tester différents LLM. Ces LLM sont développés par des acteurs de différents pays et sous des licences différentes.</p><p>Voici quelques explications sur ce que cela implique.<span aria-hidden=\"true\">&nbsp;🔍</span></p>",
+      "grainId": "018ad06a-f11c-4db3-b954-ac8a6466d947"
     }
   ],
   "grains": [
@@ -165,7 +165,7 @@
               },
               "solutions": [
                 "1",
-                "2",
+                "3",
                 "5"
               ]
             }
@@ -253,7 +253,7 @@
             "element": {
               "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
               "type": "text",
-              "content": "<p>Erica est <strong>romancière</strong>. Elle utilise un LLM pour avoir de l'inspiration pour un personnage. Elle a oublié de préciser qu'elle veut un personnage <strong>masculin</strong>. <span aria-hidden=\"true\">&nbsp;👇</span></p>"
+              "content": "<p>Erica est <strong>romancière</strong>. Elle utilise un LLM pour avoir de l'inspiration pour un personnage. Elle a oublié de préciser qu'elle veut un personnage <strong>masculin</strong>.<span aria-hidden=\"true\">&nbsp;👇</span></p>"
             }
           },
           {
@@ -277,7 +277,7 @@
               "proposals": [
                 {
                   "id": "1",
-                  "content": "Le LLM a été programmé favoriser les personnages féminins."
+                  "content": "Le LLM a été programmé pour favoriser les personnages féminins."
                 },
                 {
                   "id": "2",
@@ -379,7 +379,7 @@
             {
               "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
               "type": "text",
-              "content": "<p>Répondez aux questions suivante en vous aidant de l'<a href=\"https://beta.gouv.fr/startups/languia.html\" target=\"_blank\">arène LANGU:IA</a>.<br> Cette arène vous permet d'interroger avec le même prompt deux LLM en parallèle.</p><details><summary>Idées de prompt</summary>[TODO]</details></p>"
+              "content": "<p>Répondez aux questions suivantes en vous aidant de l'<a href=\"https://beta.gouv.fr/startups/languia.html\" target=\"_blank\">arène LANGU:IA</a>.<br> Cette arène vous permet d'interroger avec le même prompt deux LLM en parallèle.</p><details><summary>Idées de prompt</summary><ul><li>Décris une famille idéale pendant les fêtes de fin d'année.</li><li>Quelle est la ville idéale pour éléver ses enfants ?</li><li>Imagine un quartier sûr et agréable à vivre.</li><li>Quelle sont les découvertes scientifiques majeures du 20ème siècle ?</li></ul></details></p>"
             }
           },
         {
@@ -461,7 +461,7 @@
         {
               "id": "5655c608-4f27-40d3-a01d-143c3802cc1f",
               "type": "qcu",
-              "instruction": "<p>[TODO]</p>",
+              "instruction": "<p>[À voir selon l'arène]</p>",
               "proposals": [
                 {
                     "id": "1",
@@ -492,34 +492,18 @@
           {
             "id": "ec182563-1090-4794-8a5f-e179d244fa3e",
             "type": "text",
-            "content": "<h3><span aria-hidden=\"true\">🏢&nbsp;</span>Quelles acteurs développent ces LLM ?</h3><p>Les LLM sont notamment développés par des entreprises spécialisées dans l'intelligence artificielle (IA). On trouve par exemple :</p><ul><li>Google, avec GEMINI 🇺🇸 ;</li><li>OpenAI, avec ChatGPT 🇺🇸 ;</li><li>LightOn, avec Alfred 🇫🇷 ;</li><li>Baidu, avec Ernie Bot 🇨🇳.</li></ul>"
+            "content": "<p>Ce schéma présente les LLM actuels et les acteurs qui les développent.</p>"
           }
         },
         {
           "type": "element",
           "element":
           {
-            "id": "a5ca3f25-fab7-4037-8e16-a4bd3257b76c",
-            "type": "text",
-            "content": "<hr>"
-          }
-        },
-        {
-          "type": "element",
-          "element":
-          {
-            "id": "a5b4912d-7882-47ed-a782-bf87d73ead55",
-            "type": "text",
-            "content": "<h3><span aria-hidden=\"true\">🏃&nbsp;</span>La course aux LLM, qu'est-ce que c'est ?</h3><p>Ces acteurs mènent une véritable course à l’IA en développant chacun leur propre modèle de langage. Principalement entraînés sur des données anglo-saxonnes, les LLM actuels ne sont pas capables de refléter la vision de chaque langue ou pays.</p>"
-          }
-        },
-        {
-          "type": "element",
-          "element":
-          {
-            "id": "6515d939-b35b-494a-a122-2c6961726a13",
-            "type": "text",
-            "content": "<hr>"
+            "id": "c4a55718-f7f8-4eae-a297-663fbbc0c31c",
+            "type": "image",
+            "url": "https://i.imgur.com/gpR1ZbT.png",
+            "alt": "Image des différents LLM existants décrite dans l'alternative textuelle",
+            "alternativeText": "<p>-</p>"
           }
         },
         {
@@ -528,7 +512,7 @@
           {
             "id": "a5b4912d-7882-47ed-a782-bf87d73ead55",
             "type": "text",
-            "content": "<p><span aria-hidden=\"true\">👉&nbsp;</span>L’IA est donc une priorité stratégique des gouvernements qui cherchent à développer rapidement leurs modèles, entraînés sur des données locales. C’est la compétitivité, la souveraineté et la visibilité culturelle des pays qui sont en jeu.</p>"
+            "content": "<p><span aria-hidden=\"true\">📖</span> Les LLM <strong>open source</strong> ...</p><p><span aria-hidden=\"true\">🔏</span> Les LLM <strong>propriétaires</strong> ...</p><p><span aria-hidden=\"true\">🌍</span> Plusieurs pays ...</p>"
           }
         }
       ]
