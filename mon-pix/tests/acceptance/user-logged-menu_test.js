@@ -38,7 +38,7 @@ module('Acceptance | User account', function (hooks) {
       assert.strictEqual(currentURL(), '/mes-certifications');
     });
 
-    test('should contain link to support.pix.org/fr/support/home', async function (assert) {
+    test('should contain link to pix.fr/support', async function (assert) {
       // given
       server.create('campaign-participation-overview', { assessmentState: 'completed' });
       const user = server.create('user', 'withEmail', 'withAssessmentParticipations', { firstName: 'Henri' });
@@ -49,7 +49,7 @@ module('Acceptance | User account', function (hooks) {
 
       // then
       const helplink = screen.getByRole('link', { name: 'Aide' }).getAttribute('href');
-      assert.strictEqual(helplink, 'https://support.pix.org/fr/support/home');
+      assert.strictEqual(helplink, 'https://pix.fr/support');
     });
 
     test('should open My account page when click on menu', async function (assert) {

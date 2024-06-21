@@ -82,16 +82,16 @@ export default class Url extends Service {
     const currentLanguage = this.intl.primaryLocale;
 
     if (this.currentDomain.isFranceDomain) {
-      return 'https://support.pix.org/fr/support/home';
+      return 'https://pix.fr/support';
     }
 
     switch (currentLanguage) {
       case ENGLISH_INTERNATIONAL_LOCALE:
-        return 'https://support.pix.org/en/support/home';
+        return 'https://pix.org/en/support';
       case DUTCH_INTERNATIONAL_LOCALE:
         return 'https://pix.org/nl-be/support';
       default:
-        return 'https://support.pix.org/fr/support/home';
+        return 'https://pix.org/fr/support';
     }
   }
 

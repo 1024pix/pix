@@ -45,9 +45,9 @@ export default class Url extends Service {
   }
 
   get supportUrl() {
-    if (this.currentDomain.isFranceDomain) return 'https://support.pix.fr';
+    if (this.currentDomain.isFranceDomain) return 'https://pix.fr/support';
 
-    return this.#isFrenchSpoken() ? 'https://support.pix.org' : 'https://support.pix.org/en/support/home';
+    return this.#isFrenchSpoken() ? 'https://pix.org/fr/support' : 'https://pix.org/en/support';
   }
 
   get joiningIssueSheetUrl() {

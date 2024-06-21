@@ -424,7 +424,7 @@ module('Unit | Service | url', function (hooks) {
         const service = this.owner.lookup('service:url');
         service.currentDomain = { isFranceDomain: true };
         service.intl = { primaryLocale: FRENCH_INTERNATIONAL_LOCALE };
-        const expectedSupportHomeUrl = 'https://support.pix.org/fr/support/home';
+        const expectedSupportHomeUrl = 'https://pix.fr/support';
 
         // when
         const supportHomeUrl = service.supportHomeUrl;
@@ -439,7 +439,7 @@ module('Unit | Service | url', function (hooks) {
           const service = this.owner.lookup('service:url');
           service.currentDomain = { isFranceDomain: true };
           service.intl = { primaryLocale: ENGLISH_INTERNATIONAL_LOCALE };
-          const expectedSupportHomeUrl = 'https://support.pix.org/fr/support/home';
+          const expectedSupportHomeUrl = 'https://pix.fr/support';
 
           // when
           const supportHomeUrl = service.supportHomeUrl;
@@ -455,7 +455,7 @@ module('Unit | Service | url', function (hooks) {
           const service = this.owner.lookup('service:url');
           service.currentDomain = { isFranceDomain: true };
           service.intl = { primaryLocale: DUTCH_INTERNATIONAL_LOCALE };
-          const expectedSupportHomeUrl = 'https://support.pix.org/fr/support/home';
+          const expectedSupportHomeUrl = 'https://pix.fr/support';
 
           // when
           const supportHomeUrl = service.supportHomeUrl;
@@ -473,7 +473,7 @@ module('Unit | Service | url', function (hooks) {
           const service = this.owner.lookup('service:url');
           service.currentDomain = { isFranceDomain: false };
           service.intl = { primaryLocale: FRENCH_INTERNATIONAL_LOCALE };
-          const expectedSupportHomeUrl = 'https://support.pix.org/fr/support/home';
+          const expectedSupportHomeUrl = 'https://pix.org/fr/support';
 
           // when
           const supportHomeUrl = service.supportHomeUrl;
@@ -489,7 +489,7 @@ module('Unit | Service | url', function (hooks) {
           const service = this.owner.lookup('service:url');
           service.currentDomain = { isFranceDomain: false };
           service.intl = { primaryLocale: ENGLISH_INTERNATIONAL_LOCALE };
-          const expectedSupportHomeUrl = 'https://support.pix.org/en/support/home';
+          const expectedSupportHomeUrl = 'https://pix.org/en/support';
 
           // when
           const supportHomeUrl = service.supportHomeUrl;
