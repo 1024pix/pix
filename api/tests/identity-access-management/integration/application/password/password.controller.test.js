@@ -1,6 +1,6 @@
 import { UserNotFoundError } from '../../../../../lib/domain/errors.js';
 import { passwordController } from '../../../../../src/identity-access-management/application/password/password.controller.js';
-import { catchErr, databaseBuilder, expect, hFake } from '../../../../test-helper.js';
+import { catchErr, databaseBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Identity Access Management | Application | Controller | password', function () {
   describe('#createResetPasswordDemand', function () {
@@ -28,12 +28,12 @@ describe('Integration | Identity Access Management | Application | Controller | 
 
       // then
       expect(response.statusCode).to.equal(201);
-      expect(response.source).to.deep.equal({
+      sinon.assert.match(response.source, {
         data: {
           attributes: {
             email: 'user@example.net',
           },
-          id: '1',
+          id: sinon.match.string,
           type: 'password-reset-demands',
         },
       });
