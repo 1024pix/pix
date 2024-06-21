@@ -1,4 +1,4 @@
-import { V3CertificationCourseDetailsForAdministration } from '../../../../src/certification/course/domain/models/V3CertificationCourseDetailsForAdministration.js';
+import { V3CertificationCourseDetailsForAdministration } from '../../../../src/certification/session-management/domain/models/V3CertificationCourseDetailsForAdministration.js';
 
 export const buildV3CertificationCourseDetailsForAdministration = ({
   certificationCourseId,

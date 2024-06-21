@@ -1,18 +1,21 @@
 /**
- * @typedef {import('../../../shared/domain/usecases/index.js').CertificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
+ * @typedef {import('./index.js').CertificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
  *
- * @typedef {import('../../../shared/domain/usecases/index.js').AssessmentRepository} AssessmentRepository
+ * @typedef {import('./index.js').AssessmentRepository} AssessmentRepository
  *
- * @typedef {import('../../../shared/domain/usecases/index.js').IssueReportCategoryRepository} IssueReportCategoryRepository
+ * @typedef {import('./index.js').IssueReportCategoryRepository} IssueReportCategoryRepository
  *
- * @typedef {import('../../../shared/domain/usecases/index.js').CertificationIssueReportRepository} CertificationIssueReportRepository
+ * @typedef {import('./index.js').CertificationIssueReportRepository} CertificationIssueReportRepository
  */
 
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { CertificationIssueReport, CertificationIssueReportCategory } from '../../../../../lib/domain/models/index.js';
+import { NotFoundError } from '../../../../shared/domain/errors.js';
 
 /**
  * @param {Object} params
+ * @param {number} params.userId,
+ * @param {number} params.sessionId,
+ * @param {string} params.subcategory,
  * @param {CertificationChallengeLiveAlertRepository} params.certificationChallengeLiveAlertRepository
  * @param {AssessmentRepository} params.assessmentRepository
  * @param {IssueReportCategoryRepository} params.issueReportCategoryRepository

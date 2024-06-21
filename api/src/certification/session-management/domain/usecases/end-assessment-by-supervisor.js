@@ -1,3 +1,4 @@
+// TO CHECK
 const endAssessmentBySupervisor = async function ({ certificationCandidateId, certificationAssessmentRepository }) {
   const certificationAssessment =
     await certificationAssessmentRepository.getByCertificationCandidateId(certificationCandidateId);

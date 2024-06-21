@@ -5,7 +5,12 @@ import { fileURLToPath } from 'node:url';
 import * as certificationBadgesService from '../../../../../lib/domain/services/certification-badges-service.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
-import { assessmentRepository, sessionRepositories } from '../../infrastructure/repositories/index.js';
+import {
+  answerRepository,
+  assessmentRepository,
+  challengeRepository,
+  sessionRepositories,
+} from '../../infrastructure/repositories/index.js';
 import { cpfExportsStorage } from '../../infrastructure/storage/cpf-exports-storage.js';
 import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-storage.js';
 
@@ -52,6 +57,8 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
 const dependencies = {
   ...sessionRepositories,
   assessmentRepository,
+  answerRepository,
+  challengeRepository,
   cpfReceiptsStorage,
   cpfExportsStorage,
   certificationBadgesService,

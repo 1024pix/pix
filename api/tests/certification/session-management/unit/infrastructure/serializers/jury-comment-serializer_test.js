@@ -1,5 +1,5 @@
-import * as serializer from '../../../../../../../src/certification/course/infrastructure/serializers/jsonapi/jury-comment-serializer.js';
-import { expect } from '../../../../../../test-helper.js';
+import * as serializer from '../../../../../../src/certification/session-management/infrastructure/serializers/jury-comment-serializer.js';
+import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | jury-comment-serializer', function () {
   describe('#deserialize()', function () {

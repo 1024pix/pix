@@ -1,4 +1,4 @@
-import * as moduleUnderTest from '../../../../../src/certification/course/application/certification-course-route.js';
+import * as moduleUnderTest from '../../../../../src/certification/session-management/application/certification-course-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 describe('Unit | Route | certification-course-route', function () {

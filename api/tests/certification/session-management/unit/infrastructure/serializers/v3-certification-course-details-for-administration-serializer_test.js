@@ -1,12 +1,12 @@
-import { V3CertificationChallengeForAdministration } from '../../../../../../../src/certification/course/domain/models/V3CertificationChallengeForAdministration.js';
-import { V3CertificationChallengeLiveAlertForAdministration } from '../../../../../../../src/certification/course/domain/models/V3CertificationChallengeLiveAlertForAdministration.js';
-import { V3CertificationCourseDetailsForAdministration } from '../../../../../../../src/certification/course/domain/models/V3CertificationCourseDetailsForAdministration.js';
-import * as serializer from '../../../../../../../src/certification/course/infrastructure/serializers/jsonapi/v3-certification-course-details-for-administration-serializer.js';
-import { ABORT_REASONS } from '../../../../../../../src/certification/shared/domain/models/CertificationCourse.js';
-import { AnswerStatus } from '../../../../../../../src/shared/domain/models/AnswerStatus.js';
-import { Assessment } from '../../../../../../../src/shared/domain/models/Assessment.js';
-import { AssessmentResult } from '../../../../../../../src/shared/domain/models/AssessmentResult.js';
-import { expect } from '../../../../../../test-helper.js';
+import { V3CertificationChallengeForAdministration } from '../../../../../../src/certification/session-management/domain/models/V3CertificationChallengeForAdministration.js';
+import { V3CertificationChallengeLiveAlertForAdministration } from '../../../../../../src/certification/session-management/domain/models/V3CertificationChallengeLiveAlertForAdministration.js';
+import { V3CertificationCourseDetailsForAdministration } from '../../../../../../src/certification/session-management/domain/models/V3CertificationCourseDetailsForAdministration.js';
+import * as serializer from '../../../../../../src/certification/session-management/infrastructure/serializers/v3-certification-course-details-for-administration-serializer.js';
+import { ABORT_REASONS } from '../../../../../../src/certification/shared/domain/models/CertificationCourse.js';
+import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerStatus.js';
+import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
+import { AssessmentResult } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
+import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | v3-certification-details-for-administration-serializer', function () {
   describe('#serialize()', function () {

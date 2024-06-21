@@ -1,3 +1,4 @@
+import * as certificationCourse from './application/certification-course-route.js';
 import * as certificationOfficer from './application/certification-officer-route.js';
 import * as certificationReport from './application/certification-report-route.js';
 import * as finalize from './application/finalize-route.js';
@@ -22,6 +23,7 @@ const certificationSessionRoutes = [
   supervise,
   unfinalize,
   juryComment,
+  certificationCourse,
 ];
 
 export { certificationSessionRoutes };
