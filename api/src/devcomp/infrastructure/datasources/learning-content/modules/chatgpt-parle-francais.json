@@ -19,23 +19,23 @@
       "grainId": "0bfa08bd-7052-49bb-89e8-150efa589926"
     },
     {
-      "content": "<p>Et oui, comme tous les LLM, ChatGPT est biaisé. Par exemple, ses réponses en français sont influencées de par ses données d'entraînement en majorité anglo-saxonne.</p><p>Dans la vidéo suivante, vous allez mieux comprendre les différents biais des LLM et d’où ils proviennent.<span aria-hidden=\"true\">&nbsp;📺</span></p>",
+      "content": "<p>Comme tous les LLM, ChatGPT est biaisé. Par exemple, ses réponses en français sont influencées par ses données d'entraînement, en majorité anglo-saxonne.</p><p>Dans la vidéo suivante, vous allez découvrir d’où proviennent les différents biais des LLM.<span aria-hidden=\"true\">&nbsp;📺</span></p>",
       "grainId": "c8722f6e-7534-4fdc-9f2d-515c2a96641f"
     },
     {
-      "content": "<p>Vérifiez que vous avez retenu l'essentiel avec cette question. <span aria-hidden=\"true\">&nbsp;🎯</span></p>",
+      "content": "<p>Vous en savez désormais plus sur les biais des LLM. <span aria-hidden=\"true\">👩‍💻️👨🏿‍💻️</span> <p>Vérifiez que vous avez retenu l'essentiel avec cette question. <span aria-hidden=\"true\">&nbsp;🎯</span></p>",
       "grainId": "89dbbcf3-7205-470a-baf0-4aa4aac1a87e"
     },
     {
-      "content":"<p>Vous en savez désormais plus sur les biais des LLM. <span aria-hidden=\"true\">👩‍💻️👨🏿‍💻️</span><br>Observons et analysons ensemble quelques réponses du LLM.</p>",
+      "content":"<p>Avant de passer à la pratique, vous allez analyser trois situations avec des résultats biaisés de LLM. C'est parti !</p>",
       "grainId": "e7ca9d7e-6d77-4705-83a5-a6864c77f4b5"
     },
     {
-      "content":"<p>Avant de passer à la pratique, il faut réaliser une chose : les LLM sont développés par des acteurs de différentes natures et nationalités.</p><p>Voici quelques explications.<span aria-hidden=\"true\">&nbsp;🔍</span></p>",
+      "content":"<p> [TODO] il faut réaliser une chose : les LLM sont développés par des acteurs de différentes natures et nationalités.</p><p>Voici quelques explications.<span aria-hidden=\"true\">&nbsp;🔍</span></p>",
       "grainId": "018ad06a-f11c-4db3-b954-ac8a6466d947"
     },
     {
-        "content":"Développés par des acteurs de pays différents et chacun avec leurs biais respectifs, les LLM ont des performances différentes.<br>Alors, quel LLM privilégier ? Le mieux est de les comparer !<span aria-hidden=\"true\">&nbsp;⚖️</span>",
+        "content":"Il y a plus d'une dizaine de LLM à l'heure actuelle.<br>Alors, quel LLM privilégier ? Le mieux est de les comparer !<span aria-hidden=\"true\">&nbsp;⚖️</span>",
         "grainId": "e52da884-2233-4101-96a5-befd5c7d7975"
     }
   ],
@@ -103,7 +103,7 @@
           {
             "id": "b510a523-dc46-44bc-9cef-7d254ddd5831",
             "type": "text",
-            "content": "<p>À la suite de cette vidéo, vous devrez retrouver les causes des biais des LLM et interpréter une situation concrète où la réponse d'un LLM est biaisée.</p>"
+            "content": "<p>À la suite de cette vidéo, vous devrez retrouver les origines des biais des LLM et interpréter des situations concrètes où la réponse d'un LLM est biaisée.</p>"
           }
         },
         {
@@ -148,15 +148,15 @@
                 },
                 {
                   "id": "3",
-                  "content": "Les représentations humaines, transposées inconsciemment lors des développements."
+                  "content": "Les représentations humaines, inscrites inconsciemment lors des développements."
                 },
                 {
                   "id": "4",
-                  "content": "La localisation des serveurs d'entraînement, répartis aux quatre coins du globe."
+                  "content": "La localisation des serveurs d'entraînement, répartis dans le monde entier."
                 },
                 {
                   "id": "5",
-                  "content": "Les prompts des utilisateurs, potentiellement porteurs de connotations et de croyances."
+                  "content": "Les prompts des utilisateurs, possiblement porteurs de connotations et de croyances."
                 }
               ],
               "feedbacks": {
@@ -165,7 +165,8 @@
               },
               "solutions": [
                 "1",
-                "2"
+                "2",
+                "5"
               ]
             }
 
@@ -182,7 +183,7 @@
           "element": {
             "id": "5b0422cd-22d0-4261-aa48-bd7fafc20607",
             "type": "text",
-            "content": "<p>Dans les situations suivantes, les prompts fournis au LLM mènent à des réponses partielles, stéréotypées ou scientifiquement infondées.</p><p>Pour chaque situation, choisissez la cause principale de ces résultats biaisés.</p>"
+            "content": "<p>Dans les situations suivantes, les réponses du LLM sont visiblement biaisées.</p><p>Pour chaque situation, choisissez la cause principale de ces résultats biaisés.</p>"
           }
         },
         {
@@ -198,7 +199,7 @@
           "element": {
             "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
             "type": "text",
-            "content": "<p>Michel est <strong>belge</strong> et teste ce LLM pour la première fois. Il reçoit une réponse qui concerne la <strong>France</strong><span aria-hidden=\"true\">&nbsp;👇</span>.</p>"
+            "content": "<p>Michel est <strong>québécois</strong>. Il utilise un LLM pour la première fois. Il reçoit une réponse qui concerne la <strong>France</strong>.<span aria-hidden=\"true\">&nbsp;👇</span></p>"
           }
         },
         {
@@ -217,11 +218,11 @@
           "element": {
               "id": "629aeb61-028b-41f7-97f2-512e83000fa5",
               "type": "qcu",
-              "instruction": "Quelle est la cause de ce malentendu avec le LLM ?",
+              "instruction": "Quelle est la cause principale de ce résultat biaisé ?",
               "proposals": [
                 {
                   "id": "1",
-                  "content": "Le LLM pense que Michel est français."
+                  "content": "Le LLM a été programmé en majorité par des français."
                 },
                 {
                   "id": "2",
@@ -229,7 +230,7 @@
                 },
                 {
                   "id": "3",
-                  "content": "Le LLM a été réglé pour ignorer la Belgique."
+                  "content": "Le LLM a été paramétré pour privilégier des pays européens."
                 }
               ],
               "feedbacks": {
@@ -252,7 +253,7 @@
             "element": {
               "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
               "type": "text",
-              "content": "<p>Erica est romancière et cherche de l'inspiration pour l'un de ses personnages. Elle a oublié de préciser qu'elle souhaitait un personnage masculin. <span aria-hidden=\"true\">&nbsp;🧹</span></p>"
+              "content": "<p>Erica est <strong>romancière</strong>. Elle utilise un LLM pour avoir de l'inspiration pour un personnage. Elle a oublié de préciser qu'elle veut un personnage <strong>masculin</strong>. <span aria-hidden=\"true\">&nbsp;👇</span></p>"
             }
           },
           {
@@ -272,19 +273,19 @@
             {
               "id": "635d34d8-c748-44cd-ad02-bde721270723",
               "type": "qcu",
-              "instruction": "Quelle est la cause de ce malentendu avec le LLM ?",
+              "instruction": "Quelle est la cause principale de ce résultat biaisé ?",
               "proposals": [
                 {
                   "id": "1",
-                  "content": "Les développeurs du LLM ont spécifié que les personnages de fiction sont âgés d'une quarantaine d'annés."
+                  "content": "Le LLM a été programmé favoriser les personnages féminins."
                 },
                 {
                   "id": "2",
-                  "content": "Les femmes sont surreprésentées dans les données d'entrainement."
+                  "content": "Le LLM a été entraîné avec des données où les femmes sont surreprésentées."
                 },
                 {
                   "id": "3",
-                  "content": "Le LLM s'est basé sur le genre de son utilisatrice."
+                  "content": "Le LLM s'est basé sur le genre de l'utilisatrice."
                 }
               ],
               "feedbacks": {
@@ -307,7 +308,7 @@
             "element": {
               "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
               "type": "text",
-              "content": "Stéphane est féru d'astrologie et cherche son horoscope du jour."
+              "content": "Stéphane est passionné d'<strong>astrologie</strong>. Il demande son horoscope du jour à un LLM et se réjouit de la réponse reçue.<span aria-hidden=\"true\">&nbsp;👇</span>"
             }
           },
           {
@@ -327,26 +328,26 @@
             {
               "id": "060c7558-92fb-47bf-b8fa-3639ebfef67d",
               "type": "qcu",
-              "instruction": "Quelle est la cause du biais présent dans le résultat fourni par le LLM ?",
+              "instruction": "Quelle est la cause principale de ce résultat biaisé ?",
               "proposals": [
                 {
                   "id": "1",
-                  "content": "Le LLM se base sur les croyances qui lui sont communiquées dans le prompt."
+                  "content": "Le LLM a été programmé pour que les Verseaux aient toujours un bon horoscope."
                 },
                 {
                   "id": "2",
-                  "content": "Le LLM a été programmé pour que les Verseaux aient toujours un excellent horoscope."
+                  "content": "Le LLM a été entraîné avec des données où les Verseaux sont surreprésentés."
                 },
                 {
                   "id": "3",
-                  "content": "Le LLM est biaisé par ses données d'entraînement où les Verseaux sont surreprésentés."
+                  "content": "Le LLM s'est basé sur les croyances qui lui sont communiquées dans le prompt."
                 }
               ],
               "feedbacks": {
                 "valid": "<p>Correct !</p>",
                 "invalid": "<p>Incorrect !</p>"
               },
-              "solution": "1"
+              "solution": "3"
             }
           }
 
@@ -378,35 +379,18 @@
             {
               "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
               "type": "text",
-              "content": "<p>Voici l'arène LANGU:IA, qui vous permet notamment de solliciter deux LLM en parallèle, avec le même prompt.</p><p>Utilisez cette arène pour explorer le fonctionnement des LLM. À la suite de cette activité, des questions \"Vrai ou faux ?\" vous seront posées sur leur fonctionnement.</p>"
+              "content": "<p>Répondez aux questions suivante en vous aidant de l'<a href=\"https://beta.gouv.fr/startups/languia.html\" target=\"_blank\">arène LANGU:IA</a>.<br> Cette arène vous permet d'interroger avec le même prompt deux LLM en parallèle.</p><details><summary>Idées de prompt</summary>[TODO]</details></p>"
             }
           },
-        {
-          "type": "element",
-          "element": {
-            "id": "7223bbde-941a-4bfb-80a9-4b1f7ced8e6b",
-            "type": "image",
-            "url": "https://i.imgur.com/hRR3Vjk.jpeg",
-            "alt": "Capture d'écran détaillée dans l'alternative textuelle",
-            "alternativeText": "Capture d'écran temporaire."
-          }
-        },
         {
           "type":"element",
           "element":
           {
             "id": "7509dcdf-2d6c-4a99-ac50-21e25cb4e876",
             "type": "text",
-            "content": "<p>Si vous êtes en panne d'inspiration, voici quelques idées de prompts : [TODO]</p>"
+            "content": "<hr>"
           }
-        }
-      ]
-    },
-    {
-        "id": "5e01cf72-08bc-46d9-a71c-f019cc004990",
-        "type": "activity",
-        "title": "Vrai-Faux sur les LLM",
-        "components": [
+        },
         {
               "type":"element",
               "element":
