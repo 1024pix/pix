@@ -43,11 +43,7 @@ const saveOrganizationLearnersFile = async function ({
       organizationId,
       excludeOrganizationLearnerIds: learners.existinglearnerIds,
     });
-    await organizationLearnerRepository.updateCommonLearnersFromOrganizationId({
-      organizationId,
-      learners: learners.update,
-    });
-    await organizationLearnerRepository.saveCommonOrganizationLearners(learners.create);
+    await organizationLearnerRepository.saveCommonOrganizationLearners(learners.list);
   } catch (error) {
     if (Array.isArray(error)) {
       errors.push(...error);

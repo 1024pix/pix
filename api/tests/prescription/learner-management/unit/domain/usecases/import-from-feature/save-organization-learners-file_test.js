@@ -19,7 +19,6 @@ describe('Unit | UseCase | saveOrganizationLearnersFile', function () {
     dataStream,
     s3Filepath,
     learnerToSave,
-    learnerToUpdate,
     learnerIds,
     importFormat,
     parsedLearners,
@@ -33,7 +32,6 @@ describe('Unit | UseCase | saveOrganizationLearnersFile', function () {
     dataStream = Symbol('DataStream');
     existingLearners = Symbol('Existing learners');
     learnerToSave = Symbol('learner to save');
-    learnerToUpdate = Symbol('learner to update');
     learnerIds = Symbol('learner Ids');
 
     importFormat = Symbol('importFormat');
@@ -57,7 +55,6 @@ describe('Unit | UseCase | saveOrganizationLearnersFile', function () {
 
     organizationLearnerRepositoryStub = {
       disableCommonOrganizationLearnersFromOrganizationId: sinon.stub(),
-      updateCommonLearnersFromOrganizationId: sinon.stub(),
       saveCommonOrganizationLearners: sinon.stub(),
       findAllCommonLearnersFromOrganizationId: sinon.stub(),
     };
@@ -73,8 +70,7 @@ describe('Unit | UseCase | saveOrganizationLearnersFile', function () {
       addLearners: sinon.stub(),
       setExistingLearners: sinon.stub(),
       learners: {
-        create: learnerToSave,
-        update: learnerToUpdate,
+        list: learnerToSave,
         existinglearnerIds: learnerIds,
       },
     };
@@ -140,13 +136,6 @@ describe('Unit | UseCase | saveOrganizationLearnersFile', function () {
           excludeOrganizationLearnerIds: learnerIds,
         }),
         'organizationLearnerRepository.disableCommonOrganizationLearnersFromOrganizationId',
-      ).to.be.true;
-      expect(
-        organizationLearnerRepositoryStub.updateCommonLearnersFromOrganizationId.calledOnceWithExactly({
-          organizationId,
-          learners: learnerToUpdate,
-        }),
-        'organizationLearnerRepository.updateCommonLearnersFromOrganizationId',
       ).to.be.true;
       expect(
         organizationLearnerRepositoryStub.saveCommonOrganizationLearners.calledOnceWithExactly(learnerToSave),
