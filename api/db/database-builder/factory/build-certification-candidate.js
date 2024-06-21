@@ -26,6 +26,7 @@ const buildCertificationCandidate = function ({
   authorizedToStart = false,
   billingMode = null,
   prepaymentCode = null,
+  hasSeenCertificationInstructions = false,
 } = {}) {
   sessionId = _.isUndefined(sessionId) ? buildSession().id : sessionId;
   userId = _.isUndefined(userId) ? buildUser().id : userId;
@@ -52,6 +53,7 @@ const buildCertificationCandidate = function ({
     authorizedToStart,
     billingMode,
     prepaymentCode,
+    hasSeenCertificationInstructions,
   };
 
   databaseBuffer.pushInsertable({
@@ -81,6 +83,7 @@ const buildCertificationCandidate = function ({
     authorizedToStart,
     billingMode,
     prepaymentCode,
+    hasSeenCertificationInstructions,
   };
 };
 
