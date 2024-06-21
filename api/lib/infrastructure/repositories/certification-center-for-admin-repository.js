@@ -24,7 +24,17 @@ export { save, update };
 
 function _toDomain(certificationCenterDTO) {
   return new CenterForAdmin({
-    center: certificationCenterDTO,
+    center: {
+      id: certificationCenterDTO.id,
+      type: certificationCenterDTO.type,
+      habilitations: [],
+      name: certificationCenterDTO.name,
+      externalId: certificationCenterDTO.externalId,
+      createdAt: certificationCenterDTO.createdAt,
+      updatedAt: certificationCenterDTO.updatedAt,
+      isComplementaryAlonePilot: undefined,
+      isV3Pilot: certificationCenterDTO.isV3Pilot,
+    },
   });
 }
 

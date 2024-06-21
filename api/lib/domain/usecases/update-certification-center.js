@@ -3,6 +3,7 @@
  */
 import bluebird from 'bluebird';
 
+import { Habilitation } from '../../../src/certification/enrolment/domain/models/Habilitation.js';
 import { V3PilotNotAuthorizedForCertificationCenterError } from '../../../src/shared/domain/errors.js';
 import {
   ComplementaryCertification,
@@ -69,16 +70,18 @@ const updateCertificationCenter = async function ({
 
   const updatedCertificationCenter = await certificationCenterForAdminRepository.update(certificationCenterInformation);
 
-  const habilitations = await complementaryCertificationHabilitationRepository.findByCertificationCenterId(
-    updatedCertificationCenter.id,
+  const complementaryCertificationsHabilitated =
+    await complementaryCertificationHabilitationRepository.findByCertificationCenterId(updatedCertificationCenter.id);
+
+  updatedCertificationCenter.habilitations = complementaryCertificationsHabilitated.map(
+    (complementaryCertification) => {
+      return new Habilitation({
+        complementaryCertificationId: complementaryCertification.id,
+        key: complementaryCertification.key,
+        label: complementaryCertification.label,
+      });
+    },
   );
-  updatedCertificationCenter.habilitations = habilitations.map((habilitation) => {
-    return new ComplementaryCertification({
-      id: habilitation.id,
-      key: habilitation.key,
-      label: habilitation.label,
-    });
-  });
 
   const dataProtectionOfficer = await _addOrUpdateDataProtectionOfficer({
     certificationCenterId,

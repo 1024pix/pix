@@ -60,7 +60,7 @@ describe('Integration | UseCases | update-certification-center', function () {
     expect(updatedCertificationCenter.dataProtectionOfficerEmail).to.equal('justin.ptipeu@example.net');
 
     expect(updatedCertificationCenter.habilitations.length).to.equal(1);
-    expect(updatedCertificationCenter.habilitations[0].id).to.equal(complementaryCertification.id);
+    expect(updatedCertificationCenter.habilitations[0].complementaryCertificationId).to.equal(complementaryCertification.id);
     expect(updatedCertificationCenter.habilitations[0].key).to.equal(complementaryCertification.key);
     expect(updatedCertificationCenter.habilitations[0].label).to.equal(complementaryCertification.label);
   });
