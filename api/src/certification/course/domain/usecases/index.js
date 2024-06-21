@@ -2,7 +2,6 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import * as certificationResultRepository from '../../../../../lib/infrastructure/repositories/certification-result-repository.js';
 import * as competenceMarkRepository from '../../../../../lib/infrastructure/repositories/competence-mark-repository.js';
 import * as pickChallengeService from '../../../../evaluation/domain/services/pick-challenge-service.js';
 import * as answerRepository from '../../../../shared/infrastructure/repositories/answer-repository.js';
@@ -13,14 +12,12 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as flashAlgorithmService from '../../../flash-certification/domain/services/algorithm-methods/flash.js';
 import * as flashAlgorithmConfigurationRepository from '../../../flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
-import * as certificateRepository from '../../../results/infrastructure/repositories/certificate-repository.js';
 import * as courseAssessmentResultRepository from '../../../results/infrastructure/repositories/course-assessment-result-repository.js';
-import * as scoCertificationCandidateRepository from '../../../results/infrastructure/repositories/sco-certification-candidate-repository.js';
 import * as certificationChallengeLiveAlertRepository from '../../../shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
 import * as certificationChallengeRepository from '../../../shared/infrastructure/repositories/certification-challenge-repository.js';
 import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
-import * as certificationReportRepository from '../../../shared/infrastructure/repositories/certification-report-repository.js';
 import * as v3CertificationCourseDetailsForAdministrationRepository from '../../infrastructure/repositories/v3-certification-course-details-for-administration-repository.js';
+
 /**
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
  *
@@ -30,13 +27,9 @@ import * as v3CertificationCourseDetailsForAdministrationRepository from '../../
  * @typedef {assessmentResultRepository} AssessmentResultRepository
  * @typedef {courseAssessmentResultRepository} CourseAssessmentResultRepository
  * @typedef {competenceMarkRepository} CompetenceMarkRepository
- * @typedef {certificationResultRepository} CertificationResultRepository
- * @typedef {scoCertificationCandidateRepository} ScoCertificationCandidateRepository
  * @typedef {certificationCourseRepository} CertificationCourseRepository
- * @typedef {certificateRepository} CertificateRepository
  * @typedef {certificationChallengeRepository} CertificationChallengeRepository
  * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
- * @typedef {certificationReportRepository} CertificationReportRepository
  * @typedef {pickChallengeService} PickChallengeService
  * @typedef {flashAlgorithmService} FlashAlgorithmService
  * @typedef {flashAlgorithmConfigurationRepository} FlashAlgorithmConfigurationRepository
@@ -50,12 +43,8 @@ const dependencies = {
   competenceMarkRepository,
   courseAssessmentResultRepository,
   certificationCourseRepository,
-  certificationResultRepository,
-  scoCertificationCandidateRepository,
-  certificateRepository,
   certificationChallengeRepository,
   certificationChallengeLiveAlertRepository,
-  certificationReportRepository,
   pickChallengeService,
   flashAlgorithmService,
   flashAlgorithmConfigurationRepository,
