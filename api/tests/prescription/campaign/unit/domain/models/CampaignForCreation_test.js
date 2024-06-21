@@ -280,5 +280,51 @@ describe('Unit | Domain | Models | CampaignForCreation', function () {
         expect(error.invalidAttributes).to.deep.equal([{ attribute: 'type', message: 'CAMPAIGN_PURPOSE_IS_REQUIRED' }]);
       });
     });
+
+    context('idPixLabel', function () {
+      context('when it is empty string', function () {
+        it('should save null instead of empty string', function () {
+          const attributes = {
+            name: 'CampaignName',
+            type: CampaignTypes.ASSESSMENT,
+            targetProfileId: 1,
+            creatorId: 2,
+            ownerId: 2,
+            organizationId: 3,
+            title: '',
+            idPixLabel: '',
+            customLandingPageText: '',
+            customResultPageButtonText: null,
+            customResultPageButtonUrl: null,
+          };
+
+          const campaignForCreation = new CampaignForCreation(attributes);
+
+          expect(campaignForCreation.idPixLabel).to.be.null;
+        });
+      });
+
+      context('when it is fullfilled', function () {
+        it('should save given value', function () {
+          const attributes = {
+            name: 'CampaignName',
+            type: CampaignTypes.ASSESSMENT,
+            targetProfileId: 1,
+            creatorId: 2,
+            ownerId: 2,
+            organizationId: 3,
+            title: '',
+            idPixLabel: 'Mon idPixLabel',
+            customLandingPageText: '',
+            customResultPageButtonText: null,
+            customResultPageButtonUrl: null,
+          };
+
+          const campaignForCreation = new CampaignForCreation(attributes);
+
+          expect(campaignForCreation.idPixLabel).to.equal('Mon idPixLabel');
+        });
+      });
+    });
   });
 });
