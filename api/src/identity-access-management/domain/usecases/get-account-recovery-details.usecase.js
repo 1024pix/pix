@@ -1,4 +1,14 @@
-const getAccountRecoveryDetails = async function ({
+/**
+ * @param {{
+ *   temporaryKey: string,
+ *   accountRecoveryDemandRepository: AccountRecoveryDemandRepository,
+ *   organizationLearnerRepository: OrganizationLearnerRepository,
+ *   userRepository: UserRepository,
+ *   scoAccountRecoveryService: ScoAccountRecoveryService,
+ * }} params
+ * @return {Promise<{firstName: string, id: string, email: string}>}
+ */
+export const getAccountRecoveryDetails = async function ({
   temporaryKey,
   accountRecoveryDemandRepository,
   organizationLearnerRepository,
@@ -20,5 +30,3 @@ const getAccountRecoveryDetails = async function ({
     firstName,
   };
 };
-
-export { getAccountRecoveryDetails };

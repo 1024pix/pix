@@ -1,8 +1,8 @@
-import { getAccountRecoveryDetails } from '../../../../../lib/domain/usecases/account-recovery/get-account-recovery-details.js';
+import { getAccountRecoveryDetails } from '../../../../../src/identity-access-management/domain/usecases/get-account-recovery-details.usecase.js';
 import { expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | get-account-recovery-details', function () {
-  it('should return new email and firstName of account recovery demand', async function () {
+describe('Unit | Identity Access Management | Domain | UseCase | get-account-recovery-details', function () {
+  it('returns new email and firstName of account recovery demand', async function () {
     // given
     const temporaryKey = 'ZHABCDEFJSJ';
     const organizationLearnerRepository = {

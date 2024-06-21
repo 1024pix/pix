@@ -51,35 +51,4 @@ describe('Unit | Controller | account-recovery-controller', function () {
       expect(response.statusCode).to.equal(204);
     });
   });
-
-  describe('#checkAccountRecoveryDemand', function () {
-    it('should return serialized account recovery details', async function () {
-      // given
-      const temporaryKey = 'ABCDEFZEFDD';
-      const studentInformation = { id: 1234, email: 'philipe@example.net', firstName: 'philipe' };
-      const request = {
-        params: { temporaryKey },
-      };
-      sinon.stub(usecases, 'getAccountRecoveryDetails');
-
-      const studentInformationForAccountRecoverySerializerStub = {
-        serializeAccountRecovery: sinon.stub(),
-      };
-
-      const dependencies = {
-        studentInformationForAccountRecoverySerializer: studentInformationForAccountRecoverySerializerStub,
-      };
-
-      usecases.getAccountRecoveryDetails.resolves(studentInformation);
-
-      // when
-      await accountRecoveryController.checkAccountRecoveryDemand(request, hFake, dependencies);
-
-      // then
-      expect(usecases.getAccountRecoveryDetails).to.have.been.calledWithExactly({ temporaryKey });
-      expect(
-        studentInformationForAccountRecoverySerializerStub.serializeAccountRecovery,
-      ).to.have.been.calledWithExactly(studentInformation);
-    });
-  });
 });

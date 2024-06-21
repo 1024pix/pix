@@ -15,17 +15,6 @@ const sendEmailForAccountRecovery = async function (
   return h.response().code(204);
 };
 
-const checkAccountRecoveryDemand = async function (
-  request,
-  h,
-  dependencies = { studentInformationForAccountRecoverySerializer },
-) {
-  const temporaryKey = request.params.temporaryKey;
-  const studentInformation = await usecases.getAccountRecoveryDetails({ temporaryKey });
-  return dependencies.studentInformationForAccountRecoverySerializer.serializeAccountRecovery(studentInformation);
-};
-
 export const accountRecoveryController = {
   sendEmailForAccountRecovery,
-  checkAccountRecoveryDemand,
 };
