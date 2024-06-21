@@ -1,0 +1,37 @@
+.scoring-simulator > .pix-block {
+  margin-bottom: 20px;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.scoring-simulator-data__container {
+  display: flex;
+  gap: var(--pix-spacing-1x)
+}
+
+.scoring-simulator-data-container__label {
+  font-weight: bold;
+}
+
+.scoring-simulator__form {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: flex-end;
+
+  & > *:not(:first-child) {
+    margin-left: 30px;
+  }
+}
+
+.scoring-simulator__error-message {
+  margin-top: 10px;
+}
+
+.scoring-simulator {
+  &__title {
+    margin-bottom: 10px;
+    padding: 32px;
+    background: var(--pix-neutral-0);
+    border-radius: 5px;
+  }
+}

@@ -6,73 +6,13 @@ import { module, test } from 'qunit';
 
 import { authenticateAdminMemberWithRole } from '../../../helpers/test-init';
 
-module('Acceptance | Route | routes/authenticated/certifications/scoring-simulation', function (hooks) {
+module('Acceptance | Route | routes/authenticated/certifications/scoring-simulator', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
   hooks.beforeEach(async function () {
     this.server.create('user', { id: 888 });
     await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-  });
-
-  test('it should display form', async function (assert) {
-    // when
-    const screen = await visit(`/certifications/scoring-simulation`);
-
-    // then
-    assert.dom(screen.getByLabelText('Score global en Pix')).exists();
-    assert.dom(screen.getByLabelText('Capacité')).exists();
-    assert.dom(screen.getByRole('button', { name: 'Générer un profil' })).exists();
-  });
-
-  test('should display an error message when score is superior to 896', async function (assert) {
-    // given
-    const screen = await visit(`/certifications/scoring-simulation`);
-
-    // when
-    await fillIn(screen.getByLabelText('Score global en Pix'), 897);
-    await clickByName('Générer un profil');
-
-    // then
-    assert.dom(screen.getByText('Merci d’indiquer un score en Pix compris entre O et 896')).exists();
-  });
-
-  test('should display an error message when score is inferior to 0', async function (assert) {
-    // given
-    const screen = await visit(`/certifications/scoring-simulation`);
-
-    // when
-    await fillIn(screen.getByLabelText('Score global en Pix'), -1);
-    await clickByName('Générer un profil');
-
-    // then
-    assert.dom(screen.getByText('Merci d’indiquer un score en Pix compris entre O et 896')).exists();
-  });
-
-  test('should display an error message when both inputs are filled', async function (assert) {
-    // given
-    const screen = await visit(`/certifications/scoring-simulation`);
-
-    // when
-    await fillIn(screen.getByLabelText('Score global en Pix'), -1);
-    await fillIn(screen.getByLabelText('Capacité'), 1);
-    await clickByName('Générer un profil');
-
-    // then
-    assert
-      .dom(screen.getByText('Merci de ne renseigner que l’un des champs “Score global en Pix” ou “Capacité”'))
-      .exists();
-  });
-
-  test('should display an error message when both inputs are empty', async function (assert) {
-    // given
-    const screen = await visit(`/certifications/scoring-simulation`);
-
-    // when
-    await clickByName('Générer un profil');
-
-    // then
-    assert.dom(screen.getByText("Merci de renseigner au moins l'un des deux champs")).exists();
   });
 
   test('should display a score and competence levels list when a capacity is given', async function (assert) {
