@@ -1,9 +1,9 @@
 import { AlreadyRegisteredEmailError } from '../../../../../lib/domain/errors.js';
-import { sendEmailForAccountRecovery } from '../../../../../lib/domain/usecases/account-recovery/send-email-for-account-recovery.js';
 import { AccountRecoveryDemand } from '../../../../../src/identity-access-management/domain/models/AccountRecoveryDemand.js';
+import { sendEmailForAccountRecovery } from '../../../../../src/identity-access-management/domain/usecases/send-email-for-account-recovery.usecase.js';
 import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | Account-recovery | account-recovery | send-email-for-account-recovery', function () {
+describe('Unit | Identity Access Management | Domain | UseCase | send-email-for-account-recovery', function () {
   let userRepository;
   let organizationLearnerRepository;
   let accountRecoveryDemandRepository;
@@ -31,7 +31,7 @@ describe('Unit | UseCase | Account-recovery | account-recovery | send-email-for-
   });
 
   context('when email already exists', function () {
-    it('should throw AlreadyRegisteredEmailError', async function () {
+    it('throws AlreadyRegisteredEmailError', async function () {
       // given
       userRepository.checkIfEmailIsAvailable.rejects(new AlreadyRegisteredEmailError());
       const newEmail = 'new_email@example.net';
@@ -70,7 +70,7 @@ describe('Unit | UseCase | Account-recovery | account-recovery | send-email-for-
   });
 
   context('when email is available', function () {
-    it('should save the account recovery demand', async function () {
+    it('saves the account recovery demand', async function () {
       // given
       const userId = 1;
       const oldEmail = 'old_email@example.net';
@@ -122,7 +122,7 @@ describe('Unit | UseCase | Account-recovery | account-recovery | send-email-for-
       expect(accountRecoveryDemandRepository.save).to.have.been.calledWithExactly(expectedAccountRecoveryDemand);
     });
 
-    it('should send an account recovery email with organization learner first name', async function () {
+    it('sends an account recovery email with organization learner first name', async function () {
       // given
       const userId = 1;
       const oldEmail = 'old_email@example.net';

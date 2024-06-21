@@ -1,8 +1,21 @@
 import crypto from 'node:crypto';
 
-import { AccountRecoveryDemand } from '../../../../src/identity-access-management/domain/models/AccountRecoveryDemand.js';
+import { AccountRecoveryDemand } from '../models/AccountRecoveryDemand.js';
 
-const sendEmailForAccountRecovery = async function ({
+/**
+ * @param {{
+ *   studentInformation: Object,
+ *   temporaryKey: string,
+ *   accountRecoveryDemandRepository: AccountRecoveryDemandRepository,
+ *   organizationLearnerRepository: OrganizationLearnerRepository,
+ *   userRepository: UserRepository,
+ *   mailService: MailService,
+ *   scoAccountRecoveryService: ScoAccountRecoveryService,
+ *   userReconciliationService: UserReconciliationService,
+ * }} params
+ * @return {Promise<void>}
+ */
+export const sendEmailForAccountRecovery = async function ({
   studentInformation,
   temporaryKey,
   organizationLearnerRepository,
@@ -46,5 +59,3 @@ const sendEmailForAccountRecovery = async function ({
     temporaryKey: encodedTemporaryKey,
   });
 };
-
-export { sendEmailForAccountRecovery };
