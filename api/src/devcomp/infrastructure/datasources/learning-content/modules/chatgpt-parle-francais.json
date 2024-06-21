@@ -23,7 +23,7 @@
       "grainId": "c8722f6e-7534-4fdc-9f2d-515c2a96641f"
     },
     {
-      "content": "<p>Vous en savez désormais plus sur les biais des LLM. <span aria-hidden=\"true\">👩‍💻️👨🏿‍💻️</span> <p>Vérifiez que vous avez retenu l'essentiel avec cette question. <span aria-hidden=\"true\">&nbsp;🎯</span></p>",
+      "content": "<p>Vous en savez désormais plus sur les biais des LLM. <span aria-hidden=\"true\">👩‍💻️👨🏿‍💻️</span></p><p>Vérifiez que vous avez retenu l'essentiel avec cette question. <span aria-hidden=\"true\">&nbsp;🎯</span></p>",
       "grainId": "89dbbcf3-7205-470a-baf0-4aa4aac1a87e"
     },
     {
@@ -84,8 +84,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p><span class=\"feedback__state\">Correct !</span></p>",
-              "invalid": "<p><span class=\"feedback__state\">Incorrect !</span> C'est un jeu de mots, mais en anglais ! \"Net\" en anglais signifie \"filet\"</p>"
+              "valid": "<p><span class=\"feedback__state\">✅ Correct !</span></p>",
+              "invalid": "<p><span class=\"feedback__state\">❌ Incorrect  !</span> C'est un jeu de mots, mais en anglais ! \"Net\" en anglais signifie \"filet\"</p>"
             },
             "solution": "3"
           }
@@ -160,8 +160,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p><span class=\"feedback__state\">Correct !</span></p>",
-                "invalid": "<p><span class=\"feedback__state\">Incorrect !</span></p>"
+                "valid": "<p><span class=\"feedback__state\">✅ Correct  !</span></p>",
+                "invalid": "<p><span class=\"feedback__state\">❌ Incorrect  !</span></p>"
               },
               "solutions": [
                 "1",
@@ -234,8 +234,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p><span class=\"feedback__state\">Correct !</span></p>",
-                "invalid": "<p><span class=\"feedback__state\">Incorrect !</span></p>"
+                "valid": "<p><span class=\"feedback__state\">✅ Correct  !</span></p>",
+                "invalid": "<p><span class=\"feedback__state\">❌ Incorrect  !</span></p>"
               },
               "solution": "2"
             }
@@ -289,8 +289,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p><span class=\"feedback__state\">Correct !</span></p>",
-                "invalid": "<p><span class=\"feedback__state\">Incorrect !</span></p>"
+                "valid": "<p><span class=\"feedback__state\">✅ Correct  !</span></p>",
+                "invalid": "<p><span class=\"feedback__state\">❌ Incorrect  !</span></p>"
               },
               "solution": "2"
             }
@@ -344,8 +344,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p><span class=\"feedback__state\">Correct !</span></p>",
-                "invalid": "<p><span class=\"feedback__state\">Incorrect !</span></p>"
+                "valid": "<p><span class=\"feedback__state\">✅ Correct  !</span></p>",
+                "invalid": "<p><span class=\"feedback__state\">❌ Incorrect  !</span></p>"
               },
               "solution": "3"
             }
@@ -409,8 +409,8 @@
                           }
                     ],
                     "feedbacks": {
-                      "valid": "<p><span class=\"feedback__state\">Correct !</span></p>",
-                      "invalid": "<p><span class=\"feedback__state\">Incorrect !</span></p>"
+                      "valid": "<p><span class=\"feedback__state\">✅ Correct  !</span></p>",
+                      "invalid": "<p><span class=\"feedback__state\">❌ Incorrect  !</span></p>"
                     },
                     "solution": "1"
               }
@@ -441,8 +441,8 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<p><span class=\"feedback__state\">Correct !</span></p>",
-                    "invalid": "<p><span class=\"feedback__state\">Incorrect !</span></p>"
+                    "valid": "<p><span class=\"feedback__state\">✅ Correct  !</span></p>",
+                    "invalid": "<p><span class=\"feedback__state\">❌ Incorrect  !</span></p>"
                   },
                   "solution": "2"
             }
@@ -473,8 +473,8 @@
                   }
               ],
               "feedbacks": {
-                "valid": "<p><span class=\"feedback__state\">Correct !</span></p>",
-                "invalid": "<p><span class=\"feedback__state\">Incorrect !</span></p>"
+                "valid": "<p><span class=\"feedback__state\">✅ Correct !</span></p>",
+                "invalid": "<p><span class=\"feedback__state\">❌ Incorrect  !</span></p>"
               },
               "solution": "1"
         }
