@@ -61,6 +61,10 @@
   &__element:not(:last-child) {
     margin-bottom: var(--pix-spacing-8x);
   }
+
+  &__stepper:not(:last-child) {
+    margin-bottom: var(--pix-spacing-8x);
+  }
 }
 
 // stylelint-disable-next-line no-duplicate-selectors

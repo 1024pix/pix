@@ -23,14 +23,16 @@
             />
           </div>
         {{else if (eq component.type "stepper")}}
-          <Module::Stepper
-            @steps={{component.steps}}
-            @submitAnswer={{@submitAnswer}}
-            @retryElement={{@retryElement}}
-            @passage={{@passage}}
-            @getLastCorrectionForElement={{this.getLastCorrectionForElement}}
-            @stepperIsFinished={{this.stepperIsFinished}}
-          />
+          <div class="grain-card-content__stepper">
+            <Module::Stepper
+              @steps={{component.steps}}
+              @submitAnswer={{@submitAnswer}}
+              @retryElement={{@retryElement}}
+              @passage={{@passage}}
+              @getLastCorrectionForElement={{this.getLastCorrectionForElement}}
+              @stepperIsFinished={{this.stepperIsFinished}}
+            />
+          </div>
         {{/if}}
       {{/each}}
     </div>
