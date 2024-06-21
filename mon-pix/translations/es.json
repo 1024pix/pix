@@ -814,7 +814,7 @@
           },
           "description": "Pix te permite elegir el formato del archivo que deseas descargar. Si no sabes qué opción elegir, quédate con la opción por defecto. Este es el formato de archivo admitido por el mayor número de aplicaciones de software.",
           "file-type": "archivo .{fileExtension}",
-          "help": "¿Necesitas ayuda con '<a href=\"https://support.pix.org/fr/support/solutions/articles/15000036390\" class=\"challenge-statement__action-help--link\" target=\"_blank\" aria-label=\"abrir, modificar o encontrar este archivo (abrir en una nueva ventana)\">'abrir, modificar o encontrar este archivo'</a>'?"
+          "help": "¿Necesitas ayuda con '<a href=\"https://pix.org/en/help-how-to-open-modify-find-a-downloaded-file-in-a-pix-question\" class=\"challenge-statement__action-help--link\" target=\"_blank\" aria-label=\"abrir, modificar o encontrar este archivo (abrir en una nueva ventana)\">'abrir, modificar o encontrar este archivo'</a>'?"
         },
         "sr-only": {
           "alternative-instruction": "Esta prueba contiene una ilustración con un texto alternativo.",

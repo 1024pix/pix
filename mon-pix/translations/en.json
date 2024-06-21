@@ -820,7 +820,7 @@
           },
           "description": "Pix lets you choose which format of file to download. If you do not know which option to use, select the default option. This is the file format that is the most commonly used.",
           "file-type": "file .{fileExtension}",
-          "help": "Need help to '<a href=\"https://support.pix.org/en/support/solutions/articles/15000036390\" class=\"challenge-statement__action-help--link\" target=\"_blank\" aria-label=\"open, edit or find this file (opens in new window)\">'open, edit or find this file'</a>'?"
+          "help": "Need help to '<a href=\"https://pix.org/en/help-how-to-open-modify-find-a-downloaded-file-in-a-pix-question\" class=\"challenge-statement__action-help--link\" target=\"_blank\" aria-label=\"open, edit or find this file (opens in new window)\">'open, edit or find this file'</a>'?"
         },
         "sr-only": {
           "alternative-instruction": "This question contains an illustration with a text alternative.",
