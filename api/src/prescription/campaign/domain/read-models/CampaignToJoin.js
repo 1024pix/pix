@@ -19,6 +19,7 @@ class CampaignToJoin {
     organizationType,
     organizationLogoUrl,
     organizationIsManagingStudents,
+    hasLearnersImportFeature,
     identityProvider,
     organizationShowNPS,
     organizationFormNPSUrl,
@@ -41,7 +42,6 @@ class CampaignToJoin {
     this.alternativeTextToExternalIdHelpImage = alternativeTextToExternalIdHelpImage;
     this.archivedAt = archivedAt;
     this.deletedAt = deletedAt;
-    this.isRestricted = organizationIsManagingStudents;
     this.isSimplifiedAccess = targetProfileIsSimplifiedAccess;
     this.isForAbsoluteNovice = isForAbsoluteNovice;
     this.organizationId = organizationId;
@@ -58,6 +58,8 @@ class CampaignToJoin {
     this.customResultPageButtonUrl = customResultPageButtonUrl;
     this.multipleSendings = multipleSendings;
     this.assessmentMethod = assessmentMethod;
+
+    this.isRestricted = organizationIsManagingStudents || hasLearnersImportFeature;
   }
 
   get isAssessment() {

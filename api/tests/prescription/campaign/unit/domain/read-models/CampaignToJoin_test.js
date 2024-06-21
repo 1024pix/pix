@@ -63,4 +63,50 @@ describe('Unit | Domain | Models | CampaignToJoin', function () {
       expect(campaignToJoin.isAccessible).to.be.true;
     });
   });
+
+  describe('#isRestricted', function () {
+    it('should return true if the organization is ManagingStudents with import feature', function () {
+      // given / when
+      const campaignToJoin = domainBuilder.buildCampaignToJoin({
+        organizationIsManagingStudents: true,
+        hasLearnersImportFeature: true,
+      });
+
+      // then
+      expect(campaignToJoin.isRestricted).to.be.true;
+    });
+
+    it('should return true if the organization is ManagingStudents without import feature', function () {
+      // given / when
+      const campaignToJoin = domainBuilder.buildCampaignToJoin({
+        organizationIsManagingStudents: true,
+        hasLearnersImportFeature: false,
+      });
+
+      // then
+      expect(campaignToJoin.isRestricted).to.be.true;
+    });
+
+    it('should return true if the organization is not ManagingStudents with import feature', function () {
+      // given / when
+      const campaignToJoin = domainBuilder.buildCampaignToJoin({
+        organizationIsManagingStudents: false,
+        hasLearnersImportFeature: true,
+      });
+
+      // then
+      expect(campaignToJoin.isRestricted).to.be.true;
+    });
+
+    it('should return false if the campaign is not restricted', function () {
+      // given / when
+      const campaignToJoin = domainBuilder.buildCampaignToJoin({
+        organizationIsManagingStudents: false,
+        hasLearnersImportFeature: false,
+      });
+
+      // then
+      expect(campaignToJoin.isRestricted).to.be.false;
+    });
+  });
 });
