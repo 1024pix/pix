@@ -22,7 +22,7 @@ const buildCertificationCandidate = function ({
   createdAt = new Date('2020-01-01'),
   extraTimePercentage = 0.3,
   userId,
-  organizationLearnerId,
+  organizationLearnerId = null,
   authorizedToStart = false,
   billingMode = null,
   prepaymentCode = null,
