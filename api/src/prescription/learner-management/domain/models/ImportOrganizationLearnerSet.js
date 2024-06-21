@@ -233,8 +233,7 @@ class ImportOrganizationLearnerSet {
 
   get learners() {
     const learners = {
-      create: [],
-      update: [],
+      list: [],
       existinglearnerIds: [],
     };
 
@@ -244,12 +243,9 @@ class ImportOrganizationLearnerSet {
         unicityKey: Object.values(this.#unicityColumnMapping),
       });
 
-      if (learner.id) {
-        learners.update.push(learner);
-        learners.existinglearnerIds.push(learner.id);
-      } else {
-        learners.create.push(learner);
-      }
+      learners.list.push(learner);
+
+      if (learner.id) learners.existinglearnerIds.push(learner.id);
     });
 
     return learners;
