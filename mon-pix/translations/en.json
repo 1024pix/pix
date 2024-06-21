@@ -1686,35 +1686,34 @@
     },
     "tutorial": {
       "title": "Campaign tutorial",
+      "dot-action-title": "Display tutorial step {stepNumber}/{stepsCount}",
+      "dots-nav-label": "Tutorial steps",
       "next": "Next",
+      "next-title": "Show tutorial next step",
       "pages": {
         "page0": {
           "title": "You can search online...",
-          "explanation": "If you do not know the answer to a question, \nyou can probably find it on the internet.",
-          "icon": "icn-recherche.svg"
+          "explanation": "If you do not know the answer to a question, \nyou can probably find it on the internet."
         },
         "page1": {
           "title": "... with the exception of specific questions",
-          "explanation": "If you see this picture, only use your own knowledge! \nDon’t search the internet or use your other equipments.\n",
-          "icon": "icn-focus.svg"
+          "explanation": "If you see this picture, only use your own knowledge! \nDon’t search the internet or use your other equipments.\n"
         },
         "page2": {
           "title": "There’s no time limit!",
-          "explanation": "Take all the time you need to finish your customised test. \nIf a question is timed, we will let you know.",
-          "icon": "icn-temps.svg"
+          "explanation": "Take all the time you need to finish your customised test. \nIf a question is timed, we will let you know."
         },
         "page3": {
           "title": "Tutorials",
-          "explanation": "Access tutorials to learn more \nabout each question and improve.",
-          "icon": "icn-tutos.svg"
+          "explanation": "Access tutorials to learn more \nabout each question and improve."
         },
         "page4": {
           "title": "Adapted levels of difficulty",
-          "explanation": "Based on your answers, \nPix adapts the difficulty of the questions.",
-          "icon": "icn-algo.svg"
+          "explanation": "Based on your answers, \nPix adapts the difficulty of the questions."
         }
       },
       "pass": "Ignore",
+      "pass-title": "Ignore tutorial and start my customised test",
       "start": "Start my customised test"
     },
     "tutorial-panel": {

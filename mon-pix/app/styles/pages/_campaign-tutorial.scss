@@ -65,16 +65,16 @@
     }
 
     .dot {
-      display: inline-block;
+      display: block;
       width: 10px;
       height: 10px;
       margin: 2px;
       background-color: $pix-neutral-22;
       border-radius: 50%;
+    }
 
-      &__active {
-        background-color: $pix-primary;
-      }
+    li[aria-current='step'] .dot {
+      background-color: $pix-primary;
     }
   }
 
