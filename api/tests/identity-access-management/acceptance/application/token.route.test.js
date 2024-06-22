@@ -432,20 +432,20 @@ describe('Acceptance | Identity Access Management | Route | Token', function () 
       });
     });
   });
-
-  function _getOptions({ scope, password, username }) {
-    return {
-      method: 'POST',
-      url: '/api/token',
-      headers: {
-        'content-type': 'application/x-www-form-urlencoded',
-      },
-      payload: querystring.stringify({
-        grant_type: 'password',
-        username,
-        password,
-        scope,
-      }),
-    };
-  }
 });
+
+function _getOptions({ scope, password, username }) {
+  return {
+    method: 'POST',
+    url: '/api/token',
+    headers: {
+      'content-type': 'application/x-www-form-urlencoded',
+    },
+    payload: querystring.stringify({
+      grant_type: 'password',
+      username,
+      password,
+      scope,
+    }),
+  };
+}
