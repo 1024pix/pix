@@ -334,19 +334,6 @@ const findCertificationCenterMembershipsByUser = async function (
   );
 };
 
-const rememberUserHasSeenLastDataProtectionPolicyInformation = async function (
-  request,
-  h,
-  dependencies = { userSerializer },
-) {
-  const authenticatedUserId = request.auth.credentials.userId;
-
-  const updatedUser = await usecases.rememberUserHasSeenLastDataProtectionPolicyInformation({
-    userId: authenticatedUserId,
-  });
-  return dependencies.userSerializer.serialize(updatedUser);
-};
-
 const userController = {
   addPixAuthenticationMethodByEmail,
   anonymizeUser,
@@ -366,7 +353,6 @@ const userController = {
   reassignAuthenticationMethods,
   rememberUserHasSeenAssessmentInstructions,
   rememberUserHasSeenChallengeTooltip,
-  rememberUserHasSeenLastDataProtectionPolicyInformation,
   rememberUserHasSeenLevelSevenInfo,
   rememberUserHasSeenNewDashboardInfo,
   removeAuthenticationMethod,

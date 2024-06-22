@@ -150,6 +150,27 @@ const updatePassword = async function (request, h) {
   return h.response().code(204);
 };
 
+/**
+ * @param request
+ * @param h
+ * @param {{
+ *   userSerializer: UserSerializer
+ * }} dependencies
+ * @return {Promise<*>}
+ */
+const rememberUserHasSeenLastDataProtectionPolicyInformation = async function (
+  request,
+  h,
+  dependencies = { userSerializer },
+) {
+  const authenticatedUserId = request.auth.credentials.userId;
+
+  const updatedUser = await usecases.rememberUserHasSeenLastDataProtectionPolicyInformation({
+    userId: authenticatedUserId,
+  });
+  return dependencies.userSerializer.serialize(updatedUser);
+};
+
 export const userController = {
   acceptPixCertifTermsOfService,
   acceptPixLastTermsOfService,
@@ -157,6 +178,7 @@ export const userController = {
   changeUserLanguage,
   getCurrentUser,
   getUserAuthenticationMethods,
+  rememberUserHasSeenLastDataProtectionPolicyInformation,
   save,
   updatePassword,
 };
