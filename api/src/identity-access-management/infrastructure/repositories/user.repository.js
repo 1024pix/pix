@@ -394,6 +394,12 @@ const findAnotherUserByUsername = async function (userId, username) {
   return anotherUsers.map((anotherUser) => new User(anotherUser));
 };
 
+/**
+ * @param {{
+ *   userId: string
+ * }} params
+ * @return {Promise<User>}
+ */
 const updateLastDataProtectionPolicySeenAt = async function ({ userId }) {
   const now = new Date();
 
