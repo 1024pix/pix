@@ -87,6 +87,33 @@ describe('Unit | Identity Access Management | Application | Controller | User', 
     });
   });
 
+  describe('#changeUserLanguage', function () {
+    let request;
+    const userId = 1;
+    const lang = 'en';
+
+    beforeEach(function () {
+      request = {
+        auth: { credentials: { userId } },
+        params: { id: userId, lang },
+      };
+
+      sinon.stub(usecases, 'changeUserLanguage');
+    });
+
+    it('updates user language', async function () {
+      // given
+      usecases.changeUserLanguage.resolves({});
+      userSerializer.serialize.withArgs({}).returns('ok');
+
+      // when
+      await userController.changeUserLanguage(request, hFake, { userSerializer });
+
+      // then
+      sinon.assert.calledWith(usecases.changeUserLanguage, { userId, language: lang });
+    });
+  });
+
   describe('#getCurrentUser', function () {
     it('gets the current user', async function () {
       // given

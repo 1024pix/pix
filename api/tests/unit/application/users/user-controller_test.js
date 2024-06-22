@@ -99,33 +99,6 @@ describe('Unit | Controller | user-controller', function () {
     });
   });
 
-  describe('#changeLang', function () {
-    let request;
-    const userId = 1;
-    const lang = 'en';
-
-    beforeEach(function () {
-      request = {
-        auth: { credentials: { userId } },
-        params: { id: userId, lang },
-      };
-
-      sinon.stub(usecases, 'changeUserLang');
-    });
-
-    it('should modify lang of user', async function () {
-      // given
-      usecases.changeUserLang.withArgs({ userId, lang }).resolves({});
-      userSerializer.serialize.withArgs({}).returns('ok');
-
-      // when
-      const response = await userController.changeLang(request, hFake, { userSerializer });
-
-      // then
-      expect(response).to.be.equal('ok');
-    });
-  });
-
   describe('#rememberUserHasSeenAssessmentInstructions', function () {
     let request;
     const userId = 1;

@@ -44,17 +44,6 @@ const updateUserDetailsForAdministration = async function (
   return dependencies.userDetailsForAdminSerializer.serializeForUpdate(updatedUser);
 };
 
-const changeLang = async function (request, h, dependencies = { userSerializer }) {
-  const authenticatedUserId = request.auth.credentials.userId;
-  const lang = request.params.lang;
-  const updatedUser = await usecases.changeUserLang({
-    userId: authenticatedUserId,
-    lang,
-  });
-
-  return dependencies.userSerializer.serialize(updatedUser);
-};
-
 const rememberUserHasSeenAssessmentInstructions = async function (request, h, dependencies = { userSerializer }) {
   const authenticatedUserId = request.auth.credentials.userId;
 
@@ -361,7 +350,6 @@ const rememberUserHasSeenLastDataProtectionPolicyInformation = async function (
 const userController = {
   addPixAuthenticationMethodByEmail,
   anonymizeUser,
-  changeLang,
   findCertificationCenterMembershipsByUser,
   findPaginatedFilteredUsers,
   findPaginatedUserRecommendedTrainings,
