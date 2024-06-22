@@ -1,8 +1,8 @@
-import { revokeRefreshToken } from '../../../../lib/domain/usecases/revoke-refresh-token.js';
-import { expect, sinon } from '../../../test-helper.js';
+import { revokeRefreshToken } from '../../../../../src/identity-access-management/domain/usecases/revoke-refresh-token.usecase.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | revoke-refresh-token', function () {
-  it('should revoke refresh token', async function () {
+describe('Unit | Identity Access Management | Domain | UseCase | revoke-refresh-token', function () {
+  it('revokes refresh token', async function () {
     // given
     const refreshToken = 'valid refresh token';
     const refreshTokenService = { revokeRefreshToken: sinon.stub() };
