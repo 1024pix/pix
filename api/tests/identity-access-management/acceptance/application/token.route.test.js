@@ -432,6 +432,82 @@ describe('Acceptance | Identity Access Management | Route | Token', function () 
       });
     });
   });
+
+  describe('POST /api/revoke', function () {
+    const method = 'POST';
+    const url = '/api/revoke';
+    const headers = {
+      'content-type': 'application/x-www-form-urlencoded',
+    };
+
+    let payload;
+
+    beforeEach(function () {
+      payload = querystring.stringify({
+        token: 'jwt.access.token',
+        token_type_hint: 'access_token',
+      });
+    });
+
+    it('returns a response with HTTP status code 204 when route handler (a.k.a. controller) is successful', async function () {
+      // when
+      const response = await server.inject({ method, url, payload, auth: null, headers });
+
+      // then
+      expect(response.statusCode).to.equal(204);
+    });
+
+    it('returns a 400 when grant type is not "access_token" nor "refresh_token"', async function () {
+      // given
+      payload = querystring.stringify({
+        token: 'jwt.access.token',
+        token_type_hint: 'not_standard_token_type',
+      });
+
+      // when
+      const response = await server.inject({ method, url, payload, auth: null, headers });
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('returns a 400 when token is missing', async function () {
+      // given
+      payload = querystring.stringify({
+        token_type_hint: 'access_token',
+      });
+
+      // when
+      const response = await server.inject({ method, url, payload, auth: null, headers });
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('returns a response with HTTP status code 204 even when token type hint is missing', async function () {
+      // given
+      payload = querystring.stringify({
+        token: 'jwt.access.token',
+      });
+
+      // when
+      const response = await server.inject({ method, url, payload, auth: null, headers });
+
+      // then
+      expect(response.statusCode).to.equal(204);
+    });
+
+    it('returns a JSON API error (415) when request "Content-Type" header is not "application/x-www-form-urlencoded"', async function () {
+      // given
+      headers['content-type'] = 'text/html';
+
+      // when
+      const response = await server.inject({ method, url, payload, auth: null, headers });
+
+      // then
+      expect(response.statusCode).to.equal(415);
+    });
+  });
 });
 
 function _getOptions({ scope, password, username }) {

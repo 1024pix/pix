@@ -2,7 +2,6 @@ import Joi from 'joi';
 
 import { responseAuthenticationDoc } from '../../infrastructure/open-api-doc/authentication/response-authentication-doc.js';
 import { responseObjectErrorDoc } from '../../infrastructure/open-api-doc/livret-scolaire/response-object-error-doc.js';
-import { BadRequestError, sendJsonApiError } from '../http-errors.js';
 import { authenticationController as AuthenticationController } from './authentication-controller.js';
 
 const register = async function (server) {
@@ -47,33 +46,6 @@ const register = async function (server) {
         },
         handler: AuthenticationController.authenticateApplication,
         tags: ['api', 'authorization-server'],
-      },
-    },
-    {
-      method: 'POST',
-      path: '/api/revoke',
-      config: {
-        auth: false,
-        payload: {
-          allow: 'application/x-www-form-urlencoded',
-        },
-        validate: {
-          payload: Joi.object()
-            .required()
-            .keys({
-              token: Joi.string().required(),
-              token_type_hint: ['access_token', 'refresh_token'],
-            }),
-          failAction: (request, h) => {
-            return sendJsonApiError(
-              new BadRequestError('The server could not understand the request due to invalid token.'),
-              h,
-            );
-          },
-        },
-        handler: AuthenticationController.revokeToken,
-        notes: ['- Cette route permet de supprimer le refresh token du temporary storage'],
-        tags: ['api'],
       },
     },
     {
