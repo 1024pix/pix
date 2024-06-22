@@ -120,4 +120,48 @@ describe('Unit | Identity Access Management | Application | Controller | Token',
       });
     });
   });
+
+  describe('#revokeToken', function () {
+    it('returns 204', async function () {
+      // given
+      const token = 'jwt.refresh.token';
+      const request = {
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+        },
+        payload: {
+          token,
+        },
+      };
+      sinon.stub(usecases, 'revokeRefreshToken').resolves();
+
+      // when
+      const response = await tokenController.revokeToken(request, hFake);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+      sinon.assert.calledWith(usecases.revokeRefreshToken, { refreshToken: token });
+    });
+
+    it('returns null when token hint is of type access token', async function () {
+      // given
+      const token = 'jwt.refresh.token';
+      const request = {
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+        },
+        payload: {
+          token,
+          token_type_hint: 'access_token',
+        },
+      };
+      sinon.stub(usecases, 'revokeRefreshToken').resolves();
+
+      // when
+      const response = await tokenController.revokeToken(request, hFake);
+
+      // then
+      expect(response).to.be.null;
+    });
+  });
 });

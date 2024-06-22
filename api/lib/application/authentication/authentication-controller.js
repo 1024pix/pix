@@ -46,17 +46,9 @@ const authenticateApplication = async function (request, h) {
     .header('Pragma', 'no-cache');
 };
 
-const revokeToken = async function (request, h) {
-  if (request.payload.token_type_hint === 'access_token') return null;
-
-  await usecases.revokeRefreshToken({ refreshToken: request.payload.token });
-  return h.response().code(204);
-};
-
 const authenticationController = {
   authenticateExternalUser,
   authenticateApplication,
-  revokeToken,
 };
 
 export { authenticationController };
