@@ -1,8 +1,8 @@
-import { rememberUserHasSeenLastDataProtectionPolicyInformation } from '../../../../lib/domain/usecases/remember-user-has-seen-last-data-protection-policy-information.js';
-import { User } from '../../../../src/identity-access-management/domain/models/User.js';
-import { expect, sinon } from '../../../test-helper.js';
+import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
+import { rememberUserHasSeenLastDataProtectionPolicyInformation } from '../../../../../src/identity-access-management/domain/usecases/remember-user-has-seen-last-data-protection-policy-information.usecase.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | remember-user-has-seen-data-protection-policy-information', function () {
+describe('Unit | Identity Access Management | Domain | UseCase | remember-user-has-seen-data-protection-policy-information', function () {
   let userRepository;
   let clock;
   let now;
@@ -19,13 +19,16 @@ describe('Unit | UseCase | remember-user-has-seen-data-protection-policy-informa
     clock.restore();
   });
 
-  it('should update the last data protection policy to now', async function () {
+  it('updates the last data protection policy to now', async function () {
+    // given
     const userId = 1;
     const user = new User({ id: userId, lastDataProtectionPolicySeenAt: null });
     userRepository.updateLastDataProtectionPolicySeenAt.resolves(user);
 
+    // when
     await rememberUserHasSeenLastDataProtectionPolicyInformation({ userId, userRepository });
 
+    // then
     expect(userRepository.updateLastDataProtectionPolicySeenAt).to.have.been.calledWithExactly({ userId });
   });
 });
