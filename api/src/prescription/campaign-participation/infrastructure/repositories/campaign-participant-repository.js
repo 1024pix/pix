@@ -158,7 +158,7 @@ async function _getCampaignToStart(campaignId, domainTransaction) {
       'idPixLabel',
       'campaigns.archivedAt',
       'campaigns.deletedAt',
-      'isManagingStudents AS isRestricted',
+      'isManagingStudents',
       'multipleSendings',
       'assessmentMethod',
       'organizationId',

@@ -6,7 +6,8 @@ class CampaignToStartParticipation {
     idPixLabel,
     archivedAt,
     type,
-    isRestricted,
+    isManagingStudents,
+    hasLearnersImportFeature,
     multipleSendings,
     assessmentMethod,
     skillCount,
@@ -17,12 +18,12 @@ class CampaignToStartParticipation {
     this.type = type;
     this.idPixLabel = idPixLabel;
     this.archivedAt = archivedAt;
-    this.isRestricted = isRestricted;
     this.multipleSendings = multipleSendings;
     this.assessmentMethod = assessmentMethod;
     this.skillCount = skillCount;
     this.organizationId = organizationId;
     this.deletedAt = deletedAt;
+    this.isRestricted = isManagingStudents || hasLearnersImportFeature;
   }
 
   get isAssessment() {
