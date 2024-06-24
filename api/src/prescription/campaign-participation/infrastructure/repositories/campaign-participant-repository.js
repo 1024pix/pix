@@ -14,7 +14,7 @@ import { CampaignParticipant } from '../../domain/models/CampaignParticipant.js'
 import { CampaignToStartParticipation } from '../../domain/models/CampaignToStartParticipation.js';
 import { PreviousCampaignParticipation } from '../../domain/models/PreviousCampaignParticipation.js';
 
-async function save(campaignParticipant, domainTransaction) {
+async function save({ campaignParticipant, domainTransaction }) {
   const newlyCreatedOrganizationLearnerId = await _createNewOrganizationLearner(
     campaignParticipant.organizationLearner,
     domainTransaction.knexTransaction,
@@ -35,10 +35,14 @@ async function save(campaignParticipant, domainTransaction) {
   return campaignParticipationId;
 }
 
-async function get({ userId, campaignId, domainTransaction }) {
+async function get({ userId, campaignId, domainTransaction, organizationFeatureAPI }) {
   const userIdentity = await _getUserIdentityForTrainee(userId, domainTransaction);
 
-  const campaignToStartParticipation = await _getCampaignToStart(campaignId, domainTransaction);
+  const campaignToStartParticipation = await _getCampaignToStart({
+    campaignId,
+    domainTransaction,
+    organizationFeatureAPI,
+  });
 
   const organizationLearner = await _getOrganizationLearner(campaignId, userId, domainTransaction);
 
@@ -148,7 +152,7 @@ async function _getUserIdentityForTrainee(userId, domainTransaction) {
   return new UserIdentity(userIdentity);
 }
 
-async function _getCampaignToStart(campaignId, domainTransaction) {
+async function _getCampaignToStart({ campaignId, domainTransaction, organizationFeatureAPI }) {
   const campaignAttributes = await domainTransaction
     .knexTransaction('campaigns')
     .join('organizations', 'organizations.id', 'organizationId')
@@ -171,7 +175,15 @@ async function _getCampaignToStart(campaignId, domainTransaction) {
   }
   const skillIds = await campaignRepository.findSkillIds({ campaignId, domainTransaction });
 
-  return new CampaignToStartParticipation({ ...campaignAttributes, skillCount: skillIds.length });
+  const { hasLearnersImportFeature } = await organizationFeatureAPI.getAllFeaturesFromOrganization(
+    campaignAttributes.organizationId,
+  );
+
+  return new CampaignToStartParticipation({
+    ...campaignAttributes,
+    hasLearnersImportFeature,
+    skillCount: skillIds.length,
+  });
 }
 
 async function _getOrganizationLearner(campaignId, userId, domainTransaction) {
