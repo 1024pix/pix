@@ -42,6 +42,25 @@ describe('Unit | Identity Access Management | Application | Route | User', funct
     });
   });
 
+  describe('GET /api/users/me', function () {
+    const method = 'GET';
+
+    it('exists', async function () {
+      // given
+      sinon.stub(userController, 'getCurrentUser').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(routesUnderTest);
+
+      const url = '/api/users/me';
+
+      // when
+      const response = await httpTestServer.request(method, url);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
+
   describe('PATCH /api/users/{id}/password-update', function () {
     const method = 'PATCH';
     const url = '/api/users/12344/password-update';

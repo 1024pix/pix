@@ -1,6 +1,15 @@
-import { UserWithActivity } from '../../../src/identity-access-management/domain/read-models/UserWithActivity.js';
+import { UserWithActivity } from '../read-models/UserWithActivity.js';
 
-const getCurrentUser = async function ({
+/**
+ * @param {{
+ *   authenticatedUserId: string,
+ *   userRepository: userRepository,
+ *   campaignParticipationRepository: CampaignParticipationRepository,
+ *   userRecommendedTrainingRepository: UserRecommendedTrainingRepository,
+ * }} params
+ * @return {Promise<UserWithActivity>}
+ */
+export const getCurrentUser = async function ({
   authenticatedUserId,
   userRepository,
   campaignParticipationRepository,
@@ -21,5 +30,3 @@ const getCurrentUser = async function ({
     shouldSeeDataProtectionPolicyInformationBanner,
   });
 };
-
-export { getCurrentUser };

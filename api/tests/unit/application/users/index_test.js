@@ -10,25 +10,6 @@ const CODE_IDENTITY_PROVIDER_POLE_EMPLOI = OidcIdentityProviders.POLE_EMPLOI.cod
 const oidcProviderCode = 'genericOidcProviderCode';
 
 describe('Unit | Router | user-router', function () {
-  describe('GET /api/users/me', function () {
-    const method = 'GET';
-
-    it('exists', async function () {
-      // given
-      sinon.stub(userController, 'getCurrentUser').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const url = '/api/users/me';
-
-      // when
-      const response = await httpTestServer.request(method, url);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-  });
-
   describe('GET /api/users/{id}/is-certifiable', function () {
     const method = 'GET';
     const url = '/api/users/42/is-certifiable';

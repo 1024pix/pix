@@ -299,27 +299,6 @@ describe('Unit | Controller | user-controller', function () {
     });
   });
 
-  describe('#getCurrentUser', function () {
-    it('should get the current user', async function () {
-      // given
-      const request = { auth: { credentials: { userId: 1 } } };
-      const currentUser = Symbol('current-user');
-      const getCurrentUserStub = sinon.stub(usecases, 'getCurrentUser');
-      const userWithActivitySerializer = { serialize: sinon.stub() };
-
-      usecases.getCurrentUser.withArgs({ authenticatedUserId: 1 }).resolves(currentUser);
-      userWithActivitySerializer.serialize.withArgs(currentUser).returns('ok');
-
-      // when
-      const response = await userController.getCurrentUser(request, hFake, { userWithActivitySerializer });
-
-      // then
-      expect(response).to.be.equal('ok');
-      expect(getCurrentUserStub).to.have.been.calledWithExactly({ authenticatedUserId: 1 });
-      expect(userWithActivitySerializer.serialize).to.have.been.calledWithExactly(currentUser);
-    });
-  });
-
   describe('#getUserDetailsForAdmin', function () {
     let request;
     let dependencies;

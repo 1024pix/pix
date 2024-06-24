@@ -2,6 +2,23 @@ import * as localeService from '../../../shared/domain/services/locale-service.j
 import * as userSerializer from '../../../shared/infrastructure/serializers/jsonapi/user-serializer.js';
 import { requestResponseUtils } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
+import { userWithActivitySerializer } from '../../infrastructure/serializers/jsonapi/user-with-activity.serializer.js';
+
+/**
+ * @param request
+ * @param h
+ * @param {{
+ *   userWithActivitySerializer: UserWithActivitySerializer
+ * }} dependencies
+ * @return {Promise<*>}
+ */
+const getCurrentUser = async function (request, h, dependencies = { userWithActivitySerializer }) {
+  const authenticatedUserId = request.auth.credentials.userId;
+
+  const result = await usecases.getCurrentUser({ authenticatedUserId });
+
+  return dependencies.userWithActivitySerializer.serialize(result);
+};
 
 /**
  * @param request
@@ -51,6 +68,8 @@ const updatePassword = async function (request, h) {
   return h.response().code(204);
 };
 
-const userController = { save, updatePassword };
-
-export { userController };
+export const userController = {
+  getCurrentUser,
+  save,
+  updatePassword,
+};

@@ -1,7 +1,17 @@
 import lodash from 'lodash';
 
+import { constants } from '../../../../lib/domain/constants.js';
 import * as userRepository from '../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
-import { createServer, databaseBuilder, domainBuilder, expect, knex, nock } from '../../../test-helper.js';
+import {
+  createServer,
+  databaseBuilder,
+  domainBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  knex,
+  nock,
+  sinon,
+} from '../../../test-helper.js';
 
 const { pick } = lodash;
 
@@ -162,6 +172,99 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
         expect(response.statusCode).to.equal(422);
         expect(response.result.errors[0].title).to.equal('Invalid data attribute "mustValidateTermsOfService"');
       });
+    });
+  });
+
+  describe('GET /api/users/me', function () {
+    let options;
+    let user;
+    let expectedCode;
+
+    beforeEach(async function () {
+      user = databaseBuilder.factory.buildUser();
+      const campaign = databaseBuilder.factory.buildCampaign({ type: 'PROFILES_COLLECTION', code: 'SOMECODE' });
+      const assessmentCampaign = databaseBuilder.factory.buildCampaign({ type: 'ASSESSMENT' });
+      expectedCode = campaign.code;
+      const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        status: 'TO_SHARE',
+        userId: user.id,
+      });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: assessmentCampaign.id,
+        userId: user.id,
+      });
+      const { id: trainingId } = databaseBuilder.factory.buildTraining();
+      databaseBuilder.factory.buildUserRecommendedTraining({ userId: user.id, trainingId, campaignParticipationId });
+
+      options = {
+        method: 'GET',
+        url: '/api/users/me',
+        payload: {},
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      };
+
+      return databaseBuilder.commit();
+    });
+
+    it('returns found user with 200 HTTP status code', async function () {
+      // given
+      sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
+
+      const expectedUserJSONApi = {
+        data: {
+          type: 'users',
+          id: user.id.toString(),
+          attributes: {
+            'first-name': user.firstName,
+            'last-name': user.lastName,
+            email: user.email.toLowerCase(),
+            'email-confirmed': false,
+            username: user.username,
+            cgu: user.cgu,
+            lang: 'fr',
+            'is-anonymous': false,
+            'last-terms-of-service-validated-at': user.lastTermsOfServiceValidatedAt,
+            'must-validate-terms-of-service': user.mustValidateTermsOfService,
+            'pix-orga-terms-of-service-accepted': user.pixOrgaTermsOfServiceAccepted,
+            'pix-certif-terms-of-service-accepted': user.pixCertifTermsOfServiceAccepted,
+            'has-seen-assessment-instructions': user.hasSeenAssessmentInstructions,
+            'has-seen-new-dashboard-info': user.hasSeenNewDashboardInfo,
+            'has-seen-focused-challenge-tooltip': user.hasSeenFocusedChallengeTooltip,
+            'has-seen-other-challenges-tooltip': user.hasSeenOtherChallengesTooltip,
+            'has-seen-level-seven-info': false,
+            'has-assessment-participations': true,
+            'code-for-last-profile-to-share': expectedCode,
+            'has-recommended-trainings': true,
+            'should-see-data-protection-policy-information-banner': true,
+            'last-data-protection-policy-seen-at': null,
+          },
+          relationships: {
+            profile: {
+              links: {
+                related: `/api/users/${user.id}/profile`,
+              },
+            },
+            'is-certifiable': {
+              links: {
+                related: `/api/users/${user.id}/is-certifiable`,
+              },
+            },
+            trainings: {
+              links: {
+                related: `/api/users/${user.id}/trainings`,
+              },
+            },
+          },
+        },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result).to.deep.equal(expectedUserJSONApi);
     });
   });
 
