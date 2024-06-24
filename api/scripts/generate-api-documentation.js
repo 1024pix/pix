@@ -7,7 +7,7 @@ import jsdocToMarkdown from 'jsdoc-to-markdown';
 import { logger } from '../src/shared/infrastructure/utils/logger.js';
 
 async function main(baseFolder) {
-  const docs = await jsdocToMarkdown.render({ files: `${baseFolder}/**/application/api/*.js` });
+  const docs = await jsdocToMarkdown.render({ files: `${baseFolder}/**/application/api/**/*.js` });
 
   console.log(docs);
 }

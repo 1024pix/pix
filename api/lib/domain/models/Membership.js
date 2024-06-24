@@ -1,4 +1,5 @@
 import { InvalidMembershipOrganizationRoleError } from '../errors.js';
+
 const roles = {
   ADMIN: 'ADMIN',
   MEMBER: 'MEMBER',

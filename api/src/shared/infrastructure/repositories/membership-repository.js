@@ -7,4 +7,10 @@ const findByUserId = function ({ userId }) {
     .then((memberships) => bookshelfToDomainConverter.buildDomainObjects(BookshelfMembership, memberships));
 };
 
-export { findByUserId };
+const findByUserIdAndOrganizationId = function ({ userId, organizationId, includeOrganization = false }) {
+  return BookshelfMembership.where({ userId, organizationId, disabledAt: null })
+    .fetchAll({ withRelated: includeOrganization ? ['organization', 'organization.tags'] : [] })
+    .then((memberships) => bookshelfToDomainConverter.buildDomainObjects(BookshelfMembership, memberships));
+};
+
+export { findByUserId, findByUserIdAndOrganizationId };
