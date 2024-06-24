@@ -62,19 +62,19 @@ module('Acceptance | Session creation', function (hooks) {
         // when
         await fillIn(
           screen.getByRole('textbox', {
-            name: `${t('common.forms.required')} ${t('common.forms.session-labels.center-name')}`,
+            name: '* Nom du site',
           }),
           '',
         );
         await fillIn(
           screen.getByRole('textbox', {
-            name: `${t('common.forms.required')} ${t('common.forms.session-labels.room-name')}`,
+            name: '* Nom de la salle',
           }),
           '',
         );
 
         const examinerInput = screen.getByRole('textbox', {
-          name: `${t('common.forms.required')} ${t('common.forms.session-labels.invigilator')}`,
+          name: '* Surveillant(s)',
         });
         await fillIn(examinerInput, '');
         await triggerEvent(examinerInput, 'focusout');
@@ -92,19 +92,19 @@ module('Acceptance | Session creation', function (hooks) {
         const screen = await visit('/sessions/creation');
         await fillIn(
           screen.getByRole('textbox', {
-            name: `${t('common.forms.required')} ${t('common.forms.session-labels.center-name')}`,
+            name: '* Nom du site',
           }),
           ' ',
         );
         await fillIn(
           screen.getByRole('textbox', {
-            name: `${t('common.forms.required')} ${t('common.forms.session-labels.room-name')}`,
+            name: '* Nom de la salle',
           }),
           ' ',
         );
         await fillIn(
           screen.getByRole('textbox', {
-            name: `${t('common.forms.required')} ${t('common.forms.session-labels.invigilator')}`,
+            name: '* Surveillant(s)',
           }),
           ' ',
         );
@@ -133,22 +133,23 @@ module('Acceptance | Session creation', function (hooks) {
 
       await fillIn(
         screen.getByRole('textbox', {
-          name: `${t('common.forms.required')} ${t('common.forms.session-labels.center-name')}`,
+          name: '* Nom du site',
         }),
         'My address',
       );
       await fillIn(
         screen.getByRole('textbox', {
-          name: `${t('common.forms.required')} ${t('common.forms.session-labels.room-name')}`,
+          name: '* Nom de la salle',
         }),
         'My room',
       );
       await fillIn(
         screen.getByRole('textbox', {
-          name: `${t('common.forms.required')} ${t('common.forms.session-labels.invigilator')}`,
+          name: '* Surveillant(s)',
         }),
         'My examiner',
       );
+
       await fillIn(
         screen.getByRole('textbox', { name: t('common.forms.session-labels.observations') }),
         'My description',

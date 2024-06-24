@@ -63,15 +63,15 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
     `);
 
     // then
-    assert.dom(screen.getByRole('textbox', { name: 'Obligatoire Nom de naissance' })).exists();
-    assert.dom(screen.getByRole('textbox', { name: 'Obligatoire Prénom' })).exists();
+    assert.dom(screen.getByRole('textbox', { name: '* Nom de naissance' })).exists();
+    assert.dom(screen.getByRole('textbox', { name: '* Prénom' })).exists();
     assert.dom(screen.getByRole('radio', { name: 'Homme' })).exists();
     assert.dom(screen.getByRole('radio', { name: 'Femme' })).exists();
-    assert.dom(screen.getByRole('textbox', { name: 'Obligatoire Date de naissance' })).exists();
-    assert.dom(screen.getByRole('button', { name: 'Obligatoire Pays de naissance' })).exists();
+    assert.dom(screen.getByRole('textbox', { name: '* Date de naissance' })).exists();
+    assert.dom(screen.getByRole('button', { name: '* Pays de naissance' })).exists();
     assert.dom(screen.getByRole('radio', { name: 'Code INSEE' })).exists();
     assert.dom(screen.getByRole('radio', { name: 'Code postal' })).exists();
-    assert.dom(screen.getByRole('textbox', { name: 'Obligatoire Code INSEE de naissance' })).exists();
+    assert.dom(screen.getByRole('textbox', { name: '* Code INSEE de naissance' })).exists();
     assert.dom(screen.getByRole('textbox', { name: 'Identifiant externe' })).exists();
     assert.dom(screen.getByRole('textbox', { name: 'Temps majoré (%)' })).exists();
     assert
@@ -109,11 +109,11 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
     `);
 
     // then
-    assert.dom(screen.getByRole('textbox', { name: 'Obligatoire Nom de naissance' })).hasAttribute('required');
-    assert.dom(screen.getByRole('textbox', { name: 'Obligatoire Prénom' })).hasAttribute('required');
-    assert.dom(screen.getByRole('textbox', { name: 'Obligatoire Date de naissance' })).hasAttribute('required');
+    assert.dom(screen.getByRole('textbox', { name: '* Nom de naissance' })).hasAttribute('required');
+    assert.dom(screen.getByRole('textbox', { name: '* Prénom' })).hasAttribute('required');
+    assert.dom(screen.getByRole('textbox', { name: '* Date de naissance' })).hasAttribute('required');
     assert.dom(screen.getByRole('radio', { name: 'Femme' })).hasAttribute('required');
-    assert.dom(screen.getByRole('textbox', { name: 'Obligatoire Code INSEE de naissance' })).hasAttribute('required');
+    assert.dom(screen.getByRole('textbox', { name: '* Code INSEE de naissance' })).hasAttribute('required');
   });
 
   module('when the form is filled', () => {
@@ -247,7 +247,7 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
       `);
 
       // then
-      assert.dom(screen.getByRole('button', { name: 'Obligatoire Tarification part Pix' })).exists();
+      assert.dom(screen.getByRole('button', { name: '* Tarification part Pix' })).exists();
       assert.dom(screen.getByRole('textbox', { name: 'Code de prépaiement' })).exists();
       assert.dom(screen.getByLabelText('Information du code de prépaiement')).exists();
     });
@@ -294,7 +294,7 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
     `);
 
     // then
-    assert.dom(screen.getByRole('button', { name: 'Obligatoire Pays de naissance' })).includesText('France');
+    assert.dom(screen.getByRole('button', { name: '* Pays de naissance' })).includesText('France');
   });
 
   module('when close button cross icon is clicked', () => {
@@ -421,7 +421,7 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
         />
       `);
 
-      await click(screen.getByRole('button', { name: 'Obligatoire Pays de naissance' }));
+      await click(screen.getByRole('button', { name: '* Pays de naissance' }));
       await click(
         await screen.findByRole('option', {
           name: 'Borduristan',
