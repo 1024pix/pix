@@ -13,7 +13,9 @@ const buildMissionAssessment = function ({
   state = Assessment.states.STARTED,
   lastChallengeId,
 } = {}) {
-  assessmentId = _.isUndefined(assessmentId) ? buildPix1dAssessment({ state, lastChallengeId }).id : assessmentId;
+  assessmentId = _.isUndefined(assessmentId)
+    ? buildPix1dAssessment({ state, lastChallengeId, createdAt }).id
+    : assessmentId;
   organizationLearnerId = _.isUndefined(organizationLearnerId) ? buildOrganizationLearner().id : organizationLearnerId;
 
   const values = {

@@ -45,7 +45,11 @@
       </thead>
       <tbody>
         {{#each @model.missions as |mission|}}
-          <tr class="tr--clickable" {{on "click" (fn this.goToMissionDetails mission.id)}}>
+          <tr
+            aria-label={{t "pages.missions.list.aria-label"}}
+            class="tr--clickable"
+            {{on "click" (fn this.goToMissionDetails mission.id)}}
+          >
             <td>
               {{mission.name}}
             </td>

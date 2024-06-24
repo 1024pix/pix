@@ -1,3 +1,4 @@
+import { OrganizationLearner } from '../../../../../lib/domain/models/OrganizationLearner.js';
 import { MissionLearner } from '../../../../../src/school/domain/models/MissionLearner.js';
 import * as missionLearnersRepository from '../../../../../src/school/infrastructure/repositories/mission-learner-repository.js';
 import { expect, sinon } from '../../../../test-helper.js';
@@ -25,7 +26,7 @@ describe('Unit | Repository | organizationLearner', function () {
 
       organizationLearnerApiStub.find
         .withArgs({ organizationId, page: customPagination })
-        .resolves({ organizationLearners: [rawStudent], pagination: expectedPagination });
+        .resolves({ organizationLearners: [new OrganizationLearner(rawStudent)], pagination: expectedPagination });
 
       const { missionLearners, pagination } = await missionLearnersRepository.findPaginatedMissionLearners({
         organizationId,

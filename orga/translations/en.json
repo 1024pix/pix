@@ -817,11 +817,18 @@
         "learners": {
           "title": "List of participants",
           "list": {
+            "aria-label": "Student",
             "caption": "List of students with their result for the mission {missionName}",
             "headers": {
               "division": "Division",
               "first-name": "First name",
-              "last-name": "Last name"
+              "last-name": "Last name",
+              "status": "Mission status"
+            },
+            "mission-status": {
+              "completed": "Completed",
+              "not-started": "Not started",
+              "started": "In progress"
             }
           },
           "no-data": "There is not any participants"
@@ -831,6 +838,7 @@
         }
       },
       "list": {
+        "aria-label": "Mission",
         "banner": {
           "admin": {
             "abstract": "To get started, please ",

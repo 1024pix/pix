@@ -68,8 +68,7 @@ function routes() {
   this.post('/revoke', () => {});
 
   this.get('/prescription/prescribers/:id', (schema, request) => {
-    const prescriber = schema.prescribers.find(request.params.id);
-    return prescriber;
+    return schema.prescribers.find(request.params.id);
   });
 
   this.post('/users', (schema, request) => {
@@ -532,7 +531,7 @@ function routes() {
     return schema.missions.find(missionId);
   });
 
-  this.get('/organizations/:organization_id/mission-learners', findPaginatedMissionLearners);
+  this.get('/organizations/:organization_id/missions/:mission_id/learners', findPaginatedMissionLearners);
 
   this.get('/frameworks/for-target-profile-submission', (schema) => {
     return schema.frameworks.all();

@@ -1,5 +1,5 @@
 export function createPrescriberByUser({ user, participantCount = 0, features }) {
-  const prescriber = server.create('prescriber', {
+  return server.create('prescriber', {
     id: user.id,
     firstName: user.firstName,
     lastName: user.lastName,
@@ -13,8 +13,6 @@ export function createPrescriberByUser({ user, participantCount = 0, features })
       COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY: false,
     },
   });
-
-  return prescriber;
 }
 
 export function createPrescriberWithPixOrgaTermsOfService({ pixOrgaTermsOfServiceAccepted }) {
@@ -48,10 +46,11 @@ export function createPrescriberWithPixOrgaTermsOfService({ pixOrgaTermsOfServic
   });
 }
 
-function _addUserToOrganization(user, { externalId } = {}) {
+function _addUserToOrganization(user, { externalId, organizationType } = {}) {
   const organization = server.create('organization', {
     name: 'BRO & Evil Associates',
     externalId,
+    type: organizationType,
   });
 
   const memberships = server.create('membership', {
@@ -61,6 +60,7 @@ function _addUserToOrganization(user, { externalId } = {}) {
 
   user.userOrgaSettings = server.create('user-orga-setting', { user, organization });
   user.memberships = [memberships];
+
   return user;
 }
 
@@ -76,7 +76,7 @@ export function createUserWithMembership() {
   return _addUserToOrganization(user);
 }
 
-export function createUserWithMembershipAndTermsOfServiceAccepted() {
+export function createUserWithMembershipAndTermsOfServiceAccepted({ organizationType } = {}) {
   const user = server.create('user', {
     id: 7,
     firstName: 'Harry',
@@ -86,7 +86,7 @@ export function createUserWithMembershipAndTermsOfServiceAccepted() {
     pixOrgaTermsOfServiceAccepted: true,
   });
   server.create('member-identity', { id: user.id, firstName: 'Harry', lastName: 'Cover' });
-  return _addUserToOrganization(user, { externalId: 'EXTBRO' });
+  return _addUserToOrganization(user, { externalId: 'EXTBRO', organizationType });
 }
 
 export function createUserMembershipWithRole(organizationRole) {

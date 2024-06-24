@@ -14,4 +14,12 @@ export default class MissionLearnersController extends Controller {
   clearFilters() {
     this.pageNumber = null;
   }
+
+  statusColor(status) {
+    return {
+      'not-started': 'tertiary',
+      completed: 'success',
+      started: 'secondary',
+    }[status];
+  }
 }

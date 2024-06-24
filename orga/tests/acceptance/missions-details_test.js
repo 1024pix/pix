@@ -55,48 +55,72 @@ module('Acceptance | Missions Detail', function (hooks) {
   });
 
   module('when there are mission learners', function (hooks) {
-    hooks.beforeEach(async () => {
+    hooks.beforeEach(async function () {
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
       const prescriber = createPrescriberByUser({ user });
       prescriber.features = { ...prescriber.features, MISSIONS_MANAGEMENT: true };
       await authenticateSession(user.id);
-
       server.create('mission', {
         id: 1,
         name: 'Super Mission',
         competenceName: 'Super competence',
         learningObjectives: 'Super Objectif',
       });
-
-      server.create('mission-learner', {
-        id: 1,
+    });
+    const expectedLearners = [
+      {
         firstName: 'Mario',
         lastName: 'Super',
         division: 'CM2-A',
-        organizationId: 1,
-      });
-      server.create('mission-learner', {
-        id: 2,
+        displayableStatus: 'pages.missions.details.learners.list.mission-status.not-started',
+        status: 'not-started',
+      },
+      {
         firstName: 'Luigi',
         lastName: 'SuperBros',
         division: 'CM2-B',
-        organizationId: 1,
+        displayableStatus: 'pages.missions.details.learners.list.mission-status.started',
+        status: 'started',
+      },
+      {
+        firstName: 'Charles',
+        lastName: 'Xavier',
+        division: 'CM2-C',
+        displayableStatus: 'pages.missions.details.learners.list.mission-status.completed',
+        status: 'completed',
+      },
+    ];
+
+    expectedLearners.map((participant) => {
+      test(`Should display learner information ${participant.firstName} ${participant.lastName} `, async function (assert) {
+        server.create('mission-learner', {
+          id: 1,
+          firstName: participant.firstName,
+          lastName: participant.lastName,
+          division: participant.division,
+          organizationId: 1,
+          status: participant.status,
+        });
+
+        const screen = await visit('/missions/1');
+
+        assert.dom(screen.getByRole('cell', { name: participant.firstName })).exists();
+        assert.dom(screen.getByRole('cell', { name: participant.lastName })).exists();
+        assert.dom(screen.getByRole('cell', { name: participant.division })).exists();
+        assert.dom(screen.getByRole('cell', { name: this.intl.t(participant.displayableStatus) })).exists();
       });
-    });
-
-    test('Should display learner informations', async function (assert) {
-      // given
-      const screen = await visit('/missions/1');
-
-      assert.strictEqual(screen.getAllByRole('row').length, 3, 'Table length header included');
-      assert.dom(screen.getByText('Super')).exists();
-      assert.dom(screen.getByText('Mario')).exists();
-      assert.dom(screen.getByText('SuperBros')).exists();
-      assert.dom(screen.getByText('Luigi')).exists();
     });
 
     test('Should display the pagination ', async function (assert) {
       // given
+      server.create('mission-learner', {
+        firstName: 'Charles',
+        lastName: 'Xavier',
+        division: 'CM2-C',
+        status: 'completed',
+        organizationId: 1,
+      });
+
       const screen = await visit('/missions/1');
 
       assert.ok(screen.getByText('Page 1 / 1'));
@@ -105,6 +129,14 @@ module('Acceptance | Missions Detail', function (hooks) {
 
     test('the table should have a caption', async function (assert) {
       // given
+      server.create('mission-learner', {
+        firstName: 'Charles',
+        lastName: 'Xavier',
+        division: 'CM2-C',
+        status: 'completed',
+        organizationId: 1,
+      });
+
       const screen = await visit('/missions/1');
 
       assert

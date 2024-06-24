@@ -5,4 +5,9 @@ export default class MissionLearner extends Model {
   @attr('string') firstName;
   @attr('string') lastName;
   @attr('string') organizationId;
+  @attr('string') status;
+
+  get displayableStatus() {
+    return `pages.missions.details.learners.list.mission-status.${this.status}`;
+  }
 }
