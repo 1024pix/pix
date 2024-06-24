@@ -1,7 +1,5 @@
 import { config } from '../../config.js';
 
-export { getCampaignUrl };
-
 function getCampaignUrl(locale, campaignCode) {
   if (!campaignCode) {
     return null;
@@ -14,3 +12,5 @@ function getCampaignUrl(locale, campaignCode) {
   }
   return `${config.domain.pixApp + config.domain.tldFr}/campagnes/${campaignCode}`;
 }
+
+export { getCampaignUrl };
