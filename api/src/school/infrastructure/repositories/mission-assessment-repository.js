@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import { knex } from '../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { Assessment } from '../../../shared/domain/models/Assessment.js';
@@ -33,7 +35,11 @@ const getCurrent = async function (missionId, organizationLearnerId) {
 const getStatusesForLearners = async function (missionId, organizationLearners, decorateMissionLearnerWithStatus) {
   const organizationLearnerIds = organizationLearners.map((learner) => learner.id);
   const organizationLearnerStatuses = await knex
-    .select('mission-assessments.organizationLearnerId', 'assessments.state as status')
+    .select(
+      'mission-assessments.organizationLearnerId',
+      'assessments.state as status',
+      'assessments.id as  assessmentId',
+    )
     .from('mission-assessments')
     .join('assessments', 'assessments.id', 'mission-assessments.assessmentId')
     .join(
@@ -54,12 +60,18 @@ const getStatusesForLearners = async function (missionId, organizationLearners, 
     .where({ missionId })
     .whereIn('mission-assessments.organizationLearnerId', organizationLearnerIds);
 
-  return organizationLearners.map((organizationLearner) => {
-    const organizationLearnerStatus = organizationLearnerStatuses.find(
-      (learner) => learner.organizationLearnerId === organizationLearner.id,
-    )?.status;
-    return decorateMissionLearnerWithStatus(organizationLearner, organizationLearnerStatus);
-  });
+  const decoratedMissionLearners = [];
+  const organizationLearnerStatusesByLearnerId = _.groupBy(organizationLearnerStatuses, 'organizationLearnerId');
+  for (const organizationLearner of organizationLearners) {
+    const [organizationLearnerInfo] = organizationLearnerStatusesByLearnerId[`${organizationLearner.id}`] ?? [];
+    const learner = await decorateMissionLearnerWithStatus(
+      organizationLearner,
+      organizationLearnerInfo?.status,
+      organizationLearnerInfo?.assessmentId,
+    );
+    decoratedMissionLearners.push(learner);
+  }
+  return decoratedMissionLearners;
 };
 
 const getAllCompletedMissionIds = async function (organizationLearnerId) {

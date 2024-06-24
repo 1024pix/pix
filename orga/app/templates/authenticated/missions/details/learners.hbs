@@ -12,6 +12,7 @@
           <Table::Header scope="col">{{t "pages.missions.details.learners.list.headers.last-name"}}</Table::Header>
           <Table::Header scope="col">{{t "pages.missions.details.learners.list.headers.division"}}</Table::Header>
           <Table::Header scope="col">{{t "pages.missions.details.learners.list.headers.status"}}</Table::Header>
+          <Table::Header scope="col">{{t "pages.missions.details.learners.list.headers.result"}}</Table::Header>
         </tr>
       </thead>
       <tbody>
@@ -30,6 +31,7 @@
             <td>
               <PixTag @color={{this.statusColor missionLearner.status}}>{{t missionLearner.displayableStatus}}</PixTag>
             </td>
+            <td>{{t missionLearner.displayableResult}}</td>
           </tr>
         {{/each}}
       </tbody>

@@ -823,7 +823,15 @@
               "division": "Division",
               "first-name": "First name",
               "last-name": "Last name",
+              "result": "Positioning",
               "status": "Mission status"
+            },
+            "mission-result": {
+              "exceeded": "Exceeded",
+              "not-reached": "Not reached",
+              "partially-reached": "Partially reached",
+              "reached": "Reached",
+              "undefined": "-"
             },
             "mission-status": {
               "completed": "Completed",

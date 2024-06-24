@@ -120,7 +120,7 @@ describe('Integration | Repository | mission-assessment-repository', function ()
       const organizationLearnerWithoutAssessment = databaseBuilder.factory.buildOrganizationLearner();
       const missionId = 1;
 
-      databaseBuilder.factory.buildMissionAssessment({
+      const startedMissionAssessment = databaseBuilder.factory.buildMissionAssessment({
         missionId,
         organizationLearnerId: organizationLearnerWithStartedAssessment.id,
         state: Assessment.states.STARTED,
@@ -134,7 +134,7 @@ describe('Integration | Repository | mission-assessment-repository', function ()
         createdAt: new Date('2023-10-10'),
       });
 
-      databaseBuilder.factory.buildMissionAssessment({
+      const completedMissionAssessment = databaseBuilder.factory.buildMissionAssessment({
         missionId,
         organizationLearnerId: organizationLearnerWithCompletedAssessment.id,
         state: Assessment.states.COMPLETED,
@@ -151,15 +151,15 @@ describe('Integration | Repository | mission-assessment-repository', function ()
       const results = await missionAssessmentRepository.getStatusesForLearners(
         missionId,
         organizationLearners,
-        (learner, status) => {
-          return [learner.id, status];
+        (learner, status, assessmentId) => {
+          return [learner.id, status, assessmentId];
         },
       );
 
       expect(results).to.deep.equal([
-        [organizationLearnerWithCompletedAssessment.id, 'completed'],
-        [organizationLearnerWithoutAssessment.id, undefined],
-        [organizationLearnerWithStartedAssessment.id, 'started'],
+        [organizationLearnerWithCompletedAssessment.id, 'completed', completedMissionAssessment.assessmentId],
+        [organizationLearnerWithoutAssessment.id, undefined, undefined],
+        [organizationLearnerWithStartedAssessment.id, 'started', startedMissionAssessment.assessmentId],
       ]);
     });
   });

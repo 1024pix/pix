@@ -1,9 +1,9 @@
-import { MissionLearner } from '../../domain/models/MissionLearner.js';
+import { SchoolLearner } from '../../domain/models/SchoolLearner.js';
 
 const findPaginatedMissionLearners = async function ({ organizationId, page, organizationLearnerApi }) {
   const { organizationLearners, pagination } = await organizationLearnerApi.find({ organizationId, page });
 
-  const missionLearners = organizationLearners.map((missionLearner) => new MissionLearner({ ...missionLearner }));
+  const missionLearners = organizationLearners.map((missionLearner) => new SchoolLearner({ ...missionLearner }));
   return { missionLearners, pagination };
 };
 
