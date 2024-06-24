@@ -59,6 +59,7 @@ const schema = Joi.object({
   CPF_SEND_EMAIL_JOB_RECIPIENT: Joi.string().optional(),
   CPF_SEND_EMAIL_JOB_CRON: Joi.string().optional(),
   ENABLE_KNEX_PERFORMANCE_MONITORING: Joi.string().optional().valid('true', 'false'),
+  EMAIL_VALIDATION_DEMAND_TEMPORARY_STORAGE_LIFESPAN: Joi.string().optional().default('3d'),
 }).options({ allowUnknown: true });
 
 const validateEnvironmentVariables = function () {

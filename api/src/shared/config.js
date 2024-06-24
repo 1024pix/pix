@@ -318,6 +318,9 @@ const configuration = (function () {
       expirationDelaySeconds: parseInt(process.env.TEMPORARY_STORAGE_EXPIRATION_DELAY_SECONDS, 10) || 600,
       redisUrl: process.env.REDIS_URL,
     },
+    temporaryStorageForEmailValidationDemand: {
+      expirationDelaySeconds: ms(process.env.EMAIL_VALIDATION_DEMAND_TEMPORARY_STORAGE_LIFESPAN || '3d') / 1000,
+    },
     v3Certification: {
       numberOfChallengesPerCourse: parseInt(process.env.V3_CERTIFICATION_NUMBER_OF_CHALLENGES_PER_COURSE, 10) || 20,
       defaultProbabilityToPickChallenge: parseInt(process.env.DEFAULT_PROBABILITY_TO_PICK_CHALLENGE, 10) || 51,
