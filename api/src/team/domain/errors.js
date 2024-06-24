@@ -8,3 +8,5 @@ export class UncancellableCertificationCenterInvitationError extends DomainError
     super(message, code);
   }
 }
+
+export class MembershipNotFound extends DomainError {}
