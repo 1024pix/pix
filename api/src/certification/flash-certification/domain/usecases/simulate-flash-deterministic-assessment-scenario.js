@@ -71,21 +71,21 @@ export async function simulateFlashDeterministicAssessmentScenario({
     getStrategy,
   });
 
-  simulationResult = simulator.run({ startCapacityDegradationAt });
+  const simulatorLoops = startCapacityDegradationAt;
+  simulationResult = simulator.run({ simulatorLoops });
   // console.log(simulationResult);
 
   if (startCapacityDegradationAt) {
-    const challenges = simulationResult.map((result) => result.challenges);
+    const allChallenges = simulationResult.map((result) => result.challenge);
     const allAnswers = simulationResult.map((result) => result.answerStatus);
     const capacity = simulationResult.at(-1).capacity;
     simulationResult = scoringDegradationService.downgradeCapacity({
       algorithm: flashAssessmentAlgorithm,
       flashAssessmentAlgorithmConfiguration: flashAssessmentAlgorithm.getConfiguration(),
       isSimulation: true,
-      challenges,
-      capacity,
+      allChallenges,
       allAnswers,
-      startCapacityDegradationAt,
+      capacity,
     });
   }
 
