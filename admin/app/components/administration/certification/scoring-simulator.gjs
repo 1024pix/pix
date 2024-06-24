@@ -74,75 +74,70 @@ export default class ScoringSimulator extends Component {
   }
 
   <template>
-    <section class="scoring-simulator">
-      <h2 class="page-section__title scoring-simulator__title">
+    <PixBlock class="page-section">
+
+      <h2 class="page-section__title">
         {{t "pages.administration.certification.scoring-simulator.title"}}
       </h2>
 
-      <PixBlock>
-        <form class="scoring-simulator__form">
-          <PixInput {{on "input" this.updateScore}} @id="score" @value={{this.score}} type="number">
-            <:label>{{t "pages.administration.certification.scoring-simulator.labels.score-input"}}</:label>
-          </PixInput>
+      <form class="scoring-simulator-form">
+        <PixInput {{on "input" this.updateScore}} @id="score" @value={{this.score}} type="number">
+          <:label>{{t "pages.administration.certification.scoring-simulator.labels.score-input"}}</:label>
+        </PixInput>
 
-          <PixInput @id="capacity" {{on "input" this.updateCapacity}} @value={{this.capacity}} type="number">
-            <:label>{{t "pages.administration.certification.scoring-simulator.labels.capacity-input"}}</:label>
-          </PixInput>
+        <PixInput @id="capacity" {{on "input" this.updateCapacity}} @value={{this.capacity}} type="number">
+          <:label>{{t "pages.administration.certification.scoring-simulator.labels.capacity-input"}}</:label>
+        </PixInput>
 
-          <PixButton
-            class="scoring-simulator__form-button"
-            @type="submit"
-            @triggerAction={{this.onGenerateSimulatorProfile}}
-          >{{t "pages.administration.certification.scoring-simulator.actions.submit"}}</PixButton>
-        </form>
+        <PixButton
+          class="scoring-simulator__form-button"
+          @type="submit"
+          @triggerAction={{this.onGenerateSimulatorProfile}}
+        >{{t "pages.administration.certification.scoring-simulator.actions.submit"}}</PixButton>
+      </form>
 
-        {{#each this.errors as |error|}}
-          <PixMessage class="scoring-simulator__error-message" @type="error">{{error}}</PixMessage>
-        {{/each}}
-      </PixBlock>
+      {{#each this.errors as |error|}}
+        <PixMessage class="scoring-simulator-form__error-message" @type="error">{{error}}</PixMessage>
+      {{/each}}
 
-      <PixBlock>
-        <dl class="scoring-simulator__data">
-          <div class="scoring-simulator-data__container">
-            <dt class="scoring-simulator-data-container__label">{{t
-                "pages.administration.certification.scoring-simulator.labels.score"
-              }}</dt>
-            <dd>{{this.simulatorReport.data.attributes.score}}</dd>
-          </div>
-          <div class="scoring-simulator-data__container">
-            <dt class="scoring-simulator-data-container__label">{{t
-                "pages.administration.certification.scoring-simulator.labels.capacity"
-              }}</dt>
-            <dd>{{this.simulatorReport.data.attributes.capacity}}</dd>
-          </div>
-        </dl>
-      </PixBlock>
+      <dl class="scoring-simulator__data">
+        <div class="scoring-simulator-data__container">
+          <dt class="scoring-simulator-data-container__label">{{t
+              "pages.administration.certification.scoring-simulator.labels.score"
+            }}</dt>
+          <dd>{{this.simulatorReport.data.attributes.score}}</dd>
+        </div>
+        <div class="scoring-simulator-data__container">
+          <dt class="scoring-simulator-data-container__label">{{t
+              "pages.administration.certification.scoring-simulator.labels.capacity"
+            }}</dt>
+          <dd>{{this.simulatorReport.data.attributes.capacity}}</dd>
+        </div>
+      </dl>
+    </PixBlock>
 
-      {{#if this.simulatorReport.data.attributes.competences}}
-        <PixBlock class="scoring-simulator__competences">
-          <table
-            aria-label="{{t 'pages.administration.certification.scoring-simulator.table.label'}}"
-            class="table-admin"
-          >
-            <thead class="scoring-simulator-competences-table__header">
+    {{#if this.simulatorReport.data.attributes.competences}}
+      <PixBlock class="scoring-simulator__competences">
+        <table
+          aria-label="{{t 'pages.administration.certification.scoring-simulator.table.label'}}"
+          class="table-admin"
+        >
+          <thead class="scoring-simulator-competences-table__header">
+            <tr>
+              <th scope="col">{{t "pages.administration.certification.scoring-simulator.table.headers.competence"}}</th>
+              <th scope="col">{{t "pages.administration.certification.scoring-simulator.table.headers.level"}}</th>
+            </tr>
+          </thead>
+          <tbody class="scoring-simulator-competences-table__body">
+            {{#each this.simulatorReport.data.attributes.competences as |competence|}}
               <tr>
-                <th scope="col">{{t
-                    "pages.administration.certification.scoring-simulator.table.headers.competence"
-                  }}</th>
-                <th scope="col">{{t "pages.administration.certification.scoring-simulator.table.headers.level"}}</th>
+                <th scope="row">{{competence.competenceCode}}</th>
+                <td>{{competence.level}}</td>
               </tr>
-            </thead>
-            <tbody class="scoring-simulator-competences-table__body">
-              {{#each this.simulatorReport.data.attributes.competences as |competence|}}
-                <tr>
-                  <th scope="row">{{competence.competenceCode}}</th>
-                  <td>{{competence.level}}</td>
-                </tr>
-              {{/each}}
-            </tbody>
-          </table>
-        </PixBlock>
-      {{/if}}
-    </section>
+            {{/each}}
+          </tbody>
+        </table>
+      </PixBlock>
+    {{/if}}
   </template>
 }

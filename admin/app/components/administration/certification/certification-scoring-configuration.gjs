@@ -1,3 +1,4 @@
+import PixBlock from '@1024pix/pix-ui/components/pix-block';
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixTextarea from '@1024pix/pix-ui/components/pix-textarea';
 import { on } from '@ember/modifier';
@@ -29,7 +30,7 @@ export default class CertificationScoringConfiguration extends Component {
   }
 
   <template>
-    <section class="page-section">
+    <PixBlock class="page-section">
       <h2 class="page-section__title">
         {{t "pages.administration.certification.certification-scoring-configuration.title"}}
       </h2>
@@ -48,6 +49,6 @@ export default class CertificationScoringConfiguration extends Component {
         </PixTextarea>
         <PixButton @type="submit">{{t "common.actions.save"}}</PixButton>
       </form>
-    </section>
+    </PixBlock>
   </template>
 }
