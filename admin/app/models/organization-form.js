@@ -123,4 +123,48 @@ export default class OrganizationForm extends Model.extend(Validations) {
   @attr('string') documentationUrl;
   @attr('boolean') showSkills;
   @attr() identityProviderForCampaigns;
+
+  #getErrorAttribute(name) {
+    const nameAttribute = this.validations.attrs.get(name);
+    if (nameAttribute.isInvalid) {
+      return { message: nameAttribute.message, status: 'error' };
+    }
+    return { message: null, status: null };
+  }
+
+  get creditError() {
+    return this.#getErrorAttribute('credit');
+  }
+
+  get dataProtectionOfficerEmailError() {
+    return this.#getErrorAttribute('dataProtectionOfficerEmail');
+  }
+
+  get dataProtectionOfficerFirstNameError() {
+    return this.#getErrorAttribute('dataProtectionOfficerFirstName');
+  }
+
+  get dataProtectionOfficerLastNameError() {
+    return this.#getErrorAttribute('dataProtectionOfficerLastName');
+  }
+
+  get documentationUrlError() {
+    return this.#getErrorAttribute('documentationUrl');
+  }
+
+  get emailError() {
+    return this.#getErrorAttribute('email');
+  }
+
+  get externalIdError() {
+    return this.#getErrorAttribute('externalId');
+  }
+
+  get nameError() {
+    return this.#getErrorAttribute('name');
+  }
+
+  get provinceCodeError() {
+    return this.#getErrorAttribute('provinceCode');
+  }
 }

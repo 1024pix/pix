@@ -39,13 +39,13 @@ export default class OrganizationInformationSectionEditionMode extends Component
   }
 
   @action
-  onChangeMultipleSendingAssessment() {
-    this.form.isMultipleSendingAssessmentEnabled = !this.form.isMultipleSendingAssessmentEnabled;
+  updateFormCheckBoxValue(key) {
+    this.form[key] = !this.form[key];
   }
 
   @action
-  onChangePlacesManagement() {
-    this.form.isPlacesManagementEnabled = !this.form.isPlacesManagementEnabled;
+  updateFormValue(key, event) {
+    this.form[key] = event.target.value;
   }
 
   @action
