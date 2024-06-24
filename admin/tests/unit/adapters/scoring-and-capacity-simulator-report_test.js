@@ -5,7 +5,7 @@ import sinon from 'sinon';
 module('Unit | Adapter | scoring-and-capacity-simulator-report', function (hooks) {
   setupTest(hooks);
 
-  module('#getSimulationResult', function () {
+  module('#getSimulatorResult', function () {
     module('when a score is given', function () {
       test('should trigger POST request with the correct payload and URL', async function (assert) {
         // given
@@ -18,7 +18,7 @@ module('Unit | Adapter | scoring-and-capacity-simulator-report', function (hooks
         };
 
         // when
-        await adapter.getSimulationResult(adapterOptions);
+        await adapter.getSimulatorResult(adapterOptions);
 
         // then
         const expectedUrl = 'http://localhost:3000/api/admin/simulate-score-or-capacity';
@@ -46,7 +46,7 @@ module('Unit | Adapter | scoring-and-capacity-simulator-report', function (hooks
         };
 
         // when
-        await adapter.getSimulationResult(adapterOptions);
+        await adapter.getSimulatorResult(adapterOptions);
 
         // then
         const expectedUrl = 'http://localhost:3000/api/admin/simulate-score-or-capacity';

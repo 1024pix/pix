@@ -83,8 +83,6 @@ Router.map(function () {
     });
 
     this.route('certifications', function () {
-      this.route('configuration');
-      this.route('scoring-simulation');
       this.route('certification', { path: '/:certification_id' }, function () {
         this.route('informations', { path: '/' });
         this.route('neutralization');
@@ -142,7 +140,11 @@ Router.map(function () {
       });
     });
 
-    this.route('administration');
+    this.route('administration', function () {
+      this.route('common');
+      this.route('certification');
+    });
+
     this.route('tools');
 
     this.route('smart-random-simulator', function () {

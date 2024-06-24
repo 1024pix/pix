@@ -3,7 +3,7 @@ import ApplicationAdapter from './application';
 export default class ScoringAndCapacitySimulatorReportAdapter extends ApplicationAdapter {
   namespace = 'api/admin';
 
-  getSimulationResult({ score, capacity }) {
+  getSimulatorResult({ score, capacity }) {
     let data;
     if (score) {
       data = { score };

@@ -1,0 +1,23 @@
+.scoring-simulator-data__container {
+  display: flex;
+  gap: var(--pix-spacing-1x)
+}
+
+.scoring-simulator-data-container__label {
+  font-weight: bold;
+}
+
+.scoring-simulator-form {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: flex-end;
+  margin: var(--pix-spacing-6x) 0;
+
+  & > *:not(:first-child) {
+    margin-left: 30px;
+  }
+
+  &__error-message {
+    margin: var(--pix-spacing-3x) 0;
+  }
+}

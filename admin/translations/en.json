@@ -223,6 +223,56 @@
     }
   },
   "pages": {
+    "administration": {
+      "certification": {
+        "certification-scoring-configuration": {
+          "title": "Mesh configuration for global score",
+          "form": {
+            "label": "Add certification score configuration (JSON)"
+          }
+        },
+        "competence-scoring-configuration": {
+          "title": "Configuration of thresholds by skill",
+          "form": {
+            "label": "Level configuration by skill added (JSON)"
+          }
+        },
+        "scoring-simulator": {
+          "title": "Scoring simulator",
+          "actions": {
+            "submit": "Generate profile"
+          },
+          "errors": {
+            "both-input-empty": "Please fill at least only one field",
+            "both-input-filled": "Please fill only one of following fields “Global score in Pix“ or “Capacity”",
+            "score": "Please enter a Pix score between O and 896"
+          },
+          "labels": {
+            "capacity": "Capacity :",
+            "capacity-input": "Capacity",
+            "level": "Level :",
+            "score": "Score :",
+            "score-input": "Global score in Pix"
+          },
+          "table": {
+            "headers": {
+              "competence": "Competence",
+              "level": "Level"
+            },
+            "label": "Level by competence"
+          }
+        }
+      },
+      "navigation": {
+        "aria-label": "Administration section navigation",
+        "certification": {
+          "label": "Certification"
+        },
+        "common": {
+          "label": "Common"
+        }
+      }
+    },
     "certification-centers": {
       "information-view": {
         "feature-habilitations": {
@@ -354,30 +404,6 @@
             },
             "label": "Result details by competence"
           }
-        }
-      },
-      "scoring-simulation": {
-        "actions": {
-          "submit": "Generate profile"
-        },
-        "errors": {
-          "both-input-empty": "Please fill at least only one field",
-          "both-input-filled": "Please fill only one of following fields “Global score in Pix“ or “Capacity”",
-          "score": "Please enter a Pix score between O and 896"
-        },
-        "labels": {
-          "capacity": "Capacity :",
-          "capacity-input": "Capacity",
-          "level": "Level :",
-          "score": "Score :",
-          "score-input": "Global score in Pix"
-        },
-        "table": {
-          "headers": {
-            "competence": "Competence",
-            "level": "Level"
-          },
-          "label": "Level by competence"
         }
       }
     },

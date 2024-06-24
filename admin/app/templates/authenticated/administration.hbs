@@ -7,25 +7,21 @@
   </header>
 
   <main class="page-body">
-    <Administration::LearningContent />
 
-    <Tools::NewTag />
+    <nav aria-label={{t "pages.administration.navigation.aria-label"}} class="navbar">
 
-    <Administration::OrganizationsImport />
+      <LinkTo @route="authenticated.administration.common" class="navbar-item">
+        {{t "pages.administration.navigation.common.label"}}
+      </LinkTo>
 
-    <Administration::UpdateOrganizationsInBatch />
+      <LinkTo @route="authenticated.administration.certification" class="navbar-item">
+        {{t "pages.administration.navigation.certification.label"}}
+      </LinkTo>
 
-    <Administration::AddOrganizationFeaturesInBatch />
+    </nav>
 
-    <Administration::CampaignsImport />
+    {{outlet}}
 
-    <Administration::SwapCampaignCodes />
-
-    <Administration::UpdateCampaignCode />
-
-    <Administration::OidcProvidersImport />
-
-    <Administration::AnonymizeGarImport />
   </main>
 
 </div>

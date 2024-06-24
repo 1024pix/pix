@@ -61,8 +61,7 @@
       }
 
       &__title {
-        font-weight: 600;
-        font-size: 1.2rem;
+        @extend %pix-title-xs;
 
         &--sub {
           margin-bottom: $pix-spacing-s;

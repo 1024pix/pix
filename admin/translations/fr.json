@@ -233,6 +233,56 @@
     }
   },
   "pages": {
+    "administration": {
+      "certification": {
+        "certification-scoring-configuration": {
+          "title": "Configuration des mailles pour le score global",
+          "form": {
+            "label": "Ajout de la configuration de score de certification (JSON)"
+          }
+        },
+        "competence-scoring-configuration": {
+          "title": "Configuration des seuils par compétence",
+          "form": {
+            "label": "Ajout de la configuration de niveau par compétence (JSON)"
+          }
+        },
+        "scoring-simulator": {
+          "title": "Simulateur de scoring",
+          "actions": {
+            "submit": "Générer un profil"
+          },
+          "errors": {
+            "both-input-empty": "Merci de renseigner au moins l'un des deux champs",
+            "both-input-filled": "Merci de ne renseigner que l’un des champs “Score global en Pix” ou “Capacité”",
+            "score": "Merci d’indiquer un score en Pix compris entre O et 896"
+          },
+          "labels": {
+            "capacity": "Capacité :",
+            "capacity-input": "Capacité",
+            "level": "Niveau :",
+            "score": "Score :",
+            "score-input": "Score global en Pix"
+          },
+          "table": {
+            "headers": {
+              "competence": "Compétence",
+              "level": "Niveau"
+            },
+            "label": "Niveau par compétence"
+          }
+        }
+      },
+      "navigation": {
+        "aria-label": "Navigation de la section administration",
+        "certification": {
+          "label": "Certification"
+        },
+        "common": {
+          "label": "Commun"
+        }
+      }
+    },
     "certification-centers": {
       "information-view": {
         "feature-habilitations": {
@@ -364,30 +414,6 @@
             },
             "label": "Détails du résultat par compétence"
           }
-        }
-      },
-      "scoring-simulation": {
-        "actions": {
-          "submit": "Générer un profil"
-        },
-        "errors": {
-          "both-input-empty": "Merci de renseigner au moins l'un des deux champs",
-          "both-input-filled": "Merci de ne renseigner que l’un des champs “Score global en Pix” ou “Capacité”",
-          "score": "Merci d’indiquer un score en Pix compris entre O et 896"
-        },
-        "labels": {
-          "capacity": "Capacité :",
-          "capacity-input": "Capacité",
-          "level": "Niveau :",
-          "score": "Score :",
-          "score-input": "Score global en Pix"
-        },
-        "table": {
-          "headers": {
-            "competence": "Compétence",
-            "level": "Niveau"
-          },
-          "label": "Niveau par compétence"
         }
       }
     },
