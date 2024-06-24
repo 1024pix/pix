@@ -2,12 +2,14 @@
   <a class="training-card__content" href={{@training.link}} target="_blank" {{on "click" this.trackAccess}}>
     <h3 class="training-card-content__title">{{@training.title}}</h3>
     <div class="training-card-content__infos" title="{{this.tagTitle}}">
-      <PixTag @compact={{true}} @color={{this.tagColor}} class="training-card-content-infos__tag">
+      <PixTag @color={{this.tagColor}} class="training-card-content-infos__tag">
         <ul class="training-card-content-infos-tag__list">
           <li class="training-card-content-infos-tag-list__type">
             {{this.type}}
           </li>
-          <li class="training-card-content-infos-tag-list__duration"><time>{{this.durationFormatted}}</time></li>
+          <li class="training-card-content-infos-tag-list__duration">
+            <time>{{this.durationFormatted}}</time>
+          </li>
         </ul>
       </PixTag>
     </div>
