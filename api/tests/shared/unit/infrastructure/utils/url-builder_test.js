@@ -1,7 +1,7 @@
-import { getCampaignUrl } from '../../../../lib/infrastructure/utils/url-builder.js';
-import { expect } from '../../../test-helper.js';
+import { getCampaignUrl } from '../../../../../src/shared/infrastructure/utils/url-builder.js';
+import { expect } from '../../../../test-helper.js';
 
-describe('Unit | Utils | url-builder', function () {
+describe('Unit | Shared | Infrastructure | Utils | url-builder', function () {
   describe('#getCampaignUrl', function () {
     it('should return null if campaignCode is not defined', function () {
       expect(getCampaignUrl('fr', null)).to.be.null;

@@ -1,6 +1,6 @@
 import { AlreadyRegisteredEmailError } from '../../../../lib/domain/errors.js';
-import { getCampaignUrl } from '../../../../lib/infrastructure/utils/url-builder.js';
 import { EntityValidationError } from '../../../shared/domain/errors.js';
+import { getCampaignUrl } from '../../../shared/infrastructure/utils/url-builder.js';
 
 /**
  * @param {Object} params
