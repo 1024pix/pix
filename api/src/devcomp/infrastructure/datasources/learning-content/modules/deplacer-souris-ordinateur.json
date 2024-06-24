@@ -28,7 +28,7 @@
       },
       {
         "grainId": "115f2b94-ba20-4158-a1b1-efb159d82808",
-        "content": "<p>Dans la vidéo suivante, vous allez voir comment bien prendre en main une souris d'ordinateur.&nbsp;<span aria-hidden=\"true\">📺</span></p>"
+        "content": "<p>Dans la vidéo suivante, vous allez voir comment prendre en main une souris d'ordinateur.&nbsp;<span aria-hidden=\"true\">📺</span></p>"
       },
       {
         "grainId": "395f9865-bb44-4cd8-a4dd-03ffddf598f7",
@@ -40,7 +40,7 @@
       },
       {
         "grainId": "713aeb31-6bbd-4e0c-930a-ad24164f5b9c",
-        "content": "<p>Vous allez maintenant passer à la pratique. À vous de déplacer le pointeur sur votre écran.</p>"
+        "content": "<h3> <span aria-hidden=\"true\">📖</span> Bon à savoir :</h3> <p> Les mots <b>pointeur de souris</b> et <b>curseur de souris</b> veulent dire la même chose.</p><br><p>Vous allez maintenant passer à la pratique. À vous de déplacer le pointeur sur votre écran.</p>"
       },
       {
         "grainId": "194be335-f3c1-468e-9ad1-0a7287b95f37",
@@ -63,7 +63,7 @@
               {
                 "id": "48708070-39c3-4af4-8914-ab61d61dfee8",
                 "type": "text",
-                "content": "<p>Les souris peuvent avoir différentes formes, tailles ou couleurs.</p><p>Il y a deux types de souris : </p><ul> <li>Les souris qui ont un fil (filaires), </li><li> Les souris  qui n’ont pas de fil.</li></ul><p>Globalement, toutes ces souris servent à faire les mêmes choses.</p>"
+                "content": "<p>Les souris peuvent avoir différentes formes, tailles ou couleurs.</p><p>Il y a deux types de souris : </p><ul> <li>Les souris avec un fil (filaires), </li><li> Les souris sans fil.</li></ul><p>Globalement, toutes ces souris servent à faire les mêmes choses.</p>"
               }
           },
           {
@@ -72,7 +72,7 @@
             {
             "id": "c849cbc5-931e-4a00-ae6a-083e2ff0614d",
             "type": "image",
-            "url": "https://i.imgur.com/4Do3r1g.jpeg",
+            "url": "https://i.imgur.com/aIm64oG.jpeg",
             "alt": "-",
             "alternativeText": "Photographies de quatres souris filaires de tailles, formes et couleurs différentes. Photographies de 3 souris sans fil différentes. Une souris blanche d'ordinateur mac, une souris sans fil reliée par un connecteur USB Bluetooth et une souris reliée par bluetooth."
                }
@@ -92,7 +92,7 @@
               {
                 "id": "c785bfd1-e8b8-42a0-8354-333d5acf6555",
                 "type": "text",
-                "content": "<h3>À vous de jouer : trouvez quel est le type de votre souris.</h3>"
+                "content": "<h3><span aria-hidden=\"true\">👉</span></p>À vous de jouer : trouvez quel est votre type de souris.</h3>"
               }
           },
           {
@@ -102,15 +102,6 @@
                 "id": "e8e89496-d4bf-44fd-8739-d851e96e17d1",
                 "type": "text",
                 "content": "<hr>"
-              }
-          },
-          {
-            "type": "element",
-             "element":
-              {
-                "id": "c0389b30-2034-45f1-8f9c-08f90de26c6c",
-                "type": "text",
-                "content": "<h3><span aria-hidden=\"true\">📖</span> Bon à savoir</h3> <p> Voici comment vérifier qu’une souris est allumée :</p> <ul> <li>Si vous avez une souris avec un fil : vérifiez qu'elle est branchée à l’ordinateur. </li> <li> Si vous avez une souris sans fil : vous pouvez la retourner. Vérifiez que le bouton situé en dessous est bien sur ON.</li></ul>"
               }
           }
         ]
@@ -155,7 +146,7 @@
               {
                 "id": "bf0d6931-cd41-4223-946c-14b4bc46e403",
                 "type": "text",
-                "content": "<p>La souris sert à interagir avec l’ordinateur.</p><ul><li>Elle permet de se déplacer facilement sur l'écran de l'ordinateur.</li><li>Elle permet également d’effectuer des actions sur votre ordinateur.</li></ul>"
+                "content": "<p>La souris sert à interagir avec l’ordinateur.</p><ul><li>Elle permet de se déplacer facilement sur l'écran de l'ordinateur.</li><li>Elle permet également d’effectuer des actions sur l'ordinateur.</li></ul>"
               }
           },
           {
@@ -191,7 +182,7 @@
               {
                   "id": "0b32f7be-6c66-4f0e-843f-3461163e83fc",
                   "type": "text",
-                  "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/RPE/Premiere-marche-game1-carte/index.html\" width=\"100%\" height=\"310\"></iframe>"
+                  "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/RPE/Premiere-marche-game1-carte/index.html\" width=\"100%\" height=\"400\"></iframe>"
               }
           }
         ]
@@ -232,7 +223,7 @@
               {
                     "id": "6b6eeef4-bb9b-4769-906d-47e72db93543",
                     "type": "text",
-                    "content": "<p>Regardez bien votre souris. Ne regardez pas de ce qu'il se passe à l'écran.<br></p><p>Pour déplacer votre souris, voici les étapes à suivre :</p><ul><li>Étape 1 : Posez votre main confortablement sur la souris.</li><li>Étape 2 : Faites glissez la souris doucement sur la table.</li></ul>"
+                    "content": "<p>Regardez votre souris. Ne regardez pas de ce qu'il se passe à l'écran.<br></p><p>Pour déplacer votre souris, voici les étapes à suivre :</p><ul><li>Étape 1 : Posez votre main confortablement sur la souris.</li><li>Étape 2 : Faites glissez la souris doucement sur la table.</li></ul>"
               }
           },
             {
@@ -249,7 +240,7 @@
                   {
                         "id": "d1dd9768-1b88-4a76-af7c-4290c3fe5a2f",
                         "type": "text",
-                        "content": "<p><span aria-hidden=\"true\">🙋🏽‍♂️ 🙋🏿‍♀️ 🙋‍♂️</span>Si vous êtes accompagné, demandez conseil à la personne qui vous accompagne.<br>Elle vous aidera à trouver une position confortable.</p>"
+                        "content": "<p><span aria-hidden=\"true\">🙋🏽‍♂️ 🙋🏿‍♀️ 🙋‍♂️</span>Si vous êtes accompagné, demandez conseil à la personne qui vous accompagne. Elle vous aidera à trouver une position confortable pour vous.</p>"
                   }
               }
         ]
@@ -276,26 +267,7 @@
                     "type": "text",
                     "content": "<iframe title=\"video\" src=\"https://tube-numerique-educatif.apps.education.fr/videos/embed/9198fd60-2669-4cd8-b3f7-b88257f740d1?title=0&amp;warningTitle=0&amp;peertubeLink=0&amp;p2p=0\" width=\"100%\" height=\"410\"></iframe>"
             }
-          },
-          {
-            "type": "element",
-            "element":
-            {
-                    "id": "ed696ae2-4946-4066-87a7-9c6b25fb4033",
-                    "type": "text",
-                    "content": "<hr>"
-            }
-
-          },
-          {
-            "type": "element",
-            "element":
-            {
-                    "id": "37d12159-50a1-4c83-955f-d33d0d45e6f2",
-                    "type": "text",
-                    "content": "<h3> <span aria-hidden=\"true\">📖</span> Bon à savoir :</h3> <p> Les mots <b>pointeur de souris</b> et <b>curseur de souris</b> veulent dire la même chose.</p>"
-            }
-
+    
           }
             ]
       },
@@ -310,7 +282,7 @@
             {
                     "id": "0dc90047-776b-48cd-944e-72ca51c69cfc",
                     "type": "text",
-                    "content": "<p>Dans la zone rose ci-dessous, déplacez le pointeur de votre souris.<br>Passez dans toute la zone pour découvrir l'image qui est cachée.</p>"
+                    "content": "<p>Dans la zone ci-dessous, déplacez le pointeur de votre souris.<br>Passez dans toute la zone pour découvrir l'image qui est cachée.</p>"
             }
           },
           {
@@ -319,7 +291,7 @@
             {
                 "id": "ccaefecd-db35-40ea-a6f9-8d42fb907e63",
                 "type": "text",
-                "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/RPE/Premiere-marche-game2-carte-gratter\" width=\"100%\" height=\"310\"></iframe>"
+                "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/RPE/Premiere-marche-game2-carte-gratter\" width=\"100%\" height=\"400\"></iframe>"
             }
           }
             ]
@@ -335,7 +307,7 @@
             {
                     "id": "a33ac061-ab23-4e94-b60e-904e701e7d76",
                     "type": "text",
-                    "content": "<p>À vous de jouer ! Dans le cadre ci-dessous, déplacez le pointeur sur chacun des éléments qui apparaissent. <br>Vous pouvez essayer autant de fois que vous voulez.</p>"
+                    "content": "<p>Dans le cadre ci-dessous, déplacez le pointeur sur chacun des éléments qui apparaissent. <br>Vous pouvez essayer autant de fois que vous voulez.</p>"
             }
           },
           {
@@ -344,7 +316,7 @@
             {
                     "id": "57d7453d-58a9-43f0-830c-f5f392b06f9e",
                     "type": "text",
-                    "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/RPE/Premiere-marche-game3-deplacement-curseur/index.html\" width=\"100%\" height=\"330\"></iframe>"
+                    "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/RPE/Premiere-marche-game3-deplacement-curseur/index.html\" width=\"100%\" height=\"400\"></iframe>"
             }
           },
           {
@@ -353,14 +325,14 @@
             {
                     "id": "9c1c4342-96a6-4c14-a5b0-5ed0d202fb8f",
                     "type": "text",
-                    "content": "<h3> <span aria-hidden=\"true\">💡</span> Que faire si je ne vois plus mon pointeur ?</h3> <p> Bougez de gauche à droite votre souris doucement sur la table.<br> Vous verrez le pointeur bouger à l'écran.</p>"
+                    "content": "<h3> <span aria-hidden=\"true\">💡</span> Si vous ne voyez plus votre pointeur</h3> <p> Bougez de gauche à droite votre souris doucement sur la table.<br> Vous verrez le pointeur bouger à l'écran.</p>"
             }
           }
             ]
       },
       {
         "id": "03e0657a-7caf-49eb-8dfb-da0f5e52b7ba",
-        "type": "lesson",
+        "type": "activity",
         "title": "Les types de pointeurs",
         "components": [
            {
@@ -369,7 +341,7 @@
                 {
                         "id": "af44ed34-f3a3-46f1-813d-c801a6e0b073",
                         "type": "text",
-                        "content": "<p>Quand vous déplacez votre souris sur un élément, le pointeur peut changer de forme. C’est tout à fait normal. Le pointeur change de forme quand une action est possible. </p><p><br>Déplacez votre pointeur sur les trois zones ci-dessous. Vous allez découvrir les trois formes de pointeur les plus courantes et leur utilité.</p>"
+                        "content": "<p>Quand vous déplacez votre souris sur un élément, le pointeur peut changer de forme. C’est tout à fait normal. Le pointeur change de forme quand une action est possible. </p><p><br> <span aria-hidden=\"true\">👉</span>Déplacez votre pointeur sur les trois zones ci-dessous. Vous allez découvrir les trois formes de pointeur les plus courantes et leur utilité.</p>"
                 }
             },
             {
@@ -378,7 +350,7 @@
             {
                     "id": "1ad8190f-46b6-43b5-82b1-cd81640b1700",
                     "type": "text",
-                    "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/RPE/Premiere-marche-game4-type-curseurs/index.html\" width=\"100%\" height=\"330\"></iframe>"
+                    "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/RPE/Premiere-marche-game4-type-curseur/index.html\" width=\"100%\" height=\"400\"></iframe>"
             }
           },
           {
@@ -396,7 +368,7 @@
             "type": "image",
             "url": "https://i.imgur.com/Sd0yXhE.png",
             "alt": "Visuel des différentes représentation des curseurs d'attente",
-            "alternativeText": "Représentation des différents aspect du curseur d'attente selon les ordinateurs, leur marque et leur année : un sablier, une roue, des pointillés formant un cercle, des tirets format un cercle et une roue multicolore."
+            "alternativeText": "Représentation des différents aspect du curseur d'attente selon les ordinateurs, leur marque et leur année : un sablier, une roue, des pointillés formant un cercle, des tirets formant un cercle et une roue multicolore."
                }
           }
             ]
