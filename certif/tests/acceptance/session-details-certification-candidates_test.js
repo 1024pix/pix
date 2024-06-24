@@ -630,16 +630,16 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
     });
   });
   async function _fillFormWithCorrectData(screen) {
-    await fillIn(screen.getByRole('textbox', { name: 'Obligatoire Prénom' }), 'Guybrush');
-    await fillIn(screen.getByRole('textbox', { name: 'Obligatoire Nom de naissance' }), 'Threepwood');
-    await fillIn(screen.getByRole('textbox', { name: 'Obligatoire Date de naissance' }), '28/04/2019');
+    await fillIn(screen.getByRole('textbox', { name: '* Prénom' }), 'Guybrush');
+    await fillIn(screen.getByRole('textbox', { name: '* Nom de naissance' }), 'Threepwood');
+    await fillIn(screen.getByRole('textbox', { name: '* Date de naissance' }), '28/04/2019');
     await click(screen.getByRole('radio', { name: 'Homme' }));
-    await fillIn(screen.getByRole('button', { name: 'Obligatoire Pays de naissance' }), '99100');
+    await fillIn(screen.getByRole('button', { name: '* Pays de naissance' }), '99100');
     await click(screen.getByRole('radio', { name: 'Code INSEE' }));
     await fillIn(screen.getByRole('textbox', { name: 'Identifiant externe' }), '44AA3355');
-    await fillIn(screen.getByRole('textbox', { name: 'Obligatoire Code INSEE de naissance' }), '75100');
+    await fillIn(screen.getByRole('textbox', { name: '* Code INSEE de naissance' }), '75100');
     await fillIn(screen.getByRole('textbox', { name: 'Temps majoré (%)' }), '20');
-    await click(screen.getByRole('button', { name: 'Obligatoire Tarification part Pix' }));
+    await click(screen.getByRole('button', { name: '* Tarification part Pix' }));
     await click(
       await screen.findByRole('option', {
         name: 'Gratuite',
