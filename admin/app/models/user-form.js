@@ -75,4 +75,28 @@ export default class UserForm extends Model.extend(Validations) {
   @attr() username;
   @attr() lang;
   @attr() locale;
+
+  #getErrorAttribute(name) {
+    const nameAttribute = this.validations.attrs.get(name);
+    if (nameAttribute.isInvalid) {
+      return { message: nameAttribute.message, status: 'error' };
+    }
+    return { message: null, status: null };
+  }
+
+  get emailError() {
+    return this.#getErrorAttribute('email');
+  }
+
+  get firstNameError() {
+    return this.#getErrorAttribute('firstName');
+  }
+
+  get lastNameError() {
+    return this.#getErrorAttribute('lastName');
+  }
+
+  get usernameError() {
+    return this.#getErrorAttribute('username');
+  }
 }

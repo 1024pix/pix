@@ -8,30 +8,22 @@
           sont obligatoires.
         </span>
         <div class="form-field">
-          {{#if (v-get this.form "firstName" "isInvalid")}}
-            <div class="form-field__error" aria-label="Message d'erreur du champ prénom">
-              {{v-get this.form "firstName" "message"}}
-            </div>
-          {{/if}}
           <PixInput
-            class="form-control {{if (v-get this.form 'firstName' 'isInvalid') 'is-invalid'}}"
+            @errorMessage={{this.form.firstNameError.message}}
+            @validationStatus={{this.form.firstNameError.status}}
             @value={{this.form.firstName}}
-            {{on "input" (pick "target.value" (set this "form.firstName"))}}
+            {{on "input" (fn this.updateFormValue "firstName")}}
           ><:label>
               <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
               Prénom :
             </:label></PixInput>
         </div>
         <div class="form-field">
-          {{#if (v-get this.form "lastName" "isInvalid")}}
-            <div class="form-field__error" aria-label="Message d'erreur du champ nom">
-              {{v-get this.form "lastName" "message"}}
-            </div>
-          {{/if}}
           <PixInput
-            class="form-control {{if (v-get this.form 'lastName' 'isInvalid') 'is-invalid'}}"
+            @errorMessage={{this.form.lastNameError.message}}
+            @validationStatus={{this.form.lastNameError.status}}
             @value={{this.form.lastName}}
-            {{on "input" (pick "target.value" (set this "form.lastName"))}}
+            {{on "input" (fn this.updateFormValue "lastName")}}
           >
             <:label>
               <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
@@ -40,16 +32,11 @@
         </div>
         {{#if this.canModifyEmail}}
           <div class="form-field">
-            {{#if (v-get this.form "email" "isInvalid")}}
-              <div class="form-field__error" aria-label="Message d'erreur du champ email">
-                {{v-get this.form "email" "message"}}
-              </div>
-            {{/if}}
             <PixInput
-              type="email"
-              class="form-control {{if (v-get this.form 'email' 'isInvalid') 'is-invalid'}}"
+              @errorMessage={{this.form.emailError.message}}
+              @validationStatus={{this.form.emailError.status}}
               @value={{this.form.email}}
-              {{on "input" (pick "target.value" (set this "form.email"))}}
+              {{on "input" (fn this.updateFormValue "email")}}
             >
               <:label>
                 <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
@@ -59,20 +46,11 @@
         {{/if}}
         {{#if @user.username}}
           <div class="form-field">
-            <label for="username" class="form-field__label">
-              <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-              Identifiant :
-            </label>
-            {{#if (v-get this.form "username" "isInvalid")}}
-              <div class="form-field__error" aria-label="Message d'erreur du champ identifiant">
-                {{v-get this.form "username" "message"}}
-              </div>
-            {{/if}}
             <PixInput
-              @type="text"
-              class="form-control {{if (v-get this.form 'username' 'isInvalid') 'is-invalid'}}"
+              @errorMessage={{this.form.usernameError.message}}
+              @validationStatus={{this.form.usernameError.status}}
               @value={{this.form.username}}
-              {{on "input" (pick "target.value" (set this "form.username"))}}
+              {{on "input" (fn this.updateFormValue "username")}}
             ><:label>
                 <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
                 Identifiant :
