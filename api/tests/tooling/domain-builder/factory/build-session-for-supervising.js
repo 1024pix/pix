@@ -3,7 +3,7 @@ import { SessionForSupervising } from '../../../../src/certification/session-man
 const buildSessionForSupervising = function ({
   id = 123,
   certificationCenterId = 565,
-  examiner = 'Monkey D Luffy',
+  examiner = 'Monkey D Lucien',
   accessCode = 'ACCES1',
   date = '2021-01-01',
   room = '28D',

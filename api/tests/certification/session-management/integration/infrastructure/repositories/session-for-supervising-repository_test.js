@@ -60,8 +60,8 @@ describe('Integration | Repository | SessionForSupervising', function () {
         databaseBuilder.factory.buildUser({ id: 11111 });
         const candidateA = databaseBuilder.factory.buildCertificationCandidate({
           userId: 11111,
-          lastName: 'Jackson',
-          firstName: 'Michael',
+          lastName: 'Jackie',
+          firstName: 'Melissandre',
           sessionId: session.id,
           authorizedToStart: true,
         });
@@ -79,7 +79,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
         databaseBuilder.factory.buildUser({ id: 33333 });
         const candidateC = databaseBuilder.factory.buildCertificationCandidate({
           userId: 33333,
-          lastName: 'Jackson',
+          lastName: 'Jackie',
           firstName: 'Janet',
           sessionId: session.id,
         });
@@ -87,7 +87,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
 
         databaseBuilder.factory.buildUser({ id: 12345 });
         const candidateD = databaseBuilder.factory.buildCertificationCandidate({
-          lastName: 'Joplin',
+          lastName: 'Jaupa',
           firstName: 'Janis',
           sessionId: session.id,
           userId: 12345,
@@ -127,7 +127,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
         expect(actualCandidates).to.have.deep.ordered.members([
           {
             userId: 33333,
-            lastName: 'Jackson',
+            lastName: 'Jackie',
             firstName: 'Janet',
             authorizedToStart: false,
             assessmentStatus: null,
@@ -135,15 +135,15 @@ describe('Integration | Repository | SessionForSupervising', function () {
           },
           {
             userId: 11111,
-            lastName: 'Jackson',
-            firstName: 'Michael',
+            lastName: 'Jackie',
+            firstName: 'Melissandre',
             authorizedToStart: true,
             assessmentStatus: null,
             startDateTime: null,
           },
           {
             userId: 12345,
-            lastName: 'Joplin',
+            lastName: 'Jaupa',
             firstName: 'Janis',
             authorizedToStart: true,
             assessmentStatus: Assessment.states.STARTED,
@@ -175,7 +175,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
         databaseBuilder.factory.buildUser({ id: 11111 });
         const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
           userId: 11111,
-          lastName: 'Jackson',
+          lastName: 'Jackie',
           firstName: 'Janet',
           sessionId: session.id,
         });
@@ -202,7 +202,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
         databaseBuilder.factory.buildUser({ id: 22222 });
         const candidateB = databaseBuilder.factory.buildCertificationCandidate({
           userId: 22222,
-          lastName: 'Joplin',
+          lastName: 'Jaupa',
           firstName: 'Janis',
           sessionId: session.id,
         });
@@ -233,7 +233,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
         expect(actualCandidates).to.have.deep.ordered.members([
           {
             userId: 11111,
-            lastName: 'Jackson',
+            lastName: 'Jackie',
             firstName: 'Janet',
             isComplementaryCertificationInProgress: true,
             enrolledComplementaryCertification: {
@@ -244,7 +244,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
           },
           {
             userId: 22222,
-            lastName: 'Joplin',
+            lastName: 'Jaupa',
             firstName: 'Janis',
             isComplementaryCertificationInProgress: false,
             enrolledComplementaryCertification: null,
@@ -313,8 +313,8 @@ describe('Integration | Repository | SessionForSupervising', function () {
         databaseBuilder.factory.buildUser({ id: 11111 });
         const candidateA = databaseBuilder.factory.buildCertificationCandidate({
           userId: 11111,
-          lastName: 'Jackson',
-          firstName: 'Michael',
+          lastName: 'Jackie',
+          firstName: 'Melissandre',
           sessionId: session.id,
           authorizedToStart: true,
         });
@@ -332,7 +332,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
         databaseBuilder.factory.buildUser({ id: 33333 });
         const candidateC = databaseBuilder.factory.buildCertificationCandidate({
           userId: 33333,
-          lastName: 'Jackson',
+          lastName: 'Jackie',
           firstName: 'Janet',
           sessionId: session.id,
         });
@@ -340,7 +340,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
 
         databaseBuilder.factory.buildUser({ id: 12345 });
         const candidateD = databaseBuilder.factory.buildCertificationCandidate({
-          lastName: 'Joplin',
+          lastName: 'Jaupa',
           firstName: 'Janis',
           sessionId: session.id,
           userId: 12345,
@@ -387,7 +387,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
         expect(actualCandidates).to.have.deep.ordered.members([
           {
             userId: 12345,
-            lastName: 'Joplin',
+            lastName: 'Jaupa',
             firstName: 'Janis',
             authorizedToStart: true,
             assessmentStatus: Assessment.states.STARTED,
@@ -402,7 +402,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
           },
           {
             userId: 33333,
-            lastName: 'Jackson',
+            lastName: 'Jackie',
             firstName: 'Janet',
             authorizedToStart: false,
             assessmentStatus: null,
@@ -411,8 +411,8 @@ describe('Integration | Repository | SessionForSupervising', function () {
           },
           {
             userId: 11111,
-            lastName: 'Jackson',
-            firstName: 'Michael',
+            lastName: 'Jackie',
+            firstName: 'Melissandre',
             authorizedToStart: true,
             assessmentStatus: null,
             startDateTime: null,
