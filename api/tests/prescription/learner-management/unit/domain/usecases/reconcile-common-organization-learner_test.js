@@ -68,7 +68,7 @@ describe('Unit | UseCase | reconcile-common-organization-learner', function () {
       campaignRepository.getByCode.withArgs(campaignCode).resolves({ organizationId });
       organizationFeatureApi.getAllFeaturesFromOrganization
         .withArgs(organizationId)
-        .resolves({ hasLeanersImportFeature: false });
+        .resolves({ hasLearnersImportFeature: false });
 
       //when
       const error = await catchErr(reconcileCommonOrganizationLearner)({
@@ -93,7 +93,7 @@ describe('Unit | UseCase | reconcile-common-organization-learner', function () {
       campaignRepository.getByCode.withArgs(campaignCode).resolves({ organizationId });
       organizationFeatureApi.getAllFeaturesFromOrganization
         .withArgs(organizationId)
-        .resolves({ hasLeanersImportFeature: true });
+        .resolves({ hasLearnersImportFeature: true });
       organizationLearnerImportFormatRepository.get.resolves(null);
 
       //when
@@ -118,7 +118,7 @@ describe('Unit | UseCase | reconcile-common-organization-learner', function () {
       campaignRepository.getByCode.withArgs(campaignCode).resolves({ organizationId });
       organizationFeatureApi.getAllFeaturesFromOrganization
         .withArgs(organizationId)
-        .resolves({ hasLeanersImportFeature: true });
+        .resolves({ hasLearnersImportFeature: true });
       organizationLearnerImportFormatRepository.get.withArgs(organizationId).resolves(importFormat);
     });
     context('when there is no matching learner', function () {

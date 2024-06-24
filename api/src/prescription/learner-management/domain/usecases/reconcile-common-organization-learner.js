@@ -24,7 +24,7 @@ const reconcileCommonOrganizationLearner = async function ({
   }
 
   const features = await organizationFeatureApi.getAllFeaturesFromOrganization(campaign.organizationId);
-  if (!features.hasLeanersImportFeature) {
+  if (!features.hasLearnersImportFeature) {
     throw new ReconcileCommonOrganizationLearnerError('MISSING_IMPORT_FEATURE');
   }
 

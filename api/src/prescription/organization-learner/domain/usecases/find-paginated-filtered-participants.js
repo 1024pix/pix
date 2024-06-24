@@ -8,7 +8,7 @@ const findPaginatedFilteredParticipants = async function ({
 }) {
   const organizationFeatures = await organizationFeaturesAPI.getAllFeaturesFromOrganization(organizationId);
 
-  if (organizationFeatures.hasLeanersImportFeature) {
+  if (organizationFeatures.hasLearnersImportFeature) {
     return organizationParticipantRepository.findPaginatedFilteredImportedParticipants({
       organizationId,
       filters,
