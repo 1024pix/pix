@@ -94,7 +94,7 @@ const save = async function (campaigns, dependencies = { skillRepository }) {
   }
 };
 
-const isCodeAvailable = async function (code) {
+const isCodeAvailable = async function ({ code }) {
   return !(await knex('campaigns').first('id').where({ code }));
 };
 

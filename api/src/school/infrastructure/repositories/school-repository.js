@@ -8,11 +8,11 @@ const save = async function ({ organizationId, code, domainTransaction = DomainT
   await knexConn('schools').insert({ organizationId, code }).returning('*');
 };
 
-const isCodeAvailable = async function (code) {
+const isCodeAvailable = async function ({ code }) {
   return !(await knex('schools').first('id').where({ code }));
 };
 
-const getByCode = async function (code) {
+const getByCode = async function ({ code }) {
   const data = await knex('schools')
     .select('organizations.id', 'name', 'code')
     .join('organizations', 'organizations.id', 'organizationId')
@@ -26,12 +26,12 @@ const getByCode = async function (code) {
   return new School(data);
 };
 
-const getById = async function (organizationId) {
+const getById = async function ({ organizationId }) {
   const result = await knex('schools').first('code').where({ organizationId });
   return result.code;
 };
 
-const updateSessionExpirationDate = async function (organizationId, sessionExpirationDate) {
+const updateSessionExpirationDate = async function ({ organizationId, sessionExpirationDate }) {
   await knex('schools').where({ organizationId }).update({ sessionExpirationDate });
 };
 export { getByCode, getById, isCodeAvailable, save, updateSessionExpirationDate };

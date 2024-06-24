@@ -2,10 +2,12 @@ import * as organizationLearnerApi from '../../../prescription/organization-lear
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import * as missionLearnerRepository from '../../infrastructure/repositories/mission-learner-repository.js';
 import * as organizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
+import * as schoolRepository from '../../infrastructure/repositories/school-repository.js';
 
 const repositoriesWithoutInjectedDependencies = {
   organizationLearnerRepository,
   missionLearnerRepository,
+  schoolRepository,
 };
 
 const dependencies = {

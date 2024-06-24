@@ -21,7 +21,7 @@ describe('Unit | UseCase | update-campaign-code', function () {
 
     codeGenerator.validate.withArgs(campaignCode).returns(true);
     campaignAdministrationRepository.get.withArgs(campaignId).resolves(campaignStub);
-    campaignAdministrationRepository.isCodeAvailable.withArgs(campaignCode).resolves(true);
+    campaignAdministrationRepository.isCodeAvailable.withArgs({ code: campaignCode }).resolves(true);
 
     // when
     await updateCampaignCode({ campaignId, campaignCode, campaignAdministrationRepository, codeGenerator });
@@ -51,7 +51,7 @@ describe('Unit | UseCase | update-campaign-code', function () {
       const campaignCode = Symbol('campaign-code');
       campaignAdministrationRepository.get.withArgs(campaignId).resolves(campaignStub);
       codeGenerator.validate.withArgs(campaignCode).returns(true);
-      campaignAdministrationRepository.isCodeAvailable.withArgs(campaignCode).resolves(false);
+      campaignAdministrationRepository.isCodeAvailable.withArgs({ code: campaignCode }).resolves(false);
       // when
       const error = await catchErr(updateCampaignCode)({
         campaignId,

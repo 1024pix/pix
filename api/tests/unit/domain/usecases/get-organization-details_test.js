@@ -46,7 +46,7 @@ describe('Unit | UseCase | get-organization-details', function () {
       });
 
       // then
-      expect(schoolRepository.getById).to.have.been.calledWithExactly(organizationId);
+      expect(schoolRepository.getById).to.have.been.calledWithExactly({ organizationId });
       expect(organization.code).to.deep.equal(code);
     });
   });

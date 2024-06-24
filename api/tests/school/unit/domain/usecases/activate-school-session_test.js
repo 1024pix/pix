@@ -17,6 +17,9 @@ describe('Unit | Domain | Use Cases | activate-school-session', function () {
     const schoolRepository = { updateSessionExpirationDate: sinon.stub() };
     const nowPlus4h = new Date('2022-11-28T16:00:00Z');
     await activateSchoolSession({ organizationId: 123456, schoolRepository });
-    expect(schoolRepository.updateSessionExpirationDate).to.have.been.calledWithExactly(123456, nowPlus4h);
+    expect(schoolRepository.updateSessionExpirationDate).to.have.been.calledWithExactly({
+      organizationId: 123456,
+      sessionExpirationDate: nowPlus4h,
+    });
   });
 });

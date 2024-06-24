@@ -15,7 +15,7 @@ function generate(repository, pendingList = []) {
     return generate(repository, pendingList);
   }
 
-  return repository.isCodeAvailable(generatedCode).then((isCodeAvailable) => {
+  return repository.isCodeAvailable({ code: generatedCode }).then((isCodeAvailable) => {
     if (isCodeAvailable) {
       return Promise.resolve(generatedCode);
     }
