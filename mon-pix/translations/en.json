@@ -445,51 +445,70 @@
       "steps": {
         "1": {
           "title": "Bienvenue à la certification Pix",
-          "text": "'<span class=\"certification-instructions__question--bold\">'Comment fonctionne le test de certification ?'</span>' '<br><br>' '<span class=\"certification-instructions__text--bold\">'Il s'agit d'un test adaptatif.'</span>' C’est-à-dire, que votre capacité à répondre correctement (ou non) aux questions détermine en temps réel la difficulté des questions suivantes. '<br><br>'Si vous ne savez pas répondre à une question, '<span class=\"certification-instructions__text--bold\">'vous avez la possibilité de \"passer\" cette question.'</span>' Les questions passées seront considérées comme échouées et ne vous seront pas proposées à nouveau. '<br><br>' '<span class=\"certification-instructions__text--bold\">'Il est important d'aller jusqu'au bout du test'</span>', et donc de bien gérer votre temps. Une '<span class=\"certification-instructions__text--bold\">'pénalité'</span>' tenant compte du nombre de questions restantes sera appliquée."
+          "paragraphs": {
+            "1": {
+              "text": "'<strong>'Il s'agit d'un test adaptatif'</strong>'. C’est-à-dire, que votre capacité à répondre correctement (ou non) aux questions détermine en temps réel la difficulté des questions suivantes."
+            },
+            "2": {
+              "text": "Si vous ne savez pas répondre à une question, '<strong>'vous avez la possibilité de \"passer\" cette question'</strong>'. '<br>'Les questions passées seront considérées comme échouées et ne vous seront pas proposées à nouveau."
+            },
+            "3": {
+              "text": "'<strong>'Il est important d'aller jusqu'au bout du test'</strong>', et donc de bien gérer votre temps. Une '<strong>'pénalité'</strong>' tenant compte du nombre de questions restantes sera appliquée."
+            }
+          },
+          "question": "Comment fonctionne le test de certification ?"
         },
         "2": {
           "title": "Comment se passe le test de certification ?",
-          "image-text": "'<span class=\"certification-instructions__question--bold\">'32 QUESTIONS'</span>' '<br>' 1 H 45 min",
-          "second-text": "'<span class=\"certification-instructions__question--bold\">'La durée du test ?'</span>' '<br>' Vous avez au maximum '<span class=\"certification-instructions__text--bold\">'1h45*'</span>'. '<br>' '<span class=\"certification-instructions__text--light\">'*sauf éventuel temps majoré.'</span>'",
-          "text": "'<span class=\"certification-instructions__question--bold\">'Le nombre de question ?'</span>' '<br>' La certification contient '<span class=\"certification-instructions__text--bold\">'32 questions'</span>'."
+          "legend": {
+            "strong-text": "32 QUESTIONS",
+            "text": "1 H 45 min"
+          },
+          "paragraphs": {
+            "1": {
+              "question": "Le nombre de questions ?",
+              "text": "La certification contient '<strong>'32 questions'</strong>'."
+            },
+            "2": {
+              "light-text": "*sauf éventuel temps majoré.",
+              "question": "La durée du test ?",
+              "text": "Vous avez au maximum '<strong>'1h45*'</strong>'."
+            }
+          }
         },
         "3": {
           "title": "Deux modes de questions",
-          "second-text": "'<span class=\"certification-instructions__question--bold\">'Le mode focus :'</span>' '<br>' Pour les questions en '<span class=\"certification-instructions__text--bold\">'mode focus'</span>', signalées par une icône jaune: vous ne serez pas autorisé à quitter la page et à faire des recherches.",
-          "text": "'<span class=\"certification-instructions__question--bold\">'Le mode libre :'</span>' '<br>' Pour les questions en '<span class=\"certification-instructions__text--bold\">'mode libre'</span>' signalées par une icône verte: vous aurez le droit d’effectuer des recherches sur le web et d’utiliser l’environnement numérique à disposition."
+          "images": {
+            "focus-challenge": "Mode focus",
+            "regular-challenge": "Mode libre"
+          },
+          "paragraphs": {
+            "1": {
+              "title": "Le mode libre :",
+              "text": "Pour les questions en '<strong>'mode libre'</strong>', signalées par une icône verte : vous aurez le droit d’effectuer des recherches sur le web et d’utiliser l’environnement numérique à disposition."
+            },
+            "2": {
+              "title": "Le mode focus :",
+              "text": "Pour les questions en '<strong>'mode focus'</strong>', signalées par une icône jaune : vous ne serez pas autorisé à quitter la page et à faire des recherches."
+            }
+          }
         },
         "4": {
           "title": "Que faire en cas de problème ?",
-          "text": "'<span class=\"certification-instructions__text--bold\">'En cas de problème technique'</span>' (par exemple, l'image refuse de s'afficher), suivez ces étapes : '<br>' cliquez sur \"'<span class=\"certification-instructions__text--bold\">'Signaler un problème avec la question'</span>'\", puis sur \"Oui, je suis sûr(e)\" et informez votre surveillant."
+          "paragraph": {
+            "text": "'<strong>'En cas de problème technique'</strong>' (par exemple, l'image refuse de s'afficher), suivez ces étapes : '<br><br>' cliquez sur '<strong>'\"Signaler un problème avec la question\"'</strong>', puis sur \"Oui, je suis sûr(e)\" et informez votre surveillant."
+          }
         },
         "5": {
           "title": "Règles à respecter",
-          "checkbox-label": "En cochant cette case, je reconnais avoir pris connaissances de ces règles et je m’engage à les respecter.",
+          "checkbox-label": "En cochant cette case, je reconnais avoir pris connaissance de ces règles et je m’engage à les respecter.",
           "list": {
-            "no-artificial-intelligence": {
-              "strong-text": "Avoir recours à un système d’intelligence artificielle",
-              "text": " ou un chatbot"
-            },
-            "no-cheat-sheet": {
-              "strong-text": "Utiliser des antisèches",
-              "text": "(physiques ou électroniques), des ressources de spoil ou des notes personnelles"
-            },
-            "no-communication": {
-              "strong-text": "Communiquer avec quelqu’un d’autre",
-              "text": ", dans la salle ou à l’extérieur, par voie physique ou électronique"
-            },
-            "no-connected-device": {
-              "strong-text": "Utiliser un téléphone mobile ou tout appareil connecté",
-              "text": "(autre que l’ordinateur mobilisé dans le cadre de la certification)"
-            },
-            "no-forum": {
-              "strong-text": "Consulter un forum d’entraide",
-              "text": " apportant directement la réponse à une épreuve"
-            },
-            "other": {
-              "strong-text": "Mobiliser tout autre moyen délivrant directement la réponse",
-              "text": ", sans avoir effectué le travail requis par la consigne."
-            }
+            "no-artificial-intelligence": "'<strong>'Avoir recours à un système d’intelligence artificielle'</strong>' ou un chatbot",
+            "no-cheat-sheet": "'<strong>'Utiliser des antisèches'</strong>' (physiques ou électroniques), des ressources de spoil ou des notes personnelles",
+            "no-communication": "'<strong>'Communiquer avec quelqu’un d’autre'</strong>', dans la salle ou à l’extérieur, par voie physique ou électronique",
+            "no-connected-device": "'<strong>'Utiliser un téléphone mobile ou tout appareil connecté'</strong>' (autre que l’ordinateur mobilisé dans le cadre de la certification)",
+            "no-forum": "'<strong>'Consulter un forum d’entraide'</strong>' apportant directement la réponse à une épreuve",
+            "other": "'<strong>'Mobiliser tout autre moyen délivrant directement la réponse'</strong>', sans avoir effectué le travail requis par la consigne."
           },
           "text": "En certification, il est interdit de :"
         }
