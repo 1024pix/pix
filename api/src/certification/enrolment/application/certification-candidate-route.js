@@ -56,10 +56,11 @@ const register = async function (server) {
           },
         ],
         handler: certificationCandidateController.addCandidate,
-        tags: ['api', 'sessions', 'certification-candidates'],
+        tags: ['api', 'sessions', 'certification-candidates', 'deprecated'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',
           'Elle ajoute un candidat de certification à la session.',
+          'Cette route est dépréciée',
         ],
       },
     },
