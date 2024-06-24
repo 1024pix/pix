@@ -170,7 +170,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
         await addCertificationCandidateToSession({
           sessionId,
           certificationCandidate,
-          complementaryCertification,
+          subscription: complementaryCertification,
           certificationCandidateRepository,
           certificationCpfService,
           certificationCpfCountryRepository,
@@ -219,7 +219,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
         await addCertificationCandidateToSession({
           sessionId,
           certificationCandidate,
-          complementaryCertification: null,
+          subscription: null,
           certificationCandidateRepository,
           certificationCpfService,
           certificationCpfCountryRepository,
@@ -255,7 +255,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
         await addCertificationCandidateToSession({
           sessionId,
           certificationCandidate,
-          complementaryCertification: null,
+          subscription: null,
           certificationCandidateRepository,
           certificationCpfService,
           certificationCpfCountryRepository,
@@ -290,7 +290,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
           const error = await catchErr(addCertificationCandidateToSession)({
             sessionId,
             certificationCandidate,
-            complementaryCertification: null,
+            subscription: null,
             certificationCandidateRepository,
             certificationCpfService,
             certificationCpfCountryRepository,
@@ -333,7 +333,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
             const error = await catchErr(addCertificationCandidateToSession)({
               sessionId,
               certificationCandidate,
-              complementaryCertification: null,
+              subscription: null,
               certificationCandidateRepository,
               certificationCpfService,
               certificationCpfCountryRepository,
@@ -380,7 +380,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
             const error = await catchErr(addCertificationCandidateToSession)({
               sessionId,
               certificationCandidate,
-              complementaryCertification: null,
+              subscription: null,
               certificationCandidateRepository,
               certificationCpfService,
               certificationCpfCountryRepository,

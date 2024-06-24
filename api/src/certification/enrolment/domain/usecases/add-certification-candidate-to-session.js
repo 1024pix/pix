@@ -26,7 +26,7 @@ import { Subscription } from '../models/Subscription.js';
 const addCertificationCandidateToSession = async function ({
   sessionId,
   certificationCandidate,
-  complementaryCertification,
+  subscription,
   sessionRepository,
   certificationCandidateRepository,
   certificationCpfService,
@@ -83,7 +83,7 @@ const addCertificationCandidateToSession = async function ({
   certificationCandidate.addSubscription(
     Subscription.buildCore({ certificationCandidateId: certificationCandidate.id }),
   );
-  certificationCandidate.complementaryCertification = complementaryCertification;
+  certificationCandidate.complementaryCertification = subscription;
 
   if (certificationCandidate.resultRecipientEmail) {
     try {
