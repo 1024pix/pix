@@ -8,8 +8,8 @@ import { TargetProfile } from '../../domain/models/index.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 
 const TARGET_PROFILE_TABLE = 'target-profiles';
-const create = async function ({ targetProfileForCreation, domainTransaction }) {
-  const knexConn = domainTransaction.knexTransaction;
+const create = async function ({ targetProfileForCreation, domainTransaction = DomainTransaction.emptyTransaction() }) {
+  const knexConn = domainTransaction.knexTransaction || knex;
   const targetProfileRawData = _.pick(targetProfileForCreation, [
     'name',
     'category',
@@ -43,6 +43,11 @@ const get = async function (id, domainTransaction = DomainTransaction.emptyTrans
 
   return new TargetProfile({ ...targetProfile, badges: badges.map((badge) => new Badge(badge)) });
 };
+
+const getTubesByTargetProfileId = async (targetProfileId, { knexTransaction } = DomainTransaction.emptyTransaction()) =>
+  await (knexTransaction ?? knex)('target-profile_tubes')
+    .select('tubeId', 'level')
+    .where('targetProfileId', targetProfileId);
 
 const findByIds = async function (targetProfileIds) {
   const targetProfiles = await knex('target-profiles').whereIn('id', targetProfileIds);
@@ -87,4 +92,4 @@ const hasTubesWithLevels = async function (
   }
 };
 
-export { create, findByIds, findOrganizationIds, get, hasTubesWithLevels };
+export { create, findByIds, findOrganizationIds, get, getTubesByTargetProfileId, hasTubesWithLevels };
