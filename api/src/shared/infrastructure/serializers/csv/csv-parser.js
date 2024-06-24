@@ -46,8 +46,8 @@ class CsvParser {
     }
   }
 
-  parse() {
-    const encoding = this._getFileEncoding();
+  parse(forceEncoding) {
+    const encoding = forceEncoding || this._getFileEncoding();
 
     if (!encoding) {
       throw new CsvImportError(ERRORS.ENCODING_NOT_SUPPORTED);

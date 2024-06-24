@@ -138,6 +138,6 @@ async function _getCsvData(filePath) {
   const stream = createReadStream(filePath);
   const buffer = await getDataBuffer(stream);
   const csvParser = new CsvParser(buffer, CSV_HEADER);
-  const csvData = csvParser.parse();
+  const csvData = csvParser.parse('utf8');
   return csvData.map((row) => new OrganizationBatchUpdateDTO(row));
 }
