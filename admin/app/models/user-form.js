@@ -74,4 +74,5 @@ export default class UserForm extends Model.extend(Validations) {
   @attr() email;
   @attr() username;
   @attr() lang;
+  @attr() locale;
 }
