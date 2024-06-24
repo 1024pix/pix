@@ -36,30 +36,42 @@ class CampaignToJoin {
     this.code = code;
     this.title = title;
     this.type = type;
-    this.idPixLabel = idPixLabel;
+
+    this.targetProfileName = targetProfileName;
+    this.targetProfileImageUrl = targetProfileImageUrl;
+
     this.customLandingPageText = customLandingPageText;
+    this.customResultPageButtonText = customResultPageButtonText;
+    this.customResultPageButtonUrl = customResultPageButtonUrl;
+    this.customResultPageText = customResultPageText;
+
     this.externalIdHelpImageUrl = externalIdHelpImageUrl;
+    this.idPixLabel = idPixLabel;
     this.alternativeTextToExternalIdHelpImage = alternativeTextToExternalIdHelpImage;
-    this.archivedAt = archivedAt;
-    this.deletedAt = deletedAt;
     this.isSimplifiedAccess = targetProfileIsSimplifiedAccess;
     this.isForAbsoluteNovice = isForAbsoluteNovice;
+
+    this.identityProvider = identityProvider;
+
     this.organizationId = organizationId;
     this.organizationName = organizationName;
     this.organizationType = organizationType;
     this.organizationLogoUrl = organizationLogoUrl;
-    this.identityProvider = identityProvider;
     this.organizationShowNPS = organizationShowNPS;
     this.organizationFormNPSUrl = organizationFormNPSUrl;
-    this.targetProfileName = targetProfileName;
-    this.targetProfileImageUrl = targetProfileImageUrl;
-    this.customResultPageText = customResultPageText;
-    this.customResultPageButtonText = customResultPageButtonText;
-    this.customResultPageButtonUrl = customResultPageButtonUrl;
+
     this.multipleSendings = multipleSendings;
     this.assessmentMethod = assessmentMethod;
 
     this.isRestricted = organizationIsManagingStudents || hasLearnersImportFeature;
+    this.archivedAt = archivedAt;
+    this.deletedAt = deletedAt;
+
+    this.reconciliationFields = null;
+  }
+
+  get isReconciliationRequired() {
+    return this.isRestricted && Array.isArray(this.reconciliationFields);
   }
 
   get isAssessment() {
@@ -79,6 +91,10 @@ class CampaignToJoin {
 
   get isFlash() {
     return this.assessmentMethod === Assessment.methods.FLASH;
+  }
+
+  setReconciliationFields(reconciliationFields) {
+    this.reconciliationFields = reconciliationFields;
   }
 }
 

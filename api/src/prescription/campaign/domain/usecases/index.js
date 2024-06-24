@@ -19,6 +19,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as campaignAnalysisRepository from '../../../campaign-participation/infrastructure/repositories/campaign-analysis-repository.js';
 import * as campaignParticipationRepository from '../../../campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
+import * as organizationLearnerImportFormat from '../../../learner-management/infrastructure/repositories/organization-learner-import-format-repository.js';
 import * as campaignAdministrationRepository from '../../infrastructure/repositories/campaign-administration-repository.js';
 import * as campaignAssessmentParticipationResultListRepository from '../../infrastructure/repositories/campaign-assessment-participation-result-list-repository.js';
 import * as campaignCollectiveResultRepository from '../../infrastructure/repositories/campaign-collective-result-repository.js';
@@ -71,6 +72,7 @@ const dependencies = {
   campaignToJoinRepository: campaignRepositories.campaignToJoinRepository,
   campaignParticipationsStatsRepository,
   tutorialRepository: libRepositories.tutorialRepository,
+  organizationLearnerImportFormat,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
