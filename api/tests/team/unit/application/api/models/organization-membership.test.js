@@ -4,7 +4,7 @@ import { expect } from '../../../../../test-helper.js';
 
 describe('Team | Unit | Application | API | Model | OrganizationMembership', function () {
   describe('#isMember', function () {
-    it('should instantiate a OrganizationMembership from a user with member role', function () {
+    it('instantiates a OrganizationMembership from a user with member role', function () {
       // given
       const organizationRole = roles.MEMBER;
 
@@ -15,7 +15,7 @@ describe('Team | Unit | Application | API | Model | OrganizationMembership', fun
       expect(membership.isMember).to.be.equal(true);
     });
 
-    it('should instantiate a OrganizationMembership from a user with not member role', function () {
+    it('instantiates a OrganizationMembership from a user with not member role', function () {
       // given
       const organizationRole = roles.ADMIN;
 
@@ -28,7 +28,7 @@ describe('Team | Unit | Application | API | Model | OrganizationMembership', fun
   });
 
   describe('#isAdmin', function () {
-    it('should instantiate a OrganizationMembership from a user with admin role', function () {
+    it('instantiates a OrganizationMembership from a user with admin role', function () {
       // given
       const organizationRole = roles.ADMIN;
 
@@ -39,7 +39,7 @@ describe('Team | Unit | Application | API | Model | OrganizationMembership', fun
       expect(membership.isAdmin).to.be.equal(true);
     });
 
-    it('should instantiate a OrganizationMembership from a user with not admin role', function () {
+    it('instantiates a OrganizationMembership from a user with not admin role', function () {
       // given
       const organizationRole = roles.MEMBER;
 
