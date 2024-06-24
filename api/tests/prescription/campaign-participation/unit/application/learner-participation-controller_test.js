@@ -7,7 +7,7 @@ import { usecases } from '../../../../../src/prescription/campaign-participation
 import { ApplicationTransaction } from '../../../../../src/prescription/shared/infrastructure/ApplicationTransaction.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Application | Controller | Campaign-Participation', function () {
+describe('Unit | Application | Controller | Learner-Participation', function () {
   describe('#shareCampaignResult', function () {
     let dependencies;
     const userId = 1;
