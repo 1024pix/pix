@@ -27,4 +27,7 @@ function getEmailValidationUrl({ locale, redirectUri, token }) {
 /**
  * @typedef UrlBuilder
  */
-export { getCampaignUrl, getEmailValidationUrl };
+export const urlBuilder = {
+  getCampaignUrl,
+  getEmailValidationUrl,
+};

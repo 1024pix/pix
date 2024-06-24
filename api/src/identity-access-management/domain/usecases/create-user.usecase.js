@@ -1,6 +1,6 @@
 import { AlreadyRegisteredEmailError } from '../../../../lib/domain/errors.js';
 import { EntityValidationError } from '../../../shared/domain/errors.js';
-import { getCampaignUrl } from '../../../shared/infrastructure/utils/url-builder.js';
+import { urlBuilder } from '../../../shared/infrastructure/utils/url-builder.js';
 
 /**
  * @param {Object} params
@@ -62,7 +62,7 @@ const createUser = async function ({
     if (campaignCode) {
       const campaign = await campaignRepository.getByCode(campaignCode);
       if (campaign) {
-        redirectionUrl = getCampaignUrl(localeFromHeader, campaignCode);
+        redirectionUrl = urlBuilder.getCampaignUrl(localeFromHeader, campaignCode);
       }
     }
 
