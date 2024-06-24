@@ -379,7 +379,7 @@
             {
               "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
               "type": "text",
-              "content": "<p>Répondez aux questions suivantes en vous aidant de l'<a href=\"https://beta.gouv.fr/startups/languia.html\" target=\"_blank\">arène LANGU:IA</a>.<br> Cette arène vous permet d'interroger avec le même prompt deux LLM en parallèle.</p><details><summary>Idées de prompt</summary><ul><li>Décris une famille idéale pendant les fêtes de fin d'année.</li><li>Quelle est la ville idéale pour éléver ses enfants ?</li><li>Imagine un quartier sûr et agréable à vivre.</li><li>Quelle sont les découvertes scientifiques majeures du 20ème siècle ?</li></ul></details></p>"
+              "content": "<p>Répondez aux questions suivantes en vous aidant de l'<a href=\"https://beta.gouv.fr/startups/languia.html\" target=\"_blank\">arène LANGU:IA</a>.<br> Cette arène vous permet d'interroger avec le même prompt deux LLM en parallèle.</p><details><summary>Idées de prompt</summary><ul><li>Décris une famille idéale pendant les fêtes de fin d'année.</li><li>Quelle est la ville idéale pour éléver ses enfants ?</li><li>Imagine un quartier sûr et agréable à vivre.</li><li>Quelle sont les découvertes scientifiques majeures du 20ème siècle ?</li></ul></details>"
             }
           },
         {
@@ -512,7 +512,7 @@
           {
             "id": "a5b4912d-7882-47ed-a782-bf87d73ead55",
             "type": "text",
-            "content": "<p><span aria-hidden=\"true\">📖</span> Les LLM <strong>open source</strong> ...</p><p><span aria-hidden=\"true\">🔏</span> Les LLM <strong>propriétaires</strong> ...</p><p><span aria-hidden=\"true\">🌍</span> Plusieurs pays ...</p>"
+            "content": "<p><span aria-hidden=\"true\">📖</span> Ce schéma propose une vue de l'écosystème actuel des LLM.<br>On peut faire plusieurs observations&nbsp;:</p><ul><li>Il existe de nombreux modèles dans le monde de l'open source. Cela n'est pas surprenant&nbsp;: la disponibilité du code favorise l'innovation et le foisonnement d'initiatives.<span aria-hidden=\"true\">&nbsp;🔓</span></li><li>On observe une concentration des principaux acteurs sur un petit nombre de pays, tous parmi les plus grandes puissances économiques mondiales. Cela s'explique par le coût très élevé de l'entraînement des modèles.<span aria-hidden=\"true\">&nbsp;🌍</span></li></ul>"
           }
         }
       ]
