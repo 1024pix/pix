@@ -1,5 +1,5 @@
 import { CertificationCandidate } from '../../../../lib/domain/models/CertificationCandidate.js';
-import { buildComplementaryCertification } from './build-complementary-certification.js';
+import { domainBuilder } from '../domain-builder.js';
 
 const buildCertificationCandidate = function ({
   id = 123,
@@ -17,13 +17,14 @@ const buildCertificationCandidate = function ({
   extraTimePercentage = 0.3,
   externalId = 'externalId',
   createdAt = new Date('2020-01-01'),
-  authorizedToStart = false,
+  authorizedToStart,
   sessionId = 456,
   userId = 789,
   organizationLearnerId,
-  complementaryCertification = buildComplementaryCertification(),
+  complementaryCertification = null,
   billingMode = null,
   prepaymentCode = null,
+  subscriptions = [domainBuilder.buildCoreSubscription({ certificationCandidateId: 123 })],
 } = {}) {
   return new CertificationCandidate({
     id,
@@ -48,10 +49,12 @@ const buildCertificationCandidate = function ({
     complementaryCertification,
     billingMode,
     prepaymentCode,
+    subscriptions,
   });
 };
 
 buildCertificationCandidate.pro = function ({
+  id = 123,
   firstName = 'Poison',
   lastName = 'Ivy',
   sex = 'F',
@@ -65,12 +68,14 @@ buildCertificationCandidate.pro = function ({
   birthdate = '1990-05-06',
   extraTimePercentage = 0.3,
   externalId = 'externalId',
-  authorizedToStart = false,
+  authorizedToStart,
   sessionId = 456,
   complementaryCertification = null,
   billingMode = 'FREE',
+  subscriptions = [],
 }) {
   return new CertificationCandidate({
+    id,
     firstName,
     lastName,
     sex,
@@ -88,6 +93,7 @@ buildCertificationCandidate.pro = function ({
     authorizedToStart,
     complementaryCertification,
     billingMode,
+    subscriptions,
   });
 };
 
@@ -105,9 +111,10 @@ buildCertificationCandidate.notPersisted = function ({
   birthdate = '1990-05-06',
   extraTimePercentage = 0.3,
   externalId = 'externalId',
-  authorizedToStart = false,
+  authorizedToStart,
   sessionId = 456,
   complementaryCertification = null,
+  subscriptions = null,
 }) {
   return new CertificationCandidate({
     firstName,
@@ -126,6 +133,7 @@ buildCertificationCandidate.notPersisted = function ({
     extraTimePercentage,
     authorizedToStart,
     complementaryCertification,
+    subscriptions,
   });
 };
 

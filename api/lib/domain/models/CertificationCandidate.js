@@ -2,8 +2,10 @@ import JoiDate from '@joi/date';
 import BaseJoi from 'joi';
 import lodash from 'lodash';
 
+import { Subscription } from '../../../src/certification/enrolment/domain/models/Subscription.js';
 import { SubscriptionTypes } from '../../../src/certification/shared/domain/models/SubscriptionTypes.js';
-import { CERTIFICATION_CANDIDATES_ERRORS } from '../constants/certification-candidates-errors.js';
+import { validate } from '../../../src/certification/shared/domain/validators/certification-candidate-validator.js';
+import { subscriptionSchema } from '../../../src/certification/shared/domain/validators/subscription-validator.js';
 import {
   CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCandidatePersonalInfoWrongFormat,
@@ -18,76 +20,6 @@ const BILLING_MODES = {
   PAID: 'PAID',
   PREPAID: 'PREPAID',
 };
-
-const certificationCandidateValidationJoiSchema = Joi.object({
-  firstName: Joi.string().trim().required().empty(['', null]).messages({
-    'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FIRST_NAME_REQUIRED.code,
-    'string.base': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FIRST_NAME_MUST_BE_A_STRING.code,
-  }),
-  lastName: Joi.string().trim().required().empty(['', null]).messages({
-    'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_LAST_NAME_REQUIRED.code,
-    'string.base': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_LAST_NAME_MUST_BE_A_STRING.code,
-  }),
-  sex: Joi.string().valid('M', 'F').required().empty(['', null]).messages({
-    'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SEX_REQUIRED.code,
-    'any.only': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SEX_NOT_VALID.code,
-  }),
-  email: Joi.string().email().allow(null).empty('').optional().messages({
-    'string.email': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EMAIL_NOT_VALID.code,
-  }),
-  resultRecipientEmail: Joi.string().email().empty(['', null]).optional().messages({
-    'string.email': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID.code,
-  }),
-  externalId: Joi.string().allow(null).empty(['', null]).optional().messages({
-    'string.base': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTERNAL_ID_MUST_BE_A_STRING.code,
-  }),
-  birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required().empty(['', null]).messages({
-    'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_REQUIRED.code,
-    'date.format': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID.code,
-    'date.greater': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_MUST_BE_GREATER.code,
-  }),
-  extraTimePercentage: Joi.number().allow(null).optional().min(0).less(10).messages({
-    'number.base': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_INTEGER.code,
-    'number.min': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_OUT_OF_RANGE.code,
-    'number.less': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_OUT_OF_RANGE.code,
-  }),
-  sessionId: Joi.when('$isSessionsMassImport', {
-    is: false,
-    then: Joi.number().required().empty(['', null]).messages({
-      'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SESSION_ID_REQUIRED.code,
-      'number.base': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SESSION_ID_NOT_A_NUMBER.code,
-    }),
-  }),
-  complementaryCertification: Joi.object({
-    id: Joi.number().required(),
-    label: Joi.string().required().empty(null),
-    key: Joi.string().required().empty(null),
-  }).allow(null),
-  billingMode: Joi.when('$isSco', {
-    is: false,
-    then: Joi.string()
-      .valid(...Object.values(BILLING_MODES))
-      .required()
-      .empty(['', null])
-      .messages({
-        'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BILLING_MODE_REQUIRED.code,
-        'string.base': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BILLING_MODE_MUST_BE_A_STRING.code,
-        'any.only': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BILLING_MODE_NOT_VALID.code,
-      }),
-    otherwise: Joi.valid(null).messages({
-      'any.only': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BILLING_MODE_MUST_BE_EMPTY.code,
-    }),
-  }),
-  prepaymentCode: Joi.when('billingMode', {
-    is: 'PREPAID',
-    then: Joi.string().trim().required().empty(['', null]).messages({
-      'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_REQUIRED.code,
-    }),
-    otherwise: Joi.valid(null).messages({
-      'any.only': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_MUST_BE_EMPTY.code,
-    }),
-  }),
-});
 
 const certificationCandidateParticipationJoiSchema = Joi.object({
   id: Joi.any().allow(null).optional(),
@@ -118,12 +50,16 @@ const certificationCandidateParticipationJoiSchema = Joi.object({
     .valid(...Object.values(BILLING_MODES))
     .empty(null),
   prepaymentCode: Joi.string().allow(null).optional(),
+  subscriptions: Joi.array().items(subscriptionSchema).unique('type').required(),
 });
 
 class CertificationCandidate {
-  #subscriptions = new Set([SubscriptionTypes.CORE]);
   #complementaryCertification = null;
 
+  /**
+   * @param {Object} param
+   * @param {Array<Subscription>} param.subscriptions {@link Subscription>}
+   */
   constructor({
     id,
     firstName,
@@ -140,13 +76,14 @@ class CertificationCandidate {
     birthdate,
     extraTimePercentage,
     createdAt,
-    authorizedToStart,
+    authorizedToStart = false,
     sessionId,
     userId,
     organizationLearnerId = null,
     complementaryCertification = null,
     billingMode = null,
     prepaymentCode = null,
+    subscriptions = [],
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -167,6 +104,7 @@ class CertificationCandidate {
     this.sessionId = sessionId;
     this.userId = userId;
     this.organizationLearnerId = organizationLearnerId;
+    this.subscriptions = subscriptions;
     this.billingMode = billingMode;
     this.prepaymentCode = prepaymentCode;
 
@@ -178,17 +116,19 @@ class CertificationCandidate {
 
       set: function (complementaryCertification) {
         this.#complementaryCertification = complementaryCertification;
+        this.subscriptions = this.subscriptions.filter((subscription) => subscription.type === SubscriptionTypes.CORE);
         if (complementaryCertification?.id) {
-          this.#subscriptions?.add(SubscriptionTypes.COMPLEMENTARY);
+          this.subscriptions.push(
+            Subscription.buildComplementary({
+              certificationCandidateId: this.id,
+              complementaryCertificationId: complementaryCertification.id,
+            }),
+          );
         }
       },
     });
 
     this.complementaryCertification = complementaryCertification;
-  }
-
-  get subscriptions() {
-    return Array.from(this.#subscriptions);
   }
 
   static parseBillingMode({ billingMode, translate }) {
@@ -220,7 +160,7 @@ class CertificationCandidate {
   }
 
   validate(isSco = false) {
-    const { error } = certificationCandidateValidationJoiSchema.validate(
+    const { error } = validate(
       { ...this, complementaryCertification: this.complementaryCertification },
       {
         allowUnknown: true,
@@ -230,6 +170,7 @@ class CertificationCandidate {
         },
       },
     );
+
     if (error) {
       throw new CertificationCandidatesError({
         code: error.details?.[0]?.message,
@@ -239,7 +180,7 @@ class CertificationCandidate {
   }
 
   validateForMassSessionImport(isSco = false) {
-    const { error } = certificationCandidateValidationJoiSchema.validate(
+    const { error } = validate(
       { ...this, complementaryCertification: this.complementaryCertification },
       {
         abortEarly: false,
@@ -301,6 +242,14 @@ class CertificationCandidate {
 
   convertExtraTimePercentageToDecimal() {
     this.extraTimePercentage = this.extraTimePercentage / 100;
+  }
+
+  /**
+   * @param {Subscription} subscription
+   */
+  addSubscription(subscription) {
+    this.subscriptions = this.subscriptions.filter(({ type }) => subscription.type !== type);
+    this.subscriptions.push(subscription);
   }
 }
 

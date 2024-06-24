@@ -18,11 +18,11 @@ const addNonEnrolledCandidatesToSession = async function ({ sessionId, scoCertif
     .filter((candidate) => !alreadyEnrolledCandidateOrganizationLearnerIds.includes(candidate.organizationLearnerId))
     .map(scoCandidateToDTO);
 
-  const addedCandidateIds = await knex
+  const coreSubscriptions = await knex
     .batchInsert('certification-candidates', candidatesToBeEnrolledDTOs)
     .returning(knex.raw('id as "certificationCandidateId", \'CORE\' as type'));
 
-  await knex.batchInsert('certification-subscriptions', addedCandidateIds);
+  await knex.batchInsert('certification-subscriptions', coreSubscriptions);
 };
 
 export { addNonEnrolledCandidatesToSession };

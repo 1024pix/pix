@@ -62,7 +62,11 @@ describe('Unit | UseCase | find-students-for-enrolment', function () {
         domainBuilder.buildOrganizationLearner({ id: iteration, organization }),
       );
       const certificationCandidates = [
-        domainBuilder.buildCertificationCandidate({ sessionId, organizationLearnerId: enrolledStudent.id }),
+        domainBuilder.buildCertificationCandidate({
+          sessionId,
+          organizationLearnerId: enrolledStudent.id,
+          subscriptions: [domainBuilder.buildCoreSubscription()],
+        }),
       ];
       organizationLearnerRepository.findByOrganizationIdAndUpdatedAtOrderByDivision
         .withArgs({ page: { number: 1, size: 10 }, filter: { divisions: ['3A'] }, organizationId: organization.id })

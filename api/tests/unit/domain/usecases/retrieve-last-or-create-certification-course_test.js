@@ -147,6 +147,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               userId: 2,
               sessionId: 1,
               authorizedToStart: false,
+              subscriptions: [domainBuilder.buildCoreSubscription()],
             });
             certificationCandidateRepository.getBySessionIdAndUserId
               .withArgs({ sessionId: 1, userId: 2 })
@@ -181,6 +182,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               userId: 2,
               sessionId: 1,
               authorizedToStart: false,
+              subscriptions: [domainBuilder.buildCoreSubscription()],
             });
             certificationCandidateRepository.getBySessionIdAndUserId
               .withArgs({ sessionId: 1, userId: 2 })
@@ -225,6 +227,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               userId: foundCertificationCandidateId,
               sessionId: 1,
               authorizedToStart: true,
+              subscriptions: [domainBuilder.buildCoreSubscription()],
             });
 
             certificationCandidateRepository.getBySessionIdAndUserId
@@ -260,6 +263,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               userId: 2,
               sessionId: 1,
               authorizedToStart: true,
+              subscriptions: [domainBuilder.buildCoreSubscription()],
             });
             certificationCandidateRepository.getBySessionIdAndUserId
               .withArgs({ sessionId: 1, userId: 2 })
@@ -311,6 +315,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   userId: 2,
                   sessionId: 1,
                   authorizedToStart: true,
+                  subscriptions: [domainBuilder.buildCoreSubscription()],
                 }),
               );
 
@@ -361,6 +366,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     userId: 2,
                     sessionId: 1,
                     authorizedToStart: true,
+                    subscriptions: [domainBuilder.buildCoreSubscription()],
                   }),
                 );
 
@@ -423,6 +429,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   userId: 2,
                   sessionId: 1,
                   authorizedToStart: true,
+                  subscriptions: [domainBuilder.buildCoreSubscription()],
                 });
                 certificationCandidateRepository.getBySessionIdAndUserId
                   .withArgs({ sessionId: 1, userId: 2 })
@@ -516,6 +523,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       userId,
                       sessionId: 1,
                       authorizedToStart: true,
+                      subscriptions: [domainBuilder.buildCoreSubscription()],
                     });
                     certificationCandidateRepository.getBySessionIdAndUserId
                       .withArgs({ sessionId: 1, userId })
@@ -569,6 +577,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       userId,
                       sessionId: 1,
                       authorizedToStart: true,
+                      subscriptions: [domainBuilder.buildCoreSubscription()],
                     });
                     certificationCandidateRepository.getBySessionIdAndUserId
                       .withArgs({ sessionId: 1, userId })
@@ -686,6 +695,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         userId: 2,
                         sessionId: 1,
                         authorizedToStart: true,
+                        subscriptions: [domainBuilder.buildCoreSubscription()],
                         complementaryCertification,
                       });
 
@@ -811,6 +821,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         userId: 2,
                         sessionId: 1,
                         authorizedToStart: true,
+                        subscriptions: [domainBuilder.buildCoreSubscription()],
                         complementaryCertification,
                       });
 
@@ -928,6 +939,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           userId: 2,
                           sessionId: 1,
                           authorizedToStart: true,
+                          subscriptions: [domainBuilder.buildCoreSubscription()],
                           complementaryCertification,
                         });
 
@@ -1033,6 +1045,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           userId: 2,
                           sessionId: 1,
                           authorizedToStart: true,
+                          subscriptions: [domainBuilder.buildCoreSubscription()],
                           complementaryCertification,
                         });
 
@@ -1154,6 +1167,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         userId: 2,
                         authorizedToStart: true,
                         sessionId: 1,
+                        subscriptions: [domainBuilder.buildCoreSubscription()],
                         complementaryCertification: null,
                       });
 
@@ -1254,6 +1268,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       userId: 2,
                       sessionId: 1,
                       authorizedToStart: true,
+                      subscriptions: [domainBuilder.buildCoreSubscription()],
                       complementaryCertification,
                     });
 

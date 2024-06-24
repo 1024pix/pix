@@ -17,6 +17,7 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
       organizationLearnerId: 1,
       billingMode: 'PAID',
       complementaryCertification,
+      subscriptions: [domainBuilder.buildCoreSubscription()],
     });
   });
 

@@ -1,6 +1,7 @@
 import bluebird from 'bluebird';
 import _ from 'lodash';
 
+import { Subscription } from '../../../src/certification/enrolment/domain/models/Subscription.js';
 import { ComplementaryCertificationKeys } from '../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import * as readOdsUtils from '../../../src/shared/infrastructure/utils/ods/read-ods-utils.js';
 import * as mailCheckImplementation from '../../../src/shared/mail/infrastructure/services/mail-check.js';
@@ -146,6 +147,9 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
         sessionId,
         complementaryCertification,
         billingMode,
+        subscriptions: [
+          Subscription.buildCore({ certificationCandidateId: certificationCandidateData.certificationCandidateId }),
+        ],
       });
 
       try {

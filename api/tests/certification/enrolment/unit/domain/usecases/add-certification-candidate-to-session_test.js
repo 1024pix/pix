@@ -7,6 +7,10 @@ import {
 import { CpfBirthInformationValidation } from '../../../../../../src/certification/enrolment/domain/services/certification-cpf-service.js';
 import { addCertificationCandidateToSession } from '../../../../../../src/certification/enrolment/domain/usecases/add-certification-candidate-to-session.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
+import {
+  buildComplementarySubscription,
+  buildCoreSubscription,
+} from '../../../../../tooling/domain-builder/factory/index.js';
 
 describe('Unit | UseCase | add-certification-candidate-to-session', function () {
   let certificationCandidateRepository;
@@ -15,6 +19,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
   let certificationCpfCityRepository;
   let sessionRepository;
   let mailCheck;
+  let certificationCandidateData;
 
   const sessionId = 1;
 
@@ -33,6 +38,10 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
     certificationCpfCountryRepository = Symbol('certificationCpfCountryRepository');
     certificationCpfCityRepository = Symbol('certificationCpfCityRepository');
     mailCheck = { checkDomainIsValid: sinon.stub() };
+    certificationCandidateData = {
+      sessionId: null,
+      subscriptions: [domainBuilder.buildCoreSubscription({ id: 123 })],
+    };
   });
 
   context('when the session is finalized', function () {
@@ -40,10 +49,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
       // given
       const session = domainBuilder.certification.enrolment.buildSession.finalized();
       sessionRepository.get.resolves(session);
-
-      const certificationCandidate = domainBuilder.buildCertificationCandidate.pro({
-        sessionId: null,
-      });
+      const certificationCandidate = domainBuilder.buildCertificationCandidate.pro(certificationCandidateData);
 
       // when
       const error = await catchErr(addCertificationCandidateToSession)({
@@ -71,8 +77,8 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
       sessionRepository.get.resolves(session);
       sessionRepository.isSco.resolves(false);
       const certificationCandidate = domainBuilder.buildCertificationCandidate.pro({
+        ...certificationCandidateData,
         email: 'toto@toto.fr;tutu@tutu.fr',
-        sessionId: null,
       });
 
       // when
@@ -108,9 +114,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
         const session = domainBuilder.certification.enrolment.buildSession.created();
         sessionRepository.get.resolves(session);
         sessionRepository.isSco.resolves(true);
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({
-          sessionId: null,
-        });
+        const certificationCandidate = domainBuilder.buildCertificationCandidate(certificationCandidateData);
         certificationCandidateRepository.findBySessionIdAndPersonalInfo.resolves(['one match']);
         mailCheck.checkDomainIsValid.resolves();
 
@@ -147,7 +151,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
         const complementaryCertification =
           domainBuilder.certification.sessionManagement.buildCertificationSessionComplementaryCertification();
         const certificationCandidate = domainBuilder.buildCertificationCandidate.pro({
-          sessionId: null,
+          ...certificationCandidateData,
           complementaryCertification,
         });
         const cpfBirthInformationValidation = new CpfBirthInformationValidation();
@@ -175,9 +179,20 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
           mailCheck,
         });
 
+        const expectedCertificationCandidate = domainBuilder.buildCertificationCandidate.pro({
+          ...certificationCandidate,
+          subscriptions: [
+            buildCoreSubscription({ certificationCandidateId: certificationCandidate.id }),
+            buildComplementarySubscription({
+              certificationCandidateId: certificationCandidate.id,
+              complementaryCertificationId: complementaryCertification.id,
+            }),
+          ],
+        });
+
         // then
-        expect(certificationCandidateRepository.saveInSession).to.has.been.calledWithExactly({
-          certificationCandidate,
+        expect(certificationCandidateRepository.saveInSession).to.have.been.calledWithExactly({
+          certificationCandidate: expectedCertificationCandidate,
           sessionId,
         });
       });
@@ -187,9 +202,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
         const session = domainBuilder.certification.enrolment.buildSession.created();
         sessionRepository.get.resolves(session);
         sessionRepository.isSco.resolves(false);
-        const certificationCandidate = domainBuilder.buildCertificationCandidate.pro({
-          sessionId: null,
-        });
+        const certificationCandidate = domainBuilder.buildCertificationCandidate.pro(certificationCandidateData);
         const cpfBirthInformationValidation = new CpfBirthInformationValidation();
         cpfBirthInformationValidation.success({
           birthCountry: 'COUNTRY',
@@ -224,9 +237,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
         const session = domainBuilder.certification.enrolment.buildSession.created();
         sessionRepository.get.resolves(session);
         sessionRepository.isSco.resolves(false);
-        const certificationCandidate = domainBuilder.buildCertificationCandidate.pro({
-          sessionId: null,
-        });
+        const certificationCandidate = domainBuilder.buildCertificationCandidate.pro(certificationCandidateData);
         certificationCandidate.validate = sinon.stub();
         const cpfBirthInformationValidation = new CpfBirthInformationValidation();
         cpfBirthInformationValidation.success({
@@ -263,10 +274,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
           const session = domainBuilder.certification.enrolment.buildSession.created();
           sessionRepository.get.resolves(session);
           sessionRepository.isSco.resolves(false);
-          const certificationCandidate = domainBuilder.buildCertificationCandidate.pro({
-            sessionId: null,
-            complementaryCertification: null,
-          });
+          const certificationCandidate = domainBuilder.buildCertificationCandidate.pro(certificationCandidateData);
           const certificationCandidateError = {
             code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_CITY_REQUIRED.code,
             getMessage: () => 'Failure message',
@@ -305,6 +313,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
             sessionRepository.get.resolves(session);
             sessionRepository.isSco.resolves(false);
             const certificationCandidate = domainBuilder.buildCertificationCandidate.pro({
+              ...certificationCandidateData,
               email: 'jesuisunemail@incorrect.fr',
               resultRecipientEmail: 'jesuisunemail@correct.fr',
             });
@@ -351,6 +360,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
             sessionRepository.get.resolves(session);
             sessionRepository.isSco.resolves(false);
             const certificationCandidate = domainBuilder.buildCertificationCandidate.pro({
+              ...certificationCandidateData,
               resultRecipientEmail: 'jesuisunemail@incorrect.fr',
               email: 'jesuisunemail@correct.fr',
             });
