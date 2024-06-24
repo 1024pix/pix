@@ -1,5 +1,26 @@
 # Pix Changelog
 
+## v4.170.0 (24/06/2024)
+
+
+### :rocket: Amélioration
+- [#9315](https://github.com/1024pix/pix/pull/9315) [FEATURE] Afficher le statut de la dernière mission pour chaque élève dans Pix Orga (PIX-11200).
+- [#9273](https://github.com/1024pix/pix/pull/9273) [FEATURE] Ajouter une route de duplication des profils cibles (PIX-11828).
+- [#9145](https://github.com/1024pix/pix/pull/9145) [FEATURE] Rendre inscription CORE optionnel (PIX-12213).
+- [#9249](https://github.com/1024pix/pix/pull/9249) [FEATURE] Permettre la reconciliation d'un organization learner en fonction des paramètre de reconcialitaion prédéfini (PIX-12556).
+- [#9330](https://github.com/1024pix/pix/pull/9330) [FEATURE] Mettre à jour le lien d'aide des épreuves avec téléchargement (PIX-13078).
+- [#9336](https://github.com/1024pix/pix/pull/9336) [FEATURE] Mettre à jour les URLs de la page d'accueil du support utilisateur.
+
+### :building_construction: Tech
+- [#9321](https://github.com/1024pix/pix/pull/9321) [TECH] Migrer la route POST /api/account-recovery vers src/identity-access-management (PIX-12740).
+- [#9322](https://github.com/1024pix/pix/pull/9322) [TECH] Migrer la route GET /api/account-recovery/{temporaryKey} vers src/identity-access-management (PIX-12525).
+- [#9309](https://github.com/1024pix/pix/pull/9309) [TECH] Migrer la route PATCH /api/account-recovery vers src/identity-access-management (PIX-12761).
+
+### :bug: Correction
+- [#9341](https://github.com/1024pix/pix/pull/9341) [BUGFIX] Correction du variant pix button des boutons Modifier et Dupliquer une campagne (PIX-13102).
+- [#9335](https://github.com/1024pix/pix/pull/9335) [BUGFIX] Correction wording participation supprimée dans PixAdmin (PIX-13081).
+- [#9333](https://github.com/1024pix/pix/pull/9333) [BUGFIX] Corriger la création de campagne en masse via PixAdmin (PIX-13071).
+
 ## v4.169.0 (20/06/2024)
 
 
