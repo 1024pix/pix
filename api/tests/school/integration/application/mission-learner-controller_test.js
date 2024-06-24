@@ -1,5 +1,5 @@
 import { missionLearnerController } from '../../../../src/school/application/mission-learner-controller.js';
-import { MissionLearnerWithStatus } from '../../../../src/school/domain/models/MissionLearnerWithStatus.js';
+import { MissionLearner } from '../../../../src/school/domain/models/MissionLearner.js';
 import { usecases } from '../../../../src/school/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../test-helper.js';
 
@@ -7,7 +7,7 @@ describe('Integration | Controller | mission-learner-controller', function () {
   describe('#findPaginatedMissionLearners', function () {
     it('should return missionLearners', async function () {
       const organizationId = 1;
-      const missionLearner = new MissionLearnerWithStatus({
+      const missionLearner = new MissionLearner({
         id: 1,
         firstName: 'TechnoMechanicus',
         lastName: 'Musk',

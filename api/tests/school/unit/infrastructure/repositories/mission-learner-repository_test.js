@@ -1,5 +1,5 @@
 import { OrganizationLearner } from '../../../../../lib/domain/models/OrganizationLearner.js';
-import { MissionLearner } from '../../../../../src/school/domain/models/MissionLearner.js';
+import { SchoolLearner } from '../../../../../src/school/domain/models/SchoolLearner.js';
 import * as missionLearnersRepository from '../../../../../src/school/infrastructure/repositories/mission-learner-repository.js';
 import { expect, sinon } from '../../../../test-helper.js';
 
@@ -16,7 +16,7 @@ describe('Unit | Repository | organizationLearner', function () {
       };
       const customPagination = { number: 1, size: 100 };
       const organizationLearnerApiStub = { find: sinon.stub() };
-      const expectedMissionLearner = new MissionLearner(rawStudent);
+      const expectedMissionLearner = new SchoolLearner(rawStudent);
       const expectedPagination = {
         page: 1,
         pageCount: 1,

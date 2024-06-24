@@ -1,4 +1,4 @@
-import { MissionLearnerWithStatus } from '../models/MissionLearnerWithStatus.js';
+import { MissionLearner } from '../models/MissionLearner.js';
 import { getMissionResult } from '../services/get-mission-result.js';
 
 const findPaginatedMissionLearners = async function ({
@@ -18,7 +18,7 @@ const findPaginatedMissionLearners = async function ({
     missionId,
     missionLearners,
     async (learner, status, assessmentId) => {
-      const missionLearner = new MissionLearnerWithStatus({
+      const missionLearner = new MissionLearner({
         ...learner,
         status: status ?? 'not-started',
       });

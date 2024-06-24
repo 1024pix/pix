@@ -1,6 +1,6 @@
 import { Assessment } from '../../../../../lib/domain/models/index.js';
 import { Activity } from '../../../../../src/school/domain/models/Activity.js';
-import { MissionLearnerWithStatus } from '../../../../../src/school/domain/models/MissionLearnerWithStatus.js';
+import { MissionLearner } from '../../../../../src/school/domain/models/MissionLearner.js';
 import { usecases } from '../../../../../src/school/domain/usecases/index.js';
 import { databaseBuilder, expect } from '../../../../test-helper.js';
 
@@ -67,19 +67,19 @@ describe('Integration | Usecase | find-paginated-mission-learners', function () 
 
       expect(result).to.deep.equal({
         missionLearners: [
-          new MissionLearnerWithStatus({
+          new MissionLearner({
             ...organizationLearnerWithoutAssessment,
             division: 'CM2A',
             status: 'not-started',
             result: undefined,
           }),
-          new MissionLearnerWithStatus({
+          new MissionLearner({
             ...organizationLearnerWithStartedAssessment,
             division: 'CM2A',
             status: 'started',
             result: undefined,
           }),
-          new MissionLearnerWithStatus({
+          new MissionLearner({
             ...organizationLearnerWithCompletedAssessment,
             division: 'CM2A',
             status: 'completed',
