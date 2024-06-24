@@ -13,6 +13,8 @@ class Campaign {
     alternativeTextToExternalIdHelpImage,
     createdAt,
     customLandingPageText,
+    deletedAt,
+    deletedBy,
     archivedAt,
     archivedBy,
     type,
@@ -38,6 +40,8 @@ class Campaign {
     this.customLandingPageText = customLandingPageText;
     this.archivedAt = archivedAt;
     this.archivedBy = archivedBy;
+    this.deletedAt = deletedAt;
+    this.deletedBy = deletedBy;
     this.type = type;
     this.isForAbsoluteNovice = isForAbsoluteNovice;
     this.targetProfile = targetProfile;
@@ -69,6 +73,10 @@ class Campaign {
 
   isArchived() {
     return Boolean(this.archivedAt);
+  }
+
+  isAccessible() {
+    return !this.archivedAt && !this.deletedAt;
   }
 }
 

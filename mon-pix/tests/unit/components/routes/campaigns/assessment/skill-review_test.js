@@ -1204,4 +1204,30 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       assert.ok(true);
     });
   });
+
+  module('#showDisabledBlock', function () {
+    test('should return false if the participation is shared', function (assert) {
+      // given
+      component.args.model.campaignParticipationResult.isDisabled = false;
+      component.args.model.campaignParticipationResult.isShared = true;
+
+      // when
+      const result = component.showDisabledBlock;
+
+      // then
+      assert.false(result);
+    });
+
+    test('should return true if the participation is not shared', function (assert) {
+      // given
+      component.args.model.campaignParticipationResult.isDisabled = true;
+      component.args.model.campaignParticipationResult.isShared = false;
+
+      // when
+      const result = component.showDisabledBlock;
+
+      // then
+      assert.true(result);
+    });
+  });
 });

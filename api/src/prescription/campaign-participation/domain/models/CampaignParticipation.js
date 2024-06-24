@@ -101,7 +101,7 @@ class CampaignParticipation {
     if (this.isShared) {
       throw new AlreadySharedCampaignParticipationError();
     }
-    if (this.campaign.isArchived()) {
+    if (!this.campaign.isAccessible()) {
       throw new ArchivedCampaignError('Cannot share results on an archived campaign.');
     }
     if (this.isDeleted) {

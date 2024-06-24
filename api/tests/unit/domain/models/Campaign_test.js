@@ -102,4 +102,30 @@ describe('Unit | Domain | Models | Campaign', function () {
       expect(campaign.isArchived()).to.be.false;
     });
   });
+
+  describe('isAccessible', function () {
+    it('should return false when campaign is archived', function () {
+      // given
+      const campaign = domainBuilder.buildCampaign({ archivedAt: new Date('1990-01-04'), deletedAt: null });
+
+      // when / then
+      expect(campaign.isAccessible()).to.be.false;
+    });
+
+    it('should return false when campaign is deleted', function () {
+      // given
+      const campaign = domainBuilder.buildCampaign({ deletedAt: new Date('1990-01-04'), archivedAt: null });
+
+      // when / then
+      expect(campaign.isAccessible()).to.be.false;
+    });
+
+    it('should return true when campaign is not archived nor deleted', function () {
+      // given
+      const campaign = domainBuilder.buildCampaign({ archivedAt: null, deletedAt: null });
+
+      // when / then
+      expect(campaign.isAccessible()).to.be.true;
+    });
+  });
 });

@@ -1035,6 +1035,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           isCampaignMultipleSendings: false,
           isOrganizationLearnerActive: false,
           isCampaignArchived: false,
+          isCampaignDeleted: false,
         });
 
         expect(assessmentResult.isDisabled).to.be.true;
@@ -1056,6 +1057,29 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           isCampaignMultipleSendings: false,
           isOrganizationLearnerActive: false,
           isCampaignArchived: true,
+          isCampaignDeleted: false,
+        });
+
+        expect(assessmentResult.isDisabled).to.be.true;
+      });
+    });
+
+    context('when campaign is deleted', function () {
+      it('returns true', function () {
+        const participationResults = {
+          knowledgeElements: [],
+          acquiredBadgeIds: [],
+          isDeleted: false,
+        };
+        const assessmentResult = new AssessmentResult({
+          participationResults,
+          competences: [],
+          stages: [],
+          badgeResultsDTO: [],
+          isCampaignMultipleSendings: false,
+          isOrganizationLearnerActive: false,
+          isCampaignArchived: false,
+          isCampaignDeleted: true,
         });
 
         expect(assessmentResult.isDisabled).to.be.true;

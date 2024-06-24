@@ -192,9 +192,9 @@ describe('Unit | Domain | Models | CampaignParticipation', function () {
       });
     });
 
-    context('when the campaign is archived', function () {
+    context('when the campaign is not accessible', function () {
       it('throws an ArchivedCampaignError error', async function () {
-        const campaign = domainBuilder.buildCampaign({ archivedAt: new Date() });
+        const campaign = { isAccessible: () => false };
         const campaignParticipation = new CampaignParticipation({ campaign });
 
         const error = await catchErr(campaignParticipation.share, campaignParticipation)();

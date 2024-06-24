@@ -292,8 +292,13 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
     let campaignForNovice;
 
     hooks.beforeEach(function () {
-      campaignForNovice = server.create('campaign', { isForAbsoluteNovice: true, isSimplifiedAccess: true });
-      server.create('campaign-participation-result', { masteryRate: '1.0' });
+      campaignForNovice = server.create('campaign', {
+        isForAbsoluteNovice: true,
+        isSimplifiedAccess: true,
+        deletedAt: null,
+        archivedAt: null,
+      });
+      server.create('campaign-participation-result', { masteryRate: '1.0', isDeleted: false });
       campaignParticipation = server.create('campaign-participation', { campaign: campaignForNovice });
     });
 

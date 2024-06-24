@@ -9,6 +9,7 @@ export default ApplicationSerializer.extend({
     'canRetry',
     'canImprove',
     'isShared',
+    'isDisabled',
     'participantExternalId',
   ],
   include: ['campaignParticipationBadges', 'competenceResults', 'reachedStage'],

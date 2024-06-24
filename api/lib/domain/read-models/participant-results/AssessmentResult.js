@@ -16,6 +16,7 @@ class AssessmentResult {
     isOrganizationLearnerActive,
     isTargetProfileResetAllowed,
     isCampaignArchived,
+    isCampaignDeleted,
     competences,
     reachedStage,
     badgeResultsDTO,
@@ -63,7 +64,7 @@ class AssessmentResult {
     this.badgeResults = badgeResultsDTO.map((badge) => new BadgeResult(badge, participationResults.acquiredBadgeIds));
     this.reachedStage = reachedStage;
     this.canImprove = this._computeCanImprove(knowledgeElements, assessmentCreatedAt, this.isShared);
-    this.isDisabled = this._computeIsDisabled(isCampaignArchived, participationResults.isDeleted);
+    this.isDisabled = this._computeIsDisabled(isCampaignArchived, isCampaignDeleted, participationResults.isDeleted);
     this.canRetry = this._computeCanRetry(
       isCampaignMultipleSendings,
       sharedAt,
@@ -143,8 +144,8 @@ class AssessmentResult {
     );
   }
 
-  _computeIsDisabled(isCampaignArchived, isParticipationDeleted) {
-    return isCampaignArchived || isParticipationDeleted;
+  _computeIsDisabled(isCampaignArchived, isCampaignDeleted, isParticipationDeleted) {
+    return isCampaignArchived || isCampaignDeleted || isParticipationDeleted;
   }
 
   _timeBeforeRetryingPassed(sharedAt) {
