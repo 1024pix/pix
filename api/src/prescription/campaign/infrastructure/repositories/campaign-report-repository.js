@@ -8,6 +8,7 @@ import { filterByFullName } from '../../../../../lib/infrastructure/utils/filter
 import * as skillRepository from '../../../../shared/infrastructure/repositories/skill-repository.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
 import { TargetProfileForSpecifier } from '../../../target-profile/domain/read-models/TargetProfileForSpecifier.js';
+import { getLatestParticipationSharedForOneLearner } from './helpers/get-latest-participation-shared-for-one-learner.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 
@@ -76,12 +77,17 @@ const get = async function (id) {
 };
 
 const findMasteryRatesAndValidatedSkillsCount = async function (campaignId) {
-  const results = await knex('campaign-participations')
-    .select('masteryRate', 'validatedSkillsCount')
-    .where('isImproved', false)
-    .andWhere('status', SHARED)
-    .andWhere('deletedAt', null)
-    .andWhere({ campaignId });
+  const results = await knex
+    .from('campaign-participations as cp')
+    .select([
+      'organizationLearnerId',
+      getLatestParticipationSharedForOneLearner(knex, 'masteryRate', campaignId),
+      getLatestParticipationSharedForOneLearner(knex, 'validatedSkillsCount', campaignId),
+    ])
+    .groupBy('organizationLearnerId')
+    .where('status', SHARED)
+    .where('deletedAt', null)
+    .where({ campaignId });
 
   const aggregatedResults = {
     masteryRates: [],
