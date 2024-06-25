@@ -798,7 +798,7 @@
       },
       "is-focused-challenge": {
         "info-alert": {
-          "title": "Répondez à cette question sans chercher sur internet ni utiliser de logiciels.",
+          "title": "Essayez de répondre à cette question sans vous aider d’internet ou d’applications.",
           "subtitle": "En certification, si vous changez de page, votre réponse ne sera pas validée."
         }
       },
@@ -856,7 +856,7 @@
           "close": "J'ai compris",
           "focused": {
             "title": "Mode Focus",
-            "content": "'<p class=\"tooltip-tag-information__title--focused\">'Restez sur cette page pour répondre !'</p>' N'utilisez pas internet ou une application pour répondre. Toute activité en dehors de la zone est détectée."
+            "content": "'<p class=\"tooltip-tag-information__title--focused\">'Essayez de rester sur cette page pour répondre !'</p>' Cette question ne nécessite ni internet, ni application."
           },
           "other": {
             "title": "Mode Libre",
