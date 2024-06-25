@@ -78,8 +78,6 @@ const findPaginatedCampaignManagements = async function ({ organizationId, page 
   return { models: campaignManagement, meta: { ...pagination } };
 };
 
-export { findPaginatedCampaignManagements, get };
-
 async function _countParticipationsByStatus(campaignId, campaignType) {
   const row = await knex('campaign-participations')
     .select([
@@ -105,3 +103,6 @@ function _mapToParticipationByStatus(row = {}, campaignType) {
   }
   return participationByStatus;
 }
+
+export { findPaginatedCampaignManagements, get };
+
