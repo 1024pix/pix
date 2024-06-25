@@ -129,6 +129,13 @@ describe('Unit | Shared | Infrastructure | Serializer | CsvParser', function () 
       expect(result.firstName).to.equal('Éçéà niño véga');
     });
 
+    it('Force encoding', function () {
+      const encodedInput = iconv.encode(input, 'utf16');
+      const parser = new CsvParser(encodedInput, header);
+      const [result] = parser.parse('utf16');
+      expect(result.firstName).to.equal('Éçéà niño véga');
+    });
+
     it('Throw an error if encoding not supported', async function () {
       const encodedInput = iconv.encode(input, 'utf16');
       const parser = new CsvParser(encodedInput, header);
