@@ -128,7 +128,7 @@
             "element": {
               "id": "cabf35be-5916-4e49-acc9-f3e66b27d673",
               "type": "text",
-              "content": "<p>Sarah a ajouté à son fichier une colonne supplémentaire.<br>L’ordre de service des invités est désormais défini d'abord par le numéro de table puis par le menu choisi : </p><ul><li>Les végétariens du menu A seront servis en premier.</li> <li>Le menu poisson B ensuite.</li> <li>Le menu C viande par la suite.</li><li>Enfin le menu D pour les invités vegan.</li></ul>"
+              "content": "<p>Sarah a ajouté à son fichier une colonne supplémentaire.<br>L’ordre de service des invités est désormais défini d'abord par le numéro de table puis par le menu choisi : </p><ul><li>Les végétariens du menu A seront servis en premier.</li> <li>Le menu poisson B ensuite.</li> <li>Le menu C viande par la suite.</li><li>Enfin le menu D pour les invités vegan.</li></ul> <br> <p>Téléchargez le fichier ci-dessous et triez la liste d’invités par ordre décroissant de numéro de table et par ordre croissant de menu.</p><br><a href=\"https://docs.google.com/spreadsheets/d/1jIlptuNvZTiWyDVidP83wPa-pEcMU5eH4NPep7mjBgw/edit?gid=0#gid=0\" target=\"_blank\">Téléchargement</a>"
             }
           },
           {
@@ -136,7 +136,7 @@
             "element": {
               "id": "f80ba4ce-8e85-4ea5-90aa-b7848e570901",
               "type": "qrocm",
-              "instruction": "Téléchargez le fichier ci-dessous et triez la liste d’invités par ordre décroissant de numéro de table et par ordre croissant de menu.",
+              "instruction": "Quel est le mot secret&#8239;?",
               "proposals": [
                 {
                     "type": "text",
