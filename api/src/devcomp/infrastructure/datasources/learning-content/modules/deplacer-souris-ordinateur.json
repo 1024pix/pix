@@ -81,27 +81,9 @@
             "type": "element",
              "element":
               {
-                "id": "1cf8be4d-5774-4720-bd61-29c98f33dd37",
-                "type": "text",
-                "content": "<hr>"
-              }
-          },
-          {
-            "type": "element",
-             "element":
-              {
                 "id": "c785bfd1-e8b8-42a0-8354-333d5acf6555",
                 "type": "text",
                 "content": "<h3><span aria-hidden=\"true\">👉</span> À vous de jouer : trouvez quel est votre type de souris.</h3>"
-              }
-          },
-          {
-            "type": "element",
-             "element":
-              {
-                "id": "e8e89496-d4bf-44fd-8739-d851e96e17d1",
-                "type": "text",
-                "content": "<hr>"
               }
           }
         ]
@@ -182,7 +164,7 @@
               {
                   "id": "0b32f7be-6c66-4f0e-843f-3461163e83fc",
                   "type": "text",
-                  "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/RPE/Premiere-marche-game1-carte/index.html\" width=\"100%\" height=\"400\"></iframe>"
+                  "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/RPE/Premiere-marche-game1-carte/index.html\" width=\"100%\" height=\"380\"></iframe>"
               }
           }
         ]
@@ -291,7 +273,7 @@
             {
                 "id": "ccaefecd-db35-40ea-a6f9-8d42fb907e63",
                 "type": "text",
-                "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/RPE/Premiere-marche-game2-carte-gratter\" width=\"100%\" height=\"400\"></iframe>"
+                "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/RPE/Premiere-marche-game2-carte-gratter\" width=\"100%\" height=\"380\"></iframe>"
             }
           }
             ]
@@ -316,7 +298,7 @@
             {
                     "id": "57d7453d-58a9-43f0-830c-f5f392b06f9e",
                     "type": "text",
-                    "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/RPE/Premiere-marche-game3-deplacement-curseur/index.html\" width=\"100%\" height=\"400\"></iframe>"
+                    "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/RPE/Premiere-marche-game3-deplacement-curseur/index.html\" width=\"100%\" height=\"380\"></iframe>"
             }
           },
           {
@@ -341,7 +323,7 @@
                 {
                         "id": "af44ed34-f3a3-46f1-813d-c801a6e0b073",
                         "type": "text",
-                        "content": "<p>Quand vous déplacez votre souris sur un élément, le pointeur peut changer de forme. C’est tout à fait normal. Le pointeur change de forme quand une action est possible. </p><p><br> <span aria-hidden=\"true\">👉</span>Déplacez votre pointeur sur les trois zones ci-dessous. Vous allez découvrir les trois formes de pointeur les plus courantes et leur utilité.</p>"
+                        "content": "<p>Quand vous déplacez votre souris sur un élément, le pointeur peut changer de forme. C’est tout à fait normal. Le pointeur change de forme quand une action est possible. </p><p><br> <span aria-hidden=\"true\">👉</span> Déplacez votre pointeur sur les trois zones ci-dessous. Vous allez découvrir les trois formes de pointeur les plus courantes et leur utilité.</p>"
                 }
             },
             {
@@ -350,7 +332,7 @@
             {
                     "id": "1ad8190f-46b6-43b5-82b1-cd81640b1700",
                     "type": "text",
-                    "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/RPE/Premiere-marche-game4-type-curseur/index.html\" width=\"100%\" height=\"400\"></iframe>"
+                    "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/RPE/Premiere-marche-game4-type-curseur/index.html\" width=\"100%\" height=\"380\"></iframe>"
             }
           },
           {
@@ -366,7 +348,7 @@
           "element": {
             "id": "3e773e63-59e0-4311-b03b-005060bb8f7e",
             "type": "image",
-            "url": "https://i.imgur.com/KB8INZw.png",
+            "url": "https://i.imgur.com/wb8tlJQ.png",
             "alt": "Visuel des différentes représentation des curseurs d'attente",
             "alternativeText": "<p>Représentation des différents aspect du curseur d'attente selon les ordinateurs, leur marque et leur année&nbsp;:</p> <ul><li>un sablier,</li><li> une roue,</li><li>une roue à côté du pointeur flèche,</li><li>des pointillés formant un cercle,</li><li>des tirets formant un cercle,</li><li>une roue multicolore.</li></ul>"
                }
