@@ -85,36 +85,37 @@ describe('Acceptance | Team | Application | Route | Certification Center Invitat
   });
 
   describe('DELETE /api/certification-center-invitations/{id}', function () {
-    context('when user is an admin of the certification center', function () {
-      let adminUser, certificationCenter;
+    let certificationCenter, certificationCenterInvitation, request, user;
 
+    beforeEach(async function () {
+      certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+      certificationCenterInvitation = databaseBuilder.factory.buildCertificationCenterInvitation({
+        certificationCenterId: certificationCenter.id,
+      });
+      user = databaseBuilder.factory.buildUser();
+
+      await databaseBuilder.commit();
+
+      request = {
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(user.id),
+        },
+        method: 'DELETE',
+        url: `/api/certification-center-invitations/${certificationCenterInvitation.id}`,
+      };
+    });
+
+    context('when user is an admin of the certification center', function () {
       beforeEach(async function () {
-        adminUser = databaseBuilder.factory.buildUser();
-        certificationCenter = databaseBuilder.factory.buildCertificationCenter();
         databaseBuilder.factory.buildCertificationCenterMembership({
-          userId: adminUser.id,
+          userId: user.id,
           certificationCenterId: certificationCenter.id,
           role: 'ADMIN',
         });
-
         await databaseBuilder.commit();
       });
 
       it('cancels the certification center invitation and returns a 204 HTTP status code', async function () {
-        // given
-        const certificationCenterInvitation = databaseBuilder.factory.buildCertificationCenterInvitation({
-          certificationCenterId: certificationCenter.id,
-        });
-        const request = {
-          headers: {
-            authorization: generateValidRequestAuthorizationHeader(adminUser.id),
-          },
-          method: 'DELETE',
-          url: `/api/certification-center-invitations/${certificationCenterInvitation.id}`,
-        };
-
-        await databaseBuilder.commit();
-
         // when
         const { statusCode } = await server.inject(request);
 
@@ -122,8 +123,33 @@ describe('Acceptance | Team | Application | Route | Certification Center Invitat
         const cancelledCertificationCenterInvitation = await knex(CERTIFICATION_CENTER_INVITATIONS_TABLE_NAME)
           .where({ id: certificationCenterInvitation.id })
           .first();
-        expect(cancelledCertificationCenterInvitation.status).to.equal('cancelled');
+
         expect(statusCode).to.equal(204);
+        expect(cancelledCertificationCenterInvitation.status).to.equal('cancelled');
+      });
+    });
+
+    context('when user is not an admin of the certification center', function () {
+      beforeEach(async function () {
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          userId: user.id,
+          certificationCenterId: certificationCenter.id,
+          role: 'MEMBER',
+        });
+        await databaseBuilder.commit();
+      });
+
+      it('returns a 403 HTTP status code and the certification center invitation is not cancelled', async function () {
+        // when
+        const { statusCode } = await server.inject(request);
+
+        // then
+        const cancelledCertificationCenterInvitation = await knex(CERTIFICATION_CENTER_INVITATIONS_TABLE_NAME)
+          .where({ id: certificationCenterInvitation.id })
+          .first();
+
+        expect(statusCode).to.equal(403);
+        expect(cancelledCertificationCenterInvitation.status).to.equal('pending');
       });
     });
   });
