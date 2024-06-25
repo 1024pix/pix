@@ -2,6 +2,7 @@ import * as localeService from '../../../shared/domain/services/locale-service.j
 import * as userSerializer from '../../../shared/infrastructure/serializers/jsonapi/user-serializer.js';
 import { requestResponseUtils } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
+import { authenticationMethodsSerializer } from '../../infrastructure/serializers/jsonapi/authentication-methods.serializer.js';
 import { userWithActivitySerializer } from '../../infrastructure/serializers/jsonapi/user-with-activity.serializer.js';
 
 /**
@@ -18,6 +19,22 @@ const getCurrentUser = async function (request, h, dependencies = { userWithActi
   const result = await usecases.getCurrentUser({ authenticatedUserId });
 
   return dependencies.userWithActivitySerializer.serialize(result);
+};
+
+/**
+ * @param request
+ * @param h
+ * @param {{
+ *   authenticationMethodsSerializer: AuthenticationMethodsSerializer
+ * }} dependencies
+ * @return {Promise<*>}
+ */
+const getUserAuthenticationMethods = async function (request, h, dependencies = { authenticationMethodsSerializer }) {
+  const userId = request.params.id;
+
+  const authenticationMethods = await usecases.findUserAuthenticationMethods({ userId });
+
+  return dependencies.authenticationMethodsSerializer.serialize(authenticationMethods);
 };
 
 /**
@@ -70,6 +87,7 @@ const updatePassword = async function (request, h) {
 
 export const userController = {
   getCurrentUser,
+  getUserAuthenticationMethods,
   save,
   updatePassword,
 };

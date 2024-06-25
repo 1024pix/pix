@@ -61,6 +61,25 @@ describe('Unit | Identity Access Management | Application | Route | User', funct
     });
   });
 
+  describe('GET /api/users/{id}/authentication-methods', function () {
+    const method = 'GET';
+
+    it('returns 400 when userId is not a number', async function () {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(routesUnderTest);
+
+      const userId = 'wrongId';
+      const url = `/api/users/${userId}/authentication-methods`;
+
+      // when
+      const result = await httpTestServer.request(method, url);
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+  });
+
   describe('PATCH /api/users/{id}/password-update', function () {
     const method = 'PATCH';
     const url = '/api/users/12344/password-update';

@@ -1,8 +1,8 @@
-import { findUserAuthenticationMethods } from '../../../../lib/domain/usecases/find-user-authentication-methods.js';
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { findUserAuthenticationMethods } from '../../../../../src/identity-access-management/domain/usecases/find-user-authentication-methods.usecase.js';
+import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | find-user-authentication-methods', function () {
-  it('should find user authentication methods', async function () {
+describe('Unit | Identity Access Management | Domain | UseCase | find-user-authentication-methods', function () {
+  it('finds user authentication methods', async function () {
     // given
     const authenticationMethodRepository = {
       findByUserId: sinon.stub(),
