@@ -27,6 +27,24 @@ const acceptPixLastTermsOfService = async function (request, h, dependencies = {
  * @param request
  * @param h
  * @param {{
+ *   userSerializer: UserSerializer
+ * }} dependencies
+ * @return {Promise<*>}
+ */
+const acceptPixOrgaTermsOfService = async function (request, h, dependencies = { userSerializer }) {
+  const authenticatedUserId = request.auth.credentials.userId;
+
+  const updatedUser = await usecases.acceptPixOrgaTermsOfService({
+    userId: authenticatedUserId,
+  });
+
+  return dependencies.userSerializer.serialize(updatedUser);
+};
+
+/**
+ * @param request
+ * @param h
+ * @param {{
  *   userWithActivitySerializer: UserWithActivitySerializer
  * }} dependencies
  * @return {Promise<*>}
@@ -105,6 +123,7 @@ const updatePassword = async function (request, h) {
 
 export const userController = {
   acceptPixLastTermsOfService,
+  acceptPixOrgaTermsOfService,
   getCurrentUser,
   getUserAuthenticationMethods,
   save,

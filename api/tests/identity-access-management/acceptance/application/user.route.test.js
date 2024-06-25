@@ -393,7 +393,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
       return databaseBuilder.commit();
     });
 
-    describe('Resource access management', function () {
+    describe('Error cases', function () {
       it('responds with a 401 - unauthorized access - if user is not authenticated', async function () {
         // given
         options.headers.authorization = 'invalid.access.token';
@@ -427,6 +427,59 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
         expect(response.statusCode).to.equal(200);
         expect(response.result.data.attributes['must-validate-terms-of-service']).to.be.false;
         expect(response.result.data.attributes['last-terms-of-service-validated-at']).to.exist;
+      });
+    });
+  });
+
+  describe('PATCH /api/users/{id}/pix-orga-terms-of-service-acceptance', function () {
+    let user;
+    let options;
+
+    beforeEach(async function () {
+      user = databaseBuilder.factory.buildUser({ pixOrgaTermsOfServiceAccepted: false });
+
+      options = {
+        method: 'PATCH',
+        url: `/api/users/${user.id}/pix-orga-terms-of-service-acceptance`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      };
+
+      return databaseBuilder.commit();
+    });
+
+    describe('Error cases', function () {
+      it('responds with a 401 - unauthorized access - if user is not authenticated', async function () {
+        // given
+        options.headers.authorization = 'invalid.access.token';
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(401);
+      });
+
+      it('responds with a 403 - forbidden access - if requested user is not the same as authenticated user', async function () {
+        // given
+        const otherUserId = 9999;
+        options.headers.authorization = generateValidRequestAuthorizationHeader(otherUserId);
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+
+    describe('Success case', function () {
+      it('returns the user with pixOrgaTermsOfServiceAccepted', async function () {
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data.attributes['pix-orga-terms-of-service-accepted']).to.be.true;
       });
     });
   });

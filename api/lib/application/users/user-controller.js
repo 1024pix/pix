@@ -55,16 +55,6 @@ const changeLang = async function (request, h, dependencies = { userSerializer }
   return dependencies.userSerializer.serialize(updatedUser);
 };
 
-const acceptPixOrgaTermsOfService = async function (request, h, dependencies = { userSerializer }) {
-  const authenticatedUserId = request.auth.credentials.userId;
-
-  const updatedUser = await usecases.acceptPixOrgaTermsOfService({
-    userId: authenticatedUserId,
-  });
-
-  return dependencies.userSerializer.serialize(updatedUser);
-};
-
 const acceptPixCertifTermsOfService = async function (request, h) {
   const authenticatedUserId = request.auth.credentials.userId;
 
@@ -380,7 +370,6 @@ const rememberUserHasSeenLastDataProtectionPolicyInformation = async function (
 
 const userController = {
   acceptPixCertifTermsOfService,
-  acceptPixOrgaTermsOfService,
   addPixAuthenticationMethodByEmail,
   anonymizeUser,
   changeLang,
