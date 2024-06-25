@@ -1,4 +1,5 @@
 import { visit } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
@@ -56,7 +57,7 @@ module('Acceptance | Missions Detail', function (hooks) {
 
   module('when there are mission learners', function (hooks) {
     hooks.beforeEach(async function () {
-      const user = createUserWithMembershipAndTermsOfServiceAccepted();
+      const user = createUserWithMembershipAndTermsOfServiceAccepted({ organizationType: 'SCO-1D' });
       const prescriber = createPrescriberByUser({ user });
       prescriber.features = { ...prescriber.features, MISSIONS_MANAGEMENT: true };
       await authenticateSession(user.id);
@@ -146,6 +147,50 @@ module('Acceptance | Missions Detail', function (hooks) {
           ),
         )
         .exists({ count: 1 });
+    });
+    module('FilterBanner', function () {
+      test('should filter division', async function (assert) {
+        server.create('division', {
+          name: 'CM2-A',
+        });
+        server.create('division', {
+          name: 'CM2-B',
+        });
+        server.create('division', {
+          name: 'CM2-C',
+        });
+
+        const participantCM2C = server.create('mission-learner', {
+          firstName: 'Charles',
+          lastName: 'Xavier',
+          division: 'CM2-C',
+          status: 'completed',
+          organizationId: 1,
+        });
+        const participantCM2B = server.create('mission-learner', {
+          firstName: 'Thierry',
+          lastName: 'Henry',
+          division: 'CM2-B',
+          status: 'completed',
+          organizationId: 1,
+        });
+        const participantCM2A = server.create('mission-learner', {
+          firstName: 'Bob',
+          lastName: 'Gustave',
+          division: 'CM2-A',
+          status: 'completed',
+          organizationId: 1,
+        });
+
+        const screen = await visit('/missions/1');
+        await click(screen.getByLabelText(this.intl.t('common.filters.divisions.label')));
+        await click(await screen.findByRole('checkbox', { name: 'CM2-C' }));
+        await click(await screen.findByRole('checkbox', { name: 'CM2-A' }));
+
+        assert.dom(screen.getByRole('cell', { name: participantCM2C.firstName })).exists();
+        assert.dom(screen.getByRole('cell', { name: participantCM2A.firstName })).exists();
+        assert.dom(screen.queryByRole('cell', { name: participantCM2B.firstName })).doesNotExist();
+      });
     });
   });
 });

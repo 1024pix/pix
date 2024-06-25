@@ -185,6 +185,10 @@
     },
     "breadcrumb": "Fil d'ariane",
     "filters": {
+      "title": "Filtres",
+      "actions": {
+        "clear": "Effacer les filtres"
+      },
       "divisions": {
         "empty": "Aucune classe",
         "label": "Rechercher par classes",
@@ -815,10 +819,14 @@
           "title": "Compétence :"
         },
         "learners": {
-          "title": "Liste des participations",
+          "title": "Liste des élèves",
           "list": {
             "aria-label": "Élève",
             "caption": "Tableau des élèves avec le résultat de leur participation à la mission {missionName}",
+            "filters": {
+              "aria-label": "Filtre sur les élèves",
+              "learners-count": "{count, plural, =0 {Aucun élève} =1 {1 élève} other {{count} élèves}}"
+            },
             "headers": {
               "division": "Classe",
               "first-name": "Prénom",
@@ -1297,7 +1305,7 @@
           "error": "Le numéro étudiant ne doit pas être vide.",
           "new-student-number-label": "Nouveau numéro étudiant",
           "student-number": "Numéro étudiant actuel de {firstName} {lastName} est : ",
-          "success": "La modification du numéro étudiant de {firstName} {lastName} a bien été effectué."
+          "success": "La modification du numéro étudiant de {firstName} {lastName} a bien ��té effectué."
         }
       },
       "empty-state": {

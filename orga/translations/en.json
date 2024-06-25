@@ -185,6 +185,10 @@
     },
     "breadcrumb": "Breadcrumb",
     "filters": {
+      "title": "Filters",
+      "actions": {
+        "clear": "Clear filters"
+      },
       "divisions": {
         "empty": "No class",
         "label": "Search by classes",
@@ -815,10 +819,14 @@
           "title": "Competence :"
         },
         "learners": {
-          "title": "List of participants",
+          "title": "List of students",
           "list": {
             "aria-label": "Student",
             "caption": "List of students with their result for the mission {missionName}",
+            "filters": {
+              "aria-label": "Filter on students",
+              "learners-count": "{count, plural, =0 {No student} =1 {1 student} other {{count} students}}"
+            },
             "headers": {
               "division": "Division",
               "first-name": "First name",

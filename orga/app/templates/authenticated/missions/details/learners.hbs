@@ -1,5 +1,20 @@
 <h2 class="learners-title">{{t "pages.missions.details.learners.title"}}</h2>
 {{#if @model.missionLearners}}
+  <PixFilterBanner
+    @title={{t "common.filters.title"}}
+    class="participant-filter-banner hide-on-mobile"
+    aria-label={{t "pages.missions.details.learners.list.filters.aria-label"}}
+    @details={{t "pages.missions.details.learners.list.filters.learners-count" count=this.learnersCount}}
+    @clearFiltersLabel={{t "common.filters.actions.clear"}}
+    @onClearFilters={{this.onResetFilter}}
+    @isClearFilterButtonDisabled={{this.isClearFiltersButtonDisabled}}
+  >
+    <Ui::DivisionsFilter
+      @model={{@model.organization}}
+      @selected={{this.divisions}}
+      @onSelect={{this.onSelectDivisions}}
+    />
+  </PixFilterBanner>
   <div class="panel">
     <table class="table content-text content-text--small participation-list__table">
       <caption class="screen-reader-only">{{t
