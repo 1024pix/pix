@@ -74,7 +74,7 @@
             "type": "image",
             "url": "https://i.imgur.com/aIm64oG.jpeg",
             "alt": "-",
-            "alternativeText": "Photographies de quatres souris filaires de tailles, formes et couleurs différentes. Photographies de 3 souris sans fil différentes. Une souris blanche d'ordinateur mac, une souris sans fil reliée par un connecteur USB Bluetooth et une souris reliée par bluetooth."
+            "alternativeText": "<p>Photographies de quatres souris filaires de tailles, formes et couleurs différentes. Photographies de 3 souris sans fil différentes&nbsp;:</p> <ul><li>Une souris blanche d'ordinateur mac, </li><li une souris sans fil reliée par un connecteur USB Bluetooth, </li><li>une souris reliée par bluetooth.</li></ul>"
                }
           },
           {
@@ -126,7 +126,7 @@
             {
             "id": "a13ea7fa-39db-48c8-9a3d-9c354d828dca",
             "type": "image",
-            "url": "https://i.imgur.com/Fa889h1.jpeg",
+            "url": "https://i.imgur.com/i2ilD7V.png",
             "alt": "Photographie illustrative d'une souris",
             "alternativeText": "Photographie illustrative d'une souris d'ordinateur. Une main est posée sur la souris."
                }
@@ -366,9 +366,9 @@
           "element": {
             "id": "3e773e63-59e0-4311-b03b-005060bb8f7e",
             "type": "image",
-            "url": "https://i.imgur.com/Sd0yXhE.png",
+            "url": "https://i.imgur.com/KB8INZw.png",
             "alt": "Visuel des différentes représentation des curseurs d'attente",
-            "alternativeText": "Représentation des différents aspect du curseur d'attente selon les ordinateurs, leur marque et leur année : un sablier, une roue, des pointillés formant un cercle, des tirets formant un cercle et une roue multicolore."
+            "alternativeText": "<p>Représentation des différents aspect du curseur d'attente selon les ordinateurs, leur marque et leur année&nbsp;:</p> <ul><li>un sablier,</li><li> une roue,</li><li>une roue à côté du pointeur flèche,</li><li>des pointillés formant un cercle,</li><li>des tirets formant un cercle,</li><li>une roue multicolore.</li></ul>"
                }
           }
             ]
