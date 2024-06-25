@@ -2,7 +2,13 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 import { CertificationCandidate } from '../../../../../../lib/domain/models/index.js';
 
-const { Deserializer } = jsonapiSerializer;
+const { Deserializer, Serializer } = jsonapiSerializer;
+
+const serializeForApp = function (certificationCandidate) {
+  return new Serializer('certification-candidate', {
+    attributes: ['firstName', 'lastName', 'birthdate', 'sessionId', 'hasSeenCertificationInstructions'],
+  }).serialize(certificationCandidate);
+};
 
 const deserialize = async function (json) {
   delete json.data.attributes['is-linked'];
@@ -19,4 +25,4 @@ const deserialize = async function (json) {
   });
 };
 
-export { deserialize };
+export { deserialize, serializeForApp };
