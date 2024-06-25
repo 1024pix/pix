@@ -17,4 +17,10 @@ const sendInvitations = async function (request, h) {
   return h.response().code(204);
 };
 
-export const certificationCenterInvitationController = { sendInvitations };
+const cancelCertificationCenterInvitation = async function (request, h) {
+  const certificationCenterInvitationId = request.params.certificationCenterInvitationId;
+  await usecases.cancelCertificationCenterInvitation({ certificationCenterInvitationId });
+  return h.response().code(204);
+};
+
+export const certificationCenterInvitationController = { cancelCertificationCenterInvitation, sendInvitations };
