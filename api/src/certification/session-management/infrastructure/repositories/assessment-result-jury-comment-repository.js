@@ -15,4 +15,8 @@ const getLatestAssessmentResultJuryComment = async function ({ certificationCour
   return new AssessmentResultJuryComment(result);
 };
 
-export { getLatestAssessmentResult };
+const update = async function ({ id, juryId, commentByJury }) {
+  return knex('assessment-results').update({ juryId, commentByJury }).where({ id });
+};
+
+export { getLatestAssessmentResultJuryComment, update };
