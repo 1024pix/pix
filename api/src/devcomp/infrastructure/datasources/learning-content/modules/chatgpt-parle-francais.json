@@ -160,8 +160,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p><span class=\"feedback__state\">✅ Correct  !</span></p>",
-                "invalid": "<p><span class=\"feedback__state\">❌ Incorrect  !</span></p>"
+                "valid": "<p><span class=\"feedback__state\">✅ Correct !</span></p>",
+                "invalid": "<p><span class=\"feedback__state\">❌ Incorrect !</span> Regardez bien la vidéo précédente et faites une nouvelle tentative !</p>"
               },
               "solutions": [
                 "1",
@@ -234,8 +234,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p><span class=\"feedback__state\">✅ Correct  !</span></p>",
-                "invalid": "<p><span class=\"feedback__state\">❌ Incorrect  !</span></p>"
+                "valid": "<p><span class=\"feedback__state\">✅ Correct !</span></p>",
+                "invalid": "<p><span class=\"feedback__state\">❌ Incorrect ! L'explication la plus plausible est la surreprésentation de données concernant la France parmi les jeux de données d'entraînement en français.</span></p>"
               },
               "solution": "2"
             }
@@ -253,7 +253,7 @@
             "element": {
               "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
               "type": "text",
-              "content": "<p>Erica est <strong>romancière</strong>. Elle utilise un LLM pour avoir de l'inspiration pour un personnage. Elle a oublié de préciser qu'elle veut un personnage <strong>masculin</strong>.<span aria-hidden=\"true\">&nbsp;👇</span></p>"
+              "content": "<p>Erica est <strong>romancière</strong>. Elle utilise un LLM pour avoir de l'inspiration pour un personnage. Elle a oublié de préciser au LLM qu'elle veut un personnage <strong>masculin</strong>.<span aria-hidden=\"true\">&nbsp;👇</span></p>"
             }
           },
           {
@@ -290,7 +290,7 @@
               ],
               "feedbacks": {
                 "valid": "<p><span class=\"feedback__state\">✅ Correct  !</span></p>",
-                "invalid": "<p><span class=\"feedback__state\">❌ Incorrect  !</span></p>"
+                "invalid": "<p><span class=\"feedback__state\">❌ Incorrect  !</span>Le LLM a tendance à reproduire des stéréotypes qui existent dans nos sociétés. Ici il s'agit d'un stéréotype de genre associé à cette profession. </p>"
               },
               "solution": "2"
             }
@@ -345,7 +345,7 @@
               ],
               "feedbacks": {
                 "valid": "<p><span class=\"feedback__state\">✅ Correct  !</span></p>",
-                "invalid": "<p><span class=\"feedback__state\">❌ Incorrect  !</span></p>"
+                "invalid": "<p><span class=\"feedback__state\">❌ Incorrect  ! Le LLM n'est pas le seul à comporter des biais, les utilisateurs peuvent aussi transmettre les leurs lorsqu'ils composent leur prompt.</span></p>"
               },
               "solution": "3"
             }
