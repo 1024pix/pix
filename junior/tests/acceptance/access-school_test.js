@@ -2,7 +2,7 @@ import { clickByText, visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 
-import { setupApplicationTest } from '../../tests/helpers';
+import { setupApplicationTest, t } from '../../tests/helpers';
 import identifyLearner from '../helpers/identify-learner';
 
 module('Acceptance | School', function (hooks) {
@@ -50,7 +50,7 @@ module('Acceptance | School', function (hooks) {
       const code = ['M', 'I', 'N', 'I', 'P', 'I', 'X', 'O', 'U'];
 
       code.forEach((element, index) => fillIn(screen.getByLabelText(`Champ numéro ${index + 1}`), element));
-      await clickByText(this.intl.t('pages.home.go-to-school'));
+      await clickByText(t('pages.home.go-to-school'));
       // then
       assert.strictEqual(currentURL(), '/schools/MINIPIXOU');
       assert.dom(screen.getByText(school.name)).exists();
@@ -88,7 +88,7 @@ module('Acceptance | School', function (hooks) {
       // when
       const screen = await visit('/schools/INVALID00');
       // then
-      assert.dom(screen.getByText(this.intl.t('pages.error.message'))).exists();
+      assert.dom(screen.getByText(t('pages.error.message'))).exists();
     });
   });
 

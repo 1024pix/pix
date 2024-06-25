@@ -2,7 +2,7 @@ import { clickByName, visit } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 
-import { setupApplicationTest } from '../helpers';
+import { setupApplicationTest, t } from '../helpers';
 
 module('Acceptance | Challenge workflow', function (hooks) {
   setupApplicationTest(hooks);
@@ -13,7 +13,7 @@ module('Acceptance | Challenge workflow', function (hooks) {
       this.server.create('challenge', { id: 2, instruction: 'challenge alternatif' });
       // when
       const screen = await visit(`/assessments/${assessment.id}/challenges`);
-      await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.skip') }));
+      await click(screen.getByRole('button', { name: t('pages.challenge.actions.skip') }));
 
       // then
       assert.dom(screen.getByText('challenge alternatif')).exists();
@@ -28,7 +28,7 @@ module('Acceptance | Challenge workflow', function (hooks) {
       const screen = await visit(`/assessments/${assessment.id}/challenges`);
 
       // then
-      assert.dom(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') })).isDisabled();
+      assert.dom(screen.getByRole('button', { name: t('pages.challenge.actions.check') })).isDisabled();
     });
   });
 
@@ -39,11 +39,11 @@ module('Acceptance | Challenge workflow', function (hooks) {
       // when
       const screen = await visit(`/assessments/${assessment.id}/challenges`);
       await click(screen.getByRole('radio', { name: 'Profil 1' }));
-      await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') }));
+      await click(screen.getByRole('button', { name: t('pages.challenge.actions.check') }));
 
       // then
-      assert.dom(screen.getByText(this.intl.t('pages.challenge.messages.correct-answer'))).exists();
-      assert.dom(screen.queryByRole('button', { name: this.intl.t('pages.challenge.actions.skip') })).doesNotExist();
+      assert.dom(screen.getByText(t('pages.challenge.messages.correct-answer'))).exists();
+      assert.dom(screen.queryByRole('button', { name: t('pages.challenge.actions.skip') })).doesNotExist();
     });
 
     test('redirects to next challenge after clicking on "Je continue" button', async function (assert) {
@@ -56,8 +56,8 @@ module('Acceptance | Challenge workflow', function (hooks) {
       // when
       const screen = await visit(`/assessments/${assessment.id}/challenges`);
       await click(screen.getByRole('radio', { name: 'Profil 1' }));
-      await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') }));
-      await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.continue') }));
+      await click(screen.getByRole('button', { name: t('pages.challenge.actions.check') }));
+      await click(screen.getByRole('button', { name: t('pages.challenge.actions.continue') }));
 
       // then
       assert.dom(screen.getByText('Nouvelle instruction')).exists();
@@ -73,11 +73,11 @@ module('Acceptance | Challenge workflow', function (hooks) {
       await clickByName('saladAriaLabel');
       await screen.findByRole('listbox');
       await click(screen.getByRole('option', { name: 'bad-answer' }));
-      await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') }));
+      await click(screen.getByRole('button', { name: t('pages.challenge.actions.check') }));
 
       // then
-      assert.dom(screen.getByText(this.intl.t('pages.challenge.messages.wrong-answer'))).exists();
-      assert.dom(screen.queryByRole('button', { name: this.intl.t('pages.challenge.actions.skip') })).doesNotExist();
+      assert.dom(screen.getByText(t('pages.challenge.messages.wrong-answer'))).exists();
+      assert.dom(screen.queryByRole('button', { name: t('pages.challenge.actions.skip') })).doesNotExist();
     });
 
     test('redirects to next challenge after clicking on "Je continue" button', async function (assert) {
@@ -92,8 +92,8 @@ module('Acceptance | Challenge workflow', function (hooks) {
       await clickByName('saladAriaLabel');
       await screen.findByRole('listbox');
       await click(screen.getByRole('option', { name: 'bad-answer' }));
-      await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') }));
-      await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.continue') }));
+      await click(screen.getByRole('button', { name: t('pages.challenge.actions.check') }));
+      await click(screen.getByRole('button', { name: t('pages.challenge.actions.continue') }));
 
       // then
       assert.dom(screen.getByText('Nouvelle instruction')).exists();

@@ -2,7 +2,7 @@ import { visit } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 
-import { setupApplicationTest } from '../helpers';
+import { setupApplicationTest, t } from '../helpers';
 
 module('Acceptance | ChallengePreview', function (hooks) {
   setupApplicationTest(hooks);
@@ -21,8 +21,8 @@ module('Acceptance | ChallengePreview', function (hooks) {
 
     const screen = await visit(`/challenges/${challenge.id}/preview`);
     await fillIn(screen.getByLabelText('Rue de :'), 'bad-answer');
-    await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') }));
+    await click(screen.getByRole('button', { name: t('pages.challenge.actions.check') }));
 
-    assert.dom(screen.getByText(this.intl.t('pages.challenge.messages.wrong-answer'))).exists();
+    assert.dom(screen.getByText(t('pages.challenge.messages.wrong-answer'))).exists();
   });
 });

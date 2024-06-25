@@ -2,7 +2,7 @@ import { visit } from '@1024pix/ember-testing-library';
 // import { click } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 
-import { setupApplicationTest } from '../helpers';
+import { setupApplicationTest, t } from '../helpers';
 
 module('Acceptance | Lesson workflow', function (hooks) {
   setupApplicationTest(hooks);
@@ -18,7 +18,7 @@ module('Acceptance | Lesson workflow', function (hooks) {
     //   });
     //   // when
     //   const screen = await visit(`/assessments/${assessment.id}/challenges`);
-    //   await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.continue') }));
+    //   await click(screen.getByRole('button', { name: t('pages.challenge.actions.continue') }));
     //
     //   // then
     //   assert.dom(screen.getByText('Nouvelle instruction')).exists();
@@ -31,7 +31,7 @@ module('Acceptance | Lesson workflow', function (hooks) {
       const screen = await visit(`/assessments/${assessment.id}/challenges`);
 
       // then
-      assert.dom(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.continue') })).isDisabled();
+      assert.dom(screen.getByRole('button', { name: t('pages.challenge.actions.continue') })).isDisabled();
     });
   });
 });

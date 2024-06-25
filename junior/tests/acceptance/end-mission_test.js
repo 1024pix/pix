@@ -2,7 +2,7 @@ import { clickByText, visit } from '@1024pix/ember-testing-library';
 import { currentURL } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 
-import { setupApplicationTest } from '../helpers';
+import { setupApplicationTest, t } from '../helpers';
 import identifyLearner from '../helpers/identify-learner';
 
 module('Acceptance | End mission', function (hooks) {
@@ -19,7 +19,7 @@ module('Acceptance | End mission', function (hooks) {
     // then
     assert.dom(screen.getByText('Recherche sur internet')).exists();
     assert.dom(screen.getByText('validatedObjectives')).exists();
-    assert.dom(screen.getByText(this.intl.t('pages.missions.end-page.back-to-missions'))).exists();
+    assert.dom(screen.getByText(t('pages.missions.end-page.back-to-missions'))).exists();
   });
 
   test('redirect to home page after clicking on return button', async function (assert) {
@@ -30,7 +30,7 @@ module('Acceptance | End mission', function (hooks) {
 
     // when
     await visit(`/assessments/${assessment.id}/results`);
-    await clickByText(this.intl.t('pages.missions.end-page.back-to-missions'));
+    await clickByText(t('pages.missions.end-page.back-to-missions'));
 
     // then
     assert.strictEqual(currentURL(), '/');

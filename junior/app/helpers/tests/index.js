@@ -1,4 +1,4 @@
-import { setupIntl } from 'ember-intl/test-support';
+import { setupIntl, t } from 'ember-intl/test-support';
 import { setupRenderingTest as upstreamSetupRenderingTest, setupTest as upstreamSetupTest } from 'ember-qunit';
 
 // This file exists to provide wrappers around ember-qunit's / ember-mocha's
@@ -8,14 +8,11 @@ import { setupRenderingTest as upstreamSetupRenderingTest, setupTest as upstream
 function setupRenderingTest(hooks, options) {
   upstreamSetupRenderingTest(hooks, options);
 
-  // Additional setup for rendering tests can be done here.
-  setupIntl(hooks); // ember-intl
+  setupIntl(hooks, 'fr');
 }
 
 function setupTest(hooks, options) {
   upstreamSetupTest(hooks, options);
-
-  // Additional setup for unit tests can be done here.
 }
 
-export { setupRenderingTest, setupTest };
+export { setupRenderingTest, setupTest, t };
