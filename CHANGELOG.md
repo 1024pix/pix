@@ -1,5 +1,39 @@
 # Pix Changelog
 
+## v4.171.0 (25/06/2024)
+
+
+### :rocket: Amélioration
+- [#9344](https://github.com/1024pix/pix/pull/9344) [FEATURE] Add API context to get organization membership (PIX-13074).
+- [#9332](https://github.com/1024pix/pix/pull/9332) [FEATURE] Créer une navigation et déplacer la config sur la page administration sur Pix Admin (PIX-13066).
+- [#9327](https://github.com/1024pix/pix/pull/9327) [FEATURE] Utiliser les tokens de texte sur la page d'erreur surveillant sur Pix Certif (PIX-11587).
+- [#9280](https://github.com/1024pix/pix/pull/9280) [FEATURE] Empêche un prescrit de partager une participation à une campagne supprimée (PIX-12691).
+- [#9324](https://github.com/1024pix/pix/pull/9324) [FEATURE] Afficher le positionnement de chaque élève sur une mission donnée dans Pix Orga (PIX-11869).
+- [#9287](https://github.com/1024pix/pix/pull/9287) [FEATURE] Duplication de la route d'ajout de candidat de certification (PIX-12977).
+- [#9329](https://github.com/1024pix/pix/pull/9329) [FEATURE] Anonymize GAR import (PIX-12809).
+
+### :building_construction: Tech
+- [#9365](https://github.com/1024pix/pix/pull/9365) [TECH] Mettre à jour des textes de l'écran d'épreuve focus (PIX-12746).
+- [#9357](https://github.com/1024pix/pix/pull/9357) [TECH] Migrer la route PATCH /api/users/{id}/pix-orga-terms-of-service-acceptance vers src/identity-access-management (PIX-13084).
+- [#9356](https://github.com/1024pix/pix/pull/9356) [TECH] Migrer la route PATCH /api/users/{id}/pix-terms-of-service-acceptance vers src/identity-access-management (PIX-13083).
+- [#9355](https://github.com/1024pix/pix/pull/9355) [TECH] Migrer la route GET /api/users/{id}/authentication-methods vers src/identity-access-management (PIX-13082).
+- [#9346](https://github.com/1024pix/pix/pull/9346) [TECH] Migrer la route GET /api/users/me vers src/identity-access-management (PIX-12822).
+- [#9264](https://github.com/1024pix/pix/pull/9264) [TECH] Améliorer la structure des écrans d'instruction (PIX-12902).
+
+### :bug: Correction
+- [#9360](https://github.com/1024pix/pix/pull/9360) [BUGFIX] Force l'encodage UTF-8 pour la maj d'organisations en masse (PIX-13053).
+- [#9334](https://github.com/1024pix/pix/pull/9334) [BUGFIX] Corriger les infos renvoyées pour les analyses de campagne (PIX-13021).
+
+### :arrow_up: Montée de version
+- [#9313](https://github.com/1024pix/pix/pull/9313) [BUMP] Update dependency @1024pix/ember-testing-library to v2 (certif).
+- [#9272](https://github.com/1024pix/pix/pull/9272) [BUMP] Update dependency ember-source to ~5.9.0 (junior).
+- [#9351](https://github.com/1024pix/pix/pull/9351) [BUMP] Update dependency ember-cli-app-version to v7 (orga).
+- [#9347](https://github.com/1024pix/pix/pull/9347) [BUMP] Update dependency ember-cli-app-version to v7 (admin).
+- [#9348](https://github.com/1024pix/pix/pull/9348) [BUMP] Update dependency ember-cli-app-version to v7 (certif).
+- [#9349](https://github.com/1024pix/pix/pull/9349) [BUMP] Update dependency ember-cli-app-version to v7 (junior).
+- [#9350](https://github.com/1024pix/pix/pull/9350) [BUMP] Update dependency ember-cli-app-version to v7 (mon-pix).
+- [#9354](https://github.com/1024pix/pix/pull/9354) [BUMP] Update dependency ember-resolver to v12 (orga).
+
 ## v4.170.0 (24/06/2024)
 
 
