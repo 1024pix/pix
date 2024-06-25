@@ -165,6 +165,7 @@ const register = async function (server) {
               securityPreHandlers.hasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleMetier,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
               ])(request, h),
             assign: 'hasAuthorizationToAccessAdminScope',
           },
