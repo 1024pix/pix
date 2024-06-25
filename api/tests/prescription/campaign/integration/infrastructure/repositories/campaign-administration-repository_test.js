@@ -521,6 +521,8 @@ describe('Integration | Repository | Campaign Administration', function () {
         customLandingPageText: 'New text',
         ownerId: newOwnerId,
       });
+      const archivedAt = new Date();
+      campaign.archive(archivedAt, newOwnerId);
 
       // when
       const campaignSaved = await campaignAdministrationRepository.update(campaign);
@@ -529,6 +531,8 @@ describe('Integration | Repository | Campaign Administration', function () {
       expect(campaignSaved.id).to.equal(campaign.id);
       expect(campaignSaved.name).to.equal('New name');
       expect(campaignSaved.title).to.equal('New title');
+      expect(campaignSaved.archivedBy).to.equal(newOwnerId);
+      expect(campaignSaved.archivedAt).to.deep.equal(archivedAt);
       expect(campaignSaved.customLandingPageText).to.equal('New text');
       expect(campaignSaved.ownerId).to.equal(newOwnerId);
     });

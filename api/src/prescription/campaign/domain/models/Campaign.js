@@ -1,4 +1,6 @@
+import { ObjectValidationError } from '../../../../../lib/domain/errors.js';
 import { CampaignTypes } from '../../../shared/domain/constants.js';
+import { ArchivedCampaignError } from '../errors.js';
 import { CampaignCodeFormatError, IsForAbsoluteNoviceUpdateError, MultipleSendingsUpdateError } from '../errors.js';
 
 class Campaign {
@@ -13,7 +15,6 @@ class Campaign {
     idPixLabel,
     title,
     customLandingPageText,
-    archivedAt,
     type,
     externalIdHelpImageUrl,
     alternativeTextToExternalIdHelpImage,
@@ -24,6 +25,7 @@ class Campaign {
     multipleSendings,
     assessmentMethod,
     ownerId,
+    archivedAt,
     archivedBy,
     participationCount,
   } = {}) {
@@ -48,8 +50,8 @@ class Campaign {
     this.targetProfileId = targetProfileId;
     this.creatorId = creatorId;
     this.createdAt = createdAt;
-    this.archivedBy = archivedBy;
     this.archivedAt = archivedAt;
+    this.archivedBy = archivedBy;
     this.hasParticipation = participationCount > 0;
   }
 
@@ -63,6 +65,26 @@ class Campaign {
 
   isArchived() {
     return Boolean(this.archivedAt);
+  }
+
+  archive(archivedAt, archivedBy) {
+    if (this.archivedAt) {
+      throw new ArchivedCampaignError('Campaign Already Archived');
+    }
+    if (!archivedAt) {
+      throw new ObjectValidationError('ArchivedAt Missing');
+    }
+    if (!archivedBy) {
+      throw new ObjectValidationError('ArchivedBy Missing');
+    }
+
+    this.archivedAt = archivedAt;
+    this.archivedBy = archivedBy;
+  }
+
+  unarchive() {
+    this.archivedAt = null;
+    this.archivedBy = null;
   }
 
   #validateCode(code) {

@@ -105,4 +105,3 @@ function _mapToParticipationByStatus(row = {}, campaignType) {
 }
 
 export { findPaginatedCampaignManagements, get };
-
