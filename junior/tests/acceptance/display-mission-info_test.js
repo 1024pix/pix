@@ -1,7 +1,7 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
 
-import { setupApplicationTest } from '../helpers';
+import { setupApplicationTest, t } from '../helpers';
 import identifyLearner from '../helpers/identify-learner';
 
 module('Acceptance | Display informations about the mission', function (hooks) {
@@ -15,6 +15,6 @@ module('Acceptance | Display informations about the mission', function (hooks) {
     // then
     assert.dom(screen.getByText('Recherche sur internet')).exists();
     assert.dom(screen.getByText('learningObjectives')).exists();
-    assert.dom(screen.getByText(this.intl.t('pages.missions.start-page.start-mission'))).exists();
+    assert.dom(screen.getByText(t('pages.missions.start-page.start-mission'))).exists();
   });
 });

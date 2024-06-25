@@ -1,5 +1,5 @@
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { setupIntl } from 'ember-intl/test-support';
+import { setupIntl, t } from 'ember-intl/test-support';
 import { setupApplicationTest as upstreamSetupApplicationTest, setupTest as upstreamSetupTest } from 'ember-qunit';
 
 // This file exists to provide wrappers around ember-qunit's
@@ -21,7 +21,7 @@ function setupApplicationTest(hooks, options) {
   // This is also a good place to call test setup functions coming
   // from other addons:
   //
-  setupIntl(hooks); // ember-intl
+  setupIntl(hooks, 'fr'); // ember-intl
   setupMirage(hooks); // ember-cli-mirage
 }
 
@@ -31,4 +31,4 @@ function setupTest(hooks, options) {
   // Additional setup for unit tests can be done here.
 }
 
-export { setupApplicationTest, setupTest };
+export { setupApplicationTest, setupTest, t };

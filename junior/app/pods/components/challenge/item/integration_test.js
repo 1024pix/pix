@@ -2,7 +2,7 @@ import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 
-import { setupRenderingTest } from '../../../../helpers/tests';
+import { setupRenderingTest, t } from '../../../../helpers/tests';
 
 module('Integration | Component | challenge', function (hooks) {
   setupRenderingTest(hooks);
@@ -87,7 +87,7 @@ module('Integration | Component | challenge', function (hooks) {
 
     const screen = await render(hbs`<Challenge::Item @challenge={{this.challenge}} @assessment={{this.assessment}} />`);
 
-    assert.dom(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.continue') })).exists();
-    assert.dom(screen.queryByRole('button', { name: this.intl.t('pages.challenge.actions.skip') })).doesNotExist();
+    assert.dom(screen.getByRole('button', { name: t('pages.challenge.actions.continue') })).exists();
+    assert.dom(screen.queryByRole('button', { name: t('pages.challenge.actions.skip') })).doesNotExist();
   });
 });

@@ -2,7 +2,7 @@ import { clickByName, visit } from '@1024pix/ember-testing-library';
 import { click, fillIn, triggerKeyEvent } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 
-import { setupApplicationTest } from '../helpers';
+import { setupApplicationTest, t } from '../helpers';
 
 module('Acceptance | Displaying a QROCM challenge', function (hooks) {
   setupApplicationTest(hooks);
@@ -32,10 +32,10 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
     await clickByName('livre');
     await screen.findByRole('listbox');
     await click(screen.getByRole('option', { name: 'good-answer' }));
-    await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') }));
+    await click(screen.getByRole('button', { name: t('pages.challenge.actions.check') }));
 
     // then
-    assert.dom(screen.getByText(this.intl.t('pages.challenge.messages.correct-answer'))).exists();
+    assert.dom(screen.getByText(t('pages.challenge.messages.correct-answer'))).exists();
   });
 
   module('when user has partially answered in a list box', function () {
@@ -48,7 +48,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
       await click(screen.getByRole('option', { name: 'a' }));
 
       // then
-      assert.dom(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') })).isDisabled();
+      assert.dom(screen.getByRole('button', { name: t('pages.challenge.actions.check') })).isDisabled();
     });
   });
 
@@ -60,7 +60,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
       await fillIn(screen.getByLabelText('prenom'), 'bob');
 
       // then
-      assert.dom(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') })).isDisabled();
+      assert.dom(screen.getByRole('button', { name: t('pages.challenge.actions.check') })).isDisabled();
     });
   });
 
@@ -76,7 +76,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
       await fillIn(screen.getByLabelText('prenom'), '');
 
       // then
-      assert.dom(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') })).isDisabled();
+      assert.dom(screen.getByRole('button', { name: t('pages.challenge.actions.check') })).isDisabled();
     });
   });
 });

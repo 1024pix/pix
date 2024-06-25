@@ -2,7 +2,7 @@ import { clickByName, visit } from '@1024pix/ember-testing-library';
 import { click, fillIn, triggerKeyEvent } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 
-import { setupApplicationTest } from '../helpers';
+import { setupApplicationTest, t } from '../helpers';
 
 module('Acceptance | Displaying a QROC challenge', function (hooks) {
   setupApplicationTest(hooks);
@@ -30,7 +30,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         await triggerKeyEvent(screen.getByLabelText('Rue de :'), 'keyup', 13);
 
         // then
-        assert.dom(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') })).isEnabled();
+        assert.dom(screen.getByRole('button', { name: t('pages.challenge.actions.check') })).isEnabled();
       });
     });
 
@@ -42,7 +42,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         await fillIn(screen.getByLabelText('Rue de :'), '');
 
         // then
-        assert.dom(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') })).isDisabled();
+        assert.dom(screen.getByRole('button', { name: t('pages.challenge.actions.check') })).isDisabled();
       });
     });
 
@@ -53,8 +53,8 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
       const input = screen.getByLabelText('Rue de :');
 
       await fillIn(input, 'good answer');
-      await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') }));
-      assert.dom(screen.getByText(this.intl.t('pages.challenge.messages.correct-answer'))).exists();
+      await click(screen.getByRole('button', { name: t('pages.challenge.actions.check') }));
+      assert.dom(screen.getByText(t('pages.challenge.messages.correct-answer'))).exists();
       assert.dom(input).isDisabled();
     });
   });
@@ -82,10 +82,10 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
       const input = screen.getByLabelText('Année :');
 
       await fillIn(input, '1990');
-      await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') }));
+      await click(screen.getByRole('button', { name: t('pages.challenge.actions.check') }));
 
       assert.equal(this.server.schema.activityAnswers.first().value, '1990');
-      assert.dom(screen.getByText(this.intl.t('pages.challenge.messages.correct-answer'))).exists();
+      assert.dom(screen.getByText(t('pages.challenge.messages.correct-answer'))).exists();
       assert.dom(input).isDisabled();
     });
 
@@ -97,9 +97,9 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
       const input = screen.getByLabelText('Année :');
 
       await fillIn(input, '666');
-      await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') }));
+      await click(screen.getByRole('button', { name: t('pages.challenge.actions.check') }));
 
-      assert.dom(screen.getByText(this.intl.t('pages.challenge.messages.wrong-answer'))).exists();
+      assert.dom(screen.getByText(t('pages.challenge.messages.wrong-answer'))).exists();
     });
   });
 
@@ -124,10 +124,10 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
       const textArea = screen.getByLabelText('Rue de :');
       await fillIn(textArea, 'good-answer');
       await triggerKeyEvent(textArea, 'keyup', 13);
-      await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') }));
+      await click(screen.getByRole('button', { name: t('pages.challenge.actions.check') }));
 
       // then
-      assert.dom(screen.getByText(this.intl.t('pages.challenge.messages.correct-answer'))).exists();
+      assert.dom(screen.getByText(t('pages.challenge.messages.correct-answer'))).exists();
       assert.dom(textArea).isDisabled();
     });
 
@@ -141,7 +141,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         await fillIn(textArea, '');
 
         // then
-        assert.dom(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') })).isDisabled();
+        assert.dom(screen.getByRole('button', { name: t('pages.challenge.actions.check') })).isDisabled();
       });
     });
   });
@@ -181,10 +181,10 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
       await clickByName('saladAriaLabel');
       await screen.findByRole('listbox');
       await click(screen.getByRole('option', { name: 'good-answer' }));
-      await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') }));
+      await click(screen.getByRole('button', { name: t('pages.challenge.actions.check') }));
 
       // then
-      assert.dom(screen.getByText(this.intl.t('pages.challenge.messages.correct-answer'))).exists();
+      assert.dom(screen.getByText(t('pages.challenge.messages.correct-answer'))).exists();
       await clickByName('saladAriaLabel');
       const button = await screen.findByLabelText('saladAriaLabel');
 

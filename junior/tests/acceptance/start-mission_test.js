@@ -2,7 +2,7 @@ import { clickByText, visit } from '@1024pix/ember-testing-library';
 import { currentURL } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 
-import { setupApplicationTest } from '../helpers';
+import { setupApplicationTest, t } from '../helpers';
 import identifyLearner from '../helpers/identify-learner';
 
 module('Acceptance | Start mission', function (hooks) {
@@ -17,7 +17,7 @@ module('Acceptance | Start mission', function (hooks) {
     // when
     try {
       await visit(`/missions/${mission.id}`);
-      await clickByText(this.intl.t('pages.missions.start-page.start-mission'));
+      await clickByText(t('pages.missions.start-page.start-mission'));
     } catch (error) {
       const { message } = error;
       if (message !== 'TransitionAborted') {
