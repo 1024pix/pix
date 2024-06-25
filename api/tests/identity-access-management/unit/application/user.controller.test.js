@@ -14,6 +14,33 @@ describe('Unit | Identity Access Management | Application | Controller | User', 
     };
   });
 
+  describe('#acceptPixLastTermsOfService', function () {
+    let request;
+    const userId = 1;
+
+    beforeEach(function () {
+      request = {
+        auth: { credentials: { userId } },
+        params: { id: userId },
+      };
+
+      sinon.stub(usecases, 'acceptPixLastTermsOfService');
+    });
+
+    it('accepts pix terms of service', async function () {
+      // given
+      usecases.acceptPixLastTermsOfService.withArgs({ userId }).resolves({});
+      const stubSerializedObject = 'ok';
+      userSerializer.serialize.withArgs({}).returns(stubSerializedObject);
+
+      // when
+      const response = await userController.acceptPixLastTermsOfService(request, hFake, { userSerializer });
+
+      // then
+      expect(response).to.be.equal(stubSerializedObject);
+    });
+  });
+
   describe('#getCurrentUser', function () {
     it('gets the current user', async function () {
       // given

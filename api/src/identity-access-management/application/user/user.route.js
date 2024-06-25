@@ -101,4 +101,29 @@ export const userRoutes = [
       tags: ['identity-access-managements', 'api', 'user'],
     },
   },
+  {
+    method: 'PATCH',
+    path: '/api/users/{id}/pix-terms-of-service-acceptance',
+    config: {
+      pre: [
+        {
+          method: (request, h) => securityPreHandlers.checkRequestedUserIsAuthenticatedUser(request, h),
+          assign: 'requestedUserIsAuthenticatedUser',
+        },
+      ],
+      validate: {
+        params: Joi.object({
+          id: identifiersType.userId,
+        }),
+      },
+      handler: (request, h) => userController.acceptPixLastTermsOfService(request, h),
+      notes: [
+        '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          "- Sauvegarde le fait que l'utilisateur a accepté les dernières Conditions Générales d'Utilisation de Pix App\n" +
+          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié\n' +
+          "- Le contenu de la requête n'est pas pris en compte.",
+      ],
+      tags: ['identity-access-management', 'api', 'user'],
+    },
+  },
 ];

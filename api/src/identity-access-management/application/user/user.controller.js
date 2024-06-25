@@ -9,6 +9,24 @@ import { userWithActivitySerializer } from '../../infrastructure/serializers/jso
  * @param request
  * @param h
  * @param {{
+ *   userSerializer: UserSerializer
+ * }} dependencies
+ * @return {Promise<*>}
+ */
+const acceptPixLastTermsOfService = async function (request, h, dependencies = { userSerializer }) {
+  const authenticatedUserId = request.auth.credentials.userId;
+
+  const updatedUser = await usecases.acceptPixLastTermsOfService({
+    userId: authenticatedUserId,
+  });
+
+  return dependencies.userSerializer.serialize(updatedUser);
+};
+
+/**
+ * @param request
+ * @param h
+ * @param {{
  *   userWithActivitySerializer: UserWithActivitySerializer
  * }} dependencies
  * @return {Promise<*>}
@@ -86,6 +104,7 @@ const updatePassword = async function (request, h) {
 };
 
 export const userController = {
+  acceptPixLastTermsOfService,
   getCurrentUser,
   getUserAuthenticationMethods,
   save,
