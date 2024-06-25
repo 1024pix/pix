@@ -1,8 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 
+import PanelHeader from 'pix-certif/components/sessions/panel-header';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | panel-header', function (hooks) {
@@ -23,7 +23,7 @@ module('Integration | Component | panel-header', function (hooks) {
     this.owner.register('service:current-user', CurrentUserStub);
 
     // when
-    const { getByRole } = await render(hbs`<Sessions::PanelHeader />`);
+    const { getByRole } = await render(<template><PanelHeader /></template>);
 
     // then
     assert.dom(getByRole('link', { name: 'Créer une session' })).exists();
@@ -45,7 +45,7 @@ module('Integration | Component | panel-header', function (hooks) {
       this.owner.register('service:current-user', CurrentUserStub);
 
       // when
-      const { queryByRole } = await render(hbs`<Sessions::PanelHeader />`);
+      const { queryByRole } = await render(<template><PanelHeader /></template>);
 
       // then
       assert.dom(queryByRole('link', { name: 'Créer/éditer plusieurs sessions' })).doesNotExist();
@@ -68,7 +68,7 @@ module('Integration | Component | panel-header', function (hooks) {
       this.owner.register('service:current-user', CurrentUserStub);
 
       // when
-      const screen = await render(hbs`<Sessions::PanelHeader />`);
+      const screen = await render(<template><PanelHeader /></template>);
 
       // then
       const createOneSessionButton = screen.getByRole('link', { name: 'Créer une session' });
