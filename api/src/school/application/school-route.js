@@ -43,6 +43,24 @@ const register = async function (server) {
         notes: ["- Elle permet de d'activer une session d'une orga"],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/pix1d/schools/{organizationId}/divisions',
+      config: {
+        pre: [
+          { method: securityPreHandlers.checkPix1dActivated },
+          { method: securityPreHandlers.checkUserBelongsToOrganization },
+        ],
+        validate: {
+          params: Joi.object({
+            organizationId: identifiersType.organizationId,
+          }),
+        },
+        handler: schoolController.getDivisions,
+        tags: ['api', 'pix1d', 'school'],
+        notes: ["- Elle permet de récupérer la liste des classes d'une école liée à une organisation."],
+      },
+    },
   ]);
 };
 

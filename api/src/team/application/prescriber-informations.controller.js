@@ -10,10 +10,8 @@ import { prescriberSerializer } from '../infrastructure/serializers/jsonapi/pres
 const get = async function (request, h, dependencies = { prescriberSerializer }) {
   const authenticatedUserId = request.auth.credentials.userId;
 
-  const prescriber = await usecases
-    .getPrescriber({ userId: authenticatedUserId })
-    .then((prescriber) => dependencies.prescriberSerializer.serialize(prescriber));
-  return prescriber;
+  const prescriber = await usecases.getPrescriber({ userId: authenticatedUserId });
+  return dependencies.prescriberSerializer.serialize(prescriber);
 };
 
 export const prescriberInformationsController = { get };

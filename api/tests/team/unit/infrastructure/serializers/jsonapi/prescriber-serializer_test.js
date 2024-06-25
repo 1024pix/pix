@@ -1,4 +1,4 @@
-import { Membership } from '../../../../../../lib/domain/models/index.js';
+import { Membership, Organization } from '../../../../../../lib/domain/models/index.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { ORGANIZATION_FEATURE } from '../../../../../../src/shared/domain/constants.js';
 import { prescriberSerializer } from '../../../../../../src/team/infrastructure/serializers/jsonapi/prescriber-serializer.js';
@@ -196,6 +196,34 @@ describe('Unit | Team | Infrastructure | Serializer | JSONAPI | prescriber', fun
 
         // then
         expect(result).to.be.deep.equal(expectedPrescriberSerialized);
+      });
+    });
+
+    context('when organization is a school (type: SCO-1D)', function () {
+      it('should serialize prescriber organization with school division link', function () {
+        // given
+        const organization = domainBuilder.buildOrganization({ type: Organization.types.SCO1D });
+
+        const membership = domainBuilder.buildMembership({
+          organization,
+          organizationRole: Membership.roles.MEMBER,
+          user,
+        });
+
+        const userOrgaSettings = domainBuilder.buildUserOrgaSettings({ currentOrganization: organization });
+
+        const prescriber = domainBuilder.buildPrescriber({
+          memberships: [membership],
+          userOrgaSettings,
+        });
+
+        // when
+        const result = prescriberSerializer.serialize(prescriber);
+
+        // then
+        expect(result.included[0].relationships.divisions.links.related).to.equal(
+          `/api/pix1d/schools/${organization.id}/divisions`,
+        );
       });
     });
   });

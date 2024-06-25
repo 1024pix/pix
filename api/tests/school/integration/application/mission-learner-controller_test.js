@@ -30,7 +30,7 @@ describe('Integration | Controller | mission-learner-controller', function () {
           params: {
             id: organizationId,
           },
-          query: { 'page[size]': 50, 'page[number]': 1 },
+          query: { 'page[size]': 50, 'page[number]': 1, 'filters[division]': 'CP' },
         },
         hFake,
       );

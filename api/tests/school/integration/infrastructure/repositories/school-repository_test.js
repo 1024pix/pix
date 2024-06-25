@@ -1,4 +1,5 @@
 import { Organization } from '../../../../../lib/domain/models/index.js';
+import { Division } from '../../../../../src/school/domain/models/Division.js';
 import { School } from '../../../../../src/school/domain/models/School.js';
 import { SchoolNotFoundError } from '../../../../../src/school/domain/school-errors.js';
 import { repositories } from '../../../../../src/school/infrastructure/repositories/index.js';
@@ -104,6 +105,47 @@ describe('Integration | Repository | School', function () {
       const school = await knex('schools').first();
 
       expect(school.sessionExpirationDate).to.deep.equal(sessionExpirationDate);
+    });
+  });
+
+  describe('#getDivisions', function () {
+    it('returns all divisions of organization in alphabetical order', async function () {
+      databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
+        division: 'CM1-B',
+      });
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
+        organizationId,
+        division: 'CM2',
+      });
+      databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
+        organizationId,
+        division: 'CM1-A',
+      });
+      databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
+        organizationId,
+        division: 'CM2',
+      });
+
+      await databaseBuilder.commit();
+
+      const divisions = await repositories.schoolRepository.getDivisions({
+        organizationId,
+      });
+
+      expect(divisions).to.deep.equal([new Division({ name: 'CM1-A' }), new Division({ name: 'CM2' })]);
+    });
+
+    it('should return empty array when there is no learners in the organization', async function () {
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+
+      await databaseBuilder.commit();
+
+      const divisions = await repositories.schoolRepository.getDivisions({
+        organizationId,
+      });
+
+      expect(divisions).to.be.empty;
     });
   });
 });

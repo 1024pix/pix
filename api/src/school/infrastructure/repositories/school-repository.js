@@ -1,5 +1,6 @@
 import { knex } from '../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import { Division } from '../../domain/models/Division.js';
 import { School } from '../../domain/models/School.js';
 import { SchoolNotFoundError } from '../../domain/school-errors.js';
 
@@ -34,4 +35,13 @@ const getById = async function ({ organizationId }) {
 const updateSessionExpirationDate = async function ({ organizationId, sessionExpirationDate }) {
   await knex('schools').where({ organizationId }).update({ sessionExpirationDate });
 };
-export { getByCode, getById, isCodeAvailable, save, updateSessionExpirationDate };
+
+const getDivisions = async function ({ organizationId, organizationLearnerApi }) {
+  const { organizationLearners } = await organizationLearnerApi.find({
+    organizationId,
+  });
+  const divisionLearners = organizationLearners.map((organizationLearner) => organizationLearner.division);
+  return [...new Set(divisionLearners)].sort().map((divisionName) => new Division({ name: divisionName }));
+};
+
+export { getByCode, getById, getDivisions, isCodeAvailable, save, updateSessionExpirationDate };
