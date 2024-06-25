@@ -334,6 +334,8 @@ const configuration = (function () {
   };
 
   if (process.env.NODE_ENV === 'test') {
+    config.auditLogger.isEnabled = true;
+
     config.oidcExampleNet = {
       clientId: 'client',
       clientSecret: 'secret',
