@@ -58,7 +58,7 @@ describe('Acceptance | Identity Access Management | Application | Route | Admin 
         expect(response.result.data).to.deep.equal({
           type: 'anonymize-gar-results',
           attributes: {
-            'gar-anonymized-user-ids': [userId2, userId3],
+            'gar-anonymized-user-count': 2,
             total: 3,
           },
         });

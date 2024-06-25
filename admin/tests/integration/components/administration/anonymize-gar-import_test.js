@@ -36,7 +36,7 @@ module('Integration | Component |  administration/anonymize-gar-import', functio
             data: {
               type: 'anonymize-gar-results',
               attributes: {
-                anonymized: 10,
+                'gar-anonymized-user-count': 10,
                 total: 10,
               },
             },
@@ -54,7 +54,9 @@ module('Integration | Component |  administration/anonymize-gar-import', functio
       // then
       assert.ok(
         await screen.findByText(
-          this.intl.t('components.administration.anonymize-gar-import.notifications.success.full', { anonymized: 10 }),
+          this.intl.t('components.administration.anonymize-gar-import.notifications.success.full', {
+            total: 10,
+          }),
         ),
       );
     });
@@ -70,7 +72,7 @@ module('Integration | Component |  administration/anonymize-gar-import', functio
             data: {
               type: 'anonymize-gar-results',
               attributes: {
-                anonymized: 5,
+                'gar-anonymized-user-count': 5,
                 total: 10,
               },
             },
@@ -89,7 +91,7 @@ module('Integration | Component |  administration/anonymize-gar-import', functio
       assert.ok(
         await screen.findByText(
           this.intl.t('components.administration.anonymize-gar-import.notifications.success.partial', {
-            anonymized: 5,
+            garAnonymizedUserCount: 5,
             total: 10,
           }),
         ),

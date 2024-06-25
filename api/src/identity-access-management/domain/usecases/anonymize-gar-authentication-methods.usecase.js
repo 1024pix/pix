@@ -31,5 +31,5 @@ export const anonymizeGarAuthenticationMethods = async function ({
   });
   await eventBus.publish(event, domainTransaction);
 
-  return { garAnonymizedUserIds, total };
+  return { garAnonymizedUserCount: garAnonymizedUserIds.length, total };
 };

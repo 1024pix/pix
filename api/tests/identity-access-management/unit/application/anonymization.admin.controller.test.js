@@ -13,7 +13,6 @@ describe('Unit | Identity Access Management | Application | Controller | Admin |
     let request;
     let total;
     let anonymizedUserCount;
-    let userIds;
     let expectedJSON;
 
     beforeEach(async function () {
@@ -31,20 +30,18 @@ describe('Unit | Identity Access Management | Application | Controller | Admin |
       };
       anonymizedUserCount = 4;
       total = 5;
-      userIds = [4, 6, 15, 78];
       expectedJSON = {
         data: {
           type: 'anonymize-gar-results',
           attributes: {
             anonymizedUserCount,
             total,
-            userIds,
           },
         },
       };
 
       sinon.stub(GarAnonymizationParser, 'getCsvData').resolves([1, 4, 6, 15, 78]);
-      sinon.stub(usecases, 'anonymizeGarAuthenticationMethods').resolves({ anonymizedUserCount, total, userIds });
+      sinon.stub(usecases, 'anonymizeGarAuthenticationMethods').resolves({ anonymizedUserCount, total });
 
       const domainTransaction = Symbol('domain transaction');
       sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));

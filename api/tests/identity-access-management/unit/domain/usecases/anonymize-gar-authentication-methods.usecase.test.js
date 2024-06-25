@@ -46,7 +46,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | anonymize-gar-a
     });
 
     // then
-    expect(result.garAnonymizedUserIds).to.be.deep.equal([1002, 1003]);
+    expect(result.garAnonymizedUserCount).to.be.equal(2);
     expect(result.total).to.be.equal(3);
   });
 
