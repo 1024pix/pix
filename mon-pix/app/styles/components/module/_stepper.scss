@@ -1,0 +1,43 @@
+.stepper-step {
+  &__position {
+    @extend %pix-body-m;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+
+    &::before, &::after {
+      flex: 1;
+      height: 2px;
+      background: var(--pix-neutral-100);
+      content: '';
+    }
+  }
+}
+
+.stepper {
+  display: flex;
+  flex-direction: column;
+
+  &__step {
+    margin-bottom: var(--pix-spacing-6x);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .stepper-step {
+    &__position {
+      margin: var(--pix-spacing-1x) 0 var(--pix-spacing-4x) 0;
+    }
+  }
+}
+
+.stepper-step-position {
+  &__content {
+    padding: var(--pix-spacing-1x) var(--pix-spacing-4x);
+    color: var(--pix-neutral-800);
+  }
+}

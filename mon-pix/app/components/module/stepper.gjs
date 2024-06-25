@@ -53,23 +53,25 @@ export default class ModulixStepper extends Component {
   }
 
   <template>
-    {{#if this.hasDisplayableSteps}}
-      {{#each this.stepsToDisplay as |step index|}}
-        <Step
-          @step={{step}}
-          @currentStep={{inc index}}
-          @totalSteps={{this.displayableSteps.length}}
-          @submitAnswer={{@submitAnswer}}
-          @retryElement={{@retryElement}}
-          @getLastCorrectionForElement={{@getLastCorrectionForElement}}
-        />
-      {{/each}}
-      {{#if this.shouldDisplayNextButton}}
-        <PixButton @size="large" @variant="primary" @iconAfter="arrow-down" @triggerAction={{this.displayNextStep}}>{{t
-            "pages.modulix.buttons.stepper.next"
-          }}
-        </PixButton>
+    <div class="stepper">
+      {{#if this.hasDisplayableSteps}}
+        {{#each this.stepsToDisplay as |step index|}}
+          <Step
+            @step={{step}}
+            @currentStep={{inc index}}
+            @totalSteps={{this.displayableSteps.length}}
+            @submitAnswer={{@submitAnswer}}
+            @retryElement={{@retryElement}}
+            @getLastCorrectionForElement={{@getLastCorrectionForElement}}
+          />
+        {{/each}}
+        {{#if this.shouldDisplayNextButton}}
+          <PixButton @variant="primary" @iconAfter="arrow-down" @triggerAction={{this.displayNextStep}}>{{t
+              "pages.modulix.buttons.stepper.next"
+            }}
+          </PixButton>
+        {{/if}}
       {{/if}}
-    {{/if}}
+    </div>
   </template>
 }

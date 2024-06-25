@@ -14,10 +14,13 @@ export default class ModulixStep extends Component {
 
   <template>
     {{#if this.hasDisplayableElements}}
-      <section>
+      <section class="stepper__step">
         <h3
+          class="stepper-step__position"
           aria-label="{{t 'pages.modulix.stepper.step.position' currentStep=@currentStep totalSteps=@totalSteps}}"
-        >{{@currentStep}}/{{@totalSteps}}</h3>
+        >
+          <span class="stepper-step-position__content">{{@currentStep}}/{{@totalSteps}}</span>
+        </h3>
         {{#each this.displayableElements as |element|}}
           <div class="grain-card-content__element">
             <Element
