@@ -4,7 +4,7 @@ const { Serializer } = jsonapiSerializer;
 
 const serialize = function (anonymizedResults) {
   return new Serializer('anonymize-gar-results', {
-    attributes: ['anonymizedUserCount', 'total', 'userIds'],
+    attributes: ['garAnonymizedUserIds', 'total'],
   }).serialize(anonymizedResults);
 };
 

@@ -283,24 +283,22 @@ const batchAnonymizeByUserIds = async function (
   const knexConn = dependencies.domainTransaction.knexTransaction ?? knex;
 
   const userIdBatches = _.chunk(userIds, chunkSize);
-  let anonymizedUserCount = 0;
+  let garAnonymizedUserIds = [];
 
   for (const userIdBatch of userIdBatches) {
     const anonymizedUserIdBatch = await knexConn(AUTHENTICATION_METHODS_TABLE)
       .whereIn('userId', userIdBatch)
       .andWhere('identityProvider', 'GAR')
-      .update(
-        {
-          authenticationComplement: { firstName: 'anonymized', lastName: 'anonymized' },
-          updatedAt: knex.fn.now(),
-          externalIdentifier: knex.raw('CONCAT(\'anonymized-\', "authentication-methods".id)'),
-        },
-        ['id'],
-      );
-    anonymizedUserCount += anonymizedUserIdBatch.length;
+      .update({
+        authenticationComplement: { firstName: 'anonymized', lastName: 'anonymized' },
+        updatedAt: knex.fn.now(),
+        externalIdentifier: knex.raw('CONCAT(\'anonymized-\', "authentication-methods".id)'),
+      })
+      .returning('userId');
+    garAnonymizedUserIds = garAnonymizedUserIds.concat(anonymizedUserIdBatch.map((elem) => elem.userId));
   }
 
-  return { anonymizedUserCount };
+  return { garAnonymizedUserIds };
 };
 
 /**

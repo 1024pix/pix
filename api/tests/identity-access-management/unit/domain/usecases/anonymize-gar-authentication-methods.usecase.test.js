@@ -8,28 +8,32 @@ const { ROLES } = PIX_ADMIN;
 
 describe('Unit | Identity Access Management | Domain | UseCase | anonymize-gar-authentication-methods', function () {
   let clock;
+  let eventBus;
+  let domainTransaction;
 
   beforeEach(function () {
     const now = new Date('2023-08-17');
     clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+    eventBus = {
+      publish: sinon.stub().resolves(),
+    };
+    domainTransaction = Symbol('domain transaction');
   });
 
   afterEach(function () {
     clock.restore();
   });
 
-  it('returns anonymized userId number and total of userIds', async function () {
+  it('returns garAnonymizedUserIds and total of userIds', async function () {
     // given
     const userIds = [1001, 1002, 1003];
     const adminMemberId = 1;
+    const garAnonymizedUserIds = [1002, 1003];
 
     const authenticationMethodRepository = {
-      batchAnonymizeByUserIds: sinon.stub().resolves({ anonymizedUserCount: 3 }),
+      batchAnonymizeByUserIds: sinon.stub().resolves({ garAnonymizedUserIds }),
     };
-    const eventBus = {
-      publish: sinon.stub().resolves(),
-    };
-    const domainTransaction = Symbol('domain transaction');
+
     sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
 
     // when
@@ -42,7 +46,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | anonymize-gar-a
     });
 
     // then
-    expect(result.anonymizedUserCount).to.be.equal(3);
+    expect(result.garAnonymizedUserIds).to.be.deep.equal([1002, 1003]);
     expect(result.total).to.be.equal(3);
   });
 
@@ -50,14 +54,12 @@ describe('Unit | Identity Access Management | Domain | UseCase | anonymize-gar-a
     // given
     const userIds = [1001, 1002, 1003];
     const adminMemberId = 1;
+    const garAnonymizedUserIds = [1002, 1003];
 
     const authenticationMethodRepository = {
-      batchAnonymizeByUserIds: sinon.stub().resolves({ anonymizedUserCount: 1 }),
+      batchAnonymizeByUserIds: sinon.stub().resolves({ garAnonymizedUserIds }),
     };
-    const eventBus = {
-      publish: sinon.stub().resolves(),
-    };
-    const domainTransaction = Symbol('domain transaction');
+
     sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
 
     // when
@@ -71,7 +73,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | anonymize-gar-a
 
     // then
     const event = new GarAuthenticationMethodAnonymized({
-      userIds,
+      userIds: [1002, 1003],
       updatedByUserId: 1,
       occuredAt: Date.now(),
       role: ROLES.SUPER_ADMIN,

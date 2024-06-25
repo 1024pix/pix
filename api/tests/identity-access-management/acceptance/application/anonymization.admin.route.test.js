@@ -23,7 +23,7 @@ describe('Acceptance | Identity Access Management | Application | Route | Admin 
         const userId2 = databaseBuilder.factory.buildUser().id;
         const userId3 = databaseBuilder.factory.buildUser().id;
 
-        databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
+        databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndPassword({
           userId: userId1,
           externalIdentifier: 'externalId1',
         });
@@ -58,9 +58,8 @@ describe('Acceptance | Identity Access Management | Application | Route | Admin 
         expect(response.result.data).to.deep.equal({
           type: 'anonymize-gar-results',
           attributes: {
-            'anonymized-user-count': 3,
+            'gar-anonymized-user-ids': [userId2, userId3],
             total: 3,
-            'user-ids': [userId1.toString(), userId2.toString(), userId3.toString()],
           },
         });
       });

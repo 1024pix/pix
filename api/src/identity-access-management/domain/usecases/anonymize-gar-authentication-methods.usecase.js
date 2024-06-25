@@ -7,6 +7,8 @@ import { GarAuthenticationMethodAnonymized } from '../events/GarAuthenticationMe
  * @param {Object} params
  * @param {string} params.userIds
  * @param {AuthenticationMethodRepository} params.authenticationMethodRepository
+ * @param {DomainTransaction} params.domainTransaction
+ * @param {EventBus} params.eventBus
  * @return {Promise<{anonymized: string[], total: number}>}
  */
 export const anonymizeGarAuthenticationMethods = async function ({
@@ -18,20 +20,16 @@ export const anonymizeGarAuthenticationMethods = async function ({
 }) {
   const total = userIds.length;
 
-  // TODO: Get the actual garAnonymizedUserIds that should be returned by authenticationMethodRepository.batchAnonymizeByUserIds
-  const { anonymizedUserCount } = await authenticationMethodRepository.batchAnonymizeByUserIds(
-    {
-      userIds,
-    },
+  const { garAnonymizedUserIds } = await authenticationMethodRepository.batchAnonymizeByUserIds(
+    { userIds },
     { domainTransaction },
   );
 
   const event = new GarAuthenticationMethodAnonymized({
-    // TODO: Use the actual garAnonymizedUserIds that should be returned by authenticationMethodRepository.batchAnonymizeByUserIds
-    userIds,
+    userIds: garAnonymizedUserIds,
     updatedByUserId: adminMemberId,
   });
   await eventBus.publish(event, domainTransaction);
 
-  return { anonymizedUserCount, total, userIds };
+  return { garAnonymizedUserIds, total };
 };
