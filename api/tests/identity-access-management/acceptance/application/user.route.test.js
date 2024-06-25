@@ -483,6 +483,58 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
       });
     });
   });
+
+  describe('PATCH /api/users/{id}/pix-certif-terms-of-service-acceptance', function () {
+    let user;
+    let options;
+
+    beforeEach(async function () {
+      user = databaseBuilder.factory.buildUser({ pixCertifTermsOfServiceAccepted: false });
+
+      options = {
+        method: 'PATCH',
+        url: `/api/users/${user.id}/pix-certif-terms-of-service-acceptance`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      };
+
+      return databaseBuilder.commit();
+    });
+
+    describe('Error cases', function () {
+      it('responds with a 401 - unauthorized access - if user is not authenticated', async function () {
+        // given
+        options.headers.authorization = 'invalid.access.token';
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(401);
+      });
+
+      it('responds with a 403 - forbidden access - if requested user is not the same as authenticated user', async function () {
+        // given
+        const otherUserId = 9999;
+        options.headers.authorization = generateValidRequestAuthorizationHeader(otherUserId);
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+
+    describe('Success case', function () {
+      it('returns a response with HTTP status code 204', async function () {
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(204);
+      });
+    });
+  });
 });
 
 function _insertPasswordResetDemand(temporaryKey, email) {

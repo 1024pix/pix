@@ -14,6 +14,26 @@ describe('Unit | Identity Access Management | Application | Controller | User', 
     };
   });
 
+  describe('#acceptPixCertifTermsOfService', function () {
+    it('accepts pix certif terms of service', async function () {
+      // given
+      const userId = 1;
+      sinon.stub(usecases, 'acceptPixCertifTermsOfService');
+
+      // when
+      await userController.acceptPixCertifTermsOfService(
+        {
+          auth: { credentials: { userId } },
+          params: { id: userId },
+        },
+        hFake,
+      );
+
+      // then
+      sinon.assert.calledWith(usecases.acceptPixCertifTermsOfService, { userId: 1 });
+    });
+  });
+
   describe('#acceptPixLastTermsOfService', function () {
     let request;
     const userId = 1;

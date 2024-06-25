@@ -5,6 +5,16 @@ import { usecases } from '../../domain/usecases/index.js';
 import { authenticationMethodsSerializer } from '../../infrastructure/serializers/jsonapi/authentication-methods.serializer.js';
 import { userWithActivitySerializer } from '../../infrastructure/serializers/jsonapi/user-with-activity.serializer.js';
 
+const acceptPixCertifTermsOfService = async function (request, h) {
+  const authenticatedUserId = request.auth.credentials.userId;
+
+  await usecases.acceptPixCertifTermsOfService({
+    userId: authenticatedUserId,
+  });
+
+  return h.response().code(204);
+};
+
 /**
  * @param request
  * @param h
@@ -122,6 +132,7 @@ const updatePassword = async function (request, h) {
 };
 
 export const userController = {
+  acceptPixCertifTermsOfService,
   acceptPixLastTermsOfService,
   acceptPixOrgaTermsOfService,
   getCurrentUser,
