@@ -22,6 +22,7 @@ import { injectDependencies } from '../../../shared/infrastructure/utils/depende
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { accountRecoveryDemandRepository } from '../../infrastructure/repositories/account-recovery-demand.repository.js';
 import * as authenticationMethodRepository from '../../infrastructure/repositories/authentication-method.repository.js';
+import { emailValidationDemandRepository } from '../../infrastructure/repositories/email-validation-demand.repository.js';
 import { oidcProviderRepository } from '../../infrastructure/repositories/oidc-provider-repository.js';
 import * as resetPasswordDemandRepository from '../../infrastructure/repositories/reset-password-demand.repository.js';
 import * as userRepository from '../../infrastructure/repositories/user.repository.js';
@@ -42,6 +43,7 @@ const repositories = {
   campaignParticipationRepository,
   campaignRepository,
   campaignToJoinRepository,
+  emailValidationDemandRepository,
   oidcProviderRepository,
   organizationLearnerRepository,
   resetPasswordDemandRepository,

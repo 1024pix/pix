@@ -26,6 +26,7 @@ const createUser = async function ({
   user,
   authenticationMethodRepository,
   campaignRepository,
+  emailValidationDemandRepository,
   userRepository,
   userToCreateRepository,
   cryptoService,
@@ -66,7 +67,8 @@ const createUser = async function ({
       }
     }
 
-    await mailService.sendAccountCreationEmail(savedUser.email, localeFromHeader, redirectionUrl);
+    const token = await emailValidationDemandRepository.save(savedUser.id);
+    await mailService.sendAccountCreationEmail(savedUser.email, localeFromHeader, token, redirectionUrl);
 
     return savedUser;
   }
