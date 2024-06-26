@@ -279,7 +279,7 @@ describe('Integration | Repository | Campaign Participation', function () {
       expect(campaignParticipation.status).to.equals(SHARED);
     });
 
-    it('should not update because the leaner can not have 2 active participations for the same campaign', async function () {
+    it('should not update because the learner can not have 2 active participations for the same campaign', async function () {
       const campaignId = databaseBuilder.factory.buildCampaign().id;
       const userId = databaseBuilder.factory.buildUser().id;
       const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ userId }).id;
