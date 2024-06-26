@@ -55,14 +55,22 @@ const grainSchema = Joi.object({
   id: uuidSchema,
   type: Joi.string().valid('lesson', 'activity').required(),
   title: htmlNotAllowedSchema.required(),
-  components: Joi.array().items(
-    Joi.alternatives().conditional('.type', {
-      switch: [
-        { is: 'element', then: componentElementSchema },
-        { is: 'stepper', then: componentStepperSchema },
-      ],
+  components: Joi.array()
+    .items(
+      Joi.alternatives().conditional('.type', {
+        switch: [
+          { is: 'element', then: componentElementSchema },
+          { is: 'stepper', then: componentStepperSchema },
+        ],
+      }),
+    )
+    .custom((value, helpers) => {
+      const steppersInArray = value.filter(({ type }) => type === 'stepper');
+      if (steppersInArray.length > 1) {
+        return helpers.message("Il ne peut y avoir qu'un stepper par grain");
+      }
+      return value;
     }),
-  ),
 }).required();
 
 const moduleSchema = Joi.object({
