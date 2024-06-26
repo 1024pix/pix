@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 
 import { LOCALE } from '../../../src/shared/domain/constants.js';
 import { tokenService } from '../../../src/shared/domain/services/token-service.js';
+import { urlBuilder } from '../../../src/shared/infrastructure/utils/url-builder.js';
 import { mailer } from '../../../src/shared/mail/infrastructure/services/mailer.js';
 import enTranslations from '../../../translations/en.json' with { type: 'json' };
 import frTranslations from '../../../translations/fr.json' with { type: 'json' };
@@ -58,13 +59,14 @@ const translations = {
  * @param redirectionUrl
  * @returns {Promise<EmailingAttempt>}
  */
-function sendAccountCreationEmail(email, locale = FRENCH_FRANCE, redirectionUrl) {
+function sendAccountCreationEmail(email, locale = FRENCH_FRANCE, token, redirectionUrl) {
   const mailerConfig = _getMailerConfig(locale);
+  const redirectUri = redirectionUrl || mailerConfig.pixAppConnectionUrl;
 
   const templateVariables = {
     homeName: mailerConfig.homeName,
     homeUrl: mailerConfig.homeUrl,
-    redirectionUrl: redirectionUrl || mailerConfig.pixAppConnectionUrl,
+    redirectionUrl: urlBuilder.getEmailValidationUrl({ locale, redirectUri, token }),
     helpdeskUrl: mailerConfig.helpdeskUrl,
     displayNationalLogo: mailerConfig.displayNationalLogo,
     ...mailerConfig.translation['pix-account-creation-email'].params,

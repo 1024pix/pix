@@ -2,6 +2,7 @@ import { config as settings } from '../../../../lib/config.js';
 import * as mailService from '../../../../lib/domain/services/mail-service.js';
 import { LOCALE } from '../../../../src/shared/domain/constants.js';
 import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
+import { urlBuilder } from '../../../../src/shared/infrastructure/utils/url-builder.js';
 import { mailer } from '../../../../src/shared/mail/infrastructure/services/mailer.js';
 import en from '../../../../translations/en.json' with { type: 'json' };
 import fr from '../../../../translations/fr.json' with { type: 'json' };
@@ -32,8 +33,11 @@ describe('Unit | Service | MailService', function () {
       // given
       const locale = undefined;
       const template = 'test-account-creation-template-id';
+      const token = '00000000-0000-0000-0000-000000000000';
+      const redirectionUrl = 'https://where-i-should.go';
 
-      // given
+      sinon.stub(urlBuilder, 'getEmailValidationUrl').returns('http://redirect.uri');
+
       const expectedOptions = {
         from: senderEmailAddress,
         to: userEmailAddress,
@@ -42,11 +46,16 @@ describe('Unit | Service | MailService', function () {
       };
 
       // when
-      await mailService.sendAccountCreationEmail(userEmailAddress, locale);
+      await mailService.sendAccountCreationEmail(userEmailAddress, locale, token, redirectionUrl);
 
       // then
       const options = mailer.sendEmail.firstCall.args[0];
       expect(options).to.include(expectedOptions);
+      expect(urlBuilder.getEmailValidationUrl).to.have.been.calledWith({
+        locale: 'fr-fr',
+        redirectUri: redirectionUrl,
+        token,
+      });
     });
 
     context('according to redirectionUrl', function () {
