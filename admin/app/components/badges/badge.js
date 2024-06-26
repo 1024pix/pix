@@ -66,8 +66,9 @@ export default class Badge extends Component {
       this.notifications.success('Le résultat thématique a été mis à jour.');
       this.editMode = false;
     } catch (error) {
-      console.error(error);
-      this.notifications.error('Erreur lors de la mise à jour du résultat thématique.');
+      error.errors.forEach((error) => {
+        this.notifications.error(error.detail);
+      });
     }
   }
 
