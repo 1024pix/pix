@@ -103,7 +103,7 @@
           {
             "id": "b510a523-dc46-44bc-9cef-7d254ddd5831",
             "type": "text",
-            "content": "<p>À la suite de cette vidéo, vous devrez retrouver les origines des biais des LLM et interpréter des situations concrètes où la réponse d'un LLM est biaisée."
+            "content": "<p>À la suite de cette vidéo, vous devrez retrouver les origines des biais des LLM et interpréter des situations concrètes où la réponse d'un LLM est biaisée.</p>"
           }
         },
         {
@@ -234,7 +234,7 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<span class=\"feedback__state\">✅ Correct !</span><p>Un prompt en langue française va amener le LLM à répondre en français. La surreprésentation de données concernant la France parmi les jeux de données d'entraînement amène à une réponse en français.</span></p>",
+                "valid": "<span class=\"feedback__state\">✅ Correct !</span><p>Un prompt en langue française va amener le LLM à répondre en français. La sous-représentation de données concernant le Québec parmi les jeux de données d'entraînement amène à une réponse qui concerne la France.</p>",
                 "invalid": "<span class=\"feedback__state\">❌ Incorrect ! </span>"
               },
               "solution": "2"
@@ -512,7 +512,7 @@
           {
             "id": "a5b4912d-7882-47ed-a782-bf87d73ead55",
             "type": "text",
-            "content": "<p>Ces LLM sont développés uniquement au sein de grandes puissances économiques mondiales, malgré certains accès en open source.<span aria-hidden=\"true\">&nbsp;🌍</span><p>Cette concentration s'explique principalement par le coût financier très élevé nécessaire pour entraîner et développer un modèle.<span aria-hidden=\"true\">&nbsp;💵</span></p>"
+            "content": "<p>Ces LLM sont développés uniquement au sein de grandes puissances économiques mondiales, malgré certains accès en open source.<span aria-hidden=\"true\">&nbsp;🌍</span></p><p>Cette concentration s'explique principalement par le coût financier très élevé nécessaire pour entraîner et développer un modèle.<span aria-hidden=\"true\">&nbsp;💵</span></p>"
           }
         },
         {
