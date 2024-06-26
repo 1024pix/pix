@@ -482,11 +482,11 @@
           },
           "paragraphs": {
             "1": {
-              "text": "Para preguntas en '<strong>modo libre'</strong>', indicado con un icono verde: se le permitirá buscar en la web y utilizar el entorno digital a su disposición.",
+              "text": "Para preguntas en '<strong>'modo libre'</strong>', indicado con un icono verde: se le permitirá buscar en la web y utilizar el entorno digital a su disposición.",
               "title": "Modo libre :"
             },
             "2": {
-              "text": "Para preguntas en '<strong>modo de enfoque'</strong>', indicado con un icono amarillo: no se le permitirá salir de la página y buscar.",
+              "text": "Para preguntas en '<strong>'modo de enfoque'</strong>', indicado con un icono amarillo: no se le permitirá salir de la página y buscar.",
               "title": "Modo de enfoque :"
             }
           },
@@ -494,7 +494,7 @@
         },
         "4": {
           "paragraph": {
-            "text": "'<strong>'En caso de problema técnico'</strong>' (por ejemplo, la imagen se niega a mostrarse), siga estos pasos: '<br><br>' haga clic en '<strong>'Informar de un problema con la pregunta''</strong>', luego en \"Sí, estoy seguro\" e informe a su supervisor."
+            "text": "'<strong>'En caso de problema técnico'</strong>' (por ejemplo, la imagen se niega a mostrarse), siga estos pasos: '<br><br>' haga clic en '<strong>'\"Informar de un problema con la pregunta\"'</strong>', luego en \"Sí, estoy seguro\" e informe a su supervisor."
           },
           "title": "¿Qué hacer en caso de problema?"
         },
