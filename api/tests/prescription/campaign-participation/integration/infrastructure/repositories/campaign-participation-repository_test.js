@@ -304,6 +304,60 @@ describe('Integration | Repository | Campaign Participation', function () {
     });
   });
 
+  describe('#batchUpdate', function () {
+    let clock;
+    const frozenTime = new Date('1987-09-01T00:00:00Z');
+
+    beforeEach(async function () {
+      clock = sinon.useFakeTimers({ now: frozenTime, toFake: ['Date'] });
+    });
+
+    afterEach(function () {
+      clock.restore();
+    });
+
+    it('save the changes of multiple campaignParticipations', async function () {
+      // given
+      const user = databaseBuilder.factory.buildUser();
+      const firstCampaignParticipationToUpdate = databaseBuilder.factory.buildCampaignParticipation({
+        deletedAt: null,
+        deletedBy: null,
+      });
+      const secondCampaignParticipationToUpdate = databaseBuilder.factory.buildCampaignParticipation({
+        deletedAt: null,
+        deletedBy: null,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const participations = [
+        new CampaignParticipation(firstCampaignParticipationToUpdate),
+        new CampaignParticipation(secondCampaignParticipationToUpdate),
+      ];
+      participations.forEach((participation) => {
+        participation.delete(user.id);
+      });
+      await campaignParticipationRepository.batchUpdate(participations);
+
+      // then
+      const updatedFirstParticipation = await campaignParticipationRepository.get(
+        firstCampaignParticipationToUpdate.id,
+      );
+      const updatedSecondParticipation = await campaignParticipationRepository.get(
+        secondCampaignParticipationToUpdate.id,
+      );
+      expect(updatedFirstParticipation).to.deep.include({
+        deletedAt: frozenTime,
+        deletedBy: user.id,
+      });
+      expect(updatedSecondParticipation).to.deep.include({
+        deletedAt: frozenTime,
+        deletedBy: user.id,
+      });
+    });
+  });
+
   describe('#getAllCampaignParticipationsInCampaignForASameLearner', function () {
     let campaignId;
     let organizationLearnerId;

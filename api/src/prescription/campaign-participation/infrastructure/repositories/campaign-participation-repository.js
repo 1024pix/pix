@@ -1,3 +1,5 @@
+import lodash from 'lodash';
+
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { Campaign } from '../../../../../lib/domain/models/Campaign.js';
@@ -7,6 +9,19 @@ import { Assessment } from '../../../../shared/domain/models/Assessment.js';
 import { ApplicationTransaction } from '../../../shared/infrastructure/ApplicationTransaction.js';
 import { CampaignParticipation } from '../../domain/models/CampaignParticipation.js';
 import { AvailableCampaignParticipation } from '../../domain/read-models/AvailableCampaignParticipation.js';
+
+const { pick } = lodash;
+
+const CAMPAIGN_PARTICIPATION_ATTRIBUTES = [
+  'participantExternalId',
+  'sharedAt',
+  'status',
+  'campaignId',
+  'userId',
+  'organizationLearnerId',
+  'deletedAt',
+  'deletedBy',
+];
 
 const updateWithSnapshot = async function (campaignParticipation) {
   const domainTransaction = ApplicationTransaction.getTransactionAsDomainTransaction();
@@ -28,16 +43,13 @@ const updateWithSnapshot = async function (campaignParticipation) {
 const update = async function (campaignParticipation, domainTransaction) {
   const knexConn = ApplicationTransaction.getConnection(domainTransaction);
 
-  const attributes = {
-    participantExternalId: campaignParticipation.participantExternalId,
-    sharedAt: campaignParticipation.sharedAt,
-    status: campaignParticipation.status,
-    campaignId: campaignParticipation.campaignId,
-    userId: campaignParticipation.userId,
-    organizationLearnerId: campaignParticipation.organizationLearnerId,
-  };
+  await knexConn('campaign-participations')
+    .where({ id: campaignParticipation.id })
+    .update(pick(campaignParticipation, CAMPAIGN_PARTICIPATION_ATTRIBUTES));
+};
 
-  await knexConn('campaign-participations').where({ id: campaignParticipation.id }).update(attributes);
+const batchUpdate = async function (campaignParticipations) {
+  return Promise.all(campaignParticipations.map((campaignParticipation) => update(campaignParticipation)));
 };
 
 const get = async function (id, domainTransaction) {
@@ -111,6 +123,7 @@ const remove = async function ({ id, deletedAt, deletedBy, domainTransaction }) 
 };
 
 export {
+  batchUpdate,
   get,
   getAllCampaignParticipationsInCampaignForASameLearner,
   getByCampaignIds,
