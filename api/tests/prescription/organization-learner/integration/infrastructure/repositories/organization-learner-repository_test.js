@@ -538,6 +538,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
         expect(result.learners[0].id).to.equal(secondLearner.id);
         expect(result.learners[1].id).to.equal(firstLearner.id);
       });
+
       it('orders by lastName when firstName are identical', async function () {
         const secondLearner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
           organizationId,
@@ -581,6 +582,46 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
           pageSize: 1,
           rowCount: 2,
           pageCount: 2,
+        });
+      });
+
+      context('Filtering', function () {
+        it('retrieve filtered and paginated learners', async function () {
+          databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+            organizationId,
+            attributes: { 'Libellé classe': 'Druid' },
+          });
+          databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+            organizationId,
+            firstName: 'Alban',
+            attributes: { 'Libellé classe': 'Witch' },
+          });
+
+          const rogueLearner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+            organizationId,
+            firstName: 'Zoé',
+            attributes: { 'Libellé classe': 'Rogue' },
+          });
+
+          await databaseBuilder.commit();
+
+          const result = await organizationLearnerRepository.findPaginatedLearners({
+            organizationId,
+            page: {
+              size: 1,
+              number: 2,
+            },
+            filter: { 'Libellé classe': ['Witch', 'Rogue'] },
+          });
+
+          expect(result.pagination).to.deep.equal({
+            page: 2,
+            pageSize: 1,
+            rowCount: 2,
+            pageCount: 2,
+          });
+          expect(result.learners.length).to.equal(1);
+          expect(result.learners[0].id).to.equal(rogueLearner.id);
         });
       });
     });

@@ -26,7 +26,7 @@ describe('Integration | API | Organization Learner', function () {
       });
     });
 
-    context('when there is a pagination', function () {
+    context('when there is only a pagination', function () {
       it('should return all learners from the selected page', async function () {
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         databaseBuilder.factory.buildOrganizationLearner({
