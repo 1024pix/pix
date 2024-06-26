@@ -195,7 +195,7 @@ describe('Acceptance | Route | certification-course', function () {
     });
   });
 
-  describe('POST /api/admin/certification-courses/{certificationCourseId}/assessment-results', function () {
+  describe('PATCH /api/admin/certification-courses/{certificationCourseId}/assessment-results', function () {
     let certificationCourseId;
     let options;
     let server;
@@ -219,7 +219,7 @@ describe('Acceptance | Route | certification-course', function () {
       server = await createServer();
 
       options = {
-        method: 'POST',
+        method: 'PATCH',
         url: `/api/admin/certification-courses/${certificationCourseId}/assessment-results`,
         headers: { authorization: generateValidRequestAuthorizationHeader() },
         payload: {
@@ -245,15 +245,14 @@ describe('Acceptance | Route | certification-course', function () {
       expect(response.statusCode).to.equal(403);
     });
 
-    it('should save a new assessment result and one mark and return a 204', async function () {
+    it('should update the assessment result and return a 204', async function () {
       // when
       const response = await server.inject(options);
 
       // then
-      const assessmentResults = await knex('assessment-results').orderBy('createdAt', 'desc');
-      expect(assessmentResults).to.have.lengthOf(2);
-      const competenceMarks = await knex('competence-marks').where({ assessmentResultId: assessmentResults[0].id });
-      expect(competenceMarks).to.have.lengthOf(1);
+      const assessmentResults = await knex('assessment-results');
+      expect(assessmentResults).to.have.lengthOf(1);
+      expect(assessmentResults.at(0).commentByJury).to.equal('Parce que voilà');
       expect(response.statusCode).to.equal(204);
     });
   });

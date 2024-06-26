@@ -2,9 +2,10 @@ import { CertificationCourseRejected } from '../../../../../lib/domain/events/Ce
 import { CertificationCourseUnrejected } from '../../../../../lib/domain/events/CertificationCourseUnrejected.js';
 import { certificationCourseController } from '../../../../../src/certification/course/application/certification-course-controller.js';
 import { usecases } from '../../../../../src/certification/course/domain/usecases/index.js';
+import { usecases as sessionManagementUsecases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Controller | certification-course-controller', function () {
+describe('Unit | Controller | Certification | session-management | certification-course-controller', function () {
   describe('reject', function () {
     it('should call the rejectCertificationCourse usecase', async function () {
       const rejectCertificationCourse = sinon.stub(usecases, 'rejectCertificationCourse');
@@ -64,7 +65,7 @@ describe('Unit | Controller | certification-course-controller', function () {
   describe('#updateJuryComment', function () {
     it('should updateJuryComment usecase', async function () {
       // given
-      sinon.stub(usecases, 'updateJuryComment');
+      sinon.stub(sessionManagementUsecases, 'updateJuryComment');
       const request = {
         auth: {
           credentials: {
@@ -82,13 +83,13 @@ describe('Unit | Controller | certification-course-controller', function () {
           },
         },
       };
-      usecases.updateJuryComment.resolves();
+      sessionManagementUsecases.updateJuryComment.resolves();
 
       // when
       await certificationCourseController.updateJuryComment(request, hFake);
-
+      sessionManagementUsecases;
       // then
-      expect(usecases.updateJuryComment).to.have.been.calledWithExactly({
+      expect(sessionManagementUsecases.updateJuryComment).to.have.been.calledWithExactly({
         certificationCourseId: 123,
         assessmentResultCommentByJury: 'Tell me why',
         juryId: request.auth.credentials.userId,

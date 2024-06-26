@@ -25,7 +25,7 @@ export default class Certification extends ApplicationAdapter {
           },
         },
       };
-      return this.ajax(this.urlForUpdateJuryComment(snapshot.id), 'POST', { data: payload });
+      return this.ajax(this.urlForUpdateJuryComment(snapshot.id), 'PATCH', { data: payload });
     } else {
       const data = {};
       const serializer = store.serializerFor(type.modelName);

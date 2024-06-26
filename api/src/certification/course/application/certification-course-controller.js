@@ -1,4 +1,5 @@
 import * as events from '../../../../lib/domain/events/index.js';
+import { usecases as usecasesSessionManagement } from '../../session-management/domain/usecases/index.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as juryCommentSerializer from '../infrastructure/serializers/jsonapi/jury-comment-serializer.js';
 import * as v3CertificationDetailsForAdministrationSerializer from '../infrastructure/serializers/jsonapi/v3-certification-course-details-for-administration-serializer.js';
@@ -32,7 +33,7 @@ const updateJuryComment = async function (request, h, dependencies = { juryComme
   const assessmentResultCommentByJury = await dependencies.juryCommentSerializer.deserialize(request.payload);
   const juryId = request.auth.credentials.userId;
 
-  await usecases.updateJuryComment({
+  await usecasesSessionManagement.updateJuryComment({
     certificationCourseId,
     assessmentResultCommentByJury,
     juryId,
