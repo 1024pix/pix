@@ -464,6 +464,46 @@ describe('Integration | Repository | Campaign Administration', function () {
     });
   });
 
+  describe('#batchUpdate', function () {
+    let clock;
+    const frozenTime = new Date('1992-07-07');
+
+    beforeEach(async function () {
+      clock = sinon.useFakeTimers({ now: frozenTime, toFake: ['Date'] });
+    });
+
+    afterEach(function () {
+      clock.restore();
+    });
+
+    it('should update campaigns and return them', async function () {
+      const user = databaseBuilder.factory.buildUser()
+      const firstCampaign = new Campaign(databaseBuilder.factory.buildCampaign());
+      const secondCampaign = new Campaign(databaseBuilder.factory.buildCampaign());
+
+      await databaseBuilder.commit();
+      // given
+      firstCampaign.delete(user.id);
+      secondCampaign.delete(user.id);
+
+      // when
+      await campaignAdministrationRepository.batchUpdate([firstCampaign, secondCampaign]);
+
+      const firstCampaignUpdated = await campaignAdministrationRepository.get(firstCampaign.id);
+      const secondCampaignUpdated = await campaignAdministrationRepository.get(secondCampaign.id);
+
+      // then
+      expect(firstCampaignUpdated).to.deep.include({
+        deletedAt: frozenTime,
+        deletedBy: user.id,
+      });
+      expect(secondCampaignUpdated).to.deep.include({
+        deletedAt: frozenTime,
+        deletedBy: user.id,
+      });
+    });
+  })
+
   describe('#update', function () {
     let campaign;
 

@@ -4,10 +4,13 @@ import _ from 'lodash';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
 import * as skillRepository from '../../../../shared/infrastructure/repositories/skill-repository.js';
+import { ApplicationTransaction } from '../../../shared/infrastructure/ApplicationTransaction.js';
 import { UnknownCampaignId } from '../../domain/errors.js';
 import { Campaign } from '../../domain/models/Campaign.js';
 
 const CAMPAIGN_ATTRIBUTES = [
+  'deletedAt',
+  'deletedBy',
   'archivedAt',
   'archivedBy',
   'name',
@@ -53,12 +56,17 @@ const get = async function (id) {
 };
 
 const update = async function (campaign) {
-  const [editedCampaign] = await knex('campaigns')
+  const knexConn = ApplicationTransaction.getConnection();
+  const [editedCampaign] = await knexConn('campaigns')
     .where({ id: campaign.id })
     .update(_.pick(campaign, CAMPAIGN_ATTRIBUTES))
     .returning('*');
 
   return new Campaign(editedCampaign);
+};
+
+const batchUpdate = async function (campaigns) {
+  return Promise.all(campaigns.map((campaign) => update(campaign)));
 };
 
 const save = async function (campaigns, dependencies = { skillRepository }) {
@@ -140,4 +148,14 @@ const archiveCampaigns = function (campaignIds, userId) {
   });
 };
 
-export { archiveCampaigns, get, getByCode, isCodeAvailable, isFromSameOrganization, save, swapCampaignCodes, update };
+export {
+  archiveCampaigns,
+  batchUpdate,
+  get,
+  getByCode,
+  isCodeAvailable,
+  isFromSameOrganization,
+  save,
+  swapCampaignCodes,
+  update,
+};
