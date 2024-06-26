@@ -48,44 +48,132 @@ module('Unit | Route | Invited', function (hooks) {
   });
 
   module('#afterModel', function () {
-    test('should redirect to student sco invited page when association is needed', async function (assert) {
-      //given
-      campaign = EmberObject.create({
-        isRestricted: true,
-        isOrganizationSCO: true,
+    module('reconciliation', function () {
+      test('should redirect to reconciliation invited page when association is needed', async function (assert) {
+        //given
+        campaign = EmberObject.create({
+          isReconciliationRequired: true,
+        });
+
+        route.campaignStorage.get.withArgs(campaign.code, 'associationDone').returns(false);
+
+        //when
+        await route.afterModel(campaign);
+
+        //then
+        const expectedResult = route.router.replaceWith.calledWithExactly(
+          'campaigns.invited.reconciliation',
+          campaign.code,
+        );
+        assert.true(expectedResult);
       });
-      route.campaignStorage.get.withArgs(campaign.code, 'associationDone').returns(false);
 
-      //when
-      await route.afterModel(campaign);
+      test('should redirect to fill in participant external page when association is already done', async function (assert) {
+        //given
+        campaign = EmberObject.create({
+          isReconciliationRequired: true,
+        });
 
-      //then
-      sinon.assert.calledWith(route.router.replaceWith, 'campaigns.invited.student-sco', campaign.code);
-      assert.ok(true);
+        route.campaignStorage.get.withArgs(campaign.code, 'associationDone').returns(true);
+
+        //when
+        await route.afterModel(campaign);
+
+        //then
+        const expectedResult = route.router.replaceWith.calledWithExactly(
+          'campaigns.invited.fill-in-participant-external-id',
+          campaign.code,
+        );
+        assert.true(expectedResult);
+      });
     });
 
-    test('should redirect to student sup invited page when association is needed', async function (assert) {
-      //given
-      campaign = EmberObject.create({
-        isRestricted: true,
-        isOrganizationSUP: true,
+    module('student sco', function () {
+      test('should redirect student sco invited page when association is needed', async function (assert) {
+        //given
+        campaign = EmberObject.create({
+          isRestricted: true,
+          isOrganizationSCO: true,
+        });
+        route.campaignStorage.get.withArgs(campaign.code, 'associationDone').returns(false);
+
+        //when
+        await route.afterModel(campaign);
+
+        //then
+        const expectedResult = route.router.replaceWith.calledWithExactly(
+          'campaigns.invited.student-sco',
+          campaign.code,
+        );
+        assert.true(expectedResult);
       });
-      route.campaignStorage.get.withArgs(campaign.code, 'associationDone').returns(false);
 
-      //when
-      await route.afterModel(campaign);
+      test('should redirect to fill in participant external page when association is already done', async function (assert) {
+        //given
+        campaign = EmberObject.create({
+          isRestricted: true,
+          isOrganizationSCO: true,
+        });
+        route.campaignStorage.get.withArgs(campaign.code, 'associationDone').returns(true);
 
-      //then
-      sinon.assert.calledWith(route.router.replaceWith, 'campaigns.invited.student-sup', campaign.code);
-      assert.ok(true);
+        //when
+        await route.afterModel(campaign);
+
+        //then
+        const expectedResult = route.router.replaceWith.calledWithExactly(
+          'campaigns.invited.fill-in-participant-external-id',
+          campaign.code,
+        );
+        assert.true(expectedResult);
+      });
+    });
+
+    module('student sup', function () {
+      test('should redirect student sup invited page when association is needed', async function (assert) {
+        //given
+        campaign = EmberObject.create({
+          isRestricted: true,
+          isOrganizationSUP: true,
+        });
+        route.campaignStorage.get.withArgs(campaign.code, 'associationDone').returns(false);
+
+        //when
+        await route.afterModel(campaign);
+
+        //then
+        const expectedResult = route.router.replaceWith.calledWithExactly(
+          'campaigns.invited.student-sup',
+          campaign.code,
+        );
+        assert.true(expectedResult);
+      });
+
+      test('should redirect to fill in participant external page when association is already done', async function (assert) {
+        //given
+        campaign = EmberObject.create({
+          isRestricted: true,
+          isOrganizationSUP: true,
+        });
+        route.campaignStorage.get.withArgs(campaign.code, 'associationDone').returns(true);
+
+        //when
+        await route.afterModel(campaign);
+
+        //then
+        const expectedResult = route.router.replaceWith.calledWithExactly(
+          'campaigns.invited.fill-in-participant-external-id',
+          campaign.code,
+        );
+        assert.true(expectedResult);
+      });
     });
 
     test('should redirect to fill in participant external otherwise', async function (assert) {
       //given
+      route.campaignStorage.get.withArgs(campaign.code, 'associationDone').returns(false);
       campaign = EmberObject.create({
         isRestricted: false,
       });
-      route.campaignStorage.get.withArgs(campaign.code, 'associationDone').returns(false);
 
       //when
       await route.afterModel(campaign);

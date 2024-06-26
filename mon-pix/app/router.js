@@ -98,6 +98,7 @@ Router.map(function () {
     });
     this.route('campaign-landing-page', { path: '/presentation' });
     this.route('invited', { path: '/prescrit' }, function () {
+      this.route('reconciliation', { path: '/enregistrement' });
       this.route('student-sco', { path: '/eleve' });
       this.route('student-sup', { path: '/etudiant' });
       this.route('fill-in-participant-external-id', { path: '/identifiant' });

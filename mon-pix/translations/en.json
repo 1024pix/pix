@@ -40,6 +40,7 @@
       "cancel": "Cancel",
       "close": "Close",
       "confirm": "Confirm",
+      "lets-go": "Let's go!",
       "quit": "Exit",
       "sign-out": "Sign out",
       "stay": "Stay",
@@ -107,6 +108,17 @@
     "skip-links": {
       "skip-to-content": "Skip to main content",
       "skip-to-footer": "Skip to footer"
+    }
+  },
+  "components": {
+    "invited": {
+      "reconciliation": {
+        "title": "Join organization { organizationName }",
+        "error-message": {
+          "invalid-reconciliation-error": "Check your information ({fields}) or contact a teacher.",
+          "mandatory-field": "This field is mandatory"
+        }
+      }
     }
   },
   "navigation": {

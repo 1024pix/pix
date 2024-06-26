@@ -40,6 +40,7 @@
       "cancel": "Annuler",
       "close": "Fermer",
       "confirm": "Confirmer",
+      "lets-go": "C'est parti !",
       "quit": "Quitter",
       "sign-out": "Se déconnecter",
       "stay": "Rester",
@@ -107,6 +108,17 @@
     "skip-links": {
       "skip-to-content": "Aller au contenu",
       "skip-to-footer": "Aller au bas de page"
+    }
+  },
+  "components": {
+    "invited": {
+      "reconciliation": {
+        "title": "Rejoignez l'organisation { organizationName }",
+        "error-message": {
+          "invalid-reconciliation-error": "Vérifiez vos informations ({fields}) ou contactez un enseignant.",
+          "mandatory-field": "Ce champ est obligatoire"
+        }
+      }
     }
   },
   "navigation": {
