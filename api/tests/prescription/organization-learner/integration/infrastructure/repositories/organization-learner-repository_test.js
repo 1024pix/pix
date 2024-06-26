@@ -510,14 +510,14 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
       expect(result.learners).lengthOf(2);
     });
 
-    context('ordered learners', function () {
+    context('ordered learners without case sensitive', function () {
       let firstLearner;
 
       beforeEach(async function () {
         firstLearner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
           organizationId,
+          firstName: 'toto',
           lastName: 'Gilgamesh',
-          firstName: 'Toto',
           attributes: { classe: 'Warlock' },
         });
         await databaseBuilder.commit();
@@ -529,30 +529,43 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
           firstName: 'Tata',
           lastName: 'Gilgamesh',
         });
-
-        await databaseBuilder.commit();
-
-        const result = await organizationLearnerRepository.findPaginatedLearners({ organizationId });
-
-        expect(result.learners).lengthOf(2);
-        expect(result.learners[0].id).to.equal(secondLearner.id);
-        expect(result.learners[1].id).to.equal(firstLearner.id);
-      });
-
-      it('orders by lastName when firstName are identical', async function () {
-        const secondLearner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+        const thirdLearner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
           organizationId,
           firstName: 'Toto',
-          lastName: 'Aubert',
+          lastName: 'Gulgamesh',
         });
 
         await databaseBuilder.commit();
 
         const result = await organizationLearnerRepository.findPaginatedLearners({ organizationId });
 
-        expect(result.learners).lengthOf(2);
+        expect(result.learners).lengthOf(3);
         expect(result.learners[0].id).to.equal(secondLearner.id);
         expect(result.learners[1].id).to.equal(firstLearner.id);
+        expect(result.learners[2].id).to.equal(thirdLearner.id);
+      });
+
+      it('orders by lastName when firstName are identical', async function () {
+        const secondLearner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+          organizationId,
+          firstName: 'Toto',
+          lastName: 'Auberto',
+        });
+
+        const thirdLearner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+          organizationId,
+          firstName: 'Toto',
+          lastName: 'auberto',
+        });
+
+        await databaseBuilder.commit();
+
+        const result = await organizationLearnerRepository.findPaginatedLearners({ organizationId });
+
+        expect(result.learners).lengthOf(3);
+        expect(result.learners[0].id).to.equal(secondLearner.id);
+        expect(result.learners[1].id).to.equal(thirdLearner.id);
+        expect(result.learners[2].id).to.equal(firstLearner.id);
       });
     });
 

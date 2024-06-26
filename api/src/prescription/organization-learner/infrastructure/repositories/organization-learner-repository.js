@@ -79,8 +79,8 @@ async function findPaginatedLearners({ organizationId, page, filter }) {
     .select('id', 'firstName', 'lastName', 'organizationId', 'attributes')
     .from('view-active-organization-learners')
     .where({ isDisabled: false, organizationId })
-    .orderBy('firstName', 'ASC')
-    .orderBy('lastName', 'ASC');
+    .orderByRaw('LOWER("firstName") ASC')
+    .orderByRaw('LOWER("lastName") ASC');
 
   if (filter) {
     Object.entries(filter).forEach(([name, values]) => {
