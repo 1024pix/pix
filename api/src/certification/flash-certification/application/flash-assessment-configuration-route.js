@@ -25,7 +25,7 @@ const register = async (server) => {
     },
     {
       method: 'POST',
-      path: '/api/flash-assessment-configuration',
+      path: '/api/admin/flash-assessment-configuration',
       config: {
         pre: [
           {
