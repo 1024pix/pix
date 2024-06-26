@@ -36,8 +36,8 @@ class CampaignParticipation {
     this.assessments = assessments;
     this.userId = userId;
     this.status = status;
-    this.validatedSkillsCount = validatedSkillsCount;
-    this.pixScore = pixScore;
+    this.validatedSkillsCount = validatedSkillsCount || null;
+    this.pixScore = pixScore || null;
     this.organizationLearnerId = organizationLearnerId;
   }
 
