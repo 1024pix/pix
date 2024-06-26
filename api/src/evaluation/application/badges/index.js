@@ -31,7 +31,7 @@ const register = async function (server) {
                 key: Joi.string().required(),
                 'alt-message': Joi.string().required(),
                 'image-url': Joi.string().required(),
-                message: Joi.string().required().allow(null),
+                message: Joi.string().required().allow(null, ''),
                 title: Joi.string().required().allow(null),
                 'is-certifiable': Joi.boolean().required(),
                 'is-always-visible': Joi.boolean().required(),
