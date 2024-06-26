@@ -1,11 +1,13 @@
 import { CERTIFICATION_FEATURES } from '../../../src/certification/shared/domain/constants.js';
 import { config } from '../../config.js';
+
 const { features } = config;
 class AllowedCertificationCenterAccess {
   constructor({ center, isRelatedToManagingStudentsOrganization, relatedOrganizationTags }) {
     this.id = center.id;
     this.name = center.name;
     this.externalId = center.externalId;
+    this.features = center.features;
     this.type = center.type;
     this.habilitations = center.habilitations;
     this.isV3Pilot = center.isV3Pilot;

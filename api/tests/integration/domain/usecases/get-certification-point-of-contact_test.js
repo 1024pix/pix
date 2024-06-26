@@ -42,7 +42,7 @@ describe('Integration | UseCase | get-certification-point-of-contact', function 
           type: certificationCenter.type,
           name: certificationCenter.name,
           externalId: certificationCenter.externalId,
-          isComplementaryAlonePilot: true,
+          features: [CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key],
         }),
       ],
       certificationCenterMemberships: [
