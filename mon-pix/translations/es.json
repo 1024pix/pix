@@ -506,9 +506,7 @@
             "no-communication": "'<strong>'Comunicarse con otra persona'</strong>', dentro o fuera de la sala, por medios físicos o electrónicos.",
             "no-connected-device": "'<strong>'Utilizar un teléfono móvil o cualquier dispositivo conectado'</strong>' (distinto del ordenador utilizado en la certificación)",
             "no-forum": "'<strong>'Consulta un foro de autoayuda'</strong>' proporcionando directamente la respuesta a un test",
-            "other": {
-              "other": "<strong>'Movilizar cualquier otro medio que proporcione directamente la respuesta'</strong>', sin haber realizado el trabajo requerido por la instrucción."
-            }
+            "other": "'<strong>'Movilizar cualquier otro medio que proporcione directamente la respuesta'</strong>', sin haber realizado el trabajo requerido por la instrucción."
           },
           "text": "En certificación, está prohibido :",
           "title": "Normas que deben respetarse"
