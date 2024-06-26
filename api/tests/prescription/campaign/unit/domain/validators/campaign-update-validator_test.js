@@ -261,26 +261,6 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
                 _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
               }
             });
-
-            it('should reject with error when idPixLabel length is under 3 characters', function () {
-              // given
-              const expectedError = {
-                attribute: 'idPixLabel',
-                message: 'EXTERNAL_USER_ID_IS_REQUIRED',
-              };
-
-              try {
-                // when
-                campaignUpdateValidator.validate({
-                  ...campaign,
-                  idPixLabel: 'AZ',
-                });
-                expect.fail('should have thrown an error');
-              } catch (entityValidationErrors) {
-                // then
-                _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
-              }
-            });
           });
 
           context('#type', function () {

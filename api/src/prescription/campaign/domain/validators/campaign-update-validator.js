@@ -34,9 +34,8 @@ const campaignValidationJoiSchema = Joi.object({
     'number.base': 'MISSING_ORGANIZATION',
   }),
 
-  idPixLabel: Joi.string().allow(null).default(null).min(3).messages({
+  idPixLabel: Joi.string().allow(null).default(null).messages({
     'string.empty': 'EXTERNAL_USER_ID_IS_REQUIRED',
-    'string.min': 'EXTERNAL_USER_ID_IS_REQUIRED',
   }),
 
   title: Joi.string()
