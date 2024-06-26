@@ -50,8 +50,8 @@
             "payload-too-large": "Le fichier CSV doit avoir une taille maximum de {maxSize}Mb."
           },
           "success": {
-            "full": "Toutes les données du GAR ont bien été anonymisés pour les {anonymized} utilisateurs fournis.",
-            "partial": "Les données du GAR ont été anonymisés pour {anonymized} utilisateurs sur un total de {total}."
+            "full": "Toutes les données du GAR ont bien été anonymisées pour les {total} utilisateurs fournis.",
+            "partial": "Les données du GAR ont été anonymisées pour {garAnonymizedUserCount} utilisateurs sur un total de {total}."
           }
         },
         "upload-button": "Anonymiser à partir d'un fichier CSV"

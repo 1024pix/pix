@@ -1,14 +1,35 @@
+import { eventBus as defaultEventBus } from '../../../../lib/domain/events/index.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import { GarAuthenticationMethodAnonymized } from '../events/GarAuthenticationMethodAnonymized.js';
+
 /**
  * @typedef {function} anonymizeGarAuthenticationMethods
  * @param {Object} params
  * @param {string} params.userIds
  * @param {AuthenticationMethodRepository} params.authenticationMethodRepository
+ * @param {DomainTransaction} params.domainTransaction
+ * @param {EventBus} params.eventBus
  * @return {Promise<{anonymized: string[], total: number}>}
  */
-export const anonymizeGarAuthenticationMethods = async function ({ userIds, authenticationMethodRepository }) {
+export const anonymizeGarAuthenticationMethods = async function ({
+  userIds,
+  adminMemberId,
+  authenticationMethodRepository,
+  domainTransaction = DomainTransaction.emptyTransaction(),
+  eventBus = defaultEventBus,
+}) {
   const total = userIds.length;
-  const { anonymizedUserCount } = await authenticationMethodRepository.batchAnonymizeByUserIds({
-    userIds,
+
+  const { garAnonymizedUserIds } = await authenticationMethodRepository.batchAnonymizeByUserIds(
+    { userIds },
+    { domainTransaction },
+  );
+
+  const event = new GarAuthenticationMethodAnonymized({
+    userIds: garAnonymizedUserIds,
+    updatedByUserId: adminMemberId,
   });
-  return { anonymized: anonymizedUserCount, total };
+  await eventBus.publish(event, domainTransaction);
+
+  return { garAnonymizedUserCount: garAnonymizedUserIds.length, total };
 };

@@ -21,7 +21,7 @@ describe('Acceptance | Controllers | CreateAuditLogController', () => {
         targetUserId: '2',
         userId: '3',
         action: 'ANONYMIZATION',
-        occurredAt: new Date('2023-07-05'),
+        occurredAt: '2024-06-25T16:09:05.761Z',
         role: 'SUPPORT',
         client: 'PIX_ADMIN',
       },
@@ -63,27 +63,28 @@ describe('Acceptance | Controllers | CreateAuditLogController', () => {
 
     describe('with multiple event logs', () => {
       test('returns a no content http status', async () => {
-        // when
-        const response = await server.inject(options);
-
+        // given
         options.payload = [
           {
             targetUserId: '2',
-            userId: 3,
-            action: 'READ',
-            occurredAt: new Date('2023-07-05'),
-            role: 'METIER',
-            client: 'PIX_APP',
+            userId: '3',
+            action: 'ANONYMIZATION',
+            occurredAt: '2024-06-25T16:09:05.761Z',
+            role: 'SUPER_ADMIN',
+            client: 'PIX_ADMIN',
           },
           {
             targetUserId: '2',
-            userId: 3,
-            action: 'READ',
-            occurredAt: new Date('2023-07-06'),
-            role: 'METIER',
-            client: 'PIX_APP',
+            userId: '3',
+            action: 'ANONYMIZATION',
+            occurredAt: '2024-06-25T16:09:05.761Z',
+            role: 'SUPER_ADMIN',
+            client: 'PIX_ADMIN',
           },
         ];
+
+        // when
+        const response = await server.inject(options);
 
         // then
         expect(response.statusCode).toEqual(204);
@@ -98,7 +99,7 @@ describe('Acceptance | Controllers | CreateAuditLogController', () => {
         targetUserId: '2',
         userId: 3,
         action: 'READ',
-        occurredAt: new Date('2023-07-05'),
+        occurredAt: '2024-06-25T16:09:05.761Z',
         role: 'METIER',
         client: 'PIX_APP',
       };

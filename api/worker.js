@@ -6,8 +6,8 @@ import _ from 'lodash';
 import PgBoss from 'pg-boss';
 
 import { config } from './lib/config.js';
-import { UserAnonymizedBatchEventsLoggingJob } from './lib/infrastructure/jobs/audit-log/UserAnonymizedBatchEventsLoggingJob.js';
-import { UserAnonymizedBatchEventsLoggingJobHandler } from './lib/infrastructure/jobs/audit-log/UserAnonymizedBatchEventsLoggingJobHandler.js';
+import { GarAnonymizedBatchEventsLoggingJob } from './lib/infrastructure/jobs/audit-log/GarAnonymizedBatchEventsLoggingJob.js';
+import { GarAnonymizedBatchEventsLoggingJobHandler } from './lib/infrastructure/jobs/audit-log/GarAnonymizedBatchEventsLoggingJobHandler.js';
 import { UserAnonymizedEventLoggingJob } from './lib/infrastructure/jobs/audit-log/UserAnonymizedEventLoggingJob.js';
 import { UserAnonymizedEventLoggingJobHandler } from './lib/infrastructure/jobs/audit-log/UserAnonymizedEventLoggingJobHandler.js';
 import { ParticipationResultCalculationJob } from './lib/infrastructure/jobs/campaign-result/ParticipationResultCalculationJob.js';
@@ -90,7 +90,7 @@ export async function runJobs(dependencies = { startPgBoss, createMonitoredJobQu
   );
 
   monitoredJobQueue.performJob(UserAnonymizedEventLoggingJob.name, UserAnonymizedEventLoggingJobHandler);
-  monitoredJobQueue.performJob(UserAnonymizedBatchEventsLoggingJob.name, UserAnonymizedBatchEventsLoggingJobHandler);
+  monitoredJobQueue.performJob(GarAnonymizedBatchEventsLoggingJob.name, GarAnonymizedBatchEventsLoggingJobHandler);
 
   if (config.pgBoss.validationFileJobEnabled) {
     monitoredJobQueue.performJob(ValidateOrganizationImportFileJob.name, ValidateOrganizationImportFileJobHandler);

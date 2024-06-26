@@ -1,3 +1,4 @@
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { GarAnonymizationParser } from '../../domain/services/GarAnonymizationParser.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { anonymizeGarResultSerializer } from '../../infrastructure/serializers/jsonapi/anonymize-gar-result.serializer.js';
@@ -9,9 +10,13 @@ import { anonymizeGarResultSerializer } from '../../infrastructure/serializers/j
  */
 async function anonymizeGarData(request, h) {
   const filePath = request.payload.path;
+  const adminMemberId = request.auth.credentials.userId;
 
   const userIds = await GarAnonymizationParser.getCsvData(filePath);
-  const result = await usecases.anonymizeGarAuthenticationMethods({ userIds });
+
+  const result = await DomainTransaction.execute(async (domainTransaction) => {
+    return await usecases.anonymizeGarAuthenticationMethods({ userIds, adminMemberId, domainTransaction });
+  });
 
   return h.response(anonymizeGarResultSerializer.serialize(result)).code(200);
 }

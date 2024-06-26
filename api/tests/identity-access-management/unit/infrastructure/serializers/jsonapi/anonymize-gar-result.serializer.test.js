@@ -4,20 +4,20 @@ import { expect } from '../../../../../test-helper.js';
 describe('Unit | Identity Access Management | Infrastructure | Serializer | JSONAPI | anonymize-gar-result', function () {
   describe('#serialize', function () {
     it('converts GAR anonymized results into JSON API data', function () {
-      //given
-      const anonymized = 7307;
-      const total = 7351;
-      const anonymizedResults = { anonymized, total };
+      // given
+      const garAnonymizedUserCount = 2;
+      const total = 3;
+      const anonymizedResults = { garAnonymizedUserCount, total };
 
-      //when
+      // when
       const json = anonymizeGarResultSerializer.serialize(anonymizedResults);
 
-      //then
+      // then
       const expectedJSON = {
         data: {
           type: 'anonymize-gar-results',
           attributes: {
-            anonymized,
+            'gar-anonymized-user-count': garAnonymizedUserCount,
             total,
           },
         },

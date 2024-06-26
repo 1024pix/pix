@@ -1,5 +1,6 @@
 import { ImportOrganizationLearnersJob } from '../../../src/prescription/learner-management/infrastructure/jobs/ImportOrganizationLearnersJob.js';
 import { ValidateOrganizationImportFileJob } from '../../../src/prescription/learner-management/infrastructure/jobs/ValidateOrganizationImportFileJob.js';
+import { GarAnonymizedBatchEventsLoggingJob } from '../../infrastructure/jobs/audit-log/GarAnonymizedBatchEventsLoggingJob.js';
 import { monitoringTools } from '../../infrastructure/monitoring-tools.js';
 import { UserAnonymizedEventLoggingJob } from '../jobs/audit-log/UserAnonymizedEventLoggingJob.js';
 import { ParticipationResultCalculationJob } from '../jobs/campaign-result/ParticipationResultCalculationJob.js';
@@ -16,6 +17,7 @@ function _buildDependencies(domainTransaction) {
   return {
     monitoringTools,
     userAnonymizedEventLoggingJob: new UserAnonymizedEventLoggingJob(domainTransaction.knexTransaction),
+    garAnonymizedBatchEventsLoggingJob: new GarAnonymizedBatchEventsLoggingJob(domainTransaction.knexTransaction),
     participationResultCalculationJob: new ParticipationResultCalculationJob(domainTransaction.knexTransaction),
     sendSharedParticipationResultsToPoleEmploiJob: new SendSharedParticipationResultsToPoleEmploiJob(
       domainTransaction.knexTransaction,

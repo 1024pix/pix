@@ -1,4 +1,4 @@
-export const AuditLogActionTypes = ['ANONYMIZATION'] as const;
+export const AuditLogActionTypes = ['ANONYMIZATION', 'ANONYMIZATION_GAR'] as const;
 export type AuditLogAction = typeof AuditLogActionTypes[number];
 export const AuditLogClientTypes = ['PIX_ADMIN'] as const;
 export type AuditLogClient = typeof AuditLogClientTypes[number];

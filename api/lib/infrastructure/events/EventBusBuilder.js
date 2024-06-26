@@ -1,3 +1,4 @@
+import { GarAnonymizedJobScheduler } from '../../../src/identity-access-management/infrastructure/events/subscribers/GarAnonymizedJobScheduler.js';
 import { ScheduleImportOrganizationLearnersJob } from '../../../src/prescription/learner-management/infrastructure/events/subscribers/ScheduleImportOrganizationLearnersJob.js';
 import { ScheduleValidateOrganizationImportFileJob } from '../../../src/prescription/learner-management/infrastructure/events/subscribers/ScheduleValidateOrganizationImportFileJob.js';
 import { EventBus } from './EventBus.js';
@@ -9,6 +10,7 @@ import { ScheduleSendSharedParticipationResultsToPoleEmploiJob } from './subscri
 
 const subscribers = [
   UserAnonymizedEventLoggingJobScheduler,
+  GarAnonymizedJobScheduler,
   LogEvent,
   ScheduleParticipationResultCalculationJob,
   ScheduleSendSharedParticipationResultsToPoleEmploiJob,

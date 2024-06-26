@@ -1274,11 +1274,12 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
       // when
       const result = await authenticationMethodRepository.batchAnonymizeByUserIds({
         userIds: [userId1, userId2, userId3],
-        chunkSize: 1,
+        chunkSize: 2,
       });
 
       // then
-      expect(result.anonymizedUserCount).to.equal(3);
+      expect(result.garAnonymizedUserIds).to.deep.equal([userId1, userId2, userId3]);
+
       const anonymizedAuthenticationMethods = await knex('authentication-methods')
         .whereIn('userId', [userId1, userId2, userId3])
         .andWhere('identityProvider', 'GAR');

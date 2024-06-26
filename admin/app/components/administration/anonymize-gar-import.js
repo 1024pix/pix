@@ -32,17 +32,17 @@ export default class AnonymizeGarImport extends Component {
       const json = await response.json();
 
       if (response.ok) {
-        const { anonymized, total } = json.data.attributes;
+        const { 'gar-anonymized-user-count': garAnonymizedUserCount, total } = json.data.attributes;
 
-        if (anonymized === total) {
+        if (garAnonymizedUserCount === total) {
           return this.notifications.success(
-            this.intl.t('components.administration.anonymize-gar-import.notifications.success.full', { anonymized }),
+            this.intl.t('components.administration.anonymize-gar-import.notifications.success.full', { total }),
           );
         }
 
         return this.notifications.warning(
           this.intl.t('components.administration.anonymize-gar-import.notifications.success.partial', {
-            anonymized,
+            garAnonymizedUserCount,
             total,
           }),
         );
