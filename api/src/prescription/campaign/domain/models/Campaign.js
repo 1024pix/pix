@@ -1,7 +1,12 @@
 import { ObjectValidationError } from '../../../../../lib/domain/errors.js';
 import { CampaignTypes } from '../../../shared/domain/constants.js';
-import { ArchivedCampaignError } from '../errors.js';
-import { CampaignCodeFormatError, IsForAbsoluteNoviceUpdateError, MultipleSendingsUpdateError } from '../errors.js';
+import {
+  ArchivedCampaignError,
+  CampaignCodeFormatError,
+  DeletedCampaignError,
+  IsForAbsoluteNoviceUpdateError,
+  MultipleSendingsUpdateError,
+} from '../errors.js';
 
 class Campaign {
   constructor({
@@ -27,6 +32,8 @@ class Campaign {
     ownerId,
     archivedAt,
     archivedBy,
+    deletedAt = null,
+    deletedBy = null,
     participationCount,
   } = {}) {
     this.id = id;
@@ -52,6 +59,8 @@ class Campaign {
     this.createdAt = createdAt;
     this.archivedAt = archivedAt;
     this.archivedBy = archivedBy;
+    this.deletedAt = deletedAt;
+    this.deletedBy = deletedBy;
     this.hasParticipation = participationCount > 0;
   }
 
@@ -67,9 +76,21 @@ class Campaign {
     return Boolean(this.archivedAt);
   }
 
+  delete(userId) {
+    if (this.deletedAt) {
+      throw new DeletedCampaignError();
+    }
+    if (!userId) {
+      throw new ObjectValidationError('userId Missing');
+    }
+
+    this.deletedAt = new Date();
+    this.deletedBy = userId;
+  }
+
   archive(archivedAt, archivedBy) {
     if (this.archivedAt) {
-      throw new ArchivedCampaignError('Campaign Already Archived');
+      throw new ArchivedCampaignError();
     }
     if (!archivedAt) {
       throw new ObjectValidationError('ArchivedAt Missing');
