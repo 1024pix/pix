@@ -25,6 +25,7 @@ const buildUser = function ({
   authenticationMethods = [buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword()],
   hasBeenAnonymised = false,
   hasBeenAnonymisedBy = null,
+  emailConfirmedAt,
 } = {}) {
   return new User({
     id,
@@ -48,6 +49,7 @@ const buildUser = function ({
     authenticationMethods,
     hasBeenAnonymised,
     hasBeenAnonymisedBy,
+    emailConfirmedAt,
   });
 };
 
