@@ -30,6 +30,31 @@ describe('Integration | Repository | Campaign Administration', function () {
     });
   });
 
+  describe('#getByIds', function () {
+    it('should return null if campaigns does not exists', async function () {
+      // given & when
+      const campaigns = await campaignAdministrationRepository.getByIds([1, 2]);
+
+      // then
+      expect(campaigns).to.be.null;
+    });
+
+    it('should return campaigns for given ids', async function () {
+      // given
+      const firstCampaign = new Campaign(databaseBuilder.factory.buildCampaign());
+      const secondCampaign = new Campaign(databaseBuilder.factory.buildCampaign());
+      databaseBuilder.factory.buildCampaign();
+
+      await databaseBuilder.commit();
+
+      // when
+      const campaigns = await campaignAdministrationRepository.getByIds([firstCampaign.id, secondCampaign.id]);
+
+      // then
+      expect(campaigns).to.deep.equal([firstCampaign, secondCampaign]);
+    });
+  });
+
   describe('#save', function () {
     context('when campaign is of type ASSESSMENT', function () {
       it('should save the given campaign with type ASSESSMENT', async function () {
@@ -477,7 +502,7 @@ describe('Integration | Repository | Campaign Administration', function () {
     });
 
     it('should update campaigns and return them', async function () {
-      const user = databaseBuilder.factory.buildUser()
+      const user = databaseBuilder.factory.buildUser();
       const firstCampaign = new Campaign(databaseBuilder.factory.buildCampaign());
       const secondCampaign = new Campaign(databaseBuilder.factory.buildCampaign());
 
@@ -502,7 +527,7 @@ describe('Integration | Repository | Campaign Administration', function () {
         deletedBy: user.id,
       });
     });
-  })
+  });
 
   describe('#update', function () {
     let campaign;
