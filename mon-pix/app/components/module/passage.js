@@ -24,13 +24,13 @@ export default class ModulePassage extends Component {
     return this.grainsToDisplay.length < this.displayableGrains.length;
   }
 
-  get lastIndex() {
+  get currentGrainIndex() {
     return this.grainsToDisplay.length - 1;
   }
 
   @action
   skipToNextGrain() {
-    const lastGrain = this.displayableGrains[this.lastIndex];
+    const currentGrain = this.displayableGrains[this.currentGrainIndex];
 
     this.addNextGrainToDisplay();
 
@@ -38,13 +38,13 @@ export default class ModulePassage extends Component {
       event: 'custom-event',
       'pix-event-category': 'Modulix',
       'pix-event-action': `Passage du module : ${this.args.module.id}`,
-      'pix-event-name': `Click sur le bouton passer du grain : ${lastGrain.id}`,
+      'pix-event-name': `Click sur le bouton passer du grain : ${currentGrain.id}`,
     });
   }
 
   @action
   continueToNextGrain() {
-    const lastGrain = this.displayableGrains[this.lastIndex];
+    const currentGrain = this.displayableGrains[this.currentGrainIndex];
 
     this.addNextGrainToDisplay();
 
@@ -52,7 +52,19 @@ export default class ModulePassage extends Component {
       event: 'custom-event',
       'pix-event-category': 'Modulix',
       'pix-event-action': `Passage du module : ${this.args.module.id}`,
-      'pix-event-name': `Click sur le bouton continuer du grain : ${lastGrain.id}`,
+      'pix-event-name': `Click sur le bouton continuer du grain : ${currentGrain.id}`,
+    });
+  }
+
+  @action
+  continueToNextStep(currentStepPosition) {
+    const currentGrain = this.displayableGrains[this.currentGrainIndex];
+
+    this.metrics.add({
+      event: 'custom-event',
+      'pix-event-category': 'Modulix',
+      'pix-event-action': `Passage du module : ${this.args.module.id}`,
+      'pix-event-name': `Click sur le bouton suivant de l'étape ${currentStepPosition} du stepper dans le grain : ${currentGrain.id}`,
     });
   }
 
@@ -61,18 +73,18 @@ export default class ModulePassage extends Component {
       return;
     }
 
-    const nextGrain = this.displayableGrains[this.lastIndex + 1];
+    const nextGrain = this.displayableGrains[this.currentGrainIndex + 1];
     this.grainsToDisplay = [...this.grainsToDisplay, nextGrain];
   }
 
   @action
   grainCanMoveToNextGrain(index) {
-    return this.lastIndex === index && this.hasNextGrain;
+    return this.currentGrainIndex === index && this.hasNextGrain;
   }
 
   @action
   grainShouldDisplayTerminateButton(index) {
-    return this.lastIndex === index && !this.hasNextGrain;
+    return this.currentGrainIndex === index && !this.hasNextGrain;
   }
 
   @action

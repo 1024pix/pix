@@ -468,9 +468,16 @@ module('Integration | Component | Module | Stepper', function (hooks) {
         ];
 
         function stepperIsFinished() {}
+        function continueToNextStepStub() {}
 
         const screen = await render(
-          <template><ModulixStepper @steps={{steps}} @stepperIsFinished={{stepperIsFinished}} /></template>,
+          <template>
+            <ModulixStepper
+              @steps={{steps}}
+              @stepperIsFinished={{stepperIsFinished}}
+              @continueToNextStep={{continueToNextStepStub}}
+            />
+          </template>,
         );
 
         // when
@@ -504,9 +511,16 @@ module('Integration | Component | Module | Stepper', function (hooks) {
         ];
 
         function stepperIsFinished() {}
+        function continueToNextStepStub() {}
 
         const screen = await render(
-          <template><ModulixStepper @steps={{steps}} @stepperIsFinished={{stepperIsFinished}} /></template>,
+          <template>
+            <ModulixStepper
+              @steps={{steps}}
+              @stepperIsFinished={{stepperIsFinished}}
+              @continueToNextStep={{continueToNextStepStub}}
+            />
+          </template>,
         );
 
         // when
