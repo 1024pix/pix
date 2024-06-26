@@ -1,5 +1,5 @@
-import { CERTIFICATION_FEATURES } from '../../../src/certification/shared/domain/constants.js';
 import { config } from '../../config.js';
+
 const { features } = config;
 class AllowedCertificationCenterAccess {
   constructor({ center, isRelatedToManagingStudentsOrganization, relatedOrganizationTags }) {
@@ -8,6 +8,7 @@ class AllowedCertificationCenterAccess {
     this.externalId = center.externalId;
     this.type = center.type;
     this.habilitations = center.habilitations;
+    this.isComplementaryAlonePilot = center.isComplementaryAlonePilot;
     this.isV3Pilot = center.isV3Pilot;
     this.isRelatedToManagingStudentsOrganization = isRelatedToManagingStudentsOrganization;
     this.relatedOrganizationTags = relatedOrganizationTags;
@@ -70,10 +71,6 @@ class AllowedCertificationCenterAccess {
 
   get pixCertifScoBlockedAccessDateCollege() {
     return features.pixCertifScoBlockedAccessDateCollege ?? null;
-  }
-
-  get isComplementaryAlonePilot() {
-    return this.features.includes(CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key);
   }
 }
 

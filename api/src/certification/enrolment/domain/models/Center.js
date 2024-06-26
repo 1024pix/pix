@@ -1,5 +1,4 @@
 import { assertEnumValue } from '../../../../shared/domain/models/asserts.js';
-import { CERTIFICATION_FEATURES } from '../../../shared/domain/constants.js';
 import { CenterTypes } from './CenterTypes.js';
 
 export class Center {
@@ -12,7 +11,16 @@ export class Center {
    * @param externalId
    * @param isV3Pilot
    */
-  constructor({ id, name, externalId, isV3Pilot, type, habilitations = [], features = [] } = {}) {
+  constructor({
+    id,
+    name,
+    externalId,
+    isV3Pilot,
+    type,
+    habilitations = [],
+    features = [],
+    isComplementaryAlonePilot,
+  } = {}) {
     assertEnumValue(CenterTypes, type);
 
     this.id = id;
@@ -22,13 +30,10 @@ export class Center {
     this.habilitations = habilitations;
     this.features = features;
     this.isV3Pilot = isV3Pilot;
+    this.isComplementaryAlonePilot = isComplementaryAlonePilot;
   }
 
   get hasBillingMode() {
     return this.type !== CenterTypes.SCO;
-  }
-
-  get isComplementaryAlonePilot() {
-    return this.features.includes(CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key);
   }
 }
