@@ -8,6 +8,8 @@ import { UnknownCampaignId } from '../../domain/errors.js';
 import { Campaign } from '../../domain/models/Campaign.js';
 
 const CAMPAIGN_ATTRIBUTES = [
+  'archivedAt',
+  'archivedBy',
   'name',
   'code',
   'title',
@@ -25,6 +27,14 @@ const CAMPAIGN_ATTRIBUTES = [
   'customResultPageButtonText',
   'customResultPageButtonUrl',
 ];
+
+const getByCode = async function (code) {
+  const campaign = await knex.select('id').from('campaigns').where({ code }).first();
+
+  if (!campaign) return null;
+
+  return get(campaign.id);
+};
 
 const get = async function (id) {
   const campaign = await knex('campaigns').where({ id }).first();
@@ -130,4 +140,4 @@ const archiveCampaigns = function (campaignIds, userId) {
   });
 };
 
-export { archiveCampaigns, get, isCodeAvailable, isFromSameOrganization, save, swapCampaignCodes, update };
+export { archiveCampaigns, get, getByCode, isCodeAvailable, isFromSameOrganization, save, swapCampaignCodes, update };

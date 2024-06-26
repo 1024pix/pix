@@ -22,7 +22,6 @@ import * as campaignAdministrationRepository from '../../infrastructure/reposito
 import * as campaignAssessmentParticipationResultListRepository from '../../infrastructure/repositories/campaign-assessment-participation-result-list-repository.js';
 import * as campaignCollectiveResultRepository from '../../infrastructure/repositories/campaign-collective-result-repository.js';
 import * as campaignCreatorRepository from '../../infrastructure/repositories/campaign-creator-repository.js';
-import * as campaignForArchivingRepository from '../../infrastructure/repositories/campaign-for-archiving-repository.js';
 // TODO : clean with campaign administration ( similar get with a lot difference)
 import * as campaignManagementRepository from '../../infrastructure/repositories/campaign-management-repository.js';
 import { campaignParticipantActivityRepository } from '../../infrastructure/repositories/campaign-participant-activity-repository.js';
@@ -67,7 +66,6 @@ const dependencies = {
   stageCollectionRepository,
   targetProfileRepository, // TODO
   userRepository,
-  campaignForArchivingRepository,
   campaignCollectiveResultRepository,
   campaignToJoinRepository,
   campaignParticipationsStatsRepository,

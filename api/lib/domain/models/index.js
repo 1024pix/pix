@@ -28,7 +28,6 @@ import { Organization } from '../../../src/organizational-entities/domain/models
 import { OrganizationForAdmin } from '../../../src/organizational-entities/domain/models/OrganizationForAdmin.js';
 import { Tag } from '../../../src/organizational-entities/domain/models/Tag.js';
 import { CampaignCreator } from '../../../src/prescription/campaign/domain/models/CampaignCreator.js';
-import { CampaignForArchiving } from '../../../src/prescription/campaign/domain/models/CampaignForArchiving.js';
 import { CampaignForCreation } from '../../../src/prescription/campaign/domain/models/CampaignForCreation.js';
 import { Group } from '../../../src/prescription/campaign/domain/models/Group.js';
 import { CampaignToStartParticipation } from '../../../src/prescription/campaign-participation/domain/models/CampaignToStartParticipation.js';
@@ -150,7 +149,6 @@ export {
   BadgeForCalculation,
   Campaign,
   CampaignCreator,
-  CampaignForArchiving,
   CampaignForCreation,
   CampaignLearningContent,
   CampaignParticipant,

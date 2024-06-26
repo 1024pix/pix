@@ -1,7 +1,7 @@
-const unarchiveCampaign = async function ({ campaignId, campaignForArchivingRepository }) {
-  const campaign = await campaignForArchivingRepository.get(campaignId);
+const unarchiveCampaign = async function ({ campaignId, campaignAdministrationRepository }) {
+  const campaign = await campaignAdministrationRepository.get(campaignId);
   campaign.unarchive();
-  await campaignForArchivingRepository.save(campaign);
+  await campaignAdministrationRepository.update(campaign);
   return campaign;
 };
 
