@@ -768,7 +768,19 @@ module('Integration | Component | Module | Grain', function (hooks) {
         });
       });
 
-      module('when there is no more steps to display', function () {
+      module('when there is no more steps to display', function (hooks) {
+        let passage;
+        let retryElementStub;
+        let continueToNextStepStub;
+        let store;
+
+        hooks.beforeEach(function () {
+          store = this.owner.lookup('service:store');
+          passage = store.createRecord('passage');
+          retryElementStub = sinon.stub();
+          continueToNextStepStub = sinon.stub();
+        });
+
         test('should display continue button', async function (assert) {
           // given
           const steps = [
@@ -794,7 +806,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
             },
           ];
 
-          const store = this.owner.lookup('service:store');
           const grain = store.createRecord('grain', {
             title: 'Grain title',
             components: [
@@ -805,16 +816,14 @@ module('Integration | Component | Module | Grain', function (hooks) {
             ],
           });
 
-          const passage = store.createRecord('passage');
-          const retryElementStub = sinon.stub();
-
           this.set('grain', grain);
           this.set('passage', passage);
           this.set('retryElement', retryElementStub);
+          this.set('continueToNextStep', continueToNextStepStub);
 
           // when
           const screen = await render(hbs`
-          <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @retryElement={{this.retryElement}}  />`);
+          <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @retryElement={{this.retryElement}} @continueToNextStep={{this.continueToNextStep}} />`);
           await clickByName(this.intl.t('pages.modulix.buttons.stepper.next'));
 
           // then
@@ -848,7 +857,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
             },
           ];
 
-          const store = this.owner.lookup('service:store');
           const grain = store.createRecord('grain', {
             title: 'Grain title',
             components: [
@@ -859,16 +867,14 @@ module('Integration | Component | Module | Grain', function (hooks) {
             ],
           });
 
-          const passage = store.createRecord('passage');
-          const retryElementStub = sinon.stub();
-
           this.set('grain', grain);
           this.set('passage', passage);
           this.set('retryElement', retryElementStub);
+          this.set('continueToNextStep', continueToNextStepStub);
 
           // when
           const screen = await render(hbs`
-          <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @retryElement={{this.retryElement}}  />`);
+          <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @retryElement={{this.retryElement}} @continueToNextStep={{this.continueToNextStep}} />`);
           await clickByName(this.intl.t('pages.modulix.buttons.stepper.next'));
 
           // then
@@ -880,7 +886,19 @@ module('Integration | Component | Module | Grain', function (hooks) {
     });
 
     module('when there are answerable elements in stepper', function () {
-      module('when user response is not verified', function () {
+      module('when user response is not verified', function (hooks) {
+        let passage;
+        let retryElementStub;
+        let continueToNextStepStub;
+        let store;
+
+        hooks.beforeEach(function () {
+          store = this.owner.lookup('service:store');
+          passage = store.createRecord('passage');
+          retryElementStub = sinon.stub();
+          continueToNextStepStub = sinon.stub();
+        });
+
         module('when there are still steps to display', function () {
           test('should display skip button', async function (assert) {
             // given
@@ -908,7 +926,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
               },
             ];
 
-            const store = this.owner.lookup('service:store');
             const grain = store.createRecord('grain', {
               title: 'Grain title',
               components: [
@@ -919,20 +936,19 @@ module('Integration | Component | Module | Grain', function (hooks) {
               ],
             });
 
-            const passage = store.createRecord('passage');
-            const retryElementStub = sinon.stub();
-
             this.set('grain', grain);
             this.set('passage', passage);
             this.set('retryElement', retryElementStub);
+            this.set('continueToNextStep', continueToNextStepStub);
 
             // when
             const screen = await render(hbs`
-          <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @retryElement={{this.retryElement}}  />`);
+          <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @retryElement={{this.retryElement}} @continueToNextStep={{this.continueToNextStep}} />`);
 
             // then
             assert.dom(screen.getByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.skip') })).exists();
           });
+
           test('should not display continue button', async function (assert) {
             // given
             const steps = [
@@ -959,7 +975,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
               },
             ];
 
-            const store = this.owner.lookup('service:store');
             const grain = store.createRecord('grain', {
               title: 'Grain title',
               components: [
@@ -970,16 +985,14 @@ module('Integration | Component | Module | Grain', function (hooks) {
               ],
             });
 
-            const passage = store.createRecord('passage');
-            const retryElementStub = sinon.stub();
-
             this.set('grain', grain);
             this.set('passage', passage);
             this.set('retryElement', retryElementStub);
+            this.set('continueToNextStep', continueToNextStepStub);
 
             // when
             const screen = await render(hbs`
-          <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @retryElement={{this.retryElement}}  />`);
+          <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @retryElement={{this.retryElement}} @continueToNextStep={{this.continueToNextStep}} />`);
 
             // then
             assert
@@ -1016,7 +1029,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
                 },
               ];
 
-              const store = this.owner.lookup('service:store');
               const grain = store.createRecord('grain', {
                 title: 'Grain title',
                 components: [
@@ -1027,16 +1039,14 @@ module('Integration | Component | Module | Grain', function (hooks) {
                 ],
               });
 
-              const passage = store.createRecord('passage');
-              const retryElementStub = sinon.stub();
-
               this.set('grain', grain);
               this.set('passage', passage);
               this.set('retryElement', retryElementStub);
+              this.set('continueToNextStep', continueToNextStepStub);
 
               // when
               const screen = await render(hbs`
-            <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @retryElement={{this.retryElement}}  />`);
+            <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @retryElement={{this.retryElement}} @continueToNextStep={{this.continueToNextStep}} />`);
               await clickByName(this.intl.t('pages.modulix.buttons.stepper.next'));
 
               // then
@@ -1071,7 +1081,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
                 },
               ];
 
-              const store = this.owner.lookup('service:store');
               const grain = store.createRecord('grain', {
                 title: 'Grain title',
                 components: [
@@ -1082,16 +1091,14 @@ module('Integration | Component | Module | Grain', function (hooks) {
                 ],
               });
 
-              const passage = store.createRecord('passage');
-              const retryElementStub = sinon.stub();
-
               this.set('grain', grain);
               this.set('passage', passage);
               this.set('retryElement', retryElementStub);
+              this.set('continueToNextStep', continueToNextStepStub);
 
               // when
               const screen = await render(hbs`
-            <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @retryElement={{this.retryElement}}  />`);
+            <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @retryElement={{this.retryElement}} @continueToNextStep={{this.continueToNextStep}} />`);
               await clickByName(this.intl.t('pages.modulix.buttons.stepper.next'));
 
               // then
@@ -1228,7 +1235,19 @@ module('Integration | Component | Module | Grain', function (hooks) {
               .doesNotExist();
           });
         });
-        module('when there is no more steps to display', function () {
+
+        module('when there is no more steps to display', function (hooks) {
+          let passage;
+          let retryElementStub;
+          let continueToNextStepStub;
+          let store;
+
+          hooks.beforeEach(function () {
+            store = this.owner.lookup('service:store');
+            passage = store.createRecord('passage');
+            retryElementStub = sinon.stub();
+            continueToNextStepStub = sinon.stub();
+          });
           module('when the last step contains an answerable element', function () {
             test('should not display skip button', async function (assert) {
               // given
@@ -1270,22 +1289,21 @@ module('Integration | Component | Module | Grain', function (hooks) {
                 ],
               });
 
-              const passage = store.createRecord('passage');
               const correction = store.createRecord('correction-response', { status: 'ok', feedback: 'super' });
               store.createRecord('element-answer', {
                 elementId: 'd0690f26-978c-41c3-9a21-da931857739c',
                 correction,
                 passage,
               });
-              const retryElementStub = sinon.stub();
 
               this.set('grain', grain);
               this.set('passage', passage);
               this.set('retryElement', retryElementStub);
+              this.set('continueToNextStep', continueToNextStepStub);
 
               // when
               const screen = await render(hbs`
-                <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @retryElement={{this.retryElement}}  />`);
+                <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @retryElement={{this.retryElement}} @continueToNextStep={{this.continueToNextStep}} />`);
 
               await clickByName(this.intl.t('pages.modulix.buttons.stepper.next'));
 
@@ -1335,7 +1353,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
                 ],
               });
 
-              const passage = store.createRecord('passage');
               const correction = store.createRecord('correction-response', { status: 'ok', feedback: 'super' });
               store.createRecord('element-answer', {
                 elementId: 'd0690f26-978c-41c3-9a21-da931857739c',
@@ -1347,10 +1364,11 @@ module('Integration | Component | Module | Grain', function (hooks) {
               this.set('grain', grain);
               this.set('passage', passage);
               this.set('retryElement', retryElementStub);
+              this.set('continueToNextStep', continueToNextStepStub);
 
               // when
               const screen = await render(hbs`
-                <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @retryElement={{this.retryElement}}  />`);
+                <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @retryElement={{this.retryElement}} @continueToNextStep={{this.continueToNextStep}} />`);
 
               await clickByName(this.intl.t('pages.modulix.buttons.stepper.next'));
 

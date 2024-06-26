@@ -56,6 +56,18 @@ export default class ModulePassage extends Component {
     });
   }
 
+  @action
+  continueToNextStep(currentStepPosition) {
+    const currentGrain = this.displayableGrains[this.lastIndex];
+
+    this.metrics.add({
+      event: 'custom-event',
+      'pix-event-category': 'Modulix',
+      'pix-event-action': `Passage du module : ${this.args.module.id}`,
+      'pix-event-name': `Click sur le bouton suivant de l'étape ${currentStepPosition} du stepper dans le grain : ${currentGrain.id}`,
+    });
+  }
+
   addNextGrainToDisplay() {
     if (!this.hasNextGrain) {
       return;

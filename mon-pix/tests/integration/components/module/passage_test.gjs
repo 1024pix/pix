@@ -429,6 +429,42 @@ module('Integration | Component | Module | Passage', function (hooks) {
     });
   });
 
+  module('when user click on next step button', function () {
+    test('should push event', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const text1Element = { content: 'content', type: 'text' };
+      const text2Element = { content: 'content 2', type: 'text' };
+      const step1 = { elements: [text1Element] };
+      const step2 = { elements: [text2Element] };
+      const grain = store.createRecord('grain', {
+        id: '123',
+        components: [{ type: 'stepper', steps: [step1, step2] }],
+      });
+
+      const module = store.createRecord('module', { id: '1', title: 'Module title', grains: [grain] });
+      const passage = store.createRecord('passage');
+      const continueToNextStepButtonName = this.intl.t('pages.modulix.buttons.stepper.next');
+
+      await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
+
+      const metrics = this.owner.lookup('service:metrics');
+      metrics.add = sinon.stub();
+
+      // when
+      await clickByName(continueToNextStepButtonName);
+
+      // then
+      sinon.assert.calledWithExactly(metrics.add, {
+        event: 'custom-event',
+        'pix-event-category': 'Modulix',
+        'pix-event-action': `Passage du module : ${module.id}`,
+        'pix-event-name': `Click sur le bouton suivant de l'étape 1 du stepper dans le grain : ${grain.id}`,
+      });
+      assert.ok(true);
+    });
+  });
+
   module('when there is no more grain to display', function () {
     test('should display the terminate button', async function (assert) {
       // given
