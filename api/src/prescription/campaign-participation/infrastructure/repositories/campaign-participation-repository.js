@@ -54,6 +54,14 @@ const get = async function (id, domainTransaction) {
   });
 };
 
+const getByCampaignIds = async function (campaignIds) {
+  const knexConn = ApplicationTransaction.getConnection();
+  const campaignParticipations = await knexConn('campaign-participations')
+    .whereNull('deletedAt')
+    .whereIn('campaignId', campaignIds);
+  return campaignParticipations.map((campaignParticipation) => new CampaignParticipation(campaignParticipation));
+};
+
 const getAllCampaignParticipationsInCampaignForASameLearner = async function ({
   campaignId,
   campaignParticipationId,
@@ -105,6 +113,7 @@ const remove = async function ({ id, deletedAt, deletedBy, domainTransaction }) 
 export {
   get,
   getAllCampaignParticipationsInCampaignForASameLearner,
+  getByCampaignIds,
   getCampaignParticipationsForOrganizationLearner,
   remove,
   update,

@@ -205,6 +205,50 @@ describe('Integration | Repository | Campaign Participation', function () {
     });
   });
 
+  describe('#getByCampaignIds', function () {
+    it('should return participations', async function () {
+      // given
+      const firstCampaignParticipationToUpdate = databaseBuilder.factory.buildCampaignParticipation({
+        deletedAt: null,
+        deletedBy: null,
+      });
+      const secondCampaignParticipationToUpdate = databaseBuilder.factory.buildCampaignParticipation({
+        deletedAt: null,
+        deletedBy: null,
+      });
+      databaseBuilder.factory.buildCampaignParticipation();
+      await databaseBuilder.commit();
+
+      // when
+      const participations = await campaignParticipationRepository.getByCampaignIds([
+        firstCampaignParticipationToUpdate.campaignId,
+        secondCampaignParticipationToUpdate.campaignId,
+      ]);
+
+      // then
+      expect(participations).to.be.deep.equal([
+        new CampaignParticipation(firstCampaignParticipationToUpdate),
+        new CampaignParticipation(secondCampaignParticipationToUpdate),
+      ]);
+    });
+
+    it('should not return deleted participations', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const deletedParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        deletedAt: new Date(),
+        deletedBy: userId,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const participations = await campaignParticipationRepository.getByCampaignIds([deletedParticipation.campaignId]);
+
+      // then
+      expect(participations.length).to.equal(0);
+    });
+  });
+
   describe('#update', function () {
     it('save the changes of the campaignParticipation', async function () {
       const campaignParticipationId = 12;
