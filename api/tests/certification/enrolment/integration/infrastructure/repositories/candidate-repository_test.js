@@ -190,4 +190,46 @@ describe('Integration | Certification | Session | Repository | Candidate', funct
       });
     });
   });
+
+  describe('#isUserCertificationCandidate', function () {
+    describe('when the candidate exists and is reconciled to a given user', function () {
+      it('should return true', async function () {
+        // when
+        const userId = databaseBuilder.factory.buildUser().id;
+        const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
+          userId,
+        });
+
+        await databaseBuilder.commit();
+
+        const isUserCertificationCandidate = await candidateRepository.isUserCertificationCandidate({
+          userId,
+          certificationCandidateId: certificationCandidate.id,
+        });
+
+        // then
+        expect(isUserCertificationCandidate).to.be.true;
+      });
+    });
+
+    describe('when the candidate is not reconciled to the given user', function () {
+      it('should return false', async function () {
+        // when
+        const userId = databaseBuilder.factory.buildUser().id;
+        const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
+          userId: null,
+        });
+
+        await databaseBuilder.commit();
+
+        const isUserCertificationCandidate = await candidateRepository.isUserCertificationCandidate({
+          userId,
+          certificationCandidateId: certificationCandidate.id,
+        });
+
+        // then
+        expect(isUserCertificationCandidate).to.be.false;
+      });
+    });
+  });
 });

@@ -84,7 +84,28 @@ const update = async function (certificationCandidate) {
   return _toDomain(updatedCertificationCandidate);
 };
 
-export { findBySessionId, get, update };
+/**
+ * @function
+ * @param {Object} params
+ * @param {number} params.certificationCandidateId
+ * @param {number} params.userId
+ *
+ * @return {Boolean} Returns true if candidate is found or false otherwise
+ */
+const isUserCertificationCandidate = async function ({ certificationCandidateId, userId }) {
+  const certificationCandidate = await knex
+    .select(1)
+    .from('certification-candidates')
+    .where({
+      id: certificationCandidateId,
+      userId,
+    })
+    .first();
+
+  return Boolean(certificationCandidate);
+};
+
+export { findBySessionId, get, isUserCertificationCandidate, update };
 
 function _toDomain(result) {
   return result ? new Candidate(result) : null;
