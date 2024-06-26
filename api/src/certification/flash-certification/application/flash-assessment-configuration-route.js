@@ -46,11 +46,11 @@ const register = async (server) => {
             variationPercentUntil: Joi.number().allow(null).optional(),
           }),
         },
-        handler: flashAssessmentConfigurationController.updateActiveFlashAssessmentConfiguration,
+        handler: flashAssessmentConfigurationController.createFlashAssessmentConfiguration,
         tags: ['api', 'flash-assessment-configuration'],
         notes: [
           '**Cette route est restreinte aux super-administrateurs** \n' +
-            'Met à jour la configuration active pour la certification v3',
+            'Créée une nouvelle configuration active pour la certification v3',
         ],
       },
     },

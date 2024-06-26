@@ -20,21 +20,21 @@ describe('Integration | Application | FlashAssessmentConfigurationController', f
     });
   });
 
-  describe('#updateActiveFlashAssessmentConfiguration', function () {
-    it('should update the active flash assessment configuration', async function () {
-      sinon.stub(usecases, 'updateActiveFlashAssessmentConfiguration');
+  describe('#createFlashAssessmentConfiguration', function () {
+    it('should create an active flash assessment configuration', async function () {
+      sinon.stub(usecases, 'createFlashAssessmentConfiguration');
 
       const payload = {
         warmUpLength: 12,
       };
 
-      const response = await flashAssessmentConfigurationController.updateActiveFlashAssessmentConfiguration(
+      const response = await flashAssessmentConfigurationController.createFlashAssessmentConfiguration(
         { payload },
         hFake,
       );
 
       expect(response.statusCode).to.equal(204);
-      expect(usecases.updateActiveFlashAssessmentConfiguration).to.have.been.calledWith({
+      expect(usecases.createFlashAssessmentConfiguration).to.have.been.calledWith({
         configuration: payload,
       });
     });

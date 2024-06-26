@@ -5,9 +5,9 @@ const getActiveFlashAssessmentConfiguration = async (req, h) => {
   return h.response(flashAssessmentConfiguration);
 };
 
-const updateActiveFlashAssessmentConfiguration = async (req, h) => {
+const createFlashAssessmentConfiguration = async (req, h) => {
   const { payload } = req;
-  await usecases.updateActiveFlashAssessmentConfiguration({
+  await usecases.createFlashAssessmentConfiguration({
     configuration: payload,
   });
   return h.response().code(204);
@@ -15,5 +15,5 @@ const updateActiveFlashAssessmentConfiguration = async (req, h) => {
 
 export const flashAssessmentConfigurationController = {
   getActiveFlashAssessmentConfiguration,
-  updateActiveFlashAssessmentConfiguration,
+  createFlashAssessmentConfiguration,
 };

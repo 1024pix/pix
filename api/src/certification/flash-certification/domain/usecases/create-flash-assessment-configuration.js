@@ -1,9 +1,6 @@
 import { FlashAssessmentAlgorithmConfiguration } from '../models/FlashAssessmentAlgorithmConfiguration.js';
 
-export const updateActiveFlashAssessmentConfiguration = async ({
-  flashAlgorithmConfigurationRepository,
-  configuration,
-}) => {
+export const createFlashAssessmentConfiguration = async ({ flashAlgorithmConfigurationRepository, configuration }) => {
   const previousConfiguration = await flashAlgorithmConfigurationRepository.getMostRecent();
   await flashAlgorithmConfigurationRepository.save(
     new FlashAssessmentAlgorithmConfiguration({
