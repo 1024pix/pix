@@ -104,6 +104,7 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
         screen.getByLabelText(this.intl.t('pages.session-finalization.add-issue-modal.actions.select-subcategory')),
       );
 
+      await screen.findByRole('listbox');
       await click(
         await screen.findByRole('option', {
           name: `${subcategoryCode} ${this.intl.t(subcategoryLabel)}`,
