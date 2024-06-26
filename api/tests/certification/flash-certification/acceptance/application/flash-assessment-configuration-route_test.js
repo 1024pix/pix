@@ -20,7 +20,7 @@ describe('Acceptance | Application | flash-assessment-configuration-route', func
         // given
         const options = {
           method: 'GET',
-          url: '/api/flash-assessment-configuration',
+          url: '/api/admin/flash-assessment-configuration',
         };
         // when
         const response = await server.inject(options);
@@ -36,7 +36,7 @@ describe('Acceptance | Application | flash-assessment-configuration-route', func
 
         const options = {
           method: 'GET',
-          url: '/api/flash-assessment-configuration',
+          url: '/api/admin/flash-assessment-configuration',
           headers: {
             authorization,
           },
@@ -72,7 +72,7 @@ describe('Acceptance | Application | flash-assessment-configuration-route', func
 
           const options = {
             method: 'GET',
-            url: '/api/flash-assessment-configuration',
+            url: '/api/admin/flash-assessment-configuration',
             headers: {
               authorization,
             },

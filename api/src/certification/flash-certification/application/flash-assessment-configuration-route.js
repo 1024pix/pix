@@ -7,7 +7,7 @@ const register = async (server) => {
   server.route([
     {
       method: 'GET',
-      path: '/api/flash-assessment-configuration',
+      path: '/api/admin/flash-assessment-configuration',
       config: {
         pre: [
           {
