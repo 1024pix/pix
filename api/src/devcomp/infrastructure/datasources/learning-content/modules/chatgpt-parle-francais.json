@@ -140,23 +140,23 @@
               "proposals": [
                 {
                   "id": "1",
-                  "content": "Les corpus de données, utilisés lors de la phase d'entraînement."
+                  "content": "Les données d'entraînement"
                 },
                 {
                   "id": "2",
-                  "content": "Les langages de programmation, utilisés lors de la conception du LLM."
+                  "content": "Les langages de programmation"
                 },
                 {
                   "id": "3",
-                  "content": "Les représentations humaines, inscrites inconsciemment lors des développements."
+                  "content": "Les développeurs informatiques"
                 },
                 {
                   "id": "4",
-                  "content": "La localisation des serveurs d'entraînement, répartis dans le monde entier."
+                  "content": "La localisation des serveurs"
                 },
                 {
                   "id": "5",
-                  "content": "Les prompts des utilisateurs, possiblement porteurs de connotations et de croyances."
+                  "content": "Les prompts des utilisateurs"
                 }
               ],
               "feedbacks": {
