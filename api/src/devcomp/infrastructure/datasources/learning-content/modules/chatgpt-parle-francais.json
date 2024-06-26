@@ -84,8 +84,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">✅ Correct !</span>",
-              "invalid": "<span class=\"feedback__state\">❌ Incorrect !</span><p>C'est un jeu de mots, mais en anglais ! \"Net\" en anglais signifie \"filet\"</p>"
+              "valid": "<span class=\"feedback__state\">✅ Correct !</span><p>\"Net\" en anglais signifie \"filet\", ce qui donne tout son sens à ce jeu de mots.</p>",
+              "invalid": "<span class=\"feedback__state\">❌ Incorrect !</span>"
             },
             "solution": "3"
           }
@@ -103,7 +103,7 @@
           {
             "id": "b510a523-dc46-44bc-9cef-7d254ddd5831",
             "type": "text",
-            "content": "<p>À la suite de cette vidéo, vous devrez retrouver les origines des biais des LLM et interpréter des situations concrètes où la réponse d'un LLM est biaisée.<br> [Lien script v2]</p>"
+            "content": "<p>À la suite de cette vidéo, vous devrez retrouver les origines des biais des LLM et interpréter des situations concrètes où la réponse d'un LLM est biaisée."
           }
         },
         {
@@ -161,7 +161,7 @@
               ],
               "feedbacks": {
                 "valid": "<span class=\"feedback__state\">✅ Correct !</span>",
-                "invalid": "<span class=\"feedback__state\">❌ Incorrect !</span><p>Regardez bien la vidéo précédente et réessayer !</p>"
+                "invalid": "<span class=\"feedback__state\">❌ Incorrect !</span><p>Regardez bien la vidéo précédente et réessayez !</p>"
               },
               "solutions": [
                 "1",
@@ -234,8 +234,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<span class=\"feedback__state\">✅ Correct !</span>",
-                "invalid": "<span class=\"feedback__state\">❌ Incorrect ! </span><p>L'explication la plus plausible est la surreprésentation de données concernant la France parmi les jeux de données d'entraînement en français.</span></p>"
+                "valid": "<span class=\"feedback__state\">✅ Correct !</span><p>Un prompt en langue française va amener le LLM à répondre en français. La surreprésentation de données concernant la France parmi les jeux de données d'entraînement amène à une réponse en français.</span></p>",
+                "invalid": "<span class=\"feedback__state\">❌ Incorrect ! </span>"
               },
               "solution": "2"
             }
@@ -289,8 +289,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<span class=\"feedback__state\">✅ Correct  !</span>",
-                "invalid": "<span class=\"feedback__state\">❌ Incorrect  !</span><p>Le LLM a tendance à reproduire des stéréotypes qui existent dans nos sociétés. Ici il s'agit d'un stéréotype de genre associé à cette profession. </p>"
+                "valid": "<span class=\"feedback__state\">✅ Correct  !</span><p>Le LLM a tendance à reproduire des stéréotypes qui existent dans nos sociétés. Ici, il s'agit d'un stéréotype de genre associé à cette profession.</p>",
+                "invalid": "<span class=\"feedback__state\">❌ Incorrect !</span>"
               },
               "solution": "2"
             }
@@ -344,8 +344,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<span class=\"feedback__state\">✅ Correct !</span>",
-                "invalid": "<span class=\"feedback__state\">❌ Incorrect ! </span><p>Le LLM n'est pas le seul à comporter des biais, les utilisateurs peuvent aussi transmettre les leurs lorsqu'ils composent leur prompt.</span></p>"
+                "valid": "<span class=\"feedback__state\">✅ Correct !</span><p>Le LLM n'est pas le seul à comporter des biais. Les prompts des utilisateurs peuvent aussi en comporter.</p>",
+                "invalid": "<span class=\"feedback__state\">❌ Incorrect ! </span>"
               },
               "solution": "3"
             }
