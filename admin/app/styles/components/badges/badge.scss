@@ -28,6 +28,10 @@
 
   &__field {
     margin-bottom: 12px;
+
+    .pix-input {
+      width: 100%;
+    }
   }
 
   &__actions {

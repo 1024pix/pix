@@ -1,5 +1,3 @@
-{{! template-lint-disable no-builtin-form-components}}
-{{! TODO: Use PixUI components instead }}
 {{#if this.accessControl.hasAccessToOrganizationActionsScope}}
   <section class="page-section">
     <header class="page-section__header">
@@ -7,11 +5,12 @@
     </header>
     <div class="organization__forms-section">
       <form class="organization__sub-form form" {{on "submit" this.attachTargetProfiles}}>
-        <Input
+        <PixInput
           aria-label="ID du ou des profil(s) cible(s)"
           @value={{this.targetProfilesToAttach}}
           class="organization-sub-form__input form-field__text form-control"
           placeholder="1, 2"
+          {{on "input" (pick "target.value" (set this "targetProfilesToAttach"))}}
         />
         <PixButton @type="submit" @size="small" @isDisabled={{this.isDisabled}}>Valider</PixButton>
       </form>

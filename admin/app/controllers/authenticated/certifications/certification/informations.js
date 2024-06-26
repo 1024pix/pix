@@ -92,7 +92,8 @@ export default class CertificationInformationsController extends Controller {
     this.displayConfirm = false;
   }
 
-  saveAssessmentResult() {
+  saveAssessmentResult(commentByJury) {
+    this.certification.commentByJury = commentByJury;
     return this.certification.save({ adapterOptions: { updateJuryComment: true } });
   }
 
@@ -224,9 +225,9 @@ export default class CertificationInformationsController extends Controller {
   }
 
   @action
-  async onJuryCommentSave() {
+  async onJuryCommentSave(commentByJury) {
     try {
-      await this.saveAssessmentResult();
+      await this.saveAssessmentResult(commentByJury);
       this.notifications.success('Le commentaire du jury a bien été enregistré.');
       return true;
     } catch (e) {

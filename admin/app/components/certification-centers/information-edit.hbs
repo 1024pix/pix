@@ -1,20 +1,15 @@
-{{! template-lint-disable no-builtin-form-components}}
-{{! TODO: Use PixUI components instead }}
 <h2 class="certification-center-information__edit-title">Modifier un centre de certification</h2>
 
 <form class="form certification-center-information__edit-form" onsubmit={{this.updateCertificationCenter}}>
 
-  <label class="field-label">
-    <abbr title="obligatoire" class="mandatory-mark">*</abbr>
-    Nom du centre
-    <Input
-      id="name"
-      @type="text"
-      class={{if (v-get this.form "name" "isInvalid") "form-control is-invalid" "form-control"}}
-      @value={{this.form.name}}
-      required={{true}}
-    />
-  </label>
+  <PixInput
+    class={{if (v-get this.form "name" "isInvalid") "form-control is-invalid" "form-control"}}
+    @value={{this.form.name}}
+    @requiredLabel={{true}}
+    {{on "input" (pick "target.value" (set this "form.name"))}}
+  >
+    <:label>Nom du centre</:label>
+  </PixInput>
 
   {{#if (v-get this.form "name" "isInvalid")}}
     <span class="error" aria-label="Message d'erreur du champ nom">
@@ -33,15 +28,13 @@
     <:default as |certificationCenterType|>{{certificationCenterType.label}}</:default>
   </PixSelect>
 
-  <label class="field-label">
-    Identifiant externe
-    <Input
-      id="external-id"
-      @type="text"
-      class={{if (v-get this.form "externalId" "isInvalid") "form-control is-invalid" "form-control"}}
-      @value={{this.form.externalId}}
-    />
-  </label>
+  <PixInput
+    class={{if (v-get this.form "externalId" "isInvalid") "form-control is-invalid" "form-control"}}
+    @value={{this.form.externalId}}
+    {{on "input" (pick "target.value" (set this "form.externalId"))}}
+  >
+    <:label>Identifiant externe</:label>
+  </PixInput>
 
   {{#if (v-get this.form "externalId" "isInvalid")}}
     <span class="error" aria-label="Message d'erreur du champ ID externe">
@@ -49,19 +42,13 @@
     </span>
   {{/if}}
 
-  <label class="field-label">
-    Prénom du
-    <abbr title="Délégué à la protection des données">DPO</abbr>
-    <Input
-      @type="text"
-      class={{if
-        (v-get this.form "dataProtectionOfficerFirstName" "isInvalid")
-        "form-control is-invalid"
-        "form-control"
-      }}
-      @value={{this.form.dataProtectionOfficerFirstName}}
-    />
-  </label>
+  <PixInput
+    class={{if (v-get this.form "dataProtectionOfficerFirstName" "isInvalid") "form-control is-invalid" "form-control"}}
+    @value={{this.form.dataProtectionOfficerFirstName}}
+    {{on "input" (pick "target.value" (set this "form.dataProtectionOfficerFirstName"))}}
+  >
+    <:label>Prénom du <abbr title="Délégué à la protection des données">DPO</abbr></:label>
+  </PixInput>
 
   {{#if (v-get this.form "dataProtectionOfficerFirstName" "isInvalid")}}
     <span class="error" aria-label="Message d'erreur du champ Prénom du DPO">
@@ -69,20 +56,11 @@
     </span>
   {{/if}}
 
-  <label class="field-label">
-    Nom du
-    <abbr title="Délégué à la protection des données">DPO</abbr>
-    <Input
-      id="data-protection-officer-last-name"
-      @type="text"
-      class={{if
-        (v-get this.form "dataProtectionOfficerLastName" "isInvalid")
-        "form-control is-invalid"
-        "form-control"
-      }}
-      @value={{this.form.dataProtectionOfficerLastName}}
-    />
-  </label>
+  <PixInput
+    class={{if (v-get this.form "dataProtectionOfficerLastName" "isInvalid") "form-control is-invalid" "form-control"}}
+    @value={{this.form.dataProtectionOfficerLastName}}
+    {{on "input" (pick "target.value" (set this "form.dataProtectionOfficerLastName"))}}
+  ><:label>Nom du <abbr title="Délégué à la protection des données">DPO</abbr></:label></PixInput>
 
   {{#if (v-get this.form "dataProtectionOfficerLastName" "isInvalid")}}
     <span class="error" aria-label="Message d'erreur du champ Nom du DPO">
@@ -90,15 +68,11 @@
     </span>
   {{/if}}
 
-  <label class="field-label">
-    Adresse e-mail du
-    <abbr title="Délégué à la protection des données">DPO</abbr>
-    <Input
-      @type="text"
-      class={{if (v-get this.form "dataProtectionOfficerEmail" "isInvalid") "form-control is-invalid" "form-control"}}
-      @value={{this.form.dataProtectionOfficerEmail}}
-    />
-  </label>
+  <PixInput
+    class={{if (v-get this.form "dataProtectionOfficerEmail" "isInvalid") "form-control is-invalid" "form-control"}}
+    @value={{this.form.dataProtectionOfficerEmail}}
+    {{on "input" (pick "target.value" (set this "form.dataProtectionOfficerEmail"))}}
+  ><:label>Adresse e-mail du <abbr title="Délégué à la protection des données">DPO</abbr></:label></PixInput>
 
   {{#if (v-get this.form "dataProtectionOfficerEmail" "isInvalid")}}
     <span class="error" aria-label="Message d'erreur du champ Adresse e-mail du DPO">
@@ -114,15 +88,14 @@
   <ul class="form-field certification-center-information__edit-form__habilitations-checkbox-list">
     {{#each this.availableHabilitations as |habilitation|}}
       <li class="habilitation-entry">
-        <Input
-          id="habilitation-checkbox__{{habilitation.id}}"
-          @type="checkbox"
+        <PixCheckbox
           @checked={{contains habilitation this.habilitations}}
-          {{on "input" (fn this.updateGrantedHabilitation habilitation)}}
-        />
-        <label class="field-label" for="habilitation-checkbox__{{habilitation.id}}">
-          {{habilitation.label}}
-        </label>
+          {{on "change" (fn this.updateGrantedHabilitation habilitation)}}
+        >
+          <:label>
+            {{habilitation.label}}
+          </:label>
+        </PixCheckbox>
       </li>
     {{/each}}
   </ul>

@@ -13,13 +13,24 @@
       @label="Pour l'organisation :"
       @fieldId="certification-commentForOrganization"
     />
-    <Certifications::InfoField
-      @value={{@certification.commentByJury}}
-      @edition={{this.isEditingJuryComment}}
-      @label="Notes internes Jury Pix :"
-      @fieldId="certification-commentByJury"
-      @isTextarea={{true}}
-    />
+    <div class="certification-info-field">
+      {{#if this.isEditingJuryComment}}
+        <label for="certification-commentByJury" class="certification-info-field__label">
+          Notes internes Jury Pix :
+        </label>
+        <PixTextarea
+          id="certification-commentByJury"
+          @value={{@certification.commentByJury}}
+          class="form-control"
+          {{on "input" (pick "target.value" (set this "commentByJury"))}}
+        />
+      {{else}}
+        <p>Notes internes Jury Pix :</p>
+        <p>
+          {{if @certification.commentByJury @certification.commentByJury " - "}}
+        </p>
+      {{/if}}
+    </div>
     <Certifications::InfoField @value={{@certification.juryId}} @edition={{false}} @label="Identifiant jury :" />
 
     {{#if this.isEditingJuryComment}}

@@ -1,19 +1,17 @@
-{{! template-lint-disable no-builtin-form-components}}
-{{! TODO: Use PixUI components instead }}
 <section class="page-section">
   <header class="page-section__header">
     <h2 class="page-section__title">Ajouter un membre</h2>
   </header>
 
   <div class="certification-center__section">
-    {{! template-lint-disable require-input-label }}
-    <Input
+    <PixInput
       id="userEmailToAdd"
-      @type="email"
+      type="email"
       @value={{this.userEmailToAdd}}
       aria-label="Adresse e-mail du nouveau membre"
       class="form-field__text form-control"
       placeholder="membre@inviter.net"
+      {{on "input" (pick "target.value" (set this "userEmailToAdd"))}}
       {{on "focusout" this.updateEmailErrorMessage}}
     />
 

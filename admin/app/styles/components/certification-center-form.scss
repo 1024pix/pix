@@ -1,5 +1,7 @@
 /* stylelint-disable selector-class-pattern */
 .certification-center-form {
+  display: flex;
+  flex-direction: column;
   max-width: 400px;
 
   .habilitations-title {

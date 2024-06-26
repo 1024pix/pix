@@ -1,5 +1,3 @@
-{{! template-lint-disable no-builtin-form-components}}
-{{! TODO: Use PixUI components instead }}
 <div class="training-target-profiles">
 
   {{#if this.canAttachTargetProfiles}}
@@ -9,12 +7,15 @@
       </header>
       <div class="training__forms-section">
         <form class="training__sub-form form" {{on "submit" this.attachTargetProfiles}}>
-          <Input
-            aria-label="ID du ou des profil(s) cible(s)"
+          <PixInput
             @value={{this.targetProfilesToAttach}}
+            @screenReaderOnly={{true}}
             class="training-sub-form__input form-field__text form-control"
             placeholder="1, 2"
-          />
+            {{on "input" (pick "target.value" (set this "targetProfilesToAttach"))}}
+          >
+            <:label>ID du ou des profil(s) cible(s)</:label>
+          </PixInput>
           <PixButton @type="submit" @size="small" @isDisabled={{this.noTargetProfilesToAttach}}>Valider</PixButton>
         </form>
       </div>

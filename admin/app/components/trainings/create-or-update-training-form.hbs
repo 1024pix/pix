@@ -79,6 +79,17 @@
         <:label>Langue localisée</:label>
       </PixSelect>
       <div class="admin-form--training__logo-url-input">
+        <PixInput
+          @id="trainingEditorLogoUrl"
+          @subLabel="Exemple : logo-ministere-education-nationale-et-jeunesse.svg"
+          required={{true}}
+          aria-required={{true}}
+          placeholder="logo-ministere-education-nationale-et-jeunesse.svg"
+          @value={{this.form.editorLogoUrl}}
+          {{on "change" (fn this.updateForm "editorLogoUrl")}}
+        >
+          <:label>Nom du fichier du logo éditeur (.svg)</:label>
+        </PixInput>
         <small>
           <a
             href="https://1024pix.github.io/pix-images-list/editeurs-cf.html"
@@ -87,19 +98,7 @@
           >
             Voir la liste des logos éditeur
           </a>
-          <br />Exemple : logo-ministere-education-nationale-et-jeunesse.svg
         </small>
-        <PixInput
-          @id="trainingEditorLogoUrl"
-          required={{true}}
-          aria-required={{true}}
-          @screenReaderOnly={{true}}
-          placeholder="logo-ministere-education-nationale-et-jeunesse.svg"
-          @value={{this.form.editorLogoUrl}}
-          {{on "change" (fn this.updateForm "editorLogoUrl")}}
-        >
-          <:label>Nom du fichier du logo éditeur (.svg)</:label>
-        </PixInput>
       </div>
       <PixInput
         @id="trainingEditorName"

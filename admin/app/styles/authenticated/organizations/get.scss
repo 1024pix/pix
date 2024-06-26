@@ -71,15 +71,8 @@
     .organization__edit-form {
       width: 500px;
 
-      .organization-edit-form__checkbox {
-        display: flex;
-        align-items: center;
-
-        & > input[type='checkbox'] {
-          width: 16px;
-          height: 16px;
-          margin-right: var(--pix-spacing-3x);
-        }
+      & .pix-input {
+        width: 100%;
       }
     }
   }

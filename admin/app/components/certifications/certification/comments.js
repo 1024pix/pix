@@ -4,6 +4,7 @@ import { tracked } from '@glimmer/tracking';
 
 export default class Comments extends Component {
   @tracked isEditingJuryComment = false;
+  @tracked commentByJury;
 
   @action
   editJuryComment() {
@@ -12,7 +13,7 @@ export default class Comments extends Component {
 
   @action
   async saveJuryComment() {
-    const hasBeenSaved = await this.args.onJuryCommentSave();
+    const hasBeenSaved = await this.args.onJuryCommentSave(this.commentByJury);
     if (hasBeenSaved) {
       this.cancelJuryCommentEdition();
     }

@@ -501,8 +501,8 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         await fillByLabel('Message :', 'nouveau message');
         await fillByLabel("* Nom de l'image (svg) :", 'new_image.svg');
         await fillByLabel('* Message Alternatif :', 'nouveau alt');
-        await clickByName('Certifiable :');
-        await clickByName('Lacunes :');
+        await clickByName('Certifiable');
+        await clickByName('Lacunes');
         await clickByName('Enregistrer');
 
         // then

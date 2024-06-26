@@ -158,4 +158,9 @@ export default class UserOverview extends Component {
   onLocaleChange(locale) {
     this.form.locale = locale;
   }
+
+  @action
+  updateFormValue(key, event) {
+    this.form[key] = event.target.value;
+  }
 }
