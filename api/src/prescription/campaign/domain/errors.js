@@ -46,10 +46,17 @@ class ArchivedCampaignError extends DomainError {
   }
 }
 
+class DeletedCampaignError extends DomainError {
+  constructor(message = 'Cette campagne est déjà supprimée.') {
+    super(message);
+  }
+}
+
 export {
   ArchivedCampaignError,
   CampaignCodeFormatError,
   CampaignUniqueCodeError,
+  DeletedCampaignError,
   IsForAbsoluteNoviceUpdateError,
   MultipleSendingsUpdateError,
   SwapCampaignMismatchOrganizationError,

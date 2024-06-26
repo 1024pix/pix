@@ -5,7 +5,7 @@ import * as translations from '../../../translations/index.js';
 import { AdminMemberError } from '../../authorization/domain/errors.js';
 import { CsvWithNoSessionDataError } from '../../certification/session-management/domain/errors.js';
 import { EmptyAnswerError } from '../../evaluation/domain/errors.js';
-import { ArchivedCampaignError } from '../../prescription/campaign/domain/errors.js';
+import { ArchivedCampaignError, DeletedCampaignError } from '../../prescription/campaign/domain/errors.js';
 import { CampaignParticipationDeletedError } from '../../prescription/campaign-participation/domain/errors.js';
 import { AggregateImportError, SiecleXmlImportError } from '../../prescription/learner-management/domain/errors.js';
 import { OrganizationCantGetPlacesStatisticsError } from '../../prescription/organization-place/domain/errors.js';
@@ -135,6 +135,10 @@ function _mapToHttpError(error) {
     return new HttpErrors.PreconditionFailedError(error.message, error.code, error.meta);
   }
   if (error instanceof ArchivedCampaignError) {
+    return new HttpErrors.PreconditionFailedError(error.message);
+  }
+
+  if (error instanceof DeletedCampaignError) {
     return new HttpErrors.PreconditionFailedError(error.message);
   }
 
