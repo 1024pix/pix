@@ -35,7 +35,7 @@
         "grainId": "e52da884-2233-4101-96a5-befd5c7d7975"
     },
     {
-      "content":"<p> Vous avez pu tester différents LLM. Ces LLM sont développés par des acteurs de différents pays et sous des licences différentes.</p><p>Voici quelques explications sur ce que cela implique.<span aria-hidden=\"true\">&nbsp;🔍</span></p>",
+      "content":"<p> Vous avez sûrement constaté des écarts de résultats entre différents LLM. Cela s'explique en partie par le fait qu'ils sont développés dans des pays différents et sous des licences distinctes.</p><p>Voici quelques explications.<span aria-hidden=\"true\">&nbsp;🔍</span></p>",
       "grainId": "018ad06a-f11c-4db3-b954-ac8a6466d947"
     }
   ],
