@@ -31,6 +31,15 @@ const CAMPAIGN_ATTRIBUTES = [
   'customResultPageButtonUrl',
 ];
 
+const getByIds = async (ids) => {
+  const knexConn = ApplicationTransaction.getConnection();
+  const campaigns = await knexConn('campaigns').whereIn('id', ids);
+
+  if (campaigns.length === 0) return null;
+
+  return campaigns.map((campaign) => new Campaign(campaign));
+};
+
 const getByCode = async function (code) {
   const campaign = await knex.select('id').from('campaigns').where({ code }).first();
 
@@ -153,6 +162,7 @@ export {
   batchUpdate,
   get,
   getByCode,
+  getByIds,
   isCodeAvailable,
   isFromSameOrganization,
   save,
