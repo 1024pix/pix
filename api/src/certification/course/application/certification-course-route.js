@@ -55,7 +55,7 @@ const register = async function (server) {
       },
     },
     {
-      method: 'POST',
+      method: 'PATCH',
       path: '/api/admin/certification-courses/{id}/assessment-results',
       config: {
         validate: {
@@ -85,7 +85,7 @@ const register = async function (server) {
         tags: ['api', 'admin', 'assessment-results', 'certification-courses'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
-            ' - Elle recrée un assessment result pour mettre à jour les notes internes du jury\n',
+            ' - Elle met à jour les notes internes du jury\n',
         ],
       },
     },

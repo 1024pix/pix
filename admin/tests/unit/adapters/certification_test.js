@@ -87,7 +87,7 @@ module('Unit | Adapter | certification', function (hooks) {
         assert.ok(
           adapter.ajax.calledWith(
             'https://example.net/api/admin/certification-courses/123/assessment-results',
-            'POST',
+            'PATCH',
             expectedPayload,
           ),
         );
