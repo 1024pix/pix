@@ -12,6 +12,8 @@ const serialize = function (campaignsToJoin) {
       'customLandingPageText',
       'externalIdHelpImageUrl',
       'alternativeTextToExternalIdHelpImage',
+      'isReconciliationRequired',
+      'reconciliationFields',
       'isAccessible',
       'isForAbsoluteNovice',
       'isRestricted',
