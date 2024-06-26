@@ -1,8 +1,9 @@
+import { CenterForAdmin } from '../../../../../../src/certification/enrolment/domain/models/CenterForAdmin.js';
 import { getCenterForAdmin } from '../../../../../../src/certification/enrolment/domain/usecases/get-center-for-admin.js';
-import { CenterForAdmin } from '../../../../../../src/certification/session-management/domain/models/CenterForAdmin.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | get-center-for-admin', function () {
+  let center;
   let certificationCenterForAdmin;
   let dataProtectionOfficer;
   let centerRepository;
@@ -10,9 +11,8 @@ describe('Unit | UseCase | get-center-for-admin', function () {
   const certificationCenterId = 1234;
 
   beforeEach(function () {
-    certificationCenterForAdmin = domainBuilder.buildCenterForAdmin({
-      center: { id: certificationCenterId, name: 'Center for admin' },
-    });
+    center = domainBuilder.certification.enrolment.buildCenter({ id: certificationCenterId, name: 'Center for admin' });
+    certificationCenterForAdmin = domainBuilder.buildCenterForAdmin({ center });
     dataProtectionOfficer =
       domainBuilder.buildDataProtectionOfficer.buildDataProtectionOfficerWithCertificationCenterId({
         certificationCenterId,

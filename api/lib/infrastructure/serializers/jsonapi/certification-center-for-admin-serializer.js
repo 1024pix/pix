@@ -2,7 +2,7 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
 
-import { CenterForAdmin } from '../../../../src/certification/session-management/domain/models/CenterForAdmin.js';
+import { CenterForAdmin } from '../../../../src/certification/enrolment/domain/models/CenterForAdmin.js';
 
 const deserialize = function ({ data }) {
   const center = {
@@ -57,7 +57,7 @@ const serialize = function (certificationCenters, meta) {
     },
     habilitations: {
       include: true,
-      ref: 'id',
+      ref: 'complementaryCertificationId',
       attributes: ['key', 'label'],
     },
     meta,

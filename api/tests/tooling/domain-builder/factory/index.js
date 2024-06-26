@@ -100,6 +100,7 @@ import {
   buildFlashAssessmentAlgorithmSuccessRateHandlerLinear,
 } from './build-flash-assessment-algorithm-success-rate-handler.js';
 import { buildFramework } from './build-framework.js';
+import { buildHabilitation } from './build-habilitation.js';
 import { buildHint } from './build-hint.js';
 import { buildJuryCertification } from './build-jury-certification.js';
 import { buildJuryCertificationSummary } from './build-jury-certification-summary.js';
@@ -199,6 +200,7 @@ const certification = {
   enrolment: {
     buildSession: buildSessionEnrolment,
     buildCenter,
+    buildHabilitation,
     buildCertificationSessionCandidate,
     buildCertificationSessionEnrolledCandidate,
   },

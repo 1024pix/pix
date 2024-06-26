@@ -90,15 +90,15 @@ describe('Integration | Certification |  Center | Repository | center-repository
         id: centerId,
         type: CertificationCenter.types.SCO,
       });
-      const cleaId = databaseBuilder.factory.buildComplementaryCertification.clea({}).id;
-      const droitId = databaseBuilder.factory.buildComplementaryCertification.droit({}).id;
+      const clea = databaseBuilder.factory.buildComplementaryCertification.clea({});
+      const droit = databaseBuilder.factory.buildComplementaryCertification.droit({});
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
         certificationCenterId: centerId,
-        complementaryCertificationId: cleaId,
+        complementaryCertificationId: clea.id,
       });
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
         certificationCenterId: centerId,
-        complementaryCertificationId: droitId,
+        complementaryCertificationId: droit.id,
       });
       await databaseBuilder.commit();
 
@@ -113,7 +113,18 @@ describe('Integration | Certification |  Center | Repository | center-repository
         name: 'some name',
         type: 'SCO',
         externalId: 'EX123',
-        habilitations: [cleaId, droitId],
+        habilitations: [
+          domainBuilder.certification.enrolment.buildHabilitation({
+            complementaryCertificationId: clea.id,
+            key: clea.key,
+            label: clea.label,
+          }),
+          domainBuilder.certification.enrolment.buildHabilitation({
+            complementaryCertificationId: droit.id,
+            key: droit.key,
+            label: droit.label,
+          }),
+        ],
         features: [],
         isV3Pilot: false,
       });

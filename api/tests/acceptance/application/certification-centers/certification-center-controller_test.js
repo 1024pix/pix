@@ -247,7 +247,16 @@ describe('Acceptance | API | Certification Center', function () {
     let expectedCertificationCenter;
 
     beforeEach(async function () {
-      expectedCertificationCenter = databaseBuilder.factory.buildCertificationCenter({});
+      expectedCertificationCenter = databaseBuilder.factory.buildCertificationCenter({ id: 1234 });
+      databaseBuilder.factory.buildComplementaryCertification({
+        id: 4567,
+        key: 'certif comp',
+        label: 'Une Certif Comp',
+      });
+      databaseBuilder.factory.buildComplementaryCertificationHabilitation({
+        certificationCenterId: 1234,
+        complementaryCertificationId: 4567,
+      });
       databaseBuilder.factory.buildCertificationCenter({});
       await databaseBuilder.commit();
       request = {
@@ -274,8 +283,45 @@ describe('Acceptance | API | Certification Center', function () {
         const response = await server.inject(request);
 
         // then
-        expect(response.result.data.id).to.equal(expectedCertificationCenter.id.toString());
-        expect(response.result.data.attributes.name).to.equal(expectedCertificationCenter.name);
+        expect(response.result).to.deep.equal({
+          data: {
+            type: 'certification-centers',
+            id: '1234',
+            attributes: {
+              name: 'some name',
+              type: 'SUP',
+              'external-id': 'EX123',
+              'created-at': undefined,
+              'data-protection-officer-first-name': undefined,
+              'data-protection-officer-last-name': undefined,
+              'data-protection-officer-email': undefined,
+              'is-v3-pilot': false,
+              'is-complementary-alone-pilot': false,
+            },
+            relationships: {
+              'certification-center-memberships': {
+                links: {
+                  related: '/api/admin/certification-centers/1234/certification-center-memberships',
+                },
+              },
+              habilitations: {
+                data: [
+                  {
+                    id: '4567',
+                    type: 'complementary-certifications',
+                  },
+                ],
+              },
+            },
+          },
+          included: [
+            {
+              id: '4567',
+              type: 'complementary-certifications',
+              attributes: { key: 'certif comp', label: 'Une Certif Comp' },
+            },
+          ],
+        });
       });
 
       it('should return notFoundError when the certificationCenter not exist', async function () {

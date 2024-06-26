@@ -2,8 +2,8 @@ import { updateCertificationCenter } from '../../../../lib/domain/usecases/updat
 import * as certificationCenterForAdminRepository from '../../../../lib/infrastructure/repositories/certification-center-for-admin-repository.js';
 import * as complementaryCertificationHabilitationRepository from '../../../../lib/infrastructure/repositories/complementary-certification-habilitation-repository.js';
 import * as dataProtectionOfficerRepository from '../../../../lib/infrastructure/repositories/data-protection-officer-repository.js';
+import { CenterForAdmin } from '../../../../src/certification/enrolment/domain/models/CenterForAdmin.js';
 import * as centerRepository from '../../../../src/certification/enrolment/infrastructure/repositories/center-repository.js';
-import { CenterForAdmin } from '../../../../src/certification/session-management/domain/models/CenterForAdmin.js';
 import { CERTIFICATION_FEATURES } from '../../../../src/certification/shared/domain/constants.js';
 import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 
@@ -60,7 +60,9 @@ describe('Integration | UseCases | update-certification-center', function () {
     expect(updatedCertificationCenter.dataProtectionOfficerEmail).to.equal('justin.ptipeu@example.net');
 
     expect(updatedCertificationCenter.habilitations.length).to.equal(1);
-    expect(updatedCertificationCenter.habilitations[0].id).to.equal(complementaryCertification.id);
+    expect(updatedCertificationCenter.habilitations[0].complementaryCertificationId).to.equal(
+      complementaryCertification.id,
+    );
     expect(updatedCertificationCenter.habilitations[0].key).to.equal(complementaryCertification.key);
     expect(updatedCertificationCenter.habilitations[0].label).to.equal(complementaryCertification.label);
   });
