@@ -4,6 +4,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
+import { eq } from 'ember-truth-helpers';
 import get from 'lodash/get';
 
 import SessionDeleteConfirmModal from './session-delete-confirm-modal';
@@ -17,12 +18,10 @@ export default class SessionSummaryList extends Component {
   @service notifications;
   @service intl;
 
-  // GETTERS
   get currentLocale() {
     return this.intl.locale[0];
   }
 
-  // ACTIONS
   @action
   openSessionDeletionConfirmModal(sessionId, enrolledCandidatesCount, event) {
     event.stopPropagation();
@@ -40,23 +39,21 @@ export default class SessionSummaryList extends Component {
   async deleteSession() {
     this.notifications.clearAll();
     const sessionSummary = this.store.peekRecord('session-summary', this.currentSessionToBeDeletedId);
-
     try {
       await sessionSummary.destroyRecord();
       this.notifications.success(this.intl.t('pages.sessions.list.delete-modal.success'));
     } catch (err) {
       if (this._doesNotExist(err)) {
-        this._notificationError('session-does-not-exists');
+        this._handleSessionDoesNotExistsError();
       } else if (this._sessionHasStarted(err)) {
-        this._notificationError('session-has-started');
+        this._handleSessionHasStartedError();
       } else {
-        this._notificationError('unknown');
+        this._handleUnknownSavingError();
       }
     }
     this.closeSessionDeletionConfirmModal();
   }
 
-  // PRIVATE
   _sessionHasStarted(err) {
     return get(err, 'errors[0].status') === '409';
   }
@@ -65,8 +62,16 @@ export default class SessionSummaryList extends Component {
     return get(err, 'errors[0].status') === '404';
   }
 
-  _notificationError(message) {
-    return this.notifications.error(this.intl.t(`pages.sessions.list.delete-modal.errors.${message}`));
+  _handleUnknownSavingError() {
+    this.notifications.error(this.intl.t('pages.sessions.list.delete-modal.errors.unknown'));
+  }
+
+  _handleSessionDoesNotExistsError() {
+    this.notifications.error(this.intl.t('pages.sessions.list.delete-modal.errors.session-does-not-exists'));
+  }
+
+  _handleSessionHasStartedError() {
+    this.notifications.error(this.intl.t('pages.sessions.list.delete-modal.errors.session-has-started'));
   }
 
   <template>
@@ -121,11 +126,11 @@ export default class SessionSummaryList extends Component {
               {{/each}}
             </tbody>
           </table>
-          {{#unless @sessionSummaries}}
+          {{#if (eq @sessionSummaries.length 0)}}
             <div class='table__empty content-text'>
               {{t 'pages.sessions.list.table.empty'}}
             </div>
-          {{/unless}}
+          {{/if}}
         </div>
       </div>
     </div>
