@@ -76,6 +76,10 @@ class Campaign {
     return Boolean(this.archivedAt);
   }
 
+  get isDeleted() {
+    return Boolean(this.deletedAt);
+  }
+
   delete(userId) {
     if (this.deletedAt) {
       throw new DeletedCampaignError();
