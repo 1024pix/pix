@@ -237,6 +237,10 @@ const tokenService = {
   extractCampaignResultsTokenContent,
 };
 
+/**
+ * @typedef TokenService
+ */
+
 export {
   createAccessTokenForSaml,
   createAccessTokenFromAnonymousUser,

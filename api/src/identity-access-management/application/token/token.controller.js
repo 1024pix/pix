@@ -14,6 +14,14 @@ const authenticateAnonymousUser = async function (request, h) {
   return h.response(response).code(200);
 };
 
+/**
+ * @param request
+ * @param h
+ * @param {{
+ *   tokenService: TokenService
+ * }} dependencies
+ * @return {Promise<*>}
+ */
 const createToken = async function (request, h, dependencies = { tokenService }) {
   let accessToken, refreshToken;
   let expirationDelaySeconds;
@@ -56,4 +64,11 @@ const createToken = async function (request, h, dependencies = { tokenService })
     .header('Pragma', 'no-cache');
 };
 
-export const tokenController = { authenticateAnonymousUser, createToken };
+const revokeToken = async function (request, h) {
+  if (request.payload.token_type_hint === 'access_token') return null;
+
+  await usecases.revokeRefreshToken({ refreshToken: request.payload.token });
+  return h.response().code(204);
+};
+
+export const tokenController = { authenticateAnonymousUser, createToken, revokeToken };

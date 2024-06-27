@@ -1,5 +1,6 @@
 import Joi from 'joi';
 
+import { BadRequestError, sendJsonApiError } from '../../../../lib/application/http-errors.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { tokenController } from './token.controller.js';
 
@@ -55,6 +56,33 @@ export const tokenRoutes = [
         "- Cette route permet de créer un utilisateur à partir d'un code parcours Accès Simplifié\n" +
           "- Elle retournera un access token Pix correspondant à l'utilisateur.",
       ],
+      tags: ['identity-access-management', 'api', 'token'],
+    },
+  },
+  {
+    method: 'POST',
+    path: '/api/revoke',
+    config: {
+      auth: false,
+      payload: {
+        allow: 'application/x-www-form-urlencoded',
+      },
+      validate: {
+        payload: Joi.object()
+          .required()
+          .keys({
+            token: Joi.string().required(),
+            token_type_hint: ['access_token', 'refresh_token'],
+          }),
+        failAction: (request, h) => {
+          return sendJsonApiError(
+            new BadRequestError('The server could not understand the request due to invalid token.'),
+            h,
+          );
+        },
+      },
+      handler: (request, h) => tokenController.revokeToken(request, h),
+      notes: ['- Cette route permet de supprimer le refresh token du temporary storage'],
       tags: ['identity-access-management', 'api', 'token'],
     },
   },
