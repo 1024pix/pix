@@ -204,7 +204,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         });
         this.server.patch(
           `/admin/certification-centers/${certificationCenter.id}`,
-          { errors: [{ code: 'V3_PILOT_NOT_AUTHORIZED' }] },
+          { errors: [{ code: 'PILOT_FEATURES_CONFLICT' }] },
           403,
         );
         const screen = await visit(`/certification-centers/${certificationCenter.id}`);
@@ -222,7 +222,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         assert
           .dom(
             screen.getByText(
-              'Ce centre de certification est incompatible avec le pilote certification v3 car il est déjà pilote pour la séparation Pix/Pix+',
+              'Il y a une incompatibilité entre les fonctionnalités pilotes auxquelles le centre est abonné.',
             ),
           )
           .exists();
