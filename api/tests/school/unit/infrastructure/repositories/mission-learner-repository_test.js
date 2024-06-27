@@ -23,14 +23,16 @@ describe('Unit | Repository | organizationLearner', function () {
         pageSize: 100,
         rowCount: 1,
       };
+      const divisionFilter = { divisions: ['4ème'] };
 
       organizationLearnerApiStub.find
-        .withArgs({ organizationId, page: customPagination })
+        .withArgs({ organizationId, page: customPagination, filter: divisionFilter })
         .resolves({ organizationLearners: [new OrganizationLearner(rawStudent)], pagination: expectedPagination });
 
       const { missionLearners, pagination } = await missionLearnersRepository.findPaginatedMissionLearners({
         organizationId,
         page: customPagination,
+        filter: divisionFilter,
         organizationLearnerApi: organizationLearnerApiStub,
       });
 

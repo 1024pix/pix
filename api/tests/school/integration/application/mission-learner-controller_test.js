@@ -7,6 +7,7 @@ describe('Integration | Controller | mission-learner-controller', function () {
   describe('#findPaginatedMissionLearners', function () {
     it('should return missionLearners', async function () {
       const organizationId = 1;
+      const missionId = 1;
       const missionLearner = new MissionLearner({
         id: 1,
         firstName: 'TechnoMechanicus',
@@ -23,14 +24,16 @@ describe('Integration | Controller | mission-learner-controller', function () {
         rowCount: 1,
       };
 
-      sinon.stub(usecases, 'findPaginatedMissionLearners').resolves({ missionLearners: [missionLearner], pagination });
+      const findPaginatedMissionLearnersStub = sinon.stub(usecases, 'findPaginatedMissionLearners');
+      findPaginatedMissionLearnersStub.resolves({ missionLearners: [missionLearner], pagination });
 
       const result = await missionLearnerController.findPaginatedMissionLearners(
         {
           params: {
-            id: organizationId,
+            organizationId,
+            missionId,
           },
-          query: { 'page[size]': 50, 'page[number]': 1, 'filters[division]': 'CP' },
+          query: { 'page[size]': 50, 'page[number]': 1, 'filter[divisions]': 'CP' },
         },
         hFake,
       );
@@ -50,6 +53,12 @@ describe('Integration | Controller | mission-learner-controller', function () {
         },
       ]);
       expect(result.meta).to.deep.equal(pagination);
+      expect(findPaginatedMissionLearnersStub).to.have.been.calledWith({
+        organizationId,
+        missionId,
+        page: { size: 50, number: 1 },
+        filter: { divisions: ['CP'] },
+      });
     });
 
     it('should return empty result when there is no mission learners', async function () {

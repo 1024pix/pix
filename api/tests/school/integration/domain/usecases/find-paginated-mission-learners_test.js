@@ -63,6 +63,7 @@ describe('Integration | Usecase | find-paginated-mission-learners', function () 
         organizationId: organization.id,
         missionId,
         page,
+        filter: { divisions: ['CM2A'] },
       });
 
       expect(result).to.deep.equal({

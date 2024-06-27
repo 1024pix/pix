@@ -8,10 +8,12 @@ const findPaginatedMissionLearners = async function ({
   organizationId,
   missionId,
   page,
+  filter,
 } = {}) {
   const { pagination, missionLearners } = await missionLearnerRepository.findPaginatedMissionLearners({
     organizationId,
     page,
+    filter,
   });
 
   const missionLearnersWithStatus = await missionAssessmentRepository.getStatusesForLearners(

@@ -4,8 +4,11 @@ import * as missionLearnerSerializer from '../infrastructure/serializers/mission
 
 const findPaginatedMissionLearners = async function (request) {
   const { organizationId, missionId } = request.params;
-  const { page } = extractParameters(request.query);
-  const result = await usecases.findPaginatedMissionLearners({ organizationId, missionId, page });
+  const { page, filter } = extractParameters(request.query);
+  if (filter.divisions && !Array.isArray(filter.divisions)) {
+    filter.divisions = [filter.divisions];
+  }
+  const result = await usecases.findPaginatedMissionLearners({ organizationId, missionId, page, filter });
   return missionLearnerSerializer.serialize(result);
 };
 
