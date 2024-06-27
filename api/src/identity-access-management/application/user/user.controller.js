@@ -171,6 +171,14 @@ const rememberUserHasSeenLastDataProtectionPolicyInformation = async function (
   return dependencies.userSerializer.serialize(updatedUser);
 };
 
+const validateUserAccountEmail = async function (request, h) {
+  const { token, redirect_uri: redirectUri } = request.query;
+
+  const location = await usecases.validateUserAccountEmail({ token, redirectUri });
+
+  return h.redirect(location);
+};
+
 export const userController = {
   acceptPixCertifTermsOfService,
   acceptPixLastTermsOfService,
@@ -181,4 +189,5 @@ export const userController = {
   rememberUserHasSeenLastDataProtectionPolicyInformation,
   save,
   updatePassword,
+  validateUserAccountEmail,
 };
