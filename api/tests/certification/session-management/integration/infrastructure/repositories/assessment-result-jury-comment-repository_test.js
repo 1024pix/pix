@@ -1,5 +1,6 @@
 import { AssessmentResultJuryComment } from '../../../../../../src/certification/session-management/domain/models/AssessmentResultJuryComment.js';
 import * as assessmentResultJuryCommentRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/assessment-result-jury-comment-repository.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { databaseBuilder, expect, knex } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | Certification | Session-management | AssessmentResultJuryCommentRepository', function () {
@@ -22,6 +23,23 @@ describe('Integration | Repository | Certification | Session-management | Assess
 
       // then
       expect(result).to.deepEqualInstance(new AssessmentResultJuryComment(latestAssessmentResultData));
+    });
+
+    describe('#when there is no assessment-results for the given certification-course id', function () {
+      it('should throw a not found exception', async function () {
+        // given
+        databaseBuilder.factory.buildCertificationCourse({ id: 55 });
+        databaseBuilder.factory.buildAssessment({ id: 51, certificationCourseId: 55 });
+        await databaseBuilder.commit();
+
+        // when
+        const promise = assessmentResultJuryCommentRepository.getLatestAssessmentResultJuryComment({
+          certificationCourseId: 55,
+        });
+
+        // then
+        expect(promise).to.have.been.rejectedWith(NotFoundError);
+      });
     });
   });
 
