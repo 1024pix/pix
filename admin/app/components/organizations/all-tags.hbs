@@ -15,7 +15,7 @@
               onClick={{fn this.removeTagToOrganization tag}}
               aria-label="Tag {{tag.name}} assigné à l'organisation"
             >
-              <PixTag @compact="true" @color="purple-light">
+              <PixTag @color="purple-light">
                 {{tag.name}}
               </PixTag>
             </button>
@@ -25,7 +25,7 @@
               onClick={{fn this.addRecentlyUsedTagToOrganization tag}}
               aria-label="Tag {{tag.name}} non assigné à l'organisation"
             >
-              <PixTag @compact="true" @color="grey-light">
+              <PixTag @color="grey-light">
                 {{tag.name}}
               </PixTag>
             </button>
@@ -58,7 +58,7 @@
               onClick={{fn this.removeTagToOrganization tag}}
               aria-label="Tag {{tag.name}} assigné à l'organisation"
             >
-              <PixTag @compact="true" @color="purple-light">
+              <PixTag @color="purple-light">
                 {{tag.name}}
               </PixTag>
             </button>
@@ -68,7 +68,7 @@
               onClick={{fn this.addTagToOrganization tag}}
               aria-label="Tag {{tag.name}} non assigné à l'organisation"
             >
-              <PixTag @compact="true" @color="grey-light">
+              <PixTag @color="grey-light">
                 {{tag.name}}
               </PixTag>
             </button>
@@ -80,5 +80,4 @@
   {{else}}
     <p>Aucun résultat.</p>
   {{/if}}
-
 </section>
