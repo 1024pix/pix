@@ -189,7 +189,7 @@
               {
                     "id": "c2f89648-1f06-4e58-b5a5-422677d24417",
                     "type": "text",
-                    "content": "<iframe width="560" height="315" src="https://www.youtube.com/embed/6GohJjgyU8U?si=xGHfp-BidM4kgtww" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>"
+                    "content": "<iframe width="700" height="315" src="https://www.youtube.com/embed/6GohJjgyU8U?si=xGHfp-BidM4kgtww"></iframe>"
               }
           }
         ]
