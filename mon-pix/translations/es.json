@@ -1299,10 +1299,7 @@
           "terminate": "Finalizar"
         },
         "stepper": {
-          "next": {
-            "name": "Siguiente",
-            "ariaLabel": "Pasar a la etapa siguiente"
-          }
+          "next": "Siguiente"
         }
       },
       "details": {
