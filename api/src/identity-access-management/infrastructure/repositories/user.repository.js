@@ -28,6 +28,11 @@ const getByEmail = async function (email) {
   return new User(foundUser);
 };
 
+/**
+ * @param userId
+ * @return {Promise<User>}
+ * @throws {UserNotFoundError}
+ */
 const getFullById = async function (userId) {
   const userDTO = await knex('users').where({ id: userId }).first();
   if (!userDTO) {
@@ -637,6 +642,14 @@ function _toDomain(userBookshelf) {
   });
 }
 
+/**
+ * @param userDTO
+ * @param membershipsDTO
+ * @param certificationCenterMembershipsDTO
+ * @param authenticationMethodsDTO
+ * @return {User}
+ * @private
+ */
 function _toDomainFromDTO({
   userDTO,
   membershipsDTO = [],

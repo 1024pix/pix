@@ -4,6 +4,7 @@ import XRegExp from 'xregexp';
 import { userVerification } from '../../../../lib/application/preHandlers/user-existence-verification.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { config } from '../../../shared/config.js';
+import { AVAILABLE_LANGUAGES } from '../../../shared/domain/services/language-service.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { userController } from './user.controller.js';
 
@@ -172,6 +173,32 @@ export const userRoutes = [
           "- Sauvegarde le fait que l'utilisateur a accepté les Conditions Générales d'Utilisation de Pix Certif\n" +
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié\n' +
           "- Le contenu de la requête n'est pas pris en compte.",
+      ],
+      tags: ['identity-access-management', 'api', 'user'],
+    },
+  },
+  {
+    method: 'PATCH',
+    path: '/api/users/{id}/lang/{lang}',
+    config: {
+      validate: {
+        params: Joi.object({
+          id: identifiersType.userId,
+          lang: Joi.string().valid(...AVAILABLE_LANGUAGES),
+        }),
+      },
+      pre: [
+        {
+          method: (request, h) => securityPreHandlers.checkRequestedUserIsAuthenticatedUser(request, h),
+          assign: 'requestedUserIsAuthenticatedUser',
+        },
+      ],
+      handler: (request, h) => userController.changeUserLanguage(request, h),
+      notes: [
+        '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          "- Modifie la langue de l'utilisateur\n" +
+          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié\n' +
+          '- La lang contient les deux lettres de la langue choisie.',
       ],
       tags: ['identity-access-management', 'api', 'user'],
     },
