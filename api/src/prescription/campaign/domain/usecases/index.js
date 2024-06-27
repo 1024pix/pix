@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import * as placementProfileService from '../../../../../lib/domain/services/placement-profile-service.js';
 import * as badgeAcquisitionRepository from '../../../../../lib/infrastructure/repositories/badge-acquisition-repository.js';
 import * as campaignRepository from '../../../../../lib/infrastructure/repositories/campaign-repository.js';
-import { repositories } from '../../../../../lib/infrastructure/repositories/index.js';
+import { repositories as libRepositories } from '../../../../../lib/infrastructure/repositories/index.js';
 import * as knowledgeElementRepository from '../../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
 import * as knowledgeElementSnapshotRepository from '../../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js';
 import * as learningContentRepository from '../../../../../lib/infrastructure/repositories/learning-content-repository.js';
@@ -33,6 +33,7 @@ import * as campaignReportRepository from '../../infrastructure/repositories/cam
 import * as campaignToJoinRepository from '../../infrastructure/repositories/campaign-to-join-repository.js';
 import * as divisionRepository from '../../infrastructure/repositories/division-repository.js';
 import * as groupRepository from '../../infrastructure/repositories/group-repository.js';
+import { repositories } from '../../infrastructure/repositories/index.js';
 import * as targetProfileRepository from '../../infrastructure/repositories/target-profile-repository.js';
 import * as campaignCsvExportService from '../services/campaign-csv-export-service.js';
 import * as campaignUpdateValidator from '../validators/campaign-update-validator.js';
@@ -51,6 +52,7 @@ const dependencies = {
   campaignProfilesCollectionParticipationSummaryRepository,
   campaignParticipationInfoRepository,
   campaignReportRepository,
+  organizationMembershipRepository: repositories.organizationMembershipRepository,
   campaignAssessmentParticipationResultListRepository,
   codeGenerator,
   campaignUpdateValidator,
@@ -69,7 +71,7 @@ const dependencies = {
   campaignCollectiveResultRepository,
   campaignToJoinRepository,
   campaignParticipationsStatsRepository,
-  tutorialRepository: repositories.tutorialRepository,
+  tutorialRepository: libRepositories.tutorialRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
