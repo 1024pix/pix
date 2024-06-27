@@ -11,6 +11,10 @@ export default class Passage extends Model {
     return elementAnswers.at(-1)?.correction;
   }
 
+  hasAnswerAlreadyBeenVerified(element) {
+    return this.elementAnswers.some((answer) => answer.elementId === element.id);
+  }
+
   terminate = memberAction({
     path: 'terminate',
     type: 'post',
