@@ -1291,7 +1291,7 @@
           "error": "Le numéro étudiant ne doit pas être vide.",
           "new-student-number-label": "Nouveau numéro étudiant",
           "student-number": "Numéro étudiant actuel de {firstName} {lastName} est : ",
-          "success": "La modification du numéro étudiant de {firstName} {lastName} a bien ��té effectué."
+          "success": "La modification du numéro étudiant de {firstName} {lastName} a bien été effectuée."
         }
       },
       "empty-state": {

@@ -166,7 +166,10 @@ module('Integration | Component | SupOrganizationParticipant::Modal::EditStudent
         sinon.assert.calledOnce(closeStub);
         assert.ok(
           notificationsStub.sendSuccess.calledWith(
-            `La modification du numéro étudiant de ${this.student.firstName} ${this.student.lastName} a bien été effectué.`,
+            this.intl.t('pages.sup-organization-participants.edit-student-number-modal.form.success', {
+              firstName: this.student.firstName,
+              lastName: this.student.lastName,
+            }),
           ),
         );
       });
