@@ -1,5 +1,34 @@
 # Pix Changelog
 
+## v4.172.0 (27/06/2024)
+
+
+### :rocket: Amélioration
+- [#9386](https://github.com/1024pix/pix/pull/9386) [FEATURE] Ajouter les règles de validation du Stepper (PIX-13143).
+- [#9380](https://github.com/1024pix/pix/pull/9380) [FEATURE] Ajout de filtre dans organization-learner-api (Pix-13162).
+- [#9384](https://github.com/1024pix/pix/pull/9384) [FEATURE] Spanish and Dutch translation from Phrase (PIX-13056).
+- [#9379](https://github.com/1024pix/pix/pull/9379) [FEATURE] Enregistrer le click sur le bouton suivant dans un Stepper sur Matomo (PIX-12857).
+- [#9363](https://github.com/1024pix/pix/pull/9363) [FEATURE] Appeler l'Audit-logger lors de l'anonymisation GAR (PIX-12807).
+- [#9339](https://github.com/1024pix/pix/pull/9339) [FEATURE] CSS review pour les Stepper (PIX-12838).
+
+### :building_construction: Tech
+- [#9378](https://github.com/1024pix/pix/pull/9378) [TECH] Corrige un test flaky dans Certif (PIX-13179).
+- [#9288](https://github.com/1024pix/pix/pull/9288) [TECH] Corrige le code pour suivre la règle de lint no-builtin-form-components.
+- [#9366](https://github.com/1024pix/pix/pull/9366) [TECH] Mutualise les règles métier de la campagne dans l'API (PIX-13154).
+- [#9362](https://github.com/1024pix/pix/pull/9362) [TECH] Migrer la route PATCH /api/users/{id}/pix-certif-terms-of-service-acceptance vers src/identity-access-management (PIX-13085).
+
+### :bug: Correction
+- [#9382](https://github.com/1024pix/pix/pull/9382) [BUGFIX] Retirer la taille minimum pour le champ idPixLabel (PIX-13178).
+- [#9323](https://github.com/1024pix/pix/pull/9323) [BUGFIX] Reparer l'affichage des habilitations des centres (PIX-12909).
+
+### :arrow_up: Montée de version
+- [#9372](https://github.com/1024pix/pix/pull/9372) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.5 (junior).
+- [#9370](https://github.com/1024pix/pix/pull/9370) [BUMP] Update dependency ember-intl to v7 (junior).
+- [#9373](https://github.com/1024pix/pix/pull/9373) [BUMP] Update dependency @1024pix/pix-ui to ^46.11.1 (junior).
+- [#9369](https://github.com/1024pix/pix/pull/9369) [BUMP] Update dependency @1024pix/ember-testing-library to v2 (junior).
+- [#9371](https://github.com/1024pix/pix/pull/9371) [BUMP] Update dependency ember-resolver to v12 (junior).
+- [#9353](https://github.com/1024pix/pix/pull/9353) [BUMP] Update dependency @1024pix/ember-testing-library to v2 (orga).
+
 ## v4.171.0 (25/06/2024)
 
 
