@@ -8,7 +8,7 @@ import Component from '@glimmer/component';
 import dayjsFormat from 'ember-dayjs/helpers/dayjs-format';
 import { t } from 'ember-intl';
 
-import { CREATED, FINALIZED, PROCESSED } from '../models/session-management';
+import { CREATED, FINALIZED, PROCESSED } from '../../models/session-management';
 
 export default class SessionSummaryRow extends Component {
   @service intl;

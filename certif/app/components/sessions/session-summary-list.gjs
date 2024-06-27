@@ -4,7 +4,6 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
-import { eq } from 'ember-truth-helpers';
 import get from 'lodash/get';
 
 import SessionDeleteConfirmModal from './session-delete-confirm-modal';
@@ -41,16 +40,17 @@ export default class SessionSummaryList extends Component {
   async deleteSession() {
     this.notifications.clearAll();
     const sessionSummary = this.store.peekRecord('session-summary', this.currentSessionToBeDeletedId);
+
     try {
       await sessionSummary.destroyRecord();
       this.notifications.success(this.intl.t('pages.sessions.list.delete-modal.success'));
     } catch (err) {
       if (this._doesNotExist(err)) {
-        this._handleSessionDoesNotExistsError();
+        this._notificationError('session-does-not-exists');
       } else if (this._sessionHasStarted(err)) {
-        this._handleSessionHasStartedError();
+        this._notificationError('session-has-started');
       } else {
-        this._handleUnknownSavingError();
+        this._notificationError('unknown');
       }
     }
     this.closeSessionDeletionConfirmModal();
@@ -65,16 +65,8 @@ export default class SessionSummaryList extends Component {
     return get(err, 'errors[0].status') === '404';
   }
 
-  _handleUnknownSavingError() {
-    this.notifications.error(this.intl.t('pages.sessions.list.delete-modal.errors.unknown'));
-  }
-
-  _handleSessionDoesNotExistsError() {
-    this.notifications.error(this.intl.t('pages.sessions.list.delete-modal.errors.session-does-not-exists'));
-  }
-
-  _handleSessionHasStartedError() {
-    this.notifications.error(this.intl.t('pages.sessions.list.delete-modal.errors.session-has-started'));
+  _notificationError(message) {
+    return this.notifications.error(this.intl.t(`pages.sessions.list.delete-modal.errors.${message}`));
   }
 
   <template>
@@ -129,11 +121,11 @@ export default class SessionSummaryList extends Component {
               {{/each}}
             </tbody>
           </table>
-          {{#if (eq @sessionSummaries.length 0)}}
+          {{#unless @sessionSummaries}}
             <div class='table__empty content-text'>
               {{t 'pages.sessions.list.table.empty'}}
             </div>
-          {{/if}}
+          {{/unless}}
         </div>
       </div>
     </div>
