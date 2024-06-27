@@ -427,6 +427,93 @@
         "title": "Mijn certificeringsresultaten raadplegen en delen?"
       }
     },
+    "certification-instructions": {
+      "buttons": {
+        "continuous": {
+          "aria-label": "Doorgaan naar het volgende scherm",
+          "label": "Ga verder met",
+          "last-page": {
+            "aria-label": "Ga door naar de invoerpagina voor certificaten"
+          }
+        },
+        "previous": {
+          "aria-label": "Terug naar vorig scherm",
+          "label": "Vorige"
+        }
+      },
+      "steps": {
+        "1": {
+          "paragraphs": {
+            "1": {
+              "text": "'<strong>'Dit is een adaptieve test'</strong>'. Met andere woorden, uw vermogen om vragen correct te beantwoorden (of niet) bepaalt de moeilijkheidsgraad van de volgende vragen in real time."
+            },
+            "2": {
+              "text": "Als u een vraag niet kunt beantwoorden, '<strong>'kunt u die vraag \"overslaan\"'</strong>'. '<br>'Overgeslagen vragen worden als mislukt beschouwd en worden niet opnieuw aangeboden."
+            },
+            "3": {
+              "text": "'<strong>'Het is belangrijk dat u de toets afmaakt'</strong>' en dus goed met uw tijd omgaat. Er wordt een '<strong>'boete'</strong>' toegepast waarbij rekening wordt gehouden met het aantal resterende vragen."
+            }
+          },
+          "question": "Hoe werkt de certificeringstest?",
+          "title": "Welkom bij Pix-certificering"
+        },
+        "2": {
+          "legend": {
+            "strong-text": "32 VRAGEN",
+            "text": "1 H 45 min"
+          },
+          "paragraphs": {
+            "1": {
+              "question": "Het aantal vragen?",
+              "text": "De certificering bevat '<strong>'32 vragen'</strong>'."
+            },
+            "2": {
+              "light-text": "* Exclusief eventuele extra tijd.",
+              "question": "Hoe lang duurt de test?",
+              "text": "Je hebt een maximum van '<strong>'1h45*'</strong>'."
+            }
+          },
+          "title": "Hoe werkt de certificeringstest?"
+        },
+        "3": {
+          "images": {
+            "focus-challenge": "Scherpstelmodus",
+            "regular-challenge": "Vrije modus"
+          },
+          "paragraphs": {
+            "1": {
+              "text": "Voor vragen in de '<strong>'vrije modus'</strong>', aangegeven met een groen pictogram: je mag zoeken op het web en gebruik maken van de digitale omgeving die tot je beschikking staat.",
+              "title": "Vrije modus :"
+            },
+            "2": {
+              "text": "Voor vragen in '<strong>'focusmodus'</strong>', aangegeven met een geel pictogram: je mag de pagina niet verlaten en niet zoeken.",
+              "title": "Scherpstelmodus :"
+            }
+          },
+          "title": "Twee soorten vragen"
+        },
+        "4": {
+          "paragraph": {
+            "text": "'<strong>'In het geval van een technisch probleem'</strong>' (de afbeelding weigert bijvoorbeeld te worden weergegeven), volg dan deze stappen: '<br><br>' klik op '<strong>'\"Een probleem met de vraag melden\"'</strong>', vervolgens op '\"Ja, ik weet het zeker\" en informeer je supervisor."
+          },
+          "title": "Wat te doen in geval van een probleem?"
+        },
+        "5": {
+          "checkbox-label": "Door dit vakje aan te kruisen, bevestig ik dat ik deze regels heb gelezen en me eraan zal houden.",
+          "list": {
+            "no-artificial-intelligence": "'<strong>'Gebruik een kunstmatig intelligentiesysteem'</strong>' of een chatbot",
+            "no-cheat-sheet": "'<strong>'Gebruik spiekbriefjes'</strong>' (fysiek of elektronisch), spoilerbronnen of persoonlijke aantekeningen",
+            "no-communication": "'<strong>'Communiceren met iemand anders'</strong>', binnen of buiten de kamer, met fysieke of elektronische middelen",
+            "no-connected-device": "'<strong>'Gebruik een mobiele telefoon of een aangesloten apparaat'</strong>' (anders dan de computer die wordt gebruikt voor de certificering)",
+            "no-forum": "'<strong>'Raadpleeg een zelfhulpforum'</strong>' direct het antwoord geven op een test",
+            "other": "'<strong>'Zet een ander middel in dat direct het antwoord geeft'</strong>', zonder het werk te hebben gedaan dat de instructie vereist.\""
+          },
+          "text": "In certificering is het verboden om :",
+          "title": "Regels die moeten worden nageleefd"
+        }
+      },
+      "title": "Verklaring van certificering"
+    },
     "certification-joiner": {
       "congratulation-banner": {
         "complementary-certification": {
@@ -496,93 +583,6 @@
       "flag-alt": "Vlag",
       "title": "Test voltooid"
     },
-    "certification-instructions": {
-      "title": "Verklaring van certificering",
-      "buttons": {
-        "continuous": {
-          "aria-label": "Doorgaan naar het volgende scherm",
-          "label": "Ga verder met",
-          "last-page": {
-            "aria-label": "Ga door naar de invoerpagina voor certificaten"
-          }
-        },
-        "previous": {
-          "aria-label": "Terug naar vorig scherm",
-          "label": "Vorige"
-        }
-      },
-      "steps": {
-        "1": {
-          "title": "Welkom bij Pix-certificering",
-          "question" : "Hoe werkt de certificeringstest?",
-          "paragraphs": {
-            "1": {
-              "text": "'<strong>'Dit is een adaptieve test'</strong>'. Met andere woorden, uw vermogen om vragen correct te beantwoorden (of niet) bepaalt de moeilijkheidsgraad van de volgende vragen in real time."
-            },
-            "2": {
-              "text": "Si vous ne savez pas répondre à une question, '<strong>'vous avez la possibilité de \"passer\" cette question'</strong>'. '<br>'Les questions passées seront considérées comme échouées et ne vous seront pas proposées à nouveau."
-            },
-            "3": {
-              "text": "'<strong>'Het is belangrijk dat u de toets afmaakt'</strong>' en dus goed met uw tijd omgaat. Er wordt een '<strong>'boete'</strong>' toegepast waarbij rekening wordt gehouden met het aantal resterende vragen."
-            }
-          }
-        },
-        "2": {
-          "title": "Comment se passe le test de certification ?",
-          "legend": {
-            "strong-text": "32 QUESTIONS",
-            "text": "1 H 45 min"
-          },
-          "paragraphs": {
-            "1": {
-              "question": "Le nombre de questions ?",
-              "text": "La certification contient '<strong>'32 questions'</strong>'."
-            },
-            "2": {
-              "light-text": "*sauf éventuel temps majoré.",
-              "question": "La durée du test ?",
-              "text": "Vous avez au maximum '<strong>'1h45*'</strong>'."
-            }
-          }
-        },
-        "3": {
-          "title": "Deux modes de questions",
-          "images": {
-            "regular-challenge": "Mode libre",
-            "focus-challenge": "Mode focus"
-          },
-          "paragraphs": {
-            "1": {
-              "title": "Le mode libre :",
-              "text": "Pour les questions en '<strong>'mode libre'</strong>', signalées par une icône verte : vous aurez le droit d’effectuer des recherches sur le web et d’utiliser l’environnement numérique à disposition."
-            },
-            "2": {
-              "title": "Le mode focus :",
-              "text": "Pour les questions en '<strong>'mode focus'</strong>', signalées par une icône jaune : vous ne serez pas autorisé à quitter la page et à faire des recherches."
-            }
-          }
-        },
-        "4": {
-          "title": "Que faire en cas de problème ?",
-          "paragraph": {
-            "text": "'<strong>'En cas de problème technique'</strong>' (par exemple, l'image refuse de s'afficher), suivez ces étapes : '<br><br>' cliquez sur '<strong>'\"Signaler un problème avec la question\"'</strong>', puis sur \"Oui, je suis sûr(e)\" et informez votre surveillant."
-          }
-        },
-        "5": {
-          "title": "Règles à respecter",
-          "checkbox-label": "En cochant cette case, je reconnais avoir pris connaissance de ces règles et je m’engage à les respecter.",
-          "list": {
-            "no-artificial-intelligence": "'<strong>'Avoir recours à un système d’intelligence artificielle'</strong>' ou un chatbot",
-            "no-cheat-sheet": "'<strong>'Utiliser des antisèches'</strong>' (physiques ou électroniques), des ressources de spoil ou des notes personnelles",
-            "no-communication": "'<strong>'Communiquer avec quelqu’un d’autre'</strong>', dans la salle ou à l’extérieur, par voie physique ou électronique",
-            "no-connected-device": "'<strong>'Utiliser un téléphone mobile ou tout appareil connecté'</strong>' (autre que l’ordinateur mobilisé dans le cadre de la certification)",
-            "no-forum": "'<strong>'Consulter un forum d’entraide'</strong>' apportant directement la réponse à une épreuve",
-            "other": "'<strong>'Mobiliser tout autre moyen délivrant directement la réponse'</strong>', sans avoir effectué le travail requis par la consigne."
-          },
-          "text": "En certification, il est interdit de :"
-        }
-      }
-    },
     "certification-start": {
       "access-code": "Toegangscode gegeven door de supervisor",
       "actions": {
@@ -640,9 +640,9 @@
       "actions": {
         "continue": "Ga verder naar",
         "continue-go-to-next": "Ik ga door naar de volgende vraag",
-        "skip": "Ik pas",
+        "skip": "Overslaan",
         "skip-go-to-next": "Ik ga door naar de volgende vraag",
-        "validate": "Ik valideer",
+        "validate": "Bevestigen",
         "validate-go-to-next": "Ik valideer en ga naar de volgende vraag",
         "wait-for-invigilator": "Acties worden gepauzeerd tot de supervisor arriveert"
       },
@@ -800,7 +800,7 @@
         "answer-input": "Uw antwoord.",
         "answer-instructions": {
           "qcm": "Kies meerdere antwoorden.",
-          "qcu": "Kies slechts één antwoord."
+          "qcu": "Kies één antwoord"
         },
         "feedback": "Meld een probleem",
         "feedback-v3": "Een probleem met de vraag melden",
@@ -822,18 +822,18 @@
       "statement": {
         "alternative-instruction": {
           "actions": {
-            "display": "Geef het tekstalternatief weer",
+            "display": "Het tekstalternatief tonen",
             "hide": "Verberg tekst alternatief"
           }
         },
         "file-download": {
           "actions": {
             "choose-type": "Kies het bestandstype dat je wilt gebruiken",
-            "download": "Download"
+            "download": "Downloaden"
           },
           "description": "Pix laat je kiezen welk bestandsformaat je wilt downloaden. Als je niet weet welke optie je moet kiezen, houd dan de standaardkeuze aan. Dit is het bestandsformaat dat door het grootste aantal softwaretoepassingen wordt ondersteund.",
           "file-type": "bestand .{fileExtension}",
-          "help": "Hulp nodig met '<a href=\"https://pix.org/nl-be/bijstand-gedownload-bestand-openen\" class=\"challenge-statement__action-help--link\" target=\"_blank\" aria-label=\"open, wijzig of vind dit bestand (openen in nieuw venster)\">'open, wijzig of vind dit bestand'</a>'?"
+          "help": "Hulp nodig bij het '<a href=\"https://pix.org/en/help-how-to-open-modify-find-a-downloaded-file-in-a-pix-question\" class=\"challenge-statement__action-help--link\" target=\"_blank\" aria-label=\"open, wijzig of vind dit bestand (openen in nieuw venster)\">'openen, wijzigen of vinden van dit bestand'</a>'?"
         },
         "sr-only": {
           "alternative-instruction": "Deze proefdruk bevat een illustratie met een tekstalternatief.",
@@ -1290,7 +1290,7 @@
           "verify": "Kijk op"
         },
         "element": {
-          "alternativeText": "Geef het tekstalternatief weer",
+          "alternativeText": "Het tekstalternatief tonen",
           "transcription": "Transcriptie weergeven"
         },
         "grain": {
@@ -1330,10 +1330,10 @@
         "textarea-label": "Inhoud module"
       },
       "qcm": {
-        "direction": "Selecteer meerdere antwoorden."
+        "direction": "Kies meerdere antwoorden."
       },
       "qcu": {
-        "direction": "Kies slechts één antwoord."
+        "direction": "Kies één antwoord"
       },
       "qrocm": {
         "direction": "Vul de lege velden in."
@@ -1666,8 +1666,8 @@
       "title": "Gebruiksvoorwaarden"
     },
     "timed-challenge-instructions": {
-      "action": "De test starten",
-      "primary": "Je hebt '<span class=\"timed-challenge-instructies__time\">'{time}'</span>' of de vraag te voltooien / op te lossen.",
+      "action": "De test beginnen",
+      "primary": "Je hebt '<span class=\"timed-challenge-instructies__time\">'{time}'</span>' om de volgende vraag te beantwoorden.",
       "secondary": "Als je doorgaat wordt de opdracht niet als voltooid beschouwd."
     },
     "training": {
@@ -1787,7 +1787,7 @@
         "menu-link-title": "Mijn verbindingsmethoden",
         "username": "Inloggen"
       },
-      "email-confirmed": "Adresse e-mail vérifiée.",
+      "email-confirmed": "Geverifieerd e-mailadres.",
       "email-verification": {
         "code-explanation-of-use": "Om van veld naar veld te gaan, gebruik je tab of de pijlen naar links en rechts op het toetsenbord. Om een veld in te vullen, voer je getallen in van 1 tot 9 of gebruik je de pijlen omhoog en omlaag op het toetsenbord.",
         "code-label": "Veld",

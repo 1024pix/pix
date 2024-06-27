@@ -131,7 +131,7 @@
       "dashboard": "Inicio",
       "help": "Ayuda",
       "label": "Menú principal",
-      "link-help": "https://pix.org/fr/support",
+      "link-help": "https://support.pix.org/fr/support/home",
       "skills": "Competencias",
       "start-certification": "Certificación",
       "trainings": "Mis formaciones",
@@ -427,6 +427,93 @@
         "title": "¿Consultar y compartir mis resultados de certificación?"
       }
     },
+    "certification-instructions": {
+      "buttons": {
+        "continuous": {
+          "aria-label": "Pasar a la pantalla siguiente",
+          "label": "Continuar",
+          "last-page": {
+            "aria-label": "Continuar a la página de entrada de la certificación"
+          }
+        },
+        "previous": {
+          "aria-label": "Volver a la pantalla anterior",
+          "label": "Anterior"
+        }
+      },
+      "steps": {
+        "1": {
+          "paragraphs": {
+            "1": {
+              "text": "'<strong>'Se trata de una prueba adaptativa'</strong>'. En otras palabras, tu capacidad para responder correctamente (o no) a las preguntas determina la dificultad de las preguntas siguientes en tiempo real."
+            },
+            "2": {
+              "text": "Si no puedes responder a una pregunta, '<strong>'tienes la opción de \"saltarte\" esa pregunta'</strong>'. '<br>'Las preguntas saltadas se considerarán fallidas y no se volverán a ofrecer."
+            },
+            "3": {
+              "text": "'<strong>'Es importante completar la prueba'</strong>', y por tanto gestionar bien el tiempo. Se aplicará una '<strong>'penalización'</strong>' teniendo en cuenta el número de preguntas restantes."
+            }
+          },
+          "question": "¿Cómo funciona la prueba de certificación?",
+          "title": "Bienvenido a la certificación Pix"
+        },
+        "2": {
+          "legend": {
+            "strong-text": "32 PREGUNTAS",
+            "text": "1 H 45 min"
+          },
+          "paragraphs": {
+            "1": {
+              "question": "¿El número de preguntas?",
+              "text": "La certificación contiene '<strong>'32 preguntas'</strong>'."
+            },
+            "2": {
+              "light-text": "*excluyendo cualquier tiempo adicional.",
+              "question": "¿Cuánto durará la prueba?",
+              "text": "Tienes un máximo de '<strong>'1h45*'</strong>'."
+            }
+          },
+          "title": "¿Cómo funciona la prueba de certificación?"
+        },
+        "3": {
+          "images": {
+            "focus-challenge": "Modo enfoque",
+            "regular-challenge": "Modo libre"
+          },
+          "paragraphs": {
+            "1": {
+              "text": "Para preguntas en '<strong>'modo libre'</strong>', indicado con un icono verde: se le permitirá buscar en la web y utilizar el entorno digital a su disposición.",
+              "title": "Modo libre :"
+            },
+            "2": {
+              "text": "Para preguntas en '<strong>'modo de enfoque'</strong>', indicado con un icono amarillo: no se le permitirá salir de la página y buscar.",
+              "title": "Modo de enfoque :"
+            }
+          },
+          "title": "Dos tipos de preguntas"
+        },
+        "4": {
+          "paragraph": {
+            "text": "'<strong>'En caso de problema técnico'</strong>' (por ejemplo, la imagen se niega a mostrarse), siga estos pasos: '<br><br>' haga clic en '<strong>'\"Informar de un problema con la pregunta\"'</strong>', luego en \"Sí, estoy seguro\" e informe a su supervisor."
+          },
+          "title": "¿Qué hacer en caso de problema?"
+        },
+        "5": {
+          "checkbox-label": "Al marcar esta casilla, reconozco que he leído estas normas y me comprometo a cumplirlas.",
+          "list": {
+            "no-artificial-intelligence": "'<strong>'Utilizar un sistema de inteligencia artificial'</strong>' o un chatbot",
+            "no-cheat-sheet": "'<strong>'Use cheat sheets'</strong>' (físicas o electrónicas), recursos de spoilers o notas personales.",
+            "no-communication": "'<strong>'Comunicarse con otra persona'</strong>', dentro o fuera de la sala, por medios físicos o electrónicos.",
+            "no-connected-device": "'<strong>'Utilizar un teléfono móvil o cualquier dispositivo conectado'</strong>' (distinto del ordenador utilizado en la certificación)",
+            "no-forum": "'<strong>'Consulta un foro de autoayuda'</strong>' proporcionando directamente la respuesta a un test",
+            "other": "'<strong>'Movilizar cualquier otro medio que proporcione directamente la respuesta'</strong>', sin haber realizado el trabajo requerido por la instrucción."
+          },
+          "text": "En certificación, está prohibido :",
+          "title": "Normas que deben respetarse"
+        }
+      },
+      "title": "Explicación de la certificación"
+    },
     "certification-joiner": {
       "congratulation-banner": {
         "complementary-certification": {
@@ -495,93 +582,6 @@
       },
       "flag-alt": "Bandera",
       "title": "Prueba finalizada"
-    },
-    "certification-instructions": {
-      "title": "Explicación de la certificación",
-      "buttons": {
-        "continuous": {
-          "aria-label": "Pasar a la pantalla siguiente",
-          "label": "Continuar",
-          "last-page": {
-            "aria-label": "Continuar a la página de entrada de la certificación"
-          }
-        },
-        "previous": {
-          "aria-label": "Volver a la pantalla anterior",
-          "label": "Anterior"
-        }
-      },
-      "steps": {
-        "1": {
-          "title": "Bienvenido a la certificación Pix",
-          "question" : "¿Cómo funciona la prueba de certificación?",
-          "paragraphs": {
-            "1": {
-              "text": "'<strong>'Se trata de una prueba adaptativa'</strong>'. En otras palabras, tu capacidad para responder correctamente (o no) a las preguntas determina la dificultad de las preguntas siguientes en tiempo real."
-            },
-            "2": {
-              "text": "Si vous ne savez pas répondre à une question, '<strong>'vous avez la possibilité de \"passer\" cette question'</strong>'. '<br>'Les questions passées seront considérées comme échouées et ne vous seront pas proposées à nouveau."
-            },
-            "3": {
-              "text": "'<strong>'Es importante completar la prueba'</strong>', y por tanto gestionar bien el tiempo. Se aplicará una '<strong>'penalización'</strong>' teniendo en cuenta el número de preguntas restantes."
-            }
-          }
-        },
-        "2": {
-          "title": "Comment se passe le test de certification ?",
-          "legend": {
-            "strong-text": "32 QUESTIONS",
-            "text": "1 H 45 min"
-          },
-          "paragraphs": {
-            "1": {
-              "question": "Le nombre de questions ?",
-              "text": "La certification contient '<strong>'32 questions'</strong>'."
-            },
-            "2": {
-              "light-text": "*sauf éventuel temps majoré.",
-              "question": "La durée du test ?",
-              "text": "Vous avez au maximum '<strong>'1h45*'</strong>'."
-            }
-          }
-        },
-        "3": {
-          "title": "Deux modes de questions",
-          "images": {
-            "regular-challenge": "Mode libre",
-            "focus-challenge": "Mode focus"
-          },
-          "paragraphs": {
-            "1": {
-              "title": "Le mode libre :",
-              "text": "Pour les questions en '<strong>'mode libre'</strong>', signalées par une icône verte : vous aurez le droit d’effectuer des recherches sur le web et d’utiliser l’environnement numérique à disposition."
-            },
-            "2": {
-              "title": "Le mode focus :",
-              "text": "Pour les questions en '<strong>'mode focus'</strong>', signalées par une icône jaune : vous ne serez pas autorisé à quitter la page et à faire des recherches."
-            }
-          }
-        },
-        "4": {
-          "title": "Que faire en cas de problème ?",
-          "paragraph": {
-            "text": "'<strong>'En cas de problème technique'</strong>' (par exemple, l'image refuse de s'afficher), suivez ces étapes : '<br><br>' cliquez sur '<strong>'\"Signaler un problème avec la question\"'</strong>', puis sur \"Oui, je suis sûr(e)\" et informez votre surveillant."
-          }
-        },
-        "5": {
-          "title": "Règles à respecter",
-          "checkbox-label": "En cochant cette case, je reconnais avoir pris connaissance de ces règles et je m’engage à les respecter.",
-          "list": {
-            "no-artificial-intelligence": "'<strong>'Avoir recours à un système d’intelligence artificielle'</strong>' ou un chatbot",
-            "no-cheat-sheet": "'<strong>'Utiliser des antisèches'</strong>' (physiques ou électroniques), des ressources de spoil ou des notes personnelles",
-            "no-communication": "'<strong>'Communiquer avec quelqu’un d’autre'</strong>', dans la salle ou à l’extérieur, par voie physique ou électronique",
-            "no-connected-device": "'<strong>'Utiliser un téléphone mobile ou tout appareil connecté'</strong>' (autre que l’ordinateur mobilisé dans le cadre de la certification)",
-            "no-forum": "'<strong>'Consulter un forum d’entraide'</strong>' apportant directement la réponse à une épreuve",
-            "other": "'<strong>'Mobiliser tout autre moyen délivrant directement la réponse'</strong>', sans avoir effectué le travail requis par la consigne."
-          },
-          "text": "En certification, il est interdit de :"
-        }
-      }
     },
     "certification-start": {
       "access-code": "Código de acceso comunicado por el supervisor",
@@ -1787,7 +1787,7 @@
         "menu-link-title": "Mis métodos de conexión",
         "username": "Nombre de usuario"
       },
-      "email-confirmed": "Adresse e-mail vérifiée.",
+      "email-confirmed": "Dirección de correo electrónico verificada.",
       "email-verification": {
         "code-explanation-of-use": "Para pasar de un campo a otro, utiliza el tabulador o las flechas izquierda y derecha del teclado. Para rellenar un campo, introduce dígitos del 1 al 9 o utiliza las flechas arriba y abajo del teclado.",
         "code-label": "Campo",
