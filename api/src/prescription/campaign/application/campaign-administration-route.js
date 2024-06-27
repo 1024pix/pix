@@ -291,6 +291,34 @@ const register = async function (server) {
         ],
       },
     },
+    {
+      method: 'DELETE',
+      path: '/api/organizations/{organizationId}/campaigns',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserBelongsToOrganization,
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            organizationId: identifiersType.organizationId,
+          }),
+          payload: Joi.object({
+            data: Joi.array()
+              .required()
+              .items(Joi.object({ type: Joi.string().required(), id: identifiersType.campaignId })),
+          }),
+        },
+        handler: campaignAdministrationController.deleteCampaigns,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            "- Suppression d'une ou plusieurs campagne(s)\n" +
+            '- L‘utilisateur doit appartenir à l‘organisation',
+        ],
+        tags: ['api', 'orga', 'campaign'],
+      },
+    },
   ]);
 };
 

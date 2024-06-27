@@ -5,6 +5,7 @@ import * as csvSerializer from '../../../../lib/infrastructure/serializers/csv/c
 import { usecases } from '../../../../src/prescription/campaign/domain/usecases/index.js';
 import * as queryParamsUtils from '../../../shared/infrastructure/utils/query-params-utils.js';
 import * as requestResponseUtils from '../../../shared/infrastructure/utils/request-response-utils.js';
+import { extractUserIdFromRequest } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import * as csvCampaignsIdsParser from '../infrastructure/serializers/csv/csv-campaigns-ids-parser.js';
 import * as campaignManagementSerializer from '../infrastructure/serializers/jsonapi/campaign-management-serializer.js';
 import * as campaignReportSerializer from '../infrastructure/serializers/jsonapi/campaign-report-serializer.js';
@@ -133,6 +134,16 @@ const findPaginatedCampaignManagements = async function (
   return dependencies.campaignManagementSerializer.serialize(campaigns, meta);
 };
 
+const deleteCampaigns = async function (request, h) {
+  const userId = extractUserIdFromRequest(request);
+  const { organizationId } = request.params;
+  const campaignIds = request.deserializedPayload.map(({ id }) => id);
+
+  await usecases.deleteCampaigns({ userId, organizationId, campaignIds });
+
+  return h.response(null).code(204);
+};
+
 const campaignAdministrationController = {
   save,
   update,
@@ -144,6 +155,7 @@ const campaignAdministrationController = {
   archiveCampaign,
   archiveCampaigns,
   unarchiveCampaign,
+  deleteCampaigns,
 };
 
 export { campaignAdministrationController };
