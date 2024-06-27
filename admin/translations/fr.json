@@ -128,6 +128,11 @@
         "upload-button": "Importer un fichier CSV"
       }
     },
+    "badges": {
+      "api-error-messages": {
+        "key-already-exists": "La clé de badge {badgeKey} est déjà utilisée"
+      }
+    },
     "certification-centers": {
       "is-v3-pilot-label": "Pilote Certification V3 (ce centre de certification ne pourra organiser que des sessions V3)",
       "membership-item": {

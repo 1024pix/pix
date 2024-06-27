@@ -69,6 +69,9 @@ describe('Integration | UseCases | create-badge', function () {
       });
 
       expect(error.name).to.equal('AlreadyExistingEntityError');
+      expect(error.code).to.equal('BADGE_KEY_UNIQUE_CONSTRAINT_VIOLATED');
+      expect(error.meta).to.equal('firstBadgeKey');
+      expect(error.message).to.equal('The badge key firstBadgeKey already exists');
     });
   });
 });

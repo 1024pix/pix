@@ -6,6 +6,7 @@ import { tracked } from '@glimmer/tracking';
 export default class Badge extends Component {
   @service notifications;
   @service store;
+  @service intl;
 
   @tracked editMode = false;
   @tracked form = {};
@@ -65,9 +66,17 @@ export default class Badge extends Component {
       await this.args.onUpdateBadge(badgeDTO);
       this.notifications.success('Le résultat thématique a été mis à jour.');
       this.editMode = false;
-    } catch (error) {
-      error.errors.forEach((error) => {
-        this.notifications.error(error.detail);
+    } catch (err) {
+      let errorMessage;
+      err.errors.forEach((error) => {
+        if (error?.code === 'BADGE_KEY_UNIQUE_CONSTRAINT_VIOLATED') {
+          errorMessage = this.intl.t('components.badges.api-error-messages.key-already-exists', {
+            badgeKey: error.meta,
+          });
+        } else {
+          errorMessage = error.detail;
+        }
+        this.notifications.error(errorMessage);
       });
     }
   }

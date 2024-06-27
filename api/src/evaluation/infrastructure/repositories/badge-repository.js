@@ -47,7 +47,11 @@ const update = async function (badge) {
     return new Badge({ ...badge, ...updatedBadge });
   } catch (error) {
     if (knexUtils.isUniqConstraintViolated(error) && error.constraint === BADGE_KEY_UNIQUE_CONSTRAINT) {
-      throw new AlreadyExistingEntityError(`The badge key ${badge.key} already exists`);
+      throw new AlreadyExistingEntityError(
+        `The badge key ${badge.key} already exists`,
+        'BADGE_KEY_UNIQUE_CONSTRAINT_VIOLATED',
+        badge.key,
+      );
     }
     throw error;
   }

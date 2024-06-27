@@ -120,6 +120,11 @@
         "upload-button": "Import CSV file"
       }
     },
+    "badges": {
+      "api-error-messages": {
+        "key-already-exists": "The badge key {badgeKey} already exists"
+      }
+    },
     "certification-centers": {
       "is-v3-pilot-label": "V3 Certification Pilot (This center will only be able to organize v3 sessions)",
       "membership-item": {
@@ -158,6 +163,30 @@
       "roles": {
         "admin": "Administrator",
         "member": "Member"
+      }
+    },
+    "organizations": {
+      "all-tags": {
+        "recently-used-tags": "List of tags recently used with {tagName}"
+      },
+      "children": {
+        "attach-child-form": {
+          "input-information": "ID of organisation to add",
+          "input-label": "Add a child organisation",
+          "name": "Add a child organisation form"
+        }
+      },
+      "children-list": {
+        "table-headers": {
+          "external-id": "External Identifier",
+          "id": "ID",
+          "name": "Name"
+        },
+        "table-name": "List of children organisations"
+      },
+      "information-section-view": {
+        "child-organization": "Child organization",
+        "parent-organization": "Parent organization"
       }
     },
     "organizations": {
