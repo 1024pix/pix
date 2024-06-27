@@ -171,6 +171,29 @@ describe('Unit | Identity Access Management | Application | Controller | User', 
     });
   });
 
+  describe('#rememberUserHasSeenLastDataProtectionPolicyInformation', function () {
+    it('remembers user has seen last data protection policy information', async function () {
+      // given
+      sinon.stub(usecases, 'rememberUserHasSeenLastDataProtectionPolicyInformation');
+      usecases.rememberUserHasSeenLastDataProtectionPolicyInformation.resolves({});
+      const userSerializer = { serialize: sinon.stub() };
+      userSerializer.serialize.withArgs({}).returns('ok');
+
+      // when
+      await userController.rememberUserHasSeenLastDataProtectionPolicyInformation(
+        {
+          auth: { credentials: { userId: 1 } },
+          params: { id: 1 },
+        },
+        hFake,
+        { userSerializer },
+      );
+
+      // then
+      sinon.assert.calledWith(usecases.rememberUserHasSeenLastDataProtectionPolicyInformation, { userId: 1 });
+    });
+  });
+
   describe('#save', function () {
     const email = 'to-be-free@ozone.airplane';
     const password = 'Password123';

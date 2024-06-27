@@ -203,4 +203,28 @@ export const userRoutes = [
       tags: ['identity-access-management', 'api', 'user'],
     },
   },
+  {
+    method: 'PATCH',
+    path: '/api/users/{id}/has-seen-last-data-protection-policy-information',
+    config: {
+      pre: [
+        {
+          method: (request, h) => securityPreHandlers.checkRequestedUserIsAuthenticatedUser(request, h),
+          assign: 'requestedUserIsAuthenticatedUser',
+        },
+      ],
+      validate: {
+        params: Joi.object({
+          id: identifiersType.userId,
+        }),
+      },
+      handler: (request, h) => userController.rememberUserHasSeenLastDataProtectionPolicyInformation(request, h),
+      notes: [
+        '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          "- Sauvegarde le fait que l'utilisateur ait vu la nouvelle politique de confidentialité Pix" +
+          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+      ],
+      tags: ['identity-access-management', 'api', 'user'],
+    },
+  },
 ];
