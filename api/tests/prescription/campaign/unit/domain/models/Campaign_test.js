@@ -29,6 +29,26 @@ describe('Campaign', function () {
     clock.restore();
   });
 
+  describe('#isDeleted', function () {
+    it('returns true', function () {
+      campaign = new Campaign({
+        deletedAt: new Date(),
+        deletedBy: 1,
+      });
+
+      expect(campaign.isDeleted).to.be.true;
+    });
+
+    it('returns false', function () {
+      campaign = new Campaign({
+        deletedAt: null,
+        deletedBy: null,
+      });
+
+      expect(campaign.isDeleted).to.be.false;
+    });
+  });
+
   describe('#delete', function () {
     it('deletes the campaign', function () {
       const campaign = new Campaign({ id: 1, code: 'ABC123' });
