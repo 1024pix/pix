@@ -1186,6 +1186,29 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             assert.dom(screen.queryByText('button', { name: 'Modifier le commentaire jury' })).doesNotExist();
             assert.dom(screen.getByText("Le commentaire du jury n'a pas pu être enregistré.")).exists();
           });
+
+          module('when the form is submitted with a 404 error', function () {
+            test('it displays a specific error notification', async function (assert) {
+              // given
+              await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+              server.patch(
+                '/admin/certification-courses/:id/assessment-results',
+                () => ({ errors: [{ status: '404', title: 'Missing' }] }),
+                404,
+              );
+
+              // when
+              const screen = await visit(`/certifications/${certification.id}`);
+              await clickByName('Modifier le commentaire jury');
+              await fillByLabel('Notes internes Jury Pix :', 'Whatever jury said');
+
+              await clickByName('Enregistrer');
+
+              // then
+              assert.dom(screen.getByText('Le commentaire du jury ne peux pas être renseigné avant scoring')).exists();
+            });
+          });
         });
       });
     });

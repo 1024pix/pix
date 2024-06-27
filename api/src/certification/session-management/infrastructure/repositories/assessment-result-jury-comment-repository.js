@@ -1,4 +1,5 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { AssessmentResultJuryComment } from '../../domain/models/AssessmentResultJuryComment.js';
 
 const getLatestAssessmentResultJuryComment = async function ({ certificationCourseId }) {
@@ -11,6 +12,10 @@ const getLatestAssessmentResultJuryComment = async function ({ certificationCour
     )
     .where({ certificationCourseId })
     .first();
+
+  if (!result) {
+    throw new NotFoundError(`Assessment result not found for certification course ${certificationCourseId}`);
+  }
 
   return new AssessmentResultJuryComment(result);
 };

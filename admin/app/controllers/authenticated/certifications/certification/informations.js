@@ -231,7 +231,11 @@ export default class CertificationInformationsController extends Controller {
       this.notifications.success('Le commentaire du jury a bien été enregistré.');
       return true;
     } catch (e) {
-      this.notifications.error("Le commentaire du jury n'a pas pu être enregistré.");
+      if (e.errors && e.errors.at(0).status == '404') {
+        this.notifications.error('Le commentaire du jury ne peux pas être renseigné avant scoring');
+      } else {
+        this.notifications.error("Le commentaire du jury n'a pas pu être enregistré.");
+      }
       return false;
     }
   }
