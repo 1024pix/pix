@@ -74,13 +74,22 @@ async function get(organizationLearnerId) {
   throw new NotFoundError(`Student not found for ID ${organizationLearnerId}`);
 }
 
-async function findPaginatedLearners({ organizationId, page }) {
+async function findPaginatedLearners({ organizationId, page, filter }) {
   const query = knex
     .select('id', 'firstName', 'lastName', 'organizationId', 'attributes')
     .from('view-active-organization-learners')
     .where({ isDisabled: false, organizationId })
-    .orderBy('firstName', 'ASC')
-    .orderBy('lastName', 'ASC');
+    .orderByRaw('LOWER("firstName") ASC')
+    .orderByRaw('LOWER("lastName") ASC');
+
+  if (filter) {
+    Object.entries(filter).forEach(([name, values]) => {
+      query.andWhere(function () {
+        // eslint-disable-next-line knex/avoid-injections
+        this.whereRaw(`attributes->>'${name}' in ( ${values.map((_) => '?').join(' , ')} )`, values);
+      });
+    });
+  }
 
   const { results, pagination } = await fetchPage(query, page);
 

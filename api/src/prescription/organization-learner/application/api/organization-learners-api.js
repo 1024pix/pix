@@ -13,10 +13,17 @@ import { OrganizationLearner } from './models/OrganizationLearner.js';
  */
 
 /**
+ * @typedef FilterDefinition
+ * @type {object}
+ * @property {Array<string>} divisions
+ */
+
+/**
  * @typedef OrganizationLearnerListPayload
  * @type {object}
  * @property {number} organizationId
  * @property {(PageDefinition|undefined)} page
+ * @propery {(FilterDefinition|undefined)} filter
  */
 
 /**
@@ -51,18 +58,20 @@ import { OrganizationLearner } from './models/OrganizationLearner.js';
  * @description
  * Récupère les organization-learners pour une organization. Par défaut, ces organizations-learners sont triés par prénom puis par nom.
  * Si le params 'page' est présent, les organization-learners seront paginés
+ * Si le params 'filter' est présent, les organization-learners seront filtrés
  * @param {OrganizationLearnerListPayload} payload
  * @returns {Promise<OrganizationLearnerListResponse>}
  */
-export const find = async ({ organizationId, page }) => {
+export const find = async ({ organizationId, page, filter }) => {
   if (page) {
     const { learners, pagination } = await usecases.findPaginatedOrganizationLearners({
       organizationId,
       page,
+      filter: _fromAPIModel(filter),
     });
     return { organizationLearners: _toAPIModel(learners), pagination };
   } else {
-    const allLearners = await _getLearnerWithoutPagination(organizationId);
+    const allLearners = await _getLearnerWithoutPagination({ organizationId, filter: _fromAPIModel(filter) });
 
     return { organizationLearners: _toAPIModel(allLearners) };
   }
@@ -76,7 +85,18 @@ function _toAPIModel(input) {
   }
 }
 
-async function _getLearnerWithoutPagination(organizationId) {
+function _fromAPIModel(filter) {
+  const filterMappings = {
+    divisions: 'Libellé classe',
+  };
+  return filter
+    ? Object.entries(filter).reduce((acc, [key, value]) => {
+        return { ...acc, [filterMappings[key]]: value };
+      }, {})
+    : undefined;
+}
+
+async function _getLearnerWithoutPagination({ organizationId, filter }) {
   const allLearners = [];
   let call = 1;
   let totalPages;
@@ -85,6 +105,7 @@ async function _getLearnerWithoutPagination(organizationId) {
     const { learners, pagination } = await usecases.findPaginatedOrganizationLearners({
       organizationId,
       page: { size: 100, number: call },
+      filter,
     });
     totalPages = pagination.pageCount;
     allLearners.push(...learners);
@@ -92,6 +113,7 @@ async function _getLearnerWithoutPagination(organizationId) {
   } while (call <= totalPages);
   return allLearners;
 }
+
 /**
  * @function
  * @name get

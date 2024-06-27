@@ -6,7 +6,7 @@ import { expect, sinon } from '../../../../../test-helper.js';
 describe('Unit | API | Organization Learner', function () {
   describe('#find', function () {
     context('when there is no pagination', function () {
-      it('should return all learners', async function () {
+      it('should call the usecase several times until all learners have been retrieved', async function () {
         const organizationId = 3;
         const organizationLearner1 = {
           id: 1242,
@@ -30,6 +30,7 @@ describe('Unit | API | Organization Learner', function () {
           .withArgs({
             organizationId,
             page: { size: 100, number: 1 },
+            filter: undefined,
           })
           .resolves({
             learners: [organizationLearner1],
@@ -40,6 +41,7 @@ describe('Unit | API | Organization Learner', function () {
           .withArgs({
             organizationId,
             page: { size: 100, number: 2 },
+            filter: undefined,
           })
           .resolves({
             learners: [organizationLearner2],
@@ -75,6 +77,7 @@ describe('Unit | API | Organization Learner', function () {
           .withArgs({
             organizationId,
             page: { size: 1, number: 1 },
+            filter: undefined,
           })
           .resolves({
             learners: [organizationLearner1],
@@ -90,6 +93,39 @@ describe('Unit | API | Organization Learner', function () {
         // then
         expect(result.organizationLearners).have.deep.members([expectedOrganizationLearner1]);
         expect(result.pagination).to.deep.equal({ pageSize: 1, pageCount: 1, rowCount: 1, page: 1 });
+      });
+    });
+    context('when there is a filter', function () {
+      it("should map the filter keys into attributes' names", async function () {
+        const organizationId = 3;
+        const organizationLearner1 = {
+          id: 1242,
+          firstName: 'Paul',
+          lastName: 'Henri',
+          'Libellé classe': '3ème',
+          organizationId,
+        };
+        const expectedOrganizationLearner1 = new OrganizationLearner(organizationLearner1);
+
+        const getPaginatedOrganizationLearnerStub = sinon.stub(usecases, 'findPaginatedOrganizationLearners');
+        getPaginatedOrganizationLearnerStub.resolves({
+          learners: [organizationLearner1],
+          pagination: { pageSize: 1, pageCount: 1, rowCount: 1, page: 1 },
+        });
+
+        // when
+        const result = await organizationLearnersApi.find({
+          organizationId,
+          filter: { divisions: ['div-2'] },
+        });
+
+        // then
+        expect(result.organizationLearners).have.deep.members([expectedOrganizationLearner1]);
+        expect(getPaginatedOrganizationLearnerStub).to.have.been.calledWith({
+          organizationId,
+          page: { size: 100, number: 1 },
+          filter: { 'Libellé classe': ['div-2'] },
+        });
       });
     });
   });
