@@ -11,7 +11,6 @@ const createBadge = async function ({
   const { campaignThreshold, cappedTubesCriteria, ...badge } = badgeCreation;
   return DomainTransaction.execute(async (domainTransaction) => {
     await targetProfileRepository.get(targetProfileId, domainTransaction);
-    await badgeRepository.isKeyAvailable(badge.key, domainTransaction);
 
     const isCampaignThresholdValid = campaignThreshold || campaignThreshold === 0;
     const hasCappedTubesCriteria = cappedTubesCriteria?.length > 0;

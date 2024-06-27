@@ -1,3 +1,5 @@
+const UPDATABLE_PROPERTIES = ['message', 'altMessage', 'key', 'title', 'imageUrl', 'isCertifiable', 'isAlwaysVisible'];
+
 class Badge {
   constructor({
     id,
@@ -21,6 +23,12 @@ class Badge {
     this.targetProfileId = targetProfileId;
     this.isAlwaysVisible = isAlwaysVisible;
     this.complementaryCertificationBadge = complementaryCertificationBadge;
+  }
+
+  updateBadgeProperties(badgeToUpdate) {
+    UPDATABLE_PROPERTIES.forEach((property) => {
+      if (badgeToUpdate[property]) this[property] = badgeToUpdate[property];
+    });
   }
 }
 

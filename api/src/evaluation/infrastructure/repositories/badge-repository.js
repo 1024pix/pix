@@ -7,6 +7,7 @@ import * as knexUtils from '../../../shared/infrastructure/utils/knex-utils.js';
 import { Badge } from '../../domain/models/Badge.js';
 
 const TABLE_NAME = 'badges';
+const BADGE_KEY_UNIQUE_CONSTRAINT = 'badges_key_unique';
 
 const findByCampaignId = async function (campaignId) {
   return knex(TABLE_NAME)
@@ -32,25 +33,24 @@ const save = async function (badge, { knexTransaction } = DomainTransaction.empt
   try {
     const [savedBadge] = await (knexTransaction ?? knex)(TABLE_NAME).insert(_adaptModelToDb(badge)).returning('*');
     return new Badge(savedBadge);
-  } catch (err) {
-    if (knexUtils.isUniqConstraintViolated(err)) {
+  } catch (error) {
+    if (knexUtils.isUniqConstraintViolated(error) && error.constraint === BADGE_KEY_UNIQUE_CONSTRAINT) {
       throw new AlreadyExistingEntityError(`The badge key ${badge.key} already exists`);
     }
-    throw err;
+    throw error;
   }
 };
 
 const update = async function (badge) {
-  const [updatedBadge] = await knex(TABLE_NAME).update(_adaptModelToDb(badge)).where({ id: badge.id }).returning('*');
-  return new Badge({ ...badge, ...updatedBadge });
-};
-
-const isKeyAvailable = async function (key, { knexTransaction } = DomainTransaction.emptyTransaction()) {
-  const result = await (knexTransaction ?? knex)(TABLE_NAME).select('key').where('key', key);
-  if (result.length) {
-    throw new AlreadyExistingEntityError(`The badge key ${key} already exists`);
+  try {
+    const [updatedBadge] = await knex(TABLE_NAME).update(_adaptModelToDb(badge)).where({ id: badge.id }).returning('*');
+    return new Badge({ ...badge, ...updatedBadge });
+  } catch (error) {
+    if (knexUtils.isUniqConstraintViolated(error) && error.constraint === BADGE_KEY_UNIQUE_CONSTRAINT) {
+      throw new AlreadyExistingEntityError(`The badge key ${badge.key} already exists`);
+    }
+    throw error;
   }
-  return true;
 };
 
 const remove = async function (badgeId, { knexTransaction } = DomainTransaction.emptyTransaction()) {
@@ -69,7 +69,7 @@ const findAllByIds = async function ({ ids }) {
   });
 };
 
-export { findAllByIds, findByCampaignId, get, isAssociated, isKeyAvailable, remove, save, update };
+export { findAllByIds, findByCampaignId, get, isAssociated, remove, save, update };
 
 function _adaptModelToDb(badge) {
   return omit(badge, ['id', 'badgeCriteria', 'complementaryCertificationBadge']);

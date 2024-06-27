@@ -212,34 +212,6 @@ describe('Integration | Repository | Badge', function () {
     });
   });
 
-  describe('#isKeyAvailable', function () {
-    it('should return true', async function () {
-      // given
-      const key = 'NOT_EXISTING_KEY';
-
-      // when
-      const result = await badgeRepository.isKeyAvailable(key);
-
-      // then
-      expect(result).to.be.true;
-    });
-
-    describe('when key is already exists', function () {
-      it('should return AlreadyExistEntityError', async function () {
-        // given
-        const key = 'AN_EXISTING_KEY';
-        databaseBuilder.factory.buildBadge({ key });
-        await databaseBuilder.commit();
-
-        // when
-        const error = await catchErr(badgeRepository.isKeyAvailable)(key);
-
-        // then
-        expect(error).to.instanceOf(AlreadyExistingEntityError);
-      });
-    });
-  });
-
   describe('#isAssociated', function () {
     describe('when the badge is not associated to a badge acquisition', function () {
       it('should return false', async function () {
