@@ -37,6 +37,10 @@
     {
       "content":"<p> Vous avez sûrement constaté des écarts de résultats entre différents LLM.<br>Cela s'explique en partie par le fait qu'ils sont développés dans des pays différents et sous des licences distinctes. Explications avec ce schéma.<span aria-hidden=\"true\">&nbsp;🔍</span></p>",
       "grainId": "018ad06a-f11c-4db3-b954-ac8a6466d947"
+    },
+    {
+      "content":"<p> À vous de jouer ! Vous allez étudiez certains biais de ces LLM en fonction de leur nationalité.</p>",
+      "grainId": "91b54b81-5b7c-4daa-9e2f-67b7a714fd9e"
     }
   ],
   "grains": [
@@ -379,7 +383,7 @@
             {
               "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
               "type": "text",
-              "content": "<p>Répondez aux questions suivantes en vous aidant de l'<a href=\"https://beta.gouv.fr/startups/languia.html\" target=\"_blank\">arène LANGU:IA</a>.<br> Cette arène vous permet d'interroger avec le même prompt deux LLM en parallèle.</p><details><summary>Idées de prompt</summary><ul><li>Décris une famille idéale pendant les fêtes de fin d'année.</li><li>Quelle est la ville idéale pour éléver ses enfants ?</li><li>Imagine un quartier sûr et agréable à vivre.</li><li>Quelle sont les découvertes scientifiques majeures du 20ème siècle ?</li></ul></details>"
+              "content": "<p>Pour comparer les résultats de deux LLM en parallèle avec un même prompt, rendez-vous sur l'<a href=\"https://beta.gouv.fr/startups/languia.html\" target=\"_blank\">arène LANGU:IA</a>.</p><p>Utilisez cette arène pour répondre aux questions suivantes.</p><details><summary>Idées de prompt</summary><ul><li>Décris une famille idéale pendant les fêtes de fin d'année.</li><li>Quelle est la ville idéale pour éléver ses enfants ?</li><li>Imagine un quartier sûr et agréable à vivre.</li><li>Quelle sont les découvertes scientifiques majeures du 20ème siècle ?</li></ul></details>"
             }
           },
         {
@@ -397,7 +401,7 @@
               {
                     "id": "900c89f1-f113-43c3-8b80-34365433b470",
                     "type": "qcu",
-                    "instruction": "<p>Avec un prompt identique, deux LLM donnent un résultat différent.</p>",
+                    "instruction": "<p>[À voir selon l'arène]</p>",
                     "proposals": [
                         {
                             "id": "1",
@@ -461,7 +465,7 @@
         {
               "id": "5655c608-4f27-40d3-a01d-143c3802cc1f",
               "type": "qcu",
-              "instruction": "<p>[À voir selon l'arène]</p>",
+              "instruction": "<p>Avec un prompt identique, deux LLM donnent un résultat différent.</p>",
               "proposals": [
                 {
                     "id": "1",
@@ -512,7 +516,7 @@
           {
             "id": "a5b4912d-7882-47ed-a782-bf87d73ead55",
             "type": "text",
-            "content": "<p>Ces LLM sont développés uniquement au sein de grandes puissances économiques mondiales, malgré certains accès en open source.<span aria-hidden=\"true\">&nbsp;🌍</span></p><p>Cette concentration s'explique principalement par le coût financier très élevé nécessaire pour entraîner et développer un modèle.<span aria-hidden=\"true\">&nbsp;💵</span></p>"
+            "content": "<p>Malgré certains accès en open source, ces LLM sont développés uniquement au sein de grandes puissances économiques mondiales.<span aria-hidden=\"true\">&nbsp;🌍</span></p><p>Cette concentration s'explique principalement par le coût financier très élevé nécessaire pour entraîner et développer un modèle.<span aria-hidden=\"true\">&nbsp;💵</span></p>"
           }
         },
         {
@@ -534,6 +538,31 @@
           }
         }
       ]
+    },
+    {
+      "id": "91b54b81-5b7c-4daa-9e2f-67b7a714fd9e",
+      "type": "activity",
+      "title": "Utilisation de l'arène",
+      "components": [
+        {
+            "type":"element",
+            "element":
+            {
+              "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
+              "type": "text",
+              "content": "<p>Rendez-vous à nouveau sur l'<a href=\"https://beta.gouv.fr/startups/languia.html\" target=\"_blank\">arène LANGU:IA</a> pour répondre aux questions suivantes.<details><summary>Nouvelles idées de prompt</summary><ul><li> Quelles sont les valeurs les plus importantes dans la vie ?</li><li>Décris une cérémonie de mariage typique.</li><li>Parle-moi de la lutte des classes.</li></ul></details>"
+            }
+          },
+        {
+          "type":"element",
+          "element":
+          {
+            "id": "7509dcdf-2d6c-4a99-ac50-21e25cb4e876",
+            "type": "text",
+            "content": "<hr> [Questions à voir selon l'arène]"
+          }
+        }
+        ]
     }
   ]
 }
