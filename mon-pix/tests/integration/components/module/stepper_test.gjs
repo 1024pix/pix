@@ -38,7 +38,9 @@ module('Integration | Component | Module | Stepper', function (hooks) {
       // then
       assert.strictEqual(screen.getAllByRole('heading', { level: 3 }).length, 1);
       assert.dom(screen.getByRole('heading', { level: 3, name: 'Étape 1 sur 2' })).exists();
-      assert.dom(screen.getByRole('button', { name: this.intl.t('pages.modulix.buttons.stepper.next') })).exists();
+      assert
+        .dom(screen.getByRole('button', { name: this.intl.t('pages.modulix.buttons.stepper.next.ariaLabel') }))
+        .exists();
     });
 
     module('When step contains answerable elements', function () {
@@ -90,7 +92,7 @@ module('Integration | Component | Module | Stepper', function (hooks) {
 
           // then
           assert
-            .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.stepper.next') }))
+            .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.stepper.next.ariaLabel') }))
             .doesNotExist();
         });
       });
@@ -283,7 +285,7 @@ module('Integration | Component | Module | Stepper', function (hooks) {
 
           // then
           assert
-            .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.stepper.next') }))
+            .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.stepper.next.ariaLabel') }))
             .doesNotExist();
         });
       });
@@ -341,7 +343,7 @@ module('Integration | Component | Module | Stepper', function (hooks) {
 
           // then
           assert
-            .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.stepper.next') }))
+            .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.stepper.next.ariaLabel') }))
             .exists();
         });
       });
@@ -392,7 +394,7 @@ module('Integration | Component | Module | Stepper', function (hooks) {
           assert.strictEqual(screen.getAllByRole('heading', { level: 3 }).length, 1);
           assert.dom(screen.getByRole('heading', { level: 3, name: 'Étape 1 sur 1' })).exists();
           assert
-            .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.stepper.next') }))
+            .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.stepper.next.ariaLabel') }))
             .doesNotExist();
         });
       });
@@ -481,7 +483,7 @@ module('Integration | Component | Module | Stepper', function (hooks) {
         );
 
         // when
-        await clickByName(this.intl.t('pages.modulix.buttons.stepper.next'));
+        await clickByName(this.intl.t('pages.modulix.buttons.stepper.next.ariaLabel'));
 
         // then
         assert.strictEqual(screen.getAllByRole('heading', { level: 3 }).length, 2);
@@ -524,9 +526,9 @@ module('Integration | Component | Module | Stepper', function (hooks) {
         );
 
         // when
-        await clickByName(this.intl.t('pages.modulix.buttons.stepper.next'));
+        await clickByName(this.intl.t('pages.modulix.buttons.stepper.next.ariaLabel'));
         assert
-          .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.stepper.next') }))
+          .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.stepper.next.ariaLabel') }))
           .doesNotExist();
       });
     });

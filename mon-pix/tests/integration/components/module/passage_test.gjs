@@ -444,7 +444,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
 
       const module = store.createRecord('module', { id: '1', title: 'Module title', grains: [grain] });
       const passage = store.createRecord('passage');
-      const continueToNextStepButtonName = this.intl.t('pages.modulix.buttons.stepper.next');
+      const continueToNextStepButtonName = this.intl.t('pages.modulix.buttons.stepper.next.ariaLabel');
 
       await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
 
@@ -583,7 +583,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
 
           // when
           const screen = await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
-          await clickByName(this.intl.t('pages.modulix.buttons.stepper.next'));
+          await clickByName(this.intl.t('pages.modulix.buttons.stepper.next.ariaLabel'));
 
           // then
           assert

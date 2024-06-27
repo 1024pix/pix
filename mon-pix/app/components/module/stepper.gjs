@@ -69,9 +69,12 @@ export default class ModulixStepper extends Component {
           />
         {{/each}}
         {{#if this.shouldDisplayNextButton}}
-          <PixButton @variant="primary" @iconAfter="arrow-down" @triggerAction={{this.displayNextStep}}>{{t
-              "pages.modulix.buttons.stepper.next"
-            }}
+          <PixButton
+            aria-label="{{t 'pages.modulix.buttons.stepper.next.ariaLabel'}}"
+            @variant="primary"
+            @iconAfter="arrow-down"
+            @triggerAction={{this.displayNextStep}}
+          >{{t "pages.modulix.buttons.stepper.next.name"}}
           </PixButton>
         {{/if}}
       {{/if}}
