@@ -203,7 +203,7 @@
           "element": {
             "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
             "type": "text",
-            "content": "<p>Michel est <strong>québécois</strong>. Il utilise un LLM pour la première fois. Il reçoit une réponse qui concerne la <strong>France</strong>.<span aria-hidden=\"true\">&nbsp;👇</span></p>"
+            "content": "<p>Michel est <strong>québécois</strong> et utilise un LLM pour la première fois. Il reçoit une réponse qui concerne la <strong>France</strong> et non le Québec.<span aria-hidden=\"true\">&nbsp;👇</span></p>"
           }
         },
         {
@@ -257,7 +257,7 @@
             "element": {
               "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
               "type": "text",
-              "content": "<p>Erica est <strong>romancière</strong>. Elle utilise un LLM pour avoir de l'inspiration pour un personnage. Elle a oublié de préciser au LLM qu'elle veut un personnage <strong>masculin</strong>.<span aria-hidden=\"true\">&nbsp;👇</span></p>"
+              "content": "<p>Erica est <strong>romancière</strong> et demande à un LLM d'imaginer un personnage. Elle n'a pas précisé au LLM qu'elle veut un personnage <strong>masculin</strong> et obtient un personnage féminin.<span aria-hidden=\"true\">&nbsp;👇</span></p>"
             }
           },
           {
@@ -312,7 +312,7 @@
             "element": {
               "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
               "type": "text",
-              "content": "Stéphane est passionné d'<strong>astrologie</strong>. Il demande son horoscope du jour à un LLM et se réjouit de la réponse reçue.<span aria-hidden=\"true\">&nbsp;👇</span>"
+              "content": "Stéphane est persuadé d'avoir vu un <strong>extraterrestre</strong> dans son jardin. Il demande à un LLM comment en voir à nouveau et obtient une réponse intriguante.<span aria-hidden=\"true\">&nbsp;👇</span>"
             }
           },
           {
@@ -321,9 +321,9 @@
             {
               "id": "58ca3642-557a-41f3-ade4-60bf78fea803",
               "type": "image",
-              "url": "https://i.imgur.com/KQLY2BC.png",
+              "url": "https://i.imgur.com/lPKO4b6.png",
               "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
-              "alternativeText": "<p>Vous : Je suis Verseau. Comment ma journée va-t-elle se passer ?<br>LLM :  En tant que Verseau, attendez-vous à une journée pleine de surprises stimulantes et de nouvelles opportunités pour exprimer votre créativité.</p><p>Image créée à partir de données générées par ChatGPT (OpenAI) - 7 juin 2024</p>"
+              "alternativeText": "<p>Vous : Je suis sûr d'avoir vu un extraterrestre hier dans mon jardin. Donne-moi des conseils pour en voir à nouveau<br>LLM : Ces conseils devraient vous aider à augmenter vos chances de voir un extraterrestre à nouveau : passez du temps à l'extérieur la nuit et installez des caméras de surveillance.</p><p>Image créée à partir de données générées par ChatGPT (OpenAI) - 7 juin 2024</p>"
             }
           },
           {
@@ -336,11 +336,11 @@
               "proposals": [
                 {
                   "id": "1",
-                  "content": "Le LLM a été programmé pour que les Verseaux aient toujours un bon horoscope."
+                  "content": "Le LLM a été programmé pour que les extraterrestres soient considérés comme existant."
                 },
                 {
                   "id": "2",
-                  "content": "Le LLM a été entraîné avec des données où les Verseaux sont surreprésentés."
+                  "content": "Le LLM a été entraîné avec de trop nombreuses histoires de science-fiction."
                 },
                 {
                   "id": "3",
