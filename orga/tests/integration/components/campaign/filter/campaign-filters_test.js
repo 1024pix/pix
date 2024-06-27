@@ -24,7 +24,7 @@ module('Integration | Component | Campaign::Filter::CampaignFilters', function (
     );
 
     // then
-    assert.dom(screen.getByText(this.intl.t('pages.campaigns-list.filter.title'))).exists();
+    assert.dom(screen.getByText(this.intl.t('common.filters.title'))).exists();
     assert.dom(screen.getByLabelText(this.intl.t('pages.campaigns-list.filter.by-name'))).exists();
     assert.dom(screen.getByLabelText(this.intl.t('pages.campaigns-list.filter.by-owner'))).exists();
     assert.dom(screen.getByLabelText(this.intl.t('pages.campaigns-list.action.campaign.label'))).exists();
@@ -46,7 +46,7 @@ module('Integration | Component | Campaign::Filter::CampaignFilters', function (
       );
 
       // When
-      await clickByName(this.intl.t('pages.campaigns-list.filter.clear'));
+      await clickByName(this.intl.t('common.filters.actions.clear'));
 
       // then
       sinon.assert.called(this.onClickClearFiltersSpy);
