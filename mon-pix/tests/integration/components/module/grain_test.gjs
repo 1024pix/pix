@@ -824,7 +824,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
           // when
           const screen = await render(hbs`
           <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @retryElement={{this.retryElement}} @continueToNextStep={{this.continueToNextStep}} />`);
-          await clickByName(this.intl.t('pages.modulix.buttons.stepper.next'));
+          await clickByName(this.intl.t('pages.modulix.buttons.stepper.next.ariaLabel'));
 
           // then
           assert
@@ -875,7 +875,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
           // when
           const screen = await render(hbs`
           <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @retryElement={{this.retryElement}} @continueToNextStep={{this.continueToNextStep}} />`);
-          await clickByName(this.intl.t('pages.modulix.buttons.stepper.next'));
+          await clickByName(this.intl.t('pages.modulix.buttons.stepper.next.ariaLabel'));
 
           // then
           assert
@@ -1047,7 +1047,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
               // when
               const screen = await render(hbs`
             <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @retryElement={{this.retryElement}} @continueToNextStep={{this.continueToNextStep}} />`);
-              await clickByName(this.intl.t('pages.modulix.buttons.stepper.next'));
+              await clickByName(this.intl.t('pages.modulix.buttons.stepper.next.ariaLabel'));
 
               // then
               assert
@@ -1099,7 +1099,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
               // when
               const screen = await render(hbs`
             <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @retryElement={{this.retryElement}} @continueToNextStep={{this.continueToNextStep}} />`);
-              await clickByName(this.intl.t('pages.modulix.buttons.stepper.next'));
+              await clickByName(this.intl.t('pages.modulix.buttons.stepper.next.ariaLabel'));
 
               // then
               assert
@@ -1305,7 +1305,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
               const screen = await render(hbs`
                 <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @retryElement={{this.retryElement}} @continueToNextStep={{this.continueToNextStep}} />`);
 
-              await clickByName(this.intl.t('pages.modulix.buttons.stepper.next'));
+              await clickByName(this.intl.t('pages.modulix.buttons.stepper.next.ariaLabel'));
 
               // then
               assert
@@ -1370,7 +1370,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
               const screen = await render(hbs`
                 <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @retryElement={{this.retryElement}} @continueToNextStep={{this.continueToNextStep}} />`);
 
-              await clickByName(this.intl.t('pages.modulix.buttons.stepper.next'));
+              await clickByName(this.intl.t('pages.modulix.buttons.stepper.next.ariaLabel'));
 
               // then
               assert
