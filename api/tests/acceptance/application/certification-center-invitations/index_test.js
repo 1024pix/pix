@@ -103,50 +103,6 @@ describe('Acceptance | API | Certification center invitations', function () {
       });
     });
 
-    describe('DELETE /api/certification-center-invitations/{id}', function () {
-      context('when user is an admin', function () {
-        let adminUser, certificationCenter;
-
-        beforeEach(async function () {
-          adminUser = databaseBuilder.factory.buildUser();
-          certificationCenter = databaseBuilder.factory.buildCertificationCenter();
-          databaseBuilder.factory.buildCertificationCenterMembership({
-            userId: adminUser.id,
-            certificationCenterId: certificationCenter.id,
-            role: 'ADMIN',
-          });
-
-          await databaseBuilder.commit();
-        });
-
-        it('cancels the certification center invitation and returns a 204 HTTP status code', async function () {
-          // given
-          const certificationCenterInvitation = databaseBuilder.factory.buildCertificationCenterInvitation({
-            certificationCenterId: certificationCenter.id,
-          });
-          const request = {
-            headers: {
-              authorization: generateValidRequestAuthorizationHeader(adminUser.id),
-            },
-            method: 'DELETE',
-            url: `/api/certification-center-invitations/${certificationCenterInvitation.id}`,
-          };
-
-          await databaseBuilder.commit();
-
-          // when
-          const { statusCode } = await server.inject(request);
-
-          // then
-          const cancelledCertificationCenterInvitation = await knex(CERTIFICATION_CENTER_INVITATIONS_TABLE_NAME)
-            .where({ id: certificationCenterInvitation.id })
-            .first();
-          expect(cancelledCertificationCenterInvitation.status).to.equal('cancelled');
-          expect(statusCode).to.equal(204);
-        });
-      });
-    });
-
     describe(`PATCH /api/certification-center-invitations/{id}`, function () {
       context('when user is admin of the certification center', function () {
         let adminUser;

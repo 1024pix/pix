@@ -35,4 +35,28 @@ export const certificationCenterInvitationRoutes = [
       tags: ['api', 'certification-center', 'invitations'],
     },
   },
+  {
+    method: 'DELETE',
+    path: '/api/certification-center-invitations/{certificationCenterInvitationId}',
+    config: {
+      handler: (request, h) => certificationCenterInvitationController.cancelCertificationCenterInvitation(request, h),
+      pre: [
+        {
+          method: (request, h) =>
+            securityPreHandlers.checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationId(request, h),
+          assign: 'isAdminOfCertificationCenter',
+        },
+      ],
+      validate: {
+        params: Joi.object({
+          certificationCenterInvitationId: identifiersType.certificationCenterInvitationId.required(),
+        }),
+      },
+      notes: [
+        '- **Cette route est restreinte aux utilisateurs appartenant à un centre de certification**\n',
+        "- Cette route permet d'annuler une invitation actuellement en attente selon un **id d'invitation**",
+      ],
+      tags: ['team', 'api', 'certification-center-invitation'],
+    },
+  },
 ];

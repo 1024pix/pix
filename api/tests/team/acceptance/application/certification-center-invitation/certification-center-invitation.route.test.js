@@ -6,6 +6,8 @@ import {
   knex,
 } from '../../../../test-helper.js';
 
+const CERTIFICATION_CENTER_INVITATIONS_TABLE_NAME = 'certification-center-invitations';
+
 describe('Acceptance | Team | Application | Route | Certification Center Invitation', function () {
   let server, request;
 
@@ -78,6 +80,76 @@ describe('Acceptance | Team | Application | Route | Certification Center Invitat
           .whereIn('email', emails);
         expect(response.statusCode).to.equal(204);
         expect(certificationCenterInvitations.length).to.equal(2);
+      });
+    });
+  });
+
+  describe('DELETE /api/certification-center-invitations/{id}', function () {
+    let certificationCenter, certificationCenterInvitation, request, user;
+
+    beforeEach(async function () {
+      certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+      certificationCenterInvitation = databaseBuilder.factory.buildCertificationCenterInvitation({
+        certificationCenterId: certificationCenter.id,
+      });
+      user = databaseBuilder.factory.buildUser();
+
+      await databaseBuilder.commit();
+
+      request = {
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(user.id),
+        },
+        method: 'DELETE',
+        url: `/api/certification-center-invitations/${certificationCenterInvitation.id}`,
+      };
+    });
+
+    context('when user is an admin of the certification center', function () {
+      beforeEach(async function () {
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          userId: user.id,
+          certificationCenterId: certificationCenter.id,
+          role: 'ADMIN',
+        });
+        await databaseBuilder.commit();
+      });
+
+      it('cancels the certification center invitation and returns a 204 HTTP status code', async function () {
+        // when
+        const { statusCode } = await server.inject(request);
+
+        // then
+        const cancelledCertificationCenterInvitation = await knex(CERTIFICATION_CENTER_INVITATIONS_TABLE_NAME)
+          .where({ id: certificationCenterInvitation.id })
+          .first();
+
+        expect(statusCode).to.equal(204);
+        expect(cancelledCertificationCenterInvitation.status).to.equal('cancelled');
+      });
+    });
+
+    context('when user is not an admin of the certification center', function () {
+      beforeEach(async function () {
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          userId: user.id,
+          certificationCenterId: certificationCenter.id,
+          role: 'MEMBER',
+        });
+        await databaseBuilder.commit();
+      });
+
+      it('returns a 403 HTTP status code and the certification center invitation is not cancelled', async function () {
+        // when
+        const { statusCode } = await server.inject(request);
+
+        // then
+        const cancelledCertificationCenterInvitation = await knex(CERTIFICATION_CENTER_INVITATIONS_TABLE_NAME)
+          .where({ id: certificationCenterInvitation.id })
+          .first();
+
+        expect(statusCode).to.equal(403);
+        expect(cancelledCertificationCenterInvitation.status).to.equal('pending');
       });
     });
   });
