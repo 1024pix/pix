@@ -4,7 +4,7 @@
 import bluebird from 'bluebird';
 
 import { CenterForAdminFactory } from '../../../src/certification/enrolment/domain/models/factories/CenterForAdminFactory.js';
-import { V3PilotNotAuthorizedForCertificationCenterError } from '../../../src/shared/domain/errors.js';
+import { CertificationCenterPilotFeaturesConflictError } from '../../../src/shared/domain/errors.js';
 import { ComplementaryCertificationHabilitation, DataProtectionOfficer } from '../models/index.js';
 import * as certificationCenterCreationValidator from '../validators/certification-center-creation-validator.js';
 
@@ -48,9 +48,10 @@ const updateCertificationCenter = async function ({
     id: certificationCenterId,
   });
 
-  if (certificationCenterInformation.isV3Pilot && certificationCenter.isComplementaryAlonePilot) {
-    throw new V3PilotNotAuthorizedForCertificationCenterError();
-  }
+  _verifyCenterPilotFeaturesCompatibility({
+    currentCenter: certificationCenter,
+    newCenterData: certificationCenterInformation,
+  });
 
   await complementaryCertificationHabilitationRepository.deleteByCertificationCenterId(certificationCenterId);
 
@@ -80,3 +81,9 @@ const updateCertificationCenter = async function ({
 };
 
 export { updateCertificationCenter };
+
+const _verifyCenterPilotFeaturesCompatibility = ({ currentCenter, newCenterData }) => {
+  if (currentCenter.isComplementaryAlonePilot && !newCenterData.isV3Pilot) {
+    throw new CertificationCenterPilotFeaturesConflictError();
+  }
+};

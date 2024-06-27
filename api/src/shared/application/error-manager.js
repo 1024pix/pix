@@ -13,10 +13,10 @@ import { extractLocaleFromRequest } from '../../shared/infrastructure/utils/requ
 import * as DomainErrors from '../domain/errors.js';
 import {
   AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError,
+  CertificationCenterPilotFeaturesConflictError,
   EntityValidationError,
   OidcError,
   TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization,
-  V3PilotNotAuthorizedForCertificationCenterError,
 } from '../domain/errors.js';
 import * as errorSerializer from '../infrastructure/serializers/jsonapi/error-serializer.js';
 import { domainErrorMapper } from './domain-error-mapper.js';
@@ -166,7 +166,7 @@ function _mapToHttpError(error) {
     return new HttpErrors.ForbiddenError(error.message, error.code);
   }
 
-  if (error instanceof V3PilotNotAuthorizedForCertificationCenterError) {
+  if (error instanceof CertificationCenterPilotFeaturesConflictError) {
     return new HttpErrors.ForbiddenError(error.message, error.code);
   }
 

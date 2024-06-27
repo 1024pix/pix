@@ -6,6 +6,7 @@ import { handle } from '../../../../src/shared/application/error-manager.js';
 import { HttpErrors, UnauthorizedError } from '../../../../src/shared/application/http-errors.js';
 import {
   CertificationAttestationGenerationError,
+  CertificationCenterPilotFeaturesConflictError,
   EntityValidationError,
   InvalidInputDataError,
   LocaleFormatError,
@@ -14,7 +15,6 @@ import {
   NotFoundError,
   OidcError,
   UserNotAuthorizedToAccessEntityError,
-  V3PilotNotAuthorizedForCertificationCenterError,
 } from '../../../../src/shared/domain/errors.js';
 import { expect, hFake, sinon } from '../../../test-helper.js';
 
@@ -310,10 +310,10 @@ describe('Shared | Unit | Application | ErrorManager', function () {
       });
     });
 
-    context('when handling an V3PilotNotAuthorizedForCertificationCenterError', function () {
+    context('when handling an CertificationCenterPilotFeaturesConflictError', function () {
       it('maps to ForbiddenError', async function () {
         // given
-        const error = new V3PilotNotAuthorizedForCertificationCenterError();
+        const error = new CertificationCenterPilotFeaturesConflictError();
         sinon.stub(HttpErrors, 'ForbiddenError');
         const params = { request: {}, h: hFake, error };
 
@@ -322,8 +322,8 @@ describe('Shared | Unit | Application | ErrorManager', function () {
 
         // then
         expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(
-          'Certification center is not authorized to switch to a V3 pilot.',
-          'V3_PILOT_NOT_AUTHORIZED',
+          'Certification center pilot features incompatibility',
+          'PILOT_FEATURES_CONFLICT',
         );
       });
     });

@@ -67,11 +67,11 @@ describe('Integration | UseCases | update-certification-center', function () {
     expect(updatedCertificationCenter.habilitations[0].label).to.equal(complementaryCertification.label);
   });
 
-  describe('when certification center is update to be V3 pilot', function () {
-    describe('when certification center is already a feature pilot', function () {
+  describe('when certification center is removed from the V3 pilots', function () {
+    describe('when certification center is also a complementary certification alone pilot', function () {
       it('should throw an error', async function () {
         // given
-        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ isV3Pilot: true }).id;
         const feature = databaseBuilder.factory.buildFeature({
           key: CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key,
         });
@@ -86,7 +86,7 @@ describe('Integration | UseCases | update-certification-center', function () {
             name: 'Pix Super Center',
             type: 'PRO',
             habilitations: [],
-            isV3Pilot: true,
+            isV3Pilot: false,
           },
           dataProtectionOfficer: {
             firstName: 'Justin',

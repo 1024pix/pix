@@ -126,23 +126,23 @@ describe('Unit | Shared | Domain | Errors', function () {
     });
   });
 
-  context('V3PilotNotAuthorizedForCertificationCenterError', function () {
-    it('exports "V3PilotNotAuthorizedForCertificationCenterError" class', function () {
+  context('CertificationCenterPilotFeaturesConflictError', function () {
+    it('exports "CertificationCenterPilotFeaturesConflictError" class', function () {
       // then
-      expect(errors.V3PilotNotAuthorizedForCertificationCenterError).to.exist;
-      expect(errors.V3PilotNotAuthorizedForCertificationCenterError.prototype).to.be.instanceOf(errors.DomainError);
+      expect(errors.CertificationCenterPilotFeaturesConflictError).to.exist;
+      expect(errors.CertificationCenterPilotFeaturesConflictError.prototype).to.be.instanceOf(errors.DomainError);
     });
 
-    context('when an instance of "V3PilotNotAuthorizedForCertificationCenterError" is created', function () {
+    context('when an instance of "CertificationCenterPilotFeaturesConflictError" is created', function () {
       it('contains "message" and "code" attributes', function () {
         // given & when
-        const error = new errors.V3PilotNotAuthorizedForCertificationCenterError();
+        const error = new errors.CertificationCenterPilotFeaturesConflictError();
 
         // then
         expect(error).to.have.property('code');
-        expect(error.code).to.equal('V3_PILOT_NOT_AUTHORIZED');
+        expect(error.code).to.equal('PILOT_FEATURES_CONFLICT');
         expect(error).to.have.property('message');
-        expect(error.message).to.equal('Certification center is not authorized to switch to a V3 pilot.');
+        expect(error.message).to.equal('Certification center pilot features incompatibility');
       });
     });
   });
