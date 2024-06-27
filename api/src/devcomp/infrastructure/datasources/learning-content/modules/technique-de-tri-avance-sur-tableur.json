@@ -72,15 +72,15 @@
               "proposals": [
                 {
                   "id": "1",
-                  "content": "Cliquer sur l’icône «Tri décroissant»  pour la colonne «Numéro de table»  puis sur «Tri croissant»  pour la colonne «Heure d’arrivée» ."
+                  "content": "Utiliser la fenêtre de tri pour ajouter un tri décroissant à « Numéro de table », puis un tri croissant à « Heure d’arrivée »."
                 },
                 {
                   "id": "2",
-                  "content": "Utiliser la fenêtre de tri pour ajouter un tri décroissant à «Numéro de table» , puis un tri croissant à «Heure d’arrivée» ."
+                  "content": "Cliquer sur l’icône «Tri décroissant» pour la colonne « Numéro de table »  puis sur « Tri croissant »  pour la colonne « Heure d’arrivée »."
                 },
                 {
                   "id": "3",
-                  "content": "Créer une formule de tri automatique dans la colonne F pour «Numéro de table»  en ajoutant «Heure d’arrivée» ."
+                  "content": "Créer une formule de tri automatique dans la colonne F pour « Numéro de table »  en ajoutant « Heure d’arrivée » ."
                 }
               ],
               "feedbacks": {
