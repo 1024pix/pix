@@ -1,8 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
+import PanelHeader from 'pix-certif/components/sessions/panel-header';
 import { module, test } from 'qunit';
 
-import PanelHeader from 'pix-certif/components/sessions/panel-header';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | panel-header', function (hooks) {

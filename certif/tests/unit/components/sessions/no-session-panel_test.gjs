@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import createGlimmerComponent from '../../helpers/create-glimmer-component';
+import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 
 module('Unit | Component | no-session-panel', function (hooks) {
   setupTest(hooks);
@@ -11,7 +11,7 @@ module('Unit | Component | no-session-panel', function (hooks) {
   let component;
 
   hooks.beforeEach(function () {
-    component = createGlimmerComponent('component:no-session-panel');
+    component = createGlimmerComponent('component:sessions/no-session-panel');
   });
 
   module('#shouldRenderImportTemplateButton', function () {
