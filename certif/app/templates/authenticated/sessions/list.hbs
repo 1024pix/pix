@@ -2,7 +2,7 @@
   {{#if this.displayNoSessionPanel}}
     <NoSessionPanel />
   {{else}}
-    <Sessions::PanelHeader @reloadSessionSummaries={{@model.refreshModel}} />
+    <Sessions::PanelHeader @reloadSessionSummaries={{@model}} />
 
     <SessionSummaryList @sessionSummaries={{@model.sessionSummaries}} @goToSessionDetails={{this.goToSessionDetails}} />
   {{/if}}
