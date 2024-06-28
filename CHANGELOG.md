@@ -1,5 +1,22 @@
 # Pix Changelog
 
+## v4.173.0 (28/06/2024)
+
+
+### :rocket: Amélioration
+- [#9400](https://github.com/1024pix/pix/pull/9400) [FEATURE] Augmentation de la taille maximale de la payload pour la route /api/audit-log (PIX-13204).
+- [#9390](https://github.com/1024pix/pix/pull/9390) [FEATURE] Améliorer l'accéssibilité du Stepper dans Modulix (PIX-12866).
+
+### :building_construction: Tech
+- [#9377](https://github.com/1024pix/pix/pull/9377) [TECH] Migrer la route POST /api/revoke vers src/identity-access-management (PIX-13121).
+- [#9368](https://github.com/1024pix/pix/pull/9368) [TECH] Migrer la route PATCH /api/users/{id}/has-seen-last-data-protection-policy-information vers src/identity-access-management (PIX-13120).
+- [#9364](https://github.com/1024pix/pix/pull/9364) [TECH] Migrer la route PATCH /api/users/{id}/lang/{lang} vers src/identity-access-management (PIX-13119).
+- [#9367](https://github.com/1024pix/pix/pull/9367) [TECH] Migrer la route DELETE /api/certification-center-invitations/{certificationCenterInvitationId} vers team (PIX-13160)(PIX-13085).
+
+### :bug: Correction
+- [#9387](https://github.com/1024pix/pix/pull/9387) [BUGFIX] Ajouter la notion de pilote à la séparation pix / pix+ dans les accès autorisés d'un centre de certification (PIX-13169).
+- [#9394](https://github.com/1024pix/pix/pull/9394) [BUGFIX] Corriger le clignotement sur le bouton `Continuer` des grains (PIX-13097)(PIX-12362).
+
 ## v4.172.0 (27/06/2024)
 
 
