@@ -4,13 +4,13 @@
   "title": "ChatGPT parle-t-il vraiment français ?",
   "details": {
     "image": "https://images.pix.fr/modulix/placeholder-details.svg",
-    "description": "Les LLM ont l’air de parler toutes les langues, et d’avoir réponse à tout. Dans ce module, vous allez apprendre à reconnaître les biais culturels et linguistiques dans l’usage des LLM. Vous pourrez qualifier ces biais et comprendre les enjeux du développement d’une grande variété de LLM.",
+    "description": "Les Large Language Model (LLM) sont des systèmes d'intelligence artificielle (IA). Ils donnent l'impression de parler toutes les langues mais, à cause de leurs biais, leurs productions sont parfois stéréotypées ou discriminantes. Dans ce module, vous allez apprendre les origines des biais dans les LLM et interrogez directement des LLM pour les repérer !",
     "duration": 15,
     "level": "Avancé",
     "objectives": [
-      "Connaître différents LLM et leurs caractéristiques",
-      "Identifier les biais culturels et linguistiques des LLM",
-      "Comparer les résultats de deux LLM différents"
+      "Connaître les origines des biais des LLM",
+      "Catégoriser des résultats biaisés de LLM",
+      "Comparer les résultats de différents LLM"
     ]
   },
   "transitionTexts": [
