@@ -14,12 +14,14 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
   const organizationLearnerId = 1;
   const password = 'P@ssw0rd';
   const locale = 'fr-fr';
+  const token = '00000000-0000-0000-0000-00000000';
 
   let campaignCode;
   let userAttributes;
 
   let authenticationMethodRepository;
   let campaignRepository;
+  let emailValidationDemandRepository;
   let organizationLearnerRepository;
   let userRepository;
 
@@ -43,6 +45,9 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
     authenticationMethodRepository = {};
     campaignRepository = {
       getByCode: sinon.stub(),
+    };
+    emailValidationDemandRepository = {
+      save: sinon.stub().resolves(token),
     };
     organizationLearnerRepository = {};
     userRepository = {
@@ -97,6 +102,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
         userAttributes,
         authenticationMethodRepository,
         campaignRepository,
+        emailValidationDemandRepository,
         organizationLearnerRepository,
         userRepository,
         cryptoService,
@@ -128,6 +134,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
         userAttributes,
         authenticationMethodRepository,
         campaignRepository,
+        emailValidationDemandRepository,
         organizationLearnerRepository,
         userRepository,
         cryptoService,
@@ -200,6 +207,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             userAttributes,
             authenticationMethodRepository,
             campaignRepository,
+            emailValidationDemandRepository,
             organizationLearnerRepository,
             userRepository,
             cryptoService,
@@ -230,6 +238,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             userAttributes,
             authenticationMethodRepository,
             campaignRepository,
+            emailValidationDemandRepository,
             organizationLearnerRepository,
             userRepository,
             cryptoService,
@@ -260,6 +269,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             userAttributes,
             authenticationMethodRepository,
             campaignRepository,
+            emailValidationDemandRepository,
             organizationLearnerRepository,
             userRepository,
             cryptoService,
@@ -287,6 +297,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             userAttributes,
             authenticationMethodRepository,
             campaignRepository,
+            emailValidationDemandRepository,
             organizationLearnerRepository,
             userRepository,
             cryptoService,
@@ -299,9 +310,11 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
           });
 
           // then
+          expect(emailValidationDemandRepository.save).to.have.been.calledWith(createdUser.id);
           expect(mailService.sendAccountCreationEmail).to.have.been.calledWithExactly(
             userAttributes.email,
             locale,
+            token,
             expectedRedirectionUrl,
           );
         });
@@ -321,6 +334,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
               userAttributes,
               authenticationMethodRepository,
               campaignRepository,
+              emailValidationDemandRepository,
               organizationLearnerRepository,
               userRepository,
               cryptoService,
@@ -358,6 +372,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             userAttributes,
             authenticationMethodRepository,
             campaignRepository,
+            emailValidationDemandRepository,
             organizationLearnerRepository,
             userRepository,
             cryptoService,
@@ -384,6 +399,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             userAttributes,
             authenticationMethodRepository,
             campaignRepository,
+            emailValidationDemandRepository,
             organizationLearnerRepository,
             userRepository,
             cryptoService,
@@ -414,6 +430,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
               userAttributes,
               authenticationMethodRepository,
               campaignRepository,
+              emailValidationDemandRepository,
               organizationLearnerRepository,
               userRepository,
               cryptoService,
