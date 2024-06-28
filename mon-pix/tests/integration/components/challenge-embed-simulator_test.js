@@ -98,5 +98,19 @@ module('Integration | Component | Challenge Embed Simulator', function (hooks) {
     test('should define a src attribute on the iframe element that is the one defined in the referential for field "Embed URL"', function (assert) {
       assert.strictEqual(find('.embed__iframe').src, 'http://embed-simulator.url/');
     });
+
+    module('when embed sends its height', function () {
+      test('should listen for embed height and resize iframe container', async function (assert) {
+        const event = new MessageEvent('message', {
+          data: { from: 'pix', type: 'height', height: 480 },
+          origin: 'https://epreuves.pix.fr',
+        });
+        window.dispatchEvent(event);
+
+        await new Promise((resolve) => setTimeout(resolve, 0));
+
+        assert.strictEqual(find('.embed__iframe').style.cssText, 'height: 500px;');
+      });
+    });
   });
 });

@@ -11,9 +11,17 @@ export default class ChallengeEmbedSimulator extends Component {
   @tracked
   isSimulatorLaunched = false;
 
+  @tracked
+  embedHeight;
+
+  constructor(owner, args) {
+    super(owner, args);
+    this.embedHeight = args.embedDocument?.height;
+  }
+
   get embedDocumentHeightStyle() {
-    if (this.args.embedDocument) {
-      return htmlSafe(`height: ${this.args.embedDocument.height}px`);
+    if (this.embedHeight) {
+      return htmlSafe(`height: ${this.embedHeight}px`);
     }
     return '';
   }
@@ -33,6 +41,12 @@ export default class ChallengeEmbedSimulator extends Component {
     };
 
     iframe.addEventListener('load', loadListener);
+
+    window.addEventListener('message', ({ origin, data }) => {
+      if (!isEmbedAllowedOrigin(origin)) return;
+      if (!isHeightMessage(data)) return;
+      thisComponent.embedHeight = data.height + 20;
+    });
   }
 
   @action
@@ -41,9 +55,9 @@ export default class ChallengeEmbedSimulator extends Component {
     iframe.contentWindow.postMessage('launch', '*');
     iframe.focus();
     this.isSimulatorLaunched = true;
-    window.addEventListener('message', (e) => {
-      if (!isEmbedAllowedOrigin(e.origin)) return;
-      if (typeof e.data !== 'object' || e.data.from !== 'pix' || e.data.type !== 'ready') return;
+    window.addEventListener('message', ({ origin, data }) => {
+      if (!isEmbedAllowedOrigin(origin)) return;
+      if (!isReadyMessage(data)) return;
       iframe.contentWindow.postMessage('launch', '*');
       iframe.focus();
     });
@@ -74,4 +88,27 @@ export default class ChallengeEmbedSimulator extends Component {
   _getIframe(event) {
     return event.currentTarget.parentElement.parentElement.querySelector('.embed__iframe');
   }
+}
+
+/**
+ * Checks if event is a "ready" message.
+ * @param {unknown} data
+ * @returns {boolean}
+ */
+function isReadyMessage(data) {
+  return isMessageType(data, 'ready');
+}
+
+/**
+ * Checks if event is a "height" message.
+ * @param {unknown} data
+ * @returns {data is { height: number }}
+ */
+function isHeightMessage(data) {
+  return isMessageType(data, 'height');
+}
+
+function isMessageType(data, type) {
+  if (typeof data !== 'object' || data === null) return false;
+  return data.from === 'pix' && data.type === type;
 }
