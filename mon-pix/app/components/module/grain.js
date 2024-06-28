@@ -124,7 +124,7 @@ export default class ModuleGrain extends Component {
 
   get allElementsAreAnswered() {
     return this.answerableElements.every((element) => {
-      return !!this.args.passage.getLastCorrectionForElement(element);
+      return this.args.passage.hasAnswerAlreadyBeenVerified(element);
     });
   }
 
