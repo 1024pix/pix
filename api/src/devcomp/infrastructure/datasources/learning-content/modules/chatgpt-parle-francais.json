@@ -4,7 +4,7 @@
   "title": "ChatGPT parle-t-il vraiment français ?",
   "details": {
     "image": "https://images.pix.fr/modulix/placeholder-details.svg",
-    "description": "Les Large Language Model (LLM) sont des systèmes d'intelligence artificielle (IA). Ils donnent l'impression de parler toutes les langues mais, à cause de leurs biais, leurs productions sont parfois stéréotypées ou discriminantes. Dans ce module, vous allez apprendre les origines des biais dans les LLM et interrogez directement des LLM pour les repérer !",
+    "description": "Les Large Language Model (LLM) sont des systèmes d'intelligence artificielle (IA). Ils donnent l'impression de parler toutes les langues mais, du fait de leurs biais, leurs productions sont parfois stéréotypées ou discriminantes. Dans ce module, vous allez découvrir les origines des biais dans les LLM et interroger directement des LLM pour les repérer !",
     "duration": 15,
     "level": "Avancé",
     "objectives": [
