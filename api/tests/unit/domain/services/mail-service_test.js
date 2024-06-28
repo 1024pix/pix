@@ -62,15 +62,19 @@ describe('Unit | Service | MailService', function () {
       context('if redirectionUrl is provided', function () {
         it('calls sendEmail with provided value', async function () {
           // given
+          const token = 'XXX';
           const redirectionUrl = 'https://pix.fr';
           const locale = FRENCH_FRANCE;
+          const expectedParams = new URLSearchParams({ token, redirect_uri: redirectionUrl });
 
           // when
-          await mailService.sendAccountCreationEmail(userEmailAddress, locale, redirectionUrl);
+          await mailService.sendAccountCreationEmail(userEmailAddress, locale, token, redirectionUrl);
 
           // then
           const actualRedirectionUrl = mailer.sendEmail.firstCall.args[0].variables.redirectionUrl;
-          expect(actualRedirectionUrl).to.equal(redirectionUrl);
+          expect(actualRedirectionUrl).to.equal(
+            `https://app.pix.fr/api/users/validate-email?${expectedParams.toString()}`,
+          );
         });
       });
     });
@@ -80,6 +84,7 @@ describe('Unit | Service | MailService', function () {
         it(`calls sendEmail with from, to, and locale ${FRENCH_SPOKEN} or undefined`, async function () {
           // given
           const locale = FRENCH_SPOKEN;
+          const expectedParams = new URLSearchParams({ redirect_uri: 'https://app.pix.org/connexion/?lang=fr' });
 
           // when
           await mailService.sendAccountCreationEmail(userEmailAddress, locale);
@@ -92,7 +97,7 @@ describe('Unit | Service | MailService', function () {
             homeUrl: 'https://pix.org/fr/',
             helpdeskUrl: 'https://pix.org/fr/support',
             displayNationalLogo: false,
-            redirectionUrl: 'https://app.pix.org/connexion/?lang=fr',
+            redirectionUrl: `https://app.pix.org/api/users/validate-email?${expectedParams.toString()}`,
             ...mainTranslationsMapping.fr['pix-account-creation-email'].params,
           });
         });
@@ -100,6 +105,7 @@ describe('Unit | Service | MailService', function () {
         it(`calls sendEmail with from, to, template and locale ${FRENCH_FRANCE}`, async function () {
           // given
           const locale = FRENCH_FRANCE;
+          const expectedParams = new URLSearchParams({ redirect_uri: 'https://app.pix.fr/connexion' });
 
           // when
           await mailService.sendAccountCreationEmail(userEmailAddress, locale);
@@ -112,7 +118,7 @@ describe('Unit | Service | MailService', function () {
             homeUrl: 'https://pix.fr',
             helpdeskUrl: 'https://pix.fr/support',
             displayNationalLogo: true,
-            redirectionUrl: 'https://app.pix.fr/connexion',
+            redirectionUrl: `https://app.pix.fr/api/users/validate-email?${expectedParams.toString()}`,
             ...mainTranslationsMapping.fr['pix-account-creation-email'].params,
           });
         });
@@ -120,6 +126,7 @@ describe('Unit | Service | MailService', function () {
         it(`calls sendEmail with from, to, template and locale ${ENGLISH_SPOKEN}`, async function () {
           // given
           const locale = ENGLISH_SPOKEN;
+          const expectedParams = new URLSearchParams({ redirect_uri: 'https://app.pix.org/connexion/?lang=en' });
 
           // when
           await mailService.sendAccountCreationEmail(userEmailAddress, locale);
@@ -132,7 +139,7 @@ describe('Unit | Service | MailService', function () {
             homeUrl: 'https://pix.org/en-gb/',
             helpdeskUrl: 'https://pix.org/en/support',
             displayNationalLogo: false,
-            redirectionUrl: 'https://app.pix.org/connexion/?lang=en',
+            redirectionUrl: `https://app.pix.org/api/users/validate-email?${expectedParams.toString()}`,
             ...mainTranslationsMapping.en['pix-account-creation-email'].params,
           });
         });
@@ -140,6 +147,7 @@ describe('Unit | Service | MailService', function () {
         it(`calls sendEmail with from, to, template and locale ${DUTCH_SPOKEN}`, async function () {
           // given
           const locale = DUTCH_SPOKEN;
+          const expectedParams = new URLSearchParams({ redirect_uri: 'https://app.pix.org/connexion/?lang=nl' });
 
           // when
           await mailService.sendAccountCreationEmail(userEmailAddress, locale);
@@ -152,7 +160,7 @@ describe('Unit | Service | MailService', function () {
             homeUrl: 'https://pix.org/nl-be/',
             helpdeskUrl: 'https://pix.org/nl-be/support',
             displayNationalLogo: false,
-            redirectionUrl: 'https://app.pix.org/connexion/?lang=nl',
+            redirectionUrl: `https://app.pix.org/api/users/validate-email?${expectedParams.toString()}`,
             ...mainTranslationsMapping.nl['pix-account-creation-email'].params,
           });
         });
@@ -160,6 +168,7 @@ describe('Unit | Service | MailService', function () {
         it(`calls sendEmail with from, to, template and locale ${SPANISH_SPOKEN}`, async function () {
           // given
           const locale = SPANISH_SPOKEN;
+          const expectedParams = new URLSearchParams({ redirect_uri: 'https://app.pix.org/connexion/?lang=es' });
 
           // when
           await mailService.sendAccountCreationEmail(userEmailAddress, locale);
@@ -172,7 +181,7 @@ describe('Unit | Service | MailService', function () {
             homeUrl: 'https://pix.org/en-gb/',
             helpdeskUrl: 'https://pix.org/en/support',
             displayNationalLogo: false,
-            redirectionUrl: 'https://app.pix.org/connexion/?lang=es',
+            redirectionUrl: `https://app.pix.org/api/users/validate-email?${expectedParams.toString()}`,
             ...mainTranslationsMapping.es['pix-account-creation-email'].params,
           });
         });

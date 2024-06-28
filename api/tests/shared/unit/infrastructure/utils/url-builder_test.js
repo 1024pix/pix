@@ -2,6 +2,36 @@ import { urlBuilder } from '../../../../../src/shared/infrastructure/utils/url-b
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Shared | Infrastructure | Utils | url-builder', function () {
+  describe('#getPixAppBaseUrl', function () {
+    it('returns base url fr if locale not defined', function () {
+      // when
+      const url = urlBuilder.getPixAppBaseUrl();
+      // then
+      expect(url).to.equal('https://app.pix.fr');
+    });
+
+    it('returns base url fr if locale is fr-FR', function () {
+      // when
+      const url = urlBuilder.getPixAppBaseUrl('fr-FR');
+      // then
+      expect(url).to.equal('https://app.pix.fr');
+    });
+
+    it('returns base url fr if locale is not supported', function () {
+      // when
+      const url = urlBuilder.getPixAppBaseUrl('ru');
+      // then
+      expect(url).to.equal('https://app.pix.fr');
+    });
+
+    it('returns base url org if locale is in supported locales and not fr-FR', function () {
+      // when
+      const url = urlBuilder.getPixAppBaseUrl('fr');
+      // then
+      expect(url).to.equal('https://app.pix.org');
+    });
+  });
+
   describe('#getCampaignUrl', function () {
     it('should return null if campaignCode is not defined', function () {
       expect(urlBuilder.getCampaignUrl('fr', null)).to.be.null;
@@ -37,12 +67,13 @@ describe('Unit | Shared | Infrastructure | Utils | url-builder', function () {
         const token = '00000000-0000-0000-0000-000000000000';
         const redirectUri = 'https://app.pix.org/connexion?lang=nl';
         const locale = 'en';
+        const expectedParams = new URLSearchParams({ token, redirect_uri: redirectUri });
 
         // when
         const url = urlBuilder.getEmailValidationUrl({ locale, redirectUri, token });
 
         // then
-        expect(url).to.equal(`https://app.pix.org/api/users/validate-email?token=${token}&redirect_uri=${redirectUri}`);
+        expect(url).to.equal(`https://app.pix.org/api/users/validate-email?${expectedParams.toString()}`);
       });
     });
 
@@ -51,12 +82,37 @@ describe('Unit | Shared | Infrastructure | Utils | url-builder', function () {
         // given
         const token = '00000000-0000-0000-0000-000000000000';
         const redirectUri = 'https://app.pix.fr/connexion';
+        const expectedParams = new URLSearchParams({ token, redirect_uri: redirectUri });
 
         // when
         const url = urlBuilder.getEmailValidationUrl({ redirectUri, token });
 
         // then
-        expect(url).to.equal(`https://app.pix.fr/api/users/validate-email?token=${token}&redirect_uri=${redirectUri}`);
+        expect(url).to.equal(`https://app.pix.fr/api/users/validate-email?${expectedParams.toString()}`);
+      });
+    });
+
+    context('when token is not given', function () {
+      it('returns email validation URL with domain .fr', function () {
+        // given
+        const redirectUri = 'https://app.pix.fr/connexion';
+        const expectedParams = new URLSearchParams({ redirect_uri: redirectUri });
+
+        // when
+        const url = urlBuilder.getEmailValidationUrl({ redirectUri });
+
+        // then
+        expect(url).to.equal(`https://app.pix.fr/api/users/validate-email?${expectedParams.toString()}`);
+      });
+    });
+
+    context('when redirect_uri is not given', function () {
+      it('returns email validation URL with domain .fr', function () {
+        // when
+        const url = urlBuilder.getEmailValidationUrl();
+
+        // then
+        expect(url).to.equal(`https://app.pix.fr/api/users/validate-email?`);
       });
     });
   });
