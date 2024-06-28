@@ -70,7 +70,10 @@ describe('Integration | Repository | CompetenceMark', function () {
       // given
       const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
       const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
-      const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({ assessmentId }).id;
+      const assessmentResultId = databaseBuilder.factory.buildAssessmentResult.last({
+        assessmentId,
+        certificationCourseId,
+      }).id;
       const anotherAssessmentResultId = databaseBuilder.factory.buildAssessmentResult().id;
       _.map(
         [
@@ -144,7 +147,8 @@ describe('Integration | Repository | CompetenceMark', function () {
         assessmentId,
         createdAt: new Date('2020-01-01'),
       }).id;
-      const latestAssessmentResult = databaseBuilder.factory.buildAssessmentResult({
+      const latestAssessmentResult = databaseBuilder.factory.buildAssessmentResult.last({
+        certificationCourseId,
         assessmentId,
         createdAt: new Date('2021-01-01'),
       }).id;
