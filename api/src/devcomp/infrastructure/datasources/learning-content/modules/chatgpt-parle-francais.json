@@ -203,7 +203,7 @@
           "element": {
             "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
             "type": "text",
-            "content": "<p>Michel est <strong>québécois</strong> et utilise un LLM pour la première fois. Il reçoit une réponse qui concerne la <strong>France</strong> alors que son pays est le Québec.<span aria-hidden=\"true\">&nbsp;👇</span></p>"
+            "content": "<p>Michel est <strong>québécois</strong> et utilise un LLM pour la première fois. Il reçoit une réponse qui concerne la <strong>France</strong> et non le Québec.<span aria-hidden=\"true\">&nbsp;👇</span></p>"
           }
         },
         {
