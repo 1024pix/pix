@@ -1,9 +1,1 @@
-<div class="session-list-page">
-  {{#if this.displayNoSessionPanel}}
-    <NoSessionPanel />
-  {{else}}
-    <Sessions::PanelHeader @reloadSessionSummaries={{@model.refreshModel}} />
-
-    <SessionSummaryList @sessionSummaries={{@model.sessionSummaries}} @goToSessionDetails={{this.goToSessionDetails}} />
-  {{/if}}
-</div>
+<Sessions @sessionSummaries={{@model.sessionSummaries}} />

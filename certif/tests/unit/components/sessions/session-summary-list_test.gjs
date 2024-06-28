@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import createGlimmerComponent from '../../helpers/create-glimmer-component';
+import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 
 module('Unit | Component | session-summary', function (hooks) {
   setupTest(hooks);
@@ -11,7 +11,7 @@ module('Unit | Component | session-summary', function (hooks) {
   let component;
 
   hooks.beforeEach(function () {
-    component = createGlimmerComponent('component:session-summary-list');
+    component = createGlimmerComponent('component:sessions/session-summary-list');
   });
 
   module('#openSessionDeletionConfirmModal', function () {

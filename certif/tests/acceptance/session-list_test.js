@@ -38,8 +38,8 @@ module('Acceptance | Session List', function (hooks) {
         isAccessBlockedAgri: false,
       });
       certificationPointOfContact = server.create('certification-point-of-contact', {
-        firstName: 'Buffy',
-        lastName: 'Summers',
+        firstName: 'Lena',
+        lastName: 'Rine',
         pixCertifTermsOfServiceAccepted: true,
         allowedCertificationCenterAccesses: [allowedCertificationCenterAccess],
       });
@@ -343,14 +343,15 @@ module('Acceptance | Session List', function (hooks) {
 
         const screen = await visit('/sessions/liste');
         await click(screen.getByRole('button', { name: 'Aller à la page suivante' }));
+        await click(screen.getByRole('button', { name: 'Aller à la page suivante' }));
         await click(screen.getByRole('link', { name: 'Session 26' }));
 
         // when
         await click(screen.getByRole('link', { name: 'Revenir à la liste des sessions' }));
 
         // then
-        assert.dom(screen.getByText('Page 2 / 2')).exists();
-        assert.strictEqual(currentURL(), '/sessions/liste?pageNumber=2');
+        assert.dom(screen.getByText('Page 3 / 3')).exists();
+        assert.strictEqual(currentURL(), '/sessions/liste?pageNumber=3');
       });
     });
   });

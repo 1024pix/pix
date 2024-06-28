@@ -1,11 +1,11 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { hbs } from 'ember-cli-htmlbars';
+import NoSessionPanel from 'pix-certif/components/sessions/no-session-panel';
 import { module, test } from 'qunit';
 
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | no-session-panel', function (hooks) {
+module('Integration | Component | Sessions | no-session-panel', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   test('it renders buttons links to create sessions', async function (assert) {
@@ -23,7 +23,7 @@ module('Integration | Component | no-session-panel', function (hooks) {
     this.owner.register('service:current-user', CurrentUserStub);
 
     // when
-    const screen = await render(hbs`<NoSessionPanel />`);
+    const screen = await render(<template><NoSessionPanel /></template>);
 
     // then
     const createOneSessionButton = screen.getByRole('link', { name: 'Créer une session' });
@@ -49,7 +49,7 @@ module('Integration | Component | no-session-panel', function (hooks) {
         this.owner.register('service:current-user', CurrentUserStub);
 
         // when
-        const { queryByRole } = await render(hbs`<NoSessionPanel />`);
+        const { queryByRole } = await render(<template><NoSessionPanel /></template>);
 
         // then
         assert.dom(queryByRole('link', { name: 'Créer plusieurs sessions' })).doesNotExist();
@@ -72,7 +72,7 @@ module('Integration | Component | no-session-panel', function (hooks) {
         this.owner.register('service:current-user', CurrentUserStub);
 
         // when
-        const { getByRole } = await render(hbs`<NoSessionPanel />`);
+        const { getByRole } = await render(<template><NoSessionPanel /></template>);
 
         // then
         assert.dom(getByRole('link', { name: 'Créer plusieurs sessions' })).exists();
