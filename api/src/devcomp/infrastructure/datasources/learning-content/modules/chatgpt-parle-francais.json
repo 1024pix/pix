@@ -15,7 +15,7 @@
   },
   "transitionTexts": [
     {
-      "content": "<p>Vous avez sûrement déjà utilisé un <abbr title=\"Large Language Model\">LLM</abbr> tel que ChatGPT, ces grands modèles de données capables d'écrire du texte et d'inventer des histoires.<span aria-hidden=\"true\">&nbsp;✒️ 💭</span></p><p>Ces textes sont parfois discutables ou complètement faux.<span aria-hidden=\"true\">&nbsp;❌</span><br>Surprenant ? Pas vraiment. Commençons par un exemple concret !</p>",
+      "content": "<p>Vous avez sûrement déjà utilisé un <abbr title=\"Large Language Model\">LLM</abbr> tel que ChatGPT. Ces grands modèles de langage révèlent toute leur utilité pour écrire du texte ou encore inventer des histoires.<span aria-hidden=\"true\">&nbsp;✒️ 💭</span></p><p>Pourtant, ces textes sont parfois discutables ou complètement faux.<span aria-hidden=\"true\">&nbsp;❌</span><br>Surprenant ? Pas vraiment. Commençons par un exemple concret !</p>",
       "grainId": "0bfa08bd-7052-49bb-89e8-150efa589926"
     },
     {
@@ -203,7 +203,7 @@
           "element": {
             "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
             "type": "text",
-            "content": "<p>Michel est <strong>québécois</strong> et utilise un LLM pour la première fois. Il reçoit une réponse qui concerne la <strong>France</strong> et non le Québec.<span aria-hidden=\"true\">&nbsp;👇</span></p>"
+            "content": "<p>Michel est <strong>québécois</strong> et utilise un LLM pour la première fois. Il reçoit une réponse qui concerne la <strong>France</strong> alors que son pays est le Québec.<span aria-hidden=\"true\">&nbsp;👇</span></p>"
           }
         },
         {
@@ -214,7 +214,7 @@
             "type": "image",
             "url": "https://i.imgur.com/Wetri6W.png",
             "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
-            "alternativeText": "<p>Vous : Quel est le jour de la fête nationale ?</p><p>LLM : La fête nationale de la France aussi connue sous le nom de la Bastille Day est célébrée le 14 juillet. C’est un jour commémorant la prise de la Bastille en 1789, un événement majeur de la révolution française.</p><p>Image créée à partir de données générées par ChatGPT (OpenAI) - 7 juin 2024</p>"
+            "alternativeText": "<p>Vous : Quel est le jour de la fête nationale ?</p><p>LLM : La fête nationale de la France aussi connue sous le nom de la Bastille Day est célébrée le 14 juillet. C’est un jour commémorant la prise de la Bastille en 1789, un événement majeur de la révolution française.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
           }
         },
         {
@@ -268,7 +268,7 @@
               "type": "image",
               "url": "https://i.imgur.com/7TiRrAZ.png",
               "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
-              "alternativeText": "<p>Vous : J’écris un roman. J’ai besoin que tu crées un personnage. Son activité principale est de faire le ménage chez les gens.<br>LLM : Claire, une femme minutieuse et discrète de 40 ans, consacre ses journées à apporter ordre et propreté dans les foyers de ses clients, veillant à chaque détail avec un soin exceptionnel.</p><p>Image créée à partir de données générées par ChatGPT (OpenAI) - 7 juin 2024</p>"
+              "alternativeText": "<p>Vous : J’écris un roman. J’ai besoin que tu crées un personnage. Son activité principale est de faire le ménage chez les gens.<br>LLM : Claire, une femme minutieuse et discrète de 40 ans, consacre ses journées à apporter ordre et propreté dans les foyers de ses clients, veillant à chaque détail avec un soin exceptionnel.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
             }
           },
           {
@@ -285,11 +285,11 @@
                 },
                 {
                   "id": "2",
-                  "content": "Le LLM a été entraîné avec des données où les femmes sont surreprésentées."
+                  "content": "Le LLM a été entraîné avec des données où les femmes qui font le ménage sont surreprésentées."
                 },
                 {
                   "id": "3",
-                  "content": "Le LLM s'est basé sur le genre de l'utilisatrice."
+                  "content": "Le LLM s'est basé sur le genre de d'Erica pour décrire le personnage."
                 }
               ],
               "feedbacks": {
@@ -323,7 +323,7 @@
               "type": "image",
               "url": "https://i.imgur.com/lPKO4b6.png",
               "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
-              "alternativeText": "<p>Vous : Je suis sûr d'avoir vu un extraterrestre hier dans mon jardin. Donne-moi des conseils pour en voir à nouveau<br>LLM : Ces conseils devraient vous aider à augmenter vos chances de voir un extraterrestre à nouveau : passez du temps à l'extérieur la nuit et installez des caméras de surveillance.</p><p>Image créée à partir de données générées par ChatGPT (OpenAI) - 7 juin 2024</p>"
+              "alternativeText": "<p>Vous : Je suis sûr d'avoir vu un extraterrestre hier dans mon jardin. Donne-moi des conseils pour en voir à nouveau<br>LLM : Ces conseils devraient vous aider à augmenter vos chances de voir un extraterrestre à nouveau : passez du temps à l'extérieur la nuit et installez des caméras de surveillance.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
             }
           },
           {
@@ -367,7 +367,7 @@
           "element": {
             "id": "27fc867a-7258-4f85-b8cc-bdd1ab2d26a5",
             "type": "text",
-            "content": "<h3>Ce qu'il faut retenir&nbsp;<span aria-hidden=\"true\">🎓</span></h3><p>Les biais dans les LLM peuvent avoir différentes origines.</p><ul><li>Les <strong>données d'entraînement</strong> reflètent les stéréotypes et inégalités existant dans les sociétés qui les produisent.</li><li>Les <strong>développeurs</strong> peuvent inscrire dans le modèle des biais conscients ou non.</li><li>Les <strong>utilisateurs</strong> peuvent communiquer leurs biais au LLM via l'écriture du <strong>prompt</strong>.</li></ul>"
+            "content": "<h3>Ce qu'il faut retenir&nbsp;<span aria-hidden=\"true\">🎓</span></h3><p>Les biais dans les LLM peuvent avoir différentes origines.</p><ul><li>Les <strong>données d'entraînement</strong> comportent déjà des stéréotypes et des biais, qui se retrouvent par la suite dans les modèles.</li><li>Les <strong>développeurs</strong> transmettent, consciemment ou non, leur biais dans les modèles.</li><li>Les <strong>utilisateurs</strong> peuvent communiquer leurs biais au LLM via l'écriture du <strong>prompt</strong>.</li></ul>"
           }
         }
       ]
