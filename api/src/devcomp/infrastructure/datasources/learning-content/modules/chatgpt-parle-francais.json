@@ -289,7 +289,7 @@
                 },
                 {
                   "id": "3",
-                  "content": "Le LLM s'est basé sur le genre de d'Erica pour décrire le personnage."
+                  "content": "Le LLM s'est basé sur le genre de l'auteure du prompt, Erica."
                 }
               ],
               "feedbacks": {
