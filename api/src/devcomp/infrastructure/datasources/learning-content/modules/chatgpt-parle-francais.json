@@ -344,7 +344,7 @@
                 },
                 {
                   "id": "3",
-                  "content": "Le LLM s'est basé sur les croyances qui lui sont communiquées dans le prompt."
+                  "content": "Le LLM s'est basé sur la croyance de Stéphane qui est présente dans son prompt."
                 }
               ],
               "feedbacks": {
