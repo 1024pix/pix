@@ -112,6 +112,7 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
           habilitations: [],
           isRelatedToManagingStudentsOrganization: false,
           relatedOrganizationTags: [],
+          features: [],
         },
       ];
 
@@ -744,6 +745,7 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
             name: certificationCenter.name,
             externalId: certificationCenter.externalId,
             isComplementaryAlonePilot: true,
+            features: [CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key],
           }),
         ]);
       });

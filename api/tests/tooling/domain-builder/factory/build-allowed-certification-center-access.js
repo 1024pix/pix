@@ -11,7 +11,7 @@ function buildAllowedCertificationCenterAccess({
   relatedOrganizationTags = [],
   habilitations = [],
   isV3Pilot = false,
-  isComplementaryAlonePilot = false,
+  features = [],
 } = {}) {
   return new AllowedCertificationCenterAccess({
     center: {
@@ -21,7 +21,7 @@ function buildAllowedCertificationCenterAccess({
       type,
       habilitations,
       isV3Pilot,
-      isComplementaryAlonePilot,
+      features,
     },
     isRelatedToManagingStudentsOrganization,
     relatedOrganizationTags,

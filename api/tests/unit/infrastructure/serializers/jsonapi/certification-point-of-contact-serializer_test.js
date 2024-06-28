@@ -1,5 +1,6 @@
 import { config as settings } from '../../../../../lib/config.js';
 import * as certificationPointOfContactSerializer from '../../../../../lib/infrastructure/serializers/jsonapi/certification-point-of-contact-serializer.js';
+import { CERTIFICATION_FEATURES } from '../../../../../src/certification/shared/domain/constants.js';
 import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serializer', function () {
@@ -22,6 +23,7 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
         isV3Pilot: false,
         relatedOrganizationTags: [],
         habilitations: [habilitation1, habilitation2],
+        features: [CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key],
       });
 
       const allowedCertificationCenterAccess2 = domainBuilder.buildAllowedCertificationCenterAccess({
@@ -33,6 +35,7 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
         isV3Pilot: false,
         relatedOrganizationTags: ['tag1'],
         habilitations: [],
+        features: [],
       });
 
       const certificationCenterMemberships = [
@@ -116,6 +119,7 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
               'is-access-blocked-aefe': false,
               'is-access-blocked-agri': false,
               'is-v3-pilot': false,
+              'is-complementary-alone-pilot': true,
               'pix-certif-sco-blocked-access-date-college': '2022-06-01',
               'pix-certif-sco-blocked-access-date-lycee': '2022-08-01',
               'related-organization-tags': [],
@@ -135,6 +139,7 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
               'is-access-blocked-aefe': false,
               'is-access-blocked-agri': false,
               'is-v3-pilot': false,
+              'is-complementary-alone-pilot': false,
               'pix-certif-sco-blocked-access-date-college': '2022-06-01',
               'pix-certif-sco-blocked-access-date-lycee': '2022-08-01',
               'related-organization-tags': ['tag1'],

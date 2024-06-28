@@ -18,7 +18,7 @@ const getById = async ({ id }) => {
         'label', "complementary-certifications"."label"
         ))`,
       ),
-      features: knex.raw('array_remove(array_agg("certificationCenterFeatures"."key"), NULL)'),
+      features: knex.raw('array_remove(array_agg(DISTINCT "certificationCenterFeatures"."key"), NULL)'),
       createdAt: 'certification-centers.createdAt',
       updatedAt: 'certification-centers.updatedAt',
       isV3Pilot: 'certification-centers.isV3Pilot',
