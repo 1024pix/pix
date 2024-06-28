@@ -83,7 +83,7 @@ describe('Acceptance | Application | flash-assessment-configuration-route', func
 
           // then
           expect(response.statusCode).to.equal(200);
-          expect(JSON.parse(response.payload).warmUpLength).to.equal(warmUpLength);
+          expect(response.result.data.attributes['warm-up-length']).to.equal(warmUpLength);
         });
       });
     });
