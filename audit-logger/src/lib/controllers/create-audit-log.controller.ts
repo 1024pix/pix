@@ -6,8 +6,10 @@ import { AuditLogActionTypes, AuditLogClientTypes, AuditLogRoleTypes } from '../
 import { type CreateAuditLogUseCase } from '../domain/usecases/create-audit-log.usecase.js';
 import { createAuditLogUseCase } from '../domain/usecases/usecases.js';
 
+const TWENTY_MEGABYTES = 1048576 * 20;
+
 export class CreateAuditLogController {
-  constructor(private readonly createAuditLogUseCase: CreateAuditLogUseCase) {}
+  constructor(private readonly createAuditLogUseCase: CreateAuditLogUseCase) { }
 
   async handle(request: Request, h: ResponseToolkit): Promise<ResponseObject> {
     const auditLogs = request.payload as AuditLog[];
@@ -25,6 +27,9 @@ export const CREATE_AUDIT_LOG_ROUTE: ServerRoute = {
   path: '/api/audit-logs',
   options: {
     auth: 'simple',
+    payload: {
+      maxBytes: TWENTY_MEGABYTES,
+    },
     handler: createAuditLogController.handle.bind(createAuditLogController),
     validate: {
       payload: Joi.array()
