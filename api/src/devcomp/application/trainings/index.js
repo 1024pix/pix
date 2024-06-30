@@ -30,10 +30,14 @@ const register = async function (server) {
             allowUnknown: true,
           },
           query: Joi.object({
-            'filter[id]': Joi.number().empty('').allow(null).optional(),
-            'filter[title]': Joi.string().empty('').allow(null).optional(),
-            'page[number]': Joi.number().integer().empty('').allow(null).optional(),
-            'page[size]': Joi.number().integer().empty('').allow(null).optional(),
+            filter: Joi.object({
+              id: Joi.number().empty('').allow(null).optional(),
+              title: Joi.string().empty('').allow(null).optional(),
+            }).default({}),
+            page: {
+              number: Joi.number().integer().empty('').allow(null).optional(),
+              size: Joi.number().integer().empty('').allow(null).optional(),
+            },
           }),
           failAction: (request, h) => {
             return sendJsonApiError(new BadRequestError('Un des champs de recherche saisis est invalide.'), h);
