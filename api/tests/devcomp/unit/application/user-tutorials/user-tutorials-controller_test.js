@@ -71,27 +71,28 @@ describe('Unit | Controller | User-tutorials', function () {
       const userId = 'userId';
       const request = {
         auth: { credentials: { userId } },
-        'filter[competences]': 'competence1,competence2',
-        'filter[type]': 'recommended',
-        'page[number]': '1',
-        'page[size]': '200',
-        query: {},
+        query: {
+          filter: {
+            competences: 'competence1,competence2',
+            type: 'recommended',
+          },
+          page: {
+            number: '1',
+            size: '200',
+          },
+        },
       };
 
       const expectedLocale = Symbol('locale');
-      const expectedFilters = Symbol('filters');
-      const expectedPage = Symbol('page');
+      const expectedFilters = request.query.filter;
+      const expectedPage = request.query.page;
       const expectedTutorials = Symbol('tutorials');
-      const extractedParams = {
-        page: expectedPage,
-        filter: expectedFilters,
-      };
-      const returnedTutorials = Symbol('returned-tutorials');
-      const returnedMeta = Symbol('returned-meta');
+
       const requestResponseUtils = { extractLocaleFromRequest: sinon.stub() };
       requestResponseUtils.extractLocaleFromRequest.withArgs(request).returns(expectedLocale);
-      const queryParamsUtils = { extractParameters: sinon.stub() };
-      queryParamsUtils.extractParameters.withArgs(request.query).returns(extractedParams);
+
+      const returnedTutorials = Symbol('returned-tutorials');
+      const returnedMeta = Symbol('returned-meta');
       sinon.stub(usecases, 'findPaginatedFilteredTutorials').resolves({
         tutorials: returnedTutorials,
         meta: returnedMeta,
@@ -105,7 +106,6 @@ describe('Unit | Controller | User-tutorials', function () {
       // when
       const result = await userTutorialsController.find(request, hFake, {
         tutorialSerializer,
-        queryParamsUtils,
         requestResponseUtils,
       });
 

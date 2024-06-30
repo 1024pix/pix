@@ -1,4 +1,3 @@
-import * as queryParamsUtils from '../../../shared/infrastructure/utils/query-params-utils.js';
 import * as requestResponseUtils from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as userSavedTutorialRepository from '../../infrastructure/repositories/user-saved-tutorial-repository.js';
@@ -15,13 +14,9 @@ const add = async function (request, h, dependencies = { userSavedTutorialSerial
   return h.response(dependencies.userSavedTutorialSerializer.serialize(createdUserSavedTutorial)).created();
 };
 
-const find = async function (
-  request,
-  h,
-  dependencies = { queryParamsUtils, requestResponseUtils, tutorialSerializer },
-) {
+const find = async function (request, h, dependencies = { requestResponseUtils, tutorialSerializer }) {
   const { userId } = request.auth.credentials;
-  const { page, filter: filters } = dependencies.queryParamsUtils.extractParameters(request.query);
+  const { page, filter: filters } = request.query;
   const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
   const { tutorials, meta } = await usecases.findPaginatedFilteredTutorials({
     userId,
