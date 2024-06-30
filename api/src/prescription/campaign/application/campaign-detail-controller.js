@@ -2,8 +2,6 @@ import stream from 'node:stream';
 
 import { MissingQueryParamError } from '../../../../lib/application/http-errors.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
-import * as queryParamsUtils from '../../../shared/infrastructure/utils/query-params-utils.js';
-import { extractParameters } from '../../../shared/infrastructure/utils/query-params-utils.js';
 import { escapeFileName } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as campaignDetailsManagementSerializer from '../infrastructure/serializers/jsonapi/campaign-details-management-serializer.js';
@@ -14,8 +12,8 @@ import * as campaignToJoinSerializer from '../infrastructure/serializers/jsonapi
 const { PassThrough } = stream;
 
 const getByCode = async function (request) {
-  const filters = extractParameters(request.query).filter;
-  await _validateFilters(filters);
+  const filters = request.query.filter;
+  _validateFilters(filters);
 
   const campaignToJoin = await usecases.getCampaignByCode({ code: filters.code });
   return campaignToJoinSerializer.serialize(campaignToJoin);
@@ -44,16 +42,9 @@ const getCampaignDetails = async function (request) {
   return campaignDetailsManagementSerializer.serialize(campaign);
 };
 
-const findPaginatedFilteredCampaigns = async function (
-  request,
-  _,
-  dependencies = {
-    queryParamsUtils,
-    campaignReportSerializer,
-  },
-) {
+const findPaginatedFilteredCampaigns = async function (request, _, dependencies = { campaignReportSerializer }) {
   const organizationId = request.params.id;
-  const options = dependencies.queryParamsUtils.extractParameters(request.query);
+  const options = request.query;
   const userId = request.auth.credentials.userId;
 
   if (options.filter.status === 'archived') {
@@ -121,7 +112,7 @@ const findParticipantsActivity = async function (
 ) {
   const campaignId = request.params.id;
 
-  const { page, filter: filters } = extractParameters(request.query);
+  const { page, filter: filters } = request.query;
   if (filters.divisions && !Array.isArray(filters.divisions)) {
     filters.divisions = [filters.divisions];
   }
