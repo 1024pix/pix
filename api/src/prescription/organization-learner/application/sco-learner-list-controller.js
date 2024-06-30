@@ -1,4 +1,3 @@
-import * as queryParamsUtils from '../../../shared/infrastructure/utils/query-params-utils.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as scoOrganizationParticipantsSerializer from '../infrastructure/serializers/jsonapi/sco-organization-participants-serializer.js';
 import { mapCertificabilityByLabel } from './../../shared/application/helpers.js';
@@ -6,13 +5,10 @@ import { mapCertificabilityByLabel } from './../../shared/application/helpers.js
 const findPaginatedFilteredScoParticipants = async function (
   request,
   _,
-  dependencies = {
-    queryParamsUtils,
-    scoOrganizationParticipantsSerializer,
-  },
+  dependencies = { scoOrganizationParticipantsSerializer },
 ) {
   const organizationId = request.params.id;
-  const { filter, page, sort } = dependencies.queryParamsUtils.extractParameters(request.query);
+  const { filter, page, sort } = request.query;
   if (filter.divisions && !Array.isArray(filter.divisions)) {
     filter.divisions = [filter.divisions];
   }
