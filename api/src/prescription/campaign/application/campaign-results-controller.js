@@ -1,4 +1,3 @@
-import { extractParameters } from '../../../shared/infrastructure/utils/query-params-utils.js';
 import { extractLocaleFromRequest } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { certificabilityByLabel } from '../../shared/application/helpers.js';
 import { usecases } from '../domain/usecases/index.js';
@@ -8,7 +7,7 @@ import * as campaignProfilesCollectionParticipationSummarySerializer from '../in
 
 const findAssessmentParticipationResults = async function (request) {
   const campaignId = request.params.id;
-  const { page, filter: filters } = extractParameters(request.query);
+  const { page, filter: filters } = request.query;
   if (filters.divisions && !Array.isArray(filters.divisions)) {
     filters.divisions = [filters.divisions];
   }
@@ -31,7 +30,7 @@ const findAssessmentParticipationResults = async function (request) {
 
 const findProfilesCollectionParticipations = async function (request) {
   const campaignId = request.params.id;
-  const { page, filter: filters } = extractParameters(request.query);
+  const { page, filter: filters } = request.query;
   if (filters.divisions && !Array.isArray(filters.divisions)) {
     filters.divisions = [filters.divisions];
   }
