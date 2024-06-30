@@ -47,6 +47,12 @@ const register = async function (server) {
             assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
+        validate: {
+          query: Joi.object({
+            page: Joi.object().default({}),
+            filter: Joi.object().default({}),
+          }),
+        },
         notes: [
           "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
             '- Liste des centres de certification\n',
@@ -233,9 +239,13 @@ const register = async function (server) {
             sessionId: identifiersType.sessionId,
           }),
           query: Joi.object({
-            'filter[divisions][]': [Joi.string(), Joi.array().items(Joi.string())],
-            'page[number]': Joi.number().integer(),
-            'page[size]': Joi.number().integer(),
+            filter: Joi.object({
+              divisions: Joi.array().items(Joi.string()),
+            }).default({}),
+            page: {
+              number: Joi.number().integer(),
+              size: Joi.number().integer(),
+            },
           }),
         },
         pre: [

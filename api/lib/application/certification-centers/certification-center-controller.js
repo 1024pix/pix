@@ -1,7 +1,6 @@
 import lodash from 'lodash';
 
 import * as divisionSerializer from '../../../src/prescription/campaign/infrastructure/serializers/jsonapi/division-serializer.js';
-import { extractParameters } from '../../../src/shared/infrastructure/utils/query-params-utils.js';
 import * as certificationCenterInvitationSerializer from '../../../src/team/infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as certificationCenterForAdminSerializer from '../../infrastructure/serializers/jsonapi/certification-center-for-admin-serializer.js';
@@ -43,7 +42,7 @@ const getCertificationCenterDetails = async function (request) {
 };
 
 const findPaginatedFilteredCertificationCenters = async function (request) {
-  const options = extractParameters(request.query);
+  const options = request.query;
   const { models: organizations, pagination } = await usecases.findPaginatedFilteredCertificationCenters({
     filter: options.filter,
     page: options.page,
@@ -55,7 +54,7 @@ const findPaginatedFilteredCertificationCenters = async function (request) {
 const findPaginatedSessionSummaries = async function (request) {
   const certificationCenterId = request.params.id;
   const userId = request.auth.credentials.userId;
-  const options = extractParameters(request.query);
+  const options = request.query;
 
   const { models: sessionSummaries, meta } = await usecases.findPaginatedCertificationCenterSessionSummaries({
     userId,
@@ -70,7 +69,7 @@ const getStudents = async function (request) {
   const certificationCenterId = request.params.certificationCenterId;
   const sessionId = request.params.sessionId;
 
-  const { filter, page } = extractParameters(request.query);
+  const { filter, page } = request.query;
   if (filter.divisions && !Array.isArray(filter.divisions)) {
     filter.divisions = [filter.divisions];
   }
