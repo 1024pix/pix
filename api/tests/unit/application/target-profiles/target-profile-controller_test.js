@@ -164,12 +164,10 @@ describe('Unit | Controller | target-profile-controller', function () {
         },
       };
 
-      const queryParamsUtils = { extractParameters: sinon.stub() };
       const targetProfileForAdminSerializer = {
         serialize: sinon.stub(),
       };
       const dependencies = {
-        queryParamsUtils,
         targetProfileForAdminSerializer,
       };
 
