@@ -1,7 +1,6 @@
 import { supLearnerListController } from '../../../../../src/prescription/organization-learner/application/sup-learner-list-controller.js';
 import { SupOrganizationParticipant } from '../../../../../src/prescription/organization-learner/domain/read-models/SupOrganizationParticipant.js';
 import { usecases } from '../../../../../src/prescription/organization-learner/domain/usecases/index.js';
-import * as queryParamsUtils from '../../../../../src/shared/infrastructure/utils/query-params-utils.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Application | sup-learner-list-controller', function () {
@@ -18,6 +17,11 @@ describe('Unit | Application | sup-learner-list-controller', function () {
       request = {
         auth: { credentials: { userId: connectedUserId } },
         params: { id: organizationId },
+        query: {
+          filter: {},
+          page: {},
+          sort: {},
+        },
       };
 
       sinon.stub(usecases, 'findPaginatedFilteredSupParticipants');
@@ -27,7 +31,6 @@ describe('Unit | Application | sup-learner-list-controller', function () {
       };
 
       dependencies = {
-        queryParamsUtils,
         supOrganizationParticipantsSerializer: supOrganizationParticipantsSerializerStub,
       };
 
@@ -63,9 +66,13 @@ describe('Unit | Application | sup-learner-list-controller', function () {
       request = {
         ...request,
         query: {
-          'filter[lastName]': 'Bob',
-          'filter[firstName]': 'Tom',
-          'filter[group]': 'L1',
+          filter: {
+            lastName: 'Bob',
+            firstName: 'Tom',
+            group: 'L1',
+          },
+          page: {},
+          sort: {},
         },
       };
       usecases.findPaginatedFilteredSupParticipants.resolves({});
@@ -87,8 +94,12 @@ describe('Unit | Application | sup-learner-list-controller', function () {
       request = {
         ...request,
         query: {
-          'sort[participationCount]': 'asc',
-          'sort[lastnameSort]': 'asc',
+          filter: {},
+          page: {},
+          sort: {
+            participationCount: 'asc',
+            lastnameSort: 'asc',
+          },
         },
       };
       usecases.findPaginatedFilteredSupParticipants.resolves({});
@@ -110,7 +121,10 @@ describe('Unit | Application | sup-learner-list-controller', function () {
 
     it('should call the usecase to find sup participants with users infos related to pagination', async function () {
       // given
-      request = { ...request, query: { 'page[size]': 10, 'page[number]': 1 } };
+      request = {
+        ...request,
+        query: { filter: {}, page: { size: 10, number: 1 }, sort: {} },
+      };
       usecases.findPaginatedFilteredSupParticipants.resolves({});
 
       // when
@@ -151,7 +165,11 @@ describe('Unit | Application | sup-learner-list-controller', function () {
         auth: { credentials: { userId: connectedUserId } },
         params: { id: organizationId },
         query: {
-          'filter[certificability][]': ['eligible', 'non-eligible', 'not-available'],
+          filter: {
+            certificability: ['eligible', 'non-eligible', 'not-available'],
+          },
+          page: {},
+          sort: {},
         },
       };
       usecases.findPaginatedFilteredSupParticipants.resolves({ data: [] });

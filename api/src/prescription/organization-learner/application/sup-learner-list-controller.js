@@ -1,5 +1,4 @@
 import * as groupSerializer from '../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/group-serializer.js';
-import * as queryParamsUtils from '../../../shared/infrastructure/utils/query-params-utils.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as supOrganizationParticipantsSerializer from '../infrastructure/serializers/jsonapi/sup-organization-participants-serializer.js';
 import { mapCertificabilityByLabel } from './../../shared/application/helpers.js';
@@ -7,13 +6,10 @@ import { mapCertificabilityByLabel } from './../../shared/application/helpers.js
 const findPaginatedFilteredSupParticipants = async function (
   request,
   _,
-  dependencies = {
-    queryParamsUtils,
-    supOrganizationParticipantsSerializer,
-  },
+  dependencies = { supOrganizationParticipantsSerializer },
 ) {
   const organizationId = request.params.id;
-  const { filter, page, sort } = dependencies.queryParamsUtils.extractParameters(request.query);
+  const { filter, page, sort } = request.query;
   if (filter.groups && !Array.isArray(filter.groups)) {
     filter.groups = [filter.groups];
   }
