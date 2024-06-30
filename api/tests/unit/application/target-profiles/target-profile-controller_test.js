@@ -121,27 +121,24 @@ describe('Unit | Controller | target-profile-controller', function () {
       };
       trainingSummarySerializer.serialize.withArgs(trainingSummaries, meta).returns(expectedResult);
 
-      const queryParamsUtils = {
-        extractParameters: sinon.stub().returns(useCaseParameters),
-      };
-
       // when
       const response = await targetProfileController.findPaginatedTrainings(
         {
           params: {
             id: targetProfileId,
+          },
+          query: {
             page: { size: 2, number: 1 },
           },
         },
         hFake,
-        { trainingSummarySerializer, queryParamsUtils },
+        { trainingSummarySerializer },
       );
 
       // then
       expect(devcompUsecases.findPaginatedTargetProfileTrainingSummaries).to.have.been.calledWithExactly(
         useCaseParameters,
       );
-      expect(queryParamsUtils.extractParameters).to.have.been.calledOnce;
       expect(response).to.deep.equal(expectedResult);
     });
   });
@@ -154,13 +151,12 @@ describe('Unit | Controller | target-profile-controller', function () {
       const targetProfile = Symbol('targetProfileForAdmin');
 
       const expectedFilter = Symbol('filter');
-      const extractedParams = {
-        filter: expectedFilter,
-      };
       const request = {
-        'filter[badges]': 'certifiable',
         params: {
           id: targetProfileId,
+        },
+        query: {
+          filter: expectedFilter,
         },
       };
 
@@ -170,8 +166,6 @@ describe('Unit | Controller | target-profile-controller', function () {
       const dependencies = {
         targetProfileForAdminSerializer,
       };
-
-      dependencies.queryParamsUtils.extractParameters.withArgs(request.query).returns(extractedParams);
 
       sinon.stub(usecases, 'getTargetProfileForAdmin');
       usecases.getTargetProfileForAdmin.withArgs({ targetProfileId }).resolves(targetProfile);
