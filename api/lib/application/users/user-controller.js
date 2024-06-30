@@ -4,7 +4,6 @@ import { evaluationUsecases } from '../../../src/evaluation/domain/usecases/inde
 import * as scorecardSerializer from '../../../src/evaluation/infrastructure/serializers/jsonapi/scorecard-serializer.js';
 import * as campaignParticipationSerializer from '../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/campaign-participation-serializer.js';
 import * as userSerializer from '../../../src/shared/infrastructure/serializers/jsonapi/user-serializer.js';
-import * as queryParamsUtils from '../../../src/shared/infrastructure/utils/query-params-utils.js';
 import * as requestResponseUtils from '../../../src/shared/infrastructure/utils/request-response-utils.js';
 import { eventBus } from '../../domain/events/index.js';
 import { usecases } from '../../domain/usecases/index.js';
@@ -76,17 +75,10 @@ const rememberUserHasSeenChallengeTooltip = async function (request, h, dependen
   return dependencies.userSerializer.serialize(updatedUser);
 };
 
-const findPaginatedFilteredUsers = async function (
-  request,
-  h,
-  dependencies = { userForAdminSerializer, queryParamsUtils },
-) {
-  const options = dependencies.queryParamsUtils.extractParameters(request.query);
+const findPaginatedFilteredUsers = async function (request, h, dependencies = { userForAdminSerializer }) {
+  const { filter, page } = request.query;
 
-  const { models: users, pagination } = await usecases.findPaginatedFilteredUsers({
-    filter: options.filter,
-    page: options.page,
-  });
+  const { models: users, pagination } = await usecases.findPaginatedFilteredUsers({ filter, page });
   return dependencies.userForAdminSerializer.serialize(users, pagination);
 };
 
@@ -96,12 +88,11 @@ const findPaginatedUserRecommendedTrainings = async function (
   dependencies = {
     trainingSerializer,
     requestResponseUtils,
-    queryParamsUtils,
     devcompUsecases,
   },
 ) {
   const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
-  const { page } = dependencies.queryParamsUtils.extractParameters(request.query);
+  const { page } = request.query;
   const { userRecommendedTrainings, meta } = await dependencies.devcompUsecases.findPaginatedUserRecommendedTrainings({
     userId: request.auth.credentials.userId,
     locale,
@@ -124,11 +115,10 @@ const getCampaignParticipationOverviews = async function (
   h,
   dependencies = {
     campaignParticipationOverviewSerializer,
-    queryParamsUtils,
   },
 ) {
   const authenticatedUserId = request.auth.credentials.userId;
-  const query = dependencies.queryParamsUtils.extractParameters(request.query);
+  const query = request.query;
 
   const userCampaignParticipationOverviews = await usecases.findUserCampaignParticipationOverviews({
     userId: authenticatedUserId,
