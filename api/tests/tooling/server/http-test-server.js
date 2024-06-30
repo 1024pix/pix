@@ -1,4 +1,5 @@
 import Hapi from '@hapi/hapi';
+import Qs from 'qs';
 
 import { setupErrorHandling } from '../../../config/server-setup-error-handling.js';
 import { authentication } from '../../../lib/infrastructure/authentication.js';
@@ -10,6 +11,9 @@ const routesConfig = {
     validate: {
       failAction: handleFailAction,
     },
+  },
+  query: {
+    parser: (query) => Qs.parse(query),
   },
 };
 
