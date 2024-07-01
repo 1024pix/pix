@@ -72,6 +72,17 @@ const register = async function (server) {
           params: Joi.object({
             id: identifiersType.organizationId,
           }),
+          query: Joi.object({
+            page: {
+              size: Joi.number().integer().empty(''),
+              number: Joi.number().integer().empty(''),
+            },
+            filter: Joi.object({
+              name: Joi.string().empty(''),
+              status: Joi.string().empty(''),
+              isOwnedByMe: Joi.boolean().empty(''),
+            }).default({}),
+          }),
         },
         handler: campaignDetailController.findPaginatedFilteredCampaigns,
         tags: ['api', 'organizations'],

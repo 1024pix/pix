@@ -89,11 +89,15 @@ const register = async function (server) {
             allowUnknown: true,
           },
           query: Joi.object({
-            'filter[id]': identifiersType.organizationId.empty('').allow(null).optional(),
-            'filter[name]': Joi.string().empty('').allow(null).optional(),
-            'filter[hideArchived]': Joi.boolean().optional(),
-            'page[number]': Joi.number().integer().empty('').allow(null).optional(),
-            'page[size]': Joi.number().integer().empty('').allow(null).optional(),
+            filter: Joi.object({
+              id: identifiersType.organizationId.empty('').allow(null).optional(),
+              name: Joi.string().empty('').allow(null).optional(),
+              hideArchived: Joi.boolean().optional(),
+            }).default({}),
+            page: Joi.object({
+              number: Joi.number().integer().empty('').allow(null).optional(),
+              size: Joi.number().integer().empty('').allow(null).optional(),
+            }).default({}),
           }),
           failAction: (request, h) => {
             return sendJsonApiError(new BadRequestError('Un des champs de recherche saisis est invalide.'), h);
@@ -282,6 +286,13 @@ const register = async function (server) {
           params: Joi.object({
             id: identifiersType.organizationId,
           }),
+          query: Joi.object({
+            filter: Joi.object({}).default({}),
+            page: Joi.object({
+              number: Joi.number().integer().empty('').allow(null).optional(),
+              size: Joi.number().integer().empty('').allow(null).optional(),
+            }).default({}),
+          }),
         },
         handler: organizationController.findPaginatedFilteredMembershipsForAdmin,
         tags: ['api', 'organizations'],
@@ -336,6 +347,13 @@ const register = async function (server) {
         validate: {
           params: Joi.object({
             id: identifiersType.organizationId,
+          }),
+          query: Joi.object({
+            filter: Joi.object({}).default({}),
+            page: Joi.object({
+              number: Joi.number().integer().empty('').allow(null).optional(),
+              size: Joi.number().integer().empty('').allow(null).optional(),
+            }).default({}),
           }),
         },
         handler: organizationController.findPaginatedFilteredMemberships,
