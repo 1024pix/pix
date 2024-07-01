@@ -19,10 +19,13 @@ import { Module } from '../../domain/models/module/Module.js';
 import { QcmProposal } from '../../domain/models/QcmProposal.js';
 import { QcuProposal } from '../../domain/models/QcuProposal.js';
 import { TransitionText } from '../../domain/models/TransitionText.js';
+import { ElementForVerificationFactory } from './element-for-verification-factory.js';
 
 export class ModuleFactory {
-  static toDomain(moduleData) {
+  static toDomain(moduleData, options = { isForReferentialValidation: false }) {
     try {
+      const { isForReferentialValidation } = options;
+
       return new Module({
         id: moduleData.id,
         slug: moduleData.slug,
@@ -38,7 +41,7 @@ export class ModuleFactory {
               .map((component) => {
                 switch (component.type) {
                   case 'element': {
-                    const element = ModuleFactory.#mapElement(component.element);
+                    const element = ModuleFactory.#mapElement(component.element, isForReferentialValidation);
                     if (element) {
                       return new ComponentElement({ element });
                     } else {
@@ -51,7 +54,7 @@ export class ModuleFactory {
                         return new Step({
                           elements: step.elements
                             .map((element) => {
-                              const domainElement = ModuleFactory.#mapElement(element);
+                              const domainElement = ModuleFactory.#mapElement(element, isForReferentialValidation);
                               if (domainElement) {
                                 return domainElement;
                               } else {
@@ -79,18 +82,24 @@ export class ModuleFactory {
     }
   }
 
-  static #mapElement(element) {
+  static #mapElement(element, isForReferentialValidation) {
     switch (element.type) {
       case 'image':
         return ModuleFactory.#toImageDomain(element);
       case 'text':
         return ModuleFactory.#toTextDomain(element);
       case 'qcm':
-        return ModuleFactory.#toQCMDomain(element);
+        return isForReferentialValidation
+          ? ElementForVerificationFactory.toDomain(element)
+          : ModuleFactory.#toQCMDomain(element);
       case 'qcu':
-        return ModuleFactory.#toQCUDomain(element);
+        return isForReferentialValidation
+          ? ElementForVerificationFactory.toDomain(element)
+          : ModuleFactory.#toQCUDomain(element);
       case 'qrocm':
-        return ModuleFactory.#toQROCMDomain(element);
+        return isForReferentialValidation
+          ? ElementForVerificationFactory.toDomain(element)
+          : ModuleFactory.#toQROCMDomain(element);
       case 'video':
         return ModuleFactory.#toVideoDomain(element);
       default:

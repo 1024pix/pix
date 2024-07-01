@@ -1212,5 +1212,96 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
       expect(module.grains[0].components).to.have.length(1);
       expect(module.grains[0].components[0].element).not.to.be.empty;
     });
+
+    describe('when toDomain is used for referential validation', function () {
+      it('should throw error if validation is ko', function () {
+        // given
+        const nonExistingGrainId = 'v312c33d-e7c9-4a69-9ba0-913957b8f7df';
+        const dataWithIncorrectTransitionText = {
+          id: '6282925d-4775-4bca-b513-4c3009ec5886',
+          slug: 'title',
+          title: 'title',
+          details: {
+            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+            description: 'Description',
+            duration: 5,
+            level: 'Débutant',
+            objectives: ['Objective 1'],
+          },
+          transitionTexts: [
+            {
+              content: '<p>Text</p>',
+              grainId: nonExistingGrainId,
+            },
+          ],
+          grains: [
+            {
+              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+              type: 'lesson',
+              title: 'title',
+              components: [
+                {
+                  type: 'element',
+                  element: {
+                    id: '84726001-1665-457d-8f13-4a74dc4768ea',
+                    type: 'text',
+                    content: '<h3>Content</h3>',
+                  },
+                },
+              ],
+            },
+          ],
+        };
+
+        // when
+        const error = catchErrSync(ModuleFactory.toDomain)(dataWithIncorrectTransitionText, {
+          isForReferentialValidation: true,
+        });
+
+        // then
+        expect(error).to.be.an.instanceOf(ModuleInstantiationError);
+        expect(error.message).to.deep.equal(
+          'All the transition texts should be linked to a grain contained in the module.',
+        );
+      });
+
+      it('should not throw error if validation is ok', function () {
+        // given
+        const moduleData = {
+          id: '6282925d-4775-4bca-b513-4c3009ec5886',
+          slug: 'title',
+          title: 'title',
+          details: {
+            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+            description: 'Description',
+            duration: 5,
+            level: 'Débutant',
+            objectives: ['Objective 1'],
+          },
+          grains: [
+            {
+              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+              type: 'lesson',
+              title: 'title',
+              components: [
+                {
+                  type: 'element',
+                  element: {
+                    id: '8d7687c8-4a02-4d7e-bf6c-693a6d481c78',
+                    type: 'image',
+                    url: 'https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg',
+                    alt: 'Alternative',
+                    alternativeText: 'Alternative textuelle',
+                  },
+                },
+              ],
+            },
+          ],
+        };
+
+        // when / then
+        expect(() => ModuleFactory.toDomain(moduleData, { isForReferentialValidation: true })).not.to.throw();
+      });
+    });
   });
 });
