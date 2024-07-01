@@ -534,7 +534,7 @@
           {
             "id": "97e85ece-84d7-4b61-aa9f-58c063f0f900",
             "type": "text",
-            "content": "<h3><span aria-hidden=\"true\">👉</span> Cette centralisation des LLM autour d'un faible nombre de pays rend difficile l'atténuation des biais, par manque de diversité.</h3>"
+            "content": "<h3><span aria-hidden=\"true\">👉</span> Cette concentration des principaux LLM entre un petit nombre de pays implique un manque de diversité dans les productions des modèles, et une sur représentation des modèles occidentaux.</h3>"
           }
         }
       ]
