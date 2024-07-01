@@ -8,6 +8,7 @@ import dayjsFormat from 'ember-dayjs/helpers/dayjs-format';
 import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
 
+import SelectableList from '../selectable-list';
 import TableHeader from '../table/header';
 import TablePaginationControl from '../table/pagination-control';
 import CampaignType from './detail/type';
@@ -75,25 +76,27 @@ export default class List extends Component {
           </thead>
 
           <tbody>
-            {{#each @campaigns as |campaign|}}
-              <tr {{on "click" (fn @onClickCampaign campaign.id)}} class="tr--clickable">
-                <td class="table__column">
-                  <span class="campaign-list__campaign-link-cell">
-                    <CampaignType @labels={{this.labels}} @campaignType={{campaign.type}} @hideLabel={{true}} />
-                    <LinkTo @route="authenticated.campaigns.campaign" @model={{campaign.id}}>
-                      {{campaign.name}}
-                    </LinkTo>
-                  </span>
-                </td>
-                <td class="table__column--small" {{on "click" this.stopPropagation}}>{{campaign.code}}</td>
-                {{#unless @listOnlyCampaignsOfCurrentUser}}
-                  <td class="hide-on-mobile">{{campaign.ownerFullName}}</td>
-                {{/unless}}
-                <td class="hide-on-mobile">{{dayjsFormat campaign.createdAt "DD/MM/YYYY" allow-empty=true}}</td>
-                <td class="hide-on-mobile">{{campaign.participationsCount}}</td>
-                <td class="hide-on-mobile">{{campaign.sharedParticipationsCount}}</td>
-              </tr>
-            {{/each}}
+            <SelectableList @items={{@campaigns}}>
+              <:item as |campaign|>
+                <tr {{on "click" (fn @onClickCampaign campaign.id)}} class="tr--clickable">
+                  <td class="table__column">
+                    <span class="campaign-list__campaign-link-cell">
+                      <CampaignType @labels={{this.labels}} @campaignType={{campaign.type}} @hideLabel={{true}} />
+                      <LinkTo @route="authenticated.campaigns.campaign" @model={{campaign.id}}>
+                        {{campaign.name}}
+                      </LinkTo>
+                    </span>
+                  </td>
+                  <td class="table__column--small" {{on "click" this.stopPropagation}}>{{campaign.code}}</td>
+                  {{#unless @listOnlyCampaignsOfCurrentUser}}
+                    <td class="hide-on-mobile">{{campaign.ownerFullName}}</td>
+                  {{/unless}}
+                  <td class="hide-on-mobile">{{dayjsFormat campaign.createdAt "DD/MM/YYYY" allow-empty=true}}</td>
+                  <td class="hide-on-mobile">{{campaign.participationsCount}}</td>
+                  <td class="hide-on-mobile">{{campaign.sharedParticipationsCount}}</td>
+                </tr>
+              </:item>
+            </SelectableList>
           </tbody>
         </table>
         {{#if (eq @campaigns.length 0)}}
