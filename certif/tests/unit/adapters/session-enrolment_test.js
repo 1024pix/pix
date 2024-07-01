@@ -20,7 +20,7 @@ module('Unit | Adapter | sessionEnrolment', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-        id: 123,
+        id: '123',
       });
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
@@ -42,11 +42,11 @@ module('Unit | Adapter | sessionEnrolment', function (hooks) {
         // given
         sinon.stub(adapter, 'ajax').resolves();
         const studentListToAdd = [
-          { id: 1, firstName: 'Doe' },
-          { id: 2, firstName: 'Dupont' },
+          { id: '1', firstName: 'Doe' },
+          { id: '2', firstName: 'Dupont' },
         ];
 
-        const expectedStudentIdList = [1, 2];
+        const expectedStudentIdList = ['1', '2'];
         const expectedUrl = `${ENV.APP.API_HOST}/api/sessions/123/enrol-students-to-session`;
         const expectedMethod = 'PUT';
         const expectedData = {
@@ -63,7 +63,7 @@ module('Unit | Adapter | sessionEnrolment', function (hooks) {
         await adapter.updateRecord(
           store,
           { modelName: 'session-enrolment' },
-          { id: 123, adapterOptions: { studentListToAdd } },
+          { id: '123', adapterOptions: { studentListToAdd } },
         );
 
         // then

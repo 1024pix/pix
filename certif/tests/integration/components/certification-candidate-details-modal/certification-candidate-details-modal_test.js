@@ -27,7 +27,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
       birthPostalCode: 76260,
       sex: 'F',
       complementaryCertification: {
-        id: 1,
+        id: '1',
         label: 'Pix+Edu',
       },
     });

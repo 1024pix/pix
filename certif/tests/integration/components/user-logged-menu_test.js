@@ -16,7 +16,7 @@ module('Integration | Component | user-logged-menu', function (hooks) {
   hooks.beforeEach(async function () {
     store = this.owner.lookup('service:store');
     currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-      id: 123,
+      id: '123',
       name: 'Sunnydale',
     });
     certificationPointOfContact = store.createRecord('certification-point-of-contact', {
@@ -117,12 +117,12 @@ module('Integration | Component | user-logged-menu', function (hooks) {
     test('should display the certification centers name and externalId of all allowed ones of the user', async function (assert) {
       // given
       const allowedCertificationCenterAccessA = store.createRecord('allowed-certification-center-access', {
-        id: 456,
+        id: '456',
         name: 'Torreilles',
         externalId: 'externalId1',
       });
       const allowedCertificationCenterAccessB = store.createRecord('allowed-certification-center-access', {
-        id: 789,
+        id: '789',
         name: 'Paris',
         externalId: 'ILPlEUT',
       });
@@ -146,7 +146,7 @@ module('Integration | Component | user-logged-menu', function (hooks) {
     test('should close the menu', async function (assert) {
       // given
       const allowedCertificationCenterAccessA = store.createRecord('allowed-certification-center-access', {
-        id: 456,
+        id: '456',
         name: 'Torreilles',
         externalId: 'externalId1',
       });
@@ -171,7 +171,7 @@ module('Integration | Component | user-logged-menu', function (hooks) {
     test('should call the "onCertificationCenterAccessChanged" function', async function (assert) {
       // given
       const allowedCertificationCenterAccessA = store.createRecord('allowed-certification-center-access', {
-        id: 456,
+        id: '456',
         name: 'Torreilles',
         externalId: 'externalId1',
       });

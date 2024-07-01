@@ -17,7 +17,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
 
   test('should render the enrolled complementary certification name of the candidate if he passes one', async function (assert) {
     this.candidate = store.createRecord('certification-candidate-for-supervising', {
-      id: 123,
+      id: '123',
       enrolledComplementaryCertificationLabel: 'Super Certification Complémentaire',
     });
 
@@ -33,7 +33,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
   test('it renders the candidates information with a confirmation button', async function (assert) {
     // given
     this.candidate = store.createRecord('certification-candidate-for-supervising', {
-      id: 123,
+      id: '123',
       firstName: 'Gamora',
       lastName: 'Zen Whoberi Ben Titan',
       birthdate: '1984-05-28',
@@ -68,7 +68,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     test('it renders the cancel confirmation button', async function (assert) {
       // given
       this.candidate = store.createRecord('certification-candidate-for-supervising', {
-        id: 456,
+        id: '456',
         firstName: 'Star',
         lastName: 'Lord',
         birthdate: '1983-06-28',
@@ -94,7 +94,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     test('it does not render the time nor extra time', async function (assert) {
       // given
       this.candidate = store.createRecord('certification-candidate-for-supervising', {
-        id: 456,
+        id: '456',
         firstName: 'Star',
         lastName: 'Lord',
         startDateTime: new Date('2022-10-19T14:30:15Z'),
@@ -124,7 +124,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       test('it calls the argument callback with candidate and false', async function (assert) {
         // given
         this.candidate = store.createRecord('certification-candidate-for-supervising', {
-          id: 123,
+          id: '123',
           firstName: 'Toto',
           lastName: 'Tutu',
           birthdate: '1984-05-28',
@@ -157,7 +157,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       test('it calls the argument callback with candidate', async function (assert) {
         // given
         this.candidate = store.createRecord('certification-candidate-for-supervising', {
-          id: 123,
+          id: '123',
           firstName: 'Toto',
           lastName: 'Tutu',
           birthdate: '1984-05-28',
@@ -188,7 +188,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       test('it does not render the time nor extra time', async function (assert) {
         // given
         this.candidate = store.createRecord('certification-candidate-for-supervising', {
-          id: 456,
+          id: '456',
           firstName: 'Toto',
           lastName: 'Tutu',
           startDateTime: new Date('2022-10-19T14:30:15Z'),
@@ -217,7 +217,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       test('should render a warning message', async function (assert) {
         // given
         this.candidate = store.createRecord('certification-candidate-for-supervising', {
-          id: 123,
+          id: '123',
           enrolledComplementaryCertificationLabel: 'Super Certification Complémentaire',
           userId: 678,
           isStillEligibleToComplementaryCertification: false,
@@ -243,7 +243,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       test('should not render a warning message', async function (assert) {
         // given
         this.candidate = store.createRecord('certification-candidate-for-supervising', {
-          id: 123,
+          id: '123',
           enrolledComplementaryCertificationLabel: 'Super Certification Complémentaire',
           userId: 678,
           isStillEligibleToComplementaryCertification: true,
@@ -270,7 +270,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     test('should not render a warning message', async function (assert) {
       // given
       this.candidate = store.createRecord('certification-candidate-for-supervising', {
-        id: 123,
+        id: '123',
         enrolledComplementaryCertificationLabel: 'Super Certification Complémentaire',
         isStillEligibleToComplementaryCertification: false,
       });
@@ -295,7 +295,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     test('it renders the time and extra time', async function (assert) {
       // given
       this.candidate = store.createRecord('certification-candidate-for-supervising', {
-        id: 456,
+        id: '456',
         startDateTime: new Date('2022-10-19T14:30:15Z'),
         theoricalEndDateTime: new Date('2022-10-19T16:00:00Z'),
         extraTimePercentage: 0.12,
@@ -322,7 +322,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       test('it renders the menu without the handle live alert button', async function (assert) {
         // given
         this.candidate = store.createRecord('certification-candidate-for-supervising', {
-          id: 456,
+          id: '456',
           startDateTime: new Date('2022-10-19T14:30:15Z'),
           theoricalEndDateTime: new Date('2022-10-19T16:00:00Z'),
           extraTimePercentage: 0.12,
@@ -347,7 +347,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       test('it renders the menu without the handle live alert button', async function (assert) {
         // given
         this.candidate = store.createRecord('certification-candidate-for-supervising', {
-          id: 456,
+          id: '456',
           startDateTime: new Date('2022-10-19T14:30:15Z'),
           theoricalEndDateTime: new Date('2022-10-19T16:00:00Z'),
           extraTimePercentage: 0.12,
@@ -376,7 +376,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     test('it renders the time and extra time', async function (assert) {
       // given
       this.candidate = store.createRecord('certification-candidate-for-supervising', {
-        id: 456,
+        id: '456',
         startDateTime: new Date('2022-10-19T14:30:15Z'),
         theoricalEndDateTime: new Date('2022-10-19T16:00:00Z'),
         extraTimePercentage: 0.12,
@@ -404,7 +404,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     test('it does not render the time nor extra time', async function (assert) {
       // given
       this.candidate = store.createRecord('certification-candidate-for-supervising', {
-        id: 456,
+        id: '456',
         startDateTime: new Date('2022-10-19T14:30:15Z'),
         theoricalEndDateTime: new Date('2022-10-19T16:00:00Z'),
         extraTimePercentage: 12,
@@ -432,7 +432,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     test('it displays the live alert tag', async function (assert) {
       // given
       this.candidate = store.createRecord('certification-candidate-for-supervising', {
-        id: 456,
+        id: '456',
         startDateTime: new Date('2022-10-19T14:30:15Z'),
         theoricalEndDateTime: new Date('2022-10-19T16:00:00Z'),
         extraTimePercentage: 0.12,
@@ -458,7 +458,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     test('it displays the alert', async function (assert) {
       // given
       this.candidate = store.createRecord('certification-candidate-for-supervising', {
-        id: 456,
+        id: '456',
         startDateTime: new Date('2022-10-19T14:30:15Z'),
         theoricalEndDateTime: new Date('2022-10-19T16:00:00Z'),
         extraTimePercentage: 0.12,

@@ -10,7 +10,7 @@ module('Unit | Adapters | session-summary', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-        id: 123,
+        id: '123',
         certificationCenterName: 'Sunnydale',
       });
       class CurrentUserStub extends Service {

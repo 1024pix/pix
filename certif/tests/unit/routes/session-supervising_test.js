@@ -26,7 +26,7 @@ module('Unit | Route | session-supervising', function (hooks) {
       test('it should stop polling', async function (assert) {
         // given
         ENV.APP.sessionSupervisingPollingRate = 100;
-        const session = { id: 123 };
+        const session = { id: '123' };
 
         class StoreStub extends Service {
           queryRecord = sinon.stub();
@@ -52,7 +52,7 @@ module('Unit | Route | session-supervising', function (hooks) {
         test('it should redirect to session supervising login page', async function (assert) {
           // given
           ENV.APP.sessionSupervisingPollingRate = 100;
-          const session = { id: 123 };
+          const session = { id: '123' };
 
           class RouterStub extends Service {
             replaceWith = sinon.stub();
@@ -82,7 +82,7 @@ module('Unit | Route | session-supervising', function (hooks) {
         test('it should display a notification', async function (assert) {
           // given
           ENV.APP.sessionSupervisingPollingRate = 100;
-          const session = { id: 123 };
+          const session = { id: '123' };
 
           class NotificationStub extends Service {
             error = sinon.stub();

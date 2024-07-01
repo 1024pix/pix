@@ -85,7 +85,7 @@ module('Unit | Adapter | session', function (hooks) {
           certificationReportsData: [certifReportAttributes1, certifReportAttributes2],
         });
         const snapshot = {
-          id: 123,
+          id: '123',
           adapterOptions: { finalization: true },
           record: session,
         };

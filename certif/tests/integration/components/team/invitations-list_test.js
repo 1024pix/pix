@@ -44,13 +44,13 @@ module('Integration | Component |  team/invitation-list', function (hooks) {
   test('displays pending invitations list ', async function (assert) {
     // given
     const invitation = store.createRecord('certification-center-invitation', {
-      id: 1,
+      id: '1',
       email: 'camille.onette@example.net',
       updatedAt: new Date('2023-09-21T16:21:12Z'),
     });
 
     const secondInvitation = store.createRecord('certification-center-invitation', {
-      id: 2,
+      id: '2',
       email: 'lee.tige@example.net',
       updatedAt: new Date('2023-09-20T16:21:12Z'),
     });

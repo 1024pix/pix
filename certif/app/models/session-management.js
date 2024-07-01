@@ -19,7 +19,7 @@ export default class Session extends Model {
   @attr('boolean') hasIncident;
   @attr('boolean') hasJoiningIssue;
   @attr('number') version;
-  @hasMany('certificationReport', { async: true, inverse: null }) certificationReports;
+  @hasMany('certification-report', { async: true, inverse: null }) certificationReports;
 
   get isFinalized() {
     return this.status === FINALIZED || this.status === IN_PROCESS || this.status === PROCESSED;

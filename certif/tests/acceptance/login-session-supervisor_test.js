@@ -20,7 +20,7 @@ module('Acceptance | Login session supervisor', function (hooks) {
     });
     await authenticateSession(certificationPointOfContact.id);
 
-    server.create('session-for-supervising', { id: 12345 });
+    server.create('session-for-supervising', { id: '12345' });
   });
 
   test('should display current user email and a change account button', async function (assert) {

@@ -40,7 +40,7 @@ module('Unit | Controller | authenticated/team/list/members', function (hooks) {
     test('deletes membership', async function (assert) {
       // given
       const member = store.createRecord('member', {
-        id: 1,
+        id: '1',
         firstName: 'Matt',
         lastName: 'Ador',
         role: 'MEMBER',

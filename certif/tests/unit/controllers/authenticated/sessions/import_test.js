@@ -20,7 +20,7 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-        id: 123,
+        id: '123',
       });
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
@@ -62,7 +62,7 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
       const validateSessionsForMassImportStub = sinon.stub(adapter, 'validateSessionsForMassImport');
       validateSessionsForMassImportStub.resolves({});
       const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-        id: 123,
+        id: '123',
       });
 
       class CurrentUserStub extends Service {

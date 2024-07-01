@@ -14,7 +14,7 @@ module('Unit | Adapters | Sessions mass import report', function (hooks) {
         adapter.ajax = sinon.stub();
         const store = this.owner.lookup('service:store');
         const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-          id: 123,
+          id: '123',
         });
 
         class CurrentUserStub extends Service {

@@ -61,10 +61,10 @@ module('Integration | Component | session-summary-list', function (hooks) {
       const goToSessionDetailsSpy = () => {};
       const store = this.owner.lookup('service:store');
       const sessionSummary1 = store.createRecord('session-summary', {
-        id: 123,
+        id: '123',
       });
       const sessionSummary2 = store.createRecord('session-summary', {
-        id: 456,
+        id: '456',
       });
       const sessionSummaries = [sessionSummary1, sessionSummary2];
       sessionSummaries.meta = {
@@ -89,7 +89,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
       const goToSessionDetailsSpy = () => {};
       const store = this.owner.lookup('service:store');
       const sessionSummary = store.createRecord('session-summary', {
-        id: 123,
+        id: '123',
         address: 'TicTac',
         room: 'Jambon',
         date: '2020-12-01',
@@ -127,7 +127,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
       const goToSessionDetailsSpy = sinon.stub();
       const store = this.owner.lookup('service:store');
       const sessionSummary = store.createRecord('session-summary', {
-        id: 123,
+        id: '123',
       });
       const sessionSummaries = [sessionSummary];
       sessionSummaries.meta = {
@@ -153,7 +153,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
       const goToSessionDetailsSpy = sinon.stub();
       const store = this.owner.lookup('service:store');
       const sessionSummary = store.createRecord('session-summary', {
-        id: 123,
+        id: '123',
       });
       const sessionSummaries = [sessionSummary];
       sessionSummaries.meta = {
@@ -177,7 +177,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
         const goToSessionDetailsSpy = sinon.stub();
         const store = this.owner.lookup('service:store');
         const sessionSummary = store.createRecord('session-summary', {
-          id: 123,
+          id: '123',
           enrolledCandidatesCount: 1,
           effectiveCandidatesCount: 1,
         });
@@ -204,7 +204,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
         const goToSessionDetailsSpy = sinon.stub();
         const store = this.owner.lookup('service:store');
         const sessionSummary = store.createRecord('session-summary', {
-          id: 123,
+          id: '123',
         });
         const sessionSummaries = [sessionSummary];
         sessionSummaries.meta = {
@@ -228,7 +228,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
           const goToSessionDetailsSpy = sinon.stub();
           const store = this.owner.lookup('service:store');
           const sessionSummary = store.createRecord('session-summary', {
-            id: 123,
+            id: '123',
           });
           const sessionSummaries = [sessionSummary];
           sessionSummaries.meta = {
@@ -265,7 +265,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
             const goToSessionDetailsSpy = sinon.stub();
             const store = this.owner.lookup('service:store');
             const sessionSummary = store.createRecord('session-summary', {
-              id: 123,
+              id: '123',
               enrolledCandidatesCount: 5,
             });
             const sessionSummaries = [sessionSummary];
@@ -302,7 +302,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
             const goToSessionDetailsSpy = sinon.stub();
             const store = this.owner.lookup('service:store');
             const sessionSummary = store.createRecord('session-summary', {
-              id: 123,
+              id: '123',
               enrolledCandidatesCount: 1,
             });
             const sessionSummaries = [sessionSummary];
@@ -341,7 +341,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
             const goToSessionDetailsSpy = sinon.stub();
             const store = this.owner.lookup('service:store');
             const sessionSummary = store.createRecord('session-summary', {
-              id: 123,
+              id: '123',
               enrolledCandidatesCount: 0,
             });
             const sessionSummaries = [sessionSummary];
@@ -378,7 +378,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
             const goToSessionDetailsSpy = sinon.stub();
             const store = this.owner.lookup('service:store');
             const sessionSummary = store.createRecord('session-summary', {
-              id: 123,
+              id: '123',
             });
             const sessionSummaries = [sessionSummary];
             sessionSummaries.meta = {

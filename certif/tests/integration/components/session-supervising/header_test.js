@@ -20,7 +20,7 @@ module('Integration | Component | SessionSupervising::Header', function (hooks) 
   test('it renders the session information', async function (assert) {
     // given
     const sessionForSupervising = store.createRecord('session-for-supervising', {
-      id: 12345,
+      id: '12345',
       date: '2020-01-01',
       time: '12:00:00',
       room: 'Salle 12',
@@ -59,7 +59,7 @@ module('Integration | Component | SessionSupervising::Header', function (hooks) 
     test('it opens the confirmation modal', async function (assert) {
       // given
       const sessionForSupervising = store.createRecord('session-for-supervising', {
-        id: 12345,
+        id: '12345',
         date: '2020-01-01',
         time: '12:00:00',
         room: 'Salle 12',
@@ -91,7 +91,7 @@ module('Integration | Component | SessionSupervising::Header', function (hooks) 
     test('it closes the confirmation modal', async function (assert) {
       // given
       const sessionForSupervising = store.createRecord('session-for-supervising', {
-        id: 12345,
+        id: '12345',
         date: '2020-01-01',
         time: '12:00:00',
         room: 'Salle 12',
@@ -118,7 +118,7 @@ module('Integration | Component | SessionSupervising::Header', function (hooks) 
     test('it closes the confirmation modal and redirect to "login-session-supervisor"', async function (assert) {
       // given
       const sessionForSupervising = store.createRecord('session-for-supervising', {
-        id: 12345,
+        id: '12345',
         date: '2020-01-01',
         time: '12:00:00',
         room: 'Salle 12',

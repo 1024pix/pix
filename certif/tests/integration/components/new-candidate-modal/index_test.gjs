@@ -16,8 +16,8 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
     class CurrentUserStub extends Service {
       currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
         habilitations: [
-          { id: 0, label: 'Certif complémentaire 1', key: 'COMP_1', hasComplementaryReferential: false },
-          { id: 1, label: 'Certif complémentaire 2', key: 'COMP_2', hasComplementaryReferential: true },
+          { id: '0', label: 'Certif complémentaire 1', key: 'COMP_1', hasComplementaryReferential: false },
+          { id: '1', label: 'Certif complémentaire 2', key: 'COMP_2', hasComplementaryReferential: true },
         ],
         isComplementaryAlonePilot: false,
       });
@@ -254,9 +254,9 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
     const updateCandidateStub = sinon.stub();
     const updateCandidateWithEventStub = sinon.stub();
     const countries = [
-      { id: 1, code: '99123', name: 'Syldavie' },
-      { id: 2, code: '99100', name: 'France' },
-      { id: 3, code: '99345', name: 'Botswana' },
+      { id: '1', code: '99123', name: 'Syldavie' },
+      { id: '2', code: '99100', name: 'France' },
+      { id: '3', code: '99345', name: 'Botswana' },
     ];
     const candidateData = {
       firstName: '',
@@ -550,8 +550,8 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
           class CurrentUserStub extends Service {
             currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
               habilitations: [
-                { id: 0, label: 'Certif complémentaire 1', key: 'COMP_1', hasComplementaryReferential: false },
-                { id: 1, label: 'Certif complémentaire 2', key: 'COMP_2', hasComplementaryReferential: true },
+                { id: '0', label: 'Certif complémentaire 1', key: 'COMP_1', hasComplementaryReferential: false },
+                { id: '1', label: 'Certif complémentaire 2', key: 'COMP_2', hasComplementaryReferential: true },
               ],
               isComplementaryAlonePilot: true,
             });
@@ -606,8 +606,8 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
           class CurrentUserStub extends Service {
             currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
               habilitations: [
-                { id: 0, label: 'Certif complémentaire 1', key: 'COMP_1', hasComplementaryReferential: false },
-                { id: 1, label: 'Certif complémentaire 2', key: 'COMP_2', hasComplementaryReferential: true },
+                { id: '0', label: 'Certif complémentaire 1', key: 'COMP_1', hasComplementaryReferential: false },
+                { id: '1', label: 'Certif complémentaire 2', key: 'COMP_2', hasComplementaryReferential: true },
               ],
               isComplementaryAlonePilot: true,
             });
@@ -663,8 +663,8 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
           class CurrentUserStub extends Service {
             currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
               habilitations: [
-                { id: 0, label: 'Certif complémentaire 1', key: 'COMP_1', hasComplementaryReferential: false },
-                { id: 1, label: 'Certif complémentaire 2', key: 'COMP_2', hasComplementaryReferential: true },
+                { id: '0', label: 'Certif complémentaire 1', key: 'COMP_1', hasComplementaryReferential: false },
+                { id: '1', label: 'Certif complémentaire 2', key: 'COMP_2', hasComplementaryReferential: true },
               ],
               isComplementaryAlonePilot: true,
             });

@@ -27,7 +27,7 @@ module('Unit | Adapter | member', function (hooks) {
       const adapter = this.owner.lookup('adapter:member');
       const store = this.owner.lookup('service:store');
 
-      const certificationCenterId = 123;
+      const certificationCenterId = '123';
       const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
         id: certificationCenterId,
       });
@@ -92,7 +92,7 @@ module('Unit | Adapter | member', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-          id: 123,
+          id: '123',
         });
 
         class CurrentUserStub extends Service {
