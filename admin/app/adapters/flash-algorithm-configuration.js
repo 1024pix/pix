@@ -7,4 +7,10 @@ export default class FlashAlgorithmConfigurationAdapter extends ApplicationAdapt
     const url = `${this.host}/${this.namespace}/flash-assessment-configuration`;
     return this.ajax(url, 'GET');
   }
+
+  createRecord(flashAlgorithmConfiguration) {
+    const url = `${this.host}/${this.namespace}/flash-assessment-configuration`;
+    const payload = { data: flashAlgorithmConfiguration };
+    return this.ajax(url, 'POST', payload);
+  }
 }
