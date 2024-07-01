@@ -95,8 +95,10 @@ const register = async function (server) {
         ],
         validate: {
           query: Joi.object({
-            'page[number]': Joi.number().integer().empty('').allow(null).optional(),
-            'page[size]': Joi.number().integer().empty('').allow(null).optional(),
+            page: Joi.object({
+              number: Joi.number().integer().empty('').allow(null).optional(),
+              size: Joi.number().integer().empty('').allow(null).optional(),
+            }).default({}),
           }),
           failAction: (request, h) => {
             return sendJsonApiError(new BadRequestError('Un des champs de pagination saisis est invalide.'), h);

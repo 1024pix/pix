@@ -112,23 +112,21 @@ describe('Unit | Controller | autonomous-course-controller', function () {
       };
 
       const autonomousCoursePaginatedListSerializer = { serialize: sinon.stub().returns(expectedResult) };
-      const queryParamsUtils = { extractParameters: sinon.stub().returns(queryParameters) };
 
       // when
       const response = await autonomousCourseController.findPaginatedList(
         {
-          params: {
+          query: {
             page: { size: 2, number: 1 },
           },
         },
         hFake,
-        { autonomousCoursePaginatedListSerializer, queryParamsUtils, usecases: evaluationUsecases },
+        { autonomousCoursePaginatedListSerializer, usecases: evaluationUsecases },
       );
 
       // then
       expect(evaluationUsecases.findAllPaginatedAutonomousCourses).to.have.been.calledWithExactly(queryParameters);
       expect(autonomousCoursePaginatedListSerializer.serialize).to.have.been.calledOnce;
-      expect(queryParamsUtils.extractParameters).to.have.been.calledOnce;
       expect(response).to.deep.equal(expectedResult);
     });
   });
