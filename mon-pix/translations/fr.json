@@ -1686,35 +1686,34 @@
     },
     "tutorial": {
       "title": "Didacticiel de la campagne",
+      "dot-action-title": "Afficher l'étape {stepNumber}/{stepsCount}",
+      "dots-nav-label": "Étapes du didacticiel",
       "next": "Suivant",
+      "next-title": "Afficher l'étape suivante",
       "pages": {
         "page0": {
           "title": "Vous pouvez rechercher sur internet ...",
-          "explanation": "Si vous ignorez une réponse, \nelle se trouve sûrement sur internet.",
-          "icon": "icn-recherche.svg"
+          "explanation": "Si vous ignorez une réponse, \nelle se trouve sûrement sur internet."
         },
         "page1": {
           "title": "... sauf pour certaines questions",
-          "explanation": "Si cette image est affichée, utilisez uniquement vos connaissances !\n Vous ne devez utiliser ni internet ni vos logiciels.",
-          "icon": "icn-focus.svg"
+          "explanation": "Si cette image est affichée, utilisez uniquement vos connaissances !\n Vous ne devez utiliser ni internet ni vos logiciels."
         },
         "page2": {
           "title": "Pas de limite de temps !",
-          "explanation": "Prenez le temps nécessaire pour terminer votre parcours. \nSi une question est chronométrée, cela vous sera indiqué.",
-          "icon": "icn-temps.svg"
+          "explanation": "Prenez le temps nécessaire pour terminer votre parcours. \nSi une question est chronométrée, cela vous sera indiqué."
         },
         "page3": {
           "title": "Des tutos pour apprendre",
-          "explanation": "Accédez à des tutos pour apprendre davantage \nsur chaque question et progresser.",
-          "icon": "icn-tutos.svg"
+          "explanation": "Accédez à des tutos pour apprendre davantage \nsur chaque question et progresser."
         },
         "page4": {
           "title": "Un niveau de difficulté adapté",
-          "explanation": "En fonction de vos réponses,\nPix adapte la difficulté des questions.",
-          "icon": "icn-algo.svg"
+          "explanation": "En fonction de vos réponses,\nPix adapte la difficulté des questions."
         }
       },
       "pass": "Ignorer",
+      "pass-title": "Ignorer le didacticiel et démarrer mon parcours",
       "start": "Démarrer mon parcours"
     },
     "tutorial-panel": {

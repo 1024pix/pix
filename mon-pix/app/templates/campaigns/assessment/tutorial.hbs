@@ -6,34 +6,6 @@
 
     <h1 class="sr-only">{{t "pages.tutorial.title"}}</h1>
 
-    <div class="campaign-tutorial__title">
-      {{@model.title}}
-    </div>
-
-    <div class="campaign-tutorial__explanation-icon">
-      <img alt="" src="/images/illustrations/tutorial-campaign/{{@model.icon}}" />
-    </div>
-
-    <div class="campaign-tutorial__explanation-text"><p>{{@model.explanation}}</p></div>
-
-    <div class="campaign-tutorial__paging">
-      {{#each @model.paging as |page-class|}}
-        <div class="dot {{page-class}}"></div>
-      {{/each}}
-
-    </div>
-    <div class="campaign-tutorial__next-button">
-      {{#if @model.showNextButton}}
-        <PixButton @type="submit" @triggerAction={{this.nextStep}} class="campaign-tutorial__buttons">{{t
-            "pages.tutorial.next"
-          }}</PixButton>
-
-        <PixButton @variant="secondary" @triggerAction={{this.ignoreTutorial}} class="campaign-tutorial__buttons">{{t
-            "pages.tutorial.pass"
-          }}</PixButton>
-      {{else}}
-        <PixButton @triggerAction={{this.ignoreTutorial}}>{{t "pages.tutorial.start"}}</PixButton>
-      {{/if}}
-    </div>
+    <Campaigns::Assessment::Tutorial::Steps @campaignCode={{@model.campaignCode}} />
   </main>
 </div>

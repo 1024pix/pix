@@ -1689,35 +1689,34 @@
       "title": "Om de volgende keer te slagen"
     },
     "tutorial": {
+      "dot-action-title": "Display tutorial step {stepNumber}/{stepsCount}",
+      "dots-nav-label": "Tutorial steps",
       "next": "Volgende",
+      "next-title": "Show tutorial next step",
       "pages": {
         "page0": {
           "explanation": "Als je het antwoord niet weet, vind je het vast wel op\n.",
-          "icon": "icn-recherche.svg",
           "title": "Je kunt op internet zoeken ..."
         },
         "page1": {
           "explanation": "Als deze afbeelding wordt weergegeven, gebruik dan alleen je eigen kennis!\nJe mag het internet of je software niet gebruiken.",
-          "icon": "icn-focus.svg",
           "title": "... behalve voor bepaalde vragen"
         },
         "page2": {
           "explanation": "Neem zoveel tijd als je nodig hebt om de cursus te voltooien.\nAls een vraag een tijdslimiet heeft, wordt dit aangegeven.",
-          "icon": "icn-temps.svg",
           "title": "Geen tijdslimiet!"
         },
         "page3": {
           "explanation": "Ga naar tutorials om meer te leren\nover elke vraag en boek vooruitgang.",
-          "icon": "icn-tutos.svg",
           "title": "Tutorials om te leren"
         },
         "page4": {
           "explanation": "Afhankelijk van je antwoorden past\nPix de moeilijkheidsgraad van de vragen aan.",
-          "icon": "icn-algo.svg",
           "title": "De juiste moeilijkheidsgraad"
         }
       },
       "pass": "Negeer",
+      "pass-title": "Ignore tutorial and start my customised test",
       "start": "Begin mijn reis",
       "title": "Campagne handleiding"
     },

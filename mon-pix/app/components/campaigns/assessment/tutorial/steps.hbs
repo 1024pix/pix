@@ -1,0 +1,54 @@
+{{#each this.steps as |step index|}}
+  {{#if (eq index this.currentStep)}}
+    <div class="campaign-tutorial__title">
+      {{step.text}}
+    </div>
+
+    <div class="campaign-tutorial__explanation-icon">
+      <img alt="" src="/images/illustrations/tutorial-campaign/{{step.icon}}" role="presentation" />
+    </div>
+
+    <div class="campaign-tutorial__explanation-text">
+      <p>{{step.explanation}}</p>
+    </div>
+  {{/if}}
+{{/each}}
+
+<nav aria-label={{t "pages.tutorial.dots-nav-label"}}>
+  <ol class="campaign-tutorial__paging">
+    {{#each this.steps as |step index|}}
+      <li aria-current={{if (eq index this.currentStep) "step" null}}>
+        <button
+          type="button"
+          class="dot"
+          title={{t "pages.tutorial.dot-action-title" stepNumber=(inc index) stepsCount=this.stepsCount}}
+          {{on "click" (fn this.goToStep index)}}
+        ></button>
+      </li>
+    {{/each}}
+  </ol>
+</nav>
+
+<div class="campaign-tutorial__next-button">
+  {{#if this.showNextButton}}
+    <PixButton
+      @triggerAction={{this.nextStep}}
+      class="campaign-tutorial__buttons"
+      title={{t "pages.tutorial.next-title"}}
+    >
+      {{t "pages.tutorial.next"}}
+    </PixButton>
+    <PixButton
+      @variant="secondary"
+      @triggerAction={{this.ignoreTutorial}}
+      class="campaign-tutorial__buttons"
+      title={{t "pages.tutorial.pass-title"}}
+    >
+      {{t "pages.tutorial.pass"}}
+    </PixButton>
+  {{else}}
+    <PixButton @triggerAction={{this.ignoreTutorial}}>
+      {{t "pages.tutorial.start"}}
+    </PixButton>
+  {{/if}}
+</div>
