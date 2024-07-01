@@ -109,18 +109,16 @@ module('Integration | Component | terms-of-service | index', function (hooks) {
       assert.dom(screen.getByRole('heading', { name: 'Article 6. Description of services', level: 2 })).exists();
       assert.dom(screen.getByRole('heading', { name: 'Article 7. Access to Pix Certif', level: 2 })).exists();
       assert.dom(screen.getByRole('heading', { name: 'Article 8. Technical features', level: 2 })).exists();
-      assert.dom(screen.getByRole('heading', { name: 'Article 9. Management of certification sessions', level: 2 })).exists();
       assert
-        .dom(screen.getByRole('heading', { name: 'Article 10. Use', level: 2 }))
+        .dom(screen.getByRole('heading', { name: 'Article 9. Management of certification sessions', level: 2 }))
         .exists();
+      assert.dom(screen.getByRole('heading', { name: 'Article 10. Use', level: 2 })).exists();
       assert.dom(screen.getByRole('heading', { name: 'Article 11. Security', level: 2 })).exists();
       assert.dom(screen.getByRole('heading', { name: 'Article 12. Maintenance and support', level: 2 })).exists();
       assert.dom(screen.getByRole('heading', { name: '12.1 Support and assistance to the user', level: 3 })).exists();
       assert.dom(screen.getByRole('heading', { name: '12.2 Progressive maintenance', level: 3 })).exists();
       assert.dom(screen.getByRole('heading', { name: 'Article 13. Liability', level: 2 })).exists();
-      assert
-        .dom(screen.getByRole('heading', { name: '13.1 User’s liability', level: 3 }))
-        .exists();
+      assert.dom(screen.getByRole('heading', { name: '13.1 User’s liability', level: 3 })).exists();
       assert.dom(screen.getByRole('heading', { name: '13.2 The Pix HIP’s liability', level: 3 })).exists();
 
       assert.dom(screen.getByRole('heading', { name: 'Article 14. Intellectual property rights', level: 2 })).exists();

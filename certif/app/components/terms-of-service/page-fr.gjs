@@ -28,9 +28,9 @@
   </p>
   <p>
     Le GIP Pix met à la disposition des centres et de leurs référents ou membres habilités (ci-après les
-    « utilisateurs »), le service Pix Certif accessible en mode Saas, aux fins d’organisation des sessions d’examen de
-    certification, en particulier de gestion des inscriptions et d’édition de la documentation nécessaire à leur mise en
-    œuvre.
+    «&nbsp;utilisateurs&nbsp;»), le service Pix Certif accessible en mode Saas, aux fins d’organisation des sessions
+    d’examen de certification, en particulier de gestion des inscriptions et d’édition de la documentation nécessaire à
+    leur mise en œuvre.
   </p>
 
   <h2 class='pix-title-s'>Article 2. Définitions</h2>
@@ -76,10 +76,10 @@
   </ul>
   <ul>
     <li>
-      « Pix Certif » : désigne l’application web du GIP Pix, mise à disposition par celui-ci auprès de l’utilisateur en
-      mode Saas et ayant pour objet de permettre l’inscription des candidats à la certification, ainsi que
-      l’organisation et la mise en œuvre des sessions de certification par l’édition des documents nécessaires à cet
-      effet ;
+      «&nbsp;Pix Certif&nbsp;»&nbsp;: désigne l’application web du GIP Pix, mise à disposition par celui-ci auprès de
+      l’utilisateur en mode Saas et ayant pour objet de permettre l’inscription des candidats à la certification, ainsi
+      que l’organisation et la mise en œuvre des sessions de certification&nbsp;par l’édition des documents nécessaires
+      à cet effet ;
     </li>
   </ul>
   <ul>
@@ -92,16 +92,16 @@
   </ul>
   <ul>
     <li>
-      « services » : accès par internet en mode Saas aux fonctionnalités de l’application Pix Certif telles que décrites
-      à l’article « Présentation des services » par les utilisateurs ;
+      «&nbsp;services&nbsp;» : accès par internet en mode Saas aux fonctionnalités de l’application Pix Certif telles
+      que décrites à l’article « Présentation des services » par les utilisateurs ;
     </li>
   </ul>
   <ul>
     {{! template-lint-disable no-whitespace-within-word }}
     <li>
-      « session de certification » : séance pendant laquelle le centre de certification va accueillir des candidats qui
-      vont passer la certification Pix. La session de certification est définie par un lieu précis (site et salle), une
-      date et un horaire.
+      «&nbsp;session&nbsp;de certification » : séance pendant laquelle le centre de certification va accueillir des
+      candidats qui vont passer la certification Pix. La session de certification est définie par un lieu précis (site
+      et salle), une date et un horaire.
     </li>
   </ul>
   <ul>
@@ -131,25 +131,25 @@
   <h3 class='pix-title-xs'>5.1 Acceptation</h3>
   <p>
     Les utilisateurs peuvent utiliser les services Pix Certif sous réserve de l’acceptation préalable des présentes
-    conditions générales d’utilisation et de l’engagement qu’ils respectent les prérequis suivants :
+    conditions générales d’utilisation et de l’engagement qu’ils respectent les prérequis suivants&nbsp;:
   </p>
   <ul>
     <li>
       être majeur au jour de l’inscription ;
     </li>
     <li>
-      être habilité par un centre ;
+      être habilité par un centre&nbsp;;
     </li>
     <li>
-      avoir créé un compte sur la plateforme Pix dans les conditions visées à l’article « Compte utilisateur » des
-      présentes ;
+      avoir créé un compte sur la plateforme Pix dans les conditions visées à l’article «&nbsp;Compte utilisateur&nbsp;»
+      des présentes&nbsp;;
     </li>
     <li>
-      disposer de la capacité juridique leur permettant de s’engager au titre des présentes conditions générales ;
+      disposer de la capacité juridique leur permettant de s’engager au titre des présentes conditions générales&nbsp;;
     </li>
     <li>
       disposer d’un équipement informatique adapté pour accéder à Pix Certif, sur un poste informatique adéquat, selon
-      les prérequis techniques prévus aux présentes conditions d’utilisation ;
+      les prérequis techniques prévus aux présentes conditions d’utilisation&nbsp;;
     </li>
     <li>
       avoir transmis des informations personnelles valides au Centre en vue du rattachement de son compte utilisateur à
@@ -157,7 +157,7 @@
     </li>
   </ul>
   <p>
-    L’utilisateur, en acceptant les conditions générales d’utilisation, déclare :
+    L’utilisateur, en acceptant les conditions générales d’utilisation, déclare&nbsp;:
   </p>
   <ul>
     <li>
@@ -171,7 +171,7 @@
       optimales ;
     </li>
     <li>
-      s’être assuré du respect des prérequis techniques nécessaires ;
+      s’être assuré du respect des prérequis techniques nécessaires&nbsp;;
     </li>
     <li>
       avoir obtenu toutes les informations nécessaires, quant aux services Pix Certif ;
@@ -182,8 +182,8 @@
   </ul>
   <p>
     L’acceptation des présentes conditions d’utilisation est formalisée par un clic sur le bouton « J’accepte les
-    conditions d’utilisation » par l’utilisateur qui utilise pour la première fois Pix Certif et ce, après qu’il ait
-    consulté l’intégralité des présentes. Ce clic constitue la preuve que l’utilisateur a pris connaissance desdites
+    conditions d’utilisation&nbsp;» par l’utilisateur qui utilise pour la première fois Pix Certif et ce, après qu’il
+    ait consulté l’intégralité des présentes. Ce clic constitue la preuve que l’utilisateur a pris connaissance desdites
     stipulations et vaut acceptation des présentes.
   </p>
   <p>
@@ -296,12 +296,12 @@
   </p>
   <p>
     L’utilisateur s’engage à notifier sans délai tous vols de son mot de passe ou toute utilisation par un tiers dont il
-    aurait connaissance. Cette notification doit être adressée à : support@pix.fr .
+    aurait connaissance. Cette notification doit être adressée à&nbsp;: support@pix.fr .
   </p>
   <p>
     Il est possible de réinitialiser le mot de passe via le compte utilisateur en cliquant sur l’onglet « Mot de passe
-    oublié ?» puis en saisissant son adresse email. Un email sera adressé à l’utilisateur, lui permettant de définir un
-    nouveau mot de passe qui devra lui aussi être conforme aux spécifications susvisées.
+    oublié&nbsp;?» puis en saisissant son adresse email. Un email sera adressé à l’utilisateur, lui permettant de
+    définir un nouveau mot de passe qui devra lui aussi être conforme aux spécifications susvisées.
   </p>
 
   <h2 class='pix-title-s'>Article 7. Description des services</h2>
@@ -572,7 +572,7 @@
     </li>
     <li>
       en cas d’usage frauduleux ou abusif ou dû à une divulgation volontaire ou involontaire à quiconque des codes
-      d’accès confiés à l’utilisateur ;
+      d’accès confiés à l’utilisateur&nbsp;;
     </li>
     <li>
       du fait d’un retrait des habilitations qui lui sont conférées à la demande d’un centre auquel il est rattaché et
@@ -668,14 +668,14 @@
     de rattachement, expériences et CV.
   </p>
   <p>
-    Ces données peuvent lui être transmises par :
+    Ces données peuvent lui être transmises par&nbsp;:
   </p>
   <ul>
     <li>
-      l’utilisateur lors de son inscription sur la plateforme Pix ;
+      l’utilisateur lors de son inscription sur la plateforme Pix&nbsp;;
     </li>
     <li>
-      le centre, en vue :
+      le centre, en vue&nbsp;:
       <ul>
         <li>
           de la gestion de l’accès aux services ;
@@ -750,11 +750,11 @@
 
   <h3 class='pix-title-xs'>18.1 Désinscription</h3>
   <p>
-    L’accès aux services par l’utilisateur est effectif et valide tant que l’utilisateur :
+    L’accès aux services par l’utilisateur est effectif et valide tant que l’utilisateur&nbsp;:
   </p>
   <ul>
     <li>
-      utilise les services ; et,
+      utilise les services&nbsp;; et,
     </li>
     <li>
       est habilité par le centre auquel il est rattaché à utiliser les services.
