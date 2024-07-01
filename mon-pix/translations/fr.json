@@ -1637,7 +1637,7 @@
           "text": "Vous êtes sur le point de remettre à zéro votre parcours <strong>{targetProfileName}</strong>, afin de tenter d’améliorer votre niveau. A la fin du parcours, vous pourrez à nouveau envoyer vos résultats.",
           "warning-text": "Vos Pix, vos niveaux et votre certificabilité obtenus lors de ce parcours vont être supprimés."
         },
-        "notifications": "Si vous retentez les questions échouées ou remettez à zéro pour tout retenter, votre organisation ne pourra plus voir votre dernier résultat. Pour que votre résultat soit comptabilisé par l'organisateur du test, vous devrez l'envoyer à nouveau."
+        "notifications": "Si vous repassez les questions échouées ou remettez à zéro pour tout retenter, vous devrez à nouveau envoyer vos résultats afin qu’ils soient comptabilisés par l’organisateur. Il continuera d’avoir accès à vos résultats précédemment envoyés."
       },
       "retry": {
         "button": "Repasser mon parcours",

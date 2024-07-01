@@ -1637,7 +1637,7 @@
           "text": "You are about to reset and restart your customised test <strong>{targetProfileName}</strong>, in order to try to improve your results. At the end of this customised test, you can submit your results.",
           "warning-text": "Your pix score, levels and eligibility for certification obtained during this customised test will be deleted."
         },
-        "notifications": "If you choose to retry the failed questions or reset and restart from the beginning, your organisation will no longer be able to see your previously sent results. At the end of this customised test you will need to submit your results, so that it can be taken into account by the organiser."
+        "notifications": "If you choose to retry the failed questions or reset and restart from the beginning, you will need to submit your new results for them to be taken into account by the organizer. Previously submitted results remain accessible to the organizer."
       },
       "retry": {
         "button": "Retake my customised test",
