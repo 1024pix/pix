@@ -118,18 +118,14 @@ describe('Integration | Repository | mission-assessment-repository', function ()
       const organizationLearnerWithCompletedAssessment = databaseBuilder.factory.buildOrganizationLearner();
       const organizationLearnerWithStartedAssessment = databaseBuilder.factory.buildOrganizationLearner();
       const organizationLearnerWithoutAssessment = databaseBuilder.factory.buildOrganizationLearner();
+      const organizationLearnerWhoRetriedMission = databaseBuilder.factory.buildOrganizationLearner();
+      const organizationLearnerWhoRetriedAndCompletedMissions = databaseBuilder.factory.buildOrganizationLearner();
+
       const missionId = 1;
 
       const startedMissionAssessment = databaseBuilder.factory.buildMissionAssessment({
         missionId,
         organizationLearnerId: organizationLearnerWithStartedAssessment.id,
-        state: Assessment.states.STARTED,
-        createdAt: new Date('2023-10-10'),
-      });
-
-      databaseBuilder.factory.buildMissionAssessment({
-        missionId,
-        organizationLearnerId: organizationLearnerWithCompletedAssessment.id,
         state: Assessment.states.STARTED,
         createdAt: new Date('2023-10-10'),
       });
@@ -141,12 +137,42 @@ describe('Integration | Repository | mission-assessment-repository', function ()
         createdAt: new Date('2024-10-10'),
       });
 
+      const firstMissionAssessmentCompleted = databaseBuilder.factory.buildMissionAssessment({
+        missionId,
+        organizationLearnerId: organizationLearnerWhoRetriedMission.id,
+        state: Assessment.states.COMPLETED,
+        createdAt: new Date('2023-10-10'),
+      });
+
+      databaseBuilder.factory.buildMissionAssessment({
+        missionId,
+        organizationLearnerId: organizationLearnerWhoRetriedMission.id,
+        state: Assessment.states.STARTED,
+        createdAt: new Date('2024-10-11'),
+      });
+
+      databaseBuilder.factory.buildMissionAssessment({
+        missionId,
+        organizationLearnerId: organizationLearnerWhoRetriedAndCompletedMissions.id,
+        state: Assessment.states.COMPLETED,
+        createdAt: new Date('2023-10-10'),
+      });
+
+      const secondMissionAssessmentCompleted = databaseBuilder.factory.buildMissionAssessment({
+        missionId,
+        organizationLearnerId: organizationLearnerWhoRetriedAndCompletedMissions.id,
+        state: Assessment.states.COMPLETED,
+        createdAt: new Date('2024-10-11'),
+      });
+
       await databaseBuilder.commit();
 
       const organizationLearners = [
         organizationLearnerWithCompletedAssessment,
         organizationLearnerWithoutAssessment,
         organizationLearnerWithStartedAssessment,
+        organizationLearnerWhoRetriedMission,
+        organizationLearnerWhoRetriedAndCompletedMissions,
       ];
       const results = await missionAssessmentRepository.getStatusesForLearners(
         missionId,
@@ -160,6 +186,12 @@ describe('Integration | Repository | mission-assessment-repository', function ()
         [organizationLearnerWithCompletedAssessment.id, 'completed', completedMissionAssessment.assessmentId],
         [organizationLearnerWithoutAssessment.id, undefined, undefined],
         [organizationLearnerWithStartedAssessment.id, 'started', startedMissionAssessment.assessmentId],
+        [organizationLearnerWhoRetriedMission.id, 'completed', firstMissionAssessmentCompleted.assessmentId],
+        [
+          organizationLearnerWhoRetriedAndCompletedMissions.id,
+          'completed',
+          secondMissionAssessmentCompleted.assessmentId,
+        ],
       ]);
     });
 
