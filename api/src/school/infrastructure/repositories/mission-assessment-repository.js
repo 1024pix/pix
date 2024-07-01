@@ -32,38 +32,39 @@ const getCurrent = async function (missionId, organizationLearnerId) {
   return new MissionAssessment({ ...rawAssessmentMission });
 };
 
-const getStatusesForLearners = async function (missionId, organizationLearners, decorateMissionLearnerWithStatus) {
-  const organizationLearnerIds = organizationLearners.map((learner) => learner.id);
-  const organizationLearnerStatuses = await knex
+async function _getMissionAssessmentsByLearnerId(missionId, organizationLearnerIds) {
+  const organizationLearnerAssessments = await knex
     .select(
       'mission-assessments.organizationLearnerId',
       'assessments.state as status',
-      'assessments.id as  assessmentId',
+      'assessments.id as assessmentId',
+      'assessments.createdAt as createdAt',
     )
     .from('mission-assessments')
     .join('assessments', 'assessments.id', 'mission-assessments.assessmentId')
-    .join(
-      knex
-        .select('organizationLearnerId')
-        .max('createdAt', { as: 'date' })
-        .from('mission-assessments')
-        .groupBy('organizationLearnerId')
-        .as('max_dates'),
-      function () {
-        this.on('mission-assessments.organizationLearnerId', '=', 'max_dates.organizationLearnerId').andOn(
-          'mission-assessments.createdAt',
-          '=',
-          'max_dates.date',
-        );
-      },
-    )
     .where({ missionId })
     .whereIn('mission-assessments.organizationLearnerId', organizationLearnerIds);
 
+  return Object.entries(_.groupBy(organizationLearnerAssessments, 'organizationLearnerId'));
+}
+
+const _byDescendingCreatedAt = (assessmentA, assessmentB) => assessmentB.createdAt - assessmentA.createdAt;
+
+const getStatusesForLearners = async function (missionId, organizationLearners, decorateMissionLearnerWithStatus) {
+  const organizationLearnerIds = organizationLearners.map((learner) => learner.id);
+  const missionAssessmentsByLearnerId = await _getMissionAssessmentsByLearnerId(missionId, organizationLearnerIds);
+
+  const lastRelevantAssessments = missionAssessmentsByLearnerId.map(([_organizationLearnerId, assessments]) => {
+    if (assessments.length > 1) {
+      return assessments.filter((assessment) => assessment.status === 'completed').sort(_byDescendingCreatedAt)[0];
+    }
+    return assessments[0];
+  });
+
   const decoratedMissionLearners = [];
-  const organizationLearnerStatusesByLearnerId = _.groupBy(organizationLearnerStatuses, 'organizationLearnerId');
+  const lastRelevantAssessmentByLearnerId = _.groupBy(lastRelevantAssessments, 'organizationLearnerId');
   for (const organizationLearner of organizationLearners) {
-    const [organizationLearnerInfo] = organizationLearnerStatusesByLearnerId[`${organizationLearner.id}`] ?? [];
+    const [organizationLearnerInfo] = lastRelevantAssessmentByLearnerId[`${organizationLearner.id}`] ?? [];
     const learner = await decorateMissionLearnerWithStatus(
       organizationLearner,
       organizationLearnerInfo?.status,
