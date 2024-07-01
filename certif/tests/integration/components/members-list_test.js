@@ -144,19 +144,19 @@ module('Integration | Component | MembersList', function (hooks) {
     module('when clicking on "Quitter cet espace Pix Certif"', function (hooks) {
       hooks.beforeEach(function () {
         const connectedUserWithAdminRole = store.createRecord('member', {
-          id: 1,
+          id: '1',
           firstName: 'Jacques',
           lastName: 'Ouzi',
           role: 'ADMIN',
         });
         const memberWithAdminRole = store.createRecord('member', {
-          id: 2,
+          id: '2',
           firstName: 'Annie',
           lastName: 'Versaire',
           role: 'ADMIN',
         });
         const memberWithMemberRole = store.createRecord('member', {
-          id: 3,
+          id: '3',
           firstName: 'Franck',
           lastName: 'Ofone',
           role: 'MEMBER',

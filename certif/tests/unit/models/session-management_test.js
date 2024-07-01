@@ -12,7 +12,7 @@ module('Unit | Model | sessionManagement', function (hooks) {
     test('it should return the correct urlToDownloadSupervisorKitPdf', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const model = store.createRecord('session-management', { id: 1 });
+      const model = store.createRecord('session-management', { id: '1' });
       class SessionStub extends Service {
         data = {
           authenticated: {
@@ -61,7 +61,7 @@ module('Unit | Model | sessionManagement', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const model = store.createRecord('session-management', {
-          id: 123,
+          id: '123',
           status: CREATED,
           publishedAt: '2022-01-01',
           hasSomeCleaAcquired: true,
@@ -77,7 +77,7 @@ module('Unit | Model | sessionManagement', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const model = store.createRecord('session-management', {
-          id: 123,
+          id: '123',
           status: CREATED,
           publishedAt: '2022-01-01',
           hasSomeCleaAcquired: false,
@@ -92,11 +92,11 @@ module('Unit | Model | sessionManagement', function (hooks) {
 
 function _createTwoCompleteAndOneUncompleteCertificationReports(store) {
   return store.createRecord('session-management', {
-    id: 1,
+    id: '1',
     certificationReports: [
-      store.createRecord('certification-report', { id: 1, isCompleted: false }),
-      store.createRecord('certification-report', { id: 2, isCompleted: true }),
-      store.createRecord('certification-report', { id: 3, isCompleted: true }),
+      store.createRecord('certification-report', { id: '1', isCompleted: false }),
+      store.createRecord('certification-report', { id: '2', isCompleted: true }),
+      store.createRecord('certification-report', { id: '3', isCompleted: true }),
     ],
   });
 }

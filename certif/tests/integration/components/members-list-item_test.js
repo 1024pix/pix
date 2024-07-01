@@ -90,13 +90,13 @@ module('Integration | Component | MembersListItem', function (hooks) {
         test('it shows member firstName, lastName, role and manage button', async function (assert) {
           // given
           const memberWithMemberRole = store.createRecord('member', {
-            id: 123,
+            id: '123',
             firstName: 'John',
             lastName: 'Williams',
             role: 'MEMBER',
           });
 
-          sinon.stub(currentUser, 'certificationPointOfContact').value({ id: 1 });
+          sinon.stub(currentUser, 'certificationPointOfContact').value({ id: '1' });
           this.set('member', memberWithMemberRole);
 
           // when
@@ -113,13 +113,13 @@ module('Integration | Component | MembersListItem', function (hooks) {
           test('it shows `edit role` and `delete` actions', async function (assert) {
             // given
             const memberWithMemberRole = store.createRecord('member', {
-              id: 123,
+              id: '123',
               firstName: 'John',
               lastName: 'Williams',
               role: 'MEMBER',
             });
 
-            sinon.stub(currentUser, 'certificationPointOfContact').value({ id: 1 });
+            sinon.stub(currentUser, 'certificationPointOfContact').value({ id: '1' });
             this.set('member', memberWithMemberRole);
 
             const screen = await renderScreen(
@@ -141,7 +141,7 @@ module('Integration | Component | MembersListItem', function (hooks) {
           test('it shows member firstName, lastName, role but does not show manage button', async function (assert) {
             // given
             const memberWithMemberRole = store.createRecord('member', {
-              id: 123,
+              id: '123',
               firstName: 'John',
               lastName: 'Williams',
               role: 'MEMBER',
@@ -169,7 +169,7 @@ module('Integration | Component | MembersListItem', function (hooks) {
           test('shows manage button', async function (assert) {
             // given
             const memberWithAdminRole = store.createRecord('member', {
-              id: 123,
+              id: '123',
               firstName: 'John',
               lastName: 'Williams',
               role: 'ADMIN',
@@ -191,7 +191,7 @@ module('Integration | Component | MembersListItem', function (hooks) {
             test('displays a dropdown with one option to leave the current certification center', async function (assert) {
               // given
               const memberWithAdminRole = store.createRecord('member', {
-                id: 123,
+                id: '123',
                 firstName: 'John',
                 lastName: 'Williams',
                 role: 'ADMIN',
@@ -218,7 +218,7 @@ module('Integration | Component | MembersListItem', function (hooks) {
               test('calls the onLeaveCertificationCenterButtonClicked event handler', async function (assert) {
                 // given
                 const memberWithAdminRole = store.createRecord('member', {
-                  id: 123,
+                  id: '123',
                   firstName: 'John',
                   lastName: 'Williams',
                   role: 'ADMIN',
@@ -249,13 +249,13 @@ module('Integration | Component | MembersListItem', function (hooks) {
     module('when mode edition is enabled', function (hooks) {
       hooks.beforeEach(function () {
         const memberWithMemberRole = store.createRecord('member', {
-          id: 123,
+          id: '123',
           firstName: 'John',
           lastName: 'Williams',
           role: 'MEMBER',
         });
 
-        sinon.stub(currentUser, 'certificationPointOfContact').value({ id: 1 });
+        sinon.stub(currentUser, 'certificationPointOfContact').value({ id: '1' });
         this.set('member', memberWithMemberRole);
       });
 
@@ -311,12 +311,12 @@ module('Integration | Component | MembersListItem', function (hooks) {
     module('When remove member button is clicked', (hooks) => {
       hooks.beforeEach(async function () {
         const memberWithMemberRole = store.createRecord('member', {
-          id: 123,
+          id: '123',
           firstName: 'John',
           lastName: 'Williams',
           role: 'MEMBER',
         });
-        sinon.stub(currentUser, 'certificationPointOfContact').value({ id: 1 });
+        sinon.stub(currentUser, 'certificationPointOfContact').value({ id: '1' });
         this.set('member', memberWithMemberRole);
 
         await renderScreen(

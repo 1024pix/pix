@@ -9,7 +9,7 @@ module('Unit | Model | certification report', function (hooks) {
     // given
     const store = this.owner.lookup('service:store');
     const model = store.createRecord('certification-report', {
-      id: 123,
+      id: '123',
       firstName: 'Clément',
       lastName: 'Tine',
       certificationCourseId: 987,
@@ -34,7 +34,7 @@ module('Unit | Model | certification report', function (hooks) {
         category: 'Retard',
       });
       const certificationReport = store.createRecord('certification-report', {
-        id: 123,
+        id: '123',
         certificationIssueReports: A([issueReport]),
         hasSeenEndTestScreen: false,
       });
@@ -104,7 +104,7 @@ module('Unit | Model | certification report', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const certificationReport = store.createRecord('certification-report', {
-        id: 123,
+        id: '123',
         certificationIssueReports: A([]),
         hasSeenEndTestScreen: true,
         certificationCourseId: 1,

@@ -20,7 +20,7 @@ module('Unit | Component | session-clea-results-download', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       component.args.session = store.createRecord('session-management', {
-        id: 123,
+        id: '123',
         hasSomeCleaAcquired: true,
         publishedAt: '2022-01-01',
       });
@@ -57,7 +57,7 @@ module('Unit | Component | session-clea-results-download', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       component.args.session = store.createRecord('session-management', {
-        id: 123,
+        id: '123',
         hasSomeCleaAcquired: true,
         publishedAt: '2022-01-01',
       });

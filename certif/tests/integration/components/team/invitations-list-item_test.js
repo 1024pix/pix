@@ -22,7 +22,7 @@ module('Integration | Component |  team/invitation-list-item', function (hooks) 
   test('displays a pending invitation table row item', async function (assert) {
     // given
     const invitation = store.createRecord('certification-center-invitation', {
-      id: 1,
+      id: '1',
       email: 'camille.onette@example.net',
       updatedAt: new Date('2023-09-21T16:21:12Z'),
     });

@@ -44,7 +44,7 @@ module('Unit | Controller | authenticated/team/invite', function (hooks) {
         const router = this.owner.lookup('service:router');
         sinon.stub(router, 'transitionTo');
         const currentUser = this.owner.lookup('service:current-user');
-        sinon.stub(currentUser, 'currentAllowedCertificationCenterAccess').value({ id: 1 });
+        sinon.stub(currentUser, 'currentAllowedCertificationCenterAccess').value({ id: '1' });
         const certificationCenterId = currentUser.currentAllowedCertificationCenterAccess.id;
         const event = { preventDefault: sinon.stub() };
         const store = this.owner.lookup('service:store');
@@ -80,7 +80,7 @@ module('Unit | Controller | authenticated/team/invite', function (hooks) {
       test('display an error notification', async function (assert) {
         // given
         const currentUser = this.owner.lookup('service:current-user');
-        sinon.stub(currentUser, 'currentAllowedCertificationCenterAccess').value({ id: 1 });
+        sinon.stub(currentUser, 'currentAllowedCertificationCenterAccess').value({ id: '1' });
 
         const event = {
           preventDefault: sinon.stub(),

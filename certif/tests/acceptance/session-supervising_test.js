@@ -41,7 +41,7 @@ module('Acceptance | Session supervising', function (hooks) {
         id: sessionId,
         certificationCandidates: [
           server.create('certification-candidate-for-supervising', {
-            id: 123,
+            id: '123',
             firstName: 'John',
             lastName: 'Doe',
             birthdate: '1984-05-28',
@@ -131,7 +131,7 @@ module('Acceptance | Session supervising', function (hooks) {
       id: sessionId,
       certificationCandidates: [
         server.create('certification-candidate-for-supervising', {
-          id: 123,
+          id: '123',
           firstName: 'John',
           lastName: 'Doe',
           birthdate: '1984-05-28',

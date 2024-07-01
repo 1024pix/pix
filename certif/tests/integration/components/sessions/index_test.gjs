@@ -49,10 +49,10 @@ module('Integration | Component | Sessions | index', function (hooks) {
 
       this.owner.register('service:current-user', CurrentUserStub);
       const sessionSummary1 = store.createRecord('session-summary', {
-        id: 123,
+        id: '123',
       });
       const sessionSummary2 = store.createRecord('session-summary', {
-        id: 456,
+        id: '456',
       });
       const sessionSummaries = [sessionSummary1, sessionSummary2];
       sessionSummaries.meta = {
@@ -80,10 +80,10 @@ module('Integration | Component | Sessions | index', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const sessionSummary1 = store.createRecord('session-summary', {
-        id: 123,
+        id: '123',
       });
       const sessionSummary2 = store.createRecord('session-summary', {
-        id: 456,
+        id: '456',
       });
       const sessionSummaries = [sessionSummary1, sessionSummary2];
       sessionSummaries.meta = {

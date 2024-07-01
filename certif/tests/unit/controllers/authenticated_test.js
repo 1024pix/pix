@@ -10,7 +10,7 @@ module('Unit | Controller | authenticated', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-        id: 123,
+        id: '123',
         name: 'Sunnydale',
         type: 'SCO',
         isRelatedToManagingStudentsOrganization: true,
@@ -35,7 +35,7 @@ module('Unit | Controller | authenticated', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-        id: 123,
+        id: '123',
         name: 'Sunnydale',
         type: 'NOT_SCO',
       });
@@ -58,7 +58,7 @@ module('Unit | Controller | authenticated', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-        id: 123,
+        id: '123',
         name: 'Sunnydale',
         type: 'SCO',
         isRelatedToManagingStudentsOrganization: true,
@@ -84,7 +84,7 @@ module('Unit | Controller | authenticated', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-        id: 123,
+        id: '123',
         name: 'Sunnydale',
         type: 'NOT_SCO',
         isAccessBlockedCollege: false,
@@ -117,7 +117,7 @@ module('Unit | Controller | authenticated', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-        id: 123,
+        id: '123',
         name: 'Sunnydale',
         type: 'SCO',
         isRelatedToManagingStudentsOrganization: true,
@@ -151,7 +151,7 @@ module('Unit | Controller | authenticated', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-        id: 123,
+        id: '123',
         name: 'Sunnydale',
         type: 'SCO',
         isRelatedToManagingStudentsOrganization: true,
@@ -185,7 +185,7 @@ module('Unit | Controller | authenticated', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-        id: 123,
+        id: '123',
         name: 'Sunnydale',
         type: 'SCO',
         isRelatedToManagingStudentsOrganization: true,
@@ -221,7 +221,7 @@ module('Unit | Controller | authenticated', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-        id: 123,
+        id: '123',
         isAccessBlockedCollege: true,
         isAccessBlockedLycee: false,
         isAccessBlockedAEFE: false,
@@ -246,7 +246,7 @@ module('Unit | Controller | authenticated', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-        id: 123,
+        id: '123',
         isAccessBlockedCollege: false,
         isAccessBlockedLycee: false,
         isAccessBlockedAEFE: false,

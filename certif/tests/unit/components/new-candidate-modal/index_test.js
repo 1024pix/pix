@@ -284,7 +284,7 @@ module('Unit | Component | new-candidate-modal', function (hooks) {
       // given
       modal.args.candidateData = {};
       const complementaryCertification = {
-        id: 0,
+        id: '0',
         label: 'Certif complémentaire 1',
         key: 'COMP_0',
       };
@@ -299,12 +299,12 @@ module('Unit | Component | new-candidate-modal', function (hooks) {
     test('it should not be possible to select multiple complementary certifications', function (assert) {
       // given
       const firstComplementaryCertification = {
-        id: 1,
+        id: '1',
         label: 'firstComplementaryCertification',
         key: 'COMP_1',
       };
       const secondComplementaryCertification = {
-        id: 2,
+        id: '2',
         label: 'secondComplementaryCertification',
         key: 'COMP_2',
       };
@@ -323,7 +323,7 @@ module('Unit | Component | new-candidate-modal', function (hooks) {
       // given
       modal.args.candidateData = {
         complementaryCertification: {
-          id: 0,
+          id: '0',
           label: 'Certif complémentaire 1',
           key: 'COMP_0',
         },

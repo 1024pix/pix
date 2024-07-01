@@ -302,7 +302,7 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
 });
 
 function _buildCertificationCandidate({
-  id = 12345,
+  id = '12345',
   firstName = 'Bob',
   lastName = 'Leponge',
   birthdate = new Date(),
@@ -315,7 +315,7 @@ function _buildCertificationCandidate({
   extraTimePercentage = 0.3,
   isLinked = false,
   complementaryCertification = {
-    id: 2,
+    id: '2',
     label: 'Pix+Droit',
   },
   billingMode = null,

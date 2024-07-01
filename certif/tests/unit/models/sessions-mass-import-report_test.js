@@ -16,7 +16,7 @@ import sinon from 'sinon';
       adapter.ajax.resolves();
 
       const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-        id: 123,
+        id: '123',
       });
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;

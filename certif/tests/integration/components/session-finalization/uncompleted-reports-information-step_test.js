@@ -100,7 +100,7 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
     const store = this.owner.lookup('service:store');
     this.set('issueReportDescriptionMaxLength', 500);
     const certificationReport = store.createRecord('certification-report', {
-      id: 1234,
+      id: '1234',
       isCompleted: false,
       abort: sinon.stub(),
     });

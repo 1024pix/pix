@@ -10,7 +10,7 @@ module('Unit | Model | sessionEnrolment', function (hooks) {
     test('it should return the correct urlToUpload', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const model = store.createRecord('session-enrolment', { id: 1 });
+      const model = store.createRecord('session-enrolment', { id: '1' });
 
       // when/then
       assert.strictEqual(model.urlToUpload, `${config.APP.API_HOST}/api/sessions/1/certification-candidates/import`);
@@ -21,7 +21,7 @@ module('Unit | Model | sessionEnrolment', function (hooks) {
     test('it should return the correct urlToDownloadAttendanceSheet', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const model = store.createRecord('session-enrolment', { id: 1 });
+      const model = store.createRecord('session-enrolment', { id: '1' });
 
       // when/then
       assert.strictEqual(model.urlToDownloadAttendanceSheet, `${config.APP.API_HOST}/api/sessions/1/attendance-sheet`);
@@ -32,7 +32,7 @@ module('Unit | Model | sessionEnrolment', function (hooks) {
     test('it should return the correct urlToDownloadCandidatesImportTemplate', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const model = store.createRecord('session-enrolment', { id: 1 });
+      const model = store.createRecord('session-enrolment', { id: '1' });
 
       // when/then
       assert.strictEqual(

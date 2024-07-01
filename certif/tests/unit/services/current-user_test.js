@@ -12,29 +12,29 @@ module('Unit | Service | current-user', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const allowedCertificationCenterAccesseA = store.createRecord('allowed-certification-center-access', {
-        id: 789,
+        id: '789',
       });
 
       const allowedCertificationCenterAccesseB = store.createRecord('allowed-certification-center-access', {
-        id: 456,
+        id: '456',
       });
 
       const certificationCenterMembershipA = store.createRecord('certification-center-membership', {
-        id: 1231,
+        id: '1231',
         certificationCenterId: 789,
         userId: 123,
         role: 'ADMIN',
       });
 
       const certificationCenterMembershipB = store.createRecord('certification-center-membership', {
-        id: 1232,
+        id: '1232',
         certificationCenterId: 456,
         userId: 123,
         role: 'MEMBER',
       });
 
       const certificationPointOfContact = store.createRecord('certification-point-of-contact', {
-        id: 124,
+        id: '124',
         allowedCertificationCenterAccesses: [allowedCertificationCenterAccesseA, allowedCertificationCenterAccesseB],
         certificationCenterMemberships: [certificationCenterMembershipA, certificationCenterMembershipB],
       });
@@ -164,29 +164,29 @@ module('Unit | Service | current-user', function (hooks) {
       const store = this.owner.lookup('service:store');
 
       const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-        id: 111,
+        id: '111',
       });
 
       const newAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-        id: 222,
+        id: '222',
       });
 
       const currentCertificationCenterMembership = store.createRecord('certification-center-membership', {
-        id: 1231,
+        id: '1231',
         certificationCenterId: 111,
         userId,
         role: 'MEMBER',
       });
 
       const newCertificationCenterMembership = store.createRecord('certification-center-membership', {
-        id: 1232,
+        id: '1232',
         certificationCenterId: 222,
         userId,
         role: 'ADMIN',
       });
 
       const certificationPointOfContact = store.createRecord('certification-point-of-contact', {
-        id: 124,
+        id: '124',
         allowedCertificationCenterAccesses: [
           currentAllowedCertificationCenterAccess,
           newAllowedCertificationCenterAccess,

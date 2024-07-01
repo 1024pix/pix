@@ -19,7 +19,7 @@ module('Acceptance | Supervisor Portal', function (hooks) {
     });
     await authenticateSession(certificationPointOfContact.id);
 
-    server.create('session-for-supervising', { id: 12345 });
+    server.create('session-for-supervising', { id: '12345' });
   });
 
   module('When supervisor authentication is successful', function () {

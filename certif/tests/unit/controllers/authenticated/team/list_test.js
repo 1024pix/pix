@@ -247,19 +247,19 @@ module('Unit | Controller | authenticated/team/list', function (hooks) {
     test('should return an array of non referer members select options ordered by last name', function (assert) {
       // given
       const member1 = store.createRecord('member', {
-        id: 102,
+        id: '102',
         firstName: 'Abe',
         lastName: 'Sapiens',
         isReferer: false,
       });
       const member2 = store.createRecord('member', {
-        id: 100,
+        id: '100',
         firstName: 'Trevor',
         lastName: 'Bruttenholm',
         isReferer: false,
       });
       const member3 = store.createRecord('member', {
-        id: 101,
+        id: '101',
         firstName: 'Aby',
         lastName: 'Gails',
         isReferer: true,
@@ -300,7 +300,7 @@ module('Unit | Controller | authenticated/team/list', function (hooks) {
         const updateRefererStub = sinon.stub();
         const sendStub = sinon.stub();
         const member = store.createRecord('member', {
-          id: 102,
+          id: '102',
           firstName: 'Abe',
           lastName: 'Sapiens',
           updateReferer: updateRefererStub,
@@ -324,7 +324,7 @@ module('Unit | Controller | authenticated/team/list', function (hooks) {
         const updateRefererStub = sinon.stub();
         const sendStub = sinon.stub();
         const member = store.createRecord('member', {
-          id: 102,
+          id: '102',
           firstName: 'Abe',
           lastName: 'Sapiens',
           updateReferer: updateRefererStub,

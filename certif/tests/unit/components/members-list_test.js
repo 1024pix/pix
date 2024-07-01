@@ -23,19 +23,19 @@ module('Unit | Component | MembersList', (hooks) => {
           // given
           component.args.members = [
             store.createRecord('member', {
-              id: 1,
+              id: '1',
               firstName: 'Éva',
               lastName: 'Kué',
               role: 'ADMIN',
             }),
             store.createRecord('member', {
-              id: 2,
+              id: '2',
               firstName: 'Matt',
               lastName: 'Ematic',
               role: 'ADMIN',
             }),
             store.createRecord('member', {
-              id: 3,
+              id: '3',
               firstName: 'Harry',
               lastName: 'Coe',
               role: 'MEMBER',
@@ -53,13 +53,13 @@ module('Unit | Component | MembersList', (hooks) => {
           // given
           component.args.members = [
             store.createRecord('member', {
-              id: 1,
+              id: '1',
               firstName: 'Jean',
               lastName: 'Tourloupe',
               role: 'ADMIN',
             }),
             store.createRecord('member', {
-              id: 2,
+              id: '2',
               firstName: 'Éva',
               lastName: 'Noui',
               role: 'MEMBER',
@@ -160,7 +160,7 @@ module('Unit | Component | MembersList', (hooks) => {
         // given
         component.isRemoveMemberModalOpen = true;
         component.removingMember = store.createRecord('member', {
-          id: 1,
+          id: '1',
           firstName: 'Jean',
           lastName: 'Tourloupe',
           role: 'MEMBER',
@@ -180,7 +180,7 @@ module('Unit | Component | MembersList', (hooks) => {
 
       hooks.beforeEach(function () {
         member = store.createRecord('member', {
-          id: 1,
+          id: '1',
           firstName: 'Matt',
           lastName: 'Ador',
           role: 'MEMBER',
@@ -243,7 +243,7 @@ module('Unit | Component | MembersList', (hooks) => {
       test('sets "isRemoveMemberModalOpen" value to "true"', function (assert) {
         // given
         const member = store.createRecord('member', {
-          id: 1,
+          id: '1',
           firstName: 'Jean',
           lastName: 'Tourloupe',
           role: 'MEMBER',
