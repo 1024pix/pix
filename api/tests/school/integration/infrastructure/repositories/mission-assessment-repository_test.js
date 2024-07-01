@@ -162,5 +162,18 @@ describe('Integration | Repository | mission-assessment-repository', function ()
         [organizationLearnerWithStartedAssessment.id, 'started', startedMissionAssessment.assessmentId],
       ]);
     });
+
+    it('should return empty array when there is no learners', async function () {
+      const missionId = 1;
+      const results = await missionAssessmentRepository.getStatusesForLearners(
+        missionId,
+        [],
+        (learner, status, assessmentId) => {
+          return [learner.id, status, assessmentId];
+        },
+      );
+
+      expect(results).to.deep.equal([]);
+    });
   });
 });

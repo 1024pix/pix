@@ -1,7 +1,8 @@
 import { Organization } from '../../../../../lib/domain/models/index.js';
+import { Division } from '../../../../../src/school/domain/models/Division.js';
 import { School } from '../../../../../src/school/domain/models/School.js';
 import { SchoolNotFoundError } from '../../../../../src/school/domain/school-errors.js';
-import * as schoolRepository from '../../../../../src/school/infrastructure/repositories/school-repository.js';
+import { repositories } from '../../../../../src/school/infrastructure/repositories/index.js';
 import { catchErr, databaseBuilder, expect, knex } from '../../../../test-helper.js';
 
 describe('Integration | Repository | School', function () {
@@ -12,7 +13,7 @@ describe('Integration | Repository | School', function () {
       await databaseBuilder.commit();
 
       // when
-      await schoolRepository.save({ organizationId: organization.id, code: 'HAPPYY123' });
+      await repositories.schoolRepository.save({ organizationId: organization.id, code: 'HAPPYY123' });
 
       // then
       const savedSchool = await knex('schools').first();
@@ -30,7 +31,7 @@ describe('Integration | Repository | School', function () {
 
       const expectedSchool = new School({ name: 'École des fans', id: organization.id, code: 'HAPPYY123' });
       // when
-      const result = await schoolRepository.getByCode('HAPPYY123');
+      const result = await repositories.schoolRepository.getByCode({ code: 'HAPPYY123' });
 
       // then
       expect(result).to.deep.equal(expectedSchool);
@@ -43,7 +44,7 @@ describe('Integration | Repository | School', function () {
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(schoolRepository.getByCode)('NOTHAPPY');
+      const error = await catchErr(repositories.schoolRepository.getByCode)({ code: 'NOTHAPPY' });
 
       // then
       expect(error).to.be.an.instanceof(SchoolNotFoundError);
@@ -59,7 +60,7 @@ describe('Integration | Repository | School', function () {
 
     it('should resolve true if the code is available', async function () {
       // when
-      const isCodeAvailable = await schoolRepository.isCodeAvailable('FRANCE998');
+      const isCodeAvailable = await repositories.schoolRepository.isCodeAvailable({ code: 'FRANCE998' });
 
       // then
       expect(isCodeAvailable).to.be.true;
@@ -67,7 +68,7 @@ describe('Integration | Repository | School', function () {
 
     it('should resolve false if the code is not available', async function () {
       // when
-      const isCodeAvailable = await schoolRepository.isCodeAvailable('BADOIT710');
+      const isCodeAvailable = await repositories.schoolRepository.isCodeAvailable({ code: 'BADOIT710' });
 
       // then
       expect(isCodeAvailable).to.be.false;
@@ -82,7 +83,7 @@ describe('Integration | Repository | School', function () {
       await databaseBuilder.commit();
 
       // when
-      const code = await schoolRepository.getById(organizationId);
+      const code = await repositories.schoolRepository.getById({ organizationId });
 
       // then
       expect(code).to.equal('BADOIT710');
@@ -98,12 +99,53 @@ describe('Integration | Repository | School', function () {
       const sessionExpirationDate = new Date();
 
       // when
-      await schoolRepository.updateSessionExpirationDate(organizationId, sessionExpirationDate);
+      await repositories.schoolRepository.updateSessionExpirationDate({ organizationId, sessionExpirationDate });
 
       // then
       const school = await knex('schools').first();
 
       expect(school.sessionExpirationDate).to.deep.equal(sessionExpirationDate);
+    });
+  });
+
+  describe('#getDivisions', function () {
+    it('returns all divisions of organization in alphabetical order', async function () {
+      databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
+        division: 'CM1-B',
+      });
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
+        organizationId,
+        division: 'CM2',
+      });
+      databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
+        organizationId,
+        division: 'CM1-A',
+      });
+      databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
+        organizationId,
+        division: 'CM2',
+      });
+
+      await databaseBuilder.commit();
+
+      const divisions = await repositories.schoolRepository.getDivisions({
+        organizationId,
+      });
+
+      expect(divisions).to.deep.equal([new Division({ name: 'CM1-A' }), new Division({ name: 'CM2' })]);
+    });
+
+    it('should return empty array when there is no learners in the organization', async function () {
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+
+      await databaseBuilder.commit();
+
+      const divisions = await repositories.schoolRepository.getDivisions({
+        organizationId,
+      });
+
+      expect(divisions).to.be.empty;
     });
   });
 });

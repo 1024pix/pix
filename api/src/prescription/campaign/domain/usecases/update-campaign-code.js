@@ -8,7 +8,7 @@ const updateCampaignCode = async function ({ campaignId, campaignCode, campaignA
 
   campaign.updateFields({ code: campaignCode });
 
-  const isCodeAvailable = await campaignAdministrationRepository.isCodeAvailable(campaignCode);
+  const isCodeAvailable = await campaignAdministrationRepository.isCodeAvailable({ code: campaignCode });
   if (!isCodeAvailable) {
     throw new CampaignUniqueCodeError();
   }

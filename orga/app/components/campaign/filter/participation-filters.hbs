@@ -1,10 +1,10 @@
 {{#if this.displayFilters}}
   <PixFilterBanner
-    @title={{t "pages.campaign-results.filters.title"}}
+    @title={{t "common.filters.title"}}
     class="participant-filter-banner hide-on-mobile"
     aria-label={{t "pages.campaign-results.filters.aria-label"}}
     @details={{t "pages.campaign-results.filters.participations-count" count=@rowCount}}
-    @clearFiltersLabel={{t "pages.campaign-results.filters.actions.clear"}}
+    @clearFiltersLabel={{t "common.filters.actions.clear"}}
     @onClearFilters={{@onResetFilter}}
     @isClearFilterButtonDisabled={{this.isClearFiltersButtonDisabled}}
   >

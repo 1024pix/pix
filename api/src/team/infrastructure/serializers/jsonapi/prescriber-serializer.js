@@ -1,5 +1,7 @@
 import jsonapiSerializer from 'jsonapi-serializer';
 
+import { Organization } from '../../../../organizational-entities/domain/models/Organization.js';
+
 const { Serializer } = jsonapiSerializer;
 
 /**
@@ -111,6 +113,9 @@ const serialize = function (prescriber) {
           nullIfMissing: true,
           relationshipLinks: {
             related(record, current, parent) {
+              if (parent.attributes.type === Organization.types.SCO1D) {
+                return `/api/pix1d/schools/${parent.id}/divisions`;
+              }
               return `/api/organizations/${parent.id}/divisions`;
             },
           },

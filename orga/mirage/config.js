@@ -503,6 +503,10 @@ function routes() {
     return schema.divisions.all();
   });
 
+  this.get('/pix1d/schools/:id/divisions', (schema, _) => {
+    return schema.divisions.all();
+  });
+
   this.post('/memberships/:id/disable', (schema, request) => {
     const membershipId = request.params.id;
 

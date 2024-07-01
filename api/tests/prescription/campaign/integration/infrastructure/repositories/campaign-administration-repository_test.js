@@ -15,7 +15,7 @@ describe('Integration | Repository | Campaign Administration', function () {
 
     it('should resolve true if the code is available', async function () {
       // when
-      const isCodeAvailable = await campaignAdministrationRepository.isCodeAvailable('FRANCE998');
+      const isCodeAvailable = await campaignAdministrationRepository.isCodeAvailable({ code: 'FRANCE998' });
 
       // then
       expect(isCodeAvailable).to.be.true;
@@ -23,7 +23,7 @@ describe('Integration | Repository | Campaign Administration', function () {
 
     it('should resolve false if the code is not available', async function () {
       // when
-      const isCodeAvailable = await campaignAdministrationRepository.isCodeAvailable('BADOIT710');
+      const isCodeAvailable = await campaignAdministrationRepository.isCodeAvailable({ code: 'BADOIT710' });
 
       // then
       expect(isCodeAvailable).to.be.false;

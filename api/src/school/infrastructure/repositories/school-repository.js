@@ -1,5 +1,6 @@
 import { knex } from '../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import { Division } from '../../domain/models/Division.js';
 import { School } from '../../domain/models/School.js';
 import { SchoolNotFoundError } from '../../domain/school-errors.js';
 
@@ -8,11 +9,11 @@ const save = async function ({ organizationId, code, domainTransaction = DomainT
   await knexConn('schools').insert({ organizationId, code }).returning('*');
 };
 
-const isCodeAvailable = async function (code) {
+const isCodeAvailable = async function ({ code }) {
   return !(await knex('schools').first('id').where({ code }));
 };
 
-const getByCode = async function (code) {
+const getByCode = async function ({ code }) {
   const data = await knex('schools')
     .select('organizations.id', 'name', 'code')
     .join('organizations', 'organizations.id', 'organizationId')
@@ -26,12 +27,21 @@ const getByCode = async function (code) {
   return new School(data);
 };
 
-const getById = async function (organizationId) {
+const getById = async function ({ organizationId }) {
   const result = await knex('schools').first('code').where({ organizationId });
   return result.code;
 };
 
-const updateSessionExpirationDate = async function (organizationId, sessionExpirationDate) {
+const updateSessionExpirationDate = async function ({ organizationId, sessionExpirationDate }) {
   await knex('schools').where({ organizationId }).update({ sessionExpirationDate });
 };
-export { getByCode, getById, isCodeAvailable, save, updateSessionExpirationDate };
+
+const getDivisions = async function ({ organizationId, organizationLearnerApi }) {
+  const { organizationLearners } = await organizationLearnerApi.find({
+    organizationId,
+  });
+  const divisionLearners = organizationLearners.map((organizationLearner) => organizationLearner.division);
+  return [...new Set(divisionLearners)].sort().map((divisionName) => new Division({ name: divisionName }));
+};
+
+export { getByCode, getById, getDivisions, isCodeAvailable, save, updateSessionExpirationDate };

@@ -1001,7 +1001,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
       // when
       const resetButton = await screen.findByRole('button', {
-        name: this.intl.t('pages.organization-participants.filters.actions.clear'),
+        name: this.intl.t('common.filters.actions.clear'),
       });
       await click(resetButton);
 

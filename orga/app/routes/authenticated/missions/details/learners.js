@@ -8,6 +8,7 @@ export default class MissionLearnersRoute extends Route {
   @service store;
 
   queryParams = {
+    divisions: { refreshModel: true },
     pageNumber: {
       refreshModel: true,
     },
@@ -20,16 +21,21 @@ export default class MissionLearnersRoute extends Route {
     if (isExiting) {
       controller.pageNumber = 1;
       controller.pageSize = 25;
+      controller.divisions = undefined;
     }
   }
+
   model(params) {
-    const organizationId = this.currentUser.organization.id;
+    const organization = this.currentUser.organization;
     const missionModel = this.modelFor('authenticated.missions.details');
     const missionLearners = this.store.query(
       'mission-learner',
       {
-        organizationId,
+        organizationId: organization.id,
         missionId: missionModel.mission.id,
+        filter: {
+          divisions: params.divisions,
+        },
         page: {
           number: params.pageNumber,
           size: params.pageSize,
@@ -37,6 +43,6 @@ export default class MissionLearnersRoute extends Route {
       },
       { reload: true },
     );
-    return RSVP.hash({ missionLearners, mission: missionModel });
+    return RSVP.hash({ missionLearners, mission: missionModel, organization });
   }
 }

@@ -1,4 +1,5 @@
 import { schoolController } from '../../../../src/school/application/school-controller.js';
+import { Division } from '../../../../src/school/domain/models/Division.js';
 import { OrganizationLearner } from '../../../../src/school/domain/models/OrganizationLearner.js';
 import { School } from '../../../../src/school/domain/models/School.js';
 import { usecases } from '../../../../src/school/domain/usecases/index.js';
@@ -59,6 +60,73 @@ describe('Unit | Controller | school-controller', function () {
 
         expect(usecases.getSchoolByCode).to.have.been.calledWith({ code });
         expect(response).to.deep.equal(serializedSchool);
+      });
+    });
+  });
+
+  describe('#getDivision', function () {
+    context('if organization has divisions', function () {
+      it('should return the serialized divisions', async function () {
+        // given
+        const organizationId = 1;
+
+        sinon.stub(usecases, 'getDivisions');
+        usecases.getDivisions.resolves([
+          new Division({
+            name: 'CM1-A',
+          }),
+          new Division({
+            name: 'CM1-B',
+          }),
+          new Division({
+            name: 'CM1-C',
+          }),
+          new Division({
+            name: 'CM1-Z',
+          }),
+        ]);
+        // when
+
+        const request = {
+          params: { organizationId },
+        };
+        const response = await schoolController.getDivisions(request, hFake);
+        // Then
+        const serializedDivisions = {
+          data: [
+            {
+              id: 'CM1-A',
+              attributes: {
+                name: 'CM1-A',
+              },
+              type: 'divisions',
+            },
+            {
+              id: 'CM1-B',
+              attributes: {
+                name: 'CM1-B',
+              },
+              type: 'divisions',
+            },
+            {
+              id: 'CM1-C',
+              attributes: {
+                name: 'CM1-C',
+              },
+              type: 'divisions',
+            },
+            {
+              id: 'CM1-Z',
+              attributes: {
+                name: 'CM1-Z',
+              },
+              type: 'divisions',
+            },
+          ],
+        };
+
+        expect(usecases.getDivisions).to.have.been.calledWith({ organizationId });
+        expect(response).to.deep.equal(serializedDivisions);
       });
     });
   });

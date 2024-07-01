@@ -159,7 +159,7 @@ module('Acceptance | /campaigns/list/my-campaigns ', function (hooks) {
             // when
             await fillByLabel('Rechercher une campagne', 'ma super campagne');
             await clickByName(this.intl.t('pages.campaigns-list.action.campaign.label'));
-            await clickByName(this.intl.t('pages.campaigns-list.filter.clear'));
+            await clickByName(this.intl.t('common.filters.actions.clear'));
 
             //then
             assert.ok(screen.getByPlaceholderText(this.intl.t('pages.campaigns-list.filter.by-name')));

@@ -18,6 +18,10 @@ export default class Organization extends Model {
   @hasMany('group', { async: true, inverse: null }) groups;
   @hasMany('division', { async: true, inverse: null }) divisions;
 
+  get isSco1d() {
+    return this.type === 'SCO-1D';
+  }
+
   get isSco() {
     return this.type === 'SCO';
   }

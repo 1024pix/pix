@@ -185,6 +185,10 @@
     },
     "breadcrumb": "Breadcrumb",
     "filters": {
+      "title": "Filters",
+      "actions": {
+        "clear": "Clear filters"
+      },
       "divisions": {
         "empty": "No class",
         "label": "Search by classes",
@@ -530,10 +534,6 @@
       "title": "Results",
       "average": "Average results",
       "filters": {
-        "title": "Filters",
-        "actions": {
-          "clear": "Clear filters"
-        },
         "aria-label": "Filters on participations",
         "participations-count": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count} participants}}",
         "type": {
@@ -683,10 +683,8 @@
         "create": "Create a campaign"
       },
       "filter": {
-        "title": "Filters",
         "by-name": "Search for a campaign",
         "by-owner": "Search for an owner",
-        "clear": "Clear filters",
         "legend": "Filters for the campaigns table, input fields allow to filter the table by campaign name and/or by owner name. Buttons allow to switch between ongoing and archived campaigns.",
         "results": "{total, plural, =0 {0 campaigns} =1 {1 campaign} other {{total, number} campaigns}}"
       },
@@ -815,10 +813,14 @@
           "title": "Competence :"
         },
         "learners": {
-          "title": "List of participants",
+          "title": "List of students",
           "list": {
             "aria-label": "Student",
             "caption": "List of students with their result for the mission {missionName}",
+            "filters": {
+              "aria-label": "Filter on students",
+              "learners-count": "{count, plural, =0 {No student} =1 {1 student} other {{count} students}}"
+            },
             "headers": {
               "division": "Division",
               "first-name": "First name",
@@ -940,10 +942,6 @@
         "message": "No participants yet!"
       },
       "filters": {
-        "title": "Filters",
-        "actions": {
-          "clear": "Clear filters"
-        },
         "aria-label": "Filters on participants",
         "participations-count": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count} participants}}",
         "type": {
@@ -1142,10 +1140,6 @@
         "without-mediacentre": "Without Mediacentre"
       },
       "filter": {
-        "title": "Filters",
-        "actions": {
-          "clear": "Clear filters"
-        },
         "aria-label": "Filters on students",
         "certificability": {
           "label": "Search by certificability",
@@ -1305,10 +1299,6 @@
         "no-participants-action": "The administrator must import the students database by clicking on the import button."
       },
       "filter": {
-        "title": "Filters",
-        "actions": {
-          "clear": "Clear filters"
-        },
         "aria-label": "Filters on students",
         "certificability": {
           "label": "Search by certificability",

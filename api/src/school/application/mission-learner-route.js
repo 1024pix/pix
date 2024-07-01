@@ -22,6 +22,7 @@ const register = async function (server) {
           query: Joi.object({
             'page[number]': Joi.number().integer().empty(''),
             'page[size]': Joi.number().integer().empty(''),
+            'filter[divisions][]': [Joi.string(), Joi.array().items(Joi.string())],
           }),
         },
         handler: missionLearnerController.findPaginatedMissionLearners,

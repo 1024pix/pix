@@ -9,7 +9,11 @@ export default class MissionLearnersController extends Controller {
   @service router;
   @tracked pageNumber = DEFAULT_PAGE_NUMBER;
   @tracked pageSize = 25;
+  @tracked divisions = [];
 
+  get learnersCount() {
+    return this.model.missionLearners.meta.rowCount;
+  }
   @action
   clearFilters() {
     this.pageNumber = null;
@@ -21,5 +25,21 @@ export default class MissionLearnersController extends Controller {
       completed: 'success',
       started: 'secondary',
     }[status];
+  }
+
+  @action
+  onSelectDivisions(divisions) {
+    this.divisions = divisions;
+    this.pageNumber = null;
+  }
+
+  @action
+  onResetFilter() {
+    this.divisions = [];
+  }
+
+  @action
+  refresh() {
+    this.send('refreshModel');
   }
 }

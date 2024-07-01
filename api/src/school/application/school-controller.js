@@ -1,3 +1,4 @@
+import * as divisionSerializer from '../../prescription/campaign/infrastructure/serializers/jsonapi/division-serializer.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as schoolSerializer from '../infrastructure/serializers/school-serializer.js';
 
@@ -13,5 +14,11 @@ const activateSchoolSession = async function (request, h) {
   return h.response().code(204);
 };
 
-const schoolController = { getSchool, activateSchoolSession };
+const getDivisions = async function (request) {
+  const { organizationId } = request.params;
+  const divisions = await usecases.getDivisions({ organizationId });
+  return divisionSerializer.serialize(divisions);
+};
+
+const schoolController = { getSchool, activateSchoolSession, getDivisions };
 export { schoolController };

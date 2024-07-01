@@ -231,7 +231,7 @@ module('Acceptance | campaigns/all-campaigns', function (hooks) {
           await fillByLabel('Rechercher une campagne', campaignName1);
           await fillByLabel('Rechercher un propriétaire', owner.firstName);
           await clickByName(this.intl.t('pages.campaigns-list.action.campaign.label'));
-          await clickByName(this.intl.t('pages.campaigns-list.filter.clear'));
+          await clickByName(this.intl.t('common.filters.actions.clear'));
 
           //then
           assert.ok(screen.getByLabelText(this.intl.t('pages.campaigns-list.filter.by-owner')));
