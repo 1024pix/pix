@@ -17,8 +17,12 @@ import CampaignFilters from './filter/campaign-filters';
 export default class List extends Component {
   @service intl;
 
+  get listOnlyCampaignsOfCurrentUser() {
+    return this.args.listOnlyCampaignsOfCurrentUser ?? false;
+  }
+
   get caption() {
-    if (this.args.allCampaignsContext) {
+    if (!this.listOnlyCampaignsOfCurrentUser) {
       return this.intl.t('pages.campaigns-list.table.description-all-campaigns');
     } else {
       return this.intl.t('pages.campaigns-list.table.description-my-campaigns');
@@ -46,7 +50,7 @@ export default class List extends Component {
         @onFilter={{@onFilter}}
         @onClearFilters={{@onClear}}
         @numResults={{@campaigns.meta.rowCount}}
-        @listOnlyCampaignsOfCurrentUser={{@listOnlyCampaignsOfCurrentUser}}
+        @listOnlyCampaignsOfCurrentUser={{this.listOnlyCampaignsOfCurrentUser}}
       />
 
       <div class="panel">
@@ -55,7 +59,7 @@ export default class List extends Component {
           <colgroup class="table__column">
             <col class="table__column--wide" />
             <col class="table__column--small" />
-            {{#unless @listOnlyCampaignsOfCurrentUser}}
+            {{#unless this.listOnlyCampaignsOfCurrentUser}}
               <col class="table__column--small hide-on-mobile" />
             {{/unless}}
             <col class="table__column--small hide-on-mobile" />
@@ -66,7 +70,7 @@ export default class List extends Component {
             <tr>
               <TableHeader>{{t "pages.campaigns-list.table.column.name"}}</TableHeader>
               <TableHeader>{{t "pages.campaigns-list.table.column.code"}}</TableHeader>
-              {{#unless @listOnlyCampaignsOfCurrentUser}}
+              {{#unless this.listOnlyCampaignsOfCurrentUser}}
                 <TableHeader class="hide-on-mobile">{{t "pages.campaigns-list.table.column.created-by"}}</TableHeader>
               {{/unless}}
               <TableHeader class="hide-on-mobile">{{t "pages.campaigns-list.table.column.created-on"}}</TableHeader>
@@ -88,7 +92,7 @@ export default class List extends Component {
                     </span>
                   </td>
                   <td class="table__column--small" {{on "click" this.stopPropagation}}>{{campaign.code}}</td>
-                  {{#unless @listOnlyCampaignsOfCurrentUser}}
+                  {{#unless this.listOnlyCampaignsOfCurrentUser}}
                     <td class="hide-on-mobile">{{campaign.ownerFullName}}</td>
                   {{/unless}}
                   <td class="hide-on-mobile">{{dayjsFormat campaign.createdAt "DD/MM/YYYY" allow-empty=true}}</td>

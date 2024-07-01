@@ -324,7 +324,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
   @campaigns={{this.campaigns}}
   @onFilter={{this.noop}}
   @onClickCampaign={{this.noop}}
-  @allCampaignsContext={{false}}
+  @listOnlyCampaignsOfCurrentUser={{true}}
 />`,
       );
 
@@ -340,12 +340,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<Campaign::List
-  @campaigns={{this.campaigns}}
-  @onFilter={{this.noop}}
-  @onClickCampaign={{this.noop}}
-  @allCampaignsContext={{true}}
-/>`,
+        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`,
       );
 
       // then
