@@ -35,7 +35,7 @@ const register = async (server) => {
         ],
         validate: {
           payload: Joi.object({
-            warmUpLength: Joi.number().integer().min(0).optional(),
+            warmUpLength: Joi.number().integer().min(0).allow(null).optional(),
             forcedCompetences: Joi.array().items(Joi.string()).optional(),
             maximumAssessmentLength: Joi.number().integer().min(0).allow(null).optional(),
             challengesBetweenSameCompetence: Joi.number().integer().min(0).allow(null).optional(),
