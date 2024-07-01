@@ -11,6 +11,12 @@ export default class CampaignAdapter extends ApplicationAdapter {
     return super.urlForQuery(...arguments);
   }
 
+  delete(organizationId, ids) {
+    const url = `${this.host}/${this.namespace}/organizations/${organizationId}/campaigns`;
+    const payload = { data: ids.map((id) => ({ type: 'campaign', id })) };
+    return this.ajax(url, 'DELETE', { data: payload });
+  }
+
   archive(model) {
     const url = this.buildURL('campaign', model.id) + '/archive';
     return this.ajax(url, 'PUT');

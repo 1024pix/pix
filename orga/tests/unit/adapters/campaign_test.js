@@ -17,6 +17,28 @@ module('Unit | Adapter | campaign', function (hooks) {
     adapter.set('ajax', ajaxStub);
   });
 
+  module('#delete', () => {
+    test('should call campaigns deletion endpoint', async function (assert) {
+      // given
+      const organizationId = 1;
+      const campaign1Id = 2;
+      const campaign2Id = 3;
+
+      // when
+      adapter.delete(organizationId, [campaign1Id, campaign2Id]);
+
+      // then
+      const url = `${ENV.APP.API_HOST}/api/organizations/${organizationId}/campaigns`;
+      const expectedData = {
+        data: [
+          { id: campaign1Id, type: 'campaign' },
+          { id: campaign2Id, type: 'campaign' },
+        ],
+      };
+      assert.ok(ajaxStub.calledWithExactly(url, 'DELETE', { data: expectedData }));
+    });
+  });
+
   module('archive', function () {
     test('it should send a PUT request with a proper url', async function (assert) {
       // when
