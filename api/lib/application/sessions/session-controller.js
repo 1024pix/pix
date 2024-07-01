@@ -7,7 +7,6 @@ import * as jurySessionRepository from '../../../src/certification/session-manag
 import * as sessionManagementSerializer from '../../../src/certification/session-management/infrastructure/serializers/session-serializer.js';
 import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
-import * as queryParamsUtils from '../../../src/shared/infrastructure/utils/query-params-utils.js';
 import * as requestResponseUtils from '../../../src/shared/infrastructure/utils/request-response-utils.js';
 import { UserLinkedToCertificationCandidate } from '../../domain/events/UserLinkedToCertificationCandidate.js';
 import * as sessionResultsLinkService from '../../domain/services/session-results-link-service.js';
@@ -25,13 +24,12 @@ const findPaginatedFilteredJurySessions = async function (
   request,
   h,
   dependencies = {
-    queryParamsUtils,
     jurySessionRepository,
     jurySessionSerializer,
     sessionValidator,
   },
 ) {
-  const { filter, page } = dependencies.queryParamsUtils.extractParameters(request.query);
+  const { filter, page } = request.query;
   const normalizedFilters = dependencies.sessionValidator.validateAndNormalizeFilters(filter);
   const jurySessionsForPaginatedList = await dependencies.jurySessionRepository.findPaginatedFiltered({
     filters: normalizedFilters,
@@ -76,13 +74,12 @@ const getJuryCertificationSummaries = async function (
   request,
   h,
   dependencies = {
-    queryParamsUtils,
     juryCertificationSummaryRepository,
     juryCertificationSummarySerializer,
   },
 ) {
   const sessionId = request.params.id;
-  const { page } = dependencies.queryParamsUtils.extractParameters(request.query);
+  const { page } = request.query;
 
   const { juryCertificationSummaries, pagination } =
     await dependencies.juryCertificationSummaryRepository.findBySessionIdPaginated({

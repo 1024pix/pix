@@ -17,6 +17,7 @@ describe('Unit | Controller | finalized-session', function () {
             userId,
           },
         },
+        query: { filter: {} },
       };
     });
 
@@ -47,7 +48,7 @@ describe('Unit | Controller | finalized-session', function () {
           request = {
             payload: {},
             query: {
-              'filter[version]': version,
+              filter: { version },
             },
             auth: {
               credentials: {
@@ -90,6 +91,7 @@ describe('Unit | Controller | finalized-session', function () {
               userId,
             },
           },
+          query: { filter: {} },
         };
 
         const foundFinalizedSessions = Symbol('foundSession');
@@ -119,7 +121,7 @@ describe('Unit | Controller | finalized-session', function () {
           request = {
             payload: {},
             query: {
-              'filter[version]': version,
+              filter: { version },
             },
             auth: {
               credentials: {
