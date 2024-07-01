@@ -27,7 +27,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | ElementForVerification',
         };
 
         // when
-        const error = catchErrSync(ElementForVerificationFactory.toDomain)(dataWithMissingSolutionForQCU);
+        const error = catchErrSync(ElementForVerificationFactory.build)(dataWithMissingSolutionForQCU);
 
         // then
         expect(error).to.be.an.instanceOf(ElementInstantiationError);
@@ -52,7 +52,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | ElementForVerification',
           sinon.stub(logger, 'warn').returns();
 
           // when
-          ElementForVerificationFactory.toDomain(elementData);
+          ElementForVerificationFactory.build(elementData);
 
           // then
           expect(logger.warn).to.have.been.calledWithExactly({
@@ -82,7 +82,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | ElementForVerification',
       };
 
       // when
-      const element = ElementForVerificationFactory.toDomain(elementData);
+      const element = ElementForVerificationFactory.build(elementData);
 
       // then
       expect(element).to.be.an.instanceOf(QCUForAnswerVerification);
@@ -124,7 +124,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | ElementForVerification',
       };
 
       // when
-      const element = ElementForVerificationFactory.toDomain(elementData);
+      const element = ElementForVerificationFactory.build(elementData);
 
       // then
       expect(element).to.be.an.instanceOf(QCMForAnswerVerification);
@@ -182,7 +182,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | ElementForVerification',
       };
 
       // when
-      const element = ElementForVerificationFactory.toDomain(elementData);
+      const element = ElementForVerificationFactory.build(elementData);
 
       // then
       expect(element).to.be.an.instanceOf(QROCMForAnswerVerification);

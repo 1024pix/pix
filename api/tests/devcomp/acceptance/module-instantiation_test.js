@@ -10,7 +10,7 @@ describe('Acceptance | Modules', function () {
     modules.forEach((module) => {
       it(`module ${module.slug} should respect the correct structure`, function () {
         try {
-          ModuleFactory.toDomain(module, { isForReferentialValidation: true });
+          ModuleFactory.build(module, { isForReferentialValidation: true });
         } catch (e) {
           expect.fail(e.message);
         }

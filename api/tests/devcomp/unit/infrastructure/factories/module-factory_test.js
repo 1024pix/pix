@@ -55,7 +55,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
         };
 
         // when
-        const error = catchErrSync(ModuleFactory.toDomain)(dataWithIncorrectTransitionText);
+        const error = catchErrSync(ModuleFactory.build)(dataWithIncorrectTransitionText);
 
         // then
         expect(error).to.be.an.instanceOf(ModuleInstantiationError);
@@ -101,7 +101,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
           sinon.stub(logger, 'warn').returns();
 
           // when
-          ModuleFactory.toDomain(moduleData);
+          ModuleFactory.build(moduleData);
 
           // then
           expect(logger.warn).to.have.been.calledWithExactly({
@@ -148,7 +148,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
           sinon.stub(logger, 'warn').returns();
 
           // when
-          ModuleFactory.toDomain(moduleData);
+          ModuleFactory.build(moduleData);
 
           // then
           expect(logger.warn).to.have.been.calledWithExactly({
@@ -205,7 +205,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
           sinon.stub(logger, 'warn').returns();
 
           // when
-          ModuleFactory.toDomain(moduleData);
+          ModuleFactory.build(moduleData);
 
           // then
           expect(logger.warn).to.have.been.calledWithExactly('Type de proposal inconnu: unknown');
@@ -248,7 +248,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
       };
 
       // when
-      const module = ModuleFactory.toDomain(moduleData);
+      const module = ModuleFactory.build(moduleData);
 
       // then
       expect(module).to.be.an.instanceOf(Module);
@@ -294,7 +294,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
         };
 
         // when
-        const module = ModuleFactory.toDomain(moduleData);
+        const module = ModuleFactory.build(moduleData);
 
         // then
         expect(module.grains[0].components[0].element).to.be.an.instanceOf(Image);
@@ -333,7 +333,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
         };
 
         // when
-        const module = ModuleFactory.toDomain(moduleData);
+        const module = ModuleFactory.build(moduleData);
 
         // then
         expect(module.grains[0].components[0].element).to.be.an.instanceOf(Text);
@@ -375,7 +375,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
         };
 
         // when
-        const module = ModuleFactory.toDomain(moduleData);
+        const module = ModuleFactory.build(moduleData);
 
         // then
         expect(module.grains[0].components[0].element).to.be.an.instanceOf(Video);
@@ -431,7 +431,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
         };
 
         // when
-        const module = ModuleFactory.toDomain(moduleData);
+        const module = ModuleFactory.build(moduleData);
 
         // then
         expect(module.grains[0].components[0].element).to.be.an.instanceOf(QCU);
@@ -497,7 +497,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
         };
 
         // when
-        const module = ModuleFactory.toDomain(moduleData);
+        const module = ModuleFactory.build(moduleData);
 
         // then
         expect(module.grains[0].components[0].element).to.be.an.instanceOf(QCM);
@@ -579,7 +579,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
         };
 
         // when
-        const module = ModuleFactory.toDomain(moduleData);
+        const module = ModuleFactory.build(moduleData);
 
         // then
         expect(module.grains[0].components[0].element).to.be.an.instanceOf(QROCM);
@@ -628,7 +628,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
         };
 
         // when
-        const module = ModuleFactory.toDomain(moduleData);
+        const module = ModuleFactory.build(moduleData);
 
         // then
         expect(module.grains[0].components[0]).to.be.an.instanceOf(ComponentStepper);
@@ -675,7 +675,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
         };
 
         // when
-        const module = ModuleFactory.toDomain(moduleData);
+        const module = ModuleFactory.build(moduleData);
 
         // then
         expect(module.grains[0].components[0]).to.be.an.instanceOf(ComponentStepper);
@@ -726,7 +726,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
         };
 
         // when
-        const module = ModuleFactory.toDomain(moduleData);
+        const module = ModuleFactory.build(moduleData);
 
         // then
         expect(module.grains[0].components[0]).to.be.an.instanceOf(ComponentStepper);
@@ -789,7 +789,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
         };
 
         // when
-        const module = ModuleFactory.toDomain(moduleData);
+        const module = ModuleFactory.build(moduleData);
 
         // then
         expect(module.grains[0].components[0]).to.be.an.instanceOf(ComponentStepper);
@@ -864,7 +864,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
         };
 
         // when
-        const module = ModuleFactory.toDomain(moduleData);
+        const module = ModuleFactory.build(moduleData);
 
         // then
         expect(module.grains[0].components[0]).to.be.an.instanceOf(ComponentStepper);
@@ -950,7 +950,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
         };
 
         // when
-        const module = ModuleFactory.toDomain(moduleData);
+        const module = ModuleFactory.build(moduleData);
 
         // then
         expect(module.grains[0].components[0]).to.be.an.instanceOf(ComponentStepper);
@@ -1002,7 +1002,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
         };
 
         // when
-        const module = ModuleFactory.toDomain(moduleData);
+        const module = ModuleFactory.build(moduleData);
 
         // then
         expect(module.grains[0].components[0]).to.be.an.instanceOf(ComponentStepper);
@@ -1059,7 +1059,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
         };
 
         // when
-        const error = catchErrSync(ModuleFactory.toDomain)(moduleData);
+        const error = catchErrSync(ModuleFactory.build)(moduleData);
 
         // then
         expect(error).to.be.an.instanceOf(ModuleInstantiationError);
@@ -1105,7 +1105,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
         };
 
         // when
-        const error = catchErrSync(ModuleFactory.toDomain)(moduleData);
+        const error = catchErrSync(ModuleFactory.build)(moduleData);
 
         // then
         expect(error).to.be.an.instanceOf(ModuleInstantiationError);
@@ -1154,7 +1154,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
       };
 
       // when
-      const module = ModuleFactory.toDomain(moduleData);
+      const module = ModuleFactory.build(moduleData);
 
       // then
       expect(module).to.be.an.instanceOf(Module);
@@ -1204,7 +1204,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
       };
 
       // when
-      const module = ModuleFactory.toDomain(moduleData);
+      const module = ModuleFactory.build(moduleData);
 
       // then
       expect(module).to.be.an.instanceOf(Module);
@@ -1254,7 +1254,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
         };
 
         // when
-        const error = catchErrSync(ModuleFactory.toDomain)(dataWithIncorrectTransitionText, {
+        const error = catchErrSync(ModuleFactory.build)(dataWithIncorrectTransitionText, {
           isForReferentialValidation: true,
         });
 
@@ -1300,7 +1300,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
         };
 
         // when / then
-        expect(() => ModuleFactory.toDomain(moduleData, { isForReferentialValidation: true })).not.to.throw();
+        expect(() => ModuleFactory.build(moduleData, { isForReferentialValidation: true })).not.to.throw();
       });
     });
   });

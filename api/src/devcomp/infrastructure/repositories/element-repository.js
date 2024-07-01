@@ -30,7 +30,7 @@ async function getByIdForAnswerVerification({ moduleId, elementId, moduleDatasou
     throw new NotFoundError();
   }
 
-  return ElementForVerificationFactory.toDomain(foundElement);
+  return ElementForVerificationFactory.build(foundElement);
 }
 
 export { getByIdForAnswerVerification };

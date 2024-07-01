@@ -22,7 +22,7 @@ import { TransitionText } from '../../domain/models/TransitionText.js';
 import { ElementForVerificationFactory } from './element-for-verification-factory.js';
 
 export class ModuleFactory {
-  static toDomain(moduleData, options = { isForReferentialValidation: false }) {
+  static build(moduleData, options = { isForReferentialValidation: false }) {
     try {
       const { isForReferentialValidation } = options;
 
@@ -41,7 +41,7 @@ export class ModuleFactory {
               .map((component) => {
                 switch (component.type) {
                   case 'element': {
-                    const element = ModuleFactory.#mapElement(component.element, isForReferentialValidation);
+                    const element = ModuleFactory.#buildElement(component.element, isForReferentialValidation);
                     if (element) {
                       return new ComponentElement({ element });
                     } else {
@@ -54,7 +54,7 @@ export class ModuleFactory {
                         return new Step({
                           elements: step.elements
                             .map((element) => {
-                              const domainElement = ModuleFactory.#mapElement(element, isForReferentialValidation);
+                              const domainElement = ModuleFactory.#buildElement(element, isForReferentialValidation);
                               if (domainElement) {
                                 return domainElement;
                               } else {
@@ -82,26 +82,26 @@ export class ModuleFactory {
     }
   }
 
-  static #mapElement(element, isForReferentialValidation) {
+  static #buildElement(element, isForReferentialValidation) {
     switch (element.type) {
       case 'image':
-        return ModuleFactory.#toImageDomain(element);
+        return ModuleFactory.#buildImage(element);
       case 'text':
-        return ModuleFactory.#toTextDomain(element);
+        return ModuleFactory.#buildText(element);
       case 'qcm':
         return isForReferentialValidation
-          ? ElementForVerificationFactory.toDomain(element)
-          : ModuleFactory.#toQCMDomain(element);
+          ? ElementForVerificationFactory.build(element)
+          : ModuleFactory.#buildQCM(element);
       case 'qcu':
         return isForReferentialValidation
-          ? ElementForVerificationFactory.toDomain(element)
-          : ModuleFactory.#toQCUDomain(element);
+          ? ElementForVerificationFactory.build(element)
+          : ModuleFactory.#buildQCU(element);
       case 'qrocm':
         return isForReferentialValidation
-          ? ElementForVerificationFactory.toDomain(element)
-          : ModuleFactory.#toQROCMDomain(element);
+          ? ElementForVerificationFactory.build(element)
+          : ModuleFactory.#buildQROCM(element);
       case 'video':
-        return ModuleFactory.#toVideoDomain(element);
+        return ModuleFactory.#buildVideo(element);
       default:
         logger.warn({
           event: 'module_element_type_unknown',
@@ -111,14 +111,14 @@ export class ModuleFactory {
     }
   }
 
-  static #toTextDomain(element) {
+  static #buildText(element) {
     return new Text({
       id: element.id,
       content: element.content,
     });
   }
 
-  static #toImageDomain(element) {
+  static #buildImage(element) {
     return new Image({
       id: element.id,
       url: element.url,
@@ -127,7 +127,7 @@ export class ModuleFactory {
     });
   }
 
-  static #toVideoDomain(element) {
+  static #buildVideo(element) {
     return new Video({
       id: element.id,
       title: element.title,
@@ -137,7 +137,7 @@ export class ModuleFactory {
     });
   }
 
-  static #toQCUDomain(element) {
+  static #buildQCU(element) {
     return new QCU({
       id: element.id,
       instruction: element.instruction,
@@ -151,7 +151,7 @@ export class ModuleFactory {
     });
   }
 
-  static #toQCMDomain(element) {
+  static #buildQCM(element) {
     return new QCM({
       id: element.id,
       instruction: element.instruction,
@@ -165,7 +165,7 @@ export class ModuleFactory {
     });
   }
 
-  static #toQROCMDomain(element) {
+  static #buildQROCM(element) {
     return new QROCM({
       id: element.id,
       instruction: element.instruction,

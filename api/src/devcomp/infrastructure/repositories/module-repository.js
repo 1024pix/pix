@@ -6,7 +6,7 @@ async function getBySlug({ slug, moduleDatasource }) {
   try {
     const moduleData = await moduleDatasource.getBySlug(slug);
 
-    return ModuleFactory.toDomain(moduleData);
+    return ModuleFactory.build(moduleData);
   } catch (e) {
     if (e instanceof LearningContentResourceNotFound) {
       throw new NotFoundError();

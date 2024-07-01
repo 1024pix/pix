@@ -7,15 +7,15 @@ import { QcmProposal } from '../../domain/models/QcmProposal.js';
 import { QcuProposal } from '../../domain/models/QcuProposal.js';
 
 export class ElementForVerificationFactory {
-  static toDomain(elementData) {
+  static build(elementData) {
     try {
       switch (elementData.type) {
         case 'qcm':
-          return ElementForVerificationFactory.#toQCMForAnswerVerificationDomain(elementData);
+          return ElementForVerificationFactory.#buildQCMForAnswerVerification(elementData);
         case 'qcu':
-          return ElementForVerificationFactory.#toQCUForAnswerVerificationDomain(elementData);
+          return ElementForVerificationFactory.#buildQCUForAnswerVerification(elementData);
         case 'qrocm':
-          return ElementForVerificationFactory.#toQROCMForAnswerVerificationDomain(elementData);
+          return ElementForVerificationFactory.#buildQROCMForAnswerVerification(elementData);
         default:
           logger.warn({
             event: 'module_element_type_not_handled_for_verification',
@@ -28,7 +28,7 @@ export class ElementForVerificationFactory {
     }
   }
 
-  static #toQCUForAnswerVerificationDomain(element) {
+  static #buildQCUForAnswerVerification(element) {
     return new QCUForAnswerVerification({
       id: element.id,
       instruction: element.instruction,
@@ -44,7 +44,7 @@ export class ElementForVerificationFactory {
     });
   }
 
-  static #toQCMForAnswerVerificationDomain(element) {
+  static #buildQCMForAnswerVerification(element) {
     return new QCMForAnswerVerification({
       id: element.id,
       instruction: element.instruction,
@@ -60,7 +60,7 @@ export class ElementForVerificationFactory {
     });
   }
 
-  static #toQROCMForAnswerVerificationDomain(element) {
+  static #buildQROCMForAnswerVerification(element) {
     return new QROCMForAnswerVerification({
       id: element.id,
       instruction: element.instruction,
