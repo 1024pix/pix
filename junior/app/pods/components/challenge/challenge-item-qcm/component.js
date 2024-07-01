@@ -23,8 +23,10 @@ export default class ChallengeItemQcm extends Component {
   checkboxClicked(checkboxName) {
     if (this.checkedValues.has(checkboxName)) {
       this.checkedValues.delete(checkboxName);
+      document.getElementsByName(checkboxName)[0].parentNode.classList.remove('pix-label--checked');
     } else {
       this.checkedValues.add(checkboxName);
+      document.getElementsByName(checkboxName)[0].parentNode.classList.add('pix-label--checked');
     }
     this.args.setAnswerValue(Array.from(this.checkedValues).join());
   }

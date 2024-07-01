@@ -3,7 +3,7 @@
   {{#each this.labeledCheckboxes as |labeledCheckbox|}}
     <PixCheckbox
       name="{{labeledCheckbox.value}}"
-      @class="pix1d-checkbox"
+      @class="pix1d-checkbox {{if @isDisabled 'pix1d-checkbox--disabled'}}"
       disabled={{@isDisabled}}
       checked={{labeledCheckbox.checked}}
       {{on "click" (fn this.checkboxClicked labeledCheckbox.value)}}
