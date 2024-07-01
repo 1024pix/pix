@@ -13,6 +13,23 @@ describe('Unit | Domain | Models | JuryComment', function () {
     translate = getI18n().__;
   });
 
+  describe('should create a jury comment', function () {
+    context('when context is INTERNAL_NOTE', function () {
+      it('should create an internal jury comment', function () {
+        // when
+        const juryComment = new JuryComment({
+          context: 'INTERNAL_NOTE',
+          fallbackComment: 'le candidat est génial',
+        });
+
+        const internalComment = juryComment.getComment();
+
+        // then
+        expect(internalComment).to.equal('le candidat est génial');
+      });
+    });
+  });
+
   describe('#getComment', function () {
     context('when there is an automatic jury comment', function () {
       it('expects a context', function () {
