@@ -1,5 +1,29 @@
 # Pix Changelog
 
+## v4.174.0 (01/07/2024)
+
+
+### :rocket: Amélioration
+- [#9277](https://github.com/1024pix/pix/pull/9277) [FEATURE] Permettre la duplication de profils cible dans admin (PIX-12949).
+- [#9410](https://github.com/1024pix/pix/pull/9410) [FEATURE] Afficher les résultats dernier passage terminé, et s'il n'y en a pas, alors afficher le statut du passage en cours (Pix-13144).
+- [#9358](https://github.com/1024pix/pix/pull/9358) [FEATURE] Ajouter un filtre sur les classes (Pix-11916).
+- [#9407](https://github.com/1024pix/pix/pull/9407) [FEATURE] Update le texte informatif sur le repasser/RAZ en fin de parcours .
+
+### :building_construction: Tech
+- [#9343](https://github.com/1024pix/pix/pull/9343) [TECH] Déplacer les étapes du tutoriel de campagne dans un composant spécifique (PIX-12447).
+- [#9375](https://github.com/1024pix/pix/pull/9375) [TECH] Conversion de la modale d'ajout de candidat dans le format template tag (PIX-13168).
+- [#9403](https://github.com/1024pix/pix/pull/9403) [TECH] Retirer les placeholders des champs de connexion sur Pix Admin (PIX-13209).
+- [#9391](https://github.com/1024pix/pix/pull/9391) [TECH] Passer la page d'affichage de la liste des sessions en .gjs (PIX-13149).
+- [#9396](https://github.com/1024pix/pix/pull/9396) [TECH] Remove now unused scripts (PIX-12979).
+
+### :bug: Correction
+- [#9388](https://github.com/1024pix/pix/pull/9388) [BUGFIX] Retourner une erreur lorsqu'on tente de modifier une clé de badge par une clé existante (PIX-13191).
+- [#9308](https://github.com/1024pix/pix/pull/9308) [BUGFIX] Correction du script de configuration.
+
+### :arrow_up: Montée de version
+- [#9404](https://github.com/1024pix/pix/pull/9404) [BUMP] Update dependency @1024pix/ember-testing-library to ^2.0.4 (certif).
+- [#9399](https://github.com/1024pix/pix/pull/9399) [BUMP] Update dependency ember-resolver to v12 (certif).
+
 ## v4.173.0 (28/06/2024)
 
 
