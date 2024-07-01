@@ -10,7 +10,7 @@ import { cpfExportsStorage } from '../../infrastructure/storage/cpf-exports-stor
 import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-storage.js';
 
 /**
- * @typedef {import('../../infrastructure/repositories/index.js').AssessmentResultJuryCommentRepository} AssessmentResultJuryCommentRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').AssessmentResultRepository} AssessmentResultRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCourseRepository} CertificationCourseRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationOfficerRepository} CertificationOfficerRepository
  * @typedef {import('../../infrastructure/repositories/index.js').FinalizedSessionRepository} FinalizedSessionRepository
@@ -32,7 +32,7 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
  *
  * @typedef {assessmentRepository} AssessmentRepository
- * @typedef {assessmentResultJuryCommentRepository} AssessmentResultJuryCommentRepository
+ * @typedef {assessmentResultJuryCommentRepository} AssessmentResultRepository
  * @typedef {certificationBadgesService} CertificationBadgesService
  * @typedef {certificationCourseRepository} CertificationCourseRepository
  * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository

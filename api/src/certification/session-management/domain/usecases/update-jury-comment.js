@@ -1,5 +1,5 @@
 /**
- * @typedef {import ('./index.js').AssessmentResultJuryCommentRepository} AssessmentResultJuryCommentRepository
+ * @typedef {import ('./index.js').AssessmentResultRepository} AssessmentResultRepository
  */
 
 /**
@@ -7,7 +7,7 @@
  * @param {number} params.certificationCourseId
  * @param {string} params.assessmentResultCommentByJury
  * @param {number} params.juryId
- * @param {AssessmentResultJuryCommentRepository} params.assessmentResultJuryCommentRepository
+ * @param {AssessmentResultRepository} params.assessmentResultJuryCommentRepository
  */
 const updateJuryComment = async function ({
   certificationCourseId,

@@ -1,3 +1,7 @@
+/**
+ * @typedef {import ('../../../../shared/domain/models/AssessmentResult.js').AssessmentResult} AssessmentResult
+ */
+
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { AssessmentResultJuryComment } from '../../domain/models/AssessmentResultJuryComment.js';
@@ -20,8 +24,14 @@ const getLatestAssessmentResultJuryComment = async function ({ certificationCour
   return new AssessmentResultJuryComment(result);
 };
 
-const update = async function ({ id, juryId, commentByJury }) {
-  return knex('assessment-results').update({ juryId, commentByJury }).where({ id });
+/**
+ * @param {object} params
+ * @param {AssessmentResult} params.assessmentResult
+ */
+const update = async function ({ assessmentResult }) {
+  await knex('assessment-results')
+    .update({ commentByJury: assessmentResult.commentByJury, juryId: assessmentResult.juryId })
+    .where({ id: assessmentResult.id });
 };
 
 export { getLatestAssessmentResultJuryComment, update };
