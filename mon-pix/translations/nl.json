@@ -214,7 +214,7 @@
         },
         "contact-support": {
           "link-text": "contact opnemen met ondersteuning.",
-          "link-url": "https://support.pix.org/fr/support/tickets/new"
+          "link-url": "https://pix.fr/support/form/aide-recuperer-mon-compte"
         },
         "send-email-confirmation": {
           "check-spam": "Als je deze e-mail niet ziet, controleer dan je spammap.",
@@ -506,7 +506,7 @@
             "no-communication": "'<strong>'Communiceren met iemand anders'</strong>', binnen of buiten de kamer, met fysieke of elektronische middelen",
             "no-connected-device": "'<strong>'Gebruik een mobiele telefoon of een aangesloten apparaat'</strong>' (anders dan de computer die wordt gebruikt voor de certificering)",
             "no-forum": "'<strong>'Raadpleeg een zelfhulpforum'</strong>' direct het antwoord geven op een test",
-            "other": "'<strong>'Zet een ander middel in dat direct het antwoord geeft'</strong>', zonder het werk te hebben gedaan dat de instructie vereist.\""
+            "other": "'<strong>'Zet een ander middel in dat direct het antwoord geeft'</strong>', zonder het werk te hebben gedaan dat de instructie vereist."
           },
           "text": "In certificering is het verboden om :",
           "title": "Regels die moeten worden nageleefd"
@@ -1300,8 +1300,8 @@
         },
         "stepper": {
           "next": {
-            "name": "Volgende",
-            "ariaLabel": "Ga naar de volgende stap"
+            "ariaLabel": "Ga naar de volgende stap",
+            "name": "Volgende"
           }
         }
       },
