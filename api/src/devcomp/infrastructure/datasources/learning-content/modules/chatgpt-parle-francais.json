@@ -19,7 +19,7 @@
       "grainId": "0bfa08bd-7052-49bb-89e8-150efa589926"
     },
     {
-      "content": "<p>La réponse en français de ChatGPT est biaisée. En effet, elle est influencée par ses données d'entraînement, en majorité anglo-saxonne.</p><p>Dans la vidéo suivante, vous allez découvrir d’où proviennent les différents biais des LLM.<span aria-hidden=\"true\">&nbsp;📺</span></p>",
+      "content": "<p>La réponse en français de ChatGPT est biaisée. En effet, elle est influencée par ses données d'entraînement, en majorité anglo-saxonnes.</p><p>Dans la vidéo suivante, vous allez découvrir d’où proviennent les différents biais des LLM.<span aria-hidden=\"true\">&nbsp;📺</span></p>",
       "grainId": "c8722f6e-7534-4fdc-9f2d-515c2a96641f"
     },
     {
@@ -39,7 +39,7 @@
       "grainId": "018ad06a-f11c-4db3-b954-ac8a6466d947"
     },
     {
-      "content":"<p> À vous de jouer ! Vous allez étudiez certains biais de ces LLM en fonction de leur nationalité.</p>",
+      "content":"<p> À vous de jouer ! Vous allez étudier certains biais de ces LLM en fonction de leur nationalité.</p>",
       "grainId": "91b54b81-5b7c-4daa-9e2f-67b7a714fd9e"
     }
   ],
@@ -505,7 +505,7 @@
           {
             "id": "c4a55718-f7f8-4eae-a297-663fbbc0c31c",
             "type": "image",
-            "url": "https://i.imgur.com/3n5sOfs.png",
+            "url": "https://i.imgur.com/ftGSuUL.png",
             "alt": "Image des différents LLM existants décrite dans l'alternative textuelle",
             "alternativeText": "<p>-</p>"
           }
