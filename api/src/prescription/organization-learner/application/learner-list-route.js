@@ -21,13 +21,19 @@ const register = async function (server) {
             organizationId: identifiersType.organizationId,
           }),
           query: Joi.object({
-            'page[size]': Joi.number().integer().empty(''),
-            'page[number]': Joi.number().integer().empty(''),
-            'filter[fullName]': Joi.string().empty(''),
-            'filter[certificability][]': [Joi.string(), Joi.array().items(Joi.string())],
-            'sort[participationCount]': Joi.string().empty(''),
-            'sort[lastnameSort]': Joi.string().empty(''),
-            'sort[latestParticipationOrder]': Joi.string().empty(''),
+            page: Joi.object({
+              size: Joi.number().integer().empty(''),
+              number: Joi.number().integer().empty(''),
+            }).default({}),
+            filter: Joi.object({
+              fullName: Joi.string().empty(''),
+              certificability: [Joi.string(), Joi.array().items(Joi.string())],
+            }).default({}),
+            sort: Joi.object({
+              participationCount: Joi.string().empty(''),
+              lastnameSort: Joi.string().empty(''),
+              latestParticipationOrder: Joi.string().empty(''),
+            }).default({}),
           }),
         },
         handler: learnerListController.findPaginatedFilteredParticipants,
