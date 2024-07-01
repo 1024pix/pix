@@ -210,32 +210,35 @@ describe('Integration | Repository | Badge', function () {
       // then
       expect(updatedBadge).to.deep.equal(expectedBadge);
     });
-  });
 
-  describe('#isKeyAvailable', function () {
-    it('should return true', async function () {
-      // given
-      const key = 'NOT_EXISTING_KEY';
-
-      // when
-      const result = await badgeRepository.isKeyAvailable(key);
-
-      // then
-      expect(result).to.be.true;
-    });
-
-    describe('when key is already exists', function () {
-      it('should return AlreadyExistEntityError', async function () {
+    describe('when the badge key already exists', function () {
+      it('should throw an AlreadyExistingEntityError with all error info', async function () {
         // given
-        const key = 'AN_EXISTING_KEY';
-        databaseBuilder.factory.buildBadge({ key });
+        const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+        databaseBuilder.factory.buildBadge({
+          id: 1,
+          key: 'TOTO1',
+          targetProfileId,
+        });
+        databaseBuilder.factory.buildBadge({
+          id: 2,
+          key: 'TOTO2',
+          targetProfileId,
+        });
         await databaseBuilder.commit();
+        const updateData = {
+          id: 2,
+          key: 'TOTO1',
+        };
 
         // when
-        const error = await catchErr(badgeRepository.isKeyAvailable)(key);
+        const error = await catchErr(badgeRepository.update)(updateData);
 
         // then
-        expect(error).to.instanceOf(AlreadyExistingEntityError);
+        expect(error).to.be.instanceOf(AlreadyExistingEntityError);
+        expect(error.code).to.equal('BADGE_KEY_UNIQUE_CONSTRAINT_VIOLATED');
+        expect(error.meta).to.equal('TOTO1');
+        expect(error.message).to.equal('The badge key TOTO1 already exists');
       });
     });
   });

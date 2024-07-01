@@ -9,8 +9,9 @@ class DomainError extends Error {
 }
 
 class AlreadyExistingEntityError extends DomainError {
-  constructor(message = 'L’entité existe déjà.') {
-    super(message);
+  constructor(message = 'L’entité existe déjà.', code, meta) {
+    super(message, code);
+    if (meta) this.meta = meta;
   }
 }
 

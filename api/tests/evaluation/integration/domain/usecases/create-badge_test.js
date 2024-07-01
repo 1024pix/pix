@@ -185,6 +185,7 @@ describe('Integration | UseCases | create-badge', function () {
     it('should throw a AlreadyExistingEntityError', async function () {
       // given
       badgeCreation.key = existingBadgeKey;
+      badgeCreation.campaignThreshold = 99;
 
       // when
       const error = await catchErr(createBadge)({
