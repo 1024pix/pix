@@ -5,7 +5,8 @@
       "cancel": "Annuler",
       "close": "Fermer",
       "deactivate": "Désactiver",
-      "save": "Enregistrer"
+      "save": "Enregistrer",
+      "validate": "Valider"
     },
     "api-error-messages": {
       "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",
@@ -479,6 +480,18 @@
       }
     },
     "target-profiles": {
+      "copy": {
+        "button": {
+          "label": "Dupliquer ce profil cible"
+        },
+        "modal": {
+          "title": "Dupliquer le profil cible ?",
+          "label": "Cette action dupliquera le profil cible avec ses sujets."
+        },
+        "notifications": {
+          "success": "Le profil cible a bien été copié."
+        }
+      },
       "resettable-checkbox": {
         "label": "Permettre la remise à zéro des acquis du profil cible"
       }

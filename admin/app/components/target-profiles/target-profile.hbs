@@ -69,11 +69,13 @@
         Modifier
       </PixButtonLink>
       <div class="target-profile__actions-separator"></div>
+
       {{#unless @model.isSimplifiedAccess}}
         <PixButton @size="small" @variant="secondary" @triggerAction={{this.toggleDisplaySimplifiedAccessPopupConfirm}}>
           Marquer comme accès simplifié
         </PixButton>
       {{/unless}}
+
       <PixButton @triggerAction={{this.downloadJSON}} @size="small" @variant="success">
         Télécharger le profil cible (JSON)
       </PixButton>
@@ -81,6 +83,16 @@
       <PixButton @triggerAction={{this.toggleDisplayPdfParametersModal}} @size="small" @variant="success">
         Télécharger le profil cible (PDF)
       </PixButton>
+
+      <PixButton @size="small" @triggerAction={{this.openCopyModal}}>{{t
+          "pages.target-profiles.copy.button.label"
+        }}</PixButton>
+
+      <TargetProfiles::Modal::Copy
+        @isOpen={{this.showCopyModal}}
+        @onClose={{this.closeCopyModal}}
+        @onSubmit={{this.copyTargetProfile}}
+      />
 
       {{#unless @model.outdated}}
         <div class="target-profile__actions-spacer"></div>

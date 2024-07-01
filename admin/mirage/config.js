@@ -31,6 +31,7 @@ import {
   attachOrganizationsFromExistingTargetProfile,
   attachTargetProfiles,
   attachTargetProfileToOrganizations,
+  copyTargetProfile,
   createBadge,
   createTargetProfile,
   findOrganizationTargetProfileSummaries,
@@ -366,6 +367,7 @@ function routes() {
   this.post('/admin/target-profiles/:id/badges', createBadge);
   this.put('/admin/target-profiles/:id/simplified-access', markTargetProfileAsSimplifiedAccess);
   this.get('/admin/target-profiles/:id/training-summaries', findPaginatedTrainingSummaries);
+  this.post('/admin/target-profiles/:id/copy', copyTargetProfile);
 
   this.get('/admin/target-profile-summaries', findPaginatedFilteredTargetProfileSummaries);
 

@@ -9,7 +9,9 @@ export default class TargetProfile extends Component {
 
   @service fileSaver;
   @service session;
+  @service intl;
 
+  @tracked showCopyModal = false;
   @tracked displayConfirm = false;
   @tracked displaySimplifiedAccessPopupConfirm = false;
   @tracked displayPdfParametersModal = false;
@@ -119,5 +121,27 @@ export default class TargetProfile extends Component {
     } catch (error) {
       this.notifications.error(error.message, { autoClear: false });
     }
+  }
+
+  @action
+  async copyTargetProfile() {
+    try {
+      const newTargetProfileId = await this.args.model.copy(this.args.model.id);
+      this.router.transitionTo('authenticated.target-profiles.target-profile', newTargetProfileId);
+      this.notifications.success(this.intl.t('pages.target-profiles.copy.notifications.success'));
+      this.showCopyModal = false;
+    } catch (error) {
+      this.notifications.error(error.message);
+    }
+  }
+
+  @action
+  closeCopyModal() {
+    this.showCopyModal = false;
+  }
+
+  @action
+  openCopyModal() {
+    this.showCopyModal = true;
   }
 }

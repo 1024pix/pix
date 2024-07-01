@@ -58,4 +58,9 @@ export default class TargetProfile extends Model {
       this.reload();
     },
   });
+
+  copy = memberAction({
+    path: 'copy',
+    type: 'post',
+  });
 }

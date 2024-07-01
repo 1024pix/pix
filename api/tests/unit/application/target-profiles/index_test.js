@@ -924,7 +924,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
   });
 
   describe('POST /api/admin/target-profiles/{targetProfileId}/copy', function () {
-    describe('When user has role SUPER_ADMIN', function () {
+    describe('When user has role SUPER_ADMIN or METIER or SUPPORT', function () {
       it('Should return a response with 200 status code', async function () {
         // given
         const method = 'POST';
@@ -935,6 +935,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkAdminMemberHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
           ])
           .callsFake(() => (request, h) => h.response(true));
         sinon.stub(targetProfileController, 'copyTargetProfile').callsFake((request, h) => h.response('ok').code(200));
@@ -950,7 +951,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       });
     });
 
-    context('when user has role CERTIF or SUPPORT', function () {
+    context('when user has role CERTIF', function () {
       it('should return a response with an HTTP status code 403', async function () {
         // given
         const method = 'POST';
@@ -961,6 +962,9 @@ describe('Unit | Application | Target Profiles | Routes', function () {
           .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
         sinon
           .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
           .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
