@@ -1,4 +1,4 @@
-import { knex } from '../../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 import { SessionAlreadyPublishedError } from '../../../../../../src/certification/session-management/domain/errors.js';
 import { unfinalizeSession } from '../../../../../../src/certification/session-management/domain/usecases/unfinalize-session.js';
 import { catchErr, expect, sinon } from '../../../../../test-helper.js';
@@ -10,7 +10,7 @@ describe('Unit | UseCase | unfinalize-session', function () {
   describe('when session is not published', function () {
     it('should call repositories with transaction', async function () {
       // given
-      sinon.stub(knex, 'transaction').callsFake((fn) => fn());
+      sinon.stub(DomainTransaction, 'execute').callsFake((fn) => fn({}));
 
       sessionRepository = {
         unfinalize: sinon.stub(),
