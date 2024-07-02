@@ -627,7 +627,7 @@
           },
           "label": "Downloads:"
         },
-        "page-title": "Details",
+        "page-title": "Details | Session {sessionId} | Pix Certif",
         "panel-clea": {
           "title": "Des candidats ont obtenu le certificat CléA numérique",
           "description": "Pour générer les certificats CléA numérique, téléchargez la liste des candidats, complétez-la, enregistrez-la au format .xlsx puis importez-la sur la ",
