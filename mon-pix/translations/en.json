@@ -432,7 +432,7 @@
       "buttons": {
         "continuous": {
           "aria-label": "Continuer vers l'écran suivant",
-          "label": "Continuer",
+          "label": "Continue",
           "last-page": {
             "aria-label": "Continuer vers la page d'entrée en certification"
           }
@@ -444,7 +444,7 @@
       },
       "steps": {
         "1": {
-          "title": "Bienvenue à la certification Pix",
+          "title": "Welcome",
           "paragraphs": {
             "1": {
               "text": "'<strong>'Il s'agit d'un test adaptatif'</strong>'. C’est-à-dire, que votre capacité à répondre correctement (ou non) aux questions détermine en temps réel la difficulté des questions suivantes."
