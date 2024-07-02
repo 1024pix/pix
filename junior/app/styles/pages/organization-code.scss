@@ -1,0 +1,78 @@
+.school-code {
+  display: flex;
+  flex-direction: column;
+  margin-top: 100px;
+
+  p, label {
+    width: fit-content;
+  }
+
+  &__welcome-with-bubble {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+  }
+
+  &__welcome {
+    @extend %pix-title-l;
+
+    font-weight: 800;
+  }
+
+  &__instructions {
+    font-size: 1.5rem;
+  }
+
+  &__label {
+    @extend %pix-body-m;
+
+    margin-top: 60px;
+  }
+
+  &__input {
+    font-family: $font-nunito;
+    text-transform: uppercase;
+  }
+
+  &__rotated-bubble {
+    align-self: flex-end;
+    width: fit-content;
+    height: fit-content;
+    margin-bottom: 30px;
+    padding: 12px 24px;
+    color: var(--pix-neutral-0);
+    font-size: 1.5rem;
+    text-align: left;
+    background-color: var(--pix-primary-500);
+    border-radius: 16px;
+    transform: rotate(-8deg);
+
+    &::after {
+      position: absolute;
+      bottom: -14px;
+      left: 20px;
+      display: block;
+      width: 0;
+      border-color: transparent var(--pix-primary-500);
+      border-style: solid;
+      border-width: 0px 0px 15px 25px;
+      content: "";
+    }
+  }
+
+  .pix1d-button {
+    width: 215px;
+    margin-top: 40px;
+    padding: 16px 40px;
+    font-size: 1.125rem;
+  }
+}
+
+.pix-input-code input.pix-input-code__input.school-code__input {
+  width: 55px;
+  height: 55px;
+  padding: 8px;
+  font-weight: bold;
+  font-size: 1.250rem;
+  border-color: var(--pix-primary-500);
+}

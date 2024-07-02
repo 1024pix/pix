@@ -1,0 +1,77 @@
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  min-height: 300px;
+  margin: 0 auto 0 130px;
+
+  @include device-is('tablet') {
+    margin-left: 115px;
+  }
+
+  &__students {
+    justify-content: normal;
+    min-height: 0;
+  }
+
+  .students__item {
+    width: 190px;
+    height: 55px;
+    margin: 12px;
+    color: var(--pix-neutral-900);
+    font-size: 1.125rem;
+    background: var(--pix-neutral-0);
+    border-radius: 30px;
+    box-shadow: 0 0 1px 0 var(--pix-primary-500), 8px 8px 32px -8px rgb(61 104 255 / 20%);
+
+    p {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .divisions__item {
+    width: 190px;
+    height: 190px;
+    margin: 12px;
+    color: var(--pix-neutral-900);
+    background-color: var(--pix-neutral-0);
+    background-image: url('/images/division.svg');
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: 30px;
+    background-size: 145px;
+    border-radius: 50%;
+    box-shadow: 0 0 1px 0 var(--pix-primary-500), 8px 8px 32px -8px rgb(61 104 255 / 20%);
+
+    .item__title {
+      position: relative;
+      top: 140px;
+      font-weight: 800;
+    }
+
+    @include device-is('desktop') {
+      width: 240px;
+      height: 240px;
+      background-position-y: 50px;
+      background-size: 155px;
+
+      .item__title {
+        position: relative;
+        top: 175px;
+      }
+    }
+  }
+}
+
+.pix-button.students__item, .divisions__item {
+  &:hover, &:active {
+    background-color: var(--pix-primary-50);
+  }
+
+  &:focus, &:focus-visible {
+    background-color: var(--pix-primary-50);
+    outline: 2px solid var(--pix-primary-300);
+    outline-offset: 0;
+  }
+}

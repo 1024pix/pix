@@ -5,10 +5,28 @@
 @import 'pod-styles';
 
 // Globals
-@import 'globals/fonts';
-@import 'globals/colors';
 @import 'globals/buttons';
 @import 'globals/breakpoints';
+@import 'globals/colors';
+@import 'globals/fonts';
+
+// Components
+@import 'components/challenge/challenge-actions';
+@import 'components/challenge/challenge-embed-simulator';
+@import 'components/challenge/challenge-illustration';
+@import 'components/challenge/challenge-item';
+@import 'components/challenge/challenge-item-proposals';
+@import 'components/mission-card/card';
+@import 'components/bubble';
+@import 'components/issue';
+@import 'components/robot-dialog';
+
+// Pages
+@import 'pages/identified/missions/list';
+@import 'pages/identified/missions/mission';
+@import 'pages/loading';
+@import 'pages/organization-code.scss';
+@import 'pages/school.scss';
 
 
 body {
