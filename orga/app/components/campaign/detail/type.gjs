@@ -1,4 +1,5 @@
 import { service } from '@ember/service';
+import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import Component from '@glimmer/component';
 
 export default class CampaignType extends Component {
@@ -34,4 +35,20 @@ export default class CampaignType extends Component {
 
     return this.intl.t(labels[campaignType]);
   }
+
+  <template>
+    <span class="campaign-type">
+      <FaIcon
+        class="{{this.pictoCssClass}}"
+        @icon="{{this.picto}}"
+        @prefix="fapix"
+        aria-hidden={{this.pictoAriaHidden}}
+        @title={{this.pictoTitle}}
+        ...attributes
+      />
+      {{#unless @hideLabel}}
+        <span class="campaign-type__label">{{this.label}}</span>
+      {{/unless}}
+    </span>
+  </template>
 }
