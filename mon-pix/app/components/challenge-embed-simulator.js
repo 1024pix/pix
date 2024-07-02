@@ -14,6 +14,8 @@ export default class ChallengeEmbedSimulator extends Component {
   @tracked
   embedHeight;
 
+  _embedMessageListener;
+
   constructor(owner, args) {
     super(owner, args);
     this.embedHeight = args.embedDocument?.height;
@@ -42,7 +44,7 @@ export default class ChallengeEmbedSimulator extends Component {
 
     iframe.addEventListener('load', loadListener);
 
-    window.addEventListener('message', ({ origin, data }) => {
+    thisComponent._embedMessageListener = ({ origin, data }) => {
       if (!isEmbedAllowedOrigin(origin)) return;
       if (isReadyMessage(data) && thisComponent.isSimulatorLaunched) {
         iframe.contentWindow.postMessage('launch', '*');
@@ -54,7 +56,9 @@ export default class ChallengeEmbedSimulator extends Component {
       if (isAutoLaunchMessage(data)) {
         thisComponent.launchSimulator();
       }
-    });
+    };
+
+    window.addEventListener('message', thisComponent._embedMessageListener);
   }
 
   @action
@@ -85,6 +89,11 @@ export default class ChallengeEmbedSimulator extends Component {
     iframe.addEventListener('load', loadListener);
 
     iframe.src = 'about:blank';
+  }
+
+  willDestroy() {
+    super.willDestroy();
+    window.removeEventListener('message', this._embedMessageListener);
   }
 
   get iframe() {
