@@ -2,18 +2,18 @@ import 'dotenv/config';
 
 import lodash from 'lodash';
 
-import { disconnect, knex } from '../../db/knex-database-connection.js';
-import { logger } from '../../src/shared/infrastructure/utils/logger.js';
+import { disconnect, knex } from '../../../db/knex-database-connection.js';
+import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 /**
- * Usage: node scripts/certification/import-pilot-certification-centers-from-csv.js path/file.csv
+ * Usage: node scripts/certification/next-gen/import-pilot-certification-centers-from-csv.js path/file.csv
  * File is semicolon separated values, headers being:
  * certification_center_id
  **/
-import { checkCsvHeader, parseCsv } from '../helpers/csvHelpers.js';
+import { checkCsvHeader, parseCsv } from '../../helpers/csvHelpers.js';
 const { values } = lodash;
 import * as url from 'node:url';
 
-import { CERTIFICATION_FEATURES } from '../../src/certification/shared/domain/constants.js';
+import { CERTIFICATION_FEATURES } from '../../../src/certification/shared/domain/constants.js';
 
 const headers = {
   certificationCenterId: 'certification_center_id',
@@ -37,16 +37,16 @@ function buildCertificationCentersPilotsList({ featureId, certificationCentersId
   });
 }
 
-async function hasNoV3CertificationCenters({ certificationCentersIds }) {
-  const v3CertificationIds = await knex
+async function allowOnlyV3CertificationCenters({ certificationCentersIds }) {
+  const v2CertificationIdsFound = await knex
     .select('id')
     .from('certification-centers')
     .whereIn('id', certificationCentersIds)
-    .andWhere({ isV3Pilot: true })
+    .andWhereNot({ isV3Pilot: true })
     .pluck('id');
 
-  if (v3CertificationIds.length > 0) {
-    throw new Error(`V3 certification centers : ${v3CertificationIds} are not allowed as pilots`);
+  if (v2CertificationIdsFound.length > 0) {
+    throw new Error(`V2 certification centers : ${v2CertificationIdsFound} are not allowed as pilots`);
   }
 }
 
@@ -71,7 +71,7 @@ async function main(filePath) {
     logger.info('✅ ');
 
     logger.info('Veryfing certification centers eligibility as pilots... ');
-    await hasNoV3CertificationCenters({ certificationCentersIds });
+    await allowOnlyV3CertificationCenters({ certificationCentersIds });
     logger.info('✅ ');
 
     const featureId = await knex

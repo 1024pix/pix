@@ -1,6 +1,6 @@
-import { main } from '../../../../scripts/certification/import-pilot-certification-centers-from-csv.js';
-import { CERTIFICATION_FEATURES } from '../../../../src/certification/shared/domain/constants.js';
-import { catchErr, createTempFile, databaseBuilder, expect, knex, removeTempFile } from '../../../test-helper.js';
+import { main } from '../../../../../scripts/certification/next-gen/import-pilot-certification-centers-from-csv.js';
+import { CERTIFICATION_FEATURES } from '../../../../../src/certification/shared/domain/constants.js';
+import { catchErr, createTempFile, databaseBuilder, expect, knex, removeTempFile } from '../../../../test-helper.js';
 
 describe('Integration | Scripts | Certification | import-pilot-certification-centers-from-csv', function () {
   let file;
@@ -24,9 +24,9 @@ describe('Integration | Scripts | Certification | import-pilot-certification-cen
         key: CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key,
       }).id;
 
-      databaseBuilder.factory.buildCertificationCenter({ id: certificationCenterId1 });
-      databaseBuilder.factory.buildCertificationCenter({ id: certificationCenterId2 });
-      databaseBuilder.factory.buildCertificationCenter({ id: certificationCenterId3 });
+      databaseBuilder.factory.buildCertificationCenter({ id: certificationCenterId1, isV3Pilot: true });
+      databaseBuilder.factory.buildCertificationCenter({ id: certificationCenterId2, isV3Pilot: true });
+      databaseBuilder.factory.buildCertificationCenter({ id: certificationCenterId3, isV3Pilot: true });
 
       databaseBuilder.factory.buildCertificationCenterFeature({ certificationCenterId1, featureId });
 
@@ -61,9 +61,9 @@ describe('Integration | Scripts | Certification | import-pilot-certification-cen
           key: CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key,
         }).id;
 
-        databaseBuilder.factory.buildCertificationCenter({ id: v2CertificationCenterId });
-        databaseBuilder.factory.buildCertificationCenter({ id: v3CertificationCenterId, isV3Pilot: true });
-        databaseBuilder.factory.buildCertificationCenter({ id: v2CertificationCenterId2 });
+        databaseBuilder.factory.buildCertificationCenter({ id: v2CertificationCenterId, isV3Pilot: true });
+        databaseBuilder.factory.buildCertificationCenter({ id: v3CertificationCenterId, isV3Pilot: false });
+        databaseBuilder.factory.buildCertificationCenter({ id: v2CertificationCenterId2, isV3Pilot: true });
         databaseBuilder.factory.buildCertificationCenterFeature({ v2CertificationCenterId, featureId });
         await databaseBuilder.commit();
 
@@ -71,7 +71,7 @@ describe('Integration | Scripts | Certification | import-pilot-certification-cen
         const error = await catchErr(main)(csvFilePath);
 
         // then
-        expect(error.message).to.equal('V3 certification centers : 2002 are not allowed as pilots');
+        expect(error.message).to.equal('V2 certification centers : 2002 are not allowed as pilots');
       });
     });
   });
