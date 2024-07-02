@@ -1,5 +1,6 @@
 import PixBlock from '@1024pix/pix-ui/components/pix-block';
 import PixButton from '@1024pix/pix-ui/components/pix-button';
+import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
@@ -111,7 +112,7 @@ export default class FlashAlgorithmConfiguration extends Component {
           <:label>Nombre de questions pour la double mesure</:label>
         </PixInput>
 
-        <PixInput
+        <PixCheckbox
           {{on "input" this.updateCheckboxValues}}
           @id="limitToOneQuestionPerTube"
           @value={{this.form.limitToOneQuestionPerTube}}
@@ -119,9 +120,9 @@ export default class FlashAlgorithmConfiguration extends Component {
           type="checkbox"
         >
           <:label>Limiter à une question par sujet</:label>
-        </PixInput>
+        </PixCheckbox>
 
-        <PixInput
+        <PixCheckbox
           {{on "input" this.updateCheckboxValues}}
           @id="enablePassageByAllCompetences"
           @value={{this.form.enablePassageByAllCompetences}}
@@ -129,7 +130,7 @@ export default class FlashAlgorithmConfiguration extends Component {
           type="checkbox"
         >
           <:label>Forcer le passage par les 16 compétences</:label>
-        </PixInput>
+        </PixCheckbox>
 
         <PixButton
           class="scoring-simulator__form-button"
