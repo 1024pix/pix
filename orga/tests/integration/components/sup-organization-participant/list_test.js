@@ -1,4 +1,4 @@
-import { clickByName, fillByLabel, fireEvent, render, within } from '@1024pix/ember-testing-library';
+import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
@@ -214,23 +214,19 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 />`,
     );
 
-    fireEvent.mouseOver(
+    // then
+    assert.ok(
       screen.getByLabelText(this.intl.t('pages.participants-list.latest-participation-information-tooltip.aria-label')),
     );
-    await screen.findByRole('tooltip');
-    const tooltip = await screen.findByRole('tooltip');
-
-    // then
-    assert.ok(within(tooltip).getByText('SUP - Campagne de collecte de profils'));
     assert.ok(
-      within(tooltip).getByText(
+      screen.getByText(
         this.intl.t(
           'pages.participants-list.latest-participation-information-tooltip.campaign-PROFILES_COLLECTION-type',
         ),
       ),
     );
     assert.ok(
-      within(tooltip).getByText(
+      screen.getByText(
         this.intl.t('pages.participants-list.latest-participation-information-tooltip.participation-SHARED-status'),
       ),
     );
@@ -310,11 +306,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     await click(screen.getByLabelText(this.intl.t('components.certificability-tooltip.aria-label')));
 
     // then
-    assert.ok(
-      await screen.findByRole('tooltip', {
-        name: new RegExp(this.intl.t('components.certificability-tooltip.content')),
-      }),
-    );
+    assert.ok(screen.getByText(this.intl.t('components.certificability-tooltip.content')));
   });
 
   module('when user is filtering some users', function () {

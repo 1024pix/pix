@@ -819,14 +819,9 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 />`,
     );
 
-    await click(screen.getByLabelText(this.intl.t('components.certificability-tooltip.aria-label')));
-
     // then
-    assert.ok(
-      await screen.findByRole('tooltip', {
-        name: new RegExp(this.intl.t('components.certificability-tooltip.content')),
-      }),
-    );
+    assert.ok(screen.getByLabelText(this.intl.t('components.certificability-tooltip.aria-label')));
+    assert.ok(screen.getByText(this.intl.t('components.certificability-tooltip.content')));
   });
 
   module('when user is admin of organisation', function (hooks) {

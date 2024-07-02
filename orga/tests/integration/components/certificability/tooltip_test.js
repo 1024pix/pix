@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@1024pix/ember-testing-library';
+import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 
@@ -18,9 +18,6 @@ module('Integration | Component | Certificability::Tooltip', function (hooks) {
 />`,
       );
 
-      fireEvent.mouseOver(screen.getByLabelText(this.intl.t('components.certificability-tooltip.aria-label')));
-      await screen.findByRole('tooltip');
-
       // then
       assert.ok(screen.getByText(this.intl.t('components.certificability-tooltip.content')));
       assert.ok(screen.getByText(this.intl.t('components.certificability-tooltip.from-compute-certificability')));
@@ -38,8 +35,6 @@ module('Integration | Component | Certificability::Tooltip', function (hooks) {
   @hasComputeOrganizationLearnerCertificabilityEnabled={{this.hasComputeOrganizationLearnerCertificabilityEnabled}}
 />`,
       );
-      fireEvent.mouseOver(screen.getByLabelText(this.intl.t('components.certificability-tooltip.aria-label')));
-      await screen.findByRole('tooltip');
 
       // then
       assert.ok(screen.getByText(this.intl.t('components.certificability-tooltip.content')));

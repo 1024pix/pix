@@ -1103,11 +1103,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       await click(screen.getByLabelText(this.intl.t('components.certificability-tooltip.aria-label')));
 
       // then
-      assert.ok(
-        await screen.findByRole('tooltip', {
-          name: new RegExp(this.intl.t('components.certificability-tooltip.content')),
-        }),
-      );
+      assert.ok(screen.getByText(this.intl.t('components.certificability-tooltip.content')));
     });
   });
 

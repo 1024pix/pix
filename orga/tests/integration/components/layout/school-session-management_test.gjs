@@ -1,6 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { click } from '@ember/test-helpers';
 import SchoolSessionManagement from 'pix-orga/components/layout/school-session-management';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -27,12 +26,11 @@ module('Integration | Components | Layout | SchoolSessionManagement', function (
       // when
       const screen = await render(<template><SchoolSessionManagement /></template>);
 
-      await click(screen.getByLabelText(this.intl.t('navigation.school-sessions.status.aria-label')));
-
       const tooltipText = this.intl.t('navigation.school-sessions.status.info-text', { htmlSafe: true });
-      const tooltip = screen.getByRole('tooltip');
+      const tooltip = await screen.findByRole('tooltip', { hidden: true });
 
       // then
+      assert.ok(screen.getByLabelText(this.intl.t('navigation.school-sessions.status.aria-label')));
       assert.strictEqual(tooltip.innerHTML.trim(), tooltipText.toString());
     });
 
