@@ -16,6 +16,8 @@ import { SendSharedParticipationResultsToPoleEmploiHandler } from './lib/infrast
 import { SendSharedParticipationResultsToPoleEmploiJob } from './lib/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob.js';
 import { scheduleCpfJobs } from './lib/infrastructure/jobs/cpf-export/schedule-cpf-jobs.js';
 import { JobQueue } from './lib/infrastructure/jobs/JobQueue.js';
+import { LcmsRefreshCacheJob } from './lib/infrastructure/jobs/lcms/LcmsRefreshCacheJob.js';
+import { LcmsRefreshCacheJobHandler } from './lib/infrastructure/jobs/lcms/LcmsRefreshCacheJobHandler.js';
 import { MonitoredJobQueue } from './lib/infrastructure/jobs/monitoring/MonitoredJobQueue.js';
 import { ComputeCertificabilityJob } from './lib/infrastructure/jobs/organization-learner/ComputeCertificabilityJob.js';
 import { ComputeCertificabilityJobHandler } from './lib/infrastructure/jobs/organization-learner/ComputeCertificabilityJobHandler.js';
@@ -27,6 +29,7 @@ import { ImportOrganizationLearnersJob } from './src/prescription/learner-manage
 import { ImportOrganizationLearnersJobHandler } from './src/prescription/learner-management/infrastructure/jobs/ImportOrganizationLearnersJobHandler.js';
 import { ValidateOrganizationImportFileJob } from './src/prescription/learner-management/infrastructure/jobs/ValidateOrganizationImportFileJob.js';
 import { ValidateOrganizationImportFileJobHandler } from './src/prescription/learner-management/infrastructure/jobs/ValidateOrganizationImportFileJobHandler.js';
+import * as learningContentDatasource from './src/shared/infrastructure/datasources/learning-content/datasource.js';
 import { logger } from './src/shared/infrastructure/utils/logger.js';
 
 async function startPgBoss() {
@@ -73,6 +76,10 @@ export async function runJobs(dependencies = { startPgBoss, createMonitoredJobQu
   const pgBoss = await dependencies.startPgBoss();
   const monitoredJobQueue = dependencies.createMonitoredJobQueue(pgBoss);
 
+  monitoredJobQueue.performJob(LcmsRefreshCacheJob.name, LcmsRefreshCacheJobHandler, {
+    learningContentDatasource,
+    logger,
+  });
   monitoredJobQueue.performJob(
     ScheduleComputeOrganizationLearnersCertificabilityJob.name,
     ScheduleComputeOrganizationLearnersCertificabilityJobHandler,
