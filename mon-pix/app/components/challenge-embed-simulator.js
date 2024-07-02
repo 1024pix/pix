@@ -44,14 +44,18 @@ export default class ChallengeEmbedSimulator extends Component {
 
     window.addEventListener('message', ({ origin, data }) => {
       if (!isEmbedAllowedOrigin(origin)) return;
-      if (!isHeightMessage(data)) return;
-      thisComponent.embedHeight = data.height + 20;
+      if (isHeightMessage(data)) {
+        thisComponent.embedHeight = data.height + 20;
+      }
+      if (isAutoLaunchMessage(data)) {
+        thisComponent.launchSimulator();
+      }
     });
   }
 
   @action
-  launchSimulator(event) {
-    const iframe = this._getIframe(event);
+  launchSimulator() {
+    const iframe = this.iframe;
     iframe.contentWindow.postMessage('launch', '*');
     iframe.focus();
     this.isSimulatorLaunched = true;
@@ -64,8 +68,8 @@ export default class ChallengeEmbedSimulator extends Component {
   }
 
   @action
-  rebootSimulator(event) {
-    const iframe = this._getIframe(event);
+  rebootSimulator() {
+    const iframe = this.iframe;
     const tmpSrc = iframe.src;
 
     const loadListener = () => {
@@ -85,8 +89,8 @@ export default class ChallengeEmbedSimulator extends Component {
     iframe.src = 'about:blank';
   }
 
-  _getIframe(event) {
-    return event.currentTarget.parentElement.parentElement.querySelector('.embed__iframe');
+  get iframe() {
+    return document.querySelector('.embed__iframe');
   }
 }
 
@@ -106,6 +110,15 @@ function isReadyMessage(data) {
  */
 function isHeightMessage(data) {
   return isMessageType(data, 'height');
+}
+
+/**
+ * Checks if event is a "auto-launch" message.
+ * @param {unknown} data
+ * @returns {boolean}
+ */
+function isAutoLaunchMessage(data) {
+  return isMessageType(data, 'auto-launch');
 }
 
 function isMessageType(data, type) {
