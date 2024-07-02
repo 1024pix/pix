@@ -161,6 +161,38 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
         assert.ok(screen.getByText(this.intl.t('pages.campaign-results.table.column.sharedResultCount')));
         assert.ok(screen.getByLabelText(this.intl.t('pages.campaign-results.table.column.ariaSharedResultCount')));
       });
+
+      test('it should display shared result count', async function (assert) {
+        // given
+        const campaign = store.createRecord('campaign', {
+          multipleSendings: true,
+        });
+        const participations = [
+          {
+            sharedResultCount: 77,
+          },
+        ];
+        this.set('campaign', campaign);
+        this.set('participations', participations);
+
+        // when
+        const screen = await render(
+          hbs`<Campaign::Results::AssessmentList
+  @campaign={{this.campaign}}
+  @participations={{this.participations}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.noop}}
+  @selectedDivisions={{this.divisions}}
+  @selectedGroups={{this.groups}}
+  @selectedBadges={{this.badges}}
+  @selectedStages={{this.stages}}
+/>`,
+        );
+
+        // then
+        assert.ok(screen.getByText(this.intl.t('pages.campaign-results.table.column.sharedResultCount')));
+        assert.ok(screen.getByRole('cell', { name: '77' }));
+      });
     });
 
     module('campaign has multiple sending not enabled', function () {
@@ -189,6 +221,38 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
         // then
         assert.notOk(screen.queryByText(this.intl.t('pages.campaign-results.table.column.sharedResultCount')));
         assert.notOk(screen.queryByLabelText(this.intl.t('pages.campaign-results.table.column.ariaSharedResultCount')));
+      });
+
+      test('it should not display shared result count', async function (assert) {
+        // given
+        const campaign = store.createRecord('campaign', {
+          multipleSendings: false,
+        });
+        const participations = [
+          {
+            sharedResultCount: 77,
+          },
+        ];
+        this.set('campaign', campaign);
+        this.set('participations', participations);
+
+        // when
+        const screen = await render(
+          hbs`<Campaign::Results::AssessmentList
+  @campaign={{this.campaign}}
+  @participations={{this.participations}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.noop}}
+  @selectedDivisions={{this.divisions}}
+  @selectedGroups={{this.groups}}
+  @selectedBadges={{this.badges}}
+  @selectedStages={{this.stages}}
+/>`,
+        );
+
+        // then
+        assert.notOk(screen.queryByText(this.intl.t('pages.campaign-results.table.column.sharedResultCount')));
+        assert.notOk(screen.queryByRole('cell', { name: '77' }));
       });
     });
   });
