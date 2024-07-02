@@ -44,6 +44,10 @@ export default class ChallengeEmbedSimulator extends Component {
 
     window.addEventListener('message', ({ origin, data }) => {
       if (!isEmbedAllowedOrigin(origin)) return;
+      if (isReadyMessage(data) && thisComponent.isSimulatorLaunched) {
+        iframe.contentWindow.postMessage('launch', '*');
+        iframe.focus();
+      }
       if (isHeightMessage(data)) {
         thisComponent.embedHeight = data.height + 20;
       }
@@ -59,12 +63,6 @@ export default class ChallengeEmbedSimulator extends Component {
     iframe.contentWindow.postMessage('launch', '*');
     iframe.focus();
     this.isSimulatorLaunched = true;
-    window.addEventListener('message', ({ origin, data }) => {
-      if (!isEmbedAllowedOrigin(origin)) return;
-      if (!isReadyMessage(data)) return;
-      iframe.contentWindow.postMessage('launch', '*');
-      iframe.focus();
-    });
   }
 
   @action
