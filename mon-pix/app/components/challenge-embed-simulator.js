@@ -12,6 +12,9 @@ export default class ChallengeEmbedSimulator extends Component {
   isSimulatorLaunched = false;
 
   @tracked
+  isSimulatorRebootable = true;
+
+  @tracked
   embedHeight;
 
   _embedMessageListener;
@@ -55,6 +58,7 @@ export default class ChallengeEmbedSimulator extends Component {
       }
       if (isAutoLaunchMessage(data)) {
         thisComponent.launchSimulator();
+        thisComponent.isSimulatorRebootable = false;
       }
     };
 
