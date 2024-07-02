@@ -3,7 +3,6 @@ import bluebird from 'bluebird';
 const deleteCampaignParticipationForAdmin = async function ({
   userId,
   campaignParticipationId,
-  domainTransaction,
   campaignRepository,
   campaignParticipationRepository,
 }) {
@@ -13,13 +12,12 @@ const deleteCampaignParticipationForAdmin = async function ({
     await campaignParticipationRepository.getAllCampaignParticipationsInCampaignForASameLearner({
       campaignId,
       campaignParticipationId,
-      domainTransaction,
     });
 
   await bluebird.mapSeries(campaignParticipations, async (campaignParticipation) => {
     campaignParticipation.delete(userId);
     const { id, deletedAt, deletedBy } = campaignParticipation;
-    await campaignParticipationRepository.remove({ id, deletedAt, deletedBy, domainTransaction });
+    await campaignParticipationRepository.remove({ id, deletedAt, deletedBy });
   });
 };
 
