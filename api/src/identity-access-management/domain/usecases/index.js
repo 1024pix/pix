@@ -24,7 +24,7 @@ import { accountRecoveryDemandRepository } from '../../infrastructure/repositori
 import * as authenticationMethodRepository from '../../infrastructure/repositories/authentication-method.repository.js';
 import { emailValidationDemandRepository } from '../../infrastructure/repositories/email-validation-demand.repository.js';
 import { oidcProviderRepository } from '../../infrastructure/repositories/oidc-provider-repository.js';
-import * as resetPasswordDemandRepository from '../../infrastructure/repositories/reset-password-demand.repository.js';
+import { resetPasswordDemandRepository } from '../../infrastructure/repositories/reset-password-demand.repository.js';
 import * as userRepository from '../../infrastructure/repositories/user.repository.js';
 import { userToCreateRepository } from '../../infrastructure/repositories/user-to-create.repository.js';
 import { authenticationSessionService } from '../services/authentication-session.service.js';

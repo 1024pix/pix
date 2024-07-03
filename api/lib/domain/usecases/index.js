@@ -55,7 +55,7 @@ import { accountRecoveryDemandRepository } from '../../../src/identity-access-ma
 import * as authenticationMethodRepository from '../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import { emailValidationDemandRepository } from '../../../src/identity-access-management/infrastructure/repositories/email-validation-demand.repository.js';
 import * as oidcProviderRepository from '../../../src/identity-access-management/infrastructure/repositories/oidc-provider-repository.js';
-import * as resetPasswordDemandRepository from '../../../src/identity-access-management/infrastructure/repositories/reset-password-demand.repository.js';
+import { resetPasswordDemandRepository } from '../../../src/identity-access-management/infrastructure/repositories/reset-password-demand.repository.js';
 import * as userRepository from '../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { userToCreateRepository } from '../../../src/identity-access-management/infrastructure/repositories/user-to-create.repository.js';
 import { organizationForAdminRepository } from '../../../src/organizational-entities/infrastructure/repositories/organization-for-admin.repository.js';
