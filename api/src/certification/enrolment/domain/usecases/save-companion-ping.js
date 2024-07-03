@@ -3,8 +3,6 @@
  * @typedef {import('./index.js').TemporaryCompanionStorageService} TemporaryCompanionStorageService
  */
 
-import { NotFoundError } from '../../../../shared/domain/errors.js';
-
 /**
  * @param {Object} params
  * @param {number} params.userId
@@ -18,9 +16,7 @@ const saveCompanionPing = async function ({
 }) {
   const certificationCandidateCompanion =
     await certificationCandidateRepository.findCertificationCandidateCompanionInfoByUserId({ userId });
-  if (!certificationCandidateCompanion) {
-    throw new NotFoundError(`User ${userId} is not found in a certification's session`);
-  }
+
   await temporaryCompanionStorageService.save(certificationCandidateCompanion);
 };
 

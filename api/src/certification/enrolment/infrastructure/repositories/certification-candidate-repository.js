@@ -156,7 +156,7 @@ const getWithComplementaryCertification = async function (id) {
 const findCertificationCandidateCompanionInfoByUserId = async function ({ userId }) {
   const result = await knex.select('sessionId', 'id').from('certification-candidates').where({ userId }).first();
   if (!result) {
-    return undefined;
+    throw new NotFoundError(`User ${userId} is not found in a certification's session`);
   }
 
   return new CertificationCandidateCompanion(result);

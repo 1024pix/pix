@@ -894,32 +894,40 @@ describe('Integration | Repository | CertificationCandidate', function () {
     context('where the user has joined a session', function () {
       it('should return candidate info', async function () {
         // given
-        databaseBuilder.factory.buildUser({ id: 99 });
-        databaseBuilder.factory.buildSession({ id: 49 });
-        databaseBuilder.factory.buildCertificationCandidate({ id: 89, userId: 99, sessionId: 49 });
+        const userId = 99;
+        const sessionId = 49;
+        const candidateId = 80;
+        databaseBuilder.factory.buildUser({ id: userId });
+        databaseBuilder.factory.buildSession({ id: sessionId });
+        databaseBuilder.factory.buildCertificationCandidate({ id: candidateId, userId, sessionId });
         await databaseBuilder.commit();
 
         // when
         const companionPingInfo =
           await certificationCandidateRepository.findCertificationCandidateCompanionInfoByUserId({
-            userId: 99,
+            userId,
           });
 
         // then
-        expect(companionPingInfo).deepEqualInstance(new CertificationCandidateCompanion({ sessionId: 49, id: 89 }));
+        expect(companionPingInfo).deepEqualInstance(
+          new CertificationCandidateCompanion({ sessionId, id: candidateId }),
+        );
       });
     });
 
     context('where the user has not joined a session', function () {
-      it('should return undefined', async function () {
-        // given  when
-        const companionPingInfo =
-          await certificationCandidateRepository.findCertificationCandidateCompanionInfoByUserId({
-            userId: 99,
-          });
+      it('should throw a NotFoundError', async function () {
+        // given
+        const userId = 99;
+
+        // when
+        const error = await catchErr(certificationCandidateRepository.findCertificationCandidateCompanionInfoByUserId)({
+          userId,
+        });
 
         // then
-        expect(companionPingInfo).to.be.undefined;
+        expect(error).to.be.instanceOf(NotFoundError);
+        expect(error.message).to.equal(`User 99 is not found in a certification's session`);
       });
     });
   });
