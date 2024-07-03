@@ -51,6 +51,7 @@ const certificationCandidateParticipationJoiSchema = Joi.object({
     .empty(null),
   prepaymentCode: Joi.string().allow(null).optional(),
   subscriptions: Joi.array().items(subscriptionSchema).unique('type').required(),
+  hasSeenCertificationInstructions: Joi.boolean().optional(),
 });
 
 class CertificationCandidate {
@@ -84,6 +85,7 @@ class CertificationCandidate {
     billingMode = null,
     prepaymentCode = null,
     subscriptions = [],
+    hasSeenCertificationInstructions = false,
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -107,6 +109,7 @@ class CertificationCandidate {
     this.subscriptions = subscriptions;
     this.billingMode = billingMode;
     this.prepaymentCode = prepaymentCode;
+    this.hasSeenCertificationInstructions = hasSeenCertificationInstructions;
 
     Object.defineProperty(this, 'complementaryCertification', {
       enumerable: true,

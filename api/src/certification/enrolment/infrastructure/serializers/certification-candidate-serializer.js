@@ -35,6 +35,7 @@ const serialize = function (certificationCandidates) {
       'complementaryCertification',
       'billingMode',
       'prepaymentCode',
+      'hasSeenCertificationInstructions',
     ],
   }).serialize(certificationCandidates);
 };

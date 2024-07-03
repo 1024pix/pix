@@ -55,6 +55,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       resultRecipientEmail: undefined,
       complementaryCertification: null,
       subscriptions: [coreSubscription],
+      hasSeenCertificationInstructions: false,
     };
   });
 
