@@ -1,6 +1,7 @@
 import { HttpErrors } from '../../shared/application/http-errors.js';
 import { DomainErrorMappingConfiguration } from '../../shared/application/models/domain-error-mapping-configuration.js';
 import {
+  ElementInstantiationError,
   ModuleDoesNotExistError,
   ModuleInstantiationError,
   PassageDoesNotExistError,
@@ -16,6 +17,12 @@ const devcompDomainErrorMappingConfiguration = [
   },
   {
     name: ModuleInstantiationError.name,
+    httpErrorFn: (error) => {
+      return new HttpErrors.BadGatewayError(error.message, error.code, error.meta);
+    },
+  },
+  {
+    name: ElementInstantiationError.name,
     httpErrorFn: (error) => {
       return new HttpErrors.BadGatewayError(error.message, error.code, error.meta);
     },

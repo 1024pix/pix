@@ -51,23 +51,4 @@ describe('Unit | Devcomp | Domain | Models | Grain', function () {
       });
     });
   });
-
-  describe('#getElementById', function () {
-    it('should return the element by Id if it exists', function () {
-      // given
-      const elementId = 'elementId';
-      const expectedElement = { id: elementId };
-
-      // when
-      const grain = new Grain({
-        id: 1,
-        title: '',
-        type: '',
-        components: [{ type: 'element', element: expectedElement }],
-      });
-
-      // then
-      expect(grain.getElementById(elementId)).to.deep.equal(expectedElement);
-    });
-  });
 });

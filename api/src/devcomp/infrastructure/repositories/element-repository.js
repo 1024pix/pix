@@ -1,6 +1,6 @@
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { LearningContentResourceNotFound } from '../../../shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
-import { Module } from '../../domain/models/module/Module.js';
+import { ElementForVerificationFactory } from '../factories/element-for-verification-factory.js';
 
 async function getByIdForAnswerVerification({ moduleId, elementId, moduleDatasource }) {
   let moduleData;
@@ -30,9 +30,7 @@ async function getByIdForAnswerVerification({ moduleId, elementId, moduleDatasou
     throw new NotFoundError();
   }
 
-  const module = Module.toDomainForVerification(moduleData);
-  const grain = module.getGrainByElementId(elementId);
-  return grain.getElementById(elementId);
+  return ElementForVerificationFactory.build(foundElement);
 }
 
 export { getByIdForAnswerVerification };

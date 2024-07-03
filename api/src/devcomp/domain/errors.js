@@ -12,6 +12,12 @@ class ModuleInstantiationError extends DomainError {
   }
 }
 
+class ElementInstantiationError extends DomainError {
+  constructor(message = 'The element can not be instantiated due to incoherent data') {
+    super(message);
+  }
+}
+
 class PassageDoesNotExistError extends DomainError {
   constructor(message = 'The passage does not exist') {
     super(message);
@@ -31,6 +37,7 @@ class UserNotAuthorizedToFindTrainings extends DomainError {
 }
 
 export {
+  ElementInstantiationError,
   ModuleDoesNotExistError,
   ModuleInstantiationError,
   PassageDoesNotExistError,

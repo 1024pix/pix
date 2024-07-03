@@ -1,4 +1,3 @@
-import { NotFoundError } from '../../../shared/domain/errors.js';
 import { assertNotNullOrUndefined } from '../../../shared/domain/models/asserts.js';
 
 class Grain {
@@ -11,18 +10,6 @@ class Grain {
     this.title = title;
     this.type = type;
     this.components = components;
-  }
-
-  getElementById(elementId) {
-    const foundComponent = this.components.map((component) => component.element);
-
-    const foundElementId = foundComponent.find((element) => element.id === elementId);
-
-    if (foundElementId === undefined) {
-      throw new NotFoundError();
-    }
-
-    return foundElementId;
   }
 
   #assertComponentsIsDefinedAndAnArray(components) {

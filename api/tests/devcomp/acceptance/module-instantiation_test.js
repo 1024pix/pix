@@ -1,5 +1,5 @@
-import { Module } from '../../../src/devcomp/domain/models/module/Module.js';
 import moduleDatasource from '../../../src/devcomp/infrastructure/datasources/learning-content/module-datasource.js';
+import { ModuleFactory } from '../../../src/devcomp/infrastructure/factories/module-factory.js';
 import { expect } from '../../test-helper.js';
 
 const modules = await moduleDatasource.list();
@@ -10,7 +10,7 @@ describe('Acceptance | Modules', function () {
     modules.forEach((module) => {
       it(`module ${module.slug} should respect the correct structure`, function () {
         try {
-          Module.toDomainForVerification(module);
+          ModuleFactory.build(module, { isForReferentialValidation: true });
         } catch (e) {
           expect.fail(e.message);
         }
