@@ -221,22 +221,6 @@ async function _createProCertificationCenter({ databaseBuilder }) {
     ],
     complementaryCertificationIds,
   });
-
-  await tooling.certificationCenter.createCertificationCenter({
-    databaseBuilder,
-    certificationCenterId: PRO_PILOT_CERTIFICATION_CENTER_ID,
-    name: 'Centre de certification pro pilote pour la séparation Pix/Pix+',
-    type: CertificationCenter.types.PRO,
-    externalId: PRO_PILOT_EXTERNAL_ID,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    members: [
-      { id: PRO_ADMIN_CERTIFICATION_CENTER_USER_ID, role: CERTIFICATION_CENTER_MEMBERSHIP_ROLES.ADMIN },
-      { id: PRO_MEMBER_CERTIFICATION_CENTER_USER_ID, role: CERTIFICATION_CENTER_MEMBERSHIP_ROLES.MEMBER },
-    ],
-    complementaryCertificationIds,
-    featureIds: [FEATURE_CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE_ID],
-  });
 }
 
 async function _createScoOrganization({ databaseBuilder }) {
