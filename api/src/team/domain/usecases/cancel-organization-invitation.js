@@ -1,4 +1,4 @@
-import { UncancellableOrganizationInvitationError } from '../../domain/errors.js';
+import { UncancellableOrganizationInvitationError } from '../../../../lib/domain/errors.js';
 
 const cancelOrganizationInvitation = async function ({ organizationInvitationId, organizationInvitationRepository }) {
   const foundOrganizationInvitation = await organizationInvitationRepository.get(organizationInvitationId);

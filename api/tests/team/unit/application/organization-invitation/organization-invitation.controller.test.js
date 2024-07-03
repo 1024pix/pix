@@ -1,5 +1,4 @@
 import { MissingQueryParamError } from '../../../../../lib/application/http-errors.js';
-import { usecases as libUsecases } from '../../../../../lib/domain/usecases/index.js';
 import { organizationInvitationController } from '../../../../../src/team/application/organization-invitations/organization-invitation.controller.js';
 import { OrganizationInvitation } from '../../../../../src/team/domain/models/OrganizationInvitation.js';
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
@@ -64,7 +63,7 @@ describe('Unit | Team | Application | Controller | organization-invitation', fun
       });
 
       sinon
-        .stub(libUsecases, 'cancelOrganizationInvitation')
+        .stub(usecases, 'cancelOrganizationInvitation')
         .withArgs({
           organizationInvitationId: cancelledOrganizationInvitation.id,
         })

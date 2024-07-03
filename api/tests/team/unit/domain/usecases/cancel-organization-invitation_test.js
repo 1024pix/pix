@@ -1,9 +1,9 @@
-import { NotFoundError, UncancellableOrganizationInvitationError } from '../../../../lib/domain/errors.js';
-import { cancelOrganizationInvitation } from '../../../../lib/domain/usecases/cancel-organization-invitation.js';
-import { OrganizationInvitation } from '../../../../src/team/domain/models/OrganizationInvitation.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { NotFoundError, UncancellableOrganizationInvitationError } from '../../../../../lib/domain/errors.js';
+import { OrganizationInvitation } from '../../../../../src/team/domain/models/OrganizationInvitation.js';
+import { cancelOrganizationInvitation } from '../../../../../src/team/domain/usecases/cancel-organization-invitation.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | cancel-organization-invitation', function () {
+describe('Unit | Team | Domain | UseCase | cancel-organization-invitation', function () {
   let organizationInvitationRepository;
 
   beforeEach(function () {
@@ -14,7 +14,7 @@ describe('Unit | UseCase | cancel-organization-invitation', function () {
   });
 
   context("when invitation doesn't exist", function () {
-    it('should throw an error', async function () {
+    it('throws an error', async function () {
       // given
       organizationInvitationRepository.get.rejects(new NotFoundError());
 
@@ -30,7 +30,7 @@ describe('Unit | UseCase | cancel-organization-invitation', function () {
 
   context('when invitation exist ', function () {
     context('when invitation is not pending', function () {
-      it('should throw an uncancellable organization invitation error', async function () {
+      it('throws an uncancellable organization invitation error', async function () {
         // given
         const status = OrganizationInvitation.StatusType.ACCEPTED;
         const organizationInvitation = domainBuilder.buildOrganizationInvitation({ status });
@@ -48,7 +48,7 @@ describe('Unit | UseCase | cancel-organization-invitation', function () {
     });
 
     context('when invitation is pending', function () {
-      it('should return the cancelled organization invitation', async function () {
+      it('returns the cancelled organization invitation', async function () {
         // given
         const status = OrganizationInvitation.StatusType.PENDING;
         const organizationInvitation = domainBuilder.buildOrganizationInvitation({ status });
