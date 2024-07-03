@@ -5,6 +5,6 @@ export default class InformationRoute extends Route {
   @service store;
 
   async model(params) {
-    return await this.store.findRecord('certification-candidate-subscription', params.certification_candidate_id);
+    return this.store.peekRecord('certification-candidate', params.certification_candidate_id);
   }
 }
