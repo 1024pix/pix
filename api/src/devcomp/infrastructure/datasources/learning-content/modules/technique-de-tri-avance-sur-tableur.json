@@ -84,8 +84,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "Correct. Pour ajouter le tri des heures d’arrivée au tri des numéros de table, il faut créer un tri à deux critères. Cette action est accessible via la fenêtre de tri.",
-                "invalid": "Incorrect. Cette méthode ne permet pas de cumuler les deux critères de tri. "
+                "valid": "<span class=\"feedback__state\">Correct.</span><p>Pour ajouter le tri des heures d’arrivée au tri des numéros de table, il faut créer un tri à deux critères. Cette action est accessible via la fenêtre de tri.</p>",
+                "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Cette méthode ne permet pas de cumuler les deux critères de tri.</p> "
               },
               "solution": "2"
             }
@@ -154,8 +154,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": " Correct.  Le tri avancé a bien permis de classer la liste d’invités par ordre croissant d'heure d’arrivée, puis par ordre décroissant de numéro de table. ",
-                "invalid": " Incorrect.   Vérifiez l’ordre de vos critères de tri. En premier le numéro de table par ordre décroissant, puis le menu par ordre croissant. Regardez à nouveau la vidéo pour vous aider  "
+                " ": " <span class=\"feedback__state\">Correct.</span><p>Le tri avancé a bien permis de classer la liste d’invités par ordre croissant d'heure d’arrivée, puis par ordre décroissant de numéro de table.</p> ",
+                "invalid": " <span class=\"feedback__state\">Incorrect.</span> <p>Vérifiez l’ordre de vos critères de tri. En premier le numéro de table par ordre décroissant, puis le menu par ordre croissant. Regardez à nouveau la vidéo pour vous aider.</p>"
               }
             }
           }
@@ -279,8 +279,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "Correct. Le tri avancé a bien permis de xxxxxxxxxxxxxxxxx",
-                "invalid": " Incorrect. Regardez bien dans l’image. Trouvez d’abord dans quel ordre les colonnes sont triées. Quelle colonne affiche le plus d'éléments similaires les uns à la suite des autres ? C’est celle qui représente le premier critère. Ensuite, quel tri est appliqué à cette colonne ? Croissant ou décroissant ? Continuez avec les autres colonnes."
+                "valid": "<span class=\"feedback__state\">Correct.</span><p>Le tri avancé a bien permis de xxxxxxxxxxxxxxxxx</p>",
+                "invalid": "<span class=\"feedback__state\">Incorrect.</span> <p>Regardez bien dans l’image. Trouvez d’abord dans quel ordre les colonnes sont triées. Quelle colonne affiche le plus d'éléments similaires les uns à la suite des autres ? C’est celle qui représente le premier critère. Ensuite, quel tri est appliqué à cette colonne ? Croissant ou décroissant ? Continuez avec les autres colonnes.</p>"
               }
             }
           }
