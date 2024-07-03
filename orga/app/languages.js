@@ -8,4 +8,9 @@ export default {
     value: 'Français',
     languageSwitcherDisplayed: true,
   },
+
+  nl: {
+    value: 'Nederlands',
+    languageSwitcherDisplayed: true,
+  },
 };
