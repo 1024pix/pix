@@ -453,26 +453,26 @@
               "text": "If you don’t know how to answer a question, '<strong>'you may \"skip\" that question'</strong>'. '<br>'The questions skipped will be considered as failed and will not be resubmitted to you."
             },
             "3": {
-              "text": "'<strong>'It’s important for you to follow through to the end of the test'</strong>',  and therefore to manage your time well. A '<strong>'penalty'</strong>' taking into account the number of questions left will be applied."
+              "text": "'<strong>'It’s important for you to follow through to the end of the test'</strong>', and therefore to manage your time well. A '<strong>'penalty'</strong>' taking into account the number of questions left will be applied."
             }
           },
-          "question": "How does the certification exam work ?"
+          "question": "How does the certification exam work?"
         },
         "2": {
-          "title": "Comment se passe le test de certification ?",
+          "title": "How is the certification exam conducted?",
           "legend": {
             "strong-text": "32 QUESTIONS",
             "text": "1 H 45 min"
           },
           "paragraphs": {
             "1": {
-              "question": "Le nombre de questions ?",
-              "text": "La certification contient '<strong>'32 questions'</strong>'."
+              "question": "How many questions?",
+              "text": "The certification includes '<strong>'32 questions'</strong>'."
             },
             "2": {
-              "light-text": "*sauf éventuel temps majoré.",
-              "question": "La durée du test ?",
-              "text": "Vous avez au maximum '<strong>'1h45*'</strong>'."
+              "light-text": "*except those entitled to extra time.",
+              "question": "How long does the exam last?",
+              "text": "You have '<strong>'1h45'</strong>' maximum*."
             }
           }
         },
