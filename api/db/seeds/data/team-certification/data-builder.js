@@ -1,5 +1,3 @@
-import { CertificationCenter } from '../../../../lib/domain/models/CertificationCenter.js';
-import { CERTIFICATION_CENTER_MEMBERSHIP_ROLES } from '../../../../lib/domain/models/CertificationCenterMembership.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import {
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
@@ -12,6 +10,7 @@ import * as tooling from '../common/tooling/index.js';
 import { getV3CertificationChallenges } from '../common/tooling/learning-content.js';
 import { createCompetenceScoringConfiguration } from './create-competence-scoring-configuration.js';
 import { createScoringConfiguration } from './create-scoring-configuration.js';
+import { CertificationCenter } from '../../../../lib/domain/models/index.js';
 
 const TEAM_CERTIFICATION_OFFSET_ID = 7000;
 // IDS
@@ -37,7 +36,7 @@ const PRO_PILOT_CERTIFICATION_CENTER_ID = TEAM_CERTIFICATION_OFFSET_ID_CENTERS +
 /// EXTERNAL IDS
 const CERTIFICATION_SCO_MANAGING_STUDENTS_EXTERNAL_ID = 'CERTIFICATION_SCO_MANAGING_STUDENTS_EXTERNAL_ID';
 const PRO_EXTERNAL_ID = 'PRO_EXTERNAL_ID';
-const PRO_PILOT_EXTERNAL_ID = 'PRO_PILOT_EXTERNAL_ID';
+const V3_PRO_PILOT_EXTERNAL_ID = 'V3_PRO_PILOT_EXTERNAL_ID';
 // SESSION IDS
 const TEAM_CERTIFICATION_OFFSET_ID_SESSIONS = TEAM_CERTIFICATION_OFFSET_ID + 400;
 const SCO_DRAFT_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID_SESSIONS;
@@ -156,6 +155,20 @@ async function _createV3PilotCertificationCenter({ databaseBuilder }) {
     members: [{ id: V3_CERTIFICATION_CENTER_USER_ID }],
     isV3Pilot: true,
     complementaryCertificationIds: [],
+  });
+
+  await tooling.certificationCenter.createCertificationCenter({
+    databaseBuilder,
+    certificationCenterId: PRO_PILOT_CERTIFICATION_CENTER_ID,
+    name: 'Centre de certification v3 pro pilote pour la séparation pix/pix+',
+    type: CertificationCenter.types.PRO,
+    externalId: V3_PRO_PILOT_EXTERNAL_ID,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    members: [{ id: V3_CERTIFICATION_CENTER_USER_ID }],
+    isV3Pilot: true,
+    complementaryCertificationIds,
+    featureIds: [FEATURE_CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE_ID],
   });
 }
 
