@@ -28,7 +28,7 @@
       },
       {
         "grainId": "3c89d821-9e99-412e-947f-b91f3169b217",
-        "content": "<p>Vous savez désormais créer un tri à deux colonnes sur un logiciel de tableur. </p><p><span aria-hidden=\"true\">⚠️</span> Selon les logiciels, il y a parfois des différences dans les noms ou dans la disposition des boutons.</p><p> Voici un récapitulatif des grandes étapes de tri et des précisions de vocabulaire.</p>"
+        "content": "<p>Vous savez désormais créer un tri à deux colonnes sur un logiciel de tableur. </p><br><p><span aria-hidden=\"true\">🔤</span> Selon les logiciels, il existe des différences dans les noms ou dans la disposition des boutons.</p><p> Voici un récapitulatif des grandes étapes de tri et des précisions de vocabulaire.</p>"
       },
       {
         "grainId": "83a7a4fc-cae1-4928-92ec-4b35dc2e68fc",
@@ -72,15 +72,15 @@
               "proposals": [
                 {
                   "id": "1",
-                  "content": "Utiliser la fenêtre de tri pour ajouter un tri décroissant à « Numéro de table », puis un tri croissant à « Heure d’arrivée »."
+                  "content": "A) Utiliser la fenêtre de tri pour ajouter un tri décroissant à « Numéro de table », puis un tri croissant à « Heure d’arrivée »."
                 },
                 {
                   "id": "2",
-                  "content": "Cliquer sur l’icône «Tri décroissant» pour la colonne « Numéro de table »  puis sur « Tri croissant »  pour la colonne « Heure d’arrivée »."
+                  "content": "B) Cliquer sur l’icône «Tri décroissant» pour la colonne « Numéro de table »  puis sur « Tri croissant »  pour la colonne « Heure d’arrivée »."
                 },
                 {
                   "id": "3",
-                  "content": "Créer une formule de tri automatique dans la colonne F pour « Numéro de table »  en ajoutant « Heure d’arrivée » ."
+                  "content": "C) Créer une formule de tri automatique dans la colonne F pour « Numéro de table »  en ajoutant « Heure d’arrivée » ."
                 }
               ],
               "feedbacks": {
@@ -126,7 +126,7 @@
             "element": {
               "id": "cabf35be-5916-4e49-acc9-f3e66b27d673",
               "type": "text",
-              "content": "<p>Sarah a ajouté à son fichier une colonne supplémentaire.<br>L’ordre de service des invités est désormais défini d'abord par le numéro de table puis par le menu choisi : </p><ul><li>Les végétariens du menu A seront servis en premier.</li> <li>Le menu poisson B ensuite.</li> <li>Le menu C viande par la suite.</li><li>Enfin le menu D pour les invités vegan.</li></ul> <br> <p>Téléchargez le fichier ci-dessous et triez la liste d’invités par ordre décroissant de numéro de table et par ordre croissant de menu.</p><br><a href=\"https://docs.google.com/spreadsheets/d/1jIlptuNvZTiWyDVidP83wPa-pEcMU5eH4NPep7mjBgw/edit?gid=0#gid=0\" target=\"_blank\">Téléchargement</a>"
+              "content": "<p>Sarah a reçu les réponses de ses invités concernant leur shouhait de Menu. Elle a organisé les réponses dans un tableau de données.<br>L’ordre de service des invités est désormais défini d'abord par le numéro de table, de la plus grande à la plus petite, puis par le menu choisi : </p><ul><li>Les végétariens du menu A seront servis en premier.</li> <li>Le menu poisson B ensuite.</li> <li>Le menu C viande par la suite.</li><li>Enfin le menu D pour les invités vegan.</li></ul> <br> <p>Le  fichier à télécharger ci-dessous contient le tableau de Sarah. <b>Triez la liste d’invités par ordre décroissant de numéro de table et par ordre croissant de menu.</b></p><br><a href=\"https://drive.google.com/file/d/1IK_8LSIlsub80BPrQuzxOmqNATbJkLPC/view?usp=drive_link\" target=\"_blank\">Téléchargement</a>"
             }
           },
           {
@@ -171,7 +171,7 @@
             "element": {
               "id": "c76ef813-7650-4da8-8eb7-490e53d8045b",
               "type": "text",
-              "content": " <h3><span aria-hidden=\"true\">🪟</span>La fenêtre de tri permet de créer un tri basé sur plusieurs colonnes.</h3><p>Il y a généralement deux manières d’accéder à la fenêtre de tri&nbsp;:</p><ul><li>en cliquant sur une icône dans le bandeau principal. Cette icône ressemble souvent à un petit tableau,</li><li>via l’onglet «&nbsp;Données&nbsp;»  ou «&nbsp;Organiser&nbsp;» . </li></ul><p><span aria-hidden=\"true\">🔤</span> Selon le logiciel utilisé, la fenêtre de tri peut s’appeler «&nbsp;Trier&nbsp;»  ou «&nbsp;Tri personnalisé&nbsp;», et même parfois «&nbsp;Options avancées de tri&nbsp;» .</p>"
+              "content": " <h3><span aria-hidden=\"true\">🪟</span>La fenêtre de tri permet de créer un tri basé sur plusieurs colonnes.</h3><p>Il y a généralement deux manières d’accéder à la fenêtre de tri&nbsp;:</p><ul><li>en cliquant sur une icône dans le bandeau principal. Cette icône ressemble souvent à un petit tableau,</li><li>via l’onglet «&nbsp;Données&nbsp;»  ou «&nbsp;Organiser&nbsp;» .<br> </li></ul><p><span aria-hidden=\"true\">🔤</span> Selon le logiciel utilisé, la fenêtre de tri peut s’appeler «&nbsp;Trier&nbsp;»  ou «&nbsp;Tri personnalisé&nbsp;», et même parfois «&nbsp;Options avancées de tri&nbsp;» .</p>"
             }
           },
           {
@@ -187,7 +187,7 @@
             "element": {
               "id": "0079417d-3054-4c03-8cfa-5f48f0d71282",
               "type": "text",
-              "content": " <h3><span aria-hidden=\"true\">🥇</span>L’ordre des critères de tri détermine le rendu du tri.</h3>  <p> L’ordre des critères de tri est déterminant. Le second critère s’applique en fonction du premier. Si vous inversez les critères, vous obtiendrez un rendu très différent.<br><span aria-hidden=\"true\">🔤</span>Un critère de tri comprend 2 facteurs : <b>une colonne</b> et <b>un tri</b> (croissant ou décroissant). Selon le logiciel, un critère de tri peut aussi s’appeler «&nbsp;clé de tri&nbsp;»  ou «&nbsp;niveau de tri&nbsp;» .</p>"
+              "content": " <h3><span aria-hidden=\"true\">🥇</span>L’ordre des critères de tri détermine le rendu du tri.</h3>  <p> L’ordre des critères de tri est déterminant. Le second critère s’applique en fonction du premier. Si vous inversez les critères, vous obtiendrez un rendu très différent.</p><br><p><span aria-hidden=\"true\">🔤</span>Un critère de tri comprend 2 facteurs : <b>une colonne</b> et <b>un tri</b> (croissant ou décroissant). Selon le logiciel, un critère de tri peut aussi s’appeler «&nbsp;clé de tri&nbsp;»  ou «&nbsp;niveau de tri&nbsp;» .</p>"
             }
           }
         ]
@@ -205,7 +205,7 @@
                   {
                     "id": "4d323b5f-4abf-4d3b-bee7-89fa205e25f3",
                     "type": "text",
-                    "content": "  <p><span aria-hidden=\"true\">🛠️</span>Quelques bonnes pratiques de tri sur tableur. </p> <br> <h3>Il n'est pas nécessaire de sélectionner les 350 lignes une par une. </h3><p>Cliquez sur n’importe quelle case de votre tableau et ouvrez la fenêtre de tri. La majorité des logiciels détectent automatiquement l’ensemble de votre tableau à trier.</p> <p><span aria-hidden=\"true\">💡</span>L’astuce pratique <br> Une colonne ou ligne vide peut bloquer la détection du tableau.<span aria-hidden=\"true\">❌</span> <br>Pensez à supprimer en amont les lignes et colonnes vides.<span aria-hidden=\"true\">✅</span></p>"
+                    "content": "<h3>Il n'est pas nécessaire de sélectionner les 350 lignes une par une. </h3><p>Cliquez sur n’importe quelle case de votre tableau et ouvrez la fenêtre de tri. La majorité des logiciels détectent automatiquement l’ensemble de votre tableau à trier.</p><br><p><span aria-hidden=\"true\">💡</span> L’astuce pratique <br> Une colonne ou ligne vide peut bloquer la détection du tableau.<span aria-hidden=\"true\">❌</span> <br>Pensez à supprimer en amont les lignes et colonnes vides.<span aria-hidden=\"true\">✅</span></p>"
                   }
                 ]
               },
@@ -214,7 +214,7 @@
                   {
                     "id": "76a09390-8f46-480b-b700-956a08799082",
                     "type": "text",
-                    "content": "<h3>Une case permet de reconnaître les en-têtes ou étiquettes de colonnes.</h3> <p>Lorsque vous ouvrez votre fenêtre de tri, la liste déroulante des colonnes vous propose déjà le choix entre «&nbsp;Prénom&nbsp;»  «&nbsp;Menu&nbsp;»  «&nbsp;Heure d’arrivée&nbsp;»  et «&nbsp;Numéro de table&nbsp;»&nbsp;? C’est normal. <br>Si les en-têtes sont correctement remplis, la plupart des logiciels les détectent tout seuls, car une case est cochée.<span aria-hidden=\"true\">☑️</span> </p><br> <p><span aria-hidden=\"true\">💡</span> L’astuce pratique </p><ul><li><span aria-hidden=\"true\">✅</span>Vous pouvez cocher la case manuellement si la liste déroulante vous propose uniquement des intitulés comme «&nbsp;Colonne A&nbsp;»  et «&nbsp;Colonne B&nbsp;». Cette case s’appelle «&nbsp;Mes données ont des en-têtes&nbsp;»  ou «&nbsp;Ma plage contient des étiquettes de colonne&nbsp;»</li><li> <span aria-hidden=\"true\">❌</span>Sachez que si la case n’est pas cochée alors que vous avez des en-têtes, votre ligne d’en-tête va être triée avec les autres. Dans ce cas, «&nbsp;Prénom&nbsp;»  sera placé entre «&nbsp;Pauline&nbsp;»  et «&nbsp;Raphaël&nbsp;» .</li></ul>"
+                    "content": "<h3>Une case permet de reconnaître les en-têtes ou étiquettes de colonnes.</h3> <p>Dans la fenêtre de tri, la liste déroulante vous propose  le choix entre «&nbsp;Prénom&nbsp;»  «&nbsp;Menu&nbsp;»  «&nbsp;Heure d’arrivée&nbsp;»  et «&nbsp;Numéro de table&nbsp;». En effet, si les entêtes sont correctement remplis, la plupart des logiciels les détectent grâce une case est cochée.<span aria-hidden=\"true\">☑️</span>Cette case s’appelle «&nbsp;Mes données ont des en-têtes&nbsp;»  ou «&nbsp;Ma plage contient des étiquettes de colonne&nbsp;» </p><br><p><span aria-hidden=\"true\">💡</span> L’astuce pratique </p><ul><li><span aria-hidden=\"true\">✅</span>Vous pouvez cocher la case manuellement si la liste déroulante vous propose uniquement des intitulés comme «&nbsp;Colonne A&nbsp;»  et «&nbsp;Colonne B&nbsp;». </li><li> <span aria-hidden=\"true\">❌</span>Sachez que si la case n’est pas cochée alors que vous avez des en-têtes, votre ligne d’en-tête va être triée avec les autres. Dans ce cas, «&nbsp;Prénom&nbsp;»  sera placé entre «&nbsp;Pauline&nbsp;»  et «&nbsp;Raphaël&nbsp;» .</li></ul>"
                   }
                 ]
               },
