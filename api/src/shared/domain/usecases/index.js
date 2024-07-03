@@ -1,6 +1,8 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { knex } from '../../../../db/knex-database-connection.js';
+import { LcmsRefreshCacheJob } from '../../../../lib/infrastructure/jobs/lcms/LcmsRefreshCacheJob.js';
 import * as complementaryCertificationBadgeRepository from '../../../certification/complementary-certification/infrastructure/repositories/complementary-certification-badge-repository.js';
 import * as badgeRepository from '../../../evaluation/infrastructure/repositories/badge-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
@@ -15,6 +17,7 @@ const usecasesWithoutInjectedDependencies = {
 const dependencies = {
   complementaryCertificationBadgeRepository,
   badgeRepository,
+  lcmsRefreshCacheJob: new LcmsRefreshCacheJob(knex),
 };
 
 const sharedUsecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);

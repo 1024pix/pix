@@ -1,6 +1,6 @@
 import { cacheController } from '../../../../lib/application/cache/cache-controller.js';
+import { sharedUsecases as usecases } from '../../../../src/shared/domain/usecases/index.js';
 import * as learningContentDatasources from '../../../../src/shared/infrastructure/datasources/learning-content/index.js';
-import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 import { expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Controller | cache-controller', function () {
@@ -79,52 +79,17 @@ describe('Unit | Controller | cache-controller', function () {
   });
 
   describe('#refreshCacheEntries', function () {
-    const request = {};
-    let learningContentDatasourceStub;
-
-    beforeEach(function () {
-      learningContentDatasourceStub = { refreshLearningContentCacheRecords: sinon.stub() };
-    });
-
     context('nominal case', function () {
       it('should reply with http status 202', async function () {
         // given
-        const numberOfDeletedKeys = 0;
-        learningContentDatasourceStub.refreshLearningContentCacheRecords.resolves(numberOfDeletedKeys);
+        sinon.stub(usecases, 'refreshLearningContentCache').resolves();
 
         // when
-        const response = await cacheController.refreshCacheEntries(request, hFake, {
-          learningContentDatasource: learningContentDatasourceStub,
-        });
+        const response = await cacheController.refreshCacheEntries({}, hFake);
 
         // then
-        expect(learningContentDatasourceStub.refreshLearningContentCacheRecords).to.have.been.calledOnce;
+        expect(usecases.refreshLearningContentCache).to.have.been.calledOnce;
         expect(response.statusCode).to.equal(202);
-      });
-    });
-
-    context('error case', function () {
-      let response;
-
-      beforeEach(async function () {
-        // given
-        sinon.stub(logger, 'error');
-        learningContentDatasourceStub.refreshLearningContentCacheRecords.rejects();
-
-        // when
-        response = await cacheController.refreshCacheEntries(request, hFake, {
-          learningContentDatasource: learningContentDatasourceStub,
-        });
-      });
-
-      it('should reply with http status 202', async function () {
-        // then
-        expect(response.statusCode).to.equal(202);
-      });
-
-      it('should call log errors', async function () {
-        // then
-        expect(logger.error).to.have.been.calledOnce;
       });
     });
   });

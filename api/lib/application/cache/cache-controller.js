@@ -1,12 +1,10 @@
 import _ from 'lodash';
 
-import { knex } from '../../../db/knex-database-connection.js';
+import { sharedUsecases as usecases } from '../../../src/shared/domain/usecases/index.js';
 import * as LearningContentDatasources from '../../../src/shared/infrastructure/datasources/learning-content/index.js';
-import { LcmsRefreshCacheJob } from '../../infrastructure/jobs/lcms/LcmsRefreshCacheJob.js';
 
 const refreshCacheEntries = async function (_, h) {
-  const refreshJob = new LcmsRefreshCacheJob(knex);
-  await refreshJob.schedule();
+  await usecases.refreshLearningContentCache();
   return h.response({}).code(202);
 };
 
