@@ -1,3 +1,5 @@
+import { CERTIFICATION_CENTER_MEMBERSHIP_ROLES } from '../../../../lib/domain/models/CertificationCenterMembership.js';
+import { CertificationCenter } from '../../../../lib/domain/models/index.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import {
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
@@ -10,8 +12,6 @@ import * as tooling from '../common/tooling/index.js';
 import { getV3CertificationChallenges } from '../common/tooling/learning-content.js';
 import { createCompetenceScoringConfiguration } from './create-competence-scoring-configuration.js';
 import { createScoringConfiguration } from './create-scoring-configuration.js';
-import { CertificationCenter } from '../../../../lib/domain/models/index.js';
-import { CERTIFICATION_CENTER_MEMBERSHIP_ROLES } from '../../../../lib/domain/models/CertificationCenterMembership.js';
 
 const TEAM_CERTIFICATION_OFFSET_ID = 7000;
 // IDS
