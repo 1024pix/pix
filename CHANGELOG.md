@@ -1,5 +1,27 @@
 # Pix Changelog
 
+## v4.175.0 (03/07/2024)
+
+
+### :rocket: Amélioration
+- [#9392](https://github.com/1024pix/pix/pull/9392) [FEATURE] Autoriser les centres V3 comme pilote de séparation Pix/Pix+ (PIX-13170).
+- [#9401](https://github.com/1024pix/pix/pull/9401) [FEATURE] Traduction du message "E-mail vérifié" dans Mon Compte (PIX-13109).
+- [#9397](https://github.com/1024pix/pix/pull/9397) [FEATURE] Modification du lien de contact support sur la page de récupération du compte (PIX-13145).
+
+### :building_construction: Tech
+- [#9420](https://github.com/1024pix/pix/pull/9420) [TECH] Monter à la version 46.10.8 de pix-ui (PIX-13247).
+- [#9408](https://github.com/1024pix/pix/pull/9408) [TECH] Supprimer les warnings des dépréciations pour la v6.0 de Ember-Data (PIX-13216).
+
+### :arrow_up: Montée de version
+- [#9431](https://github.com/1024pix/pix/pull/9431) [BUMP] Update dependency @1024pix/ember-testing-library to ^2.0.5 (orga).
+- [#9430](https://github.com/1024pix/pix/pull/9430) [BUMP] Update dependency @1024pix/ember-testing-library to ^2.0.5 (junior).
+- [#9429](https://github.com/1024pix/pix/pull/9429) [BUMP] Update dependency @1024pix/ember-testing-library to ^2.0.5 (certif).
+- [#9428](https://github.com/1024pix/pix/pull/9428) [BUMP] Update dependency @1024pix/pix-ui to ^46.11.7 (PIX-13220).
+- [#9421](https://github.com/1024pix/pix/pull/9421) [BUMP] Update dependency node to v20.15.0.
+
+### :coffee: Autre
+- [#9393](https://github.com/1024pix/pix/pull/9393) Updated translations from Phrase.
+
 ## v4.174.0 (01/07/2024)
 
 
