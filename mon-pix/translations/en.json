@@ -1364,9 +1364,9 @@
     },
     "oidc-reconciliation": {
       "title": "Warning",
-      "authentication-method-to-add": "Login method added :",
+      "authentication-method-to-add": "Login method added:",
       "confirm": "Continue",
-      "current-authentication-methods": "My current login methods :",
+      "current-authentication-methods": "My current login methods:",
       "email": "Email address",
       "external-connection": "External login",
       "external-connection-via": "Login via",
