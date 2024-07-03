@@ -1,6 +1,6 @@
 import jsonwebtoken from 'jsonwebtoken';
 
-import * as resetPasswordService from '../../../../../src/identity-access-management/domain/services/reset-password.service.js';
+import { resetPasswordService } from '../../../../../src/identity-access-management/domain/services/reset-password.service.js';
 import { config as settings } from '../../../../../src/shared/config.js';
 import { cryptoService } from '../../../../../src/shared/domain/services/crypto-service.js';
 import { expect, sinon } from '../../../../test-helper.js';

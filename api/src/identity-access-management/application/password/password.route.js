@@ -1,5 +1,6 @@
 import Joi from 'joi';
 
+import { passwordController as libPasswordController } from '../../../../lib/application/passwords/password-controller.js';
 import { passwordController } from './password.controller.js';
 
 export const passwordRoutes = [
@@ -23,6 +24,15 @@ export const passwordRoutes = [
       },
       notes: ['Route publique', 'Faire une demande de réinitialisation de mot de passe'],
       tags: ['identity-access-management', 'api', 'password'],
+    },
+  },
+  {
+    method: 'GET',
+    path: '/api/password-reset-demands/{temporaryKey}',
+    config: {
+      auth: false,
+      handler: (request, h) => libPasswordController.checkResetDemand(request, h),
+      tags: ['api', 'passwords'],
     },
   },
 ];

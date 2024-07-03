@@ -1,13 +1,14 @@
-import { PasswordResetDemandNotFoundError, UserNotFoundError } from '../../../../lib/domain/errors.js';
-import { getUserByResetPasswordDemand } from '../../../../lib/domain/usecases/get-user-by-reset-password-demand.js';
-import { User } from '../../../../src/identity-access-management/domain/models/User.js';
-import * as resetPasswordService from '../../../../src/identity-access-management/domain/services/reset-password.service.js';
-import * as userRepository from '../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
-import { InvalidTemporaryKeyError } from '../../../../src/shared/domain/errors.js';
-import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
-import { catchErr, databaseBuilder, expect } from '../../../test-helper.js';
+import { PasswordResetDemandNotFoundError, UserNotFoundError } from '../../../../../lib/domain/errors.js';
+import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
+import { resetPasswordService } from '../../../../../src/identity-access-management/domain/services/reset-password.service.js';
+import { getUserByResetPasswordDemand } from '../../../../../src/identity-access-management/domain/usecases/get-user-by-reset-password-demand.usecase.js';
+import { resetPasswordDemandRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/reset-password-demand.repository.js';
+import * as userRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
+import { InvalidTemporaryKeyError } from '../../../../../src/shared/domain/errors.js';
+import { tokenService } from '../../../../../src/shared/domain/services/token-service.js';
+import { catchErr, databaseBuilder, expect } from '../../../../test-helper.js';
 
-describe('Integration | UseCases | get-user-by-reset-password-demand', function () {
+describe('Integration | Identity Access Management | Domain | UseCase | getUserByResetPasswordDemand', function () {
   const email = 'user@example.net';
 
   let temporaryKey;
@@ -29,6 +30,7 @@ describe('Integration | UseCases | get-user-by-reset-password-demand', function 
       resetPasswordService,
       tokenService,
       userRepository,
+      resetPasswordDemandRepository,
     });
 
     // then
@@ -43,6 +45,7 @@ describe('Integration | UseCases | get-user-by-reset-password-demand', function 
       resetPasswordService,
       tokenService,
       userRepository,
+      resetPasswordDemandRepository,
     });
 
     // then
@@ -59,6 +62,7 @@ describe('Integration | UseCases | get-user-by-reset-password-demand', function 
       resetPasswordService,
       tokenService,
       userRepository,
+      resetPasswordDemandRepository,
     });
 
     // then
@@ -78,6 +82,7 @@ describe('Integration | UseCases | get-user-by-reset-password-demand', function 
       resetPasswordService,
       tokenService,
       userRepository,
+      resetPasswordDemandRepository,
     });
 
     // then

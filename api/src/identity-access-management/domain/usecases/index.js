@@ -30,7 +30,7 @@ import { userToCreateRepository } from '../../infrastructure/repositories/user-t
 import { authenticationSessionService } from '../services/authentication-session.service.js';
 import { pixAuthenticationService } from '../services/pix-authentication-service.js';
 import { refreshTokenService } from '../services/refresh-token-service.js';
-import * as resetPasswordService from '../services/reset-password.service.js';
+import { resetPasswordService } from '../services/reset-password.service.js';
 import { scoAccountRecoveryService } from '../services/sco-account-recovery.service.js';
 import { addOidcProviderValidator } from '../validators/add-oidc-provider.validator.js';
 

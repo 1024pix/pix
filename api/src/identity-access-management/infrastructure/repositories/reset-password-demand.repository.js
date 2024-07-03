@@ -48,8 +48,14 @@ const findByUserEmail = function (email, temporaryKey) {
 
 /**
  * @typedef {Object} ResetPasswordDemandRepository
+ * @property {function} create
+ * @property {function} findByTemporaryKey
+ * @property {function} findByUserEmail
+ * @property {function} markAsBeingUsed
  */
-export { create, findByTemporaryKey, findByUserEmail, markAsBeingUsed };
+const resetPasswordDemandRepository = { create, findByTemporaryKey, findByUserEmail, markAsBeingUsed };
+
+export { resetPasswordDemandRepository };
 
 function _toDomain(data) {
   return new ResetPasswordDemandModel(data);

@@ -49,4 +49,10 @@ const hasUserAPasswordResetDemandInProgress = function (
  * @property invalidateOldResetPasswordDemand
  * @property verifyDemand
  */
-export { generateTemporaryKey, hasUserAPasswordResetDemandInProgress, invalidateOldResetPasswordDemand, verifyDemand };
+const resetPasswordService = {
+  generateTemporaryKey,
+  hasUserAPasswordResetDemandInProgress,
+  invalidateOldResetPasswordDemand,
+  verifyDemand,
+};
+export { resetPasswordService };
