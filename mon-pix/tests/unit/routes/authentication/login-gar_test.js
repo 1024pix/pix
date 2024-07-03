@@ -7,6 +7,10 @@ import sinon from 'sinon';
 module('Unit | Routes | authentication | login-gar', function (hooks) {
   setupTest(hooks);
 
+  hooks.afterEach(function () {
+    sinon.restore();
+  });
+
   module('#beforeModel', function () {
     module('when a token is set as an hash of an url', function () {
       test('should authenticate the user', async function (assert) {
