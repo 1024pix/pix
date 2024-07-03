@@ -11,6 +11,7 @@ import { getV3CertificationChallenges } from '../common/tooling/learning-content
 import { createCompetenceScoringConfiguration } from './create-competence-scoring-configuration.js';
 import { createScoringConfiguration } from './create-scoring-configuration.js';
 import { CertificationCenter } from '../../../../lib/domain/models/index.js';
+import { CERTIFICATION_CENTER_MEMBERSHIP_ROLES } from '../../../../lib/domain/models/CertificationCenterMembership.js';
 
 const TEAM_CERTIFICATION_OFFSET_ID = 7000;
 // IDS
@@ -216,8 +217,8 @@ async function _createProCertificationCenter({ databaseBuilder }) {
     createdAt: new Date(),
     updatedAt: new Date(),
     members: [
-      { id: PRO_ADMIN_CERTIFICATION_CENTER_USER_ID, role: 'ADMIN' },
-      { id: PRO_MEMBER_CERTIFICATION_CENTER_USER_ID, role: 'MEMBER' },
+      { id: PRO_ADMIN_CERTIFICATION_CENTER_USER_ID, role: CERTIFICATION_CENTER_MEMBERSHIP_ROLES.ADMIN },
+      { id: PRO_MEMBER_CERTIFICATION_CENTER_USER_ID, role: CERTIFICATION_CENTER_MEMBERSHIP_ROLES.MEMBER },
     ],
     complementaryCertificationIds,
   });
