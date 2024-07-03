@@ -1,4 +1,5 @@
-import { NotFoundError, UncancellableOrganizationInvitationError } from '../../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { UncancellableOrganizationInvitationError } from '../../../../../src/team/domain/errors.js';
 import { OrganizationInvitation } from '../../../../../src/team/domain/models/OrganizationInvitation.js';
 import { cancelOrganizationInvitation } from '../../../../../src/team/domain/usecases/cancel-organization-invitation.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';

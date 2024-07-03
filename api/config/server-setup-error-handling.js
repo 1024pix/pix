@@ -8,11 +8,13 @@ import { prescriptionDomainErrorMappingConfiguration } from '../src/prescription
 import { schoolDomainErrorMappingConfiguration } from '../src/school/application/http-error-mapper-configuration.js';
 import { domainErrorMapper } from '../src/shared/application/domain-error-mapper.js';
 import * as sharedPreResponseUtils from '../src/shared/application/pre-response-utils.js';
+import { teamDomainErrorMappingConfiguration } from '../src/team/application/http-error-mapper-configuration.js';
 
 const setupErrorHandling = function (server) {
   const configuration = [
     ...authenticationDomainErrorMappingConfiguration,
     ...organizationalEntitiesDomainErrorMappingConfiguration,
+    ...teamDomainErrorMappingConfiguration,
     ...certificationDomainErrorMappingConfiguration,
     ...devcompDomainErrorMappingConfiguration,
     ...evaluationDomainErrorMappingConfiguration,
