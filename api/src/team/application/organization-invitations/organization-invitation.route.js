@@ -1,5 +1,7 @@
 import Joi from 'joi';
 
+import { organizationController } from '../../../../lib/application/organizations/organization-controller.js';
+import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { organizationInvitationController } from './organization-invitation.controller.js';
 
@@ -25,7 +27,7 @@ export const organizationInvitationRoutes = [
       notes: [
         "- Cette route permet d'envoyer une invitation pour rejoindre une organisation de type SCO en tant que ADMIN, en renseignant un **UAI**, un **NOM** et un **PRÉNOM**",
       ],
-      tags: ['api', 'invitations', 'SCO'],
+      tags: ['team', 'api', 'invitations', 'SCO'],
     },
   },
   {
@@ -45,7 +47,31 @@ export const organizationInvitationRoutes = [
       notes: [
         "- Cette route permet de récupérer les détails d'une invitation selon un **id d'invitation** et un **code**\n",
       ],
-      tags: ['api', 'invitations'],
+      tags: ['team', 'api', 'invitations'],
+    },
+  },
+  {
+    method: 'DELETE',
+    path: '/api/organizations/{id}/invitations/{organizationInvitationId}',
+    config: {
+      pre: [
+        {
+          method: (request, h) => securityPreHandlers.checkUserIsAdminInOrganization(request, h),
+          assign: 'isAdminInOrganization',
+        },
+      ],
+      validate: {
+        params: Joi.object({
+          id: identifiersType.organizationId,
+          organizationInvitationId: identifiersType.organizationInvitationId,
+        }),
+      },
+      handler: (request, h) => organizationController.cancelOrganizationInvitation(request, h),
+      tags: ['team', 'api', 'invitations', 'cancel'],
+      notes: [
+        "- **Cette route est restreinte aux utilisateurs authentifiés en tant qu'admin d'une organisation**\n" +
+          "- Elle permet à l'administrateur de l'organisation d'annuler une invitation envoyée mais non acceptée encore.",
+      ],
     },
   },
 ];

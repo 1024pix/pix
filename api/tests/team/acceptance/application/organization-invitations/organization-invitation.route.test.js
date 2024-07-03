@@ -1,5 +1,11 @@
 import { OrganizationInvitation } from '../../../../../src/team/domain/models/OrganizationInvitation.js';
-import { createServer, databaseBuilder, expect } from '../../../../../tests/test-helper.js';
+import {
+  createServer,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  insertOrganizationUserWithRoleAdmin,
+} from '../../../../../tests/test-helper.js';
 
 describe('Acceptance | Team | Application | Controller | organization-invitation', function () {
   let server;
@@ -102,6 +108,35 @@ describe('Acceptance | Team | Application | Controller | organization-invitation
         // then
         expect(response.statusCode).to.equal(412);
       });
+    });
+  });
+
+  describe('DELETE /api/organizations/{id}/invitations/{invitationId}', function () {
+    it('returns 204 HTTP status code', async function () {
+      // given
+      const server = await createServer();
+
+      const { adminUser, organization } = await insertOrganizationUserWithRoleAdmin();
+      const invitation = databaseBuilder.factory.buildOrganizationInvitation({
+        organizationId: organization.id,
+        status: OrganizationInvitation.StatusType.PENDING,
+      });
+
+      const options = {
+        method: 'DELETE',
+        url: `/api/organizations/${organization.id}/invitations/${invitation.id}`,
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(adminUser.id),
+        },
+      };
+
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(204);
     });
   });
 });
