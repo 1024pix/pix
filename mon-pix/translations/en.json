@@ -1363,18 +1363,18 @@
       "message": "You've been logged out.'<br>'Thanks! See you soon"
     },
     "oidc-reconciliation": {
-      "title": "Attention",
-      "authentication-method-to-add": "Méthode de connexion ajoutée :",
-      "confirm": "Continuer",
-      "current-authentication-methods": "Mes méthodes de connexion actuelles :",
-      "email": "Adresse e-mail",
-      "external-connection": "Connexion externe",
-      "external-connection-via": "Connexion via",
-      "information": "L'évaluation des compétences étant personnalisée, votre compte doit rester strictement personnel",
-      "return": "Retour",
-      "sub-title": "Un nouveau moyen de connexion est sur le point d'être ajouté à votre compte Pix",
-      "switch-account": "Changer de compte",
-      "username": "Identifiant"
+      "title": "Warning",
+      "authentication-method-to-add": "Login method added:",
+      "confirm": "Continue",
+      "current-authentication-methods": "My current login methods:",
+      "email": "Email address",
+      "external-connection": "External login",
+      "external-connection-via": "Login via",
+      "information": "As the assessment of your digital skills is personalized, your account must remain strictly personal",
+      "return": "Back",
+      "sub-title": "A new login method is about to be added to your Pix account",
+      "switch-account": "Change account",
+      "username": "Username"
     },
     "password-reset-demand": {
       "title": "Forgot your password?",
