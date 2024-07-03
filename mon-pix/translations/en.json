@@ -431,86 +431,86 @@
       "title": "Explanation of certification",
       "buttons": {
         "continuous": {
-          "aria-label": "Continuer vers l'écran suivant",
-          "label": "Continuer",
+          "aria-label": "Continue to the next screen",
+          "label": "Continue",
           "last-page": {
-            "aria-label": "Continuer vers la page d'entrée en certification"
+            "aria-label": "Continue to the certification starting page"
           }
         },
         "previous": {
-          "aria-label": "Revenir vers l'écran précédent",
-          "label": "Précédent"
+          "aria-label": "Back to the previous screen",
+          "label": "Previous"
         }
       },
       "steps": {
         "1": {
-          "title": "Bienvenue à la certification Pix",
+          "title": "Welcome to the Pix Certification",
           "paragraphs": {
             "1": {
-              "text": "'<strong>'Il s'agit d'un test adaptatif'</strong>'. C’est-à-dire, que votre capacité à répondre correctement (ou non) aux questions détermine en temps réel la difficulté des questions suivantes."
+              "text": "'<strong>'The test is adaptive'</strong>'. In other words, your ability to answer correctly (or not) the questions will determine in real-time the difficulty of the next questions."
             },
             "2": {
-              "text": "Si vous ne savez pas répondre à une question, '<strong>'vous avez la possibilité de \"passer\" cette question'</strong>'. '<br>'Les questions passées seront considérées comme échouées et ne vous seront pas proposées à nouveau."
+              "text": "If you don’t know how to answer a question, '<strong>'you may \"skip\" that question'</strong>'. '<br>'The questions skipped will be considered as failed and will not be resubmitted to you."
             },
             "3": {
-              "text": "'<strong>'Il est important d'aller jusqu'au bout du test'</strong>', et donc de bien gérer votre temps. Une '<strong>'pénalité'</strong>' tenant compte du nombre de questions restantes sera appliquée."
+              "text": "'<strong>'It’s important for you to follow through to the end of the test'</strong>', and therefore to manage your time well. A '<strong>'penalty'</strong>' taking into account the number of questions left will be applied."
             }
           },
-          "question": "Comment fonctionne le test de certification ?"
+          "question": "How does the certification exam work?"
         },
         "2": {
-          "title": "Comment se passe le test de certification ?",
+          "title": "How is the certification exam conducted?",
           "legend": {
             "strong-text": "32 QUESTIONS",
             "text": "1 H 45 min"
           },
           "paragraphs": {
             "1": {
-              "question": "Le nombre de questions ?",
-              "text": "La certification contient '<strong>'32 questions'</strong>'."
+              "question": "How many questions?",
+              "text": "The certification includes '<strong>'32 questions'</strong>'."
             },
             "2": {
-              "light-text": "*sauf éventuel temps majoré.",
-              "question": "La durée du test ?",
-              "text": "Vous avez au maximum '<strong>'1h45*'</strong>'."
+              "light-text": "*except those entitled to extra time.",
+              "question": "How long does the exam last?",
+              "text": "You have '<strong>'1h45'</strong>' maximum*."
             }
           }
         },
         "3": {
-          "title": "Deux modes de questions",
+          "title": "Two question modes",
           "images": {
-            "focus-challenge": "Mode focus",
-            "regular-challenge": "Mode libre"
+            "focus-challenge": "Focus mode",
+            "regular-challenge": "Free mode"
           },
           "paragraphs": {
             "1": {
-              "title": "Le mode libre :",
-              "text": "Pour les questions en '<strong>'mode libre'</strong>', signalées par une icône verte : vous aurez le droit d’effectuer des recherches sur le web et d’utiliser l’environnement numérique à disposition."
+              "title": "The free mode:",
+              "text": "For the '<strong>'free mode questions'</strong>', signaled by a green icon: you have the right to look for information on the web and to use the digital environment available."
             },
             "2": {
-              "title": "Le mode focus :",
-              "text": "Pour les questions en '<strong>'mode focus'</strong>', signalées par une icône jaune : vous ne serez pas autorisé à quitter la page et à faire des recherches."
+              "title": "The focus mode:",
+              "text": "For the '<strong>'focus mode questions'</strong>', signaled by a yellow icon: you won’t be allowed to leave the page nor to look for information."
             }
           }
         },
         "4": {
-          "title": "Que faire en cas de problème ?",
+          "title": "What to do in case of a problem?",
           "paragraph": {
-            "text": "'<strong>'En cas de problème technique'</strong>' (par exemple, l'image refuse de s'afficher), suivez ces étapes : '<br><br>' cliquez sur '<strong>'\"Signaler un problème avec la question\"'</strong>', puis sur \"Oui, je suis sûr(e)\" et informez votre surveillant."
+            "text": "'<strong>'If you encounter a technical issue'</strong>' (for example, the picture can’t be viewed), follow these steps: '<br><br>' click on '<strong>'\"Report a problem with the question\"'</strong>', then on \"Yes, I’m sure\" and inform your invigilator."
           }
         },
         "5": {
-          "title": "Règles à respecter",
-          "checkbox-label": "En cochant cette case, je reconnais avoir pris connaissance de ces règles et je m’engage à les respecter.",
+          "title": "Rules to observe",
+          "checkbox-label": "By ticking this box, I recognise that I have taken note of these rules and I agree to comply with them.",
           "list": {
-            "no-artificial-intelligence": "'<strong>'Avoir recours à un système d’intelligence artificielle'</strong>' ou un chatbot",
-            "no-cheat-sheet": "'<strong>'Utiliser des antisèches'</strong>' (physiques ou électroniques), des ressources de spoil ou des notes personnelles",
-            "no-communication": "'<strong>'Communiquer avec quelqu’un d’autre'</strong>', dans la salle ou à l’extérieur, par voie physique ou électronique",
-            "no-connected-device": "'<strong>'Utiliser un téléphone mobile ou tout appareil connecté'</strong>' (autre que l’ordinateur mobilisé dans le cadre de la certification)",
-            "no-forum": "'<strong>'Consulter un forum d’entraide'</strong>' apportant directement la réponse à une épreuve",
-            "other": "'<strong>'Mobiliser tout autre moyen délivrant directement la réponse'</strong>', sans avoir effectué le travail requis par la consigne."
+            "no-artificial-intelligence": "'<strong>'Have recourse to an artificial intelligence system'</strong>' or to a chatbot",
+            "no-cheat-sheet": "'<strong>'Use cheat sheets'</strong>' (physical or digital), spoiler resources or personal notes",
+            "no-communication": "'<strong>'Communicate with someone else'</strong>', within the exam room or outside of it, by physical or electronic means",
+            "no-connected-device": "'<strong>'Use a mobile phone or any other connected device'</strong>' (other than the computer used for the certification)",
+            "no-forum": "'<strong>'Peruse a self-help forum'</strong>' giving a direct answer to a question",
+            "other": "'<strong>'Mobilise any other mean that would directly give the answer'</strong>', without having to do the work required by the instructions."
           },
-          "text": "En certification, il est interdit de :"
+          "text": "During the certification, it is forbidden to:"
         }
       }
     },
