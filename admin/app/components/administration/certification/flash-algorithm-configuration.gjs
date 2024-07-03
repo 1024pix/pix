@@ -7,6 +7,7 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
 
 export default class FlashAlgorithmConfiguration extends Component {
   @service store;
@@ -48,7 +49,7 @@ export default class FlashAlgorithmConfiguration extends Component {
     <PixBlock class="page-section">
 
       <h2 class="page-section__title">
-        Configuration de l’algorithme de déroulé du test
+        {{t "pages.administration.certification.flash-algorithm-configuration.title"}}
       </h2>
 
       <form class="flash-algorithm-configuration-form">
@@ -59,7 +60,9 @@ export default class FlashAlgorithmConfiguration extends Component {
           type="number"
           min="0"
         >
-          <:label>Nombre de questions</:label>
+          <:label>{{t
+              "pages.administration.certification.flash-algorithm-configuration.form.maximumAssessmentLength"
+            }}</:label>
         </PixInput>
 
         <PixInput
@@ -69,7 +72,7 @@ export default class FlashAlgorithmConfiguration extends Component {
           type="number"
           min="0"
         >
-          <:label>Nombre de questions d'entrainement</:label>
+          <:label>{{t "pages.administration.certification.flash-algorithm-configuration.form.warmUpLength"}}</:label>
         </PixInput>
 
         <PixInput
@@ -79,7 +82,9 @@ export default class FlashAlgorithmConfiguration extends Component {
           type="number"
           min="0"
         >
-          <:label>Nombre de questions entre 2 questions de la même compétence</:label>
+          <:label>{{t
+              "pages.administration.certification.flash-algorithm-configuration.form.challengesBetweenSameCompetence"
+            }}</:label>
         </PixInput>
 
         <PixInput
@@ -89,7 +94,9 @@ export default class FlashAlgorithmConfiguration extends Component {
           type="number"
           min="0"
         >
-          <:label>Capage de la capacité (en % )</:label>
+          <:label>{{t
+              "pages.administration.certification.flash-algorithm-configuration.form.variationPercent"
+            }}</:label>
         </PixInput>
 
         <PixInput
@@ -99,7 +106,9 @@ export default class FlashAlgorithmConfiguration extends Component {
           type="number"
           min="0"
         >
-          <:label>Nombre de questions pour le capage de la capacité</:label>
+          <:label>{{t
+              "pages.administration.certification.flash-algorithm-configuration.form.variationPercentUntil"
+            }}</:label>
         </PixInput>
 
         <PixInput
@@ -109,7 +118,9 @@ export default class FlashAlgorithmConfiguration extends Component {
           type="number"
           min="0"
         >
-          <:label>Nombre de questions pour la double mesure</:label>
+          <:label>{{t
+              "pages.administration.certification.flash-algorithm-configuration.form.doubleMeasuresUntil"
+            }}</:label>
         </PixInput>
 
         <PixCheckbox
@@ -119,7 +130,9 @@ export default class FlashAlgorithmConfiguration extends Component {
           checked={{this.form.limitToOneQuestionPerTube}}
           type="checkbox"
         >
-          <:label>Limiter à une question par sujet</:label>
+          <:label>{{t
+              "pages.administration.certification.flash-algorithm-configuration.form.limitToOneQuestionPerTube"
+            }}</:label>
         </PixCheckbox>
 
         <PixCheckbox
@@ -129,14 +142,16 @@ export default class FlashAlgorithmConfiguration extends Component {
           checked={{this.form.enablePassageByAllCompetences}}
           type="checkbox"
         >
-          <:label>Forcer le passage par les 16 compétences</:label>
+          <:label>{{t
+              "pages.administration.certification.flash-algorithm-configuration.form.enablePassageByAllCompetences"
+            }}</:label>
         </PixCheckbox>
 
         <PixButton
           class="scoring-simulator__form-button"
           @type="submit"
           @triggerAction={{this.onCreateFlashAlgorithmConfiguration}}
-        >Créer</PixButton>
+        >{{t "common.actions.save"}}</PixButton>
       </form>
     </PixBlock>
   </template>

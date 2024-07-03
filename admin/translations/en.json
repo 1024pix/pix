@@ -243,6 +243,19 @@
             "label": "Level configuration by skill added (JSON)"
           }
         },
+        "flash-algorithm-configuration": {
+          "title": "Configuration de l’algorithme de déroulé du test",
+          "form": {
+            "challengesBetweenSameCompetence": "Nombre de questions entre 2 questions de la même compétence",
+            "doubleMeasuresUntil": "Nombre de questions pour la double mesure",
+            "enablePassageByAllCompetences": "Forcer le passage par les 16 compétences",
+            "limitToOneQuestionPerTube": "Limiter à une question par sujet",
+            "maximumAssessmentLength": "Nombre de questions",
+            "variationPercent": "Capage de la capacité (en % )",
+            "variationPercentUntil": "Nombre de questions pour le capage de la capacité",
+            "warmUpLength": "Nombre de questions d'entraînement"
+          }
+        },
         "scoring-simulator": {
           "title": "Scoring simulator",
           "actions": {
