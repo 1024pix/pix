@@ -35,7 +35,7 @@ module('Integration | Component | Language Switcher', function (hooks) {
         return option.innerText;
       });
 
-      assert.deepEqual(optionsInnerText, ['Français', 'English']);
+      assert.deepEqual(optionsInnerText, ['Français', 'English', 'Nederlands']);
     });
   });
 
