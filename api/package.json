@@ -88,7 +88,9 @@
   "devDependencies": {
     "@1024pix/eslint-plugin": "^1.2.1",
     "@babel/eslint-parser": "^7.18.2",
+    "@babel/generator": "^7.24.7",
     "@babel/plugin-syntax-import-attributes": "^7.24.1",
+    "@babel/types": "^7.24.7",
     "@eslint/compat": "^1.0.1",
     "@ls-lint/ls-lint": "^2.0.0",
     "chai": "^5.0.0",
@@ -112,6 +114,7 @@
     "mocha-junit-reporter": "^2.0.2",
     "mockdate": "^3.0.5",
     "nock": "^13.2.7",
+    "node-html-parser": "^6.1.13",
     "nodemon": "^3.0.0",
     "npm-run-all2": "^6.0.0",
     "prettier": "^3.0.0",
