@@ -4,6 +4,7 @@ const Joi = BaseJoi.extend(JoiDate);
 
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
+import { organizationInvitationController } from '../../../src/team/application/organization-invitations/organization-invitation.controller.js';
 import { BadRequestError, PayloadTooLargeError, sendJsonApiError } from '../http-errors.js';
 import { organizationController } from './organization-controller.js';
 
@@ -190,7 +191,7 @@ const register = async function (server) {
             organizationInvitationId: identifiersType.organizationInvitationId,
           }),
         },
-        handler: organizationController.cancelOrganizationInvitation,
+        handler: organizationInvitationController.cancelOrganizationInvitation,
         tags: ['api', 'admin', 'invitations', 'cancel'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +

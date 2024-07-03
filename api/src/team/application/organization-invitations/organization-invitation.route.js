@@ -1,6 +1,5 @@
 import Joi from 'joi';
 
-import { organizationController } from '../../../../lib/application/organizations/organization-controller.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { organizationInvitationController } from './organization-invitation.controller.js';
@@ -66,7 +65,7 @@ export const organizationInvitationRoutes = [
           organizationInvitationId: identifiersType.organizationInvitationId,
         }),
       },
-      handler: (request, h) => organizationController.cancelOrganizationInvitation(request, h),
+      handler: (request, h) => organizationInvitationController.cancelOrganizationInvitation(request, h),
       tags: ['team', 'api', 'invitations', 'cancel'],
       notes: [
         "- **Cette route est restreinte aux utilisateurs authentifiés en tant qu'admin d'une organisation**\n" +

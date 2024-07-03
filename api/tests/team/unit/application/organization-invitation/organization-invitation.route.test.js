@@ -1,4 +1,3 @@
-import { organizationController } from '../../../../../lib/application/organizations/organization-controller.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { organizationInvitationController } from '../../../../../src/team/application/organization-invitations/organization-invitation.controller.js';
 import { teamRoutes } from '../../../../../src/team/application/routes.js';
@@ -44,7 +43,7 @@ describe('Unit | Team | Application | Route | organization-invitation', function
     it('calls the cancel organization invitation controller', async function () {
       // given
       sinon
-        .stub(organizationController, 'cancelOrganizationInvitation')
+        .stub(organizationInvitationController, 'cancelOrganizationInvitation')
         .callsFake((request, h) => h.response('ok').code(200));
       sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').returns(true);
 
@@ -59,7 +58,7 @@ describe('Unit | Team | Application | Route | organization-invitation', function
 
       // then
       expect(securityPreHandlers.checkUserIsAdminInOrganization).to.have.be.called;
-      expect(organizationController.cancelOrganizationInvitation).to.have.been.calledOnce;
+      expect(organizationInvitationController.cancelOrganizationInvitation).to.have.been.calledOnce;
     });
   });
 });
