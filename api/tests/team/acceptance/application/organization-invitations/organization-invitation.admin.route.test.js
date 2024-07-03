@@ -1,4 +1,4 @@
-import { OrganizationInvitation } from '../../../../src/team/domain/models/OrganizationInvitation.js';
+import { OrganizationInvitation } from '../../../../../src/team/domain/models/OrganizationInvitation.js';
 import {
   createServer,
   databaseBuilder,
@@ -6,11 +6,11 @@ import {
   generateValidRequestAuthorizationHeader,
   insertOrganizationUserWithRoleAdmin,
   insertUserWithRoleSuperAdmin,
-} from '../../../test-helper.js';
+} from '../../../../../tests/test-helper.js';
 
-describe('Acceptance | Route | Organizations', function () {
+describe('Acceptance | Team | Route | Admin | organization-invitation', function () {
   describe('DELETE /api/admin/organizations/{organizationId}/invitations/{invitationId}', function () {
-    it('should return 204 HTTP status code', async function () {
+    it('returns 204 HTTP status code', async function () {
       // given
       const server = await createServer();
 
