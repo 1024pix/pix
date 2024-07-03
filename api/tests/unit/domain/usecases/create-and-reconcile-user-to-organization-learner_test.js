@@ -311,12 +311,12 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
 
           // then
           expect(emailValidationDemandRepository.save).to.have.been.calledWith(createdUser.id);
-          expect(mailService.sendAccountCreationEmail).to.have.been.calledWithExactly(
-            userAttributes.email,
+          expect(mailService.sendAccountCreationEmail).to.have.been.calledWithExactly({
+            email: userAttributes.email,
             locale,
             token,
-            expectedRedirectionUrl,
-          );
+            redirectionUrl: expectedRedirectionUrl,
+          });
         });
 
         context('But association is already done', function () {

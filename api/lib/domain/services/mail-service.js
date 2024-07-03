@@ -59,7 +59,7 @@ const translations = {
  * @param redirectionUrl
  * @returns {Promise<EmailingAttempt>}
  */
-function sendAccountCreationEmail(email, locale = FRENCH_FRANCE, token, redirectionUrl) {
+function sendAccountCreationEmail({ email, locale = FRENCH_FRANCE, token, redirectionUrl }) {
   const mailerConfig = _getMailerConfig(locale);
   const redirectUrl = redirectionUrl || mailerConfig.pixAppConnectionUrl;
 

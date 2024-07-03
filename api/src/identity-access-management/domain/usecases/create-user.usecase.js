@@ -68,7 +68,12 @@ const createUser = async function ({
     }
 
     const token = await emailValidationDemandRepository.save(savedUser.id);
-    await mailService.sendAccountCreationEmail(savedUser.email, localeFromHeader, token, redirectionUrl);
+    await mailService.sendAccountCreationEmail({
+      email: savedUser.email,
+      locale: localeFromHeader,
+      token,
+      redirectionUrl,
+    });
 
     return savedUser;
   }

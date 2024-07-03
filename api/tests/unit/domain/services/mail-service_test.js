@@ -46,7 +46,7 @@ describe('Unit | Service | MailService', function () {
       };
 
       // when
-      await mailService.sendAccountCreationEmail(userEmailAddress, locale, token, redirectionUrl);
+      await mailService.sendAccountCreationEmail({ email: userEmailAddress, locale, token, redirectionUrl });
 
       // then
       const options = mailer.sendEmail.firstCall.args[0];
@@ -68,7 +68,7 @@ describe('Unit | Service | MailService', function () {
           const expectedParams = new URLSearchParams({ token, redirect_url: redirectionUrl });
 
           // when
-          await mailService.sendAccountCreationEmail(userEmailAddress, locale, token, redirectionUrl);
+          await mailService.sendAccountCreationEmail({ email: userEmailAddress, locale, token, redirectionUrl });
 
           // then
           const actualRedirectionUrl = mailer.sendEmail.firstCall.args[0].variables.redirectionUrl;
@@ -87,7 +87,7 @@ describe('Unit | Service | MailService', function () {
           const expectedParams = new URLSearchParams({ redirect_url: 'https://app.pix.org/connexion/?lang=fr' });
 
           // when
-          await mailService.sendAccountCreationEmail(userEmailAddress, locale);
+          await mailService.sendAccountCreationEmail({ email: userEmailAddress, locale });
 
           // then
           const options = mailer.sendEmail.firstCall.args[0];
@@ -108,7 +108,7 @@ describe('Unit | Service | MailService', function () {
           const expectedParams = new URLSearchParams({ redirect_url: 'https://app.pix.fr/connexion' });
 
           // when
-          await mailService.sendAccountCreationEmail(userEmailAddress, locale);
+          await mailService.sendAccountCreationEmail({ email: userEmailAddress, locale });
 
           // then
           const options = mailer.sendEmail.firstCall.args[0];
@@ -129,7 +129,7 @@ describe('Unit | Service | MailService', function () {
           const expectedParams = new URLSearchParams({ redirect_url: 'https://app.pix.org/connexion/?lang=en' });
 
           // when
-          await mailService.sendAccountCreationEmail(userEmailAddress, locale);
+          await mailService.sendAccountCreationEmail({ email: userEmailAddress, locale });
 
           // then
           const options = mailer.sendEmail.firstCall.args[0];
@@ -150,7 +150,7 @@ describe('Unit | Service | MailService', function () {
           const expectedParams = new URLSearchParams({ redirect_url: 'https://app.pix.org/connexion/?lang=nl' });
 
           // when
-          await mailService.sendAccountCreationEmail(userEmailAddress, locale);
+          await mailService.sendAccountCreationEmail({ email: userEmailAddress, locale });
 
           // then
           const options = mailer.sendEmail.firstCall.args[0];
@@ -171,7 +171,7 @@ describe('Unit | Service | MailService', function () {
           const expectedParams = new URLSearchParams({ redirect_url: 'https://app.pix.org/connexion/?lang=es' });
 
           // when
-          await mailService.sendAccountCreationEmail(userEmailAddress, locale);
+          await mailService.sendAccountCreationEmail({ email: userEmailAddress, locale });
 
           // then
           const options = mailer.sendEmail.firstCall.args[0];

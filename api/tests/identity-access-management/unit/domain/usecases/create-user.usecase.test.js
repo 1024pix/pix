@@ -467,12 +467,12 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
         });
 
         // then
-        expect(mailService.sendAccountCreationEmail).to.have.been.calledWithExactly(
-          userEmail,
-          localeFromHeader,
+        expect(mailService.sendAccountCreationEmail).to.have.been.calledWithExactly({
+          email: userEmail,
+          locale: localeFromHeader,
           token,
-          expectedRedirectionUrl,
-        );
+          redirectionUrl: expectedRedirectionUrl,
+        });
       });
 
       describe('when campaignCode is null', function () {
@@ -501,12 +501,12 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
           });
 
           // then
-          expect(mailService.sendAccountCreationEmail).to.have.been.calledWithExactly(
-            userEmail,
-            localeFromHeader,
+          expect(mailService.sendAccountCreationEmail).to.have.been.calledWithExactly({
+            email: userEmail,
+            locale: localeFromHeader,
             token,
-            expectedRedirectionUrl,
-          );
+            redirectionUrl: expectedRedirectionUrl,
+          });
         });
       });
 
@@ -537,12 +537,12 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
           });
 
           // then
-          expect(mailService.sendAccountCreationEmail).to.have.been.calledWithExactly(
-            userEmail,
-            localeFromHeader,
+          expect(mailService.sendAccountCreationEmail).to.have.been.calledWithExactly({
+            email: userEmail,
+            locale: localeFromHeader,
             token,
-            expectedRedirectionUrl,
-          );
+            redirectionUrl: expectedRedirectionUrl,
+          });
         });
       });
     });
@@ -550,8 +550,8 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
     it('returns saved user', async function () {
       // given
       campaignRepository.getByCode.resolves({ organizationId: 1 });
-      const redirectUri = 'https://redirect.uri';
-      sinon.stub(urlBuilder, 'getCampaignUrl').returns(redirectUri);
+      const redirectionUrl = 'https://redirect.uri';
+      sinon.stub(urlBuilder, 'getCampaignUrl').returns(redirectionUrl);
       mailService.sendAccountCreationEmail.resolves();
 
       // when
@@ -574,12 +574,12 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
 
       // then
       expect(emailValidationDemandRepository.save).to.have.been.calledWith(userId);
-      expect(mailService.sendAccountCreationEmail).to.have.been.calledWith(
-        savedUser.email,
-        localeFromHeader,
+      expect(mailService.sendAccountCreationEmail).to.have.been.calledWith({
+        email: savedUser.email,
+        locale: localeFromHeader,
         token,
-        redirectUri,
-      );
+        redirectionUrl,
+      });
       expect(createdUser).to.deep.equal(savedUser);
     });
   });
