@@ -1,6 +1,9 @@
 import crypto from 'node:crypto';
+import util from 'node:util';
 
 import { AccountRecoveryDemand } from '../models/AccountRecoveryDemand.js';
+
+const randomBytes = util.promisify(crypto.randomBytes);
 
 /**
  * @param {{
@@ -26,7 +29,13 @@ export const sendEmailForAccountRecovery = async function ({
   userReconciliationService,
 }) {
   const { email: newEmail } = studentInformation;
-  const encodedTemporaryKey = temporaryKey || crypto.randomBytes(32).toString('hex');
+  let encodedTemporaryKey;
+  if (temporaryKey) {
+    encodedTemporaryKey = temporaryKey;
+  } else {
+    const bufferRandomBytes = await randomBytes(32);
+    encodedTemporaryKey = bufferRandomBytes.toString('hex');
+  }
 
   const {
     firstName,
