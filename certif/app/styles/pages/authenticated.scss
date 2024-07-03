@@ -48,6 +48,10 @@
           color: var(--pix-neutral-800);
         }
 
+        &-icon-chevron {
+          filter: invert(20%) sepia(74%) saturate(338%) hue-rotate(177deg) brightness(92%) contrast(100%);
+        }
+
         &.active {
           background-color: var(--pix-neutral-20);
         }
