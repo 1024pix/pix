@@ -1,5 +1,6 @@
 import { CampaignParticipation } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignParticipation.js';
 import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
+import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 const { deleteCampaignParticipationForAdmin } = usecases;
@@ -11,6 +12,8 @@ describe('Unit | UseCase | delete-campaign-participation-for-admin', function ()
 
   beforeEach(function () {
     clock = sinon.useFakeTimers({ now: now.getTime(), toFake: ['Date'] });
+    sinon.stub(DomainTransaction, 'execute');
+    DomainTransaction.execute.callsFake((fn) => fn({}));
   });
 
   afterEach(function () {
