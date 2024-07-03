@@ -444,19 +444,19 @@
       },
       "steps": {
         "1": {
-          "title": "Bienvenue à la certification Pix",
+          "title": "Welcome to the Pix Certification",
           "paragraphs": {
             "1": {
-              "text": "'<strong>'Il s'agit d'un test adaptatif'</strong>'. C’est-à-dire, que votre capacité à répondre correctement (ou non) aux questions détermine en temps réel la difficulté des questions suivantes."
+              "text": "'<strong>'The test is adaptive'</strong>'. In other words, your ability to answer correctly (or not) the questions will determine in real-time the difficulty of the next questions."
             },
             "2": {
-              "text": "Si vous ne savez pas répondre à une question, '<strong>'vous avez la possibilité de \"passer\" cette question'</strong>'. '<br>'Les questions passées seront considérées comme échouées et ne vous seront pas proposées à nouveau."
+              "text": "If you don’t know how to answer a question, '<strong>'you may \"skip\" that question'</strong>'. '<br>'The questions skipped will be considered as failed and will not be resubmitted to you."
             },
             "3": {
-              "text": "'<strong>'Il est important d'aller jusqu'au bout du test'</strong>', et donc de bien gérer votre temps. Une '<strong>'pénalité'</strong>' tenant compte du nombre de questions restantes sera appliquée."
+              "text": "'<strong>'It’s important for you to follow through to the end of the test'</strong>',  and therefore to manage your time well. A '<strong>'penalty'</strong>' taking into account the number of questions left will be applied."
             }
           },
-          "question": "Comment fonctionne le test de certification ?"
+          "question": "How does the certification exam work ?"
         },
         "2": {
           "title": "Comment se passe le test de certification ?",
