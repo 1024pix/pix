@@ -13,10 +13,10 @@ describe('Unit | Identity Access Management | Domain | Service | reset-password'
     beforeEach(function () {
       sinon.stub(jsonwebtoken, 'sign');
       randomGeneratedString = 'aaaaaa';
-      sinon.stub(crypto, 'randomBytes').returns(randomGeneratedString);
+      sinon.stub(crypto, 'randomBytes').yields(null, randomGeneratedString);
     });
 
-    it('calls sign function from jwt', function () {
+    it('calls sign function from jwt', async function () {
       // given
       const signParams = {
         payload: { data: randomGeneratedString },
@@ -25,7 +25,7 @@ describe('Unit | Identity Access Management | Domain | Service | reset-password'
       };
 
       // when
-      resetPasswordService.generateTemporaryKey();
+      await resetPasswordService.generateTemporaryKey();
 
       // then
       sinon.assert.calledOnce(jsonwebtoken.sign);
