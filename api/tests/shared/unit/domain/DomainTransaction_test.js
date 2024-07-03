@@ -1,4 +1,8 @@
-import { asyncLocalStorage, DomainTransaction } from '../../../../src/shared/domain/DomainTransaction.js';
+import {
+  asyncLocalStorage,
+  DomainTransaction,
+  withTransaction,
+} from '../../../../src/shared/domain/DomainTransaction.js';
 import { expect, knex, sinon } from '../../../../tests/test-helper.js';
 
 describe('Unit | Infrastructure | DomainTransaction', function () {
@@ -47,6 +51,20 @@ describe('Unit | Infrastructure | DomainTransaction', function () {
       const result = await DomainTransaction.execute(() => expectedResult);
 
       expect(result).to.equal(expectedResult);
+    });
+  });
+
+  describe('#withTransaction', function () {
+    it('should get transaction from store', async function () {
+      const transactionStub = { commit: sinon.stub() };
+      sinon.stub(knex, 'transaction');
+      knex.transaction.callsFake(() => transactionStub);
+      const myUseCase = withTransaction(() => {
+        return DomainTransaction.getConnection();
+      });
+      const connection = await myUseCase();
+
+      expect(connection).to.equal(transactionStub);
     });
   });
 });

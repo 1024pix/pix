@@ -13,7 +13,9 @@ describe('Unit | UseCase | delete-campaign-participation-for-admin', function ()
   beforeEach(function () {
     clock = sinon.useFakeTimers({ now: now.getTime(), toFake: ['Date'] });
     sinon.stub(DomainTransaction, 'execute');
-    DomainTransaction.execute.callsFake((fn) => fn({}));
+    DomainTransaction.execute.callsFake((fn) => {
+      return fn({});
+    });
   });
 
   afterEach(function () {

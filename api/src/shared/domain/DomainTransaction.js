@@ -31,4 +31,13 @@ class DomainTransaction {
   }
 }
 
-export { asyncLocalStorage, DomainTransaction };
+/**
+ * @template F
+ * @param {F} func
+ * @returns {F}
+ */
+function withTransaction(func) {
+  return (...args) => DomainTransaction.execute(() => func(...args));
+}
+
+export { asyncLocalStorage, DomainTransaction, withTransaction };
