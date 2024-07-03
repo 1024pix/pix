@@ -44,13 +44,28 @@ describe('Unit | Infrastructure | DomainTransaction', function () {
     });
 
     it('should return function result', async function () {
+      const transactionConfiguration = { isolationLevel: 'read committed' };
       const expectedResult = Symbol('return');
       sinon.stub(knex, 'transaction');
       knex.transaction.callsFake((fn) => fn({}));
 
-      const result = await DomainTransaction.execute(() => expectedResult);
+      await DomainTransaction.execute(() => expectedResult, transactionConfiguration);
 
-      expect(result).to.equal(expectedResult);
+      expect(knex.transaction.getCalls()[0].args).to.includes(transactionConfiguration);
+    });
+
+    it('should use configuration for transaction', async function () {
+      const transactionStub = {};
+      const domainTransaction = new DomainTransaction(transactionStub);
+      sinon.stub(asyncLocalStorage, 'run');
+      sinon.stub(knex, 'transaction');
+      knex.transaction.callsFake((fn) => fn(transactionStub));
+
+      await DomainTransaction.execute(function () {
+        // Something
+      });
+
+      expect(asyncLocalStorage.run).to.have.been.calledWith({ transaction: domainTransaction });
     });
   });
 
@@ -65,6 +80,21 @@ describe('Unit | Infrastructure | DomainTransaction', function () {
       const connection = await myUseCase();
 
       expect(connection).to.equal(transactionStub);
+    });
+
+    it('should use configuration for transaction', async function () {
+      const transactionStub = {};
+      const domainTransaction = new DomainTransaction(transactionStub);
+      sinon.stub(asyncLocalStorage, 'run');
+      sinon.stub(knex, 'transaction');
+      knex.transaction.callsFake((fn) => fn(transactionStub));
+
+      const myUseCase = withTransaction(function () {
+        // Something
+      });
+      await myUseCase();
+
+      expect(asyncLocalStorage.run).to.have.been.calledWith({ transaction: domainTransaction });
     });
   });
 });

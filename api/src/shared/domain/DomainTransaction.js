@@ -9,11 +9,11 @@ class DomainTransaction {
     this.knexTransaction = knexTransaction;
   }
 
-  static execute(lambda) {
+  static execute(lambda, transactionConfig) {
     return knex.transaction((trx) => {
       const domainTransaction = new DomainTransaction(trx);
       return asyncLocalStorage.run({ transaction: domainTransaction }, lambda, domainTransaction);
-    });
+    }, transactionConfig);
   }
 
   static getConnection() {
@@ -34,10 +34,11 @@ class DomainTransaction {
 /**
  * @template F
  * @param {F} func
+ * @param {import('knex').Knex.TransactionConfig | undefined} transactionConfig
  * @returns {F}
  */
-function withTransaction(func) {
-  return (...args) => DomainTransaction.execute(() => func(...args));
+function withTransaction(func, transactionConfig) {
+  return (...args) => DomainTransaction.execute(() => func(...args), transactionConfig);
 }
 
 export { asyncLocalStorage, DomainTransaction, withTransaction };
