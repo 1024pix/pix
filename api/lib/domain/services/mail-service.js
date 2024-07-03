@@ -61,12 +61,12 @@ const translations = {
  */
 function sendAccountCreationEmail(email, locale = FRENCH_FRANCE, token, redirectionUrl) {
   const mailerConfig = _getMailerConfig(locale);
-  const redirectUri = redirectionUrl || mailerConfig.pixAppConnectionUrl;
+  const redirectUrl = redirectionUrl || mailerConfig.pixAppConnectionUrl;
 
   const templateVariables = {
     homeName: mailerConfig.homeName,
     homeUrl: mailerConfig.homeUrl,
-    redirectionUrl: urlBuilder.getEmailValidationUrl({ locale, redirectUri, token }),
+    redirectionUrl: urlBuilder.getEmailValidationUrl({ locale, redirectUrl, token }),
     helpdeskUrl: mailerConfig.helpdeskUrl,
     displayNationalLogo: mailerConfig.displayNationalLogo,
     ...mailerConfig.translation['pix-account-creation-email'].params,

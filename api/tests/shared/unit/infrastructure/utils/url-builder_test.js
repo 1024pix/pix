@@ -65,12 +65,12 @@ describe('Unit | Shared | Infrastructure | Utils | url-builder', function () {
       it('returns email validation URL with domain .org', function () {
         // given
         const token = '00000000-0000-0000-0000-000000000000';
-        const redirectUri = 'https://app.pix.org/connexion?lang=nl';
+        const redirectUrl = 'https://app.pix.org/connexion?lang=nl';
         const locale = 'en';
-        const expectedParams = new URLSearchParams({ token, redirect_uri: redirectUri });
+        const expectedParams = new URLSearchParams({ token, redirect_url: redirectUrl });
 
         // when
-        const url = urlBuilder.getEmailValidationUrl({ locale, redirectUri, token });
+        const url = urlBuilder.getEmailValidationUrl({ locale, redirectUrl, token });
 
         // then
         expect(url).to.equal(`https://app.pix.org/api/users/validate-email?${expectedParams.toString()}`);
@@ -81,11 +81,11 @@ describe('Unit | Shared | Infrastructure | Utils | url-builder', function () {
       it('returns email validation URL with domain .fr', function () {
         // given
         const token = '00000000-0000-0000-0000-000000000000';
-        const redirectUri = 'https://app.pix.fr/connexion';
-        const expectedParams = new URLSearchParams({ token, redirect_uri: redirectUri });
+        const redirectUrl = 'https://app.pix.fr/connexion';
+        const expectedParams = new URLSearchParams({ token, redirect_url: redirectUrl });
 
         // when
-        const url = urlBuilder.getEmailValidationUrl({ redirectUri, token });
+        const url = urlBuilder.getEmailValidationUrl({ redirectUrl, token });
 
         // then
         expect(url).to.equal(`https://app.pix.fr/api/users/validate-email?${expectedParams.toString()}`);
@@ -95,18 +95,18 @@ describe('Unit | Shared | Infrastructure | Utils | url-builder', function () {
     context('when token is not given', function () {
       it('returns email validation URL with domain .fr', function () {
         // given
-        const redirectUri = 'https://app.pix.fr/connexion';
-        const expectedParams = new URLSearchParams({ redirect_uri: redirectUri });
+        const redirectUrl = 'https://app.pix.fr/connexion';
+        const expectedParams = new URLSearchParams({ redirect_url: redirectUrl });
 
         // when
-        const url = urlBuilder.getEmailValidationUrl({ redirectUri });
+        const url = urlBuilder.getEmailValidationUrl({ redirectUrl });
 
         // then
         expect(url).to.equal(`https://app.pix.fr/api/users/validate-email?${expectedParams.toString()}`);
       });
     });
 
-    context('when redirect_uri is not given', function () {
+    context('when redirect_url is not given', function () {
       it('returns email validation URL with domain .fr', function () {
         // when
         const url = urlBuilder.getEmailValidationUrl();

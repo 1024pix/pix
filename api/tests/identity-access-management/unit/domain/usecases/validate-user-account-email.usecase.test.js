@@ -45,7 +45,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | validate-user-a
     it('returns the given redirection URL', async function () {
       // when
       const redirectionUrl = await validateUserAccountEmail({
-        redirectUri: 'https://test.com',
+        redirectUrl: 'https://test.com',
         emailValidationDemandRepository,
       });
 
@@ -80,7 +80,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | validate-user-a
       // when
       const redirectionUrl = await validateUserAccountEmail({
         token,
-        redirectUri: 'https://test.com',
+        redirectUrl: 'https://test.com',
         emailValidationDemandRepository,
       });
 

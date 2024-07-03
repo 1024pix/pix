@@ -651,7 +651,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
         // given
         const options = {
           method: 'GET',
-          url: `/api/users/validate-email?token=${token}&redirect_uri=https://this.is.redirecting.com`,
+          url: `/api/users/validate-email?token=${token}&redirect_url=https://this.is.redirecting.com`,
         };
 
         // when

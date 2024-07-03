@@ -4,7 +4,7 @@ import { config } from '../../../shared/config.js';
 /**
  * @param {{
  *   token: string,
- *   redirectUri: string | null
+ *   redirectUrl: string | null
  *   emailValidationDemandRepository: EmailValidationDemandRepository,
  *   userRepository: UserRepository
  * }} params
@@ -12,18 +12,18 @@ import { config } from '../../../shared/config.js';
  */
 export const validateUserAccountEmail = async ({
   token,
-  redirectUri,
+  redirectUrl,
   emailValidationDemandRepository,
   userRepository,
 }) => {
   try {
     if (!token) {
-      return _getRedirectionUrl(redirectUri);
+      return _getRedirectionUrl(redirectUrl);
     }
 
     const userId = await emailValidationDemandRepository.get(token);
     if (!userId) {
-      return _getRedirectionUrl(redirectUri);
+      return _getRedirectionUrl(redirectUrl);
     }
 
     const user = await userRepository.get(userId);
@@ -41,9 +41,9 @@ export const validateUserAccountEmail = async ({
     });
   }
 
-  return _getRedirectionUrl(redirectUri);
+  return _getRedirectionUrl(redirectUrl);
 };
 
-function _getRedirectionUrl(redirectUri) {
-  return redirectUri || `${config.domain.pixApp + config.domain.tldFr}/connexion`;
+function _getRedirectionUrl(redirectUrl) {
+  return redirectUrl || `${config.domain.pixApp + config.domain.tldFr}/connexion`;
 }

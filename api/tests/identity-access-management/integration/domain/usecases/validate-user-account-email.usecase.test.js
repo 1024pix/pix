@@ -14,7 +14,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | validate
       // when
       const redirectionUrl = await usecases.validateUserAccountEmail({
         token,
-        redirectUri: 'https://test.com',
+        redirectUrl: 'https://test.com',
       });
 
       // then

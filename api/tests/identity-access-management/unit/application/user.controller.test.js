@@ -363,7 +363,7 @@ describe('Unit | Identity Access Management | Application | Controller | User', 
     const request = {
       query: {
         token: 'XXX-XXX-XXX',
-        redirect_uri: 'https://it.is.redirecting.com',
+        redirect_url: 'https://it.is.redirecting.com',
       },
     };
 
@@ -373,7 +373,7 @@ describe('Unit | Identity Access Management | Application | Controller | User', 
 
     it('validates the email and redirect to the given URI', async function () {
       // given
-      usecases.validateUserAccountEmail.resolves(request.query.redirect_uri);
+      usecases.validateUserAccountEmail.resolves(request.query.redirect_url);
 
       // when
       const response = await userController.validateUserAccountEmail(request, hFake);
@@ -381,7 +381,7 @@ describe('Unit | Identity Access Management | Application | Controller | User', 
       // then
       expect(usecases.validateUserAccountEmail).to.have.been.calledWith({
         token: 'XXX-XXX-XXX',
-        redirectUri: 'https://it.is.redirecting.com',
+        redirectUrl: 'https://it.is.redirecting.com',
       });
       expect(response.statusCode).to.equal(302);
       expect(response.headers['location']).to.have.string('https://it.is.redirecting.com');

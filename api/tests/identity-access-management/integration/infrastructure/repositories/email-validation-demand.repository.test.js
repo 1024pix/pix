@@ -17,7 +17,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
       expect(result).to.deep.equal(userId);
     });
 
-    context('when demand have expired', function () {
+    context('when demand does not exist', function () {
       it('returns "null"', async function () {
         // given
         const token = 'expired-demand';
@@ -32,7 +32,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
   });
 
   describe('#remove', function () {
-    it('removes an entry', async function () {
+    it('removes a demand', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
 
@@ -51,7 +51,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
   describe('#save', function () {
     const UUID_PATTERN = new RegExp(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i);
 
-    it('saves an entry in temporary storage for email validation demands', async function () {
+    it('saves a demand', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
 

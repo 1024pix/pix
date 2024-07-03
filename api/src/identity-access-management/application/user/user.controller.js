@@ -172,9 +172,9 @@ const rememberUserHasSeenLastDataProtectionPolicyInformation = async function (
 };
 
 const validateUserAccountEmail = async function (request, h) {
-  const { token, redirect_uri: redirectUri } = request.query;
+  const { token, redirect_url: redirectUrl } = request.query;
 
-  const location = await usecases.validateUserAccountEmail({ token, redirectUri });
+  const location = await usecases.validateUserAccountEmail({ token, redirectUrl });
 
   return h.redirect(location);
 };

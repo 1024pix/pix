@@ -53,7 +53,7 @@ describe('Unit | Service | MailService', function () {
       expect(options).to.include(expectedOptions);
       expect(urlBuilder.getEmailValidationUrl).to.have.been.calledWith({
         locale: 'fr-fr',
-        redirectUri: redirectionUrl,
+        redirectUrl: redirectionUrl,
         token,
       });
     });
@@ -65,7 +65,7 @@ describe('Unit | Service | MailService', function () {
           const token = 'XXX';
           const redirectionUrl = 'https://pix.fr';
           const locale = FRENCH_FRANCE;
-          const expectedParams = new URLSearchParams({ token, redirect_uri: redirectionUrl });
+          const expectedParams = new URLSearchParams({ token, redirect_url: redirectionUrl });
 
           // when
           await mailService.sendAccountCreationEmail(userEmailAddress, locale, token, redirectionUrl);
@@ -84,7 +84,7 @@ describe('Unit | Service | MailService', function () {
         it(`calls sendEmail with from, to, and locale ${FRENCH_SPOKEN} or undefined`, async function () {
           // given
           const locale = FRENCH_SPOKEN;
-          const expectedParams = new URLSearchParams({ redirect_uri: 'https://app.pix.org/connexion/?lang=fr' });
+          const expectedParams = new URLSearchParams({ redirect_url: 'https://app.pix.org/connexion/?lang=fr' });
 
           // when
           await mailService.sendAccountCreationEmail(userEmailAddress, locale);
@@ -105,7 +105,7 @@ describe('Unit | Service | MailService', function () {
         it(`calls sendEmail with from, to, template and locale ${FRENCH_FRANCE}`, async function () {
           // given
           const locale = FRENCH_FRANCE;
-          const expectedParams = new URLSearchParams({ redirect_uri: 'https://app.pix.fr/connexion' });
+          const expectedParams = new URLSearchParams({ redirect_url: 'https://app.pix.fr/connexion' });
 
           // when
           await mailService.sendAccountCreationEmail(userEmailAddress, locale);
@@ -126,7 +126,7 @@ describe('Unit | Service | MailService', function () {
         it(`calls sendEmail with from, to, template and locale ${ENGLISH_SPOKEN}`, async function () {
           // given
           const locale = ENGLISH_SPOKEN;
-          const expectedParams = new URLSearchParams({ redirect_uri: 'https://app.pix.org/connexion/?lang=en' });
+          const expectedParams = new URLSearchParams({ redirect_url: 'https://app.pix.org/connexion/?lang=en' });
 
           // when
           await mailService.sendAccountCreationEmail(userEmailAddress, locale);
@@ -147,7 +147,7 @@ describe('Unit | Service | MailService', function () {
         it(`calls sendEmail with from, to, template and locale ${DUTCH_SPOKEN}`, async function () {
           // given
           const locale = DUTCH_SPOKEN;
-          const expectedParams = new URLSearchParams({ redirect_uri: 'https://app.pix.org/connexion/?lang=nl' });
+          const expectedParams = new URLSearchParams({ redirect_url: 'https://app.pix.org/connexion/?lang=nl' });
 
           // when
           await mailService.sendAccountCreationEmail(userEmailAddress, locale);
@@ -168,7 +168,7 @@ describe('Unit | Service | MailService', function () {
         it(`calls sendEmail with from, to, template and locale ${SPANISH_SPOKEN}`, async function () {
           // given
           const locale = SPANISH_SPOKEN;
-          const expectedParams = new URLSearchParams({ redirect_uri: 'https://app.pix.org/connexion/?lang=es' });
+          const expectedParams = new URLSearchParams({ redirect_url: 'https://app.pix.org/connexion/?lang=es' });
 
           // when
           await mailService.sendAccountCreationEmail(userEmailAddress, locale);
