@@ -1,21 +1,81 @@
+import sinon from 'sinon';
+
 import { ObjectValidationError } from '../../../../../../lib/domain/errors.js';
 import {
   ArchivedCampaignError,
   CampaignCodeFormatError,
+  DeletedCampaignError,
 } from '../../../../../../src/prescription/campaign/domain/errors.js';
 import { Campaign } from '../../../../../../src/prescription/campaign/domain/models/Campaign.js';
 import { catchErr, expect } from '../../../../../test-helper.js';
 
 describe('Campaign', function () {
   let campaign;
+  let clock;
+  const now = new Date('2022-11-28T12:00:00Z');
 
   beforeEach(function () {
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
     campaign = new Campaign({
       id: 1,
       code: 'RIGHTCODE',
       name: 'Assessment101',
       title: 'Minus One',
       multipleSendings: true,
+    });
+  });
+
+  afterEach(function () {
+    clock.restore();
+  });
+
+  describe('#isDeleted', function () {
+    it('returns true', function () {
+      campaign = new Campaign({
+        deletedAt: new Date(),
+        deletedBy: 1,
+      });
+
+      expect(campaign.isDeleted).to.be.true;
+    });
+
+    it('returns false', function () {
+      campaign = new Campaign({
+        deletedAt: null,
+        deletedBy: null,
+      });
+
+      expect(campaign.isDeleted).to.be.false;
+    });
+  });
+
+  describe('#delete', function () {
+    it('deletes the campaign', function () {
+      const campaign = new Campaign({ id: 1, code: 'ABC123' });
+
+      campaign.delete(1);
+
+      expect(campaign).to.deep.includes({ id: 1, code: 'ABC123', deletedAt: now, deletedBy: 1 });
+    });
+
+    context('when the campaign is already deleted', function () {
+      it('throws an exception', async function () {
+        const campaign = new Campaign({ id: 1, code: 'ABC123', deletedAt: new Date('2023-01-01'), deletedBy: 2 });
+
+        const error = await catchErr(campaign.delete, campaign)(1);
+
+        expect(error).to.be.an.instanceOf(DeletedCampaignError);
+      });
+    });
+
+    context('when the given userId is not provided', function () {
+      it('throws an exception', async function () {
+        const campaign = new Campaign({ id: 1, code: 'ABC123' });
+
+        const error = await catchErr(campaign.delete, campaign)();
+
+        expect(error).to.be.an.instanceOf(ObjectValidationError);
+      });
     });
   });
 

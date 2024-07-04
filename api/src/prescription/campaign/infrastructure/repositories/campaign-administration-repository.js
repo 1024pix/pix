@@ -4,10 +4,13 @@ import _ from 'lodash';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
 import * as skillRepository from '../../../../shared/infrastructure/repositories/skill-repository.js';
+import { ApplicationTransaction } from '../../../shared/infrastructure/ApplicationTransaction.js';
 import { UnknownCampaignId } from '../../domain/errors.js';
 import { Campaign } from '../../domain/models/Campaign.js';
 
 const CAMPAIGN_ATTRIBUTES = [
+  'deletedAt',
+  'deletedBy',
   'archivedAt',
   'archivedBy',
   'name',
@@ -27,6 +30,15 @@ const CAMPAIGN_ATTRIBUTES = [
   'customResultPageButtonText',
   'customResultPageButtonUrl',
 ];
+
+const getByIds = async (ids) => {
+  const knexConn = ApplicationTransaction.getConnection();
+  const campaigns = await knexConn('campaigns').whereIn('id', ids);
+
+  if (campaigns.length === 0) return null;
+
+  return campaigns.map((campaign) => new Campaign(campaign));
+};
 
 const getByCode = async function (code) {
   const campaign = await knex.select('id').from('campaigns').where({ code }).first();
@@ -53,12 +65,17 @@ const get = async function (id) {
 };
 
 const update = async function (campaign) {
-  const [editedCampaign] = await knex('campaigns')
+  const knexConn = ApplicationTransaction.getConnection();
+  const [editedCampaign] = await knexConn('campaigns')
     .where({ id: campaign.id })
     .update(_.pick(campaign, CAMPAIGN_ATTRIBUTES))
     .returning('*');
 
   return new Campaign(editedCampaign);
+};
+
+const batchUpdate = async function (campaigns) {
+  return Promise.all(campaigns.map((campaign) => update(campaign)));
 };
 
 const save = async function (campaigns, dependencies = { skillRepository }) {
@@ -140,4 +157,15 @@ const archiveCampaigns = function (campaignIds, userId) {
   });
 };
 
-export { archiveCampaigns, get, getByCode, isCodeAvailable, isFromSameOrganization, save, swapCampaignCodes, update };
+export {
+  archiveCampaigns,
+  batchUpdate,
+  get,
+  getByCode,
+  getByIds,
+  isCodeAvailable,
+  isFromSameOrganization,
+  save,
+  swapCampaignCodes,
+  update,
+};

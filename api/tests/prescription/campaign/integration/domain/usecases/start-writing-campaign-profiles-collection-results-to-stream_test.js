@@ -7,7 +7,7 @@ import * as placementProfileService from '../../../../../../lib/domain/services/
 import * as campaignRepository from '../../../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as userRepository from '../../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { startWritingCampaignProfilesCollectionResultsToStream } from '../../../../../../src/prescription/campaign/domain/usecases/start-writing-campaign-profiles-collection-results-to-stream.js';
-import * as campaignParticipationRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-participation-repository.js';
+import * as campaignParticipationRepository from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
 import * as competenceRepository from '../../../../../../src/shared/infrastructure/repositories/competence-repository.js';
 import * as organizationRepository from '../../../../../../src/shared/infrastructure/repositories/organization-repository.js';

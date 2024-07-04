@@ -1,3 +1,5 @@
+import lodash from 'lodash';
+
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { Campaign } from '../../../../../lib/domain/models/Campaign.js';
@@ -8,6 +10,21 @@ import { Assessment } from '../../../../shared/domain/models/Assessment.js';
 import { ApplicationTransaction } from '../../../shared/infrastructure/ApplicationTransaction.js';
 import { CampaignParticipation } from '../../domain/models/CampaignParticipation.js';
 import { AvailableCampaignParticipation } from '../../domain/read-models/AvailableCampaignParticipation.js';
+
+const { pick } = lodash;
+
+import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
+
+const CAMPAIGN_PARTICIPATION_ATTRIBUTES = [
+  'participantExternalId',
+  'sharedAt',
+  'status',
+  'campaignId',
+  'userId',
+  'organizationLearnerId',
+  'deletedAt',
+  'deletedBy',
+];
 
 const updateWithSnapshot = async function (campaignParticipation) {
   const domainTransaction = ApplicationTransaction.getTransactionAsDomainTransaction();
@@ -29,16 +46,13 @@ const updateWithSnapshot = async function (campaignParticipation) {
 const update = async function (campaignParticipation, domainTransaction) {
   const knexConn = ApplicationTransaction.getConnection(domainTransaction);
 
-  const attributes = {
-    participantExternalId: campaignParticipation.participantExternalId,
-    sharedAt: campaignParticipation.sharedAt,
-    status: campaignParticipation.status,
-    campaignId: campaignParticipation.campaignId,
-    userId: campaignParticipation.userId,
-    organizationLearnerId: campaignParticipation.organizationLearnerId,
-  };
+  await knexConn('campaign-participations')
+    .where({ id: campaignParticipation.id })
+    .update(pick(campaignParticipation, CAMPAIGN_PARTICIPATION_ATTRIBUTES));
+};
 
-  await knexConn('campaign-participations').where({ id: campaignParticipation.id }).update(attributes);
+const batchUpdate = async function (campaignParticipations) {
+  return Promise.all(campaignParticipations.map((campaignParticipation) => update(campaignParticipation)));
 };
 
 const get = async function (id, domainTransaction) {
@@ -53,6 +67,14 @@ const get = async function (id, domainTransaction) {
     campaign: new Campaign(campaign),
     assessments: assessments.map((assessment) => new Assessment(assessment)),
   });
+};
+
+const getByCampaignIds = async function (campaignIds) {
+  const knexConn = ApplicationTransaction.getConnection();
+  const campaignParticipations = await knexConn('campaign-participations')
+    .whereNull('deletedAt')
+    .whereIn('campaignId', campaignIds);
+  return campaignParticipations.map((campaignParticipation) => new CampaignParticipation(campaignParticipation));
 };
 
 const getAllCampaignParticipationsInCampaignForASameLearner = async function ({ campaignId, campaignParticipationId }) {
@@ -99,9 +121,53 @@ const remove = async function ({ id, deletedAt, deletedBy }) {
   return await knexConn('campaign-participations').where({ id }).update({ deletedAt, deletedBy });
 };
 
+const findProfilesCollectionResultDataByCampaignId = async function (campaignId) {
+  const results = await knex('campaign-participations')
+    .select([
+      'campaign-participations.*',
+      'view-active-organization-learners.studentNumber',
+      'view-active-organization-learners.division',
+      'view-active-organization-learners.group',
+      'view-active-organization-learners.firstName',
+      'view-active-organization-learners.lastName',
+    ])
+    .join(
+      'view-active-organization-learners',
+      'view-active-organization-learners.id',
+      'campaign-participations.organizationLearnerId',
+    )
+    .where({ campaignId, 'campaign-participations.deletedAt': null })
+    .orderBy('lastName', 'ASC')
+    .orderBy('firstName', 'ASC')
+    .orderBy('createdAt', 'DESC');
+
+  return results.map(_rowToResult);
+};
+
+function _rowToResult(row) {
+  return {
+    id: row.id,
+    createdAt: new Date(row.createdAt),
+    isShared: row.status === CampaignParticipationStatuses.SHARED,
+    sharedAt: row.sharedAt ? new Date(row.sharedAt) : null,
+    participantExternalId: row.participantExternalId,
+    userId: row.userId,
+    isCompleted: row.state === 'completed',
+    studentNumber: row.studentNumber,
+    participantFirstName: row.firstName,
+    participantLastName: row.lastName,
+    division: row.division,
+    pixScore: row.pixScore,
+    group: row.group,
+  };
+}
+
 export {
+  batchUpdate,
+  findProfilesCollectionResultDataByCampaignId,
   get,
   getAllCampaignParticipationsInCampaignForASameLearner,
+  getByCampaignIds,
   getCampaignParticipationsForOrganizationLearner,
   remove,
   update,
