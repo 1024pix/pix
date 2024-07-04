@@ -209,15 +209,13 @@ module('Unit | Route | Assessments | Resume', function (hooks) {
           assessment.certificationNumber = 666;
         });
 
-        test('should redirect to certifications.results page', function (assert) {
+        test('should redirect to certifications.results page', async function (assert) {
           // when
-          const promise = route.redirect(assessment);
+          await route.redirect(assessment);
 
           // then
-          return promise.then(() => {
-            sinon.assert.calledWith(route.router.replaceWith, 'authenticated.certifications.results', 666);
-            assert.ok(true);
-          });
+          sinon.assert.calledWith(route.router.replaceWith, 'authenticated.certifications.results', 666);
+          assert.ok(true);
         });
       });
 

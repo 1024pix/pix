@@ -143,7 +143,6 @@ module('Integration | Component | certification-starter', function (hooks) {
       module('when the creation of certification course is successful', function () {
         test('should redirect to certifications.resume', async function (assert) {
           // given
-
           const certificationCourse = {
             id: 456,
             save: sinon.stub(),
@@ -151,24 +150,25 @@ module('Integration | Component | certification-starter', function (hooks) {
           };
 
           const createRecordStub = sinon.stub();
-
           class StoreServiceStub extends Service {
             createRecord = createRecordStub;
           }
-
           this.owner.register('service:store', StoreServiceStub);
           createRecordStub.returns(certificationCourse);
 
           const resetStub = sinon.stub();
-
           class FocusedCertificationChallengeWarningManagerStub extends Service {
             reset = resetStub;
           }
-
           this.owner.register(
             'service:focused-certification-challenge-warning-manager',
             FocusedCertificationChallengeWarningManagerStub,
           );
+          const postMessageStub = sinon.stub();
+          class WindowPostMessageServiceStub extends Service {
+            startCertification = postMessageStub;
+          }
+          this.owner.register('service:window-post-message', WindowPostMessageServiceStub);
 
           const routerObserver = this.owner.lookup('service:router');
           routerObserver.replaceWith = sinon.stub();
@@ -188,14 +188,61 @@ module('Integration | Component | certification-starter', function (hooks) {
             accessCode: 'ABC123',
             sessionId: 123,
           });
+
           sinon.assert.calledOnce(certificationCourse.save);
           sinon.assert.calledOnce(resetStub);
+          sinon.assert.calledOnce(postMessageStub);
           sinon.assert.calledWithExactly(routerObserver.replaceWith, 'authenticated.certifications.resume', 456);
+
           assert.ok(true);
         });
       });
 
       module('when the creation of certification course is in error', function () {
+        test('should not send a postMessage', async function (assert) {
+          // given
+          const replaceWithStub = sinon.stub();
+          const postMessageStub = sinon.stub();
+          class WindowPostMessageServiceStub extends Service {
+            startCertification = postMessageStub;
+          }
+          this.owner.register('service:window-post-message', WindowPostMessageServiceStub);
+
+          class RouterServiceStub extends Service {
+            replaceWith = replaceWithStub;
+          }
+
+          this.owner.register('service:router', RouterServiceStub);
+          const createRecordStub = sinon.stub();
+
+          class StoreStubService extends Service {
+            createRecord = createRecordStub;
+          }
+
+          this.owner.register('service:store', StoreStubService);
+
+          const certificationCourse = {
+            id: 123,
+            save: sinon.stub(),
+            deleteRecord: sinon.stub(),
+          };
+          createRecordStub.returns(certificationCourse);
+          this.set('certificationCandidateSubscription', { sessionId: 123 });
+          this.set('postMessageStub', postMessageStub);
+          const screen = await render(
+            hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}} @postMessage={{this.postMessageStub}}/>`,
+          );
+          await fillIn('#certificationStarterSessionCode', 'ABC123');
+          certificationCourse.save.rejects({ errors: [{ status: '404' }] });
+
+          // when
+          await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
+
+          // then
+          assert.ok(screen.getByText('Ce code n’existe pas ou n’est plus valide.'));
+          sinon.assert.notCalled(postMessageStub);
+        });
+
         test('should display the appropriate error message when error status is 404', async function (assert) {
           // given
           const replaceWithStub = sinon.stub();

@@ -28,4 +28,24 @@ module('Unit | Route | Certifications | Results', function (hooks) {
       assert.deepEqual(model, certificationCourse);
     });
   });
+
+  module('afterModel', function () {
+    test('should send a stop certification postMessage', async function (assert) {
+      // given
+      const postMessageStub = sinon.stub();
+      class WindowPostMessageServiceStub extends Service {
+        stopCertification = postMessageStub;
+      }
+      this.owner.register('service:window-post-message', WindowPostMessageServiceStub);
+
+      const route = this.owner.lookup('route:authenticated/certifications.results');
+
+      // when
+      route.afterModel();
+
+      // then
+      sinon.assert.calledOnce(postMessageStub);
+      assert.ok(true);
+    });
+  });
 });
