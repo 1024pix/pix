@@ -15,11 +15,11 @@
   },
   "transitionTexts": [
     {
-      "content": "<p>Vous avez sûrement déjà utilisé un <abbr title=\"Large Language Model\">LLM</abbr> tel que ChatGPT.<br>Ces grands modèles de langage peuvent être utiles pour produire des synthèses ou encore inventer des histoires.<span aria-hidden=\"true\">&nbsp;✒️ 💭</span></p><p>Pourtant, les textes produits sont parfois discutables ou complètement faux.<span aria-hidden=\"true\">&nbsp;❌</span><br>Surprenant ? Pas vraiment. Commençons par un exemple concret !</p>",
+      "content": "<p>Vous avez sûrement déjà utilisé des robots conversationnels tels que ChatGPT ou Copilot.<br>Ces systèmes reposent sur de grands modèles de langage (LLM) et peuvent être utiles pour produire des synthèses, inventer des histoires, ou générer toutes sortes de textes.<span aria-hidden=\"true\">&nbsp;✒️ 💭</span></p><p>Pourtant, les textes produits sont parfois discutables ou complètement faux.<span aria-hidden=\"true\">&nbsp;❌</span><br>Surprenant ? Pas vraiment. Commençons par un exemple concret !</p>",
       "grainId": "0bfa08bd-7052-49bb-89e8-150efa589926"
     },
     {
-      "content": "<p>La réponse en français de ChatGPT est biaisée. En effet, elle est influencée par ses données d'entraînement, en majorité anglo-saxonnes.</p><p>Dans la vidéo suivante, vous allez découvrir d’où proviennent les différents biais des LLM.<span aria-hidden=\"true\">&nbsp;📺</span></p>",
+      "content": "<p>La réponse en français de ChatGPT est biaisée. En effet, elle est influencée par ses données d'entraînement, en grande partie issues de données récoltées sur Internet, donc majoritairement en anglais.</p><p>Dans la vidéo suivante, vous allez découvrir d’où proviennent les différents biais des LLM.<span aria-hidden=\"true\">&nbsp;📺</span></p>",
       "grainId": "c8722f6e-7534-4fdc-9f2d-515c2a96641f"
     },
     {
@@ -35,7 +35,7 @@
         "grainId": "e52da884-2233-4101-96a5-befd5c7d7975"
     },
     {
-      "content":"<p> Vous avez sûrement constaté des écarts de résultats entre différents LLM.<br>Cela s'explique en partie par le fait qu'ils sont développés dans des pays différents et sous des licences distinctes. Explications avec ce schéma.<span aria-hidden=\"true\">&nbsp;🔍</span></p>",
+      "content":"<p> Vous avez sûrement constaté des écarts de résultats entre différents LLM.<br>Cela s'explique en partie par le fait qu'ils sont développés par différents acteurs et selon des logiques de déploiement distinctes. Explications avec ce schéma.<span aria-hidden=\"true\">&nbsp;🔍</span></p>",
       "grainId": "018ad06a-f11c-4db3-b954-ac8a6466d947"
     },
     {
@@ -534,7 +534,7 @@
           {
             "id": "97e85ece-84d7-4b61-aa9f-58c063f0f900",
             "type": "text",
-            "content": "<h3><span aria-hidden=\"true\">👉</span> Cette concentration des principaux LLM entre un petit nombre de pays implique un manque de diversité dans les productions des modèles, et une sur représentation des modèles occidentaux.</h3>"
+            "content": "<h3><span aria-hidden=\"true\">👉</span> Cette concentration des principaux LLM entre un petit nombre de pays implique un manque de diversité dans les productions des modèles, et une sur représentation des modèles occidentaux.<br>En revanche, les nombreuses initiatives open source permettent de limiter l'opacité dans l'architecture des modèles, et les ajustements post-entraînements, ce qui peut, à terme, favoriser la diversité. <span aria-hidden=\"true\">&nbsp;💡</span></h3>"
           }
         }
       ]
