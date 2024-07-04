@@ -40,15 +40,15 @@
       },
       {
         "grainId": "713aeb31-6bbd-4e0c-930a-ad24164f5b9c",
-        "content": "<p> <span aria-hidden=\"true\">📖</span> Bon à savoir :</p> <p> Les mots <b>pointeur de souris</b> et <b>curseur de souris</b> veulent dire la même chose.</p><br><p>Vous allez maintenant passer à la pratique. À vous de déplacer le pointeur sur votre écran.</p>"
+        "content": "<p> <span aria-hidden=\"true\">📖</span> Bon à savoir : Les mots <b>pointeur de souris</b> et <b>curseur de souris</b> veulent dire la même chose.</p><br><p>Vous allez maintenant passer à la pratique. À vous de déplacer le pointeur sur votre écran.</p>"
       },
       {
         "grainId": "194be335-f3c1-468e-9ad1-0a7287b95f37",
-        "content": "<p>Vous savez déplacer le pointeur de la souris à l'écran. Maintenant, entraînez-vous à être plus précis dans vos mouvements. <span aria-hidden=\"true\">🎯</span> </p>"
+        "content": "<p>Vous savez déplacer le pointeur de la souris à l'écran. Maintenant, entraînez-vous à être précis dans vos mouvements. <span aria-hidden=\"true\">🎯</span> </p>"
       },
       {
         "grainId": "03e0657a-7caf-49eb-8dfb-da0f5e52b7ba",
-        "content": "<p>Vous savez maintenant déplacer le pointeur de votre souris de façon précise. Voici quelques informations qui pourront vous servir. <span aria-hidden=\"true\">📚</span> </p>"
+        "content": "<p>Vous savez maintenant déplacer le pointeur de votre souris de façon précise.</p><p>Il arrive que le pointeur change de forme. C’est tout à fait normal. Vous allez maintenant découvrir les différentes formes de pointeur.</p>"
       }
     ],
     "grains": [
@@ -63,7 +63,7 @@
               {
                 "id": "48708070-39c3-4af4-8914-ab61d61dfee8",
                 "type": "text",
-                "content": "<p>Les souris peuvent avoir différentes formes, tailles ou couleurs.</p><p>Il y a deux types de souris : </p><ul> <li>Les souris avec un fil (filaires), </li><li> Les souris sans fil.</li></ul><p>Globalement, toutes ces souris servent à faire les mêmes choses.</p>"
+                "content": "<p>Les souris peuvent avoir différentes formes, tailles ou couleurs.</p><p>Il y a deux types de souris : </p><ul> <li>Les souris avec un fil, </li><li> Les souris sans fil.</li></ul><p>Globalement, toutes ces souris servent à faire les mêmes choses.</p>"
               }
           },
           {
@@ -83,7 +83,7 @@
               {
                 "id": "c785bfd1-e8b8-42a0-8354-333d5acf6555",
                 "type": "text",
-                "content": "<h3><span aria-hidden=\"true\">👉</span> À vous de jouer : trouvez quel est votre type de souris.</h3>"
+                "content": "<h3><span aria-hidden=\"true\">👉</span> À vous de jouer : regardez votre souris et trouvez si elle a un fil ou non.</h3>"
               }
           }
         ]
@@ -155,7 +155,7 @@
                   {
                     "id": "1ede5a28-3b91-401a-983a-f1042f927209",
                     "type": "text",
-                    "content": "<p>Répondez à la question ci-dessous.<br>Pour dévoiler la réponse, passez votre souris sur la carte.</p>"
+                    "content": "<h3><span aria-hidden=\"true\">👉</span> Répondez à la question ci-dessous.</h3><br><p>Pour dévoiler la réponse, passez votre souris sur la carte.</p>"
                   }
           },
           {
@@ -205,7 +205,7 @@
               {
                     "id": "6b6eeef4-bb9b-4769-906d-47e72db93543",
                     "type": "text",
-                    "content": "<p>Regardez votre souris. Ne regardez pas de ce qu'il se passe à l'écran.<br></p><p>Pour déplacer votre souris, voici les étapes à suivre :</p><ul><li>Étape 1 : Posez votre main confortablement sur la souris.</li><li>Étape 2 : Faites glissez la souris doucement sur la table.</li></ul>"
+                    "content": "<p>Regardez votre souris. Ne regardez pas de ce qu'il se passe à l'écran.<br></p><h3><span aria-hidden=\"true\">👉</span> Déplacez votre souris, en suivant ces étapes :</h3><ul><li>Étape 1 : Posez votre main confortablement sur la souris.</li><li>Étape 2 : Faites glissez la souris doucement sur la table.</li></ul>"
               }
           },
             {
@@ -264,7 +264,7 @@
             {
                     "id": "0dc90047-776b-48cd-944e-72ca51c69cfc",
                     "type": "text",
-                    "content": "<p>Dans la zone ci-dessous, déplacez le pointeur de votre souris.<br>Passez dans toute la zone pour découvrir l'image qui est cachée.</p>"
+                    "content": "<h3><span aria-hidden=\"true\">👉</span> Dans la zone ci-dessous, déplacez le pointeur de votre souris.</h3><br><p>Passez dans toute la zone pour découvrir l'image qui est cachée.</p>"
             }
           },
           {
@@ -289,7 +289,7 @@
             {
                     "id": "a33ac061-ab23-4e94-b60e-904e701e7d76",
                     "type": "text",
-                    "content": "<p>Dans le cadre ci-dessous, déplacez le pointeur sur chacun des éléments qui apparaissent. <br>Vous pouvez essayer autant de fois que vous voulez.</p>"
+                    "content": "<h3><span aria-hidden=\"true\">👉</span> Dans le cadre ci-dessous, déplacez le pointeur sur chacun des éléments qui apparaissent. </h3><p>Vous pouvez essayer autant de fois que vous voulez.</p>"
             }
           },
           {
@@ -307,7 +307,7 @@
             {
                     "id": "9c1c4342-96a6-4c14-a5b0-5ed0d202fb8f",
                     "type": "text",
-                    "content": "<h3> <span aria-hidden=\"true\">💡</span> Si vous ne voyez plus votre pointeur</h3> <p> Bougez de gauche à droite votre souris doucement sur la table.<br> Vous verrez le pointeur bouger à l'écran.</p>"
+                    "content": "<h3> <span aria-hidden=\"true\">💡</span> Astuce si vous ne voyez plus le pointeur sur votre écran</h3> <p> Bougez de gauche à droite votre souris doucement sur la table.<br> Vous verrez le pointeur bouger à l'écran.</p>"
             }
           }
             ]
@@ -323,7 +323,7 @@
                 {
                         "id": "af44ed34-f3a3-46f1-813d-c801a6e0b073",
                         "type": "text",
-                        "content": "<p>Quand vous déplacez votre souris sur un élément, le pointeur peut changer de forme. C’est tout à fait normal. Le pointeur change de forme quand une action est possible. </p><p><br> <span aria-hidden=\"true\">👉</span> Déplacez votre pointeur sur les trois zones ci-dessous. Vous allez découvrir les trois formes de pointeur les plus courantes et leur utilité.</p>"
+                        "content": "<p>Quand vous déplacez votre souris sur un élément, le pointeur peut changer de forme. Cela signifie qu'une action est possible.</p><p>Découvrez les trois formes de pointeur les plus courantes et leur utilité. </p><br> <h3><span aria-hidden=\"true\">👉</span> Déplacez votre pointeur sur les trois zones ci-dessous.</h3>"
                 }
             },
             {
