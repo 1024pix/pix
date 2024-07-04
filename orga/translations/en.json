@@ -939,8 +939,7 @@
           "main-new-campaign-access": "However, they will still be able to take part in new campaigns.",
           "main-participation-access": "They  will no longer be able to take part in any previous campaigns.",
           "main-participation-prevent": "All their participations to campaigns will be deleted."
-        },
-        "delete-button": "Yes, I delete"
+        }
       },
       "empty-state": {
         "action": "See my campaigns",
@@ -1277,7 +1276,6 @@
       },
       "deletion-modal": {
         "title": "Delete '<strong>'{count, plural, =1 {{firstname} {lastname}} other {{count}}}'</strong>' {count, plural, =1 {of your} other {selected}} students?",
-        "confirmation-checkbox": "I confirm that I have understood the impacts of the {count} deletions",
         "content": {
           "footer": "Please note that this action is irreversible.",
           "header": "{count, plural, =1 {This student} other {These students}} will no longer be visible in Pix Orga.",
@@ -1285,8 +1283,7 @@
           "main-new-campaign-access": "However, they will still be able to take part in new campaigns.",
           "main-participation-access": "They  will no longer be able to take part in any previous campaigns.",
           "main-participation-prevent": "All their participations to campaigns will be deleted."
-        },
-        "delete-button": "Yes, I delete"
+        }
       },
       "edit-student-number-modal": {
         "title": "Edit a student number",
