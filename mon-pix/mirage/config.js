@@ -35,6 +35,7 @@ import putTutorialEvaluation from './routes/put-tutorial-evaluation';
 import putUserSavedTutorial from './routes/put-user-saved-tutorial';
 import loadScoOrganizationLearnersRoutes from './routes/sco-organization-learners/index';
 import loadSupOrganizationLearnersRoutes from './routes/sup-organization-learners/index';
+import updateCertificationCandidates from './routes/update-certification-candidates';
 import loadUserRoutes from './routes/users/index';
 
 export default function makeServer(config) {
@@ -108,4 +109,9 @@ function routes() {
   this.get('/certification-courses/:id');
 
   this.post('/feedbacks');
+
+  this.patch(
+    '/certification-candidates/:certificationCandidateId/validate-certification-instructions',
+    updateCertificationCandidates,
+  );
 }

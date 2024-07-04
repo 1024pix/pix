@@ -1,5 +1,5 @@
 import { visit } from '@1024pix/ember-testing-library';
-import { currentURL } from '@ember/test-helpers';
+import { click, currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
@@ -21,7 +21,7 @@ module('Acceptance | Certifications | Information', function (hooks) {
 
   module('when certification candidate participates in a V3 session', function () {
     module('when toggle areV3InfoScreensEnabled is enabled', function () {
-      test('should display the certification information page', async function (assert) {
+      test('should display the certification instructions page', async function (assert) {
         // given
         server.create('feature-toggle', {
           id: 0,
@@ -55,6 +55,88 @@ module('Acceptance | Certifications | Information', function (hooks) {
         assert.dom(screen.getByRole('heading', { name: 'Explication de la certification', level: 1 })).exists();
         assert.dom(screen.getByRole('heading', { name: 'Bienvenue à la certification Pix', level: 2 })).exists();
         assert.dom(screen.getByRole('button', { name: "Continuer vers l'écran suivant" })).exists();
+      });
+
+      module('when user validates instructions', function () {
+        test('should validate checkbox and redirect to the certification start page', async function (assert) {
+          // given
+          server.create('feature-toggle', {
+            id: 0,
+            areV3InfoScreensEnabled: true,
+          });
+          server.create('certification-candidate-subscription', {
+            id: 2,
+            sessionId: 123,
+            eligibleSubscription: null,
+            nonEligibleSubscription: null,
+            sessionVersion: 3,
+          });
+
+          await authenticateByEmail(user);
+
+          const screen = await visit('/certifications');
+
+          // when
+          await fillCertificationJoiner({
+            sessionId: '123',
+            firstName: 'toto',
+            lastName: 'titi',
+            dayOfBirth: '01',
+            monthOfBirth: '01',
+            yearOfBirth: '2000',
+            intl: this.intl,
+          });
+          for (let i = 0; i < 4; i++) {
+            await click(screen.getByRole('button', { name: "Continuer vers l'écran suivant" }));
+          }
+
+          await click(
+            screen.getByRole('checkbox', {
+              name: 'En cochant cette case, je reconnais avoir pris connaissance de ces règles et je m’engage à les respecter.',
+            }),
+          );
+          await click(screen.getByRole('button', { name: "Continuer vers la page d'entrée en certification" }));
+
+          // then
+          assert.strictEqual(currentURL(), '/certifications/candidat/2');
+        });
+      });
+
+      module('when user has already validated instructions', function () {
+        test('should redirect to the certification start page', async function (assert) {
+          // given
+          server.create('feature-toggle', {
+            id: 0,
+            areV3InfoScreensEnabled: true,
+          });
+          server.create('certification-candidate-subscription', {
+            id: 2,
+            sessionId: 123,
+            eligibleSubscription: null,
+            nonEligibleSubscription: null,
+            sessionVersion: 3,
+          });
+
+          const candidateLastName = 'hasSeenCertificationInstructions';
+
+          await authenticateByEmail(user);
+
+          await visit('/certifications');
+
+          // when
+          await fillCertificationJoiner({
+            sessionId: '123',
+            firstName: 'toto',
+            lastName: candidateLastName,
+            dayOfBirth: '01',
+            monthOfBirth: '01',
+            yearOfBirth: '2000',
+            intl: this.intl,
+          });
+
+          // then
+          assert.strictEqual(currentURL(), '/certifications/candidat/2');
+        });
       });
     });
 

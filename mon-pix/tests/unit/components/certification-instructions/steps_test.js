@@ -27,32 +27,29 @@ module('Unit | Component | certification-instruction | steps', function (hooks) 
 
     module('when pageId equal pageCount', function () {
       module('when confirmation checkbox is checked', function () {
-        test('should redirect to certificartion starter', async function (assert) {
+        test('should redirect to certification starter', async function (assert) {
           // given
           const component = createGlimmerComponent('certification-instructions/steps');
 
           component.pageId = 2;
           component.pageCount = 2;
-          component.args = {
-            candidateId: 123,
-          };
           component.isConfirmationCheckboxChecked = true;
           const transitionToStub = sinon.stub();
+          const saveStub = sinon.stub();
+          saveStub.resolves();
           component.router = {
             transitionTo: transitionToStub,
+          };
+          component.args.candidate = {
+            save: saveStub,
+            id: 123,
           };
 
           // when
           await component.nextStep();
 
           // then
-          assert.ok(
-            transitionToStub.calledWith('authenticated.certifications.start', 123, {
-              queryParams: {
-                isConfirmationCheckboxChecked: true,
-              },
-            }),
-          );
+          assert.ok(transitionToStub.calledWith('authenticated.certifications.start', 123));
         });
       });
     });

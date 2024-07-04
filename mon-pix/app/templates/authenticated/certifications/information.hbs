@@ -6,6 +6,6 @@
     <h1 class="instructions-header__title">{{t "pages.certification-instructions.title"}}</h1>
   </header>
   <PixBlock @shadow="heavy" class="instructions-step">
-    <CertificationInstructions::Steps @candidateId={{this.model.id}} />
+    <CertificationInstructions::Steps @candidate={{this.model}} />
   </PixBlock>
 </main>
