@@ -60,10 +60,9 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
 
         const learners = learnerSet.learners;
 
-        expect(learners.create).to.lengthOf(1);
-        expect(learners.update).to.lengthOf(0);
-        expect(learners.create[0]).to.be.an.instanceOf(CommonOrganizationLearner);
-        expect(learners.create).to.deep.equal([
+        expect(learners.list).to.lengthOf(1);
+        expect(learners.list[0]).to.be.an.instanceOf(CommonOrganizationLearner);
+        expect(learners.list).to.deep.equal([
           new CommonOrganizationLearner({
             firstName: 'Tomie',
             lastName: 'Katana',
@@ -89,33 +88,15 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
 
         const learners = learnerSet.learners;
 
-        expect(learners.create).to.lengthOf(2);
+        expect(learners.list).to.lengthOf(2);
       });
     });
 
     describe('update learner context', function () {
-      it('return several learner to update', function () {
+      it('return learner to update', function () {
         const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
-        const learnerAttributes2 = {
-          prénom: 'Edgar',
-          nom: 'Paslatugène',
-          "nom d'usage": 'Edou',
-          anniversaire: '34',
-          group: 'Han',
-        };
-        learnerSet.addLearners([learnerAttributes, learnerAttributes2]);
-
-        const learnerFromDB2 = new CommonOrganizationLearner({
-          id: 777,
-          userId: 42,
-          firstName: 'Edgar',
-          lastName: 'làsaymieux',
-          "nom d'usage": 'Ed',
-          anniversaire: '30',
-          group: 'Solo',
-          organizationId,
-        });
+        learnerSet.addLearners([learnerAttributes]);
 
         const learnerFromDB1 = new CommonOrganizationLearner({
           id: 666,
@@ -128,12 +109,11 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           organizationId,
         });
 
-        learnerSet.setExistingLearners([learnerFromDB1, learnerFromDB2]);
+        learnerSet.setExistingLearners([learnerFromDB1]);
 
         const learners = learnerSet.learners;
 
-        expect(learners.update).lengthOf(2);
-        expect(learners.create).lengthOf(0);
+        expect(learners.list).lengthOf(1);
       });
 
       it('return distinct list of learner to create or update', function () {
@@ -164,7 +144,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
 
         const learners = learnerSet.learners;
 
-        expect(learners.create).to.deep.equals([
+        expect(learners.list).to.deep.equals([
           {
             firstName: 'Tomie',
             lastName: 'Katana',
@@ -175,8 +155,6 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
               group: 'Solo',
             },
           },
-        ]);
-        expect(learners.update).to.deep.equals([
           {
             id: 777,
             userId: 42,
@@ -472,7 +450,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
 
         const learners = learnerSet.learners;
 
-        expect(learners.create[0].attributes.anniversaire).to.equal('2026-03-06');
+        expect(learners.list[0].attributes.anniversaire).to.equal('2026-03-06');
       });
 
       it('when there is several date configs, should transform all the dates', async function () {
@@ -494,8 +472,8 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
 
         const learners = learnerSet.learners;
 
-        expect(learners.create[0].attributes.anniversaire).to.equal('2010-03-06');
-        expect(learners.create[0].attributes.marriage).to.equal('2027-06-09');
+        expect(learners.list[0].attributes.anniversaire).to.equal('2010-03-06');
+        expect(learners.list[0].attributes.marriage).to.equal('2027-06-09');
       });
     });
   });

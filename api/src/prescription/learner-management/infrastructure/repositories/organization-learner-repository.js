@@ -67,7 +67,18 @@ const addOrUpdateOrganizationOfOrganizationLearners = async function (
 
 const saveCommonOrganizationLearners = function (learners) {
   const knex = ApplicationTransaction.getConnection();
-  return knex('organization-learners').insert(learners);
+
+  return Promise.all(
+    learners.map((learner) => {
+      return knex('organization-learners').insert(learner).onConflict('id').merge({
+        firstName: learner.firstName,
+        lastName: learner.lastName,
+        attributes: learner.attributes,
+        isDisabled: false,
+        updatedAt: new Date(),
+      });
+    }),
+  );
 };
 
 const disableCommonOrganizationLearnersFromOrganizationId = function ({
@@ -80,19 +91,6 @@ const disableCommonOrganizationLearnersFromOrganizationId = function ({
     .whereNull('deletedAt')
     .update({ isDisabled: true, updatedAt: new Date() })
     .whereNotIn('id', excludeOrganizationLearnerIds);
-};
-
-const updateCommonLearnersFromOrganizationId = function ({ learners, organizationId }) {
-  const knex = ApplicationTransaction.getConnection();
-
-  return Promise.all(
-    learners.map((learner) => {
-      return knex('organization-learners')
-        .where({ id: learner.id, organizationId })
-        .whereNull('deletedAt')
-        .update({ ...learner, isDisabled: false, updatedAt: new Date() });
-    }),
-  );
 };
 
 const findAllCommonLearnersFromOrganizationId = async function ({ organizationId }) {
@@ -163,5 +161,4 @@ export {
   removeByIds,
   saveCommonOrganizationLearners,
   update,
-  updateCommonLearnersFromOrganizationId,
 };
