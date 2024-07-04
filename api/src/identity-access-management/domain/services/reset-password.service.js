@@ -2,7 +2,6 @@ import jsonwebtoken from 'jsonwebtoken';
 
 import { config } from '../../../shared/config.js';
 import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
-import * as passwordResetDemandRepository from '../../infrastructure/repositories/reset-password-demand.repository.js';
 
 const generateTemporaryKey = async function () {
   const randomBytesBuffer = await cryptoService.randomBytes(16);
@@ -16,14 +15,11 @@ const generateTemporaryKey = async function () {
   );
 };
 
-const invalidateOldResetPasswordDemand = function (
-  userEmail,
-  resetPasswordDemandRepository = passwordResetDemandRepository,
-) {
+const invalidateOldResetPasswordDemand = function (userEmail, resetPasswordDemandRepository) {
   return resetPasswordDemandRepository.markAsBeingUsed(userEmail);
 };
 
-const verifyDemand = function (temporaryKey, resetPasswordDemandRepository = passwordResetDemandRepository) {
+const verifyDemand = function (temporaryKey, resetPasswordDemandRepository) {
   return resetPasswordDemandRepository.findByTemporaryKey(temporaryKey).then((fetchedDemand) => fetchedDemand.toJSON());
 };
 
@@ -34,11 +30,7 @@ const verifyDemand = function (temporaryKey, resetPasswordDemandRepository = pas
  * @param {ResetPasswordDemandRepository} resetPasswordDemandRepository
  * @return {Promise<*>}
  */
-const hasUserAPasswordResetDemandInProgress = function (
-  email,
-  temporaryKey,
-  resetPasswordDemandRepository = passwordResetDemandRepository,
-) {
+const hasUserAPasswordResetDemandInProgress = function (email, temporaryKey, resetPasswordDemandRepository) {
   return resetPasswordDemandRepository.findByUserEmail(email, temporaryKey);
 };
 

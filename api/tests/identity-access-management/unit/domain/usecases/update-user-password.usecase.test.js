@@ -17,6 +17,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | update-user-pas
   let resetPasswordService;
   let authenticationMethodRepository;
   let userRepository;
+  let resetPasswordDemandRepository;
 
   beforeEach(function () {
     cryptoService = {
@@ -32,6 +33,11 @@ describe('Unit | Identity Access Management | Domain | UseCase | update-user-pas
     userRepository = {
       get: sinon.stub(),
       update: sinon.stub(),
+    };
+
+    resetPasswordDemandRepository = {
+      hasUserAPasswordResetDemandInProgress: sinon.stub(),
+      invalidateOldResetPasswordDemand: sinon.stub(),
     };
 
     cryptoService.hashPassword.resolves();
@@ -89,12 +95,14 @@ describe('Unit | Identity Access Management | Domain | UseCase | update-user-pas
       resetPasswordService,
       authenticationMethodRepository,
       userRepository,
+      resetPasswordDemandRepository,
     });
 
     // then
     expect(resetPasswordService.hasUserAPasswordResetDemandInProgress).to.have.been.calledWithExactly(
       user.email,
       temporaryKey,
+      resetPasswordDemandRepository,
     );
   });
 
@@ -131,10 +139,14 @@ describe('Unit | Identity Access Management | Domain | UseCase | update-user-pas
       resetPasswordService,
       authenticationMethodRepository,
       userRepository,
+      resetPasswordDemandRepository,
     });
 
     // then
-    expect(resetPasswordService.invalidateOldResetPasswordDemand).to.have.been.calledWithExactly(user.email);
+    expect(resetPasswordService.invalidateOldResetPasswordDemand).to.have.been.calledWithExactly(
+      user.email,
+      resetPasswordDemandRepository,
+    );
   });
 
   context('When user has not a current password reset demand', function () {
@@ -153,6 +165,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | update-user-pas
         resetPasswordService,
         authenticationMethodRepository,
         userRepository,
+        resetPasswordDemandRepository,
       });
 
       // then
@@ -174,6 +187,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | update-user-pas
       resetPasswordService,
       authenticationMethodRepository,
       userRepository,
+      resetPasswordDemandRepository,
     });
 
     // then
