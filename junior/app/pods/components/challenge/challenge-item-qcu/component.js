@@ -18,9 +18,14 @@ export default class QcuProposals extends Component {
   @action
   radioClicked() {
     const checkedInputValues = [];
-    const radioInputElements = document.querySelectorAll('input[type="radio"]:checked');
+    const radioInputElements = document.querySelectorAll('input[type="radio"]');
     Array.prototype.forEach.call(radioInputElements, function (element) {
-      checkedInputValues.push(element.getAttribute('data-value'));
+      if (element.checked) {
+        checkedInputValues.push(element.getAttribute('data-value'));
+        element.parentNode.classList.add('pix-label--checked');
+      } else {
+        element.parentNode.classList.remove('pix-label--checked');
+      }
     });
     this.args.setAnswerValue(checkedInputValues.join(''));
   }

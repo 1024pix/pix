@@ -8,7 +8,7 @@
       checked={{labeledRadio.checked}}
       {{on "click" (fn this.radioClicked labeledRadio.value)}}
       data-value="{{labeledRadio.value}}"
-      @class="pix1d-radio"
+      @class="pix1d-radio {{if @isDisabled 'pix1d-radio--disabled'}}"
       data-test="challenge-response-proposal-selector"
     >
       <:label>
