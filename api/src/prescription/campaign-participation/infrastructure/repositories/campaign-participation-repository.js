@@ -3,6 +3,7 @@ import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { Campaign } from '../../../../../lib/domain/models/Campaign.js';
 import * as knowledgeElementRepository from '../../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
 import * as knowledgeElementSnapshotRepository from '../../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { Assessment } from '../../../../shared/domain/models/Assessment.js';
 import { ApplicationTransaction } from '../../../shared/infrastructure/ApplicationTransaction.js';
 import { CampaignParticipation } from '../../domain/models/CampaignParticipation.js';
@@ -54,12 +55,8 @@ const get = async function (id, domainTransaction) {
   });
 };
 
-const getAllCampaignParticipationsInCampaignForASameLearner = async function ({
-  campaignId,
-  campaignParticipationId,
-  domainTransaction,
-}) {
-  const knexConn = domainTransaction.knexTransaction;
+const getAllCampaignParticipationsInCampaignForASameLearner = async function ({ campaignId, campaignParticipationId }) {
+  const knexConn = DomainTransaction.getConnection();
   const result = await knexConn('campaign-participations')
     .select('organizationLearnerId')
     .where({ id: campaignParticipationId, campaignId })
@@ -97,8 +94,8 @@ const getCampaignParticipationsForOrganizationLearner = async function ({ organi
   );
 };
 
-const remove = async function ({ id, deletedAt, deletedBy, domainTransaction }) {
-  const knexConn = domainTransaction.knexTransaction;
+const remove = async function ({ id, deletedAt, deletedBy }) {
+  const knexConn = DomainTransaction.getConnection();
   return await knexConn('campaign-participations').where({ id }).update({ deletedAt, deletedBy });
 };
 

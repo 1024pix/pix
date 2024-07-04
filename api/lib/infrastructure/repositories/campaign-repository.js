@@ -73,7 +73,8 @@ const getCampaignCodeByCampaignParticipationId = async function (campaignPartici
 };
 
 const getCampaignIdByCampaignParticipationId = async function (campaignParticipationId) {
-  const campaign = await knex('campaigns')
+  const knexConn = DomainTransaction.getConnection();
+  const campaign = await knexConn('campaigns')
     .select('campaigns.id')
     .join('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id')
     .where({ 'campaign-participations.id': campaignParticipationId })

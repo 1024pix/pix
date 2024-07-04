@@ -1,5 +1,6 @@
 import { CampaignParticipation } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignParticipation.js';
 import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
+import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 const { deleteCampaignParticipationForAdmin } = usecases;
@@ -11,6 +12,10 @@ describe('Unit | UseCase | delete-campaign-participation-for-admin', function ()
 
   beforeEach(function () {
     clock = sinon.useFakeTimers({ now: now.getTime(), toFake: ['Date'] });
+    sinon.stub(DomainTransaction, 'execute');
+    DomainTransaction.execute.callsFake((fn) => {
+      return fn({});
+    });
   });
 
   afterEach(function () {
@@ -26,7 +31,6 @@ describe('Unit | UseCase | delete-campaign-participation-for-admin', function ()
       remove: sinon.stub(),
     };
     const campaignParticipationId = 1234;
-    const domainTransaction = Symbol('domainTransaction');
     const campaignId = domainBuilder.buildCampaign().id;
     const ownerId = domainBuilder.buildUser().id;
     const organizationLearnerId = domainBuilder.buildOrganizationLearner().id;
@@ -52,7 +56,6 @@ describe('Unit | UseCase | delete-campaign-participation-for-admin', function ()
       .withArgs({
         campaignId,
         campaignParticipationId,
-        domainTransaction,
       })
       .resolves(campaignParticipations);
 
@@ -60,7 +63,6 @@ describe('Unit | UseCase | delete-campaign-participation-for-admin', function ()
     await deleteCampaignParticipationForAdmin({
       userId: ownerId,
       campaignParticipationId,
-      domainTransaction,
       campaignRepository,
       campaignParticipationRepository,
     });
@@ -77,7 +79,6 @@ describe('Unit | UseCase | delete-campaign-participation-for-admin', function ()
         id: deletedCampaignParticipation.id,
         deletedAt: deletedCampaignParticipation.deletedAt,
         deletedBy: deletedCampaignParticipation.deletedBy,
-        domainTransaction,
       });
     });
   });

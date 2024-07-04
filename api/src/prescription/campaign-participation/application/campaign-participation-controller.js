@@ -97,12 +97,9 @@ const updateParticipantExternalId = async function (request, h) {
 const deleteCampaignParticipationForAdmin = async function (request, h) {
   const { userId } = request.auth.credentials;
   const { id: campaignParticipationId } = request.params;
-  await DomainTransaction.execute(async (domainTransaction) => {
-    await usecases.deleteCampaignParticipationForAdmin({
-      userId,
-      campaignParticipationId,
-      domainTransaction,
-    });
+  await usecases.deleteCampaignParticipationForAdmin({
+    userId,
+    campaignParticipationId,
   });
   return h.response({}).code(204);
 };
