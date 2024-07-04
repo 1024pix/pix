@@ -32,7 +32,6 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
   beforeEach(function () {
     organizationRepositoryStub = {
       findByExternalIdsFetchingIdsOnly: sinon.stub(),
-      batchCreateOrganizations: sinon.stub(),
     };
     organizationForAdminRepositoryStub = {
       save: sinon.stub(),
