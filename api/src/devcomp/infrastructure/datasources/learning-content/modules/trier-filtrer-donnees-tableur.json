@@ -16,19 +16,19 @@
     "transitionTexts": [
       {
         "grainId": "a7a76bbc-6d63-4890-b4f6-d6b1c47b500f",
-        "content": "Austin produit du miel dans les Vosges. Tous les mois, il va surveiller ses ruches.<span aria-hidden=\"true\">&nbsp;🐝</span>"
+        "content": "Austin est un producteur de miel.<span aria-hidden=\"true\">&nbsp;🐝 🍯</span><p>Tous les ans, il va faire des mesures sur ses ruches pour vérifier leur production.</p><p>Dans ce module, nous allons trier et filtrer le tableau de mesures d'Austin pour l'aider à améliorer sa production de miel.<span aria-hidden=\"true\">&nbsp;📈</span></p></p>"
       },
       {
         "grainId": "0b2ff0d8-3948-40cf-b5b4-bab37f1eb67f",
-        "content": "Dans ce module, nous allons trier et filtrer ce tableau pour trouver les données qu’Austin cherche. Commençons par étudier sa structure. C’est parti !"
+        "content": " Pour commencer, vous allez étudier la structure de ce tableau de mesures. C’est parti !"
       },
       {
         "grainId": "60b4e215-1955-4b1a-866a-393a0371521d",
-        "content": "Vous avez analysé la structure du tableau d’Austin.<br>Dans cette vidéo, nous allons maintenant comment trier ce tableau pour l’aider à trouver les données qu’il cherche.<span aria-hidden=\"true\">&nbsp;📺</span>"
+        "content": "<p>Dans cette vidéo, nous allons maintenant voir comment trier ce tableau pour aider Austin à trouver les données qu’il cherche.<span aria-hidden=\"true\">&nbsp;📺</span></p>"
       },
       {
         "grainId": "0c12a28f-7c9f-4734-87c6-f94f7e4a0594",
-        "content": "À vous de jouer ! Vous allez trier le tableau pour aider Austin à trouver la ruche qu’il faut repeupler."
+        "content": "À vous de jouer ! Vous allez trier le tableau pour trouver la ruche qu’Austin va devoir repeupler."
       },
       {
         "grainId": "68b1f460-432a-4b2d-a1a6-d522c741acb4",
@@ -36,7 +36,7 @@
       },
       {
         "grainId": "791ca754-f7c3-4dda-8ad2-c30b8e848734",
-        "content": "À vous de jouer ! Vous allez filtrer le tableau pour aider Austin à connaître le nombre ruches dont il faut améliorer la qualité du miel."
+        "content": "À vous de jouer ! Vous allez filtrer le tableau pour trouver le nombre ruches dont il faut améliorer la qualité du miel."
       },
       {
         "grainId": "579fd5b8-edde-478f-a833-13081ab5b5c7",
@@ -52,25 +52,17 @@
           {
             "type": "element",
             "element": {
-              "id": "5c74d2de-4e88-40f2-afc2-066bedb457f5",
-              "type": "text",
-              "content": "<p>Pour chaque ruche, Austin relève le nombre d’abeilles, la quantité de miel produite et le niveau de qualité du miel.<span aria-hidden=\"true\">&nbsp;🍯</span></p><p>À l'aide de ces mesures, il aimerait par exemple savoir quelle ruche a produit <strong>le plus de miel</strong>, ou encore celle qui a le <strong>plus petit nombre d’abeilles</strong>.</p>"
-            }
-          },
-          {
-            "type": "element",
-            "element": {
-              "id": "8bb4aa3a-3d60-4dc3-8438-5e408c62d323",
-              "type": "text",
-              "content": "<hr>"
-            }
-          },
-          {
-            "type": "element",
-            "element": {
               "id": "c2579b16-ab92-402e-a01e-eff9927c6e31",
               "type": "text",
-              "content": "Dans le document à télécharger, vous trouverez le tableau de relevés d’Austin en 2022.<br><a href=\"https://docs.google.com/spreadsheets/d/1jIlptuNvZTiWyDVidP83wPa-pEcMU5eH4NPep7mjBgw/edit?gid=0#gid=0\" target=\"_blank\">Téléchargement</a>"
+              "content": "Dans le document à télécharger, vous trouverez le tableau des mesures prises par Austin en 2022. <span aria-hidden=\"true\">&nbsp;👉</span> <a href=\"https://docs.google.com/spreadsheets/d/1jIlptuNvZTiWyDVidP83wPa-pEcMU5eH4NPep7mjBgw/edit?gid=0#gid=0\" target=\"_blank\">Téléchargement</a>"
+            }
+          },
+          {
+            "type": "element",
+            "element": {
+              "id": "5c74d2de-4e88-40f2-afc2-066bedb457f5",
+              "type": "text",
+              "content": "<p>Pour chaque ruche, il relève le <strong>nombre d’abeilles</strong>, la <strong>quantité de miel</strong> produite et le niveau de <strong>qualité du miel</strong>.</p><p>À l'aide de ces mesures, il va par exemple savoir quelle ruche a produit le plus de miel.</p>"
             }
           }
         ]
@@ -91,30 +83,6 @@
           {
             "type": "stepper",
             "steps": [
-              {
-                "elements": [
-                  {
-                    "id": "533530f3-b59f-419d-9a9e-7d2421a44e9a",
-                    "type": "qcu",
-                    "instruction": "Le tableau d’Austin a 5 colonnes.",
-                    "proposals": [
-                      {
-                        "id": "1",
-                        "content": "Vrai"
-                      },
-                      {
-                        "id": "2",
-                        "content": "Faux"
-                      }
-                    ],
-                    "feedbacks": {
-                      "valid": "Correct",
-                      "invalid": "Incorrect"
-                    },
-                    "solution": "1"
-                  }
-                ]
-              },
               {
                 "elements": [
                   {
@@ -144,7 +112,7 @@
                   {
                     "id": "88f17860-17ab-40ef-a709-ce2ad2905b5b",
                     "type": "qcu",
-                    "instruction": "Le miel d’Austin a 4 niveaux de qualité : A ; B ; C et D.",
+                    "instruction": "Le miel d’Austin a 4 niveaux de qualité.",
                     "proposals": [
                       {
                         "id": "1",
@@ -156,8 +124,32 @@
                       }
                     ],
                     "feedbacks": {
-                      "valid": "Vrai",
-                      "invalid": "Faux"
+                      "valid": "Correct",
+                      "invalid": "Incorrect"
+                    },
+                    "solution": "1"
+                  }
+                ]
+              },
+              {
+                "elements": [
+                  {
+                    "id": "ea4d32d1-0066-4970-955e-dd6316c941ae",
+                    "type": "qcu",
+                    "instruction": "Le tableau d'Austin permet de trouver la ruche qui a le plus petit nombre d'abeilles.",
+                    "proposals": [
+                      {
+                        "id": "1",
+                        "content": "Vrai"
+                      },
+                      {
+                        "id": "2",
+                        "content": "Faux"
+                      }
+                    ],
+                    "feedbacks": {
+                      "valid": "Correct",
+                      "invalid": "Incorrect"
                     },
                     "solution": "1"
                   }
@@ -177,7 +169,7 @@
             "element": {
               "id": "1caa50d4-50c3-4e2e-bc51-ef1ae60fb9e1",
               "type": "text",
-              "content": "À la suite de cette vidéo, vous devrez reproduire ces étapes sur un autre exemple."
+              "content": "À la suite de cette vidéo, vous devrez reproduire ces étapes de tri sur un autre exemple."
             }
           },
           {
@@ -207,11 +199,11 @@
               "proposals": [
                 {
                   "id": "1",
-                  "content": "Le Royaume de la Ruche"
+                  "content": "La Ruche de l'Île"
                 },
                 {
                   "id": "2",
-                  "content": "La Ruche de l'Île"
+                  "content": "Le Royaume de la Ruche"
                 },
                 {
                   "id": "3",
@@ -226,7 +218,7 @@
                 "valid": "Correct",
                 "invalid": "Incorrect"
               },
-              "solution": "1"
+              "solution": "2"
             }
           }
         ]
@@ -290,7 +282,7 @@
                 "valid": "Correct",
                 "invalid": "Incorrect"
               },
-              "solution": "3"
+              "solution": "1"
             }
           }
         ]
@@ -338,11 +330,11 @@
               },
               "solutions": [
                 "1",
-                "2",
-                "3"
+                "3",
+                "6"
               ]
             }
-            
+
           },
           {
             "type": "element",
