@@ -5,7 +5,6 @@ import config from 'junior/config/environment';
 
 export default class App extends Application {
   modulePrefix = config.modulePrefix;
-  podModulePrefix = config.podModulePrefix;
   Resolver = Resolver;
 }
 

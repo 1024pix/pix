@@ -5,7 +5,6 @@ require('dotenv').config();
 module.exports = function (environment) {
   const ENV = {
     modulePrefix: 'junior',
-    podModulePrefix: 'junior/pods',
     environment,
     locationType: 'history',
     rootURL: '/',
