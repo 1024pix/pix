@@ -227,4 +227,26 @@ export const userRoutes = [
       tags: ['identity-access-management', 'api', 'user'],
     },
   },
+  {
+    method: 'GET',
+    path: '/api/users/validate-email',
+    config: {
+      auth: false,
+      validate: {
+        query: Joi.object({
+          token: Joi.string().uuid().optional(),
+          redirect_url: Joi.string()
+            .uri({ scheme: ['https'] })
+            .optional(),
+        }),
+      },
+      handler: (request, h) => userController.validateUserAccountEmail(request, h),
+      notes: [
+        '- **Cette route est publique**\n' +
+          "- Valide l'email du compte utilisateur puis le redirige vers la redirect_url\n" +
+          '- Le token de validation en paramètre doit correspondre à celui de l’utilisateur',
+      ],
+      tags: ['identity-access-management', 'api', 'user'],
+    },
+  },
 ];

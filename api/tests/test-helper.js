@@ -184,7 +184,8 @@ const hFake = {
   },
   redirect(location) {
     return {
-      location,
+      statusCode: 302,
+      headers: { location },
     };
   },
   file(path, options) {

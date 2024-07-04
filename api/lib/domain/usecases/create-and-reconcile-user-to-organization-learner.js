@@ -3,7 +3,7 @@ const { isNil } = lodash;
 
 import { User } from '../../../src/identity-access-management/domain/models/User.js';
 import { EntityValidationError } from '../../../src/shared/domain/errors.js';
-import { getCampaignUrl } from '../../infrastructure/utils/url-builder.js';
+import { urlBuilder } from '../../../src/shared/infrastructure/utils/url-builder.js';
 import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
 import {
   AlreadyRegisteredEmailError,
@@ -19,6 +19,7 @@ const createAndReconcileUserToOrganizationLearner = async function ({
   userAttributes,
   authenticationMethodRepository,
   campaignRepository,
+  emailValidationDemandRepository,
   organizationLearnerRepository,
   userRepository,
   userToCreateRepository,
@@ -80,8 +81,9 @@ const createAndReconcileUserToOrganizationLearner = async function ({
 
   const createdUser = await userRepository.get(userId);
   if (!isUsernameMode) {
-    const redirectionUrl = getCampaignUrl(locale, campaignCode);
-    await mailService.sendAccountCreationEmail(createdUser.email, locale, redirectionUrl);
+    const redirectionUrl = urlBuilder.getCampaignUrl(locale, campaignCode);
+    const token = await emailValidationDemandRepository.save(createdUser.id);
+    await mailService.sendAccountCreationEmail({ email: createdUser.email, locale, token, redirectionUrl });
   }
   return createdUser;
 };

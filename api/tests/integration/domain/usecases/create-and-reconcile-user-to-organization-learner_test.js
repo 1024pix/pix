@@ -10,6 +10,7 @@ import * as mailService from '../../../../lib/domain/services/mail-service.js';
 import * as obfuscationService from '../../../../lib/domain/services/obfuscation-service.js';
 import * as userReconciliationService from '../../../../lib/domain/services/user-reconciliation-service.js';
 import { createAndReconcileUserToOrganizationLearner } from '../../../../lib/domain/usecases/create-and-reconcile-user-to-organization-learner.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 import * as authenticationMethodRepository from '../../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
@@ -252,23 +253,11 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
           userAttributes.email = email;
 
           // when
-          const result = await createAndReconcileUserToOrganizationLearner({
+          const result = await usecases.createAndReconcileUserToOrganizationLearner({
             campaignCode,
             locale,
             password,
             userAttributes,
-            authenticationMethodRepository,
-            campaignRepository,
-            organizationLearnerRepository,
-            userRepository,
-            userToCreateRepository,
-            cryptoService,
-            mailService,
-            obfuscationService,
-            userReconciliationService,
-            userService,
-            passwordValidator,
-            userValidator,
           });
 
           // then

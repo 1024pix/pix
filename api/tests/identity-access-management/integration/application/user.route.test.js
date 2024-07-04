@@ -55,4 +55,34 @@ describe('Integration | Identity Access Management | Application | Route | User'
       });
     });
   });
+
+  describe('GET /api/user/validate-email', function () {
+    context('when redirect_url is invalid', function () {
+      it('should return HTTP 400 if not a URI', async function () {
+        // when
+        const response = await httpTestServer.request('GET', '/api/users/validate-email?redirect_url=XXX');
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+
+      it('should return HTTP 400 if not a https URI', async function () {
+        // when
+        const response = await httpTestServer.request('GET', '/api/users/validate-email?redirect_url=http://test.com');
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+
+    context('when token is invalid', function () {
+      it('should return HTTP 400', async function () {
+        // when
+        const response = await httpTestServer.request('GET', '/api/users/validate-email?token=XXX');
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+  });
 });

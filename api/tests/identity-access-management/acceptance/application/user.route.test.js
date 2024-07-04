@@ -2,6 +2,7 @@ import lodash from 'lodash';
 
 import { constants } from '../../../../lib/domain/constants.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
+import { emailValidationDemandRepository } from '../../../../src/identity-access-management/infrastructure/repositories/email-validation-demand.repository.js';
 import * as userRepository from '../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import {
   createServer,
@@ -632,6 +633,33 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
         // then
         expect(response.statusCode).to.equal(200);
         expect(response.result.data.attributes['last-data-protection-policy-seen-at']).to.deep.equal(now);
+      });
+    });
+  });
+
+  describe('GET /api/users/validate-email', function () {
+    let user, token;
+
+    beforeEach(async function () {
+      user = databaseBuilder.factory.buildUser();
+      token = await emailValidationDemandRepository.save(user.id);
+      return databaseBuilder.commit();
+    });
+
+    describe('Success cases', function () {
+      it('redirects after email validation', async function () {
+        // given
+        const options = {
+          method: 'GET',
+          url: `/api/users/validate-email?token=${token}&redirect_url=https://this.is.redirecting.com`,
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(302);
+        expect(response.headers['location']).to.equal('https://this.is.redirecting.com');
       });
     });
   });

@@ -1,6 +1,6 @@
 import { AlreadyRegisteredEmailError } from '../../../../lib/domain/errors.js';
-import { getCampaignUrl } from '../../../../lib/infrastructure/utils/url-builder.js';
 import { EntityValidationError } from '../../../shared/domain/errors.js';
+import { urlBuilder } from '../../../shared/infrastructure/utils/url-builder.js';
 
 /**
  * @param {Object} params
@@ -26,6 +26,7 @@ const createUser = async function ({
   user,
   authenticationMethodRepository,
   campaignRepository,
+  emailValidationDemandRepository,
   userRepository,
   userToCreateRepository,
   cryptoService,
@@ -62,11 +63,17 @@ const createUser = async function ({
     if (campaignCode) {
       const campaign = await campaignRepository.getByCode(campaignCode);
       if (campaign) {
-        redirectionUrl = getCampaignUrl(localeFromHeader, campaignCode);
+        redirectionUrl = urlBuilder.getCampaignUrl(localeFromHeader, campaignCode);
       }
     }
 
-    await mailService.sendAccountCreationEmail(savedUser.email, localeFromHeader, redirectionUrl);
+    const token = await emailValidationDemandRepository.save(savedUser.id);
+    await mailService.sendAccountCreationEmail({
+      email: savedUser.email,
+      locale: localeFromHeader,
+      token,
+      redirectionUrl,
+    });
 
     return savedUser;
   }

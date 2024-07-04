@@ -2,6 +2,7 @@ import { AlreadyRegisteredEmailError } from '../../../../../lib/domain/errors.js
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { createUser } from '../../../../../src/identity-access-management/domain/usecases/create-user.usecase.js';
 import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
+import { urlBuilder } from '../../../../../src/shared/infrastructure/utils/url-builder.js';
 import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | UseCase | create-user', function () {
@@ -23,6 +24,8 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
   let userService;
   let passwordValidator;
   let userValidator;
+  let emailValidationDemandRepository;
+  let token;
 
   beforeEach(function () {
     authenticationMethodRepository = {};
@@ -52,14 +55,19 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
       validate: sinon.stub(),
     };
 
+    token = '00000000-0000-0000-0000-000000000000';
+    emailValidationDemandRepository = {
+      save: sinon.stub().resolves(token),
+    };
     userRepository.checkIfEmailIsAvailable.resolves();
+
     userToCreateRepository.create.resolves(savedUser);
-
     userValidator.validate.returns();
-    passwordValidator.validate.returns();
 
+    passwordValidator.validate.returns();
     cryptoService.hashPassword.resolves(hashedPassword);
     mailService.sendAccountCreationEmail.resolves();
+
     userService.createUserWithPassword.resolves(savedUser);
 
     campaignCode = 'AZERTY123';
@@ -78,6 +86,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
         campaignCode,
         authenticationMethodRepository,
         campaignRepository,
+        emailValidationDemandRepository,
         userRepository,
         userToCreateRepository,
         cryptoService,
@@ -100,6 +109,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
         campaignCode,
         authenticationMethodRepository,
         campaignRepository,
+        emailValidationDemandRepository,
         userRepository,
         userToCreateRepository,
         cryptoService,
@@ -122,6 +132,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
         campaignCode,
         authenticationMethodRepository,
         campaignRepository,
+        emailValidationDemandRepository,
         userRepository,
         userToCreateRepository,
         cryptoService,
@@ -158,6 +169,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
           campaignCode,
           authenticationMethodRepository,
           campaignRepository,
+          emailValidationDemandRepository,
           userRepository,
           userToCreateRepository,
           cryptoService,
@@ -199,6 +211,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
           campaignCode,
           authenticationMethodRepository,
           campaignRepository,
+          emailValidationDemandRepository,
           userRepository,
           userToCreateRepository,
           cryptoService,
@@ -242,6 +255,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
           campaignCode,
           authenticationMethodRepository,
           campaignRepository,
+          emailValidationDemandRepository,
           userRepository,
           userToCreateRepository,
           cryptoService,
@@ -273,6 +287,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
           campaignCode,
           authenticationMethodRepository,
           campaignRepository,
+          emailValidationDemandRepository,
           userRepository,
           userToCreateRepository,
           cryptoService,
@@ -303,6 +318,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
           campaignCode,
           authenticationMethodRepository,
           campaignRepository,
+          emailValidationDemandRepository,
           userRepository,
           userToCreateRepository,
           cryptoService,
@@ -331,6 +347,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
         campaignCode,
         authenticationMethodRepository,
         campaignRepository,
+        emailValidationDemandRepository,
         userRepository,
         cryptoService,
         mailService,
@@ -355,6 +372,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
           campaignCode,
           authenticationMethodRepository,
           campaignRepository,
+          emailValidationDemandRepository,
           userRepository,
           userToCreateRepository,
           cryptoService,
@@ -380,6 +398,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
           campaignCode,
           authenticationMethodRepository,
           campaignRepository,
+          emailValidationDemandRepository,
           userRepository,
           userToCreateRepository,
           cryptoService,
@@ -400,6 +419,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
           campaignCode,
           authenticationMethodRepository,
           campaignRepository,
+          emailValidationDemandRepository,
           userRepository,
           userToCreateRepository,
           cryptoService,
@@ -436,6 +456,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
           campaignCode,
           authenticationMethodRepository,
           campaignRepository,
+          emailValidationDemandRepository,
           userRepository,
           userToCreateRepository,
           cryptoService,
@@ -446,11 +467,12 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
         });
 
         // then
-        expect(mailService.sendAccountCreationEmail).to.have.been.calledWithExactly(
-          userEmail,
-          localeFromHeader,
-          expectedRedirectionUrl,
-        );
+        expect(mailService.sendAccountCreationEmail).to.have.been.calledWithExactly({
+          email: userEmail,
+          locale: localeFromHeader,
+          token,
+          redirectionUrl: expectedRedirectionUrl,
+        });
       });
 
       describe('when campaignCode is null', function () {
@@ -468,6 +490,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
             campaignCode,
             authenticationMethodRepository,
             campaignRepository,
+            emailValidationDemandRepository,
             userRepository,
             userToCreateRepository,
             cryptoService,
@@ -478,11 +501,12 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
           });
 
           // then
-          expect(mailService.sendAccountCreationEmail).to.have.been.calledWithExactly(
-            userEmail,
-            localeFromHeader,
-            expectedRedirectionUrl,
-          );
+          expect(mailService.sendAccountCreationEmail).to.have.been.calledWithExactly({
+            email: userEmail,
+            locale: localeFromHeader,
+            token,
+            redirectionUrl: expectedRedirectionUrl,
+          });
         });
       });
 
@@ -502,6 +526,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
             campaignCode,
             authenticationMethodRepository,
             campaignRepository,
+            emailValidationDemandRepository,
             userRepository,
             userToCreateRepository,
             cryptoService,
@@ -512,16 +537,23 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
           });
 
           // then
-          expect(mailService.sendAccountCreationEmail).to.have.been.calledWithExactly(
-            userEmail,
-            localeFromHeader,
-            expectedRedirectionUrl,
-          );
+          expect(mailService.sendAccountCreationEmail).to.have.been.calledWithExactly({
+            email: userEmail,
+            locale: localeFromHeader,
+            token,
+            redirectionUrl: expectedRedirectionUrl,
+          });
         });
       });
     });
 
-    it('should return saved user', async function () {
+    it('returns saved user', async function () {
+      // given
+      campaignRepository.getByCode.resolves({ organizationId: 1 });
+      const redirectionUrl = 'https://redirect.uri';
+      sinon.stub(urlBuilder, 'getCampaignUrl').returns(redirectionUrl);
+      mailService.sendAccountCreationEmail.resolves();
+
       // when
       const createdUser = await createUser({
         user,
@@ -530,6 +562,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
         campaignCode,
         authenticationMethodRepository,
         campaignRepository,
+        emailValidationDemandRepository,
         userRepository,
         userToCreateRepository,
         cryptoService,
@@ -540,6 +573,13 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
       });
 
       // then
+      expect(emailValidationDemandRepository.save).to.have.been.calledWith(userId);
+      expect(mailService.sendAccountCreationEmail).to.have.been.calledWith({
+        email: savedUser.email,
+        locale: localeFromHeader,
+        token,
+        redirectionUrl,
+      });
       expect(createdUser).to.deep.equal(savedUser);
     });
   });
