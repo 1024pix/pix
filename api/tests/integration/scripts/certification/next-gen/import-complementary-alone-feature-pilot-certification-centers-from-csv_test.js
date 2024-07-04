@@ -1,4 +1,4 @@
-import { main } from '../../../../../scripts/certification/next-gen/import-pilot-certification-centers-from-csv.js';
+import { main } from '../../../../../scripts/certification/next-gen/import-complementary-alone-feature-pilot-certification-centers-from-csv.js';
 import { CERTIFICATION_FEATURES } from '../../../../../src/certification/shared/domain/constants.js';
 import { catchErr, createTempFile, databaseBuilder, expect, knex, removeTempFile } from '../../../../test-helper.js';
 
