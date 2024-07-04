@@ -174,14 +174,12 @@
           },
           {
             "type": "element",
-            "element": {
-              "id": "5ff52e48-8eb2-4bf6-8c1b-7bc19ef8c3fc",
-              "type": "video",
-              "title": "Méthode pour trier des données avec un tableur",
-              "url": "-",
-              "subtitles": "-",
-              "transcription": "-"
-            }
+            "element":
+              {
+                    "id": "c2f89648-1f06-4e58-b5a5-422677d24417",
+                    "type": "text",
+                    "content": "<iframe width=\"700\" height=\"410\" src=\"https://www.youtube.com/embed/GZfOnHUOe5g\" title=\"[V0]\"></iframe>"
+              }
           }
         ]
       },
@@ -238,14 +236,12 @@
           },
           {
             "type": "element",
-            "element": {
-              "id": "437c36e1-128c-4dbf-aa97-873bc20bc421",
-              "type": "video",
-              "title": "Démonstration pour filtrer des données sur un critère",
-              "url": "-",
-              "subtitles": "-",
-              "transcription": "-"
-            }
+            "element":
+              {
+                    "id": "c2f89648-1f06-4e58-b5a5-422677d24417",
+                    "type": "text",
+                    "content": "<iframe width=\"700\" height=\"410\" src=\"https://www.youtube.com/embed/-q8rGEsWACY\" title=\"[V0]\"></iframe>"
+              }
           }
         ]
       },
