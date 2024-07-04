@@ -1,15 +1,12 @@
-import crypto from 'node:crypto';
-import util from 'node:util';
-
 import _ from 'lodash';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
+import { cryptoService } from '../../../../shared/domain/services/crypto-service.js';
 import * as skillRepository from '../../../../shared/infrastructure/repositories/skill-repository.js';
 import { ApplicationTransaction } from '../../../shared/infrastructure/ApplicationTransaction.js';
 import { UnknownCampaignId } from '../../domain/errors.js';
 import { Campaign } from '../../domain/models/Campaign.js';
 
-const randomBytes = util.promisify(crypto.randomBytes);
 const CAMPAIGN_ATTRIBUTES = [
   'deletedAt',
   'deletedBy',
@@ -119,8 +116,8 @@ const isCodeAvailable = async function ({ code }) {
 
 const swapCampaignCodes = async function ({ firstCampaignId, secondCampaignId }) {
   const trx = await knex.transaction();
-  const bufferRandomBytes = await randomBytes(16);
-  const temporaryCode = bufferRandomBytes.toString('base64');
+  const randomBytesBuffer = await cryptoService.randomBytes(16);
+  const temporaryCode = randomBytesBuffer.toString('base64');
 
   try {
     const [{ code: firstCode }, { code: secondCode }] = await Promise.all([

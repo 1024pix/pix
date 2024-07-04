@@ -1,14 +1,11 @@
-import crypto from 'node:crypto';
-import util from 'node:util';
-
 import jsonwebtoken from 'jsonwebtoken';
 
 import { config } from '../../../shared/config.js';
+import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
 import * as passwordResetDemandRepository from '../../infrastructure/repositories/reset-password-demand.repository.js';
 
 const generateTemporaryKey = async function () {
-  const promisifiedRandomBytes = util.promisify(crypto.randomBytes);
-  const randomBytesBuffer = await promisifiedRandomBytes(16);
+  const randomBytesBuffer = await cryptoService.randomBytes(16);
   const base64RandomBytes = randomBytesBuffer.toString('base64');
   return jsonwebtoken.sign(
     {

@@ -1,9 +1,8 @@
-import crypto from 'node:crypto';
-
 import jsonwebtoken from 'jsonwebtoken';
 
 import * as resetPasswordService from '../../../../../src/identity-access-management/domain/services/reset-password.service.js';
 import { config as settings } from '../../../../../src/shared/config.js';
+import { cryptoService } from '../../../../../src/shared/domain/services/crypto-service.js';
 import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | Service | reset-password', function () {
@@ -13,7 +12,7 @@ describe('Unit | Identity Access Management | Domain | Service | reset-password'
     beforeEach(function () {
       sinon.stub(jsonwebtoken, 'sign');
       randomGeneratedString = 'aaaaaa';
-      sinon.stub(crypto, 'randomBytes').yields(null, randomGeneratedString);
+      sinon.stub(cryptoService, 'randomBytes').resolves(randomGeneratedString);
     });
 
     it('calls sign function from jwt', async function () {
