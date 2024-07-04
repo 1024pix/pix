@@ -1,5 +1,28 @@
 # Pix Changelog
 
+## v4.176.0 (04/07/2024)
+
+
+### :rocket: Amélioration
+- [#9432](https://github.com/1024pix/pix/pull/9432) [FEATURE] Ajout des prétrads NL sur PixOrga (PIX-12921).
+- [#9433](https://github.com/1024pix/pix/pull/9433) [FEATURE] Ajout de la traduction en anglais pour les écrans d'instruction (PIX-13214).
+- [#9409](https://github.com/1024pix/pix/pull/9409) [FEATURE] Traduction en EN de la page de réconcilation SSO.
+
+### :building_construction: Tech
+- [#9419](https://github.com/1024pix/pix/pull/9419) [TECH] Passer la page des mentions légales en .gjs [PIX-13246].
+- [#9427](https://github.com/1024pix/pix/pull/9427) [TECH] Migrer plusieurs composants de PixOrga vers GJS (PIX-13250).
+- [#9413](https://github.com/1024pix/pix/pull/9413) [TECH] Utiliser des `factory` pour les `Modules` et les `Elements` répondables (PIX-12457).
+
+### :arrow_up: Montée de version
+- [#9442](https://github.com/1024pix/pix/pull/9442) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.16 (junior).
+- [#9440](https://github.com/1024pix/pix/pull/9440) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.6 (mon-pix).
+- [#9439](https://github.com/1024pix/pix/pull/9439) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.6 (load-testing).
+- [#9438](https://github.com/1024pix/pix/pull/9438) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.6 (junior).
+- [#9437](https://github.com/1024pix/pix/pull/9437) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.6 (dossier racine).
+- [#9436](https://github.com/1024pix/pix/pull/9436) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.6 (certif).
+- [#9435](https://github.com/1024pix/pix/pull/9435) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.6 (audit-logger).
+- [#9434](https://github.com/1024pix/pix/pull/9434) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.6 (admin).
+
 ## v4.175.0 (03/07/2024)
 
 
