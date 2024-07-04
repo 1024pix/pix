@@ -1,4 +1,5 @@
 import lodash from 'lodash';
+import micromatch from 'micromatch';
 import NodeCache from 'node-cache';
 
 const { trim, noop } = lodash;
@@ -61,6 +62,10 @@ class InMemoryTemporaryStorage extends TemporaryStorage {
 
   async lrange(key) {
     return this._client.get(key) || [];
+  }
+
+  keys(pattern) {
+    return micromatch(this._client.keys(), pattern);
   }
 }
 

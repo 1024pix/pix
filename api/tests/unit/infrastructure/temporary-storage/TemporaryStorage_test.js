@@ -1,5 +1,5 @@
 import { TemporaryStorage } from '../../../../lib/infrastructure/temporary-storage/TemporaryStorage.js';
-import { expect } from '../../../test-helper.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Infrastructure | temporary-storage | TemporaryStorage', function () {
   describe('#save', function () {
@@ -52,38 +52,65 @@ describe('Unit | Infrastructure | temporary-storage | TemporaryStorage', functio
   });
 
   describe('#withPrefix', function () {
-    it('should return a wrapper that adds a prefix to all methods', async function () {
-      // given
-      const store = {};
+    let storage;
+    let prefixedStorage;
 
+    beforeEach(function () {
       class TestStorage extends TemporaryStorage {
-        async save({ key, value }) {
-          store[key] = value;
-        }
-
-        async get(key) {
-          return store[key];
-        }
-
-        async delete(key) {
-          delete store[key];
-        }
+        save = sinon.stub();
+        get = sinon.stub();
+        delete = sinon.stub();
+        keys = sinon.stub();
       }
 
-      const storage = new TestStorage().withPrefix('a-prefix:');
+      storage = new TestStorage();
+      prefixedStorage = storage.withPrefix('a-prefix:');
+    });
 
-      // when & then
-      expect(await storage.save({ key: 'a-key', value: 'a-value' })).to.equal('a-key');
-      expect(store).to.deep.equal({ 'a-prefix:a-key': 'a-value' });
+    describe('#save', function () {
+      it('should save a prefixed key', async function () {
+        // when
+        await prefixedStorage.save({ key: 'a-key', value: 'a-value' });
 
-      expect(await storage.get('a-key')).to.equal('a-value');
-      await storage.delete('a-key');
-      expect(await storage.get('a-key')).to.be.undefined;
+        // then
+        expect(storage.save).to.have.been.calledOnceWith({ key: 'a-prefix:a-key', value: 'a-value' });
+      });
+    });
 
-      const randomKey = await storage.save({ value: 'random-key-value' });
-      expect(randomKey).to.exist;
-      expect(store['a-prefix:' + randomKey]).to.exist;
-      expect(await storage.get(randomKey)).to.equal('random-key-value');
+    describe('#get', function () {
+      it('should fetch value of prefixed key', async function () {
+        // given
+        storage.get.withArgs('a-prefix:a-key').resolves('a-value');
+
+        // when
+        const value = await prefixedStorage.get('a-key');
+
+        // then
+        expect(value).to.equal('a-value');
+      });
+    });
+
+    describe('#delete', function () {
+      it('should delete a prefixed key', async function () {
+        // when
+        await prefixedStorage.delete('a-key');
+
+        // then
+        expect(storage.delete).to.have.been.calledOnceWithExactly('a-prefix:a-key');
+      });
+    });
+
+    describe('#keys', function () {
+      it('should return keys matching prefixed pattern', async function () {
+        // given
+        storage.keys.withArgs('a-prefix:foo:*').resolves(['a-prefix:foo:key1', 'a-prefix:foo:key2']);
+
+        // when
+        const keys = await prefixedStorage.keys('foo:*');
+
+        // then
+        expect(keys).to.deep.equal(['foo:key1', 'foo:key2']);
+      });
     });
   });
 
@@ -172,6 +199,19 @@ describe('Unit | Infrastructure | temporary-storage | TemporaryStorage', functio
 
       // when
       const result = temporaryStorageInstance.lrange('key');
+
+      // then
+      expect(result).to.be.rejected;
+    });
+  });
+
+  describe('#keys', function () {
+    it('should reject an error (because this class actually mocks an interface)', function () {
+      // given
+      const temporaryStorageInstance = new TemporaryStorage();
+
+      // when
+      const result = temporaryStorageInstance.keys('prefix:*');
 
       // then
       expect(result).to.be.rejected;

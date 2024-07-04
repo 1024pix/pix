@@ -7,6 +7,7 @@ import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 const START_DATETIME_STUB = new Date('2022-10-01T13:00:00Z');
 const COMPLEMENTARY_EXTRATIME_STUB = 45;
 const sessionForSupervisingRepository = { get: sinon.stub() };
+const temporaryCompanionStorageService = { getBySessionId: sinon.stub() };
 
 const expectedSessionEndDateTimeFromStartDateTime = (startDateTime, extraMinutes = []) => {
   let computedEndDateTime = dayjs(startDateTime);
@@ -29,11 +30,13 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
             certificationCandidates: [certificationCandidateNotStarted],
           });
           sessionForSupervisingRepository.get.resolves(session);
+          temporaryCompanionStorageService.getBySessionId.withArgs(1).resolves([]);
 
           // when
           const sessionForSupervising = await getSessionForSupervising({
             sessionId: 1,
             sessionForSupervisingRepository,
+            temporaryCompanionStorageService,
           });
           // then
           expect(sessionForSupervising.certificationCandidates).to.have.lengthOf(1);
@@ -42,17 +45,21 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
         });
       });
 
-      context('when the candidate has no complementary certifications', function () {
+      context('when the candidates have no complementary certifications', function () {
         context('when the session has started', function () {
-          it('should compute a theorical end datetime', async function () {
+          it('should get certification candidates with theorical end datetime and companion status', async function () {
             // given
+            const sessionId = 1;
+            const certificationCandidateId = 51;
             const certificationCandidateWithNoComplementaryCertification =
               domainBuilder.buildCertificationCandidateForSupervising({
+                id: certificationCandidateId,
                 complementaryCertification: undefined,
                 complementaryCertificationKey: undefined,
               });
 
             const session = domainBuilder.buildSessionForSupervising({
+              sessionId,
               certificationCandidates: [certificationCandidateWithNoComplementaryCertification],
             });
             sessionForSupervisingRepository.get.resolves(session);
@@ -62,26 +69,28 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
               .add(DEFAULT_SESSION_DURATION_MINUTES, 'minute')
               .toDate();
 
+            const temporaryCompanionStorageService = { getBySessionId: sinon.stub() };
+            temporaryCompanionStorageService.getBySessionId.withArgs(sessionId).resolves([certificationCandidateId]);
+
             // when
-            const sessionForSupervising = await getSessionForSupervising({
-              sessionId: 1,
+            const { certificationCandidates } = await getSessionForSupervising({
+              sessionId,
               sessionForSupervisingRepository,
+              temporaryCompanionStorageService,
             });
             // then
-            expect(sessionForSupervising.certificationCandidates).to.have.lengthOf(1);
-            expect(sessionForSupervising.certificationCandidates[0]).to.have.deep.property(
+            const [certificationCandidate] = certificationCandidates;
+            expect(certificationCandidate).to.have.deep.property(
               'startDateTime',
               certificationCandidateWithNoComplementaryCertification.startDateTime,
             );
-            expect(sessionForSupervising.certificationCandidates[0]).to.have.deep.property(
-              'theoricalEndDateTime',
-              expectedTheoricalEndDateTime,
-            );
+            expect(certificationCandidate).to.have.deep.property('theoricalEndDateTime', expectedTheoricalEndDateTime);
+            expect(certificationCandidate).to.have.deep.property('isCompanionActive', true);
           });
         });
       });
 
-      context('when the candidate has complementary certifications', function () {
+      context('when the candidates have complementary certifications', function () {
         context('when some candidates are still eligible to complementary certifications', function () {
           it("should return the session with the candidates' eligibility", async function () {
             // given
@@ -108,6 +117,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
             });
 
             sessionForSupervisingRepository.get.resolves(retrievedSessionForSupervising);
+            temporaryCompanionStorageService.getBySessionId.withArgs(1).resolves([]);
 
             const certificationBadgesService = {
               findStillValidBadgeAcquisitions: sinon.stub(),
@@ -121,6 +131,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
               sessionId: 1,
               sessionForSupervisingRepository,
               certificationBadgesService,
+              temporaryCompanionStorageService,
             });
 
             // then
@@ -142,7 +153,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
             );
           });
 
-          it('should compute a theorical end datetime with extra time', async function () {
+          it('should get a theorical end datetime with extra time', async function () {
             const stillValidBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
               complementaryCertificationKey: 'aKey',
             });
@@ -164,6 +175,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
                 ],
               }),
             );
+            temporaryCompanionStorageService.getBySessionId.withArgs(1).resolves([]);
 
             const certificationBadgesService = { findStillValidBadgeAcquisitions: sinon.stub() };
             certificationBadgesService.findStillValidBadgeAcquisitions
@@ -175,6 +187,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
               sessionId: 1,
               sessionForSupervisingRepository,
               certificationBadgesService,
+              temporaryCompanionStorageService,
             });
 
             // then
@@ -205,6 +218,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
             });
 
             sessionForSupervisingRepository.get.resolves(retrievedSessionForSupervising);
+            temporaryCompanionStorageService.getBySessionId.withArgs(1).resolves([]);
 
             const certificationBadgesService = {
               findStillValidBadgeAcquisitions: sinon.stub(),
@@ -216,6 +230,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
               sessionId: 1,
               sessionForSupervisingRepository,
               certificationBadgesService,
+              temporaryCompanionStorageService,
             });
 
             // then
@@ -236,7 +251,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
             );
           });
 
-          it('should not compute a theorical end datetime with extra time', async function () {
+          it('should not get a theorical end datetime with extra time', async function () {
             // given
             const complementaryCertification = domainBuilder.buildComplementaryCertificationForSupervising({
               key: 'aKey',
@@ -256,6 +271,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
                 ],
               }),
             );
+            temporaryCompanionStorageService.getBySessionId.withArgs(1).resolves([]);
 
             const certificationBadgesService = { findStillValidBadgeAcquisitions: sinon.stub() };
             certificationBadgesService.findStillValidBadgeAcquisitions.withArgs({ userId: 1234 }).resolves([]);
@@ -265,6 +281,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
               sessionId: 1,
               sessionForSupervisingRepository,
               certificationBadgesService,
+              temporaryCompanionStorageService,
             });
 
             // then

@@ -372,6 +372,50 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     });
   });
 
+  module('when the candidate has companion extension activated', function () {
+    test('it renders a "shield"', async function (assert) {
+      // given
+      this.candidate = store.createRecord('certification-candidate-for-supervising', {
+        id: 456,
+        firstName: 'SpongeBob',
+        lastName: 'Squarepants',
+        isCompanionActive: true,
+      });
+
+      // when
+      const screen = await renderScreen(hbs`
+        <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
+      `);
+
+      // then
+      assert
+        .dom(screen.getByRole('status', { name: 'SpongeBob Squarepants a l’extension Companion activée' }))
+        .exists();
+    });
+  });
+
+  module('when the candidate has not its companion activated', function () {
+    test('it does not render a "shield"', async function (assert) {
+      // given
+      this.candidate = store.createRecord('certification-candidate-for-supervising', {
+        id: 456,
+        firstName: 'SpongeBob',
+        lastName: 'Squarepants',
+        isCompanionActive: false,
+      });
+
+      // when
+      const screen = await renderScreen(hbs`
+        <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
+      `);
+
+      // then
+      assert
+        .dom(screen.queryByRole('status', { name: 'SpongeBob Squarepants a l’extension Companion activée' }))
+        .doesNotExist();
+    });
+  });
+
   module('when the candidate has left the session and has been authorized to resume', function () {
     test('it renders the time and extra time', async function (assert) {
       // given

@@ -20,6 +20,7 @@ export default class CertificationCandidateForSupervising extends Model {
   @attr('string') enrolledComplementaryCertificationLabel;
   @attr('string') userId;
   @attr('boolean') isStillEligibleToComplementaryCertification;
+  @attr('boolean') isCompanionActive;
   @attr() liveAlert;
 
   get hasStarted() {

@@ -310,6 +310,9 @@ const configuration = (function () {
       tokenLifespan: '1d',
       payload: 'PixResetPassword',
     },
+    temporaryCompanionStorage: {
+      expirationDelaySeconds: parseInt(process.env.TEMPORARY_COMPANION_STORAGE_EXP_DELAY_SECONDS, 10) || 45,
+    },
     temporarySessionsStorageForMassImport: {
       expirationDelaySeconds:
         parseInt(process.env.SESSIONS_MASS_IMPORT_TEMPORARY_STORAGE_EXP_DELAY_SECONDS, 10) || 7200,

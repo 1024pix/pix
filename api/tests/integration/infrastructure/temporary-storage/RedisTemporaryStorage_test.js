@@ -115,5 +115,29 @@ describe('Integration | Infrastructure | TemporaryStorage | RedisTemporaryStorag
         await storage.delete(key);
       });
     });
+
+    describe('#keys', function () {
+      it('should return matching keys', async function () {
+        // given
+        const oneMinute = 60;
+        const pattern = 'prefix:*';
+        const storage = new RedisTemporaryStorage(REDIS_URL);
+        await storage.save({ key: 'prefix:key1', value: true, expirationDelaySeconds: oneMinute });
+        await storage.save({ key: 'prefix:key2', value: true, expirationDelaySeconds: oneMinute });
+        await storage.save({ key: 'prefix:key3', value: true, expirationDelaySeconds: oneMinute });
+        await storage.save({ key: 'otherprefix:key4', value: true, expirationDelaySeconds: oneMinute });
+
+        // when
+        const keys = await storage.keys(pattern);
+
+        // then
+        expect(keys).to.exactlyContain(['prefix:key1', 'prefix:key2', 'prefix:key3']);
+
+        await storage.delete('prefix:key1');
+        await storage.delete('prefix:key2');
+        await storage.delete('prefix:key3');
+        await storage.delete('otherprefix:key4');
+      });
+    });
   }
 });

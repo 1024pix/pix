@@ -41,6 +41,10 @@ class TemporaryStorage {
     throw new Error('Method #lrange(key) must be overridden');
   }
 
+  async keys(/* pattern */) {
+    throw new Error('Method #keys(pattern) must be overridden');
+  }
+
   quit() {
     throw new Error('Method #quit() must be overridden');
   }
@@ -84,6 +88,11 @@ class TemporaryStorage {
 
       lrange(key) {
         return storage.lrange(prefix + key);
+      },
+
+      async keys(pattern) {
+        const keys = await storage.keys(prefix + pattern);
+        return keys.map((key) => key.slice(prefix.length));
       },
     };
   }

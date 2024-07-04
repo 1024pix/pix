@@ -7,19 +7,23 @@ import { DEFAULT_SESSION_DURATION_MINUTES } from '../../../shared/domain/constan
 /**
  * @typedef {import('./index.js').SessionForSupervisingRepository} SessionForSupervisingRepository
  * @typedef {import('./index.js').CertificationBadgesService} CertificationBadgesService
+ * @typedef {import('./index.js').TemporaryCompanionStorageService} TemporaryCompanionStorageService
  */
 
 /**
  * @param {Object} params
  * @param {SessionForSupervisingRepository} params.sessionForSupervisingRepository
  * @param {CertificationBadgesService} params.certificationBadgesService
+ * @param {TemporaryCompanionStorageService} params.temporaryCompanionStorageService
  */
 const getSessionForSupervising = async function ({
   sessionId,
   sessionForSupervisingRepository,
   certificationBadgesService,
+  temporaryCompanionStorageService,
 }) {
   const sessionForSupervising = await sessionForSupervisingRepository.get({ id: sessionId });
+  const activatedCompanionCertificationCandidateIds = await temporaryCompanionStorageService.getBySessionId(sessionId);
 
   await bluebird.map(
     sessionForSupervising.certificationCandidates,
@@ -27,12 +31,21 @@ const getSessionForSupervising = async function ({
     { concurrency: CONCURRENCY_HEAVY_OPERATIONS },
   );
 
-  sessionForSupervising.certificationCandidates.forEach(_computeTheoricalEndDateTime);
+  sessionForSupervising.certificationCandidates.forEach((certificationCandidate) => {
+    _setCompanionStatus(certificationCandidate, activatedCompanionCertificationCandidateIds);
+    _computeTheoricalEndDateTime(certificationCandidate);
+  });
 
   return sessionForSupervising;
 };
 
 export { getSessionForSupervising };
+
+function _setCompanionStatus(certificationCandidate, activatedCompanionCertificationCandidateIds) {
+  if (activatedCompanionCertificationCandidateIds.includes(certificationCandidate.id)) {
+    certificationCandidate.isCompanionActive = true;
+  }
+}
 
 /**
  * @param {CertificationBadgesService} certificationBadgesService

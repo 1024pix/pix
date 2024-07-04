@@ -224,4 +224,21 @@ describe('Unit | Infrastructure | temporary-storage | InMemoryTemporaryStorage',
       expect(values).to.deep.equal(['value3', 'value2', 'value1']);
     });
   });
+
+  describe('#keys', function () {
+    it('should return matching keys', async function () {
+      // given
+      const inMemoryTemporaryStorage = new InMemoryTemporaryStorage();
+      inMemoryTemporaryStorage.save({ key: 'prefix:key1', value: true });
+      inMemoryTemporaryStorage.save({ key: 'prefix:key2', value: true });
+      inMemoryTemporaryStorage.save({ key: 'prefix:key3', value: true });
+      inMemoryTemporaryStorage.save({ key: 'otherprefix:key4', value: true });
+
+      // when
+      const values = inMemoryTemporaryStorage.keys('prefix:*');
+
+      // then
+      expect(values).to.deep.equal(['prefix:key1', 'prefix:key2', 'prefix:key3']);
+    });
+  });
 });

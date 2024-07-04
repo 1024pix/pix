@@ -28,6 +28,18 @@
     <div class="session-supervising-candidate-in-list__full-name">
       {{@candidate.lastName}}
       {{@candidate.firstName}}
+      {{#if @candidate.isCompanionActive}}
+        <span
+          role="status"
+          aria-label={{t
+            "pages.session-supervising.candidate-in-list.companion.active"
+            firstName=@candidate.firstName
+            lastName=@candidate.lastName
+          }}
+        >
+          🛡️
+        </span>
+      {{/if}}
     </div>
     <div class="session-supervising-candidate-in-list__details">
       {{dayjs-format @candidate.birthdate "DD/MM/YYYY"}}

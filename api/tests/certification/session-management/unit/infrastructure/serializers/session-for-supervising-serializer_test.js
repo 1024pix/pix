@@ -49,6 +49,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
                 'is-still-eligible-to-complementary-certification': true,
                 'user-id': 6789,
                 'live-alert': null,
+                'is-companion-active': true,
               },
               id: '1234',
               type: 'certification-candidate-for-supervising',
@@ -76,6 +77,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
               assessmentStatus: Assessment.states.STARTED,
               startDateTime: new Date('2022-10-01T13:37:00Z'),
               theoricalEndDateTime: new Date('2022-10-01T16:01:00Z'),
+              isCompanionActive: true,
               enrolledComplementaryCertification: domainBuilder.buildComplementaryCertificationForSupervising({
                 key: 'aKey',
                 label: 'Super Certification Complémentaire',
@@ -138,6 +140,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
                 'theorical-end-date-time': new Date('2022-10-01T16:01:00Z'),
                 'enrolled-complementary-certification-label': 'Super Certification Complémentaire',
                 'is-still-eligible-to-complementary-certification': true,
+                'is-companion-active': true,
                 'user-id': 6789,
                 'live-alert': {
                   status: 'ongoing',
@@ -190,6 +193,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
                 hasEmbed: false,
                 isFocus: false,
               },
+              isCompanionActive: true,
             }),
           ],
         });
