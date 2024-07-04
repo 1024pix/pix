@@ -20,7 +20,7 @@
       },
       {
         "grainId": "0b2ff0d8-3948-40cf-b5b4-bab37f1eb67f",
-        "content": " Pour commencer, vous allez étudier la structure de ce tableau de mesures. C’est parti !"
+        "content": " Pour commencer, vous allez étudier la structure du tableau de mesures d'Austin. C’est parti !"
       },
       {
         "grainId": "60b4e215-1955-4b1a-866a-393a0371521d",
@@ -47,14 +47,14 @@
       {
         "id": "a7a76bbc-6d63-4890-b4f6-d6b1c47b500f",
         "type": "lesson",
-        "title": "",
+        "title": "Téléchargement des mesures d'Asutin",
         "components": [
           {
             "type": "element",
             "element": {
               "id": "c2579b16-ab92-402e-a01e-eff9927c6e31",
               "type": "text",
-              "content": "Dans le document à télécharger, vous trouverez le tableau des mesures prises par Austin en 2022. <span aria-hidden=\"true\">&nbsp;👉</span> <a href=\"https://docs.google.com/spreadsheets/d/1jIlptuNvZTiWyDVidP83wPa-pEcMU5eH4NPep7mjBgw/edit?gid=0#gid=0\" target=\"_blank\">Téléchargement</a>"
+              "content": "Dans le document à télécharger, vous trouverez le tableau des mesures prises par Austin cette année. <span aria-hidden=\"true\">&nbsp;👉</span> <a href=\"https://docs.google.com/spreadsheets/d/1jIlptuNvZTiWyDVidP83wPa-pEcMU5eH4NPep7mjBgw/edit?gid=0#gid=0\" target=\"_blank\">Téléchargement</a>"
             }
           },
           {
@@ -62,7 +62,7 @@
             "element": {
               "id": "5c74d2de-4e88-40f2-afc2-066bedb457f5",
               "type": "text",
-              "content": "<p>Pour chaque ruche, il relève le <strong>nombre d’abeilles</strong>, la <strong>quantité de miel</strong> produite et le niveau de <strong>qualité du miel</strong>.</p><p>À l'aide de ces mesures, il va par exemple savoir quelle ruche a produit le plus de miel.</p>"
+              "content": "<p>Pour chaque ruche, il relève le <strong>nombre d’abeilles</strong>, la <strong>quantité de miel</strong> produite et le niveau de <strong>qualité du miel</strong>. Il va donc pouvoir déterminer par exemple  la ruche qui a produit le plus de miel cette année.</p>"
             }
           }
         ]
@@ -70,14 +70,14 @@
       {
         "id": "0b2ff0d8-3948-40cf-b5b4-bab37f1eb67f",
         "type": "activity",
-        "title": "La structure d'un tableau",
+        "title": "La structure du tableau",
         "components": [
           {
             "type": "element",
             "element": {
               "id": "e5775646-5ca0-4081-a40a-31938ff39a10",
               "type": "text",
-              "content": "Pour chaque affirmation ci-dessous, répondez par vrai ou par faux."
+              "content": "Pour chacune des 3 affirmations suivantes, répondez par vrai ou par faux."
             }
           },
           {
@@ -136,7 +136,7 @@
                   {
                     "id": "ea4d32d1-0066-4970-955e-dd6316c941ae",
                     "type": "qcu",
-                    "instruction": "Le tableau d'Austin permet de trouver la ruche qui a le plus petit nombre d'abeilles.",
+                    "instruction": "On peut trouver le nom de la ruche qui a le plus petit nombre d'abeilles.",
                     "proposals": [
                       {
                         "id": "1",
@@ -259,7 +259,7 @@
             "element": {
               "id": "305118b7-74b9-4fcd-ae41-621e7c5c2990",
               "type": "qcu",
-              "instruction": "Combien de ruches produisent un miel de qualité D ?",
+              "instruction": "Combien de ruches produisent un miel de <strong>qualité D</strong> ?",
               "proposals": [
                 {
                   "id": "1",
