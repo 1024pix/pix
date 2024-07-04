@@ -24,6 +24,7 @@ export class Candidate {
     complementaryCertificationId,
     billingMode,
     prepaymentCode,
+    hasSeenCertificationInstructions = false,
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -47,9 +48,14 @@ export class Candidate {
     this.complementaryCertificationId = complementaryCertificationId;
     this.billingMode = billingMode;
     this.prepaymentCode = prepaymentCode;
+    this.hasSeenCertificationInstructions = hasSeenCertificationInstructions;
   }
 
   isLinkedToAUser() {
     return !_.isNil(this.userId);
+  }
+
+  validateCertificationInstructions() {
+    this.hasSeenCertificationInstructions = true;
   }
 }

@@ -79,6 +79,52 @@ describe('Unit | Application | SecurityPreHandlers', function () {
     });
   });
 
+  describe('#checkUserIsCandidate', function () {
+    let request;
+
+    beforeEach(function () {
+      sinon.stub(tokenService, 'extractTokenFromAuthChain');
+      request = {
+        auth: { credentials: { userId: 1234 } },
+        params: {
+          certificationCandidateId: 456,
+        },
+      };
+    });
+
+    context('Successful case', function () {
+      it('should authorize access to resource when the user is the certificartion candidate', async function () {
+        // given
+        const checkUserIsCandidateUseCaseStub = {
+          execute: sinon.stub().resolves(true),
+        };
+        // when
+        const response = await securityPreHandlers.checkUserIsCandidate(request, hFake, {
+          checkUserIsCandidateUseCase: checkUserIsCandidateUseCaseStub,
+        });
+
+        // then
+        expect(response.source).to.be.true;
+      });
+    });
+
+    context('Error cases', function () {
+      it('should forbid resource access when the user is not the certificartion candidate', async function () {
+        // given
+        const checkUserIsCandidateUseCaseStub = {
+          execute: sinon.stub().resolves(false),
+        };
+        // when
+        const response = await securityPreHandlers.checkUserIsCandidate(request, hFake, {
+          checkUserIsCandidateUseCase: checkUserIsCandidateUseCaseStub,
+        });
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+  });
+
   describe('#checkAdminMemberHasRoleCertif', function () {
     let request;
 

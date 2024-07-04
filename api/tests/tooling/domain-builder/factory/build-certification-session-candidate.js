@@ -23,6 +23,7 @@ const buildCertificationSessionCandidate = function ({
   complementaryCertificationId,
   billingMode = null,
   prepaymentCode = null,
+  hasSeenCertificationInstructions = false,
 } = {}) {
   return new Candidate({
     id,
@@ -47,6 +48,7 @@ const buildCertificationSessionCandidate = function ({
     complementaryCertificationId,
     billingMode,
     prepaymentCode,
+    hasSeenCertificationInstructions,
   });
 };
 

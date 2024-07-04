@@ -372,6 +372,7 @@ const configuration = (function () {
     config.features.pixCertifScoBlockedAccessDateLycee = null;
     config.features.pixCertifScoBlockedAccessDateCollege = null;
 
+    config.featureToggles.areV3InfoScreensEnabled = false;
     config.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled = false;
     config.featureToggles.isPix1dEnabled = true;
     config.featureToggles.isCertificationTokenScopeEnabled = false;

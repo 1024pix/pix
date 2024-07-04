@@ -2,6 +2,7 @@ import JoiDate from '@joi/date';
 import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 import { authorization } from '../../../../lib/application/preHandlers/authorization.js';
+import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { certificationCandidateController } from './certification-candidate-controller.js';
 
@@ -164,6 +165,29 @@ const register = async function (server) {
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',
           'Elle supprime un candidat de certification à la session.',
+        ],
+      },
+    },
+    {
+      method: 'PATCH',
+      path: '/api/certification-candidates/{certificationCandidateId}/validate-certification-instructions',
+      config: {
+        validate: {
+          params: Joi.object({
+            certificationCandidateId: identifiersType.certificationCandidateId,
+          }),
+        },
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsCandidate,
+            assign: 'authorizationCheck',
+          },
+        ],
+        handler: certificationCandidateController.validateCertificationInstructions,
+        tags: ['api', 'certification-candidates'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés',
+          'Elle permet à un candidat de valider les instructions de certification',
         ],
       },
     },

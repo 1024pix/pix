@@ -74,4 +74,48 @@ describe('Acceptance | Controller | Session | certification-candidate-route', fu
       );
     });
   });
+
+  describe('PATCH /api/certification-candidates/{certificationCandidateId}/validate-certification-instructions', function () {
+    it('should respond with a 200', async function () {
+      // given
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
+      const candidateUserId = databaseBuilder.factory.buildUser().id;
+      const candidateId = databaseBuilder.factory.buildCertificationCandidate({
+        id: 1001,
+        sessionId,
+        userId: candidateUserId,
+        hasSeenCertificationInstructions: false,
+      }).id;
+
+      await databaseBuilder.commit();
+
+      // when
+      const options = {
+        method: 'PATCH',
+        url: `/api/certification-candidates/${candidateId}/validate-certification-instructions`,
+        payload: {},
+        headers: { authorization: generateValidRequestAuthorizationHeader(candidateUserId, 'pix') },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result).to.deep.equal({
+        data: {
+          attributes: {
+            birthdate: '2000-01-04',
+            'first-name': 'first-name',
+            'has-seen-certification-instructions': true,
+            'last-name': 'last-name',
+            'session-id': sessionId,
+          },
+          id: '1001',
+          type: 'certification-candidates',
+        },
+      });
+    });
+  });
 });

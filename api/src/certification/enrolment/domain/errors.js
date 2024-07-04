@@ -12,4 +12,14 @@ class SessionStartedDeletionError extends DomainError {
   }
 }
 
-export { CertificationCandidateForbiddenDeletionError, SessionStartedDeletionError };
+class CertificationCandidateNotFoundError extends DomainError {
+  constructor(message = 'Certification candidate not found') {
+    super(message);
+  }
+}
+
+export {
+  CertificationCandidateForbiddenDeletionError,
+  CertificationCandidateNotFoundError,
+  SessionStartedDeletionError,
+};

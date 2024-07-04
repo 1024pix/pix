@@ -34,6 +34,20 @@ const deleteCandidate = async function (request) {
   return null;
 };
 
+const validateCertificationInstructions = async function (
+  request,
+  h,
+  dependencies = { certificationCandidateSerializer },
+) {
+  const certificationCandidateId = request.params.certificationCandidateId;
+
+  const updatedCandidate = await usecases.candidateHasSeenCertificationInstructions({
+    certificationCandidateId,
+  });
+
+  return dependencies.certificationCandidateSerializer.serializeForApp(updatedCandidate);
+};
+
 const _getSubscriptionParameter = (request) => {
   const { attributes } = request.payload.data;
   return attributes['subscription'] ?? attributes['complementary-certification'];
@@ -43,5 +57,6 @@ const certificationCandidateController = {
   addCandidate,
   getCandidate,
   deleteCandidate,
+  validateCertificationInstructions,
 };
 export { certificationCandidateController };
