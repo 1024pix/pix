@@ -277,6 +277,12 @@
       "STARTED-ASSESSMENT": "En cours",
       "TO_SHARE-ASSESSMENT": "En attente d'envoi",
       "TO_SHARE-PROFILES_COLLECTION": "En attente d'envoi"
+    },
+    "ui": {
+      "deletion-modal": {
+        "confirm-deletion": "Oui, je supprime",
+        "confirmation-checkbox": "Je confirme avoir bien compris les impacts des {count} suppressions"
+      }
     }
   },
   "navigation": {

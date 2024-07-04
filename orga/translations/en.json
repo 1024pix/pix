@@ -277,6 +277,12 @@
       "STARTED-ASSESSMENT": "In progress",
       "TO_SHARE-ASSESSMENT": "Pending results",
       "TO_SHARE-PROFILES_COLLECTION": "Pending profile"
+    },
+    "ui": {
+      "deletion-modal": {
+        "confirm-deletion": "Yes, I delete",
+        "confirmation-checkbox": "I confirm that I have understood the impacts of the {count} deletions"
+      }
     }
   },
   "navigation": {
