@@ -23,6 +23,7 @@ const createOrganizationsWithTagsAndTargetProfiles = async function ({
   dataProtectionOfficerRepository,
   organizationInvitationRepository,
   organizationRepository,
+  organizationForAdminRepository,
   organizationTagRepository,
   schoolRepository,
   tagRepository,
@@ -46,7 +47,7 @@ const createOrganizationsWithTagsAndTargetProfiles = async function ({
 
     createdOrganizations = await _createOrganizations({
       domainTransaction,
-      organizationRepository,
+      organizationForAdminRepository,
       transformedOrganizationsData,
     });
 
@@ -84,27 +85,36 @@ const createOrganizationsWithTagsAndTargetProfiles = async function ({
 
 export { createOrganizationsWithTagsAndTargetProfiles };
 
-async function _createOrganizations({ transformedOrganizationsData, domainTransaction, organizationRepository }) {
-  try {
-    const createdOrganizations = await organizationRepository.batchCreateOrganizations(
-      transformedOrganizationsData,
-      domainTransaction,
-    );
-    return createdOrganizations;
-  } catch (error) {
-    _monitorError(error.message, { error, event: 'create-organizations' });
+async function _createOrganizations({
+  transformedOrganizationsData,
+  domainTransaction,
+  organizationForAdminRepository,
+}) {
+  return bluebird.map(transformedOrganizationsData, async (organizationToCreate) => {
+    try {
+      const createdOrganization = await organizationForAdminRepository.save(
+        organizationToCreate.organization,
+        domainTransaction,
+      );
+      return {
+        createdOrganization,
+        organizationToCreate,
+      };
+    } catch (error) {
+      _monitorError(error.message, { error, event: 'create-organizations' });
 
-    if (error.code === PGSQL_FOREIGN_KEY_VIOLATION_ERROR) {
-      const createdByUserId = error.detail.match(/\d+/g);
-      throw new InvalidInputDataError({ message: `User with ID "${createdByUserId}" does not exist` });
+      if (error.code === PGSQL_FOREIGN_KEY_VIOLATION_ERROR) {
+        const createdByUserId = error.detail.match(/\d+/g);
+        throw new InvalidInputDataError({ message: `User with ID "${createdByUserId}" does not exist` });
+      }
+
+      if (error instanceof DomainError) {
+        throw error;
+      }
+
+      throw new DomainError(error.message);
     }
-
-    if (error instanceof DomainError) {
-      throw error;
-    }
-
-    throw new DomainError(error.message);
-  }
+  });
 }
 
 function _transformOrganizationsCsvData(organizationsCsvData) {

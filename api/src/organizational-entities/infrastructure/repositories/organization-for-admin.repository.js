@@ -143,13 +143,25 @@ const get = async function (id, domainTransaction = DomainTransaction.emptyTrans
  * @param {OrganizationForAdmin} organization
  * @return {Promise<OrganizationForAdmin>}
  */
-const save = async function (organization) {
-  const data = _.pick(organization, ['name', 'type', 'documentationUrl', 'credit', 'createdBy']);
-  const [organizationCreated] = await knex(ORGANIZATIONS_TABLE_NAME).returning('*').insert(data);
+const save = async function (organization, domainTransaction = DomainTransaction.emptyTransaction()) {
+  const knexConn = domainTransaction.knexTransaction ?? knex;
+  const data = _.pick(organization, [
+    'name',
+    'type',
+    'email',
+    'externalId',
+    'provinceCode',
+    'isManagingStudents',
+    'identityProviderForCampaigns',
+    'credit',
+    'createdBy',
+    'documentationUrl',
+  ]);
+  const [organizationCreated] = await knexConn(ORGANIZATIONS_TABLE_NAME).returning('*').insert(data);
   const savedOrganization = _toDomain(organizationCreated);
 
   if (!_.isEmpty(savedOrganization.features)) {
-    await _enableFeatures(knex, savedOrganization.features, savedOrganization.id);
+    await _enableFeatures(knexConn, savedOrganization.features, savedOrganization.id);
   }
   return savedOrganization;
 };
