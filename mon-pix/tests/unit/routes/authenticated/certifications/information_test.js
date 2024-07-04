@@ -25,5 +25,23 @@ module('Unit | Route | Certifications | Information', function (hooks) {
       // then
       assert.deepEqual(model, certificationCandidate);
     });
+
+    module('when no candidate exist', function () {
+      test('should return to certification form', async function (assert) {
+        // given
+        const peekRecordStub = sinon.stub().resolves();
+        const storeStub = Service.create({ peekRecord: peekRecordStub });
+        const route = this.owner.lookup('route:authenticated/certifications.information');
+        route.set('store', storeStub);
+        route.router = { replaceWith: sinon.stub() };
+
+        // when
+        await route.model(1234);
+
+        // then
+        sinon.assert.calledWith(route.router.replaceWith, 'authenticated.certifications.join');
+        assert.ok(true);
+      });
+    });
   });
 });
