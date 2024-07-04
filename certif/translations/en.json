@@ -18,7 +18,7 @@
       "exit": "Exit",
       "quit": "Quit",
       "update": "Edit",
-      "validate": "Validate"
+      "validate": "OK!"
     },
     "api-error-messages": {
       "CANDIDATE_NOT_FOUND": "An error has occurred, the candidate {firstName} {lastName} hasn't been found.",
