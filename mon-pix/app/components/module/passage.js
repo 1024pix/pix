@@ -9,15 +9,18 @@ export default class ModulePassage extends Component {
   @service router;
   @service metrics;
   @service store;
+  @service modulixAutoScroll;
 
   displayableGrains = this.args.module.grains.filter((grain) => ModuleGrain.getSupportedComponents(grain).length > 0);
   @tracked grainsToDisplay = this.displayableGrains.length > 0 ? [this.displayableGrains[0]] : [];
 
-  static SCROLL_OFFSET_PX = 70;
-
   @action
-  setGrainScrollOffsetCssProperty(element) {
-    element.style.setProperty('--scroll-offset', `${ModulePassage.SCROLL_OFFSET_PX}px`);
+  hasGrainJustAppeared(index) {
+    if (this.grainsToDisplay.length === 1) {
+      return false;
+    }
+
+    return this.grainsToDisplay.length - 1 === index;
   }
 
   get hasNextGrain() {
@@ -90,15 +93,6 @@ export default class ModulePassage extends Component {
   @action
   grainTransition(grainId) {
     return this.args.module.transitionTexts.find((transition) => transition.grainId === grainId);
-  }
-
-  @action
-  hasGrainJustAppeared(index) {
-    if (this.grainsToDisplay.length === 1) {
-      return false;
-    }
-
-    return this.grainsToDisplay.length - 1 === index;
   }
 
   @action

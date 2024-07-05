@@ -1,5 +1,6 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import { action } from '@ember/object';
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
@@ -7,13 +8,26 @@ import ModuleGrain from 'mon-pix/components/module/grain';
 import Step from 'mon-pix/components/module/step';
 import { inc } from 'mon-pix/helpers/inc';
 
+import didInsert from '../../modifiers/modifier-did-insert';
+
 export default class ModulixStepper extends Component {
+  @service modulixAutoScroll;
+
   displayableSteps = this.args.steps.filter((step) =>
     step.elements.some((element) => ModuleGrain.AVAILABLE_ELEMENT_TYPES.includes(element.type)),
   );
 
   @tracked
   stepsToDisplay = [this.displayableSteps[0]];
+
+  @action
+  hasStepJustAppeared(index) {
+    if (this.stepsToDisplay.length === 1) {
+      return false;
+    }
+
+    return this.stepsToDisplay.length - 1 === index;
+  }
 
   get hasDisplayableSteps() {
     return this.displayableSteps.length > 0;
@@ -56,7 +70,11 @@ export default class ModulixStepper extends Component {
   }
 
   <template>
-    <div class="stepper">
+    <div
+      class="stepper"
+      aria-live="assertive"
+      {{didInsert this.modulixAutoScroll.setHTMLElementScrollOffsetCssProperty}}
+    >
       {{#if this.hasDisplayableSteps}}
         {{#each this.stepsToDisplay as |step index|}}
           <Step
@@ -66,6 +84,7 @@ export default class ModulixStepper extends Component {
             @submitAnswer={{@submitAnswer}}
             @retryElement={{@retryElement}}
             @getLastCorrectionForElement={{@getLastCorrectionForElement}}
+            @hasJustAppeared={{this.hasStepJustAppeared index}}
           />
         {{/each}}
         {{#if this.shouldDisplayNextButton}}
