@@ -19,7 +19,7 @@ describe('Integration | UseCases | get-user-by-reset-password-demand', function 
 
   it('should return an user', async function () {
     // given
-    temporaryKey = resetPasswordService.generateTemporaryKey();
+    temporaryKey = await resetPasswordService.generateTemporaryKey();
     databaseBuilder.factory.buildResetPasswordDemand({ email, temporaryKey });
     await databaseBuilder.commit();
 
@@ -51,7 +51,7 @@ describe('Integration | UseCases | get-user-by-reset-password-demand', function 
 
   it('should throws PasswordResetDemandNotFoundError if resetPasswordDemand does not exist', async function () {
     // given
-    const unknownTemporaryKey = resetPasswordService.generateTemporaryKey();
+    const unknownTemporaryKey = await resetPasswordService.generateTemporaryKey();
 
     // when
     const error = await catchErr(getUserByResetPasswordDemand)({
@@ -67,7 +67,7 @@ describe('Integration | UseCases | get-user-by-reset-password-demand', function 
 
   it('should throws UserNotFoundError if user with email does not exist', async function () {
     // given
-    temporaryKey = resetPasswordService.generateTemporaryKey();
+    temporaryKey = await resetPasswordService.generateTemporaryKey();
     databaseBuilder.factory.buildResetPasswordDemand({ temporaryKey });
 
     await databaseBuilder.commit();

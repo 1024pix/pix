@@ -33,8 +33,8 @@ describe('Acceptance | Controller | password-controller', function () {
     context('when temporaryKey is valid', function () {
       let temporaryKey;
 
-      beforeEach(function () {
-        temporaryKey = resetPasswordService.generateTemporaryKey();
+      beforeEach(async function () {
+        temporaryKey = await resetPasswordService.generateTemporaryKey();
         options.url = `/api/password-reset-demands/${temporaryKey}`;
       });
 

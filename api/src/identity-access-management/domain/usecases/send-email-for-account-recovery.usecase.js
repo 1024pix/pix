@@ -1,5 +1,4 @@
-import crypto from 'node:crypto';
-
+import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
 import { AccountRecoveryDemand } from '../models/AccountRecoveryDemand.js';
 
 /**
@@ -26,7 +25,13 @@ export const sendEmailForAccountRecovery = async function ({
   userReconciliationService,
 }) {
   const { email: newEmail } = studentInformation;
-  const encodedTemporaryKey = temporaryKey || crypto.randomBytes(32).toString('hex');
+  let encodedTemporaryKey;
+  if (temporaryKey) {
+    encodedTemporaryKey = temporaryKey;
+  } else {
+    const randomBytesBuffer = await cryptoService.randomBytes(32);
+    encodedTemporaryKey = randomBytesBuffer.toString('hex');
+  }
 
   const {
     firstName,
