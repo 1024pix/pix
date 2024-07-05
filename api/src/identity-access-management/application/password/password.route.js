@@ -1,6 +1,5 @@
 import Joi from 'joi';
 
-import { passwordController as libPasswordController } from '../../../../lib/application/passwords/password-controller.js';
 import { passwordController } from './password.controller.js';
 
 export const passwordRoutes = [
@@ -31,7 +30,7 @@ export const passwordRoutes = [
     path: '/api/password-reset-demands/{temporaryKey}',
     config: {
       auth: false,
-      handler: (request, h) => libPasswordController.checkResetDemand(request, h),
+      handler: (request, h) => passwordController.checkResetDemand(request, h),
       tags: ['api', 'passwords'],
     },
   },
