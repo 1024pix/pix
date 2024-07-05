@@ -148,4 +148,24 @@ describe('Integration | Repository | School', function () {
       expect(divisions).to.be.empty;
     });
   });
+
+  describe('#getSessionExpirationDate', function () {
+    it('should return the session expiration date', async function () {
+      databaseBuilder.factory.buildSchool({ code: 'FRANCE998', sessionExpirationDate: '2022-07-04' });
+      await databaseBuilder.commit();
+      // when
+      const sessionExpirationDate = await repositories.schoolRepository.getSessionExpirationDate({ code: 'FRANCE998' });
+
+      // then
+      expect(sessionExpirationDate).to.deep.equal(new Date('2022-07-04'));
+    });
+
+    it('should return undefined when there is no expiration date for the school corresponding to the code', async function () {
+      // when
+      const sessionExpirationDate = await repositories.schoolRepository.getSessionExpirationDate({ code: 'FRANCE998' });
+
+      // then
+      expect(sessionExpirationDate).to.equal(undefined);
+    });
+  });
 });

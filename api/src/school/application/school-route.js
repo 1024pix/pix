@@ -10,7 +10,10 @@ const register = async function (server) {
       method: 'GET',
       path: '/api/pix1d/schools',
       config: {
-        pre: [{ method: securityPreHandlers.checkPix1dActivated }],
+        pre: [
+          { method: securityPreHandlers.checkPix1dActivated },
+          { method: securityPreHandlers.checkSchoolSessionIsActive },
+        ],
         auth: false,
         validate: {
           query: Joi.object({

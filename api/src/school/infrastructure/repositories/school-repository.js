@@ -44,4 +44,20 @@ const getDivisions = async function ({ organizationId, organizationLearnerApi })
   return [...new Set(divisionLearners)].sort().map((divisionName) => new Division({ name: divisionName }));
 };
 
-export { getByCode, getById, getDivisions, isCodeAvailable, save, updateSessionExpirationDate };
+const getSessionExpirationDate = async function ({ code }) {
+  const [sessionExpirationDate] = await knex('schools')
+    .select('sessionExpirationDate')
+    .where({ code })
+    .pluck('sessionExpirationDate');
+  return sessionExpirationDate;
+};
+
+export {
+  getByCode,
+  getById,
+  getDivisions,
+  getSessionExpirationDate,
+  isCodeAvailable,
+  save,
+  updateSessionExpirationDate,
+};

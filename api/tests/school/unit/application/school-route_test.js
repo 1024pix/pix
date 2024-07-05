@@ -12,6 +12,7 @@ describe('Unit | Router | school-router', function () {
       sinon.stub(schoolController, 'getSchool').callsFake((request, h) => h.response('ok'));
 
       sinon.stub(securityPreHandlers, 'checkPix1dActivated').callsFake((request, h) => h.response());
+      sinon.stub(securityPreHandlers, 'checkSchoolSessionIsActive').callsFake((request, h) => h.response());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -20,6 +21,8 @@ describe('Unit | Router | school-router', function () {
 
       // then
       expect(response.statusCode).to.equal(200);
+      expect(securityPreHandlers.checkPix1dActivated).to.have.been.called;
+      expect(securityPreHandlers.checkSchoolSessionIsActive).to.have.been.called;
     });
   });
 
