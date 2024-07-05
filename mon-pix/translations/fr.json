@@ -601,7 +601,10 @@
         "candidate-not-authorized-to-resume": "Merci de contacter votre surveillant afin qu'il autorise la reprise de votre test.",
         "candidate-not-authorized-to-start": "Votre surveillant n’a pas confirmé votre présence dans la salle de test. Vous ne pouvez donc pas encore commencer votre test de certification. Merci de prévenir votre surveillant.",
         "generic": "Une erreur serveur inattendue vient de se produire.",
-        "session-not-accessible": "La session de certification n'est plus accessible."
+        "session-not-accessible": "La session de certification n'est plus accessible.",
+        "unknown": {
+          "summary-label": "Afficher plus de détails :"
+        }
       },
       "first-title": "Vous allez commencer votre test de certification",
       "link-to-user-certification": "Voir mes certifications",

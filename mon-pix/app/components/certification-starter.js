@@ -13,6 +13,7 @@ export default class CertificationJoiner extends Component {
 
   @tracked inputAccessCode = '';
   @tracked errorMessage = null;
+  @tracked technicalErrorInfo = '';
   @tracked classNames = [];
   @tracked certificationCourse = null;
 
@@ -38,15 +39,15 @@ export default class CertificationJoiner extends Component {
       this.focusedCertificationChallengeWarningManager.reset();
       this.router.replaceWith('authenticated.certifications.resume', newCertificationCourse.id);
       this.windowPostMessage.startCertification();
-    } catch (err) {
+    } catch (error) {
       newCertificationCourse.deleteRecord();
-      const statusCode = err.errors?.[0]?.status;
+      const statusCode = error.errors?.[0]?.status;
       if (statusCode === '404') {
         this.errorMessage = this.intl.t('pages.certification-start.error-messages.access-code-error');
       } else if (statusCode === '412') {
         this.errorMessage = this.intl.t('pages.certification-start.error-messages.session-not-accessible');
       } else if (statusCode === '403') {
-        const errorCode = err.errors?.[0]?.code;
+        const errorCode = error.errors?.[0]?.code;
         if (errorCode === 'CANDIDATE_NOT_AUTHORIZED_TO_JOIN_SESSION') {
           this.errorMessage = this.intl.t('pages.certification-start.error-messages.candidate-not-authorized-to-start');
         } else if (errorCode === 'CANDIDATE_NOT_AUTHORIZED_TO_RESUME_SESSION') {
@@ -55,6 +56,8 @@ export default class CertificationJoiner extends Component {
           );
         }
       } else {
+        // This should not happen, but in case it does, let give as much info as possible
+        this.technicalErrorInfo = `${error.message} ${error.stack}`;
         this.errorMessage = this.intl.t('pages.certification-start.error-messages.generic');
       }
     }
