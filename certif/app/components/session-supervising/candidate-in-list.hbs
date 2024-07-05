@@ -3,24 +3,23 @@
     <div class="session-supervising-candidate-in-list__status-container">
       {{#if @candidate.hasStarted}}
         {{#if @candidate.isAuthorizedToResume}}
-          <PixTag
-            @compact={{true}}
-            class="session-supervising-candidate-in-list__status-container--authorized-to-resume"
-          >{{t "common.forms.certification-labels.candidate-status.authorized-to-resume"}}</PixTag>
+          <PixTag class="session-supervising-candidate-in-list__status-container--authorized-to-resume">{{t
+              "common.forms.certification-labels.candidate-status.authorized-to-resume"
+            }}</PixTag>
         {{else}}
           {{#if (eq @candidate.liveAlert.status "ongoing")}}
-            <PixTag @compact={{true}} class="session-supervising-candidate-in-list__status-container--ongoing-alert">{{t
+            <PixTag class="session-supervising-candidate-in-list__status-container--ongoing-alert">{{t
                 "common.forms.certification-labels.candidate-status.ongoing-live-alert"
               }}</PixTag>
           {{else}}
-            <PixTag @compact={{true}} class="session-supervising-candidate-in-list__status-container--started">{{t
+            <PixTag class="session-supervising-candidate-in-list__status-container--started">{{t
                 "common.forms.certification-labels.candidate-status.ongoing"
               }}</PixTag>
           {{/if}}
         {{/if}}
       {{/if}}
       {{#if @candidate.hasCompleted}}
-        <PixTag @compact={{true}} class="session-supervising-candidate-in-list__status-container--completed">{{t
+        <PixTag class="session-supervising-candidate-in-list__status-container--completed">{{t
             "common.forms.certification-labels.candidate-status.finished"
           }}</PixTag>
       {{/if}}
