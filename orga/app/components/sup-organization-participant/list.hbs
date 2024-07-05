@@ -29,12 +29,46 @@
                 @count={{selectedStudents.length}}
                 @openDeletionModal={{this.openDeletionModal}}
               />
-              <SupOrganizationParticipant::Modal::Deletion
+              <Ui::DeletionModal
+                @title={{t
+                  "pages.sup-organization-participants.deletion-modal.title"
+                  count=selectedStudents.length
+                  firstname=(get selectedStudents "0.firstName")
+                  lastname=(get selectedStudents "0.lastName")
+                  htmlSafe=true
+                }}
                 @showModal={{this.showDeletionModal}}
-                @itemsToDelete={{selectedStudents}}
+                @count={{selectedStudents.length}}
                 @onTriggerAction={{fn this.deleteStudents selectedStudents reset}}
                 @onCloseModal={{this.closeDeletionModal}}
-              />
+              >
+                <:content>
+                  <p>{{t
+                      "pages.sup-organization-participants.deletion-modal.content.header"
+                      count=selectedStudents.length
+                    }}</p>
+                  <p>{{t
+                      "pages.sup-organization-participants.deletion-modal.content.main-participation-prevent"
+                      count=selectedStudents.length
+                    }}</p>
+                  <p>{{t
+                      "pages.sup-organization-participants.deletion-modal.content.main-campaign-prevent"
+                      count=selectedStudents.length
+                    }}</p>
+                  <p>{{t
+                      "pages.sup-organization-participants.deletion-modal.content.main-participation-access"
+                      count=selectedStudents.length
+                    }}</p>
+                  <p>{{t
+                      "pages.sup-organization-participants.deletion-modal.content.main-new-campaign-access"
+                      count=selectedStudents.length
+                    }}</p>
+                  <p><strong>{{t
+                        "pages.sup-organization-participants.deletion-modal.content.footer"
+                        count=selectedStudents.length
+                      }}</strong></p>
+                </:content>
+              </Ui::DeletionModal>
             </InElement>
           {{/if}}
           <InElement @destinationId={{this.paginationId}} @waitForElement={{true}}>

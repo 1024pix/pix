@@ -30,12 +30,43 @@
                 @count={{selectedParticipants.length}}
                 @openDeletionModal={{this.openDeletionModal}}
               />
-              <OrganizationParticipant::DeletionModal
+              <Ui::DeletionModal
+                @title={{t
+                  "pages.organization-participants.deletion-modal.title"
+                  count=selectedParticipants.length
+                  firstname=(get selectedParticipants "0.firstName")
+                  lastname=(get selectedParticipants "0.lastName")
+                  htmlSafe=true
+                }}
                 @showModal={{this.showDeletionModal}}
-                @itemsToDelete={{selectedParticipants}}
+                @count={{selectedParticipants.length}}
                 @onTriggerAction={{fn this.deleteParticipants selectedParticipants reset}}
                 @onCloseModal={{this.closeDeletionModal}}
-              />
+              >
+                <:content>
+                  <p>{{t "pages.organization-participants.deletion-modal.content.header" count=this.count}}</p>
+                  <p>{{t
+                      "pages.organization-participants.deletion-modal.content.main-participation-prevent"
+                      count=selectedParticipants.length
+                    }}</p>
+                  <p>{{t
+                      "pages.organization-participants.deletion-modal.content.main-campaign-prevent"
+                      count=selectedParticipants.length
+                    }}</p>
+                  <p>{{t
+                      "pages.organization-participants.deletion-modal.content.main-participation-access"
+                      count=selectedParticipants.length
+                    }}</p>
+                  <p>{{t
+                      "pages.organization-participants.deletion-modal.content.main-new-campaign-access"
+                      count=selectedParticipants.length
+                    }}</p>
+                  <p><strong>{{t
+                        "pages.organization-participants.deletion-modal.content.footer"
+                        count=selectedParticipants.length
+                      }}</strong></p>
+                </:content>
+              </Ui::DeletionModal>
             </InElement>
           {{/if}}
           <InElement @destinationId={{this.paginationId}} @waitForElement={{true}}>

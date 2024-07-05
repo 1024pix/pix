@@ -277,6 +277,12 @@
       "STARTED-ASSESSMENT": "En cours",
       "TO_SHARE-ASSESSMENT": "En attente d'envoi",
       "TO_SHARE-PROFILES_COLLECTION": "En attente d'envoi"
+    },
+    "ui": {
+      "deletion-modal": {
+        "confirm-deletion": "Oui, je supprime",
+        "confirmation-checkbox": "Je confirme avoir bien compris les impacts des {count} suppressions"
+      }
     }
   },
   "navigation": {
@@ -933,8 +939,7 @@
           "main-new-campaign-access": "Cependant {count, plural, =1 {il pourra} other {ils pourront}} participer à de nouvelles campagnes.",
           "main-participation-access": "{count, plural, =1 {Il ne pourra} other {Ils ne pourront}} plus participer aux campagnes auxquelles {count, plural, =1 {il avait} other {ils avaient}} participé par le passé.",
           "main-participation-prevent": "Toutes {count, plural, =1 {ses} other {leurs}} participations aux campagnes seront supprimées."
-        },
-        "delete-button": "Oui, je supprime"
+        }
       },
       "empty-state": {
         "action": "Voir mes campagnes",
@@ -1271,7 +1276,6 @@
       },
       "deletion-modal": {
         "title": "{count, plural, =1 {Supprimer '<strong>'{firstname} {lastname}'</strong>' de vos} other {Êtes-vous sûr(e) de vouloir supprimer '<strong>'{count}'</strong>'}} étudiants ?",
-        "confirmation-checkbox": "Je confirme avoir bien compris les impacts des {count} suppressions",
         "content": {
           "footer": "Attention, cette action est irréversible.",
           "header": "{count, plural, =1 {Cet étudiant ne sera plus visible} other {Ces étudiants ne seront plus visibles}} dans Pix Orga.",
@@ -1279,8 +1283,7 @@
           "main-new-campaign-access": "Cependant {count, plural, =1 {il pourra} other {ils pourront}} participer à de nouvelles campagnes.",
           "main-participation-access": "{count, plural, =1 {Il ne pourra} other {Ils ne pourront}} plus participer aux campagnes auxquelles {count, plural, =1 {il avait} other {ils avaient}} participé par le passé.",
           "main-participation-prevent": "Toutes {count, plural, =1 {ses} other {leurs}} participations aux campagnes seront supprimées."
-        },
-        "delete-button": "Oui, je supprime"
+        }
       },
       "edit-student-number-modal": {
         "title": "Édition du numéro étudiant",

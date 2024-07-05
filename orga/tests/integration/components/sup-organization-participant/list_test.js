@@ -1132,7 +1132,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
         await screen.findByRole('dialog');
 
         const confirmationButton = await screen.findByRole('button', {
-          name: this.intl.t('pages.sup-organization-participants.deletion-modal.delete-button'),
+          name: this.intl.t('components.ui.deletion-modal.confirm-deletion'),
         });
 
         //then
@@ -1190,13 +1190,13 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
         await screen.findByRole('dialog');
 
         const allowMultipleDeletionCheckbox = await screen.findByRole('checkbox', {
-          name: this.intl.t('pages.sup-organization-participants.deletion-modal.confirmation-checkbox', { count: 2 }),
+          name: this.intl.t('components.ui.deletion-modal.confirmation-checkbox', { count: 2 }),
         });
 
         await click(allowMultipleDeletionCheckbox);
 
         const confirmationButton = await screen.findByRole('button', {
-          name: this.intl.t('pages.sup-organization-participants.deletion-modal.delete-button'),
+          name: this.intl.t('components.ui.deletion-modal.confirm-deletion'),
         });
         await click(confirmationButton);
 
@@ -1256,13 +1256,13 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
         await click(deleteButton);
 
         const allowMultipleDeletionCheckbox = await screen.findByRole('checkbox', {
-          name: this.intl.t('pages.sup-organization-participants.deletion-modal.confirmation-checkbox', { count: 2 }),
+          name: this.intl.t('components.ui.deletion-modal.confirmation-checkbox', { count: 2 }),
         });
 
         await click(allowMultipleDeletionCheckbox);
 
         const confirmationButton = await screen.findByRole('button', {
-          name: this.intl.t('pages.sup-organization-participants.deletion-modal.delete-button'),
+          name: this.intl.t('components.ui.deletion-modal.confirm-deletion'),
         });
         await click(confirmationButton);
 
