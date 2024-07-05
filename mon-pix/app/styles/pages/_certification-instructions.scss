@@ -147,6 +147,13 @@
   }
 }
 
-.instructions-footer__dot.active {
-    filter: brightness(0) saturate(100%) invert(17%) sepia(28%) saturate(7283%) hue-rotate(246deg) brightness(90%) contrast(94%);
+.instructions-footer-dots {
+  &__dot {
+    vertical-align: middle;
+  }
+
+  &__dot.active {
+      height: 10px;
+      filter: brightness(0) saturate(100%) invert(17%) sepia(28%) saturate(7283%) hue-rotate(246deg) brightness(90%) contrast(94%);
+  }
 }
