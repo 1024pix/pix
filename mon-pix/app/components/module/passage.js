@@ -17,7 +17,7 @@ export default class ModulePassage extends Component {
 
   @action
   setGrainScrollOffsetCssProperty(element) {
-    element.style.setProperty('--grain-scroll-offset', `${ModulePassage.SCROLL_OFFSET_PX}px`);
+    element.style.setProperty('--scroll-offset', `${ModulePassage.SCROLL_OFFSET_PX}px`);
   }
 
   get hasNextGrain() {

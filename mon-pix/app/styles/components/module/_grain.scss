@@ -2,12 +2,9 @@
   width: 100%;
 
   &--active {
-    min-height: calc(100vh - var(--grain-scroll-offset));
-    outline: none;
+    @extend .auto-scroll;
 
-    @supports (min-height: 100dvh) {
-      min-height: calc(100dvh - var(--grain-scroll-offset));
-    }
+    outline: none;
   }
 
   &:last-child {

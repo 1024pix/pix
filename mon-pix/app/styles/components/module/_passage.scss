@@ -2,6 +2,14 @@
   max-width: var(--modulix-max-content-width);
   margin: 0 auto;
 
+  .auto-scroll {
+    min-height: calc(100vh - var(--scroll-offset));
+
+    @supports (min-height: 100dvh) {
+      min-height: calc(100dvh - var(--scroll-offset));
+    }
+  }
+
   h3,
   h4,
   p {
@@ -92,3 +100,4 @@
     justify-content: center;
   }
 }
+
