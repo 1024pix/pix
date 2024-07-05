@@ -1,5 +1,5 @@
-import { CertificationCenter } from '../../../../lib/domain/models/CertificationCenter.js';
 import { CERTIFICATION_CENTER_MEMBERSHIP_ROLES } from '../../../../lib/domain/models/CertificationCenterMembership.js';
+import { CertificationCenter } from '../../../../lib/domain/models/index.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import {
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
@@ -37,7 +37,7 @@ const PRO_PILOT_CERTIFICATION_CENTER_ID = TEAM_CERTIFICATION_OFFSET_ID_CENTERS +
 /// EXTERNAL IDS
 const CERTIFICATION_SCO_MANAGING_STUDENTS_EXTERNAL_ID = 'CERTIFICATION_SCO_MANAGING_STUDENTS_EXTERNAL_ID';
 const PRO_EXTERNAL_ID = 'PRO_EXTERNAL_ID';
-const PRO_PILOT_EXTERNAL_ID = 'PRO_PILOT_EXTERNAL_ID';
+const V3_PRO_PILOT_EXTERNAL_ID = 'V3_PRO_PILOT_EXTERNAL_ID';
 // SESSION IDS
 const TEAM_CERTIFICATION_OFFSET_ID_SESSIONS = TEAM_CERTIFICATION_OFFSET_ID + 400;
 const SCO_DRAFT_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID_SESSIONS;
@@ -102,7 +102,7 @@ async function _createScoCertificationCenter({ databaseBuilder }) {
     databaseBuilder,
     certificationCenterId: SCO_CERTIFICATION_CENTER_ID,
     name: 'Centre de certification sco managing students',
-    type: 'SCO',
+    type: CertificationCenter.types.SCO,
     externalId: CERTIFICATION_SCO_MANAGING_STUDENTS_EXTERNAL_ID,
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -149,13 +149,27 @@ async function _createV3PilotCertificationCenter({ databaseBuilder }) {
     databaseBuilder,
     certificationCenterId: V3_CERTIFICATION_CENTER_ID,
     name: 'Centre de certification v3',
-    type: 'PRO',
+    type: CertificationCenter.types.PRO,
     externalId: null,
     createdAt: new Date(),
     updatedAt: new Date(),
     members: [{ id: V3_CERTIFICATION_CENTER_USER_ID }],
     isV3Pilot: true,
     complementaryCertificationIds: [],
+  });
+
+  await tooling.certificationCenter.createCertificationCenter({
+    databaseBuilder,
+    certificationCenterId: PRO_PILOT_CERTIFICATION_CENTER_ID,
+    name: 'Centre de certification v3 pro pilote pour la séparation pix/pix+',
+    type: CertificationCenter.types.PRO,
+    externalId: V3_PRO_PILOT_EXTERNAL_ID,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    members: [{ id: V3_CERTIFICATION_CENTER_USER_ID }],
+    isV3Pilot: true,
+    complementaryCertificationIds,
+    featureIds: [FEATURE_CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE_ID],
   });
 }
 
@@ -198,23 +212,8 @@ async function _createProCertificationCenter({ databaseBuilder }) {
     databaseBuilder,
     certificationCenterId: PRO_CERTIFICATION_CENTER_ID,
     name: 'Centre de certification pro',
-    type: 'PRO',
-    externalId: PRO_EXTERNAL_ID,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    members: [
-      { id: PRO_ADMIN_CERTIFICATION_CENTER_USER_ID, role: 'ADMIN' },
-      { id: PRO_MEMBER_CERTIFICATION_CENTER_USER_ID, role: 'MEMBER' },
-    ],
-    complementaryCertificationIds,
-  });
-
-  await tooling.certificationCenter.createCertificationCenter({
-    databaseBuilder,
-    certificationCenterId: PRO_PILOT_CERTIFICATION_CENTER_ID,
-    name: 'Centre de certification pro pilote pour la séparation Pix/Pix+',
     type: CertificationCenter.types.PRO,
-    externalId: PRO_PILOT_EXTERNAL_ID,
+    externalId: PRO_EXTERNAL_ID,
     createdAt: new Date(),
     updatedAt: new Date(),
     members: [
@@ -222,7 +221,6 @@ async function _createProCertificationCenter({ databaseBuilder }) {
       { id: PRO_MEMBER_CERTIFICATION_CENTER_USER_ID, role: CERTIFICATION_CENTER_MEMBERSHIP_ROLES.MEMBER },
     ],
     complementaryCertificationIds,
-    featureIds: [FEATURE_CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE_ID],
   });
 }
 
