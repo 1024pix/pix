@@ -15,7 +15,7 @@
   },
   "transitionTexts": [
     {
-      "content": "<p>Vous avez sûrement déjà utilisé des robots conversationnels tels que ChatGPT ou Copilot.<br>Ces systèmes reposent sur de grands modèles de langage (LLM) et peuvent être utiles pour produire des synthèses, inventer des histoires, ou générer toutes sortes de textes.<span aria-hidden=\"true\">&nbsp;✒️ 💭</span></p><p>Pourtant, les textes produits sont parfois discutables ou complètement faux.<span aria-hidden=\"true\">&nbsp;❌</span><br>Surprenant ? Pas vraiment. Commençons par un exemple concret !</p>",
+      "content": "<p>Vous avez sûrement déjà utilisé des robots conversationnels tels que ChatGPT ou Copilot. Ces systèmes reposent sur de grands modèles de langage (LLM) et peuvent être utiles pour produire des synthèses, inventer des histoires, ou générer toutes sortes de textes.<span aria-hidden=\"true\">&nbsp;✒️ 💭</span></p><p>Pourtant, les textes produits sont parfois discutables ou complètement faux.<span aria-hidden=\"true\">&nbsp;❌</span><br>Surprenant ? Pas vraiment. Commençons par un exemple concret !</p>",
       "grainId": "0bfa08bd-7052-49bb-89e8-150efa589926"
     },
     {
@@ -183,178 +183,138 @@
       "title": "Corriger la copie d'un LLM",
       "components": [
         {
-          "type": "element",
-          "element": {
-            "id": "5b0422cd-22d0-4261-aa48-bd7fafc20607",
-            "type": "text",
-            "content": "<p>Dans les situations suivantes, les réponses du LLM sont visiblement biaisées.</p><p>Pour chaque situation, choisissez la cause principale de ces résultats biaisés.</p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
-            "type": "text",
-            "content": "<hr>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
-            "type": "text",
-            "content": "<p>Michel est <strong>québécois</strong> et utilise un LLM pour la première fois. Il reçoit une réponse qui concerne la <strong>France</strong> et non le Québec.<span aria-hidden=\"true\">&nbsp;👇</span></p>"
-          }
-        },
-        {
-          "type": "element",
-          "element":
-          {
-            "id": "e53de197-48ce-4af7-be65-dc75139b391c",
-            "type": "image",
-            "url": "https://i.imgur.com/Wetri6W.png",
-            "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
-            "alternativeText": "<p>Vous : Quel est le jour de la fête nationale ?</p><p>LLM : La fête nationale de la France aussi connue sous le nom de la Bastille Day est célébrée le 14 juillet. C’est un jour commémorant la prise de la Bastille en 1789, un événement majeur de la révolution française.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-              "id": "629aeb61-028b-41f7-97f2-512e83000fa5",
-              "type": "qcu",
-              "instruction": "Quelle est la cause principale de ce résultat biaisé ?",
-              "proposals": [
+          "type":"stepper",
+          "steps": [
+            {
+              "elements": [
                 {
-                  "id": "1",
-                  "content": "Le LLM a été programmé en majorité par des français."
+                  "id": "5b0422cd-22d0-4261-aa48-bd7fafc20607",
+                  "type": "text",
+                  "content": "<p>Dans les situations suivantes, les réponses du LLM sont visiblement biaisées.</p><p>Pour chaque situation, choisissez la cause principale de ces résultats biaisés.</p>"
                 },
                 {
-                  "id": "2",
-                  "content": "Le LLM s'est basé sur la langue de la question qu'il a reçue."
+                  "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
+                  "type": "text",
+                  "content": "<hr>"
                 },
                 {
-                  "id": "3",
-                  "content": "Le LLM a été paramétré pour privilégier des pays européens."
+                  "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
+                  "type": "text",
+                  "content": "<p>Michel est <strong>québécois</strong> et utilise un LLM pour la première fois. Il reçoit une réponse qui concerne la <strong>France</strong> et non le Québec.<span aria-hidden=\"true\">&nbsp;👇</span></p>"
+                },
+                {
+                  "id": "e53de197-48ce-4af7-be65-dc75139b391c",
+                  "type": "image",
+                  "url": "https://i.imgur.com/Wetri6W.png",
+                  "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
+                  "alternativeText": "<p>Vous : Quel est le jour de la fête nationale ?</p><p>LLM : La fête nationale de la France aussi connue sous le nom de la Bastille Day est célébrée le 14 juillet. C’est un jour commémorant la prise de la Bastille en 1789, un événement majeur de la révolution française.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
+                },
+                {
+                  "id": "629aeb61-028b-41f7-97f2-512e83000fa5",
+                  "type": "qcu",
+                  "instruction": "Quelle est la cause principale de ce résultat biaisé ?",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "Le LLM a été programmé en majorité par des français."
+                    },
+                    {
+                      "id": "2",
+                      "content": "Le LLM s'est basé sur la langue de la question qu'il a reçue."
+                    },
+                    {
+                      "id": "3",
+                      "content": "Le LLM a été paramétré pour privilégier des pays européens."
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">✅ Correct !</span><p>Un prompt en langue française va amener le LLM à répondre en français. La sous-représentation de données concernant le Québec parmi les jeux de données d'entraînement amène à une réponse qui concerne la France.</p>",
+                    "invalid": "<span class=\"feedback__state\">❌ Incorrect ! </span>"
+                  },
+                  "solution": "2"
                 }
-              ],
-              "feedbacks": {
-                "valid": "<span class=\"feedback__state\">✅ Correct !</span><p>Un prompt en langue française va amener le LLM à répondre en français. La sous-représentation de données concernant le Québec parmi les jeux de données d'entraînement amène à une réponse qui concerne la France.</p>",
-                "invalid": "<span class=\"feedback__state\">❌ Incorrect ! </span>"
-              },
-              "solution": "2"
-            }
-          },
-          {
-            "type": "element",
-            "element": {
-              "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
-              "type": "text",
-              "content": "<hr>"
-            }
-          },
-          {
-            "type": "element",
-            "element": {
-              "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
-              "type": "text",
-              "content": "<p>Erica est <strong>romancière</strong> et demande à un LLM d'imaginer un personnage. Elle n'a pas précisé au LLM qu'elle veut un personnage <strong>masculin</strong> et obtient un personnage féminin.<span aria-hidden=\"true\">&nbsp;👇</span></p>"
-            }
-          },
-          {
-            "type": "element",
-            "element":
+              ]
+            },
             {
-              "id": "dc202072-43a0-4478-936e-5b3d4f3360c2",
-              "type": "image",
-              "url": "https://i.imgur.com/7TiRrAZ.png",
-              "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
-              "alternativeText": "<p>Vous : J’écris un roman. J’ai besoin que tu crées un personnage. Son activité principale est de faire le ménage chez les gens.<br>LLM : Claire, une femme minutieuse et discrète de 40 ans, consacre ses journées à apporter ordre et propreté dans les foyers de ses clients, veillant à chaque détail avec un soin exceptionnel.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
-            }
-          },
-          {
-            "type": "element",
-            "element":
-            {
-              "id": "635d34d8-c748-44cd-ad02-bde721270723",
-              "type": "qcu",
-              "instruction": "Quelle est la cause principale de ce résultat biaisé ?",
-              "proposals": [
+              "elements": [
                 {
-                  "id": "1",
-                  "content": "Le LLM a été programmé pour favoriser les personnages féminins."
+                  "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
+                  "type": "text",
+                  "content": "<p>Erica est <strong>romancière</strong> et demande à un LLM d'imaginer un personnage. Elle n'a pas précisé au LLM qu'elle veut un personnage <strong>masculin</strong> et obtient un personnage féminin.<span aria-hidden=\"true\">&nbsp;👇</span></p>"
                 },
                 {
-                  "id": "2",
-                  "content": "Le LLM a été entraîné avec des données où les femmes qui font le ménage sont surreprésentées."
+                  "id": "635d34d8-c748-44cd-ad02-bde721270723",
+                  "type": "qcu",
+                  "instruction": "Quelle est la cause principale de ce résultat biaisé ?",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "Le LLM a été programmé pour favoriser les personnages féminins."
+                    },
+                    {
+                      "id": "2",
+                      "content": "Le LLM a été entraîné avec des données où les femmes qui font le ménage sont surreprésentées."
+                    },
+                    {
+                      "id": "3",
+                      "content": "Le LLM s'est basé sur le genre de l'auteure du prompt, Erica."
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">✅ Correct  !</span><p>Le LLM a tendance à reproduire des stéréotypes qui existent dans nos sociétés. Ici, il s'agit d'un stéréotype de genre associé à cette profession.</p>",
+                    "invalid": "<span class=\"feedback__state\">❌ Incorrect !</span>"
+                  },
+                  "solution": "2"
                 },
                 {
-                  "id": "3",
-                  "content": "Le LLM s'est basé sur le genre de l'auteure du prompt, Erica."
+                  "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
+                  "type": "text",
+                  "content": "<hr>"
                 }
-              ],
-              "feedbacks": {
-                "valid": "<span class=\"feedback__state\">✅ Correct  !</span><p>Le LLM a tendance à reproduire des stéréotypes qui existent dans nos sociétés. Ici, il s'agit d'un stéréotype de genre associé à cette profession.</p>",
-                "invalid": "<span class=\"feedback__state\">❌ Incorrect !</span>"
-              },
-              "solution": "2"
-            }
-          },
-          {
-            "type": "element",
-            "element": {
-              "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
-              "type": "text",
-              "content": "<hr>"
-            }
-          },
-          {
-            "type": "element",
-            "element": {
-              "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
-              "type": "text",
-              "content": "Stéphane est persuadé d'avoir vu un <strong>extraterrestre</strong> dans son jardin. Il demande à un LLM comment en voir à nouveau et obtient une réponse intriguante.<span aria-hidden=\"true\">&nbsp;👇</span>"
-            }
-          },
-          {
-            "type": "element",
-            "element":
+              ]
+            },
             {
-              "id": "58ca3642-557a-41f3-ade4-60bf78fea803",
-              "type": "image",
-              "url": "https://i.imgur.com/lPKO4b6.png",
-              "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
-              "alternativeText": "<p>Vous : Je suis sûr d'avoir vu un extraterrestre hier dans mon jardin. Donne-moi des conseils pour en voir à nouveau<br>LLM : Ces conseils devraient vous aider à augmenter vos chances de voir un extraterrestre à nouveau : passez du temps à l'extérieur la nuit et installez des caméras de surveillance.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
-            }
-          },
-          {
-            "type": "element",
-            "element":
-            {
-              "id": "060c7558-92fb-47bf-b8fa-3639ebfef67d",
-              "type": "qcu",
-              "instruction": "Quelle est la cause principale de ce résultat biaisé ?",
-              "proposals": [
+              "elements": [
                 {
-                  "id": "1",
-                  "content": "Le LLM a été programmé pour que les extraterrestres soient considérés comme existant."
+                  "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
+                  "type": "text",
+                  "content": "Stéphane est persuadé d'avoir vu un <strong>extraterrestre</strong> dans son jardin. Il demande à un LLM comment en voir à nouveau et obtient une réponse intriguante.<span aria-hidden=\"true\">&nbsp;👇</span>"
                 },
                 {
-                  "id": "2",
-                  "content": "Le LLM a été entraîné avec de trop nombreuses histoires de science-fiction."
+                  "id": "58ca3642-557a-41f3-ade4-60bf78fea803",
+                  "type": "image",
+                  "url": "https://i.imgur.com/lPKO4b6.png",
+                  "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
+                  "alternativeText": "<p>Vous : Je suis sûr d'avoir vu un extraterrestre hier dans mon jardin. Donne-moi des conseils pour en voir à nouveau<br>LLM : Ces conseils devraient vous aider à augmenter vos chances de voir un extraterrestre à nouveau : passez du temps à l'extérieur la nuit et installez des caméras de surveillance.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
                 },
                 {
-                  "id": "3",
-                  "content": "Le LLM s'est basé sur la croyance de Stéphane qui est présente dans son prompt."
+                  "id": "060c7558-92fb-47bf-b8fa-3639ebfef67d",
+                  "type": "qcu",
+                  "instruction": "Quelle est la cause principale de ce résultat biaisé ?",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "Le LLM a été programmé pour que les extraterrestres soient considérés comme existant."
+                    },
+                    {
+                      "id": "2",
+                      "content": "Le LLM a été entraîné avec de trop nombreuses histoires de science-fiction."
+                    },
+                    {
+                      "id": "3",
+                      "content": "Le LLM s'est basé sur la croyance de Stéphane qui est présente dans son prompt."
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">✅ Correct !</span><p>Le LLM n'est pas le seul à comporter des biais. Les prompts des utilisateurs peuvent aussi en comporter.</p>",
+                    "invalid": "<span class=\"feedback__state\">❌ Incorrect ! </span>"
+                  },
+                  "solution": "3"
                 }
-              ],
-              "feedbacks": {
-                "valid": "<span class=\"feedback__state\">✅ Correct !</span><p>Le LLM n'est pas le seul à comporter des biais. Les prompts des utilisateurs peuvent aussi en comporter.</p>",
-                "invalid": "<span class=\"feedback__state\">❌ Incorrect ! </span>"
-              },
-              "solution": "3"
+              ]
             }
-          }
-
+          ]
+        }
       ]
     },
     {
