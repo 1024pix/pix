@@ -48,33 +48,15 @@ function extractUserIdFromRequest(request) {
   return userId || '-';
 }
 
-function parseDataForLogger(data) {
-  return typeof data === 'string' || data instanceof String
-    ? {
-        message: data,
-      }
-    : data;
+function _parseDataForLogger(data) {
+  return typeof data === 'string' || data instanceof String ? { message: data } : data;
 }
 
-function _logErrorWithCorrelationIds(logger) {
+function _logWithCorrelationIds(loggingFunction) {
   return function (data) {
-    const parsedData = parseDataForLogger(data);
+    const parsedData = _parseDataForLogger(data);
     const context = getCorrelationContext();
-    logger.error(
-      {
-        ...context,
-        ...omit(parsedData, 'message'),
-      },
-      get(parsedData, 'message', '-'),
-    );
-  };
-}
-
-function _logInfoWithCorrelationIds(logger) {
-  return function (data) {
-    const parsedData = parseDataForLogger(data);
-    const context = getCorrelationContext();
-    logger.info(
+    loggingFunction(
       {
         ...context,
         ...omit(parsedData, 'message'),
@@ -85,32 +67,67 @@ function _logInfoWithCorrelationIds(logger) {
 }
 
 /**
- * In order to be displayed properly in Datadog,
- * the parameter "data" should contain
- * - a required property message as string
- * - all other properties you need to pass to Datadog
- *
- * @example
- * const data = {
- *   message: 'Error message',
- *   context: 'My Context',
- *   data: { more: 'data', if: 'needed' },
- *   event: 'Event which trigger this error',
- *   team: 'My Team',
- * };
- * logErrorWithCorrelationIds(data);
- *
- * @param {object} data
+ * @param {object|string} data
+ * @see : logger#error for details
+ * @deprecated use logger#error instead
  */
-const logErrorWithCorrelationIds = _logErrorWithCorrelationIds(internalLogger);
-const logInfoWithCorrelationIds = _logInfoWithCorrelationIds(internalLogger);
+const logErrorWithCorrelationIds = _logWithCorrelationIds(internalLogger.error.bind(internalLogger));
+
+/**
+ * @param {object|string} data
+ * @see : logger#info for details
+ * @deprecated use logger#info instead
+ */
+const logInfoWithCorrelationIds = _logWithCorrelationIds(internalLogger.info.bind(internalLogger));
 
 const logger = {
-  error: logErrorWithCorrelationIds,
-  info: logInfoWithCorrelationIds,
+  /**
+   * In order to be displayed properly in Datadog,
+   * the parameter "data" should contain
+   * - a required property message as string
+   * - all other properties you need to pass to Datadog
+   *
+   * It is also possible to provide raw message as string.
+   *
+   * @example
+   * const data = {
+   *   message: 'Error message',
+   *   context: 'My Context',
+   *   data: { more: 'data', if: 'needed' },
+   *   event: 'Event which trigger this error',
+   *   team: 'My Team',
+   * };
+   * logger.error(data);
+   * or
+   * logger.error('Error message');
+   *
+   * @param {object|string} data
+   */
+  error: _logWithCorrelationIds(internalLogger.error.bind(internalLogger)),
+  /**
+   * @param {object|string} data
+   * @see : logger#error for details
+   */
+  info: _logWithCorrelationIds(internalLogger.info.bind(internalLogger)),
+  /**
+   * @param {object|string} data
+   * @see : logger#error for details
+   */
   warn: internalLogger.warn.bind(internalLogger),
+  /**
+   * @param {object|string} data
+   * @see : logger#error for details
+   */
   trace: internalLogger.trace.bind(internalLogger),
+  /**
+   * @param {object|string} data
+   * @see : logger#error for details
+   */
   fatal: internalLogger.fatal.bind(internalLogger),
+  /**
+   * @param {object|string} data
+   * @see : logger#error for details
+   */
   debug: internalLogger.debug.bind(internalLogger),
 };
 
