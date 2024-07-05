@@ -1,17 +1,16 @@
 import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
+import createGlimmerComponent from 'pix-certif/tests/helpers/create-glimmer-component';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import createGlimmerComponent from '../../../helpers/create-glimmer-component';
-
-module('Unit | Component | no-session-panel', function (hooks) {
+module('Unit | Component | sessions | panel-header', function (hooks) {
   setupTest(hooks);
 
   let component;
 
   hooks.beforeEach(function () {
-    component = createGlimmerComponent('component:sessions/no-session-panel');
+    component = createGlimmerComponent('component:sessions/panel-header');
   });
 
   module('#shouldRenderImportTemplateButton', function () {

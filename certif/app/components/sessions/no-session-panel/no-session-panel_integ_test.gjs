@@ -1,11 +1,11 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import NoSessionPanel from 'pix-certif/components/sessions/no-session-panel';
+import setupIntlRenderingTest from 'pix-certif/tests/helpers/setup-intl-rendering';
 import { module, test } from 'qunit';
 
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import NoSessionPanel from './no-session-panel';
 
-module('Integration | Component | Sessions | no-session-panel', function (hooks) {
+module('Integration | Component | Sessions | no-session-panel | index', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   test('it renders buttons links to create sessions', async function (assert) {

@@ -1,10 +1,9 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import SessionDeleteConfirmModal from 'pix-certif/components/sessions/session-delete-confirm-modal';
+import setupIntlRenderingTest from 'pix-certif/tests/helpers/setup-intl-rendering';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Sessions | session-delete-confirm-modal', function (hooks) {
   setupIntlRenderingTest(hooks);

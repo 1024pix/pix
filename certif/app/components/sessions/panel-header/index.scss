@@ -1,0 +1,17 @@
+.session-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.session-list {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.session-list-header__actions {
+  display: flex;
+  gap: $pix-spacing-xs;
+}

@@ -7,7 +7,7 @@ import sinon from 'sinon';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { waitForDialogClose } from '../../../helpers/wait-for';
 
-module('Integration | Component | session-summary-list', function (hooks) {
+module('Integration | Component | Sessions | session-summary-list', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   test('it should display an header', async function (assert) {

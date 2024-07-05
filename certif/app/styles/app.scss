@@ -21,7 +21,6 @@ $navbar-height: 60px;
 @import 'pages/authenticated/sessions/details';
 @import 'pages/authenticated/sessions/import';
 @import 'pages/authenticated/sessions/list-items';
-@import 'pages/authenticated/sessions/no-session-panel';
 @import 'pages/authenticated/sessions/details/certification-candidates';
 @import 'pages/authenticated/sessions/details/certification-candidates-sco';
 @import 'pages/authenticated/team';
@@ -45,7 +44,6 @@ $navbar-height: 60px;
 @import 'components/register-form';
 @import 'components/select-referer-modal';
 @import 'components/session-finalization-step-container';
-@import 'components/session-delete-confirm-modal';
 @import 'components/session-finalization/reports-information-step';
 @import 'components/session-finalization/complementary-information-step';
 @import 'components/session-supervising/header';
@@ -58,6 +56,12 @@ $navbar-height: 60px;
 @import 'components/dropdown';
 @import 'components/user-logged-menu';
 @import 'flatpickr';
+
+/* App/Components */
+@import 'sessions';
+@import 'sessions/no-session-panel/no-session-panel';
+@import 'sessions/panel-header';
+@import 'sessions/session-delete-confirm-modal';
 
 body,
 html {

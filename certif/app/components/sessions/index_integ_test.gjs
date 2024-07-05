@@ -1,9 +1,9 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import Sessions from 'pix-certif/components/sessions/index';
+import setupIntlRenderingTest from 'pix-certif/tests/helpers/setup-intl-rendering';
 import { module, test } from 'qunit';
 
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import Sessions from './index';
 
 module('Integration | Component | Sessions | index', function (hooks) {
   setupIntlRenderingTest(hooks);

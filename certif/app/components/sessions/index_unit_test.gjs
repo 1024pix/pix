@@ -1,7 +1,6 @@
 import { setupTest } from 'ember-qunit';
+import createGlimmerComponent from 'pix-certif/tests/helpers/create-glimmer-component';
 import { module, test } from 'qunit';
-
-import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 
 module('Unit | Component | sessions | index ', function (hooks) {
   setupTest(hooks);
