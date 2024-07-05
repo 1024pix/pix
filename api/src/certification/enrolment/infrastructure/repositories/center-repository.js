@@ -1,24 +1,25 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CERTIFICATION_FEATURES } from '../../../shared/domain/constants.js';
 import { Center } from '../../domain/models/Center.js';
 import { Habilitation } from '../../domain/models/Habilitation.js';
 
 const getById = async ({ id }) => {
-  const center = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const center = await knexConn
     .select({
       id: 'certification-centers.id',
       name: 'certification-centers.name',
       type: 'certification-centers.type',
       externalId: 'certification-centers.externalId',
-      habilitations: knex.raw(
+      habilitations: knexConn.raw(
         `json_agg(json_build_object(
         'complementaryCertificationId', "complementary-certification-habilitations"."complementaryCertificationId",
         'key', "complementary-certifications"."key",
         'label', "complementary-certifications"."label"
         ))`,
       ),
-      features: knex.raw('array_remove(array_agg(DISTINCT "certificationCenterFeatures"."key"), NULL)'),
+      features: knexConn.raw('array_remove(array_agg(DISTINCT "certificationCenterFeatures"."key"), NULL)'),
       createdAt: 'certification-centers.createdAt',
       updatedAt: 'certification-centers.updatedAt',
       isV3Pilot: 'certification-centers.isV3Pilot',

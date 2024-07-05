@@ -11,15 +11,12 @@ describe('Integration | UseCases | update-certification-center', function () {
   it('should update certification center and his data protection officer information', async function () {
     // given
     const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-    const anotherCertificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-
-    const feature = databaseBuilder.factory.buildFeature({
-      key: CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key,
-    });
-    databaseBuilder.factory.buildCertificationCenterFeature({
-      certificationCenterId: anotherCertificationCenterId,
-      featureId: feature.id,
-    });
+    databaseBuilder.factory.buildDataProtectionOfficer.withCertificationCenterId({
+      firstName: 'Aa',
+      lastName: 'Ab',
+      email: 'aa@example.net',
+      certificationCenterId,
+    }).id;
 
     const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification();
     const certificationCenterInformation = domainBuilder.buildCenterForAdmin({

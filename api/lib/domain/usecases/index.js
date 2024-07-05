@@ -196,6 +196,9 @@ function requirePoleEmploiNotifier() {
  * @typedef {sessionPublicationService} SessionPublicationService
  * @typedef {sessionRepository} SessionRepository
  * @typedef {centerRepository} CenterRepository
+ * @typedef {certificationCenterForAdminRepository} CertificationCenterForAdminRepository
+ * @typedef {complementaryCertificationHabilitationRepository} ComplementaryCertificationHabilitationRepository
+ * @typedef {dataProtectionOfficerRepository} DataProtectionOfficerRepository
  */
 
 const dependencies = {
