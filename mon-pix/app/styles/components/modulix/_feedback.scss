@@ -1,10 +1,23 @@
 .feedback {
+  position: relative;
+  padding-left: var(--pix-spacing-4x);
+
   &--success {
     --modulix-feedback-state-color: var(--pix-success-700);
   }
 
   &--error {
     --modulix-feedback-state-color: var(--pix-error-700);
+  }
+
+  &::before {
+    position: absolute;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background-color: var(--modulix-feedback-state-color);
+    border-radius: var(--modulix-radius-full);
+    content: '';
   }
 
   &__state {
