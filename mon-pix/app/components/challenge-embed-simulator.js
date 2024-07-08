@@ -11,9 +11,22 @@ export default class ChallengeEmbedSimulator extends Component {
   @tracked
   isSimulatorLaunched = false;
 
+  @tracked
+  isSimulatorRebootable = true;
+
+  @tracked
+  embedHeight;
+
+  _embedMessageListener;
+
+  constructor(owner, args) {
+    super(owner, args);
+    this.embedHeight = args.embedDocument?.height;
+  }
+
   get embedDocumentHeightStyle() {
-    if (this.args.embedDocument) {
-      return htmlSafe(`height: ${this.args.embedDocument.height}px`);
+    if (this.embedHeight) {
+      return htmlSafe(`height: ${this.embedHeight}px`);
     }
     return '';
   }
@@ -33,25 +46,36 @@ export default class ChallengeEmbedSimulator extends Component {
     };
 
     iframe.addEventListener('load', loadListener);
+
+    thisComponent._embedMessageListener = ({ origin, data }) => {
+      if (!isEmbedAllowedOrigin(origin)) return;
+      if (isReadyMessage(data) && thisComponent.isSimulatorLaunched) {
+        iframe.contentWindow.postMessage('launch', '*');
+        iframe.focus();
+      }
+      if (isHeightMessage(data)) {
+        thisComponent.embedHeight = data.height + 20;
+      }
+      if (isAutoLaunchMessage(data)) {
+        thisComponent.launchSimulator();
+        thisComponent.isSimulatorRebootable = false;
+      }
+    };
+
+    window.addEventListener('message', thisComponent._embedMessageListener);
   }
 
   @action
-  launchSimulator(event) {
-    const iframe = this._getIframe(event);
+  launchSimulator() {
+    const iframe = this.iframe;
     iframe.contentWindow.postMessage('launch', '*');
     iframe.focus();
     this.isSimulatorLaunched = true;
-    window.addEventListener('message', (e) => {
-      if (!isEmbedAllowedOrigin(e.origin)) return;
-      if (typeof e.data !== 'object' || e.data.from !== 'pix' || e.data.type !== 'ready') return;
-      iframe.contentWindow.postMessage('launch', '*');
-      iframe.focus();
-    });
   }
 
   @action
-  rebootSimulator(event) {
-    const iframe = this._getIframe(event);
+  rebootSimulator() {
+    const iframe = this.iframe;
     const tmpSrc = iframe.src;
 
     const loadListener = () => {
@@ -71,7 +95,44 @@ export default class ChallengeEmbedSimulator extends Component {
     iframe.src = 'about:blank';
   }
 
-  _getIframe(event) {
-    return event.currentTarget.parentElement.parentElement.querySelector('.embed__iframe');
+  willDestroy() {
+    super.willDestroy();
+    window.removeEventListener('message', this._embedMessageListener);
   }
+
+  get iframe() {
+    return document.querySelector('.embed__iframe');
+  }
+}
+
+/**
+ * Checks if event is a "ready" message.
+ * @param {unknown} data
+ * @returns {boolean}
+ */
+function isReadyMessage(data) {
+  return isMessageType(data, 'ready');
+}
+
+/**
+ * Checks if event is a "height" message.
+ * @param {unknown} data
+ * @returns {data is { height: number }}
+ */
+function isHeightMessage(data) {
+  return isMessageType(data, 'height');
+}
+
+/**
+ * Checks if event is a "auto-launch" message.
+ * @param {unknown} data
+ * @returns {boolean}
+ */
+function isAutoLaunchMessage(data) {
+  return isMessageType(data, 'auto-launch');
+}
+
+function isMessageType(data, type) {
+  if (typeof data !== 'object' || data === null) return false;
+  return data.from === 'pix' && data.type === type;
 }

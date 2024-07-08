@@ -73,6 +73,8 @@ module('Integration | Component | Challenge Embed Simulator', function (hooks) {
   });
 
   module('Embed simulator', function (hooks) {
+    let screen;
+
     hooks.beforeEach(async function () {
       // given
       this.set('embedDocument', {
@@ -82,9 +84,7 @@ module('Integration | Component | Challenge Embed Simulator', function (hooks) {
       });
 
       // when
-      await render(hbs`<ChallengeEmbedSimulator @embedDocument={{this.embedDocument}} />`);
-
-      // then
+      screen = await render(hbs`<ChallengeEmbedSimulator @embedDocument={{this.embedDocument}} />`);
     });
 
     test('should have an height that is the one defined in the referential', function (assert) {
@@ -97,6 +97,35 @@ module('Integration | Component | Challenge Embed Simulator', function (hooks) {
 
     test('should define a src attribute on the iframe element that is the one defined in the referential for field "Embed URL"', function (assert) {
       assert.strictEqual(find('.embed__iframe').src, 'http://embed-simulator.url/');
+    });
+
+    module('when embed sends its height', function () {
+      test('should listen for embed height and resize iframe container', async function (assert) {
+        const event = new MessageEvent('message', {
+          data: { from: 'pix', type: 'height', height: 480 },
+          origin: 'https://epreuves.pix.fr',
+        });
+        window.dispatchEvent(event);
+
+        await new Promise((resolve) => setTimeout(resolve, 0));
+
+        assert.strictEqual(find('.embed__iframe').style.cssText, 'height: 500px;');
+      });
+    });
+
+    module('when embed auto launches', function () {
+      test('should not display launch button and reboot button', async function (assert) {
+        const event = new MessageEvent('message', {
+          data: { from: 'pix', type: 'auto-launch' },
+          origin: 'https://epreuves.pix.fr',
+        });
+        window.dispatchEvent(event);
+
+        await new Promise((resolve) => setTimeout(resolve, 0));
+
+        assert.dom(screen.queryByText(this.intl.t('pages.challenge.embed-simulator.actions.launch'))).doesNotExist();
+        assert.dom(screen.queryByText(this.intl.t('pages.challenge.embed-simulator.actions.reset'))).doesNotExist();
+      });
     });
   });
 });

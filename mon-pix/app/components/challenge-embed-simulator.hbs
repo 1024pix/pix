@@ -32,16 +32,18 @@
       ></iframe>
     </div>
 
-    <div class="embed__reboot">
-      <button
-        type="button"
-        class="link link--grey embed-reboot__content"
-        aria-label={{t "pages.challenge.embed-simulator.actions.reset-label"}}
-        {{on "click" this.rebootSimulator}}
-      >
-        <FaIcon @icon="rotate-right" class="embed-reboot-content__icon" />
-        {{t "pages.challenge.embed-simulator.actions.reset"}}
-      </button>
-    </div>
+    {{#if this.isSimulatorRebootable}}
+      <div class="embed__reboot">
+        <button
+          type="button"
+          class="link link--grey embed-reboot__content"
+          aria-label={{t "pages.challenge.embed-simulator.actions.reset-label"}}
+          {{on "click" this.rebootSimulator}}
+        >
+          <FaIcon @icon="rotate-right" class="embed-reboot-content__icon" />
+          {{t "pages.challenge.embed-simulator.actions.reset"}}
+        </button>
+      </div>
+    {{/if}}
   </div>
 </div>
