@@ -15,7 +15,7 @@
   },
   "transitionTexts": [
     {
-      "content": "<p>Vous avez sûrement déjà utilisé des robots conversationnels tels que ChatGPT ou Copilot. Ces systèmes reposent sur de grands modèles de langage (LLM) et peuvent être utiles pour produire des synthèses, inventer des histoires, ou générer toutes sortes de textes.<span aria-hidden=\"true\">&nbsp;✒️ 💭</span></p><p>Pourtant, les textes produits sont parfois discutables ou complètement faux.<span aria-hidden=\"true\">&nbsp;❌</span><br>Surprenant ? Pas vraiment. Commençons par un exemple concret !</p>",
+      "content": "<p>Vous avez sûrement déjà utilisé un LLM comme ChatGPT ou Copilot.<br>Ces grands modèles de langage peuvent être utiles par exemple pour produire des synthèses, inventer des histoires ou écrire des poèmes.<span aria-hidden=\"true\">&nbsp;✒️ 💭</span></p><p>Pourtant, les textes produits sont parfois discutables ou complètement faux.<span aria-hidden=\"true\">&nbsp;❌</span><br>Surprenant ? Pas vraiment. Commençons par un exemple concret !</p>",
       "grainId": "0bfa08bd-7052-49bb-89e8-150efa589926"
     },
     {
