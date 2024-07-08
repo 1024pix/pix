@@ -183,15 +183,18 @@
       "title": "Corriger la copie d'un LLM",
       "components": [
         {
+          "type": "element",
+          "element": {
+            "id": "be70c1be-d6d1-4b6e-bcee-de1ab8859ee0",
+            "type": "text",
+            "content": "<p>Dans les situations suivantes, les réponses du LLM sont visiblement biaisées.</p><p>Pour chaque situation, choisissez la cause principale de ces résultats biaisés.</p>"
+          }
+        },
+        {
           "type":"stepper",
           "steps": [
             {
               "elements": [
-                {
-                  "id": "5b0422cd-22d0-4261-aa48-bd7fafc20607",
-                  "type": "text",
-                  "content": "<p>Dans les situations suivantes, les réponses du LLM sont visiblement biaisées.</p><p>Pour chaque situation, choisissez la cause principale de ces résultats biaisés.</p>"
-                },
                 {
                   "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
                   "type": "text",
