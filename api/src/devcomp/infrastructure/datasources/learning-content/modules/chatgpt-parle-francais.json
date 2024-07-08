@@ -144,23 +144,23 @@
               "proposals": [
                 {
                   "id": "1",
-                  "content": "Les données d'entraînement"
+                  "content": "les données d'entraînement"
                 },
                 {
                   "id": "2",
-                  "content": "Les langages de programmation"
+                  "content": "les langages de programmation"
                 },
                 {
                   "id": "3",
-                  "content": "Les développeurs informatiques"
+                  "content": "les développeurs informatiques"
                 },
                 {
                   "id": "4",
-                  "content": "La localisation des serveurs"
+                  "content": "la localisation des serveurs"
                 },
                 {
                   "id": "5",
-                  "content": "Les prompts des utilisateurs"
+                  "content": "les prompts des utilisateurs"
                 }
               ],
               "feedbacks": {
