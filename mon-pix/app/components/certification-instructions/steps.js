@@ -37,6 +37,13 @@ export default class Steps extends Component {
     return this.intl.t(`pages.certification-instructions.buttons.continuous.${translationKey}`);
   }
 
+  get vocalStepIdentifier() {
+    return this.intl.t(`pages.certification-instructions.vocal-step-identifier`, {
+      pageId: this.pageId,
+      pageCount: this.pageCount,
+    });
+  }
+
   @action
   previousStep() {
     this.pageId = this.pageId - 1;

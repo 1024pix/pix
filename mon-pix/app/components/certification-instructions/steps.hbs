@@ -1,4 +1,6 @@
-<h2 class="instructions-step__title">{{this.title}}</h2>
+<h2 tabindex="0" class="instructions-step__title">{{this.title}}
+  <span class="screen-reader-only">{{this.vocalStepIdentifier}}</span>
+</h2>
 
 {{#if (eq this.pageId 1)}}
   <CertificationInstructions::StepOne />

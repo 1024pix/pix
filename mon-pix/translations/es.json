@@ -525,7 +525,8 @@
           "title": "Normas que deben respetarse"
         }
       },
-      "title": "Explicación de la certificación"
+      "title": "Explicación de la certificación",
+      "vocal-step-identifier": "Page {pageId} sur {pageCount}"
     },
     "certification-joiner": {
       "congratulation-banner": {
