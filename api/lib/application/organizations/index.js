@@ -258,7 +258,12 @@ const register = async function (server) {
             id: identifiersType.organizationId,
           }),
           query: Joi.object({
-            filter: Joi.object({}).default({}),
+            filter: Joi.object({
+              firstName: Joi.string().empty('').allow(null).optional(),
+              lastName: Joi.string().empty('').allow(null).optional(),
+              email: Joi.string().empty('').allow(null).optional(),
+              organizationRole: Joi.string().empty('').allow(null).optional(),
+            }).default({}),
             page: Joi.object({
               number: Joi.number().integer().empty('').allow(null).optional(),
               size: Joi.number().integer().empty('').allow(null).optional(),
@@ -320,7 +325,12 @@ const register = async function (server) {
             id: identifiersType.organizationId,
           }),
           query: Joi.object({
-            filter: Joi.object({}).default({}),
+            filter: Joi.object({
+              firstName: Joi.string().empty('').allow(null).optional(),
+              lastName: Joi.string().empty('').allow(null).optional(),
+              email: Joi.string().empty('').allow(null).optional(),
+              organizationRole: Joi.string().empty('').allow(null).optional(),
+            }).default({}),
             page: Joi.object({
               number: Joi.number().integer().empty('').allow(null).optional(),
               size: Joi.number().integer().empty('').allow(null).optional(),
