@@ -2,9 +2,17 @@ import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 import * as OidcIdentityProviders from '../../../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
 import { CampaignToJoin } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignToJoin.js';
 import * as campaignToJoinRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-to-join-repository.js';
-import { catchErr, databaseBuilder, expect } from '../../../../../test-helper.js';
+import { catchErr, databaseBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | CampaignToJoin', function () {
+  let organizationFeatureAPI;
+
+  beforeEach(function () {
+    organizationFeatureAPI = {
+      getAllFeaturesFromOrganization: sinon.stub().resolves({ hasLearnersImportFeature: false }),
+    };
+  });
+
   describe('#getByCode', function () {
     it('should return the CampaignToJoin by its code', async function () {
       // given
@@ -22,7 +30,7 @@ describe('Integration | Repository | CampaignToJoin', function () {
       await databaseBuilder.commit();
 
       // when
-      const actualCampaign = await campaignToJoinRepository.getByCode(code);
+      const actualCampaign = await campaignToJoinRepository.getByCode({ code, organizationFeatureAPI });
 
       // then
       expect(actualCampaign).to.be.instanceOf(CampaignToJoin);
@@ -50,6 +58,24 @@ describe('Integration | Repository | CampaignToJoin', function () {
       expect(actualCampaign.identityProvider).to.equal(OidcIdentityProviders.POLE_EMPLOI.code);
     });
 
+    it('should return restricted access if organization has learner import feature', async function () {
+      // given
+      const { code, organizationId } = databaseBuilder.factory.buildCampaign();
+
+      organizationFeatureAPI.getAllFeaturesFromOrganization
+        .withArgs(organizationId)
+        .resolves({ hasLearnersImportFeature: true }),
+        databaseBuilder.factory.buildCampaign();
+
+      await databaseBuilder.commit();
+
+      // when
+      const actualCampaign = await campaignToJoinRepository.getByCode({ code, organizationFeatureAPI });
+
+      // then
+      expect(actualCampaign.isRestricted).to.be.true;
+    });
+
     it('should throw a NotFoundError when no campaign exists with given code', async function () {
       // given
       const code = 'LAURA123';
@@ -57,7 +83,7 @@ describe('Integration | Repository | CampaignToJoin', function () {
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(campaignToJoinRepository.getByCode)('LAURA456');
+      const error = await catchErr(campaignToJoinRepository.getByCode)({ code: 'LAURA456', organizationFeatureAPI });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);

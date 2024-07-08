@@ -2,7 +2,7 @@ import { knex } from '../../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { CampaignToJoin } from '../../domain/read-models/CampaignToJoin.js';
 
-const getByCode = async function (code) {
+const getByCode = async function ({ code, organizationFeatureAPI }) {
   const result = await knex('campaigns')
     .select('campaigns.*')
     .select({
@@ -27,7 +27,11 @@ const getByCode = async function (code) {
     throw new NotFoundError(`La campagne au code ${code} n'existe pas ou son accès est restreint`);
   }
 
-  return new CampaignToJoin(result);
+  const { hasLearnersImportFeature } = await organizationFeatureAPI.getAllFeaturesFromOrganization(
+    result.organizationId,
+  );
+
+  return new CampaignToJoin({ ...result, hasLearnersImportFeature });
 };
 
 export { getByCode };

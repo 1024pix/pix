@@ -39,7 +39,7 @@ describe('Unit | Models | OrganizationLearnerImportFormat', function () {
     });
   });
 
-  describe('#reconcilationFields', function () {
+  describe('#reconciliationFields', function () {
     it('should return reconcileFields', function () {
       expect(organizationLearnerImportFormat.reconciliationFields).to.deep.equal([
         { key: 'reconcileField1', columnName: 'Nom apprenant' },

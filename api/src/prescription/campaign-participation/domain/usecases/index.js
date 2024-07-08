@@ -15,9 +15,9 @@ import { importNamedExportsFromDirectory } from '../../../../shared/infrastructu
 import * as campaignAnalysisRepository from '../../infrastructure/repositories/campaign-analysis-repository.js';
 import * as campaignAssessmentParticipationRepository from '../../infrastructure/repositories/campaign-assessment-participation-repository.js';
 import * as campaignAssessmentParticipationResultRepository from '../../infrastructure/repositories/campaign-assessment-participation-result-repository.js';
-import * as campaignParticipantRepository from '../../infrastructure/repositories/campaign-participant-repository.js';
 import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
 import * as campaignProfileRepository from '../../infrastructure/repositories/campaign-profile-repository.js';
+import { repositories as campaignRepositories } from '../../infrastructure/repositories/index.js';
 import * as participationsForCampaignManagementRepository from '../../infrastructure/repositories/participations-for-campaign-management-repository.js';
 import * as participationsForUserManagementRepository from '../../infrastructure/repositories/participations-for-user-management-repository.js';
 
@@ -28,7 +28,7 @@ const dependencies = {
   campaignAnalysisRepository,
   campaignAssessmentParticipationRepository,
   campaignAssessmentParticipationResultRepository,
-  campaignParticipantRepository,
+  campaignParticipantRepository: campaignRepositories.campaignParticipantRepository,
   campaignProfileRepository,
   campaignRepository,
   competenceEvaluationRepository,

@@ -305,74 +305,78 @@ async function createProfilesCollectionCampaign({
     multipleSendings,
     assessmentMethod,
   });
-  const userAndLearnerIds = await _createOrRetrieveUsersAndLearners(
-    databaseBuilder,
-    realOrganizationId,
-    configCampaign.participantCount,
-  );
-  const profileDistribution = [
-    ...Array(configCampaign.profileDistribution.blank || 0).fill('BLANK'),
-    ...Array(configCampaign.profileDistribution.beginner || 0).fill('BEGINNER'),
-    ...Array(configCampaign.profileDistribution.intermediate || 0).fill('INTERMEDIATE'),
-    ...Array(configCampaign.profileDistribution.advanced || 0).fill('ADVANCED'),
-    ...Array(configCampaign.profileDistribution.perfect || 0).fill('PERFECT'),
-  ];
-  if (profileDistribution.length < configCampaign.participantCount)
-    profileDistribution.push(...Array(configCampaign.participantCount - profileDistribution.length).fill('BEGINNER'));
 
-  for (const { userId, organizationLearnerId } of userAndLearnerIds) {
-    const answersAndKnowledgeElementsForProfile = await _getProfile(profileDistribution.shift());
+  if (configCampaign) {
+    const userAndLearnerIds = await _createOrRetrieveUsersAndLearners(
+      databaseBuilder,
+      realOrganizationId,
+      configCampaign.participantCount,
+    );
+    const profileDistribution = [
+      ...Array(configCampaign.profileDistribution.blank || 0).fill('BLANK'),
+      ...Array(configCampaign.profileDistribution.beginner || 0).fill('BEGINNER'),
+      ...Array(configCampaign.profileDistribution.intermediate || 0).fill('INTERMEDIATE'),
+      ...Array(configCampaign.profileDistribution.advanced || 0).fill('ADVANCED'),
+      ...Array(configCampaign.profileDistribution.perfect || 0).fill('PERFECT'),
+    ];
+    if (profileDistribution.length < configCampaign.participantCount)
+      profileDistribution.push(...Array(configCampaign.participantCount - profileDistribution.length).fill('BEGINNER'));
 
-    const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
-      campaignId: realCampaignId,
-      userId,
-      organizationLearnerId,
-      sharedAt,
-      masteryRate: null,
-      pixScore: _.floor(_.sumBy(answersAndKnowledgeElementsForProfile, ({ keData }) => keData.earnedPix)),
-      status: CampaignParticipationStatuses.SHARED,
-      isImproved: false,
-    }).id;
-    const assessmentId = databaseBuilder.factory.buildAssessment({
-      userId,
-      type: Assessment.types.CAMPAIGN,
-      state: Assessment.states.COMPLETED,
-      isImproving: false,
-      lastQuestionDate: new Date(),
-      lastQuestionState: Assessment.statesOfLastQuestion.ASKED,
-      competenceId: null,
-      campaignParticipationId,
-    }).id;
-    const keDataForSnapshot = [];
-    for (const { answerData, keData } of answersAndKnowledgeElementsForProfile) {
-      const answerId = databaseBuilder.factory.buildAnswer({
-        assessmentId,
-        answerData,
+    for (const { userId, organizationLearnerId } of userAndLearnerIds) {
+      const answersAndKnowledgeElementsForProfile = await _getProfile(profileDistribution.shift());
+
+      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: realCampaignId,
+        userId,
+        organizationLearnerId,
+        sharedAt,
+        masteryRate: null,
+        pixScore: _.floor(_.sumBy(answersAndKnowledgeElementsForProfile, ({ keData }) => keData.earnedPix)),
+        status: CampaignParticipationStatuses.SHARED,
+        isImproved: false,
       }).id;
-      keDataForSnapshot.push(
-        databaseBuilder.factory.buildKnowledgeElement({
+      const assessmentId = databaseBuilder.factory.buildAssessment({
+        userId,
+        type: Assessment.types.CAMPAIGN,
+        state: Assessment.states.COMPLETED,
+        isImproving: false,
+        lastQuestionDate: new Date(),
+        lastQuestionState: Assessment.statesOfLastQuestion.ASKED,
+        competenceId: null,
+        campaignParticipationId,
+      }).id;
+      const keDataForSnapshot = [];
+      for (const { answerData, keData } of answersAndKnowledgeElementsForProfile) {
+        const answerId = databaseBuilder.factory.buildAnswer({
           assessmentId,
-          answerId,
-          userId,
-          ...keData,
-          createdAt: dayjs().subtract(1, 'day'),
-        }),
-      );
+          answerData,
+        }).id;
+        keDataForSnapshot.push(
+          databaseBuilder.factory.buildKnowledgeElement({
+            assessmentId,
+            answerId,
+            userId,
+            ...keData,
+            createdAt: dayjs().subtract(1, 'day'),
+          }),
+        );
+      }
+      databaseBuilder.factory.buildKnowledgeElementSnapshot({
+        userId,
+        snappedAt: sharedAt,
+        snapshot: JSON.stringify(keDataForSnapshot),
+      });
+
+      await databaseBuilder.commit();
+      const placementProfile = await getPlacementProfile({ userId, limitDate: sharedAt });
+
+      await databaseBuilder
+        .knex('campaign-participations')
+        .where('id', campaignParticipationId)
+        .update('isCertifiable', placementProfile.isCertifiable());
     }
-    databaseBuilder.factory.buildKnowledgeElementSnapshot({
-      userId,
-      snappedAt: sharedAt,
-      snapshot: JSON.stringify(keDataForSnapshot),
-    });
-
-    await databaseBuilder.commit();
-    const placementProfile = await getPlacementProfile({ userId, limitDate: sharedAt });
-
-    await databaseBuilder
-      .knex('campaign-participations')
-      .where('id', campaignParticipationId)
-      .update('isCertifiable', placementProfile.isCertifiable());
   }
+
   await databaseBuilder.commit();
   return { campaignId: realCampaignId };
 }

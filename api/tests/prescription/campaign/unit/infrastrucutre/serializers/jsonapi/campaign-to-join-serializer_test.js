@@ -5,8 +5,11 @@ describe('Unit | Serializer | JSONAPI | campaign-to-join-serializer', function (
   describe('#serialize()', function () {
     it('should convert a CampaignToJoin model object into JSON API data', function () {
       // given
-      const campaignToJoin = domainBuilder.buildCampaignToJoin({ identityProvider: 'SUPER_IDP' });
-
+      const campaignToJoin = domainBuilder.buildCampaignToJoin({
+        identityProvider: 'SUPER_IDP',
+        hasLearnersImportFeature: true,
+      });
+      campaignToJoin.setReconciliationFields([{ key: 'toto', value: 'titi' }]);
       // when
       const jsonApi = campaignToJoinSerializer.serialize(campaignToJoin);
 
@@ -25,6 +28,8 @@ describe('Unit | Serializer | JSONAPI | campaign-to-join-serializer', function (
             'alternative-text-to-external-id-help-image': campaignToJoin.alternativeTextToExternalIdHelpImage,
             'is-accessible': campaignToJoin.isAccessible,
             'is-restricted': campaignToJoin.isRestricted,
+            'is-reconciliation-required': campaignToJoin.isReconciliationRequired,
+            'reconciliation-fields': campaignToJoin.reconciliationFields,
             'is-simplified-access': campaignToJoin.isSimplifiedAccess,
             'is-for-absolute-novice': campaignToJoin.isForAbsoluteNovice,
             'identity-provider': campaignToJoin.identityProvider,

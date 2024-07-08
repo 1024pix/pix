@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import {
+  PRO_MANAGING_ORGANIZATION_ID,
   PRO_ORGANIZATION_ID,
   SCO_MANAGING_ORGANIZATION_ID,
   SUP_MANAGING_ORGANIZATION_ID,
@@ -117,7 +118,32 @@ async function _createSupCampaigns(databaseBuilder) {
   });
 }
 
+async function _createProGenericCampaigns(databaseBuilder) {
+  await createProfilesCollectionCampaign({
+    databaseBuilder,
+    organizationId: PRO_MANAGING_ORGANIZATION_ID,
+    ownerId: USER_ID_ADMIN_ORGANIZATION,
+    name: 'Campagne de collecte de profil PRO',
+    multipleSendings: true,
+    code: 'PROGENCOL',
+    type: 'PROFILES_COLLECTION',
+    title: null,
+  });
+}
+
 async function _createProCampaigns(databaseBuilder) {
+  await createProfilesCollectionCampaign({
+    databaseBuilder,
+    organizationId: PRO_ORGANIZATION_ID,
+    ownerId: USER_ID_ADMIN_ORGANIZATION,
+    name: 'Campagne de collecte de profil PRO',
+    multipleSendings: true,
+    code: 'PROCOLMUL',
+    type: 'PROFILES_COLLECTION',
+    title: null,
+    configCampaign: { participantCount: 3, profileDistribution: { beginner: 1, perfect: 1, blank: 1 } },
+  });
+
   await createAssessmentCampaign({
     databaseBuilder,
     targetProfileId: TARGET_PROFILE_NO_BADGES_NO_STAGES_ID,
@@ -233,22 +259,11 @@ async function _createProCampaigns(databaseBuilder) {
     competenceId: null,
     campaignParticipationId: thirdCampaignParticipationId,
   });
-
-  await createProfilesCollectionCampaign({
-    databaseBuilder,
-    organizationId: PRO_ORGANIZATION_ID,
-    ownerId: USER_ID_ADMIN_ORGANIZATION,
-    name: 'Campagne de collecte de profil PRO',
-    multipleSendings: true,
-    code: 'PROCOLMUL',
-    type: 'PROFILES_COLLECTION',
-    title: null,
-    configCampaign: { participantCount: 3, profileDistribution: { beginner: 1, perfect: 1, blank: 1 } },
-  });
 }
 
 export async function buildCampaigns(databaseBuilder) {
   await _createProCampaigns(databaseBuilder);
   await _createSupCampaigns(databaseBuilder);
+  await _createProGenericCampaigns(databaseBuilder);
   return _createScoCampaigns(databaseBuilder);
 }

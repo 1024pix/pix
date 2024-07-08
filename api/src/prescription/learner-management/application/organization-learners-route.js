@@ -92,6 +92,7 @@ const register = async (server) => {
                 'campaign-code': Joi.string().required(),
                 'reconciliation-infos': Joi.object().required(),
               },
+              type: Joi.string().required(),
             },
           }),
         },

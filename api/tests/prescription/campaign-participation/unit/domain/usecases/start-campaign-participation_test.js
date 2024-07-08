@@ -48,7 +48,9 @@ describe('Unit | UseCase | start-campaign-participation', function () {
 
     sinon.stub(campaignParticipant, 'start');
 
-    campaignParticipantRepository.save.withArgs(sinon.match(campaignParticipant), domainTransaction).resolves(12);
+    campaignParticipantRepository.save
+      .withArgs({ campaignParticipant: sinon.match(campaignParticipant), domainTransaction })
+      .resolves(12);
 
     campaignParticipationRepository.get.withArgs(12, domainTransaction).resolves(expectedCampaignParticipation);
 
@@ -128,7 +130,9 @@ describe('Unit | UseCase | start-campaign-participation', function () {
         .resolves(skills);
 
       sinon.stub(campaignParticipant, 'start');
-      campaignParticipantRepository.save.withArgs(sinon.match(campaignParticipant), domainTransaction).resolves(12);
+      campaignParticipantRepository.save
+        .withArgs({ campaignParticipant: sinon.match(campaignParticipant), domainTransaction })
+        .resolves(12);
       campaignParticipationRepository.get.withArgs(12, domainTransaction).resolves();
     });
 

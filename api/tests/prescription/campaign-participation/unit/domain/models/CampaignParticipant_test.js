@@ -226,13 +226,14 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
       let restrictedCampaign;
       beforeEach(function () {
         userIdentity = { id: 1 };
-        restrictedCampaign = domainBuilder.buildCampaignToStartParticipation({
-          idPixLabel: null,
-          isRestricted: true,
-        });
       });
 
-      it('throws a ForbiddenAccess exception when the user is not in the organization trainees', async function () {
+      it('throws a ForbiddenAccess exception when the user is not in the organization learners on managingStudents cases', async function () {
+        restrictedCampaign = domainBuilder.buildCampaignToStartParticipation({
+          idPixLabel: null,
+          isManagingStudents: true,
+        });
+
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation: restrictedCampaign,
           userIdentity,
@@ -247,7 +248,27 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
         expect(error.message).to.equal("Vous n'êtes pas autorisé à rejoindre la campagne");
       });
 
-      it('creates a new participation when the user is in the organization trainees', function () {
+      it('throws a ForbiddenAccess exception when the user is not in the organization learners on feature cases', async function () {
+        restrictedCampaign = domainBuilder.buildCampaignToStartParticipation({
+          idPixLabel: null,
+          hasLearnersImportFeature: true,
+        });
+
+        const campaignParticipant = new CampaignParticipant({
+          campaignToStartParticipation: restrictedCampaign,
+          userIdentity,
+          organizationLearner: {
+            id: null,
+            hasParticipated: false,
+          },
+        });
+        const error = await catchErr(campaignParticipant.start, campaignParticipant)({ participantExternalId: null });
+
+        expect(error).to.be.an.instanceof(ForbiddenAccess);
+        expect(error.message).to.equal("Vous n'êtes pas autorisé à rejoindre la campagne");
+      });
+
+      it('creates a new participation when the user is in the organization learners', function () {
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation: restrictedCampaign,
           userIdentity,

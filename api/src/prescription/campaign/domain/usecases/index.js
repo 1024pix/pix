@@ -19,6 +19,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as campaignAnalysisRepository from '../../../campaign-participation/infrastructure/repositories/campaign-analysis-repository.js';
 import * as campaignParticipationRepository from '../../../campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
+import * as organizationLearnerImportFormat from '../../../learner-management/infrastructure/repositories/organization-learner-import-format-repository.js';
 import * as campaignAdministrationRepository from '../../infrastructure/repositories/campaign-administration-repository.js';
 import * as campaignAssessmentParticipationResultListRepository from '../../infrastructure/repositories/campaign-assessment-participation-result-list-repository.js';
 import * as campaignCollectiveResultRepository from '../../infrastructure/repositories/campaign-collective-result-repository.js';
@@ -30,10 +31,9 @@ import * as campaignParticipationInfoRepository from '../../infrastructure/repos
 import * as campaignParticipationsStatsRepository from '../../infrastructure/repositories/campaign-participations-stats-repository.js';
 import * as campaignProfilesCollectionParticipationSummaryRepository from '../../infrastructure/repositories/campaign-profiles-collection-participation-summary-repository.js';
 import * as campaignReportRepository from '../../infrastructure/repositories/campaign-report-repository.js';
-import * as campaignToJoinRepository from '../../infrastructure/repositories/campaign-to-join-repository.js';
 import * as divisionRepository from '../../infrastructure/repositories/division-repository.js';
 import * as groupRepository from '../../infrastructure/repositories/group-repository.js';
-import { repositories } from '../../infrastructure/repositories/index.js';
+import { repositories as campaignRepositories } from '../../infrastructure/repositories/index.js';
 import * as targetProfileRepository from '../../infrastructure/repositories/target-profile-repository.js';
 import * as campaignCsvExportService from '../services/campaign-csv-export-service.js';
 import * as campaignUpdateValidator from '../validators/campaign-update-validator.js';
@@ -52,7 +52,7 @@ const dependencies = {
   campaignProfilesCollectionParticipationSummaryRepository,
   campaignParticipationInfoRepository,
   campaignReportRepository,
-  organizationMembershipRepository: repositories.organizationMembershipRepository,
+  organizationMembershipRepository: campaignRepositories.organizationMembershipRepository,
   campaignAssessmentParticipationResultListRepository,
   codeGenerator,
   campaignUpdateValidator,
@@ -69,9 +69,10 @@ const dependencies = {
   targetProfileRepository, // TODO
   userRepository,
   campaignCollectiveResultRepository,
-  campaignToJoinRepository,
+  campaignToJoinRepository: campaignRepositories.campaignToJoinRepository,
   campaignParticipationsStatsRepository,
   tutorialRepository: libRepositories.tutorialRepository,
+  organizationLearnerImportFormat,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

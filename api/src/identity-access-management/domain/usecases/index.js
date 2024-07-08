@@ -9,7 +9,7 @@ import * as campaignParticipationRepository from '../../../../lib/infrastructure
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 import * as userRecommendedTrainingRepository from '../../../devcomp/infrastructure/repositories/user-recommended-training-repository.js';
-import * as campaignToJoinRepository from '../../../prescription/campaign/infrastructure/repositories/campaign-to-join-repository.js';
+import { repositories as campaignRepositories } from '../../../prescription/campaign/infrastructure/repositories/index.js';
 import { config } from '../../../shared/config.js';
 import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
@@ -42,8 +42,8 @@ const repositories = {
   authenticationMethodRepository,
   campaignParticipationRepository,
   campaignRepository,
-  campaignToJoinRepository,
   emailValidationDemandRepository,
+  campaignToJoinRepository: campaignRepositories.campaignToJoinRepository,
   oidcProviderRepository,
   organizationLearnerRepository,
   resetPasswordDemandRepository,

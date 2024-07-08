@@ -21,7 +21,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-an
     tokenService = {
       createAccessTokenFromAnonymousUser: sinon.stub(),
     };
-    campaignToJoinRepository.getByCode.withArgs(campaignCode).resolves({ isSimplifiedAccess: true });
+    campaignToJoinRepository.getByCode.withArgs({ code: campaignCode }).resolves({ isSimplifiedAccess: true });
   });
 
   it('creates an anonymous user', async function () {
@@ -47,7 +47,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-an
       lang: lang,
       hasSeenAssessmentInstructions: false,
     };
-    expect(campaignToJoinRepository.getByCode).to.have.been.calledWithExactly(campaignCode);
+    expect(campaignToJoinRepository.getByCode).to.have.been.calledWithExactly({ code: campaignCode });
     expect(userToCreateRepository.create).to.have.been.calledWithMatch({ user: expectedUser });
   });
 
@@ -77,7 +77,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-an
     campaignCode = 'RANDOM123';
 
     userToCreateRepository.create.resolves({ id: userId });
-    campaignToJoinRepository.getByCode.withArgs(campaignCode).resolves({ isSimplifiedAccess: false });
+    campaignToJoinRepository.getByCode.withArgs({ code: campaignCode }).resolves({ isSimplifiedAccess: false });
 
     // when
     const actualError = await catchErr(authenticateAnonymousUser)({

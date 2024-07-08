@@ -11,12 +11,18 @@ import * as campaignToJoinSerializer from '../infrastructure/serializers/jsonapi
 
 const { PassThrough } = stream;
 
-const getByCode = async function (request) {
+const getByCode = async function (
+  request,
+  _,
+  dependencies = {
+    campaignToJoinSerializer,
+  },
+) {
   const filters = request.query.filter;
-  _validateFilters(filters);
+  await _validateFilters(filters);
 
   const campaignToJoin = await usecases.getCampaignByCode({ code: filters.code });
-  return campaignToJoinSerializer.serialize(campaignToJoin);
+  return dependencies.campaignToJoinSerializer.serialize(campaignToJoin);
 };
 
 const getById = async function (

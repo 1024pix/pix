@@ -60,7 +60,6 @@ import * as userRepository from '../../../src/identity-access-management/infrast
 import { userToCreateRepository } from '../../../src/identity-access-management/infrastructure/repositories/user-to-create.repository.js';
 import { organizationForAdminRepository } from '../../../src/organizational-entities/infrastructure/repositories/organization-for-admin.repository.js';
 import * as campaignManagementRepository from '../../../src/prescription/campaign/infrastructure/repositories/campaign-management-repository.js';
-import * as campaignToJoinRepository from '../../../src/prescription/campaign/infrastructure/repositories/campaign-to-join-repository.js';
 import * as divisionRepository from '../../../src/prescription/campaign/infrastructure/repositories/division-repository.js';
 import * as campaignAssessmentParticipationRepository from '../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-assessment-participation-repository.js';
 import * as campaignAssessmentParticipationResultRepository from '../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-assessment-participation-result-repository.js';
@@ -223,7 +222,6 @@ const dependencies = {
   campaignParticipationResultRepository,
   campaignProfileRepository,
   campaignRepository,
-  campaignToJoinRepository,
   centerRepository,
   certifiableProfileForLearningContentRepository,
   certificateRepository,

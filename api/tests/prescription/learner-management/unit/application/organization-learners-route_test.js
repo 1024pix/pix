@@ -47,7 +47,9 @@ describe('Unit | Prescription | learner management | Application | Router | orga
 
     it('should called the controller when everything is ok', async function () {
       // given
-      const payload = { data: { attributes: { 'campaign-code': 'myCode', 'reconciliation-infos': {} } } };
+      const payload = {
+        data: { attributes: { 'campaign-code': 'myCode', 'reconciliation-infos': {} }, type: 'organization-learner' },
+      };
 
       // when
       await httpTestServer.request(method, url, payload, null, headers);

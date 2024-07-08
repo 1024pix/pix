@@ -19,7 +19,7 @@ export const authenticateAnonymousUser = async function ({
   userToCreateRepository,
   tokenService,
 }) {
-  const campaign = await campaignToJoinRepository.getByCode(campaignCode);
+  const campaign = await campaignToJoinRepository.getByCode({ code: campaignCode });
   if (!campaign.isSimplifiedAccess) {
     throw new UserCantBeCreatedError();
   }

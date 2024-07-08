@@ -22,7 +22,7 @@ describe('Unit | UseCases | get-paginated-participants-for-an-organization', fun
 
   it('should call findPaginatedFilteredParticipants when import not enabled', async function () {
     // given
-    organizationFeaturesAPI.getAllFeaturesFromOrganization.resolves({ hasLeanersImportFeature: false });
+    organizationFeaturesAPI.getAllFeaturesFromOrganization.resolves({ hasLearnersImportFeature: false });
     // when
     await findPaginatedFilteredParticipants({
       organizationId,
@@ -44,7 +44,7 @@ describe('Unit | UseCases | get-paginated-participants-for-an-organization', fun
 
   it('should call findPaginatedFilteredImportedParticipants when import is enabled', async function () {
     // given
-    organizationFeaturesAPI.getAllFeaturesFromOrganization.resolves({ hasLeanersImportFeature: true });
+    organizationFeaturesAPI.getAllFeaturesFromOrganization.resolves({ hasLearnersImportFeature: true });
     // when
     await findPaginatedFilteredParticipants({
       organizationId,

@@ -183,6 +183,7 @@ describe('Acceptance | Prescription | learner management | Application | organiz
                 reconcileField2: 'manger',
               },
             },
+            type: 'organization-learner',
           },
         },
       };
