@@ -89,7 +89,7 @@
             ],
             "feedbacks": {
               "valid": "<span class=\"feedback__state\">✅ Correct !</span><p>\"Net\" en anglais signifie \"filet\", ce qui donne tout son sens à ce jeu de mots.</p>",
-              "invalid": "<span class=\"feedback__state\">❌ Incorrect !</span>"
+              "invalid": "<span class=\"feedback__state\">❌ Incorrect !</span><p>\"Net\" en anglais signifie \"filet\", ce qui donne tout son sens à ce jeu de mots.</p>"
             },
             "solution": "3"
           }
@@ -164,7 +164,7 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<span class=\"feedback__state\">✅ Correct !</span>",
+                "valid": "<span class=\"feedback__state\">✅ Correct !</span><p>Vous avez bien écouté la vidéo ! <span aria-hidden=\"true\">&nbsp;👍</span></p>",
                 "invalid": "<span class=\"feedback__state\">❌ Incorrect !</span><p>Regardez bien la vidéo précédente et réessayez !</p>"
               },
               "solutions": [
@@ -229,7 +229,7 @@
                   ],
                   "feedbacks": {
                     "valid": "<span class=\"feedback__state\">✅ Correct !</span><p>Un prompt en langue française va amener le LLM à répondre en français. La sous-représentation de données concernant le Québec parmi les jeux de données d'entraînement amène à une réponse qui concerne la France.</p>",
-                    "invalid": "<span class=\"feedback__state\">❌ Incorrect ! </span>"
+                    "invalid": "<span class=\"feedback__state\">❌ Incorrect ! </span> <p>Et si le problème ne venait pas du LLM ? <span aria-hidden=\"true\">&nbsp;🤔</span></p>"
                   },
                   "solution": "2"
                 }
@@ -262,7 +262,7 @@
                   ],
                   "feedbacks": {
                     "valid": "<span class=\"feedback__state\">✅ Correct  !</span><p>Le LLM a tendance à reproduire des stéréotypes qui existent dans nos sociétés. Ici, il s'agit d'un stéréotype de genre associé à cette profession.</p>",
-                    "invalid": "<span class=\"feedback__state\">❌ Incorrect !</span>"
+                    "invalid": "<span class=\"feedback__state\">❌ Incorrect !</span><p>Ce biais est déjà très présent dans nos sociétés, il est représenté dans de nombreux médias.</p>"
                   },
                   "solution": "2"
                 },
@@ -294,7 +294,7 @@
                   "proposals": [
                     {
                       "id": "1",
-                      "content": "Le LLM a été programmé pour que les extraterrestres soient considérés comme existant."
+                      "content": "Le LLM a été programmé pour que les extraterrestres soient considérés comme existants."
                     },
                     {
                       "id": "2",
@@ -307,7 +307,7 @@
                   ],
                   "feedbacks": {
                     "valid": "<span class=\"feedback__state\">✅ Correct !</span><p>Le LLM n'est pas le seul à comporter des biais. Les prompts des utilisateurs peuvent aussi en comporter.</p>",
-                    "invalid": "<span class=\"feedback__state\">❌ Incorrect ! </span>"
+                    "invalid": "<span class=\"feedback__state\">❌ Incorrect ! </span><p>Et si le problème ne venait pas du LLM ? </p>"
                   },
                   "solution": "3"
                 }
