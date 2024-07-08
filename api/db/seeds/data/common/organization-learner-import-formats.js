@@ -38,26 +38,24 @@ export const organizationLearnerImportFormat = async function ({ databaseBuilder
     fileType: 'csv',
     config: {
       acceptedEncoding: ['utf8'],
-      unicityColumns: ['unicity key'],
+      unicityColumns: ['Nom apprenant', 'Prénom apprenant', 'Date de naissance'],
       reconciliationMappingColumns: [
         { key: 'reconcileField1', columnName: 'Nom apprenant' },
-        { key: 'reconcileField2', columnName: 'catégorie' },
+        { key: 'reconcileField2', columnName: 'Prénom apprenant' },
         { key: 'reconcileField3', columnName: 'Date de naissance' },
       ],
       validationRules: {
         formats: [
           { name: 'Nom apprenant', type: 'string', required: true },
           { name: 'Prénom apprenant', type: 'string', required: true },
-          { name: 'unicity key', type: 'string', required: true },
-          { name: 'catégorie', type: 'string', required: true },
+          { name: 'Classe', type: 'string', required: true },
           { name: 'Date de naissance', type: 'date', format: 'YYYY-MM-DD', required: true },
         ],
       },
       headers: [
         { name: 'Nom apprenant', property: 'lastName', required: true },
         { name: 'Prénom apprenant', property: 'firstName', required: true },
-        { name: 'unicity key', required: true },
-        { name: 'catégorie', required: true },
+        { name: 'Classe', required: true },
         { name: 'Date de naissance', required: true },
       ],
     },
