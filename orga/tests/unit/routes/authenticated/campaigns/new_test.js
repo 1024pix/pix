@@ -91,6 +91,7 @@ module('Unit | Route | authenticated/campaigns/new', function (hooks) {
 
         const organization = EmberObject.create({
           id: 12345,
+          targetProfiles: new Promise((resolve) => resolve([])),
         });
 
         class CurrentUserStub extends Service {
@@ -142,6 +143,7 @@ module('Unit | Route | authenticated/campaigns/new', function (hooks) {
 
         assert.strictEqual(await model.campaign, duplicatedCampaignRecord);
         sinon.assert.calledWithExactly(createRecordStub, 'campaign', expectedCampaignAttributes);
+        assert.false(model.targetProfiles instanceof Promise);
       });
     });
 

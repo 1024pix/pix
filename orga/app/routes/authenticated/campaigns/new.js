@@ -1,6 +1,7 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 import pick from 'lodash/pick';
+import RSVP from 'rsvp';
 
 export default class NewRoute extends Route {
   @service currentUser;
@@ -45,7 +46,7 @@ export default class NewRoute extends Route {
       }
     }
 
-    return {
+    return RSVP.hash({
       campaign: this.store.createRecord('campaign', {
         organization,
         ownerId: this.currentUser.prescriber.id,
@@ -53,7 +54,7 @@ export default class NewRoute extends Route {
       }),
       targetProfiles: organization.targetProfiles,
       membersSortedByFullName,
-    };
+    });
   }
 
   resetController(controller, isExiting) {
