@@ -104,12 +104,6 @@ const resendInvitation = async function (request, h) {
   return h.response(organizationInvitationSerializer.serialize(organizationInvitation));
 };
 
-const cancelOrganizationInvitation = async function (request, h) {
-  const organizationInvitationId = request.params.organizationInvitationId;
-  await usecases.cancelOrganizationInvitation({ organizationInvitationId });
-  return h.response().code(204);
-};
-
 const sendInvitationByLangAndRole = async function (request, h, dependencies = { organizationInvitationSerializer }) {
   const organizationId = request.params.id;
   const invitationInformation =
@@ -161,7 +155,6 @@ const findChildrenOrganizationsForAdmin = async function (
 
 const organizationController = {
   archiveOrganization,
-  cancelOrganizationInvitation,
   create,
   createInBatch,
   findChildrenOrganizationsForAdmin,

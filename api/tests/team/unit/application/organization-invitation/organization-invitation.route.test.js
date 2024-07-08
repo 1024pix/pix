@@ -1,3 +1,4 @@
+import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { organizationInvitationController } from '../../../../../src/team/application/organization-invitations/organization-invitation.controller.js';
 import { teamRoutes } from '../../../../../src/team/application/routes.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
@@ -35,6 +36,29 @@ describe('Unit | Team | Application | Route | organization-invitation', function
 
       // then
       expect(response.statusCode).to.equal(400);
+    });
+  });
+
+  describe('DELETE /api/organizations/{id}/invitations/{invitationId}', function () {
+    it('calls the cancel organization invitation controller', async function () {
+      // given
+      sinon
+        .stub(organizationInvitationController, 'cancelOrganizationInvitation')
+        .callsFake((request, h) => h.response('ok').code(200));
+      sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').returns(true);
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(teamRoutes[0]);
+
+      const method = 'DELETE';
+      const url = '/api/organizations/1/invitations/1';
+
+      // when
+      await httpTestServer.request(method, url);
+
+      // then
+      expect(securityPreHandlers.checkUserIsAdminInOrganization).to.have.be.called;
+      expect(organizationInvitationController.cancelOrganizationInvitation).to.have.been.calledOnce;
     });
   });
 });

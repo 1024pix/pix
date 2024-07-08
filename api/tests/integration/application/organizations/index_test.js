@@ -105,29 +105,6 @@ describe('Integration | Application | Organizations | Routes', function () {
     });
   });
 
-  describe('DELETE /api/admin/organizations/:organizationId/invitations/:organizationInvitationId', function () {
-    it('should return an HTTP status code 204', async function () {
-      // given
-      const method = 'DELETE';
-      const url = '/api/admin/organizations/1/invitations/1';
-
-      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
-      sinon
-        .stub(organizationController, 'cancelOrganizationInvitation')
-        .returns((request, h) => h.response().code(204));
-
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const { statusCode } = await httpTestServer.request(method, url);
-
-      // then
-      expect(statusCode).to.equal(204);
-      expect(organizationController.cancelOrganizationInvitation).to.have.been.calledOnce;
-    });
-  });
-
   describe('POST /api/organizations/:id/invitations', function () {
     it('should call the organization controller to send invitations', async function () {
       // given

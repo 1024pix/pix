@@ -155,15 +155,6 @@ class CancelledInvitationError extends DomainError {
   }
 }
 
-class UncancellableOrganizationInvitationError extends DomainError {
-  constructor(
-    message = "L'invitation à cette organisation ne peut pas être annulée.",
-    code = 'UNCANCELLABLE_ORGANIZATION_INVITATION_CODE',
-  ) {
-    super(message, code);
-  }
-}
-
 class CantImproveCampaignParticipationError extends DomainError {
   constructor(message = 'Une campagne de collecte de profils ne peut pas être retentée.') {
     super(message);
@@ -1084,7 +1075,6 @@ export {
   TargetProfileCannotBeCreated,
   TargetProfileInvalidError,
   TooManyRows,
-  UncancellableOrganizationInvitationError,
   UnexpectedUserAccountError,
   UnknownCountryForStudentEnrolmentError,
   UserAlreadyExistsWithAuthenticationMethodError,

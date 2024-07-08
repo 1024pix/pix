@@ -10,6 +10,18 @@ import { serializer as scoOrganizationInvitationSerializer } from '../../infrast
  *
  * @param request
  * @param h
+ * @returns {Promise<any>}
+ */
+const cancelOrganizationInvitation = async function (request, h) {
+  const organizationInvitationId = request.params.organizationInvitationId;
+  await usecases.cancelOrganizationInvitation({ organizationInvitationId });
+  return h.response().code(204);
+};
+
+/**
+ *
+ * @param request
+ * @param h
  * @param dependencies
  * @returns {Promise<OrganizationInvitation>}
  */
@@ -55,6 +67,7 @@ const sendScoInvitation = async function (
 };
 
 export const organizationInvitationController = {
+  cancelOrganizationInvitation,
   getOrganizationInvitation,
   sendScoInvitation,
 };

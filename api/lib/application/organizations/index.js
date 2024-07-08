@@ -170,35 +170,6 @@ const register = async function (server) {
       },
     },
     {
-      method: 'DELETE',
-      path: '/api/admin/organizations/{id}/invitations/{organizationInvitationId}',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationId,
-            organizationInvitationId: identifiersType.organizationInvitationId,
-          }),
-        },
-        handler: organizationController.cancelOrganizationInvitation,
-        tags: ['api', 'admin', 'invitations', 'cancel'],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            "- Elle permet d'annuler une invitation envoyée mais non acceptée encore.",
-        ],
-      },
-    },
-    {
       method: 'POST',
       path: '/api/admin/organizations/{id}/invitations',
       config: {
@@ -451,30 +422,6 @@ const register = async function (server) {
             "- Elle permet de renvoyer une invitation à une personne, déjà utilisateur de Pix ou non, à être membre d'une organisation, via leur **adresse e-mail**",
         ],
         tags: ['api', 'invitations'],
-      },
-    },
-    {
-      method: 'DELETE',
-      path: '/api/organizations/{id}/invitations/{organizationInvitationId}',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserIsAdminInOrganization,
-            assign: 'isAdminInOrganization',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationId,
-            organizationInvitationId: identifiersType.organizationInvitationId,
-          }),
-        },
-        handler: organizationController.cancelOrganizationInvitation,
-        tags: ['api', 'invitations', 'cancel'],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés en tant qu'admin d'une organisation**\n" +
-            "- Elle permet à l'administrateur de l'organisation d'annuler une invitation envoyée mais non acceptée encore.",
-        ],
       },
     },
     {

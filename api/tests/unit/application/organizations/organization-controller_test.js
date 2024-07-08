@@ -1,5 +1,5 @@
 import { organizationController } from '../../../../lib/application/organizations/organization-controller.js';
-import { Membership, Organization, OrganizationInvitation } from '../../../../lib/domain/models/index.js';
+import { Membership, Organization } from '../../../../lib/domain/models/index.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { domainBuilder, expect, generateValidRequestAuthorizationHeader, hFake, sinon } from '../../../test-helper.js';
 
@@ -222,35 +222,6 @@ describe('Unit | Application | Organizations | organization-controller', functio
 
       // then
       expect(usecases.createOrganizationInvitations).to.have.been.calledWithExactly({ organizationId, emails, locale });
-    });
-  });
-
-  describe('#cancelOrganizationInvitation', function () {
-    it('should call the use case to cancel invitation with organizationInvitationId', async function () {
-      //given
-      const organizationInvitationId = 123;
-
-      const request = {
-        auth: { credentials: { userId: 1 } },
-        params: { organizationInvitationId },
-      };
-      const cancelledOrganizationInvitation = domainBuilder.buildOrganizationInvitation({
-        id: organizationInvitationId,
-        status: OrganizationInvitation.StatusType.CANCELLED,
-      });
-
-      sinon
-        .stub(usecases, 'cancelOrganizationInvitation')
-        .withArgs({
-          organizationInvitationId: cancelledOrganizationInvitation.id,
-        })
-        .resolves(cancelledOrganizationInvitation);
-
-      // when
-      const response = await organizationController.cancelOrganizationInvitation(request, hFake);
-
-      // then
-      expect(response.statusCode).to.equal(204);
     });
   });
 
