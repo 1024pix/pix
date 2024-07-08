@@ -88,8 +88,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">✅ Correct !</span><p>\"Net\" en anglais signifie \"filet\", ce qui donne tout son sens à ce jeu de mots.</p>",
-              "invalid": "<span class=\"feedback__state\">❌ Incorrect !</span><p>\"Net\" en anglais signifie \"filet\", ce qui donne tout son sens à ce jeu de mots.</p>"
+              "valid": "<span class=\"feedback__state\">✅ Correct !</span><p>\"Net\" signifie \"filet\" en anglais, ce qui donne tout son sens à ce jeu de mots.</p>",
+              "invalid": "<span class=\"feedback__state\">❌ Incorrect !</span><p>Relisez cet échange sachant que \"net\" signifie \"filet\" en anglais</p>"
             },
             "solution": "3"
           }
@@ -164,7 +164,7 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<span class=\"feedback__state\">✅ Correct !</span><p>Vous avez bien écouté la vidéo ! <span aria-hidden=\"true\">&nbsp;👍</span></p>",
+                "valid": "<span class=\"feedback__state\">✅ Correct !</span><p>Tous les LLM sont concernés par ces biais.</p>",
                 "invalid": "<span class=\"feedback__state\">❌ Incorrect !</span><p>Regardez bien la vidéo précédente et réessayez !</p>"
               },
               "solutions": [
