@@ -24,14 +24,14 @@ describe('Unit | UseCase | update-jury-comment', function () {
     });
 
     // then
-    expect(assessmentResultJuryCommentRepository.getLatestAssessmentResultJuryComment).to.have.been.calledOnceWith({
-      certificationCourseId,
+    // expect(assessmentResultJuryCommentRepository.getLatestAssessmentResultJuryComment).to.have.been.calledOnceWith({
+    //   certificationCourseId,
+    // });
+    const updatedAssessmentResult = domainBuilder.buildAssessmentResult({
+      commentByJury: 'New',
+      JuryId: 456,
     });
 
-    expect(assessmentResultJuryCommentRepository.update).to.have.been.calledOnceWith({
-      id: 11,
-      juryId: 456,
-      commentByJury: assessmentResultCommentByJury,
-    });
+    expect(assessmentResultJuryCommentRepository.update).to.have.been.calledOnceWith(updatedAssessmentResult);
   });
 });

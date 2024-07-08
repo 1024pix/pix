@@ -19,6 +19,8 @@ const updateJuryComment = async function ({
     certificationCourseId,
   });
 
+  // ...
+
   await assessmentResultJuryCommentRepository.update({
     ...assessmentResultJuryComment,
     commentByJury: assessmentResultCommentByJury,
