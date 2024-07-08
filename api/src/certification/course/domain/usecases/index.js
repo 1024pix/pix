@@ -18,7 +18,6 @@ import * as certificationChallengeRepository from '../../../shared/infrastructur
 import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
 import * as certificationReportRepository from '../../../shared/infrastructure/repositories/certification-report-repository.js';
 import * as certificateRepository from '../../infrastructure/repositories/certificate-repository.js';
-import * as courseAssessmentResultRepository from '../../infrastructure/repositories/course-assessment-result-repository.js';
 import * as scoCertificationCandidateRepository from '../../infrastructure/repositories/sco-certification-candidate-repository.js';
 import * as v3CertificationCourseDetailsForAdministrationRepository from '../../infrastructure/repositories/v3-certification-course-details-for-administration-repository.js';
 /**
@@ -28,7 +27,6 @@ import * as v3CertificationCourseDetailsForAdministrationRepository from '../../
  * @typedef {answerRepository} AnswerRepository
  * @typedef {challengeRepository} ChallengeRepository
  * @typedef {assessmentResultRepository} AssessmentResultRepository
- * @typedef {courseAssessmentResultRepository} CourseAssessmentResultRepository
  * @typedef {competenceMarkRepository} CompetenceMarkRepository
  * @typedef {certificationResultRepository} CertificationResultRepository
  * @typedef {scoCertificationCandidateRepository} ScoCertificationCandidateRepository
@@ -48,7 +46,6 @@ const dependencies = {
   challengeRepository,
   assessmentResultRepository,
   competenceMarkRepository,
-  courseAssessmentResultRepository,
   certificationCourseRepository,
   certificationResultRepository,
   scoCertificationCandidateRepository,

@@ -5,33 +5,41 @@ describe('Unit | UseCase | update-jury-comment', function () {
   it('should update jury comment', async function () {
     // given
     const certificationCourseId = 123;
-    const assessmentResultCommentByJury = 'Hello';
-    const oldAssessmentResult = domainBuilder.certification.sessionManagement.buildAssessmentResultJuryComment({
-      id: 11,
+    const latestAssessmentResultId = 111;
+    const newJuryId = 456;
+    const newJuryComment = 'New';
+    const latestAssessmentResult = domainBuilder.buildAssessmentResult({
+      id: latestAssessmentResultId,
+      commentByJury: 'OLD',
+      juryId: 888,
     });
 
     const assessmentResultJuryCommentRepository = {
-      getLatestAssessmentResultJuryComment: sinon.stub().resolves(oldAssessmentResult),
+      getLatestAssessmentResult: sinon.stub().resolves(latestAssessmentResult),
       update: sinon.stub(),
     };
 
     // when
     await updateJuryComment({
       certificationCourseId,
-      assessmentResultCommentByJury,
-      juryId: 456,
+      assessmentResultCommentByJury: newJuryComment,
+      juryId: newJuryId,
       assessmentResultJuryCommentRepository,
     });
 
     // then
-    // expect(assessmentResultJuryCommentRepository.getLatestAssessmentResultJuryComment).to.have.been.calledOnceWith({
-    //   certificationCourseId,
-    // });
-    const updatedAssessmentResult = domainBuilder.buildAssessmentResult({
-      commentByJury: 'New',
-      JuryId: 456,
+    expect(assessmentResultJuryCommentRepository.getLatestAssessmentResult).to.have.been.calledOnceWith({
+      certificationCourseId,
     });
 
-    expect(assessmentResultJuryCommentRepository.update).to.have.been.calledOnceWith(updatedAssessmentResult);
+    const updatedAssessmentResult = domainBuilder.buildAssessmentResult({
+      id: latestAssessmentResult.id,
+      commentByJury: 'New',
+      juryId: 456,
+    });
+
+    expect(assessmentResultJuryCommentRepository.update).to.have.been.calledOnceWith({
+      assessmentResult: updatedAssessmentResult,
+    });
   });
 });

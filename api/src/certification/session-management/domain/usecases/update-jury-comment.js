@@ -15,7 +15,7 @@ const updateJuryComment = async function ({
   juryId,
   assessmentResultJuryCommentRepository,
 }) {
-  const assessmentResultJuryComment = await assessmentResultJuryCommentRepository.getLatestAssessmentResultJuryComment({
+  const assessmentResultJuryComment = await assessmentResultJuryCommentRepository.getLatestAssessmentResult({
     certificationCourseId,
   });
 

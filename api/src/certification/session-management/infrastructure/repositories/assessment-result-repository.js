@@ -2,26 +2,73 @@
  * @typedef {import ('../../../../shared/domain/models/AssessmentResult.js').AssessmentResult} AssessmentResult
  */
 
-import { knex } from '../../../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../../../shared/domain/errors.js';
-import { AssessmentResultJuryComment } from '../../domain/models/AssessmentResultJuryComment.js';
+import _ from 'lodash';
 
-const getLatestAssessmentResultJuryComment = async function ({ certificationCourseId }) {
-  const result = await knex('assessment-results')
-    .select('id', 'juryId', 'commentByJury')
-    .innerJoin(
-      'certification-courses-last-assessment-results',
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { CompetenceMark } from '../../../../../lib/domain/models/CompetenceMark.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { NotFoundError } from '../../../../shared/domain/errors.js';
+import { AssessmentResult } from '../../../../shared/domain/models/AssessmentResult.js';
+import { JuryComment, JuryCommentContexts } from '../../../shared/domain/models/JuryComment.js';
+
+function _toDomain({ assessmentResultDTO, competencesMarksDTO }) {
+  const competenceMarks = competencesMarksDTO.map((competenceMark) => new CompetenceMark(competenceMark));
+  const reproducibilityRateAsNumber = _.toNumber(assessmentResultDTO.reproducibilityRate) ?? null;
+  const commentForOrganization = new JuryComment({
+    commentByAutoJury: assessmentResultDTO.commentByAutoJury,
+    fallbackComment: assessmentResultDTO.commentForOrganization,
+    context: JuryCommentContexts.ORGANIZATION,
+  });
+  const commentForCandidate = new JuryComment({
+    commentByAutoJury: assessmentResultDTO.commentByAutoJury,
+    fallbackComment: assessmentResultDTO.commentForCandidate,
+    context: JuryCommentContexts.CANDIDATE,
+  });
+
+  return new AssessmentResult({
+    id: assessmentResultDTO.id,
+    assessmentId: assessmentResultDTO.assessmentId,
+    status: assessmentResultDTO.status,
+    commentByJury: assessmentResultDTO.commentByJury,
+    commentByAutoJury: assessmentResultDTO.commentByAutoJury,
+    createdAt: assessmentResultDTO.createdAt,
+    emitter: assessmentResultDTO.emitter,
+    juryId: assessmentResultDTO.juryId,
+    pixScore: assessmentResultDTO.pixScore,
+    commentForCandidate,
+    commentForOrganization,
+    reproducibilityRate: reproducibilityRateAsNumber,
+    competenceMarks: competenceMarks,
+  });
+}
+
+const getLatestAssessmentResult = async function ({
+  certificationCourseId,
+  domainTransaction = DomainTransaction.emptyTransaction(),
+}) {
+  const knexConn = domainTransaction.knexTransaction || knex;
+
+  const latestAssessmentResult = await knexConn('certification-courses-last-assessment-results')
+    .select('assessment-results.*')
+    .join(
+      'assessment-results',
       'assessment-results.id',
       'certification-courses-last-assessment-results.lastAssessmentResultId',
     )
     .where({ certificationCourseId })
     .first();
 
-  if (!result) {
-    throw new NotFoundError(`Assessment result not found for certification course ${certificationCourseId}`);
+  if (!latestAssessmentResult) {
+    throw new NotFoundError('No assessment result found');
   }
+  const competencesMarksDTO = await knexConn('competence-marks').where({
+    assessmentResultId: latestAssessmentResult.id,
+  });
 
-  return new AssessmentResultJuryComment(result);
+  return _toDomain({
+    assessmentResultDTO: latestAssessmentResult,
+    competencesMarksDTO,
+  });
 };
 
 /**
@@ -34,4 +81,4 @@ const update = async function ({ assessmentResult }) {
     .where({ id: assessmentResult.id });
 };
 
-export { getLatestAssessmentResultJuryComment, update };
+export { getLatestAssessmentResult, update };
