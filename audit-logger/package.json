@@ -49,7 +49,7 @@
     "@vitest/coverage-v8": "^1.0.0",
     "eslint": "^8.46.0",
     "eslint-config-prettier": "^9.0.0",
-    "eslint-config-love": "^43.1.0",
+    "eslint-config-love": "^44.0.0",
     "eslint-plugin-import": "^2.28.0",
     "eslint-plugin-knex": "v0.2.2",
     "eslint-plugin-n": "^16.0.1",
