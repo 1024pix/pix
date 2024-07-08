@@ -88,7 +88,7 @@ module('Acceptance | School', function (hooks) {
       // when
       const screen = await visit('/schools/INVALID00');
       // then
-      assert.dom(screen.getByText(t('pages.error.message'))).exists();
+      assert.dom(screen.getByText(t('pages.school.not-found'))).exists();
     });
   });
 

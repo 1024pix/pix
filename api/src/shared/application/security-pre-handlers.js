@@ -29,6 +29,7 @@ import { Organization } from '../../../lib/domain/models/index.js';
 import { PIX_ADMIN } from '../../authorization/domain/constants.js';
 import * as checkUserIsCandidateUseCase from '../../certification/enrolment/application/usecases/checkUserIsCandidate.js';
 import * as certificationIssueReportRepository from '../../certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
+import * as isSchoolSessionActive from '../../school/application/usecases/is-school-session-active.js';
 import { ForbiddenAccess, NotFoundError } from '../domain/errors.js';
 import * as organizationRepository from '../infrastructure/repositories/organization-repository.js';
 import * as checkOrganizationHasFeatureUseCase from './usecases/checkOrganizationHasFeature.js';
@@ -44,6 +45,17 @@ function _replyForbiddenError(h) {
     code: errorHttpStatusCode,
     title: 'Forbidden access',
     detail: 'Missing or insufficient permissions.',
+  });
+
+  return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
+}
+
+function _replyNotFoundError(h) {
+  const errorHttpStatusCode = 404;
+
+  const jsonApiError = new JSONAPIError({
+    code: errorHttpStatusCode,
+    title: 'Not found',
   });
 
   return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
@@ -174,6 +186,13 @@ function checkRequestedUserIsAuthenticatedUser(request, h) {
   const requestedUserId = request.params.userId || parseInt(request.params.id);
 
   return authenticatedUserId === requestedUserId ? h.response(true) : _replyForbiddenError(h);
+}
+
+async function checkSchoolSessionIsActive(request, h, dependencies = { isSchoolSessionActive }) {
+  if (await dependencies.isSchoolSessionActive.execute({ schoolCode: request.query.code })) {
+    return h.response(true);
+  }
+  return _replyNotFoundError(h);
 }
 
 function checkUserIsAdminInOrganization(request, h, dependencies = { checkUserIsAdminInOrganizationUseCase }) {
@@ -742,6 +761,7 @@ const securityPreHandlers = {
   checkIfUserIsBlocked,
   checkPix1dActivated,
   checkRequestedUserIsAuthenticatedUser,
+  checkSchoolSessionIsActive,
   checkUserBelongsToLearnersOrganization,
   checkUserBelongsToOrganization,
   checkUserBelongsToOrganizationManagingStudents,
