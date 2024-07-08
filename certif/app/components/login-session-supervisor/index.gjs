@@ -4,7 +4,10 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';
 
-export default class LoginSessionSupervisorForm extends Component {
+import LoginSessionSupervisorFooter from './footer';
+import LoginSessionSupervisorForm from './form';
+
+export default class LoginSessionSupervisor extends Component {
   @service intl;
   @tracked errorMessage = null;
   sessionId;
@@ -30,7 +33,7 @@ export default class LoginSessionSupervisorForm extends Component {
     }
 
     try {
-      await this.args.onFormSubmit({
+      await this.args.authenticateSupervisor({
         sessionId: this.sessionId,
         supervisorPassword: this.supervisorPassword,
       });
@@ -48,4 +51,19 @@ export default class LoginSessionSupervisorForm extends Component {
   _displayError(message) {
     this.errorMessage = message;
   }
+
+  <template>
+    <div class='login-session-supervisor-page'>
+      <div class='login-session-supervisor-page-content'>
+        <LoginSessionSupervisorForm
+          @superviseSession={{this.superviseSession}}
+          @setSessionId={{this.setSessionId}}
+          @setSupervisorPassword={{this.setSupervisorPassword}}
+          @errorMessage={{this.errorMessage}}
+        />
+
+        <LoginSessionSupervisorFooter @currentUserEmail={{@currentUserEmail}} />
+      </div>
+    </div>
+  </template>
 }

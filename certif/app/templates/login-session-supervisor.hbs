@@ -1,15 +1,6 @@
 {{page-title (t "pages.session-supervising.login.title")}}
-<div class="login-session-supervisor-page">
-  <div class="login-session-supervisor-page-content">
-    <LoginSessionSupervisorForm @onFormSubmit={{this.authenticateSupervisor}} />
 
-    <div class="login-session-supervisor-page-content__current-user-email">
-      <span><FaIcon @icon="user-circle" />
-        {{this.currentUserEmail}}
-      </span>
-      <LinkTo class="login-session-supervisor-page-content__logout" @route="logout">
-        {{t "pages.session-supervising.login.form.actions.switch-account"}}
-      </LinkTo>
-    </div>
-  </div>
-</div>
+<LoginSessionSupervisor
+  @authenticateSupervisor={{this.authenticateSupervisor}}
+  @currentUserEmail={{this.currentUserEmail}}
+/>
