@@ -12,7 +12,7 @@ module.exports = function (/* environment */) {
      * @type {String?}
      * @default "null"
      */
-    fallbackLocale: null,
+    fallbackLocale: 'fr',
 
     /**
      * Path where translations are kept.  This is relative to the project root.
@@ -56,7 +56,7 @@ module.exports = function (/* environment */) {
      * @type {Boolean}
      * @default "false"
      */
-    errorOnMissingTranslations: true,
+    errorOnMissingTranslations: false,
 
     /**
      * Filter missing translations to ignore expected missing translations.

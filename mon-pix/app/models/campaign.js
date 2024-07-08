@@ -27,6 +27,9 @@ export default class Campaign extends Model {
   @attr('boolean') multipleSendings;
   @attr('boolean') isFlash;
 
+  @attr('boolean') isReconciliationRequired;
+  @attr() reconciliationFields;
+
   get isAssessment() {
     return this.type === 'ASSESSMENT';
   }
