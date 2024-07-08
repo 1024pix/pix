@@ -1,5 +1,41 @@
 # Pix Changelog
 
+## v4.177.0 (08/07/2024)
+
+
+### :rocket: Amélioration
+- [#9456](https://github.com/1024pix/pix/pull/9456) [FEATURE] Autoriser l'accès à Pix Junior seulement si une session est active.
+- [#9406](https://github.com/1024pix/pix/pull/9406) [FEATURE] Lancement et hauteur automatiques d'embed (PIX-13211).
+- [#9449](https://github.com/1024pix/pix/pull/9449) [FEATURE] Ajouter la fonctionnalité d'import ONDE aux organisations ajoutées depuis le script de création en masse (PIX-12563).
+- [#9443](https://github.com/1024pix/pix/pull/9443) [FEATURE] Enregistrer la confirmation de lecture des écrans d'instructions sur Pix App (PIX-12907).
+- [#9342](https://github.com/1024pix/pix/pull/9342) [FEATURE] [FRONT] Permettre de se réconcilier à une organization ayant l'import générique (PIX-12559).
+- [#9414](https://github.com/1024pix/pix/pull/9414) [FEATURE][BACK] Exposer les meta données pour la reconciliation des imports à format (PIX-13234).
+- [#9359](https://github.com/1024pix/pix/pull/9359) [FEATURE] Suppression de l'utilisation du composant "Tag compact" (PIX-11127).
+- [#9326](https://github.com/1024pix/pix/pull/9326) [FEATURE] Afficher les erreurs front lors d'un probleme d'acces à une certification (PIX-13218).
+- [#9383](https://github.com/1024pix/pix/pull/9383) [FEATURE] Ajoute un endpoint pour supprimer des campagnes d'une organisation (PIX-12689).
+- [#8714](https://github.com/1024pix/pix/pull/8714) [FEATURE] Afficher dans le portail surveillant les appels sur /api/companion/ping (PIX-12028).
+- [#9415](https://github.com/1024pix/pix/pull/9415) [FEATURE] Mise à jour du style des QCU et QCM dans Pix Junior (Pix-12913).
+- [#9389](https://github.com/1024pix/pix/pull/9389) [FEATURE] Permettre de valider l'adresse e-mail d'un compte utilisateur lors de son inscription via un lien de validation (PIX-11653).
+
+### :building_construction: Tech
+- [#9426](https://github.com/1024pix/pix/pull/9426) [TECH] Passer la page de détails d'une session en .gjs (PIX-13251).
+- [#9416](https://github.com/1024pix/pix/pull/9416) [TECH] Améliorer le parsing et la validation des query parameters côté API.
+- [#9448](https://github.com/1024pix/pix/pull/9448) [TECH] Création d'un centre de certification v3 pilote de la séparation pix/pix+ (PIX-13172).
+- [#9446](https://github.com/1024pix/pix/pull/9446) [TECH] Utilisation de crypto.randomBytes de manière asynchrone.
+- [#9452](https://github.com/1024pix/pix/pull/9452) [TECH] Creer un composant modale de suppression générique (PIX-13284).
+- [#8649](https://github.com/1024pix/pix/pull/8649) [TECH] Envoyer un postMessage au demarrage d'une certification (PIX-12115).
+- [#9340](https://github.com/1024pix/pix/pull/9340) [TECH] Revoir la méthode pour créer/mettre à jour des organization-learners lors de l'import (PIX-13242).
+- [#9424](https://github.com/1024pix/pix/pull/9424) [TECH] Sortie des pods pour Pix Junior (Pix-13255).
+- [#9337](https://github.com/1024pix/pix/pull/9337) [TECH] Créer la route pour enregistrer la confirmation de lecture des écrans d'instructions (PIX-12901).
+- [#9423](https://github.com/1024pix/pix/pull/9423) [TECH] Ajoute la domainTransaction dans le AsyncLocalStorage (PIX-13257).
+
+### :arrow_up: Montée de version
+- [#9462](https://github.com/1024pix/pix/pull/9462) [BUMP] Lock file maintenance (api).
+- [#9461](https://github.com/1024pix/pix/pull/9461) [BUMP] Update dependency @1024pix/ember-testing-library to ^2.0.6 (orga).
+- [#9460](https://github.com/1024pix/pix/pull/9460) [BUMP] Update dependency @1024pix/ember-testing-library to ^2.0.6 (junior).
+- [#9459](https://github.com/1024pix/pix/pull/9459) [BUMP] Update dependency @1024pix/ember-testing-library to ^2.0.6 (certif).
+- [#9441](https://github.com/1024pix/pix/pull/9441) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.1 (junior).
+
 ## v4.176.0 (04/07/2024)
 
 
