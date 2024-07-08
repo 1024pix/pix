@@ -1,12 +1,9 @@
-import bluebird from 'bluebird';
 import _ from 'lodash';
 
 import { knex } from '../../../../db/knex-database-connection.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { Organization } from '../../../organizational-entities/domain/models/Organization.js';
 import { Tag } from '../../../organizational-entities/domain/models/Tag.js';
 import { NotFoundError } from '../../domain/errors.js';
-import { CONCURRENCY_HEAVY_OPERATIONS } from '../constants.js';
 import { fetchPage } from '../utils/knex-utils.js';
 
 const ORGANIZATIONS_TABLE_NAME = 'organizations';
@@ -73,56 +70,6 @@ const create = function (organization) {
     .insert(organizationRawData)
     .returning('*')
     .then(([organization]) => _toDomain(organization));
-};
-
-// Uses OrganizationForAdmin to centralize features enablement by organization type
-const batchCreateOrganizations = async function (
-  organizations,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-) {
-  const knexConn = domainTransaction.knexTransaction ?? knex;
-  const featuresByKey = _.keyBy(await knexConn('features'), (feature) => feature.key);
-
-  return bluebird.map(
-    organizations,
-    async (organizationCsvData) => {
-      const { organization } = organizationCsvData;
-      const [createdOrganization] = await knexConn(ORGANIZATIONS_TABLE_NAME)
-        .insert(
-          _.pick(organization, [
-            'name',
-            'type',
-            'email',
-            'externalId',
-            'provinceCode',
-            'isManagingStudents',
-            'identityProviderForCampaigns',
-            'credit',
-            'createdBy',
-            'documentationUrl',
-          ]),
-        )
-        .returning('*');
-
-      const enabledFeatures = _.keys(organization.features).filter((key) => organization.features[key] === true);
-
-      for (const featureKey of enabledFeatures) {
-        const feature = featuresByKey[featureKey];
-        await knexConn('organization-features').insert({
-          organizationId: createdOrganization.id,
-          featureId: feature.id,
-        });
-      }
-
-      return {
-        createdOrganization,
-        organizationToCreate: organizationCsvData,
-      };
-    },
-    {
-      concurrency: CONCURRENCY_HEAVY_OPERATIONS,
-    },
-  );
 };
 
 const update = async function (organization) {
@@ -243,7 +190,6 @@ const findPaginatedFilteredByTargetProfile = async function ({ targetProfileId, 
 };
 
 export {
-  batchCreateOrganizations,
   create,
   findActiveScoOrganizationsByExternalId,
   findByExternalIdsFetchingIdsOnly,

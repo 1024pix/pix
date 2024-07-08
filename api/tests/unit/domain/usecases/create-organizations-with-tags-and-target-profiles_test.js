@@ -13,6 +13,7 @@ import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js'
 
 describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', function () {
   let organizationRepositoryStub;
+  let organizationForAdminRepositoryStub;
   let organizationTagRepositoryStub;
   let organizationInvitationRepositoryStub;
   let targetProfileShareRepository;
@@ -31,7 +32,9 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
   beforeEach(function () {
     organizationRepositoryStub = {
       findByExternalIdsFetchingIdsOnly: sinon.stub(),
-      batchCreateOrganizations: sinon.stub(),
+    };
+    organizationForAdminRepositoryStub = {
+      save: sinon.stub(),
     };
     organizationTagRepositoryStub = {
       batchCreate: sinon.stub(),
@@ -102,26 +105,18 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
 
         organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
         tagRepositoryStub.findAll.resolves(allTags);
-        organizationRepositoryStub.batchCreateOrganizations.resolves([
-          {
-            createdOrganization: domainBuilder.buildOrganization(firstOrganization),
-            organizationToCreate: {
-              ...firstOrganization,
-              tags: firstOrganization.tags?.split('_') ?? [],
-              targetProfiles: firstOrganization.targetProfiles?.split('_') ?? [],
-            },
-          },
-          {
-            createdOrganization: domainBuilder.buildOrganization(secondOrganization),
-            organizationToCreate: secondOrganization,
-          },
-        ]);
+        organizationForAdminRepositoryStub.save
+          .onFirstCall()
+          .resolves(domainBuilder.buildOrganization(firstOrganization))
+          .onSecondCall()
+          .resolves(domainBuilder.buildOrganization(secondOrganization));
 
         // when
         const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({
           domainTransaction,
           organizations: [firstOrganization, secondOrganization],
           organizationRepository: organizationRepositoryStub,
+          organizationForAdminRepository: organizationForAdminRepositoryStub,
           tagRepository: tagRepositoryStub,
           organizationTagRepository: organizationTagRepositoryStub,
           dataProtectionOfficerRepository,
@@ -162,13 +157,14 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
 
         organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
         tagRepositoryStub.findAll.resolves(allTags);
-        organizationRepositoryStub.batchCreateOrganizations.rejects(errorThrown);
+        organizationForAdminRepositoryStub.save.rejects(errorThrown);
 
         // when
         const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({
           domainTransaction,
           organizations: [firstOrganization],
           organizationRepository: organizationRepositoryStub,
+          organizationForAdminRepository: organizationForAdminRepositoryStub,
           tagRepository: tagRepositoryStub,
           organizationTagRepository: organizationTagRepositoryStub,
           dataProtectionOfficerRepository,
@@ -204,22 +200,14 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
 
     // when
     tagRepositoryStub.findAll.resolves(allTags);
-    organizationRepositoryStub.batchCreateOrganizations.resolves([
-      {
-        createdOrganization: domainBuilder.buildOrganization(organization),
-        organizationToCreate: {
-          ...organization,
-          tags: organization.tags?.split('_') ?? [],
-          targetProfiles: organization.targetProfiles?.split('_') ?? [],
-        },
-      },
-    ]);
+    organizationForAdminRepositoryStub.save.resolves(domainBuilder.buildOrganization(organization));
 
     // when
     await createOrganizationsWithTagsAndTargetProfiles({
       domainTransaction,
       organizations: organizations,
       organizationRepository: organizationRepositoryStub,
+      organizationForAdminRepository: organizationForAdminRepositoryStub,
       tagRepository: tagRepositoryStub,
       targetProfileShareRepository,
       organizationTagRepository: organizationTagRepositoryStub,
@@ -295,30 +283,18 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
       },
     ];
     tagRepositoryStub.findAll.resolves(allTags);
-    organizationRepositoryStub.batchCreateOrganizations.resolves([
-      {
-        createdOrganization: organizationPROToCreate,
-        organizationToCreate: {
-          ...organizationPRO,
-          tags: organizationPRO.tags?.split('_') ?? [],
-          targetProfiles: organizationPRO.targetProfiles?.split('_') ?? [],
-        },
-      },
-      {
-        createdOrganization: organizationSCOToCreate,
-        organizationToCreate: {
-          ...organizationSCO,
-          tags: organizationSCO.tags?.split('_') ?? [],
-          targetProfiles: organizationSCO.targetProfiles?.split('_') ?? [],
-        },
-      },
-    ]);
+    organizationForAdminRepositoryStub.save
+      .onFirstCall()
+      .resolves(organizationPROToCreate)
+      .onSecondCall()
+      .resolves(organizationSCOToCreate);
 
     // when
     await createOrganizationsWithTagsAndTargetProfiles({
       domainTransaction,
       organizations: [organizationPRO, organizationSCO],
       organizationRepository: organizationRepositoryStub,
+      organizationForAdminRepository: organizationForAdminRepositoryStub,
       tagRepository: tagRepositoryStub,
       targetProfileShareRepository,
       organizationTagRepository: organizationTagRepositoryStub,
@@ -328,8 +304,13 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
     });
 
     // then
-    const expectedOrganizationsToCreate = organizationRepositoryStub.batchCreateOrganizations.getCall(0).args[0];
-    expect(expectedOrganizationsToCreate).to.deep.equal(expectedProOrganizationToInsert);
+    const organizationsToCreate = [
+      organizationForAdminRepositoryStub.save.getCall(0).args[0],
+      organizationForAdminRepositoryStub.save.getCall(1).args[0],
+    ];
+    expect(organizationsToCreate).to.deep.equal(
+      expectedProOrganizationToInsert.map(({ organization }) => organization),
+    );
   });
 
   it('adds organization tags', async function () {
@@ -366,30 +347,18 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
 
     organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
     tagRepositoryStub.findAll.resolves(allTags);
-    organizationRepositoryStub.batchCreateOrganizations.resolves([
-      {
-        createdOrganization: domainBuilder.buildOrganization(firstOrganization),
-        organizationToCreate: {
-          ...firstOrganization,
-          tags: firstOrganization.tags?.split('_') ?? [],
-          targetProfiles: firstOrganization.targetProfiles?.split('_') ?? [],
-        },
-      },
-      {
-        createdOrganization: domainBuilder.buildOrganization(secondOrganization),
-        organizationToCreate: {
-          ...secondOrganization,
-          tags: secondOrganization.tags?.split('_') ?? [],
-          targetProfiles: secondOrganization.targetProfiles?.split('_') ?? [],
-        },
-      },
-    ]);
+    organizationForAdminRepositoryStub.save
+      .onFirstCall()
+      .resolves(firstOrganization)
+      .onSecondCall()
+      .resolves(secondOrganization);
 
     // when
     await createOrganizationsWithTagsAndTargetProfiles({
       domainTransaction,
       organizations: [firstOrganization, secondOrganization],
       organizationRepository: organizationRepositoryStub,
+      organizationForAdminRepository: organizationForAdminRepositoryStub,
       tagRepository: tagRepositoryStub,
       targetProfileShareRepository,
       organizationTagRepository: organizationTagRepositoryStub,
@@ -427,30 +396,18 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
 
     organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
     tagRepositoryStub.findAll.resolves(allTags);
-    organizationRepositoryStub.batchCreateOrganizations.resolves([
-      {
-        createdOrganization: domainBuilder.buildOrganization(firstOrganization),
-        organizationToCreate: {
-          ...firstOrganization,
-          tags: firstOrganization.tags?.split('_') ?? [],
-          targetProfiles: firstOrganization.targetProfiles?.split('_') ?? [],
-        },
-      },
-      {
-        createdOrganization: domainBuilder.buildOrganization(secondOrganization),
-        organizationToCreate: {
-          ...secondOrganization,
-          tags: secondOrganization.tags?.split('_') ?? [],
-          targetProfiles: secondOrganization.targetProfiles?.split('_') ?? [],
-        },
-      },
-    ]);
+    organizationForAdminRepositoryStub.save
+      .onFirstCall()
+      .resolves(domainBuilder.buildOrganization(firstOrganization))
+      .onSecondCall()
+      .resolves(domainBuilder.buildOrganization(secondOrganization));
 
     // when
     await createOrganizationsWithTagsAndTargetProfiles({
       domainTransaction,
       organizations: [firstOrganization, secondOrganization],
       organizationRepository: organizationRepositoryStub,
+      organizationForAdminRepository: organizationForAdminRepositoryStub,
       tagRepository: tagRepositoryStub,
       targetProfileShareRepository,
       organizationTagRepository: organizationTagRepositoryStub,
@@ -495,35 +452,18 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
 
     organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
     tagRepositoryStub.findAll.resolves(allTags);
-    organizationRepositoryStub.batchCreateOrganizations.resolves([
-      {
-        createdOrganization: domainBuilder.buildOrganization(firstOrganization),
-        organizationToCreate: {
-          ...firstOrganization,
-          tags: firstOrganization.tags?.split('_') ?? [],
-          targetProfiles: firstOrganization.targetProfiles?.split('_') ?? [],
-          dataProtectionOfficer: {
-            email: firstOrganization.DPOEmail,
-            firstName: firstOrganization.DPOFirstName,
-            lastName: firstOrganization.DPOLastName,
-          },
-        },
-      },
-      {
-        createdOrganization: domainBuilder.buildOrganization(secondOrganization),
-        organizationToCreate: {
-          ...secondOrganization,
-          tags: secondOrganization.tags?.split('_') ?? [],
-          targetProfiles: secondOrganization.targetProfiles?.split('_') ?? [],
-        },
-      },
-    ]);
+    organizationForAdminRepositoryStub.save
+      .onFirstCall()
+      .resolves(domainBuilder.buildOrganization(firstOrganization))
+      .onSecondCall()
+      .resolves(domainBuilder.buildOrganization(secondOrganization));
 
     // when
     await createOrganizationsWithTagsAndTargetProfiles({
       domainTransaction,
       organizations: [firstOrganization, secondOrganization],
       organizationRepository: organizationRepositoryStub,
+      organizationForAdminRepository: organizationForAdminRepositoryStub,
       tagRepository: tagRepositoryStub,
       targetProfileShareRepository,
       organizationTagRepository: organizationTagRepositoryStub,
@@ -566,32 +506,18 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
 
     organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
     tagRepositoryStub.findAll.resolves(allTags);
-    organizationRepositoryStub.batchCreateOrganizations.resolves([
-      {
-        createdOrganization: domainBuilder.buildOrganization(firstOrganizationWithAdminRole),
-        organizationToCreate: {
-          ...firstOrganizationWithAdminRole,
-          tags: firstOrganizationWithAdminRole.tags?.split('_') ?? [],
-          targetProfiles: firstOrganizationWithAdminRole.targetProfiles?.split('_') ?? [],
-          role: firstOrganizationWithAdminRole.organizationInvitationRole,
-        },
-      },
-      {
-        createdOrganization: domainBuilder.buildOrganization(secondOrganizationWithMemberRole),
-        organizationToCreate: {
-          ...secondOrganizationWithMemberRole,
-          tags: secondOrganizationWithMemberRole.tags?.split('_') ?? [],
-          targetProfiles: secondOrganizationWithMemberRole.targetProfiles?.split('_') ?? [],
-          role: secondOrganizationWithMemberRole.organizationInvitationRole,
-        },
-      },
-    ]);
+    organizationForAdminRepositoryStub.save
+      .onFirstCall()
+      .resolves(domainBuilder.buildOrganization(firstOrganizationWithAdminRole))
+      .onSecondCall()
+      .resolves(domainBuilder.buildOrganization(secondOrganizationWithMemberRole));
 
     // when
     await createOrganizationsWithTagsAndTargetProfiles({
       domainTransaction,
       organizations: [firstOrganizationWithAdminRole, secondOrganizationWithMemberRole],
       organizationRepository: organizationRepositoryStub,
+      organizationForAdminRepository: organizationForAdminRepositoryStub,
       tagRepository: tagRepositoryStub,
       targetProfileShareRepository,
       organizationTagRepository: organizationTagRepositoryStub,
@@ -638,22 +564,14 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
 
       organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
       tagRepositoryStub.findAll.resolves(allTags);
-      organizationRepositoryStub.batchCreateOrganizations.resolves([
-        {
-          createdOrganization: domainBuilder.buildOrganization(organizationWithoutEmail),
-          organizationToCreate: {
-            ...organizationWithoutEmail,
-            tags: organizationWithoutEmail.tags?.split('_') ?? [],
-            targetProfiles: organizationWithoutEmail.targetProfiles?.split('_') ?? [],
-          },
-        },
-      ]);
+      organizationForAdminRepositoryStub.save.resolves(domainBuilder.buildOrganization(organizationWithoutEmail));
 
       // when
       await createOrganizationsWithTagsAndTargetProfiles({
         domainTransaction,
         organizations: [organizationWithoutEmail],
         organizationRepository: organizationRepositoryStub,
+        organizationForAdminRepository: organizationForAdminRepositoryStub,
         tagRepository: tagRepositoryStub,
         targetProfileShareRepository,
         organizationTagRepository: organizationTagRepositoryStub,

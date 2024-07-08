@@ -13,6 +13,7 @@ import * as dataProtectionOfficerRepository from '../../../../lib/infrastructure
 import * as organizationTagRepository from '../../../../lib/infrastructure/repositories/organization-tag-repository.js';
 import * as tagRepository from '../../../../lib/infrastructure/repositories/tag-repository.js';
 import * as targetProfileShareRepository from '../../../../lib/infrastructure/repositories/target-profile-share-repository.js';
+import { organizationForAdminRepository } from '../../../../src/organizational-entities/infrastructure/repositories/organization-for-admin.repository.js';
 import * as schoolRepository from '../../../../src/school/infrastructure/repositories/school-repository.js';
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
 import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
@@ -25,11 +26,18 @@ const { omit } = lodash;
 
 describe('Integration | UseCases | create-organizations-with-tags-and-target-profiles', function () {
   let missionFeature;
+  let importStudentsFeature;
+  let ondeImportFormat;
   let userId;
 
   beforeEach(async function () {
     databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY);
     missionFeature = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.MISSIONS_MANAGEMENT);
+    importStudentsFeature = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.LEARNER_IMPORT);
+    ondeImportFormat = databaseBuilder.factory.buildOrganizationLearnerImportFormat({
+      name: ORGANIZATION_FEATURE.LEARNER_IMPORT.FORMAT.ONDE,
+    });
+
     userId = databaseBuilder.factory.buildUser().id;
     await databaseBuilder.commit();
   });
@@ -45,6 +53,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           domainTransaction,
           organizations,
           organizationRepository,
+          organizationForAdminRepository,
           tagRepository,
           targetProfileShareRepository,
           organizationTagRepository,
@@ -84,6 +93,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           domainTransaction,
           organizations: organizationsWithEmptyValues,
           organizationRepository,
+          organizationForAdminRepository,
           tagRepository,
           targetProfileShareRepository,
           organizationTagRepository,
@@ -185,6 +195,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           domainTransaction,
           organizations: organizationsWithTagsWithOneMissingExternalId,
           organizationRepository,
+          organizationForAdminRepository,
           tagRepository,
           targetProfileShareRepository,
           organizationTagRepository,
@@ -258,6 +269,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           domainTransaction,
           organizations: organizationsWithTagsWithOneMissingName,
           organizationRepository,
+          organizationForAdminRepository,
           tagRepository,
           targetProfileShareRepository,
           organizationTagRepository,
@@ -334,6 +346,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           domainTransaction,
           organizations: organizationsWithTagsNotExists,
           organizationRepository,
+          organizationForAdminRepository,
           tagRepository,
           targetProfileShareRepository,
           organizationTagRepository,
@@ -413,6 +426,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         domainTransaction,
         organizations: organizationsWithTagsAlreadyExist,
         organizationRepository,
+        organizationForAdminRepository,
         tagRepository,
         targetProfileShareRepository,
         organizationTagRepository,
@@ -511,6 +525,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         domainTransaction,
         organizations: organizationsWithNonExistingTargetProfile,
         organizationRepository,
+        organizationForAdminRepository,
         tagRepository,
         targetProfileShareRepository,
         organizationTagRepository,
@@ -589,6 +604,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         domainTransaction,
         organizations: organizationsWithExistingTargetProfiles,
         organizationRepository,
+        organizationForAdminRepository,
         tagRepository,
         targetProfileShareRepository,
         organizationTagRepository,
@@ -675,6 +691,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         domainTransaction,
         organizations: organizationsWithInvitationRole,
         organizationRepository,
+        organizationForAdminRepository,
         tagRepository,
         targetProfileShareRepository,
         organizationTagRepository,
@@ -697,7 +714,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
   });
 
   describe('when organization type is SCO-1D', function () {
-    it('should add mission management feature to organization', async function () {
+    it('should add mission management and ONDE import features to organization', async function () {
       // given
       databaseBuilder.factory.buildTag({ name: 'TAG1' });
       await databaseBuilder.commit();
@@ -719,10 +736,11 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
       ];
 
       // when
-      await createOrganizationsWithTagsAndTargetProfiles({
+      const createdOrganizations = await createOrganizationsWithTagsAndTargetProfiles({
         domainTransaction,
         organizations,
         organizationRepository,
+        organizationForAdminRepository,
         tagRepository,
         targetProfileShareRepository,
         organizationTagRepository,
@@ -735,12 +753,20 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
 
       // then
       const savedOrganizationFeatures = await knex('organization-features');
-      //TODO organization create with batch, see https://1024pix.atlassian.net/jira/software/c/projects/PIX/boards/107?selectedIssue=PIX-12563
-      expect(savedOrganizationFeatures.length).to.equal(1);
-      const savedOrganizationFeatureIds = savedOrganizationFeatures.map(
-        (organizationFeature) => organizationFeature.featureId,
-      );
-      expect(savedOrganizationFeatureIds).to.include(missionFeature.id);
+      expect(savedOrganizationFeatures.length).to.equal(2);
+      const organizationId = createdOrganizations[0].id;
+      expect(savedOrganizationFeatures.map((organizationFeature) => omit(organizationFeature, 'id'))).to.deep.equal([
+        {
+          featureId: missionFeature.id,
+          params: null,
+          organizationId,
+        },
+        {
+          featureId: importStudentsFeature.id,
+          params: { organizationLearnerImportFormatId: ondeImportFormat.id },
+          organizationId,
+        },
+      ]);
     });
 
     it('should create schools associated to organizations', async function () {
@@ -782,6 +808,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         domainTransaction,
         organizations,
         organizationRepository,
+        organizationForAdminRepository,
         tagRepository,
         targetProfileShareRepository,
         organizationTagRepository,
@@ -843,6 +870,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         domainTransaction,
         organizations,
         organizationRepository,
+        organizationForAdminRepository,
         tagRepository,
         targetProfileShareRepository,
         organizationTagRepository,
