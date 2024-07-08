@@ -241,6 +241,13 @@
                   "content": "<p>Erica est <strong>romancière</strong> et demande à un LLM d'imaginer un personnage. Elle n'a pas précisé au LLM qu'elle veut un personnage <strong>masculin</strong> et obtient un personnage féminin.<span aria-hidden=\"true\">&nbsp;👇</span></p>"
                 },
                 {
+                  "id": "dc202072-43a0-4478-936e-5b3d4f3360c2",
+                  "type": "image",
+                  "url": "https://i.imgur.com/7TiRrAZ.png",
+                  "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
+                  "alternativeText": "<p>Vous : J’écris un roman. J’ai besoin que tu crées un personnage. Son activité principale est de faire le ménage chez les gens.<br>LLM : Claire, une femme minutieuse et discrète de 40 ans, consacre ses journées à apporter ordre et propreté dans les foyers de ses clients, veillant à chaque détail avec un soin exceptionnel.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
+                },
+                {
                   "id": "635d34d8-c748-44cd-ad02-bde721270723",
                   "type": "qcu",
                   "instruction": "Quelle est la cause principale de ce résultat biaisé ?",
