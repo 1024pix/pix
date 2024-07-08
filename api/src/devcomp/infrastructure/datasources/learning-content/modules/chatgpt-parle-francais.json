@@ -5,7 +5,7 @@
   "details": {
     "image": "https://images.pix.fr/modulix/placeholder-details.svg",
     "description": "Les Large Language Model (LLM) sont des systèmes d'intelligence artificielle (IA). Ils donnent l'impression de parler toutes les langues mais, du fait de leurs biais, leurs productions sont parfois stéréotypées ou discriminantes. Dans ce module, vous allez découvrir les origines des biais dans les LLM et interroger directement des LLM pour les repérer !",
-    "duration": 15,
+    "duration": 10,
     "level": "Avancé",
     "objectives": [
       "Connaître les origines des biais des LLM",
