@@ -43,18 +43,25 @@ export default class Steps extends Component {
   }
 
   @action
-  nextStep() {
+  async nextStep() {
     if (this.pageId < this.pageCount) {
       this.pageId = this.pageId + 1;
     }
 
     if (this.isConfirmationCheckboxChecked) {
-      this.router.transitionTo('authenticated.certifications.start', this.args.candidateId, {
-        queryParams: {
-          isConfirmationCheckboxChecked: this.isConfirmationCheckboxChecked,
-        },
-      });
+      await this.submit();
+
+      this.router.transitionTo('authenticated.certifications.start', this.args.candidate.id);
     }
+  }
+
+  @action
+  async submit() {
+    await this.args.candidate.save({
+      adapterOptions: {
+        hasSeenCertificationInstructions: true,
+      },
+    });
   }
 
   @action

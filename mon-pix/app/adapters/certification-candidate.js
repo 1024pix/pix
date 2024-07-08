@@ -13,4 +13,15 @@ export default class CertificationCandidate extends ApplicationAdapter {
 
     return url;
   }
+
+  urlForUpdateRecord(id, modelName, { adapterOptions }) {
+    const url = super.urlForUpdateRecord(...arguments);
+
+    if (adapterOptions && adapterOptions.hasSeenCertificationInstructions) {
+      delete adapterOptions.hasSeenCertificationInstructions;
+      return `${url}/validate-certification-instructions`;
+    }
+
+    return url;
+  }
 }

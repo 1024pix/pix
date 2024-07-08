@@ -5,11 +5,6 @@ export default class StartRoute extends Route {
   @service store;
   @service router;
   @service featureToggles;
-  hasSeenCertificationInstructions = false;
-
-  beforeModel(transition) {
-    this.hasSeenCertificationInstructions = transition.to.queryParams.isConfirmationCheckboxChecked;
-  }
 
   async model(params) {
     const certificationCandidateSubscription = await this.store.findRecord(
@@ -17,8 +12,15 @@ export default class StartRoute extends Route {
       params.certification_candidate_id,
     );
 
+    const certificationCandidate = await this.store.peekRecord(
+      'certification-candidate',
+      params.certification_candidate_id,
+    );
+
+    const hasSeenCertificationInstructions = certificationCandidate?.hasSeenCertificationInstructions;
+
     if (
-      !this.hasSeenCertificationInstructions &&
+      !hasSeenCertificationInstructions &&
       certificationCandidateSubscription.isSessionVersion3 &&
       this.featureToggles.featureToggles.areV3InfoScreensEnabled
     ) {

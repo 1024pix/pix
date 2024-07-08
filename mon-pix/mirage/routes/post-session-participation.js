@@ -7,8 +7,12 @@ export default function (schema, request) {
   const firstName = params.data.attributes['first-name'];
   const lastName = params.data.attributes['last-name'];
   const birthdate = params.data.attributes['birthdate'];
+  let hasSeenCertificationInstructions = false;
   if (!every([firstName, lastName, birthdate, sessionId])) {
     return new Response(400);
+  }
+  if (lastName === 'hasSeenCertificationInstructions') {
+    hasSeenCertificationInstructions = true;
   }
   if (lastName === 'PasInscrite') {
     return new Response(404);
@@ -32,5 +36,6 @@ export default function (schema, request) {
     lastName: 'Bravo',
     sessionId: 1,
     birthdate: '1990-01-04',
+    hasSeenCertificationInstructions,
   });
 }

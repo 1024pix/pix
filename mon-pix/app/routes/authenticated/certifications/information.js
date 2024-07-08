@@ -3,8 +3,18 @@ import { service } from '@ember/service';
 
 export default class InformationRoute extends Route {
   @service store;
+  @service router;
 
   async model(params) {
-    return await this.store.findRecord('certification-candidate-subscription', params.certification_candidate_id);
+    const certificationCandidate = await this.store.peekRecord(
+      'certification-candidate',
+      params.certification_candidate_id,
+    );
+
+    if (!certificationCandidate) {
+      this.router.replaceWith('authenticated.certifications.join');
+    }
+
+    return certificationCandidate;
   }
 }
