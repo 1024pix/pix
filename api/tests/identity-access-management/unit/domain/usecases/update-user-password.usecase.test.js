@@ -1,4 +1,4 @@
-import { PasswordResetDemandNotFoundError } from '../../../../../lib/domain/errors.js';
+import { PasswordResetDemandNotFoundError } from '../../../../../src/identity-access-management/domain/errors.js';
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { updateUserPassword } from '../../../../../src/identity-access-management/domain/usecases/update-user-password.usecase.js';
 import { UserNotAuthorizedToUpdatePasswordError } from '../../../../../src/shared/domain/errors.js';

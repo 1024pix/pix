@@ -6,6 +6,7 @@ import {
   MissingOrInvalidCredentialsError,
   MissingUserAccountError,
   PasswordNotMatching,
+  PasswordResetDemandNotFoundError,
   UserCantBeCreatedError,
   UserShouldChangePasswordError,
 } from '../domain/errors.js';
@@ -31,6 +32,10 @@ const authenticationDomainErrorMappingConfiguration = [
   {
     name: PasswordNotMatching.name,
     httpErrorFn: (error) => new HttpErrors.UnauthorizedError(error.message),
+  },
+  {
+    name: PasswordResetDemandNotFoundError.name,
+    httpErrorFn: (error) => new HttpErrors.NotFoundError(error.message),
   },
   {
     name: UserCantBeCreatedError.name,

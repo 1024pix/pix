@@ -198,9 +198,6 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.UserNotFoundError) {
     return new HttpErrors.NotFoundError(error.message);
   }
-  if (error instanceof DomainErrors.PasswordResetDemandNotFoundError) {
-    return new HttpErrors.NotFoundError(error.message);
-  }
   if (error instanceof DomainErrors.AlreadyRegisteredEmailAndUsernameError) {
     return new HttpErrors.BadRequestError(error.message);
   }

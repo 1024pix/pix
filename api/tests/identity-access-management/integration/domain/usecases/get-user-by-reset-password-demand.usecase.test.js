@@ -1,4 +1,5 @@
-import { PasswordResetDemandNotFoundError, UserNotFoundError } from '../../../../../lib/domain/errors.js';
+import { UserNotFoundError } from '../../../../../lib/domain/errors.js';
+import { PasswordResetDemandNotFoundError } from '../../../../../src/identity-access-management/domain/errors.js';
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { resetPasswordService } from '../../../../../src/identity-access-management/domain/services/reset-password.service.js';
 import { getUserByResetPasswordDemand } from '../../../../../src/identity-access-management/domain/usecases/get-user-by-reset-password-demand.usecase.js';

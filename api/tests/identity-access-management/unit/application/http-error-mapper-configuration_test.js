@@ -5,6 +5,7 @@ import {
   MissingOrInvalidCredentialsError,
   MissingUserAccountError,
   PasswordNotMatching,
+  PasswordResetDemandNotFoundError,
   UserCantBeCreatedError,
   UserShouldChangePasswordError,
 } from '../../../../src/identity-access-management/domain/errors.js';
@@ -95,6 +96,23 @@ describe('Unit | Identity Access Management | Application | HttpErrorMapperConfi
 
       //then
       expect(error).to.be.instanceOf(HttpErrors.UnauthorizedError);
+      expect(error.message).to.equal(message);
+    });
+  });
+
+  context('when mapping "PasswordResetDemandNotFoundError"', function () {
+    it('returns a NotFoundError Http Error', function () {
+      //given
+      const httpErrorMapper = authenticationDomainErrorMappingConfiguration.find(
+        (httpErrorMapper) => httpErrorMapper.name === PasswordResetDemandNotFoundError.name,
+      );
+      const message = 'Test message error';
+
+      //when
+      const error = httpErrorMapper.httpErrorFn(new PasswordResetDemandNotFoundError(message));
+
+      //then
+      expect(error).to.be.instanceOf(HttpErrors.NotFoundError);
       expect(error.message).to.equal(message);
     });
   });

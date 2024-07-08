@@ -1,4 +1,4 @@
-import { PasswordResetDemandNotFoundError } from '../../../../../lib/domain/errors.js';
+import { PasswordResetDemandNotFoundError } from '../../../../../src/identity-access-management/domain/errors.js';
 import { ResetPasswordDemand } from '../../../../../src/identity-access-management/domain/models/ResetPasswordDemand.js';
 import { resetPasswordDemandRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/reset-password-demand.repository.js';
 import { catchErr, databaseBuilder, expect, knex } from '../../../../test-helper.js';
