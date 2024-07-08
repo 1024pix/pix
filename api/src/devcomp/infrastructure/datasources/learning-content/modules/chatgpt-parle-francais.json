@@ -195,11 +195,6 @@
                 {
                   "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
                   "type": "text",
-                  "content": "<hr>"
-                },
-                {
-                  "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
-                  "type": "text",
                   "content": "<p>Michel est <strong>québécois</strong> et utilise un LLM pour la première fois. Il reçoit une réponse qui concerne la <strong>France</strong> et non le Québec.<span aria-hidden=\"true\">&nbsp;👇</span></p>"
                 },
                 {
@@ -265,11 +260,6 @@
                     "invalid": "<span class=\"feedback__state\">❌ Incorrect !</span><p>Ce biais est déjà très présent dans nos sociétés, il est représenté dans de nombreux médias.</p>"
                   },
                   "solution": "2"
-                },
-                {
-                  "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
-                  "type": "text",
-                  "content": "<hr>"
                 }
               ]
             },
