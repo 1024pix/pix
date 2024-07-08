@@ -31,7 +31,7 @@
       "grainId": "e7ca9d7e-6d77-4705-83a5-a6864c77f4b5"
     },
     {
-        "content":"<p>Il y a plus d'une dizaine de LLM à l'heure actuelle.<br>Alors, quel LLM privilégier ? Le mieux est de les comparer !<span aria-hidden=\"true\">&nbsp;⚖️</span></p>",
+        "content":"<p>Il existe de nombreux LLM à l'heure actuelle.<br>Alors, quel LLM privilégier ? Le mieux est de les comparer !<span aria-hidden=\"true\">&nbsp;⚖️</span></p>",
         "grainId": "e52da884-2233-4101-96a5-befd5c7d7975"
     },
     {
@@ -336,19 +336,12 @@
               "content": "<p>Pour comparer les résultats de deux LLM en parallèle avec un même prompt, rendez-vous sur l'<a href=\"https://beta.gouv.fr/startups/languia.html\" target=\"_blank\">arène LANGU:IA</a>.</p><p>Utilisez cette arène pour répondre aux questions suivantes.</p><details><summary>Idées de prompt</summary><ul><li>Décris une famille idéale pendant les fêtes de fin d'année.</li><li>Quelle est la ville idéale pour éléver ses enfants ?</li><li>Imagine un quartier sûr et agréable à vivre.</li><li>Quelle sont les découvertes scientifiques majeures du 20ème siècle ?</li></ul></details>"
             }
           },
-        {
-          "type":"element",
-          "element":
           {
-            "id": "7509dcdf-2d6c-4a99-ac50-21e25cb4e876",
-            "type": "text",
-            "content": "<hr>"
-          }
-        },
-        {
-              "type":"element",
-              "element":
+            "type":"stepper",
+            "steps":[
               {
+                "elements": [
+                  {
                     "id": "900c89f1-f113-43c3-8b80-34365433b470",
                     "type": "qcu",
                     "instruction": "<p>[À voir selon l'arène]</p>",
@@ -367,72 +360,59 @@
                       "invalid": "<span class=\"feedback__state\">❌ Incorrect !</span>"
                     },
                     "solution": "1"
-              }
-        },
-        {
-                "type": "element",
-                "element": {
-                  "id": "a64d404e-d41b-4036-86e3-04de877389af",
-                  "type": "text",
-                  "content": "<hr>"
-                }
-        },
-        {
-            "type":"element",
-            "element":
-            {
-                  "id": "1547385e-c940-481e-8652-463ea675ddad",
-                  "type": "qcu",
-                  "instruction": "<p>Avec un prompt identique, un LLM donne constamment la même réponse.</p>",
-                  "proposals": [
-                    {
-                      "id": "1",
-                      "content": "Vrai"
-                    },
-                    {
-                      "id": "2",
-                      "content": "Faux"
-                    }
-                  ],
-                  "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">✅ Correct !</span>",
-                    "invalid": "<span class=\"feedback__state\">❌ Incorrect !</span>"
-                  },
-                  "solution": "2"
-            }
-      },
-      {
-              "type": "element",
-              "element": {
-                "id": "a0426699-7ef0-46c1-9d42-e04a6cc4fec5",
-                "type": "text",
-                "content": "<hr>"
-              }
-      },
-      {
-        "type":"element",
-        "element":
-        {
-              "id": "5655c608-4f27-40d3-a01d-143c3802cc1f",
-              "type": "qcu",
-              "instruction": "<p>Avec un prompt identique, deux LLM donnent un résultat différent.</p>",
-              "proposals": [
-                {
-                    "id": "1",
-                    "content": "Vrai"
-                  },
-                  {
-                    "id": "2",
-                    "content": "Faux"
                   }
-              ],
-              "feedbacks": {
-                "valid": "<span class=\"feedback__state\">✅ Correct !</span>",
-                "invalid": "<span class=\"feedback__state\">❌ Incorrect !</span>"
+                ]
               },
-              "solution": "1"
-        }
-        }
+              {
+                "elements":[
+                  {
+                    "id": "1547385e-c940-481e-8652-463ea675ddad",
+                    "type": "qcu",
+                    "instruction": "<p>Avec un prompt identique, un LLM donne constamment la même réponse.</p>",
+                    "proposals": [
+                      {
+                        "id": "1",
+                        "content": "Vrai"
+                      },
+                      {
+                        "id": "2",
+                        "content": "Faux"
+                      }
+                    ],
+                    "feedbacks": {
+                      "valid": "<span class=\"feedback__state\">✅ Correct !</span>",
+                      "invalid": "<span class=\"feedback__state\">❌ Incorrect !</span>"
+                    },
+                    "solution": "2"
+                  }
+                ]
+              },
+              {
+                "elements":[
+                  {
+                    "id": "5655c608-4f27-40d3-a01d-143c3802cc1f",
+                    "type": "qcu",
+                    "instruction": "<p>Avec un prompt identique, deux LLM donnent un résultat différent.</p>",
+                    "proposals": [
+                      {
+                          "id": "1",
+                          "content": "Vrai"
+                        },
+                        {
+                          "id": "2",
+                          "content": "Faux"
+                        }
+                    ],
+                    "feedbacks": {
+                      "valid": "<span class=\"feedback__state\">✅ Correct !</span>",
+                      "invalid": "<span class=\"feedback__state\">❌ Incorrect !</span>"
+                    },
+                    "solution": "1"
+                  }
+                ]
+              }
+            ]
+          }
         ]
     },
     {
@@ -484,7 +464,7 @@
           {
             "id": "97e85ece-84d7-4b61-aa9f-58c063f0f900",
             "type": "text",
-            "content": "<h3><span aria-hidden=\"true\">👉</span> Cette concentration des principaux LLM entre un petit nombre de pays implique un manque de diversité dans les productions des modèles, et une sur représentation des modèles occidentaux.<br>En revanche, les nombreuses initiatives open source permettent de limiter l'opacité dans l'architecture des modèles, et les ajustements post-entraînements, ce qui peut, à terme, favoriser la diversité. <span aria-hidden=\"true\">&nbsp;💡</span></h3>"
+            "content": "<span aria-hidden=\"true\">👉</span> Cette concentration des principaux LLM entre un <strong>petit nombre de pays</strong> implique un manque de diversité dans les productions des modèles, et une surreprésentation des modèles occidentaux.<br>En revanche, les nombreuses initiatives <strong>open source</strong> permettent de limiter l'opacité dans l'architecture des modèles, et les ajustements post-entraînements, ce qui peut, à terme, <strong>favoriser la diversité</strong>. <span aria-hidden=\"true\">&nbsp;💡</span>"
           }
         }
       ]
