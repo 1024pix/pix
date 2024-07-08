@@ -436,7 +436,7 @@
           {
             "id": "ec182563-1090-4794-8a5f-e179d244fa3e",
             "type": "text",
-            "content": "<p>Étudiez ce schéma qui place les LLM actuels selon deux aspects : leur <strong>nationalité</strong> et la <strong>licence</strong> de leur code.<br>Par la suite, vous utiliserez l'arène pour répondre à des questions sur ces aspects.</p>"
+            "content": "<p>Étudiez ce schéma qui place les principaux LLM selon deux aspects : leur <strong>nationalité</strong> et la <strong>licence</strong> de leur code.<br>Par la suite, vous utiliserez l'arène pour répondre à des questions sur ces aspects.</p>"
           }
         },
         {
@@ -456,7 +456,7 @@
           {
             "id": "a5b4912d-7882-47ed-a782-bf87d73ead55",
             "type": "text",
-            "content": "<p>Les principaux LLM sont développés uniquement au sein de grandes puissances économiques mondiales.<span aria-hidden=\"true\">&nbsp;🌍</span> Cette domination s'explique notamment par le coût financier très élevé nécessaire pour développer un modèle.<span aria-hidden=\"true\">&nbsp;💵</span></p><p></p>"
+            "content": "<p>Ces LLM sont développés uniquement au sein de grandes puissances économiques mondiales.<span aria-hidden=\"true\">&nbsp;🌍</span> Cette domination s'explique notamment par le coût financier très élevé nécessaire pour développer un modèle.<span aria-hidden=\"true\">&nbsp;💵</span></p><p></p>"
           }
         },
         {
@@ -465,7 +465,7 @@
           {
             "id": "97e85ece-84d7-4b61-aa9f-58c063f0f900",
             "type": "text",
-            "content": "<p>Cette concentration entre un petit nombre de pays explique le <strong>manque de diversité</strong> dans les textes produits par les modèles.</p><p>Cependant, les nombreuses initiatives <strong>open source</strong> permettent d'améliorer la <strong>transparence</strong> des LLM, qui favorisera la diversité des résultats.<span aria-hidden=\"true\">&nbsp;📖</span></p>"
+            "content": "<p>Cette concentration entre un petit nombre de pays explique le <strong>manque de diversité</strong> dans les textes produits par les modèles.</p><p>Cependant, les nombreuses initiatives <strong>open source</strong> permettent d'améliorer la <strong>transparence</strong> des LLM, ce qui pourra favoriser la diversité des résultats.<span aria-hidden=\"true\">&nbsp;📖</span></p>"
           }
         }
       ]
