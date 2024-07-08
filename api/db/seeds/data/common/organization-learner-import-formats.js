@@ -6,7 +6,7 @@ export const organizationLearnerImportFormat = async function ({ databaseBuilder
     name: 'ONDE',
     fileType: 'csv',
     config: {
-      acceptedEncoding: ['utf8'],
+      acceptedEncoding: ['iso-8859-1', 'utf8'],
       unicityColumns: ['INE'],
       validationRules: {
         formats: [
@@ -15,7 +15,7 @@ export const organizationLearnerImportFormat = async function ({ databaseBuilder
           { name: 'INE', type: 'string', required: true },
           { name: 'Niveau', type: 'string', required: true },
           { name: 'Libellé classe', type: 'string', required: true },
-          { name: 'Date de naissance', type: 'date', format: 'DD/MM/YYYY', required: true },
+          { name: 'Date naissance', type: 'date', format: 'YYYY-MM-DD', required: true },
         ],
       },
       headers: [
@@ -24,7 +24,7 @@ export const organizationLearnerImportFormat = async function ({ databaseBuilder
         { name: 'INE', required: true },
         { name: 'Niveau', required: true },
         { name: 'Libellé classe', required: true },
-        { name: 'Date de naissance', required: true },
+        { name: 'Date naissance', required: true },
       ],
     },
     createdAt: new Date('2024-01-01'),
