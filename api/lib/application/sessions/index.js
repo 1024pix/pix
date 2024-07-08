@@ -27,6 +27,15 @@ const register = async function (server) {
             assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
+        validate: {
+          query: Joi.object({
+            filter: Joi.object().default({}),
+            page: {
+              number: Joi.number().integer().empty('').allow(null).optional(),
+              size: Joi.number().integer().empty('').allow(null).optional(),
+            },
+          }),
+        },
         handler: sessionController.findPaginatedFilteredJurySessions,
         tags: ['api', 'sessions'],
         notes: [
@@ -66,7 +75,9 @@ const register = async function (server) {
       config: {
         validate: {
           query: Joi.object({
-            'filter[version]': Joi.number(),
+            filter: {
+              version: Joi.number(),
+            },
           }),
         },
         pre: [
@@ -91,7 +102,9 @@ const register = async function (server) {
       config: {
         validate: {
           query: Joi.object({
-            'filter[version]': Joi.number(),
+            filter: {
+              version: Joi.number(),
+            },
           }),
         },
         pre: [

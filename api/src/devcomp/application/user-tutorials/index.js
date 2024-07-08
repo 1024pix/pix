@@ -43,8 +43,10 @@ const register = async function (server) {
             userId: identifiersType.userId,
           }),
           query: Joi.object({
-            'filter[type]': Joi.string().valid('recommended', 'saved').allow(null).empty(''),
-            'filter[competences]': Joi.string().allow(null).empty(''),
+            filter: {
+              type: Joi.string().valid('recommended', 'saved').allow(null).empty(''),
+              competences: Joi.string().allow(null).empty(''),
+            },
           }),
           options: {
             allowUnknown: true,

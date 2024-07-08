@@ -41,9 +41,8 @@ describe('Unit | Route | mission-learner-route', function () {
       expect(findPaginatedMissionLearnersStub).to.have.been.calledWith(
         sinon.match.has(
           'query',
-          sinon.match.has('filter[divisions][]', ['CM2-C', 'CM2-B']),
-          sinon.match.has('page[number]', '1'),
-          sinon.match.has('page[size]', '25'),
+          sinon.match.has('filter', sinon.match.has('divisions', ['CM2-C', 'CM2-B'])),
+          sinon.match.has('page', sinon.match.has('number', '1'), sinon.match.has('size', '25')),
         ),
       );
     });

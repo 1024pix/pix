@@ -70,6 +70,7 @@
     "pg-connection-string": "^2.5.0",
     "pino": "^9.0.0",
     "pino-pretty": "^11.0.0",
+    "qs": "6.12.1",
     "randomstring": "^1.2.2",
     "redlock": "^4.2.0",
     "samlify": "^2.8.5",

@@ -4,14 +4,13 @@ import { evaluationUsecases } from '../../../src/evaluation/domain/usecases/inde
 import { deserializer as badgeCreationDeserializer } from '../../../src/evaluation/infrastructure/serializers/jsonapi/badge-creation-serializer.js';
 import * as badgeSerializer from '../../../src/evaluation/infrastructure/serializers/jsonapi/badge-serializer.js';
 import * as targetProfileSerializer from '../../../src/prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-serializer.js';
-import * as queryParamsUtils from '../../../src/shared/infrastructure/utils/query-params-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import * as targetProfileForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-for-admin-serializer.js';
 import * as targetProfileSummaryForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 
 const findPaginatedFilteredTargetProfileSummariesForAdmin = async function (request) {
-  const options = queryParamsUtils.extractParameters(request.query);
+  const options = request.query;
 
   const { models: targetProfileSummaries, meta } = await usecases.findPaginatedFilteredTargetProfileSummariesForAdmin({
     filter: options.filter,
@@ -20,13 +19,9 @@ const findPaginatedFilteredTargetProfileSummariesForAdmin = async function (requ
   return targetProfileSummaryForAdminSerializer.serialize(targetProfileSummaries, meta);
 };
 
-const getTargetProfileForAdmin = async function (
-  request,
-  h,
-  dependencies = { targetProfileForAdminSerializer, queryParamsUtils },
-) {
+const getTargetProfileForAdmin = async function (request, h, dependencies = { targetProfileForAdminSerializer }) {
   const targetProfileId = request.params.id;
-  const { filter } = dependencies.queryParamsUtils.extractParameters(request.query);
+  const { filter } = request.query;
 
   const targetProfile = await usecases.getTargetProfileForAdmin({ targetProfileId });
   return dependencies.targetProfileForAdminSerializer.serialize({ targetProfile, filter });
@@ -59,12 +54,8 @@ const createTargetProfile = async function (request) {
   return targetProfileSerializer.serializeId(targetProfileId);
 };
 
-const findPaginatedTrainings = async function (
-  request,
-  h,
-  dependencies = { queryParamsUtils, trainingSummarySerializer },
-) {
-  const { page } = dependencies.queryParamsUtils.extractParameters(request.query);
+const findPaginatedTrainings = async function (request, h, dependencies = { trainingSummarySerializer }) {
+  const { page } = request.query;
   const targetProfileId = request.params.id;
 
   const { trainings, meta } = await devcompUsecases.findPaginatedTargetProfileTrainingSummaries({

@@ -1,4 +1,3 @@
-import * as queryParamsUtils from '../../../shared/infrastructure/utils/query-params-utils.js';
 import * as requestResponseUtils from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { evaluationUsecases as usecases } from '../../domain/usecases/index.js';
 import * as autonomousCoursePaginatedListSerializer from '../../infrastructure/serializers/jsonapi/autonomous-course-paginated-list-serializer.js';
@@ -37,12 +36,8 @@ const getById = async function (request, h, dependencies = { usecases, autonomou
   return dependencies.autonomousCourseSerializer.serialize(autonomousCourse);
 };
 
-const findPaginatedList = async (
-  request,
-  h,
-  dependencies = { queryParamsUtils, usecases, autonomousCoursePaginatedListSerializer },
-) => {
-  const { page } = dependencies.queryParamsUtils.extractParameters(request.query);
+const findPaginatedList = async (request, h, dependencies = { usecases, autonomousCoursePaginatedListSerializer }) => {
+  const { page } = request.query;
   const { autonomousCourses, meta } = await dependencies.usecases.findAllPaginatedAutonomousCourses({ page });
   return dependencies.autonomousCoursePaginatedListSerializer.serialize(autonomousCourses, meta);
 };

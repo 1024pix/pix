@@ -1,6 +1,5 @@
 import { learnerListController } from '../../../../../src/prescription/organization-learner/application/learner-list-controller.js';
 import { usecases } from '../../../../../src/prescription/organization-learner/domain/usecases/index.js';
-import * as queryParamsUtils from '../../../../../src/shared/infrastructure/utils/query-params-utils.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Application | learner-list-controller', function () {
@@ -47,11 +46,6 @@ describe('Unit | Application | learner-list-controller', function () {
       const expectedPagination = { ...parameters, pageSize: 25, itemsCount: 100, pagesCount: 4 };
       const expectedResponse = { data: serializedOrganizationParticipants, meta: {} };
 
-      const queryParamsUtils = { extractParameters: sinon.stub() };
-      queryParamsUtils.extractParameters.withArgs(request.query).returns(parameters);
-
-      dependencies.queryParamsUtils = queryParamsUtils;
-
       usecases.findPaginatedFilteredParticipants
         .withArgs({ organizationId, page: 2, filters: parameters.filter, sort: {} })
         .returns({
@@ -77,13 +71,16 @@ describe('Unit | Application | learner-list-controller', function () {
       request = {
         ...request,
         query: {
-          'sort[participationCount]': 'asc',
-          'sort[lastnameSort]': 'asc',
-          'sort[latestParticipationOrder]': 'asc',
+          sort: {
+            participationCount: 'asc',
+            lastnameSort: 'asc',
+            latestParticipationOrder: 'asc',
+          },
+          filter: {},
+          page: {},
         },
       };
       usecases.findPaginatedFilteredParticipants.resolves({});
-      dependencies.queryParamsUtils = queryParamsUtils;
 
       // when
       await learnerListController.findPaginatedFilteredParticipants(request, hFake, dependencies);
@@ -107,12 +104,13 @@ describe('Unit | Application | learner-list-controller', function () {
         auth: { credentials: { userId: connectedUserId } },
         params: { organizationId },
         query: {
-          'filter[certificability][]': ['eligible', 'non-eligible', 'not-available'],
+          filter: { certificability: ['eligible', 'non-eligible', 'not-available'] },
+          page: {},
+          sort: {},
         },
       };
       usecases.findPaginatedFilteredParticipants.resolves({ data: [] });
       dependencies.organizationParticipantsSerializer.serialize.returns({});
-      dependencies.queryParamsUtils = queryParamsUtils;
 
       // when
       await learnerListController.findPaginatedFilteredParticipants(request, hFake, dependencies);

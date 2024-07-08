@@ -1,6 +1,5 @@
 import * as organizationSerializer from '../../../src/organizational-entities/infrastructure/serializers/jsonapi/organization-serializer.js';
 import * as divisionSerializer from '../../../src/prescription/campaign/infrastructure/serializers/jsonapi/division-serializer.js';
-import * as queryParamsUtils from '../../../src/shared/infrastructure/utils/query-params-utils.js';
 import {
   extractLocaleFromRequest,
   extractUserIdFromRequest,
@@ -33,15 +32,8 @@ const createInBatch = async function (request, h) {
   return h.response(organizationForAdminSerializer.serialize(createdOrganizations)).code(204);
 };
 
-const findPaginatedFilteredOrganizations = async function (
-  request,
-  h,
-  dependencies = {
-    organizationSerializer,
-    queryParamsUtils,
-  },
-) {
-  const options = dependencies.queryParamsUtils.extractParameters(request.query);
+const findPaginatedFilteredOrganizations = async function (request, h, dependencies = { organizationSerializer }) {
+  const options = request.query;
 
   const { models: organizations, pagination } = await usecases.findPaginatedFilteredOrganizations({
     filter: options.filter,
@@ -52,7 +44,7 @@ const findPaginatedFilteredOrganizations = async function (
 
 const findPaginatedFilteredMembershipsForAdmin = async function (request) {
   const organizationId = request.params.id;
-  const options = queryParamsUtils.extractParameters(request.query);
+  const options = request.query;
 
   const { models: memberships, pagination } = await usecases.findPaginatedFilteredOrganizationMemberships({
     organizationId,
@@ -64,7 +56,7 @@ const findPaginatedFilteredMembershipsForAdmin = async function (request) {
 
 const findPaginatedFilteredMemberships = async function (request) {
   const organizationId = request.params.id;
-  const options = queryParamsUtils.extractParameters(request.query);
+  const options = request.query;
 
   const { models: memberships, pagination } = await usecases.findPaginatedFilteredOrganizationMemberships({
     organizationId,

@@ -350,14 +350,10 @@ describe('Unit | Application | Controller | Campaign administration', function (
       };
       campaign = domainBuilder.buildCampaign();
       serializedCampaigns = [{ name: campaign.name, code: campaign.code }];
-      const queryParamsUtilsStub = {
-        extractParameters: sinon.stub(),
-      };
       const campaignManagementSerializerStub = {
         serialize: sinon.stub(),
       };
       dependencies = {
-        queryParamsUtils: queryParamsUtilsStub,
         campaignManagementSerializer: campaignManagementSerializerStub,
       };
 
@@ -366,14 +362,13 @@ describe('Unit | Application | Controller | Campaign administration', function (
 
     it('should call the usecase to get the campaigns and associated campaignManagements', async function () {
       // given
-      request.query = {
-        campaignManagement: true,
-      };
       const expectedPage = 2;
       const expectedFilter = { name: 'Math' };
-      dependencies.queryParamsUtils.extractParameters
-        .withArgs(request.query)
-        .returns({ page: expectedPage, filter: expectedFilter });
+      request.query = {
+        campaignManagement: true,
+        page: expectedPage,
+        filter: expectedFilter,
+      };
       const expectedResults = [campaign];
       const expectedPagination = { page: expectedPage, pageSize: 25, itemsCount: 100, pagesCount: 4 };
       usecases.findPaginatedCampaignManagements.resolves({ models: expectedResults, pagination: expectedPagination });
@@ -397,7 +392,6 @@ describe('Unit | Application | Controller | Campaign administration', function (
 
       const expectedResults = [campaign];
       const expectedPagination = { page: 2, pageSize: 25, itemsCount: 100, pagesCount: 4 };
-      dependencies.queryParamsUtils.extractParameters.withArgs({}).returns({ filter: {} });
       usecases.findPaginatedCampaignManagements.resolves({ models: expectedResults, meta: expectedPagination });
       dependencies.campaignManagementSerializer.serialize
         .withArgs(expectedResults, expectedPagination)

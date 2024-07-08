@@ -275,12 +275,16 @@ const register = async function (server) {
             targetProfileId: identifiersType.targetProfileId,
           }),
           query: Joi.object({
-            'filter[id]': optionalIdentifiersType.organizationId,
-            'filter[name]': Joi.string().empty('').allow(null).optional(),
-            'filter[type]': Joi.string().empty('').allow(null).optional(),
-            'filter[external-id]': Joi.string().empty('').allow(null).optional(),
-            'page[number]': Joi.number().integer().empty('').allow(null).optional(),
-            'page[size]': Joi.number().integer().empty('').allow(null).optional(),
+            filter: Joi.object({
+              id: optionalIdentifiersType.organizationId,
+              name: Joi.string().empty('').allow(null).optional(),
+              type: Joi.string().empty('').allow(null).optional(),
+              'external-id': Joi.string().empty('').allow(null).optional(),
+            }).default({}),
+            page: {
+              number: Joi.number().integer().empty('').allow(null).optional(),
+              size: Joi.number().integer().empty('').allow(null).optional(),
+            },
           }).options({ allowUnknown: true }),
         },
         handler: targetProfileController.findPaginatedFilteredTargetProfileOrganizations,

@@ -27,8 +27,10 @@ const register = async function (server) {
             campaignId: identifiersType.campaignId,
           }),
           query: Joi.object({
-            'page[number]': Joi.number().integer().empty(''),
-            'page[size]': Joi.number().integer().empty(''),
+            page: {
+              number: Joi.number().integer().empty(''),
+              size: Joi.number().integer().empty(''),
+            },
           }),
         },
         handler: campaignParticipationController.findPaginatedParticipationsForCampaignManagement,

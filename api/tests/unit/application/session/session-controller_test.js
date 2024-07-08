@@ -6,7 +6,6 @@ import { SessionPublicationBatchResult } from '../../../../lib/domain/models/ind
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { usecases as enrolmentUsecases } from '../../../../src/certification/enrolment/domain/usecases/index.js';
 import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
-import * as queryParamsUtils from '../../../../src/shared/infrastructure/utils/query-params-utils.js';
 import { catchErr, expect, hFake, sinon } from '../../../test-helper.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 
@@ -91,7 +90,7 @@ describe('Unit | Controller | sessionController', function () {
 
       const request = {
         params: { id: sessionId },
-        query: { 'page[size]': 30, 'page[number]': 3 },
+        query: { page: { size: 30, number: 3 } },
         auth: {
           credentials: {
             userId,
@@ -115,7 +114,6 @@ describe('Unit | Controller | sessionController', function () {
       const response = await sessionController.getJuryCertificationSummaries(request, hFake, {
         juryCertificationSummaryRepository,
         juryCertificationSummarySerializer,
-        queryParamsUtils,
       });
 
       // then
@@ -605,17 +603,15 @@ describe('Unit | Controller | sessionController', function () {
   describe('#findPaginatedFilteredJurySessions', function () {
     it('should return the serialized jurySessions', async function () {
       // given
-      const queryParamsUtils = { extractParameters: sinon.stub() };
       const sessionValidator = { validateAndNormalizeFilters: sinon.stub() };
       const jurySessionRepository = { findPaginatedFiltered: sinon.stub() };
       const jurySessionSerializer = { serializeForPaginatedList: sinon.stub() };
-      const request = { query: {} };
       const filter = { filter1: ' filter1ToTrim', filter2: 'filter2' };
       const normalizedFilters = 'normalizedFilters';
       const page = 'somePageConfiguration';
       const jurySessionsForPaginatedList = Symbol('jurySessionsForPaginatedList');
       const serializedJurySessionsForPaginatedList = Symbol('serializedJurySessionsForPaginatedList');
-      queryParamsUtils.extractParameters.withArgs(request.query).returns({ filter, page });
+      const request = { query: { filter, page } };
       sessionValidator.validateAndNormalizeFilters.withArgs(filter).returns(normalizedFilters);
       jurySessionRepository.findPaginatedFiltered
         .withArgs({ filters: normalizedFilters, page })
@@ -626,7 +622,6 @@ describe('Unit | Controller | sessionController', function () {
 
       // when
       const result = await sessionController.findPaginatedFilteredJurySessions(request, hFake, {
-        queryParamsUtils,
         sessionValidator,
         jurySessionRepository,
         jurySessionSerializer,

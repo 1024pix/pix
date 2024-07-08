@@ -8,7 +8,6 @@ import { usecases as devcompUsecases } from '../../../../src/devcomp/domain/usec
 import { evaluationUsecases } from '../../../../src/evaluation/domain/usecases/index.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { User } from '../../../../src/identity-access-management/domain/models/User.js';
-import * as queryParamsUtils from '../../../../src/shared/infrastructure/utils/query-params-utils.js';
 import * as requestResponseUtils from '../../../../src/shared/infrastructure/utils/request-response-utils.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
@@ -229,10 +228,8 @@ describe('Unit | Controller | user-controller', function () {
 
     beforeEach(function () {
       sinon.stub(usecases, 'findPaginatedFilteredUsers');
-      const queryParamsUtils = { extractParameters: sinon.stub() };
       const userForAdminSerializer = { serialize: sinon.stub() };
       dependencies = {
-        queryParamsUtils,
         userForAdminSerializer,
       };
     });
@@ -240,7 +237,6 @@ describe('Unit | Controller | user-controller', function () {
     it('should return a list of JSON API users fetched from the data repository', async function () {
       // given
       const request = { query: {} };
-      dependencies.queryParamsUtils.extractParameters.withArgs({}).returns({});
       usecases.findPaginatedFilteredUsers.resolves({ models: {}, pagination: {} });
       dependencies.userForAdminSerializer.serialize.returns({ data: {}, meta: {} });
 
@@ -257,7 +253,6 @@ describe('Unit | Controller | user-controller', function () {
       const request = { query: {} };
       const expectedResults = [new User({ id: 1 }), new User({ id: 2 }), new User({ id: 3 })];
       const expectedPagination = { page: 2, pageSize: 25, itemsCount: 100, pagesCount: 4 };
-      dependencies.queryParamsUtils.extractParameters.withArgs({}).returns({});
       usecases.findPaginatedFilteredUsers.resolves({ models: expectedResults, pagination: expectedPagination });
 
       // when
@@ -274,7 +269,6 @@ describe('Unit | Controller | user-controller', function () {
       // given
       const query = { filter: { firstName: 'Alexia' }, page: {} };
       const request = { query };
-      dependencies.queryParamsUtils.extractParameters.withArgs(query).returns(query);
       usecases.findPaginatedFilteredUsers.resolves({ models: {}, pagination: {} });
 
       // when
@@ -288,7 +282,6 @@ describe('Unit | Controller | user-controller', function () {
       // given
       const query = { filter: { lastName: 'Granjean' }, page: {} };
       const request = { query };
-      dependencies.queryParamsUtils.extractParameters.withArgs(query).returns(query);
       usecases.findPaginatedFilteredUsers.resolves({ models: {}, pagination: {} });
 
       // when
@@ -302,7 +295,6 @@ describe('Unit | Controller | user-controller', function () {
       // given
       const query = { filter: { email: 'alexiagranjean' }, page: {} };
       const request = { query };
-      dependencies.queryParamsUtils.extractParameters.withArgs(query).returns(query);
       usecases.findPaginatedFilteredUsers.resolves({ models: {}, pagination: {} });
 
       // when
@@ -316,7 +308,6 @@ describe('Unit | Controller | user-controller', function () {
       // given
       const query = { filter: { email: 'alexiagranjean' }, page: { number: 2, size: 25 } };
       const request = { query };
-      dependencies.queryParamsUtils.extractParameters.withArgs(query).returns(query);
       usecases.findPaginatedFilteredUsers.resolves({ models: {}, pagination: {} });
 
       // when
@@ -331,7 +322,6 @@ describe('Unit | Controller | user-controller', function () {
     it('should call the appropriate use-case', async function () {
       // given
       const page = Symbol('page');
-      const query = Symbol('query');
       const locale = 'fr';
       const request = {
         auth: {
@@ -339,14 +329,12 @@ describe('Unit | Controller | user-controller', function () {
             userId: 1,
           },
         },
-        query,
+        query: { page },
         headers: { 'accept-language': locale },
       };
       const expectedResult = Symbol('serialized-trainings');
       const userRecommendedTrainings = Symbol('userRecommendedTrainings');
       const meta = Symbol('meta');
-      const queryParamsUtils = { extractParameters: sinon.stub() };
-      queryParamsUtils.extractParameters.withArgs(query).returns({ page });
       const requestResponseUtils = { extractLocaleFromRequest: sinon.stub() };
       requestResponseUtils.extractLocaleFromRequest.withArgs(request).returns(locale);
       sinon.stub(devcompUsecases, 'findPaginatedUserRecommendedTrainings').resolves({ userRecommendedTrainings, meta });
@@ -355,14 +343,12 @@ describe('Unit | Controller | user-controller', function () {
 
       // when
       const response = await userController.findPaginatedUserRecommendedTrainings(request, hFake, {
-        queryParamsUtils,
         requestResponseUtils,
         devcompUsecases,
         trainingSerializer,
       });
 
       // then
-      expect(queryParamsUtils.extractParameters).to.have.been.calledOnce;
       expect(requestResponseUtils.extractLocaleFromRequest).to.have.been.calledOnce;
       expect(devcompUsecases.findPaginatedUserRecommendedTrainings).to.have.been.calledOnce;
       expect(devcompUsecases.findPaginatedUserRecommendedTrainings).to.have.been.calledWithExactly({
@@ -421,7 +407,6 @@ describe('Unit | Controller | user-controller', function () {
       sinon.stub(usecases, 'findUserCampaignParticipationOverviews');
       dependencies = {
         campaignParticipationOverviewSerializer,
-        queryParamsUtils,
       };
     });
 
@@ -436,6 +421,7 @@ describe('Unit | Controller | user-controller', function () {
         params: {
           id: userId,
         },
+        query: { filter: {}, page: {} },
       };
       usecases.findUserCampaignParticipationOverviews.withArgs({ userId, states: undefined, page: {} }).resolves([]);
       dependencies.campaignParticipationOverviewSerializer.serializeForPaginatedList.withArgs([]).returns({
@@ -463,7 +449,12 @@ describe('Unit | Controller | user-controller', function () {
         params: {
           id: userId,
         },
-        query: { 'filter[states][]': 'ONGOING', 'page[number]': 1, 'page[size]': 10 },
+        query: {
+          filter: {
+            states: 'ONGOING',
+          },
+          page: { number: 1, size: 10 },
+        },
       };
       usecases.findUserCampaignParticipationOverviews
         .withArgs({ userId, states: 'ONGOING', page: { number: 1, size: 10 } })

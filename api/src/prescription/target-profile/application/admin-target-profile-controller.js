@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
 
 import * as organizationSerializer from '../../../organizational-entities/infrastructure/serializers/jsonapi/organization-serializer.js';
-import * as queryParamsUtils from '../../../shared/infrastructure/utils/query-params-utils.js';
 import { escapeFileName } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as targetProfileAttachOrganizationSerializer from '../infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer.js';
@@ -102,12 +101,12 @@ const markTargetProfileAsSimplifiedAccess = async function (request, h) {
 
 const findPaginatedFilteredTargetProfileOrganizations = async function (request) {
   const targetProfileId = request.params.targetProfileId;
-  const options = queryParamsUtils.extractParameters(request.query);
+  const { filter, page } = request.query;
 
   const { models: organizations, pagination } = await usecases.findPaginatedFilteredOrganizationByTargetProfileId({
     targetProfileId,
-    filter: options.filter,
-    page: options.page,
+    filter,
+    page,
   });
   return organizationSerializer.serialize(organizations, pagination);
 };

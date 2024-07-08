@@ -20,26 +20,23 @@ describe('Unit | Devcomp | Application | Trainings | Controller | training-contr
       sinon.stub(usecases, 'findPaginatedTrainingSummaries').resolves({ trainings: trainingSummaries, meta });
 
       const trainingSummarySerializer = { serialize: sinon.stub() };
-      const queryParamsUtils = { extractParameters: sinon.stub() };
       trainingSummarySerializer.serialize.returns(expectedResult);
-      queryParamsUtils.extractParameters.returns(useCaseParameters);
 
       // when
       const response = await trainingController.findPaginatedTrainingSummaries(
         {
-          params: {
+          query: {
             filter: { id: 1 },
             page: { size: 2, number: 1 },
           },
         },
         hFake,
-        { trainingSummarySerializer, queryParamsUtils },
+        { trainingSummarySerializer },
       );
 
       // then
       expect(usecases.findPaginatedTrainingSummaries).to.have.been.calledWithExactly(useCaseParameters);
       expect(trainingSummarySerializer.serialize).to.have.been.calledOnce;
-      expect(queryParamsUtils.extractParameters).to.have.been.calledOnce;
       expect(response).to.deep.equal(expectedResult);
     });
   });

@@ -27,10 +27,14 @@ const register = async function (server) {
             allowUnknown: true,
           },
           query: Joi.object({
-            'filter[id]': Joi.number().integer().empty('').allow(null).optional(),
-            'filter[name]': Joi.string().empty('').allow(null).optional(),
-            'page[number]': Joi.number().integer().empty('').allow(null).optional(),
-            'page[size]': Joi.number().integer().empty('').allow(null).optional(),
+            filter: Joi.object({
+              id: Joi.number().integer().empty('').allow(null).optional(),
+              name: Joi.string().empty('').allow(null).optional(),
+            }).default({}),
+            page: Joi.object({
+              number: Joi.number().integer().empty('').allow(null).optional(),
+              size: Joi.number().integer().empty('').allow(null).optional(),
+            }).default(),
           }),
           failAction: (request, h) => {
             return sendJsonApiError(new BadRequestError('Un des champs de recherche saisis est invalide.'), h);
@@ -65,7 +69,9 @@ const register = async function (server) {
             id: identifiersType.targetProfileId,
           }),
           query: Joi.object({
-            'filter[badges]': Joi.string().valid('certifiable').allow(null).empty(''),
+            filter: Joi.object({
+              badges: Joi.string().valid('certifiable').allow(null).empty(''),
+            }).default({}),
           }),
         },
         handler: targetProfileController.getTargetProfileForAdmin,

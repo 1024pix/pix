@@ -16,7 +16,15 @@ describe('Unit | Controller | certifications-center-controller', function () {
           certificationCenterId: 99,
           sessionId: 88,
         },
-        query: { 'page[size]': 10, 'page[number]': 1, 'filter[divisions][]': '3A' },
+        query: {
+          page: {
+            size: 10,
+            number: 1,
+          },
+          filter: {
+            divisions: '3A',
+          },
+        },
       };
 
       sinon
@@ -226,8 +234,10 @@ describe('Unit | Controller | certifications-center-controller', function () {
         params: { id: 456 },
         auth: { credentials: { userId: 123 } },
         query: {
-          'page[number]': 1,
-          'page[size]': 10,
+          page: {
+            number: 1,
+            size: 10,
+          },
         },
       };
       const sessionSummary = domainBuilder.buildSessionSummary.created({

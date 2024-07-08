@@ -438,7 +438,7 @@ describe('Unit | Router | user-router', function () {
         // when
         const response = await httpTestServer.request(
           'GET',
-          '/api/admin/users?firstName=Bruce&lastName=Wayne&email=batman@gotham.city&page=3&pageSize=25',
+          '/api/admin/users?filter[firstName]=Bruce&filter[lastName]=Wayne&filter[email]=batman@gotham.city&page[number]=3&page[size]=25',
         );
 
         // then
@@ -461,7 +461,7 @@ describe('Unit | Router | user-router', function () {
         // when
         const response = await httpTestServer.request(
           'GET',
-          '/api/admin/users?firstName=Bruce&lastName=Wayne&email=batman@gotham.city&page=3&pageSize=25',
+          '/api/admin/users?filter[firstName]=Bruce&filter[lastName]=Wayne&filter[email]=batman@gotham.city&page[number]=3&page[size]=25',
         );
 
         // then

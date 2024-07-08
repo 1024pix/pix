@@ -59,14 +59,10 @@ describe('Unit | Application | Organizations | organization-controller', functio
     let dependencies;
 
     beforeEach(function () {
-      const queryParamsUtilsStub = {
-        extractParameters: sinon.stub(),
-      };
       const organizationSerializerStub = {
         serialize: sinon.stub(),
       };
       dependencies = {
-        queryParamsUtils: queryParamsUtilsStub,
         organizationSerializer: organizationSerializerStub,
       };
       sinon.stub(usecases, 'findPaginatedFilteredOrganizations');
@@ -75,7 +71,6 @@ describe('Unit | Application | Organizations | organization-controller', functio
     it('should return a list of JSON API organizations fetched from the data repository', async function () {
       // given
       const request = { query: {} };
-      dependencies.queryParamsUtils.extractParameters.withArgs({}).returns({});
       usecases.findPaginatedFilteredOrganizations.resolves({ models: {}, pagination: {} });
       dependencies.organizationSerializer.serialize.returns({ data: {}, meta: {} });
 
@@ -92,7 +87,6 @@ describe('Unit | Application | Organizations | organization-controller', functio
       const request = { query: {} };
       const expectedResults = [new Organization({ id: 1 }), new Organization({ id: 2 }), new Organization({ id: 3 })];
       const expectedPagination = { page: 2, pageSize: 25, itemsCount: 100, pagesCount: 4 };
-      dependencies.queryParamsUtils.extractParameters.withArgs({}).returns({});
       usecases.findPaginatedFilteredOrganizations.resolves({ models: expectedResults, pagination: expectedPagination });
 
       // when
@@ -109,7 +103,6 @@ describe('Unit | Application | Organizations | organization-controller', functio
       // given
       const query = { filter: { name: 'organization_name' }, page: {} };
       const request = { query };
-      dependencies.queryParamsUtils.extractParameters.withArgs(query).returns(query);
       usecases.findPaginatedFilteredOrganizations.resolves({ models: {}, pagination: {} });
 
       // when
@@ -123,7 +116,6 @@ describe('Unit | Application | Organizations | organization-controller', functio
       // given
       const query = { filter: { code: 'organization_code' }, page: {} };
       const request = { query };
-      dependencies.queryParamsUtils.extractParameters.withArgs(query).returns(query);
       usecases.findPaginatedFilteredOrganizations.resolves({ models: {}, pagination: {} });
 
       // when
@@ -137,7 +129,6 @@ describe('Unit | Application | Organizations | organization-controller', functio
       // given
       const query = { filter: { type: 'organization_type' }, page: {} };
       const request = { query };
-      dependencies.queryParamsUtils.extractParameters.withArgs(query).returns(query);
       usecases.findPaginatedFilteredOrganizations.resolves({ models: {}, pagination: {} });
 
       // when
@@ -151,7 +142,6 @@ describe('Unit | Application | Organizations | organization-controller', functio
       // given
       const query = { filter: { name: 'organization_name' }, page: { number: 2, size: 25 } };
       const request = { query };
-      dependencies.queryParamsUtils.extractParameters.withArgs(query).returns(query);
       usecases.findPaginatedFilteredOrganizations.resolves({ models: {}, pagination: {} });
 
       // when

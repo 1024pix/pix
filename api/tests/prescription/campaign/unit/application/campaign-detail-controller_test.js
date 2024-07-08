@@ -9,7 +9,7 @@ describe('Unit | Application | Controller | Campaign detail', function () {
       const code = 'AZERTY123';
       const campaignToJoin = domainBuilder.buildCampaignToJoin({ code, identityProvider: 'SUPER_IDP' });
       const request = {
-        query: { 'filter[code]': code },
+        query: { filter: { code } },
       };
       sinon.stub(usecases, 'getCampaignByCode').withArgs({ code }).resolves(campaignToJoin);
 
@@ -57,7 +57,6 @@ describe('Unit | Application | Controller | Campaign detail', function () {
 
     let request, campaign;
     let campaignReportSerializerStub;
-    let queryParamsUtilsStub;
     let tokenServiceStub;
 
     beforeEach(function () {
@@ -81,9 +80,7 @@ describe('Unit | Application | Controller | Campaign detail', function () {
       campaignReportSerializerStub = {
         serialize: sinon.stub(),
       };
-      queryParamsUtilsStub = { extractParameters: sinon.stub() };
       tokenServiceStub = { createTokenForCampaignResults: sinon.stub().returns('token') };
-      queryParamsUtilsStub.extractParameters.withArgs({}).returns({});
       usecases.getCampaign.resolves(campaign);
     });
 
@@ -97,7 +94,6 @@ describe('Unit | Application | Controller | Campaign detail', function () {
 
       const dependencies = {
         campaignReportSerializer: campaignReportSerializerStub,
-        queryParamsUtils: queryParamsUtilsStub,
         tokenService: tokenServiceStub,
       };
       // when
@@ -129,15 +125,10 @@ describe('Unit | Application | Controller | Campaign detail', function () {
       };
       campaign = domainBuilder.buildCampaign();
       serializedCampaigns = [{ name: campaign.name, code: campaign.code }];
-
-      const queryParamsUtilsStub = {
-        extractParameters: sinon.stub(),
-      };
       const campaignReportSerializerStub = {
         serialize: sinon.stub(),
       };
       dependencies = {
-        queryParamsUtils: queryParamsUtilsStub,
         campaignReportSerializer: campaignReportSerializerStub,
       };
       sinon.stub(usecases, 'findPaginatedFilteredOrganizationCampaigns');
@@ -147,12 +138,10 @@ describe('Unit | Application | Controller | Campaign detail', function () {
       // given
       request.query = {
         campaignReport: true,
+        filter: { name: 'Math' },
+        page: 2,
       };
       const expectedPage = 2;
-      const expectedFilter = { name: 'Math' };
-      dependencies.queryParamsUtils.extractParameters
-        .withArgs(request.query)
-        .returns({ page: expectedPage, filter: expectedFilter });
       const expectedResults = [campaign];
       const expectedPagination = { page: expectedPage, pageSize: 25, itemsCount: 100, pagesCount: 4 };
       usecases.findPaginatedFilteredOrganizationCampaigns.resolves({
@@ -167,17 +156,16 @@ describe('Unit | Application | Controller | Campaign detail', function () {
       // then
       expect(usecases.findPaginatedFilteredOrganizationCampaigns).to.have.been.calledWithExactly({
         organizationId,
-        filter: expectedFilter,
-        page: expectedPage,
+        filter: { name: 'Math' },
+        page: 2,
         userId: request.auth.credentials.userId,
       });
     });
 
     it('should return the serialized campaigns belonging to the organization', async function () {
       // given
-      request.query = {};
+      request.query = { filter: {} };
       const expectedResponse = { data: serializedCampaigns, meta: {} };
-      dependencies.queryParamsUtils.extractParameters.withArgs({}).returns({ filter: {} });
       usecases.findPaginatedFilteredOrganizationCampaigns.resolves({ models: {}, pagination: {} });
       dependencies.campaignReportSerializer.serialize.returns(expectedResponse);
 
@@ -190,10 +178,9 @@ describe('Unit | Application | Controller | Campaign detail', function () {
 
     it('should return a JSON API response with meta information', async function () {
       // given
-      request.query = {};
+      request.query = { filter: {} };
       const expectedResults = [campaign];
       const expectedPagination = { page: 2, pageSize: 25, itemsCount: 100, pagesCount: 4, hasCampaigns: true };
-      dependencies.queryParamsUtils.extractParameters.withArgs({}).returns({ filter: {} });
       usecases.findPaginatedFilteredOrganizationCampaigns.resolves({
         models: expectedResults,
         meta: expectedPagination,
@@ -356,10 +343,12 @@ describe('Unit | Application | Controller | Campaign detail', function () {
           },
 
           query: {
-            'page[number]': 3,
-            'filter[groups][]': ['L1'],
-            'filter[status]': 'SHARED',
-            'filter[search]': 'Choupette',
+            page: { number: 3 },
+            filter: {
+              groups: ['L1'],
+              status: 'SHARED',
+              search: 'Choupette',
+            },
           },
         },
         hFake,

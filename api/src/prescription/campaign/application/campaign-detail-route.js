@@ -72,6 +72,17 @@ const register = async function (server) {
           params: Joi.object({
             id: identifiersType.organizationId,
           }),
+          query: Joi.object({
+            page: {
+              size: Joi.number().integer().empty(''),
+              number: Joi.number().integer().empty(''),
+            },
+            filter: Joi.object({
+              name: Joi.string().empty(''),
+              status: Joi.string().empty(''),
+              isOwnedByMe: Joi.boolean().empty(''),
+            }).default({}),
+          }),
         },
         handler: campaignDetailController.findPaginatedFilteredCampaigns,
         tags: ['api', 'organizations'],
@@ -128,14 +139,18 @@ const register = async function (server) {
             id: identifiersType.campaignId,
           }),
           query: Joi.object({
-            'page[number]': Joi.number().integer().empty(''),
-            'page[size]': Joi.number().integer().empty(''),
-            'filter[divisions][]': [Joi.string(), Joi.array().items(Joi.string())],
-            'filter[status]': Joi.string()
-              .valid(...campaignParticipationStatuses)
-              .empty(''),
-            'filter[groups][]': [Joi.string(), Joi.array().items(Joi.string())],
-            'filter[search]': Joi.string().empty(''),
+            page: {
+              number: Joi.number().integer().empty(''),
+              size: Joi.number().integer().empty(''),
+            },
+            filter: Joi.object({
+              divisions: Joi.array().items(Joi.string()),
+              status: Joi.string()
+                .valid(...campaignParticipationStatuses)
+                .empty(''),
+              groups: [Joi.string(), Joi.array().items(Joi.string())],
+              search: Joi.string().empty(''),
+            }).default({}),
           }),
         },
         handler: campaignDetailController.findParticipantsActivity,
