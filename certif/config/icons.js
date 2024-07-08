@@ -1,6 +1,7 @@
 module.exports = function () {
   return {
     'free-solid-svg-icons': [
+      'award',
       'bell',
       'book',
       'clipboard-list',
@@ -10,6 +11,7 @@ module.exports = function () {
       'file-arrow-down',
       'file-download',
       'info',
+      'link',
       'plus-circle',
       'power-off',
       'redo',
