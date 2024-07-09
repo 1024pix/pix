@@ -1,99 +1,13 @@
 #footer {
-  margin-top: auto;
-}
-
-.footer__container {
-  display: flex;
-  flex-direction: column;
-  max-width: 1280px;
-  padding: $pix-spacing-m 20px;
-
-  @include device-is('desktop') {
-    flex-direction: row;
-    margin: 0 auto;
-  }
-}
-
-.footer-container {
-  &__content {
-    display: flex;
-    flex-direction: column;
-    gap: var(--pix-spacing-8x);
-    width: 100%;
-
-    @include device-is('tablet') {
-      flex-direction: column;
-      justify-content: space-between;
-      border: none;
-    }
-
-    @include device-is('desktop') {
-      flex-direction: row;
-      align-items: center;
-    }
-  }
-
-  &__logos {
-    display: flex;
-    align-items: center;
-    padding-bottom: 16px;
-
-    @include device-is('tablet') {
-      padding-bottom: 0;
-    }
-
-    img {
-      max-width: unset;
-    }
-  }
-}
-
-.footer-container-content {
-  &__navigation {
-    @include device-is('tablet') {
-      flex-direction: row;
-      align-items: center;
-    }
-
-    @include device-is('desktop') {
-      margin-left: 12px;
-    }
-
-    &-list {
-      display: flex;
-      flex-wrap: wrap;
-      margin: 0;
-      margin-top: 20px;
-      padding: 0;
-      list-style: none;
-
-      @include device-is('tablet') {
-        flex-direction: row;
-        align-self: center;
-      }
-
-      @include device-is('desktop') {
-        margin: 0;
-        padding-top: 0;
-      }
-    }
-  }
-
-  &__copyrights {
-    padding-top: 16px;
-    color: $pix-neutral-50;
-    font-size: 0.75rem;
-    font-family: $font-roboto;
-    letter-spacing: 0.008rem;
-
-    @include device-is('desktop') {
-      padding: 0;
-      white-space: nowrap;
-    }
-  }
+  margin:auto 20px 20px 20px;
 }
 
 .footer-navigation {
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
   &__item {
     display: inline-block;
     padding: 0 12px 6px 0;
@@ -102,22 +16,6 @@
     font-family: $font-roboto;
     line-height: 1.375rem;
     letter-spacing: 0.009rem;
-
-    &--internal-link {
-      &:visited {
-        color: $pix-neutral-60;
-      }
-    }
-
-    @include device-is('desktop') {
-      margin: 0 10px;
-      padding: 0;
-    }
-
-    &.active {
-      color: $pix-primary-70;
-      text-decoration: none;
-    }
 
     &:focus {
       color: $pix-neutral-50;
@@ -128,21 +26,6 @@
       color: $pix-primary-70;
       text-decoration: none;
       cursor: pointer;
-    }
-  }
-}
-
-.footer-logos {
-  display: flex;
-
-  &__french-government {
-    > img {
-      height: 45px;
-      margin-right: 24px;
-
-      @include device-is('tablet') {
-        height: 54px;
-      }
     }
   }
 }

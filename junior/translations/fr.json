@@ -2,8 +2,8 @@
   "navigation": {
     "footer": {
       "label": "Menu de bas de page",
-      "legal-notices": "Mentions légales",
-      "legal-notices-url": "https://pix.fr/mentions-legales",
+      "legal-notice": "Mentions légales",
+      "legal-notice-url": "https://pix.fr/mentions-legales",
       "student-data-protection-policy": "Politique de protection des données des élèves",
       "student-data-protection-policy-url": "https://cloud.pix.fr/s/nqgBodTkbtsGb39"
     }
