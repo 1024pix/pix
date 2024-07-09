@@ -140,7 +140,7 @@
           {
               "id": "aef486da-4994-4992-b15b-b127afebb371",
               "type": "qcm",
-              "instruction": "<p>Quels sont les trois origines majeures des biais d'un LLM ?</p>",
+              "instruction": "<p>Quelles sont les trois origines majeures des biais d'un LLM ?</p>",
               "proposals": [
                 {
                   "id": "1",
