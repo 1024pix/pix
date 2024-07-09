@@ -107,7 +107,7 @@
           {
             "id": "b510a523-dc46-44bc-9cef-7d254ddd5831",
             "type": "text",
-            "content": "<p>À la suite de cette vidéo, vous devrez retrouver les origines des biais des LLM et interpréter des situations concrètes où la réponse d'un LLM est biaisée.</p>"
+            "content": "À la suite de cette vidéo, vous devrez<ul><li>retrouver les origines des biais des LLM,</li><li>interpréter des situations concrètes où la réponse d'un LLM est biaisée.</li></ul>"
           }
         },
         {
