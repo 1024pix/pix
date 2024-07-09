@@ -1,0 +1,31 @@
+#footer {
+  margin:auto 20px 20px 20px;
+}
+
+.footer-navigation {
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &__item {
+    display: inline-block;
+    padding: 0 12px 6px 0;
+    color: $pix-neutral-60;
+    font-size: 0.8125rem;
+    font-family: $font-roboto;
+    line-height: 1.375rem;
+    letter-spacing: 0.009rem;
+
+    &:focus {
+      color: $pix-neutral-50;
+      text-decoration: none;
+    }
+
+    &:hover {
+      color: $pix-primary-70;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  }
+}

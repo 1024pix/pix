@@ -18,6 +18,7 @@
 @import 'components/challenge/challenge-item-proposals';
 @import 'components/mission-card/card';
 @import 'components/bubble';
+@import 'components/footer';
 @import 'components/issue';
 @import 'components/robot-dialog';
 
@@ -27,7 +28,6 @@
 @import 'pages/loading';
 @import 'pages/organization-code.scss';
 @import 'pages/school.scss';
-
 
 body {
   color: var(--pix-neutral-900);
@@ -55,5 +55,12 @@ b {
   @include device-is('large-screen') {
     margin: 32px auto;
   }
+  
+  main {
+    display: flex;
+    flex-direction: column;
+    min-height: 95vh;
+  }
 }
+
 
