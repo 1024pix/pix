@@ -80,7 +80,8 @@ const register = async function (server) {
             filter: Joi.object({
               name: Joi.string().empty(''),
               status: Joi.string().empty(''),
-              isOwnedByMe: Joi.boolean().empty(''),
+              isOwnedByMe: Joi.boolean().empty('').allow(null).optional(),
+              ownerName: Joi.string().empty('').allow(null).optional(),
             }).default({}),
           }),
         },
