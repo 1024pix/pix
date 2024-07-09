@@ -1,4 +1,4 @@
-import { setupIntl as setupIntlFromEmberIntl } from 'ember-intl/test-support';
+import { setupIntl as setupIntlFromEmberIntl, t } from 'ember-intl/test-support';
 
 export default function setupIntl(hooks, locale = ['fr']) {
   setupIntlFromEmberIntl(hooks, locale[0]);
@@ -8,3 +8,5 @@ export default function setupIntl(hooks, locale = ['fr']) {
     this.dayjs.setLocale(locale[0]);
   });
 }
+
+export { t };

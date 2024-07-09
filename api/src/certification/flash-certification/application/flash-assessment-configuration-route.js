@@ -7,7 +7,7 @@ const register = async (server) => {
   server.route([
     {
       method: 'GET',
-      path: '/api/flash-assessment-configuration',
+      path: '/api/admin/flash-assessment-configuration',
       config: {
         pre: [
           {
@@ -25,7 +25,7 @@ const register = async (server) => {
     },
     {
       method: 'POST',
-      path: '/api/flash-assessment-configuration',
+      path: '/api/admin/flash-assessment-configuration',
       config: {
         pre: [
           {
@@ -35,22 +35,22 @@ const register = async (server) => {
         ],
         validate: {
           payload: Joi.object({
-            warmUpLength: Joi.number().integer().min(0).optional(),
+            warmUpLength: Joi.number().integer().min(0).allow(null).optional(),
             forcedCompetences: Joi.array().items(Joi.string()).optional(),
             maximumAssessmentLength: Joi.number().integer().min(0).allow(null).optional(),
             challengesBetweenSameCompetence: Joi.number().integer().min(0).allow(null).optional(),
             limitToOneQuestionPerTube: Joi.boolean().optional(),
             enablePassageByAllCompetences: Joi.boolean().optional(),
-            doubleMeasuresUntil: Joi.number().allow(null).optional(),
+            doubleMeasuresUntil: Joi.number().min(0).allow(null).optional(),
             variationPercent: Joi.number().min(0).max(1).allow(null).optional(),
-            variationPercentUntil: Joi.number().allow(null).optional(),
+            variationPercentUntil: Joi.number().min(0).allow(null).optional(),
           }),
         },
-        handler: flashAssessmentConfigurationController.updateActiveFlashAssessmentConfiguration,
+        handler: flashAssessmentConfigurationController.createFlashAssessmentConfiguration,
         tags: ['api', 'flash-assessment-configuration'],
         notes: [
           '**Cette route est restreinte aux super-administrateurs** \n' +
-            'Met à jour la configuration active pour la certification v3',
+            'Créée une nouvelle configuration active pour la certification v3',
         ],
       },
     },

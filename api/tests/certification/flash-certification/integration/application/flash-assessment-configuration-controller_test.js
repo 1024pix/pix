@@ -5,36 +5,53 @@ import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js'
 describe('Integration | Application | FlashAssessmentConfigurationController', function () {
   describe('#getActiveFlashAssessmentConfiguration', function () {
     it('should return the active flash assessment configuration', async function () {
-      sinon.stub(usecases, 'getActiveFlashAssessmentConfiguration');
+      const expectedConfiguration = {
+        data: {
+          type: 'flash-algorithm-configurations',
+          attributes: {
+            'warm-up-length': 12,
+          },
+        },
+      };
 
-      const expectedConfiguration = domainBuilder.buildFlashAlgorithmConfiguration({
+      sinon.stub(usecases, 'getActiveFlashAssessmentConfiguration');
+      const flashAlgorithmConfigurationSerializer = {
+        serialize: sinon.stub(),
+      };
+
+      const flashAlgorithmConfiguration = domainBuilder.buildFlashAlgorithmConfiguration({
         warmUpLength: 12,
       });
 
-      usecases.getActiveFlashAssessmentConfiguration.resolves(expectedConfiguration);
+      usecases.getActiveFlashAssessmentConfiguration.resolves(flashAlgorithmConfiguration);
+      flashAlgorithmConfigurationSerializer.serialize
+        .withArgs({ flashAlgorithmConfiguration })
+        .returns(expectedConfiguration);
 
-      const response = await flashAssessmentConfigurationController.getActiveFlashAssessmentConfiguration({}, hFake);
+      const response = await flashAssessmentConfigurationController.getActiveFlashAssessmentConfiguration({}, hFake, {
+        flashAlgorithmConfigurationSerializer,
+      });
 
       expect(response.statusCode).to.equal(200);
       expect(response.source).to.deep.equal(expectedConfiguration);
     });
   });
 
-  describe('#updateActiveFlashAssessmentConfiguration', function () {
-    it('should update the active flash assessment configuration', async function () {
-      sinon.stub(usecases, 'updateActiveFlashAssessmentConfiguration');
+  describe('#createFlashAssessmentConfiguration', function () {
+    it('should create an active flash assessment configuration', async function () {
+      sinon.stub(usecases, 'createFlashAssessmentConfiguration');
 
       const payload = {
         warmUpLength: 12,
       };
 
-      const response = await flashAssessmentConfigurationController.updateActiveFlashAssessmentConfiguration(
+      const response = await flashAssessmentConfigurationController.createFlashAssessmentConfiguration(
         { payload },
         hFake,
       );
 
       expect(response.statusCode).to.equal(204);
-      expect(usecases.updateActiveFlashAssessmentConfiguration).to.have.been.calledWith({
+      expect(usecases.createFlashAssessmentConfiguration).to.have.been.calledWith({
         configuration: payload,
       });
     });

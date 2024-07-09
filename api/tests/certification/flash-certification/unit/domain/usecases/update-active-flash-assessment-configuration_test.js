@@ -1,10 +1,10 @@
 import _ from 'lodash';
 
-import { updateActiveFlashAssessmentConfiguration } from '../../../../../../src/certification/flash-certification/domain/usecases/update-active-flash-assessment-configuration.js';
+import { createFlashAssessmentConfiguration } from '../../../../../../src/certification/flash-certification/domain/usecases/create-flash-assessment-configuration.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | Domain | UseCases | update-active-flash-assessment-configuration', function () {
-  it('should update the active flash assessment configuration', async function () {
+describe('Unit | Domain | UseCases | create-flash-assessment-configuration', function () {
+  it('should create an active flash assessment configuration', async function () {
     // given
     const flashAlgorithmConfigurationRepository = {
       getMostRecent: sinon.stub(),
@@ -23,7 +23,7 @@ describe('Unit | Domain | UseCases | update-active-flash-assessment-configuratio
     flashAlgorithmConfigurationRepository.getMostRecent.resolves(previousConfiguration);
 
     // when
-    await updateActiveFlashAssessmentConfiguration({
+    await createFlashAssessmentConfiguration({
       flashAlgorithmConfigurationRepository,
       configuration,
     });

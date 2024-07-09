@@ -102,6 +102,10 @@ function routes() {
   });
   this.put('/admin/admin-members/:id/deactivate', () => {});
 
+  this.get('/admin/flash-assessment-configuration', (schema, _) => {
+    return schema.create('flash-algorithm-configuration');
+  });
+
   this.get('/admin/sessions', findPaginatedAndFilteredSessions);
   this.get('/admin/sessions/to-publish', getToBePublishedSessions);
   this.get('/admin/sessions/with-required-action', getWithRequiredActionSessions);

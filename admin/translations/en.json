@@ -190,30 +190,6 @@
         "parent-organization": "Parent organization"
       }
     },
-    "organizations": {
-      "all-tags": {
-        "recently-used-tags": "List of tags recently used with {tagName}"
-      },
-      "children": {
-        "attach-child-form": {
-          "input-information": "ID of organisation to add",
-          "input-label": "Add a child organisation",
-          "name": "Add a child organisation form"
-        }
-      },
-      "children-list": {
-        "table-headers": {
-          "external-id": "External Identifier",
-          "id": "ID",
-          "name": "Name"
-        },
-        "table-name": "List of children organisations"
-      },
-      "information-section-view": {
-        "child-organization": "Child organization",
-        "parent-organization": "Parent organization"
-      }
-    },
     "users": {
       "certification-centers": {
         "memberships": {
@@ -265,6 +241,19 @@
           "title": "Configuration of thresholds by skill",
           "form": {
             "label": "Level configuration by skill added (JSON)"
+          }
+        },
+        "flash-algorithm-configuration": {
+          "title": "Configuration de l’algorithme de déroulé du test",
+          "form": {
+            "challengesBetweenSameCompetence": "Nombre de questions entre 2 questions de la même compétence",
+            "doubleMeasuresUntil": "Nombre de questions pour la double mesure",
+            "enablePassageByAllCompetences": "Forcer le passage par les 16 compétences",
+            "limitToOneQuestionPerTube": "Limiter à une question par sujet",
+            "maximumAssessmentLength": "Nombre de questions",
+            "variationPercent": "Capage de la capacité (en % )",
+            "variationPercentUntil": "Nombre de questions pour le capage de la capacité",
+            "warmUpLength": "Nombre de questions d'entraînement"
           }
         },
         "scoring-simulator": {
