@@ -40,6 +40,7 @@
       "cancel": "Cancelar",
       "close": "Cerrar",
       "confirm": "Confirmar",
+      "lets-go": "¡Empecemos!",
       "quit": "Salir",
       "sign-out": "Desconectarse",
       "stay": "Quedarse",
@@ -107,6 +108,17 @@
     "skip-links": {
       "skip-to-content": "Ir al contenido",
       "skip-to-footer": "Ir al final de la página"
+    }
+  },
+  "components": {
+    "invited": {
+      "reconciliation": {
+        "error-message": {
+          "invalid-reconciliation-error": "Comprueba tus datos ({fields}) o ponte en contacto con un profesor.",
+          "mandatory-field": "Este campo es obligatorio"
+        },
+        "title": "Únete a la organización { organizationName }"
+      }
     }
   },
   "navigation": {
@@ -602,7 +614,7 @@
         "generic": "Acaba de producirse un error inesperado en el servidor.",
         "session-not-accessible": "La sesión de certificación ya no está disponible.",
         "unknown": {
-          "summary-label": "Afficher plus de détails :"
+          "summary-label": "Ver más detalles:"
         }
       },
       "first-title": "Estás a punto de empezar tu prueba de certificación",
@@ -1303,7 +1315,7 @@
         },
         "stepper": {
           "next": {
-            "ariaLabel": "Vaya al siguiente paso",
+            "ariaLabel": "Ir al paso siguiente",
             "name": "Siguiente"
           }
         }
@@ -1692,34 +1704,39 @@
       "title": "Para tener éxito la próxima vez"
     },
     "tutorial": {
-      "dot-action-title": "Display tutorial step {stepNumber}/{stepsCount}",
-      "dots-nav-label": "Tutorial steps",
+      "dot-action-title": "Paso de visualización {stepNumber}/{stepsCount}",
+      "dots-nav-label": "Pasos del tutorial",
       "next": "Siguiente",
-      "next-title": "Show tutorial next step",
+      "next-title": "Mostrar siguiente paso",
       "pages": {
         "page0": {
           "explanation": "Si no conoces una respuesta, probablemente esté en Internet.",
+          "icon": "icn-recherche.svg",
           "title": "Puedes buscar en internet..."
         },
         "page1": {
           "explanation": "Si aparece esta imagen, ¡utiliza solo tus conocimientos! No debes utilizar Internet ni ningún software.",
+          "icon": "icn-focus.svg",
           "title": "... excepto para ciertas preguntas"
         },
         "page2": {
           "explanation": "Tómate el tiempo que necesites para completar el test. Si una pregunta está cronometrada, se te indicará.",
+          "icon": "icn-temps.svg",
           "title": "¡Sin límite de tiempo!"
         },
         "page3": {
           "explanation": "Accede a tutoriales para aprender más sobre cada pregunta y progresar.",
+          "icon": "icn-tutos.svg",
           "title": "Tutoriales para aprender"
         },
         "page4": {
           "explanation": "Pix adapta la dificultad de las preguntas en función de tus respuestas.",
+          "icon": "icn-algo.svg",
           "title": "Un nivel adecuado de dificultad"
         }
       },
       "pass": "Ignorar",
-      "pass-title": "Ignore tutorial and start my customised test",
+      "pass-title": "Sáltate el tutorial y empieza mi viaje",
       "start": "Comenzar el test",
       "title": "Tutorial de la campaña"
     },

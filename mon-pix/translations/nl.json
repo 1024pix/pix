@@ -40,6 +40,7 @@
       "cancel": "Annuleer",
       "close": "Sluit",
       "confirm": "Bevestig",
+      "lets-go": "Laten we gaan!",
       "quit": "Verlaat",
       "sign-out": "Log uit.",
       "stay": "Blijf",
@@ -107,6 +108,17 @@
     "skip-links": {
       "skip-to-content": "Ga naar inhoud",
       "skip-to-footer": "Ga naar de onderkant van de pagina"
+    }
+  },
+  "components": {
+    "invited": {
+      "reconciliation": {
+        "error-message": {
+          "invalid-reconciliation-error": "Controleer je gegevens ({fields}) of neem contact op met een docent.",
+          "mandatory-field": "Dit veld is verplicht"
+        },
+        "title": "Sluit je aan bij de organisatie { organizationName }"
+      }
     }
   },
   "navigation": {
@@ -602,7 +614,7 @@
         "generic": "Er is zojuist een onverwachte serverfout opgetreden.",
         "session-not-accessible": "De certificeringssessie is niet langer toegankelijk.",
         "unknown": {
-          "summary-label": "Afficher plus de détails :"
+          "summary-label": "Bekijk meer details:"
         }
       },
       "first-title": "Je staat op het punt om aan je certificeringstest te beginnen",
@@ -1692,34 +1704,39 @@
       "title": "Om de volgende keer te slagen"
     },
     "tutorial": {
-      "dot-action-title": "Display tutorial step {stepNumber}/{stepsCount}",
-      "dots-nav-label": "Tutorial steps",
+      "dot-action-title": "Weergave stap {stepNumber}/{stepsCount}",
+      "dots-nav-label": "Stappen uit de tutorial",
       "next": "Volgende",
-      "next-title": "Show tutorial next step",
+      "next-title": "Volgende stap tonen",
       "pages": {
         "page0": {
           "explanation": "Als je het antwoord niet weet, vind je het vast wel op\n.",
+          "icon": "icn-recherche.svg",
           "title": "Je kunt op internet zoeken ..."
         },
         "page1": {
           "explanation": "Als deze afbeelding wordt weergegeven, gebruik dan alleen je eigen kennis!\nJe mag het internet of je software niet gebruiken.",
+          "icon": "icn-focus.svg",
           "title": "... behalve voor bepaalde vragen"
         },
         "page2": {
           "explanation": "Neem zoveel tijd als je nodig hebt om de cursus te voltooien.\nAls een vraag een tijdslimiet heeft, wordt dit aangegeven.",
+          "icon": "icn-temps.svg",
           "title": "Geen tijdslimiet!"
         },
         "page3": {
           "explanation": "Ga naar tutorials om meer te leren\nover elke vraag en boek vooruitgang.",
+          "icon": "icn-tutos.svg",
           "title": "Tutorials om te leren"
         },
         "page4": {
           "explanation": "Afhankelijk van je antwoorden past\nPix de moeilijkheidsgraad van de vragen aan.",
+          "icon": "icn-algo.svg",
           "title": "De juiste moeilijkheidsgraad"
         }
       },
       "pass": "Negeer",
-      "pass-title": "Ignore tutorial and start my customised test",
+      "pass-title": "Sla de tutorial over en begin mijn reis",
       "start": "Begin mijn reis",
       "title": "Campagne handleiding"
     },
