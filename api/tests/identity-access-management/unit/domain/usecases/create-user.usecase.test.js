@@ -469,6 +469,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
         // then
         expect(mailService.sendAccountCreationEmail).to.have.been.calledWithExactly({
           email: userEmail,
+          firstName: user.firstName,
           locale: localeFromHeader,
           token,
           redirectionUrl: expectedRedirectionUrl,
@@ -503,6 +504,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
           // then
           expect(mailService.sendAccountCreationEmail).to.have.been.calledWithExactly({
             email: userEmail,
+            firstName: user.firstName,
             locale: localeFromHeader,
             token,
             redirectionUrl: expectedRedirectionUrl,
@@ -539,6 +541,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
           // then
           expect(mailService.sendAccountCreationEmail).to.have.been.calledWithExactly({
             email: userEmail,
+            firstName: user.firstName,
             locale: localeFromHeader,
             token,
             redirectionUrl: expectedRedirectionUrl,
@@ -575,7 +578,8 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
       // then
       expect(emailValidationDemandRepository.save).to.have.been.calledWith(userId);
       expect(mailService.sendAccountCreationEmail).to.have.been.calledWith({
-        email: savedUser.email,
+        email: user.email,
+        firstName: user.firstName,
         locale: localeFromHeader,
         token,
         redirectionUrl,
