@@ -285,6 +285,105 @@ module('Unit | Service | url', function (hooks) {
     });
   });
 
+  module('#legalNoticeUrl', function () {
+    module('when website is pix.fr', function () {
+      test('returns the French page URL', function (assert) {
+        // given
+        const service = this.owner.lookup('service:url');
+        service.currentDomain = { isFranceDomain: true };
+        const expectedLegalNoticeUrl = 'https://pix.fr/mentions-legales';
+
+        // when
+        const legalNoticeUrl = service.legalNoticeUrl;
+
+        // then
+        assert.strictEqual(legalNoticeUrl, expectedLegalNoticeUrl);
+      });
+
+      module('when current language is "en"', function () {
+        test('returns the French page URL', function (assert) {
+          // given
+          const service = this.owner.lookup('service:url');
+          service.currentDomain = { isFranceDomain: true };
+          service.intl = { primaryLocale: ENGLISH_INTERNATIONAL_LOCALE };
+          const expectedLegalNoticeUrl = 'https://pix.fr/mentions-legales';
+
+          // when
+          const legalNoticeUrl = service.legalNoticeUrl;
+
+          // then
+          assert.strictEqual(legalNoticeUrl, expectedLegalNoticeUrl);
+        });
+      });
+
+      module('when current language is "nl"', function () {
+        test('returns the French page URL', function (assert) {
+          // given
+          const service = this.owner.lookup('service:url');
+          service.currentDomain = { isFranceDomain: true };
+          service.intl = { primaryLocale: DUTCH_INTERNATIONAL_LOCALE };
+          const expectedLegalNoticeUrl = 'https://pix.fr/mentions-legales';
+
+          // when
+          const legalNoticeUrl = service.legalNoticeUrl;
+
+          // then
+          assert.strictEqual(legalNoticeUrl, expectedLegalNoticeUrl);
+        });
+      });
+    });
+
+    module('when website is pix.org', function () {
+      module('when current language is "fr"', function () {
+        test('returns the French page URL', function (assert) {
+          // given
+          const service = this.owner.lookup('service:url');
+          service.currentDomain = { isFranceDomain: false };
+          service.intl = { primaryLocale: FRENCH_INTERNATIONAL_LOCALE };
+          const expectedLegalNoticeUrl = 'https://pix.org/fr/mentions-legales';
+
+          // when
+          const legalNoticeUrl = service.legalNoticeUrl;
+
+          // then
+          assert.strictEqual(legalNoticeUrl, expectedLegalNoticeUrl);
+        });
+      });
+
+      module('when current language is "en"', function () {
+        test('returns the English page URL', function (assert) {
+          // given
+          const service = this.owner.lookup('service:url');
+          service.currentDomain = { isFranceDomain: false };
+          service.intl = { primaryLocale: ENGLISH_INTERNATIONAL_LOCALE };
+          const expectedLegalNoticeUrl = 'https://pix.org/en/legal-notice';
+
+          // when
+          const legalNoticeUrl = service.legalNoticeUrl;
+
+          // then
+          assert.strictEqual(legalNoticeUrl, expectedLegalNoticeUrl);
+        });
+      });
+
+      module('when current language is "nl"', function () {
+        test('returns the Nederland page URL', function (assert) {
+          // given
+          const service = this.owner.lookup('service:url');
+          service.currentDomain = { isFranceDomain: false };
+          service.intl = { primaryLocale: DUTCH_INTERNATIONAL_LOCALE };
+          const expectedLegalNoticeUrl = 'https://pix.org/nl-be/wettelijke-vermeldingen';
+
+          // when
+          const legalNoticeUrl = service.legalNoticeUrl;
+
+          // then
+          assert.strictEqual(legalNoticeUrl, expectedLegalNoticeUrl);
+        });
+      });
+    });
+  });
+
   module('#accessibilityUrl', function () {
     module('when website is pix.fr', function () {
       test('returns the French page URL', function (assert) {
