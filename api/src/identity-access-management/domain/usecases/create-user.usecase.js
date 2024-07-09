@@ -34,6 +34,7 @@ const createUser = async function ({
   userService,
   userValidator,
   passwordValidator,
+  i18n,
 }) {
   const isValid = await _validateData({
     password,
@@ -74,6 +75,7 @@ const createUser = async function ({
       locale: localeFromHeader,
       token,
       redirectionUrl,
+      i18n,
     });
 
     return savedUser;

@@ -361,7 +361,7 @@
       "pixPresentation": "Pix is de online overheidsdienst voor het beoordelen, ontwikkelen en certificeren van je digitale vaardigheden.",
       "subtitle": "Bedankt voor het aanmaken van je account. Er is nog één stap over om je account te beveiligen door je e-mailadres te valideren.",
       "subtitleDescription": "Het is heel eenvoudig, klik op de knop hieronder en log in op je Pix-account.",
-      "title": "Je Pix-account is aangemaakt!"
+      "title": "Hallo {firstName},"
     },
     "subject": "Je Pix-account is aangemaakt"
   },

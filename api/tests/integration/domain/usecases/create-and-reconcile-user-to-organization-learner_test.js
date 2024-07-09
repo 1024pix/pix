@@ -22,6 +22,9 @@ import * as userService from '../../../../src/shared/domain/services/user-servic
 import * as passwordValidator from '../../../../src/shared/domain/validators/password-validator.js';
 import * as userValidator from '../../../../src/shared/domain/validators/user-validator.js';
 import { catchErr, databaseBuilder, expect } from '../../../test-helper.js';
+import { getI18n } from '../../../tooling/i18n/i18n.js';
+
+const i18n = getI18n();
 
 describe('Integration | UseCases | create-and-reconcile-user-to-organization-learner', function () {
   const pickUserAttributes = ['firstName', 'lastName', 'email', 'username', 'cgu'];
@@ -50,6 +53,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
         obfuscationService,
         userReconciliationService,
         userService,
+        i18n,
       });
 
       // then
@@ -86,6 +90,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
         obfuscationService,
         userReconciliationService,
         userService,
+        i18n,
       });
 
       // then
@@ -135,6 +140,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
           obfuscationService,
           userReconciliationService,
           userService,
+          i18n,
         });
 
         // then
@@ -195,6 +201,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
             userService,
             passwordValidator,
             userValidator,
+            i18n,
           });
 
           // then
@@ -238,6 +245,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
             obfuscationService,
             userReconciliationService,
             userService,
+            i18n,
           });
 
           // then
@@ -258,6 +266,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
             locale,
             password,
             userAttributes,
+            i18n,
           });
 
           // then
@@ -325,6 +334,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
             obfuscationService,
             userReconciliationService,
             userService,
+            i18n,
           });
 
           // then
@@ -366,6 +376,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
             userService,
             passwordValidator,
             userValidator,
+            i18n,
           });
 
           // then

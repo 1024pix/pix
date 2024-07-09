@@ -278,6 +278,7 @@ describe('Unit | Identity Access Management | Application | Controller | User', 
             password,
             localeFromHeader,
             campaignCode: null,
+            i18n: undefined,
           };
 
           dependencies.localeService.getCanonicalLocale.returns(localeFromCookie);

@@ -30,6 +30,7 @@ const createAndReconcileUserToOrganizationLearner = async function ({
   userService,
   passwordValidator,
   userValidator,
+  i18n,
 }) {
   const campaign = await campaignRepository.getByCode(campaignCode);
   if (!campaign) {
@@ -89,6 +90,7 @@ const createAndReconcileUserToOrganizationLearner = async function ({
       locale,
       token,
       redirectionUrl,
+      i18n,
     });
   }
   return createdUser;

@@ -318,6 +318,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             locale,
             token,
             redirectionUrl: expectedRedirectionUrl,
+            i18n: undefined,
           });
         });
 

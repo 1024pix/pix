@@ -362,7 +362,6 @@
   },
   "pix-account-creation-email": {
     "params": {
-      "title": "Votre compte Pix a bien été créé !",
       "askForHelp": "Besoin d’aide, contactez-nous",
       "disclaimer": "Si vous n'êtes pas à l’origine de cette création de compte, vous pouvez en demander la suppression",
       "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre.",
@@ -371,7 +370,8 @@
       "moreOn": "En savoir plus sur",
       "pixPresentation": "Pix est le service public en ligne pour évaluer, développer et certifier ses compétences numériques.",
       "subtitle": "Merci d'avoir créé votre compte. Il reste une étape pour sécuriser votre compte en validant votre adresse e-mail.",
-      "subtitleDescription": "C'est très simple, il vous suffit de cliquer sur le bouton ci-dessous et de vous connecter à votre compte Pix."
+      "subtitleDescription": "C'est très simple, il vous suffit de cliquer sur le bouton ci-dessous et de vous connecter à votre compte Pix.",
+      "title": "Bonjour {firstName},"
     },
     "subject": "Votre compte Pix a bien été créé"
   },

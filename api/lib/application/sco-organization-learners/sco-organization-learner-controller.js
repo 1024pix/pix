@@ -102,6 +102,7 @@ const createAndReconcileUserToOrganizationLearner = async function (
     password: payload.password,
     campaignCode: payload['campaign-code'],
     locale,
+    i18n: request.i18n,
   });
 
   return h.response().code(204);

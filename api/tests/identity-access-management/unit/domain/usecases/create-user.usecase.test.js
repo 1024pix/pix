@@ -473,6 +473,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
           locale: localeFromHeader,
           token,
           redirectionUrl: expectedRedirectionUrl,
+          i18n: undefined,
         });
       });
 
@@ -508,6 +509,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
             locale: localeFromHeader,
             token,
             redirectionUrl: expectedRedirectionUrl,
+            i18n: undefined,
           });
         });
       });
@@ -545,6 +547,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
             locale: localeFromHeader,
             token,
             redirectionUrl: expectedRedirectionUrl,
+            i18n: undefined,
           });
         });
       });
@@ -583,6 +586,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
         locale: localeFromHeader,
         token,
         redirectionUrl,
+        i18n: undefined,
       });
       expect(createdUser).to.deep.equal(savedUser);
     });

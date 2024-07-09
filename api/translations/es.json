@@ -369,7 +369,7 @@
       "pixPresentation": "Pix es el servicio público en línea para evaluar, desarrollar y certificar las competencias digitales.",
       "subtitle": "Gracias por crear su cuenta. Queda un paso para asegurar tu cuenta validando tu dirección de correo electrónico.",
       "subtitleDescription": "Es muy sencillo, sólo tiene que hacer clic en el botón de abajo e iniciar sesión en su cuenta Pix.",
-      "title": "¡Tu cuenta Pix ha sido creada correctamente!"
+      "title": "Hola {firstName},"
     },
     "subject": "tu cuenta Pix ha sido creada correctamente"
   },

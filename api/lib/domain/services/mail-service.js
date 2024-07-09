@@ -50,7 +50,7 @@ const PIX_HELPDESK_URL_INTERNATIONAL = {
  * @param redirectionUrl
  * @returns {Promise<EmailingAttempt>}
  */
-function sendAccountCreationEmail({ email, firstName, locale = FRENCH_FRANCE, token, redirectionUrl }) {
+function sendAccountCreationEmail({ email, firstName, locale = FRENCH_FRANCE, token, redirectionUrl, i18n }) {
   const mailerConfig = _getMailerConfig(locale);
   const redirectUrl = redirectionUrl || mailerConfig.pixAppConnectionUrl;
 
@@ -61,6 +61,7 @@ function sendAccountCreationEmail({ email, firstName, locale = FRENCH_FRANCE, to
     helpdeskUrl: mailerConfig.helpdeskUrl,
     displayNationalLogo: mailerConfig.displayNationalLogo,
     ...mailerConfig.translation['pix-account-creation-email'].params,
+    title: i18n.__({ phrase: 'pix-account-creation-email.params.title', locale }, { firstName }),
   };
   const pixName = mailerConfig.translation['email-sender-name']['pix-app'];
   const accountCreationEmailSubject = mailerConfig.translation['pix-account-creation-email'].subject;
