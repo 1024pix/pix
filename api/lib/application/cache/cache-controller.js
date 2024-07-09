@@ -1,13 +1,10 @@
 import _ from 'lodash';
 
-import * as learningContentDatasource from '../../../src/shared/infrastructure/datasources/learning-content/datasource.js';
+import { sharedUsecases as usecases } from '../../../src/shared/domain/usecases/index.js';
 import * as LearningContentDatasources from '../../../src/shared/infrastructure/datasources/learning-content/index.js';
-import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 
-const refreshCacheEntries = function (_, h, dependencies = { learningContentDatasource }) {
-  dependencies.learningContentDatasource
-    .refreshLearningContentCacheRecords()
-    .catch((e) => logger.error('Error while reloading cache', e));
+const refreshCacheEntries = async function (_, h) {
+  await usecases.refreshLearningContentCache();
   return h.response({}).code(202);
 };
 
