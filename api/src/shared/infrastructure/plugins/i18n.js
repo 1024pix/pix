@@ -4,7 +4,7 @@ import hapiI18n from 'hapi-i18n';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const plugin = hapiI18n;
 const options = {
-  locales: ['en', 'fr'],
+  locales: ['en', 'fr', 'es', 'nl'],
   directory: __dirname + '../../../../translations',
   defaultLocale: 'fr',
   queryParameter: 'lang',
