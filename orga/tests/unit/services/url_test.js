@@ -83,6 +83,20 @@ module('Unit | Service | url', function (hooks) {
       assert.strictEqual(url, expectedUrl);
     });
 
+    test('returns "pix.org" dutch url when current language is nl', function (assert) {
+      // given
+      const service = this.owner.lookup('service:url');
+      const expectedUrl = 'https://pix.org/nl-be/wettelijke-vermeldingen';
+      service.currentDomain = { isFranceDomain: false };
+      service.intl = { primaryLocale: 'nl' };
+
+      // when
+      const url = service.legalNoticeUrl;
+
+      // then
+      assert.strictEqual(url, expectedUrl);
+    });
+
     test('returns "pix.org" french url when current language is fr and domain extension is .org', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
@@ -119,6 +133,20 @@ module('Unit | Service | url', function (hooks) {
       const expectedCguUrl = 'https://pix.org/en-gb/personal-data-protection-policy';
       service.currentDomain = { isFranceDomain: false };
       service.intl = { primaryLocale: 'en' };
+
+      // when
+      const cguUrl = service.dataProtectionPolicyUrl;
+
+      // then
+      assert.strictEqual(cguUrl, expectedCguUrl);
+    });
+
+    test('returns "pix.org" dutch url when current language is nl', function (assert) {
+      // given
+      const service = this.owner.lookup('service:url');
+      const expectedCguUrl = 'https://pix.org/nl-be/beleid-inzake-de-bescherming-van-persoonsgegevens';
+      service.currentDomain = { isFranceDomain: false };
+      service.intl = { primaryLocale: 'nl' };
 
       // when
       const cguUrl = service.dataProtectionPolicyUrl;
@@ -171,6 +199,20 @@ module('Unit | Service | url', function (hooks) {
       assert.strictEqual(cguUrl, expectedCguUrl);
     });
 
+    test('returns "pix.org" english url when current language is nl', function (assert) {
+      // given
+      const service = this.owner.lookup('service:url');
+      const expectedCguUrl = 'https://pix.org/en-gb/terms-and-conditions';
+      service.currentDomain = { isFranceDomain: false };
+      service.intl = { primaryLocale: 'nl' };
+
+      // when
+      const cguUrl = service.cguUrl;
+
+      // then
+      assert.strictEqual(cguUrl, expectedCguUrl);
+    });
+
     test('returns "pix.org" french url when current language is fr', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
@@ -215,6 +257,20 @@ module('Unit | Service | url', function (hooks) {
       assert.strictEqual(url, expectedUrl);
     });
 
+    test('returns "pix.org" in dutch when current language is nl', function (assert) {
+      // given
+      const service = this.owner.lookup('service:url');
+      const expectedUrl = 'https://pix.org/nl-be/toegankelijkheid-pix-orga';
+      service.currentDomain = { isFranceDomain: false };
+      service.intl = { primaryLocale: 'nl' };
+
+      // when
+      const url = service.accessibilityUrl;
+
+      // then
+      assert.strictEqual(url, expectedUrl);
+    });
+
     test('returns "pix.org" in french when current language is fr', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
@@ -244,7 +300,7 @@ module('Unit | Service | url', function (hooks) {
       assert.strictEqual(serverStatusUrl, expectedUrl);
     });
 
-    test('returns "status.pix.org" in french when current language is en', function (assert) {
+    test('returns "status.pix.org" in french when current language is fr', function (assert) {
       // given
       const expectedUrl = 'https://status.pix.org?locale=fr';
       const service = this.owner.lookup('service:url');
@@ -256,7 +312,21 @@ module('Unit | Service | url', function (hooks) {
       // then
       assert.strictEqual(serverStatusUrl, expectedUrl);
     });
+
+    test('returns "status.pix.org" in french when current language is nl', function (assert) {
+      // given
+      const expectedUrl = 'https://status.pix.org?locale=nl';
+      const service = this.owner.lookup('service:url');
+      service.intl = { primaryLocale: 'nl' };
+
+      // when
+      const serverStatusUrl = service.serverStatusUrl;
+
+      // then
+      assert.strictEqual(serverStatusUrl, expectedUrl);
+    });
   });
+
   module('#pixJuniorSchoolUrl', function () {
     test('returns pix junior url for current organization', function (assert) {
       const service = this.owner.lookup('service:url');
