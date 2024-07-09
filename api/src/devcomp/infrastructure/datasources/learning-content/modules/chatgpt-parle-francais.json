@@ -465,7 +465,7 @@
           {
             "id": "97e85ece-84d7-4b61-aa9f-58c063f0f900",
             "type": "text",
-            "content": "<p>Cette concentration entre un petit nombre de pays explique le <strong>manque de diversité</strong> dans les textes produits par les modèles.</p><p>Cependant, les nombreuses initiatives <strong>open source</strong> permettent d'améliorer la <strong>transparence</strong> des LLM, ce qui pourra favoriser la diversité des résultats.<span aria-hidden=\"true\">&nbsp;📖</span></p>"
+            "content": "<p>Cette concentration entre un petit nombre de pays explique le <strong>manque de diversité</strong> dans les textes produits par les LLM.</p><p>Cependant, les nombreuses initiatives <strong>open source</strong> permettent d'améliorer la <strong>transparence</strong> des LLM, ce qui pourra favoriser la diversité des résultats.<span aria-hidden=\"true\">&nbsp;📖</span></p>"
           }
         }
       ]
