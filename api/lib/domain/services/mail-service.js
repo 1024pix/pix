@@ -4,10 +4,7 @@ import { LOCALE } from '../../../src/shared/domain/constants.js';
 import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import { urlBuilder } from '../../../src/shared/infrastructure/utils/url-builder.js';
 import { mailer } from '../../../src/shared/mail/infrastructure/services/mailer.js';
-import enTranslations from '../../../translations/en.json' with { type: 'json' };
-import frTranslations from '../../../translations/fr.json' with { type: 'json' };
-import { es as esTranslations } from '../../../translations/index.js';
-import nlTranslations from '../../../translations/nl.json' with { type: 'json' };
+import * as translations from '../../../translations/index.js';
 import { config } from '../../config.js';
 
 const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN, DUTCH_SPOKEN, SPANISH_SPOKEN } = LOCALE;
@@ -45,12 +42,6 @@ const PIX_HELPDESK_URL_INTERNATIONAL = {
   en: 'https://pix.org/en/support',
   fr: 'https://pix.org/fr/support',
   nl: 'https://pix.org/nl-be/support',
-};
-const translations = {
-  en: enTranslations,
-  es: esTranslations,
-  fr: frTranslations,
-  nl: nlTranslations,
 };
 
 /**
@@ -107,7 +98,7 @@ function sendCertificationResultEmail({
     sessionId,
     sessionDate: formattedSessionDate,
     fr: {
-      ...frTranslations['certification-result-email'].params,
+      ...translations.fr['certification-result-email'].params,
       homeName: PIX_HOME_NAME_FRENCH_FRANCE,
       homeUrl: PIX_HOME_URL_FRENCH_FRANCE,
       homeNameInternational: PIX_HOME_NAME_INTERNATIONAL,
@@ -116,7 +107,7 @@ function sendCertificationResultEmail({
       link: `${link}?lang=fr`,
     },
     en: {
-      ...enTranslations['certification-result-email'].params,
+      ...translations.en['certification-result-email'].params,
       homeName: PIX_HOME_NAME_INTERNATIONAL,
       homeUrl: PIX_HOME_URL_INTERNATIONAL.en,
       title: translate({ phrase: 'certification-result-email.title', locale: 'en' }, { sessionId }),
@@ -126,7 +117,7 @@ function sendCertificationResultEmail({
 
   return mailer.sendEmail({
     from: EMAIL_ADDRESS_NO_RESPONSE,
-    fromName: `${frTranslations['email-sender-name']['pix-app']} / ${enTranslations['email-sender-name']['pix-app']}`,
+    fromName: `${translations.fr['email-sender-name']['pix-app']} / ${translations.en['email-sender-name']['pix-app']}`,
     to: email,
     template: mailer.certificationResultTemplateId,
     variables: templateVariables,
@@ -365,7 +356,7 @@ function sendVerificationCodeEmail({ code, email, locale = FRENCH_FRANCE, transl
 function sendCpfEmail({ email, generatedFiles }) {
   const options = {
     from: EMAIL_ADDRESS_NO_RESPONSE,
-    fromName: frTranslations['email-sender-name']['pix-app'],
+    fromName: translations.fr['email-sender-name']['pix-app'],
     to: email,
     template: mailer.cpfEmailTemplateId,
     variables: { generatedFiles },
@@ -379,7 +370,7 @@ function sendNotificationToCertificationCenterRefererForCleaResults({ email, ses
 
   const options = {
     from: EMAIL_ADDRESS_NO_RESPONSE,
-    fromName: frTranslations['email-sender-name']['pix-app'],
+    fromName: translations.fr['email-sender-name']['pix-app'],
     to: email,
     template: mailer.acquiredCleaResultTemplateId,
     variables: { sessionId, sessionDate: formattedSessionDate },
@@ -391,7 +382,7 @@ function sendNotificationToCertificationCenterRefererForCleaResults({ email, ses
 function sendNotificationToOrganizationMembersForTargetProfileDetached({ email, complementaryCertificationName }) {
   const options = {
     from: EMAIL_ADDRESS_NO_RESPONSE,
-    fromName: frTranslations['email-sender-name']['pix-app'],
+    fromName: translations.fr['email-sender-name']['pix-app'],
     to: email,
     template: mailer.targetProfileNotCertifiableTemplateId,
     variables: { complementaryCertificationName },
