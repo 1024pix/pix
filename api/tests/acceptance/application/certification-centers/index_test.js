@@ -15,6 +15,28 @@ describe('Acceptance | Route | Certification Centers', function () {
     server = await createServer();
   });
 
+  describe('GET /api/admin/certification-centers', function () {
+    it('should return an HTTP code 200 and a list of certification centers', async function () {
+      // given
+      const adminMember = await insertUserWithRoleSuperAdmin();
+      databaseBuilder.factory.buildCertificationCenter();
+
+      await databaseBuilder.commit();
+
+      //when
+      const { result, statusCode } = await server.inject({
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(adminMember.id),
+        },
+        method: 'GET',
+        url: `/api/admin/certification-centers`,
+      });
+
+      expect(statusCode).to.equal(200);
+      expect(result.data.length).to.equal(1);
+    });
+  });
+
   describe('PATCH /api/admin/certification-centers/{id}', function () {
     context('when an admin member updates a certification center information', function () {
       it('it should return an HTTP code 200 with the updated data', async function () {

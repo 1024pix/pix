@@ -397,4 +397,49 @@ describe('Acceptance | API | campaign-detail-route', function () {
       expect(response.statusCode).to.equal(400);
     });
   });
+
+  describe('GET /api/organizations/{organizationId}/campaigns', function () {
+    it('should return a list of my campaigns as JSONAPI', async function () {
+      const userId = databaseBuilder.factory.buildUser().id;
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      databaseBuilder.factory.buildMembership({ organizationId, userId });
+
+      databaseBuilder.factory.buildCampaign({ organizationId, ownerId: userId });
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/api/organizations/${organizationId}/campaigns?filter[name]=&filter[status]=&filter[isOwnedByMe]=true&page[number]=1&page[size]=50`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data).to.have.lengthOf(1);
+    });
+
+    it('should return a list of all campaigns as JSONAPI', async function () {
+      const user = databaseBuilder.factory.buildUser();
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      databaseBuilder.factory.buildMembership({ organizationId, userId: user.id });
+
+      databaseBuilder.factory.buildCampaign({ organizationId, ownerId: user.id });
+      databaseBuilder.factory.buildCampaign({ organizationId });
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/api/organizations/${organizationId}/campaigns?filter[name]=&filter[status]=&filter[ownerName]=&page[number]=1&page[size]=50`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      };
+
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data).to.have.lengthOf(2);
+    });
+  });
 });

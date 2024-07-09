@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
-import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
+import { identifiersType, optionalIdentifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
 import { certificationCenterController } from './certification-center-controller.js';
 
 const register = async function (server) {
@@ -49,8 +49,16 @@ const register = async function (server) {
         ],
         validate: {
           query: Joi.object({
-            page: Joi.object().default({}),
-            filter: Joi.object().default({}),
+            page: Joi.object({
+              number: Joi.number().integer(),
+              size: Joi.number().integer(),
+            }).default({}),
+            filter: Joi.object({
+              id: optionalIdentifiersType.certificationCenterId,
+              name: Joi.string().trim().empty('').allow(null).optional(),
+              type: Joi.string().trim().empty('').allow(null).optional(),
+              externalId: Joi.string().trim().empty('').allow(null).optional(),
+            }).default({}),
           }),
         },
         notes: [

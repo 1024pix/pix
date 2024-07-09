@@ -546,7 +546,7 @@ describe('Acceptance | Application | organization-controller', function () {
         // when
         const response = await server.inject({
           method: 'GET',
-          url: `/api/organizations/${organizationId}/memberships`,
+          url: `/api/organizations/${organizationId}/memberships/?filter[email]=&filter[firstName]=&filter[lastName]=&filter[organizationRole]=`,
           headers: { authorization: generateValidRequestAuthorizationHeader(adminOfTheOrganization.id) },
         });
 
@@ -674,7 +674,7 @@ describe('Acceptance | Application | organization-controller', function () {
       // when
       const response = await server.inject({
         method: 'GET',
-        url: `/api/admin/organizations/${organization.id}/memberships`,
+        url: `/api/admin/organizations/${organization.id}/memberships?filter[email]=&filter[firstName]=&filter[lastName]=&filter[organizationRole]=`,
         headers: { authorization: generateValidRequestAuthorizationHeader(userSuperAdmin.id) },
       });
 
