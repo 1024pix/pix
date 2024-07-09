@@ -1,6 +1,7 @@
 import Joi from 'joi';
 
 import {
+  embedSchema,
   imageElementSchema,
   qcmElementSchema,
   qcuElementSchema,
@@ -31,6 +32,7 @@ const elementSchema = Joi.alternatives().conditional('.type', {
     { is: 'qcm', then: qcmElementSchema },
     { is: 'qrocm', then: qrocmElementSchema },
     { is: 'video', then: videoElementSchema },
+    { is: 'embed', then: embedSchema },
   ],
 });
 

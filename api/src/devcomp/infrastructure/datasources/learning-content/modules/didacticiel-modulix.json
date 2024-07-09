@@ -321,6 +321,55 @@
       ]
     },
     {
+      "id": "46577fb1-aadb-49ba-b3fd-721a11da8eb4",
+      "type": "activity",
+      "title": "Embed non-auto",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "0e3315fd-98ad-492f-9046-4aa867495d84",
+            "type": "embed",
+            "isCompletionRequired": false,
+            "title": "Application",
+            "url": "https://epreuves.pix.fr/fake2.html",
+            "height": 640
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "74d63ec2-f3e3-4ffe-9806-208d33588553",
+            "type": "qcm",
+            "instruction": "<p>Parcourez ces photos trouvées sur le Web : lesquelles correspondent à des situations fictives&#8239;?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "Photo 1"
+              },
+              {
+                "id": "2",
+                "content": "Photo 2"
+              },
+              {
+                "id": "3",
+                "content": "Photo 3"
+              },
+              {
+                "id": "4",
+                "content": "Photo 4"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<span class=\"feedback__state\">Correct&#8239;!</span>",
+              "invalid": "<span class=\"feedback__state\">Et non&#8239;!</span>"
+            },
+            "solutions": ["1", "2", "4"]
+          }
+        }
+      ]
+    },
+    {
       "id": "7cf75e70-8749-4392-8081-f2c02badb0fb",
       "type": "activity",
       "title": "Le nom de ce produit",
