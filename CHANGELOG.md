@@ -1,5 +1,26 @@
 # Pix Changelog
 
+## v4.178.0 (09/07/2024)
+
+
+### :rocket: Amélioration
+- [#9464](https://github.com/1024pix/pix/pull/9464) [FEATURE] Ajouter le pied de page avec les mentions légales et les mentions de protection des données des élèves sur Pix Junior (PIX-13137).
+- [#9468](https://github.com/1024pix/pix/pull/9468) [FEATURE] Updated translations from Phrase (PIX-13331).
+- [#9385](https://github.com/1024pix/pix/pull/9385) [FEATURE] Ajout d'un formulaire pour la création d'une configuration de déroulé V3 (PIX-13065).
+- [#9445](https://github.com/1024pix/pix/pull/9445) [FEATURE] Ajouter dans le didacticiel un embed sans complétion requise (PIX-13091).
+- [#9458](https://github.com/1024pix/pix/pull/9458) [FEATURE] Ajout d'une bordure à gauche des feedbacks (PIX-13261).
+
+### :building_construction: Tech
+- [#9474](https://github.com/1024pix/pix/pull/9474) [TECH] Ajout des locales es et nl dans la config i18n de l'API.
+- [#9444](https://github.com/1024pix/pix/pull/9444) [TECH] Migrer la route DELETE /api/organizations/{id}/invitations/{organizationInvitationId} et /api/admin/organizations/{id}/invitations/{organizationInvitationId} dans src/team (PIX-13262).
+
+### :bug: Correction
+- [#9466](https://github.com/1024pix/pix/pull/9466) [BUGFIX] Ajouter les validations Joi sur les routes pour lesquelles il en manquait.
+- [#9467](https://github.com/1024pix/pix/pull/9467) [BUGFIX] Correction de la configuration de l'import onde (pix-13324).
+
+### :arrow_up: Montée de version
+- [#9471](https://github.com/1024pix/pix/pull/9471) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.6 (orga).
+
 ## v4.177.0 (08/07/2024)
 
 
