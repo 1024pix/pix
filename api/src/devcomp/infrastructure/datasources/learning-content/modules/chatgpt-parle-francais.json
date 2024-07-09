@@ -15,7 +15,7 @@
   },
   "transitionTexts": [
     {
-      "content": "<p>Vous avez sûrement déjà utilisé un LLM comme ChatGPT ou Copilot.<br>Ces grands modèles de langage peuvent être utiles par exemple pour produire des synthèses, inventer des histoires ou écrire des poèmes.<span aria-hidden=\"true\">&nbsp;✒️ 💭</span></p><p>Pourtant, les textes produits sont parfois discutables ou complètement faux.<span aria-hidden=\"true\">&nbsp;❌</span><br>Surprenant ? Pas vraiment. Commençons par un exemple concret !</p>",
+      "content": "<p>Vous avez sûrement déjà utilisé un LLM comme ChatGPT ou Copilot. Ces grands modèles de langage peuvent être utiles par exemple pour produire des synthèses, inventer des histoires, etc.<span aria-hidden=\"true\">&nbsp;✒️ 💭</span></p><p>Pourtant, les textes produits sont parfois discutables ou complètement faux.<span aria-hidden=\"true\">&nbsp;❌</span><br>Surprenant ? Pas vraiment. Commençons par un exemple concret !</p>",
       "grainId": "0bfa08bd-7052-49bb-89e8-150efa589926"
     },
     {
@@ -31,7 +31,7 @@
       "grainId": "e7ca9d7e-6d77-4705-83a5-a6864c77f4b5"
     },
     {
-        "content":"<p>Il existe de nombreux LLM à l'heure actuelle.<br>Alors, quel LLM privilégier ? Le mieux est de les comparer !<span aria-hidden=\"true\">&nbsp;⚖️</span></p>",
+        "content":"<p>Il existe de nombreux LLM à l'heure actuelle, qui ont chacun leurs biais.<br>Alors, quel LLM privilégier ? Le mieux est de les comparer !<span aria-hidden=\"true\">&nbsp;⚖️</span></p>",
         "grainId": "e52da884-2233-4101-96a5-befd5c7d7975"
     },
     {
@@ -164,7 +164,7 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<span class=\"feedback__state\">Correct !</span><p>Tous les LLM sont concernés par ces biais.</p>",
+                "valid": "<span class=\"feedback__state\">Correct !</span><p>Effectivement, ce sont bien les trois origines principales citées dans la vidéo !</p>",
                 "invalid": "<span class=\"feedback__state\">Incorrect !</span><p>Regardez bien la vidéo précédente et réessayez !</p>"
               },
               "solutions": [
@@ -267,7 +267,7 @@
                   ],
                   "feedbacks": {
                     "valid": "<span class=\"feedback__state\">Correct  !</span><p>Le LLM a tendance à reproduire des stéréotypes qui existent dans nos sociétés. Ici, il s'agit d'un stéréotype de genre associé à cette profession.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect !</span><p>Ce biais est déjà très présent dans nos sociétés, il est représenté dans de nombreux médias.</p>"
+                    "invalid": "<span class=\"feedback__state\">Incorrect !</span><p>Le LLM a tendance à reproduire des stéréotypes qui existent dans nos sociétés et sont représentés dans de nombreux médias.</p>"
                   },
                   "solution": "2"
                 }
@@ -436,7 +436,7 @@
           {
             "id": "ec182563-1090-4794-8a5f-e179d244fa3e",
             "type": "text",
-            "content": "<p>Étudiez ce schéma qui place les principaux LLM selon deux aspects : leur <strong>nationalité</strong> et la <strong>licence</strong> de leur code.<br>Par la suite, vous utiliserez l'arène pour répondre à des questions sur ces aspects.</p>"
+            "content": "<p>Étudiez ce schéma qui classe les principaux LLM selon deux aspects : leur <strong>nationalité</strong> et la <strong>licence</strong> de leur code.<br>Par la suite, vous utiliserez l'arène pour répondre à des questions sur ces aspects.</p>"
           }
         },
         {
