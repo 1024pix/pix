@@ -55,7 +55,14 @@ async function _createSco1dOrganizations(databaseBuilder) {
     ],
   });
 
-  await databaseBuilder.factory.buildSchool({ organizationId: TEAM_1D_ORGANIZATION_1_ID, code: 'MINIPIXOU' });
+  const sessionExpirationDate = new Date();
+  sessionExpirationDate.setFullYear(sessionExpirationDate.getFullYear() + 1);
+
+  await databaseBuilder.factory.buildSchool({
+    organizationId: TEAM_1D_ORGANIZATION_1_ID,
+    code: 'MINIPIXOU',
+    sessionExpirationDate,
+  });
 
   await _buildSchoolStudent({
     databaseBuilder,
@@ -139,7 +146,11 @@ async function _createSco1dOrganizations(databaseBuilder) {
     ],
   });
 
-  await databaseBuilder.factory.buildSchool({ organizationId: TEAM_1D_ORGANIZATION_2_ID, code: 'MAXIPIXOU' });
+  await databaseBuilder.factory.buildSchool({
+    organizationId: TEAM_1D_ORGANIZATION_2_ID,
+    code: 'MAXIPIXOU',
+    sessionExpirationDate,
+  });
 
   await _buildSchoolStudent({
     databaseBuilder,
