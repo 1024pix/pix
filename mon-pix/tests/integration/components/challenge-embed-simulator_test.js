@@ -109,7 +109,7 @@ module('Integration | Component | Challenge Embed Simulator', function (hooks) {
 
         await new Promise((resolve) => setTimeout(resolve, 0));
 
-        assert.strictEqual(find('.embed__iframe').style.cssText, 'height: 500px;');
+        assert.strictEqual(find('.embed__iframe').style.cssText, 'height: 480px;');
       });
     });
 
