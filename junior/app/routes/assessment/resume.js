@@ -6,6 +6,9 @@ export default class ResumeRoute extends Route {
   @service store;
 
   redirect(assessment, transition) {
+    if (transition.from.name === 'challenge-preview') {
+      return this.router.replaceWith('/');
+    }
     if (transition.to.queryParams.assessmentHasNoMoreQuestions === 'true') {
       return this._routeToResults(assessment);
     }
