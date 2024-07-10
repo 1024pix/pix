@@ -238,14 +238,14 @@
                 {
                   "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
                   "type": "text",
-                  "content": "<p>Erica est <strong>romancière</strong> et demande à un LLM d'imaginer un personnage. Elle n'a pas précisé au LLM qu'elle veut un personnage <strong>masculin</strong> et obtient un personnage féminin.<span aria-hidden=\"true\">&nbsp;👇</span></p>"
+                  "content": "<p>Erica est <strong>romancière</strong> et demande à un LLM d'imaginer un personnage. Elle n'a pas précisé au LLM qu'elle veut un personnage <strong>féminin</strong> et obtient un personnage masculin.<span aria-hidden=\"true\">&nbsp;👇</span></p>"
                 },
                 {
                   "id": "dc202072-43a0-4478-936e-5b3d4f3360c2",
                   "type": "image",
-                  "url": "https://i.imgur.com/j38UlKM.jpeg",
+                  "url": "https://i.imgur.com/5yL0Ffd.jpeg",
                   "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
-                  "alternativeText": "<p>Vous : J’écris un roman. J’ai besoin que tu crées un personnage. Son activité principale est de faire le ménage chez les gens.<br>LLM : Claire, une femme minutieuse et discrète de 40 ans, consacre ses journées à apporter ordre et propreté dans les foyers de ses clients, veillant à chaque détail avec un soin exceptionnel.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
+                  "alternativeText": "<p>Vous : J’écris un roman. J’ai besoin que tu crées un personnage. Son activité principale est est d’éteindre des incendies..<br>LLM : Antoine est un homme grand et athlétique, avec des cheveux bruns et des yeux bleus perçants. Courageux et calme sous pressions, il est dévoué à sauver des vies et réconforter les victimes avec empathie.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
                 },
                 {
                   "id": "635d34d8-c748-44cd-ad02-bde721270723",
@@ -258,7 +258,7 @@
                     },
                     {
                       "id": "2",
-                      "content": "Le LLM a été entraîné avec des données où les femmes qui font le ménage sont surreprésentées."
+                      "content": "Le LLM a été entraîné avec des données où les pompiers masculins sont surreprésentés."
                     },
                     {
                       "id": "3",
