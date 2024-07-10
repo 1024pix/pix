@@ -1,13 +1,13 @@
-import { UserNotFoundError } from '../../../../lib/domain/errors.js';
-import { saveAdminMember } from '../../../../lib/domain/usecases/save-admin-member.js';
-import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
-import { AdminMember } from '../../../../src/shared/domain/models/AdminMember.js';
-import { AlreadyExistingAdminMemberError } from '../../../../src/team/domain/errors.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { UserNotFoundError } from '../../../../../lib/domain/errors.js';
+import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
+import { AdminMember } from '../../../../../src/shared/domain/models/AdminMember.js';
+import { AlreadyExistingAdminMemberError } from '../../../../../src/team/domain/errors.js';
+import { saveAdminMember } from '../../../../../src/team/domain/usecases/save-admin-member.usecase.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 const { ROLES } = PIX_ADMIN;
 
-describe('Unit | UseCase | save-admin-member', function () {
+describe('Unit | Team | Domain | UseCase | save-admin-member', function () {
   context('when admin member email is not found', function () {
     it('should throw a UserNotFound error', async function () {
       // given
