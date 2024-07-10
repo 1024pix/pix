@@ -3,6 +3,10 @@ import Joi from 'joi';
 const schema = Joi.object({
   AUTH_SECRET: Joi.string().required(),
   AUTONOMOUS_COURSES_ORGANIZATION_ID: Joi.number().required(),
+  API_DATA_URL: Joi.string().uri().optional(),
+  API_DATA_USERNAME: Joi.string().optional(),
+  API_DATA_PASSWORD: Joi.string().optional(),
+  API_DATA_QUERIES: Joi.string().optional(),
   BREVO_ACCOUNT_CREATION_TEMPLATE_ID: Joi.number().optional(),
   BREVO_API_KEY: Joi.string().optional(),
   BREVO_ORGANIZATION_INVITATION_SCO_TEMPLATE_ID: Joi.number().optional(),

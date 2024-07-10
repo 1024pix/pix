@@ -68,6 +68,14 @@ const configuration = (function () {
     anonymous: {
       accessTokenLifespanMs: ms(process.env.ANONYMOUS_ACCESS_TOKEN_LIFESPAN || '4h'),
     },
+    apiData: {
+      url: process.env.API_DATA_URL,
+      credentials: {
+        username: process.env.API_DATA_USERNAME,
+        password: process.env.API_DATA_PASSWORD,
+      },
+      queries: parseJSONEnv('API_DATA_QUERIES'),
+    },
     apiManager: {
       url: process.env.APIM_URL || 'https://gateway.pix.fr',
     },
@@ -340,6 +348,17 @@ const configuration = (function () {
   };
 
   if (process.env.NODE_ENV === 'test') {
+    config.apiData = {
+      url: 'http://example.net',
+      credentials: {
+        username: 'user',
+        password: 'passowrd',
+      },
+      queries: {
+        coverageRate: 'coverage-rate-query-id',
+      },
+    };
+
     config.auditLogger.isEnabled = true;
 
     config.oidcExampleNet = {
