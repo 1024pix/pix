@@ -10,6 +10,7 @@
     @onClear={{this.clearFilters}}
     @onClickCampaign={{this.goToCampaignPage}}
     @listOnlyCampaignsOfCurrentUser={{true}}
+    @onDeleteCampaigns={{this.onDeleteCampaigns}}
   />
 {{else}}
   <Campaign::NoCampaignPanel />

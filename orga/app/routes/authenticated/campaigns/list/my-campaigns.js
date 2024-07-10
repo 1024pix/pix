@@ -1,3 +1,4 @@
+import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 
@@ -57,5 +58,10 @@ export default class AuthenticatedCampaignsListAllCampaignsRoute extends Route {
       controller.ownerName = null;
       controller.status = null;
     }
+  }
+
+  @action
+  refreshModel() {
+    this.refresh();
   }
 }
