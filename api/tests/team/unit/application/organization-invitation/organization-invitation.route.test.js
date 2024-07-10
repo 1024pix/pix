@@ -1,7 +1,7 @@
-import { usecases } from '../../../../../lib/domain/usecases/index.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { organizationInvitationController } from '../../../../../src/team/application/organization-invitations/organization-invitation.controller.js';
 import { teamRoutes } from '../../../../../src/team/application/routes.js';
+import { usecases } from '../../../../../src/team/domain/usecases/index.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Team | Application | Route | organization-invitation', function () {

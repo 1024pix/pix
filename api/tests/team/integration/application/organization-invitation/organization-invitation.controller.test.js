@@ -4,7 +4,6 @@ import {
   OrganizationNotFoundError,
   OrganizationWithoutEmailError,
 } from '../../../../../lib/domain/errors.js';
-import { usecases as usecasesLib } from '../../../../../lib/domain/usecases/index.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { teamRoutes } from '../../../../../src/team/application/routes.js';
 import { OrganizationInvitation } from '../../../../../src/team/domain/models/OrganizationInvitation.js';
@@ -21,7 +20,7 @@ describe('Integration | Team | Application | Controller | Organization invitatio
   beforeEach(async function () {
     sandbox = sinon.createSandbox();
     sandbox.stub(usecases, 'sendScoInvitation');
-    sandbox.stub(usecasesLib, 'findPendingOrganizationInvitations');
+    sandbox.stub(usecases, 'findPendingOrganizationInvitations');
     sandbox.stub(scoOrganizationInvitationSerializer, 'serialize');
     sandbox.stub(securityPreHandlers, 'checkUserIsAdminInOrganization');
 
@@ -35,13 +34,13 @@ describe('Integration | Team | Application | Controller | Organization invitatio
 
   describe('#findPendingInvitations', function () {
     context('Success cases', function () {
-      it('should return an HTTP response with status code 200', async function () {
+      it('returns an HTTP response with status code 200', async function () {
         // given
         const invitation = domainBuilder.buildOrganizationInvitation({
           organizationId: 1,
           status: OrganizationInvitation.StatusType.PENDING,
         });
-        usecasesLib.findPendingOrganizationInvitations.resolves([invitation]);
+        usecases.findPendingOrganizationInvitations.resolves([invitation]);
         securityPreHandlers.checkUserIsAdminInOrganization.returns(true);
 
         // when
@@ -67,7 +66,7 @@ describe('Integration | Team | Application | Controller | Organization invitatio
     };
 
     context('Success cases', function () {
-      it('should return an HTTP response with status code 201', async function () {
+      it('returns an HTTP response with status code 201', async function () {
         // given
         usecases.sendScoInvitation.resolves();
 
@@ -80,7 +79,7 @@ describe('Integration | Team | Application | Controller | Organization invitatio
     });
 
     context('Error cases', function () {
-      it('should respond an HTTP response with status code 404 when OrganizationNotFoundError', async function () {
+      it('responds an HTTP response with status code 404 when OrganizationNotFoundError', async function () {
         // given
         usecases.sendScoInvitation.rejects(new OrganizationNotFoundError());
 
@@ -91,7 +90,7 @@ describe('Integration | Team | Application | Controller | Organization invitatio
         expect(response.statusCode).to.equal(404);
       });
 
-      it('should respond an HTTP response with status code 412 when OrganizationWithoutEmailError', async function () {
+      it('responds an HTTP response with status code 412 when OrganizationWithoutEmailError', async function () {
         // given
         usecases.sendScoInvitation.rejects(new OrganizationWithoutEmailError());
 
@@ -102,7 +101,7 @@ describe('Integration | Team | Application | Controller | Organization invitatio
         expect(response.statusCode).to.equal(412);
       });
 
-      it('should respond an HTTP response with status code 409 when ManyOrganizationsFoundError', async function () {
+      it('responds an HTTP response with status code 409 when ManyOrganizationsFoundError', async function () {
         // given
         usecases.sendScoInvitation.rejects(new ManyOrganizationsFoundError());
 
@@ -113,7 +112,7 @@ describe('Integration | Team | Application | Controller | Organization invitatio
         expect(response.statusCode).to.equal(409);
       });
 
-      it('should respond an HTTP response with status code 422 when OrganizationArchivedError', async function () {
+      it('responds an HTTP response with status code 422 when OrganizationArchivedError', async function () {
         // given
         usecases.sendScoInvitation.rejects(new OrganizationArchivedError());
 

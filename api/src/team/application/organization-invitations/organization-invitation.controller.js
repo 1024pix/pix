@@ -1,7 +1,6 @@
 import _ from 'lodash';
 
 import { MissingQueryParamError } from '../../../../lib/application/http-errors.js';
-import { usecases as usecasesLib } from '../../../../lib/domain/usecases/index.js';
 import * as requestResponseUtils from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { organizationInvitationSerializer } from '../../infrastructure/serializers/jsonapi/organization-invitation.serializer.js';
@@ -16,7 +15,7 @@ import { serializer as scoOrganizationInvitationSerializer } from '../../infrast
 const findPendingInvitations = function (request, h, dependencies = { organizationInvitationSerializer }) {
   const organizationId = request.params.id;
 
-  return usecasesLib
+  return usecases
     .findPendingOrganizationInvitations({ organizationId })
     .then((invitations) => dependencies.organizationInvitationSerializer.serialize(invitations));
 };

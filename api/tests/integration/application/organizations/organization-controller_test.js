@@ -12,7 +12,6 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(usecases, 'findPaginatedFilteredOrganizationMemberships');
     sandbox.stub(usecases, 'createOrganizationInvitations');
     sandbox.stub(usecases, 'acceptOrganizationInvitation');
-    sandbox.stub(usecases, 'findPendingOrganizationInvitations');
     sandbox.stub(usecases, 'findDivisionsByOrganization');
 
     sandbox.stub(securityPreHandlers, 'checkUserIsAdminInOrganization');

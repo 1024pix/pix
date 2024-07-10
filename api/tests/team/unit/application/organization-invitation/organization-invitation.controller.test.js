@@ -1,5 +1,4 @@
 import { MissingQueryParamError } from '../../../../../lib/application/http-errors.js';
-import { usecases as usecasesLib } from '../../../../../lib/domain/usecases/index.js';
 import { organizationInvitationController } from '../../../../../src/team/application/organization-invitations/organization-invitation.controller.js';
 import { OrganizationInvitation } from '../../../../../src/team/domain/models/OrganizationInvitation.js';
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
@@ -65,7 +64,7 @@ describe('Unit | Team | Application | Controller | organization-invitation', fun
         params: { id: organization.id },
       };
 
-      sinon.stub(usecasesLib, 'findPendingOrganizationInvitations');
+      sinon.stub(usecases, 'findPendingOrganizationInvitations');
 
       const organizationInvitationSerializerStub = {
         serialize: sinon.stub(),
@@ -77,14 +76,14 @@ describe('Unit | Team | Application | Controller | organization-invitation', fun
     });
 
     it('calls the usecase to find pending invitations with organizationId', async function () {
-      usecasesLib.findPendingOrganizationInvitations.resolves(resolvedOrganizationInvitations);
+      usecases.findPendingOrganizationInvitations.resolves(resolvedOrganizationInvitations);
       dependencies.organizationInvitationSerializer.serialize.resolves(serializedOrganizationInvitations);
 
       // when
       const response = await organizationInvitationController.findPendingInvitations(request, hFake, dependencies);
 
       // then
-      expect(usecasesLib.findPendingOrganizationInvitations).to.have.been.calledWithExactly({
+      expect(usecases.findPendingOrganizationInvitations).to.have.been.calledWithExactly({
         organizationId: organization.id,
       });
       expect(dependencies.organizationInvitationSerializer.serialize).to.have.been.calledWithExactly(
