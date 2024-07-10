@@ -1,0 +1,124 @@
+.pix-tabs__tablist {
+  position: relative;
+  max-width: 100%;
+  overflow: hidden;
+  background-color: var(--pix-neutral-0);
+  border: 1px solid var(--pix-neutral-100);
+  border-radius: 5rem;
+
+  & > div {
+    display: flex;
+    align-items: center;
+    overflow: auto;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+.pix-tabs__tab {
+  display: block;
+  flex: 1 1 min-content;
+  max-width: calc(100% - 4rem);
+  padding: 1rem var(--pix-spacing-8x);
+  color: var(--pix-neutral-900);
+  font-weight: var(--pix-font-bold);
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  border-radius: 5rem;
+
+  & > span {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  &:focus,
+  &:hover {
+    background-color: var(--pix-neutral-20);
+  }
+
+  &:active {
+    background-color: var(--pix-neutral-100);
+  }
+
+  &[aria-selected='true'] {
+    background: var(--pix-secondary-500);
+  }
+}
+
+.pix-tabs-tablist__scroll-button {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  width: 2rem;
+  cursor: pointer;
+
+  &::before {
+    position: absolute;
+    background-image: linear-gradient(
+      to right,
+      rgb(255 255 255 / 0%),
+      rgb(255 255 255 / 80%) 40%,
+      rgb(255 255 255 / 100%) 100%
+    );
+    content: '';
+    pointer-events: none;
+    inset: 0;
+  }
+
+  &::after {
+    position: absolute;
+    top: calc(50% - 0.33rem);
+    width: 0.75rem;
+    height: 0.75rem;
+    content: '';
+  }
+
+  &:hover::after {
+    border-color: var(--pix-neutral-500);
+  }
+
+  &--left {
+    left: 0;
+
+    &::before {
+      right: -50%;
+      transform: scaleX(-1);
+    }
+
+    &::after {
+      right: 0.25rem;
+      border-top: 2px solid var(--pix-neutral-900);
+      border-left: 2px solid var(--pix-neutral-900);
+      transform: rotate(-45deg);
+    }
+  }
+
+  &--right {
+    right: 0;
+
+    &::before {
+      left: -50%;
+    }
+
+    &::after {
+      left: 0.25rem;
+      border-top: 2px solid var(--pix-neutral-900);
+      border-right: 2px solid var(--pix-neutral-900);
+      transform: rotate(45deg);
+    }
+  }
+}
+
+@media (max-width: 760px) {
+  .pix-tabs__tab {
+    padding: 1rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+}
