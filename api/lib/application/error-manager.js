@@ -288,10 +288,6 @@ function _mapToHttpError(error) {
     return new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta);
   }
 
-  if (error instanceof DomainErrors.AlreadyExistingAdminMemberError) {
-    return new HttpErrors.UnprocessableEntityError(error.message);
-  }
-
   if (error instanceof DomainErrors.CandidateNotAuthorizedToJoinSessionError) {
     return new HttpErrors.ForbiddenError(error.message, error.code);
   }
