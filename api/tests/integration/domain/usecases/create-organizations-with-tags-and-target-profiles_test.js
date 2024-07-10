@@ -782,7 +782,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           provinceCode: '123',
           tags: 'TAG1',
           credit: 0,
-          emailInvitations: 'youness@example.net',
+          emailForSCOActivation: 'youness@example.net',
           organizationInvitationRole: Membership.roles.ADMIN,
           locale: 'fr-fr',
           createdBy: userId,
@@ -825,6 +825,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
 
       const savedSco1dOrganizations = await knex('organizations').where({ type: 'SCO-1D' });
       expect(savedSco1dOrganizations.length).to.equal(1);
+      expect(savedSco1dOrganizations[0].email).to.equal('youness@example.net');
 
       expect(savedSchools[0].organizationId).to.equal(savedSco1dOrganizations[0].id);
     });
