@@ -4,10 +4,13 @@ import {
   OrganizationNotFoundError,
   OrganizationWithoutEmailError,
 } from '../../../../../lib/domain/errors.js';
+import { usecases as usecasesLib } from '../../../../../lib/domain/usecases/index.js';
+import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { teamRoutes } from '../../../../../src/team/application/routes.js';
+import { OrganizationInvitation } from '../../../../../src/team/domain/models/OrganizationInvitation.js';
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
 import { serializer as scoOrganizationInvitationSerializer } from '../../../../../src/team/infrastructure/serializers/jsonapi/sco-organization-invitation.serializer.js';
-import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
+import { domainBuilder, expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 const routesUnderTest = teamRoutes[0];
 
@@ -18,7 +21,9 @@ describe('Integration | Team | Application | Controller | Organization invitatio
   beforeEach(async function () {
     sandbox = sinon.createSandbox();
     sandbox.stub(usecases, 'sendScoInvitation');
+    sandbox.stub(usecasesLib, 'findPendingOrganizationInvitations');
     sandbox.stub(scoOrganizationInvitationSerializer, 'serialize');
+    sandbox.stub(securityPreHandlers, 'checkUserIsAdminInOrganization');
 
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(routesUnderTest);
@@ -26,6 +31,26 @@ describe('Integration | Team | Application | Controller | Organization invitatio
 
   afterEach(function () {
     sandbox.restore();
+  });
+
+  describe('#findPendingInvitations', function () {
+    context('Success cases', function () {
+      it('should return an HTTP response with status code 200', async function () {
+        // given
+        const invitation = domainBuilder.buildOrganizationInvitation({
+          organizationId: 1,
+          status: OrganizationInvitation.StatusType.PENDING,
+        });
+        usecasesLib.findPendingOrganizationInvitations.resolves([invitation]);
+        securityPreHandlers.checkUserIsAdminInOrganization.returns(true);
+
+        // when
+        const response = await httpTestServer.request('GET', '/api/organizations/1/invitations');
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+    });
   });
 
   describe('#sendScoInvitation', function () {

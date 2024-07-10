@@ -1,6 +1,7 @@
 import * as moduleUnderTest from '../../../../lib/application/organizations/index.js';
 import { organizationController } from '../../../../lib/application/organizations/organization-controller.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
+import { organizationInvitationController } from '../../../../src/team/application/organization-invitations/organization-invitation.controller.js';
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Integration | Application | Organizations | Routes', function () {
@@ -92,7 +93,7 @@ describe('Integration | Application | Organizations | Routes', function () {
       const url = '/api/admin/organizations/1/invitations';
 
       sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(organizationController, 'findPendingInvitations').returns('ok');
+      sinon.stub(organizationInvitationController, 'findPendingInvitations').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -101,7 +102,7 @@ describe('Integration | Application | Organizations | Routes', function () {
 
       // then
       expect(response.statusCode).to.equal(200);
-      expect(organizationController.findPendingInvitations).to.have.been.calledOnce;
+      expect(organizationInvitationController.findPendingInvitations).to.have.been.calledOnce;
     });
   });
 
@@ -130,26 +131,6 @@ describe('Integration | Application | Organizations | Routes', function () {
       // then
       expect(response.statusCode).to.equal(201);
       expect(organizationController.sendInvitations).to.have.been.calledOnce;
-    });
-  });
-
-  describe('GET /api/organizations/:id/invitations', function () {
-    it('should exist', async function () {
-      // given
-      const method = 'GET';
-      const url = '/api/organizations/1/invitations';
-
-      sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').callsFake((request, h) => h.response(true));
-      sinon.stub(organizationController, 'findPendingInvitations').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request(method, url);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-      expect(organizationController.findPendingInvitations).to.have.been.calledOnce;
     });
   });
 });

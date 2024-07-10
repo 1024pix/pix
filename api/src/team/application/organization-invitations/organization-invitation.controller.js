@@ -1,10 +1,25 @@
 import _ from 'lodash';
 
 import { MissingQueryParamError } from '../../../../lib/application/http-errors.js';
+import { usecases as usecasesLib } from '../../../../lib/domain/usecases/index.js';
 import * as requestResponseUtils from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
-import { organizationInvitationSerializer as organizationInvitationSerializer } from '../../infrastructure/serializers/jsonapi/organization-invitation.serializer.js';
+import { organizationInvitationSerializer } from '../../infrastructure/serializers/jsonapi/organization-invitation.serializer.js';
 import { serializer as scoOrganizationInvitationSerializer } from '../../infrastructure/serializers/jsonapi/sco-organization-invitation.serializer.js';
+
+/**
+ *
+ * @param request
+ * @param h
+ * @returns {Promise<any>}
+ */
+const findPendingInvitations = function (request, h, dependencies = { organizationInvitationSerializer }) {
+  const organizationId = request.params.id;
+
+  return usecasesLib
+    .findPendingOrganizationInvitations({ organizationId })
+    .then((invitations) => dependencies.organizationInvitationSerializer.serialize(invitations));
+};
 
 /**
  *
@@ -67,6 +82,7 @@ const sendScoInvitation = async function (
 };
 
 export const organizationInvitationController = {
+  findPendingInvitations,
   cancelOrganizationInvitation,
   getOrganizationInvitation,
   sendScoInvitation,
