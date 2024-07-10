@@ -2,7 +2,6 @@ import Joi from 'joi';
 
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
-import { adminMemberController as srcAdminMemberController } from '../../../src/team/application/admin-member/admin-member.controller.js';
 import { adminMemberController } from './admin-member-controller.js';
 
 const register = async function (server) {
@@ -49,35 +48,6 @@ const register = async function (server) {
         tags: ['api', 'admin-members', 'current-member'],
       },
     },
-
-    {
-      method: 'POST',
-      path: '/api/admin/admin-members',
-      config: {
-        pre: [{ method: securityPreHandlers.checkAdminMemberHasRoleSuperAdmin }],
-        validate: {
-          payload: Joi.object({
-            data: Joi.object({
-              attributes: Joi.object({
-                email: Joi.string().email().required(),
-                role: Joi.string().valid('SUPER_ADMIN', 'SUPPORT', 'METIER', 'CERTIF').required(),
-              }),
-            }),
-          }),
-          options: {
-            allowUnknown: true,
-          },
-        },
-        handler: srcAdminMemberController.saveAdminMember,
-        notes: [
-          "- Cette route est restreinte aux utilisateurs ayant les droits d'accès\n" +
-            '- Elle permet de donner un accès à Pix Admin à un nouveau membre\n' +
-            'ou à réactiver un membre désactivé',
-        ],
-        tags: ['api', 'admin', 'admin-members'],
-      },
-    },
-
     {
       method: 'PATCH',
       path: '/api/admin/admin-members/{id}',
