@@ -688,6 +688,21 @@
         },
         "create": "Créer une campagne"
       },
+      "action-bar": {
+        "delete-button": "Supprimer",
+        "error-message": "{count, plural, =1 {Une erreur est survenue, la campagne n'a pas été supprimée de la liste.} other {Une erreur est survenue, les {count} campagnes sélectionnées n'ont pas été supprimées de la liste.}}",
+        "information": "{count, plural, =1 {{count} campagne sélectionnée} other {{count} campagnes sélectionnées}}",
+        "success-message": "{count, plural, =1 {La campagne a bien été supprimée de la liste.} other {Les {count} campagnes sélectionnées ont bien été supprimées de la liste.}}"
+      },
+      "deletion-modal": {
+        "title": "{count, plural, =1 {Êtes-vous sûr(e) de vouloir supprimer la campagne sélectionnée ?} other {Êtes-vous sûr(e) de vouloir supprimer les '<strong>'{count}'</strong>' campagnes sélectionnées ?}}",
+        "confirmation-checkbox": "Je confirme avoir bien compris les impacts des {count} suppressions",
+        "content": {
+          "footer": "Attention, cette action est irréversible.",
+          "header": "{count, plural, =1 {Cette campagne ne sera plus visible} other {Ces campagnes ne seront plus visibles}} dans Pix Orga.",
+          "main-participation-prevent": "Toutes les participations à {count, plural, =1 {cette campagne} other {ces campagnes}} et leurs résultats seront supprimés."
+        }
+      },
       "filter": {
         "by-name": "Rechercher une campagne",
         "by-owner": "Rechercher un propriétaire",
@@ -701,6 +716,7 @@
           "code": "Code",
           "created-by": "Propriétaire",
           "created-on": "Créée le",
+          "mainCheckbox": "Selectionner/Deselectionner toute la colonne",
           "name": "Nom de la campagne",
           "participants": "Participants",
           "results": "Résultats reçus"
