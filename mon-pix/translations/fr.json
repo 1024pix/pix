@@ -1311,6 +1311,12 @@
           "alternativeText": "Afficher l'alternative textuelle",
           "transcription": "Afficher la transcription"
         },
+        "embed": {
+          "start": {
+            "ariaLabel": "Commencer le simulateur",
+            "name": "Commencer"
+          }
+        },
         "grain": {
           "continue": "Continuer",
           "skip": "Passer",

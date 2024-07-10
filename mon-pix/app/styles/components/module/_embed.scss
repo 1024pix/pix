@@ -1,0 +1,27 @@
+.element-embed {
+  position: relative;
+
+  &__iframe {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    border: none;
+
+    &--blurred {
+      filter: blur(5px);
+    }
+  }
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0 0 0 / 55%);
+  }
+}

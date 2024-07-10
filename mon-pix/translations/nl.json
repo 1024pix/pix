@@ -1311,6 +1311,12 @@
           "alternativeText": "Het tekstalternatief tonen",
           "transcription": "Transcriptie weergeven"
         },
+        "embed": {
+          "start": {
+            "ariaLabel": "Start de simulator",
+            "name": "Beginnen"
+          }
+        },
         "grain": {
           "continue": "Ga verder met",
           "skip": "Overslaan",
