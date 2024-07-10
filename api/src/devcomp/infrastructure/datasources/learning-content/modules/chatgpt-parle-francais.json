@@ -456,7 +456,7 @@
           {
             "id": "a5b4912d-7882-47ed-a782-bf87d73ead55",
             "type": "text",
-            "content": "<p>Seuls quelques pays ont les moyens financiers de développer des grands modèles de langage. <span aria-hidden=\"true\">&nbsp;🌍&nbsp;💵</span></p><p>Selon leur provenance, les modèles vont avoir des <strong>biais différents</strong>, ce qui peut expliquer certains écarts de résultats.</p>"
+            "content": "<p>Seuls quelques pays ont les moyens financiers de développer des grands modèles de langage.<span aria-hidden=\"true\">&nbsp;🌍&nbsp;💵</span>. Selon leur provenance, les modèles vont avoir des <strong>biais différents</strong>, ce qui peut expliquer certains écarts de résultats.</p>"
           }
         },
         {
