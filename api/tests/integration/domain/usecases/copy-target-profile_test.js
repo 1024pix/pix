@@ -7,6 +7,12 @@ describe('Integration | UseCases | copy-target-profile', function () {
     it('should copy the target profile', async function () {
       // given
       const originTargetProfile = databaseBuilder.factory.buildTargetProfile();
+      const firstBadge = databaseBuilder.factory.buildBadge({ key: 'FOO', targetProfileId: originTargetProfile.id });
+      const secondBadge = databaseBuilder.factory.buildBadge({ key: 'BAR', targetProfileId: originTargetProfile.id });
+
+      databaseBuilder.factory.buildBadgeCriterion({ title: 'First Badge First Criterion', badgeId: firstBadge.id });
+      databaseBuilder.factory.buildBadgeCriterion({ title: 'First Badge Second Criterion', badgeId: firstBadge.id });
+      databaseBuilder.factory.buildBadgeCriterion({ title: 'Second Badge First Criterion', badgeId: secondBadge.id });
 
       await databaseBuilder.commit();
 
