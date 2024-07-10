@@ -85,10 +85,14 @@ export class ModuleFactory {
 
   static #buildElement(element, isForReferentialValidation) {
     switch (element.type) {
+      case 'embed':
+        return ModuleFactory.#buildEmbed(element);
       case 'image':
         return ModuleFactory.#buildImage(element);
       case 'text':
         return ModuleFactory.#buildText(element);
+      case 'video':
+        return ModuleFactory.#buildVideo(element);
       case 'qcm':
         return isForReferentialValidation
           ? ElementForVerificationFactory.build(element)
@@ -101,10 +105,6 @@ export class ModuleFactory {
         return isForReferentialValidation
           ? ElementForVerificationFactory.build(element)
           : ModuleFactory.#buildQROCM(element);
-      case 'video':
-        return ModuleFactory.#buildVideo(element);
-      case 'embed':
-        return ModuleFactory.#buildEmbed(element);
       default:
         logger.warn({
           event: 'module_element_type_unknown',
@@ -114,10 +114,13 @@ export class ModuleFactory {
     }
   }
 
-  static #buildText(element) {
-    return new Text({
+  static #buildEmbed(element) {
+    return new Embed({
       id: element.id,
-      content: element.content,
+      isCompletionRequired: element.isCompletionRequired,
+      title: element.title,
+      url: element.url,
+      height: element.height,
     });
   }
 
@@ -127,6 +130,13 @@ export class ModuleFactory {
       url: element.url,
       alt: element.alt,
       alternativeText: element.alternativeText,
+    });
+  }
+
+  static #buildText(element) {
+    return new Text({
+      id: element.id,
+      content: element.content,
     });
   }
 
@@ -140,13 +150,17 @@ export class ModuleFactory {
     });
   }
 
-  static #buildEmbed(element) {
-    return new Embed({
+  static #buildQCM(element) {
+    return new QCM({
       id: element.id,
-      isCompletionRequired: element.isCompletionRequired,
-      title: element.title,
-      url: element.url,
-      height: element.height,
+      instruction: element.instruction,
+      locales: element.locales,
+      proposals: element.proposals.map((proposal) => {
+        return new QcmProposal({
+          id: proposal.id,
+          content: proposal.content,
+        });
+      }),
     });
   }
 
@@ -157,20 +171,6 @@ export class ModuleFactory {
       locales: element.locales,
       proposals: element.proposals.map((proposal) => {
         return new QcuProposal({
-          id: proposal.id,
-          content: proposal.content,
-        });
-      }),
-    });
-  }
-
-  static #buildQCM(element) {
-    return new QCM({
-      id: element.id,
-      instruction: element.instruction,
-      locales: element.locales,
-      proposals: element.proposals.map((proposal) => {
-        return new QcmProposal({
           id: proposal.id,
           content: proposal.content,
         });
