@@ -74,8 +74,29 @@ const createBadge = async function (request, h) {
   return h.response(badgeSerializer.serialize(createdBadge)).created();
 };
 
-const copyTargetProfile = async (request) =>
-  usecases.copyTargetProfile({ targetProfileId: request.params.targetProfileId });
+const copyTargetProfile = async (request) => {
+  let copiedTargetProfileId;
+  const targetProfileIdToCopy = request.params.targetProfileId;
+  await DomainTransaction.execute(async (domainTransaction) => {
+    copiedTargetProfileId = await usecases.copyTargetProfile({
+      targetProfileId: request.params.targetProfileId,
+      domainTransaction,
+    });
+    await Promise.all([
+      await usecases.copyBadges({
+        originTargetProfileId: targetProfileIdToCopy,
+        destinationTargetProfileId: copiedTargetProfileId,
+        domainTransaction,
+      }),
+      await usecases.copyStages({
+        originTargetProfileId: targetProfileIdToCopy,
+        destinationTargetProfileId: copiedTargetProfileId,
+        domainTransaction,
+      }),
+    ]);
+  });
+  return copiedTargetProfileId;
+};
 
 const targetProfileController = {
   findPaginatedFilteredTargetProfileSummariesForAdmin,
