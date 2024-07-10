@@ -29,13 +29,18 @@ const get = async function (id) {
   return new Badge(badge);
 };
 
-const save = async function (badge, { knexTransaction } = DomainTransaction.emptyTransaction()) {
+const save = async (badge, { knexTransaction } = DomainTransaction.emptyTransaction()) => {
+  const [savedBadge] = await saveAll([badge], { knexTransaction });
+  return savedBadge;
+};
+
+const saveAll = async function (badges, { knexTransaction } = DomainTransaction.emptyTransaction()) {
   try {
-    const [savedBadge] = await (knexTransaction ?? knex)(TABLE_NAME).insert(_adaptModelToDb(badge)).returning('*');
-    return new Badge(savedBadge);
+    const savedBadges = await (knexTransaction ?? knex)(TABLE_NAME).insert(badges.map(_adaptModelToDb)).returning('*');
+    return savedBadges.map((badge) => new Badge(badge));
   } catch (error) {
     if (knexUtils.isUniqConstraintViolated(error) && error.constraint === BADGE_KEY_UNIQUE_CONSTRAINT) {
-      throw new AlreadyExistingEntityError(`The badge key ${badge.key} already exists`);
+      throw new AlreadyExistingEntityError(error.detail);
     }
     throw error;
   }
@@ -73,7 +78,19 @@ const findAllByIds = async function ({ ids }) {
   });
 };
 
-export { findAllByIds, findByCampaignId, get, isAssociated, remove, save, update };
+const findAllByTargetProfileId = async (
+  targetProfileId,
+  { knexTransaction } = DomainTransaction.emptyTransaction(),
+) => {
+  const knexConn = knexTransaction ?? knex;
+  const badges = await knexConn('badges').where({
+    targetProfileId: targetProfileId,
+  });
+
+  return badges.map((badge) => new Badge(badge));
+};
+
+export { findAllByIds, findAllByTargetProfileId, findByCampaignId, get, isAssociated, remove, save, saveAll, update };
 
 function _adaptModelToDb(badge) {
   return omit(badge, ['id', 'badgeCriteria', 'complementaryCertificationBadge']);

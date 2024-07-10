@@ -5,10 +5,11 @@ import {
   getByCampaignIds,
   getByCampaignParticipationId,
   getByTargetProfileIds,
+  saveAll,
   update,
 } from '../../../../../src/evaluation/infrastructure/repositories/stage-repository.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
-import { catchErr, databaseBuilder, expect } from '../../../../test-helper.js';
+import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Integration | Repository | Stage Acquisition', function () {
   describe('get', function () {
@@ -206,6 +207,28 @@ describe('Integration | Repository | Stage Acquisition', function () {
       expect(updatedStage.prescriberTitle).equal(payload.attributesToUpdate.prescriberTitle);
       expect(updatedStage.prescriberDescription).equal(payload.attributesToUpdate.prescriberDescription);
       expect(anotherStage.title).to.not.equal(payload.attributesToUpdate.title);
+    });
+  });
+
+  describe('saveAll', function () {
+    it('should save all stages', async function () {
+      // given
+      const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
+      const { id: secondTargetProfileId } = databaseBuilder.factory.buildTargetProfile();
+      await databaseBuilder.commit();
+
+      const stagesToSave = [
+        domainBuilder.buildStage({ id: 1, title: 'Stage 1', targetProfileId }),
+        domainBuilder.buildStage({ id: 2, title: 'Stage 2', targetProfileId }),
+        domainBuilder.buildStage({ id: 3, title: 'Stage 2', targetProfileId: secondTargetProfileId }),
+      ];
+
+      // when
+      const savedStages = await saveAll(stagesToSave);
+
+      // then
+      expect(savedStages[0]).to.be.instanceOf(Stage);
+      expect(savedStages).to.have.lengthOf(3);
     });
   });
 });

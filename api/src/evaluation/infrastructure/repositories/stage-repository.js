@@ -1,4 +1,5 @@
 import { knex } from '../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { Stage } from '../../domain/models/Stage.js';
 
@@ -97,8 +98,12 @@ const getByCampaignParticipationId = async (campaignParticipationId, knexConnect
  *
  * @returns Promise<Stage[]>
  */
-const getByTargetProfileIds = async (targetProfileIds, knexConnection = knex) =>
-  toDomain(await knexConnection('stages').select('stages.*').whereIn('stages.targetProfileId', targetProfileIds));
+const getByTargetProfileIds = async (targetProfileIds, { knexTransaction } = DomainTransaction.emptyTransaction()) => {
+  const knexConnection = knexTransaction ?? knex;
+  return toDomain(
+    await knexConnection('stages').select('stages.*').whereIn('stages.targetProfileId', targetProfileIds),
+  );
+};
 
 const update = async ({ id, attributesToUpdate }) => {
   const [stageToUpdate] = await knex('stages')
@@ -109,4 +114,10 @@ const update = async ({ id, attributesToUpdate }) => {
   return new Stage(stageToUpdate);
 };
 
-export { get, getByCampaignId, getByCampaignIds, getByCampaignParticipationId, getByTargetProfileIds, update };
+const saveAll = async (stages, { knexTransaction } = DomainTransaction.emptyTransaction()) => {
+  const knexConnection = knexTransaction ?? knex;
+  const createdStages = await knexConnection('stages').insert(stages).returning('*');
+  return toDomain(createdStages);
+};
+
+export { get, getByCampaignId, getByCampaignIds, getByCampaignParticipationId, getByTargetProfileIds, saveAll, update };
