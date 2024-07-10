@@ -25,17 +25,10 @@ const deactivateAdminMember = async function (request, h) {
   return h.response().code(204);
 };
 
-const saveAdminMember = async function (request, h, dependencies = { adminMemberSerializer }) {
-  const attributes = await adminMemberSerializer.deserialize(request.payload);
-  const savedAdminMember = await usecases.saveAdminMember(attributes);
-  return h.response(dependencies.adminMemberSerializer.serialize(savedAdminMember)).created();
-};
-
 const adminMemberController = {
   findAll,
   getCurrentAdminMember,
   updateAdminMember,
   deactivateAdminMember,
-  saveAdminMember,
 };
 export { adminMemberController };
