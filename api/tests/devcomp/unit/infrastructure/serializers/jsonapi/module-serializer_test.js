@@ -4,6 +4,7 @@ import { BlockSelectOption } from '../../../../../../src/devcomp/domain/models/b
 import { BlockText } from '../../../../../../src/devcomp/domain/models/block/BlockText.js';
 import { ComponentElement } from '../../../../../../src/devcomp/domain/models/component/ComponentElement.js';
 import { ComponentStepper } from '../../../../../../src/devcomp/domain/models/component/ComponentStepper.js';
+import { Embed } from '../../../../../../src/devcomp/domain/models/element/Embed.js';
 import { Image } from '../../../../../../src/devcomp/domain/models/element/Image.js';
 import { QCM } from '../../../../../../src/devcomp/domain/models/element/QCM.js';
 import { QCU } from '../../../../../../src/devcomp/domain/models/element/QCU.js';
@@ -213,6 +214,9 @@ function getComponents() {
       element: new Image({ id: '3', url: 'url', alt: 'alt', alternativeText: 'alternativeText' }),
     }),
     new ComponentElement({
+      element: new Embed({ id: '3', url: 'url', height: 400, title: 'title', isCompletionRequired: false }),
+    }),
+    new ComponentElement({
       element: new Video({
         id: '4',
         title: 'title',
@@ -340,6 +344,18 @@ function getAttributesComponents() {
         id: '3',
         isAnswerable: false,
         type: 'image',
+        url: 'url',
+      },
+    },
+    {
+      type: 'element',
+      element: {
+        height: 400,
+        title: 'title',
+        id: '3',
+        isAnswerable: false,
+        isCompletionRequired: false,
+        type: 'embed',
         url: 'url',
       },
     },

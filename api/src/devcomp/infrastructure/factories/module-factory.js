@@ -7,6 +7,7 @@ import { BlockText } from '../../domain/models/block/BlockText.js';
 import { ComponentElement } from '../../domain/models/component/ComponentElement.js';
 import { ComponentStepper } from '../../domain/models/component/ComponentStepper.js';
 import { Step } from '../../domain/models/component/Step.js';
+import { Embed } from '../../domain/models/element/Embed.js';
 import { Image } from '../../domain/models/element/Image.js';
 import { QCM } from '../../domain/models/element/QCM.js';
 import { QCU } from '../../domain/models/element/QCU.js';
@@ -84,10 +85,14 @@ export class ModuleFactory {
 
   static #buildElement(element, isForReferentialValidation) {
     switch (element.type) {
+      case 'embed':
+        return ModuleFactory.#buildEmbed(element);
       case 'image':
         return ModuleFactory.#buildImage(element);
       case 'text':
         return ModuleFactory.#buildText(element);
+      case 'video':
+        return ModuleFactory.#buildVideo(element);
       case 'qcm':
         return isForReferentialValidation
           ? ElementForVerificationFactory.build(element)
@@ -100,8 +105,6 @@ export class ModuleFactory {
         return isForReferentialValidation
           ? ElementForVerificationFactory.build(element)
           : ModuleFactory.#buildQROCM(element);
-      case 'video':
-        return ModuleFactory.#buildVideo(element);
       default:
         logger.warn({
           event: 'module_element_type_unknown',
@@ -111,10 +114,13 @@ export class ModuleFactory {
     }
   }
 
-  static #buildText(element) {
-    return new Text({
+  static #buildEmbed(element) {
+    return new Embed({
       id: element.id,
-      content: element.content,
+      isCompletionRequired: element.isCompletionRequired,
+      title: element.title,
+      url: element.url,
+      height: element.height,
     });
   }
 
@@ -124,6 +130,13 @@ export class ModuleFactory {
       url: element.url,
       alt: element.alt,
       alternativeText: element.alternativeText,
+    });
+  }
+
+  static #buildText(element) {
+    return new Text({
+      id: element.id,
+      content: element.content,
     });
   }
 
@@ -137,20 +150,6 @@ export class ModuleFactory {
     });
   }
 
-  static #buildQCU(element) {
-    return new QCU({
-      id: element.id,
-      instruction: element.instruction,
-      locales: element.locales,
-      proposals: element.proposals.map((proposal) => {
-        return new QcuProposal({
-          id: proposal.id,
-          content: proposal.content,
-        });
-      }),
-    });
-  }
-
   static #buildQCM(element) {
     return new QCM({
       id: element.id,
@@ -158,6 +157,20 @@ export class ModuleFactory {
       locales: element.locales,
       proposals: element.proposals.map((proposal) => {
         return new QcmProposal({
+          id: proposal.id,
+          content: proposal.content,
+        });
+      }),
+    });
+  }
+
+  static #buildQCU(element) {
+    return new QCU({
+      id: element.id,
+      instruction: element.instruction,
+      locales: element.locales,
+      proposals: element.proposals.map((proposal) => {
+        return new QcuProposal({
           id: proposal.id,
           content: proposal.content,
         });
