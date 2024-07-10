@@ -63,6 +63,24 @@ module('Integration | Component | Module | Element', function (hooks) {
     assert.dom(screen.getByRole('button', { name: 'Afficher la transcription' })).exists();
   });
 
+  test('should display an element with an embed element', async function (assert) {
+    // given
+    const element = {
+      id: '3a9f2269-99ba-4631-b6fd-6802c88d5c26',
+      type: 'embed',
+      title: 'Embed de présentation de Pix',
+      url: 'https://embed.pix.fr',
+      height: 340,
+      isCompletionRequired: false,
+    };
+
+    // when
+    const screen = await render(<template><ModulixElement @element={{element}} /></template>);
+
+    // then
+    assert.dom(screen.getByTitle(element.title)).exists();
+  });
+
   test('should display an element with a qcu element', async function (assert) {
     // given
     const element = {

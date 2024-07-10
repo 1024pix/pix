@@ -1,6 +1,7 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { eq } from 'ember-truth-helpers';
+import EmbedElement from 'mon-pix/components/module/element/embed';
 import ImageElement from 'mon-pix/components/module/element/image';
 import QcmElement from 'mon-pix/components/module/element/qcm';
 import QcuElement from 'mon-pix/components/module/element/qcu';
@@ -21,6 +22,8 @@ export default class ModulixElement extends Component {
       <ImageElement @image={{@element}} @moduleId={{@grain.module.id}} />
     {{else if (eq @element.type "video")}}
       <VideoElement @video={{@element}} @moduleId={{@grain.module.id}} />
+    {{else if (eq @element.type "embed")}}
+      <EmbedElement @embed={{@element}} />
     {{else if (eq @element.type "qcu")}}
       <QcuElement
         @element={{@element}}
