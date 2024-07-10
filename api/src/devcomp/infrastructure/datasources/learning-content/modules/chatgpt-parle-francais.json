@@ -27,7 +27,7 @@
       "grainId": "89dbbcf3-7205-470a-baf0-4aa4aac1a87e"
     },
     {
-      "content":"<p>Vous allez maintenant analyser trois situations avec des résultats biaisés de LLM. C'est parti !</p>",
+      "content":"<p>Vous allez maintenant analyser trois situations avec des réponses de LLM visiblement biaisées. C'est parti !</p>",
       "grainId": "e7ca9d7e-6d77-4705-83a5-a6864c77f4b5"
     },
     {
@@ -187,7 +187,7 @@
           "element": {
             "id": "be70c1be-d6d1-4b6e-bcee-de1ab8859ee0",
             "type": "text",
-            "content": "<p>Dans les situations suivantes, les réponses du LLM sont visiblement biaisées.</p><p>Pour chaque situation, choisissez la cause principale de ces résultats biaisés.</p>"
+            "content": "<p>Pour chaque situation, choisissez la cause principale de ces résultats biaisés.</p>"
           }
         },
         {
