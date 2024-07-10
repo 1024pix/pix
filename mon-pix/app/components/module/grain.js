@@ -1,10 +1,11 @@
 import { action } from '@ember/object';
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
-import ModulePassage from './passage';
-
 export default class ModuleGrain extends Component {
+  @service modulixAutoScroll;
+
   grain = this.args.grain;
 
   static AVAILABLE_ELEMENT_TYPES = ['text', 'image', 'video', 'qcu', 'qcm', 'qrocm'];
@@ -129,19 +130,12 @@ export default class ModuleGrain extends Component {
   }
 
   @action
-  focusAndScroll(element) {
+  focusAndScroll(htmlElement) {
     if (!this.args.hasJustAppeared) {
       return;
     }
 
-    element.focus({ preventScroll: true });
-
-    const newGrainY = element.getBoundingClientRect().top + window.scrollY;
-    const userPrefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    window.scroll({
-      top: newGrainY - ModulePassage.SCROLL_OFFSET_PX,
-      behavior: userPrefersReducedMotion.matches ? 'instant' : 'smooth',
-    });
+    this.modulixAutoScroll.focusAndScroll(htmlElement);
   }
 
   @action

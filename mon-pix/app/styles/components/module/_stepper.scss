@@ -23,6 +23,12 @@
   &__step {
     margin-bottom: var(--pix-spacing-6x);
 
+    &--active {
+      @extend .auto-scroll;
+
+      outline: none;
+    }
+
     &:last-child {
       margin-bottom: 0;
     }
