@@ -79,7 +79,7 @@ describe('Integration | UseCases | copy-target-profile', function () {
     });
   });
 
-  describe('when the target profile does not exists', function () {
+  describe('when the target profile does not exist', function () {
     it('should throw a not found error', async function () {
       // when
       await expect(
