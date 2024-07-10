@@ -54,7 +54,7 @@ export default class ChallengeEmbedSimulator extends Component {
         iframe.focus();
       }
       if (isHeightMessage(data)) {
-        thisComponent.embedHeight = data.height + 20;
+        thisComponent.embedHeight = data.height;
       }
       if (isAutoLaunchMessage(data)) {
         thisComponent.launchSimulator();
