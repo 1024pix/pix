@@ -517,6 +517,26 @@ describe('Integration | Repository | Organization', function () {
       expect(activeOrganizations[0].archivedAt).to.be.null;
     });
 
+    context("When the organization' s type in SCO-1D", function () {
+      it('returns the organization SCO-1D', async function () {
+        const uai = '0587996b';
+        const school = databaseBuilder.factory.buildOrganization({
+          type: 'SCO-1D',
+          name: 'organization SCO-1D',
+          externalId: uai,
+          email: 'sco-1d.generic.account@example.net',
+        });
+        await databaseBuilder.commit();
+
+        const activeOrganizations = await organizationRepository.findActiveScoOrganizationsByExternalId(uai);
+
+        // then
+        expect(activeOrganizations).to.have.lengthOf(1);
+        expect(activeOrganizations[0].id).to.equal(school.id);
+        expect(activeOrganizations[0].archivedAt).to.be.null;
+      });
+    });
+
     context('when given UAI does not exist', function () {
       it('returns an empty array', async function () {
         // when

@@ -163,7 +163,8 @@ const findScoOrganizationsByUai = async function ({ uai }) {
 
 const findActiveScoOrganizationsByExternalId = async function (externalId) {
   const organizationsDB = await knex(ORGANIZATIONS_TABLE_NAME)
-    .where({ type: Organization.types.SCO, archivedAt: null })
+    .where({ archivedAt: null })
+    .whereIn('type', [Organization.types.SCO, Organization.types.SCO1D])
     .whereRaw('LOWER("externalId") = ?', `${externalId.toLowerCase()}`);
 
   return organizationsDB.map((model) => _toDomain(model));

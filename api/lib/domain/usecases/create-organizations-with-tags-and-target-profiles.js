@@ -120,7 +120,9 @@ async function _createOrganizations({
 function _transformOrganizationsCsvData(organizationsCsvData) {
   const organizations = organizationsCsvData.map((organizationCsvData) => {
     const email =
-      organizationCsvData.type === Organization.types.SCO ? organizationCsvData.emailForSCOActivation : undefined;
+      organizationCsvData.type === Organization.types.SCO || organizationCsvData.type === Organization.types.SCO1D
+        ? organizationCsvData.emailForSCOActivation
+        : undefined;
     return {
       organization: new OrganizationForAdmin({
         ...organizationCsvData,
