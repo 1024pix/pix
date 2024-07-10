@@ -11,7 +11,10 @@ module('Unit | Route | AssessmentResumeRoute', function (hooks) {
       test('should call the assessment challenge route', function (assert) {
         const route = this.owner.lookup('route:assessment.resume');
         const assessment = { id: '2', missionId: '1' };
-        const transition = { to: { queryParams: { assessmentHasNoMoreQuestions: 'false' } } };
+        const transition = {
+          from: { name: 'assessment.challenge' },
+          to: { queryParams: { assessmentHasNoMoreQuestions: 'false' } },
+        };
         sinon.stub(route.router, 'replaceWith');
 
         route.redirect(assessment, transition);
@@ -24,7 +27,10 @@ module('Unit | Route | AssessmentResumeRoute', function (hooks) {
       test('should redirect to assessment result route', async function (assert) {
         const route = this.owner.lookup('route:assessment.resume');
         const assessment = { id: '2', missionId: '1', save: sinon.stub() };
-        const transition = { to: { queryParams: { assessmentHasNoMoreQuestions: 'true' } } };
+        const transition = {
+          from: { name: 'assessment.challenge' },
+          to: { queryParams: { assessmentHasNoMoreQuestions: 'true' } },
+        };
         sinon.stub(route.router, 'replaceWith');
 
         await route.redirect(assessment, transition);
