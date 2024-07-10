@@ -4,7 +4,7 @@
   "title": "ChatGPT parle-t-il vraiment français ?",
   "details": {
     "image": "https://images.pix.fr/modulix/placeholder-details.svg",
-    "description": "Les Large Language Model (LLM) sont des systèmes d'intelligence artificielle (IA). Ils donnent l'impression de parler toutes les langues mais, du fait de leurs biais, leurs productions sont parfois stéréotypées ou discriminantes. Dans ce module, vous allez découvrir les origines des biais dans les LLM et interroger directement des LLM pour les repérer !",
+    "description": "Les Large Language Model (LLM) sont des systèmes d'intelligence artificielle générative. Ils donnent l'impression de parler toutes les langues mais, du fait de leurs biais, leurs productions sont parfois stéréotypées ou discriminantes. Dans ce module, vous allez découvrir les origines des biais dans les LLM et interroger directement des LLM pour les repérer !",
     "duration": 10,
     "level": "Avancé",
     "objectives": [
@@ -76,7 +76,7 @@
             "proposals": [
               {
                 "id": "1",
-                "content": "ChatGPT ne sait pas ce qu’est un jeu de mots car il n’entend pas."
+                "content": "ChatGPT n'a pas compris la demande de l'utilisateur."
               },
               {
                 "id": "2",
@@ -89,7 +89,7 @@
             ],
             "feedbacks": {
               "valid": "<span class=\"feedback__state\">Correct !</span><p>\"Net\" signifie \"filet\" en anglais, ce qui donne tout son sens à ce jeu de mots.</p>",
-              "invalid": "<span class=\"feedback__state\">Incorrect !</span><p>Relisez cet échange sachant que \"net\" signifie \"filet\" en anglais</p>"
+              "invalid": "<span class=\"feedback__state\">Incorrect !</span><p>Relisez cette conversation sachant que \"net\" signifie \"filet\" en anglais.</p>"
             },
             "solution": "3"
           }
@@ -198,7 +198,7 @@
                 {
                   "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
                   "type": "text",
-                  "content": "<p>Michel est <strong>québécois</strong> et utilise un LLM pour la première fois. Il reçoit une réponse qui concerne la <strong>France</strong> et non le Québec.<span aria-hidden=\"true\">&nbsp;👇</span></p>"
+                  "content": "<p>Michel vit au <strong>Québec</strong> et utilise un LLM pour la première fois. Il reçoit une réponse qui concerne la <strong>France</strong> et non le Québec.<span aria-hidden=\"true\">&nbsp;👇</span></p>"
                 },
                 {
                   "id": "e53de197-48ce-4af7-be65-dc75139b391c",
@@ -306,7 +306,7 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct !</span><p>Le LLM n'est pas le seul à comporter des biais. Les prompts des utilisateurs peuvent aussi en comporter.</p>",
+                    "valid": "<span class=\"feedback__state\">Correct !</span><p>Le LLM n'est pas le seul à comporter des biais. Les utilisateurs peuvent transmettre leurs biais via leur prompt.</p>",
                     "invalid": "<span class=\"feedback__state\">Incorrect ! </span><p>Et si le problème ne venait pas du LLM ? </p>"
                   },
                   "solution": "3"
@@ -436,7 +436,7 @@
           {
             "id": "ec182563-1090-4794-8a5f-e179d244fa3e",
             "type": "text",
-            "content": "<p>Étudiez ce schéma qui classe les principaux LLM selon deux aspects : leur <strong>nationalité</strong> et la <strong>licence</strong> de leur code.<br>Par la suite, vous utiliserez l'arène pour répondre à des questions sur ces aspects.</p>"
+            "content": "<p>Étudiez ce schéma qui classe les principaux LLM selon deux aspects : leur <strong>provenance</strong> et la <strong>licence</strong> de leur code.<br>Par la suite, vous utiliserez l'arène pour répondre à des questions sur ces aspects.</p>"
           }
         },
         {
@@ -456,7 +456,7 @@
           {
             "id": "a5b4912d-7882-47ed-a782-bf87d73ead55",
             "type": "text",
-            "content": "<p>Ces LLM sont développés uniquement au sein de grandes puissances économiques mondiales.<span aria-hidden=\"true\">&nbsp;🌍</span> Cette domination s'explique notamment par le coût financier très élevé nécessaire pour développer un modèle.<span aria-hidden=\"true\">&nbsp;💵</span></p><p></p>"
+            "content": "<p>Seuls quelques pays ont les moyens financiers de développer des grands modèles de langage. <span aria-hidden=\"true\">&nbsp;🌍&nbsp;💵</span></p><p>Selon leur provenance, les modèles vont avoir des <strong>biais différents</strong>, ce qui peut expliquer certains écarts de résultats.</p>"
           }
         },
         {
@@ -465,7 +465,7 @@
           {
             "id": "97e85ece-84d7-4b61-aa9f-58c063f0f900",
             "type": "text",
-            "content": "<p>Cette concentration entre un petit nombre de pays explique le <strong>manque de diversité</strong> dans les textes produits par les LLM.</p><p>Cependant, les nombreuses initiatives <strong>open source</strong> permettent d'améliorer la <strong>transparence</strong> des LLM, ce qui pourra favoriser la diversité des résultats.<span aria-hidden=\"true\">&nbsp;📖</span></p>"
+            "content": "<p>Cette concentration entre un petit nombre de pays explique le <strong>manque de diversité culturelle</strong> globale dans les textes produits par ces modèles.</p><p>Cependant, les nombreuses initiatives <strong>open source</strong> permettent d'améliorer la <strong>transparence</strong> des LLM, ce qui pourra favoriser la diversité des résultats.<span aria-hidden=\"true\">&nbsp;📖</span></p>"
           }
         }
       ]
