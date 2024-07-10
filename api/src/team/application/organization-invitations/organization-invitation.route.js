@@ -1,5 +1,6 @@
 import Joi from 'joi';
 
+import { organizationController } from '../../../../lib/application/organizations/organization-controller.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { organizationInvitationController } from './organization-invitation.controller.js';
@@ -47,6 +48,29 @@ export const organizationInvitationRoutes = [
         "- Cette route permet de récupérer les détails d'une invitation selon un **id d'invitation** et un **code**\n",
       ],
       tags: ['team', 'api', 'invitations'],
+    },
+  },
+  {
+    method: 'GET',
+    path: '/api/organizations/{id}/invitations',
+    config: {
+      pre: [
+        {
+          method: (request, h) => securityPreHandlers.checkUserIsAdminInOrganization(request, h),
+          assign: 'isAdminInOrganization',
+        },
+      ],
+      validate: {
+        params: Joi.object({
+          id: identifiersType.organizationId,
+        }),
+      },
+      handler: (request, h) => organizationController.findPendingInvitations(request, h),
+      tags: ['team', 'api', 'invitations'],
+      notes: [
+        "- Cette route est restreinte aux utilisateurs authentifiés responsables de l'organisation",
+        "- Elle permet de lister les invitations en attente d'acceptation d'une organisation",
+      ],
     },
   },
   {

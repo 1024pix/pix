@@ -346,29 +346,6 @@ const register = async function (server) {
       },
     },
     {
-      method: 'GET',
-      path: '/api/organizations/{id}/invitations',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserIsAdminInOrganization,
-            assign: 'isAdminInOrganization',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationId,
-          }),
-        },
-        handler: organizationController.findPendingInvitations,
-        tags: ['api', 'invitations'],
-        notes: [
-          "- Cette route est restreinte aux utilisateurs authentifiés responsables de l'organisation",
-          "- Elle permet de lister les invitations en attente d'acceptation d'une organisation",
-        ],
-      },
-    },
-    {
       method: 'POST',
       path: '/api/organizations/{id}/invitations',
       config: {

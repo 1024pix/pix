@@ -1,3 +1,6 @@
+import lodash from 'lodash';
+
+import { Membership } from '../../../../../lib/domain/models/Membership.js';
 import { OrganizationInvitation } from '../../../../../src/team/domain/models/OrganizationInvitation.js';
 import {
   createServer,
@@ -6,6 +9,8 @@ import {
   generateValidRequestAuthorizationHeader,
   insertOrganizationUserWithRoleAdmin,
 } from '../../../../../tests/test-helper.js';
+
+const { omit: _omit } = lodash;
 
 describe('Acceptance | Team | Application | Controller | organization-invitation', function () {
   let server;
@@ -107,6 +112,117 @@ describe('Acceptance | Team | Application | Controller | organization-invitation
 
         // then
         expect(response.statusCode).to.equal(412);
+      });
+    });
+  });
+
+  describe('GET /api/organizations/{id}/invitations', function () {
+    let organizationId;
+    let options;
+    let firstOrganizationInvitation;
+    let secondOrganizationInvitation;
+
+    beforeEach(async function () {
+      const adminUserId = databaseBuilder.factory.buildUser().id;
+      organizationId = databaseBuilder.factory.buildOrganization().id;
+
+      databaseBuilder.factory.buildMembership({
+        userId: adminUserId,
+        organizationId,
+        organizationRole: Membership.roles.ADMIN,
+      });
+
+      firstOrganizationInvitation = databaseBuilder.factory.buildOrganizationInvitation({
+        organizationId,
+        status: OrganizationInvitation.StatusType.PENDING,
+      });
+
+      secondOrganizationInvitation = databaseBuilder.factory.buildOrganizationInvitation({
+        organizationId,
+        status: OrganizationInvitation.StatusType.PENDING,
+      });
+
+      databaseBuilder.factory.buildOrganizationInvitation({
+        organizationId,
+        status: OrganizationInvitation.StatusType.ACCEPTED,
+      });
+
+      options = {
+        method: 'GET',
+        url: `/api/organizations/${organizationId}/invitations`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(adminUserId) },
+      };
+
+      await databaseBuilder.commit();
+    });
+
+    context('Expected output', function () {
+      it('returns the matching organization-invitations as JSON API', async function () {
+        // given
+        const expectedResult = {
+          data: [
+            {
+              type: 'organization-invitations',
+              attributes: {
+                'organization-id': organizationId,
+                email: firstOrganizationInvitation.email,
+                status: OrganizationInvitation.StatusType.PENDING,
+                'updated-at': firstOrganizationInvitation.updatedAt,
+                role: firstOrganizationInvitation.role,
+              },
+            },
+            {
+              type: 'organization-invitations',
+              attributes: {
+                'organization-id': organizationId,
+                email: secondOrganizationInvitation.email,
+                status: OrganizationInvitation.StatusType.PENDING,
+                'updated-at': secondOrganizationInvitation.updatedAt,
+                role: secondOrganizationInvitation.role,
+              },
+            },
+          ],
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        const omittedResult = _omit(
+          response.result,
+          'data[0].id',
+          'data[0].attributes.organization-name',
+          'data[1].id',
+          'data[1].attributes.organization-name',
+        );
+        expect(omittedResult.data).to.deep.have.members(expectedResult.data);
+      });
+    });
+
+    context('Resource access management', function () {
+      it('responds with a 401 - unauthorized access - if user is not authenticated', async function () {
+        // given
+        options.headers.authorization = 'invalid.access.token';
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(401);
+      });
+
+      it('responds with a 403 - forbidden access - if user is not ADMIN in organization', async function () {
+        // given
+        const nonSuperAdminUserId = databaseBuilder.factory.buildUser().id;
+        await databaseBuilder.commit();
+        options.headers.authorization = generateValidRequestAuthorizationHeader(nonSuperAdminUserId);
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(403);
       });
     });
   });

@@ -1,3 +1,4 @@
+import { usecases } from '../../../../../lib/domain/usecases/index.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { organizationInvitationController } from '../../../../../src/team/application/organization-invitations/organization-invitation.controller.js';
 import { teamRoutes } from '../../../../../src/team/application/routes.js';
@@ -36,6 +37,23 @@ describe('Unit | Team | Application | Route | organization-invitation', function
 
       // then
       expect(response.statusCode).to.equal(400);
+    });
+  });
+
+  describe('GET /api/organizations/{id}/invitations', function () {
+    it('returns an empty list when no invitation is found', async function () {
+      // given
+      sinon.stub(usecases, 'findPendingOrganizationInvitations').resolves([]);
+      sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').returns(true);
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(teamRoutes[0]);
+
+      // when
+      const response = await httpTestServer.request('GET', '/api/organizations/1/invitations');
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data).to.deep.equal([]);
     });
   });
 
