@@ -1,5 +1,5 @@
+import { adminMemberSerializer } from '../../../src/team/infrastructure/serializers/jsonapi/admin-member.serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
-import * as adminMemberSerializer from '../../infrastructure/serializers/jsonapi/admin-member-serializer.js';
 
 const findAll = async function (request, h, dependencies = { adminMemberSerializer }) {
   const adminMembers = await usecases.getAdminMembers();
