@@ -1,19 +1,20 @@
 import 'dotenv/config';
 
+import * as url from 'node:url';
+
 import lodash from 'lodash';
 
 import { disconnect, knex } from '../../../db/knex-database-connection.js';
+import { CERTIFICATION_FEATURES } from '../../../src/certification/shared/domain/constants.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 /**
- * Usage: node scripts/certification/next-gen/import-pilot-certification-centers-from-csv.js path/file.csv
+ * Usage: node scripts/certification/next-gen/import-complementary-alone-feature-pilot-certification-centers-from-csv.js path/file.csv
  * File is semicolon separated values, headers being:
  * certification_center_id
  **/
 import { checkCsvHeader, parseCsv } from '../../helpers/csvHelpers.js';
-const { values } = lodash;
-import * as url from 'node:url';
 
-import { CERTIFICATION_FEATURES } from '../../../src/certification/shared/domain/constants.js';
+const { values } = lodash;
 
 const headers = {
   certificationCenterId: 'certification_center_id',
@@ -87,7 +88,10 @@ async function main(filePath) {
 
     logger.info('Inserting pilot certification center ids in database... ');
     trx = await knex.transaction();
-    await trx('certification-center-features').del();
+    await trx('certification-center-features')
+      .leftJoin('features', 'features.id', 'certification-center-features.featureId')
+      .where('features.key', CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key)
+      .del();
     const batchInfo = await trx.batchInsert('certification-center-features', certificationCentersPilotsList);
     const insertedLines = _getInsertedLineNumber(batchInfo);
     logger.info('✅ ');
