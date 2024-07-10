@@ -77,4 +77,5 @@ const deactivate = async function ({ id }) {
   }
 };
 
-export { deactivate, findAll, get, getById, save, update };
+const adminMemberRepository = { deactivate, findAll, get, getById, save, update };
+export { adminMemberRepository };

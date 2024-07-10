@@ -16,7 +16,7 @@ import { tokenService } from '../../../shared/domain/services/token-service.js';
 import * as userService from '../../../shared/domain/services/user-service.js';
 import * as passwordValidator from '../../../shared/domain/validators/password-validator.js';
 import * as userValidator from '../../../shared/domain/validators/user-validator.js';
-import * as adminMemberRepository from '../../../shared/infrastructure/repositories/admin-member-repository.js';
+import { adminMemberRepository } from '../../../shared/infrastructure/repositories/admin-member.repository.js';
 import * as userLoginRepository from '../../../shared/infrastructure/repositories/user-login-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';

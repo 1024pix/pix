@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import * as learningContentConversionService from '../../../../../lib/domain/services/learning-content/learning-content-conversion-service.js';
 import * as learningContentRepository from '../../../../../lib/infrastructure/repositories/learning-content-repository.js';
 import * as targetProfileRepository from '../../../../../lib/infrastructure/repositories/target-profile-repository.js';
-import * as adminMemberRepository from '../../../../shared/infrastructure/repositories/admin-member-repository.js';
+import { adminMemberRepository } from '../../../../shared/infrastructure/repositories/admin-member.repository.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
 import * as targetProfileForAdminRepository from '../../../../shared/infrastructure/repositories/target-profile-for-admin-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';

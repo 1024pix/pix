@@ -1,12 +1,12 @@
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 import { AdminMemberError } from '../../../../../src/authorization/domain/errors.js';
 import { AdminMember } from '../../../../../src/shared/domain/models/AdminMember.js';
-import * as adminMemberRepository from '../../../../../src/shared/infrastructure/repositories/admin-member-repository.js';
+import { adminMemberRepository } from '../../../../../src/shared/infrastructure/repositories/admin-member.repository.js';
 import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
 
 const { ROLES } = PIX_ADMIN;
 
-describe('Integration | Shared | Infrastructure | Repositories | adminMemberRepository', function () {
+describe('Integration | Shared | Infrastructure | Repositories | adminMember', function () {
   describe('#findAll', function () {
     it('should return all users with a pix admin role that are not disabled', async function () {
       // given
