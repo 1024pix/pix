@@ -9,14 +9,6 @@ export default class CreateForm extends Component {
   @service intl;
 
   @tracked wantIdPix = Boolean(this.args.campaign.idPixLabel);
-  @tracked targetProfiles = [];
-
-  constructor() {
-    super(...arguments);
-    Promise.resolve(this.args.targetProfiles).then((targetProfiles) => {
-      this.targetProfiles = targetProfiles;
-    });
-  }
 
   get isMultipleSendingAssessmentEnabled() {
     return this.currentUser.prescriber.enableMultipleSendingAssessment;
@@ -27,7 +19,7 @@ export default class CreateForm extends Component {
   }
 
   get targetOwnerOptions() {
-    const options = this.targetProfiles.map((targetProfile) => {
+    const options = this.args.targetProfiles.map((targetProfile) => {
       return {
         value: targetProfile.id,
         label: targetProfile.name,
@@ -94,7 +86,7 @@ export default class CreateForm extends Component {
 
   @action
   selectTargetProfile(targetProfileId) {
-    this.args.campaign.targetProfile = this.targetProfiles.find(
+    this.args.campaign.targetProfile = this.args.targetProfiles.find(
       (targetProfile) => targetProfile.id === targetProfileId,
     );
   }
