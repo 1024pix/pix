@@ -4,7 +4,6 @@ const Joi = BaseJoi.extend(JoiDate);
 
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
-import { organizationInvitationController } from '../../../src/team/application/organization-invitations/organization-invitation.controller.js';
 import { BadRequestError, PayloadTooLargeError, sendJsonApiError } from '../http-errors.js';
 import { organizationController } from './organization-controller.js';
 
@@ -138,35 +137,6 @@ const register = async function (server) {
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             "- Elle permet d'archiver une organisation",
-        ],
-      },
-    },
-    {
-      method: 'GET',
-      path: '/api/admin/organizations/{id}/invitations',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationId,
-          }),
-        },
-        handler: organizationInvitationController.findPendingInvitations,
-        tags: ['api', 'invitations', 'admin'],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            "- Elle permet de lister les invitations en attente d'acceptation d'une organisation",
         ],
       },
     },
