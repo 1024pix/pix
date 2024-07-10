@@ -7,7 +7,9 @@ import { QCU } from '../../../../../src/devcomp/domain/models/element/QCU.js';
 import { QROCM } from '../../../../../src/devcomp/domain/models/element/QROCM.js';
 import { Text } from '../../../../../src/devcomp/domain/models/element/Text.js';
 import { Video } from '../../../../../src/devcomp/domain/models/element/Video.js';
+import { Grain } from '../../../../../src/devcomp/domain/models/Grain.js';
 import { Module } from '../../../../../src/devcomp/domain/models/module/Module.js';
+import { TransitionText } from '../../../../../src/devcomp/domain/models/TransitionText.js';
 import { ModuleFactory } from '../../../../../src/devcomp/infrastructure/factories/module-factory.js';
 import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
 import { catchErrSync, expect, sinon } from '../../../../test-helper.js';
@@ -213,7 +215,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
       });
     });
 
-    it('should instantiate a Module with components', function () {
+    it('should instantiate a Module with a grain containing components', function () {
       // given
       const moduleData = {
         id: '6282925d-4775-4bca-b513-4c3009ec5886',
@@ -254,6 +256,62 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
       expect(module).to.be.an.instanceOf(Module);
       expect(module.grains).not.to.be.empty;
       for (const grain of module.grains) {
+        expect(grain).to.be.instanceof(Grain);
+        expect(grain.components).not.to.be.empty;
+      }
+    });
+
+    it('should instantiate a Module with transition text if exists', function () {
+      // given
+      const moduleData = {
+        id: '6282925d-4775-4bca-b513-4c3009ec5886',
+        slug: 'title',
+        title: 'title',
+        details: {
+          image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+          description: 'Description',
+          duration: 5,
+          level: 'Débutant',
+          objectives: ['Objective 1'],
+        },
+        transitionTexts: [
+          {
+            content: '<p>Bonjour &#8239;!</p>',
+            grainId: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+          },
+        ],
+        grains: [
+          {
+            id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+            type: 'lesson',
+            title: 'title',
+            components: [
+              {
+                type: 'element',
+                element: {
+                  id: '8d7687c8-4a02-4d7e-bf6c-693a6d481c78',
+                  type: 'image',
+                  url: 'https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg',
+                  alt: 'Alternative',
+                  alternativeText: 'Alternative textuelle',
+                },
+              },
+            ],
+          },
+        ],
+      };
+
+      // when
+      const module = ModuleFactory.build(moduleData);
+
+      // then
+      expect(module.transitionTexts).not.to.be.empty;
+      for (const transitionText of module.transitionTexts) {
+        expect(transitionText).to.be.an.instanceOf(TransitionText);
+      }
+      expect(module.grains).not.to.be.empty;
+      for (const grain of module.grains) {
+        expect(grain).to.be.instanceof(Grain);
         expect(grain.components).not.to.be.empty;
       }
     });
