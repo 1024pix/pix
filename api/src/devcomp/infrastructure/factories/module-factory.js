@@ -7,6 +7,7 @@ import { BlockText } from '../../domain/models/block/BlockText.js';
 import { ComponentElement } from '../../domain/models/component/ComponentElement.js';
 import { ComponentStepper } from '../../domain/models/component/ComponentStepper.js';
 import { Step } from '../../domain/models/component/Step.js';
+import { Embed } from '../../domain/models/element/Embed.js';
 import { Image } from '../../domain/models/element/Image.js';
 import { QCM } from '../../domain/models/element/QCM.js';
 import { QCU } from '../../domain/models/element/QCU.js';
@@ -102,6 +103,8 @@ export class ModuleFactory {
           : ModuleFactory.#buildQROCM(element);
       case 'video':
         return ModuleFactory.#buildVideo(element);
+      case 'embed':
+        return ModuleFactory.#buildEmbed(element);
       default:
         logger.warn({
           event: 'module_element_type_unknown',
@@ -134,6 +137,16 @@ export class ModuleFactory {
       url: element.url,
       subtitles: element.subtitles,
       transcription: element.transcription,
+    });
+  }
+
+  static #buildEmbed(element) {
+    return new Embed({
+      id: element.id,
+      isCompletionRequired: element.isCompletionRequired,
+      title: element.title,
+      url: element.url,
+      height: element.height,
     });
   }
 
