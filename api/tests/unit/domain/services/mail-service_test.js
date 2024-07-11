@@ -20,9 +20,12 @@ const mainTranslationsMapping = {
 
 const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN, DUTCH_SPOKEN, SPANISH_SPOKEN } = LOCALE;
 
+const i18n = getI18n();
+
 describe('Unit | Service | MailService', function () {
   const senderEmailAddress = 'ne-pas-repondre@pix.fr';
   const userEmailAddress = 'user@example.net';
+  const userFirstName = 'Bob';
 
   beforeEach(function () {
     sinon.stub(mailer, 'sendEmail').resolves();
@@ -46,7 +49,7 @@ describe('Unit | Service | MailService', function () {
       };
 
       // when
-      await mailService.sendAccountCreationEmail({ email: userEmailAddress, locale, token, redirectionUrl });
+      await mailService.sendAccountCreationEmail({ email: userEmailAddress, locale, token, redirectionUrl, i18n });
 
       // then
       const options = mailer.sendEmail.firstCall.args[0];
@@ -68,7 +71,7 @@ describe('Unit | Service | MailService', function () {
           const expectedParams = new URLSearchParams({ token, redirect_url: redirectionUrl });
 
           // when
-          await mailService.sendAccountCreationEmail({ email: userEmailAddress, locale, token, redirectionUrl });
+          await mailService.sendAccountCreationEmail({ email: userEmailAddress, locale, token, redirectionUrl, i18n });
 
           // then
           const actualRedirectionUrl = mailer.sendEmail.firstCall.args[0].variables.redirectionUrl;
@@ -87,7 +90,12 @@ describe('Unit | Service | MailService', function () {
           const expectedParams = new URLSearchParams({ redirect_url: 'https://app.pix.org/connexion/?lang=fr' });
 
           // when
-          await mailService.sendAccountCreationEmail({ email: userEmailAddress, locale });
+          await mailService.sendAccountCreationEmail({
+            email: userEmailAddress,
+            firstName: userFirstName,
+            locale,
+            i18n,
+          });
 
           // then
           const options = mailer.sendEmail.firstCall.args[0];
@@ -99,6 +107,7 @@ describe('Unit | Service | MailService', function () {
             displayNationalLogo: false,
             redirectionUrl: `https://app.pix.org/api/users/validate-email?${expectedParams.toString()}`,
             ...mainTranslationsMapping.fr['pix-account-creation-email'].params,
+            title: 'Bonjour Bob,',
           });
         });
 
@@ -108,7 +117,12 @@ describe('Unit | Service | MailService', function () {
           const expectedParams = new URLSearchParams({ redirect_url: 'https://app.pix.fr/connexion' });
 
           // when
-          await mailService.sendAccountCreationEmail({ email: userEmailAddress, locale });
+          await mailService.sendAccountCreationEmail({
+            email: userEmailAddress,
+            firstName: userFirstName,
+            locale,
+            i18n,
+          });
 
           // then
           const options = mailer.sendEmail.firstCall.args[0];
@@ -120,6 +134,7 @@ describe('Unit | Service | MailService', function () {
             displayNationalLogo: true,
             redirectionUrl: `https://app.pix.fr/api/users/validate-email?${expectedParams.toString()}`,
             ...mainTranslationsMapping.fr['pix-account-creation-email'].params,
+            title: 'Bonjour Bob,',
           });
         });
 
@@ -129,7 +144,12 @@ describe('Unit | Service | MailService', function () {
           const expectedParams = new URLSearchParams({ redirect_url: 'https://app.pix.org/connexion/?lang=en' });
 
           // when
-          await mailService.sendAccountCreationEmail({ email: userEmailAddress, locale });
+          await mailService.sendAccountCreationEmail({
+            email: userEmailAddress,
+            firstName: userFirstName,
+            locale,
+            i18n,
+          });
 
           // then
           const options = mailer.sendEmail.firstCall.args[0];
@@ -141,6 +161,7 @@ describe('Unit | Service | MailService', function () {
             displayNationalLogo: false,
             redirectionUrl: `https://app.pix.org/api/users/validate-email?${expectedParams.toString()}`,
             ...mainTranslationsMapping.en['pix-account-creation-email'].params,
+            title: 'Hello Bob,',
           });
         });
 
@@ -150,7 +171,12 @@ describe('Unit | Service | MailService', function () {
           const expectedParams = new URLSearchParams({ redirect_url: 'https://app.pix.org/connexion/?lang=nl' });
 
           // when
-          await mailService.sendAccountCreationEmail({ email: userEmailAddress, locale });
+          await mailService.sendAccountCreationEmail({
+            email: userEmailAddress,
+            firstName: userFirstName,
+            locale,
+            i18n,
+          });
 
           // then
           const options = mailer.sendEmail.firstCall.args[0];
@@ -162,6 +188,7 @@ describe('Unit | Service | MailService', function () {
             displayNationalLogo: false,
             redirectionUrl: `https://app.pix.org/api/users/validate-email?${expectedParams.toString()}`,
             ...mainTranslationsMapping.nl['pix-account-creation-email'].params,
+            title: 'Hallo Bob,',
           });
         });
 
@@ -171,7 +198,12 @@ describe('Unit | Service | MailService', function () {
           const expectedParams = new URLSearchParams({ redirect_url: 'https://app.pix.org/connexion/?lang=es' });
 
           // when
-          await mailService.sendAccountCreationEmail({ email: userEmailAddress, locale });
+          await mailService.sendAccountCreationEmail({
+            email: userEmailAddress,
+            firstName: userFirstName,
+            locale,
+            i18n,
+          });
 
           // then
           const options = mailer.sendEmail.firstCall.args[0];
@@ -183,6 +215,7 @@ describe('Unit | Service | MailService', function () {
             displayNationalLogo: false,
             redirectionUrl: `https://app.pix.org/api/users/validate-email?${expectedParams.toString()}`,
             ...mainTranslationsMapping.es['pix-account-creation-email'].params,
+            title: 'Hola Bob,',
           });
         });
       });
@@ -193,7 +226,7 @@ describe('Unit | Service | MailService', function () {
     it(`should call sendEmail with from, to, template, tags, ${FRENCH_FRANCE} and ${ENGLISH_SPOKEN} translations`, async function () {
       // given
       sinon.stub(settings.domain, 'pixApp').value('https://pix.app');
-      const translate = getI18n().__;
+      const translate = i18n.__;
       const sessionDate = '2020-10-03';
       const sessionId = '3';
       const certificationCenterName = 'Vincennes';
@@ -780,7 +813,7 @@ describe('Unit | Service | MailService', function () {
   describe('#sendVerificationCodeEmail', function () {
     it(`calls sendEmail with from, to, template, tags and locale ${FRENCH_SPOKEN}`, async function () {
       // given
-      const translate = getI18n().__;
+      const translate = i18n.__;
       const userEmail = 'user@example.net';
       const code = '999999';
 
@@ -808,7 +841,7 @@ describe('Unit | Service | MailService', function () {
 
     it(`calls sendEmail with from, to, template, tags and locale ${FRENCH_FRANCE}`, async function () {
       // given
-      const translate = getI18n().__;
+      const translate = i18n.__;
       const userEmail = 'user@example.net';
       const code = '999999';
 
@@ -836,7 +869,7 @@ describe('Unit | Service | MailService', function () {
 
     it(`calls sendEmail with from, to, template, tags and locale ${ENGLISH_SPOKEN}`, async function () {
       // given
-      const translate = getI18n().__;
+      const translate = i18n.__;
       const userEmail = 'user@example.net';
       const code = '999999';
 
@@ -866,7 +899,7 @@ describe('Unit | Service | MailService', function () {
 
     it(`calls sendEmail with from, to, template, tags and locale ${DUTCH_SPOKEN}`, async function () {
       // given
-      const translate = getI18n().__;
+      const translate = i18n.__;
       const userEmail = 'user@example.net';
       const code = '999999';
 
@@ -896,7 +929,7 @@ describe('Unit | Service | MailService', function () {
 
     it(`calls sendEmail with from, to, template, tags and locale ${SPANISH_SPOKEN}`, async function () {
       // given
-      const translate = getI18n().__;
+      const translate = i18n.__;
       const userEmail = 'user@example.net';
       const code = '999999';
 

@@ -30,6 +30,7 @@ const createAndReconcileUserToOrganizationLearner = async function ({
   userService,
   passwordValidator,
   userValidator,
+  i18n,
 }) {
   const campaign = await campaignRepository.getByCode(campaignCode);
   if (!campaign) {
@@ -83,7 +84,14 @@ const createAndReconcileUserToOrganizationLearner = async function ({
   if (!isUsernameMode) {
     const redirectionUrl = urlBuilder.getCampaignUrl(locale, campaignCode);
     const token = await emailValidationDemandRepository.save(createdUser.id);
-    await mailService.sendAccountCreationEmail({ email: createdUser.email, locale, token, redirectionUrl });
+    await mailService.sendAccountCreationEmail({
+      email: createdUser.email,
+      firstName: createdUser.firstName,
+      locale,
+      token,
+      redirectionUrl,
+      i18n,
+    });
   }
   return createdUser;
 };

@@ -34,6 +34,7 @@ const createUser = async function ({
   userService,
   userValidator,
   passwordValidator,
+  i18n,
 }) {
   const isValid = await _validateData({
     password,
@@ -70,9 +71,11 @@ const createUser = async function ({
     const token = await emailValidationDemandRepository.save(savedUser.id);
     await mailService.sendAccountCreationEmail({
       email: savedUser.email,
+      firstName: savedUser.firstName,
       locale: localeFromHeader,
       token,
       redirectionUrl,
+      i18n,
     });
 
     return savedUser;

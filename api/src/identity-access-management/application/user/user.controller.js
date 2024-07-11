@@ -127,6 +127,7 @@ const save = async function (request, h, dependencies = { userSerializer, reques
     password,
     campaignCode,
     localeFromHeader,
+    i18n: request.i18n,
   });
 
   return h.response(dependencies.userSerializer.serialize(savedUser)).created();

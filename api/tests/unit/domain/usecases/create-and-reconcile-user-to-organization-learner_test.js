@@ -171,6 +171,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
     context('When creation is with email', function () {
       beforeEach(function () {
         userAttributes.email = createdUser.email;
+        userAttributes.firstName = createdUser.firstName;
         userAttributes.withUsername = false;
       });
 
@@ -313,9 +314,11 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
           expect(emailValidationDemandRepository.save).to.have.been.calledWith(createdUser.id);
           expect(mailService.sendAccountCreationEmail).to.have.been.calledWithExactly({
             email: userAttributes.email,
+            firstName: userAttributes.firstName,
             locale,
             token,
             redirectionUrl: expectedRedirectionUrl,
+            i18n: undefined,
           });
         });
 

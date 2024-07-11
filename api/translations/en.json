@@ -348,15 +348,16 @@
   },
   "pix-account-creation-email": {
     "params": {
-      "title": "Your Pix account has been created!",
       "askForHelp": "Any questions? We’re here to help, contact us",
       "disclaimer": "If you did not create this account, you can ask its deletion",
       "doNotAnswer": "This is an automated email message, please do not reply.",
-      "goToPix": "Get started",
+      "goToPix": "Validate my email address",
       "helpdeskLinkLabel": "here",
       "moreOn": "More on",
       "pixPresentation": "Pix is the online public service to assess, develop and certify your digital skills.",
-      "subtitle": "You can now start testing your skills."
+      "subtitle": "Thank you for creating your account. There is one last step to secure your account: validating your email address.",
+      "subtitleDescription": "It is very simple, please click on the button below and login to your Pix account.",
+      "title": "Hello {firstName},"
     },
     "subject": "Your Pix account has been created"
   },
