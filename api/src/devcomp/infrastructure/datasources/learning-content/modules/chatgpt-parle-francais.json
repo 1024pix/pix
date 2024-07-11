@@ -254,7 +254,7 @@
                   "proposals": [
                     {
                       "id": "1",
-                      "content": "Le LLM a été programmé pour favoriser les personnages féminins."
+                      "content": "Le LLM a été programmé pour favoriser les personnages masculins."
                     },
                     {
                       "id": "2",
@@ -278,7 +278,7 @@
                 {
                   "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
                   "type": "text",
-                  "content": "Stéphane est persuadé d'avoir vu un <strong>extraterrestre</strong> dans son jardin. Il demande à un LLM comment en voir à nouveau et obtient une réponse intriguante.<span aria-hidden=\"true\">&nbsp;👇</span>"
+                  "content": "Stéphane est persuadé d'avoir vu un <strong>extraterrestre</strong> dans son jardin. Il demande à un LLM comment en voir à nouveau.<span aria-hidden=\"true\">&nbsp;👇</span>"
                 },
                 {
                   "id": "58ca3642-557a-41f3-ade4-60bf78fea803",
