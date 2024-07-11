@@ -1,5 +1,5 @@
-import { usecases } from '../../course/domain/usecases/index.js';
 import * as certificationReportSerializer from '../../shared/infrastructure/serializers/jsonapi/certification-report-serializer.js';
+import { usecases } from '../domain/usecases/index.js';
 
 const getCertificationReports = async function (request, h, dependencies = { certificationReportSerializer }) {
   const sessionId = request.params.id;
