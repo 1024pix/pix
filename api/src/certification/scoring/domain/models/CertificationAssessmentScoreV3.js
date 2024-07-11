@@ -101,7 +101,7 @@ const _calculateScore = ({ capacity, certificationScoringIntervals }) => {
     return maximumReachableScore;
   }
 
-  const intervalIndex = scoringIntervals.findIntervalIndex(capacity);
+  const intervalIndex = scoringIntervals.findIntervalIndexFromCapacity(capacity);
   const intervalMaximum = scoringIntervals.max(intervalIndex);
   const intervalMinimum = scoringIntervals.min(intervalIndex);
   const intervalWeight = weightsAndCoefficients[intervalIndex].weight;

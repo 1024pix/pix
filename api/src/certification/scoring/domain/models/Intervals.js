@@ -23,7 +23,7 @@ export class Intervals {
     return capacity - this.intervals[intervalIndex].bounds.max;
   }
 
-  findIntervalIndex(capacity) {
+  findIntervalIndexFromCapacity(capacity) {
     if (capacity < this.intervals[0].bounds.min) {
       return 0;
     }

@@ -8,7 +8,7 @@ export class ScoringSimulator {
   static compute({ capacity, certificationScoringIntervals, competencesForScoring }) {
     const scoringIntervals = new Intervals({ intervals: certificationScoringIntervals });
 
-    const intervalIndex = scoringIntervals.findIntervalIndex(capacity);
+    const intervalIndex = scoringIntervals.findIntervalIndexFromCapacity(capacity);
 
     const score = _calculateScore({
       certificationScoringIntervals: scoringIntervals,
@@ -54,7 +54,7 @@ function _computeCompetences({ competencesForScoring, capacity }) {
     const competenceIntervals = new Intervals({ intervals });
     return {
       competenceCode,
-      level: intervals[competenceIntervals.findIntervalIndex(capacity)].competenceLevel,
+      level: intervals[competenceIntervals.findIntervalIndexFromCapacity(capacity)].competenceLevel,
     };
   });
 }

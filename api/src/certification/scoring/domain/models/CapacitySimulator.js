@@ -1,26 +1,34 @@
+import { CertificationAssessmentScoreV3 } from './CertificationAssessmentScoreV3.js';
 import { Intervals } from './Intervals.js';
 import { ScoringAndCapacitySimulatorReport } from './ScoringAndCapacitySimulatorReport.js';
 
 export class CapacitySimulator {
   static compute({ certificationScoringIntervals, competencesForScoring, score }) {
     const scoringIntervals = new Intervals({ intervals: certificationScoringIntervals });
-    const MAX_PIX_SCORE = 1024;
-    const numberOfIntervals = scoringIntervals.length();
-    const SCORE_THRESHOLD = MAX_PIX_SCORE / numberOfIntervals;
 
-    const intervalIndex = Math.floor(score / SCORE_THRESHOLD);
+    const { weightsAndCoefficients } = CertificationAssessmentScoreV3;
+    const weights = weightsAndCoefficients.map(({ weight }) => weight);
+
+    const intervalIndex = findIntervalIndexFromScore({
+      score,
+      weights,
+      scoringIntervalsLength: scoringIntervals.length(),
+    });
 
     const intervalMaxValue = scoringIntervals.max(intervalIndex);
     const intervalMinValue = scoringIntervals.min(intervalIndex);
 
+    const intervalWeight = weightsAndCoefficients[intervalIndex].weight;
+    const intervalCoefficient = weightsAndCoefficients[intervalIndex].coefficient;
+
     const capacity =
-      (intervalMaxValue - intervalMinValue) * ((score + 1) / SCORE_THRESHOLD - (intervalIndex + 1)) + intervalMaxValue;
+      (score / intervalWeight - intervalCoefficient) * (intervalMaxValue - intervalMinValue) + intervalMinValue;
 
     const competences = competencesForScoring.map(({ intervals, competenceCode }) => {
       const competenceIntervals = new Intervals({ intervals });
       return {
         competenceCode,
-        level: intervals[competenceIntervals.findIntervalIndex(capacity)].competenceLevel,
+        level: intervals[competenceIntervals.findIntervalIndexFromCapacity(capacity)].competenceLevel,
       };
     });
 
@@ -30,4 +38,27 @@ export class CapacitySimulator {
       competences,
     });
   }
+}
+
+export function findIntervalIndexFromScore({ score, scoringIntervalsLength, weights }) {
+  let cumulativeSumOfWeights = weights[0];
+  let currentScoringInterval = 0;
+
+  while (
+    _isPixScoreOfAnHigherInterval(score, cumulativeSumOfWeights) &&
+    _hasANextInterval(currentScoringInterval, scoringIntervalsLength)
+  ) {
+    currentScoringInterval++;
+    cumulativeSumOfWeights += weights[currentScoringInterval];
+  }
+
+  return currentScoringInterval;
+}
+
+function _isPixScoreOfAnHigherInterval(score, nextIntervalMinimumScore) {
+  return score >= nextIntervalMinimumScore;
+}
+
+function _hasANextInterval(currentInterval, scoringIntervalsLength) {
+  return currentInterval < scoringIntervalsLength - 1;
 }
