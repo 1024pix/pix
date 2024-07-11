@@ -238,7 +238,7 @@
                 {
                   "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
                   "type": "text",
-                  "content": "<p>Erica est <strong>romancière</strong> et demande à un LLM d'imaginer un personnage. Elle n'a pas précisé au LLM qu'elle veut un personnage <strong>féminin</strong> et obtient un personnage masculin.<span aria-hidden=\"true\">&nbsp;👇</span></p>"
+                  "content": "<p>Erica est <strong>romancière</strong> et demande à un LLM d'imaginer un personnage. Elle n'a pas précisé qu'elle veut un personnage <strong>féminin</strong> et obtient un personnage masculin.<span aria-hidden=\"true\">&nbsp;👇</span></p>"
                 },
                 {
                   "id": "dc202072-43a0-4478-936e-5b3d4f3360c2",
@@ -456,7 +456,7 @@
           {
             "id": "a5b4912d-7882-47ed-a782-bf87d73ead55",
             "type": "text",
-            "content": "<p>Seuls quelques pays ont les moyens financiers de développer des grands modèles de langage.<span aria-hidden=\"true\">&nbsp;🌍&nbsp;💵</span>. Selon leur provenance, les modèles vont avoir des <strong>biais différents</strong>, ce qui peut expliquer certains écarts de résultats.</p>"
+            "content": "<p>Seuls quelques pays ont les moyens financiers de développer des grands modèles de langage.<span aria-hidden=\"true\">&nbsp;🌍&nbsp;💵</span>.<strong>Selon leur provenance, les modèles vont avoir des biais différents</strong>, ce qui peut expliquer certains écarts de résultats.</p>"
           }
         },
         {
@@ -465,7 +465,7 @@
           {
             "id": "97e85ece-84d7-4b61-aa9f-58c063f0f900",
             "type": "text",
-            "content": "<p>Cette concentration entre un petit nombre de pays explique le <strong>manque de diversité culturelle</strong> globale dans les textes produits par ces modèles.</p><p>Cependant, les nombreuses initiatives <strong>open source</strong> permettent d'améliorer la <strong>transparence</strong> des LLM, ce qui pourra favoriser la diversité des résultats.<span aria-hidden=\"true\">&nbsp;📖</span></p>"
+            "content": "<p><strong>Cette concentration entre un petit nombre de pays explique le manque de diversité culturelle globale</strong> dans les textes produits par ces modèles.</p><p>Cependant, les nombreuses initiatives <strong>open source</strong> permettent d'améliorer la <strong>transparence</strong> des LLM, ce qui pourra favoriser la diversité des résultats.<span aria-hidden=\"true\">&nbsp;📖</span></p>"
           }
         }
       ]
