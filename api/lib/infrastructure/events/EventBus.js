@@ -34,7 +34,6 @@ class EventBus {
   subscribe(event, subscriber) {
     this._subscriptions.add(event, subscriber);
   }
-
   async publish(event, domainTransaction) {
     const subscribersToCall = this._subscriptions.get(event);
     await bluebird.mapSeries(subscribersToCall, async (subscriberClass) => {

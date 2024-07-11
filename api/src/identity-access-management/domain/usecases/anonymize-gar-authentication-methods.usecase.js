@@ -1,4 +1,4 @@
-import { eventBus as defaultEventBus } from '../../../../lib/domain/events/index.js';
+import { config } from '../../../shared/config.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { GarAuthenticationMethodAnonymized } from '../events/GarAuthenticationMethodAnonymized.js';
 
@@ -8,15 +8,15 @@ import { GarAuthenticationMethodAnonymized } from '../events/GarAuthenticationMe
  * @param {string} params.userIds
  * @param {AuthenticationMethodRepository} params.authenticationMethodRepository
  * @param {DomainTransaction} params.domainTransaction
- * @param {EventBus} params.eventBus
+ * @param {GarAnonymizedBatchEventsLoggingJob} params.garAnonymizedBatchEventsLoggingJob
  * @return {Promise<{anonymized: string[], total: number}>}
  */
 export const anonymizeGarAuthenticationMethods = async function ({
   userIds,
   adminMemberId,
   authenticationMethodRepository,
+  garAnonymizedBatchEventsLoggingJob,
   domainTransaction = DomainTransaction.emptyTransaction(),
-  eventBus = defaultEventBus,
 }) {
   const total = userIds.length;
 
@@ -25,11 +25,13 @@ export const anonymizeGarAuthenticationMethods = async function ({
     { domainTransaction },
   );
 
-  const event = new GarAuthenticationMethodAnonymized({
-    userIds: garAnonymizedUserIds,
-    updatedByUserId: adminMemberId,
-  });
-  await eventBus.publish(event, domainTransaction);
+  if (config.auditLogger.isEnabled) {
+    const payload = new GarAuthenticationMethodAnonymized({
+      userIds: garAnonymizedUserIds,
+      updatedByUserId: adminMemberId,
+    });
+    await garAnonymizedBatchEventsLoggingJob.schedule(payload);
+  }
 
   return { garAnonymizedUserCount: garAnonymizedUserIds.length, total };
 };

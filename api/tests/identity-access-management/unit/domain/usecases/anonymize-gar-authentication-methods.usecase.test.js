@@ -8,14 +8,14 @@ const { ROLES } = PIX_ADMIN;
 
 describe('Unit | Identity Access Management | Domain | UseCase | anonymize-gar-authentication-methods', function () {
   let clock;
-  let eventBus;
   let domainTransaction;
+  let garAnonymizedBatchEventsLoggingJob;
 
   beforeEach(function () {
     const now = new Date('2023-08-17');
     clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    eventBus = {
-      publish: sinon.stub().resolves(),
+    garAnonymizedBatchEventsLoggingJob = {
+      schedule: sinon.stub().resolves(),
     };
     domainTransaction = Symbol('domain transaction');
   });
@@ -42,7 +42,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | anonymize-gar-a
       adminMemberId,
       authenticationMethodRepository,
       domainTransaction,
-      eventBus,
+      garAnonymizedBatchEventsLoggingJob,
     });
 
     // then
@@ -50,7 +50,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | anonymize-gar-a
     expect(result.total).to.be.equal(3);
   });
 
-  it('sends a GarAuthenticationMethodAnonymized event', async function () {
+  it('triggers a garAnonymizedBatchEventsLogging job', async function () {
     // given
     const userIds = [1001, 1002, 1003];
     const adminMemberId = 1;
@@ -67,17 +67,17 @@ describe('Unit | Identity Access Management | Domain | UseCase | anonymize-gar-a
       userIds,
       adminMemberId,
       authenticationMethodRepository,
+      garAnonymizedBatchEventsLoggingJob,
       domainTransaction,
-      eventBus,
     });
 
     // then
-    const event = new GarAuthenticationMethodAnonymized({
+    const payload = new GarAuthenticationMethodAnonymized({
       userIds: [1002, 1003],
       updatedByUserId: 1,
       occuredAt: Date.now(),
       role: ROLES.SUPER_ADMIN,
     });
-    expect(eventBus.publish).to.have.been.calledWith(event);
+    expect(garAnonymizedBatchEventsLoggingJob.schedule).to.have.been.calledWith(payload);
   });
 });

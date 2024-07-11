@@ -1,10 +1,13 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import knex from 'knex';
+
 import { eventBus } from '../../../../lib/domain/events/index.js';
 import { mailService } from '../../../../lib/domain/services/mail-service.js';
 import * as userReconciliationService from '../../../../lib/domain/services/user-reconciliation-service.js';
 import { oidcAuthenticationServiceRegistry } from '../../../../lib/domain/usecases/index.js';
+import { GarAnonymizedBatchEventsLoggingJob } from '../../../../lib/infrastructure/jobs/audit-log/GarAnonymizedBatchEventsLoggingJob.js';
 import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
@@ -70,7 +73,11 @@ const validators = {
   passwordValidator,
   userValidator,
 };
-const dependencies = Object.assign({ config }, eventBus, repositories, services, validators);
+
+const jobs = {
+  garAnonymizedBatchEventsLoggingJob: new GarAnonymizedBatchEventsLoggingJob(knex),
+};
+const dependencies = Object.assign({ config }, eventBus, jobs, repositories, services, validators);
 
 const usecasesWithoutInjectedDependencies = {
   ...(await importNamedExportsFromDirectory({ path: join(path, './'), ignoredFileNames: ['index.js'] })),
