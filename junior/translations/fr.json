@@ -13,7 +13,7 @@
     "challenge": {
       "title": "Mission",
       "actions": {
-        "skip": "Je passe",
+        "skip": "Je ne sais pas",
         "check": "Je vérifie",
         "continue": "Je continue"
       },
@@ -71,7 +71,7 @@
       "backHome": "Retour à l'accueil"
     },
     "school": {
-      "not-found":"Session inactive ou école non trouvée. Demande de l’aide à ton enseignant pour accéder à tes missions.",
+      "not-found": "Session inactive ou école non trouvée. Demande de l’aide à ton enseignant pour accéder à tes missions.",
       "division-list": {
         "page-title": "Liste des classes",
         "welcome": "Bienvenue sur la page de l'école : <strong>{schoolName}</strong><br>Maintenant, choisis ta classe."
