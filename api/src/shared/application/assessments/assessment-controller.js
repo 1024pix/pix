@@ -4,7 +4,7 @@ import * as events from '../../../../lib/domain/events/index.js';
 import { ValidatorAlwaysOK } from '../../../../lib/domain/models/index.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { usecases as certificationUsecases } from '../../../certification/course/domain/usecases/index.js';
-import * as certificationVersionRepository from '../../../certification/course/infrastructure/repositories/certification-version-repository.js';
+import * as certificationVersionRepository from '../../../certification/results/infrastructure/repositories/certification-version-repository.js';
 import { CertificationVersion } from '../../../certification/shared/domain/models/CertificationVersion.js';
 import * as certificationChallengeRepository from '../../../certification/shared/infrastructure/repositories/certification-challenge-repository.js';
 import { usecases as devcompUsecases } from '../../../devcomp/domain/usecases/index.js';
