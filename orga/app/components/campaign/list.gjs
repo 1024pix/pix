@@ -40,14 +40,6 @@ export default class List extends Component {
     return this.args.canDelete ?? false;
   }
 
-  get caption() {
-    if (!this.canDelete) {
-      return this.intl.t('pages.campaigns-list.table.description-all-campaigns');
-    } else {
-      return this.intl.t('pages.campaigns-list.table.description-my-campaigns');
-    }
-  }
-
   get labels() {
     return {
       ASSESSMENT: 'components.campaign.type.explanation.ASSESSMENT',
@@ -89,7 +81,7 @@ export default class List extends Component {
 
         <div class="panel">
           <table class="table content-text content-text--small">
-            <caption class="screen-reader-only">{{this.caption}}</caption>
+            <caption class="screen-reader-only">{{@caption}}</caption>
             <thead id={{headerId}} />
 
             <tbody>

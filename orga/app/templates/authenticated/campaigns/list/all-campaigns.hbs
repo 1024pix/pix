@@ -2,6 +2,7 @@
 
 {{#if @model.campaigns.meta.hasCampaigns}}
   <Campaign::List
+    @caption={{t "pages.campaigns-list.table.description-all-campaigns"}}
     @canDelete={{@model.isAdmin}}
     @campaigns={{@model.campaigns}}
     @nameFilter={{this.name}}

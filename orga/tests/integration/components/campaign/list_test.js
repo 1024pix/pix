@@ -346,41 +346,25 @@ module('Integration | Component | Campaign::List', function (hooks) {
     });
   });
 
-  module('Caption', function () {
-    test('it should display the caption for my campaigns page ', async function (assert) {
-      // given
-      const campaigns = [];
-      campaigns.meta = { rowCount: 0 };
-      this.set('campaigns', campaigns);
+  test('it should display the caption', async function (assert) {
+    // given
+    const campaigns = [];
+    campaigns.meta = { rowCount: 0 };
+    this.set('campaigns', campaigns);
 
-      // when
-      const screen = await render(
-        hbs`<Campaign::List
+    // when
+    const screen = await render(
+      hbs`<Campaign::List
+  @caption='Something'
   @campaigns={{this.campaigns}}
   @onFilter={{this.noop}}
   @onClickCampaign={{this.noop}}
   @canDelete={{true}}
 />`,
-      );
+    );
 
-      // then
-      assert.dom(screen.getByText(this.intl.t('pages.campaigns-list.table.description-my-campaigns'))).exists();
-    });
-
-    test('it should display the caption for all campaigns page ', async function (assert) {
-      // given
-      const campaigns = [];
-      campaigns.meta = { rowCount: 0 };
-      this.set('campaigns', campaigns);
-
-      // when
-      const screen = await render(
-        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`,
-      );
-
-      // then
-      assert.dom(screen.getByText(this.intl.t('pages.campaigns-list.table.description-all-campaigns'))).exists();
-    });
+    // then
+    assert.dom(screen.getByText('Something')).exists();
   });
 
   module('When there are campaigns not only owned by current user', function () {
