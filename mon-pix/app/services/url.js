@@ -36,6 +36,23 @@ export default class Url extends Service {
     }
   }
 
+  get legalNoticeUrl() {
+    const currentLanguage = this.intl.primaryLocale;
+
+    if (this.currentDomain.isFranceDomain) {
+      return `https://pix.fr/mentions-legales`;
+    }
+
+    switch (currentLanguage) {
+      case ENGLISH_INTERNATIONAL_LOCALE:
+        return 'https://pix.org/en/legal-notice';
+      case DUTCH_INTERNATIONAL_LOCALE:
+        return 'https://pix.org/nl-be/wettelijke-vermeldingen';
+      default:
+        return 'https://pix.org/fr/mentions-legales';
+    }
+  }
+
   get dataProtectionPolicyUrl() {
     const currentLanguage = this.intl.primaryLocale;
 

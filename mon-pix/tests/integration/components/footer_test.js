@@ -25,6 +25,7 @@ module('Integration | Component | Footer', function (hooks) {
     assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.footer.data-protection-policy') }));
     assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.footer.eula') }));
     assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.footer.help-center') }));
+    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.footer.legal-notice') }));
     assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.footer.sitemap') }));
   });
 

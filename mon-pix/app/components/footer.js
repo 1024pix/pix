@@ -23,6 +23,10 @@ export default class Footer extends Component {
     return this.url.cguUrl;
   }
 
+  get legalNoticeUrl() {
+    return this.url.legalNoticeUrl;
+  }
+
   get dataProtectionPolicyUrl() {
     return this.url.dataProtectionPolicyUrl;
   }
