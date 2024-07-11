@@ -1,6 +1,6 @@
 /**
- * @typedef {import ('./index.js').CertificationResultRepository} CertificationResultRepository
- * @typedef {import ('./index.js').ScoCertificationCandidateRepository} ScoCertificationCandidateRepository
+ * @typedef {import ('../../domain/usecases/index.js').CertificationResultRepository} CertificationResultRepository
+ * @typedef {import ('../../domain/usecases/index.js').ScoCertificationCandidateRepository} ScoCertificationCandidateRepository
  */
 
 import { NoCertificationResultForDivision } from '../errors.js';
