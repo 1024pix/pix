@@ -4,11 +4,22 @@ export function findPaginatedMissionLearners(schema, request) {
   const organizationId = request.params.organization_id;
   const queryParams = request.queryParams;
   const divisionsFilter = queryParams['filter[divisions]'];
+  const nameFilter = queryParams['filter[name]'];
 
   let missionLearners = schema.missionLearners.where({ organizationId });
   if (divisionsFilter) {
-    missionLearners = schema.missionLearners.where((learner) => {
+    missionLearners = missionLearners.filter((learner) => {
       return divisionsFilter.includes(learner.division) && learner.organizationId === Number(organizationId);
+    });
+  }
+
+  if (nameFilter) {
+    missionLearners = missionLearners.filter((learner) => {
+      return (
+        (learner.firstName.toUpperCase().includes(nameFilter.toUpperCase()) ||
+          learner.lastName.toUpperCase().includes(nameFilter.toUpperCase())) &&
+        learner.organizationId === Number(organizationId)
+      );
     });
   }
   const rowCount = missionLearners.length;

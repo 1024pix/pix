@@ -194,6 +194,10 @@
         "label": "Rechercher par classes",
         "placeholder": "Classes"
       },
+      "fullname": {
+        "label": "Recherche sur le nom et prénom",
+        "placeholder": "Nom, prénom"
+      },
       "loading": "Chargement..."
     },
     "form": {

@@ -194,6 +194,10 @@
         "label": "Search by classes",
         "placeholder": "Classes"
       },
+      "fullname": {
+        "label": "Search by last name and first name",
+        "placeholder": "Last name, first name"
+      },
       "loading": "Loading..."
     },
     "form": {
