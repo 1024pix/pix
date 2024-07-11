@@ -25,19 +25,26 @@ describe('Unit | Identity Access Management | Domain | UseCase | anonymize-gar-a
     clock.restore();
   });
 
-  it('returns garAnonymizedUserIds and total of userIds', async function () {
+  it('processes user GAR anonymisation in batch and returns anonymized / total of userIds', async function () {
     // given
     const userIds = [1001, 1002, 1003];
     const adminMemberId = 1;
-    const garAnonymizedUserIds = [1002, 1003];
 
     const authenticationMethodRepository = {
-      batchAnonymizeByUserIds: sinon.stub().resolves({ garAnonymizedUserIds }),
+      anonymizeByUserIds: sinon
+        .stub()
+        .onFirstCall()
+        .resolves({ garAnonymizedUserIds: [] })
+        .onSecondCall()
+        .resolves({ garAnonymizedUserIds: [1002] })
+        .onThirdCall()
+        .resolves({ garAnonymizedUserIds: [1003] }),
     };
 
     // when
     const result = await anonymizeGarAuthenticationMethods({
       userIds,
+      userIdsBatchSize: 1,
       adminMemberId,
       authenticationMethodRepository,
       domainTransaction,
@@ -47,6 +54,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | anonymize-gar-a
     // then
     expect(result.garAnonymizedUserCount).to.be.equal(2);
     expect(result.total).to.be.equal(3);
+    expect(garAnonymizedBatchEventsLoggingJob.schedule).to.have.been.calledThrice;
   });
 
   it('triggers a garAnonymizedBatchEventsLogging job', async function () {
@@ -56,7 +64,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | anonymize-gar-a
     const garAnonymizedUserIds = [1002, 1003];
 
     const authenticationMethodRepository = {
-      batchAnonymizeByUserIds: sinon.stub().resolves({ garAnonymizedUserIds }),
+      anonymizeByUserIds: sinon.stub().resolves({ garAnonymizedUserIds }),
     };
 
     // when
@@ -85,7 +93,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | anonymize-gar-a
     const garAnonymizedUserIds = [1002, 1003];
 
     const authenticationMethodRepository = {
-      batchAnonymizeByUserIds: sinon.stub().resolves({ garAnonymizedUserIds }),
+      anonymizeByUserIds: sinon.stub().resolves({ garAnonymizedUserIds }),
     };
 
     sinon.stub(config.auditLogger, 'isEnabled').value(false);

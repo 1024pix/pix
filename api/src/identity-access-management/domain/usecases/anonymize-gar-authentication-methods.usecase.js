@@ -1,11 +1,15 @@
+import _ from 'lodash';
+
 import { config } from '../../../shared/config.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { GarAuthenticationMethodAnonymized } from '../models/GarAuthenticationMethodAnonymized.js';
 
+const USER_IDS_BATCH_SIZE = 1000;
+
 /**
  * @typedef {function} anonymizeGarAuthenticationMethods
  * @param {Object} params
- * @param {string} params.userIds
+ * @param {Array<string>} params.userIds
  * @param {AuthenticationMethodRepository} params.authenticationMethodRepository
  * @param {DomainTransaction} params.domainTransaction
  * @param {GarAnonymizedBatchEventsLoggingJob} params.garAnonymizedBatchEventsLoggingJob
@@ -13,25 +17,31 @@ import { GarAuthenticationMethodAnonymized } from '../models/GarAuthenticationMe
  */
 export const anonymizeGarAuthenticationMethods = async function ({
   userIds,
+  userIdsBatchSize = USER_IDS_BATCH_SIZE,
   adminMemberId,
   authenticationMethodRepository,
   garAnonymizedBatchEventsLoggingJob,
   domainTransaction = DomainTransaction.emptyTransaction(),
 }) {
-  const total = userIds.length;
+  const userIdBatches = _.chunk(userIds, userIdsBatchSize);
 
-  const { garAnonymizedUserIds } = await authenticationMethodRepository.batchAnonymizeByUserIds(
-    { userIds },
-    { domainTransaction },
-  );
+  let garAnonymizedUserCount = 0;
 
-  if (config.auditLogger.isEnabled) {
-    const payload = new GarAuthenticationMethodAnonymized({
-      userIds: garAnonymizedUserIds,
-      updatedByUserId: adminMemberId,
-    });
-    await garAnonymizedBatchEventsLoggingJob.schedule(payload);
+  for (const userIdsBatch of userIdBatches) {
+    const { garAnonymizedUserIds } = await authenticationMethodRepository.anonymizeByUserIds(
+      { userIds: userIdsBatch },
+      { domainTransaction },
+    );
+    garAnonymizedUserCount += garAnonymizedUserIds.length;
+
+    if (config.auditLogger.isEnabled) {
+      const payload = new GarAuthenticationMethodAnonymized({
+        userIds: garAnonymizedUserIds,
+        updatedByUserId: adminMemberId,
+      });
+      await garAnonymizedBatchEventsLoggingJob.schedule(payload);
+    }
   }
 
-  return { garAnonymizedUserCount: garAnonymizedUserIds.length, total };
+  return { garAnonymizedUserCount, total: userIds.length };
 };
