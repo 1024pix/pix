@@ -14,16 +14,16 @@ import { config } from '../../../shared/config.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { OidcError } from '../../../shared/domain/errors.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
+import { DEFAULT_CLAIM_MAPPING } from '../constants/oidc-identity-providers.js';
+import { ClaimManager } from '../models/ClaimManager.js';
 
 const DEFAULT_SCOPE = 'openid profile';
-const DEFAULT_REQUIRED_CLAIMS = ['sub', 'family_name', 'given_name'];
 
 const defaultSessionTemporaryStorage = temporaryStorage.withPrefix('oidc-session:');
 
 export class OidcAuthenticationService {
   #isReady = false;
   #isReadyForPixAdmin = false;
-  #requiredClaims = Array.from(DEFAULT_REQUIRED_CLAIMS);
 
   constructor(
     {
@@ -45,6 +45,7 @@ export class OidcAuthenticationService {
       scope = DEFAULT_SCOPE,
       slug,
       source,
+      claimMapping = DEFAULT_CLAIM_MAPPING,
     },
     { sessionTemporaryStorage = defaultSessionTemporaryStorage } = {},
   ) {
@@ -67,10 +68,11 @@ export class OidcAuthenticationService {
     this.slug = slug;
     this.source = source;
 
-    if (!lodash.isEmpty(claimsToStore)) {
-      this.claimsToStore = claimsToStore.split(',').map((claim) => claim.trim());
-      this.#requiredClaims = Array.from(new Set([...this.#requiredClaims, ...this.claimsToStore]));
-    }
+    const additionalClaims = !lodash.isEmpty(claimsToStore)
+      ? claimsToStore.split(',').map((claim) => claim.trim())
+      : [];
+
+    this.claimManager = new ClaimManager({ claimMapping, additionalClaims });
 
     if (!enabled && !enabledForPixAdmin) {
       return;
@@ -196,24 +198,15 @@ export class OidcAuthenticationService {
 
   async getUserInfo({ idToken, accessToken }) {
     let userInfo = jsonwebtoken.decode(idToken);
-    const missingRequiredClaims = this.#findMissingRequiredClaims(userInfo);
-    if (missingRequiredClaims.length > 0) {
+
+    if (this.claimManager.hasMissingClaims(userInfo)) {
       userInfo = await this._getUserInfoFromEndpoint({ accessToken });
     }
 
-    const pickedUserInfo = {
-      firstName: userInfo.given_name,
-      lastName: userInfo.family_name,
-      externalIdentityId: userInfo.sub,
+    return {
+      ...this.claimManager.mapClaims(userInfo),
+      ...this.claimManager.pickAdditionalClaims(userInfo),
     };
-
-    if (this.claimsToStore) {
-      this.claimsToStore.forEach((claim) => {
-        pickedUserInfo[claim] = userInfo[claim];
-      });
-    }
-
-    return pickedUserInfo;
   }
 
   async createUserAccount({
@@ -242,13 +235,10 @@ export class OidcAuthenticationService {
   }
 
   createAuthenticationComplement({ userInfo }) {
-    if (!this.claimsToStore) {
-      return undefined;
-    }
+    if (!this.claimManager.hasAdditionalClaims) return undefined;
 
-    const claimsToStoreWithValues = Object.fromEntries(
-      Object.entries(userInfo).filter(([key, _value]) => this.claimsToStore.includes(key)),
-    );
+    const claimsToStoreWithValues = this.claimManager.pickAdditionalClaims(userInfo);
+
     return new AuthenticationMethod.OidcAuthenticationComplement(claimsToStoreWithValues);
   }
 
@@ -292,17 +282,15 @@ export class OidcAuthenticationService {
       throw new OidcError({ message: error.message });
     }
 
-    const missingRequiredClaims = this.#findMissingRequiredClaims(userInfo);
-    if (missingRequiredClaims.length > 0) {
-      const message = `Un ou des champs obligatoires (${missingRequiredClaims.join(
+    if (this.claimManager.hasMissingClaims(userInfo)) {
+      const missingClaims = this.claimManager.getMissingClaims(userInfo);
+
+      const message = `Un ou des champs obligatoires (${missingClaims.join(
         ',',
       )}) n'ont pas été renvoyés par votre fournisseur d'identité ${this.organizationName}.`;
 
       _monitorOidcError(message, {
-        data: {
-          missingFields: missingRequiredClaims.join(', '),
-          userInfo,
-        },
+        data: { missingFields: missingClaims.join(', '), userInfo },
         event: 'find-missing-required-claims',
       });
 
@@ -313,28 +301,7 @@ export class OidcAuthenticationService {
       throw new OidcMissingFieldsError(message, error.code, meta);
     }
 
-    const pickedUserInfo = {
-      sub: userInfo.sub,
-      family_name: userInfo.family_name,
-      given_name: userInfo.given_name,
-    };
-
-    if (this.claimsToStore) {
-      this.claimsToStore.forEach((claim) => {
-        pickedUserInfo[claim] = userInfo[claim];
-      });
-    }
-
-    return pickedUserInfo;
-  }
-
-  #findMissingRequiredClaims(userInfo) {
-    return this.#requiredClaims.reduce((missingRequiredClaims, requiredClaim) => {
-      if (!userInfo[requiredClaim]) {
-        missingRequiredClaims.push(requiredClaim);
-      }
-      return missingRequiredClaims;
-    }, []);
+    return userInfo;
   }
 }
 

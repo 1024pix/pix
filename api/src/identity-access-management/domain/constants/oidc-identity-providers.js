@@ -3,7 +3,7 @@ export const POLE_EMPLOI = {
   configKey: 'poleEmploi',
 };
 
-export const DEFAULT_CLAIMS_MAPPING = {
+export const DEFAULT_CLAIM_MAPPING = {
   firstName: ['given_name'],
   lastName: ['family_name'],
   externalIdentityId: ['sub'],
