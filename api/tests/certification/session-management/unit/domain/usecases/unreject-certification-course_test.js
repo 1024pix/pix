@@ -1,5 +1,5 @@
 import { CertificationCourseUnrejected } from '../../../../../../lib/domain/events/CertificationCourseUnrejected.js';
-import { unrejectCertificationCourse } from '../../../../../../src/certification/course/domain/usecases/unreject-certification-course.js';
+import { unrejectCertificationCourse } from '../../../../../../src/certification/session-management/domain/usecases/unreject-certification-course.js';
 import { CertificationCourse } from '../../../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
