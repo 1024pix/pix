@@ -295,7 +295,7 @@ const batchAnonymizeByUserIds = async function (
         externalIdentifier: knex.raw('CONCAT(\'anonymized-\', "authentication-methods".id)'),
       })
       .returning('userId');
-    garAnonymizedUserIds = garAnonymizedUserIds.concat(anonymizedUserIdBatch.map((elem) => elem.userId));
+    garAnonymizedUserIds = garAnonymizedUserIds.concat(anonymizedUserIdBatch.map(({ userId }) => userId));
   }
 
   return { garAnonymizedUserIds };

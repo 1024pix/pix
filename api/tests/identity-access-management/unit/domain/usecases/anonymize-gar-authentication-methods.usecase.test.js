@@ -15,11 +15,10 @@ describe('Unit | Identity Access Management | Domain | UseCase | anonymize-gar-a
   beforeEach(function () {
     const now = new Date('2023-08-17');
     clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    garAnonymizedBatchEventsLoggingJob = {
-      schedule: sinon.stub().resolves(),
-    };
+    garAnonymizedBatchEventsLoggingJob = { schedule: sinon.stub().resolves() };
     domainTransaction = Symbol('domain transaction');
     sinon.stub(config.auditLogger, 'isEnabled').value(true);
+    sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
   });
 
   afterEach(function () {
@@ -35,8 +34,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | anonymize-gar-a
     const authenticationMethodRepository = {
       batchAnonymizeByUserIds: sinon.stub().resolves({ garAnonymizedUserIds }),
     };
-
-    sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
 
     // when
     const result = await anonymizeGarAuthenticationMethods({
@@ -61,8 +58,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | anonymize-gar-a
     const authenticationMethodRepository = {
       batchAnonymizeByUserIds: sinon.stub().resolves({ garAnonymizedUserIds }),
     };
-
-    sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
 
     // when
     await anonymizeGarAuthenticationMethods({
@@ -93,7 +88,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | anonymize-gar-a
       batchAnonymizeByUserIds: sinon.stub().resolves({ garAnonymizedUserIds }),
     };
 
-    sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
     sinon.stub(config.auditLogger, 'isEnabled').value(false);
 
     // when

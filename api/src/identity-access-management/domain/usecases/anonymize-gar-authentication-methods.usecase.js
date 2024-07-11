@@ -9,7 +9,7 @@ import { GarAuthenticationMethodAnonymized } from '../models/GarAuthenticationMe
  * @param {AuthenticationMethodRepository} params.authenticationMethodRepository
  * @param {DomainTransaction} params.domainTransaction
  * @param {GarAnonymizedBatchEventsLoggingJob} params.garAnonymizedBatchEventsLoggingJob
- * @return {Promise<{anonymized: string[], total: number}>}
+ * @return {Promise<{garAnonymizedUserCount: number, total: number}>}
  */
 export const anonymizeGarAuthenticationMethods = async function ({
   userIds,
