@@ -1,21 +1,38 @@
-<h2 tabindex="0" class="instructions-step__title">{{this.title}}
-  <span class="screen-reader-only">{{this.vocalStepIdentifier}}</span>
-</h2>
-
 {{#if (eq this.pageId 1)}}
-  <CertificationInstructions::StepOne />
+  <CertificationInstructions::StepOne
+    @vocalStepIdentifier={{this.vocalStepIdentifier}}
+    @focus={{this.focus}}
+    @title={{this.title}}
+  />
 {{/if}}
 {{#if (eq this.pageId 2)}}
-  <CertificationInstructions::StepTwo />
+  <CertificationInstructions::StepTwo
+    @vocalStepIdentifier={{this.vocalStepIdentifier}}
+    @focus={{this.focus}}
+    @title={{this.title}}
+  />
 {{/if}}
 {{#if (eq this.pageId 3)}}
-  <CertificationInstructions::StepThree />
+  <CertificationInstructions::StepThree
+    @vocalStepIdentifier={{this.vocalStepIdentifier}}
+    @focus={{this.focus}}
+    @title={{this.title}}
+  />
 {{/if}}
 {{#if (eq this.pageId 4)}}
-  <CertificationInstructions::StepFour />
+  <CertificationInstructions::StepFour
+    @vocalStepIdentifier={{this.vocalStepIdentifier}}
+    @focus={{this.focus}}
+    @title={{this.title}}
+  />
 {{/if}}
 {{#if (eq this.pageId 5)}}
-  <CertificationInstructions::StepFive @enableNextButton={{this.enableNextButton}} />
+  <CertificationInstructions::StepFive
+    @enableNextButton={{this.enableNextButton}}
+    @vocalStepIdentifier={{this.vocalStepIdentifier}}
+    @focus={{this.focus}}
+    @title={{this.title}}
+  />
 {{/if}}
 
 <footer class="instructions-footer">

@@ -44,6 +44,10 @@ export default class Steps extends Component {
     });
   }
 
+  focus(element) {
+    element.focus();
+  }
+
   @action
   previousStep() {
     this.pageId = this.pageId - 1;
