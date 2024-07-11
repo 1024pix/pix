@@ -334,7 +334,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       );
 
       // when
-      await fillByLabel(this.intl.t('pages.sup-organization-participants.filter.search.label'), 'Bob M');
+      await fillByLabel(this.intl.t('common.filters.fullname.label'), 'Bob M');
 
       // then
       sinon.assert.calledWithExactly(triggerFiltering, 'search', 'Bob M');
@@ -922,7 +922,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
       await click(firstLearnerSelected);
 
-      await fillByLabel(this.intl.t('pages.sup-organization-participants.filter.search.label'), 'Something');
+      await fillByLabel(this.intl.t('common.filters.fullname.label'), 'Something');
 
       // then
       assert.false(firstLearnerSelected.checked);

@@ -636,7 +636,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
       await render(
         hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.triggerFiltering}} />`,
       );
-      await fillByLabel(this.intl.t('pages.campaign-results.filters.type.search.title'), 'Sal');
+      await fillByLabel(this.intl.t('common.filters.fullname.label'), 'Sal');
 
       // then
       assert.ok(triggerFiltering.calledWith('search', 'Sal'));
