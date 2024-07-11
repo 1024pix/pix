@@ -1312,6 +1312,10 @@
           "transcription": "Ver transcripción"
         },
         "embed": {
+          "reset": {
+            "ariaLabel": "Reiniciar el simulador",
+            "name": "Reiniciar"
+          },
           "start": {
             "ariaLabel": "Iniciar el simulador",
             "name": "Comenzar"

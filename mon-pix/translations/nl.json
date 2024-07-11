@@ -1312,6 +1312,10 @@
           "transcription": "Transcriptie weergeven"
         },
         "embed": {
+          "reset": {
+            "ariaLabel": "Reset de simulator",
+            "name": "Opnieuw instellen"
+          },
           "start": {
             "ariaLabel": "Start de simulator",
             "name": "Beginnen"

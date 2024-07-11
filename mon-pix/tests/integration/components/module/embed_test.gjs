@@ -28,10 +28,13 @@ module('Integration | Component | Module | Embed', function (hooks) {
     assert
       .dom(screen.getByRole('button', { name: this.intl.t('pages.modulix.buttons.embed.start.ariaLabel') }))
       .exists();
+    assert
+      .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.embed.reset.ariaLabel') }))
+      .doesNotExist();
   });
 
   module('when user clicks on start button', function () {
-    test('should hide start button', async function (assert) {
+    test('should hide start button and display reset button', async function (assert) {
       // given
       const embed = {
         id: 'id',
@@ -48,6 +51,50 @@ module('Integration | Component | Module | Embed', function (hooks) {
       const startButtonName = this.intl.t('pages.modulix.buttons.embed.start.ariaLabel');
       await clickByName(startButtonName);
       assert.dom(screen.queryByRole('button', { name: startButtonName })).doesNotExist();
+      assert
+        .dom(screen.getByRole('button', { name: this.intl.t('pages.modulix.buttons.embed.reset.ariaLabel') }))
+        .exists();
+    });
+
+    test('should focus on the iframe', async function (assert) {
+      // given
+      const embed = {
+        id: 'id',
+        title: 'title',
+        isCompletionRequired: false,
+        url: 'https://embed-pix.com',
+        height: 800,
+      };
+      const screen = await render(<template><ModulixEmbed @embed={{embed}} /></template>);
+
+      // when
+      await clickByName(this.intl.t('pages.modulix.buttons.embed.start.ariaLabel'));
+
+      // then
+      const iframe = screen.getByTitle(embed.title);
+      assert.strictEqual(document.activeElement, iframe);
+    });
+  });
+
+  module('when user clicks on reset button', function () {
+    test('should focus on the iframe', async function (assert) {
+      // given
+      const embed = {
+        id: 'id',
+        title: 'title',
+        isCompletionRequired: false,
+        url: 'https://embed-pix.com',
+        height: 800,
+      };
+      const screen = await render(<template><ModulixEmbed @embed={{embed}} /></template>);
+
+      // when
+      await clickByName(this.intl.t('pages.modulix.buttons.embed.start.ariaLabel'));
+      await clickByName(this.intl.t('pages.modulix.buttons.embed.reset.ariaLabel'));
+
+      // then
+      const iframe = screen.getByTitle(embed.title);
+      assert.strictEqual(document.activeElement, iframe);
     });
   });
 });
