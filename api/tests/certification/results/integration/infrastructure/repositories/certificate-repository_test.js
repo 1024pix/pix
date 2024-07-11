@@ -1,4 +1,4 @@
-import * as certificationRepository from '../../../../../../src/certification/course/infrastructure/repositories/certificate-repository.js';
+import * as certificateRepository from '../../../../../../src/certification/results/infrastructure/repositories/certificate-repository.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { status } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
 import {
@@ -28,7 +28,7 @@ describe('Integration | Infrastructure | Repository | Certification', function (
   describe('#getCertificationAttestation', function () {
     it('should throw a NotFoundError when certification attestation does not exist', async function () {
       // when
-      const error = await catchErr(certificationRepository.getCertificationAttestation)({ certificationCourseId: 123 });
+      const error = await catchErr(certificateRepository.getCertificationAttestation)({ certificationCourseId: 123 });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -64,7 +64,7 @@ describe('Integration | Infrastructure | Repository | Certification', function (
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(certificationRepository.getCertificationAttestation)({
+      const error = await catchErr(certificateRepository.getCertificationAttestation)({
         certificationCourseId: certificationAttestationData.id,
       });
 
@@ -102,7 +102,7 @@ describe('Integration | Infrastructure | Repository | Certification', function (
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(certificationRepository.getCertificationAttestation)({
+      const error = await catchErr(certificateRepository.getCertificationAttestation)({
         certificationCourseId: certificationAttestationData.id,
       });
 
@@ -140,7 +140,7 @@ describe('Integration | Infrastructure | Repository | Certification', function (
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(certificationRepository.getCertificationAttestation)({
+      const error = await catchErr(certificateRepository.getCertificationAttestation)({
         certificationCourseId: certificationAttestationData.id,
       });
 
@@ -178,7 +178,7 @@ describe('Integration | Infrastructure | Repository | Certification', function (
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(certificationRepository.getCertificationAttestation)({
+      const error = await catchErr(certificateRepository.getCertificationAttestation)({
         certificationCourseId: certificationAttestationData.id,
       });
 
@@ -219,7 +219,7 @@ describe('Integration | Infrastructure | Repository | Certification', function (
       await databaseBuilder.commit();
 
       // when
-      const certificationAttestation = await certificationRepository.getCertificationAttestation({
+      const certificationAttestation = await certificateRepository.getCertificationAttestation({
         certificationCourseId: 123,
       });
 
@@ -307,7 +307,7 @@ describe('Integration | Infrastructure | Repository | Certification', function (
       mockLearningContent(learningContentObjects);
 
       // when
-      const certificationAttestation = await certificationRepository.getCertificationAttestation({
+      const certificationAttestation = await certificateRepository.getCertificationAttestation({
         certificationCourseId: 123,
       });
 
@@ -352,7 +352,7 @@ describe('Integration | Infrastructure | Repository | Certification', function (
       await databaseBuilder.commit();
 
       // when
-      const certificationAttestation = await certificationRepository.getCertificationAttestation({
+      const certificationAttestation = await certificateRepository.getCertificationAttestation({
         certificationCourseId: certificationAttestationData.id,
       });
 
@@ -467,7 +467,7 @@ describe('Integration | Infrastructure | Repository | Certification', function (
         await databaseBuilder.commit();
 
         // when
-        const certificationAttestation = await certificationRepository.getCertificationAttestation({
+        const certificationAttestation = await certificateRepository.getCertificationAttestation({
           certificationCourseId: 123,
         });
 
@@ -521,11 +521,10 @@ describe('Integration | Infrastructure | Repository | Certification', function (
       await databaseBuilder.commit();
 
       // when
-      const certificationAttestations =
-        await certificationRepository.findByDivisionForScoIsManagingStudentsOrganization({
-          organizationId: 123,
-          division: '3emeB',
-        });
+      const certificationAttestations = await certificateRepository.findByDivisionForScoIsManagingStudentsOrganization({
+        organizationId: 123,
+        division: '3emeB',
+      });
 
       // then
       expect(certificationAttestations).to.be.empty;
@@ -569,11 +568,10 @@ describe('Integration | Infrastructure | Repository | Certification', function (
       await databaseBuilder.commit();
 
       // when
-      const certificationAttestations =
-        await certificationRepository.findByDivisionForScoIsManagingStudentsOrganization({
-          organizationId: 123,
-          division: '3emeB',
-        });
+      const certificationAttestations = await certificateRepository.findByDivisionForScoIsManagingStudentsOrganization({
+        organizationId: 123,
+        division: '3emeB',
+      });
 
       // then
       expect(certificationAttestations).to.be.empty;
@@ -617,11 +615,10 @@ describe('Integration | Infrastructure | Repository | Certification', function (
       await databaseBuilder.commit();
 
       // when
-      const certificationAttestations =
-        await certificationRepository.findByDivisionForScoIsManagingStudentsOrganization({
-          organizationId: 123,
-          division: '3emeB',
-        });
+      const certificationAttestations = await certificateRepository.findByDivisionForScoIsManagingStudentsOrganization({
+        organizationId: 123,
+        division: '3emeB',
+      });
 
       // then
       expect(certificationAttestations).to.be.empty;
@@ -665,11 +662,10 @@ describe('Integration | Infrastructure | Repository | Certification', function (
       await databaseBuilder.commit();
 
       // when
-      const certificationAttestations =
-        await certificationRepository.findByDivisionForScoIsManagingStudentsOrganization({
-          organizationId: 123,
-          division: '3emeB',
-        });
+      const certificationAttestations = await certificateRepository.findByDivisionForScoIsManagingStudentsOrganization({
+        organizationId: 123,
+        division: '3emeB',
+      });
 
       // then
       expect(certificationAttestations).to.be.empty;
@@ -713,11 +709,10 @@ describe('Integration | Infrastructure | Repository | Certification', function (
       await databaseBuilder.commit();
 
       // when
-      const certificationAttestations =
-        await certificationRepository.findByDivisionForScoIsManagingStudentsOrganization({
-          organizationId: 123,
-          division: '3emeB',
-        });
+      const certificationAttestations = await certificateRepository.findByDivisionForScoIsManagingStudentsOrganization({
+        organizationId: 123,
+        division: '3emeB',
+      });
 
       // then
       expect(certificationAttestations).to.be.empty;
@@ -761,11 +756,10 @@ describe('Integration | Infrastructure | Repository | Certification', function (
       await databaseBuilder.commit();
 
       // when
-      const certificationAttestations =
-        await certificationRepository.findByDivisionForScoIsManagingStudentsOrganization({
-          organizationId: 123,
-          division: '3emeB',
-        });
+      const certificationAttestations = await certificateRepository.findByDivisionForScoIsManagingStudentsOrganization({
+        organizationId: 123,
+        division: '3emeB',
+      });
 
       // then
       expect(certificationAttestations).to.be.empty;
@@ -869,11 +863,10 @@ describe('Integration | Infrastructure | Repository | Certification', function (
       await databaseBuilder.commit();
 
       // when
-      const certificationAttestations =
-        await certificationRepository.findByDivisionForScoIsManagingStudentsOrganization({
-          organizationId: 123,
-          division: '3emeB',
-        });
+      const certificationAttestations = await certificateRepository.findByDivisionForScoIsManagingStudentsOrganization({
+        organizationId: 123,
+        division: '3emeB',
+      });
 
       // then
       const expectedCertificationAttestationA =
@@ -994,11 +987,10 @@ describe('Integration | Infrastructure | Repository | Certification', function (
       await databaseBuilder.commit();
 
       // when
-      const certificationAttestations =
-        await certificationRepository.findByDivisionForScoIsManagingStudentsOrganization({
-          organizationId: 123,
-          division: '3emeB',
-        });
+      const certificationAttestations = await certificateRepository.findByDivisionForScoIsManagingStudentsOrganization({
+        organizationId: 123,
+        division: '3emeB',
+      });
 
       // then
       const expectedCertificationAttestationA =
@@ -1086,7 +1078,7 @@ describe('Integration | Infrastructure | Repository | Certification', function (
 
         // when
         const certificationAttestations =
-          await certificationRepository.findByDivisionForScoIsManagingStudentsOrganization({
+          await certificateRepository.findByDivisionForScoIsManagingStudentsOrganization({
             organizationId: 123,
             division: '3emeB',
           });
@@ -1173,11 +1165,10 @@ describe('Integration | Infrastructure | Repository | Certification', function (
       await databaseBuilder.commit();
 
       // when
-      const certificationAttestations =
-        await certificationRepository.findByDivisionForScoIsManagingStudentsOrganization({
-          organizationId: 123,
-          division: '3emeB',
-        });
+      const certificationAttestations = await certificateRepository.findByDivisionForScoIsManagingStudentsOrganization({
+        organizationId: 123,
+        division: '3emeB',
+      });
 
       // then
       const expectedCertificationAttestation = domainBuilder.buildCertificationAttestation(
