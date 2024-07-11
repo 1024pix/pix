@@ -1,4 +1,5 @@
-import { render } from '@1024pix/ember-testing-library';
+import { fillByLabel, render } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -168,6 +169,34 @@ module('Integration | Component | Campaign::List', function (hooks) {
       assert.dom(screen.getByText('BBBBBB222')).exists();
     });
 
+    test('should hide campaign owner', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+
+      const campaign1 = store.createRecord('campaign', {
+        id: '1',
+        name: 'campagne 1',
+        code: 'AAAAAA111',
+        type: 'PROFILES_COLLECTION',
+        ownerFirstName: 'Michel',
+        ownerLastName: 'Dupont',
+      });
+      const campaigns = [campaign1];
+      campaigns.meta = {
+        rowCount: 1,
+      };
+      this.set('campaigns', campaigns);
+
+      // when
+      const screen = await render(
+        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`,
+      );
+
+      // then
+      assert.strictEqual(screen.queryByText(this.intl.t('pages.campaigns-list.table.column.created-by')), null);
+      assert.strictEqual(screen.queryByText('Michel Dupont'), null);
+    });
+
     test('it should display the owner of the campaigns', async function (assert) {
       const store = this.owner.lookup('service:store');
 
@@ -195,7 +224,12 @@ module('Integration | Component | Campaign::List', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`,
+        hbs`<Campaign::List
+  @campaigns={{this.campaigns}}
+  @onFilter={{this.noop}}
+  @onClickCampaign={{this.noop}}
+  @showCampaignOwner={{true}}
+/>`,
       );
 
       // then
@@ -292,7 +326,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
           rowCount: 2,
         };
         this.set('campaigns', campaigns);
-        this.set('listOnlyCampaignsOfCurrentUser', true);
+        this.set('canDelete', true);
 
         // when
         const screen = await render(
@@ -300,7 +334,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
   @campaigns={{this.campaigns}}
   @onFilter={{this.noop}}
   @onClickCampaign={{this.noop}}
-  @listOnlyCampaignsOfCurrentUser={{this.listOnlyCampaignsOfCurrentUser}}
+  @canDelete={{this.canDelete}}
 />`,
         );
 
@@ -311,11 +345,42 @@ module('Integration | Component | Campaign::List', function (hooks) {
     });
   });
 
-  module('Caption', function () {
-    test('it should display the caption for my campaigns page ', async function (assert) {
+  test('it should display the caption', async function (assert) {
+    // given
+    const campaigns = [];
+    campaigns.meta = { rowCount: 0 };
+    this.set('campaigns', campaigns);
+
+    // when
+    const screen = await render(
+      hbs`<Campaign::List
+  @caption='Something'
+  @campaigns={{this.campaigns}}
+  @onFilter={{this.noop}}
+  @onClickCampaign={{this.noop}}
+  @canDelete={{true}}
+/>`,
+    );
+
+    // then
+    assert.dom(screen.getByText('Something')).exists();
+  });
+
+  module('When there are campaigns not only owned by current user', function () {
+    test('should display checkboxes', async function (assert) {
       // given
-      const campaigns = [];
-      campaigns.meta = { rowCount: 0 };
+      const store = this.owner.lookup('service:store');
+
+      const campaign1 = store.createRecord('campaign', {
+        id: '1',
+        name: 'campagne 1',
+        code: 'AAAAAA111',
+        type: 'PROFILES_COLLECTION',
+      });
+      const campaigns = [campaign1];
+      campaigns.meta = {
+        rowCount: 1,
+      };
       this.set('campaigns', campaigns);
 
       // when
@@ -324,32 +389,191 @@ module('Integration | Component | Campaign::List', function (hooks) {
   @campaigns={{this.campaigns}}
   @onFilter={{this.noop}}
   @onClickCampaign={{this.noop}}
-  @allCampaignsContext={{false}}
+  @canDelete={{true}}
 />`,
       );
 
       // then
-      assert.dom(screen.getByText(this.intl.t('pages.campaigns-list.table.description-my-campaigns'))).exists();
+
+      assert.strictEqual(screen.queryAllByRole('checkbox').length, 2);
     });
 
-    test('it should display the caption for all campaigns page ', async function (assert) {
+    test('should not display checkboxes', async function (assert) {
       // given
-      const campaigns = [];
-      campaigns.meta = { rowCount: 0 };
+      const store = this.owner.lookup('service:store');
+
+      const campaign1 = store.createRecord('campaign', {
+        id: '1',
+        name: 'campagne 1',
+        code: 'AAAAAA111',
+        type: 'PROFILES_COLLECTION',
+      });
+      const campaigns = [campaign1];
+      campaigns.meta = {
+        rowCount: 1,
+      };
+
       this.set('campaigns', campaigns);
 
+      // when
+      const screen = await render(
+        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`,
+      );
+
+      // then
+
+      assert.dom(screen.queryByRole('checkbox')).doesNotExist();
+    });
+  });
+
+  module('When there are only campaigns owned by current user', function (hooks) {
+    hooks.beforeEach(function () {
+      const routerService = this.owner.lookup('service:router');
+      sinon.stub(routerService, 'replaceWith');
+      const store = this.owner.lookup('service:store');
+
+      const campaign1 = store.createRecord('campaign', {
+        id: '1',
+        name: 'campagne 1',
+        code: 'AAAAAA111',
+        type: 'PROFILES_COLLECTION',
+      });
+      const campaign2 = store.createRecord('campaign', {
+        id: '2',
+        name: 'campagne 2',
+        code: 'BBBBBB222',
+        type: 'ASSESSMENT',
+      });
+      const campaigns = [campaign1, campaign2];
+      campaigns.meta = { page: 1, pageSize: 1, rowCount: 2, pageCount: 2 };
+      this.set('campaigns', campaigns);
+    });
+    test('should display checkboxes', async function (assert) {
       // when
       const screen = await render(
         hbs`<Campaign::List
   @campaigns={{this.campaigns}}
   @onFilter={{this.noop}}
   @onClickCampaign={{this.noop}}
-  @allCampaignsContext={{true}}
+  @canDelete={{true}}
 />`,
       );
 
       // then
-      assert.dom(screen.getByText(this.intl.t('pages.campaigns-list.table.description-all-campaigns'))).exists();
+      assert.strictEqual(screen.queryAllByRole('checkbox').length, 3);
+    });
+
+    test('should reset selected campaigns when using pagination', async function (assert) {
+      // when
+      const screen = await render(
+        hbs`<Campaign::List
+  @campaigns={{this.campaigns}}
+  @onFilter={{this.noop}}
+  @onClickCampaign={{this.noop}}
+  @canDelete={{true}}
+/>`,
+      );
+
+      const firstCampaignCheckbox = screen.getAllByRole('checkbox')[1];
+      await click(firstCampaignCheckbox);
+
+      const nextButton = await screen.findByLabelText(this.intl.t('common.pagination.action.next'));
+      await click(nextButton);
+
+      // then
+      assert.false(firstCampaignCheckbox.checked);
+    });
+
+    test('should reset selected campaigns when using filters', async function (assert) {
+      // when
+      const screen = await render(
+        hbs`<Campaign::List
+  @campaigns={{this.campaigns}}
+  @onFilter={{this.noop}}
+  @onClickCampaign={{this.noop}}
+  @canDelete={{true}}
+/>`,
+      );
+
+      const firstCampaignCheckbox = screen.getAllByRole('checkbox')[1];
+      await click(firstCampaignCheckbox);
+
+      await fillByLabel(this.intl.t('pages.campaigns-list.filter.by-name'), '1');
+
+      // then
+      assert.false(firstCampaignCheckbox.checked);
+    });
+
+    test('should reset selected campaigns when resetting filters', async function (assert) {
+      // when
+      const screen = await render(
+        hbs`<Campaign::List
+  @campaigns={{this.campaigns}}
+  @onFilter={{this.noop}}
+  @onClickCampaign={{this.noop}}
+  @canDelete={{true}}
+  @nameFilter='1'
+  @onClear={{this.noop}}
+/>`,
+      );
+
+      const firstCampaignCheckbox = screen.getAllByRole('checkbox')[1];
+      await click(firstCampaignCheckbox);
+
+      const resetButton = await screen.findByRole('button', {
+        name: this.intl.t('common.filters.actions.clear'),
+      });
+      await click(resetButton);
+
+      // then
+      assert.false(firstCampaignCheckbox.checked);
+    });
+
+    test('should delete campaigns', async function (assert) {
+      const store = this.owner.lookup('service:store');
+      sinon.stub(store, 'adapterFor');
+      const deleteStub = sinon.stub();
+      store.adapterFor.callsFake(() => ({ delete: deleteStub }));
+      // when
+      const onDeleteCampaignsStub = sinon.stub();
+      this.set('onDeleteCampaigns', onDeleteCampaignsStub);
+
+      const screen = await render(
+        hbs`<Campaign::List
+  @organizationId='1'
+  @campaigns={{this.campaigns}}
+  @onFilter={{this.noop}}
+  @onClickCampaign={{this.noop}}
+  @canDelete={{true}}
+  @onDeleteCampaigns={{this.onDeleteCampaigns}}
+/>`,
+      );
+
+      await click(screen.getAllByRole('checkbox')[1]);
+      await click(screen.getAllByRole('checkbox')[2]);
+
+      const deleteButton = await screen.findByRole('button', {
+        name: this.intl.t('pages.campaigns-list.action-bar.delete-button'),
+      });
+      await click(deleteButton);
+
+      await screen.findByRole('dialog');
+
+      const allowMultipleDeletionCheckbox = await screen.findByRole('checkbox', {
+        name: this.intl.t('components.ui.deletion-modal.confirmation-checkbox', { count: 2 }),
+      });
+      await click(allowMultipleDeletionCheckbox);
+
+      const confirmationButton = await screen.findByRole('button', {
+        name: this.intl.t('components.ui.deletion-modal.confirm-deletion'),
+      });
+      await click(confirmationButton);
+
+      //then
+      assert.ok(onDeleteCampaignsStub.called);
+      assert.ok(deleteStub.calledWith('1', ['1', '2']));
+      const mainCheckbox = screen.getAllByRole('checkbox')[0];
+      assert.false(mainCheckbox.checked);
     });
   });
 });

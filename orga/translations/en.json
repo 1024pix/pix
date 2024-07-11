@@ -688,6 +688,21 @@
         },
         "create": "Create a campaign"
       },
+      "action-bar": {
+        "delete-button": "Delete",
+        "error-message": "{count, plural, =1 {An error has occurred. the campaign has not been deleted from the list.} other {An error has occurred. The {count} selected campaigns have not been deleted from the list}}",
+        "information": "{count, plural, =1 {{count} selected campaign} other {{count} selected campaigns}}",
+        "success-message": "{count, plural, =1 {The campaign has successfully been deleted from the list.} other {The {count} selected campaigns have successfully been deleted from the list.}}"
+      },
+      "deletion-modal": {
+        "title": "{count, plural, =1 {Are you sure you want to delete the selected campaign?} other {Are you sure you want to delete '<strong>'{count}'</strong>' campaigns?}}",
+        "confirmation-checkbox": "I confirm that I have understood the impacts of the {count} deletions",
+        "content": {
+          "footer": "Please note that this action is irreversible.",
+          "header": "{count, plural, =1 {This campaign} other {These campaigns}} will no longer be visible in Pix Orga.",
+          "main-participation-prevent": "All campaign entries and results will be deleted."
+        }
+      },
       "filter": {
         "by-name": "Search for a campaign",
         "by-owner": "Search for an owner",
@@ -701,6 +716,7 @@
           "code": "Code",
           "created-by": "Owner",
           "created-on": "Created on",
+          "mainCheckbox": "Select/Unselect whole column",
           "name": "Name of the campaign",
           "participants": "Participants",
           "results": "Results submitted"

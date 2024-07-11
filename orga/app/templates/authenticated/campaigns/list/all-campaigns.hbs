@@ -1,15 +1,18 @@
 {{page-title (t "pages.campaigns-list.tabs.all-campaigns")}}
 
-{{#if @model.meta.hasCampaigns}}
+{{#if @model.campaigns.meta.hasCampaigns}}
   <Campaign::List
-    @campaigns={{@model}}
+    @caption={{t "pages.campaigns-list.table.description-all-campaigns"}}
+    @organizationId={{@model.organizationId}}
+    @canDelete={{@model.isAdmin}}
+    @campaigns={{@model.campaigns}}
     @nameFilter={{this.name}}
     @ownerNameFilter={{this.ownerName}}
     @statusFilter={{this.status}}
     @onFilter={{this.triggerFiltering}}
     @onClear={{this.clearFilters}}
     @onClickCampaign={{this.goToCampaignPage}}
-    @allCampaignsContext={{true}}
+    @onDeleteCampaigns={{this.onDeleteCampaigns}}
   />
 {{else}}
   <Campaign::NoCampaignPanel />

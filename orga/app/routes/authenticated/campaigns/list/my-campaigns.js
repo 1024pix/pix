@@ -1,5 +1,7 @@
+import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
+import RSVP from 'rsvp';
 
 export default class AuthenticatedCampaignsListAllCampaignsRoute extends Route {
   queryParams = {
@@ -31,22 +33,25 @@ export default class AuthenticatedCampaignsListAllCampaignsRoute extends Route {
   }
 
   model(params) {
-    return this.store.query(
-      'campaign',
-      {
-        filter: {
-          organizationId: this.currentUser.organization.id,
-          name: params.name,
-          status: params.status,
-          isOwnedByMe: true,
+    return RSVP.hash({
+      organizationId: this.currentUser.organization.id,
+      campaigns: this.store.query(
+        'campaign',
+        {
+          filter: {
+            organizationId: this.currentUser.organization.id,
+            name: params.name,
+            status: params.status,
+            isOwnedByMe: true,
+          },
+          page: {
+            number: params.pageNumber,
+            size: params.pageSize,
+          },
         },
-        page: {
-          number: params.pageNumber,
-          size: params.pageSize,
-        },
-      },
-      { reload: true },
-    );
+        { reload: true },
+      ),
+    });
   }
 
   resetController(controller, isExiting) {
@@ -57,5 +62,10 @@ export default class AuthenticatedCampaignsListAllCampaignsRoute extends Route {
       controller.ownerName = null;
       controller.status = null;
     }
+  }
+
+  @action
+  refreshModel() {
+    this.refresh();
   }
 }
