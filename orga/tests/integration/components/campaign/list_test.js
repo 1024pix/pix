@@ -170,6 +170,34 @@ module('Integration | Component | Campaign::List', function (hooks) {
       assert.dom(screen.getByText('BBBBBB222')).exists();
     });
 
+    test('should hide campaign owner', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+
+      const campaign1 = store.createRecord('campaign', {
+        id: '1',
+        name: 'campagne 1',
+        code: 'AAAAAA111',
+        type: 'PROFILES_COLLECTION',
+        ownerFirstName: 'Michel',
+        ownerLastName: 'Dupont',
+      });
+      const campaigns = [campaign1];
+      campaigns.meta = {
+        rowCount: 1,
+      };
+      this.set('campaigns', campaigns);
+
+      // when
+      const screen = await render(
+        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`,
+      );
+
+      // then
+      assert.strictEqual(screen.queryByText(this.intl.t('pages.campaigns-list.table.column.created-by')), null);
+      assert.strictEqual(screen.queryByText('Michel Dupont'), null);
+    });
+
     test('it should display the owner of the campaigns', async function (assert) {
       const store = this.owner.lookup('service:store');
 
@@ -197,7 +225,12 @@ module('Integration | Component | Campaign::List', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`,
+        hbs`<Campaign::List
+  @campaigns={{this.campaigns}}
+  @onFilter={{this.noop}}
+  @onClickCampaign={{this.noop}}
+  @showCampaignOwner={{true}}
+/>`,
       );
 
       // then
@@ -294,7 +327,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
           rowCount: 2,
         };
         this.set('campaigns', campaigns);
-        this.set('listOnlyCampaignsOfCurrentUser', true);
+        this.set('canDelete', true);
 
         // when
         const screen = await render(
@@ -302,7 +335,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
   @campaigns={{this.campaigns}}
   @onFilter={{this.noop}}
   @onClickCampaign={{this.noop}}
-  @listOnlyCampaignsOfCurrentUser={{this.listOnlyCampaignsOfCurrentUser}}
+  @canDelete={{this.canDelete}}
 />`,
         );
 
@@ -326,7 +359,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
   @campaigns={{this.campaigns}}
   @onFilter={{this.noop}}
   @onClickCampaign={{this.noop}}
-  @listOnlyCampaignsOfCurrentUser={{true}}
+  @canDelete={{true}}
 />`,
       );
 
@@ -439,7 +472,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
   @campaigns={{this.campaigns}}
   @onFilter={{this.noop}}
   @onClickCampaign={{this.noop}}
-  @listOnlyCampaignsOfCurrentUser={{true}}
+  @canDelete={{true}}
 />`,
       );
 
@@ -454,7 +487,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
   @campaigns={{this.campaigns}}
   @onFilter={{this.noop}}
   @onClickCampaign={{this.noop}}
-  @listOnlyCampaignsOfCurrentUser={{true}}
+  @canDelete={{true}}
 />`,
       );
 
@@ -475,7 +508,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
   @campaigns={{this.campaigns}}
   @onFilter={{this.noop}}
   @onClickCampaign={{this.noop}}
-  @listOnlyCampaignsOfCurrentUser={{true}}
+  @canDelete={{true}}
 />`,
       );
 
@@ -495,7 +528,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
   @campaigns={{this.campaigns}}
   @onFilter={{this.noop}}
   @onClickCampaign={{this.noop}}
-  @listOnlyCampaignsOfCurrentUser={{true}}
+  @canDelete={{true}}
   @nameFilter='1'
   @onClear={{this.noop}}
 />`,
@@ -515,16 +548,13 @@ module('Integration | Component | Campaign::List', function (hooks) {
 
     test('should delete campaigns', async function (assert) {
       class CurrentUserStub extends Service {
-        organization = { id: 1 };
+        organization = { id: '1' };
       }
       this.owner.register('service:current-user', CurrentUserStub);
+      const store = this.owner.lookup('service:store');
+      sinon.stub(store, 'adapterFor');
       const deleteStub = sinon.stub();
-      class StoreStub extends Service {
-        adapterFor = () => ({ delete: deleteStub });
-      }
-      // We have to do this because of previous usage of lookup
-      this.owner.unregister('service:store');
-      this.owner.register('service:store', StoreStub);
+      store.adapterFor.callsFake(() => ({ delete: deleteStub }));
       // when
       const onDeleteCampaignsStub = sinon.stub();
       this.set('onDeleteCampaigns', onDeleteCampaignsStub);
@@ -534,7 +564,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
   @campaigns={{this.campaigns}}
   @onFilter={{this.noop}}
   @onClickCampaign={{this.noop}}
-  @listOnlyCampaignsOfCurrentUser={{true}}
+  @canDelete={{true}}
   @onDeleteCampaigns={{this.onDeleteCampaigns}}
 />`,
       );
@@ -561,7 +591,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
 
       //then
       assert.ok(onDeleteCampaignsStub.called);
-      assert.ok(deleteStub.called);
+      assert.ok(deleteStub.calledWith('1', ['1', '2']));
       const mainCheckbox = screen.getAllByRole('checkbox')[0];
       assert.false(mainCheckbox.checked);
     });

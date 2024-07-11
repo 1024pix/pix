@@ -9,7 +9,8 @@
     @onFilter={{this.triggerFiltering}}
     @onClear={{this.clearFilters}}
     @onClickCampaign={{this.goToCampaignPage}}
-    @listOnlyCampaignsOfCurrentUser={{true}}
+    @canDelete={{true}}
+    @showCampaignOwner={{true}}
     @onDeleteCampaigns={{this.onDeleteCampaigns}}
   />
 {{else}}

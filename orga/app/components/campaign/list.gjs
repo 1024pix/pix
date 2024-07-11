@@ -36,12 +36,12 @@ export default class List extends Component {
   @service notifications;
   @tracked showDeletionModal = false;
 
-  get listOnlyCampaignsOfCurrentUser() {
-    return this.args.listOnlyCampaignsOfCurrentUser ?? false;
+  get canDelete() {
+    return this.args.canDelete ?? false;
   }
 
   get caption() {
-    if (!this.listOnlyCampaignsOfCurrentUser) {
+    if (!this.canDelete) {
       return this.intl.t('pages.campaigns-list.table.description-all-campaigns');
     } else {
       return this.intl.t('pages.campaigns-list.table.description-my-campaigns');
@@ -104,14 +104,11 @@ export default class List extends Component {
                       @onFilter={{fn withFunction @onFilter reset}}
                       @onClearFilters={{fn withFunction @onClear reset}}
                       @numResults={{@campaigns.meta.rowCount}}
-                      @listOnlyCampaignsOfCurrentUser={{this.listOnlyCampaignsOfCurrentUser}}
+                      @canDelete={{this.canDelete}}
                     />
                   </InElement>
-                  <Headers
-                    @destinationId={{headerId}}
-                    @listOnlyCampaignsOfCurrentUser={{this.listOnlyCampaignsOfCurrentUser}}
-                  >
-                    {{#if this.listOnlyCampaignsOfCurrentUser}}
+                  <Headers @destinationId={{headerId}} @showCampaignOwner={{@showCampaignOwner}}>
+                    {{#if this.canDelete}}
                       <TableHeader @size="small">
                         <PixCheckbox
                           @screenReaderOnly={{true}}
@@ -145,11 +142,11 @@ export default class List extends Component {
                 <:item as |campaign toggleCampaign isCampaignSelected|>
                   <Row
                     @campaign={{campaign}}
-                    @listOnlyCampaignsOfCurrentUser={{this.listOnlyCampaignsOfCurrentUser}}
+                    @showCampaignOwner={{@showCampaignOwner}}
                     @labels={{this.labels}}
                     @onClickCampaign={{@onClickCampaign}}
                   >
-                    {{#if this.listOnlyCampaignsOfCurrentUser}}
+                    {{#if this.canDelete}}
                       <td {{on "click" (fn withFunction toggleCampaign stopPropagation)}}>
                         <PixCheckbox
                           {{on "click" (fn withFunction toggleCampaign stopPropagation)}}
@@ -219,11 +216,11 @@ const Headers = <template>
       {{yield}}
       <TableHeader @size="wide">{{t "pages.campaigns-list.table.column.name"}}</TableHeader>
       <TableHeader @size="medium">{{t "pages.campaigns-list.table.column.code"}}</TableHeader>
-      {{#unless @listOnlyCampaignsOfCurrentUser}}
+      {{#if @showCampaignOwner}}
         <TableHeader @size="medium" class="hide-on-mobile">{{t
             "pages.campaigns-list.table.column.created-by"
           }}</TableHeader>
-      {{/unless}}
+      {{/if}}
       <TableHeader @size="medium" class="hide-on-mobile">{{t
           "pages.campaigns-list.table.column.created-on"
         }}</TableHeader>
@@ -247,9 +244,9 @@ const Row = <template>
       </span>
     </td>
     <td {{on "click" stopPropagation}}>{{@campaign.code}}</td>
-    {{#unless @listOnlyCampaignsOfCurrentUser}}
+    {{#if @showCampaignOwner}}
       <td class="hide-on-mobile">{{@campaign.ownerFullName}}</td>
-    {{/unless}}
+    {{/if}}
     <td class="hide-on-mobile">{{dayjsFormat @campaign.createdAt "DD/MM/YYYY" allow-empty=true}}</td>
     <td class="hide-on-mobile">{{@campaign.participationsCount}}</td>
     <td class="hide-on-mobile">{{@campaign.sharedParticipationsCount}}</td>

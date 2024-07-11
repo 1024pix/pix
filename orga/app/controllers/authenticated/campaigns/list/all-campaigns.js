@@ -32,4 +32,9 @@ export default class AuthenticatedCampaignsListAllCampaignsController extends Co
     event.preventDefault();
     this.router.transitionTo('authenticated.campaigns.campaign', campaignId);
   }
+
+  @action
+  onDeleteCampaigns() {
+    this.send('refreshModel');
+  }
 }
