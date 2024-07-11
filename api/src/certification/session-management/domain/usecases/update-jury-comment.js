@@ -1,7 +1,7 @@
 /**
- * @typedef {import ('../../domain/usecases/index.js').CourseAssessmentResultRepository} CourseAssessmentResultRepository
- * @typedef {import ('../../domain/usecases/index.js').CompetenceMarkRepository} CompetenceMarkRepository
- * @typedef {import ('../../domain/usecases/index.js').AssessmentResultRepository} AssessmentResultRepository
+ * @typedef {import ('./index.js').CourseAssessmentResultRepository} CourseAssessmentResultRepository
+ * @typedef {import ('./index.js').CompetenceMarkRepository} CompetenceMarkRepository
+ * @typedef {import ('./index.js').AssessmentResultRepository} AssessmentResultRepository
  */
 
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';

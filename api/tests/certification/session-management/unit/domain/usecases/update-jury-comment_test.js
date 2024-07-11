@@ -1,4 +1,4 @@
-import { updateJuryComment } from '../../../../../../src/certification/course/domain/usecases/update-jury-comment.js';
+import { updateJuryComment } from '../../../../../../src/certification/session-management/domain/usecases/update-jury-comment.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { AssessmentResult } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
 import { CompetenceMark } from '../../../../../../src/shared/domain/models/index.js';
