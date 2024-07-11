@@ -116,7 +116,7 @@ describe('Unit | API | Organization Learner', function () {
         // when
         const result = await organizationLearnersApi.find({
           organizationId,
-          filter: { divisions: ['div-2'] },
+          filter: { divisions: ['div-2'], name: 'Paul' },
         });
 
         // then
@@ -124,7 +124,7 @@ describe('Unit | API | Organization Learner', function () {
         expect(getPaginatedOrganizationLearnerStub).to.have.been.calledWith({
           organizationId,
           page: { size: 100, number: 1 },
-          filter: { 'Libellé classe': ['div-2'] },
+          filter: { 'Libellé classe': ['div-2'], name: 'Paul' },
         });
       });
     });

@@ -33,7 +33,13 @@ describe('Integration | Controller | mission-learner-controller', function () {
             organizationId,
             missionId,
           },
-          query: { page: { size: 50, number: 1 }, filter: { divisions: 'CP' } },
+          query: {
+            page: { size: 50, number: 1 },
+            filter: {
+              divisions: 'CP',
+              name: 'Léa',
+            },
+          },
         },
         hFake,
       );
@@ -57,7 +63,7 @@ describe('Integration | Controller | mission-learner-controller', function () {
         organizationId,
         missionId,
         page: { size: 50, number: 1 },
-        filter: { divisions: ['CP'] },
+        filter: { divisions: ['CP'], name: 'Léa' },
       });
     });
 

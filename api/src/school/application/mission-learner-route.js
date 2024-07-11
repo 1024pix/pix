@@ -26,6 +26,7 @@ const register = async function (server) {
             },
             filter: Joi.object({
               divisions: [Joi.string(), Joi.array().items(Joi.string())],
+              name: Joi.string().empty(''),
             }).default({}),
           }),
         },

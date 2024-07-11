@@ -1,5 +1,6 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { filterByFullName } from '../../../../../lib/infrastructure/utils/filter-utils.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../shared/domain/constants.js';
 import { OrganizationLearner } from '../../domain/read-models/OrganizationLearner.js';
@@ -83,12 +84,16 @@ async function findPaginatedLearners({ organizationId, page, filter }) {
     .orderByRaw('LOWER("lastName") ASC');
 
   if (filter) {
-    Object.entries(filter).forEach(([name, values]) => {
+    const { name, ...attributesToFilter } = filter;
+    Object.entries(attributesToFilter).forEach(([name, values]) => {
       query.andWhere(function () {
         // eslint-disable-next-line knex/avoid-injections
         this.whereRaw(`attributes->>'${name}' in ( ${values.map((_) => '?').join(' , ')} )`, values);
       });
     });
+    if (name) {
+      filterByFullName(query, name, 'firstName', 'lastName');
+    }
   }
 
   const { results, pagination } = await fetchPage(query, page);
