@@ -1,8 +1,10 @@
 {{page-title (t "pages.campaigns-list.tabs.my-campaigns")}}
 
-{{#if @model.meta.hasCampaigns}}
+{{#if @model.campaigns.meta.hasCampaigns}}
   <Campaign::List
-    @campaigns={{@model}}
+    @caption={{t "pages.campaigns-list.table.description-my-campaigns"}}
+    @organizationId={{@model.organizationId}}
+    @campaigns={{@model.campaigns}}
     @nameFilter={{this.name}}
     @statusFilter={{this.status}}
     @ownerNameFilter={{this.ownerName}}

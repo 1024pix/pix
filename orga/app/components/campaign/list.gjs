@@ -31,7 +31,6 @@ function stopPropagation(event) {
 
 export default class List extends Component {
   @service intl;
-  @service currentUser;
   @service store;
   @service notifications;
   @tracked showDeletionModal = false;
@@ -55,10 +54,9 @@ export default class List extends Component {
   @action
   async deleteCampaigns(selectedCampaigns) {
     const campaignIds = selectedCampaigns.map(({ id }) => id);
-    const organizationId = this.currentUser.organization.id;
     try {
       this.toggleDeletionModal();
-      await this.store.adapterFor('campaign').delete(organizationId, campaignIds);
+      await this.store.adapterFor('campaign').delete(this.args.organizationId, campaignIds);
       this.notifications.sendSuccess(
         this.intl.t('pages.campaigns-list.action-bar.success-message', {
           count: selectedCampaigns.length,

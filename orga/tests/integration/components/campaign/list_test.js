@@ -1,5 +1,4 @@
 import { fillByLabel, render } from '@1024pix/ember-testing-library';
-import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
@@ -531,10 +530,6 @@ module('Integration | Component | Campaign::List', function (hooks) {
     });
 
     test('should delete campaigns', async function (assert) {
-      class CurrentUserStub extends Service {
-        organization = { id: '1' };
-      }
-      this.owner.register('service:current-user', CurrentUserStub);
       const store = this.owner.lookup('service:store');
       sinon.stub(store, 'adapterFor');
       const deleteStub = sinon.stub();
@@ -545,6 +540,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
 
       const screen = await render(
         hbs`<Campaign::List
+  @organizationId='1'
   @campaigns={{this.campaigns}}
   @onFilter={{this.noop}}
   @onClickCampaign={{this.noop}}

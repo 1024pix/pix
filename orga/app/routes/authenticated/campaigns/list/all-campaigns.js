@@ -35,6 +35,7 @@ export default class AuthenticatedCampaignsListAllCampaignsRoute extends Route {
   model(params) {
     return RSVP.hash({
       isAdmin: this.currentUser.isAdminInOrganization,
+      organizationId: this.currentUser.organization.id,
       campaigns: this.store.query(
         'campaign',
         {
