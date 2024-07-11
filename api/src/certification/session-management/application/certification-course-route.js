@@ -34,6 +34,115 @@ const register = async function (server) {
         tags: ['api', 'admin'],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/admin/certification-courses/{id}/reject',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.certificationCourseId,
+          }),
+        },
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        handler: certificationCourseController.reject,
+        tags: ['api'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/admin/certification-courses/{id}/unreject',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.certificationCourseId,
+          }),
+        },
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        handler: certificationCourseController.unreject,
+        tags: ['api'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/admin/certification-courses/{id}/assessment-results',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.certificationCourseId,
+          }),
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'comment-by-jury': Joi.string().allow(null, '').required(),
+              },
+            },
+          }),
+        },
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        handler: certificationCourseController.updateJuryComment,
+        tags: ['api', 'admin', 'assessment-results', 'certification-courses'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
+            ' - Elle recrée un assessment result pour mettre à jour les notes internes du jury\n',
+        ],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/admin/certification-courses-v3/{certificationCourseId}/details',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            certificationCourseId: identifiersType.certificationCourseId,
+          }),
+        },
+        handler: certificationCourseController.getCertificationV3Details,
+        tags: ['api'],
+        notes: ['Cette route est utilisé par Pix Admin', "Elle renvoie le détail d'une certification"],
+      },
+    },
   ]);
 };
 
