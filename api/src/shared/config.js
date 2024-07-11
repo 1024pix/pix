@@ -332,6 +332,7 @@ const configuration = (function () {
       scoring: {
         minimumAnswersRequiredToValidateACertification: 20,
       },
+      maxReachableLevel: 7,
     },
     version: process.env.CONTAINER_VERSION || 'development',
     autonomousCourse: {

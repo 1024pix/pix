@@ -86,9 +86,9 @@ describe('Unit | Domain | Models | ScoringSimulator', function () {
         capacity: -2,
         expectedScore: 127,
         expectedCompetences: [
-          { competenceCode: '1.1', level: 0 },
+          { competenceCode: '1.1', level: 1 },
           { competenceCode: '1.2', level: 2 },
-          { competenceCode: '2.1', level: 1 },
+          { competenceCode: '2.1', level: 2 },
           { competenceCode: '2.2', level: 2 },
           { competenceCode: '2.3', level: 2 },
         ],
@@ -152,8 +152,8 @@ describe('Unit | Domain | Models | ScoringSimulator', function () {
         capacity: 4,
         expectedScore: 895,
         expectedCompetences: [
-          { competenceCode: '1.1', level: 6 },
-          { competenceCode: '1.2', level: 4 },
+          { competenceCode: '1.1', level: 7 },
+          { competenceCode: '1.2', level: 5 },
           { competenceCode: '2.1', level: 6 },
           { competenceCode: '2.2', level: 6 },
           { competenceCode: '2.3', level: 5 },

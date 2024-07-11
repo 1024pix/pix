@@ -26,13 +26,23 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
     scoringDegradationService = { downgradeCapacity: sinon.stub() };
     v3CertificationScoring = domainBuilder.buildV3CertificationScoring({
       competencesForScoring: [domainBuilder.buildCompetenceForScoring()],
+      certificationScoringConfiguration: [
+        { bounds: { max: -2.6789, min: -5.12345 }, meshLevel: 0 },
+        { bounds: { max: -0.23456, min: -2.6789 }, meshLevel: 1 },
+        { bounds: { max: 0.78901, min: -0.23456 }, meshLevel: 2 },
+        { bounds: { max: 1.34567, min: 0.78901 }, meshLevel: 3 },
+        { bounds: { max: 2.89012, min: 1.34567 }, meshLevel: 4 },
+        { bounds: { max: 2.45678, min: 2.89012 }, meshLevel: 5 },
+        { bounds: { max: 4.90123, min: 2.45678 }, meshLevel: 6 },
+        { bounds: { max: 6.56789, min: 4.90123 }, meshLevel: 7 },
+      ],
     });
   });
 
   describe('when the candidate finished the test', function () {
     it('should return the full score', async function () {
       const expectedCapacity = 2;
-      const expectedScoreForCapacity = 639;
+      const expectedScoreForCapacity = 438;
 
       const numberOfQuestions = 32;
 
@@ -114,7 +124,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
     describe('when the abort reason is technical difficulties', function () {
       it('should return the raw score', async function () {
         const expectedCapacity = 2;
-        const expectedScoreForCapacity = 639;
+        const expectedScoreForCapacity = 438;
 
         const numberOfAnsweredQuestions = 20;
         const numberCertificationQuestions = 32;
