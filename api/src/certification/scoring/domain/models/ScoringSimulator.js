@@ -1,4 +1,6 @@
 import { COMPETENCES_COUNT, PIX_COUNT_BY_LEVEL } from '../../../../../lib/domain/constants.js';
+import { config } from '../../../../shared/config.js';
+import { CertificationAssessmentScoreV3 } from './CertificationAssessmentScoreV3.js';
 import { Intervals } from './Intervals.js';
 import { ScoringAndCapacitySimulatorReport } from './ScoringAndCapacitySimulatorReport.js';
 
@@ -7,15 +9,11 @@ export class ScoringSimulator {
     const scoringIntervals = new Intervals({ intervals: certificationScoringIntervals });
 
     const intervalIndex = scoringIntervals.findIntervalIndex(capacity);
-    const intervalWidth = scoringIntervals.intervalWidth(intervalIndex);
-    const valueToIntervalMax = scoringIntervals.toIntervalMax(intervalIndex, capacity);
 
     const score = _calculateScore({
       certificationScoringIntervals: scoringIntervals,
       capacity,
       intervalIndex,
-      valueToIntervalMax,
-      intervalWidth,
     });
 
     const competences = _computeCompetences({ competencesForScoring, capacity });
@@ -28,17 +26,8 @@ export class ScoringSimulator {
   }
 }
 
-function _calculateScore({
-  certificationScoringIntervals,
-  capacity,
-  intervalIndex,
-  valueToIntervalMax,
-  intervalWidth,
-}) {
-  const MAX_PIX_SCORE = 1024;
-  const numberOfIntervals = certificationScoringIntervals.length();
-  const SCORE_THRESHOLD = MAX_PIX_SCORE / numberOfIntervals;
-  const MAX_REACHABLE_LEVEL = 7;
+function _calculateScore({ certificationScoringIntervals, capacity, intervalIndex }) {
+  const MAX_REACHABLE_LEVEL = config.v3Certification.maxReachableLevel;
   const MIN_PIX_SCORE = 0;
   const maximumReachableScore = MAX_REACHABLE_LEVEL * COMPETENCES_COUNT * PIX_COUNT_BY_LEVEL - 1;
 
@@ -50,7 +39,12 @@ function _calculateScore({
     return maximumReachableScore;
   }
 
-  const score = Math.ceil(SCORE_THRESHOLD * (intervalIndex + 1 + valueToIntervalMax / intervalWidth)) - 1;
+  const intervalMaximum = certificationScoringIntervals.max(intervalIndex);
+  const intervalMinimum = certificationScoringIntervals.min(intervalIndex);
+  const intervalWeight = CertificationAssessmentScoreV3.weightsAndCoefficients[intervalIndex].weight;
+  const intervalCoefficient = CertificationAssessmentScoreV3.weightsAndCoefficients[intervalIndex].coefficient;
+  const progressionPercentage = 1 - (intervalMaximum - capacity) / (intervalMaximum - intervalMinimum);
+  const score = Math.floor(intervalWeight * (intervalCoefficient + progressionPercentage));
 
   return Math.min(maximumReachableScore, score);
 }
