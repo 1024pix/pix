@@ -1,4 +1,4 @@
-import { JobPgBoss } from '../JobPgBoss.js';
+import { JobPgBoss } from '../../../../../lib/infrastructure/jobs/JobPgBoss.js';
 
 export class GarAnonymizedBatchEventsLoggingJob extends JobPgBoss {
   constructor(queryBuilder) {

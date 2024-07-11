@@ -1,13 +1,11 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import knex from 'knex';
-
+import { knex } from '../../../../db/knex-database-connection.js';
 import { eventBus } from '../../../../lib/domain/events/index.js';
 import { mailService } from '../../../../lib/domain/services/mail-service.js';
 import * as userReconciliationService from '../../../../lib/domain/services/user-reconciliation-service.js';
 import { oidcAuthenticationServiceRegistry } from '../../../../lib/domain/usecases/index.js';
-import { GarAnonymizedBatchEventsLoggingJob } from '../../../../lib/infrastructure/jobs/audit-log/GarAnonymizedBatchEventsLoggingJob.js';
 import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
@@ -23,6 +21,7 @@ import { adminMemberRepository } from '../../../shared/infrastructure/repositori
 import * as userLoginRepository from '../../../shared/infrastructure/repositories/user-login-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
+import { GarAnonymizedBatchEventsLoggingJob } from '../../infrastructure/jobs/audit-log/GarAnonymizedBatchEventsLoggingJob.js';
 import { accountRecoveryDemandRepository } from '../../infrastructure/repositories/account-recovery-demand.repository.js';
 import * as authenticationMethodRepository from '../../infrastructure/repositories/authentication-method.repository.js';
 import { emailValidationDemandRepository } from '../../infrastructure/repositories/email-validation-demand.repository.js';

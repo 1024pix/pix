@@ -1,9 +1,9 @@
-import { GarAnonymizedBatchEventsLoggingJobHandler } from '../../../../../lib/infrastructure/jobs/audit-log/GarAnonymizedBatchEventsLoggingJobHandler.js';
-import { auditLoggerRepository } from '../../../../../lib/infrastructure/repositories/audit-logger-repository.js';
-import { GarAuthenticationMethodAnonymized } from '../../../../../src/identity-access-management/domain/events/GarAuthenticationMethodAnonymized.js';
-import { expect, sinon } from '../../../../test-helper.js';
+import { auditLoggerRepository } from '../../../../../../lib/infrastructure/repositories/audit-logger-repository.js';
+import { GarAuthenticationMethodAnonymized } from '../../../../../../src/identity-access-management/domain/models/GarAuthenticationMethodAnonymized.js';
+import { GarAnonymizedBatchEventsLoggingJobHandler } from '../../../../../../src/identity-access-management/infrastructure/jobs/audit-log/GarAnonymizedBatchEventsLoggingJobHandler.js';
+import { expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | Infrastructure | Jobs | audit-log | User anonymized batch events logging', function () {
+describe('Unit | Identity Access Management | Infrastructure | Jobs | audit-log | User anonymized batch events logging', function () {
   let clock;
 
   beforeEach(function () {

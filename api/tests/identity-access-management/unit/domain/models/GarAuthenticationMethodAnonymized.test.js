@@ -1,8 +1,8 @@
 import { ObjectValidationError } from '../../../../../lib/domain/errors.js';
-import { GarAuthenticationMethodAnonymized } from '../../../../../src/identity-access-management/domain/events/GarAuthenticationMethodAnonymized.js';
+import { GarAuthenticationMethodAnonymized } from '../../../../../src/identity-access-management/domain/models/GarAuthenticationMethodAnonymized.js';
 import { expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Identity Access Management | Domain | Events | GarAuthenticationMethodAnonymized', function () {
+describe('Unit | Identity Access Management | Domain | Models | GarAuthenticationMethodAnonymized', function () {
   let clock;
 
   beforeEach(function () {
@@ -16,9 +16,9 @@ describe('Unit | Identity Access Management | Domain | Events | GarAuthenticatio
 
   describe('#constructor', function () {
     context('when instantiated with valid parameters', function () {
-      it('instantiates a new event', function () {
+      it('instantiates a new payload', function () {
         // when
-        const event = new GarAuthenticationMethodAnonymized({
+        const payload = new GarAuthenticationMethodAnonymized({
           userIds: [1001, 1002, 1003],
           updatedByUserId: 1,
         });
@@ -31,7 +31,7 @@ describe('Unit | Identity Access Management | Domain | Events | GarAuthenticatio
           occurredAt: new Date(),
           role: 'SUPER_ADMIN',
         };
-        expect(event).to.deep.equal(expectedEvent);
+        expect(payload).to.deep.equal(expectedEvent);
       });
     });
 

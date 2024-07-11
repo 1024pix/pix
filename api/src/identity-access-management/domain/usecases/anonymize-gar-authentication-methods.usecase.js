@@ -1,6 +1,6 @@
 import { config } from '../../../shared/config.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import { GarAuthenticationMethodAnonymized } from '../events/GarAuthenticationMethodAnonymized.js';
+import { GarAuthenticationMethodAnonymized } from '../models/GarAuthenticationMethodAnonymized.js';
 
 /**
  * @typedef {function} anonymizeGarAuthenticationMethods
