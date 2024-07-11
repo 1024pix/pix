@@ -61,7 +61,7 @@ export default class List extends Component {
   }
 
   @action
-  async deleteCampaigns(selectedCampaigns, reset) {
+  async deleteCampaigns(selectedCampaigns) {
     const campaignIds = selectedCampaigns.map(({ id }) => id);
     const organizationId = this.currentUser.organization.id;
     try {
@@ -73,7 +73,6 @@ export default class List extends Component {
         }),
       );
       this.args.onDeleteCampaigns();
-      reset();
     } catch {
       this.notifications.sendError(
         this.intl.t('pages.campaigns-list.action-bar.error-message', {
@@ -130,7 +129,7 @@ export default class List extends Component {
                       @showModal={{this.showDeletionModal}}
                       @onCloseModal={{this.toggleDeletionModal}}
                       @count={{selectedCampaigns.length}}
-                      @deleteCampaigns={{fn this.deleteCampaigns selectedCampaigns reset}}
+                      @deleteCampaigns={{fn (fn withFunction this.deleteCampaigns reset) selectedCampaigns}}
                     />
                   {{/if}}
                   <PaginationControl
