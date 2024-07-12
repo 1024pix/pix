@@ -289,11 +289,8 @@ class UserNotAuthorizedToUpdatePasswordError extends DomainError {
   }
 }
 
-class V3PilotNotAuthorizedForCertificationCenterError extends DomainError {
-  constructor(
-    message = 'Certification center is not authorized to switch to a V3 pilot.',
-    code = 'V3_PILOT_NOT_AUTHORIZED',
-  ) {
+class CertificationCenterPilotFeaturesConflictError extends DomainError {
+  constructor(message = 'Certification center pilot features incompatibility', code = 'PILOT_FEATURES_CONFLICT') {
     super(message);
     this.code = code;
   }
@@ -305,6 +302,7 @@ export {
   AssessmentResultNotCreatedError,
   AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError,
   CertificationAttestationGenerationError,
+  CertificationCenterPilotFeaturesConflictError,
   CsvImportError,
   DomainError,
   EntityValidationError,
@@ -327,5 +325,4 @@ export {
   TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization,
   UserNotAuthorizedToAccessEntityError,
   UserNotAuthorizedToUpdatePasswordError,
-  V3PilotNotAuthorizedForCertificationCenterError,
 };

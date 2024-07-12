@@ -14,7 +14,8 @@ async function batchAddDataProtectionOfficerToOrganization(
 }
 
 async function get({ organizationId = null, certificationCenterId = null }) {
-  const [dataProtectionOfficerRow] = await knex(DATA_PROTECTION_OFFICERS_TABLE_NAME)
+  const knexConn = DomainTransaction.getConnection();
+  const [dataProtectionOfficerRow] = await knexConn(DATA_PROTECTION_OFFICERS_TABLE_NAME)
     .where({ organizationId, certificationCenterId })
     .returning('*');
 
@@ -43,16 +44,16 @@ async function create(dataProtectionOfficer, { knexTransaction } = DomainTransac
 async function update(dataProtectionOfficer) {
   const { firstName, lastName, email, organizationId, certificationCenterId } = dataProtectionOfficer;
   const updatedAt = new Date();
+  const knexConn = DomainTransaction.getConnection();
 
-  const query = knex(DATA_PROTECTION_OFFICERS_TABLE_NAME).update({
+  const query = knexConn(DATA_PROTECTION_OFFICERS_TABLE_NAME).update({
     firstName,
     lastName,
     email,
     updatedAt,
   });
 
-  if (organizationId) query.where({ organizationId });
-  else query.where({ certificationCenterId });
+  organizationId ? query.where({ organizationId }) : query.where({ certificationCenterId });
 
   const [dataProtectionOfficerRow] = await query.returning('*');
 

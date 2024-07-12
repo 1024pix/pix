@@ -27,9 +27,9 @@ export default class AuthenticatedCertificationCentersGetController extends Cont
       await this.model.certificationCenter.save();
       this.notifications.success('Centre de certification mis à jour avec succès.');
     } catch (error) {
-      if (get(error, 'errors[0].code') === 'V3_PILOT_NOT_AUTHORIZED') {
+      if (get(error, 'errors[0].code') === 'PILOT_FEATURES_CONFLICT') {
         return this.notifications.error(
-          this.intl.t('pages.certification-centers.notifications.update.errors.update-to-v3-pilot'),
+          this.intl.t('pages.certification-centers.notifications.update.errors.pilot-features-incompatibilities'),
         );
       }
       this.notifications.error("Une erreur est survenue, le centre de certification n'a pas été mis à jour.");

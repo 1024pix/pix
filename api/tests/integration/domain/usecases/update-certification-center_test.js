@@ -11,15 +11,12 @@ describe('Integration | UseCases | update-certification-center', function () {
   it('should update certification center and his data protection officer information', async function () {
     // given
     const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-    const anotherCertificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-
-    const feature = databaseBuilder.factory.buildFeature({
-      key: CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key,
-    });
-    databaseBuilder.factory.buildCertificationCenterFeature({
-      certificationCenterId: anotherCertificationCenterId,
-      featureId: feature.id,
-    });
+    databaseBuilder.factory.buildDataProtectionOfficer.withCertificationCenterId({
+      firstName: 'Eddy',
+      lastName: 'Taurial',
+      email: 'eddy.taurial@example.net',
+      certificationCenterId,
+    }).id;
 
     const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification();
     const certificationCenterInformation = domainBuilder.buildCenterForAdmin({
@@ -67,11 +64,11 @@ describe('Integration | UseCases | update-certification-center', function () {
     expect(updatedCertificationCenter.habilitations[0].label).to.equal(complementaryCertification.label);
   });
 
-  describe('when certification center is update to be V3 pilot', function () {
-    describe('when certification center is already a feature pilot', function () {
+  describe('when certification center is removed from the V3 pilots', function () {
+    describe('when certification center is also a complementary certification alone pilot', function () {
       it('should throw an error', async function () {
         // given
-        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ isV3Pilot: true }).id;
         const feature = databaseBuilder.factory.buildFeature({
           key: CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key,
         });
@@ -86,7 +83,7 @@ describe('Integration | UseCases | update-certification-center', function () {
             name: 'Pix Super Center',
             type: 'PRO',
             habilitations: [],
-            isV3Pilot: true,
+            isV3Pilot: false,
           },
           dataProtectionOfficer: {
             firstName: 'Justin',
