@@ -1,4 +1,4 @@
-import { getNextChallengeForV3Certification } from '../../../../../../src/certification/course/domain/usecases/get-next-challenge-for-v3-certification.js';
+import { getNextChallengeForV3Certification } from '../../../../../../src/certification/session-management/domain/usecases/get-next-challenge-for-v3-certification.js';
 import { CERTIFICATION_VERSIONS } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { config } from '../../../../../../src/shared/config.js';
 import { AssessmentEndedError } from '../../../../../../src/shared/domain/errors.js';
