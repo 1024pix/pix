@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { htmlNotAllowedSchema, uuidSchema } from '../utils.js';
+import { htmlNotAllowedSchema, htmlSchema, uuidSchema } from '../utils.js';
 
 const embedSchema = Joi.object({
   id: uuidSchema,
@@ -8,6 +8,7 @@ const embedSchema = Joi.object({
   isCompletionRequired: Joi.boolean().valid(false).required(),
   title: htmlNotAllowedSchema.required(),
   url: Joi.string().uri().required(),
+  instruction: htmlSchema.optional(),
   height: Joi.number().min(0).required(),
 }).required();
 

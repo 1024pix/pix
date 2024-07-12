@@ -333,6 +333,7 @@
             "isCompletionRequired": false,
             "title": "Application",
             "url": "https://epreuves.pix.fr/fake2.html",
+            "instruction": "<p>Parcourez ces photos trouvées sur le Web.</p>",
             "height": 640
           }
         },
@@ -341,7 +342,7 @@
           "element": {
             "id": "74d63ec2-f3e3-4ffe-9806-208d33588553",
             "type": "qcm",
-            "instruction": "<p>Parcourez ces photos trouvées sur le Web : lesquelles correspondent à des situations fictives&#8239;?</p>",
+            "instruction": "<p>Lesquelles correspondent à des situations fictives&#8239;?</p>",
             "proposals": [
               {
                 "id": "1",

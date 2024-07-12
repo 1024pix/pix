@@ -214,7 +214,14 @@ function getComponents() {
       element: new Image({ id: '3', url: 'url', alt: 'alt', alternativeText: 'alternativeText' }),
     }),
     new ComponentElement({
-      element: new Embed({ id: '3', url: 'url', height: 400, title: 'title', isCompletionRequired: false }),
+      element: new Embed({
+        id: '3',
+        url: 'url',
+        height: 400,
+        title: 'title',
+        instruction: '<p>instruction</p>',
+        isCompletionRequired: false,
+      }),
     }),
     new ComponentElement({
       element: new Video({
@@ -357,6 +364,7 @@ function getAttributesComponents() {
         isCompletionRequired: false,
         type: 'embed',
         url: 'url',
+        instruction: '<p>instruction</p>',
       },
     },
     {

@@ -865,6 +865,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
                           isCompletionRequired: false,
                           title: "Simulateur d'adresse mail",
                           url: 'https://embed.fr',
+                          instruction: '<p>Parcourez ces photos trouvées sur le Web.</p>',
                           height: 150,
                         },
                       ],

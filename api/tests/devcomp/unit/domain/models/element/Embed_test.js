@@ -5,7 +5,14 @@ describe('Unit | Devcomp | Domain | Models | Element | Embed', function () {
   describe('#constructor', function () {
     it('should create an embed and keep attributes', function () {
       // given
-      const props = { id: 'id', isCompletionRequired: false, title: 'title', url: 'https://embed.com', height: 150 };
+      const props = {
+        id: 'id',
+        isCompletionRequired: false,
+        title: 'title',
+        url: 'https://embed.com',
+        instruction: '<p>instruction</p>',
+        height: 150,
+      };
 
       // when
       const embed = new Embed(props);
@@ -16,6 +23,7 @@ describe('Unit | Devcomp | Domain | Models | Element | Embed', function () {
       expect(embed.isCompletionRequired).to.equal(false);
       expect(embed.title).to.equal('title');
       expect(embed.url).to.equal('https://embed.com');
+      expect(embed.instruction).to.equal('<p>instruction</p>');
       expect(embed.height).to.equal(150);
     });
 

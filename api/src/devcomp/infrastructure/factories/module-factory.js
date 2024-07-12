@@ -120,6 +120,7 @@ export class ModuleFactory {
       isCompletionRequired: element.isCompletionRequired,
       title: element.title,
       url: element.url,
+      instruction: element.instruction,
       height: element.height,
     });
   }
