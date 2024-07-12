@@ -9,19 +9,29 @@ import { importNamedExportsFromDirectory } from '../../../../shared/infrastructu
 import * as certificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
 import * as certificationCpfService from '../../../shared/domain/services/certification-cpf-service.js';
 import * as temporaryCompanionStorageService from '../../../shared/domain/services/temporary-companion-storage-service.js';
-import { assessmentRepository, sessionRepositories } from '../../infrastructure/repositories/index.js';
+import {
+  answerRepository,
+  assessmentRepository,
+  assessmentResultRepository,
+  challengeRepository,
+  competenceMarkRepository,
+  sessionRepositories,
+} from '../../infrastructure/repositories/index.js';
 import { cpfExportsStorage } from '../../infrastructure/storage/cpf-exports-storage.js';
 import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-storage.js';
 
 /**
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCourseRepository} CertificationCourseRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationOfficerRepository} CertificationOfficerRepository
- * @typedef {import('../../infrastructure/repositories/index.js').CertificationAssessmentRepository} CertificationAssessmentRepository
  * @typedef {import('../../infrastructure/repositories/index.js').FinalizedSessionRepository} FinalizedSessionRepository
  * @typedef {import('../../infrastructure/repositories/index.js').JuryCertificationRepository} JuryCertificationRepository
  * @typedef {import('../../infrastructure/repositories/index.js').JurySessionRepository} JurySessionRepository
  * @typedef {import('../../infrastructure/repositories/index.js').SessionForInvigilatorKitRepository} SessionForInvigilatorKitRepository
  * @typedef {import('../../infrastructure/repositories/index.js').AssessmentRepository} AssessmentRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').AssessmentResultRepository} AssessmentResultRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').CompetenceMarkRepository} CompetenceMarkRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').ChallengeRepository} ChallengeRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').AnswerRepository} AnswerRepository
  * @typedef {import('../../infrastructure/repositories/index.js').IssueReportCategoryRepository} IssueReportCategoryRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationIssueReportRepository} CertificationIssueReportRepository
  * @typedef {import('../../infrastructure/repositories/index.js').SessionJuryCommentRepository} SessionJuryCommentRepository
@@ -45,13 +55,17 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
 /**
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
  *
+ * @typedef {answerRepository} AnswerRepository
  * @typedef {assessmentRepository} AssessmentRepository
+ * @typedef {assessmentResultRepository} AssessmentResultRepository
  * @typedef {certificationAssessmentRepository} CertificationAssessmentRepository
  * @typedef {certificationBadgesService} CertificationBadgesService
  * @typedef {competenceMarkRepository} CompetenceMarkRepository
  * @typedef {certificationCourseRepository} CertificationCourseRepository
  * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
  * @typedef {certificationOfficerRepository} CertificationOfficerRepository
+ * @typedef {challengeRepository} ChallengeRepository
+ * @typedef {competenceMarkRepository} CompetenceMarkRepository
  * @typedef {finalizedSessionRepository} FinalizedSessionRepository
  * @typedef {juryCertificationRepository} JuryCertificationRepository
  * @typedef {jurySessionRepository} JurySessionRepository
@@ -63,7 +77,6 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
  * @typedef {sessionJuryCommentRepository} SessionJuryCommentRepository
  * @typedef {sessionRepository} SessionRepository
  * @typedef {certificationReportRepository} CertificationReportRepository
- * @typedef {certificationAssessmentRepository} CertificationAssessmentRepository
  * @typedef {certificationCpfCountryRepository} CertificationCpfCountryRepository
  * @typedef {certificationCpfCityRepository} CertificationCpfCityRepository
  * @typedef {cpfReceiptsStorage} CpfReceiptsStorage
@@ -76,6 +89,10 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
 const dependencies = {
   ...sessionRepositories,
   assessmentRepository,
+  assessmentResultRepository,
+  answerRepository,
+  challengeRepository,
+  competenceMarkRepository,
   cpfReceiptsStorage,
   cpfExportsStorage,
   certificationBadgesService,
