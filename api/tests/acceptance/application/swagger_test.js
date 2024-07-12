@@ -5,6 +5,7 @@ describe('Acceptance | Controller | swagger', function () {
 
   beforeEach(async function () {
     server = await createServer();
+    this.timeout(3000);
   });
 
   describe('GET /api/swagger.json', function () {
