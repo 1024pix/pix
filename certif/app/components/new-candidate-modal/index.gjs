@@ -165,8 +165,13 @@ export default class NewCandidateModal extends Component {
 
   updateComplementaryCertification = (complementaryCertification) => {
     if (complementaryCertification?.key) {
-      this.selectedComplementaryCertification = complementaryCertification;
-      this.args.candidateData.complementaryCertification = complementaryCertification;
+      // The complementary certification parameter is passed by reference to the certification candidate
+      // Creating a copy of this complementary certification prevents the original object to be mutated in the CertificationCandidateSerializer file
+      // when the API call is being done and therefore prevents the hasComplementaryReferential property to be removed from the object
+      // TODO Send only the id of the complementary certification
+      const copiedComplementaryCertification = { ...complementaryCertification };
+      this.selectedComplementaryCertification = copiedComplementaryCertification;
+      this.args.candidateData.complementaryCertification = copiedComplementaryCertification;
     } else {
       this.selectedComplementaryCertification = undefined;
       this.args.candidateData.complementaryCertification = undefined;
@@ -202,6 +207,7 @@ export default class NewCandidateModal extends Component {
     document.getElementById('new-candidate-form').reset();
     this.selectedCountryInseeCode = FRANCE_INSEE_CODE;
     this.selectedBirthGeoCodeOption = INSEE_CODE_OPTION;
+    this.selectedComplementaryCertification = undefined;
   }
 
   _hasComplementaryReferential() {
