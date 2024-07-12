@@ -345,7 +345,7 @@
             {
                     "id": "8c07cbe0-14aa-4a0e-898d-7ddf9c4ff3be",
                     "type": "text",
-                    "content": "<h3> <span aria-hidden=\"true\">📖</span> Bon à savoir : </h3><pParfois, le pointeur peut prendre une forme de roue, de sablier ou de pointillés. Quand ce pointeur apparaît, cela signifie qu’il faut patienter.</p>"
+                    "content": "<h3> <span aria-hidden=\"true\">📖</span> Bon à savoir : </h3><p>Parfois, le pointeur peut prendre une forme de roue, de sablier ou de pointillés. Quand ce pointeur apparaît, cela signifie qu’il faut patienter.</p>"
             }
           },
           {"type": "element",
