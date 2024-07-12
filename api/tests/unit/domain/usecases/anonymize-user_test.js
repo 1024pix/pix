@@ -25,8 +25,8 @@ describe('Unit | UseCase | anonymize-user', function () {
     const updatedByUserId = 2;
     const role = 'SUPER_ADMIN';
     const anonymizedUser = {
-      firstName: `prenom_${userId}`,
-      lastName: `nom_${userId}`,
+      firstName: '(anonymised)',
+      lastName: '(anonymised)',
       email: `email_${userId}@example.net`,
       username: null,
       hasBeenAnonymised: true,

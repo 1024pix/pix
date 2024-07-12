@@ -50,8 +50,8 @@ describe('Acceptance | Route | users', function () {
 
       const updatedUserAttributes = response.result.data.attributes;
 
-      expect(updatedUserAttributes['first-name']).to.equal(`prenom_${userId}`);
-      expect(updatedUserAttributes['last-name']).to.equal(`nom_${userId}`);
+      expect(updatedUserAttributes['first-name']).to.equal('(anonymised)');
+      expect(updatedUserAttributes['last-name']).to.equal('(anonymised)');
       expect(updatedUserAttributes.email).to.equal(`email_${userId}@example.net`);
       expect(updatedUserAttributes.username).to.be.null;
 

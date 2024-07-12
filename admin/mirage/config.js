@@ -182,8 +182,8 @@ function routes() {
     const userId = request.params.id;
     const user = schema.users.findBy({ id: userId });
     return user.update({
-      firstName: `prenom_${userId}`,
-      lastName: `nom_${userId}`,
+      firstName: '(anonymised)',
+      lastName: '(anonymised)',
       email: `email_${userId}@example.net`,
       username: null,
       authenticationMethods: [],
