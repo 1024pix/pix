@@ -45,7 +45,7 @@ const blockTextSchema = Joi.object({
 const qrocmElementSchema = Joi.object({
   id: uuidSchema,
   type: Joi.string().valid('qrocm').required(),
-  instruction: htmlSchema,
+  instruction: htmlSchema.required(),
   proposals: Joi.array()
     .items(Joi.alternatives().try(blockTextSchema, blockInputSchema, blockSelectSchema))
     .required(),
