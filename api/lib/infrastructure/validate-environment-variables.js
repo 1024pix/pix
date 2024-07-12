@@ -36,6 +36,7 @@ const schema = Joi.object({
   ENABLE_KNEX_PERFORMANCE_MONITORING: Joi.string().optional().valid('true', 'false'),
   FORCE_DROP_DATABASE: Joi.string().optional().valid('true', 'false'),
   FT_ALWAYS_OK_VALIDATE_NEXT_CHALLENGE: Joi.string().optional().valid('true', 'false'),
+  FT_ENABLE_NEED_TO_ADJUST_CERTIFICATION_ACCESSIBILITY: Joi.string().optional().valid('true', 'false'),
   FT_ENABLE_PIX_PLUS_LOWER_LEVEL: Joi.string().optional().valid('true', 'false'),
   FT_ENABLE_TEXT_TO_SPEECH_BUTTON: Joi.string().optional().valid('true', 'false'),
   FT_ENABLE_V3_INFO_SCREENS: Joi.string().optional().valid('true', 'false'),

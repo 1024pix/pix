@@ -27,6 +27,7 @@ describe('Acceptance | Controller | feature-toggle-controller', function () {
             'is-pix-plus-lower-lever-enabled': false,
             'is-certification-token-scope-enabled': false,
             'is-text-to-speech-button-enabled': false,
+            'is-need-to-adjust-certification-accessibility-enabled': false,
           },
         },
       };
