@@ -88,6 +88,7 @@ function _toAPIModel(input) {
 function _fromAPIModel(filter) {
   const filterMappings = {
     divisions: 'Libellé classe',
+    name: 'name',
   };
   return filter
     ? Object.entries(filter).reduce((acc, [key, value]) => {

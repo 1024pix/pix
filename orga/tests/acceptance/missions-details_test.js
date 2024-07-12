@@ -1,5 +1,5 @@
 import { visit } from '@1024pix/ember-testing-library';
-import { click } from '@ember/test-helpers';
+import { click, fillIn } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
@@ -190,6 +190,35 @@ module('Acceptance | Missions Detail', function (hooks) {
         assert.dom(screen.getByRole('cell', { name: participantCM2C.firstName })).exists();
         assert.dom(screen.getByRole('cell', { name: participantCM2A.firstName })).exists();
         assert.dom(screen.queryByRole('cell', { name: participantCM2B.firstName })).doesNotExist();
+      });
+      test('Should filter on the firstname name or lastname', async function (assert) {
+        server.create('mission-learner', {
+          firstName: 'Charles',
+          lastName: 'Pas-Xavier',
+          division: 'CM2-C',
+          status: 'completed',
+          organizationId: 1,
+        });
+        const xavierHenry = server.create('mission-learner', {
+          firstName: 'Xavier',
+          lastName: 'Henry',
+          division: 'CM2-B',
+          status: 'completed',
+          organizationId: 1,
+        });
+        server.create('mission-learner', {
+          firstName: 'Henry',
+          lastName: 'Charles',
+          division: 'CM2-A',
+          status: 'completed',
+          organizationId: 1,
+        });
+
+        const screen = await visit('/missions/1');
+        await fillIn(screen.getByPlaceholderText('Nom, prénom'), 'charles');
+
+        assert.strictEqual(screen.getAllByRole('cell', { name: 'Charles' }).length, 2);
+        assert.dom(screen.queryByRole('cell', { name: xavierHenry.firstName })).doesNotExist();
       });
     });
   });

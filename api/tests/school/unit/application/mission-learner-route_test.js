@@ -33,7 +33,7 @@ describe('Unit | Route | mission-learner-route', function () {
       // when
       const response = await httpTestServer.request(
         'GET',
-        `/api/organizations/4/missions/1/learners?filter[divisions][]=CM2-C&filter[divisions][]=CM2-B&page[number]=1&page[size]=25`,
+        `/api/organizations/4/missions/1/learners?filter[name]=Henry&filter[divisions][]=CM2-C&filter[divisions][]=CM2-B&page[number]=1&page[size]=25`,
       );
 
       // then
@@ -41,7 +41,7 @@ describe('Unit | Route | mission-learner-route', function () {
       expect(findPaginatedMissionLearnersStub).to.have.been.calledWith(
         sinon.match.has(
           'query',
-          sinon.match.has('filter', sinon.match.has('divisions', ['CM2-C', 'CM2-B'])),
+          sinon.match.has('filter', sinon.match.has('divisions', ['CM2-C', 'CM2-B']), sinon.match.has('name', 'Henry')),
           sinon.match.has('page', sinon.match.has('number', '1'), sinon.match.has('size', '25')),
         ),
       );

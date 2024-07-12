@@ -193,6 +193,10 @@
         "label": "Zoeken op klasse",
         "placeholder": "Klassen"
       },
+      "fullname": {
+        "label": "Zoeken op voor- en achternaam",
+        "placeholder": "Achternaam, voornaam"
+      },
       "loading": "Laden...",
       "title": "Filters"
     },
@@ -506,10 +510,6 @@
           "groups": {
             "empty": "Geen groepen",
             "title": "Groepen"
-          },
-          "search": {
-            "placeholder": "Achternaam, voornaam",
-            "title": "Zoeken op voor- en achternaam"
           },
           "stages": "Lagers",
           "status": {
@@ -1004,10 +1004,6 @@
           "certificability": {
             "label": "Zoeken op certificeerbaarheid",
             "placeholder": "Certificering"
-          },
-          "fullName": {
-            "label": "Zoeken op voor- en achternaam",
-            "placeholder": "Achternaam, voornaam"
           }
         }
       },
@@ -1160,10 +1156,6 @@
           "empty-option": "Verbindingsmethode",
           "label": "Zoeken op verbindingsmethode"
         },
-        "search": {
-          "label": "Zoeken op voor- en achternaam",
-          "placeholder": "Achternaam, voornaam"
-        },
         "students-count": "{count, plural, =0 {0 student} =1 {1 student} other {{count} studenten}}"
       },
       "manage-authentication-method-modal": {
@@ -1309,10 +1301,6 @@
           "empty": "Geen groepen",
           "label": "Een groep invoeren",
           "placeholder": "Zoeken op groep"
-        },
-        "search": {
-          "label": "Zoeken op voor- en achternaam",
-          "placeholder": "Achternaam, voornaam"
         },
         "student-number": {
           "label": "Voer een studentnummer in",

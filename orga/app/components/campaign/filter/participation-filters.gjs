@@ -191,8 +191,8 @@ export default class ParticipationFilters extends Component {
           <SearchInputFilter
             @field="search"
             @value={{@searchFilter}}
-            @placeholder={{t "pages.campaign-results.filters.type.search.placeholder"}}
-            @label={{t "pages.campaign-results.filters.type.search.title"}}
+            @placeholder={{t "common.filters.fullname.placeholder"}}
+            @label={{t "common.filters.fullname.label"}}
             @triggerFiltering={{@onFilter}}
           />
         {{/if}}

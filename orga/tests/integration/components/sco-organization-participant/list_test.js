@@ -355,7 +355,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       );
 
       // when
-      await fillByLabel(this.intl.t('pages.sco-organization-participants.filter.search.label'), 'Bob M');
+      await fillByLabel(this.intl.t('common.filters.fullname.label'), 'Bob M');
 
       // then
       sinon.assert.calledWithExactly(triggerFiltering, 'search', 'Bob M');

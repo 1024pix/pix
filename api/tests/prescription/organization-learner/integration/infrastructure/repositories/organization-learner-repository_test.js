@@ -622,16 +622,16 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
             organizationId,
             page: {
               size: 1,
-              number: 2,
+              number: 1,
             },
-            filter: { 'Libellé classe': ['Witch', 'Rogue'] },
+            filter: { 'Libellé classe': ['Witch', 'Rogue'], name: 'Zoé' },
           });
 
           expect(result.pagination).to.deep.equal({
-            page: 2,
+            page: 1,
             pageSize: 1,
-            rowCount: 2,
-            pageCount: 2,
+            rowCount: 1,
+            pageCount: 1,
           });
           expect(result.learners.length).to.equal(1);
           expect(result.learners[0].id).to.equal(rogueLearner.id);

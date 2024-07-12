@@ -10,6 +10,7 @@ export default class MissionLearnersController extends Controller {
   @tracked pageNumber = DEFAULT_PAGE_NUMBER;
   @tracked pageSize = 25;
   @tracked divisions = [];
+  @tracked name = '';
 
   get learnersCount() {
     return this.model.missionLearners.meta.rowCount;
@@ -34,8 +35,14 @@ export default class MissionLearnersController extends Controller {
   }
 
   @action
+  onFilter(inputText, value) {
+    this[inputText] = value;
+  }
+
+  @action
   onResetFilter() {
     this.divisions = [];
+    this.name = '';
   }
 
   @action

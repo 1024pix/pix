@@ -194,6 +194,10 @@
         "label": "Search by classes",
         "placeholder": "Classes"
       },
+      "fullname": {
+        "label": "Search by last name and first name",
+        "placeholder": "Last name, first name"
+      },
       "loading": "Loading..."
     },
     "form": {
@@ -547,10 +551,6 @@
           "groups": {
             "title": "Groups",
             "empty": "No group"
-          },
-          "search": {
-            "title": "Search by last name and first name",
-            "placeholder": "Last name, first name"
           },
           "stages": "Success rate",
           "status": {
@@ -969,10 +969,6 @@
           "certificability": {
             "label": "Search by certificability",
             "placeholder": "Search by certificability"
-          },
-          "fullName": {
-            "label": "Search by last name and first name",
-            "placeholder": "Last name, first name"
           }
         }
       },
@@ -1180,10 +1176,6 @@
           "empty-option": "Log in method",
           "label": "Search by log in method"
         },
-        "search": {
-          "label": "Search by last name and first name",
-          "placeholder": "Last name, first name"
-        },
         "students-count": "{count, plural, =0 {0 students} =1 {1 student} other {{count} students}}"
       },
       "manage-authentication-method-modal": {
@@ -1327,10 +1319,6 @@
           "empty": "No group",
           "label": "Enter a group",
           "placeholder": "Search by group"
-        },
-        "search": {
-          "label": "Search by last name and first name",
-          "placeholder": "Last name, first name"
         },
         "student-number": {
           "label": "Enter a student number",

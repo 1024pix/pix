@@ -194,6 +194,10 @@
         "label": "Rechercher par classes",
         "placeholder": "Classes"
       },
+      "fullname": {
+        "label": "Recherche sur le nom et prénom",
+        "placeholder": "Nom, prénom"
+      },
       "loading": "Chargement..."
     },
     "form": {
@@ -547,10 +551,6 @@
           "groups": {
             "title": "Groupes",
             "empty": "Aucun groupe"
-          },
-          "search": {
-            "title": "Recherche sur le nom et prénom",
-            "placeholder": "Nom, prénom"
           },
           "stages": "Paliers",
           "status": {
@@ -969,10 +969,6 @@
           "certificability": {
             "label": "Rechercher par certificabilité",
             "placeholder": "Certificabilité"
-          },
-          "fullName": {
-            "label": "Recherche sur le nom et prénom",
-            "placeholder": "Nom, prénom"
           }
         }
       },
@@ -1180,10 +1176,6 @@
           "empty-option": "Méthode de connexion",
           "label": "Rechercher par méthode de connexion"
         },
-        "search": {
-          "label": "Recherche sur le nom et prénom",
-          "placeholder": "Nom, prénom"
-        },
         "students-count": "{count, plural, =0 {0 élève} =1 {1 élève} other {{count} élèves}}"
       },
       "manage-authentication-method-modal": {
@@ -1327,10 +1319,6 @@
           "empty": "Aucun groupe",
           "label": "Entrer un groupe",
           "placeholder": "Rechercher par groupe"
-        },
-        "search": {
-          "label": "Recherche sur le nom et prénom",
-          "placeholder": "Nom, prénom"
         },
         "student-number": {
           "label": "Entrer un numéro étudiant",
