@@ -153,13 +153,31 @@ const getWithComplementaryCertification = async function (id) {
   return _toDomain(candidateData);
 };
 
-const findCertificationCandidateCompanionInfoByUserId = async function ({ userId }) {
-  const result = await knex.select('sessionId', 'id').from('certification-candidates').where({ userId }).first();
-  if (!result) {
-    throw new NotFoundError(`User ${userId} is not found in a certification's session`);
+const findCertificationCandidateCompanionInfoByUserId = async function ({
+  userId,
+  domainTransaction = DomainTransaction.emptyTransaction(),
+}) {
+  const knexConn = domainTransaction.knexTransaction ?? knex;
+
+  const latestCertificationCourse = await knexConn
+    .select('sessionId', 'completedAt', 'endedAt')
+    .from('certification-courses')
+    .where({ userId })
+    .orderBy('createdAt', 'desc')
+    .first();
+
+  if (latestCertificationCourse && !latestCertificationCourse.completedAt && !latestCertificationCourse.endedAt) {
+    const { sessionId } = latestCertificationCourse;
+    const { id: certificationCandidateId } = await knex
+      .select('id')
+      .from('certification-candidates')
+      .where({ sessionId, userId })
+      .first();
+
+    return new CertificationCandidateCompanion({ sessionId, id: certificationCandidateId });
   }
 
-  return new CertificationCandidateCompanion(result);
+  throw new NotFoundError(`User ${userId} is not in a certification’s session`);
 };
 
 export {
