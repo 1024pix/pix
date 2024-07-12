@@ -33,28 +33,46 @@ describe('Unit | Shared | Infrastructure | Utils | url-builder', function () {
   });
 
   describe('#getCampaignUrl', function () {
-    it('should return null if campaignCode is not defined', function () {
+    it('returns null if campaignCode is not defined', function () {
       expect(urlBuilder.getCampaignUrl('fr', null)).to.be.null;
     });
 
     describe('when campaignCode is defined', function () {
       const campaignCode = 'AZERTY123';
 
-      it('should return campaignUrl with fr domain when locale is fr-fr', function () {
+      it('returns campaignUrl with fr domain when locale is not supported', function () {
+        expect(urlBuilder.getCampaignUrl('ru', campaignCode)).to.be.equal(
+          `https://app.pix.fr/campagnes/${campaignCode}`,
+        );
+      });
+
+      it('returns campaignUrl with fr domain when locale is not defined', function () {
+        expect(urlBuilder.getCampaignUrl(undefined, campaignCode)).to.be.equal(
+          `https://app.pix.fr/campagnes/${campaignCode}`,
+        );
+      });
+
+      it('returns campaignUrl with fr domain when locale is fr-fr', function () {
         expect(urlBuilder.getCampaignUrl('fr-fr', campaignCode)).to.be.equal(
           `https://app.pix.fr/campagnes/${campaignCode}`,
         );
       });
 
-      it('should return campaignUrl with org domain when locale is fr', function () {
+      it('returns campaignUrl with org domain when locale is fr', function () {
         expect(urlBuilder.getCampaignUrl('fr', campaignCode)).to.be.equal(
           `https://app.pix.org/campagnes/${campaignCode}/?lang=fr`,
         );
       });
 
-      it('should return campaignUrl with org domain when locale is en', function () {
+      it('returns campaignUrl with org domain when locale is en', function () {
         expect(urlBuilder.getCampaignUrl('en', campaignCode)).to.be.equal(
           `https://app.pix.org/campagnes/${campaignCode}/?lang=en`,
+        );
+      });
+
+      it('returns campaignUrl with org domain when locale is nl', function () {
+        expect(urlBuilder.getCampaignUrl('nl', campaignCode)).to.be.equal(
+          `https://app.pix.org/campagnes/${campaignCode}/?lang=nl`,
         );
       });
     });
