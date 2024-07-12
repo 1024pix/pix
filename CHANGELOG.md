@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v4.180.0 (12/07/2024)
+
+
+### :bug: Correction
+- [#9504](https://github.com/1024pix/pix/pull/9504) [BUGFIX] Afficher le propriétaire seulement dans la page `all-campaigns` (PIX-13402).
+- [#9498](https://github.com/1024pix/pix/pull/9498) [BUGFIX] Ajout d'une icône manquante sur l'espace surveillant sur Pix Certif.
+
+### :arrow_up: Montée de version
+- [#9507](https://github.com/1024pix/pix/pull/9507) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.1 (certif).
+- [#9501](https://github.com/1024pix/pix/pull/9501) [BUMP] Update dependency redis to v7.2.5.
+
 ## v4.179.0 (12/07/2024)
 
 
