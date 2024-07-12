@@ -499,7 +499,7 @@
         },
         "modal": {
           "title": "Dupliquer le profil cible ?",
-          "label": "Cette action dupliquera le profil cible avec ses sujets."
+          "label": "Cette action dupliquera le profil cible avec ses sujets, résultats thématiques et paliers."
         },
         "notifications": {
           "success": "Le profil cible a bien été copié."
