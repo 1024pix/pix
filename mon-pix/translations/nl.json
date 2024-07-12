@@ -525,7 +525,8 @@
           "title": "Regels die moeten worden nageleefd"
         }
       },
-      "title": "Verklaring van certificering"
+      "title": "Verklaring van certificering",
+      "vocal-step-identifier": "Page {pageId} sur {pageCount}"
     },
     "certification-joiner": {
       "congratulation-banner": {

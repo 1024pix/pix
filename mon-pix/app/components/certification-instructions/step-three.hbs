@@ -1,4 +1,8 @@
-<div class="instructions-content-with-images">
+<h2 {{did-insert @focus}} tabindex="0" class="instructions-step__title">{{@title}}
+  <span class="screen-reader-only">{{@vocalStepIdentifier}}</span>
+</h2>
+
+<div class="instructions-content-with-images" tabindex="0">
   <div class="instructions-content__images">
     <img
       class="instructions-content__image"

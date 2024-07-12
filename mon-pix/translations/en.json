@@ -525,7 +525,8 @@
           },
           "text": "During the certification, it is forbidden to:"
         }
-      }
+      },
+      "vocal-step-identifier": "Page {pageId} on {pageCount}"
     },
     "certification-joiner": {
       "title": "Join a certification session",

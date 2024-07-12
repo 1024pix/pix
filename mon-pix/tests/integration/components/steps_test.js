@@ -16,7 +16,9 @@ module('Integration | Component | steps', function (hooks) {
         const screen = await render(hbs`<CertificationInstructions::Steps/>`);
 
         // then
-        assert.dom(screen.getByRole('heading', { name: 'Bienvenue à la certification Pix', level: 2 })).exists();
+        assert
+          .dom(screen.getByRole('heading', { name: 'Bienvenue à la certification Pix Page 1 sur 5', level: 2 }))
+          .exists();
         assert
           .dom(screen.getByRole('heading', { name: 'Comment fonctionne le test de certification ?', level: 3 }))
           .exists();
@@ -42,7 +44,9 @@ module('Integration | Component | steps', function (hooks) {
 
         // then
         assert
-          .dom(screen.getByRole('heading', { name: 'Comment se passe le test de certification ?', level: 2 }))
+          .dom(
+            screen.getByRole('heading', { name: 'Comment se passe le test de certification ? Page 2 sur 5', level: 2 }),
+          )
           .exists();
         assert.dom(screen.getByRole('heading', { name: 'Le nombre de questions ?', level: 3 })).exists();
         assert.dom(screen.getByRole('heading', { name: 'La durée du test ?', level: 3 })).exists();
@@ -63,7 +67,7 @@ module('Integration | Component | steps', function (hooks) {
         await click(screen.getByRole('button', { name: "Continuer vers l'écran suivant" }));
 
         // then
-        assert.dom(screen.getByRole('heading', { name: 'Deux modes de questions', level: 2 })).exists();
+        assert.dom(screen.getByRole('heading', { name: 'Deux modes de questions Page 3 sur 5', level: 2 })).exists();
         const terms = screen.getAllByRole('term');
         assert.strictEqual(terms[0].textContent.trim(), 'Le mode libre :');
         assert.strictEqual(terms[1].textContent.trim(), 'Le mode focus :');
@@ -86,7 +90,9 @@ module('Integration | Component | steps', function (hooks) {
         }
 
         // then
-        assert.dom(screen.getByRole('heading', { name: 'Que faire en cas de problème ?', level: 2 })).exists();
+        assert
+          .dom(screen.getByRole('heading', { name: 'Que faire en cas de problème ? Page 4 sur 5', level: 2 }))
+          .exists();
         assert.dom(screen.getByText('En cas de problème technique')).exists();
       });
     });
@@ -99,7 +105,7 @@ module('Integration | Component | steps', function (hooks) {
         await _goToLastPage(screen);
 
         // then
-        assert.dom(screen.getByRole('heading', { name: 'Règles à respecter', level: 2 })).exists();
+        assert.dom(screen.getByRole('heading', { name: 'Règles à respecter Page 5 sur 5', level: 2 })).exists();
         assert.dom(screen.getByText('En certification, il est interdit de :')).exists();
         assert
           .dom(

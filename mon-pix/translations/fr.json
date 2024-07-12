@@ -525,7 +525,8 @@
           },
           "text": "En certification, il est interdit de :"
         }
-      }
+      },
+      "vocal-step-identifier": "Page {pageId} sur {pageCount}"
     },
     "certification-joiner": {
       "title": "Rejoindre une session de certification",
