@@ -1,5 +1,37 @@
 # Pix Changelog
 
+## v4.179.0 (12/07/2024)
+
+
+### :rocket: Amélioration
+- [#9463](https://github.com/1024pix/pix/pull/9463) [FEATURE] Permet la suppression de campagnes depuis PixOrga (PIX-13226).
+- [#9417](https://github.com/1024pix/pix/pull/9417) [FEATURE] Mettre à jour le contenu de l'email "Création de compte" (PIX-12924).
+- [#9473](https://github.com/1024pix/pix/pull/9473) [FEATURE] Corrections dans le footer de Pix-App (pix-13335).
+- [#9487](https://github.com/1024pix/pix/pull/9487) [FEATURE] Renomme le bouton "Je passe" en "Je ne sais pas" (PIX-13381).
+- [#9470](https://github.com/1024pix/pix/pull/9470) [FEATURE] ajoute la configuration de l'import sco fwb (Pix-12759).
+- [#9483](https://github.com/1024pix/pix/pull/9483) [FEATURE] Redirection sur la page d'accueil si l'utilisateur est en mode Preview (pix-13147).
+- [#9480](https://github.com/1024pix/pix/pull/9480) [FEATURE] Permettre de récupérer un espace Pix Orga pour une orga de type SCO 1D (Pix-13141).
+- [#9481](https://github.com/1024pix/pix/pull/9481) [FEATURE] Pouvoir consommer des éléments `embed` sans complétion requise (PIX-13090).
+- [#9477](https://github.com/1024pix/pix/pull/9477) [FEATURE] Enlever les 20px supplémentaires sur la hauteur auto d'embed (PIX-13354).
+- [#9455](https://github.com/1024pix/pix/pull/9455) [FEATURE] Ajouter l'auto-scroll au `Stepper` (PIX-13201).
+- [#9475](https://github.com/1024pix/pix/pull/9475) [FEATURE] Changement des seeds pour permettre de developper en local sans activer la session (Pix-13342).
+
+### :building_construction: Tech
+- [#9453](https://github.com/1024pix/pix/pull/9453) [TECH] Éviter la purge de la table certification-center-features lors de l'éxécution du script d'ajout de centre pilote pour la séparation (PIX-13280).
+
+### :bug: Correction
+- [#9484](https://github.com/1024pix/pix/pull/9484) [BUGFIX] Aficher les catégories de profiles cibles lors de la duplication d'une campagne (PIX-13265).
+- [#9422](https://github.com/1024pix/pix/pull/9422) [BUGFIX] Rafraichir le cache LCMS en asynchrone (pgboss).
+
+### :arrow_up: Montée de version
+- [#9502](https://github.com/1024pix/pix/pull/9502) [BUMP] Update Node.js to v20.15.0.
+- [#9500](https://github.com/1024pix/pix/pull/9500) [BUMP] Update dependency npm-run-all2 to v6.2.2 (e2e).
+- [#9494](https://github.com/1024pix/pix/pull/9494) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.16 (orga).
+- [#9493](https://github.com/1024pix/pix/pull/9493) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.16 (mon-pix).
+- [#9492](https://github.com/1024pix/pix/pull/9492) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.16 (certif).
+- [#9491](https://github.com/1024pix/pix/pull/9491) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.16 (admin).
+- [#9352](https://github.com/1024pix/pix/pull/9352) [BUMP] Update dependency @1024pix/pix-ui to ^46.11.7 (orga).
+
 ## v4.178.0 (09/07/2024)
 
 
