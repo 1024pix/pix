@@ -1,4 +1,6 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
+// eslint-disable-next-line no-restricted-imports
+import { find } from '@ember/test-helpers';
 import ModulixEmbed from 'mon-pix/components/module/element/embed';
 import { module, test } from 'qunit';
 
@@ -7,13 +9,14 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 module('Integration | Component | Module | Embed', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  test('should display an embed', async function (assert) {
+  test('should display an embed with instruction', async function (assert) {
     // given
     const embed = {
       id: 'id',
       title: 'title',
       isCompletionRequired: false,
       url: 'https://embed-pix.com',
+      instruction: "<p>Instruction de l'embed</p>",
       height: 800,
     };
 
@@ -31,6 +34,24 @@ module('Integration | Component | Module | Embed', function (hooks) {
     assert
       .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.embed.reset.ariaLabel') }))
       .doesNotExist();
+    assert.dom(screen.getByText("Instruction de l'embed")).exists();
+  });
+
+  test('should display an embed without instruction', async function (assert) {
+    // given
+    const embed = {
+      id: 'id',
+      title: 'title',
+      isCompletionRequired: false,
+      url: 'https://embed-pix.com',
+      height: 800,
+    };
+
+    // when
+    await render(<template><ModulixEmbed @embed={{embed}} /></template>);
+
+    // then
+    assert.dom(find('.element-embed__instruction')).doesNotExist();
   });
 
   module('when user clicks on start button', function () {

@@ -1,10 +1,10 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import { action } from '@ember/object';
-import { htmlSafe } from '@ember/template';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 
+import { htmlUnsafe } from '../../../helpers/html-unsafe';
 import didInsert from '../../../modifiers/modifier-did-insert';
 
 export default class ModulixEmbed extends Component {
@@ -25,7 +25,7 @@ export default class ModulixEmbed extends Component {
   }
 
   get heightStyle() {
-    return htmlSafe(`height: ${this.embedHeight}px`);
+    return htmlUnsafe(`height: ${this.embedHeight}px`);
   }
 
   @action
@@ -36,26 +36,36 @@ export default class ModulixEmbed extends Component {
 
   <template>
     <div class="element-embed">
-      {{#unless this.isSimulatorLaunched}}
-        <div class="element-embed__overlay">
-          <PixButton
-            @triggerAction={{this.startSimulator}}
-            aria-label="{{t 'pages.modulix.buttons.embed.start.ariaLabel'}}"
-            @variant="primary-bis"
-            @size="large"
-          >
-            {{t "pages.modulix.buttons.embed.start.name"}}
-          </PixButton>
+      {{#if @embed.instruction}}
+        <div class="element-embed__instruction">
+          {{htmlUnsafe @embed.instruction}}
         </div>
-      {{/unless}}
+      {{/if}}
 
-      <iframe
-        class="element-embed__iframe {{unless this.isSimulatorLaunched 'element-embed__iframe--blurred'}}"
-        src={{@embed.url}}
-        title={{@embed.title}}
-        style={{this.heightStyle}}
-        {{didInsert this.setIframeHtmlElement}}
-      ></iframe>
+      <div class="element-embed__container">
+        {{#unless this.isSimulatorLaunched}}
+          <div class="element-embed-container__overlay">
+            <PixButton
+              @triggerAction={{this.startSimulator}}
+              aria-label="{{t 'pages.modulix.buttons.embed.start.ariaLabel'}}"
+              @variant="primary-bis"
+              @size="large"
+            >
+              {{t "pages.modulix.buttons.embed.start.name"}}
+            </PixButton>
+          </div>
+        {{/unless}}
+
+        <iframe
+          class="element-embed-container__iframe
+            {{unless this.isSimulatorLaunched 'element-embed-container__iframe--blurred'}}"
+          src={{@embed.url}}
+          title={{@embed.title}}
+          style={{this.heightStyle}}
+          {{didInsert this.setIframeHtmlElement}}
+        ></iframe>
+      </div>
+
       {{#if this.isSimulatorLaunched}}
         <div class="element-embed__reset">
           <PixButton
