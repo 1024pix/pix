@@ -16,7 +16,7 @@
     "transitionTexts": [
       {
         "grainId": "f0db9bcb-a896-4801-827d-d0ceeddde3e5",
-        "content": "<p>Dans ce module, vous allez prendre en main une souris d'ordinateur.</p><ul><li>Passez autant de temps que nécessaire sur chaque étape de ce module.</li><li>Pour passer d’une étape à une autre, appuyez sur la touche Entrée du clavier. <span aria-hidden=\"true\"> ↩️ </span></li></ul>"
+        "content": "<p>Dans ce module, vous allez prendre en main une souris d'ordinateur.</p><p>Passez autant de temps que nécessaire sur chaque étape de ce module.</p>"
       },
       {
         "grainId": "f3ec5b87-c673-4181-b792-6a521f438315",
@@ -49,6 +49,10 @@
       {
         "grainId": "03e0657a-7caf-49eb-8dfb-da0f5e52b7ba",
         "content": "<p>Vous savez maintenant déplacer le pointeur de votre souris de façon précise.</p><p>Il arrive que le pointeur change de forme. C’est tout à fait normal. Vous allez maintenant découvrir les différentes formes de pointeur.</p>"
+      },
+      {
+      "grainId": "b84e43af-ebac-4d50-8c3f-a50154de87d7",
+      "content": "<p>Vous connaissez maintenant les bases de la prise en main de la souris. <span aria-hidden=\"true\">📖</span> Récapitulons. </p>"
       }
     ],
     "grains": [
@@ -99,7 +103,7 @@
               {
                 "id": "9c538063-dd21-40a8-b47d-12e14423b0ff",
                 "type": "text",
-                "content": "<p>La souris fait partie de l'équipement de base d’un ordinateur, avec le clavier.<br>Une souris est un petit boitier arrondi.<br> Elle se place à plat sur la table et se déplace avec la main.</p>"
+                "content": "<h3>Reconnaître une souris</h3> <p>La souris fait partie de l'équipement de base d’un ordinateur, avec le clavier.<br> Elle se place à plat sur la table et se déplace avec la main.</p>"
               }
           },
           {
@@ -128,7 +132,7 @@
               {
                 "id": "bf0d6931-cd41-4223-946c-14b4bc46e403",
                 "type": "text",
-                "content": "<p>La souris sert à interagir avec l’ordinateur.</p><ul><li>Elle permet de se déplacer facilement sur l'écran de l'ordinateur.</li><li>Elle permet également d’effectuer des actions sur l'ordinateur.</li></ul>"
+                "content": "<h3>Se servir d'une souris</h3><p>La souris sert à interagir avec l’ordinateur.</p><ul><li>Elle permet de se déplacer facilement sur l'écran de l'ordinateur.</li><li>Elle permet aussi d’effectuer des actions sur l'ordinateur.</li></ul>"
               }
           },
           {
@@ -189,7 +193,7 @@
               {
                     "id": "c2f89648-1f06-4e58-b5a5-422677d24417",
                     "type": "text",
-                    "content": "<iframe width=\"700\" height=\"410\" src=\"https://www.youtube.com/embed/nw_xu2VIV7o\" title=\"[V0] Première marche souris - Prise en main de la souris - 27 06\"></iframe>"
+                    "content": "<iframe width=\"700\" height=\"410\" src=\"https://www.youtube.com/embed/6XIOWvQNlWI\" title=\"Première marche souris - Prise en main de la souris\"></iframe>"
               }
           }
         ]
@@ -222,7 +226,7 @@
                   {
                         "id": "d1dd9768-1b88-4a76-af7c-4290c3fe5a2f",
                         "type": "text",
-                        "content": "<p><span aria-hidden=\"true\">🙋🏽‍♂️ 🙋🏿‍♀️ 🙋‍♂️</span>Si vous êtes accompagné, demandez conseil à la personne qui vous accompagne. Elle vous aidera à trouver une position confortable pour vous.</p>"
+                        "content": "<p><span aria-hidden=\"true\">🙋🏽‍♂️ 🙋🏿‍♀️ 🙋‍♂️</span>N'hésitez pas à demandez conseil à la personne qui vous accompagne. Elle vous aidera à trouver une position confortable pour vous.</p>"
                   }
               }
         ]
@@ -247,7 +251,7 @@
             {
                     "id": "52a71515-a085-4a85-8c43-86e06c1cb9b8",
                     "type": "text",
-                    "content": "<iframe width=\"100%\" height=\"410\" src=\"https://www.youtube.com/embed/mnSu2FHStf0\" title=\"[V0] Première marche souris - Déplacer la souris - 27 06\"></iframe>"
+                    "content": "<iframe width=\"100%\" height=\"410\" src=\"https://www.youtube.com/embed/cktRk8PySII\" title=\"Première marche souris - Déplacer la souris\"></iframe>"
             }
 
           }
@@ -341,7 +345,7 @@
             {
                     "id": "8c07cbe0-14aa-4a0e-898d-7ddf9c4ff3be",
                     "type": "text",
-                    "content": "<h3> <span aria-hidden=\"true\">📖</span> Bon à savoir : </h3><p>Parfois, le pointeur peut être en forme de roue, de sablier ou de pointillés. C’est un pointeur qui est souvent animé.</p> <p> Quand ce pointeur apparaît, cela signifie qu’il faut patienter. Attendez que le pointeur reprenne sa forme de flèche pour utiliser votre souris.</p>"
+                    "content": "<h3> <span aria-hidden=\"true\">📖</span> Bon à savoir : </h3><pParfois, le pointeur peut prendre une forme de roue, de sablier ou de pointillés. Quand ce pointeur apparaît, cela signifie qu’il faut patienter.</p>"
             }
           },
           {"type": "element",
@@ -354,6 +358,30 @@
                }
           }
             ]
+      },
+      {
+    "id": "b84e43af-ebac-4d50-8c3f-a50154de87d7",
+    "type": "lesson",
+    "title": "Les 3 points à retenir ",
+    "components": [
+      {
+        "type": "element",
+        "element": {
+          "id": "72a98ef7-1052-4f70-bfe8-a77ff4279f61",
+          "type": "text",
+          "content": "<h3>Les 3 points à retenir <span aria-hidden=\"true\">🎓</span></h3>"
+        }
+      },
+      {
+        "type": "element",
+        "element": {
+          "id": "3480a769-41ea-47e8-990b-c5f8089542e7",
+          "type": "text",
+          "content": "<ul><li><span aria-hidden=\"true\">🖐️</span> La souris glisse sur la table grâce à votre main</li><li> <span aria-hidden=\"true\">🖥️</span> À l'écran, le pointeur suit le mouvement de la souris</li> <li><span aria-hidden=\"true\">⌛</span> Le pointeur change de forme selon l'action disponible</li></ul>"
+        }
       }
+      
+    ]
+  }
     ]
   }
