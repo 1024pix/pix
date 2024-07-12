@@ -1,11 +1,11 @@
-import { render as renderScreen } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
+import { render } from '@1024pix/ember-testing-library';
+import Footer from 'pix-certif/components/layout/footer';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 import setupRenderingIntlTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | Layout::Footer', function (hooks) {
+module('Integration | Component | Layout | Footer', function (hooks) {
   setupRenderingIntlTest(hooks);
 
   test('should display copyright with current year', async function (assert) {
@@ -14,7 +14,7 @@ module('Integration | Component | Layout::Footer', function (hooks) {
     const expectedYear = date.getFullYear();
 
     // when
-    const screen = await renderScreen(hbs`<Layout::Footer />}`);
+    const screen = await render(<template><Footer /></template>);
 
     // then
     assert.dom(screen.getByText(this.intl.t('navigation.footer.current-year', { currentYear: expectedYear }))).exists();
@@ -26,7 +26,7 @@ module('Integration | Component | Layout::Footer', function (hooks) {
     service.currentDomain.getExtension = sinon.stub().returns('fr');
 
     // when
-    const screen = await renderScreen(hbs`<Layout::Footer />}`);
+    const screen = await render(<template><Footer /></template>);
 
     // then
     assert
@@ -40,7 +40,7 @@ module('Integration | Component | Layout::Footer', function (hooks) {
     service.currentDomain.getExtension = sinon.stub().returns('fr');
 
     // when
-    const screen = await renderScreen(hbs`<Layout::Footer />}`);
+    const screen = await render(<template><Footer /></template>);
 
     // then
     assert
