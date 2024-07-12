@@ -12,7 +12,7 @@ import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTrans
 import { BookshelfCertificationCandidate } from '../../../../../lib/infrastructure/orm-models/CertificationCandidate.js';
 import * as bookshelfToDomainConverter from '../../../../../lib/infrastructure/utils/bookshelf-to-domain-converter.js';
 import { normalize } from '../../../../shared/infrastructure/utils/string-utils.js';
-import { CertificationCandidateCompanion } from '../../domain/models/CertificationCandidateCompanion.js';
+import { CompanionPingInfo } from '../../domain/models/CompanionPingInfo.js';
 import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
 import { Subscription } from '../../domain/models/Subscription.js';
 
@@ -153,7 +153,7 @@ const getWithComplementaryCertification = async function (id) {
   return _toDomain(candidateData);
 };
 
-const findCertificationCandidateCompanionInfoByUserId = async function ({
+const findCompanionPingInfoByUserId = async function ({
   userId,
   domainTransaction = DomainTransaction.emptyTransaction(),
 }) {
@@ -174,7 +174,7 @@ const findCertificationCandidateCompanionInfoByUserId = async function ({
       .where({ sessionId, userId })
       .first();
 
-    return new CertificationCandidateCompanion({ sessionId, id: certificationCandidateId });
+    return new CompanionPingInfo({ sessionId, certificationCandidateId });
   }
 
   throw new NotFoundError(`User ${userId} is not in a certification’s session`);
@@ -185,7 +185,7 @@ export {
   doesLinkedCertificationCandidateInSessionExist,
   findBySessionId,
   findBySessionIdAndPersonalInfo,
-  findCertificationCandidateCompanionInfoByUserId,
+  findCompanionPingInfoByUserId,
   findOneBySessionIdAndUserId,
   getBySessionIdAndUserId,
   getWithComplementaryCertification,

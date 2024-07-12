@@ -9,15 +9,14 @@
  * @param {CertificationCandidateRepository} params.certificationCandidateRepository
  * @param {TemporaryCompanionStorageService} params.temporaryCompanionStorageService
  */
-const saveCompanionPing = async function ({
+export async function saveCompanionPing({
   userId,
   certificationCandidateRepository,
   temporaryCompanionStorageService,
 }) {
-  const certificationCandidateCompanion =
-    await certificationCandidateRepository.findCertificationCandidateCompanionInfoByUserId({ userId });
+  const companionPingInfo = await certificationCandidateRepository.findCompanionPingInfoByUserId({
+    userId,
+  });
 
-  await temporaryCompanionStorageService.save(certificationCandidateCompanion);
-};
-
-export { saveCompanionPing };
+  await temporaryCompanionStorageService.save(companionPingInfo);
+}

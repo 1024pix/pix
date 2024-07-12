@@ -1,4 +1,4 @@
-import { CertificationCandidateCompanion } from '../../../../../../src/certification/enrolment/domain/models/CertificationCandidateCompanion.js';
+import { CompanionPingInfo } from '../../../../../../src/certification/enrolment/domain/models/CompanionPingInfo.js';
 import { saveCompanionPing } from '../../../../../../src/certification/enrolment/domain/usecases/save-companion-ping.js';
 import { expect, sinon } from '../../../../../test-helper.js';
 
@@ -8,7 +8,7 @@ describe('Unit | UseCase | save-companion-ping', function () {
     let temporaryCompanionStorageService;
 
     beforeEach(function () {
-      certificationCandidateRepository = { findCertificationCandidateCompanionInfoByUserId: sinon.stub() };
+      certificationCandidateRepository = { findCompanionPingInfoByUserId: sinon.stub() };
       temporaryCompanionStorageService = { save: sinon.stub() };
     });
 
@@ -16,11 +16,11 @@ describe('Unit | UseCase | save-companion-ping', function () {
       it('should persist the companion ping in redis', async function () {
         // given
         const userId = 123;
-        const certificationCandidateCompanion = new CertificationCandidateCompanion({
+        const certificationCandidateCompanion = new CompanionPingInfo({
           sessionId: 99,
           id: 101,
         });
-        certificationCandidateRepository.findCertificationCandidateCompanionInfoByUserId
+        certificationCandidateRepository.findCompanionPingInfoByUserId
           .withArgs({ userId })
           .resolves(certificationCandidateCompanion);
 

@@ -4,7 +4,7 @@ import {
   CertificationCandidateMultipleUserLinksWithinSessionError,
   NotFoundError,
 } from '../../../../../../lib/domain/errors.js';
-import { CertificationCandidateCompanion } from '../../../../../../src/certification/enrolment/domain/models/CertificationCandidateCompanion.js';
+import { CompanionPingInfo } from '../../../../../../src/certification/enrolment/domain/models/CompanionPingInfo.js';
 import * as certificationCandidateRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/certification-candidate-repository.js';
 import { ComplementaryCertification } from '../../../../../../src/certification/session-management/domain/models/ComplementaryCertification.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
@@ -890,7 +890,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
     });
   });
 
-  describe('#findCertificationCandidateCompanionInfoByUserId', function () {
+  describe('#findCompanionPingInfoByUserId', function () {
     const userId = 99;
 
     beforeEach(async function () {
@@ -966,9 +966,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
           await databaseBuilder.commit();
 
           // when
-          const error = await catchErr(
-            certificationCandidateRepository.findCertificationCandidateCompanionInfoByUserId,
-          )({
+          const error = await catchErr(certificationCandidateRepository.findCompanionPingInfoByUserId)({
             userId,
           });
 
@@ -994,9 +992,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
           await databaseBuilder.commit();
 
           // when
-          const error = await catchErr(
-            certificationCandidateRepository.findCertificationCandidateCompanionInfoByUserId,
-          )({
+          const error = await catchErr(certificationCandidateRepository.findCompanionPingInfoByUserId)({
             userId,
           });
 
@@ -1022,15 +1018,12 @@ describe('Integration | Repository | CertificationCandidate', function () {
           await databaseBuilder.commit();
 
           // when
-          const companionPingInfo =
-            await certificationCandidateRepository.findCertificationCandidateCompanionInfoByUserId({
-              userId,
-            });
+          const companionPingInfo = await certificationCandidateRepository.findCompanionPingInfoByUserId({
+            userId,
+          });
 
           // then
-          expect(companionPingInfo).deepEqualInstance(
-            new CertificationCandidateCompanion({ sessionId, id: certificationCandidateId }),
-          );
+          expect(companionPingInfo).deepEqualInstance(new CompanionPingInfo({ sessionId, certificationCandidateId }));
         });
       });
     });
@@ -1041,7 +1034,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
         databaseBuilder.factory.buildCertificationCandidate({ id: 66, userId, sessionId: 666 });
 
         // when
-        const error = await catchErr(certificationCandidateRepository.findCertificationCandidateCompanionInfoByUserId)({
+        const error = await catchErr(certificationCandidateRepository.findCompanionPingInfoByUserId)({
           userId,
         });
 
