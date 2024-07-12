@@ -1,4 +1,4 @@
-import { getNextChallengeForV2Certification } from '../../../../../../src/certification/course/domain/usecases/get-next-challenge-for-v2-certification.js';
+import { getNextChallengeForV2Certification } from '../../../../../../src/certification/session-management/domain/usecases/get-next-challenge-for-v2-certification.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
