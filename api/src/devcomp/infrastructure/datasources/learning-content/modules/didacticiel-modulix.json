@@ -331,41 +331,40 @@
             "id": "0e3315fd-98ad-492f-9046-4aa867495d84",
             "type": "embed",
             "isCompletionRequired": false,
-            "title": "Application",
-            "url": "https://epreuves.pix.fr/fake2.html",
-            "instruction": "<p>Parcourez ces photos trouvées sur le Web.</p>",
-            "height": 640
+            "title": "Simulateur de visioconférence",
+            "url": "https://epreuves.pix.fr/visio.html?mode=visio3",
+            "instruction": "<p>Vous participez à la visioconférence ci-dessous.</p>",
+            "height": 600
           }
         },
         {
           "type": "element",
           "element": {
-            "id": "74d63ec2-f3e3-4ffe-9806-208d33588553",
-            "type": "qcm",
-            "instruction": "<p>Lesquelles correspondent à des situations fictives&#8239;?</p>",
+            "id": "7fe0bc5f-1988-4da6-8231-a987335f2ae5",
+            "type": "qrocm",
+            "instruction": "<p>Répondez à la question suivante</p>",
             "proposals": [
               {
-                "id": "1",
-                "content": "Photo 1"
+                "type": "text",
+                "content": "<span>Prénom de la personne qui est en train de parler&#8239;: </span>"
               },
               {
-                "id": "2",
-                "content": "Photo 2"
-              },
-              {
-                "id": "3",
-                "content": "Photo 3"
-              },
-              {
-                "id": "4",
-                "content": "Photo 4"
+                "input": "qui-parle",
+                "type": "input",
+                "inputType": "text",
+                "size": 10,
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "Remplir le prénom de la personne qui est en train de parler dans la visioconférence",
+                "defaultValue": "",
+                "tolerances": ["t1", "t2", "t3"],
+                "solutions": ["Katie"]
               }
             ],
             "feedbacks": {
               "valid": "<span class=\"feedback__state\">Correct&#8239;!</span>",
-              "invalid": "<span class=\"feedback__state\">Et non&#8239;!</span>"
-            },
-            "solutions": ["1", "2", "4"]
+              "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span>"
+            }
           }
         }
       ]
