@@ -39,19 +39,7 @@ describe('Integration | Repository | scoring-configuration-repository', function
           ],
         },
       ];
-      const certificationScoringConfiguration = [
-        {
-          start: -1.399264,
-          end: -0.519812,
-        },
-      ];
 
-      const secondCertificationScoringConfiguration = [
-        {
-          start: -3,
-          end: -1,
-        },
-      ];
       const firstConfigurationDate = new Date('2019-01-01T08:00:00Z');
       const secondConfigurationDate = new Date('2020-01-01T08:00:00Z');
       const thirdConfigurationDate = new Date('2021-01-01T08:00:00Z');
@@ -85,7 +73,6 @@ describe('Integration | Repository | scoring-configuration-repository', function
         createdByUserId: userId,
       });
       databaseBuilder.factory.buildScoringConfiguration({
-        configuration: certificationScoringConfiguration,
         createdAt: firstConfigurationDate,
         createdByUserId: userId,
       });
@@ -96,7 +83,6 @@ describe('Integration | Repository | scoring-configuration-repository', function
         createdByUserId: userId,
       });
       databaseBuilder.factory.buildScoringConfiguration({
-        configuration: secondCertificationScoringConfiguration,
         createdAt: secondConfigurationDate,
         createdByUserId: userId,
       });
@@ -107,7 +93,6 @@ describe('Integration | Repository | scoring-configuration-repository', function
         createdByUserId: userId,
       });
       databaseBuilder.factory.buildScoringConfiguration({
-        configuration: certificationScoringConfiguration,
         createdAt: thirdConfigurationDate,
         createdByUserId: userId,
       });
@@ -160,7 +145,8 @@ describe('Integration | Repository | scoring-configuration-repository', function
       // then
       expect(result).to.be.instanceOf(V3CertificationScoring);
       expect(result._competencesForScoring[0].intervals.length).not.to.be.equal(0);
-      expect(result._certificationScoringConfiguration[0].start).to.be.equal(-3);
+      expect(result._certificationScoringConfiguration[0].bounds.min).to.be.equal(-5.12345);
+      expect(result._certificationScoringConfiguration[7].bounds.max).to.be.equal(6.56789);
     });
   });
 
