@@ -15,6 +15,7 @@ module.exports = function () {
       'plus-circle',
       'power-off',
       'redo',
+      'sign-out-alt',
       'trash-alt',
       'trash-can',
       'up-right-from-square',
