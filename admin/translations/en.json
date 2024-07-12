@@ -311,7 +311,7 @@
         },
         "update": {
           "errors": {
-            "pilot-features-incompatibilities": "There are incompatibilities between the pilot features this center has subscribed to."
+            "pilot-features-incompatibilities": "There are incompatibilities between the pilot features this center is habilitated to. Please refresh this page."
           }
         }
       }

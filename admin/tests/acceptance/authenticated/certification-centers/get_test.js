@@ -222,7 +222,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         assert
           .dom(
             screen.getByText(
-              'Il y a une incompatibilité entre les fonctionnalités pilotes auxquelles le centre est abonné.',
+              'Il y a une incompatibilité entre les fonctionnalités pilotes auxquelles vous souhaitez habiliter le centre. Merci de rafraîchir la page.',
             ),
           )
           .exists();

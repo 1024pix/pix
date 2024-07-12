@@ -14,6 +14,9 @@ import * as certificationCenterCreationValidator from '../validators/certificati
 
 /**
  * @param {Object} params
+ * @param {number} params.certificationCenterId
+ * @param {Object} params.certificationCenterInformation - see deserializer
+ * @param {Array<number>} params.complementaryCertificationIds
  * @param {CenterRepository} params.centerRepository
  * @param {CertificationCenterForAdminRepository} params.certificationCenterForAdminRepository
  * @param {ComplementaryCertificationHabilitationRepository} params.ComplementaryCertificationHabilitationRepository

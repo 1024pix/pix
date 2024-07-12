@@ -321,7 +321,7 @@
         },
         "update": {
           "errors": {
-            "pilot-features-incompatibilities": "Il y a une incompatibilité entre les fonctionnalités pilotes auxquelles le centre est abonné."
+            "pilot-features-incompatibilities": "Il y a une incompatibilité entre les fonctionnalités pilotes auxquelles vous souhaitez habiliter le centre. Merci de rafraîchir la page."
           }
         }
       }

@@ -12,9 +12,9 @@ describe('Integration | UseCases | update-certification-center', function () {
     // given
     const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
     databaseBuilder.factory.buildDataProtectionOfficer.withCertificationCenterId({
-      firstName: 'Aa',
-      lastName: 'Ab',
-      email: 'aa@example.net',
+      firstName: 'Eddy',
+      lastName: 'Taurial',
+      email: 'eddy.taurial@example.net',
       certificationCenterId,
     }).id;
 
