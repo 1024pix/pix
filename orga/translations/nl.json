@@ -1,16 +1,16 @@
 {
   "api-error-messages": {
     "campaign-creation": {
-      "custom-landing-page_too_long": "De tekst die de campagne presenteert is te lang.",
-      "external-user-id-required": "Geef de tekst op van het veld dat de deelnemers aan het begin van de cursus moeten invullen.",
+      "custom-landing-page_too_long": "De presentatietekst van de campagne is te lang.",
+      "external-user-id-required": "Geef de tekst op van het veld dat de deelnemers aan het begin van de test moeten invullen.",
       "name-required": "Geef je campagne een naam.",
       "owner_not_in_organization": "De eigenaar maakt geen deel uit van de organisatie.",
-      "purpose-required": "Kies het doel van je campagne: Evaluatie of Profielverzameling.",
-      "target-profile-required": "Selecteer een route voor je campagne.",
+      "purpose-required": "Kies het doel van je campagne: Beoordeling of Verzameling van profielen.",
+      "target-profile-required": "Selecteer een traject voor je campagne.",
       "title_too_long": "De campagnetitel is te lang."
     },
     "csv-import": {
-      "property-not-uniq": "Regel {line} : Het veld {field} moet uniek zijn binnen het bestand."
+      "property-not-uniq": "Regel {line}: Het veld “{field}” moet uniek zijn binnen het bestand."
     },
     "default": "De service is tijdelijk niet beschikbaar. Probeer het later nog eens.",
     "edit-student-number": {
@@ -19,46 +19,46 @@
     "global": "Er is een fout opgetreden. Probeer het later nog eens.",
     "or-separator": "of",
     "student-csv-import": {
-      "bad-csv-format": "Het bestand moet in csv-formaat zijn met een scheidingsteken tussen komma's of puntkomma's.",
+      "bad-csv-format": "Het bestand moet in csv-formaat zijn met als scheidingsteken komma’s of puntkomma's.",
       "encoding-not-supported": "Bestandscodering niet ondersteund.",
-      "field-bad-values": "Regel {line} : Het veld \"{field}\" moet zijn \"{valids}\".",
-      "field-date-format": "Regel {line} : Het veld \"{field}\" moet het formaat dd/mm/jjjj hebben.",
-      "field-email-format": "Regel {line} : Het veld \"{field}\" moet een geldig e-mailadres zijn.",
-      "field-length": "Regel {line} : Het veld \"{field}\" moet {limit} karakters lang zijn.",
-      "field-max-length": "Regel {line} : Het veld \"{field}\" moet {limit} uit minder dan tekens bestaan.",
-      "field-min-length": "Regel {line} : \"{field}\" moet {limit} minstens tekens lang zijn.",
-      "field-required": "Regel {line} : Het veld \"{field}\" is verplicht.",
+      "field-bad-values": "Regel {line}: Het veld \"{field}\" moet zijn \"{valids}\".",
+      "field-date-format": "Regel {line}: Het veld \"{field}\" moet het format dd/mm/jjjj hebben.",
+      "field-email-format": "Regel {line}: Het veld \"{field}\" moet een geldig e-mailadres zijn.",
+      "field-length": "Regel {line}: Het veld \"{field}\" moet {limit} karakters lang zijn.",
+      "field-max-length": "Regel {line}: Het veld \"{field}\" moet minder dan {limit} tekens zijn.",
+      "field-min-length": "Regel {line}: Het veld \"{field}\" moet minstens {limit} tekens lang zijn.",
+      "field-required": "Regel {line}: Het veld \"{field}\" is verplicht.",
       "header-required": "De kolom \"{field}\" is verplicht.",
-      "header-unknown": "De kolomtitels moeten identiek zijn aan die in de sjabloon.",
-      "identifier-unique": "Regel {line} : Het veld \"{field}\" in deze regel komt meerdere keren voor in het bestand.",
-      "insee-code-invalid": "Regel {line} : Het veld \"{field}\" is niet in INSEE-formaat.",
-      "payload-too-large": "De bestandsgrootte moet kleiner zijn dan {maxSize}Mo.",
-      "student-number-format": "Regel {line} : Het veld \"{field}\" mag geen speciale tekens bevatten.",
-      "student-number-unique": "Regel {line} : Het veld \"{field}\" moet uniek zijn binnen het bestand."
+      "header-unknown": "De kolomtitels moeten identiek zijn aan die van het model.",
+      "identifier-unique": "Regel {line}: Het veld \"{field}\" in deze regel komt meerdere keren voor in het bestand.",
+      "insee-code-invalid": "Regel {line}: Het veld \"{field}\" is niet in INSEE-formaat.",
+      "payload-too-large": "De bestandsgrootte moet kleiner zijn dan {maxSize} MB.",
+      "student-number-format": "Regel {line}: Het veld \"{field}\" mag geen speciale tekens bevatten.",
+      "student-number-unique": "Regel {line}: Het veld “{field}” moet uniek zijn binnen het bestand."
     },
     "student-password-reset": {
       "organization-learner-does-not-belong-to-organization-error": "Sommige van de geselecteerde studenten maken niet langer deel uit van deze organisatie.",
-      "organization-learner-without-username-error": "Sommige van de geselecteerde studenten hebben geen login meer. Vernieuw de pagina.",
+      "organization-learner-without-username-error": "Sommige van de geselecteerde studenten hebben geen gebruikersnaam meer. Vernieuw de pagina.",
       "user-does-not-belong-to-organization-error": "Je hebt niet langer de rechten voor deze organisatie."
     },
     "student-xml-import": {
-      "birth-city-code-required-for-french-student": "Een leerling met INE {nationalStudentId} heeft geen geboorteplaatscodeveld. Het is verplicht voor alle leerlingen die in Frankrijk geboren zijn.",
-      "birthdate-required": "Bij de leerling met de NIE {nationalStudentId} is het veld geboortedatum niet ingevuld. Dit is verplicht voor elke leerling.",
+      "birth-city-code-required-for-french-student": "Een student met INE {nationalStudentId} heeft geen geboorteplaatscodeveld. Het is verplicht voor alle studenten die in Frankrijk geboren zijn.",
+      "birthdate-required": "Bij de student met de ID {nationalStudentId} is het veld geboortedatum niet ingevuld. Dit is verplicht voor elke leerling.",
       "empty": "Studenten moeten een INE en een klas hebben.",
       "encoding-not-supported": "Bestandscodering niet ondersteund.",
       "ine-required": "Het INE-veld is verplicht voor elke student.",
-      "ine-unique": "De INE {nationalStudentId} komt meerdere keren voor in het bestand voor verschillende leerlingen.",
-      "invalid-birthdate-format": "De student met de INE {nationalStudentId} heeft niet het juiste formaat voor de geboortedatum. Deze moet in het formaat 'DD/MM/JJJJ' zijn.",
-      "invalid-file": "Het bestand voldoet niet.",
+      "ine-unique": "De INE {nationalStudentId} komt meerdere keren voor in het bestand voor verschillende studenten.",
+      "invalid-birthdate-format": "De student met de INE {nationalStudentId} heeft niet het juiste format voor de geboortedatum. Deze moet in het format 'DD/MM/JJJJ' zijn.",
+      "invalid-file": "Het bestand is niet conform.",
       "invalid-file-extension": "Uitbreiding {fileExtension} niet ondersteund.",
-      "payload-too-large": "De bestandsgrootte moet kleiner zijn dan {maxSize}Mo.",
-      "sex-code-required": "Bij de leerling met de NIE {nationalStudentId} is het veld geslacht niet ingevuld. Dit is verplicht voor elke leerling.",
-      "uai-mismatched": "De UAI in het SIECLE-bestand komt niet overeen met die van uw instelling."
+      "payload-too-large": "De bestandsgrootte moet kleiner zijn dan {maxSize} MB.",
+      "sex-code-required": "Bij de student met de INE {nationalStudentId} is het veld geslacht niet ingevuld. Dit is verplicht voor elke student.",
+      "uai-mismatched": "De UAI in het SIECLE-bestand komt niet overeen met die van jouw instelling."
     }
   },
   "banners": {
     "certification": {
-      "message": "'<strong>'Certifications :'</strong>' n’oubliez pas de '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'vergeet niet ''de sessies af te ronden in Pix Certif''</a>' en download de certificaten hier via het tabblad \"Certificaten\" voor de start van het schooljaar {year}."
+      "message": "'<strong>'Certificaten:'</strong>' Vergeet niet om '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'de sessies af te ronden in Pix Certif'</a>' en de certificaten hier te downloaden via het tabblad \"Certificaten\" voor de start van het schooljaar {year}."
     },
     "import": {
       "message": "De beheerder kan certificeringsresultaten downloaden en de studentendatabase '<'a href=\"/import-participants\" class=\"{linkClasses}\"'>'importeren'</a>' om terug-naar-school campagnes per niveau te maken. <'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Meer info'</a>'"
@@ -67,7 +67,7 @@
       "message": "Jouw taal is nog niet beschikbaar op Pix Orga. Voor jouw gemak wordt de applicatie in het Engels weergegeven. Het Pix-team werkt eraan om jouw taal toe te voegen."
     },
     "over-capacity": {
-      "message": "Houd er rekening mee dat je meer stoelen gebruikt dan je totale capaciteit."
+      "message": "Houd er rekening mee dat je meer plaats inneemt dan je totale capaciteit."
     }
   },
   "cards": {
@@ -80,25 +80,25 @@
       "value": "/{total} plaatsen"
     },
     "participants-average-results": {
-      "information": "Hier vind je de gemiddelde resultaten voor je campagne. Dit aantal omvat alle deelnemers die hun cursus hebben voltooid en hun resultaten hebben ingestuurd.",
+      "information": "Hier vind je de gemiddelde resultaten van je campagne. Dit aantal omvat alle deelnemers die hun test hebben afgerond en hun resultaten hebben ingestuurd.",
       "title": "Gemiddeld resultaat"
     },
     "participants-average-stages": {
-      "information": "Hier kun je het gemiddelde aantal deelnemers aan je campagne zien. Dit aantal omvat alle deelnemers die hun cursus hebben voltooid en hun resultaten hebben ingestuurd.",
-      "title": "Middelgrote lager"
+      "information": "Hier kun je het gemiddelde aantal deelnemers van je campagne zien. Dit aantal omvat alle deelnemers die hun test hebben afgerond en hun resultaten hebben ingestuurd.",
+      "title": "Gemiddelde succesratio "
     },
     "participants-count": {
-      "information": "Hier vind je het totale aantal deelnemers aan je campagne. Dit aantal omvat alle deelnemers die de code hebben ingevoerd en hun reis zijn begonnen of hun profiel hebben verzonden.",
+      "information": "Hier vind je het totale aantal deelnemers van je campagne. Dit aantal omvat alle deelnemers die de code hebben ingevoerd en aan hun test zijn begonnen of hun profiel hebben ingezonden.",
       "loader": "Het totale aantal deelnemers laden",
       "title": "Totaal aantal deelnemers"
     },
     "place-info": {
       "details": "met minstens één deelname aan een campagne.",
-      "link": "Maak een plaats vrij op het tabblad \"Deelnemers",
-      "message": "1 stoel bezet = 1 deelnemer"
+      "link": "Een plaats vrijmaken op het tabblad ”Deelnemers”",
+      "message": "1 plaats bezet = 1 deelnemer"
     },
     "submitted-count": {
-      "information": "Hier vindt u de resultaten die door uw deelnemers zijn verzonden. Dit aantal omvat alle deelnemers die klaar zijn en op de knop \"Ik stuur mijn resultaten\" of \"Ik stuur mijn profiel\" hebben geklikt.",
+      "information": "Hier vind je de resultaten die door je deelnemers zijn verzonden. Dit aantal omvat alle deelnemers die klaar zijn en op de knop \"Ik verstuur mijn resultaten\" of \"Ik verstuur mijn profiel\" hebben geklikt.",
       "loader": "Ontvangen resultaten of profielen laden",
       "title": "Ontvangen resultaten",
       "title-profiles": "Ontvangen profielen"
@@ -121,81 +121,77 @@
       "title": "Deelnemersactiviteit"
     },
     "participants-by-mastery-percentage": {
-      "label-a11y": "Van naar {from, number, ::percent} tot {to, number, ::percent}: {count, plural, =0 {0 deelnemer} =1 {1 deelnemer} other {{count, number} deelnemers}}",
-      "loader": "De verdeling van deelnemers per resultaat laden",
-      "title": "Verdeling van deelnemers naar resultaat",
+      "label-a11y": "Van {from, number, ::percent} tot {to, number, ::percent}: {count, plural, =0 {0 deelnemer} =1 {1 deelnemer} other {{count, number} deelnemers}}",
+      "loader": "Laden van de verdeling van deelnemers per resultaat",
+      "title": "Verdeling van deelnemers per resultaat",
       "tooltip": {
-        "label": "Aantal deelnemers : {count}",
+        "label": "Aantal deelnemers: {count}",
         "legend": "{from, number, ::percent} - {to, number, ::percent}",
         "title": "Resultaten {legend}"
       }
     },
     "participants-by-stage": {
-      "loader": "De verdeling van deelnemers per niveau laden",
+      "loader": "Laden van de verdeling van deelnemers per succesratio",
       "participants": "{count, plural, =0 {0 deelnemer} =1 {1 deelnemer} other {{count, number} deelnemers}}",
-      "title": "Verdeling van deelnemers naar niveau"
+      "title": "Verdeling van deelnemers naar succesratio"
     },
     "participants-by-status": {
-      "a11y-title": "Opsplitsing naar status",
+      "a11y-title": "Detail per status",
       "labels-a11y": {
-        "completed": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}} in afwachting van verzending",
-        "shared": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}} die hun resultaten hebben ingestuurd",
+        "completed": "{count, plural, =0 {0 deelnemer} =1 {1 deelnemer} other {{count, number} deelnemers}} in afwachting van insturen",
+        "shared": "{count, plural, =0 {0 deelnemer} =1 {1 deelnemer} other {{count, number} deelnemers}} die hun resultaten hebben ingestuurd",
         "shared-profile": "{count, plural, =0 {0 deelnemer} =1 {1 deelnemer} other {{count, number} deelnemers}} die hun profiel hebben ingestuurd",
-        "started": "{count, plural, =0 {0 deelnemer} =1 {1 deelnemer} other {{count, number} deelnemers}} onder test"
+        "started": "{count, plural, =0 {0 deelnemer} =1 {1 deelnemer} other {{count, number} deelnemers}} bezig met test"
       },
       "labels-legend": {
         "completed-assessment": "In afwachting van verzending ({count})",
-        "completed-assessment-tooltip": "In afwachting van indiening: Deze deelnemers hebben hun cursus afgerond maar hun resultaten nog niet ingediend.",
+        "completed-assessment-tooltip": "In afwachting van verzending: Deze deelnemers hebben hun test afgerond maar hun resultaten nog niet ingestuurd.",
         "completed-profile": "In afwachting van verzending ({count})",
-        "completed-profile-tooltip": "Wachten op verzenden: Deze deelnemers hebben hun profiel nog niet verzonden.",
+        "completed-profile-tooltip": "In afwachting van verzending: Deze deelnemers hebben hun profiel nog niet ingestuurd.",
         "shared": "Ontvangen resultaten ({count})",
         "shared-profile": "Ontvangen profielen ({count})",
         "shared-profile-tooltip": "Ontvangen profielen: Deze deelnemers hebben hun profiel ingestuurd.",
-        "shared-tooltip": "Resultaten ontvangen: Deze deelnemers hebben hun cursus afgerond en hun resultaten opgestuurd.",
-        "started": "In uitvoering ({count})",
-        "started-tooltip": "In uitvoering: Deze deelnemers hebben hun cursus nog niet afgerond."
+        "shared-tooltip": "Resultaten ontvangen: Deze deelnemers hebben hun test afgerond en hun resultaten ingestuurd.",
+        "started": "Bezig ({count})",
+        "started-tooltip": "Bezig: Deze deelnemers hebben hun test nog niet voltooid."
       },
       "labels-tooltip": {
-        "completed-assessment": "Wachten op verzenden: {percentage, number, ::percent .0}",
-        "completed-profile": "Wachten op verzenden: {percentage, number, ::percent .0}",
-        "shared": "Ontvangen resultaten : {percentage, number, ::percent .0}",
-        "shared-profile": "Ontvangen profielen : {percentage, number, ::percent .0}",
-        "started": "Aan de gang : {percentage, number, ::procent .0}"
+        "completed-assessment": "In afwachting van verzending: {percentage, number, ::percent .0}",
+        "completed-profile": "In afwachting van verzending: {percentage, number, ::percent .0}",
+        "shared": "Ontvangen resultaten: {percentage, number, ::percent .0}",
+        "shared-profile": "Ontvangen profielen: {percentage, number, ::percent .0}",
+        "started": "Bezig: {percentage, number, ::procent .0}"
       },
-      "loader": "Verhouding laden per status",
-      "title": "Statuten"
+      "loader": "Laden verhoudingen per status",
+      "title": "Statussen"
     }
   },
   "common": {
     "actions": {
       "back": "Terug",
-      "cancel": "Annuleer",
-      "close": "Sluit",
-      "confirm": "Bevestig",
+      "cancel": "Annuleren",
+      "close": "Sluiten",
+      "confirm": "Bevestigen",
       "global": "Acties",
-      "link-to-participant": "Bekijk alle deelnemersactiviteiten"
+      "link-to-participant": "Alle activiteiten van de deelnemer bekijken"
     },
     "api-error-messages": {
-      "bad-request-error": "De gegevens die u hebt opgegeven, hebben niet het juiste formaat.",
+      "bad-request-error": "De gegevens die je hebt opgegeven, hebben niet het juiste format.",
       "gateway-timeout-error": "De service ondervindt vertragingen. Probeer het later nog eens.",
       "internal-server-error": "Er is een interne fout opgetreden. Onze teams zijn bezig het probleem op te lossen. Probeer het later nog eens.",
       "login-unauthorized-error": "Het ingevoerde e-mailadres en/of wachtwoord is onjuist.",
-      "login-user-blocked-error": "Je account is geblokkeerd omdat je te veel verbindingspogingen hebt gedaan. U kunt de blokkering opheffen door '<'a href=\"{url}\"'>'contact us'</a>'.",
+      "login-user-blocked-error": "Je account is geblokkeerd omdat je te veel inlogpogingen hebt gedaan. Hef de blokkering op door contact op te nemen via'<'a href=\"{url}\"'>'contact'</a>'.",
       "login-user-temporary-blocked-error": "Je hebt te veel inlogpogingen gedaan. Probeer het later nog eens of klik op '<'a href=\"{url}\"'>'wachtwoord vergeten'</a>' om het opnieuw in te stellen."
     },
-    "breadcrumb": "Kruimelpad",
+    "breadcrumb": "Leidraad",
     "filters": {
       "actions": {
-        "clear": "Verwijder alle filters"
+        "clear": "Alle filters verwijderen"
       },
       "divisions": {
-        "empty": "Geen les",
-        "label": "Zoeken op klasse",
+        "empty": "Geen klas",
+        "label": "Zoeken op klas",
         "placeholder": "Klassen"
-      },
-      "fullname": {
-        "label": "Zoeken op voor- en achternaam",
-        "placeholder": "Achternaam, voornaam"
       },
       "loading": "Laden...",
       "title": "Filters"
@@ -211,19 +207,19 @@
     "loading": "Bezig met laden",
     "pagination": {
       "action": {
-        "next": "Ga naar de volgende pagina",
-        "previous": "Ga naar de vorige pagina",
-        "select-page-size": "Aantal items dat per pagina moet worden weergegeven"
+        "next": "Naar de volgende pagina",
+        "previous": "Naar de vorige pagina",
+        "select-page-size": "Aantal onderdelen dat per pagina moet worden weergegeven"
       },
-      "page-info": "{start, number}-{end, number} op {total, plural, =0 {0 element} =1 {1 element} other {{total, number} elementen}}",
+      "page-info": "{start, number}-{end, number} op {total, plural, =0 {0 onderdelen} =1 {1 onderdeel} other {{total, number} onderdelen}}",
       "page-number": "Pagina {current, number} / {total, number}",
-      "page-results": "{total, plural, =0 {0 item} =1 {1 item} other {{total, number} items}}",
-      "result-by-page": "Zie"
+      "page-results": "{total, plural, =0 {0 onderdelen} =1 {1 onderdeel} other {{total, number} onderdelen}}",
+      "result-by-page": "Bekijken"
     },
     "result": {
-      "accessibility-description": "Verkregen resultaat = {percentage, number, ::percent} {stage}, ofwel de {totalStage}",
+      "accessibility-description": "Verkregen resultaat = {percentage, number, ::percent}, ofwel de succesratio {stage} op {totalStage}",
       "percentage": "{value, number, ::percent}",
-      "stages": "{count, plural, =0 {0 ster} =1 {1 ster} other {{count, number} sterren}} op {total}"
+      "stages": "{count, plural, =0 {0 sterren} =1 {1 ster} other {{count, number} sterren}} op {total}"
     },
     "target-profile-details": {
       "results": {
@@ -231,8 +227,8 @@
         "percent": "percentage",
         "star": "ster"
       },
-      "subjects": "Onderwerpen : {value, number}",
-      "thematic-results": "Thematische resultaten : {value, number}"
+      "subjects": "Onderwerpen: {value, number}",
+      "thematic-results": "Thematische resultaten: {value, number}"
     }
   },
   "components": {
@@ -240,19 +236,19 @@
       "type": {
         "explanation": {
           "ASSESSMENT": "Beoordelingscampagne",
-          "PROFILES_COLLECTION": "Verzamelactie profielen"
+          "PROFILES_COLLECTION": "Campagne profielverzameling"
         },
         "information": {
-          "ASSESSMENT": "Evaluatie",
-          "PROFILES_COLLECTION": "Profiel collectie"
+          "ASSESSMENT": "Beoordeling",
+          "PROFILES_COLLECTION": "Profielverzameling"
         }
       }
     },
     "certificability-tooltip": {
-      "aria-label": "Uitleg van certificeerbaarheid",
+      "aria-label": "Uitleg over certificeerbaarheid",
       "content": "Certificeerbaarheid betekent dat de deelnemer niveau 1 heeft bereikt in ten minste 5 verschillende vaardigheden.",
-      "from-collect-notice": "De informatie is afkomstig van de profielverzamelingscampagnes die door de deelnemer zijn uitgevoerd. Als de deelnemer zijn profiel al heeft verzonden, worden de datum en status van de laatste verzending weergegeven.",
-      "from-compute-certificability": "Deze status wordt automatisch bijgewerkt (elke 24 uur) en tijdens campagnes voor het verzamelen van profielen."
+      "from-collect-notice": "De informatie is afkomstig van de profielverzamelingscampagnes die door de deelnemer zijn uitgevoerd. Als de deelnemer zijn profiel al heeft ingestuurd, worden de datum en status van de laatste verzending weergegeven.",
+      "from-compute-certificability": "Deze status wordt automatisch bijgewerkt (elke 24 uur) en tijdens profielverzamelingscampagnes."
     },
     "certificability": {
       "placeholder-select": "Certificeerbaar / Niet certificeerbaar"
@@ -261,46 +257,46 @@
       "no-date": "Nog geen datum"
     },
     "group": {
-      "SCO": "Klasse",
+      "SCO": "Klas",
       "SUP": "Groep"
     },
     "import-information-banner": {
-      "error": "Storing bij de invoer",
+      "error": "Fout bij importeren",
       "error-link": "(zie de importpagina).",
-      "in-progress": "Er wordt geïmporteerd",
+      "in-progress": "Bezig met importeren",
       "in-progress-link": "(controleer importstatus).",
-      "success": "De deelnemers waren goed ingevoerd."
+      "success": "De deelnemers zijn geïmporteerd."
     },
     "organization-participants-header": {
       "import-button": "Importeren",
-      "title": "{count, plural, =0 {Deelnemers} =1 {Deelnemers ({count})} other {Deelnemers ({count})}}"
+      "title": "{count, plural, =0 {Deelnemer} =1 {Deelnemer ({count})} other {Deelnemers ({count})}}"
     },
     "participation-status": {
       "SHARED-ASSESSMENT": "Ontvangen resultaten",
       "SHARED-PROFILES_COLLECTION": "Profiel ontvangen",
-      "STARTED-ASSESSMENT": "Actief",
+      "STARTED-ASSESSMENT": "Bezig",
       "TO_SHARE-ASSESSMENT": "In afwachting van verzending",
       "TO_SHARE-PROFILES_COLLECTION": "In afwachting van verzending"
     }
   },
   "navigation": {
     "assessment-individual-results": {
-      "aria-label": "Navigatie door de sectie met individuele beoordelingsresultaten"
+      "aria-label": "Navigatie door het deel met individuele beoordelingsresultaten"
     },
     "campaign-page": {
-      "aria-label": "Navigeren door de campagnedetails"
+      "aria-label": "Navigeren door het deel campagnedetails"
     },
     "credits": {
-      "number": "{count, plural, =0 {0 krediet} =1 {1 krediet} other {{count, number} kredieten}}",
+      "number": "{count, plural, =0 {0 credit} =1 {1 credit} other {{count, number} credits}}",
       "tooltip-text": "Het aantal weergegeven credits komt overeen met het aantal credits dat door de organisatie is verworven en momenteel geldig is (ongeacht hun activering). Neem voor meer informatie contact met ons op via '<a href=mailto:pro@pix.fr>'pro@pix.fr'</a>'."
     },
     "footer": {
       "a11y": "Toegankelijkheid: gedeeltelijk conform",
-      "aria-label": "Voetregel navigatie",
+      "aria-label": "Navigatie voetnoot",
       "copyrights": "©",
       "legal-notice": "Wettelijke informatie",
       "pix": "Pix",
-      "server-status": "Status afdeling"
+      "server-status": "Status diensten"
     },
     "main": {
       "aria-label": "Hoofdnavigatie",
@@ -310,32 +306,32 @@
       "missions": "Opdrachten",
       "organization-participants": "Deelnemers",
       "places": "Plaatsen",
-      "sco-organization-participants": "Studenten",
+      "sco-organization-participants": "Leerlingen",
       "sup-organization-participants": "Studenten",
       "team": "Team"
     },
     "pix-orga": "Pix Orga",
     "places": {
       "link": "Zie details",
-      "number": "{count, plural, =0 {0 beschikbare ruimte} =1 {1 beschikbare ruimte} other {{count} beschikbare plaatsen}}"
+      "number": "{count, plural, =0 {0 plaatsen beschikbaar} =1 {1 plaats beschikbaar} other {{count} plaatsen beschikbaar}}"
     },
     "school-sessions": {
       "activate-button": "De sessie activeren",
-      "extend-button": "Verleng uw sessie",
+      "extend-button": "De sessie verlengen",
       "status": {
         "active-label": "Sessie actief tot {sessionExpirationDate}",
-        "aria-label": "Uitleg van de sessie",
+        "aria-label": "Uitleg over de sessie",
         "inactive-label": "Sessie inactief",
-        "info-text": "Leerlingen kunnen alleen toegang krijgen tot missies als de sessie actief is.'<br>' Aan het einde van de sessie worden leerlingen die midden in een missie zitten niet losgekoppeld.",
-        "title": "Sessie status"
+        "info-text": "Leerlingen kunnen alleen toegang krijgen tot opdrachten als de sessie actief is.'<br>' Aan het einde van de sessie worden leerlingen die midden in een opdracht zitten niet uitgelogd.",
+        "title": "Status sessie"
       }
     },
     "team-members": {
-      "aria-label": "Navigeren door het teamgedeelte"
+      "aria-label": "Navigeren door het gedeelte Team"
     },
     "user-logged-menu": {
-      "button": "Open het gebruikersmenu",
-      "logout": "Log uit."
+      "button": "Gebruikersmenu openen",
+      "logout": "Uitloggen"
     }
   },
   "pages": {
@@ -344,10 +340,10 @@
       "breadcrumb-current-page-label": "Deelname van {firstName} {lastName}",
       "participation-label": "Deelname #{participationNumber}",
       "participation-not-shared": "Resultaten niet verzonden",
-      "participation-selector": "Een inzet kiezen",
+      "participation-selector": "Een deelname kiezen",
       "participation-shared": "Verzonden resultaten",
-      "progression": "Vooruitgang",
-      "result": "Resultaten",
+      "progression": "Voortgang",
+      "result": "Resultaat",
       "tab": {
         "results": "Resultaten",
         "review": "Analyse"
@@ -357,11 +353,11 @@
           "competences": "Vaardigheden ({count, plural, =0 {-} other {{count}}})",
           "results": {
             "label": "Resultaten",
-            "tooltip": "'<span class=\"screen-reader-only\">'Deze deelnemer heeft gevalideerd'</span>' {result, number, ::percent} '<span class=\"screen-reader-only\">'competentie {competence}.'</span>'"
+            "tooltip": "'<span class=\"screen-reader-only\">'Deze deelnemer heeft bevestigd'</span>' {result, number, ::percent} '<span class=\"screen-reader-only\">'van de vaardigheid {competence}.'</span>'"
           }
         },
         "empty": "In afwachting van resultaten",
-        "row-title": "Bevoegdheid",
+        "row-title": "Vaardigheid",
         "title": "Resultaten per vaardigheid"
       },
       "title": "Resultaten voor {firstName} {lastName}"
@@ -372,18 +368,18 @@
       },
       "delete-participation-modal": {
         "actions": {
-          "cancel": "Geen",
-          "confirmation": "Ja, ik verwijder"
+          "cancel": "Nee",
+          "confirmation": "Ja, verwijderen"
         },
-        "error": "Er is een probleem opgetreden bij het verwijderen van het item.",
-        "success": "Deelname werd met succes ingetrokken.",
-        "text": "Als je een item gaat verwijderen, is het niet langer zichtbaar of opgenomen in de campagnestatistieken.",
+        "error": "Er is een probleem opgetreden bij het verwijderen van de deelname.",
+        "success": "Deelname werd succesvol verwijderd.",
+        "text": "Als je een deelname gaat verwijderen, is deze niet langer zichtbaar of opgenomen in de campagnestatistieken.",
         "title": "De deelname van <strong>{firstName} {lastName}</strong> verwijderen?",
         "warning": {
           "assessment-campaign-participation": {
             "shared-participation": "De deelnemer kan niet meer deelnemen aan deze campagne.",
-            "started-participation": "De deelnemer kan de campagne nog wel voltooien, maar kan zijn resultaten niet meer opsturen. Ze kunnen ook niet meer deelnemen aan de campagne.",
-            "to-share-participation": "Deelnemers kunnen hun resultaten niet opsturen en kunnen ook niet opnieuw deelnemen aan de campagne."
+            "started-participation": "De deelnemer kan de campagne nog wel voltooien, maar kan de resultaten niet meer opsturen, noch opnieuw deelnemen aan de campagne.",
+            "to-share-participation": "Deelnemer kan de resultaten niet opsturen en kan ook niet opnieuw deelnemen aan de campagne."
           },
           "profiles-collection-campaign-participation": {
             "shared-participation": "De deelnemer kan niet meer deelnemen aan deze profielverzameling.",
@@ -393,19 +389,19 @@
       },
       "table": {
         "column": {
-          "delete": "Winstdeling afschaffen",
+          "delete": "Deelname verwijderen",
           "first-name": "Voornaam",
           "last-name": "Achternaam",
-          "participationCount": "Aantal inzendingen",
+          "participationCount": "Aantal deelnames",
           "status": "Status"
         },
-        "delete-button-label": "Winstdeling afschaffen",
+        "delete-button-label": "Deelname verwijderen",
         "empty": "Geen deelnemers",
         "row-title": "Deelnemer",
         "see-results": "Bekijk de resultaten van {firstName} {lastName}",
         "title": "Lijst van deelnemers"
       },
-      "title": "activiteit"
+      "title": "Activiteit"
     },
     "campaign-creation": {
       "actions": {
@@ -414,65 +410,65 @@
       },
       "copy-of": "Kopie van",
       "external-id-label": {
-        "label": "Identificatiewoord",
-        "question-label": "Wilt u een extern identificatiemiddel aanvragen?",
+        "label": "Type externe user-ID",
+        "question-label": "Wil je een externe gebruikers-ID aanvragen?",
         "required": "De externe id is verplicht",
         "suggestion": "Voorbeeld: \"Studentnummer\" of \"Professioneel e-mailadres\" *."
       },
       "landing-page-text": {
         "label": "Tekst op de startpagina"
       },
-      "legal-warning": "* In overeenstemming met de Franse wet op gegevensbescherming en als verantwoordelijke voor de verwerking van de gegevens, vragen we niet naar bijzonder identificerende of belangrijke gegevens, tenzij dit absoluut noodzakelijk is. Het burgerservicenummer (NIR) moet worden vermeden, net als gevoelige gegevens.",
+      "legal-warning": "* In overeenstemming met de Franse wet op gegevensbescherming en als verantwoordelijke voor de verwerking van de gegevens, vragen we niet naar bijzonder identificerende of belangrijke gegevens, tenzij dit absoluut noodzakelijk is. Het burgerservicenummer (BSN) moet worden vermeden, net als gevoelige gegevens.",
       "multiple-sendings": {
         "assessments": {
           "info": "Als je ervoor kiest om meerdere inzendingen te verzenden, kan de deelnemer de campagne 4 dagen later opnieuw uitvoeren en zijn resultaten meerdere keren verzenden door de code opnieuw in te voeren. In Pix Orga zie je hun laatste inzending.",
-          "question-label": "Wilt u deelnemers toestaan hun resultaten meer dan één keer te versturen?"
+          "question-label": "Wil je deelnemers toestaan hun resultaten meer dan één keer te versturen?"
         },
         "info-title": "Meervoudig verzenden",
-        "knowledge-elements-resettable": "Als onderdeel van de cursus kunnen deelnemers proberen hun resultaten te verbeteren door alle vragen in de cursus te herhalen.",
+        "knowledge-elements-resettable": "Als onderdeel van de cursus kunnen deelnemers proberen hun resultaten te verbeteren door alle vragen in de cursus opnieuw te maken.",
         "profiles": {
-          "info": "Als je ervoor kiest om meerdere profielen te versturen, kunnen deelnemers hun profiel meerdere keren versturen door de campagnecode opnieuw in te voeren. In Pix Orga vind je het laatst verzonden profiel.",
+          "info": "Als je kiest voor meervoudige verzending, kunnen deelnemers hun profiel meerdere keren versturen door de campagnecode opnieuw in te voeren. In Pix Orga vind je het laatst verzonden profiel.",
           "question-label": "Wil je deelnemers toestaan hun profiel meerdere keren te versturen?"
         }
       },
       "name": {
-        "label": "Campagne naam"
+        "label": "Naam Campagne"
       },
-      "no": "Geen",
+      "no": "Nee",
       "owner": {
         "info": "De eigenaar van de campagne en de beheerders van deze organisatie zijn de enige personen die deze campagne kunnen wijzigen of archiveren.",
         "label": "Eigenaar van de campagne",
-        "placeholder": "Volledige naam eigenaar",
-        "search-placeholder": "Zoek een eigenaar",
+        "placeholder": "Naam en voornaam eigenaar",
+        "search-placeholder": "Een eigenaar zoeken",
         "title": "Eigenaar van de campagne"
       },
       "purpose": {
         "assessment": "Deelnemers evalueren",
-        "assessment-info": "Een evaluatiecampagne stelt deelnemers in staat om getest te worden op specifieke onderwerpen.",
+        "assessment-info": "Een beoordelingscampagne stelt deelnemers in staat om getest te worden op specifieke onderwerpen.",
         "label": "Wat is het doel van je campagne?",
         "profiles-collection": "Pix-profielen van deelnemers verzamelen",
         "profiles-collection-info": "Een campagne voor het verzamelen van profielen wordt gebruikt om het profiel van de deelnemers te achterhalen: niveaus per vaardigheid en pix-score.",
         "profiles-collection-info-certificability-calculation": "De certificeerbare status wordt automatisch bijgewerkt in het tabblad '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'Studenten'</a>'."
       },
-      "tags-title": "Filter zoekopdracht :",
+      "tags-title": "Filter zoekopdracht:",
       "tags": {
         "COMPETENCES": "De 16 vaardigheden",
-        "CUSTOM": "Cursussen op maat",
-        "DISCIPLINE": "Tuchtrecht",
+        "CUSTOM": "Cursus op maat",
+        "DISCIPLINE": "Disciplines",
         "OTHER": {
-          "other": "Andere"
+          "other": "Autres"
         },
         "PIX_PLUS": "Pix+",
-        "PREDEFINED": "Vooraf gedefinieerde routes",
+        "PREDEFINED": "Vooraf gedefinieerde test",
         "SUBJECT": "Thema's"
       },
-      "target-profiles-category-label": "Filter routes op categorie",
+      "target-profiles-category-label": "Filter tests op categorie",
       "target-profiles-category-placeholder": "Categorieën",
-      "target-profiles-label": "Selecteer een route",
+      "target-profiles-label": "Selecteer een test",
       "target-profiles-list-label": "Wat wil je testen?",
       "target-profiles-search-placeholder": "Zoeken op naam",
       "test-title": {
-        "label": "Cursus titel"
+        "label": "Titel test"
       },
       "title": "Een campagne maken",
       "yes": "Ja"
@@ -486,39 +482,43 @@
     },
     "campaign-modification": {
       "actions": {
-        "edit": "Bewerk"
+        "edit": "Wijzigen"
       },
       "campaign-modification-success-message": "De wijzigingen zijn opgeslagen.",
-      "campaign-name": "Campagne naam",
+      "campaign-name": "Naam Campagne",
       "landing-page-text": "Tekst op de startpagina",
       "owner": {
         "info": "De eigenaar van de campagne en de beheerders van deze organisatie zijn de enige personen die deze campagne kunnen wijzigen en archiveren.",
         "label": "Eigenaar van de campagne",
-        "placeholder": "Volledige naam eigenaar",
+        "placeholder": "Naam en voornaam eigenaar",
         "title": "Eigenaar van de campagne"
       },
-      "personalised-test-title": "Cursus titel",
+      "personalised-test-title": "Titel test",
       "title": "Een campagne wijzigen"
     },
     "campaign-results": {
-      "average": "Gemiddelde resultaten",
+      "average": "Gemiddelde van de resultaten",
       "filters": {
-        "aria-label": "Filters voor aandelenbezit",
+        "aria-label": "Filters op deelnames",
         "participations-count": "{count, plural, =0 {0 deelnemer} =1 {1 deelnemer} other {{count} deelnemers}}",
         "type": {
           "badges": "Thema's",
           "groups": {
-            "empty": "Geen groepen",
+            "empty": "Geen groep",
             "title": "Groepen"
           },
-          "stages": "Lagers",
+          "search": {
+            "placeholder": "Achternaam, voornaam",
+            "title": "Zoeken op voor- en achternaam"
+          },
+          "stages": "Succesratio",
           "status": {
-            "empty": "Alle statuten",
+            "empty": "Alle statussen",
             "title": "Status"
           }
         }
       },
-      "result": "Resultaten",
+      "result": "Resultaat",
       "table": {
         "column": {
           "ariaSharedResultCount": "Aantal verzonden resultaten",
@@ -528,7 +528,7 @@
           "results": {
             "label": "Resultaten",
             "on-hold": "In afwachting van verzending",
-            "under-test": "Wordt momenteel getest"
+            "under-test": "Test bezig"
           },
           "sharedResultCount": "Aantal verzonden resultaten"
         },
@@ -536,25 +536,25 @@
         "row-title": "Deelnemer",
         "title": "Lijst van ontvangen resultaten"
       },
-      "tested-items": "Activa beoordeeld",
+      "tested-items": "Beoordeelde verworvenheden",
       "title": "Resultaten",
-      "validated-items": "Gevalideerde prestaties"
+      "validated-items": "Bevestigde items"
     },
     "campaign-review": {
-      "description": "Afhankelijk van de geteste repository en de resultaten van de campagne, zal Pix je deze onderwerpen aanbevelen om aan te werken, gerangschikt op mate van relevantie {bubble}.",
+      "description": "Afhankelijk van het geteste kader en de resultaten van de campagne, zal Pix je deze onderwerpen aanbevelen om op te focussen, gerangschikt op mate van relevantie {bubble}.",
       "sub-table": {
         "column": {
           "source": {
             "value": "Door {source}"
           }
         },
-        "row-title": "Les",
-        "title": "{count, plural, =1 {1 handleiding aanbevolen} other{{count} handleidingen aanbevolen}} door de Pix gemeenschap"
+        "row-title": "Tutorial",
+        "title": "{count, plural, =1 {1 tutorial aanbevolen} other{{count} tutorials aanbevolen}} door de Pix Community"
       },
       "sub-title": "Aanbeveling van onderwerpen om aan te werken",
       "table": {
         "analysis": {
-          "caption": "Tabel met onderwerpen om aan te werken, sommige met extra kolommen met het aantal zelfstudielessen over het onderwerp en de toegang tot deze zelfstudielessen.",
+          "caption": "Tabel met onderwerpen om aan te werken, sommige met extra kolommen met het aantal tutorials over het onderwerp en de toegang hiertoe.",
           "column": {
             "relevance": {
               "ariaLabelDefaultSort": "De tabel is momenteel niet gesorteerd op relevantie. Klik om in oplopende volgorde te sorteren.",
@@ -564,18 +564,18 @@
             },
             "subjects": "Onderwerpen ({count, plural, =0 {-} other {{count}}})",
             "tutorial-count": {
-              "aria-label": "Aantal aanbevolen zelfstudies",
-              "value": "{count, plural, =1 {1 handleiding} other {{count} handleidingen}}"
+              "aria-label": "Aantal aanbevolen tutorials",
+              "value": "{count, plural, =1 {1 tutorial} other {{count} tutorials}}"
             },
             "tutorial": {
-              "aria-label": "De lijst met zelfstudielessen weergeven"
+              "aria-label": "De lijst met tutorials weergeven"
             }
           },
           "recommendations": {
-            "moderately-recommended": "Redelijk aanbevolen",
+            "moderately-recommended": "Enigszins aanbevolen",
             "recommended": "Aanbevolen",
             "strongly-recommended": "Sterk aanbevolen",
-            "very-strongly-recommended": "Sterk aanbevolen"
+            "very-strongly-recommended": "Zeer aanbevolen"
           },
           "row-title": "Onderwerp",
           "title": "Analyse per onderwerp"
@@ -585,10 +585,10 @@
             "competences": "Vaardigheden ({count})",
             "results": {
               "label": "Resultaten",
-              "tooltip": "'<span class=\"screen-reader-only\">'De deelnemers valideerden</span>' {result} % '<span class=\"screen-reader-only\">'van de {competence}.'</span>'"
+              "tooltip": "'<span class=\"screen-reader-only\">'De deelnemers valideerden</span>' {result} % '<span class=\"screen-reader-only\">'van de vaardigheid {competence}.'</span>'"
             }
           },
-          "row-title": "Bevoegdheid",
+          "row-title": "Vaardigheid",
           "title": "Resultaten per vaardigheid"
         },
         "empty": "In afwachting van resultaten"
@@ -597,78 +597,78 @@
     },
     "campaign-settings": {
       "actions": {
-        "archive": "Archief",
-        "duplicate": "Duplicaat",
-        "edit": "Bewerk"
+        "archive": "Archiveren",
+        "duplicate": "Dupliceren",
+        "edit": "Wijzigen"
       },
       "campaign-type": {
         "assessment": "Beoordelingscampagne",
-        "profiles-collection": "Verzamelactie profielen",
-        "title": "Type campagne"
+        "profiles-collection": "Verzamelcampagne profielen",
+        "title": "Soort campagne"
       },
       "direct-link": "Directe link",
-      "external-user-id-label": "Identificatiewoord",
+      "external-user-id-label": "Type externe user-ID",
       "landing-page-text": "Tekst op de startpagina",
       "multiple-sendings": {
         "status": {
-          "disabled": "Geen",
+          "disabled": "Nee",
           "enabled": "Ja"
         },
         "title": "Meervoudig verzenden",
         "tooltip": {
           "aria-label": "Beschrijving van meervoudige verzending",
-          "text": "Als meerdere inzendingen zijn geactiveerd, kan de deelnemer zijn inzending meerdere keren versturen door de campagnecode opnieuw in te voeren. Je vindt de laatst verzonden inzending in Pix Orga."
+          "text": "Als meervoudige verzending is geactiveerd, kan de deelnemer zijn deelname meerdere keren versturen door de campagnecode opnieuw in te voeren. Je vindt de laatst verzonden inzending in Pix Orga."
         }
       },
-      "personalised-test-title": "Cursus titel",
+      "personalised-test-title": "Titel test",
       "reset-to-zero": {
         "status": {
-          "disabled": "Geen",
+          "disabled": "Nee",
           "enabled": "Ja"
         },
-        "title": "Op nul zetten",
+        "title": "Reset",
         "tooltip": {
           "aria-label": "Beschrijving van Reset",
-          "text": "Als de reset-functie is geactiveerd, kan de deelnemer de hele cursus opnieuw doorlopen en zijn resultaten meerdere keren terugsturen door de campagnecode opnieuw in te voeren."
+          "text": "Als de reset-functie is geactiveerd, kan de deelnemer de hele tests opnieuw doorlopen en zijn resultaten meerdere keren terugsturen door de campagnecode opnieuw in te voeren."
         }
       },
       "target-profile": {
         "title": "Test",
-        "tooltip": "Cursusbeschrijving"
+        "tooltip": "Beschrijving test"
       },
       "title": "Instellingen"
     },
     "campaign": {
       "actions": {
         "export-results": "Resultaten exporteren (.csv)",
-        "unarchive": "De-archivering van de campagne"
+        "unarchive": "Campagne de-archiveren"
       },
       "archived": "Gearchiveerde campagne",
       "code": "Code",
       "copy": {
         "code": {
-          "default": "Kopieer de code",
-          "success": "Kopiëren!"
+          "default": "De code kopiëren",
+          "success": "Gekopieerd"
         },
         "link": {
-          "default": "Kopieer de directe link",
-          "success": "Kopiëren!"
+          "default": "De directe link kopiëren",
+          "success": "Gekopieerd"
         }
       },
       "created-by": "Eigenaar",
       "created-on": "Gemaakt op",
-      "empty-state": "Tot nu toe geen deelnemers!",
-      "empty-state-with-copy-link": "Nog geen deelnemers! Stuur ze de volgende link om mee te doen aan je campagne.",
+      "empty-state": "Geen deelnemers op het moment",
+      "empty-state-with-copy-link": "Geen deelnemers op het moment! Stuur ze de volgende link om mee te doen aan je campagne.",
       "multiple-sendings": {
         "status": {
-          "disabled": "Geen",
+          "disabled": "Nee",
           "enabled": "Ja"
         },
         "title": "Meervoudig verzenden"
       },
-      "name": "Campagne naam",
+      "name": "Naam Campagne",
       "tab": {
-        "activity": "activiteit",
+        "activity": "Activiteit",
         "results": "Resultaten ({count, number})",
         "review": "Analyse",
         "settings": "Instellingen"
@@ -681,29 +681,29 @@
           "label": "Actieve of gearchiveerde campagnes weergeven",
           "ongoing": "Actief"
         },
-        "create": "Creëer een campagne"
+        "create": "Een campagne maken"
       },
       "filter": {
-        "by-name": "Campagne zoeken",
-        "by-owner": "Zoek een eigenaar",
+        "by-name": "Een campagne zoeken",
+        "by-owner": "Een eigenaar zoeken",
         "legend": "Filters voor de campagnetabel: invoervelden kunnen worden gebruikt om de tabel te filteren op campagnenaam en naam van de eigenaar. Knoppen kunnen worden gebruikt om actieve en gearchiveerde campagnes te filteren.",
         "results": "{total, plural, =0 {0 campagne} =1 {1 campagne} other {{total, number} campagnes}}"
       },
       "navigation": "Navigeren door het gedeelte Campagnes",
-      "no-campaign": "Geen campagne, klik om te beginnen op de knop 'Maak een campagne'.",
+      "no-campaign": "Geen campagne, klik om te beginnen op de knop 'Een campagne maken'.",
       "table": {
         "column": {
           "code": "Code",
           "created-by": "Eigenaar",
           "created-on": "Gemaakt op",
-          "name": "Campagne naam",
+          "name": "Naam Campagne",
           "participants": "Deelnemers",
           "results": "Ontvangen resultaten"
         },
-        "description-all-campaigns": "Deze tabel geeft een overzicht van alle campagnes die zijn aangemaakt in je Pix Orga ruimte. Voor elke campagne staat de code, de eigenaar, de datum waarop de campagne is gemaakt, het aantal deelnemers en het aantal ontvangen resultaten.",
-        "description-my-campaigns": "In deze tabel staan de campagnes waarvan je de eigenaar bent. Voor elke campagne wordt de code weergegeven, de datum waarop ze zijn gemaakt, het aantal deelnemers en het aantal ontvangen resultaten.",
+        "description-all-campaigns": "Deze tabel geeft een overzicht van alle campagnes die zijn aangemaakt in je Pix Orga-ruimte. Voor elke campagne staat de code, de eigenaar, de datum waarop de campagne is gemaakt, het aantal deelnemers en het aantal ontvangen resultaten.",
+        "description-my-campaigns": "In deze tabel staan de campagnes waarvan je de eigenaar bent. Voor elke campagne wordt de code weergegeven, de aanmaakdatum, het aantal deelnemers en het aantal ontvangen resultaten.",
         "empty": "Geen campagne",
-        "row-title": "platteland"
+        "row-title": "Campagne"
       },
       "tabs": {
         "all-campaigns": "Alle campagnes",
@@ -712,51 +712,51 @@
       "title": "Campagnes"
     },
     "certifications": {
-      "description": "Selecteer de klas waarvoor u de certificeringsresultaten wilt exporteren (.csv) of de certificaten wilt downloaden (.pdf).'<br>' U kunt deze lijst filteren door de naam van de klas direct in het veld in te voeren.",
+      "description": "Selecteer de klas waarvoor je de certificeringsresultaten wilt exporteren (.csv) of de certificaten wilt downloaden (.pdf).'<br>' Je kunt deze lijst filteren door de naam van de klas direct in het veld in te voeren.",
       "documentation-link": "https://cloud.pix.fr/s/cRaeKT4ErrXs4X8",
       "documentation-link-label": "Interpretatie van de resultaten.",
       "documentation-link-notice": "Volg deze link voor meer informatie over de interpretatie van de resultaten:",
-      "download-attestations-button": "Certificaten downloaden",
+      "download-attestations-button": "Getuigschriften downloaden",
       "download-button": "Resultaten exporteren",
       "errors": {
-        "invalid-division": "De klasse {selectedDivision} bestaat niet.",
-        "no-certificates": "Geen certificeringscertificaat voor de klasse {selectedDivision}.",
-        "no-results": "Geen certificeringsresultaten voor de klasse {selectedDivision}."
+        "invalid-division": "De klas {selectedDivision} bestaat niet.",
+        "no-certificates": "Geen bewijs van certificering voor de klas {selectedDivision}.",
+        "no-results": "Geen bewijs van certificering voor de klas {selectedDivision}."
       },
-      "no-students-imported-yet": "In dit tabblad vind je de resultaten en certificaten van studenten. Eerst moet je de studentendatabase van je school importeren.",
-      "select-label": "Klasse",
-      "title": "Certificeringsresultaten"
+      "no-students-imported-yet": "In dit tabblad vind je de resultaten en certificaten van de studenten. Eerst moet je de studentendatabase van je instelling importeren.",
+      "select-label": "Klas",
+      "title": "Resultaten certificering"
     },
     "join-request-form": {
-      "firstname": "Uw voornaam",
-      "lastname": "Uw naam",
+      "firstname": "Je voornaam",
+      "lastname": "Je achternaam",
       "legal-information": {
-        "link-text": "Lees meer over mijn rechten.",
+        "link-text": "Meer info over mijn rechten.",
         "link-url": "https://pix.fr/dp-formulaire-recuperation-pixorga-sco",
-        "text": "De informatie die op dit formulier wordt verzameld, wordt opgenomen in een bestand dat door GIP Pix wordt verwerkt in opdracht van het Ministerie van Nationaal Onderwijs, als verantwoordelijke voor de verwerking van de gegevens, zodat je school toegang kan krijgen tot de Pix Orga ruimte door een uitnodiging te sturen om lid te worden van deze ruimte."
+        "text": "De informatie die op dit formulier wordt verzameld, wordt opgenomen in een bestand dat door de GIP Pix wordt verwerkt in opdracht van het Franse Ministerie van Onderwijs, als verantwoordelijke voor de verwerking van de gegevens, zodat je instelling toegang kan krijgen tot de Pix Orga-portal door een uitnodiging te sturen om lid te worden van deze ruimte."
       },
-      "organization-code": "UAI/RNE van de inrichting"
+      "organization-code": "UAI/RNE van de instelling"
     },
     "login-form": {
-      "active-or-retrieve": "Activeer of herstel je Pix Orga ruimte",
-      "email": "E-mail adres",
+      "active-or-retrieve": "Activeer of herstel je Pix Orga-ruimte",
+      "email": "E-mailadres",
       "errors": {
-        "empty-password": "Het wachtwoordveld is verplicht.",
-        "invalid-email": "Uw e-mailadres is ongeldig.",
+        "empty-password": "Het veld wachtwoord is verplicht.",
+        "invalid-email": "Je e-mailadres is ongeldig.",
         "should-change-password": "Je hebt momenteel een tijdelijk wachtwoord. Klik op '<'a href=\"{url}\"'>'wachtwoord vergeten'</a>' om het opnieuw in te stellen.",
         "status": {
-          "403": "Toegang tot Pix Orga is beperkt tot uitgenodigde leden. Elk gebied wordt beheerd door een Pix Orga beheerder die specifiek is voor de organisatie die het gebruikt. Neem contact met hem/haar op om je uit te nodigen.",
+          "403": "Toegang tot Pix Orga is beperkt tot uitgenodigde leden. Elke ruimte wordt beheerd door een Pix Orga-beheerder die specifiek is voor de organisatie die het gebruikt. Neem contact met hem/haar op om je uit te nodigen.",
           "404": "Het ingevoerde e-mailadres en/of wachtwoord is onjuist.",
           "409": "Deze uitnodiging is al geaccepteerd of geannuleerd."
         }
       },
-      "forgot-password": "Bent u uw wachtwoord vergeten?",
+      "forgot-password": "Wachtwoord vergeten?",
       "forgotten-password-url": "https://app.pix.fr/mot-de-passe-oublie",
-      "invitation-already-accepted": "Deze uitnodiging is al geaccepteerd. Log in of neem contact op met de beheerder van je Pix Orga ruimte.",
-      "invitation-was-cancelled": "Deze uitnodiging is niet langer geldig. Neem contact op met de beheerder van je Pix Orga ruimte.",
-      "is-only-accessible": "Toegang tot Pix Orga is beperkt tot uitgenodigde leden. Neem contact op met de Pix Orga beheerder van je organisatie om je uit te nodigen.",
-      "login": "Ik ben online.",
-      "only-for-admin": "Gereserveerd voor managers van openbare en privéscholen onder contract.",
+      "invitation-already-accepted": "Deze uitnodiging is al geaccepteerd. Log in of neem contact op met de beheerder van je Pix Orga-ruimte.",
+      "invitation-was-cancelled": "Deze uitnodiging is niet langer geldig. Neem contact op met de beheerder van je Pix Orga-ruimte.",
+      "is-only-accessible": "Toegang tot Pix Orga is beperkt tot uitgenodigde leden. Neem contact op met de Pix Orga-beheerder van je organisatie om je uit te nodigen.",
+      "login": "Ik log in",
+      "only-for-admin": "Gereserveerd voor directiepersoneel van openbare en privéscholen onder contract.",
       "password": "Wachtwoord"
     },
     "login-or-register": {
@@ -765,70 +765,70 @@
         "title": "Ik heb al een PIX-account"
       },
       "register-form": {
-        "button": "Meld je nu aan",
+        "button": "Aanmelden",
         "errors": {
           "default": "De service is tijdelijk niet beschikbaar. Probeer het later nog eens.",
           "email-already-exists": "Dit e-mailadres is al geregistreerd, log in."
         },
         "fields": {
           "button": {
-            "label": "Ik wil graag registreren"
+            "label": "Ik meld me aan"
           },
           "cgu": {
             "accept": "Ik accepteer de",
             "and": "en de",
-            "aria-label": "Accepteer de gebruiksvoorwaarden van Pix",
+            "aria-label": "De gebruiksvoorwaarden van Pix accepteren",
             "data-protection-policy": "privacybeleid",
             "error": "Je moet de gebruiksvoorwaarden en het privacybeleid van Pix accepteren om een account aan te maken.",
             "terms-of-use": "gebruiksvoorwaarden van Pix"
           },
           "email": {
-            "error": "Uw e-mailadres is ongeldig.",
-            "label": "E-mail adres"
+            "error": "Je e-mailadres is ongeldig.",
+            "label": "E-mailadres"
           },
           "first-name": {
             "error": "Je voornaam is niet ingevuld.",
             "label": "Voornaam"
           },
           "last-name": {
-            "error": "Je naam is niet ingevuld.",
-            "label": "Naam"
+            "error": "Je achternaam is niet ingevuld.",
+            "label": "Achternaam"
           },
           "password": {
             "error": "Je wachtwoord moet minstens 8 tekens lang zijn en minstens één hoofdletter, één kleine letter en één cijfer bevatten.",
             "label": "Wachtwoord"
           }
         },
-        "title": "Ik wil graag registreren"
+        "title": "Ik meld me aan"
       },
       "title": "Je bent uitgenodigd om lid te worden van de organisatie {organizationName}"
     },
     "login": {
-      "choose-language-aria-label": "Selecteer een taal",
-      "title": "Log in op"
+      "choose-language-aria-label": "Taal selecteren",
+      "title": "Inloggen"
     },
     "missions": {
       "details": {
         "competence": {
-          "title": "Competentie :"
+          "title": "Vaardigheid:"
         },
         "learners": {
           "list": {
             "aria-label": "Student",
-            "caption": "Tabel van studenten met de resultaten van hun deelname aan de missie {missionName}",
+            "caption": "Tabel van studenten met de resultaten van hun deelname aan de opdracht {missionName}",
             "filters": {
-              "aria-label": "Studentenfilter",
-              "learners-count": "{count, plural, =0 {Geen student} =1 {1 student} other {{count} studenten}}"
+              "aria-label": "Filter studenten",
+              "learners-count": "{count, plural, =0 {geen student} =1 {1 student} other {{count} studenten}}"
             },
             "headers": {
-              "division": "Klasse",
+              "division": "Klas",
               "first-name": "Voornaam",
-              "last-name": "Naam",
+              "last-name": "Achternaam",
               "result": "Positionering",
-              "status": "Missie status"
+              "status": "Status opdracht"
             },
             "mission-result": {
-              "exceeded": "Overschreden",
+              "exceeded": "Overtroffen",
               "not-reached": "Niet bereikt",
               "partially-reached": "Gedeeltelijk bereikt",
               "reached": "Bereikt",
@@ -837,7 +837,7 @@
             "mission-status": {
               "completed": "Voltooid",
               "not-started": "Niet gestart",
-              "started": "Actief"
+              "started": "Bezig"
             }
           },
           "no-data": "Er zijn geen deelnemers",
@@ -846,164 +846,168 @@
         "objective": {
           "title": "Doelstellingen:"
         },
-        "title": "Details van een missie"
+        "title": "Details van een opdracht"
       },
       "list": {
-        "aria-label": "Missie",
+        "aria-label": "Opdracht",
         "banner": {
           "admin": {
-            "abstract": "Om te beginnen",
-            "import-text": "importeer je studenten",
-            "info": "uit Onde (exporteerbaar bestand in het menu Lijsten & documenten > Uittreksels > Leerlingen of hun begeleider)."
+            "abstract": "Om te beginnen, gelieve",
+            "import-text": "je studenten te importeren",
+            "info": "uit Onde (exporteerbaar bestand in het menu Lijsten & documenten > Extracties> Leerlingen of hun begeleider)."
           },
           "copypaste-container": {
-            "abstract": "Start je eerste missies met je leerlingen door de sessie te activeren via de knop hierboven en gebruik de",
+            "abstract": "Start je eerste opdrachten met je studenten door de sessie te activeren via de knop hierboven en door de code te gebruiken",
             "button": {
-              "success": "gekopieerd!",
-              "tooltip": "kopieer de link"
+              "success": "gekopieerd !",
+              "tooltip": "de link kopiëren"
             },
-            "hint": "Aarzel niet om het toe te voegen aan je favorieten.",
-            "import-text": "schoollink"
+            "hint": "Aarzel niet om toe te voegen aan je favorieten.",
+            "import-text": "link school"
           },
           "non-admin": {
-            "abstract": "Om te beginnen vraag je je beheerder om de leerlingen te importeren."
+            "abstract": "Om te beginnen vraag je je beheerder om de studenten te importeren."
           },
           "welcome": "Hallo en welkom bij Pix Orga!"
         },
-        "caption": "Lijst van missies",
-        "empty-state": "Er zijn geen missies",
+        "caption": "Lijst van opdrachten",
+        "empty-state": "Er zijn geen opdrachten",
         "headers": {
           "competences": "Vaardigheden waaraan is gewerkt",
-          "name": "Missie",
+          "name": "Opdracht",
           "started-by": "Gestart door"
         },
-        "no-division": "Geen les"
+        "no-division": "Geen klas"
       },
       "title": "Opdrachten"
     },
     "organization-learner": {
       "activity": {
-        "assessment-summary": "Samenvatting van deelname aan evaluatiecampagnes",
+        "assessment-summary": "Samenvatting van deelname aan beoordelingscampagnes",
         "cards": {
-          "shared": "Verzonden : {count}",
-          "started": "Wordt aan gewerk t: {count}",
+          "shared": "Verzonden: {count}",
+          "started": "Bezig: {count}",
           "title": {
             "assessment": "Beoordelingen",
-            "profiles-collection": "Profiel collectie"
+            "profiles-collection": "Verzamelingen van profielen"
           },
-          "to-share": "In afwachting van : {count}"
+          "to-share": "In afwachting van: {count}"
         },
         "empty-state": "Momenteel geen activiteit! Stuur een campagne naar {organizationLearnerFirstName} {organizationLearnerLastName} en begin met het bijhouden van de voortgang.",
         "participation-list": {
           "table": {
             "column": {
-              "campaign-name": "platteland",
+              "campaign-name": "Campagne",
               "campaign-type": "Type",
               "created-at": "Startdatum",
-              "participation-count": "Aantal inzendingen",
+              "participation-count": "Aantal deelnames",
               "shared-at": "Verzenddatum",
               "status": "Status"
             },
             "row-title": "Deelname"
           }
         },
-        "participations-title": "Lijst met alle vermeldingen",
-        "profile-collection-summary": "Samenvatting van deelname aan profielvormingscampagnes",
-        "title": "activiteit"
+        "participations-title": "Lijst van alle deelnames",
+        "profile-collection-summary": "Samenvatting van deelname aan profielverzamelingscampagnes",
+        "title": "Activiteit"
       },
       "header": {
         "aria-label-title": "Detailpagina van {firstName} {lastName}"
       }
     },
     "organization-participant-activity": {
-      "title": "Deelnemersactiviteit"
+      "title": "Activiteit deelnemer"
     },
     "organization-participants-import": {
       "actions": {
         "add-sup": {
-          "details": "Hiermee kunt u een lijst met leerlingen toevoegen aan de lijst die al geïmporteerd is en/of de informatie voor leerlingen die al geïmporteerd zijn wijzigen.",
+          "details": "Hiermee kun je een lijst met studenten toevoegen aan de lijst die al geïmporteerd is en/of de gegevens van studenten die al zijn geïmporteerd, wijzigen.",
           "label": "Studenten toevoegen",
           "title": "Toevoegen/wijzigen"
         },
         "participants": {
-          "details": "Met deze actie kun je :",
+          "details": "Met deze actie kun je:",
           "details-add": "nieuwe deelnemers toevoegen",
           "details-disable": "voormalige deelnemers deactiveren",
           "details-update": "reeds geïmporteerde deelnemers wijzigen",
-          "label": "Importlijst",
+          "label": "De lijst importeren",
           "title": "De deelnemerslijst importeren"
         },
         "replace": {
-          "details": "Hiermee kun je een nieuwe lijst met leerlingen importeren in plaats van de bestaande.",
+          "details": "Hiermee kun je een nieuwe lijst met studenten importeren in plaats van de bestaande.",
           "label": "Een nieuwe lijst importeren",
-          "title": "vervangen"
+          "title": "Vervangen"
         }
       },
       "banner": {
-        "anchor-error": "Bekijk de lijst met fouten",
+        "anchor-error": "De lijst met foutmeldingen bekijken",
         "error-text": "Corrigeer de fouten en importeer het bestand opnieuw.",
-        "import-error": "De invoer van deelnemers is mislukt.",
+        "import-error": "De import van deelnemers is mislukt.",
         "import-in-progress": "De inhoud van het bestand is gevalideerd en de deelnemers worden geïmporteerd.",
         "in-progress-text": "Vernieuw deze pagina over enkele ogenblikken om de status van het bestand te controleren.",
-        "upload-completed": "Het bestand werd geïmporteerd {date} door {firstName} {lastName}.",
+        "upload-completed": "Het bestand werd geïmporteerd op {date} door {firstName} {lastName}.",
         "upload-error": "Het bestand kon niet worden geïmporteerd.",
         "upload-in-progress": "Het importeren van het bestand kan enkele minuten duren. Verlaat deze pagina niet.",
         "validation-error": "De inhoud van het bestand bevat fouten.",
         "validation-in-progress": "De inhoud van het bestand wordt momenteel gevalideerd.",
-        "warning-banner": "Sommige waarden zijn niet herkend. Ze zijn vervangen door \"Niet herkend\". Als u van mening bent dat er waarden ontbreken in de beperkende lijst, neem dan contact met ons op via '<a href=\"mailto:sup@pix.fr\">'sup@pix.fr'</a></div>'."
+        "warning-banner": "Sommige waarden zijn niet herkend. Ze zijn vervangen door \"Niet herkend\". Als je van mening bent dat er waarden ontbreken in de lijst, neem dan contact met ons op via '<a href=\"mailto:sup@pix.fr\">'sup@pix.fr'</a></div>'."
       },
       "error-panel": {
-        "error-wrapper": "Er zijn geen deelnemers geïmporteerd. Wijzig uw bestand en importeer het opnieuw.",
-        "global-error": "Er zijn geen deelnemers geïmporteerd. Probeer het opnieuw of neem contact met ons op via '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://support.pix.fr/support/tickets/new\">'het helpcentrumformulier'</a>'.",
-        "title": "Fouten in het laatst geïmporteerde bestand :"
+        "error-wrapper": "Er zijn geen deelnemers geïmporteerd. Wijzig het bestand en importeer het opnieuw.",
+        "global-error": "Er zijn geen deelnemers geïmporteerd. Probeer het opnieuw of neem contact met ons op via '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://support.pix.fr/support/tickets/new\">'het supportformulier'</a>'.",
+        "title": "Fouten in het laatst geïmporteerde bestand:"
       },
       "file-type-separator": ",",
       "global-success": "Laatste bestand succesvol geïmporteerd op {date} door {firstName} {lastName}.",
       "sco": {
-        "title": "Studenten importeren"
+        "title": "Leerlingen importeren"
       },
       "sup": {
         "title": "Studenten importeren"
       },
-      "supported-formats": "(ondersteunde formaten: {types})",
+      "supported-formats": "(ondersteunde formats: {types})",
       "title": "Importeren",
       "warnings": {
-        "diploma": "Niet erkende diploma's : {diplomas};",
-        "study-scheme": "Niet-erkende regelingen: {studySchemes};"
+        "diploma": "Niet erkende diploma's: {diplomas};",
+        "study-scheme": "Niet-erkende programma’s: {studySchemes};"
       }
     },
     "organization-participants": {
       "action-bar": {
         "delete-button": "Verwijderen",
-        "error-message": "{count, plural, =1 {Er is een fout opgetreden, {firstname} {lastname} is niet verwijderd uit de lijst met deelnemers} other {Er is een fout opgetreden, de {count} geselecteerde deelnemers zijn niet verwijderd uit de lijst}}",
+        "error-message": "{count, plural, =1 {Er is een fout opgetreden, {firstname} {lastname} is niet verwijderd uit de deelnemerslijst.} other {Er is een fout opgetreden, de {count} geselecteerde deelnemers zijn niet verwijderd uit de lijst.}}",
         "information": "{count, plural, =1 {{count} geselecteerde deelnemer} other {{count} geselecteerde deelnemers}}",
         "success-message": "{count, plural, =1 {{firstname} {lastname} is verwijderd van de lijst met deelnemers.} other {De {count} geselecteerde deelnemers zijn verwijderd van de lijst.}}"
       },
       "deletion-modal": {
-        "confirmation-checkbox": "Ik kan bevestigen dat ik de gevolgen van {count} de bezuinigingen volledig begrijp. ",
+        "confirmation-checkbox": "Ik kan bevestigen dat ik de gevolgen van de {count} schrappingen volledig begrijp. ",
         "content": {
           "footer": "Houd er rekening mee dat deze actie onomkeerbaar is.",
-          "header": "{count, plural, =1 {Ce participant ne sera plus visible} other {Ces participants ne seront plus visibles}} in Pix Orga.",
-          "main-campaign-prevent": "Dit heeft invloed op de resultaten en analyses van de campagnes die {count, plural, =1 {het heeft} other {zij hebben}} worden uitgevoerd.",
-          "main-new-campaign-access": "Maar {count, plural, =1 {het kan} other {ze kunnen}} deel te nemen aan nieuwe campagnes.",
-          "main-participation-access": "{count, plural, =1 {Het kan niet} other {Ze kunnen niet}}  {count, plural, =1 {hij had} other {ze hadden}} niet langer deelneemt aan de campagnes waaraan hij in het verleden heeft deelgenomen.",
-          "main-participation-prevent": "Alle {count, plural, =1 {its} other {its}} campagne-items worden verwijderd. "
+          "header": "{count, plural, =1 {Deze deelnemer is niet meer zichtbaar} other {Deze deelnemers zijn niet meer zichtbaar}} in Pix Orga.",
+          "main-campaign-prevent": "Dit heeft invloed op de resultaten en analyses van de campagnes die {count, plural, =1 {hij/zij heeft} other {zij hebben}} uitgevoerd.",
+          "main-new-campaign-access": "Maar {count, plural, =1 {hij/zij kan} other {zij kunnen}} deelnemen aan nieuwe campagnes.",
+          "main-participation-access": "{count, plural, =1 {Hij/zij kan niet} other {Zij kunnen niet}} meer deelnemen aan nieuwe campagnes waaraan {count, plural, =1 {hij/zij had} other {ze hadden}} deelgenomen in het verleden.",
+          "main-participation-prevent": "Alle campagne-items {count, plural, =1 {van hem} other {van hen}} worden verwijderd. "
         },
-        "delete-button": "Ja, ik verwijder",
-        "title": "{count, plural, =1 {Supprimer '<strong>'{firstname} {lastname}'</strong>' uit uw} other {Weet u zeker dat u '<strong>'{count}'</strong>'}} deelnemers wilt verwijderen?"
+        "delete-button": "Ja, verwijderen",
+        "title": "{count, plural, =1 {Verwijder '<strong>'{firstname} {lastname}’</strong>' uit jouw deelnemers?} other {Weet je zeker dat je '<strong>'{count}'</strong>'}} deelnemers wilt verwijderen?"
       },
       "empty-state": {
-        "action": "Bekijk mijn campagnes",
+        "action": "Mijn campagnes bekijken",
         "call-to-action": "Nodig ze uit om deel te nemen aan een campagne of om een nieuwe campagne aan te maken.",
-        "message": "Tot nu toe geen deelnemers!"
+        "message": "Geen deelnemers op het moment"
       },
       "filters": {
-        "aria-label": "Deelnemersfilters",
+        "aria-label": "Filters deelnemers",
         "participations-count": "{count, plural, =0 {0 deelnemer} =1 {1 deelnemer} other {{count} deelnemers}}",
         "type": {
           "certificability": {
             "label": "Zoeken op certificeerbaarheid",
-            "placeholder": "Certificering"
+            "placeholder": "Certificeerbaarheid"
+          },
+          "fullName": {
+            "label": "Zoeken op voor- en achternaam",
+            "placeholder": "Achternaam, voornaam"
           }
         }
       },
@@ -1013,7 +1017,7 @@
           "checkbox": "Selecteren/Deselecteren {firstname} {lastname}",
           "first-name": "Voornaam",
           "is-certifiable": {
-            "label": "Certificering"
+            "label": "Certificeerbaarheid"
           },
           "last-name": {
             "ariaLabelDefaultSort": "De tabel is momenteel niet gesorteerd op naam. Klik op om alfabetisch te sorteren.",
@@ -1029,10 +1033,10 @@
           },
           "mainCheckbox": "Hele kolom selecteren/deselecteren",
           "participation-count": {
-            "ariaLabelDefaultSort": "De tabel is momenteel niet gesorteerd op aantal items. Klik op om in oplopende volgorde te sorteren.",
-            "ariaLabelSortDown": "De tabel is gesorteerd op aflopend aantal items. Klik op om in oplopende volgorde te sorteren.",
-            "ariaLabelSortUp": "De tabel is gesorteerd op oplopend aantal items. Klik om aflopend te sorteren.",
-            "label": "Aantal inzendingen"
+            "ariaLabelDefaultSort": "De tabel is momenteel niet gesorteerd op aantal deelnames. Klik op om in oplopende volgorde te sorteren.",
+            "ariaLabelSortDown": "De tabel is gesorteerd op aflopend aantal deelnames. Klik op om in oplopende volgorde te sorteren.",
+            "ariaLabelSortUp": "De tabel is gesorteerd op oplopend aantal deelnames. Klik om aflopend te sorteren.",
+            "label": "Aantal deelnames"
           }
         },
         "description": "Tabel met deelnemers gesorteerd op naam.",
@@ -1043,13 +1047,13 @@
     "participants-list": {
       "latest-participation-information-tooltip": {
         "aria-label": "Informatie over laatste deelname",
-        "campaign-ASSESSMENT-type": "Evaluatie",
-        "campaign-name": "Campagne :",
-        "campaign-PROFILES_COLLECTION-type": "Profiel collectie",
-        "campaign-status": "Status :",
-        "campaign-type": "Type :",
+        "campaign-ASSESSMENT-type": "Beoordeling",
+        "campaign-name": "Campagne:",
+        "campaign-PROFILES_COLLECTION-type": "Verzameling profielen",
+        "campaign-status": "Status:",
+        "campaign-type": "Type:",
         "participation-SHARED-status": "Ontvangen",
-        "participation-STARTED-status": "Actief",
+        "participation-STARTED-status": "Bezig",
         "participation-TO_SHARE-status": "In afwachting van verzending"
       }
     },
@@ -1058,38 +1062,38 @@
       "title": "Plaatsen"
     },
     "preselect-target-profile": {
-      "download": "Selectie downloadonderwerp ({ numberOfTubesSelected }) (JSON, { fileSize }ko)",
+      "download": "Downloaden selectie onderwerpen ({ numberOfTubesSelected }) (JSON, { fileSize }kB)",
       "download-filename": "selectie-onderwerpen-{ organizationName }-{ date }.json",
-      "no-tube-selected": "Download de selectie van onderwerpen (JSON, { fileSize }ko)",
+      "no-tube-selected": "Downloaden selectie onderwerpen (JSON, { fileSize }kB)",
       "table": {
-        "caption": "Selectie van proefpersonen",
+        "caption": "Selectie van onderwerpen",
         "column": {
           "action": "Selectie",
-          "mobile": "Geschikt voor smartphones",
+          "mobile": "Geschikt voor smartphone",
           "name": "Naam onderwerp",
-          "tablet": "Geschikt voor tablets",
+          "tablet": "Geschikt voor tablet",
           "theme-name": "Naam van thema"
         },
-        "is-responsive": "Ja",
-        "not-responsive": "Geen",
+        "is-responsive": "ja",
+        "not-responsive": "nee",
         "row-title": "Onderwerp"
       },
-      "title": "Selectie van proefpersonen"
+      "title": "Selectie van onderwerpen"
     },
     "profiles-individual-results": {
       "breadcrumb-current-page-label": "Deelname van {firstName} {lastName}",
       "certifiable": "Certificeerbaar",
-      "competences-certifiables": "COMP. CERTIFIABLE",
+      "competences-certifiables": "CERTIFICEERBARE VAARD",
       "pix": "Pix",
       "pix-score": "{score, number}",
       "table": {
         "column": {
-          "level": "niveau",
-          "pix-score": "pix score",
-          "skill": "Bevoegdheid"
+          "level": "Niveau",
+          "pix-score": "Pix-score",
+          "skill": "Vaardigheid"
         },
         "empty": "In afwachting van resultaten",
-        "row-title": "Bevoegdheid",
+        "row-title": "Vaardigheid",
         "title": "Resultaten per vaardigheid"
       },
       "title": "Profiel van {firstName} {lastName}"
@@ -1098,11 +1102,11 @@
       "table": {
         "column": {
           "certifiable": "Certificeerbaar",
-          "competences-certifiables": "Certificeerbare Comp.",
+          "competences-certifiables": "Certificeerbare vaard.",
           "first-name": "Voornaam",
           "last-name": "Achternaam",
           "pix-score": {
-            "label": "pix score",
+            "label": "Pix-score",
             "value": "{score, number}"
           },
           "sending-date": {
@@ -1110,14 +1114,14 @@
             "on-hold": "In afwachting van verzending"
           }
         },
-        "empty": "Wachten op profielen",
+        "empty": "In afwachting van profielen",
         "row-title": "Profiel",
         "title": "Lijst van ontvangen profielen"
       },
       "title": "Ontvangen profielen"
     },
     "sco-organization-participant-activity": {
-      "title": "Activiteit voor studenten"
+      "title": "Activiteit van de student"
     },
     "sco-organization-participants": {
       "action-bar": {
@@ -1125,13 +1129,13 @@
         "reset-password-button": "Reset de wachtwoorden van geselecteerde studenten"
       },
       "actions": {
-        "manage-account": "Je account beheren",
+        "manage-account": "Account beheren",
         "show-actions": "Acties weergeven"
       },
       "connection-types": {
-        "email": "E-mail adres",
+        "email": "E-mailadres",
         "empty": "-",
-        "identifiant": "Inloggen",
+        "identifiant": "Gebruikersnaam",
         "mediacentre": "Mediacentrum",
         "none": "Geen",
         "without-mediacentre": "Zonder Mediacentrum"
@@ -1140,120 +1144,124 @@
         "aria-label": "Filters voor studenten",
         "certificability": {
           "label": "Zoeken op certificeerbaarheid",
-          "placeholder": "Certificering"
+          "placeholder": "Certificeerbaarheid"
         },
         "division": {
-          "empty": "Geen les",
-          "label": "Zoeken op klasse"
+          "empty": "Geen klas",
+          "label": "Zoeken op klas"
         },
         "first-name": {
           "label": "Zoeken op voornaam"
         },
         "last-name": {
-          "label": "Zoeken op naam"
+          "label": "Zoeken op achternaam"
         },
         "login-method": {
-          "empty-option": "Verbindingsmethode",
-          "label": "Zoeken op verbindingsmethode"
+          "empty-option": "Inlogmethode",
+          "label": "Zoeken op inlogmethode"
         },
-        "students-count": "{count, plural, =0 {0 student} =1 {1 student} other {{count} studenten}}"
+        "search": {
+          "label": "Zoeken op voor- en achternaam",
+          "placeholder": "Achternaam, voornaam"
+        },
+        "students-count": "{count, plural, =0 {0 studenten} =1 {1 student} other {{count} studenten}}"
       },
       "manage-authentication-method-modal": {
-        "authentication-methods": "Verbindingsmethoden",
-        "copied": "Kopiëren!",
+        "authentication-methods": "Inlogmethoden",
+        "copied": "Gekopieerd",
         "error": {
           "default": "Er is een interne fout opgetreden. Onze teams zijn bezig het probleem op te lossen. Probeer het later nog eens.",
           "unexpected": "Er is iets fout gegaan. Probeer het opnieuw."
         },
         "section": {
           "add-username": {
-            "button": "Identificatiecode toevoegen",
-            "label": "Een verbinding met een login toevoegen"
+            "button": "Gebruikersnaam toevoegen",
+            "label": "Een verbinding met een gebruikersnaam toevoegen"
           },
           "email": {
             "copy": "E-mailadres kopiëren",
-            "label": "E-mail adres"
+            "label": "E-mailadres"
           },
           "mediacentre": {
             "label": "Mediacentrum"
           },
           "password": {
-            "copy": "Kopieer het unieke wachtwoord",
+            "copy": "Het unieke wachtwoord kopiëren",
             "label": "Nieuw eenmalig wachtwoord",
-            "warning-1": "Geef je leerling dit nieuwe wachtwoord.",
+            "warning-1": "Geef dit nieuwe wachtwoord door aan je student.",
             "warning-2": "De student logt in met dit eenmalige wachtwoord.",
-            "warning-3": "Pix vraagt hem een nieuwe te kiezen."
+            "warning-3": "Pix vraagt een nieuw wachtwoord te kiezen."
           },
           "reset-password": {
             "button": "Wachtwoord resetten",
-            "warning": "Reset verwijdert het huidige wachtwoord van de leerling."
+            "warning": "De reset verwijdert het huidige wachtwoord van de leerling."
           },
           "username": {
-            "copy": "Identificatiecode kopiëren",
-            "label": "Inloggen"
+            "copy": "Gebruikersnaam kopiëren",
+            "label": "Gebruikersnaam"
           }
         },
-        "title": "De Pix-account van de student beheren"
+        "title": "Het Pix-account van de student beheren"
       },
       "messages": {
         "password-reset-success": "De wachtwoorden van de geselecteerde studenten zijn gereset."
       },
       "no-participants": "Tot nu toe geen studenten!",
-      "no-participants-action": "De beheerder moet de studentendatabase importeren door op de importeerknop te klikken.",
-      "page-title": "Studenten",
+      "no-participants-action": "De beheerder moet de studentendatabase importeren door op de knop importeren te klikken.",
+      "page-title": "Leerlingen",
       "reset-password-modal": {
-        "content-message-1": "Bezoek {totalSelectedStudents, plural, =1 {<strong>{totalSelectedStudents} élève</strong> sélectionné} other {<strong>{totalSelectedStudents} élèves</strong> sélectionnés}}, {totalAffectedStudents, plural, =0 {<strong>aucun mot de passe</strong> ne sera réinitialisé} =1 {le mot de passe de <strong>{totalAffectedStudents} élève</strong> va être réinitialisé} other {les mots de passe de <strong>{totalAffectedStudents} élèves</strong> vont être réinitialisés}}.",
-        "content-message-2": "Er wordt een CSV-bestand gegenereerd met de aanmeldingen en eenmalige wachtwoorden.",
-        "content-message-3": "Geef deze nieuwe eenmalige wachtwoorden aan de leerlingen. Wanneer ze inloggen met dit wachtwoord, zal Pix hen vragen een nieuw wachtwoord in te voeren.",
-        "title": "<strong>Wachtwoorden</strong> van leerlingen opnieuw instellen met <strong>identifier</strong>.",
-        "warning-message": "Alleen inlogwachtwoorden kunnen opnieuw worden ingesteld. Toegang per e-mailadres en Mediacentre worden niet beïnvloed."
+        "content-message-1": "Voor {totalSelectedStudents, plural, =1 {<strong>{totalSelectedStudents} student</strong> geselecteerd} other {<strong>{totalSelectedStudents} studenten</strong> geselecteerd}}, {totalAffectedStudents, plural, =0 {<strong>zal het wachtwoord</strong> niet worden gereset} =1 {het wachtwoord van <strong>{totalAffectedStudents} student</strong> zal worden gereset} other {de wachtwoorden van <strong>{totalAffectedStudents} studenten</strong> zullen worden gereset}}.",
+        "content-message-2": "Er wordt een CSV-bestand gegenereerd met de gebruikersnamen en eenmalige wachtwoorden.",
+        "content-message-3": "Communiceer deze nieuwe eenmalige wachtwoorden aan de studenten. Wanneer ze inloggen met dit wachtwoord, zal Pix hen vragen een nieuw wachtwoord in te voeren.",
+        "title": "<strong>Wachtwoorden</strong> van studenten opnieuw instellen met <strong>gebruikersnaam</strong>.",
+        "warning-message": "Alleen inlogwachtwoorden kunnen opnieuw worden ingesteld. Toegang via e-mailadres en Mediacentrum worden niet beïnvloed."
       },
       "table": {
         "column": {
           "checkbox": "Selecteren/Deselecteren {firstname} {lastname}",
           "date-of-birth": "Geboortedatum",
           "division": {
-            "ariaLabelDefaultSort": "De tabel is momenteel niet gesorteerd op klasse. Klik om alfanumeriek te sorteren.",
-            "ariaLabelSortDown": "De tabel is gesorteerd op klasse, in omgekeerde alfanumerieke volgorde. Klik om te sorteren op alfanumerieke volgorde.",
-            "ariaLabelSortUp": "De tabel is gesorteerd op klasse, in alfanumerieke volgorde. Klik om in omgekeerde alfanumerieke volgorde te sorteren.",
-            "label": "Klasse"
+            "ariaLabelDefaultSort": "De tabel is momenteel niet gesorteerd op klas. Klik om alfanumeriek te sorteren.",
+            "ariaLabelSortDown": "De tabel is gesorteerd op klas, in omgekeerde alfanumerieke volgorde. Klik om te sorteren op alfanumerieke volgorde.",
+            "ariaLabelSortUp": "De tabel is gesorteerd op klas, in alfanumerieke volgorde. Klik om in omgekeerde alfanumerieke volgorde te sorteren.",
+            "label": "Klas"
           },
           "first-name": "Voornaam",
           "is-certifiable": {
             "eligible": "Certificeerbaar",
-            "label": "Certificering",
+            "label": "Certificeerbaarheid",
             "non-eligible": "Niet Certificeerbaar",
-            "not-available": "Niet gerapporteerd"
+            "not-available": "Niet gecommuniceerd"
           },
           "last-name": {
             "ariaLabelDefaultSort": "De tabel is momenteel niet gesorteerd op naam. Klik op om alfabetisch te sorteren.",
             "ariaLabelSortDown": "De tabel is gesorteerd op naam, in omgekeerde alfabetische volgorde. Klik om alfabetisch te sorteren.",
             "ariaLabelSortUp": "De tabel is alfabetisch gesorteerd op naam. Klik op om in omgekeerde alfabetische volgorde te sorteren.",
-            "label": "Naam"
+            "label": "Achternaam"
           },
           "last-participation-date": "Laatste deelname",
-          "login-method": "Verbindingsmethode(n)",
+          "login-method": "Inlogmethode(n)",
           "mainCheckbox": "Hele kolom selecteren/deselecteren",
           "participation-count": {
-            "ariaLabelDefaultSort": "De tabel is momenteel niet gesorteerd op aantal items. Klik op om in oplopende volgorde te sorteren.",
-            "ariaLabelSortDown": "De tabel is gesorteerd op aflopend aantal items. Klik op om in oplopende volgorde te sorteren.",
-            "ariaLabelSortUp": "De tabel is gesorteerd op oplopend aantal items. Klik om aflopend te sorteren.",
-            "label": "Aantal inzendingen"
+            "ariaLabelDefaultSort": "De tabel is momenteel niet gesorteerd op aantal deelnames. Klik op om in oplopende volgorde te sorteren.",
+            "ariaLabelSortDown": "De tabel is gesorteerd op aflopend aantal deelnames. Klik op om in oplopende volgorde te sorteren.",
+            "ariaLabelSortUp": "De tabel is gesorteerd op oplopend aantal deelnames. Klik om aflopend te sorteren.",
+            "label": "Aantal deelnames"
           }
         },
-        "description": "Studententabel gesorteerd op naam. Voor leerlingen die een verbindingsmethode hebben opgegeven, kun je een menu in de kolom 'Acties' gebruiken om de geautoriseerde verbindingsmethoden te beheren en het wachtwoord van de leerling opnieuw in te stellen.",
+        "description": "Studententabel gesorteerd op naam. Voor studenten die een inlogmethode hebben opgegeven, kun je een menu in de kolom 'Acties' gebruiken om de geautoriseerde inlogmethoden te beheren en het wachtwoord van de student opnieuw in te stellen.",
         "empty": "Geen studenten.",
         "row-title": "Student"
       },
       "title": "{count, plural, =0 {Studenten} =1 {Studenten ({count})} other {studenten ({count})}}"
     },
     "sup-organization-participant-activity": {
-      "title": "Activiteit voor studenten"
+      "title": "Activiteit van de student"
     },
     "sup-organization-participants": {
       "action-bar": {
         "delete-button": "Verwijderen",
-        "error-message": "{count, plural, =1 {Er is een fout opgetreden, {firstname} {lastname} is niet verwijderd uit de lijst met studenten} other {Er is een fout opgetreden, de {count} geselecteerde studenten zijn niet verwijderd uit de lijst}}",
+        "error-message": "{count, plural, =1 {Er is een fout opgetreden, {firstname} {lastname} is niet verwijderd uit de lijst met studenten} other {Er is een fout opgetreden, de {count} geselecteerde studenten zijn niet verwijderd uit de lijst.}}",
         "information": "{count, plural, =1 {{count} geselecteerde student} other {{count} geselecteerde studenten}}",
         "success-message": "{count, plural, =1 {{firstname} {lastname} is verwijderd uit de lijst met studenten.} other {De {count} geselecteerde studenten zijn verwijderd uit de lijst.}}"
       },
@@ -1263,55 +1271,59 @@
         "show-actions": "Acties weergeven"
       },
       "deletion-modal": {
-        "confirmation-checkbox": "Ik kan bevestigen dat ik de gevolgen van {count} de bezuinigingen volledig begrijp.",
+        "confirmation-checkbox": "Ik kan bevestigen dat ik de gevolgen van de {count} schrappingen volledig begrijp.",
         "content": {
           "footer": "Houd er rekening mee dat deze actie onomkeerbaar is.",
-          "header": "{count, plural, =1 {Cet étudiant ne sera plus visible} other {Ces étudiants ne seront plus visibles}} in Pix Orga.",
-          "main-campaign-prevent": "Dit heeft invloed op de resultaten en analyses van de campagnes die {count, plural, =1 {het heeft} other {zij hebben}} worden uitgevoerd.",
-          "main-new-campaign-access": "Maar {count, plural, =1 {het kan} other {ze kunnen}} deel te nemen aan nieuwe campagnes.",
-          "main-participation-access": "{count, plural, =1 {Het kan niet} other {Ze kunnen niet}}  {count, plural, =1 {hij had} other {ze hadden}} niet langer deelneemt aan de campagnes waaraan hij in het verleden heeft deelgenomen.",
-          "main-participation-prevent": "Alle {count, plural, =1 {its} other {its}} campagne-items worden verwijderd."
+          "header": "{count, plural, =1 {Deze student is niet meer zichtbaar} other {Deze studenten zijn niet meer zichtbaar}} in Pix Orga.",
+          "main-campaign-prevent": "Dit heeft invloed op de resultaten en analyses van de campagnes die {count, plural, =1 {hij/zij heeft} other {zij hebben}} uitgevoerd.",
+          "main-new-campaign-access": "Maar {count, plural, =1 {hij/zij kan} other {zij kunnen}} deelnemen aan nieuwe campagnes.",
+          "main-participation-access": "{count, plural, =1 {Hij/zij kan niet} other {Zij kunnen niet}} meer deelnemen aan nieuwe campagnes waaraan {count, plural, =1 {hij/zij had} other {ze hadden}} deelgenomen in het verleden.",
+          "main-participation-prevent": "Alle campagne-items {count, plural, =1 {van hem} other {van hen}} worden verwijderd."
         },
-        "delete-button": "Ja, ik verwijder",
-        "title": "{count, plural, =1 {Supprimer '<strong>'{firstname} {lastname}'</strong>' uit je} other {Weet je zeker dat je '<strong>'{count}'</strong>'}} studenten wilt verwijderen?"
+        "delete-button": "Ja, verwijderen",
+        "title": "{count, plural, =1 {Verwijder '<strong>'{firstname} {lastname}'</strong>' uit je studenten?} other {Weet je zeker dat je '<strong>'{count}'</strong>'}} studenten wilt verwijderen?"
       },
       "edit-student-number-modal": {
         "actions": {
-          "update": "Update"
+          "update": "Bijwerken"
         },
         "form": {
           "error": "Het studentnummer mag niet leeg zijn.",
-          "new-student-number-label": "Nieuw studentennummer",
-          "student-number": "Huidige studentennummer {firstName} {lastName}'s  is :",
-          "success": "Het studentnummer bij {firstName} {lastName} is gewijzigd."
+          "new-student-number-label": "Nieuw studentnummer",
+          "student-number": "Huidig studentnummer van {firstName} {lastName} is:",
+          "success": "Het studentnummer van {firstName} {lastName} is gewijzigd."
         },
-        "title": "De studentenuitgave bewerken"
+        "title": "Bewerking van studentnummer"
       },
       "empty-state": {
         "no-participants": "Nog geen studenten!",
-        "no-participants-action": "De beheerder moet de leerlingen importeren door op de importeerknop te klikken."
+        "no-participants-action": "De beheerder moet de studenten importeren door op de knop importeren te klikken."
       },
       "filter": {
         "aria-label": "Filter studenten",
         "certificability": {
           "label": "Zoeken op certificeerbaarheid",
-          "placeholder": "Certificering"
+          "placeholder": "Certificeerbaarheid"
         },
         "group": {
-          "empty": "Geen groepen",
+          "empty": "Geen groep",
           "label": "Een groep invoeren",
           "placeholder": "Zoeken op groep"
+        },
+        "search": {
+          "label": "Zoeken op voor- en achternaam",
+          "placeholder": "Achternaam, voornaam"
         },
         "student-number": {
           "label": "Voer een studentnummer in",
           "placeholder": "1234658P"
         },
-        "students-count": "{count, plural, =0 {0 student} =1 {1 student} other {{count} student}}"
+        "students-count": "{count, plural, =0 {0 studenten} =1 {1 student} other {{count} studenten}}"
       },
       "page-title": "Studenten",
       "replace-students-modal": {
-        "confirm": "Ja, ik vervang",
-        "confirmation-checkbox": "Ik kan bevestigen dat ik de impact volledig begrijp",
+        "confirm": "Ja, vervangen",
+        "confirmation-checkbox": "Ik kan bevestigen dat ik de gevolgen volledig begrijp",
         "footer-content": "Bestaande studenten in de applicatie en aanwezig in de nieuwe import zullen niet verwijderd worden en zullen bijgewerkt worden indien nodig.",
         "last-warning": "Houd er rekening mee dat deze actie onomkeerbaar is. Studenten die niet aanwezig zijn in de nieuwe import worden verwijderd uit Pix Orga.",
         "main-content": "Al hun campagnebijdragen zullen worden verwijderd. Dit heeft gevolgen voor de resultaten en analyses van de campagnes die ze hebben uitgevoerd. Ze zullen niet langer kunnen deelnemen aan campagnes waaraan ze in het verleden hebben deelgenomen. Ze kunnen echter wel deelnemen aan nieuwe campagnes.",
@@ -1323,7 +1335,7 @@
           "first-name": "Voornaam",
           "group": "Groepen",
           "is-certifiable": {
-            "label": "Certificering"
+            "label": "Certificeerbaarheid"
           },
           "last-name": {
             "ariaLabelDefaultSort": "De tabel is momenteel niet gesorteerd op naam. Klik op om alfabetisch te sorteren.",
@@ -1333,27 +1345,27 @@
           },
           "last-participation-date": "Laatste deelname",
           "participation-count": {
-            "ariaLabelDefaultSort": "De tabel is momenteel niet gesorteerd op aantal items. Klik op om in oplopende volgorde te sorteren.",
-            "ariaLabelSortDown": "De tabel is gesorteerd op aflopend aantal items. Klik op om in oplopende volgorde te sorteren.",
-            "ariaLabelSortUp": "De tabel is gesorteerd op oplopend aantal items. Klik om aflopend te sorteren.",
-            "label": "Aantal inzendingen"
+            "ariaLabelDefaultSort": "De tabel is momenteel niet gesorteerd op aantal deelnames. Klik op om in oplopende volgorde te sorteren.",
+            "ariaLabelSortDown": "De tabel is gesorteerd op aflopend aantal deelnames. Klik op om in oplopende volgorde te sorteren.",
+            "ariaLabelSortUp": "De tabel is gesorteerd op oplopend aantal deelnames. Klik om aflopend te sorteren.",
+            "label": "Aantal deelnames"
           },
-          "student-number": "Studentennummer"
+          "student-number": "Studentnummer"
         },
-        "description": "Studententabel gesorteerd op naam. Je kunt een menu in een extra kolom gebruiken om het studentennummer te wijzigen.",
+        "description": "Tabel van studenten gesorteerd op naam. Je kunt via een menu in een extra kolom het studentnummer wijzigen.",
         "empty": "Geen studenten.",
         "row-title": "Student"
       },
-      "title": "{count, plural, =0 {Studenten} =1 {Studenten ({count})} other {Studenten ({count})}}"
+      "title": "{count, plural, =0 {Studenten} =1 {Student ({count})} other {Studenten ({count})}}"
     },
     "team-invitations": {
       "cancel-invitation": "Uitnodiging verwijderen",
       "invitation-cancelled-succeed-message": "De uitnodiging is verwijderd.",
-      "invitation-resent-succeed-message": "De uitnodiging is teruggestuurd.",
+      "invitation-resent-succeed-message": "De uitnodiging is opnieuw gestuurd.",
       "resend-invitation": "Uitnodiging opnieuw versturen",
       "table": {
         "column": {
-          "email-address": "E-mail adres",
+          "email-address": "E-mailadres",
           "pending-invitation": "Datum laatste verzending"
         },
         "row": {
@@ -1372,13 +1384,13 @@
     },
     "team-members": {
       "actions": {
-        "edit-organization-membership-role": "Rol wijzigen",
-        "leave-organization": "Verlaat dit gebied Pix Orga",
-        "manage": "Beheer",
+        "edit-organization-membership-role": "Taak wijzigen",
+        "leave-organization": "Verlaat deze Pix Orga-ruimte",
+        "manage": "Beheren",
         "remove-membership": "Verwijderen",
         "save": "Opslaan",
         "select-role": {
-          "label": "Selecteer een rol",
+          "label": "Een taak selecteren",
           "options": {
             "admin": "Beheerder",
             "member": "Lid"
@@ -1387,45 +1399,45 @@
       },
       "modals": {
         "leave-organization": {
-          "message": "Weet je zeker dat je deze Pix Orga ruimte wilt verlaten? Je zult geen toegang meer hebben tot <strong>{organizationName}</strong><br/><br/><br/><br/><br/><br/>Je campagnes blijven toegankelijk voor de rest van het team en worden niet gearchiveerd. Je toegang tot andere Pix Orga ruimtes wordt niet beïnvloed. Je wordt losgekoppeld.",
-          "title": "Verlaat dit gebied Pix Orga"
+          "message": "Weet je zeker dat je deze Pix Orga-ruimte wilt verlaten? Je zult geen toegang meer hebben tot <strong>{organizationName}</strong><br/><br/>Je campagnes blijven toegankelijk voor de rest van het team en worden niet gearchiveerd.<br/><br/>Je toegang tot andere Pix Orga-ruimtes wordt niet beïnvloed. <br/><br/>Je wordt uitgelogd.",
+          "title": "Verlaat deze Pix Orga-ruimte"
         }
       },
       "notifications": {
         "change-member-role": {
-          "error": "Er is een fout opgetreden bij het wijzigen van de rol van het lid.",
-          "success": "De rol is veranderd."
+          "error": "Er is een fout opgetreden bij het wijzigen van de taak van het lid.",
+          "success": "De taak is veranderd."
         },
         "leave-organization": {
           "error": "Er is een fout opgetreden bij het deactiveren van het lid.",
-          "success": "Je bent succesvol verwijderd uit de organisatie {organizationName}. Je wordt losgekoppeld van Pix Orga..."
+          "success": "Je bent succesvol verwijderd uit de organisatie {organizationName}. Je wordt uitgelogd van Pix Orga..."
         },
         "remove-membership": {
           "error": "Er is een fout opgetreden bij het deactiveren van het lid.",
-          "success": "{memberFirstName} {memberLastName} is succesvol verwijderd uit je Pix Orga team."
+          "success": "{memberFirstName} {memberLastName} is succesvol verwijderd uit je Pix Orga-team."
         }
       },
       "remove-membership-modal": {
         "actions": {
-          "remove": "Ja, verwijder het lid"
+          "remove": "Ja, het lid verwijderen"
         },
-        "message": "{memberFirstName} {memberLastName} zal niet langer toegang hebben tot deze Pix Orga ruimte.'<br> 'Zijn campagnes blijven toegankelijk voor de rest van het team.",
-        "title": "Bevestigt u de verwijdering?"
+        "message": "{memberFirstName} {memberLastName} zal niet langer toegang hebben tot deze Pix Orga-ruimte.'<br> 'Zijn campagnes blijven toegankelijk voor de rest van het team.",
+        "title": "Bevestig je de verwijdering?"
       },
       "table": {
         "column": {
           "first-name": "Voornaam",
-          "last-name": "Naam",
-          "organization-membership-role": "Rol"
+          "last-name": "Achternaam",
+          "organization-membership-role": "Taak"
         },
-        "empty": "Wachten op leden",
+        "empty": "In afwachting van leden",
         "row-title": "Lid"
       },
       "title": "Leden"
     },
     "team-new-item": {
       "input-label": "E-mailadres(sen)",
-      "invite-button": "Nodig  uit."
+      "invite-button": "Uitnodigen"
     },
     "team-new": {
       "email-requirement": "Voer hier het e-mailadres in van het lid dat je wilt uitnodigen.",
@@ -1434,7 +1446,7 @@
         "sending-email-to-invalid-email-address": "Het verzenden van e-mail naar adres {email} is mislukt. De verzendende server antwoordde: \"{errorMessage}\".",
         "status": {
           "400": "De indeling van het e-mailadres is onjuist.",
-          "404": "Deze e-mail is van geen enkele gebruiker.",
+          "404": "Dit mailadres is van geen enkele gebruiker.",
           "412": "Dit lid is al toegevoegd.",
           "500": "Er is iets fout gegaan. Probeer het opnieuw."
         }
@@ -1449,7 +1461,7 @@
     },
     "terms-of-service": {
       "accept": "Ik accepteer de gebruiksvoorwaarden",
-      "title": "gebruiksvoorwaarden"
+      "title": "Gebruiksvoorwaarden"
     }
   }
 }
