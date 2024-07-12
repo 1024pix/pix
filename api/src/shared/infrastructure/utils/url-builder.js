@@ -18,6 +18,11 @@ function getPixAppBaseUrl(locale) {
   return PIX_APP_DOMAIN_ORG;
 }
 
+/**
+ * @param {string} locale
+ * @param {string} campaignCode
+ * @returns {string|null} - Campaign URL according to the locale
+ */
 function getCampaignUrl(locale, campaignCode) {
   if (!campaignCode) {
     return null;
