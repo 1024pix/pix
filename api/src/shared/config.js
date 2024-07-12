@@ -341,6 +341,8 @@ const configuration = (function () {
 
   if (process.env.NODE_ENV === 'test') {
     config.auditLogger.isEnabled = true;
+    config.auditLogger.baseUrl = 'http://audit-logger.local';
+    config.auditLogger.clientSecret = 'client-super-secret';
 
     config.oidcExampleNet = {
       clientId: 'client',
@@ -352,9 +354,6 @@ const configuration = (function () {
       postLogoutRedirectUri: 'https://app.dev.pix.local/connexion',
       redirectUri: 'https://app.dev.pix.local/connexion/oidc-example-net',
     };
-
-    config.auditLogger.baseUrl = 'http://audit-logger.local';
-    config.auditLogger.clientSecret = 'client-super-secret';
 
     config.port = 0;
 
