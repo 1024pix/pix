@@ -1,3 +1,4 @@
+import { setLocale } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -40,7 +41,7 @@ module('Unit | Service | url', function (hooks) {
     test('returns home url with current locale', function (assert) {
       // given
       const currentLocale = 'en';
-      this.intl.setLocale([currentLocale, 'fr']);
+      setLocale([currentLocale, 'fr']);
 
       const service = this.owner.lookup('service:url');
       const expectedHomeUrl = `${service.definedHomeUrl}?lang=${currentLocale}`;

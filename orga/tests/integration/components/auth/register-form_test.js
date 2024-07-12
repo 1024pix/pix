@@ -2,6 +2,7 @@ import { clickByName, fillByLabel, render as renderScreen } from '@1024pix/ember
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import { resolve } from 'rsvp';
 import sinon from 'sinon';
@@ -31,12 +32,12 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
 
     this.owner.register('service:session', SessionStub);
 
-    firstNameInputLabel = this.intl.t('pages.login-or-register.register-form.fields.first-name.label');
-    lastNameInputLabel = this.intl.t('pages.login-or-register.register-form.fields.last-name.label');
-    emailInputLabel = this.intl.t('pages.login-or-register.register-form.fields.email.label');
-    passwordInputLabel = this.intl.t('pages.login-or-register.register-form.fields.password.label');
-    cguAriaLabel = this.intl.t('pages.login-or-register.register-form.fields.cgu.aria-label');
-    registerButtonLabel = this.intl.t('pages.login-or-register.register-form.fields.button.label');
+    firstNameInputLabel = t('pages.login-or-register.register-form.fields.first-name.label');
+    lastNameInputLabel = t('pages.login-or-register.register-form.fields.last-name.label');
+    emailInputLabel = t('pages.login-or-register.register-form.fields.email.label');
+    passwordInputLabel = t('pages.login-or-register.register-form.fields.password.label');
+    cguAriaLabel = t('pages.login-or-register.register-form.fields.cgu.aria-label');
+    registerButtonLabel = t('pages.login-or-register.register-form.fields.button.label');
   });
 
   test('renders', async function (assert) {
@@ -65,18 +66,12 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
 
     // then
     assert
-      .dom(screen.getByText(this.intl.t('pages.login-or-register.register-form.fields.cgu.accept'), { exact: false }))
+      .dom(screen.getByText(t('pages.login-or-register.register-form.fields.cgu.accept'), { exact: false }))
       .exists();
+    assert.dom(screen.getByText(`${t('pages.login-or-register.register-form.fields.cgu.terms-of-use')}`)).exists();
+    assert.dom(screen.getByText(t('pages.login-or-register.register-form.fields.cgu.and'), { exact: false })).exists();
     assert
-      .dom(screen.getByText(`${this.intl.t('pages.login-or-register.register-form.fields.cgu.terms-of-use')}`))
-      .exists();
-    assert
-      .dom(screen.getByText(this.intl.t('pages.login-or-register.register-form.fields.cgu.and'), { exact: false }))
-      .exists();
-    assert
-      .dom(
-        screen.getByText(`${this.intl.t('pages.login-or-register.register-form.fields.cgu.data-protection-policy')}`),
-      )
+      .dom(screen.getByText(`${t('pages.login-or-register.register-form.fields.cgu.data-protection-policy')}`))
       .exists();
     assert.dom('a[href="https://pix.fr/conditions-generales-d-utilisation"]').exists();
     assert.dom('a[href="https://pix.fr/politique-protection-donnees-personnelles-app"]').exists();
@@ -150,7 +145,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
 
         // then
         assert.strictEqual(spy.callCount, 0);
-        assert.dom(screen.getByText(this.intl.t(EMPTY_FIRSTNAME_ERROR_MESSAGE))).exists();
+        assert.dom(screen.getByText(t(EMPTY_FIRSTNAME_ERROR_MESSAGE))).exists();
       });
     });
 
@@ -164,7 +159,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
 
         // then
         assert.strictEqual(spy.callCount, 0);
-        assert.dom(screen.getByText(this.intl.t(EMPTY_LASTNAME_ERROR_MESSAGE))).exists();
+        assert.dom(screen.getByText(t(EMPTY_LASTNAME_ERROR_MESSAGE))).exists();
       });
     });
 
@@ -178,7 +173,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
 
         // then
         assert.strictEqual(spy.callCount, 0);
-        assert.dom(screen.getByText(this.intl.t(EMPTY_EMAIL_ERROR_MESSAGE))).exists();
+        assert.dom(screen.getByText(t(EMPTY_EMAIL_ERROR_MESSAGE))).exists();
       });
     });
 
@@ -192,7 +187,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
 
         // then
         assert.strictEqual(spy.callCount, 0);
-        assert.dom(screen.getByText(this.intl.t(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE))).exists();
+        assert.dom(screen.getByText(t(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE))).exists();
       });
     });
 

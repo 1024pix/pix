@@ -2,6 +2,7 @@ import { visit as visitScreen } from '@1024pix/ember-testing-library';
 import { within } from '@1024pix/ember-testing-library';
 import { click, currentURL, visit } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -39,9 +40,7 @@ module('Acceptance | Campaign Details', function (hooks) {
 
       // when
       await visitScreen('/campagnes/1');
-      await click(
-        within(document.querySelector('main')).getByRole('link', { name: this.intl.t('navigation.main.campaigns') }),
-      );
+      await click(within(document.querySelector('main')).getByRole('link', { name: t('navigation.main.campaigns') }));
 
       // then
       assert.strictEqual(currentURL(), '/campagnes/les-miennes');

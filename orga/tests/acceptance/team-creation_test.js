@@ -1,6 +1,7 @@
 import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { currentURL } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -63,9 +64,9 @@ module('Acceptance | Team Creation', function (hooks) {
 
         await authenticateSession(user.id);
 
-        inputLabel = '* ' + this.intl.t('pages.team-new-item.input-label');
-        inviteButton = this.intl.t('pages.team-new-item.invite-button');
-        cancelButton = this.intl.t('common.actions.cancel');
+        inputLabel = '* ' + t('pages.team-new-item.input-label');
+        inviteButton = t('pages.team-new-item.invite-button');
+        cancelButton = t('common.actions.cancel');
       });
 
       test('it should be accessible', async function (assert) {
@@ -105,7 +106,7 @@ module('Acceptance | Team Creation', function (hooks) {
 
         assert.strictEqual(currentURL(), '/equipe/invitations');
         assert.ok(screen.getByText(email));
-        assert.ok(screen.getByText(this.intl.t('pages.team-new.success.invitation', { email })));
+        assert.ok(screen.getByText(t('pages.team-new.success.invitation', { email })));
       });
 
       test('it should display other confirm invitation message when there is multiple invitations', async function (assert) {
@@ -119,7 +120,7 @@ module('Acceptance | Team Creation', function (hooks) {
         await clickByName(inviteButton);
 
         // then
-        assert.ok(screen.getByText(this.intl.t('pages.team-new.success.multiple-invitations')));
+        assert.ok(screen.getByText(t('pages.team-new.success.multiple-invitations')));
       });
 
       test('it should not allow to invite a prescriber when an email is not given', async function (assert) {
@@ -162,7 +163,7 @@ module('Acceptance | Team Creation', function (hooks) {
 
       test('it should display error on global form when error 500 is returned from backend', async function (assert) {
         // given
-        const expectedErrorMessage = this.intl.t('pages.team-new.errors.status.500');
+        const expectedErrorMessage = t('pages.team-new.errors.status.500');
 
         const screen = await visit('/equipe/creation');
         server.post(
@@ -191,7 +192,7 @@ module('Acceptance | Team Creation', function (hooks) {
 
       test('it should display error on global form when error 412 is returned from backend', async function (assert) {
         // given
-        const expectedErrorMessage = this.intl.t('pages.team-new.errors.status.412');
+        const expectedErrorMessage = t('pages.team-new.errors.status.412');
 
         const screen = await visit('/equipe/creation');
         server.post(
@@ -220,7 +221,7 @@ module('Acceptance | Team Creation', function (hooks) {
 
       test('it should display error on global form when error 404 is returned from backend', async function (assert) {
         // given
-        const expectedErrorMessage = this.intl.t('pages.team-new.errors.status.404');
+        const expectedErrorMessage = t('pages.team-new.errors.status.404');
 
         const screen = await visit('/equipe/creation');
         server.post(
@@ -249,7 +250,7 @@ module('Acceptance | Team Creation', function (hooks) {
 
       test('it should display error on global form when error 400 is returned from backend', async function (assert) {
         // given
-        const expectedErrorMessage = this.intl.t('pages.team-new.errors.status.400');
+        const expectedErrorMessage = t('pages.team-new.errors.status.400');
 
         const screen = await visit('/equipe/creation');
         server.post(
@@ -304,7 +305,7 @@ module('Acceptance | Team Creation', function (hooks) {
             await clickByName(inviteButton);
 
             // Then
-            const expectedErrorMessage = this.intl.t('pages.team-new.errors.sending-email-to-invalid-email-address', {
+            const expectedErrorMessage = t('pages.team-new.errors.sending-email-to-invalid-email-address', {
               email,
               errorMessage,
             });

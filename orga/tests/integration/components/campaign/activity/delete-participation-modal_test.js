@@ -1,5 +1,6 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -42,11 +43,11 @@ module('Integration | Component | Campaign::Activity::DeleteParticipationModal',
 />`);
 
         assert.ok(screen.getByRole('heading', { name: 'Supprimer la participation de Joe La frite ?' }));
-        assert.ok(screen.getByText(this.intl.t('pages.campaign-activity.delete-participation-modal.text')));
-        assert.ok(screen.getByText(this.intl.t('pages.campaign-activity.delete-participation-modal.actions.cancel')));
+        assert.ok(screen.getByText(t('pages.campaign-activity.delete-participation-modal.text')));
+        assert.ok(screen.getByText(t('pages.campaign-activity.delete-participation-modal.actions.cancel')));
         assert.ok(
           screen.getByRole('button', {
-            name: this.intl.t('pages.campaign-activity.delete-participation-modal.actions.confirmation'),
+            name: t('pages.campaign-activity.delete-participation-modal.actions.confirmation'),
           }),
         );
       });
@@ -61,7 +62,7 @@ module('Integration | Component | Campaign::Activity::DeleteParticipationModal',
   @deleteCampaignParticipation={{this.deleteCampaignParticipation}}
 />`);
 
-          await clickByName(this.intl.t('pages.campaign-activity.delete-participation-modal.actions.cancel'));
+          await clickByName(t('pages.campaign-activity.delete-participation-modal.actions.cancel'));
 
           assert.ok(closeModal.calledOnce);
         });
@@ -76,7 +77,7 @@ module('Integration | Component | Campaign::Activity::DeleteParticipationModal',
   @closeModal={{this.closeModal}}
   @deleteCampaignParticipation={{this.deleteCampaignParticipation}}
 />`);
-          await clickByName(this.intl.t('pages.campaign-activity.delete-participation-modal.actions.confirmation'));
+          await clickByName(t('pages.campaign-activity.delete-participation-modal.actions.confirmation'));
 
           assert.ok(deleteCampaignParticipation.called);
         });
@@ -97,7 +98,7 @@ module('Integration | Component | Campaign::Activity::DeleteParticipationModal',
 
           assert.ok(
             screen.getByText(
-              this.intl.t(
+              t(
                 'pages.campaign-activity.delete-participation-modal.warning.assessment-campaign-participation.started-participation',
               ),
             ),
@@ -118,7 +119,7 @@ module('Integration | Component | Campaign::Activity::DeleteParticipationModal',
 
           assert.ok(
             screen.getByText(
-              this.intl.t(
+              t(
                 'pages.campaign-activity.delete-participation-modal.warning.assessment-campaign-participation.to-share-participation',
               ),
             ),
@@ -139,7 +140,7 @@ module('Integration | Component | Campaign::Activity::DeleteParticipationModal',
 
           assert.ok(
             screen.getByText(
-              this.intl.t(
+              t(
                 'pages.campaign-activity.delete-participation-modal.warning.assessment-campaign-participation.shared-participation',
               ),
             ),
@@ -160,7 +161,7 @@ module('Integration | Component | Campaign::Activity::DeleteParticipationModal',
 
           assert.ok(
             screen.getByText(
-              this.intl.t(
+              t(
                 'pages.campaign-activity.delete-participation-modal.warning.profiles-collection-campaign-participation.to-share-participation',
               ),
             ),
@@ -181,7 +182,7 @@ module('Integration | Component | Campaign::Activity::DeleteParticipationModal',
 
           assert.ok(
             screen.getByText(
-              this.intl.t(
+              t(
                 'pages.campaign-activity.delete-participation-modal.warning.profiles-collection-campaign-participation.shared-participation',
               ),
             ),

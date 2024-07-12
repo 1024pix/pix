@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
+import { t } from 'ember-intl/test-support';
 import SchoolSessionManagement from 'pix-orga/components/layout/school-session-management';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -26,11 +27,11 @@ module('Integration | Components | Layout | SchoolSessionManagement', function (
       // when
       const screen = await render(<template><SchoolSessionManagement /></template>);
 
-      const tooltipText = this.intl.t('navigation.school-sessions.status.info-text', { htmlSafe: true });
+      const tooltipText = t('navigation.school-sessions.status.info-text', { htmlSafe: true });
       const tooltip = await screen.findByRole('tooltip', { hidden: true });
 
       // then
-      assert.ok(screen.getByLabelText(this.intl.t('navigation.school-sessions.status.aria-label')));
+      assert.ok(screen.getByLabelText(t('navigation.school-sessions.status.aria-label')));
       assert.strictEqual(tooltip.innerHTML.trim(), tooltipText.toString());
     });
 
@@ -59,8 +60,8 @@ module('Integration | Components | Layout | SchoolSessionManagement', function (
           // when
           const screen = await render(<template><SchoolSessionManagement /></template>);
           // then
-          assert.ok(screen.getByText(this.intl.t('navigation.school-sessions.status.inactive-label')));
-          assert.ok(screen.getByRole('button', { name: this.intl.t('navigation.school-sessions.activate-button') }));
+          assert.ok(screen.getByText(t('navigation.school-sessions.status.inactive-label')));
+          assert.ok(screen.getByRole('button', { name: t('navigation.school-sessions.activate-button') }));
         });
       });
       module('when session expiration date is in the future', function () {
@@ -84,11 +85,9 @@ module('Integration | Components | Layout | SchoolSessionManagement', function (
           const screen = await render(<template><SchoolSessionManagement /></template>);
           // then
           assert.ok(
-            screen.getByText(
-              this.intl.t('navigation.school-sessions.status.active-label', { sessionExpirationDate: '16:01' }),
-            ),
+            screen.getByText(t('navigation.school-sessions.status.active-label', { sessionExpirationDate: '16:01' })),
           );
-          assert.ok(screen.getByRole('button', { name: this.intl.t('navigation.school-sessions.extend-button') }));
+          assert.ok(screen.getByRole('button', { name: t('navigation.school-sessions.extend-button') }));
         });
       });
       module('when session expiration date is in the past', function () {
@@ -111,8 +110,8 @@ module('Integration | Components | Layout | SchoolSessionManagement', function (
           // when
           const screen = await render(<template><SchoolSessionManagement /></template>);
           // then
-          assert.ok(screen.getByText(this.intl.t('navigation.school-sessions.status.inactive-label')));
-          assert.ok(screen.getByRole('button', { name: this.intl.t('navigation.school-sessions.activate-button') }));
+          assert.ok(screen.getByText(t('navigation.school-sessions.status.inactive-label')));
+          assert.ok(screen.getByRole('button', { name: t('navigation.school-sessions.activate-button') }));
         });
       });
     });
@@ -131,7 +130,7 @@ module('Integration | Components | Layout | SchoolSessionManagement', function (
       // when
       const screen = await render(<template><SchoolSessionManagement /></template>);
       // then
-      assert.notOk(screen.queryByRole('button', { name: this.intl.t('navigation.school-sessions.activate-button') }));
+      assert.notOk(screen.queryByRole('button', { name: t('navigation.school-sessions.activate-button') }));
     });
   });
 });

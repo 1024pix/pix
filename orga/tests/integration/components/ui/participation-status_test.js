@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -18,7 +19,7 @@ module('Integration | Component | Ui | ParticipationStatus', function (hooks) {
       );
 
       // then
-      assert.ok(screen.getByText(this.intl.t('components.participation-status.SHARED-ASSESSMENT')));
+      assert.ok(screen.getByText(t('components.participation-status.SHARED-ASSESSMENT')));
     });
   });
 });

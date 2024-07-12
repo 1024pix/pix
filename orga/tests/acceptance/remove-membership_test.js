@@ -1,5 +1,6 @@
 import { clickByName, visit } from '@1024pix/ember-testing-library';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -28,18 +29,18 @@ module('Acceptance | Remove membership', function (hooks) {
     // given
     const screen = await visit('/equipe');
 
-    await clickByName(this.intl.t('pages.team-members.actions.manage'));
-    await clickByName(this.intl.t('pages.team-members.actions.remove-membership'));
+    await clickByName(t('pages.team-members.actions.manage'));
+    await clickByName(t('pages.team-members.actions.remove-membership'));
 
     await screen.findByRole('dialog');
 
     // when
-    await clickByName(this.intl.t('pages.team-members.remove-membership-modal.actions.remove'));
+    await clickByName(t('pages.team-members.remove-membership-modal.actions.remove'));
 
     // then
     assert.ok(
       screen.findByText(
-        this.intl.t('pages.team-members.notifications.remove-membership.success', {
+        t('pages.team-members.notifications.remove-membership.success', {
           memberFirstName: user.firstName,
           memberLastName: user.lastName,
         }),

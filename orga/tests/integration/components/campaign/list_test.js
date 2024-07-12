@@ -1,6 +1,7 @@
 import { fillByLabel, render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -193,7 +194,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
       );
 
       // then
-      assert.strictEqual(screen.queryByText(this.intl.t('pages.campaigns-list.table.column.created-by')), null);
+      assert.strictEqual(screen.queryByText(t('pages.campaigns-list.table.column.created-by')), null);
       assert.strictEqual(screen.queryByText('Michel Dupont'), null);
     });
 
@@ -339,7 +340,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
         );
 
         // then
-        assert.dom(screen.queryByLabelText(this.intl.t('pages.campaigns-list.table.column.created-by'))).doesNotExist();
+        assert.dom(screen.queryByLabelText(t('pages.campaigns-list.table.column.created-by'))).doesNotExist();
         assert.dom(screen.queryByLabelText('Dupont Alice')).doesNotExist();
       });
     });
@@ -477,7 +478,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
       const firstCampaignCheckbox = screen.getAllByRole('checkbox')[1];
       await click(firstCampaignCheckbox);
 
-      const nextButton = await screen.findByLabelText(this.intl.t('common.pagination.action.next'));
+      const nextButton = await screen.findByLabelText(t('common.pagination.action.next'));
       await click(nextButton);
 
       // then
@@ -498,7 +499,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
       const firstCampaignCheckbox = screen.getAllByRole('checkbox')[1];
       await click(firstCampaignCheckbox);
 
-      await fillByLabel(this.intl.t('pages.campaigns-list.filter.by-name'), '1');
+      await fillByLabel(t('pages.campaigns-list.filter.by-name'), '1');
 
       // then
       assert.false(firstCampaignCheckbox.checked);
@@ -521,7 +522,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
       await click(firstCampaignCheckbox);
 
       const resetButton = await screen.findByRole('button', {
-        name: this.intl.t('common.filters.actions.clear'),
+        name: t('common.filters.actions.clear'),
       });
       await click(resetButton);
 
@@ -553,19 +554,19 @@ module('Integration | Component | Campaign::List', function (hooks) {
       await click(screen.getAllByRole('checkbox')[2]);
 
       const deleteButton = await screen.findByRole('button', {
-        name: this.intl.t('pages.campaigns-list.action-bar.delete-button'),
+        name: t('pages.campaigns-list.action-bar.delete-button'),
       });
       await click(deleteButton);
 
       await screen.findByRole('dialog');
 
       const allowMultipleDeletionCheckbox = await screen.findByRole('checkbox', {
-        name: this.intl.t('components.ui.deletion-modal.confirmation-checkbox', { count: 2 }),
+        name: t('components.ui.deletion-modal.confirmation-checkbox', { count: 2 }),
       });
       await click(allowMultipleDeletionCheckbox);
 
       const confirmationButton = await screen.findByRole('button', {
-        name: this.intl.t('components.ui.deletion-modal.confirm-deletion'),
+        name: t('components.ui.deletion-modal.confirm-deletion'),
       });
       await click(confirmationButton);
 

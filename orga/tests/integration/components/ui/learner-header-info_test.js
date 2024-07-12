@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -9,7 +10,7 @@ module('Integration | Component | Ui::LearnerHeaderInfo', function (hooks) {
 
   module('#groupName', function () {
     test('it renders learner header information when there is a groupName', async function (assert) {
-      const groupName = this.intl.t('components.group.SCO');
+      const groupName = t('components.group.SCO');
       const group = '3E';
 
       this.set('groupName', groupName);
@@ -22,7 +23,7 @@ module('Integration | Component | Ui::LearnerHeaderInfo', function (hooks) {
     });
 
     test('it does not render learner division header information when there is no group', async function (assert) {
-      const groupName = this.intl.t('components.group.SCO');
+      const groupName = t('components.group.SCO');
       const group = '';
 
       this.set('groupName', groupName);
@@ -44,11 +45,11 @@ module('Integration | Component | Ui::LearnerHeaderInfo', function (hooks) {
 
       assert.strictEqual(
         screen.getByRole('term').textContent.trim(),
-        this.intl.t('pages.sco-organization-participants.table.column.login-method'),
+        t('pages.sco-organization-participants.table.column.login-method'),
       );
       assert.strictEqual(
         screen.getByRole('definition').textContent.trim(),
-        this.intl.t('pages.sco-organization-participants.connection-types.email'),
+        t('pages.sco-organization-participants.connection-types.email'),
       );
     });
 
@@ -61,30 +62,24 @@ module('Integration | Component | Ui::LearnerHeaderInfo', function (hooks) {
 
       assert.strictEqual(
         screen.getByRole('term').textContent.trim(),
-        this.intl.t('pages.sco-organization-participants.table.column.login-method'),
+        t('pages.sco-organization-participants.table.column.login-method'),
       );
       assert.ok(
         screen.getByRole('definition').textContent.trim(),
-        this.intl.t('pages.sco-organization-participants.connection-types.email'),
+        t('pages.sco-organization-participants.connection-types.email'),
       );
 
       assert.ok(
         screen.getByRole('definition').textContent.trim(),
-        this.intl.t('pages.sco-organization-participants.connection-types.identifiant'),
+        t('pages.sco-organization-participants.connection-types.identifiant'),
       );
     });
 
     test('it does not renders learner header information when there is no connection method', async function (assert) {
       const screen = await render(hbs`<Ui::LearnerHeaderInfo @authenticationMethods={{this.authenticationMethods}} />`);
 
-      assert.strictEqual(
-        screen.queryByText(this.intl.t('pages.sco-organization-participants.table.column.login-method')),
-        null,
-      );
-      assert.strictEqual(
-        screen.queryByText(this.intl.t('pages.sco-organization-participants.connection-types.email')),
-        null,
-      );
+      assert.strictEqual(screen.queryByText(t('pages.sco-organization-participants.table.column.login-method')), null);
+      assert.strictEqual(screen.queryByText(t('pages.sco-organization-participants.connection-types.email')), null);
     });
   });
 
@@ -102,7 +97,7 @@ module('Integration | Component | Ui::LearnerHeaderInfo', function (hooks) {
 
       assert.strictEqual(
         screen.getByRole('term').textContent.trim(),
-        this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible'),
+        t('pages.sco-organization-participants.table.column.is-certifiable.eligible'),
       );
       assert.strictEqual(screen.getByRole('definition').textContent.trim(), '01/01/2023');
     });
@@ -119,7 +114,7 @@ module('Integration | Component | Ui::LearnerHeaderInfo', function (hooks) {
       );
 
       assert.strictEqual(
-        screen.queryByText(this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible')),
+        screen.queryByText(t('pages.sco-organization-participants.table.column.is-certifiable.eligible')),
         null,
       );
       assert.strictEqual(screen.queryByText('01/01/2023'), null);

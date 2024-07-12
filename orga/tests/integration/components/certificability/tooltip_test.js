@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -19,9 +20,9 @@ module('Integration | Component | Certificability::Tooltip', function (hooks) {
       );
 
       // then
-      assert.ok(screen.getByText(this.intl.t('components.certificability-tooltip.content')));
-      assert.ok(screen.getByText(this.intl.t('components.certificability-tooltip.from-compute-certificability')));
-      assert.notOk(screen.queryByText(this.intl.t('components.certificability-tooltip.from-collect-notice')));
+      assert.ok(screen.getByText(t('components.certificability-tooltip.content')));
+      assert.ok(screen.getByText(t('components.certificability-tooltip.from-compute-certificability')));
+      assert.notOk(screen.queryByText(t('components.certificability-tooltip.from-collect-notice')));
     });
   });
 
@@ -37,9 +38,9 @@ module('Integration | Component | Certificability::Tooltip', function (hooks) {
       );
 
       // then
-      assert.ok(screen.getByText(this.intl.t('components.certificability-tooltip.content')));
-      assert.ok(screen.getByText(this.intl.t('components.certificability-tooltip.from-collect-notice')));
-      assert.notOk(screen.queryByText(this.intl.t('components.certificability-tooltip.from-compute-certificability')));
+      assert.ok(screen.getByText(t('components.certificability-tooltip.content')));
+      assert.ok(screen.getByText(t('components.certificability-tooltip.from-collect-notice')));
+      assert.notOk(screen.queryByText(t('components.certificability-tooltip.from-compute-certificability')));
     });
   });
 });

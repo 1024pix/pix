@@ -1,6 +1,7 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -34,7 +35,7 @@ module('Integration | Component | Table::PaginationControl', function (hooks) {
     const screen = await render(hbs`<Table::PaginationControl @pagination={{this.meta}} />`);
 
     // then
-    assert.ok(screen.getByText(this.intl.t('common.pagination.page-number', { current: 1, total: 2 })));
+    assert.ok(screen.getByText(t('common.pagination.page-number', { current: 1, total: 2 })));
   });
 
   test('it should disable previous button when user is on first page', async function (assert) {
@@ -45,9 +46,7 @@ module('Integration | Component | Table::PaginationControl', function (hooks) {
     const screen = await render(hbs`<Table::PaginationControl @pagination={{this.meta}} />`);
 
     // then
-    assert.ok(
-      screen.getByRole('button', { name: this.intl.t('common.pagination.action.previous') }).hasAttribute('disabled'),
-    );
+    assert.ok(screen.getByRole('button', { name: t('common.pagination.action.previous') }).hasAttribute('disabled'));
   });
 
   test('it should disable next button when user is on last page', async function (assert) {
@@ -58,9 +57,7 @@ module('Integration | Component | Table::PaginationControl', function (hooks) {
     const screen = await render(hbs`<Table::PaginationControl @pagination={{this.meta}} />`);
 
     // then
-    assert.ok(
-      screen.getByRole('button', { name: this.intl.t('common.pagination.action.next') }).hasAttribute('disabled'),
-    );
+    assert.ok(screen.getByRole('button', { name: t('common.pagination.action.next') }).hasAttribute('disabled'));
   });
 
   test('it should enable next button when user is on first page', async function (assert) {
@@ -71,9 +68,7 @@ module('Integration | Component | Table::PaginationControl', function (hooks) {
     const screen = await render(hbs`<Table::PaginationControl @pagination={{this.meta}} />`);
 
     // then
-    assert.notOk(
-      screen.getByRole('button', { name: this.intl.t('common.pagination.action.next') }).hasAttribute('disabled'),
-    );
+    assert.notOk(screen.getByRole('button', { name: t('common.pagination.action.next') }).hasAttribute('disabled'));
   });
 
   test('it should enable previous button when user is on second page', async function (assert) {
@@ -84,9 +79,7 @@ module('Integration | Component | Table::PaginationControl', function (hooks) {
     const screen = await render(hbs`<Table::PaginationControl @pagination={{this.meta}} />`);
 
     // then
-    assert.notOk(
-      screen.getByRole('button', { name: this.intl.t('common.pagination.action.previous') }).hasAttribute('disabled'),
-    );
+    assert.notOk(screen.getByRole('button', { name: t('common.pagination.action.previous') }).hasAttribute('disabled'));
   });
 
   test('it should re-route to next page when clicking on next page button', async function (assert) {
@@ -95,7 +88,7 @@ module('Integration | Component | Table::PaginationControl', function (hooks) {
     await render(hbs`<Table::PaginationControl @pagination={{this.meta}} />`);
 
     // when
-    await clickByName(this.intl.t('common.pagination.action.next'));
+    await clickByName(t('common.pagination.action.next'));
 
     // then
     assert.ok(routerService.replaceWith.calledWith({ queryParams: { pageNumber: 2 } }));
@@ -107,7 +100,7 @@ module('Integration | Component | Table::PaginationControl', function (hooks) {
     await render(hbs`<Table::PaginationControl @pagination={{this.meta}} />`);
 
     // when
-    await clickByName(this.intl.t('common.pagination.action.previous'));
+    await clickByName(t('common.pagination.action.previous'));
 
     // then
     assert.ok(routerService.replaceWith.calledWith({ queryParams: { pageNumber: 1 } }));
@@ -119,7 +112,7 @@ module('Integration | Component | Table::PaginationControl', function (hooks) {
     const screen = await render(hbs`<Table::PaginationControl @pagination={{this.meta}} />`);
 
     // when
-    await click(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size')));
+    await click(screen.getByLabelText(t('common.pagination.action.select-page-size')));
     await click(await screen.findByRole('option', { name: '10' }));
 
     // then
@@ -135,7 +128,7 @@ module('Integration | Component | Table::PaginationControl', function (hooks) {
       const screen = await render(hbs`<Table::PaginationControl @pagination={{this.meta}} />`);
 
       // then
-      assert.ok(screen.getByText(this.intl.t('common.pagination.page-info', { start: 1, end: 25, total: 50 })));
+      assert.ok(screen.getByText(t('common.pagination.page-info', { start: 1, end: 25, total: 50 })));
     });
 
     test('it should display only result counts when page count is 1', async function (assert) {
@@ -146,7 +139,7 @@ module('Integration | Component | Table::PaginationControl', function (hooks) {
       const screen = await render(hbs`<Table::PaginationControl @pagination={{this.meta}} />`);
 
       // then
-      assert.ok(screen.getByText(this.intl.t('common.pagination.page-results', { total: 20 })));
+      assert.ok(screen.getByText(t('common.pagination.page-results', { total: 20 })));
     });
 
     test('it should display start and end index of a middle page', async function (assert) {
@@ -157,7 +150,7 @@ module('Integration | Component | Table::PaginationControl', function (hooks) {
       const screen = await render(hbs`<Table::PaginationControl @pagination={{this.meta}} />`);
 
       // then
-      assert.ok(screen.getByText(this.intl.t('common.pagination.page-info', { start: 26, end: 50, total: 70 })));
+      assert.ok(screen.getByText(t('common.pagination.page-info', { start: 26, end: 50, total: 70 })));
     });
 
     test('it should display start and end index of the last page (full)', async function (assert) {
@@ -168,7 +161,7 @@ module('Integration | Component | Table::PaginationControl', function (hooks) {
       const screen = await render(hbs`<Table::PaginationControl @pagination={{this.meta}} />`);
 
       // then
-      assert.ok(screen.getByText(this.intl.t('common.pagination.page-info', { start: 26, end: 50, total: 50 })));
+      assert.ok(screen.getByText(t('common.pagination.page-info', { start: 26, end: 50, total: 50 })));
     });
 
     test('it should display start and end index of a full page (partial)', async function (assert) {
@@ -179,7 +172,7 @@ module('Integration | Component | Table::PaginationControl', function (hooks) {
       const screen = await render(hbs`<Table::PaginationControl @pagination={{this.meta}} />`);
 
       // then
-      assert.ok(screen.getByText(this.intl.t('common.pagination.page-info', { start: 26, end: 45, total: 45 })));
+      assert.ok(screen.getByText(t('common.pagination.page-info', { start: 26, end: 45, total: 45 })));
     });
   });
 
@@ -192,7 +185,7 @@ module('Integration | Component | Table::PaginationControl', function (hooks) {
       const screen = await render(hbs`<Table::PaginationControl @pagination={{this.meta}} />`);
 
       // then
-      assert.ok(screen.getByText(this.intl.t('common.pagination.page-results', { total: 0 })));
+      assert.ok(screen.getByText(t('common.pagination.page-results', { total: 0 })));
     });
 
     test('it should disable previous button and next button', async function (assert) {
@@ -203,12 +196,8 @@ module('Integration | Component | Table::PaginationControl', function (hooks) {
       const screen = await render(hbs`<Table::PaginationControl @pagination={{this.meta}} />`);
 
       // then
-      assert.ok(
-        screen.getByRole('button', { name: this.intl.t('common.pagination.action.previous') }).hasAttribute('disabled'),
-      );
-      assert.ok(
-        screen.getByRole('button', { name: this.intl.t('common.pagination.action.next') }).hasAttribute('disabled'),
-      );
+      assert.ok(screen.getByRole('button', { name: t('common.pagination.action.previous') }).hasAttribute('disabled'));
+      assert.ok(screen.getByRole('button', { name: t('common.pagination.action.next') }).hasAttribute('disabled'));
     });
 
     test('it should display default pagination', async function (assert) {
@@ -219,7 +208,7 @@ module('Integration | Component | Table::PaginationControl', function (hooks) {
       const screen = await render(hbs`<Table::PaginationControl @pagination={{this.meta}} />`);
 
       // then
-      assert.ok(screen.getByText(this.intl.t('common.pagination.page-number', { current: 1, total: 1 })));
+      assert.ok(screen.getByText(t('common.pagination.page-number', { current: 1, total: 1 })));
     });
   });
 });

@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -15,7 +16,7 @@ module('Integration | Component | Language Switcher', function (hooks) {
       const screen = await render(hbs`<LanguageSwitcher @selectedLanguage='en' />`);
 
       // then
-      assert.dom(screen.getByRole('button', { name: this.intl.t('pages.login.choose-language-aria-label') })).exists();
+      assert.dom(screen.getByRole('button', { name: t('pages.login.choose-language-aria-label') })).exists();
     });
   });
 
@@ -25,7 +26,7 @@ module('Integration | Component | Language Switcher', function (hooks) {
       const screen = await render(hbs`<LanguageSwitcher @selectedLanguage='en' />`);
 
       // when
-      await click(screen.getByRole('button', { name: this.intl.t('pages.login.choose-language-aria-label') }));
+      await click(screen.getByRole('button', { name: t('pages.login.choose-language-aria-label') }));
       await screen.findByRole('listbox');
 
       // then
@@ -49,7 +50,7 @@ module('Integration | Component | Language Switcher', function (hooks) {
       );
 
       // when
-      await click(screen.getByRole('button', { name: this.intl.t('pages.login.choose-language-aria-label') }));
+      await click(screen.getByRole('button', { name: t('pages.login.choose-language-aria-label') }));
       await screen.findByRole('listbox');
       await click(screen.getByRole('option', { name: 'Français' }));
 

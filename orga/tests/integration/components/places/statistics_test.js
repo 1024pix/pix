@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -19,8 +20,8 @@ module('Integration | Component | Places::Statistics', function (hooks) {
 
     // then
     assert.ok(screen.getByText(this.available));
-    assert.ok(screen.getAllByText(this.intl.t('cards.available-seats-count.value', { total: this.total }))[0]);
+    assert.ok(screen.getAllByText(t('cards.available-seats-count.value', { total: this.total }))[0]);
     assert.ok(screen.getByText(this.occupied));
-    assert.ok(screen.getAllByText(this.intl.t('cards.occupied-seats-count.value', { total: this.total }))[1]);
+    assert.ok(screen.getAllByText(t('cards.occupied-seats-count.value', { total: this.total }))[1]);
   });
 });

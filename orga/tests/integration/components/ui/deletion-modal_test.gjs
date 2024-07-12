@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
 import UiDeletionModal from 'pix-orga/components/ui/deletion-modal';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -33,8 +34,8 @@ module('Integration | Component | Ui::DeletionModal', function (hooks) {
       // then
       assert.ok(screen.getByText(content));
       assert.ok(screen.getByText(title));
-      assert.ok(screen.getByRole('button', { name: this.intl.t('common.actions.cancel') }));
-      assert.ok(screen.getByRole('button', { name: this.intl.t('components.ui.deletion-modal.confirm-deletion') }));
+      assert.ok(screen.getByRole('button', { name: t('common.actions.cancel') }));
+      assert.ok(screen.getByRole('button', { name: t('components.ui.deletion-modal.confirm-deletion') }));
     });
 
     test('it should call onTriggerAction when click on confirm', async function (assert) {
@@ -59,7 +60,7 @@ module('Integration | Component | Ui::DeletionModal', function (hooks) {
       );
 
       const confirmButton = screen.getByRole('button', {
-        name: this.intl.t('components.ui.deletion-modal.confirm-deletion'),
+        name: t('components.ui.deletion-modal.confirm-deletion'),
       });
 
       await click(confirmButton);
@@ -91,13 +92,13 @@ module('Integration | Component | Ui::DeletionModal', function (hooks) {
       );
 
       const confirmationCheckbox = screen.getByRole('checkbox', {
-        name: this.intl.t('components.ui.deletion-modal.confirmation-checkbox', { count }),
+        name: t('components.ui.deletion-modal.confirmation-checkbox', { count }),
       });
 
       await click(confirmationCheckbox);
 
       const confirmButton = screen.getByRole('button', {
-        name: this.intl.t('components.ui.deletion-modal.confirm-deletion'),
+        name: t('components.ui.deletion-modal.confirm-deletion'),
       });
 
       await click(confirmButton);
@@ -128,7 +129,7 @@ module('Integration | Component | Ui::DeletionModal', function (hooks) {
       );
 
       const cancelButton = screen.getByRole('button', {
-        name: this.intl.t('common.actions.cancel'),
+        name: t('common.actions.cancel'),
       });
 
       await click(cancelButton);
@@ -164,7 +165,7 @@ module('Integration | Component | Ui::DeletionModal', function (hooks) {
       //then
       assert.ok(
         screen.getByRole('checkbox', {
-          name: this.intl.t('components.ui.deletion-modal.confirmation-checkbox', { count }),
+          name: t('components.ui.deletion-modal.confirmation-checkbox', { count }),
         }),
       );
     });
@@ -192,7 +193,7 @@ module('Integration | Component | Ui::DeletionModal', function (hooks) {
       );
 
       const confirmButton = screen.getByRole('button', {
-        name: this.intl.t('components.ui.deletion-modal.confirm-deletion'),
+        name: t('components.ui.deletion-modal.confirm-deletion'),
       });
 
       // then

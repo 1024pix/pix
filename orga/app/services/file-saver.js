@@ -29,8 +29,7 @@ export default class FileSaverService extends Service {
   }
 
   get locale() {
-    const [currentLocale] = this.intl.get('locale');
-    return currentLocale;
+    return this.intl.primaryLocale;
   }
 }
 

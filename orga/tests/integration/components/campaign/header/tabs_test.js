@@ -2,6 +2,7 @@ import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import ENV from 'pix-orga/config/environment';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -51,25 +52,25 @@ module('Integration | Component | Campaign::Header::Tabs', function (hooks) {
     });
 
     test('it should display campaign settings item', async function (assert) {
-      const settingsLink = screen.getByRole('link', { name: this.intl.t('pages.campaign.tab.settings') });
+      const settingsLink = screen.getByRole('link', { name: t('pages.campaign.tab.settings') });
 
       assert.dom(settingsLink).hasAttribute('href', '/campagnes/12/parametres');
     });
 
     test('it should display activity item', async function (assert) {
-      const activityLink = screen.getByRole('link', { name: this.intl.t('pages.campaign.tab.activity') });
+      const activityLink = screen.getByRole('link', { name: t('pages.campaign.tab.activity') });
       assert.dom(activityLink).hasAttribute('href', '/campagnes/12');
     });
 
     test('it should display export button result', async function (assert) {
-      assert.ok(screen.getByRole('button', { name: this.intl.t('pages.campaign.actions.export-results') }));
+      assert.ok(screen.getByRole('button', { name: t('pages.campaign.actions.export-results') }));
     });
 
     test('dipslay notification error on data export', async function (assert) {
       fileSaver.save.rejects();
-      await click(screen.getByRole('button', { name: this.intl.t('pages.campaign.actions.export-results') }));
+      await click(screen.getByRole('button', { name: t('pages.campaign.actions.export-results') }));
 
-      assert.ok(notifications.sendError.calledWithExactly(this.intl.t('api-error-messages.global')));
+      assert.ok(notifications.sendError.calledWithExactly(t('api-error-messages.global')));
     });
   });
 
@@ -85,19 +86,19 @@ module('Integration | Component | Campaign::Header::Tabs', function (hooks) {
     });
 
     test('it should display evaluation results item', async function (assert) {
-      const resultsLink = screen.getByRole('link', { name: this.intl.t('pages.campaign.tab.results', { count: 10 }) });
+      const resultsLink = screen.getByRole('link', { name: t('pages.campaign.tab.results', { count: 10 }) });
 
       assert.dom(resultsLink).hasAttribute('href', '/campagnes/13/resultats-evaluation');
     });
 
     test('it should display campaign analyse item', async function (assert) {
-      const resultsLink = screen.getByRole('link', { name: this.intl.t('pages.campaign.tab.review') });
+      const resultsLink = screen.getByRole('link', { name: t('pages.campaign.tab.review') });
 
       assert.dom(resultsLink).hasAttribute('href', '/campagnes/13/analyse');
     });
 
     test('it should call export result with right context', async function (assert) {
-      await click(screen.getByRole('button', { name: this.intl.t('pages.campaign.actions.export-results') }));
+      await click(screen.getByRole('button', { name: t('pages.campaign.actions.export-results') }));
 
       assert.ok(notifications.sendError.notCalled);
       assert.ok(
@@ -122,17 +123,17 @@ module('Integration | Component | Campaign::Header::Tabs', function (hooks) {
     });
 
     test('it should display  profile results item', async function (assert) {
-      const resultsLink = screen.getByRole('link', { name: this.intl.t('pages.campaign.tab.results', { count: 6 }) });
+      const resultsLink = screen.getByRole('link', { name: t('pages.campaign.tab.results', { count: 6 }) });
 
       assert.dom(resultsLink).hasAttribute('href', '/campagnes/13/profils');
     });
 
     test('it should not display analyse item', async function (assert) {
-      assert.notOk(screen.queryByRole('link', { name: this.intl.t('pages.campaign.tab.review') }));
+      assert.notOk(screen.queryByRole('link', { name: t('pages.campaign.tab.review') }));
     });
 
     test('it should call export result with right context', async function (assert) {
-      await click(screen.getByRole('button', { name: this.intl.t('pages.campaign.actions.export-results') }));
+      await click(screen.getByRole('button', { name: t('pages.campaign.actions.export-results') }));
 
       assert.ok(notifications.sendError.notCalled);
       assert.ok(

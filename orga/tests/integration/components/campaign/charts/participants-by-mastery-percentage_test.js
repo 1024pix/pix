@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -35,6 +36,6 @@ module('Integration | Component | Campaign::Charts::ParticipantsByMasteryPercent
     );
 
     // then
-    assert.dom(screen.getByText(this.intl.t('charts.participants-by-mastery-percentage.title'))).exists();
+    assert.dom(screen.getByText(t('charts.participants-by-mastery-percentage.title'))).exists();
   });
 });

@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -16,7 +17,7 @@ module('Integration | Component | Campaign::Results::AssessmentCards', function 
       const screen = await render(hbs`<Campaign::Results::AssessmentCards @averageResult={{this.averageResult}} />`);
 
       //then
-      assert.dom(screen.getByText(this.intl.t('cards.participants-average-results.title'))).exists();
+      assert.dom(screen.getByText(t('cards.participants-average-results.title'))).exists();
     });
   });
 
@@ -37,7 +38,7 @@ module('Integration | Component | Campaign::Results::AssessmentCards', function 
       );
 
       //then
-      assert.dom(screen.getByText(this.intl.t('cards.participants-average-stages.title'))).exists();
+      assert.dom(screen.getByText(t('cards.participants-average-stages.title'))).exists();
     });
   });
 
@@ -51,6 +52,6 @@ module('Integration | Component | Campaign::Results::AssessmentCards', function 
     );
 
     //then
-    assert.dom(screen.getByText(this.intl.t('cards.submitted-count.title'))).exists();
+    assert.dom(screen.getByText(t('cards.submitted-count.title'))).exists();
   });
 });

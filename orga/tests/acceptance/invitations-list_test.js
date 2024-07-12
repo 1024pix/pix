@@ -1,5 +1,6 @@
 import { clickByName, visit } from '@1024pix/ember-testing-library';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -30,7 +31,7 @@ module('Acceptance | Invitations list', function (hooks) {
 
     // when
     const screen = await visit('/equipe/invitations');
-    await clickByName(this.intl.t('pages.team-invitations.cancel-invitation'));
+    await clickByName(t('pages.team-invitations.cancel-invitation'));
 
     // then
     assert.notOk(screen.queryByText('gigi@example.net'));

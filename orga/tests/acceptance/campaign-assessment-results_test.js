@@ -1,6 +1,7 @@
 import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -43,9 +44,9 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
       const screen = await visit('/campagnes/1/resultats-evaluation');
 
       // then
-      assert.dom(`[aria-label="${this.intl.t('pages.campaign-results.table.row-title')}"]`).exists({ count: pageSize });
+      assert.dom(`[aria-label="${t('pages.campaign-results.table.row-title')}"]`).exists({ count: pageSize });
       assert.ok(screen.getByText('Page 1 / 2'));
-      assert.dom(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size'))).hasText('50');
+      assert.dom(screen.getByLabelText(t('common.pagination.action.select-page-size'))).hasText('50');
     });
 
     test('it should display participant list with settings in url for pagination', async function (assert) {
@@ -59,12 +60,10 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
       );
 
       // then
-      assert
-        .dom(`[aria-label="${this.intl.t('pages.campaign-results.table.row-title')}"]`)
-        .exists({ count: changedPageSize });
+      assert.dom(`[aria-label="${t('pages.campaign-results.table.row-title')}"]`).exists({ count: changedPageSize });
       assert.ok(screen.getByText('Page 2 / 2'));
       assert
-        .dom(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size')))
+        .dom(screen.getByLabelText(t('common.pagination.action.select-page-size')))
         .hasText(changedPageSize.toString());
     });
 
@@ -87,16 +86,14 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
 
       // when
       const screen = await visit('/campagnes/1/resultats-evaluation');
-      await click(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size')));
+      await click(screen.getByLabelText(t('common.pagination.action.select-page-size')));
       await click(await screen.findByRole('option', { name: changedPageSize }));
 
       // then
-      assert
-        .dom(`[aria-label="${this.intl.t('pages.campaign-results.table.row-title')}"]`)
-        .exists({ count: changedPageSize });
+      assert.dom(`[aria-label="${t('pages.campaign-results.table.row-title')}"]`).exists({ count: changedPageSize });
       assert.ok(screen.getByText('Page 1 / 2'));
       assert
-        .dom(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size')))
+        .dom(screen.getByLabelText(t('common.pagination.action.select-page-size')))
         .hasText(changedPageSize.toString());
     });
 
@@ -105,7 +102,7 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
       const changedPageSize = 10;
 
       const screen = await visit('/campagnes/1/resultats-evaluation');
-      await click(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size')));
+      await click(screen.getByLabelText(t('common.pagination.action.select-page-size')));
       await click(await screen.findByRole('option', { name: changedPageSize }));
       const someElementFromPage1 = document.querySelector('[aria-label="Participant"]:nth-child(5)').textContent;
 
@@ -125,16 +122,14 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
       // when
       const screen = await visit(`/campagnes/1/resultats-evaluation?pageNumber=${startPage}`);
 
-      await click(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size')));
+      await click(screen.getByLabelText(t('common.pagination.action.select-page-size')));
       await click(await screen.findByRole('option', { name: changedPageSize }));
 
       // then
-      assert
-        .dom(`[aria-label="${this.intl.t('pages.campaign-results.table.row-title')}"]`)
-        .exists({ count: changedPageSize });
+      assert.dom(`[aria-label="${t('pages.campaign-results.table.row-title')}"]`).exists({ count: changedPageSize });
       assert.ok(screen.getByText('Page 1 / 4'));
       assert
-        .dom(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size')))
+        .dom(screen.getByLabelText(t('common.pagination.action.select-page-size')))
         .hasText(changedPageSize.toString());
     });
   });
@@ -179,10 +174,8 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
         const screen = await visit('/campagnes/7654/resultats-evaluation');
 
         // then
-        assert.dom(screen.getByText(this.intl.t('pages.campaign.empty-state'))).exists();
-        assert
-          .dom(screen.queryByRole('button', { name: this.intl.t('pages.campaign.copy.link.default') }))
-          .doesNotExist();
+        assert.dom(screen.getByText(t('pages.campaign.empty-state'))).exists();
+        assert.dom(screen.queryByRole('button', { name: t('pages.campaign.copy.link.default') })).doesNotExist();
       });
     });
   });

@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -19,7 +20,7 @@ module('Integration | Component | SupOrganizationParticipant::HeaderActions', fu
       );
 
       // then
-      assert.ok(screen.getByText(this.intl.t('pages.sup-organization-participants.title', { count: 0 })));
+      assert.ok(screen.getByText(t('pages.sup-organization-participants.title', { count: 0 })));
     });
 
     test('it should show title with participant count when count > 0', async function (assert) {
@@ -32,7 +33,7 @@ module('Integration | Component | SupOrganizationParticipant::HeaderActions', fu
       );
 
       // then
-      assert.ok(screen.getByText(this.intl.t('pages.sup-organization-participants.title', { count: 5 })));
+      assert.ok(screen.getByText(t('pages.sup-organization-participants.title', { count: 5 })));
     });
   });
 
@@ -53,7 +54,7 @@ module('Integration | Component | SupOrganizationParticipant::HeaderActions', fu
       const screen = await render(hbs`<SupOrganizationParticipant::HeaderActions />`);
 
       // then
-      assert.ok(screen.getByText(this.intl.t('pages.sup-organization-participants.actions.download-template')));
+      assert.ok(screen.getByText(t('pages.sup-organization-participants.actions.download-template')));
     });
 
     test('it displays the import button', async function (assert) {
@@ -61,7 +62,7 @@ module('Integration | Component | SupOrganizationParticipant::HeaderActions', fu
       const screen = await render(hbs`<SupOrganizationParticipant::HeaderActions />`);
 
       // then
-      assert.ok(screen.getByText(this.intl.t('components.organization-participants-header.import-button')));
+      assert.ok(screen.getByText(t('components.organization-participants-header.import-button')));
     });
   });
 
@@ -78,7 +79,7 @@ module('Integration | Component | SupOrganizationParticipant::HeaderActions', fu
       const screen = await render(hbs`<SupOrganizationParticipant::HeaderActions />`);
 
       // then
-      assert.notOk(screen.queryByText(this.intl.t('pages.sup-organization-participants.actions.download-template')));
+      assert.notOk(screen.queryByText(t('pages.sup-organization-participants.actions.download-template')));
     });
 
     test('it should not display import button', async function (assert) {
@@ -87,9 +88,7 @@ module('Integration | Component | SupOrganizationParticipant::HeaderActions', fu
 
       // then
       assert.notOk(screen.queryByText('Importer (.csv)'));
-      assert.notOk(
-        screen.queryByText(`${this.intl.t('components.organization-participants-header.import-button')} (.csv)`),
-      );
+      assert.notOk(screen.queryByText(`${t('components.organization-participants-header.import-button')} (.csv)`));
     });
   });
 });

@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -30,9 +31,7 @@ module('Integration | Component | Campaign::Charts::ResultDistribution', functio
 
       const screen = await render(hbs`<Campaign::Charts::ResultDistribution @campaign={{this.campaign}} />`);
 
-      assert
-        .dom(screen.getByRole('heading', { name: this.intl.t('charts.participants-by-mastery-percentage.title') }))
-        .exists();
+      assert.dom(screen.getByRole('heading', { name: t('charts.participants-by-mastery-percentage.title') })).exists();
     });
   });
 
@@ -49,7 +48,7 @@ module('Integration | Component | Campaign::Charts::ResultDistribution', functio
       const screen = await render(
         hbs`<Campaign::Charts::ResultDistribution @campaign={{this.campaign}} @onSelectStage={{this.onSelectStage}} />`,
       );
-      assert.dom(screen.getByRole('heading', { name: this.intl.t('charts.participants-by-stage.title') })).exists();
+      assert.dom(screen.getByRole('heading', { name: t('charts.participants-by-stage.title') })).exists();
     });
   });
 });

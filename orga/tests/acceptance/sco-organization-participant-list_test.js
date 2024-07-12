@@ -1,6 +1,7 @@
 import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -99,12 +100,10 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
         test('it should display the students list filtered by connection type', async function (assert) {
           // when
           const screen = await visit('/eleves');
-          await click(
-            screen.getByLabelText(this.intl.t('pages.sco-organization-participants.filter.login-method.label')),
-          );
+          await click(screen.getByLabelText(t('pages.sco-organization-participants.filter.login-method.label')));
           await click(
             await screen.findByRole('checkbox', {
-              name: this.intl.t('pages.sco-organization-participants.connection-types.email'),
+              name: t('pages.sco-organization-participants.connection-types.email'),
             }),
           );
 
@@ -147,12 +146,10 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
 
             // when
             const screen = await visit('/eleves');
-            await click(
-              screen.getByLabelText(this.intl.t('pages.sco-organization-participants.filter.login-method.label')),
-            );
+            await click(screen.getByLabelText(t('pages.sco-organization-participants.filter.login-method.label')));
             await click(
               await screen.findByRole('checkbox', {
-                name: this.intl.t('pages.sco-organization-participants.connection-types.without-mediacentre'),
+                name: t('pages.sco-organization-participants.connection-types.without-mediacentre'),
               }),
             );
 
@@ -262,7 +259,7 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
             assert.ok(screen.getByText('Médiacentre'));
             assert.ok(
               screen.getByRole('heading', {
-                name: this.intl.t(
+                name: t(
                   'pages.sco-organization-participants.manage-authentication-method-modal.section.add-username.label',
                 ),
               }),
@@ -284,14 +281,14 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
             assert.ok(screen.getByText('Médiacentre'));
             assert.ok(
               screen.getByRole('heading', {
-                name: this.intl.t(
+                name: t(
                   'pages.sco-organization-participants.manage-authentication-method-modal.section.username.label',
                 ),
               }),
             );
             assert.ok(
               screen.getByRole('textbox', {
-                name: this.intl.t(
+                name: t(
                   'pages.sco-organization-participants.manage-authentication-method-modal.section.password.label',
                 ),
               }),
@@ -324,7 +321,7 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
             assert.ok(screen.getByText('Médiacentre'));
             assert.ok(
               screen.getByRole('heading', {
-                name: this.intl.t(
+                name: t(
                   'pages.sco-organization-participants.manage-authentication-method-modal.section.username.label',
                 ),
               }),
@@ -383,19 +380,19 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
             test('resets students password and displays a success notification', async function (assert) {
               // given
               const screen = await visit('/eleves');
-              await clickByName(this.intl.t('pages.sco-organization-participants.table.column.mainCheckbox'));
-              await clickByName(this.intl.t('pages.sco-organization-participants.action-bar.reset-password-button'));
+              await clickByName(t('pages.sco-organization-participants.table.column.mainCheckbox'));
+              await clickByName(t('pages.sco-organization-participants.action-bar.reset-password-button'));
               await screen.findByRole('dialog');
 
               // when
-              await clickByName(this.intl.t('common.actions.confirm'));
+              await clickByName(t('common.actions.confirm'));
 
               // then
               const resetPasswordsModal = await screen.queryByRole('dialog');
               assert.dom(resetPasswordsModal).isNotVisible();
 
               const successNotification = await screen.getByText(
-                this.intl.t('pages.sco-organization-participants.messages.password-reset-success'),
+                t('pages.sco-organization-participants.messages.password-reset-success'),
               );
               assert.ok(successNotification);
             });

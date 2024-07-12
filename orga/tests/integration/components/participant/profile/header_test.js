@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -36,10 +37,7 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
       hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`,
     );
 
-    assert.strictEqual(
-      screen.getByRole('term').textContent.trim(),
-      this.intl.t('pages.campaign-individual-results.start-date'),
-    );
+    assert.strictEqual(screen.getByRole('term').textContent.trim(), t('pages.campaign-individual-results.start-date'));
     assert.strictEqual(screen.getByRole('definition').textContent.trim(), '01 janv. 2020');
   });
 
@@ -58,7 +56,7 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
 
         assert.strictEqual(
           screen.getAllByRole('term')[1].textContent.trim(),
-          this.intl.t('pages.campaign-individual-results.shared-date'),
+          t('pages.campaign-individual-results.shared-date'),
         );
         assert.strictEqual(screen.getAllByRole('definition')[1].textContent.trim(), '02 janv. 2020');
       });
@@ -75,7 +73,7 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
           hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`,
         );
 
-        assert.notOk(screen.queryByText(this.intl.t('pages.campaign-individual-results.shared-date')));
+        assert.notOk(screen.queryByText(t('pages.campaign-individual-results.shared-date')));
       });
     });
   });
@@ -174,7 +172,7 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
               hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`,
             );
 
-            assert.ok(screen.getByText(this.intl.t('pages.profiles-individual-results.certifiable')));
+            assert.ok(screen.getByText(t('pages.profiles-individual-results.certifiable')));
           });
         });
 
@@ -190,7 +188,7 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
               hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`,
             );
 
-            assert.notOk(screen.queryByText(this.intl.t('pages.profiles-individual-results.certifiable')));
+            assert.notOk(screen.queryByText(t('pages.profiles-individual-results.certifiable')));
           });
         });
       });
@@ -223,7 +221,7 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
         );
 
         assert.notOk(screen.queryByText('32'));
-        assert.notOk(screen.queryByText(this.intl.t('pages.profiles-individual-results.competences-certifiables')));
+        assert.notOk(screen.queryByText(t('pages.profiles-individual-results.competences-certifiables')));
       });
 
       test('it does not display the total number of certifiable competence', async function (assert) {
@@ -252,7 +250,7 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
           hbs`<Participant::Profile::Header @campaignProfile={{this.campaignProfile}} @campaign={{this.campaign}} />`,
         );
 
-        assert.notOk(screen.queryByText(this.intl.t('pages.profiles-individual-results.certifiable')));
+        assert.notOk(screen.queryByText(t('pages.profiles-individual-results.certifiable')));
       });
     });
   });

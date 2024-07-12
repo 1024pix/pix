@@ -1,6 +1,7 @@
 import { render, within } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -35,7 +36,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
-        assert.dom(screen.getByText(this.intl.t('pages.campaign-settings.campaign-type.assessment'))).exists();
+        assert.dom(screen.getByText(t('pages.campaign-settings.campaign-type.assessment'))).exists();
       });
     });
 
@@ -49,7 +50,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
-        assert.dom(screen.getByText(this.intl.t('pages.campaign-settings.campaign-type.profiles-collection'))).exists();
+        assert.dom(screen.getByText(t('pages.campaign-settings.campaign-type.profiles-collection'))).exists();
       });
     });
   });
@@ -98,7 +99,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         assert
           .dom(
             screen.getByText(
-              this.intl.t('common.target-profile-details.subjects', { value: this.campaign.targetProfileTubesCount }),
+              t('common.target-profile-details.subjects', { value: this.campaign.targetProfileTubesCount }),
             ),
           )
           .exists();
@@ -119,7 +120,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
           assert
             .dom(
               screen.queryByText(
-                this.intl.t('common.target-profile-details.thematic-results', {
+                t('common.target-profile-details.thematic-results', {
                   value: this.campaign.targetProfileThematicResultCount,
                 }),
               ),
@@ -141,7 +142,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
           assert
             .dom(
               screen.getByText(
-                this.intl.t('common.target-profile-details.thematic-results', {
+                t('common.target-profile-details.thematic-results', {
                   value: this.campaign.targetProfileThematicResultCount,
                 }),
               ),
@@ -162,7 +163,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
           const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
           // then
-          assert.dom(screen.getByLabelText(this.intl.t('common.target-profile-details.results.star'))).exists();
+          assert.dom(screen.getByLabelText(t('common.target-profile-details.results.star'))).exists();
         });
 
         test('it should display target profile result with percentage when no stages related to campaign', async function (assert) {
@@ -176,7 +177,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
           const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
           // then
-          assert.dom(screen.getByLabelText(this.intl.t('common.target-profile-details.results.percent'))).exists();
+          assert.dom(screen.getByLabelText(t('common.target-profile-details.results.percent'))).exists();
         });
       });
     });
@@ -224,7 +225,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
-        assert.dom(screen.queryByText(this.intl.t('pages.campaign-settings.external-user-id-label'))).doesNotExist();
+        assert.dom(screen.queryByText(t('pages.campaign-settings.external-user-id-label'))).doesNotExist();
       });
     });
   });
@@ -325,7 +326,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
       // when
       const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
       // then
-      assert.dom(screen.getByRole('button', { name: this.intl.t('pages.campaign-settings.actions.archive') })).exists();
+      assert.dom(screen.getByRole('button', { name: t('pages.campaign-settings.actions.archive') })).exists();
     });
   });
 
@@ -343,9 +344,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
-        assert
-          .dom(screen.queryByRole('button', { name: this.intl.t('pages.campaign-settings.actions.edit') }))
-          .doesNotExist();
+        assert.dom(screen.queryByRole('button', { name: t('pages.campaign-settings.actions.edit') })).doesNotExist();
       });
     });
 
@@ -362,7 +361,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
-        assert.dom(screen.getByText(this.intl.t('pages.campaign-settings.actions.edit'))).exists();
+        assert.dom(screen.getByText(t('pages.campaign-settings.actions.edit'))).exists();
       });
     });
 
@@ -376,9 +375,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
 
         // then
         assert
-          .dom(
-            screen.queryByText(this.intl.t('pages.campaign-settings.actions.editpages.campaign-settings.actions.edit')),
-          )
+          .dom(screen.queryByText(t('pages.campaign-settings.actions.editpages.campaign-settings.actions.edit')))
           .doesNotExist();
       });
     });
@@ -394,7 +391,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         // when
         const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
         // then
-        assert.dom(screen.getByText(this.intl.t('pages.campaign-settings.multiple-sendings.title'))).exists();
+        assert.dom(screen.getByText(t('pages.campaign-settings.multiple-sendings.title'))).exists();
       });
 
       test('it should display tooltip with multiple sendings explanatory text', async function (assert) {
@@ -408,7 +405,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
-        assert.dom(screen.getByText(this.intl.t('pages.campaign-settings.multiple-sendings.tooltip.text'))).exists();
+        assert.dom(screen.getByText(t('pages.campaign-settings.multiple-sendings.tooltip.text'))).exists();
       });
 
       module('when multiple sendings is true', function () {
@@ -423,9 +420,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
           const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
           // then
-          assert
-            .dom(screen.getByText(this.intl.t('pages.campaign-settings.multiple-sendings.status.enabled')))
-            .exists();
+          assert.dom(screen.getByText(t('pages.campaign-settings.multiple-sendings.status.enabled'))).exists();
         });
       });
 
@@ -441,9 +436,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
           const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
           // then
-          assert
-            .dom(screen.getByText(this.intl.t('pages.campaign-settings.multiple-sendings.status.disabled')))
-            .exists();
+          assert.dom(screen.getByText(t('pages.campaign-settings.multiple-sendings.status.disabled'))).exists();
         });
       });
     });
@@ -460,9 +453,9 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
           const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
           // then
-          assert.dom(screen.queryByText(this.intl.t('pages.campaign-settings.multiple-sendings.title'))).doesNotExist();
+          assert.dom(screen.queryByText(t('pages.campaign-settings.multiple-sendings.title'))).doesNotExist();
           assert
-            .dom(screen.queryByLabelText(this.intl.t('pages.campaign-settings.multiple-sendings.tooltip.aria-label')))
+            .dom(screen.queryByLabelText(t('pages.campaign-settings.multiple-sendings.tooltip.aria-label')))
             .doesNotExist();
         });
 
@@ -477,9 +470,9 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
           const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
           // then
-          assert.dom(screen.queryByText(this.intl.t('pages.campaign-settings.reset-to-zero.title'))).doesNotExist();
+          assert.dom(screen.queryByText(t('pages.campaign-settings.reset-to-zero.title'))).doesNotExist();
           assert
-            .dom(screen.queryByLabelText(this.intl.t('pages.campaign-settings.reset-to-zero.tooltip.aria-label')))
+            .dom(screen.queryByLabelText(t('pages.campaign-settings.reset-to-zero.tooltip.aria-label')))
             .doesNotExist();
         });
       });
@@ -499,7 +492,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
           // when
           const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
           // then
-          assert.dom(screen.getByText(this.intl.t('pages.campaign-settings.multiple-sendings.title'))).exists();
+          assert.dom(screen.getByText(t('pages.campaign-settings.multiple-sendings.title'))).exists();
         });
 
         test('it should display tooltip with multiple sendings explanatory text', async function (assert) {
@@ -511,7 +504,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
           const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
           // then
-          assert.dom(screen.getByText(this.intl.t('pages.campaign-settings.multiple-sendings.tooltip.text'))).exists();
+          assert.dom(screen.getByText(t('pages.campaign-settings.multiple-sendings.tooltip.text'))).exists();
         });
       });
 
@@ -532,10 +525,10 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
           // when
           const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
           // then
-          const resetToZeroNode = screen.getByText(this.intl.t('pages.campaign-settings.reset-to-zero.title'))
-            .parentNode.parentNode;
+          const resetToZeroNode = screen.getByText(t('pages.campaign-settings.reset-to-zero.title')).parentNode
+            .parentNode;
           assert
-            .dom(within(resetToZeroNode).getByText(this.intl.t('pages.campaign-settings.reset-to-zero.status.enabled')))
+            .dom(within(resetToZeroNode).getByText(t('pages.campaign-settings.reset-to-zero.status.enabled')))
             .exists();
         });
 
@@ -549,12 +542,10 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
           // when
           const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
           // then
-          const resetToZeroNode = screen.getByText(this.intl.t('pages.campaign-settings.reset-to-zero.title'))
-            .parentNode.parentNode;
+          const resetToZeroNode = screen.getByText(t('pages.campaign-settings.reset-to-zero.title')).parentNode
+            .parentNode;
           assert
-            .dom(
-              within(resetToZeroNode).getByText(this.intl.t('pages.campaign-settings.reset-to-zero.status.disabled')),
-            )
+            .dom(within(resetToZeroNode).getByText(t('pages.campaign-settings.reset-to-zero.status.disabled')))
             .exists();
         });
 
@@ -568,7 +559,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
           const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
           // then
-          assert.dom(screen.getByText(this.intl.t('pages.campaign-settings.reset-to-zero.tooltip.text'))).exists();
+          assert.dom(screen.getByText(t('pages.campaign-settings.reset-to-zero.tooltip.text'))).exists();
         });
       });
 
@@ -589,7 +580,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
           // when
           const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
           // then
-          assert.dom(screen.queryByText(this.intl.t('pages.campaign-settings.reset-to-zero.title'))).doesNotExist();
+          assert.dom(screen.queryByText(t('pages.campaign-settings.reset-to-zero.title'))).doesNotExist();
         });
 
         test('it should not display the reset to zero label when targetProfileAreKnowledgeElementsResettable is false', async function (assert) {
@@ -602,7 +593,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
           // when
           const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
           // then
-          assert.dom(screen.queryByText(this.intl.t('pages.campaign-settings.reset-to-zero.title'))).doesNotExist();
+          assert.dom(screen.queryByText(t('pages.campaign-settings.reset-to-zero.title'))).doesNotExist();
         });
       });
     });

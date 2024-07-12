@@ -1,4 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
+import { t } from 'ember-intl/test-support';
 import ImportBanner from 'pix-orga/components/import-banner';
 import { module, test } from 'qunit';
 
@@ -16,7 +17,7 @@ module('Integration | Component | ImportBanner', function (hooks) {
       );
 
       // then
-      assert.ok(screen.getByText(this.intl.t('pages.organization-participants-import.banner.upload-in-progress')));
+      assert.ok(screen.getByText(t('pages.organization-participants-import.banner.upload-in-progress')));
     });
 
     test('it should display loading message when there is already an import', async function (assert) {
@@ -35,7 +36,7 @@ module('Integration | Component | ImportBanner', function (hooks) {
       );
 
       // then
-      assert.ok(screen.getByText(this.intl.t('pages.organization-participants-import.banner.upload-in-progress')));
+      assert.ok(screen.getByText(t('pages.organization-participants-import.banner.upload-in-progress')));
     });
 
     test('display validation in progress banner', async function (assert) {
@@ -56,13 +57,13 @@ module('Integration | Component | ImportBanner', function (hooks) {
         </template>,
       );
       assert.ok(
-        screen.getByText(this.intl.t('pages.organization-participants-import.banner.validation-in-progress'), {
+        screen.getByText(t('pages.organization-participants-import.banner.validation-in-progress'), {
           exact: false,
         }),
       );
       assert.ok(
         screen.getByText(
-          this.intl.t('pages.organization-participants-import.banner.upload-completed', {
+          t('pages.organization-participants-import.banner.upload-completed', {
             firstName: 'Obi',
             lastName: 'Wan',
             date: createdAt.toLocaleDateString(),
@@ -71,7 +72,7 @@ module('Integration | Component | ImportBanner', function (hooks) {
         ),
       );
       assert.ok(
-        screen.getByText(this.intl.t('pages.organization-participants-import.banner.in-progress-text'), {
+        screen.getByText(t('pages.organization-participants-import.banner.in-progress-text'), {
           exact: false,
         }),
       );
@@ -95,13 +96,13 @@ module('Integration | Component | ImportBanner', function (hooks) {
         </template>,
       );
       assert.ok(
-        screen.getByText(this.intl.t('pages.organization-participants-import.banner.import-in-progress'), {
+        screen.getByText(t('pages.organization-participants-import.banner.import-in-progress'), {
           exact: false,
         }),
       );
       assert.ok(
         screen.getByText(
-          this.intl.t('pages.organization-participants-import.banner.upload-completed', {
+          t('pages.organization-participants-import.banner.upload-completed', {
             firstName: 'Obi',
             lastName: 'Wan',
             date: createdAt.toLocaleDateString(),
@@ -110,7 +111,7 @@ module('Integration | Component | ImportBanner', function (hooks) {
         ),
       );
       assert.ok(
-        screen.getByText(this.intl.t('pages.organization-participants-import.banner.in-progress-text'), {
+        screen.getByText(t('pages.organization-participants-import.banner.in-progress-text'), {
           exact: false,
         }),
       );
@@ -137,7 +138,7 @@ module('Integration | Component | ImportBanner', function (hooks) {
 
       assert.ok(
         screen.getByText(
-          this.intl.t('pages.organization-participants-import.global-success', {
+          t('pages.organization-participants-import.global-success', {
             firstName: 'Richard',
             lastName: 'Aldana',
             date: new Date(2020, 10, 2).toLocaleDateString(),
@@ -164,7 +165,7 @@ module('Integration | Component | ImportBanner', function (hooks) {
 
       assert.ok(
         screen.getByText(
-          this.intl.t('pages.organization-participants-import.global-success', {
+          t('pages.organization-participants-import.global-success', {
             firstName: 'Richard',
             lastName: 'Aldana',
             date: new Date(2020, 10, 2).toLocaleDateString(),
@@ -191,7 +192,7 @@ module('Integration | Component | ImportBanner', function (hooks) {
       );
       // then
       assert.notOk(
-        screen.queryByText(this.intl.t('pages.organization-participants-import.banner.error-text'), {
+        screen.queryByText(t('pages.organization-participants-import.banner.error-text'), {
           exact: false,
         }),
       );
@@ -221,13 +222,13 @@ module('Integration | Component | ImportBanner', function (hooks) {
       );
 
       assert.ok(
-        screen.getByText(this.intl.t('pages.organization-participants-import.banner.validation-error'), {
+        screen.getByText(t('pages.organization-participants-import.banner.validation-error'), {
           exact: false,
         }),
       );
       assert.ok(
         screen.getByText(
-          this.intl.t('pages.organization-participants-import.banner.upload-completed', {
+          t('pages.organization-participants-import.banner.upload-completed', {
             firstName: 'Dark',
             lastName: 'Vador',
             date: createdAt.toLocaleDateString(),
@@ -236,9 +237,7 @@ module('Integration | Component | ImportBanner', function (hooks) {
         ),
       );
 
-      assert.ok(
-        screen.getByText(this.intl.t('pages.organization-participants-import.banner.error-text'), { exact: false }),
-      );
+      assert.ok(screen.getByText(t('pages.organization-participants-import.banner.error-text'), { exact: false }));
     });
 
     test('display import error banner when import failed', async function (assert) {
@@ -259,13 +258,13 @@ module('Integration | Component | ImportBanner', function (hooks) {
       );
 
       assert.ok(
-        screen.getByText(this.intl.t('pages.organization-participants-import.banner.import-error'), {
+        screen.getByText(t('pages.organization-participants-import.banner.import-error'), {
           exact: false,
         }),
       );
       assert.ok(
         screen.getByText(
-          this.intl.t('pages.organization-participants-import.banner.upload-completed', {
+          t('pages.organization-participants-import.banner.upload-completed', {
             firstName: 'Dark',
             lastName: 'Vador',
             date: createdAt.toLocaleDateString(),
@@ -273,9 +272,7 @@ module('Integration | Component | ImportBanner', function (hooks) {
           { exact: false },
         ),
       );
-      assert.ok(
-        screen.getByText(this.intl.t('pages.organization-participants-import.banner.error-text'), { exact: false }),
-      );
+      assert.ok(screen.getByText(t('pages.organization-participants-import.banner.error-text'), { exact: false }));
     });
   });
 
@@ -298,7 +295,7 @@ module('Integration | Component | ImportBanner', function (hooks) {
       );
       assert.ok(
         screen.getByRole('link', {
-          name: this.intl.t('pages.organization-participants-import.banner.anchor-error'),
+          name: t('pages.organization-participants-import.banner.anchor-error'),
           href: '#error-panel',
         }),
       );
@@ -321,7 +318,7 @@ module('Integration | Component | ImportBanner', function (hooks) {
       );
       assert.notOk(
         screen.queryByRole('link', {
-          name: this.intl.t('pages.organization-participants-import.banner.anchor-error'),
+          name: t('pages.organization-participants-import.banner.anchor-error'),
           href: '#error-panel',
         }),
       );

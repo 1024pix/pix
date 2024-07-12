@@ -1,6 +1,7 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -34,9 +35,7 @@ module('Acceptance | Student Import', function (hooks) {
         const screen = await visit('/etudiants');
 
         // when
-        await click(
-          screen.getByRole('link', { name: this.intl.t('components.organization-participants-header.import-button') }),
-        );
+        await click(screen.getByRole('link', { name: t('components.organization-participants-header.import-button') }));
         // then
         assert.strictEqual(currentURL(), '/import-participants');
       });

@@ -1,3 +1,4 @@
+import { t } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -91,7 +92,7 @@ module('Unit | Controller | authenticated/organization-participants', function (
       assert.true(controller.send.calledWith('refreshModel'));
       assert.true(
         controller.notifications.sendSuccess.calledWith(
-          this.intl.t('pages.organization-participants.action-bar.success-message', {
+          t('pages.organization-participants.action-bar.success-message', {
             count: listLearners.length,
             firstname: listLearners[0].firstName,
             lastname: listLearners[0].lastName,
@@ -115,7 +116,7 @@ module('Unit | Controller | authenticated/organization-participants', function (
       assert.true(controller.notifications.sendSuccess.notCalled);
       assert.true(
         controller.notifications.sendError.calledWith(
-          this.intl.t('pages.organization-participants.action-bar.error-message', {
+          t('pages.organization-participants.action-bar.error-message', {
             count: listLearners.length,
             firstname: listLearners[0].firstName,
             lastname: listLearners[0].lastName,

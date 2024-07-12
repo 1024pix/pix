@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -18,7 +19,7 @@ module('Integration | Component | Participant::Assessment::Results', function (h
     const screen = await render(hbs`<Participant::Assessment::Results @displayResults={{false}} />`);
 
     // then
-    assert.dom(screen.getByText(this.intl.t('pages.assessment-individual-results.table.empty'))).exists();
+    assert.dom(screen.getByText(t('pages.assessment-individual-results.table.empty'))).exists();
   });
 
   test('it should display results when displayResults is true', async function (assert) {
@@ -42,14 +43,12 @@ module('Integration | Component | Participant::Assessment::Results', function (h
     );
 
     // then
-    assert.dom(screen.getByLabelText(this.intl.t('pages.assessment-individual-results.table.row-title'))).exists();
+    assert.dom(screen.getByLabelText(t('pages.assessment-individual-results.table.row-title'))).exists();
 
     assert
-      .dom(screen.getByLabelText(this.intl.t('pages.assessment-individual-results.table.row-title')))
+      .dom(screen.getByLabelText(t('pages.assessment-individual-results.table.row-title')))
       .containsText('Compétence 1');
 
-    assert
-      .dom(screen.getByLabelText(this.intl.t('pages.assessment-individual-results.table.row-title')))
-      .containsText('50%');
+    assert.dom(screen.getByLabelText(t('pages.assessment-individual-results.table.row-title'))).containsText('50%');
   });
 });

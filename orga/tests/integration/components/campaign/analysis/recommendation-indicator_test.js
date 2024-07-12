@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -17,11 +18,7 @@ module('Integration | Component | Campaign::Analysis::RecommendationIndicator', 
 
     // then
     assert
-      .dom(
-        screen.getByLabelText(
-          this.intl.t('pages.campaign-review.table.analysis.recommendations.very-strongly-recommended'),
-        ),
-      )
+      .dom(screen.getByLabelText(t('pages.campaign-review.table.analysis.recommendations.very-strongly-recommended')))
       .exists();
   });
 
@@ -34,11 +31,7 @@ module('Integration | Component | Campaign::Analysis::RecommendationIndicator', 
 
     // then
     assert
-      .dom(
-        screen.getByLabelText(
-          this.intl.t('pages.campaign-review.table.analysis.recommendations.very-strongly-recommended'),
-        ),
-      )
+      .dom(screen.getByLabelText(t('pages.campaign-review.table.analysis.recommendations.very-strongly-recommended')))
       .exists();
   });
 
@@ -51,9 +44,7 @@ module('Integration | Component | Campaign::Analysis::RecommendationIndicator', 
 
     // then
     assert
-      .dom(
-        screen.getByLabelText(this.intl.t('pages.campaign-review.table.analysis.recommendations.strongly-recommended')),
-      )
+      .dom(screen.getByLabelText(t('pages.campaign-review.table.analysis.recommendations.strongly-recommended')))
       .exists();
   });
 
@@ -65,9 +56,7 @@ module('Integration | Component | Campaign::Analysis::RecommendationIndicator', 
     screen = await render(hbs`<Campaign::Analysis::RecommendationIndicator @value={{this.value}} />`);
 
     // then
-    assert
-      .dom(screen.getByLabelText(this.intl.t('pages.campaign-review.table.analysis.recommendations.recommended')))
-      .exists();
+    assert.dom(screen.getByLabelText(t('pages.campaign-review.table.analysis.recommendations.recommended'))).exists();
   });
 
   test('should display recommendation indicator with a level of 1 for value 100', async function (assert) {
@@ -79,11 +68,7 @@ module('Integration | Component | Campaign::Analysis::RecommendationIndicator', 
 
     // then
     assert
-      .dom(
-        screen.getByLabelText(
-          this.intl.t('pages.campaign-review.table.analysis.recommendations.moderately-recommended'),
-        ),
-      )
+      .dom(screen.getByLabelText(t('pages.campaign-review.table.analysis.recommendations.moderately-recommended')))
       .exists();
   });
 });

@@ -1,6 +1,7 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -51,7 +52,7 @@ module('Acceptance | Missions Detail', function (hooks) {
 
       const screen = await visit('/missions/1');
 
-      assert.dom(screen.getByText(this.intl.t('pages.missions.details.learners.no-data'))).exists();
+      assert.dom(screen.getByText(t('pages.missions.details.learners.no-data'))).exists();
     });
   });
 
@@ -108,7 +109,7 @@ module('Acceptance | Missions Detail', function (hooks) {
         assert.dom(screen.getByRole('cell', { name: participant.firstName })).exists();
         assert.dom(screen.getByRole('cell', { name: participant.lastName })).exists();
         assert.dom(screen.getByRole('cell', { name: participant.division })).exists();
-        assert.dom(screen.getByRole('cell', { name: this.intl.t(participant.displayableStatus) })).exists();
+        assert.dom(screen.getByRole('cell', { name: t(participant.displayableStatus) })).exists();
       });
     });
 
@@ -125,7 +126,7 @@ module('Acceptance | Missions Detail', function (hooks) {
       const screen = await visit('/missions/1');
 
       assert.ok(screen.getByText('Page 1 / 1'));
-      assert.dom(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size'))).hasText('25');
+      assert.dom(screen.getByLabelText(t('common.pagination.action.select-page-size'))).hasText('25');
     });
 
     test('the table should have a caption', async function (assert) {
@@ -141,11 +142,7 @@ module('Acceptance | Missions Detail', function (hooks) {
       const screen = await visit('/missions/1');
 
       assert
-        .dom(
-          screen.getByText(
-            this.intl.t('pages.missions.details.learners.list.caption', { missionName: 'Super Mission' }),
-          ),
-        )
+        .dom(screen.getByText(t('pages.missions.details.learners.list.caption', { missionName: 'Super Mission' })))
         .exists({ count: 1 });
     });
     module('FilterBanner', function () {
@@ -183,7 +180,7 @@ module('Acceptance | Missions Detail', function (hooks) {
         });
 
         const screen = await visit('/missions/1');
-        await click(screen.getByLabelText(this.intl.t('common.filters.divisions.label')));
+        await click(screen.getByLabelText(t('common.filters.divisions.label')));
         await click(await screen.findByRole('checkbox', { name: 'CM2-C' }));
         await click(await screen.findByRole('checkbox', { name: 'CM2-A' }));
 

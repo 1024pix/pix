@@ -1,5 +1,6 @@
 import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -24,11 +25,11 @@ module('Integration | Component | Campaign::Filter::CampaignFilters', function (
     );
 
     // then
-    assert.dom(screen.getByText(this.intl.t('common.filters.title'))).exists();
-    assert.dom(screen.getByLabelText(this.intl.t('pages.campaigns-list.filter.by-name'))).exists();
-    assert.dom(screen.getByLabelText(this.intl.t('pages.campaigns-list.filter.by-owner'))).exists();
-    assert.dom(screen.getByLabelText(this.intl.t('pages.campaigns-list.action.campaign.label'))).exists();
-    assert.dom(screen.getByText(this.intl.t('pages.campaigns-list.filter.results', { total: 1 }))).exists();
+    assert.dom(screen.getByText(t('common.filters.title'))).exists();
+    assert.dom(screen.getByLabelText(t('pages.campaigns-list.filter.by-name'))).exists();
+    assert.dom(screen.getByLabelText(t('pages.campaigns-list.filter.by-owner'))).exists();
+    assert.dom(screen.getByLabelText(t('pages.campaigns-list.action.campaign.label'))).exists();
+    assert.dom(screen.getByText(t('pages.campaigns-list.filter.results', { total: 1 }))).exists();
   });
 
   module('With clear all filters button', function () {
@@ -46,7 +47,7 @@ module('Integration | Component | Campaign::Filter::CampaignFilters', function (
       );
 
       // When
-      await clickByName(this.intl.t('common.filters.actions.clear'));
+      await clickByName(t('common.filters.actions.clear'));
 
       // then
       sinon.assert.called(this.onClickClearFiltersSpy);
@@ -67,7 +68,7 @@ module('Integration | Component | Campaign::Filter::CampaignFilters', function (
       );
 
       // then
-      assert.dom(screen.queryByLabelText(this.intl.t('pages.campaigns-list.filter.by-owner'))).doesNotExist();
+      assert.dom(screen.queryByLabelText(t('pages.campaigns-list.filter.by-owner'))).doesNotExist();
     });
   });
 
@@ -85,7 +86,7 @@ module('Integration | Component | Campaign::Filter::CampaignFilters', function (
 />`,
     );
 
-    await fillByLabel(this.intl.t('pages.campaigns-list.filter.by-name'), 'Sal');
+    await fillByLabel(t('pages.campaigns-list.filter.by-name'), 'Sal');
 
     // then
     assert.ok(triggerFiltering.calledWith('name', 'Sal'));
@@ -105,7 +106,7 @@ module('Integration | Component | Campaign::Filter::CampaignFilters', function (
 />`,
     );
 
-    await fillByLabel(this.intl.t('pages.campaigns-list.filter.by-owner'), 'Sal');
+    await fillByLabel(t('pages.campaigns-list.filter.by-owner'), 'Sal');
 
     // then
     assert.ok(triggerFiltering.calledWith('ownerName', 'Sal'));
@@ -122,6 +123,6 @@ module('Integration | Component | Campaign::Filter::CampaignFilters', function (
     );
 
     // then
-    assert.dom(screen.getByLabelText(this.intl.t('pages.campaigns-list.filter.legend'))).exists();
+    assert.dom(screen.getByLabelText(t('pages.campaigns-list.filter.legend'))).exists();
   });
 });

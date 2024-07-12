@@ -1,6 +1,7 @@
 import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { currentURL } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -230,12 +231,12 @@ module('Acceptance | campaigns/all-campaigns', function (hooks) {
           // when
           await fillByLabel('Rechercher une campagne', campaignName1);
           await fillByLabel('Rechercher un propriétaire', owner.firstName);
-          await clickByName(this.intl.t('pages.campaigns-list.action.campaign.label'));
-          await clickByName(this.intl.t('common.filters.actions.clear'));
+          await clickByName(t('pages.campaigns-list.action.campaign.label'));
+          await clickByName(t('common.filters.actions.clear'));
 
           //then
-          assert.ok(screen.getByLabelText(this.intl.t('pages.campaigns-list.filter.by-owner')));
-          assert.ok(screen.getByLabelText(this.intl.t('pages.campaigns-list.filter.by-name')));
+          assert.ok(screen.getByLabelText(t('pages.campaigns-list.filter.by-owner')));
+          assert.ok(screen.getByLabelText(t('pages.campaigns-list.filter.by-name')));
           assert.deepEqual(currentURL(), '/campagnes/toutes');
         });
       });
@@ -252,7 +253,7 @@ module('Acceptance | campaigns/all-campaigns', function (hooks) {
         const screen = await visit('/campagnes/toutes');
 
         // then
-        assert.ok(screen.getByText(this.intl.t('pages.campaigns-list.no-campaign')));
+        assert.ok(screen.getByText(t('pages.campaigns-list.no-campaign')));
       });
     });
 

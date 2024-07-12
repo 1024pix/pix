@@ -2,7 +2,7 @@ import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-module('Unit | Adapters | ApplicationAdapter', function (hooks) {
+module('Unit | Adapters | ApplicationAdapter', function (hooks) {
   setupTest(hooks);
 
   test('should specify /api as the root url', function (assert) {
@@ -40,7 +40,7 @@ module('Unit | Adapters | ApplicationAdapter', function (hooks) {
     test('should add Accept-Language header set to fr-fr when the current domain contains pix.fr and locale is "fr"', function (assert) {
       // Given
       const applicationAdapter = this.owner.lookup('adapter:application');
-      applicationAdapter.intl = { get: () => ['fr'] };
+      applicationAdapter.intl = { primaryLocale: 'fr' };
 
       // When
       applicationAdapter.set('currentDomain', {
@@ -56,7 +56,7 @@ module('Unit | Adapters | ApplicationAdapter', function (hooks) {
     test('should add Accept-Language header set to fr when the current domain contains pix.org and locale is "fr"', function (assert) {
       // Given
       const applicationAdapter = this.owner.lookup('adapter:application');
-      applicationAdapter.intl = { get: () => ['fr'] };
+      applicationAdapter.intl = { primaryLocale: 'fr' };
 
       // When
       applicationAdapter.set('currentDomain', {
@@ -74,7 +74,7 @@ module('Unit | Adapters | ApplicationAdapter', function (hooks) {
       const applicationAdapter = this.owner.lookup('adapter:application');
 
       // When
-      applicationAdapter.intl = { get: () => ['en'] };
+      applicationAdapter.intl = { primaryLocale: 'en' };
 
       // Then
       assert.strictEqual(applicationAdapter.headers['Accept-Language'], 'en');

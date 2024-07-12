@@ -1,6 +1,7 @@
 import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -34,7 +35,7 @@ module('Acceptance | Campaign Profiles', function (hooks) {
       // then
       assert.dom('table tbody tr').exists({ count: pageSize });
       assert.ok(screen.getByText('Page 1 / 2'));
-      assert.dom(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size'))).hasText('50');
+      assert.dom(screen.getByLabelText(t('common.pagination.action.select-page-size'))).hasText('50');
     });
 
     test('it should display profile list with settings in url for pagination', async function (assert) {
@@ -48,7 +49,7 @@ module('Acceptance | Campaign Profiles', function (hooks) {
       // then
       assert.dom('table tbody tr').exists({ count: changedPageSize });
       assert.ok(screen.getByText('Page 2 / 2'));
-      assert.dom(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size'))).hasText('50');
+      assert.dom(screen.getByLabelText(t('common.pagination.action.select-page-size'))).hasText('50');
     });
   });
 
@@ -59,13 +60,13 @@ module('Acceptance | Campaign Profiles', function (hooks) {
 
       // when
       const screen = await visit('/campagnes/1/profils');
-      await click(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size')));
+      await click(screen.getByLabelText(t('common.pagination.action.select-page-size')));
       await click(await screen.findByRole('option', { name: changedPageSize }));
 
       // then
       assert.dom('table tbody tr').exists({ count: changedPageSize });
       assert.ok(screen.getByText('Page 1 / 2'));
-      assert.dom(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size'))).hasText('50');
+      assert.dom(screen.getByLabelText(t('common.pagination.action.select-page-size'))).hasText('50');
     });
 
     test('it should change profile list page when user clicks on next page', async function (assert) {
@@ -73,7 +74,7 @@ module('Acceptance | Campaign Profiles', function (hooks) {
       const changedPageSize = 10;
 
       const screen = await visit('/campagnes/1/profils');
-      await click(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size')));
+      await click(screen.getByLabelText(t('common.pagination.action.select-page-size')));
       await click(await screen.findByRole('option', { name: changedPageSize }));
 
       const someElementFromPage1 = document.querySelector('table tbody tr:nth-child(5)').textContent;
@@ -93,13 +94,13 @@ module('Acceptance | Campaign Profiles', function (hooks) {
 
       // when
       const screen = await visit(`/campagnes/1/profils?pageNumber=${startPage}`);
-      await click(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size')));
+      await click(screen.getByLabelText(t('common.pagination.action.select-page-size')));
       await click(await screen.findByRole('option', { name: changedPageSize }));
 
       // then
       assert.dom('table tbody tr').exists({ count: changedPageSize });
       assert.ok(screen.getByText('Page 1 / 2'));
-      assert.dom(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size'))).hasText('50');
+      assert.dom(screen.getByLabelText(t('common.pagination.action.select-page-size'))).hasText('50');
     });
   });
 
