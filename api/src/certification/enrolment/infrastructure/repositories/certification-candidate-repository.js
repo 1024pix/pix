@@ -153,11 +153,8 @@ const getWithComplementaryCertification = async function (id) {
   return _toDomain(candidateData);
 };
 
-const findCompanionPingInfoByUserId = async function ({
-  userId,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
-  const knexConn = domainTransaction.knexTransaction ?? knex;
+const findCompanionPingInfoByUserId = async function ({ userId }) {
+  const knexConn = DomainTransaction.getConnection();
 
   const latestCertificationCourse = await knexConn
     .select('sessionId', 'completedAt', 'endedAt')
@@ -168,7 +165,7 @@ const findCompanionPingInfoByUserId = async function ({
 
   if (latestCertificationCourse && !latestCertificationCourse.completedAt && !latestCertificationCourse.endedAt) {
     const { sessionId } = latestCertificationCourse;
-    const { id: certificationCandidateId } = await knex
+    const { id: certificationCandidateId } = await knexConn
       .select('id')
       .from('certification-candidates')
       .where({ sessionId, userId })

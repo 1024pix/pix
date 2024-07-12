@@ -1,22 +1,26 @@
+import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
+
 /**
  * @typedef {import('./index.js').CertificationCandidateRepository} CertificationCandidateRepository
  * @typedef {import('./index.js').TemporaryCompanionStorageService} TemporaryCompanionStorageService
  */
 
-/**
- * @param {Object} params
- * @param {number} params.userId
- * @param {CertificationCandidateRepository} params.certificationCandidateRepository
- * @param {TemporaryCompanionStorageService} params.temporaryCompanionStorageService
- */
-export async function saveCompanionPing({
-  userId,
-  certificationCandidateRepository,
-  temporaryCompanionStorageService,
-}) {
-  const companionPingInfo = await certificationCandidateRepository.findCompanionPingInfoByUserId({
-    userId,
-  });
+export const saveCompanionPing = withTransaction(
+  /**
+   * @param {{
+   *   userId: number
+   *   certificationCandidateRepository: CertificationCandidateRepository
+   *   temporaryCompanionStorageService: TemporaryCompanionStorageService
+   * }} params
+   */
+  async function saveCompanionPing({ userId, certificationCandidateRepository, temporaryCompanionStorageService }) {
+    const companionPingInfo = await certificationCandidateRepository.findCompanionPingInfoByUserId({
+      userId,
+    });
 
-  await temporaryCompanionStorageService.save(companionPingInfo);
-}
+    await temporaryCompanionStorageService.save(companionPingInfo);
+  },
+  {
+    readOnly: true,
+  },
+);
