@@ -81,7 +81,7 @@ describe('Unit | Router | sup-organization-management-route', function () {
     });
   });
 
-  describe('GET /api/organizations/{id}/sup-organization-learners/csv-template', function () {
+  describe('GET /api/organizations/{id}/organization-learners/csv-template', function () {
     let httpTestServer;
 
     beforeEach(async function () {
@@ -96,7 +96,7 @@ describe('Unit | Router | sup-organization-management-route', function () {
     it('should call the organization controller to csv template', async function () {
       // given
       const method = 'GET';
-      const url = '/api/organizations/1/sup-organization-learners/csv-template?accessToken=token';
+      const url = '/api/organizations/1/organization-learners/csv-template?accessToken=token';
 
       // when
       const response = await httpTestServer.request(method, url);
@@ -110,7 +110,7 @@ describe('Unit | Router | sup-organization-management-route', function () {
       it('should throw an error when id is not a number', async function () {
         // given
         const method = 'GET';
-        const url = '/api/organizations/ABC/sup-organization-learners/csv-template?accessToken=token';
+        const url = '/api/organizations/ABC/organization-learners/csv-template?accessToken=token';
 
         // when
         const response = await httpTestServer.request(method, url);
@@ -122,7 +122,7 @@ describe('Unit | Router | sup-organization-management-route', function () {
       it('should throw an error when id is null', async function () {
         // given
         const method = 'GET';
-        const url = '/api/organizations/null/sup-organization-learners/csv-template?accessToken=token';
+        const url = '/api/organizations/null/organization-learners/csv-template?accessToken=token';
 
         // when
         const response = await httpTestServer.request(method, url);
@@ -134,7 +134,7 @@ describe('Unit | Router | sup-organization-management-route', function () {
       it('should throw an error when access token is not specified', async function () {
         // given
         const method = 'GET';
-        const url = '/api/organizations/1/sup-organization-learners/csv-template';
+        const url = '/api/organizations/1/organization-learners/csv-template';
 
         // when
         const response = await httpTestServer.request(method, url);
