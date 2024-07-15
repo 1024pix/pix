@@ -1,4 +1,4 @@
-import { PrivateCertificate } from '../../../../lib/domain/models/PrivateCertificate.js';
+import { PrivateCertificate } from '../../../../src/certification/results/domain/models/PrivateCertificate.js';
 import { buildAssessmentResult } from './build-assessment-result.js';
 import { buildResultCompetenceTree } from './build-result-competence-tree.js';
 

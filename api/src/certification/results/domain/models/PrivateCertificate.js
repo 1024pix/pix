@@ -1,5 +1,5 @@
-import { JuryComment, JuryCommentContexts } from '../../../src/certification/shared/domain/models/JuryComment.js';
-import { status as assessmentResultStatuses } from '../../../src/shared/domain/models/AssessmentResult.js';
+import { status as assessmentResultStatuses } from '../../../../shared/domain/models/AssessmentResult.js';
+import { JuryComment, JuryCommentContexts } from '../../../shared/domain/models/JuryComment.js';
 
 /**
  * @readonly

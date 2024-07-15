@@ -1,7 +1,7 @@
-import { PrivateCertificate } from '../../../../lib/domain/models/PrivateCertificate.js';
-import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
-import { status as assessmentResultStatuses } from '../../../../src/shared/domain/models/AssessmentResult.js';
-import { domainBuilder, expect } from '../../../test-helper.js';
+import { PrivateCertificate } from '../../../../../../src/certification/results/domain/models/PrivateCertificate.js';
+import { AutoJuryCommentKeys } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
+import { status as assessmentResultStatuses } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | PrivateCertificate', function () {
   context('#static buildFrom', function () {

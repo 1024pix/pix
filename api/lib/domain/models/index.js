@@ -3,6 +3,7 @@ import { AssessmentSimulator } from '../../../src/certification/flash-certificat
 import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certification/domain/models/FlashAssessmentAlgorithm.js';
 import { CertificationAttestation } from '../../../src/certification/results/domain/models/CertificationAttestation.js';
 import { CompetenceMark } from '../../../src/certification/results/domain/models/CompetenceMark.js';
+import { PrivateCertificate } from '../../../src/certification/results/domain/models/PrivateCertificate.js';
 import { ResultCompetenceTree } from '../../../src/certification/results/domain/models/ResultCompetenceTree.js';
 import { CertificationAssessmentScore } from '../../../src/certification/scoring/domain/models/CertificationAssessmentScore.js';
 import { CertificationCandidateForSupervising } from '../../../src/certification/session-management/domain/models/CertificationCandidateForSupervising.js';
@@ -96,7 +97,6 @@ import { ParticipantResultsShared } from './ParticipantResultsShared.js';
 import { PartnerCertificationScoring } from './PartnerCertificationScoring.js';
 import { PlacementProfile } from './PlacementProfile.js';
 import { PoleEmploiSending } from './PoleEmploiSending.js';
-import { PrivateCertificate } from './PrivateCertificate.js';
 import { ReproducibilityRate } from './ReproducibilityRate.js';
 import { ResultCompetence } from './ResultCompetence.js';
 import { SCOCertificationCandidate } from './SCOCertificationCandidate.js';
