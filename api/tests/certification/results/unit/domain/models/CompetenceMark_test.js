@@ -1,6 +1,6 @@
-import { ObjectValidationError } from '../../../../lib/domain/errors.js';
-import { CompetenceMark } from '../../../../lib/domain/models/CompetenceMark.js';
-import { catchErr, domainBuilder, expect } from '../../../test-helper.js';
+import { ObjectValidationError } from '../../../../../../lib/domain/errors.js';
+import { CompetenceMark } from '../../../../../../src/certification/results/domain/models/CompetenceMark.js';
+import { catchErr, domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | Competence Mark', function () {
   describe('constructor', function () {

@@ -2,6 +2,7 @@ import { ComplementaryCertification } from '../../../src/certification/complemen
 import { AssessmentSimulator } from '../../../src/certification/flash-certification/domain/models/AssessmentSimulator.js';
 import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certification/domain/models/FlashAssessmentAlgorithm.js';
 import { CertificationAttestation } from '../../../src/certification/results/domain/models/CertificationAttestation.js';
+import { CompetenceMark } from '../../../src/certification/results/domain/models/CompetenceMark.js';
 import { ResultCompetenceTree } from '../../../src/certification/results/domain/models/ResultCompetenceTree.js';
 import { CertificationAssessmentScore } from '../../../src/certification/scoring/domain/models/CertificationAssessmentScore.js';
 import { CertificationCandidateForSupervising } from '../../../src/certification/session-management/domain/models/CertificationCandidateForSupervising.js';
@@ -70,7 +71,6 @@ import { CertificationContract } from './CertificationContract.js';
 import { CertificationResult } from './CertificationResult.js';
 import { CertifiedLevel } from './CertifiedLevel.js';
 import { CertifiedScore } from './CertifiedScore.js';
-import { CompetenceMark } from './CompetenceMark.js';
 import { CompetenceResult } from './CompetenceResult.js';
 import { CompetenceTree } from './CompetenceTree.js';
 import { ComplementaryCertificationCourseResult } from './ComplementaryCertificationCourseResult.js';
