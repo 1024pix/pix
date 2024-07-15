@@ -1,8 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
-import ImportCard from 'pix-orga/components/import-card';
+import ImportCard from 'pix-orga/components/import/import-card';
 import { module, test } from 'qunit';
 
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | ImportCard', function (hooks) {
   setupIntlRenderingTest(hooks);

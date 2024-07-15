@@ -3,9 +3,9 @@ import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
-import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | SupOrganizationParticipant::ImportCards::Replace', function (hooks) {
+module('Integration | Component | Import::ReplaceSup', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   module('upload button', function () {
@@ -14,7 +14,7 @@ module('Integration | Component | SupOrganizationParticipant::ImportCards::Repla
       this.supportedFormats = ['.csv'];
       // when
       const screen = await render(
-        hbs`<SupOrganizationParticipant::ImportCards::Replace @disabled={{true}} @supportedFormats={{this.supportedFormats}} />`,
+        hbs`<Import::ReplaceSup @disabled={{true}} @supportedFormats={{this.supportedFormats}} />`,
       );
 
       // then
@@ -30,7 +30,7 @@ module('Integration | Component | SupOrganizationParticipant::ImportCards::Repla
 
       // when
       const screen = await render(
-        hbs`<SupOrganizationParticipant::ImportCards::Replace @disabled={{false}} @supportedFormats={{this.supportedFormats}} />`,
+        hbs`<Import::ReplaceSup @disabled={{false}} @supportedFormats={{this.supportedFormats}} />`,
       );
 
       // then

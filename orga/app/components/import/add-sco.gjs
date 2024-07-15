@@ -1,7 +1,7 @@
 import { t } from 'ember-intl';
 
-import ImportCard from '../import-card';
 import UploadButton from '../upload-button';
+import ImportCard from './import-card';
 
 <template>
   <ImportCard @cardTitle={{t "pages.organization-participants-import.actions.participants.title"}}>

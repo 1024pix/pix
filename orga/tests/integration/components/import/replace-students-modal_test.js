@@ -5,9 +5,9 @@ import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | SupOrganizationParticipant::Modal::ReplaceStudentsModal', function (hooks) {
+module('Integration | Component | Import::ReplaceStudentsModal', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   test('it should not display modal', async function (assert) {
@@ -18,7 +18,7 @@ module('Integration | Component | SupOrganizationParticipant::Modal::ReplaceStud
 
     // when
     const screen = await render(
-      hbs`<SupOrganizationParticipant::Modal::ReplaceStudentsModal
+      hbs`<Import::ReplaceStudentsModal
   @display={{this.display}}
   @onReplaceStudents={{this.onReplaceStudents}}
   @onClose={{this.onClose}}
@@ -44,7 +44,7 @@ module('Integration | Component | SupOrganizationParticipant::Modal::ReplaceStud
 
     // when
     const screen = await render(
-      hbs`<SupOrganizationParticipant::Modal::ReplaceStudentsModal
+      hbs`<Import::ReplaceStudentsModal
   @display={{this.display}}
   @onReplaceStudents={{this.onReplaceStudents}}
   @onClose={{this.onClose}}
@@ -80,7 +80,7 @@ module('Integration | Component | SupOrganizationParticipant::Modal::ReplaceStud
 
     // when
     const screen = await render(
-      hbs`<SupOrganizationParticipant::Modal::ReplaceStudentsModal
+      hbs`<Import::ReplaceStudentsModal
   @display={{this.display}}
   @onReplaceStudents={{this.onReplaceStudents}}
   @onClose={{this.onClose}}
@@ -105,7 +105,7 @@ module('Integration | Component | SupOrganizationParticipant::Modal::ReplaceStud
 
     // when
     const screen = await render(
-      hbs`<SupOrganizationParticipant::Modal::ReplaceStudentsModal
+      hbs`<Import::ReplaceStudentsModal
   @display={{this.display}}
   @onReplaceStudents={{this.onReplaceStudents}}
   @onClose={{this.onClose}}
@@ -132,7 +132,7 @@ module('Integration | Component | SupOrganizationParticipant::Modal::ReplaceStud
 
     // when
     const screen = await render(
-      hbs`<SupOrganizationParticipant::Modal::ReplaceStudentsModal
+      hbs`<Import::ReplaceStudentsModal
   @display={{this.display}}
   @onReplaceStudents={{this.onReplaceStudents}}
   @onClose={{this.onClose}}
