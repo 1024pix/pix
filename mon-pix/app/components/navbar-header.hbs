@@ -8,3 +8,11 @@
     <NavbarMobileHeader @shouldShowTheMarianneLogo={{this.isFrenchDomainExtension}} />
   {{/if}}
 </div>
+
+<form style="margin-left: 200px">
+  <div>
+    {{! template-lint-disable no-invalid-interactive }}
+    <pix-fruits-qcm id="mon-qcm" {{on "PixFruitsQcmChanges" this.triggerAction}}></pix-fruits-qcm>
+
+  </div>
+</form>
