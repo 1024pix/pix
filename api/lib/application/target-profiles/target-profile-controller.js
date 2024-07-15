@@ -79,7 +79,7 @@ const copyTargetProfile = async (request) => {
   const targetProfileIdToCopy = request.params.targetProfileId;
   await DomainTransaction.execute(async (domainTransaction) => {
     copiedTargetProfileId = await usecases.copyTargetProfile({
-      targetProfileId: request.params.targetProfileId,
+      targetProfileId: targetProfileIdToCopy,
       domainTransaction,
     });
     await Promise.all([
