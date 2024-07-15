@@ -3,36 +3,6 @@ import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Controller | PasswordController', function () {
-  describe('#checkResetDemand', function () {
-    const email = 'user@example.net';
-    const temporaryKey = 'ABCDEF123';
-
-    const request = {
-      params: { temporaryKey },
-    };
-    let dependencies;
-
-    beforeEach(function () {
-      sinon.stub(usecases, 'getUserByResetPasswordDemand');
-      const userSerializerStub = {
-        serialize: sinon.stub(),
-      };
-      dependencies = {
-        userSerializer: userSerializerStub,
-      };
-      usecases.getUserByResetPasswordDemand.resolves({ email });
-    });
-
-    it('should return serialized user', async function () {
-      // when
-      await passwordController.checkResetDemand(request, hFake, dependencies);
-
-      // then
-      expect(usecases.getUserByResetPasswordDemand).to.have.been.calledWithExactly({ temporaryKey });
-      expect(dependencies.userSerializer.serialize).to.have.been.calledWithExactly({ email });
-    });
-  });
-
   describe('#updateExpiredPassword', function () {
     it('should return 201 http status code', async function () {
       // given

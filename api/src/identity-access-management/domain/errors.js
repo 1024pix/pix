@@ -32,6 +32,20 @@ class PasswordNotMatching extends DomainError {
   }
 }
 
+class PasswordResetDemandNotFoundError extends DomainError {
+  constructor(message = "La demande de réinitialisation de mot de passe n'existe pas.") {
+    super(message);
+  }
+
+  getErrorMessage() {
+    return {
+      data: {
+        temporaryKey: ['Cette demande de réinitialisation n’existe pas.'],
+      },
+    };
+  }
+}
+
 class UserCantBeCreatedError extends DomainError {
   constructor(message = "L'utilisateur ne peut pas être créé") {
     super(message);
@@ -51,6 +65,7 @@ export {
   MissingOrInvalidCredentialsError,
   MissingUserAccountError,
   PasswordNotMatching,
+  PasswordResetDemandNotFoundError,
   UserCantBeCreatedError,
   UserShouldChangePasswordError,
 };

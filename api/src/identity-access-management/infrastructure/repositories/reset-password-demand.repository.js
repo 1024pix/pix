@@ -1,6 +1,6 @@
 import { knex } from '../../../../db/knex-database-connection.js';
-import { PasswordResetDemandNotFoundError } from '../../../../lib/domain/errors.js';
 import { ResetPasswordDemand } from '../../../../lib/infrastructure/orm-models/ResetPasswordDemand.js';
+import { PasswordResetDemandNotFoundError } from '../../domain/errors.js';
 import { ResetPasswordDemand as ResetPasswordDemandModel } from '../../domain/models/ResetPasswordDemand.js';
 
 const RESET_PASSWORD_DEMANDS_TABLE_NAME = 'reset-password-demands';
@@ -48,8 +48,14 @@ const findByUserEmail = function (email, temporaryKey) {
 
 /**
  * @typedef {Object} ResetPasswordDemandRepository
+ * @property {function} create
+ * @property {function} findByTemporaryKey
+ * @property {function} findByUserEmail
+ * @property {function} markAsBeingUsed
  */
-export { create, findByTemporaryKey, findByUserEmail, markAsBeingUsed };
+const resetPasswordDemandRepository = { create, findByTemporaryKey, findByUserEmail, markAsBeingUsed };
+
+export { resetPasswordDemandRepository };
 
 function _toDomain(data) {
   return new ResetPasswordDemandModel(data);

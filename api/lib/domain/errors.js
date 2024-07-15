@@ -671,20 +671,6 @@ class FileValidationError extends DomainError {
   }
 }
 
-class PasswordResetDemandNotFoundError extends DomainError {
-  constructor(message = "La demande de réinitialisation de mot de passe n'existe pas.") {
-    super(message);
-  }
-
-  getErrorMessage() {
-    return {
-      data: {
-        temporaryKey: ['Cette demande de réinitialisation n’existe pas.'],
-      },
-    };
-  }
-}
-
 // FIXME: used ?
 class SessionWithIdAndInformationOnMassImportError extends DomainError {
   constructor(message = 'Merci de ne pas renseigner les informations de session') {
@@ -709,6 +695,7 @@ class UserAlreadyLinkedToCandidateInSessionError extends DomainError {
     super(message);
   }
 }
+
 class UserNotAuthorizedToUpdateEmailError extends DomainError {
   constructor(message = 'User is not authorized to update email') {
     super(message);
@@ -1063,7 +1050,6 @@ export {
   OrganizationNotFoundError,
   OrganizationTagNotFound,
   OrganizationWithoutEmailError,
-  PasswordResetDemandNotFoundError,
   SendingEmailError,
   SendingEmailToInvalidDomainError,
   SendingEmailToInvalidEmailAddressError,

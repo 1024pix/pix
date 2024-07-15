@@ -1,4 +1,4 @@
-import * as resetPasswordService from '../../../../../src/identity-access-management/domain/services/reset-password.service.js';
+import { resetPasswordService } from '../../../../../src/identity-access-management/domain/services/reset-password.service.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Integration | Identity Access Management | Domain | Service | reset-password', function () {

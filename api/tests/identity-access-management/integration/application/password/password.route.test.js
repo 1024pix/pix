@@ -8,8 +8,6 @@ describe('Integration | Identity Access Management | Application | Route | passw
   let httpTestServer;
 
   beforeEach(async function () {
-    sinon.stub(passwordController, 'createResetPasswordDemand').callsFake((request, h) => h.response().created());
-
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(routesUnderTest);
   });
@@ -28,11 +26,30 @@ describe('Integration | Identity Access Management | Application | Route | passw
     };
 
     it('returns 201 http status code', async function () {
+      // given
+      sinon.stub(passwordController, 'createResetPasswordDemand').callsFake((request, h) => h.response().created());
+
       // when
       const response = await httpTestServer.request(method, url, payload, null, headers);
 
       // then
       expect(response.statusCode).to.equal(201);
+    });
+  });
+
+  describe('GET /api/password-reset-demands/{temporaryKey}', function () {
+    const method = 'GET';
+    const url = '/api/password-reset-demands/ABCDEF123';
+
+    it('returns 200 http status code', async function () {
+      // given
+      sinon.stub(passwordController, 'checkResetDemand').callsFake((request, h) => h.response().code(200));
+
+      // when
+      const response = await httpTestServer.request(method, url);
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 });

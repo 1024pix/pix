@@ -1,3 +1,4 @@
+import { resetPasswordService } from '../../../../../src/identity-access-management/domain/services/reset-password.service.js';
 import { config } from '../../../../../src/shared/config.js';
 import { createServer, databaseBuilder, expect } from '../../../../test-helper.js';
 
@@ -51,6 +52,27 @@ describe('Acceptance | Identity Access Management | Application | Route | passwo
         // then
         expect(response.statusCode).to.equal(201);
       });
+    });
+  });
+
+  describe('GET /api/password-reset-demands/{temporaryKey}', function () {
+    it('returns 200 http status code', async function () {
+      // given
+      const temporaryKey = await resetPasswordService.generateTemporaryKey();
+      const options = {
+        method: 'GET',
+        url: `/api/password-reset-demands/${temporaryKey}`,
+      };
+      const userId = databaseBuilder.factory.buildUser({ email }).id;
+      databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({ userId });
+      databaseBuilder.factory.buildResetPasswordDemand({ temporaryKey, email });
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 });

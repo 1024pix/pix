@@ -215,18 +215,6 @@ describe('Integration | API | Controller Error', function () {
       expect(response.statusCode).to.equal(NOT_FOUND_ERROR);
       expect(responseDetail(response)).to.equal('Ce compte est introuvable.');
     });
-
-    it('responds Not Found when a PasswordResetDemandNotFoundError error occurs', async function () {
-      routeHandler.throws(
-        new DomainErrors.PasswordResetDemandNotFoundError(
-          "La demande de réinitialisation de mot de passe n'existe pas.",
-        ),
-      );
-      const response = await server.requestObject(request);
-
-      expect(response.statusCode).to.equal(NOT_FOUND_ERROR);
-      expect(responseDetail(response)).to.equal("La demande de réinitialisation de mot de passe n'existe pas.");
-    });
   });
 
   context('409 Conflict', function () {

@@ -93,26 +93,6 @@ describe('Unit | Domain | Errors', function () {
     });
   });
 
-  describe('#PasswordResetDemandNotFoundError', function () {
-    it('should export a PasswordResetDemandNotFoundError', function () {
-      expect(errors.PasswordResetDemandNotFoundError).to.exist;
-    });
-
-    it('should have a getErrorMessage method', function () {
-      // given
-      const expectedErrorMessage = {
-        data: {
-          temporaryKey: ['Cette demande de réinitialisation n’existe pas.'],
-        },
-      };
-
-      // then
-      const error = new errors.PasswordResetDemandNotFoundError();
-      expect(error.getErrorMessage).to.be.a('function');
-      expect(error.getErrorMessage()).to.eql(expectedErrorMessage);
-    });
-  });
-
   it('should export a TargetProfileInvalidError', function () {
     expect(errors.TargetProfileInvalidError).to.exist;
   });

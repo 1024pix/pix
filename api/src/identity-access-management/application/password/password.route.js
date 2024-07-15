@@ -14,8 +14,6 @@ export const passwordRoutes = [
           data: {
             attributes: {
               email: Joi.string().email().required(),
-              // TODO supprimer "temporary-key" car il est généré dans le usecase associé à cette route
-              'temporary-key': [Joi.string(), null],
             },
             type: Joi.string(),
           },
@@ -23,6 +21,19 @@ export const passwordRoutes = [
       },
       notes: ['Route publique', 'Faire une demande de réinitialisation de mot de passe'],
       tags: ['identity-access-management', 'api', 'password'],
+    },
+  },
+  {
+    method: 'GET',
+    path: '/api/password-reset-demands/{temporaryKey}',
+    config: {
+      auth: false,
+      handler: (request, h) => passwordController.checkResetDemand(request, h),
+      notes: [
+        'Route publique',
+        'Cette route permet la redirection vers le formulaire de reset de mot de passe si la demande est bien dans la liste',
+      ],
+      tags: ['api', 'passwords'],
     },
   },
 ];

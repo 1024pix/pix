@@ -1,11 +1,4 @@
-import * as userSerializer from '../../../src/shared/infrastructure/serializers/jsonapi/user-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
-
-const checkResetDemand = async function (request, h, dependencies = { userSerializer }) {
-  const temporaryKey = request.params.temporaryKey;
-  const user = await usecases.getUserByResetPasswordDemand({ temporaryKey });
-  return dependencies.userSerializer.serialize(user);
-};
 
 const updateExpiredPassword = async function (request, h) {
   const passwordResetToken = request.payload.data.attributes['password-reset-token'];
@@ -24,6 +17,6 @@ const updateExpiredPassword = async function (request, h) {
     .created();
 };
 
-const passwordController = { checkResetDemand, updateExpiredPassword };
+const passwordController = { updateExpiredPassword };
 
 export { passwordController };

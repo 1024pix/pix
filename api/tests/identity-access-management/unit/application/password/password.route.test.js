@@ -19,7 +19,6 @@ describe('Unit | Identity Access Management | Application | Route | password', f
         data: {
           attributes: {
             email: 'uzinagaz@example.net',
-            'temporary-key': 'clé',
           },
           type: 'password-reset',
         },

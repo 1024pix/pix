@@ -1,10 +1,11 @@
-import { PasswordResetDemandNotFoundError, UserNotFoundError } from '../../../../lib/domain/errors.js';
-import { getUserByResetPasswordDemand } from '../../../../lib/domain/usecases/get-user-by-reset-password-demand.js';
-import { User } from '../../../../src/identity-access-management/domain/models/User.js';
-import { InvalidTemporaryKeyError } from '../../../../src/shared/domain/errors.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { UserNotFoundError } from '../../../../../lib/domain/errors.js';
+import { PasswordResetDemandNotFoundError } from '../../../../../src/identity-access-management/domain/errors.js';
+import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
+import { getUserByResetPasswordDemand } from '../../../../../src/identity-access-management/domain/usecases/get-user-by-reset-password-demand.usecase.js';
+import { InvalidTemporaryKeyError } from '../../../../../src/shared/domain/errors.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | get-user-by-reset-password-demand', function () {
+describe('Unit | Identity Access Management | Domain | UseCase | get-user-by-reset-password-demand', function () {
   const temporaryKey = 'ABCDEF123';
   const email = 'user@example.net';
 

@@ -6,24 +6,10 @@ describe('Integration | Application | Password | Routes', function () {
   let httpTestServer;
 
   beforeEach(async function () {
-    sinon.stub(passwordController, 'checkResetDemand').resolves('ok');
     sinon.stub(passwordController, 'updateExpiredPassword').callsFake((request, h) => h.response().created());
 
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);
-  });
-
-  describe('GET /api/password-reset-demands/{temporaryKey}', function () {
-    const method = 'GET';
-    const url = '/api/password-reset-demands/ABCDEF123';
-
-    it('should return 200 http status code', async function () {
-      // when
-      const response = await httpTestServer.request(method, url);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
   });
 
   describe('POST /api/expired-password-updates', function () {
