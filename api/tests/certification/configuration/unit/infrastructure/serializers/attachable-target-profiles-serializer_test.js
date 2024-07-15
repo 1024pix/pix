@@ -1,8 +1,8 @@
-import { AttachableTargetProfile } from '../../../../../lib/domain/models/AttachableTargetProfile.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/attachable-target-profiles-serializer.js';
-import { expect } from '../../../../test-helper.js';
+import { AttachableTargetProfile } from '../../../../../../src/certification/configuration/domain/models/AttachableTargetProfile.js';
+import * as serializer from '../../../../../../src/certification/configuration/infrastructure/serializers/attachable-target-profiles-serializer.js';
+import { expect } from '../../../../../test-helper.js';
 
-describe('Unit | Serializer | JSONAPI | attachable-target-profiles-serializer', function () {
+describe('Certification | Configuration | Unit | Serializer | attachable-target-profiles-serializer', function () {
   describe('#serialize', function () {
     it('should serialize attachable target profiles to JSONAPI', function () {
       // given
