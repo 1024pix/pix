@@ -8,6 +8,9 @@ export default class AuthenticatedController extends Controller {
 
   @action
   refreshAuthenticatedModel() {
+    console.log('in refreshAuthenticatedModel controller')
+    console.log('this.actions',this.actions)
+    console.log('this.target',this.target)
     this.send('refreshModel');
   }
 }
