@@ -271,34 +271,27 @@ const batchUpdatePasswordThatShouldBeChanged = function ({
 
 /**
  * @param {number[]} userIds
- * @param {number} chunkSize
  * @param {Object} dependencies
  * @param {DomainTransaction} dependencies.domainTransaction
- * @returns {Promise<{anonymizedUserCount: number}>}
+ * @returns {Promise<{garAnonymizedUserIds: number}>}
  */
-const batchAnonymizeByUserIds = async function (
-  { userIds, chunkSize = 1000 },
+const anonymizeByUserIds = async function (
+  { userIds },
   dependencies = { domainTransaction: DomainTransaction.emptyTransaction() },
 ) {
   const knexConn = dependencies.domainTransaction.knexTransaction ?? knex;
 
-  const userIdBatches = _.chunk(userIds, chunkSize);
-  let garAnonymizedUserIds = [];
+  const anonymizedUserIdBatch = await knexConn(AUTHENTICATION_METHODS_TABLE)
+    .whereIn('userId', userIds)
+    .andWhere('identityProvider', 'GAR')
+    .update({
+      authenticationComplement: { firstName: 'anonymized', lastName: 'anonymized' },
+      updatedAt: knex.fn.now(),
+      externalIdentifier: knex.raw('CONCAT(\'anonymized-\', "authentication-methods".id)'),
+    })
+    .returning('userId');
 
-  for (const userIdBatch of userIdBatches) {
-    const anonymizedUserIdBatch = await knexConn(AUTHENTICATION_METHODS_TABLE)
-      .whereIn('userId', userIdBatch)
-      .andWhere('identityProvider', 'GAR')
-      .update({
-        authenticationComplement: { firstName: 'anonymized', lastName: 'anonymized' },
-        updatedAt: knex.fn.now(),
-        externalIdentifier: knex.raw('CONCAT(\'anonymized-\', "authentication-methods".id)'),
-      })
-      .returning('userId');
-    garAnonymizedUserIds = garAnonymizedUserIds.concat(anonymizedUserIdBatch.map((elem) => elem.userId));
-  }
-
-  return { garAnonymizedUserIds };
+  return { garAnonymizedUserIds: anonymizedUserIdBatch.map(({ userId }) => userId) };
 };
 
 /**
@@ -322,7 +315,7 @@ const batchAnonymizeByUserIds = async function (
  * @property {function} updatePasswordThatShouldBeChanged
  */
 export {
-  batchAnonymizeByUserIds,
+  anonymizeByUserIds,
   batchUpdatePasswordThatShouldBeChanged,
   create,
   createPasswordThatShouldBeChanged,

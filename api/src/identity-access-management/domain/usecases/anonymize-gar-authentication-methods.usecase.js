@@ -1,35 +1,47 @@
-import { eventBus as defaultEventBus } from '../../../../lib/domain/events/index.js';
+import _ from 'lodash';
+
+import { config } from '../../../shared/config.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import { GarAuthenticationMethodAnonymized } from '../events/GarAuthenticationMethodAnonymized.js';
+import { GarAuthenticationMethodAnonymized } from '../models/GarAuthenticationMethodAnonymized.js';
+
+const USER_IDS_BATCH_SIZE = 1000;
 
 /**
  * @typedef {function} anonymizeGarAuthenticationMethods
  * @param {Object} params
- * @param {string} params.userIds
+ * @param {Array<string>} params.userIds
  * @param {AuthenticationMethodRepository} params.authenticationMethodRepository
  * @param {DomainTransaction} params.domainTransaction
- * @param {EventBus} params.eventBus
- * @return {Promise<{anonymized: string[], total: number}>}
+ * @param {GarAnonymizedBatchEventsLoggingJob} params.garAnonymizedBatchEventsLoggingJob
+ * @return {Promise<{garAnonymizedUserCount: number, total: number}>}
  */
 export const anonymizeGarAuthenticationMethods = async function ({
   userIds,
+  userIdsBatchSize = USER_IDS_BATCH_SIZE,
   adminMemberId,
   authenticationMethodRepository,
+  garAnonymizedBatchEventsLoggingJob,
   domainTransaction = DomainTransaction.emptyTransaction(),
-  eventBus = defaultEventBus,
 }) {
-  const total = userIds.length;
+  const userIdBatches = _.chunk(userIds, userIdsBatchSize);
 
-  const { garAnonymizedUserIds } = await authenticationMethodRepository.batchAnonymizeByUserIds(
-    { userIds },
-    { domainTransaction },
-  );
+  let garAnonymizedUserCount = 0;
 
-  const event = new GarAuthenticationMethodAnonymized({
-    userIds: garAnonymizedUserIds,
-    updatedByUserId: adminMemberId,
-  });
-  await eventBus.publish(event, domainTransaction);
+  for (const userIdsBatch of userIdBatches) {
+    const { garAnonymizedUserIds } = await authenticationMethodRepository.anonymizeByUserIds(
+      { userIds: userIdsBatch },
+      { domainTransaction },
+    );
+    garAnonymizedUserCount += garAnonymizedUserIds.length;
 
-  return { garAnonymizedUserCount: garAnonymizedUserIds.length, total };
+    if (config.auditLogger.isEnabled) {
+      const payload = new GarAuthenticationMethodAnonymized({
+        userIds: garAnonymizedUserIds,
+        updatedByUserId: adminMemberId,
+      });
+      await garAnonymizedBatchEventsLoggingJob.schedule(payload);
+    }
+  }
+
+  return { garAnonymizedUserCount, total: userIds.length };
 };

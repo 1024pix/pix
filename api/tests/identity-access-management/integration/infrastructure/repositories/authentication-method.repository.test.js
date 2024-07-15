@@ -1246,7 +1246,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
     });
   });
 
-  describe('#batchAnonymizeByUserIds', function () {
+  describe('#anonymizeByUserIds', function () {
     it('anonymizes firstName, lastName in authentication complements and externalId for provided users list', async function () {
       // given
       const userId1 = databaseBuilder.factory.buildUser().id;
@@ -1272,9 +1272,8 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
       await databaseBuilder.commit();
 
       // when
-      const result = await authenticationMethodRepository.batchAnonymizeByUserIds({
+      const result = await authenticationMethodRepository.anonymizeByUserIds({
         userIds: [userId1, userId2, userId3],
-        chunkSize: 2,
       });
 
       // then

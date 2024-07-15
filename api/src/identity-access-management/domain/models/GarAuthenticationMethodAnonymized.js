@@ -1,15 +1,12 @@
 import Joi from 'joi';
 
-import { Event } from '../../../../lib/domain/events/Event.js';
 import { PIX_ADMIN } from '../../../authorization/domain/constants.js';
 import { validateEntity } from '../../../shared/domain/validators/entity-validator.js';
 
 const { ROLES } = PIX_ADMIN;
 
-export class GarAuthenticationMethodAnonymized extends Event {
+export class GarAuthenticationMethodAnonymized {
   constructor({ userIds, updatedByUserId, client = 'PIX_ADMIN', role = ROLES.SUPER_ADMIN }) {
-    super();
-
     this.userIds = userIds;
     this.updatedByUserId = updatedByUserId;
     this.client = client;

@@ -1,4 +1,4 @@
-import { auditLoggerRepository } from '../../repositories/audit-logger-repository.js';
+import { auditLoggerRepository } from '../../../../../lib/infrastructure/repositories/audit-logger-repository.js';
 import { GarAnonymizedBatchEventsLoggingJob } from './GarAnonymizedBatchEventsLoggingJob.js';
 
 const AUDIT_LOGGER_ANONYMIZATION_GAR_ACTION = 'ANONYMIZATION_GAR';

@@ -6,8 +6,6 @@ import _ from 'lodash';
 import PgBoss from 'pg-boss';
 
 import { config } from './lib/config.js';
-import { GarAnonymizedBatchEventsLoggingJob } from './lib/infrastructure/jobs/audit-log/GarAnonymizedBatchEventsLoggingJob.js';
-import { GarAnonymizedBatchEventsLoggingJobHandler } from './lib/infrastructure/jobs/audit-log/GarAnonymizedBatchEventsLoggingJobHandler.js';
 import { UserAnonymizedEventLoggingJob } from './lib/infrastructure/jobs/audit-log/UserAnonymizedEventLoggingJob.js';
 import { UserAnonymizedEventLoggingJobHandler } from './lib/infrastructure/jobs/audit-log/UserAnonymizedEventLoggingJobHandler.js';
 import { ParticipationResultCalculationJob } from './lib/infrastructure/jobs/campaign-result/ParticipationResultCalculationJob.js';
@@ -25,6 +23,8 @@ import { ScheduleComputeOrganizationLearnersCertificabilityJob } from './lib/inf
 import { ScheduleComputeOrganizationLearnersCertificabilityJobHandler } from './lib/infrastructure/jobs/organization-learner/ScheduleComputeOrganizationLearnersCertificabilityJobHandler.js';
 import * as organizationLearnerRepository from './lib/infrastructure/repositories/organization-learner-repository.js';
 import * as pgBossRepository from './lib/infrastructure/repositories/pgboss-repository.js';
+import { GarAnonymizedBatchEventsLoggingJob } from './src/identity-access-management/infrastructure/jobs/audit-log/GarAnonymizedBatchEventsLoggingJob.js';
+import { GarAnonymizedBatchEventsLoggingJobHandler } from './src/identity-access-management/infrastructure/jobs/audit-log/GarAnonymizedBatchEventsLoggingJobHandler.js';
 import { ImportOrganizationLearnersJob } from './src/prescription/learner-management/infrastructure/jobs/ImportOrganizationLearnersJob.js';
 import { ImportOrganizationLearnersJobHandler } from './src/prescription/learner-management/infrastructure/jobs/ImportOrganizationLearnersJobHandler.js';
 import { ValidateOrganizationImportFileJob } from './src/prescription/learner-management/infrastructure/jobs/ValidateOrganizationImportFileJob.js';
