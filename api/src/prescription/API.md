@@ -158,6 +158,7 @@
     * [~find(payload)](#module_OrganizationLearnerApi..find) ⇒ <code>Promise.&lt;OrganizationLearnerListResponse&gt;</code>
     * [~get(organizationLearnerId)](#module_OrganizationLearnerApi..get) ⇒ <code>Promise.&lt;OrganizationLearner&gt;</code>
     * [~PageDefinition](#module_OrganizationLearnerApi..PageDefinition) : <code>object</code>
+    * [~FilterDefinition](#module_OrganizationLearnerApi..FilterDefinition) : <code>object</code>
     * [~OrganizationLearnerListPayload](#module_OrganizationLearnerApi..OrganizationLearnerListPayload) : <code>object</code>
     * [~Pagination](#module_OrganizationLearnerApi..Pagination) : <code>object</code>
     * [~OrganizationLearner](#module_OrganizationLearnerApi..OrganizationLearner) : <code>object</code>
@@ -168,6 +169,7 @@
 ### OrganizationLearnerApi~find(payload) ⇒ <code>Promise.&lt;OrganizationLearnerListResponse&gt;</code>
 Récupère les organization-learners pour une organization. Par défaut, ces organizations-learners sont triés par prénom puis par nom.
 Si le params 'page' est présent, les organization-learners seront paginés
+Si le params 'filter' est présent, les organization-learners seront filtrés
 
 **Kind**: inner method of [<code>OrganizationLearnerApi</code>](#module_OrganizationLearnerApi)  
 
@@ -195,10 +197,22 @@ Si le params 'page' est présent, les organization-learners seront paginés
 | size | <code>number</code> | 
 | number | <code>Page</code> | 
 
+<a name="module_OrganizationLearnerApi..FilterDefinition"></a>
+
+### OrganizationLearnerApi~FilterDefinition : <code>object</code>
+**Kind**: inner typedef of [<code>OrganizationLearnerApi</code>](#module_OrganizationLearnerApi)  
+**Properties**
+
+| Name | Type |
+| --- | --- |
+| divisions | <code>Array.&lt;string&gt;</code> | 
+| name | <code>string</code> | 
+
 <a name="module_OrganizationLearnerApi..OrganizationLearnerListPayload"></a>
 
 ### OrganizationLearnerApi~OrganizationLearnerListPayload : <code>object</code>
 **Kind**: inner typedef of [<code>OrganizationLearnerApi</code>](#module_OrganizationLearnerApi)  
+**Propery**: <code>(FilterDefinition\|undefined)</code> filter  
 **Properties**
 
 | Name | Type |

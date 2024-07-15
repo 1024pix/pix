@@ -16,6 +16,7 @@ import { OrganizationLearner } from './models/OrganizationLearner.js';
  * @typedef FilterDefinition
  * @type {object}
  * @property {Array<string>} divisions
+ * @property {string} name
  */
 
 /**
