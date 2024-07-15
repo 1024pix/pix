@@ -1,5 +1,5 @@
-import * as courseSerializer from '../../../../lib/infrastructure/serializers/jsonapi/course-serializer.js';
 import * as courseService from '../../domain/services/course-service.js';
+import * as courseSerializer from '../../infrastructure/serializers/jsonapi/course-serializer.js';
 import { extractUserIdFromRequest } from '../../infrastructure/utils/request-response-utils.js';
 
 const get = async function (request, h, dependencies = { courseService, courseSerializer }) {
