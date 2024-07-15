@@ -1,6 +1,6 @@
-import * as assessmentRepository from '../../../src/shared/infrastructure/repositories/assessment-repository.js';
-import * as requestResponseUtils from '../../../src/shared/infrastructure/utils/request-response-utils.js';
-import * as validationErrorSerializer from '../../infrastructure/serializers/jsonapi/validation-error-serializer.js';
+import * as validationErrorSerializer from '../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer.js';
+import * as assessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
+import * as requestResponseUtils from '../../../shared/infrastructure/utils/request-response-utils.js';
 
 const verify = function (
   request,

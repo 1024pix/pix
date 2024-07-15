@@ -1,5 +1,5 @@
-import { assessmentAuthorization } from '../../../../lib/application/preHandlers/assessment-authorization.js';
-import { expect, hFake, sinon } from '../../../test-helper.js';
+import { assessmentAuthorization } from '../../../../../src/evaluation/application/pre-handlers/assessment-authorization.js';
+import { expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Pre-handler | Assessment Authorization', function () {
   let assessmentRepository;
