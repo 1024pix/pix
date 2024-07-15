@@ -1,7 +1,7 @@
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { expect, sinon } from '../../../test-helper.js';
+import { searchAttachableTargetProfiles } from '../../../../../../src/certification/configuration/domain/usecases/search-attachable-target-profiles.js';
+import { expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | UseCase | search-attachable-target-profiles', function () {
+describe('Certification | Configuration | Unit | UseCase | search-attachable-target-profiles', function () {
   it('should get attachable target profiles', async function () {
     // given
     const searchTerm = undefined;
@@ -12,7 +12,7 @@ describe('Unit | UseCase | search-attachable-target-profiles', function () {
     attachableTargetProfileRepository.find.withArgs({ searchTerm }).resolves(expectedResult);
 
     // when
-    const result = await usecases.searchAttachableTargetProfiles({
+    const result = await searchAttachableTargetProfiles({
       searchTerm,
       attachableTargetProfileRepository,
     });
@@ -32,7 +32,7 @@ describe('Unit | UseCase | search-attachable-target-profiles', function () {
       attachableTargetProfileRepository.find.withArgs({ searchTerm }).resolves(expectedResult);
 
       // when
-      const result = await usecases.searchAttachableTargetProfiles({
+      const result = await searchAttachableTargetProfiles({
         searchTerm,
         attachableTargetProfileRepository,
       });
