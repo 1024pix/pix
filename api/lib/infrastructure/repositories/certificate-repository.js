@@ -36,20 +36,6 @@ const getPrivateCertificate = async function (id, { locale } = {}) {
   });
 };
 
-const findPrivateCertificatesByUserId = async function ({ userId }) {
-  const certificationCourseDTOs = await _selectPrivateCertificates()
-    .where('certification-courses.userId', '=', userId)
-    .groupBy('certification-courses.id', 'sessions.id', 'assessment-results.id')
-    .orderBy('certification-courses.createdAt', 'DESC');
-
-  const privateCertificates = certificationCourseDTOs.map((certificationCourseDTO) =>
-    _toDomainForPrivateCertificate({
-      certificationCourseDTO,
-    }),
-  );
-  return privateCertificates;
-};
-
 const getShareableCertificateByVerificationCode = async function (verificationCode, { locale } = {}) {
   const shareableCertificateDTO = await _selectShareableCertificates()
     .groupBy('certification-courses.id', 'sessions.id', 'assessment-results.id')
@@ -67,7 +53,7 @@ const getShareableCertificateByVerificationCode = async function (verificationCo
   return _toDomainForShareableCertificate({ shareableCertificateDTO, competenceTree, certifiedBadges });
 };
 
-export { findPrivateCertificatesByUserId, getPrivateCertificate, getShareableCertificateByVerificationCode };
+export { getPrivateCertificate, getShareableCertificateByVerificationCode };
 
 async function _getCertifiedBadges(certificationCourseId) {
   const complementaryCertificationCourseResults = await knex
