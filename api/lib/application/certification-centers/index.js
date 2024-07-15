@@ -2,6 +2,7 @@ import Joi from 'joi';
 
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { identifiersType, optionalIdentifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
+import { certificationCenterInvitationController as srcCertificationCenterController } from '../../../src/team/application/certification-center-invitation/certification-center-invitation.controller.js';
 import { certificationCenterController } from './certification-center-controller.js';
 
 const register = async function (server) {
@@ -204,7 +205,7 @@ const register = async function (server) {
             certificationCenterId: identifiersType.certificationCenterId,
           }),
         },
-        handler: certificationCenterController.findPendingInvitations,
+        handler: srcCertificationCenterController.findPendingInvitations,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés et ayant accès à Pix Admin**\n' +
             '- Récupération de la liste des invitations en attente liée un centre de certification',
@@ -331,29 +332,6 @@ const register = async function (server) {
             "- Récupération de tous les membres d'un centre de certification.\n",
         ],
         tags: ['api', 'certification-center', 'members'],
-      },
-    },
-    {
-      method: 'GET',
-      path: '/api/certification-centers/{certificationCenterId}/invitations',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserIsAdminOfCertificationCenter,
-            assign: 'isAdminOfCertificationCenter',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            certificationCenterId: identifiersType.certificationCenterId,
-          }),
-        },
-        handler: certificationCenterController.findPendingInvitations,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs appartenant à un centre de certification**\n' +
-            '- Récupération de la liste des invitations en attente liée un centre de certification',
-        ],
-        tags: ['api', 'certification-center', 'invitations'],
       },
     },
   ]);
