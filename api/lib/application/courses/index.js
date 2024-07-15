@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
+import { courseController } from '../../../src/shared/application/courses/course-controller.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
-import { courseController } from './course-controller.js';
 
 const register = async function (server) {
   server.route([

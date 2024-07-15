@@ -1,5 +1,5 @@
-import { courseController } from '../../../../lib/application/courses/course-controller.js';
 import * as moduleUnderTest from '../../../../lib/application/courses/index.js';
+import { courseController } from '../../../../src/shared/application/courses/course-controller.js';
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Unit | Router | course-router', function () {
