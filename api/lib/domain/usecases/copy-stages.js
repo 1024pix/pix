@@ -1,10 +1,5 @@
-export async function copyStages({
-  originTargetProfileId,
-  destinationTargetProfileId,
-  domainTransaction,
-  stageRepository,
-}) {
-  const stagesToCopy = await stageRepository.getByTargetProfileIds([originTargetProfileId], domainTransaction);
+export async function copyStages({ originTargetProfileId, destinationTargetProfileId, stageRepository }) {
+  const stagesToCopy = await stageRepository.getByTargetProfileIds([originTargetProfileId]);
 
   if (stagesToCopy.length) {
     const stagesToSave = stagesToCopy.map((existingStage) => {
@@ -12,6 +7,6 @@ export async function copyStages({
       existingStage.targetProfileId = destinationTargetProfileId;
       return existingStage;
     });
-    await stageRepository.saveAll(stagesToSave, domainTransaction);
+    await stageRepository.saveAll(stagesToSave);
   }
 }

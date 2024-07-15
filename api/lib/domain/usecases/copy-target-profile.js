@@ -1,11 +1,8 @@
 import { TargetProfileForCreation } from '../models/index.js';
 
-const copyTargetProfile = async function ({ domainTransaction, targetProfileId, targetProfileRepository }) {
-  const targetProfileToCopy = await targetProfileRepository.get(targetProfileId, domainTransaction);
-  const targetProfileTubes = await targetProfileRepository.getTubesByTargetProfileId(
-    targetProfileId,
-    domainTransaction,
-  );
+const copyTargetProfile = async function ({ targetProfileId, targetProfileRepository }) {
+  const targetProfileToCopy = await targetProfileRepository.get(targetProfileId);
+  const targetProfileTubes = await targetProfileRepository.getTubesByTargetProfileId(targetProfileId);
 
   const copiedTargetProfile = TargetProfileForCreation.copyTargetProfile({
     ...targetProfileToCopy,
@@ -17,7 +14,6 @@ const copyTargetProfile = async function ({ domainTransaction, targetProfileId, 
 
   return targetProfileRepository.create({
     targetProfileForCreation: copiedTargetProfile,
-    domainTransaction,
   });
 };
 

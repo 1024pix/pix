@@ -16,14 +16,10 @@ describe('Unit | UseCase | copy-stages', function () {
     const originTargetProfileId = 1;
     const destinationTargetProfileId = 2;
 
-    const domainTransaction = Symbol('domainTransaction');
-
     const stage1 = domainBuilder.buildStage({ id: 1, targetProfileId: originTargetProfileId });
     const stage2 = domainBuilder.buildStage({ id: 2, targetProfileId: originTargetProfileId });
 
-    stageRepositoryStub.getByTargetProfileIds
-      .withArgs([originTargetProfileId], domainTransaction)
-      .resolves([stage1, stage2]);
+    stageRepositoryStub.getByTargetProfileIds.withArgs([originTargetProfileId]).resolves([stage1, stage2]);
 
     delete stage1.id;
     stage1.targetProfileId = destinationTargetProfileId;
@@ -37,7 +33,6 @@ describe('Unit | UseCase | copy-stages', function () {
     await copyStages({
       originTargetProfileId,
       destinationTargetProfileId,
-      domainTransaction,
       stageRepository: stageRepositoryStub,
     });
 

@@ -16,9 +16,10 @@ function adaptModelToDb(badgeCriterion) {
   return data;
 }
 
-const save = async function ({ badgeCriterion }, { knexTransaction } = DomainTransaction.emptyTransaction()) {
+const save = async function ({ badgeCriterion }) {
+  const knexConnection = DomainTransaction.getConnection();
   const data = adaptModelToDb(badgeCriterion);
-  await (knexTransaction ?? knex)(TABLE_NAME).insert(data);
+  await knexConnection(TABLE_NAME).insert(data);
 };
 
 const saveAll = async function (badgeCriteria, { knexTransaction } = DomainTransaction.emptyTransaction()) {

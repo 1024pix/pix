@@ -22,7 +22,6 @@ describe('Unit | UseCase | copy-badges', function () {
 
     const originTargetProfileId = Symbol('originTargetProfileId');
     const destinationTargetProfileId = Symbol('destinationTargetProfileId');
-    const domainTransaction = Symbol('domainTransaction');
     const badge1 = domainBuilder.buildBadge({ id: 1, key: 'FIRST_KEY' });
     const badge2 = domainBuilder.buildBadge({ id: 2, key: 'SECOND_KEY' });
 
@@ -31,7 +30,7 @@ describe('Unit | UseCase | copy-badges', function () {
 
     const badges = [badge1, badge2];
 
-    badgeRepositoryStub.findAllByTargetProfileId.withArgs(originTargetProfileId, domainTransaction).resolves(badges);
+    badgeRepositoryStub.findAllByTargetProfileId.withArgs(originTargetProfileId).resolves(badges);
     badgeRepositoryStub.save.resolves({ ...expectedBadge1, id: 3 });
     badgeRepositoryStub.save.resolves({ ...expectedBadge1, id: 4 });
 
@@ -64,7 +63,6 @@ describe('Unit | UseCase | copy-badges', function () {
     await copyBadges({
       originTargetProfileId,
       destinationTargetProfileId,
-      domainTransaction,
       badgeRepository: badgeRepositoryStub,
       badgeCriteriaRepository: badgeCriteriaRepositoryStub,
     });
