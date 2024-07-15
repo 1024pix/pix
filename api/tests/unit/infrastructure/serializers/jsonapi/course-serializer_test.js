@@ -1,5 +1,5 @@
-import { Course } from '../../../../../lib/domain/models/Course.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/course-serializer.js';
+import { Course } from '../../../../../src/shared/domain/models/Course.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | course-serializer', function () {

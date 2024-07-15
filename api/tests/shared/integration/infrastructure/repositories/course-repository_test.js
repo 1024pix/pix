@@ -1,5 +1,5 @@
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
-import { Course } from '../../../../../lib/domain/models/Course.js';
+import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
+import { Course } from '../../../../../src/shared/domain/models/Course.js';
 import * as courseRepository from '../../../../../src/shared/infrastructure/repositories/course-repository.js';
 import { catchErr, domainBuilder, expect, mockLearningContent } from '../../../../test-helper.js';
 

@@ -267,8 +267,9 @@ class NoCertificationAttestationForDivisionError extends DomainError {
 }
 
 class NotFoundError extends DomainError {
-  constructor(message = 'Erreur, ressource introuvable.') {
+  constructor(message = 'Erreur, ressource introuvable.', code) {
     super(message);
+    this.code = code;
   }
 }
 
