@@ -58,7 +58,7 @@ module('Unit | Route | Access', function (hooks) {
       assert.strictEqual(route.authenticationRoute, 'inscription');
     });
 
-    test('should call parent’s beforeModel and transition to authenticationRoute', async function (assert) {
+    test("should call parent's beforeModel and transition to authenticationRoute", async function (assert) {
       // when
       await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
@@ -124,6 +124,7 @@ module('Unit | Route | Access', function (hooks) {
           // given
           route.session.isAuthenticated = false;
           campaign.isRestricted = true;
+          campaign.isReconciliationRequired = false;
           campaign.organizationType = 'SCO';
           route.session.data.externalUser = undefined;
 
@@ -132,6 +133,21 @@ module('Unit | Route | Access', function (hooks) {
 
           // then
           assert.strictEqual(route.authenticationRoute, 'campaigns.join.student-sco');
+        });
+
+        test('should not override authentication route when campaign reconciliationRequired', async function (assert) {
+          // given
+          route.session.isAuthenticated = false;
+          campaign.isRestricted = true;
+          campaign.isReconciliationRequired = true;
+          campaign.organizationType = 'SCO';
+          route.session.data.externalUser = undefined;
+
+          // when
+          await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
+
+          // then
+          assert.strictEqual(route.authenticationRoute, 'inscription');
         });
       },
     );

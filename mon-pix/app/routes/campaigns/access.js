@@ -63,6 +63,7 @@ export default class AccessRoute extends Route {
     return (
       campaign.isRestricted &&
       campaign.organizationType === 'SCO' &&
+      !campaign.isReconciliationRequired &&
       !this.session.isAuthenticated &&
       (!isUserExternal || hasUserSeenJoinPage)
     );
