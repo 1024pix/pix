@@ -6,7 +6,7 @@ import {
   PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
 } from '../common/complementary-certification-builder.js';
-import { COLLEGE_TAG, FEATURE_CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE_ID } from '../common/constants.js';
+import { COLLEGE_TAG, FEATURE_CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE_ID, REAL_PIX_SUPER_ADMIN_ID } from '../common/constants.js';
 import * as campaignTooling from '../common/tooling/campaign-tooling.js';
 import * as tooling from '../common/tooling/index.js';
 import { getV3CertificationChallenges } from '../common/tooling/learning-content.js';
@@ -765,7 +765,7 @@ async function _createAPublishedV3CertificationSession({ databaseBuilder }) {
     });
 
     const { id: lastAssessmentResultId } = databaseBuilder.factory.buildAssessmentResult({
-      juryId: 9000,
+      juryId: REAL_PIX_SUPER_ADMIN_ID,
       assessmentId,
       certificationCourseId,
       pixScore: scores[candidateIndex],
