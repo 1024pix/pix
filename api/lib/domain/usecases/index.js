@@ -115,7 +115,6 @@ import * as sessionPublicationService from '../../domain/services/session-public
 import * as verifyCertificateCodeService from '../../domain/services/verify-certificate-code-service.js';
 import * as disabledPoleEmploiNotifier from '../../infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js';
 import * as poleEmploiNotifier from '../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
-import * as attachableTargetProfileRepository from '../../infrastructure/repositories/attachable-target-profiles-repository.js';
 import * as badgeAcquisitionRepository from '../../infrastructure/repositories/badge-acquisition-repository.js';
 import * as badgeForCalculationRepository from '../../infrastructure/repositories/badge-for-calculation-repository.js';
 import * as campaignParticipationOverviewRepository from '../../infrastructure/repositories/campaign-participation-overview-repository.js';
@@ -211,7 +210,6 @@ const dependencies = {
   areaRepository,
   assessmentRepository,
   assessmentResultRepository,
-  attachableTargetProfileRepository,
   authenticationMethodRepository,
   authenticationSessionService,
   badgeAcquisitionRepository,
