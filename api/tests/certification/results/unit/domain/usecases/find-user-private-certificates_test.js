@@ -1,7 +1,7 @@
-import { findUserPrivateCertificates } from '../../../../lib/domain/usecases/find-user-private-certificates.js';
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { findUserPrivateCertificates } from '../../../../../../src/certification/results/domain/usecases/find-user-private-certificates.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | UseCase | find-user-private-certificates', function () {
+describe('Certification | Results | Domain | Usecases | find-user-private-certificates', function () {
   const certificateRepository = {};
 
   beforeEach(function () {
