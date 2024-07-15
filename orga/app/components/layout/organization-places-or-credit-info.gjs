@@ -1,4 +1,5 @@
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
+import { LinkTo } from '@ember/routing';
 import { service } from '@ember/service';
 import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import Component from '@glimmer/component';
@@ -23,7 +24,9 @@ export default class OrganizationPlacesOrCreditInfo extends Component {
           <span>{{t "navigation.places.number" count=@placesCount}}</span>
         {{/if}}
         {{#if this.currentUser.isAdminInOrganization}}
-          <a href="/places" class="organization-places-or-credit-info__link">{{t "navigation.places.link"}}</a>
+          <LinkTo @route="authenticated.places" class="organization-places-or-credit-info__link">
+            {{t "navigation.places.link"}}
+          </LinkTo>
         {{/if}}
       </div>
     {{else if this.canShowCredit}}
