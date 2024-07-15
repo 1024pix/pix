@@ -19,6 +19,7 @@ const PARSING_OPTIONS = {
     }
     return value;
   },
+  transformHeader: (header) => header.trim(),
 };
 
 class CommonCsvLearnerParser {

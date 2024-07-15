@@ -372,6 +372,83 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           expect(errors[0].meta.acceptedFormat).to.equal('YYYY-MM-DD');
         });
       });
+      context('When there are expectedValues', function () {
+        it('when the value corresponds to the expectedValues, should not throw an error', async function () {
+          importFormat.config.headers = [...importFormat.config.headers, { name: 'cycle' }];
+          importFormat.config.validationRules = {
+            formats: [{ name: 'cycle', type: 'string', expectedValues: ['Cycle III'], required: true }],
+          };
+
+          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+
+          const response = learnerSet.addLearners([{ ...learnerAttributes, cycle: 'Cycle III' }]);
+          expect(response).to.not.throw;
+        });
+
+        it('when the value DOES NOT correspond to the expectedValues, should throw an error', async function () {
+          importFormat.config.headers = [...importFormat.config.headers, { name: 'Cycle' }, { name: 'Niveau' }];
+          importFormat.config.validationRules = {
+            formats: [
+              { name: 'Cycle', type: 'string', expectedValues: ['Cycle III'], required: true },
+              { name: 'Niveau', type: 'string', expectedValues: ['CM1', 'CM2'], required: true },
+            ],
+          };
+
+          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+
+          const errors = await catchErr(
+            learnerSet.addLearners,
+            learnerSet,
+          )([{ ...learnerAttributes, Cycle: 'cycle ii', Niveau: 'cM1' }]);
+
+          expect(errors).lengthOf(2);
+          expect(errors[0]).instanceOf(CsvImportError);
+          expect(errors[0].code).to.equal(VALIDATION_ERRORS.FIELD_NOT_MATCH_EXPECTED_VALUES);
+          expect(errors[0].meta.field).to.equal('Cycle');
+          expect(errors[0].meta.line).to.equal(2);
+          expect(errors[0].meta.acceptedFormat).to.deep.equal(['Cycle III']);
+          expect(errors[1].code).to.equal(VALIDATION_ERRORS.FIELD_NOT_MATCH_EXPECTED_VALUES);
+          expect(errors[1].meta.field).to.equal('Niveau');
+          expect(errors[1].meta.line).to.equal(2);
+          expect(errors[1].meta.acceptedFormat).to.deep.equal(['CM1', 'CM2']);
+        });
+
+        it('should throw date error when the format is not respected', async function () {
+          importFormat.config.validationRules = {
+            formats: [{ name: 'anniversaire', type: 'date', format: 'YYYY-MM-DD', required: true }],
+          };
+
+          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+
+          const errors = await catchErr(learnerSet.addLearners, learnerSet)([learnerAttributes]);
+          expect(errors).lengthOf(1);
+          expect(errors[0]).instanceOf(CsvImportError);
+          expect(errors[0].code).to.equal(VALIDATION_ERRORS.FIELD_DATE_FORMAT);
+          expect(errors[0].meta.field).to.equal('anniversaire');
+          expect(errors[0].meta.line).to.equal(2);
+          expect(errors[0].meta.acceptedFormat).to.equal('YYYY-MM-DD');
+        });
+
+        it('should throw date error when the format is not possible', async function () {
+          importFormat.config.validationRules = {
+            formats: [{ name: 'anniversaire', type: 'date', format: 'YYYY-MM-DD', required: true }],
+          };
+
+          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+
+          const errors = await catchErr(
+            learnerSet.addLearners,
+            learnerSet,
+          )([{ ...learnerAttributes, anniversaire: '2026-53-46' }]);
+
+          expect(errors).lengthOf(1);
+          expect(errors[0]).instanceOf(CsvImportError);
+          expect(errors[0].code).to.equal(VALIDATION_ERRORS.FIELD_DATE_FORMAT);
+          expect(errors[0].meta.field).to.equal('anniversaire');
+          expect(errors[0].meta.line).to.equal(2);
+          expect(errors[0].meta.acceptedFormat).to.equal('YYYY-MM-DD');
+        });
+      });
       context('With several rules', function () {
         it('should throw all errors on multiple lines ', async function () {
           importFormat.config.validationRules = {

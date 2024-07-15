@@ -172,6 +172,10 @@ class ImportOrganizationLearnerSet {
       if (error.why === 'field_required') {
         this.#errors.push(new CsvImportError(error.code, { line, field }));
       }
+
+      if (error.why === 'field_not_match_expected_values') {
+        this.#errors.push(new CsvImportError(error.code, { line, field, acceptedFormat: error.acceptedFormat }));
+      }
     });
   }
 

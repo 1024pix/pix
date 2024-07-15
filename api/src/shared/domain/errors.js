@@ -104,6 +104,11 @@ class ModelValidationError extends DomainError {
       this.acceptedFormat = format;
     }
 
+    if (code === VALIDATION_ERRORS.FIELD_NOT_MATCH_EXPECTED_VALUES) {
+      this.why = 'field_not_match_expected_values';
+      this.acceptedFormat = format;
+    }
+
     if (code === VALIDATION_ERRORS.FIELD_REQUIRED) {
       this.why = 'field_required';
     }
@@ -141,6 +146,12 @@ class ModelValidationError extends DomainError {
     if (joiError.type === 'any.required') {
       code = VALIDATION_ERRORS.FIELD_REQUIRED;
       key = joiError.context.key;
+    }
+
+    if (joiError.type === 'any.only') {
+      code = VALIDATION_ERRORS.FIELD_NOT_MATCH_EXPECTED_VALUES;
+      key = joiError.context.key;
+      format = joiError.context.valids;
     }
 
     if (joiError.type === 'string.base') {

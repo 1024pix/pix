@@ -8,7 +8,7 @@ const validationConfiguration = { allowUnknown: true, abortEarly: false };
 
 const validateCommonOrganizationLearner = function (commonOrganizationLearner, validationFormatRules) {
   const customAttributeRule = {};
-  validationFormatRules?.forEach(({ name, type, format, required, min, max }) => {
+  validationFormatRules?.forEach(({ name, type, format, required, min, max, expectedValues }) => {
     if (type === 'date') {
       customAttributeRule[name] = Joi.date()
         .format(format)
@@ -20,6 +20,10 @@ const validateCommonOrganizationLearner = function (commonOrganizationLearner, v
         .min(min || 0)
         .max(max || 255)
         .presence(required ? 'required' : 'optional');
+
+      if (expectedValues) {
+        customAttributeRule[name] = customAttributeRule[name].valid(...expectedValues);
+      }
     }
   });
   const validationSchema = Joi.object({

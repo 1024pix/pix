@@ -239,6 +239,25 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
           nom: 'King of monsters',
         });
       });
+
+      it('should trim headers', async function () {
+        // given
+        const input = ` prénom ;nom
+        Godzilla;King of monsters
+        `;
+        const encodedInput = iconv.encode(input, 'utf8');
+        const parser = CommonCsvLearnerParser.buildParser({ buffer: encodedInput, importFormat });
+
+        // when
+        const result = parser.parse('utf8');
+
+        // then
+        expect(result).to.lengthOf(1);
+        expect(result[0]).to.be.deep.equal({
+          nom: 'King of monsters',
+          prénom: 'Godzilla',
+        });
+      });
     });
   });
 });

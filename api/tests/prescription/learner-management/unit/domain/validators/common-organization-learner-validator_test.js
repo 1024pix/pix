@@ -16,7 +16,7 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
     });
   });
 
-  context('string', function () {
+  context('When attribute is a string type', function () {
     context('required cases', function () {
       it('when missing attributes, throws an error', async function () {
         const errors = validateCommonOrganizationLearner({ prénom: 'Aldana' }, [
@@ -105,9 +105,40 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
         expect(errors).to.lengthOf(0);
       });
     });
+
+    context('When a specific value is required', function () {
+      it('Should throw an error if the value do not corresponding to the expected value', async function () {
+        const expectedValues = ['Theotime', 'Theo-a-pas-le-time'];
+        const errors = validateCommonOrganizationLearner({ nom: 'abcdefg' }, [
+          {
+            name: 'nom',
+            type: 'string',
+            required: true,
+            expectedValues,
+          },
+        ]);
+        expect(errors).to.lengthOf(1);
+        expect(errors[0]).to.be.an.instanceOf(ModelValidationError);
+        expect(errors[0].code).to.equal('FIELD_NOT_MATCH_EXPECTED_VALUES');
+        expect(errors[0].key).to.equal('nom');
+        expect(errors[0].acceptedFormat).to.deep.equal(expectedValues);
+      });
+      it('Should not throw an error if the value corresponding to the expected value', async function () {
+        const expectedValues = ['Theotime', 'Theo-a-pas-le-time'];
+        const errors = validateCommonOrganizationLearner({ nom: 'Theotime' }, [
+          {
+            name: 'nom',
+            type: 'string',
+            required: true,
+            expectedValues,
+          },
+        ]);
+        expect(errors).to.lengthOf(0);
+      });
+    });
   });
 
-  context('date', function () {
+  context('When attribute is a date', function () {
     context('when birthdate is not conform', function () {
       it('throws an error', async function () {
         const errors = validateCommonOrganizationLearner({ birthdate: '500-13-58' }, [
