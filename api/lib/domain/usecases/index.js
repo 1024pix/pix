@@ -79,7 +79,7 @@ import { tokenService } from '../../../src/shared/domain/services/token-service.
 import * as userService from '../../../src/shared/domain/services/user-service.js';
 import * as passwordValidator from '../../../src/shared/domain/validators/password-validator.js';
 import * as userValidator from '../../../src/shared/domain/validators/user-validator.js';
-import * as adminMemberRepository from '../../../src/shared/infrastructure/repositories/admin-member-repository.js';
+import { adminMemberRepository } from '../../../src/shared/infrastructure/repositories/admin-member.repository.js';
 import * as answerRepository from '../../../src/shared/infrastructure/repositories/answer-repository.js';
 import * as areaRepository from '../../../src/shared/infrastructure/repositories/area-repository.js';
 import * as assessmentRepository from '../../../src/shared/infrastructure/repositories/assessment-repository.js';

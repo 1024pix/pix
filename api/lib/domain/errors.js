@@ -14,12 +14,6 @@ class AnswerEvaluationError extends DomainError {
   }
 }
 
-class AlreadyExistingAdminMemberError extends DomainError {
-  constructor(message = 'Cet agent a déjà accès') {
-    super(message);
-  }
-}
-
 class AccountRecoveryDemandNotCreatedError extends DomainError {
   constructor(message = "La demande de récupération de compte n'a pas pu être générée.") {
     super(message);
@@ -955,7 +949,6 @@ export {
   AccountRecoveryUserAlreadyConfirmEmail,
   AcquiredBadgeForbiddenDeletionError,
   AlreadyAcceptedOrCancelledInvitationError,
-  AlreadyExistingAdminMemberError,
   AlreadyExistingCampaignParticipationError,
   AlreadyExistingEntityError,
   AlreadyExistingInvitationError,

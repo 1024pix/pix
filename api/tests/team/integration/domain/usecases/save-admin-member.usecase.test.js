@@ -1,13 +1,12 @@
-import { saveAdminMember } from '../../../../lib/domain/usecases/save-admin-member.js';
-import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
-import { databaseBuilder, expect } from '../../../test-helper.js';
+import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
+import * as userRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
+import { adminMemberRepository } from '../../../../../src/shared/infrastructure/repositories/admin-member.repository.js';
+import { saveAdminMember } from '../../../../../src/team/domain/usecases/save-admin-member.usecase.js';
+import { databaseBuilder, expect } from '../../../../test-helper.js';
 
 const { ROLES } = PIX_ADMIN;
 
-import * as userRepository from '../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
-import * as adminMemberRepository from '../../../../src/shared/infrastructure/repositories/admin-member-repository.js';
-
-describe('Integration | UseCases | save-admin-member', function () {
+describe('Integration | Team | Domain | UseCases | save-admin-member', function () {
   context('when admin member exists and is disabled', function () {
     it('should reactivate admin member, update role if necessary, and return user details', async function () {
       // given

@@ -1,7 +1,7 @@
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/admin-member-serializer.js';
-import { domainBuilder, expect } from '../../../../test-helper.js';
+import { adminMemberSerializer } from '../../../../../../src/team/infrastructure/serializers/jsonapi/admin-member.serializer.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
-describe('Unit | Serializer | JSONAPI | admin-member-serializer', function () {
+describe('Unit | Team | Infrastructure | Serializer | JSONAPI | admin-member', function () {
   describe('#serialize', function () {
     it('should convert an AdminMember model object into JSON API data', function () {
       // given
@@ -15,7 +15,7 @@ describe('Unit | Serializer | JSONAPI | admin-member-serializer', function () {
       });
 
       // when
-      const serializedAdminMember = serializer.serialize(adminMember);
+      const serializedAdminMember = adminMemberSerializer.serialize(adminMember);
 
       // then
       expect(serializedAdminMember).to.deep.equal({
@@ -44,7 +44,7 @@ describe('Unit | Serializer | JSONAPI | admin-member-serializer', function () {
       const jsonApiData = { data: { attributes: { key: 'value' } } };
 
       // when
-      const attributes = await serializer.deserialize(jsonApiData);
+      const attributes = await adminMemberSerializer.deserialize(jsonApiData);
 
       // then
       expect(attributes).to.deep.equal({ key: 'value' });

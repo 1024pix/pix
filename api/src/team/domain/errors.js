@@ -1,5 +1,11 @@
 import { DomainError } from '../../../lib/domain/errors.js';
 
+class AlreadyExistingAdminMemberError extends DomainError {
+  constructor(message = 'Cet agent a déjà accès') {
+    super(message);
+  }
+}
+
 class UncancellableCertificationCenterInvitationError extends DomainError {
   constructor(
     message = "L'invitation à ce centre de certification ne peut pas être annulée.",
@@ -21,6 +27,7 @@ class UncancellableOrganizationInvitationError extends DomainError {
 class MembershipNotFound extends DomainError {}
 
 export {
+  AlreadyExistingAdminMemberError,
   MembershipNotFound,
   UncancellableCertificationCenterInvitationError,
   UncancellableOrganizationInvitationError,

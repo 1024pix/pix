@@ -24,4 +24,5 @@ const deserialize = async function (jsonApiData) {
   return await deserializer.deserialize(jsonApiData);
 };
 
-export { deserialize, serialize };
+const adminMemberSerializer = { deserialize, serialize };
+export { adminMemberSerializer };
