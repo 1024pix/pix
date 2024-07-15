@@ -1,11 +1,17 @@
 function updateBadgeCriterion(schema, request) {
-  const badgeCriterionId = request.params.id;
-  const params = JSON.parse(request.requestBody);
+  try {
+    const badgeCriterionId = request.params.id;
+    const params = JSON.parse(request.requestBody);
 
-  const badgeCriterion = schema.badgeCriteria.find(badgeCriterionId);
-  badgeCriterion.update(params.data.attributes);
+    console.log(schema);
 
-  return badgeCriterion;
+    const badgeCriterion = schema.badgeCriteria.find(badgeCriterionId);
+    badgeCriterion.update(params.data.attributes);
+
+    return badgeCriterion;
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 export { updateBadgeCriterion };
