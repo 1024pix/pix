@@ -683,7 +683,8 @@
         "actions": {
           "launch": "Empezar",
           "launch-label": "Empezar simulación",
-          "reset": "Restablecer"
+          "reset": "Restablecer",
+          "reset-label": "Restablecer simulación"
         },
         "placeholder": "Cargando la aplicación"
       },
