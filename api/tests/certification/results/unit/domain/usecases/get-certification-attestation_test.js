@@ -1,4 +1,4 @@
-import { getCertificationAttestation } from '../../../../../../src/certification/course/domain/usecases/get-certification-attestation.js';
+import { getCertificationAttestation } from '../../../../../../src/certification/results/domain/usecases/get-certification-attestation.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 

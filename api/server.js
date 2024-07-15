@@ -17,6 +17,7 @@ import {
 import { certificationCourseRoutes } from './src/certification/course/routes.js';
 import { certificationEnrolmentRoutes } from './src/certification/enrolment/routes.js';
 import { flashCertificationRoutes } from './src/certification/flash-certification/routes.js';
+import { certificationResultRoutes } from './src/certification/results/routes.js';
 import { scoringRoutes } from './src/certification/scoring/routes.js';
 import { certificationSessionRoutes } from './src/certification/session-management/routes.js';
 import { devcompRoutes } from './src/devcomp/routes.js';
@@ -43,6 +44,7 @@ const certificationRoutes = [
   complementaryCertificationRoutes,
   certificationCourseRoutes,
   scoringRoutes,
+  certificationResultRoutes,
 ];
 
 const prescriptionRoutes = [
