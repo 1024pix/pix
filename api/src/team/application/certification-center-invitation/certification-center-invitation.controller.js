@@ -1,5 +1,6 @@
 import { extractLocaleFromRequest } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
+import { certificationCenterInvitationSerializer } from '../../infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
 
 /**
  * @callback sendInvitations
@@ -23,4 +24,17 @@ const cancelCertificationCenterInvitation = async function (request, h) {
   return h.response().code(204);
 };
 
-export const certificationCenterInvitationController = { cancelCertificationCenterInvitation, sendInvitations };
+const findPendingInvitations = async function (request, h) {
+  const certificationCenterId = request.params.certificationCenterId;
+
+  const certificationCenterInvitations = await usecases.findPendingCertificationCenterInvitations({
+    certificationCenterId,
+  });
+  return h.response(certificationCenterInvitationSerializer.serializeForAdmin(certificationCenterInvitations));
+};
+
+export const certificationCenterInvitationController = {
+  cancelCertificationCenterInvitation,
+  findPendingInvitations,
+  sendInvitations,
+};
