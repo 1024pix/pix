@@ -1,5 +1,29 @@
 # Pix Changelog
 
+## v4.181.0 (15/07/2024)
+
+
+### :rocket: Amélioration
+- [#9518](https://github.com/1024pix/pix/pull/9518) [FEATURE] Autoriser l'import d'élèves depuis ONDE uniquement pour les élèves du 3ème cycle et dont le niveau est CM1 ou CM2 (PIX-13123).
+- [#9514](https://github.com/1024pix/pix/pull/9514) [FEATURE] MAJ des trads NL suite au contrôle de l'agence (PIX-13418).
+- [#9486](https://github.com/1024pix/pix/pull/9486) [FEATURE] Migrer la route POST api/admin-members dans src/team (PIX-13366).
+- [#9447](https://github.com/1024pix/pix/pull/9447) [FEATURE] Migrer la route GET /api/password-reset-demands/{temporaryKey} vers src/identity-access-management (PIX-12749).
+- [#9496](https://github.com/1024pix/pix/pull/9496) [FEATURE] Ajout de filtre sur les Prénom/Nom des élèves d'une mission (Pix-11917).
+
+### :building_construction: Tech
+- [#9499](https://github.com/1024pix/pix/pull/9499) [TECH] Reprendre quelques points du code de l'anonymisation GAR (PIX-13175).
+- [#9489](https://github.com/1024pix/pix/pull/9489) [TECH] Création du contexte certification/results (PIX-13072).
+- [#9465](https://github.com/1024pix/pix/pull/9465) [TECH] Rendre accessible les écrans d'instruction (PIX-11847).
+- [#9482](https://github.com/1024pix/pix/pull/9482) [TECH] Migration GET /api/organizations/{id}/invitations (PIX-13368) .
+- [#9395](https://github.com/1024pix/pix/pull/9395) [TECH] Seuls les pilotes V3 pourront être pilotes séparation Pix/Pix+ (PIX-13171).
+
+### :bug: Correction
+- [#9508](https://github.com/1024pix/pix/pull/9508) [BUGFIX] Remplacer la balise `a` par le composant de routing `LinkTo` (PIX-13283).
+- [#9479](https://github.com/1024pix/pix/pull/9479) [BUGFIX] Corriger l'ajout de plusieurs candidats à la certif complémentaire par la modale (PIX-13286).
+
+### :arrow_up: Montée de version
+- [#9506](https://github.com/1024pix/pix/pull/9506) [BUMP] Update dependency qs to v6.12.2 (api).
+
 ## v4.180.0 (12/07/2024)
 
 
