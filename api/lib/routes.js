@@ -1,3 +1,4 @@
+import * as featureToggles from '../src/shared/application/feature-toggles/index.js';
 import * as adminMembers from './application/admin-members/index.js';
 import * as authentication from './application/authentication/index.js';
 import * as cache from './application/cache/index.js';
@@ -15,7 +16,6 @@ import * as complementaryCertificationCourseResults from './application/compleme
 import * as complementaryCertifications from './application/complementary-certifications/index.js';
 import * as countries from './application/countries/index.js';
 import * as courses from './application/courses/index.js';
-import * as featureToggles from './application/feature-toggles/index.js';
 import * as frameworks from './application/frameworks/index.js';
 import * as healthcheck from './application/healthcheck/index.js';
 import * as lcms from './application/lcms/index.js';
