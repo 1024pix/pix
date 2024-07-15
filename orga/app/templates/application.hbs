@@ -1,4 +1,8 @@
-{{page-title (t "navigation.pix-orga")}}
+{{page-title this.model.title}}
+{{#in-element this.model.headElement insertBefore=null}}
+  {{! template-lint-disable no-forbidden-elements }}
+  <meta name="description" content={{t "application.description"}} />
+{{/in-element}}
 
 <Banner::Communication />
 

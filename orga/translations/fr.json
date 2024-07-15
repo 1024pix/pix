@@ -56,6 +56,9 @@
       "uai-mismatched": "L’UAI du fichier SIECLE ne correspond pas à celui de votre établissement."
     }
   },
+  "application": {
+    "description": "La plateforme dédiée à l’évaluation et au suivi pédagogique. Votre espace Pix Orga vous permet de lancer une campagne d’évaluation ou de collecte de profils Pix, suivre l’avancement de vos élèves ou apprenants dans une campagne, ou encore accéder à leurs résultats."
+  },
   "banners": {
     "certification": {
       "message": "'<strong>'Certifications :'</strong>' n’oubliez pas de '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'finaliser les sessions dans Pix Certif'</a>' puis de télécharger les attestations ici via l'onglet “Certifications” avant la rentrée {year}."
@@ -320,7 +323,6 @@
       "sup-organization-participants": "Étudiants",
       "team": "Équipe"
     },
-    "pix-orga": "Pix Orga",
     "places": {
       "link": "voir le détail",
       "number": "{count, plural, =0 {0 place disponible} =1 {1 place disponible} other {{count} places disponibles}}"

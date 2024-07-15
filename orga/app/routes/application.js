@@ -6,6 +6,7 @@ export default class ApplicationRoute extends Route {
   @service currentDomain;
   @service currentUser;
   @service session;
+  @service intl;
 
   async beforeModel(transition) {
     await this.session.setup();
@@ -15,5 +16,12 @@ export default class ApplicationRoute extends Route {
     await this.currentUser.load();
     const userLocale = this.currentUser.prescriber?.lang;
     await this.session.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
+  }
+
+  model() {
+    return {
+      title: this.currentDomain.isFranceDomain ? 'Pix Orga (France)' : 'Pix Orga (hors France)',
+      headElement: document.querySelector('head'),
+    };
   }
 }
