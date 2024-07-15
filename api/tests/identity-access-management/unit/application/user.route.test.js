@@ -1,6 +1,6 @@
-import { userVerification } from '../../../../lib/application/preHandlers/user-existence-verification.js';
 import { identityAccessManagementRoutes } from '../../../../src/identity-access-management/application/routes.js';
 import { userController } from '../../../../src/identity-access-management/application/user/user.controller.js';
+import { userVerification } from '../../../../src/identity-access-management/application/user/user-existence-verification-pre-handler.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
