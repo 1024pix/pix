@@ -141,35 +141,6 @@ const register = async function (server) {
       },
     },
     {
-      method: 'GET',
-      path: '/api/admin/organizations/{id}/invitations',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationId,
-          }),
-        },
-        handler: organizationController.findPendingInvitations,
-        tags: ['api', 'invitations', 'admin'],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            "- Elle permet de lister les invitations en attente d'acceptation d'une organisation",
-        ],
-      },
-    },
-    {
       method: 'POST',
       path: '/api/admin/organizations/{id}/invitations',
       config: {
@@ -342,29 +313,6 @@ const register = async function (server) {
         notes: [
           "Cette route est restreinte aux membres authentifiés d'une organisation",
           'Elle retourne les rôles des membres rattachés à l’organisation de manière paginée.',
-        ],
-      },
-    },
-    {
-      method: 'GET',
-      path: '/api/organizations/{id}/invitations',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserIsAdminInOrganization,
-            assign: 'isAdminInOrganization',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationId,
-          }),
-        },
-        handler: organizationController.findPendingInvitations,
-        tags: ['api', 'invitations'],
-        notes: [
-          "- Cette route est restreinte aux utilisateurs authentifiés responsables de l'organisation",
-          "- Elle permet de lister les invitations en attente d'acceptation d'une organisation",
         ],
       },
     },

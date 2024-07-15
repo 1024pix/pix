@@ -6,6 +6,35 @@ import { organizationInvitationController } from './organization-invitation.cont
 
 export const organizationInvitationAdminRoutes = [
   {
+    method: 'GET',
+    path: '/api/admin/organizations/{id}/invitations',
+    config: {
+      pre: [
+        {
+          method: (request, h) =>
+            securityPreHandlers.hasAtLeastOneAccessOf([
+              securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+              securityPreHandlers.checkAdminMemberHasRoleCertif,
+              securityPreHandlers.checkAdminMemberHasRoleSupport,
+              securityPreHandlers.checkAdminMemberHasRoleMetier,
+            ])(request, h),
+          assign: 'hasAuthorizationToAccessAdminScope',
+        },
+      ],
+      validate: {
+        params: Joi.object({
+          id: identifiersType.organizationId,
+        }),
+      },
+      handler: (request, h) => organizationInvitationController.findPendingInvitations(request, h),
+      tags: ['team', 'api', 'invitations', 'admin'],
+      notes: [
+        "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+          "- Elle permet de lister les invitations en attente d'acceptation d'une organisation",
+      ],
+    },
+  },
+  {
     method: 'DELETE',
     path: '/api/admin/organizations/{id}/invitations/{organizationInvitationId}',
     config: {

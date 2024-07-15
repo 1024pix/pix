@@ -50,6 +50,29 @@ export const organizationInvitationRoutes = [
     },
   },
   {
+    method: 'GET',
+    path: '/api/organizations/{id}/invitations',
+    config: {
+      pre: [
+        {
+          method: (request, h) => securityPreHandlers.checkUserIsAdminInOrganization(request, h),
+          assign: 'isAdminInOrganization',
+        },
+      ],
+      validate: {
+        params: Joi.object({
+          id: identifiersType.organizationId,
+        }),
+      },
+      handler: (request, h) => organizationInvitationController.findPendingInvitations(request, h),
+      tags: ['team', 'api', 'invitations'],
+      notes: [
+        "- Cette route est restreinte aux utilisateurs authentifiés responsables de l'organisation",
+        "- Elle permet de lister les invitations en attente d'acceptation d'une organisation",
+      ],
+    },
+  },
+  {
     method: 'DELETE',
     path: '/api/organizations/{id}/invitations/{organizationInvitationId}',
     config: {

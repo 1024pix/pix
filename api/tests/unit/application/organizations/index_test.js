@@ -1,6 +1,5 @@
 import * as moduleUnderTest from '../../../../lib/application/organizations/index.js';
 import { organizationController } from '../../../../lib/application/organizations/organization-controller.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../../src/shared/domain/types/identifiers-type.js';
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
@@ -487,26 +486,6 @@ describe('Unit | Router | organization-router', function () {
 
       // then
       expect(response.statusCode).to.equal(403);
-    });
-  });
-
-  describe('GET /api/organizations/{id}/invitations', function () {
-    it('should return an empty list when no organization is found', async function () {
-      // given
-      sinon.stub(usecases, 'findPendingOrganizationInvitations').resolves([]);
-      sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').returns(true);
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const method = 'GET';
-      const url = '/api/organizations/1/invitations';
-
-      // when
-      const response = await httpTestServer.request(method, url);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-      expect(response.result.data).to.deep.equal([]);
     });
   });
 });

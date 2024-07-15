@@ -1,7 +1,6 @@
 import * as moduleUnderTest from '../../../../lib/application/organizations/index.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
-import { OrganizationInvitation } from '../../../../src/team/domain/models/OrganizationInvitation.js';
 import { domainBuilder, expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Integration | Application | Organizations | organization-controller', function () {
@@ -13,7 +12,6 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(usecases, 'findPaginatedFilteredOrganizationMemberships');
     sandbox.stub(usecases, 'createOrganizationInvitations');
     sandbox.stub(usecases, 'acceptOrganizationInvitation');
-    sandbox.stub(usecases, 'findPendingOrganizationInvitations');
     sandbox.stub(usecases, 'findDivisionsByOrganization');
 
     sandbox.stub(securityPreHandlers, 'checkUserIsAdminInOrganization');
@@ -109,26 +107,6 @@ describe('Integration | Application | Organizations | organization-controller', 
         expect(response.result.included[0].id).to.equal(`${membership.organization.id}`);
         expect(response.result.included[1].type).to.equal('users');
         expect(response.result.included[1].id).to.equal(`${membership.user.id}`);
-      });
-    });
-  });
-
-  describe('#findPendingInvitations', function () {
-    context('Success cases', function () {
-      it('should return an HTTP response with status code 200', async function () {
-        // given
-        const invitation = domainBuilder.buildOrganizationInvitation({
-          organizationId: 1,
-          status: OrganizationInvitation.StatusType.PENDING,
-        });
-        usecases.findPendingOrganizationInvitations.resolves([invitation]);
-        securityPreHandlers.checkUserIsAdminInOrganization.returns(true);
-
-        // when
-        const response = await httpTestServer.request('GET', '/api/organizations/1/invitations');
-
-        // then
-        expect(response.statusCode).to.equal(200);
       });
     });
   });

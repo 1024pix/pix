@@ -120,14 +120,6 @@ const sendInvitationByLangAndRole = async function (request, h, dependencies = {
   return h.response(dependencies.organizationInvitationSerializer.serialize(organizationInvitation)).created();
 };
 
-const findPendingInvitations = function (request, h, dependencies = { organizationInvitationSerializer }) {
-  const organizationId = request.params.id;
-
-  return usecases
-    .findPendingOrganizationInvitations({ organizationId })
-    .then((invitations) => dependencies.organizationInvitationSerializer.serialize(invitations));
-};
-
 const archiveOrganization = async function (request, h, dependencies = { organizationForAdminSerializer }) {
   const organizationId = request.params.id;
   const userId = extractUserIdFromRequest(request);
@@ -161,7 +153,6 @@ const organizationController = {
   findPaginatedFilteredMemberships,
   findPaginatedFilteredMembershipsForAdmin,
   findPaginatedFilteredOrganizations,
-  findPendingInvitations,
   findTargetProfileSummariesForAdmin,
   getDivisions,
   getOrganizationMemberIdentities,

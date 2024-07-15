@@ -85,26 +85,6 @@ describe('Integration | Application | Organizations | Routes', function () {
     });
   });
 
-  describe('GET /api/admin/organizations/:id/invitations', function () {
-    it('should exist', async function () {
-      // given
-      const method = 'GET';
-      const url = '/api/admin/organizations/1/invitations';
-
-      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(organizationController, 'findPendingInvitations').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request(method, url);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-      expect(organizationController.findPendingInvitations).to.have.been.calledOnce;
-    });
-  });
-
   describe('POST /api/organizations/:id/invitations', function () {
     it('should call the organization controller to send invitations', async function () {
       // given
@@ -130,26 +110,6 @@ describe('Integration | Application | Organizations | Routes', function () {
       // then
       expect(response.statusCode).to.equal(201);
       expect(organizationController.sendInvitations).to.have.been.calledOnce;
-    });
-  });
-
-  describe('GET /api/organizations/:id/invitations', function () {
-    it('should exist', async function () {
-      // given
-      const method = 'GET';
-      const url = '/api/organizations/1/invitations';
-
-      sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').callsFake((request, h) => h.response(true));
-      sinon.stub(organizationController, 'findPendingInvitations').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request(method, url);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-      expect(organizationController.findPendingInvitations).to.have.been.calledOnce;
     });
   });
 });

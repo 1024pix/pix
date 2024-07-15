@@ -48,6 +48,51 @@ describe('Unit | Team | Application | Controller | organization-invitation', fun
     });
   });
 
+  describe('#findPendingInvitations', function () {
+    const userId = 1;
+    let organization;
+    const resolvedOrganizationInvitations = 'organization invitations';
+    const serializedOrganizationInvitations = 'serialized organization invitations';
+
+    let request;
+    let dependencies;
+
+    beforeEach(function () {
+      organization = domainBuilder.buildOrganization();
+      request = {
+        auth: { credentials: { userId } },
+        params: { id: organization.id },
+      };
+
+      sinon.stub(usecases, 'findPendingOrganizationInvitations');
+
+      const organizationInvitationSerializerStub = {
+        serialize: sinon.stub(),
+      };
+
+      dependencies = {
+        organizationInvitationSerializer: organizationInvitationSerializerStub,
+      };
+    });
+
+    it('calls the usecase to find pending invitations with organizationId', async function () {
+      usecases.findPendingOrganizationInvitations.resolves(resolvedOrganizationInvitations);
+      dependencies.organizationInvitationSerializer.serialize.resolves(serializedOrganizationInvitations);
+
+      // when
+      const response = await organizationInvitationController.findPendingInvitations(request, hFake, dependencies);
+
+      // then
+      expect(usecases.findPendingOrganizationInvitations).to.have.been.calledWithExactly({
+        organizationId: organization.id,
+      });
+      expect(dependencies.organizationInvitationSerializer.serialize).to.have.been.calledWithExactly(
+        resolvedOrganizationInvitations,
+      );
+      expect(response).to.deep.equal(serializedOrganizationInvitations);
+    });
+  });
+
   describe('#cancelOrganizationInvitation', function () {
     it('calls the use case to cancel invitation with organizationInvitationId', async function () {
       //given
