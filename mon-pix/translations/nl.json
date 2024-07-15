@@ -683,7 +683,8 @@
         "actions": {
           "launch": "Start",
           "launch-label": "Simulatie starten",
-          "reset": "Reset"
+          "reset": "Reset",
+          "reset-label": "Reset de simulatie"
         },
         "placeholder": "De huidige toepassing laden"
       },

@@ -689,7 +689,8 @@
         "actions": {
           "launch": "Commencer",
           "launch-label": "Commencer la simulation",
-          "reset": "Réinitialiser"
+          "reset": "Réinitialiser",
+          "reset-label": "Réinitialiser la simulation"
         },
         "placeholder": "Chargement de l'application en cours"
       },

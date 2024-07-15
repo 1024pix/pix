@@ -689,7 +689,8 @@
         "actions": {
           "launch": "Start",
           "launch-label": "Start simulation",
-          "reset": "Restart"
+          "reset": "Restart",
+          "reset-label": "Restart simulation"
         },
         "placeholder": "App loading"
       },
