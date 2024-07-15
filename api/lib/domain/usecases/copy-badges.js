@@ -4,9 +4,7 @@ export async function copyBadges({
   badgeRepository,
   badgeCriteriaRepository,
 }) {
-  const targetProfileBadgesToCopy = await badgeRepository.findAllByTargetProfileId(
-    originTargetProfileId,
-  );
+  const targetProfileBadgesToCopy = await badgeRepository.findAllByTargetProfileId(originTargetProfileId);
 
   if (targetProfileBadgesToCopy.length) {
     await Promise.all(
@@ -14,7 +12,7 @@ export async function copyBadges({
         const clonedBadge = badge.clone(destinationTargetProfileId);
         const savedBadge = await badgeRepository.save(clonedBadge);
 
-        const badgeCriteriaToCopy = await badgeCriteriaRepository.findAllByBadgeId(badge.id, domainTransaction);
+        const badgeCriteriaToCopy = await badgeCriteriaRepository.findAllByBadgeId(badge.id);
         await copyBadgeCriteria({ badgeCriteriaToCopy, savedBadge, badgeCriteriaRepository });
       }),
     );
