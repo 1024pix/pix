@@ -2,6 +2,7 @@ import Joi from 'joi';
 
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
+import { adminMemberController as srcAdminMemberController } from '../../../src/team/application/admin-member/admin-member.controller.js';
 import { adminMemberController } from './admin-member-controller.js';
 
 const register = async function (server) {
@@ -10,7 +11,7 @@ const register = async function (server) {
       method: 'GET',
       path: '/api/admin/admin-members',
       config: {
-        handler: adminMemberController.findAll,
+        handler: srcAdminMemberController.findAll,
         pre: [
           {
             method: securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,

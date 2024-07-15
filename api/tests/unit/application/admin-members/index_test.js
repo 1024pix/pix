@@ -2,6 +2,7 @@ import { adminMemberController } from '../../../../lib/application/admin-members
 import * as adminMembersRouter from '../../../../lib/application/admin-members/index.js';
 import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
+import { adminMemberController as srcAdminMemberController } from '../../../../src/team/application/admin-member/admin-member.controller.js';
 import { domainBuilder, expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 const { ROLES } = PIX_ADMIN;
@@ -11,7 +12,7 @@ describe('Unit | Application | Router | admin-members-router', function () {
     it('should return a response with an HTTP status code 200 when user has role "SUPER_ADMIN"', async function () {
       // given
       const adminMembers = [domainBuilder.buildAdminMember()];
-      sinon.stub(adminMemberController, 'findAll').returns(adminMembers);
+      sinon.stub(srcAdminMemberController, 'findAll').returns(adminMembers);
       sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(adminMembersRouter);
@@ -21,7 +22,7 @@ describe('Unit | Application | Router | admin-members-router', function () {
 
       // then
       expect(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin).to.have.be.called;
-      expect(adminMemberController.findAll).to.have.be.called;
+      expect(srcAdminMemberController.findAll).to.have.be.called;
       expect(statusCode).to.equal(200);
     });
 
