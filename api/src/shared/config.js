@@ -379,6 +379,7 @@ const configuration = (function () {
     config.featureToggles.isPix1dEnabled = true;
     config.featureToggles.isCertificationTokenScopeEnabled = false;
     config.featureToggles.isPixPlusLowerLeverEnabled = false;
+    config.featureToggles.isTextToSpeechButtonEnabled = false;
 
     config.mailing.enabled = false;
     config.mailing.provider = 'brevo';
