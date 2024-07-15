@@ -5,6 +5,24 @@ import { adminMemberController } from './admin-member.controller.js';
 
 export const adminMemberRoutes = [
   {
+    method: 'GET',
+    path: '/api/admin/admin-members',
+    config: {
+      pre: [
+        {
+          method: (request, h) => securityPreHandlers.checkAdminMemberHasRoleSuperAdmin(request, h),
+          assign: 'hasAuthorizationToAccessAdminScope',
+        },
+      ],
+      handler: (request, h) => adminMemberController.findAll(request, h),
+      notes: [
+        "- **Cette route est restreinte aux utilisateurs ayant le droit d'accès SUPER_ADMIN**\n" +
+          '- Lister les utilisateurs ayant accès à Pix Admin \n',
+      ],
+      tags: ['api', 'admin-members'],
+    },
+  },
+  {
     method: 'POST',
     path: '/api/admin/admin-members',
     config: {
