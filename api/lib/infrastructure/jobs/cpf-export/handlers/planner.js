@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import { config } from '../../../../config.js';
+import { config } from '../../../../../src/shared/config.js';
 
 const { plannerJob } = config.cpf;
 

@@ -1,11 +1,11 @@
 import dayjs from 'dayjs';
 
+import { config } from '../../../src/shared/config.js';
 import { LOCALE } from '../../../src/shared/domain/constants.js';
 import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import { urlBuilder } from '../../../src/shared/infrastructure/utils/url-builder.js';
 import { mailer } from '../../../src/shared/mail/infrastructure/services/mailer.js';
 import * as translations from '../../../translations/index.js';
-import { config } from '../../config.js';
 
 const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN, DUTCH_SPOKEN, SPANISH_SPOKEN } = LOCALE;
 

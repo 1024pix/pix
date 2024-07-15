@@ -1,4 +1,3 @@
-import { config } from '../../../../lib/config.js';
 import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 import { CertificationAssessment } from '../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
@@ -8,6 +7,7 @@ import {
   CertificationVersion,
 } from '../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
+import { config } from '../../../../src/shared/config.js';
 import {
   createServer,
   databaseBuilder,

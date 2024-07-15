@@ -1,5 +1,5 @@
-import { config } from '../../../../lib/config.js';
 import { getUserCertificationEligibility } from '../../../../lib/domain/usecases/get-user-certification-eligibility.js';
+import { config } from '../../../../src/shared/config.js';
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | get-user-certification-eligibility', function () {

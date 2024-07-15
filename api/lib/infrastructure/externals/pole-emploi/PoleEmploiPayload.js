@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { config } from '../../../config.js';
+import { config } from '../../../../src/shared/config.js';
 
 const CAMPAIGN_TYPE = 'EVALUATION';
 const STRUCTURE_NAME = 'Pix';

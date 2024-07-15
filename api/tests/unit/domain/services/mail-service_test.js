@@ -1,5 +1,5 @@
-import { config as settings } from '../../../../lib/config.js';
 import * as mailService from '../../../../lib/domain/services/mail-service.js';
+import { config as settings } from '../../../../src/shared/config.js';
 import { LOCALE } from '../../../../src/shared/domain/constants.js';
 import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
 import { urlBuilder } from '../../../../src/shared/infrastructure/utils/url-builder.js';

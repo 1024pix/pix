@@ -1,7 +1,7 @@
 import Request from '@hapi/hapi/lib/request.js';
 import lodash from 'lodash';
 
-import { config } from '../config.js';
+import { config } from '../../src/shared/config.js';
 
 const { get, set, update, omit } = lodash;
 import async_hooks from 'node:async_hooks';

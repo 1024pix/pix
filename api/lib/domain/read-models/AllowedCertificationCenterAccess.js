@@ -1,5 +1,5 @@
 import { CERTIFICATION_FEATURES } from '../../../src/certification/shared/domain/constants.js';
-import { config } from '../../config.js';
+import { config } from '../../../src/shared/config.js';
 
 const { features } = config;
 class AllowedCertificationCenterAccess {

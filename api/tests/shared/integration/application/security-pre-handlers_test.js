@@ -1,6 +1,6 @@
-import { config as settings } from '../../../../lib/config.js';
 import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
+import { config as settings } from '../../../../src/shared/config.js';
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
 import {
   databaseBuilder,

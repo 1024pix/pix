@@ -1,4 +1,4 @@
-import { config } from '../config.js';
+import { config } from '../../src/shared/config.js';
 
 const CONCURRENCY_HEAVY_OPERATIONS = config.infra.concurrencyForHeavyOperations;
 const CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING = config.infra.chunkSizeForCampaignResultProcessing;

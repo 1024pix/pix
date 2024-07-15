@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import samlify from 'samlify';
 
-import { config as settings } from '../../../../lib/config.js';
+import { config as settings } from '../../../../src/shared/config.js';
 import { createServer, databaseBuilder, expect, sinon } from '../../../test-helper.js';
 
 const testCertificate = `MIICCzCCAXQCCQD2MlHh/QmGmjANBgkqhkiG9w0BAQsFADBKMQswCQYDVQQGEwJG

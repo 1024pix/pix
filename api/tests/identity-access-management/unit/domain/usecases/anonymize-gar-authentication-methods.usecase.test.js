@@ -1,7 +1,7 @@
-import { config } from '../../../../../lib/config.js';
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 import { GarAuthenticationMethodAnonymized } from '../../../../../src/identity-access-management/domain/models/GarAuthenticationMethodAnonymized.js';
 import { anonymizeGarAuthenticationMethods } from '../../../../../src/identity-access-management/domain/usecases/anonymize-gar-authentication-methods.usecase.js';
+import { config } from '../../../../../src/shared/config.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import { expect, sinon } from '../../../../test-helper.js';
 

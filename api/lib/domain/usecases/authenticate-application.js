@@ -8,7 +8,7 @@ import {
 
 const { find } = lodash;
 
-import { config } from '../../config.js';
+import { config } from '../../../src/shared/config.js';
 const { apimRegisterApplicationsCredentials, jwtConfig } = config;
 
 function _checkClientId(application, clientId) {

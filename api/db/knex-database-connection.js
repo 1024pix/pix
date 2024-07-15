@@ -6,8 +6,8 @@ import _ from 'lodash';
 const { get } = _;
 import perf_hooks from 'node:perf_hooks';
 
-import { config } from '../lib/config.js';
 import { monitoringTools } from '../lib/infrastructure/monitoring-tools.js';
+import { config } from '../src/shared/config.js';
 import { logger } from '../src/shared/infrastructure/utils/logger.js';
 
 const { performance } = perf_hooks;
