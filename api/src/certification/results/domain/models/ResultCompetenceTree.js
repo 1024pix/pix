@@ -1,5 +1,5 @@
-import { Area } from './Area.js';
-import { ResultCompetence } from './ResultCompetence.js';
+import { Area } from '../../../../../lib/domain/models/Area.js';
+import { ResultCompetence } from '../../../../../lib/domain/models/ResultCompetence.js';
 
 const NOT_PASSED_LEVEL = -1;
 const NOT_PASSED_SCORE = 0;
