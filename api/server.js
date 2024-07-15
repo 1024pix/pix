@@ -13,6 +13,7 @@ import {
   attachTargetProfileRoutes,
   complementaryCertificationRoutes,
 } from './src/certification/complementary-certification/routes.js';
+import { certificationConfigurationRoutes } from './src/certification/configuration/routes.js';
 import { certificationCourseRoutes } from './src/certification/course/routes.js';
 import { certificationEnrolmentRoutes } from './src/certification/enrolment/routes.js';
 import { flashCertificationRoutes } from './src/certification/flash-certification/routes.js';
@@ -38,13 +39,14 @@ import { sharedRoutes } from './src/shared/routes.js';
 import { teamRoutes } from './src/team/application/routes.js';
 
 const certificationRoutes = [
-  certificationEnrolmentRoutes,
-  certificationSessionRoutes,
   attachTargetProfileRoutes,
-  complementaryCertificationRoutes,
+  certificationConfigurationRoutes,
   certificationCourseRoutes,
-  scoringRoutes,
+  certificationEnrolmentRoutes,
   certificationResultRoutes,
+  certificationSessionRoutes,
+  complementaryCertificationRoutes,
+  scoringRoutes,
 ];
 
 const prescriptionRoutes = [
