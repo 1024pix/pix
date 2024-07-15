@@ -9,7 +9,7 @@ export default class Area extends Model {
   @attr('string') color;
 
   // includes
-  @hasMany('resultCompetence', { async: false, inverse: 'area' }) resultCompetences;
+  @hasMany('result-competence', { async: false, inverse: 'area' }) resultCompetences;
   @hasMany('competence', { async: false, inverse: 'area' }) competences;
 
   get sortedCompetences() {

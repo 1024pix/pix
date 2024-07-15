@@ -29,7 +29,7 @@ export default class User extends Model {
   @belongsTo('profile', { async: true, inverse: null }) profile;
   @hasMany('certification', { async: true, inverse: 'user' }) certifications;
   @hasMany('scorecard', { async: true, inverse: null }) scorecards;
-  @hasMany('trainings', { async: true, inverse: null }) trainings;
+  @hasMany('training', { async: true, inverse: null }) trainings;
 
   // methods
   get fullName() {
