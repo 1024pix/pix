@@ -1,4 +1,4 @@
-import { copyBadges } from '../../../../lib/domain/usecases/copy-badges.js';
+import { copyTargetProfileBadges } from '../../../../lib/domain/usecases/copy-target-profile-badges.js';
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | copy-badges', function () {
@@ -60,7 +60,7 @@ describe('Unit | UseCase | copy-badges', function () {
       .resolves();
 
     // when
-    await copyBadges({
+    await copyTargetProfileBadges({
       originTargetProfileId,
       destinationTargetProfileId,
       badgeRepository: badgeRepositoryStub,

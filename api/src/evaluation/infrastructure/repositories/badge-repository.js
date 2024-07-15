@@ -9,7 +9,7 @@ import { Badge } from '../../domain/models/Badge.js';
 const TABLE_NAME = 'badges';
 const BADGE_KEY_UNIQUE_CONSTRAINT = 'badges_key_unique';
 
-const findByCampaignId = async function (campaignId) {
+const findByCampaignId = async (campaignId) => {
   const knexConnection = DomainTransaction.getConnection();
   return knexConnection(TABLE_NAME)
     .select(`${TABLE_NAME}.*`)
@@ -19,13 +19,13 @@ const findByCampaignId = async function (campaignId) {
     .orderBy('id');
 };
 
-const isAssociated = async function (badgeId) {
+const isAssociated = async (badgeId) => {
   const knexConnection = DomainTransaction.getConnection();
   const associatedBadge = await knexConnection('badge-acquisitions').where({ badgeId }).first();
   return !!associatedBadge;
 };
 
-const get = async function (id) {
+const get = async (id) => {
   const knexConnection = DomainTransaction.getConnection();
   const badge = await knexConnection(TABLE_NAME).select('*').where({ id }).first();
   if (!badge) throw new NotFoundError('Badge not found');
@@ -38,10 +38,10 @@ const save = async (badge) => {
   return savedBadge;
 };
 
-const saveAll = async function (badges) {
+const saveAll = async (badges) => {
   const knexConnection = DomainTransaction.getConnection();
   try {
-    const savedBadges = await knexConnection(TABLE_NAME).insert(badges.map(_adaptModelToDb)).returning('*');
+    const savedBadges = await knexConnection(TABLE_NAME).insert(badges.map(adaptModelToDb)).returning('*');
     return savedBadges.map((badge) => new Badge(badge));
   } catch (error) {
     if (knexUtils.isUniqConstraintViolated(error) && error.constraint === BADGE_KEY_UNIQUE_CONSTRAINT) {
@@ -51,9 +51,9 @@ const saveAll = async function (badges) {
   }
 };
 
-const update = async function (badge) {
+const update = async (badge) => {
   try {
-    const [updatedBadge] = await knex(TABLE_NAME).update(_adaptModelToDb(badge)).where({ id: badge.id }).returning('*');
+    const [updatedBadge] = await knex(TABLE_NAME).update(adaptModelToDb(badge)).where({ id: badge.id }).returning('*');
     return new Badge({ ...badge, ...updatedBadge });
   } catch (error) {
     if (knexUtils.isUniqConstraintViolated(error) && error.constraint === BADGE_KEY_UNIQUE_CONSTRAINT) {
@@ -67,7 +67,7 @@ const update = async function (badge) {
   }
 };
 
-const remove = async function (badgeId) {
+const remove = async (badgeId) => {
   const knexConnection = DomainTransaction.getConnection();
   await knexConnection('badge-criteria').where({ badgeId }).del();
   await knexConnection('badges').where({ id: badgeId }).del();
@@ -75,7 +75,7 @@ const remove = async function (badgeId) {
   return true;
 };
 
-const findAllByIds = async function ({ ids }) {
+const findAllByIds = async ({ ids }) => {
   const badges = await knex.from('badges').whereIn('id', ids);
 
   return badges.map((badge) => {
@@ -94,6 +94,4 @@ const findAllByTargetProfileId = async (targetProfileId) => {
 
 export { findAllByIds, findAllByTargetProfileId, findByCampaignId, get, isAssociated, remove, save, saveAll, update };
 
-function _adaptModelToDb(badge) {
-  return omit(badge, ['id', 'badgeCriteria', 'complementaryCertificationBadge']);
-}
+const adaptModelToDb = (badge) => omit(badge, ['id', 'badgeCriteria', 'complementaryCertificationBadge']);

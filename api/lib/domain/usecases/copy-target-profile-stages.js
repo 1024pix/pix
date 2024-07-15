@@ -1,4 +1,4 @@
-export async function copyStages({ originTargetProfileId, destinationTargetProfileId, stageRepository }) {
+export async function copyTargetProfileStages({ originTargetProfileId, destinationTargetProfileId, stageRepository }) {
   const stagesToCopy = await stageRepository.getByTargetProfileIds([originTargetProfileId]);
 
   if (stagesToCopy.length) {

@@ -1,4 +1,4 @@
-export async function copyBadges({
+export async function copyTargetProfileBadges({
   originTargetProfileId,
   destinationTargetProfileId,
   badgeRepository,

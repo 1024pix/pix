@@ -1,4 +1,4 @@
-import { copyStages } from '../../../../lib/domain/usecases/copy-stages.js';
+import { copyTargetProfileStages } from '../../../../lib/domain/usecases/copy-target-profile-stages.js';
 import * as stageRepository from '../../../../src/evaluation/infrastructure/repositories/stage-repository.js';
 import { databaseBuilder, expect, knex } from '../../../test-helper.js';
 
@@ -16,7 +16,7 @@ describe('Integration | UseCases | copy-stages', function () {
       await databaseBuilder.commit();
 
       // when
-      await copyStages({ originTargetProfileId, destinationTargetProfileId, stageRepository });
+      await copyTargetProfileStages({ originTargetProfileId, destinationTargetProfileId, stageRepository });
 
       // then
       const destinationTargetProfileStages = await knex('stages').where({

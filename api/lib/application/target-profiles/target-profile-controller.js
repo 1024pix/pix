@@ -80,11 +80,11 @@ const copyTargetProfile = withTransaction(async (request) => {
     targetProfileId: targetProfileIdToCopy,
   });
   await Promise.all([
-    await usecases.copyBadges({
+    await usecases.copyTargetProfileBadges({
       originTargetProfileId: targetProfileIdToCopy,
       destinationTargetProfileId: copiedTargetProfileId,
     }),
-    await usecases.copyStages({
+    await usecases.copyTargetProfileStages({
       originTargetProfileId: targetProfileIdToCopy,
       destinationTargetProfileId: copiedTargetProfileId,
     }),

@@ -1,5 +1,5 @@
 import { SCOPES } from '../../../../lib/domain/models/BadgeDetails.js';
-import { copyBadges } from '../../../../lib/domain/usecases/copy-badges.js';
+import { copyTargetProfileBadges } from '../../../../lib/domain/usecases/copy-target-profile-badges.js';
 import * as badgeCriteriaRepository from '../../../../src/evaluation/infrastructure/repositories/badge-criteria-repository.js';
 import * as badgeRepository from '../../../../src/evaluation/infrastructure/repositories/badge-repository.js';
 import { DomainTransaction } from '../../../../src/shared/domain/DomainTransaction.js';
@@ -32,7 +32,7 @@ describe('Integration | UseCases | copy-badges', function () {
 
       // when
       const domainTransaction = DomainTransaction.getConnection();
-      await copyBadges({
+      await copyTargetProfileBadges({
         originTargetProfileId,
         destinationTargetProfileId,
         domainTransaction,
@@ -86,7 +86,7 @@ describe('Integration | UseCases | copy-badges', function () {
 
       // when
       const domainTransaction = DomainTransaction.getConnection();
-      await copyBadges({
+      await copyTargetProfileBadges({
         originTargetProfileId,
         destinationTargetProfileId,
         domainTransaction,
@@ -119,7 +119,7 @@ describe('Integration | UseCases | copy-badges', function () {
 
       // when
       await DomainTransaction.execute(async (domainTransaction) => {
-        error = await catchErr(copyBadges)({
+        error = await catchErr(copyTargetProfileBadges)({
           originTargetProfileId: originTargetProfile.id,
           destinationTargetProfileId,
           domainTransaction,

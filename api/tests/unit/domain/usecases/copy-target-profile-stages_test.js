@@ -1,4 +1,4 @@
-import { copyStages } from '../../../../lib/domain/usecases/copy-stages.js';
+import { copyTargetProfileStages } from '../../../../lib/domain/usecases/copy-target-profile-stages.js';
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | copy-stages', function () {
@@ -30,7 +30,7 @@ describe('Unit | UseCase | copy-stages', function () {
     stageRepositoryStub.saveAll.withArgs([stage1, stage2]).resolves();
 
     // when
-    await copyStages({
+    await copyTargetProfileStages({
       originTargetProfileId,
       destinationTargetProfileId,
       stageRepository: stageRepositoryStub,
