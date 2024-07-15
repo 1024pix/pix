@@ -35,7 +35,7 @@
         "grainId": "e52da884-2233-4101-96a5-befd5c7d7975"
     },
     {
-      "content":"<p> Vous avez sûrement constaté des écarts de résultats entre différents LLM.<br>Cela s'explique en partie par le fait qu'ils sont développés par différents acteurs et selon des logiques de déploiement distinctes. Explications avec ce schéma.<span aria-hidden=\"true\">&nbsp;🔍</span></p>",
+      "content":"<p> Vous avez sûrement constaté des écarts de résultats entre différents LLM.<br>Cela s'explique en partie par le fait qu'ils sont développés par différents acteurs et selon des logiques de déploiement distinctes. Explications en image.<span aria-hidden=\"true\">&nbsp;🔍</span></p>",
       "grainId": "018ad06a-f11c-4db3-b954-ac8a6466d947"
     },
     {
@@ -187,7 +187,7 @@
           "element": {
             "id": "be70c1be-d6d1-4b6e-bcee-de1ab8859ee0",
             "type": "text",
-            "content": "<p>Pour chaque situation, choisissez la cause principale de ces résultats biaisés.</p>"
+            "content": "<p>Pour chaque situation, choisissez la cause principale des résultats biaisés.</p>"
           }
         },
         {
@@ -436,7 +436,7 @@
           {
             "id": "ec182563-1090-4794-8a5f-e179d244fa3e",
             "type": "text",
-            "content": "<p>Étudiez ce schéma qui classe les principaux LLM selon deux aspects : leur <strong>provenance</strong> et la <strong>licence</strong> de leur code.<br>Par la suite, vous utiliserez l'arène pour répondre à des questions sur ces aspects.</p>"
+            "content": "<p>Étudiez le schéma suivant qui classe les principaux LLM selon deux aspects : leur <strong>provenance</strong> et la <strong>licence</strong> de leur code.<br>Par la suite, vous utiliserez l'arène pour répondre à des questions sur ces aspects.</p>"
           }
         },
         {
