@@ -1,7 +1,7 @@
-import { findComplementaryCertifications } from '../../../../lib/domain/usecases/find-complementary-certifications.js';
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { findComplementaryCertifications } from '../../../../../../src/certification/configuration/domain/usecases/find-complementary-certifications.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | UseCase | find-complementary-certifications', function () {
+describe('Certification | Configuration | Unit | UseCase | find-complementary-certifications', function () {
   let complementaryCertificationRepository;
 
   beforeEach(function () {
