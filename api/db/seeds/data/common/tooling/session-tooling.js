@@ -888,10 +888,10 @@ async function _makeCandidatesCoreCertifiable(databaseBuilder, certificationCand
     const orderedSkills = _.sortBy(skills, 'level').filter(({ level }) => level <= maxLevel);
     for (const skill of orderedSkills) {
       const challenge = await learningContent.findFirstValidatedChallengeBySkillId(skill.id);
-      if (!challenge){
+      if (!challenge) {
         continue;
       }
-      
+
       coreProfileData[competence.id].threeMostDifficultSkillsAndChallenges.push({ challenge, skill });
       assessmentAndUserIds.forEach(({ assessmentId, userId }) => {
         const answerId = databaseBuilder.factory.buildAnswer({

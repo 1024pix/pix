@@ -125,6 +125,10 @@ async function _getAnswersAndKnowledgeElementsForProfile({
     let currentPixScore = 0;
     for (const skill of orderedSkills) {
       const challenge = await learningContent.findFirstValidatedChallengeBySkillId(skill.id);
+      if (!challenge) {
+        continue;
+      }
+
       const answerData = {
         value: 'dummy value',
         result: 'ok',

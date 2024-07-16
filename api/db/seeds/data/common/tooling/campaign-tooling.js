@@ -629,6 +629,10 @@ async function _getKnowledgeElementFromSkills(skills, validatedSkill = 0) {
     const isOk = i < validatedSkill;
 
     const challenge = await learningContent.findFirstValidatedChallengeBySkillId(skill.id);
+    if (!challenge) {
+      continue;
+    }
+
     const answerData = {
       value: 'dummy value',
       result: isOk ? 'ok' : 'ko',
