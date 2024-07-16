@@ -2,6 +2,8 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import * as certificationCenterMembershipRepository from '../../../../../lib/infrastructure/repositories/certification-center-membership-repository.js';
+import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as attendanceSheetPdfUtils from '../../../enrolment/infrastructure/utils/pdf/attendance-sheet-pdf.js';
@@ -25,6 +27,9 @@ import * as sessionValidator from '../validators/session-validator.js';
  * @typedef {import('../../infrastructure/repositories/index.js').CenterRepository} CenterRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CountryRepository} CountryRepository
  * @typedef {import('../../infrastructure/repositories/index.js').ScoCertificationCandidateRepository} ScoCertificationCandidateRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').OrganizationLearnerRepository} OrganizationLearnerRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').OrganizationRepository} OrganizationRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').CertificationCenterMembershipRepository} CertificationCenterMembershipRepository
  * @typedef {import('../validators/session-validator.js')} SessionValidator
  * @typedef {import('../services/certification-cpf-service.js')} CertificationCpfService
  * @typedef {import('../../infrastructure/utils/pdf/attendance-sheet-pdf.js')} AttendanceSheetPdfUtils
@@ -46,7 +51,10 @@ import * as sessionValidator from '../validators/session-validator.js';
  * @typedef {CertificationCenterRepository} CertificationCenterRepository
  * @typedef {SessionForAttendanceSheetRepository} SessionForAttendanceSheetRepository
  * @typedef {CountryRepository} CountryRepository
+ * @typedef {OrganizationLearnerRepository} OrganizationLearnerRepository
+ * @typedef {OrganizationRepository} OrganizationRepository
  * @typedef {ScoCertificationCandidateRepository} ScoCertificationCandidateRepository
+ * @typedef {CertificationCenterMembershipRepository} CertificationCenterMembershipRepository
  * @typedef {certificationCpfService} CertificationCpfService
  * @typedef {SessionForInvigilatorKitRepository} SessionForInvigilatorKitRepository
  * @typedef {TemporarySessionsStorageForMassImportService} TemporarySessionsStorageForMassImportService
@@ -63,6 +71,8 @@ const dependencies = {
   attendanceSheetPdfUtils,
   certificationCpfService,
   temporaryCompanionStorageService,
+  certificationCenterMembershipRepository,
+  organizationRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

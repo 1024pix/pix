@@ -1,3 +1,4 @@
+import * as organizationLearnerRepository from '../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as complementaryCertificationApi from '../../../complementary-certification/application/api/complementary-certification-api.js';
 import * as sessionManagementRepository from '../../../session-management/infrastructure/repositories/session-repository.js';
@@ -28,6 +29,7 @@ import * as sessionRepository from './session-repository.js';
  * @typedef {sessionManagementRepository} SessionManagementRepository
  * @typedef {countryRepository} CountryRepository
  * @typedef {scoCertificationCandidateRepository} ScoCertificationCandidateRepository
+ * @typedef {organizationLearnerRepository} OrganizationLearnerRepository
  */
 const repositoriesWithoutInjectedDependencies = {
   candidateRepository,
@@ -42,6 +44,7 @@ const repositoriesWithoutInjectedDependencies = {
   sessionForAttendanceSheetRepository,
   sessionManagementRepository,
   sessionRepository,
+  organizationLearnerRepository,
 };
 
 /**
