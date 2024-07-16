@@ -12,20 +12,19 @@ const skillValidationObject = Joi.object({
   name: Joi.string().required(),
 });
 
-const securityPreHandlersRoleChecks = [
-  securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-  securityPreHandlers.checkAdminMemberHasRoleSupport,
-  securityPreHandlers.checkAdminMemberHasRoleMetier,
-  securityPreHandlers.checkAdminMemberHasRoleCertif,
-];
-
 const getNextChallengeRoute = {
   method: 'POST',
   path: '/api/admin/smart-random-simulator/get-next-challenge',
   config: {
     pre: [
       {
-        method: (request, h) => securityPreHandlers.hasAtLeastOneAccessOf(securityPreHandlersRoleChecks)(request, h),
+        method: (request, h) =>
+          securityPreHandlers.hasAtLeastOneAccessOf([
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleCertif,
+          ])(request, h),
         assign: 'hasAuthorizationToAccessAdminScope',
       },
     ],
@@ -109,7 +108,11 @@ const getCampaignParametersRoute = {
   config: {
     pre: [
       {
-        method: (request, h) => securityPreHandlers.hasAtLeastOneAccessOf(securityPreHandlersRoleChecks)(request, h),
+        method: (request, h) =>
+          securityPreHandlers.hasAtLeastOneAccessOf([securityPreHandlers.checkAdminMemberHasRoleSuperAdmin])(
+            request,
+            h,
+          ),
         assign: 'hasAuthorizationToAccessAdminScope',
       },
     ],
