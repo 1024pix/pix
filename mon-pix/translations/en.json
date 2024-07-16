@@ -170,123 +170,123 @@
   "pages": {
     "account-recovery": {
       "errors": {
-        "title": "Oups, une erreur est survenue !",
-        "account-exists": "Un compte existe déjà avec cette adresse e-mail.",
-        "key-expired": "Le lien de récupération est expiré, ",
-        "key-expired-renew-demand-link": "renouvelez votre demande ici.",
-        "key-invalid": "Le lien de récupération n’existe pas.",
-        "key-used": "Ce compte a déjà été récupéré."
+        "title": "Oops, there's been a mistake!",
+        "account-exists": "An account already exists with this e-mail address.",
+        "key-expired": "The recovery link has expired, ",
+        "key-expired-renew-demand-link": "renew your request here.",
+        "key-invalid": "The recovery link does not exist.",
+        "key-used": "This account has already been recovered."
       },
       "find-sco-record": {
-        "title": "Récupérer mon compte",
+        "title": "Recover my account",
         "backup-email-confirmation": {
-          "ask-for-new-email-message": "sinon fournissez en une nouvelle",
-          "email-already-exist-for-account-message": "L’adresse e-mail ci-dessous est déjà associée à votre compte :",
-          "email-is-needed-message": "{ firstName }, nous avons besoin de votre adresse e-mail",
-          "email-is-valid-message": "Si elle est valide,",
-          "email-reset-message": "réinitialisez votre mot de passe",
-          "email-sent-to-choose-password-message": "Nous vous enverrons un e-mail afin de choisir un mot de passe.",
+          "ask-for-new-email-message": "or provide a new one",
+          "email-already-exist-for-account-message": "The e-mail address below is already associated with your account:",
+          "email-is-needed-message": "{ firstName }, we need your e-mail address",
+          "email-is-valid-message": "If it's valid,",
+          "email-reset-message": "reset your password",
+          "email-sent-to-choose-password-message": "We will send you an e-mail to choose a password.",
           "form": {
             "actions": {
-              "cancel": "Annuler",
-              "submit": "C'est parti"
+              "cancel": "Cancel",
+              "submit": "Let's get started"
             },
-            "email": "Votre adresse e-mail",
+            "email": "Your e-mail address",
             "error": {
               "email-already-exist": {
-                "existing-email": "Vous possédez déjà cette adresse e-mail. Si elle est valide,",
-                "init-password": " réinitialisez votre mot de passe",
-                "new-email": ", sinon saisissez une nouvelle."
+                "existing-email": "You already have this e-mail address. If it is valid,",
+                "init-password": " reset your password",
+                "new-email": ",if not, enter a new one."
               },
-              "empty-email": "Le champ adresse e-mail est obligatoire.",
-              "new-backup-email": "Veuillez saisir un e-mail valide pour récupérer votre compte",
-              "new-email-already-exist": "Cette adresse e-mail est déjà utilisée",
-              "wrong-email-format": "Votre adresse e-mail n’est pas valide."
+              "empty-email": "The e-mail address field is mandatory.",
+              "new-backup-email": "Please enter a valid e-mail address to recover your account",
+              "new-email-already-exist": "This e-mail address is already in use",
+              "wrong-email-format": "Your e-mail address is invalid."
             }
           }
         },
         "confirmation-step": {
           "buttons": {
-            "cancel": "Annuler",
-            "confirm": "Je confirme"
+            "cancel": "Cancel",
+            "confirm": "I confirm"
           },
-          "certify-account": "J’atteste sur l’honneur que le compte associé à ces données m’appartient.",
-          "contact-support": "Si vous constatez une erreur ou si ces données ne sont pas les vôtres, ",
+          "certify-account": "I certify on my honour that the account associated with these details belongs to me.",
+          "contact-support": "If you notice an error or if these data are not yours, ",
           "fields": {
-            "first-name": "Votre prénom",
-            "last-name": "Votre nom",
-            "latest-organization-name": "Votre dernier établissement",
-            "username": "Votre identifiant"
+            "first-name": "Your first name",
+            "last-name": "Your name",
+            "latest-organization-name": "Your last establishment",
+            "username": "Your login"
           },
-          "found-account": "Nous avons trouvé votre compte :",
-          "good-news": "Bonne nouvelle { firstName } !"
+          "found-account": "We've found your account:",
+          "good-news": "Good news { firstName } !"
         },
         "conflict": {
-          "title": "Conflit",
-          "found-you-but": "{ firstName }, on vous a retrouvé mais ...",
-          "warning": "Par précaution nous devons vérifier vos données ensemble."
+          "title": "Conflict",
+          "found-you-but": "{ firstName }, we found you but ...",
+          "warning": "As a precaution, we need to check your details together."
         },
         "contact-support": {
-          "link-text": "contactez le support.",
+          "link-text": "contact support.",
           "link-url": "https://pix.fr/support/form/aide-recuperer-mon-compte"
         },
         "send-email-confirmation": {
-          "title": "Récupération de votre compte Pix",
-          "check-spam": "Si vous ne voyez pas cet e-mail, vérifiez vos courriers indésirables.",
-          "return": "Retour",
-          "send-email": "Nous venons de vous adresser un mail qui vous permettra de choisir un mot de passe. Vous pouvez consulter dès maintenant votre messagerie."
+          "title": "Recovering your Pix account",
+          "check-spam": "If you don't see this e-mail, check your spam folder.",
+          "return": "Back",
+          "send-email": "We have just sent you an email to enable you to choose a password. You can now check your mailbox."
         },
         "student-information": {
-          "title": "Vous avez quitté le système scolaire et vous souhaitez récupérer votre accès à Pix",
+          "title": "You have left the school system and would like to regain access to Pix",
           "errors": {
-            "empty-first-name": "Le champ prénom est obligatoire.",
-            "empty-ine-ina": "Le champ INE est obligatoire.",
-            "empty-last-name": "Le champ nom est obligatoire.",
-            "invalid-ine-ina-format": "Le champ INE n'est pas au bon format.",
-            "not-found": "Pix ne reconnait pas vos données. Vérifiez qu'elles sont exactes, sinon "
+            "empty-first-name": "The first name field is mandatory.",
+            "empty-ine-ina": "The INE field is mandatory.",
+            "empty-last-name": "The name field is mandatory.",
+            "invalid-ine-ina-format": "The INE field is in the wrong format.",
+            "not-found": "Pix does not recognise your data. Please check that they are correct, otherwise "
           },
           "form": {
-            "birthdate": "Date de naissance",
-            "first-name": "Prénom",
-            "ine-ina": "INE (Identifiant National Élève)",
+            "birthdate": "Birth date",
+            "first-name": "First Name",
+            "ine-ina": "INE (Student National ID)",
             "label": {
-              "birth-day": "jour de naissance",
-              "birth-month": "mois de naissance",
-              "birth-year": "année de naissance"
+              "birth-day": "birth date",
+              "birth-month": "birth month",
+              "birth-year": "birth year"
             },
-            "last-name": "Nom",
+            "last-name": "Last name",
             "placeholder": {
               "birth-day": "JJ",
               "birth-month": "MM",
               "birth-year": "AAAA"
             },
-            "submit": "Retrouvez-moi !",
-            "tooltip": "<strong>Où trouver mon INE ?</strong> <p>Cet identifiant se trouve le plus souvent sur le bulletin scolaire, sinon votre ancien établissement peut vous le fournir.</p>"
+            "submit": "Find me!",
+            "tooltip": "<strong>Where to find my INE ?</strong> <p>This identifier can usually be found on the school report, or your former school can provide it.</p>"
           },
-          "mandatory-all-fields": "Tous les champs sont obligatoires.",
+          "mandatory-all-fields": "All fields are mandatory.",
           "subtitle": {
-            "link": "réinitialisez votre mot de passe ici.",
-            "text": "Si vous possédez un compte avec une adresse e-mail valide, "
+            "link": "reset your password here.",
+            "text": "If you have an account with a valid e-mail address, "
           }
         }
       },
       "support": {
-        "recover": " pour obtenir une assistance.",
+        "recover": " for assistance.",
         "url": "https://support.pix.org/fr/support/tickets/new",
-        "url-text": "Contactez le support"
+        "url-text": "Contact our support"
       },
       "update-sco-record": {
-        "fill-password": "Saisissez un mot de passe et Pix est à vous !",
+        "fill-password": "Enter your password and Pix is yours !",
         "form": {
-          "email-label": "Adresse e-mail",
+          "email-label": "E-mail address",
           "errors": {
-            "empty-password": "Le champ mot de passe est obligatoire.",
-            "invalid-password": "Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre."
+            "empty-password": "The password field is mandatory.",
+            "invalid-password": "Your password must be at least 8 characters long and contain at least one upper case letter, one lower case letter and one number."
           },
-          "login-button": "Je me connecte",
-          "password-label": "Mot de passe"
+          "login-button": "I want to connect",
+          "password-label": "Password"
         },
-        "welcome-message": "Bon retour parmi nous { firstName } !"
+        "welcome-message": "Welcome back { firstName } !"
       }
     },
     "assessment-banner": {
