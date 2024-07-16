@@ -82,7 +82,6 @@
     "ember-cli-clipboard": "^1.0.0",
     "ember-cli-dependency-checker": "^3.3.1",
     "ember-cli-deprecation-workflow": "^2.2.0",
-    "ember-cli-head": "^2.0.0",
     "ember-cli-htmlbars": "^6.1.1",
     "ember-cli-inject-live-reload": "^2.1.0",
     "ember-cli-mirage": "^3.0.3",
