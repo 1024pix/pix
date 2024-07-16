@@ -40,6 +40,7 @@ class CommonCsvLearnerParser {
 
     // compute support_enconding
     this.#supportedEncodings = importFormat.config.acceptedEncoding;
+    this.#supportedEncodings.sort((encoding) => (encoding === 'utf8' ? -1 : 1));
   }
 
   static buildParser() {
