@@ -28,7 +28,7 @@ export default class Url extends Service {
 
     switch (currentLanguage) {
       case ENGLISH_INTERNATIONAL_LOCALE:
-        return 'https://pix.org/en-gb/terms-and-conditions';
+        return 'https://pix.org/en/terms-and-conditions';
       case DUTCH_INTERNATIONAL_LOCALE:
         return 'https://pix.org/nl-be/algemene-gebruiksvoorwaarden';
       default:
@@ -62,7 +62,7 @@ export default class Url extends Service {
 
     switch (currentLanguage) {
       case ENGLISH_INTERNATIONAL_LOCALE:
-        return 'https://pix.org/en-gb/personal-data-protection-policy';
+        return 'https://pix.org/en/personal-data-protection-policy';
       case DUTCH_INTERNATIONAL_LOCALE:
         return 'https://pix.org/nl-be/beleid-inzake-de-bescherming-van-persoonsgegevens';
       default:
@@ -79,7 +79,7 @@ export default class Url extends Service {
 
     switch (currentLanguage) {
       case ENGLISH_INTERNATIONAL_LOCALE:
-        return 'https://pix.org/en-gb/accessibility';
+        return 'https://pix.org/en/accessibility';
       case DUTCH_INTERNATIONAL_LOCALE:
         return 'https://pix.org/nl-be/toegankelijkheid';
       default:
@@ -90,7 +90,7 @@ export default class Url extends Service {
   get accessibilityHelpUrl() {
     const currentLanguage = this.intl.primaryLocale;
     if (currentLanguage === ENGLISH_INTERNATIONAL_LOCALE) {
-      return `https://pix.${this.currentDomain.getExtension()}/en-gb/help-accessibility`;
+      return `https://pix.${this.currentDomain.getExtension()}/en/help-accessibility`;
     }
     return `https://pix.${this.currentDomain.getExtension()}/aide-accessibilite`;
   }
@@ -125,7 +125,7 @@ export default class Url extends Service {
     const currentLanguage = this.intl.primaryLocale;
 
     if (currentLanguage === ENGLISH_INTERNATIONAL_LOCALE) {
-      return `https://pix.${this.currentDomain.getExtension()}/en-gb`;
+      return `https://pix.${this.currentDomain.getExtension()}/en`;
     }
     return `https://pix.${this.currentDomain.getExtension()}`;
   }
