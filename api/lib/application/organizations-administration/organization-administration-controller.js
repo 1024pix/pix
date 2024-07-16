@@ -1,6 +1,6 @@
+import { organizationForAdminSerializer } from '../../../src/organizational-entities/infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin.serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
-import * as organizationForAdminSerializer from '../../infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin-serializer.js';
 
 const getOrganizationDetails = async function (request, h, dependencies = { organizationForAdminSerializer }) {
   const organizationId = request.params.id;

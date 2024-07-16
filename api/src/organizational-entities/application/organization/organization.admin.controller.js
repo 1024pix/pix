@@ -1,4 +1,5 @@
 import { usecases } from '../../domain/usecases/index.js';
+import { organizationForAdminSerializer } from '../../infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin.serializer.js';
 
 const attachChildOrganization = async function (request, h) {
   const { childOrganizationId } = request.payload;

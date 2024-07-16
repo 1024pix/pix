@@ -1,4 +1,5 @@
 import * as organizationSerializer from '../../../src/organizational-entities/infrastructure/serializers/jsonapi/organization-serializer.js';
+import { organizationForAdminSerializer } from '../../../src/organizational-entities/infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin.serializer.js';
 import * as divisionSerializer from '../../../src/prescription/campaign/infrastructure/serializers/jsonapi/division-serializer.js';
 import {
   extractLocaleFromRequest,
@@ -9,7 +10,6 @@ import { usecases } from '../../domain/usecases/index.js';
 import * as csvSerializer from '../../infrastructure/serializers/csv/csv-serializer.js';
 import * as membershipSerializer from '../../infrastructure/serializers/jsonapi/membership-serializer.js';
 import * as organizationMemberIdentitySerializer from '../../infrastructure/serializers/jsonapi/organization-member-identity-serializer.js';
-import * as organizationForAdminSerializer from '../../infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin-serializer.js';
 import * as targetProfileSummaryForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 
 const create = async function (request) {
