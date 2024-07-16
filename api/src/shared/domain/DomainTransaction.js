@@ -34,7 +34,7 @@ class DomainTransaction {
 /**
  * @template F
  * @param {F} func
- * @param {import('knex').Knex.TransactionConfig | undefined} transactionConfig
+ * @param {import('knex').Knex.TransactionConfig=} transactionConfig
  * @returns {F}
  */
 function withTransaction(func, transactionConfig) {

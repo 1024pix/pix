@@ -12,7 +12,7 @@ import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTrans
 import { BookshelfCertificationCandidate } from '../../../../../lib/infrastructure/orm-models/CertificationCandidate.js';
 import * as bookshelfToDomainConverter from '../../../../../lib/infrastructure/utils/bookshelf-to-domain-converter.js';
 import { normalize } from '../../../../shared/infrastructure/utils/string-utils.js';
-import { CertificationCandidateCompanion } from '../../domain/models/CertificationCandidateCompanion.js';
+import { CompanionPingInfo } from '../../domain/models/CompanionPingInfo.js';
 import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
 import { Subscription } from '../../domain/models/Subscription.js';
 
@@ -153,13 +153,28 @@ const getWithComplementaryCertification = async function (id) {
   return _toDomain(candidateData);
 };
 
-const findCertificationCandidateCompanionInfoByUserId = async function ({ userId }) {
-  const result = await knex.select('sessionId', 'id').from('certification-candidates').where({ userId }).first();
-  if (!result) {
-    throw new NotFoundError(`User ${userId} is not found in a certification's session`);
+const findCompanionPingInfoByUserId = async function ({ userId }) {
+  const knexConn = DomainTransaction.getConnection();
+
+  const latestCertificationCourse = await knexConn
+    .select('sessionId', 'completedAt', 'endedAt')
+    .from('certification-courses')
+    .where({ userId })
+    .orderBy('createdAt', 'desc')
+    .first();
+
+  if (latestCertificationCourse && !latestCertificationCourse.completedAt && !latestCertificationCourse.endedAt) {
+    const { sessionId } = latestCertificationCourse;
+    const { id: certificationCandidateId } = await knexConn
+      .select('id')
+      .from('certification-candidates')
+      .where({ sessionId, userId })
+      .first();
+
+    return new CompanionPingInfo({ sessionId, certificationCandidateId });
   }
 
-  return new CertificationCandidateCompanion(result);
+  throw new NotFoundError(`User ${userId} is not in a certification’s session`);
 };
 
 export {
@@ -167,7 +182,7 @@ export {
   doesLinkedCertificationCandidateInSessionExist,
   findBySessionId,
   findBySessionIdAndPersonalInfo,
-  findCertificationCandidateCompanionInfoByUserId,
+  findCompanionPingInfoByUserId,
   findOneBySessionIdAndUserId,
   getBySessionIdAndUserId,
   getWithComplementaryCertification,

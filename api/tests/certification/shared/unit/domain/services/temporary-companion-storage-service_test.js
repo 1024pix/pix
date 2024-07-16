@@ -13,7 +13,7 @@ describe('Unit | Domain | Services | temporary companion storage service', funct
       temporaryStorage.withPrefix.returns({ save });
 
       // when
-      await temporaryCompanionStorageService.save({ sessionId: 11, id: 123 });
+      await temporaryCompanionStorageService.save({ sessionId: 11, certificationCandidateId: 123 });
 
       // then
       expect(save).to.have.been.calledWith({

@@ -4,7 +4,7 @@ import {
   CertificationCandidateMultipleUserLinksWithinSessionError,
   NotFoundError,
 } from '../../../../../../lib/domain/errors.js';
-import { CertificationCandidateCompanion } from '../../../../../../src/certification/enrolment/domain/models/CertificationCandidateCompanion.js';
+import { CompanionPingInfo } from '../../../../../../src/certification/enrolment/domain/models/CompanionPingInfo.js';
 import * as certificationCandidateRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/certification-candidate-repository.js';
 import { ComplementaryCertification } from '../../../../../../src/certification/session-management/domain/models/ComplementaryCertification.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
@@ -890,44 +890,157 @@ describe('Integration | Repository | CertificationCandidate', function () {
     });
   });
 
-  describe('#findCertificationCandidateCompanionInfoByUserId', function () {
-    context('where the user has joined a session', function () {
-      it('should return candidate info', async function () {
-        // given
-        const userId = 99;
-        const sessionId = 49;
-        const candidateId = 80;
-        databaseBuilder.factory.buildUser({ id: userId });
-        databaseBuilder.factory.buildSession({ id: sessionId });
-        databaseBuilder.factory.buildCertificationCandidate({ id: candidateId, userId, sessionId });
-        await databaseBuilder.commit();
+  describe('#findCompanionPingInfoByUserId', function () {
+    const userId = 99;
 
-        // when
-        const companionPingInfo =
-          await certificationCandidateRepository.findCertificationCandidateCompanionInfoByUserId({
+    beforeEach(async function () {
+      databaseBuilder.factory.buildUser({ id: userId });
+
+      await databaseBuilder.commit();
+    });
+
+    context('when the user has certification courses', function () {
+      beforeEach(async function () {
+        // completed session
+        const completedSessionId = 66;
+        databaseBuilder.factory.buildSession({ id: completedSessionId });
+        databaseBuilder.factory.buildCertificationCandidate({ id: 66, userId, sessionId: completedSessionId });
+        databaseBuilder.factory.buildCertificationCourse({
+          id: 66,
+          userId,
+          sessionId: completedSessionId,
+          createdAt: new Date('2024-07-06'),
+          endedAt: null,
+          completedAt: new Date('2024-07-06'),
+        });
+
+        // ended session
+        const endedSessionId = 77;
+        databaseBuilder.factory.buildSession({ id: endedSessionId });
+        databaseBuilder.factory.buildCertificationCandidate({ id: 77, userId, sessionId: endedSessionId });
+        databaseBuilder.factory.buildCertificationCourse({
+          id: 77,
+          userId,
+          sessionId: endedSessionId,
+          createdAt: new Date('2024-07-08'),
+          endedAt: new Date('2024-07-08'),
+          completedAt: null,
+        });
+
+        // never completed session
+        const neverCompletedOrEndedSessionId = 88;
+        databaseBuilder.factory.buildSession({ id: neverCompletedOrEndedSessionId });
+        databaseBuilder.factory.buildCertificationCandidate({
+          id: 88,
+          userId,
+          sessionId: neverCompletedOrEndedSessionId,
+        });
+        databaseBuilder.factory.buildCertificationCourse({
+          id: 88,
+          userId,
+          sessionId: neverCompletedOrEndedSessionId,
+          createdAt: new Date('2024-07-10'),
+          endedAt: null,
+          completedAt: null,
+        });
+
+        await databaseBuilder.commit();
+      });
+
+      const sessionId = 99;
+      const certificationCandidateId = 999;
+
+      context('when last certification course is ended', function () {
+        it('should throw a NotFoundError', async function () {
+          // given
+          databaseBuilder.factory.buildSession({ id: sessionId });
+          databaseBuilder.factory.buildCertificationCandidate({ id: certificationCandidateId, userId, sessionId });
+          databaseBuilder.factory.buildCertificationCourse({
+            id: 99,
+            userId,
+            sessionId,
+            createdAt: new Date('2024-07-12'),
+            endedAt: new Date('2024-07-12'),
+            completedAt: null,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const error = await catchErr(certificationCandidateRepository.findCompanionPingInfoByUserId)({
             userId,
           });
 
-        // then
-        expect(companionPingInfo).deepEqualInstance(
-          new CertificationCandidateCompanion({ sessionId, id: candidateId }),
-        );
+          // then
+          expect(error).to.be.instanceOf(NotFoundError);
+          expect(error.message).to.equal(`User ${userId} is not in a certification’s session`);
+        });
+      });
+
+      context('when last certification course is completed', function () {
+        it('should throw a NotFoundError', async function () {
+          // given
+          databaseBuilder.factory.buildSession({ id: sessionId });
+          databaseBuilder.factory.buildCertificationCandidate({ id: certificationCandidateId, userId, sessionId });
+          databaseBuilder.factory.buildCertificationCourse({
+            id: 99,
+            userId,
+            sessionId,
+            createdAt: new Date('2024-07-12'),
+            endedAt: null,
+            completedAt: new Date('2024-07-12'),
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const error = await catchErr(certificationCandidateRepository.findCompanionPingInfoByUserId)({
+            userId,
+          });
+
+          // then
+          expect(error).to.be.instanceOf(NotFoundError);
+          expect(error.message).to.equal(`User ${userId} is not in a certification’s session`);
+        });
+      });
+
+      context('when last certification course is neither ended nor completed', function () {
+        it('should return companion ping info', async function () {
+          // given
+          databaseBuilder.factory.buildSession({ id: sessionId });
+          databaseBuilder.factory.buildCertificationCandidate({ id: certificationCandidateId, userId, sessionId });
+          databaseBuilder.factory.buildCertificationCourse({
+            id: 99,
+            userId,
+            sessionId,
+            createdAt: new Date('2024-07-12'),
+            endedAt: null,
+            completedAt: null,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const companionPingInfo = await certificationCandidateRepository.findCompanionPingInfoByUserId({
+            userId,
+          });
+
+          // then
+          expect(companionPingInfo).deepEqualInstance(new CompanionPingInfo({ sessionId, certificationCandidateId }));
+        });
       });
     });
 
-    context('where the user has not joined a session', function () {
+    context('where the user isn’t currently in a session', function () {
       it('should throw a NotFoundError', async function () {
         // given
-        const userId = 99;
+        databaseBuilder.factory.buildCertificationCandidate({ id: 66, userId, sessionId: 666 });
 
         // when
-        const error = await catchErr(certificationCandidateRepository.findCertificationCandidateCompanionInfoByUserId)({
+        const error = await catchErr(certificationCandidateRepository.findCompanionPingInfoByUserId)({
           userId,
         });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
-        expect(error.message).to.equal(`User 99 is not found in a certification's session`);
+        expect(error.message).to.equal(`User ${userId} is not in a certification’s session`);
       });
     });
   });
