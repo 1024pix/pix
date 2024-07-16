@@ -218,7 +218,7 @@
                     },
                     {
                       "id": "2",
-                      "content": "Le LLM s'est basé sur la langue de la question qu'il a reçue."
+                      "content": "Le LLM a été entraîné avec des données où le Québec est sous-représenté."
                     },
                     {
                       "id": "3",
