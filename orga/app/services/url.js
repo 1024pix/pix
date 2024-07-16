@@ -2,9 +2,12 @@ import Service, { inject as service } from '@ember/service';
 import ENV from 'pix-orga/config/environment';
 
 const FRENCH_LOCALE = 'fr';
+const ENGLISH_LOCALE = 'en';
+const DUTCH_LOCALE = 'nl';
 const PIX_FR_DOMAIN = 'https://pix.fr';
 const PIX_ORG_DOMAIN_FR_LOCALE = 'https://pix.org/fr';
 const PIX_ORG_DOMAIN_EN_LOCALE = 'https://pix.org/en-gb';
+const PIX_ORG_DOMAIN_NL_LOCALE = 'https://pix.org/nl-be';
 const PIX_STATUS_DOMAIN = 'https://status.pix.org';
 
 export default class Url extends Service {
@@ -16,6 +19,7 @@ export default class Url extends Service {
     ACCESSIBILITY: {
       en: '/accessibility-pix-orga',
       fr: '/accessibilite-pix-orga',
+      nl: '/toegankelijkheid-pix-orga',
     },
     CGU: {
       en: '/terms-and-conditions',
@@ -24,10 +28,12 @@ export default class Url extends Service {
     DATA_PROTECTION_POLICY: {
       en: '/personal-data-protection-policy',
       fr: '/politique-protection-donnees-personnelles-app',
+      nl: '/beleid-inzake-de-bescherming-van-persoonsgegevens',
     },
     LEGAL_NOTICE: {
       en: '/legal-notice',
       fr: '/mentions-legales',
+      nl: '/wettelijke-vermeldingen',
     },
   };
 
@@ -48,8 +54,8 @@ export default class Url extends Service {
   }
 
   get legalNoticeUrl() {
-    const { en, fr } = this.SHOWCASE_WEBSITE_LOCALE_PATH.LEGAL_NOTICE;
-    return this._computeShowcaseWebsiteUrl({ en, fr });
+    const { en, fr, nl } = this.SHOWCASE_WEBSITE_LOCALE_PATH.LEGAL_NOTICE;
+    return this._computeShowcaseWebsiteUrl({ en, fr, nl });
   }
 
   get cguUrl() {
@@ -58,13 +64,13 @@ export default class Url extends Service {
   }
 
   get dataProtectionPolicyUrl() {
-    const { en, fr } = this.SHOWCASE_WEBSITE_LOCALE_PATH.DATA_PROTECTION_POLICY;
-    return this._computeShowcaseWebsiteUrl({ en, fr });
+    const { en, fr, nl } = this.SHOWCASE_WEBSITE_LOCALE_PATH.DATA_PROTECTION_POLICY;
+    return this._computeShowcaseWebsiteUrl({ en, fr, nl });
   }
 
   get accessibilityUrl() {
-    const { en, fr } = this.SHOWCASE_WEBSITE_LOCALE_PATH.ACCESSIBILITY;
-    return this._computeShowcaseWebsiteUrl({ en, fr });
+    const { en, fr, nl } = this.SHOWCASE_WEBSITE_LOCALE_PATH.ACCESSIBILITY;
+    return this._computeShowcaseWebsiteUrl({ en, fr, nl });
   }
 
   get serverStatusUrl() {
@@ -91,15 +97,22 @@ export default class Url extends Service {
     return `${this.currentDomain.getJuniorBaseUrl()}/schools/${schoolCode}`;
   }
 
-  _computeShowcaseWebsiteUrl({ en: englishPath, fr: frenchPath }) {
+  _computeShowcaseWebsiteUrl({ en: englishPath, fr: frenchPath, nl: dutchPath }) {
     const currentLanguage = this.intl.primaryLocale;
 
     if (this.currentDomain.isFranceDomain) {
       return `${PIX_FR_DOMAIN}${frenchPath}`;
     }
 
-    return currentLanguage === FRENCH_LOCALE
-      ? `${PIX_ORG_DOMAIN_FR_LOCALE}${frenchPath}`
-      : `${PIX_ORG_DOMAIN_EN_LOCALE}${englishPath}`;
+    switch (currentLanguage) {
+      case FRENCH_LOCALE:
+        return `${PIX_ORG_DOMAIN_FR_LOCALE}${frenchPath}`;
+      case ENGLISH_LOCALE:
+        return `${PIX_ORG_DOMAIN_EN_LOCALE}${englishPath}`;
+      case DUTCH_LOCALE:
+        return dutchPath ? `${PIX_ORG_DOMAIN_NL_LOCALE}${dutchPath}` : `${PIX_ORG_DOMAIN_EN_LOCALE}${englishPath}`;
+      default:
+        return 'https://pix.org/fr/mentions-legales';
+    }
   }
 }

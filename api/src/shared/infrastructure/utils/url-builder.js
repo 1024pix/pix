@@ -18,17 +18,26 @@ function getPixAppBaseUrl(locale) {
   return PIX_APP_DOMAIN_ORG;
 }
 
+/**
+ * @param {string} locale
+ * @param {string} campaignCode
+ * @returns {string|null} - Campaign URL according to the locale
+ */
 function getCampaignUrl(locale, campaignCode) {
   if (!campaignCode) {
     return null;
   }
-  if (locale === 'fr') {
-    return `${PIX_APP_DOMAIN_ORG}/campagnes/${campaignCode}/?lang=fr`;
+
+  switch (locale) {
+    case LOCALE.FRENCH_SPOKEN:
+      return `${PIX_APP_DOMAIN_ORG}/campagnes/${campaignCode}/?lang=fr`;
+    case LOCALE.ENGLISH_SPOKEN:
+      return `${PIX_APP_DOMAIN_ORG}/campagnes/${campaignCode}/?lang=en`;
+    case LOCALE.DUTCH_SPOKEN:
+      return `${PIX_APP_DOMAIN_ORG}/campagnes/${campaignCode}/?lang=nl`;
+    default:
+      return `${PIX_APP_DOMAIN_FR}/campagnes/${campaignCode}`;
   }
-  if (locale === 'en') {
-    return `${PIX_APP_DOMAIN_ORG}/campagnes/${campaignCode}/?lang=en`;
-  }
-  return `${PIX_APP_DOMAIN_FR}/campagnes/${campaignCode}`;
 }
 
 /**

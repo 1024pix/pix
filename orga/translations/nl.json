@@ -751,7 +751,7 @@
         }
       },
       "forgot-password": "Wachtwoord vergeten?",
-      "forgotten-password-url": "https://app.pix.fr/mot-de-passe-oublie",
+      "forgotten-password-url": "https://app.pix.org/mot-de-passe-oublie?lang=nl",
       "invitation-already-accepted": "Deze uitnodiging is al geaccepteerd. Log in of neem contact op met de beheerder van je Pix Orga-ruimte.",
       "invitation-was-cancelled": "Deze uitnodiging is niet langer geldig. Neem contact op met de beheerder van je Pix Orga-ruimte.",
       "is-only-accessible": "Toegang tot Pix Orga is beperkt tot uitgenodigde leden. Neem contact op met de Pix Orga-beheerder van je organisatie om je uit te nodigen.",
