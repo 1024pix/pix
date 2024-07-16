@@ -1,7 +1,9 @@
 'use strict';
 
 module.exports = {
-  root: true,
+  globals: {
+    server: true,
+  },
   parser: '@babel/eslint-parser',
   parserOptions: {
     requireConfigFile: false,
@@ -11,26 +13,39 @@ module.exports = {
       plugins: [['@babel/plugin-proposal-decorators', { decoratorsBeforeExport: true }]],
     },
   },
-  plugins: ['ember'],
-  extends: ['@1024pix', 'eslint:recommended', 'plugin:ember/recommended', 'plugin:prettier/recommended'],
+  plugins: ['ember', 'qunit'],
+  extends: ['@1024pix', 'plugin:ember/recommended', 'plugin:qunit/recommended', 'plugin:prettier/recommended'],
   env: {
     browser: true,
   },
-  rules: {},
+  rules: {
+    'no-restricted-imports': ['error', { paths: ['lodash'] }],
+    'no-irregular-whitespace': 'off',
+  },
   overrides: [
     // node files
     {
+      files: ['**/*.gjs'],
+      parser: 'ember-eslint-parser',
+      plugins: ['ember', 'qunit'],
+      extends: [
+        '@1024pix',
+        'plugin:ember/recommended',
+        'plugin:ember/recommended-gjs',
+        'plugin:qunit/recommended',
+        'plugin:prettier/recommended',
+      ],
+    },
+    {
       files: [
-        './.eslintrc.cjs',
-        './.prettierrc.js',
-        './.stylelintrc.js',
-        './.template-lintrc.js',
-        './ember-cli-build.js',
-        './testem.js',
-        './blueprints/*/index.js',
-        './config/**/*.js',
-        './lib/*/index.js',
-        './server/**/*.js',
+        '.eslintrc.cjs',
+        '.template-lintrc.js',
+        'ember-cli-build.js',
+        'testem.js',
+        'blueprints/*/index.js',
+        'config/**/*.js',
+        'lib/*/index.js',
+        'server/**/*.js',
       ],
       parserOptions: {
         sourceType: 'script',
@@ -40,11 +55,6 @@ module.exports = {
         node: true,
       },
       extends: ['plugin:n/recommended'],
-    },
-    {
-      // test files
-      files: ['tests/**/*-test.{js,ts}'],
-      extends: ['plugin:qunit/recommended'],
     },
   ],
 };
