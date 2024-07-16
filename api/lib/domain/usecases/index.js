@@ -7,6 +7,7 @@ import * as complementaryCertificationCourseRepository from '../../../src/certif
 import * as complementaryCertificationRepository from '../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-repository.js';
 import * as targetProfileHistoryRepository from '../../../src/certification/complementary-certification/infrastructure/repositories/target-profile-history-repository.js';
 import { endAssessmentBySupervisor } from '../../../src/certification/course/domain/usecases/end-assessment-by-supervisor.js';
+import { getOrganizationDetails } from '../../../src/organizational-entities/domain/usecases/get-organization-details.usecase.js';
 import { getNextChallengeForV2Certification } from '../../../src/certification/course/domain/usecases/get-next-challenge-for-v2-certification.js';
 import { getNextChallengeForV3Certification } from '../../../src/certification/course/domain/usecases/get-next-challenge-for-v3-certification.js';
 import * as certificationCpfService from '../../../src/certification/enrolment/domain/services/certification-cpf-service.js';
@@ -378,6 +379,7 @@ const usecasesWithoutInjectedDependencies = {
   ...(await importNamedExportsFromDirectory({ path: join(path, './stages') })),
   getNextChallengeForV2Certification,
   getNextChallengeForV3Certification,
+  getOrganizationDetails,
   getCenterForAdmin,
   endAssessmentBySupervisor,
 };
