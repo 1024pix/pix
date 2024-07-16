@@ -1,4 +1,3 @@
-import * as featureToggles from '../src/shared/application/feature-toggles/index.js';
 import * as adminMembers from './application/admin-members/index.js';
 import * as authentication from './application/authentication/index.js';
 import * as cache from './application/cache/index.js';
@@ -48,7 +47,6 @@ const routes = [
   certifications,
   complementaryCertificationCourseResults,
   countries,
-  featureToggles,
   healthcheck,
   lcms,
   memberships,
