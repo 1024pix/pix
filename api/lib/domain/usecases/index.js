@@ -154,7 +154,6 @@ import * as organizationTagRepository from '../../infrastructure/repositories/or
 import * as participantResultRepository from '../../infrastructure/repositories/participant-result-repository.js';
 import { participantResultsSharedRepository } from '../../infrastructure/repositories/participant-results-shared-repository.js';
 import * as poleEmploiSendingRepository from '../../infrastructure/repositories/pole-emploi-sending-repository.js';
-import * as scoCertificationCandidateRepository from '../../infrastructure/repositories/sco-certification-candidate-repository.js';
 import * as studentRepository from '../../infrastructure/repositories/student-repository.js';
 import * as tagRepository from '../../infrastructure/repositories/tag-repository.js';
 import * as targetProfileForUpdateRepository from '../../infrastructure/repositories/target-profile-for-update-repository.js';
@@ -319,7 +318,6 @@ const dependencies = {
   resetPasswordService,
   schoolRepository,
   scoAccountRecoveryService,
-  scoCertificationCandidateRepository,
   scorecardService,
   scoringCertificationService,
   sessionCodeService,

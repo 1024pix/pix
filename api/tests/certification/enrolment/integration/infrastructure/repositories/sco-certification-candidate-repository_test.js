@@ -1,9 +1,9 @@
 import _ from 'lodash';
 
-import * as scoCertificationCandidateRepository from '../../../../lib/infrastructure/repositories/sco-certification-candidate-repository.js';
-import { databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../test-helper.js';
+import * as scoCertificationCandidateRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/sco-certification-candidate-repository.js';
+import { databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../../../test-helper.js';
 
-describe('Integration | Repository | SCOCertificationCandidate', function () {
+describe('Certification | Enrolment | Integration | Repository | SCOCertificationCandidate', function () {
   describe('#addNonEnrolledCandidatesToSession', function () {
     let sessionId;
     let clock;
