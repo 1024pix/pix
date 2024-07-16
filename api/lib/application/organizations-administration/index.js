@@ -1,6 +1,5 @@
 import Joi from 'joi';
 
-import { organizationAdminController as srcOrganizationController } from '../../../src/organizational-entities/application/organization/organization.admin.controller.js';
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
 import { PayloadTooLargeError, sendJsonApiError } from '../http-errors.js';
@@ -13,35 +12,6 @@ const TWO_AND_HALF_MEGABYTES = 1048576 * 2.5;
 
 const register = async function (server) {
   server.route([
-    {
-      method: 'GET',
-      path: '/api/admin/organizations/{id}',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationId,
-          }),
-        },
-        handler: srcOrganizationController.getOrganizationDetails,
-        tags: ['api', 'organizations'],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            '- Elle permet de récupérer toutes les informations d’une organisation',
-        ],
-      },
-    },
     {
       method: 'PATCH',
       path: '/api/admin/organizations/{id}',

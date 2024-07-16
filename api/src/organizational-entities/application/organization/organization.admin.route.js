@@ -12,6 +12,35 @@ const TWENTY_MEGABYTES = 1048576 * 20;
 
 export const organizationAdminRoutes = [
   {
+    method: 'GET',
+    path: '/api/admin/organizations/{id}',
+    config: {
+      pre: [
+        {
+          method: (request, h) =>
+            securityPreHandlers.hasAtLeastOneAccessOf([
+              securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+              securityPreHandlers.checkAdminMemberHasRoleCertif,
+              securityPreHandlers.checkAdminMemberHasRoleSupport,
+              securityPreHandlers.checkAdminMemberHasRoleMetier,
+            ])(request, h),
+          assign: 'hasAuthorizationToAccessAdminScope',
+        },
+      ],
+      validate: {
+        params: Joi.object({
+          id: identifiersType.organizationId,
+        }),
+      },
+      handler: (request, h) => organizationAdminController.getOrganizationDetails(request, h),
+      tags: ['api', 'organizations'],
+      notes: [
+        "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+          '- Elle permet de récupérer toutes les informations d’une organisation',
+      ],
+    },
+  },
+  {
     method: 'POST',
     path: '/api/admin/organizations/{organizationId}/attach-child-organization',
     config: {
