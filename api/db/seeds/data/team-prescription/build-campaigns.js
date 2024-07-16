@@ -149,6 +149,7 @@ async function _createProCampaigns(databaseBuilder) {
     targetProfileId: TARGET_PROFILE_NO_BADGES_NO_STAGES_ID,
     organizationId: PRO_ORGANIZATION_ID,
     ownerId: USER_ID_ADMIN_ORGANIZATION,
+    isForAbsoluteNovice: true,
     name: "Campagne d'évaluation PRO",
     code: 'PROASSIMP',
     createdAt: dayjs().subtract(30, 'days').toDate(),
@@ -160,6 +161,7 @@ async function _createProCampaigns(databaseBuilder) {
         shared_one_validated_skill: 1,
         shared_perfect: 1,
       },
+      anonymousParticipation: true,
     },
   });
 
