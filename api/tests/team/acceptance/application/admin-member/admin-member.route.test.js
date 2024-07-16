@@ -4,11 +4,56 @@ import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
+  insertUserWithRoleSuperAdmin,
 } from '../../../../test-helper.js';
 
 const { ROLES } = PIX_ADMIN;
 
 describe('Acceptance | Team | Route | Admin-member', function () {
+  describe('GET /api/admin/admin-members/me', function () {
+    it('should return 200 http status code', async function () {
+      // given
+      databaseBuilder.factory.buildUser.withRole();
+      const admin = await insertUserWithRoleSuperAdmin();
+      await databaseBuilder.commit();
+      const server = await createServer();
+
+      // when
+      const response = await server.inject({
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(admin.id),
+        },
+        method: 'GET',
+        url: '/api/admin/admin-members/me',
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    context('when user is not a member of pix admin and has no role', function () {
+      it('should return 403 http status code', async function () {
+        // given
+        const user = databaseBuilder.factory.buildUser();
+        await databaseBuilder.commit();
+        const server = await createServer();
+
+        // when
+        const response = await server.inject({
+          headers: {
+            authorization: generateValidRequestAuthorizationHeader(user.id),
+          },
+          method: 'GET',
+          url: '/api/admin/admin-members/me',
+        });
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.statusMessage).to.equal('Forbidden');
+      });
+    });
+  });
+
   describe('GET /api/admin/admin-members', function () {
     it('should return 200 http status code when admin member has role "SUPER_ADMIN"', async function () {
       // given
