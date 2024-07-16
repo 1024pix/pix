@@ -1,9 +1,9 @@
-import { NotFoundError } from '../../../../lib/application/http-errors.js';
 import {
   verifyCertificationSessionAuthorization,
   verifySessionAuthorization,
-} from '../../../../lib/application/preHandlers/authorization.js';
-import { catchErr, domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
+} from '../../../../../../src/certification/shared/application/pre-handlers/authorization.js';
+import { NotFoundError } from '../../../../../../src/shared/application/http-errors.js';
+import { catchErr, domainBuilder, expect, hFake, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Pre-handler | Authorization', function () {
   const userId = 1;
