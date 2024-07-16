@@ -156,7 +156,7 @@ describe('Unit | Service | MailService', function () {
           expect(options.fromName).to.equal('PIX - Noreply');
           expect(options.variables).to.include({
             homeName: 'pix.org',
-            homeUrl: 'https://pix.org/en-gb/',
+            homeUrl: 'https://pix.org/en/',
             helpdeskUrl: 'https://pix.org/en/support',
             displayNationalLogo: false,
             redirectionUrl: `https://app.pix.org/api/users/validate-email?${expectedParams.toString()}`,
@@ -210,7 +210,7 @@ describe('Unit | Service | MailService', function () {
           expect(options.fromName).to.equal('PIX - No contestar');
           expect(options.variables).to.include({
             homeName: 'pix.org',
-            homeUrl: 'https://pix.org/en-gb/',
+            homeUrl: 'https://pix.org/en/',
             helpdeskUrl: 'https://pix.org/en/support',
             displayNationalLogo: false,
             redirectionUrl: `https://app.pix.org/api/users/validate-email?${expectedParams.toString()}`,
@@ -269,7 +269,7 @@ describe('Unit | Service | MailService', function () {
             ...mainTranslationsMapping.en['certification-result-email'].params,
             title: translate({ phrase: 'certification-result-email.title', locale: 'en' }, { sessionId }),
             homeName: 'pix.org',
-            homeUrl: 'https://pix.org/en-gb/',
+            homeUrl: 'https://pix.org/en/',
             link: `${link}?lang=en`,
           },
           sessionId,
@@ -299,7 +299,7 @@ describe('Unit | Service | MailService', function () {
             locale: ENGLISH_SPOKEN,
             ...mainTranslationsMapping.en['reset-password-demand-email'].params,
             homeName: 'pix.org',
-            homeUrl: 'https://pix.org/en-gb/',
+            homeUrl: 'https://pix.org/en/',
             resetUrl: `https://app.pix.org/changer-mot-de-passe/${temporaryKey}/?lang=en`,
             helpdeskURL: 'https://pix.org/en/support',
           },
@@ -357,7 +357,7 @@ describe('Unit | Service | MailService', function () {
             locale: SPANISH_SPOKEN,
             ...mainTranslationsMapping.es['reset-password-demand-email'].params,
             homeName: 'pix.org',
-            homeUrl: 'https://pix.org/en-gb/',
+            homeUrl: 'https://pix.org/en/',
             resetUrl: `https://app.pix.org/changer-mot-de-passe/${temporaryKey}/?lang=es`,
             helpdeskURL: 'https://pix.org/en/support',
           },
@@ -623,7 +623,7 @@ describe('Unit | Service | MailService', function () {
           expect(options.subject).to.equal(mainTranslationsMapping.en['organization-invitation-email'].subject);
           expect(options.variables).to.include({
             pixHomeName: 'pix.org',
-            pixHomeUrl: 'https://pix.org/en-gb/',
+            pixHomeUrl: 'https://pix.org/en/',
             pixOrgaHomeUrl: 'https://orga.pix.org/?lang=en',
             redirectionUrl: `https://orga.pix.org/rejoindre?invitationId=${organizationInvitationId}&code=${code}&lang=en`,
             supportUrl: 'https://pix.org/en/support',
@@ -764,7 +764,7 @@ describe('Unit | Service | MailService', function () {
         expect(sendEmailParameters.variables).to.include({
           certificationCenterName: 'Centre Pixi',
           pixHomeName: 'pix.org',
-          pixHomeUrl: 'https://pix.org/en-gb/',
+          pixHomeUrl: 'https://pix.org/en/',
           pixCertifHomeUrl: 'https://certif.pix.org/?lang=en',
           redirectionUrl: `https://certif.pix.org/rejoindre?invitationId=777&code=LLLJJJVVV1&lang=en`,
           supportUrl: 'https://pix.org/en/support',
@@ -890,7 +890,7 @@ describe('Unit | Service | MailService', function () {
       expect(options.template).to.equal('test-email-verification-code-template-id');
       expect(options.variables).to.include({
         homeName: 'pix.org',
-        homeUrl: 'https://pix.org/en-gb/',
+        homeUrl: 'https://pix.org/en/',
         displayNationalLogo: false,
         code,
         ...mainTranslationsMapping.en['verification-code-email'].body,
@@ -950,7 +950,7 @@ describe('Unit | Service | MailService', function () {
       expect(options.template).to.equal('test-email-verification-code-template-id');
       expect(options.variables).to.include({
         homeName: 'pix.org',
-        homeUrl: 'https://pix.org/en-gb/',
+        homeUrl: 'https://pix.org/en/',
         displayNationalLogo: false,
         code,
         ...mainTranslationsMapping.es['verification-code-email'].body,
