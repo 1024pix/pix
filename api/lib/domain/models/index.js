@@ -41,6 +41,7 @@ import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 import { AssessmentResult } from '../../../src/shared/domain/models/AssessmentResult.js';
 import { Challenge } from '../../../src/shared/domain/models/Challenge.js';
 import { Competence } from '../../../src/shared/domain/models/Competence.js';
+import { Course } from '../../../src/shared/domain/models/Course.js';
 import { Examiner } from '../../../src/shared/domain/models/Examiner.js';
 import { OrganizationInvitation } from '../../../src/team/domain/models/OrganizationInvitation.js';
 import { CampaignParticipant } from './../../../src/prescription/campaign-participation/domain/models/CampaignParticipant.js';
@@ -77,7 +78,6 @@ import { ComplementaryCertificationScoringCriteria } from './ComplementaryCertif
 import { ComplementaryCertificationScoringWithComplementaryReferential } from './ComplementaryCertificationScoringWithComplementaryReferential.js';
 import { ComplementaryCertificationScoringWithoutComplementaryReferential } from './ComplementaryCertificationScoringWithoutComplementaryReferential.js';
 import { Correction } from './Correction.js';
-import { Course } from './Course.js';
 import { EmailingAttempt } from './EmailingAttempt.js';
 import { EmailModificationDemand } from './EmailModificationDemand.js';
 import { FinalizedSession } from './FinalizedSession.js';

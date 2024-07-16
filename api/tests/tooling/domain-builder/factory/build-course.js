@@ -1,4 +1,4 @@
-import { Course } from '../../../../lib/domain/models/Course.js';
+import { Course } from '../../../../src/shared/domain/models/Course.js';
 
 const buildCourse = function ({
   id = 'recCOUR123',
