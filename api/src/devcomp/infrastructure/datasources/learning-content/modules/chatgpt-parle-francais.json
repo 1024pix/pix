@@ -354,7 +354,7 @@
                   {
                     "id": "900c89f1-f113-43c3-8b80-34365433b470",
                     "type": "qcu",
-                    "instruction": "<p>[À voir selon l'arène]</p>",
+                    "instruction": "<p>Avec un prompt identique, deux LLM donnent un résultat identique.",
                     "proposals": [
                         {
                             "id": "1",
@@ -366,10 +366,10 @@
                           }
                     ],
                     "feedbacks": {
-                      "valid": "<span class=\"feedback__state\">Correct !</span>",
-                      "invalid": "<span class=\"feedback__state\">Incorrect !</span>"
+                      "valid": "<span class=\"feedback__state\">Correct !</span><p>Des différences seront systématiquement présentes dans leurs réponses. C'est aussi vrai pour le même LLM.</p>",
+                      "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Soumettez à nouveau un prompt à deux LLM pour observer les variations dans leurs réponses.</p>"
                     },
-                    "solution": "1"
+                    "solution": "2"
                   }
                 ]
               },
