@@ -36,6 +36,29 @@ export const certificationCenterInvitationRoutes = [
     },
   },
   {
+    method: 'GET',
+    path: '/api/certification-centers/{certificationCenterId}/invitations',
+    config: {
+      pre: [
+        {
+          method: (request, h) => securityPreHandlers.checkUserIsAdminOfCertificationCenter(request, h),
+          assign: 'isAdminOfCertificationCenter',
+        },
+      ],
+      validate: {
+        params: Joi.object({
+          certificationCenterId: identifiersType.certificationCenterId,
+        }),
+      },
+      handler: (request, h) => certificationCenterInvitationController.findPendingInvitations(request, h),
+      notes: [
+        '- **Cette route est restreinte aux utilisateurs appartenant à un centre de certification**\n' +
+          '- Récupération de la liste des invitations en attente liée à un centre de certification',
+      ],
+      tags: ['api', 'certification-center', 'invitations'],
+    },
+  },
+  {
     method: 'DELETE',
     path: '/api/certification-center-invitations/{certificationCenterInvitationId}',
     config: {

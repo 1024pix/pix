@@ -1,7 +1,6 @@
 import lodash from 'lodash';
 
 import * as divisionSerializer from '../../../src/prescription/campaign/infrastructure/serializers/jsonapi/division-serializer.js';
-import * as certificationCenterInvitationSerializer from '../../../src/team/infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as certificationCenterForAdminSerializer from '../../infrastructure/serializers/jsonapi/certification-center-for-admin-serializer.js';
 import * as certificationCenterMembershipSerializer from '../../infrastructure/serializers/jsonapi/certification-center-membership-serializer.js';
@@ -135,15 +134,6 @@ const createCertificationCenterMembershipByEmail = async function (
     .created();
 };
 
-const findPendingInvitations = async function (request, h) {
-  const certificationCenterId = request.params.certificationCenterId;
-
-  const certificationCenterInvitations = await usecases.findPendingCertificationCenterInvitations({
-    certificationCenterId,
-  });
-  return h.response(certificationCenterInvitationSerializer.serializeForAdmin(certificationCenterInvitations));
-};
-
 const updateReferer = async function (request, h) {
   const certificationCenterId = request.params.certificationCenterId;
   const { userId, isReferer } = request.payload.data.attributes;
@@ -163,7 +153,6 @@ const certificationCenterController = {
   findCertificationCenterMembershipsByCertificationCenter,
   findPaginatedFilteredCertificationCenters,
   findPaginatedSessionSummaries,
-  findPendingInvitations,
   getCertificationCenterDetails,
   getDivisions,
   getStudents,
