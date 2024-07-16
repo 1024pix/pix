@@ -98,7 +98,6 @@ import { PlacementProfile } from './PlacementProfile.js';
 import { PoleEmploiSending } from './PoleEmploiSending.js';
 import { ReproducibilityRate } from './ReproducibilityRate.js';
 import { ResultCompetence } from './ResultCompetence.js';
-import { SCOCertificationCandidate } from './SCOCertificationCandidate.js';
 import { ScoringSimulation } from './ScoringSimulation.js';
 import { ScoringSimulationContext } from './ScoringSimulationContext.js';
 import { ScoringSimulationDataset } from './ScoringSimulationDataset.js';
@@ -220,7 +219,6 @@ export {
   ReproducibilityRate,
   ResultCompetence,
   ResultCompetenceTree,
-  SCOCertificationCandidate,
   ScoringSimulation,
   ScoringSimulationContext,
   ScoringSimulationDataset,
