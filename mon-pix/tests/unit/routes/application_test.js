@@ -74,20 +74,6 @@ module('Unit | Route | application', function (hooks) {
       assert.strictEqual(this.intl.primaryLocale, 'fr');
     });
 
-    test('should set the head description', async function (assert) {
-      // given
-      const route = this.owner.lookup('route:application');
-      route.set('featureToggles', featureTogglesServiceStub);
-      route.set('session', sessionServiceStub);
-      route.set('oidcIdentityProviders', oidcIdentityProvidersStub);
-
-      // when
-      await route.beforeModel();
-
-      // then
-      assert.strictEqual(route.headData.description, this.intl.t('application.description'));
-    });
-
     test('should get feature toogles', async function (assert) {
       // given
       const route = this.owner.lookup('route:application');

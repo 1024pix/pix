@@ -5,7 +5,6 @@ import { service } from '@ember/service';
 export default class ApplicationRoute extends Route {
   @service authentication;
   @service featureToggles;
-  @service headData;
   @service intl;
   @service oidcIdentityProviders;
   @service session;
@@ -31,8 +30,6 @@ export default class ApplicationRoute extends Route {
      */
     this.intl.setLocale('fr');
 
-    this.headData.description = this.intl.t('application.description');
-
     await this.featureToggles.load().catch();
 
     await this.oidcIdentityProviders.load().catch();
@@ -40,6 +37,12 @@ export default class ApplicationRoute extends Route {
     await this.authentication.handleAnonymousAuthentication(transition);
 
     await this.session.handleUserLanguageAndLocale(transition);
+  }
+
+  model() {
+    return {
+      headElement: document.querySelector('head'),
+    };
   }
 
   @action

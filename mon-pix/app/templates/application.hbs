@@ -1,5 +1,11 @@
 {{! template-lint-disable no-inline-styles }}
 {{page-title (t "navigation.pix")}}
+
+{{#in-element this.model.headElement insertBefore=null}}
+  {{! template-lint-disable no-forbidden-elements }}
+  <meta name="description" content={{t "application.description"}} />
+{{/in-element}}
+
 <div class="body">
   <div class="pix-communication-banner">
     <CommunicationBanner />
