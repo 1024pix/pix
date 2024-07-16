@@ -209,7 +209,7 @@
       "mandatory-fields-title": "required"
     },
     "fullname": "{firstName} {lastName}",
-    "help-form": "https://pix.org/en-gb/contact-form",
+    "help-form": "https://pix.org/en/contact-form",
     "home-page": "Pix Orga home page",
     "loading": "Loading",
     "pagination": {
@@ -1045,7 +1045,7 @@
       "error-panel": {
         "title": "Errors in the last file imported :",
         "error-wrapper": "Import has failed. Please check or edit your file and try to import it again.",
-        "global-error": "Import has failed. Please try again or contact us through '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://pix.org/en-gb/contact-form\">'the help form'</a>'."
+        "global-error": "Import has failed. Please try again or contact us through '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://pix.org/en/contact-form\">'the help form'</a>'."
       },
       "file-type-separator": " or ",
       "global-success": "Last file successfully imported on {date} by {firstName} {lastName}.",

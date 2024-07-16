@@ -75,7 +75,7 @@ module('Unit | Service | url', function (hooks) {
       [
         {
           primaryLocale: 'en',
-          expectedUrl: 'https://pix.org/en-gb/legal-notice',
+          expectedUrl: 'https://pix.org/en/legal-notice',
         },
         {
           primaryLocale: 'fr',
@@ -123,7 +123,7 @@ module('Unit | Service | url', function (hooks) {
       [
         {
           primaryLocale: 'en',
-          expectedUrl: 'https://pix.org/en-gb/personal-data-protection-policy',
+          expectedUrl: 'https://pix.org/en/personal-data-protection-policy',
         },
         {
           primaryLocale: 'fr',
@@ -171,7 +171,7 @@ module('Unit | Service | url', function (hooks) {
       [
         {
           primaryLocale: 'en',
-          expectedUrl: 'https://pix.org/en-gb/terms-and-conditions',
+          expectedUrl: 'https://pix.org/en/terms-and-conditions',
         },
         {
           primaryLocale: 'fr',
@@ -179,7 +179,7 @@ module('Unit | Service | url', function (hooks) {
         },
         {
           primaryLocale: 'nl',
-          expectedUrl: 'https://pix.org/en-gb/terms-and-conditions',
+          expectedUrl: 'https://pix.org/en/terms-and-conditions',
         },
       ].forEach(({ primaryLocale, expectedUrl }) => {
         test(`returns "pix.org" ${primaryLocale} url when locale is ${primaryLocale}`, function (assert) {
@@ -219,7 +219,7 @@ module('Unit | Service | url', function (hooks) {
       [
         {
           primaryLocale: 'en',
-          expectedUrl: 'https://pix.org/en-gb/accessibility-pix-orga',
+          expectedUrl: 'https://pix.org/en/accessibility-pix-orga',
         },
         {
           primaryLocale: 'fr',

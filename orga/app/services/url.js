@@ -6,7 +6,7 @@ const ENGLISH_LOCALE = 'en';
 const DUTCH_LOCALE = 'nl';
 const PIX_FR_DOMAIN = 'https://pix.fr';
 const PIX_ORG_DOMAIN_FR_LOCALE = 'https://pix.org/fr';
-const PIX_ORG_DOMAIN_EN_LOCALE = 'https://pix.org/en-gb';
+const PIX_ORG_DOMAIN_EN_LOCALE = 'https://pix.org/en';
 const PIX_ORG_DOMAIN_NL_LOCALE = 'https://pix.org/nl-be';
 const PIX_STATUS_DOMAIN = 'https://status.pix.org';
 
