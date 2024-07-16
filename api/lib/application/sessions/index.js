@@ -401,29 +401,6 @@ const register = async function (server) {
       },
     },
     {
-      method: 'PUT',
-      path: '/api/sessions/{id}/enrol-students-to-session',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.sessionId,
-          }),
-        },
-        pre: [
-          {
-            method: authorization.verifySessionAuthorization,
-            assign: 'authorizationCheck',
-          },
-        ],
-        handler: sessionController.enrolStudentsToSession,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            '- Dans le cadre du SCO, inscrit un élève à une session de certification',
-        ],
-        tags: ['api', 'sessions', 'certification-candidates'],
-      },
-    },
-    {
       method: 'GET',
       path: '/api/sessions/{id}/certified-clea-candidate-data',
       config: {

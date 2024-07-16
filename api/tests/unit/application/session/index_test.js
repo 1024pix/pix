@@ -105,50 +105,6 @@ describe('Unit | Application | Sessions | Routes', function () {
     });
   });
 
-  describe('PUT /api/session/{id}/enrol-students-to-session', function () {
-    it('exists', async function () {
-      // given
-      sinon.stub(authorization, 'verifySessionAuthorization').returns(null);
-      sinon.stub(sessionController, 'enrolStudentsToSession').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('PUT', '/api/sessions/3/enrol-students-to-session');
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-
-    it('validates the session id', async function () {
-      // given
-      sinon.stub(authorization, 'verifySessionAuthorization').returns(null);
-      sinon.stub(sessionController, 'enrolStudentsToSession').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('PUT', '/api/sessions/invalidId/enrol-students-to-session');
-
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
-
-    it('denies access if the session of the logged used is not authorized', async function () {
-      // given
-      sinon.stub(authorization, 'verifySessionAuthorization').throws(new NotFoundError());
-      sinon.stub(sessionController, 'enrolStudentsToSession').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('PUT', '/api/sessions/3/enrol-students-to-session');
-
-      // then
-      expect(response.statusCode).to.equal(404);
-    });
-  });
-
   describe('For admin', function () {
     describe('GET /api/admin/sessions/{id}', function () {
       it('should exist', async function () {

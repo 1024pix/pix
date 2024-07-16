@@ -4,7 +4,6 @@ import { UserAlreadyLinkedToCertificationCandidate } from '../../../../lib/domai
 import { UserLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserLinkedToCertificationCandidate.js';
 import { SessionPublicationBatchResult } from '../../../../lib/domain/models/index.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { usecases as enrolmentUsecases } from '../../../../src/certification/enrolment/domain/usecases/index.js';
 import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 import { catchErr, expect, hFake, sinon } from '../../../test-helper.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
@@ -201,62 +200,6 @@ describe('Unit | Controller | sessionController', function () {
       // then
       expect(response.source).to.deep.equal('csv-string');
       expect(response.headers['Content-Disposition']).to.equal(`attachment; filename=${fileName}`);
-    });
-  });
-
-  describe('#enrolStudentsToSession', function () {
-    let request, studentIds, studentList, serializedCertificationCandidate;
-    const sessionId = 1;
-    const userId = 2;
-    const student1 = { id: 1 };
-    const student2 = { id: 2 };
-    let dependencies;
-
-    beforeEach(function () {
-      studentIds = [student1.id, student2.id];
-      studentList = [student1, student2];
-      serializedCertificationCandidate = Symbol('CertificationCandidates');
-
-      // given
-      request = {
-        params: { id: sessionId },
-        auth: {
-          credentials: {
-            userId,
-          },
-        },
-        deserializedPayload: {
-          'organization-learner-ids': [student1.id, student2.id],
-        },
-      };
-      const requestResponseUtils = { extractUserIdFromRequest: sinon.stub() };
-      sinon.stub(usecases, 'enrolStudentsToSession');
-      sinon.stub(enrolmentUsecases, 'getSessionCertificationCandidates');
-      const certificationCandidateSerializer = { serialize: sinon.stub() };
-      dependencies = {
-        requestResponseUtils,
-        certificationCandidateSerializer,
-      };
-    });
-
-    context('when the user has access to session and there organizationLearnerIds are corrects', function () {
-      beforeEach(function () {
-        dependencies.requestResponseUtils.extractUserIdFromRequest.withArgs(request).returns(userId);
-        usecases.enrolStudentsToSession.withArgs({ sessionId, referentId: userId, studentIds }).resolves();
-        enrolmentUsecases.getSessionCertificationCandidates.withArgs({ sessionId }).resolves(studentList);
-        dependencies.certificationCandidateSerializer.serialize
-          .withArgs(studentList)
-          .returns(serializedCertificationCandidate);
-      });
-
-      it('should return certificationCandidates', async function () {
-        // when
-        const response = await sessionController.enrolStudentsToSession(request, hFake, dependencies);
-
-        // then
-        expect(response.statusCode).to.equal(201);
-        expect(response.source).to.deep.equal(serializedCertificationCandidate);
-      });
     });
   });
 
