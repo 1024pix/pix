@@ -1,8 +1,8 @@
-import Inflector from 'ember-inflector';
+import { pluralize } from '@ember-data/request-utils/string';
 import { JSONAPISerializer } from 'miragejs';
 
 export default JSONAPISerializer.extend({
   typeKeyForModel(model) {
-    return Inflector.inflector.pluralize(model.modelName);
+    return pluralize(model.modelName);
   },
 });

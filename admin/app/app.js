@@ -3,7 +3,6 @@ import 'flatpickr/dist/l10n';
 
 import Application from '@ember/application';
 import { dom, library } from '@fortawesome/fontawesome-svg-core';
-import Inflector from 'ember-inflector';
 import loadInitializers from 'ember-load-initializers';
 import config from 'pix-admin/config/environment';
 
@@ -15,8 +14,6 @@ class App extends Application {
   podModulePrefix = config.podModulePrefix;
   Resolver = Resolver;
 }
-
-Inflector.inflector.irregular('badge-criterion', 'badge-criteria');
 
 library.add(fapixTachometer, fapixPersonExport);
 dom.watch();
