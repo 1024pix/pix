@@ -267,7 +267,7 @@
                   ],
                   "feedbacks": {
                     "valid": "<span class=\"feedback__state\">Correct  !</span><p>Le LLM a tendance à reproduire des stéréotypes qui existent dans nos sociétés. Ici, il s'agit d'un stéréotype de genre associé à cette profession.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect !</span><p>Le LLM a tendance à reproduire des stéréotypes qui existent dans nos sociétés et sont représentés dans de nombreux médias.</p>"
+                    "invalid": "<span class=\"feedback__state\">Incorrect !</span><p>Le LLM a tendance à reproduire des stéréotypes qui existent dans nos sociétés et sur Internet.</p>"
                   },
                   "solution": "2"
                 }
