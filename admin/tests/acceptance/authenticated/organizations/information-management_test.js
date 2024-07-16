@@ -16,7 +16,14 @@ module('Acceptance | Organizations | Information management', function (hooks) {
   module('editing organization', function () {
     test('should be able to edit organization information', async function (assert) {
       // given
-      const organization = this.server.create('organization', { name: 'oldOrganizationName' });
+      const organization = this.server.create('organization', {
+        name: 'oldOrganizationName',
+        features: {
+          PLACES_MANAGEMENT: { active: false },
+          MULTIPLE_SENDING_ASSESSMENT: { active: false },
+          COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY: { active: false },
+        },
+      });
       this.server.create('organization', { id: '1234' });
 
       const screen = await visit(`/organizations/${organization.id}`);

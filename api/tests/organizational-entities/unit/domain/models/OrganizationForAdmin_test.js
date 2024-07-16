@@ -18,8 +18,8 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationForAdmin
           const organization = new OrganizationForAdmin(expectedOrganization);
 
           // then
-          expect(organization.features).to.includes({
-            [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,
+          expect(organization.features).to.deep.includes({
+            [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: { active: true, params: null },
           });
         });
       });
@@ -52,8 +52,8 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationForAdmin
         const organization = new OrganizationForAdmin(expectedOrganization);
 
         // then
-        expect(organization.features).to.include({
-          [ORGANIZATION_FEATURE.MISSIONS_MANAGEMENT.key]: true,
+        expect(organization.features).to.deep.includes({
+          [ORGANIZATION_FEATURE.MISSIONS_MANAGEMENT.key]: { active: true, params: null },
         });
       });
 
@@ -67,8 +67,8 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationForAdmin
         const organization = new OrganizationForAdmin(expectedOrganization);
 
         // then
-        expect(organization.features).to.include({
-          [ORGANIZATION_FEATURE.LEARNER_IMPORT.key]: 'ONDE',
+        expect(organization.features).to.deep.includes({
+          [ORGANIZATION_FEATURE.LEARNER_IMPORT.key]: { active: true, params: { name: 'ONDE' } },
         });
       });
     });
@@ -289,7 +289,7 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationForAdmin
         isManagingStudents: false,
         type: 'SCO',
         features: {
-          [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: false,
+          [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: { active: false, params: null },
         },
       });
 
@@ -301,7 +301,7 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationForAdmin
 
       // then
       expect(
-        givenOrganization.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key],
+        givenOrganization.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key].active,
       ).to.equal(true);
     });
 
@@ -312,7 +312,7 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationForAdmin
           isManagingStudents: false,
           type: 'SCO',
           features: {
-            [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: false,
+            [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: { active: false, params: null },
           },
         });
 
@@ -321,7 +321,7 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationForAdmin
 
         // then
         expect(
-          givenOrganization.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key],
+          givenOrganization.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key].active,
         ).to.equal(true);
       });
 
@@ -331,7 +331,7 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationForAdmin
           isManagingStudents: false,
           type: 'SCO',
           features: {
-            [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,
+            [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: { active: true, params: null },
           },
         });
 
@@ -340,7 +340,7 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationForAdmin
 
         // then
         expect(
-          givenOrganization.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key],
+          givenOrganization.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key].active,
         ).to.equal(false);
       });
 
@@ -350,7 +350,7 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationForAdmin
           isManagingStudents: false,
           type: 'SUP',
           features: {
-            [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: false,
+            [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: { active: false, params: null },
           },
         });
 
@@ -359,7 +359,7 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationForAdmin
 
         // then
         expect(
-          givenOrganization.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key],
+          givenOrganization.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key].active,
         ).to.equal(false);
       });
 
@@ -369,7 +369,7 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationForAdmin
           isManagingStudents: false,
           type: 'PRO',
           features: {
-            [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: false,
+            [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: { active: false, params: null },
           },
         });
 
@@ -378,7 +378,7 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationForAdmin
 
         // then
         expect(
-          givenOrganization.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key],
+          givenOrganization.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key].active,
         ).to.equal(false);
       });
     });
@@ -389,7 +389,7 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationForAdmin
         isManagingStudents: true,
         type: 'SCO',
         features: {
-          [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,
+          [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: { active: true, params: null },
         },
       });
 
@@ -401,7 +401,7 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationForAdmin
 
       // then
       expect(
-        givenOrganization.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key],
+        givenOrganization.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key].active,
       ).to.equal(false);
     });
 
@@ -411,7 +411,7 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationForAdmin
         isManagingStudents: false,
         type: 'SUP',
         features: {
-          [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: false,
+          [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: { active: false, params: null },
         },
       });
 
@@ -423,7 +423,7 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationForAdmin
 
       // then
       expect(
-        givenOrganization.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key],
+        givenOrganization.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key].active,
       ).to.equal(false);
     });
 

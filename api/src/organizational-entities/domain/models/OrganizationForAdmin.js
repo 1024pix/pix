@@ -71,11 +71,17 @@ class OrganizationForAdmin {
     this.tagIds = tagIds;
     this.features = features;
     if (this.type === 'SCO' && this.isManagingStudents) {
-      this.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key] = true;
+      this.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key] = {
+        active: true,
+        params: null,
+      };
     }
     if (this.type === 'SCO-1D') {
-      this.features[ORGANIZATION_FEATURE.MISSIONS_MANAGEMENT.key] = true;
-      this.features[ORGANIZATION_FEATURE.LEARNER_IMPORT.key] = ORGANIZATION_FEATURE.LEARNER_IMPORT.FORMAT.ONDE;
+      this.features[ORGANIZATION_FEATURE.MISSIONS_MANAGEMENT.key] = { active: true, params: null };
+      this.features[ORGANIZATION_FEATURE.LEARNER_IMPORT.key] = {
+        active: true,
+        params: { name: ORGANIZATION_FEATURE.LEARNER_IMPORT.FORMAT.ONDE },
+      };
     }
     this.tagsToAdd = [];
     this.tagsToRemove = [];
@@ -148,8 +154,10 @@ class OrganizationForAdmin {
     this.updateIdentityProviderForCampaigns(organization.identityProviderForCampaigns);
     this.dataProtectionOfficer.updateInformation(dataProtectionOfficer);
     this.features = organization.features;
-    this.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key] =
-      this.type === 'SCO' && (this.isManagingStudents || isAEFE);
+    this.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key] = {
+      active: this.type === 'SCO' && (this.isManagingStudents || isAEFE),
+      params: null,
+    };
     this.tagsToAdd = differenceBy(tags, this.tags, 'id').map(({ id }) => ({ tagId: id, organizationId: this.id }));
     this.tagsToRemove = differenceBy(this.tags, tags, 'id').map(({ id }) => ({ tagId: id, organizationId: this.id }));
   }

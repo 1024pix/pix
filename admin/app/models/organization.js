@@ -48,31 +48,34 @@ export default class Organization extends Model {
 
   get isComputeCertificabilityEnabled() {
     if (!this.features) return false;
-    return this.features[Organization.featureList.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY];
+    return this.features[Organization.featureList.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY].active;
   }
 
   get isMultipleSendingAssessmentEnabled() {
     if (!this.features) return false;
-    return this.features[Organization.featureList.MULTIPLE_SENDING_ASSESSMENT];
+    return this.features[Organization.featureList.MULTIPLE_SENDING_ASSESSMENT].active;
   }
 
   set isMultipleSendingAssessmentEnabled(value) {
     if (!this.features) {
       this.features = {};
+      this.features[Organization.featureList.MULTIPLE_SENDING_ASSESSMENT] = {};
     }
-    this.features[Organization.featureList.MULTIPLE_SENDING_ASSESSMENT] = value;
+    this.features[Organization.featureList.MULTIPLE_SENDING_ASSESSMENT].active = value;
   }
 
   get isPlacesManagementEnabled() {
     if (!this.features) return false;
-    return this.features[Organization.featureList.PLACES_MANAGEMENT];
+    return this.features[Organization.featureList.PLACES_MANAGEMENT].active;
   }
 
   set isPlacesManagementEnabled(value) {
     if (!this.features) {
       this.features = {};
+      this.features[Organization.featureList.PLACES_MANAGEMENT] = {};
     }
-    this.features[Organization.featureList.PLACES_MANAGEMENT] = value;
+
+    this.features[Organization.featureList.PLACES_MANAGEMENT].active = value;
   }
 
   async hasMember(userId) {

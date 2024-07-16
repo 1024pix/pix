@@ -95,8 +95,8 @@ describe('Acceptance | Routes | organization-administration-controller', functio
               'creator-full-name': 'Tom Dereck',
               'identity-provider-for-campaigns': null,
               features: {
-                [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: false,
-                [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,
+                [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: { active: false, params: null },
+                [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: { active: true, params: null },
               },
             },
             id: organization.id.toString(),
