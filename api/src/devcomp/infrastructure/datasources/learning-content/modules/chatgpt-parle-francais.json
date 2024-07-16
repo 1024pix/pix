@@ -354,7 +354,7 @@
                   {
                     "id": "900c89f1-f113-43c3-8b80-34365433b470",
                     "type": "qcu",
-                    "instruction": "<p>Avec un prompt identique, deux LLM donnent un résultat identique.",
+                    "instruction": "<p>Avec un prompt identique, deux LLM donnent un résultat identique.</p>",
                     "proposals": [
                         {
                             "id": "1",
@@ -378,7 +378,7 @@
                   {
                     "id": "1547385e-c940-481e-8652-463ea675ddad",
                     "type": "qcu",
-                    "instruction": "<p>Avec un prompt identique, un LLM donne constamment la même réponse.</p>",
+                    "instruction": "<p>Le prompt proposé amène à des résultats biaisés.</p>",
                     "proposals": [
                       {
                         "id": "1",
@@ -391,9 +391,9 @@
                     ],
                     "feedbacks": {
                       "valid": "<span class=\"feedback__state\">Correct !</span>",
-                      "invalid": "<span class=\"feedback__state\">Incorrect !</span>"
+                      "invalid": "<span class=\"feedback__state\">Incorrect.</span>"
                     },
-                    "solution": "2"
+                    "solution": "1"
                   }
                 ]
               },
@@ -402,7 +402,7 @@
                   {
                     "id": "5655c608-4f27-40d3-a01d-143c3802cc1f",
                     "type": "qcu",
-                    "instruction": "<p>Avec un prompt identique, deux LLM donnent un résultat différent.</p>",
+                    "instruction": "<p>L'arène LANGU:IA permet de comparer des LLM de pays différents.</p>",
                     "proposals": [
                       {
                           "id": "1",
@@ -414,8 +414,32 @@
                         }
                     ],
                     "feedbacks": {
-                      "valid": "<span class=\"feedback__state\">Correct !</span>",
-                      "invalid": "<span class=\"feedback__state\">Incorrect !</span>"
+                      "valid": "<span class=\"feedback__state\">Correct !</span><p>La provenance des LLM est d'ailleurs un paramètre qui peut influencer les résultats qu'il fournit.</p>",
+                      "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Sur l'arène LANGU:IA, donnez votre avis les résultats pour révéler les LLM. Vous verrez que des modèles de différents pays sont disponibles.</p>"
+                    },
+                    "solution": "1"
+                  }
+                ]
+              },
+              {
+                "elements":[
+                  {
+                    "id": "238f6c8a-bd6b-44c3-8d74-9de2bd6eb96c",
+                    "type": "qcu",
+                    "instruction": "<p>Les votes demandés dans l'arène permettront d'améliorer les performances des LLM.</p>",
+                    "proposals": [
+                      {
+                          "id": "1",
+                          "content": "Vrai"
+                        },
+                        {
+                          "id": "2",
+                          "content": "Faux"
+                        }
+                    ],
+                    "feedbacks": {
+                      "valid": "<span class=\"feedback__state\">Correct !</span><p>Les jeux de données de préférence humaine permettent de ré-entraîner les modèles et les améliorer.</p>",
+                      "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Les jeux de données de préférence humaine permettent de ré-entraîner les modèles et les améliorer.</p>"
                     },
                     "solution": "1"
                   }
