@@ -482,7 +482,7 @@
         },
         "modal": {
           "title": "Confirm the target profile duplication ?",
-          "label": "Confirming will duplicate the current target profiles and its tubes."
+          "label": "Confirming will duplicate the current target profiles with tubes, badges and stages."
         },
         "notifications": {
           "success": "The target profile has been duplicated."

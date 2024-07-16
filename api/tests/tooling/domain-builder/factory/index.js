@@ -11,6 +11,7 @@ import { buildAssessmentResult } from './build-assessment-result.js';
 import { buildAuthenticationMethod } from './build-authentication-method.js';
 import { buildBadge } from './build-badge.js';
 import { buildBadgeAcquisition } from './build-badge-acquisition.js';
+import { buildBadgeCriterion } from './build-badge-criterion.js';
 import { buildBadgeCriterionForCalculation } from './build-badge-criterion-for-calculation.js';
 import { buildBadgeDetails } from './build-badge-details.js';
 import { buildBadgeForCalculation } from './build-badge-for-calculation.js';
@@ -239,6 +240,7 @@ export {
   buildAuthenticationMethod,
   buildBadge,
   buildBadgeAcquisition,
+  buildBadgeCriterion,
   buildBadgeCriterionForCalculation,
   buildBadgeDetails,
   buildBadgeForCalculation,

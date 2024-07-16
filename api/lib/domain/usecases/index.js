@@ -40,6 +40,7 @@ import { getCompetenceLevel } from '../../../src/evaluation/domain/services/get-
 import { pickChallengeService } from '../../../src/evaluation/domain/services/pick-challenge-service.js';
 import * as scorecardService from '../../../src/evaluation/domain/services/scorecard-service.js';
 import * as stageAndStageAcquisitionComparisonService from '../../../src/evaluation/domain/services/stages/stage-and-stage-acquisition-comparison-service.js';
+import * as badgeCriteriaRepository from '../../../src/evaluation/infrastructure/repositories/badge-criteria-repository.js';
 import * as badgeRepository from '../../../src/evaluation/infrastructure/repositories/badge-repository.js';
 import * as competenceEvaluationRepository from '../../../src/evaluation/infrastructure/repositories/competence-evaluation-repository.js';
 import * as stageAcquisitionRepository from '../../../src/evaluation/infrastructure/repositories/stage-acquisition-repository.js';
@@ -367,6 +368,7 @@ const dependencies = {
   verifyCertificateCodeService,
   writeCsvUtils,
   writeOdsUtils,
+  badgeCriteriaRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

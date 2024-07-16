@@ -131,7 +131,9 @@ export default class TargetProfile extends Component {
       this.notifications.success(this.intl.t('pages.target-profiles.copy.notifications.success'));
       this.showCopyModal = false;
     } catch (error) {
-      this.notifications.error(error.message);
+      error.errors.forEach((apiError) => {
+        this.notifications.error(apiError.detail);
+      });
     }
   }
 

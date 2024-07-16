@@ -6,13 +6,27 @@ import BadgeCriterion from '../../domain/models/BadgeCriterion.js';
 
 const TABLE_NAME = 'badge-criteria';
 
-const save = async function ({ badgeCriterion }, { knexTransaction } = DomainTransaction.emptyTransaction()) {
+function adaptModelToDb(badgeCriterion) {
+  delete badgeCriterion.id;
   const data = {
     ...badgeCriterion,
     // WORKAROUND: jsonb array needs to be stringified see https://knexjs.org/guide/schema-builder.html#json
     cappedTubes: badgeCriterion.cappedTubes ? JSON.stringify(badgeCriterion.cappedTubes) : null,
   };
-  await (knexTransaction ?? knex)(TABLE_NAME).insert(data);
+  return data;
+}
+
+const save = async function ({ badgeCriterion }) {
+  const knexConnection = DomainTransaction.getConnection();
+  const data = adaptModelToDb(badgeCriterion);
+  await knexConnection(TABLE_NAME).insert(data);
+};
+
+const saveAll = async function (badgeCriteria, { knexTransaction } = DomainTransaction.emptyTransaction()) {
+  const savedBadgeCriteria = await (knexTransaction ?? knex)(TABLE_NAME)
+    .insert(badgeCriteria.map(adaptModelToDb))
+    .returning('*');
+  return savedBadgeCriteria.map((badgeCriteria) => new BadgeCriterion(badgeCriteria));
 };
 
 const updateCriterion = async function (id, attributesToUpdate) {
@@ -29,4 +43,9 @@ const updateCriterion = async function (id, attributesToUpdate) {
   return new BadgeCriterion(updatedCriterion);
 };
 
-export { save, updateCriterion };
+const findAllByBadgeId = async (badgeId, { knexTransaction } = DomainTransaction.emptyTransaction()) => {
+  const badgeCriteria = await (knexTransaction ?? knex)(TABLE_NAME).where('badgeId', badgeId);
+  return badgeCriteria.map((badgeCriteria) => new BadgeCriterion(badgeCriteria));
+};
+
+export { findAllByBadgeId, save, saveAll, updateCriterion };

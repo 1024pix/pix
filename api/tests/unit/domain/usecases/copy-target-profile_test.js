@@ -4,12 +4,23 @@ import { buildTargetProfile } from '../../../tooling/domain-builder/factory/inde
 
 describe('Unit | UseCase | copy-target-profile', function () {
   let targetProfileRepositoryStub;
+  let badgeRepositoryStub;
+  let badgeCriteriaRepositoryStub;
 
   beforeEach(function () {
     targetProfileRepositoryStub = {
       create: sinon.stub(),
       get: sinon.stub(),
       getTubesByTargetProfileId: sinon.stub(),
+    };
+
+    badgeRepositoryStub = {
+      findAllByTargetProfileId: sinon.stub(),
+      saveAll: sinon.stub(),
+    };
+
+    badgeCriteriaRepositoryStub = {
+      findAllByBadgeIds: sinon.stub(),
     };
   });
 
@@ -34,6 +45,8 @@ describe('Unit | UseCase | copy-target-profile', function () {
     const copiedTargetProfileId = await copyTargetProfile({
       targetProfileId: targetProfileId,
       targetProfileRepository: targetProfileRepositoryStub,
+      badgeRepository: badgeRepositoryStub,
+      badgeCriteriaRepository: badgeCriteriaRepositoryStub,
     });
 
     // then

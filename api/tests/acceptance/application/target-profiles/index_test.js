@@ -143,6 +143,15 @@ describe('Acceptance | Route | target-profiles', function () {
     it('should return the new target profile id and 200 status code', async function () {
       // given
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
+      const targetProfileTube = databaseBuilder.factory.buildTargetProfileTube({
+        targetProfileId: targetProfile.id,
+        tubeId,
+        level: 1,
+      });
+
+      const badge = databaseBuilder.factory.buildBadge({ key: 'FIRST_BADGE', targetProfileId: targetProfile.id });
+      const badgeCriterion = databaseBuilder.factory.buildBadgeCriterion({ badgeId: badge.id });
+      const stage = databaseBuilder.factory.buildStage({ targetProfileId: targetProfile.id });
       await databaseBuilder.commit();
 
       // when
@@ -153,10 +162,38 @@ describe('Acceptance | Route | target-profiles', function () {
       });
 
       // then
-      const { id: targetProfileId, name } = await knex('target-profiles').where('id', response.result).first();
+      const { id: targetProfileId, name: targetProfileName } = await knex('target-profiles')
+        .where('id', response.result)
+        .first();
+      const {
+        id: targetProfileTubeId,
+        tubeId: copiedTubeId,
+        targetProfileId: tubeTargetProfileId,
+      } = await knex('target-profile_tubes').where({ targetProfileId }).first();
+
+      const { id: badgeId, key } = await knex('badges').where({ targetProfileId }).first();
+      const { id: badgeCriterionId, name: badgeCriterionName } = await knex('badge-criteria')
+        .where({ badgeId })
+        .first();
+      const { id: stageId, message } = await knex('stages').where({ targetProfileId }).first();
+
       expect(response.statusCode).to.equal(200);
-      expect(name).to.equal('[Copie] ' + targetProfile.name);
+
+      expect(targetProfileName).to.equal('[Copie] ' + targetProfile.name);
       expect(targetProfileId).not.to.equal(targetProfile.id);
+
+      expect(targetProfileTubeId).not.to.equal(targetProfileTube.id);
+      expect(copiedTubeId).to.equal(targetProfileTube.tubeId);
+      expect(tubeTargetProfileId).to.equal(targetProfileId);
+
+      expect(badgeId).not.to.equal(badge.id);
+      expect(key).to.equal('[COPIE]_' + badge.key);
+
+      expect(badgeCriterionId).not.to.equal(badgeCriterion.id);
+      expect(badgeCriterionName).to.equal(badgeCriterion.name);
+
+      expect(stageId).not.to.equal(stage.id);
+      expect(message).to.equal(stage.message);
     });
   });
 

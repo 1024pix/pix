@@ -4,6 +4,7 @@ import { Badge } from '../../../../../src/evaluation/domain/models/Badge.js';
 import * as badgeRepository from '../../../../../src/evaluation/infrastructure/repositories/badge-repository.js';
 import { AlreadyExistingEntityError } from '../../../../../src/shared/domain/errors.js';
 import { catchErr, databaseBuilder, expect, knex } from '../../../../test-helper.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Integration | Repository | Badge', function () {
   let targetProfileWithoutBadge;
@@ -161,6 +162,77 @@ describe('Integration | Repository | Badge', function () {
 
         // then
         expect(error).to.be.instanceOf(AlreadyExistingEntityError);
+      });
+    });
+  });
+
+  describe('#saveAll', function () {
+    it('should persist all badges in database', async function () {
+      // given
+      const badges = [
+        {
+          altMessage: 'You won the Toto badge 231!',
+          imageUrl: 'data:,',
+          message: 'Congrats, you won the Toto badge!',
+          key: 'TOTO231',
+          complementaryCertificationBadge: null,
+          targetProfileId: null,
+          isCertifiable: false,
+          isAlwaysVisible: false,
+          title: 'title',
+        },
+        {
+          altMessage: 'You won the Toto badge 232!',
+          imageUrl: 'data:,',
+          message: 'Congrats, you won the Toto badge!',
+          key: 'TOTO232',
+          complementaryCertificationBadge: null,
+          targetProfileId: null,
+          isCertifiable: false,
+          isAlwaysVisible: false,
+          title: 'title',
+        },
+      ];
+
+      // when
+      const savedBadges = await badgeRepository.saveAll(badges);
+
+      // then
+      const [savedBadge1, savedBadge2] = savedBadges;
+      expect(savedBadge1).to.be.instanceOf(Badge);
+      expect(savedBadge2).to.be.instanceOf(Badge);
+      delete savedBadge1.id;
+      delete savedBadge2.id;
+      expect(savedBadge1).to.deep.equal(badges[0]);
+      expect(savedBadge2).to.deep.equal(badges[1]);
+    });
+
+    describe('when there is a unique key constraint violation', function () {
+      it('should not insert any badge', async function () {
+        // given
+        const alreadyExistingBadge = {
+          key: 'TOTO28',
+        };
+        databaseBuilder.factory.buildBadge(alreadyExistingBadge);
+        await databaseBuilder.commit();
+
+        const newBadge1 = domainBuilder.buildBadge({
+          key: 'TOTO27',
+        });
+        const newBadge2 = domainBuilder.buildBadge({
+          key: 'TOTO28',
+        });
+        const newBadge3 = domainBuilder.buildBadge({
+          key: 'TOTO29',
+        });
+
+        // when
+        const error = await catchErr(badgeRepository.saveAll)([newBadge1, newBadge2, newBadge3]);
+        const notSupposedToBeThereBadge = await knex('badges').where({ key: 'TOTO27' });
+
+        // then
+        expect(error).to.be.instanceOf(AlreadyExistingEntityError);
+        expect(notSupposedToBeThereBadge).to.be.empty;
       });
     });
   });
@@ -355,6 +427,41 @@ describe('Integration | Repository | Badge', function () {
           complementaryCertificationBadge: null,
         },
       ]);
+    });
+  });
+
+  describe('#findAllByTargetProfileId', function () {
+    it('should return all badges for a given target profile', async function () {
+      // given
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      const anotherTargetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      databaseBuilder.factory.buildBadge({ targetProfileId, key: 'BADGE_1' });
+      databaseBuilder.factory.buildBadge({ targetProfileId, key: 'BADGE_2' });
+      databaseBuilder.factory.buildBadge({ targetProfileId: anotherTargetProfileId });
+      await databaseBuilder.commit();
+
+      // when
+      const badges = await badgeRepository.findAllByTargetProfileId(targetProfileId);
+
+      // then
+      expect(badges).to.have.length(2);
+      const [badge1, badge2] = badges;
+      expect(badge1.key).to.equal('BADGE_1');
+      expect(badge2.key).to.equal('BADGE_2');
+      expect(badge1).to.be.instanceOf(Badge);
+      expect(badge2).to.be.instanceOf(Badge);
+    });
+
+    it('should return an empty array when the target profile has no badges', async function () {
+      // given
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      await databaseBuilder.commit();
+
+      // when
+      const badges = await badgeRepository.findAllByTargetProfileId(targetProfileId);
+
+      // then
+      expect(badges).to.have.length(0);
     });
   });
 });

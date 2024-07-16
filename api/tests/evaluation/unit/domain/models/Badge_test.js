@@ -1,3 +1,5 @@
+import { Badge } from '../../../../../src/evaluation/domain/models/Badge.js';
+import { BADGE_COPY_NAME_PREFIX } from '../../../../../src/shared/domain/constants.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Models | Badge', function () {
@@ -55,6 +57,35 @@ describe('Unit | Domain | Models | Badge', function () {
 
       // then
       expect(badge.targetProfileId).to.equal(456);
+    });
+  });
+
+  describe('#clone', function () {
+    it('should clone badge with updated targetProfileId and key', function () {
+      // given
+      const badge = new Badge({
+        id: undefined,
+        altMessage: 'altMessage',
+        imageUrl: '/img/badge.svg',
+        message: 'original message',
+        title: 'original title',
+        key: 'original key',
+        isCertifiable: false,
+        targetProfileId: 456,
+        isAlwaysVisible: false,
+        complementaryCertificationBadge: null,
+      });
+      const newTargetProfileId = 789;
+
+      // when
+      const clonedBadge = badge.clone(newTargetProfileId);
+
+      // then
+      expect(clonedBadge).to.deep.equal({
+        ...badge,
+        key: BADGE_COPY_NAME_PREFIX + badge.key,
+        targetProfileId: newTargetProfileId,
+      });
     });
   });
 });
