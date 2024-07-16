@@ -1,8 +1,14 @@
-import { countryController } from '../../../../lib/application/countries/country-controller.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { domainBuilder, expect, generateValidRequestAuthorizationHeader, hFake, sinon } from '../../../test-helper.js';
+import { countryController } from '../../../../../src/certification/enrolment/application/country-controller.js';
+import { usecases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
+import {
+  domainBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  hFake,
+  sinon,
+} from '../../../../test-helper.js';
 
-describe('Unit | Controller | country-controller', function () {
+describe('Certification | Enrolment | Unit | Application | country-controller', function () {
   describe('#findCountries', function () {
     it('should fetch and return the countries, serialized as JSONAPI', async function () {
       // given
