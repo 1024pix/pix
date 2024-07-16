@@ -13,6 +13,6 @@ module('Integration | Component |  common/loader-grey', function (hooks) {
     const screen = await renderScreen(hbs`<Common::LoaderGrey />`);
 
     // then
-    assert.dom(assert.dom(screen.getByRole('progressbar', { name: 'chargement' })).exists());
+    assert.dom(screen.getByRole('progressbar', { name: 'chargement' })).exists();
   });
 });
