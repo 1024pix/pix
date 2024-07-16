@@ -1,5 +1,35 @@
 # Pix Changelog
 
+## v4.182.0 (16/07/2024)
+
+
+### :rocket: Amélioration
+- [#9478](https://github.com/1024pix/pix/pull/9478) [FEATURE] Finaliser l'ajout des traduction en NL dans Pix Orga (PIX-13240).
+- [#9505](https://github.com/1024pix/pix/pull/9505) [FEATURE] Ajout d'une description à PixOrga et autorisation du passage des google Bots (PIX-12633).
+- [#9476](https://github.com/1024pix/pix/pull/9476) [FEATURE] Copier les badges, leurs critères et les paliers d'un profil cible lors de la duplication (PIX-13233).
+
+### :building_construction: Tech
+- [#9528](https://github.com/1024pix/pix/pull/9528) [TECH] Ne pas lever d'exception lors du lancement des seeds si le référentiel contient un acquis sans épreuve fr-fr validée (PIX-13451).
+- [#9516](https://github.com/1024pix/pix/pull/9516) [TECH] Migrer la route "get course" dans le dossier shared (PIX-13424).
+- [#9522](https://github.com/1024pix/pix/pull/9522) [TECH] Migrer le prehandler assessment authorization (PIX-13442).
+- [#9521](https://github.com/1024pix/pix/pull/9521) [TECH] Correctifs de problèmes mineurs constatés lors de la migration Bounded Context (PIX-13441).
+- [#9523](https://github.com/1024pix/pix/pull/9523) [TECH] Migrer la route /api/admin/complementary-certifications/attachable-target-profiles vers configuration (PIX-13438).
+- [#9517](https://github.com/1024pix/pix/pull/9517) [TECH] Créer le context configuration et migrer la route api/admin/complementary-certifications (PIX-13415).
+- [#9526](https://github.com/1024pix/pix/pull/9526) [TECH] Migrer GET /api/certification-centers/{certificationCenterId}/invitations vers src/team (PIX-13440).
+- [#9519](https://github.com/1024pix/pix/pull/9519) [TECH] Migrer la route GET api/admin/admin-members (PIX-13420).
+- [#9520](https://github.com/1024pix/pix/pull/9520) [TECH] Mise à jour de la doc prescription.
+- [#9527](https://github.com/1024pix/pix/pull/9527) [TECH] Migrer le dossier feature toggles et le fichier config (PIX-13447).
+- [#9530](https://github.com/1024pix/pix/pull/9530) [TECH] Supprime des messages d'avertissements d'obsolescence dans Pix Admin.
+
+### :bug: Correction
+- [#9532](https://github.com/1024pix/pix/pull/9532) [BUGFIX] Placer la meta description dans la balise head.
+- [#9510](https://github.com/1024pix/pix/pull/9510) [BUGFIX] PixCompanion : Le ping n’est pas enregistré sur le bon CertificationCandidate (PIX-13341).
+- [#9515](https://github.com/1024pix/pix/pull/9515) [BUGFIX] Ajouter la clef oubliée de traduction pour le label de réinitialisation du simulateur (PIX-13425).
+
+### :arrow_up: Montée de version
+- [#9495](https://github.com/1024pix/pix/pull/9495) [BUMP] Update dependency ember-intl to v7 (orga) (PIX-13407).
+- [#9338](https://github.com/1024pix/pix/pull/9338) [BUMP] Lock file maintenance (admin).
+
 ## v4.181.0 (15/07/2024)
 
 
