@@ -42,9 +42,10 @@ export class OidcProvider {
   /**
    *
    * @param {CryptoService} cryptoService
-   * @return {Promise<void>}
+   * @return {Promise<string | null}>}
    */
   async decryptClientSecret(cryptoService) {
+    if (!this.encryptedClientSecret) return null;
     this.clientSecret = await cryptoService.decrypt(this.encryptedClientSecret);
   }
 }

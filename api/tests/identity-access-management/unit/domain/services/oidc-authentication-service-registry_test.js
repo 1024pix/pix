@@ -1,6 +1,12 @@
 import { InvalidIdentityProviderError } from '../../../../../lib/domain/errors.js';
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
+import { OidcProvider } from '../../../../../src/identity-access-management/domain/models/OidcProvider.js';
+import { CnfptOidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/cnfpt-oidc-authentication-service.js';
+import { FwbOidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/fwb-oidc-authentication-service.js';
+import { GoogleOidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/google-oidc-authentication-service.js';
+import { OidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/oidc-authentication-service.js';
 import { OidcAuthenticationServiceRegistry } from '../../../../../src/identity-access-management/domain/services/oidc-authentication-service-registry.js';
+import { PoleEmploiOidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/pole-emploi-oidc-authentication-service.js';
 import { oidcProviderRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/oidc-provider-repository.js';
 import { catchErrSync, expect, sinon } from '../../../../test-helper.js';
 
@@ -220,6 +226,48 @@ describe('Unit | Identity Access Management | Domain | Services | oidc-authentic
 
         expect(readyOidcProviderServicesForPixAdmin).to.have.lengthOf(1);
         expect(readyOidcProviderServicesForPixAdmin.map((service) => service.code)).to.contain('OIDC_FOR_PIX_ADMIN');
+      });
+    });
+
+    describe('when oidc provider services loads providers', function () {
+      it('instantciates the correct OIDC authentication services', async function () {
+        // given
+        sinon
+          .stub(oidcProviderRepository, 'findAllOidcProviders')
+          .resolves([
+            new OidcProvider({ identityProvider: 'GENERIC' }),
+            new OidcProvider({ identityProvider: 'FWB' }),
+            new OidcProvider({ identityProvider: 'GOOGLE' }),
+            new OidcProvider({ identityProvider: 'POLE_EMPLOI' }),
+            new OidcProvider({ identityProvider: 'CNFPT' }),
+          ]);
+
+        // when
+        await oidcAuthenticationServiceRegistry.loadOidcProviderServices();
+        const services = oidcAuthenticationServiceRegistry.getAllOidcProviderServices();
+
+        // then
+        expect(services.length).to.be.equal(5);
+
+        const genericService = services.find((service) => service.identityProvider === 'GENERIC');
+        expect(genericService).not.to.be.empty;
+        expect(genericService).to.be.instanceOf(OidcAuthenticationService);
+
+        const fwbService = services.find((service) => service.identityProvider === 'FWB');
+        expect(fwbService).not.to.be.empty;
+        expect(fwbService).to.be.instanceOf(FwbOidcAuthenticationService);
+
+        const googleService = services.find((service) => service.identityProvider === 'GOOGLE');
+        expect(googleService).not.to.be.empty;
+        expect(googleService).to.be.instanceOf(GoogleOidcAuthenticationService);
+
+        const poleEmploiService = services.find((service) => service.identityProvider === 'POLE_EMPLOI');
+        expect(poleEmploiService).not.to.be.empty;
+        expect(poleEmploiService).to.be.instanceOf(PoleEmploiOidcAuthenticationService);
+
+        const cnfptService = services.find((service) => service.identityProvider === 'CNFPT');
+        expect(cnfptService).not.to.be.empty;
+        expect(cnfptService).to.be.instanceOf(CnfptOidcAuthenticationService);
       });
     });
   });
