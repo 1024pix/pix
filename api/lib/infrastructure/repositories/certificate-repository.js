@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { knex } from '../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../lib/domain/errors.js';
-import { CertifiedBadge } from '../../../lib/domain/read-models/CertifiedBadge.js';
+import { CertifiedBadge } from '../../../src/certification/results/domain/read-models/CertifiedBadge.js';
 import {
   AssessmentResult,
   CompetenceMark,

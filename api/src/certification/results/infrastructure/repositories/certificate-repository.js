@@ -7,10 +7,10 @@ import {
   PrivateCertificate,
   ResultCompetenceTree,
 } from '../../../../../lib/domain/models/index.js';
-import { CertifiedBadge } from '../../../../../lib/domain/read-models/CertifiedBadge.js';
 import * as competenceTreeRepository from '../../../../../lib/infrastructure/repositories/competence-tree-repository.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CertificationAttestation } from '../../domain/models/CertificationAttestation.js';
+import { CertifiedBadge } from '../../domain/read-models/CertifiedBadge.js';
 
 const findByDivisionForScoIsManagingStudentsOrganization = async function ({ organizationId, division }) {
   const certificationCourseDTOs = await _selectCertificationAttestations()

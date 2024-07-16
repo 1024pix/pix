@@ -1,8 +1,8 @@
-import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
-import { CertifiedBadge } from '../../../../lib/domain/read-models/CertifiedBadge.js';
-import { expect } from '../../../test-helper.js';
+import { ComplementaryCertificationCourseResult } from '../../../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
+import { CertifiedBadge } from '../../../../../../src/certification/results/domain/read-models/CertifiedBadge.js';
+import { expect } from '../../../../../test-helper.js';
 
-describe('Unit | Domain | Read-models | CertifiedBadge', function () {
+describe('Certification | Results | Unit | Domain | Read-models | CertifiedBadge', function () {
   describe('#getAcquiredCertifiedBadgesDTO', function () {
     context('when badge has no external jury', function () {
       context('when badge is not acquired', function () {
