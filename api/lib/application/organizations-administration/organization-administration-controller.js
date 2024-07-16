@@ -2,13 +2,6 @@ import { organizationForAdminSerializer } from '../../../src/organizational-enti
 import { usecases } from '../../domain/usecases/index.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 
-const getOrganizationDetails = async function (request, h, dependencies = { organizationForAdminSerializer }) {
-  const organizationId = request.params.id;
-
-  const organizationDetails = await usecases.getOrganizationDetails({ organizationId });
-  return dependencies.organizationForAdminSerializer.serialize(organizationDetails);
-};
-
 const updateOrganizationInformation = async function (
   request,
   h,
@@ -27,5 +20,5 @@ const updateOrganizationInformation = async function (
   return h.response(dependencies.organizationForAdminSerializer.serialize(organizationUpdated));
 };
 
-const organizationAdministrationController = { getOrganizationDetails, updateOrganizationInformation };
-export { getOrganizationDetails, organizationAdministrationController, updateOrganizationInformation };
+const organizationAdministrationController = { updateOrganizationInformation };
+export { organizationAdministrationController, updateOrganizationInformation };

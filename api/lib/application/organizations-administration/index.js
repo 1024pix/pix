@@ -1,5 +1,6 @@
 import Joi from 'joi';
 
+import { organizationAdminController as srcOrganizationController } from '../../../src/organizational-entities/application/organization/organization.admin.controller.js';
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
 import { PayloadTooLargeError, sendJsonApiError } from '../http-errors.js';
@@ -33,7 +34,7 @@ const register = async function (server) {
             id: identifiersType.organizationId,
           }),
         },
-        handler: organizationController.getOrganizationDetails,
+        handler: srcOrganizationController.getOrganizationDetails,
         tags: ['api', 'organizations'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +

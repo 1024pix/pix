@@ -28,6 +28,33 @@ describe('Unit | Organizational Entities | Application | Controller | Admin | or
     });
   });
 
+  describe('#getOrganizationDetails', function () {
+    it('should call the usecase and serialize the response', async function () {
+      // given
+      const organizationId = 1234;
+      const request = { params: { id: organizationId } };
+
+      const organizationDetails = Symbol('organizationDetails');
+      const organizationDetailsSerialized = Symbol('organizationDetailsSerialized');
+      sinon.stub(usecases, 'getOrganizationDetails').withArgs({ organizationId }).resolves(organizationDetails);
+      const organizationForAdminSerializerStub = {
+        serialize: sinon.stub(),
+      };
+
+      organizationForAdminSerializerStub.serialize.withArgs(organizationDetails).returns(organizationDetailsSerialized);
+
+      const dependencies = {
+        organizationForAdminSerializer: organizationForAdminSerializerStub,
+      };
+
+      // when
+      const result = await organizationAdminController.getOrganizationDetails(request, hFake, dependencies);
+
+      // then
+      expect(result).to.equal(organizationDetailsSerialized);
+    });
+  });
+
   describe('#updateOrganizationsInBatch', function () {
     let filePath, request;
 
