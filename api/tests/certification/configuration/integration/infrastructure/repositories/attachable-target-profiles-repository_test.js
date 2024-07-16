@@ -1,7 +1,7 @@
-import * as attachableTargetProfileRepository from '../../../../lib/infrastructure/repositories/attachable-target-profiles-repository.js';
-import { databaseBuilder, expect } from '../../../test-helper.js';
+import * as attachableTargetProfileRepository from '../../../../../../src/certification/configuration/infrastructure/repositories/attachable-target-profiles-repository.js';
+import { databaseBuilder, expect } from '../../../../../test-helper.js';
 
-describe('Integration | Repository | attachable-target-profiles', function () {
+describe('Certification | Configuration | Integration | Repository | attachable-target-profiles', function () {
   describe('#find', function () {
     it('should return attachable target profiles ordered by name asc, then id desc', async function () {
       // given
