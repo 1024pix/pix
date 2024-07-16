@@ -888,6 +888,10 @@ async function _makeCandidatesCoreCertifiable(databaseBuilder, certificationCand
     const orderedSkills = _.sortBy(skills, 'level').filter(({ level }) => level <= maxLevel);
     for (const skill of orderedSkills) {
       const challenge = await learningContent.findFirstValidatedChallengeBySkillId(skill.id);
+      if (!challenge) {
+        continue;
+      }
+
       coreProfileData[competence.id].threeMostDifficultSkillsAndChallenges.push({ challenge, skill });
       assessmentAndUserIds.forEach(({ assessmentId, userId }) => {
         const answerId = databaseBuilder.factory.buildAnswer({
@@ -1016,12 +1020,15 @@ async function _makeCandidatesComplementaryCertificationCertifiable(
   const areaForCompetence = {};
   for (const skill of allSkillsOfFramework) {
     const challenge = await learningContent.findFirstValidatedChallengeBySkillId(skill.id);
+    if (!challenge) continue;
+
     if (!areaForCompetence[skill.competenceId]) {
       const competence = await learningContent.findCompetence(skill.competenceId);
       areaForCompetence[skill.competenceId] = competence.areaId;
     }
-    if (!complementaryProfileData[areaForCompetence[skill.competenceId]])
+    if (!complementaryProfileData[areaForCompetence[skill.competenceId]]) {
       complementaryProfileData[areaForCompetence[skill.competenceId]] = { fourMostDifficultSkillsAndChallenges: [] };
+    }
     complementaryProfileData[areaForCompetence[skill.competenceId]].fourMostDifficultSkillsAndChallenges.push({
       skill,
       challenge,
