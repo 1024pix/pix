@@ -1,8 +1,8 @@
 import { knex } from '../../../../db/knex-database-connection.js';
-import { config } from '../../../../lib/config.js';
 import { UserNotFoundError } from '../../../../lib/domain/errors.js';
 import { Membership } from '../../../../lib/domain/models/index.js';
 import { UserOrgaSettings } from '../../../../lib/domain/models/UserOrgaSettings.js';
+import { config } from '../../../../src/shared/config.js';
 import { Organization } from '../../../organizational-entities/domain/models/Organization.js';
 import { Tag } from '../../../organizational-entities/domain/models/Tag.js';
 import { ForbiddenAccess } from '../../../shared/domain/errors.js';

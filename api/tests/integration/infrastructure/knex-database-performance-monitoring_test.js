@@ -1,6 +1,6 @@
 import { knex } from '../../../db/knex-database-connection.js';
-import { config } from '../../../lib/config.js';
 import { asyncLocalStorage } from '../../../lib/infrastructure/monitoring-tools.js';
+import { config } from '../../../src/shared/config.js';
 import { expect, sinon } from '../../test-helper.js';
 const selectQuery = knex.raw('SELECT 1 as value');
 

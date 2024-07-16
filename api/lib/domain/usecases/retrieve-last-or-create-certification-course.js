@@ -4,9 +4,9 @@ import { SessionNotAccessible } from '../../../src/certification/session-managem
 import { ComplementaryCertificationCourse } from '../../../src/certification/session-management/domain/models/ComplementaryCertificationCourse.js';
 import { CertificationCourse } from '../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { CertificationVersion } from '../../../src/certification/shared/domain/models/CertificationVersion.js';
+import { config } from '../../../src/shared/config.js';
 import { LanguageNotSupportedError } from '../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
-import { config } from '../../config.js';
 import {
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,

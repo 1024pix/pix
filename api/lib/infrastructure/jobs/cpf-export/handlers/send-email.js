@@ -1,5 +1,5 @@
+import { config } from '../../../../../src/shared/config.js';
 import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
-import { config } from '../../../../config.js';
 
 const { cpf } = config;
 const sendEmail = async function ({ getPreSignedUrls, mailService }) {

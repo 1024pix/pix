@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { config } from '../../../../../lib/config.js';
+import { config } from '../../../../../src/shared/config.js';
 
 function _randomLetter() {
   const letters = config.availableCharacterForCode.letters.split('');

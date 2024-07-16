@@ -1,4 +1,4 @@
-import { config } from '../../config.js';
+import { config } from '../../../src/shared/config.js';
 
 const redisUrl = config.temporaryStorage.redisUrl;
 

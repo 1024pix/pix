@@ -1,4 +1,4 @@
-import { config } from '../../config.js';
+import { config } from '../../../src/shared/config.js';
 import { DistributedCache } from './DistributedCache.js';
 import { InMemoryCache } from './InMemoryCache.js';
 import { LayeredCache } from './LayeredCache.js';

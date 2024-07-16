@@ -1,4 +1,4 @@
-import { config } from '../../config.js';
+import { config } from '../../../src/shared/config.js';
 import { RedisClient } from './RedisClient.js';
 
 class RedisMonitor {

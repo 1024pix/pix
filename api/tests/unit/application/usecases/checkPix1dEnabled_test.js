@@ -1,5 +1,5 @@
 import * as useCase from '../../../../lib/application/usecases/checkPix1dEnabled.js';
-import { config as settings } from '../../../../lib/config.js';
+import { config as settings } from '../../../../src/shared/config.js';
 import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | Use Case | checkPix1dEnabled', function () {

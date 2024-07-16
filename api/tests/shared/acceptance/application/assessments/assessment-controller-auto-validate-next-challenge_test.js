@@ -1,4 +1,4 @@
-import { config as settings } from '../../../../../lib/config.js';
+import { config as settings } from '../../../../../src/shared/config.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import {
   createServer,

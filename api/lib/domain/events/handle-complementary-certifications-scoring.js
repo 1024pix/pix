@@ -1,4 +1,4 @@
-import { config } from '../../config.js';
+import { config } from '../../../src/shared/config.js';
 import { AnswerCollectionForScoring } from '../models/AnswerCollectionForScoring.js';
 import { ComplementaryCertificationCourseResult } from '../models/ComplementaryCertificationCourseResult.js';
 import { ComplementaryCertificationScoringWithComplementaryReferential } from '../models/ComplementaryCertificationScoringWithComplementaryReferential.js';

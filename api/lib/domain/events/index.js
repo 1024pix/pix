@@ -17,6 +17,7 @@ import * as certificationCourseRepository from '../../../src/certification/share
 import * as certificationIssueReportRepository from '../../../src/certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
 import * as authenticationMethodRepository from '../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import * as userRepository from '../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
+import { config } from '../../../src/shared/config.js';
 import * as answerRepository from '../../../src/shared/infrastructure/repositories/answer-repository.js';
 import * as assessmentRepository from '../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as assessmentResultRepository from '../../../src/shared/infrastructure/repositories/assessment-result-repository.js';
@@ -26,7 +27,6 @@ import * as organizationRepository from '../../../src/shared/infrastructure/repo
 import * as skillRepository from '../../../src/shared/infrastructure/repositories/skill-repository.js';
 import { injectDefaults } from '../../../src/shared/infrastructure/utils/dependency-injection.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
-import { config } from '../../config.js';
 import * as eventBusBuilder from '../../infrastructure/events/EventBusBuilder.js';
 import { EventDispatcher } from '../../infrastructure/events/EventDispatcher.js';
 import { EventDispatcherLogger } from '../../infrastructure/events/EventDispatcherLogger.js';

@@ -8,7 +8,7 @@ import dayjs from 'dayjs';
 
 import * as OidcIdentityProviders from '../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
 import { AuthenticationMethod } from '../../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
-import { config } from '../../../config.js';
+import { config } from '../../../../src/shared/config.js';
 import { UnexpectedUserAccountError } from '../../../domain/errors.js';
 
 const notify = async (userId, payload, dependencies) => {

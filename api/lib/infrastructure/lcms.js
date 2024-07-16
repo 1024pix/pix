@@ -1,5 +1,5 @@
+import { config } from '../../src/shared/config.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
-import { config } from '../config.js';
 import { httpAgent } from './http/http-agent.js';
 
 const { lcms: lcmsConfig } = config;

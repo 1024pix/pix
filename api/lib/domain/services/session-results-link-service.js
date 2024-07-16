@@ -1,5 +1,5 @@
+import { config } from '../../../src/shared/config.js';
 import { tokenService } from '../../../src/shared/domain/services/token-service.js';
-import { config } from '../../config.js';
 
 const generateResultsLink = function ({ sessionId, i18n }) {
   const daysBeforeExpiration = 30;

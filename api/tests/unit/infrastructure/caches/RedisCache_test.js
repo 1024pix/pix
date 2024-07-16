@@ -1,7 +1,7 @@
 import Redlock from 'redlock';
 
-import { config as settings } from '../../../../lib/config.js';
 import { PATCHES_KEY, RedisCache } from '../../../../lib/infrastructure/caches/RedisCache.js';
+import { config as settings } from '../../../../src/shared/config.js';
 import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Infrastructure | Cache | redis-cache', function () {

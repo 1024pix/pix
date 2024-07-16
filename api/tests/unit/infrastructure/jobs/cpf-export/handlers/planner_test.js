@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
-import { config } from '../../../../../../lib/config.js';
 import { planner } from '../../../../../../lib/infrastructure/jobs/cpf-export/handlers/planner.js';
+import { config } from '../../../../../../src/shared/config.js';
 import { expect, sinon } from '../../../../../test-helper.js';
 const { cpf } = config;
 import utc from 'dayjs/plugin/utc.js';

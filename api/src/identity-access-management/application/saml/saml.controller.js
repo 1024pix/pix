@@ -1,4 +1,4 @@
-import { config } from '../../../../lib/config.js';
+import { config } from '../../../../src/shared/config.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { usecases } from '../../domain/usecases/index.js';

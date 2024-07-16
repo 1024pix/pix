@@ -3,7 +3,7 @@ import timezone from 'dayjs/plugin/timezone.js';
 import utc from 'dayjs/plugin/utc.js';
 import xmlbuilder2 from 'xmlbuilder2';
 
-import { config } from '../../config.js';
+import { config } from '../../../src/shared/config.js';
 
 const { create, fragment } = xmlbuilder2;
 

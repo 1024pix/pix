@@ -72,6 +72,7 @@ import * as registrationOrganizationLearnerRepository from '../../../src/prescri
 import * as activityAnswerRepository from '../../../src/school/infrastructure/repositories/activity-answer-repository.js';
 import * as missionRepository from '../../../src/school/infrastructure/repositories/mission-repository.js';
 import * as schoolRepository from '../../../src/school/infrastructure/repositories/school-repository.js';
+import { config } from '../../../src/shared/config.js';
 import * as codeGenerator from '../../../src/shared/domain/services/code-generator.js';
 import { cryptoService } from '../../../src/shared/domain/services/crypto-service.js';
 import * as languageService from '../../../src/shared/domain/services/language-service.js';
@@ -101,7 +102,6 @@ import { organizationInvitationService } from '../../../src/team/domain/services
 import * as certificationCenterInvitationRepository from '../../../src/team/infrastructure/repositories/certification-center-invitation-repository.js';
 import { organizationInvitationRepository } from '../../../src/team/infrastructure/repositories/organization-invitation.repository.js';
 import { userOrgaSettingsRepository } from '../../../src/team/infrastructure/repositories/user-orga-settings-repository.js';
-import { config } from '../../config.js';
 import * as certificationBadgesService from '../../domain/services/certification-badges-service.js';
 import * as certificationCandidatesOdsService from '../../domain/services/certification-candidates-ods-service.js';
 import * as certificationChallengesService from '../../domain/services/certification-challenges-service.js';

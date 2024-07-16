@@ -1,8 +1,8 @@
 import { assessmentAuthorization } from '../../../../../lib/application/preHandlers/assessment-authorization.js';
-import { config as settings } from '../../../../../lib/config.js';
 import { assessmentController } from '../../../../../src/shared/application/assessments/assessment-controller.js';
 import * as moduleUnderTest from '../../../../../src/shared/application/assessments/index.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
+import { config as settings } from '../../../../../src/shared/config.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Application | Router | assessment-router', function () {

@@ -2,7 +2,6 @@ import jsonwebtoken from 'jsonwebtoken';
 import ms from 'ms';
 import { Issuer } from 'openid-client';
 
-import { config as settings } from '../../../../../lib/config.js';
 import { OIDC_ERRORS } from '../../../../../lib/domain/constants.js';
 import { OidcMissingFieldsError } from '../../../../../lib/domain/errors.js';
 import {
@@ -12,6 +11,7 @@ import {
 } from '../../../../../lib/domain/models/index.js';
 import { monitoringTools } from '../../../../../lib/infrastructure/monitoring-tools.js';
 import { OidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/oidc-authentication-service.js';
+import { config as settings } from '../../../../../src/shared/config.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import { OidcError } from '../../../../../src/shared/domain/errors.js';
 import { catchErr, catchErrSync, expect, sinon } from '../../../../test-helper.js';

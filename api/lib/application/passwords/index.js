@@ -1,7 +1,7 @@
 import Joi from 'joi';
 import XRegExp from 'xregexp';
 
-import { config } from '../../config.js';
+import { config } from '../../../src/shared/config.js';
 import { passwordController } from './password-controller.js';
 
 const { passwordValidationPattern } = config.account;

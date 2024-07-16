@@ -1,5 +1,5 @@
-import { config } from '../../../../../lib/config.js';
 import { temporaryStorage } from '../../../../../lib/infrastructure/temporary-storage/index.js';
+import { config } from '../../../../../src/shared/config.js';
 
 const sessionMassImportTemporaryStorage = temporaryStorage.withPrefix('sessions-mass-import:');
 import { randomUUID } from 'node:crypto';

@@ -1,4 +1,4 @@
-import { config } from '../../../../config.js';
+import { config } from '../../../../../src/shared/config.js';
 import { UserAnonymized } from '../../../../domain/events/UserAnonymized.js';
 
 export class UserAnonymizedEventLoggingJobScheduler {

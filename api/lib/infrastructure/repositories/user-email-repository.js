@@ -1,4 +1,4 @@
-import { config } from '../../config.js';
+import { config } from '../../../src/shared/config.js';
 const EXPIRATION_DELAY_SECONDS = config.temporaryStorage.expirationDelaySeconds;
 import { EmailModificationDemand } from '../../domain/models/EmailModificationDemand.js';
 import { temporaryStorage } from '../temporary-storage/index.js';

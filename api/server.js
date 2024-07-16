@@ -4,7 +4,6 @@ import Qs from 'qs';
 
 import { setupErrorHandling } from './config/server-setup-error-handling.js';
 import { knex } from './db/knex-database-connection.js';
-import { config } from './lib/config.js';
 import { authentication } from './lib/infrastructure/authentication.js';
 import { monitoringTools } from './lib/infrastructure/monitoring-tools.js';
 import { routes } from './lib/routes.js';
@@ -31,6 +30,7 @@ import { organizationLearnerRoutes } from './src/prescription/organization-learn
 import { organizationPlaceRoutes } from './src/prescription/organization-place/routes.js';
 import { targetProfileRoutes } from './src/prescription/target-profile/routes.js';
 import { schoolRoutes } from './src/school/routes.js';
+import { config } from './src/shared/config.js';
 import { plugins } from './src/shared/infrastructure/plugins/index.js';
 import { deserializer } from './src/shared/infrastructure/serializers/jsonapi/deserializer.js';
 // bounded context migration

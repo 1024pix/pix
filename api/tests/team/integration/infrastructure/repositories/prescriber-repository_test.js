@@ -1,11 +1,11 @@
 import bcrypt from 'bcrypt';
 
-import { config as settings } from '../../../../../lib/config.js';
 import { UserNotFoundError } from '../../../../../lib/domain/errors.js';
 import { Membership } from '../../../../../lib/domain/models/Membership.js';
 import { UserOrgaSettings } from '../../../../../lib/domain/models/UserOrgaSettings.js';
 import { Organization } from '../../../../../src/organizational-entities/domain/models/Organization.js';
 import { Tag } from '../../../../../src/organizational-entities/domain/models/Tag.js';
+import { config as settings } from '../../../../../src/shared/config.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
 import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
 import { Prescriber } from '../../../../../src/team/domain/read-models/Prescriber.js';

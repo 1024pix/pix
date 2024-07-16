@@ -1,6 +1,6 @@
 import jsonwebtoken from 'jsonwebtoken';
 
-import { config } from '../../../../lib/config.js';
+import { config } from '../../../../src/shared/config.js';
 import {
   ForbiddenAccess,
   InvalidExternalUserTokenError,

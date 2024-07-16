@@ -1,8 +1,8 @@
-import { config } from '../../../../../../lib/config.js';
 import { AssessmentEndedError } from '../../../../../../lib/domain/errors.js';
 import { FlashAssessmentAlgorithm } from '../../../../../../src/certification/flash-certification/domain/models/FlashAssessmentAlgorithm.js';
 import { FlashAssessmentAlgorithmConfiguration } from '../../../../../../src/certification/flash-certification/domain/models/FlashAssessmentAlgorithmConfiguration.js';
 import { FlashAssessmentSuccessRateHandler } from '../../../../../../src/certification/flash-certification/domain/models/FlashAssessmentSuccessRateHandler.js';
+import { config } from '../../../../../../src/shared/config.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 const baseFlashAssessmentAlgorithmConfig = {
