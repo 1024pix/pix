@@ -1,5 +1,3 @@
-import { BADGE_COPY_NAME_PREFIX } from '../../../shared/domain/constants.js';
-
 const UPDATABLE_PROPERTIES = ['message', 'altMessage', 'key', 'title', 'imageUrl', 'isCertifiable', 'isAlwaysVisible'];
 
 class Badge {
@@ -34,12 +32,13 @@ class Badge {
   }
 
   clone(newTargetProfileId) {
+    const timestampPrefix = new Date().getTime();
     return new Badge({
       altMessage: this.altMessage,
       imageUrl: this.imageUrl,
       message: this.message,
       title: this.title,
-      key: BADGE_COPY_NAME_PREFIX + this.key,
+      key: `${timestampPrefix}_${this.key}`,
       isCertifiable: this.isCertifiable,
       targetProfileId: newTargetProfileId,
       isAlwaysVisible: this.isAlwaysVisible,
