@@ -227,7 +227,7 @@
                   ],
                   "feedbacks": {
                     "valid": "<span class=\"feedback__state\">Correct !</span><p>Un prompt en langue française va amener le LLM à répondre en français. La sous-représentation de données concernant le Québec parmi les jeux de données d'entraînement amène à une réponse qui concerne la France.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect ! </span> <p>Et si le problème ne venait pas du LLM ? <span aria-hidden=\"true\">&nbsp;🤔</span></p>"
+                    "invalid": "<span class=\"feedback__state\">Incorrect ! </span> <p>La cause se situe ailleurs. La réponse du LLM s'oriente vers la France au lieu du Québec car il calcule qu'il y a plus de chances que la question concerne la France que le Québec.</p>"
                   },
                   "solution": "2"
                 }
