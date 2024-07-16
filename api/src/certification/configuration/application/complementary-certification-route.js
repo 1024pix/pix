@@ -1,40 +1,34 @@
-import Joi from 'joi';
-
-import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
+import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { complementaryCertificationController } from './complementary-certification-controller.js';
 
 const register = async function (server) {
   server.route([
     {
       method: 'GET',
-      path: '/api/admin/complementary-certifications/attachable-target-profiles',
+      path: '/api/admin/complementary-certifications',
       config: {
-        validate: {
-          query: Joi.object({
-            searchTerm: Joi.string().allow(null, '').optional(),
-          }),
-        },
         pre: [
           {
             method: (request, h) =>
               securityPreHandlers.hasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
                 securityPreHandlers.checkAdminMemberHasRoleMetier,
               ])(request, h),
             assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
-        handler: complementaryCertificationController.searchAttachableTargetProfilesForComplementaryCertifications,
+        handler: complementaryCertificationController.findComplementaryCertifications,
         tags: ['api', 'admin'],
         notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin, Support et Métier',
-          'Elle renvoie les profils cibles qui peuvent être attachés à un certification complémentaire.',
+          'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin, Support, Certif et Métier',
+          'Elle renvoie la liste des certifications complémentaires existantes.',
         ],
       },
     },
   ]);
 };
 
-const name = 'complementary-certifications-api';
+const name = 'configuration-complementary-certifications-api';
 export { name, register };
