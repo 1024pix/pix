@@ -2,7 +2,7 @@ import { SCOPES } from '../../../../lib/domain/models/BadgeDetails.js';
 import { copyTargetProfileBadges } from '../../../../lib/domain/usecases/copy-target-profile-badges.js';
 import * as badgeCriteriaRepository from '../../../../src/evaluation/infrastructure/repositories/badge-criteria-repository.js';
 import * as badgeRepository from '../../../../src/evaluation/infrastructure/repositories/badge-repository.js';
-import { DomainTransaction } from '../../../../src/shared/domain/DomainTransaction.js';
+import { DomainTransaction, withTransaction } from '../../../../src/shared/domain/DomainTransaction.js';
 import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | UseCases | copy-badges', function () {
@@ -31,11 +31,9 @@ describe('Integration | UseCases | copy-badges', function () {
       await databaseBuilder.commit();
 
       // when
-      const domainTransaction = DomainTransaction.getConnection();
       await copyTargetProfileBadges({
         originTargetProfileId,
         destinationTargetProfileId,
-        domainTransaction,
         badgeRepository,
         badgeCriteriaRepository,
       });
@@ -103,42 +101,44 @@ describe('Integration | UseCases | copy-badges', function () {
     });
   });
 
-  describe('when there is a UNIQUE_KEY_CONSTRAINT violation on a badge 🔑', function () {
-    let originTargetProfile, destinationTargetProfileId, error;
+  describe('when an unexpected error occurs', function () {
+    let originTargetProfile, destinationTargetProfileId;
 
     beforeEach(async function () {
+      // given
       originTargetProfile = databaseBuilder.factory.buildTargetProfile({ id: 101 });
       destinationTargetProfileId = databaseBuilder.factory.buildTargetProfile({ id: 102 }).id;
-
-      databaseBuilder.factory.buildBadge({
-        key: '[COPIE]_FOO',
+      const { id: badgeId } = databaseBuilder.factory.buildBadge({
+        key: 'FOO',
+        targetProfileId: originTargetProfile.id,
       });
-      databaseBuilder.factory.buildBadge({ key: 'FOO', targetProfileId: originTargetProfile.id });
+      databaseBuilder.factory.buildBadgeCriterion({
+        badgeId,
+      });
 
       await databaseBuilder.commit();
 
       // when
-      await DomainTransaction.execute(async (domainTransaction) => {
-        error = await catchErr(copyTargetProfileBadges)({
+      const transaction = withTransaction(async () => {
+        await copyTargetProfileBadges({
           originTargetProfileId: originTargetProfile.id,
           destinationTargetProfileId,
-          domainTransaction,
           badgeRepository,
           badgeCriteriaRepository,
         });
+        throw new Error('An unexpected error occurred');
+      });
+      catchErr(async () => {
+        await transaction();
       });
     });
 
-    it('should not copy the badge', async function () {
+    it('should not copy the badge nor the badge criteria', async function () {
       // then
-      const badges = await knex('badges').where({ targetProfileId: destinationTargetProfileId });
-      expect(badges).to.be.empty;
-    });
-
-    it('should throw a UNIQUE_KEY_CONSTRAINT error', async function () {
-      // then
-      expect(error).to.be.instanceOf(Error);
-      expect(error.message).to.equal('Key (key)=([COPIE]_FOO) already exists.');
+      const badges = await knex('badges').select('*');
+      const badgesCriteria = await knex('badge-criteria').select('*');
+      expect(badges.length).to.equal(1);
+      expect(badgesCriteria.length).to.equal(1);
     });
   });
 });

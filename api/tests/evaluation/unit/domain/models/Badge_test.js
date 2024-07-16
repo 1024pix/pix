@@ -1,8 +1,18 @@
 import { Badge } from '../../../../../src/evaluation/domain/models/Badge.js';
-import { BADGE_COPY_NAME_PREFIX } from '../../../../../src/shared/domain/constants.js';
-import { domainBuilder, expect } from '../../../../test-helper.js';
+import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Models | Badge', function () {
+  const now = new Date();
+  let clock;
+
+  beforeEach(async function () {
+    clock = sinon.useFakeTimers(now);
+  });
+
+  afterEach(async function () {
+    clock.restore();
+  });
+
   describe('#updateBadgeProperties', function () {
     it('should update instantiated badge with given properties', function () {
       // given
@@ -12,7 +22,7 @@ describe('Unit | Domain | Models | Badge', function () {
         imageUrl: '/img/badge.svg',
         message: 'original message',
         title: 'original title',
-        key: 'original key',
+        key: 'originalKey',
         isCertifiable: false,
         targetProfileId: 456,
         isAlwaysVisible: false,
@@ -24,7 +34,7 @@ describe('Unit | Domain | Models | Badge', function () {
         imageUrl: '/img/new-badge.svg',
         message: 'new message',
         title: 'new title',
-        key: 'new key',
+        key: 'newKey',
         isCertifiable: true,
         isAlwaysVisible: true,
       };
@@ -37,7 +47,7 @@ describe('Unit | Domain | Models | Badge', function () {
       expect(badge.imageUrl).to.equal('/img/new-badge.svg');
       expect(badge.message).to.equal('new message');
       expect(badge.title).to.equal('new title');
-      expect(badge.key).to.equal('new key');
+      expect(badge.key).to.equal('newKey');
       expect(badge.isCertifiable).to.equal(true);
       expect(badge.isAlwaysVisible).to.equal(true);
     });
@@ -63,13 +73,14 @@ describe('Unit | Domain | Models | Badge', function () {
   describe('#clone', function () {
     it('should clone badge with updated targetProfileId and key', function () {
       // given
+
       const badge = new Badge({
         id: undefined,
         altMessage: 'altMessage',
         imageUrl: '/img/badge.svg',
         message: 'original message',
         title: 'original title',
-        key: 'original key',
+        key: 'originalKey',
         isCertifiable: false,
         targetProfileId: 456,
         isAlwaysVisible: false,
@@ -83,7 +94,7 @@ describe('Unit | Domain | Models | Badge', function () {
       // then
       expect(clonedBadge).to.deep.equal({
         ...badge,
-        key: BADGE_COPY_NAME_PREFIX + badge.key,
+        key: `${now.getTime()}_${badge.key}`,
         targetProfileId: newTargetProfileId,
       });
     });
