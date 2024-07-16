@@ -120,9 +120,6 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.CertificationCenterMembershipCreationError) {
     return new HttpErrors.BadRequestError("Le membre ou le centre de certification n'existe pas.");
   }
-  if (error instanceof DomainErrors.InvalidCertificationCandidate) {
-    return new HttpErrors.UnprocessableEntityError(error.message);
-  }
   if (error instanceof DomainErrors.InvalidExternalAPIResponseError) {
     return new HttpErrors.ServiceUnavailableError(error.message);
   }
