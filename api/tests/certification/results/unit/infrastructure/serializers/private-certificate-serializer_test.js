@@ -1,11 +1,11 @@
-import { ResultCompetence } from '../../../../../lib/domain/models/ResultCompetence.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/private-certificate-serializer.js';
-import { ResultCompetenceTree } from '../../../../../src/certification/results/domain/models/ResultCompetenceTree.js';
-import { AutoJuryCommentKeys } from '../../../../../src/certification/shared/domain/models/JuryComment.js';
-import { domainBuilder, expect } from '../../../../test-helper.js';
-import { getI18n } from '../../../../tooling/i18n/i18n.js';
+import { ResultCompetence } from '../../../../../../lib/domain/models/ResultCompetence.js';
+import { ResultCompetenceTree } from '../../../../../../src/certification/results/domain/models/ResultCompetenceTree.js';
+import * as serializer from '../../../../../../src/certification/results/infrastructure/serializers/private-certificate-serializer.js';
+import { AutoJuryCommentKeys } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
+import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 
-describe('Unit | Serializer | JSONAPI | private-certificate-serializer', function () {
+describe('Certification | Results | Unit | Infrastructure | Serializers | private-certificate-serializer', function () {
   let translate;
   let privateCertificateBase;
 

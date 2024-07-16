@@ -1,7 +1,7 @@
+import * as privateCertificateSerializer from '../../../src/certification/results/infrastructure/serializers/private-certificate-serializer.js';
 import * as requestResponseUtils from '../../../src/shared/infrastructure/utils/request-response-utils.js';
 import * as events from '../../domain/events/index.js';
 import { usecases } from '../../domain/usecases/index.js';
-import * as privateCertificateSerializer from '../../infrastructure/serializers/jsonapi/private-certificate-serializer.js';
 import * as shareableCertificateSerializer from '../../infrastructure/serializers/jsonapi/shareable-certificate-serializer.js';
 
 const getCertification = async function (request, h, dependencies = { requestResponseUtils }) {
