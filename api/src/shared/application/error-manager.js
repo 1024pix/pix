@@ -76,6 +76,9 @@ function _formatInvalidAttribute(locale, { attribute, message }) {
 }
 
 function _mapToHttpError(error) {
+  if (error instanceof HttpErrors.BaseHttpError) {
+    return error;
+  }
   if (error instanceof DomainErrors.NotFoundError) {
     return new HttpErrors.NotFoundError(error.message);
   }
