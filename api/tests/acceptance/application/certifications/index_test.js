@@ -1,13 +1,11 @@
 import { generateCertificateVerificationCode } from '../../../../lib/domain/services/verify-certificate-code-service.js';
 import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
-import { CertificationCenterInvitation } from '../../../../src/team/domain/models/CertificationCenterInvitation.js';
 import {
   createServer,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  insertUserWithRoleSuperAdmin,
   learningContentBuilder,
   mockLearningContent,
 } from '../../../test-helper.js';
@@ -447,66 +445,6 @@ describe('Acceptance | API | Certifications', function () {
         // then
         expect(response.statusCode).to.equal(404);
       });
-    });
-  });
-
-  describe('GET /api/admin/certification-centers/{certificationCenterId}/invitations', function () {
-    it('should return 200 HTTP status code and the list of invitations', async function () {
-      // given
-      const adminUser = await insertUserWithRoleSuperAdmin();
-
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-      const now = new Date();
-      const certificationCenterInvitation1 = databaseBuilder.factory.buildCertificationCenterInvitation({
-        certificationCenterId,
-        status: CertificationCenterInvitation.StatusType.PENDING,
-        email: 'alex.terieur@example.net',
-        role: 'MEMBER',
-        updatedAt: now,
-      });
-      const certificationCenterInvitation2 = databaseBuilder.factory.buildCertificationCenterInvitation({
-        certificationCenterId,
-        status: CertificationCenterInvitation.StatusType.PENDING,
-        email: 'sarah.pelle@example.net',
-        role: 'ADMIN',
-        updatedAt: now,
-      });
-      databaseBuilder.factory.buildCertificationCenterInvitation({
-        certificationCenterId,
-        status: CertificationCenterInvitation.StatusType.ACCEPTED,
-      });
-      await databaseBuilder.commit();
-
-      // when
-      const response = await server.inject({
-        method: 'GET',
-        url: `/api/admin/certification-centers/${certificationCenterId}/invitations`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(adminUser.id) },
-      });
-
-      // then
-      expect(response.statusCode).to.equal(200);
-      expect(response.result.data.length).to.equal(2);
-      expect(response.result.data).to.deep.have.members([
-        {
-          type: 'certification-center-invitations',
-          id: certificationCenterInvitation1.id.toString(),
-          attributes: {
-            email: 'alex.terieur@example.net',
-            role: 'MEMBER',
-            'updated-at': now,
-          },
-        },
-        {
-          type: 'certification-center-invitations',
-          id: certificationCenterInvitation2.id.toString(),
-          attributes: {
-            email: 'sarah.pelle@example.net',
-            role: 'ADMIN',
-            'updated-at': now,
-          },
-        },
-      ]);
     });
   });
 });

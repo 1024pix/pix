@@ -3,8 +3,39 @@ import Joi from 'joi';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { certificationCenterInvitationAdminController } from './certification-center-invitation.admin.controller.js';
+import { certificationCenterInvitationController } from './certification-center-invitation.controller.js';
 
 export const certificationCenterInvitationAdminRoutes = [
+  {
+    method: 'GET',
+    path: '/api/admin/certification-centers/{certificationCenterId}/invitations',
+    config: {
+      pre: [
+        {
+          method: (request, h) =>
+            securityPreHandlers.hasAtLeastOneAccessOf([
+              securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+              securityPreHandlers.checkAdminMemberHasRoleCertif,
+              securityPreHandlers.checkAdminMemberHasRoleSupport,
+              securityPreHandlers.checkAdminMemberHasRoleMetier,
+            ])(request, h),
+          assign: 'hasAuthorizationToAccessAdminScope',
+        },
+      ],
+      validate: {
+        params: Joi.object({
+          certificationCenterId: identifiersType.certificationCenterId,
+        }),
+      },
+      //quel handler?
+      handler: certificationCenterInvitationController.findPendingInvitations,
+      notes: [
+        '- **Cette route est restreinte aux utilisateurs authentifiés et ayant accès à Pix Admin**\n' +
+          '- Récupération de la liste des invitations en attente liée un centre de certification',
+      ],
+      tags: ['api', 'certification-center', 'invitations', 'admin'],
+    },
+  },
   {
     method: 'POST',
     path: '/api/admin/certification-centers/{certificationCenterId}/invitations',
