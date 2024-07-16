@@ -8,18 +8,6 @@ const register = async function (server) {
   server.route([
     {
       method: 'GET',
-      path: '/api/certifications',
-      config: {
-        handler: certificationController.findUserCertifications,
-        notes: [
-          '- **Route nécessitant une authentification**\n' +
-            '- Récupération de toutes les certifications complétées de l’utilisateur courant',
-        ],
-        tags: ['api', 'certifications'],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/certifications/{id}',
       config: {
         validate: {

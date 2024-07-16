@@ -4,14 +4,6 @@ import { usecases } from '../../domain/usecases/index.js';
 import * as privateCertificateSerializer from '../../infrastructure/serializers/jsonapi/private-certificate-serializer.js';
 import * as shareableCertificateSerializer from '../../infrastructure/serializers/jsonapi/shareable-certificate-serializer.js';
 
-const findUserCertifications = async function (request) {
-  const userId = request.auth.credentials.userId;
-  const translate = request.i18n.__;
-
-  const privateCertificates = await usecases.findUserPrivateCertificates({ userId });
-  return privateCertificateSerializer.serialize(privateCertificates, { translate });
-};
-
 const getCertification = async function (request, h, dependencies = { requestResponseUtils }) {
   const userId = request.auth.credentials.userId;
   const certificationId = request.params.id;
@@ -61,7 +53,6 @@ const deneutralizeChallenge = async function (request, h, dependencies = { event
 };
 
 const certificationController = {
-  findUserCertifications,
   getCertification,
   getCertificationByVerificationCode,
   neutralizeChallenge,
