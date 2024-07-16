@@ -164,7 +164,7 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<span class=\"feedback__state\">Correct !</span><p>Effectivement, ce sont bien les trois origines principales citées dans la vidéo !</p>",
+                "valid": "<span class=\"feedback__state\">Correct !</span><p>Parmi ces trois origines, les données d'entraînement sont la principale source des biais qui peuvent exister dans les résultats des LLM.</p>",
                 "invalid": "<span class=\"feedback__state\">Incorrect !</span><p>Regardez bien la vidéo précédente et réessayez !</p>"
               },
               "solutions": [
