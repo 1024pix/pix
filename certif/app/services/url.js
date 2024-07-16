@@ -13,12 +13,12 @@ export default class Url extends Service {
   }
 
   get cguUrl() {
-    if (this.#isEnglishSpoken()) return 'https://pix.org/en-gb/terms-and-conditions';
+    if (this.#isEnglishSpoken()) return 'https://pix.org/en/terms-and-conditions';
     return `https://pix.${this.currentDomain.getExtension()}/conditions-generales-d-utilisation`;
   }
 
   get dataProtectionPolicyUrl() {
-    if (this.#isEnglishSpoken()) return 'https://pix.org/en-gb/personal-data-protection-policy';
+    if (this.#isEnglishSpoken()) return 'https://pix.org/en/personal-data-protection-policy';
     return `https://pix.${this.currentDomain.getExtension()}/politique-protection-donnees-personnelles-app`;
   }
 
@@ -33,7 +33,7 @@ export default class Url extends Service {
   get legalNoticeUrl() {
     if (this.currentDomain.isFranceDomain) return 'https://pix.fr/mentions-legales';
 
-    return this.#isFrenchSpoken() ? 'https://pix.org/fr/mentions-legales' : 'https://pix.org/en-gb/legal-notice';
+    return this.#isFrenchSpoken() ? 'https://pix.org/fr/mentions-legales' : 'https://pix.org/en/legal-notice';
   }
 
   get accessibilityUrl() {
@@ -41,7 +41,7 @@ export default class Url extends Service {
 
     return this.#isFrenchSpoken()
       ? 'https://pix.org/fr/accessibilite-pix-certif'
-      : 'https://pix.org/en-gb/accessibility-pix-certif';
+      : 'https://pix.org/en/accessibility-pix-certif';
   }
 
   get supportUrl() {
