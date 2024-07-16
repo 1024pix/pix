@@ -4,6 +4,7 @@ import {
   CertificationCandidateForbiddenDeletionError,
   CertificationCandidateNotFoundError,
   SessionStartedDeletionError,
+  UnknownCountryForStudentEnrolmentError,
 } from '../domain/errors.js';
 
 const enrolmentDomainErrorMappingConfiguration = [
@@ -16,6 +17,10 @@ const enrolmentDomainErrorMappingConfiguration = [
     httpErrorFn: (error) => new HttpErrors.NotFoundError(error.message),
   },
   { name: SessionStartedDeletionError.name, httpErrorFn: (error) => new HttpErrors.ConflictError(error.message) },
+  {
+    name: UnknownCountryForStudentEnrolmentError.name,
+    httpErrorFn: (error) => new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta),
+  },
 ].map((domainErrorMappingConfiguration) => new DomainErrorMappingConfiguration(domainErrorMappingConfiguration));
 
 export { enrolmentDomainErrorMappingConfiguration };

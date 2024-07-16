@@ -319,10 +319,6 @@ describe('Unit | Domain | Errors', function () {
     });
   });
 
-  it('should export a UnknownCountryForStudentEnrolmentError', function () {
-    expect(errors.UnknownCountryForStudentEnrolmentError).to.exist;
-  });
-
   it('should export a OrganizationLearnersCouldNotBeSavedError', function () {
     expect(errors.OrganizationLearnersCouldNotBeSavedError).to.exist;
   });

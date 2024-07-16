@@ -270,10 +270,6 @@ function _mapToHttpError(error) {
     return new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta);
   }
 
-  if (error instanceof DomainErrors.UnknownCountryForStudentEnrolmentError) {
-    return new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta);
-  }
-
   if (error instanceof DomainErrors.MultipleOrganizationLearnersWithDifferentNationalStudentIdError) {
     return new HttpErrors.ConflictError(error.message);
   }
