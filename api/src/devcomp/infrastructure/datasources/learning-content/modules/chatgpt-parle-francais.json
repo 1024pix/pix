@@ -307,7 +307,7 @@
                   ],
                   "feedbacks": {
                     "valid": "<span class=\"feedback__state\">Correct !</span><p>Le LLM n'est pas le seul à comporter des biais. Les utilisateurs peuvent transmettre leurs biais via leur prompt.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect ! </span><p>Et si le problème ne venait pas du LLM ? </p>"
+                    "invalid": "<span class=\"feedback__state\">Incorrect ! </span><p>La cause se situe ailleurs. Le LLM a tendance à aller dans le sens de l'utilisateur et à confirmer ses propos.</p>"
                   },
                   "solution": "3"
                 }
