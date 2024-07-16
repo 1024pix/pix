@@ -6,11 +6,11 @@ import FormData from 'form-data';
 import streamToPromise from 'stream-to-promise';
 
 import { NotFoundError } from '../../../../lib/application/http-errors.js';
-import { authorization } from '../../../../lib/application/preHandlers/authorization.js';
 import { finalizedSessionController } from '../../../../lib/application/sessions/finalized-session-controller.js';
 import * as moduleUnderTest from '../../../../lib/application/sessions/index.js';
 import { sessionController } from '../../../../lib/application/sessions/session-controller.js';
 import { sessionWithCleaCertifiedCandidateController } from '../../../../lib/application/sessions/session-with-clea-certified-candidate-controller.js';
+import { authorization } from '../../../../src/certification/shared/application/pre-handlers/authorization.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 

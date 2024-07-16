@@ -1,6 +1,6 @@
-import { authorization } from '../../../../../lib/application/preHandlers/authorization.js';
 import { finalizeController } from '../../../../../src/certification/session-management/application/finalize-controller.js';
 import * as moduleUnderTest from '../../../../../src/certification/session-management/application/finalize-route.js';
+import { authorization } from '../../../../../src/certification/shared/application/pre-handlers/authorization.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Router | session-route', function () {

@@ -1,9 +1,9 @@
 import JoiDate from '@joi/date';
 import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
-import { authorization } from '../../../../lib/application/preHandlers/authorization.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { authorization } from '../../shared/application/pre-handlers/authorization.js';
 import { certificationCandidateController } from './certification-candidate-controller.js';
 
 const register = async function (server) {
