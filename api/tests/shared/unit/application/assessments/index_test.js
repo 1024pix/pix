@@ -1,4 +1,4 @@
-import { assessmentAuthorization } from '../../../../../lib/application/preHandlers/assessment-authorization.js';
+import { assessmentAuthorization } from '../../../../../src/evaluation/application/pre-handlers/assessment-authorization.js';
 import { assessmentController } from '../../../../../src/shared/application/assessments/assessment-controller.js';
 import * as moduleUnderTest from '../../../../../src/shared/application/assessments/index.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';

@@ -1,5 +1,5 @@
-import { assessmentAuthorization } from '../../../../../lib/application/preHandlers/assessment-authorization.js';
 import { usecases } from '../../../../../lib/domain/usecases/index.js';
+import { assessmentAuthorization } from '../../../../../src/evaluation/application/pre-handlers/assessment-authorization.js';
 import * as moduleUnderTest from '../../../../../src/shared/application/assessments/index.js';
 import { domainBuilder, expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 

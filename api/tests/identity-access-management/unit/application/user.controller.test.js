@@ -206,10 +206,6 @@ describe('Unit | Identity Access Management | Application | Controller | User', 
     beforeEach(function () {
       userSerializer.deserialize.returns(deserializedUser);
 
-      const validationErrorSerializer = {
-        deserialize: sinon.stub(),
-        serialize: sinon.stub(),
-      };
       const cryptoService = {
         hashPassword: sinon.stub(),
       };
@@ -222,7 +218,6 @@ describe('Unit | Identity Access Management | Application | Controller | User', 
 
       dependencies = {
         userSerializer,
-        validationErrorSerializer,
         cryptoService,
         mailService,
         localeService,
