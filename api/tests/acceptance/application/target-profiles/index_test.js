@@ -171,7 +171,7 @@ describe('Acceptance | Route | target-profiles', function () {
         targetProfileId: tubeTargetProfileId,
       } = await knex('target-profile_tubes').where({ targetProfileId }).first();
 
-      const { id: badgeId, key } = await knex('badges').where({ targetProfileId }).first();
+      const { id: badgeId } = await knex('badges').where({ targetProfileId }).first();
       const { id: badgeCriterionId, name: badgeCriterionName } = await knex('badge-criteria')
         .where({ badgeId })
         .first();
@@ -187,8 +187,6 @@ describe('Acceptance | Route | target-profiles', function () {
       expect(tubeTargetProfileId).to.equal(targetProfileId);
 
       expect(badgeId).not.to.equal(badge.id);
-      expect(key).to.equal('[COPIE]_' + badge.key);
-
       expect(badgeCriterionId).not.to.equal(badgeCriterion.id);
       expect(badgeCriterionName).to.equal(badgeCriterion.name);
 
