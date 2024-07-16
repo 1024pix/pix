@@ -16,7 +16,6 @@ import * as centerRepository from '../../../src/certification/enrolment/infrastr
 import * as certificationCandidateRepository from '../../../src/certification/enrolment/infrastructure/repositories/certification-candidate-repository.js';
 import * as certificationCpfCityRepository from '../../../src/certification/enrolment/infrastructure/repositories/certification-cpf-city-repository.js';
 import * as certificationCpfCountryRepository from '../../../src/certification/enrolment/infrastructure/repositories/certification-cpf-country-repository.js';
-import * as countryRepository from '../../../src/certification/enrolment/infrastructure/repositories/country-repository.js';
 import * as sessionEnrolmentRepository from '../../../src/certification/enrolment/infrastructure/repositories/session-repository.js';
 import * as flashAlgorithmService from '../../../src/certification/flash-certification/domain/services/algorithm-methods/flash.js';
 import * as flashAlgorithmConfigurationRepository from '../../../src/certification/flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
@@ -264,7 +263,6 @@ const dependencies = {
   complementaryCertificationRepository,
   config,
   correctionRepository: repositories.correctionRepository,
-  countryRepository,
   courseRepository,
   cryptoService,
   dataProtectionOfficerRepository,
