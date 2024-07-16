@@ -7,42 +7,6 @@ import { domainBuilder, expect, HttpTestServer, sinon } from '../../../test-help
 const { ROLES } = PIX_ADMIN;
 
 describe('Unit | Application | Router | admin-members-router', function () {
-  describe('GET /api/admin/admin-members', function () {
-    it('should return a response with an HTTP status code 200 when user has role "SUPER_ADMIN"', async function () {
-      // given
-      const adminMembers = [domainBuilder.buildAdminMember()];
-      sinon.stub(adminMemberController, 'findAll').returns(adminMembers);
-      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(adminMembersRouter);
-
-      // when
-      const { statusCode } = await httpTestServer.request('GET', '/api/admin/admin-members');
-
-      // then
-      expect(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin).to.have.be.called;
-      expect(adminMemberController.findAll).to.have.be.called;
-      expect(statusCode).to.equal(200);
-    });
-
-    it('should return a response with an HTTP status code 403 if user does not have the rights', async function () {
-      // given
-      sinon
-        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
-        .callsFake((request, h) => h.response().code(403).takeover());
-
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(adminMembersRouter);
-
-      // when
-      const { statusCode } = await httpTestServer.request('GET', '/api/admin/admin-members');
-
-      // then
-      expect(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin).to.have.be.called;
-      expect(statusCode).to.equal(403);
-    });
-  });
-
   describe('PATCH /api/admin/admin-members/{id}', function () {
     describe('when user has role "SUPER_ADMIN"', function () {
       it('should return a response with an HTTP status code 200', async function () {

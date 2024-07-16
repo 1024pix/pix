@@ -1,35 +1,11 @@
 import { adminMemberController } from '../../../../lib/application/admin-members/admin-member-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
-import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
+import { expect, hFake, sinon } from '../../../test-helper.js';
 
 const { ROLES } = PIX_ADMIN;
 
 describe('Unit | Controller | admin-member-controller', function () {
-  describe('#findAll', function () {
-    it('should return the serialized admin members', async function () {
-      // given
-      const member = domainBuilder.buildAdminMember();
-      const otherMember = domainBuilder.buildAdminMember();
-      sinon.stub(usecases, 'getAdminMembers').resolves([member, otherMember]);
-      const serializedMembers = Symbol('serializedMembers');
-      const serializeStub = sinon.stub();
-      serializeStub.withArgs([member, otherMember]).returns(serializedMembers);
-      const request = {};
-      const h = {};
-
-      const adminMemberSerializer = { serialize: serializeStub };
-      const dependencies = { adminMemberSerializer };
-
-      // when
-      const result = await adminMemberController.findAll(request, h, dependencies);
-
-      // then
-      expect(usecases.getAdminMembers).to.have.been.calledOnce;
-      expect(result).to.equal(serializedMembers);
-    });
-  });
-
   describe('#getCurrentAdminMember', function () {
     it('should get the current admin member', async function () {
       // given

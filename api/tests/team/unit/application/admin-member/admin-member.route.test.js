@@ -9,7 +9,7 @@ const { ROLES } = PIX_ADMIN;
 describe('Unit | Team | Application | Router | admin-member', function () {
   describe('POST /api/admin/admin-members', function () {
     context('when user has role "SUPER_ADMIN"', function () {
-      it('should return a response with an HTTP status code 201', async function () {
+      it('returns a response with an HTTP status code 201', async function () {
         // given
         const adminMember = domainBuilder.buildAdminMember();
         sinon
@@ -29,7 +29,7 @@ describe('Unit | Team | Application | Router | admin-member', function () {
       });
 
       context('when role attribute is missing', function () {
-        it('should return a response with an HTTP status code 400', async function () {
+        it('returns a response with an HTTP status code 400', async function () {
           // given
           sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);
           const httpTestServer = new HttpTestServer();
@@ -46,7 +46,7 @@ describe('Unit | Team | Application | Router | admin-member', function () {
       });
 
       context('when role attribute is not valid', function () {
-        it('should return a response with an HTTP status code 400', async function () {
+        it('returns a response with an HTTP status code 400', async function () {
           // given
           const adminMember = domainBuilder.buildAdminMember();
           sinon.stub(adminMemberController, 'saveAdminMember').returns(adminMember);
@@ -65,7 +65,7 @@ describe('Unit | Team | Application | Router | admin-member', function () {
       });
 
       context('when email attribute is missing', function () {
-        it('should return a response with an HTTP status code 400', async function () {
+        it('returns a response with an HTTP status code 400', async function () {
           // given
           const adminMember = domainBuilder.buildAdminMember();
           sinon.stub(adminMemberController, 'saveAdminMember').returns(adminMember);
@@ -84,7 +84,7 @@ describe('Unit | Team | Application | Router | admin-member', function () {
       });
 
       context('when email attribute is not valid', function () {
-        it('should return a response with an HTTP status code 400', async function () {
+        it('returns a response with an HTTP status code 400', async function () {
           // given
           const adminMember = domainBuilder.buildAdminMember();
           sinon.stub(adminMemberController, 'saveAdminMember').returns(adminMember);
@@ -103,7 +103,7 @@ describe('Unit | Team | Application | Router | admin-member', function () {
       });
 
       context('when all attributes are missing', function () {
-        it('should return a response with an HTTP status code 400', async function () {
+        it('returns a response with an HTTP status code 400', async function () {
           // given
           const adminMember = domainBuilder.buildAdminMember();
           sinon.stub(adminMemberController, 'saveAdminMember').returns(adminMember);
@@ -123,7 +123,7 @@ describe('Unit | Team | Application | Router | admin-member', function () {
     });
 
     context('when user does not have role "SUPER_ADMIN"', function () {
-      it('should return a response with an HTTP status code 403', async function () {
+      it('returns a response with an HTTP status code 403', async function () {
         // given
         sinon
           .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
@@ -140,6 +140,42 @@ describe('Unit | Team | Application | Router | admin-member', function () {
         expect(statusCode).to.equal(403);
         expect(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin).to.have.be.called;
       });
+    });
+  });
+
+  describe('GET /api/admin/admin-members', function () {
+    it('returns a response with an HTTP status code 200 when user has role "SUPER_ADMIN"', async function () {
+      // given
+      const adminMembers = [domainBuilder.buildAdminMember()];
+      sinon.stub(adminMemberController, 'findAll').returns(adminMembers);
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(teamRoutes[0]);
+
+      // when
+      const { statusCode } = await httpTestServer.request('GET', '/api/admin/admin-members');
+
+      // then
+      expect(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin).to.have.be.called;
+      expect(adminMemberController.findAll).to.have.be.called;
+      expect(statusCode).to.equal(200);
+    });
+
+    it('returns a response with an HTTP status code 403 if user does not have the rights', async function () {
+      // given
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response().code(403).takeover());
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(teamRoutes[0]);
+
+      // when
+      const { statusCode } = await httpTestServer.request('GET', '/api/admin/admin-members');
+
+      // then
+      expect(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin).to.have.be.called;
+      expect(statusCode).to.equal(403);
     });
   });
 });

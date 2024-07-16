@@ -8,24 +8,6 @@ const register = async function (server) {
   server.route([
     {
       method: 'GET',
-      path: '/api/admin/admin-members',
-      config: {
-        handler: adminMemberController.findAll,
-        pre: [
-          {
-            method: securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs ayant le droit d'accès SUPER_ADMIN**\n" +
-            '- Lister les utilisateurs ayant accès à Pix Admin \n',
-        ],
-        tags: ['api', 'admin-members'],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/admin/admin-members/me',
       config: {
         handler: adminMemberController.getCurrentAdminMember,

@@ -1,11 +1,6 @@
 import { adminMemberSerializer } from '../../../src/team/infrastructure/serializers/jsonapi/admin-member.serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
 
-const findAll = async function (request, h, dependencies = { adminMemberSerializer }) {
-  const adminMembers = await usecases.getAdminMembers();
-  return dependencies.adminMemberSerializer.serialize(adminMembers);
-};
-
 const getCurrentAdminMember = async function (request, h, dependencies = { adminMemberSerializer }) {
   const authenticatedUserId = request.auth.credentials.userId;
   const userDetailsForAdmin = await usecases.getAdminMemberDetails({ userId: authenticatedUserId });
@@ -26,7 +21,6 @@ const deactivateAdminMember = async function (request, h) {
 };
 
 const adminMemberController = {
-  findAll,
   getCurrentAdminMember,
   updateAdminMember,
   deactivateAdminMember,
