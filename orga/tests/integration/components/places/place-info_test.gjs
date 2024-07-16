@@ -1,4 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
+import { t } from 'ember-intl/test-support';
 import PlaceInfo from 'pix-orga/components/places/place-info';
 import { module, test } from 'qunit';
 
@@ -15,8 +16,8 @@ module('Integration | Component | Places | PlaceInfo', function (hooks) {
     const screen = await render(<template><PlaceInfo @currentUser={{currentUser}} /></template>);
 
     // then
-    assert.ok(screen.getByText(this.intl.t('cards.place-info.message')));
-    assert.ok(screen.getByText(this.intl.t('cards.place-info.details')));
+    assert.ok(screen.getByText(t('cards.place-info.message')));
+    assert.ok(screen.getByText(t('cards.place-info.details')));
   });
   module('link', function () {
     test('it should link to sup participant page', async function (assert) {
@@ -25,7 +26,7 @@ module('Integration | Component | Places | PlaceInfo', function (hooks) {
 
       // when
       const screen = await render(<template><PlaceInfo @currentUser={{currentUser}} /></template>);
-      const link = screen.getByRole('link', { name: this.intl.t('cards.place-info.link') });
+      const link = screen.getByRole('link', { name: t('cards.place-info.link') });
 
       // then
       assert.strictEqual(link.getAttribute('href'), '/etudiants');
@@ -37,7 +38,7 @@ module('Integration | Component | Places | PlaceInfo', function (hooks) {
 
       // when
       const screen = await render(<template><PlaceInfo @currentUser={{currentUser}} /></template>);
-      const link = screen.getByRole('link', { name: this.intl.t('cards.place-info.link') });
+      const link = screen.getByRole('link', { name: t('cards.place-info.link') });
 
       // then
       assert.strictEqual(link.getAttribute('href'), '/eleves');
@@ -48,7 +49,7 @@ module('Integration | Component | Places | PlaceInfo', function (hooks) {
 
       // when
       const screen = await render(<template><PlaceInfo @currentUser={{currentUser}} /></template>);
-      const link = screen.getByRole('link', { name: this.intl.t('cards.place-info.link') });
+      const link = screen.getByRole('link', { name: t('cards.place-info.link') });
 
       // then
       assert.strictEqual(link.getAttribute('href'), '/participants');

@@ -2,6 +2,7 @@ import { clickByName, fillByLabel, render as renderScreen } from '@1024pix/ember
 import Service from '@ember/service';
 import { triggerEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -22,9 +23,9 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
     sessionService = this.owner.lookup('service:session');
     storeService = this.owner.lookup('service:store');
 
-    emailInputLabel = this.intl.t('pages.login-form.email');
-    loginLabel = this.intl.t('pages.login-form.login');
-    passwordInputLabel = this.intl.t('pages.login-form.password');
+    emailInputLabel = t('pages.login-form.email');
+    loginLabel = t('pages.login-form.login');
+    passwordInputLabel = t('pages.login-form.password');
   });
 
   test('it should ask for email and password', async function (assert) {
@@ -124,7 +125,7 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
     await clickByName(loginLabel);
 
     // then
-    assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.LOGIN_UNAUTHORIZED.I18N_KEY))).exists();
+    assert.dom(screen.getByText(t(ApiErrorMessages.LOGIN_UNAUTHORIZED.I18N_KEY))).exists();
   });
 
   test('it displays a should change password message', async function (assert) {
@@ -146,7 +147,7 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
     await clickByName(loginLabel);
 
     // then
-    const expectedErrorMessage = this.intl.t('pages.login-form.errors.should-change-password', {
+    const expectedErrorMessage = t('pages.login-form.errors.should-change-password', {
       url: 'https://app.pix.localhost/mot-de-passe-oublie',
       htmlSafe: true,
     });
@@ -182,7 +183,7 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
     await clickByName(loginLabel);
 
     // then
-    assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.NOT_LINKED_ORGANIZATION.I18N_KEY))).exists();
+    assert.dom(screen.getByText(t(ApiErrorMessages.NOT_LINKED_ORGANIZATION.I18N_KEY))).exists();
   });
 
   test('it should not display context message', async function (assert) {
@@ -261,7 +262,7 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
       await triggerEvent('#login-email', 'focusout');
 
       // then
-      assert.dom(screen.getByText(this.intl.t('pages.login-form.errors.invalid-email'))).exists();
+      assert.dom(screen.getByText(t('pages.login-form.errors.invalid-email'))).exists();
     });
 
     test('should display an empty password error message when focus-out', async function (assert) {
@@ -273,7 +274,7 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
       await triggerEvent('#login-password', 'focusout');
 
       // then
-      assert.dom(screen.getByText(this.intl.t('pages.login-form.errors.empty-password'))).exists();
+      assert.dom(screen.getByText(t('pages.login-form.errors.empty-password'))).exists();
     });
   });
 });

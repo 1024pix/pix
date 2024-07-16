@@ -1,6 +1,7 @@
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -26,7 +27,7 @@ module('Integration | Component | OrganizationParticipant::header', function (ho
       // then
       assert.ok(
         screen.getByRole('heading', {
-          name: this.intl.t('components.organization-participants-header.title', { count: 0 }),
+          name: t('components.organization-participants-header.title', { count: 0 }),
           level: 1,
         }),
       );
@@ -49,7 +50,7 @@ module('Integration | Component | OrganizationParticipant::header', function (ho
       // then
       assert.ok(
         screen.getByRole('heading', {
-          name: this.intl.t('components.organization-participants-header.title', { count: 5 }),
+          name: t('components.organization-participants-header.title', { count: 5 }),
           level: 1,
         }),
       );
@@ -72,7 +73,7 @@ module('Integration | Component | OrganizationParticipant::header', function (ho
 
       assert.notOk(
         screen.queryByRole('link', {
-          name: this.intl.t('components.organization-participants-header.import-button'),
+          name: t('components.organization-participants-header.import-button'),
         }),
       );
     });
@@ -92,7 +93,7 @@ module('Integration | Component | OrganizationParticipant::header', function (ho
 
       assert.notOk(
         screen.queryByRole('link', {
-          name: this.intl.t('components.organization-participants-header.import-button'),
+          name: t('components.organization-participants-header.import-button'),
         }),
       );
     });
@@ -111,9 +112,7 @@ module('Integration | Component | OrganizationParticipant::header', function (ho
         hbs`<OrganizationParticipant::Header @participantCount={{this.participantCount}} />`,
       );
 
-      assert.ok(
-        screen.getByRole('link', { name: this.intl.t('components.organization-participants-header.import-button') }),
-      );
+      assert.ok(screen.getByRole('link', { name: t('components.organization-participants-header.import-button') }));
     });
   });
 });

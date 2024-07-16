@@ -1,6 +1,7 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -49,9 +50,7 @@ module('Acceptance | Missions List', function (hooks) {
       assert.dom(screen.getByText('Super Mission')).exists();
       assert.dom(screen.getByText('Super competence')).exists();
       assert
-        .dom(
-          screen.getByRole('link', { name: this.intl.t('pages.missions.list.banner.copypaste-container.import-text') }),
-        )
+        .dom(screen.getByRole('link', { name: t('pages.missions.list.banner.copypaste-container.import-text') }))
         .hasAttribute('href', 'http://localhost/schools/BLABLA123');
     });
 
@@ -84,7 +83,7 @@ module('Acceptance | Missions List', function (hooks) {
         const screen = await visit('/missions');
 
         // then
-        assert.dom(screen.getByText(this.intl.t('pages.missions.list.no-division'))).exists();
+        assert.dom(screen.getByText(t('pages.missions.list.no-division'))).exists();
       });
     });
     module('display import button', function () {
@@ -102,7 +101,7 @@ module('Acceptance | Missions List', function (hooks) {
         assert
           .dom(
             screen.getByRole('link', {
-              name: this.intl.t('pages.missions.list.banner.admin.import-text'),
+              name: t('pages.missions.list.banner.admin.import-text'),
             }),
           )
           .hasAttribute('href', '/import-participants');
@@ -128,7 +127,7 @@ module('Acceptance | Missions List', function (hooks) {
         assert
           .dom(
             screen.queryByRole('link', {
-              name: this.intl.t('pages.missions.list.banner.admin.import-text'),
+              name: t('pages.missions.list.banner.admin.import-text'),
             }),
           )
           .doesNotExist();
@@ -146,7 +145,7 @@ module('Acceptance | Missions List', function (hooks) {
       const screen = await visit('/missions');
       // then
       assert.deepEqual(currentURL(), '/missions');
-      assert.dom(screen.getByText(this.intl.t('pages.missions.list.empty-state'))).exists();
+      assert.dom(screen.getByText(t('pages.missions.list.empty-state'))).exists();
     });
 
     test('user should access to detail when he click on a row', async function (assert) {

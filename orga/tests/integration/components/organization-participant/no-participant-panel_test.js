@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -22,13 +23,11 @@ module('Integration | Component | OrganizationParticipant::NoParticipantPanel', 
     const screen = await render(hbs`<OrganizationParticipant::NoParticipantPanel />`);
 
     // then
-    assert.ok(screen.getByText(this.intl.t('pages.organization-participants.empty-state.message'), { exact: false }));
-    assert.ok(
-      screen.getByText(this.intl.t('pages.organization-participants.empty-state.call-to-action'), { exact: false }),
-    );
+    assert.ok(screen.getByText(t('pages.organization-participants.empty-state.message'), { exact: false }));
+    assert.ok(screen.getByText(t('pages.organization-participants.empty-state.call-to-action'), { exact: false }));
     assert.ok(
       screen.getByRole('link', {
-        name: this.intl.t('pages.organization-participants.empty-state.action'),
+        name: t('pages.organization-participants.empty-state.action'),
         href: '/campagnes/les-miennes',
       }),
     );
@@ -46,13 +45,11 @@ module('Integration | Component | OrganizationParticipant::NoParticipantPanel', 
     const screen = await render(hbs`<OrganizationParticipant::NoParticipantPanel />`);
 
     // then
-    assert.ok(screen.getByText(this.intl.t('pages.organization-participants.empty-state.message'), { exact: false }));
-    assert.notOk(
-      screen.queryByText(this.intl.t('pages.organization-participants.empty-state.call-to-action'), { exact: false }),
-    );
+    assert.ok(screen.getByText(t('pages.organization-participants.empty-state.message'), { exact: false }));
+    assert.notOk(screen.queryByText(t('pages.organization-participants.empty-state.call-to-action'), { exact: false }));
     assert.notOk(
       screen.queryByRole('link', {
-        name: this.intl.t('pages.organization-participants.empty-state.action'),
+        name: t('pages.organization-participants.empty-state.action'),
         href: '/campagnes/les-miennes',
       }),
     );
@@ -70,13 +67,11 @@ module('Integration | Component | OrganizationParticipant::NoParticipantPanel', 
     const screen = await render(hbs`<OrganizationParticipant::NoParticipantPanel />`);
 
     // then
-    assert.ok(screen.getByText(this.intl.t('pages.organization-participants.empty-state.message'), { exact: false }));
-    assert.notOk(
-      screen.queryByText(this.intl.t('pages.organization-participants.empty-state.call-to-action'), { exact: false }),
-    );
+    assert.ok(screen.getByText(t('pages.organization-participants.empty-state.message'), { exact: false }));
+    assert.notOk(screen.queryByText(t('pages.organization-participants.empty-state.call-to-action'), { exact: false }));
     assert.notOk(
       screen.queryByRole('link', {
-        name: this.intl.t('pages.organization-participants.empty-state.action'),
+        name: t('pages.organization-participants.empty-state.action'),
         href: '/campagnes/les-miennes',
       }),
     );

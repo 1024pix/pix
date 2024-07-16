@@ -4,6 +4,7 @@ import Service from '@ember/service';
 import { faker } from '@faker-js/faker';
 import { triggerCopySuccess } from 'ember-cli-clipboard/test-support';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import { resolve } from 'rsvp';
 
@@ -58,9 +59,7 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
         assert.ok(
           screen.getByRole('heading', {
             level: 3,
-            name: this.intl.t(
-              'pages.sco-organization-participants.manage-authentication-method-modal.section.username.label',
-            ),
+            name: t('pages.sco-organization-participants.manage-authentication-method-modal.section.username.label'),
           }),
         );
         assert.ok(screen.getAllByRole('textbox', { value: username, required: false })[1]);
@@ -79,9 +78,7 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
         assert.ok(
           screen
             .getByRole('button', {
-              name: this.intl.t(
-                'pages.sco-organization-participants.manage-authentication-method-modal.section.username.copy',
-              ),
+              name: t('pages.sco-organization-participants.manage-authentication-method-modal.section.username.copy'),
             })
             .hasAttribute('data-clipboard-text', username),
         );
@@ -98,17 +95,13 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
 
         // when
         await triggerCopySuccess(
-          `button[aria-label="${this.intl.t(
+          `button[aria-label="${t(
             'pages.sco-organization-participants.manage-authentication-method-modal.section.username.copy',
           )}"]`,
         );
 
         // then
-        assert.ok(
-          screen.getByText(
-            this.intl.t('pages.sco-organization-participants.manage-authentication-method-modal.copied'),
-          ),
-        );
+        assert.ok(screen.getByText(t('pages.sco-organization-participants.manage-authentication-method-modal.copied')));
       });
     });
 
@@ -125,9 +118,7 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
         // then
         assert.ok(
           screen.getByRole('textbox', {
-            name: this.intl.t(
-              'pages.sco-organization-participants.manage-authentication-method-modal.section.email.label',
-            ),
+            name: t('pages.sco-organization-participants.manage-authentication-method-modal.section.email.label'),
             value: email,
           }),
         );
@@ -146,9 +137,7 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
         assert.ok(
           screen
             .getByRole('button', {
-              name: this.intl.t(
-                'pages.sco-organization-participants.manage-authentication-method-modal.section.email.copy',
-              ),
+              name: t('pages.sco-organization-participants.manage-authentication-method-modal.section.email.copy'),
             })
             .hasAttribute('data-clipboard-text', email),
         );
@@ -165,17 +154,13 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
 
         // when
         await triggerCopySuccess(
-          `button[aria-label="${this.intl.t(
+          `button[aria-label="${t(
             'pages.sco-organization-participants.manage-authentication-method-modal.section.email.copy',
           )}"]`,
         );
 
         // then
-        assert.ok(
-          screen.getByText(
-            this.intl.t('pages.sco-organization-participants.manage-authentication-method-modal.copied'),
-          ),
-        );
+        assert.ok(screen.getByText(t('pages.sco-organization-participants.manage-authentication-method-modal.copied')));
       });
     });
 
@@ -192,9 +177,7 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
         // then
         assert.ok(
           screen.getByRole('textbox', {
-            name: this.intl.t(
-              'pages.sco-organization-participants.manage-authentication-method-modal.section.email.label',
-            ),
+            name: t('pages.sco-organization-participants.manage-authentication-method-modal.section.email.label'),
             value: email,
           }),
         );
@@ -202,7 +185,7 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
         assert.ok(
           screen.getByRole('heading', {
             level: 3,
-            name: this.intl.t(
+            name: t(
               'pages.sco-organization-participants.manage-authentication-method-modal.section.add-username.label',
             ),
           }),
@@ -240,17 +223,13 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
 
         // when
         await clickByName(
-          this.intl.t(
-            'pages.sco-organization-participants.manage-authentication-method-modal.section.reset-password.button',
-          ),
+          t('pages.sco-organization-participants.manage-authentication-method-modal.section.reset-password.button'),
         );
 
         // then
         assert.ok(
           screen.getByLabelText(
-            this.intl.t(
-              'pages.sco-organization-participants.manage-authentication-method-modal.section.password.label',
-            ),
+            t('pages.sco-organization-participants.manage-authentication-method-modal.section.password.label'),
           ),
         );
       });
@@ -266,18 +245,14 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
 
         // when
         await clickByName(
-          this.intl.t(
-            'pages.sco-organization-participants.manage-authentication-method-modal.section.reset-password.button',
-          ),
+          t('pages.sco-organization-participants.manage-authentication-method-modal.section.reset-password.button'),
         );
 
         // then
         assert.ok(
           screen
             .getByRole('button', {
-              name: this.intl.t(
-                'pages.sco-organization-participants.manage-authentication-method-modal.section.password.copy',
-              ),
+              name: t('pages.sco-organization-participants.manage-authentication-method-modal.section.password.copy'),
             })
             .hasAttribute('data-clipboard-text', generatedPassword),
         );
@@ -294,22 +269,16 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
 
         // when
         await clickByName(
-          this.intl.t(
-            'pages.sco-organization-participants.manage-authentication-method-modal.section.reset-password.button',
-          ),
+          t('pages.sco-organization-participants.manage-authentication-method-modal.section.reset-password.button'),
         );
         await triggerCopySuccess(
-          `button[aria-label="${this.intl.t(
+          `button[aria-label="${t(
             'pages.sco-organization-participants.manage-authentication-method-modal.section.password.copy',
           )}"]`,
         );
 
         // then
-        assert.ok(
-          screen.getByText(
-            this.intl.t('pages.sco-organization-participants.manage-authentication-method-modal.copied'),
-          ),
-        );
+        assert.ok(screen.getByText(t('pages.sco-organization-participants.manage-authentication-method-modal.copied')));
       });
 
       test('should generate unique password each time the modal is used', async function (assert) {
@@ -321,9 +290,7 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
 />`,
         );
         await clickByName(
-          this.intl.t(
-            'pages.sco-organization-participants.manage-authentication-method-modal.section.reset-password.button',
-          ),
+          t('pages.sco-organization-participants.manage-authentication-method-modal.section.reset-password.button'),
         );
         const firstGeneratedPassword = this.element.querySelector('#generated-password').value;
 
@@ -335,9 +302,7 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
 />`,
         );
         await clickByName(
-          this.intl.t(
-            'pages.sco-organization-participants.manage-authentication-method-modal.section.reset-password.button',
-          ),
+          t('pages.sco-organization-participants.manage-authentication-method-modal.section.reset-password.button'),
         );
         const secondGeneratedPassword = this.element.querySelector('#generated-password').value;
 
@@ -366,17 +331,13 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
       // then
       assert.ok(
         screen.getByText(
-          this.intl.t(
-            'pages.sco-organization-participants.manage-authentication-method-modal.section.mediacentre.label',
-          ),
+          t('pages.sco-organization-participants.manage-authentication-method-modal.section.mediacentre.label'),
         ),
       );
       assert.ok(
         screen.getByRole('heading', {
           level: 3,
-          name: this.intl.t(
-            'pages.sco-organization-participants.manage-authentication-method-modal.section.add-username.label',
-          ),
+          name: t('pages.sco-organization-participants.manage-authentication-method-modal.section.add-username.label'),
         }),
       );
     });

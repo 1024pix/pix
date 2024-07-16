@@ -1,11 +1,9 @@
-import { setupIntl } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 module('Unit | Controller | authenticated/import-organization-participant', function (hooks) {
   setupTest(hooks);
-  setupIntl(hooks);
   const files = Symbol('files');
   let controller;
   let addStudentsCsvStub;
@@ -15,7 +13,6 @@ module('Unit | Controller | authenticated/import-organization-participant', func
   let currentUser;
 
   hooks.beforeEach(function () {
-    this.owner.lookup('service:intl').setLocale('fr');
     controller = this.owner.lookup('controller:authenticated/import-organization-participants');
     controller.send = sinon.stub();
     currentUser = { organization: { id: 1 } };

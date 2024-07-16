@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -20,7 +21,7 @@ module('Integration | Component | Ui::GroupsFilter', function (hooks) {
 
       const screen = await render(hbs`<Ui::GroupsFilter @campaign={{this.campaign}} />`);
 
-      assert.ok(screen.getByText(this.intl.t('pages.campaign-results.filters.type.groups.empty')));
+      assert.ok(screen.getByText(t('pages.campaign-results.filters.type.groups.empty')));
     });
   });
 
@@ -31,7 +32,7 @@ module('Integration | Component | Ui::GroupsFilter', function (hooks) {
 
       const screen = await render(hbs`<Ui::GroupsFilter @campaign={{this.campaign}} />`);
 
-      assert.ok(screen.getByRole('textbox', { name: this.intl.t('pages.campaign-results.filters.type.groups.title') }));
+      assert.ok(screen.getByRole('textbox', { name: t('pages.campaign-results.filters.type.groups.title') }));
       assert.ok(screen.getByLabelText('d1'));
     });
 
@@ -43,9 +44,7 @@ module('Integration | Component | Ui::GroupsFilter', function (hooks) {
       const screen = await render(
         hbs`<Ui::GroupsFilter @campaign={{this.campaign}} @onSelect={{this.onSelect}} @placeholder='Groupes' />`,
       );
-      await click(
-        await screen.findByRole('textbox', { name: this.intl.t('pages.campaign-results.filters.type.groups.title') }),
-      );
+      await click(await screen.findByRole('textbox', { name: t('pages.campaign-results.filters.type.groups.title') }));
       await click(await screen.findByRole('checkbox', { name: 'L1' }));
 
       assert.ok(this.onSelect.calledWith(['L1']));

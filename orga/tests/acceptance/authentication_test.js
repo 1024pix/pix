@@ -1,6 +1,7 @@
 import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { currentURL } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
 import { module, test } from 'qunit';
@@ -292,9 +293,7 @@ module('Acceptance | authentication', function (hooks) {
         const screen = await visit('/');
 
         assert.ok(
-          screen.getByText(
-            this.intl.t('navigation.school-sessions.status.active-label', { sessionExpirationDate: '16:00' }),
-          ),
+          screen.getByText(t('navigation.school-sessions.status.active-label', { sessionExpirationDate: '16:00' })),
         );
       });
 
@@ -314,12 +313,10 @@ module('Acceptance | authentication', function (hooks) {
         );
         await authenticateSession(user.id);
         const screen = await visit('/');
-        await clickByName(this.intl.t('navigation.school-sessions.activate-button'));
+        await clickByName(t('navigation.school-sessions.activate-button'));
 
         assert.ok(
-          screen.getByText(
-            this.intl.t('navigation.school-sessions.status.active-label', { sessionExpirationDate: '18:00' }),
-          ),
+          screen.getByText(t('navigation.school-sessions.status.active-label', { sessionExpirationDate: '18:00' })),
         );
       });
     });

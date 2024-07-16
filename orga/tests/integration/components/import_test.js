@@ -2,6 +2,7 @@ import { render, waitForElementToBeRemoved } from '@1024pix/ember-testing-librar
 import Service from '@ember/service';
 import { click, triggerEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -52,7 +53,7 @@ module('Integration | Component | Import', function (hooks) {
 
       // then
       const addButton = screen.getByRole('button', {
-        name: this.intl.t('pages.organization-participants-import.actions.participants.label'),
+        name: t('pages.organization-participants-import.actions.participants.label'),
       });
       assert.ok(addButton.hasAttribute('disabled'));
     });
@@ -78,11 +79,11 @@ module('Integration | Component | Import', function (hooks) {
 
       // then
       const addButton = screen.getByRole('button', {
-        name: this.intl.t('pages.organization-participants-import.actions.add-sup.label'),
+        name: t('pages.organization-participants-import.actions.add-sup.label'),
       });
       assert.ok(addButton.hasAttribute('disabled'));
       const replaceButton = screen.getByRole('button', {
-        name: this.intl.t('pages.organization-participants-import.actions.replace.label'),
+        name: t('pages.organization-participants-import.actions.replace.label'),
       });
       assert.ok(replaceButton.hasAttribute('disabled'));
     });
@@ -118,9 +119,7 @@ module('Integration | Component | Import', function (hooks) {
 />`,
       );
 
-      assert.ok(
-        screen.getByRole('heading', { name: this.intl.t('pages.organization-participants-import.error-panel.title') }),
-      );
+      assert.ok(screen.getByRole('heading', { name: t('pages.organization-participants-import.error-panel.title') }));
       assert.strictEqual(screen.getAllByRole('listitem').length, 1);
     });
   });
@@ -153,17 +152,16 @@ module('Integration | Component | Import', function (hooks) {
       // then
       assert.ok(
         screen.getByRole('heading', {
-          name: this.intl.t('pages.organization-participants-import.sup.title'),
+          name: t('pages.organization-participants-import.sup.title'),
           level: 1,
         }),
       );
 
       assert.strictEqual(
-        screen.getAllByText(this.intl.t('pages.organization-participants-import.supported-formats', { types: '.csv' }))
-          .length,
+        screen.getAllByText(t('pages.organization-participants-import.supported-formats', { types: '.csv' })).length,
         2,
       );
-      assert.notOk(screen.queryByText(this.intl.t('pages.organization-participants-import.banner.upload-in-progress')));
+      assert.notOk(screen.queryByText(t('pages.organization-participants-import.banner.upload-in-progress')));
     });
 
     module('replaceStudents', function () {
@@ -183,7 +181,7 @@ module('Integration | Component | Import', function (hooks) {
         );
 
         const replaceButton = screen.getByRole('button', {
-          name: this.intl.t('pages.organization-participants-import.actions.replace.label'),
+          name: t('pages.organization-participants-import.actions.replace.label'),
         });
 
         await click(replaceButton);
@@ -192,7 +190,7 @@ module('Integration | Component | Import', function (hooks) {
         assert.ok(
           await screen.findByRole('heading', {
             level: 1,
-            name: this.intl.t('pages.sup-organization-participants.replace-students-modal.title'),
+            name: t('pages.sup-organization-participants.replace-students-modal.title'),
           }),
         );
       });
@@ -213,12 +211,12 @@ module('Integration | Component | Import', function (hooks) {
         );
 
         const replaceButton = screen.getByRole('button', {
-          name: this.intl.t('pages.organization-participants-import.actions.replace.label'),
+          name: t('pages.organization-participants-import.actions.replace.label'),
         });
 
         await click(replaceButton);
 
-        const cancelButton = await screen.findByRole('button', { name: this.intl.t('common.actions.cancel') });
+        const cancelButton = await screen.findByRole('button', { name: t('common.actions.cancel') });
 
         await Promise.all([waitForElementToBeRemoved(() => screen.queryByRole('dialog')), click(cancelButton)]);
 
@@ -226,7 +224,7 @@ module('Integration | Component | Import', function (hooks) {
         assert.notOk(
           screen.queryByRole('heading', {
             level: 1,
-            name: this.intl.t('pages.sup-organization-participants.replace-students-modal.title'),
+            name: t('pages.sup-organization-participants.replace-students-modal.title'),
           }),
         );
       });
@@ -250,9 +248,7 @@ module('Integration | Component | Import', function (hooks) {
 
         const file = new Blob(['foo'], { type: 'valid-file' });
 
-        const addButton = screen.getByLabelText(
-          this.intl.t('pages.organization-participants-import.actions.add-sup.label'),
-        );
+        const addButton = screen.getByLabelText(t('pages.organization-participants-import.actions.add-sup.label'));
 
         await triggerEvent(addButton, 'change', { files: [file] });
 
@@ -291,12 +287,12 @@ module('Integration | Component | Import', function (hooks) {
       // then
       assert.ok(
         screen.getByRole('heading', {
-          name: this.intl.t('pages.organization-participants-import.sco.title'),
+          name: t('pages.organization-participants-import.sco.title'),
           level: 1,
         }),
       );
 
-      assert.notOk(screen.queryByText(this.intl.t('common.loading')));
+      assert.notOk(screen.queryByText(t('common.loading')));
     });
 
     test('it specify that it require the right file type', async function (assert) {
@@ -316,9 +312,7 @@ module('Integration | Component | Import', function (hooks) {
 
       // then
       assert.ok(
-        await screen.findByText(
-          this.intl.t('pages.organization-participants-import.supported-formats', { types: '.xml, .zip' }),
-        ),
+        await screen.findByText(t('pages.organization-participants-import.supported-formats', { types: '.xml, .zip' })),
       );
     });
 
@@ -336,9 +330,7 @@ module('Integration | Component | Import', function (hooks) {
       );
 
       const file = new Blob(['foo'], { type: 'valid-file' });
-      const input = screen.getByLabelText(
-        this.intl.t('pages.organization-participants-import.actions.participants.label'),
-      );
+      const input = screen.getByLabelText(t('pages.organization-participants-import.actions.participants.label'));
 
       await triggerEvent(input, 'change', { files: [file] });
 
@@ -371,9 +363,7 @@ module('Integration | Component | Import', function (hooks) {
       );
 
       const file = new Blob(['foo'], { type: 'valid-file' });
-      const input = screen.getByLabelText(
-        this.intl.t('pages.organization-participants-import.actions.participants.label'),
-      );
+      const input = screen.getByLabelText(t('pages.organization-participants-import.actions.participants.label'));
 
       await triggerEvent(input, 'change', { files: [file] });
 
@@ -393,9 +383,7 @@ module('Integration | Component | Import', function (hooks) {
       );
 
       assert.ok(
-        await screen.findByText(
-          this.intl.t('pages.organization-participants-import.supported-formats', { types: '.csv' }),
-        ),
+        await screen.findByText(t('pages.organization-participants-import.supported-formats', { types: '.csv' })),
       );
     });
   });
@@ -416,9 +404,7 @@ module('Integration | Component | Import', function (hooks) {
       );
 
       const file = new Blob(['foo'], { type: 'valid-file' });
-      const input = screen.getByLabelText(
-        this.intl.t('pages.organization-participants-import.actions.participants.label'),
-      );
+      const input = screen.getByLabelText(t('pages.organization-participants-import.actions.participants.label'));
 
       await triggerEvent(input, 'change', { files: [file] });
       assert.ok(this.onImportLearners.calledWithExactly([file]));

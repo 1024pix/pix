@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -21,16 +22,12 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStatus', funct
 />`,
     );
     assert
-      .dom(
-        screen.getByText(this.intl.t('charts.participants-by-status.labels-legend.completed-assessment', { count: 1 })),
-      )
+      .dom(screen.getByText(t('charts.participants-by-status.labels-legend.completed-assessment', { count: 1 })))
       .exists();
     assert
-      .dom(screen.getByText(this.intl.t('charts.participants-by-status.labels-legend.completed-profile', { count: 1 })))
+      .dom(screen.getByText(t('charts.participants-by-status.labels-legend.completed-profile', { count: 1 })))
       .exists();
-    assert
-      .dom(screen.getByText(this.intl.t('charts.participants-by-status.labels-legend.shared', { count: 1 })))
-      .exists();
+    assert.dom(screen.getByText(t('charts.participants-by-status.labels-legend.shared', { count: 1 }))).exists();
   });
 
   test('it should contains tooltips for assessment campaign', async function (assert) {
@@ -47,11 +44,11 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStatus', funct
 />`,
     );
 
-    assert.dom(screen.getByText(this.intl.t('charts.participants-by-status.labels-legend.started-tooltip'))).exists();
+    assert.dom(screen.getByText(t('charts.participants-by-status.labels-legend.started-tooltip'))).exists();
     assert
-      .dom(screen.getByText(this.intl.t('charts.participants-by-status.labels-legend.completed-assessment-tooltip')))
+      .dom(screen.getByText(t('charts.participants-by-status.labels-legend.completed-assessment-tooltip')))
       .exists();
-    assert.dom(screen.getByText(this.intl.t('charts.participants-by-status.labels-legend.shared-tooltip'))).exists();
+    assert.dom(screen.getByText(t('charts.participants-by-status.labels-legend.shared-tooltip'))).exists();
   });
 
   test('it should display status for profile collection campaign', async function (assert) {
@@ -68,13 +65,13 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStatus', funct
     );
 
     assert
-      .dom(screen.queryByText(this.intl.t('charts.participants-by-status.labels-legend.started', { count: 1 })))
+      .dom(screen.queryByText(t('charts.participants-by-status.labels-legend.started', { count: 1 })))
       .doesNotExist();
     assert
-      .dom(screen.getByText(this.intl.t('charts.participants-by-status.labels-legend.completed-profile', { count: 1 })))
+      .dom(screen.getByText(t('charts.participants-by-status.labels-legend.completed-profile', { count: 1 })))
       .exists();
     assert
-      .dom(screen.getByText(this.intl.t('charts.participants-by-status.labels-legend.shared-profile', { count: 1 })))
+      .dom(screen.getByText(t('charts.participants-by-status.labels-legend.shared-profile', { count: 1 })))
       .exists();
   });
 
@@ -91,11 +88,7 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStatus', funct
 />`,
     );
 
-    assert
-      .dom(screen.getByText(this.intl.t('charts.participants-by-status.labels-legend.completed-profile-tooltip')))
-      .exists();
-    assert
-      .dom(screen.getByText(this.intl.t('charts.participants-by-status.labels-legend.shared-profile-tooltip')))
-      .exists();
+    assert.dom(screen.getByText(t('charts.participants-by-status.labels-legend.completed-profile-tooltip'))).exists();
+    assert.dom(screen.getByText(t('charts.participants-by-status.labels-legend.shared-profile-tooltip'))).exists();
   });
 });

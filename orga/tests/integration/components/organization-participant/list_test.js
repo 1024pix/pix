@@ -2,6 +2,7 @@ import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -69,7 +70,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     );
 
     // then
-    assert.ok(screen.getByRole('table', { name: this.intl.t('pages.organization-participants.table.description') }));
+    assert.ok(screen.getByRole('table', { name: t('pages.organization-participants.table.description') }));
   });
 
   test('it should display a list of participants', async function (assert) {
@@ -199,7 +200,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   @certificabilityFilter={{this.certificabilityFilter}}
 />`,
     );
-    const allRows = screen.getAllByLabelText(this.intl.t('pages.organization-participants.table.row-title'));
+    const allRows = screen.getAllByLabelText(t('pages.organization-participants.table.row-title'));
 
     // then
     assert.dom(allRows[0]).containsText(4);
@@ -237,15 +238,13 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   @certificabilityFilter={{this.certificabilityFilter}}
 />`,
     );
-    const allRows = screen.getAllByLabelText(this.intl.t('pages.organization-participants.table.row-title'));
+    const allRows = screen.getAllByLabelText(t('pages.organization-participants.table.row-title'));
 
     // then
     assert.dom(allRows[0]).containsText('15/05/2022');
     assert.dom(allRows[1]).containsText('07/01/2022');
     assert.strictEqual(
-      screen.getAllByLabelText(
-        this.intl.t('pages.participants-list.latest-participation-information-tooltip.aria-label'),
-      ).length,
+      screen.getAllByLabelText(t('pages.participants-list.latest-participation-information-tooltip.aria-label')).length,
       2,
     );
   });
@@ -281,7 +280,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     // then
     assert.ok(
       screen.getByRole('cell', {
-        name: `${this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible')} 02/01/2022`,
+        name: `${t('pages.sco-organization-participants.table.column.is-certifiable.eligible')} 02/01/2022`,
       }),
     );
   });
@@ -364,12 +363,10 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
       );
 
       // when
-      const select = await getByLabelText(
-        this.intl.t('pages.organization-participants.filters.type.certificability.label'),
-      );
+      const select = await getByLabelText(t('pages.organization-participants.filters.type.certificability.label'));
       await click(select);
       await findByRole('menu');
-      await clickByName(this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible'));
+      await clickByName(t('pages.sco-organization-participants.table.column.is-certifiable.eligible'));
 
       // then
       sinon.assert.calledWithExactly(triggerFiltering, 'certificability', ['eligible']);
@@ -412,7 +409,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
         // when
         await click(
           screen.getByLabelText(
-            this.intl.t('pages.organization-participants.table.column.participation-count.ariaLabelDefaultSort'),
+            t('pages.organization-participants.table.column.participation-count.ariaLabelDefaultSort'),
           ),
         );
 
@@ -454,7 +451,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
         // when
         await click(
           screen.getByLabelText(
-            this.intl.t('pages.organization-participants.table.column.participation-count.ariaLabelSortDown'),
+            t('pages.organization-participants.table.column.participation-count.ariaLabelSortDown'),
           ),
         );
 
@@ -495,9 +492,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
         // when
         await click(
-          screen.getByLabelText(
-            this.intl.t('pages.organization-participants.table.column.participation-count.ariaLabelSortUp'),
-          ),
+          screen.getByLabelText(t('pages.organization-participants.table.column.participation-count.ariaLabelSortUp')),
         );
 
         // then
@@ -541,9 +536,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
         // when
         await click(
-          screen.getByLabelText(
-            this.intl.t('pages.organization-participants.table.column.last-name.ariaLabelDefaultSort'),
-          ),
+          screen.getByLabelText(t('pages.organization-participants.table.column.last-name.ariaLabelDefaultSort')),
         );
 
         // then
@@ -584,9 +577,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
         // when
         await click(
-          screen.getByLabelText(
-            this.intl.t('pages.organization-participants.table.column.last-name.ariaLabelSortDown'),
-          ),
+          screen.getByLabelText(t('pages.organization-participants.table.column.last-name.ariaLabelSortDown')),
         );
 
         // then
@@ -626,9 +617,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
         );
 
         // when
-        await click(
-          screen.getByLabelText(this.intl.t('pages.organization-participants.table.column.last-name.ariaLabelSortUp')),
-        );
+        await click(screen.getByLabelText(t('pages.organization-participants.table.column.last-name.ariaLabelSortUp')));
 
         // then
         sinon.assert.calledWithExactly(sortByLastname, 'desc');
@@ -672,7 +661,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
         // when
         await click(
           screen.getByLabelText(
-            this.intl.t('pages.organization-participants.table.column.latest-participation.ariaLabelDefaultSort'),
+            t('pages.organization-participants.table.column.latest-participation.ariaLabelDefaultSort'),
           ),
         );
 
@@ -715,7 +704,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
         // when
         await click(
           screen.getByLabelText(
-            this.intl.t('pages.organization-participants.table.column.latest-participation.ariaLabelSortDown'),
+            t('pages.organization-participants.table.column.latest-participation.ariaLabelSortDown'),
           ),
         );
 
@@ -757,9 +746,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
         // when
         await click(
-          screen.getByLabelText(
-            this.intl.t('pages.organization-participants.table.column.latest-participation.ariaLabelSortUp'),
-          ),
+          screen.getByLabelText(t('pages.organization-participants.table.column.latest-participation.ariaLabelSortUp')),
         );
 
         // then
@@ -790,7 +777,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     );
 
     // then
-    assert.ok(screen.getByText(this.intl.t('pages.organization-participants.table.empty')));
+    assert.ok(screen.getByText(t('pages.organization-participants.table.empty')));
   });
 
   test('it should display the certificability tooltip', async function (assert) {
@@ -820,8 +807,8 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     );
 
     // then
-    assert.ok(screen.getByLabelText(this.intl.t('components.certificability-tooltip.aria-label')));
-    assert.ok(screen.getByText(this.intl.t('components.certificability-tooltip.content')));
+    assert.ok(screen.getByLabelText(t('components.certificability-tooltip.aria-label')));
+    assert.ok(screen.getByText(t('components.certificability-tooltip.content')));
   });
 
   module('when user is admin of organisation', function (hooks) {
@@ -852,10 +839,10 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 />`);
 
       const mainCheckbox = screen.getByRole('checkbox', {
-        name: this.intl.t('pages.organization-participants.table.column.mainCheckbox'),
+        name: t('pages.organization-participants.table.column.mainCheckbox'),
       });
       const learnerCheckbox = screen.getByRole('checkbox', {
-        name: this.intl.t('pages.organization-participants.table.column.checkbox', {
+        name: t('pages.organization-participants.table.column.checkbox', {
           firstname: participants[0].firstName,
           lastname: participants[0].lastName,
         }),
@@ -887,7 +874,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
       assert.ok(
         screen
           .getByRole('checkbox', {
-            name: this.intl.t('pages.organization-participants.table.column.mainCheckbox'),
+            name: t('pages.organization-participants.table.column.mainCheckbox'),
           })
           .hasAttribute('disabled'),
       );
@@ -926,7 +913,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
       await click(firstLearnerSelected);
       await click(secondLearnerSelected);
 
-      const pagination = await screen.findByLabelText(this.intl.t('common.pagination.action.next'));
+      const pagination = await screen.findByLabelText(t('common.pagination.action.next'));
       await click(pagination);
       assert.false(firstLearnerSelected.checked);
       assert.false(secondLearnerSelected.checked);
@@ -996,7 +983,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
       // when
       const resetButton = await screen.findByRole('button', {
-        name: this.intl.t('common.filters.actions.clear'),
+        name: t('common.filters.actions.clear'),
       });
       await click(resetButton);
 
@@ -1034,7 +1021,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
       await click(firstLearnerSelected);
 
       const sortButton = await screen.findByLabelText(
-        this.intl.t('pages.organization-participants.table.column.participation-count.ariaLabelDefaultSort'),
+        t('pages.organization-participants.table.column.participation-count.ariaLabelDefaultSort'),
       );
       await click(sortButton);
 
@@ -1063,9 +1050,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
         await click(firstLearnerToDelete);
 
         //then
-        assert.ok(
-          screen.getByText(this.intl.t('pages.organization-participants.action-bar.information', { count: 1 })),
-        );
+        assert.ok(screen.getByText(t('pages.organization-participants.action-bar.information', { count: 1 })));
       });
 
       test('it should open the deletion modale', async function (assert) {
@@ -1095,7 +1080,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
         await click(secondLearnerToDelete);
 
         const deleteButton = await screen.findByRole('button', {
-          name: this.intl.t('pages.organization-participants.action-bar.delete-button'),
+          name: t('pages.organization-participants.action-bar.delete-button'),
         });
 
         await click(deleteButton);
@@ -1103,7 +1088,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
         await screen.findByRole('dialog');
 
         const confirmationButton = await screen.findByRole('button', {
-          name: this.intl.t('components.ui.deletion-modal.confirm-deletion'),
+          name: t('components.ui.deletion-modal.confirm-deletion'),
         });
 
         //then
@@ -1137,7 +1122,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
         await click(secondLearnerToDelete);
 
         const deleteButton = await screen.findByRole('button', {
-          name: this.intl.t('pages.organization-participants.action-bar.delete-button'),
+          name: t('pages.organization-participants.action-bar.delete-button'),
         });
 
         await click(deleteButton);
@@ -1145,13 +1130,13 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
         await screen.findByRole('dialog');
 
         const allowMultipleDeletionCheckbox = await screen.findByRole('checkbox', {
-          name: this.intl.t('components.ui.deletion-modal.confirmation-checkbox', { count: 2 }),
+          name: t('components.ui.deletion-modal.confirmation-checkbox', { count: 2 }),
         });
 
         await click(allowMultipleDeletionCheckbox);
 
         const confirmationButton = await screen.findByRole('button', {
-          name: this.intl.t('components.ui.deletion-modal.confirm-deletion'),
+          name: t('components.ui.deletion-modal.confirm-deletion'),
         });
         await click(confirmationButton);
 
@@ -1187,19 +1172,19 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
         await click(secondLearnerToDelete);
 
         const deleteButton = await screen.findByRole('button', {
-          name: this.intl.t('pages.organization-participants.action-bar.delete-button'),
+          name: t('pages.organization-participants.action-bar.delete-button'),
         });
 
         await click(deleteButton);
 
         const allowMultipleDeletionCheckbox = await screen.findByRole('checkbox', {
-          name: this.intl.t('components.ui.deletion-modal.confirmation-checkbox', { count: 2 }),
+          name: t('components.ui.deletion-modal.confirmation-checkbox', { count: 2 }),
         });
 
         await click(allowMultipleDeletionCheckbox);
 
         const confirmationButton = await screen.findByRole('button', {
-          name: this.intl.t('components.ui.deletion-modal.confirm-deletion'),
+          name: t('components.ui.deletion-modal.confirm-deletion'),
         });
         await click(confirmationButton);
 

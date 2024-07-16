@@ -2,6 +2,7 @@ import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -46,28 +47,26 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     // then
     assert.ok(
       screen.getByRole('columnheader', {
-        name: this.intl.t('pages.sup-organization-participants.table.column.student-number'),
+        name: t('pages.sup-organization-participants.table.column.student-number'),
       }),
     );
     assert.ok(
       screen.getByRole('columnheader', {
-        name: this.intl.t('pages.sup-organization-participants.table.column.last-name.label'),
+        name: t('pages.sup-organization-participants.table.column.last-name.label'),
       }),
     );
     assert.ok(
       screen.getByRole('columnheader', {
-        name: this.intl.t('pages.sup-organization-participants.table.column.first-name'),
+        name: t('pages.sup-organization-participants.table.column.first-name'),
       }),
     );
     assert.ok(
       screen.getByRole('columnheader', {
-        name: this.intl.t('pages.sup-organization-participants.table.column.date-of-birth'),
+        name: t('pages.sup-organization-participants.table.column.date-of-birth'),
       }),
     );
-    assert.ok(
-      screen.getByRole('columnheader', { name: this.intl.t('pages.sup-organization-participants.table.column.group') }),
-    );
-    assert.ok(screen.getByRole('columnheader', { name: this.intl.t('common.actions.global') }));
+    assert.ok(screen.getByRole('columnheader', { name: t('pages.sup-organization-participants.table.column.group') }));
+    assert.ok(screen.getByRole('columnheader', { name: t('common.actions.global') }));
   });
 
   test('it should display a list of students', async function (assert) {
@@ -97,7 +96,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
     // then
     assert.strictEqual(
-      screen.getAllByRole('row', { name: this.intl.t('pages.sup-organization-participants.table.row-title') }).length,
+      screen.getAllByRole('row', { name: t('pages.sup-organization-participants.table.row-title') }).length,
       2,
     );
   });
@@ -215,19 +214,15 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     );
 
     // then
-    assert.ok(
-      screen.getByLabelText(this.intl.t('pages.participants-list.latest-participation-information-tooltip.aria-label')),
-    );
+    assert.ok(screen.getByLabelText(t('pages.participants-list.latest-participation-information-tooltip.aria-label')));
     assert.ok(
       screen.getByText(
-        this.intl.t(
-          'pages.participants-list.latest-participation-information-tooltip.campaign-PROFILES_COLLECTION-type',
-        ),
+        t('pages.participants-list.latest-participation-information-tooltip.campaign-PROFILES_COLLECTION-type'),
       ),
     );
     assert.ok(
       screen.getByText(
-        this.intl.t('pages.participants-list.latest-participation-information-tooltip.participation-SHARED-status'),
+        t('pages.participants-list.latest-participation-information-tooltip.participation-SHARED-status'),
       ),
     );
   });
@@ -267,7 +262,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     // then
     assert.ok(
       screen.getByRole('cell', {
-        name: `${this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible')} 26/04/2024`,
+        name: `${t('pages.sco-organization-participants.table.column.is-certifiable.eligible')} 26/04/2024`,
       }),
     );
   });
@@ -303,10 +298,10 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     );
 
     // then
-    await click(screen.getByLabelText(this.intl.t('components.certificability-tooltip.aria-label')));
+    await click(screen.getByLabelText(t('components.certificability-tooltip.aria-label')));
 
     // then
-    assert.ok(screen.getByText(this.intl.t('components.certificability-tooltip.content')));
+    assert.ok(screen.getByText(t('components.certificability-tooltip.content')));
   });
 
   module('when user is filtering some users', function () {
@@ -334,7 +329,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       );
 
       // when
-      await fillByLabel(this.intl.t('common.filters.fullname.label'), 'Bob M');
+      await fillByLabel(t('common.filters.fullname.label'), 'Bob M');
 
       // then
       sinon.assert.calledWithExactly(triggerFiltering, 'search', 'Bob M');
@@ -474,7 +469,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       // when
       await click(
         screen.getByLabelText(
-          this.intl.t('pages.sup-organization-participants.table.column.participation-count.ariaLabelDefaultSort'),
+          t('pages.sup-organization-participants.table.column.participation-count.ariaLabelDefaultSort'),
         ),
       );
 
@@ -512,7 +507,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       // when
       await click(
         screen.getByLabelText(
-          this.intl.t('pages.sup-organization-participants.table.column.participation-count.ariaLabelSortDown'),
+          t('pages.sup-organization-participants.table.column.participation-count.ariaLabelSortDown'),
         ),
       );
 
@@ -551,7 +546,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       // when
       await click(
         screen.getByLabelText(
-          this.intl.t('pages.sup-organization-participants.table.column.participation-count.ariaLabelSortUp'),
+          t('pages.sup-organization-participants.table.column.participation-count.ariaLabelSortUp'),
         ),
       );
 
@@ -590,9 +585,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
       // when
       await click(
-        screen.getByLabelText(
-          this.intl.t('pages.sup-organization-participants.table.column.last-name.ariaLabelDefaultSort'),
-        ),
+        screen.getByLabelText(t('pages.sup-organization-participants.table.column.last-name.ariaLabelDefaultSort')),
       );
 
       // then
@@ -629,9 +622,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
       // when
       await click(
-        screen.getByLabelText(
-          this.intl.t('pages.sup-organization-participants.table.column.last-name.ariaLabelSortDown'),
-        ),
+        screen.getByLabelText(t('pages.sup-organization-participants.table.column.last-name.ariaLabelSortDown')),
       );
 
       // then
@@ -668,9 +659,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
       // when
       await click(
-        screen.getByLabelText(
-          this.intl.t('pages.sup-organization-participants.table.column.last-name.ariaLabelSortUp'),
-        ),
+        screen.getByLabelText(t('pages.sup-organization-participants.table.column.last-name.ariaLabelSortUp')),
       );
 
       // then
@@ -705,7 +694,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       );
 
       // then
-      assert.ok(screen.getByText(this.intl.t('pages.sup-organization-participants.table.empty')));
+      assert.ok(screen.getByText(t('pages.sup-organization-participants.table.empty')));
     });
   });
 
@@ -735,9 +724,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       );
 
       // then
-      assert.ok(
-        screen.getByText(this.intl.t('pages.sup-organization-participants.empty-state.no-participants-action')),
-      );
+      assert.ok(screen.getByText(t('pages.sup-organization-participants.empty-state.no-participants-action')));
     });
   });
 
@@ -787,13 +774,13 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       // then
       assert.ok(
         screen.getByRole('checkbox', {
-          name: this.intl.t('pages.organization-participants.table.column.mainCheckbox'),
+          name: t('pages.organization-participants.table.column.mainCheckbox'),
         }),
       );
 
       assert.ok(
         screen.getByRole('checkbox', {
-          name: this.intl.t('pages.organization-participants.table.column.checkbox', {
+          name: t('pages.organization-participants.table.column.checkbox', {
             firstname: students[0].firstName,
             lastname: students[0].lastName,
           }),
@@ -824,7 +811,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       assert.ok(
         screen
           .getByRole('checkbox', {
-            name: this.intl.t('pages.organization-participants.table.column.mainCheckbox'),
+            name: t('pages.organization-participants.table.column.mainCheckbox'),
           })
           .hasAttribute('disabled'),
       );
@@ -873,7 +860,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       await click(firstLearnerSelected);
       await click(secondLearnerSelected);
 
-      const pagination = await screen.findByLabelText(this.intl.t('common.pagination.action.next'));
+      const pagination = await screen.findByLabelText(t('common.pagination.action.next'));
       await click(pagination);
 
       // then
@@ -922,7 +909,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
       await click(firstLearnerSelected);
 
-      await fillByLabel(this.intl.t('common.filters.fullname.label'), 'Something');
+      await fillByLabel(t('common.filters.fullname.label'), 'Something');
 
       // then
       assert.false(firstLearnerSelected.checked);
@@ -969,7 +956,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
       // when
       const resetButton = await screen.findByRole('button', {
-        name: this.intl.t('common.filters.actions.clear'),
+        name: t('common.filters.actions.clear'),
       });
       await click(resetButton);
 
@@ -1018,7 +1005,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
       // when
       const sortButton = await screen.findByLabelText(
-        this.intl.t('pages.organization-participants.table.column.participation-count.ariaLabelDefaultSort'),
+        t('pages.organization-participants.table.column.participation-count.ariaLabelDefaultSort'),
       );
       await click(sortButton);
 
@@ -1067,9 +1054,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
         await click(firstLearnerToDelete);
 
         //then
-        assert.ok(
-          screen.getByText(this.intl.t('pages.sup-organization-participants.action-bar.information', { count: 1 })),
-        );
+        assert.ok(screen.getByText(t('pages.sup-organization-participants.action-bar.information', { count: 1 })));
       });
 
       test('it should open the deletion modale', async function (assert) {
@@ -1116,7 +1101,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
         await click(secondLearnerToDelete);
 
         const deleteButton = await screen.findByRole('button', {
-          name: this.intl.t('pages.sup-organization-participants.action-bar.delete-button'),
+          name: t('pages.sup-organization-participants.action-bar.delete-button'),
         });
 
         await click(deleteButton);
@@ -1124,7 +1109,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
         await screen.findByRole('dialog');
 
         const confirmationButton = await screen.findByRole('button', {
-          name: this.intl.t('components.ui.deletion-modal.confirm-deletion'),
+          name: t('components.ui.deletion-modal.confirm-deletion'),
         });
 
         //then
@@ -1175,20 +1160,20 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
         await click(secondLearnerToDelete);
 
         const deleteButton = await screen.findByRole('button', {
-          name: this.intl.t('pages.sup-organization-participants.action-bar.delete-button'),
+          name: t('pages.sup-organization-participants.action-bar.delete-button'),
         });
         await click(deleteButton);
 
         await screen.findByRole('dialog');
 
         const allowMultipleDeletionCheckbox = await screen.findByRole('checkbox', {
-          name: this.intl.t('components.ui.deletion-modal.confirmation-checkbox', { count: 2 }),
+          name: t('components.ui.deletion-modal.confirmation-checkbox', { count: 2 }),
         });
 
         await click(allowMultipleDeletionCheckbox);
 
         const confirmationButton = await screen.findByRole('button', {
-          name: this.intl.t('components.ui.deletion-modal.confirm-deletion'),
+          name: t('components.ui.deletion-modal.confirm-deletion'),
         });
         await click(confirmationButton);
 
@@ -1242,19 +1227,19 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
         await click(secondLearnerToDelete);
 
         const deleteButton = await screen.findByRole('button', {
-          name: this.intl.t('pages.organization-participants.action-bar.delete-button'),
+          name: t('pages.organization-participants.action-bar.delete-button'),
         });
 
         await click(deleteButton);
 
         const allowMultipleDeletionCheckbox = await screen.findByRole('checkbox', {
-          name: this.intl.t('components.ui.deletion-modal.confirmation-checkbox', { count: 2 }),
+          name: t('components.ui.deletion-modal.confirmation-checkbox', { count: 2 }),
         });
 
         await click(allowMultipleDeletionCheckbox);
 
         const confirmationButton = await screen.findByRole('button', {
-          name: this.intl.t('components.ui.deletion-modal.confirm-deletion'),
+          name: t('components.ui.deletion-modal.confirm-deletion'),
         });
         await click(confirmationButton);
 
@@ -1298,11 +1283,11 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       );
 
       // then
-      assert.notOk(screen.queryByLabelText(this.intl.t('pages.organization-participants.table.column.mainCheckbox')));
+      assert.notOk(screen.queryByLabelText(t('pages.organization-participants.table.column.mainCheckbox')));
 
       assert.notOk(
         screen.queryByLabelText(
-          this.intl.t('pages.organization-participants.table.column.checkbox', {
+          t('pages.organization-participants.table.column.checkbox', {
             firstname: students[0].firstName,
             lastname: students[0].lastName,
           }),

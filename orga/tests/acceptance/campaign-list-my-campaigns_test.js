@@ -1,6 +1,7 @@
 import { clickByName, fillByLabel, visit as visitScreen } from '@1024pix/ember-testing-library';
 import { currentURL } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -158,11 +159,11 @@ module('Acceptance | /campaigns/list/my-campaigns ', function (hooks) {
 
             // when
             await fillByLabel('Rechercher une campagne', 'ma super campagne');
-            await clickByName(this.intl.t('pages.campaigns-list.action.campaign.label'));
-            await clickByName(this.intl.t('common.filters.actions.clear'));
+            await clickByName(t('pages.campaigns-list.action.campaign.label'));
+            await clickByName(t('common.filters.actions.clear'));
 
             //then
-            assert.ok(screen.getByPlaceholderText(this.intl.t('pages.campaigns-list.filter.by-name')));
+            assert.ok(screen.getByPlaceholderText(t('pages.campaigns-list.filter.by-name')));
             assert.deepEqual(currentURL(), '/campagnes/les-miennes');
           });
         });
@@ -180,7 +181,7 @@ module('Acceptance | /campaigns/list/my-campaigns ', function (hooks) {
         const screen = await visitScreen('/campagnes/les-miennes');
 
         // then
-        assert.ok(screen.getByText(this.intl.t('pages.campaigns-list.no-campaign')));
+        assert.ok(screen.getByText(t('pages.campaigns-list.no-campaign')));
       });
     });
 

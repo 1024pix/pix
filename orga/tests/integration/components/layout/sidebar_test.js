@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -46,7 +47,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
 
       const screen = await render(hbs`<Layout::Sidebar />`);
 
-      const logoLink = screen.getByRole('link', { name: this.intl.t('common.home-page') });
+      const logoLink = screen.getByRole('link', { name: t('common.home-page') });
 
       assert.dom(logoLink).hasAttribute('href', '/campagnes');
     });
@@ -89,7 +90,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
 
       const screen = await render(hbs`<Layout::Sidebar />`);
 
-      assert.ok(screen.getByText(this.intl.t('navigation.main.places')));
+      assert.ok(screen.getByText(t('navigation.main.places')));
     });
 
     test('should not display Places menu if canAccessPlacesPage is false', async function (assert) {
@@ -101,7 +102,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
 
       const screen = await render(hbs`<Layout::Sidebar />`);
 
-      assert.notOk(screen.queryByText(this.intl.t('navigation.main.places')));
+      assert.notOk(screen.queryByText(t('navigation.main.places')));
     });
   });
 
@@ -256,7 +257,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
 
       const screen = await render(hbs`<Layout::Sidebar />`);
 
-      const logoLink = screen.getByRole('link', { name: this.intl.t('common.home-page') });
+      const logoLink = screen.getByRole('link', { name: t('common.home-page') });
       assert.dom(logoLink).hasAttribute('href', '/missions');
     });
 

@@ -3,6 +3,7 @@ import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -110,7 +111,7 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
 />`,
     );
 
-    assert.ok(screen.getByText(this.intl.t('pages.campaign-activity.table.column.participationCount')));
+    assert.ok(screen.getByText(t('pages.campaign-activity.table.column.participationCount')));
     assert.ok(screen.getByText('2'));
   });
 
@@ -166,9 +167,7 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
     );
 
     assert.ok(
-      screen.getByLabelText(
-        this.intl.t('pages.campaign-activity.table.see-results', { firstName: 'Joe', lastName: 'La frite' }),
-      ),
+      screen.getByLabelText(t('pages.campaign-activity.table.see-results', { firstName: 'Joe', lastName: 'La frite' })),
     );
   });
 

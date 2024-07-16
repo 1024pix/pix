@@ -1,6 +1,7 @@
 import { clickByName, fillByLabel, getDefaultNormalizer, render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -47,7 +48,7 @@ module('Integration | Component | SupOrganizationParticipant::Modal::EditStudent
 
         assert.ok(
           screen.getByText(
-            this.intl.t('pages.sup-organization-participants.edit-student-number-modal.form.student-number', {
+            t('pages.sup-organization-participants.edit-student-number-modal.form.student-number', {
               firstName: this.student.firstName,
               lastName: this.student.lastName,
             }),
@@ -75,7 +76,7 @@ module('Integration | Component | SupOrganizationParticipant::Modal::EditStudent
 
         assert.notOk(
           screen.queryByText(
-            this.intl.t('pages.sup-organization-participants.edit-student-number-modal.form.student-number', {
+            t('pages.sup-organization-participants.edit-student-number-modal.form.student-number', {
               firstName: this.student.firstName,
               lastName: this.student.lastName,
             }),
@@ -101,12 +102,12 @@ module('Integration | Component | SupOrganizationParticipant::Modal::EditStudent
 
         // when
         await fillByLabel(
-          this.intl.t('pages.sup-organization-participants.edit-student-number-modal.form.new-student-number-label'),
+          t('pages.sup-organization-participants.edit-student-number-modal.form.new-student-number-label'),
           this.student.studentNumber,
         );
 
         const submitButton = screen.getByText(
-          this.intl.t('pages.sup-organization-participants.edit-student-number-modal.actions.update'),
+          t('pages.sup-organization-participants.edit-student-number-modal.actions.update'),
         );
 
         // then
@@ -127,14 +128,14 @@ module('Integration | Component | SupOrganizationParticipant::Modal::EditStudent
 
         // when
         await fillByLabel(
-          this.intl.t('pages.sup-organization-participants.edit-student-number-modal.form.new-student-number-label'),
+          t('pages.sup-organization-participants.edit-student-number-modal.form.new-student-number-label'),
           'toto',
         );
-        await clickByName(this.intl.t('pages.sup-organization-participants.edit-student-number-modal.actions.update'));
+        await clickByName(t('pages.sup-organization-participants.edit-student-number-modal.actions.update'));
 
         // then
         const submitButton = screen.getByText(
-          this.intl.t('pages.sup-organization-participants.edit-student-number-modal.actions.update'),
+          t('pages.sup-organization-participants.edit-student-number-modal.actions.update'),
         );
 
         assert.ok(submitButton.hasAttribute('disabled'));
@@ -156,17 +157,17 @@ module('Integration | Component | SupOrganizationParticipant::Modal::EditStudent
 
         // when
         await fillByLabel(
-          this.intl.t('pages.sup-organization-participants.edit-student-number-modal.form.new-student-number-label'),
+          t('pages.sup-organization-participants.edit-student-number-modal.form.new-student-number-label'),
           '123456',
         );
-        await clickByName(this.intl.t('pages.sup-organization-participants.edit-student-number-modal.actions.update'));
+        await clickByName(t('pages.sup-organization-participants.edit-student-number-modal.actions.update'));
 
         // then
         assert.dom('.error-message').hasText('');
         sinon.assert.calledOnce(closeStub);
         assert.ok(
           notificationsStub.sendSuccess.calledWith(
-            this.intl.t('pages.sup-organization-participants.edit-student-number-modal.form.success', {
+            t('pages.sup-organization-participants.edit-student-number-modal.form.success', {
               firstName: this.student.firstName,
               lastName: this.student.lastName,
             }),
@@ -188,15 +189,13 @@ module('Integration | Component | SupOrganizationParticipant::Modal::EditStudent
 
         // when
         await fillByLabel(
-          this.intl.t('pages.sup-organization-participants.edit-student-number-modal.form.new-student-number-label'),
+          t('pages.sup-organization-participants.edit-student-number-modal.form.new-student-number-label'),
           ' ',
         );
-        await clickByName(this.intl.t('pages.sup-organization-participants.edit-student-number-modal.actions.update'));
+        await clickByName(t('pages.sup-organization-participants.edit-student-number-modal.actions.update'));
 
         // then
-        assert.ok(
-          screen.getByText(this.intl.t('pages.sup-organization-participants.edit-student-number-modal.form.error')),
-        );
+        assert.ok(screen.getByText(t('pages.sup-organization-participants.edit-student-number-modal.form.error')));
       });
     });
 
@@ -226,17 +225,15 @@ module('Integration | Component | SupOrganizationParticipant::Modal::EditStudent
 
           // when
           await fillByLabel(
-            this.intl.t('pages.sup-organization-participants.edit-student-number-modal.form.new-student-number-label'),
+            t('pages.sup-organization-participants.edit-student-number-modal.form.new-student-number-label'),
             '77107',
           );
-          await clickByName(
-            this.intl.t('pages.sup-organization-participants.edit-student-number-modal.actions.update'),
-          );
+          await clickByName(t('pages.sup-organization-participants.edit-student-number-modal.actions.update'));
 
           // then
           assert.ok(
             screen.getByText(
-              this.intl.t('api-error-messages.edit-student-number.student-number-exists', {
+              t('api-error-messages.edit-student-number.student-number-exists', {
                 firstName: this.student.firstName,
                 lastName: this.student.lastName,
               }),
@@ -274,7 +271,7 @@ module('Integration | Component | SupOrganizationParticipant::Modal::EditStudent
           // then
           assert.notOk(
             screen.queryByText(
-              this.intl.t('api-error-messages.edit-student-number.student-number-exists', {
+              t('api-error-messages.edit-student-number.student-number-exists', {
                 firstName: this.student.firstName,
                 lastName: this.student.lastName,
               }),
@@ -307,11 +304,11 @@ module('Integration | Component | SupOrganizationParticipant::Modal::EditStudent
 
         // when
         onSaveStudentNumberStub.rejects(error);
-        await clickByName(this.intl.t('common.actions.close'));
+        await clickByName(t('common.actions.close'));
 
         // then
         const submitButton = screen.getByText(
-          this.intl.t('pages.sup-organization-participants.edit-student-number-modal.actions.update'),
+          t('pages.sup-organization-participants.edit-student-number-modal.actions.update'),
         );
 
         assert.dom(submitButton).hasValue('');
@@ -347,7 +344,7 @@ module('Integration | Component | SupOrganizationParticipant::Modal::EditStudent
 
         // then
         const submitButton = screen.getByText(
-          this.intl.t('pages.sup-organization-participants.edit-student-number-modal.actions.update'),
+          t('pages.sup-organization-participants.edit-student-number-modal.actions.update'),
         );
 
         assert.dom(submitButton).hasValue('');

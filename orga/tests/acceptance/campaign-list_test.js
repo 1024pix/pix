@@ -1,6 +1,7 @@
 import { visit as visitScreen } from '@1024pix/ember-testing-library';
 import { currentURL } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -64,9 +65,9 @@ module('Acceptance | Campaign List', function (hooks) {
       const screen = await visitScreen('/campagnes');
 
       // then
-      assert.ok(screen.getByRole('heading', this.intl.t('pages.campaigns-list.title')));
-      assert.ok(screen.getByText(this.intl.t('pages.campaigns-list.tabs.my-campaigns')));
-      assert.ok(screen.getByText(this.intl.t('pages.campaigns-list.tabs.all-campaigns')));
+      assert.ok(screen.getByRole('heading', t('pages.campaigns-list.title')));
+      assert.ok(screen.getByText(t('pages.campaigns-list.tabs.my-campaigns')));
+      assert.ok(screen.getByText(t('pages.campaigns-list.tabs.all-campaigns')));
     });
   });
 });

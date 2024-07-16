@@ -1,6 +1,7 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -26,7 +27,7 @@ module('Acceptance | Login', function (hooks) {
         test('displays the login page with "English" as selected language', async function (assert) {
           // when
           const screen = await visit('/connexion');
-          await click(screen.getByRole('button', { name: this.intl.t('pages.login.choose-language-aria-label') }));
+          await click(screen.getByRole('button', { name: t('pages.login.choose-language-aria-label') }));
           await screen.findByRole('listbox');
           await click(screen.getByRole('option', { name: 'English' }));
 
@@ -51,7 +52,7 @@ module('Acceptance | Login', function (hooks) {
         test('displays the login page with "Français" as selected language', async function (assert) {
           // given & when
           const screen = await visit('/connexion?lang=en');
-          await click(screen.getByRole('button', { name: this.intl.t('pages.login.choose-language-aria-label') }));
+          await click(screen.getByRole('button', { name: t('pages.login.choose-language-aria-label') }));
           await screen.findByRole('listbox');
           await click(screen.getByRole('option', { name: 'Français' }));
 

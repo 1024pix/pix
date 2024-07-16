@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -18,7 +19,7 @@ module('Integration | Component | SupOrganizationParticipant::ImportCards::Repla
 
       // then
       const button = screen.getByRole('button', {
-        name: this.intl.t('pages.organization-participants-import.actions.replace.label'),
+        name: t('pages.organization-participants-import.actions.replace.label'),
       });
       assert.ok(button.hasAttribute('disabled'));
     });
@@ -34,7 +35,7 @@ module('Integration | Component | SupOrganizationParticipant::ImportCards::Repla
 
       // then
       const button = screen.getByRole('button', {
-        name: this.intl.t('pages.organization-participants-import.actions.replace.label'),
+        name: t('pages.organization-participants-import.actions.replace.label'),
       });
       assert.notOk(button.hasAttribute('disabled'));
     });

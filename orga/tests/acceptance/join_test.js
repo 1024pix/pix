@@ -1,6 +1,7 @@
 import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
 import { Response } from 'miragejs';
@@ -24,7 +25,7 @@ module('Acceptance | join', function (hooks) {
   let loginFormButton;
 
   hooks.beforeEach(function () {
-    loginFormButton = this.intl.t('pages.login-or-register.login-form.button');
+    loginFormButton = t('pages.login-or-register.login-form.button');
   });
 
   module('When prescriber tries to go on join page', function () {
@@ -68,7 +69,7 @@ module('Acceptance | join', function (hooks) {
 
           assert.ok(screen.getByText('You have been invited to join the organisation Le collège fou fou fou'));
 
-          await click(screen.getByRole('button', { name: this.intl.t('pages.login.choose-language-aria-label') }));
+          await click(screen.getByRole('button', { name: t('pages.login.choose-language-aria-label') }));
           await screen.findByRole('listbox');
           await click(screen.getByRole('option', { name: 'Français' }));
 
@@ -99,7 +100,7 @@ module('Acceptance | join', function (hooks) {
           status: 'accepted',
           code,
         }).id;
-        const expectedErrorMessage = this.intl.t('pages.login-form.invitation-already-accepted');
+        const expectedErrorMessage = t('pages.login-form.invitation-already-accepted');
 
         // when
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
@@ -129,7 +130,7 @@ module('Acceptance | join', function (hooks) {
         // then
         assert.strictEqual(currentURL(), '/connexion');
         assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
-        assert.ok(screen.getByText(this.intl.t('pages.login-form.invitation-was-cancelled')));
+        assert.ok(screen.getByText(t('pages.login-form.invitation-was-cancelled')));
       });
     });
   });
@@ -140,9 +141,9 @@ module('Acceptance | join', function (hooks) {
     let loginButton;
 
     hooks.beforeEach(function () {
-      emailInputLabel = this.intl.t('pages.login-form.email');
-      passwordInputLabel = this.intl.t('pages.login-form.password');
-      loginButton = this.intl.t('pages.login-form.login');
+      emailInputLabel = t('pages.login-form.email');
+      passwordInputLabel = t('pages.login-form.password');
+      loginButton = t('pages.login-form.login');
     });
 
     module('When prescriber is logging in but has not accepted terms of service yet', function (hooks) {
@@ -183,16 +184,16 @@ module('Acceptance | join', function (hooks) {
         // given
         const screen = await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
 
-        await click(screen.getByRole('button', { name: this.intl.t('pages.login.choose-language-aria-label') }));
+        await click(screen.getByRole('button', { name: t('pages.login.choose-language-aria-label') }));
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'English' }));
 
-        await clickByName(this.intl.t('pages.login-or-register.login-form.button'));
-        await fillByLabel(this.intl.t('pages.login-or-register.register-form.fields.email.label'), user.email);
-        await fillByLabel(this.intl.t('pages.login-or-register.register-form.fields.password.label'), 'secret');
+        await clickByName(t('pages.login-or-register.login-form.button'));
+        await fillByLabel(t('pages.login-or-register.register-form.fields.email.label'), user.email);
+        await fillByLabel(t('pages.login-or-register.register-form.fields.password.label'), 'secret');
 
         // when
-        await clickByName(this.intl.t('pages.login-or-register.login-form.button'));
+        await clickByName(t('pages.login-or-register.login-form.button'));
 
         // then
         assert.strictEqual(currentURL(), '/cgu');
@@ -301,7 +302,7 @@ module('Acceptance | join', function (hooks) {
 
           assert.strictEqual(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
           assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
-          assert.ok(screen.getByText(this.intl.t(ApiErrorMessages.LOGIN_UNAUTHORIZED.I18N_KEY)));
+          assert.ok(screen.getByText(t(ApiErrorMessages.LOGIN_UNAUTHORIZED.I18N_KEY)));
         });
       });
 
@@ -341,7 +342,7 @@ module('Acceptance | join', function (hooks) {
           // then
           assert.strictEqual(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
           assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
-          assert.ok(screen.getByText(this.intl.t('pages.login-form.errors.status.409')));
+          assert.ok(screen.getByText(t('pages.login-form.errors.status.409')));
         });
       });
 
@@ -407,12 +408,12 @@ module('Acceptance | join', function (hooks) {
     let registerButtonLabel;
 
     hooks.beforeEach(function () {
-      firstNameInputLabel = this.intl.t('pages.login-or-register.register-form.fields.first-name.label');
-      lastNameInputLabel = this.intl.t('pages.login-or-register.register-form.fields.last-name.label');
-      emailInputLabel = this.intl.t('pages.login-or-register.register-form.fields.email.label');
-      passwordInputLabel = this.intl.t('pages.login-or-register.register-form.fields.password.label');
-      cguAriaLabel = this.intl.t('pages.login-or-register.register-form.fields.cgu.aria-label');
-      registerButtonLabel = this.intl.t('pages.login-or-register.register-form.fields.button.label');
+      firstNameInputLabel = t('pages.login-or-register.register-form.fields.first-name.label');
+      lastNameInputLabel = t('pages.login-or-register.register-form.fields.last-name.label');
+      emailInputLabel = t('pages.login-or-register.register-form.fields.email.label');
+      passwordInputLabel = t('pages.login-or-register.register-form.fields.password.label');
+      cguAriaLabel = t('pages.login-or-register.register-form.fields.cgu.aria-label');
+      registerButtonLabel = t('pages.login-or-register.register-form.fields.button.label');
     });
 
     module('When prescriber is registering', function () {
@@ -464,21 +465,18 @@ module('Acceptance | join', function (hooks) {
             }).id;
 
             const screen = await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-            await click(screen.getByRole('button', { name: this.intl.t('pages.login.choose-language-aria-label') }));
+            await click(screen.getByRole('button', { name: t('pages.login.choose-language-aria-label') }));
             await screen.findByRole('listbox');
             await click(screen.getByRole('option', { name: 'English' }));
 
-            await fillByLabel(this.intl.t('pages.login-or-register.register-form.fields.first-name.label'), 'pix');
-            await fillByLabel(this.intl.t('pages.login-or-register.register-form.fields.last-name.label'), 'pix');
-            await fillByLabel(this.intl.t('pages.login-or-register.register-form.fields.email.label'), 'shi@fu.me');
-            await fillByLabel(
-              this.intl.t('pages.login-or-register.register-form.fields.password.label'),
-              'Password4register',
-            );
-            await clickByName(this.intl.t('pages.login-or-register.register-form.fields.cgu.aria-label'));
+            await fillByLabel(t('pages.login-or-register.register-form.fields.first-name.label'), 'pix');
+            await fillByLabel(t('pages.login-or-register.register-form.fields.last-name.label'), 'pix');
+            await fillByLabel(t('pages.login-or-register.register-form.fields.email.label'), 'shi@fu.me');
+            await fillByLabel(t('pages.login-or-register.register-form.fields.password.label'), 'Password4register');
+            await clickByName(t('pages.login-or-register.register-form.fields.cgu.aria-label'));
 
             // when
-            await clickByName(this.intl.t('pages.login-or-register.register-form.fields.button.label'));
+            await clickByName(t('pages.login-or-register.register-form.fields.button.label'));
 
             // then
             assert.strictEqual(currentURL(), '/cgu');

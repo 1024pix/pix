@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { triggerEvent } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
 import UploadButton from 'pix-orga/components/upload-button';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -61,7 +62,7 @@ module('Integration | Component | UploadButton', function (hooks) {
     // given
     const supportedFormats = ['.csv', '.xml'];
     const onChangeHandler = sinon.spy();
-    const separator = this.intl.t('pages.organization-participants-import.file-type-separator');
+    const separator = t('pages.organization-participants-import.file-type-separator');
     // when
     const screen = await render(
       <template>
@@ -83,7 +84,7 @@ module('Integration | Component | UploadButton', function (hooks) {
     assert.strictEqual(input.getAttribute('accept'), '.csv,.xml');
     assert.ok(
       screen.getByText(
-        this.intl.t('pages.organization-participants-import.supported-formats', {
+        t('pages.organization-participants-import.supported-formats', {
           types: supportedFormats.join(separator),
         }),
       ),

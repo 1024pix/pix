@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -92,12 +93,12 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       );
 
       // then
-      assert.notOk(screen.queryByText(this.intl.t('pages.campaign-results.table.empty')));
+      assert.notOk(screen.queryByText(t('pages.campaign-results.table.empty')));
       assert.ok(screen.getByRole('cell', { name: 'Doe' }));
       assert.ok(screen.getByRole('cell', { name: 'John' }));
       assert.ok(
         screen.getByRole('cell', {
-          name: this.intl.t('common.result.percentage', { value: 0.8, exact: false }),
+          name: t('common.result.percentage', { value: 0.8, exact: false }),
         }),
       );
     });
@@ -158,8 +159,8 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
 />`,
         );
         // then
-        assert.ok(screen.getByText(this.intl.t('pages.campaign-results.table.column.sharedResultCount')));
-        assert.ok(screen.getByLabelText(this.intl.t('pages.campaign-results.table.column.ariaSharedResultCount')));
+        assert.ok(screen.getByText(t('pages.campaign-results.table.column.sharedResultCount')));
+        assert.ok(screen.getByLabelText(t('pages.campaign-results.table.column.ariaSharedResultCount')));
       });
 
       test('it should display shared result count', async function (assert) {
@@ -190,7 +191,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
         );
 
         // then
-        assert.ok(screen.getByText(this.intl.t('pages.campaign-results.table.column.sharedResultCount')));
+        assert.ok(screen.getByText(t('pages.campaign-results.table.column.sharedResultCount')));
         assert.ok(screen.getByRole('cell', { name: '77' }));
       });
     });
@@ -219,8 +220,8 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
 />`,
         );
         // then
-        assert.notOk(screen.queryByText(this.intl.t('pages.campaign-results.table.column.sharedResultCount')));
-        assert.notOk(screen.queryByLabelText(this.intl.t('pages.campaign-results.table.column.ariaSharedResultCount')));
+        assert.notOk(screen.queryByText(t('pages.campaign-results.table.column.sharedResultCount')));
+        assert.notOk(screen.queryByLabelText(t('pages.campaign-results.table.column.ariaSharedResultCount')));
       });
 
       test('it should not display shared result count', async function (assert) {
@@ -251,7 +252,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
         );
 
         // then
-        assert.notOk(screen.queryByText(this.intl.t('pages.campaign-results.table.column.sharedResultCount')));
+        assert.notOk(screen.queryByText(t('pages.campaign-results.table.column.sharedResultCount')));
         assert.notOk(screen.queryByRole('cell', { name: '77' }));
       });
     });
@@ -424,12 +425,12 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       // then
 
       // for those who can see the stars but need more information for comprehension
-      assert.ok(screen.getByText(this.intl.t('common.result.stages', { count: 1, total: 1 })));
+      assert.ok(screen.getByText(t('common.result.stages', { count: 1, total: 1 })));
 
       // for those who can't see the stars
       assert.ok(
         screen.getByRole('cell', {
-          name: this.intl.t('common.result.accessibility-description', {
+          name: t('common.result.accessibility-description', {
             percentage: 0.6,
             stage: 1,
             totalStage: 1,

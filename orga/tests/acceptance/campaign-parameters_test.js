@@ -1,5 +1,6 @@
 import { clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -26,10 +27,10 @@ module('Acceptance | Campaign Parameters', function (hooks) {
     const screen = await visitScreen(`/campagnes/${campaign.id}/parametres`);
 
     // when
-    await clickByName(this.intl.t('pages.campaign-settings.actions.archive'));
+    await clickByName(t('pages.campaign-settings.actions.archive'));
 
     // then
-    assert.ok(await screen.findByText(this.intl.t('pages.campaign.archived')));
+    assert.ok(await screen.findByText(t('pages.campaign.archived')));
   });
 
   test('it should display error notification when something bad happened', async function (assert) {
@@ -40,9 +41,9 @@ module('Acceptance | Campaign Parameters', function (hooks) {
     const screen = await visitScreen(`/campagnes/${campaign.id}/parametres`);
 
     // when
-    await clickByName(this.intl.t('pages.campaign-settings.actions.archive'));
+    await clickByName(t('pages.campaign-settings.actions.archive'));
 
     // then
-    assert.ok(await screen.findByText(this.intl.t('api-error-messages.global')));
+    assert.ok(await screen.findByText(t('api-error-messages.global')));
   });
 });

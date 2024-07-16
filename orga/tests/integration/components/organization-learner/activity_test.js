@@ -1,5 +1,6 @@
 import { render, within } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -30,7 +31,7 @@ module('Integration | Component | OrganizationLearner::Activity', function (hook
       assert
         .dom(
           screen.queryByText(
-            this.intl.t('pages.organization-learner.activity.empty-state', {
+            t('pages.organization-learner.activity.empty-state', {
               organizationLearnerFirstName: 'Bob',
               organizationLearnerLastName: 'Dylan',
             }),
@@ -68,7 +69,7 @@ module('Integration | Component | OrganizationLearner::Activity', function (hook
       assert
         .dom(
           screen.queryByText(
-            this.intl.t('pages.organization-learner.activity.empty-state', {
+            t('pages.organization-learner.activity.empty-state', {
               organizationLearnerFirstName: 'Bob',
               organizationLearnerLastName: 'Dylan',
             }),
@@ -112,18 +113,18 @@ module('Integration | Component | OrganizationLearner::Activity', function (hook
       // then
       const assessmentCard = within(
         screen.getByRole('heading', {
-          name: this.intl.t('pages.organization-learner.activity.assessment-summary'),
+          name: t('pages.organization-learner.activity.assessment-summary'),
         }).parentElement,
       );
       assert.dom(assessmentCard.getByRole('definition')).containsText('6');
       assert
-        .dom(assessmentCard.getByText(this.intl.t('pages.organization-learner.activity.cards.started', { count: 2 })))
+        .dom(assessmentCard.getByText(t('pages.organization-learner.activity.cards.started', { count: 2 })))
         .exists();
       assert
-        .dom(assessmentCard.getByText(this.intl.t('pages.organization-learner.activity.cards.to-share', { count: 3 })))
+        .dom(assessmentCard.getByText(t('pages.organization-learner.activity.cards.to-share', { count: 3 })))
         .exists();
       assert
-        .dom(assessmentCard.getByText(this.intl.t('pages.organization-learner.activity.cards.shared', { count: 1 })))
+        .dom(assessmentCard.getByText(t('pages.organization-learner.activity.cards.shared', { count: 1 })))
         .exists();
     });
     test('it should display profile collection participations statistics when there is participations', async function (assert) {
@@ -161,23 +162,15 @@ module('Integration | Component | OrganizationLearner::Activity', function (hook
       // then
       const profileCollectionCard = within(
         screen.getByRole('heading', {
-          name: this.intl.t('pages.organization-learner.activity.profile-collection-summary'),
+          name: t('pages.organization-learner.activity.profile-collection-summary'),
         }).parentElement,
       );
       assert.dom(profileCollectionCard.getByRole('definition')).containsText('4');
       assert
-        .dom(
-          profileCollectionCard.getByText(
-            this.intl.t('pages.organization-learner.activity.cards.to-share', { count: 3 }),
-          ),
-        )
+        .dom(profileCollectionCard.getByText(t('pages.organization-learner.activity.cards.to-share', { count: 3 })))
         .exists();
       assert
-        .dom(
-          profileCollectionCard.getByText(
-            this.intl.t('pages.organization-learner.activity.cards.shared', { count: 1 }),
-          ),
-        )
+        .dom(profileCollectionCard.getByText(t('pages.organization-learner.activity.cards.shared', { count: 1 })))
         .exists();
     });
   });

@@ -1,5 +1,6 @@
 import { visit } from '@1024pix/ember-testing-library';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -37,8 +38,8 @@ module('Acceptance | Campaign Analysis', function (hooks) {
     const screen = await visit('/campagnes/1/analyse');
 
     // then
-    assert.ok(screen.getByLabelText(this.intl.t('pages.campaign-review.table.analysis.title')));
-    assert.ok(screen.getByText(this.intl.t('pages.campaign-review.table.analysis.column.subjects', { count: 2 })));
+    assert.ok(screen.getByLabelText(t('pages.campaign-review.table.analysis.title')));
+    assert.ok(screen.getByText(t('pages.campaign-review.table.analysis.column.subjects', { count: 2 })));
   });
 
   module('when organization uses "GAR" as identity provider for campaigns', function () {
@@ -77,10 +78,8 @@ module('Acceptance | Campaign Analysis', function (hooks) {
         const screen = await visit('/campagnes/7654/analyse');
 
         // then
-        assert.dom(screen.getByText(this.intl.t('pages.campaign.empty-state'))).exists();
-        assert
-          .dom(screen.queryByRole('button', { name: this.intl.t('pages.campaign.copy.link.default') }))
-          .doesNotExist();
+        assert.dom(screen.getByText(t('pages.campaign.empty-state'))).exists();
+        assert.dom(screen.queryByRole('button', { name: t('pages.campaign.copy.link.default') })).doesNotExist();
       });
     });
   });

@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -85,7 +86,7 @@ module('Integration | Component | Campaign::Analysis::Recommendations', function
     });
 
     test('it should have a caption to describe the table', async function (assert) {
-      assert.ok(screen.getByText(this.intl.t('pages.campaign-review.table.analysis.caption')));
+      assert.ok(screen.getByText(t('pages.campaign-review.table.analysis.caption')));
     });
   });
 

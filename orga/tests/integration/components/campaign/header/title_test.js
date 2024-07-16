@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -22,7 +23,7 @@ module('Integration | Component | Campaign::Header::Title', function (hooks) {
 
     // then
     const title = screen.getByRole('heading');
-    assert.true(title.textContent.includes(this.intl.t('components.campaign.type.explanation.ASSESSMENT')));
+    assert.true(title.textContent.includes(t('components.campaign.type.explanation.ASSESSMENT')));
     assert.true(title.textContent.includes('campagne 1'));
     assert.ok(screen.getByText('1234PixTest'));
     assert.ok(screen.getByText('Mulan Fa'));
@@ -46,7 +47,7 @@ module('Integration | Component | Campaign::Header::Title', function (hooks) {
         // when
         const screen = await render(hbs`<Campaign::Header::Title @campaign={{this.campaign}} />`);
         // then
-        assert.ok(screen.getByText(this.intl.t('pages.campaign.multiple-sendings.title')));
+        assert.ok(screen.getByText(t('pages.campaign.multiple-sendings.title')));
       });
 
       module('when multiple sendings is true', function () {
@@ -61,7 +62,7 @@ module('Integration | Component | Campaign::Header::Title', function (hooks) {
           const screen = await render(hbs`<Campaign::Header::Title @campaign={{this.campaign}} />`);
 
           // then
-          assert.ok(screen.getByText(this.intl.t('pages.campaign.multiple-sendings.status.enabled')));
+          assert.ok(screen.getByText(t('pages.campaign.multiple-sendings.status.enabled')));
         });
       });
 
@@ -77,7 +78,7 @@ module('Integration | Component | Campaign::Header::Title', function (hooks) {
           const screen = await render(hbs`<Campaign::Header::Title @campaign={{this.campaign}} />`);
 
           // then
-          assert.ok(screen.getByText(this.intl.t('pages.campaign.multiple-sendings.status.disabled')));
+          assert.ok(screen.getByText(t('pages.campaign.multiple-sendings.status.disabled')));
         });
       });
     });
@@ -98,7 +99,7 @@ module('Integration | Component | Campaign::Header::Title', function (hooks) {
           const screen = await render(hbs`<Campaign::Header::Title @campaign={{this.campaign}} />`);
 
           // then
-          assert.notOk(screen.queryByText(this.intl.t('pages.campaign.multiple-sendings.title')));
+          assert.notOk(screen.queryByText(t('pages.campaign.multiple-sendings.title')));
         });
       });
 
@@ -122,7 +123,7 @@ module('Integration | Component | Campaign::Header::Title', function (hooks) {
           // when
           const screen = await render(hbs`<Campaign::Header::Title @campaign={{this.campaign}} />`);
           // then
-          assert.ok(screen.getByText(this.intl.t('pages.campaign.multiple-sendings.title')));
+          assert.ok(screen.getByText(t('pages.campaign.multiple-sendings.title')));
         });
 
         module('when the campaign multiple sending is true', function () {
@@ -137,7 +138,7 @@ module('Integration | Component | Campaign::Header::Title', function (hooks) {
             const screen = await render(hbs`<Campaign::Header::Title @campaign={{this.campaign}} />`);
 
             // then
-            assert.ok(screen.getByText(this.intl.t('pages.campaign.multiple-sendings.status.enabled')));
+            assert.ok(screen.getByText(t('pages.campaign.multiple-sendings.status.enabled')));
           });
         });
 
@@ -153,7 +154,7 @@ module('Integration | Component | Campaign::Header::Title', function (hooks) {
             const screen = await render(hbs`<Campaign::Header::Title @campaign={{this.campaign}} />`);
 
             // then
-            assert.ok(screen.getByText(this.intl.t('pages.campaign.multiple-sendings.status.disabled')));
+            assert.ok(screen.getByText(t('pages.campaign.multiple-sendings.status.disabled')));
           });
         });
       });

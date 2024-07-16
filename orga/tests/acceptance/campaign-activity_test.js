@@ -1,6 +1,7 @@
 import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -85,10 +86,8 @@ module('Acceptance | Campaign Activity', function (hooks) {
       // when
       const screen = await visit('/campagnes/1');
 
-      await click(screen.getByLabelText(this.intl.t('pages.campaign-activity.table.column.status')));
-      await click(
-        await screen.findByRole('option', { name: this.intl.t('components.participation-status.STARTED-ASSESSMENT') }),
-      );
+      await click(screen.getByLabelText(t('pages.campaign-activity.table.column.status')));
+      await click(await screen.findByRole('option', { name: t('components.participation-status.STARTED-ASSESSMENT') }));
       await clickByName('Effacer les filtres');
 
       // then
@@ -139,10 +138,8 @@ module('Acceptance | Campaign Activity', function (hooks) {
       // when
       const screen = await visit('/campagnes/1');
 
-      await click(screen.getByLabelText(this.intl.t('pages.campaign-activity.table.column.status')));
-      await click(
-        await screen.findByRole('option', { name: this.intl.t('components.participation-status.STARTED-ASSESSMENT') }),
-      );
+      await click(screen.getByLabelText(t('pages.campaign-activity.table.column.status')));
+      await click(await screen.findByRole('option', { name: t('components.participation-status.STARTED-ASSESSMENT') }));
 
       // then
       assert.strictEqual(currentURL(), '/campagnes/1?status=STARTED');
@@ -187,10 +184,8 @@ module('Acceptance | Campaign Activity', function (hooks) {
         const screen = await visit('/campagnes/7654');
 
         // then
-        assert.dom(screen.getByText(this.intl.t('pages.campaign.empty-state'))).exists();
-        assert
-          .dom(screen.queryByRole('button', { name: this.intl.t('pages.campaign.copy.link.default') }))
-          .doesNotExist();
+        assert.dom(screen.getByText(t('pages.campaign.empty-state'))).exists();
+        assert.dom(screen.queryByRole('button', { name: t('pages.campaign.copy.link.default') })).doesNotExist();
       });
     });
   });

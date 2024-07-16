@@ -1,5 +1,6 @@
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -28,7 +29,7 @@ module('Integration | Component | Layout::Footer', function (hooks) {
     const screen = await renderScreen(hbs`<Layout::Footer />}`);
 
     // then
-    const link = screen.getByRole('link', { name: this.intl.t('navigation.footer.legal-notice') });
+    const link = screen.getByRole('link', { name: t('navigation.footer.legal-notice') });
     assert.dom(link).hasProperty('href', 'https://pix.org/fr/mentions-legales');
   });
 
@@ -41,7 +42,7 @@ module('Integration | Component | Layout::Footer', function (hooks) {
     const screen = await renderScreen(hbs`<Layout::Footer />}`);
 
     // then
-    const link = screen.getByRole('link', { name: this.intl.t('navigation.footer.a11y') });
+    const link = screen.getByRole('link', { name: t('navigation.footer.a11y') });
     assert.dom(link).hasProperty('href', 'https://pix.fr/accessibilite-pix-orga');
   });
 
@@ -50,7 +51,7 @@ module('Integration | Component | Layout::Footer', function (hooks) {
     const screen = await renderScreen(hbs`<Layout::Footer />}`);
 
     // then
-    const link = screen.getByRole('link', { name: this.intl.t('navigation.footer.server-status') });
+    const link = screen.getByRole('link', { name: t('navigation.footer.server-status') });
     assert.dom(link).hasProperty('href', 'https://status.pix.org/?locale=fr');
   });
 });

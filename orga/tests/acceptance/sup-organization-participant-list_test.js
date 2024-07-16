@@ -1,6 +1,7 @@
 import { clickByName, clickByText, fillByLabel, visit, within } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -78,10 +79,10 @@ module('Acceptance | Sup Organization Participant List', function (hooks) {
 
         // when
         const select = screen.getByRole('textbox', {
-          name: this.intl.t('pages.sup-organization-participants.filter.certificability.label'),
+          name: t('pages.sup-organization-participants.filter.certificability.label'),
         });
         await click(select);
-        await clickByText(this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible'));
+        await clickByText(t('pages.sco-organization-participants.table.column.is-certifiable.eligible'));
 
         // then
         assert.strictEqual(decodeURI(currentURL()), '/etudiants?certificability=["eligible"]');

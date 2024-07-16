@@ -1,6 +1,7 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -32,7 +33,7 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
     await render(hbs`<Team::InvitationsList @invitations={{this.invitations}} />`);
 
     // then
-    assert.dom(`[aria-label="${this.intl.t('pages.team-invitations.table.row.aria-label')}"]`).exists({ count: 2 });
+    assert.dom(`[aria-label="${t('pages.team-invitations.table.row.aria-label')}"]`).exists({ count: 2 });
   });
 
   test('it should display email and creation date of invitation', async function (assert) {
@@ -73,13 +74,10 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
     // when
     await render(hbs`<Team::InvitationsList @invitations={{this.invitations}} />`);
 
-    await clickByName(this.intl.t('pages.team-invitations.cancel-invitation'));
+    await clickByName(t('pages.team-invitations.cancel-invitation'));
 
     // then
-    sinon.assert.calledWith(
-      notifications.success,
-      this.intl.t('pages.team-invitations.invitation-cancelled-succeed-message'),
-    );
+    sinon.assert.calledWith(notifications.success, t('pages.team-invitations.invitation-cancelled-succeed-message'));
     assert.ok(true);
   });
 
@@ -104,10 +102,10 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
 
     // when
     await render(hbs`<Team::InvitationsList @invitations={{this.invitations}} />`);
-    await clickByName(this.intl.t('pages.team-invitations.cancel-invitation'));
+    await clickByName(t('pages.team-invitations.cancel-invitation'));
 
     // then
-    sinon.assert.calledWith(notifications.error, this.intl.t('api-error-messages.global'));
+    sinon.assert.calledWith(notifications.error, t('api-error-messages.global'));
     assert.ok(true);
   });
 });

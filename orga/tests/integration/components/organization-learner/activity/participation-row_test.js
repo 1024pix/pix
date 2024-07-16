@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -36,15 +37,13 @@ module('Integration | Component | OrganizationLearner | Activity::ParticipationR
     assert
       .dom(
         screen.getByRole('cell', {
-          name: this.intl.t('components.campaign.type.information.ASSESSMENT'),
+          name: t('components.campaign.type.information.ASSESSMENT'),
         }),
       )
       .exists();
     assert.dom(screen.getByRole('cell', { name: '01/02/2023' })).exists();
     assert.dom(screen.getByRole('cell', { name: '01/03/2023' })).exists();
-    assert
-      .dom(screen.getByRole('cell', { name: this.intl.t('components.participation-status.SHARED-ASSESSMENT') }))
-      .exists();
+    assert.dom(screen.getByRole('cell', { name: t('components.participation-status.SHARED-ASSESSMENT') })).exists();
   });
 
   test('it displays the participation count', async function (assert) {

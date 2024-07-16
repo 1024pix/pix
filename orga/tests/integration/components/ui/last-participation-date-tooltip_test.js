@@ -1,5 +1,6 @@
 import { getDefaultNormalizer, render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -11,9 +12,7 @@ module('Integration | Component | Ui::LastParticipationDateTooltip', function (h
     const screen = await render(hbs`<Ui::LastParticipationDateTooltip />`);
 
     // then
-    assert.ok(
-      screen.getByLabelText(this.intl.t('pages.participants-list.latest-participation-information-tooltip.aria-label')),
-    );
+    assert.ok(screen.getByLabelText(t('pages.participants-list.latest-participation-information-tooltip.aria-label')));
   });
 
   test('it should display campaign name', async function (assert) {
@@ -27,7 +26,7 @@ module('Integration | Component | Ui::LastParticipationDateTooltip', function (h
 
     // then
     assert.ok(
-      screen.getByText(this.intl.t('pages.participants-list.latest-participation-information-tooltip.campaign-name'), {
+      screen.getByText(t('pages.participants-list.latest-participation-information-tooltip.campaign-name'), {
         exact: false,
         normalizer: getDefaultNormalizer({ trim: false }),
       }),
@@ -46,15 +45,13 @@ module('Integration | Component | Ui::LastParticipationDateTooltip', function (h
 
     // then
     assert.ok(
-      screen.getByText(this.intl.t('pages.participants-list.latest-participation-information-tooltip.campaign-type'), {
+      screen.getByText(t('pages.participants-list.latest-participation-information-tooltip.campaign-type'), {
         exact: false,
         normalizer: getDefaultNormalizer({ trim: false }),
       }),
     );
     assert.ok(
-      screen.getByText(
-        this.intl.t('pages.participants-list.latest-participation-information-tooltip.campaign-ASSESSMENT-type'),
-      ),
+      screen.getByText(t('pages.participants-list.latest-participation-information-tooltip.campaign-ASSESSMENT-type')),
     );
   });
 
@@ -69,16 +66,14 @@ module('Integration | Component | Ui::LastParticipationDateTooltip', function (h
 
     // then
     assert.ok(
-      screen.getByText(this.intl.t('pages.participants-list.latest-participation-information-tooltip.campaign-type'), {
+      screen.getByText(t('pages.participants-list.latest-participation-information-tooltip.campaign-type'), {
         exact: false,
         normalizer: getDefaultNormalizer({ trim: false }),
       }),
     );
     assert.ok(
       screen.getByText(
-        this.intl.t(
-          'pages.participants-list.latest-participation-information-tooltip.campaign-PROFILES_COLLECTION-type',
-        ),
+        t('pages.participants-list.latest-participation-information-tooltip.campaign-PROFILES_COLLECTION-type'),
       ),
     );
   });
@@ -95,7 +90,7 @@ module('Integration | Component | Ui::LastParticipationDateTooltip', function (h
     // then
     assert.ok(
       screen.getByText(
-        this.intl.t('pages.participants-list.latest-participation-information-tooltip.campaign-status'),
+        t('pages.participants-list.latest-participation-information-tooltip.campaign-status'),
         // WARNING : nous avons ici un problème de rupture de la séparation des responsabilité
         // ce pourquoi nous sommes obligés de renseigner `normalizer: getDefaultNormalizer({ trim: false })z.
         // TODO :gérer les espaces en fin de texte avec du css et non dans les clés de traduction
@@ -104,7 +99,7 @@ module('Integration | Component | Ui::LastParticipationDateTooltip', function (h
     );
     assert.ok(
       screen.getByText(
-        this.intl.t('pages.participants-list.latest-participation-information-tooltip.participation-SHARED-status'),
+        t('pages.participants-list.latest-participation-information-tooltip.participation-SHARED-status'),
       ),
     );
   });
@@ -121,7 +116,7 @@ module('Integration | Component | Ui::LastParticipationDateTooltip', function (h
     // then
     assert.ok(
       screen.getByText(
-        this.intl.t('pages.participants-list.latest-participation-information-tooltip.campaign-status'),
+        t('pages.participants-list.latest-participation-information-tooltip.campaign-status'),
         // WARNING : nous avons ici un problème de rupture de la séparation des responsabilité
         // ce pourquoi nous sommes obligés de renseigner `normalizer: getDefaultNormalizer({ trim: false })z.
         // TODO :gérer les espaces en fin de texte avec du css et non dans les clés de traduction
@@ -130,7 +125,7 @@ module('Integration | Component | Ui::LastParticipationDateTooltip', function (h
     );
     assert.ok(
       screen.getByText(
-        this.intl.t('pages.participants-list.latest-participation-information-tooltip.participation-TO_SHARE-status'),
+        t('pages.participants-list.latest-participation-information-tooltip.participation-TO_SHARE-status'),
       ),
     );
   });
@@ -147,7 +142,7 @@ module('Integration | Component | Ui::LastParticipationDateTooltip', function (h
     // then
     assert.ok(
       screen.getByText(
-        this.intl.t('pages.participants-list.latest-participation-information-tooltip.campaign-status'),
+        t('pages.participants-list.latest-participation-information-tooltip.campaign-status'),
         // WARNING : nous avons ici un problème de rupture de la séparation des responsabilité
         // ce pourquoi nous sommes obligés de renseigner `normalizer: getDefaultNormalizer({ trim: false })z.
         // TODO :gérer les espaces en fin de texte avec du css et non dans les clés de traduction
@@ -156,7 +151,7 @@ module('Integration | Component | Ui::LastParticipationDateTooltip', function (h
     );
     assert.ok(
       screen.getByText(
-        this.intl.t('pages.participants-list.latest-participation-information-tooltip.participation-STARTED-status'),
+        t('pages.participants-list.latest-participation-information-tooltip.participation-STARTED-status'),
       ),
     );
   });

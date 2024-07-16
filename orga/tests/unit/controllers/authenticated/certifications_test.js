@@ -1,4 +1,5 @@
 import Service from '@ember/service';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -138,7 +139,7 @@ module('Unit | Controller | authenticated/certifications', function (hooks) {
       sinon.assert.notCalled(controller.fileSaver.save);
       sinon.assert.calledWith(
         errorMock,
-        this.intl.t('pages.certifications.errors.invalid-division', { selectedDivision: 'Banana bread' }),
+        t('pages.certifications.errors.invalid-division', { selectedDivision: 'Banana bread' }),
         { autoClear: false },
       );
       assert.ok(true);
@@ -295,7 +296,7 @@ module('Unit | Controller | authenticated/certifications', function (hooks) {
       sinon.assert.notCalled(controller.fileSaver.save);
       sinon.assert.calledWith(
         errorMock,
-        this.intl.t('pages.certifications.errors.invalid-division', { selectedDivision: 'Americaine' }),
+        t('pages.certifications.errors.invalid-division', { selectedDivision: 'Americaine' }),
         { autoClear: false },
       );
       assert.ok(true);

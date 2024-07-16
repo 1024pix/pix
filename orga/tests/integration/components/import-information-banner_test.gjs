@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import dayjs from 'dayjs';
+import { t } from 'ember-intl/test-support';
 import ImportInformationBanner from 'pix-orga/components/import-information-banner';
 import { module, test } from 'qunit';
 
@@ -13,9 +14,9 @@ module('Integration | Component | ImportInformationBanner', function (hooks) {
     const screen = await render(<template><ImportInformationBanner /></template>);
 
     // then
-    assert.notOk(screen.queryByText(this.intl.t('components.import-information-banner.success')));
-    assert.notOk(screen.queryByText(this.intl.t('components.import-information-banner.error')));
-    assert.notOk(screen.queryByText(this.intl.t('components.import-information-banner.in-progress')));
+    assert.notOk(screen.queryByText(t('components.import-information-banner.success')));
+    assert.notOk(screen.queryByText(t('components.import-information-banner.error')));
+    assert.notOk(screen.queryByText(t('components.import-information-banner.in-progress')));
   });
 
   test('it show nothing when there is no import since 14 days', async function (assert) {
@@ -30,9 +31,9 @@ module('Integration | Component | ImportInformationBanner', function (hooks) {
     const screen = await render(<template><ImportInformationBanner @importDetail={{importDetail}} /></template>);
 
     // then
-    assert.notOk(screen.queryByText(this.intl.t('components.import-information-banner.success')));
-    assert.notOk(screen.queryByText(this.intl.t('components.import-information-banner.error')));
-    assert.notOk(screen.queryByText(this.intl.t('components.import-information-banner.in-progress')));
+    assert.notOk(screen.queryByText(t('components.import-information-banner.success')));
+    assert.notOk(screen.queryByText(t('components.import-information-banner.error')));
+    assert.notOk(screen.queryByText(t('components.import-information-banner.in-progress')));
   });
   ['UPLOADED', 'VALIDATED'].forEach(async function (status) {
     test(`display import in progress banner when status is ${status}`, async function (assert) {
@@ -46,7 +47,7 @@ module('Integration | Component | ImportInformationBanner', function (hooks) {
       // when
       const screen = await render(<template><ImportInformationBanner @importDetail={{importDetail}} /></template>);
       assert.ok(
-        screen.getByText(this.intl.t('components.import-information-banner.in-progress'), {
+        screen.getByText(t('components.import-information-banner.in-progress'), {
           exact: false,
         }),
       );
@@ -54,7 +55,7 @@ module('Integration | Component | ImportInformationBanner', function (hooks) {
       assert.ok(
         screen.getByRole(
           'link',
-          { name: this.intl.t('components.import-information-banner.in-progress-link') },
+          { name: t('components.import-information-banner.in-progress-link') },
           { exact: false },
         ),
       );
@@ -71,7 +72,7 @@ module('Integration | Component | ImportInformationBanner', function (hooks) {
     const screen = await render(<template><ImportInformationBanner @importDetail={{importDetail}} /></template>);
 
     assert.ok(
-      screen.getByText(this.intl.t('components.import-information-banner.success'), {
+      screen.getByText(t('components.import-information-banner.success'), {
         exact: false,
       }),
     );
@@ -89,16 +90,12 @@ module('Integration | Component | ImportInformationBanner', function (hooks) {
       const screen = await render(<template><ImportInformationBanner @importDetail={{importDetail}} /></template>);
 
       assert.ok(
-        screen.getByText(this.intl.t('components.import-information-banner.error'), {
+        screen.getByText(t('components.import-information-banner.error'), {
           exact: false,
         }),
       );
       assert.ok(
-        screen.getByRole(
-          'link',
-          { name: this.intl.t('components.import-information-banner.error-link') },
-          { exact: false },
-        ),
+        screen.getByRole('link', { name: t('components.import-information-banner.error-link') }, { exact: false }),
       );
     });
   });

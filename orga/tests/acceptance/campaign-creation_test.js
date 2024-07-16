@@ -1,6 +1,7 @@
 import { clickByName, fillByLabel, visit, within } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -59,7 +60,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
       await fillByLabel('* Nom de la campagne', 'Ma Campagne');
       await clickByName('Évaluer les participants');
 
-      await click(screen.getByLabelText(`* ${this.intl.t('pages.campaign-creation.target-profiles-list-label')}`));
+      await click(screen.getByLabelText(`* ${t('pages.campaign-creation.target-profiles-list-label')}`));
       await click(await screen.findByRole('option', { name: expectedTargetProfileName }));
 
       const externalIdentifier = screen
@@ -104,7 +105,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
       const screen = await visit('/campagnes/creation');
       await fillByLabel('* Nom de la campagne', 'Ma Campagne');
       await clickByName('Évaluer les participants');
-      await click(screen.getByLabelText(`* ${this.intl.t('pages.campaign-creation.target-profiles-list-label')}`));
+      await click(screen.getByLabelText(`* ${t('pages.campaign-creation.target-profiles-list-label')}`));
       await click(await screen.findByRole('option', { name: expectedTargetProfileName }));
       await fillByLabel('Titre du parcours', 'Savoir rechercher');
       await clickByName('Non');
@@ -123,7 +124,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
       const screen = await visit('/campagnes/creation');
       await fillByLabel('* Nom de la campagne', 'Ma Campagne');
       await clickByName('Évaluer les participants');
-      await click(screen.getByLabelText(`* ${this.intl.t('pages.campaign-creation.target-profiles-list-label')}`));
+      await click(screen.getByLabelText(`* ${t('pages.campaign-creation.target-profiles-list-label')}`));
       await click(await screen.findByRole('option', { name: targetProfileName }));
 
       // when
@@ -143,7 +144,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
       // when
       await fillByLabel('* Nom de la campagne', 'Ma Campagne');
       await clickByName('Évaluer les participants');
-      await click(screen.getByLabelText(`* ${this.intl.t('pages.campaign-creation.target-profiles-list-label')}`));
+      await click(screen.getByLabelText(`* ${t('pages.campaign-creation.target-profiles-list-label')}`));
       await click(await screen.findByRole('option', { name: expectedTargetProfileName }));
       const externalIdentifier = screen
         .getByText('Souhaitez-vous demander un identifiant externe ?', { selector: 'legend' })

@@ -2,6 +2,7 @@ import { clickByName, render as renderScreen } from '@1024pix/ember-testing-libr
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -32,8 +33,8 @@ module('Integration | Component | Campaign::Header::ArchivedBanner', function (h
       const screen = await renderScreen(hbs`<Campaign::Header::ArchivedBanner @campaign={{this.campaign}} />`);
 
       // then
-      assert.dom(screen.queryByText(this.intl.t('pages.campaign.archived'))).doesNotExist();
-      assert.dom(screen.queryByText(this.intl.t('pages.campaign.actions.unarchive'))).doesNotExist();
+      assert.dom(screen.queryByText(t('pages.campaign.archived'))).doesNotExist();
+      assert.dom(screen.queryByText(t('pages.campaign.actions.unarchive'))).doesNotExist();
     });
   });
 
@@ -54,8 +55,8 @@ module('Integration | Component | Campaign::Header::ArchivedBanner', function (h
         const screen = await renderScreen(hbs`<Campaign::Header::ArchivedBanner @campaign={{this.campaign}} />`);
 
         // then
-        assert.dom(screen.getByText(this.intl.t('pages.campaign.archived'))).exists();
-        assert.dom(screen.getByText(this.intl.t('pages.campaign.actions.unarchive'))).exists();
+        assert.dom(screen.getByText(t('pages.campaign.archived'))).exists();
+        assert.dom(screen.getByText(t('pages.campaign.actions.unarchive'))).exists();
       });
 
       test('it should unarchive campaign on button click', async function (assert) {
@@ -96,8 +97,8 @@ module('Integration | Component | Campaign::Header::ArchivedBanner', function (h
         const screen = await renderScreen(hbs`<Campaign::Header::ArchivedBanner @campaign={{this.campaign}} />`);
 
         // then
-        assert.dom(screen.getByText(this.intl.t('pages.campaign.archived'))).exists();
-        assert.dom(screen.getByText(this.intl.t('pages.campaign.actions.unarchive'))).exists();
+        assert.dom(screen.getByText(t('pages.campaign.archived'))).exists();
+        assert.dom(screen.getByText(t('pages.campaign.actions.unarchive'))).exists();
       });
 
       test('it should unarchive campaign on button click', async function (assert) {
@@ -138,7 +139,7 @@ module('Integration | Component | Campaign::Header::ArchivedBanner', function (h
         const screen = await renderScreen(hbs`<Campaign::Header::ArchivedBanner @campaign={{this.campaign}} />`);
 
         // then
-        assert.dom(screen.getByText(this.intl.t('pages.campaign.archived'))).exists();
+        assert.dom(screen.getByText(t('pages.campaign.archived'))).exists();
       });
 
       test('it should not be possible to unarchive', async function (assert) {
@@ -156,7 +157,7 @@ module('Integration | Component | Campaign::Header::ArchivedBanner', function (h
         const screen = await renderScreen(hbs`<Campaign::Header::ArchivedBanner @campaign={{this.campaign}} />`);
 
         // then
-        assert.dom(screen.queryByText(this.intl.t('pages.campaign.actions.unarchive'))).doesNotExist();
+        assert.dom(screen.queryByText(t('pages.campaign.actions.unarchive'))).doesNotExist();
       });
     });
   });

@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -58,6 +59,6 @@ module('Integration | Component | Team::MembersList', function (hooks) {
     const screen = await render(hbs`<Team::MembersList @members={{this.members}} />`);
 
     // then
-    assert.ok(screen.getByText(this.intl.t('pages.team-members.table.empty')));
+    assert.ok(screen.getByText(t('pages.team-members.table.empty')));
   });
 });

@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
+import { t } from 'ember-intl/test-support';
 import OrganizationPlacesOrCreditInfo from 'pix-orga/components/layout/organization-places-or-credit-info';
 import { module, test } from 'qunit';
 
@@ -25,8 +26,8 @@ module('Integration | Components | Layout | OrganizationPlacesOrCreditInfo', fun
       );
 
       // then
-      assert.ok(screen.getByText(this.intl.t('navigation.places.number', { count: placesNumber })));
-      assert.notOk(screen.queryByText(this.intl.t('navigation.places.link')));
+      assert.ok(screen.getByText(t('navigation.places.number', { count: placesNumber })));
+      assert.notOk(screen.queryByText(t('navigation.places.link')));
     });
 
     test('that admin user can access places page link', async function (assert) {
@@ -45,8 +46,8 @@ module('Integration | Components | Layout | OrganizationPlacesOrCreditInfo', fun
       );
 
       // then
-      assert.ok(screen.getByText(this.intl.t('navigation.places.number', { count: placesNumber })));
-      assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.places.link'), href: '/places' }));
+      assert.ok(screen.getByText(t('navigation.places.number', { count: placesNumber })));
+      assert.ok(screen.getByRole('link', { name: t('navigation.places.link'), href: '/places' }));
     });
 
     test('when there is 0 places left', async function (assert) {
@@ -65,7 +66,7 @@ module('Integration | Components | Layout | OrganizationPlacesOrCreditInfo', fun
       );
 
       // then
-      assert.ok(screen.getByText(this.intl.t('navigation.places.number', { count: placesNumber })));
+      assert.ok(screen.getByText(t('navigation.places.number', { count: placesNumber })));
       assert.ok(screen.getByRole('img', { hidden: true }));
     });
 
@@ -83,8 +84,8 @@ module('Integration | Components | Layout | OrganizationPlacesOrCreditInfo', fun
       );
 
       // then
-      assert.notOk(screen.queryByText(this.intl.t('navigation.places.number', { count: placesNumber })));
-      assert.notOk(screen.queryByText(this.intl.t('navigation.places.link')));
+      assert.notOk(screen.queryByText(t('navigation.places.number', { count: placesNumber })));
+      assert.notOk(screen.queryByText(t('navigation.places.link')));
     });
   });
 
@@ -127,7 +128,7 @@ module('Integration | Components | Layout | OrganizationPlacesOrCreditInfo', fun
       const screen = await render(<template><OrganizationPlacesOrCreditInfo /></template>);
 
       // then
-      assert.ok(screen.getByText(this.intl.t('navigation.credits.number', { count: creditCount })));
+      assert.ok(screen.getByText(t('navigation.credits.number', { count: creditCount })));
     });
 
     test('should be hidden when credit is less than 1', async function (assert) {
@@ -145,7 +146,7 @@ module('Integration | Components | Layout | OrganizationPlacesOrCreditInfo', fun
       const screen = await render(<template><OrganizationPlacesOrCreditInfo /></template>);
 
       // then
-      assert.notOk(screen.queryByText(this.intl.t('navigation.credits.number', { count: creditCount })));
+      assert.notOk(screen.queryByText(t('navigation.credits.number', { count: creditCount })));
     });
 
     test('should hiden when the prescriber is not ADMIN', async function (assert) {
@@ -163,7 +164,7 @@ module('Integration | Components | Layout | OrganizationPlacesOrCreditInfo', fun
       const screen = await render(<template><OrganizationPlacesOrCreditInfo /></template>);
 
       // then
-      assert.notOk(screen.queryByText(this.intl.t('navigation.credits.number', { count: creditCount })));
+      assert.notOk(screen.queryByText(t('navigation.credits.number', { count: creditCount })));
     });
   });
 
@@ -188,8 +189,8 @@ module('Integration | Components | Layout | OrganizationPlacesOrCreditInfo', fun
       );
 
       // then
-      assert.notOk(screen.queryByText(this.intl.t('navigation.credits.number', { count: creditCount })));
-      assert.ok(screen.getByText(this.intl.t('navigation.places.number', { count: placesNumber })));
+      assert.notOk(screen.queryByText(t('navigation.credits.number', { count: creditCount })));
+      assert.ok(screen.getByText(t('navigation.places.number', { count: placesNumber })));
     });
   });
 });

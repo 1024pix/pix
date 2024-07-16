@@ -1,3 +1,4 @@
+import { t } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -31,7 +32,7 @@ module('Unit | Service | Error messages', function (hooks) {
     // When
     const message = errorMessages.getErrorMessage('CAMPAIGN_NAME_IS_REQUIRED');
     // Then
-    assert.strictEqual(message, this.intl.t('api-error-messages.campaign-creation.name-required'));
+    assert.strictEqual(message, t('api-error-messages.campaign-creation.name-required'));
   });
 
   module('SEX_CODE_REQUIRED', function () {
@@ -42,10 +43,7 @@ module('Unit | Service | Error messages', function (hooks) {
       // When
       const message = errorMessages.getErrorMessage('SEX_CODE_REQUIRED', { nationalStudentId });
       // Then
-      assert.strictEqual(
-        message,
-        this.intl.t('api-error-messages.student-xml-import.sex-code-required', { nationalStudentId }),
-      );
+      assert.strictEqual(message, t('api-error-messages.student-xml-import.sex-code-required', { nationalStudentId }));
     });
   });
 
@@ -57,10 +55,7 @@ module('Unit | Service | Error messages', function (hooks) {
       // When
       const message = errorMessages.getErrorMessage('BIRTHDATE_REQUIRED', { nationalStudentId });
       // Then
-      assert.strictEqual(
-        message,
-        this.intl.t('api-error-messages.student-xml-import.birthdate-required', { nationalStudentId }),
-      );
+      assert.strictEqual(message, t('api-error-messages.student-xml-import.birthdate-required', { nationalStudentId }));
     });
   });
 
@@ -74,7 +69,7 @@ module('Unit | Service | Error messages', function (hooks) {
       // Then
       assert.strictEqual(
         message,
-        this.intl.t('api-error-messages.student-xml-import.invalid-birthdate-format', { nationalStudentId }),
+        t('api-error-messages.student-xml-import.invalid-birthdate-format', { nationalStudentId }),
       );
     });
   });
@@ -89,7 +84,7 @@ module('Unit | Service | Error messages', function (hooks) {
       // Then
       assert.strictEqual(
         message,
-        this.intl.t('api-error-messages.student-xml-import.birth-city-code-required-for-french-student', {
+        t('api-error-messages.student-xml-import.birth-city-code-required-for-french-student', {
           nationalStudentId,
         }),
       );
@@ -104,7 +99,7 @@ module('Unit | Service | Error messages', function (hooks) {
     // Then
     assert.strictEqual(
       message,
-      this.intl.t('api-error-messages.student-csv-import.field-min-length', { line: 1, field: 'Boo', limit: 2 }),
+      t('api-error-messages.student-csv-import.field-min-length', { line: 1, field: 'Boo', limit: 2 }),
     );
   });
 
@@ -116,10 +111,10 @@ module('Unit | Service | Error messages', function (hooks) {
     // Then
     assert.strictEqual(
       message,
-      this.intl.t('api-error-messages.student-csv-import.field-bad-values', {
+      t('api-error-messages.student-csv-import.field-bad-values', {
         line: 1,
         field: 'Boo',
-        valids: `A${this.intl.t('api-error-messages.or-separator')}B`,
+        valids: `A${t('api-error-messages.or-separator')}B`,
       }),
     );
   });

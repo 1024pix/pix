@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -38,7 +39,7 @@ module('Integration | Component | Ui::DivisionsFilter', function (hooks) {
 
       const screen = await render(hbs`<Ui::DivisionsFilter @model={{this.campaign}} />`);
 
-      assert.ok(screen.getByText(this.intl.t('common.filters.divisions.empty')));
+      assert.ok(screen.getByText(t('common.filters.divisions.empty')));
     });
   });
 
@@ -49,7 +50,7 @@ module('Integration | Component | Ui::DivisionsFilter', function (hooks) {
 
       const screen = await render(hbs`<Ui::DivisionsFilter @model={{this.campaign}} @placeholder='Classes' />`);
 
-      assert.ok(screen.getByLabelText(this.intl.t('common.filters.divisions.label')));
+      assert.ok(screen.getByLabelText(t('common.filters.divisions.label')));
       assert.ok(screen.getByLabelText('d1'));
     });
 
@@ -59,7 +60,7 @@ module('Integration | Component | Ui::DivisionsFilter', function (hooks) {
       this.onSelect = sinon.stub();
 
       const screen = await render(hbs`<Ui::DivisionsFilter @model={{this.campaign}} @onSelect={{this.onSelect}} />`);
-      await click(screen.getByLabelText(this.intl.t('common.filters.divisions.label')));
+      await click(screen.getByLabelText(t('common.filters.divisions.label')));
       await click(await screen.findByRole('checkbox', { name: 'd1' }));
 
       assert.ok(this.onSelect.calledWith(['d1']));

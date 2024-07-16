@@ -1,6 +1,7 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -34,7 +35,7 @@ module('Integration | Component | Team::InvitationsListItem', function (hooks) {
     await render(
       hbs`<Team::InvitationsListItem @invitation={{this.invitation}} @cancelInvitation={{this.cancelInvitation}} />`,
     );
-    await clickByName(this.intl.t('pages.team-invitations.resend-invitation'));
+    await clickByName(t('pages.team-invitations.resend-invitation'));
 
     // then
     sinon.assert.calledWith(saveStub, {
@@ -46,7 +47,7 @@ module('Integration | Component | Team::InvitationsListItem', function (hooks) {
     });
     sinon.assert.calledWith(
       notifications.success,
-      this.intl.t('pages.team-new.success.invitation', { email: 'fifi@example.net' }),
+      t('pages.team-new.success.invitation', { email: 'fifi@example.net' }),
     );
     assert.ok(true);
   });

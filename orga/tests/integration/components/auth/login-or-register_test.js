@@ -2,6 +2,7 @@ import { clickByName, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -13,11 +14,11 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
   let loginButton;
 
   hooks.beforeEach(function () {
-    loginButton = this.intl.t('pages.login-or-register.login-form.button');
+    loginButton = t('pages.login-or-register.login-form.button');
   });
   test('displays the organization name the user is invited to', async function (assert) {
     // when
-    const invitationMessage = this.intl.t('pages.login-or-register.title', { organizationName: 'Organization Aztec' });
+    const invitationMessage = t('pages.login-or-register.title', { organizationName: 'Organization Aztec' });
 
     await render(hbs`<Auth::LoginOrRegister @organizationName='Organization Aztec' />`);
 
@@ -46,7 +47,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
 
   test('toggles the register form on click on register button', async function (assert) {
     // given
-    const registerButtonLabel = this.intl.t('pages.login-or-register.register-form.button');
+    const registerButtonLabel = t('pages.login-or-register.register-form.button');
 
     await render(hbs`<Auth::LoginOrRegister />`);
 
@@ -76,7 +77,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
       const screen = await render(hbs`<Auth::LoginOrRegister @organizationName='Organization Aztec' />`);
 
       // then
-      await click(screen.getByRole('button', { name: this.intl.t('pages.login.choose-language-aria-label') }));
+      await click(screen.getByRole('button', { name: t('pages.login.choose-language-aria-label') }));
       await screen.findByRole('listbox');
       await click(screen.getByRole('option', { name: 'English' }));
       assert.dom(screen.getByText('You have been invited to join the organisation Organization Aztec')).exists();
@@ -98,9 +99,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
 
       // then
       assert.dom(screen.getByText("Vous êtes invité(e) à rejoindre l'organisation Organization Aztec")).exists();
-      assert
-        .dom(screen.queryByRole('button', { name: this.intl.t('pages.login.choose-language-aria-label') }))
-        .doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: t('pages.login.choose-language-aria-label') })).doesNotExist();
     });
   });
 });

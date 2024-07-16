@@ -94,7 +94,7 @@ export default class ParticipantsByDay extends Component {
       animation: false,
       responsive: true,
       maintainAspectRatio: false,
-      locale: this.intl.locale[0],
+      locale: this.intl.primaryLocale,
       scales: {
         x: {
           grid: {

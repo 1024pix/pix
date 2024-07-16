@@ -2,6 +2,7 @@ import { clickByName, fillByLabel, render, within } from '@1024pix/ember-testing
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 import striptags from 'striptags';
@@ -57,40 +58,40 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
     // then
     assert.ok(
       screen.getByRole('columnheader', {
-        name: this.intl.t('pages.sco-organization-participants.table.column.last-name.label'),
+        name: t('pages.sco-organization-participants.table.column.last-name.label'),
       }),
     );
     assert.ok(
       screen.getByRole('columnheader', {
-        name: this.intl.t('pages.sco-organization-participants.table.column.first-name'),
+        name: t('pages.sco-organization-participants.table.column.first-name'),
       }),
     );
     assert.ok(
       screen.getByRole('columnheader', {
-        name: this.intl.t('pages.sco-organization-participants.table.column.date-of-birth'),
+        name: t('pages.sco-organization-participants.table.column.date-of-birth'),
       }),
     );
     assert.ok(
       screen.getByRole('columnheader', {
-        name: this.intl.t('pages.sco-organization-participants.table.column.login-method'),
+        name: t('pages.sco-organization-participants.table.column.login-method'),
       }),
     );
     assert.ok(
       screen.getByRole('columnheader', {
-        name: this.intl.t('pages.sco-organization-participants.table.column.participation-count.label'),
+        name: t('pages.sco-organization-participants.table.column.participation-count.label'),
       }),
     );
     assert.ok(
       screen.getByRole('columnheader', {
-        name: this.intl.t('pages.sco-organization-participants.table.column.last-participation-date'),
+        name: t('pages.sco-organization-participants.table.column.last-participation-date'),
       }),
     );
     assert.ok(
       screen.getByRole('columnheader', {
-        name: this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.label'),
+        name: t('pages.sco-organization-participants.table.column.is-certifiable.label'),
       }),
     );
-    assert.ok(screen.getByRole('columnheader', { name: this.intl.t('common.actions.global') }));
+    assert.ok(screen.getByRole('columnheader', { name: t('common.actions.global') }));
   });
 
   test('it should display a list of students', async function (assert) {
@@ -123,7 +124,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
     // then
     assert.strictEqual(
-      screen.getAllByRole('row', { name: this.intl.t('pages.sco-organization-participants.table.row-title') }).length,
+      screen.getAllByRole('row', { name: t('pages.sco-organization-participants.table.row-title') }).length,
       2,
     );
   });
@@ -210,9 +211,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
     assert.ok(screen.getByRole('cell', { name: '42' }));
     assert.ok(screen.getByRole('cell', { name: '03/01/2022' }));
     assert.notOk(screen.queryByRole('cell', { name: '02/01/2022' }));
-    assert.ok(
-      screen.getByLabelText(this.intl.t('pages.participants-list.latest-participation-information-tooltip.aria-label')),
-    );
+    assert.ok(screen.getByLabelText(t('pages.participants-list.latest-participation-information-tooltip.aria-label')));
   });
 
   test('[A11Y] it should have a description for screen-readers', async function (assert) {
@@ -238,7 +237,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
     );
 
     // then
-    assert.ok(screen.getByText(this.intl.t('pages.sco-organization-participants.table.description')));
+    assert.ok(screen.getByText(t('pages.sco-organization-participants.table.description')));
   });
 
   test('it should display participant as eligible for certification when the participant is certifiable', async function (assert) {
@@ -271,7 +270,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
     // then
     assert.ok(
       screen.getByRole('cell', {
-        name: this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible'),
+        name: t('pages.sco-organization-participants.table.column.is-certifiable.eligible'),
       }),
     );
   });
@@ -304,27 +303,27 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         // then
         assert.ok(
           screen.getByRole('checkbox', {
-            name: this.intl.t('pages.sco-organization-participants.connection-types.none'),
+            name: t('pages.sco-organization-participants.connection-types.none'),
           }),
         );
         assert.ok(
           screen.getByRole('checkbox', {
-            name: this.intl.t('pages.sco-organization-participants.connection-types.email'),
+            name: t('pages.sco-organization-participants.connection-types.email'),
           }),
         );
         assert.ok(
           screen.getByRole('checkbox', {
-            name: this.intl.t('pages.sco-organization-participants.connection-types.identifiant'),
+            name: t('pages.sco-organization-participants.connection-types.identifiant'),
           }),
         );
         assert.ok(
           screen.getByRole('checkbox', {
-            name: this.intl.t('pages.sco-organization-participants.connection-types.mediacentre'),
+            name: t('pages.sco-organization-participants.connection-types.mediacentre'),
           }),
         );
         assert.ok(
           screen.getByRole('checkbox', {
-            name: this.intl.t('pages.sco-organization-participants.connection-types.without-mediacentre'),
+            name: t('pages.sco-organization-participants.connection-types.without-mediacentre'),
           }),
         );
       });
@@ -355,7 +354,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       );
 
       // when
-      await fillByLabel(this.intl.t('common.filters.fullname.label'), 'Bob M');
+      await fillByLabel(t('common.filters.fullname.label'), 'Bob M');
 
       // then
       sinon.assert.calledWithExactly(triggerFiltering, 'search', 'Bob M');
@@ -530,7 +529,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         // when
         await click(
           screen.getByLabelText(
-            this.intl.t('pages.sco-organization-participants.table.column.participation-count.ariaLabelDefaultSort'),
+            t('pages.sco-organization-participants.table.column.participation-count.ariaLabelDefaultSort'),
           ),
         );
 
@@ -567,7 +566,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         // when
         await click(
           screen.getByLabelText(
-            this.intl.t('pages.sco-organization-participants.table.column.participation-count.ariaLabelSortDown'),
+            t('pages.sco-organization-participants.table.column.participation-count.ariaLabelSortDown'),
           ),
         );
 
@@ -604,7 +603,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         // when
         await click(
           screen.getByLabelText(
-            this.intl.t('pages.sco-organization-participants.table.column.participation-count.ariaLabelSortUp'),
+            t('pages.sco-organization-participants.table.column.participation-count.ariaLabelSortUp'),
           ),
         );
 
@@ -643,9 +642,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
         // when
         await click(
-          screen.getByLabelText(
-            this.intl.t('pages.sco-organization-participants.table.column.last-name.ariaLabelDefaultSort'),
-          ),
+          screen.getByLabelText(t('pages.sco-organization-participants.table.column.last-name.ariaLabelDefaultSort')),
         );
 
         // then
@@ -680,9 +677,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
         // when
         await click(
-          screen.getByLabelText(
-            this.intl.t('pages.sco-organization-participants.table.column.last-name.ariaLabelSortDown'),
-          ),
+          screen.getByLabelText(t('pages.sco-organization-participants.table.column.last-name.ariaLabelSortDown')),
         );
 
         // then
@@ -717,9 +712,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
         // when
         await click(
-          screen.getByLabelText(
-            this.intl.t('pages.sco-organization-participants.table.column.last-name.ariaLabelSortUp'),
-          ),
+          screen.getByLabelText(t('pages.sco-organization-participants.table.column.last-name.ariaLabelSortUp')),
         );
 
         // then
@@ -757,9 +750,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
         // when
         await click(
-          screen.getByLabelText(
-            this.intl.t('pages.sco-organization-participants.table.column.division.ariaLabelDefaultSort'),
-          ),
+          screen.getByLabelText(t('pages.sco-organization-participants.table.column.division.ariaLabelDefaultSort')),
         );
 
         // then
@@ -794,9 +785,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
         // when
         await click(
-          screen.getByLabelText(
-            this.intl.t('pages.sco-organization-participants.table.column.division.ariaLabelSortDown'),
-          ),
+          screen.getByLabelText(t('pages.sco-organization-participants.table.column.division.ariaLabelSortDown')),
         );
 
         // then
@@ -831,9 +820,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
         // when
         await click(
-          screen.getByLabelText(
-            this.intl.t('pages.sco-organization-participants.table.column.division.ariaLabelSortUp'),
-          ),
+          screen.getByLabelText(t('pages.sco-organization-participants.table.column.division.ariaLabelSortUp')),
         );
 
         // then
@@ -873,15 +860,16 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
     test('it should display dash for authentication method', async function (assert) {
       assert.ok(
-        within(
-          screen.getByRole('row', { name: this.intl.t('pages.sco-organization-participants.table.row-title') }),
-        ).getByRole('cell', { name: '\u2013' }),
+        within(screen.getByRole('row', { name: t('pages.sco-organization-participants.table.row-title') })).getByRole(
+          'cell',
+          { name: '\u2013' },
+        ),
       );
     });
 
     test('it should not display actions menu for username', async function (assert) {
       assert.notOk(
-        screen.queryByRole('button', { name: this.intl.t('pages.sco-organization-participants.actions.show-actions') }),
+        screen.queryByRole('button', { name: t('pages.sco-organization-participants.actions.show-actions') }),
       );
     });
   });
@@ -916,12 +904,10 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 />`);
 
       // when
-      await clickByName(this.intl.t('pages.sco-organization-participants.actions.show-actions'));
+      await clickByName(t('pages.sco-organization-participants.actions.show-actions'));
 
       // then
-      assert.ok(
-        screen.getByRole('button', { name: this.intl.t('pages.sco-organization-participants.actions.manage-account') }),
-      );
+      assert.ok(screen.getByRole('button', { name: t('pages.sco-organization-participants.actions.manage-account') }));
     });
   });
 
@@ -957,16 +943,15 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
     test('it should display "Identifiant" as authentication method', async function (assert) {
       assert.ok(
-        within(
-          screen.getByRole('row', { name: this.intl.t('pages.sco-organization-participants.table.row-title') }),
-        ).getByRole('cell', { name: this.intl.t('pages.sco-organization-participants.connection-types.identifiant') }),
+        within(screen.getByRole('row', { name: t('pages.sco-organization-participants.table.row-title') })).getByRole(
+          'cell',
+          { name: t('pages.sco-organization-participants.connection-types.identifiant') },
+        ),
       );
     });
 
     test('it should display actions menu', async function (assert) {
-      assert.ok(
-        screen.getByRole('button', { name: this.intl.t('pages.sco-organization-participants.actions.show-actions') }),
-      );
+      assert.ok(screen.getByRole('button', { name: t('pages.sco-organization-participants.actions.show-actions') }));
     });
   });
 
@@ -1003,16 +988,15 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
     test('it should display "Adresse email" as authentication method', function (assert) {
       assert.ok(
-        within(
-          screen.getByRole('row', { name: this.intl.t('pages.sco-organization-participants.table.row-title') }),
-        ).getByRole('cell', { name: this.intl.t('pages.sco-organization-participants.connection-types.email') }),
+        within(screen.getByRole('row', { name: t('pages.sco-organization-participants.table.row-title') })).getByRole(
+          'cell',
+          { name: t('pages.sco-organization-participants.connection-types.email') },
+        ),
       );
     });
 
     test('it should display actions menu for email', async function (assert) {
-      assert.ok(
-        screen.getByRole('button', { name: this.intl.t('pages.sco-organization-participants.actions.show-actions') }),
-      );
+      assert.ok(screen.getByRole('button', { name: t('pages.sco-organization-participants.actions.show-actions') }));
     });
   });
 
@@ -1055,9 +1039,10 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
       // then
       assert.ok(
-        within(
-          screen.getByRole('row', { name: this.intl.t('pages.sco-organization-participants.table.row-title') }),
-        ).getByRole('cell', { name: this.intl.t('pages.sco-organization-participants.connection-types.mediacentre') }),
+        within(screen.getByRole('row', { name: t('pages.sco-organization-participants.table.row-title') })).getByRole(
+          'cell',
+          { name: t('pages.sco-organization-participants.connection-types.mediacentre') },
+        ),
       );
     });
 
@@ -1075,9 +1060,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 />`);
 
       // then
-      assert.ok(
-        screen.getByRole('button', { name: this.intl.t('pages.sco-organization-participants.actions.show-actions') }),
-      );
+      assert.ok(screen.getByRole('button', { name: t('pages.sco-organization-participants.actions.show-actions') }));
     });
 
     test('it should display the certificability tooltip', async function (assert) {
@@ -1100,10 +1083,10 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
   @onResetFilter={{this.noop}}
 />`);
 
-      await click(screen.getByLabelText(this.intl.t('components.certificability-tooltip.aria-label')));
+      await click(screen.getByLabelText(t('components.certificability-tooltip.aria-label')));
 
       // then
-      assert.ok(screen.getByText(this.intl.t('components.certificability-tooltip.content')));
+      assert.ok(screen.getByText(t('components.certificability-tooltip.content')));
     });
   });
 
@@ -1131,7 +1114,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 />`);
 
       // then
-      assert.ok(screen.getByText(this.intl.t('pages.sco-organization-participants.table.empty')));
+      assert.ok(screen.getByText(t('pages.sco-organization-participants.table.empty')));
     });
   });
 
@@ -1159,7 +1142,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 />`);
 
       // then
-      assert.ok(screen.getByText(this.intl.t('pages.sco-organization-participants.no-participants-action')));
+      assert.ok(screen.getByText(t('pages.sco-organization-participants.no-participants-action')));
     });
   });
 
@@ -1207,10 +1190,10 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 />`);
 
       const mainCheckbox = screen.getByRole('checkbox', {
-        name: this.intl.t('pages.sco-organization-participants.table.column.mainCheckbox'),
+        name: t('pages.sco-organization-participants.table.column.mainCheckbox'),
       });
       const studentCheckBox = screen.getByRole('checkbox', {
-        name: this.intl.t('pages.sco-organization-participants.table.column.checkbox', {
+        name: t('pages.sco-organization-participants.table.column.checkbox', {
           firstname: students[0].firstName,
           lastname: students[0].lastName,
         }),
@@ -1276,9 +1259,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       await click(firstStudent);
 
       // then
-      assert.ok(
-        screen.getByText(this.intl.t('pages.sco-organization-participants.action-bar.information', { count: 1 })),
-      );
+      assert.ok(screen.getByText(t('pages.sco-organization-participants.action-bar.information', { count: 1 })));
     });
 
     test('opens the reset password modal', async function (assert) {
@@ -1319,7 +1300,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       await click(secondStudentToResetPassword);
 
       const resetPasswordButton = await screen.findByRole('button', {
-        name: this.intl.t('pages.sco-organization-participants.action-bar.reset-password-button'),
+        name: t('pages.sco-organization-participants.action-bar.reset-password-button'),
       });
 
       await click(resetPasswordButton);
@@ -1328,11 +1309,11 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
       const modalTitle = await screen.findByRole('heading', {
         level: 1,
-        name: striptags(this.intl.t('pages.sco-organization-participants.reset-password-modal.title')),
+        name: striptags(t('pages.sco-organization-participants.reset-password-modal.title')),
       });
 
       const confirmationButton = await screen.findByRole('button', {
-        name: this.intl.t('common.actions.confirm'),
+        name: t('common.actions.confirm'),
       });
 
       // then
@@ -1367,16 +1348,16 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
           const student = await screen.getAllByRole('checkbox')[1];
           await click(student);
           const resetPasswordButton = await screen.findByRole('button', {
-            name: this.intl.t('pages.sco-organization-participants.action-bar.reset-password-button'),
+            name: t('pages.sco-organization-participants.action-bar.reset-password-button'),
           });
           await click(resetPasswordButton);
           await screen.findByRole('dialog');
           const modalTitle = await screen.findByRole('heading', {
             level: 1,
-            name: striptags(this.intl.t('pages.sco-organization-participants.reset-password-modal.title')),
+            name: striptags(t('pages.sco-organization-participants.reset-password-modal.title')),
           });
           const confirmationButton = await screen.findByRole('button', {
-            name: this.intl.t('common.actions.confirm'),
+            name: t('common.actions.confirm'),
           });
 
           // then
@@ -1418,16 +1399,16 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
           await click(firstStudent);
           await click(secondStudent);
           const resetPasswordButton = await screen.findByRole('button', {
-            name: this.intl.t('pages.sco-organization-participants.action-bar.reset-password-button'),
+            name: t('pages.sco-organization-participants.action-bar.reset-password-button'),
           });
           await click(resetPasswordButton);
           await screen.findByRole('dialog');
           const modalTitle = await screen.findByRole('heading', {
             level: 1,
-            name: striptags(this.intl.t('pages.sco-organization-participants.reset-password-modal.title')),
+            name: striptags(t('pages.sco-organization-participants.reset-password-modal.title')),
           });
           const confirmationButton = await screen.findByRole('button', {
-            name: this.intl.t('common.actions.confirm'),
+            name: t('common.actions.confirm'),
           });
 
           // then
@@ -1470,13 +1451,13 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
           await click(secondStudent);
 
           const resetPasswordButton = await screen.findByRole('button', {
-            name: this.intl.t('pages.sco-organization-participants.action-bar.reset-password-button'),
+            name: t('pages.sco-organization-participants.action-bar.reset-password-button'),
           });
           await click(resetPasswordButton);
           await screen.findByRole('dialog');
 
           const confirmationButton = await screen.findByRole('button', {
-            name: this.intl.t('common.actions.confirm'),
+            name: t('common.actions.confirm'),
           });
           await click(confirmationButton);
           const resetPasswordsModal = await screen.queryByRole('dialog');
@@ -1522,13 +1503,13 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
           await click(secondStudent);
 
           const resetPasswordButton = await screen.findByRole('button', {
-            name: this.intl.t('pages.sco-organization-participants.action-bar.reset-password-button'),
+            name: t('pages.sco-organization-participants.action-bar.reset-password-button'),
           });
           await click(resetPasswordButton);
           await screen.findByRole('dialog');
 
           const confirmationButton = await screen.findByRole('button', {
-            name: this.intl.t('common.actions.confirm'),
+            name: t('common.actions.confirm'),
           });
           await click(confirmationButton);
 
@@ -1580,20 +1561,20 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
               await click(secondStudent);
 
               const resetPasswordButton = await screen.findByRole('button', {
-                name: this.intl.t('pages.sco-organization-participants.action-bar.reset-password-button'),
+                name: t('pages.sco-organization-participants.action-bar.reset-password-button'),
               });
               await click(resetPasswordButton);
               await screen.findByRole('dialog');
 
               const confirmationButton = await screen.findByRole('button', {
-                name: this.intl.t('common.actions.confirm'),
+                name: t('common.actions.confirm'),
               });
               await click(confirmationButton);
 
               // then
               sinon.assert.calledWith(
                 notificationsStub.sendError,
-                this.intl.t('api-error-messages.student-password-reset.user-does-not-belong-to-organization-error'),
+                t('api-error-messages.student-password-reset.user-does-not-belong-to-organization-error'),
               );
               assert.ok(true);
             });
@@ -1641,20 +1622,20 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
               await click(secondStudent);
 
               const resetPasswordButton = await screen.findByRole('button', {
-                name: this.intl.t('pages.sco-organization-participants.action-bar.reset-password-button'),
+                name: t('pages.sco-organization-participants.action-bar.reset-password-button'),
               });
               await click(resetPasswordButton);
               await screen.findByRole('dialog');
 
               const confirmationButton = await screen.findByRole('button', {
-                name: this.intl.t('common.actions.confirm'),
+                name: t('common.actions.confirm'),
               });
               await click(confirmationButton);
 
               // then
               sinon.assert.calledWith(
                 notificationsStub.sendError,
-                this.intl.t(
+                t(
                   'api-error-messages.student-password-reset.organization-learner-does-not-belong-to-organization-error',
                 ),
               );
@@ -1706,20 +1687,20 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
               await click(secondStudent);
 
               const resetPasswordButton = await screen.findByRole('button', {
-                name: this.intl.t('pages.sco-organization-participants.action-bar.reset-password-button'),
+                name: t('pages.sco-organization-participants.action-bar.reset-password-button'),
               });
               await click(resetPasswordButton);
               await screen.findByRole('dialog');
 
               const confirmationButton = await screen.findByRole('button', {
-                name: this.intl.t('common.actions.confirm'),
+                name: t('common.actions.confirm'),
               });
               await click(confirmationButton);
 
               // then
               sinon.assert.calledWith(
                 notificationsStub.sendError,
-                this.intl.t('api-error-messages.student-password-reset.organization-learner-without-username-error'),
+                t('api-error-messages.student-password-reset.organization-learner-without-username-error'),
               );
               assert.ok(true);
             });
@@ -1765,13 +1746,13 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
               await click(secondStudent);
 
               const resetPasswordButton = await screen.findByRole('button', {
-                name: this.intl.t('pages.sco-organization-participants.action-bar.reset-password-button'),
+                name: t('pages.sco-organization-participants.action-bar.reset-password-button'),
               });
               await click(resetPasswordButton);
               await screen.findByRole('dialog');
 
               const confirmationButton = await screen.findByRole('button', {
-                name: this.intl.t('common.actions.confirm'),
+                name: t('common.actions.confirm'),
               });
               await click(confirmationButton);
 

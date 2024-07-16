@@ -1,6 +1,7 @@
 import { render, within } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -51,9 +52,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
 />`,
         );
 
-        assert.notOk(
-          screen.queryByLabelText(this.intl.t('pages.assessment-individual-results.participation-selector')),
-        );
+        assert.notOk(screen.queryByLabelText(t('pages.assessment-individual-results.participation-selector')));
       });
     });
 
@@ -83,21 +82,18 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
 />`,
         );
 
-        const selector = screen.getByLabelText(
-          this.intl.t('pages.assessment-individual-results.participation-selector'),
-        );
+        const selector = screen.getByLabelText(t('pages.assessment-individual-results.participation-selector'));
         await click(selector);
         await screen.findByRole('listbox');
 
         assert.ok(
-          within(screen.getByRole('listbox')).getByText(
-            this.intl.t('pages.assessment-individual-results.participation-shared'),
-            { exact: false },
-          ),
+          within(screen.getByRole('listbox')).getByText(t('pages.assessment-individual-results.participation-shared'), {
+            exact: false,
+          }),
         );
         assert.ok(
           within(screen.getByRole('listbox')).getByText(
-            this.intl.t('pages.assessment-individual-results.participation-not-shared'),
+            t('pages.assessment-individual-results.participation-not-shared'),
             { exact: false },
           ),
         );
@@ -131,14 +127,12 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
 />`,
         );
 
-        const selector = screen.getByLabelText(
-          this.intl.t('pages.assessment-individual-results.participation-selector'),
-        );
+        const selector = screen.getByLabelText(t('pages.assessment-individual-results.participation-selector'));
         await click(selector);
         await screen.findByRole('listbox');
         await click(
           screen.getByRole('option', {
-            name: `${this.intl.t('pages.assessment-individual-results.participation-label', { participationNumber: 1 })} - 02/01/2020`,
+            name: `${t('pages.assessment-individual-results.participation-label', { participationNumber: 1 })} - 02/01/2020`,
           }),
         );
 
@@ -172,7 +166,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
       hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
     );
 
-    assert.ok(screen.getByText(this.intl.t('pages.assessment-individual-results.progression')));
+    assert.ok(screen.getByText(t('pages.assessment-individual-results.progression')));
     assert.ok(screen.getByText('75 %'));
   });
 
@@ -190,7 +184,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
           hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
         );
 
-        assert.ok(screen.getByText(this.intl.t('pages.campaign-individual-results.shared-date')));
+        assert.ok(screen.getByText(t('pages.campaign-individual-results.shared-date')));
         assert.ok(screen.getByText('02 janv. 2020'));
       });
     });
@@ -204,7 +198,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
           hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
         );
 
-        assert.notOk(screen.queryByText(this.intl.t('pages.campaign-individual-results.shared-date')));
+        assert.notOk(screen.queryByText(t('pages.campaign-individual-results.shared-date')));
       });
     });
   });
@@ -253,10 +247,8 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
           hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
         );
 
-        assert.notOk(screen.queryByText(this.intl.t('pages.assessment-individual-results.progression')));
-        assert.notOk(
-          screen.queryByText(this.intl.t('common.result.percentage', { value: this.participation.progression })),
-        );
+        assert.notOk(screen.queryByText(t('pages.assessment-individual-results.progression')));
+        assert.notOk(screen.queryByText(t('common.result.percentage', { value: this.participation.progression })));
       });
 
       module('when the campaign has stages', function () {
@@ -279,8 +271,8 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
             hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
           );
 
-          assert.ok(screen.queryByLabelText(this.intl.t('pages.assessment-individual-results.result')));
-          assert.ok(screen.getByText(this.intl.t('common.result.stages', { count: 1, total: 2 })));
+          assert.ok(screen.queryByLabelText(t('pages.assessment-individual-results.result')));
+          assert.ok(screen.getByText(t('common.result.stages', { count: 1, total: 2 })));
         });
       });
 
@@ -309,7 +301,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
           );
 
           assert
-            .dom(screen.queryByLabelText(this.intl.t('pages.assessment-individual-results.badges')))
+            .dom(screen.queryByLabelText(t('pages.assessment-individual-results.badges')))
             .containsText('Les bases');
         });
       });
@@ -323,7 +315,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
             hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
           );
 
-          assert.notOk(screen.queryByLabelText(this.intl.t('pages.assessment-individual-results.badges')));
+          assert.notOk(screen.queryByLabelText(t('pages.assessment-individual-results.badges')));
         });
       });
 
@@ -335,7 +327,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
           const screen = await render(
             hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
           );
-          assert.notOk(screen.queryByLabelText(this.intl.t('pages.assessment-individual-results.badges')));
+          assert.notOk(screen.queryByLabelText(t('pages.assessment-individual-results.badges')));
         });
       });
     });
@@ -349,7 +341,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
           hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
         );
 
-        assert.notOk(screen.queryByLabelText(this.intl.t('pages.assessment-individual-results.result')));
+        assert.notOk(screen.queryByLabelText(t('pages.assessment-individual-results.result')));
       });
     });
   });
