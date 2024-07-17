@@ -64,7 +64,7 @@
             "type": "image",
             "url": "https://i.imgur.com/wPgGbVX.png",
             "alt": "Dessin détaillé dans l'alternative textuelle",
-            "alternativeText": "<ul><li>Vous<br>Peux-tu faire un jeu de mots ?</li><li>ChatGPT<br>Bien sûr, voici un jeu de mots pour vous :<br>Pourquoi les poissons n'utilisent-ils pas d'ordinateurs ?<br>Parce qu'ils ont peur du net !</li></ul>"
+            "alternativeText": "<ul><li><strong>Vous</strong><br>Peux-tu faire un jeu de mots ?</li><li><strong>ChatGPT</strong><br>Bien sûr, voici un jeu de mots pour vous :<br>Pourquoi les poissons n'utilisent-ils pas d'ordinateurs ?<br>Parce qu'ils ont peur du net !</li></ul>"
           }
         },
         {
