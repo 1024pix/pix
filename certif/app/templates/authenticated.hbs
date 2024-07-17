@@ -1,79 +1,13 @@
 <div class="app">
-
-  <aside class="app__sidebar sidebar">
-    <header class="sidebar__logo">
-      <LinkTo @route="authenticated">
-        <img class="sidebar__logo-image" src="{{this.rootUrl}}/pix-certif-logo.svg" alt={{t "common.home-page"}} />
-      </LinkTo>
-    </header>
-
-    <nav class="sidebar-menu">
-      <ul>
-        {{#if this.showLinkToSessions}}
-          <li>
-            <LinkTo
-              @route="authenticated.sessions.list"
-              class="sidebar-menu__item"
-              type="button"
-              aria-label={{t "navigation.main.sessions-label"}}
-            >
-              {{! template-lint-disable no-redundant-role }}
-              <img
-                src="{{this.rootURL}}/icons/chevron-square-right.svg"
-                alt=""
-                role="presentation"
-                class="sidebar-menu__item-icon sidebar-menu__item-icon-chevron"
-              />
-              {{t "navigation.main.sessions"}}
-            </LinkTo>
-          </li>
-          <li>
-            <LinkTo
-              @route="login-session-supervisor"
-              class="sidebar-menu__item"
-              type="button"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <FaIcon @icon="eye" class="sidebar-menu__item-icon" />
-              {{t "navigation.main.supervisor"}}
-            </LinkTo>
-          </li>
-        {{/if}}
-        <li>
-          <LinkTo @route="authenticated.team" class="sidebar-menu__item" type="button">
-            <FaIcon @icon="users" class="sidebar-menu__item-icon" />
-            {{t "navigation.main.team"}}
-          </LinkTo>
-        </li>
-        <li>
-          <a class="sidebar-menu__item" href="{{this.documentationLink}}" target="_blank" rel="noopener noreferrer">
-            <FaIcon @icon="book" class="sidebar-menu__item-icon" />
-            {{t "navigation.main.documentation"}}
-          </a>
-        </li>
-      </ul>
-    </nav>
-
-  </aside>
+  <Layout::Sidebar
+    @rootUrl={{this.rootUrl}}
+    @showLinkToSessions={{this.showLinkToSessions}}
+    @documentationLink={{this.documentationLink}}
+  />
 
   <div class="app__main-content main-content">
 
-    <div class="main-content__topbar topbar">
-      <UserLoggedMenu @onCertificationCenterAccessChanged={{this.changeCurrentCertificationCenterAccess}} />
-    </div>
-
-    {{#if this.showBanner}}
-      <PixBanner
-        @actionLabel={{t "pages.sco.banner.url-label"}}
-        @actionUrl="https://cloud.pix.fr/s/GqwW6dFDDrHezfS"
-        @canCloseBanner="true"
-      >
-        {{t "pages.sco.banner.information"}}
-      </PixBanner>
-    {{/if}}
-
-    <Banner::LanguageAvailability />
+    <Layout::Topbar />
 
     <div class="page">
       {{outlet}}
