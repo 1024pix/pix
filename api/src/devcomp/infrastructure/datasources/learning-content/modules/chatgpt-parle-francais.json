@@ -484,15 +484,83 @@
               "content": "<p>Rendez-vous à nouveau sur l'<a href=\"https://beta.gouv.fr/startups/languia.html\" target=\"_blank\">arène LANGU:IA</a> pour répondre aux questions suivantes.</p><details><summary>Nouvelles idées de prompt</summary><ul><li> Quelles sont les valeurs les plus importantes dans la vie ?</li><li>Décris une cérémonie de mariage typique.</li><li>Parle-moi de la lutte des classes.</li></ul></details>"
             }
           },
-        {
-          "type":"element",
-          "element":
           {
-            "id": "7509dcdf-2d6c-4a99-ac50-21e25cb4e876",
-            "type": "text",
-            "content": "<hr> [Questions à voir selon l'arène]"
+            "type":"stepper",
+            "steps":[
+              {
+                "elements": [
+                  {
+                    "id": "4af7b921-0593-4322-abb6-1221345d5112",
+                    "type": "qcu",
+                    "instruction": "<p>-</p>",
+                    "proposals": [
+                        {
+                            "id": "1",
+                            "content": "Vrai"
+                          },
+                          {
+                            "id": "2",
+                            "content": "Faux"
+                          }
+                    ],
+                    "feedbacks": {
+                      "valid": "<span class=\"feedback__state\">Correct !</span><p>Des différences seront systématiquement présentes dans leurs réponses. C'est aussi vrai pour le même LLM.</p>",
+                      "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Soumettez à nouveau un prompt à deux LLM pour observer les variations dans leurs réponses.</p>"
+                    },
+                    "solution": "2"
+                  }
+                ]
+              },
+              {
+                "elements":[
+                  {
+                    "id": "9ea3907b-ae7b-4c70-9355-435b3559ce32",
+                    "type": "qcu",
+                    "instruction": "<p>-</p>",
+                    "proposals": [
+                      {
+                          "id": "1",
+                          "content": "Vrai"
+                        },
+                        {
+                          "id": "2",
+                          "content": "Faux"
+                        }
+                    ],
+                    "feedbacks": {
+                      "valid": "<span class=\"feedback__state\">Correct !</span><p>La provenance des LLM est d'ailleurs un paramètre qui peut influencer les résultats qu'il fournit.</p>",
+                      "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Sur l'arène LANGU:IA, donnez votre avis les résultats pour révéler les LLM. Vous verrez que des modèles de différents pays sont disponibles.</p>"
+                    },
+                    "solution": "1"
+                  }
+                ]
+              },
+              {
+                "elements":[
+                  {
+                    "id": "1d068960-321f-47fa-bae2-9076ae924d8d",
+                    "type": "qcu",
+                    "instruction": "<p>-</p>",
+                    "proposals": [
+                      {
+                          "id": "1",
+                          "content": "Vrai"
+                        },
+                        {
+                          "id": "2",
+                          "content": "Faux"
+                        }
+                    ],
+                    "feedbacks": {
+                      "valid": "<span class=\"feedback__state\">Correct !</span><p>Les jeux de données de préférences humaines permettent de ré-entraîner les modèles et de les améliorer.</p>",
+                      "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Les jeux de données de préférences humaines permettent de ré-entraîner les modèles et de les améliorer.</p>"
+                    },
+                    "solution": "1"
+                  }
+                ]
+              }
+            ]
           }
-        }
         ]
     }
   ]
