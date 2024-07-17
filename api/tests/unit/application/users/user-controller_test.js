@@ -8,6 +8,7 @@ import { usecases as devcompUsecases } from '../../../../src/devcomp/domain/usec
 import { evaluationUsecases } from '../../../../src/evaluation/domain/usecases/index.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { User } from '../../../../src/identity-access-management/domain/models/User.js';
+import { usecases as IdentityAccessManagementUsecases } from '../../../../src/identity-access-management/domain/usecases/index.js';
 import * as requestResponseUtils from '../../../../src/shared/infrastructure/utils/request-response-utils.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
@@ -700,8 +701,8 @@ describe('Unit | Controller | user-controller', function () {
   describe('#sendVerificationCode', function () {
     it('should call the usecase to send verification code with code, email and locale', async function () {
       // given
-      sinon.stub(usecases, 'sendVerificationCode');
-      usecases.sendVerificationCode.resolves();
+      sinon.stub(IdentityAccessManagementUsecases, 'sendVerificationCode');
+      IdentityAccessManagementUsecases.sendVerificationCode.resolves();
       const i18n = getI18n();
       const userId = 1;
       const locale = 'fr';
@@ -734,7 +735,7 @@ describe('Unit | Controller | user-controller', function () {
       await userController.sendVerificationCode(request, hFake);
 
       // then
-      expect(usecases.sendVerificationCode).to.have.been.calledWithExactly({
+      expect(IdentityAccessManagementUsecases.sendVerificationCode).to.have.been.calledWithExactly({
         i18n,
         locale,
         newEmail,

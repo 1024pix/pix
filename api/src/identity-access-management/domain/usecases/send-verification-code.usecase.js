@@ -1,12 +1,28 @@
 import lodash from 'lodash';
 
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../src/identity-access-management/domain/constants/identity-providers.js';
 import {
   InvalidPasswordForUpdateEmailError,
   UserNotAuthorizedToUpdateEmailError,
-} from '../../../src/shared/domain/errors.js';
+} from '../../../shared/domain/errors.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 
 const { get } = lodash;
+
+/**
+ * @param {Object} params
+ *
+ * @param {*} params.i18n
+ * @param {*} params.locale
+ * @param {string} params.newEmail
+ * @param {string} params.password
+ * @param {string} params.userId
+ * @param {AuthenticationMethodRepository} params.authenticationMethodRepository
+ * @param {UserEmailRepository} params.userEmailRepository
+ * @param {UserRepository} params.userRepository
+ * @param {CryptoService} params.cryptoService
+ * @param {MailService} params.mailService
+ * @param {*} params.codeUtils
+ */
 
 const sendVerificationCode = async function ({
   i18n,

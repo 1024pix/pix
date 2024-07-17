@@ -2,6 +2,7 @@ import { usecases as devcompUsecases } from '../../../src/devcomp/domain/usecase
 import * as trainingSerializer from '../../../src/devcomp/infrastructure/serializers/jsonapi/training-serializer.js';
 import { evaluationUsecases } from '../../../src/evaluation/domain/usecases/index.js';
 import * as scorecardSerializer from '../../../src/evaluation/infrastructure/serializers/jsonapi/scorecard-serializer.js';
+import { usecases as IdentityAccessManagementUsecases } from '../../../src/identity-access-management/domain/usecases/index.js';
 import * as campaignParticipationSerializer from '../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/campaign-participation-serializer.js';
 import * as userSerializer from '../../../src/shared/infrastructure/serializers/jsonapi/user-serializer.js';
 import * as requestResponseUtils from '../../../src/shared/infrastructure/utils/request-response-utils.js';
@@ -254,7 +255,7 @@ const sendVerificationCode = async function (
   const userId = request.params.id;
   const { newEmail, password } = await dependencies.emailVerificationSerializer.deserialize(request.payload);
 
-  await usecases.sendVerificationCode({ i18n, locale, newEmail, password, userId });
+  await IdentityAccessManagementUsecases.sendVerificationCode({ i18n, locale, newEmail, password, userId });
   return h.response().code(204);
 };
 

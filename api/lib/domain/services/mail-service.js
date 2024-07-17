@@ -468,6 +468,21 @@ const mailService = {
   sendNotificationToCertificationCenterRefererForCleaResults,
   sendNotificationToOrganizationMembersForTargetProfileDetached,
 };
+
+/**
+ * @typedef {Object} MailService
+ * @property {function} sendAccountCreationEmail
+ * @property {function} sendAccountRecoveryEmail
+ * @property {function} sendCertificationCenterInvitationEmail
+ * @property {function} sendCertificationResultEmail
+ * @property {function} sendCpfEmail
+ * @property {function} sendNotificationToCertificationCenterRefererForCleaResults
+ * @property {function} sendNotificationToOrganizationMembersForTargetProfileDetached
+ * @property {function} sendOrganizationInvitationEmail
+ * @property {function} sendResetPasswordDemandEmail
+ * @property {function} sendScoOrganizationInvitationEmail
+ * @property {function} sendVerificationCodeEmail
+ */
 export {
   mailService,
   sendAccountCreationEmail,
