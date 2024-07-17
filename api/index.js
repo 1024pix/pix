@@ -7,9 +7,9 @@ validateEnvironmentVariables();
 import { disconnect } from './db/knex-database-connection.js';
 import { learningContentCache } from './lib/infrastructure/caches/learning-content-cache.js';
 import { temporaryStorage } from './lib/infrastructure/temporary-storage/index.js';
-import { redisMonitor } from './lib/infrastructure/utils/redis-monitor.js';
 import { createServer } from './server.js';
 import { logger } from './src/shared/infrastructure/utils/logger.js';
+import { redisMonitor } from './src/shared/infrastructure/utils/redis-monitor.js';
 
 let server;
 

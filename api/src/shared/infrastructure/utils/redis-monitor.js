@@ -1,5 +1,5 @@
-import { config } from '../../../src/shared/config.js';
-import { RedisClient } from './RedisClient.js';
+import { RedisClient } from '../../../../lib/infrastructure/utils/RedisClient.js';
+import { config } from '../../config.js';
 
 class RedisMonitor {
   constructor() {
