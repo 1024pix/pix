@@ -41,6 +41,6 @@ const getEmailModificationDemandByUserId = async function (userId) {
  * @typedef {Object} UserEmailRepository
  * @property {function} saveEmailModificationDemand
  * @property {function} getEmailModificationDemandByUserId
-*/
+ */
 const userEmailRepository = { getEmailModificationDemandByUserId, saveEmailModificationDemand };
 export { userEmailRepository };

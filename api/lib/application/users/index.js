@@ -1,5 +1,6 @@
 import Joi from 'joi';
 
+import { userController as srcUserController } from '../../../src/identity-access-management/application/user/user.controller.js';
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { SUPPORTED_LOCALES } from '../../../src/shared/domain/constants.js';
 import { EntityValidationError } from '../../../src/shared/domain/errors.js';
@@ -733,7 +734,7 @@ const register = async function (server) {
             assign: 'requestedUserIsAuthenticatedUser',
           },
         ],
-        handler: userController.sendVerificationCode,
+        handler: srcUserController.sendVerificationCode,
         notes: [
           '- Permet à un utilisateur de recevoir un code de vérification pour la validation de son adresse mail.',
         ],

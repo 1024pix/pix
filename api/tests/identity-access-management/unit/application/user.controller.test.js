@@ -3,6 +3,7 @@ import { User } from '../../../../src/identity-access-management/domain/models/U
 import { usecases } from '../../../../src/identity-access-management/domain/usecases/index.js';
 import * as requestResponseUtils from '../../../../src/shared/infrastructure/utils/request-response-utils.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
+import { getI18n } from '../../../tooling/i18n/i18n.js';
 
 describe('Unit | Identity Access Management | Application | Controller | User', function () {
   let userSerializer;
@@ -308,6 +309,53 @@ describe('Unit | Identity Access Management | Application | Controller | User', 
           expect(dependencies.userSerializer.serialize).to.have.been.calledWithExactly(savedUser);
           expect(response.statusCode).to.equal(201);
         });
+      });
+    });
+  });
+
+  describe('#sendVerificationCode', function () {
+    it('should call the usecase to send verification code with code, email and locale', async function () {
+      // given
+      sinon.stub(usecases, 'sendVerificationCode');
+      usecases.sendVerificationCode.resolves();
+      const i18n = getI18n();
+      const userId = 1;
+      const locale = 'fr';
+      const newEmail = 'user@example.net';
+      const password = 'Password123';
+
+      const request = {
+        headers: { 'accept-language': locale },
+        i18n,
+        auth: {
+          credentials: {
+            userId,
+          },
+        },
+        params: {
+          id: userId,
+        },
+        payload: {
+          data: {
+            type: 'users',
+            attributes: {
+              newEmail,
+              password,
+            },
+          },
+        },
+      };
+
+      // when
+      await userController.sendVerificationCode(request, hFake);
+
+      // then
+      expect(usecases.sendVerificationCode).to.have.been.calledWithExactly({
+        i18n,
+        locale,
+        newEmail,
+        password,
+        userId,
       });
     });
   });

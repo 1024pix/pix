@@ -1,5 +1,6 @@
 import * as moduleUnderTest from '../../../../lib/application/users/index.js';
 import { userController } from '../../../../lib/application/users/user-controller.js';
+import { userController as srcUserController } from '../../../../src/identity-access-management/application/user/user.controller.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import * as OidcIdentityProviders from '../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
@@ -214,7 +215,7 @@ describe('Unit | Router | user-router', function () {
       sinon
         .stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser')
         .callsFake((request, h) => h.response(true));
-      sinon.stub(userController, 'sendVerificationCode').callsFake((request, h) => h.response({}).code(204));
+      sinon.stub(srcUserController, 'sendVerificationCode').callsFake((request, h) => h.response({}).code(204));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
