@@ -29,7 +29,7 @@ describe('Unit | Domain | Models | ScoringSimulator', function () {
       },
       {
         capacity: -3.25390625,
-        expectedScore: 101,
+        expectedScore: 50,
         expectedCompetences: [
           { competenceCode: '1.1', level: 0 },
           { competenceCode: '1.2', level: 1 },
@@ -40,7 +40,7 @@ describe('Unit | Domain | Models | ScoringSimulator', function () {
       },
       {
         capacity: -2.99609375,
-        expectedScore: 106,
+        expectedScore: 53,
         expectedCompetences: [
           { competenceCode: '1.1', level: 0 },
           { competenceCode: '1.2', level: 2 },
@@ -51,7 +51,7 @@ describe('Unit | Domain | Models | ScoringSimulator', function () {
       },
       {
         capacity: -2.75,
-        expectedScore: 111,
+        expectedScore: 56,
         expectedCompetences: [
           { competenceCode: '1.1', level: 0 },
           { competenceCode: '1.2', level: 2 },
@@ -62,7 +62,7 @@ describe('Unit | Domain | Models | ScoringSimulator', function () {
       },
       {
         capacity: -2.50390625,
-        expectedScore: 117,
+        expectedScore: 58,
         expectedCompetences: [
           { competenceCode: '1.1', level: 0 },
           { competenceCode: '1.2', level: 2 },
@@ -73,7 +73,7 @@ describe('Unit | Domain | Models | ScoringSimulator', function () {
       },
       {
         capacity: -2.24609375,
-        expectedScore: 122,
+        expectedScore: 61,
         expectedCompetences: [
           { competenceCode: '1.1', level: 0 },
           { competenceCode: '1.2', level: 2 },
@@ -84,18 +84,18 @@ describe('Unit | Domain | Models | ScoringSimulator', function () {
       },
       {
         capacity: -2,
-        expectedScore: 127,
+        expectedScore: 64,
         expectedCompetences: [
-          { competenceCode: '1.1', level: 0 },
+          { competenceCode: '1.1', level: 1 },
           { competenceCode: '1.2', level: 2 },
-          { competenceCode: '2.1', level: 1 },
+          { competenceCode: '2.1', level: 2 },
           { competenceCode: '2.2', level: 2 },
           { competenceCode: '2.3', level: 2 },
         ],
       },
       {
         capacity: -0.8695312500000002,
-        expectedScore: 224,
+        expectedScore: 112,
         expectedCompetences: [
           { competenceCode: '1.1', level: 1 },
           { competenceCode: '1.2', level: 2 },
@@ -106,7 +106,7 @@ describe('Unit | Domain | Models | ScoringSimulator', function () {
       },
       {
         capacity: 0.10781249999999987,
-        expectedScore: 326,
+        expectedScore: 198,
         expectedCompetences: [
           { competenceCode: '1.1', level: 2 },
           { competenceCode: '1.2', level: 2 },
@@ -117,7 +117,7 @@ describe('Unit | Domain | Models | ScoringSimulator', function () {
       },
       {
         capacity: 1.083984375,
-        expectedScore: 452,
+        expectedScore: 324,
         expectedCompetences: [
           { competenceCode: '1.1', level: 3 },
           { competenceCode: '1.2', level: 3 },
@@ -128,7 +128,7 @@ describe('Unit | Domain | Models | ScoringSimulator', function () {
       },
       {
         capacity: 1.964453125,
-        expectedScore: 591,
+        expectedScore: 463,
         expectedCompetences: [
           { competenceCode: '1.1', level: 4 },
           { competenceCode: '1.2', level: 3 },
@@ -139,7 +139,7 @@ describe('Unit | Domain | Models | ScoringSimulator', function () {
       },
       {
         capacity: 2.99453125,
-        expectedScore: 752,
+        expectedScore: 624,
         expectedCompetences: [
           { competenceCode: '1.1', level: 5 },
           { competenceCode: '1.2', level: 3 },
@@ -150,10 +150,10 @@ describe('Unit | Domain | Models | ScoringSimulator', function () {
       },
       {
         capacity: 4,
-        expectedScore: 895,
+        expectedScore: 768,
         expectedCompetences: [
-          { competenceCode: '1.1', level: 6 },
-          { competenceCode: '1.2', level: 4 },
+          { competenceCode: '1.1', level: 7 },
+          { competenceCode: '1.2', level: 5 },
           { competenceCode: '2.1', level: 6 },
           { competenceCode: '2.2', level: 6 },
           { competenceCode: '2.3', level: 5 },
@@ -161,7 +161,7 @@ describe('Unit | Domain | Models | ScoringSimulator', function () {
       },
       {
         capacity: 4.03125,
-        expectedScore: 895,
+        expectedScore: 769,
         expectedCompetences: [
           { competenceCode: '1.1', level: 7 },
           { competenceCode: '1.2', level: 5 },

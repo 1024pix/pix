@@ -42,14 +42,14 @@ describe('Unit | Domain | Models | Intervals ', function () {
     });
   });
 
-  describe('findIntervalIndex', function () {
+  describe('findIntervalIndexFromCapacity', function () {
     describe('when the given capacity is inferior to the first interval minimum value', function () {
       it('returns the index of the first interval', async function () {
         const intervals = new Intervals({
           intervals: [{ bounds: { min: 1, max: 3 } }, { bounds: { min: 4, max: 7 } }],
         });
 
-        expect(intervals.findIntervalIndex(0)).to.equal(0);
+        expect(intervals.findIntervalIndexFromCapacity(0)).to.equal(0);
       });
     });
 
@@ -59,7 +59,7 @@ describe('Unit | Domain | Models | Intervals ', function () {
           intervals: [{ bounds: { min: 1, max: 3 } }, { bounds: { min: 4, max: 7 } }],
         });
 
-        expect(intervals.findIntervalIndex(10)).to.equal(1);
+        expect(intervals.findIntervalIndexFromCapacity(10)).to.equal(1);
       });
     });
 
@@ -69,7 +69,7 @@ describe('Unit | Domain | Models | Intervals ', function () {
           intervals: [{ bounds: { min: 1, max: 3 } }, { bounds: { min: 4, max: 7 } }],
         });
 
-        expect(intervals.findIntervalIndex(2)).to.equal(0);
+        expect(intervals.findIntervalIndexFromCapacity(2)).to.equal(0);
       });
     });
   });

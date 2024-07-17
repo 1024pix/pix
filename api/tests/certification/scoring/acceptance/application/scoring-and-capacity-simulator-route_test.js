@@ -516,12 +516,12 @@ describe('Acceptance | Application | scoring-and-capacity-simulator-route', func
           expect(response.result.data).to.deep.equal({
             type: 'scoring-and-capacity-simulator-reports',
             attributes: {
-              capacity: -6,
+              capacity: -0.2727528125000003,
               score: 127,
               competences: [
                 {
                   competenceCode: '1.1',
-                  level: 0,
+                  level: 2,
                 },
               ],
             },

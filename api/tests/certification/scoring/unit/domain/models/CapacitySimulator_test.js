@@ -1,16 +1,20 @@
-import { CapacitySimulator } from '../../../../../../src/certification/scoring/domain/models/CapacitySimulator.js';
+import {
+  CapacitySimulator,
+  findIntervalIndexFromScore,
+} from '../../../../../../src/certification/scoring/domain/models/CapacitySimulator.js';
+import { CertificationAssessmentScoreV3 } from '../../../../../../src/certification/scoring/domain/models/CertificationAssessmentScoreV3.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | CapacitySimulator', function () {
   const certificationScoringIntervals = [
-    { bounds: { max: -2, min: -8 }, meshLevel: 0 }, // Score de 0 à 127
-    { bounds: { max: -0.5, min: -2 }, meshLevel: 1 }, // Score de 128 à 255
-    { bounds: { max: 0.6, min: -0.5 }, meshLevel: 2 }, // score de 256 à 383
-    { bounds: { max: 1.5, min: 0.6 }, meshLevel: 3 }, // score de 384 à 511
-    { bounds: { max: 2.25, min: 1.5 }, meshLevel: 4 }, // score de 512 à 639
-    { bounds: { max: 3.1, min: 2.25 }, meshLevel: 5 }, // score de 640 à 767
-    { bounds: { max: 4, min: 3.1 }, meshLevel: 6 }, // score de 768 à 895
-    { bounds: { max: 8, min: 4 }, meshLevel: 7 }, // score de 896 à 1024
+    { bounds: { max: -2, min: -8 }, meshLevel: 0 }, // Score de 0 à 63
+    { bounds: { max: -0.5, min: -2 }, meshLevel: 1 }, // Score de 64 à 127
+    { bounds: { max: 0.6, min: -0.5 }, meshLevel: 2 }, // score de 128 à 255
+    { bounds: { max: 1.5, min: 0.6 }, meshLevel: 3 }, // score de 256 à 383
+    { bounds: { max: 2.25, min: 1.5 }, meshLevel: 4 }, // score de 384 à 511
+    { bounds: { max: 3.1, min: 2.25 }, meshLevel: 5 }, // score de 512 à 639
+    { bounds: { max: 4, min: 3.1 }, meshLevel: 6 }, // score de 640 à 767
+    { bounds: { max: 8, min: 4 }, meshLevel: 7 }, // score de 768 à 895
   ];
 
   const competencesForScoring = [
@@ -85,85 +89,8 @@ describe('Unit | Domain | Models | CapacitySimulator', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       {
-        score: 0,
-        expectedCapacity: -7.953125,
-        expectedCompetences: [
-          { competenceCode: '1.1', level: 0 },
-          { competenceCode: '1.2', level: 0 },
-          { competenceCode: '2.1', level: 0 },
-          { competenceCode: '2.2', level: 0 },
-          { competenceCode: '2.3', level: 0 },
-        ],
-      },
-      {
-        score: 100,
-        expectedCapacity: -3.265625,
-        expectedCompetences: [
-          { competenceCode: '1.1', level: 0 },
-          { competenceCode: '1.2', level: 1 },
-          { competenceCode: '2.1', level: 1 },
-          { competenceCode: '2.2', level: 2 },
-          { competenceCode: '2.3', level: 1 },
-        ],
-      },
-      {
-        score: 106,
-        expectedCapacity: -2.984375,
-        expectedCompetences: [
-          { competenceCode: '1.1', level: 0 },
-          { competenceCode: '1.2', level: 2 },
-          { competenceCode: '2.1', level: 1 },
-          { competenceCode: '2.2', level: 2 },
-          { competenceCode: '2.3', level: 1 },
-        ],
-      },
-      {
         score: 111,
-        expectedCapacity: -2.75,
-        expectedCompetences: [
-          { competenceCode: '1.1', level: 0 },
-          { competenceCode: '1.2', level: 2 },
-          { competenceCode: '2.1', level: 1 },
-          { competenceCode: '2.2', level: 2 },
-          { competenceCode: '2.3', level: 1 },
-        ],
-      },
-      {
-        score: 116,
-        expectedCapacity: -2.515625,
-        expectedCompetences: [
-          { competenceCode: '1.1', level: 0 },
-          { competenceCode: '1.2', level: 2 },
-          { competenceCode: '2.1', level: 1 },
-          { competenceCode: '2.2', level: 2 },
-          { competenceCode: '2.3', level: 2 },
-        ],
-      },
-      {
-        score: 122,
-        expectedCapacity: -2.234375,
-        expectedCompetences: [
-          { competenceCode: '1.1', level: 0 },
-          { competenceCode: '1.2', level: 2 },
-          { competenceCode: '2.1', level: 1 },
-          { competenceCode: '2.2', level: 2 },
-          { competenceCode: '2.3', level: 2 },
-        ],
-      },
-      {
-        score: 127,
-        expectedCapacity: -2,
-        expectedCompetences: [
-          { competenceCode: '1.1', level: 0 },
-          { competenceCode: '1.2', level: 2 },
-          { competenceCode: '2.1', level: 1 },
-          { competenceCode: '2.2', level: 2 },
-          { competenceCode: '2.3', level: 2 },
-        ],
-      },
-      {
-        score: 223,
-        expectedCapacity: -0.875,
+        expectedCapacity: -0.8984375,
         expectedCompetences: [
           { competenceCode: '1.1', level: 1 },
           { competenceCode: '1.2', level: 2 },
@@ -173,8 +100,41 @@ describe('Unit | Domain | Models | CapacitySimulator', function () {
         ],
       },
       {
-        score: 326,
-        expectedCapacity: 0.11015624999999996,
+        score: 116,
+        expectedCapacity: -0.78125,
+        expectedCompetences: [
+          { competenceCode: '1.1', level: 1 },
+          { competenceCode: '1.2', level: 2 },
+          { competenceCode: '2.1', level: 2 },
+          { competenceCode: '2.2', level: 3 },
+          { competenceCode: '2.3', level: 2 },
+        ],
+      },
+      {
+        score: 122,
+        expectedCapacity: -0.640625,
+        expectedCompetences: [
+          { competenceCode: '1.1', level: 1 },
+          { competenceCode: '1.2', level: 2 },
+          { competenceCode: '2.1', level: 2 },
+          { competenceCode: '2.2', level: 3 },
+          { competenceCode: '2.3', level: 2 },
+        ],
+      },
+      {
+        score: 127,
+        expectedCapacity: -0.5234375,
+        expectedCompetences: [
+          { competenceCode: '1.1', level: 1 },
+          { competenceCode: '1.2', level: 2 },
+          { competenceCode: '2.1', level: 2 },
+          { competenceCode: '2.2', level: 3 },
+          { competenceCode: '2.3', level: 2 },
+        ],
+      },
+      {
+        score: 223,
+        expectedCapacity: 0.3164062500000001,
         expectedCompetences: [
           { competenceCode: '1.1', level: 2 },
           { competenceCode: '1.2', level: 2 },
@@ -184,8 +144,8 @@ describe('Unit | Domain | Models | CapacitySimulator', function () {
         ],
       },
       {
-        score: 452,
-        expectedCapacity: 1.08515625,
+        score: 326,
+        expectedCapacity: 1.0921875,
         expectedCompetences: [
           { competenceCode: '1.1', level: 3 },
           { competenceCode: '1.2', level: 3 },
@@ -195,8 +155,8 @@ describe('Unit | Domain | Models | CapacitySimulator', function () {
         ],
       },
       {
-        score: 590,
-        expectedCapacity: 1.962890625,
+        score: 452,
+        expectedCapacity: 1.8984375,
         expectedCompetences: [
           { competenceCode: '1.1', level: 4 },
           { competenceCode: '1.2', level: 3 },
@@ -206,8 +166,8 @@ describe('Unit | Domain | Models | CapacitySimulator', function () {
         ],
       },
       {
-        score: 751,
-        expectedCapacity: 2.99375,
+        score: 590,
+        expectedCapacity: 2.76796875,
         expectedCompetences: [
           { competenceCode: '1.1', level: 5 },
           { competenceCode: '1.2', level: 3 },
@@ -217,8 +177,8 @@ describe('Unit | Domain | Models | CapacitySimulator', function () {
         ],
       },
       {
-        score: 895,
-        expectedCapacity: 4,
+        score: 751,
+        expectedCapacity: 3.88046875,
         expectedCompetences: [
           { competenceCode: '1.1', level: 6 },
           { competenceCode: '1.2', level: 4 },
@@ -228,14 +188,25 @@ describe('Unit | Domain | Models | CapacitySimulator', function () {
         ],
       },
       {
-        score: 896,
-        expectedCapacity: 4.03125,
+        score: 895,
+        expectedCapacity: 7.96875,
         expectedCompetences: [
           { competenceCode: '1.1', level: 7 },
-          { competenceCode: '1.2', level: 5 },
-          { competenceCode: '2.1', level: 6 },
-          { competenceCode: '2.2', level: 6 },
-          { competenceCode: '2.3', level: 5 },
+          { competenceCode: '1.2', level: 7 },
+          { competenceCode: '2.1', level: 7 },
+          { competenceCode: '2.2', level: 7 },
+          { competenceCode: '2.3', level: 7 },
+        ],
+      },
+      {
+        score: 896,
+        expectedCapacity: 8,
+        expectedCompetences: [
+          { competenceCode: '1.1', level: 7 },
+          { competenceCode: '1.2', level: 7 },
+          { competenceCode: '2.1', level: 7 },
+          { competenceCode: '2.2', level: 7 },
+          { competenceCode: '2.3', level: 7 },
         ],
       },
     ].forEach(({ score, expectedCapacity, expectedCompetences }) => {
@@ -251,6 +222,41 @@ describe('Unit | Domain | Models | CapacitySimulator', function () {
             competences: expectedCompetences,
           }),
         );
+      });
+    });
+  });
+
+  describe('#findIntervalIndexFromScore', function () {
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    [
+      {
+        score: 0,
+        expectedInterval: 0,
+      },
+      {
+        score: 64,
+        expectedInterval: 1,
+      },
+      {
+        score: 200,
+        expectedInterval: 2,
+      },
+      {
+        score: 896,
+        expectedInterval: 7,
+      },
+    ].forEach(({ score, expectedInterval }) => {
+      it(`returns the interval ${expectedInterval} when score is ${score}`, function () {
+        // when
+        const weights = CertificationAssessmentScoreV3.weightsAndCoefficients.map(({ weight }) => weight);
+        const result = findIntervalIndexFromScore({
+          score,
+          weights,
+          scoringIntervalsLength: certificationScoringIntervals.length,
+        });
+
+        // then
+        expect(result).to.equal(expectedInterval);
       });
     });
   });

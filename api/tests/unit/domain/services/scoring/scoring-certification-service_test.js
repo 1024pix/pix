@@ -2068,7 +2068,7 @@ describe('Unit | Service | Certification Result Service', function () {
         const answers = generateAnswersForChallenges({ challenges });
 
         const expectedCapacity = 2;
-        const scoreForCapacity = 639;
+        const scoreForCapacity = 438;
         const { certificationCourseId } = certificationAssessment;
 
         const capacityHistory = [
@@ -2185,7 +2185,7 @@ describe('Unit | Service | Certification Result Service', function () {
           it('builds and save an assessment result with a validated status', async function () {
             // given
             const expectedCapacity = 2;
-            const scoreForCapacity = 639;
+            const scoreForCapacity = 438;
             const challenges = _generateCertificationChallengeForScoringList({ length: maximumAssessmentLength });
             const answers = generateAnswersForChallenges({ challenges });
             const assessmentResultId = 123;
@@ -2441,7 +2441,7 @@ describe('Unit | Service | Certification Result Service', function () {
             const answers = generateAnswersForChallenges({ challenges });
 
             const expectedCapacity = 2;
-            const scoreForCapacity = 639;
+            const scoreForCapacity = 438;
             const { certificationCourseId } = certificationAssessment;
 
             const capacityHistory = [
@@ -2548,7 +2548,7 @@ describe('Unit | Service | Certification Result Service', function () {
           it('builds and save a lack of answers assessment result', async function () {
             // given
             const expectedCapacity = 2;
-            const scoreForCapacity = 639;
+            const scoreForCapacity = 438;
             const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
               id: certificationCourseId,
               createdAt: certificationCourseStartDate,
@@ -2682,7 +2682,7 @@ describe('Unit | Service | Certification Result Service', function () {
             const answers = generateAnswersForChallenges({ challenges });
 
             const expectedCapacity = 2;
-            const scoreForCapacity = 639;
+            const scoreForCapacity = 438;
             const { certificationCourseId } = certificationAssessment;
 
             const capacityHistory = [
@@ -2790,7 +2790,7 @@ describe('Unit | Service | Certification Result Service', function () {
             const abortReason = ABORT_REASONS.TECHNICAL;
             const emitter = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
             const expectedCapacity = 2;
-            const scoreForCapacity = 639;
+            const scoreForCapacity = 438;
             const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
               id: certificationCourseId,
               createdAt: certificationCourseStartDate,
@@ -2914,7 +2914,7 @@ describe('Unit | Service | Certification Result Service', function () {
           it('should build and save an assessment result with a validated status', async function () {
             // given
             const expectedCapacity = 2;
-            const pixScore = 639;
+            const pixScore = 438;
             const challenges = _generateCertificationChallengeForScoringList({
               length: minimumAnswersRequiredToValidateACertification,
             });
@@ -3048,7 +3048,7 @@ describe('Unit | Service | Certification Result Service', function () {
             const answers = generateAnswersForChallenges({ challenges });
 
             const expectedCapacity = 2;
-            const rawScore = 639;
+            const rawScore = 438;
             const { certificationCourseId } = certificationAssessment;
 
             const capacityHistory = [
@@ -3173,7 +3173,7 @@ describe('Unit | Service | Certification Result Service', function () {
             const answers = generateAnswersForChallenges({ challenges });
 
             const expectedCapacity = 2;
-            const scoreForCapacity = 639;
+            const scoreForCapacity = 438;
             const { certificationCourseId } = certificationAssessment;
 
             const capacityHistory = [

@@ -32,7 +32,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
   describe('when the candidate finished the test', function () {
     it('should return the full score', async function () {
       const expectedCapacity = 2;
-      const expectedScoreForCapacity = 639;
+      const expectedScoreForCapacity = 438;
 
       const numberOfQuestions = 32;
 
@@ -114,7 +114,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
     describe('when the abort reason is technical difficulties', function () {
       it('should return the raw score', async function () {
         const expectedCapacity = 2;
-        const expectedScoreForCapacity = 639;
+        const expectedScoreForCapacity = 438;
 
         const numberOfAnsweredQuestions = 20;
         const numberCertificationQuestions = 32;

@@ -4,6 +4,18 @@ import { status as CertificationStatus } from '../../../../shared/domain/models/
 import { ABORT_REASONS } from '../../../shared/domain/models/CertificationCourse.js';
 import { Intervals } from './Intervals.js';
 
+const weightsAndCoefficients = [
+  { weight: 64, coefficient: 0 },
+  { weight: 64, coefficient: 1 },
+  { weight: 128, coefficient: 1 },
+  { weight: 128, coefficient: 2 },
+  { weight: 128, coefficient: 3 },
+  { weight: 128, coefficient: 4 },
+  { weight: 128, coefficient: 5 },
+  { weight: 128, coefficient: 6 },
+  { weight: 128, coefficient: 7 },
+];
+
 class CertificationAssessmentScoreV3 {
   constructor({ nbPix, percentageCorrectAnswers = 100, status = CertificationStatus.VALIDATED, competenceMarks }) {
     this.nbPix = nbPix;
@@ -75,18 +87,11 @@ class CertificationAssessmentScoreV3 {
 }
 
 const _calculateScore = ({ capacity, certificationScoringIntervals }) => {
-  const MAX_PIX_SCORE = 1024;
-  const numberOfIntervals = certificationScoringIntervals.length;
-  const SCORE_THRESHOLD = MAX_PIX_SCORE / numberOfIntervals;
-  const MAX_REACHABLE_LEVEL = 7;
+  const MAX_REACHABLE_LEVEL = config.v3Certification.maxReachableLevel;
   const MIN_PIX_SCORE = 0;
   const maximumReachableScore = MAX_REACHABLE_LEVEL * COMPETENCES_COUNT * PIX_COUNT_BY_LEVEL - 1;
 
   const scoringIntervals = new Intervals({ intervals: certificationScoringIntervals });
-
-  const intervalIndex = scoringIntervals.findIntervalIndex(capacity);
-  const valueToIntervalMax = scoringIntervals.toIntervalMax(intervalIndex, capacity);
-  const intervalWidth = scoringIntervals.intervalWidth(intervalIndex);
 
   if (scoringIntervals.isCapacityBelowMinimum(capacity)) {
     return MIN_PIX_SCORE;
@@ -96,7 +101,14 @@ const _calculateScore = ({ capacity, certificationScoringIntervals }) => {
     return maximumReachableScore;
   }
 
-  const score = Math.ceil(SCORE_THRESHOLD * (intervalIndex + 1 + valueToIntervalMax / intervalWidth)) - 1;
+  const intervalIndex = scoringIntervals.findIntervalIndexFromCapacity(capacity);
+  const intervalMaximum = scoringIntervals.max(intervalIndex);
+  const intervalMinimum = scoringIntervals.min(intervalIndex);
+  const intervalWeight = weightsAndCoefficients[intervalIndex].weight;
+  const intervalCoefficient = weightsAndCoefficients[intervalIndex].coefficient;
+  const progressionPercentage = 1 - (intervalMaximum - capacity) / (intervalMaximum - intervalMinimum);
+  const score = Math.floor(intervalWeight * (intervalCoefficient + progressionPercentage));
+
   return Math.min(maximumReachableScore, score);
 };
 
@@ -119,5 +131,7 @@ const _shouldDowngradeCapacity = ({ maximumAssessmentLength, answers, abortReaso
     abortReason === ABORT_REASONS.CANDIDATE
   );
 };
+
+CertificationAssessmentScoreV3.weightsAndCoefficients = weightsAndCoefficients;
 
 export { CertificationAssessmentScoreV3 };

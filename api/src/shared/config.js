@@ -331,7 +331,9 @@ const configuration = (function () {
       challengesBetweenSameCompetence: 2,
       scoring: {
         minimumAnswersRequiredToValidateACertification: 20,
+        maximumReachableScore: 895,
       },
+      maxReachableLevel: 7,
     },
     version: process.env.CONTAINER_VERSION || 'development',
     autonomousCourse: {

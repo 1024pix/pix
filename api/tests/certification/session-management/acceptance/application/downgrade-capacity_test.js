@@ -46,18 +46,7 @@ describe('Acceptance | Controller | Session | session-route', function () {
             configuration: _createCompetenceScoringConfiguration(),
           });
 
-          databaseBuilder.factory.buildScoringConfiguration({
-            configuration: [
-              { bounds: { max: -2.1, min: -5.3 }, meshLevel: 0 },
-              { bounds: { max: -0.7, min: -2.1 }, meshLevel: 1 },
-              { bounds: { max: 0.5, min: -0.7 }, meshLevel: 2 },
-              { bounds: { max: 1.4, min: 0.5 }, meshLevel: 3 },
-              { bounds: { max: 2.2, min: 1.4 }, meshLevel: 4 },
-              { bounds: { max: 3.2, min: 2.2 }, meshLevel: 5 },
-              { bounds: { max: 4.2, min: 3.2 }, meshLevel: 6 },
-              { bounds: { max: 6.8, min: 4.2 }, meshLevel: 7 },
-            ],
-          });
+          databaseBuilder.factory.buildScoringConfiguration();
 
           databaseBuilder.factory.buildFlashAlgorithmConfiguration({
             warmUpLength: null,

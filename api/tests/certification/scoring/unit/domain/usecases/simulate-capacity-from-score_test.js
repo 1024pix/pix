@@ -32,12 +32,6 @@ describe('Unit | UseCase | simulate-capacity-from-score', function () {
           ],
         }),
       ],
-      certificationScoringConfiguration: [
-        {
-          bounds: { max: 4, min: -4 },
-          meshLevel: 0,
-        },
-      ],
     });
 
     scoringConfigurationRepository.getLatestByDateAndLocale
@@ -54,7 +48,7 @@ describe('Unit | UseCase | simulate-capacity-from-score', function () {
     // then
     expect(result).to.deepEqualInstance(
       domainBuilder.buildScoringAndCapacitySimulatorReport({
-        capacity: 2,
+        capacity: 4.882132734375,
         score,
         competences: [
           {
