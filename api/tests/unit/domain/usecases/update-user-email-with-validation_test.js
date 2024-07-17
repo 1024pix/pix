@@ -2,10 +2,10 @@ import {
   AlreadyRegisteredEmailError,
   EmailModificationDemandNotFoundOrExpiredError,
   InvalidVerificationCodeError,
-  UserNotAuthorizedToUpdateEmailError,
 } from '../../../../lib/domain/errors.js';
-import { EmailModificationDemand } from '../../../../lib/domain/models/EmailModificationDemand.js';
+import { EmailModificationDemand } from '../../../../lib/domain/models/index.js';
 import { updateUserEmailWithValidation } from '../../../../lib/domain/usecases/update-user-email-with-validation.js';
+import { UserNotAuthorizedToUpdateEmailError } from '../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | update-user-email-with-validation', function () {

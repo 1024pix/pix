@@ -9,7 +9,6 @@ import { ArchivedCampaignError, DeletedCampaignError } from '../../prescription/
 import { CampaignParticipationDeletedError } from '../../prescription/campaign-participation/domain/errors.js';
 import { AggregateImportError, SiecleXmlImportError } from '../../prescription/learner-management/domain/errors.js';
 import { OrganizationCantGetPlacesStatisticsError } from '../../prescription/organization-place/domain/errors.js';
-import { extractLocaleFromRequest } from '../../shared/infrastructure/utils/request-response-utils.js';
 import * as DomainErrors from '../domain/errors.js';
 import {
   AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError,
@@ -19,6 +18,7 @@ import {
   TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization,
 } from '../domain/errors.js';
 import * as errorSerializer from '../infrastructure/serializers/jsonapi/error-serializer.js';
+import { extractLocaleFromRequest } from '../infrastructure/utils/request-response-utils.js';
 import { domainErrorMapper } from './domain-error-mapper.js';
 import { HttpErrors } from './http-errors.js';
 
@@ -163,6 +163,14 @@ function _mapToHttpError(error) {
 
   if (error instanceof EmptyAnswerError) {
     return new HttpErrors.BadRequestError(error.message, error.code);
+  }
+
+  if (error instanceof DomainErrors.InvalidPasswordForUpdateEmailError) {
+    return new HttpErrors.BadRequestError(error.message);
+  }
+
+  if (error instanceof DomainErrors.UserNotAuthorizedToUpdateEmailError) {
+    return new HttpErrors.ForbiddenError(error.message);
   }
 
   if (error instanceof DomainErrors.UserNotAuthorizedToUpdatePasswordError) {

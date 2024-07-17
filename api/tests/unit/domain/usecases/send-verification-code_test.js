@@ -1,10 +1,10 @@
-import {
-  AlreadyRegisteredEmailError,
-  InvalidPasswordForUpdateEmailError,
-  UserNotAuthorizedToUpdateEmailError,
-} from '../../../../lib/domain/errors.js';
+import { AlreadyRegisteredEmailError } from '../../../../lib/domain/errors.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
+import {
+  InvalidPasswordForUpdateEmailError,
+  UserNotAuthorizedToUpdateEmailError,
+} from '../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 
