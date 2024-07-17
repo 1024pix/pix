@@ -24,6 +24,7 @@ export default class Url extends Service {
     CGU: {
       en: '/terms-and-conditions',
       fr: '/conditions-generales-d-utilisation',
+      nl: '/algemene-gebruiksvoorwaarden',
     },
     DATA_PROTECTION_POLICY: {
       en: '/personal-data-protection-policy',
@@ -59,8 +60,8 @@ export default class Url extends Service {
   }
 
   get cguUrl() {
-    const { en, fr } = this.SHOWCASE_WEBSITE_LOCALE_PATH.CGU;
-    return this._computeShowcaseWebsiteUrl({ en, fr });
+    const { en, fr, nl } = this.SHOWCASE_WEBSITE_LOCALE_PATH.CGU;
+    return this._computeShowcaseWebsiteUrl({ en, fr, nl });
   }
 
   get dataProtectionPolicyUrl() {
@@ -110,7 +111,7 @@ export default class Url extends Service {
       case ENGLISH_LOCALE:
         return `${PIX_ORG_DOMAIN_EN_LOCALE}${englishPath}`;
       case DUTCH_LOCALE:
-        return dutchPath ? `${PIX_ORG_DOMAIN_NL_LOCALE}${dutchPath}` : `${PIX_ORG_DOMAIN_EN_LOCALE}${englishPath}`;
+        return `${PIX_ORG_DOMAIN_NL_LOCALE}${dutchPath}`;
       default:
         return 'https://pix.org/fr/mentions-legales';
     }

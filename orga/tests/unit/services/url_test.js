@@ -179,7 +179,7 @@ module('Unit | Service | url', function (hooks) {
         },
         {
           primaryLocale: 'nl',
-          expectedUrl: 'https://pix.org/en/terms-and-conditions',
+          expectedUrl: 'https://pix.org/nl-be/algemene-gebruiksvoorwaarden',
         },
       ].forEach(({ primaryLocale, expectedUrl }) => {
         test(`returns "pix.org" ${primaryLocale} url when locale is ${primaryLocale}`, function (assert) {
