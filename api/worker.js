@@ -11,6 +11,8 @@ import { ParticipationResultCalculationJob } from './lib/infrastructure/jobs/cam
 import { ParticipationResultCalculationJobHandler } from './lib/infrastructure/jobs/campaign-result/ParticipationResultCalculationJobHandler.js';
 import { SendSharedParticipationResultsToPoleEmploiHandler } from './lib/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiHandler.js';
 import { SendSharedParticipationResultsToPoleEmploiJob } from './lib/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob.js';
+import { CertificationRescoringByScriptJobHandler } from './lib/infrastructure/jobs/certification/CertificationRescoringByScriptHandler.js';
+import { CertificationRescoringByScriptJob } from './lib/infrastructure/jobs/certification/CertificationRescoringByScriptJob.js';
 import { scheduleCpfJobs } from './lib/infrastructure/jobs/cpf-export/schedule-cpf-jobs.js';
 import { JobQueue } from './lib/infrastructure/jobs/JobQueue.js';
 import { LcmsRefreshCacheJob } from './lib/infrastructure/jobs/lcms/LcmsRefreshCacheJob.js';
@@ -98,6 +100,7 @@ export async function runJobs(dependencies = { startPgBoss, createMonitoredJobQu
 
   monitoredJobQueue.performJob(UserAnonymizedEventLoggingJob.name, UserAnonymizedEventLoggingJobHandler);
   monitoredJobQueue.performJob(GarAnonymizedBatchEventsLoggingJob.name, GarAnonymizedBatchEventsLoggingJobHandler);
+  monitoredJobQueue.performJob(CertificationRescoringByScriptJob.name, CertificationRescoringByScriptJobHandler);
 
   if (config.pgBoss.validationFileJobEnabled) {
     monitoredJobQueue.performJob(ValidateOrganizationImportFileJob.name, ValidateOrganizationImportFileJobHandler);
