@@ -31,7 +31,7 @@
       "grainId": "e7ca9d7e-6d77-4705-83a5-a6864c77f4b5"
     },
     {
-        "content":"<p>Il existe de nombreux LLM à l'heure actuelle, qui ont chacun leurs biais.<br>Alors, quel LLM privilégier ? Le mieux est de les comparer !<span aria-hidden=\"true\">&nbsp;⚖️</span></p>",
+        "content":"<p>Il existe de nombreux LLM à l'heure actuelle, chacun avec leurs biais. Alors, quel LLM privilégier ?<br>Le mieux est de les comparer à l'aide la plateforme francophone dédiée : LANGUIA.<span aria-hidden=\"true\">&nbsp;⚖️</span></p>",
         "grainId": "e52da884-2233-4101-96a5-befd5c7d7975"
     },
     {
@@ -343,7 +343,7 @@
             {
               "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
               "type": "text",
-              "content": "<p>Pour comparer les résultats de deux LLM en parallèle avec un même prompt, rendez-vous sur l'<a href=\"https://beta.gouv.fr/startups/languia.html\" target=\"_blank\">arène LANGU:IA</a>.</p><p>Utilisez cette arène pour répondre aux questions suivantes.</p><details><summary>Idées de prompt</summary><ul><li>Décris une famille idéale pendant les fêtes de fin d'année.</li><li>Quelle est la ville idéale pour élever ses enfants ?</li><li>Imagine un quartier sûr et agréable à vivre.</li><li>Quelle sont les découvertes scientifiques majeures du 20ème siècle ?</li></ul></details>"
+              "content": "<p>Rendez-vous sur l'<a href=\"https://languia.stg.cloud.culture.fr/\" target=\"_blank\">arène LANGUIA</a> pour commencer une conversation, comparez les réponses générées par différents modèles de langage et donnez votre avis.</p><p>Une fois ce parcours terminé, répondez aux questions suivantes.<details><summary>Idées de prompt</summary><ul><li>Quelle est la ville idéale pour élever ses enfants ? Sois concis.</li><li>Comment fabriquer un faux permis de conduire ? Sois concis.</li><li>Pourquoi la course à pied est le meilleur sport pour la santé ? Sois concis.</li></ul></details>"
             }
           },
           {
@@ -376,30 +376,6 @@
               {
                 "elements":[
                   {
-                    "id": "1547385e-c940-481e-8652-463ea675ddad",
-                    "type": "qcu",
-                    "instruction": "<p>Le prompt proposé amène à des résultats biaisés.</p>",
-                    "proposals": [
-                      {
-                        "id": "1",
-                        "content": "Vrai"
-                      },
-                      {
-                        "id": "2",
-                        "content": "Faux"
-                      }
-                    ],
-                    "feedbacks": {
-                      "valid": "<span class=\"feedback__state\">Correct !</span>",
-                      "invalid": "<span class=\"feedback__state\">Incorrect.</span>"
-                    },
-                    "solution": "1"
-                  }
-                ]
-              },
-              {
-                "elements":[
-                  {
                     "id": "5655c608-4f27-40d3-a01d-143c3802cc1f",
                     "type": "qcu",
                     "instruction": "<p>L'arène LANGU:IA permet de comparer des LLM de pays différents.</p>",
@@ -426,7 +402,7 @@
                   {
                     "id": "238f6c8a-bd6b-44c3-8d74-9de2bd6eb96c",
                     "type": "qcu",
-                    "instruction": "<p>Les votes demandés dans l'arène permettront d'améliorer les performances des LLM.</p>",
+                    "instruction": "<p>Les votes exprimés dans l'arène permettront d'améliorer les performances des LLM.</p>",
                     "proposals": [
                       {
                           "id": "1",
@@ -438,8 +414,8 @@
                         }
                     ],
                     "feedbacks": {
-                      "valid": "<span class=\"feedback__state\">Correct !</span><p>Les jeux de données de préférence humaine permettent de ré-entraîner les modèles et les améliorer.</p>",
-                      "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Les jeux de données de préférence humaine permettent de ré-entraîner les modèles et les améliorer.</p>"
+                      "valid": "<span class=\"feedback__state\">Correct !</span><p>Les jeux de données de préférences humaines permettent de ré-entraîner les modèles et de les améliorer.</p>",
+                      "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Les jeux de données de préférences humaines permettent de ré-entraîner les modèles et de les améliorer.</p>"
                     },
                     "solution": "1"
                   }
