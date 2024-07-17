@@ -5,6 +5,7 @@ import * as country from './application/country-route.js';
 import * as enrolment from './application/enrolment-route.js';
 import * as sessionMassImport from './application/session-mass-import-route.js';
 import * as session from './application/session-route.js';
+import * as subscription from './application/subscription-route.js';
 
 const certificationEnrolmentRoutes = [
   attendanceSheet,
@@ -14,6 +15,7 @@ const certificationEnrolmentRoutes = [
   enrolment,
   session,
   sessionMassImport,
+  subscription,
 ];
 
 export { certificationEnrolmentRoutes };
