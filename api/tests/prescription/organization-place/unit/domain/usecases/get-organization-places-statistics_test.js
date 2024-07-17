@@ -8,7 +8,7 @@ describe('Unit | Domain | Use Cases | get-organization-places-statistics', funct
     const organizationId = Symbol('organizationId');
     const placeStatistics = Symbol('PlaceStatistics');
     const placesLots = Symbol('PlacesLots');
-    const countOfActiveLearners = 3;
+    const placeRepartition = { totalRegisteredParticipant: 3, totalUnRegisteredParticipant: 0 };
 
     const placeStatisticsBuildFromStub = sinon.stub(PlaceStatistics, 'buildFrom').returns(placeStatistics);
 
@@ -16,13 +16,13 @@ describe('Unit | Domain | Use Cases | get-organization-places-statistics', funct
       findAllByOrganizationId: sinon.stub(),
     };
     const organizationLearnerRepository = {
-      countActiveWithAtLeastOneParticipationByOrganizationId: sinon.stub(),
+      findAllLearnerWithAtLeastOneParticipationByOrganizationId: sinon.stub(),
     };
     organizationPlacesLotRepository.findAllByOrganizationId.withArgs(organizationId).resolves(placesLots);
 
-    organizationLearnerRepository.countActiveWithAtLeastOneParticipationByOrganizationId
+    organizationLearnerRepository.findAllLearnerWithAtLeastOneParticipationByOrganizationId
       .withArgs(organizationId)
-      .resolves(countOfActiveLearners);
+      .resolves(placeRepartition);
 
     // when
     const organizationPlacesStatistics = await getOrganizationPlacesStatistics({
@@ -35,8 +35,8 @@ describe('Unit | Domain | Use Cases | get-organization-places-statistics', funct
     expect(organizationPlacesStatistics).to.equal(placeStatistics);
     expect(placeStatisticsBuildFromStub).to.have.been.calledWithExactly({
       organizationId,
-      placesLots: placesLots,
-      numberOfParticipantWithAtLeastOneParticipation: countOfActiveLearners,
+      placesLots,
+      placeRepartition,
     });
   });
 });
