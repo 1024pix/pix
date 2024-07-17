@@ -192,6 +192,9 @@ const configuration = (function () {
       isCertificationTokenScopeEnabled: toBoolean(process.env.FT_ENABLE_CERTIF_TOKEN_SCOPE),
       deprecatePoleEmploiPushNotification: toBoolean(process.env.DEPRECATE_PE_PUSH_NOTIFICATION),
       isTextToSpeechButtonEnabled: toBoolean(process.env.FT_ENABLE_TEXT_TO_SPEECH_BUTTON),
+      isNeedToAdjustCertificationAccessibilityEnabled: toBoolean(
+        process.env.FT_ENABLE_NEED_TO_ADJUST_CERTIFICATION_ACCESSIBILITY,
+      ),
     },
     hapi: {
       options: {},
@@ -382,6 +385,7 @@ const configuration = (function () {
     config.featureToggles.isCertificationTokenScopeEnabled = false;
     config.featureToggles.isPixPlusLowerLeverEnabled = false;
     config.featureToggles.isTextToSpeechButtonEnabled = false;
+    config.featureToggles.isNeedToAdjustCertificationAccessibilityEnabled = false;
 
     config.mailing.enabled = false;
     config.mailing.provider = 'brevo';
