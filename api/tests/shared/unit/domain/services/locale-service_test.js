@@ -27,13 +27,5 @@ describe('Unit | Shared | Domain | Service | Locale', function () {
       //then
       expect(locale).to.equal('fr-FR');
     });
-
-    it('transforms "en-GB" locale into "en"', function () {
-      // given
-      const locale = getCanonicalLocale('en-gb');
-
-      //then
-      expect(locale).to.equal('en');
-    });
   });
 });

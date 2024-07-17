@@ -25,7 +25,7 @@ const HELPDESK_FRENCH_FRANCE = 'https://pix.fr/support';
 // INTERNATIONAL
 const PIX_HOME_NAME_INTERNATIONAL = `pix${config.domain.tldOrg}`;
 const PIX_HOME_URL_INTERNATIONAL = {
-  en: `${config.domain.pix + config.domain.tldOrg}/en-gb/`,
+  en: `${config.domain.pix + config.domain.tldOrg}/en/`,
   fr: `${config.domain.pix + config.domain.tldOrg}/fr/`,
   nl: `${config.domain.pix + config.domain.tldOrg}/nl-be/`,
 };

@@ -28,7 +28,7 @@ module('Unit | Service | url', function (hooks) {
     test('should get "pix.org" english url when current language is en', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
-      const expectedDataProtectionPolicyUrl = 'https://pix.org/en-gb/personal-data-protection-policy';
+      const expectedDataProtectionPolicyUrl = 'https://pix.org/en/personal-data-protection-policy';
       service.currentDomain.getExtension = sinon.stub().returns(INTERNATIONAL_TLD);
       service.intl = { primaryLocale: 'en' };
 
@@ -71,7 +71,7 @@ module('Unit | Service | url', function (hooks) {
     test('should get "pix.org" english url when current language is en', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
-      const expectedCguUrl = 'https://pix.org/en-gb/terms-and-conditions';
+      const expectedCguUrl = 'https://pix.org/en/terms-and-conditions';
       service.currentDomain.getExtension = sinon.stub().returns(INTERNATIONAL_TLD);
       service.intl = { primaryLocale: 'en' };
 
@@ -157,7 +157,7 @@ module('Unit | Service | url', function (hooks) {
 
     module('when current domain is org', function () {
       module('when current language is en', function () {
-        test('should return "pix.org/en-gb" url', function (assert) {
+        test('should return "pix.org/en" url', function (assert) {
           // given
           const service = this.owner.lookup('service:url');
           service.currentDomain.getExtension = sinon.stub().returns(INTERNATIONAL_TLD);
@@ -167,7 +167,7 @@ module('Unit | Service | url', function (hooks) {
           const legalNoticeUrl = service.legalNoticeUrl;
 
           // then
-          assert.strictEqual(legalNoticeUrl, 'https://pix.org/en-gb/legal-notice');
+          assert.strictEqual(legalNoticeUrl, 'https://pix.org/en/legal-notice');
         });
       });
 
@@ -205,7 +205,7 @@ module('Unit | Service | url', function (hooks) {
 
     module('when current domain is org', function () {
       module('when current language is en', function () {
-        test('should return "pix.org/en-gb" url', function (assert) {
+        test('should return "pix.org/en" url', function (assert) {
           // given
           const service = this.owner.lookup('service:url');
           service.currentDomain.getExtension = sinon.stub().returns(INTERNATIONAL_TLD);
@@ -215,7 +215,7 @@ module('Unit | Service | url', function (hooks) {
           const accessibilityUrl = service.accessibilityUrl;
 
           // then
-          assert.strictEqual(accessibilityUrl, 'https://pix.org/en-gb/accessibility-pix-certif');
+          assert.strictEqual(accessibilityUrl, 'https://pix.org/en/accessibility-pix-certif');
         });
       });
 

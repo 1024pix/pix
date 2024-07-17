@@ -57,13 +57,13 @@ module('Unit | Service | url', function (hooks) {
       {
         language: ENGLISH_INTERNATIONAL_LOCALE,
         currentDomainExtension: FRANCE_TLD,
-        expectedShowcaseUrl: 'https://pix.fr/en-gb',
+        expectedShowcaseUrl: 'https://pix.fr/en',
         expectedShowcaseLinkText: "Pix.fr's Homepage",
       },
       {
         language: ENGLISH_INTERNATIONAL_LOCALE,
         currentDomainExtension: INTERNATIONAL_TLD,
-        expectedShowcaseUrl: 'https://pix.org/en-gb',
+        expectedShowcaseUrl: 'https://pix.org/en',
         expectedShowcaseLinkText: "Pix.org's Homepage",
       },
     ].forEach(function (testCase) {
@@ -138,7 +138,7 @@ module('Unit | Service | url', function (hooks) {
           // given
           const service = this.owner.lookup('service:url');
           service.currentDomain = { isFranceDomain: false };
-          const expectedCguUrl = 'https://pix.org/en-gb/terms-and-conditions';
+          const expectedCguUrl = 'https://pix.org/en/terms-and-conditions';
           service.currentDomain = { getExtension: sinon.stub().returns(INTERNATIONAL_TLD) };
           service.intl = { primaryLocale: ENGLISH_INTERNATIONAL_LOCALE };
 
@@ -224,7 +224,7 @@ module('Unit | Service | url', function (hooks) {
           const service = this.owner.lookup('service:url');
           service.currentDomain = { isFranceDomain: false };
           service.intl = { primaryLocale: ENGLISH_INTERNATIONAL_LOCALE };
-          const expectedDataProtectionPolicyUrl = 'https://pix.org/en-gb/personal-data-protection-policy';
+          const expectedDataProtectionPolicyUrl = 'https://pix.org/en/personal-data-protection-policy';
 
           // when
           const dataProtectionPolicyUrl = service.dataProtectionPolicyUrl;
@@ -392,7 +392,7 @@ module('Unit | Service | url', function (hooks) {
           const service = this.owner.lookup('service:url');
           service.currentDomain = { isFranceDomain: false };
           service.intl = { primaryLocale: ENGLISH_INTERNATIONAL_LOCALE };
-          const expectedAccessibilityUrl = 'https://pix.org/en-gb/accessibility';
+          const expectedAccessibilityUrl = 'https://pix.org/en/accessibility';
 
           // when
           const accessibilityUrl = service.accessibilityUrl;

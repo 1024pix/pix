@@ -118,7 +118,7 @@ module('Integration | Component | data-protection-policy-information-banner', fu
               // then
               assert
                 .dom(screen.getByRole('link', { name: 'Personal data protection policy.' }))
-                .hasAttribute('href', 'https://pix.org/en-gb/personal-data-protection-policy');
+                .hasAttribute('href', 'https://pix.org/en/personal-data-protection-policy');
 
               const content = screen.getByText((content) =>
                 content.startsWith(
