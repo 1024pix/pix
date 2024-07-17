@@ -27,7 +27,6 @@ export const certificationCenterInvitationAdminRoutes = [
           certificationCenterId: identifiersType.certificationCenterId,
         }),
       },
-      //quel handler?
       handler: certificationCenterInvitationController.findPendingInvitations,
       notes: [
         '- **Cette route est restreinte aux utilisateurs authentifiés et ayant accès à Pix Admin**\n' +
