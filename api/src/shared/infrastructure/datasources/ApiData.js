@@ -40,6 +40,10 @@ export class ApiData {
   }
 
   async #fetchToken() {
+    console.log('Fetching token', this.apiDataCredentials);
+    if (!this.apiDataCredentials?.username || !this.apiDataCredentials?.password) {
+      throw new Error('ApiData credentials are not set');
+    }
     const result = await httpAgent.post({
       url: `${this.apiDataUrl}/token`,
       payload: this.apiDataCredentials,
@@ -48,6 +52,7 @@ export class ApiData {
   }
 
   async get(queryId, params = []) {
+    console.log({ queryId, params });
     const token = await this.getToken();
     const result = await httpAgent.post({
       url: `${this.apiDataUrl}/query`,
