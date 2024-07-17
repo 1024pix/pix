@@ -21,6 +21,8 @@ module.exports = function (environment) {
       API_HOST: process.env.API_HOST || '',
       // Here you can pass flags/options to your application instance
       // when it is created
+      BANNER_CONTENT: process.env.BANNER_CONTENT || '',
+      BANNER_TYPE: process.env.BANNER_TYPE || '',
       EMBED_ALLOWED_ORIGINS: (
         process.env.EMBED_ALLOWED_ORIGINS || 'https://epreuves.pix.fr,https://1024pix.github.io'
       ).split(','),
