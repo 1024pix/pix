@@ -1,4 +1,4 @@
-import { _ } from '../../infrastructure/utils/lodash-utils.js';
+import { _ } from '../../../src/shared/infrastructure/utils/lodash-utils.js';
 import { ALL_TREATMENTS } from '../constants.js';
 
 function getEnabledTreatments(shouldApplyTreatments, deactivations) {

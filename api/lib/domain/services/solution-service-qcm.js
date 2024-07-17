@@ -1,5 +1,5 @@
 import { AnswerStatus } from '../../../src/shared/domain/models/AnswerStatus.js';
-import { _ } from '../../infrastructure/utils/lodash-utils.js';
+import { _ } from '../../../src/shared/infrastructure/utils/lodash-utils.js';
 
 const match = function (answer, solution) {
   if (_.areCSVequivalent(answer, solution)) {
