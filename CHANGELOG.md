@@ -1,5 +1,43 @@
 # Pix Changelog
 
+## v4.183.0 (17/07/2024)
+
+
+### :rocket: Amélioration
+- [#9503](https://github.com/1024pix/pix/pull/9503) [FEATURE] Mise à jour de la formule de scoring V3 (PIX-13399).
+- [#9513](https://github.com/1024pix/pix/pull/9513) [FEATURE] Ne plus inclure le user id dans les champs NOM et PRENOM lors de l'anonymisation d'un utilisateur.
+- [#9533](https://github.com/1024pix/pix/pull/9533) [FEATURE] Utiliser un timestamp pour la clé du badge dupliqué (PIX-13453).
+
+### :building_construction: Tech
+- [#9540](https://github.com/1024pix/pix/pull/9540) [TECH] Migrer la route GET api/admin/certification-center/{id}/invitations dans src (PIX-13459).
+- [#9529](https://github.com/1024pix/pix/pull/9529) [TECH] Migration de la route /api/certifications vers src (PIX-13427).
+- [#9536](https://github.com/1024pix/pix/pull/9536) [TECH] Ajout d'un tri sur la liste des formats acceptés pour mettre en valeur l'utf-8 (Pix-13454).
+- [#9546](https://github.com/1024pix/pix/pull/9546) [TECH] Migrer le prehandler d'autorisation d'accès aux certifications dans le contexte certification (PIX-13463).
+- [#9512](https://github.com/1024pix/pix/pull/9512) [TECH] Passer le layout en .gjs (PIX-13414).
+- [#9469](https://github.com/1024pix/pix/pull/9469) [TECH] Passer la page de connexion à l'espace surveillant en .gjs (PIX-13332).
+- [#9535](https://github.com/1024pix/pix/pull/9535) [TECH] Migration de la route /api/countries vers /certification/enrolment (PIX-13450).
+- [#9545](https://github.com/1024pix/pix/pull/9545) [TECH] Mettre a jour les droits d'acces sur le simulateur (PIX-13473).
+
+### :bug: Correction
+- [#9524](https://github.com/1024pix/pix/pull/9524) [BUGFIX] Rediriger vers la mire d'inscription pour les imports générique de type SCO (PIX-13446).
+- [#9556](https://github.com/1024pix/pix/pull/9556) [BUGFIX] Corriger l'initializer custom-inflector-rules dans Pix Admin.
+
+### :arrow_up: Montée de version
+- [#9563](https://github.com/1024pix/pix/pull/9563) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.6 (orga).
+- [#9561](https://github.com/1024pix/pix/pull/9561) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.7 (orga).
+- [#9558](https://github.com/1024pix/pix/pull/9558) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.7 (mon-pix).
+- [#9557](https://github.com/1024pix/pix/pull/9557) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.7 (load-testing).
+- [#9555](https://github.com/1024pix/pix/pull/9555) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.7 (dossier racine).
+- [#9554](https://github.com/1024pix/pix/pull/9554) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.7 (certif).
+- [#9553](https://github.com/1024pix/pix/pull/9553) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.7 (admin).
+- [#9552](https://github.com/1024pix/pix/pull/9552) [BUMP] Update dependency @1024pix/ember-testing-library to ^2.0.7 (orga).
+- [#9551](https://github.com/1024pix/pix/pull/9551) [BUMP] Update dependency @1024pix/ember-testing-library to ^2.0.7 (certif).
+- [#9534](https://github.com/1024pix/pix/pull/9534) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.6 (certif).
+- [#9549](https://github.com/1024pix/pix/pull/9549) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.7 (junior).
+- [#9531](https://github.com/1024pix/pix/pull/9531) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.6 (admin).
+- [#9550](https://github.com/1024pix/pix/pull/9550) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.6 (junior).
+- [#9548](https://github.com/1024pix/pix/pull/9548) [BUMP] Update dependency @1024pix/ember-testing-library to ^2.0.7 (junior).
+
 ## v4.182.0 (16/07/2024)
 
 
