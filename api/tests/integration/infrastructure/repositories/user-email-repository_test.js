@@ -1,5 +1,5 @@
 import { EmailModificationDemand } from '../../../../lib/domain/models/EmailModificationDemand.js';
-import * as userEmailRepository from '../../../../lib/infrastructure/repositories/user-email-repository.js';
+import { EmailModificationDemand } from '../../../../src/identity-access-management/domain/models/EmailModificationDemand.js';
 import { databaseBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | Repository | UserEmailRepository', function () {

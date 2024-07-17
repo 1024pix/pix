@@ -3,8 +3,8 @@ import {
   EmailModificationDemandNotFoundOrExpiredError,
   InvalidVerificationCodeError,
 } from '../../../../lib/domain/errors.js';
-import { EmailModificationDemand } from '../../../../lib/domain/models/index.js';
 import { updateUserEmailWithValidation } from '../../../../lib/domain/usecases/update-user-email-with-validation.js';
+import { EmailModificationDemand } from '../../../../src/identity-access-management/domain/models/EmailModificationDemand.js';
 import { UserNotAuthorizedToUpdateEmailError } from '../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
