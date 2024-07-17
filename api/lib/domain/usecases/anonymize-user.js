@@ -13,8 +13,8 @@ const anonymizeUser = async function ({
   adminMemberRepository,
 }) {
   const anonymizedUser = {
-    firstName: `prenom_${userId}`,
-    lastName: `nom_${userId}`,
+    firstName: '(anonymised)',
+    lastName: '(anonymised)',
     email: `email_${userId}@example.net`,
     username: null,
     hasBeenAnonymised: true,

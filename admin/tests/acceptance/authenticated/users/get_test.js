@@ -44,7 +44,7 @@ module('Acceptance | authenticated/users/get', function (hooks) {
     return user;
   }
 
-  test('should access on user details page by URL /users/:id', async function (assert) {
+  test('access to user details page by URL /users/:id', async function (assert) {
     // when
     const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
     await visit(`/users/${user.id}`);
@@ -53,7 +53,7 @@ module('Acceptance | authenticated/users/get', function (hooks) {
     assert.deepEqual(currentURL(), `/users/${user.id}`);
   });
 
-  test('should display user detail information page', async function (assert) {
+  test('displays user detail information page', async function (assert) {
     // given
     const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
     const expectedOrganizationMembershipsCount = 2;
@@ -80,7 +80,7 @@ module('Acceptance | authenticated/users/get', function (hooks) {
       .hasText(`Pix Orga (${expectedOrganizationMembershipsCount})`);
   });
 
-  test('should redirect to list users page when click page title', async function (assert) {
+  test('redirects to list users page when click page title', async function (assert) {
     // given
     const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
     await visit(`/users/${user.id}`);
@@ -93,7 +93,7 @@ module('Acceptance | authenticated/users/get', function (hooks) {
   });
 
   module('when administrator click to edit users details', function () {
-    test('should update user language, username, firstName, lastName and email', async function (assert) {
+    test('updates user language, username, firstName, lastName and email', async function (assert) {
       // given
       const user = await buildAndAuthenticateUser(this.server, {
         email: 'john.harry@example.net',
@@ -125,7 +125,7 @@ module('Acceptance | authenticated/users/get', function (hooks) {
   });
 
   module('when administrator click on anonymize button and confirm modal', function () {
-    test('should anonymize the user and remove all authentication methods', async function (assert) {
+    test('anonymizes the user and remove all authentication methods', async function (assert) {
       // given
       await buildAndAuthenticateUser(this.server, {
         email: 'john.harry@example.net',
@@ -165,9 +165,8 @@ module('Acceptance | authenticated/users/get', function (hooks) {
 
       // when & then #1
       await click(screen.getByRole('button', { name: 'Confirmer' }));
-
-      assert.dom(screen.getByText(`Prénom : prenom_${userToAnonymise.id}`)).exists();
-      assert.dom(screen.getByText(`Nom : nom_${userToAnonymise.id}`)).exists();
+      assert.dom(screen.getByText(`Prénom : (anonymised)`)).exists();
+      assert.dom(screen.getByText(`Nom : (anonymised)`)).exists();
       assert.dom(screen.getByText(`Adresse e-mail : email_${userToAnonymise.id}@example.net`)).exists();
 
       assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion avec identifiant")).exists();
@@ -188,7 +187,7 @@ module('Acceptance | authenticated/users/get', function (hooks) {
   });
 
   module('when administrator click on unblock button', function () {
-    test('should unblock the user', async function (assert) {
+    test('unblocks the user', async function (assert) {
       // given
       await buildAndAuthenticateUser(this.server, {
         email: 'john.harry@example.net',
@@ -219,7 +218,7 @@ module('Acceptance | authenticated/users/get', function (hooks) {
   });
 
   module('when administrator click on dissociate button', function () {
-    test('should not display registration any more', async function (assert) {
+    test('not displays registration any more', async function (assert) {
       // given
       const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
       const organizationName = 'Organisation_to_dissociate_of';
@@ -246,7 +245,7 @@ module('Acceptance | authenticated/users/get', function (hooks) {
   });
 
   module('when administrator click on remove authentication method button', function () {
-    test('should not display remove link and display unchecked icon', async function (assert) {
+    test('not displays remove link and display unchecked icon', async function (assert) {
       // given
       const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
       const screen = await visit(`/users/${user.id}`);
@@ -265,7 +264,7 @@ module('Acceptance | authenticated/users/get', function (hooks) {
   });
 
   module('when administrator click on delete participation button', function () {
-    test('should mark participation as deleted', async function (assert) {
+    test('marks participation as deleted', async function (assert) {
       // given
       const userParticipation = this.server.create('user-participation', { deletedAt: null });
       const user = server.create('user');
@@ -294,7 +293,7 @@ module('Acceptance | authenticated/users/get', function (hooks) {
   });
 
   module('when administrator clicks on organizations tab', function () {
-    test('should display user’s organizations', async function (assert) {
+    test('displays user’s organizations', async function (assert) {
       // given
       const organization = this.server.create('organization');
       const organizationMembership1 = this.server.create('organization-membership', {
@@ -328,7 +327,7 @@ module('Acceptance | authenticated/users/get', function (hooks) {
   });
 
   module('when administrator clicks on certification centers tab', function () {
-    test('should display user’s certification centers', async function (assert) {
+    test('displays user’s certification centers', async function (assert) {
       // given
       const certificationCenter = this.server.create('certification-center', {
         name: 'Centre Kaede',
