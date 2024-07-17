@@ -1,11 +1,11 @@
 import _ from 'lodash';
 
 import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
-import * as paginateModule from '../../../../lib/infrastructure/utils/paginate.js';
 import { LOCALE } from '../../../shared/domain/constants.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { tutorialDatasource } from '../../../shared/infrastructure/datasources/learning-content/index.js';
 import * as skillRepository from '../../../shared/infrastructure/repositories/skill-repository.js';
+import * as paginateModule from '../../../shared/infrastructure/utils/paginate.js';
 import { Tutorial } from '../../domain/models/Tutorial.js';
 import { TutorialForUser } from '../../domain/read-models/TutorialForUser.js';
 import * as tutorialEvaluationRepository from './tutorial-evaluation-repository.js';
