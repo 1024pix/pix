@@ -85,6 +85,7 @@ Router.map(function () {
         this.route('learners', { path: '/' });
       });
     });
+    this.route('cover-rate', { path: '/taux-de-couverture' });
   });
 
   this.route('logout');

@@ -15,6 +15,13 @@
       </LinkTo>
     {{/if}}
 
+    <LinkTo @route="authenticated.cover-rate" class="sidebar-nav__item">
+      <span class="sidebar-nav__item-icon">
+        <img src="{{this.rootURL}}/icons/chevron-square-right.svg" alt="" role="none" />
+      </span>
+      Taux de couverture
+    </LinkTo>
+
     {{#if this.shouldDisplayCertificationsEntry}}
       <LinkTo @route="authenticated.certifications" class="sidebar-nav__item">
         <span class="sidebar-nav__item-icon">

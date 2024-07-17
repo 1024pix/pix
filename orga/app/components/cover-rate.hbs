@@ -1,0 +1,119 @@
+<article>
+  <header>
+    <h1 class="page-title">Taux de couverture</h1>
+  </header>
+  <div class="cover-rate">
+    <section class="campaign-details-analysis-section" style="padding-bottom: 5rem;">
+      <h2 class="campaign-details-analysis campaign-details-analysis__header">Couverture par domaine</h2>
+      <p class="campaign-details-analysis campaign-details-analysis__text">
+        <SafeMarkdownToHtml @markdown={{this.descriptionByAreas}}/>
+      </p>
+      <table class="panel panel--light-shadow content-text content-text--small campaign-details-analysis__table">
+        <thead>
+          <tr>
+            {{#each this.headersByAreas as |header|}}
+              <Table::Header @size="wide">{{header}}</Table::Header>
+            {{/each}}
+          </tr>
+        </thead>
+        {{#if @coverRate.byAreas}}
+          <tbody>
+          {{#each @coverRate.byAreas as |item|}}
+            <tr>
+              {{#each-in item as |key value|}}
+                <td>{{value}}</td>
+              {{/each-in}}
+            </tr>
+          {{/each}}
+          </tbody>
+        {{/if}}
+      </table>
+
+      <Ui::Chart
+        @type="bar"
+        @options={{this.chartOptions}}
+        @data={{this.chartDataByAreas}}
+        aria-hidden="true"
+        class="panel cover-rate-by-domains"
+      />
+    </section>
+
+    <section class="campaign-details-analysis-section" style="padding-bottom: 5rem;">
+      <h2 class="campaign-details-analysis campaign-details-analysis__header">Couverture par compétence</h2>
+      <p class="campaign-details-analysis campaign-details-analysis__text">
+        <SafeMarkdownToHtml @markdown={{this.descriptionByCompetences}}/>
+      </p>
+      <table class="panel panel--light-shadow content-text content-text--small campaign-details-analysis__table">
+        <thead>
+        <tr>
+          {{#each this.headersByCompetences as |header|}}
+            <Table::Header @size="wide">{{header}}</Table::Header>
+          {{/each}}
+        </tr>
+        </thead>
+        {{#if @coverRate.byCompetences}}
+          <tbody>
+          {{#each @coverRate.byCompetences as |item|}}
+            <tr>
+              {{#each-in item as |key value|}}
+                <td>{{value}}</td>
+              {{/each-in}}
+            </tr>
+          {{/each}}
+          </tbody>
+        {{/if}}
+      </table>
+
+      <Ui::Chart
+        @type="bar"
+        @options={{this.chartOptions}}
+        @data={{this.chartDataByCompetences}}
+        aria-hidden="true"
+        class="panel cover-rate-by-domains"
+      />
+    </section>
+
+    <section class="campaign-details-analysis-section" style="padding-bottom: 5rem;">
+      <h2 class="campaign-details-analysis campaign-details-analysis__header">Couverture par sujet</h2>
+      <p class="campaign-details-analysis campaign-details-analysis__text">
+        <SafeMarkdownToHtml @markdown={{this.descriptionByTubes}}/>
+      </p>
+      <table class="panel panel--light-shadow content-text content-text--small campaign-details-analysis__table">
+        <thead>
+        <tr>
+          {{#each this.headersByTubes as |header|}}
+            <Table::Header @size="wide">{{header}}</Table::Header>
+          {{/each}}
+        </tr>
+        </thead>
+        {{#if @coverRate.byTubes}}
+          <tbody>
+          {{#each @coverRate.byTubes as |item|}}
+            <tr>
+              {{#each-in item as |key value|}}
+                <td>{{value}}</td>
+              {{/each-in}}
+            </tr>
+          {{/each}}
+          </tbody>
+        {{/if}}
+      </table>
+
+      <div class="panel">
+<!--        <Ui::Chart-->
+<!--          @type="bar"-->
+<!--          @options={{this.chartOptions}}-->
+<!--          @data={{this.chartDataByTubes}}-->
+<!--          aria-hidden="true"-->
+<!--          class="cover-rate-by-domains cover-rate-chart"-->
+<!--        />-->
+
+        <PixPagination
+          @pagination={{this.pagination}}
+          @locale="fr"
+          @isCondensed="true"
+        />
+      </div>
+    </section>
+  </div>
+</article>
