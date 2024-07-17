@@ -143,7 +143,7 @@ const deleteBySessionId = async function ({ sessionId, domainTransaction = Domai
   await knexConn('certification-candidates').where({ sessionId }).del();
 };
 
-const getWithComplementaryCertification = async function (id) {
+const getWithComplementaryCertification = async function ({ id }) {
   const candidateData = await _candidateBaseQuery().where('certification-candidates.id', id).first();
 
   if (!candidateData) {

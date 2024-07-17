@@ -1,7 +1,7 @@
-import { getCertificationCandidateSubscription } from '../../../../lib/domain/usecases/get-certification-candidate-subscription.js';
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { getCertificationCandidateSubscription } from '../../../../../../src/certification/enrolment/domain/usecases/get-certification-candidate-subscription.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | UseCase | get-certification-candidate-subscription', function () {
+describe('Certification | Enrolment | Unit | Domain | UseCase | get-certification-candidate-subscription', function () {
   let certificationBadgesService;
   let certificationCandidateRepository;
   let certificationCenterRepository;
@@ -60,7 +60,7 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
         });
 
         certificationCandidateRepository.getWithComplementaryCertification
-          .withArgs(certificationCandidateId)
+          .withArgs({ id: certificationCandidateId })
           .resolves(candidateWithComplementaryCertification);
 
         sessionRepository.getVersion.withArgs({ id: sessionId }).resolves(2);
@@ -121,7 +121,7 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
           complementaryCertification: null,
         });
         certificationCandidateRepository.getWithComplementaryCertification
-          .withArgs(certificationCandidateId)
+          .withArgs({ id: certificationCandidateId })
           .resolves(candidateWithoutComplementaryCertification);
 
         sessionRepository.getVersion.withArgs({ id: sessionId }).resolves(2);

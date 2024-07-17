@@ -14,6 +14,7 @@ import * as sessionCodeService from '../services/session-code-service.js';
 import * as sessionsImportValidationService from '../services/sessions-import-validation-service.js';
 import * as temporarySessionsStorageForMassImportService from '../services/temporary-sessions-storage-for-mass-import-service.js';
 import * as sessionValidator from '../validators/session-validator.js';
+import * as certificationBadgesService from '../../../../../lib/domain/services/certification-badges-service.js';
 
 /**
  * @typedef {import('../../infrastructure/repositories/index.js').ComplementaryCertificationRepository} ComplementaryCertificationRepository
@@ -63,6 +64,7 @@ import * as sessionValidator from '../validators/session-validator.js';
  * @typedef {TemporaryCompanionStorageService} TemporaryCompanionStorageService
  **/
 const dependencies = {
+  certificationBadgesService,
   ...enrolmentRepositories,
   sessionCodeService,
   sessionsImportValidationService,

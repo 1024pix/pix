@@ -1,4 +1,4 @@
-import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../domain/usecases/index.js';
 import * as certificationCandidateSubscriptionSerializer from '../infrastructure/serializers/certification-candidate-subscription-serializer.js';
 
 const getSubscription = async function (request, _h, dependencies = { certificationCandidateSubscriptionSerializer }) {

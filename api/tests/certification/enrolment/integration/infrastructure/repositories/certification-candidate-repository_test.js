@@ -826,9 +826,9 @@ describe('Integration | Repository | CertificationCandidate', function () {
         await databaseBuilder.commit();
 
         // when
-        const error = await catchErr(certificationCandidateRepository.getWithComplementaryCertification)(
-          wrongCandidateId,
-        );
+        const error = await catchErr(certificationCandidateRepository.getWithComplementaryCertification)({
+          id: wrongCandidateId,
+        });
 
         // then
         expect(error).to.be.an.instanceOf(NotFoundError);
@@ -844,7 +844,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
 
         // when
         const certificationCandidateWithComplementaryCertifications =
-          await certificationCandidateRepository.getWithComplementaryCertification(certificationCandidate.id);
+          await certificationCandidateRepository.getWithComplementaryCertification({ id: certificationCandidate.id });
 
         // then
         expect(certificationCandidateWithComplementaryCertifications).to.deep.equal(
@@ -873,7 +873,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
 
         // when
         const certificationCandidateWithComplementaryCertification =
-          await certificationCandidateRepository.getWithComplementaryCertification(certificationCandidate.id);
+          await certificationCandidateRepository.getWithComplementaryCertification({ id: certificationCandidate.id });
 
         // then
         expect(certificationCandidateWithComplementaryCertification).to.deep.equal(

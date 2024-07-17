@@ -1,4 +1,4 @@
-import { CertificationCandidateSubscription } from '../read-models/CertificationCandidateSubscription.js';
+import { CertificationCandidateSubscription } from '../../../../../lib/domain/read-models/CertificationCandidateSubscription.js';
 
 const getCertificationCandidateSubscription = async function ({
   certificationCandidateId,
@@ -7,8 +7,9 @@ const getCertificationCandidateSubscription = async function ({
   certificationCenterRepository,
   sessionRepository,
 }) {
-  const certificationCandidate =
-    await certificationCandidateRepository.getWithComplementaryCertification(certificationCandidateId);
+  const certificationCandidate = await certificationCandidateRepository.getWithComplementaryCertification({
+    id: certificationCandidateId,
+  });
 
   const sessionVersion = await sessionRepository.getVersion({ id: certificationCandidate.sessionId });
 
