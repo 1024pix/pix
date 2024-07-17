@@ -6,6 +6,7 @@ import {
   CompetenceMark,
   PrivateCertificate,
   ResultCompetenceTree,
+  ShareableCertificate,
 } from '../../../../../lib/domain/models/index.js';
 import * as competenceTreeRepository from '../../../../../lib/infrastructure/repositories/competence-tree-repository.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
@@ -103,11 +104,29 @@ const getPrivateCertificate = async function (id, { locale } = {}) {
   });
 };
 
+const getShareableCertificateByVerificationCode = async function (verificationCode, { locale } = {}) {
+  const shareableCertificateDTO = await _selectShareableCertificates()
+    .groupBy('certification-courses.id', 'sessions.id', 'assessment-results.id')
+    .where({ verificationCode })
+    .first();
+
+  if (!shareableCertificateDTO) {
+    throw new NotFoundError(`There is no certification course with verification code "${verificationCode}"`);
+  }
+
+  const competenceTree = await competenceTreeRepository.get({ locale });
+
+  const certifiedBadges = await _getCertifiedBadges(shareableCertificateDTO.id);
+
+  return _toDomainForShareableCertificate({ shareableCertificateDTO, competenceTree, certifiedBadges });
+};
+
 export {
   findByDivisionForScoIsManagingStudentsOrganization,
   findPrivateCertificatesByUserId,
   getCertificationAttestation,
   getPrivateCertificate,
+  getShareableCertificateByVerificationCode,
 };
 
 function _selectCertificationAttestations() {
@@ -164,6 +183,34 @@ function _selectPrivateCertificates() {
           ORDER BY "competence-marks"."competence_code" asc
         )`),
   });
+}
+
+function _selectShareableCertificates() {
+  return _getCertificateQuery()
+    .select({
+      id: 'certification-courses.id',
+      firstName: 'certification-courses.firstName',
+      lastName: 'certification-courses.lastName',
+      birthdate: 'certification-courses.birthdate',
+      birthplace: 'certification-courses.birthplace',
+      isPublished: 'certification-courses.isPublished',
+      userId: 'certification-courses.userId',
+      date: 'certification-courses.createdAt',
+      deliveredAt: 'sessions.publishedAt',
+      certificationCenter: 'sessions.certificationCenter',
+      maxReachableLevelOnCertificationDate: 'certification-courses.maxReachableLevelOnCertificationDate',
+      pixScore: 'assessment-results.pixScore',
+      assessmentResultId: 'assessment-results.id',
+      competenceMarks: knex.raw(`
+        json_agg(
+          json_build_object('score', "competence-marks".score, 'level', "competence-marks".level, 'competence_code', "competence-marks"."competence_code")
+          ORDER BY "competence-marks"."competence_code" asc
+        )`),
+    })
+
+    .where('assessment-results.status', AssessmentResult.status.VALIDATED)
+    .where('certification-courses.isPublished', true)
+    .where('certification-courses.isCancelled', false);
 }
 
 function _getCertificateQuery() {
@@ -238,6 +285,21 @@ function _toDomainForPrivateCertificate({ certificationCourseDTO, competenceTree
 
   return PrivateCertificate.buildFrom({
     ...certificationCourseDTO,
+    certifiedBadgeImages: certifiedBadges,
+  });
+}
+
+function _toDomainForShareableCertificate({ shareableCertificateDTO, competenceTree, certifiedBadges }) {
+  const resultCompetenceTree = ResultCompetenceTree.generateTreeFromCompetenceMarks({
+    competenceTree,
+    competenceMarks: _.compact(shareableCertificateDTO.competenceMarks),
+    certificationId: shareableCertificateDTO.id,
+    assessmentResultId: shareableCertificateDTO.assessmentResultId,
+  });
+
+  return new ShareableCertificate({
+    ...shareableCertificateDTO,
+    resultCompetenceTree,
     certifiedBadgeImages: certifiedBadges,
   });
 }

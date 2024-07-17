@@ -124,7 +124,6 @@ import * as campaignParticipationRepository from '../../infrastructure/repositor
 import { campaignParticipationResultRepository } from '../../infrastructure/repositories/campaign-participation-result-repository.js';
 import * as campaignRepository from '../../infrastructure/repositories/campaign-repository.js';
 import * as certifiableProfileForLearningContentRepository from '../../infrastructure/repositories/certifiable-profile-for-learning-content-repository.js';
-import * as certificateRepository from '../../infrastructure/repositories/certificate-repository.js';
 import * as certificationCenterForAdminRepository from '../../infrastructure/repositories/certification-center-for-admin-repository.js';
 import * as certificationCenterInvitedUserRepository from '../../infrastructure/repositories/certification-center-invited-user-repository.js';
 import * as certificationCenterMembershipRepository from '../../infrastructure/repositories/certification-center-membership-repository.js';
@@ -224,7 +223,6 @@ const dependencies = {
   campaignRepository,
   centerRepository,
   certifiableProfileForLearningContentRepository,
-  certificateRepository,
   certificationAssessmentRepository,
   certificationBadgesService,
   certificationCandidateForSupervisingRepository,
