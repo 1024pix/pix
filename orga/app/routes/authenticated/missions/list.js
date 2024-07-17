@@ -7,9 +7,6 @@ export default class MissionListRoute extends Route {
   @service router;
   @service store;
 
-  async beforeModel() {
-    await this.currentUser.load();
-  }
   async model() {
     const pixJuniorSchoolUrl = this.url.pixJuniorSchoolUrl;
     const organization = this.currentUser.organization;

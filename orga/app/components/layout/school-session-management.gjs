@@ -48,7 +48,7 @@ export default class SchoolSessionManagement extends Component {
       .adapterFor('organization')
       .activateSession({ organizationId: organization.id, token: this.session?.data?.authenticated?.access_token });
 
-    await this.args.refreshAuthenticatedModel();
+    await this.currentUser.load();
   }
 
   <template>
