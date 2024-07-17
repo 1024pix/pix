@@ -436,7 +436,7 @@
           {
             "id": "ec182563-1090-4794-8a5f-e179d244fa3e",
             "type": "text",
-            "content": "<p>Étudiez le schéma suivant qui classe les principaux LLM selon deux aspects : leur <strong>provenance</strong> et la <strong>licence</strong> de leur code.<br>Par la suite, vous utiliserez l'arène pour répondre à des questions sur ces aspects.</p>"
+            "content": "<p>Étudiez le schéma suivant qui classe les principaux LLM selon deux aspects : leur <strong>provenance</strong> et la <strong>licence</strong> de leur code.</p>"
           }
         },
         {
@@ -456,7 +456,7 @@
           {
             "id": "a5b4912d-7882-47ed-a782-bf87d73ead55",
             "type": "text",
-            "content": "<p>Seuls quelques acteurs ont les moyens financiers de développer des grands modèles de langage.<span aria-hidden=\"true\">&nbsp;🌍&nbsp;💵</span></p><p>Selon leur <strong>provenance</strong>, les modèles vont avoir des <strong>biais différents</strong>, ce qui peut expliquer certains écarts de résultats.</p>"
+            "content": "<p>Seuls quelques acteurs ont les moyens financiers de développer des grands modèles de langage.<span aria-hidden=\"true\">&nbsp;🌍&nbsp;💵</span></p><p>Selon la <strong>nationalité de ces acteurs</strong> et la <strong>provenance des données d'entraînement</strong> utilisées, les modèles vont avoir des <strong>biais différents</strong> et des écarts de résultats.</p>"
           }
         },
         {
@@ -465,7 +465,7 @@
           {
             "id": "97e85ece-84d7-4b61-aa9f-58c063f0f900",
             "type": "text",
-            "content": "<p>Cette <strong>concentration</strong> entre un petit nombre de pays explique le <strong>manque de diversité culturelle globale</strong> dans les textes produits par ces modèles.</p><p>Cependant, les nombreuses initiatives <strong>open source</strong> permettent d'améliorer la <strong>transparence</strong> des LLM, ce qui pourra <strong>favoriser la diversité</strong> des résultats.<span aria-hidden=\"true\">&nbsp;📖</span></p>"
+            "content": "<p>Cette <strong>concentration</strong> entre un petit nombre d'acteur explique le <strong>manque de diversité culturelle globale</strong> dans les textes produits par ces modèles.</p><p>Cependant, les nombreuses initiatives <strong>open source</strong> permettent d'améliorer la <strong>transparence</strong> des LLM, ce qui pourra <strong>favoriser la diversité</strong> des résultats.<span aria-hidden=\"true\">&nbsp;📖</span></p>"
           }
         }
       ]
