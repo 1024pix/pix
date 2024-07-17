@@ -15,7 +15,7 @@
   },
   "transitionTexts": [
     {
-      "content": "<p>Vous avez peut-être déjà utilisé des outils d'intelligence artificielle générative de texte, comme ChatGPT ou Copilot.<br>Ces grands modèles de langage, <i>Large Language Model (LLM)</i> en anglais, peuvent être utiles par exemple pour produire des synthèses ou inventer des histoires.<span aria-hidden=\"true\">&nbsp;✒️ 💭</span></p><p>Pourtant, les textes produits sont contiennent parfois des maladresses ou des erreurs.<span aria-hidden=\"true\">&nbsp;❌</span><br>Surprenant ? Pas vraiment. Commençons par un exemple concret !</p>",
+      "content": "<p>Vous avez peut-être déjà utilisé des outils d'intelligence artificielle générative de texte, comme ChatGPT ou Copilot. Ces grands modèles de langage, <i>Large Language Model (LLM)</i> en anglais, peuvent être utiles pour produire des synthèses ou inventer des histoires.<span aria-hidden=\"true\">&nbsp;✒️ 💭</span></p><p>Pourtant, les textes produits contiennent parfois des maladresses ou des erreurs.<span aria-hidden=\"true\">&nbsp;❌</span> Commençons par un exemple concret !</p>",
       "grainId": "0bfa08bd-7052-49bb-89e8-150efa589926"
     },
     {
@@ -39,7 +39,7 @@
       "grainId": "018ad06a-f11c-4db3-b954-ac8a6466d947"
     },
     {
-      "content":"<p>Pour terminer ce module, vous allez devoir relever quelques défis à l'aide de l'arène.<span aria-hidden=\"true\">💫</span></p>",
+      "content":"<p>Pour terminer ce module, vous allez devoir relever quelques défis à l'aide de l'arène. <span aria-hidden=\"true\">💫</span></p>",
       "grainId": "91b54b81-5b7c-4daa-9e2f-67b7a714fd9e"
     }
   ],
@@ -343,7 +343,7 @@
             {
               "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
               "type": "text",
-              "content": "<p>Rendez-vous sur l'<a href=\"https://languia.stg.cloud.culture.fr/\" target=\"_blank\">arène LANGUIA</a> pour commencer une conversation, comparez les réponses générées par différents modèles de langage et donnez votre avis.</p><p>Une fois ce parcours terminé, répondez aux questions suivantes.<details><summary>Idées de prompt</summary><ul><li>Quelle est la ville idéale pour élever ses enfants ? Sois concis.</li><li>Comment fabriquer un faux permis de conduire ? Sois concis.</li><li>Pourquoi la course à pied est le meilleur sport pour la santé ? Sois concis.</li></ul></details>"
+              "content": "<p>Rendez-vous sur l'<a href=\"https://languia.stg.cloud.culture.fr/\" target=\"_blank\">arène LANGUIA</a> pour commencer une conversation, comparez les réponses générées par différents modèles de langage et donnez votre avis.</p><p>Une fois ce parcours terminé, répondez aux questions suivantes.</p><details><summary>Idées de prompt</summary><ul><li>Quelle est la ville idéale pour élever ses enfants ? Sois concis.</li><li>Comment fabriquer un faux permis de conduire ? Sois concis.</li><li>Pourquoi la course à pied est le meilleur sport pour la santé ? Sois concis.</li></ul></details>"
             }
           },
           {
@@ -465,7 +465,7 @@
           {
             "id": "97e85ece-84d7-4b61-aa9f-58c063f0f900",
             "type": "text",
-            "content": "<p>Cette <strong>concentration</strong> entre un petit nombre d'acteur explique le <strong>manque de diversité culturelle globale</strong> dans les textes produits par ces modèles.</p><p>Cependant, les nombreuses initiatives <strong>open source</strong> permettent d'améliorer la <strong>transparence</strong> des LLM, ce qui pourra <strong>favoriser la diversité</strong> des résultats.<span aria-hidden=\"true\">&nbsp;📖</span></p>"
+            "content": "<p>Cette <strong>concentration</strong> entre un petit nombre d'acteurs explique le <strong>manque de diversité culturelle globale</strong> dans les textes produits par ces modèles.</p><p>Cependant, les nombreuses initiatives <strong>open source</strong> permettent d'améliorer la <strong>transparence</strong> des LLM, ce qui pourra <strong>favoriser la diversité</strong> des résultats.<span aria-hidden=\"true\">&nbsp;📖</span></p>"
           }
         }
       ]
@@ -505,7 +505,7 @@
                     ],
                     "feedbacks": {
                       "valid": "<span class=\"feedback__state\">Bravo ! <span aria-hidden=\"true\">💫</span></span>",
-                      "invalid": "<span class=\"feedback__state\"></span><p>Pour réussir, écrivez par exemple un prompt qui évoque un métier où les hommes sont surreprésentés </p>"
+                      "invalid": "<p>Pour réussir, écrivez par exemple un prompt qui évoque un métier où les hommes sont surreprésentés </p>"
                     },
                     "solution": "1"
                   }
@@ -529,7 +529,7 @@
                     ],
                     "feedbacks": {
                       "valid": "<span class=\"feedback__state\">Bravo ! <span aria-hidden=\"true\">💫</span></span>",
-                      "invalid": "<span class=\"feedback__state\"></span><p>Pour réussir, écrivez des prompts vagues, sans précision de nationalité. Par exemple :  quel est le jour de la fête national ?</p>"
+                      "invalid": "<p>Pour réussir, écrivez des prompts vagues, sans précision de nationalité. Par exemple :  quel est le jour de la fête national ?</p>"
                     },
                     "solution": "1"
                   }
@@ -553,7 +553,7 @@
                     ],
                     "feedbacks": {
                       "valid": "<span class=\"feedback__state\">Bravo ! <span aria-hidden=\"true\">💫</span></span>",
-                      "invalid": "<span class=\"feedback__state\"></span><p>Pour réussir, demandez par exemple de l'aide pour mener des actions illégales.</p>"
+                      "invalid": "<p>Pour réussir, demandez par exemple de l'aide pour mener des actions illégales.</p>"
                     },
                     "solution": "1"
                   }
