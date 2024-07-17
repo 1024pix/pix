@@ -12,9 +12,9 @@ module('Acceptance | Login session supervisor', function (hooks) {
 
   hooks.beforeEach(async function () {
     const certificationPointOfContact = server.create('certification-point-of-contact', {
-      firstName: 'Buffy',
-      lastName: 'Summers',
-      email: 'toto@example.net',
+      firstName: 'Lara',
+      lastName: 'Pafromage',
+      email: 'lara.pafromage@example.com',
       pixCertifTermsOfServiceAccepted: true,
       allowedCertificationCenterAccesses: [],
     });
@@ -28,7 +28,7 @@ module('Acceptance | Login session supervisor', function (hooks) {
     const screen = await visitScreen('/connexion-espace-surveillant');
 
     // then
-    assert.dom(screen.getByText('toto@example.net')).exists();
+    assert.dom(screen.getByText('lara.pafromage@example.com')).exists();
     assert.dom(screen.getByText('Changer de compte')).exists();
   });
 
