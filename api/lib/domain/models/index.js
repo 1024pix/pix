@@ -5,6 +5,7 @@ import { CertificationAttestation } from '../../../src/certification/results/dom
 import { CompetenceMark } from '../../../src/certification/results/domain/models/CompetenceMark.js';
 import { PrivateCertificate } from '../../../src/certification/results/domain/models/PrivateCertificate.js';
 import { ResultCompetenceTree } from '../../../src/certification/results/domain/models/ResultCompetenceTree.js';
+import { ShareableCertificate } from '../../../src/certification/results/domain/models/ShareableCertificate.js';
 import { CertificationAssessmentScore } from '../../../src/certification/scoring/domain/models/CertificationAssessmentScore.js';
 import { CertificationCandidateForSupervising } from '../../../src/certification/session-management/domain/models/CertificationCandidateForSupervising.js';
 import { CertificationOfficer } from '../../../src/certification/session-management/domain/models/CertificationOfficer.js';
@@ -103,7 +104,6 @@ import { ScoringSimulationContext } from './ScoringSimulationContext.js';
 import { ScoringSimulationDataset } from './ScoringSimulationDataset.js';
 import { ScoringSimulationResult } from './ScoringSimulationResult.js';
 import { SessionPublicationBatchResult } from './SessionPublicationBatchResult.js';
-import { ShareableCertificate } from './ShareableCertificate.js';
 import { Skill } from './Skill.js';
 import { Solution } from './Solution.js';
 import { Student } from './Student.js';
