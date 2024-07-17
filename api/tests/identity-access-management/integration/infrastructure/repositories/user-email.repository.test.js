@@ -1,8 +1,8 @@
-import { EmailModificationDemand } from '../../../../lib/domain/models/EmailModificationDemand.js';
-import { EmailModificationDemand } from '../../../../src/identity-access-management/domain/models/EmailModificationDemand.js';
-import { databaseBuilder, expect } from '../../../test-helper.js';
+import { EmailModificationDemand } from '../../../../../src/identity-access-management/domain/models/EmailModificationDemand.js';
+import { userEmailRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/user-email.repository.js';
+import { databaseBuilder, expect } from '../../../../test-helper.js';
 
-describe('Integration | Repository | UserEmailRepository', function () {
+describe('Integration | Identity Access Management | Infrastructure | Repository | UserEmailRepository', function () {
   describe('#saveEmailModificationDemand', function () {
     it('should save an email modification demand', async function () {
       // given

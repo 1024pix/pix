@@ -1,9 +1,17 @@
-import { config } from '../../../src/shared/config.js';
-const EXPIRATION_DELAY_SECONDS = config.temporaryStorage.expirationDelaySeconds;
+import { temporaryStorage } from '../../../../lib/infrastructure/temporary-storage/index.js';
+import { config } from '../../../shared/config.js';
 import { EmailModificationDemand } from '../../domain/models/EmailModificationDemand.js';
-import { temporaryStorage } from '../temporary-storage/index.js';
 const verifyEmailTemporaryStorage = temporaryStorage.withPrefix('verify-email:');
 
+const EXPIRATION_DELAY_SECONDS = config.temporaryStorage.expirationDelaySeconds;
+
+/**
+ *
+ * @param {Object} params
+ * @param {string} params.userId
+ * @param {string} params.code
+ * @param {string} params.newEmail
+ */
 const saveEmailModificationDemand = function ({ userId, code, newEmail }) {
   const key = userId;
 
@@ -13,7 +21,11 @@ const saveEmailModificationDemand = function ({ userId, code, newEmail }) {
     expirationDelaySeconds: EXPIRATION_DELAY_SECONDS,
   });
 };
-
+/**
+ *
+ * @param {string} userId
+ *
+ */
 const getEmailModificationDemandByUserId = async function (userId) {
   const key = userId;
   const emailModificationDemand = await verifyEmailTemporaryStorage.get(key);
@@ -25,5 +37,10 @@ const getEmailModificationDemandByUserId = async function (userId) {
     code: emailModificationDemand.code,
   });
 };
-
-export { getEmailModificationDemandByUserId, saveEmailModificationDemand };
+/**
+ * @typedef {Object} UserEmailRepository
+ * @property {function} saveEmailModificationDemand
+ * @property {function} getEmailModificationDemandByUserId
+*/
+const userEmailRepository = { getEmailModificationDemandByUserId, saveEmailModificationDemand };
+export { userEmailRepository };

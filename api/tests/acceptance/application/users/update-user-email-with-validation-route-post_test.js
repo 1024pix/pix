@@ -1,4 +1,4 @@
-import * as userEmailRepository from '../../../../lib/infrastructure/repositories/user-email-repository.js';
+import { userEmailRepository } from '../../../../src/identity-access-management/infrastructure/repositories/user-email.repository.js';
 import {
   createServer,
   databaseBuilder,
