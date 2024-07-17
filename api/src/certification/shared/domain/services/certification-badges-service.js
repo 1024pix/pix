@@ -1,12 +1,12 @@
 /**
- * @typedef {import ('../models/CertifiableBadgeAcquisition.js').CertifiableBadgeAcquisition} CertifiableBadgeAcquisition
+ * @typedef {import ('../../../../../lib/domain/models/CertifiableBadgeAcquisition.js').CertifiableBadgeAcquisition} CertifiableBadgeAcquisition
  */
 import bluebird from 'bluebird';
 import _ from 'lodash';
 
-import * as badgeForCalculationRepository from '../../infrastructure/repositories/badge-for-calculation-repository.js';
-import * as certifiableBadgeAcquisitionRepository from '../../infrastructure/repositories/certifiable-badge-acquisition-repository.js';
-import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
+import * as badgeForCalculationRepository from '../../../../../lib/infrastructure/repositories/badge-for-calculation-repository.js';
+import * as certifiableBadgeAcquisitionRepository from '../../../../../lib/infrastructure/repositories/certifiable-badge-acquisition-repository.js';
+import * as knowledgeElementRepository from '../../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
 
 const findStillValidBadgeAcquisitions = async function ({
   userId,
