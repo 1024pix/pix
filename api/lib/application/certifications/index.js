@@ -8,25 +8,6 @@ const register = async function (server) {
   server.route([
     {
       method: 'POST',
-      path: '/api/shared-certifications',
-      config: {
-        validate: {
-          payload: Joi.object({
-            verificationCode: Joi.string().min(10).max(10),
-          }),
-        },
-        auth: false,
-        handler: certificationController.getCertificationByVerificationCode,
-        notes: [
-          "- **Route accessible par n'importe qui**\n" +
-            '- Récupération des informations d’une certification d’un utilisateur' +
-            ' via un code de vérification',
-        ],
-        tags: ['api', 'certifications', 'shared-certifications'],
-      },
-    },
-    {
-      method: 'POST',
       path: '/api/admin/certification/neutralize-challenge',
       config: {
         validate: {

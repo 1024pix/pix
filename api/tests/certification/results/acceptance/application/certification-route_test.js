@@ -409,6 +409,185 @@ describe('Certification | Results | Acceptance | Application | Certification', f
       });
     });
   });
+
+  describe('POST /api/shared-certifications', function () {
+    beforeEach(async function () {
+      ({ session, badge, certificationCourse, assessmentResult } = await _buildDatabaseForV2Certification());
+      databaseBuilder.factory.buildCompetenceMark({
+        level: 3,
+        score: 23,
+        area_code: '1',
+        competence_code: '1.1',
+        assessmentResultId: assessmentResult.id,
+        acquiredComplementaryCertifications: [badge.key],
+      });
+      await databaseBuilder.commit();
+    });
+
+    context('when the given verificationCode is correct', function () {
+      it('should return 200 HTTP status code and the certification', async function () {
+        // given
+        const verificationCode = certificationCourse.verificationCode;
+        options = {
+          method: 'POST',
+          url: '/api/shared-certifications',
+          payload: { verificationCode },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        const expectedBody = {
+          data: {
+            attributes: {
+              birthdate: certificationCourse.birthdate,
+              birthplace: certificationCourse.birthplace,
+              'certification-center': session.certificationCenter,
+              date: certificationCourse.createdAt,
+              'first-name': certificationCourse.firstName,
+              'delivered-at': session.publishedAt,
+              'is-published': certificationCourse.isPublished,
+              'last-name': certificationCourse.lastName,
+              'pix-score': assessmentResult.pixScore,
+              'certified-badge-images': [
+                {
+                  imageUrl: 'http://tarte.fr/mirabelle.png',
+                  isTemporaryBadge: false,
+                  label: 'tarte à la mirabelle',
+                  stickerUrl: 'http://tarte.fr/sticker.png',
+                  message: 'Miam',
+                },
+              ],
+              'max-reachable-level-on-certification-date': certificationCourse.maxReachableLevelOnCertificationDate,
+            },
+            id: `${certificationCourse.id}`,
+            relationships: {
+              'result-competence-tree': {
+                data: {
+                  id: `${certificationCourse.id}-${assessmentResult.id}`,
+                  type: 'result-competence-trees',
+                },
+              },
+            },
+            type: 'certifications',
+          },
+          included: [
+            {
+              attributes: {
+                index: '1.1',
+                level: 3,
+                name: 'Mener une recherche et une veille d’information',
+                score: 23,
+              },
+              id: 'recsvLz0W2ShyfD63',
+              type: 'result-competences',
+            },
+            {
+              attributes: {
+                index: '1.2',
+                level: -1,
+                name: 'Gérer des données',
+                score: 0,
+              },
+              id: 'recNv8qhaY887jQb2',
+              type: 'result-competences',
+            },
+            {
+              attributes: {
+                index: '1.3',
+                level: -1,
+                name: 'Traiter des données',
+                score: 0,
+              },
+              id: 'recIkYm646lrGvLNT',
+              type: 'result-competences',
+            },
+            {
+              attributes: {
+                code: '1',
+                name: '1. Information et données',
+                title: 'Information et données',
+                color: 'jaffa',
+              },
+              id: 'recvoGdo7z2z7pXWa',
+              relationships: {
+                'result-competences': {
+                  data: [
+                    {
+                      id: 'recsvLz0W2ShyfD63',
+                      type: 'result-competences',
+                    },
+                    {
+                      id: 'recNv8qhaY887jQb2',
+                      type: 'result-competences',
+                    },
+                    {
+                      id: 'recIkYm646lrGvLNT',
+                      type: 'result-competences',
+                    },
+                  ],
+                },
+              },
+              type: 'areas',
+            },
+            {
+              attributes: {
+                id: `${certificationCourse.id}-${assessmentResult.id}`,
+              },
+              id: `${certificationCourse.id}-${assessmentResult.id}`,
+              relationships: {
+                areas: {
+                  data: [
+                    {
+                      id: 'recvoGdo7z2z7pXWa',
+                      type: 'areas',
+                    },
+                  ],
+                },
+              },
+              type: 'result-competence-trees',
+            },
+          ],
+        };
+        expect(response.statusCode).to.equal(200);
+        expect(response.result).to.deep.equal(expectedBody);
+      });
+    });
+
+    context('when the given verificationCode is incorrect', function () {
+      it('should return 500 HTTP status code when param is missing', async function () {
+        // given
+        options = {
+          method: 'POST',
+          url: '/api/shared-certifications',
+          payload: {},
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(500);
+      });
+
+      it('should return notFound 404 HTTP status code when param is incorrect', async function () {
+        // given
+        const verificationCode = 'P-12345678';
+        options = {
+          method: 'POST',
+          url: '/api/shared-certifications',
+          payload: { verificationCode },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(404);
+      });
+    });
+  });
 });
 
 async function _buildDatabaseForV2Certification() {
