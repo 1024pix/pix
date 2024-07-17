@@ -403,14 +403,14 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
 
           expect(errors).lengthOf(2);
           expect(errors[0]).instanceOf(CsvImportError);
-          expect(errors[0].code).to.equal(VALIDATION_ERRORS.FIELD_NOT_MATCH_EXPECTED_VALUES);
+          expect(errors[0].code).to.equal(VALIDATION_ERRORS.FIELD_BAD_VALUES);
           expect(errors[0].meta.field).to.equal('Cycle');
           expect(errors[0].meta.line).to.equal(2);
-          expect(errors[0].meta.acceptedFormat).to.deep.equal(['Cycle III']);
-          expect(errors[1].code).to.equal(VALIDATION_ERRORS.FIELD_NOT_MATCH_EXPECTED_VALUES);
+          expect(errors[0].meta.valids).to.deep.equal(['Cycle III']);
+          expect(errors[1].code).to.equal(VALIDATION_ERRORS.FIELD_BAD_VALUES);
           expect(errors[1].meta.field).to.equal('Niveau');
           expect(errors[1].meta.line).to.equal(2);
-          expect(errors[1].meta.acceptedFormat).to.deep.equal(['CM1', 'CM2']);
+          expect(errors[1].meta.valids).to.deep.equal(['CM1', 'CM2']);
         });
 
         it('should throw date error when the format is not respected', async function () {

@@ -92,7 +92,7 @@ class EntityValidationError extends DomainError {
 }
 
 class ModelValidationError extends DomainError {
-  constructor({ code, key, format }) {
+  constructor({ code, key, format, valids }) {
     super("Échec de validation de l'entité.");
 
     if (code === VALIDATION_ERRORS.PROPERTY_NOT_UNIQ) {
@@ -104,9 +104,9 @@ class ModelValidationError extends DomainError {
       this.acceptedFormat = format;
     }
 
-    if (code === VALIDATION_ERRORS.FIELD_NOT_MATCH_EXPECTED_VALUES) {
-      this.why = 'field_not_match_expected_values';
-      this.acceptedFormat = format;
+    if (code === VALIDATION_ERRORS.FIELD_BAD_VALUES) {
+      this.why = 'field_bad_values';
+      this.valids = valids;
     }
 
     if (code === VALIDATION_ERRORS.FIELD_REQUIRED) {
@@ -136,7 +136,7 @@ class ModelValidationError extends DomainError {
   }
 
   static fromJoiError(joiError) {
-    let code, key, format;
+    let code, key, format, valids;
     if (joiError.type === 'date.format') {
       code = VALIDATION_ERRORS.FIELD_DATE_FORMAT;
       key = joiError.context.key;
@@ -149,9 +149,9 @@ class ModelValidationError extends DomainError {
     }
 
     if (joiError.type === 'any.only') {
-      code = VALIDATION_ERRORS.FIELD_NOT_MATCH_EXPECTED_VALUES;
+      code = VALIDATION_ERRORS.FIELD_BAD_VALUES;
       key = joiError.context.key;
-      format = joiError.context.valids;
+      valids = joiError.context.valids;
     }
 
     if (joiError.type === 'string.base') {
@@ -171,7 +171,7 @@ class ModelValidationError extends DomainError {
       format = joiError.context.limit;
     }
 
-    return new ModelValidationError({ code, key, format });
+    return new ModelValidationError({ code, key, format, valids });
   }
 }
 
