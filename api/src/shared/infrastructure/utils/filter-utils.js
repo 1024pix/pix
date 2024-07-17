@@ -1,4 +1,4 @@
-import { knex } from '../../../db/knex-database-connection.js';
+import { knex } from '../../../../db/knex-database-connection.js';
 
 const DISTANCE = 0.8;
 

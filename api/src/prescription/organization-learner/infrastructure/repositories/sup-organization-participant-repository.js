@@ -1,9 +1,9 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { filterByFullName } from '../../../../../lib/infrastructure/utils/filter-utils.js';
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
 } from '../../../../../src/prescription/shared/domain/constants.js';
+import { filterByFullName } from '../../../../shared/infrastructure/utils/filter-utils.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
 import { SupOrganizationParticipant } from '../../domain/read-models/SupOrganizationParticipant.js';
 
