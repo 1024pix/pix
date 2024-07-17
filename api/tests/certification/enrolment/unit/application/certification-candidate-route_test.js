@@ -1,7 +1,7 @@
-import { authorization } from '../../../../../lib/application/preHandlers/authorization.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { certificationCandidateController } from '../../../../../src/certification/enrolment/application/certification-candidate-controller.js';
 import * as moduleUnderTest from '../../../../../src/certification/enrolment/application/certification-candidate-route.js';
+import { authorization } from '../../../../../src/certification/shared/application/pre-handlers/authorization.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 

@@ -1,6 +1,6 @@
-import * as sessionRepository from '../../../src/certification/session-management/infrastructure/repositories/session-repository.js';
-import * as certificationCourseRepository from '../../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
-import { NotFoundError } from '../http-errors.js';
+import { NotFoundError } from '../../../../shared/application/http-errors.js';
+import * as sessionRepository from '../../../session-management/infrastructure/repositories/session-repository.js';
+import * as certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository.js';
 
 const verifySessionAuthorization = (request, h, dependencies = { sessionRepository }) => {
   const userId = request.auth.credentials.userId;
