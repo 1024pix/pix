@@ -11,4 +11,5 @@ const deserialize = function (payload) {
   });
 };
 
-export { deserialize };
+const emailVerificationSerializer = { deserialize };
+export { emailVerificationSerializer };
