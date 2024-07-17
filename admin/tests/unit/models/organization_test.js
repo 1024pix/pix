@@ -10,7 +10,7 @@ module('Unit | Model | organization', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const model = store.createRecord('organization', {
-          features: { ['COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY']: true },
+          features: { ['COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY']: { active: true } },
         });
 
         // when
@@ -24,7 +24,7 @@ module('Unit | Model | organization', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const model = store.createRecord('organization', {
-          features: { ['COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY']: false },
+          features: { ['COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY']: { active: false } },
         });
 
         // when
@@ -54,7 +54,7 @@ module('Unit | Model | organization', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const model = store.createRecord('organization', {
-          features: { ['PLACES_MANAGEMENT']: true },
+          features: { ['PLACES_MANAGEMENT']: { active: true } },
         });
 
         // when
@@ -67,7 +67,7 @@ module('Unit | Model | organization', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const model = store.createRecord('organization', {
-          features: { ['PLACES_MANAGEMENT']: false },
+          features: { ['PLACES_MANAGEMENT']: { active: false } },
         });
 
         // when
@@ -94,7 +94,7 @@ module('Unit | Model | organization', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const model = store.createRecord('organization', {
-          features: { ['PLACES_MANAGEMENT']: false },
+          features: { ['PLACES_MANAGEMENT']: { active: false } },
         });
 
         // when
@@ -108,7 +108,7 @@ module('Unit | Model | organization', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const model = store.createRecord('organization', {
-          features: { ['PLACES_MANAGEMENT']: true },
+          features: { ['PLACES_MANAGEMENT']: { active: true } },
         });
         // when
         model.isPlacesManagementEnabled = false;
@@ -138,7 +138,7 @@ module('Unit | Model | organization', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const model = store.createRecord('organization', {
-          features: { ['MULTIPLE_SENDING_ASSESSMENT']: true },
+          features: { ['MULTIPLE_SENDING_ASSESSMENT']: { active: true } },
         });
 
         // when
@@ -151,7 +151,7 @@ module('Unit | Model | organization', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const model = store.createRecord('organization', {
-          features: { ['MULTIPLE_SENDING_ASSESSMENT']: false },
+          features: { ['MULTIPLE_SENDING_ASSESSMENT']: { active: false } },
         });
 
         // when
@@ -178,7 +178,7 @@ module('Unit | Model | organization', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const model = store.createRecord('organization', {
-          features: { ['MULTIPLE_SENDING_ASSESSMENT']: false },
+          features: { ['MULTIPLE_SENDING_ASSESSMENT']: { active: false } },
         });
 
         // when
@@ -192,7 +192,7 @@ module('Unit | Model | organization', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const model = store.createRecord('organization', {
-          features: { ['MULTIPLE_SENDING_ASSESSMENT']: true },
+          features: { ['MULTIPLE_SENDING_ASSESSMENT']: { active: true } },
         });
         // when
         model.isMultipleSendingAssessmentEnabled = false;

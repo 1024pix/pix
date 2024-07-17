@@ -286,9 +286,16 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
         organizationId: organization.id,
       });
 
-      const featureId = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT).id;
+      const featureId = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.LEARNER_IMPORT).id;
+      const organizationLearnerImportFormatId = databaseBuilder.factory.buildOrganizationLearnerImportFormat({
+        name: 'BIDON',
+      }).id;
       databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY).id;
-      databaseBuilder.factory.buildOrganizationFeature({ organizationId: organization.id, featureId });
+      databaseBuilder.factory.buildOrganizationFeature({
+        organizationId: organization.id,
+        featureId,
+        params: { organizationLearnerImportFormatId },
+      });
 
       await databaseBuilder.commit();
 
@@ -326,8 +333,8 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
         creatorLastName: 'Encieux',
         identityProviderForCampaigns: 'genericOidcProviderCode',
         features: {
-          [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: false,
-          [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
+          [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: { active: false },
+          [ORGANIZATION_FEATURE.LEARNER_IMPORT.key]: { active: true, params: { name: 'BIDON' } },
         },
         parentOrganizationId: parentOrganization.id,
         parentOrganizationName: 'Mother Of Dark Side',
@@ -345,6 +352,85 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
       // then
       expect(error).to.be.an.instanceof(NotFoundError);
       expect(error.message).to.equal('Not found organization for ID 10083');
+    });
+
+    describe('when the import feature is not active', function () {
+      it('should return an organization with import feature with empty params', async function () {
+        // given
+        const superAdminUser = databaseBuilder.factory.buildUser({ firstName: 'Cécile', lastName: 'Encieux' });
+        const organization = databaseBuilder.factory.buildOrganization({
+          type: 'SCO',
+          name: 'Organization of the dark side',
+          logoUrl: 'some logo url',
+          credit: 154,
+          externalId: '100',
+          provinceCode: '75',
+          isManagingStudents: false,
+          email: 'sco.generic.account@example.net',
+          documentationUrl: 'https://pix.fr/',
+          createdBy: superAdminUser.id,
+          createdAt: now,
+          showNPS: true,
+          formNPSUrl: 'https://pix.fr/',
+          showSkills: false,
+          identityProviderForCampaigns: 'genericOidcProviderCode',
+        });
+
+        databaseBuilder.factory.buildDataProtectionOfficer.withOrganizationId({
+          firstName: 'Justin',
+          lastName: 'Ptipeu',
+          email: 'justin.ptipeu@example.net',
+          organizationId: organization.id,
+        });
+
+        databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.LEARNER_IMPORT).id;
+        databaseBuilder.factory.buildOrganizationLearnerImportFormat({
+          name: 'BIDON',
+        }).id;
+
+        await databaseBuilder.commit();
+
+        // when
+        const foundOrganizationForAdmin = await organizationForAdminRepository.get(organization.id);
+
+        // then
+        const expectedOrganizationForAdmin = new OrganizationForAdmin({
+          id: organization.id,
+          type: 'SCO',
+          name: 'Organization of the dark side',
+          logoUrl: 'some logo url',
+          credit: 154,
+          externalId: '100',
+          provinceCode: '75',
+          isManagingStudents: false,
+          email: 'sco.generic.account@example.net',
+          students: [],
+          targetProfileShares: [],
+          organizationInvitations: [],
+          tags: [],
+          documentationUrl: 'https://pix.fr/',
+          createdBy: organization.createdBy,
+          createdAt: now,
+          showNPS: true,
+          formNPSUrl: 'https://pix.fr/',
+          showSkills: false,
+          archivedAt: null,
+          archivistFirstName: null,
+          archivistLastName: null,
+          dataProtectionOfficerFirstName: 'Justin',
+          dataProtectionOfficerLastName: 'Ptipeu',
+          dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
+          creatorFirstName: 'Cécile',
+          creatorLastName: 'Encieux',
+          identityProviderForCampaigns: 'genericOidcProviderCode',
+          features: {
+            [ORGANIZATION_FEATURE.LEARNER_IMPORT.key]: { active: false, params: null },
+          },
+          parentOrganizationId: null,
+          parentOrganizationName: null,
+        });
+        expect(foundOrganizationForAdmin).to.deep.equal(expectedOrganizationForAdmin);
+      });
     });
 
     describe('when the organization has associated tags', function () {
@@ -437,7 +523,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           creatorLastName: superAdminUser.lastName,
           identityProviderForCampaigns: null,
           features: {
-            [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: false,
+            [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: { active: false, params: null },
           },
           parentOrganizationId: null,
           parentOrganizationName: null,
@@ -546,7 +632,8 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
         id: organization.id,
         documentationUrl: 'https://pix.fr/',
         features: {
-          [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
+          [ORGANIZATION_FEATURE.LEARNER_IMPORT.key]: { active: false },
+          [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: { active: true },
         },
       });
       await organizationForAdminRepository.update(organizationToUpdate);
@@ -610,7 +697,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
         id: organization.id,
         documentationUrl: 'https://pix.fr/',
         features: {
-          [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: false,
+          [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: { active: false },
         },
       });
       await organizationForAdminRepository.update(organizationToUpdate);

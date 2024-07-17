@@ -11,7 +11,14 @@ module('Unit | Component | organizations/information-section-edit', function (ho
     test('it should set identityProviderForCampaigns to null', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const organization = store.createRecord('organization', { id: 1 });
+      const organization = store.createRecord('organization', {
+        id: 1,
+        features: {
+          PLACES_MANAGEMENT: { active: false },
+          MULTIPLE_SENDING_ASSESSMENT: { active: false },
+          COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY: { active: false },
+        },
+      });
       const component = createGlimmerComponent('component:organizations/information-section-edit', {
         organization,
         toggleEditMode: sinon.stub(),

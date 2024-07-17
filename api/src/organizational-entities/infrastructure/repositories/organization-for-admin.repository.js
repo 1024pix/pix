@@ -118,7 +118,11 @@ const get = async function (id, domainTransaction = DomainTransaction.emptyTrans
     .where('organization-tags.organizationId', organization.id);
 
   const availableFeatures = await knexConn('features')
-    .select('key', knex.raw('"organization-features"."organizationId" IS NOT NULL as enabled'))
+    .select(
+      'key',
+      'organization-features.params',
+      knex.raw('"organization-features"."organizationId" IS NOT NULL as enabled'),
+    )
     .leftJoin(ORGANIZATION_FEATURES_TABLE_NAME, function () {
       this.on('features.id', 'organization-features.featureId').andOn(
         'organization-features.organizationId',
@@ -126,10 +130,22 @@ const get = async function (id, domainTransaction = DomainTransaction.emptyTrans
       );
     });
 
-  organization.features = availableFeatures.reduce(
-    (features, { key, enabled }) => ({ ...features, [key]: enabled }),
-    {},
-  );
+  const importFormats = await knex('organization-learner-import-formats');
+
+  organization.features = availableFeatures.reduce((features, { key, enabled, params }) => {
+    if (key === ORGANIZATION_FEATURE.LEARNER_IMPORT.key) {
+      return {
+        ...features,
+        [key]: {
+          active: enabled,
+          params: enabled
+            ? { name: importFormats.find(({ id }) => params.organizationLearnerImportFormatId === id).name }
+            : null,
+        },
+      };
+    }
+    return { ...features, [key]: { active: enabled, params: null } };
+  }, {});
 
   organization.tags = tags.map((tag) => {
     return new Tag(tag);
@@ -211,7 +227,6 @@ const update = async function (organization, domainTransaction = DomainTransacti
  * @property {save} save
  * @property {update} update
  */
-export const organizationForAdminRepository = { archive, exist, findChildrenByParentOrganizationId, get, save, update };
 
 async function _addOrUpdateDataProtectionOfficer(knexConn, dataProtectionOfficer) {
   await knexConn(DATA_PROTECTION_OFFICERS_TABLE_NAME)
@@ -233,7 +248,7 @@ async function _disableFeatures(knexConn, features, organizationId) {
     .where('organization-features.organizationId', organizationId)
     .whereIn(
       'features.key',
-      _.keys(features).filter((key) => features[key] === false),
+      _.keys(features).filter((key) => features[key].active === false),
     )
     .delete();
 }
@@ -245,7 +260,7 @@ async function _enableFeatures(knexConn, featuresToEnable, organizationId) {
   await knexConn(ORGANIZATION_FEATURES_TABLE_NAME)
     .insert(
       _.keys(featuresToEnable)
-        .filter((key) => featuresToEnable[key])
+        .filter((key) => featuresToEnable[key].active)
         .map((key) => ({
           organizationId,
           featureId: features.find((feature) => feature.key === key).id,
@@ -258,7 +273,7 @@ async function _enableFeatures(knexConn, featuresToEnable, organizationId) {
 
 function _paramsForFeature(importFormats, key, value) {
   if (key === ORGANIZATION_FEATURE.LEARNER_IMPORT.key) {
-    const learnerImportFormat = importFormats.find(({ name }) => name === value);
+    const learnerImportFormat = importFormats.find(({ name }) => name === value.params.name);
     return { organizationLearnerImportFormatId: learnerImportFormat.id };
   }
 }
@@ -306,3 +321,5 @@ function _toDomain(rawOrganization) {
 
   return organization;
 }
+
+export const organizationForAdminRepository = { archive, exist, findChildrenByParentOrganizationId, get, save, update };
