@@ -9,10 +9,8 @@
   {{/if}}
 </div>
 
-<form style="margin-left: 200px">
+<form style="margin-left: 200px" {{on "answer" this.handleAnswer}}>
   <div>
-    {{! template-lint-disable no-invalid-interactive }}
-    <pix-fruits-qcm id="mon-qcm" {{on "PixFruitsQcmChanges" this.triggerAction}}></pix-fruits-qcm>
-
+    {{html-unsafe this.fragment}}
   </div>
 </form>

@@ -1,38 +1,34 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Pix</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Pix</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-pix_app.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-pix_app.png" />
 
-  <meta name="theme-color" content="#ffffff">
+    <meta name="theme-color" content="#ffffff" />
 
-  {{content-for "head"}}
+    {{content-for "head"}}
 
-  <link integrity="" rel="stylesheet" href="{{rootURL}}assets/vendor.css">
-  <link integrity="" rel="stylesheet" href="{{rootURL}}assets/mon-pix.css">
+    <link integrity="" rel="stylesheet" href="{{rootURL}}assets/vendor.css" />
+    <link integrity="" rel="stylesheet" href="{{rootURL}}assets/mon-pix.css" />
 
-  {{content-for "head-footer"}}
-</head>
-<body>
+    {{content-for "head-footer"}}
+  </head>
+  <body>
+    {{content-for "body"}}
 
-{{content-for "body"}}
+    <div id="app-splash" style="width: 100vw; height: 100vh; text-align: center">
+      <div class="app-loader">
+        <p class="app-loader__image"><img src="/images/interwind.gif" alt="" /></p>
+      </div>
+    </div>
 
-<div id="app-splash" style="width: 100vw; height: 100vh; text-align: center;">
-  <div class="app-loader">
-    <p class="app-loader__image"><img src="/images/interwind.gif" alt=""></p>
-  </div>
-</div>
-
-<script src="{{rootURL}}assets/vendor.js"></script>
-<script src="{{rootURL}}assets/mon-pix.js"></script>
-<script
-  type="module"
-  src="https://cdn.jsdelivr.net/gh/1024pix/pix-ui-webcomponents@dfe77bdac1d0a7701e4ff6f40a85e3290431fd0b/dist/pix-ui.js"
-></script>
-{{content-for "body-footer"}}
-</body>
+    <script src="{{rootURL}}assets/vendor.js"></script>
+    <script src="{{rootURL}}assets/mon-pix.js"></script>
+    <script type="module" src="https://epreuves-pr1787.review.pix.fr/webcomponent/index.js"></script>
+    {{content-for "body-footer"}}
+  </body>
 </html>
