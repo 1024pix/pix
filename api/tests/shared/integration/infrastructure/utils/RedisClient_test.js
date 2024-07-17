@@ -3,9 +3,9 @@ import { randomUUID } from 'node:crypto';
 import bluebird from 'bluebird';
 import Redis from 'ioredis';
 
-import { RedisClient } from '../../../../lib/infrastructure/utils/RedisClient.js';
-import { config } from '../../../../src/shared/config.js';
-import { expect } from '../../../test-helper.js';
+import { config } from '../../../../../src/shared/config.js';
+import { RedisClient } from '../../../../../src/shared/infrastructure/utils/RedisClient.js';
+import { expect } from '../../../../test-helper.js';
 
 const { using } = bluebird;
 
