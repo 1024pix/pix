@@ -1,6 +1,5 @@
 import Joi from 'joi';
 
-import { userController as srcUserController } from '../../../src/identity-access-management/application/user/user.controller.js';
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { SUPPORTED_LOCALES } from '../../../src/shared/domain/constants.js';
 import { EntityValidationError } from '../../../src/shared/domain/errors.js';
@@ -704,41 +703,6 @@ const register = async function (server) {
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         ],
         tags: ['api', 'user', 'scorecard'],
-      },
-    },
-
-    {
-      method: 'PUT',
-      path: '/api/users/{id}/email/verification-code',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.userId,
-          }),
-          payload: Joi.object({
-            data: {
-              type: Joi.string().valid('email-verification-codes').required(),
-              attributes: {
-                'new-email': Joi.string().email().required(),
-                password: Joi.string().required(),
-              },
-            },
-          }),
-          failAction: (request, h, error) => {
-            return EntityValidationError.fromJoiErrors(error.details);
-          },
-        },
-        pre: [
-          {
-            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-            assign: 'requestedUserIsAuthenticatedUser',
-          },
-        ],
-        handler: srcUserController.sendVerificationCode,
-        notes: [
-          '- Permet à un utilisateur de recevoir un code de vérification pour la validation de son adresse mail.',
-        ],
-        tags: ['api', 'user', 'verification-code'],
       },
     },
   ]);
