@@ -53,7 +53,7 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
     };
 
     const input = `prénom
-      Éçéà niño véga`;
+      Éçéà niño vé€g$êa‘£ë`;
 
     it('should throw an error if there is no acceptedEncoding', async function () {
       // given
@@ -76,6 +76,24 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
       const call = () => parser.getEncoding();
       // then
       expect(call).to.not.throw();
+    });
+    it('should not throw an error if encoding is included in multiple supported encoding', async function () {
+      // given
+      const encodedInput = iconv.encode(input, 'utf8');
+      const parser = CommonCsvLearnerParser.buildParser({
+        buffer: encodedInput,
+        importFormat: {
+          config: {
+            headers: importFormat.config.headers,
+            acceptedEncoding: ['iso-8859-1', 'utf8'],
+          },
+        },
+      });
+
+      // when
+      const result = parser.getEncoding();
+      // then
+      expect(result).to.equal('utf8');
     });
   });
 

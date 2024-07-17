@@ -119,9 +119,9 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
         ]);
         expect(errors).to.lengthOf(1);
         expect(errors[0]).to.be.an.instanceOf(ModelValidationError);
-        expect(errors[0].code).to.equal('FIELD_NOT_MATCH_EXPECTED_VALUES');
+        expect(errors[0].code).to.equal('FIELD_BAD_VALUES');
         expect(errors[0].key).to.equal('nom');
-        expect(errors[0].acceptedFormat).to.deep.equal(expectedValues);
+        expect(errors[0].valids).to.deep.equal(expectedValues);
       });
       it('Should not throw an error if the value corresponding to the expected value', async function () {
         const expectedValues = ['Theotime', 'Theo-a-pas-le-time'];
