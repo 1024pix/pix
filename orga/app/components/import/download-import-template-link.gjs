@@ -13,8 +13,12 @@ export default class DownloadImportTemplateLink extends Component {
     return `${ENV.APP.API_HOST}/api/organizations/${this.currentUser.organization.id}/organization-learners/csv-template?accessToken=${this.session.data.authenticated.access_token}&lang=${this.intl.primaryLocale}`;
   }
 
+  get showLink() {
+    return this.currentUser.hasLearnerImportFeature || this.currentUser.isSUPManagingStudents;
+  }
+
   <template>
-    {{#if this.currentUser.isAdminInOrganization}}
+    {{#if this.showLink}}
       <PixButtonLink
         @href={{this.urlToDownloadCsvTemplate}}
         @variant="secondary"

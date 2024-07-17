@@ -2,9 +2,7 @@ import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
-import ENV from 'pix-orga/config/environment';
 import { module, test } from 'qunit';
-import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
@@ -49,27 +47,6 @@ module('Integration | Component | SupOrganizationParticipant::HeaderActions', fu
         };
       }
       this.owner.register('service:current-user', CurrentUserStub);
-    });
-
-    test('it should display download template button', async function (assert) {
-      const session = this.owner.lookup('service:session');
-      sinon.stub(session, 'data').value({
-        authenticated: {
-          access_token: 'something',
-        },
-      });
-
-      // when
-      const screen = await render(hbs`<SupOrganizationParticipant::HeaderActions />`);
-
-      // then
-      const link = screen.getByText(t('pages.sup-organization-participants.actions.download-template'));
-      assert
-        .dom(link)
-        .hasAttribute(
-          'href',
-          `${ENV.APP.API_HOST}/api/organizations/1/organization-learners/csv-template?accessToken=something&lang=${this.intl.primaryLocale}`,
-        );
     });
 
     test('it displays the import button', async function (assert) {

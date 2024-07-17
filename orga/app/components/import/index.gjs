@@ -8,6 +8,7 @@ import UiPixLoader from '../ui/pix-loader';
 import ScoOrganizationParticipantAdd from './add-sco';
 import SupOrganizationParticipantAdd from './add-sup';
 import ImportBanner from './banner';
+import DownloadImportTemplateLink from './download-import-template-link';
 import SupOrganizationParticipantReplace from './replace-sup';
 
 export default class Import extends Component {
@@ -103,6 +104,7 @@ export default class Import extends Component {
         <h1>
           {{t this.textsByOrganizationType.title}}
         </h1>
+        <DownloadImportTemplateLink />
       </header>
 
       <ImportBanner
