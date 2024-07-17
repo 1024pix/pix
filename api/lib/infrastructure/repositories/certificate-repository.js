@@ -2,39 +2,9 @@ import _ from 'lodash';
 
 import { knex } from '../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../lib/domain/errors.js';
-import { CertifiedBadge } from '../../../lib/domain/read-models/CertifiedBadge.js';
-import {
-  AssessmentResult,
-  CompetenceMark,
-  PrivateCertificate,
-  ResultCompetenceTree,
-  ShareableCertificate,
-} from '../../domain/models/index.js';
+import { CertifiedBadge } from '../../../src/certification/results/domain/read-models/CertifiedBadge.js';
+import { AssessmentResult, ResultCompetenceTree, ShareableCertificate } from '../../domain/models/index.js';
 import * as competenceTreeRepository from './competence-tree-repository.js';
-
-const getPrivateCertificate = async function (id, { locale } = {}) {
-  const certificationCourseDTO = await _selectPrivateCertificates()
-    .where('certification-courses.id', '=', id)
-    .groupBy('certification-courses.id', 'sessions.id', 'assessment-results.id')
-    .where('certification-courses.isPublished', true)
-    .where('certification-courses.isCancelled', false)
-    .where('assessment-results.status', AssessmentResult.status.VALIDATED)
-    .first();
-
-  if (!certificationCourseDTO) {
-    throw new NotFoundError(`Certificate not found for ID ${id}`);
-  }
-
-  const certifiedBadges = await _getCertifiedBadges(id);
-
-  const competenceTree = await competenceTreeRepository.get({ locale });
-
-  return _toDomainForPrivateCertificate({
-    certificationCourseDTO,
-    competenceTree,
-    certifiedBadges,
-  });
-};
 
 const getShareableCertificateByVerificationCode = async function (verificationCode, { locale } = {}) {
   const shareableCertificateDTO = await _selectShareableCertificates()
@@ -53,7 +23,7 @@ const getShareableCertificateByVerificationCode = async function (verificationCo
   return _toDomainForShareableCertificate({ shareableCertificateDTO, competenceTree, certifiedBadges });
 };
 
-export { getPrivateCertificate, getShareableCertificateByVerificationCode };
+export { getShareableCertificateByVerificationCode };
 
 async function _getCertifiedBadges(certificationCourseId) {
   const complementaryCertificationCourseResults = await knex
@@ -90,34 +60,6 @@ async function _getCertifiedBadges(certificationCourseId) {
     .orderBy('badges.key');
 
   return CertifiedBadge.fromComplementaryCertificationCourseResults(complementaryCertificationCourseResults);
-}
-
-function _selectPrivateCertificates() {
-  return _getCertificateQuery().select({
-    id: 'certification-courses.id',
-    firstName: 'certification-courses.firstName',
-    lastName: 'certification-courses.lastName',
-    birthdate: 'certification-courses.birthdate',
-    birthplace: 'certification-courses.birthplace',
-    isPublished: 'certification-courses.isPublished',
-    isCancelled: 'certification-courses.isCancelled',
-    userId: 'certification-courses.userId',
-    date: 'certification-courses.createdAt',
-    verificationCode: 'certification-courses.verificationCode',
-    deliveredAt: 'sessions.publishedAt',
-    certificationCenter: 'sessions.certificationCenter',
-    maxReachableLevelOnCertificationDate: 'certification-courses.maxReachableLevelOnCertificationDate',
-    pixScore: 'assessment-results.pixScore',
-    commentForCandidate: 'assessment-results.commentForCandidate',
-    commentByAutoJury: 'assessment-results.commentByAutoJury',
-    assessmentResultStatus: 'assessment-results.status',
-    assessmentResultId: 'assessment-results.id',
-    competenceMarks: knex.raw(`
-        json_agg(
-          json_build_object('score', "competence-marks".score, 'level', "competence-marks".level, 'competence_code', "competence-marks"."competence_code")
-          ORDER BY "competence-marks"."competence_code" asc
-        )`),
-  });
 }
 
 function _selectShareableCertificates() {
@@ -163,32 +105,6 @@ function _getCertificateQuery() {
       'certification-courses-last-assessment-results.lastAssessmentResultId',
     )
     .leftJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id');
-}
-
-function _toDomainForPrivateCertificate({ certificationCourseDTO, competenceTree, certifiedBadges = [] }) {
-  if (competenceTree) {
-    const competenceMarks = _.compact(certificationCourseDTO.competenceMarks).map(
-      (competenceMark) => new CompetenceMark({ ...competenceMark }),
-    );
-
-    const resultCompetenceTree = ResultCompetenceTree.generateTreeFromCompetenceMarks({
-      competenceTree,
-      competenceMarks,
-      certificationId: certificationCourseDTO.id,
-      assessmentResultId: certificationCourseDTO.assessmentResultId,
-    });
-
-    return PrivateCertificate.buildFrom({
-      ...certificationCourseDTO,
-      resultCompetenceTree,
-      certifiedBadgeImages: certifiedBadges,
-    });
-  }
-
-  return PrivateCertificate.buildFrom({
-    ...certificationCourseDTO,
-    certifiedBadgeImages: certifiedBadges,
-  });
 }
 
 function _toDomainForShareableCertificate({ shareableCertificateDTO, competenceTree, certifiedBadges }) {

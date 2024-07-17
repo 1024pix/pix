@@ -7,10 +7,10 @@ import {
   PrivateCertificate,
   ResultCompetenceTree,
 } from '../../../../../lib/domain/models/index.js';
-import { CertifiedBadge } from '../../../../../lib/domain/read-models/CertifiedBadge.js';
 import * as competenceTreeRepository from '../../../../../lib/infrastructure/repositories/competence-tree-repository.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CertificationAttestation } from '../../domain/models/CertificationAttestation.js';
+import { CertifiedBadge } from '../../domain/read-models/CertifiedBadge.js';
 
 const findByDivisionForScoIsManagingStudentsOrganization = async function ({ organizationId, division }) {
   const certificationCourseDTOs = await _selectCertificationAttestations()
@@ -79,10 +79,35 @@ const findPrivateCertificatesByUserId = async function ({ userId }) {
   return privateCertificates;
 };
 
+const getPrivateCertificate = async function (id, { locale } = {}) {
+  const certificationCourseDTO = await _selectPrivateCertificates()
+    .where('certification-courses.id', '=', id)
+    .groupBy('certification-courses.id', 'sessions.id', 'assessment-results.id')
+    .where('certification-courses.isPublished', true)
+    .where('certification-courses.isCancelled', false)
+    .where('assessment-results.status', AssessmentResult.status.VALIDATED)
+    .first();
+
+  if (!certificationCourseDTO) {
+    throw new NotFoundError(`Certificate not found for ID ${id}`);
+  }
+
+  const certifiedBadges = await _getCertifiedBadges(id);
+
+  const competenceTree = await competenceTreeRepository.get({ locale });
+
+  return _toDomainForPrivateCertificate({
+    certificationCourseDTO,
+    competenceTree,
+    certifiedBadges,
+  });
+};
+
 export {
   findByDivisionForScoIsManagingStudentsOrganization,
   findPrivateCertificatesByUserId,
   getCertificationAttestation,
+  getPrivateCertificate,
 };
 
 function _selectCertificationAttestations() {

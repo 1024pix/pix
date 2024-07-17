@@ -1,8 +1,8 @@
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { getPrivateCertificate } from '../../../../lib/domain/usecases/certificate/get-private-certificate.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { getPrivateCertificate } from '../../../../../../src/certification/results/domain/usecases/get-private-certificate.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | UseCase | getPrivateCertificate', function () {
+describe('Certification | Results | Unit | Domain | UseCases | getPrivateCertificate', function () {
   const certificateRepository = {
     getPrivateCertificate: () => undefined,
   };
