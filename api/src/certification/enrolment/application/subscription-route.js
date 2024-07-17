@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
-import { certificationCandidatesController } from '../../../../lib/application/certification-candidates/certification-candidates-controller.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { subscriptionController } from './subscription-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -14,7 +14,7 @@ const register = async function (server) {
             id: identifiersType.certificationCandidateId,
           }),
         },
-        handler: certificationCandidatesController.getSubscription,
+        handler: subscriptionController.getSubscription,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
             "- Renvoie les informations d'inscription et d'élligibilité au passage de la certification complémentaire d'un candidat",

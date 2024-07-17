@@ -1,5 +1,4 @@
 import { usecases } from '../../domain/usecases/index.js';
-import * as certificationCandidateSubscriptionSerializer from '../../infrastructure/serializers/jsonapi/certification-candidate-subscription-serializer.js';
 
 const authorizeToStart = async function (request, h) {
   const certificationCandidateForSupervisingId = request.params.id;
@@ -23,14 +22,6 @@ const authorizeToResume = async function (request, h) {
   return h.response().code(204);
 };
 
-const getSubscription = async function (request) {
-  const certificationCandidateId = request.params.id;
-  const certificationCandidateSubscription = await usecases.getCertificationCandidateSubscription({
-    certificationCandidateId,
-  });
-  return certificationCandidateSubscriptionSerializer.serialize(certificationCandidateSubscription);
-};
-
 const endAssessmentBySupervisor = async function (request) {
   const certificationCandidateId = request.params.id;
 
@@ -42,7 +33,6 @@ const endAssessmentBySupervisor = async function (request) {
 const certificationCandidatesController = {
   authorizeToStart,
   authorizeToResume,
-  getSubscription,
   endAssessmentBySupervisor,
 };
 
