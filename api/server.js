@@ -28,6 +28,7 @@ import { campaignParticipationsRoutes } from './src/prescription/campaign-partic
 import { learnerManagementRoutes } from './src/prescription/learner-management/routes.js';
 import { organizationLearnerRoutes } from './src/prescription/organization-learner/routes.js';
 import { organizationPlaceRoutes } from './src/prescription/organization-place/routes.js';
+import { coverRateRoutes } from './src/prescription/results/routes.js';
 import { targetProfileRoutes } from './src/prescription/target-profile/routes.js';
 import { schoolRoutes } from './src/school/routes.js';
 import { plugins } from './src/shared/infrastructure/plugins/index.js';
@@ -52,6 +53,7 @@ const prescriptionRoutes = [
   campaignRoutes,
   organizationPlaceRoutes,
   campaignParticipationsRoutes,
+  coverRateRoutes,
 ];
 
 monitoringTools.installHapiHook();
