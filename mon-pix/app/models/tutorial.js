@@ -17,8 +17,8 @@ export default class Tutorial extends Model {
 
   // includes
   @belongsTo('scorecard', { async: true, inverse: 'tutorials' }) scorecard;
-  @belongsTo('userSavedTutorial', { inverse: 'tutorial', async: false }) userSavedTutorial;
-  @belongsTo('tutorialEvaluation', { inverse: 'tutorial', async: false }) tutorialEvaluation;
+  @belongsTo('user-saved-tutorial', { inverse: 'tutorial', async: false }) userSavedTutorial;
+  @belongsTo('tutorial-evaluation', { inverse: 'tutorial', async: false }) tutorialEvaluation;
 
   @computed('userSavedTutorial')
   get isSaved() {
