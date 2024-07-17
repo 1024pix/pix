@@ -39,7 +39,7 @@
       "grainId": "018ad06a-f11c-4db3-b954-ac8a6466d947"
     },
     {
-      "content":"<p>Pour terminer ce module, vous allez devoir relever quelques défis à l'aide de l'arène.</p>",
+      "content":"<p>Pour terminer ce module, vous allez devoir relever quelques défis à l'aide de l'arène.<span aria-hidden=\"true\">💫</span></p>",
       "grainId": "91b54b81-5b7c-4daa-9e2f-67b7a714fd9e"
     }
   ],
@@ -481,7 +481,7 @@
             {
               "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
               "type": "text",
-              "content": "<p>Rendez-vous à nouveau sur l'<a href=\"https://beta.gouv.fr/startups/languia.html\" target=\"_blank\">arène LANGU:IA</a> pour répondre aux questions suivantes.</p><details><summary>Nouvelles idées de prompt</summary><ul><li> Quelles sont les valeurs les plus importantes dans la vie ?</li><li>Décris une cérémonie de mariage typique.</li><li>Parle-moi de la lutte des classes.</li></ul></details>"
+              "content": "<p>Rendez-vous à nouveau sur l'<a href=\"https://beta.gouv.fr/startups/languia.html\" target=\"_blank\">arène LANGU:IA</a> pour réaliser les défis suivants.</p>"
             }
           },
           {
@@ -492,22 +492,22 @@
                   {
                     "id": "4af7b921-0593-4322-abb6-1221345d5112",
                     "type": "qcu",
-                    "instruction": "<p>-</p>",
+                    "instruction": "<p>Écrivez un prompt qui mène à un résultat avec un <strong>biais de genre</strong> pour les deux LLM.<br>Pensez-vous avoir réussi ?</p>",
                     "proposals": [
                         {
                             "id": "1",
-                            "content": "Vrai"
+                            "content": "oui"
                           },
                           {
                             "id": "2",
-                            "content": "Faux"
+                            "content": "non"
                           }
                     ],
                     "feedbacks": {
-                      "valid": "<span class=\"feedback__state\">Correct !</span><p>Des différences seront systématiquement présentes dans leurs réponses. C'est aussi vrai pour le même LLM.</p>",
-                      "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Soumettez à nouveau un prompt à deux LLM pour observer les variations dans leurs réponses.</p>"
+                      "valid": "<span class=\"feedback__state\">Bravo ! <span aria-hidden=\"true\">💫</span></span>",
+                      "invalid": "<span class=\"feedback__state\"></span><p>Pour réussir, écrivez par exemple un prompt qui évoque un métier où les hommes sont surreprésentés </p>"
                     },
-                    "solution": "2"
+                    "solution": "1"
                   }
                 ]
               },
@@ -516,20 +516,20 @@
                   {
                     "id": "9ea3907b-ae7b-4c70-9355-435b3559ce32",
                     "type": "qcu",
-                    "instruction": "<p>-</p>",
+                    "instruction": "<p>Écrivez un prompt qui mène à un résultat avec un <strong>biais de culturel</strong> pour les deux LLM.<br>Pensez-vous avoir réussi ?</p>",
                     "proposals": [
-                      {
-                          "id": "1",
-                          "content": "Vrai"
-                        },
                         {
-                          "id": "2",
-                          "content": "Faux"
-                        }
+                            "id": "1",
+                            "content": "oui"
+                          },
+                          {
+                            "id": "2",
+                            "content": "non"
+                          }
                     ],
                     "feedbacks": {
-                      "valid": "<span class=\"feedback__state\">Correct !</span><p>La provenance des LLM est d'ailleurs un paramètre qui peut influencer les résultats qu'il fournit.</p>",
-                      "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Sur l'arène LANGU:IA, donnez votre avis les résultats pour révéler les LLM. Vous verrez que des modèles de différents pays sont disponibles.</p>"
+                      "valid": "<span class=\"feedback__state\">Bravo ! <span aria-hidden=\"true\">💫</span></span>",
+                      "invalid": "<span class=\"feedback__state\"></span><p>Pour réussir, écrivez des prompts vagues, sans précision de nationalité. Par exemple :  quel est le jour de la fête national ?</p>"
                     },
                     "solution": "1"
                   }
@@ -540,20 +540,20 @@
                   {
                     "id": "1d068960-321f-47fa-bae2-9076ae924d8d",
                     "type": "qcu",
-                    "instruction": "<p>-</p>",
+                    "instruction": "<p>Écrivez un prompt qui mène à un <strong>refus de réponse</strong> pour les deux LLM.<br>Pensez-vous avoir réussi ?</p>",
                     "proposals": [
-                      {
-                          "id": "1",
-                          "content": "Vrai"
-                        },
                         {
-                          "id": "2",
-                          "content": "Faux"
-                        }
+                            "id": "1",
+                            "content": "oui"
+                          },
+                          {
+                            "id": "2",
+                            "content": "non"
+                          }
                     ],
                     "feedbacks": {
-                      "valid": "<span class=\"feedback__state\">Correct !</span><p>Les jeux de données de préférences humaines permettent de ré-entraîner les modèles et de les améliorer.</p>",
-                      "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Les jeux de données de préférences humaines permettent de ré-entraîner les modèles et de les améliorer.</p>"
+                      "valid": "<span class=\"feedback__state\">Bravo ! <span aria-hidden=\"true\">💫</span></span>",
+                      "invalid": "<span class=\"feedback__state\"></span><p>Pour réussir, demandez par exemple de l'aide pour mener des actions illégales.</p>"
                     },
                     "solution": "1"
                   }
