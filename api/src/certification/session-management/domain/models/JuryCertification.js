@@ -1,4 +1,4 @@
-import { CompetenceMark } from '../../../../../lib/domain/models/CompetenceMark.js';
+import { CompetenceMark } from '../../../results/domain/models/CompetenceMark.js';
 import { JuryComment, JuryCommentContexts } from '../../../shared/domain/models/JuryComment.js';
 
 class JuryCertification {

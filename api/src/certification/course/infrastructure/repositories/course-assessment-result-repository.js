@@ -1,10 +1,10 @@
 import _ from 'lodash';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { CompetenceMark } from '../../../../../lib/domain/models/CompetenceMark.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { AssessmentResult } from '../../../../shared/domain/models/AssessmentResult.js';
+import { CompetenceMark } from '../../../results/domain/models/CompetenceMark.js';
 import { JuryComment, JuryCommentContexts } from '../../../shared/domain/models/JuryComment.js';
 
 function _toDomain({ assessmentResultDTO, competencesMarksDTO }) {

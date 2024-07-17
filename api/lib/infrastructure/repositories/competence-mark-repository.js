@@ -1,5 +1,5 @@
 import { knex } from '../../../db/knex-database-connection.js';
-import { CompetenceMark } from '../../domain/models/CompetenceMark.js';
+import { CompetenceMark } from '../../../src/certification/results/domain/models/CompetenceMark.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 
 function _toDomain(competenceMark) {

@@ -1,4 +1,4 @@
-import { CompetenceMark } from '../../../../lib/domain/models/CompetenceMark.js';
+import { CompetenceMark } from '../../../../src/certification/results/domain/models/CompetenceMark.js';
 
 const buildCompetenceMark = function ({
   id,
