@@ -23,9 +23,10 @@ import * as sessionValidator from '../validators/session-validator.js';
  * @typedef {import('../../infrastructure/repositories/index.js').CandidateRepository} CandidateRepository
  * @typedef {import('../../infrastructure/repositories/index.js').SessionForAttendanceSheetRepository} SessionForAttendanceSheetRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CenterRepository} CenterRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').CountryRepository} CountryRepository
  * @typedef {import('../validators/session-validator.js')} SessionValidator
  * @typedef {import('../services/certification-cpf-service.js')} CertificationCpfService
- * @typedef {import('../../../enrolment/infrastructure/utils/pdf/attendance-sheet-pdf.js')} AttendanceSheetPdfUtils
+ * @typedef {import('../../infrastructure/utils/pdf/attendance-sheet-pdf.js')} AttendanceSheetPdfUtils
  * @typedef {import('../services/temporary-sessions-storage-for-mass-import-service.js').TemporarySessionsStorageForMassImportService} TemporarySessionsStorageForMassImportService
  * @typedef {import('../../../shared/domain/services/temporary-companion-storage-service.js')} TemporaryCompanionStorageService
  **/
@@ -43,6 +44,7 @@ import * as sessionValidator from '../validators/session-validator.js';
  * @typedef {CertificationOfficerRepository} CertificationOfficerRepository
  * @typedef {CertificationCenterRepository} CertificationCenterRepository
  * @typedef {SessionForAttendanceSheetRepository} SessionForAttendanceSheetRepository
+ * @typedef {CountryRepository} CountryRepository
  * @typedef {certificationCpfService} CertificationCpfService
  * @typedef {SessionForInvigilatorKitRepository} SessionForInvigilatorKitRepository
  * @typedef {TemporarySessionsStorageForMassImportService} TemporarySessionsStorageForMassImportService

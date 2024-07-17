@@ -1,9 +1,17 @@
 import * as attendanceSheet from './application/attendance-sheet-route.js';
 import * as certificationCandidate from './application/certification-candidate-route.js';
 import * as companion from './application/companion-route.js';
+import * as country from './application/country-route.js';
 import * as sessionMassImport from './application/session-mass-import-route.js';
 import * as session from './application/session-route.js';
 
-const certificationEnrolmentRoutes = [session, sessionMassImport, attendanceSheet, certificationCandidate, companion];
+const certificationEnrolmentRoutes = [
+  attendanceSheet,
+  certificationCandidate,
+  companion,
+  country,
+  session,
+  sessionMassImport,
+];
 
 export { certificationEnrolmentRoutes };

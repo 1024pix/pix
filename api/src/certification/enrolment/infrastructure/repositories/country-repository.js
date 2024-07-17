@@ -1,4 +1,4 @@
-import { knex } from '../../../db/knex-database-connection.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
 import { Country } from '../../domain/read-models/Country.js';
 
 const findAll = async function () {

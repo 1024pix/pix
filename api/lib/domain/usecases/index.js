@@ -16,6 +16,7 @@ import * as centerRepository from '../../../src/certification/enrolment/infrastr
 import * as certificationCandidateRepository from '../../../src/certification/enrolment/infrastructure/repositories/certification-candidate-repository.js';
 import * as certificationCpfCityRepository from '../../../src/certification/enrolment/infrastructure/repositories/certification-cpf-city-repository.js';
 import * as certificationCpfCountryRepository from '../../../src/certification/enrolment/infrastructure/repositories/certification-cpf-country-repository.js';
+import * as countryRepository from '../../../src/certification/enrolment/infrastructure/repositories/country-repository.js';
 import * as sessionEnrolmentRepository from '../../../src/certification/enrolment/infrastructure/repositories/session-repository.js';
 import * as flashAlgorithmService from '../../../src/certification/flash-certification/domain/services/algorithm-methods/flash.js';
 import * as flashAlgorithmConfigurationRepository from '../../../src/certification/flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
@@ -136,7 +137,6 @@ import * as competenceMarkRepository from '../../infrastructure/repositories/com
 import * as competenceTreeRepository from '../../infrastructure/repositories/competence-tree-repository.js';
 import * as complementaryCertificationCourseResultRepository from '../../infrastructure/repositories/complementary-certification-course-result-repository.js';
 import * as complementaryCertificationHabilitationRepository from '../../infrastructure/repositories/complementary-certification-habilitation-repository.js';
-import * as countryRepository from '../../infrastructure/repositories/country-repository.js';
 import * as dataProtectionOfficerRepository from '../../infrastructure/repositories/data-protection-officer-repository.js';
 import * as flashAssessmentResultRepository from '../../infrastructure/repositories/flash-assessment-result-repository.js';
 import * as frameworkRepository from '../../infrastructure/repositories/framework-repository.js';

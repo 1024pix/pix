@@ -1,7 +1,7 @@
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/country-serializer.js';
-import { domainBuilder, expect } from '../../../../test-helper.js';
+import * as serializer from '../../../../../../src/certification/enrolment/infrastructure/serializers/country-serializer.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
-describe('Unit | Serializer | JSONAPI | country-serializer', function () {
+describe('Certification | Enrolment | Unit | Serializers | country-serializer', function () {
   describe('#serialize', function () {
     it('should convert a Certification CPF Country model object into JSON API data', function () {
       // given
