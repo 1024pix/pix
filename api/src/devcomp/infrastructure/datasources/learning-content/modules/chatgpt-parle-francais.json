@@ -9,7 +9,7 @@
     "level": "Avancé",
     "objectives": [
       "Connaître les origines des biais des LLM",
-      "Analyser des résultats biaisés de LLM",
+      "Générer et analyser des résultats biaisés de LLM",
       "Comparer les résultats de différents LLM"
     ]
   },
