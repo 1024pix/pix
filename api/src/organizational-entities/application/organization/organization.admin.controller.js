@@ -1,6 +1,14 @@
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { usecases } from '../../domain/usecases/index.js';
+import { organizationTagCsvParser } from '../../infrastructure/parsers/csv/organization-tag-csv.parser.js';
 import { organizationForAdminSerializer } from '../../infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin.serializer.js';
+
+const addTagsToOrganizations = async function (request, h) {
+  const filePath = request.payload.path;
+  const organizationTags = await organizationTagCsvParser.getCsvData(filePath);
+  await usecases.addTagsToOrganizations({ organizationTags });
+  return h.response().code(204);
+};
 
 const attachChildOrganization = async function (request, h) {
   const { childOrganizationId } = request.payload;
@@ -47,6 +55,7 @@ const updateOrganizationInformation = async function (
 };
 
 const organizationAdminController = {
+  addTagsToOrganizations,
   attachChildOrganization,
   addOrganizationFeatureInBatch,
   getOrganizationDetails,
