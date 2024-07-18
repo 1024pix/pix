@@ -1,9 +1,9 @@
 import _ from 'lodash';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
-import { CertificationCenter } from '../../../../../lib/domain/models/CertificationCenter.js';
+import { CertificationCenter } from '../../../../../lib/domain/models/index.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { SessionEnrolment } from '../../domain/models/SessionEnrolment.js';
 
 const save = async function ({ session, domainTransaction = DomainTransaction.emptyTransaction() }) {
@@ -34,6 +34,14 @@ const get = async function ({ id }) {
     throw new NotFoundError("La session n'existe pas ou son accès est restreint");
   }
   return new SessionEnrolment({ ...foundSession });
+};
+
+const getVersion = async function ({ id }) {
+  const result = await knex.select('version').from('sessions').where({ id }).first();
+  if (!result) {
+    throw new NotFoundError("La session n'existe pas ou son accès est restreint");
+  }
+  return result.version;
 };
 
 const isSessionExistingByCertificationCenterId = async function ({ address, room, date, time, certificationCenterId }) {
@@ -98,6 +106,7 @@ const remove = async function ({ id }) {
 
 export {
   get,
+  getVersion,
   isSco,
   isSessionExistingByCertificationCenterId,
   isSessionExistingBySessionAndCertificationCenterIds,

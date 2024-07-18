@@ -62,34 +62,6 @@ describe('Integration | Repository | Certification | session | SessionManagement
     });
   });
 
-  describe('#getVersion', function () {
-    let session;
-
-    beforeEach(async function () {
-      // given
-      session = databaseBuilder.factory.buildSession({
-        version: 3,
-      });
-      await databaseBuilder.commit();
-    });
-
-    it('should the version of the session if it exists', async function () {
-      // when
-      const version = await sessionRepository.getVersion({ id: session.id });
-
-      // then
-      expect(version).to.equal(3);
-    });
-
-    it('should return a Not found error when no session was found', async function () {
-      // when
-      const error = await catchErr(sessionRepository.getVersion)({ id: 2 });
-
-      // then
-      expect(error).to.be.instanceOf(NotFoundError);
-    });
-  });
-
   describe('#isFinalized', function () {
     let finalizedSessionId;
     let notFinalizedSessionId;
