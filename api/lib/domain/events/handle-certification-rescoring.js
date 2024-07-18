@@ -6,6 +6,7 @@ import { CertificationResult } from '../models/CertificationResult.js';
 import { CertificationCourseRejected } from './CertificationCourseRejected.js';
 import { CertificationCourseUnrejected } from './CertificationCourseUnrejected.js';
 import { CertificationJuryDone } from './CertificationJuryDone.js';
+import CertificationRescoredByScript from './CertificationRescoredByScript.js';
 import { CertificationRescoringCompleted } from './CertificationRescoringCompleted.js';
 import { ChallengeDeneutralized } from './ChallengeDeneutralized.js';
 import { ChallengeNeutralized } from './ChallengeNeutralized.js';
@@ -17,6 +18,7 @@ const eventTypes = [
   CertificationJuryDone,
   CertificationCourseRejected,
   CertificationCourseUnrejected,
+  CertificationRescoredByScript,
 ];
 
 async function handleCertificationRescoring({
@@ -216,7 +218,7 @@ function _getEmitterFromEvent(event) {
     emitter = CertificationResult.emitters.PIX_ALGO_NEUTRALIZATION;
   }
 
-  if (event instanceof CertificationJuryDone) {
+  if (event instanceof CertificationJuryDone || event instanceof CertificationRescoredByScript) {
     emitter = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
   }
 

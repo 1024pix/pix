@@ -15,12 +15,10 @@ describe('Integration | Scripts | Certification | rescore-certfication', functio
       .orderBy('createdon', 'asc');
 
     expect(job1.data).to.deep.equal({
-      type: 'CertificationRescoringByScript',
       certificationCourseId: 1,
     });
 
     expect(job2.data).to.deep.equal({
-      type: 'CertificationRescoringByScript',
       certificationCourseId: 2,
     });
   });

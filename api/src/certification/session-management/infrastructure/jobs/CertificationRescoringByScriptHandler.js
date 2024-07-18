@@ -1,14 +1,17 @@
+import CertificationRescoredByScript from '../../../../../lib/domain/events/CertificationRescoredByScript.js';
 import { CertificationRescoringByScriptJob } from './CertificationRescoringByScriptJob.js';
 
 class CertificationRescoringByScriptJobHandler {
-  constructor({ logger }) {
-    this.logger = logger;
+  constructor({ eventDispatcher }) {
+    this.eventDispatcher = eventDispatcher;
   }
 
-  handle(event) {
-    this.logger.info({
-      data: event.certificationCourseId,
-    });
+  /**
+   * @param {Object} event
+   * @param {number} event.certificationCourseId
+   */
+  async handle(event) {
+    await this.eventDispatcher.dispatch(new CertificationRescoredByScript(event));
   }
 
   get name() {

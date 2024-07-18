@@ -1,3 +1,4 @@
+import CertificationRescoredByScript from '../../../../../lib/domain/events/CertificationRescoredByScript.js';
 import { JobPgBoss } from '../../../../../lib/infrastructure/jobs/JobPgBoss.js';
 
 export class CertificationRescoringByScriptJob extends JobPgBoss {
@@ -10,8 +11,11 @@ export class CertificationRescoringByScriptJob extends JobPgBoss {
     );
   }
 
-  /** * @param {number} certificationCourseId */
+  /**
+   * @param {number} certificationCourseId
+   */
   async schedule(certificationCourseId) {
-    return super.schedule({ certificationCourseId, type: 'CertificationRescoringByScript' });
+    const data = new CertificationRescoredByScript({ certificationCourseId });
+    return super.schedule(data);
   }
 }

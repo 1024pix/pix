@@ -5,6 +5,7 @@ import * as url from 'node:url';
 import _ from 'lodash';
 import PgBoss from 'pg-boss';
 
+import { eventDispatcher } from './lib/domain/events/index.js';
 import { UserAnonymizedEventLoggingJob } from './lib/infrastructure/jobs/audit-log/UserAnonymizedEventLoggingJob.js';
 import { UserAnonymizedEventLoggingJobHandler } from './lib/infrastructure/jobs/audit-log/UserAnonymizedEventLoggingJobHandler.js';
 import { ParticipationResultCalculationJob } from './lib/infrastructure/jobs/campaign-result/ParticipationResultCalculationJob.js';
@@ -22,6 +23,8 @@ import { ScheduleComputeOrganizationLearnersCertificabilityJob } from './lib/inf
 import { ScheduleComputeOrganizationLearnersCertificabilityJobHandler } from './lib/infrastructure/jobs/organization-learner/ScheduleComputeOrganizationLearnersCertificabilityJobHandler.js';
 import * as organizationLearnerRepository from './lib/infrastructure/repositories/organization-learner-repository.js';
 import * as pgBossRepository from './lib/infrastructure/repositories/pgboss-repository.js';
+import { CertificationRescoringByScriptJobHandler } from './src/certification/session-management/infrastructure/jobs/CertificationRescoringByScriptHandler.js';
+import { CertificationRescoringByScriptJob } from './src/certification/session-management/infrastructure/jobs/CertificationRescoringByScriptJob.js';
 import { GarAnonymizedBatchEventsLoggingJob } from './src/identity-access-management/infrastructure/jobs/audit-log/GarAnonymizedBatchEventsLoggingJob.js';
 import { GarAnonymizedBatchEventsLoggingJobHandler } from './src/identity-access-management/infrastructure/jobs/audit-log/GarAnonymizedBatchEventsLoggingJobHandler.js';
 import { ImportOrganizationLearnersJob } from './src/prescription/learner-management/infrastructure/jobs/ImportOrganizationLearnersJob.js';
@@ -31,8 +34,6 @@ import { ValidateOrganizationImportFileJobHandler } from './src/prescription/lea
 import { config } from './src/shared/config.js';
 import * as learningContentDatasource from './src/shared/infrastructure/datasources/learning-content/datasource.js';
 import { logger } from './src/shared/infrastructure/utils/logger.js';
-import {CertificationRescoringByScriptJob} from './src/certification/session-management/infrastructure/jobs/CertificationRescoringByScriptJob.js';
-import {CertificationRescoringByScriptJobHandler} from './src/certification/session-management/infrastructure/jobs/CertificationRescoringByScriptHandler.js';
 
 async function startPgBoss() {
   logger.info('Starting pg-boss');
@@ -100,7 +101,9 @@ export async function runJobs(dependencies = { startPgBoss, createMonitoredJobQu
 
   monitoredJobQueue.performJob(UserAnonymizedEventLoggingJob.name, UserAnonymizedEventLoggingJobHandler);
   monitoredJobQueue.performJob(GarAnonymizedBatchEventsLoggingJob.name, GarAnonymizedBatchEventsLoggingJobHandler);
-  monitoredJobQueue.performJob(CertificationRescoringByScriptJob.name, CertificationRescoringByScriptJobHandler);
+  monitoredJobQueue.performJob(CertificationRescoringByScriptJob.name, CertificationRescoringByScriptJobHandler, {
+    eventDispatcher,
+  });
 
   if (config.pgBoss.validationFileJobEnabled) {
     monitoredJobQueue.performJob(ValidateOrganizationImportFileJob.name, ValidateOrganizationImportFileJobHandler);
