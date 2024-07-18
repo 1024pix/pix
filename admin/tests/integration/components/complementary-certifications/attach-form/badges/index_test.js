@@ -60,9 +60,8 @@ module('Integration | Component | complementary-certifications/attach-badges/bad
         assert
           .dom(
             screen.getByRole('alert', {
-              value: {
-                text: 'Seul un profil cible comportant au moins un résultat thématique certifiant peut être rattaché à une certification complémentaire. Le profil cible que vous avez sélectionné ne comporte pas de résultat thématique certifiant. Veuillez le modifier puis rafraîchir cette page ou bien sélectionner un autre profil cible.',
-              },
+              value:
+                'Seul un profil cible comportant au moins un résultat thématique certifiant peut être rattaché à une certification complémentaire. Le profil cible que vous avez sélectionné ne comporte pas de résultat thématique certifiant. Veuillez le modifier puis rafraîchir cette page ou bien sélectionner un autre profil cible.',
             }),
           )
           .exists();
