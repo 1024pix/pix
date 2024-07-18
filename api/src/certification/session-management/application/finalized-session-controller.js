@@ -1,5 +1,5 @@
-import * as toBePublishedSessionSerializer from '../../../../lib/infrastructure/serializers/jsonapi/to-be-published-session-serializer.js';
 import { usecases } from '../domain/usecases/index.js';
+import * as toBePublishedSessionSerializer from '../infrastructure/serializers/to-be-published-session-serializer.js';
 
 const findFinalizedSessionsToPublish = async function (request, h, dependencies = { toBePublishedSessionSerializer }) {
   const { filter } = request.query;
