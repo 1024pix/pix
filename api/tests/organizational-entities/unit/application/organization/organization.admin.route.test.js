@@ -7,10 +7,11 @@ import {
   FeatureParamsNotProcessable,
   OrganizationBatchUpdateError,
   OrganizationNotFound,
+  TagNotFoundError,
   UnableToAttachChildOrganizationToParentOrganizationError,
 } from '../../../../../src/organizational-entities/domain/errors.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
+import { CsvImportError, NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Organizational Entities | Application | Router | organization', function () {
@@ -225,6 +226,67 @@ describe('Unit | Organizational Entities | Application | Router | organization',
 
       // then
       expect(response.statusCode).to.equal(403);
+    });
+  });
+
+  describe('POST /api/admin/organizations/import-tags-csv', function () {
+    const method = 'POST';
+    const url = '/api/admin/organizations/import-tags-csv';
+    const payload = 'some payload';
+
+    beforeEach(async function () {
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').resolves(true);
+      sinon.stub(organizationAdminController, 'addTagsToOrganizations');
+    });
+
+    it('checks user has SUPER_ADMIN role', async function () {
+      // given
+      organizationAdminController.addTagsToOrganizations.resolves(true);
+
+      // when
+      await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin).to.have.been.calledOnce;
+    });
+
+    describe('when CSV file format is invalid', function () {
+      it('throws a CsvImportError', async function () {
+        // given
+        organizationAdminController.addTagsToOrganizations.rejects(new CsvImportError());
+
+        // when
+        const response = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(response.statusCode).to.equal(412);
+      });
+    });
+
+    describe('when a tag name does not exist', function () {
+      it('throws a TagNotFoundError', async function () {
+        // given
+        organizationAdminController.addTagsToOrganizations.rejects(new TagNotFoundError());
+
+        // when
+        const response = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(response.statusCode).to.equal(404);
+      });
+    });
+
+    describe('when an organization ID does not exist', function () {
+      it('throws a OrganizationNotFound', async function () {
+        // given
+        organizationAdminController.addTagsToOrganizations.rejects(new OrganizationNotFound());
+
+        // when
+        const response = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(response.statusCode).to.equal(422);
+      });
     });
   });
 });

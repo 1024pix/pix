@@ -703,4 +703,51 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
       });
     });
   });
+
+  describe('POST /api/admin/organizations/import-tags-csv', function () {
+    context('When a CSV file is loaded', function () {
+      let firstTag;
+      let secondTag;
+      let thirdTag;
+      let firstOrganizationId;
+      let secondOrganizationId;
+      let admin;
+
+      beforeEach(async function () {
+        firstTag = databaseBuilder.factory.buildTag({ name: 'tag1' });
+        secondTag = databaseBuilder.factory.buildTag({ name: 'tag2' });
+        thirdTag = databaseBuilder.factory.buildTag({ name: 'tag3' });
+
+        firstOrganizationId = databaseBuilder.factory.buildOrganization().id;
+        secondOrganizationId = databaseBuilder.factory.buildOrganization().id;
+
+        admin = await insertUserWithRoleSuperAdmin();
+
+        return databaseBuilder.commit();
+      });
+
+      it('responds with a 204 - no content', async function () {
+        // given
+        const csvHeader = 'Organization ID,Tag name';
+        const input = `${csvHeader}
+        ${firstOrganizationId},${firstTag.name}
+        ${secondOrganizationId},${secondTag.name}
+        ${secondOrganizationId},${thirdTag.name}
+        `;
+
+        const options = {
+          method: 'POST',
+          headers: { authorization: generateValidRequestAuthorizationHeader(admin.id) },
+          url: '/api/admin/organizations/import-tags-csv',
+          payload: iconv.encode(input, 'UTF-8'),
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(204);
+      });
+    });
+  });
 });
