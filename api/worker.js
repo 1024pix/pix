@@ -11,8 +11,6 @@ import { ParticipationResultCalculationJob } from './lib/infrastructure/jobs/cam
 import { ParticipationResultCalculationJobHandler } from './lib/infrastructure/jobs/campaign-result/ParticipationResultCalculationJobHandler.js';
 import { SendSharedParticipationResultsToPoleEmploiHandler } from './lib/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiHandler.js';
 import { SendSharedParticipationResultsToPoleEmploiJob } from './lib/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob.js';
-import { CertificationRescoringByScriptJobHandler } from './lib/infrastructure/jobs/certification/CertificationRescoringByScriptHandler.js';
-import { CertificationRescoringByScriptJob } from './lib/infrastructure/jobs/certification/CertificationRescoringByScriptJob.js';
 import { scheduleCpfJobs } from './lib/infrastructure/jobs/cpf-export/schedule-cpf-jobs.js';
 import { JobQueue } from './lib/infrastructure/jobs/JobQueue.js';
 import { LcmsRefreshCacheJob } from './lib/infrastructure/jobs/lcms/LcmsRefreshCacheJob.js';
@@ -33,6 +31,8 @@ import { ValidateOrganizationImportFileJobHandler } from './src/prescription/lea
 import { config } from './src/shared/config.js';
 import * as learningContentDatasource from './src/shared/infrastructure/datasources/learning-content/datasource.js';
 import { logger } from './src/shared/infrastructure/utils/logger.js';
+import {CertificationRescoringByScriptJob} from './src/certification/session-management/infrastructure/jobs/CertificationRescoringByScriptJob.js';
+import {CertificationRescoringByScriptJobHandler} from './src/certification/session-management/infrastructure/jobs/CertificationRescoringByScriptHandler.js';
 
 async function startPgBoss() {
   logger.info('Starting pg-boss');

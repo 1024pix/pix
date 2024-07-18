@@ -3,7 +3,7 @@ import 'dotenv/config';
 import * as url from 'node:url';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
-import { CertificationRescoringByScriptJob } from '../../lib/infrastructure/jobs/certification/CertificationRescoringByScriptJob.js';
+import { CertificationRescoringByScriptJob } from '../../src/certification/session-management/infrastructure/jobs/CertificationRescoringByScriptJob.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 
 const modulePath = url.fileURLToPath(import.meta.url);
