@@ -6,6 +6,30 @@ import { adminMemberController } from './admin-member.controller.js';
 export const adminMemberRoutes = [
   {
     method: 'GET',
+    path: '/api/admin/admin-members/me',
+    config: {
+      handler: adminMemberController.getCurrentAdminMember,
+      pre: [
+        {
+          method: (request, h) =>
+            securityPreHandlers.hasAtLeastOneAccessOf([
+              securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+              securityPreHandlers.checkAdminMemberHasRoleSupport,
+              securityPreHandlers.checkAdminMemberHasRoleMetier,
+              securityPreHandlers.checkAdminMemberHasRoleCertif,
+            ])(request, h),
+          assign: 'hasAuthorizationToAccessAdminScope',
+        },
+      ],
+      notes: [
+        "- **Cette route n'est pas restreinte**\n" +
+          '- Récupération du membre admin pix courant ayant accès à Pix Admin\n',
+      ],
+      tags: ['api', 'admin-members', 'current-member'],
+    },
+  },
+  {
+    method: 'GET',
     path: '/api/admin/admin-members',
     config: {
       pre: [

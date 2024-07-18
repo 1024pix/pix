@@ -6,26 +6,6 @@ import { expect, hFake, sinon } from '../../../test-helper.js';
 const { ROLES } = PIX_ADMIN;
 
 describe('Unit | Controller | admin-member-controller', function () {
-  describe('#getCurrentAdminMember', function () {
-    it('should get the current admin member', async function () {
-      // given
-      const request = { auth: { credentials: { userId: 1 } } };
-      const h = {};
-      const adminMemberDetails = Symbol('adminMemberDetails');
-      sinon.stub(usecases, 'getAdminMemberDetails').withArgs({ userId: 1 }).resolves(adminMemberDetails);
-      const serializedUpdatedMember = Symbol('serializedUpdatedMember');
-      const adminMemberSerializerStub = { serialize: sinon.stub() };
-      adminMemberSerializerStub.serialize.withArgs(adminMemberDetails).returns(serializedUpdatedMember);
-      const dependencies = { adminMemberSerializer: adminMemberSerializerStub };
-
-      // when
-      const response = await adminMemberController.getCurrentAdminMember(request, h, dependencies);
-
-      // then
-      expect(response).to.be.equal(serializedUpdatedMember);
-    });
-  });
-
   describe('#updateAdminMember', function () {
     it('should return the serialized admin member with updated values', async function () {
       // given

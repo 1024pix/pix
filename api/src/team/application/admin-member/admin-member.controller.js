@@ -5,11 +5,16 @@ const findAll = async function (request, h, dependencies = { adminMemberSerializ
   const adminMembers = await usecases.getAdminMembers();
   return dependencies.adminMemberSerializer.serialize(adminMembers);
 };
+const getCurrentAdminMember = async function (request, h, dependencies = { adminMemberSerializer }) {
+  const authenticatedUserId = request.auth.credentials.userId;
+  const userDetailsForAdmin = await usecases.getAdminMemberDetails({ userId: authenticatedUserId });
+  return dependencies.adminMemberSerializer.serialize(userDetailsForAdmin);
+};
 const saveAdminMember = async function (request, h, dependencies = { adminMemberSerializer }) {
   const attributes = await adminMemberSerializer.deserialize(request.payload);
   const savedAdminMember = await usecases.saveAdminMember(attributes);
   return h.response(dependencies.adminMemberSerializer.serialize(savedAdminMember)).created();
 };
 
-const adminMemberController = { findAll, saveAdminMember };
+const adminMemberController = { findAll, getCurrentAdminMember, saveAdminMember };
 export { adminMemberController };
