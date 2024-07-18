@@ -5,6 +5,8 @@
 
     {{#if this.isEnglishLocale}}
       <TermsOfService::PageEn />
+    {{else if this.isDutchLocale}}
+      <TermsOfService::PageNl />
     {{else}}
       <TermsOfService::PageFr />
     {{/if}}
