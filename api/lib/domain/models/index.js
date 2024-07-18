@@ -13,6 +13,7 @@ import { CertificationCourse } from '../../../src/certification/shared/domain/mo
 import { CertificationIssueReport } from '../../../src/certification/shared/domain/models/CertificationIssueReport.js';
 import { CertificationIssueReportCategory } from '../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
 import { CertificationReport } from '../../../src/certification/shared/domain/models/CertificationReport.js';
+import { FinalizedSession } from '../../../src/certification/shared/domain/models/FinalizedSession.js';
 import { Training } from '../../../src/devcomp/domain/models/Training.js';
 import { TrainingTrigger } from '../../../src/devcomp/domain/models/TrainingTrigger.js';
 import { TrainingTriggerTube } from '../../../src/devcomp/domain/models/TrainingTriggerTube.js';
@@ -82,7 +83,6 @@ import { ComplementaryCertificationScoringWithComplementaryReferential } from '.
 import { ComplementaryCertificationScoringWithoutComplementaryReferential } from './ComplementaryCertificationScoringWithoutComplementaryReferential.js';
 import { Correction } from './Correction.js';
 import { EmailingAttempt } from './EmailingAttempt.js';
-import { FinalizedSession } from './FinalizedSession.js';
 import { Framework } from './Framework.js';
 import { Hint } from './Hint.js';
 import { KnowledgeElement } from './KnowledgeElement.js';

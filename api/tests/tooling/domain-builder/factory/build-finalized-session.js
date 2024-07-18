@@ -1,4 +1,4 @@
-import { FinalizedSession } from '../../../../lib/domain/models/FinalizedSession.js';
+import { FinalizedSession } from '../../../../src/certification/shared/domain/models/FinalizedSession.js';
 
 const buildFinalizedSession = function ({
   sessionId = 123,

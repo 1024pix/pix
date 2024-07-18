@@ -1,5 +1,5 @@
-import { FinalizedSession } from '../../../../lib/domain/models/FinalizedSession.js';
 import { unpublishSession } from '../../../../lib/domain/usecases/unpublish-session.js';
+import { FinalizedSession } from '../../../../src/certification/shared/domain/models/FinalizedSession.js';
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | unpublish-session', function () {
