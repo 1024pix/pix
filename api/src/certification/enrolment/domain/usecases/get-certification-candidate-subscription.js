@@ -1,4 +1,4 @@
-import { CertificationCandidateSubscription } from '../../../../../lib/domain/read-models/CertificationCandidateSubscription.js';
+import { CertificationCandidateSubscription } from '../read-models/CertificationCandidateSubscription.js';
 
 const getCertificationCandidateSubscription = async function ({
   certificationCandidateId,
