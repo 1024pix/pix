@@ -3,7 +3,9 @@ import { DomainErrorMappingConfiguration } from '../../../shared/application/mod
 import {
   CertificationCandidateForbiddenDeletionError,
   CertificationCandidateNotFoundError,
+  InvalidCertificationCandidate,
   SessionStartedDeletionError,
+  UnknownCountryForStudentEnrolmentError,
 } from '../domain/errors.js';
 
 const enrolmentDomainErrorMappingConfiguration = [
@@ -16,6 +18,14 @@ const enrolmentDomainErrorMappingConfiguration = [
     httpErrorFn: (error) => new HttpErrors.NotFoundError(error.message),
   },
   { name: SessionStartedDeletionError.name, httpErrorFn: (error) => new HttpErrors.ConflictError(error.message) },
+  {
+    name: UnknownCountryForStudentEnrolmentError.name,
+    httpErrorFn: (error) => new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta),
+  },
+  {
+    name: InvalidCertificationCandidate.name,
+    httpErrorFn: (error) => new HttpErrors.UnprocessableEntityError(error.message),
+  },
 ].map((domainErrorMappingConfiguration) => new DomainErrorMappingConfiguration(domainErrorMappingConfiguration));
 
 export { enrolmentDomainErrorMappingConfiguration };

@@ -1,10 +1,28 @@
+/**
+ * @typedef {import('./index.js').ScoCertificationCandidateRepository} ScoCertificationCandidateRepository
+ * @typedef {import('./index.js').OrganizationLearnerRepository} OrganizationLearnerRepository
+ * @typedef {import('./index.js').OrganizationRepository} OrganizationRepository
+ * @typedef {import('./index.js').CertificationCenterMembershipRepository} CertificationCenterMembershipRepository
+ * @typedef {import('./index.js').CountryRepository} CountryRepository
+ * @typedef {import('./index.js').SessionRepository} SessionRepository
+ * @typedef {import('../models/SCOCertificationCandidate.js').SCOCertificationCandidate} SCOCertificationCandidate
+ */
 import _ from 'lodash';
 
-import { ForbiddenAccess } from '../../../src/shared/domain/errors.js';
+import { ForbiddenAccess } from '../../../../shared/domain/errors.js';
 import { UnknownCountryForStudentEnrolmentError } from '../errors.js';
 import { SCOCertificationCandidate } from '../models/SCOCertificationCandidate.js';
 const INSEE_PREFIX_CODE = '99';
 
+/**
+ * @param {Object} params
+ * @param {ScoCertificationCandidateRepository} params.scoCertificationCandidateRepository
+ * @param {OrganizationLearnerRepository} params.organizationLearnerRepository
+ * @param {OrganizationRepository} params.organizationRepository
+ * @param {CertificationCenterMembershipRepository} params.certificationCenterMembershipRepository
+ * @param {CountryRepository} params.countryRepository
+ * @param {SessionRepository} params.sessionRepository
+ */
 const enrolStudentsToSession = async function ({
   sessionId,
   referentId,
@@ -14,9 +32,9 @@ const enrolStudentsToSession = async function ({
   organizationRepository,
   certificationCenterMembershipRepository,
   countryRepository,
-  sessionEnrolmentRepository,
+  sessionRepository,
 } = {}) {
-  const session = await sessionEnrolmentRepository.get({ id: sessionId });
+  const session = await sessionRepository.get({ id: sessionId });
   const referentCertificationCenterMemberships = await certificationCenterMembershipRepository.findByUserId(referentId);
 
   if (!_doesSessionBelongToSameCertificationCenterAsReferent(referentCertificationCenterMemberships, session)) {

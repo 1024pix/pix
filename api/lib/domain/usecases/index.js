@@ -16,7 +16,6 @@ import * as centerRepository from '../../../src/certification/enrolment/infrastr
 import * as certificationCandidateRepository from '../../../src/certification/enrolment/infrastructure/repositories/certification-candidate-repository.js';
 import * as certificationCpfCityRepository from '../../../src/certification/enrolment/infrastructure/repositories/certification-cpf-city-repository.js';
 import * as certificationCpfCountryRepository from '../../../src/certification/enrolment/infrastructure/repositories/certification-cpf-country-repository.js';
-import * as countryRepository from '../../../src/certification/enrolment/infrastructure/repositories/country-repository.js';
 import * as sessionEnrolmentRepository from '../../../src/certification/enrolment/infrastructure/repositories/session-repository.js';
 import * as flashAlgorithmService from '../../../src/certification/flash-certification/domain/services/algorithm-methods/flash.js';
 import * as flashAlgorithmConfigurationRepository from '../../../src/certification/flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
@@ -154,7 +153,6 @@ import * as organizationTagRepository from '../../infrastructure/repositories/or
 import * as participantResultRepository from '../../infrastructure/repositories/participant-result-repository.js';
 import { participantResultsSharedRepository } from '../../infrastructure/repositories/participant-results-shared-repository.js';
 import * as poleEmploiSendingRepository from '../../infrastructure/repositories/pole-emploi-sending-repository.js';
-import * as scoCertificationCandidateRepository from '../../infrastructure/repositories/sco-certification-candidate-repository.js';
 import * as studentRepository from '../../infrastructure/repositories/student-repository.js';
 import * as tagRepository from '../../infrastructure/repositories/tag-repository.js';
 import * as targetProfileForUpdateRepository from '../../infrastructure/repositories/target-profile-for-update-repository.js';
@@ -265,7 +263,6 @@ const dependencies = {
   complementaryCertificationRepository,
   config,
   correctionRepository: repositories.correctionRepository,
-  countryRepository,
   courseRepository,
   cryptoService,
   dataProtectionOfficerRepository,
@@ -319,7 +316,6 @@ const dependencies = {
   resetPasswordService,
   schoolRepository,
   scoAccountRecoveryService,
-  scoCertificationCandidateRepository,
   scorecardService,
   scoringCertificationService,
   sessionCodeService,

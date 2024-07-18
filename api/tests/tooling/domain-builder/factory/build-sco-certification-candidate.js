@@ -1,4 +1,4 @@
-import { SCOCertificationCandidate } from '../../../../lib/domain/models/SCOCertificationCandidate.js';
+import { SCOCertificationCandidate } from '../../../../src/certification/enrolment/domain/models/SCOCertificationCandidate.js';
 
 const buildSCOCertificationCandidate = function ({
   id = 123,

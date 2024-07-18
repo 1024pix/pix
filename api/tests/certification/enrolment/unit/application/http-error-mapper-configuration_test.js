@@ -2,6 +2,7 @@ import { enrolmentDomainErrorMappingConfiguration } from '../../../../../src/cer
 import {
   CertificationCandidateForbiddenDeletionError,
   SessionStartedDeletionError,
+  UnknownCountryForStudentEnrolmentError,
 } from '../../../../../src/certification/enrolment/domain/errors.js';
 import { HttpErrors } from '../../../../../src/shared/application/http-errors.js';
 import { DomainErrorMappingConfiguration } from '../../../../../src/shared/application/models/domain-error-mapping-configuration.js';
@@ -48,6 +49,26 @@ describe('Unit | Certification | Enrolment | Application | HttpErrorMapperConfig
       //then
       expect(error).to.be.instanceOf(HttpErrors.ConflictError);
       expect(error.message).to.equal('La session a déjà commencé.');
+    });
+  });
+
+  context('when mapping UnknownCountryForStudentEnrolmentError', function () {
+    it('returns an UnprocessableEntityError Http Error', function () {
+      //given
+      const httpErrorMapper = enrolmentDomainErrorMappingConfiguration.find(
+        (httpErrorMapper) => httpErrorMapper.name === UnknownCountryForStudentEnrolmentError.name,
+      );
+
+      //when
+      const error = httpErrorMapper.httpErrorFn(
+        new UnknownCountryForStudentEnrolmentError({ firstName: 'Paul', lastName: 'Preboist' }),
+      );
+
+      //then
+      expect(error).to.be.instanceOf(HttpErrors.UnprocessableEntityError);
+      expect(error.message).to.equal(
+        "L'élève Paul Preboist a été inscrit avec un code pays de naissance invalide. Veuillez corriger ses informations sur l'espace PixOrga de l'établissement ou contacter le support Pix",
+      );
     });
   });
 });

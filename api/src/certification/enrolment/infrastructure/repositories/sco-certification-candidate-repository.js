@@ -1,4 +1,4 @@
-import { knex } from '../../../db/knex-database-connection.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
 
 const addNonEnrolledCandidatesToSession = async function ({ sessionId, scoCertificationCandidates }) {
   const organizationLearnerIds = scoCertificationCandidates.map((candidate) => candidate.organizationLearnerId);

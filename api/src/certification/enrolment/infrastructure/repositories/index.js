@@ -1,3 +1,4 @@
+import * as organizationLearnerRepository from '../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as complementaryCertificationApi from '../../../complementary-certification/application/api/complementary-certification-api.js';
 import * as sessionManagementRepository from '../../../session-management/infrastructure/repositories/session-repository.js';
@@ -9,6 +10,7 @@ import * as certificationCpfCityRepository from './certification-cpf-city-reposi
 import * as certificationCpfCountryRepository from './certification-cpf-country-repository.js';
 import * as complementaryCertificationRepository from './complementary-certification-repository.js';
 import * as countryRepository from './country-repository.js';
+import * as scoCertificationCandidateRepository from './sco-certification-candidate-repository.js';
 import * as sessionForAttendanceSheetRepository from './session-for-attendance-sheet-repository.js';
 import * as sessionRepository from './session-repository.js';
 
@@ -26,19 +28,23 @@ import * as sessionRepository from './session-repository.js';
  * @typedef {sessionForAttendanceSheetRepository} SessionForAttendanceSheetRepository
  * @typedef {sessionManagementRepository} SessionManagementRepository
  * @typedef {countryRepository} CountryRepository
+ * @typedef {scoCertificationCandidateRepository} ScoCertificationCandidateRepository
+ * @typedef {organizationLearnerRepository} OrganizationLearnerRepository
  */
 const repositoriesWithoutInjectedDependencies = {
   candidateRepository,
   centerRepository,
-  complementaryCertificationRepository,
-  sessionRepository,
   certificationCandidateRepository,
   certificationCenterRepository,
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
+  complementaryCertificationRepository,
+  countryRepository,
+  scoCertificationCandidateRepository,
   sessionForAttendanceSheetRepository,
   sessionManagementRepository,
-  countryRepository,
+  sessionRepository,
+  organizationLearnerRepository,
 };
 
 /**

@@ -1,8 +1,8 @@
-import { InvalidCertificationCandidate } from '../../../../lib/domain/errors.js';
-import { SCOCertificationCandidate } from '../../../../lib/domain/models/SCOCertificationCandidate.js';
-import { catchErr, expect } from '../../../test-helper.js';
+import { InvalidCertificationCandidate } from '../../../../../../src/certification/enrolment/domain/errors.js';
+import { SCOCertificationCandidate } from '../../../../../../src/certification/enrolment/domain/models/SCOCertificationCandidate.js';
+import { catchErr, expect } from '../../../../../test-helper.js';
 
-describe('Unit | Domain | Models | SCO Certification Candidate', function () {
+describe('Certification | Enrolment | Unit | Domain | Models | SCO Certification Candidate', function () {
   describe('validate', function () {
     const buildSCOCertificationCandidate = (attributes) => new SCOCertificationCandidate(attributes);
     const validAttributes = {

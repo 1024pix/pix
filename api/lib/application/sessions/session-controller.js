@@ -1,13 +1,11 @@
 import lodash from 'lodash';
 
-import { usecases as enrolmentUsecases } from '../../../src/certification/enrolment/domain/usecases/index.js';
 import * as sessionValidator from '../../../src/certification/enrolment/domain/validators/session-validator.js';
 import * as certificationCandidateSerializer from '../../../src/certification/enrolment/infrastructure/serializers/certification-candidate-serializer.js';
 import * as jurySessionRepository from '../../../src/certification/session-management/infrastructure/repositories/jury-session-repository.js';
 import * as sessionManagementSerializer from '../../../src/certification/session-management/infrastructure/serializers/session-serializer.js';
 import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
-import * as requestResponseUtils from '../../../src/shared/infrastructure/utils/request-response-utils.js';
 import { UserLinkedToCertificationCandidate } from '../../domain/events/UserLinkedToCertificationCandidate.js';
 import * as sessionResultsLinkService from '../../domain/services/session-results-link-service.js';
 import { usecases } from '../../domain/usecases/index.js';
@@ -153,22 +151,6 @@ const importCertificationCandidatesFromCandidatesImportSheet = async function (r
   return null;
 };
 
-const enrolStudentsToSession = async function (
-  request,
-  h,
-  dependencies = { certificationCandidateSerializer, requestResponseUtils },
-) {
-  const referentId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
-  const sessionId = request.params.id;
-  const studentIds = request.deserializedPayload.organizationLearnerIds;
-
-  await usecases.enrolStudentsToSession({ sessionId, referentId, studentIds });
-  const certificationCandidates = await enrolmentUsecases.getSessionCertificationCandidates({ sessionId });
-  const certificationCandidatesSerialized =
-    dependencies.certificationCandidateSerializer.serialize(certificationCandidates);
-  return h.response(certificationCandidatesSerialized).created();
-};
-
 const createCandidateParticipation = async function (request, h, dependencies = { certificationCandidateSerializer }) {
   const userId = request.auth.credentials.userId;
   const sessionId = request.params.id;
@@ -237,7 +219,6 @@ const sessionController = {
   getSessionResultsToDownload,
   getSessionResultsByRecipientEmail,
   importCertificationCandidatesFromCandidatesImportSheet,
-  enrolStudentsToSession,
   createCandidateParticipation,
   publish,
   publishInBatch,
