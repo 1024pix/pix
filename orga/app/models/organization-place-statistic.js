@@ -4,4 +4,9 @@ export default class PlaceStatistics extends Model {
   @attr('number') available;
   @attr('number') total;
   @attr('number') occupied;
+  @attr('number') anonymousSeat;
+
+  get hasAnonymousSeat() {
+    return this.anonymousSeat > 0;
+  }
 }
