@@ -1,5 +1,5 @@
+import { sharedUsecases as usecases } from '../../../src/shared/domain/usecases/index.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
-import { usecases } from '../../domain/usecases/index.js';
 
 const createRelease = async function (request, h) {
   usecases

@@ -1,6 +1,6 @@
 import { lcmsController } from '../../../../lib/application/lcms/lcms-controller.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { expect, hFake, sinon } from '../../../test-helper.js';
+import { sharedUsecases as usecases } from '../../../../src/shared/domain/usecases/index.js';
+import { expect, hFake, sinon } from '../../../../tests/test-helper.js';
 
 describe('Unit | Controller | lcms-controller', function () {
   describe('#createRelease', function () {
