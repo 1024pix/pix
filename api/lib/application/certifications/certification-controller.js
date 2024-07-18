@@ -1,15 +1,5 @@
-import * as requestResponseUtils from '../../../src/shared/infrastructure/utils/request-response-utils.js';
 import * as events from '../../domain/events/index.js';
 import { usecases } from '../../domain/usecases/index.js';
-import * as shareableCertificateSerializer from '../../infrastructure/serializers/jsonapi/shareable-certificate-serializer.js';
-
-const getCertificationByVerificationCode = async function (request, h, dependencies = { requestResponseUtils }) {
-  const verificationCode = request.payload.verificationCode;
-  const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
-
-  const shareableCertificate = await usecases.getShareableCertificate({ verificationCode, locale });
-  return shareableCertificateSerializer.serialize(shareableCertificate);
-};
 
 const neutralizeChallenge = async function (request, h, dependencies = { events }) {
   const challengeRecId = request.payload.data.attributes.challengeRecId;
@@ -38,7 +28,6 @@ const deneutralizeChallenge = async function (request, h, dependencies = { event
 };
 
 const certificationController = {
-  getCertificationByVerificationCode,
   neutralizeChallenge,
   deneutralizeChallenge,
 };

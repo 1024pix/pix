@@ -1,6 +1,6 @@
-import { domainBuilder, expect } from '../../../test-helper.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
-describe('Unit | Domain | Models | ShareableCertificate', function () {
+describe('Certification | Results | Unit | Domain | Models | ShareableCertificate', function () {
   context('#setResultCompetenceTree', function () {
     it('should set the resultCompetenceTree on ShareableCertificate model', function () {
       // given

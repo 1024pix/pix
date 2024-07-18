@@ -1,7 +1,7 @@
-import { getShareableCertificate as getCertificationByVerificationCode } from '../../../../lib/domain/usecases/certificate/get-shareable-certificate.js';
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { getShareableCertificate as getCertificationByVerificationCode } from '../../../../../../src/certification/results/domain/usecases/get-shareable-certificate.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | UseCase | get-shareable-certificate', function () {
+describe('Certification | Results | Unit | Domain | UseCases | get-shareable-certificate', function () {
   const certificateRepository = {
     getShareableCertificateByVerificationCode: () => undefined,
   };
