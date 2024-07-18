@@ -1,11 +1,13 @@
-import * as DomainErrors from '../../../../lib/domain/errors.js';
 import {
   SessionAlreadyFinalizedError,
   SessionWithAbortReasonOnCompletedCertificationCourseError,
   SessionWithoutStartedCertificationError,
 } from '../../../../src/certification/session-management/domain/errors.js';
 import { SiecleXmlImportError } from '../../../../src/prescription/learner-management/domain/errors.js';
-import { UserNotAuthorizedToUpdatePasswordError } from '../../../../src/shared/domain/errors.js';
+import {
+  UserNotAuthorizedToAccessEntityError,
+  UserNotAuthorizedToUpdatePasswordError,
+} from '../../../../src/shared/domain/errors.js';
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Integration | API | Controller Error', function () {
@@ -96,7 +98,7 @@ describe('Integration | API | Controller Error', function () {
     const FORBIDDEN_ERROR = 403;
 
     it('responds Forbidden when a UserNotAuthorizedToAccessEntityError error occurs', async function () {
-      routeHandler.throws(new DomainErrors.UserNotAuthorizedToAccessEntityError());
+      routeHandler.throws(new UserNotAuthorizedToAccessEntityError());
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(FORBIDDEN_ERROR);

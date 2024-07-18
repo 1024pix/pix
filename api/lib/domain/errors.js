@@ -539,12 +539,6 @@ class OrganizationArchivedError extends DomainError {
   }
 }
 
-class UserCouldNotBeReconciledError extends DomainError {
-  constructor(message = "Cet utilisateur n'a pas pu être rattaché à une organisation.") {
-    super(message);
-  }
-}
-
 class OrganizationLearnerAlreadyLinkedToUserError extends DomainError {
   constructor(message = "L'élève est déjà rattaché à un compte utilisateur.", code, meta) {
     super(message);
@@ -555,12 +549,6 @@ class OrganizationLearnerAlreadyLinkedToUserError extends DomainError {
 
 class OrganizationLearnerAlreadyLinkedToInvalidUserError extends DomainError {
   constructor(message = 'Élève rattaché avec un compte invalide.') {
-    super(message);
-  }
-}
-
-class UserAlreadyExistsWithAuthenticationMethodError extends DomainError {
-  constructor(message = 'Il existe déjà un compte qui possède cette méthode d‘authentification.') {
     super(message);
   }
 }
@@ -606,36 +594,6 @@ class TargetProfileInvalidError extends DomainError {
 
 class OrganizationTagNotFound extends DomainError {
   constructor(message = 'Le tag de l’organization n’existe pas.') {
-    super(message);
-  }
-}
-
-class UserAlreadyLinkedToCandidateInSessionError extends DomainError {
-  constructor(message = 'Cet utilisateur est déjà lié à un candidat de certification au sein de cette session.') {
-    super(message);
-  }
-}
-
-class UserHasAlreadyLeftSCO extends DomainError {
-  constructor(message = 'User has already left SCO.') {
-    super(message);
-  }
-}
-
-class UserIsTemporaryBlocked extends DomainError {
-  constructor(message = 'User has been temporary blocked.', code = 'USER_IS_TEMPORARY_BLOCKED') {
-    super(message, code);
-  }
-}
-
-class UserIsBlocked extends DomainError {
-  constructor(message = 'User has been blocked.', code = 'USER_IS_BLOCKED') {
-    super(message, code);
-  }
-}
-
-class UserNotAuthorizedToAccessEntityError extends DomainError {
-  constructor(message = 'User is not authorized to access ressource') {
     super(message);
   }
 }
@@ -923,13 +881,6 @@ export {
   TargetProfileInvalidError,
   TooManyRows,
   UnexpectedUserAccountError,
-  UserAlreadyExistsWithAuthenticationMethodError,
-  UserAlreadyLinkedToCandidateInSessionError,
-  UserCouldNotBeReconciledError,
-  UserHasAlreadyLeftSCO,
-  UserIsBlocked,
-  UserIsTemporaryBlocked,
-  UserNotAuthorizedToAccessEntityError,
   UserNotAuthorizedToCertifyError,
   UserNotAuthorizedToCreateCampaignError,
   UserNotAuthorizedToCreateResourceError,

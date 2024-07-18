@@ -1,5 +1,5 @@
+import { UserIsBlocked, UserIsTemporaryBlocked } from '../../../src/shared/domain/errors.js';
 import * as userLoginRepository from '../../../src/shared/infrastructure/repositories/user-login-repository.js';
-import { UserIsBlocked, UserIsTemporaryBlocked } from '../../domain/errors.js';
 
 const execute = async function (username) {
   const foundUserLogin = await userLoginRepository.findByUsername(username);

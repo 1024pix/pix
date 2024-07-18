@@ -1,6 +1,6 @@
-import { UserNotAuthorizedToAccessEntityError } from '../../../../../../lib/domain/errors.js';
 import { CampaignParticipationResultsShared } from '../../../../../../lib/domain/events/CampaignParticipationResultsShared.js';
 import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | share-campaign-result', function () {

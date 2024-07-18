@@ -13,6 +13,7 @@ import {
   ForbiddenAccess,
   InvalidResultRecipientTokenError,
   InvalidTemporaryKeyError,
+  UserAlreadyLinkedToCandidateInSessionError,
   UserNotFoundError,
 } from '../../../src/shared/domain/errors.js';
 import { expect, HttpTestServer, sinon } from '../../test-helper.js';
@@ -319,7 +320,7 @@ describe('Integration | API | Controller Error', function () {
     });
 
     it('responds Forbidden when a UserAlreadyLinkedToCandidateInSessionError error occurs', async function () {
-      routeHandler.throws(new DomainErrors.UserAlreadyLinkedToCandidateInSessionError());
+      routeHandler.throws(new UserAlreadyLinkedToCandidateInSessionError());
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(FORBIDDEN_ERROR);

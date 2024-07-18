@@ -1,5 +1,5 @@
-import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
 import { getNextChallengeForCompetenceEvaluation } from '../../../../lib/domain/usecases/get-next-challenge-for-competence-evaluation.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluation', function () {

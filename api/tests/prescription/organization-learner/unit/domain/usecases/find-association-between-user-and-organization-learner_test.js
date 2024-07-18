@@ -1,10 +1,7 @@
-import {
-  CampaignCodeError,
-  OrganizationLearnerDisabledError,
-  UserNotAuthorizedToAccessEntityError,
-} from '../../../../../../lib/domain/errors.js';
+import { CampaignCodeError, OrganizationLearnerDisabledError } from '../../../../../../lib/domain/errors.js';
 import { OrganizationLearner } from '../../../../../../lib/domain/models/OrganizationLearner.js';
 import { findAssociationBetweenUserAndOrganizationLearner } from '../../../../../../src/prescription/organization-learner/domain/usecases/find-association-between-user-and-organization-learner.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | find-association-between-user-and-organization-learner', function () {

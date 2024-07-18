@@ -1,7 +1,7 @@
-import { UserNotAuthorizedToAccessEntityError } from '../../../../../lib/domain/errors.js';
 import { campaignResultsController } from '../../../../../src/prescription/campaign/application/campaign-results-controller.js';
 import { usecases } from '../../../../../src/prescription/campaign/domain/usecases/index.js';
 import { LOCALE } from '../../../../../src/shared/domain/constants.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../../src/shared/domain/errors.js';
 import { catchErr, expect, hFake, sinon } from '../../../../test-helper.js';
 
 const { FRENCH_SPOKEN } = LOCALE;

@@ -1,4 +1,4 @@
-import { UserNotAuthorizedToAccessEntityError } from '../../../../../../lib/domain/errors.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../../../src/shared/domain/errors.js';
 
 const getCampaignParticipationsCountsByStatus = async function ({
   userId,

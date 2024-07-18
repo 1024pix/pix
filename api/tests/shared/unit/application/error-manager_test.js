@@ -17,6 +17,7 @@ import {
   NoCertificationAttestationForDivisionError,
   NotFoundError,
   OidcError,
+  UserHasAlreadyLeftSCO,
   UserNotAuthorizedToAccessEntityError,
 } from '../../../../src/shared/domain/errors.js';
 import { expect, hFake, sinon } from '../../../test-helper.js';
@@ -51,6 +52,19 @@ describe('Shared | Unit | Application | ErrorManager', function () {
           },
         ],
       });
+    });
+
+    it('should instantiate UnauthorizedError when UserHasAlreadyLeftSCO', async function () {
+      // given
+      const error = new UserHasAlreadyLeftSCO();
+      sinon.stub(HttpErrors, 'ForbiddenError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(error.message);
     });
 
     it('should translate EntityValidationError to french', async function () {

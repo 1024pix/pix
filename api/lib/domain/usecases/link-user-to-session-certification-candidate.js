@@ -2,13 +2,15 @@ import _ from 'lodash';
 
 import { CertificationCourse } from '../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { CertificationVersion } from '../../../src/certification/shared/domain/models/CertificationVersion.js';
-import { LanguageNotSupportedError } from '../../../src/shared/domain/errors.js';
+import {
+  LanguageNotSupportedError,
+  UserAlreadyLinkedToCandidateInSessionError,
+} from '../../../src/shared/domain/errors.js';
 import {
   CertificationCandidateByPersonalInfoNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   MatchingReconciledStudentNotFoundError,
   UnexpectedUserAccountError,
-  UserAlreadyLinkedToCandidateInSessionError,
 } from '../errors.js';
 import { UserAlreadyLinkedToCertificationCandidate } from '../events/UserAlreadyLinkedToCertificationCandidate.js';
 import { UserLinkedToCertificationCandidate } from '../events/UserLinkedToCertificationCandidate.js';

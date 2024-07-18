@@ -1,6 +1,7 @@
-import { CampaignCodeError, UserCouldNotBeReconciledError } from '../../../../lib/domain/errors.js';
+import { CampaignCodeError } from '../../../../lib/domain/errors.js';
 import { OrganizationLearner } from '../../../../lib/domain/models/OrganizationLearner.js';
 import { reconcileScoOrganizationLearnerAutomatically } from '../../../../lib/domain/usecases/reconcile-sco-organization-learner-automatically.js';
+import { UserCouldNotBeReconciledError } from '../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | reconcile-sco-organization-learner-automatically', function () {
