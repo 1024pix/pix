@@ -1,5 +1,5 @@
-import { UserNotFoundError } from '../../../../lib/domain/errors.js';
 import { userVerification } from '../../../../src/identity-access-management/application/user/user-existence-verification-pre-handler.js';
+import { UserNotFoundError } from '../../../../src/shared/domain/errors.js';
 import { expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Pre-handler | User Verification', function () {

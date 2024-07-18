@@ -1,6 +1,6 @@
-import { UserNotFoundError } from '../../../../../lib/domain/errors.js';
 import { ModuleDoesNotExistError } from '../../../../../src/devcomp/domain/errors.js';
 import { createPassage } from '../../../../../src/devcomp/domain/usecases/create-passage.js';
+import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { catchErr, expect, sinon } from '../../../../test-helper.js';
 

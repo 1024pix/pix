@@ -1,9 +1,5 @@
 import { knex } from '../../../../db/knex-database-connection.js';
-import {
-  AlreadyExistingEntityError,
-  AlreadyRegisteredUsernameError,
-  UserNotFoundError,
-} from '../../../../lib/domain/errors.js';
+import { AlreadyExistingEntityError, AlreadyRegisteredUsernameError } from '../../../../lib/domain/errors.js';
 import { CertificationCenter } from '../../../../lib/domain/models/CertificationCenter.js';
 import { CertificationCenterMembership } from '../../../../lib/domain/models/CertificationCenterMembership.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
@@ -12,7 +8,7 @@ import { OrganizationLearnerForAdmin } from '../../../../lib/domain/read-models/
 import { BookshelfUser } from '../../../../lib/infrastructure/orm-models/User.js';
 import { Organization } from '../../../organizational-entities/domain/models/Organization.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import { AlreadyRegisteredEmailError } from '../../../shared/domain/errors.js';
+import { AlreadyRegisteredEmailError, UserNotFoundError } from '../../../shared/domain/errors.js';
 import { fetchPage, isUniqConstraintViolated } from '../../../shared/infrastructure/utils/knex-utils.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../domain/constants/identity-providers.js';
 import * as OidcIdentityProviders from '../../domain/constants/oidc-identity-providers.js';

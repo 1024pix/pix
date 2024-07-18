@@ -6,13 +6,13 @@ import {
   OrganizationLearnerCertificabilityNotUpdatedError,
   OrganizationLearnerNotFound,
   UserCouldNotBeReconciledError,
-  UserNotFoundError,
 } from '../../../../lib/domain/errors.js';
 import { OrganizationLearner } from '../../../../lib/domain/models/OrganizationLearner.js';
 import { OrganizationLearnerForAdmin } from '../../../../lib/domain/read-models/OrganizationLearnerForAdmin.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
+import { UserNotFoundError } from '../../../../src/shared/domain/errors.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | organization-learner-repository', function () {

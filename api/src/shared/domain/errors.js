@@ -343,6 +343,20 @@ class CertificationCenterPilotFeaturesConflictError extends DomainError {
   }
 }
 
+class UserNotFoundError extends NotFoundError {
+  constructor(message = 'Ce compte est introuvable.', code = 'USER_ACCOUNT_NOT_FOUND') {
+    super(message, code);
+  }
+
+  getErrorMessage() {
+    return {
+      data: {
+        id: ['Ce compte est introuvable.'],
+      },
+    };
+  }
+}
+
 export {
   AlreadyExistingEntityError,
   AlreadyRegisteredEmailError,
@@ -377,4 +391,5 @@ export {
   UserNotAuthorizedToAccessEntityError,
   UserNotAuthorizedToUpdateEmailError,
   UserNotAuthorizedToUpdatePasswordError,
+  UserNotFoundError,
 };

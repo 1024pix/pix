@@ -1,5 +1,6 @@
-import { AlreadyExistingEntityError, UserNotFoundError } from '../../../../lib/domain/errors.js';
+import { AlreadyExistingEntityError } from '../../../../lib/domain/errors.js';
 import { createCertificationCenterMembershipByEmail } from '../../../../lib/domain/usecases/create-certification-center-membership-by-email.js';
+import { UserNotFoundError } from '../../../../src/shared/domain/errors.js';
 import { catchErr, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | create-certification-center-membership-by-email', function () {

@@ -1,8 +1,8 @@
-import { UserNotFoundError } from '../../../../../lib/domain/errors.js';
 import { passwordController } from '../../../../../src/identity-access-management/application/password/password.controller.js';
 import { identityAccessManagementRoutes } from '../../../../../src/identity-access-management/application/routes.js';
 import { PasswordResetDemandNotFoundError } from '../../../../../src/identity-access-management/domain/errors.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
+import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { InvalidTemporaryKeyError } from '../../../../../src/shared/domain/errors.js';
 import {
   catchErr,

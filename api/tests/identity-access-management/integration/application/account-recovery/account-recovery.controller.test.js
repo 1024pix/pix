@@ -1,6 +1,6 @@
-import { NotFoundError, UserNotFoundError } from '../../../../../lib/domain/errors.js';
 import { identityAccessManagementRoutes } from '../../../../../src/identity-access-management/application/routes.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
+import { NotFoundError, UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 const routesUnderTest = identityAccessManagementRoutes[0];

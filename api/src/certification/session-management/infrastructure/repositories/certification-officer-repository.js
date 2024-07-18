@@ -1,5 +1,5 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { UserNotFoundError } from '../../../../../lib/domain/errors.js';
+import { UserNotFoundError } from '../../../../shared/domain/errors.js';
 import { CertificationOfficer } from '../../domain/models/CertificationOfficer.js';
 
 const get = async function ({ userId }) {

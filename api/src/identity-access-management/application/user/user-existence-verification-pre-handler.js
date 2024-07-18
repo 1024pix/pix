@@ -1,4 +1,4 @@
-import { UserNotFoundError } from '../../../../lib/domain/errors.js';
+import { UserNotFoundError } from '../../../shared/domain/errors.js';
 import * as errorSerializer from '../../../shared/infrastructure/serializers/jsonapi/validation-error-serializer.js';
 import * as userRepository from '../../infrastructure/repositories/user.repository.js';
 
