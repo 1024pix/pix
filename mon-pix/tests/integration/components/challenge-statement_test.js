@@ -116,12 +116,12 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
       );
 
       // then
-      assert
-        .dom(screen.getByRole('link', { name: `lien 1 (${this.intl.t('navigation.external-link-title')})` }))
-        .exists();
-      assert
-        .dom(screen.getByRole('link', { name: `lien 2 (${this.intl.t('navigation.external-link-title')})` }))
-        .exists();
+      const link1 = screen.queryByRole('link', { name: 'lien 1' });
+      const link2 = screen.queryByRole('link', { name: 'lien 2' });
+      assert.dom(link1).exists();
+      assert.dom(link2).exists();
+      assert.dom(link1).hasAttribute('title', `lien 1 (${this.intl.t('navigation.external-link-title')})`);
+      assert.dom(link2).hasAttribute('title', `lien 2 (${this.intl.t('navigation.external-link-title')})`);
     });
 
     test('should display a specific style', async function (assert) {
