@@ -1,4 +1,4 @@
-import { Organization } from '../../models/index.js';
+import { Organization } from '../models/Organization.js';
 
 const getOrganizationDetails = async function ({ organizationId, organizationForAdminRepository, schoolRepository }) {
   const organization = await organizationForAdminRepository.get(organizationId);

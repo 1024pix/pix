@@ -1,8 +1,9 @@
-import { Organization, OrganizationForAdmin } from '../../../../../lib/domain/models/index.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin-serializer.js';
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-management/domain/constants/identity-providers.js';
-import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
-import { domainBuilder, expect } from '../../../../test-helper.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../../src/identity-access-management/domain/constants/identity-providers.js';
+import { Organization } from '../../../../../../src/organizational-entities/domain/models/Organization.js';
+import { OrganizationForAdmin } from '../../../../../../src/organizational-entities/domain/models/OrganizationForAdmin.js';
+import { organizationForAdminSerializer } from '../../../../../../src/organizational-entities/infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin.serializer.js';
+import { ORGANIZATION_FEATURE } from '../../../../../../src/shared/domain/constants.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | organization-for-admin-serializer', function () {
   describe('#serialize', function () {
@@ -50,7 +51,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
       const meta = { some: 'meta' };
 
       // when
-      const serializedOrganization = serializer.serialize(organization, meta);
+      const serializedOrganization = organizationForAdminSerializer.serialize(organization, meta);
 
       // then
       expect(serializedOrganization).to.deep.equal({
@@ -165,7 +166,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
       };
 
       // when
-      const organization = serializer.deserialize({
+      const organization = organizationForAdminSerializer.deserialize({
         data: {
           type: 'organizations',
           id: '7',
@@ -256,7 +257,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
       };
 
       // when
-      const organization = serializer.deserialize(jsonApiOrganization);
+      const organization = organizationForAdminSerializer.deserialize(jsonApiOrganization);
 
       // then
       expect(organization.tags).to.be.empty;

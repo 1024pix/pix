@@ -13,35 +13,6 @@ const TWO_AND_HALF_MEGABYTES = 1048576 * 2.5;
 const register = async function (server) {
   server.route([
     {
-      method: 'GET',
-      path: '/api/admin/organizations/{id}',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationId,
-          }),
-        },
-        handler: organizationController.getOrganizationDetails,
-        tags: ['api', 'organizations'],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            '- Elle permet de récupérer toutes les informations d’une organisation',
-        ],
-      },
-    },
-    {
       method: 'PATCH',
       path: '/api/admin/organizations/{id}',
       config: {
