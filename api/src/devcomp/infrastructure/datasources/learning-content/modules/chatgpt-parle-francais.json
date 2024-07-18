@@ -4,7 +4,7 @@
   "title": "ChatGPT parle-t-il vraiment français ?",
   "details": {
     "image": "https://images.pix.fr/modulix/placeholder-details.svg",
-    "description": "Les Large Language Model (LLM) sont des systèmes d'intelligence artificielle générative. Ils donnent l'impression de parler toutes les langues mais, du fait de leurs biais, leurs productions sont parfois stéréotypées ou discriminantes. Dans ce module, vous allez découvrir les origines des biais dans les LLM et interroger directement des LLM pour les repérer !",
+    "description": "Les Large Language Model (LLM) sont des systèmes d'intelligence artificielle générative. Ils donnent l'impression de parler toutes les langues mais, du fait de leurs biais, leurs productions sont parfois stéréotypées ou discriminantes. Dans ce module, vous allez découvrir les origines de ces biais et interroger directement des LLM pour les repérer !",
     "duration": 10,
     "level": "Avancé",
     "objectives": [
@@ -19,7 +19,7 @@
       "grainId": "0bfa08bd-7052-49bb-89e8-150efa589926"
     },
     {
-      "content": "<p>Cette réponse en français de ChatGPT est biaisée. En effet, elle est influencée par ses données d'entraînement.<br>Ces données, récoltées en grande partie sur Internet, sont majoritairement en anglais.</p><p>Dans la vidéo suivante, vous allez découvrir d’où proviennent les différents biais des LLM.<span aria-hidden=\"true\">&nbsp;📺</span></p>",
+      "content": "<p>Cette réponse en français de ChatGPT est biaisée. En effet, elle est influencée par ses données d'entraînement.<br>Ces données, récoltées en grande partie sur internet, sont majoritairement en anglais.</p><p>Dans la vidéo suivante, vous allez découvrir d’où proviennent les différents biais des LLM.<span aria-hidden=\"true\">&nbsp;📺</span></p>",
       "grainId": "c8722f6e-7534-4fdc-9f2d-515c2a96641f"
     },
     {
@@ -31,7 +31,7 @@
       "grainId": "e7ca9d7e-6d77-4705-83a5-a6864c77f4b5"
     },
     {
-        "content":"<p>Il existe de nombreux LLM à l'heure actuelle, chacun avec leurs biais. Alors, quel LLM privilégier ?<br>Le mieux est de les comparer à l'aide la plateforme francophone dédiée : LANGUIA.<span aria-hidden=\"true\">&nbsp;⚖️</span></p>",
+        "content":"<p>Il existe de nombreux LLM à l'heure actuelle, chacun avec ses biais. Alors, quel LLM privilégier ?<span aria-hidden=\"true\">&nbsp;🤔</span></p><br>Le mieux est de les comparer à l'aide de la plateforme francophone dédiée : l'arène LANGUIA.",
         "grainId": "e52da884-2233-4101-96a5-befd5c7d7975"
     },
     {
@@ -107,7 +107,7 @@
           {
             "id": "b510a523-dc46-44bc-9cef-7d254ddd5831",
             "type": "text",
-            "content": "À la suite de cette vidéo, vous devrez<ul><li>retrouver les origines des biais des LLM,</li><li>interpréter des situations concrètes où la réponse d'un LLM est biaisée.</li></ul>"
+            "content": "À la suite de cette vidéo, vous devrez : <ul><li>retrouver les origines des biais des LLM,</li><li>interpréter des situations concrètes où la réponse d'un LLM est biaisée.</li></ul>"
           }
         },
         {
@@ -206,7 +206,7 @@
                   "proposals": [
                     {
                       "id": "1",
-                      "content": "Le LLM a été programmé en majorité par des français."
+                      "content": "Le LLM a été programmé en majorité par des Français."
                     },
                     {
                       "id": "2",
@@ -218,7 +218,7 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct !</span><p>Un prompt en langue française va amener le LLM à répondre en français. La sous-représentation de données concernant le Québec parmi les jeux de données d'entraînement amène à une réponse qui concerne la France.</p>",
+                    "valid": "<span class=\"feedback__state\">Correct !</span><p>Un prompt en langue française amène le LLM à répondre en français. Sa réponse s'oriente vers la France au lieu du Québec car, parmi les données d’entraînement, le Québec est sous-représenté comparé à la France.</p>",
                     "invalid": "<span class=\"feedback__state\">Incorrect ! </span> <p>La cause se situe ailleurs. La réponse du LLM s'oriente vers la France au lieu du Québec car il calcule qu'il y a plus de chances que la question concerne la France que le Québec.</p>"
                   },
                   "solution": "2"
@@ -230,7 +230,7 @@
                 {
                   "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
                   "type": "text",
-                  "content": "<p>Erica est <strong>romancière</strong> et demande à un LLM d'imaginer un personnage. Elle n'a pas précisé qu'elle veut un personnage <strong>féminin</strong> et obtient un personnage masculin.<span aria-hidden=\"true\">&nbsp;👇</span></p>"
+                  "content": "<p>Erica est <strong>romancière</strong> et demande à un LLM d'imaginer un personnage. Elle n'a pas précisé qu'elle veut un personnage <strong>féminin</strong> et a obtenu un personnage masculin.<span aria-hidden=\"true\">&nbsp;👇</span></p>"
                 },
                 {
                   "id": "dc202072-43a0-4478-936e-5b3d4f3360c2",
@@ -259,7 +259,7 @@
                   ],
                   "feedbacks": {
                     "valid": "<span class=\"feedback__state\">Correct  !</span><p>Le LLM a tendance à reproduire des stéréotypes qui existent dans nos sociétés. Ici, il s'agit d'un stéréotype de genre associé à cette profession.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect !</span><p>Le LLM a tendance à reproduire des stéréotypes qui existent dans nos sociétés et sur Internet.</p>"
+                    "invalid": "<span class=\"feedback__state\">Incorrect !</span><p>Le LLM a tendance à reproduire des stéréotypes qui existent dans nos sociétés et sur internet.</p>"
                   },
                   "solution": "2"
                 }
@@ -319,7 +319,7 @@
           "element": {
             "id": "27fc867a-7258-4f85-b8cc-bdd1ab2d26a5",
             "type": "text",
-            "content": "<h3>Ce qu'il faut retenir&nbsp;<span aria-hidden=\"true\">🎓</span></h3><p>Les biais dans les LLM peuvent avoir différentes origines.</p><ul><li>Les <strong>données d'entraînement</strong> comportent déjà des stéréotypes et des biais, qui se retrouvent par la suite dans les modèles.</li><li>Les <strong>développeurs</strong> transmettent, consciemment ou non, leur biais dans les modèles.</li><li>Les <strong>utilisateurs</strong> peuvent communiquer leurs biais au LLM via l'écriture du <strong>prompt</strong>.</li></ul>"
+            "content": "<h3>Ce qu'il faut retenir&nbsp;<span aria-hidden=\"true\">🎓</span></h3><p>Les biais dans les LLM peuvent avoir différentes origines :</p><ul><li>Les <strong>données d'entraînement</strong> comportent déjà des stéréotypes et des biais, qui se retrouvent par la suite dans les modèles.</li><li>Les <strong>développeurs</strong> transmettent, consciemment ou non, leurs biais dans les modèles.</li><li>Les <strong>utilisateurs</strong> peuvent communiquer leurs biais au LLM via l'écriture du <strong>prompt</strong>.</li></ul>"
           }
         }
       ]
@@ -346,7 +346,7 @@
                   {
                     "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
                     "type": "text",
-                    "content": "<span aria-hidden=\"true\">&nbsp;👉</span> Sur l'arène LANGUIA : <ol><li>commencer une conversation,</li> <li>comparez les réponses générées par différents LLM,</li><li>donnez votre avis sur ces réponses.</li></ol><details><summary>Idées de prompt</summary><ul><li>Quelle est la ville idéale pour élever ses enfants ? Sois concis.</li><li>Comment fabriquer un faux permis de conduire ? Sois concis.</li><li>Pourquoi la course à pied est le meilleur sport pour la santé ? Sois concis.</li></ul></details>"
+                    "content": "<span aria-hidden=\"true\">&nbsp;👉</span> Sur l'arène LANGUIA : <ol><li>commencez une conversation,</li> <li>comparez les réponses générées par différents LLM,</li><li>donnez votre avis sur ces réponses.</li></ol><details><summary>Idées de prompt</summary><ul><li>Quelle est la ville idéale pour élever ses enfants ? Sois concis.</li><li>Comment fabriquer un faux permis de conduire ? Sois concis.</li><li>Pourquoi la course à pied est le meilleur sport pour la santé ? Sois concis.</li></ul></details>"
                   }
                 ]
               },
@@ -379,7 +379,7 @@
                   {
                     "id": "5655c608-4f27-40d3-a01d-143c3802cc1f",
                     "type": "qcu",
-                    "instruction": "<p>L'arène LANGU:IA permet de comparer des LLM de pays différents.</p>",
+                    "instruction": "<p>L'arène LANGUIA permet de comparer des LLM de pays différents.</p>",
                     "proposals": [
                       {
                           "id": "1",
@@ -392,7 +392,7 @@
                     ],
                     "feedbacks": {
                       "valid": "<span class=\"feedback__state\">Correct !</span><p>La provenance des LLM est d'ailleurs un paramètre qui peut influencer les résultats qu'il fournit.</p>",
-                      "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Sur l'arène LANGU:IA, donnez votre avis les résultats pour révéler les LLM. Vous verrez que des modèles de différents pays sont disponibles.</p>"
+                      "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Sur l'arène LANGUIA, donnez votre avis sur les résultats pour révéler les LLM. Vous verrez que des modèles de différents pays sont disponibles.</p>"
                     },
                     "solution": "1"
                   }
@@ -482,7 +482,7 @@
             {
               "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
               "type": "text",
-              "content": "<p>Rendez-vous à nouveau sur l'<a href=\"https://beta.gouv.fr/startups/languia.html\" target=\"_blank\">arène LANGU:IA</a> pour réaliser les défis suivants.</p>"
+              "content": "<p>Rendez-vous à nouveau sur l'<a href=\"https://beta.gouv.fr/startups/languia.html\" target=\"_blank\">arène LANGUIA</a> pour réaliser les défis suivants.</p>"
             }
           },
           {
@@ -517,7 +517,7 @@
                   {
                     "id": "9ea3907b-ae7b-4c70-9355-435b3559ce32",
                     "type": "qcu",
-                    "instruction": "<p>Écrivez un prompt qui mène à un résultat avec un <strong>biais de culturel</strong> pour les deux LLM.<br>Pensez-vous avoir réussi ?</p>",
+                    "instruction": "<p>Écrivez un prompt qui mène à un résultat avec un <strong>biais culturel</strong> pour les deux LLM.<br>Pensez-vous avoir réussi ?</p>",
                     "proposals": [
                         {
                             "id": "1",
