@@ -3,6 +3,7 @@ import * as userSerializer from '../../../shared/infrastructure/serializers/json
 import { requestResponseUtils } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { authenticationMethodsSerializer } from '../../infrastructure/serializers/jsonapi/authentication-methods.serializer.js';
+import { emailVerificationSerializer } from '../../infrastructure/serializers/jsonapi/email-verification.serializer.js';
 import { userWithActivitySerializer } from '../../infrastructure/serializers/jsonapi/user-with-activity.serializer.js';
 
 const acceptPixCertifTermsOfService = async function (request, h) {
@@ -172,6 +173,20 @@ const rememberUserHasSeenLastDataProtectionPolicyInformation = async function (
   return dependencies.userSerializer.serialize(updatedUser);
 };
 
+const sendVerificationCode = async function (
+  request,
+  h,
+  dependencies = { emailVerificationSerializer, requestResponseUtils },
+) {
+  const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
+  const i18n = request.i18n;
+  const userId = request.params.id;
+  const { newEmail, password } = await dependencies.emailVerificationSerializer.deserialize(request.payload);
+
+  await usecases.sendVerificationCode({ i18n, locale, newEmail, password, userId });
+  return h.response().code(204);
+};
+
 const validateUserAccountEmail = async function (request, h) {
   const { token, redirect_url: redirectUrl } = request.query;
 
@@ -189,6 +204,7 @@ export const userController = {
   getUserAuthenticationMethods,
   rememberUserHasSeenLastDataProtectionPolicyInformation,
   save,
+  sendVerificationCode,
   updatePassword,
   validateUserAccountEmail,
 };

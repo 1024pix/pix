@@ -539,12 +539,6 @@ class CsvParsingError extends DomainError {
   }
 }
 
-class InvalidPasswordForUpdateEmailError extends DomainError {
-  constructor(message = 'Le mot de passe que vous avez saisi est invalide.') {
-    super(message);
-  }
-}
-
 class UnexpectedUserAccountError extends DomainError {
   constructor({
     message = "Ce compte utilisateur n'est pas celui qui est attendu.",
@@ -686,12 +680,6 @@ class OrganizationTagNotFound extends DomainError {
 
 class UserAlreadyLinkedToCandidateInSessionError extends DomainError {
   constructor(message = 'Cet utilisateur est déjà lié à un candidat de certification au sein de cette session.') {
-    super(message);
-  }
-}
-
-class UserNotAuthorizedToUpdateEmailError extends DomainError {
-  constructor(message = 'User is not authorized to update email') {
     super(message);
   }
 }
@@ -1009,7 +997,6 @@ export {
   InvalidIdentityProviderError,
   InvalidJuryLevelError,
   InvalidMembershipOrganizationRoleError,
-  InvalidPasswordForUpdateEmailError,
   InvalidStageError,
   InvalidVerificationCodeError,
   ManyOrganizationsFoundError,
@@ -1070,7 +1057,6 @@ export {
   UserNotAuthorizedToGetCampaignResultsError,
   UserNotAuthorizedToRemoveAuthenticationMethod,
   UserNotAuthorizedToUpdateCampaignError,
-  UserNotAuthorizedToUpdateEmailError,
   UserNotAuthorizedToUpdateResourceError,
   UserNotFoundError,
   UserNotMemberOfOrganizationError,

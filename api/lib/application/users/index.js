@@ -705,41 +705,6 @@ const register = async function (server) {
         tags: ['api', 'user', 'scorecard'],
       },
     },
-
-    {
-      method: 'PUT',
-      path: '/api/users/{id}/email/verification-code',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.userId,
-          }),
-          payload: Joi.object({
-            data: {
-              type: Joi.string().valid('email-verification-codes').required(),
-              attributes: {
-                'new-email': Joi.string().email().required(),
-                password: Joi.string().required(),
-              },
-            },
-          }),
-          failAction: (request, h, error) => {
-            return EntityValidationError.fromJoiErrors(error.details);
-          },
-        },
-        pre: [
-          {
-            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-            assign: 'requestedUserIsAuthenticatedUser',
-          },
-        ],
-        handler: userController.sendVerificationCode,
-        notes: [
-          '- Permet à un utilisateur de recevoir un code de vérification pour la validation de son adresse mail.',
-        ],
-        tags: ['api', 'user', 'verification-code'],
-      },
-    },
   ]);
 };
 

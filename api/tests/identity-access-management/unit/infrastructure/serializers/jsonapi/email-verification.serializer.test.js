@@ -1,5 +1,5 @@
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/email-verification-serializer.js';
-import { expect } from '../../../../test-helper.js';
+import { emailVerificationSerializer } from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/email-verification.serializer.js';
+import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | email-verification-serializer', function () {
   describe('#deserialize()', function () {
@@ -16,7 +16,7 @@ describe('Unit | Serializer | JSONAPI | email-verification-serializer', function
       };
 
       // when
-      const json = await serializer.deserialize(payload);
+      const json = await emailVerificationSerializer.deserialize(payload);
 
       // then
       const expectedJsonApi = {

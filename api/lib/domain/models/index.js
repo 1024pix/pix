@@ -81,7 +81,6 @@ import { ComplementaryCertificationScoringWithComplementaryReferential } from '.
 import { ComplementaryCertificationScoringWithoutComplementaryReferential } from './ComplementaryCertificationScoringWithoutComplementaryReferential.js';
 import { Correction } from './Correction.js';
 import { EmailingAttempt } from './EmailingAttempt.js';
-import { EmailModificationDemand } from './EmailModificationDemand.js';
 import { FinalizedSession } from './FinalizedSession.js';
 import { Framework } from './Framework.js';
 import { Hint } from './Hint.js';
@@ -194,7 +193,6 @@ export {
   Course,
   DataProtectionOfficer,
   EmailingAttempt,
-  EmailModificationDemand,
   Examiner,
   FinalizedSession,
   FlashAssessmentAlgorithm,

@@ -4,6 +4,7 @@ import XRegExp from 'xregexp';
 import { userVerification } from '../../../../lib/application/preHandlers/user-existence-verification.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { config } from '../../../shared/config.js';
+import { EntityValidationError } from '../../../shared/domain/errors.js';
 import { AVAILABLE_LANGUAGES } from '../../../shared/domain/services/language-service.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { userController } from './user.controller.js';
@@ -11,6 +12,39 @@ import { userController } from './user.controller.js';
 const { passwordValidationPattern } = config.account;
 
 export const userRoutes = [
+  {
+    method: 'PUT',
+    path: '/api/users/{id}/email/verification-code',
+    config: {
+      validate: {
+        params: Joi.object({
+          id: identifiersType.userId,
+        }),
+        payload: Joi.object({
+          data: {
+            type: Joi.string().valid('email-verification-codes').required(),
+            attributes: {
+              'new-email': Joi.string().email().required(),
+              password: Joi.string().required(),
+            },
+          },
+        }),
+        failAction: (request, h, error) => {
+          return EntityValidationError.fromJoiErrors(error.details);
+        },
+      },
+      pre: [
+        {
+          method: (request, h) => securityPreHandlers.checkRequestedUserIsAuthenticatedUser(request, h),
+          assign: 'requestedUserIsAuthenticatedUser',
+        },
+      ],
+      handler: (request, h) => userController.sendVerificationCode(request, h),
+      notes: ['- Permet à un utilisateur de recevoir un code de vérification pour la validation de son adresse mail.'],
+      tags: ['api', 'user', 'verification-code'],
+    },
+  },
+
   {
     method: 'POST',
     path: '/api/users',

@@ -222,9 +222,7 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.MatchingReconciledStudentNotFoundError) {
     return new HttpErrors.BadRequestError(error.message, error.code);
   }
-  if (error instanceof DomainErrors.UserNotAuthorizedToUpdateEmailError) {
-    return new HttpErrors.ForbiddenError(error.message);
-  }
+
   if (error instanceof DomainErrors.UserNotAuthorizedToCreateResourceError) {
     return new HttpErrors.ForbiddenError(error.message);
   }
@@ -254,10 +252,6 @@ function _mapToHttpError(error) {
   }
   if (error instanceof DomainErrors.TargetProfileCannotBeCreated) {
     return new HttpErrors.UnprocessableEntityError(error.message);
-  }
-
-  if (error instanceof DomainErrors.InvalidPasswordForUpdateEmailError) {
-    return new HttpErrors.BadRequestError(error.message);
   }
 
   if (error instanceof DomainErrors.InvalidMembershipOrganizationRoleError) {

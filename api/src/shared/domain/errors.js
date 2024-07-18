@@ -197,6 +197,12 @@ class InvalidExternalUserTokenError extends DomainError {
   }
 }
 
+class InvalidPasswordForUpdateEmailError extends DomainError {
+  constructor(message = 'Le mot de passe que vous avez saisi est invalide.') {
+    super(message);
+  }
+}
+
 class InvalidResultRecipientTokenError extends DomainError {
   constructor(message = 'Le token de récupération des résultats de la session de certification est invalide.') {
     super(message);
@@ -292,6 +298,11 @@ class UserNotAuthorizedToAccessEntityError extends DomainError {
   }
 }
 
+class UserNotAuthorizedToUpdateEmailError extends DomainError {
+  constructor(message = 'User is not authorized to update email') {
+    super(message);
+  }
+}
 class UserNotAuthorizedToUpdatePasswordError extends DomainError {
   constructor(
     message = "L'utilisateur n'est pas autorisé à mettre à jour ce mot de passe.",
@@ -322,6 +333,7 @@ export {
   ImportLearnerConfigurationError,
   InvalidExternalUserTokenError,
   InvalidInputDataError,
+  InvalidPasswordForUpdateEmailError,
   InvalidResultRecipientTokenError,
   InvalidSessionResultTokenError,
   InvalidTemporaryKeyError,
@@ -336,5 +348,6 @@ export {
   OidcError,
   TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization,
   UserNotAuthorizedToAccessEntityError,
+  UserNotAuthorizedToUpdateEmailError,
   UserNotAuthorizedToUpdatePasswordError,
 };

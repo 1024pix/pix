@@ -1,6 +1,7 @@
 import { userVerification } from '../../../../lib/application/preHandlers/user-existence-verification.js';
 import { identityAccessManagementRoutes } from '../../../../src/identity-access-management/application/routes.js';
 import { userController } from '../../../../src/identity-access-management/application/user/user.controller.js';
+import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 const routesUnderTest = identityAccessManagementRoutes[0];
@@ -146,6 +147,134 @@ describe('Unit | Identity Access Management | Application | Route | User', funct
           expect(result.statusCode).to.equal(400);
         });
       });
+    });
+  });
+
+  describe('PUT /api/users/{id}/email/verification-code', function () {
+    it('returns HTTP code 204', async function () {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(routesUnderTest);
+      sinon
+        .stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser')
+        .callsFake((request, h) => h.response(true));
+      sinon.stub(userController, 'sendVerificationCode').callsFake((request, h) => h.response({}).code(204));
+
+      const url = '/api/users/1/email/verification-code';
+      const payload = {
+        data: {
+          type: 'email-verification-codes',
+          attributes: {
+            'new-email': 'user@example.net',
+            password: 'Password123',
+          },
+        },
+      };
+
+      // when
+      const result = await httpTestServer.request('PUT', url, payload);
+
+      // then
+      expect(result.statusCode).to.equal(204);
+    });
+
+    it('returns 422 when id is not a number', async function () {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(routesUnderTest);
+
+      const url = '/api/users/wrongId/email/verification-code';
+
+      const payload = {
+        data: {
+          type: 'email-verification-codes',
+          attributes: {
+            'new-email': 'user@example.net',
+            password: 'Password123',
+          },
+        },
+      };
+
+      // when
+      const result = await httpTestServer.request('PUT', url, payload);
+
+      // then
+      expect(result.statusCode).to.equal(422);
+      expect(result.result.errors[0].detail).to.equal('"id" must be a number');
+    });
+
+    it('returns 422 when type is not users', async function () {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(routesUnderTest);
+
+      const url = '/api/users/1/email/verification-code';
+
+      const payload = {
+        data: {
+          type: 'WRONG-TYPE',
+          attributes: {
+            'new-email': 'user@example.net',
+            password: 'Password123',
+          },
+        },
+      };
+
+      // when
+      const result = await httpTestServer.request('PUT', url, payload);
+
+      // then
+      expect(result.statusCode).to.equal(422);
+      expect(result.result.errors[0].detail).to.equal('"data.type" must be [email-verification-codes]');
+    });
+
+    it('returns 422 when email is not valid', async function () {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(routesUnderTest);
+
+      const url = '/api/users/1/email/verification-code';
+
+      const payload = {
+        data: {
+          type: 'email-verification-codes',
+          attributes: {
+            'new-email': 'newEmail',
+            password: 'Password123',
+          },
+        },
+      };
+
+      // when
+      const result = await httpTestServer.request('PUT', url, payload);
+
+      // then
+      expect(result.statusCode).to.equal(422);
+      expect(result.result.errors[0].detail).to.equal('"data.attributes.new-email" must be a valid email');
+    });
+
+    it('returns 422 when password is not provided', async function () {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(routesUnderTest);
+
+      const url = '/api/users/1/email/verification-code';
+
+      const payload = {
+        data: {
+          type: 'email-verification-codes',
+          attributes: {
+            'new-email': 'user@example.net',
+          },
+        },
+      };
+
+      // when
+      const result = await httpTestServer.request('PUT', url, payload);
+
+      // then
+      expect(result.statusCode).to.equal(422);
+      expect(result.result.errors[0].detail).to.equal('"data.attributes.password" is required');
     });
   });
 });

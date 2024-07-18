@@ -1,14 +1,14 @@
+import { AlreadyRegisteredEmailError } from '../../../../../lib/domain/errors.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-management/domain/constants/identity-providers.js';
+import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
 import {
-  AlreadyRegisteredEmailError,
   InvalidPasswordForUpdateEmailError,
   UserNotAuthorizedToUpdateEmailError,
-} from '../../../../lib/domain/errors.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
-import { getI18n } from '../../../tooling/i18n/i18n.js';
+} from '../../../../../src/shared/domain/errors.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
+import { getI18n } from '../../../../tooling/i18n/i18n.js';
 
-describe('Unit | UseCase | send-verification-code', function () {
+describe('Unit | Identity Access Management | Domain | UseCase | send-verification-code', function () {
   let authenticationMethodRepository;
   let userEmailRepository;
   let userRepository;

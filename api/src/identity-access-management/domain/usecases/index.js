@@ -19,6 +19,7 @@ import * as passwordValidator from '../../../shared/domain/validators/password-v
 import * as userValidator from '../../../shared/domain/validators/user-validator.js';
 import { adminMemberRepository } from '../../../shared/infrastructure/repositories/admin-member.repository.js';
 import * as userLoginRepository from '../../../shared/infrastructure/repositories/user-login-repository.js';
+import * as codeUtils from '../../../shared/infrastructure/utils/code-utils.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { GarAnonymizedBatchEventsLoggingJob } from '../../infrastructure/jobs/audit-log/GarAnonymizedBatchEventsLoggingJob.js';
@@ -28,6 +29,7 @@ import { emailValidationDemandRepository } from '../../infrastructure/repositori
 import { oidcProviderRepository } from '../../infrastructure/repositories/oidc-provider-repository.js';
 import { resetPasswordDemandRepository } from '../../infrastructure/repositories/reset-password-demand.repository.js';
 import * as userRepository from '../../infrastructure/repositories/user.repository.js';
+import { userEmailRepository } from '../../infrastructure/repositories/user-email.repository.js';
 import { userToCreateRepository } from '../../infrastructure/repositories/user-to-create.repository.js';
 import { authenticationSessionService } from '../services/authentication-session.service.js';
 import { pixAuthenticationService } from '../services/pix-authentication-service.js';
@@ -49,6 +51,7 @@ const repositories = {
   oidcProviderRepository,
   organizationLearnerRepository,
   resetPasswordDemandRepository,
+  userEmailRepository,
   userLoginRepository,
   userRecommendedTrainingRepository,
   userRepository,
@@ -76,7 +79,7 @@ const validators = {
 const jobs = {
   garAnonymizedBatchEventsLoggingJob: new GarAnonymizedBatchEventsLoggingJob(knex),
 };
-const dependencies = Object.assign({ config }, eventBus, jobs, repositories, services, validators);
+const dependencies = Object.assign({ config, codeUtils }, eventBus, jobs, repositories, services, validators);
 
 const usecasesWithoutInjectedDependencies = {
   ...(await importNamedExportsFromDirectory({ path: join(path, './'), ignoredFileNames: ['index.js'] })),
