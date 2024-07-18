@@ -1,5 +1,5 @@
-import { lcms } from '../../../../../../lib/infrastructure/lcms.js';
 import { thematicDatasource } from '../../../../../../src/shared/infrastructure/datasources/learning-content/thematic-datasource.js';
+import { lcms } from '../../../../../../src/shared/infrastructure/lcms.js';
 import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Datasource | Learning Content | ThematicDatasource', function () {

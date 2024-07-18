@@ -1,6 +1,6 @@
 import { createLcmsRelease } from '../../../../lib/domain/usecases/create-lcms-release.js';
 import { learningContentCache } from '../../../../lib/infrastructure/caches/learning-content-cache.js';
-import { lcms } from '../../../../lib/infrastructure/lcms.js';
+import { lcms } from '../../../../src/shared/infrastructure/lcms.js';
 import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | create-lcms-release', function () {
