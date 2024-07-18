@@ -1,6 +1,7 @@
 import * as certificationOfficer from './application/certification-officer-route.js';
 import * as certificationReport from './application/certification-report-route.js';
 import * as finalize from './application/finalize-route.js';
+import * as finalizedSession from './application/finalized-session-route.js';
 import * as invigilatorKit from './application/invigilator-kit-route.js';
 import * as juryComment from './application/jury-comment-route.js';
 import * as sessionForSupervising from './application/session-for-supervising-route.js';
@@ -13,6 +14,7 @@ import * as updateCpfImportStatus from './application/update-cpf-import-status-r
 const certificationSessionRoutes = [
   session,
   finalize,
+  finalizedSession,
   sessionLiveAlert,
   certificationReport,
   invigilatorKit,
