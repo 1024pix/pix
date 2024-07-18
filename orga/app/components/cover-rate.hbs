@@ -16,26 +16,24 @@
             {{/each}}
           </tr>
         </thead>
-        {{#if @coverRate.byAreas}}
+        {{#if this.coverRateByAreas}}
           <tbody>
-          {{#each @coverRate.byAreas as |item|}}
+          {{#each this.coverRateByAreas as |item|}}
             <tr>
               {{#each-in item as |key value|}}
-                <td>{{value}}</td>
+                {{#if (eq key 'coverRateViz')}}
+                  <td>
+                    <CoverRateLevelV2 @maxLevel={{value.maxLevel}} @level={{value.level}} />
+                  </td>
+                {{else}}
+                  <td>{{value}}</td>
+                {{/if}}
               {{/each-in}}
             </tr>
           {{/each}}
           </tbody>
         {{/if}}
       </table>
-
-      <Ui::Chart
-        @type="bar"
-        @options={{this.chartOptions}}
-        @data={{this.chartDataByAreas}}
-        aria-hidden="true"
-        class="panel cover-rate-by-domains"
-      />
     </section>
 
     <section class="campaign-details-analysis-section" style="padding-bottom: 5rem;">
@@ -51,26 +49,24 @@
           {{/each}}
         </tr>
         </thead>
-        {{#if @coverRate.byCompetences}}
+        {{#if this.coverRateByCompetences}}
           <tbody>
-          {{#each @coverRate.byCompetences as |item|}}
+          {{#each this.coverRateByCompetences as |item|}}
             <tr>
               {{#each-in item as |key value|}}
-                <td>{{value}}</td>
+                {{#if (eq key 'coverRateViz')}}
+                  <td>
+                    <CoverRateLevelV2 @maxLevel={{value.maxLevel}} @level={{value.level}} />
+                  </td>
+                {{else}}
+                  <td>{{value}}</td>
+                {{/if}}
               {{/each-in}}
             </tr>
           {{/each}}
           </tbody>
         {{/if}}
       </table>
-
-      <Ui::Chart
-        @type="bar"
-        @options={{this.chartOptions}}
-        @data={{this.chartDataByCompetences}}
-        aria-hidden="true"
-        class="panel cover-rate-by-domains"
-      />
     </section>
 
     <section class="campaign-details-analysis-section" style="padding-bottom: 5rem;">
@@ -86,34 +82,27 @@
           {{/each}}
         </tr>
         </thead>
-        {{#if @coverRate.byTubes}}
+        {{#if this.displayableCoverRateByTubes}}
           <tbody>
-          {{#each @coverRate.byTubes as |item|}}
+          {{#each this.displayableCoverRateByTubes as |item|}}
             <tr>
               {{#each-in item as |key value|}}
-                <td>{{value}}</td>
+                {{#if (eq key 'coverRateViz')}}
+                  <td>
+                    <CoverRateLevelV2 @maxLevel={{value.maxLevel}} @level={{value.level}} />
+                  </td>
+                {{else}}
+                  <td>{{value}}</td>
+                {{/if}}
               {{/each-in}}
             </tr>
           {{/each}}
           </tbody>
         {{/if}}
       </table>
-
-      <div class="panel">
-<!--        <Ui::Chart-->
-<!--          @type="bar"-->
-<!--          @options={{this.chartOptions}}-->
-<!--          @data={{this.chartDataByTubes}}-->
-<!--          aria-hidden="true"-->
-<!--          class="cover-rate-by-domains cover-rate-chart"-->
-<!--        />-->
-
-        <PixPagination
-          @pagination={{this.pagination}}
-          @locale="fr"
-          @isCondensed="true"
-        />
-      </div>
+      <PixButton @label="{{if this.showMoreForTubes "En afficher moins" "En afficher plus"}}" @triggerAction={{this.toggleShowMore}} >
+        {{if this.showMoreForTubes "En afficher moins" "En afficher plus"}}
+      </PixButton>
     </section>
   </div>
 </article>

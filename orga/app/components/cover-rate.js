@@ -1,20 +1,21 @@
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import {tracked} from '@glimmer/tracking';
+import {action} from '@ember/object';
 
 export default class CoverRate extends Component {
   @service router;
 
   get headersByAreas() {
-    return Object.keys(this.args.coverRate.byAreas[0]);
+    return ['Code Domaine', 'Domaine', 'Niveau', 'Couverture'];
   }
 
   get headersByCompetences() {
-    return Object.keys(this.args.coverRate.byCompetences[0]);
+    return ['Code Domaine', 'Competence', 'Niveau', 'Couverture', 'Moyenne de sujet par competence'];
   }
 
   get headersByTubes() {
-    return Object.keys(this.args.coverRate.byTubes[0]);
+    return ['Code Domaine', 'Competence', 'Sujet', 'Niveau', 'Couverture'];
   }
 
   get descriptionByAreas() {
@@ -60,76 +61,58 @@ Niveau maximum atteignable sur un sujet. La valeur peut être décimale car il s
 Niveau moyen obtenu par les utilisateurs sur le sujet. On observe ainsi, en moyenne, à quel niveau s'arrêtent les participants sur ce sujet.`;
   }
 
-  chartOptions = {
-    indexAxis: 'y',
-    // Elements options apply to all of the options unless overridden in a dataset
-    // In this case, we are setting the border of each horizontal bar to be 2px wide
-    elements: {
-      bar: {
-        borderWidth: 2,
-      },
-    },
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'right',
-      },
-    },
-  };
-
-  get chartDataByAreas() {
-    const data = this.args.coverRate.byAreas.map((area) => {
+  get coverRateByAreas() {
+    return this.args.coverRate.byAreas.map((area) => {
       return {
-        y: `${area.code_domaine}. ${area.domain}`,
-        x: area.couverture * 100,
+        code_domain: area.code_domaine,
+        domain: area.domain,
+        coverRateViz: { maxLevel: area.niveau_par_domaine, level: area.niveau_par_utilisateur },
+        couverture: `${parseFloat(area.couverture * 100).toFixed(2)} %`,
       };
     });
-
-    return {
-      datasets: [{ label: 'Taux de couverture', data }],
-    };
   }
 
-  get chartDataByCompetences() {
-    const data = this.args.coverRate.byCompetences.map((area) => {
+  get coverRateByCompetences() {
+    return this.args.coverRate.byCompetences.map((area) => {
       return {
-        y: `${area.competence_code}. ${area.competence}`,
-        x: area.couverture * 100,
+        competence_code: area.competence_code,
+        competence: area.competence,
+        coverRateViz: { maxLevel: area.niveau_par_competence, level: area.niveau_par_utilisateur },
+        couverture: `${parseFloat(area.couverture * 100).toFixed(2)} %`,
+        moyenne_nombre_sujet_par_competence: area.moyenne_nombre_sujet_par_competence,
       };
     });
-    return {
-      datasets: [{ label: 'Taux de couverture', data }],
-    };
   }
 
-  get chartDataByTubes() {
-    const data = this.args.coverRate.byTubes.map((area) => {
-      return {
-        competence: area.competence_code,
-        y: `${area.competence_code}. ${area.sujet}`,
-        x: area.couverture * 100,
-      };
-    });
-
-    const sortedData = data.sort((a, b) => {
-      return a.y.localeCompare(b.y);
-    });
-
-    return {
-      datasets: [{ label: 'Taux de couverture', data: sortedData }],
-    };
+  get coverRateByTubes() {
+    return this.args.coverRate.byTubes
+      .map((area) => {
+        return {
+          competence_code: area.competence_code,
+          competence: area.competence,
+          sujet: area.sujet,
+          coverRateViz: { maxLevel: area.niveau_par_sujet, level: area.niveau_par_user },
+          couverture: area.couverture,
+        };
+      })
+      .sort((a, b) => {
+        return b.couverture - a.couverture;
+      });
   }
 
   @tracked
-  currentPage = this.router.currentRoute.queryParams.pageNumber;
+  showMoreForTubes = false;
 
-  get pagination() {
-    const ROWS_PER_PAGE = 10;
-    return {
-      page: Number(this.currentPage),
-      pageSize: ROWS_PER_PAGE,
-      pageCount: Math.ceil(this.args.coverRate.byTubes.length / ROWS_PER_PAGE),
-      rowCount: this.args.coverRate.byTubes.length,
-    };
+  @tracked
+  displayableCoverRateByTubes = this.coverRateByTubes.slice(0, 6);
+
+  @action
+  toggleShowMore() {
+    this.showMoreForTubes = !this.showMoreForTubes;
+    if (this.showMoreForTubes) {
+      this.displayableCoverRateByTubes = [...this.coverRateByTubes];
+    } else {
+      this.displayableCoverRateByTubes = this.coverRateByTubes.slice(0, 6);
+    }
   }
 }
