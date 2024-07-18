@@ -165,9 +165,8 @@ module('Acceptance | authenticated/users/get', function (hooks) {
 
       // when & then #1
       await click(screen.getByRole('button', { name: 'Confirmer' }));
-      assert.dom(screen.getByText(`Prénom : (anonymised)`)).exists();
-      assert.dom(screen.getByText(`Nom : (anonymised)`)).exists();
-      assert.dom(screen.getByText(`Adresse e-mail : email_${userToAnonymise.id}@example.net`)).exists();
+      assert.dom(screen.getByText('Prénom : (anonymised)')).exists();
+      assert.dom(screen.getByText('Nom : (anonymised)')).exists();
 
       assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion avec identifiant")).exists();
       assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion avec adresse e-mail")).exists();

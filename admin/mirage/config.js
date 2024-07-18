@@ -184,7 +184,7 @@ function routes() {
     return user.update({
       firstName: '(anonymised)',
       lastName: '(anonymised)',
-      email: `email_${userId}@example.net`,
+      email: null,
       username: null,
       authenticationMethods: [],
     });
