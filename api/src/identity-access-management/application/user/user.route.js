@@ -283,4 +283,42 @@ export const userRoutes = [
       tags: ['identity-access-management', 'api', 'user'],
     },
   },
+  {
+    method: 'POST',
+    path: '/api/users/{id}/update-email',
+    config: {
+      pre: [
+        {
+          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+          assign: 'requestedUserIsAuthenticatedUser',
+        },
+      ],
+      handler: userController.updateUserEmailWithValidation,
+      validate: {
+        params: Joi.object({
+          id: identifiersType.userId,
+        }),
+        options: {
+          allowUnknown: true,
+        },
+        payload: Joi.object({
+          data: {
+            type: Joi.string().valid('email-verification-codes').required(),
+            attributes: {
+              code: Joi.string()
+                .regex(/^[1-9]{6}$/)
+                .required(),
+            },
+          },
+        }),
+        failAction: (request, h, error) => {
+          return EntityValidationError.fromJoiErrors(error.details);
+        },
+      },
+      notes: [
+        "- Suite à une demande de changement d'adresse e-mail, met à jour cette dernière pour l'utilisateur identifié par son id.",
+      ],
+      tags: ['api', 'user', 'update-email'],
+    },
+  },
 ];
