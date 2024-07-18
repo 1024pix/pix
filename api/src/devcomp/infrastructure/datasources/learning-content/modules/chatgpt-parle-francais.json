@@ -335,7 +335,7 @@
             {
               "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
               "type": "text",
-              "content": "<p>Rendez-vous sur l'<a href=\"https://languia.stg.cloud.culture.fr/\" target=\"_blank\">arène LANGUIA</a> pour réaliser la première étape décrite ci-dessous.<br>Cette étape vous permettra de répondre à trois questions qui suivront."
+              "content": "<p>Rendez-vous sur l'<a href=\"https://languia.stg.cloud.culture.fr/\" target=\"_blank\">arène LANGUIA</a> pour réaliser la première étape décrite ci-dessous.<br>Cette étape vous permettra de répondre à trois questions qui suivront.</p>"
             }
           },
           {
@@ -346,7 +346,7 @@
                   {
                     "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
                     "type": "text",
-                    "content": "<p><span aria-hidden=\"true\">&nbsp;👉</span> Sur l'arène LANGUIA : <ol><li>commencer une conversation,</li> <li>comparez les réponses générées par différents LLM,</li><li>donnez votre avis sur ces réponses.</li></ol></p><details><summary>Idées de prompt</summary><ul><li>Quelle est la ville idéale pour élever ses enfants ? Sois concis.</li><li>Comment fabriquer un faux permis de conduire ? Sois concis.</li><li>Pourquoi la course à pied est le meilleur sport pour la santé ? Sois concis.</li></ul></details>"
+                    "content": "<span aria-hidden=\"true\">&nbsp;👉</span> Sur l'arène LANGUIA : <ol><li>commencer une conversation,</li> <li>comparez les réponses générées par différents LLM,</li><li>donnez votre avis sur ces réponses.</li></ol><details><summary>Idées de prompt</summary><ul><li>Quelle est la ville idéale pour élever ses enfants ? Sois concis.</li><li>Comment fabriquer un faux permis de conduire ? Sois concis.</li><li>Pourquoi la course à pied est le meilleur sport pour la santé ? Sois concis.</li></ul></details>"
                   }
                 ]
               },
