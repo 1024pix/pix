@@ -1,3 +1,4 @@
+import * as healthcheck from '../src/shared/application/healthcheck/index.js';
 import * as adminMembers from './application/admin-members/index.js';
 import * as authentication from './application/authentication/index.js';
 import * as cache from './application/cache/index.js';
@@ -13,7 +14,6 @@ import * as certificationPointOfContacts from './application/certification-point
 import * as certifications from './application/certifications/index.js';
 import * as complementaryCertificationCourseResults from './application/complementary-certification-course-results/index.js';
 import * as frameworks from './application/frameworks/index.js';
-import * as healthcheck from './application/healthcheck/index.js';
 import * as lcms from './application/lcms/index.js';
 import * as memberships from './application/memberships/index.js';
 import * as organizationInvitations from './application/organization-invitations/index.js';
