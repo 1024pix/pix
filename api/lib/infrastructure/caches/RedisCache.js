@@ -6,7 +6,7 @@ import Redlock from 'redlock';
 
 import { config } from '../../../src/shared/config.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
-import { RedisClient } from '../utils/RedisClient.js';
+import { RedisClient } from '../../../src/shared/infrastructure/utils/RedisClient.js';
 import { applyPatch } from './apply-patch.js';
 import { Cache } from './Cache.js';
 

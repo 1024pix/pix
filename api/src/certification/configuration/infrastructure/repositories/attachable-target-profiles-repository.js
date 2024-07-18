@@ -1,5 +1,5 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { _ } from '../../../../../lib/infrastructure/utils/lodash-utils.js';
+import { _ } from '../../../../shared/infrastructure/utils/lodash-utils.js';
 import { AttachableTargetProfile } from '../../domain/models/AttachableTargetProfile.js';
 
 const find = async function ({ searchTerm } = {}) {

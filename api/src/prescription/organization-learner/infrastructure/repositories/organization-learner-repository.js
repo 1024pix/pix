@@ -1,6 +1,6 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
-import { filterByFullName } from '../../../../../lib/infrastructure/utils/filter-utils.js';
+import { filterByFullName } from '../../../../shared/infrastructure/utils/filter-utils.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../shared/domain/constants.js';
 import { OrganizationLearner } from '../../domain/read-models/OrganizationLearner.js';

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import * as Models from '../../domain/models/index.js';
+import * as Models from '../../../../lib/domain/models/index.js';
 
 export { buildDomainObject, buildDomainObjects };
 
