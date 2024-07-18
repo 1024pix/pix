@@ -3,5 +3,5 @@
 <Places::Title />
 
 <Places::CapacityAlert @occupied={{@model.occupied}} @total={{@model.total}} />
-<Places::Statistics @available={{@model.available}} @occupied={{@model.occupied}} @total={{@model.total}} />
+<Places::Statistics @model={{@model}} />
 <Places::PlaceInfo @currentUser={{this.currentUser}} />

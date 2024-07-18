@@ -80,6 +80,7 @@
     },
     "occupied-seats-count": {
       "title": "Seats occupied",
+      "anonymous": "including {count, plural, =1 {1 place} other {{count, number} places}} with no-account access",
       "value": "/{total} seats"
     },
     "participants-average-results": {
