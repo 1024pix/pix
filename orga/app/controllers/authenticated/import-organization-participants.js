@@ -18,73 +18,42 @@ export default class ImportController extends Controller {
 
   @action
   async importSupStudents(files) {
-    this._initializeUpload();
-
-    const adapter = this.store.adapterFor('organization-learners-import');
-    const organizationId = this.currentUser.organization.id;
-
-    try {
+    await this._makeOnImport(async (adapter, organizationId) => {
       await adapter.addStudentsCsv(organizationId, files);
       this.send('refreshGroups');
-    } finally {
-      this.send('refreshModel');
-      this.isLoading = false;
-    }
-  }
-
-  @action
-  async importScoStudents(files) {
-    this._initializeUpload();
-
-    const adapter = this.store.adapterFor('organization-learners-import');
-    const organizationId = this.currentUser.organization.id;
-    const format = this.currentUser.isAgriculture ? 'csv' : 'xml';
-
-    const confirmBeforeClose = (event) => {
-      event.preventDefault();
-      return (event.returnValue = '');
-    };
-    window.addEventListener('beforeunload', confirmBeforeClose);
-
-    try {
-      await adapter.importStudentsSiecle(organizationId, files, format);
-      this.send('refreshDivisions');
-    } finally {
-      this.isLoading = false;
-      this.send('refreshModel');
-      window.removeEventListener('beforeunload', confirmBeforeClose);
-    }
+    });
   }
 
   @action
   async replaceStudents(files) {
-    this._initializeUpload();
-
-    const adapter = this.store.adapterFor('organization-learners-import');
-    const organizationId = this.currentUser.organization.id;
-
-    try {
+    await this._makeOnImport(async (adapter, organizationId) => {
       await adapter.replaceStudentsCsv(organizationId, files);
       this.send('refreshGroups');
-    } finally {
-      this.send('refreshModel');
-      this.isLoading = false;
-    }
+    });
+  }
+
+  @action
+  async importScoStudents(files) {
+    await this._makeOnImport(async (adapter, organizationId) => {
+      const format = this.currentUser.isAgriculture ? 'csv' : 'xml';
+      await adapter.importStudentsSiecle(organizationId, files, format);
+      this.send('refreshDivisions');
+    });
   }
 
   @action
   async importOrganizationLearners(files) {
-    this._initializeUpload;
-
-    const adapter = this.store.adapterFor('organization-learners-import');
-    const organizationId = this.currentUser.organization.id;
-
-    try {
+    await this._makeOnImport(async (adapter, organizationId) => {
       await adapter.importOrganizationLearners(organizationId, files);
-    } finally {
-      this.send('refreshModel');
-      this.isLoading = false;
-    }
+    });
+  }
+
+  _wait(ms) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, ms);
+    });
   }
 
   _initializeUpload() {
@@ -96,6 +65,28 @@ export default class ImportController extends Controller {
     this.errors = null;
     this.warnings = null;
     this.warningBanner = null;
+  }
+
+  async _makeOnImport(func) {
+    this._initializeUpload();
+
+    const adapter = this.store.adapterFor('organization-learners-import');
+    const organizationId = this.currentUser.organization.id;
+
+    const confirmBeforeClose = (event) => {
+      event.preventDefault();
+      return (event.returnValue = '');
+    };
+    window.addEventListener('beforeunload', confirmBeforeClose);
+
+    try {
+      // We add a minimal import time to avoid flashing loader to users
+      await Promise.all([await func(adapter, organizationId), await this._wait(750)]);
+    } finally {
+      this.send('refreshModel');
+      this.isLoading = false;
+      window.removeEventListener('beforeunload', confirmBeforeClose);
+    }
   }
 
   get participantListRoute() {
