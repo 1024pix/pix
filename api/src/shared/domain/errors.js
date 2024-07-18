@@ -357,6 +357,12 @@ class UserNotFoundError extends NotFoundError {
   }
 }
 
+class YamlParsingError extends DomainError {
+  constructor(message = "Une erreur s'est produite lors de l'interprétation des réponses.") {
+    super(message);
+  }
+}
+
 export {
   AlreadyExistingEntityError,
   AlreadyRegisteredEmailError,
@@ -392,4 +398,5 @@ export {
   UserNotAuthorizedToUpdateEmailError,
   UserNotAuthorizedToUpdatePasswordError,
   UserNotFoundError,
+  YamlParsingError,
 };

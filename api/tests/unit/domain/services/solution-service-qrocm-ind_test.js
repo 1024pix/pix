@@ -1,5 +1,5 @@
-import { YamlParsingError } from '../../../../lib/domain/errors.js';
 import * as service from '../../../../lib/domain/services/solution-service-qrocm-ind.js';
+import { YamlParsingError } from '../../../../src/shared/domain/errors.js';
 import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
 import { catchErr, expect } from '../../../test-helper.js';
 

@@ -1,7 +1,7 @@
 import jsYaml from 'js-yaml';
 
+import { YamlParsingError } from '../../../src/shared/domain/errors.js';
 import { AnswerStatus } from '../../../src/shared/domain/models/AnswerStatus.js';
-import { YamlParsingError } from '../../domain/errors.js';
 import { getEnabledTreatments, useLevenshteinRatio } from './services-utils.js';
 import { validateAnswer } from './string-comparison-service.js';
 import { applyPreTreatments, applyTreatments } from './validation-treatments.js';
