@@ -1,7 +1,7 @@
 import { NotFoundError } from '../../../../../../lib/domain/errors.js';
-import { FinalizedSession } from '../../../../../../lib/domain/models/FinalizedSession.js';
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 import * as finalizedSessionRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/finalized-session-repository.js';
+import { FinalizedSession } from '../../../../../../src/certification/shared/domain/models/FinalizedSession.js';
 import { catchErr, databaseBuilder, expect, knex } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | Finalized-session', function () {

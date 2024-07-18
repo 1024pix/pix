@@ -1,4 +1,4 @@
-import { FinalizedSession } from '../models/FinalizedSession.js';
+import { FinalizedSession } from '../../../src/certification/shared/domain/models/FinalizedSession.js';
 import { AutoJuryDone } from './AutoJuryDone.js';
 import { checkEventTypes } from './check-event-types.js';
 
