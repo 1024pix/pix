@@ -1,5 +1,5 @@
+import Oppsy from '@1024pix/oppsy';
 import Hapi from '@hapi/hapi';
-import Oppsy from 'oppsy';
 import Qs from 'qs';
 
 import { setupErrorHandling } from './config/server-setup-error-handling.js';
