@@ -38,42 +38,45 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       });
     });
 
-    context('when claimsToStore is undefined', function () {
-      it('does not set claimsToStore', async function () {
+    context('when claimMapping and claimsToStore are undefined', function () {
+      it('creates a default claimManager ', async function () {
         // given
         const args = {};
 
         // when
-        const oidcAuthenticationService = new OidcAuthenticationService(args);
+        const { claimManager } = new OidcAuthenticationService(args);
+        const claims = claimManager.getMissingClaims();
 
         // then
-        expect(oidcAuthenticationService.claimsToStore).not.to.exist;
+        expect(claims).to.deep.equal(['given_name', 'family_name', 'sub']);
       });
     });
 
-    context('when claimsToStore is null', function () {
-      it('does not set claimsToStore', async function () {
+    context('when claimMapping is defined', function () {
+      it('creates a claimManager with the given claimsToStore', async function () {
         // given
-        const args = { claimsToStore: null };
+        const args = { claimMapping: { firstName: ['hello'] }, claimsToStore: null };
 
         // when
-        const oidcAuthenticationService = new OidcAuthenticationService(args);
+        const { claimManager } = new OidcAuthenticationService(args);
+        const claims = claimManager.getMissingClaims();
 
         // then
-        expect(oidcAuthenticationService.claimsToStore).not.to.exist;
+        expect(claims).to.deep.equal(['hello']);
       });
     });
 
-    context('when claimsToStore is not empty', function () {
-      it('sets claimsToStore', async function () {
+    context('when claimMapping and claimsToStore are defined', function () {
+      it('creates a claimManager with the given claimMapping and claimsToStore', async function () {
         // given
-        const args = { claimsToStore: 'employeeNumber,studentGroup' };
+        const args = { claimMapping: { firstName: ['hello'] }, claimsToStore: 'employeeNumber,studentGroup' };
 
         // when
-        const oidcAuthenticationService = new OidcAuthenticationService(args);
+        const { claimManager } = new OidcAuthenticationService(args);
+        const claims = claimManager.getMissingClaims();
 
         // then
-        expect(oidcAuthenticationService.claimsToStore).to.exist;
+        expect(claims).to.deep.equal(['hello', 'employeeNumber', 'studentGroup']);
       });
     });
   });
@@ -466,25 +469,20 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
   });
 
   describe('#getUserInfo', function () {
-    it('returns firstName, lastName and external identity id', async function () {
+    it('returns firstName, lastName, external identity id and claims to store', async function () {
       // given
-      function generateIdToken(payload) {
-        return jsonwebtoken.sign(
-          {
-            ...payload,
-          },
-          'secret',
-        );
-      }
+      const idToken = jsonwebtoken.sign(
+        {
+          given_name: 'givenName',
+          family_name: 'familyName',
+          nonce: 'nonce-id',
+          sub: 'sub-id',
+          employeeNumber: '12345',
+        },
+        'secret',
+      );
 
-      const idToken = generateIdToken({
-        given_name: 'givenName',
-        family_name: 'familyName',
-        nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
-        sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
-      });
-
-      const oidcAuthenticationService = new OidcAuthenticationService({});
+      const oidcAuthenticationService = new OidcAuthenticationService({ claimsToStore: 'employeeNumber' });
 
       // when
       const result = await oidcAuthenticationService.getUserInfo({
@@ -496,26 +494,21 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       expect(result).to.deep.equal({
         firstName: 'givenName',
         lastName: 'familyName',
-        externalIdentityId: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+        externalIdentityId: 'sub-id',
+        employeeNumber: '12345',
       });
     });
 
     describe('when default required properties are not returned in id token', function () {
       it('calls userInfo endpoint', async function () {
         // given
-        function generateIdToken(payload) {
-          return jsonwebtoken.sign(
-            {
-              ...payload,
-            },
-            'secret',
-          );
-        }
-
-        const idToken = generateIdToken({
-          nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
-          sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
-        });
+        const idToken = jsonwebtoken.sign(
+          {
+            nonce: 'nonce-id',
+            sub: 'sub-id',
+          },
+          'secret',
+        );
 
         const oidcAuthenticationService = new OidcAuthenticationService({});
         sinon.stub(oidcAuthenticationService, '_getUserInfoFromEndpoint').resolves({});
@@ -536,21 +529,15 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
     describe('when claimsToStore are not returned in id token', function () {
       it('calls userInfo endpoint', async function () {
         // given
-        function generateIdToken(payload) {
-          return jsonwebtoken.sign(
-            {
-              ...payload,
-            },
-            'secret',
-          );
-        }
-
-        const idToken = generateIdToken({
-          nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
-          sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
-          family_name: 'Le Gaulois',
-          given_name: 'Astérix',
-        });
+        const idToken = jsonwebtoken.sign(
+          {
+            nonce: 'nonce-id',
+            sub: 'sub-id',
+            family_name: 'Le Gaulois',
+            given_name: 'Astérix',
+          },
+          'secret',
+        );
 
         const oidcAuthenticationService = new OidcAuthenticationService({ claimsToStore: 'employeeNumber' });
         sinon.stub(oidcAuthenticationService, '_getUserInfoFromEndpoint').resolves({});
@@ -584,7 +571,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
 
       const clientInstance = {
         userinfo: sinon.stub().resolves({
-          sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+          sub: 'sub-id',
           given_name: 'givenName',
           family_name: 'familyName',
         }),
@@ -602,7 +589,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       // then
       expect(clientInstance.userinfo).to.have.been.calledOnceWithExactly(accessToken);
       expect(pickedUserInfo).to.deep.equal({
-        sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+        sub: 'sub-id',
         given_name: 'givenName',
         family_name: 'familyName',
       });
@@ -666,7 +653,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
 
         const clientInstance = {
           userinfo: sinon.stub().resolves({
-            sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+            sub: 'sub-id',
             given_name: 'givenName',
             family_name: undefined,
           }),
@@ -696,7 +683,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
           data: {
             missingFields: 'family_name',
             userInfo: {
-              sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+              sub: 'sub-id',
               given_name: 'givenName',
               family_name: undefined,
             },
@@ -726,7 +713,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
 
         const clientInstance = {
           userinfo: sinon.stub().resolves({
-            sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+            sub: 'sub-id',
             given_name: 'givenName',
             family_name: 'familyName',
             population: '',
@@ -757,7 +744,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
           data: {
             missingFields: 'population',
             userInfo: {
-              sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+              sub: 'sub-id',
               given_name: 'givenName',
               family_name: 'familyName',
               population: '',
