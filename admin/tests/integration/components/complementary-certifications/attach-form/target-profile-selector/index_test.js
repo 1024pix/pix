@@ -49,7 +49,7 @@ module(
         await fillIn(input, '3');
 
         // then
-        assert.dom(await screen.findByRole('progressbar', { value: { text: 'Recherche en cours...' } })).exists();
+        assert.dom(await screen.findByRole('progressbar', { value: 'Recherche en cours...' })).exists();
       });
 
       test('it should still display the searchbar if the search fails', async function (assert) {

@@ -60,7 +60,7 @@ module(
         />`);
 
         // then
-        assert.dom(screen.getByRole('progressbar', { value: { text: 'Recherche en cours...' } })).exists();
+        assert.dom(screen.getByRole('progressbar', { value: 'Recherche en cours...' })).exists();
       });
     });
 
