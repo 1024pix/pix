@@ -1,10 +1,10 @@
+import { updateUserEmailWithValidation } from '../../../../lib/domain/usecases/update-user-email-with-validation.js';
+import { EmailModificationDemand } from '../../../../src/identity-access-management/domain/models/EmailModificationDemand.js';
 import {
   AlreadyRegisteredEmailError,
   EmailModificationDemandNotFoundOrExpiredError,
   InvalidVerificationCodeError,
-} from '../../../../lib/domain/errors.js';
-import { updateUserEmailWithValidation } from '../../../../lib/domain/usecases/update-user-email-with-validation.js';
-import { EmailModificationDemand } from '../../../../src/identity-access-management/domain/models/EmailModificationDemand.js';
+} from '../../../../src/shared/domain/errors.js';
 import { UserNotAuthorizedToUpdateEmailError } from '../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 

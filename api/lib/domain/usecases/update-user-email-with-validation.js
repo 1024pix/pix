@@ -1,5 +1,8 @@
-import { UserNotAuthorizedToUpdateEmailError } from '../../../src/shared/domain/errors.js';
-import { EmailModificationDemandNotFoundOrExpiredError, InvalidVerificationCodeError } from '../errors.js';
+import {
+  EmailModificationDemandNotFoundOrExpiredError,
+  InvalidVerificationCodeError,
+  UserNotAuthorizedToUpdateEmailError,
+} from '../../../src/shared/domain/errors.js';
 
 const updateUserEmailWithValidation = async function ({ code, userId, userEmailRepository, userRepository }) {
   const user = await userRepository.get(userId);

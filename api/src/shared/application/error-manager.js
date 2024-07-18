@@ -91,13 +91,18 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.UserNotAuthorizedToAccessEntityError) {
     return new HttpErrors.ForbiddenError('Utilisateur non autorisé à accéder à la ressource');
   }
+  if (error instanceof DomainErrors.AlreadyRegisteredEmailError) {
+    return new HttpErrors.BadRequestError(error.message, error.code);
+  }
   if (error instanceof DomainErrors.AssessmentEndedError) {
     return new HttpErrors.BaseHttpError(error.message);
   }
   if (error instanceof DomainErrors.CertificationAttestationGenerationError) {
     return new HttpErrors.UnprocessableEntityError(error.message);
   }
-
+  if (error instanceof DomainErrors.EmailModificationDemandNotFoundOrExpiredError) {
+    return new HttpErrors.ForbiddenError(error.message, error.code);
+  }
   if (error instanceof DomainErrors.InvalidExternalUserTokenError) {
     return new HttpErrors.UnauthorizedError(error.message);
   }
@@ -107,7 +112,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.InvalidTemporaryKeyError) {
     return new HttpErrors.UnauthorizedError(error.message);
   }
-
+  if (error instanceof DomainErrors.InvalidVerificationCodeError) {
+    return new HttpErrors.ForbiddenError(error.message, error.code);
+  }
   if (error instanceof DomainErrors.LocaleFormatError) {
     return new HttpErrors.BadRequestError(error.message, error.code, error.meta);
   }

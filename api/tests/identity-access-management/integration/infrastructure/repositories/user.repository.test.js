@@ -2,7 +2,6 @@ import lodash from 'lodash';
 const { each, map, times, pick } = lodash;
 import {
   AlreadyExistingEntityError,
-  AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
   NotFoundError,
   UserNotFoundError,
@@ -18,6 +17,7 @@ import * as OidcIdentityProviders from '../../../../../src/identity-access-manag
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import * as userRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { Organization } from '../../../../../src/organizational-entities/domain/models/Organization.js';
+import { AlreadyRegisteredEmailError } from '../../../../../src/shared/domain/errors.js';
 import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
 
 const expectedUserDetailsForAdminAttributes = [

@@ -5,10 +5,13 @@ import { domainErrorMapper } from '../../../../src/shared/application/domain-err
 import { handle } from '../../../../src/shared/application/error-manager.js';
 import { HttpErrors, UnauthorizedError } from '../../../../src/shared/application/http-errors.js';
 import {
+  AlreadyRegisteredEmailError,
   CertificationAttestationGenerationError,
   CertificationCenterPilotFeaturesConflictError,
+  EmailModificationDemandNotFoundOrExpiredError,
   EntityValidationError,
   InvalidInputDataError,
+  InvalidVerificationCodeError,
   LocaleFormatError,
   LocaleNotSupportedError,
   NoCertificationAttestationForDivisionError,
@@ -150,6 +153,19 @@ describe('Shared | Unit | Application | ErrorManager', function () {
       expect(HttpErrors.NotFoundError).to.have.been.calledWithExactly(error.message);
     });
 
+    it('should instantiate ForbiddenError when InvalidVerificationCodeError', async function () {
+      // given
+      const error = new InvalidVerificationCodeError();
+      sinon.stub(HttpErrors, 'ForbiddenError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(error.message, error.code);
+    });
+
     it('should instantiate ForbiddenError when UserNotAuthorizedToAccessEntityError', async function () {
       // given
       const error = new UserNotAuthorizedToAccessEntityError();
@@ -163,6 +179,19 @@ describe('Shared | Unit | Application | ErrorManager', function () {
       expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(
         'Utilisateur non autorisé à accéder à la ressource',
       );
+    });
+
+    it('should instantiate ForbiddenError when EmailModificationDemandNotFoundOrExpiredError', async function () {
+      // given
+      const error = new EmailModificationDemandNotFoundOrExpiredError();
+      sinon.stub(HttpErrors, 'ForbiddenError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(error.message, error.code);
     });
 
     it('should instantiate UnprocessableEntityError when AdminMemberError', async function () {
@@ -248,6 +277,19 @@ describe('Shared | Unit | Application | ErrorManager', function () {
 
       // then
       expect(HttpErrors.UnprocessableEntityError).to.have.been.calledWithExactly(error.message);
+    });
+
+    it('should instantiate BadRequestError when AlreadyRegisteredEmailError', async function () {
+      // given
+      const error = new AlreadyRegisteredEmailError();
+      sinon.stub(HttpErrors, 'BadRequestError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(error.message, error.code);
     });
 
     it('should instantiate BadRequestError when NoCertificationAttestationForDivisionError', async function () {

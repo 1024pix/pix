@@ -251,14 +251,6 @@ describe('Unit | Domain | Errors', function () {
     expect(errors.OrganizationLearnersCouldNotBeSavedError).to.exist;
   });
 
-  it('should export an InvalidVerificationCodeError', function () {
-    expect(errors.InvalidVerificationCodeError).to.exist;
-  });
-
-  it('should export an EmailModificationDemandNotFoundOrExpiredError', function () {
-    expect(errors.EmailModificationDemandNotFoundOrExpiredError).to.exist;
-  });
-
   it('should export an OrganizationLearnerCannotBeDissociatedError', function () {
     expect(errors.OrganizationLearnerCannotBeDissociatedError).to.exist;
   });

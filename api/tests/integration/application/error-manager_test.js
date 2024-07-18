@@ -278,14 +278,6 @@ describe('Integration | API | Controller Error', function () {
   context('403 Forbidden', function () {
     const FORBIDDEN_ERROR = 403;
 
-    it('responds Forbidden when a UserNotAuthorizedToAccessEntityError error occurs', async function () {
-      routeHandler.throws(new DomainErrors.UserNotAuthorizedToAccessEntityError());
-      const response = await server.requestObject(request);
-
-      expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
-      expect(responseDetail(response)).to.equal('Utilisateur non autorisé à accéder à la ressource');
-    });
-
     it('responds Forbidden when a UserNotAuthorizedToUpdateResourceError error occurs', async function () {
       routeHandler.throws(
         new DomainErrors.UserNotAuthorizedToUpdateResourceError(
