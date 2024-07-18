@@ -3,31 +3,54 @@
 <PixBanner class="mission-list-banner">
   {{t "pages.missions.list.banner.welcome"}}
   <br />
-  {{#if @model.isAdminOfTheCurrentOrganization}}
-    {{t "pages.missions.list.banner.admin.abstract"}}
-    <LinkTo @route="authenticated.import-organization-participants">{{t
-        "pages.missions.list.banner.admin.import-text"
-      }}</LinkTo>
-    {{t "pages.missions.list.banner.admin.info"}}
-  {{else}}
-    {{t "pages.missions.list.banner.non-admin.abstract"}}
-  {{/if}}
-  <br /><br />
-  <div class="mission-list-banner__copypaste-container">
-    {{t "pages.missions.list.banner.copypaste-container.abstract"}}
-    &nbsp;
+  <ul>
+    <li>
+      {{#if @model.isAdminOfTheCurrentOrganization}}
+        <span>{{html-unsafe (t "pages.missions.list.banner.step1.admin.head")}}
+          <LinkTo @route="authenticated.import-organization-participants">
+            <b>{{t "pages.missions.list.banner.step1.admin.link"}}</b>
+          </LinkTo>
+          {{html-unsafe (t "pages.missions.list.banner.step1.admin.tail")}}
+        </span>
+      {{else}}
+        <span>{{html-unsafe (t "pages.missions.list.banner.step1.non-admin")}}</span>
+      {{/if}}
+    </li>
+    <li>
+      <ul>
+        {{t "pages.missions.list.banner.step2.title"}}
+        <li>
+          <div class="mission-list-banner__copypaste-container">
+            <span>{{html-unsafe (t "pages.missions.list.banner.step2.option1" code=this.schoolCode)}}</span>
+            <CopyPasteButton
+              @clipBoardtext={{this.schoolCode}}
+              @successMessage="{{t 'pages.missions.list.banner.copypaste-container.button.success'}}"
+              @defaultMessage="{{t 'pages.missions.list.banner.copypaste-container.button.tooltip'}}"
+            />
 
-    <a href={{@model.pixJuniorSchoolUrl}} target="_blank" rel="noopener noreferrer">
-      {{t "pages.missions.list.banner.copypaste-container.import-text"}}
-    </a>
-
-    <CopyPasteButton
-      @clipBoardtext={{@model.pixJuniorSchoolUrl}}
-      @successMessage="{{t 'pages.missions.list.banner.copypaste-container.button.success'}}"
-      @defaultMessage="{{t 'pages.missions.list.banner.copypaste-container.button.tooltip'}}"
-    />
-  </div>
-  {{t "pages.missions.list.banner.copypaste-container.hint"}}
+          </div>
+        </li>
+        <li>
+          <div class="mission-list-banner__copypaste-container">
+            <span>{{html-unsafe
+                (t "pages.missions.list.banner.step2.option2" pixJuniorUrl=@model.pixJuniorSchoolUrl)
+              }}</span>
+            <a
+              href={{@model.pixJuniorSchoolUrl}}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mission-list-banner__copypaste-container__external-link"
+            >
+              <FaIcon @icon="external-link-alt" />
+            </a>
+          </div>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <span>{{html-unsafe (t "pages.missions.list.banner.step3")}}</span>
+    </li>
+  </ul>
 </PixBanner>
 
 <h1 class="mission-list__title page-title">{{t "pages.missions.title"}}</h1>
