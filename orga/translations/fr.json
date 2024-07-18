@@ -71,6 +71,9 @@
     },
     "over-capacity": {
       "message": "Attention, vous consommez plus de places que votre capacité totale."
+    },
+    "survey": {
+      "message": "Aidez Pix à faire évoluer Pix Orga en répondant à cette courte enquête sur vos usages des campagnes ! '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Accédez à l’enquête'</a>'"
     }
   },
   "cards": {
