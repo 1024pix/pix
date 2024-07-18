@@ -8,7 +8,7 @@ import sinon from 'sinon';
 import ENV from '../../../../config/environment';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-const EMAIL_INPUT_LABEL = 'obligatoire Adresse e-mail (ex: nom@exemple.fr)';
+const EMAIL_INPUT_LABEL = '* Adresse e-mail (ex: nom@exemple.fr)';
 const PASSWORD_INPUT_LABEL = '* Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)';
 
 const EMPTY_FIRSTNAME_ERROR_MESSAGE = 'Votre prénom n’est pas renseigné.';
@@ -148,8 +148,8 @@ module('Integration | Component | routes/register-form', function (hooks) {
           const screen = await render(hbs`<Routes::RegisterForm />`);
 
           // when
-          await fillIn(screen.getByRole('textbox', { name: 'obligatoire Prénom' }), stringFilledIn);
-          await triggerEvent(screen.getByRole('textbox', { name: 'obligatoire Prénom' }), 'focusout');
+          await fillIn(screen.getByRole('textbox', { name: '* Prénom' }), stringFilledIn);
+          await triggerEvent(screen.getByRole('textbox', { name: '* Prénom' }), 'focusout');
 
           // then
           assert.dom(screen.getByText(EMPTY_FIRSTNAME_ERROR_MESSAGE)).exists();
@@ -162,8 +162,8 @@ module('Integration | Component | routes/register-form', function (hooks) {
           const screen = await render(hbs`<Routes::RegisterForm />`);
 
           // when
-          await fillIn(screen.getByRole('textbox', { name: 'obligatoire Nom' }), stringFilledIn);
-          await triggerEvent(screen.getByRole('textbox', { name: 'obligatoire Nom' }), 'focusout');
+          await fillIn(screen.getByRole('textbox', { name: '* Nom' }), stringFilledIn);
+          await triggerEvent(screen.getByRole('textbox', { name: '* Nom' }), 'focusout');
 
           // then
           assert.dom(screen.getByText(EMPTY_LASTNAME_ERROR_MESSAGE)).exists();
@@ -812,8 +812,8 @@ module('Integration | Component | routes/register-form', function (hooks) {
 });
 
 async function fillInputReconciliationForm({ screen, intl }) {
-  await fillIn(screen.getByRole('textbox', { name: 'obligatoire Prénom' }), 'Legolas');
-  await fillIn(screen.getByRole('textbox', { name: 'obligatoire Nom' }), 'Vertefeuille');
+  await fillIn(screen.getByRole('textbox', { name: '* Prénom' }), 'Legolas');
+  await fillIn(screen.getByRole('textbox', { name: '* Nom' }), 'Vertefeuille');
   await fillIn(
     screen.getByRole('spinbutton', {
       name: intl.t('pages.login-or-register.register-form.fields.birthdate.day.label'),

@@ -265,8 +265,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await click(screen.getByRole('button', { name: 'Je commence' }));
 
             // when
-            await fillIn(screen.getByRole('textbox', { name: 'obligatoire Prénom' }), prescritUser.firstName);
-            await fillIn(screen.getByRole('textbox', { name: 'obligatoire Nom' }), prescritUser.lastName);
+            await fillIn(screen.getByRole('textbox', { name: '* Prénom' }), prescritUser.firstName);
+            await fillIn(screen.getByRole('textbox', { name: '* Nom' }), prescritUser.lastName);
             await fillIn(screen.getByRole('spinbutton', { name: 'Jour de naissance' }), '10');
             await fillIn(screen.getByRole('spinbutton', { name: 'Mois de naissance' }), '12');
             await fillIn(screen.getByRole('spinbutton', { name: 'Année de naissance' }), '2000');
@@ -276,7 +276,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await click(screen.getByText('Mon adresse e-mail'));
 
             await fillIn(
-              screen.getByRole('textbox', { name: 'obligatoire Adresse e-mail (ex: nom@exemple.fr)' }),
+              screen.getByRole('textbox', { name: '* Adresse e-mail (ex: nom@exemple.fr)' }),
               prescritUser.email,
             );
             await fillIn(
@@ -290,12 +290,9 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await click(screen.getByRole('button', { name: "Je m'inscris" }));
             // then
             assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/rejoindre/identification`);
+            assert.strictEqual(screen.getByRole('textbox', { name: '* Prénom' }).value, prescritUser.firstName);
             assert.strictEqual(
-              screen.getByRole('textbox', { name: 'obligatoire Prénom' }).value,
-              prescritUser.firstName,
-            );
-            assert.strictEqual(
-              screen.getByRole('textbox', { name: 'obligatoire Adresse e-mail (ex: nom@exemple.fr)' }).value,
+              screen.getByRole('textbox', { name: '* Adresse e-mail (ex: nom@exemple.fr)' }).value,
               prescritUser.email,
             );
             assert.strictEqual(

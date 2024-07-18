@@ -89,9 +89,10 @@ module('Acceptance | Common behavior to all challenges', function (hooks) {
       const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
 
       // then
-      assert
-        .dom(screen.getByRole('link', { name: 'lien (Ouverture dans une nouvelle fenêtre)' }))
-        .hasAttribute('href', 'http://www.a.link.example.url');
+      const link = screen.queryByRole('link', { name: 'lien' });
+      assert.dom(link).exists();
+      assert.dom(link).hasAttribute('href', 'http://www.a.link.example.url');
+      assert.dom(link).hasAttribute('title', 'lien (Ouverture dans une nouvelle fenêtre)');
     });
 
     test('should open links in a new tab', async function (assert) {
@@ -99,9 +100,11 @@ module('Acceptance | Common behavior to all challenges', function (hooks) {
       const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
 
       // then
-      assert
-        .dom(screen.getByRole('link', { name: 'lien (Ouverture dans une nouvelle fenêtre)' }))
-        .hasAttribute('target', '_blank');
+      const link = screen.queryByRole('link', { name: 'lien' });
+      assert.dom(link).exists();
+      assert.dom(link).hasAttribute('href', 'http://www.a.link.example.url');
+      assert.dom(link).hasAttribute('title', 'lien (Ouverture dans une nouvelle fenêtre)');
+      assert.dom(link).hasAttribute('target', '_blank');
     });
 
     test('should display the skip button', async function (assert) {
