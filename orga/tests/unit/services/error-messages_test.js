@@ -1,4 +1,4 @@
-import { t } from 'ember-intl/test-support';
+import { setLocale, t } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -117,5 +117,65 @@ module('Unit | Service | Error messages', function (hooks) {
         valids: `A${t('api-error-messages.or-separator')}B`,
       }),
     );
+  });
+
+  module('csv format error', function () {
+    module('FIELD_DATE_FORMAT', function () {
+      test('should return the message when error code is found without acceptedFormat', function (assert) {
+        // Given
+        const errorMessages = this.owner.lookup('service:errorMessages');
+
+        // When
+        const message = errorMessages.getErrorMessage('FIELD_DATE_FORMAT', { line: 2, field: 'toto' });
+        // Then
+        assert.strictEqual(
+          message,
+          t('api-error-messages.student-csv-import.field-date-format', {
+            line: 2,
+            field: 'toto',
+            acceptedFormat: 'jj/mm/aaaa',
+          }),
+        );
+      });
+
+      test('should return the en message when error code is found without acceptedFormat', function (assert) {
+        // Given
+        setLocale(['en']);
+        const errorMessages = this.owner.lookup('service:errorMessages');
+
+        // When
+        const message = errorMessages.getErrorMessage('FIELD_DATE_FORMAT', { line: 2, field: 'toto' });
+        // Then
+        assert.strictEqual(
+          message,
+          t('api-error-messages.student-csv-import.field-date-format', {
+            line: 2,
+            field: 'toto',
+            acceptedFormat: 'dd/mm/yyyy',
+          }),
+        );
+      });
+
+      test('should return the message when error code is found given acceptedFormat', function (assert) {
+        // Given
+        const errorMessages = this.owner.lookup('service:errorMessages');
+
+        // When
+        const message = errorMessages.getErrorMessage('FIELD_DATE_FORMAT', {
+          line: 2,
+          field: 'toto',
+          acceptedFormat: 'withthisformat',
+        });
+        // Then
+        assert.strictEqual(
+          message,
+          t('api-error-messages.student-csv-import.field-date-format', {
+            line: 2,
+            field: 'toto',
+            acceptedFormat: 'withthisformat',
+          }),
+        );
+      });
+    });
   });
 });
