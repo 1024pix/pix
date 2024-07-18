@@ -79,4 +79,78 @@ describe('Certification | Session-management | Unit | Application | finalized-se
       });
     });
   });
+
+  describe('#findFinalizedSessionsWithRequiredAction', function () {
+    context('When there are finalized sessions with required action', function () {
+      it('should find finalized sessions with required action', async function () {
+        // given
+        request = {
+          payload: {},
+          auth: {
+            credentials: {
+              userId,
+            },
+          },
+          query: { filter: {} },
+        };
+
+        const foundFinalizedSessions = Symbol('foundSession');
+        sinon.stub(usecases, 'findFinalizedSessionsWithRequiredAction');
+        usecases.findFinalizedSessionsWithRequiredAction.resolves(foundFinalizedSessions);
+
+        const withRequiredActionSessionSerializer = {
+          serialize: sinon.stub(),
+        };
+        const serializedFinalizedSessions = Symbol('serializedSession');
+        withRequiredActionSessionSerializer.serialize
+          .withArgs(foundFinalizedSessions)
+          .resolves(serializedFinalizedSessions);
+
+        // when
+        const response = await finalizedSessionController.findFinalizedSessionsWithRequiredAction(request, hFake, {
+          withRequiredActionSessionSerializer,
+        });
+
+        // then
+        expect(response).to.deep.equal(serializedFinalizedSessions);
+      });
+      context('When filtering on version number', function () {
+        it('should find finalized sessions with required action', async function () {
+          // given
+          const version = 3;
+          request = {
+            payload: {},
+            query: {
+              filter: { version },
+            },
+            auth: {
+              credentials: {
+                userId,
+              },
+            },
+          };
+
+          const foundFinalizedSessions = Symbol('foundSession');
+          sinon.stub(usecases, 'findFinalizedSessionsWithRequiredAction');
+          usecases.findFinalizedSessionsWithRequiredAction.withArgs({ version }).resolves(foundFinalizedSessions);
+
+          const withRequiredActionSessionSerializer = {
+            serialize: sinon.stub(),
+          };
+          const serializedFinalizedSessions = Symbol('serializedSession');
+          withRequiredActionSessionSerializer.serialize
+            .withArgs(foundFinalizedSessions)
+            .resolves(serializedFinalizedSessions);
+
+          // when
+          const response = await finalizedSessionController.findFinalizedSessionsWithRequiredAction(request, hFake, {
+            withRequiredActionSessionSerializer,
+          });
+
+          // then
+          expect(response).to.deep.equal(serializedFinalizedSessions);
+        });
+      });
+    });
+  });
 });
