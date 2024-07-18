@@ -514,7 +514,7 @@
                     ],
                     "feedbacks": {
                       "valid": "<span class=\"feedback__state\">Bravo ! <span aria-hidden=\"true\">💫</span></span>",
-                      "invalid": "<p>Pour réussir, écrivez par exemple un prompt qui évoque un métier où les hommes sont surreprésentés </p>"
+                      "invalid": "<p>Pour réussir, écrivez par exemple un prompt qui évoque un métier où les hommes sont surreprésentés.</p>"
                     },
                     "solution": "1"
                   }
