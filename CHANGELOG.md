@@ -1,5 +1,37 @@
 # Pix Changelog
 
+## v4.184.0 (18/07/2024)
+
+
+### :rocket: Amélioration
+- [#9490](https://github.com/1024pix/pix/pull/9490) [FEATURE] Création d'un mécanisme de correspondance des claims OIDC (PIX-13167).
+- [#9511](https://github.com/1024pix/pix/pull/9511) [FEATURE] Permettre de télécharger le template de fichier d'import depuis PixOrga (PIX-13410).
+- [#9509](https://github.com/1024pix/pix/pull/9509) [FEATURE] Ajout d'un FT pour la déclaration d'un besoin d'aménagement pour un candidat (PIX-13292).
+
+### :building_construction: Tech
+- [#9575](https://github.com/1024pix/pix/pull/9575) [TECH] Remplacer la dépendance `oppsy` par notre fork.
+- [#9525](https://github.com/1024pix/pix/pull/9525) [TECH] Migration du preHandler `user-existence-verification` vers `src` (PIX-13445).
+- [#9537](https://github.com/1024pix/pix/pull/9537) [TECH] migrer la route api/admin/admin-members/me dans src (PIX-13455).
+- [#9570](https://github.com/1024pix/pix/pull/9570) [TECH] Déplacer les utilitaires vers src/shared (PIX-13489).
+- [#9567](https://github.com/1024pix/pix/pull/9567) [TECH] Migration de la route api/shared-certifications (PIX-13487).
+- [#9542](https://github.com/1024pix/pix/pull/9542) [TECH] Migration de la route /api/sessions/{id}/enrol-students-to-session vers certification/enrolment (PIX-13460).
+- [#9560](https://github.com/1024pix/pix/pull/9560) [TECH] Migrer healthcheck vers le dossier src shared (PIX-13484).
+- [#9573](https://github.com/1024pix/pix/pull/9573) [TECH] Migrer la route PUT api/users/{id}/email/verification-code (PIX-13470).
+- [#9541](https://github.com/1024pix/pix/pull/9541) [TECH] Migrer la route GET /api/admin/organizations/{id} (PIX-13461).
+- [#9543](https://github.com/1024pix/pix/pull/9543) [TECH] Migration de la route api/certifications/:id vers src (PIX-13468).
+- [#9538](https://github.com/1024pix/pix/pull/9538) [TECH] Remplacer la locale "en-gb" obsolète par "en" (PIX-13458).
+
+### :bug: Correction
+- [#9539](https://github.com/1024pix/pix/pull/9539) [BUGFIX] Corrige un bug empêchant de modifier les organisations ayant la feature d'import (PIX-13457).
+- [#9562](https://github.com/1024pix/pix/pull/9562) [BUGFIX] Mettre à jour la date de fin de la session lors de sa prolongation (PIX-13412).
+
+### :arrow_up: Montée de version
+- [#9579](https://github.com/1024pix/pix/pull/9579) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.6 (mon-pix).
+- [#9577](https://github.com/1024pix/pix/pull/9577) [BUMP] Update dependency @1024pix/eslint-plugin to ^1.3.1 (api).
+
+### :coffee: Autre
+- [#9565](https://github.com/1024pix/pix/pull/9565) [FEATURES] Ajout de la bannière informative (Pix-13379).
+
 ## v4.183.0 (17/07/2024)
 
 
