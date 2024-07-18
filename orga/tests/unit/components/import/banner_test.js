@@ -1,15 +1,15 @@
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
-import createGlimmerComponent from '../../helpers/create-glimmer-component';
+import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 
-module('Unit | Component | ImportBanner', (hooks) => {
+module('Unit | Component | Import::Banner', (hooks) => {
   setupTest(hooks);
 
   let component;
 
   hooks.beforeEach(function () {
-    component = createGlimmerComponent('component:import-banner');
+    component = createGlimmerComponent('component:import/banner');
   });
   module('get#displayBanner', () => {
     test('should return false if nor', (assert) => {

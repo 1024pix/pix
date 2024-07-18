@@ -188,7 +188,7 @@ describe('Acceptance | Application | organization-controller-sup-organization-le
     });
   });
 
-  describe('GET /api/organizations/{id}/sup-organization-learners/csv-template', function () {
+  describe('GET /api/organizations/{id}/organization-learners/csv-template', function () {
     let userId, organization, accessToken;
 
     beforeEach(async function () {
@@ -212,7 +212,7 @@ describe('Acceptance | Application | organization-controller-sup-organization-le
         // given
         const options = {
           method: 'GET',
-          url: `/api/organizations/${organization.id}/sup-organization-learners/csv-template?accessToken=${accessToken}`,
+          url: `/api/organizations/${organization.id}/organization-learners/csv-template?accessToken=${accessToken}`,
         };
 
         // when
@@ -238,7 +238,7 @@ describe('Acceptance | Application | organization-controller-sup-organization-le
         // given
         const options = {
           method: 'GET',
-          url: `/api/organizations/${organization.id}/sup-organization-learners/csv-template?accessToken=${accessToken}`,
+          url: `/api/organizations/${organization.id}/organization-learners/csv-template?accessToken=${accessToken}`,
         };
 
         // when

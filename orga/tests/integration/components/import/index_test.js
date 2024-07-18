@@ -3,10 +3,11 @@ import Service from '@ember/service';
 import { click, triggerEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import ENV from 'pix-orga/config/environment';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Import', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -17,6 +18,79 @@ module('Integration | Component | Import', function (hooks) {
     this.set('onImportScoStudents', sinon.stub());
     this.set('onReplaceStudents', sinon.stub());
     this.set('onImportLearners', sinon.stub());
+  });
+
+  module('when there is a import template', function () {
+    test('it should display download template button for sup', async function (assert) {
+      // given
+      class CurrentUserStub extends Service {
+        isAdminInOrganization = true;
+        isSUPManagingStudents = true;
+        organization = { id: 1 };
+      }
+
+      this.owner.register('service:current-user', CurrentUserStub);
+      class SessionStub extends Service {
+        data = { authenticated: { access_token: 'something' } };
+      }
+
+      this.owner.register('service:session', SessionStub);
+      this.set('organizationImportDetail', null);
+
+      // when
+      const screen = await render(
+        hbs`<Import
+  @onImportSupStudents={{this.onImportSupStudents}}
+  @onImportScoStudents={{this.onImportScoStudents}}
+  @onReplaceStudents={{this.onReplaceStudents}}
+  @organizationImportDetail={{this.organizationImportDetail}}
+/>`,
+      );
+
+      // then
+      const link = screen.getByText(t('pages.sup-organization-participants.actions.download-template'));
+      assert
+        .dom(link)
+        .hasAttribute(
+          'href',
+          `${ENV.APP.API_HOST}/api/organizations/1/organization-learners/csv-template?accessToken=something&lang=fr`,
+        );
+    });
+    test('it should display download template button for organization with import feature', async function (assert) {
+      // given
+      class CurrentUserStub extends Service {
+        isAdminInOrganization = true;
+        hasLearnerImportFeature = true;
+        organization = { id: 1 };
+      }
+
+      this.owner.register('service:current-user', CurrentUserStub);
+      class SessionStub extends Service {
+        data = { authenticated: { access_token: 'something' } };
+      }
+
+      this.owner.register('service:session', SessionStub);
+      this.set('organizationImportDetail', null);
+
+      // when
+      const screen = await render(
+        hbs`<Import
+  @onImportSupStudents={{this.onImportSupStudents}}
+  @onImportScoStudents={{this.onImportScoStudents}}
+  @onReplaceStudents={{this.onReplaceStudents}}
+  @organizationImportDetail={{this.organizationImportDetail}}
+/>`,
+      );
+
+      // then
+      const link = screen.getByText(t('pages.sup-organization-participants.actions.download-template'));
+      assert
+        .dom(link)
+        .hasAttribute(
+          'href',
+          `${ENV.APP.API_HOST}/api/organizations/1/organization-learners/csv-template?accessToken=something&lang=fr`,
+        );
+    });
   });
 
   module('when import is in progress', function (hooks) {
@@ -36,6 +110,7 @@ module('Integration | Component | Import', function (hooks) {
       class CurrentUserStub extends Service {
         isAdminInOrganization = true;
         isSCOManagingStudents = true;
+        organization = {};
       }
 
       this.owner.register('service:current-user', CurrentUserStub);
@@ -62,6 +137,7 @@ module('Integration | Component | Import', function (hooks) {
       class CurrentUserStub extends Service {
         isAdminInOrganization = true;
         isSUPManagingStudents = true;
+        organization = {};
       }
 
       this.owner.register('service:current-user', CurrentUserStub);
@@ -94,6 +170,7 @@ module('Integration | Component | Import', function (hooks) {
       class CurrentUserStub extends Service {
         isAdminInOrganization = true;
         isSUPManagingStudents = true;
+        organization = {};
       }
 
       this.owner.register('service:current-user', CurrentUserStub);
@@ -128,6 +205,7 @@ module('Integration | Component | Import', function (hooks) {
     class CurrentUserStub extends Service {
       isAdminInOrganization = true;
       isSUPManagingStudents = true;
+      organization = {};
     }
 
     hooks.beforeEach(function () {
@@ -263,6 +341,7 @@ module('Integration | Component | Import', function (hooks) {
     class CurrentUserStub extends Service {
       isAdminInOrganization = true;
       isSCOManagingStudents = true;
+      organization = {};
     }
 
     hooks.beforeEach(async function () {
@@ -344,6 +423,7 @@ module('Integration | Component | Import', function (hooks) {
         isAdminInOrganization = true;
         isSCOManagingStudents = true;
         isAgriculture = true;
+        organization = {};
       }
 
       this.owner.register('service:current-user', CurrentUserStub);
@@ -392,6 +472,7 @@ module('Integration | Component | Import', function (hooks) {
     class CurrentUserStub extends Service {
       isAdminInOrganization = true;
       hasLearnerImportFeature = true;
+      organization = {};
     }
 
     hooks.beforeEach(function () {

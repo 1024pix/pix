@@ -5,6 +5,9 @@
 
   &__header {
     @extend %pix-title-m;
+
+    display: flex;
+    justify-content: space-between
   }
 
   &__error-panel {

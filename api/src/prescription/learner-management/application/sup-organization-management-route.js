@@ -94,7 +94,7 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/organizations/{id}/sup-organization-learners/csv-template',
+      path: '/api/organizations/{id}/organization-learners/csv-template',
       config: {
         auth: false,
         validate: {

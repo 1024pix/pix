@@ -1,7 +1,15 @@
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
+import { t } from 'ember-intl';
 import groupBy from 'lodash/groupBy';
 import uniq from 'lodash/uniq';
+
+import UiPixLoader from '../ui/pix-loader';
+import ScoOrganizationParticipantAdd from './add-sco';
+import SupOrganizationParticipantAdd from './add-sup';
+import ImportBanner from './banner';
+import DownloadImportTemplateLink from './download-import-template-link';
+import SupOrganizationParticipantReplace from './replace-sup';
 
 export default class Import extends Component {
   @service currentUser;
@@ -89,4 +97,66 @@ export default class Import extends Component {
       return {};
     }
   }
+
+  <template>
+    <article class="import-students-page">
+      <header class="import-students-page__header">
+        <h1>
+          {{t this.textsByOrganizationType.title}}
+        </h1>
+        <DownloadImportTemplateLink />
+      </header>
+
+      <ImportBanner
+        @organizationImportDetail={{@organizationImportDetail}}
+        @errorPanelId="import-error-messages"
+        @isLoading={{@isLoading}}
+      />
+
+      {{#if @isLoading}}
+        <UiPixLoader />
+      {{/if}}
+
+      {{#unless @isLoading}}
+        <div class="import-students-page__type-list">
+          {{#if this.currentUser.isSCOManagingStudents}}
+            <ScoOrganizationParticipantAdd
+              @importHandler={{@onImportScoStudents}}
+              @supportedFormats={{this.supportedFormats}}
+              @disabled={{this.inProgress}}
+            />
+          {{else if this.currentUser.isSUPManagingStudents}}
+            <SupOrganizationParticipantAdd
+              @importHandler={{@onImportSupStudents}}
+              @supportedFormats={{this.supportedFormats}}
+              @disabled={{this.inProgress}}
+            />
+            <SupOrganizationParticipantReplace
+              @importHandler={{@onReplaceStudents}}
+              @supportedFormats={{this.supportedFormats}}
+              @disabled={{this.inProgress}}
+            />
+          {{else if this.currentUser.hasLearnerImportFeature}}
+            <ScoOrganizationParticipantAdd
+              @importHandler={{@onImportLearners}}
+              @supportedFormats={{this.supportedFormats}}
+              @disabled={{this.inProgress}}
+            />
+          {{/if}}
+        </div>
+      {{/unless}}
+
+      {{#if this.displayImportMessagePanel}}
+        <section id="import-error-messages" class={{this.panelClasses}} aria-live="assertive">
+          <h2>{{t "pages.organization-participants-import.error-panel.title"}}</h2>
+
+          <ul class="import-students-page__error-panel-list">
+            {{#each this.errorDetailList as |errorElement|}}
+              <li class="import-students-page__error-panel-list__item">{{errorElement}}</li>
+            {{/each}}
+          </ul>
+        </section>
+      {{/if}}
+    </article>
+  </template>
 }

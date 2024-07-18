@@ -49,14 +49,6 @@ module('Integration | Component | SupOrganizationParticipant::HeaderActions', fu
       this.owner.register('service:current-user', CurrentUserStub);
     });
 
-    test('it should display download template button', async function (assert) {
-      // when
-      const screen = await render(hbs`<SupOrganizationParticipant::HeaderActions />`);
-
-      // then
-      assert.ok(screen.getByText(t('pages.sup-organization-participants.actions.download-template')));
-    });
-
     test('it displays the import button', async function (assert) {
       // when
       const screen = await render(hbs`<SupOrganizationParticipant::HeaderActions />`);

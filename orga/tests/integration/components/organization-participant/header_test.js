@@ -100,6 +100,7 @@ module('Integration | Component | OrganizationParticipant::header', function (ho
 
     test('should display import button when authorized', async function (assert) {
       class CurrentUserStub extends Service {
+        organization = { id: '1' };
         hasLearnerImportFeature = true;
         isAdminInOrganization = true;
       }

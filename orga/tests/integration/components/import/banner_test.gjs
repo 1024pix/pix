@@ -1,11 +1,11 @@
 import { render } from '@1024pix/ember-testing-library';
 import { t } from 'ember-intl/test-support';
-import ImportBanner from 'pix-orga/components/import-banner';
+import ImportBanner from 'pix-orga/components/import/banner';
 import { module, test } from 'qunit';
 
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | ImportBanner', function (hooks) {
+module('Integration | Component | Import::Banner', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   module('inProgress', function () {
