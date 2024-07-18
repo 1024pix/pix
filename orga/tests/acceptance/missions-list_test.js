@@ -49,9 +49,7 @@ module('Acceptance | Missions List', function (hooks) {
       // then
       assert.dom(screen.getByText('Super Mission')).exists();
       assert.dom(screen.getByText('Super competence')).exists();
-      assert
-        .dom(screen.getByRole('link', { name: t('pages.missions.list.banner.copypaste-container.import-text') }))
-        .hasAttribute('href', 'http://localhost/schools/BLABLA123');
+      assert.dom(screen.getByRole('link', { name: 'junior.pix.fr' })).hasAttribute('href', 'https://junior.pix.fr');
     });
 
     module('display divisions', function () {
@@ -101,7 +99,7 @@ module('Acceptance | Missions List', function (hooks) {
         assert
           .dom(
             screen.getByRole('link', {
-              name: t('pages.missions.list.banner.admin.import-text'),
+              name: t('pages.missions.list.banner.step1.admin.link'),
             }),
           )
           .hasAttribute('href', '/import-participants');

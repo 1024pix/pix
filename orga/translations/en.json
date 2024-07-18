@@ -874,24 +874,28 @@
       "list": {
         "aria-label": "Mission",
         "banner": {
-          "admin": {
-            "abstract": "To get started, please ",
-            "import-text": "import students",
-            "info": "from Onde (exportable file in the menu Lists & documents > Extractions > School pupils or their supervisor)."
-          },
           "copypaste-container": {
             "abstract": "Start your missions with your students by activating a session with the above button and using this ",
             "button": {
               "success": "copied !",
-              "tooltip": "copy link"
+              "tooltip": "copy code"
+            }
+          },
+          "step1": {
+            "admin": {
+              "head": "Step 1 : <b>Please</b>",
+              "link": "importer the student database",
+              "tail": "<b>from Onde</b> (exportable file in the Lists & documents Extractions > School students or their supervisors menu)."
             },
-            "hint": "Please add it to your favorites",
-            "import-text": "school link"
+            "non-admin": "Step1 : <b>Ask the Pix Orga administrator</b> in your area to import students"
           },
-          "non-admin": {
-            "abstract": "To get started, ask your administrator to import students."
+          "step2": {
+            "title": "Step 2 :",
+            "option1": "Or &nbsp<b>by registering </b>&nbspthe&nbsp'<a href=\"https://junior.pix.fr\">junior.pix.fr</a>'&nbsplink on your workstations and entering your school's code: {code} ",
+            "option2": "Or by accessing&nbsp'<a href=\"{pixJuniorUrl}\" target=_blank >Pix Junior</a>'&nbspdirectly"
           },
-          "welcome": "Hello and welcome to Pix Orga!"
+          "step3": "Step 3 : <b> Activate the Pix Junior session </b> using the button above before your session on the day.",
+          "welcome": "To get started, please follow these steps :"
         },
         "caption": "List of missions",
         "empty-state": "There is not any mission",

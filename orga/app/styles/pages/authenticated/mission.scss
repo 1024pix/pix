@@ -10,9 +10,25 @@
     text-decoration: underline;
   }
 
+  li {
+    margin-top: 3px;
+    margin-bottom: 7px;
+    margin-left: 15px;
+    list-style: disc;
+
+    li {
+      margin-left: 15px;
+      list-style: circle;
+    }
+  }
+
   &__copypaste-container {
     display: flex;
+    text-align: start;
 
+    &__external-link {
+      margin-left: 10px;
+    }
   }
 }
 

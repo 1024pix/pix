@@ -874,24 +874,30 @@
       "list": {
         "aria-label": "Mission",
         "banner": {
-          "admin": {
-            "abstract": "Pour commencer, veuillez ",
-            "import-text": "importer vos élèves",
-            "info": " depuis Onde (fichier exportable dans le menu Listes & documents > Extractions > Élèves de l’école ou leur responsable)."
-          },
           "copypaste-container": {
             "abstract": "Démarrez vos premières missions avec vos élèves en activant la session via le bouton ci-dessus et en utilisant le",
             "button": {
               "success": "copié !",
-              "tooltip": "copier le lien"
+              "tooltip": "copier le code"
+            }
+          },
+          "hint": "N’hésitez pas à le mettre en favori sur vos postes.",
+          "import-text": "lien de l'école",
+          "step1": {
+            "admin": {
+              "head": "Étape 1 : <b>Veuillez</b>",
+              "link": "importer la base élève",
+              "tail": "<b>depuis Onde</b> (fichier exportable dans le menu Listes & documents > Extractions > Élèves de l’école ou leurs responsables)."
             },
-            "hint": "N’hésitez pas à le mettre en favori sur vos postes.",
-            "import-text": "lien de l'école"
+            "non-admin": "Étape 1 : <b>Demandez à l'administrateur</b> Pix Orga de votre espace afin d’importer les élèves."
           },
-          "non-admin": {
-            "abstract": "Pour commencer, demandez à votre administrateur d’importer les élèves."
+          "step2": {
+            "title": "Étape 2 :",
+            "option1": "Soit en&nbsp<b>enregistrant le lien</b>&nbsp'<a href=\"https://junior.pix.fr\">'junior.pix.fr'</a>'&nbspsur vos postes et saisissez le code de votre établissement : {code} ",
+            "option2": "Soit en accédant directement à&nbsp'<a href=\"{pixJuniorUrl}\" target=_blank >Pix Junior</a>'"
           },
-          "welcome": "Bonjour et bienvenue dans Pix Orga !"
+          "step3": "Étape 3 : <b>Activez la session Pix Junior</b> via le bouton ci-dessus avant votre séance le jour J.",
+          "welcome": "Pour commencer, veuillez suivre ces étapes :"
         },
         "caption": "Liste des missions",
         "empty-state": "Il n'y a pas de missions",
@@ -900,7 +906,10 @@
           "name": "Mission",
           "started-by": "Commencé par"
         },
-        "no-division": "Aucune classe"
+        "no-division": "Aucune classe",
+        "non-admin": {
+          "abstract": "Pour commencer, demandez à votre administrateur d’importer les élèves."
+        }
       }
     },
     "organization-learner": {
