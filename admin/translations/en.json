@@ -65,6 +65,17 @@
         },
         "upload-button": "Import JSON file"
       },
+      "organization-tags-import": {
+        "title": "Bulk addition of tags on organisations",
+        "description": "Allow to add tags to organisations. Each line of the CSV file must be made of the ID of an organisation, followed by the name of a tag.",
+        "notifications": {
+          "errors": {
+            "tag-not-found": "The tag \"{tagName}\" does not exist."
+          },
+          "success": "Tags have been added to the organisations."
+        },
+        "upload-button": "Import CSV file"
+      },
       "organizations-import": {
         "title": "Mass creation of organizations",
         "description": "Existing organizations will not be changed.",
