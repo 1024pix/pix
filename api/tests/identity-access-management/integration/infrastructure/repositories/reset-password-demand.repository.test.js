@@ -105,15 +105,16 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
           return databaseBuilder.commit();
         });
 
-        it('returns the bookshelf demand', async function () {
+        it('returns the reset password demand', async function () {
           // when
           const demand = await resetPasswordDemandRepository.findByTemporaryKey(temporaryKey);
 
           // then
-          expect(demand.attributes.id).to.equal(demandId);
-          expect(demand.attributes.email).to.equal(email);
-          expect(demand.attributes.temporaryKey).to.equal(temporaryKey);
-          expect(demand.attributes.used).to.equal(false);
+          expect(demand).to.be.instanceOf(ResetPasswordDemand);
+          expect(demand.id).to.equal(demandId);
+          expect(demand.email).to.equal(email);
+          expect(demand.temporaryKey).to.equal(temporaryKey);
+          expect(demand.used).to.equal(false);
         });
       });
     });
@@ -162,31 +163,20 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
           return databaseBuilder.commit();
         });
 
-        it('returns the bookshelf demand', async function () {
+        it('returns the password reset demand', async function () {
           // when
           const demand = await resetPasswordDemandRepository.findByUserEmail(email, temporaryKey);
 
           // then
-          expect(demand.attributes.id).to.equal(demandId);
-          expect(demand.attributes.email).to.equal(email);
-          expect(demand.attributes.temporaryKey).to.equal(temporaryKey);
-          expect(demand.attributes.used).to.equal(false);
-        });
-
-        it('is case insensitive', async function () {
-          // when
-          const emailWithUppercase = email.toUpperCase();
-          const demand = await resetPasswordDemandRepository.findByUserEmail(emailWithUppercase, temporaryKey);
-
-          // then
-          expect(demand.attributes.id).to.equal(demandId);
-          expect(demand.attributes.email).to.equal(email);
-          expect(demand.attributes.temporaryKey).to.equal(temporaryKey);
-          expect(demand.attributes.used).to.equal(false);
+          expect(demand).to.be.instanceOf(ResetPasswordDemand);
+          expect(demand.id).to.equal(demandId);
+          expect(demand.email).to.equal(email);
+          expect(demand.temporaryKey).to.equal(temporaryKey);
+          expect(demand.used).to.equal(false);
         });
 
         context('when case is not identical', function () {
-          it('returns the bookshelf demand', async function () {
+          it('returns the password reset demand', async function () {
             // given
             const sameEmailWithAnotherCase = 'SomeMaIL@example.net';
 
@@ -194,10 +184,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
             const demand = await resetPasswordDemandRepository.findByUserEmail(sameEmailWithAnotherCase, temporaryKey);
 
             // then
-            expect(demand.attributes.id).to.equal(demandId);
-            expect(demand.attributes.email).to.equal(email);
-            expect(demand.attributes.temporaryKey).to.equal(temporaryKey);
-            expect(demand.attributes.used).to.equal(false);
+            expect(demand.id).to.equal(demandId);
           });
         });
       });

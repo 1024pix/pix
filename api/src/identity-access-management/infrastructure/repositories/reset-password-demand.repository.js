@@ -1,49 +1,77 @@
-import { knex } from '../../../../db/knex-database-connection.js';
-import { ResetPasswordDemand } from '../../../../lib/infrastructure/orm-models/ResetPasswordDemand.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { PasswordResetDemandNotFoundError } from '../../domain/errors.js';
 import { ResetPasswordDemand as ResetPasswordDemandModel } from '../../domain/models/ResetPasswordDemand.js';
 
 const RESET_PASSWORD_DEMANDS_TABLE_NAME = 'reset-password-demands';
 
-const create = async function (createResetPasswordDemandDto) {
-  const [inserted] = await knex(RESET_PASSWORD_DEMANDS_TABLE_NAME).insert(createResetPasswordDemandDto).returning('*');
+/**
+ * @param {Object} values
+ * @param {string} values.email
+ * @param {string} values.temporaryKey
+ *
+ * @returns {ResetPasswordDemand} Created reset password demand
+ */
+const create = async function ({ email, temporaryKey }) {
+  const knexConn = DomainTransaction.getConnection();
+
+  const [inserted] = await knexConn(RESET_PASSWORD_DEMANDS_TABLE_NAME).insert({ email, temporaryKey }).returning('*');
+
   return _toDomain(inserted);
 };
 
-const markAsBeingUsed = function (email) {
-  return ResetPasswordDemand.query((qb) => qb.whereRaw('LOWER("email") = ?', email.toLowerCase())).save(
-    { used: true },
-    {
-      patch: true,
-      require: false,
-    },
-  );
+/**
+ * @param {string} email
+ */
+const markAsBeingUsed = async function (email) {
+  const knexConn = DomainTransaction.getConnection();
+
+  await knexConn(RESET_PASSWORD_DEMANDS_TABLE_NAME)
+    .whereRaw('LOWER("email") = LOWER(?)', email)
+    .update({ used: true, updatedAt: new Date() });
 };
 
-const findByTemporaryKey = function (temporaryKey) {
-  return ResetPasswordDemand.where({ temporaryKey, used: false })
-    .fetch()
-    .catch((err) => {
-      if (err instanceof ResetPasswordDemand.NotFoundError) {
-        throw new PasswordResetDemandNotFoundError();
-      }
-      throw err;
-    });
+/**
+ * @param {string} temporaryKey
+ *
+ * @returns {ResetPasswordDemand} retrieved reset password demand
+ */
+const findByTemporaryKey = async function (temporaryKey) {
+  const knexConn = DomainTransaction.getConnection();
+
+  const resetPasswordDemand = await knexConn(RESET_PASSWORD_DEMANDS_TABLE_NAME)
+    .select('*')
+    .from(RESET_PASSWORD_DEMANDS_TABLE_NAME)
+    .where({ temporaryKey, used: false })
+    .first();
+
+  if (!resetPasswordDemand) {
+    throw new PasswordResetDemandNotFoundError();
+  }
+
+  return _toDomain(resetPasswordDemand);
 };
 
-const findByUserEmail = function (email, temporaryKey) {
-  return ResetPasswordDemand.query((qb) => {
-    qb.whereRaw('LOWER("email") = ?', email.toLowerCase());
-    qb.where({ used: false });
-    qb.where({ temporaryKey });
-  })
-    .fetch()
-    .catch((err) => {
-      if (err instanceof ResetPasswordDemand.NotFoundError) {
-        throw new PasswordResetDemandNotFoundError();
-      }
-      throw err;
-    });
+/**
+ * @param {string} email
+ * @param {string} temporaryKey
+ *
+ * @returns {ResetPasswordDemand} retrieved reset password demand
+ */
+const findByUserEmail = async function (email, temporaryKey) {
+  const knexConn = DomainTransaction.getConnection();
+
+  const resetPasswordDemand = await knexConn(RESET_PASSWORD_DEMANDS_TABLE_NAME)
+    .select('*')
+    .from(RESET_PASSWORD_DEMANDS_TABLE_NAME)
+    .whereRaw('LOWER("email") = LOWER(?)', email)
+    .where({ temporaryKey, used: false })
+    .first();
+
+  if (!resetPasswordDemand) {
+    throw new PasswordResetDemandNotFoundError();
+  }
+
+  return _toDomain(resetPasswordDemand);
 };
 
 /**
