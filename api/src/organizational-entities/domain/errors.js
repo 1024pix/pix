@@ -40,6 +40,13 @@ class OrganizationNotFound extends DomainError {
   }
 }
 
+class TagNotFoundError extends DomainError {
+  constructor(meta) {
+    super('Tag does not exist', 'TAG_NOT_FOUND');
+    if (meta) this.meta = meta;
+  }
+}
+
 class OrganizationBatchUpdateError extends DomainError {
   constructor({ code = 'ORGANIZATION_BATCH_UPDATE_ERROR', message = 'Organization batch update failed', meta } = {}) {
     super(message);
@@ -71,5 +78,6 @@ export {
   FeatureParamsNotProcessable,
   OrganizationBatchUpdateError,
   OrganizationNotFound,
+  TagNotFoundError,
   UnableToAttachChildOrganizationToParentOrganizationError,
 };
