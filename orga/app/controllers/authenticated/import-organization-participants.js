@@ -48,6 +48,14 @@ export default class ImportController extends Controller {
     });
   }
 
+  _wait(ms) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, ms);
+    });
+  }
+
   _initializeUpload() {
     if (this.isLoading) return;
 
@@ -72,7 +80,8 @@ export default class ImportController extends Controller {
     window.addEventListener('beforeunload', confirmBeforeClose);
 
     try {
-      await func(adapter, organizationId);
+      // We add a minimal import time to avoid flashing loader to users
+      await Promise.all([await func(adapter, organizationId), await this._wait(750)]);
     } finally {
       this.send('refreshModel');
       this.isLoading = false;
