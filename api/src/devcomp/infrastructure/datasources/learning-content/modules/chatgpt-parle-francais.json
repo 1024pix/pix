@@ -64,7 +64,7 @@
             "type": "image",
             "url": "https://i.imgur.com/wPgGbVX.png",
             "alt": "Dessin détaillé dans l'alternative textuelle",
-            "alternativeText": "<ul><li><strong>Vous</strong><br>Peux-tu faire un jeu de mots ?</li><li><strong>ChatGPT</strong><br>Bien sûr, voici un jeu de mots pour vous :<br>Pourquoi les poissons n'utilisent-ils pas d'ordinateurs ?<br>Parce qu'ils ont peur du net !</li></ul>"
+            "alternativeText": "<ul><li><strong>Vous</strong><br>Peux-tu faire un jeu de mots ?</li><li><strong>ChatGPT</strong><br>Bien sûr ! Voici un jeu de mots pour vous :<br>Pourquoi les poissons n'utilisent-ils pas d'ordinateurs ?<br>Parce qu'ils ont peur du net !</li></ul>"
           }
         },
         {
@@ -197,7 +197,7 @@
                   "type": "image",
                   "url": "https://i.imgur.com/OYTBe78.jpeg",
                   "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
-                  "alternativeText": "<p>Vous : Quel est le jour de la fête nationale ?</p><p>LLM : La fête nationale de la France aussi connue sous le nom de la Bastille Day est célébrée le 14 juillet. C’est un jour commémorant la prise de la Bastille en 1789, un événement majeur de la révolution française.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
+                  "alternativeText": "<p>Vous : Quel est le jour de la fête nationale ?</p><p>LLM : La fête nationale de la France est célébrée le 14 juillet. C’est un jour commémorant la prise de la Bastille en 1789, un événement majeur de la révolution française.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
                 },
                 {
                   "id": "629aeb61-028b-41f7-97f2-512e83000fa5",
@@ -367,7 +367,7 @@
                           }
                     ],
                     "feedbacks": {
-                      "valid": "<span class=\"feedback__state\">Correct !</span><p>Des différences seront systématiquement présentes dans leurs réponses. C'est aussi vrai pour le même LLM.</p>",
+                      "valid": "<span class=\"feedback__state\">Correct !</span><p>Des différences seront systématiquement présentes dans leurs réponses. C'est aussi vrai quand on soumet un prompt identique à un seul et même LLM.</p>",
                       "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Soumettez à nouveau un prompt à deux LLM pour observer les variations dans leurs réponses.</p>"
                     },
                     "solution": "2"
@@ -391,7 +391,7 @@
                         }
                     ],
                     "feedbacks": {
-                      "valid": "<span class=\"feedback__state\">Correct !</span><p>La provenance des LLM est d'ailleurs un paramètre qui peut influencer les résultats qu'il fournit.</p>",
+                      "valid": "<span class=\"feedback__state\">Correct !</span><p>La provenance d'un LLM est d'ailleurs un paramètre qui peut influencer les résultats qu'il fournit.</p>",
                       "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Sur l'arène LANGUIA, donnez votre avis sur les résultats pour révéler les LLM. Vous verrez que des modèles de différents pays sont disponibles.</p>"
                     },
                     "solution": "1"
