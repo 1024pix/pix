@@ -1,3 +1,4 @@
+import * as updateEmailSerializer from '../../../../lib/infrastructure/serializers/jsonapi/update-email-serializer.js';
 import * as localeService from '../../../shared/domain/services/locale-service.js';
 import * as userSerializer from '../../../shared/infrastructure/serializers/jsonapi/user-serializer.js';
 import { requestResponseUtils } from '../../../shared/infrastructure/utils/request-response-utils.js';
@@ -152,6 +153,18 @@ const updatePassword = async function (request, h) {
   return h.response().code(204);
 };
 
+const updateUserEmailWithValidation = async function (request, h, dependencies = { updateEmailSerializer }) {
+  const userId = request.params.id;
+  const code = request.payload.data.attributes.code;
+
+  const updatedUserAttributes = await usecases.updateUserEmailWithValidation({
+    userId,
+    code,
+  });
+
+  return dependencies.updateEmailSerializer.serialize(updatedUserAttributes);
+};
+
 /**
  * @param request
  * @param h
@@ -206,5 +219,6 @@ export const userController = {
   save,
   sendVerificationCode,
   updatePassword,
+  updateUserEmailWithValidation,
   validateUserAccountEmail,
 };

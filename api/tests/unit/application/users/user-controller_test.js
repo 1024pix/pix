@@ -8,7 +8,6 @@ import { usecases as devcompUsecases } from '../../../../src/devcomp/domain/usec
 import { evaluationUsecases } from '../../../../src/evaluation/domain/usecases/index.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { User } from '../../../../src/identity-access-management/domain/models/User.js';
-import { usecases as srcUsecases } from '../../../../src/identity-access-management/domain/usecases/index.js';
 import * as requestResponseUtils from '../../../../src/shared/infrastructure/utils/request-response-utils.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 
@@ -694,50 +693,6 @@ describe('Unit | Controller | user-controller', function () {
       expect(userAnonymizedDetailsForAdminSerializer.serialize).to.have.been.calledWithExactly(userDetailsForAdmin);
       expect(response.statusCode).to.equal(200);
       expect(response.source).to.deep.equal(anonymizedUserSerialized);
-    });
-  });
-
-  describe('#updateUserEmailWithValidation', function () {
-    it('should call the usecase to update user email', async function () {
-      // given
-      const userId = 1;
-      const updatedEmail = 'new-email@example.net';
-      const code = '999999';
-
-      const responseSerialized = Symbol('an response serialized');
-      sinon.stub(srcUsecases, 'updateUserEmailWithValidation');
-      srcUsecases.updateUserEmailWithValidation.withArgs({ code, userId }).resolves(updatedEmail);
-      const updateEmailSerializer = { serialize: sinon.stub() };
-      updateEmailSerializer.serialize.withArgs(updatedEmail).returns(responseSerialized);
-
-      const request = {
-        auth: {
-          credentials: {
-            userId,
-          },
-        },
-        params: {
-          id: userId,
-        },
-        payload: {
-          data: {
-            type: 'users',
-            attributes: {
-              code,
-            },
-          },
-        },
-      };
-
-      // when
-      const response = await userController.updateUserEmailWithValidation(request, hFake, { updateEmailSerializer });
-
-      // then
-      expect(srcUsecases.updateUserEmailWithValidation).to.have.been.calledWithExactly({
-        code,
-        userId,
-      });
-      expect(response).to.deep.equal(responseSerialized);
     });
   });
 
