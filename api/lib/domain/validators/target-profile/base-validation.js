@@ -23,6 +23,8 @@ const schema = Joi.object({
       categories.PIX_PLUS,
       categories.PREDEFINED,
       categories.SUBJECT,
+      categories.TARGETED,
+      categories.BACK_TO_SCHOOL,
     )
     .required()
     .error((errors) => first(errors))

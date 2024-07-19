@@ -12,6 +12,8 @@ export const categories = {
   CUSTOM: 'Parcours sur-mesure',
   PIX_PLUS: 'Pix+',
   SUBJECT: 'Thématiques',
+  TARGETED: 'Parcours ciblés',
+  BACK_TO_SCHOOL: 'Parcours de rentrée / 6e',
 };
 
 export const optionsCategoryList = formatList(categories);

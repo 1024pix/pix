@@ -53,4 +53,20 @@ module('Integration | Component | TargetProfiles::Category', function (hooks) {
     // then
     assert.dom(screen.getByText('Autres')).exists();
   });
+
+  test('it should display the tag for type TARGETED', async function (assert) {
+    // when
+    const screen = await render(hbs`<TargetProfiles::Category @category='TARGETED' />`);
+
+    // then
+    assert.dom(screen.getByText('Parcours ciblés')).exists();
+  });
+
+  test('it should display the tag for type BACK_TO_SCHOOL', async function (assert) {
+    // when
+    const screen = await render(hbs`<TargetProfiles::Category @category='BACK_TO_SCHOOL' />`);
+
+    // then
+    assert.dom(screen.getByText('Parcours de rentrée / 6e')).exists();
+  });
 });

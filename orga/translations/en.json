@@ -500,13 +500,16 @@
         "profiles-collection-info-certificability-calculation": "The “Eligible for certification” status is updated automatically in the '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'Students'</a>' tab."
       },
       "tags": {
+        "BACK_TO_SCHOOL": "Back to school",
         "COMPETENCES": "Pix Competences",
         "CUSTOM": "Created for you",
         "DISCIPLINE": "Schools",
         "OTHER": "Other",
         "PIX_PLUS": "Pix+",
         "PREDEFINED": "Ready-made",
-        "SUBJECT": "Subject"
+        "SUBJECT": "Subject",
+        "TARGETED": "Targeted"
+
       },
       "tags-title": "Filter:",
       "target-profiles-category-label": "Filter customised test by category",
