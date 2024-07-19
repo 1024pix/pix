@@ -94,6 +94,8 @@ module.exports = function (environment) {
       },
       COOKIE_LOCALE_LIFESPAN_IN_SECONDS: 31536000, // 1 year in seconds
       APP_VERSION: process.env.SOURCE_VERSION || 'development',
+      SURVEY_LINK: process.env.SURVEY_LINK || null,
+      SURVEY_BANNER_ENABLED: Boolean(process.env.SURVEY_BANNER_ENABLED) || false,
     },
 
     fontawesome: {
@@ -120,6 +122,8 @@ module.exports = function (environment) {
   if (environment === 'development') {
     ENV.APP.CAMPAIGNS_ROOT_URL = 'http://localhost:4200/campagnes/';
     ENV.APP.CERTIFICATION_BANNER_DISPLAY_DATES = '04 05 06 07';
+    ENV.APP.SURVEY_LINK = 'http://localhost:4200/campagnes/';
+    ENV.APP.SURVEY_BANNER_ENABLED = true;
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;
     // ENV.APP.LOG_TRANSITIONS = true;
