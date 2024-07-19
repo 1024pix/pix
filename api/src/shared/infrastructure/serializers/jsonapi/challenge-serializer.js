@@ -16,6 +16,7 @@ const serialize = function (challenges) {
       'attachments',
       'competence',
       'embedUrl',
+      'embedFragment',
       'embedTitle',
       'embedHeight',
       'illustrationAlt',
