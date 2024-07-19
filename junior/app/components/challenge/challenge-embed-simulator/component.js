@@ -26,6 +26,6 @@ export default class ChallengeEmbedSimulator extends Component {
 
   @action
   async handleAnswer(event) {
-    this.args.setAnswerValue(event.detail.answer);
+    this.args.setAnswerValue(event.detail[0]);
   }
 }
