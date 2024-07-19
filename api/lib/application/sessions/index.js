@@ -5,7 +5,6 @@ const Joi = BaseJoi.extend(JoiDate);
 import { authorization } from '../../../src/certification/shared/application/pre-handlers/authorization.js';
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
-import { finalizedSessionController } from './finalized-session-controller.js';
 import { sessionController } from './session-controller.js';
 import { sessionWithCleaCertifiedCandidateController } from './session-with-clea-certified-candidate-controller.js';
 
@@ -67,33 +66,6 @@ const register = async function (server) {
         ],
         handler: sessionController.getJurySession,
         tags: ['api', 'sessions'],
-      },
-    },
-    {
-      method: 'GET',
-      path: '/api/admin/sessions/with-required-action',
-      config: {
-        validate: {
-          query: Joi.object({
-            filter: {
-              version: Joi.number(),
-            },
-          }),
-        },
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        handler: finalizedSessionController.findFinalizedSessionsWithRequiredAction,
-        tags: ['api', 'finalized-sessions'],
       },
     },
     {

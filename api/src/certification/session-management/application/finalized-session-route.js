@@ -32,6 +32,33 @@ const register = async function (server) {
         tags: ['api', 'finalized-sessions'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/admin/sessions/with-required-action',
+      config: {
+        validate: {
+          query: Joi.object({
+            filter: {
+              version: Joi.number(),
+            },
+          }),
+        },
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        handler: finalizedSessionController.findFinalizedSessionsWithRequiredAction,
+        tags: ['api', 'finalized-sessions'],
+      },
+    },
   ]);
 };
 

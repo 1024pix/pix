@@ -1,8 +1,8 @@
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/with-required-action-session-serializer.js';
-import { FinalizedSession } from '../../../../../src/certification/shared/domain/models/FinalizedSession.js';
-import { expect } from '../../../../test-helper.js';
+import * as serializer from '../../../../../../src/certification/session-management/infrastructure/serializers/with-required-action-session-serializer.js';
+import { FinalizedSession } from '../../../../../../src/certification/shared/domain/models/FinalizedSession.js';
+import { expect } from '../../../../../test-helper.js';
 
-describe('Unit | Serializer | JSONAPI | with-required-action-session-serializer', function () {
+describe('Certification | Session-management | Unit | Infrastructure | Serializers | with-required-action-session-serializer', function () {
   describe('#serialize()', function () {
     it('should convert a with-required-action-session model object into JSON API data', function () {
       // given

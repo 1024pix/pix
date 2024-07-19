@@ -1,7 +1,7 @@
-import { findFinalizedSessionsWithRequiredAction } from '../../../../lib/domain/usecases/find-finalized-sessions-with-required-action.js';
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { findFinalizedSessionsWithRequiredAction } from '../../../../../../src/certification/session-management/domain/usecases/find-finalized-sessions-with-required-action.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | UseCase | findFinalizedSessionsWithRequiredAction', function () {
+describe('Certification | Session-management | Unit | Domain | UseCases | findFinalizedSessionsWithRequiredAction', function () {
   context('when there are finalized sessions with required actions', function () {
     it('should get a list of publishable sessions', async function () {
       // given
