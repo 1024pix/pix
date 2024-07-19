@@ -26,9 +26,9 @@ const saveJuryComplementaryCertificationCourseResult = async function ({
 
   const { complementaryCertificationBadgeId } = pixSourceComplementaryCertificationCourseResult;
   const allowedJuryLevels =
-    await complementaryCertificationCourseResultRepository.getAllowedJuryLevelIdsByComplementaryCertificationBadgeId(
+    await complementaryCertificationCourseResultRepository.getAllowedJuryLevelIdsByComplementaryCertificationBadgeId({
       complementaryCertificationBadgeId,
-    );
+    });
 
   if (![...allowedJuryLevels, ComplementaryCertificationCourseResult.juryOptions.REJECTED].includes(juryLevel)) {
     throw new InvalidJuryLevelError();

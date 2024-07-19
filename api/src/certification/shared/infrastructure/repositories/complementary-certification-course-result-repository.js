@@ -13,7 +13,9 @@ const getPixSourceResultByComplementaryCertificationCourseId = async function ({
   return ComplementaryCertificationCourseResult.from(result);
 };
 
-const getAllowedJuryLevelIdsByComplementaryCertificationBadgeId = async function (complementaryCertificationBadgeId) {
+const getAllowedJuryLevelIdsByComplementaryCertificationBadgeId = async function ({
+  complementaryCertificationBadgeId,
+}) {
   return knex
     .pluck('complementary-certification-badges.id')
     .from('badges')

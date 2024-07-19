@@ -52,7 +52,7 @@ describe('Certification | Session-management | Unit | Domain | UseCases | save-j
               }),
             );
           complementaryCertificationCourseResultRepository.getAllowedJuryLevelIdsByComplementaryCertificationBadgeId
-            .withArgs(99)
+            .withArgs({ complementaryCertificationBadgeId: 99 })
             .resolves([98, 99, 100]);
 
           // when
@@ -108,7 +108,7 @@ describe('Certification | Session-management | Unit | Domain | UseCases | save-j
             );
 
           complementaryCertificationCourseResultRepository.getAllowedJuryLevelIdsByComplementaryCertificationBadgeId
-            .withArgs(99)
+            .withArgs({ complementaryCertificationBadgeId: 99 })
             .resolves([98, 99, 100]);
 
           // when

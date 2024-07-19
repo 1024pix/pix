@@ -105,6 +105,7 @@ describe('Certification | Shared | Integration | Repositories | complementary-ce
     context('when there is one target profile for a complementary certification', function () {
       it('should return the allowed jury level for that complementary certification', async function () {
         // given
+        const complementaryCertificationBadgeId = 97;
         databaseBuilder.factory.buildTargetProfile({ id: 123 });
         databaseBuilder.factory.buildComplementaryCertification({ id: 1, key: 'A' });
         databaseBuilder.factory.buildBadge({
@@ -112,7 +113,7 @@ describe('Certification | Shared | Integration | Repositories | complementary-ce
           targetProfileId: 123,
         });
         databaseBuilder.factory.buildComplementaryCertificationBadge({
-          id: 97,
+          id: complementaryCertificationBadgeId,
           badgeId: 1212,
           complementaryCertificationId: 1,
         });
@@ -131,17 +132,18 @@ describe('Certification | Shared | Integration | Repositories | complementary-ce
         // when
         const allowedBadgeKeys =
           await complementaryCertificationCourseResultRepository.getAllowedJuryLevelIdsByComplementaryCertificationBadgeId(
-            97,
+            { complementaryCertificationBadgeId },
           );
 
         // then
-        expect(allowedBadgeKeys).to.deep.equal([97]);
+        expect(allowedBadgeKeys).to.deep.equal([complementaryCertificationBadgeId]);
       });
     });
 
     context('when there are two target profiles for a complementary certification', function () {
       it('should return the allowed jury level for that target profile', async function () {
         // given
+        const complementaryCertificationBadgeId = 98;
         databaseBuilder.factory.buildTargetProfile({ id: 123 });
         databaseBuilder.factory.buildComplementaryCertification({ id: 1 });
         databaseBuilder.factory.buildBadge({
@@ -158,7 +160,7 @@ describe('Certification | Shared | Integration | Repositories | complementary-ce
         databaseBuilder.factory.buildTargetProfile({ id: 456 });
         databaseBuilder.factory.buildBadge({ id: 1213, key: 'KEY_2', targetProfileId: 456 });
         databaseBuilder.factory.buildComplementaryCertificationBadge({
-          id: 98,
+          id: complementaryCertificationBadgeId,
           badgeId: 1213,
           complementaryCertificationId: 1,
         });
@@ -174,7 +176,7 @@ describe('Certification | Shared | Integration | Repositories | complementary-ce
         // when
         const allowedBadgeKeys =
           await complementaryCertificationCourseResultRepository.getAllowedJuryLevelIdsByComplementaryCertificationBadgeId(
-            98,
+            { complementaryCertificationBadgeId },
           );
 
         // then
