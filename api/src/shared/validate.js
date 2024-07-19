@@ -2,7 +2,7 @@ import lodash from 'lodash';
 
 const { get } = lodash;
 
-import { BadRequestError, sendJsonApiError } from './application/http-errors.js';
+import { BadRequestError, sendJsonApiError } from '../../lib/application/http-errors.js';
 
 function handleFailAction(request, h, err) {
   const message = get(err, 'details[0].message', '');

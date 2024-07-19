@@ -2,9 +2,9 @@ import lodash from 'lodash';
 
 const { pick } = lodash;
 
-import { BadRequestError } from '../../lib/application/http-errors.js';
-import { handleFailAction } from '../../lib/validate.js';
-import { expect, hFake } from '../test-helper.js';
+import { BadRequestError } from '../../../lib/application/http-errors.js';
+import { handleFailAction } from '../../../src/shared/validate.js';
+import { expect, hFake } from '../../test-helper.js';
 
 describe('Unit | Validate', function () {
   let expectedResponse;

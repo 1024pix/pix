@@ -1,6 +1,6 @@
 import 'dotenv/config';
 
-import { validateEnvironmentVariables } from './lib/infrastructure/validate-environment-variables.js';
+import { validateEnvironmentVariables } from './src/shared/infrastructure/validate-environment-variables.js';
 
 validateEnvironmentVariables();
 
