@@ -4,9 +4,9 @@ import {
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
 
-describe('Acceptance | Controller | session-controller-get', function () {
+describe('Certification | Session Management | Acceptance | Application | Route | Session', function () {
   let server, options;
 
   beforeEach(async function () {
