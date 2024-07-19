@@ -7,7 +7,6 @@ import { knex } from './db/knex-database-connection.js';
 import { authentication } from './lib/infrastructure/authentication.js';
 import { monitoringTools } from './lib/infrastructure/monitoring-tools.js';
 import { routes } from './lib/routes.js';
-import { handleFailAction } from './lib/validate.js';
 import {
   attachTargetProfileRoutes,
   complementaryCertificationRoutes,
@@ -36,6 +35,7 @@ import { deserializer } from './src/shared/infrastructure/serializers/jsonapi/de
 // bounded context migration
 import { sharedRoutes } from './src/shared/routes.js';
 import { swaggers } from './src/shared/swaggers.js';
+import { handleFailAction } from './src/shared/validate.js';
 import { teamRoutes } from './src/team/application/routes.js';
 
 const certificationRoutes = [

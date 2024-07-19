@@ -3,8 +3,8 @@ import Qs from 'qs';
 
 import { setupErrorHandling } from '../../../config/server-setup-error-handling.js';
 import { authentication } from '../../../lib/infrastructure/authentication.js';
-import { handleFailAction } from '../../../lib/validate.js';
 import { deserializer } from '../../../src/shared/infrastructure/serializers/jsonapi/deserializer.js';
+import { handleFailAction } from '../../../src/shared/validate.js';
 
 const routesConfig = {
   routes: {
