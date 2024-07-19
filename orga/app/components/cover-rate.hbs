@@ -23,7 +23,7 @@
               {{#each-in item as |key value|}}
                 {{#if (eq key 'coverRateViz')}}
                   <td>
-                    <CoverRateLevelV2 @maxLevel={{value.maxLevel}} @level={{value.level}} />
+                    <CoverRateLevelV2 @maxLevel={{value.maxLevel}} @level={{value.level}} @levelForNetwork={{value.levelForNetwork}} />
                   </td>
                 {{else}}
                   <td>{{value}}</td>
@@ -56,7 +56,7 @@
               {{#each-in item as |key value|}}
                 {{#if (eq key 'coverRateViz')}}
                   <td>
-                    <CoverRateLevelV2 @maxLevel={{value.maxLevel}} @level={{value.level}} />
+                    <CoverRateLevelV2 @maxLevel={{value.maxLevel}} @level={{value.level}} @levelForNetwork={{value.levelForNetwork}} />
                   </td>
                 {{else}}
                   <td>{{value}}</td>
@@ -89,7 +89,7 @@
               {{#each-in item as |key value|}}
                 {{#if (eq key 'coverRateViz')}}
                   <td>
-                    <CoverRateLevelV2 @maxLevel={{value.maxLevel}} @level={{value.level}} />
+                    <CoverRateLevelV2 @maxLevel={{value.maxLevel}} @level={{value.level}} @levelForNetwork={{value.levelForNetwork}} />
                   </td>
                 {{else}}
                   <td>{{value}}</td>

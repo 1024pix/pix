@@ -62,22 +62,24 @@ Niveau moyen obtenu par les utilisateurs sur le sujet. On observe ainsi, en moye
   }
 
   get coverRateByAreas() {
-    return this.args.coverRate.byAreas.map((area) => {
+    return this.args.coverRate.forOrganization.byAreas.map((area) => {
+      const foundArea = this.args.coverRate.forNetwork.byAreas.find((area) => area.domain_code === area.domain_code);
       return {
-        code_domain: area.code_domaine,
+        domain_code: area.domain_code,
         domain: area.domain,
-        coverRateViz: { maxLevel: area.niveau_par_domaine, level: area.niveau_par_utilisateur },
+        coverRateViz: { maxLevel: area.niveau_par_domaine, level: area.niveau_par_utilisateur, levelForNetwork: foundArea.niveau_par_utilisateur },
         couverture: `${parseFloat(area.couverture * 100).toFixed(2)} %`,
       };
     });
   }
 
   get coverRateByCompetences() {
-    return this.args.coverRate.byCompetences.map((area) => {
+    return this.args.coverRate.forOrganization.byCompetences.map((area) => {
+      const foundCompetenceInNetwork = this.args.coverRate.forNetwork.byCompetences.find((competence) => competence.competence_code === area.competence_code);
       return {
         competence_code: area.competence_code,
         competence: area.competence,
-        coverRateViz: { maxLevel: area.niveau_par_competence, level: area.niveau_par_utilisateur },
+        coverRateViz: { maxLevel: area.niveau_par_competence, level: area.niveau_par_utilisateur, levelForNetwork: foundCompetenceInNetwork.niveau_par_utilisateur },
         couverture: `${parseFloat(area.couverture * 100).toFixed(2)} %`,
         moyenne_nombre_sujet_par_competence: area.moyenne_nombre_sujet_par_competence,
       };
@@ -85,13 +87,14 @@ Niveau moyen obtenu par les utilisateurs sur le sujet. On observe ainsi, en moye
   }
 
   get coverRateByTubes() {
-    return this.args.coverRate.byTubes
+    return this.args.coverRate.forOrganization.byTubes
       .map((area) => {
+        const foundTubeInNetwork = this.args.coverRate.forNetwork.byTubes.find((tube) => tube.competence_code === area.competence_code && tube.sujet === area.sujet);
         return {
           competence_code: area.competence_code,
           competence: area.competence,
           sujet: area.sujet,
-          coverRateViz: { maxLevel: area.niveau_par_sujet, level: area.niveau_par_user },
+          coverRateViz: { maxLevel: area.niveau_par_sujet, level: area.niveau_par_user, levelForNetwork: foundTubeInNetwork.niveau_par_user  },
           couverture: area.couverture,
         };
       })

@@ -18,7 +18,7 @@ export default class CoverRateLevel extends Component {
   global;
 
   @action
-  createSegment() {
+  create() {
     this.svg = d3.select(`svg#${this.id}`)
       .attr("width", 400)
       .attr("height", 100);
@@ -73,10 +73,10 @@ export default class CoverRateLevel extends Component {
       .attr("y", 60)
       .text("8");
 
-    this.fillLevel(this.args.maxLevel, this.args.level);
+    this.fillLevel(this.args.maxLevel, this.args.level, this.args.levelForNetwork);
   }
 
-  fillLevel(maxLevel, level) {
+  fillLevel(maxLevel, level, levelForNetwork) {
 
     // RECT NIVEAU MAX
     this.barGroup
@@ -85,33 +85,8 @@ export default class CoverRateLevel extends Component {
       .attr("height", 30)
       .attr('x', NUM_SEGMENTS * SEGMENT_WIDTH)
       .attr("width", 0)
-      .transition()
-      .attr("width", (NUM_SEGMENTS - maxLevel) * SEGMENT_WIDTH)
-      .attr('x', maxLevel * SEGMENT_WIDTH)
-      .duration(500)
-      .attr('fill', "url(#diagonalHatch)");
-
-    // TEXT NIVEAU MAX
-    this.global
-      .append('text')
-      .attr('y', 10 + 50)
-      .attr('x', 0)
-      .text(parseFloat(0).toFixed(2))
-      .transition()
-      .duration(500)
-      .attr('x', maxLevel * SEGMENT_WIDTH - 10)
-      .text(parseFloat(maxLevel).toFixed(2));
-
-    // TOOLTIP NIVEAU MAX
-    this.barGroup
-      .append('line')
-      .attr('x1', maxLevel * SEGMENT_WIDTH)
-      .attr('y1', 0)
-      .attr('x2', maxLevel * SEGMENT_WIDTH)
-      .attr('y2', SEGMENT_HEIGHT)
-      .attr('stroke', 'transparent')
-      .attr('stroke-width', 30)
-      .style('cursor', 'pointer')
+      .attr('fill', "url(#diagonalHatch)")
+      .attr('class', 'max-level')
       .on('mouseover', () => {
         this.tooltip.style('visibility', 'visible');
         this.tooltip.html(`Niveau maximum pour ce domaine : ${parseFloat(maxLevel).toFixed(2)}`)
@@ -122,7 +97,24 @@ export default class CoverRateLevel extends Component {
       })
       .on('mouseout', () => {
         this.tooltip.style('visibility', 'hidden');
-      });
+      })
+      .transition()
+      .attr("width", (NUM_SEGMENTS - maxLevel) * SEGMENT_WIDTH)
+      .attr('x', maxLevel * SEGMENT_WIDTH)
+      .duration(500)
+
+
+    // TEXT NIVEAU MAX
+    this.global
+      .attr('class', 'label')
+      .append('text')
+      .attr('y', 10 + 50)
+      .attr('x', 0)
+      .text(parseFloat(0).toFixed(2))
+      .transition()
+      .duration(500)
+      .attr('x', maxLevel * SEGMENT_WIDTH - 10)
+      .text(parseFloat(maxLevel).toFixed(2));
 
 
     // RECT NIVEAU UTILISATEUR
@@ -130,22 +122,42 @@ export default class CoverRateLevel extends Component {
       .append('rect')
       .attr('rx', 5)
       .attr("fill", "#3b82f6")
+      .on('mouseover', () => {
+        this.tooltip.style('visibility', 'visible');
+        this.tooltip.html(`<ul>
+            <li>Niveau des utilisateurs de l'organisation : ${parseFloat(level).toFixed(2)}</li>
+            <li>Niveau des utilisateurs du réseau : ${parseFloat(levelForNetwork).toFixed(2)}</li>
+          </ul>
+         `)
+      })
+      .on('mousemove', (event) => {
+        this.tooltip.style('top', `${event.pageY - 10}px`)
+          .style('left', `${event.pageX + 10}px`);
+      })
+      .on('mouseout', () => {
+        this.tooltip.style('visibility', 'hidden');
+      })
       .attr('width', 0)
       .attr("height", 30)
       .transition()
       .duration(500)
-      .attr("width", level * SEGMENT_WIDTH)
+      .attr("width", level * SEGMENT_WIDTH);
 
+    this.createLevelLine(level, "#291a5d", 'Niveau utilisateur maille de l\'organisation')
+    this.createLevelLine(levelForNetwork, "#f87171", 'Niveau utilisateur maille de réseau')
+  }
+
+  createLevelLine(level, color) {
     // LINE NIVEAU UTILISATEUR
     const line = this.svg
       .append('line')
 
-      line
+    line
       .attr('x1', 0)
       .attr('y1', HEADER_SPACE - 5)
       .attr('x2', 0)
       .attr('y2', HEADER_SPACE  + SEGMENT_HEIGHT + 10)
-      .attr('stroke', '#291a5d')
+      .attr('stroke', color)
       .attr('stroke-width', 2)
       .attr('stroke-dasharray', '5,5')
       .transition()
@@ -153,38 +165,17 @@ export default class CoverRateLevel extends Component {
       .attr('x1', level * SEGMENT_WIDTH)
       .attr('x2', level * SEGMENT_WIDTH)
 
-      line
+    line
       .clone()
       .attr('x2', level * SEGMENT_WIDTH)
       .attr('x1', level * SEGMENT_WIDTH)
       .attr('stroke', 'transparent').attr('stroke-width', 30)
       .style('cursor', 'pointer')
-      .on('mouseover', () => {
-        this.tooltip.style('visibility', 'visible')
-        this.tooltip.html(`Niveau par utilisateur: ${parseFloat(level).toFixed(2)}`)
-      })
-      .on('mousemove', (event) => {
-        this.tooltip.style('top', `${event.pageY - 10}px`)
-          .style('left', `${event.pageX + 10}px`);
-      })
-      .on('mouseout', () => {
-        this.tooltip.style('visibility', 'hidden')
-            .style('cursor', 'default');;
-      });
-
-    this.svg
-      .append('text')
-      .attr('x', 0)
-      .attr('y', 20)
-      .text(parseFloat(level).toFixed(2))
-      .transition()
-      .duration(600)
-      .attr('x', level * SEGMENT_WIDTH - 10)
   }
 
 
   <template>
-    <svg id={{this.id}} width="50" height="50" {{didInsert this.createSegment}}>
+    <svg id={{this.id}} width="50" height="50" {{didInsert this.create}}>
       <pattern id="diagonalHatch" patternUnits="userSpaceOnUse" width="4" height="4">
         <path d="M-1,1 l2,-2
                  M0,4 l4,-4
