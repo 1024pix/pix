@@ -15,7 +15,7 @@ import {
 
 const examinerGlobalComment = 'It was a fine session my dear';
 
-describe('Acceptance | Controller | Session | session-route', function () {
+describe('Certification | Session Management | Acceptance | Application | Route | finalize', function () {
   let server;
 
   beforeEach(async function () {
