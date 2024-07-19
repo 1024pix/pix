@@ -1,5 +1,37 @@
 # Pix Changelog
 
+## v4.185.0 (19/07/2024)
+
+
+### :rocket: Amélioration
+- [#9215](https://github.com/1024pix/pix/pull/9215) [FEATURE] Création du module ChatGPT parle-t-il vraiment français ?.
+- [#9581](https://github.com/1024pix/pix/pull/9581) [FEATURE] Ajout de la bannière d'enquête utilisateur (pix-12693).
+- [#9590](https://github.com/1024pix/pix/pull/9590) [FEATURE] Corrections de traductions ES (PIX-13523).
+- [#9576](https://github.com/1024pix/pix/pull/9576) [FEATURE] Effacer l'email quand un utilisateur est anonymisé (PIX-4219).
+- [#9593](https://github.com/1024pix/pix/pull/9593) [FEATURE] Changement de robot sur la page d'erreur lors d'une session inactive (Pix-13498).
+- [#9578](https://github.com/1024pix/pix/pull/9578) [FEATURE] Remplacement du wording coté orga, sur la page missions (Pix-13492).
+- [#9585](https://github.com/1024pix/pix/pull/9585) [FEATURE] Ajoute un temps minimal à l'import pour que l'utilisateur voit le loader (PIX-13437).
+
+### :building_construction: Tech
+- [#9574](https://github.com/1024pix/pix/pull/9574) [TECH] Enregistrer des jobs lors du lancement de script de scoring (PIX-13443).
+- [#9583](https://github.com/1024pix/pix/pull/9583) [TECH] Déplace `UserNotFoundError` vers `src`.
+- [#9594](https://github.com/1024pix/pix/pull/9594) [TECH] Migration de la route /api/admin/sessions/with-required-action vers src (PIX-13503).
+- [#9591](https://github.com/1024pix/pix/pull/9591) [TECH] Déplacer les appels LCMS dans le dossier src/shared (PIX-13510).
+- [#9597](https://github.com/1024pix/pix/pull/9597) [TECH] Migrer la route POST /api/users/{id}/update-email vers src.
+- [#9566](https://github.com/1024pix/pix/pull/9566) [TECH] Migration de la route GET subscriptions vers le contexte enrolment (PIX-13491).
+- [#9582](https://github.com/1024pix/pix/pull/9582) [TECH] Migration de la route /api/admin/sessions/to-publish vers src (PIX-13497).
+
+### :bug: Correction
+- [#9589](https://github.com/1024pix/pix/pull/9589) [BUGFIX] Utiliser "acceptedFormat" pour le message d'erreur de la date quand celui-ci est founi (PIX-13507).
+
+### :arrow_up: Montée de version
+- [#9564](https://github.com/1024pix/pix/pull/9564) [BUMP] Update dependency qs to v6.12.3 (api).
+- [#9602](https://github.com/1024pix/pix/pull/9602) [BUMP] Update dependency @1024pix/ember-testing-library to v3 (admin).
+- [#9596](https://github.com/1024pix/pix/pull/9596) [BUMP] Update dependency @1024pix/ember-testing-library to ^2.0.8 (junior).
+- [#9571](https://github.com/1024pix/pix/pull/9571) [BUMP] Update dependency ember-source to ~5.10.0 (junior).
+- [#9587](https://github.com/1024pix/pix/pull/9587) [BUMP] Update dependency @1024pix/ember-testing-library to v2 (mon-pix).
+- [#9302](https://github.com/1024pix/pix/pull/9302) [BUMP] Update dependency @1024pix/ember-testing-library to v2 (admin).
+
 ## v4.184.0 (18/07/2024)
 
 
