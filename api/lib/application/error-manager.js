@@ -1,5 +1,5 @@
 import { UnableToAttachChildOrganizationToParentOrganizationError } from '../../src/organizational-entities/domain/errors.js';
-import { UserNotFoundError } from '../../src/shared/domain/errors.js';
+import { UserNotFoundError, YamlParsingError } from '../../src/shared/domain/errors.js';
 import * as DomainErrors from '../domain/errors.js';
 import * as errorSerializer from '../infrastructure/serializers/jsonapi/error-serializer.js';
 import { HttpErrors } from './http-errors.js';
@@ -256,7 +256,7 @@ function _mapToHttpError(error) {
     return new HttpErrors.BadRequestError(error.message);
   }
 
-  if (error instanceof DomainErrors.YamlParsingError) {
+  if (error instanceof YamlParsingError) {
     return new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta);
   }
 

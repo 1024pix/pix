@@ -732,12 +732,6 @@ class InvalidIdentityProviderError extends DomainError {
   }
 }
 
-class YamlParsingError extends DomainError {
-  constructor(message = "Une erreur s'est produite lors de l'interprétation des réponses.") {
-    super(message);
-  }
-}
-
 class InvalidExternalAPIResponseError extends DomainError {
   constructor(message = "L'API externe a renvoyé une réponse incorrecte.") {
     super(message);
@@ -948,5 +942,4 @@ export {
   UserOrgaSettingsCreationError,
   UserShouldNotBeReconciledOnAnotherAccountError,
   WrongDateFormatError,
-  YamlParsingError,
 };
