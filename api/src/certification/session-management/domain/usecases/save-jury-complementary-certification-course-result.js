@@ -1,5 +1,5 @@
-import { ComplementaryCertificationCourseResult } from '../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
-import { InvalidJuryLevelError, NotFoundError } from '../errors.js';
+import { InvalidJuryLevelError, NotFoundError } from '../../../../../lib/domain/errors.js';
+import { ComplementaryCertificationCourseResult } from '../../../shared/domain/models/ComplementaryCertificationCourseResult.js';
 
 const saveJuryComplementaryCertificationCourseResult = async function ({
   complementaryCertificationCourseId,

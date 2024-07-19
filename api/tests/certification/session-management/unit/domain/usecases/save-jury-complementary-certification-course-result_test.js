@@ -1,9 +1,9 @@
-import { InvalidJuryLevelError, NotFoundError } from '../../../../lib/domain/errors.js';
-import { saveJuryComplementaryCertificationCourseResult } from '../../../../lib/domain/usecases/save-jury-complementary-certification-course-result.js';
-import { ComplementaryCertificationCourseResult } from '../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { InvalidJuryLevelError, NotFoundError } from '../../../../../../lib/domain/errors.js';
+import { saveJuryComplementaryCertificationCourseResult } from '../../../../../../src/certification/session-management/domain/usecases/save-jury-complementary-certification-course-result.js';
+import { ComplementaryCertificationCourseResult } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | UseCase | save-jury-complementary-certification-course-results', function () {
+describe('Certification | Session-management | Unit | Domain | UseCases | save-jury-complementary-certification-course-results', function () {
   describe('#saveJuryComplementaryCertificationCourseResult', function () {
     let complementaryCertificationCourseResultRepository;
 
