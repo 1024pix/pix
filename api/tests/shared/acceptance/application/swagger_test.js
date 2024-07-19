@@ -1,4 +1,4 @@
-import { createServer, expect } from '../../test-helper.js';
+import { createServer, expect } from '../../../test-helper.js';
 
 describe('Acceptance | Controller | swagger', function () {
   let server;
