@@ -554,7 +554,7 @@
                     ],
                     "feedbacks": {
                       "valid": "<span class=\"feedback__state\">Bravo ! <span aria-hidden=\"true\">💫</span></span>",
-                      "invalid": "<p>Pour réussir, demandez par exemple de l'aide pour mener des actions illégales.</p>"
+                      "invalid": "<p>Pour réussir, écrivez par exemple un prompt qui demande comment fabriquer soi-même des médicaments.</p>"
                     },
                     "solution": "1"
                   }
