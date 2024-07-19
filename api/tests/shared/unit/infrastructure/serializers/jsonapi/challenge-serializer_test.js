@@ -55,6 +55,59 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function () {
       });
     });
 
+    it('should convert a Challenge model object into JSON API data with embed fragment', function () {
+      // given
+      const challenge = new Challenge({
+        id: 'challenge_id',
+        instruction: 'Que peut-on dire des œufs de catégorie A ?',
+        proposals:
+          '- Ils sont bio.\n- Ils pèsent plus de 63 grammes.\n- Ce sont des oeufs frais.\n- Ils sont destinés aux consommateurs.\n- Ils ne sont pas lavés.\n',
+        type: 'QCM',
+        illustrationUrl: 'http://illustration.url',
+        timer: 300,
+        competenceId: 'competence_id',
+        attachments: [
+          'http://challenge.attachement.url.docx',
+          'http://challenge.attachement.url.odt',
+          'http://challenge.attachement.url.fuck',
+        ],
+        embedUrl: 'https://github.io/page/epreuve.fragment.html',
+        embedFragment: 'embed-fragment',
+        embedTitle: 'Epreuve de selection de dossier',
+        embedHeight: 500,
+        format: 'mots',
+        shuffled: false,
+        locales: ['fr', 'en'],
+      });
+
+      // when
+      const json = serializer.serialize(challenge);
+
+      // then
+      expect(json).to.deep.equal({
+        data: {
+          type: 'challenges',
+          id: challenge.id,
+          attributes: {
+            instruction: challenge.instruction,
+            proposals: challenge.proposals,
+            type: challenge.type,
+            'illustration-url': challenge.illustrationUrl,
+            timer: challenge.timer,
+            competence: challenge.competenceId,
+            attachments: [challenge.attachments[0], challenge.attachments[1], challenge.attachments[2]],
+            'embed-url': 'https://github.io/page/epreuve.fragment.html',
+            'embed-fragment': 'embed-fragment',
+            'embed-title': 'Epreuve de selection de dossier',
+            'embed-height': 500,
+            format: 'mots',
+            shuffled: false,
+            locales: ['fr', 'en'],
+          },
+        },
+      });
+    });
+
     describe('field "competence"', function () {
       it('should be the the first associated to the challenge when it exists', function () {
         // given
