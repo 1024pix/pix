@@ -1,5 +1,5 @@
-import { ComplementaryCertificationCourseResult } from '../../../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
 import { CertifiedBadge } from '../../../../../../src/certification/results/domain/read-models/CertifiedBadge.js';
+import { ComplementaryCertificationCourseResult } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Certification | Results | Unit | Domain | Read-models | CertifiedBadge', function () {

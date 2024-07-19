@@ -1,4 +1,4 @@
-import { ComplementaryCertificationCourseResult } from './../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
+import { ComplementaryCertificationCourseResult } from '../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
 
 const buildComplementaryCertificationCourseResult = function ({
   complementaryCertificationCourseId = 2,

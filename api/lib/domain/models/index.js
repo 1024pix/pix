@@ -13,6 +13,7 @@ import { CertificationCourse } from '../../../src/certification/shared/domain/mo
 import { CertificationIssueReport } from '../../../src/certification/shared/domain/models/CertificationIssueReport.js';
 import { CertificationIssueReportCategory } from '../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
 import { CertificationReport } from '../../../src/certification/shared/domain/models/CertificationReport.js';
+import { ComplementaryCertificationCourseResult } from '../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
 import { FinalizedSession } from '../../../src/certification/shared/domain/models/FinalizedSession.js';
 import { Training } from '../../../src/devcomp/domain/models/Training.js';
 import { TrainingTrigger } from '../../../src/devcomp/domain/models/TrainingTrigger.js';
@@ -76,7 +77,6 @@ import { CertifiedLevel } from './CertifiedLevel.js';
 import { CertifiedScore } from './CertifiedScore.js';
 import { CompetenceResult } from './CompetenceResult.js';
 import { CompetenceTree } from './CompetenceTree.js';
-import { ComplementaryCertificationCourseResult } from './ComplementaryCertificationCourseResult.js';
 import { ComplementaryCertificationHabilitation } from './ComplementaryCertificationHabilitation.js';
 import { ComplementaryCertificationScoringCriteria } from './ComplementaryCertificationScoringCriteria.js';
 import { ComplementaryCertificationScoringWithComplementaryReferential } from './ComplementaryCertificationScoringWithComplementaryReferential.js';
