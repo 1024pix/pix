@@ -1,8 +1,6 @@
 import lodash from 'lodash';
 
-import * as sessionValidator from '../../../src/certification/enrolment/domain/validators/session-validator.js';
 import * as certificationCandidateSerializer from '../../../src/certification/enrolment/infrastructure/serializers/certification-candidate-serializer.js';
-import * as jurySessionRepository from '../../../src/certification/session-management/infrastructure/repositories/jury-session-repository.js';
 import * as sessionManagementSerializer from '../../../src/certification/session-management/infrastructure/serializers/session-serializer.js';
 import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
@@ -17,25 +15,6 @@ import { getSessionCertificationResultsCsv } from '../../infrastructure/utils/cs
 import { SessionPublicationBatchError } from '../http-errors.js';
 
 const { trim } = lodash;
-
-const findPaginatedFilteredJurySessions = async function (
-  request,
-  h,
-  dependencies = {
-    jurySessionRepository,
-    jurySessionSerializer,
-    sessionValidator,
-  },
-) {
-  const { filter, page } = request.query;
-  const normalizedFilters = dependencies.sessionValidator.validateAndNormalizeFilters(filter);
-  const jurySessionsForPaginatedList = await dependencies.jurySessionRepository.findPaginatedFiltered({
-    filters: normalizedFilters,
-    page,
-  });
-
-  return dependencies.jurySessionSerializer.serializeForPaginatedList(jurySessionsForPaginatedList);
-};
 
 const getJurySession = async function (request, h, dependencies = { jurySessionSerializer }) {
   const sessionId = request.params.id;
@@ -211,7 +190,6 @@ const flagResultsAsSentToPrescriber = async function (request, h, dependencies =
 };
 
 const sessionController = {
-  findPaginatedFilteredJurySessions,
   getJurySession,
   getCandidatesImportSheet,
   getJuryCertificationSummaries,
