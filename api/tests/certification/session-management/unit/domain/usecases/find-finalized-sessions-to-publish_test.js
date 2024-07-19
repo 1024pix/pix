@@ -1,7 +1,7 @@
 import { findFinalizedSessionsToPublish } from '../../../../../../src/certification/session-management/domain/usecases/find-finalized-sessions-to-publish.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | UseCase | findFinalizedSessionsToPublish', function () {
+describe('Certification | Session-management | Unit | Domain | UseCases | find-finalized-sessions-to-publish', function () {
   let finalizedSessionRepository;
 
   beforeEach(function () {
