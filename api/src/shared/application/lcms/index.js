@@ -1,4 +1,4 @@
-import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
+import { securityPreHandlers } from '../security-pre-handlers.js';
 import { lcmsController } from './lcms-controller.js';
 
 const register = async function (server) {

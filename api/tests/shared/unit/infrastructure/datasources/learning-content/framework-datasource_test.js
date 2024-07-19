@@ -1,5 +1,5 @@
-import { lcms } from '../../../../../../lib/infrastructure/lcms.js';
 import { frameworkDatasource } from '../../../../../../src/shared/infrastructure/datasources/learning-content/framework-datasource.js';
+import { lcms } from '../../../../../../src/shared/infrastructure/lcms.js';
 import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Datasource | Learning Content | FrameworkDatasource', function () {

@@ -1,5 +1,5 @@
-import { lcms } from '../../../lib/infrastructure/lcms.js';
-import { catchErr, expect, nock } from '../../test-helper.js';
+import { lcms } from '../../../../src/shared/infrastructure/lcms.js';
+import { catchErr, expect, nock } from '../../../test-helper.js';
 
 describe('Unit | Infrastructure | LCMS', function () {
   describe('#getLatestRelease', function () {

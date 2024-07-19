@@ -14,7 +14,6 @@ import * as certificationPointOfContacts from './application/certification-point
 import * as certifications from './application/certifications/index.js';
 import * as complementaryCertificationCourseResults from './application/complementary-certification-course-results/index.js';
 import * as frameworks from './application/frameworks/index.js';
-import * as lcms from './application/lcms/index.js';
 import * as memberships from './application/memberships/index.js';
 import * as organizationInvitations from './application/organization-invitations/index.js';
 import * as organizationLearners from './application/organization-learners/index.js';
@@ -46,7 +45,6 @@ const routes = [
   certifications,
   complementaryCertificationCourseResults,
   healthcheck,
-  lcms,
   memberships,
   organizationLearners,
   organizations,
