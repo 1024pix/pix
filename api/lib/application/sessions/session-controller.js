@@ -1,6 +1,7 @@
 import lodash from 'lodash';
 
 import * as certificationCandidateSerializer from '../../../src/certification/enrolment/infrastructure/serializers/certification-candidate-serializer.js';
+import * as jurySessionSerializer from '../../../src/certification/session-management/infrastructure/serializers/jury-session-serializer.js';
 import * as sessionManagementSerializer from '../../../src/certification/session-management/infrastructure/serializers/session-serializer.js';
 import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
@@ -10,7 +11,6 @@ import { usecases } from '../../domain/usecases/index.js';
 import { fillCandidatesImportSheet } from '../../infrastructure/files/candidates-import/fill-candidates-import-sheet.js';
 import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
 import * as juryCertificationSummarySerializer from '../../infrastructure/serializers/jsonapi/jury-certification-summary-serializer.js';
-import * as jurySessionSerializer from '../../infrastructure/serializers/jsonapi/jury-session-serializer.js';
 import { getSessionCertificationResultsCsv } from '../../infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
 import { SessionPublicationBatchError } from '../http-errors.js';
 

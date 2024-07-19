@@ -1,7 +1,7 @@
-import * as jurySessionSerializer from '../../../../lib/infrastructure/serializers/jsonapi/jury-session-serializer.js';
 import * as sessionValidator from '../../shared/domain/validators/session-validator.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as jurySessionRepository from '../infrastructure/repositories/jury-session-repository.js';
+import * as jurySessionSerializer from '../infrastructure/serializers/jury-session-serializer.js';
 import * as sessionSerializer from '../infrastructure/serializers/session-serializer.js';
 
 const get = async function (request, h, dependencies = { sessionSerializer }) {
