@@ -12,41 +12,6 @@ describe('Unit | Controller | sessionController', function () {
   let request;
   const userId = 274939274;
 
-  describe('#getJurySession', function () {
-    const sessionId = 123;
-
-    beforeEach(function () {
-      sinon.stub(usecases, 'getJurySession');
-
-      request = {
-        auth: { credentials: { userId } },
-        params: {
-          id: sessionId,
-        },
-      };
-    });
-
-    context('when session exists', function () {
-      it('should reply serialized session informations', async function () {
-        // given
-        const jurySessionSerializer = { serialize: sinon.stub() };
-        const foundJurySession = Symbol('foundSession');
-        const serializedJurySession = Symbol('serializedSession');
-        const hasSupervisorAccess = true;
-        usecases.getJurySession
-          .withArgs({ sessionId })
-          .resolves({ jurySession: foundJurySession, hasSupervisorAccess });
-        jurySessionSerializer.serialize.withArgs(foundJurySession, hasSupervisorAccess).resolves(serializedJurySession);
-
-        // when
-        const response = await sessionController.getJurySession(request, hFake, { jurySessionSerializer });
-
-        // then
-        expect(response).to.deep.equal(serializedJurySession);
-      });
-    });
-  });
-
   describe('#importCertificationCandidatesFromCandidatesImportSheet', function () {
     const sessionId = 2;
     let request;

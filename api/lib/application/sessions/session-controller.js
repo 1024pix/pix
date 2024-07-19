@@ -1,7 +1,6 @@
 import lodash from 'lodash';
 
 import * as certificationCandidateSerializer from '../../../src/certification/enrolment/infrastructure/serializers/certification-candidate-serializer.js';
-import * as jurySessionSerializer from '../../../src/certification/session-management/infrastructure/serializers/jury-session-serializer.js';
 import * as sessionManagementSerializer from '../../../src/certification/session-management/infrastructure/serializers/session-serializer.js';
 import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
@@ -15,13 +14,6 @@ import { getSessionCertificationResultsCsv } from '../../infrastructure/utils/cs
 import { SessionPublicationBatchError } from '../http-errors.js';
 
 const { trim } = lodash;
-
-const getJurySession = async function (request, h, dependencies = { jurySessionSerializer }) {
-  const sessionId = request.params.id;
-  const { jurySession, hasSupervisorAccess } = await usecases.getJurySession({ sessionId });
-
-  return dependencies.jurySessionSerializer.serialize(jurySession, hasSupervisorAccess);
-};
 
 const getCandidatesImportSheet = async function (request, h, dependencies = { fillCandidatesImportSheet }) {
   const translate = request.i18n.__;
@@ -190,7 +182,6 @@ const flagResultsAsSentToPrescriber = async function (request, h, dependencies =
 };
 
 const sessionController = {
-  getJurySession,
   getCandidatesImportSheet,
   getJuryCertificationSummaries,
   generateSessionResultsDownloadLink,
