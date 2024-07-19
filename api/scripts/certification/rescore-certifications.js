@@ -10,20 +10,30 @@ const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main(certificationCourseIds) {
+  logger.info(`Publishing ${certificationCourseIds.length} rescoring jobs`);
   const jobs = await _scheduleRescoringJobs(certificationCourseIds);
 
   const errors = jobs.filter((result) => result.status === 'rejected');
-
   if (errors.length) {
-    errors.forEach((result) => logger.error('Some jobs could not be published', result.reason));
-
-    // On informe la IIFE que on est pas bon
+    errors.forEach((result) => logger.error(result.reason, 'Some jobs could not be published'));
     return 1;
   }
 
-  // On informe la IIFE qu'on est bon
+  logger.info(`${jobs.length} jobs successfully published`);
   return 0;
 }
+
+const _scheduleRescoringJobs = async (certificationCourseIds) => {
+  const publisher = new CertificationRescoringByScriptJob(knex);
+  const promisefiedJobs = certificationCourseIds.map(async (certificationCourseId) => {
+    try {
+      await publisher.schedule(certificationCourseId);
+    } catch (error) {
+      throw new Error(`Error for certificationCourseId: [${certificationCourseId}]`, { cause: error });
+    }
+  });
+  return Promise.allSettled(promisefiedJobs);
+};
 
 (async () => {
   if (isLaunchedFromCommandLine) {
@@ -42,13 +52,5 @@ async function main(certificationCourseIds) {
     }
   }
 })();
-
-async function _scheduleRescoringJobs(certificationCourseIds) {
-  const publisher = new CertificationRescoringByScriptJob(knex);
-  const promisefiedJobs = certificationCourseIds.map((certificationCourseId) =>
-    publisher.schedule(certificationCourseId),
-  );
-  return Promise.allSettled(promisefiedJobs);
-}
 
 export { main };
