@@ -1,5 +1,5 @@
-import * as sessionValidator from '../../../../../../src/certification/enrolment/domain/validators/session-validator.js';
 import { SESSION_STATUSES } from '../../../../../../src/certification/shared/domain/constants.js';
+import * as sessionValidator from '../../../../../../src/certification/shared/domain/validators/session-validator.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect } from '../../../../../test-helper.js';
 
