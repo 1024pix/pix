@@ -107,7 +107,7 @@ class Challenge {
   }
 
   isTimed() {
-    return Number.isFinite(parseFloat(this.timer));
+    return Number.isFinite(Number.parseFloat(this.timer));
   }
 
   hasIllustration() {
@@ -167,6 +167,14 @@ class Challenge {
 
   static findBySkill({ challenges, skill }) {
     return _.filter(challenges, (challenge) => challenge.skill?.id === skill.id);
+  }
+
+  hasEmbedFragment() {
+    if (!this.embedUrl) {
+      return false;
+    }
+
+    return this.embedUrl.endsWith('fragment.html');
   }
 }
 

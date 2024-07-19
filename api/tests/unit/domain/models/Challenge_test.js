@@ -252,4 +252,34 @@ describe('Unit | Domain | Models | Challenge', function () {
       expect(challenge.isFocused()).to.be.false;
     });
   });
+
+  describe('#hasEmbedFragment', function () {
+    it('returns true when embedUrl ends with `.fragment.html`', function () {
+      // given
+      const challenge = domainBuilder.buildChallenge({
+        embedUrl: 'https://epreuves.pix.fr/fr/qcu_image/1d_MiseEnForme_mots.fragment.html',
+      });
+
+      // when then
+      expect(challenge.hasEmbedFragment()).to.be.true;
+    });
+
+    it('returns false when embedUrl does not end with `.fragment.html`', function () {
+      // given
+      const challenge = domainBuilder.buildChallenge({
+        embedUrl: 'https://epreuves.pix.fr/fr/qcu_image/1d_MiseEnForme_mots.html',
+      });
+
+      // when then
+      expect(challenge.hasEmbedFragment()).to.be.false;
+    });
+
+    it('returns false when embedUrl is not given', function () {
+      // given
+      const challenge = domainBuilder.buildChallenge({ embedUrl: null });
+
+      // when then
+      expect(challenge.hasEmbedFragment()).to.be.false;
+    });
+  });
 });
