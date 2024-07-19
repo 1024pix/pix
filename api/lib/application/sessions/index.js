@@ -12,39 +12,6 @@ const register = async function (server) {
   server.route([
     {
       method: 'GET',
-      path: '/api/admin/sessions',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          query: Joi.object({
-            filter: Joi.object().default({}),
-            page: {
-              number: Joi.number().integer().empty('').allow(null).optional(),
-              size: Joi.number().integer().empty('').allow(null).optional(),
-            },
-          }),
-        },
-        handler: sessionController.findPaginatedFilteredJurySessions,
-        tags: ['api', 'sessions'],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            '- Elle permet de consulter la liste de toutes les sessions avec filtre et pagination (retourne un tableau avec n éléments)',
-        ],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/admin/sessions/{id}',
       config: {
         validate: {

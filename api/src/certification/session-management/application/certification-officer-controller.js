@@ -1,5 +1,5 @@
-import * as jurySessionSerializer from '../../../../lib/infrastructure/serializers/jsonapi/jury-session-serializer.js';
 import { usecases } from '../domain/usecases/index.js';
+import * as jurySessionSerializer from '../infrastructure/serializers/jury-session-serializer.js';
 
 const assignCertificationOfficer = async function (request, h, dependencies = { jurySessionSerializer }) {
   const sessionId = request.params.id;

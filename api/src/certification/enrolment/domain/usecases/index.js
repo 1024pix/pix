@@ -9,12 +9,12 @@ import { importNamedExportsFromDirectory } from '../../../../shared/infrastructu
 import * as attendanceSheetPdfUtils from '../../../enrolment/infrastructure/utils/pdf/attendance-sheet-pdf.js';
 import * as certificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
 import * as temporaryCompanionStorageService from '../../../shared/domain/services/temporary-companion-storage-service.js';
+import * as sessionValidator from '../../../shared/domain/validators/session-validator.js';
 import { enrolmentRepositories } from '../../infrastructure/repositories/index.js';
 import * as certificationCpfService from '../services/certification-cpf-service.js';
 import * as sessionCodeService from '../services/session-code-service.js';
 import * as sessionsImportValidationService from '../services/sessions-import-validation-service.js';
 import * as temporarySessionsStorageForMassImportService from '../services/temporary-sessions-storage-for-mass-import-service.js';
-import * as sessionValidator from '../validators/session-validator.js';
 
 /**
  * @typedef {import('../../infrastructure/repositories/index.js').ComplementaryCertificationRepository} ComplementaryCertificationRepository
@@ -31,7 +31,7 @@ import * as sessionValidator from '../validators/session-validator.js';
  * @typedef {import('../../infrastructure/repositories/index.js').OrganizationLearnerRepository} OrganizationLearnerRepository
  * @typedef {import('../../infrastructure/repositories/index.js').OrganizationRepository} OrganizationRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCenterMembershipRepository} CertificationCenterMembershipRepository
- * @typedef {import('../validators/session-validator.js')} SessionValidator
+ * @typedef {import('../../../shared/domain/validators/session-validator.js')} SessionValidator
  * @typedef {import('../services/certification-cpf-service.js')} CertificationCpfService
  * @typedef {import('../../infrastructure/utils/pdf/attendance-sheet-pdf.js')} AttendanceSheetPdfUtils
  * @typedef {import('../services/temporary-sessions-storage-for-mass-import-service.js').TemporarySessionsStorageForMassImportService} TemporarySessionsStorageForMassImportService

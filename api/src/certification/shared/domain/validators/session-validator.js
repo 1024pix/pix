@@ -3,10 +3,10 @@ import BaseJoi from 'joi';
 
 import { CERTIFICATION_SESSIONS_ERRORS } from '../../../../../lib/domain/constants/sessions-errors.js';
 import { types } from '../../../../../lib/domain/models/CertificationCenter.js';
-import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
+import { EntityValidationError } from '../../../../shared/domain/errors.js';
 import { identifiersType } from '../../../../shared/domain/types/identifiers-type.js';
-import { SESSION_STATUSES } from '../../../shared/domain/constants.js';
-import { CERTIFICATION_VERSIONS } from '../../../shared/domain/models/CertificationVersion.js';
+import { SESSION_STATUSES } from '../constants.js';
+import { CERTIFICATION_VERSIONS } from '../models/CertificationVersion.js';
 
 const Joi = BaseJoi.extend(JoiDate);
 

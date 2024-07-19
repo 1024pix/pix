@@ -41,4 +41,36 @@ describe('Unit | Controller | sessionController', function () {
       });
     });
   });
+
+  describe('#findPaginatedFilteredJurySessions', function () {
+    it('should return the serialized jurySessions', async function () {
+      // given
+      const sessionValidator = { validateAndNormalizeFilters: sinon.stub() };
+      const jurySessionRepository = { findPaginatedFiltered: sinon.stub() };
+      const jurySessionSerializer = { serializeForPaginatedList: sinon.stub() };
+      const filter = { filter1: ' filter1ToTrim', filter2: 'filter2' };
+      const normalizedFilters = 'normalizedFilters';
+      const page = 'somePageConfiguration';
+      const jurySessionsForPaginatedList = Symbol('jurySessionsForPaginatedList');
+      const serializedJurySessionsForPaginatedList = Symbol('serializedJurySessionsForPaginatedList');
+      const request = { query: { filter, page } };
+      sessionValidator.validateAndNormalizeFilters.withArgs(filter).returns(normalizedFilters);
+      jurySessionRepository.findPaginatedFiltered
+        .withArgs({ filters: normalizedFilters, page })
+        .resolves(jurySessionsForPaginatedList);
+      jurySessionSerializer.serializeForPaginatedList
+        .withArgs(jurySessionsForPaginatedList)
+        .returns(serializedJurySessionsForPaginatedList);
+
+      // when
+      const result = await sessionController.findPaginatedFilteredJurySessions(request, hFake, {
+        sessionValidator,
+        jurySessionRepository,
+        jurySessionSerializer,
+      });
+
+      // then
+      expect(result).to.equal(serializedJurySessionsForPaginatedList);
+    });
+  });
 });
