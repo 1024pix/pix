@@ -16,5 +16,12 @@ const saveAdminMember = async function (request, h, dependencies = { adminMember
   return h.response(dependencies.adminMemberSerializer.serialize(savedAdminMember)).created();
 };
 
-const adminMemberController = { findAll, getCurrentAdminMember, saveAdminMember };
+const updateAdminMember = async function (request, h, dependencies = { adminMemberSerializer }) {
+  const id = request.params.id;
+  const { role } = await adminMemberSerializer.deserialize(request.payload);
+  const updatedAdminMember = await usecases.updateAdminMember({ id, role });
+  return dependencies.adminMemberSerializer.serialize(updatedAdminMember);
+};
+
+const adminMemberController = { findAll, getCurrentAdminMember, saveAdminMember, updateAdminMember };
 export { adminMemberController };

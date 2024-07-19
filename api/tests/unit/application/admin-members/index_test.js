@@ -2,6 +2,7 @@ import { adminMemberController } from '../../../../lib/application/admin-members
 import * as adminMembersRouter from '../../../../lib/application/admin-members/index.js';
 import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
+import { adminMemberController as srcAdminMemberController } from '../../../../src/team/application/admin-member/admin-member.controller.js';
 import { domainBuilder, expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 const { ROLES } = PIX_ADMIN;
@@ -12,7 +13,7 @@ describe('Unit | Application | Router | admin-members-router', function () {
       it('should return a response with an HTTP status code 200', async function () {
         // given
         const updatedAdminMember = domainBuilder.buildAdminMember();
-        sinon.stub(adminMemberController, 'updateAdminMember').returns(updatedAdminMember);
+        sinon.stub(srcAdminMemberController, 'updateAdminMember').returns(updatedAdminMember);
         sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(adminMembersRouter);
@@ -46,7 +47,7 @@ describe('Unit | Application | Router | admin-members-router', function () {
 
     it('should return a response with an HTTP status code 403 if user does not have the rights', async function () {
       // given
-      sinon.stub(adminMemberController, 'updateAdminMember').returns('ok');
+      sinon.stub(srcAdminMemberController, 'updateAdminMember').returns('ok');
       sinon
         .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
         .callsFake((request, h) => h.response().code(403).takeover());
@@ -104,7 +105,7 @@ describe('Unit | Application | Router | admin-members-router', function () {
 
     it('should return a response with an HTTP status code 403 if user does not have the rights', async function () {
       // given
-      sinon.stub(adminMemberController, 'updateAdminMember').returns('ok');
+      sinon.stub(srcAdminMemberController, 'updateAdminMember').returns('ok');
       sinon
         .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
         .callsFake((request, h) => h.response().code(403).takeover());
