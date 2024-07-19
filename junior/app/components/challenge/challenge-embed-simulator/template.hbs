@@ -5,9 +5,17 @@
   {{/if}}
 
   {{#if @fragment}}
-    <div {{on "answer" this.handleAnswer}}>
-      {{{@fragment}}}
-    </div>
+    {{#if this.props}}
+      <div {{on "answer" this.handleAnswer}}>
+        <qcu-image-vue
+          choices={{this.props.choices}}
+          maxChoicesPerLine={{this.props.maxChoicesPerLine}}
+          name={{this.props.name}}
+          hideChoicesName={{this.props.hideChoicesName}}
+          imageChoicesSize={{this.props.imageChoicesSize}}
+        ></qcu-image-vue>
+      </div>
+    {{/if}}
   {{else}}
     <iframe
       tabindex={{if @hideSimulator "-1"}}
