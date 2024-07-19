@@ -6,6 +6,8 @@ const categories = {
   PIX_PLUS: 'PIX_PLUS',
   PREDEFINED: 'PREDEFINED',
   SUBJECT: 'SUBJECT',
+  TARGETED: 'TARGETED',
+  BACK_TO_SCHOOL: 'BACK_TO_SCHOOL',
 };
 
 class TargetProfile {

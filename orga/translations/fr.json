@@ -503,13 +503,15 @@
         "profiles-collection-info-certificability-calculation": "Le statut Certifiable est mis à jour automatiquement dans l’onglet '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'Élèves'</a>'."
       },
       "tags": {
+        "BACK_TO_SCHOOL": "Parcours de rentrée / 6e",
         "COMPETENCES": "Les 16 compétences",
         "CUSTOM": "Parcours sur-mesure",
         "DISCIPLINE": "Disciplinaires",
         "OTHER": "Autres",
         "PIX_PLUS": "Pix+",
         "PREDEFINED": "Parcours prédéfinis",
-        "SUBJECT": "Thématiques"
+        "SUBJECT": "Thématiques",
+        "TARGETED": "Parcours ciblés"
       },
       "tags-title": "Filtrer la recherche :",
       "target-profiles-category-label": "Filtrer les parcours par catégories",
