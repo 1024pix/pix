@@ -1,4 +1,3 @@
-import { UserNotFoundError } from '../../../../../lib/domain/errors.js';
 import { passageController } from '../../../../../src/devcomp/application/passages/controller.js';
 import * as moduleUnderTest from '../../../../../src/devcomp/application/passages/index.js';
 import {
@@ -6,6 +5,7 @@ import {
   PassageDoesNotExistError,
   PassageTerminatedError,
 } from '../../../../../src/devcomp/domain/errors.js';
+import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Devcomp | Application | Passage | Router | passage-router', function () {

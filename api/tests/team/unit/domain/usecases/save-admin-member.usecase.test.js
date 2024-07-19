@@ -1,5 +1,5 @@
-import { UserNotFoundError } from '../../../../../lib/domain/errors.js';
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
+import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { AdminMember } from '../../../../../src/shared/domain/models/AdminMember.js';
 import { AlreadyExistingAdminMemberError } from '../../../../../src/team/domain/errors.js';
 import { saveAdminMember } from '../../../../../src/team/domain/usecases/save-admin-member.usecase.js';

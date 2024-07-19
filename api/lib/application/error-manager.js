@@ -1,4 +1,5 @@
 import { UnableToAttachChildOrganizationToParentOrganizationError } from '../../src/organizational-entities/domain/errors.js';
+import { UserNotFoundError } from '../../src/shared/domain/errors.js';
 import * as DomainErrors from '../domain/errors.js';
 import * as errorSerializer from '../infrastructure/serializers/jsonapi/error-serializer.js';
 import { HttpErrors } from './http-errors.js';
@@ -192,7 +193,7 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.UserNotAuthorizedToGetCampaignResultsError) {
     return new HttpErrors.ForbiddenError(error.message);
   }
-  if (error instanceof DomainErrors.UserNotFoundError) {
+  if (error instanceof UserNotFoundError) {
     return new HttpErrors.NotFoundError(error.message);
   }
   if (error instanceof DomainErrors.AlreadyRegisteredEmailAndUsernameError) {

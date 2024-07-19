@@ -1,4 +1,3 @@
-import { UserNotFoundError } from '../../../../../lib/domain/errors.js';
 import { PIX_ADMIN, PIX_CERTIF, PIX_ORGA } from '../../../../../src/authorization/domain/constants.js';
 import {
   MissingOrInvalidCredentialsError,
@@ -6,6 +5,7 @@ import {
 } from '../../../../../src/identity-access-management/domain/errors.js';
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { authenticateUser } from '../../../../../src/identity-access-management/domain/usecases/authenticate-user.js';
+import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
 import { AdminMember } from '../../../../../src/shared/domain/models/AdminMember.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';

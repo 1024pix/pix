@@ -672,20 +672,6 @@ class OrganizationLearnerNotFound extends NotFoundError {
   }
 }
 
-class UserNotFoundError extends NotFoundError {
-  constructor(message = 'Ce compte est introuvable.', code = 'USER_ACCOUNT_NOT_FOUND') {
-    super(message, code);
-  }
-
-  getErrorMessage() {
-    return {
-      data: {
-        id: ['Ce compte est introuvable.'],
-      },
-    };
-  }
-}
-
 class WrongDateFormatError extends DomainError {
   constructor(message = 'Format de date invalide.') {
     super(message);
@@ -958,7 +944,6 @@ export {
   UserNotAuthorizedToRemoveAuthenticationMethod,
   UserNotAuthorizedToUpdateCampaignError,
   UserNotAuthorizedToUpdateResourceError,
-  UserNotFoundError,
   UserNotMemberOfOrganizationError,
   UserOrgaSettingsCreationError,
   UserShouldNotBeReconciledOnAnotherAccountError,

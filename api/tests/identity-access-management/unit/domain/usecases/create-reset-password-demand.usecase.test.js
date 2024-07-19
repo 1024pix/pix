@@ -1,5 +1,5 @@
-import { UserNotFoundError } from '../../../../../lib/domain/errors.js';
 import { createResetPasswordDemand } from '../../../../../src/identity-access-management/domain/usecases/create-reset-password-demand.usecase.js';
+import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | UseCase | create-reset-password-demand', function () {

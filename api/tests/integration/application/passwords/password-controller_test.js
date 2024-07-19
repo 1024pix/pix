@@ -1,6 +1,6 @@
 import * as moduleUnderTest from '../../../../lib/application/passwords/index.js';
-import { UserNotFoundError } from '../../../../lib/domain/errors.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { UserNotFoundError } from '../../../../src/shared/domain/errors.js';
 import { ForbiddenAccess } from '../../../../src/shared/domain/errors.js';
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 

@@ -13,6 +13,7 @@ import {
   ForbiddenAccess,
   InvalidResultRecipientTokenError,
   InvalidTemporaryKeyError,
+  UserNotFoundError,
 } from '../../../src/shared/domain/errors.js';
 import { expect, HttpTestServer, sinon } from '../../test-helper.js';
 
@@ -209,7 +210,7 @@ describe('Integration | API | Controller Error', function () {
     });
 
     it('responds Not Found when a UserNotFoundError error occurs', async function () {
-      routeHandler.throws(new DomainErrors.UserNotFoundError('Ce compte est introuvable.'));
+      routeHandler.throws(new UserNotFoundError('Ce compte est introuvable.'));
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(NOT_FOUND_ERROR);
