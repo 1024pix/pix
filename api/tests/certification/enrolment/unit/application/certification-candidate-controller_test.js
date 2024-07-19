@@ -1,4 +1,3 @@
-import { usecases as libUsecases } from '../../../../../lib/domain/usecases/index.js';
 import { certificationCandidateController } from '../../../../../src/certification/enrolment/application/certification-candidate-controller.js';
 import { usecases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
@@ -62,10 +61,10 @@ describe('Unit | Controller | certification-candidate-controller', function () {
         payload: { 'authorized-to-start': true },
       };
 
-      sinon.stub(libUsecases, 'authorizeCertificationCandidateToStart');
+      sinon.stub(usecases, 'authorizeCertificationCandidateToStart');
 
-      libUsecases.authorizeCertificationCandidateToStart = sinon.stub().rejects();
-      libUsecases.authorizeCertificationCandidateToStart
+      usecases.authorizeCertificationCandidateToStart = sinon.stub().rejects();
+      usecases.authorizeCertificationCandidateToStart
         .withArgs({
           certificationCandidateForSupervisingId: 99,
           authorizedToStart: true,

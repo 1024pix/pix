@@ -5,6 +5,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
 import * as certificationChallengeLiveAlertRepository from '../../../shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
 import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
 import * as certificationReportRepository from '../../../shared/infrastructure/repositories/certification-report-repository.js';
+import * as certificationCandidateForSupervisingRepository from './certification-candidate-for-supervising-repository.js';
 import * as certificationOfficerRepository from './certification-officer-repository.js';
 import * as finalizedSessionRepository from './finalized-session-repository.js';
 import * as jurySessionRepository from './jury-session-repository.js';
@@ -18,6 +19,7 @@ import * as supervisorAccessRepository from './supervisor-access-repository.js';
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
  *
  * @typedef {assessmentRepository} AssessmentRepository
+ * @typedef {certificationCandidateForSupervisingRepository} CertificationCandidateForSupervisingRepository
  * @typedef {certificationCourseRepository} CertificationCourseRepository
  * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
  * @typedef {certificationOfficerRepository} CertificationOfficerRepository
@@ -34,6 +36,7 @@ import * as supervisorAccessRepository from './supervisor-access-repository.js';
  */
 const repositoriesWithoutInjectedDependencies = {
   assessmentRepository,
+  certificationCandidateForSupervisingRepository,
   certificationCourseRepository,
   certificationChallengeLiveAlertRepository,
   certificationOfficerRepository,

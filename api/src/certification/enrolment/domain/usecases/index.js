@@ -7,6 +7,7 @@ import * as organizationRepository from '../../../../shared/infrastructure/repos
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as attendanceSheetPdfUtils from '../../../enrolment/infrastructure/utils/pdf/attendance-sheet-pdf.js';
+import * as certificationCandidateForSupervisingRepository from '../../../session-management/infrastructure/repositories/certification-candidate-for-supervising-repository.js';
 import * as certificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
 import * as temporaryCompanionStorageService from '../../../shared/domain/services/temporary-companion-storage-service.js';
 import * as sessionValidator from '../../../shared/domain/validators/session-validator.js';
@@ -20,6 +21,7 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {import('../../infrastructure/repositories/index.js').ComplementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {import('../../infrastructure/repositories/index.js').SessionRepository} SessionRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCandidateRepository} CertificationCandidateRepository
+ * @typedef {import('../../../session-management/infrastructure/repositories/index.js').CertificationCandidateForSupervisingRepository} CertificationCandidateForSupervisingRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCpfCityRepository} CertificationCpfCityRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCpfCountryRepository} CertificationCpfCountryRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCenterRepository} CertificationCenterRepository
@@ -47,6 +49,7 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {CenterRepository} CenterRepository
  * @typedef {SessionRepository} SessionRepository
  * @typedef {CertificationCandidateRepository} CertificationCandidateRepository
+ * @typedef {CertificationCandidateForSupervisingRepository} CertificationCandidateForSupervisingRepository
  * @typedef {CertificationCpfCityRepository} CertificationCpfCityRepository
  * @typedef {CertificationCpfCountryRepository} CertificationCpfCountryRepository
  * @typedef {CertificationOfficerRepository} CertificationOfficerRepository
@@ -76,6 +79,7 @@ const dependencies = {
   certificationCpfService,
   temporaryCompanionStorageService,
   certificationCenterMembershipRepository,
+  certificationCandidateForSupervisingRepository,
   organizationRepository,
 };
 

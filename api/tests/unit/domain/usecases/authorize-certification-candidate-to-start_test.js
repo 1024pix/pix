@@ -1,4 +1,4 @@
-import { authorizeCertificationCandidateToStart } from '../../../../lib/domain/usecases/authorize-certification-candidate-to-start.js';
+import { authorizeCertificationCandidateToStart } from '../../../../src/certification/enrolment/domain/usecases/authorize-certification-candidate-to-start.js';
 import { CertificationCandidateForSupervising } from '../../../../src/certification/session-management/domain/models/CertificationCandidateForSupervising.js';
 import { expect, sinon } from '../../../test-helper.js';
 

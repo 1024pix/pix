@@ -80,7 +80,6 @@ describe('Acceptance | Controller | Session | certification-candidate-route', fu
       context('when the user is the supervisor of the session', function () {
         it('should return a 204 status code', async function () {
           // given
-          const server = await createServer();
           const candidateUserId = databaseBuilder.factory.buildUser({}).id;
           const certificationCenter = databaseBuilder.factory.buildCertificationCenter({});
           const sessionId = databaseBuilder.factory.buildSession({
