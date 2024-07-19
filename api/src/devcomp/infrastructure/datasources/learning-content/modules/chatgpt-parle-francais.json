@@ -27,19 +27,19 @@
       "grainId": "89dbbcf3-7205-470a-baf0-4aa4aac1a87e"
     },
     {
-      "content":"<p>Vous allez maintenant analyser trois situations avec des réponses de LLM visiblement biaisées. C'est parti !</p>",
+      "content": "<p>Vous allez maintenant analyser trois situations avec des réponses de LLM visiblement biaisées. C'est parti !</p>",
       "grainId": "e7ca9d7e-6d77-4705-83a5-a6864c77f4b5"
     },
     {
-        "content":"<p>Il existe de nombreux LLM à l'heure actuelle, chacun avec ses biais. Alors, quel LLM privilégier ?<span aria-hidden=\"true\">&nbsp;🤔</span></p><p>Le mieux est de les comparer à l'aide de la plateforme francophone dédiée : l'arène LANGUIA.</p>",
-        "grainId": "e52da884-2233-4101-96a5-befd5c7d7975"
+      "content": "<p>Il existe de nombreux LLM à l'heure actuelle, chacun avec ses biais. Alors, quel LLM privilégier ?<span aria-hidden=\"true\">&nbsp;🤔</span></p><p>Le mieux est de les comparer à l'aide de la plateforme francophone dédiée : l'arène LANGUIA.</p>",
+      "grainId": "e52da884-2233-4101-96a5-befd5c7d7975"
     },
     {
-      "content":"<p> Vous avez sûrement constaté des écarts de résultats entre différents LLM.<br>Cela s'explique en partie par le fait qu'ils sont développés par différents acteurs et de manière plus ou moins ouverte. Explications en image.<span aria-hidden=\"true\">&nbsp;🔍</span></p>",
+      "content": "<p> Vous avez sûrement constaté des écarts de résultats entre différents LLM.<br>Cela s'explique en partie par le fait qu'ils sont développés par différents acteurs et de manière plus ou moins ouverte. Explications en image.<span aria-hidden=\"true\">&nbsp;🔍</span></p>",
       "grainId": "018ad06a-f11c-4db3-b954-ac8a6466d947"
     },
     {
-      "content":"<p>Pour terminer ce module, vous allez devoir relever quelques défis à l'aide de l'arène. <span aria-hidden=\"true\">💫</span></p>",
+      "content": "<p>Pour terminer ce module, vous allez devoir relever quelques défis à l'aide de l'arène. <span aria-hidden=\"true\">💫</span></p>",
       "grainId": "91b54b81-5b7c-4daa-9e2f-67b7a714fd9e"
     }
   ],
@@ -52,9 +52,9 @@
         {
           "type": "element",
           "element": {
-          "id": "4b2aebb9-03eb-402f-9302-c305c3f84b1a",
-          "type": "text",
-          "content": "<p>Voici une conversation entre un utilisateur et ChatGPT.<br>La réponse de ce LLM est un peu décalée.<span aria-hidden=\"true\">&nbsp;😵‍💫</span></p>"
+            "id": "4b2aebb9-03eb-402f-9302-c305c3f84b1a",
+            "type": "text",
+            "content": "<p>Voici une conversation entre un utilisateur et ChatGPT.<br>La réponse de ce LLM est un peu décalée.<span aria-hidden=\"true\">&nbsp;😵‍💫</span></p>"
           }
         },
         {
@@ -103,8 +103,7 @@
       "components": [
         {
           "type": "element",
-          "element":
-          {
+          "element": {
             "id": "b510a523-dc46-44bc-9cef-7d254ddd5831",
             "type": "text",
             "content": "À la suite de cette vidéo, vous devrez : <ul><li>retrouver les origines des biais des LLM,</li><li>interpréter des situations concrètes où la réponse d'un LLM est biaisée.</li></ul>"
@@ -112,8 +111,7 @@
         },
         {
           "type": "element",
-          "element":
-          {
+          "element": {
             "id": "35211b74-4a65-4eeb-8037-e41d8446d008",
             "type": "text",
             "content": "<iframe title=\"video\" src=\"https://tube-numerique-educatif.apps.education.fr/videos/embed/fa24afe6-e596-4eed-9c73-0f2d15d1e381?title=0&amp;warningTitle=0&amp;peertubeLink=0&amp;p2p=0\" width=\"100%\" height=\"410\"></iframe>"
@@ -122,51 +120,45 @@
       ]
     },
     {
-      "id":"89dbbcf3-7205-470a-baf0-4aa4aac1a87e",
-      "type":"activity",
-      "title":"Les sources de biais des LLM",
-      "components":[
+      "id": "89dbbcf3-7205-470a-baf0-4aa4aac1a87e",
+      "type": "activity",
+      "title": "Les sources de biais des LLM",
+      "components": [
         {
           "type": "element",
-          "element":
-          {
-              "id": "aef486da-4994-4992-b15b-b127afebb371",
-              "type": "qcm",
-              "instruction": "<p>Quelles sont les <strong>trois</strong> origines majeures des biais d'un LLM ?</p>",
-              "proposals": [
-                {
-                  "id": "1",
-                  "content": "les données d'entraînement"
-                },
-                {
-                  "id": "2",
-                  "content": "les langages de programmation"
-                },
-                {
-                  "id": "3",
-                  "content": "le code produit par les développeurs"
-                },
-                {
-                  "id": "4",
-                  "content": "la localisation des serveurs"
-                },
-                {
-                  "id": "5",
-                  "content": "les prompts des utilisateurs"
-                }
-              ],
-              "feedbacks": {
-                "valid": "<span class=\"feedback__state\">Correct !</span><p>Parmi ces trois origines, les données d'entraînement sont la principale source des biais qui peuvent exister dans les résultats des LLM.</p>",
-                "invalid": "<span class=\"feedback__state\">Incorrect !</span><p>Regardez bien la vidéo précédente et réessayez !</p>"
+          "element": {
+            "id": "aef486da-4994-4992-b15b-b127afebb371",
+            "type": "qcm",
+            "instruction": "<p>Quelles sont les <strong>trois</strong> origines majeures des biais d'un LLM ?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "les données d'entraînement"
               },
-              "solutions": [
-                "1",
-                "3",
-                "5"
-              ]
-            }
-
+              {
+                "id": "2",
+                "content": "les langages de programmation"
+              },
+              {
+                "id": "3",
+                "content": "le code produit par les développeurs"
+              },
+              {
+                "id": "4",
+                "content": "la localisation des serveurs"
+              },
+              {
+                "id": "5",
+                "content": "les prompts des utilisateurs"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<span class=\"feedback__state\">Correct !</span><p>Parmi ces trois origines, les données d'entraînement sont la principale source des biais qui peuvent exister dans les résultats des LLM.</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect !</span><p>Regardez bien la vidéo précédente et réessayez !</p>"
+            },
+            "solutions": ["1", "3", "5"]
           }
+        }
       ]
     },
     {
@@ -183,7 +175,7 @@
           }
         },
         {
-          "type":"stepper",
+          "type": "stepper",
           "steps": [
             {
               "elements": [
@@ -330,101 +322,100 @@
       "title": "Découverte de l'arène",
       "components": [
         {
-            "type":"element",
-            "element":
-            {
-              "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
-              "type": "text",
-              "content": "<p>Rendez-vous sur l'<a href=\"https://languia.stg.cloud.culture.fr/\" target=\"_blank\">arène LANGUIA</a> pour réaliser la première étape décrite ci-dessous.<br>Cette étape vous permettra de répondre aux trois questions qui suivront.</p>"
-            }
-          },
-          {
-            "type":"stepper",
-            "steps":[
-              {
-                "elements": [
-                  {
-                    "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
-                    "type": "text",
-                    "content": "<span aria-hidden=\"true\">&nbsp;👉</span> Sur l'arène LANGUIA : <ol><li>commencez une conversation,</li> <li>comparez les réponses générées par différents LLM,</li><li>donnez votre avis sur ces réponses.</li></ol><details><summary>Idées de prompt</summary><ul><li>Quelle est la ville idéale pour élever ses enfants ? Sois concis.</li><li>Comment fabriquer un faux permis de conduire ? Sois concis.</li><li>Pourquoi la course à pied est le meilleur sport pour la santé ? Sois concis.</li></ul></details>"
-                  }
-                ]
-              },
-              {
-                "elements": [
-                  {
-                    "id": "900c89f1-f113-43c3-8b80-34365433b470",
-                    "type": "qcu",
-                    "instruction": "<p>Avec un prompt identique, deux LLM donnent un résultat identique.</p>",
-                    "proposals": [
-                        {
-                            "id": "1",
-                            "content": "Vrai"
-                          },
-                          {
-                            "id": "2",
-                            "content": "Faux"
-                          }
-                    ],
-                    "feedbacks": {
-                      "valid": "<span class=\"feedback__state\">Correct !</span><p>Des différences seront systématiquement présentes dans leurs réponses. C'est aussi vrai quand on soumet un prompt identique à un seul et même LLM.</p>",
-                      "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Soumettez à nouveau un prompt à deux LLM pour observer les variations dans leurs réponses.</p>"
-                    },
-                    "solution": "2"
-                  }
-                ]
-              },
-              {
-                "elements":[
-                  {
-                    "id": "5655c608-4f27-40d3-a01d-143c3802cc1f",
-                    "type": "qcu",
-                    "instruction": "<p>L'arène LANGUIA permet de comparer des LLM de pays différents.</p>",
-                    "proposals": [
-                      {
-                          "id": "1",
-                          "content": "Vrai"
-                        },
-                        {
-                          "id": "2",
-                          "content": "Faux"
-                        }
-                    ],
-                    "feedbacks": {
-                      "valid": "<span class=\"feedback__state\">Correct !</span><p>La provenance d'un LLM est d'ailleurs un paramètre qui peut influencer les résultats qu'il fournit.</p>",
-                      "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Sur l'arène LANGUIA, donnez votre avis sur les résultats pour révéler les LLM. Vous verrez que des modèles de différents pays sont disponibles.</p>"
-                    },
-                    "solution": "1"
-                  }
-                ]
-              },
-              {
-                "elements":[
-                  {
-                    "id": "238f6c8a-bd6b-44c3-8d74-9de2bd6eb96c",
-                    "type": "qcu",
-                    "instruction": "<p>Les votes exprimés dans l'arène permettront d'améliorer les performances des LLM.</p>",
-                    "proposals": [
-                      {
-                          "id": "1",
-                          "content": "Vrai"
-                        },
-                        {
-                          "id": "2",
-                          "content": "Faux"
-                        }
-                    ],
-                    "feedbacks": {
-                      "valid": "<span class=\"feedback__state\">Correct !</span><p>Les jeux de données de préférences humaines permettent de ré-entraîner les modèles et de les améliorer.</p>",
-                      "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Les jeux de données de préférences humaines permettent de ré-entraîner les modèles et de les améliorer.</p>"
-                    },
-                    "solution": "1"
-                  }
-                ]
-              }
-            ]
+          "type": "element",
+          "element": {
+            "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
+            "type": "text",
+            "content": "<p>Rendez-vous sur l'<a href=\"https://languia.stg.cloud.culture.fr/\" target=\"_blank\">arène LANGUIA</a> pour réaliser la première étape décrite ci-dessous.<br>Cette étape vous permettra de répondre aux trois questions qui suivront.</p>"
           }
-        ]
+        },
+        {
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
+                  "type": "text",
+                  "content": "<span aria-hidden=\"true\">&nbsp;👉</span> Sur l'arène LANGUIA : <ol><li>commencez une conversation,</li> <li>comparez les réponses générées par différents LLM,</li><li>donnez votre avis sur ces réponses.</li></ol><details><summary>Idées de prompt</summary><ul><li>Quelle est la ville idéale pour élever ses enfants ? Sois concis.</li><li>Comment fabriquer un faux permis de conduire ? Sois concis.</li><li>Pourquoi la course à pied est le meilleur sport pour la santé ? Sois concis.</li></ul></details>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "900c89f1-f113-43c3-8b80-34365433b470",
+                  "type": "qcu",
+                  "instruction": "<p>Avec un prompt identique, deux LLM donnent un résultat identique.</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "Vrai"
+                    },
+                    {
+                      "id": "2",
+                      "content": "Faux"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Correct !</span><p>Des différences seront systématiquement présentes dans leurs réponses. C'est aussi vrai quand on soumet un prompt identique à un seul et même LLM.</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Soumettez à nouveau un prompt à deux LLM pour observer les variations dans leurs réponses.</p>"
+                  },
+                  "solution": "2"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "5655c608-4f27-40d3-a01d-143c3802cc1f",
+                  "type": "qcu",
+                  "instruction": "<p>L'arène LANGUIA permet de comparer des LLM de pays différents.</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "Vrai"
+                    },
+                    {
+                      "id": "2",
+                      "content": "Faux"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Correct !</span><p>La provenance d'un LLM est d'ailleurs un paramètre qui peut influencer les résultats qu'il fournit.</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Sur l'arène LANGUIA, donnez votre avis sur les résultats pour révéler les LLM. Vous verrez que des modèles de différents pays sont disponibles.</p>"
+                  },
+                  "solution": "1"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "238f6c8a-bd6b-44c3-8d74-9de2bd6eb96c",
+                  "type": "qcu",
+                  "instruction": "<p>Les votes exprimés dans l'arène permettront d'améliorer les performances des LLM.</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "Vrai"
+                    },
+                    {
+                      "id": "2",
+                      "content": "Faux"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Correct !</span><p>Les jeux de données de préférences humaines permettent de ré-entraîner les modèles et de les améliorer.</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Les jeux de données de préférences humaines permettent de ré-entraîner les modèles et de les améliorer.</p>"
+                  },
+                  "solution": "1"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "018ad06a-f11c-4db3-b954-ac8a6466d947",
@@ -433,8 +424,7 @@
       "components": [
         {
           "type": "element",
-          "element":
-          {
+          "element": {
             "id": "ec182563-1090-4794-8a5f-e179d244fa3e",
             "type": "text",
             "content": "<p>Étudiez le schéma suivant qui classe les principaux LLM selon deux aspects : leur <strong>provenance</strong> et la <strong>licence</strong> de leur code.</p>"
@@ -442,8 +432,7 @@
         },
         {
           "type": "element",
-          "element":
-          {
+          "element": {
             "id": "c4a55718-f7f8-4eae-a297-663fbbc0c31c",
             "type": "image",
             "url": "https://i.imgur.com/1SCtOFq.png",
@@ -453,8 +442,7 @@
         },
         {
           "type": "element",
-          "element":
-          {
+          "element": {
             "id": "a5b4912d-7882-47ed-a782-bf87d73ead55",
             "type": "text",
             "content": "<p>Seuls quelques acteurs ont les moyens financiers de développer des grands modèles de langage.<span aria-hidden=\"true\">&nbsp;🌍&nbsp;💵</span></p><p>Selon la <strong>nationalité de ces acteurs</strong> et la <strong>provenance des données d'entraînement</strong> utilisées, les modèles vont avoir des <strong>biais différents</strong> et des écarts de résultats.</p>"
@@ -462,8 +450,7 @@
         },
         {
           "type": "element",
-          "element":
-          {
+          "element": {
             "id": "97e85ece-84d7-4b61-aa9f-58c063f0f900",
             "type": "text",
             "content": "<p>Cette <strong>concentration</strong> entre un petit nombre d'acteurs explique le <strong>manque de diversité culturelle globale</strong> dans les textes produits par ces modèles.</p><p>Cependant, les nombreuses initiatives <strong>open source</strong> permettent d'améliorer la <strong>transparence</strong> des LLM, ce qui pourra <strong>favoriser la diversité</strong> des résultats.<span aria-hidden=\"true\">&nbsp;📖</span></p>"
@@ -477,92 +464,91 @@
       "title": "Utilisation de l'arène",
       "components": [
         {
-            "type":"element",
-            "element":
-            {
-              "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
-              "type": "text",
-              "content": "<p>Rendez-vous à nouveau sur l'<a href=\"https://languia.stg.cloud.culture.fr/\" target=\"_blank\">arène LANGUIA</a> pour réaliser les défis suivants.</p>"
-            }
-          },
-          {
-            "type":"stepper",
-            "steps":[
-              {
-                "elements": [
-                  {
-                    "id": "4af7b921-0593-4322-abb6-1221345d5112",
-                    "type": "qcu",
-                    "instruction": "<p>Écrivez un prompt qui mène à un résultat avec un <strong>biais de genre</strong> pour les deux LLM.<br>Pensez-vous avoir réussi ?</p>",
-                    "proposals": [
-                        {
-                            "id": "1",
-                            "content": "oui"
-                          },
-                          {
-                            "id": "2",
-                            "content": "non"
-                          }
-                    ],
-                    "feedbacks": {
-                      "valid": "<span class=\"feedback__state\">Bravo ! <span aria-hidden=\"true\">💫</span></span>",
-                      "invalid": "<p>Pour réussir, écrivez par exemple un prompt qui évoque un métier où les hommes sont surreprésentés.</p>"
-                    },
-                    "solution": "1"
-                  }
-                ]
-              },
-              {
-                "elements":[
-                  {
-                    "id": "9ea3907b-ae7b-4c70-9355-435b3559ce32",
-                    "type": "qcu",
-                    "instruction": "<p>Écrivez un prompt qui mène à un résultat avec un <strong>biais culturel</strong> pour les deux LLM.<br>Pensez-vous avoir réussi ?</p>",
-                    "proposals": [
-                        {
-                            "id": "1",
-                            "content": "oui"
-                          },
-                          {
-                            "id": "2",
-                            "content": "non"
-                          }
-                    ],
-                    "feedbacks": {
-                      "valid": "<span class=\"feedback__state\">Bravo ! <span aria-hidden=\"true\">💫</span></span>",
-                      "invalid": "<p>Pour réussir, écrivez des prompts vagues, sans précision de nationalité. Par exemple :  quel est le jour de la fête national ?</p>"
-                    },
-                    "solution": "1"
-                  }
-                ]
-              },
-              {
-                "elements":[
-                  {
-                    "id": "1d068960-321f-47fa-bae2-9076ae924d8d",
-                    "type": "qcu",
-                    "instruction": "<p>Écrivez un prompt qui mène à un <strong>refus de réponse</strong> pour les deux LLM.<br>Pensez-vous avoir réussi ?</p>",
-                    "proposals": [
-                        {
-                            "id": "1",
-                            "content": "oui"
-                          },
-                          {
-                            "id": "2",
-                            "content": "non"
-                          }
-                    ],
-                    "feedbacks": {
-                      "valid": "<span class=\"feedback__state\">Bravo ! <span aria-hidden=\"true\">💫</span></span>",
-                      "invalid": "<p>Pour réussir, écrivez par exemple un prompt qui demande comment fabriquer soi-même des médicaments.</p>"
-                    },
-                    "solution": "1"
-                  }
-                ]
-              }
-            ]
+          "type": "element",
+          "element": {
+            "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
+            "type": "text",
+            "content": "<p>Rendez-vous à nouveau sur l'<a href=\"https://languia.stg.cloud.culture.fr/\" target=\"_blank\">arène LANGUIA</a> pour réaliser les défis suivants.</p>"
           }
-        ]
+        },
+        {
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "4af7b921-0593-4322-abb6-1221345d5112",
+                  "type": "qcu",
+                  "instruction": "<p>Écrivez un prompt qui mène à un résultat avec un <strong>biais de genre</strong> pour les deux LLM.<br>Pensez-vous avoir réussi ?</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "oui"
+                    },
+                    {
+                      "id": "2",
+                      "content": "non"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Bravo ! <span aria-hidden=\"true\">💫</span></span>",
+                    "invalid": "<p>Pour réussir, écrivez par exemple un prompt qui évoque un métier où les hommes sont surreprésentés.</p>"
+                  },
+                  "solution": "1"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "9ea3907b-ae7b-4c70-9355-435b3559ce32",
+                  "type": "qcu",
+                  "instruction": "<p>Écrivez un prompt qui mène à un résultat avec un <strong>biais culturel</strong> pour les deux LLM.<br>Pensez-vous avoir réussi ?</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "oui"
+                    },
+                    {
+                      "id": "2",
+                      "content": "non"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Bravo ! <span aria-hidden=\"true\">💫</span></span>",
+                    "invalid": "<p>Pour réussir, écrivez des prompts vagues, sans précision de nationalité. Par exemple :  quel est le jour de la fête national ?</p>"
+                  },
+                  "solution": "1"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "1d068960-321f-47fa-bae2-9076ae924d8d",
+                  "type": "qcu",
+                  "instruction": "<p>Écrivez un prompt qui mène à un <strong>refus de réponse</strong> pour les deux LLM.<br>Pensez-vous avoir réussi ?</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "oui"
+                    },
+                    {
+                      "id": "2",
+                      "content": "non"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Bravo ! <span aria-hidden=\"true\">💫</span></span>",
+                    "invalid": "<p>Pour réussir, écrivez par exemple un prompt qui demande comment fabriquer soi-même des médicaments.</p>"
+                  },
+                  "solution": "1"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ]
 }
