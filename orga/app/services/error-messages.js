@@ -66,7 +66,13 @@ export default class ErrorMessagesService extends Service {
   getErrorMessage(code, meta) {
     if (!code) return;
     const i18nKey = ERROR_MESSAGES[code];
+
     if (!i18nKey) return;
+    // TODO : Remove this when all import will be on generic import
+    if (code === 'FIELD_DATE_FORMAT' && !meta.acceptedFormat) {
+      meta.acceptedFormat = this.intl.primaryLocale === 'fr' ? 'jj/mm/aaaa' : 'dd/mm/yyyy';
+    }
+
     return this.intl.t(i18nKey, this._formatMeta(meta));
   }
 }

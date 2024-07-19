@@ -22,7 +22,7 @@
       "bad-csv-format": "Het bestand moet in csv-formaat zijn met als scheidingsteken komma’s of puntkomma's.",
       "encoding-not-supported": "Bestandscodering niet ondersteund.",
       "field-bad-values": "Regel {line}: Het veld \"{field}\" moet zijn \"{valids}\".",
-      "field-date-format": "Regel {line}: Het veld \"{field}\" moet het format dd/mm/jjjj hebben.",
+      "field-date-format": "Regel {line}: Het veld \"{field}\" moet het format \"{acceptedFormat}\" hebben.",
       "field-email-format": "Regel {line}: Het veld \"{field}\" moet een geldig e-mailadres zijn.",
       "field-length": "Regel {line}: Het veld \"{field}\" moet {limit} karakters lang zijn.",
       "field-max-length": "Regel {line}: Het veld \"{field}\" moet minder dan {limit} tekens zijn.",

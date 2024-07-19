@@ -22,7 +22,7 @@
       "bad-csv-format": "The file must be in csv format with comma or semicolon separator.",
       "encoding-not-supported": "File encoding not supported.",
       "field-bad-values": "Row {line} : The field “{field}” must be “{valids}”.",
-      "field-date-format": "Row {line} : The field “{field}” must be in the format dd/mm/yyyy.",
+      "field-date-format": "Row {line} : The field “{field}” must be in the format “{acceptedFormat}”.",
       "field-email-format": "Row {line} : The field “{field}” must be a valid email address.",
       "field-length": "Row {line} : The field “{field}” must contain {limit} characters.",
       "field-max-length": "Row {line} : The field “{field}” must contain less than {limit} characters.",
