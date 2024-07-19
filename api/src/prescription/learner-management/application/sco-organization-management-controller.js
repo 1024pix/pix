@@ -5,6 +5,7 @@ import { eventBus } from '../../../../lib/domain/events/index.js';
 import { logErrorWithCorrelationIds } from '../../../../lib/infrastructure/monitoring-tools.js';
 import { ApplicationTransaction } from '../../shared/infrastructure/ApplicationTransaction.js';
 import { usecases } from '../domain/usecases/index.js';
+import { OrganizationLearnerParser } from '../infrastructure/serializers/csv/organization-learner-parser.js';
 
 const INVALID_FILE_EXTENSION_ERROR = 'INVALID_FILE_EXTENSION';
 
@@ -15,6 +16,7 @@ const importOrganizationLearnersFromSIECLE = async function (
 ) {
   const authenticatedUserId = request.auth.credentials.userId;
   const organizationId = request.params.id;
+  const userId = request.auth.credentials.userId;
   const { format } = request.query;
   try {
     if (format === 'xml') {
@@ -27,6 +29,18 @@ const importOrganizationLearnersFromSIECLE = async function (
         await eventBus.publish(uploadedFileEvent, ApplicationTransaction.getTransactionAsDomainTransaction());
       });
     } else if (format === 'csv') {
+      await usecases.uploadCsvFile({
+        Parser: OrganizationLearnerParser,
+        payload: request.payload,
+        organizationId,
+        userId,
+        i18n: request.i18n,
+      });
+      await usecases.validateCsvFile({
+        Parser: OrganizationLearnerParser,
+        organizationId,
+        i18n: request.i18n,
+      });
       await usecases.importOrganizationLearnersFromSIECLECSVFormat({
         userId: authenticatedUserId,
         organizationId,

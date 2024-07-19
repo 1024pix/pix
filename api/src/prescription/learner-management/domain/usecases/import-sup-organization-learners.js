@@ -17,7 +17,7 @@ const importSupOrganizationLearners = async function ({
     const readableStream = await importStorage.readFile({ filename: organizationImport.filename });
 
     const buffer = await getDataBuffer(readableStream);
-    const parser = SupOrganizationLearnerParser.create(buffer, organizationId, i18n);
+    const parser = SupOrganizationLearnerParser.buildParser(buffer, organizationId, i18n);
 
     const { learners } = parser.parse(parser.getFileEncoding());
 

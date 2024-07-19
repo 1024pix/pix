@@ -1,8 +1,9 @@
 import { IMPORT_STATUSES } from '../../../../../../src/prescription/learner-management/domain/constants.js';
 import { OrganizationImport } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImport.js';
-import { validateSupCsvFile } from '../../../../../../src/prescription/learner-management/domain/usecases/validate-sup-csv-file.js';
+import { validateCsvFile } from '../../../../../../src/prescription/learner-management/domain/usecases/validate-csv-file.js';
 import { SupOrganizationLearnerImportHeader } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/sup-organization-learner-import-header.js';
-import { catchErr, expect, sinon, toStream } from '../../../../../test-helper.js';
+import { SupOrganizationLearnerParser } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/sup-organization-learner-parser.js';
+import { catchErr, expect, sinon } from '../../../../../test-helper.js';
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 
 const i18n = getI18n();
@@ -47,7 +48,7 @@ describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
     };
 
     importStorageStub = {
-      readFile: sinon.stub(),
+      getParser: sinon.stub(),
       deleteFile: sinon.stub(),
     };
   });
@@ -57,10 +58,13 @@ describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
       // given
       organizationImportRepositoryStub.getLastByOrganizationId.withArgs(organizationId).resolves(organizationImport);
 
-      importStorageStub.readFile.withArgs({ filename: organizationImport.filename }).resolves(toStream(csvContent));
+      importStorageStub.getParser
+        .withArgs({ Parser: SupOrganizationLearnerParser, filename: organizationImport.filename }, organizationId, i18n)
+        .resolves(SupOrganizationLearnerParser.buildParser(csvContent, organizationId, i18n));
 
       // when
-      await validateSupCsvFile({
+      await validateCsvFile({
+        Parser: SupOrganizationLearnerParser,
         organizationId,
         i18n,
         organizationImportRepository: organizationImportRepositoryStub,
@@ -77,11 +81,6 @@ describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
   context('when there is errors', function () {
     beforeEach(function () {
       organizationImportRepositoryStub.getLastByOrganizationId.withArgs(organizationId).resolves(organizationImport);
-
-      const csvContent = `${supOrganizationLearnerImportHeader}
-          Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;BAD;BAD;
-          `.trim();
-      importStorageStub.readFile.withArgs({ filename: organizationImport.filename }).resolves(toStream(csvContent));
     });
 
     it('should save VALIDATION_ERROR status', async function () {
@@ -90,10 +89,13 @@ describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
           Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;BAD;BAD;
           Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;BAD;BAD;
           `.trim();
-      importStorageStub.readFile.withArgs({ filename: organizationImport.filename }).resolves(toStream(csvContent));
+      importStorageStub.getParser
+        .withArgs({ Parser: SupOrganizationLearnerParser, filename: organizationImport.filename }, organizationId, i18n)
+        .resolves(SupOrganizationLearnerParser.buildParser(csvContent, organizationId, i18n));
 
       // when
-      await catchErr(validateSupCsvFile)({
+      await catchErr(validateCsvFile)({
+        Parser: SupOrganizationLearnerParser,
         organizationId,
         i18n,
         organizationImportRepository: organizationImportRepositoryStub,

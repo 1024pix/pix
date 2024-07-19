@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import { logErrorWithCorrelationIds } from '../../../../lib/infrastructure/monitoring-tools.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
 import { usecases } from '../domain/usecases/index.js';
+import { SupOrganizationLearnerParser } from '../infrastructure/serializers/csv/sup-organization-learner-parser.js';
 
 const importSupOrganizationLearners = async function (
   request,
@@ -17,12 +18,14 @@ const importSupOrganizationLearners = async function (
 
   try {
     await usecases.uploadCsvFile({
+      Parser: SupOrganizationLearnerParser,
       payload: request.payload,
       organizationId,
       userId,
       i18n: request.i18n,
     });
-    await usecases.validateSupCsvFile({
+    await usecases.validateCsvFile({
+      Parser: SupOrganizationLearnerParser,
       organizationId,
       i18n: request.i18n,
     });
@@ -54,12 +57,14 @@ const replaceSupOrganizationLearners = async function (
 
   try {
     await usecases.uploadCsvFile({
+      Parser: SupOrganizationLearnerParser,
       payload: request.payload,
       organizationId,
       userId,
       i18n: request.i18n,
     });
-    await usecases.validateSupCsvFile({
+    await usecases.validateCsvFile({
+      Parser: SupOrganizationLearnerParser,
       organizationId,
       i18n: request.i18n,
     });

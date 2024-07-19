@@ -2,6 +2,7 @@ import { IMPORT_STATUSES } from '../../../../../../src/prescription/learner-mana
 import { OrganizationImport } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImport.js';
 import { uploadCsvFile } from '../../../../../../src/prescription/learner-management/domain/usecases/upload-csv-file.js';
 import { SupOrganizationLearnerImportHeader } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/sup-organization-learner-import-header.js';
+import { SupOrganizationLearnerParser } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/sup-organization-learner-parser.js';
 import { catchErr, createTempFile, expect, removeTempFile, sinon } from '../../../../../test-helper.js';
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 
@@ -13,16 +14,14 @@ const supOrganizationLearnerImportHeader = new SupOrganizationLearnerImportHeade
 describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
   const organizationId = 1;
   const userId = 2;
-  let timer, fakeDate, organizationImportRepositoryStub, importStorageStub, payload, filepath, s3Filename;
+  let timer, fakeDate, organizationImportRepositoryStub, importStorageStub, payload, filepath, s3Filename, csvContent;
 
   beforeEach(async function () {
     s3Filename = Symbol('filename');
-    filepath = await createTempFile(
-      'file.csv',
-      `${supOrganizationLearnerImportHeader}
+    csvContent = `${supOrganizationLearnerImportHeader}
     Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
-    O-Ren;;;Ishii;Cottonmouth;01/01/1980;ishii@example.net;789;Assassination Squad;Bill;Deadly Viper Assassination Squad;DUT;;`,
-    );
+    O-Ren;;;Ishii;Cottonmouth;01/01/1980;ishii@example.net;789;Assassination Squad;Bill;Deadly Viper Assassination Squad;DUT;;`;
+    filepath = await createTempFile('file.csv', csvContent);
     payload = { path: filepath };
     fakeDate = new Date('2019-01-10');
     timer = sinon.useFakeTimers({
@@ -32,6 +31,7 @@ describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
 
     importStorageStub = {
       sendFile: sinon.stub(),
+      getParser: sinon.stub(),
     };
 
     organizationImportRepositoryStub = {
@@ -49,8 +49,13 @@ describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
       // given
       importStorageStub.sendFile.withArgs({ filepath: payload.path }).resolves(s3Filename);
 
+      importStorageStub.getParser
+        .withArgs({ Parser: SupOrganizationLearnerParser, filename: s3Filename }, organizationId, i18n)
+        .resolves(SupOrganizationLearnerParser.buildParser(csvContent, organizationId, i18n));
+
       // when
       await uploadCsvFile({
+        Parser: SupOrganizationLearnerParser,
         payload,
         userId,
         organizationId,
@@ -67,7 +72,7 @@ describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
           createdBy: userId,
           createdAt: fakeDate,
           updatedAt: fakeDate,
-          encoding: 'utf-8',
+          encoding: 'win1252',
           filename: s3Filename,
           status: IMPORT_STATUSES.UPLOADED,
         }),
@@ -79,8 +84,13 @@ describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
       // given
       importStorageStub.sendFile.withArgs({ filepath: payload.path }).rejects();
 
+      importStorageStub.getParser
+        .withArgs({ Parser: SupOrganizationLearnerParser, filename: s3Filename }, organizationId, i18n)
+        .resolves(SupOrganizationLearnerParser.buildParser(csvContent, organizationId, i18n));
+
       // when
       const error = await catchErr(uploadCsvFile)({
+        Parser: SupOrganizationLearnerParser,
         payload,
         userId,
         organizationId,

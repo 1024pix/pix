@@ -26,6 +26,8 @@ describe('Unit | Application | Organizations | organization-controller', functio
     beforeEach(function () {
       sinon.stub(fs, 'unlink').resolves();
       sinon.stub(usecases, 'uploadSiecleFile');
+      sinon.stub(usecases, 'uploadCsvFile');
+      sinon.stub(usecases, 'validateCsvFile');
       sinon.stub(usecases, 'importOrganizationLearnersFromSIECLECSVFormat');
       sinon.stub(eventBus, 'publish');
       sinon.stub(ApplicationTransaction, 'execute');

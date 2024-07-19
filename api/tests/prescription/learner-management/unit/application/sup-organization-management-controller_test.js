@@ -22,7 +22,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
     userId = Symbol('userId');
 
     sinon.stub(usecases, 'uploadCsvFile');
-    sinon.stub(usecases, 'validateSupCsvFile');
+    sinon.stub(usecases, 'validateCsvFile');
     sinon.stub(usecases, 'importSupOrganizationLearners');
     sinon.stub(usecases, 'replaceSupOrganizationLearners');
     supOrganizationLearnerWarningSerializerStub = { serialize: sinon.stub() };
@@ -31,7 +31,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
   });
 
   context('#importSupOrganizationLearners', function () {
-    it('should call uploadCsvFile, validateSupCsvFile and importSupOrganizationLearners usecase and return 200', async function () {
+    it('should call uploadCsvFile, validateCsvFile and importSupOrganizationLearners usecase and return 200', async function () {
       const params = { id: organizationId };
       const request = {
         auth: { credentials: { userId } },
@@ -39,10 +39,9 @@ describe('Unit | Controller | sup-organization-management-controller', function 
         params,
         i18n,
       };
-      usecases.uploadCsvFile.rejects().withArgs({ userId, organizationId, payload: request.payload, i18n }).resolves();
-      usecases.validateSupCsvFile.rejects().withArgs({ organizationId, i18n }).resolves();
+      usecases.uploadCsvFile.withArgs({ userId, organizationId, payload: request.payload, i18n }).resolves();
+      usecases.validateCsvFile.withArgs({ organizationId, i18n }).resolves();
       usecases.importSupOrganizationLearners
-        .rejects()
         .withArgs({
           organizationId,
           i18n,
@@ -64,7 +63,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
       expect(
         sinon.assert.callOrder(
           usecases.uploadCsvFile,
-          usecases.validateSupCsvFile,
+          usecases.validateCsvFile,
           usecases.importSupOrganizationLearners,
         ),
       ).to.not.throws;
@@ -81,7 +80,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
         params,
         i18n,
       };
-      usecases.uploadCsvFile.withArgs({ userId, payload: request.payload, organizationId, i18n }).rejects();
+      usecases.uploadCsvFile.rejects();
 
       // when
       await catchErr(supOrganizationManagementController.importSupOrganizationLearners)(request, hFake, {
@@ -126,10 +125,9 @@ describe('Unit | Controller | sup-organization-management-controller', function 
         params,
         i18n,
       };
-      usecases.uploadCsvFile.rejects().withArgs({ userId, organizationId, payload: request.payload, i18n }).resolves();
-      usecases.validateSupCsvFile.rejects().withArgs({ organizationId, i18n }).resolves();
+      usecases.uploadCsvFile.withArgs({ userId, organizationId, payload: request.payload, i18n }).resolves();
+      usecases.validateCsvFile.withArgs({ organizationId, i18n }).resolves();
       usecases.replaceSupOrganizationLearners
-        .rejects()
         .withArgs({
           organizationId,
           i18n,
@@ -152,7 +150,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
       expect(
         sinon.assert.callOrder(
           usecases.uploadCsvFile,
-          usecases.validateSupCsvFile,
+          usecases.validateCsvFile,
           usecases.replaceSupOrganizationLearners,
         ),
       ).to.not.throws;
@@ -169,7 +167,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
         params,
         i18n,
       };
-      usecases.uploadCsvFile.withArgs({ userId, payload: request.payload, organizationId, i18n }).rejects();
+      usecases.uploadCsvFile.rejects();
 
       // when
       await catchErr(supOrganizationManagementController.replaceSupOrganizationLearners)(request, hFake, {
