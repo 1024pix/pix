@@ -9,6 +9,7 @@ export default class Challenge extends Model {
   @attr('string') embedUrl;
   @attr('string') embedTitle;
   @attr('string') embedHeight;
+  @attr('string') embedFragment;
   @attr('string') format;
   @attr('string', {
     defaultValue() {
