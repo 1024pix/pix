@@ -1,7 +1,6 @@
 import JoiDate from '@joi/date';
 import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
-import { certificationCandidatesController as libCertificationCandidatesController } from '../../../../lib/application/certification-candidates/certification-candidates-controller.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { authorization } from '../../shared/application/pre-handlers/authorization.js';
@@ -188,7 +187,7 @@ const register = async function (server) {
             assign: 'authorizationCheck',
           },
         ],
-        handler: libCertificationCandidatesController.authorizeToStart,
+        handler: certificationCandidateController.authorizeToStart,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
             "- Indiquer la présence d'un candidat pour permettre ou bloquer son entrée en session",

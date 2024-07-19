@@ -1,5 +1,6 @@
 import { Serializer } from 'jsonapi-serializer';
 
+import { usecases as libUsecases } from '../../../../lib/domain/usecases/index.js';
 import * as certificationCandidateSerializer from '../../shared/infrastructure/serializers/jsonapi/certification-candidate-serializer.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as sessionCertificationCandidateSerializer from '../infrastructure/serializers/certification-candidate-serializer.js';
@@ -34,6 +35,18 @@ const deleteCandidate = async function (request) {
   return null;
 };
 
+const authorizeToStart = async function (request, h) {
+  const certificationCandidateForSupervisingId = request.params.id;
+
+  const authorizedToStart = request.payload['authorized-to-start'];
+  await libUsecases.authorizeCertificationCandidateToStart({
+    certificationCandidateForSupervisingId,
+    authorizedToStart,
+  });
+
+  return h.response().code(204);
+};
+
 const validateCertificationInstructions = async function (
   request,
   h,
@@ -55,6 +68,7 @@ const _getSubscriptionParameter = (request) => {
 
 const certificationCandidateController = {
   addCandidate,
+  authorizeToStart,
   getCandidate,
   deleteCandidate,
   validateCertificationInstructions,
