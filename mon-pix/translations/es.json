@@ -514,7 +514,6 @@
         "5": {
           "checkbox-label": "Al marcar esta casilla, reconozco que he leído estas normas y me comprometo a cumplirlas.",
           "list": {
-            "other": "'<strong>'Movilizar cualquier otro medio que proporcione directamente la respuesta'</strong>', sin haber realizado el trabajo requerido por la instrucción.",
             "no-artificial-intelligence": "'<strong>'Utilizar un sistema de inteligencia artificial'</strong>' o un chatbot",
             "no-cheat-sheet": "'<strong>'Use cheat sheets'</strong>' (físicas o electrónicas), recursos de spoilers o notas personales.",
             "no-communication": "'<strong>'Comunicarse con otra persona'</strong>', dentro o fuera de la sala, por medios físicos o electrónicos.",
@@ -967,7 +966,7 @@
           "your-answer": "Tu respuesta"
         }
       },
-      "upcoming-tutorials": " Pronto encontrarás aquí tutoriales que te ayudarán a superar con éxito este tipo de pruebas."
+      "upcoming-tutorials": "Pronto encontrarás aquí tutoriales que te ayudarán a superar con éxito este tipo de pruebas."
     },
     "competence-details": {
       "actions": {
