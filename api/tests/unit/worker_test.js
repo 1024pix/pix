@@ -1,3 +1,5 @@
+import { CertificationRescoringByScriptJobHandler } from '../../src/certification/session-management/infrastructure/jobs/CertificationRescoringByScriptHandler.js';
+import { CertificationRescoringByScriptJob } from '../../src/certification/session-management/infrastructure/jobs/CertificationRescoringByScriptJob.js';
 import { ImportOrganizationLearnersJob } from '../../src/prescription/learner-management/infrastructure/jobs/ImportOrganizationLearnersJob.js';
 import { ImportOrganizationLearnersJobHandler } from '../../src/prescription/learner-management/infrastructure/jobs/ImportOrganizationLearnersJobHandler.js';
 import { ValidateOrganizationImportFileJob } from '../../src/prescription/learner-management/infrastructure/jobs/ValidateOrganizationImportFileJob.js';
@@ -19,81 +21,102 @@ describe('#runjobs', function () {
     scheduleCpfJobsStub = sinon.stub();
   });
 
-  it('should register ImportOrganizationLearnersJob', async function () {
-    //given
-    sinon.stub(config.pgBoss, 'importFileJobEnabled').value(true);
+  describe('Prescription', function () {
+    it('should register ImportOrganizationLearnersJob', async function () {
+      //given
+      sinon.stub(config.pgBoss, 'importFileJobEnabled').value(true);
 
-    // when
-    await runJobs({
-      startPgBoss: startPgBossStub,
-      createMonitoredJobQueue: createMonitoredJobQueueStub,
-      scheduleCpfJobs: scheduleCpfJobsStub,
+      // when
+      await runJobs({
+        startPgBoss: startPgBossStub,
+        createMonitoredJobQueue: createMonitoredJobQueueStub,
+        scheduleCpfJobs: scheduleCpfJobsStub,
+      });
+
+      // then
+      const calls = monitoredJobQueueStub.performJob
+        .getCalls()
+        .find(({ args }) => args[0] === ImportOrganizationLearnersJob.name);
+
+      expect(calls.args[1]).to.equal(ImportOrganizationLearnersJobHandler);
     });
 
-    // then
-    const calls = monitoredJobQueueStub.performJob
-      .getCalls()
-      .find(({ args }) => args[0] === ImportOrganizationLearnersJob.name);
+    it('should register ValidateOrganizationImportFileJob', async function () {
+      //given
+      sinon.stub(config.pgBoss, 'validationFileJobEnabled').value(true);
 
-    expect(calls.args[1]).to.equal(ImportOrganizationLearnersJobHandler);
+      // when
+      await runJobs({
+        startPgBoss: startPgBossStub,
+        createMonitoredJobQueue: createMonitoredJobQueueStub,
+        scheduleCpfJobs: scheduleCpfJobsStub,
+      });
+
+      // then
+      const calls = monitoredJobQueueStub.performJob
+        .getCalls()
+        .find(({ args }) => args[0] === ValidateOrganizationImportFileJob.name);
+
+      expect(calls.args[1]).to.equal(ValidateOrganizationImportFileJobHandler);
+    });
+
+    it('should not register validation job if PGBOSS_VALIDATION_FILE_JOB_ENABLED is false', async function () {
+      //given
+      sinon.stub(config.pgBoss, 'validationFileJobEnabled').value(false);
+      // when
+      await runJobs({
+        startPgBoss: startPgBossStub,
+        createMonitoredJobQueue: createMonitoredJobQueueStub,
+        scheduleCpfJobs: scheduleCpfJobsStub,
+      });
+
+      // then
+      const calls = monitoredJobQueueStub.performJob.getCalls();
+
+      const validatationJob = calls.find(({ args }) => args[0] === ValidateOrganizationImportFileJob.name);
+      const importJob = calls.find(({ args }) => args[0] === ImportOrganizationLearnersJob.name);
+
+      expect(validatationJob).to.be.undefined;
+      expect(importJob).to.exist;
+    });
+
+    it('should not register import job if PGBOSS_IMPORT_FILE_JOB_ENABLED is false', async function () {
+      //given
+      sinon.stub(config.pgBoss, 'importFileJobEnabled').value(false);
+      // when
+      await runJobs({
+        startPgBoss: startPgBossStub,
+        createMonitoredJobQueue: createMonitoredJobQueueStub,
+        scheduleCpfJobs: scheduleCpfJobsStub,
+      });
+
+      // then
+      const calls = monitoredJobQueueStub.performJob.getCalls();
+
+      const validatationJob = calls.find(({ args }) => args[0] === ValidateOrganizationImportFileJob.name);
+      const importJob = calls.find(({ args }) => args[0] === ImportOrganizationLearnersJob.name);
+
+      expect(validatationJob).to.exist;
+      expect(importJob).to.be.undefined;
+    });
   });
 
-  it('should register ValidateOrganizationImportFileJob', async function () {
-    //given
-    sinon.stub(config.pgBoss, 'validationFileJobEnabled').value(true);
+  describe('Certification', function () {
+    it('should register CertificationRescoringByScriptJob', async function () {
+      //given
+      // when
+      await runJobs({
+        startPgBoss: startPgBossStub,
+        createMonitoredJobQueue: createMonitoredJobQueueStub,
+        scheduleCpfJobs: scheduleCpfJobsStub,
+      });
 
-    // when
-    await runJobs({
-      startPgBoss: startPgBossStub,
-      createMonitoredJobQueue: createMonitoredJobQueueStub,
-      scheduleCpfJobs: scheduleCpfJobsStub,
+      // then
+      const calls = monitoredJobQueueStub.performJob
+        .getCalls()
+        .find(({ args }) => args[0] === CertificationRescoringByScriptJob.name);
+
+      expect(calls.args[1]).to.equal(CertificationRescoringByScriptJobHandler);
     });
-
-    // then
-    const calls = monitoredJobQueueStub.performJob
-      .getCalls()
-      .find(({ args }) => args[0] === ValidateOrganizationImportFileJob.name);
-
-    expect(calls.args[1]).to.equal(ValidateOrganizationImportFileJobHandler);
-  });
-
-  it('should not register validation job if PGBOSS_VALIDATION_FILE_JOB_ENABLED is false', async function () {
-    //given
-    sinon.stub(config.pgBoss, 'validationFileJobEnabled').value(false);
-    // when
-    await runJobs({
-      startPgBoss: startPgBossStub,
-      createMonitoredJobQueue: createMonitoredJobQueueStub,
-      scheduleCpfJobs: scheduleCpfJobsStub,
-    });
-
-    // then
-    const calls = monitoredJobQueueStub.performJob.getCalls();
-
-    const validatationJob = calls.find(({ args }) => args[0] === ValidateOrganizationImportFileJob.name);
-    const importJob = calls.find(({ args }) => args[0] === ImportOrganizationLearnersJob.name);
-
-    expect(validatationJob).to.be.undefined;
-    expect(importJob).to.exist;
-  });
-
-  it('should not register import job if PGBOSS_IMPORT_FILE_JOB_ENABLED is false', async function () {
-    //given
-    sinon.stub(config.pgBoss, 'importFileJobEnabled').value(false);
-    // when
-    await runJobs({
-      startPgBoss: startPgBossStub,
-      createMonitoredJobQueue: createMonitoredJobQueueStub,
-      scheduleCpfJobs: scheduleCpfJobsStub,
-    });
-
-    // then
-    const calls = monitoredJobQueueStub.performJob.getCalls();
-
-    const validatationJob = calls.find(({ args }) => args[0] === ValidateOrganizationImportFileJob.name);
-    const importJob = calls.find(({ args }) => args[0] === ImportOrganizationLearnersJob.name);
-
-    expect(validatationJob).to.exist;
-    expect(importJob).to.be.undefined;
   });
 });
