@@ -277,4 +277,56 @@ describe('Unit | Identity Access Management | Application | Route | User', funct
       expect(result.result.errors[0].detail).to.equal('"data.attributes.password" is required');
     });
   });
+
+  describe('POST /api/users/{id}/update-email', function () {
+    it('returns 403 if requested user is not the same as authenticated user', async function () {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(routesUnderTest);
+
+      const url = '/api/users/1/update-email';
+
+      const payload = {
+        data: {
+          type: 'email-verification-codes',
+          attributes: {
+            code: '999999',
+          },
+        },
+      };
+
+      // when
+      const result = await httpTestServer.request('POST', url, payload);
+
+      // then
+      expect(result.statusCode).to.equal(403);
+      expect(result.result.errors[0].detail).to.equal('Missing or insufficient permissions.');
+    });
+
+    it('returns 422 when code is not valid', async function () {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(routesUnderTest);
+
+      const url = '/api/users/1/update-email';
+
+      const payload = {
+        data: {
+          type: 'email-verification-codes',
+          attributes: {
+            code: '9',
+          },
+        },
+      };
+
+      // when
+      const result = await httpTestServer.request('POST', url, payload);
+
+      // then
+      expect(result.statusCode).to.equal(422);
+      expect(result.result.errors[0].detail).to.equal(
+        '"data.attributes.code" with value "9" fails to match the required pattern: /^[1-9]{6}$/',
+      );
+    });
+  });
 });

@@ -4,6 +4,7 @@ import { requestResponseUtils } from '../../../shared/infrastructure/utils/reque
 import { usecases } from '../../domain/usecases/index.js';
 import { authenticationMethodsSerializer } from '../../infrastructure/serializers/jsonapi/authentication-methods.serializer.js';
 import { emailVerificationSerializer } from '../../infrastructure/serializers/jsonapi/email-verification.serializer.js';
+import * as updateEmailSerializer from '../../infrastructure/serializers/jsonapi/update-email.serializer.js';
 import { userWithActivitySerializer } from '../../infrastructure/serializers/jsonapi/user-with-activity.serializer.js';
 
 const acceptPixCertifTermsOfService = async function (request, h) {
@@ -152,6 +153,18 @@ const updatePassword = async function (request, h) {
   return h.response().code(204);
 };
 
+const updateUserEmailWithValidation = async function (request, h, dependencies = { updateEmailSerializer }) {
+  const userId = request.params.id;
+  const code = request.payload.data.attributes.code;
+
+  const updatedUserAttributes = await usecases.updateUserEmailWithValidation({
+    userId,
+    code,
+  });
+
+  return dependencies.updateEmailSerializer.serialize(updatedUserAttributes);
+};
+
 /**
  * @param request
  * @param h
@@ -206,5 +219,6 @@ export const userController = {
   save,
   sendVerificationCode,
   updatePassword,
+  updateUserEmailWithValidation,
   validateUserAccountEmail,
 };

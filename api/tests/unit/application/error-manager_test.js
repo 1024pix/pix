@@ -3,7 +3,6 @@ import { HttpErrors } from '../../../lib/application/http-errors.js';
 import {
   AccountRecoveryDemandExpired,
   AlreadyRegisteredEmailAndUsernameError,
-  AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
   CampaignTypeError,
   CandidateNotAuthorizedToJoinSessionError,
@@ -11,11 +10,9 @@ import {
   CertificationCandidateNotFoundError,
   CertificationCandidateOnFinalizedSessionError,
   CertificationEndedByFinalizationError,
-  EmailModificationDemandNotFoundOrExpiredError,
   InvalidExternalAPIResponseError,
   InvalidIdentityProviderError,
   InvalidJuryLevelError,
-  InvalidVerificationCodeError,
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
   NotEnoughDaysPassedBeforeResetCampaignParticipationError,
   OidcMissingFieldsError,
@@ -46,19 +43,6 @@ describe('Unit | Application | ErrorManager', function () {
 
       // then
       expect(HttpErrors.ConflictError).to.have.been.calledWithExactly(error.message, error.code, error.meta);
-    });
-
-    it('should instantiate BadRequestError when AlreadyRegisteredEmailError', async function () {
-      // given
-      const error = new AlreadyRegisteredEmailError();
-      sinon.stub(HttpErrors, 'BadRequestError');
-      const params = { request: {}, h: hFake, error };
-
-      // when
-      await handle(params.request, params.h, params.error);
-
-      // then
-      expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(error.message, error.code);
     });
 
     it('should instantiate BadRequestError when AlreadyRegisteredUsernameError', async function () {
@@ -137,32 +121,6 @@ describe('Unit | Application | ErrorManager', function () {
 
       // then
       expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(error.message);
-    });
-
-    it('should instantiate ForbiddenError when InvalidVerificationCodeError', async function () {
-      // given
-      const error = new InvalidVerificationCodeError();
-      sinon.stub(HttpErrors, 'ForbiddenError');
-      const params = { request: {}, h: hFake, error };
-
-      // when
-      await handle(params.request, params.h, params.error);
-
-      // then
-      expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(error.message, error.code);
-    });
-
-    it('should instantiate ForbiddenError when EmailModificationDemandNotFoundOrExpiredError', async function () {
-      // given
-      const error = new EmailModificationDemandNotFoundOrExpiredError();
-      sinon.stub(HttpErrors, 'ForbiddenError');
-      const params = { request: {}, h: hFake, error };
-
-      // when
-      await handle(params.request, params.h, params.error);
-
-      // then
-      expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(error.message, error.code);
     });
 
     it('should instantiate PreconditionFailedError when NotEnoughDaysPassedBeforeResetCampaignParticipationError', async function () {

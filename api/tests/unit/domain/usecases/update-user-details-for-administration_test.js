@@ -1,10 +1,10 @@
 import {
   AlreadyRegisteredEmailAndUsernameError,
-  AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
 } from '../../../../lib/domain/errors.js';
 import { updateUserDetailsForAdministration } from '../../../../lib/domain/usecases/update-user-details-for-administration.js';
 import { User } from '../../../../src/identity-access-management/domain/models/User.js';
+import { AlreadyRegisteredEmailError } from '../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | update-user-details-for-administration', function () {

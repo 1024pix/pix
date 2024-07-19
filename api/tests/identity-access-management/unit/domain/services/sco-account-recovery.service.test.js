@@ -2,15 +2,14 @@ import dayjs from 'dayjs';
 
 import {
   AccountRecoveryDemandExpired,
-  AlreadyRegisteredEmailError,
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
   UserHasAlreadyLeftSCO,
   UserNotFoundError,
 } from '../../../../../lib/domain/errors.js';
 import { scoAccountRecoveryService } from '../../../../../src/identity-access-management/domain/services/sco-account-recovery.service.js';
 import { config } from '../../../../../src/shared/config.js';
+import { AlreadyRegisteredEmailError } from '../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
-
 const { features } = config;
 
 describe('Unit | Identity Access Management | Domain | Service | sco-account-recovery', function () {

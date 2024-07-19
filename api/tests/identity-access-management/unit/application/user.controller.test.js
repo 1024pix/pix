@@ -403,6 +403,50 @@ describe('Unit | Identity Access Management | Application | Controller | User', 
     });
   });
 
+  describe('#updateUserEmailWithValidation', function () {
+    it('should call the usecase to update user email', async function () {
+      // given
+      const userId = 1;
+      const updatedEmail = 'new-email@example.net';
+      const code = '999999';
+
+      const responseSerialized = Symbol('an response serialized');
+      sinon.stub(usecases, 'updateUserEmailWithValidation');
+      usecases.updateUserEmailWithValidation.withArgs({ code, userId }).resolves(updatedEmail);
+      const updateEmailSerializer = { serialize: sinon.stub() };
+      updateEmailSerializer.serialize.withArgs(updatedEmail).returns(responseSerialized);
+
+      const request = {
+        auth: {
+          credentials: {
+            userId,
+          },
+        },
+        params: {
+          id: userId,
+        },
+        payload: {
+          data: {
+            type: 'users',
+            attributes: {
+              code,
+            },
+          },
+        },
+      };
+
+      // when
+      const response = await userController.updateUserEmailWithValidation(request, hFake, { updateEmailSerializer });
+
+      // then
+      expect(usecases.updateUserEmailWithValidation).to.have.been.calledWithExactly({
+        code,
+        userId,
+      });
+      expect(response).to.deep.equal(responseSerialized);
+    });
+  });
+
   describe('#validateUserAccountEmail', function () {
     const request = {
       query: {

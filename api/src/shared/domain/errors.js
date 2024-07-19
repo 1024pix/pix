@@ -15,6 +15,12 @@ class AlreadyExistingEntityError extends DomainError {
   }
 }
 
+class AlreadyRegisteredEmailError extends DomainError {
+  constructor(message = 'Cette adresse e-mail est déjà utilisée.', code = 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS') {
+    super(message, code);
+  }
+}
+
 class AssessmentEndedError extends DomainError {
   constructor(message = 'Evaluation terminée.') {
     super(message);
@@ -88,6 +94,15 @@ class EntityValidationError extends DomainError {
       return invalidAttributes;
     }, []);
     return new EntityValidationError({ invalidAttributes });
+  }
+}
+
+class EmailModificationDemandNotFoundOrExpiredError extends DomainError {
+  constructor(
+    message = "La demande de modification d'adresse e-mail n'existe pas ou est expirée.",
+    code = 'EXPIRED_OR_NULL_EMAIL_MODIFICATION_DEMAND',
+  ) {
+    super(message, code);
   }
 }
 
@@ -229,6 +244,15 @@ class InvalidTemporaryKeyError extends DomainError {
   }
 }
 
+class InvalidVerificationCodeError extends DomainError {
+  constructor(
+    message = 'Le code de vérification renseigné ne correspond pas à celui enregistré.',
+    code = 'INVALID_VERIFICATION_CODE',
+  ) {
+    super(message, code);
+  }
+}
+
 class LanguageNotSupportedError extends DomainError {
   constructor(languageCode) {
     super(`Given language is not supported : "${languageCode}"`);
@@ -321,6 +345,7 @@ class CertificationCenterPilotFeaturesConflictError extends DomainError {
 
 export {
   AlreadyExistingEntityError,
+  AlreadyRegisteredEmailError,
   AssessmentEndedError,
   AssessmentResultNotCreatedError,
   AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError,
@@ -328,6 +353,7 @@ export {
   CertificationCenterPilotFeaturesConflictError,
   CsvImportError,
   DomainError,
+  EmailModificationDemandNotFoundOrExpiredError,
   EntityValidationError,
   ForbiddenAccess,
   ImportLearnerConfigurationError,
@@ -337,6 +363,7 @@ export {
   InvalidResultRecipientTokenError,
   InvalidSessionResultTokenError,
   InvalidTemporaryKeyError,
+  InvalidVerificationCodeError,
   LanguageNotSupportedError,
   LocaleFormatError,
   LocaleNotSupportedError,

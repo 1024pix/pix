@@ -14,7 +14,6 @@ import * as certificationEligibilitySerializer from '../../infrastructure/serial
 import * as participantResultSerializer from '../../infrastructure/serializers/jsonapi/participant-result-serializer.js';
 import * as profileSerializer from '../../infrastructure/serializers/jsonapi/profile-serializer.js';
 import * as sharedProfileForCampaignSerializer from '../../infrastructure/serializers/jsonapi/shared-profile-for-campaign-serializer.js';
-import * as updateEmailSerializer from '../../infrastructure/serializers/jsonapi/update-email-serializer.js';
 import * as userAnonymizedDetailsForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-anonymized-details-for-admin-serializer.js';
 import * as userDetailsForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-details-for-admin-serializer.js';
 import * as userForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-for-admin-serializer.js';
@@ -243,18 +242,6 @@ const removeAuthenticationMethod = async function (request, h) {
   return h.response().code(204);
 };
 
-const updateUserEmailWithValidation = async function (request, h, dependencies = { updateEmailSerializer }) {
-  const userId = request.params.id;
-  const code = request.payload.data.attributes.code;
-
-  const updatedUserAttributes = await usecases.updateUserEmailWithValidation({
-    userId,
-    code,
-  });
-
-  return dependencies.updateEmailSerializer.serialize(updatedUserAttributes);
-};
-
 const addPixAuthenticationMethodByEmail = async function (
   request,
   h,
@@ -333,7 +320,6 @@ const userController = {
   removeAuthenticationMethod,
   resetScorecard,
   updateUserDetailsForAdministration,
-  updateUserEmailWithValidation,
 };
 
 export { userController };

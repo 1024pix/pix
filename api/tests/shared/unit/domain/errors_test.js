@@ -19,6 +19,14 @@ describe('Unit | Shared | Domain | Errors', function () {
     expect(errors.NoCertificationAttestationForDivisionError).to.exist;
   });
 
+  it('should export an EmailModificationDemandNotFoundOrExpiredError', function () {
+    expect(errors.EmailModificationDemandNotFoundOrExpiredError).to.exist;
+  });
+
+  it('should export an InvalidVerificationCodeError', function () {
+    expect(errors.InvalidVerificationCodeError).to.exist;
+  });
+
   context('OidcError', function () {
     it('exports "OidcError" class', function () {
       // then

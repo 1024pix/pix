@@ -696,51 +696,6 @@ describe('Unit | Controller | user-controller', function () {
     });
   });
 
-  describe('#updateUserEmailWithValidation', function () {
-    it('should call the usecase to update user email', async function () {
-      // given
-      const userId = 1;
-      const updatedEmail = 'new-email@example.net';
-      const code = '999999';
-
-      const responseSerialized = Symbol('an response serialized');
-      sinon.stub(usecases, 'updateUserEmailWithValidation');
-      const updateEmailSerializer = { serialize: sinon.stub() };
-
-      usecases.updateUserEmailWithValidation.withArgs({ code, userId }).resolves(updatedEmail);
-      updateEmailSerializer.serialize.withArgs(updatedEmail).returns(responseSerialized);
-
-      const request = {
-        auth: {
-          credentials: {
-            userId,
-          },
-        },
-        params: {
-          id: userId,
-        },
-        payload: {
-          data: {
-            type: 'users',
-            attributes: {
-              code,
-            },
-          },
-        },
-      };
-
-      // when
-      const response = await userController.updateUserEmailWithValidation(request, hFake, { updateEmailSerializer });
-
-      // then
-      expect(usecases.updateUserEmailWithValidation).to.have.been.calledWithExactly({
-        code,
-        userId,
-      });
-      expect(response).to.deep.equal(responseSerialized);
-    });
-  });
-
   describe('#addPixAuthenticationMethodByEmail', function () {
     it('should return the user with the new pix authentication method by user email', async function () {
       // given

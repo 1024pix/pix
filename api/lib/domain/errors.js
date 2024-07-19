@@ -116,12 +116,6 @@ class AlreadyRegisteredEmailAndUsernameError extends DomainError {
   }
 }
 
-class AlreadyRegisteredEmailError extends DomainError {
-  constructor(message = 'Cette adresse e-mail est déjà utilisée.', code = 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS') {
-    super(message, code);
-  }
-}
-
 class AlreadyRegisteredUsernameError extends DomainError {
   constructor(message = 'Cet identifiant est déjà utilisé.') {
     super(message);
@@ -770,24 +764,6 @@ class NoOrganizationToAttach extends DomainError {
   }
 }
 
-class InvalidVerificationCodeError extends DomainError {
-  constructor(
-    message = 'Le code de vérification renseigné ne correspond pas à celui enregistré.',
-    code = 'INVALID_VERIFICATION_CODE',
-  ) {
-    super(message, code);
-  }
-}
-
-class EmailModificationDemandNotFoundOrExpiredError extends DomainError {
-  constructor(
-    message = "La demande de modification d'adresse e-mail n'existe pas ou est expirée.",
-    code = 'EXPIRED_OR_NULL_EMAIL_MODIFICATION_DEMAND',
-  ) {
-    super(message, code);
-  }
-}
-
 class CandidateNotAuthorizedToJoinSessionError extends DomainError {
   constructor(
     message = 'Votre surveillant n’a pas confirmé votre présence dans la salle de test. Vous ne pouvez donc pas encore commencer votre test de certification. Merci de prévenir votre surveillant.',
@@ -872,7 +848,6 @@ export {
   AlreadyExistingMembershipError,
   AlreadyRatedAssessmentError,
   AlreadyRegisteredEmailAndUsernameError,
-  AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
   AlreadySharedCampaignParticipationError,
   AnswerEvaluationError,
@@ -918,7 +893,6 @@ export {
   DeprecatedCertificationIssueReportCategoryError,
   DeprecatedCertificationIssueReportSubcategoryError,
   DomainError,
-  EmailModificationDemandNotFoundOrExpiredError,
   FileValidationError,
   InvalidCertificationIssueReportForSaving,
   InvalidExternalAPIResponseError,
@@ -926,7 +900,6 @@ export {
   InvalidJuryLevelError,
   InvalidMembershipOrganizationRoleError,
   InvalidStageError,
-  InvalidVerificationCodeError,
   ManyOrganizationsFoundError,
   MatchingReconciledStudentNotFoundError,
   MembershipCreationError,

@@ -198,9 +198,6 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.AlreadyRegisteredEmailAndUsernameError) {
     return new HttpErrors.BadRequestError(error.message);
   }
-  if (error instanceof DomainErrors.AlreadyRegisteredEmailError) {
-    return new HttpErrors.BadRequestError(error.message, error.code);
-  }
   if (error instanceof DomainErrors.AlreadyRegisteredUsernameError) {
     return new HttpErrors.BadRequestError(error.message);
   }
@@ -241,12 +238,7 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.CampaignTypeError) {
     return new HttpErrors.PreconditionFailedError(error.message);
   }
-  if (error instanceof DomainErrors.InvalidVerificationCodeError) {
-    return new HttpErrors.ForbiddenError(error.message, error.code);
-  }
-  if (error instanceof DomainErrors.EmailModificationDemandNotFoundOrExpiredError) {
-    return new HttpErrors.ForbiddenError(error.message, error.code);
-  }
+
   if (error instanceof DomainErrors.TargetProfileCannotBeCreated) {
     return new HttpErrors.UnprocessableEntityError(error.message);
   }

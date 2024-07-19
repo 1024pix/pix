@@ -4,6 +4,7 @@ import { constants } from '../../../../lib/domain/constants.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { emailValidationDemandRepository } from '../../../../src/identity-access-management/infrastructure/repositories/email-validation-demand.repository.js';
 import * as userRepository from '../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
+import { userEmailRepository } from '../../../../src/identity-access-management/infrastructure/repositories/user-email.repository.js';
 import {
   createServer,
   databaseBuilder,
@@ -829,6 +830,46 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
       // then
       expect(response.statusCode).to.equal(400);
       expect(response.result.errors[0].detail).to.equal('Le mot de passe que vous avez saisi est invalide.');
+    });
+  });
+
+  describe('POST /api/users/{id}/update-email', function () {
+    it('should return 200 HTTP status code', async function () {
+      // given
+      const server = await createServer();
+
+      const code = '999999';
+      const newEmail = 'judy.new_email@example.net';
+      const user = databaseBuilder.factory.buildUser.withRawPassword({
+        email: 'judy.howl@example.net',
+      });
+      await databaseBuilder.commit();
+
+      await userEmailRepository.saveEmailModificationDemand({ userId: user.id, code, newEmail });
+
+      const payload = {
+        data: {
+          type: 'email-verification-codes',
+          attributes: {
+            code,
+          },
+        },
+      };
+
+      const options = {
+        method: 'POST',
+        url: `/api/users/${user.id}/update-email`,
+        payload,
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(user.id),
+        },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 });

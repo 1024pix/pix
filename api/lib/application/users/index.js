@@ -2,7 +2,6 @@ import Joi from 'joi';
 
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { SUPPORTED_LOCALES } from '../../../src/shared/domain/constants.js';
-import { EntityValidationError } from '../../../src/shared/domain/errors.js';
 import { AVAILABLE_LANGUAGES } from '../../../src/shared/domain/services/language-service.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
 import { BadRequestError, sendJsonApiError } from '../http-errors.js';
@@ -639,44 +638,6 @@ const register = async function (server) {
           "- Le contenu de la requête n'est pas pris en compte.",
         ],
         tags: ['api', 'user'],
-      },
-    },
-    {
-      method: 'POST',
-      path: '/api/users/{id}/update-email',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-            assign: 'requestedUserIsAuthenticatedUser',
-          },
-        ],
-        handler: userController.updateUserEmailWithValidation,
-        validate: {
-          params: Joi.object({
-            id: identifiersType.userId,
-          }),
-          options: {
-            allowUnknown: true,
-          },
-          payload: Joi.object({
-            data: {
-              type: Joi.string().valid('email-verification-codes').required(),
-              attributes: {
-                code: Joi.string()
-                  .regex(/^[1-9]{6}$/)
-                  .required(),
-              },
-            },
-          }),
-          failAction: (request, h, error) => {
-            return EntityValidationError.fromJoiErrors(error.details);
-          },
-        },
-        notes: [
-          "- Suite à une demande de changement d'adresse e-mail, met à jour cette dernière pour l'utilisateur identifié par son id.",
-        ],
-        tags: ['api', 'user', 'update-email'],
       },
     },
     {

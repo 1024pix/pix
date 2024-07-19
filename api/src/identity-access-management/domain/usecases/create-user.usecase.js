@@ -1,4 +1,4 @@
-import { AlreadyRegisteredEmailError } from '../../../../lib/domain/errors.js';
+import { AlreadyRegisteredEmailError } from '../../../shared/domain/errors.js';
 import { EntityValidationError } from '../../../shared/domain/errors.js';
 import { urlBuilder } from '../../../shared/infrastructure/utils/url-builder.js';
 

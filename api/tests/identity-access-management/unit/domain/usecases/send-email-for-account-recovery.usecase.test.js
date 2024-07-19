@@ -1,6 +1,6 @@
-import { AlreadyRegisteredEmailError } from '../../../../../lib/domain/errors.js';
 import { AccountRecoveryDemand } from '../../../../../src/identity-access-management/domain/models/AccountRecoveryDemand.js';
 import { sendEmailForAccountRecovery } from '../../../../../src/identity-access-management/domain/usecases/send-email-for-account-recovery.usecase.js';
+import { AlreadyRegisteredEmailError } from '../../../../../src/shared/domain/errors.js';
 import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | UseCase | send-email-for-account-recovery', function () {

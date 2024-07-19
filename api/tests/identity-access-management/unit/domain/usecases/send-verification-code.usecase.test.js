@@ -1,6 +1,6 @@
-import { AlreadyRegisteredEmailError } from '../../../../../lib/domain/errors.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
+import { AlreadyRegisteredEmailError } from '../../../../../src/shared/domain/errors.js';
 import {
   InvalidPasswordForUpdateEmailError,
   UserNotAuthorizedToUpdateEmailError,
