@@ -1,6 +1,7 @@
 import * as certificationCandidate from './application/certification-candidate-route.js';
 import * as certificationOfficer from './application/certification-officer-route.js';
 import * as certificationReport from './application/certification-report-route.js';
+import * as complementaryCertificationCourseResults from './application/complementary-certification-course-results-route.js';
 import * as finalize from './application/finalize-route.js';
 import * as finalizedSession from './application/finalized-session-route.js';
 import * as invigilatorKit from './application/invigilator-kit-route.js';
@@ -13,19 +14,20 @@ import * as unfinalize from './application/unfinalize-route.js';
 import * as updateCpfImportStatus from './application/update-cpf-import-status-route.js';
 
 const certificationSessionRoutes = [
-  session,
+  certificationOfficer,
+  certificationReport,
+  complementaryCertificationCourseResults,
   finalize,
   finalizedSession,
-  sessionLiveAlert,
   certificationCandidate,
-  certificationReport,
   invigilatorKit,
-  updateCpfImportStatus,
-  certificationOfficer,
+  juryComment,
   sessionForSupervising,
+  sessionLiveAlert,
+  session,
   supervise,
   unfinalize,
-  juryComment,
+  updateCpfImportStatus,
 ];
 
 export { certificationSessionRoutes };

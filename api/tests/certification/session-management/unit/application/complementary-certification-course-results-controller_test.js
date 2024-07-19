@@ -1,10 +1,10 @@
-import * as moduleUnderTest from '../../../../lib/application/complementary-certification-course-results/index.js';
-import { InvalidJuryLevelError } from '../../../../lib/domain/errors.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
+import { InvalidJuryLevelError } from '../../../../../lib/domain/errors.js';
+import * as moduleUnderTest from '../../../../../src/certification/session-management/application/complementary-certification-course-results-route.js';
+import { usecases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
+import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
+import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
-describe('Integration | Application | complementary-certification-course-results | complementary-certification-course-results-controller', function () {
+describe('Certification | Session-management | Unit | Application | complementary-certification-course-results-controller', function () {
   let sandbox;
   let httpTestServer;
 

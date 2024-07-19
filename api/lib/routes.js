@@ -11,7 +11,6 @@ import * as certificationIssueReports from './application/certification-issue-re
 import * as certificationLivretScolaire from './application/certification-livret-scolaire/index.js';
 import * as certificationPointOfContacts from './application/certification-point-of-contacts/index.js';
 import * as certifications from './application/certifications/index.js';
-import * as complementaryCertificationCourseResults from './application/complementary-certification-course-results/index.js';
 import * as frameworks from './application/frameworks/index.js';
 import * as memberships from './application/memberships/index.js';
 import * as organizationInvitations from './application/organization-invitations/index.js';
@@ -41,7 +40,6 @@ const routes = [
   certificationLivretScolaire,
   certificationIssueReports,
   certifications,
-  complementaryCertificationCourseResults,
   healthcheck,
   memberships,
   organizationLearners,

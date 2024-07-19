@@ -23,6 +23,7 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
  * @typedef {import('../../infrastructure/repositories/index.js').SessionRepository} SessionRepository
  * @typedef {import('../../infrastructure/repositories/index.js').SessionForSupervisingRepository} SessionForSupervisingRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationReportRepository} CertificationReportRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').ComplementaryCertificationCourseResultRepository} ComplementaryCertificationCourseResultRepository
  * @typedef {import('../../infrastructure/storage/cpf-receipts-storage.js')} CpfReceiptsStorage
  * @typedef {import('../../infrastructure/storage/cpf-exports-storage.js')} CpfExportsStorage
  * @typedef {import('../../../shared/domain/services/certification-badges-service.js')} CertificationBadgesService
@@ -43,6 +44,7 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
  * @typedef {sessionForSupervisingRepository} SessionForSupervisingRepository
  * @typedef {issueReportCategoryRepository} IssueReportCategoryRepository
  * @typedef {certificationIssueReportRepository} CertificationIssueReportRepository
+ * @typedef {complementaryCertificationCourseResultRepository} ComplementaryCertificationCourseResultRepository
  * @typedef {sessionJuryCommentRepository} SessionJuryCommentRepository
  * @typedef {sessionRepository} SessionRepository
  * @typedef {certificationReportRepository} CertificationReportRepository
