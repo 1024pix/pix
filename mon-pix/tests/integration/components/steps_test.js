@@ -50,7 +50,7 @@ module('Integration | Component | steps', function (hooks) {
           .exists();
         assert.dom(screen.getByRole('heading', { name: 'Le nombre de questions ?', level: 3 })).exists();
         assert.dom(screen.getByRole('heading', { name: 'La durée du test ?', level: 3 })).exists();
-        const images = screen.getAllByRole('img');
+        const images = screen.getAllByRole('presentation');
         assert.strictEqual(
           images[0].getAttribute('src'),
           '/images/illustrations/certification-instructions-steps/clock.svg',
