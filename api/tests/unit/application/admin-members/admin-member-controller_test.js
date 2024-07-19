@@ -1,6 +1,7 @@
 import { adminMemberController } from '../../../../lib/application/admin-members/admin-member-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
+import { usecases as srcUsecases } from '../../../../src/team/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../test-helper.js';
 
 const { ROLES } = PIX_ADMIN;
@@ -13,7 +14,7 @@ describe('Unit | Controller | admin-member-controller', function () {
       const role = ROLES.SUPPORT;
 
       const updatedMember = Symbol('updatedMember');
-      sinon.stub(usecases, 'updateAdminMember').withArgs({ id, role }).resolves(updatedMember);
+      sinon.stub(srcUsecases, 'updateAdminMember').withArgs({ id, role }).resolves(updatedMember);
 
       const serializedUpdatedMember = Symbol('serializedUpdatedMember');
       const adminMemberSerializerStub = { deserialize: sinon.stub(), serialize: sinon.stub() };
