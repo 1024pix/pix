@@ -7,8 +7,9 @@ const getCertificationCandidateSubscription = async function ({
   certificationCenterRepository,
   sessionRepository,
 }) {
-  const certificationCandidate =
-    await certificationCandidateRepository.getWithComplementaryCertification(certificationCandidateId);
+  const certificationCandidate = await certificationCandidateRepository.getWithComplementaryCertification({
+    id: certificationCandidateId,
+  });
 
   const sessionVersion = await sessionRepository.getVersion({ id: certificationCandidate.sessionId });
 

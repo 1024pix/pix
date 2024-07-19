@@ -7,6 +7,7 @@ import * as organizationRepository from '../../../../shared/infrastructure/repos
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as attendanceSheetPdfUtils from '../../../enrolment/infrastructure/utils/pdf/attendance-sheet-pdf.js';
+import * as certificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
 import * as temporaryCompanionStorageService from '../../../shared/domain/services/temporary-companion-storage-service.js';
 import { enrolmentRepositories } from '../../infrastructure/repositories/index.js';
 import * as certificationCpfService from '../services/certification-cpf-service.js';
@@ -35,6 +36,7 @@ import * as sessionValidator from '../validators/session-validator.js';
  * @typedef {import('../../infrastructure/utils/pdf/attendance-sheet-pdf.js')} AttendanceSheetPdfUtils
  * @typedef {import('../services/temporary-sessions-storage-for-mass-import-service.js').TemporarySessionsStorageForMassImportService} TemporarySessionsStorageForMassImportService
  * @typedef {import('../../../shared/domain/services/temporary-companion-storage-service.js')} TemporaryCompanionStorageService
+ * @typedef {import('../../../shared/domain/services/certification-badges-service.js')} CertificationBadgesService
  **/
 
 /**
@@ -61,8 +63,10 @@ import * as sessionValidator from '../validators/session-validator.js';
  * @typedef {SessionValidator} SessionValidator
  * @typedef {AttendanceSheetPdfUtils} AttendanceSheetPdfUtils
  * @typedef {TemporaryCompanionStorageService} TemporaryCompanionStorageService
+ * @typedef {CertificationBadgesService} CertificationBadgesService
  **/
 const dependencies = {
+  certificationBadgesService,
   ...enrolmentRepositories,
   sessionCodeService,
   sessionsImportValidationService,

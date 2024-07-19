@@ -1,7 +1,7 @@
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/certification-candidate-subscription-serializer.js';
-import { domainBuilder, expect } from '../../../../test-helper.js';
+import * as serializer from '../../../../../../src/certification/enrolment/infrastructure/serializers/certification-candidate-subscription-serializer.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
-describe('Unit | Serializer | JSONAPI | certification-candidate-subscription-serializer', function () {
+describe('Certification | Enrolment | Unit | Serializer | certification-candidate-subscription', function () {
   describe('#serialize', function () {
     it('should return a serialized JSON data object', function () {
       const certificationCandidateSubscription = domainBuilder.buildCertificationCandidateSubscription({
