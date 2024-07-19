@@ -391,37 +391,6 @@ describe('Unit | Application | Sessions | Routes', function () {
       });
     });
 
-    describe('GET /api/admin/sessions/to-publish', function () {
-      it('exists', async function () {
-        // given
-        sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
-        sinon.stub(finalizedSessionController, 'findFinalizedSessionsToPublish').returns('ok');
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-
-        // when
-        const response = await httpTestServer.request('GET', '/api/admin/sessions/to-publish');
-
-        // then
-        expect(response.statusCode).to.equal(200);
-      });
-
-      it('is protected by a prehandler checking the SUPER_ADMIN role', async function () {
-        // given
-        sinon
-          .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
-          .returns((request, h) => h.response().code(403).takeover());
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-
-        // when
-        const response = await httpTestServer.request('GET', '/api/admin/sessions/to-publish');
-
-        // then
-        expect(response.statusCode).to.equal(403);
-      });
-    });
-
     describe('GET /api/admin/sessions/with-required-action', function () {
       it('exists', async function () {
         // given

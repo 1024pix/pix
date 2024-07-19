@@ -1,8 +1,8 @@
-import { FinalizedSession } from '../../../../../lib/domain/models/FinalizedSession.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/to-be-published-session-serializer.js';
-import { expect } from '../../../../test-helper.js';
+import * as serializer from '../../../../../../src/certification/session-management/infrastructure/serializers/to-be-published-session-serializer.js';
+import { FinalizedSession } from '../../../../../../src/certification/shared/domain/models/FinalizedSession.js';
+import { expect } from '../../../../../test-helper.js';
 
-describe('Unit | Serializer | JSONAPI | to-be-published-session-serializer', function () {
+describe('Certification | Session-management | Unit | Infrastructure | Serializers | to-be-published-session-serializer', function () {
   describe('#serialize()', function () {
     it('should convert a FinalizedSession model object into JSON API data', function () {
       // given
