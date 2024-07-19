@@ -52,7 +52,7 @@ describe('Acceptance | Route | users', function () {
 
       expect(updatedUserAttributes['first-name']).to.equal('(anonymised)');
       expect(updatedUserAttributes['last-name']).to.equal('(anonymised)');
-      expect(updatedUserAttributes.email).to.equal(`email_${userId}@example.net`);
+      expect(updatedUserAttributes.email).to.be.null;
       expect(updatedUserAttributes.username).to.be.null;
 
       expect(updatedUserAttributes['has-been-anonymised']).to.be.true;
