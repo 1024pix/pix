@@ -132,8 +132,8 @@
       "data-protection-policy": "Gegevensbeschermingsbeleid",
       "eula": "UGC",
       "help-center": "Helpcentrum",
-      "label": "Menu van de voettekst",
-      "legal-notice": "Juridische informatie",
+      "label": "Secundair menu",
+      "legal-notice": "Wettelijke informatie",
       "sitemap": "Kaart",
       "student-data-protection-policy": "Beleid gegevensbescherming studenten",
       "student-data-protection-policy-url": "https://cloud.pix.fr/s/nqgBodTkbtsGb39"
@@ -526,7 +526,7 @@
         }
       },
       "title": "Verklaring van certificering",
-      "vocal-step-identifier": "Page {pageId} sur {pageCount}"
+      "vocal-step-identifier": "{pageId} Pagina op {pageCount}"
     },
     "certification-joiner": {
       "congratulation-banner": {
@@ -684,7 +684,7 @@
           "launch": "Start",
           "launch-label": "Simulatie starten",
           "reset": "Reset",
-          "reset-label": "Reset de simulatie"
+          "reset-label": "Simulatie resetten"
         },
         "placeholder": "De huidige toepassing laden"
       },

@@ -132,8 +132,8 @@
       "data-protection-policy": "Política de protección de datos",
       "eula": "CGU",
       "help-center": "Centro de ayuda",
-      "label": "Menú de pie de página",
-      "legal-notice": "Aviso legal",
+      "label": "Menú secundario",
+      "legal-notice": "Información legal",
       "sitemap": "Mapa del sitio",
       "student-data-protection-policy": "Política de protección de datos de los alumnos",
       "student-data-protection-policy-url": "https://cloud.pix.fr/s/nqgBodTkbtsGb39"
@@ -328,21 +328,21 @@
     "campaign-landing": {
       "assessment": {
         "action": "Empiezo",
-        "announcement": "Inscríbete o conéctate en la plataforma Pix y comienza tu prueba.",
+        "announcement": "Inscríbete o conéctate a la plataforma Pix y comienza tu prueba.",
         "certify": {
           "description": "En función de tu situación y con ciertas condiciones, puedes acceder a la certificación Pix, reconocida en el ámbito profesional y que te permite destacar tus competencias digitales. Para más información, ponte en contacto con el organizador del test.",
           "title": "Las respuestas validadas en este test contribuirán a mejorar tu perfil personal de competencias digitales en Pix."
         },
         "details": "Durante este test, tendrás la oportunidad de:",
         "develop": {
-          "description": "Cada 5 preguntas, verás las respuestas correctas y obtendrás consejos y una recomendación personalizada de tutoriales para desarrollar tus competencias.",
+          "description": "Cada 5 preguntas, verás las respuestas correctas y obtendrás consejos y para mejorar tus competencias.",
           "title": "Descubrir tus resultados a medida que vaya avanzando la prueba y consultar las pistas para mejorar."
         },
         "evaluate": {
           "description": "Deberás realizar búsquedas en internet, utilizar tu entorno de trabajo digital, poner a prueba tus conocimientos, etc.",
           "title": "Medir tus competencias digitales con retos lúdicos y de aprendizaje que se adaptan a tu nivel de competencia (mediante un algoritmo adaptativo)."
         },
-        "legal": "Al hacer clic en «Empiezo», se enviará la información sobre tu progreso en el test al organizador del mismo para que pueda ayudarte. Al final del test, haciendo clic en el botón «Envío mis resultados», se enviarán tus resultados al organizador.",
+        "legal": "Al hacer clic en «Empiezo» te conectarás a la plataforma y se enviará la información sobre tu progreso en el test al organizador del mismo para que pueda ayudarte si es necesario. Al final del test, haciendo clic en el botón «Envío mis resultados», se enviarán tus resultados al organizador.",
         "title": "Empieza tu test Pix",
         "title-with-username": "'<span>'{userFirstName}'</span>','<br>' empieza tu test"
       },
@@ -526,7 +526,7 @@
         }
       },
       "title": "Explicación de la certificación",
-      "vocal-step-identifier": "Page {pageId} sur {pageCount}"
+      "vocal-step-identifier": "{pageId} Página {pageCount}"
     },
     "certification-joiner": {
       "congratulation-banner": {
@@ -684,7 +684,7 @@
           "launch": "Empezar",
           "launch-label": "Empezar simulación",
           "reset": "Restablecer",
-          "reset-label": "Restablecer simulación"
+          "reset-label": "Reiniciar simulación"
         },
         "placeholder": "Cargando la aplicación"
       },
@@ -750,7 +750,7 @@
                 },
                 "embed-displayed-on-desktop-with-problems": {
                   "label": "En un ordenador, aparece el simulador, pero tiene un problema",
-                  "solution": "Hacemos todo lo posible para que los simuladores funcionen en todos los dispositivos, todos los sistemas operativos y todos los navegadores, pero puede que estés utilizando un sistema concreto. Puedes detenerte ahí y retomar en un ordenador.'<br>'Especifica tu problema indicando tu navegador y sistema operativo."
+                  "solution": "Hacemos todo lo posible para que los simuladores funcionen en todos los dispositivos, todos los sistemas operativos y todos los navegadores, pero puede que estés utilizando un sistema concreto. Puedes detenerte aquí y retomar el test en otro ordenador.'<br>'Especifica tu problema indicando tu navegador y sistema operativo."
                 },
                 "embed-displayed-on-mobile-devices-with-problems": {
                   "label": "En un teléfono o tableta, aparece el simulador, pero tiene un problema",
@@ -802,7 +802,7 @@
       },
       "has-focused-out-of-window": {
         "certification": "Hemos detectado un cambio de página. Tu respuesta se contabilizará como incorrecta. Si te has visto obligado a cambiar de página, informa al supervisor y responde a la pregunta en su presencia.",
-        "default": "Hemos detectado un cambio de página. En la fase de certificación, tu respuesta no sería validada.",
+        "default": "Hemos detectado un cambio de página.",
         "v3-certification": "Hemos detectado un cambio de página. Tu respuesta se contabilizará como incorrecta. Si te has visto obligado a cambiar de página, informa al supervisor para que pueda constatarlo e informar de ello, dado el caso."
       },
       "illustration": {
@@ -810,7 +810,7 @@
       },
       "is-focused-challenge": {
         "info-alert": {
-          "subtitle": "En la fase de certificación, si cambias de página, tu respuesta no será validada.",
+          "subtitle": " ",
           "title": "Responde a esta pregunta sin buscar en internet ni utilizar ningún programa informático."
         }
       },
@@ -938,7 +938,7 @@
           "tooltip": "Prueba fallida"
         },
         "ko": {
-          "title": "No tienes la respuesta correcta",
+          "title": "La respuesta es correcta.",
           "tooltip": "Respuesta incorrecta"
         },
         "koAutoReply": {
@@ -946,7 +946,7 @@
           "tooltip": "Prueba fallida"
         },
         "ok": {
-          "title": "Tienes la respuesta correcta.",
+          "title": "La respuesta es correcta.",
           "tooltip": "Respuesta correcta"
         },
         "okAutoReply": {
@@ -1490,7 +1490,7 @@
       "aband": "Sin respuesta",
       "actions": {
         "see-answers-and-tutorials": {
-          "label": "Respuestas y tutoriales"
+          "label": "Respuestas y consejos"
         }
       },
       "ko": "Respuesta incorrecta",
@@ -1602,7 +1602,7 @@
       "title": "Mapa del sitio"
     },
     "skill-review": {
-      "abstract": "Has dominado '<strong>'{rate, number, ::percent}'</strong><br>'de las competencias evaluadas.",
+      "abstract": "Has dominado el '<strong>'{rate, number, ::percent}'</strong><br>'de las competencias evaluadas.",
       "abstract-title": "Tu resultado para este test",
       "actions": {
         "continue": "Continúa tu experiencia Pix",
@@ -1635,7 +1635,7 @@
       },
       "improve": {
         "description": "Puedes volver a intentar algunas de las preguntas",
-        "title": "¿Quiere mejorar tus resultados?"
+        "title": "¿Quieres mejorar tus resultados?"
       },
       "information": "Si ya has completado tests en Pix, las preguntas a las que ya has respondido no se han vuelto a plantear. No obstante, el resultado que aparece aquí tiene en cuenta todas tus respuestas.",
       "net-promoter-score": {
