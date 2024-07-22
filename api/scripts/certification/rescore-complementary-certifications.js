@@ -2,11 +2,71 @@ import 'dotenv/config';
 
 import * as url from 'node:url';
 
-import { disconnect } from '../../db/knex-database-connection.js';
+import { disconnect, knex } from '../../db/knex-database-connection.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 
 const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
+
+const ComplementaryCertificationUpdateStatus = Object.freeze({
+  IDLE: Symbol('IDLE'),
+  ERROR: Symbol('ERROR'),
+  SUCCESS: Symbol('SUCCESS'),
+});
+
+class ComplementaryCertificationCommand {
+  constructor({ certificationCourseId }) {
+    this.rescoringStatus = ComplementaryCertificationUpdateStatus.IDLE;
+    this.certificationCourseId = certificationCourseId;
+  }
+
+  complementaryBeforeUpdate({
+    statusBeforeScript,
+    levelBeforeScript,
+    labelBeforeScript,
+    examinationDateBeforeScript,
+    certificationDateBeforeScript,
+  }) {
+    this.statusBeforeScript = statusBeforeScript;
+    this.levelBeforeScript = levelBeforeScript;
+    this.labelBeforeScript = labelBeforeScript;
+    this.examinationDateBeforeScript = examinationDateBeforeScript;
+    this.certificationDateBeforeScript = certificationDateBeforeScript;
+
+    return this;
+  }
+
+  complementaryAfterUpdate({
+    statusAfterScript,
+    levelAfterScript,
+    labelAfterScript,
+    examinationDateAfterScript,
+    certificationDateAfterScript,
+  }) {
+    this.statusAfterScript = statusAfterScript;
+    this.levelAfterScript = levelAfterScript;
+    this.labelAfterScript = labelAfterScript;
+    this.examinationDateAfterScript = examinationDateAfterScript;
+    this.certificationDateAfterScript = certificationDateAfterScript;
+
+    return this;
+  }
+
+  updateFailure() {
+    this.rescoringStatus = ComplementaryCertificationUpdateStatus.ERROR;
+  }
+
+  updateSuccessfull() {
+    this.rescoringStatus = ComplementaryCertificationUpdateStatus.SUCCESS;
+  }
+}
+
+const _snapshotCurrentScoring = async ({ certificationCourseId }) => {
+  return knex('certification-courses')
+    .select('certification-courses.id', 'certification-courses.createdAt', 'sessions.publishedAt')
+    .innerJoin('sessions', 'sessions.id', 'certification-courses.sessionId')
+    .where('certification-courses.id', '=', certificationCourseId);
+};
 
 /**
  * IMPORTANT
@@ -20,8 +80,27 @@ const isLaunchedFromCommandLine = process.argv[1] === modulePath;
  *
  * @returns {number} process exit code
  */
-async function main(certificationCourseIds) {
+async function main(certificationCourseIds = []) {
   logger.info(`Rescoring ${certificationCourseIds.length} complementary certifications`);
+
+  for (const certificationCourseId of certificationCourseIds) {
+    const complementaryRescored = new ComplementaryCertificationCommand({ certificationCourseId });
+
+    try {
+      const currentComplementarySnapshot = await _snapshotCurrentScoring({ certificationCourseId });
+      complementaryRescored.complementaryBeforeUpdate({
+        statusBeforeScript: '',
+        levelBeforeScript: '',
+        labelBeforeScript: '',
+        examinationDateBeforeScript: currentComplementarySnapshot.createdAt,
+        certificationDateBeforeScript: currentComplementarySnapshot.publishedAt,
+      });
+      complementaryRescored.updateSuccessfull();
+    } catch (error) {
+      logger.error(error, `Could not rescore certificationCourseId:[${complementaryRescored.certificationCourseId}]`);
+      complementaryRescored.updateFailure();
+    }
+  }
 
   return 0;
 }
