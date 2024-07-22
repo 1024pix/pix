@@ -2,9 +2,9 @@ import * as url from 'node:url';
 
 import _ from 'lodash';
 
-import * as readOdsUtils from '../../../../src/shared/infrastructure/utils/ods/read-ods-utils.js';
-import * as writeOdsUtils from '../../../../src/shared/infrastructure/utils/ods/write-ods-utils.js';
-import { CertificationCandidate } from '../../../domain/models/CertificationCandidate.js';
+import { CertificationCandidate } from '../../../../../../lib/domain/models/index.js';
+import * as readOdsUtils from '../../../../../shared/infrastructure/utils/ods/read-ods-utils.js';
+import * as writeOdsUtils from '../../../../../shared/infrastructure/utils/ods/write-ods-utils.js';
 import { CandidateData } from './CandidateData.js';
 import {
   EXTRA_EMPTY_CANDIDATE_ROWS,
@@ -13,6 +13,7 @@ import {
   IMPORT_CANDIDATES_TEMPLATE_VALUES,
 } from './candidates-import-placeholders.js';
 import { SessionData } from './SessionData.js';
+
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 const INFORMATIVE_HEADER_ROW = 8;
