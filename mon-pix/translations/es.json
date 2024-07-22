@@ -1311,6 +1311,16 @@
           "alternativeText": "Mostrar el texto alternativo",
           "transcription": "Ver transcripción"
         },
+        "embed": {
+          "reset": {
+            "ariaLabel": "Reiniciar el simulador",
+            "name": "Reiniciar"
+          },
+          "start": {
+            "ariaLabel": "Iniciar el simulador",
+            "name": "Comenzar"
+          }
+        },
         "grain": {
           "continue": "Continuar",
           "skip": "Ir a",

@@ -6,15 +6,17 @@ const uuidSchema = Joi.string().guid({ version: 'uuidv4' }).required();
 const proposalIdSchema = Joi.string().regex(/^\d+$/);
 
 const htmlValidate = new HtmlValidate();
-const htmlSchema = Joi.string()
-  .external(async (value, helpers) => {
-    const report = await htmlValidate.validateString(value);
+const htmlSchema = Joi.string().external(async (value, helpers) => {
+  if (!value) {
+    return;
+  }
 
-    if (!report.valid) {
-      return helpers.message('htmlvalidationerror', { value: report });
-    }
-  })
-  .required();
+  const report = await htmlValidate.validateString(value);
+
+  if (!report.valid) {
+    return helpers.message('htmlvalidationerror', { value: report });
+  }
+});
 
 const htmlNotAllowedSchema = Joi.string()
   .regex(/<.*?>/, { invert: true })

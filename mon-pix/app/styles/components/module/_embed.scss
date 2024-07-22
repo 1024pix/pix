@@ -1,0 +1,48 @@
+:root {
+  --embed-overlay-color: rgb(0 0 0 / 55%);
+}
+
+.element-embed {
+  position: relative;
+
+  &__container {
+    position: relative;
+  }
+
+  &__instruction {
+    margin-bottom: var(--pix-spacing-2x);
+    font-weight: var(--pix-font-medium);
+  }
+
+  &__reset {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+.element-embed-container {
+  &__iframe {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    border: none;
+
+    &--blurred {
+      filter: blur(5px);
+    }
+  }
+
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: var(--embed-overlay-color);
+  }
+}

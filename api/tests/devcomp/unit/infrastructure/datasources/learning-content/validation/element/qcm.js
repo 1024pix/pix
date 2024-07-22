@@ -5,7 +5,7 @@ import { htmlSchema, proposalIdSchema, uuidSchema } from '../utils.js';
 const qcmElementSchema = Joi.object({
   id: uuidSchema,
   type: Joi.string().valid('qcm').required(),
-  instruction: htmlSchema,
+  instruction: htmlSchema.required(),
   proposals: Joi.array()
     .items({
       id: proposalIdSchema,

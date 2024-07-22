@@ -1311,6 +1311,16 @@
           "alternativeText": "Het tekstalternatief tonen",
           "transcription": "Transcriptie weergeven"
         },
+        "embed": {
+          "reset": {
+            "ariaLabel": "Reset de simulator",
+            "name": "Opnieuw instellen"
+          },
+          "start": {
+            "ariaLabel": "Start de simulator",
+            "name": "Beginnen"
+          }
+        },
         "grain": {
           "continue": "Ga verder met",
           "skip": "Overslaan",
