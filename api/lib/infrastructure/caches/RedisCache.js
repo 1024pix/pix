@@ -5,10 +5,10 @@ const { using } = bluebird;
 import Redlock from 'redlock';
 
 import { config } from '../../../src/shared/config.js';
+import { Cache } from '../../../src/shared/infrastructure/caches/Cache.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import { RedisClient } from '../../../src/shared/infrastructure/utils/RedisClient.js';
 import { applyPatch } from './apply-patch.js';
-import { Cache } from './Cache.js';
 
 const REDIS_LOCK_PREFIX = 'locks:';
 export const PATCHES_KEY = 'patches';
