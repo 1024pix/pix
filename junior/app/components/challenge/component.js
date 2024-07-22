@@ -9,6 +9,8 @@ export default class Challenge extends Component {
   @tracked answerHasBeenValidated = false;
   @tracked answer = null;
   @tracked answerValue = null;
+  @tracked displayValidationWarning = false;
+  validationWarning = null;
 
   get disableCheckButton() {
     return this.answerValue === null || this.answerValue === '';
@@ -25,12 +27,20 @@ export default class Challenge extends Component {
     if (this.answer?.result === 'ko') {
       return 'sad';
     }
+    if (this.displayValidationWarning) {
+      return 'retry';
+    }
     return 'default';
   }
 
   @action
   setAnswerValue(value) {
     this.answerValue = value ?? null;
+  }
+
+  @action
+  setValidationWarning(errorValue) {
+    this.validationWarning = errorValue;
   }
 
   _createActivityAnswer(challenge) {
@@ -51,6 +61,13 @@ export default class Challenge extends Component {
 
   @action
   async validateAnswer() {
+    if (this.validationWarning) {
+      this.displayValidationWarning = true;
+      return;
+    } else {
+      this.displayValidationWarning = false;
+    }
+
     this.answer = this._createActivityAnswer(this.args.challenge);
     this.answer.value = this.answerValue;
     try {
@@ -82,7 +99,6 @@ export default class Challenge extends Component {
     this.answerHasBeenValidated = false;
     this.answerValue = null;
     this.answer = null;
-
     this.router.replaceWith('assessment.resume');
   }
 }

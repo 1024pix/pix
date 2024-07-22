@@ -25,6 +25,7 @@
         "wrong-answer": "Mauvaise réponse. Tu peux passer à la suite."
       },
       "qcu-hint": "Sélectionne une seule réponse.",
+      "qcm-error": "Attention, sélectionne plusieurs réponses !",
       "qcm-hint": "Sélectionne plusieurs réponses."
     },
     "home": {
