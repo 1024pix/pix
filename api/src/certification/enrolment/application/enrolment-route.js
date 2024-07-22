@@ -1,7 +1,6 @@
 import JoiDate from '@joi/date';
 import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
-import { sessionController } from '../../../../lib/application/sessions/session-controller.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { authorization } from '../../shared/application/pre-handlers/authorization.js';
 import { enrolmentController } from './enrolment-controller.js';
@@ -73,7 +72,7 @@ const register = async function (server) {
             assign: 'authorizationCheck',
           },
         ],
-        handler: sessionController.importCertificationCandidatesFromCandidatesImportSheet,
+        handler: enrolmentController.importCertificationCandidatesFromCandidatesImportSheet,
         tags: ['api', 'sessions'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés et appartenant à un centre de certification ayant créé la session**\n' +
