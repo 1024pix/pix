@@ -1,3 +1,4 @@
+import { usecases as libUsecases } from '../../../../../lib/domain/usecases/index.js';
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 import { adminMemberController } from '../../../../../src/team/application/admin-member/admin-member.controller.js';
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
@@ -6,6 +7,33 @@ import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js'
 const { ROLES } = PIX_ADMIN;
 
 describe('Unit | Team | Application | Controller | admin-member', function () {
+  describe('#deactivateAdminMember', function () {
+    it('should return an empty reponse', async function () {
+      // given
+      const id = 7;
+
+      const deactivatedMember = Symbol('deactivatedMember');
+      sinon.stub(libUsecases, 'deactivateAdminMember').withArgs({ id }).resolves(deactivatedMember);
+
+      const serializedDeactivatedMember = Symbol('serializedDeactivatedMember');
+      const adminMemberSerializerStub = { serialize: sinon.stub() };
+      adminMemberSerializerStub.serialize.withArgs(deactivatedMember).returns(serializedDeactivatedMember);
+      const dependencies = { adminMemberSerializer: adminMemberSerializerStub };
+
+      // when
+      const { statusCode } = await adminMemberController.deactivateAdminMember(
+        {
+          params: { id },
+        },
+        hFake,
+        dependencies,
+      );
+
+      // then
+      expect(statusCode).to.equal(204);
+    });
+  });
+
   describe('#findAll', function () {
     it('should return the serialized admin members', async function () {
       // given

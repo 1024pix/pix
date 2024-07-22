@@ -1,6 +1,12 @@
+import { usecases as libUsecases } from '../../../../lib/domain/usecases/index.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { adminMemberSerializer } from '../../infrastructure/serializers/jsonapi/admin-member.serializer.js';
 
+const deactivateAdminMember = async function (request, h) {
+  const id = request.params.id;
+  await libUsecases.deactivateAdminMember({ id });
+  return h.response().code(204);
+};
 const findAll = async function (request, h, dependencies = { adminMemberSerializer }) {
   const adminMembers = await usecases.getAdminMembers();
   return dependencies.adminMemberSerializer.serialize(adminMembers);
@@ -23,5 +29,11 @@ const updateAdminMember = async function (request, h, dependencies = { adminMemb
   return dependencies.adminMemberSerializer.serialize(updatedAdminMember);
 };
 
-const adminMemberController = { findAll, getCurrentAdminMember, saveAdminMember, updateAdminMember };
+const adminMemberController = {
+  deactivateAdminMember,
+  findAll,
+  getCurrentAdminMember,
+  saveAdminMember,
+  updateAdminMember,
+};
 export { adminMemberController };

@@ -1,6 +1,5 @@
 import Joi from 'joi';
 
-import { adminMemberController as libAdminMemberController } from '../../../../lib/application/admin-members/admin-member-controller.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { adminMemberController } from './admin-member.controller.js';
@@ -127,7 +126,7 @@ export const adminMemberRoutes = [
           id: identifiersType.adminMemberId,
         }),
       },
-      handler: (request, h) => libAdminMemberController.deactivateAdminMember(request, h),
+      handler: (request, h) => adminMemberController.deactivateAdminMember(request, h),
       notes: [
         "- Cette route est restreinte aux utilisateurs ayant le droit d'accès SUPER_ADMIN\n" +
           '- Elle permet de désactiver un membre Pix Admin',

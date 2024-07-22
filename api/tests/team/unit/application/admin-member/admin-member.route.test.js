@@ -1,4 +1,3 @@
-import { adminMemberController as libAdminMemberController } from '../../../../../lib/application/admin-members/admin-member-controller.js';
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { adminMemberController } from '../../../../../src/team/application/admin-member/admin-member.controller.js';
@@ -244,7 +243,7 @@ describe('Unit | Team | Application | Router | admin-member', function () {
       it('should return a response with an HTTP status code 200', async function () {
         // given
         sinon
-          .stub(libAdminMemberController, 'deactivateAdminMember')
+          .stub(adminMemberController, 'deactivateAdminMember')
           .callsFake((request, h) => h.response('ok').code(204));
         sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);
         const httpTestServer = new HttpTestServer();
@@ -255,7 +254,7 @@ describe('Unit | Team | Application | Router | admin-member', function () {
 
         // then
         expect(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin).to.have.be.called;
-        expect(libAdminMemberController.deactivateAdminMember).to.have.be.called;
+        expect(adminMemberController.deactivateAdminMember).to.have.be.called;
         expect(statusCode).to.equal(204);
       });
 
