@@ -2,17 +2,18 @@
  * @typedef {import('../../../lib/domain/usecases/index.js').CertificationRepository} CertificationRepository
  * @typedef {import('../../../lib/domain/usecases/index.js').FinalizedSessionRepository} FinalizedSessionRepository
  * @typedef {import('../../../lib/domain/usecases/index.js').SessionRepository} SessionRepository
+ * @typedef {import('../../../lib/domain/usecases/index.js').SharedSessionRepository} SharedSessionRepository
  * @typedef {import('../../../lib/domain/usecases/index.js').MailService} MailService
  */
 import lodash from 'lodash';
 
 import { SessionAlreadyPublishedError } from '../../../src/certification/session-management/domain/errors.js';
+import * as mailService from '../../domain/services/mail-service.js';
 import {
   CertificationCourseNotPublishableError,
   SendingEmailToRefererError,
   SendingEmailToResultRecipientError,
-} from '../../domain/errors.js';
-import * as mailService from '../../domain/services/mail-service.js';
+} from '../errors.js';
 
 const { some, uniqBy } = lodash;
 
@@ -24,6 +25,7 @@ import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
  * @param {CertificationRepository} params.certificationRepository
  * @param {FinalizedSessionRepository} params.finalizedSessionRepository
  * @param {SessionRepository} params.sessionRepository
+ * @param {SharedSessionRepository} params.sharedSessionRepository
  */
 async function publishSession({
   publishedAt = new Date(),
@@ -31,8 +33,9 @@ async function publishSession({
   certificationRepository,
   finalizedSessionRepository,
   sessionRepository,
+  sharedSessionRepository,
 }) {
-  const session = await sessionRepository.getWithCertificationCandidates({ id: sessionId });
+  const session = await sharedSessionRepository.getWithCertificationCandidates({ id: sessionId });
   if (session.isPublished()) {
     throw new SessionAlreadyPublishedError();
   }

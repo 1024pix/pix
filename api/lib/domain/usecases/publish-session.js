@@ -1,6 +1,7 @@
 /**
  * @typedef {import ('../../../lib/domain/usecases/index.js').CertificationRepository} CertificationRepository
  * @typedef {import ('../../../lib/domain/usecases/index.js').FinalizedSessionRepository} FinalizedSessionRepository
+ * @typedef {import ('../../../lib/domain/usecases/index.js').SharedSessionRepository} SharedSessionRepository
  * @typedef {import ('../../../lib/domain/usecases/index.js').SessionRepository} SessionRepository
  * @typedef {import ('../../../lib/domain/usecases/index.js').MailService} MailService
  * @typedef {import ('../../../lib/domain/usecases/index.js').SessionPublicationService} SessionPublicationService
@@ -12,6 +13,7 @@
  * @param {certificationCenterRepository} params.certificationCenterRepository
  * @param {FinalizedSessionRepository} params.finalizedSessionRepository
  * @param {SessionRepository} params.sessionRepository
+ * @param {SharedSessionRepository} params.sharedSessionRepository
  * @param {SessionPublicationService} params.sessionPublicationService
  */
 const publishSession = async function ({
@@ -21,6 +23,7 @@ const publishSession = async function ({
   certificationRepository,
   certificationCenterRepository,
   finalizedSessionRepository,
+  sharedSessionRepository,
   sessionRepository,
   sessionPublicationService,
 }) {
@@ -30,6 +33,7 @@ const publishSession = async function ({
     certificationRepository,
     finalizedSessionRepository,
     sessionRepository,
+    sharedSessionRepository,
   });
 
   await sessionPublicationService.manageEmails({

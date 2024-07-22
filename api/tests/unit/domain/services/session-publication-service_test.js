@@ -15,6 +15,7 @@ describe('Unit | UseCase | session-publication-service', function () {
   let i18n;
   let certificationRepository,
     sessionRepository,
+    sharedSessionRepository,
     finalizedSessionRepository,
     certificationCenterRepository,
     mailService;
@@ -75,13 +76,15 @@ describe('Unit | UseCase | session-publication-service', function () {
         };
         sessionRepository = {
           updatePublishedAt: sinon.stub(),
+        };
+        sharedSessionRepository = {
           getWithCertificationCandidates: sinon.stub(),
         };
         finalizedSessionRepository = {
           get: sinon.stub(),
           save: sinon.stub(),
         };
-        sessionRepository.getWithCertificationCandidates.withArgs({ id: sessionId }).resolves(originalSession);
+        sharedSessionRepository.getWithCertificationCandidates.withArgs({ id: sessionId }).resolves(originalSession);
       });
 
       context('when the session is already published', function () {
@@ -91,8 +94,8 @@ describe('Unit | UseCase | session-publication-service', function () {
             id: 'sessionId',
             publishedAt: new Date(),
           });
-          const sessionRepository = { getWithCertificationCandidates: sinon.stub() };
-          sessionRepository.getWithCertificationCandidates.withArgs({ id: 'sessionId' }).resolves(session);
+          const sharedSessionRepository = { getWithCertificationCandidates: sinon.stub() };
+          sharedSessionRepository.getWithCertificationCandidates.withArgs({ id: 'sessionId' }).resolves(session);
 
           // when
           const error = await catchErr(publishSession)({
@@ -101,6 +104,7 @@ describe('Unit | UseCase | session-publication-service', function () {
             certificationRepository: undefined,
             finalizedSessionRepository: undefined,
             sessionRepository,
+            sharedSessionRepository,
           });
 
           // then
@@ -131,6 +135,7 @@ describe('Unit | UseCase | session-publication-service', function () {
             certificationRepository,
             finalizedSessionRepository,
             sessionRepository,
+            sharedSessionRepository,
           });
 
           // then
@@ -150,8 +155,8 @@ describe('Unit | UseCase | session-publication-service', function () {
               id: 'sessionId',
               publishedAt: null,
             });
-            const sessionRepository = { getWithCertificationCandidates: sinon.stub() };
-            sessionRepository.getWithCertificationCandidates.withArgs({ id: 'sessionId' }).resolves(session);
+            const sharedSessionRepository = { getWithCertificationCandidates: sinon.stub() };
+            sharedSessionRepository.getWithCertificationCandidates.withArgs({ id: 'sessionId' }).resolves(session);
             certificationRepository.getStatusesBySessionId
               .withArgs('sessionId')
               .resolves([{ pixCertificationStatus: status.ERROR }]);
@@ -163,6 +168,7 @@ describe('Unit | UseCase | session-publication-service', function () {
               certificationRepository,
               finalizedSessionRepository: undefined,
               sessionRepository,
+              sharedSessionRepository,
             });
 
             // then
@@ -177,12 +183,15 @@ describe('Unit | UseCase | session-publication-service', function () {
               id: 'sessionId',
               publishedAt: null,
             });
-            const sessionRepository = { getWithCertificationCandidates: sinon.stub(), updatePublishedAt: sinon.stub() };
+            const sessionRepository = { updatePublishedAt: sinon.stub() };
+            const sharedSessionRepository = {
+              getWithCertificationCandidates: sinon.stub(),
+            };
             const finalizedSessionRepository = {
               get: sinon.stub(),
               save: sinon.stub(),
             };
-            sessionRepository.getWithCertificationCandidates.withArgs({ id: 'sessionId' }).resolves(session);
+            sharedSessionRepository.getWithCertificationCandidates.withArgs({ id: 'sessionId' }).resolves(session);
             certificationRepository.getStatusesBySessionId
               .withArgs('sessionId')
               .resolves([{ pixCertificationStatus: status.ERROR, isCancelled: true }]);
@@ -196,6 +205,7 @@ describe('Unit | UseCase | session-publication-service', function () {
                 certificationRepository,
                 finalizedSessionRepository,
                 sessionRepository,
+                sharedSessionRepository,
               }),
             ).not.to.be.undefined;
           });
@@ -210,8 +220,8 @@ describe('Unit | UseCase | session-publication-service', function () {
               id: 'sessionId',
               publishedAt: null,
             });
-            const sessionRepository = { getWithCertificationCandidates: sinon.stub() };
-            sessionRepository.getWithCertificationCandidates.withArgs({ id: 'sessionId' }).resolves(session);
+            const sharedSessionRepository = { getWithCertificationCandidates: sinon.stub() };
+            sharedSessionRepository.getWithCertificationCandidates.withArgs({ id: 'sessionId' }).resolves(session);
             certificationRepository.getStatusesBySessionId
               .withArgs('sessionId')
               .resolves([{ pixCertificationStatus: null }]);
@@ -223,6 +233,7 @@ describe('Unit | UseCase | session-publication-service', function () {
               certificationRepository,
               finalizedSessionRepository: undefined,
               sessionRepository,
+              sharedSessionRepository,
             });
 
             // then
@@ -236,8 +247,9 @@ describe('Unit | UseCase | session-publication-service', function () {
               id: 'sessionId',
               publishedAt: null,
             });
-            const sessionRepository = { getWithCertificationCandidates: sinon.stub(), updatePublishedAt: sinon.stub() };
-            sessionRepository.getWithCertificationCandidates.withArgs({ id: 'sessionId' }).resolves(session);
+            const sharedSessionRepository = { getWithCertificationCandidates: sinon.stub() };
+            const sessionRepository = { updatePublishedAt: sinon.stub() };
+            sharedSessionRepository.getWithCertificationCandidates.withArgs({ id: 'sessionId' }).resolves(session);
             certificationRepository.getStatusesBySessionId
               .withArgs('sessionId')
               .resolves([{ pixCertificationStatus: null, isCancelled: true }]);
@@ -252,6 +264,7 @@ describe('Unit | UseCase | session-publication-service', function () {
                 certificationRepository,
                 finalizedSessionRepository,
                 sessionRepository,
+                sharedSessionRepository,
               }),
             ).to.not.throw;
 

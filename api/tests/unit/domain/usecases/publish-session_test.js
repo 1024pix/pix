@@ -10,6 +10,7 @@ describe('Unit | UseCase | publish-session', function () {
     const certificationRepository = Symbol('the certification repository');
     const certificationCenterRepository = Symbol('the certification center repository');
     const finalizedSessionRepository = Symbol('the finalizedSessionRepository');
+    const sharedSessionRepository = Symbol('the sharedSessionRepository');
     const publishedAt = Symbol('a publication date');
     const sessionRepository = {
       get: sinon.stub(),
@@ -30,6 +31,7 @@ describe('Unit | UseCase | publish-session', function () {
       certificationCenterRepository,
       finalizedSessionRepository,
       sessionRepository,
+      sharedSessionRepository,
       sessionPublicationService,
       publishedAt,
     });
@@ -41,6 +43,7 @@ describe('Unit | UseCase | publish-session', function () {
       certificationRepository,
       finalizedSessionRepository,
       sessionRepository,
+      sharedSessionRepository,
     });
     expect(sessionPublicationService.manageEmails).to.have.been.calledWithExactly({
       i18n,

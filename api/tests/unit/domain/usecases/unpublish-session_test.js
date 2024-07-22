@@ -5,6 +5,7 @@ import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 describe('Unit | UseCase | unpublish-session', function () {
   let certificationRepository;
   let sessionRepository;
+  let sharedSessionRepository;
   let finalizedSessionRepository;
 
   beforeEach(function () {
@@ -13,6 +14,8 @@ describe('Unit | UseCase | unpublish-session', function () {
     };
     sessionRepository = {
       updatePublishedAt: sinon.stub(),
+    };
+    sharedSessionRepository = {
       getWithCertificationCandidates: sinon.stub(),
     };
     finalizedSessionRepository = {
@@ -29,7 +32,7 @@ describe('Unit | UseCase | unpublish-session', function () {
       id: sessionId,
       publishedAt: new Date('2020-01-01'),
     });
-    sessionRepository.getWithCertificationCandidates.withArgs({ id: sessionId }).resolves(expectedSession);
+    sharedSessionRepository.getWithCertificationCandidates.withArgs({ id: sessionId }).resolves(expectedSession);
     const finalizedSession = new FinalizedSession({ sessionId, publishSession: new Date('2020-01-01') });
     finalizedSessionRepository.get.withArgs({ sessionId }).resolves(finalizedSession);
 
@@ -38,6 +41,7 @@ describe('Unit | UseCase | unpublish-session', function () {
       sessionId,
       certificationRepository,
       sessionRepository,
+      sharedSessionRepository,
       finalizedSessionRepository,
     });
 
