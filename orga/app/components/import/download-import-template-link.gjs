@@ -14,7 +14,10 @@ export default class DownloadImportTemplateLink extends Component {
   }
 
   get showLink() {
-    return this.currentUser.hasLearnerImportFeature || this.currentUser.isSUPManagingStudents;
+    return (
+      !this.currentUser.canAccessMissionsPage &&
+      (this.currentUser.hasLearnerImportFeature || this.currentUser.isSUPManagingStudents)
+    );
   }
 
   <template>
