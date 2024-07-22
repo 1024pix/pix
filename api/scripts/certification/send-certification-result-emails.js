@@ -9,8 +9,8 @@ import i18n from 'i18n';
 import { disconnect } from '../../db/knex-database-connection.js';
 import * as mailService from '../../lib/domain/services/mail-service.js';
 import { manageEmails } from '../../lib/domain/services/session-publication-service.js';
-import * as sessionRepository from '../../src/certification/session-management/infrastructure/repositories/session-repository.js';
 import * as certificationCenterRepository from '../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
+import * as sharedSessionRepository from '../../src/certification/shared/infrastructure/repositories/session-repository.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
@@ -43,7 +43,7 @@ async function main() {
     let session;
 
     try {
-      session = await sessionRepository.getWithCertificationCandidates({ id: parseInt(sessionId) });
+      session = await sharedSessionRepository.getWithCertificationCandidates({ id: parseInt(sessionId) });
     } catch (e) {
       logger.error({ e });
       return;
@@ -62,7 +62,7 @@ async function main() {
         session,
         publishedAt,
         certificationCenterRepository,
-        sessionRepository,
+        sharedSessionRepository,
         dependencies: { mailService },
       });
 

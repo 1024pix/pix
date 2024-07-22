@@ -1,10 +1,8 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
-import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { CertificationAssessment } from '../../domain/models/CertificationAssessment.js';
-import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
 import { SessionManagement } from '../../domain/models/SessionManagement.js';
 
 const get = async function ({ id }) {
@@ -115,45 +113,12 @@ const countUncompletedCertificationsAssessment = async function ({ id }) {
   return count;
 };
 
-const getWithCertificationCandidates = async function ({ id }) {
-  const session = await knex.from('sessions').where({ id }).first();
-
-  if (!session) {
-    throw new NotFoundError("La session n'existe pas ou son accès est restreint");
-  }
-
-  const certificationCandidates = await knex
-    .select({
-      certificationCandidate: 'certification-candidates.*',
-      complementaryCertificationId: 'complementary-certifications.id',
-      complementaryCertificationKey: 'complementary-certifications.key',
-      complementaryCertificationLabel: 'complementary-certifications.label',
-    })
-    .from('certification-candidates')
-    .leftJoin('certification-subscriptions', (builder) =>
-      builder
-        .on('certification-candidates.id', '=', 'certification-subscriptions.certificationCandidateId')
-        .onNotNull('certification-subscriptions.complementaryCertificationId'),
-    )
-    .leftJoin(
-      'complementary-certifications',
-      'complementary-certifications.id',
-      'certification-subscriptions.complementaryCertificationId',
-    )
-    .groupBy('certification-candidates.id', 'complementary-certifications.id')
-    .where({ sessionId: id })
-    .orderByRaw('LOWER(??) ASC, LOWER(??) ASC', ['lastName', 'firstName']);
-
-  return _toDomain({ ...session, certificationCandidates });
-};
-
 export {
   countUncompletedCertificationsAssessment,
   doesUserHaveCertificationCenterMembershipForSession,
   finalize,
   flagResultsAsSentToPrescriber,
   get,
-  getWithCertificationCandidates,
   hasNoStartedCertification,
   hasSomeCleaAcquired,
   isFinalized,
@@ -161,33 +126,3 @@ export {
   unfinalize,
   updatePublishedAt,
 };
-
-function _toDomain(results) {
-  const toDomainCertificationCandidates = results.certificationCandidates
-    .filter((candidateData) => candidateData != null)
-    .map(
-      (candidateData) =>
-        new CertificationCandidate({
-          ...candidateData,
-          complementaryCertification: _buildComplementaryCertification({
-            id: candidateData.complementaryCertificationId,
-            key: candidateData.complementaryCertificationKey,
-            label: candidateData.complementaryCertificationLabel,
-          }),
-        }),
-    );
-
-  return new SessionManagement({
-    ...results,
-    certificationCandidates: toDomainCertificationCandidates,
-  });
-}
-
-function _buildComplementaryCertification({ id, key, label }) {
-  if (!id) return null;
-  return new ComplementaryCertification({
-    id,
-    key,
-    label,
-  });
-}

@@ -34,6 +34,7 @@ import * as certificationChallengeRepository from '../../../src/certification/sh
 import * as certificationCourseRepository from '../../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
 import * as certificationIssueReportRepository from '../../../src/certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
 import * as issueReportCategoryRepository from '../../../src/certification/shared/infrastructure/repositories/issue-report-category-repository.js';
+import * as sharedSessionRepository from '../../../src/certification/shared/infrastructure/repositories/session-repository.js';
 import * as userSavedTutorialRepository from '../../../src/devcomp/infrastructure/repositories/user-saved-tutorial-repository.js';
 import * as algorithmDataFetcherService from '../../../src/evaluation/domain/services/algorithm-methods/data-fetcher.js';
 import * as smartRandom from '../../../src/evaluation/domain/services/algorithm-methods/smart-random.js';
@@ -361,6 +362,7 @@ const dependencies = {
   writeCsvUtils,
   writeOdsUtils,
   badgeCriteriaRepository,
+  sharedSessionRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
