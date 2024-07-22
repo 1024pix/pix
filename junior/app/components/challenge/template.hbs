@@ -3,13 +3,13 @@
   <RobotDialog @class={{this.robotMood}}>
     <Bubble @message={{@challenge.instruction}} />
     {{#if (eq this.answer.result "ok")}}
-      <Bubble @message={{t "pages.challenge.messages.correct-answer"}} @color="success" aria-live="polite" />
+      <Bubble @message={{t "pages.challenge.messages.correct-answer"}} @status="success" aria-live="polite" />
     {{/if}}
     {{#if (eq this.answer.result "ko")}}
-      <Bubble @message={{t "pages.challenge.messages.wrong-answer"}} @color="error" aria-live="polite" />
+      <Bubble @message={{t "pages.challenge.messages.wrong-answer"}} @status="error" aria-live="polite" />
     {{/if}}
     {{#if this.displayValidationWarning}}
-      <Bubble @message={{this.validationWarning}} @color="warning" aria-live="polite" />
+      <Bubble @message={{this.validationWarning}} @status="warning" aria-live="polite" />
     {{/if}}
   </RobotDialog>
   <Challenge::Item
