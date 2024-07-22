@@ -5,7 +5,7 @@ import * as url from 'node:url';
 
 import bluebird from 'bluebird';
 
-import * as scoringCertificationService from '../../lib/domain/services/scoring/scoring-certification-service.js';
+import * as scoringCertificationService from '../../src/certification/shared/domain/services/scoring-certification-service.js';
 import * as certificationAssessmentRepository from '../../src/certification/shared/infrastructure/repositories/certification-assessment-repository.js';
 
 async function _retrieveLastScoredAssessmentIds() {

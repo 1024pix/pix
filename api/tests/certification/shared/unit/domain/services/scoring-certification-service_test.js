@@ -1,28 +1,25 @@
 import _ from 'lodash';
 
-import { CertificationComputeError } from '../../../../../lib/domain/errors.js';
-import { AssessmentCompleted } from '../../../../../lib/domain/events/AssessmentCompleted.js';
-import { CertificationCourseRejected } from '../../../../../lib/domain/events/CertificationCourseRejected.js';
-import { CertificationJuryDone } from '../../../../../lib/domain/events/CertificationJuryDone.js';
-import { ChallengeDeneutralized } from '../../../../../lib/domain/events/ChallengeDeneutralized.js';
-import { ChallengeNeutralized } from '../../../../../lib/domain/events/ChallengeNeutralized.js';
-import { CertificationResult } from '../../../../../lib/domain/models/index.js';
-import * as scoringCertificationService from '../../../../../lib/domain/services/scoring/scoring-certification-service.js';
-import { CertificationChallengeForScoring } from '../../../../../src/certification/scoring/domain/models/CertificationChallengeForScoring.js';
+import { CertificationComputeError } from '../../../../../../lib/domain/errors.js';
+import { AssessmentCompleted } from '../../../../../../lib/domain/events/AssessmentCompleted.js';
+import { CertificationCourseRejected } from '../../../../../../lib/domain/events/CertificationCourseRejected.js';
+import { CertificationJuryDone } from '../../../../../../lib/domain/events/CertificationJuryDone.js';
+import { ChallengeDeneutralized } from '../../../../../../lib/domain/events/ChallengeDeneutralized.js';
+import { ChallengeNeutralized } from '../../../../../../lib/domain/events/ChallengeNeutralized.js';
+import { CertificationResult } from '../../../../../../lib/domain/models/index.js';
+import { CertificationChallengeForScoring } from '../../../../../../src/certification/scoring/domain/models/CertificationChallengeForScoring.js';
 import {
   CertificationAssessment,
   states,
-} from '../../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
-import { ABORT_REASONS } from '../../../../../src/certification/shared/domain/models/CertificationCourse.js';
-import { CERTIFICATION_VERSIONS } from '../../../../../src/certification/shared/domain/models/CertificationVersion.js';
-import { AutoJuryCommentKeys } from '../../../../../src/certification/shared/domain/models/JuryComment.js';
-import { config } from '../../../../../src/shared/config.js';
-import { AssessmentResult, status } from '../../../../../src/shared/domain/models/AssessmentResult.js';
-import {
-  generateAnswersForChallenges,
-  generateChallengeList,
-} from '../../../../certification/shared/fixtures/challenges.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
+} from '../../../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
+import { ABORT_REASONS } from '../../../../../../src/certification/shared/domain/models/CertificationCourse.js';
+import { CERTIFICATION_VERSIONS } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
+import { AutoJuryCommentKeys } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
+import * as scoringCertificationService from '../../../../../../src/certification/shared/domain/services/scoring-certification-service.js';
+import { config } from '../../../../../../src/shared/config.js';
+import { AssessmentResult, status } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
+import { generateAnswersForChallenges, generateChallengeList } from '../../../fixtures/challenges.js';
 
 const { minimumAnswersRequiredToValidateACertification } = config.v3Certification.scoring;
 
@@ -235,7 +232,7 @@ const userCompetences = [
 ];
 const maximumAssessmentLength = 32;
 
-describe('Unit | Service | Certification Result Service', function () {
+describe('Certification | Shared | Unit | Domain | Services | Scoring Certification Service', function () {
   context('#calculateCertificationAssessmentScore', function () {
     let certificationAssessment, certificationAssessmentData, expectedCertifiedCompetences;
     let competenceWithMarks_1_1, competenceWithMarks_2_2, competenceWithMarks_3_3, competenceWithMarks_4_4;

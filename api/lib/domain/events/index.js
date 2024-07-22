@@ -11,6 +11,7 @@ import * as certificationChallengeForScoringRepository from '../../../src/certif
 import * as scoringConfigurationRepository from '../../../src/certification/scoring/infrastructure/repositories/scoring-configuration-repository.js';
 import * as finalizedSessionRepository from '../../../src/certification/session-management/infrastructure/repositories/finalized-session-repository.js';
 import * as supervisorAccessRepository from '../../../src/certification/session-management/infrastructure/repositories/supervisor-access-repository.js';
+import * as scoringCertificationService from '../../../src/certification/shared/domain/services/scoring-certification-service.js';
 import * as certificationAssessmentRepository from '../../../src/certification/shared/infrastructure/repositories/certification-assessment-repository.js';
 import * as certificationCenterRepository from '../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
 import * as certificationCourseRepository from '../../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
@@ -45,7 +46,6 @@ import * as knowledgeElementRepository from '../../infrastructure/repositories/k
 import { participantResultsSharedRepository } from '../../infrastructure/repositories/participant-results-shared-repository.js';
 import * as poleEmploiSendingRepository from '../../infrastructure/repositories/pole-emploi-sending-repository.js';
 import * as targetProfileRepository from '../../infrastructure/repositories/target-profile-repository.js';
-import * as scoringCertificationService from '../services/scoring/scoring-certification-service.js';
 import { handleAutoJury } from './handle-auto-jury.js';
 import { handleCertificationRescoring } from './handle-certification-rescoring.js';
 import { handleCertificationScoring } from './handle-certification-scoring.js';
