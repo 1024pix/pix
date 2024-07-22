@@ -23,9 +23,8 @@ export default class CoverRateLevel extends Component {
       .attr("width", 400)
       .attr("height", 100);
 
-    this.tooltip = d3.select('body')
-      .append('div')
-      .attr('class', 'cover-rate-level-tooltip')
+    this.tooltip = d3.select('.cover-rate-level-tooltip').node() ?
+        d3.select('.cover-rate-level-tooltip') : d3.select('body').append('div').attr('class', 'cover-rate-level-tooltip');
 
     this.global = this.svg
       .append('g')
