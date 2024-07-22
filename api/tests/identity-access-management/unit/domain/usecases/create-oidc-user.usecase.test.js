@@ -1,6 +1,6 @@
-import { UserAlreadyExistsWithAuthenticationMethodError } from '../../../../../lib/domain/errors.js';
 import { AuthenticationKeyExpired } from '../../../../../src/identity-access-management/domain/errors.js';
 import { createOidcUser } from '../../../../../src/identity-access-management/domain/usecases/create-oidc-user.usecase.js';
+import { UserAlreadyExistsWithAuthenticationMethodError } from '../../../../../src/shared/domain/errors.js';
 import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | UseCase | create-oidc-user', function () {

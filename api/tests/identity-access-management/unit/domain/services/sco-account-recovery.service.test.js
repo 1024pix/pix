@@ -3,11 +3,14 @@ import dayjs from 'dayjs';
 import {
   AccountRecoveryDemandExpired,
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
-  UserHasAlreadyLeftSCO,
 } from '../../../../../lib/domain/errors.js';
 import { scoAccountRecoveryService } from '../../../../../src/identity-access-management/domain/services/sco-account-recovery.service.js';
 import { config } from '../../../../../src/shared/config.js';
-import { AlreadyRegisteredEmailError, UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
+import {
+  AlreadyRegisteredEmailError,
+  UserHasAlreadyLeftSCO,
+  UserNotFoundError,
+} from '../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 const { features } = config;
 

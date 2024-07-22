@@ -3,12 +3,14 @@ import {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   MatchingReconciledStudentNotFoundError,
   UnexpectedUserAccountError,
-  UserAlreadyLinkedToCandidateInSessionError,
 } from '../../../../lib/domain/errors.js';
 import { UserAlreadyLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserAlreadyLinkedToCertificationCandidate.js';
 import { UserLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserLinkedToCertificationCandidate.js';
 import { linkUserToSessionCertificationCandidate } from '../../../../lib/domain/usecases/link-user-to-session-certification-candidate.js';
-import { LanguageNotSupportedError } from '../../../../src/shared/domain/errors.js';
+import {
+  LanguageNotSupportedError,
+  UserAlreadyLinkedToCandidateInSessionError,
+} from '../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | link-user-to-session-certification-candidate', function () {

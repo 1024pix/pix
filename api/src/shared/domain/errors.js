@@ -316,6 +316,42 @@ class TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization extends Doma
   }
 }
 
+class UserAlreadyExistsWithAuthenticationMethodError extends DomainError {
+  constructor(message = 'Il existe déjà un compte qui possède cette méthode d‘authentification.') {
+    super(message);
+  }
+}
+
+class UserAlreadyLinkedToCandidateInSessionError extends DomainError {
+  constructor(message = 'Cet utilisateur est déjà lié à un candidat de certification au sein de cette session.') {
+    super(message);
+  }
+}
+
+class UserCouldNotBeReconciledError extends DomainError {
+  constructor(message = "Cet utilisateur n'a pas pu être rattaché à une organisation.") {
+    super(message);
+  }
+}
+
+class UserHasAlreadyLeftSCO extends DomainError {
+  constructor(message = 'User has already left SCO.') {
+    super(message);
+  }
+}
+
+class UserIsTemporaryBlocked extends DomainError {
+  constructor(message = 'User has been temporary blocked.', code = 'USER_IS_TEMPORARY_BLOCKED') {
+    super(message, code);
+  }
+}
+
+class UserIsBlocked extends DomainError {
+  constructor(message = 'User has been blocked.', code = 'USER_IS_BLOCKED') {
+    super(message, code);
+  }
+}
+
 class UserNotAuthorizedToAccessEntityError extends DomainError {
   constructor(message = 'User is not authorized to access ressource') {
     super(message);
@@ -394,6 +430,12 @@ export {
   NotFoundError,
   OidcError,
   TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization,
+  UserAlreadyExistsWithAuthenticationMethodError,
+  UserAlreadyLinkedToCandidateInSessionError,
+  UserCouldNotBeReconciledError,
+  UserHasAlreadyLeftSCO,
+  UserIsBlocked,
+  UserIsTemporaryBlocked,
   UserNotAuthorizedToAccessEntityError,
   UserNotAuthorizedToUpdateEmailError,
   UserNotAuthorizedToUpdatePasswordError,

@@ -1,5 +1,5 @@
 import { UnableToAttachChildOrganizationToParentOrganizationError } from '../../src/organizational-entities/domain/errors.js';
-import { UserNotFoundError, YamlParsingError } from '../../src/shared/domain/errors.js';
+import { YamlParsingError } from '../../src/shared/domain/errors.js';
 import * as DomainErrors from '../domain/errors.js';
 import * as errorSerializer from '../infrastructure/serializers/jsonapi/error-serializer.js';
 import { HttpErrors } from './http-errors.js';
@@ -22,15 +22,6 @@ function _mapToHttpError(error) {
   }
   if (error instanceof DomainErrors.AuthenticationMethodAlreadyExistsError) {
     return new HttpErrors.UnprocessableEntityError(error.message);
-  }
-  if (error instanceof DomainErrors.UserHasAlreadyLeftSCO) {
-    return new HttpErrors.ForbiddenError(error.message);
-  }
-  if (error instanceof DomainErrors.UserIsTemporaryBlocked) {
-    return new HttpErrors.ForbiddenError(error.message, error.code);
-  }
-  if (error instanceof DomainErrors.UserIsBlocked) {
-    return new HttpErrors.ForbiddenError(error.message, error.code);
   }
   if (error instanceof DomainErrors.AccountRecoveryUserAlreadyConfirmEmail) {
     return new HttpErrors.ConflictError(error.message);
@@ -64,13 +55,6 @@ function _mapToHttpError(error) {
   }
   if (error instanceof DomainErrors.CampaignCodeError) {
     return new HttpErrors.NotFoundError(error.message);
-  }
-
-  if (error instanceof DomainErrors.UserAlreadyExistsWithAuthenticationMethodError) {
-    return new HttpErrors.ConflictError(error.message);
-  }
-  if (error instanceof DomainErrors.UserNotAuthorizedToAccessEntityError) {
-    return new HttpErrors.ForbiddenError('Utilisateur non autorisé à accéder à la ressource');
   }
   if (error instanceof DomainErrors.UserNotAuthorizedToUpdateResourceError) {
     return new HttpErrors.ForbiddenError(error.message);
@@ -175,9 +159,6 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.AssessmentNotCompletedError) {
     return new HttpErrors.ConflictError(error.message);
   }
-  if (error instanceof DomainErrors.UserAlreadyLinkedToCandidateInSessionError) {
-    return new HttpErrors.ForbiddenError("L'utilisateur est déjà lié à un candidat dans cette session.");
-  }
   if (error instanceof DomainErrors.UserNotAuthorizedToCertifyError) {
     return new HttpErrors.ForbiddenError('The user cannot be certified.');
   }
@@ -192,9 +173,6 @@ function _mapToHttpError(error) {
   }
   if (error instanceof DomainErrors.UserNotAuthorizedToGetCampaignResultsError) {
     return new HttpErrors.ForbiddenError(error.message);
-  }
-  if (error instanceof UserNotFoundError) {
-    return new HttpErrors.NotFoundError(error.message);
   }
   if (error instanceof DomainErrors.AlreadyRegisteredEmailAndUsernameError) {
     return new HttpErrors.BadRequestError(error.message);
@@ -225,9 +203,6 @@ function _mapToHttpError(error) {
     return new HttpErrors.BadRequestError(error.message);
   }
   if (error instanceof DomainErrors.UserNotMemberOfOrganizationError) {
-    return new HttpErrors.UnprocessableEntityError(error.message);
-  }
-  if (error instanceof DomainErrors.UserCouldNotBeReconciledError) {
     return new HttpErrors.UnprocessableEntityError(error.message);
   }
   if (error instanceof DomainErrors.TargetProfileInvalidError) {

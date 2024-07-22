@@ -1,5 +1,5 @@
-import { UserNotAuthorizedToAccessEntityError } from '../../../../../../../lib/domain/errors.js';
 import { getParticipationsCountByMasteryRate } from '../../../../../../../src/prescription/campaign/domain/usecases/statistics/get-participations-count-by-mastery-rate.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../../../../src/shared/domain/errors.js';
 import { catchErr, expect, sinon } from '../../../../../../test-helper.js';
 
 describe('Unit | UseCase | getParticipationsCountByMasteryRate', function () {

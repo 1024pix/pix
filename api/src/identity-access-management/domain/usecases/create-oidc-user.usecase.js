@@ -1,4 +1,4 @@
-import { UserAlreadyExistsWithAuthenticationMethodError } from '../../../../lib/domain/errors.js';
+import { UserAlreadyExistsWithAuthenticationMethodError } from '../../../shared/domain/errors.js';
 import { AuthenticationKeyExpired } from '../errors.js';
 import { UserToCreate } from '../models/UserToCreate.js';
 

@@ -3,10 +3,9 @@ import lodash from 'lodash';
 import {
   AccountRecoveryDemandExpired,
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
-  UserHasAlreadyLeftSCO,
 } from '../../../../lib/domain/errors.js';
 import { config } from '../../../shared/config.js';
-import { UserNotFoundError } from '../../../shared/domain/errors.js';
+import { UserHasAlreadyLeftSCO, UserNotFoundError } from '../../../shared/domain/errors.js';
 
 const { uniqBy } = lodash;
 const { features } = config;

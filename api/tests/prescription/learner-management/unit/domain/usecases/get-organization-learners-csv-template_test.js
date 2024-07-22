@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
-import { UserNotAuthorizedToAccessEntityError } from '../../../../../../lib/domain/errors.js';
 import { OrganizationLearnerImportFormat } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationLearnerImportFormat.js';
 import { getOrganizationLearnersCsvTemplate } from '../../../../../../src/prescription/learner-management/domain/usecases/get-organization-learners-csv-template.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 

@@ -2,7 +2,7 @@ import * as errors from '../../../lib/domain/errors.js';
 import { NotEnoughDaysPassedBeforeResetCampaignParticipationError } from '../../../lib/domain/errors.js';
 import { AdminMemberError } from '../../../src/authorization/domain/errors.js';
 import { UnableToAttachChildOrganizationToParentOrganizationError } from '../../../src/organizational-entities/domain/errors.js';
-import { UserNotFoundError } from '../../../src/shared/domain/errors.js';
+import { UserAlreadyLinkedToCandidateInSessionError, UserNotFoundError } from '../../../src/shared/domain/errors.js';
 import {
   CsvImportError,
   EntityValidationError,
@@ -55,7 +55,7 @@ describe('Unit | Domain | Errors', function () {
   });
 
   it('should export a UserAlreadyLinkedToCandidateInSessionError', function () {
-    expect(errors.UserAlreadyLinkedToCandidateInSessionError).to.exist;
+    expect(UserAlreadyLinkedToCandidateInSessionError).to.exist;
   });
 
   it('should export a UserNotAuthorizedToUpdateCampaignError', function () {

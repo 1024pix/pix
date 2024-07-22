@@ -1,12 +1,11 @@
 import { knex } from '../../../db/knex-database-connection.js';
 import { ORGANIZATION_FEATURE } from '../../../src/shared/domain/constants.js';
-import { UserNotFoundError } from '../../../src/shared/domain/errors.js';
+import { UserCouldNotBeReconciledError, UserNotFoundError } from '../../../src/shared/domain/errors.js';
 import { fetchPage } from '../../../src/shared/infrastructure/utils/knex-utils.js';
 import {
   NotFoundError,
   OrganizationLearnerCertificabilityNotUpdatedError,
   OrganizationLearnerNotFound,
-  UserCouldNotBeReconciledError,
 } from '../../domain/errors.js';
 import { OrganizationLearner } from '../../domain/models/OrganizationLearner.js';
 import { OrganizationLearnerForAdmin } from '../../domain/read-models/OrganizationLearnerForAdmin.js';

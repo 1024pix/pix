@@ -1,9 +1,7 @@
-import {
-  AlreadySharedCampaignParticipationError,
-  UserNotAuthorizedToAccessEntityError,
-} from '../../../../../../lib/domain/errors.js';
+import { AlreadySharedCampaignParticipationError } from '../../../../../../lib/domain/errors.js';
 import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 

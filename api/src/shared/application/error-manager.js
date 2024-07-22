@@ -16,6 +16,14 @@ import {
   EntityValidationError,
   OidcError,
   TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization,
+  UserAlreadyExistsWithAuthenticationMethodError,
+  UserAlreadyLinkedToCandidateInSessionError,
+  UserCouldNotBeReconciledError,
+  UserHasAlreadyLeftSCO,
+  UserIsBlocked,
+  UserIsTemporaryBlocked,
+  UserNotAuthorizedToAccessEntityError,
+  UserNotFoundError,
 } from '../domain/errors.js';
 import * as errorSerializer from '../infrastructure/serializers/jsonapi/error-serializer.js';
 import { extractLocaleFromRequest } from '../infrastructure/utils/request-response-utils.js';
@@ -88,8 +96,29 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.CsvImportError) {
     return new HttpErrors.PreconditionFailedError(error.message, error.code, error.meta);
   }
-  if (error instanceof DomainErrors.UserNotAuthorizedToAccessEntityError) {
+  if (error instanceof UserNotAuthorizedToAccessEntityError) {
     return new HttpErrors.ForbiddenError('Utilisateur non autorisé à accéder à la ressource');
+  }
+  if (error instanceof UserIsTemporaryBlocked) {
+    return new HttpErrors.ForbiddenError(error.message, error.code);
+  }
+  if (error instanceof UserHasAlreadyLeftSCO) {
+    return new HttpErrors.ForbiddenError(error.message);
+  }
+  if (error instanceof UserAlreadyExistsWithAuthenticationMethodError) {
+    return new HttpErrors.ConflictError(error.message);
+  }
+  if (error instanceof UserNotFoundError) {
+    return new HttpErrors.NotFoundError(error.message);
+  }
+  if (error instanceof UserNotAuthorizedToAccessEntityError) {
+    return new HttpErrors.ForbiddenError('Utilisateur non autorisé à accéder à la ressource');
+  }
+  if (error instanceof UserIsBlocked) {
+    return new HttpErrors.ForbiddenError(error.message, error.code);
+  }
+  if (error instanceof UserAlreadyLinkedToCandidateInSessionError) {
+    return new HttpErrors.ForbiddenError("L'utilisateur est déjà lié à un candidat dans cette session.");
   }
   if (error instanceof DomainErrors.AlreadyRegisteredEmailError) {
     return new HttpErrors.BadRequestError(error.message, error.code);
@@ -98,6 +127,9 @@ function _mapToHttpError(error) {
     return new HttpErrors.BaseHttpError(error.message);
   }
   if (error instanceof DomainErrors.CertificationAttestationGenerationError) {
+    return new HttpErrors.UnprocessableEntityError(error.message);
+  }
+  if (error instanceof UserCouldNotBeReconciledError) {
     return new HttpErrors.UnprocessableEntityError(error.message);
   }
   if (error instanceof DomainErrors.EmailModificationDemandNotFoundOrExpiredError) {
