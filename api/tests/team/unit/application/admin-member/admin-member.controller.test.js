@@ -1,4 +1,3 @@
-import { usecases as libUsecases } from '../../../../../lib/domain/usecases/index.js';
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 import { adminMemberController } from '../../../../../src/team/application/admin-member/admin-member.controller.js';
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
@@ -13,7 +12,7 @@ describe('Unit | Team | Application | Controller | admin-member', function () {
       const id = 7;
 
       const deactivatedMember = Symbol('deactivatedMember');
-      sinon.stub(libUsecases, 'deactivateAdminMember').withArgs({ id }).resolves(deactivatedMember);
+      sinon.stub(usecases, 'deactivateAdminMember').withArgs({ id }).resolves(deactivatedMember);
 
       const serializedDeactivatedMember = Symbol('serializedDeactivatedMember');
       const adminMemberSerializerStub = { serialize: sinon.stub() };

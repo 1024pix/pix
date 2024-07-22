@@ -1,7 +1,7 @@
-import { deactivateAdminMember } from '../../../../lib/domain/usecases/deactivate-admin-member.js';
-import { expect, sinon } from '../../../test-helper.js';
+import { deactivateAdminMember } from '../../../../../src/team/domain/usecases/deactivate-admin-member.usecase.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | deactivate-admin-member', function () {
+describe('Unit | Team | Domain | UseCase | deactivate-admin-member', function () {
   it("should deactivate the given admin member and revoke all user's refresh tokens", async function () {
     // given
     const adminMemberRepository = { deactivate: sinon.stub(), getById: sinon.stub() };
