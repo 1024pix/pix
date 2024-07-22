@@ -128,4 +128,37 @@ describe('Acceptance | Team | Route | Admin-member', function () {
       });
     });
   });
+
+  describe('PATCH /api/admin/admin-members/{id}', function () {
+    it('should return 200 http status code if admin member has role "SUPER_ADMIN"', async function () {
+      // given
+      const superAdmin = databaseBuilder.factory.buildUser.withRole();
+      const pixAdminUserToUpdate = databaseBuilder.factory.buildUser.withRole();
+      const pixAdminRole = databaseBuilder.factory.buildPixAdminRole({
+        userId: pixAdminUserToUpdate.id,
+        role: ROLES.SUPPORT,
+      });
+      await databaseBuilder.commit();
+      const server = await createServer();
+
+      // when
+      const response = await server.inject({
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(superAdmin.id),
+        },
+        method: 'PATCH',
+        url: `/api/admin/admin-members/${pixAdminRole.id}`,
+        payload: {
+          data: {
+            attributes: {
+              role: ROLES.CERTIF,
+            },
+          },
+        },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
 });

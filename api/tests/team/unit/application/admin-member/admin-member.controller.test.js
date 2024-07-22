@@ -77,4 +77,36 @@ describe('Unit | Team | Application | Controller | admin-member', function () {
       expect(statusCode).to.equal(201);
     });
   });
+
+  describe('#updateAdminMember', function () {
+    it('should return the serialized admin member with updated values', async function () {
+      // given
+      const id = 7;
+      const role = ROLES.SUPPORT;
+
+      const updatedMember = Symbol('updatedMember');
+      sinon.stub(usecases, 'updateAdminMember').withArgs({ id, role }).resolves(updatedMember);
+
+      const serializedUpdatedMember = Symbol('serializedUpdatedMember');
+      const adminMemberSerializerStub = { deserialize: sinon.stub(), serialize: sinon.stub() };
+      adminMemberSerializerStub.deserialize.returns({ role });
+      adminMemberSerializerStub.serialize.withArgs(updatedMember).returns(serializedUpdatedMember);
+
+      const dependencies = { adminMemberSerializer: adminMemberSerializerStub };
+      const h = {};
+
+      // when
+      const result = await adminMemberController.updateAdminMember(
+        {
+          params: { id },
+          payload: { data: { attributes: { role: ROLES.SUPPORT } } },
+        },
+        h,
+        dependencies,
+      );
+
+      // then
+      expect(result).to.equal(serializedUpdatedMember);
+    });
+  });
 });

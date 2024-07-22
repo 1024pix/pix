@@ -178,4 +178,60 @@ describe('Unit | Team | Application | Router | admin-member', function () {
       expect(statusCode).to.equal(403);
     });
   });
+
+  describe('PATCH /api/admin/admin-members/{id}', function () {
+    describe('when user has role "SUPER_ADMIN"', function () {
+      it('should return a response with an HTTP status code 200', async function () {
+        // given
+        const updatedAdminMember = domainBuilder.buildAdminMember();
+        sinon.stub(adminMemberController, 'updateAdminMember').returns(updatedAdminMember);
+        sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(teamRoutes[0]);
+
+        // when
+        const { statusCode } = await httpTestServer.request('PATCH', '/api/admin/admin-members/1', {
+          data: { type: 'admin-members', attributes: { role: ROLES.SUPER_ADMIN } },
+        });
+
+        // then
+        expect(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin).to.have.be.called;
+        expect(statusCode).to.equal(200);
+      });
+
+      it('should return 400 if the role value to update is invalid', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(teamRoutes[0]);
+
+        // when
+        const { statusCode } = await httpTestServer.request('PATCH', '/api/admin/admin-members/1', {
+          data: { type: 'admin-members', attributes: { role: 'INVALID_ROLE' } },
+        });
+
+        // then
+        expect(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin).not.to.have.be.called;
+        expect(statusCode).to.equal(400);
+      });
+    });
+
+    it('should return a response with an HTTP status code 403 if user does not have the rights', async function () {
+      // given
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response().code(403).takeover());
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(teamRoutes[0]);
+
+      // when
+      const { statusCode } = await httpTestServer.request('PATCH', '/api/admin/admin-members/1', {
+        data: { type: 'admin-members', attributes: { role: ROLES.SUPER_ADMIN } },
+      });
+
+      // then
+      expect(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin).to.have.be.called;
+      expect(statusCode).to.equal(403);
+    });
+  });
 });

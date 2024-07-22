@@ -1,10 +1,10 @@
-import { updateAdminMember } from '../../../../lib/domain/usecases/update-admin-member.js';
-import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
-import { expect, sinon } from '../../../test-helper.js';
+import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
+import { updateAdminMember } from '../../../../../src/team/domain/usecases/update-admin-member.usecase.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
 const { ROLES } = PIX_ADMIN;
 
-describe('Unit | UseCase | update-admin-member', function () {
+describe('Unit | Team | Domain | UseCase | update-admin-member', function () {
   it('should update the given admin member', async function () {
     // given
     const adminMemberRepository = { update: sinon.stub() };
