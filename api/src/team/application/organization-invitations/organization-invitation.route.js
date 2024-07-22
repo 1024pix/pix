@@ -6,30 +6,6 @@ import { organizationInvitationController } from './organization-invitation.cont
 
 export const organizationInvitationRoutes = [
   {
-    method: 'POST',
-    path: '/api/organization-invitations/sco',
-    config: {
-      auth: false,
-      handler: (request, h) => organizationInvitationController.sendScoInvitation(request, h),
-      validate: {
-        payload: Joi.object({
-          data: {
-            attributes: {
-              uai: Joi.string().required(),
-              'first-name': Joi.string().required(),
-              'last-name': Joi.string().required(),
-            },
-            type: 'sco-organization-invitations',
-          },
-        }),
-      },
-      notes: [
-        "- Cette route permet d'envoyer une invitation pour rejoindre une organisation de type SCO en tant que ADMIN, en renseignant un **UAI**, un **NOM** et un **PRÉNOM**",
-      ],
-      tags: ['team', 'api', 'invitations', 'SCO'],
-    },
-  },
-  {
     method: 'GET',
     path: '/api/organization-invitations/{id}',
     config: {
@@ -73,6 +49,30 @@ export const organizationInvitationRoutes = [
     },
   },
   {
+    method: 'POST',
+    path: '/api/organization-invitations/sco',
+    config: {
+      auth: false,
+      handler: (request, h) => organizationInvitationController.sendScoInvitation(request, h),
+      validate: {
+        payload: Joi.object({
+          data: {
+            attributes: {
+              uai: Joi.string().required(),
+              'first-name': Joi.string().required(),
+              'last-name': Joi.string().required(),
+            },
+            type: 'sco-organization-invitations',
+          },
+        }),
+      },
+      notes: [
+        "- Cette route permet d'envoyer une invitation pour rejoindre une organisation de type SCO en tant que ADMIN, en renseignant un **UAI**, un **NOM** et un **PRÉNOM**",
+      ],
+      tags: ['team', 'api', 'invitations', 'SCO'],
+    },
+  },
+  {
     method: 'DELETE',
     path: '/api/organizations/{id}/invitations/{organizationInvitationId}',
     config: {
@@ -94,6 +94,39 @@ export const organizationInvitationRoutes = [
         "- **Cette route est restreinte aux utilisateurs authentifiés en tant qu'admin d'une organisation**\n" +
           "- Elle permet à l'administrateur de l'organisation d'annuler une invitation envoyée mais non acceptée encore.",
       ],
+    },
+  },
+  {
+    method: 'POST',
+    path: '/api/organizations/{id}/invitations',
+    config: {
+      pre: [
+        {
+          method: (request, h) => securityPreHandlers.checkUserIsAdminInOrganization(request, h),
+          assign: 'isAdminInOrganization',
+        },
+      ],
+      handler: (request, h) => organizationInvitationController.sendInvitations(request, h),
+      validate: {
+        params: Joi.object({
+          id: identifiersType.organizationId,
+        }),
+        options: {
+          allowUnknown: true,
+        },
+        payload: Joi.object({
+          data: {
+            attributes: {
+              email: Joi.string().email({ multiple: true }).required(),
+            },
+          },
+        }),
+      },
+      notes: [
+        "- **Cette route est restreinte aux utilisateurs authentifiés en tant que responsables de l'organisation**\n" +
+          "- Elle permet d'inviter des personnes, déjà utilisateurs de Pix ou non, à être membre d'une organisation, via leur **email**",
+      ],
+      tags: ['api', 'invitations'],
     },
   },
 ];
