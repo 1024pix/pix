@@ -1,7 +1,5 @@
 import perf_hooks from 'node:perf_hooks';
 
-import axios from 'axios';
-
 const { performance } = perf_hooks;
 
 import { monitoringTools } from '../monitoring-tools.js';
@@ -19,42 +17,34 @@ const httpAgent = {
     const startTime = performance.now();
     let responseTime = null;
     try {
-      const config = {
-        headers,
-      };
-      if (timeout != undefined) {
-        config.timeout = timeout;
-      }
-      const httpResponse = await axios.post(url, payload, config);
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(payload),
+        signal: timeout ? new AbortController().signal : undefined, // Timeout handling is different in Fetch
+      });
       responseTime = performance.now() - startTime;
+      const data = await response.json();
+      if (!response.ok) throw { response };
+
       monitoringTools.logInfoWithCorrelationIds({
         metrics: { responseTime },
-        message: `End POST request to ${url} success: ${httpResponse.status}`,
+        message: `End POST request to ${url} success: ${response.status}`,
       });
 
       return new HttpResponse({
-        code: httpResponse.status,
-        data: httpResponse.data,
+        code: response.status,
+        data: data,
         isSuccessful: true,
       });
     } catch (httpErr) {
       responseTime = performance.now() - startTime;
-      let code = null;
-      let data;
-
-      if (httpErr.response) {
-        code = httpErr.response.status;
-        data = httpErr.response.data;
-      } else {
-        code = httpErr.code;
-        data = httpErr.message;
-      }
-
-      const message = `End POST request to ${url} error: ${code || ''} ${JSON.stringify(data)}`;
+      const code = httpErr.response ? httpErr.response.status : 'Network Error';
+      const data = httpErr.response ? await httpErr.response.json() : httpErr.message;
 
       monitoringTools.logErrorWithCorrelationIds({
         metrics: { responseTime },
-        message,
+        message: `End POST request to ${url} error: ${code} ${JSON.stringify(data)}`,
       });
 
       return new HttpResponse({
@@ -64,53 +54,43 @@ const httpAgent = {
       });
     }
   },
-  async get({ url, payload, headers, timeout }) {
+  async get({ url, headers, timeout }) {
     const startTime = performance.now();
     let responseTime = null;
     try {
-      const config = {
-        data: payload,
-        headers,
-      };
-      if (timeout != undefined) {
-        config.timeout = timeout;
-      }
-      const httpResponse = await axios.get(url, config);
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: headers,
+        signal: timeout ? new AbortController().signal : undefined, // Timeout handling is different in Fetch
+      });
       responseTime = performance.now() - startTime;
+      const data = await response.json();
+      if (!response.ok) throw { response };
+
       monitoringTools.logInfoWithCorrelationIds({
         metrics: { responseTime },
-        message: `End GET request to ${url} success: ${httpResponse.status}`,
+        message: `End GET request to ${url} success: ${response.status}`,
       });
 
       return new HttpResponse({
-        code: httpResponse.status,
-        data: httpResponse.data,
+        code: response.status,
+        data: data,
         isSuccessful: true,
       });
     } catch (httpErr) {
       responseTime = performance.now() - startTime;
-      const isSuccessful = false;
-
-      let code;
-      let data;
-
-      if (httpErr.response) {
-        code = httpErr.response.status;
-        data = httpErr.response.data;
-      } else {
-        code = '500';
-        data = null;
-      }
+      const code = httpErr.response ? httpErr.response.status : 'Network Error';
+      const data = httpErr.response ? await httpErr.response.json() : null;
 
       monitoringTools.logErrorWithCorrelationIds({
         metrics: { responseTime },
-        message: `End GET request to ${url} error: ${code || ''} ${JSON.stringify(data)}`,
+        message: `End GET request to ${url} error: ${code} ${JSON.stringify(data)}`,
       });
 
       return new HttpResponse({
         code,
         data,
-        isSuccessful,
+        isSuccessful: false,
       });
     }
   },
