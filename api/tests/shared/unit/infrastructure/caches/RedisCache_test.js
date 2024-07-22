@@ -1,8 +1,8 @@
 import Redlock from 'redlock';
 
-import { PATCHES_KEY, RedisCache } from '../../../../lib/infrastructure/caches/RedisCache.js';
-import { config as settings } from '../../../../src/shared/config.js';
-import { expect, sinon } from '../../../test-helper.js';
+import { config as settings } from '../../../../../src/shared/config.js';
+import { PATCHES_KEY, RedisCache } from '../../../../../src/shared/infrastructure/caches/RedisCache.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Cache | redis-cache', function () {
   let stubbedClient;
