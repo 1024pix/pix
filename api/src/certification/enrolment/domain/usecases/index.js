@@ -20,6 +20,7 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {import('../../infrastructure/repositories/index.js').ComplementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {import('../../infrastructure/repositories/index.js').SessionRepository} SessionRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCandidateRepository} CertificationCandidateRepository
+ * @typedef {import('../../../session-management/infrastructure/repositories/index.js').CertificationCandidateForSupervisingRepository} CertificationCandidateForSupervisingRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCpfCityRepository} CertificationCpfCityRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCpfCountryRepository} CertificationCpfCountryRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCenterRepository} CertificationCenterRepository
@@ -47,6 +48,7 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {CenterRepository} CenterRepository
  * @typedef {SessionRepository} SessionRepository
  * @typedef {CertificationCandidateRepository} CertificationCandidateRepository
+ * @typedef {CertificationCandidateForSupervisingRepository} CertificationCandidateForSupervisingRepository
  * @typedef {CertificationCpfCityRepository} CertificationCpfCityRepository
  * @typedef {CertificationCpfCountryRepository} CertificationCpfCountryRepository
  * @typedef {CertificationOfficerRepository} CertificationOfficerRepository

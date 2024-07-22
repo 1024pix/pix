@@ -1,4 +1,4 @@
-import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
+import { CertificationCandidate } from '../../../../../lib/domain/models/index.js';
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import {
@@ -7,6 +7,7 @@ import {
   expect,
   generateValidRequestAuthorizationHeader,
 } from '../../../../test-helper.js';
+
 const { ROLES } = PIX_ADMIN;
 
 describe('Acceptance | Controller | Session | certification-candidate-route', function () {

@@ -2,9 +2,9 @@ import JoiDate from '@joi/date';
 import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 
-import { assessmentSupervisorAuthorization } from '../../../../lib/application/preHandlers/session-supervisor-authorization.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { sessionForSupervisingController } from '../../session-management/application/session-for-supervising-controller.js';
+import { assessmentSupervisorAuthorization } from '../../shared/application/pre-handlers/session-supervisor-authorization.js';
 
 const register = async function (server) {
   server.route([

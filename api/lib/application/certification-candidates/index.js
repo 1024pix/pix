@@ -1,37 +1,11 @@
 import Joi from 'joi';
 
+import { assessmentSupervisorAuthorization } from '../../../src/certification/shared/application/pre-handlers/session-supervisor-authorization.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
-import { assessmentSupervisorAuthorization } from '../preHandlers/session-supervisor-authorization.js';
 import { certificationCandidatesController } from './certification-candidates-controller.js';
 
 const register = async function (server) {
   server.route([
-    {
-      method: 'POST',
-      path: '/api/certification-candidates/{id}/authorize-to-start',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.certificationCandidateId,
-          }),
-          payload: Joi.object({
-            'authorized-to-start': Joi.boolean().required(),
-          }),
-        },
-        pre: [
-          {
-            method: assessmentSupervisorAuthorization.verifyByCertificationCandidateId,
-            assign: 'authorizationCheck',
-          },
-        ],
-        handler: certificationCandidatesController.authorizeToStart,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            "- Indiquer la présence d'un candidat pour permettre ou bloquer son entrée en session",
-        ],
-        tags: ['api', 'certification-candidates'],
-      },
-    },
     {
       method: 'POST',
       path: '/api/certification-candidates/{id}/authorize-to-resume',

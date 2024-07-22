@@ -1,3 +1,4 @@
+import * as certificationCandidate from './application/certification-candidate-route.js';
 import * as certificationOfficer from './application/certification-officer-route.js';
 import * as certificationReport from './application/certification-report-route.js';
 import * as finalize from './application/finalize-route.js';
@@ -16,6 +17,7 @@ const certificationSessionRoutes = [
   finalize,
   finalizedSession,
   sessionLiveAlert,
+  certificationCandidate,
   certificationReport,
   invigilatorKit,
   updateCpfImportStatus,

@@ -1,4 +1,4 @@
-import { assessmentSupervisorAuthorization as sessionSupervisorAuthorization } from '../../../../lib/application/preHandlers/session-supervisor-authorization.js';
+import { assessmentSupervisorAuthorization as sessionSupervisorAuthorization } from '../../../../src/certification/shared/application/pre-handlers/session-supervisor-authorization.js';
 import { expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Pre-handler | Supervisor Authorization', function () {

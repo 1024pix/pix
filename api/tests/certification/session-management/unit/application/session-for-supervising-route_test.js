@@ -1,6 +1,6 @@
-import { assessmentSupervisorAuthorization as sessionSupervisorAuthorization } from '../../../../../lib/application/preHandlers/session-supervisor-authorization.js';
 import { sessionForSupervisingController } from '../../../../../src/certification/session-management/application/session-for-supervising-controller.js';
 import * as moduleUnderTest from '../../../../../src/certification/session-management/application/session-for-supervising-route.js';
+import { assessmentSupervisorAuthorization as sessionSupervisorAuthorization } from '../../../../../src/certification/shared/application/pre-handlers/session-supervisor-authorization.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Application | Certification | session-management | supervising | Routes', function () {
