@@ -1,4 +1,4 @@
-import { InvalidMembershipOrganizationRoleError } from '../errors.js';
+import { InvalidMembershipOrganizationRoleError } from '../../../src/shared/domain/errors.js';
 
 const roles = {
   ADMIN: 'ADMIN',

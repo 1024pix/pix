@@ -1,10 +1,10 @@
+import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import {
   ManyOrganizationsFoundError,
   OrganizationArchivedError,
   OrganizationNotFoundError,
   OrganizationWithoutEmailError,
-} from '../../../../../lib/domain/errors.js';
-import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
+} from '../../../../../src/shared/domain/errors.js';
 import { teamRoutes } from '../../../../../src/team/application/routes.js';
 import { OrganizationInvitation } from '../../../../../src/team/domain/models/OrganizationInvitation.js';
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';

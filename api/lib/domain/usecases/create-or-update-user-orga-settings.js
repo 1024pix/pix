@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { UserNotMemberOfOrganizationError } from '../errors.js';
+import { UserNotMemberOfOrganizationError } from '../../../src/shared/domain/errors.js';
 
 const createOrUpdateUserOrgaSettings = async function ({
   userId,

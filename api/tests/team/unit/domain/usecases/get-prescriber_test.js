@@ -1,4 +1,4 @@
-import { UserNotMemberOfOrganizationError } from '../../../../../lib/domain/errors.js';
+import { UserNotMemberOfOrganizationError } from '../../../../../src/shared/domain/errors.js';
 import { getPrescriber } from '../../../../../src/team/domain/usecases/get-prescriber.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 

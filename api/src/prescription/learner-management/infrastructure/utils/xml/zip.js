@@ -9,8 +9,8 @@ import Path from 'node:path';
 import { fileTypeFromFile } from 'file-type';
 import StreamZip from 'node-stream-zip';
 
-import { FileValidationError } from '../../../../../../lib/domain/errors.js';
 import { logErrorWithCorrelationIds } from '../../../../../../lib/infrastructure/monitoring-tools.js';
+import { FileValidationError } from '../../../../../shared/domain/errors.js';
 
 const VALID_FILE_NAME_REGEX = /^([^.][^/]*\/)*[^./][^/]*\.xml$/;
 const ZIP = 'application/zip';

@@ -1,11 +1,11 @@
-import {
-  OrganizationNotAuthorizedMultipleSendingAssessmentToCreateCampaignError,
-  UserNotAuthorizedToCreateCampaignError,
-} from '../../../../../../lib/domain/errors.js';
 import { CampaignCreator } from '../../../../../../src/prescription/campaign/domain/models/CampaignCreator.js';
 import { CampaignForCreation } from '../../../../../../src/prescription/campaign/domain/models/CampaignForCreation.js';
 import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { ORGANIZATION_FEATURE } from '../../../../../../src/shared/domain/constants.js';
+import {
+  OrganizationNotAuthorizedMultipleSendingAssessmentToCreateCampaignError,
+  UserNotAuthorizedToCreateCampaignError,
+} from '../../../../../../src/shared/domain/errors.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, expect } from '../../../../../test-helper.js';
 

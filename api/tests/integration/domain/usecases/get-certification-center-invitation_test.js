@@ -1,9 +1,9 @@
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 import {
   AlreadyExistingInvitationError,
   CancelledInvitationError,
   NotFoundError,
-} from '../../../../lib/domain/errors.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
+} from '../../../../src/shared/domain/errors.js';
 import { CertificationCenterInvitation } from '../../../../src/team/domain/models/CertificationCenterInvitation.js';
 import { catchErr, databaseBuilder, expect } from '../../../test-helper.js';
 

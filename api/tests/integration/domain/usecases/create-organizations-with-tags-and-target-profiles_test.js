@@ -1,10 +1,5 @@
 import lodash from 'lodash';
 
-import {
-  ObjectValidationError,
-  OrganizationTagNotFound,
-  TargetProfileInvalidError,
-} from '../../../../lib/domain/errors.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { createOrganizationsWithTagsAndTargetProfiles } from '../../../../lib/domain/usecases/create-organizations-with-tags-and-target-profiles.js';
 import * as organizationValidator from '../../../../lib/domain/validators/organization-with-tags-and-target-profiles-script.js';
@@ -16,6 +11,11 @@ import { organizationForAdminRepository } from '../../../../src/organizational-e
 import { tagRepository } from '../../../../src/organizational-entities/infrastructure/repositories/tag.repository.js';
 import * as schoolRepository from '../../../../src/school/infrastructure/repositories/school-repository.js';
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
+import {
+  ObjectValidationError,
+  OrganizationTagNotFound,
+  TargetProfileInvalidError,
+} from '../../../../src/shared/domain/errors.js';
 import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
 import * as organizationRepository from '../../../../src/shared/infrastructure/repositories/organization-repository.js';
 import { organizationInvitationService } from '../../../../src/team/domain/services/organization-invitation.service.js';

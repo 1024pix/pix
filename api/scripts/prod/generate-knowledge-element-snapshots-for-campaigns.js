@@ -4,9 +4,9 @@ import bluebird from 'bluebird';
 import yargs from 'yargs';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
-import { AlreadyExistingEntityError } from '../../lib/domain/errors.js';
 import * as knowledgeElementRepository from '../../lib/infrastructure/repositories/knowledge-element-repository.js';
 import * as knowledgeElementSnapshotRepository from '../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js';
+import { AlreadyExistingEntityError } from '../../src/shared/domain/errors.js';
 
 const DEFAULT_MAX_SNAPSHOT_COUNT = 5000;
 const DEFAULT_CONCURRENCY = 3;

@@ -5,14 +5,14 @@ const { pipe } = fp;
 import randomString from 'randomstring';
 
 import { LEVENSHTEIN_DISTANCE_MAX_RATE } from '../../../src/shared/domain/constants.js';
-import { areTwoStringsCloseEnough } from '../../../src/shared/domain/services/string-comparison-service.js';
-import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
 import {
   AlreadyRegisteredUsernameError,
   NotFoundError,
   OrganizationLearnerAlreadyLinkedToInvalidUserError,
   OrganizationLearnerAlreadyLinkedToUserError,
-} from '../errors.js';
+} from '../../../src/shared/domain/errors.js';
+import { areTwoStringsCloseEnough } from '../../../src/shared/domain/services/string-comparison-service.js';
+import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
 import { isOneStringCloseEnoughFromMultipleStrings } from './string-comparison-service.js';
 import { normalizeAndRemoveAccents, removeSpecialCharacters } from './validation-treatments.js';
 

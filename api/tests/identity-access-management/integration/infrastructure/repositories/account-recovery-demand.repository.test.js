@@ -1,9 +1,9 @@
 import lodash from 'lodash';
 
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { AccountRecoveryDemand } from '../../../../../src/identity-access-management/domain/models/AccountRecoveryDemand.js';
 import { accountRecoveryDemandRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/account-recovery-demand.repository.js';
+import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../test-helper.js';
 const { omit } = lodash;
 

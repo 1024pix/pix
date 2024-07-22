@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
-import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { Area } from '../../../../lib/domain/models/Area.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import * as areaRepository from '../../../../src/shared/infrastructure/repositories/area-repository.js';
 import { catchErr, domainBuilder, expect, mockLearningContent } from '../../../test-helper.js';
 

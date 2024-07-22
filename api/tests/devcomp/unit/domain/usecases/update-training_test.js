@@ -1,5 +1,5 @@
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { updateTraining } from '../../../../../src/devcomp/domain/usecases/update-training.js';
+import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | UseCases | update-training', function () {

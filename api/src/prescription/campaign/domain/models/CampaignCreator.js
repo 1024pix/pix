@@ -1,8 +1,8 @@
+import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
 import {
   OrganizationNotAuthorizedMultipleSendingAssessmentToCreateCampaignError,
   UserNotAuthorizedToCreateCampaignError,
-} from '../../../../../lib/domain/errors.js';
-import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
+} from '../../../../shared/domain/errors.js';
 import { CampaignTypes } from '../../../shared/domain/constants.js';
 import { CampaignForCreation } from './CampaignForCreation.js';
 

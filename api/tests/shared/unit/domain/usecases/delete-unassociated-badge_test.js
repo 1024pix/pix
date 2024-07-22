@@ -1,8 +1,8 @@
+import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import {
   AcquiredBadgeForbiddenDeletionError,
   CertificationBadgeForbiddenDeletionError,
-} from '../../../../../lib/domain/errors.js';
-import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+} from '../../../../../src/shared/domain/errors.js';
 import { deleteUnassociatedBadge } from '../../../../../src/shared/domain/usecases/delete-unassociated-badge.js';
 import { catchErr, expect, sinon } from '../../../../test-helper.js';
 

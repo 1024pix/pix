@@ -1,6 +1,6 @@
-import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 import { saveCertificationIssueReport } from '../../../../../../src/certification/session-management/domain/usecases/save-certification-issue-report.js';
 import { CertificationIssueReport } from '../../../../../../src/certification/shared/domain/models/CertificationIssueReport.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | save-certification-issue-report', function () {

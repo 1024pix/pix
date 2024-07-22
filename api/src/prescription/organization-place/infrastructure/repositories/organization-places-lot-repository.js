@@ -1,5 +1,5 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { DeletedError, NotFoundError } from '../../../../../lib/domain/errors.js';
+import { DeletedError, NotFoundError } from '../../../../shared/domain/errors.js';
 import { OrganizationPlacesLotManagement } from '../../domain/read-models/OrganizationPlacesLotManagement.js';
 import { PlacesLot } from '../../domain/read-models/PlacesLot.js';
 

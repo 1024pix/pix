@@ -4,8 +4,8 @@ import _ from 'lodash';
 import randomString from 'randomstring';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
-import { OrganizationLearnersCouldNotBeSavedError } from '../../lib/domain/errors.js';
 import { OrganizationLearner } from '../../lib/domain/models/OrganizationLearner.js';
+import { OrganizationLearnersCouldNotBeSavedError } from '../../src/shared/domain/errors.js';
 
 function _buildOrganizationLearner(division, organizationId, iteration) {
   const birthdates = ['2001-01-05', '2002-11-15', '1995-06-25'];

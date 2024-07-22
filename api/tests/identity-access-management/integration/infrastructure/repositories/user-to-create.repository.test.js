@@ -1,7 +1,7 @@
-import { OrganizationLearnerAlreadyLinkedToUserError } from '../../../../../lib/domain/errors.js';
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { UserToCreate } from '../../../../../src/identity-access-management/domain/models/UserToCreate.js';
 import { userToCreateRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/user-to-create.repository.js';
+import { OrganizationLearnerAlreadyLinkedToUserError } from '../../../../../src/shared/domain/errors.js';
 import { catchErr, databaseBuilder, expect, knex } from '../../../../test-helper.js';
 
 describe('Integration | Identity Access Management | Infrastructure | Repository | user-to-create', function () {

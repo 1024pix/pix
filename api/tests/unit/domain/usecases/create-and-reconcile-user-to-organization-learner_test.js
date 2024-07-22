@@ -1,10 +1,10 @@
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 import {
   AlreadyRegisteredUsernameError,
   CampaignCodeError,
   NotFoundError,
   OrganizationLearnerAlreadyLinkedToUserError,
-} from '../../../../lib/domain/errors.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
+} from '../../../../src/shared/domain/errors.js';
 import { AlreadyRegisteredEmailError } from '../../../../src/shared/domain/errors.js';
 import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';

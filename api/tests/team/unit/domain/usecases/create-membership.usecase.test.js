@@ -1,5 +1,5 @@
-import { OrganizationArchivedError } from '../../../../../lib/domain/errors.js';
-import { Membership } from '../../../../../lib/domain/models/Membership.js';
+import { Membership } from '../../../../../lib/domain/models/index.js';
+import { OrganizationArchivedError } from '../../../../../src/shared/domain/errors.js';
 import { createMembership } from '../../../../../src/team/domain/usecases/create-membership.usecase.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 

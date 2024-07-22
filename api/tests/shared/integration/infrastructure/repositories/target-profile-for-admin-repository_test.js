@@ -1,6 +1,6 @@
 import { constants } from '../../../../../lib/domain/constants.js';
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { TargetProfileForAdmin } from '../../../../../lib/domain/models/index.js';
+import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import * as targetProfileForAdminRepository from '../../../../../src/shared/infrastructure/repositories/target-profile-for-admin-repository.js';
 import {
   catchErr,

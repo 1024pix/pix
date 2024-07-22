@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 import { CampaignParticipation } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignParticipation.js';
 import { AvailableCampaignParticipation } from '../../../../../../src/prescription/campaign-participation/domain/read-models/AvailableCampaignParticipation.js';
@@ -10,6 +9,7 @@ import {
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { ApplicationTransaction } from '../../../../../../src/prescription/shared/infrastructure/ApplicationTransaction.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../../../test-helper.js';
 
 const { STARTED, SHARED } = CampaignParticipationStatuses;

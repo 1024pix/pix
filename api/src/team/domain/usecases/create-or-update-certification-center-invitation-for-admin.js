@@ -1,4 +1,4 @@
-import { SendingEmailError, SendingEmailToInvalidDomainError } from '../../../../lib/domain/errors.js';
+import { SendingEmailError, SendingEmailToInvalidDomainError } from '../../../shared/domain/errors.js';
 import { CertificationCenterInvitation } from '../models/CertificationCenterInvitation.js';
 
 const createOrUpdateCertificationCenterInvitationForAdmin = async function ({

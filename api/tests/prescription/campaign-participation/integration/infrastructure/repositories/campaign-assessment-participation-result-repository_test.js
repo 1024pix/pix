@@ -5,7 +5,7 @@ import { catchErr, databaseBuilder, expect, mockLearningContent } from '../../..
 
 const { ENGLISH_SPOKEN, FRENCH_SPOKEN } = LOCALE;
 
-import { NotFoundError } from '../../../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 
 describe('Integration | Repository | Campaign Assessment Participation Result', function () {
   describe('#getByCampaignIdAndCampaignParticipationId', function () {

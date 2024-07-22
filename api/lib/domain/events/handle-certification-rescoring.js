@@ -1,7 +1,7 @@
 import { AssessmentResultFactory } from '../../../src/certification/scoring/domain/models/factories/AssessmentResultFactory.js';
 import { CertificationVersion } from '../../../src/certification/shared/domain/models/CertificationVersion.js';
+import { CertificationComputeError } from '../../../src/shared/domain/errors.js';
 import { V3_REPRODUCIBILITY_RATE } from '../constants.js';
-import { CertificationComputeError } from '../errors.js';
 import { CertificationResult } from '../models/CertificationResult.js';
 import { CertificationCourseRejected } from './CertificationCourseRejected.js';
 import { CertificationCourseUnrejected } from './CertificationCourseUnrejected.js';

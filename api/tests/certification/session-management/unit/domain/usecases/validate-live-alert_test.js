@@ -1,10 +1,10 @@
-import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 import { validateLiveAlert } from '../../../../../../src/certification/session-management/domain/usecases/validate-live-alert.js';
 import { CertificationChallengeLiveAlertStatus } from '../../../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
 import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
 } from '../../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | validate-live-alert', function () {

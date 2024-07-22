@@ -1,11 +1,11 @@
 import lodash from 'lodash';
 
-import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
 import {
   CampaignCodeError,
   OrganizationLearnerAlreadyLinkedToUserError,
   OrganizationLearnerNotFound,
-} from '../errors.js';
+} from '../../../src/shared/domain/errors.js';
+import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
 
 const { find, get } = lodash;
 

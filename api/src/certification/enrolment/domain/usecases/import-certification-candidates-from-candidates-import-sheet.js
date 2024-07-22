@@ -1,7 +1,7 @@
 import bluebird from 'bluebird';
 
-import { CertificationCandidateAlreadyLinkedToUserError } from '../../../../../lib/domain/errors.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { CertificationCandidateAlreadyLinkedToUserError } from '../../../../shared/domain/errors.js';
 
 const importCertificationCandidatesFromCandidatesImportSheet = async function ({
   sessionId,

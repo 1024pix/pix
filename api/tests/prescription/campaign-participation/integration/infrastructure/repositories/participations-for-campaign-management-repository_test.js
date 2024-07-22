@@ -1,9 +1,9 @@
 import _ from 'lodash';
 
-import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 import { ParticipationForCampaignManagement } from '../../../../../../src/prescription/campaign-participation/domain/models/ParticipationForCampaignManagement.js';
 import * as participationsForCampaignManagementRepository from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/participations-for-campaign-management-repository.js';
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, databaseBuilder, expect, knex } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | Participations-For-Campaign-Management', function () {

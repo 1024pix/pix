@@ -2,7 +2,7 @@
  * @typedef {import('../../../shared/domain/usecases/index.js').CertificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
  */
 
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../shared/domain/errors.js';
 
 /**
  * @param {Object} params

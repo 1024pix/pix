@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { knex } from '../../../../db/knex-database-connection.js';
 import { constants } from '../../../../lib/domain/constants.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../shared/domain/errors.js';
 import { LOCALE } from '../../domain/constants.js';
 
 const { FRENCH_FRANCE } = LOCALE;

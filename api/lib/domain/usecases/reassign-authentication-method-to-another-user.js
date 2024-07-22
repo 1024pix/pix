@@ -1,4 +1,4 @@
-import { AuthenticationMethodAlreadyExistsError } from '../errors.js';
+import { AuthenticationMethodAlreadyExistsError } from '../../../src/shared/domain/errors.js';
 
 const reassignAuthenticationMethodToAnotherUser = async function ({
   originUserId,

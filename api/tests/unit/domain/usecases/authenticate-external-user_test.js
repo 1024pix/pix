@@ -1,4 +1,3 @@
-import { UnexpectedUserAccountError } from '../../../../lib/domain/errors.js';
 import { authenticateExternalUser } from '../../../../lib/domain/usecases/authenticate-external-user.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import {
@@ -8,6 +7,7 @@ import {
 } from '../../../../src/identity-access-management/domain/errors.js';
 import { AuthenticationMethod } from '../../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
 import {
+  UnexpectedUserAccountError,
   UserAlreadyExistsWithAuthenticationMethodError,
   UserNotFoundError,
 } from '../../../../src/shared/domain/errors.js';

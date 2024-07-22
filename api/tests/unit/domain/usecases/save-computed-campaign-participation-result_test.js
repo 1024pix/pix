@@ -1,5 +1,5 @@
-import { CantCalculateCampaignParticipationResultError } from '../../../../lib/domain/errors.js';
 import { saveComputedCampaignParticipationResult } from '../../../../lib/domain/usecases/save-computed-campaign-participation-result.js';
+import { CantCalculateCampaignParticipationResultError } from '../../../../src/shared/domain/errors.js';
 import { catchErr, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | UseCases | SaveComputedCompaignParticipationResult', function () {

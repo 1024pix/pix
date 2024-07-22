@@ -5,8 +5,8 @@ const { Serializer, Deserializer } = jsonapiSerializer;
 
 import { CertificationCourse } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { NO_EXAMINER_COMMENT } from '../../../../src/certification/shared/domain/models/CertificationReport.js';
+import { WrongDateFormatError } from '../../../../src/shared/domain/errors.js';
 import { isValidDate } from '../../../../src/shared/infrastructure/utils/date-utils.js';
-import { WrongDateFormatError } from '../../../domain/errors.js';
 
 const serializeFromCertificationCourse = function (certificationCourse) {
   return new Serializer('certifications', {

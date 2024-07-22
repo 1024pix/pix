@@ -1,7 +1,7 @@
-import { NotFoundError } from '../../../../lib/domain/errors.js';
 import * as juryCertificationRepository from '../../../../lib/infrastructure/repositories/jury-certification-repository.js';
 import { ComplementaryCertificationCourseResult } from '../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
 import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | Jury Certification', function () {

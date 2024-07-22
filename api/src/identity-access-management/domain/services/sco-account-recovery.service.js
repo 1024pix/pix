@@ -1,11 +1,12 @@
 import lodash from 'lodash';
 
+import { config } from '../../../shared/config.js';
 import {
   AccountRecoveryDemandExpired,
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
-} from '../../../../lib/domain/errors.js';
-import { config } from '../../../shared/config.js';
-import { UserHasAlreadyLeftSCO, UserNotFoundError } from '../../../shared/domain/errors.js';
+  UserHasAlreadyLeftSCO,
+  UserNotFoundError,
+} from '../../../shared/domain/errors.js';
 
 const { uniqBy } = lodash;
 const { features } = config;

@@ -1,5 +1,5 @@
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 import { ForbiddenError } from '../../application/http-errors.js';
-import { NotFoundError } from '../errors.js';
 
 const disableCertificationCenterMembershipFromPixCertif = async function ({
   certificationCenterMembershipId,

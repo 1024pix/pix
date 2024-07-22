@@ -1,5 +1,5 @@
 import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.js';
-import { AlreadyRatedAssessmentError } from '../errors.js';
+import { AlreadyRatedAssessmentError } from '../../../src/shared/domain/errors.js';
 import { AssessmentCompleted } from '../events/AssessmentCompleted.js';
 
 const completeAssessment = async function ({

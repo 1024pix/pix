@@ -1,4 +1,4 @@
-import { AlreadyExistingEntityError } from '../errors.js';
+import { AlreadyExistingEntityError } from '../../../src/shared/domain/errors.js';
 
 const createCertificationCenterMembershipByEmail = async function ({
   certificationCenterId,

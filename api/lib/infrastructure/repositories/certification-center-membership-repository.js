@@ -2,14 +2,14 @@ import _ from 'lodash';
 
 import { knex } from '../../../db/knex-database-connection.js';
 import { User } from '../../../src/identity-access-management/domain/models/User.js';
-import * as bookshelfToDomainConverter from '../../../src/shared/infrastructure/utils/bookshelf-to-domain-converter.js';
-import * as knexUtils from '../../../src/shared/infrastructure/utils/knex-utils.js';
 import {
   AlreadyExistingMembershipError,
   CertificationCenterMembershipCreationError,
   CertificationCenterMembershipDisableError,
   NotFoundError,
-} from '../../domain/errors.js';
+} from '../../../src/shared/domain/errors.js';
+import * as bookshelfToDomainConverter from '../../../src/shared/infrastructure/utils/bookshelf-to-domain-converter.js';
+import * as knexUtils from '../../../src/shared/infrastructure/utils/knex-utils.js';
 import { CertificationCenter } from '../../domain/models/CertificationCenter.js';
 import { CertificationCenterMembership } from '../../domain/models/CertificationCenterMembership.js';
 import { DomainTransaction } from '../DomainTransaction.js';

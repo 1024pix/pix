@@ -5,7 +5,7 @@ dayjs.extend(customParseFormat);
 import lodash from 'lodash';
 const { isEmpty, isNil, each } = lodash;
 
-import { SIECLE_ERRORS } from '../../../../../../lib/domain/errors.js';
+import { SIECLE_ERRORS } from '../../../../../shared/domain/errors.js';
 import { isValidDate } from '../../../../../shared/infrastructure/utils/date-utils.js';
 import { SiecleXmlImportError } from '../../../domain/errors.js';
 

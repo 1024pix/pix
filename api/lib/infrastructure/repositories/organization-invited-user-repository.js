@@ -1,5 +1,5 @@
 import { knex } from '../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../domain/errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 import { OrganizationInvitedUser } from '../../domain/models/OrganizationInvitedUser.js';
 
 const get = async function ({ organizationInvitationId, email }) {

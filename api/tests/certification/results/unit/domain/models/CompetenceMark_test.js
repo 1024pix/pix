@@ -1,5 +1,5 @@
-import { ObjectValidationError } from '../../../../../../lib/domain/errors.js';
 import { CompetenceMark } from '../../../../../../src/certification/shared/domain/models/CompetenceMark.js';
+import { ObjectValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | Competence Mark', function () {

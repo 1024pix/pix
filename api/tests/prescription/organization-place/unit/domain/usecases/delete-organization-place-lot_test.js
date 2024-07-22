@@ -1,5 +1,5 @@
-import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 import { deleteOrganizationPlaceLot } from '../../../../../../src/prescription/organization-place/domain/usecases/delete-organization-place-lot.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | delete-organization-place-lot', function () {

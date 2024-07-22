@@ -1,4 +1,4 @@
-import { DomainError } from '../errors.js';
+import { DomainError } from '../../../src/shared/domain/errors.js';
 import { AreaForAdmin } from './index.js';
 import { categories } from './TargetProfile.js';
 

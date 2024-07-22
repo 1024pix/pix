@@ -1,12 +1,12 @@
 import randomString from 'randomstring';
 
+import { Membership } from '../../../../lib/domain/models/Membership.js';
+import * as mailService from '../../../../lib/domain/services/mail-service.js';
 import {
   SendingEmailError,
   SendingEmailToInvalidDomainError,
   SendingEmailToInvalidEmailAddressError,
-} from '../../../../lib/domain/errors.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
-import * as mailService from '../../../../lib/domain/services/mail-service.js';
+} from '../../../shared/domain/errors.js';
 
 /**
  * @param {Object} params

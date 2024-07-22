@@ -10,7 +10,7 @@ import {
   CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCandidatePersonalInfoWrongFormat,
   CertificationCandidatesError,
-} from '../errors.js';
+} from '../../../src/shared/domain/errors.js';
 
 const Joi = BaseJoi.extend(JoiDate);
 const { isNil, endsWith } = lodash;

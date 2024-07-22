@@ -1,5 +1,4 @@
-import { NoStagesForCampaign } from '../../../../../../lib/domain/errors.js';
-import { UserNotAuthorizedToAccessEntityError } from '../../../../../../src/shared/domain/errors.js';
+import { NoStagesForCampaign, UserNotAuthorizedToAccessEntityError } from '../../../../../shared/domain/errors.js';
 
 const getCampaignParticipationsCountByStage = async function ({
   userId,

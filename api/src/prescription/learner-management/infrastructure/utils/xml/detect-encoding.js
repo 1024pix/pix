@@ -3,8 +3,8 @@ import * as fs from 'node:fs/promises';
 
 import xmlBufferTostring from 'xml-buffer-tostring';
 
-import { FileValidationError } from '../../../../../../lib/domain/errors.js';
 import { logErrorWithCorrelationIds } from '../../../../../../lib/infrastructure/monitoring-tools.js';
+import { FileValidationError } from '../../../../../shared/domain/errors.js';
 
 const { xmlEncoding } = xmlBufferTostring;
 const { Buffer } = buffer;

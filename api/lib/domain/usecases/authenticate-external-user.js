@@ -6,10 +6,10 @@ import {
 } from '../../../src/identity-access-management/domain/errors.js';
 import { AuthenticationMethod } from '../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
 import {
+  UnexpectedUserAccountError,
   UserAlreadyExistsWithAuthenticationMethodError,
   UserNotFoundError,
 } from '../../../src/shared/domain/errors.js';
-import { UnexpectedUserAccountError } from '../errors.js';
 
 async function authenticateExternalUser({
   username,

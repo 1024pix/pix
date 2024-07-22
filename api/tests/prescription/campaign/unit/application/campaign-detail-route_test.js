@@ -1,7 +1,7 @@
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { campaignDetailController } from '../../../../../src/prescription/campaign/application/campaign-detail-controller.js';
 import * as moduleUnderTest from '../../../../../src/prescription/campaign/application/campaign-detail-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
+import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Application | Router | campaign-detail-router ', function () {

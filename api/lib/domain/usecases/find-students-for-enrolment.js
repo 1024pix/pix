@@ -1,4 +1,4 @@
-import { NotFoundError } from '../errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 import { StudentForEnrolment } from '../read-models/StudentForEnrolment.js';
 
 const findStudentsForEnrolment = async function ({

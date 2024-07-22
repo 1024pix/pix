@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../shared/domain/errors.js';
 
 const attachTargetProfilesToOrganization = async function ({
   organizationId,

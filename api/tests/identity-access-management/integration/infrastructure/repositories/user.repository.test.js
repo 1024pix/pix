@@ -1,6 +1,5 @@
 import lodash from 'lodash';
 const { each, map, times, pick } = lodash;
-import { AlreadyExistingEntityError, AlreadyRegisteredUsernameError } from '../../../../../lib/domain/errors.js';
 import { CertificationCenter } from '../../../../../lib/domain/models/CertificationCenter.js';
 import { CertificationCenterMembership } from '../../../../../lib/domain/models/CertificationCenterMembership.js';
 import { Membership } from '../../../../../lib/domain/models/Membership.js';
@@ -12,7 +11,12 @@ import * as OidcIdentityProviders from '../../../../../src/identity-access-manag
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import * as userRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { Organization } from '../../../../../src/organizational-entities/domain/models/Organization.js';
-import { AlreadyRegisteredEmailError, UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
+import {
+  AlreadyExistingEntityError,
+  AlreadyRegisteredEmailError,
+  AlreadyRegisteredUsernameError,
+  UserNotFoundError,
+} from '../../../../../src/shared/domain/errors.js';
 import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
 
 const expectedUserDetailsForAdminAttributes = [

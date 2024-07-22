@@ -1,6 +1,6 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { PGSQL_FOREIGN_KEY_VIOLATION_ERROR } from '../../../../../db/pgsql-errors.js';
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { CertificationOfficer } from '../../domain/models/CertificationOfficer.js';

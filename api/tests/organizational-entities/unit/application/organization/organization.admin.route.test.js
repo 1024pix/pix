@@ -1,4 +1,3 @@
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { organizationAdminController } from '../../../../../src/organizational-entities/application/organization/organization.admin.controller.js';
 import { organizationalEntitiesRoutes } from '../../../../../src/organizational-entities/application/routes.js';
 import {
@@ -11,6 +10,7 @@ import {
   UnableToAttachChildOrganizationToParentOrganizationError,
 } from '../../../../../src/organizational-entities/domain/errors.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
+import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Organizational Entities | Application | Router | organization', function () {

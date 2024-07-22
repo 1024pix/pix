@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { ObjectValidationError } from '../../../../lib/domain/errors.js';
+import { ObjectValidationError } from '../../../../src/shared/domain/errors.js';
 import { validateEntity } from '../../../../src/shared/domain/validators/entity-validator.js';
 import { expect } from '../../../test-helper.js';
 

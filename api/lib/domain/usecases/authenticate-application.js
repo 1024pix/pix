@@ -4,7 +4,7 @@ import {
   ApplicationScopeNotAllowedError,
   ApplicationWithInvalidClientIdError,
   ApplicationWithInvalidClientSecretError,
-} from '../../domain/errors.js';
+} from '../../../src/shared/domain/errors.js';
 
 const { find } = lodash;
 

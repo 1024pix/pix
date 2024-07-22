@@ -3,7 +3,10 @@ import lodash from 'lodash';
 const { has } = lodash;
 
 import { AlreadyRegisteredEmailError } from '../../../src/shared/domain/errors.js';
-import { AlreadyRegisteredEmailAndUsernameError, AlreadyRegisteredUsernameError } from '../errors.js';
+import {
+  AlreadyRegisteredEmailAndUsernameError,
+  AlreadyRegisteredUsernameError,
+} from '../../../src/shared/domain/errors.js';
 const updateUserDetailsForAdministration = async function ({ userId, userDetailsForAdministration, userRepository }) {
   const { email, username } = userDetailsForAdministration;
 

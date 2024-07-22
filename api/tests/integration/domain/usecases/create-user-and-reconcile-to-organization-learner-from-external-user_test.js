@@ -1,9 +1,3 @@
-import {
-  CampaignCodeError,
-  NotFoundError,
-  ObjectValidationError,
-  OrganizationLearnerAlreadyLinkedToUserError,
-} from '../../../../lib/domain/errors.js';
 import * as obfuscationService from '../../../../lib/domain/services/obfuscation-service.js';
 import * as userReconciliationService from '../../../../lib/domain/services/user-reconciliation-service.js';
 import { createUserAndReconcileToOrganizationLearnerFromExternalUser as createUserAndReconcileToOrganizationLearnerByExternalUser } from '../../../../lib/domain/usecases/create-user-and-reconcile-to-organization-learner-from-external-user.js';
@@ -14,6 +8,12 @@ import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-man
 import * as authenticationMethodRepository from '../../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import * as userRepository from '../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { userToCreateRepository } from '../../../../src/identity-access-management/infrastructure/repositories/user-to-create.repository.js';
+import {
+  CampaignCodeError,
+  NotFoundError,
+  ObjectValidationError,
+  OrganizationLearnerAlreadyLinkedToUserError,
+} from '../../../../src/shared/domain/errors.js';
 import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
 import * as userService from '../../../../src/shared/domain/services/user-service.js';
 import * as userLoginRepository from '../../../../src/shared/infrastructure/repositories/user-login-repository.js';

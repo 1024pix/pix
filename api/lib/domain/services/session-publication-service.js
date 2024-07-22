@@ -8,12 +8,12 @@
 import lodash from 'lodash';
 
 import { SessionAlreadyPublishedError } from '../../../src/certification/session-management/domain/errors.js';
-import * as mailService from '../../domain/services/mail-service.js';
 import {
   CertificationCourseNotPublishableError,
   SendingEmailToRefererError,
   SendingEmailToResultRecipientError,
-} from '../errors.js';
+} from '../../../src/shared/domain/errors.js';
+import * as mailService from '../../domain/services/mail-service.js';
 
 const { some, uniqBy } = lodash;
 

@@ -1,5 +1,5 @@
-import { CertificationCandidateNotFoundError } from '../../../../../../lib/domain/errors.js';
 import * as certificationCandidateForSupervisingRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/certification-candidate-for-supervising-repository.js';
+import { CertificationCandidateNotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 

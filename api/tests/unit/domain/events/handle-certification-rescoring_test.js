@@ -1,4 +1,3 @@
-import { CertificationComputeError } from '../../../../lib/domain/errors.js';
 import { CertificationCourseRejected } from '../../../../lib/domain/events/CertificationCourseRejected.js';
 import { CertificationJuryDone } from '../../../../lib/domain/events/CertificationJuryDone.js';
 import { ChallengeDeneutralized } from '../../../../lib/domain/events/ChallengeDeneutralized.js';
@@ -8,6 +7,7 @@ import { AssessmentResult, CertificationResult } from '../../../../lib/domain/mo
 import { CertificationAssessment } from '../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
 import { ABORT_REASONS } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { CERTIFICATION_VERSIONS } from '../../../../src/certification/shared/domain/models/CertificationVersion.js';
+import { CertificationComputeError } from '../../../../src/shared/domain/errors.js';
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 const { handleCertificationRescoring } = _forTestOnly.handlers;

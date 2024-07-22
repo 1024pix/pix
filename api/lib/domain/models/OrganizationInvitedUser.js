@@ -1,9 +1,9 @@
-import { OrganizationInvitation } from '../../../src/team/domain/models/OrganizationInvitation.js';
 import {
   AlreadyAcceptedOrCancelledInvitationError,
   AlreadyExistingMembershipError,
   NotFoundError,
-} from '../../domain/errors.js';
+} from '../../../src/shared/domain/errors.js';
+import { OrganizationInvitation } from '../../../src/team/domain/models/OrganizationInvitation.js';
 import { roles } from './Membership.js';
 
 class OrganizationInvitedUser {

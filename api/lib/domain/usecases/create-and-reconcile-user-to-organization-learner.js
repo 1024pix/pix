@@ -4,13 +4,13 @@ const { isNil } = lodash;
 import { User } from '../../../src/identity-access-management/domain/models/User.js';
 import { EntityValidationError } from '../../../src/shared/domain/errors.js';
 import { AlreadyRegisteredEmailError } from '../../../src/shared/domain/errors.js';
-import { urlBuilder } from '../../../src/shared/infrastructure/utils/url-builder.js';
-import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
 import {
   AlreadyRegisteredUsernameError,
   CampaignCodeError,
   OrganizationLearnerAlreadyLinkedToUserError,
-} from '../errors.js';
+} from '../../../src/shared/domain/errors.js';
+import { urlBuilder } from '../../../src/shared/infrastructure/utils/url-builder.js';
+import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
 
 const createAndReconcileUserToOrganizationLearner = async function ({
   campaignCode,

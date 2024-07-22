@@ -2,8 +2,8 @@ import fs from 'node:fs/promises';
 import Path from 'node:path';
 import * as url from 'node:url';
 
-import { FileValidationError } from '../../../../../../../lib/domain/errors.js';
 import { unzip } from '../../../../../../../src/prescription/learner-management/infrastructure/utils/xml/zip.js';
+import { FileValidationError } from '../../../../../../../src/shared/domain/errors.js';
 import { catchErr, expect } from '../../../../../../test-helper.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));

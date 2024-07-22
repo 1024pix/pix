@@ -1,4 +1,3 @@
-import * as DomainErrors from '../../../lib/domain/errors.js';
 import { InvalidCertificationReportForFinalization } from '../../../src/certification/shared/domain/errors.js';
 import * as EvaluationDomainErrors from '../../../src/evaluation/domain/errors.js';
 import { CompetenceResetError } from '../../../src/evaluation/domain/errors.js';
@@ -7,15 +6,7 @@ import {
   UserShouldChangePasswordError,
 } from '../../../src/identity-access-management/domain/errors.js';
 import { CampaignParticipationDeletedError } from '../../../src/prescription/campaign-participation/domain/errors.js';
-import {
-  CsvImportError,
-  EntityValidationError,
-  ForbiddenAccess,
-  InvalidResultRecipientTokenError,
-  InvalidTemporaryKeyError,
-  UserAlreadyLinkedToCandidateInSessionError,
-  UserNotFoundError,
-} from '../../../src/shared/domain/errors.js';
+import * as DomainErrors from '../../../src/shared/domain/errors.js';
 import { expect, HttpTestServer, sinon } from '../../test-helper.js';
 
 describe('Integration | API | Controller Error', function () {
@@ -125,7 +116,7 @@ describe('Integration | API | Controller Error', function () {
     });
 
     it('responds Precondition Failed when a CsvImportError error occurs', async function () {
-      routeHandler.throws(new CsvImportError());
+      routeHandler.throws(new DomainErrors.CsvImportError());
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(PRECONDITION_FAILED);
@@ -211,7 +202,7 @@ describe('Integration | API | Controller Error', function () {
     });
 
     it('responds Not Found when a UserNotFoundError error occurs', async function () {
-      routeHandler.throws(new UserNotFoundError('Ce compte est introuvable.'));
+      routeHandler.throws(new DomainErrors.UserNotFoundError('Ce compte est introuvable.'));
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(NOT_FOUND_ERROR);
@@ -311,7 +302,7 @@ describe('Integration | API | Controller Error', function () {
     });
 
     it('responds Forbidden when a ForbiddenAccess error occurs', async function () {
-      routeHandler.throws(new ForbiddenAccess('Accès non autorisé.', 'FORBIDDEN_ACCESS'));
+      routeHandler.throws(new DomainErrors.ForbiddenAccess('Accès non autorisé.', 'FORBIDDEN_ACCESS'));
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
@@ -320,7 +311,7 @@ describe('Integration | API | Controller Error', function () {
     });
 
     it('responds Forbidden when a UserAlreadyLinkedToCandidateInSessionError error occurs', async function () {
-      routeHandler.throws(new UserAlreadyLinkedToCandidateInSessionError());
+      routeHandler.throws(new DomainErrors.UserAlreadyLinkedToCandidateInSessionError());
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
@@ -525,7 +516,7 @@ describe('Integration | API | Controller Error', function () {
           message: 'Le prénom n’est pas renseigné.',
         },
       ];
-      routeHandler.throws(new EntityValidationError({ invalidAttributes }));
+      routeHandler.throws(new DomainErrors.EntityValidationError({ invalidAttributes }));
 
       // when
       const response = await server.requestObject(request);
@@ -551,7 +542,7 @@ describe('Integration | API | Controller Error', function () {
           message: 'Le profile cible n’est pas renseigné.',
         },
       ];
-      routeHandler.throws(new EntityValidationError({ invalidAttributes }));
+      routeHandler.throws(new DomainErrors.EntityValidationError({ invalidAttributes }));
 
       // when
       const response = await server.requestObject(request);
@@ -577,7 +568,7 @@ describe('Integration | API | Controller Error', function () {
           message: 'Un identifiant externe est requis pour accèder à la campagne.',
         },
       ];
-      routeHandler.throws(new EntityValidationError({ invalidAttributes }));
+      routeHandler.throws(new DomainErrors.EntityValidationError({ invalidAttributes }));
 
       // when
       const response = await server.requestObject(request);
@@ -605,7 +596,7 @@ describe('Integration | API | Controller Error', function () {
           message: 'Vous devez renseigner une adresse e-mail et/ou un identifiant.',
         },
       ];
-      routeHandler.throws(new EntityValidationError({ invalidAttributes }));
+      routeHandler.throws(new DomainErrors.EntityValidationError({ invalidAttributes }));
 
       // when
       const response = await server.requestObject(request);
@@ -641,7 +632,7 @@ describe('Integration | API | Controller Error', function () {
           message: 'Le profile cible n’est pas renseigné.',
         },
       ];
-      routeHandler.throws(new EntityValidationError({ invalidAttributes }));
+      routeHandler.throws(new DomainErrors.EntityValidationError({ invalidAttributes }));
 
       // when
       const response = await server.requestObject(request);
@@ -697,7 +688,7 @@ describe('Integration | API | Controller Error', function () {
     });
 
     it('responds Unauthorized when a InvalidTemporaryKeyError error occurs', async function () {
-      routeHandler.throws(new InvalidTemporaryKeyError('Demande de réinitialisation invalide.'));
+      routeHandler.throws(new DomainErrors.InvalidTemporaryKeyError('Demande de réinitialisation invalide.'));
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(UNAUTHORIZED_ERROR);
@@ -705,7 +696,7 @@ describe('Integration | API | Controller Error', function () {
     });
 
     it('responds Unauthorized when a InvalidResultRecipientTokenError error occurs', async function () {
-      routeHandler.throws(new InvalidResultRecipientTokenError());
+      routeHandler.throws(new DomainErrors.InvalidResultRecipientTokenError());
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(UNAUTHORIZED_ERROR);
@@ -790,6 +781,7 @@ describe('Integration | API | Controller Error', function () {
       );
     });
 
+    //FIXME ce test semble ne pas être dans le contexte approprié...
     it('responds NotFoundError when a CertificationCandidateNotFoundError error occurs', async function () {
       routeHandler.throws(new DomainErrors.CertificationCandidateNotFoundError());
 

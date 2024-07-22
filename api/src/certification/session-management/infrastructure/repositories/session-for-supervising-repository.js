@@ -1,5 +1,5 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CertificationChallengeLiveAlertStatus } from '../../../shared/domain/models/CertificationChallengeLiveAlert.js';
 import { CertificationVersion } from '../../../shared/domain/models/CertificationVersion.js';
 import { CertificationCandidateForSupervising } from '../../domain/models/CertificationCandidateForSupervising.js';

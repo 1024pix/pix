@@ -1,6 +1,6 @@
 import lodash from 'lodash';
 
-import { FileValidationError } from '../../../../lib/domain/errors.js';
+import { FileValidationError } from '../../../../src/shared/domain/errors.js';
 import { convertDateValue } from '../../../../src/shared/infrastructure/utils/date-utils.js';
 import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 import { csvHelper } from '../../helpers/csv.js';

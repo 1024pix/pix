@@ -2,9 +2,9 @@ import stream from 'node:stream';
 
 const { PassThrough } = stream;
 
-import { CampaignTypeError } from '../../../../../../lib/domain/errors.js';
 import { startWritingCampaignProfilesCollectionResultsToStream } from '../../../../../../src/prescription/campaign/domain/usecases/start-writing-campaign-profiles-collection-results-to-stream.js';
 import { CampaignProfilesCollectionExport } from '../../../../../../src/prescription/campaign/infrastructure/serializers/csv/campaign-profiles-collection-export.js';
+import { CampaignTypeError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon, streamToPromise } from '../../../../../test-helper.js';
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 

@@ -1,5 +1,5 @@
-import { NoSkillsInCampaignError, NotFoundError } from '../../../../lib/domain/errors.js';
 import * as learningContentRepository from '../../../../lib/infrastructure/repositories/learning-content-repository.js';
+import { NoSkillsInCampaignError, NotFoundError } from '../../../../src/shared/domain/errors.js';
 import {
   catchErr,
   databaseBuilder,

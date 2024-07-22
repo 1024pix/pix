@@ -1,4 +1,4 @@
-import { OrganizationArchivedError } from '../../../../../lib/domain/errors.js';
+import { OrganizationArchivedError } from '../../../../../src/shared/domain/errors.js';
 import { createOrganizationInvitations } from '../../../../../src/team/domain/usecases/create-organization-invitations.usecase.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 

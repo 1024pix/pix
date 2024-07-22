@@ -6,13 +6,13 @@ import _ from 'lodash';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-import { CampaignTypeError } from '../../../../../lib/domain/errors.js';
 import { CampaignLearningContent } from '../../../../../lib/domain/models/CampaignLearningContent.js';
 import {
   CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING,
   CONCURRENCY_HEAVY_OPERATIONS,
 } from '../../../../../lib/infrastructure/constants.js';
 import * as csvSerializer from '../../../../../lib/infrastructure/serializers/csv/csv-serializer.js';
+import { CampaignTypeError } from '../../../../shared/domain/errors.js';
 
 const startWritingCampaignAssessmentResultsToStream = async function ({
   campaignId,

@@ -15,7 +15,7 @@ const enrolmentDomainErrorMappingConfiguration = [
   },
   {
     name: CertificationCandidateNotFoundError.name,
-    httpErrorFn: (error) => new HttpErrors.NotFoundError(error.message),
+    httpErrorFn: (error) => new HttpErrors.NotFoundError(error.message, error.code),
   },
   { name: SessionStartedDeletionError.name, httpErrorFn: (error) => new HttpErrors.ConflictError(error.message) },
   {

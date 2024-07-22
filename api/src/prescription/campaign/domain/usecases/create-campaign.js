@@ -1,4 +1,4 @@
-import { UserNotAuthorizedToCreateCampaignError } from '../../../../../lib/domain/errors.js';
+import { UserNotAuthorizedToCreateCampaignError } from '../../../../shared/domain/errors.js';
 
 const createCampaign = async function ({
   campaign,

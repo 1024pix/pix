@@ -1,4 +1,4 @@
-import { CsvParsingError } from '../../../../../../lib/domain/errors.js';
+import { CsvParsingError } from '../../../../../../src/shared/domain/errors.js';
 import { getCsvContent } from '../../../../../../src/shared/infrastructure/utils/csv/write-csv-utils.js';
 import { catchErr, expect } from '../../../../../test-helper.js';
 

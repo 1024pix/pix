@@ -1,11 +1,6 @@
 import lodash from 'lodash';
 const { pick } = lodash;
 
-import {
-  CampaignCodeError,
-  NotFoundError,
-  OrganizationLearnerAlreadyLinkedToUserError,
-} from '../../../../lib/domain/errors.js';
 import * as mailService from '../../../../lib/domain/services/mail-service.js';
 import * as obfuscationService from '../../../../lib/domain/services/obfuscation-service.js';
 import * as userReconciliationService from '../../../../lib/domain/services/user-reconciliation-service.js';
@@ -16,6 +11,11 @@ import * as organizationLearnerRepository from '../../../../lib/infrastructure/r
 import * as authenticationMethodRepository from '../../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import * as userRepository from '../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { userToCreateRepository } from '../../../../src/identity-access-management/infrastructure/repositories/user-to-create.repository.js';
+import {
+  CampaignCodeError,
+  NotFoundError,
+  OrganizationLearnerAlreadyLinkedToUserError,
+} from '../../../../src/shared/domain/errors.js';
 import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
 import { cryptoService } from '../../../../src/shared/domain/services/crypto-service.js';
 import * as userService from '../../../../src/shared/domain/services/user-service.js';

@@ -1,8 +1,8 @@
 import fs from 'node:fs/promises';
 
-import { FileValidationError } from '../../../../lib/domain/errors.js';
 import { eventBus } from '../../../../lib/domain/events/index.js';
 import { logErrorWithCorrelationIds } from '../../../../lib/infrastructure/monitoring-tools.js';
+import { FileValidationError } from '../../../../src/shared/domain/errors.js';
 import { ApplicationTransaction } from '../../shared/infrastructure/ApplicationTransaction.js';
 import { usecases } from '../domain/usecases/index.js';
 import { OrganizationLearnerParser } from '../infrastructure/serializers/csv/organization-learner-parser.js';

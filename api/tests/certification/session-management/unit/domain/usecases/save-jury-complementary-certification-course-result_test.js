@@ -1,6 +1,6 @@
-import { InvalidJuryLevelError, NotFoundError } from '../../../../../../lib/domain/errors.js';
 import { saveJuryComplementaryCertificationCourseResult } from '../../../../../../src/certification/session-management/domain/usecases/save-jury-complementary-certification-course-result.js';
 import { ComplementaryCertificationCourseResult } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
+import { InvalidJuryLevelError, NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Certification | Session-management | Unit | Domain | UseCases | save-jury-complementary-certification-course-results', function () {
