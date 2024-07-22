@@ -10,6 +10,7 @@ import { CERTIFICATION_VERSIONS } from '../../../../src/certification/shared/dom
 import * as scoringService from '../../../../src/evaluation/domain/services/scoring/scoring-service.js';
 import { config } from '../../../../src/shared/config.js';
 import { AssessmentResult } from '../../../../src/shared/domain/models/AssessmentResult.js';
+import * as placementProfileService from '../../../../src/shared/domain/services/placement-profile-service.js';
 import * as areaRepository from '../../../../src/shared/infrastructure/repositories/area-repository.js';
 import {
   AnswerCollectionForScoring,
@@ -19,7 +20,6 @@ import {
   CompetenceMark,
   ReproducibilityRate,
 } from '../../models/index.js';
-import * as placementProfileService from '../placement-profile-service.js';
 
 const calculateCertificationAssessmentScore = async function ({
   certificationAssessment,

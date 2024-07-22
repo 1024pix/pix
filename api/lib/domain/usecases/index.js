@@ -80,6 +80,7 @@ import * as codeGenerator from '../../../src/shared/domain/services/code-generat
 import { cryptoService } from '../../../src/shared/domain/services/crypto-service.js';
 import * as languageService from '../../../src/shared/domain/services/language-service.js';
 import * as localeService from '../../../src/shared/domain/services/locale-service.js';
+import * as placementProfileService from '../../../src/shared/domain/services/placement-profile-service.js';
 import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import * as userService from '../../../src/shared/domain/services/user-service.js';
 import * as passwordValidator from '../../../src/shared/domain/validators/password-validator.js';
@@ -111,7 +112,6 @@ import * as improvementService from '../../domain/services/improvement-service.j
 import * as mailService from '../../domain/services/mail-service.js';
 import * as obfuscationService from '../../domain/services/obfuscation-service.js';
 import * as passwordGenerator from '../../domain/services/password-generator.js';
-import * as placementProfileService from '../../domain/services/placement-profile-service.js';
 import * as scoringCertificationService from '../../domain/services/scoring/scoring-certification-service.js';
 import * as sessionPublicationService from '../../domain/services/session-publication-service.js';
 import * as verifyCertificateCodeService from '../../domain/services/verify-certificate-code-service.js';

@@ -3,8 +3,8 @@ import chunk from 'lodash/chunk.js';
 import isBoolean from 'lodash/isBoolean.js';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
-import * as placementProfileService from '../../../../../lib/domain/services/placement-profile-service.js';
 import { constants } from '../../../../../lib/infrastructure/constants.js';
+import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
 import { filterByFullName } from '../../../../shared/infrastructure/utils/filter-utils.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';

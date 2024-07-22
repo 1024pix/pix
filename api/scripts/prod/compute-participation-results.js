@@ -15,8 +15,8 @@ import bluebird from 'bluebird';
 import _ from 'lodash';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
-import * as placementProfileService from '../../lib/domain/services/placement-profile-service.js';
 import { constants } from '../../lib/infrastructure/constants.js';
+import * as placementProfileService from '../../src/shared/domain/services/placement-profile-service.js';
 import * as competenceRepository from '../../src/shared/infrastructure/repositories/competence-repository.js';
 
 const concurrency = parseInt(process.argv[2]);
