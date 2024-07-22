@@ -161,4 +161,31 @@ describe('Acceptance | Team | Route | Admin-member', function () {
       expect(response.statusCode).to.equal(200);
     });
   });
+
+  describe('PUT /api/admin/admin-members/{id}/deactivate', function () {
+    it('should return 204 http status code if admin member has role "SUPER_ADMIN" and admin member has been successfully deactivated', async function () {
+      // given
+      const superAdmin = await databaseBuilder.factory.buildUser.withRole({ role: ROLES.SUPER_ADMIN });
+      const user = databaseBuilder.factory.buildUser();
+      const adminMemberToDeactivate = databaseBuilder.factory.buildPixAdminRole({
+        userId: user.id,
+        role: ROLES.SUPPORT,
+      });
+
+      await databaseBuilder.commit();
+      const server = await createServer();
+
+      // when
+      const response = await server.inject({
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(superAdmin.id),
+        },
+        method: 'PUT',
+        url: `/api/admin/admin-members/${adminMemberToDeactivate.id}/deactivate`,
+      });
+
+      // then
+      expect(response.statusCode).to.equal(204);
+    });
+  });
 });
