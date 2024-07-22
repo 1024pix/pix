@@ -1,8 +1,8 @@
-import { config } from '../../../src/shared/config.js';
-import { DistributedCache } from '../../../src/shared/infrastructure/caches/DistributedCache.js';
-import { InMemoryCache } from '../../../src/shared/infrastructure/caches/InMemoryCache.js';
-import { LayeredCache } from '../../../src/shared/infrastructure/caches/LayeredCache.js';
-import { RedisCache } from './RedisCache.js';
+import { RedisCache } from '../../../../lib/infrastructure/caches/RedisCache.js';
+import { config } from '../../config.js';
+import { DistributedCache } from './DistributedCache.js';
+import { InMemoryCache } from './InMemoryCache.js';
+import { LayeredCache } from './LayeredCache.js';
 
 const LEARNING_CONTENT_CHANNEL = 'Learning content';
 const LEARNING_CONTENT_CACHE_KEY = 'LearningContent';

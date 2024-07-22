@@ -13,11 +13,11 @@ import { hideBin } from 'yargs/helpers';
 import yargs from 'yargs/yargs';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
-import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
 import * as badgeAcquisitionRepository from '../../lib/infrastructure/repositories/badge-acquisition-repository.js';
 import * as badgeForCalculationRepository from '../../lib/infrastructure/repositories/badge-for-calculation-repository.js';
 import * as knowledgeElementRepository from '../../lib/infrastructure/repositories/knowledge-element-repository.js';
 import { CampaignParticipation } from '../../src/prescription/campaign-participation/domain/models/CampaignParticipation.js';
+import { learningContentCache as cache } from '../../src/shared/infrastructure/caches/learning-content-cache.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 
 const MAX_RANGE_SIZE = 100_000;

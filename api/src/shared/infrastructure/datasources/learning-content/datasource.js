@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { LearningContentCache } from '../../../../../lib/infrastructure/caches/learning-content-cache.js';
+import { LearningContentCache } from '../../caches/learning-content-cache.js';
 import { lcms } from '../../lcms.js';
 import { LearningContentResourceNotFound } from './LearningContentResourceNotFound.js';
 

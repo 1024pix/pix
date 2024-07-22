@@ -6,10 +6,10 @@ import _ from 'lodash';
 
 import { buildKnowledgeElement } from '../db/database-builder/factory/build-knowledge-element.js';
 import { disconnect } from '../db/knex-database-connection.js';
-import { learningContentCache as cache } from '../lib/infrastructure/caches/learning-content-cache.js';
 import * as knowledgeElementRepository from '../lib/infrastructure/repositories/knowledge-element-repository.js';
 import * as tubeRepository from '../lib/infrastructure/repositories/tube-repository.js';
 import { calculateScoringInformationForCompetence } from '../src/evaluation/domain/services/scoring/scoring-service.js';
+import { learningContentCache as cache } from '../src/shared/infrastructure/caches/learning-content-cache.js';
 import * as skillRepository from '../src/shared/infrastructure/repositories/skill-repository.js';
 
 async function getUserSkillsGroupedByTubeId(elements) {

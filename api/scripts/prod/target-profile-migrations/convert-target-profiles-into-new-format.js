@@ -5,7 +5,7 @@ import * as url from 'node:url';
 import _ from 'lodash';
 
 import { disconnect, knex } from '../../../db/knex-database-connection.js';
-import { learningContentCache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
+import { learningContentCache } from '../../../src/shared/infrastructure/caches/learning-content-cache.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import { autoMigrateTargetProfile } from './common.js';
 
