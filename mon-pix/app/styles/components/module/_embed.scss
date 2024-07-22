@@ -1,3 +1,7 @@
+:root {
+  --embed-overlay-color: rgb(0 0 0 / 55%);
+}
+
 .element-embed {
   position: relative;
 
@@ -28,6 +32,7 @@
     }
   }
 
+
   &__overlay {
     position: absolute;
     top: 0;
@@ -38,6 +43,6 @@
     justify-content: center;
     width: 100%;
     height: 100%;
-    background-color: rgb(0 0 0 / 55%);
+    background-color: var(--embed-overlay-color);
   }
 }
