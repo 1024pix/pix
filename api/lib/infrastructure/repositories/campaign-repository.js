@@ -5,11 +5,8 @@ import { NotFoundError } from '../../domain/errors.js';
 import { Campaign } from '../../domain/models/Campaign.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 
-const areKnowledgeElementsResettable = async function ({
-  id,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
-  const knexConn = domainTransaction.knexTransaction || knex;
+const areKnowledgeElementsResettable = async function ({ id }) {
+  const knexConn = DomainTransaction.getConnection();
   const result = await knexConn('campaigns')
     .join('target-profiles', function () {
       this.on('target-profiles.id', 'campaigns.targetProfileId').andOnVal(
@@ -84,42 +81,42 @@ const getCampaignIdByCampaignParticipationId = async function (campaignParticipa
   return campaign.id;
 };
 
-const findSkillIds = async function ({ campaignId, domainTransaction, filterByStatus = 'operative' }) {
+const findSkillIds = async function ({ campaignId, filterByStatus = 'operative' }) {
   if (filterByStatus === 'all') {
-    return _findSkillIds({ campaignId, domainTransaction });
+    return _findSkillIds({ campaignId });
   }
-  const skills = await this.findSkills({ campaignId, domainTransaction, filterByStatus });
+  const skills = await this.findSkills({ campaignId, filterByStatus });
   return skills.map(({ id }) => id);
 };
 
-const findSkills = function ({ campaignId, domainTransaction, filterByStatus }) {
-  return _findSkills({ campaignId, domainTransaction, filterByStatus });
+const findSkills = function ({ campaignId, filterByStatus }) {
+  return _findSkills({ campaignId, filterByStatus });
 };
 
-const findSkillsByCampaignParticipationId = async function ({ campaignParticipationId, domainTransaction }) {
-  const knexConn = domainTransaction?.knexTransaction ?? knex;
+const findSkillsByCampaignParticipationId = async function ({ campaignParticipationId }) {
+  const knexConn = DomainTransaction.getConnection();
   const [campaignId] = await knexConn('campaign-participations')
     .where({ id: campaignParticipationId })
     .pluck('campaignId');
   return this.findSkills({ campaignId });
 };
 
-const findSkillIdsByCampaignParticipationId = async function ({ campaignParticipationId, domainTransaction }) {
-  const skills = await this.findSkillsByCampaignParticipationId({ campaignParticipationId, domainTransaction });
+const findSkillIdsByCampaignParticipationId = async function ({ campaignParticipationId }) {
+  const skills = await this.findSkillsByCampaignParticipationId({ campaignParticipationId });
   return skills.map(({ id }) => id);
 };
 
-const findTubes = async function ({ campaignId, domainTransaction }) {
-  const knexConn = domainTransaction?.knexTransaction ?? knex;
+const findTubes = async function ({ campaignId }) {
+  const knexConn = DomainTransaction.getConnection();
+
   return await knexConn('target-profile_tubes')
     .pluck('tubeId')
     .join('campaigns', 'campaigns.targetProfileId', 'target-profile_tubes.targetProfileId')
     .where('campaigns.id', campaignId);
 };
 
-const findAllSkills = async function ({ campaignId, domainTransaction }) {
-  const knexConn = domainTransaction?.knexTransaction ?? knex;
-  const tubeIds = await findTubes({ campaignId, domainTransaction: knexConn });
+const findAllSkills = async function ({ campaignId }) {
+  const tubeIds = await findTubes({ campaignId });
   const tubes = await tubeDatasource.findByRecordIds(tubeIds);
   const skillIds = tubes.flatMap((tube) => tube.skillIds);
   return skillRepository.findByRecordIds(skillIds);
@@ -141,8 +138,8 @@ export {
   getCampaignTitleByCampaignParticipationId,
 };
 
-async function _findSkills({ campaignId, domainTransaction, filterByStatus = 'operative' }) {
-  const skillIds = await _findSkillIds({ campaignId, domainTransaction });
+async function _findSkills({ campaignId, filterByStatus = 'operative' }) {
+  const skillIds = await _findSkillIds({ campaignId });
   switch (filterByStatus) {
     case 'operative':
       return skillRepository.findOperativeByIds(skillIds);
@@ -153,7 +150,7 @@ async function _findSkills({ campaignId, domainTransaction, filterByStatus = 'op
   }
 }
 
-async function _findSkillIds({ campaignId, domainTransaction }) {
-  const knexConn = domainTransaction?.knexTransaction ?? knex;
+async function _findSkillIds({ campaignId }) {
+  const knexConn = DomainTransaction.getConnection();
   return knexConn('campaign_skills').where({ campaignId }).pluck('skillId');
 }

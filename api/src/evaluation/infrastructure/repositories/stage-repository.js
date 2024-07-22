@@ -94,19 +94,19 @@ const getByCampaignParticipationId = async (campaignParticipationId, knexConnect
  * this is convenient for campaign overviews
  *
  * @param {[number]} targetProfileIds
- * @param knexConnection
  *
  * @returns Promise<Stage[]>
  */
-const getByTargetProfileIds = async (targetProfileIds, { knexTransaction } = DomainTransaction.emptyTransaction()) => {
-  const knexConnection = knexTransaction ?? knex;
+const getByTargetProfileIds = async (targetProfileIds) => {
+  const knexConnection = DomainTransaction.getConnection();
   return toDomain(
     await knexConnection('stages').select('stages.*').whereIn('stages.targetProfileId', targetProfileIds),
   );
 };
 
 const update = async ({ id, attributesToUpdate }) => {
-  const [stageToUpdate] = await knex('stages')
+  const knexConnection = DomainTransaction.getConnection();
+  const [stageToUpdate] = await knexConnection('stages')
     .where({ id })
     .update({ ...attributesToUpdate, updatedAt: new Date() })
     .returning('*');
@@ -114,8 +114,8 @@ const update = async ({ id, attributesToUpdate }) => {
   return new Stage(stageToUpdate);
 };
 
-const saveAll = async (stages, { knexTransaction } = DomainTransaction.emptyTransaction()) => {
-  const knexConnection = knexTransaction ?? knex;
+const saveAll = async (stages) => {
+  const knexConnection = DomainTransaction.getConnection();
   const createdStages = await knexConnection('stages').insert(stages).returning('*');
   return toDomain(createdStages);
 };

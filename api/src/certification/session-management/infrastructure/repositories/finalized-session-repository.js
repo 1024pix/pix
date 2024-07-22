@@ -10,8 +10,8 @@ const save = async function ({ finalizedSession }) {
   return finalizedSession;
 };
 
-const remove = async function ({ sessionId, domainTransaction = DomainTransaction.emptyTransaction() }) {
-  const knexConn = domainTransaction.knexTransaction ?? knex;
+const remove = async function ({ sessionId }) {
+  const knexConn = DomainTransaction.getConnection();
   return knexConn('finalized-sessions').where({ sessionId }).delete();
 };
 

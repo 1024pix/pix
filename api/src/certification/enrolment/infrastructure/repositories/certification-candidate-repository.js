@@ -32,15 +32,9 @@ const linkToUser = async function ({ id, userId }) {
   }
 };
 
-const saveInSession = async function ({
-  certificationCandidate,
-  sessionId,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
+const saveInSession = async function ({ certificationCandidate, sessionId }) {
   const certificationCandidateDataToSave = _adaptModelToDb(certificationCandidate);
-  const knexTransaction = domainTransaction?.knexTransaction
-    ? domainTransaction.knexTransaction
-    : await knex.transaction();
+  const knexTransaction = DomainTransaction.getConnection();
 
   const [{ id: certificationCandidateId }] = await knexTransaction('certification-candidates')
     .insert({ ...certificationCandidateDataToSave, sessionId })
@@ -52,10 +46,6 @@ const saveInSession = async function ({
       type: subscription.type,
       complementaryCertificationId: subscription.complementaryCertificationId,
     });
-  }
-
-  if (!domainTransaction?.knexTransaction) {
-    await knexTransaction.commit();
   }
 
   return certificationCandidateId;
@@ -134,8 +124,8 @@ const update = async function (certificationCandidate) {
   }
 };
 
-const deleteBySessionId = async function ({ sessionId, domainTransaction = DomainTransaction.emptyTransaction() }) {
-  const knexConn = domainTransaction.knexTransaction ?? knex;
+const deleteBySessionId = async function ({ sessionId }) {
+  const knexConn = DomainTransaction.getConnection();
   await knexConn('certification-subscriptions')
     .whereIn('certificationCandidateId', knexConn.select('id').from('certification-candidates').where({ sessionId }))
     .del();

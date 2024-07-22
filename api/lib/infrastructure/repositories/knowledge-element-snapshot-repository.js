@@ -18,14 +18,9 @@ function _toKnowledgeElementCollection({ snapshot } = {}) {
   );
 }
 
-const save = async function ({
-  userId,
-  snappedAt,
-  knowledgeElements,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
+const save = async function ({ userId, snappedAt, knowledgeElements }) {
   try {
-    const knexConn = domainTransaction.knexTransaction || knex;
+    const knexConn = DomainTransaction.getConnection();
     return await knexConn('knowledge-element-snapshots').insert({
       userId,
       snappedAt,

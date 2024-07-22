@@ -9,12 +9,8 @@ const BADGE_ACQUISITIONS_TABLE = 'badge-acquisitions';
 /**
  * @returns {Array<CertifiableBadgeAcquisition>} highest complementary certification badges a user acquired
  */
-const findHighestCertifiable = async function ({
-  userId,
-  limitDate = new Date(),
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
-  const knexConn = domainTransaction.knexTransaction || knex;
+const findHighestCertifiable = async function ({ userId, limitDate = new Date() }) {
+  const knexConn = DomainTransaction.getConnection();
   const certifiableBadgeAcquisitions = await knexConn
     .with('user-badges', (qb) => {
       qb.from(BADGE_ACQUISITIONS_TABLE)

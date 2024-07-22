@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import { knex } from '../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import * as thematicRepository from '../../../../lib/infrastructure/repositories/thematic-repository.js';
 import * as tubeRepository from '../../../../lib/infrastructure/repositories/tube-repository.js';
@@ -14,14 +13,8 @@ import { TrainingTriggerForAdmin } from '../../domain/read-models/TrainingTrigge
 
 const TABLE_NAME = 'training-triggers';
 
-const createOrUpdate = async function ({
-  trainingId,
-  triggerTubesForCreation,
-  type,
-  threshold,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
-  const knexConn = domainTransaction?.knexTransaction || (await knex.transaction());
+const createOrUpdate = async function ({ trainingId, triggerTubesForCreation, type, threshold }) {
+  const knexConn = DomainTransaction.getConnection();
 
   const [trainingTrigger] = await knexConn(TABLE_NAME)
     .insert({ trainingId, type, threshold, updatedAt: new Date() })
@@ -43,18 +36,11 @@ const createOrUpdate = async function ({
     .insert(trainingTriggerTubesToCreate)
     .returning('*');
 
-  if (!domainTransaction?.knexTransaction) {
-    await knexConn.commit();
-  }
-
   return _toDomainForAdmin({ trainingTrigger, triggerTubes: createdTrainingTriggerTubes });
 };
 
-const findByTrainingIdForAdmin = async function ({
-  trainingId,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
-  const knexConn = domainTransaction?.knexTransaction || knex;
+const findByTrainingIdForAdmin = async function ({ trainingId }) {
+  const knexConn = DomainTransaction.getConnection();
   const trainingTriggers = await knexConn(TABLE_NAME).select('*').where({ trainingId }).orderBy('id', 'asc');
   if (!trainingTriggers) {
     return [];
@@ -74,8 +60,8 @@ const findByTrainingIdForAdmin = async function ({
   );
 };
 
-const findByTrainingId = async function ({ trainingId, domainTransaction = DomainTransaction.emptyTransaction() }) {
-  const knexConn = domainTransaction?.knexTransaction || knex;
+const findByTrainingId = async function ({ trainingId }) {
+  const knexConn = DomainTransaction.getConnection();
   const trainingTriggers = await knexConn(TABLE_NAME).select('*').where({ trainingId }).orderBy('id', 'asc');
   if (!trainingTriggers) {
     return [];

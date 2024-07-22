@@ -5,11 +5,8 @@ import { DomainTransaction } from '../DomainTransaction.js';
 
 const BADGE_ACQUISITIONS_TABLE = 'badge-acquisitions';
 
-const createOrUpdate = async function ({
-  badgeAcquisitionsToCreate = [],
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
-  const knexConn = domainTransaction.knexTransaction || knex;
+const createOrUpdate = async function ({ badgeAcquisitionsToCreate = [] }) {
+  const knexConn = DomainTransaction.getConnection();
   return bluebird.mapSeries(badgeAcquisitionsToCreate, async ({ badgeId, userId, campaignParticipationId }) => {
     const alreadyCreatedBadgeAcquisition = await knexConn(BADGE_ACQUISITIONS_TABLE)
       .select('id')
@@ -24,20 +21,13 @@ const createOrUpdate = async function ({
   });
 };
 
-const getAcquiredBadgeIds = async function ({
-  badgeIds,
-  userId,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
-  const knexConn = domainTransaction.knexTransaction || knex;
+const getAcquiredBadgeIds = async function ({ badgeIds, userId }) {
+  const knexConn = DomainTransaction.getConnection();
   return knexConn(BADGE_ACQUISITIONS_TABLE).pluck('badgeId').where({ userId }).whereIn('badgeId', badgeIds);
 };
 
-const getAcquiredBadgesByCampaignParticipations = async function ({
-  campaignParticipationsIds,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
-  const knexConn = domainTransaction.knexTransaction || knex;
+const getAcquiredBadgesByCampaignParticipations = async function ({ campaignParticipationsIds }) {
+  const knexConn = DomainTransaction.getConnection();
   const badges = await knexConn('badges')
     .distinct('badges.id')
     .select('badge-acquisitions.campaignParticipationId AS campaignParticipationId', 'badges.*')

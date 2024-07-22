@@ -48,8 +48,8 @@ function _stringifyErrors(errors) {
   return JSON.stringify(errorsWithProperties);
 }
 
-const save = async function (organizationImport, domainTransaction = DomainTransaction.emptyTransaction()) {
-  let knexConn = ApplicationTransaction.getConnection(domainTransaction);
+const save = async function (organizationImport) {
+  let knexConn = DomainTransaction.getConnection();
 
   const attributes = { ...organizationImport, errors: _stringifyErrors(organizationImport.errors) };
   if (attributes.errors) {

@@ -4,8 +4,8 @@ import { Division } from '../../domain/models/Division.js';
 import { School } from '../../domain/models/School.js';
 import { SchoolNotFoundError } from '../../domain/school-errors.js';
 
-const save = async function ({ organizationId, code, domainTransaction = DomainTransaction.emptyTransaction() }) {
-  const knexConn = domainTransaction.knexTransaction ?? knex;
+const save = async function ({ organizationId, code }) {
+  const knexConn = DomainTransaction.getConnection();
   await knexConn('schools').insert({ organizationId, code }).returning('*');
 };
 

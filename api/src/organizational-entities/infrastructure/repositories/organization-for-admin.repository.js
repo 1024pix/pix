@@ -66,8 +66,8 @@ const findChildrenByParentOrganizationId = async function (parentOrganizationId)
  * @param {DomainTransaction} domainTransaction
  * @return {Promise<OrganizationForAdmin|NotFoundError>}
  */
-const get = async function (id, domainTransaction = DomainTransaction.emptyTransaction()) {
-  const knexConn = domainTransaction.knexTransaction ?? knex;
+const get = async function (id) {
+  const knexConn = DomainTransaction.getConnection();
   const organization = await knexConn(ORGANIZATIONS_TABLE_NAME)
     .select({
       id: 'organizations.id',
@@ -159,8 +159,8 @@ const get = async function (id, domainTransaction = DomainTransaction.emptyTrans
  * @param {OrganizationForAdmin} organization
  * @return {Promise<OrganizationForAdmin>}
  */
-const save = async function (organization, domainTransaction = DomainTransaction.emptyTransaction()) {
-  const knexConn = domainTransaction.knexTransaction ?? knex;
+const save = async function (organization) {
+  const knexConn = DomainTransaction.getConnection();
   const data = _.pick(organization, [
     'name',
     'type',
@@ -188,8 +188,8 @@ const save = async function (organization, domainTransaction = DomainTransaction
  * @param {DomainTransaction} domainTransaction
  * @return {Promise<void>}
  */
-const update = async function (organization, domainTransaction = DomainTransaction.emptyTransaction()) {
-  const knexConn = domainTransaction.knexTransaction ?? knex;
+const update = async function (organization) {
+  const knexConn = DomainTransaction.getConnection();
   const organizationRawData = _.pick(organization, [
     'credit',
     'documentationUrl',

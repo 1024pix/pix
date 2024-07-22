@@ -1,10 +1,9 @@
-import { knex } from '../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { Passage } from '../../domain/models/Passage.js';
 
-const save = async ({ moduleId, userId, domainTransaction = DomainTransaction.emptyTransaction() }) => {
-  const knexConn = domainTransaction?.knexTransaction || knex;
+const save = async ({ moduleId, userId }) => {
+  const knexConn = DomainTransaction.getConnection();
   const [passage] = await knexConn('passages')
     .insert({
       moduleId,
@@ -17,8 +16,8 @@ const save = async ({ moduleId, userId, domainTransaction = DomainTransaction.em
   return _toDomain(passage);
 };
 
-const get = async ({ passageId, domainTransaction = DomainTransaction.emptyTransaction() }) => {
-  const knexConn = domainTransaction?.knexTransaction || knex;
+const get = async ({ passageId }) => {
+  const knexConn = DomainTransaction.getConnection();
   const passage = await knexConn('passages').where({ id: passageId }).first();
   if (!passage) {
     throw new NotFoundError();
@@ -27,8 +26,8 @@ const get = async ({ passageId, domainTransaction = DomainTransaction.emptyTrans
   return _toDomain(passage);
 };
 
-const update = async ({ passage, domainTransaction = DomainTransaction.emptyTransaction() }) => {
-  const knexConn = domainTransaction?.knexTransaction || knex;
+const update = async ({ passage }) => {
+  const knexConn = DomainTransaction.getConnection();
   const [updatedPassage] = await knexConn('passages')
     .where({ id: passage.id })
     .update({

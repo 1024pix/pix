@@ -6,8 +6,8 @@ import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.j
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { SessionEnrolment } from '../../domain/models/SessionEnrolment.js';
 
-const save = async function ({ session, domainTransaction = DomainTransaction.emptyTransaction() }) {
-  const knexConn = domainTransaction.knexTransaction ?? knex;
+const save = async function ({ session }) {
+  const knexConn = DomainTransaction.getConnection();
   const [savedSession] = await knexConn('sessions')
     .insert({
       accessCode: session.accessCode,

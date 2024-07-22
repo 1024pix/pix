@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { NotFoundError } from '../../../../../../lib/domain/errors.js';
-import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
+import { DomainTransaction, withTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 import { CampaignParticipation } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignParticipation.js';
 import { AvailableCampaignParticipation } from '../../../../../../src/prescription/campaign-participation/domain/read-models/AvailableCampaignParticipation.js';
 import * as campaignParticipationRepository from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
@@ -81,9 +81,7 @@ describe('Integration | Repository | Campaign Participation', function () {
       it('should save a snapshot using a transaction', async function () {
         campaignParticipation.sharedAt = new Date();
 
-        await ApplicationTransaction.execute(async () => {
-          await campaignParticipationRepository.updateWithSnapshot(campaignParticipation);
-        });
+        await withTransaction(async () => campaignParticipationRepository.updateWithSnapshot(campaignParticipation))();
 
         const snapshotInDB = await knex.select('id').from('knowledge-element-snapshots');
         expect(snapshotInDB).to.have.length(1);
@@ -93,10 +91,10 @@ describe('Integration | Repository | Campaign Participation', function () {
         campaignParticipation.sharedAt = new Date();
 
         try {
-          await ApplicationTransaction.execute(async () => {
+          await withTransaction(async () => {
             await campaignParticipationRepository.updateWithSnapshot(campaignParticipation);
             throw new Error();
-          });
+          })();
           // eslint-disable-next-line no-empty
         } catch (error) {}
 

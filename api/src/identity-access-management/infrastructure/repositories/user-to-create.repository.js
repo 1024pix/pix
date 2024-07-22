@@ -1,4 +1,3 @@
-import { knex } from '../../../../db/knex-database-connection.js';
 import { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } from '../../../../db/pgsql-errors.js';
 import { STUDENT_RECONCILIATION_ERRORS } from '../../../../lib/domain/constants.js';
 import { OrganizationLearnerAlreadyLinkedToUserError } from '../../../../lib/domain/errors.js';
@@ -11,8 +10,8 @@ import { User } from '../../domain/models/User.js';
  * @property domainTransaction
  * @return {Promise<User|OrganizationLearnerAlreadyLinkedToUserError>}
  */
-const create = async function ({ user, domainTransaction = DomainTransaction.emptyTransaction() }) {
-  const knexConnection = domainTransaction.knexTransaction || knex;
+const create = async function ({ user }) {
+  const knexConnection = DomainTransaction.getConnection();
 
   if (user.username) {
     return await _createWithUsername({ knexConnection, user });

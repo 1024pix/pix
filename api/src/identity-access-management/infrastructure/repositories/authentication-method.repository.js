@@ -19,9 +19,9 @@ const COLUMNS = Object.freeze([
   'updatedAt',
 ]);
 
-const create = async function ({ authenticationMethod, domainTransaction = DomainTransaction.emptyTransaction() }) {
+const create = async function ({ authenticationMethod }) {
   try {
-    const knexConn = domainTransaction.knexTransaction ?? knex;
+    const knexConn = DomainTransaction.getConnection();
     const authenticationMethodForDB = _.pick(authenticationMethod, [
       'identityProvider',
       'authenticationComplement',
@@ -43,11 +43,7 @@ const create = async function ({ authenticationMethod, domainTransaction = Domai
   }
 };
 
-const createPasswordThatShouldBeChanged = async function ({
-  userId,
-  hashedPassword,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
+const createPasswordThatShouldBeChanged = async function ({ userId, hashedPassword }) {
   try {
     const authenticationComplement = new AuthenticationMethod.PixAuthenticationComplement({
       password: hashedPassword,
@@ -64,7 +60,7 @@ const createPasswordThatShouldBeChanged = async function ({
       'externalIdentifier',
       'userId',
     ]);
-    const knexConn = domainTransaction.knexTransaction ?? knex;
+    const knexConn = DomainTransaction.getConnection();
     const [authenticationMethodDTO] = await knexConn(AUTHENTICATION_METHODS_TABLE)
       .insert(authenticationMethodForDB)
       .returning(COLUMNS);
@@ -131,24 +127,18 @@ const removeByUserIdAndIdentityProvider = async function ({ userId, identityProv
   return knex(AUTHENTICATION_METHODS_TABLE).where({ userId, identityProvider }).del();
 };
 
-const removeAllAuthenticationMethodsByUserId = async function ({
-  userId,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
-  const knexConn = domainTransaction.knexTransaction ?? knex;
+const removeAllAuthenticationMethodsByUserId = async function ({ userId }) {
+  const knexConn = DomainTransaction.getConnection();
   return knexConn(AUTHENTICATION_METHODS_TABLE).where({ userId }).del();
 };
 
-const updateChangedPassword = async function (
-  { userId, hashedPassword },
-  domainTransaction = DomainTransaction.emptyTransaction(),
-) {
+const updateChangedPassword = async function ({ userId, hashedPassword }) {
   const authenticationComplement = new AuthenticationMethod.PixAuthenticationComplement({
     password: hashedPassword,
     shouldChangePassword: false,
   });
 
-  const knexConn = domainTransaction.knexTransaction ?? knex;
+  const knexConn = DomainTransaction.getConnection();
   const [authenticationMethodDTO] = await knexConn(AUTHENTICATION_METHODS_TABLE)
     .where({
       userId,
@@ -163,17 +153,13 @@ const updateChangedPassword = async function (
   return _toDomain(authenticationMethodDTO);
 };
 
-const updatePasswordThatShouldBeChanged = async function ({
-  userId,
-  hashedPassword,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
+const updatePasswordThatShouldBeChanged = async function ({ userId, hashedPassword }) {
+  const knexConn = DomainTransaction.getConnection();
+
   const authenticationComplement = new AuthenticationMethod.PixAuthenticationComplement({
     password: hashedPassword,
     shouldChangePassword: true,
   });
-
-  const knexConn = domainTransaction.knexTransaction ?? knex;
   const [authenticationMethodDTO] = await knexConn(AUTHENTICATION_METHODS_TABLE)
     .where({
       userId,
@@ -212,9 +198,8 @@ const updateExternalIdentifierByUserIdAndIdentityProvider = async function ({
   externalIdentifier,
   userId,
   identityProvider,
-  domainTransaction = DomainTransaction.emptyTransaction(),
 }) {
-  const knexConn = domainTransaction.knexTransaction ?? knex;
+  const knexConn = DomainTransaction.getConnection();
   const [authenticationMethodDTO] = await knexConn(AUTHENTICATION_METHODS_TABLE)
     .where({ userId, identityProvider })
     .update({ externalIdentifier, updatedAt: new Date() })
@@ -232,9 +217,8 @@ const updateAuthenticationComplementByUserIdAndIdentityProvider = async function
   authenticationComplement,
   userId,
   identityProvider,
-  domainTransaction = DomainTransaction.emptyTransaction(),
 }) {
-  const knexConn = domainTransaction.knexTransaction ?? knex;
+  const knexConn = DomainTransaction.getConnection();
   const [authenticationMethodDTO] = await knexConn(AUTHENTICATION_METHODS_TABLE)
     .where({ userId, identityProvider })
     .update({ authenticationComplement, updatedAt: new Date() })
@@ -258,13 +242,10 @@ const update = async function ({ id, authenticationComplement }) {
   await knex(AUTHENTICATION_METHODS_TABLE).where({ id }).update({ authenticationComplement, updatedAt: new Date() });
 };
 
-const batchUpdatePasswordThatShouldBeChanged = function ({
-  usersToUpdateWithNewPassword,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
+const batchUpdatePasswordThatShouldBeChanged = function ({ usersToUpdateWithNewPassword }) {
   return Promise.all(
     usersToUpdateWithNewPassword.map(({ userId, hashedPassword }) =>
-      updatePasswordThatShouldBeChanged({ userId, hashedPassword, domainTransaction }),
+      updatePasswordThatShouldBeChanged({ userId, hashedPassword }),
     ),
   );
 };

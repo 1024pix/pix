@@ -1,7 +1,6 @@
 import _ from 'lodash';
 
 import { config } from '../../../shared/config.js';
-import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { GarAuthenticationMethodAnonymized } from '../models/GarAuthenticationMethodAnonymized.js';
 
 const USER_IDS_BATCH_SIZE = 1000;
@@ -21,17 +20,13 @@ export const anonymizeGarAuthenticationMethods = async function ({
   adminMemberId,
   authenticationMethodRepository,
   garAnonymizedBatchEventsLoggingJob,
-  domainTransaction = DomainTransaction.emptyTransaction(),
 }) {
   const userIdBatches = _.chunk(userIds, userIdsBatchSize);
 
   let garAnonymizedUserCount = 0;
 
   for (const userIdsBatch of userIdBatches) {
-    const { garAnonymizedUserIds } = await authenticationMethodRepository.anonymizeByUserIds(
-      { userIds: userIdsBatch },
-      { domainTransaction },
-    );
+    const { garAnonymizedUserIds } = await authenticationMethodRepository.anonymizeByUserIds({ userIds: userIdsBatch });
     garAnonymizedUserCount += garAnonymizedUserIds.length;
 
     if (config.auditLogger.isEnabled) {

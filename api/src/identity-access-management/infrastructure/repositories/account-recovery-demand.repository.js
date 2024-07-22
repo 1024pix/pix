@@ -42,12 +42,9 @@ const save = async function (accountRecoveryDemand) {
   return _toDomain(result[0]);
 };
 
-const markAsBeingUsed = async function (temporaryKey, { knexTransaction } = DomainTransaction.emptyTransaction()) {
-  const query = knex('account-recovery-demands')
-    .where({ temporaryKey })
-    .update({ used: true, updatedAt: knex.fn.now() });
-  if (knexTransaction) query.transacting(knexTransaction);
-  return query;
+const markAsBeingUsed = async function (temporaryKey) {
+  const knexConn = DomainTransaction.getConnection();
+  return knexConn('account-recovery-demands').where({ temporaryKey }).update({ used: true, updatedAt: knex.fn.now() });
 };
 
 export const accountRecoveryDemandRepository = { findByTemporaryKey, findByUserId, markAsBeingUsed, save };

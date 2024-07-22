@@ -14,8 +14,8 @@ import { CertificationCourse } from '../../domain/models/CertificationCourse.js'
 import { CertificationIssueReport } from '../../domain/models/CertificationIssueReport.js';
 import * as certificationChallengeRepository from './certification-challenge-repository.js';
 
-async function save({ certificationCourse, domainTransaction = DomainTransaction.emptyTransaction() }) {
-  const knexConn = domainTransaction.knexTransaction || knex;
+async function save({ certificationCourse }) {
+  const knexConn = DomainTransaction.getConnection();
 
   const certificationCourseToSaveDTO = _adaptModelToDb(certificationCourse);
   const [{ id: certificationCourseId }] = await knexConn('certification-courses')
@@ -41,11 +41,10 @@ async function save({ certificationCourse, domainTransaction = DomainTransaction
     };
     return certificationChallengeRepository.save({
       certificationChallenge: certificationChallengeWithCourseId,
-      domainTransaction,
     });
   });
 
-  return get({ id: certificationCourseId, domainTransaction });
+  return get({ id: certificationCourseId });
 }
 
 const _findCertificationCourse = async function (id, knexConn = knex) {
@@ -60,8 +59,8 @@ const _findAllChallenges = async function (certificationCourseId, knexConn = kne
   return knexConn('certification-challenges').where({ courseId: certificationCourseId });
 };
 
-async function get({ id, domainTransaction = DomainTransaction.emptyTransaction() }) {
-  const knexConn = domainTransaction.knexTransaction || knex;
+async function get({ id }) {
+  const knexConn = DomainTransaction.getConnection();
   const certificationCourseDTO = await _findCertificationCourse(id, knexConn);
 
   if (!certificationCourseDTO) {
@@ -141,12 +140,8 @@ async function getSessionId({ id }) {
   return row.sessionId;
 }
 
-async function findOneCertificationCourseByUserIdAndSessionId({
-  userId,
-  sessionId,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
-  const knexConn = domainTransaction.knexTransaction ?? knex;
+async function findOneCertificationCourseByUserIdAndSessionId({ userId, sessionId }) {
+  const knexConn = DomainTransaction.getConnection();
 
   const certificationCourseDTO = await knexConn('certification-courses')
     .where({ userId, sessionId })

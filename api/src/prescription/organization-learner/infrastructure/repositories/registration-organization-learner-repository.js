@@ -1,14 +1,10 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
 import { OrganizationLearner } from '../../../../../lib/domain/models/OrganizationLearner.js';
-import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 
-const findOneByUserIdAndOrganizationId = async function ({
-  userId,
-  organizationId,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
-  const organizationLearner = await knex('view-active-organization-learners')
-    .transacting(domainTransaction)
+const findOneByUserIdAndOrganizationId = async function ({ userId, organizationId }) {
+  const knexConn = DomainTransaction.getConnection();
+
+  const organizationLearner = await knexConn('view-active-organization-learners')
     .where({ userId, organizationId })
     .first('*');
   if (!organizationLearner) return null;

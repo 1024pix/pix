@@ -25,8 +25,8 @@ const create = async function (organizationTag) {
   }
 };
 
-const batchCreate = async function (organizationsTags, domainTransaction = DomainTransaction.emptyTransaction()) {
-  const knexConn = domainTransaction.knexTransaction || knex;
+const batchCreate = async function (organizationsTags) {
+  const knexConn = DomainTransaction.getConnection();
 
   return knexConn.batchInsert('organization-tags', organizationsTags);
 };

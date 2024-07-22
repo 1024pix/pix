@@ -17,8 +17,8 @@ import { StageCollection } from '../../domain/models/target-profile-management/S
 import * as competenceRepository from './competence-repository.js';
 import * as skillRepository from './skill-repository.js';
 
-const get = async function ({ id, locale = FRENCH_FRANCE }, domainTransaction = DomainTransaction.emptyTransaction()) {
-  const knexConn = domainTransaction?.knexTransaction || knex;
+const get = async function ({ id, locale = FRENCH_FRANCE }) {
+  const knexConn = DomainTransaction.getConnection();
 
   const targetProfileDTO = await knexConn('target-profiles')
     .select(

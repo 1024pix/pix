@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { AssessmentResult } from '../../../../shared/domain/models/AssessmentResult.js';
@@ -38,11 +37,8 @@ function _toDomain({ assessmentResultDTO, competencesMarksDTO }) {
   });
 }
 
-const getLatestAssessmentResult = async function ({
-  certificationCourseId,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
-  const knexConn = domainTransaction.knexTransaction || knex;
+const getLatestAssessmentResult = async function ({ certificationCourseId }) {
+  const knexConn = DomainTransaction.getConnection();
 
   const latestAssessmentResult = await knexConn('certification-courses-last-assessment-results')
     .select('assessment-results.*')

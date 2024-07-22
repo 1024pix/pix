@@ -218,16 +218,11 @@ const update = async function (properties) {
   await knex('users').where({ id: userId }).update(data);
 };
 
-const updateWithEmailConfirmed = function ({
-  id,
-  userAttributes,
-  domainTransaction: { knexTransaction } = DomainTransaction.emptyTransaction(),
-}) {
-  const query = knex('users')
+const updateWithEmailConfirmed = function ({ id, userAttributes }) {
+  const knexConn = DomainTransaction.getConnection();
+  return knexConn('users')
     .where({ id })
     .update({ ...userAttributes, updatedAt: new Date() });
-  if (knexTransaction) query.transacting(knexTransaction);
-  return query;
 };
 
 const checkIfEmailIsAvailable = async function (email) {
@@ -250,13 +245,9 @@ const updateEmail = async function ({ id, email }) {
   return new User(updatedUserEmail);
 };
 
-const updateUserDetailsForAdministration = async function ({
-  id,
-  userAttributes,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
+const updateUserDetailsForAdministration = async function ({ id, userAttributes }) {
   try {
-    const knexConn = domainTransaction.knexTransaction ?? knex;
+    const knexConn = DomainTransaction.getConnection();
     const [userDTO] = await knexConn('users')
       .where({ id })
       .update({ ...userAttributes, updatedAt: new Date() })
@@ -357,8 +348,8 @@ const isUsernameAvailable = async function (username) {
   return username;
 };
 
-const updateUsername = async function ({ id, username, domainTransaction = DomainTransaction.emptyTransaction() }) {
-  const knexConn = domainTransaction.knexTransaction || knex;
+const updateUsername = async function ({ id, username }) {
+  const knexConn = DomainTransaction.getConnection();
   const [updatedUsername] = await knexConn('users')
     .where({ id })
     .update({ username, updatedAt: new Date() })

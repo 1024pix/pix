@@ -2,7 +2,7 @@ import { IMPORT_STATUSES } from '../../../../../../src/prescription/learner-mana
 import { OrganizationImport } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImport.js';
 import * as organizationImportRepository from '../../../../../../src/prescription/learner-management/infrastructure/repositories/organization-import-repository.js';
 import { ApplicationTransaction } from '../../../../../../src/prescription/shared/infrastructure/ApplicationTransaction.js';
-import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
+import { DomainTransaction, withTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { catchErr, databaseBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | Organization Learner Management | Organization Import', function () {
@@ -92,11 +92,12 @@ describe('Integration | Repository | Organization Learner Management | Organizat
 
       const organizationImport = OrganizationImport.create({ organizationId, createdBy: userId });
       organizationImport.upload({ filename: 'test.csv', encoding: 'utf8' });
+
       try {
-        await ApplicationTransaction.execute(async () => {
+        await withTransaction(async () => {
           await organizationImportRepository.save(organizationImport);
           throw new Error();
-        });
+        })();
         // eslint-disable-next-line no-empty
       } catch (e) {}
 
