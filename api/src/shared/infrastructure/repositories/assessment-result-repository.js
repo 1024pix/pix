@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { knex } from '../../../../db/knex-database-connection.js';
-import { CompetenceMark } from '../../../certification/results/domain/models/CompetenceMark.js';
+import { CompetenceMark } from '../../../certification/shared/domain/models/CompetenceMark.js';
 import {
   AutoJuryCommentKeys,
   JuryComment,
