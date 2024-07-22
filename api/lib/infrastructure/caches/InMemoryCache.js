@@ -1,7 +1,7 @@
 import NodeCache from 'node-cache';
 
+import { applyPatch } from '../../../src/shared/infrastructure/caches/apply-patch.js';
 import { Cache } from '../../../src/shared/infrastructure/caches/Cache.js';
-import { applyPatch } from './apply-patch.js';
 
 class InMemoryCache extends Cache {
   constructor() {
