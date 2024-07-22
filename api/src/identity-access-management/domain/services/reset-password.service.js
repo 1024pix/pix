@@ -20,7 +20,7 @@ const invalidateOldResetPasswordDemand = function (userEmail, resetPasswordDeman
 };
 
 const verifyDemand = function (temporaryKey, resetPasswordDemandRepository) {
-  return resetPasswordDemandRepository.findByTemporaryKey(temporaryKey).then((fetchedDemand) => fetchedDemand.toJSON());
+  return resetPasswordDemandRepository.findByTemporaryKey(temporaryKey);
 };
 
 /**

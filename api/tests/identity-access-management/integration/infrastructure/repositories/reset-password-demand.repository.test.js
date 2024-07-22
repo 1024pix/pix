@@ -26,9 +26,10 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
 
   describe('#markAsBeingUsed', function () {
     const email = 'someEmail@example.net';
+    const updatedAt = new Date('2013-01-01T15:00:00Z');
 
     beforeEach(function () {
-      databaseBuilder.factory.buildResetPasswordDemand({ email, used: false });
+      databaseBuilder.factory.buildResetPasswordDemand({ email, used: false, updatedAt });
       return databaseBuilder.commit();
     });
 
@@ -37,8 +38,9 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
       await resetPasswordDemandRepository.markAsBeingUsed(email);
 
       // then
-      const demand = await knex('reset-password-demands').select('used').where({ email }).first();
+      const demand = await knex('reset-password-demands').select('used', 'updatedAt').where({ email }).first();
       expect(demand.used).to.be.true;
+      expect(demand.updatedAt).to.be.above(updatedAt);
     });
 
     it('is case insensitive', async function () {
@@ -105,15 +107,16 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
           return databaseBuilder.commit();
         });
 
-        it('returns the bookshelf demand', async function () {
+        it('returns the reset password demand', async function () {
           // when
           const demand = await resetPasswordDemandRepository.findByTemporaryKey(temporaryKey);
 
           // then
-          expect(demand.attributes.id).to.equal(demandId);
-          expect(demand.attributes.email).to.equal(email);
-          expect(demand.attributes.temporaryKey).to.equal(temporaryKey);
-          expect(demand.attributes.used).to.equal(false);
+          expect(demand).to.be.instanceOf(ResetPasswordDemand);
+          expect(demand.id).to.equal(demandId);
+          expect(demand.email).to.equal(email);
+          expect(demand.temporaryKey).to.equal(temporaryKey);
+          expect(demand.used).to.equal(false);
         });
       });
     });
@@ -162,31 +165,20 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
           return databaseBuilder.commit();
         });
 
-        it('returns the bookshelf demand', async function () {
+        it('returns the password reset demand', async function () {
           // when
           const demand = await resetPasswordDemandRepository.findByUserEmail(email, temporaryKey);
 
           // then
-          expect(demand.attributes.id).to.equal(demandId);
-          expect(demand.attributes.email).to.equal(email);
-          expect(demand.attributes.temporaryKey).to.equal(temporaryKey);
-          expect(demand.attributes.used).to.equal(false);
-        });
-
-        it('is case insensitive', async function () {
-          // when
-          const emailWithUppercase = email.toUpperCase();
-          const demand = await resetPasswordDemandRepository.findByUserEmail(emailWithUppercase, temporaryKey);
-
-          // then
-          expect(demand.attributes.id).to.equal(demandId);
-          expect(demand.attributes.email).to.equal(email);
-          expect(demand.attributes.temporaryKey).to.equal(temporaryKey);
-          expect(demand.attributes.used).to.equal(false);
+          expect(demand).to.be.instanceOf(ResetPasswordDemand);
+          expect(demand.id).to.equal(demandId);
+          expect(demand.email).to.equal(email);
+          expect(demand.temporaryKey).to.equal(temporaryKey);
+          expect(demand.used).to.equal(false);
         });
 
         context('when case is not identical', function () {
-          it('returns the bookshelf demand', async function () {
+          it('returns the password reset demand', async function () {
             // given
             const sameEmailWithAnotherCase = 'SomeMaIL@example.net';
 
@@ -194,12 +186,55 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
             const demand = await resetPasswordDemandRepository.findByUserEmail(sameEmailWithAnotherCase, temporaryKey);
 
             // then
-            expect(demand.attributes.id).to.equal(demandId);
-            expect(demand.attributes.email).to.equal(email);
-            expect(demand.attributes.temporaryKey).to.equal(temporaryKey);
-            expect(demand.attributes.used).to.equal(false);
+            expect(demand.id).to.equal(demandId);
           });
         });
+      });
+    });
+  });
+
+  describe('#removeAllByEmail', function () {
+    const email = 'someMail@example.net';
+
+    let demandId1;
+    let demandId2;
+    let demandId3;
+
+    beforeEach(function () {
+      demandId1 = databaseBuilder.factory.buildResetPasswordDemand({ email, used: false, temporaryKey: 'key1' }).id;
+      demandId2 = databaseBuilder.factory.buildResetPasswordDemand({ email, used: true, temporaryKey: 'key2' }).id;
+      demandId3 = databaseBuilder.factory.buildResetPasswordDemand({ used: false, temporaryKey: 'key3' }).id;
+      return databaseBuilder.commit();
+    });
+
+    it('deletes the password reset demand with given email', async function () {
+      // when
+      await resetPasswordDemandRepository.removeAllByEmail(email);
+
+      // then
+      const demand1 = await knex('reset-password-demands').where({ id: demandId1 }).first();
+      expect(demand1).to.be.undefined;
+      const demand2 = await knex('reset-password-demands').where({ id: demandId2 }).first();
+      expect(demand2).to.be.undefined;
+      const demand3 = await knex('reset-password-demands').where({ id: demandId3 }).first();
+      expect(demand3.id).to.be.equal(demandId3);
+    });
+
+    context('when case is not identical', function () {
+      it('deletes the password reset demand with given email', async function () {
+        // given
+        const sameEmailWithAnotherCase = 'SomeMaIL@example.net';
+
+        // when
+        await resetPasswordDemandRepository.removeAllByEmail(sameEmailWithAnotherCase);
+
+        // then
+        const demand1 = await knex('reset-password-demands').where({ id: demandId1 }).first();
+        expect(demand1).to.be.undefined;
+        const demand2 = await knex('reset-password-demands').where({ id: demandId2 }).first();
+        expect(demand2).to.be.undefined;
+        const demand3 = await knex('reset-password-demands').where({ id: demandId3 }).first();
+        expect(demand3.id).to.be.equal(demandId3);
       });
     });
   });

@@ -16,12 +16,14 @@ describe('Unit | UseCase | anonymize-user', function () {
 
   it(`deletes all authentication methods,
       revokes all user's refresh tokens,
+      removes all user's password reset demands,
       disables all user's organisation memberships,
       disables all user's certification center memberships,
       disables all user's student prescriptions,
       and anonymize user`, async function () {
     // given
     const userId = 1;
+    const userEmail = 'user@example.com';
     const updatedByUserId = 2;
     const role = 'SUPER_ADMIN';
     const anonymizedUser = {
@@ -44,11 +46,17 @@ describe('Unit | UseCase | anonymize-user', function () {
       knexTransaction: Symbol('transaction'),
     };
 
-    const userRepository = { updateUserDetailsForAdministration: sinon.stub(), getUserDetailsForAdmin: sinon.stub() };
+    const userRepository = {
+      get: sinon.stub(),
+      updateUserDetailsForAdministration: sinon.stub(),
+      getUserDetailsForAdmin: sinon.stub(),
+    };
+    userRepository.get.withArgs(userId).resolves({ email: userEmail });
     userRepository.getUserDetailsForAdmin.withArgs(userId).resolves(expectedAnonymizedUser);
 
     const authenticationMethodRepository = { removeAllAuthenticationMethodsByUserId: sinon.stub() };
     const refreshTokenService = { revokeRefreshTokensForUserId: sinon.stub() };
+    const resetPasswordDemandRepository = { removeAllByEmail: sinon.stub() };
     const membershipRepository = { disableMembershipsByUserId: sinon.stub() };
     const certificationCenterMembershipRepository = { disableMembershipsByUserId: sinon.stub() };
     const organizationLearnerRepository = { dissociateAllStudentsByUserId: sinon.stub() };
@@ -64,6 +72,7 @@ describe('Unit | UseCase | anonymize-user', function () {
       membershipRepository,
       certificationCenterMembershipRepository,
       organizationLearnerRepository,
+      resetPasswordDemandRepository,
       domainTransaction,
       adminMemberRepository,
     });
@@ -76,6 +85,7 @@ describe('Unit | UseCase | anonymize-user', function () {
       domainTransaction,
     });
     expect(refreshTokenService.revokeRefreshTokensForUserId).to.have.been.calledWithExactly({ userId });
+    expect(resetPasswordDemandRepository.removeAllByEmail).to.have.been.calledWithExactly(userEmail);
     expect(membershipRepository.disableMembershipsByUserId).to.have.been.calledWithExactly({
       userId,
       updatedByUserId,
