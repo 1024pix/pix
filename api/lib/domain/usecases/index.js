@@ -100,7 +100,6 @@ import * as codeUtils from '../../../src/shared/infrastructure/utils/code-utils.
 import * as dateUtils from '../../../src/shared/infrastructure/utils/date-utils.js';
 import { injectDependencies } from '../../../src/shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../src/shared/infrastructure/utils/import-named-exports-from-directory.js';
-import * as writeOdsUtils from '../../../src/shared/infrastructure/utils/ods/write-ods-utils.js';
 import * as certificationCenterInvitationService from '../../../src/team/domain/services/certification-center-invitation-service.js';
 import { organizationInvitationService } from '../../../src/team/domain/services/organization-invitation.service.js';
 import * as certificationCenterInvitationRepository from '../../../src/team/infrastructure/repositories/certification-center-invitation-repository.js';
@@ -358,7 +357,6 @@ const dependencies = {
   userValidator,
   verifyCertificateCodeService,
   writeCsvUtils,
-  writeOdsUtils,
   badgeCriteriaRepository,
   sharedSessionRepository,
 };
