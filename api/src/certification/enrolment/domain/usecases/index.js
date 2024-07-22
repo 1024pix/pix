@@ -10,6 +10,8 @@ import * as attendanceSheetPdfUtils from '../../../enrolment/infrastructure/util
 import * as certificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
 import * as temporaryCompanionStorageService from '../../../shared/domain/services/temporary-companion-storage-service.js';
 import * as sessionValidator from '../../../shared/domain/validators/session-validator.js';
+import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
+import * as sharedSessionRepository from '../../../shared/infrastructure/repositories/session-repository.js';
 import { enrolmentRepositories } from '../../infrastructure/repositories/index.js';
 import * as certificationCpfService from '../services/certification-cpf-service.js';
 import * as sessionCodeService from '../services/session-code-service.js';
@@ -31,6 +33,8 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {import('../../infrastructure/repositories/index.js').OrganizationLearnerRepository} OrganizationLearnerRepository
  * @typedef {import('../../infrastructure/repositories/index.js').OrganizationRepository} OrganizationRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCenterMembershipRepository} CertificationCenterMembershipRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').CertificationCenterRepository} CertificationCenterRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').SharedSessionRepository} SharedSessionRepository
  * @typedef {import('../../../shared/domain/validators/session-validator.js')} SessionValidator
  * @typedef {import('../services/certification-cpf-service.js')} CertificationCpfService
  * @typedef {import('../../infrastructure/utils/pdf/attendance-sheet-pdf.js')} AttendanceSheetPdfUtils
@@ -46,6 +50,8 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {ComplementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {CenterRepository} CenterRepository
  * @typedef {SessionRepository} SessionRepository
+ * @typedef {CertificationCenterRepository} CertificationCenterRepository
+ * @typedef {SharedSessionRepository} SharedSessionRepository
  * @typedef {CertificationCandidateRepository} CertificationCandidateRepository
  * @typedef {CertificationCpfCityRepository} CertificationCpfCityRepository
  * @typedef {CertificationCpfCountryRepository} CertificationCpfCountryRepository
@@ -77,6 +83,8 @@ const dependencies = {
   temporaryCompanionStorageService,
   certificationCenterMembershipRepository,
   organizationRepository,
+  certificationCenterRepository,
+  sharedSessionRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
