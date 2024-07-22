@@ -1,5 +1,5 @@
-import { LayeredCache } from '../../../../lib/infrastructure/caches/LayeredCache.js';
-import { expect, sinon } from '../../../test-helper.js';
+import { LayeredCache } from '../../../../../src/shared/infrastructure/caches/LayeredCache.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Caches | LayeredCache', function () {
   const layeredCacheInstance = new LayeredCache();
