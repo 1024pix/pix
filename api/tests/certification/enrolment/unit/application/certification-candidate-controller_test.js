@@ -48,37 +48,6 @@ describe('Unit | Controller | certification-candidate-controller', function () {
     });
   });
 
-  describe('#authorizeToStart', function () {
-    it('should return a 204 status code', async function () {
-      // given
-      const request = {
-        auth: {
-          credentials: { userId: '111' },
-        },
-        params: {
-          id: 99,
-        },
-        payload: { 'authorized-to-start': true },
-      };
-
-      sinon.stub(usecases, 'authorizeCertificationCandidateToStart');
-
-      usecases.authorizeCertificationCandidateToStart = sinon.stub().rejects();
-      usecases.authorizeCertificationCandidateToStart
-        .withArgs({
-          certificationCandidateForSupervisingId: 99,
-          authorizedToStart: true,
-        })
-        .resolves();
-
-      // when
-      const response = await certificationCandidateController.authorizeToStart(request, hFake);
-
-      // then
-      expect(response.statusCode).to.equal(204);
-    });
-  });
-
   describe('#validateCertificationInstructions', function () {
     it('should return the updated certification candidate', async function () {
       // given

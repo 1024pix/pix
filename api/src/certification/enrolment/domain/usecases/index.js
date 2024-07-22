@@ -7,7 +7,6 @@ import * as organizationRepository from '../../../../shared/infrastructure/repos
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as attendanceSheetPdfUtils from '../../../enrolment/infrastructure/utils/pdf/attendance-sheet-pdf.js';
-import * as certificationCandidateForSupervisingRepository from '../../../session-management/infrastructure/repositories/certification-candidate-for-supervising-repository.js';
 import * as certificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
 import * as temporaryCompanionStorageService from '../../../shared/domain/services/temporary-companion-storage-service.js';
 import * as sessionValidator from '../../../shared/domain/validators/session-validator.js';
@@ -79,7 +78,6 @@ const dependencies = {
   certificationCpfService,
   temporaryCompanionStorageService,
   certificationCenterMembershipRepository,
-  certificationCandidateForSupervisingRepository,
   organizationRepository,
 };
 

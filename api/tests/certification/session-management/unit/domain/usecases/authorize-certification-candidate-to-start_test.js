@@ -1,6 +1,6 @@
-import { authorizeCertificationCandidateToStart } from '../../../../src/certification/enrolment/domain/usecases/authorize-certification-candidate-to-start.js';
-import { CertificationCandidateForSupervising } from '../../../../src/certification/session-management/domain/models/CertificationCandidateForSupervising.js';
-import { expect, sinon } from '../../../test-helper.js';
+import { CertificationCandidateForSupervising } from '../../../../../../src/certification/session-management/domain/models/CertificationCandidateForSupervising.js';
+import { authorizeCertificationCandidateToStart } from '../../../../../../src/certification/session-management/domain/usecases/authorize-certification-candidate-to-start.js';
+import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | authorize-certification-candidate-to-start', function () {
   let certificationCandidateForSupervisingRepository;

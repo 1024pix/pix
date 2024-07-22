@@ -34,18 +34,6 @@ const deleteCandidate = async function (request) {
   return null;
 };
 
-const authorizeToStart = async function (request, h) {
-  const certificationCandidateForSupervisingId = request.params.id;
-
-  const authorizedToStart = request.payload['authorized-to-start'];
-  await usecases.authorizeCertificationCandidateToStart({
-    certificationCandidateForSupervisingId,
-    authorizedToStart,
-  });
-
-  return h.response().code(204);
-};
-
 const validateCertificationInstructions = async function (
   request,
   h,
@@ -67,7 +55,6 @@ const _getSubscriptionParameter = (request) => {
 
 const certificationCandidateController = {
   addCandidate,
-  authorizeToStart,
   getCandidate,
   deleteCandidate,
   validateCertificationInstructions,
