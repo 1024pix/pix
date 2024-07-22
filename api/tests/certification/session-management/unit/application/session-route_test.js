@@ -19,4 +19,20 @@ describe('Certification | Session Management | Unit | Application | Route | Sess
       expect(response.statusCode).to.equal(200);
     });
   });
+
+  describe('GET /api/admin/sessions/{id}', function () {
+    it('should exist', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(sessionController, 'getJurySession').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('GET', '/api/admin/sessions/123');
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
 });

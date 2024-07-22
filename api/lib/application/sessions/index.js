@@ -12,31 +12,6 @@ const register = async function (server) {
   server.route([
     {
       method: 'GET',
-      path: '/api/admin/sessions/{id}',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.sessionId,
-          }),
-        },
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        handler: sessionController.getJurySession,
-        tags: ['api', 'sessions'],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/sessions/{id}/candidates-import-sheet',
       config: {
         validate: {
