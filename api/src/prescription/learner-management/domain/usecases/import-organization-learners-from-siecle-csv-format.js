@@ -13,6 +13,7 @@ const importOrganizationLearnersFromSIECLECSVFormat = async function ({
   organizationImportRepository,
   importStorage,
   i18n,
+  chunkLength = ORGANIZATION_LEARNER_CHUNK_SIZE,
 }) {
   let organizationImport;
   const errors = [];
@@ -31,7 +32,7 @@ const importOrganizationLearnersFromSIECLECSVFormat = async function ({
       const result = parser.parse(organizationImport.encoding);
       const organizationLearnerData = result.learners;
 
-      const organizationLearnersChunks = chunk(organizationLearnerData, ORGANIZATION_LEARNER_CHUNK_SIZE);
+      const organizationLearnersChunks = chunk(organizationLearnerData, chunkLength);
       const nationalStudentIdData = organizationLearnerData.map((learner) => learner.nationalStudentId, []);
 
       await organizationLearnerRepository.disableAllOrganizationLearnersInOrganization({
