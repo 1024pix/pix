@@ -144,6 +144,7 @@ export default class CoverRateLevel extends Component {
 
     this.createLevelLine(level, "#291a5d", 'Niveau utilisateur maille de l\'organisation')
     this.createLevelLine(levelForNetwork, "#f87171", 'Niveau utilisateur maille de réseau')
+    this.createLevelLabels(level, levelForNetwork);
   }
 
   createLevelLine(level, color) {
@@ -172,6 +173,31 @@ export default class CoverRateLevel extends Component {
       .style('cursor', 'pointer')
   }
 
+  createLevelLabels(level, levelForNetwork) {
+    const nodes = [
+      { x: level * SEGMENT_WIDTH, y: 20, text: `${parseFloat(level).toFixed(2)}` },
+      { x: levelForNetwork * SEGMENT_WIDTH, y: 20, text: `${parseFloat(levelForNetwork).toFixed(2)}` },
+    ]
+
+    const simulation = d3.forceSimulation(nodes)
+      .force("charge", d3.forceManyBody().strength(-1))
+      .force("collision", d3.forceCollide().radius(12))
+
+    const FIXED_Y = 20;
+    simulation.on('tick', () => {
+      this.svg.selectAll('g.label-with-collision')
+        .attr('transform', d => `translate(${d.x}, ${FIXED_Y})`);
+    });
+
+    this.svg
+      .selectAll('g.label-with-collision')
+      .data(nodes)
+      .enter()
+      .append('g')
+      .attr('class', 'label-with-collision')
+      .append('text')
+      .text(d => d.text);
+  }
 
   <template>
     <svg id={{this.id}} width="50" height="50" {{didInsert this.create}}>
