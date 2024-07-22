@@ -3,6 +3,8 @@ import 'dotenv/config';
 import * as url from 'node:url';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { CertificationRescoringCompleted } from '../../lib/domain/events/CertificationRescoringCompleted.js';
+import { eventDispatcher } from '../../lib/domain/events/index.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 
 const modulePath = url.fileURLToPath(import.meta.url);
@@ -57,8 +59,13 @@ class ComplementaryCertificationCommand {
   }
 }
 
-const _snapshotCurrentScoring = async ({ certificationCourseId }) => {
-  return knex('complementary-certification-courses')
+/**
+ * @param {Object} params
+ * @param {number} params.certificationCourseId
+ * @param {knex} params.knex
+ */
+const _snapshotCurrentScoring = async ({ certificationCourseId, knex }) => {
+  const snapshot = await knex('complementary-certification-courses')
     .select(
       'certification-courses.id',
       'certification-courses.createdAt',
@@ -90,6 +97,29 @@ const _snapshotCurrentScoring = async ({ certificationCourseId }) => {
     )
     .where('complementary-certification-courses.certificationCourseId', '=', certificationCourseId)
     .first();
+
+  if (!snapshot) {
+    throw new Error(`certificationCourseId:[${certificationCourseId}] does not exist`);
+  }
+
+  return snapshot;
+};
+
+/**
+ * @param {Object} params
+ * @param {ComplementaryRescoringCommand} params.complementaryRescoringCommand
+ * @param {eventDispatcher} params.eventDispatcher
+ */
+const _rescoreCertification = async ({ complementaryRescoringCommand, eventDispatcher }) => {
+  const certificationCourseId = complementaryRescoringCommand.certificationCourseId;
+  const status = complementaryRescoringCommand.statusBeforeScript;
+  if (status !== 'validated') {
+    throw new Error(
+      `certificationCourseId:[${certificationCourseId}] is not a 'validated' complementary certification, was:[${status}]`,
+    );
+  }
+
+  return eventDispatcher.dispatch(new CertificationRescoringCompleted({ certificationCourseId }));
 };
 
 /**
@@ -100,32 +130,41 @@ const _snapshotCurrentScoring = async ({ certificationCourseId }) => {
  *
  * IMPORTANT
  *
- * Usage : node scripts/certification/rescore-complementary-certifications.js 111[xxx,yyy,]
+ * Usage : node scripts/certification/rescore-complementary-certifications.js "111 [,xxx,yyy,...]"
  *
+ * @param {Object} params
+ * @param {Array<number>} params.certificationCourseIds
+ * @param {knex} params.knex
+ * @param {eventDispatcher} params.eventDispatcher
+ * @param {logger} params.logger
  * @returns {number} process exit code
  */
-async function main(certificationCourseIds = []) {
+async function main({ certificationCourseIds = [], knex, eventDispatcher, logger }) {
   logger.info(`Rescoring ${certificationCourseIds.length} complementary certifications`);
 
   for (const certificationCourseId of certificationCourseIds) {
-    const complementaryRescored = new ComplementaryCertificationCommand({ certificationCourseId });
+    const complementaryRescoringCommand = new ComplementaryCertificationCommand({ certificationCourseId });
 
     try {
-      const currentComplementarySnapshot = await _snapshotCurrentScoring({ certificationCourseId });
-      complementaryRescored.complementaryBeforeUpdate({
+      const currentComplementarySnapshot = await _snapshotCurrentScoring({ certificationCourseId, knex });
+      complementaryRescoringCommand.complementaryBeforeUpdate({
         statusBeforeScript: currentComplementarySnapshot.status,
         badgeLevelBeforeScript: currentComplementarySnapshot.label,
         examinationDateBeforeScript: currentComplementarySnapshot.createdAt,
         certificationDateBeforeScript: currentComplementarySnapshot.publishedAt,
         commentByAutoJuryBeforeScript: currentComplementarySnapshot.commentByAutoJury,
       });
-      complementaryRescored.updateSuccessfull();
-    } catch (error) {
-      logger.error(error, `Could not rescore certificationCourseId:[${complementaryRescored.certificationCourseId}]`);
-      complementaryRescored.updateFailure();
-    }
 
-    logger.info(complementaryRescored);
+      logger.info(`Rescoring certificationCourseId:[${complementaryRescoringCommand.certificationCourseId}] ...`);
+      await _rescoreCertification({ complementaryRescoringCommand, eventDispatcher });
+      complementaryRescoringCommand.updateSuccessfull();
+    } catch (error) {
+      logger.error(
+        error,
+        `Could not rescore certificationCourseId:[${complementaryRescoringCommand.certificationCourseId}]`,
+      );
+      complementaryRescoringCommand.updateFailure();
+    }
   }
 
   return 0;
@@ -133,18 +172,22 @@ async function main(certificationCourseIds = []) {
 
 (async () => {
   if (isLaunchedFromCommandLine) {
+    let exitCode = 1;
     try {
       const certificationCourseIds = process.argv[2]
         .split(',')
         .map((str) => parseInt(str, 10))
         .filter(Number.isInteger);
-      const exitCode = await main(certificationCourseIds);
-      return exitCode;
+
+      exitCode = await main({ certificationCourseIds, knex, eventDispatcher, logger });
     } catch (error) {
       logger.error(error);
-      process.exitCode = 1;
+      exitCode = 1;
     } finally {
       await disconnect();
+      // EventDispatcher makes the process hang, but at this point we know our job is finished
+      // eslint-disable-next-line n/no-process-exit
+      process.exit(exitCode);
     }
   }
 })();
