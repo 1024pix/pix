@@ -197,7 +197,7 @@ module('Acceptance | join', function (hooks) {
 
         // then
         assert.strictEqual(currentURL(), '/cgu');
-        assert.ok(screen.getByText("Condition générales d'utilisation de la plateforme Pix Orga"));
+        assert.ok(screen.getByText("Conditions générales d'utilisation de la plateforme Pix Orga"));
       });
 
       test('does not show menu nor top bar', async function (assert) {
