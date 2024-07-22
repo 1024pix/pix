@@ -13,6 +13,7 @@ import * as sessionValidator from '../../../shared/domain/validators/session-val
 import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
 import * as sharedSessionRepository from '../../../shared/infrastructure/repositories/session-repository.js';
 import { enrolmentRepositories } from '../../infrastructure/repositories/index.js';
+import * as certificationCandidatesOdsService from '../services/certification-candidates-ods-service.js';
 import * as certificationCpfService from '../services/certification-cpf-service.js';
 import * as sessionCodeService from '../services/session-code-service.js';
 import * as sessionsImportValidationService from '../services/sessions-import-validation-service.js';
@@ -42,6 +43,7 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {import('../services/temporary-sessions-storage-for-mass-import-service.js').TemporarySessionsStorageForMassImportService} TemporarySessionsStorageForMassImportService
  * @typedef {import('../../../shared/domain/services/temporary-companion-storage-service.js')} TemporaryCompanionStorageService
  * @typedef {import('../../../shared/domain/services/certification-badges-service.js')} CertificationBadgesService
+ * @typedef {import('../services/certification-candidates-ods-service.js')} CertificationCandidatesOdsService
  **/
 
 /**
@@ -72,6 +74,7 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {AttendanceSheetPdfUtils} AttendanceSheetPdfUtils
  * @typedef {TemporaryCompanionStorageService} TemporaryCompanionStorageService
  * @typedef {CertificationBadgesService} CertificationBadgesService
+ * @typedef {CertificationCandidatesOdsService} CertificationCandidatesOdsService
  **/
 const dependencies = {
   certificationBadgesService,
@@ -87,6 +90,7 @@ const dependencies = {
   organizationRepository,
   certificationCenterRepository,
   sharedSessionRepository,
+  certificationCandidatesOdsService,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

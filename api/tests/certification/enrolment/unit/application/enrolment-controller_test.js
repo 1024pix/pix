@@ -1,5 +1,3 @@
-import { sessionController } from '../../../../../lib/application/sessions/session-controller.js';
-import { usecases as libUsecases } from '../../../../../lib/domain/usecases/index.js';
 import { enrolmentController } from '../../../../../src/certification/enrolment/application/enrolment-controller.js';
 import { usecases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
@@ -73,18 +71,18 @@ describe('Certification | Enrolment | Unit | Controller | enrolment-controller',
         payload: odsBuffer,
       };
 
-      sinon.stub(libUsecases, 'importCertificationCandidatesFromCandidatesImportSheet').resolves();
+      sinon.stub(usecases, 'importCertificationCandidatesFromCandidatesImportSheet').resolves();
     });
 
     it('should call the usecase to import certification candidates', async function () {
       // given
-      libUsecases.importCertificationCandidatesFromCandidatesImportSheet.resolves();
+      usecases.importCertificationCandidatesFromCandidatesImportSheet.resolves();
 
       // when
-      await sessionController.importCertificationCandidatesFromCandidatesImportSheet(request);
+      await enrolmentController.importCertificationCandidatesFromCandidatesImportSheet(request);
 
       // then
-      expect(libUsecases.importCertificationCandidatesFromCandidatesImportSheet).to.have.been.calledWithExactly({
+      expect(usecases.importCertificationCandidatesFromCandidatesImportSheet).to.have.been.calledWithExactly({
         sessionId,
         odsBuffer,
         i18n: request.i18n,
