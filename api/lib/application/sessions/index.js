@@ -11,29 +11,6 @@ import { sessionWithCleaCertifiedCandidateController } from './session-with-clea
 const register = async function (server) {
   server.route([
     {
-      method: 'GET',
-      path: '/api/sessions/{id}/candidates-import-sheet',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.sessionId,
-          }),
-        },
-        pre: [
-          {
-            method: authorization.verifySessionAuthorization,
-            assign: 'authorizationCheck',
-          },
-        ],
-        handler: sessionController.getCandidatesImportSheet,
-        tags: ['api', 'sessions'],
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs appartenant à un centre de certification ayant créé la session**\n' +
-            "- Cette route permet de télécharger le template d'import des candidats d'une certification au format ods",
-        ],
-      },
-    },
-    {
       method: 'POST',
       path: '/api/sessions/{id}/certification-candidates/import',
       config: {
