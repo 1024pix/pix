@@ -11,33 +11,6 @@ import { sessionWithCleaCertifiedCandidateController } from './session-with-clea
 const register = async function (server) {
   server.route([
     {
-      method: 'POST',
-      path: '/api/sessions/{id}/certification-candidates/import',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.sessionId,
-          }),
-        },
-        payload: {
-          parse: 'gunzip',
-          maxBytes: 1048576 * 10, // 10MB
-        },
-        pre: [
-          {
-            method: authorization.verifySessionAuthorization,
-            assign: 'authorizationCheck',
-          },
-        ],
-        handler: sessionController.importCertificationCandidatesFromCandidatesImportSheet,
-        tags: ['api', 'sessions'],
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés et appartenant à un centre de certification ayant créé la session**\n' +
-            '- Elle permet de récupérer la liste des candidats à inscrire contenue dans le PV de session format ODS envoyé',
-        ],
-      },
-    },
-    {
       method: 'GET',
       path: '/api/admin/sessions/{id}/jury-certification-summaries',
       config: {
