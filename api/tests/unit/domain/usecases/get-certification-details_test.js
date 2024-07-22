@@ -1,6 +1,6 @@
-import { CertificationDetails } from '../../../../lib/domain/read-models/CertificationDetails.js';
 import { getCertificationDetails } from '../../../../lib/domain/usecases/get-certification-details.js';
 import { states as CertificationAssessmentStates } from '../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
+import { CertificationDetails } from '../../../../src/certification/session-management/domain/read-models/CertificationDetails.js';
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | get-certification-details', function () {
