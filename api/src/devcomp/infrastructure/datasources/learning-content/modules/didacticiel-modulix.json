@@ -370,6 +370,25 @@
       ]
     },
     {
+      "id": "e8db3f90-4259-4d54-9113-1c56da726d8d",
+      "type": "activity",
+      "title": "Embed auto",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "0559b68c-68a5-4816-a06e-f1c743c391e3",
+            "type": "embed",
+            "isCompletionRequired": true,
+            "title": "Simulateur de visioconférence - micro ouvert",
+            "url": "https://epreuves.pix.fr/visio/visio.html?mode=visio2",
+            "instruction": "<p>Vous participez à la visioconférence ci-dessous.</p><p>Il y a du bruit à côté de vous.</p><p>Coupez le son de votre micro pour ne pas déranger vos interlocuteurs.</p>",
+            "height": 600
+          }
+        }
+      ]
+    },
+    {
       "id": "7cf75e70-8749-4392-8081-f2c02badb0fb",
       "type": "activity",
       "title": "Le nom de ce produit",
