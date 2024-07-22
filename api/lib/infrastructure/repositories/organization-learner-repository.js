@@ -303,14 +303,12 @@ async function countByOrganizationsWhichNeedToComputeCertificability({
   onlyNotComputed = false,
   fromUserActivityDate,
   toUserActivityDate,
-  domainTransaction,
 } = {}) {
   const queryBuilder = _queryBuilderForCertificability({
     fromUserActivityDate,
     toUserActivityDate,
     skipLoggedLastDayCheck,
     onlyNotComputed,
-    domainTransaction,
   });
   const [{ count }] = await queryBuilder.count('view-active-organization-learners.id');
   return count;
@@ -323,14 +321,12 @@ function findByOrganizationsWhichNeedToComputeCertificability({
   toUserActivityDate,
   skipLoggedLastDayCheck = false,
   onlyNotComputed = false,
-  domainTransaction,
 } = {}) {
   const queryBuilder = _queryBuilderForCertificability({
     fromUserActivityDate,
     toUserActivityDate,
     skipLoggedLastDayCheck,
     onlyNotComputed,
-    domainTransaction,
   });
 
   return queryBuilder

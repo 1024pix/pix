@@ -42,7 +42,6 @@ describe('Unit | UseCases | Reset organization learners password', function () {
             { userId: studentIds[0], hashedPassword },
             { userId: studentIds[1], hashedPassword },
           ];
-          const domainTransaction = Symbol('transaction');
 
           organizationLearnerRepository.findByIds = sinon.stub().resolves(organizationLearnersId);
           userRepository.getByIds = sinon.stub().resolves(users);
@@ -53,7 +52,6 @@ describe('Unit | UseCases | Reset organization learners password', function () {
             organizationId,
             organizationLearnersId,
             userId,
-            domainTransaction,
             authenticationMethodRepository,
             organizationLearnerRepository,
             userRepository,
@@ -67,7 +65,6 @@ describe('Unit | UseCases | Reset organization learners password', function () {
           expect(cryptoService.hashPassword).to.have.been.callCount(2);
           expect(authenticationMethodRepository.batchUpdatePasswordThatShouldBeChanged).to.have.been.calledWithExactly({
             usersToUpdateWithNewPassword: userIdHashedPassword,
-            domainTransaction,
           });
           expect(organizationLearnersPasswordResets).to.have.deep.members([
             new OrganizationLearnerPasswordResetDTO({

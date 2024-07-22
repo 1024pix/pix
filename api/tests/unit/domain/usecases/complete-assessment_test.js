@@ -10,12 +10,10 @@ import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js'
 describe('Unit | UseCase | complete-assessment', function () {
   let assessmentRepository;
   let campaignParticipationBCRepository;
-  let domainTransaction;
   const now = new Date('2019-01-01T05:06:07Z');
   let clock;
 
   beforeEach(function () {
-    domainTransaction = Symbol('domainTransaction');
     assessmentRepository = {
       get: _.noop,
       completeByAssessmentId: _.noop,
@@ -41,14 +39,13 @@ describe('Unit | UseCase | complete-assessment', function () {
         id: assessmentId,
         state: 'completed',
       });
-      sinon.stub(assessmentRepository, 'get').withArgs(assessmentId, domainTransaction).resolves(completedAssessment);
+      sinon.stub(assessmentRepository, 'get').withArgs(assessmentId).resolves(completedAssessment);
     });
 
     it('should return an AlreadyRatedAssessmentError', async function () {
       // when
       const err = await catchErr(completeAssessment)({
         assessmentId,
-        domainTransaction,
         assessmentRepository,
         campaignParticipationBCRepository,
       });
@@ -72,7 +69,7 @@ describe('Unit | UseCase | complete-assessment', function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
       context(`common behavior when assessment is of type ${assessment.type}`, function () {
         beforeEach(function () {
-          sinon.stub(assessmentRepository, 'get').withArgs(assessment.id, domainTransaction).resolves(assessment);
+          sinon.stub(assessmentRepository, 'get').withArgs(assessment.id).resolves(assessment);
           sinon.stub(assessmentRepository, 'completeByAssessmentId').resolves();
         });
 
@@ -80,21 +77,18 @@ describe('Unit | UseCase | complete-assessment', function () {
           // when
           await completeAssessment({
             assessmentId: assessment.id,
-            domainTransaction,
             assessmentRepository,
             campaignParticipationBCRepository,
           });
 
           // then
-          expect(assessmentRepository.completeByAssessmentId.calledWithExactly(assessment.id, domainTransaction)).to.be
-            .true;
+          expect(assessmentRepository.completeByAssessmentId.calledWithExactly(assessment.id)).to.be.true;
         });
 
         it('should return a AssessmentCompleted event', async function () {
           // when
           const result = await completeAssessment({
             assessmentId: assessment.id,
-            domainTransaction,
             assessmentRepository,
             campaignParticipationBCRepository,
           });
@@ -112,14 +106,13 @@ describe('Unit | UseCase | complete-assessment', function () {
       it('should return a AssessmentCompleted event with a userId and targetProfileId', async function () {
         const assessment = _buildCampaignAssessment();
 
-        sinon.stub(assessmentRepository, 'get').withArgs(assessment.id, domainTransaction).resolves(assessment);
+        sinon.stub(assessmentRepository, 'get').withArgs(assessment.id).resolves(assessment);
         sinon.stub(assessmentRepository, 'completeByAssessmentId').resolves();
         sinon.stub(campaignParticipationBCRepository, 'get').resolves({ id: 1 });
         sinon.stub(campaignParticipationBCRepository, 'update').resolves();
         // when
         const result = await completeAssessment({
           assessmentId: assessment.id,
-          domainTransaction,
           assessmentRepository,
           campaignParticipationBCRepository,
         });
@@ -132,23 +125,22 @@ describe('Unit | UseCase | complete-assessment', function () {
         const assessment = _buildCampaignAssessment();
         const { TO_SHARE } = CampaignParticipationStatuses;
 
-        sinon.stub(assessmentRepository, 'get').withArgs(assessment.id, domainTransaction).resolves(assessment);
+        sinon.stub(assessmentRepository, 'get').withArgs(assessment.id).resolves(assessment);
         sinon.stub(assessmentRepository, 'completeByAssessmentId').resolves();
         sinon.stub(campaignParticipationBCRepository, 'update').resolves();
         // when
         await completeAssessment({
           assessmentId: assessment.id,
-          domainTransaction,
           assessmentRepository,
           campaignParticipationBCRepository,
         });
 
         // then
         expect(
-          campaignParticipationBCRepository.update.calledWithExactly(
-            { id: assessment.campaignParticipationId, status: TO_SHARE },
-            domainTransaction,
-          ),
+          campaignParticipationBCRepository.update.calledWithExactly({
+            id: assessment.campaignParticipationId,
+            status: TO_SHARE,
+          }),
         ).to.be.true;
       });
     });
@@ -157,13 +149,12 @@ describe('Unit | UseCase | complete-assessment', function () {
       it('should return a AssessmentCompleted event with certification flag', async function () {
         const assessment = _buildCertificationAssessment();
 
-        sinon.stub(assessmentRepository, 'get').withArgs(assessment.id, domainTransaction).resolves(assessment);
+        sinon.stub(assessmentRepository, 'get').withArgs(assessment.id).resolves(assessment);
         sinon.stub(assessmentRepository, 'completeByAssessmentId').resolves();
         sinon.stub(campaignParticipationBCRepository, 'update').resolves();
         // when
         const result = await completeAssessment({
           assessmentId: assessment.id,
-          domainTransaction,
           assessmentRepository,
           campaignParticipationBCRepository,
         });

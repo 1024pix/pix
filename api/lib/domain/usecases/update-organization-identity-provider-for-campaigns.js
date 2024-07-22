@@ -4,16 +4,15 @@ async function updateOrganizationIdentityProviderForCampaigns({
   identityProviderForCampaigns,
   organizationId,
   organizationForAdminRepository,
-  domainTransaction,
 }) {
-  const existingOrganization = await organizationForAdminRepository.get(organizationId, domainTransaction);
+  const existingOrganization = await organizationForAdminRepository.get(organizationId);
 
   if (!existingOrganization) {
     throw new OrganizationNotFoundError();
   }
   existingOrganization.updateIdentityProviderForCampaigns(identityProviderForCampaigns);
 
-  await organizationForAdminRepository.update(existingOrganization, domainTransaction);
+  await organizationForAdminRepository.update(existingOrganization);
 }
 
 export { updateOrganizationIdentityProviderForCampaigns };

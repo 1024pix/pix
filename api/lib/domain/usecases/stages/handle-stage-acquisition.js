@@ -43,15 +43,9 @@ const handleStageAcquisition = async function ({
 }) {
   if (!assessment.isForCampaign()) return;
 
-  const campaignParticipation = await campaignParticipationRepository.get(
-    assessment.campaignParticipationId,
-    domainTransaction,
-  );
+  const campaignParticipation = await campaignParticipationRepository.get(assessment.campaignParticipationId);
 
-  const stagesForThisCampaign = await stageRepository.getByCampaignParticipationId(
-    campaignParticipation.id,
-    domainTransaction?.knexTransaction,
-  );
+  const stagesForThisCampaign = await stageRepository.getByCampaignParticipationId(campaignParticipation.id);
 
   if (!stagesForThisCampaign.length) return;
 
@@ -68,7 +62,6 @@ const handleStageAcquisition = async function ({
     }),
     campaignRepository.findSkillIdsByCampaignParticipationId({
       campaignParticipationId: assessment.campaignParticipationId,
-      domainTransaction,
     }),
   ]);
 
@@ -76,7 +69,6 @@ const handleStageAcquisition = async function ({
 
   const alreadyAcquiredStagesIds = await stageAcquisitionRepository.getStageIdsByCampaignParticipation(
     campaignParticipation.id,
-    domainTransaction?.knexTransaction,
   );
 
   const validatedKnowledgeElements = knowledgeElements.filter(({ isValidated }) => isValidated);

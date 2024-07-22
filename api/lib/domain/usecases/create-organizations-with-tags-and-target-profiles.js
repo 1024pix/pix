@@ -17,7 +17,6 @@ const { isEmpty } = lodash;
 const createOrganizationsWithTagsAndTargetProfiles = async function ({
   // parameters
   organizations,
-  domainTransaction = DomainTransaction,
 
   // dependencies
   dataProtectionOfficerRepository,
@@ -42,33 +41,29 @@ const createOrganizationsWithTagsAndTargetProfiles = async function ({
   let createdOrganizations = [];
   const allTags = await tagRepository.findAll();
 
-  await domainTransaction.execute(async (domainTransaction) => {
+  await DomainTransaction.execute(async () => {
     const transformedOrganizationsData = _transformOrganizationsCsvData(organizations);
 
     createdOrganizations = await _createOrganizations({
-      domainTransaction,
       organizationForAdminRepository,
       transformedOrganizationsData,
     });
 
     await _addDataProtectionOfficers({
       createdOrganizations,
-      domainTransaction,
       dataProtectionOfficerRepository,
     });
 
     await _addTags({
       allTags,
       createdOrganizations,
-      domainTransaction,
       organizationTagRepository,
     });
 
-    await _updateSchoolsWithCodes({ createdOrganizations, domainTransaction, schoolRepository });
+    await _updateSchoolsWithCodes({ createdOrganizations, schoolRepository });
 
     await _addTargetProfiles({
       createdOrganizations,
-      domainTransaction,
       targetProfileShareRepository,
     });
   });
@@ -146,7 +141,7 @@ function _transformOrganizationsCsvData(organizationsCsvData) {
   return organizations;
 }
 
-async function _updateSchoolsWithCodes({ createdOrganizations, domainTransaction, schoolRepository }) {
+async function _updateSchoolsWithCodes({ createdOrganizations, schoolRepository }) {
   try {
     const pendingCodes = [];
     const filteredOrganizations = createdOrganizations.filter(
@@ -157,7 +152,7 @@ async function _updateSchoolsWithCodes({ createdOrganizations, domainTransaction
       filteredOrganizations,
       async ({ createdOrganization }) => {
         const code = await codeGenerator.generate(schoolRepository, pendingCodes);
-        await schoolRepository.save({ organizationId: createdOrganization.id, code, domainTransaction });
+        await schoolRepository.save({ organizationId: createdOrganization.id, code });
         pendingCodes.push(code);
       },
       {
@@ -175,11 +170,7 @@ async function _updateSchoolsWithCodes({ createdOrganizations, domainTransaction
   }
 }
 
-async function _addDataProtectionOfficers({
-  createdOrganizations,
-  domainTransaction,
-  dataProtectionOfficerRepository,
-}) {
+async function _addDataProtectionOfficers({ createdOrganizations, dataProtectionOfficerRepository }) {
   try {
     const dataProtectionOfficers = createdOrganizations
       .map(({ createdOrganization, organizationToCreate }) => {
@@ -194,10 +185,7 @@ async function _addDataProtectionOfficers({
       })
       .filter(Boolean);
 
-    await dataProtectionOfficerRepository.batchAddDataProtectionOfficerToOrganization(
-      dataProtectionOfficers,
-      domainTransaction,
-    );
+    await dataProtectionOfficerRepository.batchAddDataProtectionOfficerToOrganization(dataProtectionOfficers);
   } catch (error) {
     _monitorError(error.message, { error, event: 'add-organizations-data-protection-officers' });
 
@@ -209,7 +197,7 @@ async function _addDataProtectionOfficers({
   }
 }
 
-async function _addTags({ allTags, createdOrganizations, domainTransaction, organizationTagRepository }) {
+async function _addTags({ allTags, createdOrganizations, organizationTagRepository }) {
   try {
     const organizationsTags = createdOrganizations.flatMap(({ createdOrganization, organizationToCreate }) => {
       return organizationToCreate.tags.map((tagName) => {
@@ -225,7 +213,7 @@ async function _addTags({ allTags, createdOrganizations, domainTransaction, orga
       });
     });
 
-    await organizationTagRepository.batchCreate(organizationsTags, domainTransaction);
+    await organizationTagRepository.batchCreate(organizationsTags);
   } catch (error) {
     _monitorError(error.message, { error, event: 'add-organizations-tags' });
 
@@ -237,7 +225,7 @@ async function _addTags({ allTags, createdOrganizations, domainTransaction, orga
   }
 }
 
-async function _addTargetProfiles({ createdOrganizations, domainTransaction, targetProfileShareRepository }) {
+async function _addTargetProfiles({ createdOrganizations, targetProfileShareRepository }) {
   try {
     const organizationsTargetProfiles = createdOrganizations.flatMap(
       ({ createdOrganization, organizationToCreate }) => {
@@ -248,10 +236,7 @@ async function _addTargetProfiles({ createdOrganizations, domainTransaction, tar
       },
     );
 
-    await targetProfileShareRepository.batchAddTargetProfilesToOrganization(
-      organizationsTargetProfiles,
-      domainTransaction,
-    );
+    await targetProfileShareRepository.batchAddTargetProfilesToOrganization(organizationsTargetProfiles);
   } catch (error) {
     _monitorError(error.message, { error, event: 'add-organizations-target-profiles' });
 

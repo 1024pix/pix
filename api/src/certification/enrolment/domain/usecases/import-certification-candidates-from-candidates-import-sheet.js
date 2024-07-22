@@ -38,13 +38,12 @@ const importCertificationCandidatesFromCandidatesImportSheet = async function ({
       certificationCenterRepository,
     });
 
-  await DomainTransaction.execute(async (domainTransaction) => {
-    await certificationCandidateRepository.deleteBySessionId({ sessionId, domainTransaction });
+  await DomainTransaction.execute(async () => {
+    await certificationCandidateRepository.deleteBySessionId({ sessionId });
     await bluebird.mapSeries(certificationCandidates, function (certificationCandidate) {
       return certificationCandidateRepository.saveInSession({
         certificationCandidate,
         sessionId,
-        domainTransaction,
       });
     });
   });

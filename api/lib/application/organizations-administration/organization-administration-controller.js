@@ -11,10 +11,9 @@ const updateOrganizationInformation = async function (
 ) {
   const organizationDeserialized = dependencies.organizationForAdminSerializer.deserialize(request.payload);
 
-  const organizationUpdated = await DomainTransaction.execute(function (domainTransaction) {
+  const organizationUpdated = await DomainTransaction.execute(function () {
     return usecases.updateOrganizationInformation({
       organization: organizationDeserialized,
-      domainTransaction,
     });
   });
   return h.response(dependencies.organizationForAdminSerializer.serialize(organizationUpdated));

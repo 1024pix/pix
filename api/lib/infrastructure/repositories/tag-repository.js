@@ -7,6 +7,7 @@ const { omit } = lodash;
 
 import { knex } from '../../../db/knex-database-connection.js';
 import { Tag } from '../../../src/organizational-entities/domain/models/Tag.js';
+import { DomainTransaction } from '../../../src/shared/domain/DomainTransaction.js';
 
 const create = async function (tag) {
   try {
@@ -35,7 +36,7 @@ const findAll = async function () {
 };
 
 const findByIds = async function (tagIds, domainTransaction) {
-  const knexConn = domainTransaction.knexTransaction;
+  const knexConn = DomainTransaction.getConnection();
   const rows = await knexConn('tags').whereIn('id', tagIds);
   return rows.map((row) => new Tag(row));
 };

@@ -26,25 +26,22 @@ const toDomain = (stageData) =>
     return new Stage(data);
   });
 
-/**
- * @param knexConnection
- * @returns {*}
- */
-const buildBaseQuery = (knexConnection) =>
-  knexConnection('stages')
+const buildBaseQuery = (knexConnection) => {
+  return knexConnection('stages')
     .select('stages.*')
     .join('campaigns', 'campaigns.targetProfileId', 'stages.targetProfileId')
     .orderBy(['stages.threshold', 'stages.level']);
+};
 
 /**
  * Return a stage for a given id
  *
  * @param {number} id
- * @param knexConnection
  *
  * @returns Promise<Stage>
  */
-const get = async (id, knexConnection = knex) => {
+const get = async (id) => {
+  const knexConnection = DomainTransaction.getConnection();
   const [stage] = await knexConnection('stages').select('stages.*').where({ id });
 
   if (!stage) throw new NotFoundError('Erreur, palier introuvable');
@@ -56,38 +53,41 @@ const get = async (id, knexConnection = knex) => {
  * Return stages for multiple campaign ids
  *
  * @param {number[]} campaignIds
- * @param knexConnection
  *
  * @returns Promise<Stage[]>
  */
-const getByCampaignIds = async (campaignIds, knexConnection = knex) =>
-  toDomain(await buildBaseQuery(knexConnection).whereIn('campaigns.id', campaignIds));
+const getByCampaignIds = async (campaignIds) => {
+  const knexConnection = DomainTransaction.getConnection();
+  return toDomain(await buildBaseQuery(knexConnection).whereIn('campaigns.id', campaignIds));
+};
 
 /**
  * Return stages for one campaign id
  *
  * @param {number} campaignId
- * @param knexConnection
  *
  * @returns Promise<Stage[]>
  */
-const getByCampaignId = async (campaignId, knexConnection = knex) =>
-  toDomain(await buildBaseQuery(knexConnection).where('campaigns.id', campaignId));
+const getByCampaignId = async (campaignId) => {
+  const knexConnection = DomainTransaction.getConnection();
+  return toDomain(await buildBaseQuery(knexConnection).where('campaigns.id', campaignId));
+};
 
 /**
  * Return campaign stages for a campaign participation id
  *
  * @param {number} campaignParticipationId
- * @param knexConnection
  *
  * @returns Promise<Stage[]>
  */
-const getByCampaignParticipationId = async (campaignParticipationId, knexConnection = knex) =>
-  toDomain(
+const getByCampaignParticipationId = async (campaignParticipationId) => {
+  const knexConnection = DomainTransaction.getConnection();
+  return toDomain(
     await buildBaseQuery(knexConnection)
       .join('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id')
       .where('campaign-participations.id', campaignParticipationId),
   );
+};
 
 /**
  * Return campaign stages for several target profile ids,

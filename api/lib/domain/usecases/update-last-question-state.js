@@ -5,12 +5,11 @@ const updateLastQuestionState = async function ({
   assessmentId,
   lastQuestionState,
   challengeId,
-  domainTransaction,
   assessmentRepository,
   challengeRepository,
 }) {
   if (lastQuestionState === Assessment.statesOfLastQuestion.FOCUSEDOUT && challengeId !== undefined) {
-    const challenge = await challengeRepository.get(challengeId, domainTransaction);
+    const challenge = await challengeRepository.get(challengeId);
     if (!challenge.focused) {
       logger.warn(
         {
@@ -24,7 +23,7 @@ const updateLastQuestionState = async function ({
       return;
     }
 
-    const assessment = await assessmentRepository.get(assessmentId, domainTransaction);
+    const assessment = await assessmentRepository.get(assessmentId);
     if (challengeId !== assessment.lastChallengeId) {
       logger.warn(
         {
@@ -42,7 +41,6 @@ const updateLastQuestionState = async function ({
   return assessmentRepository.updateLastQuestionState({
     id: assessmentId,
     lastQuestionState,
-    domainTransaction,
   });
 };
 

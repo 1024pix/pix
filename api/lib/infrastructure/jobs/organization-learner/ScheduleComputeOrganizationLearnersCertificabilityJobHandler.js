@@ -2,6 +2,7 @@ import cronParser from 'cron-parser';
 import dayjs from 'dayjs';
 
 import { knex } from '../../../../db/knex-database-connection.js';
+import { withTransaction } from '../../../../src/shared/domain/DomainTransaction.js';
 import { ComputeCertificabilityJob } from './ComputeCertificabilityJob.js';
 import { ScheduleComputeOrganizationLearnersCertificabilityJob } from './ScheduleComputeOrganizationLearnersCertificabilityJob.js';
 
@@ -26,14 +27,13 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobHandler {
 
     const fromUserActivityDate = dayjs(toUserActivityDate).subtract(1, 'day').toDate();
 
-    await knex.transaction(
+    return await withTransaction(
       async (trx) => {
         const count = await this.organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
           skipLoggedLastDayCheck,
           fromUserActivityDate,
           toUserActivityDate,
           onlyNotComputed,
-          domainTransaction: { knexTransaction: trx },
         });
 
         const chunkCount = Math.ceil(count / chunkSize);
@@ -55,7 +55,6 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobHandler {
               toUserActivityDate,
               skipLoggedLastDayCheck,
               onlyNotComputed,
-              domainTransaction: { knexTransaction: trx },
             });
 
           this.logger.info(
@@ -83,7 +82,7 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobHandler {
         );
       },
       { isolationLevel },
-    );
+    )();
   }
 
   get name() {

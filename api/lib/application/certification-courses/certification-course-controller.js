@@ -44,9 +44,8 @@ const save = async function (request, h, dependencies = { extractLocaleFromReque
   const sessionId = request.payload.data.attributes['session-id'];
   const locale = dependencies.extractLocaleFromRequest(request);
 
-  const { created, certificationCourse } = await DomainTransaction.execute((domainTransaction) => {
+  const { created, certificationCourse } = await DomainTransaction.execute(() => {
     return usecases.retrieveLastOrCreateCertificationCourse({
-      domainTransaction,
       sessionId,
       accessCode,
       userId,

@@ -1,11 +1,6 @@
-const updateOrganizationInformation = async function ({
-  organization,
-  organizationForAdminRepository,
-  tagRepository,
-  domainTransaction,
-}) {
-  const existingOrganization = await organizationForAdminRepository.get(organization.id, domainTransaction);
-  const tagsToUpdate = await tagRepository.findByIds(organization.tagIds, domainTransaction);
+const updateOrganizationInformation = async function ({ organization, organizationForAdminRepository, tagRepository }) {
+  const existingOrganization = await organizationForAdminRepository.get(organization.id);
+  const tagsToUpdate = await tagRepository.findByIds(organization.tagIds);
 
   existingOrganization.updateWithDataProtectionOfficerAndTags(
     organization,
@@ -13,9 +8,9 @@ const updateOrganizationInformation = async function ({
     tagsToUpdate,
   );
 
-  await organizationForAdminRepository.update(existingOrganization, domainTransaction);
+  await organizationForAdminRepository.update(existingOrganization);
 
-  return organizationForAdminRepository.get(organization.id, domainTransaction);
+  return organizationForAdminRepository.get(organization.id);
 };
 
 export { updateOrganizationInformation };

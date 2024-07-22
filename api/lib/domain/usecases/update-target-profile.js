@@ -3,13 +3,12 @@ const updateTargetProfile = async function ({
   attributesToUpdate,
   targetProfileForAdminRepository,
   targetProfileForUpdateRepository,
-  domainTransaction,
 }) {
-  const targetProfileForAdmin = await targetProfileForAdminRepository.get({ id, domainTransaction });
+  const targetProfileForAdmin = await targetProfileForAdminRepository.get({ id });
 
   targetProfileForAdmin.update(attributesToUpdate);
 
-  return targetProfileForUpdateRepository.update(targetProfileForAdmin, domainTransaction);
+  return targetProfileForUpdateRepository.update(targetProfileForAdmin);
 };
 
 export { updateTargetProfile };

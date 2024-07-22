@@ -19,7 +19,6 @@ import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js'
 describe('Unit | UseCase | retrieve-last-or-create-certification-course', function () {
   let clock;
   let now;
-  let domainTransaction;
   let verificationCode;
 
   const sessionRepository = {};
@@ -55,7 +54,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
   beforeEach(function () {
     now = new Date('2019-01-01T05:06:07Z');
     clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    domainTransaction = Symbol('someDomainTransaction');
     verificationCode = Symbol('verificationCode');
 
     assessmentRepository.save = sinon.stub();
@@ -90,7 +88,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
       // when
       const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
-        domainTransaction,
         sessionId: 1,
         accessCode: 'accessCode',
         userId: 2,
@@ -117,7 +114,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
         // when
         const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
-          domainTransaction,
           sessionId: 1,
           accessCode: 'accessCode',
           userId: 2,
@@ -155,7 +151,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
             // when
             const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
-              domainTransaction: Symbol('someDomainTransaction'),
               sessionId: 1,
               accessCode: 'accessCode',
               userId: 2,
@@ -171,7 +166,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
         context('when the user tries to go back to the session without authorization', function () {
           it('should throw a CandidateNotAuthorizedToResumeCertificationTestError', async function () {
             // given
-            const domainTransaction = Symbol('someDomainTransaction');
             const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
               id: 1,
               accessCode: 'accessCode',
@@ -190,12 +184,11 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
             const existingCertificationCourse = domainBuilder.buildCertificationCourse({ userId: 2, sessionId: 1 });
             certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-              .withArgs({ userId: 2, sessionId: 1, domainTransaction })
+              .withArgs({ userId: 2, sessionId: 1 })
               .resolves(existingCertificationCourse);
 
             // when
             const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
-              domainTransaction,
               sessionId: 1,
               accessCode: 'accessCode',
               userId: 2,
@@ -213,7 +206,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
         context('when the user is not connected with the correct account', function () {
           it('should throw a CandidateNotAuthorizedToJoinSessionError xxx', async function () {
             // given
-            const domainTransaction = Symbol('someDomainTransaction');
             const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
               id: 1,
               accessCode: 'accessCode',
@@ -236,7 +228,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
             // when
             const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
-              domainTransaction,
               sessionId: 1,
               accessCode: 'accessCode',
               userId: 5,
@@ -252,7 +243,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
         context('when a certification course with provided userId and sessionId already exists', function () {
           it('return existing certification course and unauthorize candidate to start', async function () {
             // given
-            const domainTransaction = Symbol('someDomainTransaction');
             const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
               id: 1,
               accessCode: 'accessCode',
@@ -271,12 +261,11 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
             const existingCertificationCourse = domainBuilder.buildCertificationCourse({ userId: 2, sessionId: 1 });
             certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-              .withArgs({ userId: 2, sessionId: 1, domainTransaction })
+              .withArgs({ userId: 2, sessionId: 1 })
               .resolves(existingCertificationCourse);
 
             // when
             const result = await retrieveLastOrCreateCertificationCourse({
-              domainTransaction,
               sessionId: 1,
               accessCode: 'accessCode',
               userId: 2,
@@ -302,8 +291,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
           context('when the user is not certifiable', function () {
             it('should throw a UserNotAuthorizedToCertifyError', async function () {
               // given
-              const domainTransaction = Symbol('someDomainTransaction');
-
               const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
                 id: 1,
                 accessCode: 'accessCode',
@@ -320,7 +307,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               );
 
               certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-                .withArgs({ userId: 2, sessionId: 1, domainTransaction })
+                .withArgs({ userId: 2, sessionId: 1 })
                 .resolves(null);
 
               const competences = [{ id: 'rec123' }, { id: 'rec456' }];
@@ -333,7 +320,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
               // when
               const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
-                domainTransaction,
                 sessionId: 1,
                 accessCode: 'accessCode',
                 userId: 2,
@@ -354,7 +340,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
             context('when a certification course has been created meanwhile', function () {
               it('should return it with flag created marked as false', async function () {
                 // given
-                const domainTransaction = Symbol('someDomainTransaction');
                 const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
                   id: 1,
                   accessCode: 'accessCode',
@@ -371,7 +356,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 );
 
                 certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-                  .withArgs({ userId: 2, sessionId: 1, domainTransaction })
+                  .withArgs({ userId: 2, sessionId: 1 })
                   .onCall(0)
                   .resolves(null);
 
@@ -390,13 +375,12 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   sessionId: 1,
                 });
                 certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-                  .withArgs({ userId: 2, sessionId: 1, domainTransaction })
+                  .withArgs({ userId: 2, sessionId: 1 })
                   .onCall(1)
                   .resolves(certificationCourseCreatedMeanwhile);
 
                 // when
                 const result = await retrieveLastOrCreateCertificationCourse({
-                  domainTransaction,
                   sessionId: 1,
                   accessCode: 'accessCode',
                   userId: 2,
@@ -417,8 +401,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
             context('when a certification still has not been created meanwhile', function () {
               it('should return it with flag created marked as true with related resources', async function () {
                 // given
-                const domainTransaction = Symbol('someDomainTransaction');
-
                 const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
                   id: 1,
                   accessCode: 'accessCode',
@@ -436,7 +418,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   .resolves(foundCertificationCandidate);
 
                 certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-                  .withArgs({ userId: 2, sessionId: 1, domainTransaction })
+                  .withArgs({ userId: 2, sessionId: 1 })
                   .resolves(null);
 
                 const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
@@ -453,9 +435,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 const certificationCenter = domainBuilder.buildCertificationCenter({ habilitations: [] });
                 certificationCenterRepository.getBySessionId.resolves(certificationCenter);
 
-                certificationBadgesService.findStillValidBadgeAcquisitions
-                  .withArgs({ userId: 2, domainTransaction })
-                  .resolves([]);
+                certificationBadgesService.findStillValidBadgeAcquisitions.withArgs({ userId: 2 }).resolves([]);
 
                 // TODO: extraire jusqu'à la ligne 387 dans une fonction ?
                 const certificationCourseToSave = CertificationCourse.from({
@@ -468,7 +448,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   certificationCourseToSave.toDTO(),
                 );
                 certificationCourseRepository.save
-                  .withArgs({ certificationCourse: certificationCourseToSave, domainTransaction })
+                  .withArgs({ certificationCourse: certificationCourseToSave })
                   .resolves(savedCertificationCourse);
 
                 const assessmentToSave = new Assessment({
@@ -480,13 +460,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   method: Assessment.methods.CERTIFICATION_DETERMINED,
                 });
                 const savedAssessment = domainBuilder.buildAssessment(assessmentToSave);
-                assessmentRepository.save
-                  .withArgs({ assessment: assessmentToSave, domainTransaction })
-                  .resolves(savedAssessment);
+                assessmentRepository.save.withArgs({ assessment: assessmentToSave }).resolves(savedAssessment);
 
                 // when
                 const result = await retrieveLastOrCreateCertificationCourse({
-                  domainTransaction,
                   sessionId: 1,
                   accessCode: 'accessCode',
                   userId: 2,
@@ -510,7 +487,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   it('should not create a certification', async function () {
                     // given
                     const userId = 2;
-                    const domainTransaction = Symbol('someDomainTransaction');
 
                     const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
                       id: 1,
@@ -530,7 +506,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       .resolves(foundCertificationCandidate);
 
                     certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-                      .withArgs({ userId, sessionId: 1, domainTransaction })
+                      .withArgs({ userId, sessionId: 1 })
                       .resolves(null);
 
                     const certificationCenter = domainBuilder.buildCertificationCenter({
@@ -546,7 +522,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                     // when
                     const error = await catchErr(await retrieveLastOrCreateCertificationCourse)({
-                      domainTransaction,
                       sessionId: 1,
                       accessCode: 'accessCode',
                       userId,
@@ -564,7 +539,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   it('should create a certification', async function () {
                     // given
                     const userId = 2;
-                    const domainTransaction = Symbol('someDomainTransaction');
 
                     const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
                       id: 1,
@@ -584,7 +558,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       .resolves(foundCertificationCandidate);
 
                     certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-                      .withArgs({ userId, sessionId: 1, domainTransaction })
+                      .withArgs({ userId, sessionId: 1 })
                       .resolves(null);
 
                     _buildPlacementProfileWithTwoChallenges({
@@ -600,9 +574,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     });
                     certificationCenterRepository.getBySessionId.resolves(certificationCenter);
 
-                    certificationBadgesService.findStillValidBadgeAcquisitions
-                      .withArgs({ userId, domainTransaction })
-                      .resolves([]);
+                    certificationBadgesService.findStillValidBadgeAcquisitions.withArgs({ userId }).resolves([]);
 
                     const user = domainBuilder.buildUser({ id: userId });
                     userRepository.get.withArgs(userId).resolves(user);
@@ -623,7 +595,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     );
 
                     certificationCourseRepository.save
-                      .withArgs({ certificationCourse: certificationCourseToSave, domainTransaction })
+                      .withArgs({ certificationCourse: certificationCourseToSave })
                       .resolves(savedCertificationCourse);
 
                     const assessmentToSave = new Assessment({
@@ -636,13 +608,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     });
 
                     const savedAssessment = domainBuilder.buildAssessment(assessmentToSave);
-                    assessmentRepository.save
-                      .withArgs({ assessment: assessmentToSave, domainTransaction })
-                      .resolves(savedAssessment);
+                    assessmentRepository.save.withArgs({ assessment: assessmentToSave }).resolves(savedAssessment);
 
                     // when
                     const { created, certificationCourse } = await retrieveLastOrCreateCertificationCourse({
-                      domainTransaction,
                       sessionId: 1,
                       accessCode: 'accessCode',
                       userId,
@@ -679,7 +648,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         complementaryCertificationKey: complementaryCertification.key,
                         complementaryCertificationBadgeId: 100,
                       });
-                      const domainTransaction = Symbol('someDomainTransaction');
 
                       const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
                         id: 1,
@@ -688,7 +656,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
 
                       certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-                        .withArgs({ userId: 2, sessionId: 1, domainTransaction })
+                        .withArgs({ userId: 2, sessionId: 1 })
                         .resolves(null);
 
                       const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
@@ -724,7 +692,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       const challengePlus3 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
 
                       certificationBadgesService.findStillValidBadgeAcquisitions
-                        .withArgs({ userId: 2, domainTransaction })
+                        .withArgs({ userId: 2 })
                         .resolves([certifiableBadgeAcquisition]);
 
                       certificationChallengesService.pickCertificationChallengesForPixPlus
@@ -756,7 +724,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         },
                       ];
                       certificationCourseRepository.save
-                        .withArgs({ certificationCourse: certificationCourseToSave, domainTransaction })
+                        .withArgs({ certificationCourse: certificationCourseToSave })
                         .resolves(savedCertificationCourse);
 
                       const assessmentToSave = new Assessment({
@@ -768,13 +736,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         method: Assessment.methods.CERTIFICATION_DETERMINED,
                       });
                       const savedAssessment = domainBuilder.buildAssessment(assessmentToSave);
-                      assessmentRepository.save
-                        .withArgs({ assessment: assessmentToSave, domainTransaction })
-                        .resolves(savedAssessment);
+                      assessmentRepository.save.withArgs({ assessment: assessmentToSave }).resolves(savedAssessment);
 
                       // when
                       const result = await retrieveLastOrCreateCertificationCourse({
-                        domainTransaction,
                         sessionId: 1,
                         accessCode: 'accessCode',
                         userId: 2,
@@ -805,8 +770,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         complementaryCertificationBadgeId: 100,
                       });
 
-                      const domainTransaction = Symbol('someDomainTransaction');
-
                       const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
                         id: 1,
                         accessCode: 'accessCode',
@@ -814,7 +777,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
 
                       certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-                        .withArgs({ userId: 2, sessionId: 1, domainTransaction })
+                        .withArgs({ userId: 2, sessionId: 1 })
                         .resolves(null);
 
                       const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
@@ -850,7 +813,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       const challengePlus3 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
 
                       certificationBadgesService.findStillValidBadgeAcquisitions
-                        .withArgs({ userId: 2, domainTransaction })
+                        .withArgs({ userId: 2 })
                         .resolves([certifiableBadgeAcquisition]);
 
                       certificationChallengesService.pickCertificationChallengesForPixPlus
@@ -881,7 +844,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         },
                       ];
                       certificationCourseRepository.save
-                        .withArgs({ certificationCourse: certificationCourseToSave, domainTransaction })
+                        .withArgs({ certificationCourse: certificationCourseToSave })
                         .resolves(savedCertificationCourse);
 
                       const assessmentToSave = new Assessment({
@@ -893,13 +856,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         method: Assessment.methods.CERTIFICATION_DETERMINED,
                       });
                       const savedAssessment = domainBuilder.buildAssessment(assessmentToSave);
-                      assessmentRepository.save
-                        .withArgs({ assessment: assessmentToSave, domainTransaction })
-                        .resolves(savedAssessment);
+                      assessmentRepository.save.withArgs({ assessment: assessmentToSave }).resolves(savedAssessment);
 
                       // when
                       const result = await retrieveLastOrCreateCertificationCourse({
-                        domainTransaction,
                         sessionId: 1,
                         accessCode: 'accessCode',
                         userId: 2,
@@ -923,7 +883,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         const complementaryCertification = domainBuilder.buildComplementaryCertification({
                           key: 'PIX+TEST',
                         });
-                        const domainTransaction = Symbol('someDomainTransaction');
 
                         const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
                           id: 1,
@@ -932,7 +891,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
 
                         certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-                          .withArgs({ userId: 2, sessionId: 1, domainTransaction })
+                          .withArgs({ userId: 2, sessionId: 1 })
                           .resolves(null);
 
                         const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
@@ -963,9 +922,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         });
                         certificationCenterRepository.getBySessionId.resolves(certificationCenter);
 
-                        certificationBadgesService.findStillValidBadgeAcquisitions
-                          .withArgs({ userId: 2, domainTransaction })
-                          .resolves([]);
+                        certificationBadgesService.findStillValidBadgeAcquisitions.withArgs({ userId: 2 }).resolves([]);
 
                         const certificationCourseToSave = CertificationCourse.from({
                           certificationCandidate: foundCertificationCandidate,
@@ -978,7 +935,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           certificationCourseToSave.toDTO(),
                         );
                         certificationCourseRepository.save
-                          .withArgs({ certificationCourse: certificationCourseToSave, domainTransaction })
+                          .withArgs({ certificationCourse: certificationCourseToSave })
                           .resolves(savedCertificationCourse);
 
                         const assessmentToSave = new Assessment({
@@ -990,13 +947,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           method: Assessment.methods.CERTIFICATION_DETERMINED,
                         });
                         const savedAssessment = domainBuilder.buildAssessment(assessmentToSave);
-                        assessmentRepository.save
-                          .withArgs({ assessment: assessmentToSave, domainTransaction })
-                          .resolves(savedAssessment);
+                        assessmentRepository.save.withArgs({ assessment: assessmentToSave }).resolves(savedAssessment);
 
                         // when
                         const result = await retrieveLastOrCreateCertificationCourse({
-                          domainTransaction,
                           sessionId: 1,
                           accessCode: 'accessCode',
                           userId: 2,
@@ -1029,8 +983,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           complementaryCertificationBadgeId: 100,
                         });
 
-                        const domainTransaction = Symbol('someDomainTransaction');
-
                         const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
                           id: 1,
                           accessCode: 'accessCode',
@@ -1038,7 +990,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
 
                         certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-                          .withArgs({ userId: 2, sessionId: 1, domainTransaction })
+                          .withArgs({ userId: 2, sessionId: 1 })
                           .resolves(null);
 
                         const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
@@ -1070,7 +1022,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         certificationCenterRepository.getBySessionId.resolves(certificationCenter);
 
                         certificationBadgesService.findStillValidBadgeAcquisitions
-                          .withArgs({ userId: 2, domainTransaction })
+                          .withArgs({ userId: 2 })
                           .resolves([certifiableBadgeAcquisition]);
 
                         certificationChallengesService.pickCertificationChallengesForPixPlus
@@ -1101,7 +1053,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           },
                         ];
                         certificationCourseRepository.save
-                          .withArgs({ certificationCourse: certificationCourseToSave, domainTransaction })
+                          .withArgs({ certificationCourse: certificationCourseToSave })
                           .resolves(savedCertificationCourse);
 
                         const assessmentToSave = new Assessment({
@@ -1113,13 +1065,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           method: Assessment.methods.CERTIFICATION_DETERMINED,
                         });
                         const savedAssessment = domainBuilder.buildAssessment(assessmentToSave);
-                        assessmentRepository.save
-                          .withArgs({ assessment: assessmentToSave, domainTransaction })
-                          .resolves(savedAssessment);
+                        assessmentRepository.save.withArgs({ assessment: assessmentToSave }).resolves(savedAssessment);
 
                         // when
                         const result = await retrieveLastOrCreateCertificationCourse({
-                          domainTransaction,
                           sessionId: 1,
                           accessCode: 'accessCode',
                           userId: 2,
@@ -1151,8 +1100,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         badgeKey: badge.key,
                       });
 
-                      const domainTransaction = Symbol('someDomainTransaction');
-
                       const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
                         id: 1,
                         accessCode: 'accessCode',
@@ -1160,7 +1107,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
 
                       certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-                        .withArgs({ userId: 2, sessionId: 1, domainTransaction })
+                        .withArgs({ userId: 2, sessionId: 1 })
                         .resolves(null);
 
                       const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
@@ -1192,7 +1139,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       certificationCenterRepository.getBySessionId.resolves(certificationCenter);
 
                       certificationBadgesService.findStillValidBadgeAcquisitions
-                        .withArgs({ userId: 2, domainTransaction })
+                        .withArgs({ userId: 2 })
                         .resolves([badgeAcquisition]);
 
                       const certificationCourseToSave = CertificationCourse.from({
@@ -1207,7 +1154,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         certificationCourseToSave.toDTO(),
                       );
                       certificationCourseRepository.save
-                        .withArgs({ certificationCourse: certificationCourseToSave, domainTransaction })
+                        .withArgs({ certificationCourse: certificationCourseToSave })
                         .resolves(savedCertificationCourse);
 
                       const assessmentToSave = new Assessment({
@@ -1219,13 +1166,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         method: Assessment.methods.CERTIFICATION_DETERMINED,
                       });
                       const savedAssessment = domainBuilder.buildAssessment(assessmentToSave);
-                      assessmentRepository.save
-                        .withArgs({ assessment: assessmentToSave, domainTransaction })
-                        .resolves(savedAssessment);
+                      assessmentRepository.save.withArgs({ assessment: assessmentToSave }).resolves(savedAssessment);
 
                       // when
                       const result = await retrieveLastOrCreateCertificationCourse({
-                        domainTransaction,
                         sessionId: 1,
                         accessCode: 'accessCode',
                         userId: 2,
@@ -1252,7 +1196,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       userid: 2,
                       badge: domainBuilder.buildBadge({ isCertifiable: true }),
                     });
-                    const domainTransaction = Symbol('someDomainTransaction');
 
                     const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
                       id: 1,
@@ -1261,7 +1204,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
 
                     certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-                      .withArgs({ userId: 2, sessionId: 1, domainTransaction })
+                      .withArgs({ userId: 2, sessionId: 1 })
                       .resolves(null);
 
                     const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
@@ -1293,7 +1236,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     certificationCenterRepository.getBySessionId.resolves(certificationCenter);
 
                     certificationBadgesService.findStillValidBadgeAcquisitions
-                      .withArgs({ userId: 2, domainTransaction })
+                      .withArgs({ userId: 2 })
                       .resolves([badgeAcquisition]);
 
                     const certificationCourseToSave = CertificationCourse.from({
@@ -1307,7 +1250,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       certificationCourseToSave.toDTO(),
                     );
                     certificationCourseRepository.save
-                      .withArgs({ certificationCourse: certificationCourseToSave, domainTransaction })
+                      .withArgs({ certificationCourse: certificationCourseToSave })
                       .resolves(savedCertificationCourse);
 
                     const assessmentToSave = new Assessment({
@@ -1319,13 +1262,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       method: Assessment.methods.CERTIFICATION_DETERMINED,
                     });
                     const savedAssessment = domainBuilder.buildAssessment(assessmentToSave);
-                    assessmentRepository.save
-                      .withArgs({ assessment: assessmentToSave, domainTransaction })
-                      .resolves(savedAssessment);
+                    assessmentRepository.save.withArgs({ assessment: assessmentToSave }).resolves(savedAssessment);
 
                     // when
                     const result = await retrieveLastOrCreateCertificationCourse({
-                      domainTransaction,
                       sessionId: 1,
                       accessCode: 'accessCode',
                       userId: 2,

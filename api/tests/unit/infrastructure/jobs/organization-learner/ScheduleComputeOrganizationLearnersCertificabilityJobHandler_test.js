@@ -9,7 +9,6 @@ dayjs.extend(timezone);
 
 describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCertificabilityJobHandler', function () {
   context('#handle', function () {
-    let domainTransaction;
     let pgBossRepository;
     let organizationLearnerRepository;
     let logger;
@@ -19,7 +18,6 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
     let toUserActivityDate;
 
     beforeEach(function () {
-      const transaction = Symbol('domainTransaction');
       sinon
         .stub(knex, 'transaction')
         .withArgs(sinon.match.func, { isolationLevel: 'repeatable read' })
@@ -47,10 +45,6 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
         .second(0)
         .millisecond(0)
         .toDate();
-
-      domainTransaction = {
-        knexTransaction: transaction,
-      };
 
       pgBossRepository = {
         insert: sinon.stub(),
@@ -83,7 +77,6 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
           toUserActivityDate,
           skipLoggedLastDayCheck,
           onlyNotComputed,
-          domainTransaction,
         })
         .resolves(3);
       organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability
@@ -94,7 +87,6 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
           offset: 0,
           skipLoggedLastDayCheck,
           onlyNotComputed,
-          domainTransaction,
         })
         .resolves([1, 2]);
       organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability
@@ -105,7 +97,6 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
           offset: 2,
           skipLoggedLastDayCheck,
           onlyNotComputed,
-          domainTransaction,
         })
         .resolves([3]);
       const scheduleComputeOrganizationLearnersCertificabilityJobHandler =
@@ -158,7 +149,6 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
           toUserActivityDate,
           skipLoggedLastDayCheck,
           onlyNotComputed,
-          domainTransaction,
         })
         .resolves(3);
       organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability
@@ -169,7 +159,6 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
           offset: 0,
           skipLoggedLastDayCheck,
           onlyNotComputed,
-          domainTransaction,
         })
         .resolves([1, 2]);
       organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability
@@ -180,7 +169,6 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
           offset: 2,
           skipLoggedLastDayCheck,
           onlyNotComputed,
-          domainTransaction,
         })
         .resolves([3]);
       const scheduleComputeOrganizationLearnersCertificabilityJobHandler =
@@ -241,7 +229,6 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
           toUserActivityDate,
           skipLoggedLastDayCheck,
           onlyNotComputed,
-          domainTransaction,
         })
         .resolves(30);
 
@@ -254,7 +241,6 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
             toUserActivityDate,
             skipLoggedLastDayCheck,
             onlyNotComputed,
-            domainTransaction,
           })
           .resolves([index * limit + 1, index * limit + 2, index * limit + 3]);
       }
@@ -295,7 +281,6 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
             on_complete: true,
           },
         ]);
-        expect(pgBossRepository.insert.getCall(index).args[1]).to.be.deep.equal(domainTransaction);
       }
     });
   });

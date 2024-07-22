@@ -69,7 +69,7 @@ describe('Unit | Application | Organizations | organization-administration-contr
         .withArgs(request.payload)
         .returns(organizationDeserialized);
       usecases.updateOrganizationInformation
-        .withArgs({ organization: organizationDeserialized, domainTransaction })
+        .withArgs({ organization: organizationDeserialized })
         .resolves(updatedOrganization);
       dependencies.organizationForAdminSerializer.serialize
         .withArgs(updatedOrganization)
