@@ -1,5 +1,5 @@
-import { DistributedCache } from '../../../../lib/infrastructure/caches/DistributedCache.js';
-import { expect, sinon } from '../../../test-helper.js';
+import { DistributedCache } from '../../../../../src/shared/infrastructure/caches/DistributedCache.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Caches | DistributedCache', function () {
   let distributedCacheInstance;

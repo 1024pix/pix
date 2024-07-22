@@ -1,5 +1,5 @@
 import { config } from '../../../src/shared/config.js';
-import { DistributedCache } from './DistributedCache.js';
+import { DistributedCache } from '../../../src/shared/infrastructure/caches/DistributedCache.js';
 import { InMemoryCache } from './InMemoryCache.js';
 import { LayeredCache } from './LayeredCache.js';
 import { RedisCache } from './RedisCache.js';
