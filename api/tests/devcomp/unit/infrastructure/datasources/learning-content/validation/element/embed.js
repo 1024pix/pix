@@ -5,7 +5,7 @@ import { htmlNotAllowedSchema, htmlSchema, uuidSchema } from '../utils.js';
 const embedSchema = Joi.object({
   id: uuidSchema,
   type: Joi.string().valid('embed').required(),
-  isCompletionRequired: Joi.boolean().valid(false).required(),
+  isCompletionRequired: Joi.boolean().required(),
   title: htmlNotAllowedSchema.required(),
   url: Joi.string().uri().required(),
   instruction: htmlSchema.optional(),
