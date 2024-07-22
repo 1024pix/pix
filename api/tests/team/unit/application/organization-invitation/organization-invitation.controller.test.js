@@ -121,4 +121,46 @@ describe('Unit | Team | Application | Controller | organization-invitation', fun
       expect(response.statusCode).to.equal(204);
     });
   });
+
+  describe('#sendInvitations', function () {
+    let request;
+
+    const userId = 1;
+    let invitation;
+    let organizationId;
+    let emails;
+    const locale = 'fr-fr';
+
+    beforeEach(function () {
+      invitation = domainBuilder.buildOrganizationInvitation();
+      organizationId = invitation.organizationId;
+      emails = [invitation.email];
+      request = {
+        auth: { credentials: { userId } },
+        params: { id: organizationId },
+        payload: {
+          data: {
+            type: 'organization-invitations',
+            attributes: {
+              email: invitation.email,
+            },
+          },
+        },
+      };
+    });
+
+    it('should call the usecase to create invitation with organizationId, email and locale', async function () {
+      sinon.stub(usecases, 'createOrganizationInvitations').resolves([{ id: 1 }]);
+
+      // when
+      await organizationInvitationController.sendInvitations(request, hFake);
+
+      // then
+      expect(usecases.createOrganizationInvitations).to.have.been.calledWithExactly({
+        organizationId,
+        emails,
+        locale,
+      });
+    });
+  });
 });

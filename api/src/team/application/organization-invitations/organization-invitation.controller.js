@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 import { MissingQueryParamError } from '../../../../lib/application/http-errors.js';
 import * as requestResponseUtils from '../../../shared/infrastructure/utils/request-response-utils.js';
+import { extractLocaleFromRequest } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { organizationInvitationSerializer } from '../../infrastructure/serializers/jsonapi/organization-invitation.serializer.js';
 import { serializer as scoOrganizationInvitationSerializer } from '../../infrastructure/serializers/jsonapi/sco-organization-invitation.serializer.js';
@@ -80,9 +81,19 @@ const sendScoInvitation = async function (
   return h.response(dependencies.scoOrganizationInvitationSerializer.serialize(organizationScoInvitation)).created();
 };
 
+const sendInvitations = async function (request, h) {
+  const organizationId = request.params.id;
+  const emails = request.payload.data.attributes.email.split(',');
+  const locale = extractLocaleFromRequest(request);
+
+  const organizationInvitations = await usecases.createOrganizationInvitations({ organizationId, emails, locale });
+  return h.response(organizationInvitationSerializer.serialize(organizationInvitations)).created();
+};
+
 export const organizationInvitationController = {
   findPendingInvitations,
   cancelOrganizationInvitation,
   getOrganizationInvitation,
+  sendInvitations,
   sendScoInvitation,
 };

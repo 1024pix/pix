@@ -82,15 +82,6 @@ const getDivisions = async function (request) {
   return divisionSerializer.serialize(divisions);
 };
 
-const sendInvitations = async function (request, h) {
-  const organizationId = request.params.id;
-  const emails = request.payload.data.attributes.email.split(',');
-  const locale = extractLocaleFromRequest(request);
-
-  const organizationInvitations = await usecases.createOrganizationInvitations({ organizationId, emails, locale });
-  return h.response(organizationInvitationSerializer.serialize(organizationInvitations)).created();
-};
-
 const resendInvitation = async function (request, h) {
   const organizationId = request.params.id;
   const email = request.payload.data.attributes.email;
@@ -158,7 +149,6 @@ const organizationController = {
   getOrganizationMemberIdentities,
   resendInvitation,
   sendInvitationByLangAndRole,
-  sendInvitations,
 };
 
 export { organizationController };

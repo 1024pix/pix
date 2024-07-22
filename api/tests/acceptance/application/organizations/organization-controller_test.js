@@ -14,7 +14,7 @@ import {
   sinon,
 } from '../../../test-helper.js';
 
-const { map: _map, omit: _omit } = lodash;
+const { map: _map } = lodash;
 
 const { ROLES } = PIX_ADMIN;
 
@@ -767,116 +767,6 @@ describe('Acceptance | Application | organization-controller', function () {
       };
       expect(response.statusCode).to.equal(200);
       expect(response.result).to.deep.equal(expectedResult);
-    });
-  });
-
-  describe('POST /api/organizations/{id}/invitations', function () {
-    let organization;
-    let user1;
-    let user2;
-    let options;
-
-    beforeEach(async function () {
-      const adminUserId = databaseBuilder.factory.buildUser().id;
-      organization = databaseBuilder.factory.buildOrganization();
-      databaseBuilder.factory.buildMembership({
-        userId: adminUserId,
-        organizationId: organization.id,
-        organizationRole: Membership.roles.ADMIN,
-      });
-
-      user1 = databaseBuilder.factory.buildUser();
-      user2 = databaseBuilder.factory.buildUser();
-
-      options = {
-        method: 'POST',
-        url: `/api/organizations/${organization.id}/invitations`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(adminUserId) },
-        payload: {
-          data: {
-            type: 'organization-invitations',
-            attributes: {
-              email: `${user1.email},${user2.email}`,
-            },
-          },
-        },
-      };
-
-      await databaseBuilder.commit();
-    });
-
-    context('Expected output', function () {
-      it('should return the matching organization-invitations as JSON API', async function () {
-        // given
-        const status = OrganizationInvitation.StatusType.PENDING;
-        const expectedResults = [
-          {
-            type: 'organization-invitations',
-            attributes: {
-              'organization-id': organization.id,
-              email: user1.email,
-              status,
-              role: null,
-            },
-          },
-          {
-            type: 'organization-invitations',
-            attributes: {
-              'organization-id': organization.id,
-              email: user2.email,
-              status,
-              role: null,
-            },
-          },
-        ];
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(201);
-        expect(response.result.data.length).equal(2);
-        expect(
-          _omit(response.result.data[0], 'id', 'attributes.updated-at', 'attributes.organization-name'),
-        ).to.deep.equal(expectedResults[0]);
-        expect(
-          _omit(response.result.data[1], 'id', 'attributes.updated-at', 'attributes.organization-name'),
-        ).to.deep.equal(expectedResults[1]);
-      });
-    });
-
-    context('Resource access management', function () {
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function () {
-        // given
-        options.headers.authorization = 'invalid.access.token';
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(401);
-      });
-
-      it('should respond with a 403 - forbidden access - if user is not ADMIN in organization', async function () {
-        // given
-        const nonAdminUserId = databaseBuilder.factory.buildUser().id;
-        await databaseBuilder.commit();
-        options.headers.authorization = generateValidRequestAuthorizationHeader(nonAdminUserId);
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(403);
-      });
-
-      it('should respond with a 201 - created - if user is ADMIN in organization', async function () {
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(201);
-      });
     });
   });
 
