@@ -1,20 +1,20 @@
 import bluebird from 'bluebird';
 
-import { CertificationCandidateAlreadyLinkedToUserError } from '../../domain/errors.js';
-import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
+import { CertificationCandidateAlreadyLinkedToUserError } from '../../../../../lib/domain/errors.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 
 const importCertificationCandidatesFromCandidatesImportSheet = async function ({
   sessionId,
   odsBuffer,
   i18n,
-  certificationCandidatesOdsService,
   certificationCandidateRepository,
-  certificationCpfService,
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
   complementaryCertificationRepository,
   certificationCenterRepository,
-  sessionEnrolmentRepository,
+  sessionRepository,
+  certificationCandidatesOdsService,
+  certificationCpfService,
 }) {
   const linkedCandidateInSessionExists =
     await certificationCandidateRepository.doesLinkedCertificationCandidateInSessionExist({ sessionId });
@@ -23,7 +23,7 @@ const importCertificationCandidatesFromCandidatesImportSheet = async function ({
     throw new CertificationCandidateAlreadyLinkedToUserError('At least one candidate is already linked to a user');
   }
 
-  const isSco = await sessionEnrolmentRepository.isSco({ id: sessionId });
+  const isSco = await sessionRepository.isSco({ id: sessionId });
 
   const certificationCandidates =
     await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({

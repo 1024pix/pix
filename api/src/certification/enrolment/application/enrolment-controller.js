@@ -1,4 +1,3 @@
-import { usecases as libUsecases } from '../../../../lib/domain/usecases/index.js';
 import * as requestResponseUtils from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../domain/usecases/index.js';
 import { fillCandidatesImportSheet } from '../infrastructure/files/candidates-import/fill-candidates-import-sheet.js';
@@ -49,7 +48,7 @@ const importCertificationCandidatesFromCandidatesImportSheet = async function (r
   const odsBuffer = request.payload;
   const i18n = request.i18n;
 
-  await libUsecases.importCertificationCandidatesFromCandidatesImportSheet({ sessionId, odsBuffer, i18n });
+  await usecases.importCertificationCandidatesFromCandidatesImportSheet({ sessionId, odsBuffer, i18n });
 
   return null;
 };

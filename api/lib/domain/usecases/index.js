@@ -106,7 +106,6 @@ import { organizationInvitationService } from '../../../src/team/domain/services
 import * as certificationCenterInvitationRepository from '../../../src/team/infrastructure/repositories/certification-center-invitation-repository.js';
 import { organizationInvitationRepository } from '../../../src/team/infrastructure/repositories/organization-invitation.repository.js';
 import { userOrgaSettingsRepository } from '../../../src/team/infrastructure/repositories/user-orga-settings-repository.js';
-import * as certificationCandidatesOdsService from '../../domain/services/certification-candidates-ods-service.js';
 import * as certificationChallengesService from '../../domain/services/certification-challenges-service.js';
 import * as improvementService from '../../domain/services/improvement-service.js';
 import * as mailService from '../../domain/services/mail-service.js';
@@ -228,7 +227,6 @@ const dependencies = {
   certificationBadgesService,
   certificationCandidateForSupervisingRepository,
   certificationCandidateRepository,
-  certificationCandidatesOdsService,
   certificationCenterForAdminRepository,
   certificationCenterInvitationRepository,
   certificationCenterInvitationService,
