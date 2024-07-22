@@ -8,9 +8,13 @@
     {{#if (eq this.answer.result "ko")}}
       <Bubble @message={{t "pages.challenge.messages.wrong-answer"}} @color="error" aria-live="polite" />
     {{/if}}
+    {{#if this.displayValidationWarning}}
+      <Bubble @message={{this.validationWarning}} @color="warning" aria-live="polite" />
+    {{/if}}
   </RobotDialog>
   <Challenge::Item
     @setAnswerValue={{this.setAnswerValue}}
+    @setValidationWarning={{this.setValidationWarning}}
     @validateAnswer={{this.validateAnswer}}
     @skipChallenge={{this.skipChallenge}}
     @challenge={{@challenge}}

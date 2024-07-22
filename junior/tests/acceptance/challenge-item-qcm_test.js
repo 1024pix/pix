@@ -49,4 +49,16 @@ module('Acceptance | Displaying a QCM challenge', function (hooks) {
       assert.dom(screen.getByRole('button', { name: t('pages.challenge.actions.check') })).isDisabled();
     });
   });
+
+  module('when user select just one answer', function () {
+    test('should display warning message', async function (assert) {
+      // when
+      const screen = await visit(`/assessments/${assessment.id}/challenges`);
+      await click(screen.getByRole('checkbox', { name: 'Profil 1' }));
+      await click(screen.getByRole('button', { name: t('pages.challenge.actions.check') }));
+
+      // then
+      assert.dom(screen.getByText(t('pages.challenge.qcm-error'))).exists();
+    });
+  });
 });
