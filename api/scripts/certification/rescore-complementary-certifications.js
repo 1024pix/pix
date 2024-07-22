@@ -22,34 +22,30 @@ class ComplementaryCertificationCommand {
 
   complementaryBeforeUpdate({
     statusBeforeScript,
-    levelBeforeScript,
-    labelBeforeScript,
+    badgeLevelBeforeScript,
     examinationDateBeforeScript,
     certificationDateBeforeScript,
+    commentByAutoJuryBeforeScript,
   }) {
     this.statusBeforeScript = statusBeforeScript;
-    this.levelBeforeScript = levelBeforeScript;
-    this.labelBeforeScript = labelBeforeScript;
+    this.badgeLevelBeforeScript = badgeLevelBeforeScript;
     this.examinationDateBeforeScript = examinationDateBeforeScript;
     this.certificationDateBeforeScript = certificationDateBeforeScript;
-
-    return this;
+    this.commentByAutoJuryBeforeScript = commentByAutoJuryBeforeScript;
   }
 
   complementaryAfterUpdate({
     statusAfterScript,
-    levelAfterScript,
-    labelAfterScript,
+    badgeLevelAfterScript,
     examinationDateAfterScript,
     certificationDateAfterScript,
+    commentByAutoJuryAfterScript,
   }) {
     this.statusAfterScript = statusAfterScript;
-    this.levelAfterScript = levelAfterScript;
-    this.labelAfterScript = labelAfterScript;
+    this.badgeLevelAfterScript = badgeLevelAfterScript;
     this.examinationDateAfterScript = examinationDateAfterScript;
     this.certificationDateAfterScript = certificationDateAfterScript;
-
-    return this;
+    this.commentByAutoJuryAfterScript = commentByAutoJuryAfterScript;
   }
 
   updateFailure() {
@@ -62,10 +58,38 @@ class ComplementaryCertificationCommand {
 }
 
 const _snapshotCurrentScoring = async ({ certificationCourseId }) => {
-  return knex('certification-courses')
-    .select('certification-courses.id', 'certification-courses.createdAt', 'sessions.publishedAt')
+  return knex('complementary-certification-courses')
+    .select(
+      'certification-courses.id',
+      'certification-courses.createdAt',
+      'sessions.publishedAt',
+      'assessment-results.status',
+      'assessment-results.commentByAutoJury',
+      'complementary-certification-badges.label',
+    )
+    .innerJoin(
+      'certification-courses',
+      'complementary-certification-courses.certificationCourseId',
+      'certification-courses.id',
+    )
+    .innerJoin(
+      'complementary-certification-badges',
+      'complementary-certification-badges.id',
+      'complementary-certification-courses.complementaryCertificationBadgeId',
+    )
     .innerJoin('sessions', 'sessions.id', 'certification-courses.sessionId')
-    .where('certification-courses.id', '=', certificationCourseId);
+    .leftJoin(
+      'certification-courses-last-assessment-results',
+      'certification-courses-last-assessment-results.certificationCourseId',
+      'certification-courses.id',
+    )
+    .leftJoin(
+      'assessment-results',
+      'certification-courses-last-assessment-results.lastAssessmentResultId',
+      'assessment-results.id',
+    )
+    .where('complementary-certification-courses.certificationCourseId', '=', certificationCourseId)
+    .first();
 };
 
 /**
@@ -89,17 +113,19 @@ async function main(certificationCourseIds = []) {
     try {
       const currentComplementarySnapshot = await _snapshotCurrentScoring({ certificationCourseId });
       complementaryRescored.complementaryBeforeUpdate({
-        statusBeforeScript: '',
-        levelBeforeScript: '',
-        labelBeforeScript: '',
+        statusBeforeScript: currentComplementarySnapshot.status,
+        badgeLevelBeforeScript: currentComplementarySnapshot.label,
         examinationDateBeforeScript: currentComplementarySnapshot.createdAt,
         certificationDateBeforeScript: currentComplementarySnapshot.publishedAt,
+        commentByAutoJuryBeforeScript: currentComplementarySnapshot.commentByAutoJury,
       });
       complementaryRescored.updateSuccessfull();
     } catch (error) {
       logger.error(error, `Could not rescore certificationCourseId:[${complementaryRescored.certificationCourseId}]`);
       complementaryRescored.updateFailure();
     }
+
+    logger.info(complementaryRescored);
   }
 
   return 0;
