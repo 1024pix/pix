@@ -1,3 +1,4 @@
+import { usecases as libUsecases } from '../../../../lib/domain/usecases/index.js';
 import * as requestResponseUtils from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../domain/usecases/index.js';
 import { fillCandidatesImportSheet } from '../infrastructure/files/candidates-import/fill-candidates-import-sheet.js';
@@ -43,9 +44,20 @@ const getCandidatesImportSheet = async function (request, h, dependencies = { fi
     .header('Content-Disposition', `attachment; filename=${filename + sessionId}.ods`);
 };
 
+const importCertificationCandidatesFromCandidatesImportSheet = async function (request) {
+  const sessionId = request.params.id;
+  const odsBuffer = request.payload;
+  const i18n = request.i18n;
+
+  await libUsecases.importCertificationCandidatesFromCandidatesImportSheet({ sessionId, odsBuffer, i18n });
+
+  return null;
+};
+
 const enrolmentController = {
   enrolStudentsToSession,
   getCandidatesImportSheet,
+  importCertificationCandidatesFromCandidatesImportSheet,
 };
 
 export { enrolmentController };

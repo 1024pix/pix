@@ -5,7 +5,6 @@ import * as url from 'node:url';
 import FormData from 'form-data';
 import streamToPromise from 'stream-to-promise';
 
-import { sessionController } from '../../../../../lib/application/sessions/session-controller.js';
 import { enrolmentController } from '../../../../../src/certification/enrolment/application/enrolment-controller.js';
 import * as moduleUnderTest from '../../../../../src/certification/enrolment/application/enrolment-route.js';
 import { authorization } from '../../../../../src/certification/shared/application/pre-handlers/authorization.js';
@@ -114,7 +113,7 @@ describe('Certification | Enrolment | Unit | Application | Routes', function () 
     it('should exist', async function () {
       // given
       sinon.stub(authorization, 'verifySessionAuthorization').returns(null);
-      sinon.stub(sessionController, 'importCertificationCandidatesFromCandidatesImportSheet').returns('ok');
+      sinon.stub(enrolmentController, 'importCertificationCandidatesFromCandidatesImportSheet').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
