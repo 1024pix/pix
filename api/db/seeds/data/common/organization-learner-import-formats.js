@@ -1,3 +1,4 @@
+import { IMPORT_KEY_FIELD } from '../../../../src/prescription/learner-management/domain/constants.js';
 import { IMPORT_FORMAT_GENERIC_ID, IMPORT_FORMAT_ONDE_ID, REAL_PIX_SUPER_ADMIN_ID } from './constants.js';
 
 export const organizationLearnerImportFormat = async function ({ databaseBuilder }) {
@@ -46,6 +47,18 @@ export const organizationLearnerImportFormat = async function ({ databaseBuilder
         { key: 'reconcileField2', columnName: 'Prénom apprenant' },
         { key: 'reconcileField3', columnName: 'Date de naissance' },
       ],
+      displayableColumns: [
+        {
+          key: 4,
+          position: 2,
+          name: IMPORT_KEY_FIELD.COMMON_BIRTHDATE,
+        },
+        {
+          key: 3,
+          position: 1,
+          name: IMPORT_KEY_FIELD.COMMON_DIVISION,
+        },
+      ],
       validationRules: {
         formats: [
           { name: 'Nom apprenant', type: 'string', required: true },
@@ -55,10 +68,10 @@ export const organizationLearnerImportFormat = async function ({ databaseBuilder
         ],
       },
       headers: [
-        { name: 'Nom apprenant', property: 'lastName', required: true },
-        { name: 'Prénom apprenant', property: 'firstName', required: true },
-        { name: 'Classe', required: true },
-        { name: 'Date de naissance', required: true },
+        { key: 1, name: 'Nom apprenant', property: 'lastName', required: true },
+        { key: 2, name: 'Prénom apprenant', property: 'firstName', required: true },
+        { key: 3, name: 'Classe', required: true },
+        { key: 4, name: 'Date de naissance', required: true },
       ],
     },
     createdAt: new Date('2024-01-01'),

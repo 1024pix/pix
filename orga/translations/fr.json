@@ -222,6 +222,12 @@
     "fullname": "{firstName} {lastName}",
     "help-form": "https://support.pix.fr/support/tickets/new",
     "home-page": "Page d'accueil de Pix Orga",
+    "import": {
+      "field": {
+        "birthdate": "Date de naissance",
+        "division": "Classe"
+      }
+    },
     "loading": "Chargement en cours",
     "pagination": {
       "action": {
