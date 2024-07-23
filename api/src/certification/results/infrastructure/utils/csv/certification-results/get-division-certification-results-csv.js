@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import { getCsvContent } from '../../../../../src/shared/infrastructure/utils/csv/write-csv-utils.js';
+import { getCsvContent } from '../../../../../../shared/infrastructure/utils/csv/write-csv-utils.js';
 import { DivisionCertificationResultsCsvBuilder } from './DivisionCertificationResultsCsvBuilder.js';
 
 const getDivisionCertificationResultsCsv = async function ({ division, certificationResults, i18n }) {

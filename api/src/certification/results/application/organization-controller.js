@@ -1,5 +1,5 @@
-import { getDivisionCertificationResultsCsv } from '../../../../lib/infrastructure/utils/csv/certification-results/get-division-certification-results-csv.js';
 import { usecases } from '../domain/usecases/index.js';
+import { getDivisionCertificationResultsCsv } from '../infrastructure/utils/csv/certification-results/get-division-certification-results-csv.js';
 
 const downloadCertificationResults = async function (
   request,

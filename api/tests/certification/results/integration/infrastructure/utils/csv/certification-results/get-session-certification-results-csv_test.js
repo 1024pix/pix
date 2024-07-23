@@ -1,11 +1,11 @@
-import { getSessionCertificationResultsCsv } from '../../../../../../lib/infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
-import { AutoJuryCommentKeys } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
-import { domainBuilder, expect } from '../../../../../test-helper.js';
-import { getI18n } from '../../../../../tooling/i18n/i18n.js';
+import { getSessionCertificationResultsCsv } from '../../../../../../../../src/certification/results/infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
+import { AutoJuryCommentKeys } from '../../../../../../../../src/certification/shared/domain/models/JuryComment.js';
+import { domainBuilder, expect } from '../../../../../../../test-helper.js';
+import { getI18n } from '../../../../../../../tooling/i18n/i18n.js';
 const i18n = getI18n();
 const translate = i18n.__;
 
-describe('Integration | Application | UseCases | certification-results | get-session-certification-results-csv', function () {
+describe('Certification | Results | Integration | Infrastructure | Utils | certification-results | get-session-certification-results-csv', function () {
   context('#getSessionCertificationResultsCsv', function () {
     context('when no certification has passed complementary certifications', function () {
       it('should return correct csvContent without complementary certification informations', async function () {
