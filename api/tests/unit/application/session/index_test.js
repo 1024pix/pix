@@ -1,7 +1,6 @@
 import { NotFoundError } from '../../../../lib/application/http-errors.js';
 import * as moduleUnderTest from '../../../../lib/application/sessions/index.js';
 import { sessionController } from '../../../../lib/application/sessions/session-controller.js';
-import { sessionWithCleaCertifiedCandidateController } from '../../../../lib/application/sessions/session-with-clea-certified-candidate-controller.js';
 import { authorization } from '../../../../src/certification/shared/application/pre-handlers/authorization.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
@@ -317,22 +316,6 @@ describe('Unit | Application | Sessions | Routes', function () {
 
       // then
       expect(response.statusCode).to.equal(404);
-    });
-  });
-
-  describe('GET /api/sessions/{id}/certified-clea-candidate-data', function () {
-    it('should exist', async function () {
-      // given
-      sinon.stub(authorization, 'verifySessionAuthorization').returns(null);
-      sinon.stub(sessionWithCleaCertifiedCandidateController, 'getCleaCertifiedCandidateDataCsv').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('GET', '/api/sessions/3/certified-clea-candidate-data');
-
-      // then
-      expect(response.statusCode).to.equal(200);
     });
   });
 });
