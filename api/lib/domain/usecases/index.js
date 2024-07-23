@@ -19,7 +19,6 @@ import * as certificationCpfCountryRepository from '../../../src/certification/e
 import * as sessionEnrolmentRepository from '../../../src/certification/enrolment/infrastructure/repositories/session-repository.js';
 import * as flashAlgorithmService from '../../../src/certification/flash-certification/domain/services/algorithm-methods/flash.js';
 import * as flashAlgorithmConfigurationRepository from '../../../src/certification/flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
-import * as certificationCandidateForSupervisingRepository from '../../../src/certification/session-management/infrastructure/repositories/certification-candidate-for-supervising-repository.js';
 import * as certificationOfficerRepository from '../../../src/certification/session-management/infrastructure/repositories/certification-officer-repository.js';
 import * as finalizedSessionRepository from '../../../src/certification/session-management/infrastructure/repositories/finalized-session-repository.js';
 import * as jurySessionRepository from '../../../src/certification/session-management/infrastructure/repositories/jury-session-repository.js';
@@ -223,7 +222,6 @@ const dependencies = {
   certifiableProfileForLearningContentRepository,
   certificationAssessmentRepository,
   certificationBadgesService,
-  certificationCandidateForSupervisingRepository,
   certificationCandidateRepository,
   certificationCenterForAdminRepository,
   certificationCenterInvitationRepository,
