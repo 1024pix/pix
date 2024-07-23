@@ -3,9 +3,9 @@ import _ from 'lodash';
 import { knex } from '../../../db/knex-database-connection.js';
 import { JuryCertificationSummary } from '../../../src/certification/session-management/domain/read-models/JuryCertificationSummary.js';
 import { CertificationIssueReport } from '../../../src/certification/shared/domain/models/CertificationIssueReport.js';
+import { ComplementaryCertificationCourseResult } from '../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
 import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 import { fetchPage } from '../../../src/shared/infrastructure/utils/knex-utils.js';
-import { ComplementaryCertificationCourseResult } from '../../domain/models/ComplementaryCertificationCourseResult.js';
 
 const findBySessionId = async function (sessionId) {
   const certificationCourseIds =

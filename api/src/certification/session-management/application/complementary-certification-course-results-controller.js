@@ -1,4 +1,4 @@
-import { usecases } from '../../domain/usecases/index.js';
+import { usecases } from '../domain/usecases/index.js';
 
 const saveJuryComplementaryCertificationCourseResult = async function (request, h) {
   const { complementaryCertificationCourseId, juryLevel } = request.payload.data.attributes;

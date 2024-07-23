@@ -1,11 +1,41 @@
-import { complementaryCertificationCourseResultsController } from '../../../../lib/application/complementary-certification-course-results/complementary-certification-course-results-controller.js';
-import * as moduleUnderTest from '../../../../lib/application/complementary-certification-course-results/index.js';
-import { juryOptions } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
-import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
+import { complementaryCertificationCourseResultsController } from '../../../../../src/certification/session-management/application/complementary-certification-course-results-controller.js';
+import * as moduleUnderTest from '../../../../../src/certification/session-management/application/complementary-certification-course-results-route.js';
+import { juryOptions } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
+import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
+import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Application | Complementary Certification Course Results | Route', function () {
+describe('Certification | Session-management | Unit | Application | complementary-certification-course-results-route', function () {
+  let httpTestServer;
+
   describe('POST /api/admin/complementary-certification-course-results', function () {
+    it('should exist', async function () {
+      // given
+      sinon
+        .stub(complementaryCertificationCourseResultsController, 'saveJuryComplementaryCertificationCourseResult')
+        .callsFake((request, h) => h.response('ok').code(200));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+
+      httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+      const payload = {
+        data: {
+          attributes: {
+            juryLevel: 'REJECTED',
+            complementaryCertificationCourseId: 123456,
+          },
+        },
+      };
+      // when
+      const response = await httpTestServer.request(
+        'POST',
+        '/api/admin/complementary-certification-course-results',
+        payload,
+      );
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
     it('return forbidden access if user has METIER role', async function () {
       // given
       sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf');

@@ -1,5 +1,5 @@
-import { InvalidJuryLevelError, NotFoundError } from '../errors.js';
-import { ComplementaryCertificationCourseResult } from '../models/ComplementaryCertificationCourseResult.js';
+import { InvalidJuryLevelError, NotFoundError } from '../../../../../lib/domain/errors.js';
+import { ComplementaryCertificationCourseResult } from '../../../shared/domain/models/ComplementaryCertificationCourseResult.js';
 
 const saveJuryComplementaryCertificationCourseResult = async function ({
   complementaryCertificationCourseId,
@@ -26,9 +26,9 @@ const saveJuryComplementaryCertificationCourseResult = async function ({
 
   const { complementaryCertificationBadgeId } = pixSourceComplementaryCertificationCourseResult;
   const allowedJuryLevels =
-    await complementaryCertificationCourseResultRepository.getAllowedJuryLevelIdsByComplementaryCertificationBadgeId(
+    await complementaryCertificationCourseResultRepository.getAllowedJuryLevelIdsByComplementaryCertificationBadgeId({
       complementaryCertificationBadgeId,
-    );
+    });
 
   if (![...allowedJuryLevels, ComplementaryCertificationCourseResult.juryOptions.REJECTED].includes(juryLevel)) {
     throw new InvalidJuryLevelError();

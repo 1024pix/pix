@@ -5,6 +5,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
 import * as certificationChallengeLiveAlertRepository from '../../../shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
 import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
 import * as certificationReportRepository from '../../../shared/infrastructure/repositories/certification-report-repository.js';
+import * as complementaryCertificationCourseResultRepository from '../../../shared/infrastructure/repositories/complementary-certification-course-result-repository.js';
 import * as certificationCandidateForSupervisingRepository from './certification-candidate-for-supervising-repository.js';
 import * as certificationOfficerRepository from './certification-officer-repository.js';
 import * as finalizedSessionRepository from './finalized-session-repository.js';
@@ -33,6 +34,7 @@ import * as supervisorAccessRepository from './supervisor-access-repository.js';
  * @typedef {sessionRepository} SessionRepository
  * @typedef {supervisorAccessRepository} SupervisorAccessRepository
  * @typedef {certificationReportRepository} CertificationReportRepository
+ * @typedef {complementaryCertificationCourseResultRepository} ComplementaryCertificationCourseResultRepository
  */
 const repositoriesWithoutInjectedDependencies = {
   assessmentRepository,
@@ -50,6 +52,7 @@ const repositoriesWithoutInjectedDependencies = {
   sessionJuryCommentRepository,
   supervisorAccessRepository,
   certificationReportRepository,
+  complementaryCertificationCourseResultRepository,
 };
 
 /**

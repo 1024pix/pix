@@ -1,13 +1,13 @@
-import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
+import { ComplementaryCertificationCourseResult } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
 import {
   createServer,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
 
-describe('Acceptance | API | Certifications', function () {
+describe('Certification | Session-management | Acceptance | complementary-certification-course-results-controller', function () {
   describe('POST /api/admin/complementary-certification-course-results', function () {
     it('should return 201 HTTP status code', async function () {
       // given
