@@ -21,7 +21,7 @@ export default class ModulixElement extends Component {
     {{else if (eq @element.type "image")}}
       <ImageElement @image={{@element}} @openAlternativeText={{@openImageAlternativeText}} />
     {{else if (eq @element.type "video")}}
-      <VideoElement @video={{@element}} @moduleId={{@grain.module.id}} />
+      <VideoElement @video={{@element}} @openTranscription={{@openTranscription}} />
     {{else if (eq @element.type "embed")}}
       <EmbedElement @embed={{@element}} />
     {{else if (eq @element.type "qcu")}}

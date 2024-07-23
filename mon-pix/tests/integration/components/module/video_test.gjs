@@ -1,7 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click, findAll } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import ModulixVideoElement from 'mon-pix/components/module/element/video';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
@@ -19,10 +20,8 @@ module('Integration | Component | Module | Video', function (hooks) {
       transcription: '',
     };
 
-    this.set('video', videoElement);
-
     //  when
-    const screen = await render(hbs`<Module::Element::Video @video={{this.video}}/>`);
+    const screen = await render(<template><ModulixVideoElement @video={{videoElement}} /></template>);
 
     // then
     assert.ok(screen);
@@ -41,10 +40,8 @@ module('Integration | Component | Module | Video', function (hooks) {
       transcription: 'transcription',
     };
 
-    this.set('video', videoElement);
-
     //  when
-    await render(hbs`<Module::Element::Video @video={{this.video}}/>`);
+    await render(<template><ModulixVideoElement @video={{videoElement}} /></template>);
 
     // then
     assert.dom('video > track').exists();
@@ -61,10 +58,8 @@ module('Integration | Component | Module | Video', function (hooks) {
       transcription: 'transcription',
     };
 
-    this.set('video', videoElement);
-
     //  when
-    await render(hbs`<Module::Element::Video @video={{this.video}}/>`);
+    await render(<template><ModulixVideoElement @video={{videoElement}} /></template>);
 
     // then
     assert.dom('video > track').doesNotExist();
@@ -80,33 +75,33 @@ module('Integration | Component | Module | Video', function (hooks) {
       subtitles: 'subtitles',
       transcription: 'transcription',
     };
-
-    this.set('video', videoElement);
+    const openTranscriptionStub = sinon.stub();
 
     //  when
-    const screen = await render(hbs`<Module::Element::Video @video={{this.video}}/>`);
+    const screen = await render(
+      <template><ModulixVideoElement @video={{videoElement}} @openTranscription={{openTranscriptionStub}} /></template>,
+    );
 
     // then
     await click(screen.getByRole('button', { name: 'Afficher la transcription' }));
     assert.ok(await screen.findByRole('dialog'));
     assert.ok(screen.getByText('transcription'));
+    assert.ok(openTranscriptionStub.calledOnce);
   });
 
   test('should not be able to open the modal if there is no transcription', async function (assert) {
     // given
     const url = 'https://videos.pix.fr/modulix/placeholder-video.mp4';
 
-    const video = {
+    const videoElement = {
       url,
       title: 'title',
       subtitles: 'subtitles',
       transcription: '',
     };
 
-    this.set('video', video);
-
     //  when
-    const screen = await render(hbs`<Module::Element::Video @video={{this.video}}/>`);
+    const screen = await render(<template><ModulixVideoElement @video={{videoElement}} /></template>);
 
     // then
     const transcriptionButton = await screen.queryByRole('button', { name: 'Afficher la transcription' });
