@@ -14,7 +14,7 @@ module('Acceptance | terms-of-service', function (hooks) {
 
   let prescriber;
 
-  test('it should redirect user to login page if not logged in', async function (assert) {
+  test('redirects user to login page if not logged in', async function (assert) {
     // when
     await visit('/cgu');
 
@@ -30,7 +30,7 @@ module('Acceptance | terms-of-service', function (hooks) {
       await authenticateSession(prescriber.id);
     });
 
-    test('it should redirect to campaign list after saving terms of service acceptation', async function (assert) {
+    test('redirects to campaign list after saving terms of service acceptation', async function (assert) {
       // given
       await visit('/cgu');
 
@@ -41,7 +41,7 @@ module('Acceptance | terms-of-service', function (hooks) {
       assert.strictEqual(currentURL(), '/campagnes/les-miennes');
     });
 
-    test('it should not be possible to visit another page if cgu are not accepted', async function (assert) {
+    test('blocks the visit of another page if cgu are not accepted', async function (assert) {
       // given
       await visit('/cgu');
 
@@ -60,7 +60,7 @@ module('Acceptance | terms-of-service', function (hooks) {
       await authenticateSession(prescriber.id);
     });
 
-    test('it should redirect to campaign list', async function (assert) {
+    test('redirects to campaign list', async function (assert) {
       // when
       await visit('/cgu');
 
