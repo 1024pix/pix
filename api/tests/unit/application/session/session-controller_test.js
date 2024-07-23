@@ -12,37 +12,6 @@ describe('Unit | Controller | sessionController', function () {
   let request;
   const userId = 274939274;
 
-  describe('#importCertificationCandidatesFromCandidatesImportSheet', function () {
-    const sessionId = 2;
-    let request;
-    const odsBuffer = 'File Buffer';
-
-    beforeEach(function () {
-      // given
-      request = {
-        params: { id: sessionId },
-        payload: odsBuffer,
-      };
-
-      sinon.stub(usecases, 'importCertificationCandidatesFromCandidatesImportSheet').resolves();
-    });
-
-    it('should call the usecase to import certification candidates', async function () {
-      // given
-      usecases.importCertificationCandidatesFromCandidatesImportSheet.resolves();
-
-      // when
-      await sessionController.importCertificationCandidatesFromCandidatesImportSheet(request);
-
-      // then
-      expect(usecases.importCertificationCandidatesFromCandidatesImportSheet).to.have.been.calledWithExactly({
-        sessionId,
-        odsBuffer,
-        i18n: request.i18n,
-      });
-    });
-  });
-
   describe('#getJuryCertificationSummaries ', function () {
     it('should return jury certification summaries', async function () {
       // given

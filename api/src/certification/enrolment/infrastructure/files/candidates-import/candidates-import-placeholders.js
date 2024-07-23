@@ -1,4 +1,4 @@
-import { ComplementaryCertificationKeys } from '../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
+import { ComplementaryCertificationKeys } from '../../../../shared/domain/models/ComplementaryCertificationKeys.js';
 
 const IMPORT_CANDIDATES_SESSION_TEMPLATE_HEADERS = [
   'headers.birthcity',

@@ -30,6 +30,56 @@ const register = async function (server) {
         tags: ['api', 'sessions', 'students'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/sessions/{id}/candidates-import-sheet',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.sessionId,
+          }),
+        },
+        pre: [
+          {
+            method: authorization.verifySessionAuthorization,
+            assign: 'authorizationCheck',
+          },
+        ],
+        handler: enrolmentController.getCandidatesImportSheet,
+        tags: ['api', 'sessions'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs appartenant à un centre de certification ayant créé la session**\n' +
+            "- Cette route permet de télécharger le template d'import des candidats d'une certification au format ods",
+        ],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/sessions/{id}/certification-candidates/import',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.sessionId,
+          }),
+        },
+        payload: {
+          parse: 'gunzip',
+          maxBytes: 1048576 * 10, // 10MB
+        },
+        pre: [
+          {
+            method: authorization.verifySessionAuthorization,
+            assign: 'authorizationCheck',
+          },
+        ],
+        handler: enrolmentController.importCertificationCandidatesFromCandidatesImportSheet,
+        tags: ['api', 'sessions'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés et appartenant à un centre de certification ayant créé la session**\n' +
+            '- Elle permet de récupérer la liste des candidats à inscrire contenue dans le PV de session format ODS envoyé',
+        ],
+      },
+    },
   ]);
 };
 

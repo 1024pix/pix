@@ -7,37 +7,12 @@ import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import { UserLinkedToCertificationCandidate } from '../../domain/events/UserLinkedToCertificationCandidate.js';
 import * as sessionResultsLinkService from '../../domain/services/session-results-link-service.js';
 import { usecases } from '../../domain/usecases/index.js';
-import { fillCandidatesImportSheet } from '../../infrastructure/files/candidates-import/fill-candidates-import-sheet.js';
 import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
 import * as juryCertificationSummarySerializer from '../../infrastructure/serializers/jsonapi/jury-certification-summary-serializer.js';
 import { getSessionCertificationResultsCsv } from '../../infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
 import { SessionPublicationBatchError } from '../http-errors.js';
 
 const { trim } = lodash;
-
-const getCandidatesImportSheet = async function (request, h, dependencies = { fillCandidatesImportSheet }) {
-  const translate = request.i18n.__;
-  const sessionId = request.params.id;
-  const { userId } = request.auth.credentials;
-  const filename = translate('candidate-list-template.filename');
-
-  const { session, certificationCenterHabilitations, isScoCertificationCenter } =
-    await usecases.getCandidateImportSheetData({
-      sessionId,
-      userId,
-    });
-  const candidateImportSheet = await dependencies.fillCandidatesImportSheet({
-    session,
-    certificationCenterHabilitations,
-    isScoCertificationCenter,
-    i18n: request.i18n,
-  });
-
-  return h
-    .response(candidateImportSheet)
-    .header('Content-Type', 'application/vnd.oasis.opendocument.spreadsheet')
-    .header('Content-Disposition', `attachment; filename=${filename + sessionId}.ods`);
-};
 
 const getJuryCertificationSummaries = async function (
   request,
@@ -112,16 +87,6 @@ const getSessionResultsByRecipientEmail = async function (
     .header('Content-Disposition', `attachment; filename=${csvResult.filename}`);
 };
 
-const importCertificationCandidatesFromCandidatesImportSheet = async function (request) {
-  const sessionId = request.params.id;
-  const odsBuffer = request.payload;
-  const i18n = request.i18n;
-
-  await usecases.importCertificationCandidatesFromCandidatesImportSheet({ sessionId, odsBuffer, i18n });
-
-  return null;
-};
-
 const createCandidateParticipation = async function (request, h, dependencies = { certificationCandidateSerializer }) {
   const userId = request.auth.credentials.userId;
   const sessionId = request.params.id;
@@ -182,12 +147,10 @@ const flagResultsAsSentToPrescriber = async function (request, h, dependencies =
 };
 
 const sessionController = {
-  getCandidatesImportSheet,
   getJuryCertificationSummaries,
   generateSessionResultsDownloadLink,
   getSessionResultsToDownload,
   getSessionResultsByRecipientEmail,
-  importCertificationCandidatesFromCandidatesImportSheet,
   createCandidateParticipation,
   publish,
   publishInBatch,

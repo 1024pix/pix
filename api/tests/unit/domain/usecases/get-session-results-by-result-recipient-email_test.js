@@ -2,11 +2,11 @@ import { getSessionResultsByResultRecipientEmail } from '../../../../lib/domain/
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | get-session-results-by-result-recipient-email', function () {
-  const sessionRepository = { getWithCertificationCandidates: null };
+  const sharedSessionRepository = { getWithCertificationCandidates: null };
   const certificationResultRepository = { findByCertificationCandidateIds: null };
 
   beforeEach(function () {
-    sessionRepository.getWithCertificationCandidates = sinon.stub();
+    sharedSessionRepository.getWithCertificationCandidates = sinon.stub();
     certificationResultRepository.findByCertificationCandidateIds = sinon.stub();
   });
 
@@ -15,7 +15,7 @@ describe('Unit | Domain | Use Cases | get-session-results-by-result-recipient-em
     const expectedSession = domainBuilder.certification.sessionManagement.buildSession({
       certificationCandidates: [],
     });
-    sessionRepository.getWithCertificationCandidates.withArgs({ id: 123 }).resolves(expectedSession);
+    sharedSessionRepository.getWithCertificationCandidates.withArgs({ id: 123 }).resolves(expectedSession);
     certificationResultRepository.findByCertificationCandidateIds
       .withArgs({ certificationCandidateIds: [] })
       .resolves([]);
@@ -24,7 +24,7 @@ describe('Unit | Domain | Use Cases | get-session-results-by-result-recipient-em
     const { session } = await getSessionResultsByResultRecipientEmail({
       sessionId: 123,
       resultRecipientEmail: 'matching@example.net',
-      sessionRepository,
+      sharedSessionRepository,
       certificationResultRepository,
     });
 
@@ -49,7 +49,7 @@ describe('Unit | Domain | Use Cases | get-session-results-by-result-recipient-em
       date: '2019-06-06',
       time: '12:05:30',
     });
-    sessionRepository.getWithCertificationCandidates.withArgs({ id: 123 }).resolves(expectedSession);
+    sharedSessionRepository.getWithCertificationCandidates.withArgs({ id: 123 }).resolves(expectedSession);
     const certificationResult = domainBuilder.buildCertificationResult({ firstName: 'Buffy' });
     certificationResultRepository.findByCertificationCandidateIds
       .withArgs({ certificationCandidateIds: [789] })
@@ -59,7 +59,7 @@ describe('Unit | Domain | Use Cases | get-session-results-by-result-recipient-em
     const { certificationResults } = await getSessionResultsByResultRecipientEmail({
       sessionId: 123,
       resultRecipientEmail: 'matching@example.net',
-      sessionRepository,
+      sharedSessionRepository,
       certificationResultRepository,
     });
 

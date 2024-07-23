@@ -3,13 +3,18 @@ import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | publish-sessions-in-batch', function () {
   let sessionPublicationService;
-  let certificationRepository, finalizedSessionRepository, sessionRepository, certificationCenterRepository;
+  let certificationRepository,
+    finalizedSessionRepository,
+    sessionRepository,
+    certificationCenterRepository,
+    sharedSessionRepository;
 
   beforeEach(function () {
     certificationRepository = Symbol('certificationRepository');
     finalizedSessionRepository = Symbol('finalizedSessionRepository');
     sessionRepository = Symbol('sessionRepository');
     certificationCenterRepository = {};
+    sharedSessionRepository = {};
 
     sessionPublicationService = {
       publishSession: sinon.stub(),
@@ -37,6 +42,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
       certificationCenterRepository,
       finalizedSessionRepository,
       sessionRepository,
+      sharedSessionRepository,
       sessionPublicationService,
     });
 
@@ -47,6 +53,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
       certificationRepository,
       finalizedSessionRepository,
       sessionRepository,
+      sharedSessionRepository,
     });
     expect(sessionPublicationService.manageEmails).to.have.been.calledWithExactly({
       i18n,
@@ -61,6 +68,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
       publishedAt,
       certificationRepository,
       finalizedSessionRepository,
+      sharedSessionRepository,
       sessionRepository,
     });
     expect(sessionPublicationService.manageEmails).to.have.been.calledWithExactly({
@@ -87,6 +95,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
           certificationRepository,
           finalizedSessionRepository,
           sessionRepository,
+          sharedSessionRepository,
         })
         .rejects(new Error('an error'));
       sessionPublicationService.publishSession.onCall(1).resolves(session2);
@@ -101,6 +110,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
         certificationRepository,
         finalizedSessionRepository,
         sessionRepository,
+        sharedSessionRepository,
         sessionPublicationService,
       });
 
@@ -110,6 +120,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
         certificationRepository,
         finalizedSessionRepository,
         sessionRepository,
+        sharedSessionRepository,
       });
       expect(sessionPublicationService.manageEmails).to.have.been.calledWithExactly({
         i18n,
@@ -136,6 +147,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
           certificationRepository,
           finalizedSessionRepository,
           sessionRepository,
+          sharedSessionRepository,
         })
         .rejects(error1);
       sessionPublicationService.publishSession
@@ -145,6 +157,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
           certificationRepository,
           finalizedSessionRepository,
           sessionRepository,
+          sharedSessionRepository,
         })
         .rejects(error2);
 
@@ -158,6 +171,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
         certificationCenterRepository,
         finalizedSessionRepository,
         sessionRepository,
+        sharedSessionRepository,
         sessionPublicationService,
       });
 

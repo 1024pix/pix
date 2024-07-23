@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
-import { ComplementaryCertificationKeys } from '../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
-import { convertDateValue } from '../../../../src/shared/infrastructure/utils/date-utils.js';
+import { convertDateValue } from '../../../../../shared/infrastructure/utils/date-utils.js';
+import { ComplementaryCertificationKeys } from '../../../../shared/domain/models/ComplementaryCertificationKeys.js';
 
 // These are transformation structures. They provide all the necessary info
 // on how to transform cell values in an attendance sheet into a target JS object.

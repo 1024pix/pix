@@ -34,6 +34,7 @@ import * as certificationChallengeRepository from '../../../src/certification/sh
 import * as certificationCourseRepository from '../../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
 import * as certificationIssueReportRepository from '../../../src/certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
 import * as issueReportCategoryRepository from '../../../src/certification/shared/infrastructure/repositories/issue-report-category-repository.js';
+import * as sharedSessionRepository from '../../../src/certification/shared/infrastructure/repositories/session-repository.js';
 import * as userSavedTutorialRepository from '../../../src/devcomp/infrastructure/repositories/user-saved-tutorial-repository.js';
 import * as algorithmDataFetcherService from '../../../src/evaluation/domain/services/algorithm-methods/data-fetcher.js';
 import * as smartRandom from '../../../src/evaluation/domain/services/algorithm-methods/smart-random.js';
@@ -99,13 +100,11 @@ import * as codeUtils from '../../../src/shared/infrastructure/utils/code-utils.
 import * as dateUtils from '../../../src/shared/infrastructure/utils/date-utils.js';
 import { injectDependencies } from '../../../src/shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../src/shared/infrastructure/utils/import-named-exports-from-directory.js';
-import * as writeOdsUtils from '../../../src/shared/infrastructure/utils/ods/write-ods-utils.js';
 import * as certificationCenterInvitationService from '../../../src/team/domain/services/certification-center-invitation-service.js';
 import { organizationInvitationService } from '../../../src/team/domain/services/organization-invitation.service.js';
 import * as certificationCenterInvitationRepository from '../../../src/team/infrastructure/repositories/certification-center-invitation-repository.js';
 import { organizationInvitationRepository } from '../../../src/team/infrastructure/repositories/organization-invitation.repository.js';
 import { userOrgaSettingsRepository } from '../../../src/team/infrastructure/repositories/user-orga-settings-repository.js';
-import * as certificationCandidatesOdsService from '../../domain/services/certification-candidates-ods-service.js';
 import * as certificationChallengesService from '../../domain/services/certification-challenges-service.js';
 import * as improvementService from '../../domain/services/improvement-service.js';
 import * as mailService from '../../domain/services/mail-service.js';
@@ -227,7 +226,6 @@ const dependencies = {
   certificationBadgesService,
   certificationCandidateForSupervisingRepository,
   certificationCandidateRepository,
-  certificationCandidatesOdsService,
   certificationCenterForAdminRepository,
   certificationCenterInvitationRepository,
   certificationCenterInvitationService,
@@ -359,8 +357,8 @@ const dependencies = {
   userValidator,
   verifyCertificateCodeService,
   writeCsvUtils,
-  writeOdsUtils,
   badgeCriteriaRepository,
+  sharedSessionRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

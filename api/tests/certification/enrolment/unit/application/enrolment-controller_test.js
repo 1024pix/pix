@@ -58,4 +58,35 @@ describe('Certification | Enrolment | Unit | Controller | enrolment-controller',
       });
     });
   });
+
+  describe('#importCertificationCandidatesFromCandidatesImportSheet', function () {
+    const sessionId = 2;
+    let request;
+    const odsBuffer = 'File Buffer';
+
+    beforeEach(function () {
+      // given
+      request = {
+        params: { id: sessionId },
+        payload: odsBuffer,
+      };
+
+      sinon.stub(usecases, 'importCertificationCandidatesFromCandidatesImportSheet').resolves();
+    });
+
+    it('should call the usecase to import certification candidates', async function () {
+      // given
+      usecases.importCertificationCandidatesFromCandidatesImportSheet.resolves();
+
+      // when
+      await enrolmentController.importCertificationCandidatesFromCandidatesImportSheet(request);
+
+      // then
+      expect(usecases.importCertificationCandidatesFromCandidatesImportSheet).to.have.been.calledWithExactly({
+        sessionId,
+        odsBuffer,
+        i18n: request.i18n,
+      });
+    });
+  });
 });
