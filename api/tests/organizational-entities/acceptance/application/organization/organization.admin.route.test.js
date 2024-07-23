@@ -204,6 +204,49 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
     });
   });
 
+  describe('PATCH /api/admin/organizations/{id}', function () {
+    it('should return the updated organization and status code 200', async function () {
+      // given
+      await insertUserWithRoleSuperAdmin();
+
+      const organizationAttributes = {
+        externalId: '0446758F',
+        provinceCode: '044',
+        email: 'sco.generic.newaccount@example.net',
+        credit: 50,
+      };
+
+      const organization = databaseBuilder.factory.buildOrganization({ ...organizationAttributes });
+      await databaseBuilder.commit();
+
+      const payload = {
+        data: {
+          type: 'organizations',
+          id: organization.id,
+          attributes: {
+            'external-id': organizationAttributes.externalId,
+            'province-code': organizationAttributes.provinceCode,
+            email: organizationAttributes.email,
+            credit: organizationAttributes.credit,
+          },
+        },
+      };
+
+      const options = {
+        method: 'PATCH',
+        url: `/api/admin/organizations/${organization.id}`,
+        payload,
+        headers: { authorization: generateValidRequestAuthorizationHeader() },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
+
   describe('POST /api/admin/organizations/add-organization-features', function () {
     context('When a CSV file is loaded', function () {
       let feature, firstOrganization, otherOrganization;
