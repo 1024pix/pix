@@ -44,6 +44,12 @@ export default class List extends Component {
     return Boolean(this.args.participants.length);
   }
 
+  get customColumns() {
+    if (!this.currentUser.hasLearnerImportFeature || !this.args.participants.meta) return [];
+
+    return this.args.participants.meta.headingCustomColumns;
+  }
+
   @action
   openDeletionModal() {
     this.showDeletionModal = true;
@@ -92,6 +98,7 @@ export default class List extends Component {
                   @hasParticipants={{this.hasParticipants}}
                   @onToggleAll={{toggleAll}}
                   @lastnameSort={{@lastnameSort}}
+                  @customHeadings={{this.customColumns}}
                   @participationCountOrder={{@participationCountOrder}}
                   @latestParticipationOrder={{@latestParticipationOrder}}
                   @onSortByLastname={{fn this.addResetOnFunction @sortByLastname reset}}

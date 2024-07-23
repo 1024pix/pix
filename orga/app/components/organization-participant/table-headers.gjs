@@ -8,16 +8,16 @@ import Header from '../table/header';
 import HeaderSort from '../table/header-sort';
 
 const COLUMN_KEY_FIELD = {
-  COMMON_BIRTHDATE = 'common.import.field.birthdate',
-  COMMON_DIVISION = 'common.import.field.division',
-}
+  COMMON_BIRTHDATE: 'common.import.field.birthdate',
+  COMMON_DIVISION: 'common.import.field.division',
+};
 
 function getColumnName(heading) {
   const columnKey = COLUMN_KEY_FIELD[heading];
 
-  if(!columnKey) return heading;
+  if (!columnKey) return heading;
 
-  return t(columnKey);
+  return columnKey;
 }
 
 <template>
@@ -46,7 +46,7 @@ function getColumnName(heading) {
     </HeaderSort>
     <Header>{{t "pages.organization-participants.table.column.first-name"}}</Header>
     {{#each @customHeadings as |heading|}}
-      <Header>{{getColumnName heading}}</Header>
+      <Header>{{t (getColumnName heading)}}</Header>
     {{/each}}
     <HeaderSort
       @size="medium"
