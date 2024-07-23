@@ -1,9 +1,9 @@
 import * as dragonLogo from '../../../../db/seeds/src/dragonAndCoBase64.js';
-import * as organizationAdministrationController from '../../../../lib/application/organizations-administration/organization-administration-controller.js';
+import { organizationAdminController } from '../../../../src/organizational-entities/application/organization/organization.admin.controller.js';
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
 import { databaseBuilder, expect, hFake, knex } from '../../../test-helper.js';
 
-describe('Integration | Application | Controller | organization-administration-controller', function () {
+describe('Integration | Organizational Entities | Application | Controller | Organization Administration', function () {
   let organization;
   let featureId;
 
@@ -51,7 +51,7 @@ describe('Integration | Application | Controller | organization-administration-c
         },
       };
 
-      const response = await organizationAdministrationController.updateOrganizationInformation(request, hFake);
+      const response = await organizationAdminController.updateOrganizationInformation(request, hFake);
 
       // then
       const savedOrganization = await knex('organizations').where('id', organization.id).first();
@@ -98,7 +98,7 @@ describe('Integration | Application | Controller | organization-administration-c
       },
     };
 
-    const response = await organizationAdministrationController.updateOrganizationInformation(request, hFake);
+    const response = await organizationAdminController.updateOrganizationInformation(request, hFake);
 
     //then
     const organizationTag = await knex('organization-tags').where('organizationId', organization.id);
@@ -133,7 +133,7 @@ describe('Integration | Application | Controller | organization-administration-c
       },
     };
 
-    const response = await organizationAdministrationController.updateOrganizationInformation(request, hFake);
+    const response = await organizationAdminController.updateOrganizationInformation(request, hFake);
 
     //then
     const dataOfficerUpdated = await knex('data-protection-officers').where('organizationId', organization.id).first();
@@ -160,7 +160,7 @@ describe('Integration | Application | Controller | organization-administration-c
       },
     };
 
-    const response = await organizationAdministrationController.updateOrganizationInformation(request, hFake);
+    const response = await organizationAdminController.updateOrganizationInformation(request, hFake);
 
     //then
     const organizationFeature = await knex('organization-features')
@@ -193,7 +193,7 @@ describe('Integration | Application | Controller | organization-administration-c
       },
     };
 
-    const response = await organizationAdministrationController.updateOrganizationInformation(request, hFake);
+    const response = await organizationAdminController.updateOrganizationInformation(request, hFake);
 
     //then
     const organizationFeature = await knex('organization-features')

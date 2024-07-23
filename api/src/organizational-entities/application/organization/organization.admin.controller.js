@@ -1,3 +1,4 @@
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { organizationForAdminSerializer } from '../../infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin.serializer.js';
 
@@ -27,9 +28,30 @@ const updateOrganizationsInBatch = async function (request, h) {
   return h.response().code(204);
 };
 
-export const organizationAdminController = {
+const updateOrganizationInformation = async function (
+  request,
+  h,
+  dependencies = {
+    organizationForAdminSerializer,
+  },
+) {
+  const organizationDeserialized = dependencies.organizationForAdminSerializer.deserialize(request.payload);
+
+  const organizationUpdated = await DomainTransaction.execute(function (domainTransaction) {
+    return usecases.updateOrganizationInformation({
+      organization: organizationDeserialized,
+      domainTransaction,
+    });
+  });
+  return h.response(dependencies.organizationForAdminSerializer.serialize(organizationUpdated));
+};
+
+const organizationAdminController = {
   attachChildOrganization,
   addOrganizationFeatureInBatch,
   getOrganizationDetails,
   updateOrganizationsInBatch,
+  updateOrganizationInformation,
 };
+
+export { organizationAdminController };
