@@ -1,7 +1,7 @@
-import { getSessionResultsByResultRecipientEmail } from '../../../../lib/domain/usecases/get-session-results-by-result-recipient-email.js';
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { getSessionResultsByResultRecipientEmail } from '../../../../../../src/certification/results/domain/usecases/get-session-results-by-result-recipient-email.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | Domain | Use Cases | get-session-results-by-result-recipient-email', function () {
+describe('Certification | Results | Unit | Domain | Use Cases | get-session-results-by-result-recipient-email', function () {
   const sharedSessionRepository = { getWithCertificationCandidates: null };
   const certificationResultRepository = { findByCertificationCandidateIds: null };
 
