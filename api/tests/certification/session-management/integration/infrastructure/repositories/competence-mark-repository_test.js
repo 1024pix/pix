@@ -15,7 +15,7 @@ describe('Certification | Session-management | Integration | Infrastructure | Re
       await databaseBuilder.commit();
 
       // when
-      const competenceMarks = await competenceMarkRepository.findByCertificationCourseId(certificationCourseId);
+      const competenceMarks = await competenceMarkRepository.findByCertificationCourseId({ certificationCourseId });
 
       // then
       expect(competenceMarks).to.be.empty;
@@ -84,7 +84,7 @@ describe('Certification | Session-management | Integration | Infrastructure | Re
       await databaseBuilder.commit();
 
       // when
-      const competenceMarks = await competenceMarkRepository.findByCertificationCourseId(certificationCourseId);
+      const competenceMarks = await competenceMarkRepository.findByCertificationCourseId({ certificationCourseId });
 
       // then
       expect(competenceMarks[0]).to.be.instanceOf(CompetenceMark);
@@ -157,7 +157,7 @@ describe('Certification | Session-management | Integration | Infrastructure | Re
       await databaseBuilder.commit();
 
       // when
-      const competenceMarks = await competenceMarkRepository.findByCertificationCourseId(certificationCourseId);
+      const competenceMarks = await competenceMarkRepository.findByCertificationCourseId({ certificationCourseId });
 
       // then
       expect(competenceMarks).to.deep.equal(expectedCompetenceMarks);

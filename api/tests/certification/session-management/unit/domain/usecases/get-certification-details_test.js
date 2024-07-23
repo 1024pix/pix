@@ -179,7 +179,9 @@ describe('Certification | Session-management | Unit | Domain | UseCases | get-ce
         })
         .resolves(placementProfile);
 
-      competenceMarkRepository.findByCertificationCourseId.withArgs(certificationCourseId).resolves(competenceMarks);
+      competenceMarkRepository.findByCertificationCourseId
+        .withArgs({ certificationCourseId })
+        .resolves(competenceMarks);
 
       // when
       const result = await getCertificationDetails({

@@ -12,7 +12,7 @@ const getCertificationDetails = async function ({
     certificationCourseId,
   });
 
-  const competenceMarks = await competenceMarkRepository.findByCertificationCourseId(certificationCourseId);
+  const competenceMarks = await competenceMarkRepository.findByCertificationCourseId({ certificationCourseId });
 
   if (competenceMarks.length) {
     return _retrievePersistedCertificationDetails(competenceMarks, certificationAssessment, placementProfileService);

@@ -1,7 +1,7 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { CompetenceMark } from '../../../shared/domain/models/CompetenceMark.js';
 
-const findByCertificationCourseId = async function (certificationCourseId) {
+const findByCertificationCourseId = async function ({ certificationCourseId }) {
   const competenceMarks = await knex
     .select(
       'competence-marks.id',
