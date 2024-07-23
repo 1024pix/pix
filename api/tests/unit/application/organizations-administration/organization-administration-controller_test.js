@@ -60,9 +60,8 @@ describe('Unit | Application | Organizations | organization-administration-contr
       const dependencies = {
         organizationForAdminSerializer: organizationForAdminSerializerStub,
       };
-      const domainTransaction = Symbol('domainTransaction');
       sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
-        return callback(domainTransaction);
+        return callback();
       });
 
       dependencies.organizationForAdminSerializer.deserialize

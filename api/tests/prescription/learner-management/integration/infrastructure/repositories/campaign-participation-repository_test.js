@@ -27,11 +27,10 @@ describe('Integration | Repository | Organization Learners Management | Campaign
       await databaseBuilder.commit();
 
       // when
-      await DomainTransaction.execute(async (domainTransaction) => {
+      await DomainTransaction.execute(async () => {
         await removeByOrganizationLearnerIds({
           organizationLearnerIds: [organizationLearnerId],
           userId,
-          domainTransaction,
         });
       });
       // then
@@ -58,11 +57,10 @@ describe('Integration | Repository | Organization Learners Management | Campaign
       await databaseBuilder.commit();
 
       // when
-      await DomainTransaction.execute(async (domainTransaction) => {
+      await DomainTransaction.execute(async () => {
         await removeByOrganizationLearnerIds({
           organizationLearnerIds: [organizationLearnerId1, organizationLearnerId2],
           userId,
-          domainTransaction,
         });
       });
 
@@ -86,11 +84,10 @@ describe('Integration | Repository | Organization Learners Management | Campaign
       await databaseBuilder.commit();
 
       // when
-      await DomainTransaction.execute(async (domainTransaction) => {
+      await DomainTransaction.execute(async () => {
         await removeByOrganizationLearnerIds({
           organizationLearnerIds: [organizationLearnerId],
           userId,
-          domainTransaction,
         });
       });
       // then

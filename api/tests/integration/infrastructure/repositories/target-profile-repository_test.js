@@ -24,10 +24,9 @@ describe('Integration | Repository | Target-profile', function () {
       });
 
       // when
-      const targetProfileId = await DomainTransaction.execute(async (domainTransaction) => {
+      const targetProfileId = await DomainTransaction.execute(async () => {
         return targetProfileRepository.create({
           targetProfileForCreation,
-          domainTransaction,
         });
       });
 
@@ -68,10 +67,9 @@ describe('Integration | Repository | Target-profile', function () {
       });
 
       // when
-      const targetProfileId = await DomainTransaction.execute(async (domainTransaction) => {
+      const targetProfileId = await DomainTransaction.execute(async () => {
         return targetProfileRepository.create({
           targetProfileForCreation,
-          domainTransaction,
         });
       });
 
@@ -96,10 +94,9 @@ describe('Integration | Repository | Target-profile', function () {
 
       // when
       try {
-        await DomainTransaction.execute(async (domainTransaction) => {
+        await DomainTransaction.execute(async () => {
           await targetProfileRepository.create({
             targetProfileForCreation,
-            domainTransaction,
           });
           throw new Error();
         });

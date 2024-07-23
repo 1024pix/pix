@@ -23,13 +23,12 @@ describe('Integration | UseCases | delete-campaign-participation', function () {
     await databaseBuilder.commit();
 
     // when
-    await DomainTransaction.execute((domainTransaction) => {
+    await DomainTransaction.execute(() => {
       return deleteCampaignParticipation({
         userId: adminUserId,
         campaignId,
         campaignParticipationId: campaignParticipationToDelete.id,
         campaignParticipationRepository,
-        domainTransaction,
       });
     });
 

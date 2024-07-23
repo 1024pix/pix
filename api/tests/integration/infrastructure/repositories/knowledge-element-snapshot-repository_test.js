@@ -69,8 +69,8 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
         const knowledgeElements = [knowledgeElement1];
         await databaseBuilder.commit();
 
-        await DomainTransaction.execute((domainTransaction) => {
-          return knowledgeElementSnapshotRepository.save({ userId, snappedAt, knowledgeElements, domainTransaction });
+        await DomainTransaction.execute(() => {
+          return knowledgeElementSnapshotRepository.save({ userId, snappedAt, knowledgeElements });
         });
 
         const actualUserSnapshot = await knex.select('*').from('knowledge-element-snapshots').first();
@@ -99,8 +99,8 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
         await databaseBuilder.commit();
 
         try {
-          await DomainTransaction.execute(async (domainTransaction) => {
-            await knowledgeElementSnapshotRepository.save({ userId, snappedAt, knowledgeElements, domainTransaction });
+          await DomainTransaction.execute(async () => {
+            await knowledgeElementSnapshotRepository.save({ userId, snappedAt, knowledgeElements });
             throw new Error();
           });
           // eslint-disable-next-line no-empty

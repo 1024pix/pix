@@ -44,11 +44,11 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
       await databaseBuilder.commit();
 
-      const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
+      const campaignParticipant = await DomainTransaction.execute(async () => {
         return campaignParticipantRepository.get({
           userId,
           campaignId: campaign.id,
-          domainTransaction,
+
           organizationFeatureAPI,
         });
       });
@@ -98,11 +98,11 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
         await databaseBuilder.commit();
 
-        const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
+        const campaignParticipant = await DomainTransaction.execute(async () => {
           return campaignParticipantRepository.get({
             userId,
             campaignId: campaignToStartParticipation.id,
-            domainTransaction,
+
             organizationFeatureAPI,
           });
         });
@@ -121,11 +121,11 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
         await databaseBuilder.commit();
 
-        const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
+        const campaignParticipant = await DomainTransaction.execute(async () => {
           return campaignParticipantRepository.get({
             userId,
             campaignId: campaignToStartParticipation.id,
-            domainTransaction,
+
             organizationFeatureAPI,
           });
         });
@@ -154,11 +154,11 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
         await databaseBuilder.commit();
 
-        const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
+        const campaignParticipant = await DomainTransaction.execute(async () => {
           return campaignParticipantRepository.get({
             userId,
             campaignId: campaignToStartParticipation.id,
-            domainTransaction,
+
             organizationFeatureAPI,
           });
         });
@@ -179,11 +179,11 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
         await databaseBuilder.commit();
 
-        const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
+        const campaignParticipant = await DomainTransaction.execute(async () => {
           return campaignParticipantRepository.get({
             userId,
             campaignId: campaignToStartParticipation.id,
-            domainTransaction,
+
             organizationFeatureAPI,
           });
         });
@@ -204,11 +204,11 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
         await databaseBuilder.commit();
 
-        const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
+        const campaignParticipant = await DomainTransaction.execute(async () => {
           return campaignParticipantRepository.get({
             userId,
             campaignId: campaignToStartParticipation.id,
-            domainTransaction,
+
             organizationFeatureAPI,
           });
         });
@@ -236,11 +236,11 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
             await databaseBuilder.commit();
 
-            const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
+            const campaignParticipant = await DomainTransaction.execute(async () => {
               return campaignParticipantRepository.get({
                 userId,
                 campaignId: campaignToStartParticipation.id,
-                domainTransaction,
+
                 organizationFeatureAPI,
               });
             });
@@ -264,11 +264,11 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
               await databaseBuilder.commit();
 
-              const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
+              const campaignParticipant = await DomainTransaction.execute(async () => {
                 return campaignParticipantRepository.get({
                   userId,
                   campaignId: campaignToStartParticipation.id,
-                  domainTransaction,
+
                   organizationFeatureAPI,
                 });
               });
@@ -295,11 +295,11 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
             await databaseBuilder.commit();
 
-            const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
+            const campaignParticipant = await DomainTransaction.execute(async () => {
               return campaignParticipantRepository.get({
                 userId,
                 campaignId: campaignToStartParticipation.id,
-                domainTransaction,
+
                 organizationFeatureAPI,
               });
             });
@@ -326,11 +326,11 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
               await databaseBuilder.commit();
 
-              const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
+              const campaignParticipant = await DomainTransaction.execute(async () => {
                 return campaignParticipantRepository.get({
                   userId,
                   campaignId: campaignToStartParticipation.id,
-                  domainTransaction,
+
                   organizationFeatureAPI,
                 });
               });
@@ -370,11 +370,11 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
                 await databaseBuilder.commit();
 
-                const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
+                const campaignParticipant = await DomainTransaction.execute(async () => {
                   return campaignParticipantRepository.get({
                     userId,
                     campaignId: campaignToStartParticipation.id,
-                    domainTransaction,
+
                     organizationFeatureAPI,
                   });
                 });
@@ -403,11 +403,11 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
           await databaseBuilder.commit();
 
-          const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
+          const campaignParticipant = await DomainTransaction.execute(async () => {
             return campaignParticipantRepository.get({
               userId,
               campaignId: campaignToStartParticipation.id,
-              domainTransaction,
+
               organizationFeatureAPI,
             });
           });
@@ -430,11 +430,11 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
           await databaseBuilder.commit();
 
-          const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
+          const campaignParticipant = await DomainTransaction.execute(async () => {
             return campaignParticipantRepository.get({
               userId,
               campaignId: campaignToStartParticipation.id,
-              domainTransaction,
+
               organizationFeatureAPI,
             });
           });
@@ -471,11 +471,11 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
         await databaseBuilder.commit();
 
-        const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
+        const campaignParticipant = await DomainTransaction.execute(async () => {
           return campaignParticipantRepository.get({
             userId,
             campaignId: campaignToStartParticipation.id,
-            domainTransaction,
+
             organizationFeatureAPI,
           });
         });
@@ -522,11 +522,11 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
         await databaseBuilder.commit();
 
-        const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
+        const campaignParticipant = await DomainTransaction.execute(async () => {
           return campaignParticipantRepository.get({
             userId,
             campaignId: campaignToStartParticipation.id,
-            domainTransaction,
+
             organizationFeatureAPI,
           });
         });
@@ -551,11 +551,11 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
         await databaseBuilder.commit();
 
-        const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
+        const campaignParticipant = await DomainTransaction.execute(async () => {
           return campaignParticipantRepository.get({
             userId,
             campaignId: campaign.id,
-            domainTransaction,
+
             organizationFeatureAPI,
           });
         });
@@ -568,11 +568,11 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
         await databaseBuilder.commit();
 
-        const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
+        const campaignParticipant = await DomainTransaction.execute(async () => {
           return campaignParticipantRepository.get({
             userId,
             campaignId: campaign.id,
-            domainTransaction,
+
             organizationFeatureAPI,
           });
         });
@@ -585,11 +585,11 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
         await databaseBuilder.commit();
 
-        const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
+        const campaignParticipant = await DomainTransaction.execute(async () => {
           return campaignParticipantRepository.get({
             userId,
             campaignId: campaign.id,
-            domainTransaction,
+
             organizationFeatureAPI,
           });
         });
@@ -604,11 +604,11 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
       await databaseBuilder.commit();
 
       const error = await catchErr(() => {
-        return DomainTransaction.execute(async (domainTransaction) => {
+        return DomainTransaction.execute(async () => {
           await campaignParticipantRepository.get({
             userId,
             campaignId: 12,
-            domainTransaction,
+
             organizationFeatureAPI,
           });
         });
@@ -636,8 +636,8 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         isManagingStudents: false,
       });
 
-      const id = await DomainTransaction.execute(async (domainTransaction) => {
-        return campaignParticipantRepository.save({ campaignParticipant, domainTransaction });
+      const id = await DomainTransaction.execute(async () => {
+        return campaignParticipantRepository.save({ campaignParticipant });
       });
 
       const [campaignParticipationId] = await knex('campaign-participations').pluck('id');
@@ -674,8 +674,8 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
       it('creates a campaign participation', async function () {
         // when
-        await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save({ campaignParticipant, domainTransaction });
+        await DomainTransaction.execute(async () => {
+          await campaignParticipantRepository.save({ campaignParticipant });
         });
 
         const campaignParticipation = await knex('campaign-participations')
@@ -689,8 +689,8 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
       it('enabled only the learner assigned to the campaign participant', async function () {
         // when
-        await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save({ campaignParticipant, domainTransaction });
+        await DomainTransaction.execute(async () => {
+          await campaignParticipantRepository.save({ campaignParticipant });
         });
 
         const { isDisabled: expectedEnabledLearner } = await knex('organization-learners')
@@ -717,8 +717,8 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           isManagingStudents: false,
         });
 
-        await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save({ campaignParticipant, domainTransaction });
+        await DomainTransaction.execute(async () => {
+          await campaignParticipantRepository.save({ campaignParticipant });
         });
 
         const campaignParticipation = await knex('campaign-participations')
@@ -738,8 +738,8 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           isManagingStudents: false,
         });
 
-        await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save({ campaignParticipant, domainTransaction });
+        await DomainTransaction.execute(async () => {
+          await campaignParticipantRepository.save({ campaignParticipant });
         });
 
         const assessments = await knex('assessments');
@@ -763,11 +763,12 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         });
 
         //WHEN
-        await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save({ campaignParticipant, domainTransaction });
+        await DomainTransaction.execute(async () => {
+          await campaignParticipantRepository.save({ campaignParticipant });
         });
 
         //THEN
+
         const campaignParticipation = await knex('campaign-participations')
           .select(['id', ...campaignParticipationDBAttributes])
           .first();
@@ -805,11 +806,12 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         campaignParticipant.start({ participantExternalId: null });
 
         //WHEN
-        await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save({ campaignParticipant, domainTransaction });
+        await DomainTransaction.execute(async () => {
+          await campaignParticipantRepository.save({ campaignParticipant });
         });
 
         //THEN
+
         const campaignParticipation = await knex('campaign-participations').select('organizationLearnerId').first();
         expect(campaignParticipation.organizationLearnerId).to.equal(organizationLearnerId);
       });
@@ -836,11 +838,12 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         campaignParticipant.start({ participantExternalId: null });
 
         //WHEN
-        await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save({ campaignParticipant, domainTransaction });
+        await DomainTransaction.execute(async () => {
+          await campaignParticipantRepository.save({ campaignParticipant });
         });
 
         //THEN
+
         const organizationLearner = await knex('organization-learners')
           .select('firstName', 'lastName', 'userId', 'organizationId')
           .first();
@@ -872,11 +875,12 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         campaignParticipant.start({ participantExternalId: null });
 
         //WHEN
-        await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save({ campaignParticipant, domainTransaction });
+        await DomainTransaction.execute(async () => {
+          await campaignParticipantRepository.save({ campaignParticipant });
         });
 
         //THEN
+
         const campaignParticipation = await knex('campaign-participations').select('organizationLearnerId').first();
         const organizationLearner = await knex('organization-learners').select('id').first();
         expect(campaignParticipation.organizationLearnerId).to.equal(organizationLearner.id);
@@ -916,11 +920,12 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         campaignParticipant.start({ participantExternalId: null });
 
         //WHEN
-        await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save({ campaignParticipant, domainTransaction });
+        await DomainTransaction.execute(async () => {
+          await campaignParticipantRepository.save({ campaignParticipant });
         });
 
         //THEN
+
         const campaignParticipation = await knex('campaign-participations')
           .select('isImproved')
           .where({ id: previousCampaignParticipationForUserId })
@@ -972,11 +977,12 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         campaignParticipant.start({ participantExternalId: null });
 
         //WHEN
-        await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save({ campaignParticipant, domainTransaction });
+        await DomainTransaction.execute(async () => {
+          await campaignParticipantRepository.save({ campaignParticipant });
         });
 
         //THEN
+
         const campaignParticipations = await knex('campaign-participations').pluck('id').where({ isImproved: true });
 
         expect(campaignParticipations).to.deep.equal([previousCampaignParticipationForUserId]);
@@ -992,8 +998,8 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           isManagingStudents: false,
         });
 
-        await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save({ campaignParticipant, domainTransaction });
+        await DomainTransaction.execute(async () => {
+          await campaignParticipantRepository.save({ campaignParticipant });
         });
 
         const campaignParticipation = await knex('campaign-participations')
@@ -1034,8 +1040,8 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           isManagingStudents: false,
         });
 
-        const id = await DomainTransaction.execute(async (domainTransaction) => {
-          return campaignParticipantRepository.save({ campaignParticipant, domainTransaction });
+        const id = await DomainTransaction.execute(async () => {
+          return campaignParticipantRepository.save({ campaignParticipant });
         });
 
         const startedParticipation = await knex('campaign-participations').where('id', id).first();
@@ -1073,8 +1079,8 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
           //WHEN
           const error = await catchErr(() => {
-            return DomainTransaction.execute(async (domainTransaction) => {
-              await campaignParticipantRepository.save({ campaignParticipant, domainTransaction });
+            return DomainTransaction.execute(async () => {
+              await campaignParticipantRepository.save({ campaignParticipant });
             });
           })();
 
@@ -1109,8 +1115,8 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
           //WHEN
           const error = await catchErr(() => {
-            return DomainTransaction.execute(async (domainTransaction) => {
-              await campaignParticipantRepository.save({ campaignParticipant, domainTransaction });
+            return DomainTransaction.execute(async () => {
+              await campaignParticipantRepository.save({ campaignParticipant });
             });
           })();
 
@@ -1128,10 +1134,10 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         });
 
         const error = await catchErr(() => {
-          return DomainTransaction.execute(async (domainTransaction) => {
+          return DomainTransaction.execute(async () => {
             await Promise.all([
-              campaignParticipantRepository.save({ campaignParticipant, domainTransaction }),
-              campaignParticipantRepository.save({ campaignParticipant, domainTransaction }),
+              campaignParticipantRepository.save({ campaignParticipant }),
+              campaignParticipantRepository.save({ campaignParticipant }),
             ]);
           });
         })();
@@ -1171,8 +1177,8 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
         //WHEN
         await catchErr(() => {
-          return DomainTransaction.execute(async (domainTransaction) => {
-            await campaignParticipantRepository.save({ campaignParticipant, domainTransaction });
+          return DomainTransaction.execute(async () => {
+            await campaignParticipantRepository.save({ campaignParticipant });
           });
         })();
 

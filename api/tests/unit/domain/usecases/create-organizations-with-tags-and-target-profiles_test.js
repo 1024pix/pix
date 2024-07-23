@@ -57,7 +57,7 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
     };
 
     domainTransaction.execute = (lambda) => {
-      return lambda(Symbol());
+      return lambda();
     };
 
     organizationInvitationService.createProOrganizationInvitation.resolves();
@@ -113,7 +113,6 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
 
         // when
         const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({
-          domainTransaction,
           organizations: [firstOrganization, secondOrganization],
           organizationRepository: organizationRepositoryStub,
           organizationForAdminRepository: organizationForAdminRepositoryStub,
@@ -161,7 +160,6 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
 
         // when
         const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({
-          domainTransaction,
           organizations: [firstOrganization],
           organizationRepository: organizationRepositoryStub,
           organizationForAdminRepository: organizationForAdminRepositoryStub,
@@ -204,7 +202,6 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
 
     // when
     await createOrganizationsWithTagsAndTargetProfiles({
-      domainTransaction,
       organizations: organizations,
       organizationRepository: organizationRepositoryStub,
       organizationForAdminRepository: organizationForAdminRepositoryStub,
@@ -291,7 +288,6 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
 
     // when
     await createOrganizationsWithTagsAndTargetProfiles({
-      domainTransaction,
       organizations: [organizationPRO, organizationSCO],
       organizationRepository: organizationRepositoryStub,
       organizationForAdminRepository: organizationForAdminRepositoryStub,
@@ -355,7 +351,6 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
 
     // when
     await createOrganizationsWithTagsAndTargetProfiles({
-      domainTransaction,
       organizations: [firstOrganization, secondOrganization],
       organizationRepository: organizationRepositoryStub,
       organizationForAdminRepository: organizationForAdminRepositoryStub,
@@ -404,7 +399,6 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
 
     // when
     await createOrganizationsWithTagsAndTargetProfiles({
-      domainTransaction,
       organizations: [firstOrganization, secondOrganization],
       organizationRepository: organizationRepositoryStub,
       organizationForAdminRepository: organizationForAdminRepositoryStub,
@@ -460,7 +454,6 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
 
     // when
     await createOrganizationsWithTagsAndTargetProfiles({
-      domainTransaction,
       organizations: [firstOrganization, secondOrganization],
       organizationRepository: organizationRepositoryStub,
       organizationForAdminRepository: organizationForAdminRepositoryStub,
@@ -514,7 +507,6 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
 
     // when
     await createOrganizationsWithTagsAndTargetProfiles({
-      domainTransaction,
       organizations: [firstOrganizationWithAdminRole, secondOrganizationWithMemberRole],
       organizationRepository: organizationRepositoryStub,
       organizationForAdminRepository: organizationForAdminRepositoryStub,
@@ -568,7 +560,6 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
 
       // when
       await createOrganizationsWithTagsAndTargetProfiles({
-        domainTransaction,
         organizations: [organizationWithoutEmail],
         organizationRepository: organizationRepositoryStub,
         organizationForAdminRepository: organizationForAdminRepositoryStub,

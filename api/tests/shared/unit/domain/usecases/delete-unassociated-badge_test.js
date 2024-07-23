@@ -7,7 +7,6 @@ import { deleteUnassociatedBadge } from '../../../../../src/shared/domain/usecas
 import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | UseCase | delete-unassociated-badge', function () {
-  let domainTransaction;
   let badgeId;
   let badgeRepository;
   let complementaryCertificationBadgeRepository;
@@ -20,9 +19,8 @@ describe('Unit | UseCase | delete-unassociated-badge', function () {
     };
     complementaryCertificationBadgeRepository = { isRelatedToCertification: sinon.stub() };
 
-    domainTransaction = Symbol('domainTransaction');
     sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
-      return lambda(domainTransaction);
+      return lambda();
     });
   });
 

@@ -148,8 +148,8 @@ describe('Integration | Repository | Campaign Participation', function () {
 
     it('should return a campaign participation object', async function () {
       // when
-      const foundCampaignParticipation = await DomainTransaction.execute(async (domainTransaction) => {
-        return campaignParticipationRepository.get(campaignParticipationId, domainTransaction);
+      const foundCampaignParticipation = await DomainTransaction.execute(async () => {
+        return campaignParticipationRepository.get(campaignParticipationId);
       });
 
       // then
@@ -159,8 +159,8 @@ describe('Integration | Repository | Campaign Participation', function () {
 
     it('should return a null object for sharedAt when the campaign-participation is not shared', async function () {
       // when
-      const foundCampaignParticipation = await DomainTransaction.execute(async (domainTransaction) => {
-        return campaignParticipationRepository.get(campaignParticipationNotSharedId, domainTransaction);
+      const foundCampaignParticipation = await DomainTransaction.execute(async () => {
+        return campaignParticipationRepository.get(campaignParticipationNotSharedId);
       });
 
       // then
@@ -172,8 +172,8 @@ describe('Integration | Repository | Campaign Participation', function () {
       const expectedAssessmentIds = campaignParticipationAssessments.map(({ id }) => id);
 
       // when
-      const foundCampaignParticipation = await DomainTransaction.execute(async (domainTransaction) => {
-        return campaignParticipationRepository.get(campaignParticipationId, domainTransaction);
+      const foundCampaignParticipation = await DomainTransaction.execute(async () => {
+        return campaignParticipationRepository.get(campaignParticipationId);
       });
 
       const assessmentIds = foundCampaignParticipation.assessments.map(({ id }) => id);
@@ -184,8 +184,8 @@ describe('Integration | Repository | Campaign Participation', function () {
 
     it('returns the campaign of campaignParticipation', async function () {
       // when
-      const foundCampaignParticipation = await DomainTransaction.execute(async (domainTransaction) => {
-        return campaignParticipationRepository.get(campaignParticipationId, domainTransaction);
+      const foundCampaignParticipation = await DomainTransaction.execute(async () => {
+        return campaignParticipationRepository.get(campaignParticipationId);
       });
 
       // then
@@ -197,8 +197,8 @@ describe('Integration | Repository | Campaign Participation', function () {
       const expectedAssessmentIds = campaignParticipationAssessments.map(({ id }) => id);
 
       // when
-      const foundCampaignParticipation = await DomainTransaction.execute((domainTransaction) => {
-        return campaignParticipationRepository.get(campaignParticipationId, domainTransaction);
+      const foundCampaignParticipation = await DomainTransaction.execute(() => {
+        return campaignParticipationRepository.get(campaignParticipationId);
       });
 
       const assessmentIds = foundCampaignParticipation.assessments.map(({ id }) => id);
@@ -263,15 +263,12 @@ describe('Integration | Repository | Campaign Participation', function () {
 
       await databaseBuilder.commit();
 
-      await DomainTransaction.execute(async (domainTransaction) => {
-        await campaignParticipationRepository.update(
-          {
-            ...campaignParticipationToUpdate,
-            sharedAt: new Date('2021-01-01'),
-            status: SHARED,
-          },
-          domainTransaction,
-        );
+      await DomainTransaction.execute(async () => {
+        await campaignParticipationRepository.update({
+          ...campaignParticipationToUpdate,
+          sharedAt: new Date('2021-01-01'),
+          status: SHARED,
+        });
       });
 
       const campaignParticipation = await knex('campaign-participations')
@@ -293,14 +290,11 @@ describe('Integration | Repository | Campaign Participation', function () {
 
       await databaseBuilder.commit();
 
-      const error = await DomainTransaction.execute(async (domainTransaction) => {
-        return catchErr(campaignParticipationRepository.update)(
-          {
-            ...campaignParticipationToUpdate,
-            campaignId,
-          },
-          domainTransaction,
-        );
+      const error = await DomainTransaction.execute(async () => {
+        return catchErr(campaignParticipationRepository.update)({
+          ...campaignParticipationToUpdate,
+          campaignId,
+        });
       });
 
       expect(error.constraint).to.equals('one_active_participation_by_learner');
@@ -385,11 +379,10 @@ describe('Integration | Repository | Campaign Participation', function () {
         await databaseBuilder.commit();
 
         const error = await catchErr(async function () {
-          await DomainTransaction.execute(async (domainTransaction) => {
+          await DomainTransaction.execute(async () => {
             await campaignParticipationRepository.getAllCampaignParticipationsInCampaignForASameLearner({
               campaignId,
               campaignParticipationId: campaignParticipationToDelete.id,
-              domainTransaction,
             });
           });
         })();
@@ -415,11 +408,10 @@ describe('Integration | Repository | Campaign Participation', function () {
 
         await databaseBuilder.commit();
 
-        const participations = await DomainTransaction.execute((domainTransaction) => {
+        const participations = await DomainTransaction.execute(() => {
           return campaignParticipationRepository.getAllCampaignParticipationsInCampaignForASameLearner({
             campaignId,
             campaignParticipationId: campaignParticipationToDelete.id,
-            domainTransaction,
           });
         });
 
@@ -443,12 +435,11 @@ describe('Integration | Repository | Campaign Participation', function () {
         campaignParticipation.deletedAt = new Date('2022-11-01T23:00:00Z');
         campaignParticipation.deletedBy = ownerId;
 
-        await DomainTransaction.execute((domainTransaction) => {
+        await DomainTransaction.execute(() => {
           return campaignParticipationRepository.remove({
             id: campaignParticipation.id,
             deletedAt: campaignParticipation.deletedAt,
             deletedBy: campaignParticipation.deletedBy,
-            domainTransaction,
           });
         });
 
@@ -475,11 +466,10 @@ describe('Integration | Repository | Campaign Participation', function () {
 
         await databaseBuilder.commit();
 
-        const participations = await DomainTransaction.execute((domainTransaction) => {
+        const participations = await DomainTransaction.execute(() => {
           return campaignParticipationRepository.getAllCampaignParticipationsInCampaignForASameLearner({
             campaignId,
             campaignParticipationId: campaignParticipationToDelete.id,
-            domainTransaction,
           });
         });
 
@@ -509,11 +499,10 @@ describe('Integration | Repository | Campaign Participation', function () {
 
         await databaseBuilder.commit();
 
-        const participations = await DomainTransaction.execute((domainTransaction) => {
+        const participations = await DomainTransaction.execute(() => {
           return campaignParticipationRepository.getAllCampaignParticipationsInCampaignForASameLearner({
             campaignId,
             campaignParticipationId: campaignParticipationToDelete.id,
-            domainTransaction,
           });
         });
 

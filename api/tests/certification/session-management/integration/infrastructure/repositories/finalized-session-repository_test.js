@@ -147,7 +147,7 @@ describe('Integration | Repository | Finalized-session', function () {
 
         // when
         await DomainTransaction.execute(async (domainTransaction) => {
-          await finalizedSessionRepository.remove({ sessionId: 1234, domainTransaction });
+          await finalizedSessionRepository.remove({ sessionId: 1234 });
           return domainTransaction.knexTransaction.rollback();
         });
 
