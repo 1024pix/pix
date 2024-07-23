@@ -1,10 +1,6 @@
-import { organizationAdminRoutes } from './organization/organization.admin.route.js';
+import * as certificationCenterAdminRoutes from './certification-center/certification-center.admin.route.js';
+import * as organizationAdminRoutes from './organization/organization.admin.route.js';
 
-const register = async function (server) {
-  server.route([...organizationAdminRoutes]);
-};
-
-const name = 'organizational-entities-api';
-const organizationalEntitiesRoutes = [{ register, name }];
+const organizationalEntitiesRoutes = [organizationAdminRoutes, certificationCenterAdminRoutes];
 
 export { organizationalEntitiesRoutes };
