@@ -1,4 +1,4 @@
-import { JobPgBoss } from '../../../../../lib/infrastructure/jobs/JobPgBoss.js';
+import { JobPgBoss } from '../../../../shared/infrastructure/jobs/JobPgBoss.js';
 
 class ImportOrganizationLearnersJob extends JobPgBoss {
   constructor(queryBuilder) {

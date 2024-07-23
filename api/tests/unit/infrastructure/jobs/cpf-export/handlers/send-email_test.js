@@ -1,4 +1,4 @@
-import { sendEmail } from '../../../../../../lib/infrastructure/jobs/cpf-export/handlers/send-email.js';
+import { sendEmail } from '../../../../../../src/shared/infrastructure/jobs/cpf-export/handlers/send-email.js';
 import { logger } from '../../../../../../src/shared/infrastructure/utils/logger.js';
 import { expect, sinon } from '../../../../../test-helper.js';
 

@@ -1,5 +1,5 @@
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../../../lib/domain/models/index.js';
-import { ParticipationResultCalculationJobHandler } from '../../../../../lib/infrastructure/jobs/campaign-result/ParticipationResultCalculationJobHandler.js';
+import { ParticipationResultCalculationJobHandler } from '../../../../../src/shared/infrastructure/jobs/campaign-result/ParticipationResultCalculationJobHandler.js';
 import { databaseBuilder, expect, knex, learningContentBuilder, mockLearningContent } from '../../../../test-helper.js';
 
 describe('Integration | Infrastructure | Jobs | CampaignResult | ParticipationResultCalculationJobHandler', function () {

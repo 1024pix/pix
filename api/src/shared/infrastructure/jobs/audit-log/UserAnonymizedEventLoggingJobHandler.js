@@ -1,4 +1,4 @@
-import { auditLoggerRepository } from '../../repositories/audit-logger-repository.js';
+import { auditLoggerRepository } from '../../../../../lib/infrastructure/repositories/audit-logger-repository.js';
 import { UserAnonymizedEventLoggingJob } from './UserAnonymizedEventLoggingJob.js';
 
 export class UserAnonymizedEventLoggingJobHandler {

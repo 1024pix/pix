@@ -1,4 +1,4 @@
-import { SendSharedParticipationResultsToPoleEmploiJob } from '../../../../../lib/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob.js';
+import { SendSharedParticipationResultsToPoleEmploiJob } from '../../../../../src/shared/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob.js';
 import { expect, knex } from '../../../../test-helper.js';
 
 describe('Integration | Infrastructure | Jobs | CampaignResult | SendSharedParticipationResultsToPoleEmploiJob', function () {

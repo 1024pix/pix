@@ -1,4 +1,4 @@
-import { usecases } from '../../../domain/usecases/index.js';
+import { usecases } from '../../../../../lib/domain/usecases/index.js';
 import { ComputeCertificabilityJob } from './ComputeCertificabilityJob.js';
 
 class ComputeCertificabilityJobHandler {

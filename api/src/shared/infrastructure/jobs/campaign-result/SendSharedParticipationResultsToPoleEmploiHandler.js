@@ -1,4 +1,4 @@
-import { usecases } from '../../../domain/usecases/index.js';
+import { usecases } from '../../../../../lib/domain/usecases/index.js';
 import { SendSharedParticipationResultsToPoleEmploiJob } from './SendSharedParticipationResultsToPoleEmploiJob.js';
 
 class SendSharedParticipationResultsToPoleEmploiHandler {

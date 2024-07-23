@@ -6,21 +6,6 @@ import _ from 'lodash';
 import PgBoss from 'pg-boss';
 
 import { eventDispatcher } from './lib/domain/events/index.js';
-import { UserAnonymizedEventLoggingJob } from './lib/infrastructure/jobs/audit-log/UserAnonymizedEventLoggingJob.js';
-import { UserAnonymizedEventLoggingJobHandler } from './lib/infrastructure/jobs/audit-log/UserAnonymizedEventLoggingJobHandler.js';
-import { ParticipationResultCalculationJob } from './lib/infrastructure/jobs/campaign-result/ParticipationResultCalculationJob.js';
-import { ParticipationResultCalculationJobHandler } from './lib/infrastructure/jobs/campaign-result/ParticipationResultCalculationJobHandler.js';
-import { SendSharedParticipationResultsToPoleEmploiHandler } from './lib/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiHandler.js';
-import { SendSharedParticipationResultsToPoleEmploiJob } from './lib/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob.js';
-import { scheduleCpfJobs } from './lib/infrastructure/jobs/cpf-export/schedule-cpf-jobs.js';
-import { JobQueue } from './lib/infrastructure/jobs/JobQueue.js';
-import { LcmsRefreshCacheJob } from './lib/infrastructure/jobs/lcms/LcmsRefreshCacheJob.js';
-import { LcmsRefreshCacheJobHandler } from './lib/infrastructure/jobs/lcms/LcmsRefreshCacheJobHandler.js';
-import { MonitoredJobQueue } from './lib/infrastructure/jobs/monitoring/MonitoredJobQueue.js';
-import { ComputeCertificabilityJob } from './lib/infrastructure/jobs/organization-learner/ComputeCertificabilityJob.js';
-import { ComputeCertificabilityJobHandler } from './lib/infrastructure/jobs/organization-learner/ComputeCertificabilityJobHandler.js';
-import { ScheduleComputeOrganizationLearnersCertificabilityJob } from './lib/infrastructure/jobs/organization-learner/ScheduleComputeOrganizationLearnersCertificabilityJob.js';
-import { ScheduleComputeOrganizationLearnersCertificabilityJobHandler } from './lib/infrastructure/jobs/organization-learner/ScheduleComputeOrganizationLearnersCertificabilityJobHandler.js';
 import * as organizationLearnerRepository from './lib/infrastructure/repositories/organization-learner-repository.js';
 import * as pgBossRepository from './lib/infrastructure/repositories/pgboss-repository.js';
 import { CertificationRescoringByScriptJobHandler } from './src/certification/session-management/infrastructure/jobs/CertificationRescoringByScriptHandler.js';
@@ -33,6 +18,21 @@ import { ValidateOrganizationImportFileJob } from './src/prescription/learner-ma
 import { ValidateOrganizationImportFileJobHandler } from './src/prescription/learner-management/infrastructure/jobs/ValidateOrganizationImportFileJobHandler.js';
 import { config } from './src/shared/config.js';
 import * as learningContentDatasource from './src/shared/infrastructure/datasources/learning-content/datasource.js';
+import { UserAnonymizedEventLoggingJob } from './src/shared/infrastructure/jobs/audit-log/UserAnonymizedEventLoggingJob.js';
+import { UserAnonymizedEventLoggingJobHandler } from './src/shared/infrastructure/jobs/audit-log/UserAnonymizedEventLoggingJobHandler.js';
+import { ParticipationResultCalculationJob } from './src/shared/infrastructure/jobs/campaign-result/ParticipationResultCalculationJob.js';
+import { ParticipationResultCalculationJobHandler } from './src/shared/infrastructure/jobs/campaign-result/ParticipationResultCalculationJobHandler.js';
+import { SendSharedParticipationResultsToPoleEmploiHandler } from './src/shared/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiHandler.js';
+import { SendSharedParticipationResultsToPoleEmploiJob } from './src/shared/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob.js';
+import { scheduleCpfJobs } from './src/shared/infrastructure/jobs/cpf-export/schedule-cpf-jobs.js';
+import { JobQueue } from './src/shared/infrastructure/jobs/JobQueue.js';
+import { LcmsRefreshCacheJob } from './src/shared/infrastructure/jobs/lcms/LcmsRefreshCacheJob.js';
+import { LcmsRefreshCacheJobHandler } from './src/shared/infrastructure/jobs/lcms/LcmsRefreshCacheJobHandler.js';
+import { MonitoredJobQueue } from './src/shared/infrastructure/jobs/monitoring/MonitoredJobQueue.js';
+import { ComputeCertificabilityJob } from './src/shared/infrastructure/jobs/organization-learner/ComputeCertificabilityJob.js';
+import { ComputeCertificabilityJobHandler } from './src/shared/infrastructure/jobs/organization-learner/ComputeCertificabilityJobHandler.js';
+import { ScheduleComputeOrganizationLearnersCertificabilityJob } from './src/shared/infrastructure/jobs/organization-learner/ScheduleComputeOrganizationLearnersCertificabilityJob.js';
+import { ScheduleComputeOrganizationLearnersCertificabilityJobHandler } from './src/shared/infrastructure/jobs/organization-learner/ScheduleComputeOrganizationLearnersCertificabilityJobHandler.js';
 import { logger } from './src/shared/infrastructure/utils/logger.js';
 
 async function startPgBoss() {

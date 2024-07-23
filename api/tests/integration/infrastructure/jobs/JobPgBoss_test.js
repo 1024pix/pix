@@ -1,4 +1,4 @@
-import { JobPgBoss as Job } from '../../../../lib/infrastructure/jobs/JobPgBoss.js';
+import { JobPgBoss as Job } from '../../../../src/shared/infrastructure/jobs/JobPgBoss.js';
 import { expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Infrastructure | Jobs | JobPgBoss', function () {

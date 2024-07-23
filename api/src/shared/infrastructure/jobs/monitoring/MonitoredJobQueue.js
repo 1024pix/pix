@@ -1,5 +1,5 @@
-import { config } from '../../../../src/shared/config.js';
-import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
+import { config } from '../../../config.js';
+import { logger } from '../../utils/logger.js';
 import { MonitoringJobExecutionTimeHandler } from './MonitoringJobExecutionTimeHandler.js';
 
 const { teamSize, teamConcurrency } = config.pgBoss;
