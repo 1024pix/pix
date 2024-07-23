@@ -1,5 +1,6 @@
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { ElementInstantiationError } from '../../domain/errors.js';
+import { EmbedForAnswerVerification } from '../../domain/models/element/Embed-for-answer-verification.js';
 import { QCMForAnswerVerification } from '../../domain/models/element/QCM-for-answer-verification.js';
 import { QCUForAnswerVerification } from '../../domain/models/element/QCU-for-answer-verification.js';
 import { QROCMForAnswerVerification } from '../../domain/models/element/QROCM-for-answer-verification.js';
@@ -16,6 +17,8 @@ export class ElementForVerificationFactory {
           return ElementForVerificationFactory.#buildQCUForAnswerVerification(elementData);
         case 'qrocm':
           return ElementForVerificationFactory.#buildQROCMForAnswerVerification(elementData);
+        case 'embed':
+          return ElementForVerificationFactory.#buildEmbedForAnswerVerification(elementData);
         default:
           logger.warn({
             event: 'module_element_type_not_handled_for_verification',
@@ -68,5 +71,9 @@ export class ElementForVerificationFactory {
       proposals: element.proposals,
       feedbacks: element.feedbacks,
     });
+  }
+
+  static #buildEmbedForAnswerVerification(element) {
+    return new EmbedForAnswerVerification(element);
   }
 }
