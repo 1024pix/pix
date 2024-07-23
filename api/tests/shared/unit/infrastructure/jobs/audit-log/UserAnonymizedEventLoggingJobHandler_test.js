@@ -1,7 +1,7 @@
-import { UserAnonymized } from '../../../../../lib/domain/events/UserAnonymized.js';
-import { auditLoggerRepository } from '../../../../../lib/infrastructure/repositories/audit-logger-repository.js';
-import { UserAnonymizedEventLoggingJobHandler } from '../../../../../src/shared/infrastructure/jobs/audit-log/UserAnonymizedEventLoggingJobHandler.js';
-import { expect, sinon } from '../../../../test-helper.js';
+import { UserAnonymized } from '../../../../../../lib/domain/events/UserAnonymized.js';
+import { auditLoggerRepository } from '../../../../../../lib/infrastructure/repositories/audit-logger-repository.js';
+import { UserAnonymizedEventLoggingJobHandler } from '../../../../../../src/shared/infrastructure/jobs/audit-log/UserAnonymizedEventLoggingJobHandler.js';
+import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Jobs | audit-log | User anonymized event logging', function () {
   let clock;

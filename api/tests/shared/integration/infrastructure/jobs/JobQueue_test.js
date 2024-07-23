@@ -1,8 +1,8 @@
 import PgBoss from 'pg-boss';
 
-import { JobPgBoss as Job } from '../../../../src/shared/infrastructure/jobs/JobPgBoss.js';
-import { JobQueue } from '../../../../src/shared/infrastructure/jobs/JobQueue.js';
-import { expect, knex } from '../../../test-helper.js';
+import { JobPgBoss as Job } from '../../../../../src/shared/infrastructure/jobs/JobPgBoss.js';
+import { JobQueue } from '../../../../../src/shared/infrastructure/jobs/JobQueue.js';
+import { expect, knex } from '../../../../test-helper.js';
 
 describe('Integration | Infrastructure | Jobs | JobQueue', function () {
   it('executes job when a job is added to the queue', async function () {

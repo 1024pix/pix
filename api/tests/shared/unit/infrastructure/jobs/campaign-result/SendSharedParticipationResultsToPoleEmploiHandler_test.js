@@ -1,7 +1,7 @@
-import { CampaignParticipationResultsShared } from '../../../../../lib/domain/events/CampaignParticipationResultsShared.js';
-import { usecases } from '../../../../../lib/domain/usecases/index.js';
-import { SendSharedParticipationResultsToPoleEmploiHandler } from '../../../../../src/shared/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiHandler.js';
-import { expect, sinon } from '../../../../test-helper.js';
+import { CampaignParticipationResultsShared } from '../../../../../../lib/domain/events/CampaignParticipationResultsShared.js';
+import { usecases } from '../../../../../../lib/domain/usecases/index.js';
+import { SendSharedParticipationResultsToPoleEmploiHandler } from '../../../../../../src/shared/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiHandler.js';
+import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Jobs | SendSharedParticipationResultsToPoleEmploiHandler', function () {
   let event;

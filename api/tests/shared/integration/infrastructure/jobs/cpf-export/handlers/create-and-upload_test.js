@@ -8,9 +8,9 @@ import timezone from 'dayjs/plugin/timezone.js';
 import utc from 'dayjs/plugin/utc.js';
 import lodash from 'lodash';
 
-import * as cpfCertificationXmlExportService from '../../../../../../lib/domain/services/cpf-certification-xml-export-service.js';
-import { createAndUpload } from '../../../../../../src/shared/infrastructure/jobs/cpf-export/handlers/create-and-upload.js';
-import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
+import * as cpfCertificationXmlExportService from '../../../../../../../lib/domain/services/cpf-certification-xml-export-service.js';
+import { createAndUpload } from '../../../../../../../src/shared/infrastructure/jobs/cpf-export/handlers/create-and-upload.js';
+import { domainBuilder, expect, sinon } from '../../../../../../test-helper.js';
 
 const { noop } = lodash;
 
