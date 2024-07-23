@@ -1,5 +1,5 @@
 import { certificationResultsController } from '../../../../../src/certification/results/application/certification-results-controller.js';
-import * as moduleUnderTest from '../../../../../src/certification/results/application/certification-route.js';
+import * as moduleUnderTest from '../../../../../src/certification/results/application/certification-results-route.js';
 import { authorization } from '../../../../../src/certification/shared/application/pre-handlers/authorization.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 

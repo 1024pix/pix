@@ -1,8 +1,8 @@
-import { sessionWithCleaCertifiedCandidateController } from '../../../../lib/application/sessions/session-with-clea-certified-candidate-controller.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
+import { certificationResultsController } from '../../../../../src/certification/results/application/certification-results-controller.js';
+import { usecases } from '../../../../../src/certification/results/domain/usecases/index.js';
+import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Controller | session-with-clea-certified-candidate', function () {
+describe('Certification | Results | Unit | Controller | session-with-clea-certified-candidate', function () {
   describe('#getCleaCertifiedCandidateDataCsv', function () {
     it('should return a response with CSV results', async function () {
       // given
@@ -31,7 +31,7 @@ describe('Unit | Controller | session-with-clea-certified-candidate', function (
       dependencies.getCleaCertifiedCandidateCsv.withArgs({ cleaCertifiedCandidates }).resolves('csv-string');
 
       // when
-      const response = await sessionWithCleaCertifiedCandidateController.getCleaCertifiedCandidateDataCsv(
+      const response = await certificationResultsController.getCleaCertifiedCandidateDataCsv(
         request,
         hFake,
         dependencies,
