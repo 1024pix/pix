@@ -16,9 +16,9 @@ const unfinalizeSession = async function ({ sessionId, sessionRepository, finali
     throw new SessionAlreadyPublishedError();
   }
 
-  return DomainTransaction.execute(async (domainTransaction) => {
-    await finalizedSessionRepository.remove({ sessionId, domainTransaction });
-    await sessionRepository.unfinalize({ id: sessionId, domainTransaction });
+  return DomainTransaction.execute(async () => {
+    await finalizedSessionRepository.remove({ sessionId });
+    await sessionRepository.unfinalize({ id: sessionId });
   });
 };
 

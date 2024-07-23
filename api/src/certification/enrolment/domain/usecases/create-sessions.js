@@ -37,18 +37,17 @@ const createSessions = async function ({
 
   const { isV3Pilot } = await certificationCenterRepository.get({ id: certificationCenterId });
 
-  await DomainTransaction.execute(async (domainTransaction) => {
+  await DomainTransaction.execute(async () => {
     return await bluebird.mapSeries(temporaryCachedSessions, async (sessionDTO) => {
       let { id: sessionId } = sessionDTO;
       const { certificationCandidates } = sessionDTO;
 
       if (sessionId) {
-        await _deleteExistingCandidatesInSession({ certificationCandidateRepository, sessionId, domainTransaction });
+        await _deleteExistingCandidatesInSession({ certificationCandidateRepository, sessionId });
       } else {
         const { id } = await _saveNewSessionReturningId({
           sessionRepository,
           sessionDTO: { ...sessionDTO, createdBy: userId },
-          domainTransaction,
           isV3Pilot,
         });
         sessionId = id;
@@ -59,7 +58,6 @@ const createSessions = async function ({
           certificationCandidates,
           sessionId,
           certificationCandidateRepository,
-          domainTransaction,
         });
       }
     });
@@ -77,30 +75,24 @@ function _hasCandidates(certificationCandidates) {
   return certificationCandidates.length > 0;
 }
 
-async function _saveNewSessionReturningId({ sessionRepository, sessionDTO, domainTransaction, isV3Pilot }) {
+async function _saveNewSessionReturningId({ sessionRepository, sessionDTO, isV3Pilot }) {
   const sessionToSave = new SessionEnrolment({
     ...sessionDTO,
     version: isV3Pilot ? CERTIFICATION_VERSIONS.V3 : CERTIFICATION_VERSIONS.V2,
   });
-  return await sessionRepository.save({ session: sessionToSave, domainTransaction });
+  return await sessionRepository.save({ session: sessionToSave });
 }
 
-async function _deleteExistingCandidatesInSession({ certificationCandidateRepository, sessionId, domainTransaction }) {
-  await certificationCandidateRepository.deleteBySessionId({ sessionId, domainTransaction });
+async function _deleteExistingCandidatesInSession({ certificationCandidateRepository, sessionId }) {
+  await certificationCandidateRepository.deleteBySessionId({ sessionId });
 }
 
-async function _saveCertificationCandidates({
-  certificationCandidates,
-  sessionId,
-  certificationCandidateRepository,
-  domainTransaction,
-}) {
+async function _saveCertificationCandidates({ certificationCandidates, sessionId, certificationCandidateRepository }) {
   await bluebird.mapSeries(certificationCandidates, async (certificationCandidateDTO) => {
     const certificationCandidate = new CertificationCandidate({ ...certificationCandidateDTO });
     await certificationCandidateRepository.saveInSession({
       sessionId,
       certificationCandidate,
-      domainTransaction,
     });
   });
 }

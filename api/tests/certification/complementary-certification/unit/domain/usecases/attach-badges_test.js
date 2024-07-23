@@ -179,11 +179,8 @@ describe('Unit | UseCase | attach-badges', function () {
     context('when complementary certification badges are already attached to the profile', function () {
       it('should detach old complementary certification badges', async function () {
         // given
-        const domainTransaction = {
-          knexTransaction: Symbol('transaction'),
-        };
         sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
-          return callback(domainTransaction);
+          return callback();
         });
         const badge1 = domainBuilder.buildBadge({ id: 123 });
         const badge2 = domainBuilder.buildBadge({ id: 456 });
@@ -219,17 +216,13 @@ describe('Unit | UseCase | attach-badges', function () {
         // then
         expect(complementaryCertificationBadgesRepository.detachByIds).to.have.been.calledWithExactly({
           complementaryCertificationBadgeIds: [1, 2],
-          domainTransaction,
         });
       });
 
       it('should attach new complementary certification badges', async function () {
         // given
-        const domainTransaction = {
-          knexTransaction: Symbol('transaction'),
-        };
         sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
-          return callback(domainTransaction);
+          return callback();
         });
         const badge1 = domainBuilder.buildBadge({ id: 123 });
 
@@ -279,7 +272,6 @@ describe('Unit | UseCase | attach-badges', function () {
         });
         expect(complementaryCertificationBadgesRepository.attach).to.have.been.calledWithExactly({
           complementaryCertificationBadges: [newComplementaryCertificationBadge],
-          domainTransaction,
         });
       });
     });
@@ -287,11 +279,8 @@ describe('Unit | UseCase | attach-badges', function () {
     context('when there are no complementary certification badges already attached to the profile', function () {
       it('should attach new complementary certification badges', async function () {
         // given
-        const domainTransaction = {
-          knexTransaction: Symbol('transaction'),
-        };
         sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
-          return callback(domainTransaction);
+          return callback();
         });
         const badge1 = domainBuilder.buildBadge({ id: 123 });
 
@@ -341,12 +330,10 @@ describe('Unit | UseCase | attach-badges', function () {
         });
         expect(complementaryCertificationBadgesRepository.attach).to.have.been.calledWithExactly({
           complementaryCertificationBadges: [newComplementaryCertificationBadge],
-          domainTransaction,
         });
 
         expect(complementaryCertificationBadgesRepository.attach).to.have.been.calledWithExactly({
           complementaryCertificationBadges: [newComplementaryCertificationBadge],
-          domainTransaction,
         });
 
         expect(complementaryCertificationBadgesRepository.detachByIds).not.to.have.been.called;

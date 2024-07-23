@@ -26,14 +26,12 @@ describe('Unit | UseCase | unfinalize-session', function () {
       // then
       expect(sessionRepository.unfinalize).to.have.been.calledWithMatch({
         id: 99,
-        domainTransaction: sinon.match.object,
       });
 
       expect(sessionRepository.isPublished).to.have.been.calledWithMatch({ id: 99 });
 
       expect(finalizedSessionRepository.remove).to.have.been.calledWithMatch({
         sessionId: 99,
-        domainTransaction: sinon.match.object,
       });
     });
   });
