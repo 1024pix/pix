@@ -58,8 +58,27 @@ const register = async function (server) {
         tags: ['api', 'certification-candidates'],
       },
     },
+    {
+      method: 'PATCH',
+      path: '/api/certification-candidates/{id}/end-assessment-by-supervisor',
+      config: {
+        pre: [
+          {
+            method: assessmentSupervisorAuthorization.verifyByCertificationCandidateId,
+            assign: 'authorizationCheck',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.certificationCandidateId,
+          }),
+        },
+        handler: certificationCandidateController.endAssessmentBySupervisor,
+        tags: ['api'],
+      },
+    },
   ]);
 };
 
-const name = 'session-management-certification-candidate';
+const name = 'certification-candidate-api';
 export { name, register };
