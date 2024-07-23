@@ -1,9 +1,9 @@
-import { getCertificationDetails } from '../../../../lib/domain/usecases/get-certification-details.js';
-import { states as CertificationAssessmentStates } from '../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
-import { CertificationDetails } from '../../../../src/certification/session-management/domain/read-models/CertificationDetails.js';
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { states as CertificationAssessmentStates } from '../../../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
+import { CertificationDetails } from '../../../../../../src/certification/session-management/domain/read-models/CertificationDetails.js';
+import { getCertificationDetails } from '../../../../../../src/certification/session-management/domain/usecases/get-certification-details.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | UseCase | get-certification-details', function () {
+describe('Certification | Session-management | Unit | Domain | UseCases | get-certification-details', function () {
   context('the certification assessment has not been completed', function () {
     it('should compute the certification details on the fly', async function () {
       // given
