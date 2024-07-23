@@ -15,6 +15,7 @@ const findPaginatedFilteredParticipants = async function ({
     const { organizationParticipants, meta } =
       await organizationParticipantRepository.findPaginatedFilteredImportedParticipants({
         organizationId,
+        extraColumns: importFormat.extraColumns,
         filters,
         sort,
         page,

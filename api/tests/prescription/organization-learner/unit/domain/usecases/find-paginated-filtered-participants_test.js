@@ -7,6 +7,7 @@ describe('Unit | UseCases | get-paginated-participants-for-an-organization', fun
     sort,
     filters,
     columnsToDisplay,
+    extraColumns,
     organizationLearnerImportFormatRepository,
     organizationParticipantRepository,
     organizationFeaturesAPI;
@@ -17,6 +18,7 @@ describe('Unit | UseCases | get-paginated-participants-for-an-organization', fun
     sort = Symbol('sort');
     filters = Symbol('filter');
     columnsToDisplay = Symbol('columnsToDisplay');
+    extraColumns = Symbol('extraColumns');
 
     organizationLearnerImportFormatRepository = {
       get: sinon.stub(),
@@ -60,7 +62,7 @@ describe('Unit | UseCases | get-paginated-participants-for-an-organization', fun
       .withArgs(organizationId)
       .resolves({ hasLearnersImportFeature: true });
 
-    organizationLearnerImportFormatRepository.get.withArgs(organizationId).resolves({ columnsToDisplay });
+    organizationLearnerImportFormatRepository.get.withArgs(organizationId).resolves({ columnsToDisplay, extraColumns });
     organizationParticipantRepository.findPaginatedFilteredImportedParticipants.resolves({
       organizationParticipants: [],
       meta: {},
@@ -79,6 +81,7 @@ describe('Unit | UseCases | get-paginated-participants-for-an-organization', fun
     // then
     expect(organizationParticipantRepository.findPaginatedFilteredImportedParticipants).to.have.been.calledWithExactly({
       organizationId,
+      extraColumns,
       page,
       sort,
       filters,
