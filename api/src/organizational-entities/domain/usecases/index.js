@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import * as schoolRepository from '../../../school/infrastructure/repositories/school-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
+import * as certificationCenterRepository from '../../infrastructure/repositories/certification-center.repository.js';
 import * as organizationFeatureRepository from '../../infrastructure/repositories/organization-feature-repository.js';
 import { organizationForAdminRepository } from '../../infrastructure/repositories/organization-for-admin.repository.js';
 import { tagRepository } from '../../infrastructure/repositories/tag.repository.js';
@@ -11,6 +12,7 @@ import { tagRepository } from '../../infrastructure/repositories/tag.repository.
 const path = dirname(fileURLToPath(import.meta.url));
 
 /**
+ * @typedef {import ('../../infrastructure/repositories/certification-center.repository.js')} CertificationCenterRepository
  * @typedef {import ('../../infrastructure/repositories/organization-feature-repository.js')} OrganizationFeatureRepository
  * @typedef {import ('../../infrastructure/repositories/organization-for-admin.repository.js')} OrganizationForAdminRepository
  * @typedef {import ('../../infrastructure/repositories/tag.repository.js')} TagRepository
@@ -18,6 +20,7 @@ const path = dirname(fileURLToPath(import.meta.url));
  */
 
 const repositories = {
+  certificationCenterRepository,
   organizationForAdminRepository,
   organizationFeatureRepository,
   schoolRepository,
@@ -36,6 +39,7 @@ const usecasesWithoutInjectedDependencies = {
  * @property {attachChildOrganizationToOrganization} attachChildOrganizationToOrganization
  * @property {getOrganizationDetails} getOrganizationDetails
  * @property {updateOrganizationsInBatch} updateOrganizationsInBatch
+ * @property {findPaginatedFilteredCertificationCenters} findPaginatedFilteredCertificationCenters
  * @property {updateOrganizationInformation} updateOrganizationInformation
  */
 

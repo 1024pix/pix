@@ -63,7 +63,6 @@ import { resetPasswordDemandRepository } from '../../../src/identity-access-mana
 import * as userRepository from '../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { userEmailRepository } from '../../../src/identity-access-management/infrastructure/repositories/user-email.repository.js';
 import { userToCreateRepository } from '../../../src/identity-access-management/infrastructure/repositories/user-to-create.repository.js';
-import * as organizationalEntitiesCertificationCenterRepository from '../../../src/organizational-entities/infrastructure/repositories/certification-center.repository.js';
 import { organizationForAdminRepository } from '../../../src/organizational-entities/infrastructure/repositories/organization-for-admin.repository.js';
 import { tagRepository } from '../../../src/organizational-entities/infrastructure/repositories/tag.repository.js';
 import * as campaignManagementRepository from '../../../src/prescription/campaign/infrastructure/repositories/campaign-management-repository.js';
@@ -283,7 +282,6 @@ const dependencies = {
   missionRepository,
   obfuscationService,
   oidcAuthenticationServiceRegistry,
-  organizationalEntitiesCertificationCenterRepository,
   organizationCreationValidator,
   organizationForAdminRepository,
   organizationInvitationRepository,

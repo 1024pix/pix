@@ -1,5 +1,6 @@
 import lodash from 'lodash';
 
+import { usecases as organizationalEntitiesUsecases } from '../../../src/organizational-entities/domain/usecases/index.js';
 import * as divisionSerializer from '../../../src/prescription/campaign/infrastructure/serializers/jsonapi/division-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as certificationCenterForAdminSerializer from '../../infrastructure/serializers/jsonapi/certification-center-for-admin-serializer.js';
@@ -42,10 +43,11 @@ const getCertificationCenterDetails = async function (request) {
 
 const findPaginatedFilteredCertificationCenters = async function (request) {
   const options = request.query;
-  const { models: organizations, pagination } = await usecases.findPaginatedFilteredCertificationCenters({
-    filter: options.filter,
-    page: options.page,
-  });
+  const { models: organizations, pagination } =
+    await organizationalEntitiesUsecases.findPaginatedFilteredCertificationCenters({
+      filter: options.filter,
+      page: options.page,
+    });
 
   return certificationCenterSerializer.serialize(organizations, pagination);
 };
