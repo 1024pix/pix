@@ -2,13 +2,25 @@ import { findPaginatedFilteredParticipants } from '../../../../../../src/prescri
 import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCases | get-paginated-participants-for-an-organization', function () {
-  let organizationId, page, sort, filters, organizationParticipantRepository, organizationFeaturesAPI;
+  let organizationId,
+    page,
+    sort,
+    filters,
+    columnsToDisplay,
+    organizationLearnerImportFormatRepository,
+    organizationParticipantRepository,
+    organizationFeaturesAPI;
 
   beforeEach(function () {
     organizationId = Symbol('organizationId');
     page = Symbol('page');
     sort = Symbol('sort');
     filters = Symbol('filter');
+    columnsToDisplay = Symbol('columnsToDisplay');
+
+    organizationLearnerImportFormatRepository = {
+      get: sinon.stub(),
+    };
 
     organizationParticipantRepository = {
       findPaginatedFilteredParticipants: sinon.stub(),
@@ -44,14 +56,23 @@ describe('Unit | UseCases | get-paginated-participants-for-an-organization', fun
 
   it('should call findPaginatedFilteredImportedParticipants when import is enabled', async function () {
     // given
-    organizationFeaturesAPI.getAllFeaturesFromOrganization.resolves({ hasLearnersImportFeature: true });
+    organizationFeaturesAPI.getAllFeaturesFromOrganization
+      .withArgs(organizationId)
+      .resolves({ hasLearnersImportFeature: true });
+
+    organizationLearnerImportFormatRepository.get.withArgs(organizationId).resolves({ columnsToDisplay });
+    organizationParticipantRepository.findPaginatedFilteredImportedParticipants.resolves({
+      organizationParticipants: [],
+      meta: {},
+    });
     // when
-    await findPaginatedFilteredParticipants({
+    const result = await findPaginatedFilteredParticipants({
       organizationId,
       filters,
       page,
       sort,
       organizationParticipantRepository,
+      organizationLearnerImportFormatRepository,
       organizationFeaturesAPI,
     });
 
@@ -62,5 +83,6 @@ describe('Unit | UseCases | get-paginated-participants-for-an-organization', fun
       sort,
       filters,
     });
+    expect(result.meta.headingCustomColumns).to.be.equals(columnsToDisplay);
   });
 });

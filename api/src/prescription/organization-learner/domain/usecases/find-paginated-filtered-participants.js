@@ -4,17 +4,25 @@ const findPaginatedFilteredParticipants = async function ({
   page,
   sort,
   organizationParticipantRepository,
+  organizationLearnerImportFormatRepository,
   organizationFeaturesAPI,
 }) {
   const organizationFeatures = await organizationFeaturesAPI.getAllFeaturesFromOrganization(organizationId);
 
   if (organizationFeatures.hasLearnersImportFeature) {
-    return organizationParticipantRepository.findPaginatedFilteredImportedParticipants({
-      organizationId,
-      filters,
-      sort,
-      page,
-    });
+    const importFormat = await organizationLearnerImportFormatRepository.get(organizationId);
+
+    const { organizationParticipants, meta } =
+      await organizationParticipantRepository.findPaginatedFilteredImportedParticipants({
+        organizationId,
+        filters,
+        sort,
+        page,
+      });
+
+    meta.headingCustomColumns = importFormat.columnsToDisplay;
+
+    return { organizationParticipants, meta };
   } else {
     return organizationParticipantRepository.findPaginatedFilteredParticipants({
       organizationId,
