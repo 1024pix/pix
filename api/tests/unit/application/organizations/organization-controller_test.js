@@ -4,8 +4,6 @@ import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { domainBuilder, expect, generateValidRequestAuthorizationHeader, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | Organizations | organization-controller', function () {
-  let request;
-
   describe('#getDivisions', function () {
     it('Should return a serialized list of divisions', async function () {
       // given
@@ -186,42 +184,6 @@ describe('Unit | Application | Organizations | organization-controller', functio
           },
         ],
       });
-    });
-  });
-
-  describe('#sendInvitations', function () {
-    const userId = 1;
-    let invitation;
-    let organizationId;
-    let emails;
-    const locale = 'fr-fr';
-
-    beforeEach(function () {
-      invitation = domainBuilder.buildOrganizationInvitation();
-      organizationId = invitation.organizationId;
-      emails = [invitation.email];
-      request = {
-        auth: { credentials: { userId } },
-        params: { id: organizationId },
-        payload: {
-          data: {
-            type: 'organization-invitations',
-            attributes: {
-              email: invitation.email,
-            },
-          },
-        },
-      };
-    });
-
-    it('should call the usecase to create invitation with organizationId, email and locale', async function () {
-      sinon.stub(usecases, 'createOrganizationInvitations').resolves([{ id: 1 }]);
-
-      // when
-      await organizationController.sendInvitations(request, hFake);
-
-      // then
-      expect(usecases.createOrganizationInvitations).to.have.been.calledWithExactly({ organizationId, emails, locale });
     });
   });
 

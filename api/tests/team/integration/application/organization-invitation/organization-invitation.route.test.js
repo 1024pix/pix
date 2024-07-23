@@ -1,3 +1,4 @@
+import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { organizationInvitationController } from '../../../../../src/team/application/organization-invitations/organization-invitation.controller.js';
 import { teamRoutes } from '../../../../../src/team/application/routes.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
@@ -78,6 +79,34 @@ describe('Integration | Team | Application | Route | organization-invitations', 
 
       // then
       expect(response.statusCode).to.equal(400);
+    });
+  });
+
+  describe('POST /api/organizations/:id/invitations', function () {
+    it('should call the organization controller to send invitations', async function () {
+      // given
+      const method = 'POST';
+      const url = '/api/organizations/1/invitations';
+      const payload = {
+        data: {
+          type: 'organization-invitations',
+          attributes: {
+            email: 'member@organization.org',
+          },
+        },
+      };
+
+      sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').callsFake((request, h) => h.response(true));
+      sinon.stub(organizationInvitationController, 'sendInvitations').callsFake((request, h) => h.response().created());
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(teamRoutes[0]);
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(201);
+      expect(organizationInvitationController.sendInvitations).to.have.been.calledOnce;
     });
   });
 });

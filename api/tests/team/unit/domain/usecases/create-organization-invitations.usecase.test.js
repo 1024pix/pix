@@ -1,8 +1,8 @@
-import { OrganizationArchivedError } from '../../../../lib/domain/errors.js';
-import { createOrganizationInvitations } from '../../../../lib/domain/usecases/create-organization-invitations.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { OrganizationArchivedError } from '../../../../../lib/domain/errors.js';
+import { createOrganizationInvitations } from '../../../../../src/team/domain/usecases/create-organization-invitations.usecase.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | create-organization-invitations', function () {
+describe('Unit | Team | Domain | UseCase | create-organization-invitations', function () {
   let organizationInvitationRepository, organizationRepository, organizationInvitationService;
 
   beforeEach(function () {
