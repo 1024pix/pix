@@ -22,8 +22,17 @@ const authorizeToResume = async function (request, h) {
   return h.response().code(204);
 };
 
+const endAssessmentBySupervisor = async function (request) {
+  const certificationCandidateId = request.params.id;
+
+  await usecases.endAssessmentBySupervisor({ certificationCandidateId });
+
+  return null;
+};
+
 const certificationCandidateController = {
   authorizeToStart,
   authorizeToResume,
+  endAssessmentBySupervisor,
 };
 export { certificationCandidateController };
