@@ -31,7 +31,9 @@ describe('Integration | Repository | certification candidate for supervising', f
         await databaseBuilder.commit();
 
         // when
-        const result = await certificationCandidateForSupervisingRepository.get(candidate.id);
+        const result = await certificationCandidateForSupervisingRepository.get({
+          certificationCandidateId: candidate.id,
+        });
 
         // then
         expect(result).to.deep.equal(
@@ -73,7 +75,9 @@ describe('Integration | Repository | certification candidate for supervising', f
         const wrongCandidateId = 1298;
 
         // when
-        const error = await catchErr(certificationCandidateForSupervisingRepository.get)(wrongCandidateId);
+        const error = await catchErr(certificationCandidateForSupervisingRepository.get)({
+          certificationCandidateId: wrongCandidateId,
+        });
 
         // then
         expect(error).to.be.an.instanceOf(CertificationCandidateNotFoundError);
