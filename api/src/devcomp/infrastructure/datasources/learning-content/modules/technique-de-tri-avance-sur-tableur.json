@@ -87,7 +87,7 @@
                 "valid": "<span class=\"feedback__state\">Correct.</span><p>Pour ajouter le tri des heures d’arrivée au tri des numéros de table, il faut créer un tri à deux critères. Cette action est accessible via la fenêtre de tri.</p>",
                 "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Cette méthode ne permet pas de cumuler les deux critères de tri.</p> "
               },
-              "solution": "2"
+              "solution": "1"
             }
           }
         ]
