@@ -61,6 +61,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
       publishedAt,
       certificationCenterRepository,
       sessionRepository,
+      sharedSessionRepository,
     });
 
     expect(sessionPublicationService.publishSession).to.have.been.calledWithExactly({
@@ -77,6 +78,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
       publishedAt,
       certificationCenterRepository,
       sessionRepository,
+      sharedSessionRepository,
     });
   });
 
@@ -128,6 +130,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
         publishedAt,
         certificationCenterRepository,
         sessionRepository,
+        sharedSessionRepository,
       });
     });
 

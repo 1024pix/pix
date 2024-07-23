@@ -51,6 +51,7 @@ describe('Unit | UseCase | publish-session', function () {
       publishedAt,
       certificationCenterRepository,
       sessionRepository,
+      sharedSessionRepository,
     });
     expect(result).to.equal(session);
   });

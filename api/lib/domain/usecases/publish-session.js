@@ -42,6 +42,7 @@ const publishSession = async function ({
     publishedAt,
     certificationCenterRepository,
     sessionRepository,
+    sharedSessionRepository,
   });
 
   return sessionRepository.get({ id: sessionId });

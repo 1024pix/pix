@@ -32,6 +32,7 @@ const publishSessionsInBatch = async function ({
         publishedAt,
         certificationCenterRepository,
         sessionRepository,
+        sharedSessionRepository,
       });
     } catch (error) {
       result.addPublicationError(sessionId, error);
