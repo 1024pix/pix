@@ -50,10 +50,9 @@ describe('Unit | Identity Access Management | Application | Controller | Admin |
         },
         payload: [oidcProvider1, oidcProvider2],
       };
-      const domainTransaction = Symbol('domain-transaction');
 
       sinon.stub(usecases, 'addOidcProvider').resolves();
-      sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
+      sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
 
       // when
       const response = await oidcProviderAdminController.createInBatch(request, hFake);
@@ -79,7 +78,6 @@ describe('Unit | Identity Access Management | Application | Controller | Admin |
           logoutUrl: 'https://idp-1.fr/compte/deconnexion',
           afterLogoutUrl: 'https://app.dev.pix.fr',
         },
-        domainTransaction,
       });
       expect(usecases.addOidcProvider.getCall(1)).to.have.been.calledWith({
         identityProvider: 'IDP_2',
@@ -95,7 +93,6 @@ describe('Unit | Identity Access Management | Application | Controller | Admin |
         openidConfigurationUrl: 'https://idp-2.fr/connexion/oauth2/.well-known/openid-configuration',
         redirectUri: 'https://app.dev.pix.fr/connexion/idp-2',
         shouldCloseSession: true,
-        domainTransaction,
       });
       expect(response.statusCode).to.equal(204);
     });

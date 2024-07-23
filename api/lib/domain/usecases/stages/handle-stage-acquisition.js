@@ -29,7 +29,6 @@ import * as defaultGetMasteryPercentageService from '../../services/get-mastery-
  */
 const handleStageAcquisition = async function ({
   assessment,
-  domainTransaction,
   stageRepository = defaultStageRepository,
   skillRepository = defaultSkillRepository,
   campaignRepository = defaultCampaignRepository,
@@ -86,12 +85,7 @@ const handleStageAcquisition = async function ({
 
   if (!stagesToStore.length) return;
 
-  await stageAcquisitionRepository.saveStages(
-    stagesToStore,
-    assessment.userId,
-    campaignParticipation.id,
-    domainTransaction?.knexTransaction,
-  );
+  await stageAcquisitionRepository.saveStages(stagesToStore, assessment.userId, campaignParticipation.id);
 };
 
 /**

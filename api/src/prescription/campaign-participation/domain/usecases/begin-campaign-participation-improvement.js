@@ -7,9 +7,8 @@ const beginCampaignParticipationImprovement = async function ({
   userId,
   assessmentRepository,
   campaignParticipationRepository,
-  domainTransaction,
 }) {
-  const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId, domainTransaction);
+  const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
   if (campaignParticipation.userId !== userId) {
     throw new UserNotAuthorizedToAccessEntityError();
   }
@@ -19,14 +18,14 @@ const beginCampaignParticipationImprovement = async function ({
   }
 
   campaignParticipation.improve();
-  await campaignParticipationRepository.update(campaignParticipation, domainTransaction);
+  await campaignParticipationRepository.update(campaignParticipation);
 
   if (campaignParticipation.lastAssessment.isImproving && !campaignParticipation.lastAssessment.isCompleted()) {
     return null;
   }
 
   const assessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId });
-  await assessmentRepository.save({ assessment, domainTransaction });
+  await assessmentRepository.save({ assessment });
 };
 
 export { beginCampaignParticipationImprovement };

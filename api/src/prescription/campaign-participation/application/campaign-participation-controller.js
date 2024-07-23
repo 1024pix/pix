@@ -57,12 +57,11 @@ const getCampaignAssessmentParticipation = async function (request) {
 const deleteParticipation = async function (request, h) {
   const { userId } = request.auth.credentials;
   const { id, campaignParticipationId } = request.params;
-  await DomainTransaction.execute(async (domainTransaction) => {
+  await DomainTransaction.execute(async () => {
     await usecases.deleteCampaignParticipation({
       userId,
       campaignId: id,
       campaignParticipationId,
-      domainTransaction,
     });
   });
   return h.response({}).code(204);

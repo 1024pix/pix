@@ -7,7 +7,6 @@ import * as knowledgeElementRepository from '../../../../../lib/infrastructure/r
 import * as knowledgeElementSnapshotRepository from '../../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { Assessment } from '../../../../shared/domain/models/Assessment.js';
-import { ApplicationTransaction } from '../../../shared/infrastructure/ApplicationTransaction.js';
 import { CampaignParticipation } from '../../domain/models/CampaignParticipation.js';
 import { AvailableCampaignParticipation } from '../../domain/read-models/AvailableCampaignParticipation.js';
 
@@ -52,8 +51,8 @@ const batchUpdate = async function (campaignParticipations) {
   return Promise.all(campaignParticipations.map((campaignParticipation) => update(campaignParticipation)));
 };
 
-const get = async function (id, domainTransaction) {
-  const knexConn = ApplicationTransaction.getConnection(domainTransaction);
+const get = async function (id) {
+  const knexConn = DomainTransaction.getConnection();
 
   const campaignParticipation = await knexConn.from('campaign-participations').where({ id }).first();
   const campaign = await knexConn.from('campaigns').where({ id: campaignParticipation.campaignId }).first();
@@ -67,7 +66,7 @@ const get = async function (id, domainTransaction) {
 };
 
 const getByCampaignIds = async function (campaignIds) {
-  const knexConn = ApplicationTransaction.getConnection();
+  const knexConn = DomainTransaction.getConnection();
   const campaignParticipations = await knexConn('campaign-participations')
     .whereNull('deletedAt')
     .whereIn('campaignId', campaignIds);

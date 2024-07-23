@@ -80,17 +80,10 @@ const createOrganizationsWithTagsAndTargetProfiles = async function ({
 
 export { createOrganizationsWithTagsAndTargetProfiles };
 
-async function _createOrganizations({
-  transformedOrganizationsData,
-  domainTransaction,
-  organizationForAdminRepository,
-}) {
+async function _createOrganizations({ transformedOrganizationsData, organizationForAdminRepository }) {
   return bluebird.map(transformedOrganizationsData, async (organizationToCreate) => {
     try {
-      const createdOrganization = await organizationForAdminRepository.save(
-        organizationToCreate.organization,
-        domainTransaction,
-      );
+      const createdOrganization = await organizationForAdminRepository.save(organizationToCreate.organization);
       return {
         createdOrganization,
         organizationToCreate,

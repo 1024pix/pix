@@ -46,8 +46,8 @@ const findByIds = async function ({ ids }) {
   return rawOrganizationLearners.map((rawOrganizationLearner) => new OrganizationLearner(rawOrganizationLearner));
 };
 
-const findByOrganizationId = function ({ organizationId }, transaction = DomainTransaction.emptyTransaction()) {
-  const knexConn = transaction.knexTransaction || knex;
+const findByOrganizationId = function ({ organizationId }) {
+  const knexConn = DomainTransaction.getConnection();
   return knexConn('view-active-organization-learners')
     .where({ organizationId })
     .orderByRaw('LOWER("lastName") ASC, LOWER("firstName") ASC')
@@ -98,16 +98,12 @@ const isOrganizationLearnerIdLinkedToUserAndSCOOrganization = async function ({ 
   return Boolean(exist);
 };
 
-const _reconcileOrganizationLearners = async function (
-  studentsToImport,
-  allOrganizationLearnersInSameOrganization,
-  domainTransaction,
-) {
+const _reconcileOrganizationLearners = async function (studentsToImport, allOrganizationLearnersInSameOrganization) {
   const nationalStudentIdsFromFile = studentsToImport
     .map((organizationLearnerData) => organizationLearnerData.nationalStudentId)
     .filter(Boolean);
   const organizationLearnersWithSameNationalStudentIdsAsImported =
-    await studentRepository.findReconciledStudentsByNationalStudentId(nationalStudentIdsFromFile, domainTransaction);
+    await studentRepository.findReconciledStudentsByNationalStudentId(nationalStudentIdsFromFile);
 
   organizationLearnersWithSameNationalStudentIdsAsImported.forEach((organizationLearner) => {
     const alreadyReconciledStudentToImport = studentsToImport.find(
