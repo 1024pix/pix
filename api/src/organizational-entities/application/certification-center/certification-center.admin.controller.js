@@ -1,5 +1,5 @@
-import * as certificationCenterSerializer from '../../../../lib/infrastructure/serializers/jsonapi/certification-center-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
+import * as certificationCenterSerializer from '../../infrastructure/serializers/jsonapi/certification-center/certification-center.serializer.js';
 
 const findPaginatedFilteredCertificationCenters = async function (
   request,
