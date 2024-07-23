@@ -274,6 +274,14 @@
                 "invalid": "<span class=\"feedback__state\">Incorrect.</span> <p>Regardez bien dans l’image. Trouvez d’abord dans quel ordre les colonnes sont triées. Quelle colonne affiche le plus d'éléments similaires les uns à la suite des autres&nbsp;? C’est celle qui représente le premier critère. Ensuite, quel tri est appliqué à cette colonne&nbsp;? Croissant ou décroissant&nbsp;? Continuez avec les autres colonnes.</p>"
               }
             }
+          },
+          {
+            "type": "element",
+            "element": {
+              "id": "e33e2f75-d98f-42cc-aa82-3e9a0b0f59cb",
+              "type": "text",
+              "content": "<details><summary>Indice 1</summary><p>Avez-vous pensé à harmoniser vos données&nbsp;? S'il reste des lignes ou colonnes vides, cela peut influencer le résultat de votre tri.</p></details><details><summary>Indice 2</summary><p>Pour trouver le tri à partir d'une image observez bien les colonnes pour trouver l'ordre des critères de tri.</p></details>"
+            }
           }
         ]
       },
