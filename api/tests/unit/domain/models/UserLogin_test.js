@@ -283,4 +283,19 @@ describe('Unit | Domain | Models | UserLogin', function () {
       expect(userLogin.blockedAt).to.be.null;
     });
   });
+
+  describe('#anonymize', function () {
+    it('anonymizes user login info', function () {
+      // given
+      const userLogin = new UserLogin({ id: 1, temporaryBlockedUntil: new Date(), blockedAt: new Date() });
+
+      // when
+      const result = userLogin.anonymize();
+
+      // then
+      expect(result.id).to.be.equal(1);
+      expect(result.temporaryBlockedUntil).to.be.null;
+      expect(result.blockedAt).to.be.null;
+    });
+  });
 });
