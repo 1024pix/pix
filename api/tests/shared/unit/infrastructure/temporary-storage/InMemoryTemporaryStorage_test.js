@@ -1,5 +1,5 @@
-import { InMemoryTemporaryStorage } from '../../../../lib/infrastructure/temporary-storage/InMemoryTemporaryStorage.js';
-import { expect, sinon } from '../../../test-helper.js';
+import { InMemoryTemporaryStorage } from '../../../../../src/shared/infrastructure/temporary-storage/InMemoryTemporaryStorage.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Infrastructure | temporary-storage | InMemoryTemporaryStorage', function () {
   let inMemoryTemporaryStorage;
