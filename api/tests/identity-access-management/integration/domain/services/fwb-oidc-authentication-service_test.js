@@ -1,8 +1,8 @@
 import { randomUUID } from 'node:crypto';
 
-import { temporaryStorage } from '../../../../../lib/infrastructure/temporary-storage/index.js';
 import { FwbOidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/fwb-oidc-authentication-service.js';
 import { config } from '../../../../../src/shared/config.js';
+import { temporaryStorage } from '../../../../../src/shared/infrastructure/temporary-storage/index.js';
 import { expect } from '../../../../test-helper.js';
 
 const defaultSessionTemporaryStorage = temporaryStorage.withPrefix('oidc-session:');

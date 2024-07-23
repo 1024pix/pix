@@ -11,9 +11,9 @@ import { DomainTransaction as domainTransaction } from '../lib/infrastructure/Do
 import * as dataProtectionOfficerRepository from '../lib/infrastructure/repositories/data-protection-officer-repository.js';
 import * as organizationTagRepository from '../lib/infrastructure/repositories/organization-tag-repository.js';
 import * as targetProfileShareRepository from '../lib/infrastructure/repositories/target-profile-share-repository.js';
-import { temporaryStorage } from '../lib/infrastructure/temporary-storage/index.js';
 import { tagRepository } from '../src/organizational-entities/infrastructure/repositories/tag.repository.js';
 import * as organizationRepository from '../src/shared/infrastructure/repositories/organization-repository.js';
+import { temporaryStorage } from '../src/shared/infrastructure/temporary-storage/index.js';
 import { organizationInvitationRepository } from '../src/team/infrastructure/repositories/organization-invitation.repository.js';
 import { checkCsvHeader, parseCsvWithHeader } from './helpers/csvHelpers.js';
 

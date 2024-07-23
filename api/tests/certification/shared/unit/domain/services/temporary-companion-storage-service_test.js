@@ -1,6 +1,6 @@
-import { temporaryStorage } from '../../../../../../lib/infrastructure/temporary-storage/index.js';
 import * as temporaryCompanionStorageService from '../../../../../../src/certification/shared/domain/services/temporary-companion-storage-service.js';
 import { config } from '../../../../../../src/shared/config.js';
+import { temporaryStorage } from '../../../../../../src/shared/infrastructure/temporary-storage/index.js';
 import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Services | temporary companion storage service', function () {

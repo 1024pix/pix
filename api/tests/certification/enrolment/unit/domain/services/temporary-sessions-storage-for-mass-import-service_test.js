@@ -1,5 +1,5 @@
-import { temporaryStorage } from '../../../../../../lib/infrastructure/temporary-storage/index.js';
 import * as temporarySessionsStorageForMassImportService from '../../../../../../src/certification/enrolment/domain/services/temporary-sessions-storage-for-mass-import-service.js';
+import { temporaryStorage } from '../../../../../../src/shared/infrastructure/temporary-storage/index.js';
 import { expect } from '../../../../../test-helper.js';
 const sessionMassImportTemporaryStorage = temporaryStorage.withPrefix('sessions-mass-import:');
 

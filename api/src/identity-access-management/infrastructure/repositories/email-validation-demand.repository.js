@@ -1,7 +1,7 @@
 import crypto from 'node:crypto';
 
-import { temporaryStorage } from '../../../../lib/infrastructure/temporary-storage/index.js';
 import { config } from '../../../shared/config.js';
+import { temporaryStorage } from '../../../shared/infrastructure/temporary-storage/index.js';
 
 const emailValidationDemandTemporaryStorage = temporaryStorage.withPrefix('email-validation-demand:');
 

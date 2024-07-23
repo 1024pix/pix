@@ -1,12 +1,12 @@
 import { randomUUID } from 'node:crypto';
 
-import { temporaryStorage } from '../../../../../lib/infrastructure/temporary-storage/index.js';
 import * as OidcIdentityProviders from '../../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
 import { UserToCreate } from '../../../../../src/identity-access-management/domain/models/UserToCreate.js';
 import { PoleEmploiOidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/pole-emploi-oidc-authentication-service.js';
 import * as authenticationMethodRepository from '../../../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import { userToCreateRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/user-to-create.repository.js';
 import { config } from '../../../../../src/shared/config.js';
+import { temporaryStorage } from '../../../../../src/shared/infrastructure/temporary-storage/index.js';
 import { expect, knex } from '../../../../test-helper.js';
 
 const defaultSessionTemporaryStorage = temporaryStorage.withPrefix('oidc-session:');
