@@ -81,7 +81,8 @@ const getByUsernameOrEmailWithRolesAndPassword = async function (username) {
  * @throws {UserNotFoundError}
  */
 const get = async function (userId) {
-  const foundUser = await knex('users').where('id', userId).first();
+  const knexConn = DomainTransaction.getConnection();
+  const foundUser = await knexConn('users').where('id', userId).first();
   if (!foundUser) throw new UserNotFoundError(`User not found for ID ${userId}`);
   return new User(foundUser);
 };
