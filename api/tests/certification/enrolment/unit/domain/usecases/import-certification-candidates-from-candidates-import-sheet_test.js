@@ -1,8 +1,8 @@
-import { CertificationCandidateAlreadyLinkedToUserError } from '../../../../lib/domain/errors.js';
-import { importCertificationCandidatesFromCandidatesImportSheet } from '../../../../lib/domain/usecases/import-certification-candidates-from-candidates-import-sheet.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
-import { getI18n } from '../../../tooling/i18n/i18n.js';
+import { CertificationCandidateAlreadyLinkedToUserError } from '../../../../../../lib/domain/errors.js';
+import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
+import { importCertificationCandidatesFromCandidatesImportSheet } from '../../../../../../src/certification/enrolment/domain/usecases/import-certification-candidates-from-candidates-import-sheet.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
+import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 const i18n = getI18n();
 
 describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet', function () {
@@ -13,7 +13,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
   let certificationCpfCountryRepository;
   let complementaryCertificationRepository;
   let certificationCenterRepository;
-  let sessionEnrolmentRepository;
+  let sessionRepository;
   let domainTransaction;
 
   beforeEach(function () {
@@ -22,7 +22,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
       deleteBySessionId: sinon.stub(),
       saveInSession: sinon.stub(),
     };
-    sessionEnrolmentRepository = {
+    sessionRepository = {
       isSco: sinon.stub(),
     };
     certificationCandidatesOdsService = {
@@ -84,7 +84,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           });
           const certificationCandidates = [certificationCandidate];
 
-          sessionEnrolmentRepository.isSco.resolves(false);
+          sessionRepository.isSco.resolves(false);
 
           certificationCandidateRepository.doesLinkedCertificationCandidateInSessionExist
             .withArgs({ sessionId })
@@ -116,7 +116,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
             certificationCpfCityRepository,
             complementaryCertificationRepository,
             certificationCenterRepository,
-            sessionEnrolmentRepository,
+            sessionRepository,
           });
 
           // then

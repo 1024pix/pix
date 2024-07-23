@@ -43,9 +43,20 @@ const getCandidatesImportSheet = async function (request, h, dependencies = { fi
     .header('Content-Disposition', `attachment; filename=${filename + sessionId}.ods`);
 };
 
+const importCertificationCandidatesFromCandidatesImportSheet = async function (request) {
+  const sessionId = request.params.id;
+  const odsBuffer = request.payload;
+  const i18n = request.i18n;
+
+  await usecases.importCertificationCandidatesFromCandidatesImportSheet({ sessionId, odsBuffer, i18n });
+
+  return null;
+};
+
 const enrolmentController = {
   enrolStudentsToSession,
   getCandidatesImportSheet,
+  importCertificationCandidatesFromCandidatesImportSheet,
 };
 
 export { enrolmentController };

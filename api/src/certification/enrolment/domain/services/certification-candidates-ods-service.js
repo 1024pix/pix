@@ -1,14 +1,14 @@
 import bluebird from 'bluebird';
 import _ from 'lodash';
 
-import { Subscription } from '../../../src/certification/enrolment/domain/models/Subscription.js';
-import { ComplementaryCertificationKeys } from '../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
-import * as readOdsUtils from '../../../src/shared/infrastructure/utils/ods/read-ods-utils.js';
-import * as mailCheckImplementation from '../../../src/shared/mail/infrastructure/services/mail-check.js';
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../lib/domain/constants/certification-candidates-errors.js';
+import { CertificationCandidatesError } from '../../../../../lib/domain/errors.js';
+import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
+import * as mailCheckImplementation from '../../../../shared/mail/infrastructure/services/mail-check.js';
+import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { getTransformationStructsForPixCertifCandidatesImport } from '../../infrastructure/files/candidates-import/candidates-import-transformation-structures.js';
-import { CERTIFICATION_CANDIDATES_ERRORS } from '../constants/certification-candidates-errors.js';
-import { CertificationCandidatesError } from '../errors.js';
-import { CertificationCandidate } from '../models/CertificationCandidate.js';
+import * as readOdsUtils from '../../infrastructure/utils/ods/read-ods-utils.js';
+import { Subscription } from '../models/Subscription.js';
 
 export { extractCertificationCandidatesFromCandidatesImportSheet };
 
