@@ -130,4 +130,14 @@ export default class ModulePassage extends Component {
       'pix-event-name': `Click sur le bouton réessayer de l'élément : ${answerData.element.id}`,
     });
   }
+
+  @action
+  async openImageAlternativeText(imageElementId) {
+    this.metrics.add({
+      event: 'custom-event',
+      'pix-event-category': 'Modulix',
+      'pix-event-action': `Passage du module : ${this.args.module.id}`,
+      'pix-event-name': `Click sur le bouton alternative textuelle : ${imageElementId}`,
+    });
+  }
 }

@@ -1,7 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click, findAll } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import ModulixImageElement from 'mon-pix/components/module/element/image';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
@@ -19,10 +20,8 @@ module('Integration | Component | Module | Image', function (hooks) {
       alternativeText: 'alternative instruction',
     };
 
-    this.set('image', imageElement);
-
     //  when
-    const screen = await render(hbs`<Module::Element::Image @image={{this.image}}/>`);
+    const screen = await render(<template><ModulixImageElement @image={{imageElement}} /></template>);
 
     // then
     assert.ok(screen);
@@ -40,16 +39,20 @@ module('Integration | Component | Module | Image', function (hooks) {
       alt: 'alt text',
       alternativeText,
     };
-
-    this.set('image', imageElement);
+    const openAlternativeTextStub = sinon.stub();
 
     //  when
-    const screen = await render(hbs`<Module::Element::Image @image={{this.image}}/>`);
+    const screen = await render(
+      <template>
+        <ModulixImageElement @image={{imageElement}} @openAlternativeText={{openAlternativeTextStub}} />
+      </template>,
+    );
 
     // then
     await click(screen.getByRole('button', { name: "Afficher l'alternative textuelle" }));
     assert.ok(await screen.findByRole('dialog'));
     assert.ok(screen.getByText(alternativeText));
+    assert.ok(openAlternativeTextStub.calledOnce);
   });
 
   test('should not be able to open the modal if there is no alternative instruction', async function (assert) {
@@ -60,10 +63,8 @@ module('Integration | Component | Module | Image', function (hooks) {
       alternativeText: '',
     };
 
-    this.set('image', imageElement);
-
     //  when
-    const screen = await render(hbs`<Module::Element::Image @image={{this.image}}/>`);
+    const screen = await render(<template><ModulixImageElement @image={{imageElement}} /></template>);
 
     // then
     const alternativeTextButton = await screen.queryByRole('button', { name: "Afficher l'alternative textuelle" });
