@@ -35,7 +35,7 @@ const findAll = async function () {
   return rows.map((row) => new Tag(row));
 };
 
-const findByIds = async function (tagIds, domainTransaction) {
+const findByIds = async function (tagIds) {
   const knexConn = DomainTransaction.getConnection();
   const rows = await knexConn('tags').whereIn('id', tagIds);
   return rows.map((row) => new Tag(row));

@@ -39,21 +39,19 @@ async function _startMission({
   missionAssessmentRepository,
   missionRepository,
 }) {
-  return DomainTransaction.execute(async (domainTransaction) => {
-    const assessment = await createAssessment({ assessmentRepository, domainTransaction });
+  return DomainTransaction.execute(async () => {
+    const assessment = await createAssessment({ assessmentRepository });
     const missionAssessment = await createMissionAssessment({
       assessmentId: assessment.id,
       missionId,
       organizationLearnerId,
       missionAssessmentRepository,
-      domainTransaction,
     });
     await initMissionActivity({
       assessmentId: assessment.id,
       activityRepository,
       missionAssessmentRepository,
       missionRepository,
-      domainTransaction,
     });
     return new Assessment({ ...assessment, ...missionAssessment });
   });
@@ -70,14 +68,13 @@ async function createMissionAssessment({
   missionId,
   organizationLearnerId,
   missionAssessmentRepository,
-  domainTransaction,
 }) {
   const missionAssessment = new MissionAssessment({
     missionId,
     assessmentId,
     organizationLearnerId,
   });
-  await missionAssessmentRepository.save({ missionAssessment, domainTransaction });
+  await missionAssessmentRepository.save({ missionAssessment });
 
   return missionAssessment;
 }

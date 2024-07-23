@@ -7,33 +7,23 @@ export async function updateCurrentActivity({
   activityAnswerRepository,
   missionAssessmentRepository,
   missionRepository,
-  domainTransaction,
 }) {
-  const lastActivity = await activityRepository.getLastActivity(assessmentId, domainTransaction);
-  const answers = await activityAnswerRepository.findByActivity(lastActivity.id, domainTransaction);
+  const lastActivity = await activityRepository.getLastActivity(assessmentId);
+  const answers = await activityAnswerRepository.findByActivity(lastActivity.id);
   const lastAnswer = answers.at(-1);
 
   if (lastAnswer.result.isOK() || lastActivity.isTutorial) {
-    const { missionId } = await missionAssessmentRepository.getByAssessmentId(assessmentId, domainTransaction);
+    const { missionId } = await missionAssessmentRepository.getByAssessmentId(assessmentId);
     const mission = await missionRepository.get(missionId);
     if (_isActivityFinished(mission, lastActivity, answers)) {
-      return activityRepository.updateStatus(
-        { activityId: lastActivity.id, status: Activity.status.SUCCEEDED },
-        domainTransaction,
-      );
+      return activityRepository.updateStatus({ activityId: lastActivity.id, status: Activity.status.SUCCEEDED });
     }
     return lastActivity;
   }
   if (lastAnswer.result.isKO()) {
-    return activityRepository.updateStatus(
-      { activityId: lastActivity.id, status: Activity.status.FAILED },
-      domainTransaction,
-    );
+    return activityRepository.updateStatus({ activityId: lastActivity.id, status: Activity.status.FAILED });
   }
-  return activityRepository.updateStatus(
-    { activityId: lastActivity.id, status: Activity.status.SKIPPED },
-    domainTransaction,
-  );
+  return activityRepository.updateStatus({ activityId: lastActivity.id, status: Activity.status.SKIPPED });
 }
 
 function _isActivityFinished(mission, lastActivity, answers) {

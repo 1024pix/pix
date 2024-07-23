@@ -22,7 +22,7 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
         .stub(knex, 'transaction')
         .withArgs(sinon.match.func, { isolationLevel: 'repeatable read' })
         .callsFake((lambda) => {
-          return lambda(transaction);
+          return lambda();
         });
 
       const now = dayjs('2023-10-02T21:00:01').tz('Europe/Paris').toDate();

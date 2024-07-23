@@ -95,11 +95,11 @@ const completeAssessment = async function (request) {
   const locale = extractLocaleFromRequest(request);
   let event;
 
-  await DomainTransaction.execute(async (domainTransaction) => {
-    const result = await usecases.completeAssessment({ assessmentId, domainTransaction, locale });
-    await usecases.handleBadgeAcquisition({ assessment: result.assessment, domainTransaction });
-    await usecases.handleStageAcquisition({ assessment: result.assessment, domainTransaction });
-    await devcompUsecases.handleTrainingRecommendation({ assessment: result.assessment, locale, domainTransaction });
+  await DomainTransaction.execute(async () => {
+    const result = await usecases.completeAssessment({ assessmentId, locale });
+    await usecases.handleBadgeAcquisition({ assessment: result.assessment });
+    await usecases.handleStageAcquisition({ assessment: result.assessment });
+    await devcompUsecases.handleTrainingRecommendation({ assessment: result.assessment, locale });
     event = result.event;
   });
 
@@ -113,8 +113,8 @@ const updateLastChallengeState = async function (request) {
   const lastQuestionState = request.params.state;
   const challengeId = request.payload?.data?.attributes?.['challenge-id'];
 
-  await DomainTransaction.execute(async (domainTransaction) => {
-    await usecases.updateLastQuestionState({ assessmentId, challengeId, lastQuestionState, domainTransaction });
+  await DomainTransaction.execute(async () => {
+    await usecases.updateLastQuestionState({ assessmentId, challengeId, lastQuestionState });
   });
 
   return null;

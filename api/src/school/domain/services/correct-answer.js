@@ -11,9 +11,8 @@ const correctAnswer = async function ({
   activityRepository,
   assessmentRepository,
   examiner: injectedExaminer,
-  domainTransaction,
 } = {}) {
-  const assessment = await assessmentRepository.get(assessmentId, domainTransaction);
+  const assessment = await assessmentRepository.get(assessmentId);
 
   if (assessment.state !== Assessment.states.STARTED) {
     throw new NotInProgressAssessmentError(assessmentId);
@@ -23,7 +22,7 @@ const correctAnswer = async function ({
     throw new ChallengeNotAskedError();
   }
 
-  const activityId = (await activityRepository.getLastActivity(assessmentId, domainTransaction)).id;
+  const activityId = (await activityRepository.getLastActivity(assessmentId)).id;
   const challenge = await challengeRepository.get(activityAnswer.challengeId);
   const examiner = injectedExaminer ?? new Examiner({ validator: challenge.validator });
   const correctedAnswer = examiner.evaluate({
@@ -31,7 +30,7 @@ const correctAnswer = async function ({
     challengeFormat: challenge.format,
   });
 
-  return await activityAnswerRepository.save({ ...correctedAnswer, activityId }, domainTransaction);
+  return await activityAnswerRepository.save({ ...correctedAnswer, activityId });
 };
 
 export { correctAnswer };

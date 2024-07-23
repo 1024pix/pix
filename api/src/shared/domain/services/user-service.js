@@ -19,8 +19,8 @@ async function createUserWithPassword({
   let savedUser;
   const userToAdd = UserToCreate.create(user);
 
-  await DomainTransaction.execute(async (domainTransaction) => {
-    savedUser = await userToCreateRepository.create({ user: userToAdd, domainTransaction });
+  await DomainTransaction.execute(async () => {
+    savedUser = await userToCreateRepository.create({ user: userToAdd });
 
     const authenticationMethod = _buildPasswordAuthenticationMethod({
       userId: savedUser.id,
@@ -29,7 +29,6 @@ async function createUserWithPassword({
 
     await authenticationMethodRepository.create({
       authenticationMethod,
-      domainTransaction,
     });
   });
 
@@ -51,12 +50,11 @@ async function updateUsernameAndAddPassword({
   authenticationMethodRepository,
   userRepository,
 }) {
-  return DomainTransaction.execute(async (domainTransaction) => {
-    await userRepository.updateUsername({ id: userId, username, domainTransaction });
+  return DomainTransaction.execute(async () => {
+    await userRepository.updateUsername({ id: userId, username });
     return authenticationMethodRepository.createPasswordThatShouldBeChanged({
       userId,
       hashedPassword,
-      domainTransaction,
     });
   });
 }
@@ -82,12 +80,11 @@ async function createAndReconcileUserToOrganizationLearner({
 }) {
   const userToAdd = UserToCreate.create(user);
 
-  return DomainTransaction.execute(async (domainTransaction) => {
+  return DomainTransaction.execute(async () => {
     let authenticationMethod;
 
     const createdUser = await userToCreateRepository.create({
       user: userToAdd,
-      domainTransaction,
     });
 
     if (samlId) {
@@ -104,13 +101,11 @@ async function createAndReconcileUserToOrganizationLearner({
 
     await authenticationMethodRepository.create({
       authenticationMethod,
-      domainTransaction,
     });
 
     await organizationLearnerRepository.updateUserIdWhereNull({
       organizationLearnerId,
       userId: createdUser.id,
-      domainTransaction,
     });
 
     return createdUser.id;

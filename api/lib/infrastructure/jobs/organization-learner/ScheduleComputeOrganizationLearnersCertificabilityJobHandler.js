@@ -1,7 +1,6 @@
 import cronParser from 'cron-parser';
 import dayjs from 'dayjs';
 
-import { knex } from '../../../../db/knex-database-connection.js';
 import { withTransaction } from '../../../../src/shared/domain/DomainTransaction.js';
 import { ComputeCertificabilityJob } from './ComputeCertificabilityJob.js';
 import { ScheduleComputeOrganizationLearnersCertificabilityJob } from './ScheduleComputeOrganizationLearnersCertificabilityJob.js';

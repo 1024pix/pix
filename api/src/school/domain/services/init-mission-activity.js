@@ -8,15 +8,14 @@ export async function initMissionActivity({
   activityRepository,
   missionAssessmentRepository,
   missionRepository,
-  domainTransaction,
 }) {
   if (lastActivity?.status === Activity.status.STARTED) {
     return lastActivity;
   }
-  const { missionId } = await missionAssessmentRepository.getByAssessmentId(assessmentId, domainTransaction);
+  const { missionId } = await missionAssessmentRepository.getByAssessmentId(assessmentId);
   const mission = await missionRepository.get(missionId);
 
-  const activities = await activityRepository.getAllByAssessmentId(assessmentId, domainTransaction);
+  const activities = await activityRepository.getAllByAssessmentId(assessmentId);
   const activityInfo = getNextActivityInfo({ activities, stepCount: mission.stepCount });
 
   if (activityInfo === END_OF_MISSION) {
@@ -36,5 +35,5 @@ export async function initMissionActivity({
     alternativeVersion,
   });
 
-  return activityRepository.save(activity, domainTransaction);
+  return activityRepository.save(activity);
 }

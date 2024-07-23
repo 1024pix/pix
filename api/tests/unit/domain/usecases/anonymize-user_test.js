@@ -42,7 +42,6 @@ describe('Unit | UseCase | anonymize-user', function () {
       role,
     });
 
-
     const userRepository = {
       get: sinon.stub(),
       updateUserDetailsForAdministration: sinon.stub(),
