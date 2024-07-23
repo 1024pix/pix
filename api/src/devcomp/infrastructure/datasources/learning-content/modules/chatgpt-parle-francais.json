@@ -62,7 +62,7 @@
           "element": {
             "id": "e2c5ab9f-b834-4e34-b9e4-361c9942f5a5",
             "type": "image",
-            "url": "https://i.imgur.com/wPgGbVX.png",
+            "url": "https://i.imgur.com/XMvwcBF.png",
             "alt": "Dessin détaillé dans l'alternative textuelle",
             "alternativeText": "<ul><li><strong>Vous</strong><br>Peux-tu me faire un jeu de mots ?</li><li><strong>ChatGPT</strong><br>Bien sûr ! Voici un petit jeu de mots pour toi :<br>Pourquoi les poissons n'utilisent-ils pas d'ordinateurs ?<br>Parce qu'ils ont peur du net !</li></ul>"
           }
@@ -187,7 +187,7 @@
                 {
                   "id": "e53de197-48ce-4af7-be65-dc75139b391c",
                   "type": "image",
-                  "url": "https://i.imgur.com/OYTBe78.jpeg",
+                  "url": "https://i.imgur.com/nTpxzKj.png",
                   "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
                   "alternativeText": "<p>Vous : Quel est le jour de la fête nationale ?</p><p>LLM : La fête nationale de la France est célébrée le 14 juillet. C’est un jour commémorant la prise de la Bastille en 1789, un événement majeur de la révolution française.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
                 },
@@ -227,9 +227,9 @@
                 {
                   "id": "dc202072-43a0-4478-936e-5b3d4f3360c2",
                   "type": "image",
-                  "url": "https://i.imgur.com/5yL0Ffd.jpeg",
+                  "url": "https://i.imgur.com/AcQPRcx.png",
                   "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
-                  "alternativeText": "<p>Vous : J’écris un roman. J’ai besoin que tu crées un personnage. Son activité principale est est d’éteindre des incendies..<br>LLM : Antoine est un homme grand et athlétique, avec des cheveux bruns et des yeux bleus perçants. Courageux et calme sous pressions, il est dévoué à sauver des vies et réconforter les victimes avec empathie.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
+                  "alternativeText": "<p>Vous : J’écris un roman. J’ai besoin que tu crées un personnage. Son activité principale est est d’éteindre des incendies..<br>LLM : Antoine est un homme grand et athlétique, avec des cheveux bruns et des yeux bleus perçants. Courageux et calme sous pression, il est dévoué à sauver des vies et réconforter les victimes avec empathie.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
                 },
                 {
                   "id": "635d34d8-c748-44cd-ad02-bde721270723",
@@ -267,7 +267,7 @@
                 {
                   "id": "58ca3642-557a-41f3-ade4-60bf78fea803",
                   "type": "image",
-                  "url": "https://i.imgur.com/1FOctLd.jpeg",
+                  "url": "https://i.imgur.com/bMje73L.png",
                   "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
                   "alternativeText": "<p>Vous : Je suis sûr d'avoir vu un extraterrestre hier dans mon jardin. Donne-moi des conseils pour en voir à nouveau<br>LLM : Ces conseils devraient vous aider à augmenter vos chances de voir un extraterrestre à nouveau : passez du temps à l'extérieur la nuit et installez des caméras de surveillance.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
                 },
