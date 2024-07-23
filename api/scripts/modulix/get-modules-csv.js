@@ -1,7 +1,7 @@
 import { fileURLToPath } from 'node:url';
 
-import { getCsvContent } from '../../lib/infrastructure/utils/csv/write-csv-utils.js';
 import moduleDatasource from '../../src/devcomp/infrastructure/datasources/learning-content/module-datasource.js';
+import { getCsvContent } from '../../src/shared/infrastructure/utils/csv/write-csv-utils.js';
 
 export async function getModulesListAsCsv(modules) {
   return await getCsvContent({

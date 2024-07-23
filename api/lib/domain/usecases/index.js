@@ -98,6 +98,7 @@ import * as skillRepository from '../../../src/shared/infrastructure/repositorie
 import * as targetProfileForAdminRepository from '../../../src/shared/infrastructure/repositories/target-profile-for-admin-repository.js';
 import * as userLoginRepository from '../../../src/shared/infrastructure/repositories/user-login-repository.js';
 import * as codeUtils from '../../../src/shared/infrastructure/utils/code-utils.js';
+import * as writeCsvUtils from '../../../src/shared/infrastructure/utils/csv/write-csv-utils.js';
 import * as dateUtils from '../../../src/shared/infrastructure/utils/date-utils.js';
 import { injectDependencies } from '../../../src/shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../src/shared/infrastructure/utils/import-named-exports-from-directory.js';
@@ -162,7 +163,6 @@ import * as thematicRepository from '../../infrastructure/repositories/thematic-
 import * as tubeRepository from '../../infrastructure/repositories/tube-repository.js';
 import * as stageCollectionRepository from '../../infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
 import * as userOrganizationsForAdminRepository from '../../infrastructure/repositories/user-organizations-for-admin-repository.js';
-import * as writeCsvUtils from '../../infrastructure/utils/csv/write-csv-utils.js';
 import * as learningContentConversionService from '../services/learning-content/learning-content-conversion-service.js';
 import * as userReconciliationService from '../services/user-reconciliation-service.js';
 import * as organizationCreationValidator from '../validators/organization-creation-validator.js';

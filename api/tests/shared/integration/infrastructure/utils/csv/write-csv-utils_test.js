@@ -1,6 +1,6 @@
-import { CsvParsingError } from '../../../../../lib/domain/errors.js';
-import { getCsvContent } from '../../../../../lib/infrastructure/utils/csv/write-csv-utils.js';
-import { catchErr, expect } from '../../../../test-helper.js';
+import { CsvParsingError } from '../../../../../../lib/domain/errors.js';
+import { getCsvContent } from '../../../../../../src/shared/infrastructure/utils/csv/write-csv-utils.js';
+import { catchErr, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Infrastructure | Utils | csv | write-csv-utils', function () {
   it('should return a csv content according to fileHeaders data', async function () {
