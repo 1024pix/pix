@@ -1,10 +1,9 @@
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
-import { usecases } from '../../../../../lib/domain/usecases/index.js';
 import { OrganizationForAdmin } from '../../../../../src/organizational-entities/domain/models/OrganizationForAdmin.js';
+import { usecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
-const { updateOrganizationInformation } = usecases;
 
-describe('Unit | UseCase | organizations-administration | update-organization-information', function () {
+describe('Unit | Organizational Entities | Domain | UseCase | update-organization-information', function () {
   let organizationForAdminRepository, tagRepository;
 
   beforeEach(function () {
@@ -32,7 +31,7 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
     const tagsToUpdate = Symbol('tagsToUpdate');
     tagRepository.findByIds.withArgs(givenOrganization.tagIds, domainTransaction).resolves(tagsToUpdate);
     // when
-    const result = await updateOrganizationInformation({
+    const result = await usecases.updateOrganizationInformation({
       organization: givenOrganization,
       organizationForAdminRepository,
       tagRepository,
@@ -60,7 +59,7 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
       organizationForAdminRepository.get.rejects(new NotFoundError('Not found organization'));
 
       // when
-      const error = await catchErr(updateOrganizationInformation)({
+      const error = await catchErr(usecases.updateOrganizationInformation)({
         organization: givenOrganization,
         organizationForAdminRepository,
       });
