@@ -23,6 +23,7 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
  * @typedef {import('../../infrastructure/repositories/index.js').SessionRepository} SessionRepository
  * @typedef {import('../../infrastructure/repositories/index.js').SessionForSupervisingRepository} SessionForSupervisingRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationReportRepository} CertificationReportRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').CompetenceMarkRepository} CompetenceMarkRepository
  * @typedef {import('../../infrastructure/repositories/index.js').ComplementaryCertificationCourseResultRepository} ComplementaryCertificationCourseResultRepository
  * @typedef {import('../../infrastructure/storage/cpf-receipts-storage.js')} CpfReceiptsStorage
  * @typedef {import('../../infrastructure/storage/cpf-exports-storage.js')} CpfExportsStorage
@@ -35,6 +36,7 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
  *
  * @typedef {assessmentRepository} AssessmentRepository
  * @typedef {certificationBadgesService} CertificationBadgesService
+ * @typedef {competenceMarkRepository} CompetenceMarkRepository
  * @typedef {certificationCourseRepository} CertificationCourseRepository
  * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
  * @typedef {certificationOfficerRepository} CertificationOfficerRepository

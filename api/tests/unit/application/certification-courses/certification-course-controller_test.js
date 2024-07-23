@@ -6,7 +6,6 @@ import { domainBuilder, expect, generateValidRequestAuthorizationHeader, hFake, 
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 
 describe('Unit | Controller | certification-course-controller', function () {
-  let certificationDetailsSerializer;
   let certificationCourseSerializer;
   let juryCertificationSerializer;
   let certificationSerializer;
@@ -15,9 +14,6 @@ describe('Unit | Controller | certification-course-controller', function () {
   let requestResponseUtils;
 
   beforeEach(function () {
-    certificationDetailsSerializer = {
-      serialize: sinon.stub(),
-    };
     certificationCourseSerializer = {
       serialize: sinon.stub(),
       serializeFromCertificationCourse: sinon.stub(),
@@ -38,61 +34,6 @@ describe('Unit | Controller | certification-course-controller', function () {
       get: sinon.stub(),
     };
     requestResponseUtils = { extractLocaleFromRequest: sinon.stub() };
-  });
-
-  describe('#getCertificationDetails', function () {
-    it('should return a serialized certification details', async function () {
-      // given
-      sinon.stub(usecases, 'getCertificationDetails');
-      const certificationCourseId = 1234;
-      const request = {
-        params: {
-          id: certificationCourseId,
-        },
-      };
-
-      usecases.getCertificationDetails.withArgs({ certificationCourseId }).resolves(
-        domainBuilder.buildCertificationDetails({
-          competencesWithMark: [
-            {
-              areaCode: '1',
-              id: 'recComp1',
-              index: '1.1',
-              name: 'Manger des fruits',
-              obtainedLevel: 1,
-              obtainedScore: 5,
-              positionedLevel: 3,
-              positionedScore: 45,
-            },
-          ],
-          createdAt: '12-02-2000',
-          completedAt: '15-02-2000',
-          id: 456,
-          listChallengesAndAnswers: [
-            {
-              challengeId: 'rec123',
-              competence: '1.1',
-              result: 'ok',
-              skill: 'manger une mangue',
-              value: 'prout',
-            },
-          ],
-          percentageCorrectAnswers: 100,
-          status: 'started',
-          totalScore: 5,
-          userId: 123,
-        }),
-      );
-      certificationDetailsSerializer.serialize.returns('ok');
-
-      // when
-      const result = await certificationCourseController.getCertificationDetails(request, hFake, {
-        certificationDetailsSerializer,
-      });
-
-      // then
-      expect(result).to.deep.equal('ok');
-    });
   });
 
   describe('#getJuryCertification', function () {
