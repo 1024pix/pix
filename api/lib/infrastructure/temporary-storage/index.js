@@ -2,8 +2,8 @@ import { config } from '../../../src/shared/config.js';
 
 const redisUrl = config.temporaryStorage.redisUrl;
 
+import { RedisTemporaryStorage } from '../../../src/shared/infrastructure/temporary-storage/RedisTemporaryStorage.js';
 import { InMemoryTemporaryStorage } from './InMemoryTemporaryStorage.js';
-import { RedisTemporaryStorage } from './RedisTemporaryStorage.js';
 
 function _createTemporaryStorage() {
   if (redisUrl) {

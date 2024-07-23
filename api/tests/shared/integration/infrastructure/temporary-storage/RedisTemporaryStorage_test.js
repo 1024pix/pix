@@ -1,8 +1,8 @@
 import { randomUUID } from 'node:crypto';
 
-import { RedisTemporaryStorage } from '../../../../lib/infrastructure/temporary-storage/RedisTemporaryStorage.js';
-import { config as settings } from '../../../../src/shared/config.js';
-import { expect } from '../../../test-helper.js';
+import { config as settings } from '../../../../../src/shared/config.js';
+import { RedisTemporaryStorage } from '../../../../../src/shared/infrastructure/temporary-storage/RedisTemporaryStorage.js';
+import { expect } from '../../../../test-helper.js';
 
 const REDIS_URL = settings.redis.url;
 
