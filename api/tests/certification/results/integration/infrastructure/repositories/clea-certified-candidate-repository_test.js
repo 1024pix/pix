@@ -1,7 +1,7 @@
-import * as cleaCertifiedCandidateRepository from '../../../../lib/infrastructure/repositories/clea-certified-candidate-repository.js';
-import { databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
+import * as cleaCertifiedCandidateRepository from '../../../../../../src/certification/results/infrastructure/repositories/clea-certified-candidate-repository.js';
+import { databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';
 
-describe('Integration | Repository | clea-certified-candidate-repository', function () {
+describe('Certification | Results | Integration | Infrastructure | Repository | clea-certified-candidate-repository', function () {
   describe('#getBySessionId', function () {
     describe('when there are candidates for Clea certification in the session', function () {
       it('returns the list of clea certified candidates', async function () {

@@ -132,7 +132,6 @@ import * as certificationLsRepository from '../../infrastructure/repositories/ce
 import * as certificationPointOfContactRepository from '../../infrastructure/repositories/certification-point-of-contact-repository.js';
 import * as certificationRepository from '../../infrastructure/repositories/certification-repository.js';
 import * as certificationResultRepository from '../../infrastructure/repositories/certification-result-repository.js';
-import * as cleaCertifiedCandidateRepository from '../../infrastructure/repositories/clea-certified-candidate-repository.js';
 import * as competenceMarkRepository from '../../infrastructure/repositories/competence-mark-repository.js';
 import * as competenceTreeRepository from '../../infrastructure/repositories/competence-tree-repository.js';
 import * as complementaryCertificationCourseResultRepository from '../../infrastructure/repositories/complementary-certification-course-result-repository.js';
@@ -246,7 +245,6 @@ const dependencies = {
   certificationRepository,
   certificationResultRepository,
   challengeRepository,
-  cleaCertifiedCandidateRepository,
   codeGenerator,
   codeUtils,
   competenceEvaluationRepository,
