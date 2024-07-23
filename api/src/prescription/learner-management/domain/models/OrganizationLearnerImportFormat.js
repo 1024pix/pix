@@ -23,6 +23,16 @@ class OrganizationLearnerImportFormat {
     return this.orderedDisplayabledColumns.map((column) => column.name);
   }
 
+  get extraColumns() {
+    return this.orderedDisplayabledColumns.map((column) => {
+      const { name: key } = this.config.headers.find((header) => header.key === column.key);
+      return {
+        name: column.name,
+        key,
+      };
+    });
+  }
+
   /**
    * @function
    * Transform form params into a repository compliant params
