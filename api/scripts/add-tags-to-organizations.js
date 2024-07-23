@@ -7,7 +7,7 @@ import lodash from 'lodash';
 
 import { OrganizationTag } from '../lib/domain/models/OrganizationTag.js';
 import * as organizationTagRepository from '../lib/infrastructure/repositories/organization-tag-repository.js';
-import * as tagRepository from '../lib/infrastructure/repositories/tag-repository.js';
+import { tagRepository } from '../src/organizational-entities/infrastructure/repositories/tag.repository.js';
 import { parseCsv } from './helpers/csvHelpers.js';
 
 const { uniq } = lodash;

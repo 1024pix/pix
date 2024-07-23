@@ -63,6 +63,7 @@ import * as userRepository from '../../../src/identity-access-management/infrast
 import { userEmailRepository } from '../../../src/identity-access-management/infrastructure/repositories/user-email.repository.js';
 import { userToCreateRepository } from '../../../src/identity-access-management/infrastructure/repositories/user-to-create.repository.js';
 import { organizationForAdminRepository } from '../../../src/organizational-entities/infrastructure/repositories/organization-for-admin.repository.js';
+import { tagRepository } from '../../../src/organizational-entities/infrastructure/repositories/tag.repository.js';
 import * as campaignManagementRepository from '../../../src/prescription/campaign/infrastructure/repositories/campaign-management-repository.js';
 import * as divisionRepository from '../../../src/prescription/campaign/infrastructure/repositories/division-repository.js';
 import * as campaignAssessmentParticipationRepository from '../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-assessment-participation-repository.js';
@@ -152,7 +153,6 @@ import * as participantResultRepository from '../../infrastructure/repositories/
 import { participantResultsSharedRepository } from '../../infrastructure/repositories/participant-results-shared-repository.js';
 import * as poleEmploiSendingRepository from '../../infrastructure/repositories/pole-emploi-sending-repository.js';
 import * as studentRepository from '../../infrastructure/repositories/student-repository.js';
-import * as tagRepository from '../../infrastructure/repositories/tag-repository.js';
 import * as targetProfileForUpdateRepository from '../../infrastructure/repositories/target-profile-for-update-repository.js';
 import * as targetProfileRepository from '../../infrastructure/repositories/target-profile-repository.js';
 import * as targetProfileShareRepository from '../../infrastructure/repositories/target-profile-share-repository.js';

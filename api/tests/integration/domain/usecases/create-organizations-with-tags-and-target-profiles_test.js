@@ -11,9 +11,9 @@ import * as organizationValidator from '../../../../lib/domain/validators/organi
 import { DomainTransaction as domainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import * as dataProtectionOfficerRepository from '../../../../lib/infrastructure/repositories/data-protection-officer-repository.js';
 import * as organizationTagRepository from '../../../../lib/infrastructure/repositories/organization-tag-repository.js';
-import * as tagRepository from '../../../../lib/infrastructure/repositories/tag-repository.js';
 import * as targetProfileShareRepository from '../../../../lib/infrastructure/repositories/target-profile-share-repository.js';
 import { organizationForAdminRepository } from '../../../../src/organizational-entities/infrastructure/repositories/organization-for-admin.repository.js';
+import { tagRepository } from '../../../../src/organizational-entities/infrastructure/repositories/tag.repository.js';
 import * as schoolRepository from '../../../../src/school/infrastructure/repositories/school-repository.js';
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
 import { EntityValidationError } from '../../../../src/shared/domain/errors.js';

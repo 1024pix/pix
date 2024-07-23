@@ -6,12 +6,14 @@ import { injectDependencies } from '../../../shared/infrastructure/utils/depende
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as organizationFeatureRepository from '../../infrastructure/repositories/organization-feature-repository.js';
 import { organizationForAdminRepository } from '../../infrastructure/repositories/organization-for-admin.repository.js';
+import { tagRepository } from '../../infrastructure/repositories/tag.repository.js';
 
 const path = dirname(fileURLToPath(import.meta.url));
 
 /**
  * @typedef {import ('../../infrastructure/repositories/organization-feature-repository.js')} OrganizationFeatureRepository
  * @typedef {import ('../../infrastructure/repositories/organization-for-admin.repository.js')} OrganizationForAdminRepository
+ * @typedef {import ('../../infrastructure/repositories/tag.repository.js')} TagRepository
  * @typedef {import ('../../../school/infrastructure/repositories/school-repository.js')} SchoolRepository
  */
 
@@ -19,6 +21,7 @@ const repositories = {
   organizationForAdminRepository,
   organizationFeatureRepository,
   schoolRepository,
+  tagRepository,
 };
 
 const dependencies = Object.assign({}, repositories);
@@ -33,6 +36,7 @@ const usecasesWithoutInjectedDependencies = {
  * @property {attachChildOrganizationToOrganization} attachChildOrganizationToOrganization
  * @property {getOrganizationDetails} getOrganizationDetails
  * @property {updateOrganizationsInBatch} updateOrganizationsInBatch
+ * @property {updateOrganizationInformation} updateOrganizationInformation
  */
 
 /**
