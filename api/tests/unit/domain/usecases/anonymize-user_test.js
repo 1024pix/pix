@@ -30,9 +30,14 @@ describe('Unit | UseCase | anonymize-user', function () {
       firstName: '(anonymised)',
       lastName: '(anonymised)',
       email: null,
+      emailConfirmedAt: null,
       username: null,
       hasBeenAnonymised: true,
       hasBeenAnonymisedBy: 2,
+      lastTermsOfServiceValidatedAt: null,
+      lastPixOrgaTermsOfServiceValidatedAt: null,
+      lastPixCertifTermsOfServiceValidatedAt: null,
+      lastDataProtectionPolicySeenAt: null,
       updatedAt: now,
     };
     const expectedAnonymizedUser = Symbol('anonymized user');
