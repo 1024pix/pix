@@ -21,23 +21,6 @@ function _toDomain(bookshelfCertificationCenter) {
   });
 }
 
-function _setSearchFiltersForQueryBuilder(filters, qb) {
-  const { id, name, type, externalId } = filters;
-
-  if (id) {
-    qb.whereRaw('CAST(id as TEXT) LIKE ?', `%${id.toString().toLowerCase()}%`);
-  }
-  if (name) {
-    qb.whereILike('name', `%${name}%`);
-  }
-  if (type) {
-    qb.whereILike('type', `%${type}%`);
-  }
-  if (externalId) {
-    qb.whereILike('externalId', `%${externalId}%`);
-  }
-}
-
 /**
  *@deprecated implemented without bookshelf in {@link file://./../../../session-management/infrastructure/repositories/center-repository.js}
  * note that the new implementations does not provide the lazy loading on habilitations
@@ -92,25 +75,6 @@ const save = async function ({ certificationCenter }) {
   return _toDomain(certificationCenterBookshelf);
 };
 
-const findPaginatedFiltered = async function ({ filter, page }) {
-  const certificationCenterBookshelf = await BookshelfCertificationCenter.query((qb) => {
-    _setSearchFiltersForQueryBuilder(filter, qb);
-    qb.orderBy('id');
-  }).fetchPage({
-    page: page.number,
-    pageSize: page.size,
-    withRelated: [
-      {
-        habilitations: function (query) {
-          query.orderBy('id');
-        },
-      },
-    ],
-  });
-  const { models, pagination } = certificationCenterBookshelf;
-  return { models: models.map(_toDomain), pagination };
-};
-
 const findByExternalId = async function ({ externalId }) {
   const certificationCenterBookshelf = await BookshelfCertificationCenter.where({ externalId }).fetch({
     require: false,
@@ -141,4 +105,4 @@ const getRefererEmails = async function ({ id }) {
   return refererEmails;
 };
 
-export { findByExternalId, findPaginatedFiltered, get, getBySessionId, getRefererEmails, save };
+export { findByExternalId, get, getBySessionId, getRefererEmails, save };
