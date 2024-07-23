@@ -1,5 +1,42 @@
 # Pix Changelog
 
+## v4.186.0 (23/07/2024)
+
+
+### :rocket: Amélioration
+- [#9611](https://github.com/1024pix/pix/pull/9611) [FEATURE] Découper l'import FREGATA en trois (PIX-11946).
+- [#9627](https://github.com/1024pix/pix/pull/9627) [FEATURE] Ne pas afficher le bandeau de téléchargement pour les Import Onde (PIX-13539).
+- [#9625](https://github.com/1024pix/pix/pull/9625) [FEATURE] Ajouter un message d'alerte quand l'utilisateur ne saisit qu'une réponse dans un QCM. (Pix-13380).
+- [#9623](https://github.com/1024pix/pix/pull/9623) [FEATURE] Ajouter dans le didacticiel un simulateur avec auto-complétion (PIX-13093).
+- [#9580](https://github.com/1024pix/pix/pull/9580) [FEATURE] Supprimer les demandes de resets de password à l'anoymisation (PIX-11580).
+- [#9488](https://github.com/1024pix/pix/pull/9488) [FEATURE] Afficher un simulateur dans Modulix (PIX-13092).
+- [#9608](https://github.com/1024pix/pix/pull/9608) [FEATURE] Ajout de 2 catégories aux Profiles Cibles (PIX-13511).
+
+### :building_construction: Tech
+- [#9619](https://github.com/1024pix/pix/pull/9619) [TECH] Migrer la route POST /api/organizations/{id}/invitations dans src/team (PIX-13527).
+- [#9617](https://github.com/1024pix/pix/pull/9617) [TECH] Migration de la route /api/sessions/{id}/candidates-import-sheet vers certification/enrolment (PIX-13532).
+- [#9618](https://github.com/1024pix/pix/pull/9618) [TECH] Migrer la route PATCH admin-members/:id/deactivate (PIX-13541).
+- [#9586](https://github.com/1024pix/pix/pull/9586) [TECH] Déplacement de plusieurs erreurs concernant l'utilisateur vers `src`.
+- [#9601](https://github.com/1024pix/pix/pull/9601) [TECH] Migrer la route POST /api/certification-candidates/{id}/authorize-to-start (PIX-13520).
+- [#9603](https://github.com/1024pix/pix/pull/9603) [TECH] Migrer la route PATCH  /api/admin/admin-members/{id} (PIX-13515 ).
+- [#9605](https://github.com/1024pix/pix/pull/9605) [TECH] Migration de la route /api/admin/sessions/{id} vers certification/session-management (PIX-13526).
+- [#9604](https://github.com/1024pix/pix/pull/9604) [TECH] Migration de la route admin/sessions vers /certification/session-management (PIX-13526).
+- [#9598](https://github.com/1024pix/pix/pull/9598) [TECH] Planifier des rescoring de certifications (PIX-13444).
+- [#9599](https://github.com/1024pix/pix/pull/9599) [TECH] Déplacer des fichiers isolés vers src/shared (PIX-13516).
+- [#9584](https://github.com/1024pix/pix/pull/9584) [TECH] Déplace `YamlParsingError` vers les erreurs partagées de `src`.
+
+### :arrow_up: Montée de version
+- [#9633](https://github.com/1024pix/pix/pull/9633) [BUMP] Update dependency @1024pix/ember-testing-library to ^3.0.2 (certif).
+- [#9632](https://github.com/1024pix/pix/pull/9632) [BUMP] Update dependency @1024pix/ember-testing-library to ^3.0.2 (admin).
+- [#9630](https://github.com/1024pix/pix/pull/9630) [BUMP] Update dependency @1024pix/ember-testing-library to ^3.0.2 (junior).
+- [#9622](https://github.com/1024pix/pix/pull/9622) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.10 (admin).
+- [#9615](https://github.com/1024pix/pix/pull/9615) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.10 (mon-pix).
+- [#9614](https://github.com/1024pix/pix/pull/9614) [BUMP] Update dependency ember-eslint-parser to ^0.5.0 (mon-pix).
+- [#9612](https://github.com/1024pix/pix/pull/9612) [BUMP] Update dependency @1024pix/ember-testing-library to v3 (mon-pix).
+- [#9610](https://github.com/1024pix/pix/pull/9610) [BUMP] Update dependency @1024pix/ember-testing-library to v3 (certif).
+- [#9607](https://github.com/1024pix/pix/pull/9607) [BUMP] Update dependency @1024pix/ember-testing-library to v3 (orga).
+- [#9606](https://github.com/1024pix/pix/pull/9606) [BUMP] Update dependency @1024pix/ember-testing-library to v3 (junior).
+
 ## v4.185.0 (19/07/2024)
 
 
