@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import * as mailService from '../../../../lib/domain/services/mail-service.js';
 import * as organizationRepository from '../../../../src/shared/infrastructure/repositories/organization-repository.js';
 import * as certificationCenterRepository from '../../../certification/shared/infrastructure/repositories/certification-center-repository.js';
+import { refreshTokenService } from '../../../identity-access-management/domain/services/refresh-token-service.js';
 import * as userRepository from '../../../identity-access-management/infrastructure/repositories/user.repository.js';
 import { adminMemberRepository } from '../../../shared/infrastructure/repositories/admin-member.repository.js';
 import * as membershipRepository from '../../../shared/infrastructure/repositories/membership-repository.js';
@@ -30,6 +31,7 @@ const dependencies = {
   organizationInvitationService,
   organizationInvitationRepository,
   organizationRepository,
+  refreshTokenService,
   userRepository,
 };
 
