@@ -1,5 +1,5 @@
-import { endAssessmentBySupervisor } from '../../../../../../src/certification/course/domain/usecases/end-assessment-by-supervisor.js';
 import { CertificationAssessment } from '../../../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
+import { endAssessmentBySupervisor } from '../../../../../../src/certification/session-management/domain/usecases/end-assessment-by-supervisor.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | end-assessment-by-supervisor', function () {

@@ -6,7 +6,6 @@ import { fileURLToPath } from 'node:url';
 import * as complementaryCertificationCourseRepository from '../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-course-repository.js';
 import * as complementaryCertificationRepository from '../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-repository.js';
 import * as targetProfileHistoryRepository from '../../../src/certification/complementary-certification/infrastructure/repositories/target-profile-history-repository.js';
-import { endAssessmentBySupervisor } from '../../../src/certification/course/domain/usecases/end-assessment-by-supervisor.js';
 import { getNextChallengeForV2Certification } from '../../../src/certification/course/domain/usecases/get-next-challenge-for-v2-certification.js';
 import { getNextChallengeForV3Certification } from '../../../src/certification/course/domain/usecases/get-next-challenge-for-v3-certification.js';
 import * as certificationCpfService from '../../../src/certification/enrolment/domain/services/certification-cpf-service.js';
@@ -366,7 +365,6 @@ const usecasesWithoutInjectedDependencies = {
   getNextChallengeForV2Certification,
   getNextChallengeForV3Certification,
   getCenterForAdmin,
-  endAssessmentBySupervisor,
 };
 
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);

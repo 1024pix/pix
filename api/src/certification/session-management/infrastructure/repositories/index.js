@@ -39,6 +39,7 @@ import * as supervisorAccessRepository from './supervisor-access-repository.js';
  * @typedef {supervisorAccessRepository} SupervisorAccessRepository
  * @typedef {certificationReportRepository} CertificationReportRepository
  * @typedef {complementaryCertificationCourseResultRepository} ComplementaryCertificationCourseResultRepository
+ * @typedef {certificationAssessmentRepository} CertificationAssessmentRepository
  */
 const repositoriesWithoutInjectedDependencies = {
   assessmentRepository,
@@ -59,6 +60,7 @@ const repositoriesWithoutInjectedDependencies = {
   supervisorAccessRepository,
   certificationReportRepository,
   complementaryCertificationCourseResultRepository,
+  certificationAssessmentRepository,
 };
 
 /**
