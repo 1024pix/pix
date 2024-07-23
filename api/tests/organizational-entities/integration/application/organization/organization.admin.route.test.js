@@ -14,7 +14,7 @@ import { securityPreHandlers } from '../../../../../src/shared/application/secur
 import { CsvImportError, NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Organizational Entities | Application | Router | organization', function () {
+describe('Integration | Organizational Entities | Application | Route | Admin | Organization', function () {
   let httpTestServer;
 
   beforeEach(async function () {
