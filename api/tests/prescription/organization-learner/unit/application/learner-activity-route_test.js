@@ -1,6 +1,5 @@
 import { learnerActivityController } from '../../../../../src/prescription/organization-learner/application/learner-activity-controller.js';
 import * as moduleUnderTest from '../../../../../src/prescription/organization-learner/application/learner-activity-route.js';
-import { organizationLearnerController } from '../../../../../src/prescription/organization-learner/application/organization-learner-controller.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
@@ -53,7 +52,7 @@ describe('Unit | Router | organization-router', function () {
 
     it('should return a HTTP status code 200', async function () {
       // given
-      sinon.stub(organizationLearnerController, 'getLearner').callsFake((request, h) => h.response('ok').code(200));
+      sinon.stub(learnerActivityController, 'getLearner').callsFake((request, h) => h.response('ok').code(200));
       sinon
         .stub(securityPreHandlers, 'checkUserBelongsToLearnersOrganization')
         .callsFake((request, h) => h.response(true));
@@ -69,7 +68,7 @@ describe('Unit | Router | organization-router', function () {
       // then
       expect(response.statusCode).to.equal(200);
       expect(securityPreHandlers.checkUserBelongsToLearnersOrganization).to.have.been.calledBefore(
-        organizationLearnerController.getLearner,
+        learnerActivityController.getLearner,
       );
     });
   });

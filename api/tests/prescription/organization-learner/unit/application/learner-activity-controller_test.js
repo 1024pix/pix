@@ -39,4 +39,39 @@ describe('Unit | Application | Organization-Learner | organization-learner-activ
       expect(response.source).to.equal(serializedActivity);
     });
   });
+
+  describe('#getOrganizationLearner', function () {
+    it('should fetch and return the organization learner, serialized as JSONAPI', async function () {
+      // given
+      const organizationLearnerId = 123;
+      const organizationLearner = Symbol('learner returned by use case');
+      const serializedLearner = Symbol('serialized learner');
+
+      const organizationLearnerSerializer = {
+        serialize: sinon.stub(),
+      };
+      sinon.stub(usecases, 'getOrganizationLearner');
+
+      usecases.getOrganizationLearner.withArgs({ organizationLearnerId }).resolves(organizationLearner);
+
+      organizationLearnerSerializer.serialize.withArgs(organizationLearner).returns(serializedLearner);
+
+      const request = {
+        params: {
+          id: organizationLearnerId,
+        },
+      };
+
+      // when
+      const response = await learnerActivityController.getLearner(request, hFake, {
+        organizationLearnerSerializer,
+      });
+
+      // then
+      expect(usecases.getOrganizationLearner).to.have.been.calledWithExactly({ organizationLearnerId });
+      expect(organizationLearnerSerializer.serialize).to.have.been.calledWithExactly(organizationLearner);
+      expect(response.statusCode).to.equal(200);
+      expect(response.source).to.equal(serializedLearner);
+    });
+  });
 });
