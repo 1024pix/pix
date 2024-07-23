@@ -1,7 +1,13 @@
 import * as moduleUnderTest from '../../../../../src/prescription/organization-place/application/organization-place-route.js';
 import { usecases } from '../../../../../src/prescription/organization-place/domain/usecases/index.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import { domainBuilder, expect, HttpTestServer, sinon } from '../../../../test-helper.js';
+import {
+  domainBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  HttpTestServer,
+  sinon,
+} from '../../../../test-helper.js';
 
 describe('Integration | Application | organization-place-controller', function () {
   let sandbox;
@@ -21,6 +27,7 @@ describe('Integration | Application | organization-place-controller', function (
     sandbox.stub(securityPreHandlers, 'hasAtLeastOneAccessOf');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToOrganization');
     httpTestServer = new HttpTestServer();
+    httpTestServer.setupAuthentication();
     await httpTestServer.register(moduleUnderTest);
   });
 
@@ -45,7 +52,15 @@ describe('Integration | Application | organization-place-controller', function (
         securityPreHandlers.hasAtLeastOneAccessOf.returns(() => true);
 
         // when
-        const response = await httpTestServer.request('GET', `/api/admin/organizations/${organizationId}/places`);
+        const response = await httpTestServer.request(
+          'GET',
+          `/api/admin/organizations/${organizationId}/places`,
+          null,
+          null,
+          {
+            authorization: generateValidRequestAuthorizationHeader(),
+          },
+        );
 
         // then
         expect(response.statusCode).to.equal(200);

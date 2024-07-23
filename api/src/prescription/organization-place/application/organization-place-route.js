@@ -141,6 +141,14 @@ const register = async (server) => {
         ],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/data/organization-places',
+      config: {
+        auth: 'jwt-pix-data',
+        handler: (request, h) => h.response(null).code(200),
+      },
+    },
   ]);
 };
 
