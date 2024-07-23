@@ -10,6 +10,7 @@ const anonymizeUser = async function ({
   organizationLearnerRepository,
   refreshTokenService,
   resetPasswordDemandRepository,
+  userLoginRepository,
   domainTransaction,
   adminMemberRepository,
 }) {
@@ -48,6 +49,8 @@ const anonymizeUser = async function ({
 
   await organizationLearnerRepository.dissociateAllStudentsByUserId({ userId, domainTransaction });
 
+  await _anonymizeUserLogin(user.id, { userLoginRepository });
+
   await userRepository.updateUserDetailsForAdministration({
     id: userId,
     userAttributes: anonymizedUser,
@@ -63,5 +66,14 @@ const anonymizeUser = async function ({
 
   return event;
 };
+
+async function _anonymizeUserLogin(userId, { userLoginRepository }) {
+  const userLogin = await userLoginRepository.findByUserId(userId);
+  if (!userLogin) return;
+
+  const anonymizedUserLogin = userLogin.anonymize();
+
+  await userLoginRepository.update(anonymizedUserLogin);
+}
 
 export { anonymizeUser };

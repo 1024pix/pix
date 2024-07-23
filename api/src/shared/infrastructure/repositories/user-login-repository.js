@@ -1,6 +1,7 @@
 import { knex } from '../../../../db/knex-database-connection.js';
 import { UserLogin } from '../../../identity-access-management/domain/models/UserLogin.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
+import { DomainTransaction } from '../../domain/DomainTransaction.js';
 
 const USER_LOGINS_TABLE_NAME = 'user-logins';
 
@@ -36,8 +37,10 @@ const create = async function (userLogin) {
 };
 
 const update = async function (userLogin) {
+  const knexCtx = DomainTransaction.getConnection();
+
   userLogin.updatedAt = new Date();
-  const [userLoginDTO] = await knex(USER_LOGINS_TABLE_NAME)
+  const [userLoginDTO] = await knexCtx(USER_LOGINS_TABLE_NAME)
     .where({ id: userLogin.id })
     .update(userLogin)
     .returning('*');

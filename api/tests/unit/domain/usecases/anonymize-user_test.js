@@ -1,4 +1,5 @@
 import { UserAnonymized } from '../../../../lib/domain/events/UserAnonymized.js';
+import { UserLogin } from '../../../../lib/domain/models/index.js';
 import { anonymizeUser } from '../../../../lib/domain/usecases/anonymize-user.js';
 import { expect, sinon } from '../../../test-helper.js';
 
@@ -20,7 +21,8 @@ describe('Unit | UseCase | anonymize-user', function () {
       disables all user's organisation memberships,
       disables all user's certification center memberships,
       disables all user's student prescriptions,
-      and anonymize user`, async function () {
+      anonimizes user login info
+      and anonymizes user`, async function () {
     // given
     const userId = 1;
     const userEmail = 'user@example.com';
@@ -56,8 +58,12 @@ describe('Unit | UseCase | anonymize-user', function () {
       updateUserDetailsForAdministration: sinon.stub(),
       getUserDetailsForAdmin: sinon.stub(),
     };
-    userRepository.get.withArgs(userId).resolves({ email: userEmail });
+    userRepository.get.withArgs(userId).resolves({ id: userId, email: userEmail });
     userRepository.getUserDetailsForAdmin.withArgs(userId).resolves(expectedAnonymizedUser);
+
+    const userLogin = new UserLogin();
+    const userLoginRepository = { findByUserId: sinon.stub(), update: sinon.stub() };
+    userLoginRepository.findByUserId.withArgs(userId).resolves(userLogin);
 
     const authenticationMethodRepository = { removeAllAuthenticationMethodsByUserId: sinon.stub() };
     const refreshTokenService = { revokeRefreshTokensForUserId: sinon.stub() };
@@ -78,8 +84,9 @@ describe('Unit | UseCase | anonymize-user', function () {
       certificationCenterMembershipRepository,
       organizationLearnerRepository,
       resetPasswordDemandRepository,
-      domainTransaction,
       adminMemberRepository,
+      userLoginRepository,
+      domainTransaction,
     });
 
     // then
@@ -89,27 +96,36 @@ describe('Unit | UseCase | anonymize-user', function () {
       userId,
       domainTransaction,
     });
+
     expect(refreshTokenService.revokeRefreshTokensForUserId).to.have.been.calledWithExactly({ userId });
+
     expect(resetPasswordDemandRepository.removeAllByEmail).to.have.been.calledWithExactly(userEmail);
+
     expect(membershipRepository.disableMembershipsByUserId).to.have.been.calledWithExactly({
       userId,
       updatedByUserId,
       domainTransaction,
     });
+
     expect(certificationCenterMembershipRepository.disableMembershipsByUserId).to.have.been.calledWithExactly({
-      updatedByUserId,
       userId,
+      updatedByUserId,
       domainTransaction,
     });
+
     expect(userRepository.updateUserDetailsForAdministration).to.have.been.calledWithExactly({
       id: userId,
       userAttributes: anonymizedUser,
       domainTransaction,
     });
+
     expect(organizationLearnerRepository.dissociateAllStudentsByUserId).to.have.been.calledWithExactly({
       userId,
       domainTransaction,
     });
+
+    expect(userLoginRepository.update).to.have.been.calledWith(userLogin.anonymize());
+
     expect(adminMemberRepository.get).to.have.been.calledWithExactly({ userId: updatedByUserId });
   });
 });
