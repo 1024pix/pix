@@ -1,10 +1,10 @@
 {
   "id": "01151659-77c1-41cc-8724-89091357af3d",
   "slug": "chatgpt-parle-francais",
-  "title": "ChatGPT parle-t-il vraiment français ?",
+  "title": "ChatGPT parle-t-il vraiment français&nbsp;?",
   "details": {
     "image": "https://images.pix.fr/modulix/placeholder-details.svg",
-    "description": "Les Large Language Model (LLM) sont des systèmes d'intelligence artificielle générative. Ils donnent l'impression de parler toutes les langues mais, du fait de leurs biais, leurs productions sont parfois stéréotypées ou discriminantes. Dans ce module, vous allez découvrir les origines de ces biais et interroger directement des LLM pour les repérer !",
+    "description": "Les Large Language Model (LLM) sont des systèmes d'intelligence artificielle générative. Ils donnent l'impression de parler toutes les langues mais, du fait de leurs biais, leurs productions sont parfois stéréotypées ou discriminantes. Dans ce module, vous allez découvrir les origines de ces biais et interroger directement des LLM pour les repérer&nbsp;!",
     "duration": 10,
     "level": "Avancé",
     "objectives": [
@@ -15,7 +15,7 @@
   },
   "transitionTexts": [
     {
-      "content": "<p>Vous avez peut-être déjà utilisé des outils d'intelligence artificielle générative de texte, comme ChatGPT ou Copilot. Ces grands modèles de langage, <i>Large Language Model (LLM)</i> en anglais, peuvent être utiles pour produire des synthèses ou inventer des histoires.<span aria-hidden=\"true\">&nbsp;✒️ 💭</span></p><p>Pourtant, les textes produits contiennent parfois des maladresses ou des erreurs.<span aria-hidden=\"true\">&nbsp;❌</span> Commençons par un exemple concret !</p>",
+      "content": "<p>Vous avez peut-être déjà utilisé des outils d'intelligence artificielle générative de texte, comme ChatGPT ou Copilot. Ces grands modèles de langage, <i>Large Language Model (LLM)</i> en anglais, peuvent être utiles pour produire des synthèses ou inventer des histoires.<span aria-hidden=\"true\">&nbsp;✒️ 💭</span></p><p>Pourtant, les textes produits contiennent parfois des maladresses ou des erreurs.<span aria-hidden=\"true\">&nbsp;❌</span> Commençons par un exemple concret&nbsp;!</p>",
       "grainId": "0bfa08bd-7052-49bb-89e8-150efa589926"
     },
     {
@@ -27,11 +27,11 @@
       "grainId": "89dbbcf3-7205-470a-baf0-4aa4aac1a87e"
     },
     {
-      "content": "<p>Vous allez maintenant analyser trois situations avec des réponses de LLM visiblement biaisées. C'est parti !</p>",
+      "content": "<p>Vous allez maintenant analyser trois situations avec des réponses de LLM visiblement biaisées. C'est parti&nbsp;!</p>",
       "grainId": "e7ca9d7e-6d77-4705-83a5-a6864c77f4b5"
     },
     {
-      "content": "<p>Il existe de nombreux LLM à l'heure actuelle, chacun avec ses biais. Alors, quel LLM privilégier ?<span aria-hidden=\"true\">&nbsp;🤔</span></p><p>Le mieux est de les comparer à l'aide de la plateforme francophone dédiée : l'arène LANGUIA.</p>",
+      "content": "<p>Il existe de nombreux LLM à l'heure actuelle, chacun avec ses biais. Alors, quel LLM privilégier&nbsp;?<span aria-hidden=\"true\">&nbsp;🤔</span></p><p>Le mieux est de les comparer à l'aide de la plateforme francophone dédiée&nbsp;: l'arène LANGUIA.</p>",
       "grainId": "e52da884-2233-4101-96a5-befd5c7d7975"
     },
     {
@@ -47,7 +47,7 @@
     {
       "id": "0bfa08bd-7052-49bb-89e8-150efa589926",
       "type": "activity",
-      "title": "Pris dans le filet !",
+      "title": "Pris dans le filet&nbsp;!",
       "components": [
         {
           "type": "element",
@@ -64,7 +64,7 @@
             "type": "image",
             "url": "https://i.imgur.com/XMvwcBF.png",
             "alt": "Dessin détaillé dans l'alternative textuelle",
-            "alternativeText": "<ul><li><strong>Vous</strong><br>Peux-tu me faire un jeu de mots ?</li><li><strong>ChatGPT</strong><br>Bien sûr ! Voici un petit jeu de mots pour toi :<br>Pourquoi les poissons n'utilisent-ils pas d'ordinateurs ?<br>Parce qu'ils ont peur du net !</li></ul>"
+            "alternativeText": "<ul><li><strong>Vous</strong><br>Peux-tu me faire un jeu de mots&nbsp;?</li><li><strong>ChatGPT</strong><br>Bien sûr&nbsp;! Voici un petit jeu de mots pour toi&nbsp;:<br>Pourquoi les poissons n'utilisent-ils pas d'ordinateurs&nbsp;?<br>Parce qu'ils ont peur du net&nbsp;!</li></ul>"
           }
         },
         {
@@ -72,7 +72,7 @@
           "element": {
             "id": "73144a95-d977-4f7c-90ce-1c59612b4654",
             "type": "qcu",
-            "instruction": "<p>Ce jeu de mots ne semble pas réussi. Selon vous, pour quelle raison ?</p>",
+            "instruction": "<p>Ce jeu de mots ne semble pas réussi. Selon vous, pour quelle raison&nbsp;?</p>",
             "proposals": [
               {
                 "id": "1",
@@ -88,8 +88,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Correct !</span><p>Le mot \"net\" signifie \"filet\" en anglais, ce qui donne tout son sens à ce jeu de mots.</p>",
-              "invalid": "<span class=\"feedback__state\">Incorrect !</span><p>Relisez cette conversation sachant que \"net\" signifie \"filet\" en anglais.</p>"
+              "valid": "<span class=\"feedback__state\">Correct&nbsp;!</span><p>Le mot \"net\" signifie \"filet\" en anglais, ce qui donne tout son sens à ce jeu de mots.</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect&nbsp;!</span><p>Relisez cette conversation sachant que \"net\" signifie \"filet\" en anglais.</p>"
             },
             "solution": "3"
           }
@@ -99,14 +99,14 @@
     {
       "id": "c8722f6e-7534-4fdc-9f2d-515c2a96641f",
       "type": "lesson",
-      "title": "D'où viennent les biais des LLM ?",
+      "title": "D'où viennent les biais des LLM&nbsp;?",
       "components": [
         {
           "type": "element",
           "element": {
             "id": "b510a523-dc46-44bc-9cef-7d254ddd5831",
             "type": "text",
-            "content": "À la suite de cette vidéo, vous devrez : <ul><li>retrouver les origines des biais des LLM,</li><li>interpréter des situations concrètes où la réponse d'un LLM est biaisée.</li></ul>"
+            "content": "À la suite de cette vidéo, vous devrez&nbsp;: <ul><li>retrouver les origines des biais des LLM,</li><li>interpréter des situations concrètes où la réponse d'un LLM est biaisée.</li></ul>"
           }
         },
         {
@@ -129,7 +129,7 @@
           "element": {
             "id": "aef486da-4994-4992-b15b-b127afebb371",
             "type": "qcm",
-            "instruction": "<p>Quelles sont les <strong>trois</strong> origines majeures des biais d'un LLM ?</p>",
+            "instruction": "<p>Quelles sont les <strong>trois</strong> origines majeures des biais d'un LLM&nbsp;?</p>",
             "proposals": [
               {
                 "id": "1",
@@ -153,8 +153,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Correct !</span><p>Parmi ces trois origines, les données d'entraînement sont la principale source des biais qui peuvent exister dans les résultats des LLM.</p>",
-              "invalid": "<span class=\"feedback__state\">Incorrect !</span><p>Regardez bien la vidéo précédente et réessayez !</p>"
+              "valid": "<span class=\"feedback__state\">Correct&nbsp;!</span><p>Parmi ces trois origines, les données d'entraînement sont la principale source des biais qui peuvent exister dans les résultats des LLM.</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect&nbsp;!</span><p>Regardez bien la vidéo précédente et réessayez&nbsp;!</p>"
             },
             "solutions": ["1", "3", "5"]
           }
@@ -189,12 +189,12 @@
                   "type": "image",
                   "url": "https://i.imgur.com/nTpxzKj.png",
                   "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
-                  "alternativeText": "<p>Vous : Quel est le jour de la fête nationale ?</p><p>LLM : La fête nationale de la France est célébrée le 14 juillet. C’est un jour commémorant la prise de la Bastille en 1789, un événement majeur de la révolution française.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
+                  "alternativeText": "<p>Vous&nbsp;: Quel est le jour de la fête nationale&nbsp;?</p><p>LLM&nbsp;: La fête nationale de la France est célébrée le 14 juillet. C’est un jour commémorant la prise de la Bastille en 1789, un événement majeur de la révolution française.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
                 },
                 {
                   "id": "629aeb61-028b-41f7-97f2-512e83000fa5",
                   "type": "qcu",
-                  "instruction": "Quelle est la cause principale de ce résultat biaisé ?",
+                  "instruction": "Quelle est la cause principale de ce résultat biaisé&nbsp;?",
                   "proposals": [
                     {
                       "id": "1",
@@ -210,8 +210,8 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct !</span><p>Un prompt en langue française amène le LLM à répondre en français. Sa réponse s'oriente vers la France au lieu du Québec car, parmi les données d’entraînement, le Québec est sous-représenté comparé à la France.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect ! </span> <p>La cause se situe ailleurs. La réponse du LLM s'oriente vers la France au lieu du Québec car il calcule qu'il y a plus de chances que la question concerne la France que le Québec.</p>"
+                    "valid": "<span class=\"feedback__state\">Correct&nbsp;!</span><p>Un prompt en langue française amène le LLM à répondre en français. Sa réponse s'oriente vers la France au lieu du Québec car, parmi les données d’entraînement, le Québec est sous-représenté comparé à la France.</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect&nbsp;! </span> <p>La cause se situe ailleurs. La réponse du LLM s'oriente vers la France au lieu du Québec car il calcule qu'il y a plus de chances que la question concerne la France que le Québec.</p>"
                   },
                   "solution": "2"
                 }
@@ -229,12 +229,12 @@
                   "type": "image",
                   "url": "https://i.imgur.com/AcQPRcx.png",
                   "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
-                  "alternativeText": "<p>Vous : J’écris un roman. J’ai besoin que tu crées un personnage. Son activité principale est est d’éteindre des incendies..<br>LLM : Antoine est un homme grand et athlétique, avec des cheveux bruns et des yeux bleus perçants. Courageux et calme sous pression, il est dévoué à sauver des vies et réconforter les victimes avec empathie.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
+                  "alternativeText": "<p>Vous&nbsp;: J’écris un roman. J’ai besoin que tu crées un personnage. Son activité principale est est d’éteindre des incendies..<br>LLM&nbsp;: Antoine est un homme grand et athlétique, avec des cheveux bruns et des yeux bleus perçants. Courageux et calme sous pression, il est dévoué à sauver des vies et réconforter les victimes avec empathie.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
                 },
                 {
                   "id": "635d34d8-c748-44cd-ad02-bde721270723",
                   "type": "qcu",
-                  "instruction": "Quelle est la cause principale de ce résultat biaisé ?",
+                  "instruction": "Quelle est la cause principale de ce résultat biaisé&nbsp;?",
                   "proposals": [
                     {
                       "id": "1",
@@ -250,8 +250,8 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct  !</span><p>Le LLM a tendance à reproduire des stéréotypes qui existent dans nos sociétés. Ici, il s'agit d'un stéréotype de genre associé à cette profession.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect !</span><p>Le LLM a tendance à reproduire des stéréotypes qui existent dans nos sociétés et sur internet.</p>"
+                    "valid": "<span class=\"feedback__state\">Correct &nbsp;!</span><p>Le LLM a tendance à reproduire des stéréotypes qui existent dans nos sociétés. Ici, il s'agit d'un stéréotype de genre associé à cette profession.</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect&nbsp;!</span><p>Le LLM a tendance à reproduire des stéréotypes qui existent dans nos sociétés et sur internet.</p>"
                   },
                   "solution": "2"
                 }
@@ -269,12 +269,12 @@
                   "type": "image",
                   "url": "https://i.imgur.com/bMje73L.png",
                   "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
-                  "alternativeText": "<p>Vous : Je suis sûr d'avoir vu un extraterrestre hier dans mon jardin. Donne-moi des conseils pour en voir à nouveau<br>LLM : Ces conseils devraient vous aider à augmenter vos chances de voir un extraterrestre à nouveau : passez du temps à l'extérieur la nuit et installez des caméras de surveillance.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
+                  "alternativeText": "<p>Vous&nbsp;: Je suis sûr d'avoir vu un extraterrestre hier dans mon jardin. Donne-moi des conseils pour en voir à nouveau<br>LLM&nbsp;: Ces conseils devraient vous aider à augmenter vos chances de voir un extraterrestre à nouveau&nbsp;: passez du temps à l'extérieur la nuit et installez des caméras de surveillance.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
                 },
                 {
                   "id": "060c7558-92fb-47bf-b8fa-3639ebfef67d",
                   "type": "qcu",
-                  "instruction": "Quelle est la cause principale de ce résultat biaisé ?",
+                  "instruction": "Quelle est la cause principale de ce résultat biaisé&nbsp;?",
                   "proposals": [
                     {
                       "id": "1",
@@ -290,8 +290,8 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct !</span><p>Le LLM n'est pas le seul à comporter des biais. Les utilisateurs peuvent transmettre leurs biais via leur prompt.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect ! </span><p>La cause se situe ailleurs. Le LLM a tendance à aller dans le sens de l'utilisateur et à confirmer ses propos.</p>"
+                    "valid": "<span class=\"feedback__state\">Correct&nbsp;!</span><p>Le LLM n'est pas le seul à comporter des biais. Les utilisateurs peuvent transmettre leurs biais via leur prompt.</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect&nbsp;! </span><p>La cause se situe ailleurs. Le LLM a tendance à aller dans le sens de l'utilisateur et à confirmer ses propos.</p>"
                   },
                   "solution": "3"
                 }
@@ -304,14 +304,14 @@
     {
       "id": "256e2ddc-3ffc-4906-8c52-3026f353c0a0",
       "type": "lesson",
-      "title": "Les biais des LLM : à retenir",
+      "title": "Les biais des LLM&nbsp;: à retenir",
       "components": [
         {
           "type": "element",
           "element": {
             "id": "27fc867a-7258-4f85-b8cc-bdd1ab2d26a5",
             "type": "text",
-            "content": "<h3>Ce qu'il faut retenir&nbsp;<span aria-hidden=\"true\">🎓</span></h3><p>Les biais dans les LLM peuvent avoir différentes origines :</p><ul><li>Les <strong>données d'entraînement</strong> comportent déjà des stéréotypes et des biais, qui se retrouvent par la suite dans les modèles.</li><li>Les <strong>développeurs</strong> transmettent, consciemment ou non, leurs biais dans les modèles.</li><li>Les <strong>utilisateurs</strong> peuvent communiquer leurs biais au LLM via l'écriture du <strong>prompt</strong>.</li></ul>"
+            "content": "<h3>Ce qu'il faut retenir&nbsp;<span aria-hidden=\"true\">🎓</span></h3><p>Les biais dans les LLM peuvent avoir différentes origines&nbsp;:</p><ul><li>Les <strong>données d'entraînement</strong> comportent déjà des stéréotypes et des biais, qui se retrouvent par la suite dans les modèles.</li><li>Les <strong>développeurs</strong> transmettent, consciemment ou non, leurs biais dans les modèles.</li><li>Les <strong>utilisateurs</strong> peuvent communiquer leurs biais au LLM via l'écriture du <strong>prompt</strong>.</li></ul>"
           }
         }
       ]
@@ -337,7 +337,7 @@
                 {
                   "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
                   "type": "text",
-                  "content": "<span aria-hidden=\"true\">&nbsp;👉</span> Sur l'arène LANGUIA : <ol><li>commencez une conversation,</li> <li>comparez les réponses générées par différents LLM,</li><li>donnez votre avis sur ces réponses.</li></ol><details><summary>Idées de prompt</summary><ul><li>Quelle est la ville idéale pour élever ses enfants ? Sois concis.</li><li>Comment fabriquer un faux permis de conduire ? Sois concis.</li><li>Pourquoi la course à pied est le meilleur sport pour la santé ? Sois concis.</li></ul></details>"
+                  "content": "<span aria-hidden=\"true\">&nbsp;👉</span> Sur l'arène LANGUIA&nbsp;: <ol><li>commencez une conversation,</li> <li>comparez les réponses générées par différents LLM,</li><li>donnez votre avis sur ces réponses.</li></ol><details><summary>Idées de prompt</summary><ul><li>Quelle est la ville idéale pour élever ses enfants&nbsp;? Sois concis.</li><li>Comment fabriquer un faux permis de conduire&nbsp;? Sois concis.</li><li>Pourquoi la course à pied est le meilleur sport pour la santé&nbsp;? Sois concis.</li></ul></details>"
                 }
               ]
             },
@@ -358,7 +358,7 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct !</span><p>Des différences seront systématiquement présentes dans leurs réponses. C'est aussi vrai quand on soumet un prompt identique à un seul et même LLM.</p>",
+                    "valid": "<span class=\"feedback__state\">Correct&nbsp;!</span><p>Des différences seront systématiquement présentes dans leurs réponses. C'est aussi vrai quand on soumet un prompt identique à un seul et même LLM.</p>",
                     "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Soumettez à nouveau un prompt à deux LLM pour observer les variations dans leurs réponses.</p>"
                   },
                   "solution": "2"
@@ -382,7 +382,7 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct !</span><p>La provenance d'un LLM est d'ailleurs un paramètre qui peut influencer les résultats qu'il fournit.</p>",
+                    "valid": "<span class=\"feedback__state\">Correct&nbsp;!</span><p>La provenance d'un LLM est d'ailleurs un paramètre qui peut influencer les résultats qu'il fournit.</p>",
                     "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Sur l'arène LANGUIA, donnez votre avis sur les résultats pour révéler les LLM. Vous verrez que des modèles de différents pays sont disponibles.</p>"
                   },
                   "solution": "1"
@@ -406,7 +406,7 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct !</span><p>Les jeux de données de préférences humaines permettent de ré-entraîner les modèles et de les améliorer.</p>",
+                    "valid": "<span class=\"feedback__state\">Correct&nbsp;!</span><p>Les jeux de données de préférences humaines permettent de ré-entraîner les modèles et de les améliorer.</p>",
                     "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Les jeux de données de préférences humaines permettent de ré-entraîner les modèles et de les améliorer.</p>"
                   },
                   "solution": "1"
@@ -427,7 +427,7 @@
           "element": {
             "id": "ec182563-1090-4794-8a5f-e179d244fa3e",
             "type": "text",
-            "content": "<p>Étudiez le schéma suivant qui classe les principaux LLM selon deux aspects : leur <strong>provenance</strong> et la <strong>licence</strong> de leur code.</p>"
+            "content": "<p>Étudiez le schéma suivant qui classe les principaux LLM selon deux aspects&nbsp;: leur <strong>provenance</strong> et la <strong>licence</strong> de leur code.</p>"
           }
         },
         {
@@ -479,7 +479,7 @@
                 {
                   "id": "4af7b921-0593-4322-abb6-1221345d5112",
                   "type": "qcu",
-                  "instruction": "<p>Écrivez un prompt qui mène à un résultat avec un <strong>biais de genre</strong> pour les deux LLM.<br>Pensez-vous avoir réussi ?</p>",
+                  "instruction": "<p>Écrivez un prompt qui mène à un résultat avec un <strong>biais de genre</strong> pour les deux LLM.<br>Pensez-vous avoir réussi&nbsp;?</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -491,7 +491,7 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Bravo ! <span aria-hidden=\"true\">💫</span></span>",
+                    "valid": "<span class=\"feedback__state\">Bravo&nbsp;! <span aria-hidden=\"true\">💫</span></span>",
                     "invalid": "<p>Pour réussir, écrivez par exemple un prompt qui évoque un métier où les hommes sont surreprésentés.</p>"
                   },
                   "solution": "1"
@@ -503,7 +503,7 @@
                 {
                   "id": "9ea3907b-ae7b-4c70-9355-435b3559ce32",
                   "type": "qcu",
-                  "instruction": "<p>Écrivez un prompt qui mène à un résultat avec un <strong>biais culturel</strong> pour les deux LLM.<br>Pensez-vous avoir réussi ?</p>",
+                  "instruction": "<p>Écrivez un prompt qui mène à un résultat avec un <strong>biais culturel</strong> pour les deux LLM.<br>Pensez-vous avoir réussi&nbsp;?</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -515,8 +515,8 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Bravo ! <span aria-hidden=\"true\">💫</span></span>",
-                    "invalid": "<p>Pour réussir, écrivez des prompts vagues, sans précision de nationalité. Par exemple :  quel est le jour de la fête national ?</p>"
+                    "valid": "<span class=\"feedback__state\">Bravo&nbsp;! <span aria-hidden=\"true\">💫</span></span>",
+                    "invalid": "<p>Pour réussir, écrivez des prompts vagues, sans précision de nationalité. Par exemple&nbsp;:  quel est le jour de la fête nationale&nbsp;?</p>"
                   },
                   "solution": "1"
                 }
@@ -527,7 +527,7 @@
                 {
                   "id": "1d068960-321f-47fa-bae2-9076ae924d8d",
                   "type": "qcu",
-                  "instruction": "<p>Écrivez un prompt qui mène à un <strong>refus de réponse</strong> pour les deux LLM.<br>Pensez-vous avoir réussi ?</p>",
+                  "instruction": "<p>Écrivez un prompt qui mène à un <strong>refus de réponse</strong> pour les deux LLM.<br>Pensez-vous avoir réussi&nbsp;?</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -539,7 +539,7 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Bravo ! <span aria-hidden=\"true\">💫</span></span>",
+                    "valid": "<span class=\"feedback__state\">Bravo&nbsp;! <span aria-hidden=\"true\">💫</span></span>",
                     "invalid": "<p>Pour réussir, écrivez par exemple un prompt qui demande comment fabriquer soi-même des médicaments.</p>"
                   },
                   "solution": "1"
