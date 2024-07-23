@@ -10,7 +10,6 @@ const USER_IDS_BATCH_SIZE = 1000;
  * @param {Object} params
  * @param {Array<string>} params.userIds
  * @param {AuthenticationMethodRepository} params.authenticationMethodRepository
- * @param {DomainTransaction} params.domainTransaction
  * @param {GarAnonymizedBatchEventsLoggingJob} params.garAnonymizedBatchEventsLoggingJob
  * @return {Promise<{garAnonymizedUserCount: number, total: number}>}
  */

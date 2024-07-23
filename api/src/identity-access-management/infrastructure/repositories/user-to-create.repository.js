@@ -7,7 +7,6 @@ import { User } from '../../domain/models/User.js';
 /**
  * @param {Object} data
  * @property user
- * @property domainTransaction
  * @return {Promise<User|OrganizationLearnerAlreadyLinkedToUserError>}
  */
 const create = async function ({ user }) {

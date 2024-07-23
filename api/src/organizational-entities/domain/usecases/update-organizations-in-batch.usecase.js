@@ -71,19 +71,16 @@ export const updateOrganizationsInBatch = async function ({ filePath, organizati
 
   if (organizationBatchUpdateDtos.length === 0) return;
 
-  await DomainTransaction.execute(async (domainTransaction) => {
+  await DomainTransaction.execute(async () => {
     await Promise.all(
       organizationBatchUpdateDtos.map(async (organizationBatchUpdateDto) => {
         await checkOrganizationUpdate(organizationBatchUpdateDto, organizationForAdminRepository);
 
         try {
-          const organization = await organizationForAdminRepository.get(
-            organizationBatchUpdateDto.id,
-            domainTransaction,
-          );
+          const organization = await organizationForAdminRepository.get(organizationBatchUpdateDto.id);
           organization.updateFromOrganizationBatchUpdateDto(organizationBatchUpdateDto);
 
-          await organizationForAdminRepository.update(organization, domainTransaction);
+          await organizationForAdminRepository.update(organization);
         } catch (error) {
           throw new OrganizationBatchUpdateError({
             meta: { organizationId: organizationBatchUpdateDto.id },

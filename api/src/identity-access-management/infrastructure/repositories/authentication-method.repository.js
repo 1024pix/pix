@@ -253,14 +253,10 @@ const batchUpdatePasswordThatShouldBeChanged = function ({ usersToUpdateWithNewP
 /**
  * @param {number[]} userIds
  * @param {Object} dependencies
- * @param {DomainTransaction} dependencies.domainTransaction
  * @returns {Promise<{garAnonymizedUserIds: number}>}
  */
-const anonymizeByUserIds = async function (
-  { userIds },
-  dependencies = { domainTransaction: DomainTransaction.emptyTransaction() },
-) {
-  const knexConn = dependencies.domainTransaction.knexTransaction ?? knex;
+const anonymizeByUserIds = async function ({ userIds }) {
+  const knexConn = DomainTransaction.getConnection();
 
   const anonymizedUserIdBatch = await knexConn(AUTHENTICATION_METHODS_TABLE)
     .whereIn('userId', userIds)

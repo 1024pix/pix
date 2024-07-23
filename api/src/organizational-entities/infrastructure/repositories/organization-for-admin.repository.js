@@ -63,7 +63,6 @@ const findChildrenByParentOrganizationId = async function (parentOrganizationId)
 /**
  * @type {function}
  * @param {string|number} id
- * @param {DomainTransaction} domainTransaction
  * @return {Promise<OrganizationForAdmin|NotFoundError>}
  */
 const get = async function (id) {
@@ -185,7 +184,6 @@ const save = async function (organization) {
 /**
  * @type {function}
  * @param {OrganizationForAdmin} organization
- * @param {DomainTransaction} domainTransaction
  * @return {Promise<void>}
  */
 const update = async function (organization) {

@@ -3,17 +3,15 @@ const createOrUpdateTrainingTrigger = async function ({
   tubes,
   type,
   threshold,
-  domainTransaction,
   trainingRepository,
   trainingTriggerRepository,
 }) {
-  await trainingRepository.get({ trainingId, domainTransaction });
+  await trainingRepository.get({ trainingId });
   return trainingTriggerRepository.createOrUpdate({
     trainingId,
     triggerTubesForCreation: tubes,
     type,
     threshold,
-    domainTransaction,
   });
 };
 

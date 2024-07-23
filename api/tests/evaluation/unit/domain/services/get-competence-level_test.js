@@ -9,14 +9,12 @@ describe('Unit | Domain | Service | Get Competence Level', function () {
     let knowledgeElementRepository;
     let competenceId;
     let knowledgeElements;
-    let domainTransaction;
     let scoringService;
 
     beforeEach(async function () {
       // given
       competenceId = 'competenceId';
       knowledgeElements = Symbol('knowledgeElements');
-      domainTransaction = Symbol('domainTransaction');
       knowledgeElementRepository = {
         findUniqByUserIdAndCompetenceId: sinon.stub().resolves(knowledgeElements),
       };
@@ -28,7 +26,6 @@ describe('Unit | Domain | Service | Get Competence Level', function () {
       competenceLevel = await getCompetenceLevel({
         userId,
         competenceId,
-        domainTransaction,
         dependencies: {
           knowledgeElementRepository,
           scoringService,
@@ -41,7 +38,6 @@ describe('Unit | Domain | Service | Get Competence Level', function () {
       expect(knowledgeElementRepository.findUniqByUserIdAndCompetenceId).to.be.calledWith({
         userId,
         competenceId,
-        domainTransaction,
       });
     });
 

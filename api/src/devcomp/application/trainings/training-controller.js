@@ -46,13 +46,12 @@ const createOrUpdateTrigger = async function (request, h, dependencies = { train
   const { trainingId } = request.params;
   const { threshold, tubes, type } = await dependencies.trainingTriggerSerializer.deserialize(request.payload);
 
-  const createdOrUpdatedTrainingTrigger = await DomainTransaction.execute(async (domainTransaction) => {
+  const createdOrUpdatedTrainingTrigger = await DomainTransaction.execute(async () => {
     return usecases.createOrUpdateTrainingTrigger({
       trainingId,
       threshold,
       tubes,
       type,
-      domainTransaction,
     });
   });
 

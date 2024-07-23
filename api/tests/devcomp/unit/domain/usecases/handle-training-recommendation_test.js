@@ -21,7 +21,6 @@ describe('Unit | Devcomp | Domain | UseCases | handle-training-recommendation', 
         // given
         const locale = Symbol('locale');
         const campaignParticipationId = Symbol('campaign-participation-id');
-        const domainTransaction = Symbol('domain-transaction');
         const assessment = domainBuilder.buildAssessment.ofTypeCampaign({ campaignParticipationId });
         const campaignRepository = { findSkillsByCampaignParticipationId: sinon.stub() };
         const knowledgeElementRepository = { findUniqByUserId: sinon.stub() };
@@ -30,7 +29,6 @@ describe('Unit | Devcomp | Domain | UseCases | handle-training-recommendation', 
         campaignRepository.findSkillsByCampaignParticipationId
           .withArgs({
             campaignParticipationId,
-            domainTransaction,
           })
           .resolves(campaignSkills);
 
@@ -38,7 +36,6 @@ describe('Unit | Devcomp | Domain | UseCases | handle-training-recommendation', 
         knowledgeElementRepository.findUniqByUserId
           .withArgs({
             userId: assessment.userId,
-            domainTransaction,
           })
           .resolves(knowledgeElements);
 
@@ -53,7 +50,6 @@ describe('Unit | Devcomp | Domain | UseCases | handle-training-recommendation', 
           .withArgs({
             campaignParticipationId,
             locale,
-            domainTransaction,
           })
           .resolves(trainings);
 
@@ -65,7 +61,6 @@ describe('Unit | Devcomp | Domain | UseCases | handle-training-recommendation', 
           knowledgeElementRepository,
           trainingRepository,
           userRecommendedTrainingRepository,
-          domainTransaction,
         });
 
         // then
@@ -74,13 +69,11 @@ describe('Unit | Devcomp | Domain | UseCases | handle-training-recommendation', 
           userId: assessment.userId,
           trainingId: 1,
           campaignParticipationId,
-          domainTransaction,
         });
         expect(saveStub.secondCall).to.have.been.calledWithExactly({
           userId: assessment.userId,
           trainingId: 2,
           campaignParticipationId,
-          domainTransaction,
         });
       });
     });
@@ -89,7 +82,6 @@ describe('Unit | Devcomp | Domain | UseCases | handle-training-recommendation', 
       it('should not create user-recommended-training for user', async function () {
         // given
         const locale = Symbol('locale');
-        const domainTransaction = Symbol('domain-transaction');
         const campaignParticipationId = Symbol('campaign-participation-id');
         const assessment = domainBuilder.buildAssessment.ofTypeCampaign({ campaignParticipationId });
         const trainings = [];
@@ -102,14 +94,12 @@ describe('Unit | Devcomp | Domain | UseCases | handle-training-recommendation', 
           assessment,
           trainingRepository,
           userRecommendedTrainingRepository,
-          domainTransaction,
         });
 
         // then
         expect(findWithTriggersByCampaignParticipationIdAndLocaleStub).to.have.been.calledWithExactly({
           campaignParticipationId,
           locale,
-          domainTransaction,
         });
         expect(saveStub).to.have.been.callCount(0);
       });
@@ -137,7 +127,6 @@ describe('Unit | Devcomp | Domain | UseCases | handle-training-recommendation', 
       // given
       const locale = Symbol('locale');
       const campaignParticipationId = Symbol('campaign-participation-id');
-      const domainTransaction = Symbol('domain-transaction');
       const assessment = domainBuilder.buildAssessment.ofTypeCampaign({ campaignParticipationId });
       const campaignRepository = { findSkillsByCampaignParticipationId: sinon.stub() };
       const knowledgeElementRepository = { findUniqByUserId: sinon.stub() };
@@ -152,7 +141,6 @@ describe('Unit | Devcomp | Domain | UseCases | handle-training-recommendation', 
         knowledgeElementRepository,
         trainingRepository,
         userRecommendedTrainingRepository,
-        domainTransaction,
       });
 
       // then
