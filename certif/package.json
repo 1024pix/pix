@@ -41,6 +41,9 @@
     "test:watch": "ember exam --serve --reporter dot"
   },
   "overrides": {
+    "eslint-plugin-ember": {
+      "ember-eslint-parser": "^0.5.0"
+    },
     "ember-dayjs": {
       "ember-source": "^5.8.0"
     }
