@@ -83,11 +83,9 @@ describe('Integration | UseCases | copy-badges', function () {
       await databaseBuilder.commit();
 
       // when
-      const domainTransaction = DomainTransaction.getConnection();
       await copyTargetProfileBadges({
         originTargetProfileId,
         destinationTargetProfileId,
-        domainTransaction,
         badgeRepository,
         badgeCriteriaRepository,
       });

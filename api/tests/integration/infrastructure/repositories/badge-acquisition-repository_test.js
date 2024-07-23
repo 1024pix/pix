@@ -23,10 +23,9 @@ describe('Integration | Repository | Badge Acquisition', function () {
 
     it('should persist the badge acquisition in db', async function () {
       // when
-      await DomainTransaction.execute(async (domainTransaction) => {
+      await DomainTransaction.execute(async () => {
         return badgeAcquisitionRepository.createOrUpdate({
           badgeAcquisitionsToCreate: [badgeAcquisitionToCreate],
-          domainTransaction,
         });
       });
 
@@ -46,10 +45,9 @@ describe('Integration | Repository | Badge Acquisition', function () {
       await databaseBuilder.commit();
 
       // when
-      await DomainTransaction.execute(async (domainTransaction) => {
+      await DomainTransaction.execute(async () => {
         return badgeAcquisitionRepository.createOrUpdate({
           badgeAcquisitionToCreate: [badgeAcquisitionToCreate],
-          domainTransaction,
         });
       });
 
@@ -63,7 +61,7 @@ describe('Integration | Repository | Badge Acquisition', function () {
       expect(result[0].createdAt).to.not.equal(result[0].updatedAt);
     });
 
-    context('when no domainTransaction is passed in parameters', function () {
+    context('when no  is passed in parameters', function () {
       it('should use knex instead to persist the badge acquisition', async function () {
         // when
         await badgeAcquisitionRepository.createOrUpdate({
@@ -95,11 +93,10 @@ describe('Integration | Repository | Badge Acquisition', function () {
 
     it('should check that the user has acquired the badge', async function () {
       // when
-      const acquiredBadgeIds = await DomainTransaction.execute(async (domainTransaction) => {
+      const acquiredBadgeIds = await DomainTransaction.execute(async () => {
         return badgeAcquisitionRepository.getAcquiredBadgeIds({
           userId,
           badgeIds: [badgeId],
-          domainTransaction,
         });
       });
 
@@ -109,15 +106,15 @@ describe('Integration | Repository | Badge Acquisition', function () {
 
     it('should check that the user has not acquired the badge', async function () {
       // when
-      const acquiredBadgeIds = await DomainTransaction.execute(async (domainTransaction) => {
-        return badgeAcquisitionRepository.getAcquiredBadgeIds({ userId, badgeIds: [-1], domainTransaction });
+      const acquiredBadgeIds = await DomainTransaction.execute(async () => {
+        return badgeAcquisitionRepository.getAcquiredBadgeIds({ userId, badgeIds: [-1] });
       });
 
       // then
       expect(acquiredBadgeIds.length).to.equal(0);
     });
 
-    context('when no domainTransaction is passed in parameters', function () {
+    context('when no  is passed in parameters', function () {
       it('should use knex instead to return acquired badges', async function () {
         // when
         const acquiredBadgesIds = await badgeAcquisitionRepository.getAcquiredBadgeIds({
@@ -166,10 +163,9 @@ describe('Integration | Repository | Badge Acquisition', function () {
 
       it('should return badge ids acquired by user for a campaignParticipation', async function () {
         // when
-        const acquiredBadgesByCampaignParticipations = await DomainTransaction.execute(async (domainTransaction) => {
+        const acquiredBadgesByCampaignParticipations = await DomainTransaction.execute(async () => {
           return badgeAcquisitionRepository.getAcquiredBadgesByCampaignParticipations({
             campaignParticipationsIds: [campaignParticipationId],
-            domainTransaction,
           });
         });
 
@@ -179,7 +175,7 @@ describe('Integration | Repository | Badge Acquisition', function () {
         expect(acquiredBadgesByCampaignParticipations[campaignParticipationId].length).to.eq(2);
       });
 
-      context('when no domainTransaction is passed in parameters', function () {
+      context('when no  is passed in parameters', function () {
         it('should use knex instead to return badge ids acquired by user for a campaignParticipation', async function () {
           // when
           const acquiredBadgesByCampaignParticipations =
@@ -241,10 +237,9 @@ describe('Integration | Repository | Badge Acquisition', function () {
       it('should return badge ids acquired by user for a campaignParticipation', async function () {
         // when
         const campaignParticipationsIds = [campaignParticipationId1, campaignParticipationId2];
-        const acquiredBadgesByCampaignParticipations = await DomainTransaction.execute(async (domainTransaction) => {
+        const acquiredBadgesByCampaignParticipations = await DomainTransaction.execute(async () => {
           return badgeAcquisitionRepository.getAcquiredBadgesByCampaignParticipations({
             campaignParticipationsIds,
-            domainTransaction,
           });
         });
         // then
@@ -309,10 +304,9 @@ describe('Integration | Repository | Badge Acquisition', function () {
       it('should return badge ids acquired by user for a campaignParticipation', async function () {
         // when
         const campaignParticipationsIds = [campaignParticipationId];
-        const acquiredBadgesByCampaignParticipations = await DomainTransaction.execute(async (domainTransaction) => {
+        const acquiredBadgesByCampaignParticipations = await DomainTransaction.execute(async () => {
           return badgeAcquisitionRepository.getAcquiredBadgesByCampaignParticipations({
             campaignParticipationsIds,
-            domainTransaction,
           });
         });
 

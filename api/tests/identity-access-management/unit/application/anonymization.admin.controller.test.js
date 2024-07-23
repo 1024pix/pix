@@ -43,8 +43,7 @@ describe('Unit | Identity Access Management | Application | Controller | Admin |
       sinon.stub(GarAnonymizationParser, 'getCsvData').resolves([1, 4, 6, 15, 78]);
       sinon.stub(usecases, 'anonymizeGarAuthenticationMethods').resolves({ anonymizedUserCount, total });
 
-      const domainTransaction = Symbol('domain transaction');
-      sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
+      sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
 
       sinon.stub(anonymizeGarResultSerializer, 'serialize').returns(expectedJSON);
     });

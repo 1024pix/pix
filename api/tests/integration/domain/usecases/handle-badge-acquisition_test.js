@@ -115,7 +115,6 @@ describe('Integration | Usecase | Handle Badge Acquisition', function () {
           // when
           await usecases.handleBadgeAcquisition({
             assessment,
-            domainTransaction,
           });
 
           // then

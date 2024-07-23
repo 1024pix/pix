@@ -32,10 +32,9 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
         await databaseBuilder.commit();
 
         // when
-        const certifiableBadgesAcquiredByUser = await DomainTransaction.execute(async (domainTransaction) => {
+        const certifiableBadgesAcquiredByUser = await DomainTransaction.execute(async () => {
           return certifiableBadgeAcquisitionRepository.findHighestCertifiable({
             userId: user.id,
-            domainTransaction,
           });
         });
 

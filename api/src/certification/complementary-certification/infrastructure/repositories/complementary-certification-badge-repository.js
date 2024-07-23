@@ -19,9 +19,7 @@ const getAllIdsByTargetProfileId = async function ({ targetProfileId }) {
 
 const detachByIds = async function ({ complementaryCertificationBadgeIds }) {
   const knexConn = DomainTransaction.getConnection();
-
   const now = new Date();
-
   return knexConn('complementary-certification-badges')
     .whereIn('id', complementaryCertificationBadgeIds)
     .update({ detachedAt: now });

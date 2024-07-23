@@ -1382,8 +1382,8 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
 
         // when
         await catchErr(async () => {
-          await DomainTransaction.execute(async (domainTransaction) => {
-            await userRepository.updateWithEmailConfirmed({ id: userInDb.id, userAttributes }, domainTransaction);
+          await DomainTransaction.execute(async () => {
+            await userRepository.updateWithEmailConfirmed({ id: userInDb.id, userAttributes });
             throw new Error('Error occurs in transaction');
           });
         });

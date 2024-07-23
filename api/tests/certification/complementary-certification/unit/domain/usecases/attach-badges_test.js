@@ -344,11 +344,8 @@ describe('Unit | UseCase | attach-badges', function () {
   context('when there is no badges associated to target profile', function () {
     it('should throw an error', async function () {
       // given
-      const domainTransaction = {
-        knexTransaction: Symbol('transaction'),
-      };
       sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
-        return callback(domainTransaction);
+        return callback();
       });
       const badge1 = domainBuilder.buildBadge({ id: 123 });
       const badge2 = domainBuilder.buildBadge({ id: 456 });

@@ -9,16 +9,14 @@ const { ROLES } = PIX_ADMIN;
 
 describe('Unit | Identity Access Management | Domain | UseCase | anonymize-gar-authentication-methods', function () {
   let clock;
-  let domainTransaction;
   let garAnonymizedBatchEventsLoggingJob;
 
   beforeEach(function () {
     const now = new Date('2023-08-17');
     clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
     garAnonymizedBatchEventsLoggingJob = { schedule: sinon.stub().resolves() };
-    domainTransaction = Symbol('domain transaction');
     sinon.stub(config.auditLogger, 'isEnabled').value(true);
-    sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
+    sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
   });
 
   afterEach(function () {
@@ -47,7 +45,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | anonymize-gar-a
       userIdsBatchSize: 1,
       adminMemberId,
       authenticationMethodRepository,
-      domainTransaction,
       garAnonymizedBatchEventsLoggingJob,
     });
 
@@ -73,7 +70,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | anonymize-gar-a
       adminMemberId,
       authenticationMethodRepository,
       garAnonymizedBatchEventsLoggingJob,
-      domainTransaction,
     });
 
     // then
@@ -104,7 +100,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | anonymize-gar-a
       adminMemberId,
       authenticationMethodRepository,
       garAnonymizedBatchEventsLoggingJob,
-      domainTransaction,
     });
 
     // then
