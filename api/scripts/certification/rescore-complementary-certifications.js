@@ -158,6 +158,15 @@ async function main({ certificationCourseIds = [], knex, eventDispatcher, logger
       logger.info(`Rescoring certificationCourseId:[${complementaryRescoringCommand.certificationCourseId}] ...`);
       await _rescoreCertification({ complementaryRescoringCommand, eventDispatcher });
       complementaryRescoringCommand.updateSuccessfull();
+
+      const newComplementarySnapshot = await _snapshotCurrentScoring({ certificationCourseId, knex });
+      complementaryRescoringCommand.updateFailure({
+        statusBeforeScript: newComplementarySnapshot.status,
+        badgeLevelBeforeScript: newComplementarySnapshot.label,
+        examinationDateBeforeScript: newComplementarySnapshot.createdAt,
+        certificationDateBeforeScript: newComplementarySnapshot.publishedAt,
+        commentByAutoJuryBeforeScript: newComplementarySnapshot.commentByAutoJury,
+      });
     } catch (error) {
       logger.error(
         error,
