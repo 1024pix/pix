@@ -11,9 +11,9 @@ const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 const ComplementaryCertificationUpdateStatus = Object.freeze({
-  IDLE: Symbol('IDLE'),
-  ERROR: Symbol('ERROR'),
-  SUCCESS: Symbol('SUCCESS'),
+  IDLE: 'IDLE',
+  ERROR: 'ERROR',
+  SUCCESS: 'SUCCESS',
 });
 
 class ComplementaryCertificationCommand {
@@ -123,6 +123,14 @@ const _rescoreCertification = async ({ complementaryRescoringCommand, eventDispa
 };
 
 /**
+ * @param {Object} params
+ * @param {Array<ComplementaryCertificationCommand>} params.rescoringResults
+ */
+const _output = ({ rescoringResults }) => {
+  logger.info(JSON.stringify({ rescoring_result: rescoringResults }));
+};
+
+/**
  * IMPORTANT
  *
  * This script is a TEMPORARY script, it is not crafter to be re-used in a context outside the one
@@ -142,6 +150,7 @@ const _rescoreCertification = async ({ complementaryRescoringCommand, eventDispa
 async function main({ certificationCourseIds = [], knex, eventDispatcher, logger }) {
   logger.info(`Rescoring ${certificationCourseIds.length} complementary certifications`);
 
+  const rescoringResults = [];
   for (const certificationCourseId of certificationCourseIds) {
     const complementaryRescoringCommand = new ComplementaryCertificationCommand({ certificationCourseId });
 
@@ -160,12 +169,12 @@ async function main({ certificationCourseIds = [], knex, eventDispatcher, logger
       complementaryRescoringCommand.updateSuccessfull();
 
       const newComplementarySnapshot = await _snapshotCurrentScoring({ certificationCourseId, knex });
-      complementaryRescoringCommand.updateFailure({
-        statusBeforeScript: newComplementarySnapshot.status,
-        badgeLevelBeforeScript: newComplementarySnapshot.label,
-        examinationDateBeforeScript: newComplementarySnapshot.createdAt,
-        certificationDateBeforeScript: newComplementarySnapshot.publishedAt,
-        commentByAutoJuryBeforeScript: newComplementarySnapshot.commentByAutoJury,
+      complementaryRescoringCommand.complementaryAfterUpdate({
+        statusAfterScript: newComplementarySnapshot.status,
+        badgeLevelAfterScript: newComplementarySnapshot.label,
+        examinationDateAfterScript: newComplementarySnapshot.createdAt,
+        certificationDateAfterScript: newComplementarySnapshot.publishedAt,
+        commentByAutoJuryAfterScript: newComplementarySnapshot.commentByAutoJury,
       });
     } catch (error) {
       logger.error(
@@ -173,9 +182,12 @@ async function main({ certificationCourseIds = [], knex, eventDispatcher, logger
         `Could not rescore certificationCourseId:[${complementaryRescoringCommand.certificationCourseId}]`,
       );
       complementaryRescoringCommand.updateFailure();
+    } finally {
+      rescoringResults.push(complementaryRescoringCommand);
     }
   }
 
+  _output({ rescoringResults });
   return 0;
 }
 
