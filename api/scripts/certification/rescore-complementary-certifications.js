@@ -1,3 +1,14 @@
+/**
+ *
+ * IMPORTANT
+ *
+ * This script is a TEMPORARY script, it is not crafter to be re-used in a context outside the one
+ * it has been made for
+ *
+ * IMPORTANT
+ *
+ * Usage : node scripts/certification/rescore-complementary-certifications.js "111 [,xxx,yyy,...]"
+ */
 import 'dotenv/config';
 
 import * as url from 'node:url';
@@ -24,12 +35,14 @@ class ComplementaryCertificationCommand {
 
   complementaryBeforeUpdate({
     statusBeforeScript,
+    complementaryAcquiredBeforeScript,
     badgeLevelBeforeScript,
     examinationDateBeforeScript,
     certificationDateBeforeScript,
     commentByAutoJuryBeforeScript,
   }) {
     this.statusBeforeScript = statusBeforeScript;
+    this.complementaryAcquiredBeforeScript = complementaryAcquiredBeforeScript;
     this.badgeLevelBeforeScript = badgeLevelBeforeScript;
     this.examinationDateBeforeScript = examinationDateBeforeScript;
     this.certificationDateBeforeScript = certificationDateBeforeScript;
@@ -38,12 +51,14 @@ class ComplementaryCertificationCommand {
 
   complementaryAfterUpdate({
     statusAfterScript,
+    complementaryAcquiredAfterScript,
     badgeLevelAfterScript,
     examinationDateAfterScript,
     certificationDateAfterScript,
     commentByAutoJuryAfterScript,
   }) {
     this.statusAfterScript = statusAfterScript;
+    this.complementaryAcquiredAfterScript = complementaryAcquiredAfterScript;
     this.badgeLevelAfterScript = badgeLevelAfterScript;
     this.examinationDateAfterScript = examinationDateAfterScript;
     this.certificationDateAfterScript = certificationDateAfterScript;
@@ -71,6 +86,7 @@ const _snapshotCurrentScoring = async ({ certificationCourseId, knex }) => {
       'certification-courses.createdAt',
       'sessions.publishedAt',
       'assessment-results.status',
+      'complementary-certification-course-results.acquired',
       'assessment-results.commentByAutoJury',
       'complementary-certification-badges.label',
     )
@@ -80,17 +96,22 @@ const _snapshotCurrentScoring = async ({ certificationCourseId, knex }) => {
       'certification-courses.id',
     )
     .innerJoin(
+      'complementary-certification-course-results',
+      'complementary-certification-courses.id',
+      'complementary-certification-course-results.complementaryCertificationCourseId',
+    )
+    .innerJoin(
       'complementary-certification-badges',
       'complementary-certification-badges.id',
       'complementary-certification-courses.complementaryCertificationBadgeId',
     )
     .innerJoin('sessions', 'sessions.id', 'certification-courses.sessionId')
-    .leftJoin(
+    .innerJoin(
       'certification-courses-last-assessment-results',
       'certification-courses-last-assessment-results.certificationCourseId',
       'certification-courses.id',
     )
-    .leftJoin(
+    .innerJoin(
       'assessment-results',
       'certification-courses-last-assessment-results.lastAssessmentResultId',
       'assessment-results.id',
@@ -107,15 +128,16 @@ const _snapshotCurrentScoring = async ({ certificationCourseId, knex }) => {
 
 /**
  * @param {Object} params
- * @param {ComplementaryRescoringCommand} params.complementaryRescoringCommand
+ * @param {ComplementaryCertificationCommand} params.complementaryRescoringCommand
  * @param {eventDispatcher} params.eventDispatcher
  */
 const _rescoreCertification = async ({ complementaryRescoringCommand, eventDispatcher }) => {
   const certificationCourseId = complementaryRescoringCommand.certificationCourseId;
   const status = complementaryRescoringCommand.statusBeforeScript;
-  if (status !== 'validated') {
+  const complementaryAcquired = complementaryRescoringCommand.complementaryAcquiredBeforeScript;
+  if (complementaryAcquired) {
     throw new Error(
-      `certificationCourseId:[${certificationCourseId}] is not a 'validated' complementary certification, was:[${status}]`,
+      `certificationCourseId:[${certificationCourseId}] has already acquired a complementary certification, certif status:[${status}], acquired:[${complementaryAcquired}]`,
     );
   }
 
@@ -131,14 +153,6 @@ const _output = ({ rescoringResults }) => {
 };
 
 /**
- * IMPORTANT
- *
- * This script is a TEMPORARY script, it is not crafter to be re-used in a context outside the one
- * it has been made for
- *
- * IMPORTANT
- *
- * Usage : node scripts/certification/rescore-complementary-certifications.js "111 [,xxx,yyy,...]"
  *
  * @param {Object} params
  * @param {Array<number>} params.certificationCourseIds
@@ -158,6 +172,7 @@ async function main({ certificationCourseIds = [], knex, eventDispatcher, logger
       const currentComplementarySnapshot = await _snapshotCurrentScoring({ certificationCourseId, knex });
       complementaryRescoringCommand.complementaryBeforeUpdate({
         statusBeforeScript: currentComplementarySnapshot.status,
+        complementaryAcquiredBeforeScript: currentComplementarySnapshot.acquired,
         badgeLevelBeforeScript: currentComplementarySnapshot.label,
         examinationDateBeforeScript: currentComplementarySnapshot.createdAt,
         certificationDateBeforeScript: currentComplementarySnapshot.publishedAt,
@@ -171,6 +186,7 @@ async function main({ certificationCourseIds = [], knex, eventDispatcher, logger
       const newComplementarySnapshot = await _snapshotCurrentScoring({ certificationCourseId, knex });
       complementaryRescoringCommand.complementaryAfterUpdate({
         statusAfterScript: newComplementarySnapshot.status,
+        complementaryAcquiredAfterScript: currentComplementarySnapshot.acquired,
         badgeLevelAfterScript: newComplementarySnapshot.label,
         examinationDateAfterScript: newComplementarySnapshot.createdAt,
         certificationDateAfterScript: newComplementarySnapshot.publishedAt,
