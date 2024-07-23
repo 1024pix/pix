@@ -9,7 +9,7 @@ const ERRORS = {
 };
 
 class SupOrganizationLearnerParser extends CsvOrganizationLearnerParser {
-  static create(input, organizationId, i18n) {
+  static buildParser(input, organizationId, i18n) {
     return new SupOrganizationLearnerParser(input, organizationId, i18n);
   }
 

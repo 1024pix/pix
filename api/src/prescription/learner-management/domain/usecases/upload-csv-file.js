@@ -1,7 +1,3 @@
-import { createReadStream } from 'node:fs';
-
-import { SupOrganizationLearnerParser } from '../../infrastructure/serializers/csv/sup-organization-learner-parser.js';
-import { getDataBuffer } from '../../infrastructure/utils/bufferize/get-data-buffer.js';
 import { OrganizationImport } from '../models/OrganizationImport.js';
 
 const uploadCsvFile = async function ({
@@ -11,6 +7,7 @@ const uploadCsvFile = async function ({
   i18n,
   organizationImportRepository,
   importStorage,
+  Parser,
 }) {
   const organizationImport = OrganizationImport.create({ organizationId, createdBy: userId });
   let filename;
@@ -21,9 +18,7 @@ const uploadCsvFile = async function ({
   try {
     filename = await importStorage.sendFile({ filepath: payload.path });
 
-    const readableStreamEncoding = createReadStream(payload.path);
-    const bufferEncoding = await getDataBuffer(readableStreamEncoding);
-    const parserEncoding = SupOrganizationLearnerParser.create(bufferEncoding, organizationId, i18n);
+    const parserEncoding = await importStorage.getParser({ Parser, filename }, organizationId, i18n);
     encoding = parserEncoding.getFileEncoding();
   } catch (error) {
     errors.push(error);

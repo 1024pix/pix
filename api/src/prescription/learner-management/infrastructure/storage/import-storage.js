@@ -5,16 +5,19 @@ import { FileValidationError } from '../../../../../lib/domain/errors.js';
 import { logErrorWithCorrelationIds } from '../../../../../lib/infrastructure/monitoring-tools.js';
 import { config } from '../../../../shared/config.js';
 import { S3ObjectStorageProvider } from '../../../../shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
+import { getDataBuffer as gDB } from '../utils/bufferize/get-data-buffer.js';
 
 class ImportStorage {
   #client;
   #basename;
   #createReadStream;
+  #getDataBuffer;
 
-  constructor({ basename = path.basename, createReadStream = fs.createReadStream } = {}) {
+  constructor({ basename = path.basename, createReadStream = fs.createReadStream, getDataBuffer = gDB } = {}) {
     this.#client = S3ObjectStorageProvider.createClient(config.import.storage.client);
     this.#basename = basename;
     this.#createReadStream = createReadStream;
+    this.#getDataBuffer = getDataBuffer;
   }
 
   async sendFile({ filepath }) {
@@ -37,6 +40,13 @@ class ImportStorage {
     const data = await this.#client.readFile({ key: filename });
 
     return data.Body;
+  }
+
+  async getParser({ Parser, filename }, ...args) {
+    const readableStream = await this.readFile({ filename });
+    const buffer = await this.#getDataBuffer(readableStream);
+    const parser = Parser.buildParser(buffer, ...args);
+    return parser;
   }
 
   async deleteFile({ filename }) {

@@ -1,18 +1,16 @@
-import { SupOrganizationLearnerParser } from '../../infrastructure/serializers/csv/sup-organization-learner-parser.js';
-import { getDataBuffer } from '../../infrastructure/utils/bufferize/get-data-buffer.js';
 import { AggregateImportError } from '../errors.js';
 
-const validateSupCsvFile = async function ({ organizationId, i18n, organizationImportRepository, importStorage }) {
+const validateCsvFile = async function ({ Parser, organizationId, i18n, organizationImportRepository, importStorage }) {
   const organizationImport = await organizationImportRepository.getLastByOrganizationId(organizationId);
   const errors = [];
   let warningsData;
 
-  // Reading File
   try {
-    const readableStream = await importStorage.readFile({ filename: organizationImport.filename });
-
-    const buffer = await getDataBuffer(readableStream);
-    const parser = SupOrganizationLearnerParser.create(buffer, organizationId, i18n);
+    const parser = await importStorage.getParser(
+      { Parser, filename: organizationImport.filename },
+      organizationId,
+      i18n,
+    );
 
     const { warnings } = parser.parse(parser.getFileEncoding());
 
@@ -30,4 +28,4 @@ const validateSupCsvFile = async function ({ organizationId, i18n, organizationI
   }
 };
 
-export { validateSupCsvFile };
+export { validateCsvFile };
