@@ -13,7 +13,6 @@ import * as defaultGetMasteryPercentageService from '../../services/get-mastery-
 
 /**
  * @param {Assessment} assessment
- * @param {DomainTransaction} domainTransaction
  * @param stageRepository
  * @param skillRepository
  * @param campaignRepository

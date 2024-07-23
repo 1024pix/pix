@@ -18,7 +18,7 @@ async function addOrUpdateOrganizationLearners({
   const errors = [];
   const organizationImport = await organizationImportRepository.get(organizationImportId);
 
-  return DomainTransaction.execute(async (domainTransaction) => {
+  return DomainTransaction.execute(async () => {
     try {
       const readableStream = await importStorage.readFile({ filename: organizationImport.filename });
       const siecleFileStreamer = await SiecleFileStreamer.create(readableStream, organizationImport.encoding);
@@ -31,7 +31,6 @@ async function addOrUpdateOrganizationLearners({
       const nationalStudentIdData = organizationLearnerData.map((learner) => learner.nationalStudentId);
 
       await organizationLearnerRepository.disableAllOrganizationLearnersInOrganization({
-        domainTransaction,
         organizationId: organizationImport.organizationId,
         nationalStudentIds: nationalStudentIdData,
       });
@@ -40,7 +39,6 @@ async function addOrUpdateOrganizationLearners({
         return organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(
           chunk,
           organizationImport.organizationId,
-          domainTransaction,
         );
       });
     } catch (error) {
@@ -48,7 +46,7 @@ async function addOrUpdateOrganizationLearners({
       throw error;
     } finally {
       organizationImport.process({ errors });
-      await organizationImportRepository.save(organizationImport, domainTransaction);
+      await organizationImportRepository.save(organizationImport);
       await importStorage.deleteFile({ filename: organizationImport.filename });
     }
   });

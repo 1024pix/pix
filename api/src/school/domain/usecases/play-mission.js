@@ -57,10 +57,10 @@ async function _startMission({
   });
 }
 
-async function createAssessment({ assessmentRepository, domainTransaction }) {
+async function createAssessment({ assessmentRepository }) {
   const assessmentData = Assessment.createForPix1dMission();
 
-  return assessmentRepository.save({ assessment: assessmentData, domainTransaction });
+  return assessmentRepository.save({ assessment: assessmentData });
 }
 
 async function createMissionAssessment({

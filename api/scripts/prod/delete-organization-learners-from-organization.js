@@ -9,19 +9,18 @@ async function deleteOrganizationLearnersFromOrganization(organizationId, date) 
     throw new Error("La date passée en paramètre n'est pas valide");
   }
 
-  await DomainTransaction.execute(async (domainTransaction) => {
+  await DomainTransaction.execute(async () => {
     const engineeringUserId = process.env.ENGINEERING_USER_ID;
-
-    const knexConn = domainTransaction.knexTransaction;
 
     let organizationLearnerToDeleteIds;
 
     if (date) {
-      organizationLearnerToDeleteIds = await _getOrganizationLearnersToDeleteIds({ knexConn, organizationId, date });
+      organizationLearnerToDeleteIds = await _getOrganizationLearnersToDeleteIds({ organizationId, date });
 
-      await _deleteCampaignParticipations({ knexConn, engineeringUserId, organizationId, date });
+      await _deleteCampaignParticipations({ engineeringUserId, organizationId, date });
     } else {
-      organizationLearnerToDeleteIds = await knexConn('organization-learners')
+      const knexConnection = DomainTransaction.getConnection();
+      organizationLearnerToDeleteIds = await knexConnection('organization-learners')
         .where({ organizationId })
         .whereNull('deletedAt')
         .pluck('id');
@@ -30,24 +29,24 @@ async function deleteOrganizationLearnersFromOrganization(organizationId, date) 
     await usecases.deleteOrganizationLearners({
       organizationLearnerIds: organizationLearnerToDeleteIds,
       userId: engineeringUserId,
-      domainTransaction,
     });
 
-    await _anonymizeOrganizationLearners({ knexConn, organizationId });
+    await _anonymizeOrganizationLearners({ organizationId });
 
-    const campaignParticipations = await _anonymizeCampaignParticipations({ knexConn, organizationId });
+    const campaignParticipations = await _anonymizeCampaignParticipations({ organizationId });
 
-    await _detachAssessmentFromCampaignParticipations({ knexConn, campaignParticipations });
+    await _detachAssessmentFromCampaignParticipations({ campaignParticipations });
   });
 }
 
-function _getOrganizationLearnersToDeleteIds({ knexConn, organizationId, date }) {
-  return knexConn('organization-learners')
+function _getOrganizationLearnersToDeleteIds({ organizationId, date }) {
+  const knexConnection = DomainTransaction.getConnection();
+  return knexConnection('organization-learners')
     .select(['organization-learners.id'])
     .where({ organizationId })
     .whereNull('deletedAt')
     .whereRaw(`? <= ?`, [
-      knexConn('campaign-participations')
+      knexConnection('campaign-participations')
         .select('createdAt')
         .whereRaw('"organizationLearnerId" = "organization-learners"."id"')
         .orderBy('createdAt', 'desc')
@@ -57,15 +56,16 @@ function _getOrganizationLearnersToDeleteIds({ knexConn, organizationId, date })
     .pluck('organization-learners.id');
 }
 
-async function _deleteCampaignParticipations({ knexConn, engineeringUserId, organizationId, date }) {
-  await knexConn('campaign-participations')
+async function _deleteCampaignParticipations({ engineeringUserId, organizationId, date }) {
+  const knexConnection = DomainTransaction.getConnection();
+  await knexConnection('campaign-participations')
     .update({
       deletedAt: new Date(),
       deletedBy: engineeringUserId,
     })
     .whereNull('deletedAt')
     .whereRaw('id IN (?)', [
-      knexConn('campaign-participations')
+      knexConnection('campaign-participations')
         .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
         .where({ organizationId })
         .pluck('campaign-participations.id'),
@@ -73,18 +73,20 @@ async function _deleteCampaignParticipations({ knexConn, engineeringUserId, orga
     .andWhere('createdAt', '<=', date);
 }
 
-async function _anonymizeOrganizationLearners({ knexConn, organizationId }) {
-  await knexConn('organization-learners')
+async function _anonymizeOrganizationLearners({ organizationId }) {
+  const knexConnection = DomainTransaction.getConnection();
+  await knexConnection('organization-learners')
     .update({ firstName: '', lastName: '', userId: null, updatedAt: new Date() })
     .where({ organizationId })
     .whereNotNull('deletedAt');
 }
 
-function _anonymizeCampaignParticipations({ knexConn, organizationId }) {
-  return knexConn('campaign-participations')
+function _anonymizeCampaignParticipations({ organizationId }) {
+  const knexConnection = DomainTransaction.getConnection();
+  return knexConnection('campaign-participations')
     .update({ participantExternalId: null, userId: null })
     .whereRaw('id IN (?)', [
-      knexConn('campaign-participations')
+      knexConnection('campaign-participations')
         .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
         .where({ organizationId })
         .whereNotNull('campaign-participations.deletedAt')
@@ -93,8 +95,9 @@ function _anonymizeCampaignParticipations({ knexConn, organizationId }) {
     .returning('id');
 }
 
-async function _detachAssessmentFromCampaignParticipations({ knexConn, campaignParticipations }) {
-  await knexConn('assessments')
+async function _detachAssessmentFromCampaignParticipations({ campaignParticipations }) {
+  const knexConnection = DomainTransaction.getConnection();
+  await knexConnection('assessments')
     .update({ campaignParticipationId: null, updatedAt: new Date() })
     .whereIn(
       'campaignParticipationId',

@@ -17,7 +17,7 @@ const importOrganizationLearnersFromSIECLECSVFormat = async function ({
 }) {
   let organizationImport;
   const errors = [];
-  return DomainTransaction.execute(async (domainTransaction) => {
+  return DomainTransaction.execute(async () => {
     try {
       organizationImport = await organizationImportRepository.getLastByOrganizationId(organizationId);
 
@@ -36,17 +36,12 @@ const importOrganizationLearnersFromSIECLECSVFormat = async function ({
       const nationalStudentIdData = organizationLearnerData.map((learner) => learner.nationalStudentId, []);
 
       await organizationLearnerRepository.disableAllOrganizationLearnersInOrganization({
-        domainTransaction,
         organizationId,
         nationalStudentIds: nationalStudentIdData,
       });
 
       await bluebird.mapSeries(organizationLearnersChunks, (chunk) => {
-        return organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(
-          chunk,
-          organizationId,
-          domainTransaction,
-        );
+        return organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(chunk, organizationId);
       });
     } catch (error) {
       errors.push(error);

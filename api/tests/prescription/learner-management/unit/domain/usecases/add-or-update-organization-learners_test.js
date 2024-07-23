@@ -13,7 +13,6 @@ describe('Unit | UseCase | add-or-update-organization-learners', function () {
   let readableSymbol;
   let parserStub;
   let streamerSymbol;
-  let domainTransaction;
   let organizationImportStub;
 
   beforeEach(function () {
@@ -29,9 +28,8 @@ describe('Unit | UseCase | add-or-update-organization-learners', function () {
       save: sinon.stub(),
     };
 
-    domainTransaction = Symbol();
     sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
-      return callback(domainTransaction);
+      return callback();
     });
     readableSymbol = Symbol('readable');
     importStorageStub = {
@@ -70,7 +68,6 @@ describe('Unit | UseCase | add-or-update-organization-learners', function () {
     });
 
     expect(organizationLearnerRepositoryStub.disableAllOrganizationLearnersInOrganization).to.have.been.calledWith({
-      domainTransaction,
       organizationId,
       nationalStudentIds: ['INE1', 'INE2', 'INE3'],
     });
@@ -83,17 +80,13 @@ describe('Unit | UseCase | add-or-update-organization-learners', function () {
         { lastName: 'Student2', nationalStudentId: 'INE2' },
       ],
       organizationId,
-      domainTransaction,
     ]);
     expect(
       organizationLearnerRepositoryStub.addOrUpdateOrganizationOfOrganizationLearners.getCall(1).args,
-    ).to.deep.equal([[{ lastName: 'Student3', nationalStudentId: 'INE3' }], organizationId, domainTransaction]);
+    ).to.deep.equal([[{ lastName: 'Student3', nationalStudentId: 'INE3' }], organizationId]);
 
     expect(organizationImportStub.process).to.have.been.calledWith({ errors: [] });
-    expect(organizationImportRepositoryStub.save).to.have.been.calledWithExactly(
-      organizationImportStub,
-      domainTransaction,
-    );
+    expect(organizationImportRepositoryStub.save).to.have.been.calledWithExactly(organizationImportStub);
 
     expect(importStorageStub.deleteFile).to.have.been.calledWithExactly({ filename: organizationImportStub.filename });
   });

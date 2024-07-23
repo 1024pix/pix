@@ -14,8 +14,8 @@ async function anonymizeGarData(request, h) {
 
   const userIds = await GarAnonymizationParser.getCsvData(filePath);
 
-  const result = await DomainTransaction.execute(async (domainTransaction) => {
-    return await usecases.anonymizeGarAuthenticationMethods({ userIds, adminMemberId, domainTransaction });
+  const result = await DomainTransaction.execute(async () => {
+    return await usecases.anonymizeGarAuthenticationMethods({ userIds, adminMemberId });
   });
 
   return h.response(anonymizeGarResultSerializer.serialize(result)).code(200);

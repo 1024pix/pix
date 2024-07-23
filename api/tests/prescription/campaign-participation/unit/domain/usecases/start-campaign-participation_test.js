@@ -26,7 +26,6 @@ describe('Unit | UseCase | start-campaign-participation', function () {
 
   it('should return CampaignParticipationStarted event', async function () {
     // given
-    const domainTransaction = Symbol('transaction');
     const campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation();
     const campaignParticipant = new CampaignParticipant({
       campaignToStartParticipation,
@@ -43,16 +42,14 @@ describe('Unit | UseCase | start-campaign-participation', function () {
     });
 
     campaignParticipantRepository.get
-      .withArgs({ userId, campaignId: campaignParticipationAttributes.campaignId, domainTransaction })
+      .withArgs({ userId, campaignId: campaignParticipationAttributes.campaignId })
       .resolves(campaignParticipant);
 
     sinon.stub(campaignParticipant, 'start');
 
-    campaignParticipantRepository.save
-      .withArgs({ campaignParticipant: sinon.match(campaignParticipant), domainTransaction })
-      .resolves(12);
+    campaignParticipantRepository.save.withArgs({ campaignParticipant: sinon.match(campaignParticipant) }).resolves(12);
 
-    campaignParticipationRepository.get.withArgs(12, domainTransaction).resolves(expectedCampaignParticipation);
+    campaignParticipationRepository.get.withArgs(12).resolves(expectedCampaignParticipation);
 
     // when
     const { event, campaignParticipation } = await usecases.startCampaignParticipation({
@@ -61,7 +58,6 @@ describe('Unit | UseCase | start-campaign-participation', function () {
       campaignRepository,
       campaignParticipantRepository,
       campaignParticipationRepository,
-      domainTransaction,
     });
 
     // then
@@ -73,13 +69,11 @@ describe('Unit | UseCase | start-campaign-participation', function () {
     expect(campaignParticipation).to.deep.equal(expectedCampaignParticipation);
     expect(campaignRepository.areKnowledgeElementsResettable).to.have.been.calledWithExactly({
       id: campaignParticipationAttributes.campaignId,
-      domainTransaction,
     });
     expect(campaignRepository.findAllSkills).not.to.have.been.called;
   });
 
   context('when there is a reset campaign participation', function () {
-    let domainTransaction;
     let campaignParticipationAttributes;
     let skills;
     let assessmentRepository;
@@ -89,7 +83,6 @@ describe('Unit | UseCase | start-campaign-participation', function () {
     let knowledgeElementToReset;
 
     beforeEach(function () {
-      domainTransaction = Symbol('transaction');
       const campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation();
       const campaignParticipant = new CampaignParticipant({
         campaignToStartParticipation,
@@ -99,7 +92,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
       campaignParticipationAttributes = { campaignId: 12, participantExternalId: 'YvoLoL' };
 
       campaignParticipantRepository.get
-        .withArgs({ userId, campaignId: campaignParticipationAttributes.campaignId, domainTransaction })
+        .withArgs({ userId, campaignId: campaignParticipationAttributes.campaignId })
         .resolves(campaignParticipant);
 
       knowledgeElementRepository = {
@@ -109,12 +102,12 @@ describe('Unit | UseCase | start-campaign-participation', function () {
       knowledgeElementToReset = domainBuilder.buildKnowledgeElement({ skillId: 'skillToReset' });
       knowledgeElement = domainBuilder.buildKnowledgeElement();
       knowledgeElementRepository.findUniqByUserId
-        .withArgs({ userId, domainTransaction })
+        .withArgs({ userId })
         .resolves([knowledgeElementToReset, knowledgeElement]);
 
       const knowledgeElements = [KnowledgeElement.reset(knowledgeElementToReset)];
 
-      knowledgeElementRepository.batchSave.withArgs({ knowledgeElements, domainTransaction }).resolves();
+      knowledgeElementRepository.batchSave.withArgs({ knowledgeElements }).resolves();
 
       competenceEvaluationRepository = {
         findByUserId: sinon.stub(),
@@ -126,21 +119,21 @@ describe('Unit | UseCase | start-campaign-participation', function () {
 
       skills = [{ id: 'skillToReset', tubeId: 'tubeId1', competenceId: 'competenceId1' }];
       campaignRepository.findAllSkills
-        .withArgs({ campaignId: campaignParticipationAttributes.campaignId, domainTransaction })
+        .withArgs({ campaignId: campaignParticipationAttributes.campaignId })
         .resolves(skills);
 
       sinon.stub(campaignParticipant, 'start');
       campaignParticipantRepository.save
-        .withArgs({ campaignParticipant: sinon.match(campaignParticipant), domainTransaction })
+        .withArgs({ campaignParticipant: sinon.match(campaignParticipant) })
         .resolves(12);
-      campaignParticipationRepository.get.withArgs(12, domainTransaction).resolves();
+      campaignParticipationRepository.get.withArgs(12).resolves();
     });
 
     context('when campaign is resettable', function () {
       beforeEach(function () {
         campaignParticipationAttributes.isReset = true;
         campaignRepository.areKnowledgeElementsResettable
-          .withArgs({ id: campaignParticipationAttributes.campaignId, domainTransaction })
+          .withArgs({ id: campaignParticipationAttributes.campaignId })
           .resolves(true);
       });
 
@@ -154,22 +147,18 @@ describe('Unit | UseCase | start-campaign-participation', function () {
           campaignParticipationRepository,
           knowledgeElementRepository,
           competenceEvaluationRepository,
-          domainTransaction,
         });
 
         // then
         expect(campaignRepository.findAllSkills).to.have.been.calledWithExactly({
           campaignId: campaignParticipationAttributes.campaignId,
-          domainTransaction,
         });
       });
 
       it('should reset knowledgeElements of the campaign', async function () {
         // given
         const expectedKe = KnowledgeElement.reset(knowledgeElementToReset);
-        knowledgeElementRepository.batchSave
-          .withArgs({ knowledgeElements: [expectedKe], domainTransaction })
-          .resolves();
+        knowledgeElementRepository.batchSave.withArgs({ knowledgeElements: [expectedKe] }).resolves();
 
         // when
         await usecases.startCampaignParticipation({
@@ -181,13 +170,11 @@ describe('Unit | UseCase | start-campaign-participation', function () {
           assessmentRepository,
           knowledgeElementRepository,
           competenceEvaluationRepository,
-          domainTransaction,
         });
 
         // then
         expect(knowledgeElementRepository.batchSave).to.have.been.calledOnceWithExactly({
           knowledgeElements: [expectedKe],
-          domainTransaction,
         });
       });
 
@@ -212,14 +199,12 @@ describe('Unit | UseCase | start-campaign-participation', function () {
           assessmentRepository,
           knowledgeElementRepository,
           competenceEvaluationRepository,
-          domainTransaction,
         });
 
         // then
         expect(competenceEvaluationRepository.findByUserId).to.have.been.calledOnceWithExactly(userId);
         expect(assessmentRepository.setAssessmentsAsStarted).to.have.been.calledOnceWithExactly({
           assessmentIds: expectedUpdatedAssessmentIds,
-          domainTransaction,
         });
       });
     });
@@ -228,7 +213,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
       it('should not retrieve skillIds to reset', async function () {
         campaignParticipationAttributes.isReset = true;
         campaignRepository.areKnowledgeElementsResettable
-          .withArgs({ id: campaignParticipationAttributes.campaignId, domainTransaction })
+          .withArgs({ id: campaignParticipationAttributes.campaignId })
           .resolves(false);
 
         // when
@@ -239,7 +224,6 @@ describe('Unit | UseCase | start-campaign-participation', function () {
           campaignRepository,
           campaignParticipantRepository,
           campaignParticipationRepository,
-          domainTransaction,
         });
 
         // then
