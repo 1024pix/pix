@@ -13,6 +13,16 @@ class OrganizationLearnerImportFormat {
     return this.config.headers;
   }
 
+  get orderedDisplayabledColumns() {
+    if (!this.config.displayableColumns) return [];
+
+    return this.config.displayableColumns.slice().sort((columnA, columnB) => columnA.position - columnB.position);
+  }
+
+  get columnsToDisplay() {
+    return this.orderedDisplayabledColumns.map((column) => column.name);
+  }
+
   /**
    * @function
    * Transform form params into a repository compliant params
