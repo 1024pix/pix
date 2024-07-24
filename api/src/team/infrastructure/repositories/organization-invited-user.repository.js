@@ -1,5 +1,5 @@
-import { knex } from '../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../../src/shared/domain/errors.js';
+import { knex } from '../../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../../shared/domain/errors.js';
 import { OrganizationInvitedUser } from '../../domain/models/OrganizationInvitedUser.js';
 
 const get = async function ({ organizationInvitationId, email }) {
@@ -72,4 +72,5 @@ const save = async function ({ organizationInvitedUser }) {
     .where({ id: organizationInvitedUser.invitation.id });
 };
 
-export { get, save };
+const organizationInvitedUserRepository = { get, save };
+export { organizationInvitedUserRepository };
