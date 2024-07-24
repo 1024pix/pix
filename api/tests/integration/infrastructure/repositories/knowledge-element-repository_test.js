@@ -38,15 +38,14 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
     it('should save all the knowledgeElements in db', async function () {
       // when
-      await knowledgeElementRepository.batchSave({ knowledgeElements: knowledgeElementsToSave });
+      const savedKnowledgeElements = await knowledgeElementRepository.batchSave({
+        knowledgeElements: knowledgeElementsToSave,
+      });
 
       // then
-      let actualKnowledgeElements = await knex.select('*').from('knowledge-elements');
-      actualKnowledgeElements = actualKnowledgeElements.map((ke) => _.omit(ke, ['id', 'createdAt', 'updatedAt']));
-      const expectedKnowledgeElements = knowledgeElementsToSave.map((ke) =>
-        _.omit(ke, ['id', 'createdAt', 'updatedAt']),
-      );
-      expect(actualKnowledgeElements).to.deep.equal(expectedKnowledgeElements);
+      expect(savedKnowledgeElements.length).to.equal(2);
+      expect(savedKnowledgeElements[0]).to.deepEqualInstanceOmitting(knowledgeElementsToSave[0], ['createdAt', 'id']);
+      expect(savedKnowledgeElements[1]).to.deepEqualInstanceOmitting(knowledgeElementsToSave[1], ['createdAt', 'id']);
     });
   });
 
