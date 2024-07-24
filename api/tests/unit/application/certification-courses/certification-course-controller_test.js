@@ -340,25 +340,6 @@ describe('Unit | Controller | certification-course-controller', function () {
     });
   });
 
-  describe('#cancelCertificationCourse', function () {
-    it('should call cancel-certification-course usecase', async function () {
-      // given
-      sinon.stub(usecases, 'cancelCertificationCourse');
-      const request = {
-        params: {
-          id: 123,
-        },
-      };
-      usecases.cancelCertificationCourse.resolves();
-
-      // when
-      await certificationCourseController.cancel(request, hFake);
-
-      // then
-      expect(usecases.cancelCertificationCourse).to.have.been.calledWithExactly({ certificationCourseId: 123 });
-    });
-  });
-
   describe('#uncancelCertificationCourse', function () {
     it('should call uncancel-certification-course usecase', async function () {
       // given
