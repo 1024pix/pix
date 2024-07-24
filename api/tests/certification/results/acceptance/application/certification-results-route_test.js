@@ -1,12 +1,12 @@
-import { ComplementaryCertificationKeys } from '../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
+import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import {
   createServer,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
 
-describe('Acceptance | Controller | session-with-clea-certified-candidate', function () {
+describe('Certification | Results | Acceptance | Application | Controller | session-with-clea-certified-candidate', function () {
   describe('GET /api/sessions/{id}/certified-clea-candidate-data', function () {
     it('should return 200 HTTP status code', async function () {
       // given

@@ -98,6 +98,7 @@ import * as skillRepository from '../../../src/shared/infrastructure/repositorie
 import * as targetProfileForAdminRepository from '../../../src/shared/infrastructure/repositories/target-profile-for-admin-repository.js';
 import * as userLoginRepository from '../../../src/shared/infrastructure/repositories/user-login-repository.js';
 import * as codeUtils from '../../../src/shared/infrastructure/utils/code-utils.js';
+import * as writeCsvUtils from '../../../src/shared/infrastructure/utils/csv/write-csv-utils.js';
 import * as dateUtils from '../../../src/shared/infrastructure/utils/date-utils.js';
 import { injectDependencies } from '../../../src/shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../src/shared/infrastructure/utils/import-named-exports-from-directory.js';
@@ -131,7 +132,6 @@ import * as certificationLsRepository from '../../infrastructure/repositories/ce
 import * as certificationPointOfContactRepository from '../../infrastructure/repositories/certification-point-of-contact-repository.js';
 import * as certificationRepository from '../../infrastructure/repositories/certification-repository.js';
 import * as certificationResultRepository from '../../infrastructure/repositories/certification-result-repository.js';
-import * as cleaCertifiedCandidateRepository from '../../infrastructure/repositories/clea-certified-candidate-repository.js';
 import * as competenceMarkRepository from '../../infrastructure/repositories/competence-mark-repository.js';
 import * as competenceTreeRepository from '../../infrastructure/repositories/competence-tree-repository.js';
 import * as complementaryCertificationCourseResultRepository from '../../infrastructure/repositories/complementary-certification-course-result-repository.js';
@@ -162,7 +162,6 @@ import * as thematicRepository from '../../infrastructure/repositories/thematic-
 import * as tubeRepository from '../../infrastructure/repositories/tube-repository.js';
 import * as stageCollectionRepository from '../../infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
 import * as userOrganizationsForAdminRepository from '../../infrastructure/repositories/user-organizations-for-admin-repository.js';
-import * as writeCsvUtils from '../../infrastructure/utils/csv/write-csv-utils.js';
 import * as learningContentConversionService from '../services/learning-content/learning-content-conversion-service.js';
 import * as userReconciliationService from '../services/user-reconciliation-service.js';
 import * as organizationCreationValidator from '../validators/organization-creation-validator.js';
@@ -246,7 +245,6 @@ const dependencies = {
   certificationRepository,
   certificationResultRepository,
   challengeRepository,
-  cleaCertifiedCandidateRepository,
   codeGenerator,
   codeUtils,
   competenceEvaluationRepository,

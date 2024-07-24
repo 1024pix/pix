@@ -1,6 +1,6 @@
-import { knex } from '../../../db/knex-database-connection.js';
-import { ComplementaryCertificationKeys } from '../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
-import { CleaCertifiedCandidate } from '../../domain/read-models/CleaCertifiedCandidate.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { CleaCertifiedCandidate } from '../../../../../lib/domain/read-models/CleaCertifiedCandidate.js';
+import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 
 const getBySessionId = async function (sessionId) {
   const results = await knex

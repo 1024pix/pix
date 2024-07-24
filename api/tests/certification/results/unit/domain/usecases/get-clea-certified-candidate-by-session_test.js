@@ -1,7 +1,7 @@
-import { getCleaCertifiedCandidateBySession } from '../../../../lib/domain/usecases/get-clea-certified-candidate-by-session.js';
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { getCleaCertifiedCandidateBySession } from '../../../../../../src/certification/results/domain/usecases/get-clea-certified-candidate-by-session.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | UseCase | getCleaCertifiedCandidateBySession', function () {
+describe('Certification | Results | Unit | Domain | UseCases | getCleaCertifiedCandidateBySession', function () {
   let cleaCertifiedCandidateRepository;
   let sessionEnrolmentRepository;
 

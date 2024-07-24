@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
-import { usecases } from '../../domain/usecases/index.js';
-import { getCleaCertifiedCandidateCsv } from '../../infrastructure/utils/csv/certification-results/get-clea-certified-candidate-csv.js';
+import { usecases } from '../domain/usecases/index.js';
+import { getCleaCertifiedCandidateCsv } from '../infrastructure/utils/csv/certification-results/get-clea-certified-candidate-csv.js';
 
 const getCleaCertifiedCandidateDataCsv = async function (request, h, dependencies = { getCleaCertifiedCandidateCsv }) {
   const sessionId = request.params.id;
@@ -21,6 +21,6 @@ const getCleaCertifiedCandidateDataCsv = async function (request, h, dependencie
     .header('Content-Disposition', `attachment; filename=${fileName}`);
 };
 
-const sessionWithCleaCertifiedCandidateController = { getCleaCertifiedCandidateDataCsv };
+const certificationResultsController = { getCleaCertifiedCandidateDataCsv };
 
-export { sessionWithCleaCertifiedCandidateController };
+export { certificationResultsController };

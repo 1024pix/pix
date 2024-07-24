@@ -2,11 +2,9 @@ import JoiDate from '@joi/date';
 import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 
-import { authorization } from '../../../src/certification/shared/application/pre-handlers/authorization.js';
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
 import { sessionController } from './session-controller.js';
-import { sessionWithCleaCertifiedCandidateController } from './session-with-clea-certified-candidate-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -234,29 +232,6 @@ const register = async function (server) {
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             '- Elle permet de marquer le fait que les résultats de la session ont été envoyés au prescripteur,\n',
           '- par le biais de la sauvegarde de la date courante.',
-        ],
-      },
-    },
-    {
-      method: 'GET',
-      path: '/api/sessions/{id}/certified-clea-candidate-data',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.sessionId,
-          }),
-        },
-        pre: [
-          {
-            method: authorization.verifySessionAuthorization,
-            assign: 'authorizationCheck',
-          },
-        ],
-        handler: sessionWithCleaCertifiedCandidateController.getCleaCertifiedCandidateDataCsv,
-        tags: ['api', 'sessions', 'export-csv'],
-        notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés',
-          "Elle retourne toutes les infos des candidats d'une session ayant obtenu la certification Clea, sous format CSV",
         ],
       },
     },
