@@ -76,18 +76,6 @@ async function createAssessmentCampaign({
   assessmentMethod,
   configCampaign,
 }) {
-  const completionDistribution = [
-    ...Array(configCampaign.completionDistribution?.started || 0).fill('STARTED'),
-    ...Array(configCampaign.completionDistribution?.to_share || 0).fill('TO_SHARE'),
-    ...Array(configCampaign.completionDistribution?.shared || 0).fill('SHARED'),
-    ...Array(configCampaign.completionDistribution?.shared_one_validated_skill || 0).fill('SHARED_ONE_VALIDATED_SKILL'),
-    ...Array(configCampaign.completionDistribution?.shared_perfect || 0).fill('SHARED_PERFECT'),
-  ];
-
-  if (completionDistribution.length < configCampaign.participantCount)
-    completionDistribution.push(
-      ...Array(configCampaign.participantCount - completionDistribution.length).fill('SHARED'),
-    );
   const { realCampaignId, realOrganizationId, realCreatedAt } = _buildCampaign({
     databaseBuilder,
     campaignId,
@@ -121,99 +109,119 @@ async function createAssessmentCampaign({
   });
 
   const badgeIds = await databaseBuilder.knex('badges').pluck('id').where({ targetProfileId });
+  if (configCampaign) {
+    if (configCampaign.anonymousParticipation) {
+      _createAnonymousParticipation(databaseBuilder, realOrganizationId, realCampaignId, realCreatedAt);
+    }
 
-  const userAndLearnerIds = await _createOrRetrieveUsersAndLearners(
-    databaseBuilder,
-    realOrganizationId,
-    configCampaign.participantCount,
-  );
+    const completionDistribution = [
+      ...Array(configCampaign.completionDistribution?.started || 0).fill('STARTED'),
+      ...Array(configCampaign.completionDistribution?.to_share || 0).fill('TO_SHARE'),
+      ...Array(configCampaign.completionDistribution?.shared || 0).fill('SHARED'),
+      ...Array(configCampaign.completionDistribution?.shared_one_validated_skill || 0).fill(
+        'SHARED_ONE_VALIDATED_SKILL',
+      ),
+      ...Array(configCampaign.completionDistribution?.shared_perfect || 0).fill('SHARED_PERFECT'),
+    ];
 
-  for (const { userId, organizationLearnerId } of userAndLearnerIds) {
-    const createdDate = dayjs(realCreatedAt)
-      .add(_.random(0, _numberOfDaysBetweenNowAndCreationDate(realCreatedAt)), 'days')
-      .toDate();
-    const sharedDate = dayjs(createdDate)
-      .add(_.random(0, _numberOfDaysBetweenNowAndCreationDate(createdDate)), 'days')
-      .toDate();
+    if (completionDistribution.length < configCampaign.participantCount)
+      completionDistribution.push(
+        ...Array(configCampaign.participantCount - completionDistribution.length).fill('SHARED'),
+      );
 
-    const { status, answersAndKnowledgeElements, validatedSkillsCount, masteryRate, pixScore, buildBadges } =
-      await _getCompletionCampaignParticipationData(completionDistribution.shift(), campaignSkills, sharedDate);
+    const userAndLearnerIds = await _createOrRetrieveUsersAndLearners(
+      databaseBuilder,
+      realOrganizationId,
+      configCampaign.participantCount,
+    );
 
-    const isStarted = status === CampaignParticipationStatuses.STARTED;
-    const isShared = status === CampaignParticipationStatuses.SHARED;
-    const sharedAt = isShared ? sharedDate : null;
+    for (const { userId, organizationLearnerId } of userAndLearnerIds) {
+      const createdDate = dayjs(realCreatedAt)
+        .add(_.random(0, _numberOfDaysBetweenNowAndCreationDate(realCreatedAt)), 'days')
+        .toDate();
+      const sharedDate = dayjs(createdDate)
+        .add(_.random(0, _numberOfDaysBetweenNowAndCreationDate(createdDate)), 'days')
+        .toDate();
 
-    const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
-      campaignId: realCampaignId,
-      userId,
-      organizationLearnerId,
-      sharedAt,
-      createdAt: createdDate,
-      validatedSkillsCount,
-      masteryRate,
-      pixScore,
-      status,
-      isImproved: false,
-      isCertifiable: null,
-    }).id;
+      const { status, answersAndKnowledgeElements, validatedSkillsCount, masteryRate, pixScore, buildBadges } =
+        await _getCompletionCampaignParticipationData(completionDistribution.shift(), campaignSkills, sharedDate);
 
-    const assessmentId = databaseBuilder.factory.buildAssessment({
-      userId,
-      type: Assessment.types.CAMPAIGN,
-      createdAt: createdDate,
-      state: isStarted ? Assessment.states.STARTED : Assessment.states.COMPLETED,
-      isImproving: false,
-      lastQuestionDate: new Date(),
-      lastQuestionState: isStarted ? null : Assessment.statesOfLastQuestion.ASKED,
-      competenceId: null,
-      campaignParticipationId,
-    }).id;
-    const keDataForSnapshot = [];
+      const isStarted = status === CampaignParticipationStatuses.STARTED;
+      const isShared = status === CampaignParticipationStatuses.SHARED;
+      const sharedAt = isShared ? sharedDate : null;
 
-    for (const { answerData, keData } of answersAndKnowledgeElements) {
-      const answerId = databaseBuilder.factory.buildAnswer({
-        assessmentId,
-        answerData,
+      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: realCampaignId,
+        userId,
+        organizationLearnerId,
+        sharedAt,
         createdAt: createdDate,
+        validatedSkillsCount,
+        masteryRate,
+        pixScore,
+        status,
+        isImproved: false,
+        isCertifiable: null,
       }).id;
 
-      keDataForSnapshot.push(
-        databaseBuilder.factory.buildKnowledgeElement({
-          assessmentId,
-          answerId,
-          userId,
-          ...keData,
-          createdAt: dayjs(sharedDate).subtract(1, 'day'),
-        }),
-      );
-    }
-
-    if (!isStarted && buildBadges) {
-      for (const badgeId of badgeIds) {
-        databaseBuilder.factory.buildBadgeAcquisition({
-          badgeId,
-          userId,
-          campaignParticipationId,
-        });
-      }
-    }
-
-    if (isShared) {
-      databaseBuilder.factory.buildKnowledgeElementSnapshot({
+      const assessmentId = databaseBuilder.factory.buildAssessment({
         userId,
-        snappedAt: sharedAt,
-        snapshot: JSON.stringify(keDataForSnapshot),
-      });
+        type: Assessment.types.CAMPAIGN,
+        createdAt: createdDate,
+        state: isStarted ? Assessment.states.STARTED : Assessment.states.COMPLETED,
+        isImproving: false,
+        lastQuestionDate: new Date(),
+        lastQuestionState: isStarted ? null : Assessment.statesOfLastQuestion.ASKED,
+        competenceId: null,
+        campaignParticipationId,
+      }).id;
+      const keDataForSnapshot = [];
 
-      if (configCampaign.recommendedTrainingsIds?.length > 0) {
-        for (const trainingId of configCampaign.recommendedTrainingsIds) {
-          databaseBuilder.factory.buildUserRecommendedTraining({
+      for (const { answerData, keData } of answersAndKnowledgeElements) {
+        const answerId = databaseBuilder.factory.buildAnswer({
+          assessmentId,
+          answerData,
+          createdAt: createdDate,
+        }).id;
+
+        keDataForSnapshot.push(
+          databaseBuilder.factory.buildKnowledgeElement({
+            assessmentId,
+            answerId,
             userId,
-            trainingId,
+            ...keData,
+            createdAt: dayjs(sharedDate).subtract(1, 'day'),
+          }),
+        );
+      }
+
+      if (!isStarted && buildBadges) {
+        for (const badgeId of badgeIds) {
+          databaseBuilder.factory.buildBadgeAcquisition({
+            badgeId,
+            userId,
             campaignParticipationId,
-            createdAt: sharedAt,
-            updatedAt: sharedAt,
           });
+        }
+      }
+
+      if (isShared) {
+        databaseBuilder.factory.buildKnowledgeElementSnapshot({
+          userId,
+          snappedAt: sharedAt,
+          snapshot: JSON.stringify(keDataForSnapshot),
+        });
+
+        if (configCampaign.recommendedTrainingsIds?.length > 0) {
+          for (const trainingId of configCampaign.recommendedTrainingsIds) {
+            databaseBuilder.factory.buildUserRecommendedTraining({
+              userId,
+              trainingId,
+              campaignParticipationId,
+              createdAt: sharedAt,
+              updatedAt: sharedAt,
+            });
+          }
         }
       }
     }
@@ -457,6 +465,43 @@ function _buildCampaign({
 }
 
 let emailIndex = 0;
+
+function _createAnonymousParticipation(databaseBuilder, organizationId, campaignId, createdAt) {
+  const createdDate = dayjs(createdAt)
+    .add(_.random(0, _numberOfDaysBetweenNowAndCreationDate(createdAt)), 'days')
+    .toDate();
+
+  const anonymousUserId = databaseBuilder.factory.buildUser({ lastName: '', firstName: '', isAnonymous: true }).id;
+  const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
+    firstName: ``,
+    lastName: ``,
+    sex: null,
+    birthdate: null,
+    birthCity: null,
+    birthCityCode: null,
+    birthCountryCode: null,
+    birthProvinceCode: null,
+    isDisabled: false,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    organizationId,
+    userId: anonymousUserId,
+  }).id;
+
+  databaseBuilder.factory.buildCampaignParticipation({
+    campaignId,
+    userId: anonymousUserId,
+    organizationLearnerId,
+    sharedAt: null,
+    createdAt: createdDate,
+    validatedSkillsCount: 0,
+    masteryRate: 0,
+    pixScore: 0,
+    status: CampaignParticipationStatuses.STARTED,
+    isImproved: false,
+    isCertifiable: null,
+  });
+}
 
 async function _createOrRetrieveUsersAndLearners(databaseBuilder, organizationId, requiredParticipantCount) {
   const userAndLearnerIds = [];

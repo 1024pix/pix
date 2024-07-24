@@ -18,7 +18,10 @@ describe('Unit | Domain | ReadModels | PlaceStatistics', function () {
   describe('#buildFrom', function () {
     it('builds a PlaceStatistics with an id', function () {
       const organizationId = 1;
-      const placeStatistics = PlaceStatistics.buildFrom({ organizationId });
+      const placeStatistics = PlaceStatistics.buildFrom({
+        organizationId,
+        placeRepartition: { totalUnRegisteredParticipant: 0, totalRegisteredParticipant: 0 },
+      });
 
       expect(placeStatistics).is.instanceof(PlaceStatistics);
       expect(placeStatistics.id).to.includes(organizationId);
@@ -28,7 +31,10 @@ describe('Unit | Domain | ReadModels | PlaceStatistics', function () {
   describe('#id', function () {
     it('should create an id including organizationId', function () {
       const organizationId = 1;
-      const placeStatistics = PlaceStatistics.buildFrom({ organizationId });
+      const placeStatistics = PlaceStatistics.buildFrom({
+        organizationId,
+        placeRepartition: { totalUnRegisteredParticipant: 0, totalRegisteredParticipant: 0 },
+      });
 
       expect(placeStatistics.id).to.equal(`${organizationId}_place_statistics`);
     });
@@ -36,7 +42,9 @@ describe('Unit | Domain | ReadModels | PlaceStatistics', function () {
 
   describe('#total', function () {
     it('should return 0 when there are no places lots', function () {
-      const statistics = new PlaceStatistics();
+      const statistics = new PlaceStatistics({
+        placeRepartition: { totalUnRegisteredParticipant: 0, totalRegisteredParticipant: 0 },
+      });
 
       expect(statistics.total).to.equal(0);
     });
@@ -51,6 +59,7 @@ describe('Unit | Domain | ReadModels | PlaceStatistics', function () {
             deletedAt: null,
           }),
         ],
+        placeRepartition: { totalUnRegisteredParticipant: 0, totalRegisteredParticipant: 0 },
       });
 
       expect(statistics.total).to.equal(1);
@@ -72,6 +81,7 @@ describe('Unit | Domain | ReadModels | PlaceStatistics', function () {
             deletedAt: null,
           }),
         ],
+        placeRepartition: { totalUnRegisteredParticipant: 0, totalRegisteredParticipant: 0 },
       });
 
       expect(statistics.total).to.equal(2);
@@ -80,21 +90,27 @@ describe('Unit | Domain | ReadModels | PlaceStatistics', function () {
 
   describe('#occupied', function () {
     it('should return 0 when there is no participant', function () {
-      const statistics = new PlaceStatistics();
+      const statistics = new PlaceStatistics({
+        placeRepartition: { totalUnRegisteredParticipant: 0, totalRegisteredParticipant: 0 },
+      });
 
       expect(statistics.occupied).to.equal(0);
     });
 
-    it('should return count of occupied places when there are participant', function () {
-      const statistics = new PlaceStatistics({ numberOfParticipantWithAtLeastOneParticipation: 1 });
+    it('should return sum of occupied by participant typology when there are participant', function () {
+      const statistics = new PlaceStatistics({
+        placeRepartition: { totalUnRegisteredParticipant: 1, totalRegisteredParticipant: 1 },
+      });
 
-      expect(statistics.occupied).to.equal(1);
+      expect(statistics.occupied).to.equal(2);
     });
   });
 
   describe('#available', function () {
     it('should return 0 when there are no place lots', function () {
-      const statistics = new PlaceStatistics();
+      const statistics = new PlaceStatistics({
+        placeRepartition: { totalUnRegisteredParticipant: 0, totalRegisteredParticipant: 0 },
+      });
 
       expect(statistics.available).to.equal(0);
     });
@@ -109,6 +125,7 @@ describe('Unit | Domain | ReadModels | PlaceStatistics', function () {
             deletedAt: null,
           }),
         ],
+        placeRepartition: { totalUnRegisteredParticipant: 0, totalRegisteredParticipant: 0 },
       });
 
       expect(statistics.available).to.equal(1);
@@ -124,7 +141,7 @@ describe('Unit | Domain | ReadModels | PlaceStatistics', function () {
             deletedAt: null,
           }),
         ],
-        numberOfParticipantWithAtLeastOneParticipation: 1,
+        placeRepartition: { totalUnRegisteredParticipant: 0, totalRegisteredParticipant: 1 },
       });
 
       expect(statistics.available).to.equal(1);
@@ -135,7 +152,7 @@ describe('Unit | Domain | ReadModels | PlaceStatistics', function () {
         placesLots: [
           { count: 2, expirationDate: new Date('2021-05-02'), activationDate: new Date('2021-04-01'), deletedAt: null },
         ],
-        numberOfParticipantWithAtLeastOneParticipation: 3,
+        placeRepartition: { totalUnRegisteredParticipant: 0, totalRegisteredParticipant: 3 },
       });
 
       expect(statistics.available).to.equal(0);
@@ -166,6 +183,7 @@ describe('Unit | Domain | ReadModels | PlaceStatistics', function () {
               deletedAt: null,
             }),
           ],
+          placeRepartition: { totalUnRegisteredParticipant: 0, totalRegisteredParticipant: 0 },
         });
       })();
 

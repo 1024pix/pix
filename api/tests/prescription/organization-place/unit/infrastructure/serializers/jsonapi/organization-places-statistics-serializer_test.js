@@ -10,6 +10,7 @@ describe('Unit | Serializer | JSONAPI | organization-places-statistics-serialize
         total: 10,
         occupied: 5,
         available: 5,
+        anonymousSeat: 3,
       };
 
       const expectedJSON = {
@@ -20,6 +21,7 @@ describe('Unit | Serializer | JSONAPI | organization-places-statistics-serialize
             total: placeStatistics.total,
             occupied: placeStatistics.occupied,
             available: placeStatistics.available,
+            'anonymous-seat': placeStatistics.anonymousSeat,
           },
         },
       };

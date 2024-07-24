@@ -8,6 +8,7 @@ import {
   OrganizationLearnerNotFound,
 } from '../../domain/errors.js';
 import { OrganizationLearner } from '../../domain/models/OrganizationLearner.js';
+import { ParticipantRepartition } from '../../domain/models/ParticipantRepartition.js';
 import { OrganizationLearnerForAdmin } from '../../domain/read-models/OrganizationLearnerForAdmin.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 import * as studentRepository from './student-repository.js';
@@ -390,26 +391,36 @@ function _queryBuilderForCertificability({
     });
 }
 
-const countActiveWithAtLeastOneParticipationByOrganizationId = async function (organizationId) {
-  const { count } = await knex('view-active-organization-learners')
-    .countDistinct('view-active-organization-learners.id')
-    .join(
-      'campaign-participations',
-      'campaign-participations.organizationLearnerId',
-      'view-active-organization-learners.id',
-    )
-    .where({ organizationId })
-    .whereNull('campaign-participations.deletedAt')
-    .first();
-  return count;
+/**
+ * @function
+ * @name findAllLearnerWithAtLeastOneParticipationByOrganizationId
+ * @typedef {number} organizationId
+ * @returns {Promise<ParticipantRepartition>}
+ */
+const findAllLearnerWithAtLeastOneParticipationByOrganizationId = async function (organizationId) {
+  const result = await knex
+    .select('users.isAnonymous')
+    .distinct('view-active-organization-learners.id')
+    .from('view-active-organization-learners')
+    .join('users', 'users.id', 'view-active-organization-learners.userId')
+    .join('campaign-participations', function () {
+      this.on('campaign-participations.organizationLearnerId', 'view-active-organization-learners.id').andOnVal(
+        'campaign-participations.deletedAt',
+        knex.raw('IS'),
+        knex.raw('NULL'),
+      );
+    })
+    .where({ organizationId });
+
+  return new ParticipantRepartition(result);
 };
 
 export {
   _reconcileOrganizationLearners,
-  countActiveWithAtLeastOneParticipationByOrganizationId,
   countByOrganizationsWhichNeedToComputeCertificability,
   dissociateAllStudentsByUserId,
   dissociateUserFromOrganizationLearner,
+  findAllLearnerWithAtLeastOneParticipationByOrganizationId,
   findByIds,
   findByOrganizationId,
   findByOrganizationIdAndBirthdate,

@@ -8,51 +8,36 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 module('Integration | Component | Places | PlaceInfo', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  test('it should render', async function (assert) {
-    // given
-    const currentUser = { isSCOManagingStudents: false, isSUPManagingStudents: false };
-
+  test('it should render occupied place with account', async function (assert) {
     // when
-    const screen = await render(<template><PlaceInfo @currentUser={{currentUser}} /></template>);
+    const screen = await render(<template><PlaceInfo @hasAnonymousSeat={{false}} /></template>);
 
     // then
-    assert.ok(screen.getByText(t('cards.place-info.message')));
-    assert.ok(screen.getByText(t('cards.place-info.details')));
+    const heading = t('cards.place-info.with-account.heading', { htmlSafe: true });
+    const strippedHeading = heading.__string.replace(/<\/?[^>]+(>|$)/g, '');
+
+    assert.ok(screen.getByRole('heading', { name: strippedHeading, level: 2 }));
+    assert.ok(screen.getByText(t('cards.place-info.with-account.message-main')));
+    assert.ok(screen.getByText(t('cards.place-info.with-account.message-description')));
   });
-  module('link', function () {
-    test('it should link to sup participant page', async function (assert) {
-      // given
-      const currentUser = { isSUPManagingStudents: true };
 
-      // when
-      const screen = await render(<template><PlaceInfo @currentUser={{currentUser}} /></template>);
-      const link = screen.getByRole('link', { name: t('cards.place-info.link') });
+  test('it should render occupied place without account', async function (assert) {
+    // when
+    const screen = await render(<template><PlaceInfo @hasAnonymousSeat={{true}} /></template>);
 
-      // then
-      assert.strictEqual(link.getAttribute('href'), '/etudiants');
-    });
+    // then
+    const heading = t('cards.place-info.with-account.heading', { htmlSafe: true });
+    const strippedHeading = heading.__string.replace(/<\/?[^>]+(>|$)/g, '');
 
-    test('it should link to sco participant page', async function (assert) {
-      // given
-      const currentUser = { isSCOManagingStudents: true };
+    assert.ok(screen.getByRole('heading', { name: strippedHeading, level: 2 }));
+    assert.ok(screen.getByText(t('cards.place-info.with-account.message-main')));
+    assert.ok(screen.getByText(t('cards.place-info.with-account.message-description')));
 
-      // when
-      const screen = await render(<template><PlaceInfo @currentUser={{currentUser}} /></template>);
-      const link = screen.getByRole('link', { name: t('cards.place-info.link') });
+    const anonymousHeading = t('cards.place-info.without-account.heading', { htmlSafe: true });
+    const strippedAnonymousHeading = anonymousHeading.__string.replace(/<\/?[^>]+(>|$)/g, '');
 
-      // then
-      assert.strictEqual(link.getAttribute('href'), '/eleves');
-    });
-    test('it should link to participant page', async function (assert) {
-      // given
-      const currentUser = {};
-
-      // when
-      const screen = await render(<template><PlaceInfo @currentUser={{currentUser}} /></template>);
-      const link = screen.getByRole('link', { name: t('cards.place-info.link') });
-
-      // then
-      assert.strictEqual(link.getAttribute('href'), '/participants');
-    });
+    assert.ok(screen.getByRole('heading', { name: strippedAnonymousHeading, level: 2 }));
+    assert.ok(screen.getByText(t('cards.place-info.without-account.message-main')));
+    assert.ok(screen.getByText(t('cards.place-info.without-account.message-description')));
   });
 });

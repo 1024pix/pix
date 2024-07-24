@@ -4,12 +4,12 @@ import { OrganizationCantGetPlacesStatisticsError } from '../../../../prescripti
 
 export class PlaceStatistics {
   #placesLots;
-  #numberOfParticipantWithAtLeastOneParticipation;
+  #placeRepartition;
 
-  constructor({ placesLots = [], numberOfParticipantWithAtLeastOneParticipation, organizationId } = {}) {
+  constructor({ placesLots = [], placeRepartition, organizationId } = {}) {
     this.id = `${organizationId}_place_statistics`;
     this.#placesLots = placesLots;
-    this.#numberOfParticipantWithAtLeastOneParticipation = numberOfParticipantWithAtLeastOneParticipation;
+    this.#placeRepartition = placeRepartition;
     this.#validate();
   }
 
@@ -18,8 +18,8 @@ export class PlaceStatistics {
       throw new OrganizationCantGetPlacesStatisticsError();
     }
   }
-  static buildFrom({ placesLots, numberOfParticipantWithAtLeastOneParticipation, organizationId } = {}) {
-    return new PlaceStatistics({ placesLots, numberOfParticipantWithAtLeastOneParticipation, organizationId });
+  static buildFrom({ placesLots, placeRepartition, organizationId } = {}) {
+    return new PlaceStatistics({ placesLots, placeRepartition, organizationId });
   }
 
   get total() {
@@ -29,9 +29,11 @@ export class PlaceStatistics {
   }
 
   get occupied() {
-    if (!this.#numberOfParticipantWithAtLeastOneParticipation) return 0;
+    return this.#placeRepartition.totalRegisteredParticipant + this.#placeRepartition.totalUnRegisteredParticipant;
+  }
 
-    return this.#numberOfParticipantWithAtLeastOneParticipation;
+  get anonymousSeat() {
+    return this.#placeRepartition.totalUnRegisteredParticipant;
   }
 
   get available() {

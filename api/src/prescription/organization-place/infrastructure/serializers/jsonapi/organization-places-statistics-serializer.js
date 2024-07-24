@@ -4,7 +4,7 @@ const { Serializer } = jsonapiSerializer;
 
 const serialize = function (places) {
   return new Serializer('organization-place-statistics', {
-    attributes: ['total', 'occupied', 'available'],
+    attributes: ['total', 'occupied', 'available', 'anonymousSeat'],
   }).serialize(places);
 };
 

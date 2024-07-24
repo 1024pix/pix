@@ -19,6 +19,6 @@ module('Integration | Component | Places::Title', function (hooks) {
     // then
     assert.ok(screen.getByText(t('pages.places.title')));
     assert.ok(screen.getByText(t('pages.places.before-date'), { exact: false }));
-    assert.ok(screen.getByText(today.format('DD/MM/YYYY'), { exact: false }));
+    assert.ok(screen.getByText(today.format('DD MMM YYYY'), { exact: false }));
   });
 });

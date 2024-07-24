@@ -80,6 +80,7 @@
     },
     "occupied-seats-count": {
       "title": "Seats occupied",
+      "anonymous": "including {count, plural, =1 {1 seat} other {{count, number} seats}} with no-account access",
       "value": "/{total} seats"
     },
     "participants-average-results": {
@@ -96,9 +97,16 @@
       "loader": "Loading total participants"
     },
     "place-info": {
-      "details": "with at least one participation in a campaign.",
-      "link": "Free a place from the \"Participants\" tab.",
-      "message": "1 place occupied = 1 participant"
+      "with-account": {
+        "heading": "'<strong>'The participant has a Pix account:'</strong>'",
+        "message-description": "You can free up seats by deleting participants from the Participants tab.",
+        "message-main": "1 participant with at least one participation in a campaign = 1 seat occupied."
+      },
+      "without-account": {
+        "heading": "'<strong>'The participant does not have a Pix account'</strong>' (no-account campaign):",
+        "message-description": "You can free up these seats by deleting participations in the relevant no-account campaign or by deleting the campaign.",
+        "message-main": "1 participation without account = 1 seat occupied."
+      }
     },
     "submitted-count": {
       "title": "Submitted results",
@@ -509,7 +517,6 @@
         "PREDEFINED": "Ready-made",
         "SUBJECT": "Subject",
         "TARGETED": "Targeted"
-
       },
       "tags-title": "Filter:",
       "target-profiles-category-label": "Filter customised test by category",

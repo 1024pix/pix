@@ -83,6 +83,7 @@
     },
     "occupied-seats-count": {
       "title": "Places occupées",
+      "anonymous": "dont {count, plural, =1 {1 place} other {{count, number} places}} à accès sans compte",
       "value": "/{total} places"
     },
     "participants-average-results": {
@@ -99,9 +100,16 @@
       "loader": "Chargement du total de participants"
     },
     "place-info": {
-      "details": "ayant au moins une participation à une campagne.",
-      "link": "Libérer une place depuis l’onglet “Participants”",
-      "message": "1 place occupée = 1 participant"
+      "with-account": {
+        "heading": "'<strong>'Le participant a un compte Pix :'</strong>'",
+        "message-description": "Vous pouvez Libérer des places en supprimant des participants depuis l'onglet Participants.",
+        "message-main": "1 participant ayant au moins une participation à une campagne = 1 place occupée."
+      },
+      "without-account": {
+        "heading": "'<strong>'Le participant n'a pas de compte Pix'</strong>' (campagne à accès sans compte) :",
+        "message-description": "Vous pouvez Libérer ces places en supprimant des participations dans la campagne à accès sans compte concernée ou supprimer la campagne.",
+        "message-main": "1 participation sans compte = 1 place occupée."
+      }
     },
     "submitted-count": {
       "title": "Résultats reçus",

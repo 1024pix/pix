@@ -7,18 +7,21 @@
   margin-top: var(--pix-spacing-8x);
   padding: var(--pix-spacing-3x) var(--pix-spacing-6x);
 
+  @extend %pix-body-s;
+
   &__illustration {
     width:64px;
   }
 
   &__description {
-    @extend %pix-body-s;
+    margin-bottom: var(--pix-spacing-2x);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
-  &__link {
-    @extend %pix-body-s;
-
+  &__message {
     font-weight: var(--pix-font-medium);
-    text-decoration: underline;
   }
 }
