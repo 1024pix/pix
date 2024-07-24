@@ -1401,6 +1401,17 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
     });
 
     describe('#updateUserDetailsForAdministration', function () {
+      let clock;
+      const now = new Date('2022-11-24');
+
+      beforeEach(async function () {
+        clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+      });
+
+      afterEach(function () {
+        clock.restore();
+      });
+
       it('updates firstName, lastName, email, username and locale of the user', async function () {
         // given
         const userInDb = databaseBuilder.factory.buildUser(userToInsert);
@@ -1430,9 +1441,32 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         expect(updatedUser.email).to.equal('email_123@example.net');
         expect(updatedUser.username).to.equal('username_123');
         expect(updatedUser.locale).to.equal('fr-FR');
+        expect(updatedUser.updatedAt).to.deep.equal(new Date('2022-11-24'));
       });
 
-      it('should throw AlreadyExistingEntityError when username is already used', async function () {
+      describe('when the preventUpdatedAt option is true', function () {
+        it('does not change updatedAt on the updated user', async function () {
+          // given
+          const userInDb = databaseBuilder.factory.buildUser({ ...userToInsert, updatedAt: '2024-12-01' });
+          await databaseBuilder.commit();
+
+          // when
+          await userRepository.updateUserDetailsForAdministration(
+            {
+              id: userInDb.id,
+              userAttributes: { firstName: 'prenom_123' },
+            },
+            { preventUpdatedAt: true },
+          );
+
+          // then
+          const updatedUser = await knex('users').where({ id: userInDb.id }).first();
+          expect(updatedUser.firstName).to.equal('prenom_123');
+          expect(updatedUser.updatedAt).to.deep.equal(new Date('2024-12-01'));
+        });
+      });
+
+      it('throws AlreadyExistingEntityError when username is already used', async function () {
         // given
         databaseBuilder.factory.buildUser({
           email: null,
@@ -1458,7 +1492,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         expect(error.message).to.equal('Cette adresse e-mail ou cet identifiant est déjà utilisé(e).');
       });
 
-      it('should throw UserNotFoundError when user id not found', async function () {
+      it('throws UserNotFoundError when user id not found', async function () {
         // given
         const wrongUserId = 0;
 

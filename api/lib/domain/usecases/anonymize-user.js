@@ -50,11 +50,13 @@ const anonymizeUser = async function ({
 
   await _anonymizeUserLogin(user.id, userLoginRepository);
 
-  await userRepository.updateUserDetailsForAdministration({
-    id: userId,
-    userAttributes: anonymizedUser,
-    domainTransaction,
-  });
+  await userRepository.updateUserDetailsForAdministration(
+    {
+      id: userId,
+      userAttributes: anonymizedUser,
+    },
+    { preventUpdatedAt: true },
+  );
 
   const adminMember = await adminMemberRepository.get({ userId: updatedByUserId });
   const event = new UserAnonymized({

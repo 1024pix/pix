@@ -255,17 +255,15 @@ const updateEmail = async function ({ id, email }) {
   return new User(updatedUserEmail);
 };
 
-const updateUserDetailsForAdministration = async function ({
-  id,
-  userAttributes,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
+const updateUserDetailsForAdministration = async function ({ id, userAttributes }, { preventUpdatedAt } = {}) {
+  const knexConn = DomainTransaction.getConnection();
+
   try {
-    const knexConn = domainTransaction.knexTransaction ?? knex;
-    const [userDTO] = await knexConn('users')
-      .where({ id })
-      .update({ ...userAttributes, updatedAt: new Date() })
-      .returning('*');
+    if (!preventUpdatedAt) {
+      userAttributes.updatedAt = new Date();
+    }
+
+    const [userDTO] = await knexConn('users').where({ id }).update(userAttributes).returning('*');
 
     if (!userDTO) {
       throw new UserNotFoundError(`User not found for ID ${id}`);
