@@ -72,7 +72,7 @@ async function _anonymizeUserLogin(userId, userLoginRepository) {
 
   const anonymizedUserLogin = userLogin.anonymize();
 
-  await userLoginRepository.update(anonymizedUserLogin);
+  await userLoginRepository.update(anonymizedUserLogin, { preventUpdatedAt: true });
 }
 
 export { anonymizeUser };

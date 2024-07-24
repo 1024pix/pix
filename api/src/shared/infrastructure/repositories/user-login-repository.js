@@ -37,10 +37,13 @@ const create = async function (userLogin) {
   return _toDomain(userLoginDTO);
 };
 
-const update = async function (userLogin) {
+const update = async function (userLogin, { preventUpdatedAt } = {}) {
   const knexConn = DomainTransaction.getConnection();
 
-  userLogin.updatedAt = new Date();
+  if (!preventUpdatedAt) {
+    userLogin.updatedAt = new Date();
+  }
+
   const [userLoginDTO] = await knexConn(USER_LOGINS_TABLE_NAME)
     .where({ id: userLogin.id })
     .update(userLogin)

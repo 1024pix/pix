@@ -127,7 +127,9 @@ describe('Unit | UseCase | anonymize-user', function () {
       domainTransaction,
     });
 
-    expect(userLoginRepository.update).to.have.been.calledWith(userLogin.anonymize());
+    expect(userLoginRepository.update).to.have.been.calledWithExactly(userLogin.anonymize(), {
+      preventUpdatedAt: true,
+    });
 
     expect(adminMemberRepository.get).to.have.been.calledWithExactly({ userId: updatedByUserId });
   });
