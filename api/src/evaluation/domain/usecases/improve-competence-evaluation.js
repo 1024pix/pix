@@ -8,12 +8,10 @@ const improveCompetenceEvaluation = async function ({
   assessmentRepository,
   userId,
   competenceId,
-  domainTransaction,
 }) {
   let competenceEvaluation = await competenceEvaluationRepository.getByCompetenceIdAndUserId({
     competenceId,
     userId,
-    domainTransaction,
     forUpdate: true,
   });
 
@@ -29,12 +27,11 @@ const improveCompetenceEvaluation = async function ({
 
   const assessment = Assessment.createImprovingForCompetenceEvaluation({ userId, competenceId });
 
-  const { id: assessmentId } = await assessmentRepository.save({ assessment, domainTransaction });
+  const { id: assessmentId } = await assessmentRepository.save({ assessment });
 
   competenceEvaluation = await competenceEvaluationRepository.updateAssessmentId({
     currentAssessmentId: competenceEvaluation.assessmentId,
     newAssessmentId: assessmentId,
-    domainTransaction,
   });
 
   return { ...competenceEvaluation, assessmentId };

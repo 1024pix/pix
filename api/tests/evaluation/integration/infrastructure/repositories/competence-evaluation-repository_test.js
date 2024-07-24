@@ -28,8 +28,8 @@ describe('Integration | Repository | Competence Evaluation', function () {
       });
 
       // when
-      const savedCompetenceEvaluation = await DomainTransaction.execute(async (domainTransaction) =>
-        competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave, domainTransaction }),
+      const savedCompetenceEvaluation = await DomainTransaction.execute(async () =>
+        competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave }),
       );
 
       // then
@@ -52,8 +52,8 @@ describe('Integration | Repository | Competence Evaluation', function () {
       });
 
       // when
-      const savedCompetenceEvaluation = await DomainTransaction.execute(async (domainTransaction) =>
-        competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave, domainTransaction }),
+      const savedCompetenceEvaluation = await DomainTransaction.execute(async () =>
+        competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave }),
       );
 
       // then
@@ -78,13 +78,13 @@ describe('Integration | Repository | Competence Evaluation', function () {
         status: STARTED,
         userId: assessment.userId,
       });
-      await DomainTransaction.execute(async (domainTransaction) =>
-        competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave, domainTransaction }),
+      await DomainTransaction.execute(async () =>
+        competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave }),
       );
 
       // when
-      const savedCompetenceEvaluation = await DomainTransaction.execute(async (domainTransaction) =>
-        competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave, domainTransaction }),
+      const savedCompetenceEvaluation = await DomainTransaction.execute(async () =>
+        competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave }),
       );
 
       // then
