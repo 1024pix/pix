@@ -67,19 +67,12 @@ const getCertifiedProfile = async function (
   return dependencies.certifiedProfileSerializer.serialize(certifiedProfile);
 };
 
-const uncancel = async function (request, h) {
-  const certificationCourseId = request.params.id;
-  await usecases.uncancelCertificationCourse({ certificationCourseId });
-  return h.response().code(200);
-};
-
 const certificationCourseController = {
   getJuryCertification,
   update,
   save,
   get,
   getCertifiedProfile,
-  uncancel,
 };
 
 export { certificationCourseController };

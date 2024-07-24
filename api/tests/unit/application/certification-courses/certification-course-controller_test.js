@@ -339,23 +339,4 @@ describe('Unit | Controller | certification-course-controller', function () {
       expect(response).to.deep.equal('ok');
     });
   });
-
-  describe('#uncancelCertificationCourse', function () {
-    it('should call uncancel-certification-course usecase', async function () {
-      // given
-      sinon.stub(usecases, 'uncancelCertificationCourse');
-      const request = {
-        params: {
-          id: 123,
-        },
-      };
-      usecases.uncancelCertificationCourse.resolves();
-
-      // when
-      await certificationCourseController.uncancel(request, hFake);
-
-      // then
-      expect(usecases.uncancelCertificationCourse).to.have.been.calledWithExactly({ certificationCourseId: 123 });
-    });
-  });
 });
