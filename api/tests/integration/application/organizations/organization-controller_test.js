@@ -10,9 +10,7 @@ describe('Integration | Application | Organizations | organization-controller', 
   beforeEach(async function () {
     sandbox = sinon.createSandbox();
     sandbox.stub(usecases, 'findPaginatedFilteredOrganizationMemberships');
-    sandbox.stub(usecases, 'acceptOrganizationInvitation');
     sandbox.stub(usecases, 'findDivisionsByOrganization');
-
     sandbox.stub(securityPreHandlers, 'checkUserIsAdminInOrganization');
     sandbox.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToOrganizationManagingStudents');

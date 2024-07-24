@@ -26,6 +26,33 @@ export const organizationInvitationRoutes = [
     },
   },
   {
+    method: 'POST',
+    path: '/api/organization-invitations/{id}/response',
+    config: {
+      auth: false,
+      handler: (request, h) => organizationInvitationController.acceptOrganizationInvitation(request, h),
+      validate: {
+        params: Joi.object({
+          id: identifiersType.organizationInvitationId,
+        }),
+        payload: Joi.object({
+          data: {
+            id: Joi.string().required(),
+            type: Joi.string().required(),
+            attributes: {
+              code: Joi.string().required(),
+              email: Joi.string().email().required(),
+            },
+          },
+        }),
+      },
+      notes: [
+        "- Cette route permet d'accepter l'invitation à rejoindre une organisation, via un **code** et un **email**",
+      ],
+      tags: ['api', 'invitations'],
+    },
+  },
+  {
     method: 'GET',
     path: '/api/organizations/{id}/invitations',
     config: {

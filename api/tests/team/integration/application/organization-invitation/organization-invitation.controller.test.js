@@ -1,10 +1,13 @@
+import { NotFoundError } from '../../../../../src/shared/application/http-errors.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import {
+  AlreadyExistingInvitationError,
   ManyOrganizationsFoundError,
   OrganizationArchivedError,
   OrganizationNotFoundError,
   OrganizationWithoutEmailError,
 } from '../../../../../src/shared/domain/errors.js';
+import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { teamRoutes } from '../../../../../src/team/application/routes.js';
 import { OrganizationInvitation } from '../../../../../src/team/domain/models/OrganizationInvitation.js';
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
@@ -19,6 +22,8 @@ describe('Integration | Team | Application | Controller | Organization invitatio
 
   beforeEach(async function () {
     sandbox = sinon.createSandbox();
+    sandbox.stub(usecases, 'acceptOrganizationInvitation');
+    sandbox.stub(usecases, 'createCertificationCenterMembershipForScoOrganizationAdminMember');
     sandbox.stub(usecases, 'sendScoInvitation');
     sandbox.stub(usecases, 'findPendingOrganizationInvitations');
     sandbox.stub(scoOrganizationInvitationSerializer, 'serialize');
@@ -30,6 +35,68 @@ describe('Integration | Team | Application | Controller | Organization invitatio
 
   afterEach(function () {
     sandbox.restore();
+  });
+
+  describe('#acceptOrganizationInvitation', function () {
+    const payload = {
+      data: {
+        id: '100047_DZWMP7L5UM',
+        type: 'organization-invitation-responses',
+        attributes: {
+          code: 'DZWMP7L5UM',
+          email: 'USER@example.net',
+        },
+      },
+    };
+
+    context('Success cases', function () {
+      it('should return an HTTP response with status code 204', async function () {
+        // given
+        usecases.acceptOrganizationInvitation.resolves();
+        usecases.createCertificationCenterMembershipForScoOrganizationAdminMember.resolves();
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/organization-invitations/1/response', payload);
+
+        // then
+        expect(response.statusCode).to.equal(204);
+      });
+    });
+
+    context('Error cases', function () {
+      it('should respond an HTTP response with status code 412 when AlreadyExistingInvitationError', async function () {
+        // given
+        usecases.acceptOrganizationInvitation.rejects(new AlreadyExistingInvitationError());
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/organization-invitations/1/response', payload);
+
+        // then
+        expect(response.statusCode).to.equal(412);
+      });
+
+      it('should respond an HTTP response with status code 404 when NotFoundError', async function () {
+        // given
+        usecases.acceptOrganizationInvitation.rejects(new NotFoundError());
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/organization-invitations/1/response', payload);
+
+        // then
+        expect(response.statusCode).to.equal(404);
+      });
+
+      it('should respond an HTTP response with status code 404 when UserNotFoundError', async function () {
+        // given
+        usecases.acceptOrganizationInvitation.rejects(new UserNotFoundError());
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/organization-invitations/1/response', payload);
+
+        // then
+        expect(response.statusCode).to.equal(404);
+      });
+    });
   });
 
   describe('#findPendingInvitations', function () {
