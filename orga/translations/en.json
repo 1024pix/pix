@@ -329,6 +329,7 @@
       "places": "Seats",
       "sco-organization-participants": "Students",
       "sup-organization-participants": "Students",
+      "support": "Help desk",
       "team": "Team"
     },
     "places": {
@@ -894,7 +895,7 @@
           "step1": {
             "admin": {
               "head": "Step 1 : <b>Please</b>",
-              "link": "importer the student database",
+              "link": "import the student database",
               "tail": "<b>from Onde</b> (exportable file in the Lists & documents Extractions > School students or their supervisors menu)."
             },
             "non-admin": "Step1 : <b>Ask the Pix Orga administrator</b> in your area to import students"

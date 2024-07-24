@@ -104,6 +104,20 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
 
       assert.notOk(screen.queryByText(t('navigation.main.places')));
     });
+
+    test('should not display Support menu if canAccessMissionsPage is false', async function (assert) {
+      class CurrentUserStub extends Service {
+        organization = Object.create({ id: 5 });
+        canAccessMissionsPage = false;
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+      const intl = this.owner.lookup('service:intl');
+      intl.setLocale(['fr', 'fr']);
+
+      const screen = await render(hbs`<Layout::Sidebar />`);
+
+      assert.dom(screen.queryByRole('link', { name: t('navigation.main.support') })).doesNotExist();
+    });
   });
 
   module('When the user is from a PRO organization', function () {
@@ -273,6 +287,23 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       const screen = await render(hbs`<Layout::Sidebar />`);
 
       assert.dom(screen.getByText('Missions')).exists();
+    });
+
+    test('should display Support menu', async function (assert) {
+      class CurrentUserStub extends Service {
+        organization = Object.create({ id: 5 });
+        canAccessMissionsPage = true;
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+      const intl = this.owner.lookup('service:intl');
+      intl.setLocale(['fr', 'fr']);
+
+      const screen = await render(hbs`<Layout::Sidebar />`);
+
+      assert.strictEqual(
+        screen.getByRole('link', { name: t('navigation.main.support') }).href,
+        'https://pix.fr/support/enseignement-scolaire/1er-degre',
+      );
     });
 
     test('should not display Campagne and Participants menus', async function (assert) {
