@@ -83,10 +83,9 @@ describe('Integration | Infrastructure | Repository | Certification | Complement
         await databaseBuilder.commit();
 
         // when
-        await DomainTransaction.execute(async (domainTransaction) => {
+        await DomainTransaction.execute(async () => {
           await complementaryCertificationBadgeRepository.detachByIds({
             complementaryCertificationBadgeIds: [123, 456],
-            domainTransaction,
           });
         });
 
@@ -149,10 +148,9 @@ describe('Integration | Infrastructure | Repository | Certification | Complement
       await databaseBuilder.commit();
 
       // when
-      await DomainTransaction.execute(async (domainTransaction) => {
+      await DomainTransaction.execute(async () => {
         await complementaryCertificationBadgeRepository.attach({
           complementaryCertificationBadges: badgesToAttach,
-          domainTransaction,
         });
       });
 

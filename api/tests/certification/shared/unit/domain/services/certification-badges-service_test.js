@@ -7,7 +7,6 @@ describe('Unit | Service | certification-badges-service', function () {
       // given
       const userId = 123;
       const limitDate = new Date();
-      const domainTransaction = Symbol('domainTransaction');
       const highestBadgeAcquisition1 = domainBuilder.buildCertifiableBadgeAcquisition({ badgeId: 1 });
       const highestBadgeAcquisition2 = domainBuilder.buildCertifiableBadgeAcquisition({ badgeId: 2 });
       const highestBadgeAcquisition3 = domainBuilder.buildCertifiableBadgeAcquisition({ badgeId: 3 });
@@ -25,7 +24,7 @@ describe('Unit | Service | certification-badges-service', function () {
         findHighestCertifiable: sinon.stub(),
       };
       certifiableBadgeAcquisitionRepository.findHighestCertifiable
-        .withArgs({ userId, domainTransaction, limitDate })
+        .withArgs({ userId, limitDate })
         .resolves([highestBadgeAcquisition1, highestBadgeAcquisition2, highestBadgeAcquisition3]);
 
       const knowledgeElementRepository = {
@@ -51,7 +50,6 @@ describe('Unit | Service | certification-badges-service', function () {
       // when
       const stillValidBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
         userId,
-        domainTransaction,
         limitDate,
         dependencies: {
           certifiableBadgeAcquisitionRepository,
@@ -69,7 +67,6 @@ describe('Unit | Service | certification-badges-service', function () {
         // given
         const userId = 123;
         const limitDate = new Date();
-        const domainTransaction = Symbol('domainTransaction');
         const highestBadgeAcquisition1 = domainBuilder.buildCertifiableBadgeAcquisition({
           badgeId: 1,
           isOutdated: true,
@@ -81,7 +78,7 @@ describe('Unit | Service | certification-badges-service', function () {
           findHighestCertifiable: sinon.stub(),
         };
         certifiableBadgeAcquisitionRepository.findHighestCertifiable
-          .withArgs({ userId, domainTransaction, limitDate })
+          .withArgs({ userId, limitDate })
           .resolves([highestBadgeAcquisition1]);
 
         const knowledgeElementRepository = {
@@ -94,7 +91,6 @@ describe('Unit | Service | certification-badges-service', function () {
         // when
         const stillValidBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
           userId,
-          domainTransaction,
           limitDate,
           shouldGetOutdated: false,
           dependencies: {
@@ -116,7 +112,6 @@ describe('Unit | Service | certification-badges-service', function () {
       // given
       const userId = 123;
       const limitDate = new Date();
-      const domainTransaction = Symbol('domainTransaction');
       const highestBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
         badgeId: 1,
         isDetached: true,
@@ -128,7 +123,7 @@ describe('Unit | Service | certification-badges-service', function () {
         findHighestCertifiable: sinon.stub(),
       };
       certifiableBadgeAcquisitionRepository.findHighestCertifiable
-        .withArgs({ userId, domainTransaction, limitDate })
+        .withArgs({ userId, limitDate })
         .resolves([highestBadgeAcquisition]);
 
       const knowledgeElementRepository = {
@@ -145,7 +140,6 @@ describe('Unit | Service | certification-badges-service', function () {
       // when
       const badgeAcquisitions = await certificationBadgesService.findLatestBadgeAcquisitions({
         userId,
-        domainTransaction,
         limitDate,
         dependencies: {
           certifiableBadgeAcquisitionRepository,

@@ -81,8 +81,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           temporarySessionsStorageForMassImportService.getByKeyAndUserId.resolves(temporaryCachedSessions);
           const sessionCreatorId = 1234;
           const cachedValidatedSessionsKey = 'uuid';
-          const domainTransaction = Symbol('trx');
-          sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
+          sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
           sessionRepository.save.resolves({ id: 1234 });
 
           // when
@@ -95,7 +94,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
 
           // then
           const expectedSession = new SessionEnrolment({ ...temporaryCachedSessions[0], createdBy: sessionCreatorId });
-          expect(sessionRepository.save).to.have.been.calledOnceWith({ session: expectedSession, domainTransaction });
+          expect(sessionRepository.save).to.have.been.calledOnceWith({ session: expectedSession });
           expect(certificationCandidateRepository.saveInSession).to.not.have.been.called;
         });
       });
@@ -126,8 +125,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           ];
           temporarySessionsStorageForMassImportService.getByKeyAndUserId.resolves(temporaryCachedSessions);
           const cachedValidatedSessionsKey = 'uuid';
-          const domainTransaction = Symbol('trx');
-          sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
+          sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
           sessionRepository.save.resolves({ id: 1234 });
 
           // when
@@ -140,11 +138,10 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
 
           // then
           const expectedSession = new SessionEnrolment({ ...temporaryCachedSessions[0], createdBy: sessionCreatorId });
-          expect(sessionRepository.save).to.have.been.calledOnceWith({ session: expectedSession, domainTransaction });
+          expect(sessionRepository.save).to.have.been.calledOnceWith({ session: expectedSession });
           expect(certificationCandidateRepository.saveInSession).to.have.been.calledOnceWith({
             sessionId: 1234,
             certificationCandidate,
-            domainTransaction,
           });
         });
       });
@@ -174,8 +171,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           ];
           temporarySessionsStorageForMassImportService.getByKeyAndUserId.resolves(temporaryCachedSessions);
           const cachedValidatedSessionsKey = 'uuid';
-          const domainTransaction = Symbol('trx');
-          sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
+          sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
           sessionRepository.save.resolves({ id: 1234 });
 
           // when
@@ -192,7 +188,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
             version: CERTIFICATION_VERSIONS.V3,
             createdBy: sessionCreatorId,
           });
-          expect(sessionRepository.save).to.have.been.calledOnceWith({ session: expectedSession, domainTransaction });
+          expect(sessionRepository.save).to.have.been.calledOnceWith({ session: expectedSession });
         });
       });
 
@@ -222,8 +218,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           temporarySessionsStorageForMassImportService.getByKeyAndUserId.resolves(temporaryCachedSessions);
 
           const cachedValidatedSessionsKey = 'uuid';
-          const domainTransaction = Symbol('trx');
-          sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
+          sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
           sessionRepository.save.resolves({ id: 1234 });
 
           // when
@@ -240,7 +235,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
             version: CERTIFICATION_VERSIONS.V2,
             createdBy: sessionCreatorId,
           });
-          expect(sessionRepository.save).to.have.been.calledOnceWith({ session: expectedSession, domainTransaction });
+          expect(sessionRepository.save).to.have.been.calledOnceWith({ session: expectedSession });
         });
       });
     });
@@ -260,8 +255,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
         temporarySessionsStorageForMassImportService.getByKeyAndUserId.resolves(temporaryCachedSessions);
         const sessionCreatorId = 1234;
         const cachedValidatedSessionsKey = 'uuid';
-        const domainTransaction = Symbol('trx');
-        sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
+        sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
 
         // when
         await createSessions({
@@ -274,12 +268,10 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
         // then
         expect(certificationCandidateRepository.deleteBySessionId).to.have.been.calledOnceWith({
           sessionId: 1234,
-          domainTransaction,
         });
         expect(certificationCandidateRepository.saveInSession).to.have.been.calledOnceWith({
           sessionId: 1234,
           certificationCandidate,
-          domainTransaction,
         });
       });
     });
@@ -298,8 +290,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
       temporarySessionsStorageForMassImportService.getByKeyAndUserId.resolves(temporaryCachedSessions);
       const sessionCreatorId = 1234;
       const cachedValidatedSessionsKey = 'uuid';
-      const domainTransaction = Symbol('trx');
-      sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
+      sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
 
       // when
       await createSessions({

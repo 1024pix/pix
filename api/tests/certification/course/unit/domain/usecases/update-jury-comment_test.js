@@ -5,14 +5,9 @@ import { CompetenceMark } from '../../../../../../src/shared/domain/models/index
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | update-jury-comment', function () {
-  let domainTransaction;
-
   beforeEach(function () {
-    domainTransaction = {
-      knexTransaction: Symbol('transaction'),
-    };
     sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
-      return callback(domainTransaction);
+      return callback();
     });
   });
 
@@ -47,7 +42,6 @@ describe('Unit | UseCase | update-jury-comment', function () {
     // then
     expect(courseAssessmentResultRepository.getLatestAssessmentResult).to.have.been.calledOnceWith({
       certificationCourseId,
-      domainTransaction,
     });
     expect(assessmentResultRepository.save).to.have.been.calledOnceWith({
       certificationCourseId,
@@ -60,7 +54,6 @@ describe('Unit | UseCase | update-jury-comment', function () {
           commentByJury: assessmentResultCommentByJury,
         }),
       ),
-      domainTransaction,
     });
     expect(competenceMarkRepository.save).to.have.been.calledOnceWith(
       sinon.match.instanceOf(CompetenceMark).and(
@@ -69,7 +62,6 @@ describe('Unit | UseCase | update-jury-comment', function () {
           assessmentResultId: newAssessmentResult.id,
         }),
       ),
-      domainTransaction,
     );
   });
 });

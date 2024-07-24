@@ -10,20 +10,18 @@ import * as knowledgeElementRepository from '../../../../../lib/infrastructure/r
 
 const findStillValidBadgeAcquisitions = async function ({
   userId,
-  domainTransaction,
   limitDate = new Date(),
   dependencies = { certifiableBadgeAcquisitionRepository, knowledgeElementRepository, badgeForCalculationRepository },
 }) {
-  return _findBadgeAcquisitions({ userId, domainTransaction, limitDate, shouldGetOutdated: false, dependencies });
+  return _findBadgeAcquisitions({ userId, limitDate, shouldGetOutdated: false, dependencies });
 };
 
 const findLatestBadgeAcquisitions = async function ({
   userId,
-  domainTransaction,
   limitDate = new Date(),
   dependencies = { certifiableBadgeAcquisitionRepository, knowledgeElementRepository, badgeForCalculationRepository },
 }) {
-  return _findBadgeAcquisitions({ userId, domainTransaction, limitDate, shouldGetOutdated: true, dependencies });
+  return _findBadgeAcquisitions({ userId, limitDate, shouldGetOutdated: true, dependencies });
 };
 
 /**
@@ -37,7 +35,6 @@ const findLatestBadgeAcquisitions = async function ({
  */
 const _findBadgeAcquisitions = async function ({
   userId,
-  domainTransaction,
   limitDate = new Date(),
   shouldGetOutdated = false,
   dependencies = { certifiableBadgeAcquisitionRepository, knowledgeElementRepository, badgeForCalculationRepository },
@@ -45,14 +42,12 @@ const _findBadgeAcquisitions = async function ({
   const highestCertifiableBadgeAcquisitions =
     await dependencies.certifiableBadgeAcquisitionRepository.findHighestCertifiable({
       userId,
-      domainTransaction,
       limitDate,
     });
 
   const knowledgeElements = await dependencies.knowledgeElementRepository.findUniqByUserId({
     userId,
     limitDate,
-    domainTransaction,
   });
 
   const badgeAcquisitions = await bluebird.mapSeries(

@@ -9,7 +9,8 @@ const logContext = {
   type: 'repository',
 };
 
-const save = async function ({ certificationChallenge, domainTransaction = DomainTransaction.emptyTransaction() }) {
+const save = async function ({ certificationChallenge }) {
+  const knexConn = DomainTransaction.getConnection();
   const certificationChallengeToSave = new CertificationChallenge({
     challengeId: certificationChallenge.challengeId,
     competenceId: certificationChallenge.competenceId,
@@ -20,7 +21,6 @@ const save = async function ({ certificationChallenge, domainTransaction = Domai
     difficulty: certificationChallenge.difficulty,
     discriminant: certificationChallenge.discriminant,
   });
-  const knexConn = domainTransaction.knexTransaction || knex;
   const [savedCertificationChallenge] = await knexConn('certification-challenges')
     .insert(certificationChallengeToSave)
     .returning('*');

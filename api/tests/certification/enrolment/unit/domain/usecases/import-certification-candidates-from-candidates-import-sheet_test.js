@@ -14,7 +14,6 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
   let complementaryCertificationRepository;
   let certificationCenterRepository;
   let sessionRepository;
-  let domainTransaction;
 
   beforeEach(function () {
     certificationCandidateRepository = {
@@ -35,9 +34,8 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
     certificationCpfCityRepository = Symbol('certificationCpfCityRepository');
     complementaryCertificationRepository = Symbol('complementaryCertificationRepository');
     certificationCenterRepository = Symbol('certificationCenterRepository');
-    domainTransaction = Symbol('domainTransaction');
     sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
-      return lambda(domainTransaction);
+      return lambda();
     });
   });
 
@@ -122,12 +120,10 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           // then
           expect(certificationCandidateRepository.deleteBySessionId).to.have.been.calledWithExactly({
             sessionId,
-            domainTransaction,
           });
           expect(certificationCandidateRepository.saveInSession).to.have.been.calledWithExactly({
             certificationCandidate,
             sessionId,
-            domainTransaction,
           });
           expect(
             certificationCandidateRepository.deleteBySessionId.calledBefore(
