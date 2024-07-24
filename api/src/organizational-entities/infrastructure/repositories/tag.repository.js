@@ -1,12 +1,12 @@
 import lodash from 'lodash';
 
-import * as knexUtils from '../../../src/shared/infrastructure/utils/knex-utils.js';
-import { AlreadyExistingEntityError } from '../../domain/errors.js';
+import { AlreadyExistingEntityError } from '../../../../lib/domain/errors.js';
+import * as knexUtils from '../../../shared/infrastructure/utils/knex-utils.js';
 
 const { omit } = lodash;
 
-import { knex } from '../../../db/knex-database-connection.js';
-import { Tag } from '../../../src/organizational-entities/domain/models/Tag.js';
+import { knex } from '../../../../db/knex-database-connection.js';
+import { Tag } from '../../domain/models/Tag.js';
 
 const create = async function (tag) {
   try {
@@ -40,4 +40,5 @@ const findByIds = async function (tagIds, domainTransaction) {
   return rows.map((row) => new Tag(row));
 };
 
-export { create, findAll, findByIds, findByName };
+const tagRepository = { create, findAll, findByIds, findByName };
+export { tagRepository };

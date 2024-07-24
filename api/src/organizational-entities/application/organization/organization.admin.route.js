@@ -9,6 +9,7 @@ const ERRORS = {
   PAYLOAD_TOO_LARGE: 'PAYLOAD_TOO_LARGE',
 };
 const TWENTY_MEGABYTES = 1048576 * 20;
+const TWO_AND_HALF_MEGABYTES = 1048576 * 2.5;
 
 export const organizationAdminRoutes = [
   {
@@ -40,6 +41,46 @@ export const organizationAdminRoutes = [
       ],
     },
   },
+  {
+    method: 'PATCH',
+    path: '/api/admin/organizations/{id}',
+    config: {
+      pre: [
+        {
+          method: (request, h) =>
+            securityPreHandlers.hasAtLeastOneAccessOf([
+              securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+              securityPreHandlers.checkAdminMemberHasRoleSupport,
+              securityPreHandlers.checkAdminMemberHasRoleMetier,
+            ])(request, h),
+          assign: 'hasAuthorizationToAccessAdminScope',
+        },
+      ],
+      validate: {
+        params: Joi.object({
+          id: identifiersType.organizationId,
+        }),
+      },
+      payload: {
+        maxBytes: TWO_AND_HALF_MEGABYTES,
+        failAction: (request, h) => {
+          return sendJsonApiError(
+            new PayloadTooLargeError('An error occurred, payload is too large', ERRORS.PAYLOAD_TOO_LARGE, {
+              maxSizeInMegaBytes: '2.5',
+            }),
+            h,
+          );
+        },
+      },
+      handler: (request, h) => organizationAdminController.updateOrganizationInformation(request, h),
+      tags: ['api', 'organizations'],
+      notes: [
+        "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+          '- Elle permet de mettre à jour tout ou partie d’une organisation',
+      ],
+    },
+  },
+
   {
     method: 'POST',
     path: '/api/admin/organizations/{organizationId}/attach-child-organization',

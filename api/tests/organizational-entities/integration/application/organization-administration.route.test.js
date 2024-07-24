@@ -1,5 +1,6 @@
-import * as moduleUnderTest from '../../../../lib/application/organizations-administration/index.js';
-import { organizationAdministrationController } from '../../../../lib/application/organizations-administration/organization-administration-controller.js';
+import { organizationAdminController } from '../../../../src/organizational-entities/application/organization/organization.admin.controller.js';
+import { organizationalEntitiesRoutes } from '../../../../src/organizational-entities/application/routes.js';
+import { logo3Mb } from '../../../integration/application/organizations-administration/_files/logo-3mb.js';
 import {
   databaseBuilder,
   expect,
@@ -7,18 +8,17 @@ import {
   HttpTestServer,
   sinon,
 } from '../../../test-helper.js';
-import { logo3Mb } from './_files/logo-3mb.js';
 
-describe('Integration | Application | Organization Administration | Routes', function () {
+describe('Integration | Organizational Entities | Application | Route | Organization Administration', function () {
   describe('PATCH /api/admin/organizations/{:id}', function () {
     const method = 'PATCH';
     const url = '/api/admin/organizations/1234';
     let headers, httpTestServer;
 
     beforeEach(async function () {
-      sinon.stub(organizationAdministrationController, 'updateOrganizationInformation').returns('ok');
+      sinon.stub(organizationAdminController, 'updateOrganizationInformation').returns('ok');
       httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
+      await httpTestServer.register(organizationalEntitiesRoutes);
       httpTestServer.setupAuthentication();
     });
 
@@ -93,7 +93,7 @@ describe('Integration | Application | Organization Administration | Routes', fun
       await httpTestServer.request(method, url, null, null, headers);
 
       // then
-      expect(organizationAdministrationController.updateOrganizationInformation).to.have.been.calledOnce;
+      expect(organizationAdminController.updateOrganizationInformation).to.have.been.calledOnce;
     });
 
     it('reach handler when trying to call route with an admin user with role super admin', async function () {
@@ -108,7 +108,7 @@ describe('Integration | Application | Organization Administration | Routes', fun
       await httpTestServer.request(method, url, null, null, headers);
 
       // then
-      expect(organizationAdministrationController.updateOrganizationInformation).to.have.been.calledOnce;
+      expect(organizationAdminController.updateOrganizationInformation).to.have.been.calledOnce;
     });
 
     it('reach handler when trying to call route with an admin user with role metier', async function () {
@@ -123,7 +123,7 @@ describe('Integration | Application | Organization Administration | Routes', fun
       await httpTestServer.request(method, url, null, null, headers);
 
       // then
-      expect(organizationAdministrationController.updateOrganizationInformation).to.have.been.calledOnce;
+      expect(organizationAdminController.updateOrganizationInformation).to.have.been.calledOnce;
     });
 
     it('returns a 413 payload too large error', async function () {
