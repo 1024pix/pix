@@ -93,7 +93,7 @@
     "@eslint/compat": "^1.0.1",
     "@ls-lint/ls-lint": "^2.0.0",
     "chai": "^5.0.0",
-    "chai-as-promised": "^7.1.1",
+    "chai-as-promised": "^8.0.0",
     "chai-sorted": "^0.2.0",
     "depcheck": "^1.4.3",
     "eslint": "^8.46.0",
