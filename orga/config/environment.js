@@ -94,8 +94,8 @@ module.exports = function (environment) {
       },
       COOKIE_LOCALE_LIFESPAN_IN_SECONDS: 31536000, // 1 year in seconds
       APP_VERSION: process.env.SOURCE_VERSION || 'development',
-      SURVEY_LINK: process.env.SURVEY_LINK || null,
-      SURVEY_BANNER_ENABLED: Boolean(process.env.SURVEY_BANNER_ENABLED) || false,
+      SURVEY_LINK: process.env.SURVEY_ORGA_LINK || null,
+      SURVEY_BANNER_ENABLED: Boolean(process.env.SURVEY_ORGA_BANNER_ENABLED) || false,
     },
 
     fontawesome: {
