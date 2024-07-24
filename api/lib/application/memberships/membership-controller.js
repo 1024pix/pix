@@ -1,17 +1,8 @@
+import * as membershipSerializer from '../../../src/shared/infrastructure/serializers/jsonapi/membership.serializer.js';
 import * as requestResponseUtils from '../../../src/shared/infrastructure/utils/request-response-utils.js';
+import { usecases as srcUsecases } from '../../../src/team/domain/usecases/index.js';
 import { usecases } from '../../domain/usecases/index.js';
-import * as membershipSerializer from '../../infrastructure/serializers/jsonapi/membership-serializer.js';
 import { BadRequestError } from '../http-errors.js';
-
-const create = async function (request, h, dependencies = { membershipSerializer }) {
-  const userId = request.payload.data.relationships.user.data.id;
-  const organizationId = request.payload.data.relationships.organization.data.id;
-
-  const membership = await usecases.createMembership({ userId, organizationId });
-  await usecases.createCertificationCenterMembershipForScoOrganizationAdminMember({ membership });
-
-  return h.response(dependencies.membershipSerializer.serializeForAdmin(membership)).created();
-};
 
 const update = async function (request, h, dependencies = { requestResponseUtils, membershipSerializer }) {
   const membershipId = request.params.id;
@@ -25,7 +16,7 @@ const update = async function (request, h, dependencies = { requestResponseUtils
   membership.updatedByUserId = userId;
 
   const updatedMembership = await usecases.updateMembership({ membership });
-  await usecases.createCertificationCenterMembershipForScoOrganizationAdminMember({ membership });
+  await srcUsecases.createCertificationCenterMembershipForScoOrganizationAdminMember({ membership });
 
   return h.response(dependencies.membershipSerializer.serialize(updatedMembership));
 };
@@ -47,6 +38,6 @@ const disableOwnOrganizationMembership = async function (request, h) {
   return h.response().code(204);
 };
 
-const membershipController = { create, update, disable, disableOwnOrganizationMembership };
+const membershipController = { update, disable, disableOwnOrganizationMembership };
 
 export { membershipController };
