@@ -108,7 +108,7 @@ const getByCertificationCourseId = async function ({
   });
 };
 
-const getByCertificationCandidateId = async function (certificationCandidateId) {
+const getByCertificationCandidateId = async function ({ certificationCandidateId }) {
   const certificationAssessmentRow = await knex('assessments')
     .select({
       id: 'assessments.id',

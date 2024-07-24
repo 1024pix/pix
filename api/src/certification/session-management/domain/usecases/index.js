@@ -28,6 +28,7 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationReportRepository} CertificationReportRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CompetenceMarkRepository} CompetenceMarkRepository
  * @typedef {import('../../infrastructure/repositories/index.js').ComplementaryCertificationCourseResultRepository} ComplementaryCertificationCourseResultRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').CertificationAssessmentRepository} CertificationAssessmentRepository
  * @typedef {import('../../infrastructure/storage/cpf-receipts-storage.js')} CpfReceiptsStorage
  * @typedef {import('../../infrastructure/storage/cpf-exports-storage.js')} CpfExportsStorage
  * @typedef {import('../../../shared/domain/services/certification-badges-service.js')} CertificationBadgesService
@@ -56,6 +57,7 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
  * @typedef {sessionJuryCommentRepository} SessionJuryCommentRepository
  * @typedef {sessionRepository} SessionRepository
  * @typedef {certificationReportRepository} CertificationReportRepository
+ * @typedef {certificationAssessmentRepository} CertificationAssessmentRepository
  * @typedef {cpfReceiptsStorage} CpfReceiptsStorage
  * @typedef {cpfExportsStorage} CpfExportsStorage
  * @typedef {TemporaryCompanionStorageService} TemporaryCompanionStorageService
