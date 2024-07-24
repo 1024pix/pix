@@ -7,7 +7,6 @@ import { catchErr, expect, sinon } from '../../../../../test-helper.js';
 describe('Unit | UseCase | importOrganizationLearnersFromSIECLECSVFormat', function () {
   let organizationId,
     learners,
-    domainTransaction,
     i18n,
     s3Filename,
     encoding,
@@ -50,11 +49,8 @@ describe('Unit | UseCase | importOrganizationLearnersFromSIECLECSVFormat', funct
 
     OrganizationLearnerParser.buildParser = sinon.stub();
 
-    domainTransaction = {
-      knexTransaction: Symbol('transaction'),
-    };
     sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
-      return callback(domainTransaction);
+      return callback();
     });
 
     learners = [{ nationalStudentId: 1 }, { nationalStudentId: 2 }, { nationalStudentId: 3 }];
@@ -79,7 +75,6 @@ describe('Unit | UseCase | importOrganizationLearnersFromSIECLECSVFormat', funct
 
       expect(
         organizationLearnerRepositoryStub.disableAllOrganizationLearnersInOrganization.calledWithExactly({
-          domainTransaction,
           organizationId,
           nationalStudentIds: [1, 2, 3],
         }),
@@ -94,7 +89,6 @@ describe('Unit | UseCase | importOrganizationLearnersFromSIECLECSVFormat', funct
         organizationLearnerRepositoryStub.addOrUpdateOrganizationOfOrganizationLearners.calledWithExactly(
           learners,
           organizationId,
-          domainTransaction,
         ),
         'organizationLearnerRepositoryStub.addOrUpdateOrganizationOfOrganizationLearners',
       ).to.be.true;

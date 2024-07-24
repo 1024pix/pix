@@ -219,10 +219,9 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
         params: { id: campaignId, campaignParticipationId },
         auth: { credentials: { userId } },
       };
-      const domainTransaction = Symbol();
 
       sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
-        return lambda(domainTransaction);
+        return lambda();
       });
       sinon.stub(usecases, 'deleteCampaignParticipation');
       usecases.deleteCampaignParticipation.resolves();
@@ -235,7 +234,6 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
         campaignParticipationId,
         campaignId,
         userId,
-        domainTransaction,
       });
     });
   });

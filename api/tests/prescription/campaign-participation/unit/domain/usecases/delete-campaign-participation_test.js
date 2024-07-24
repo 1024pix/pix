@@ -23,7 +23,6 @@ describe('Unit | UseCase | delete-campaign-participation', function () {
       remove: sinon.stub(),
     };
     const campaignParticipationId = 1234;
-    const domainTransaction = Symbol('domainTransaction');
     const campaignId = domainBuilder.buildCampaign().id;
     const ownerId = domainBuilder.buildUser().id;
     const organizationLearnerId = domainBuilder.buildOrganizationLearner().id;
@@ -48,7 +47,6 @@ describe('Unit | UseCase | delete-campaign-participation', function () {
       .withArgs({
         campaignId,
         campaignParticipationId,
-        domainTransaction,
       })
       .resolves(campaignParticipations);
 
@@ -58,7 +56,6 @@ describe('Unit | UseCase | delete-campaign-participation', function () {
       campaignId,
       campaignParticipationId,
       campaignParticipationRepository,
-      domainTransaction,
     });
 
     //then
@@ -73,7 +70,6 @@ describe('Unit | UseCase | delete-campaign-participation', function () {
         id: deletedCampaignParticipation.id,
         deletedAt: deletedCampaignParticipation.deletedAt,
         deletedBy: deletedCampaignParticipation.deletedBy,
-        domainTransaction,
       });
     });
   });

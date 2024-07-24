@@ -9,11 +9,9 @@ const save = async function (request, h, dependencies = { campaignParticipationS
   const userId = request.auth.credentials.userId;
   const campaignParticipation = await dependencies.campaignParticipationSerializer.deserialize(request.payload);
 
-  const { event, campaignParticipation: campaignParticipationCreated } = await DomainTransaction.execute(
-    (domainTransaction) => {
-      return usecases.startCampaignParticipation({ campaignParticipation, userId, domainTransaction });
-    },
-  );
+  const { event, campaignParticipation: campaignParticipationCreated } = await DomainTransaction.execute(() => {
+    return usecases.startCampaignParticipation({ campaignParticipation, userId });
+  });
 
   events.eventDispatcher
     .dispatch(event)
@@ -43,11 +41,10 @@ const beginImprovement = async function (request) {
   const userId = request.auth.credentials.userId;
   const campaignParticipationId = request.params.campaignParticipationId;
 
-  return DomainTransaction.execute(async (domainTransaction) => {
+  return DomainTransaction.execute(async () => {
     await usecases.beginCampaignParticipationImprovement({
       campaignParticipationId,
       userId,
-      domainTransaction,
     });
     return null;
   });

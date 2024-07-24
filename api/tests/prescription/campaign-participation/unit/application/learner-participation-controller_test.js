@@ -249,11 +249,10 @@ describe('Unit | Application | Controller | Learner-Participation', function () 
         params: { campaignParticipationId },
         auth: { credentials: { userId } },
       };
-      const domainTransaction = Symbol();
 
       sinon.stub(usecases, 'beginCampaignParticipationImprovement');
       sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
-        return lambda(domainTransaction);
+        return lambda();
       });
       usecases.beginCampaignParticipationImprovement.resolves();
 
@@ -264,7 +263,6 @@ describe('Unit | Application | Controller | Learner-Participation', function () 
       expect(usecases.beginCampaignParticipationImprovement).to.have.been.calledOnceWith({
         campaignParticipationId,
         userId,
-        domainTransaction,
       });
     });
   });
