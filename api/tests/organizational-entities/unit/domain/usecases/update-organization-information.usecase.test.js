@@ -27,28 +27,23 @@ describe('Unit | Organizational Entities | Domain | UseCase | update-organizatio
     organizationForAdminRepository.get.onCall(0).returns(existingOrganizationForAdmin);
     const updatedOrganization = domainBuilder.buildOrganizationForAdmin({ organizationId: givenOrganization.id });
     organizationForAdminRepository.get.onCall(1).returns(updatedOrganization);
-    const domainTransaction = Symbol('domainTransaction');
     const tagsToUpdate = Symbol('tagsToUpdate');
-    tagRepository.findByIds.withArgs(givenOrganization.tagIds, domainTransaction).resolves(tagsToUpdate);
+    tagRepository.findByIds.withArgs(givenOrganization.tagIds).resolves(tagsToUpdate);
     // when
     const result = await usecases.updateOrganizationInformation({
       organization: givenOrganization,
       organizationForAdminRepository,
       tagRepository,
-      domainTransaction,
     });
 
     // then
-    expect(organizationForAdminRepository.get).to.have.been.calledWithExactly(givenOrganization.id, domainTransaction);
+    expect(organizationForAdminRepository.get).to.have.been.calledWithExactly(givenOrganization.id);
     expect(existingOrganizationForAdmin.updateWithDataProtectionOfficerAndTags).to.have.been.calledWithExactly(
       givenOrganization,
       givenOrganization.dataProtectionOfficer,
       tagsToUpdate,
     );
-    expect(organizationForAdminRepository.update).to.have.been.calledWithExactly(
-      existingOrganizationForAdmin,
-      domainTransaction,
-    );
+    expect(organizationForAdminRepository.update).to.have.been.calledWithExactly(existingOrganizationForAdmin);
     expect(result).to.equal(updatedOrganization);
   });
 

@@ -10,16 +10,13 @@ import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransa
 import { catchErr, createTempFile, domainBuilder, expect, removeTempFile, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Organizational Entities | Domain | UseCase | update-organizations-in-batch', function () {
-  let domainTransaction, filePath, organizationForAdminRepository;
+  let filePath, organizationForAdminRepository;
   const csvHeaders =
     'Organization ID;Organization Name;Organization External ID;Organization Parent ID;Organization Identity Provider Code;Organization Documentation URL;Organization Province Code;DPO Last Name;DPO First Name;DPO E-mail';
 
   beforeEach(function () {
-    domainTransaction = {
-      knexTransaction: Symbol('transaction'),
-    };
     sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
-      return callback(domainTransaction);
+      return callback();
     });
 
     organizationForAdminRepository = {
@@ -91,8 +88,8 @@ describe('Unit | Organizational Entities | Domain | UseCase | update-organizatio
       // then
       expect(DomainTransaction.execute).to.have.been.called;
       expect(organizationForAdminRepository.get).to.have.been.callCount(2);
-      expect(organizationForAdminRepository.get.getCall(0)).to.have.been.calledWithExactly('1', domainTransaction);
-      expect(organizationForAdminRepository.get.getCall(1)).to.have.been.calledWithExactly('2', domainTransaction);
+      expect(organizationForAdminRepository.get.getCall(0)).to.have.been.calledWithExactly('1');
+      expect(organizationForAdminRepository.get.getCall(1)).to.have.been.calledWithExactly('2');
     });
 
     it('calls n times "organizationForAdminRepository.update" to update an organization', async function () {
@@ -116,11 +113,9 @@ describe('Unit | Organizational Entities | Domain | UseCase | update-organizatio
       expect(organizationForAdminRepository.update).to.have.been.callCount(2);
       expect(organizationForAdminRepository.update.getCall(0)).to.have.been.calledWithExactly(
         expectedFirstOrganization,
-        domainTransaction,
       );
       expect(organizationForAdminRepository.update.getCall(1)).to.have.been.calledWithExactly(
         expectedSecondOrganization,
-        domainTransaction,
       );
     });
   });

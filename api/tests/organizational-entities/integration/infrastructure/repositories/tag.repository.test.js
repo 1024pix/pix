@@ -94,9 +94,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
       const expectedResult = [tag1];
 
       // when
-      const result = await DomainTransaction.execute(async (domainTransaction) =>
-        tagRepository.findByIds([tag1.id, unknownId], domainTransaction),
-      );
+      const result = await DomainTransaction.execute(async () => tagRepository.findByIds([tag1.id, unknownId]));
 
       // then
       expect(result).to.be.deep.equal(expectedResult);
