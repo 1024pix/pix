@@ -6,7 +6,7 @@ import { UserNotMemberOfOrganizationError } from '../../../../lib/domain/errors.
  * @param {{
  * userId: string,
  * prescriberRepository: PrescriberRepository,
- * membershipRepository: MembershipRepository,
+ * sharedMembershipRepository: sharedMembershipRepository,
  * userOrgaSettingsRepository: UserOrgaSettingsRepository
  * }} params
  * @return {Promise<Prescriber>}
@@ -15,10 +15,10 @@ import { UserNotMemberOfOrganizationError } from '../../../../lib/domain/errors.
 export const getPrescriber = async function ({
   userId,
   prescriberRepository,
-  membershipRepository,
+  sharedMembershipRepository,
   userOrgaSettingsRepository,
 }) {
-  const memberships = await membershipRepository.findByUserId({ userId });
+  const memberships = await sharedMembershipRepository.findByUserId({ userId });
   if (_.isEmpty(memberships)) {
     throw new UserNotMemberOfOrganizationError(`L’utilisateur ${userId} n’est membre d’aucune organisation.`);
   }

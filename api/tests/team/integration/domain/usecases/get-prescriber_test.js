@@ -1,4 +1,4 @@
-import * as membershipRepository from '../../../../../src/shared/infrastructure/repositories/membership-repository.js';
+import * as sharedMembershipRepository from '../../../../../src/shared/infrastructure/repositories/membership-repository.js';
 import { getPrescriber } from '../../../../../src/team/domain/usecases/get-prescriber.js';
 import { prescriberRepository } from '../../../../../src/team/infrastructure/repositories/prescriber-repository.js';
 import { userOrgaSettingsRepository } from '../../../../../src/team/infrastructure/repositories/user-orga-settings-repository.js';
@@ -17,7 +17,7 @@ describe('Integration | Team | Domain | UseCases | get-prescriber', function () 
       const prescriber = await getPrescriber({
         userId,
         prescriberRepository,
-        membershipRepository,
+        sharedMembershipRepository,
         userOrgaSettingsRepository,
       });
 
@@ -46,7 +46,7 @@ describe('Integration | Team | Domain | UseCases | get-prescriber', function () 
       const prescriber = await getPrescriber({
         userId,
         prescriberRepository,
-        membershipRepository,
+        sharedMembershipRepository,
         userOrgaSettingsRepository,
       });
 
@@ -68,7 +68,7 @@ describe('Integration | Team | Domain | UseCases | get-prescriber', function () 
         const prescriber = await getPrescriber({
           userId,
           prescriberRepository,
-          membershipRepository,
+          sharedMembershipRepository,
           userOrgaSettingsRepository,
         });
 

@@ -3,104 +3,21 @@ import { InvalidMembershipOrganizationRoleError } from '../../../../lib/domain/e
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
+import { usecases as srcUsecases } from '../../../../src/team/domain/usecases/index.js';
 import { domainBuilder, expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Integration | Application | Memberships | membership-controller', function () {
   let httpTestServer;
 
   beforeEach(async function () {
-    sinon.stub(usecases, 'createMembership');
+    sinon.stub(srcUsecases, 'createMembership');
     sinon.stub(usecases, 'updateMembership');
-    sinon.stub(usecases, 'createCertificationCenterMembershipForScoOrganizationAdminMember');
+    sinon.stub(srcUsecases, 'createCertificationCenterMembershipForScoOrganizationAdminMember');
     sinon.stub(usecases, 'disableMembership');
     sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf');
     sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization');
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);
-  });
-
-  describe('#create', function () {
-    const payload = {
-      data: {
-        type: 'memberships',
-        relationships: {
-          user: { data: { type: 'users', id: 1 } },
-          organization: { data: { type: 'organizations', id: 1 } },
-        },
-      },
-    };
-
-    context('Success cases', function () {
-      context('when a certification center membership is created', function () {
-        it('should resolve a 201 HTTP response', async function () {
-          // given
-          const membership = domainBuilder.buildMembership();
-          const certificationCenterMembership = domainBuilder.buildCertificationCenterMembership();
-
-          usecases.createMembership.resolves(membership);
-          usecases.createCertificationCenterMembershipForScoOrganizationAdminMember
-            .withArgs({ membership })
-            .resolves(certificationCenterMembership);
-
-          securityPreHandlers.hasAtLeastOneAccessOf.returns(() => true);
-
-          // when
-          const response = await httpTestServer.request('POST', '/api/admin/memberships', payload);
-
-          // then
-          expect(response.statusCode).to.equal(201);
-        });
-      });
-
-      context('when no certification center membership is created', function () {
-        it('should resolve a 201 HTTP response', async function () {
-          // given
-          const membership = domainBuilder.buildMembership();
-
-          usecases.createMembership.resolves(membership);
-          usecases.createCertificationCenterMembershipForScoOrganizationAdminMember
-            .withArgs({ membership })
-            .resolves(undefined);
-
-          securityPreHandlers.hasAtLeastOneAccessOf.returns(() => true);
-
-          // when
-          const response = await httpTestServer.request('POST', '/api/admin/memberships', payload);
-
-          // then
-          expect(response.statusCode).to.equal(201);
-        });
-      });
-
-      it('should return a JSON API organization membership', async function () {
-        // given
-        const membership = domainBuilder.buildMembership();
-        usecases.createMembership.resolves(membership);
-
-        securityPreHandlers.hasAtLeastOneAccessOf.returns(() => true);
-
-        // when
-        const response = await httpTestServer.request('POST', '/api/admin/memberships', payload);
-
-        // then
-        expect(response.result.data.type).to.equal('organization-memberships');
-      });
-    });
-
-    context('Error cases', function () {
-      context('when user is not allowed to access resource', function () {
-        it('should resolve a 403 HTTP response', async function () {
-          // given
-          securityPreHandlers.hasAtLeastOneAccessOf.returns((request, h) => h.response().code(403).takeover());
-
-          // when
-          const response = await httpTestServer.request('POST', '/api/admin/memberships', payload);
-
-          // then
-          expect(response.statusCode).to.equal(403);
-        });
-      });
-    });
   });
 
   describe('#update', function () {
@@ -119,7 +36,7 @@ describe('Integration | Application | Memberships | membership-controller', func
           const certificationCenterMembership = domainBuilder.buildCertificationCenterMembership();
 
           usecases.updateMembership.withArgs({ membership }).resolves(updatedMembership);
-          usecases.createCertificationCenterMembershipForScoOrganizationAdminMember
+          srcUsecases.createCertificationCenterMembershipForScoOrganizationAdminMember
             .withArgs({ membership })
             .resolves(certificationCenterMembership);
           securityPreHandlers.checkUserIsAdminInOrganization.callsFake((request, h) => h.response(true));
@@ -161,7 +78,7 @@ describe('Integration | Application | Memberships | membership-controller', func
             organizationRole: Membership.roles.MEMBER,
           });
           usecases.updateMembership.withArgs({ membership }).resolves(updatedMembership);
-          usecases.createCertificationCenterMembershipForScoOrganizationAdminMember
+          srcUsecases.createCertificationCenterMembershipForScoOrganizationAdminMember
             .withArgs({ membership })
             .resolves(undefined);
           securityPreHandlers.checkUserIsAdminInOrganization.callsFake((request, h) => h.response(true));

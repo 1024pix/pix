@@ -2,12 +2,13 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import * as mailService from '../../../../lib/domain/services/mail-service.js';
+import * as membershipRepository from '../../../../lib/infrastructure/repositories/membership-repository.js';
+import * as sharedMembershipRepository from '../../../../src/shared/infrastructure/repositories/membership-repository.js';
 import * as organizationRepository from '../../../../src/shared/infrastructure/repositories/organization-repository.js';
 import * as certificationCenterRepository from '../../../certification/shared/infrastructure/repositories/certification-center-repository.js';
 import { refreshTokenService } from '../../../identity-access-management/domain/services/refresh-token-service.js';
 import * as userRepository from '../../../identity-access-management/infrastructure/repositories/user.repository.js';
 import { adminMemberRepository } from '../../../shared/infrastructure/repositories/admin-member.repository.js';
-import * as membershipRepository from '../../../shared/infrastructure/repositories/membership-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as certificationCenterInvitationRepository from '../../infrastructure/repositories/certification-center-invitation-repository.js';
@@ -32,6 +33,7 @@ const dependencies = {
   organizationInvitationRepository,
   organizationRepository,
   refreshTokenService,
+  sharedMembershipRepository,
   userRepository,
 };
 

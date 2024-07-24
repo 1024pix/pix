@@ -1,5 +1,6 @@
 import { organizationInvitationController } from '../../../../lib/application/organization-invitations/organization-invitation-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { usecases as srcUsecases } from '../../../../src/team/domain/usecases/index.js';
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | Organization-Invitations | organization-invitation-controller', function () {
@@ -20,7 +21,7 @@ describe('Unit | Application | Organization-Invitations | organization-invitatio
       };
 
       sinon.stub(usecases, 'acceptOrganizationInvitation').resolves();
-      sinon.stub(usecases, 'createCertificationCenterMembershipForScoOrganizationAdminMember').resolves();
+      sinon.stub(srcUsecases, 'createCertificationCenterMembershipForScoOrganizationAdminMember').resolves();
 
       // when
       await organizationInvitationController.acceptOrganizationInvitation(request);
@@ -51,13 +52,15 @@ describe('Unit | Application | Organization-Invitations | organization-invitatio
       };
 
       sinon.stub(usecases, 'acceptOrganizationInvitation').resolves(membership);
-      sinon.stub(usecases, 'createCertificationCenterMembershipForScoOrganizationAdminMember').resolves();
+      sinon.stub(srcUsecases, 'createCertificationCenterMembershipForScoOrganizationAdminMember').resolves();
 
       // when
       await organizationInvitationController.acceptOrganizationInvitation(request);
 
       // then
-      expect(usecases.createCertificationCenterMembershipForScoOrganizationAdminMember).to.have.been.calledWithExactly({
+      expect(
+        srcUsecases.createCertificationCenterMembershipForScoOrganizationAdminMember,
+      ).to.have.been.calledWithExactly({
         membership,
       });
     });

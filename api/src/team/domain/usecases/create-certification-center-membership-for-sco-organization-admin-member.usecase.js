@@ -1,4 +1,4 @@
-import { CERTIFICATION_CENTER_MEMBERSHIP_ROLES } from '../models/CertificationCenterMembership.js';
+import { CERTIFICATION_CENTER_MEMBERSHIP_ROLES } from '../../../../lib/domain/models/CertificationCenterMembership.js';
 
 const createCertificationCenterMembershipForScoOrganizationAdminMember = async function ({
   membership,

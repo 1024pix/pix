@@ -1,12 +1,12 @@
 import {
   CERTIFICATION_CENTER_MEMBERSHIP_ROLES,
   CertificationCenterMembership,
-} from '../../../../lib/domain/models/CertificationCenterMembership.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { createCertificationCenterMembershipForScoOrganizationAdminMember } from '../../../../lib/domain/usecases/create-certification-center-membership-for-sco-organization-admin-member.js';
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+} from '../../../../../lib/domain/models/CertificationCenterMembership.js';
+import { Membership } from '../../../../../lib/domain/models/Membership.js';
+import { createCertificationCenterMembershipForScoOrganizationAdminMember } from '../../../../../src/team/domain/usecases/create-certification-center-membership-for-sco-organization-admin-member.usecase.js';
+import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | create-certification-center-membership-for-sco-organization-member', function () {
+describe('Unit | Team | Domain | UseCase | create-certification-center-membership-for-sco-organization-member', function () {
   const now = new Date('2023-11-01');
   let membershipRepository;
   let certificationCenterRepository;

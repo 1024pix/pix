@@ -1,75 +1,10 @@
 import { membershipController } from '../../../../lib/application/memberships/membership-controller.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { usecases as srcUsecases } from '../../../../src/team/domain/usecases/index.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Controller | membership-controller', function () {
-  describe('#create', function () {
-    it('should return the serialized created membership', async function () {
-      // given
-      const user = domainBuilder.buildUser();
-      const organization = domainBuilder.buildOrganization();
-      const membership = domainBuilder.buildMembership({ organization, user });
-      const serializedMembership = Symbol('membership serialized');
-
-      const request = {
-        payload: {
-          data: {
-            relationships: {
-              user: { data: { id: user.id } },
-              organization: { data: { id: organization.id } },
-            },
-          },
-        },
-      };
-
-      const createMembershipUsecase = sinon.stub(usecases, 'createMembership');
-      createMembershipUsecase.withArgs({ userId: user.id, organizationId: organization.id }).resolves(membership);
-      sinon.stub(usecases, 'createCertificationCenterMembershipForScoOrganizationAdminMember').resolves();
-      const membershipSerializer = { serializeForAdmin: sinon.stub() };
-      membershipSerializer.serializeForAdmin.withArgs(membership).returns(serializedMembership);
-
-      // when
-      const result = await membershipController.create(request, hFake, { membershipSerializer });
-
-      // then
-      expect(usecases.createMembership).to.have.been.calledOnce;
-      expect(result.source).equal(serializedMembership);
-    });
-
-    it('should call createCertificationCenterMembershipForScoOrganizationAdminMember usecase', async function () {
-      // given
-      const user = domainBuilder.buildUser();
-      const organization = domainBuilder.buildOrganization();
-      const membership = domainBuilder.buildMembership({ organization, user });
-
-      const request = {
-        payload: {
-          data: {
-            relationships: {
-              user: { data: { id: user.id } },
-              organization: { data: { id: organization.id } },
-            },
-          },
-        },
-      };
-
-      const createMembershipUsecase = sinon.stub(usecases, 'createMembership');
-      createMembershipUsecase.withArgs({ userId: user.id, organizationId: organization.id }).resolves(membership);
-      sinon.stub(usecases, 'createCertificationCenterMembershipForScoOrganizationAdminMember').resolves();
-      const membershipSerializer = { serializeForAdmin: sinon.stub() };
-      membershipSerializer.serializeForAdmin.withArgs(membership).returns('ok');
-
-      // when
-      await membershipController.create(request, hFake, { membershipSerializer });
-
-      // then
-      expect(usecases.createCertificationCenterMembershipForScoOrganizationAdminMember).calledWith({
-        membership,
-      });
-    });
-  });
-
   describe('#update', function () {
     it('should return the serialized updated membership', async function () {
       // given
@@ -119,7 +54,7 @@ describe('Unit | Controller | membership-controller', function () {
           membership,
         })
         .resolves(updatedMembership);
-      sinon.stub(usecases, 'createCertificationCenterMembershipForScoOrganizationAdminMember').resolves();
+      sinon.stub(srcUsecases, 'createCertificationCenterMembershipForScoOrganizationAdminMember').resolves();
       const membershipSerializer = { deserialize: sinon.stub(), serialize: sinon.stub() };
       membershipSerializer.deserialize.withArgs(request.payload).returns(membership);
       membershipSerializer.serialize.withArgs(updatedMembership).returns(serializedMembership);
@@ -175,13 +110,13 @@ describe('Unit | Controller | membership-controller', function () {
       const membershipSerializer = { deserialize: sinon.stub(), serialize: sinon.stub() };
       membershipSerializer.deserialize.withArgs(request.payload).returns(membership);
       sinon.stub(usecases, 'updateMembership').resolves(updatedMembership);
-      sinon.stub(usecases, 'createCertificationCenterMembershipForScoOrganizationAdminMember').resolves();
+      sinon.stub(srcUsecases, 'createCertificationCenterMembershipForScoOrganizationAdminMember').resolves();
 
       // when
       await membershipController.update(request, hFake, { requestResponseUtils, membershipSerializer });
 
       // then
-      expect(usecases.createCertificationCenterMembershipForScoOrganizationAdminMember).calledWith({
+      expect(srcUsecases.createCertificationCenterMembershipForScoOrganizationAdminMember).calledWith({
         membership,
       });
     });

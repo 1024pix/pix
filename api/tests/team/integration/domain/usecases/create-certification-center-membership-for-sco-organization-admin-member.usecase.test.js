@@ -1,12 +1,12 @@
-import { CERTIFICATION_CENTER_MEMBERSHIP_ROLES } from '../../../../lib/domain/models/CertificationCenterMembership.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { createCertificationCenterMembershipForScoOrganizationAdminMember } from '../../../../lib/domain/usecases/create-certification-center-membership-for-sco-organization-admin-member.js';
-import * as certificationCenterMembershipRepository from '../../../../lib/infrastructure/repositories/certification-center-membership-repository.js';
-import * as membershipRepository from '../../../../lib/infrastructure/repositories/membership-repository.js';
-import * as certificationCenterRepository from '../../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
-import { databaseBuilder, expect, knex } from '../../../test-helper.js';
+import { CERTIFICATION_CENTER_MEMBERSHIP_ROLES } from '../../../../../lib/domain/models/CertificationCenterMembership.js';
+import { Membership } from '../../../../../lib/domain/models/Membership.js';
+import * as certificationCenterMembershipRepository from '../../../../../lib/infrastructure/repositories/certification-center-membership-repository.js';
+import * as membershipRepository from '../../../../../lib/infrastructure/repositories/membership-repository.js';
+import * as certificationCenterRepository from '../../../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
+import { createCertificationCenterMembershipForScoOrganizationAdminMember } from '../../../../../src/team/domain/usecases/create-certification-center-membership-for-sco-organization-admin-member.usecase.js';
+import { databaseBuilder, expect, knex } from '../../../../test-helper.js';
 
-describe('Integration | UseCases | create-certification-center-membership-for-sco-organization-member', function () {
+describe('Integration | Team | Domain | UseCase | create-certification-center-membership-for-sco-organization-member', function () {
   describe('when the organizationRole is ADMIN', function () {
     describe('when the SCO organization has a certification center', function () {
       it('it should create a certification center membership', async function () {

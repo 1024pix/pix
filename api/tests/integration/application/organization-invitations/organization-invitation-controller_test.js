@@ -2,6 +2,7 @@ import * as moduleUnderTest from '../../../../lib/application/organization-invit
 import { AlreadyExistingInvitationError, NotFoundError } from '../../../../lib/domain/errors.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { UserNotFoundError } from '../../../../src/shared/domain/errors.js';
+import { usecases as srcUsecases } from '../../../../src/team/domain/usecases/index.js';
 import { serializer as scoOrganizationInvitationSerializer } from '../../../../src/team/infrastructure/serializers/jsonapi/sco-organization-invitation.serializer.js';
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
@@ -12,7 +13,7 @@ describe('Integration | Application | Organization-invitations | organization-in
   beforeEach(async function () {
     sandbox = sinon.createSandbox();
     sandbox.stub(usecases, 'acceptOrganizationInvitation');
-    sandbox.stub(usecases, 'createCertificationCenterMembershipForScoOrganizationAdminMember');
+    sandbox.stub(srcUsecases, 'createCertificationCenterMembershipForScoOrganizationAdminMember');
     sandbox.stub(scoOrganizationInvitationSerializer, 'serialize');
 
     httpTestServer = new HttpTestServer();
@@ -39,7 +40,7 @@ describe('Integration | Application | Organization-invitations | organization-in
       it('should return an HTTP response with status code 204', async function () {
         // given
         usecases.acceptOrganizationInvitation.resolves();
-        usecases.createCertificationCenterMembershipForScoOrganizationAdminMember.resolves();
+        srcUsecases.createCertificationCenterMembershipForScoOrganizationAdminMember.resolves();
 
         // when
         const response = await httpTestServer.request('POST', '/api/organization-invitations/1/response', payload);
