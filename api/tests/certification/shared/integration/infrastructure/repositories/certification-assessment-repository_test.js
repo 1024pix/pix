@@ -546,8 +546,9 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
       await databaseBuilder.commit();
 
       // when
-      const certificationAssessment =
-        await certificationAssessmentRepository.getByCertificationCandidateId(certificationCandidateId);
+      const certificationAssessment = await certificationAssessmentRepository.getByCertificationCandidateId({
+        certificationCandidateId,
+      });
 
       // then
       expect(certificationAssessment).to.be.an.instanceOf(CertificationAssessment);

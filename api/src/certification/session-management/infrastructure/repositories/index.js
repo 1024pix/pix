@@ -60,7 +60,6 @@ const repositoriesWithoutInjectedDependencies = {
   supervisorAccessRepository,
   certificationReportRepository,
   complementaryCertificationCourseResultRepository,
-  certificationAssessmentRepository,
 };
 
 /**

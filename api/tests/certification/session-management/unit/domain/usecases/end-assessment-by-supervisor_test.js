@@ -23,7 +23,7 @@ describe('Unit | UseCase | end-assessment-by-supervisor', function () {
       });
 
       certificationAssessmentRepository.getByCertificationCandidateId
-        .withArgs(certificationCandidateId)
+        .withArgs({ certificationCandidateId })
         .resolves(completedCertificationAssessment);
 
       await endAssessmentBySupervisor({
@@ -47,7 +47,7 @@ describe('Unit | UseCase | end-assessment-by-supervisor', function () {
       });
 
       certificationAssessmentRepository.getByCertificationCandidateId
-        .withArgs(certificationCandidateId)
+        .withArgs({ certificationCandidateId })
         .resolves(startedCertificationAssessment);
 
       await endAssessmentBySupervisor({

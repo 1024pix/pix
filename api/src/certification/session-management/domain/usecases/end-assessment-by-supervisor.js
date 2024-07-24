@@ -1,6 +1,7 @@
 const endAssessmentBySupervisor = async function ({ certificationCandidateId, certificationAssessmentRepository }) {
-  const certificationAssessment =
-    await certificationAssessmentRepository.getByCertificationCandidateId(certificationCandidateId);
+  const certificationAssessment = await certificationAssessmentRepository.getByCertificationCandidateId({
+    certificationCandidateId,
+  });
 
   if (certificationAssessment.isCompleted()) {
     return;
