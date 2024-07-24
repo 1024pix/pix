@@ -1,9 +1,7 @@
 import lodash from 'lodash';
 
 import * as certificationCandidateSerializer from '../../../src/certification/enrolment/infrastructure/serializers/certification-candidate-serializer.js';
-import { getSessionCertificationResultsCsv } from '../../../src/certification/results/infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
 import * as sessionManagementSerializer from '../../../src/certification/session-management/infrastructure/serializers/session-serializer.js';
-import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import { UserLinkedToCertificationCandidate } from '../../domain/events/UserLinkedToCertificationCandidate.js';
 import * as sessionResultsLinkService from '../../domain/services/session-results-link-service.js';
@@ -39,27 +37,6 @@ const generateSessionResultsDownloadLink = async function (request, h, dependenc
   const sessionResultsLink = dependencies.sessionResultsLinkService.generateResultsLink({ sessionId, i18n });
 
   return h.response({ sessionResultsLink });
-};
-
-const getSessionResultsToDownload = async function (
-  request,
-  h,
-  dependencies = { tokenService, getSessionCertificationResultsCsv },
-) {
-  const token = request.params.token;
-  const { sessionId } = dependencies.tokenService.extractCertificationResultsLink(token);
-  const { session, certificationResults } = await usecases.getSessionResults({ sessionId });
-
-  const csvResult = await dependencies.getSessionCertificationResultsCsv({
-    session,
-    certificationResults,
-    i18n: request.i18n,
-  });
-
-  return h
-    .response(csvResult.content)
-    .header('Content-Type', 'text/csv;charset=utf-8')
-    .header('Content-Disposition', `attachment; filename=${csvResult.filename}`);
 };
 
 const createCandidateParticipation = async function (request, h, dependencies = { certificationCandidateSerializer }) {
@@ -124,7 +101,6 @@ const flagResultsAsSentToPrescriber = async function (request, h, dependencies =
 const sessionController = {
   getJuryCertificationSummaries,
   generateSessionResultsDownloadLink,
-  getSessionResultsToDownload,
   createCandidateParticipation,
   publish,
   publishInBatch,

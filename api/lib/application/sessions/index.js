@@ -69,24 +69,6 @@ const register = async function (server) {
       },
     },
     {
-      method: 'GET',
-      path: '/api/sessions/download-all-results/{token}',
-      config: {
-        auth: false,
-        validate: {
-          query: Joi.object({
-            lang: Joi.string().optional().valid('fr', 'en'),
-          }),
-        },
-        handler: sessionController.getSessionResultsToDownload,
-        tags: ['api', 'sessions', 'results'],
-        notes: [
-          'Cette route est accessible via un token généré par un utilisateur ayant le rôle SUPERADMIN',
-          "Elle retourne tous les résultats de certifications d'une session, sous format CSV",
-        ],
-      },
-    },
-    {
       method: 'POST',
       path: '/api/sessions/{id}/candidate-participation',
       config: {

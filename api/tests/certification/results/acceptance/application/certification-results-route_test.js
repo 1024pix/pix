@@ -1,6 +1,7 @@
 import jsonwebtoken from 'jsonwebtoken';
 
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
+import { AutoJuryCommentKeys } from '../../../../../src/certification/shared/domain/models/JuryComment.js';
 import { config as settings } from '../../../../../src/shared/config.js';
 import {
   createServer,
@@ -113,6 +114,76 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
         const request = {
           method: 'GET',
           url: `/api/sessions/download-results/${token}`,
+          payload: {},
+        };
+
+        await databaseBuilder.commit();
+
+        // when
+        const response = await server.inject(request);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+  });
+
+  describe('GET /api/sessions/download-all-results/{token}', function () {
+    context('when a valid token is given', function () {
+      it('should return 200 HTTP status code', async function () {
+        // given
+        const server = await createServer();
+
+        const dbf = databaseBuilder.factory;
+
+        const session = dbf.buildSession({ date: '2020/01/01', time: '12:00' });
+        const sessionId = session.id;
+
+        const candidate1 = dbf.buildCertificationCandidate({
+          sessionId,
+          resultRecipientEmail: 'recipientEmail@example.net',
+        });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate1.id });
+        const candidate2 = dbf.buildCertificationCandidate({
+          sessionId,
+          resultRecipientEmail: 'recipientEmail@example.net',
+        });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate2.id });
+
+        const certif1 = dbf.buildCertificationCourse({
+          sessionId: candidate1.sessionId,
+          userId: candidate1.userId,
+          lastName: candidate1.lastName,
+          birthdate: candidate1.birthdate,
+          createdAt: candidate1.createdAt,
+        });
+        const certif2 = dbf.buildCertificationCourse({
+          sessionId: candidate2.sessionId,
+          userId: candidate2.userId,
+          lastName: candidate2.lastName,
+          birthdate: candidate2.birthdate,
+          createdAt: candidate2.createdAt,
+        });
+
+        const assessmentId1 = dbf.buildAssessment({ certificationCourseId: certif1.id }).id;
+        dbf.buildAssessment({
+          certificationCourseId: certif2.id,
+          commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_NEUTRALIZATION,
+        });
+
+        dbf.buildAssessmentResult({ assessmentId: assessmentId1, createdAt: new Date('2018-04-15T00:00:00Z') });
+
+        const token = jsonwebtoken.sign(
+          {
+            session_id: sessionId,
+          },
+          settings.authentication.secret,
+          { expiresIn: '30d' },
+        );
+
+        const request = {
+          method: 'GET',
+          url: `/api/sessions/download-all-results/${token}`,
           payload: {},
         };
 
