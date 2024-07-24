@@ -47,7 +47,7 @@
     {
       "id": "0bfa08bd-7052-49bb-89e8-150efa589926",
       "type": "activity",
-      "title": "Pris dans le filet&nbsp;!",
+      "title": "Pris dans le filet !",
       "components": [
         {
           "type": "element",
@@ -99,7 +99,7 @@
     {
       "id": "c8722f6e-7534-4fdc-9f2d-515c2a96641f",
       "type": "lesson",
-      "title": "D'où viennent les biais des LLM&nbsp;?",
+      "title": "D'où viennent les biais des LLM ?",
       "components": [
         {
           "type": "element",
@@ -307,7 +307,7 @@
     {
       "id": "256e2ddc-3ffc-4906-8c52-3026f353c0a0",
       "type": "lesson",
-      "title": "Les biais des LLM&nbsp;: à retenir",
+      "title": "Les biais des LLM : à retenir",
       "components": [
         {
           "type": "element",
