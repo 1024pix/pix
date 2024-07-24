@@ -2,6 +2,8 @@ import * as certificationIssueReportRepository from '../../../../certification/s
 import * as issueReportCategoryRepository from '../../../../certification/shared/infrastructure/repositories/issue-report-category-repository.js';
 import * as assessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
+import * as certificationCpfCityRepository from '../../../enrolment/infrastructure/repositories/certification-cpf-city-repository.js';
+import * as certificationCpfCountryRepository from '../../../enrolment/infrastructure/repositories/certification-cpf-country-repository.js';
 import * as certificationAssessmentRepository from '../../../shared/infrastructure/repositories/certification-assessment-repository.js';
 import * as certificationChallengeLiveAlertRepository from '../../../shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
 import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
@@ -40,6 +42,8 @@ import * as supervisorAccessRepository from './supervisor-access-repository.js';
  * @typedef {certificationReportRepository} CertificationReportRepository
  * @typedef {complementaryCertificationCourseResultRepository} ComplementaryCertificationCourseResultRepository
  * @typedef {certificationAssessmentRepository} CertificationAssessmentRepository
+ * @typedef {certificationCpfCityRepository} CertificationCpfCityRepository
+ * @typedef {certificationCpfCountryRepository} CertificationCpfCountryRepository
  */
 const repositoriesWithoutInjectedDependencies = {
   assessmentRepository,
@@ -60,6 +64,8 @@ const repositoriesWithoutInjectedDependencies = {
   supervisorAccessRepository,
   certificationReportRepository,
   complementaryCertificationCourseResultRepository,
+  certificationCpfCityRepository,
+  certificationCpfCountryRepository,
 };
 
 /**
