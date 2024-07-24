@@ -1,12 +1,12 @@
-import { OrganizationInvitedUser } from '../../../../lib/domain/models/OrganizationInvitedUser.js';
 import {
   AlreadyAcceptedOrCancelledInvitationError,
   AlreadyExistingMembershipError,
   NotFoundError,
-} from '../../../../src/shared/domain/errors.js';
-import { catchErr, domainBuilder, expect } from '../../../test-helper.js';
+} from '../../../../../src/shared/domain/errors.js';
+import { OrganizationInvitedUser } from '../../../../../src/team/domain/models/OrganizationInvitedUser.js';
+import { catchErr, domainBuilder, expect } from '../../../../test-helper.js';
 
-describe('Unit | Domain | Models | OrganizationInvitedUser', function () {
+describe('Unit | Team | Domain | Model | OrganizationInvitedUser', function () {
   describe('#acceptInvitation', function () {
     describe('Error cases', function () {
       describe('When organization code is invalid', function () {
