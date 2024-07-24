@@ -2,16 +2,16 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import * as certificationResultRepository from '../../../../../lib/infrastructure/repositories/certification-result-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as sessionEnrolmentRepository from '../../../enrolment/infrastructure/repositories/session-repository.js';
 import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
 import * as certificationReportRepository from '../../../shared/infrastructure/repositories/certification-report-repository.js';
+import * as sharedSessionRepository from '../../../shared/infrastructure/repositories/session-repository.js';
 import * as certificateRepository from '../../infrastructure/repositories/certificate-repository.js';
+import * as certificationResultRepository from '../../infrastructure/repositories/certification-result-repository.js';
 import * as cleaCertifiedCandidateRepository from '../../infrastructure/repositories/clea-certified-candidate-repository.js';
 import * as scoCertificationCandidateRepository from '../../infrastructure/repositories/sco-certification-candidate-repository.js';
-
 /**
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
  *
@@ -22,6 +22,7 @@ import * as scoCertificationCandidateRepository from '../../infrastructure/repos
  * @typedef {certificationReportRepository} CertificationReportRepository
  * @typedef {cleaCertifiedCandidateRepository} CleaCertifiedCandidateRepository
  * @typedef {sessionEnrolmentRepository} SessionEnrolmentRepository
+ * @typedef {sharedSessionRepository} SharedSessionRepository
  **/
 
 const dependencies = {
@@ -32,6 +33,7 @@ const dependencies = {
   certificationReportRepository,
   cleaCertifiedCandidateRepository,
   sessionEnrolmentRepository,
+  sharedSessionRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

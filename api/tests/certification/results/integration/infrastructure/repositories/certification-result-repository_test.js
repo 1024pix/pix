@@ -1,10 +1,10 @@
-import { CertificationResult } from '../../../../lib/domain/models/CertificationResult.js';
-import * as certificationResultRepository from '../../../../lib/infrastructure/repositories/certification-result-repository.js';
-import { ComplementaryCertificationCourseResult } from '../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
-import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
-import { databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
+import { CertificationResult } from '../../../../../../lib/domain/models/index.js';
+import * as certificationResultRepository from '../../../../../../src/certification/results/infrastructure/repositories/certification-result-repository.js';
+import { ComplementaryCertificationCourseResult } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
+import { AutoJuryCommentKeys } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
+import { databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';
 
-describe('Integration | Infrastructure | Repository | Certification Result', function () {
+describe('Certification | Results | Integration | Infrastructure | Repository | Certification Result', function () {
   describe('#findBySessionId', function () {
     it('should return all certification results in a session ordered by lastName, firstName', async function () {
       // given
