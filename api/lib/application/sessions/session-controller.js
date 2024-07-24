@@ -1,6 +1,7 @@
 import lodash from 'lodash';
 
 import * as certificationCandidateSerializer from '../../../src/certification/enrolment/infrastructure/serializers/certification-candidate-serializer.js';
+import { getSessionCertificationResultsCsv } from '../../../src/certification/results/infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
 import * as sessionManagementSerializer from '../../../src/certification/session-management/infrastructure/serializers/session-serializer.js';
 import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
@@ -9,7 +10,6 @@ import * as sessionResultsLinkService from '../../domain/services/session-result
 import { usecases } from '../../domain/usecases/index.js';
 import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
 import * as juryCertificationSummarySerializer from '../../infrastructure/serializers/jsonapi/jury-certification-summary-serializer.js';
-import { getSessionCertificationResultsCsv } from '../../infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
 import { SessionPublicationBatchError } from '../http-errors.js';
 
 const { trim } = lodash;
@@ -50,31 +50,6 @@ const getSessionResultsToDownload = async function (
   const { sessionId } = dependencies.tokenService.extractCertificationResultsLink(token);
   const { session, certificationResults } = await usecases.getSessionResults({ sessionId });
 
-  const csvResult = await dependencies.getSessionCertificationResultsCsv({
-    session,
-    certificationResults,
-    i18n: request.i18n,
-  });
-
-  return h
-    .response(csvResult.content)
-    .header('Content-Type', 'text/csv;charset=utf-8')
-    .header('Content-Disposition', `attachment; filename=${csvResult.filename}`);
-};
-
-const getSessionResultsByRecipientEmail = async function (
-  request,
-  h,
-  dependencies = { tokenService, getSessionCertificationResultsCsv },
-) {
-  const token = request.params.token;
-
-  const { resultRecipientEmail, sessionId } =
-    dependencies.tokenService.extractCertificationResultsByRecipientEmailLink(token);
-  const { session, certificationResults } = await usecases.getSessionResultsByResultRecipientEmail({
-    sessionId,
-    resultRecipientEmail,
-  });
   const csvResult = await dependencies.getSessionCertificationResultsCsv({
     session,
     certificationResults,
@@ -150,7 +125,6 @@ const sessionController = {
   getJuryCertificationSummaries,
   generateSessionResultsDownloadLink,
   getSessionResultsToDownload,
-  getSessionResultsByRecipientEmail,
   createCandidateParticipation,
   publish,
   publishInBatch,

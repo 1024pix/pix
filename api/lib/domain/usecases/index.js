@@ -19,6 +19,7 @@ import * as certificationCpfCountryRepository from '../../../src/certification/e
 import * as sessionEnrolmentRepository from '../../../src/certification/enrolment/infrastructure/repositories/session-repository.js';
 import * as flashAlgorithmService from '../../../src/certification/flash-certification/domain/services/algorithm-methods/flash.js';
 import * as flashAlgorithmConfigurationRepository from '../../../src/certification/flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
+import * as certificationResultRepository from '../../../src/certification/results/infrastructure/repositories/certification-result-repository.js';
 import * as certificationOfficerRepository from '../../../src/certification/session-management/infrastructure/repositories/certification-officer-repository.js';
 import * as finalizedSessionRepository from '../../../src/certification/session-management/infrastructure/repositories/finalized-session-repository.js';
 import * as jurySessionRepository from '../../../src/certification/session-management/infrastructure/repositories/jury-session-repository.js';
@@ -130,7 +131,6 @@ import * as certificationCenterMembershipRepository from '../../infrastructure/r
 import * as certificationLsRepository from '../../infrastructure/repositories/certification-livret-scolaire-repository.js';
 import * as certificationPointOfContactRepository from '../../infrastructure/repositories/certification-point-of-contact-repository.js';
 import * as certificationRepository from '../../infrastructure/repositories/certification-repository.js';
-import * as certificationResultRepository from '../../infrastructure/repositories/certification-result-repository.js';
 import * as competenceMarkRepository from '../../infrastructure/repositories/competence-mark-repository.js';
 import * as competenceTreeRepository from '../../infrastructure/repositories/competence-tree-repository.js';
 import * as complementaryCertificationCourseResultRepository from '../../infrastructure/repositories/complementary-certification-course-result-repository.js';
