@@ -88,4 +88,46 @@ describe('Certification | Results | Unit | Controller | certification results', 
       );
     });
   });
+
+  describe('#getSessionResultsToDownload ', function () {
+    it('should return results to download', async function () {
+      // given
+      const userId = 274939274;
+      const i18n = getI18n();
+      const session = { id: 1, date: '2020/01/01', time: '12:00' };
+      const sessionId = session.id;
+      const fileName = `20200101_1200_resultats_session_${sessionId}.csv`;
+      const certificationResults = [];
+      const token = Symbol('a beautiful token');
+      const request = {
+        i18n,
+        params: { id: sessionId, token },
+        auth: {
+          credentials: { userId },
+        },
+      };
+      const dependencies = {
+        getSessionCertificationResultsCsv: sinon.stub(),
+        tokenService: {
+          extractCertificationResultsLink: sinon.stub(),
+        },
+      };
+      dependencies.tokenService.extractCertificationResultsLink.withArgs(token).returns({ sessionId });
+      dependencies.getSessionCertificationResultsCsv
+        .withArgs({
+          session,
+          certificationResults,
+          i18n: request.i18n,
+        })
+        .returns({ content: 'csv-string', filename: fileName });
+      sinon.stub(usecases, 'getSessionResults').withArgs({ sessionId }).resolves({ session, certificationResults });
+
+      // when
+      const response = await certificationResultsController.getSessionResultsToDownload(request, hFake, dependencies);
+
+      // then
+      expect(response.source).to.deep.equal('csv-string');
+      expect(response.headers['Content-Disposition']).to.equal(`attachment; filename=${fileName}`);
+    });
+  });
 });
