@@ -5,27 +5,27 @@ import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.
 describe('Unit | Team | Domain | UseCase | get-prescriber', function () {
   const userId = 1;
   let prescriberRepository;
-  let membershipRepository;
+  let sharedMembershipRepository;
   let userOrgaSettingsRepository;
   let expectedResult;
 
   beforeEach(function () {
     expectedResult = Symbol('prescriber');
     prescriberRepository = { getPrescriber: sinon.stub() };
-    membershipRepository = { findByUserId: sinon.stub() };
+    sharedMembershipRepository = { findByUserId: sinon.stub() };
     userOrgaSettingsRepository = { findOneByUserId: sinon.stub(), create: sinon.stub(), update: sinon.stub() };
   });
 
   context('When user is not a member of any organization', function () {
     it('should throw UserNotMemberOfOrganizationError', async function () {
       // given
-      membershipRepository.findByUserId.withArgs({ userId }).resolves([]);
+      sharedMembershipRepository.findByUserId.withArgs({ userId }).resolves([]);
 
       // when
       const error = await catchErr(getPrescriber)({
         userId,
         prescriberRepository,
-        membershipRepository,
+        sharedMembershipRepository,
         userOrgaSettingsRepository,
       });
 
@@ -41,14 +41,14 @@ describe('Unit | Team | Domain | UseCase | get-prescriber', function () {
       const user = domainBuilder.buildUser({ id: userId });
       const membership1 = domainBuilder.buildMembership({ user });
       const membership2 = domainBuilder.buildMembership({ user });
-      membershipRepository.findByUserId.withArgs({ userId }).resolves([membership1, membership2]);
+      sharedMembershipRepository.findByUserId.withArgs({ userId }).resolves([membership1, membership2]);
       userOrgaSettingsRepository.findOneByUserId.withArgs(userId).resolves(null);
 
       // when
       await getPrescriber({
         userId,
         prescriberRepository,
-        membershipRepository,
+        sharedMembershipRepository,
         userOrgaSettingsRepository,
       });
 
@@ -60,7 +60,7 @@ describe('Unit | Team | Domain | UseCase | get-prescriber', function () {
       // given
       const user = domainBuilder.buildUser({ id: userId });
       const membership = domainBuilder.buildMembership({ user });
-      membershipRepository.findByUserId.withArgs({ userId }).resolves([membership]);
+      sharedMembershipRepository.findByUserId.withArgs({ userId }).resolves([membership]);
       userOrgaSettingsRepository.findOneByUserId.withArgs(userId).resolves(null);
       prescriberRepository.getPrescriber.withArgs(userId).resolves(expectedResult);
 
@@ -68,7 +68,7 @@ describe('Unit | Team | Domain | UseCase | get-prescriber', function () {
       const result = await getPrescriber({
         userId,
         prescriberRepository,
-        membershipRepository,
+        sharedMembershipRepository,
         userOrgaSettingsRepository,
       });
 
@@ -82,7 +82,7 @@ describe('Unit | Team | Domain | UseCase | get-prescriber', function () {
       // given
       const user = domainBuilder.buildUser({ id: userId });
       const membership = domainBuilder.buildMembership({ user });
-      membershipRepository.findByUserId.withArgs({ userId }).resolves([membership]);
+      sharedMembershipRepository.findByUserId.withArgs({ userId }).resolves([membership]);
       const userOrgaSettings = domainBuilder.buildUserOrgaSettings({
         currentOrganization: membership.organisation,
         user: membership.user,
@@ -93,7 +93,7 @@ describe('Unit | Team | Domain | UseCase | get-prescriber', function () {
       await getPrescriber({
         userId,
         prescriberRepository,
-        membershipRepository,
+        sharedMembershipRepository,
         userOrgaSettingsRepository,
       });
 
@@ -105,7 +105,7 @@ describe('Unit | Team | Domain | UseCase | get-prescriber', function () {
       // given
       const user = domainBuilder.buildUser({ id: userId });
       const membership = domainBuilder.buildMembership({ user });
-      membershipRepository.findByUserId.withArgs({ userId }).resolves([membership]);
+      sharedMembershipRepository.findByUserId.withArgs({ userId }).resolves([membership]);
       const userOrgaSettings = domainBuilder.buildUserOrgaSettings({
         currentOrganization: membership.organisation,
         user: membership.user,
@@ -117,7 +117,7 @@ describe('Unit | Team | Domain | UseCase | get-prescriber', function () {
       const result = await getPrescriber({
         userId,
         prescriberRepository,
-        membershipRepository,
+        sharedMembershipRepository,
         userOrgaSettingsRepository,
       });
 
@@ -131,7 +131,7 @@ describe('Unit | Team | Domain | UseCase | get-prescriber', function () {
         const user = domainBuilder.buildUser({ id: userId });
         const membership1 = domainBuilder.buildMembership({ user });
         const membership2 = domainBuilder.buildMembership({ user });
-        membershipRepository.findByUserId.withArgs({ userId }).resolves([membership1, membership2]);
+        sharedMembershipRepository.findByUserId.withArgs({ userId }).resolves([membership1, membership2]);
         const outdatedOrganization = domainBuilder.buildOrganization();
         const userOrgaSettings = domainBuilder.buildUserOrgaSettings({
           currentOrganization: outdatedOrganization,
@@ -143,7 +143,7 @@ describe('Unit | Team | Domain | UseCase | get-prescriber', function () {
         await getPrescriber({
           userId,
           prescriberRepository,
-          membershipRepository,
+          sharedMembershipRepository,
           userOrgaSettingsRepository,
         });
 
