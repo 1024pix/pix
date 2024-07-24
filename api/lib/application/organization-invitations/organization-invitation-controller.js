@@ -1,5 +1,4 @@
-import { usecases as srcUsecases } from '../../../src/team/domain/usecases/index.js';
-import { usecases } from '../../domain/usecases/index.js';
+import { usecases } from '../../../src/team/domain/usecases/index.js';
 
 const acceptOrganizationInvitation = async function (request) {
   const organizationInvitationId = request.params.id;
@@ -13,7 +12,7 @@ const acceptOrganizationInvitation = async function (request) {
     email,
     localeFromCookie,
   });
-  await srcUsecases.createCertificationCenterMembershipForScoOrganizationAdminMember({ membership });
+  await usecases.createCertificationCenterMembershipForScoOrganizationAdminMember({ membership });
   return null;
 };
 

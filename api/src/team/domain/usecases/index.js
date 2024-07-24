@@ -13,6 +13,7 @@ import { injectDependencies } from '../../../shared/infrastructure/utils/depende
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as certificationCenterInvitationRepository from '../../infrastructure/repositories/certification-center-invitation-repository.js';
 import { organizationInvitationRepository } from '../../infrastructure/repositories/organization-invitation.repository.js';
+import { organizationInvitedUserRepository } from '../../infrastructure/repositories/organization-invited-user.repository.js';
 import { prescriberRepository } from '../../infrastructure/repositories/prescriber-repository.js';
 import { userOrgaSettingsRepository } from '../../infrastructure/repositories/user-orga-settings-repository.js';
 import * as certificationCenterInvitationService from '../services/certification-center-invitation-service.js';
@@ -31,6 +32,7 @@ const dependencies = {
   mailService,
   organizationInvitationService,
   organizationInvitationRepository,
+  organizationInvitedUserRepository,
   organizationRepository,
   refreshTokenService,
   sharedMembershipRepository,
