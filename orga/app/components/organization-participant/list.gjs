@@ -169,6 +169,7 @@ export default class List extends Component {
                 @isParticipantSelected={{isParticipantSelected}}
                 @onToggleParticipant={{fn this.addStopPropagationOnFunction toggleParticipant}}
                 @onClickLearner={{fn @onClickLearner participant.id}}
+                @customRows={{this.customColumns}}
                 @hideCertifiableDate={{@hasComputeOrganizationLearnerCertificabilityEnabled}}
               />
             </:item>

@@ -11,6 +11,18 @@ function displayDate(date) {
   return dayjs(date).format('DD/MM/YYYY');
 }
 
+function getCustomRowData(extraColumns, key) {
+  const data = extraColumns[key];
+
+  if (!data) return '';
+
+  if (dayjs(data).isValid()) {
+    return displayDate(data);
+  } else {
+    return data;
+  }
+}
+
 <template>
   <tr
     aria-label={{t "pages.organization-participants.table.row-title"}}
@@ -36,8 +48,8 @@ function displayDate(date) {
       </LinkTo>
     </td>
     <td class="ellipsis" title={{@participant.firstName}}>{{@participant.firstName}}</td>
-    {{#each @customHeadings}}
-      <td></td>
+    {{#each @customRows as |key|}}
+      <td>{{getCustomRowData @participant.extraColumns key}}</td>
     {{/each}}
     <td class="table__column--center">
       {{@participant.participationCount}}

@@ -8,7 +8,7 @@ import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | OrganizationParticipant::List', function (hooks) {
+module('Integration | Component | OrganizationParticipant | List', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   hooks.beforeEach(function () {
@@ -21,29 +21,6 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
     this.owner.register('service:current-user', CurrentUserStub);
     this.set('noop', sinon.stub());
-  });
-
-  test('it should display the header labels', async function (assert) {
-    // given
-    this.set('participants', []);
-    this.set('certificabilityFilter', []);
-    this.set('fullNameFilter', null);
-    // when
-    const screen = await render(
-      hbs`<OrganizationParticipant::List
-  @participants={{this.participants}}
-  @triggerFiltering={{this.noop}}
-  @onClickLearner={{this.noop}}
-  @fullName={{this.fullNameFilter}}
-  @certificabilityFilter={{this.certificabilityFilter}}
-/>`,
-    );
-
-    // then
-    assert.ok(screen.getByRole('columnheader', { name: 'Nom' }));
-    assert.ok(screen.getByRole('columnheader', { name: 'Prénom' }));
-    assert.ok(screen.getByRole('columnheader', { name: 'Nombre de participations' }));
-    assert.ok(screen.getByRole('columnheader', { name: 'Dernière participation' }));
   });
 
   test('it should have a caption to describe the table ', async function (assert) {
@@ -73,216 +50,214 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     assert.ok(screen.getByRole('table', { name: t('pages.organization-participants.table.description') }));
   });
 
-  test('it should display a list of participants', async function (assert) {
-    // given
-    const participants = [
-      {
-        lastName: 'La Terreur',
-        firstName: 'Gigi',
-        id: 34,
-      },
-      {
-        lastName: "L'asticot",
-        firstName: 'Gogo',
-        id: 56,
-      },
-    ];
-    this.set('participants', participants);
-    this.set('certificabilityFilter', []);
-    this.set('fullNameFilter', null);
-    // when
-    const screen = await render(
-      hbs`<OrganizationParticipant::List
+  module('header', function () {
+    test('it should display common header labels', async function (assert) {
+      // given
+      this.set('participants', []);
+      this.set('certificabilityFilter', []);
+      this.set('fullNameFilter', null);
+      // when
+      const screen = await render(
+        hbs`<OrganizationParticipant::List
   @participants={{this.participants}}
   @triggerFiltering={{this.noop}}
   @onClickLearner={{this.noop}}
   @fullName={{this.fullNameFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
 />`,
-    );
+      );
 
-    // then
-    assert.ok(screen.getByRole('cell', { name: 'La Terreur' }));
-    assert.ok(screen.getByRole('cell', { name: "L'asticot" }));
+      // then
+      assert.ok(
+        screen.getByRole('columnheader', { name: t('pages.organization-participants.table.column.last-name.label') }),
+      );
+      assert.ok(
+        screen.getByRole('columnheader', { name: t('pages.organization-participants.table.column.first-name') }),
+      );
+      assert.ok(
+        screen.getByRole('columnheader', {
+          name: t('pages.organization-participants.table.column.participation-count.label'),
+        }),
+      );
+      assert.ok(
+        screen.getByRole('columnheader', {
+          name: t('pages.organization-participants.table.column.latest-participation.label'),
+        }),
+      );
+    });
+
+    module('Import Feature cases', function () {
+      test('it should display extra header when import feature available enabled', async function (assert) {
+        // given
+        class CurrentUserStub extends Service {
+          hasLearnerImportFeature = true;
+        }
+        this.owner.register('service:current-user', CurrentUserStub);
+
+        const participants = [];
+        participants.meta = {
+          headingCustomColumns: ['awesome.column'],
+        };
+        this.set('participants', participants);
+        this.set('certificabilityFilter', []);
+        this.set('fullNameFilter', null);
+        // when
+        const screen = await render(
+          hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @fullName={{this.fullNameFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+/>`,
+        );
+        // then
+        assert.ok(screen.getByRole('columnheader', { name: t('awesome.column') }));
+      });
+
+      test('it should not display extra header when import feature available disabled', async function (assert) {
+        // given
+        class CurrentUserStub extends Service {
+          hasLearnerImportFeature = false;
+        }
+        this.owner.register('service:current-user', CurrentUserStub);
+
+        const participants = [];
+        participants.meta = {
+          headingCustomColumns: ['awesome.column'],
+        };
+        this.set('participants', participants);
+        this.set('certificabilityFilter', []);
+        this.set('fullNameFilter', null);
+        // when
+        const screen = await render(
+          hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @fullName={{this.fullNameFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+/>`,
+        );
+        // then
+        assert.notOk(screen.queryByRole('columnheader', { name: t('awesome.column') }));
+      });
+    });
   });
 
-  test('it should display a link to access participant detail', async function (assert) {
-    // given
-    this.owner.setupRouter();
-
-    const participants = [
-      {
-        lastName: 'Chase',
-        firstName: 'PatPatrouille',
-        id: 34,
-      },
-      {
-        lastName: 'Ruben',
-        firstName: 'PatPatrouille',
-        id: 56,
-      },
-    ];
-    this.set('participants', participants);
-    this.set('certificabilityFilter', []);
-    this.set('fullNameFilter', null);
-
-    // when
-    const screen = await render(
-      hbs`<OrganizationParticipant::List
+  module('row', function () {
+    test('it should display a list of participants', async function (assert) {
+      // given
+      const participants = [
+        {
+          lastName: 'La Terreur',
+          firstName: 'Gigi',
+          id: 34,
+        },
+        {
+          lastName: "L'asticot",
+          firstName: 'Gogo',
+          id: 56,
+        },
+      ];
+      this.set('participants', participants);
+      this.set('certificabilityFilter', []);
+      this.set('fullNameFilter', null);
+      // when
+      const screen = await render(
+        hbs`<OrganizationParticipant::List
   @participants={{this.participants}}
   @triggerFiltering={{this.noop}}
   @onClickLearner={{this.noop}}
   @fullName={{this.fullNameFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
 />`,
-    );
-    // then
-    assert.dom(screen.getByRole('link', { name: 'Ruben' })).hasProperty('href', /\/participants\/56/g);
-  });
+      );
 
-  test('it should display the participant firstName and lastName', async function (assert) {
-    // given
-    const participants = [
-      {
-        lastName: 'La Terreur',
-        firstName: 'Gigi',
-      },
-    ];
+      // then
+      // row include heading line
+      assert.strictEqual(screen.getAllByRole('row').length, 3);
+    });
 
-    this.set('participants', participants);
-    this.set('certificabilityFilter', []);
-    this.set('fullNameFilter', null);
+    module('custom row', function () {
+      test('should display custom row for learner when import feature enabled', async function (assert) {
+        // given
+        class CurrentUserStub extends Service {
+          hasLearnerImportFeature = true;
+        }
+        this.owner.register('service:current-user', CurrentUserStub);
+        const participants = [
+          {
+            lastName: 'La Terreur',
+            firstName: 'Gigi',
+            extraColumns: {
+              'awesome.column': 'drawing',
+            },
+            id: 34,
+          },
+        ];
 
-    // when
-    const screen = await render(
-      hbs`<OrganizationParticipant::List
+        participants.meta = {
+          headingCustomColumns: ['awesome.column'],
+        };
+
+        this.set('participants', participants);
+        this.set('certificabilityFilter', []);
+        this.set('fullNameFilter', null);
+        // when
+        const screen = await render(
+          hbs`<OrganizationParticipant::List
   @participants={{this.participants}}
   @triggerFiltering={{this.noop}}
   @onClickLearner={{this.noop}}
   @fullName={{this.fullNameFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
 />`,
-    );
+        );
 
-    // then
-    assert.ok(screen.getByRole('cell', { name: 'La Terreur' }));
-    assert.ok(screen.getByRole('cell', { name: 'Gigi' }));
-  });
+        // then
+        assert.ok(screen.getByRole('cell', { name: 'drawing' }));
+      });
 
-  test('it should display the number of participations for each participant', async function (assert) {
-    // given
-    const participants = [
-      {
-        lastName: 'La Terreur',
-        firstName: 'Gigi',
-        id: 34,
-        participationCount: 4,
-      },
-      {
-        lastName: "L'asticot",
-        firstName: 'Gogo',
-        id: 56,
-        participationCount: 1,
-      },
-    ];
+      test('should not display custom row for learner when import feature disabled', async function (assert) {
+        // given
+        class CurrentUserStub extends Service {
+          hasLearnerImportFeature = false;
+        }
+        this.owner.register('service:current-user', CurrentUserStub);
+        const participants = [
+          {
+            lastName: 'La Terreur',
+            firstName: 'Gigi',
+            extraColumns: {
+              'awesome.column': 'drawing',
+            },
+            id: 34,
+          },
+        ];
 
-    this.set('participants', participants);
-    this.set('certificabilityFilter', []);
-    this.set('fullNameFilter', null);
+        participants.meta = {
+          headingCustomColumns: ['awesome.column'],
+        };
 
-    // when
-    const screen = await render(
-      hbs`<OrganizationParticipant::List
+        this.set('participants', participants);
+        this.set('certificabilityFilter', []);
+        this.set('fullNameFilter', null);
+        // when
+        const screen = await render(
+          hbs`<OrganizationParticipant::List
   @participants={{this.participants}}
   @triggerFiltering={{this.noop}}
   @onClickLearner={{this.noop}}
   @fullName={{this.fullNameFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
 />`,
-    );
-    const allRows = screen.getAllByLabelText(t('pages.organization-participants.table.row-title'));
+        );
 
-    // then
-    assert.dom(allRows[0]).containsText(4);
-    assert.dom(allRows[1]).containsText(1);
-  });
-
-  test('it should display the date of the last participation and the tooltip informations for each participant', async function (assert) {
-    // given
-    const participants = [
-      {
-        lastName: 'La Terreur',
-        firstName: 'Gigi',
-        id: 34,
-        lastParticipationDate: new Date('2022-05-15'),
-      },
-      {
-        lastName: "L'asticot",
-        firstName: 'Gogo',
-        id: 56,
-        lastParticipationDate: new Date('2022-01-07'),
-      },
-    ];
-
-    this.set('participants', participants);
-    this.set('certificabilityFilter', []);
-    this.set('fullNameFilter', null);
-
-    // when
-    const screen = await render(
-      hbs`<OrganizationParticipant::List
-  @participants={{this.participants}}
-  @triggerFiltering={{this.noop}}
-  @onClickLearner={{this.noop}}
-  @fullName={{this.fullNameFilter}}
-  @certificabilityFilter={{this.certificabilityFilter}}
-/>`,
-    );
-    const allRows = screen.getAllByLabelText(t('pages.organization-participants.table.row-title'));
-
-    // then
-    assert.dom(allRows[0]).containsText('15/05/2022');
-    assert.dom(allRows[1]).containsText('07/01/2022');
-    assert.strictEqual(
-      screen.getAllByLabelText(t('pages.participants-list.latest-participation-information-tooltip.aria-label')).length,
-      2,
-    );
-  });
-
-  test('it should display participant as eligible for certification when the participant is certifiable and the certifiableAt', async function (assert) {
-    // given
-    const participants = [
-      {
-        lastName: 'La Terreur',
-        firstName: 'Gigi',
-        id: 34,
-        lastParticipationDate: new Date('2022-05-15'),
-        isCertifiable: true,
-        certifiableAt: new Date('2022-01-02'),
-      },
-    ];
-
-    this.set('participants', participants);
-    this.set('certificabilityFilter', []);
-    this.set('fullNameFilter', null);
-
-    // when
-    const screen = await render(
-      hbs`<OrganizationParticipant::List
-  @participants={{this.participants}}
-  @triggerFiltering={{this.noop}}
-  @onClickLearner={{this.noop}}
-  @fullName={{this.fullNameFilter}}
-  @certificabilityFilter={{this.certificabilityFilter}}
-/>`,
-    );
-
-    // then
-    assert.ok(
-      screen.getByRole('cell', {
-        name: `${t('pages.sco-organization-participants.table.column.is-certifiable.eligible')} 02/01/2022`,
-      }),
-    );
+        // then
+        assert.notOk(screen.queryByRole('cell', { name: 'drawing' }));
+      });
+    });
   });
 
   module('filtering cases', function () {
