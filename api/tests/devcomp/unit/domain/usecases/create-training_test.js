@@ -5,7 +5,6 @@ describe('Unit | Devcomp | Domain | UseCases | create-training', function () {
   it('should call training repository to create the training', async function () {
     // given
     const training = Symbol('training');
-    const domainTransaction = Symbol('domain-transaction');
     const repositoryResult = Symbol('repository-result');
 
     const trainingRepositoryStub = {
@@ -13,12 +12,11 @@ describe('Unit | Devcomp | Domain | UseCases | create-training', function () {
     };
 
     // when
-    const result = await createTraining({ training, domainTransaction, trainingRepository: trainingRepositoryStub });
+    const result = await createTraining({ training, trainingRepository: trainingRepositoryStub });
 
     // then
     expect(trainingRepositoryStub.create).to.have.been.calledWithExactly({
       training,
-      domainTransaction,
     });
     expect(result).to.equal(repositoryResult);
   });

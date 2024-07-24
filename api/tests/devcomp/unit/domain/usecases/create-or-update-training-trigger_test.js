@@ -17,14 +17,12 @@ describe('Unit | Devcomp | Domain | UseCases | create-or-update-training-trigger
   context('when training does not exist', function () {
     it('should throw an error when training does not exist', async function () {
       // given
-      const domainTransaction = Symbol('domainTransaction');
       const trainingId = Symbol('trainingId');
-      trainingRepository.get.withArgs({ trainingId, domainTransaction }).throws(new Error('Not Found'));
+      trainingRepository.get.withArgs({ trainingId }).throws(new Error('Not Found'));
 
       // when
       const error = await catchErr(createOrUpdateTrainingTrigger)({
         trainingId,
-        domainTransaction,
         trainingRepository,
       });
 
@@ -37,7 +35,6 @@ describe('Unit | Devcomp | Domain | UseCases | create-or-update-training-trigger
   context('when training exists', function () {
     it('should call create or update trigger repository method', async function () {
       // given
-      const domainTransaction = Symbol('domainTransaction');
       const trainingId = Symbol('trainingId');
       const tubes = Symbol('tubes');
       const type = Symbol('type');
@@ -52,7 +49,6 @@ describe('Unit | Devcomp | Domain | UseCases | create-or-update-training-trigger
         tubes,
         type,
         threshold,
-        domainTransaction,
         trainingRepository,
         trainingTriggerRepository,
       });
@@ -63,7 +59,6 @@ describe('Unit | Devcomp | Domain | UseCases | create-or-update-training-trigger
         triggerTubesForCreation: tubes,
         type,
         threshold,
-        domainTransaction,
       });
       expect(result).to.equal(expectedTrainingTrigger);
     });
