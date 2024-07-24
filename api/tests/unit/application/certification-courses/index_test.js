@@ -81,48 +81,6 @@ describe('Unit | Application | Certifications Course | Route', function () {
     });
   });
 
-  describe('PATCH /api/admin/certification-courses/{certificationCourseId}', function () {
-    it('should exist', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(certificationCoursesController, 'update').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('PATCH', '/api/admin/certification-courses/1234');
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-
-    it('should return a forbidden access if user has METIER role', async function () {
-      // given
-      sinon
-        .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
-        .withArgs([
-          securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-          securityPreHandlers.checkAdminMemberHasRoleCertif,
-          securityPreHandlers.checkAdminMemberHasRoleSupport,
-        ])
-        .callsFake(
-          () => (request, h) =>
-            h
-              .response({ errors: new Error('forbidden') })
-              .code(403)
-              .takeover(),
-        );
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('PATCH', '/api/admin/certification-courses/1234');
-
-      // then
-      expect(response.statusCode).to.equal(403);
-    });
-  });
-
   describe('POST /api/certification-courses', function () {
     it('should return OK (200)', async function () {
       // given

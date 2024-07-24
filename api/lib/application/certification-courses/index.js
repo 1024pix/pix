@@ -7,34 +7,6 @@ import { certificationCourseController } from './certification-course-controller
 const register = async function (server) {
   const adminRoutes = [
     {
-      method: 'PATCH',
-      path: '/api/admin/certification-courses/{certificationCourseId}',
-      config: {
-        validate: {
-          params: Joi.object({
-            certificationCourseId: identifiersType.certificationCourseId,
-          }),
-        },
-        handler: certificationCourseController.update,
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        notes: [
-          'Cette route est utilisé par Pix Admin',
-          "Elle permet de modifier les informations d'un candidat de certification",
-        ],
-        tags: ['api', 'admin'],
-      },
-    },
-    {
       method: 'GET',
       path: '/api/admin/certifications/{id}/certified-profile',
       config: {
