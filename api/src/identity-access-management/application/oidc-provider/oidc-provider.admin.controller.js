@@ -12,10 +12,8 @@ import * as oidcProviderSerializer from '../../infrastructure/serializers/jsonap
 async function createInBatch(request, h) {
   const oidcProviders = request.payload;
 
-  await DomainTransaction.execute((domainTransaction) => {
-    return Promise.all(
-      oidcProviders.map((oidcProvider) => usecases.addOidcProvider({ ...oidcProvider, domainTransaction })),
-    );
+  await DomainTransaction.execute(() => {
+    return Promise.all(oidcProviders.map((oidcProvider) => usecases.addOidcProvider({ ...oidcProvider })));
   });
 
   return h.response().code(204);

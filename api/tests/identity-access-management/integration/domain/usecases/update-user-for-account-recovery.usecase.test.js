@@ -23,7 +23,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | update-u
 
       // when
       await catchErr(async () => {
-        await DomainTransaction.execute(async (domainTransaction) => {
+        await DomainTransaction.execute(async () => {
           await updateUserForAccountRecovery({
             password,
             temporaryKey: accountRecovery.temporaryKey,
@@ -31,7 +31,6 @@ describe('Integration | Identity Access Management | Domain | UseCase | update-u
             authenticationMethodRepository,
             accountRecoveryDemandRepository,
             cryptoService,
-            domainTransaction,
           });
           throw new Error('an error occurs within the domain transaction');
         });

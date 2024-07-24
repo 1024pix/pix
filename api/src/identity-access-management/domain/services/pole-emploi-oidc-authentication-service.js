@@ -33,8 +33,8 @@ export class PoleEmploiOidcAuthenticationService extends OidcAuthenticationServi
   }) {
     let createdUserId;
 
-    await DomainTransaction.execute(async (domainTransaction) => {
-      createdUserId = (await userToCreateRepository.create({ user, domainTransaction })).id;
+    await DomainTransaction.execute(async () => {
+      createdUserId = (await userToCreateRepository.create({ user })).id;
 
       const authenticationMethod = new AuthenticationMethod({
         identityProvider: this.identityProvider,
@@ -42,7 +42,7 @@ export class PoleEmploiOidcAuthenticationService extends OidcAuthenticationServi
         externalIdentifier: externalIdentityId,
         authenticationComplement: this.createAuthenticationComplement({ sessionContent }),
       });
-      await authenticationMethodRepository.create({ authenticationMethod, domainTransaction });
+      await authenticationMethodRepository.create({ authenticationMethod });
     });
 
     return createdUserId;

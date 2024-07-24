@@ -1,5 +1,3 @@
-import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-
 /**
  * @typedef {import ('../usecases/index.js').OidcProviderRepository} OidcProviderRepository
  */
@@ -25,7 +23,6 @@ import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
  * @param {string} params.slug
  * @param {string} params.source
  * @param {OidcProviderRepository} params.oidcProviderRepository
- * @param {DomainTransaction} params.domainTransaction
  * @param {CryptoService} params.cryptoService
  * @returns {Promise<void>}
  */
@@ -51,7 +48,6 @@ const addOidcProvider = async function ({
   oidcProviderRepository,
   cryptoService,
   addOidcProviderValidator,
-  domainTransaction = DomainTransaction.emptyTransaction(),
 }) {
   addOidcProviderValidator.validate({
     accessTokenLifespan,
@@ -76,29 +72,26 @@ const addOidcProvider = async function ({
 
   const encryptedClientSecret = await cryptoService.encrypt(clientSecret);
 
-  await oidcProviderRepository.create(
-    {
-      accessTokenLifespan,
-      additionalRequiredProperties,
-      claimsToStore,
-      clientId,
-      enabled,
-      enabledForPixAdmin,
-      encryptedClientSecret,
-      extraAuthorizationUrlParameters,
-      identityProvider,
-      openidClientExtraMetadata,
-      openidConfigurationUrl,
-      organizationName,
-      postLogoutRedirectUri,
-      redirectUri,
-      scope,
-      shouldCloseSession,
-      slug,
-      source,
-    },
-    { domainTransaction },
-  );
+  await oidcProviderRepository.create({
+    accessTokenLifespan,
+    additionalRequiredProperties,
+    claimsToStore,
+    clientId,
+    enabled,
+    enabledForPixAdmin,
+    encryptedClientSecret,
+    extraAuthorizationUrlParameters,
+    identityProvider,
+    openidClientExtraMetadata,
+    openidConfigurationUrl,
+    organizationName,
+    postLogoutRedirectUri,
+    redirectUri,
+    scope,
+    shouldCloseSession,
+    slug,
+    source,
+  });
 };
 
 export { addOidcProvider };

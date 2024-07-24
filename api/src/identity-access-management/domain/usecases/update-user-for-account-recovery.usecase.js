@@ -10,7 +10,6 @@ import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
  *   userRepository: UserRepository,
  *   cryptoService: CryptoService,
  *   scoAccountRecoveryService: ScoAccountRecoveryService,
- *   domainTransaction: DomainTransaction,
  * }} params
  * @return {Promise<void>}
  */
@@ -18,7 +17,6 @@ export const updateUserForAccountRecovery = async function ({
   password,
   temporaryKey,
   userRepository,
-  domainTransaction,
   authenticationMethodRepository,
   accountRecoveryDemandRepository,
   scoAccountRecoveryService,
@@ -34,13 +32,10 @@ export const updateUserForAccountRecovery = async function ({
   const hasAnAuthenticationMethodFromPix = await authenticationMethodRepository.hasIdentityProviderPIX({ userId });
 
   if (hasAnAuthenticationMethodFromPix) {
-    await authenticationMethodRepository.updateChangedPassword(
-      {
-        userId,
-        hashedPassword,
-      },
-      domainTransaction,
-    );
+    await authenticationMethodRepository.updateChangedPassword({
+      userId,
+      hashedPassword,
+    });
   } else {
     const authenticationMethodFromPix = new AuthenticationMethod({
       userId,
@@ -50,12 +45,9 @@ export const updateUserForAccountRecovery = async function ({
         shouldChangePassword: false,
       }),
     });
-    await authenticationMethodRepository.create(
-      {
-        authenticationMethod: authenticationMethodFromPix,
-      },
-      domainTransaction,
-    );
+    await authenticationMethodRepository.create({
+      authenticationMethod: authenticationMethodFromPix,
+    });
   }
 
   const now = new Date();
@@ -69,7 +61,6 @@ export const updateUserForAccountRecovery = async function ({
   await userRepository.updateWithEmailConfirmed({
     id: userId,
     userAttributes: userValuesToUpdate,
-    domainTransaction,
   });
-  await accountRecoveryDemandRepository.markAsBeingUsed(temporaryKey, domainTransaction);
+  await accountRecoveryDemandRepository.markAsBeingUsed(temporaryKey);
 };

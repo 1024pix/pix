@@ -48,7 +48,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | update-user-for
       // given
       const password = 'pix123';
       const hashedPassword = 'hashedpassword';
-      const domainTransaction = Symbol();
 
       const user = domainBuilder.buildUser({ id: 1234, email: null });
 
@@ -56,7 +55,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | update-user-for
       cryptoService.hashPassword.withArgs(password).resolves(hashedPassword);
       authenticationMethodRepository.hasIdentityProviderPIX.withArgs({ userId: user.id }).resolves(false);
       sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
-        return lambda(domainTransaction);
+        return lambda();
       });
 
       // when
@@ -67,7 +66,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | update-user-for
         scoAccountRecoveryService,
         cryptoService,
         accountRecoveryDemandRepository,
-        domainTransaction,
       });
 
       // then
@@ -79,12 +77,9 @@ describe('Unit | Identity Access Management | Domain | UseCase | update-user-for
         }),
         userId: user.id,
       });
-      expect(authenticationMethodRepository.create).to.have.been.calledWithExactly(
-        {
-          authenticationMethod: expectedAuthenticationMethodFromPix,
-        },
-        domainTransaction,
-      );
+      expect(authenticationMethodRepository.create).to.have.been.calledWithExactly({
+        authenticationMethod: expectedAuthenticationMethodFromPix,
+      });
     });
   });
 
@@ -93,7 +88,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | update-user-for
       // given
       const password = 'pix123';
       const hashedPassword = 'hashedpassword';
-      const domainTransaction = Symbol();
 
       const user = domainBuilder.buildUser({
         id: 1234,
@@ -105,7 +99,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | update-user-for
       cryptoService.hashPassword.withArgs(password).resolves(hashedPassword);
       authenticationMethodRepository.hasIdentityProviderPIX.withArgs({ userId: user.id }).resolves(true);
       sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
-        return lambda(domainTransaction);
+        return lambda();
       });
 
       // when
@@ -116,17 +110,13 @@ describe('Unit | Identity Access Management | Domain | UseCase | update-user-for
         scoAccountRecoveryService,
         cryptoService,
         accountRecoveryDemandRepository,
-        domainTransaction,
       });
 
       // then
-      expect(authenticationMethodRepository.updateChangedPassword).to.have.been.calledWithExactly(
-        {
-          userId: user.id,
-          hashedPassword,
-        },
-        domainTransaction,
-      );
+      expect(authenticationMethodRepository.updateChangedPassword).to.have.been.calledWithExactly({
+        userId: user.id,
+        hashedPassword,
+      });
     });
   });
 
@@ -138,7 +128,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | update-user-for
       const hashedPassword = 'hashedpassword';
       const newEmail = 'newemail@example.net';
       const emailConfirmedAt = new Date();
-      const domainTransaction = Symbol();
 
       const user = domainBuilder.buildUser({
         id: 1234,
@@ -163,12 +152,10 @@ describe('Unit | Identity Access Management | Domain | UseCase | update-user-for
       });
       const userAttributes = { cgu: true, email: newEmail, emailConfirmedAt };
 
-      userRepository.updateWithEmailConfirmed
-        .withArgs({ id: user.id, userAttributes, domainTransaction })
-        .resolves(userUpdate);
+      userRepository.updateWithEmailConfirmed.withArgs({ id: user.id, userAttributes }).resolves(userUpdate);
 
       sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
-        return lambda(domainTransaction);
+        return lambda();
       });
 
       // when
@@ -180,14 +167,10 @@ describe('Unit | Identity Access Management | Domain | UseCase | update-user-for
         scoAccountRecoveryService,
         cryptoService,
         accountRecoveryDemandRepository,
-        domainTransaction,
       });
 
       // then
-      expect(accountRecoveryDemandRepository.markAsBeingUsed).to.have.been.calledWithExactly(
-        temporaryKey,
-        domainTransaction,
-      );
+      expect(accountRecoveryDemandRepository.markAsBeingUsed).to.have.been.calledWithExactly(temporaryKey);
     });
   });
 
@@ -198,7 +181,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | update-user-for
     const hashedPassword = 'hashedpassword';
     const newEmail = 'newemail@example.net';
     const emailConfirmedAt = now;
-    const domainTransaction = Symbol();
 
     const user = domainBuilder.buildUser({
       id: 1234,
@@ -218,7 +200,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | update-user-for
     userRepository.updateWithEmailConfirmed.resolves(userUpdate);
 
     sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
-      return lambda(domainTransaction);
+      return lambda();
     });
 
     // when
@@ -230,7 +212,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | update-user-for
       scoAccountRecoveryService,
       cryptoService,
       accountRecoveryDemandRepository,
-      domainTransaction,
     });
 
     // then
@@ -242,7 +223,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | update-user-for
         emailConfirmedAt: now,
         lastTermsOfServiceValidatedAt: now,
       },
-      domainTransaction,
     };
     expect(userRepository.updateWithEmailConfirmed).to.have.been.calledWithExactly(expectedParams);
   });

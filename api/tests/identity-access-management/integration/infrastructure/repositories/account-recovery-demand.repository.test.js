@@ -172,8 +172,8 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
 
         // when
         await catchErr(async () => {
-          await DomainTransaction.execute(async (domainTransaction) => {
-            await accountRecoveryDemandRepository.markAsBeingUsed(temporaryKey, domainTransaction);
+          await DomainTransaction.execute(async () => {
+            await accountRecoveryDemandRepository.markAsBeingUsed(temporaryKey);
             throw new Error('Error occurs in transaction');
           });
         });
