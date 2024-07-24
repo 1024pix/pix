@@ -8,7 +8,6 @@ import { getI18n } from '../../../tooling/i18n/i18n.js';
 describe('Unit | Controller | certification-course-controller', function () {
   let certificationCourseSerializer;
   let juryCertificationSerializer;
-  let certificationSerializer;
   let certifiedProfileSerializer;
   let certifiedProfileRepository;
   let requestResponseUtils;
@@ -21,11 +20,6 @@ describe('Unit | Controller | certification-course-controller', function () {
     };
     juryCertificationSerializer = {
       serialize: sinon.stub(),
-    };
-    certificationSerializer = {
-      serializeFromCertificationCourse: sinon.stub(),
-      deserializeCertificationCandidateModificationCommand: sinon.stub(),
-      deserialize: sinon.stub(),
     };
     certifiedProfileSerializer = {
       serialize: sinon.stub(),
@@ -86,105 +80,6 @@ describe('Unit | Controller | certification-course-controller', function () {
 
       // then
       expect(response).to.deep.equal('ok');
-    });
-  });
-
-  describe('#update', function () {
-    const options = {
-      method: 'PATCH',
-      url: '/api/certification-courses/1245',
-      params: {
-        id: 4,
-      },
-      auth: {
-        credentials: {
-          userId: 54,
-        },
-      },
-      payload: {
-        data: {
-          type: 'certifications',
-          attributes: {
-            id: '1',
-            firstName: 'Phil',
-            lastName: 'Defer',
-            birthplace: 'Not here nor there',
-            birthdate: '2020-01-01',
-            status: 'rejected',
-            birthCountry: 'Kazakhstan',
-            birthINSEECode: '99505',
-            birthPostalCode: '12345',
-            sex: 'M',
-          },
-        },
-      },
-    };
-
-    it('should modify the certification course candidate ', async function () {
-      // given
-      sinon.stub(usecases, 'correctCandidateIdentityInCertificationCourse').resolves();
-      const updatedCertificationCourse = domainBuilder.buildCertificationCourse();
-      sinon.stub(usecases, 'getCertificationCourse').resolves(updatedCertificationCourse);
-      certificationSerializer.deserializeCertificationCandidateModificationCommand.resolves({
-        firstName: 'Phil',
-        lastName: 'Defer',
-        birthplace: 'Not here nor there',
-        birthdate: '2020-01-01',
-        userId: 54,
-        certificationCourseId: 4,
-        birthCountry: 'Kazakhstan',
-        birthPostalCode: '12345',
-        sex: 'M',
-        birthINSEECode: '99505',
-      });
-      certificationSerializer.serializeFromCertificationCourse.returns('ok');
-
-      // when
-      await certificationCourseController.update(options, hFake, { certificationSerializer });
-
-      // then
-      expect(usecases.correctCandidateIdentityInCertificationCourse).to.have.been.calledWithExactly({
-        command: {
-          firstName: 'Phil',
-          lastName: 'Defer',
-          birthplace: 'Not here nor there',
-          birthdate: '2020-01-01',
-          userId: 54,
-          certificationCourseId: 4,
-          birthCountry: 'Kazakhstan',
-          birthPostalCode: '12345',
-          sex: 'M',
-          birthINSEECode: '99505',
-        },
-      });
-    });
-
-    context('when certification course was modified', function () {
-      it('should serialize and return saved certification course', async function () {
-        // given
-        sinon.stub(usecases, 'correctCandidateIdentityInCertificationCourse').resolves();
-        const updatedCertificationCourse = domainBuilder.buildCertificationCourse();
-        sinon.stub(usecases, 'getCertificationCourse').resolves(updatedCertificationCourse);
-        certificationSerializer.deserializeCertificationCandidateModificationCommand.resolves({
-          firstName: 'Phil',
-          lastName: 'Defer',
-          birthplace: 'Not here nor there',
-          birthdate: '2020-01-01',
-          userId: 54,
-          certificationCourseId: 4,
-          birthCountry: 'Kazakhstan',
-          birthPostalCode: '12345',
-          sex: 'M',
-          birthINSEECode: '99505',
-        });
-        certificationSerializer.serializeFromCertificationCourse.returns('ok');
-
-        // when
-        const response = await certificationCourseController.update(options, hFake, { certificationSerializer });
-
-        // then
-        expect(response).to.deep.equal('ok');
-      });
     });
   });
 
