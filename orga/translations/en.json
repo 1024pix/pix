@@ -104,7 +104,7 @@
       },
       "without-account": {
         "heading": "'<strong>'The participant does not have a Pix account'</strong>' (no-account campaign):",
-        "message-description": "You can free up these seats by deleting entries in the relevant no-account campaign or by deleting the campaign.",
+        "message-description": "You can free up these seats by deleting participations in the relevant no-account campaign or by deleting the campaign.",
         "message-main": "1 participation without account = 1 seat occupied."
       }
     },
