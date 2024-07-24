@@ -1,6 +1,5 @@
 import { EmbedForAnswerVerification } from '../../../../../../src/devcomp/domain/models/element/Embed-for-answer-verification.js';
 import { EmbedCorrectionResponse } from '../../../../../../src/devcomp/domain/models/EmbedCorrectionResponse.js';
-import { Feedbacks } from '../../../../../../src/devcomp/domain/models/Feedbacks.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { expect, sinon } from '../../../../../test-helper.js';
 
@@ -8,7 +7,6 @@ describe('Unit | Devcomp | Domain | Models | Element | EmbedForAnswerVerificatio
   describe('#constructor', function () {
     it('should instanciate a embed For Verification with right attributes', function () {
       // Given
-      const feedbacks = { valid: 'valid', invalid: 'invalid' };
       const solution = Symbol('solution');
       const expectedSolution = { value: solution };
 
@@ -17,7 +15,6 @@ describe('Unit | Devcomp | Domain | Models | Element | EmbedForAnswerVerificatio
         id: '123',
         title: 'Embed instance',
         instruction: 'instruction',
-        feedbacks,
         solution,
         url: 'http://embed.example.net',
         height: 800,
@@ -27,7 +24,6 @@ describe('Unit | Devcomp | Domain | Models | Element | EmbedForAnswerVerificatio
       expect(embed.id).equal('123');
       expect(embed.instruction).equal('instruction');
       expect(embed.solution).deep.equal(expectedSolution);
-      expect(embed.feedbacks).to.be.instanceof(Feedbacks);
     });
 
     describe('An embed For Verification without a solution', function () {
@@ -63,7 +59,6 @@ describe('Unit | Devcomp | Domain | Models | Element | EmbedForAnswerVerificatio
         title: 'Embed for a valid answer',
         height: 800,
         url: 'https://embed.example.net',
-        feedbacks: { valid: 'OK', invalid: 'KO' },
         solution: embedSolution,
         validator,
       });
@@ -79,7 +74,7 @@ describe('Unit | Devcomp | Domain | Models | Element | EmbedForAnswerVerificatio
 
       const expectedCorrection = {
         status: assessResult.result,
-        feedback: embed.feedbacks.valid,
+        feedback: '',
         solution: embedSolution,
       };
 
@@ -107,7 +102,6 @@ describe('Unit | Devcomp | Domain | Models | Element | EmbedForAnswerVerificatio
         height: 800,
         url: 'https://embed.example.net',
         instruction: '',
-        feedbacks: { valid: 'OK', invalid: 'KO' },
         solution: embedSolution,
         validator,
       });
@@ -123,7 +117,7 @@ describe('Unit | Devcomp | Domain | Models | Element | EmbedForAnswerVerificatio
 
       const expectedCorrection = {
         status: assessResult.result,
-        feedback: embed.feedbacks.invalid,
+        feedback: '',
         solution: embedSolution,
       };
 
@@ -147,12 +141,11 @@ describe('Unit | Devcomp | Domain | Models | Element | EmbedForAnswerVerificatio
           height: 800,
           url: 'https://embed.example.net',
           instruction: '',
-          feedbacks: { valid: 'OK', invalid: 'KO' },
           solution: 'toto',
         });
 
         // when
-        embed.setUserResponse('toto');
+        embed.setUserResponse(['toto']);
 
         // then
         expect(embed.userResponse).to.deep.equal('toto');
@@ -201,7 +194,6 @@ describe('Unit | Devcomp | Domain | Models | Element | EmbedForAnswerVerificatio
             height: 800,
             url: 'https://embed.example.net',
             instruction: '',
-            feedbacks: { valid: 'OK', invalid: 'KO' },
             solution: embedSolution,
           });
 

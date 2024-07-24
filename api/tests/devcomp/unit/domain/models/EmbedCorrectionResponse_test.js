@@ -7,15 +7,14 @@ describe('Unit | Devcomp | Domain | Models | EmbedCorrectionResponse', function 
     it('should create a embed correction response and keep attributes', function () {
       // given
       const status = AnswerStatus.OK;
-      const feedback = 'Bien joué !';
 
       // when
-      const embedCorrectionResponse = new EmbedCorrectionResponse({ status, feedback, solution: 'toto' });
+      const embedCorrectionResponse = new EmbedCorrectionResponse({ status, solution: 'toto' });
 
       // then
       expect(embedCorrectionResponse).not.to.be.undefined;
       expect(embedCorrectionResponse.status).to.deep.equal(status);
-      expect(embedCorrectionResponse.feedback).to.equal(feedback);
+      expect(embedCorrectionResponse.feedback).to.equal('');
       expect(embedCorrectionResponse.solution).to.equal('toto');
     });
   });
@@ -23,14 +22,6 @@ describe('Unit | Devcomp | Domain | Models | EmbedCorrectionResponse', function 
   describe('A QCU correction response without status', function () {
     it('should throw an error', function () {
       expect(() => new EmbedCorrectionResponse({})).to.throw('The result is required for a embed response');
-    });
-  });
-
-  describe('A QCU correction response without feedback', function () {
-    it('should throw an error', function () {
-      expect(() => new EmbedCorrectionResponse({ status: AnswerStatus.OK })).to.throw(
-        'The feedback is required for a embed response',
-      );
     });
   });
 
