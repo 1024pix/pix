@@ -67,4 +67,25 @@ describe('Unit | Domain | Read-models | OrganizationParticipant', function () {
       expect(organizationParticipant.certifiableAt).to.be.deep.equal(new Date('2023-01-01'));
     });
   });
+
+  describe('extraColumns instantiation', function () {
+    it('should set extraColumns for other attributes during init model', function () {
+      const organizationParticipant = new OrganizationParticipant({
+        firstName: 'Jay',
+        lastName: 'Paslesmaux',
+        hobby: 'toy photography',
+      });
+
+      expect(organizationParticipant.extraColumns).to.be.deep.equal({ hobby: 'toy photography' });
+    });
+
+    it('should not set extraColumns when no extra params passes', function () {
+      const organizationParticipant = new OrganizationParticipant({
+        firstName: 'Jay',
+        lastName: 'Paslesmaux',
+      });
+
+      expect(organizationParticipant.extraColumns).to.be.deep.equal({});
+    });
+  });
 });
