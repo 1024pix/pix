@@ -1,42 +1,11 @@
 import _ from 'lodash';
 
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { KnowledgeElement } from '../../../../lib/domain/models/index.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
 import { databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 describe('Integration | Repository | knowledgeElementRepository', function () {
-  describe('#save', function () {
-    let knowledgeElementToSave;
-
-    beforeEach(function () {
-      // given
-      const userId = databaseBuilder.factory.buildUser({}).id;
-      const assessmentId = databaseBuilder.factory.buildAssessment({ userId }).id;
-      const answerId = databaseBuilder.factory.buildAnswer({ assessmentId }).id;
-      knowledgeElementToSave = domainBuilder.buildKnowledgeElement({
-        userId,
-        assessmentId,
-        answerId,
-        competenceId: 'recABC',
-      });
-      knowledgeElementToSave.id = undefined;
-
-      return databaseBuilder.commit();
-    });
-
-    it('should save the knowledgeElement in db', async function () {
-      // when
-      await knowledgeElementRepository.save(knowledgeElementToSave);
-
-      // then
-      let actualKnowledgeElement = await knex.select('*').from('knowledge-elements').first();
-      actualKnowledgeElement = _.omit(actualKnowledgeElement, ['id', 'intId', 'createdAt', 'updatedAt']);
-      const expectedKnowledgeElement = _.omit(knowledgeElementToSave, ['id', 'createdAt', 'updatedAt']);
-      expect(actualKnowledgeElement).to.deep.equal(expectedKnowledgeElement);
-    });
-  });
-
   describe('#batchSave', function () {
     let knowledgeElementsToSave;
 

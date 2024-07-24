@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { knex } from '../../../db/knex-database-connection.js';
-import { KnowledgeElement } from '../../domain/models/KnowledgeElement.js';
+import { KnowledgeElement } from '../../domain/models/index.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import * as knowledgeElementSnapshotRepository from './knowledge-element-snapshot-repository.js';
 
@@ -79,12 +79,6 @@ const findUniqByUserIds = function (userIds) {
       return { userId, knowledgeElements };
     }),
   );
-};
-
-const save = async function (knowledgeElement) {
-  const knowledgeElementToSave = _.omit(knowledgeElement, ['id', 'createdAt']);
-  const [savedKnowledgeElement] = await knex(tableName).insert(knowledgeElementToSave).returning('*');
-  return new KnowledgeElement(savedKnowledgeElement);
 };
 
 const batchSave = async function ({ knowledgeElements, domainTransaction = DomainTransaction.emptyTransaction() }) {
@@ -184,5 +178,4 @@ export {
   findUniqByUserIdGroupedByCompetenceId,
   findUniqByUserIds,
   findValidatedGroupedByTubesWithinCampaign,
-  save,
 };
