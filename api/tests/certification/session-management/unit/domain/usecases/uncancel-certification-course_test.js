@@ -1,7 +1,7 @@
-import { uncancelCertificationCourse } from '../../../../lib/domain/usecases/uncancel-certification-course.js';
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { uncancelCertificationCourse } from '../../../../../../src/certification/session-management/domain/usecases/uncancel-certification-course.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | UseCase | uncancel-certification-course', function () {
+describe('Certification | Session-management | Unit | Domain | UseCases | uncancel-certification-course', function () {
   it('should uncancel the certification course', async function () {
     // given
     const certificationCourse = domainBuilder.buildCertificationCourse({ id: 123 });
