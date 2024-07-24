@@ -22,9 +22,13 @@ export class PlaceStatistics {
     return new PlaceStatistics({ placesLots, placeRepartition, organizationId });
   }
 
+  get #activePlacesLots() {
+    return this.#placesLots.filter((placesLot) => placesLot.isActive);
+  }
+
   get total() {
     if (!this.#placesLots) return 0;
-    const activePlaces = this.#placesLots.filter((placesLot) => placesLot.isActive);
+    const activePlaces = this.#activePlacesLots;
     return _.sumBy(activePlaces, 'count');
   }
 
@@ -40,5 +44,9 @@ export class PlaceStatistics {
     const available = this.total - this.occupied;
     if (available < 0) return 0;
     return available;
+  }
+
+  get placesLotsTotal() {
+    return this.#activePlacesLots.length;
   }
 }

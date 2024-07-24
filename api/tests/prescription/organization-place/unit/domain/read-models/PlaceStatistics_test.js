@@ -191,4 +191,54 @@ describe('Unit | Domain | ReadModels | PlaceStatistics', function () {
       expect(error.message).to.equal("L'organisation ne peut pas avoir de statistiques sur ses lots de places.");
     });
   });
+
+  describe('#placesLotsTotal', function () {
+    it('should return 0 when there are no active places lots', function () {
+      const statistics = new PlaceStatistics();
+
+      expect(statistics.placesLotsTotal).to.equal(0);
+    });
+
+    it('should return total when there is a active places lot', function () {
+      const statistics = new PlaceStatistics({
+        placesLots: [
+          new PlacesLot({
+            count: 3,
+            expirationDate: new Date('2021-05-02'),
+            activationDate: new Date('2021-04-01'),
+            deletedAt: null,
+          }),
+        ],
+      });
+
+      expect(statistics.placesLotsTotal).to.equal(1);
+    });
+
+    it('should return total when there are active places lots', function () {
+      const statistics = new PlaceStatistics({
+        placesLots: [
+          new PlacesLot({
+            count: 1,
+            expirationDate: new Date('2021-05-02'),
+            activationDate: new Date('2021-04-01'),
+            deletedAt: null,
+          }),
+          new PlacesLot({
+            count: 10,
+            expirationDate: new Date('2021-05-02'),
+            activationDate: new Date('2021-04-01'),
+            deletedAt: null,
+          }),
+          new PlacesLot({
+            count: 10,
+            expirationDate: new Date('2020-05-02'),
+            activationDate: new Date('2019-04-01'),
+            deletedAt: null,
+          }),
+        ],
+      });
+
+      expect(statistics.placesLotsTotal).to.equal(2);
+    });
+  });
 });
