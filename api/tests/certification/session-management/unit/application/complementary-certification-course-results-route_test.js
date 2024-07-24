@@ -4,7 +4,7 @@ import { juryOptions } from '../../../../../src/certification/shared/domain/mode
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
-describe('Certification | Session-management | Unit | Application | complementary-certification-course-results-route', function () {
+describe('Certification | Session Management | Unit | Application | Routes | Complementary Certification Course Results', function () {
   let httpTestServer;
 
   describe('POST /api/admin/complementary-certification-course-results', function () {

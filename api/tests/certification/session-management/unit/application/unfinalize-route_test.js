@@ -4,7 +4,7 @@ import { securityPreHandlers } from '../../../../../src/shared/application/secur
 import { expect, sinon } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
-describe('Unit | Router | session-unfinalize', function () {
+describe('Certification | Session Management | Unit | Application | Routes | Unfinalize', function () {
   describe('PATCH /api/admin/sessions/{id}/unfinalize', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     [

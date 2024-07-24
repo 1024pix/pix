@@ -3,7 +3,7 @@ import * as moduleUnderTest from '../../../../../src/certification/session-manag
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
-describe('Certification | Session-management | Unit | Application | finalized-session-route', function () {
+describe('Certification | Session Management | Unit | Application | Routes | Finalized Session', function () {
   describe('For admin', function () {
     describe('GET /api/admin/sessions/to-publish', function () {
       it('exists', async function () {

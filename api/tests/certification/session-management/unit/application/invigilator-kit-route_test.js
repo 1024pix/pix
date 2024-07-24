@@ -4,7 +4,7 @@ import { authorization } from '../../../../../src/certification/shared/applicati
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Router | invigilator-kit-route', function () {
+describe('Certification | Session Management | Unit | Application | Routes | Invigilator Kit', function () {
   describe('GET /api/sessions/{id}/supervisor-kit', function () {
     it('should return 200', async function () {
       // when
