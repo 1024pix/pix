@@ -48,7 +48,6 @@ import { buildCertificationChallengeWithType } from './build-certification-chall
 import { buildCertificationCourse } from './build-certification-course.js';
 import { buildCertificationCpfCity } from './build-certification-cpf-city.js';
 import { buildCertificationCpfCountry } from './build-certification-cpf-country.js';
-import { buildCertificationDetails } from './build-certification-details.js';
 import { buildCertificationEligibility } from './build-certification-eligibility.js';
 import { buildCertificationIssueReport } from './build-certification-issue-report.js';
 import { buildCertificationOfficer } from './build-certification-officer.js';
@@ -182,6 +181,7 @@ import { buildCertificationChallengeCapacity } from './certification/scoring/bui
 import { buildCertificationChallengeForScoring } from './certification/scoring/build-certification-challenge-for-scoring.js';
 import { buildCompetenceForScoring } from './certification/scoring/build-competence-for-scoring.js';
 import { buildV3CertificationScoring } from './certification/scoring/build-v3-certification-scoring.js';
+import { buildCertificationDetails } from './certification/session-management/build-certification-details.js';
 import { buildCertificationSessionComplementaryCertification } from './certification/session-management/build-certification-session-complementary-certification.js';
 import { buildSessionManagement } from './certification/session-management/build-session.js';
 import { buildJuryComment } from './certification/shared/build-jury-comment.js';

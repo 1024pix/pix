@@ -26,6 +26,7 @@ import * as sessionRepository from '../../../src/certification/session-managemen
 import * as sessionSummaryRepository from '../../../src/certification/session-management/infrastructure/repositories/session-summary-repository.js';
 import * as supervisorAccessRepository from '../../../src/certification/session-management/infrastructure/repositories/supervisor-access-repository.js';
 import * as certificationBadgesService from '../../../src/certification/shared/domain/services/certification-badges-service.js';
+import * as scoringCertificationService from '../../../src/certification/shared/domain/services/scoring-certification-service.js';
 import * as certificationAssessmentRepository from '../../../src/certification/shared/infrastructure/repositories/certification-assessment-repository.js';
 import * as certificationCenterRepository from '../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
 import * as certificationChallengeLiveAlertRepository from '../../../src/certification/shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
@@ -80,6 +81,7 @@ import * as codeGenerator from '../../../src/shared/domain/services/code-generat
 import { cryptoService } from '../../../src/shared/domain/services/crypto-service.js';
 import * as languageService from '../../../src/shared/domain/services/language-service.js';
 import * as localeService from '../../../src/shared/domain/services/locale-service.js';
+import * as placementProfileService from '../../../src/shared/domain/services/placement-profile-service.js';
 import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import * as userService from '../../../src/shared/domain/services/user-service.js';
 import * as passwordValidator from '../../../src/shared/domain/validators/password-validator.js';
@@ -111,8 +113,6 @@ import * as improvementService from '../../domain/services/improvement-service.j
 import * as mailService from '../../domain/services/mail-service.js';
 import * as obfuscationService from '../../domain/services/obfuscation-service.js';
 import * as passwordGenerator from '../../domain/services/password-generator.js';
-import * as placementProfileService from '../../domain/services/placement-profile-service.js';
-import * as scoringCertificationService from '../../domain/services/scoring/scoring-certification-service.js';
 import * as sessionPublicationService from '../../domain/services/session-publication-service.js';
 import * as verifyCertificateCodeService from '../../domain/services/verify-certificate-code-service.js';
 import * as disabledPoleEmploiNotifier from '../../infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js';

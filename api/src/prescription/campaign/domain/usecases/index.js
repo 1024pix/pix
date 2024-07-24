@@ -1,7 +1,6 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import * as placementProfileService from '../../../../../lib/domain/services/placement-profile-service.js';
 import * as badgeAcquisitionRepository from '../../../../../lib/infrastructure/repositories/badge-acquisition-repository.js';
 import * as campaignRepository from '../../../../../lib/infrastructure/repositories/campaign-repository.js';
 import { repositories as libRepositories } from '../../../../../lib/infrastructure/repositories/index.js';
@@ -13,6 +12,7 @@ import * as stageCollectionRepository from '../../../../../lib/infrastructure/re
 import * as badgeRepository from '../../../../evaluation/infrastructure/repositories/badge-repository.js';
 import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
 import * as codeGenerator from '../../../../shared/domain/services/code-generator.js';
+import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';

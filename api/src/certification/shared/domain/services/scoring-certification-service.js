@@ -1,16 +1,6 @@
 import bluebird from 'bluebird';
 import _ from 'lodash';
 
-import { FlashAssessmentAlgorithm } from '../../../../src/certification/flash-certification/domain/models/FlashAssessmentAlgorithm.js';
-import { CertificationAssessmentHistory } from '../../../../src/certification/scoring/domain/models/CertificationAssessmentHistory.js';
-import { CertificationAssessmentScore } from '../../../../src/certification/scoring/domain/models/CertificationAssessmentScore.js';
-import { CertificationAssessmentScoreV3 } from '../../../../src/certification/scoring/domain/models/CertificationAssessmentScoreV3.js';
-import { AssessmentResultFactory } from '../../../../src/certification/scoring/domain/models/factories/AssessmentResultFactory.js';
-import { CERTIFICATION_VERSIONS } from '../../../../src/certification/shared/domain/models/CertificationVersion.js';
-import * as scoringService from '../../../../src/evaluation/domain/services/scoring/scoring-service.js';
-import { config } from '../../../../src/shared/config.js';
-import { AssessmentResult } from '../../../../src/shared/domain/models/AssessmentResult.js';
-import * as areaRepository from '../../../../src/shared/infrastructure/repositories/area-repository.js';
 import {
   AnswerCollectionForScoring,
   CertificationContract,
@@ -18,8 +8,18 @@ import {
   CertifiedScore,
   CompetenceMark,
   ReproducibilityRate,
-} from '../../models/index.js';
-import * as placementProfileService from '../placement-profile-service.js';
+} from '../../../../../lib/domain/models/index.js';
+import * as scoringService from '../../../../evaluation/domain/services/scoring/scoring-service.js';
+import { config } from '../../../../shared/config.js';
+import { AssessmentResult } from '../../../../shared/domain/models/AssessmentResult.js';
+import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
+import * as areaRepository from '../../../../shared/infrastructure/repositories/area-repository.js';
+import { FlashAssessmentAlgorithm } from '../../../flash-certification/domain/models/FlashAssessmentAlgorithm.js';
+import { CertificationAssessmentHistory } from '../../../scoring/domain/models/CertificationAssessmentHistory.js';
+import { CertificationAssessmentScore } from '../../../scoring/domain/models/CertificationAssessmentScore.js';
+import { CertificationAssessmentScoreV3 } from '../../../scoring/domain/models/CertificationAssessmentScoreV3.js';
+import { AssessmentResultFactory } from '../../../scoring/domain/models/factories/AssessmentResultFactory.js';
+import { CERTIFICATION_VERSIONS } from '../models/CertificationVersion.js';
 
 const calculateCertificationAssessmentScore = async function ({
   certificationAssessment,

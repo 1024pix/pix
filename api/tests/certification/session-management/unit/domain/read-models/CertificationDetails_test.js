@@ -1,8 +1,8 @@
-import { CertificationDetails } from '../../../../lib/domain/read-models/CertificationDetails.js';
-import { states } from '../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
-import { domainBuilder, expect } from '../../../test-helper.js';
+import { states } from '../../../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
+import { CertificationDetails } from '../../../../../../src/certification/session-management/domain/read-models/CertificationDetails.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
-describe('Unit | Domain | Read-models | CertificationDetails', function () {
+describe('Certification | Session-management | Unit | Domain | Read-models | CertificationDetails', function () {
   describe('static #from', function () {
     it('should return a CertificationDetails', function () {
       // given

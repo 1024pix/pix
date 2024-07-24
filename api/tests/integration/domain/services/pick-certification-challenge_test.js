@@ -1,7 +1,7 @@
 import { PIX_COUNT_BY_LEVEL } from '../../../../lib/domain/constants.js';
 import * as certificationChallengesService from '../../../../lib/domain/services/certification-challenges-service.js';
-import * as placementProfileService from '../../../../lib/domain/services/placement-profile-service.js';
 import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
+import * as placementProfileService from '../../../../src/shared/domain/services/placement-profile-service.js';
 import * as answerRepository from '../../../../src/shared/infrastructure/repositories/answer-repository.js';
 import * as challengeRepository from '../../../../src/shared/infrastructure/repositories/challenge-repository.js';
 import { databaseBuilder, expect, mockLearningContent } from '../../../test-helper.js';

@@ -1,8 +1,8 @@
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/certification-details-serializer.js';
-import { states } from '../../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
-import { domainBuilder, expect } from '../../../../test-helper.js';
+import { states } from '../../../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
+import * as serializer from '../../../../../../src/certification/session-management/infrastructure/serializers/certification-details-serializer.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
-describe('Unit | Serializer | JSONAPI | certification-details-serializer', function () {
+describe('Certification | Session-management | Unit | Infrastructure | Serializers | certification-details-serializer', function () {
   describe('#serialize', function () {
     it('should convert a Certification Details model object into JSON API data', function () {
       // given

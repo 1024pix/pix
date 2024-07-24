@@ -10,8 +10,8 @@ import bluebird from 'bluebird';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
 import * as certificationChallengeService from '../../lib/domain/services/certification-challenges-service.js';
-import * as placementProfileService from '../../lib/domain/services/placement-profile-service.js';
 import { LOCALE } from '../../src/shared/domain/constants.js';
+import * as placementProfileService from '../../src/shared/domain/services/placement-profile-service.js';
 import * as competenceRepository from '../../src/shared/infrastructure/repositories/competence-repository.js';
 
 const { FRENCH_FRANCE } = LOCALE;

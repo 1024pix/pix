@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { CompetenceMark } from '../../../src/certification/results/domain/models/CompetenceMark.js';
+import { CompetenceMark } from '../../../src/certification/shared/domain/models/CompetenceMark.js';
 import { ComplementaryCertificationCourseResult } from '../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
 import { JuryComment, JuryCommentContexts } from '../../../src/certification/shared/domain/models/JuryComment.js';
 

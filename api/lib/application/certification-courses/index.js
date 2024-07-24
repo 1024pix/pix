@@ -36,36 +36,6 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/admin/certifications/{id}/details',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.certificationCourseId,
-          }),
-        },
-        handler: certificationCourseController.getCertificationDetails,
-        tags: ['api'],
-        notes: [
-          'Cette route est utilisé par Pix Admin',
-          'Elle sert au cas où une certification a eu une erreur de calcul',
-          'Cette route ne renvoie pas le bon format.',
-        ],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/admin/certifications/{id}/certified-profile',
       config: {
         pre: [

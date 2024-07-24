@@ -1,4 +1,4 @@
-import { CERTIFICATION_VERSIONS } from '../../../src/certification/shared/domain/models/CertificationVersion.js';
+import { CERTIFICATION_VERSIONS } from '../../../shared/domain/models/CertificationVersion.js';
 import { CertificationDetails } from '../read-models/CertificationDetails.js';
 
 const getCertificationDetails = async function ({
@@ -12,7 +12,7 @@ const getCertificationDetails = async function ({
     certificationCourseId,
   });
 
-  const competenceMarks = await competenceMarkRepository.findByCertificationCourseId(certificationCourseId);
+  const competenceMarks = await competenceMarkRepository.findByCertificationCourseId({ certificationCourseId });
 
   if (competenceMarks.length) {
     return _retrievePersistedCertificationDetails(competenceMarks, certificationAssessment, placementProfileService);

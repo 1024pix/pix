@@ -2,7 +2,6 @@ import { ComplementaryCertification } from '../../../src/certification/complemen
 import { AssessmentSimulator } from '../../../src/certification/flash-certification/domain/models/AssessmentSimulator.js';
 import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certification/domain/models/FlashAssessmentAlgorithm.js';
 import { CertificationAttestation } from '../../../src/certification/results/domain/models/CertificationAttestation.js';
-import { CompetenceMark } from '../../../src/certification/results/domain/models/CompetenceMark.js';
 import { PrivateCertificate } from '../../../src/certification/results/domain/models/PrivateCertificate.js';
 import { ResultCompetenceTree } from '../../../src/certification/results/domain/models/ResultCompetenceTree.js';
 import { ShareableCertificate } from '../../../src/certification/results/domain/models/ShareableCertificate.js';
@@ -13,6 +12,7 @@ import { CertificationCourse } from '../../../src/certification/shared/domain/mo
 import { CertificationIssueReport } from '../../../src/certification/shared/domain/models/CertificationIssueReport.js';
 import { CertificationIssueReportCategory } from '../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
 import { CertificationReport } from '../../../src/certification/shared/domain/models/CertificationReport.js';
+import { CompetenceMark } from '../../../src/certification/shared/domain/models/CompetenceMark.js';
 import { ComplementaryCertificationCourseResult } from '../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
 import { FinalizedSession } from '../../../src/certification/shared/domain/models/FinalizedSession.js';
 import { Training } from '../../../src/devcomp/domain/models/Training.js';

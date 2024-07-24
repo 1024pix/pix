@@ -1,11 +1,11 @@
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
-import * as placementProfileService from '../../../../lib/domain/services/placement-profile-service.js';
-import { LOCALE } from '../../../../src/shared/domain/constants.js';
-import { databaseBuilder, expect, learningContentBuilder, mockLearningContent } from '../../../test-helper.js';
+import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
+import { LOCALE } from '../../../../../src/shared/domain/constants.js';
+import * as placementProfileService from '../../../../../src/shared/domain/services/placement-profile-service.js';
+import { databaseBuilder, expect, learningContentBuilder, mockLearningContent } from '../../../../test-helper.js';
 
 const { ENGLISH_SPOKEN } = LOCALE;
 
-describe('Integration | Service | Placement Profile Service', function () {
+describe('Shared | Integration | Domain | Services | Placement Profile Service', function () {
   let userId, assessmentId;
 
   beforeEach(function () {

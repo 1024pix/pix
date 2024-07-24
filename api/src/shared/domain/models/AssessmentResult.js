@@ -1,5 +1,5 @@
 /**
- * @typedef {import('../../../certification/results/domain/models/CompetenceMark.js').CompetenceMark} CompetenceMark
+ * @typedef {import('../../../certification/shared/domain/models/CompetenceMark.js').CompetenceMark} CompetenceMark
  * @typedef {import('../../../certification/shared/domain/models/JuryComment.js').JuryComment} JuryComment
  */
 import { Assessment } from './Assessment.js';
