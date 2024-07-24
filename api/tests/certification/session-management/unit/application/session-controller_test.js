@@ -2,7 +2,7 @@ import { sessionController } from '../../../../../src/certification/session-mana
 import { usecases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Controller | sessionController', function () {
+describe('Certification | Session Management | Unit | Application | Controller | Session', function () {
   let request;
   const userId = 274939274;
 

@@ -4,7 +4,7 @@ import { securityPreHandlers } from '../../../../../src/shared/application/secur
 import { InvalidJuryLevelError } from '../../../../../src/shared/domain/errors.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
-describe('Certification | Session-management | Unit | Application | complementary-certification-course-results-controller', function () {
+describe('Certification | Session Management | Unit | Application | Controller | Complementary Certification Course Results', function () {
   let sandbox;
   let httpTestServer;
 

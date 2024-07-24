@@ -2,7 +2,7 @@ import { unfinalizeSession } from '../../../../../src/certification/session-mana
 import { usecases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Controller | unfinalize-controller', function () {
+describe('Certification | Session Management | Unit | Application | Controller | Unfinalize', function () {
   describe('#unfinalizeSession', function () {
     it('should unfinalize the session', async function () {
       // given

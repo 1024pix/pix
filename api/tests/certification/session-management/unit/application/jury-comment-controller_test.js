@@ -2,7 +2,7 @@ import { juryCommentController } from '../../../../../src/certification/session-
 import { usecases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Controller | Certification | session-management | jury-comment-controller', function () {
+describe('Certification | Session Management | Unit | Application | Controller | Jury Comment', function () {
   describe('#commentAsJury', function () {
     it('should update the session with a comment', async function () {
       // given

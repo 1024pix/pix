@@ -2,7 +2,7 @@ import { superviseController } from '../../../../../src/certification/session-ma
 import { usecases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Controller | Certification - Session management | supervising', function () {
+describe('Certification | Session Management | Unit | Application | Controller | Supervise', function () {
   describe('#supervise', function () {
     it('should return a HTTP 204 No Content', async function () {
       // given

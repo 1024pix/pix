@@ -3,7 +3,7 @@ import { usecases } from '../../../../../src/certification/session-management/do
 import * as sessionForSupervisingSerializer from '../../../../../src/certification/session-management/infrastructure/serializers/session-for-supervising-serializer.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Controller | Certification - Session management | session-for-supervising', function () {
+describe('Certification | Session Management | Unit | Application | Controller | Session For Supervising', function () {
   describe('#get', function () {
     it('should return a session for supervising', async function () {
       // given

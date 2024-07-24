@@ -2,7 +2,7 @@ import { certificationCandidateController } from '../../../../../src/certificati
 import { usecases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Controller | certification-candidate-controller', function () {
+describe('Certification | Session Management | Unit | Application | Controller | Certification Candidate', function () {
   describe('#authorizeToStart', function () {
     it('should return a 204 status code', async function () {
       // given
