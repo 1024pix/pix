@@ -12,7 +12,18 @@ const authorizeToStart = async function (request, h) {
   return h.response().code(204);
 };
 
+const authorizeToResume = async function (request, h) {
+  const certificationCandidateId = request.params.id;
+
+  await usecases.authorizeCertificationCandidateToResume({
+    certificationCandidateId,
+  });
+
+  return h.response().code(204);
+};
+
 const certificationCandidateController = {
   authorizeToStart,
+  authorizeToResume,
 };
 export { certificationCandidateController };

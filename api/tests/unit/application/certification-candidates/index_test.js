@@ -4,41 +4,6 @@ import { assessmentSupervisorAuthorization as sessionSupervisorAuthorization } f
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | CertificationCandidates | Routes', function () {
-  describe('POST certification-candidates/{id}/authorize-to-resume', function () {
-    it('should return 204 if the user is a supervisor of the session linked to the candidate', async function () {
-      // given
-      sinon
-        .stub(sessionSupervisorAuthorization, 'verifyByCertificationCandidateId')
-        .callsFake((request, h) => h.response(true));
-      sinon
-        .stub(certificationCandidatesController, 'authorizeToResume')
-        .callsFake((request, h) => h.response().code(204));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('POST', '/api/certification-candidates/1/authorize-to-resume');
-
-      // then
-      expect(response.statusCode).to.equal(204);
-    });
-
-    it('should return 401 if the user is not a supervisor of the session linked to the candidate', async function () {
-      // given
-      sinon
-        .stub(sessionSupervisorAuthorization, 'verifyByCertificationCandidateId')
-        .callsFake((request, h) => h.response().code(401).takeover());
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('POST', '/api/certification-candidates/1/authorize-to-resume');
-
-      // then
-      expect(response.statusCode).to.equal(401);
-    });
-  });
-
   describe('PATCH certification-candidates/{id}/end-assessment-by-supervisor', function () {
     it('should return 200 if the user is a supervisor of the session linked to the candidate', async function () {
       // given

@@ -2,7 +2,7 @@ import { knex } from '../../../../../db/knex-database-connection.js';
 import { CertificationCandidateNotFoundError } from '../../../../../lib/domain/errors.js';
 import { CertificationCandidateForSupervising } from '../../domain/models/CertificationCandidateForSupervising.js';
 
-const get = async function (certificationCandidateId) {
+const get = async function ({ certificationCandidateId }) {
   const result = await knex('certification-candidates')
     .select(
       'certification-candidates.*',

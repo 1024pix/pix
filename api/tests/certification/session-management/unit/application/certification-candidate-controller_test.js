@@ -33,4 +33,31 @@ describe('Unit | Controller | certification-candidate-controller', function () {
       expect(response.statusCode).to.equal(204);
     });
   });
+
+  describe('#authorizeToResume', function () {
+    it('should return a 204 status code', async function () {
+      // given
+      const request = {
+        auth: {
+          credentials: { userId: '111' },
+        },
+        params: {
+          id: 99,
+        },
+      };
+
+      usecases.authorizeCertificationCandidateToResume = sinon.stub().rejects();
+      usecases.authorizeCertificationCandidateToResume
+        .withArgs({
+          certificationCandidateId: 99,
+        })
+        .resolves();
+
+      // when
+      const response = await certificationCandidateController.authorizeToResume(request, hFake);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+    });
+  });
 });
