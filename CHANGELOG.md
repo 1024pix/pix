@@ -1,5 +1,39 @@
 # Pix Changelog
 
+## v4.187.0 (24/07/2024)
+
+
+### :rocket: Amélioration
+- [#9642](https://github.com/1024pix/pix/pull/9642) [FEATURE] MGO chatgpt finalisation.
+- [#9663](https://github.com/1024pix/pix/pull/9663) [FEATURE] Afficher les noms de classes sur 2 lignes avec ellipse.
+- [#9634](https://github.com/1024pix/pix/pull/9634) [FEATURE] Ajouter un espacement entre les différents banners sur PixOrga (PIX-13560).
+- [#9569](https://github.com/1024pix/pix/pull/9569) [FEATURE] Mentionner les places occupées par des apprenants "anonyme" (PIX-13417).
+
+### :building_construction: Tech
+- [#9672](https://github.com/1024pix/pix/pull/9672) [TECH] Migration de la route POST /api/admin/memberships  (PIX-13570).
+- [#9643](https://github.com/1024pix/pix/pull/9643) [TECH] Migration de la route /api/sessions/download-results/{token} vers certification/results (PIX-13562).
+- [#9621](https://github.com/1024pix/pix/pull/9621) [TECH] Migration de la route /api/admin/certifications/{id}/details (PIX-13540).
+- [#9654](https://github.com/1024pix/pix/pull/9654) [TECH] Migration de la route /api/certification-candidates/{id}/authorize-to-resume vers certification/session-management (PIX-13567).
+- [#9638](https://github.com/1024pix/pix/pull/9638) [TECH] Migration de la route /api/sessions/{id}/certified-clea-candidate-data vers certification/results (PIX-13562).
+- [#9649](https://github.com/1024pix/pix/pull/9649) [TECH] Migration de la route PATCH /api/admin/organizations/{id} (PIX-13559).
+- [#9600](https://github.com/1024pix/pix/pull/9600) [TECH] Migration de la route /api/admin/complementary-certification-course-results vers src (PIX-13519).
+
+### :arrow_up: Montée de version
+- [#9680](https://github.com/1024pix/pix/pull/9680) [BUMP] Update dependency chai-as-promised to v8 (api).
+- [#9677](https://github.com/1024pix/pix/pull/9677) [BUMP] Update dependency @formatjs/intl-locale to v4 (mon-pix).
+- [#9664](https://github.com/1024pix/pix/pull/9664) [BUMP] Update dependency ember-eslint-parser to ^0.5.0 (orga).
+- [#9652](https://github.com/1024pix/pix/pull/9652) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.11 (mon-pix).
+- [#9661](https://github.com/1024pix/pix/pull/9661) [BUMP] Update dependency ember-eslint-parser to ^0.5.0 (admin).
+- [#9662](https://github.com/1024pix/pix/pull/9662) [BUMP] Update dependency ember-eslint-parser to ^0.5.0 (certif).
+- [#9653](https://github.com/1024pix/pix/pull/9653) [BUMP] Update node.
+- [#9648](https://github.com/1024pix/pix/pull/9648) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.11 (junior).
+- [#9647](https://github.com/1024pix/pix/pull/9647) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.11 (certif).
+- [#9646](https://github.com/1024pix/pix/pull/9646) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.11 (admin).
+- [#9645](https://github.com/1024pix/pix/pull/9645) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.7 (audit-logger).
+- [#9639](https://github.com/1024pix/pix/pull/9639) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.11 (orga).
+- [#9636](https://github.com/1024pix/pix/pull/9636) [BUMP] Update dependency @1024pix/ember-testing-library to ^3.0.2 (mon-pix).
+- [#9637](https://github.com/1024pix/pix/pull/9637) [BUMP] Update dependency @1024pix/ember-testing-library to ^3.0.2 (orga).
+
 ## v4.186.0 (23/07/2024)
 
 
