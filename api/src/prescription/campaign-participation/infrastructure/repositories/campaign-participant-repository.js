@@ -2,11 +2,11 @@ import pick from 'lodash/pick.js';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
 import * as campaignRepository from '../../../../../lib/infrastructure/repositories/campaign-repository.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import {
   AlreadyExistingCampaignParticipationError,
   OrganizationLearnersCouldNotBeSavedError,
 } from '../../../../shared/domain/errors.js';
-import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { OrganizationLearnerForStartingParticipation } from '../../../../shared/domain/read-models/OrganizationLearnerForStartingParticipation.js';
 import { UserIdentity } from '../../../../shared/domain/read-models/UserIdentity.js';

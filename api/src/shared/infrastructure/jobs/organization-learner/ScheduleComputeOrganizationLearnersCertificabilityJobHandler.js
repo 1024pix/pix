@@ -1,7 +1,7 @@
 import cronParser from 'cron-parser';
 import dayjs from 'dayjs';
 
-import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../domain/DomainTransaction.js';
 import { ComputeCertificabilityJob } from './ComputeCertificabilityJob.js';
 import { ScheduleComputeOrganizationLearnersCertificabilityJob } from './ScheduleComputeOrganizationLearnersCertificabilityJob.js';
 
@@ -26,14 +26,13 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobHandler {
 
     const fromUserActivityDate = dayjs(toUserActivityDate).subtract(1, 'day').toDate();
 
-    await knex.transaction(
-      async (trx) => {
+    return await DomainTransaction.execute(
+      async () => {
         const count = await this.organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
           skipLoggedLastDayCheck,
           fromUserActivityDate,
           toUserActivityDate,
           onlyNotComputed,
-          domainTransaction: { knexTransaction: trx },
         });
 
         const chunkCount = Math.ceil(count / chunkSize);
@@ -55,7 +54,6 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobHandler {
               toUserActivityDate,
               skipLoggedLastDayCheck,
               onlyNotComputed,
-              domainTransaction: { knexTransaction: trx },
             });
 
           this.logger.info(
@@ -70,7 +68,7 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobHandler {
             on_complete: true,
           }));
 
-          const jobsInserted = await this.pgBossRepository.insert(jobsToInsert, { knexTransaction: trx });
+          const jobsInserted = await this.pgBossRepository.insert(jobsToInsert);
           totalJobsInserted += jobsInserted.rowCount;
 
           this.logger.info(

@@ -11,7 +11,6 @@ const anonymizeUser = async function ({
   refreshTokenService,
   resetPasswordDemandRepository,
   userLoginRepository,
-  domainTransaction,
   adminMemberRepository,
 }) {
   const anonymizedUser = {

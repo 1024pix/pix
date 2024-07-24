@@ -21,8 +21,8 @@ const getWithAnswers = async function (id) {
   return new Assessment(assessment);
 };
 
-const get = async function (id, domainTransaction = DomainTransaction.emptyTransaction()) {
-  const knexConn = domainTransaction.knexTransaction || knex;
+const get = async function (id) {
+  const knexConn = DomainTransaction.getConnection();
   const assessment = await knexConn('assessments').where({ id }).first();
 
   if (!assessment) {
@@ -52,8 +52,8 @@ const getByAssessmentIdAndUserId = async function (assessmentId, userId) {
   return new Assessment(assessment);
 };
 
-const save = async function ({ assessment, domainTransaction = DomainTransaction.emptyTransaction() }) {
-  const knexConn = domainTransaction.knexTransaction || knex;
+const save = async function ({ assessment }) {
+  const knexConn = DomainTransaction.getConnection();
   assessment.validate();
   const [assessmentCreated] = await knexConn('assessments').insert(_adaptModelToDb(assessment)).returning('*');
   return new Assessment(assessmentCreated);
@@ -70,11 +70,8 @@ const abortByAssessmentId = function (assessmentId) {
   return this._updateStateById({ id: assessmentId, state: Assessment.states.ABORTED });
 };
 
-const completeByAssessmentId = function (assessmentId, domainTransaction = DomainTransaction.emptyTransaction()) {
-  return this._updateStateById(
-    { id: assessmentId, state: Assessment.states.COMPLETED },
-    domainTransaction.knexTransaction,
-  );
+const completeByAssessmentId = function (assessmentId) {
+  return this._updateStateById({ id: assessmentId, state: Assessment.states.COMPLETED });
 };
 
 const endBySupervisorByAssessmentId = function (assessmentId) {
@@ -106,8 +103,8 @@ const ownedByUser = async function ({ id, userId = null }) {
   return assessment.userId === userId;
 };
 
-const _updateStateById = async function ({ id, state }, knexTransaction) {
-  const knexConn = knexTransaction || knex;
+const _updateStateById = async function ({ id, state }) {
+  const knexConn = DomainTransaction.getConnection();
   const [assessment] = await knexConn('assessments')
     .where({ id })
     .update({ state, updatedAt: new Date() })
@@ -132,8 +129,8 @@ const updateWhenNewChallengeIsAsked = async function ({ id, lastChallengeId }) {
   return new Assessment(assessmentUpdated);
 };
 
-const updateLastQuestionState = async function ({ id, lastQuestionState, domainTransaction }) {
-  const knexConn = domainTransaction.knexTransaction || knex;
+const updateLastQuestionState = async function ({ id, lastQuestionState }) {
+  const knexConn = DomainTransaction.getConnection();
   const [assessmentUpdated] = await knexConn('assessments')
     .where({ id })
     .update({ lastQuestionState, updatedAt: new Date() })
@@ -141,11 +138,8 @@ const updateLastQuestionState = async function ({ id, lastQuestionState, domainT
   if (!assessmentUpdated) return null;
 };
 
-const setAssessmentsAsStarted = async function ({
-  assessmentIds,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
-  const knexConn = domainTransaction.knexTransaction || knex;
+const setAssessmentsAsStarted = async function ({ assessmentIds }) {
+  const knexConn = DomainTransaction.getConnection();
   await knexConn('assessments')
     .whereIn('id', assessmentIds)
     .update({ state: Assessment.states.STARTED, updatedAt: new Date() });

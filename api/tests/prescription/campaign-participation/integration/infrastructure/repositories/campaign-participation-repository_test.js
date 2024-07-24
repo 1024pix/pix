@@ -1,11 +1,6 @@
 import _ from 'lodash';
 
-<<<<<<< HEAD
-import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
-=======
-import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 import { DomainTransaction, withTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
->>>>>>> 123eb01171 (tech(api): remove transaction parameters)
 import { CampaignParticipation } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignParticipation.js';
 import { AvailableCampaignParticipation } from '../../../../../../src/prescription/campaign-participation/domain/read-models/AvailableCampaignParticipation.js';
 import * as campaignParticipationRepository from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';

@@ -61,16 +61,15 @@ describe('Unit | Controller | assessment-controller', function () {
   });
 
   describe('#completeAssessment', function () {
-    let domainTransaction, assessmentId, assessment, assessmentCompletedEvent, locale;
+    let assessmentId, assessment, assessmentCompletedEvent, locale;
 
     beforeEach(function () {
-      domainTransaction = Symbol('domainTransaction');
       assessmentId = 2;
       assessmentCompletedEvent = new AssessmentCompleted();
       assessment = Symbol('completed-assessment');
       locale = 'fr-fr';
       sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
-        return lambda(domainTransaction);
+        return lambda();
       });
 
       sinon.stub(usecases, 'completeAssessment');
@@ -90,7 +89,7 @@ describe('Unit | Controller | assessment-controller', function () {
       await assessmentController.completeAssessment({ params: { id: assessmentId } });
 
       // then
-      expect(usecases.completeAssessment).to.have.been.calledWithExactly({ assessmentId, domainTransaction, locale });
+      expect(usecases.completeAssessment).to.have.been.calledWithExactly({ assessmentId, locale });
     });
 
     it('should call the handleBadgeAcquisition use case', async function () {
@@ -98,7 +97,7 @@ describe('Unit | Controller | assessment-controller', function () {
       await assessmentController.completeAssessment({ params: { id: assessmentId } });
 
       // then
-      expect(usecases.handleBadgeAcquisition).to.have.been.calledWithExactly({ assessment, domainTransaction });
+      expect(usecases.handleBadgeAcquisition).to.have.been.calledWithExactly({ assessment });
     });
 
     it('should call the handleTrainingRecommendation use case', async function () {
@@ -112,7 +111,6 @@ describe('Unit | Controller | assessment-controller', function () {
       expect(devcompUsecases.handleTrainingRecommendation).to.have.been.calledWithExactly({
         assessment,
         locale,
-        domainTransaction,
       });
     });
 

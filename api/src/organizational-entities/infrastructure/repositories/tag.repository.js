@@ -1,8 +1,8 @@
 import lodash from 'lodash';
 
 import { knex } from '../../../../db/knex-database-connection.js';
-import { AlreadyExistingEntityError } from '../../../shared/domain/errors.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import { AlreadyExistingEntityError } from '../../../shared/domain/errors.js';
 import * as knexUtils from '../../../shared/infrastructure/utils/knex-utils.js';
 import { Tag } from '../../domain/models/Tag.js';
 
