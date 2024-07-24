@@ -3,7 +3,7 @@
 
   <div class="main-content">
     <header>
-      <Layout::Topbar @placesCount={{@model.available}} @refreshAuthenticatedModel={{this.refreshAuthenticatedModel}} />
+      <Layout::Topbar @placesCount={{@model.available}} @onChangeOrganization={{this.onChangeOrganization}} />
     </header>
 
     <main class="main-content__body page">

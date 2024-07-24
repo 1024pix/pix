@@ -11,8 +11,8 @@ module('Unit | Controller | authenticated', function (hooks) {
     controller.send = sinon.stub();
 
     // when
-    controller.refreshAuthenticatedModel();
+    controller.onChangeOrganization();
     // then
-    assert.true(controller.send.calledWithExactly('refreshModel'));
+    assert.true(controller.send.calledWithExactly('refreshAuthenticatedModel'));
   });
 });
