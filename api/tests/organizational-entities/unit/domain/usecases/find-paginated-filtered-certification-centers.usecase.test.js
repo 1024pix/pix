@@ -1,9 +1,9 @@
-import { CertificationCenter } from '../../../../lib/domain/models/CertificationCenter.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { expect, sinon } from '../../../test-helper.js';
+import { CertificationCenter } from '../../../../../lib/domain/models/index.js';
+import { usecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | find-paginated-filtered-certification-centers', function () {
-  it('should result certification-centers with filtering and pagination', async function () {
+describe('Unit | Organizational Entities | Domain | UseCase | find-paginated-filtered-certification-centers', function () {
+  it('should return certification-centers with filtering and pagination', async function () {
     // given
     const filter = { name: 'Dragon' };
     const page = { number: 1, size: 2 };
