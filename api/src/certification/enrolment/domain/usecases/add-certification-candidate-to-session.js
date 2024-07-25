@@ -6,13 +6,13 @@
  * @typedef {import ('./index.js').CertificationCpfCityRepository} CertificationCpfCityRepository
  */
 
-import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../lib/domain/constants/certification-candidates-errors.js';
 import {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   CertificationCandidateOnFinalizedSessionError,
   CertificationCandidatesError,
 } from '../../../../shared/domain/errors.js';
 import * as mailCheckImplementation from '../../../../shared/mail/infrastructure/services/mail-check.js';
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constants/certification-candidates-errors.js';
 import { Subscription } from '../models/Subscription.js';
 
 /**

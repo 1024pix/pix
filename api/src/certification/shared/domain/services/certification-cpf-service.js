@@ -4,7 +4,7 @@ import { normalizeAndSortChars } from '../../../../shared/infrastructure/utils/s
 
 const { isEmpty } = lodash;
 
-import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../lib/domain/constants/certification-candidates-errors.js';
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../constants/certification-candidates-errors.js';
 
 const CpfValidationStatus = {
   FAILURE: 'FAILURE',
