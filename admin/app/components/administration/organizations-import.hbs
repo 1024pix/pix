@@ -2,8 +2,7 @@
   <header class="page-section__header">
     <h2 class="page-section__title">{{t "components.administration.organizations-import.title"}}</h2>
   </header>
-  <p>{{t "components.administration.organizations-import.description"}}</p>
-  <br />
+  <p class="description">{{t "components.administration.organizations-import.description"}}</p>
   <PixButtonUpload @id="orga-file-upload" @onChange={{this.importOrganizations}} @variant="secondary" accept=".csv">
     {{t "components.administration.organizations-import.upload-button"}}
   </PixButtonUpload>
