@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { KnowledgeElement } from '../../../../lib/domain/models/index.js';
 import { Assessment } from '../../../shared/domain/models/Assessment.js';
 import { CompetenceEvaluation } from '../models/CompetenceEvaluation.js';
 import { Scorecard } from '../models/Scorecard.js';
@@ -80,15 +80,8 @@ async function _resetKnowledgeElements({ userId, competenceId, knowledgeElementR
     userId,
     competenceId,
   });
-  const resetKnowledgeElementsPromises = _.map(knowledgeElements, (knowledgeElement) =>
-    _resetKnowledgeElement({ knowledgeElement, knowledgeElementRepository }),
-  );
-  return Promise.all(resetKnowledgeElementsPromises);
-}
-
-function _resetKnowledgeElement({ knowledgeElement, knowledgeElementRepository }) {
-  const resetKe = KnowledgeElement.reset(knowledgeElement);
-  return knowledgeElementRepository.save(resetKe);
+  const resetKnowledgeElements = knowledgeElements.map(KnowledgeElement.reset);
+  return knowledgeElementRepository.batchSave({ knowledgeElements: resetKnowledgeElements });
 }
 
 function _resetCompetenceEvaluation({ userId, competenceId, competenceEvaluationRepository }) {

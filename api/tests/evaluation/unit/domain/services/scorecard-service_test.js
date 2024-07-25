@@ -3,7 +3,7 @@ import {
   CampaignParticipationStatuses,
   CompetenceEvaluation,
 } from '../../../../../lib/domain/models/index.js';
-import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
+import { KnowledgeElement } from '../../../../../lib/domain/models/index.js';
 import { Scorecard } from '../../../../../src/evaluation/domain/models/Scorecard.js';
 import * as scorecardService from '../../../../../src/evaluation/domain/services/scorecard-service.js';
 import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
@@ -126,7 +126,7 @@ describe('Unit | Service | ScorecardService', function () {
         domainBuilder.buildKnowledgeElement({ id: 2, skillId: secondSkillId }),
       ];
       knowledgeElementRepository = {
-        save: sinon.stub(),
+        batchSave: sinon.stub(),
         findUniqByUserIdAndCompetenceId: sinon.stub(),
       };
       assessmentRepository = {
@@ -157,8 +157,9 @@ describe('Unit | Service | ScorecardService', function () {
           .withArgs({ userId, competenceId, status: CompetenceEvaluation.statuses.RESET })
           .resolves(updatedCompetenceEvaluation);
 
-        knowledgeElementRepository.save.withArgs(firstResetKe).resolves(resetKnowledgeElement1);
-        knowledgeElementRepository.save.withArgs(secondResetKe).resolves(resetKnowledgeElement2);
+        knowledgeElementRepository.batchSave
+          .withArgs({ knowledgeElements: [firstResetKe, secondResetKe] })
+          .resolves([resetKnowledgeElement1, resetKnowledgeElement2]);
 
         [resetKnowledgeElements, resetCampaignParticipation, resetCompetenceEvaluation] =
           await scorecardService.resetScorecard({
@@ -188,8 +189,10 @@ describe('Unit | Service | ScorecardService', function () {
         it('should reset each knowledge elements', async function () {
           // given
           const shouldResetCompetenceEvaluation = false;
-          knowledgeElementRepository.save.withArgs(firstResetKe).resolves(resetKnowledgeElement1);
-          knowledgeElementRepository.save.withArgs(secondResetKe).resolves(resetKnowledgeElement2);
+
+          knowledgeElementRepository.batchSave
+            .withArgs({ knowledgeElements: [firstResetKe, secondResetKe] })
+            .resolves([resetKnowledgeElement1, resetKnowledgeElement2]);
 
           // when
           [resetKnowledgeElements, resetCampaignParticipation] = await scorecardService.resetScorecard({
@@ -269,8 +272,9 @@ describe('Unit | Service | ScorecardService', function () {
           campaignParticipationId: campaignParticipation2.id,
         });
 
-        knowledgeElementRepository.save.withArgs(firstResetKe).resolves(firstResetKe);
-        knowledgeElementRepository.save.withArgs(secondResetKe).resolves(secondResetKe);
+        knowledgeElementRepository.batchSave
+          .withArgs({ knowledgeElements: [firstResetKe, secondResetKe] })
+          .resolves([firstResetKe, secondResetKe]);
 
         // when
         campaignParticipationRepository = {
@@ -440,8 +444,9 @@ describe('Unit | Service | ScorecardService', function () {
           const resetKe1 = KnowledgeElement.reset(resetKnowledgeElement1);
           const resetKe2 = KnowledgeElement.reset(resetKnowledgeElement2);
 
-          knowledgeElementRepository.save.withArgs(resetKnowledgeElement1).resolves(resetKe1);
-          knowledgeElementRepository.save.withArgs(resetKnowledgeElement2).resolves(resetKe2);
+          knowledgeElementRepository.batchSave
+            .withArgs({ knowledgeElements: [resetKnowledgeElement1, resetKnowledgeElement2] })
+            .resolves([resetKe1, resetKe2]);
 
           //when
           [resetKnowledgeElements, resetCampaignParticipation] = await scorecardService.resetScorecard({
@@ -471,14 +476,15 @@ describe('Unit | Service | ScorecardService', function () {
           abortByAssessmentId: sinon.stub(),
         };
         knowledgeElementRepository = {
-          save: sinon.stub(),
+          batchSave: sinon.stub(),
           findUniqByUserIdAndCompetenceId: sinon.stub(),
         };
 
         assessmentRepository.findNotAbortedCampaignAssessmentsByUserId.withArgs(userId).resolves(null);
 
-        knowledgeElementRepository.save.withArgs(firstResetKe).resolves(resetKnowledgeElement1);
-        knowledgeElementRepository.save.withArgs(secondResetKe).resolves(resetKnowledgeElement2);
+        knowledgeElementRepository.batchSave
+          .withArgs({ knowledgeElements: [firstResetKe, secondResetKe] })
+          .resolves([resetKnowledgeElement1, resetKnowledgeElement2]);
 
         knowledgeElementRepository.findUniqByUserIdAndCompetenceId
           .withArgs({ userId, competenceId })

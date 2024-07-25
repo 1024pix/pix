@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { knex } from '../../../db/knex-database-connection.js';
-import { KnowledgeElement } from '../../domain/models/KnowledgeElement.js';
+import { KnowledgeElement } from '../../domain/models/index.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import * as knowledgeElementSnapshotRepository from './knowledge-element-snapshot-repository.js';
 
@@ -81,16 +81,11 @@ const findUniqByUserIds = function (userIds) {
   );
 };
 
-const save = async function (knowledgeElement) {
-  const knowledgeElementToSave = _.omit(knowledgeElement, ['id', 'createdAt']);
-  const [savedKnowledgeElement] = await knex(tableName).insert(knowledgeElementToSave).returning('*');
-  return new KnowledgeElement(savedKnowledgeElement);
-};
-
 const batchSave = async function ({ knowledgeElements, domainTransaction = DomainTransaction.emptyTransaction() }) {
   const knexConn = domainTransaction.knexTransaction || knex;
   const knowledgeElementsToSave = knowledgeElements.map((ke) => _.omit(ke, ['id', 'createdAt']));
-  await knexConn.batchInsert(tableName, knowledgeElementsToSave);
+  const savedKnowledgeElements = await knexConn.batchInsert(tableName, knowledgeElementsToSave).returning('*');
+  return savedKnowledgeElements.map((ke) => new KnowledgeElement(ke));
 };
 
 const findUniqByUserId = function ({ userId, limitDate, domainTransaction }) {
@@ -184,5 +179,4 @@ export {
   findUniqByUserIdGroupedByCompetenceId,
   findUniqByUserIds,
   findValidatedGroupedByTubesWithinCampaign,
-  save,
 };
