@@ -8,9 +8,10 @@ import * as authenticationMethodRepository from '../../../../../src/identity-acc
 import { resetPasswordDemandRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/reset-password-demand.repository.js';
 import * as userRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
+import { ObjectValidationError, UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { adminMemberRepository } from '../../../../../src/shared/infrastructure/repositories/admin-member.repository.js';
 import * as userLoginRepository from '../../../../../src/shared/infrastructure/repositories/user-login-repository.js';
-import { databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
+import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Identity Access Management | Domain | UseCase | anonymize-user', function () {
   let clock;
@@ -38,7 +39,11 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
       createdAt: new Date('2012-12-12T12:12:12Z'),
       updatedAt: new Date('2023-03-23T23:23:23Z'),
     });
+
+    const admin = databaseBuilder.factory.buildUser.withRole();
+
     const userId = user.id;
+    const anonymizedByUserId = admin.id;
 
     databaseBuilder.factory.buildCertificationCenterMembership({ userId });
 
@@ -54,25 +59,21 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
       blockedAt: new Date('2023-03-23T09:44:30Z'),
     });
 
-    const admin = databaseBuilder.factory.buildUser.withRole();
-    const updatedByUserId = admin.id;
-
     await databaseBuilder.commit();
 
     await refreshTokenService.createRefreshTokenFromUserId({ userId, source: 'pix' });
 
     const expectedUserAnonymizedEvent = new UserAnonymized({
       userId,
-      updatedByUserId: admin.id,
+      updatedByUserId: anonymizedByUserId,
       role: 'SUPER_ADMIN',
     });
 
     // when
-    let result;
-    await DomainTransaction.execute(async (domainTransaction) => {
-      result = await anonymizeUser({
-        updatedByUserId,
+    const result = await DomainTransaction.execute(async (domainTransaction) =>
+      anonymizeUser({
         userId,
+        updatedByUserId: anonymizedByUserId,
         userRepository,
         userLoginRepository,
         authenticationMethodRepository,
@@ -83,8 +84,8 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
         resetPasswordDemandRepository,
         domainTransaction,
         adminMemberRepository,
-      });
-    });
+      }),
+    );
 
     // then
     expect(result).to.be.deep.equal(expectedUserAnonymizedEvent);
@@ -136,5 +137,145 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
     expect(anonymizedUser.lastPixOrgaTermsOfServiceValidatedAt).to.be.null;
     expect(anonymizedUser.lastPixCertifTermsOfServiceValidatedAt).to.be.null;
     expect(anonymizedUser.lastDataProtectionPolicySeenAt).to.be.null;
+  });
+
+  context('when no admin user is given', function () {
+    it('throws an error and does not anonymize the user', async function () {
+      // given
+      const user = databaseBuilder.factory.buildUser({ firstName: 'Bob' });
+      await databaseBuilder.commit();
+
+      // when
+      const error = await catchErr(DomainTransaction.execute)(async (domainTransaction) =>
+        anonymizeUser({
+          userId: user.id,
+          userRepository,
+          userLoginRepository,
+          authenticationMethodRepository,
+          refreshTokenService,
+          membershipRepository,
+          certificationCenterMembershipRepository,
+          organizationLearnerRepository,
+          resetPasswordDemandRepository,
+          domainTransaction,
+          adminMemberRepository,
+        }),
+      );
+
+      // then
+      expect(error).to.be.instanceOf(ObjectValidationError);
+
+      const anonymizedUser = await knex('users').where({ id: user.id }).first();
+      expect(anonymizedUser.hasBeenAnonymised).to.be.false;
+    });
+  });
+
+  context('when the admin user does not exist', function () {
+    it('throws an error and does not anonymize the user', async function () {
+      // given
+      const user = databaseBuilder.factory.buildUser({ firstName: 'Bob' });
+      await databaseBuilder.commit();
+
+      // when
+      const error = await catchErr(DomainTransaction.execute)(async (domainTransaction) =>
+        anonymizeUser({
+          userId: user.id,
+          updatedByUserId: 666,
+          userRepository,
+          userLoginRepository,
+          authenticationMethodRepository,
+          refreshTokenService,
+          membershipRepository,
+          certificationCenterMembershipRepository,
+          organizationLearnerRepository,
+          resetPasswordDemandRepository,
+          domainTransaction,
+          adminMemberRepository,
+        }),
+      );
+
+      // then
+      expect(error).to.be.instanceOf(UserNotFoundError);
+      expect(error.message).to.equal(`Admin not found for id: 666`);
+
+      const anonymizedUser = await knex('users').where({ id: user.id }).first();
+      expect(anonymizedUser.hasBeenAnonymised).to.be.false;
+    });
+  });
+
+  context('when user has been already anonymized', function () {
+    context('when no admin user is given', function () {
+      it('anonymizes and keeps the original admin which has anonymized the user', async function () {
+        // given
+        const admin = databaseBuilder.factory.buildUser.withRole();
+        const user = databaseBuilder.factory.buildUser({
+          firstName: 'Bob',
+          hasBeenAnonymised: true,
+          hasBeenAnonymisedBy: admin.id,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        await DomainTransaction.execute(async (domainTransaction) =>
+          anonymizeUser({
+            userId: user.id,
+            userRepository,
+            userLoginRepository,
+            authenticationMethodRepository,
+            refreshTokenService,
+            membershipRepository,
+            certificationCenterMembershipRepository,
+            organizationLearnerRepository,
+            resetPasswordDemandRepository,
+            domainTransaction,
+            adminMemberRepository,
+          }),
+        );
+
+        // then
+        const anonymizedUser = await knex('users').where({ id: user.id }).first();
+        expect(anonymizedUser.firstName).to.equal('(anonymised)');
+        expect(anonymizedUser.hasBeenAnonymised).to.be.true;
+        expect(anonymizedUser.hasBeenAnonymisedBy).to.equal(admin.id);
+      });
+    });
+
+    context('when admin user is given', function () {
+      it('anonymizes and overrides the original admin which has anonymized the user', async function () {
+        // given
+        const originalAdmin = databaseBuilder.factory.buildUser.withRole();
+        const newAdmin = databaseBuilder.factory.buildUser.withRole();
+        const user = databaseBuilder.factory.buildUser({
+          firstName: 'Bob',
+          hasBeenAnonymised: true,
+          hasBeenAnonymisedBy: originalAdmin.id,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        await DomainTransaction.execute(async (domainTransaction) =>
+          anonymizeUser({
+            userId: user.id,
+            updatedByUserId: newAdmin.id,
+            userRepository,
+            userLoginRepository,
+            authenticationMethodRepository,
+            refreshTokenService,
+            membershipRepository,
+            certificationCenterMembershipRepository,
+            organizationLearnerRepository,
+            resetPasswordDemandRepository,
+            domainTransaction,
+            adminMemberRepository,
+          }),
+        );
+
+        // then
+        const anonymizedUser = await knex('users').where({ id: user.id }).first();
+        expect(anonymizedUser.firstName).to.equal('(anonymised)');
+        expect(anonymizedUser.hasBeenAnonymised).to.be.true;
+        expect(anonymizedUser.hasBeenAnonymisedBy).to.equal(newAdmin.id);
+      });
+    });
   });
 });
