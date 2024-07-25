@@ -1699,7 +1699,12 @@
     "timed-challenge-instructions": {
       "action": "Empezar la prueba",
       "primary": "Dispondrás de '<span class=\"timed-challenge-instructions__time\">'{time}'</span>' para superar la siguiente pregunta.",
-      "secondary": "Podrás seguir respondiendo después, pero la pregunta no se considerará acertada."
+      "secondary": "Podrás seguir respondiendo después, pero la pregunta no se considerará acertada.",
+      "time": {
+        "and": " y ",
+        "minutes": "{minutes, plural, =0 {} =1 {# minuto} other {# minutos}}",
+        "seconds": "{seconds, plural, =0 {} =1 {# segundo} other {# segundos}}"
+      }
     },
     "training": {
       "editor": "Contenido formativo propuesto por",

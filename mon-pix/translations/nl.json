@@ -1699,7 +1699,12 @@
     "timed-challenge-instructions": {
       "action": "De test beginnen",
       "primary": "Je hebt '<span class=\"timed-challenge-instructies__time\">'{time}'</span>' om de volgende vraag te beantwoorden.",
-      "secondary": "Als je doorgaat wordt de opdracht niet als voltooid beschouwd."
+      "secondary": "Als je doorgaat wordt de opdracht niet als voltooid beschouwd.",
+      "time": {
+        "and": " en ",
+        "minutes": "{minutes, plural, =0 {} =1 {# minuut} other {# minuten}}",
+        "seconds": "{seconds, plural, =0 {} =1 {# seconde} other {# seconden}}"
+      }
     },
     "training": {
       "editor": "Inhoud van de training voorgesteld door",
