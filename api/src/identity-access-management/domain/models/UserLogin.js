@@ -1,7 +1,16 @@
 import { config } from '../../../shared/config.js';
 
 class UserLogin {
-  constructor({ id, userId, failureCount = 0, temporaryBlockedUntil, blockedAt, createdAt, updatedAt } = {}) {
+  constructor({
+    id,
+    userId,
+    failureCount = 0,
+    temporaryBlockedUntil,
+    blockedAt,
+    createdAt,
+    updatedAt,
+    lastLoggedAt,
+  } = {}) {
     this.id = id;
     this.userId = userId;
     this.failureCount = failureCount;
@@ -9,6 +18,7 @@ class UserLogin {
     this.blockedAt = blockedAt;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
+    this.lastLoggedAt = lastLoggedAt;
   }
 
   incrementFailureCount() {

@@ -120,6 +120,7 @@ describe('Integration | Shared | Infrastructure | Repositories | UserLoginReposi
         blockedAt: null,
         createdAt: userLoginInDB.createdAt,
         updatedAt: now,
+        lastLoggedAt: null,
       });
     });
 

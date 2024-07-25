@@ -296,6 +296,25 @@ describe('Unit | Domain | Models | UserLogin', function () {
       expect(result.id).to.be.equal(1);
       expect(result.temporaryBlockedUntil).to.be.null;
       expect(result.blockedAt).to.be.null;
+      expect(result.lastLoggedAt).to.be.null;
+    });
+
+    context('when there is a lastLoggedAt', function () {
+      it('keeps the lastLoggedAt date and generalizes it', function () {
+        // given
+        const someDate = new Date('2019-03-12T19:37:03Z');
+        const userLogin = new UserLogin({
+          id: 1,
+          lastLoggedAt: someDate,
+        });
+
+        // when
+        const result = userLogin.anonymize();
+
+        // then
+        expect(result.lastLoggedAt).to.be.an.instanceOf(Date);
+        expect(result.lastLoggedAt.toISOString()).to.equal('2019-03-01T00:00:00.000Z');
+      });
     });
   });
 });
