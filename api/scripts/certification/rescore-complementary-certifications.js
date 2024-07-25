@@ -186,7 +186,7 @@ async function main({ certificationCourseIds = [], knex, eventDispatcher, logger
       const newComplementarySnapshot = await _snapshotCurrentScoring({ certificationCourseId, knex });
       complementaryRescoringCommand.complementaryAfterUpdate({
         statusAfterScript: newComplementarySnapshot.status,
-        complementaryAcquiredAfterScript: currentComplementarySnapshot.acquired,
+        complementaryAcquiredAfterScript: newComplementarySnapshot.acquired,
         badgeLevelAfterScript: newComplementarySnapshot.label,
         examinationDateAfterScript: newComplementarySnapshot.createdAt,
         certificationDateAfterScript: newComplementarySnapshot.publishedAt,
