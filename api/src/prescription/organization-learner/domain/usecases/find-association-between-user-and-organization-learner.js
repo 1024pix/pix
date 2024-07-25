@@ -1,5 +1,8 @@
-import { CampaignCodeError, OrganizationLearnerDisabledError } from '../../../../../lib/domain/errors.js';
-import { UserNotAuthorizedToAccessEntityError } from '../../../../../src/shared/domain/errors.js';
+import {
+  CampaignCodeError,
+  OrganizationLearnerDisabledError,
+  UserNotAuthorizedToAccessEntityError,
+} from '../../../../shared/domain/errors.js';
 
 const findAssociationBetweenUserAndOrganizationLearner = async function ({
   authenticatedUserId,

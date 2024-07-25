@@ -1,4 +1,4 @@
-import { ObjectValidationError } from '../../../../../lib/domain/errors.js';
+import { ObjectValidationError } from '../../../../shared/domain/errors.js';
 
 /**
  * @typedef {import ('./Campaign.js').Campaign} Campaign

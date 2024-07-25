@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { Membership } from '../../../../../lib/domain/models/Membership.js';
+import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { OrganizationInvitation } from '../../../../../src/team/domain/models/OrganizationInvitation.js';
 import { organizationInvitationRepository } from '../../../../../src/team/infrastructure/repositories/organization-invitation.repository.js';
 import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';

@@ -4,7 +4,7 @@ import utc from 'dayjs/plugin/utc.js';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-import { CampaignTypeError } from '../../../../../lib/domain/errors.js';
+import { CampaignTypeError } from '../../../../shared/domain/errors.js';
 import { CampaignProfilesCollectionExport } from '../../infrastructure/serializers/csv/campaign-profiles-collection-export.js';
 
 const startWritingCampaignProfilesCollectionResultsToStream = async function ({

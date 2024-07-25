@@ -1,5 +1,5 @@
-import { ChallengeAlreadyAnsweredError, NotFoundError } from '../../../../../lib/domain/errors.js';
 import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
+import { ChallengeAlreadyAnsweredError, NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
 import * as answerRepository from '../../../../../src/shared/infrastructure/repositories/answer-repository.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../test-helper.js';

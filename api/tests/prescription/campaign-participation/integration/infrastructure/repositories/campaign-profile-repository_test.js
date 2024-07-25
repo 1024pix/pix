@@ -1,7 +1,7 @@
 import { PIX_COUNT_BY_LEVEL } from '../../../../../../lib/domain/constants.js';
-import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 import * as CampaignProfileRepository from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-profile-repository.js';
 import { LOCALE } from '../../../../../../src/shared/domain/constants.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, databaseBuilder, expect, mockLearningContent } from '../../../../../test-helper.js';
 
 const { ENGLISH_SPOKEN, FRENCH_SPOKEN } = LOCALE;

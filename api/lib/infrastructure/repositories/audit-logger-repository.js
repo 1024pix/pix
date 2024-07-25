@@ -1,5 +1,5 @@
 import { config } from '../../../src/shared/config.js';
-import { AuditLoggerApiError } from '../../domain/errors.js';
+import { AuditLoggerApiError } from '../../../src/shared/domain/errors.js';
 import { httpAgent } from '../http/http-agent.js';
 
 const { auditLogger } = config;

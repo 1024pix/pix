@@ -1,4 +1,3 @@
-import { CertificationComputeError } from '../../../../lib/domain/errors.js';
 import { AssessmentCompleted } from '../../../../lib/domain/events/AssessmentCompleted.js';
 import { CertificationScoringCompleted } from '../../../../lib/domain/events/CertificationScoringCompleted.js';
 import { _forTestOnly } from '../../../../lib/domain/events/index.js';
@@ -7,6 +6,7 @@ import {
   ABORT_REASONS,
   CertificationCourse,
 } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
+import { CertificationComputeError } from '../../../../src/shared/domain/errors.js';
 import { AssessmentResult } from '../../../../src/shared/domain/models/AssessmentResult.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 

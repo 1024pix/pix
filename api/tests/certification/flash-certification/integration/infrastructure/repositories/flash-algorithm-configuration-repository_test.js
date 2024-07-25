@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
 
 import * as flashAlgorithmConfigurationRepository from '../../../../../../../api/src/certification/flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
-import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 import { FlashAssessmentAlgorithmConfiguration } from '../../../../../../src/certification/flash-certification/domain/models/FlashAssessmentAlgorithmConfiguration.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | FlashAlgorithmConfigurationRepository', function () {

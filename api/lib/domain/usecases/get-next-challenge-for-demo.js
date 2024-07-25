@@ -1,6 +1,6 @@
+import { AssessmentEndedError } from '../../../src/shared/domain/errors.js';
 import { _ } from '../../../src/shared/infrastructure/utils/lodash-utils.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
-import { AssessmentEndedError } from '../errors.js';
 
 const getNextChallengeForDemo = function ({ assessment, answerRepository, challengeRepository, courseRepository }) {
   const courseId = assessment.courseId;

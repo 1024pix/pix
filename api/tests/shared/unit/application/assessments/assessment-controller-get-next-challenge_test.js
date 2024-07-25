@@ -1,6 +1,6 @@
-import { AssessmentEndedError } from '../../../../../lib/domain/errors.js';
 import { assessmentController } from '../../../../../src/shared/application/assessments/assessment-controller.js';
 import { LOCALE } from '../../../../../src/shared/domain/constants.js';
+import { AssessmentEndedError } from '../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { domainBuilder, expect, generateValidRequestAuthorizationHeader, sinon } from '../../../../test-helper.js';
 

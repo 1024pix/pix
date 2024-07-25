@@ -1,6 +1,6 @@
-import { OrganizationNotFoundError } from '../../../../lib/domain/errors.js';
 import { OrganizationForAdmin } from '../../../../lib/domain/models/index.js';
 import { updateOrganizationIdentityProviderForCampaigns } from '../../../../lib/domain/usecases/update-organization-identity-provider-for-campaigns.js';
+import { OrganizationNotFoundError } from '../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | Update organization identityProviderForCampaigns', function () {

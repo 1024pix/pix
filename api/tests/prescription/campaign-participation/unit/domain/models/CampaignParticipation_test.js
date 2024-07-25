@@ -1,8 +1,3 @@
-import {
-  AlreadySharedCampaignParticipationError,
-  AssessmentNotCompletedError,
-  CantImproveCampaignParticipationError,
-} from '../../../../../../lib/domain/errors.js';
 import { ArchivedCampaignError } from '../../../../../../src/prescription/campaign/domain/errors.js';
 import { CampaignParticipationDeletedError } from '../../../../../../src/prescription/campaign-participation/domain/errors.js';
 import { CampaignParticipation } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignParticipation.js';
@@ -10,6 +5,11 @@ import {
   CampaignParticipationStatuses,
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
+import {
+  AlreadySharedCampaignParticipationError,
+  AssessmentNotCompletedError,
+  CantImproveCampaignParticipationError,
+} from '../../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 

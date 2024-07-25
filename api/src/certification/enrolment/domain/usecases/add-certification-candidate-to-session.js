@@ -11,7 +11,7 @@ import {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   CertificationCandidateOnFinalizedSessionError,
   CertificationCandidatesError,
-} from '../../../../../lib/domain/errors.js';
+} from '../../../../shared/domain/errors.js';
 import * as mailCheckImplementation from '../../../../shared/mail/infrastructure/services/mail-check.js';
 import { Subscription } from '../models/Subscription.js';
 

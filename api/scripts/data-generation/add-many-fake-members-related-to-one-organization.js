@@ -1,7 +1,7 @@
 import lodash from 'lodash';
 
-import { MembershipUpdateError } from '../../lib/domain/errors.js';
 import { DomainTransaction } from '../../lib/infrastructure/DomainTransaction.js';
+import { MembershipUpdateError } from '../../src/shared/domain/errors.js';
 const { times } = lodash;
 import * as url from 'node:url';
 

@@ -1,9 +1,9 @@
+import { OrganizationInvitedUser } from '../../../../lib/domain/models/OrganizationInvitedUser.js';
 import {
   AlreadyAcceptedOrCancelledInvitationError,
   AlreadyExistingMembershipError,
   NotFoundError,
-} from '../../../../lib/domain/errors.js';
-import { OrganizationInvitedUser } from '../../../../lib/domain/models/OrganizationInvitedUser.js';
+} from '../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | OrganizationInvitedUser', function () {

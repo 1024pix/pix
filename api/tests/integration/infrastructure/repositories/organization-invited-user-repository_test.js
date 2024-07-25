@@ -1,6 +1,6 @@
-import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { OrganizationInvitedUser } from '../../../../lib/domain/models/OrganizationInvitedUser.js';
 import * as organizationInvitedUserRepository from '../../../../lib/infrastructure/repositories/organization-invited-user-repository.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { OrganizationInvitation } from '../../../../src/team/domain/models/OrganizationInvitation.js';
 import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 

@@ -1,10 +1,10 @@
 import _ from 'lodash';
 
 import { knex } from '../../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
 import * as thematicRepository from '../../../../lib/infrastructure/repositories/thematic-repository.js';
 import * as tubeRepository from '../../../../lib/infrastructure/repositories/tube-repository.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import { NotFoundError } from '../../../shared/domain/errors.js';
 import * as areaRepository from '../../../shared/infrastructure/repositories/area-repository.js';
 import * as competenceRepository from '../../../shared/infrastructure/repositories/competence-repository.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';

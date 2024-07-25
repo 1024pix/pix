@@ -1,5 +1,5 @@
-import { CertificationIssueReportAutomaticallyResolvedShouldNotBeUpdatedManually } from '../../../../lib/domain/errors.js';
 import { manuallyResolveCertificationIssueReport } from '../../../../lib/domain/usecases/manually-resolve-certification-issue-report.js';
+import { CertificationIssueReportAutomaticallyResolvedShouldNotBeUpdatedManually } from '../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | manually-resolve-certification-issue-report', function () {

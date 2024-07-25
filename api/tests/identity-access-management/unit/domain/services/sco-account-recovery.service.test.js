@@ -1,13 +1,11 @@
 import dayjs from 'dayjs';
 
-import {
-  AccountRecoveryDemandExpired,
-  MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
-} from '../../../../../lib/domain/errors.js';
 import { scoAccountRecoveryService } from '../../../../../src/identity-access-management/domain/services/sco-account-recovery.service.js';
 import { config } from '../../../../../src/shared/config.js';
 import {
+  AccountRecoveryDemandExpired,
   AlreadyRegisteredEmailError,
+  MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
   UserHasAlreadyLeftSCO,
   UserNotFoundError,
 } from '../../../../../src/shared/domain/errors.js';

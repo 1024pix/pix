@@ -1,5 +1,5 @@
-import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { Skill } from '../../../../lib/domain/models/Skill.js';
+import { NotFoundError } from '../../domain/errors.js';
 import { skillDatasource } from '../datasources/learning-content/index.js';
 
 function _toDomain(skillData) {

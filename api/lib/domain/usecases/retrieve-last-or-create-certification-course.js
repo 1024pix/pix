@@ -6,14 +6,14 @@ import { CertificationCourse } from '../../../src/certification/shared/domain/mo
 import { CertificationVersion } from '../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { config } from '../../../src/shared/config.js';
 import { LanguageNotSupportedError } from '../../../src/shared/domain/errors.js';
-import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 import {
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
   NotFoundError,
   UnexpectedUserAccountError,
   UserNotAuthorizedToCertifyError,
-} from '../errors.js';
+} from '../../../src/shared/domain/errors.js';
+import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 
 const { features } = config;
 

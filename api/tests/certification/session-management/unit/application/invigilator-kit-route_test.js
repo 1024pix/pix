@@ -1,7 +1,7 @@
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { invigilatorKitController } from '../../../../../src/certification/session-management/application/invigilator-kit-controller.js';
 import * as moduleUnderTest from '../../../../../src/certification/session-management/application/invigilator-kit-route.js';
 import { authorization } from '../../../../../src/certification/shared/application/pre-handlers/authorization.js';
+import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Router | invigilator-kit-route', function () {

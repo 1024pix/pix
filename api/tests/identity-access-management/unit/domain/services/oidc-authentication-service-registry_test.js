@@ -1,4 +1,3 @@
-import { InvalidIdentityProviderError } from '../../../../../lib/domain/errors.js';
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 import { OidcProvider } from '../../../../../src/identity-access-management/domain/models/OidcProvider.js';
 import { CnfptOidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/cnfpt-oidc-authentication-service.js';
@@ -8,6 +7,7 @@ import { OidcAuthenticationService } from '../../../../../src/identity-access-ma
 import { OidcAuthenticationServiceRegistry } from '../../../../../src/identity-access-management/domain/services/oidc-authentication-service-registry.js';
 import { PoleEmploiOidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/pole-emploi-oidc-authentication-service.js';
 import { oidcProviderRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/oidc-provider-repository.js';
+import { InvalidIdentityProviderError } from '../../../../../src/shared/domain/errors.js';
 import { catchErrSync, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | Services | oidc-authentication-service-registry', function () {

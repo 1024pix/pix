@@ -1,5 +1,5 @@
-import { ChallengeNotAskedError } from '../../../../lib/domain/errors.js';
 import { NotInProgressAssessmentError } from '../../../../src/school/domain/school-errors.js';
+import { ChallengeNotAskedError } from '../../../shared/domain/errors.js';
 import { Examiner } from '../../../shared/domain/models/Examiner.js';
 import { Assessment } from '../models/Assessment.js';
 

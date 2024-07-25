@@ -1,6 +1,5 @@
 import * as url from 'node:url';
 
-import { FileValidationError, NotFoundError } from '../../../../lib/domain/errors.js';
 import { batchOrganizationOptionsWithHeader } from '../../../../scripts/create-organizations-with-tags-and-target-profiles.js';
 import {
   checkCsvHeader,
@@ -9,6 +8,7 @@ import {
   parseCsvWithHeaderAndRequiredFields,
   readCsvFile,
 } from '../../../../scripts/helpers/csvHelpers.js';
+import { FileValidationError, NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { catchErr, expect } from '../../../test-helper.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 

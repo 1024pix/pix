@@ -1,24 +1,46 @@
 import { AdminMemberError } from '../../../../src/authorization/domain/errors.js';
 import { CsvWithNoSessionDataError } from '../../../../src/certification/session-management/domain/errors.js';
 import { authenticationDomainErrorMappingConfiguration } from '../../../../src/identity-access-management/application/http-error-mapper-configuration.js';
+import { UnableToAttachChildOrganizationToParentOrganizationError } from '../../../../src/organizational-entities/domain/errors.js';
 import { domainErrorMapper } from '../../../../src/shared/application/domain-error-mapper.js';
 import { handle } from '../../../../src/shared/application/error-manager.js';
 import { HttpErrors, UnauthorizedError } from '../../../../src/shared/application/http-errors.js';
 import {
+  AccountRecoveryDemandExpired,
+  AlreadyRegisteredEmailAndUsernameError,
   AlreadyRegisteredEmailError,
+  AlreadyRegisteredUsernameError,
+  CampaignTypeError,
+  CandidateNotAuthorizedToJoinSessionError,
+  CandidateNotAuthorizedToResumeCertificationTestError,
   CertificationAttestationGenerationError,
+  CertificationCandidateNotFoundError,
+  CertificationCandidateOnFinalizedSessionError,
   CertificationCenterPilotFeaturesConflictError,
+  CertificationEndedByFinalizationError,
   EmailModificationDemandNotFoundOrExpiredError,
   EntityValidationError,
+  InvalidExternalAPIResponseError,
+  InvalidIdentityProviderError,
   InvalidInputDataError,
+  InvalidJuryLevelError,
   InvalidVerificationCodeError,
   LocaleFormatError,
   LocaleNotSupportedError,
+  MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
   NoCertificationAttestationForDivisionError,
+  NotEnoughDaysPassedBeforeResetCampaignParticipationError,
   NotFoundError,
   OidcError,
+  OidcMissingFieldsError,
+  OrganizationLearnerAlreadyLinkedToInvalidUserError,
+  OrganizationLearnerCannotBeDissociatedError,
+  SendingEmailToInvalidDomainError,
+  SendingEmailToInvalidEmailAddressError,
+  UnexpectedUserAccountError,
   UserHasAlreadyLeftSCO,
   UserNotAuthorizedToAccessEntityError,
+  UserShouldNotBeReconciledOnAnotherAccountError,
 } from '../../../../src/shared/domain/errors.js';
 import { expect, hFake, sinon } from '../../../test-helper.js';
 
@@ -382,6 +404,332 @@ describe('Shared | Unit | Application | ErrorManager', function () {
           'PILOT_FEATURES_CONFLICT',
         );
       });
+    });
+
+    context('when handling UnableToAttachChildOrganizationToParentOrganizationError', function () {
+      it('maps to ConflictError', async function () {
+        // given
+        const error = new UnableToAttachChildOrganizationToParentOrganizationError();
+        sinon.stub(HttpErrors, 'ConflictError');
+        const params = { request: {}, h: hFake, error };
+
+        // when
+        await handle(params.request, params.h, params.error);
+
+        // then
+        expect(HttpErrors.ConflictError).to.have.been.calledWithExactly(error.message, error.code, error.meta);
+      });
+    });
+
+    context('Mailing provider errors', function () {
+      context('When receiving SendingEmailToInvalidEmailAddressError', function () {
+        it('instantiates a BadRequest error', function () {
+          // given
+          const error = new SendingEmailToInvalidEmailAddressError(
+            'invalid@email.net',
+            'Mailing provider error message',
+          );
+          sinon.stub(HttpErrors, 'BadRequestError');
+          const params = { request: {}, h: hFake, error };
+
+          // when
+          handle(params.request, params.h, params.error);
+
+          // then
+          expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(
+            error.message,
+            'SENDING_EMAIL_TO_INVALID_EMAIL_ADDRESS',
+            error.meta,
+          );
+        });
+      });
+    });
+
+    describe('SSO specific errors', function () {
+      it('should instantiate BadRequestError when InvalidIdentityProviderError', async function () {
+        // given
+        const error = new InvalidIdentityProviderError();
+        sinon.stub(HttpErrors, 'BadRequestError');
+        const params = { request: {}, h: hFake, error };
+
+        // when
+        await handle(params.request, params.h, params.error);
+
+        // then
+        expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(error.message);
+      });
+
+      it('should instantiate ServiceUnavailableError when InvalidExternalAPIResponseError', async function () {
+        // given
+        const error = new InvalidExternalAPIResponseError();
+        sinon.stub(HttpErrors, 'ServiceUnavailableError');
+        const params = { request: {}, h: hFake, error };
+
+        // when
+        await handle(params.request, params.h, params.error);
+
+        // then
+        expect(HttpErrors.ServiceUnavailableError).to.have.been.calledWithExactly(error.message);
+      });
+
+      it('instantiates UnprocessableEntityError when OidcMissingFieldsError', async function () {
+        // given
+        const error = new OidcMissingFieldsError('Some message', 'someCode', 'someMetaData');
+        sinon.stub(HttpErrors, 'UnprocessableEntityError');
+        const params = { request: {}, h: hFake, error };
+
+        // when
+        await handle(params.request, params.h, params.error);
+
+        // then
+        expect(HttpErrors.UnprocessableEntityError).to.have.been.calledWithExactly(
+          error.message,
+          error.code,
+          error.meta,
+        );
+      });
+    });
+
+    it('should instantiate ConflictError when UnexpectedUserAccountError', async function () {
+      // given
+      const message = undefined;
+      const code = 'UNEXPECTED_USER_ACCOUNT';
+      const meta = { value: 'j*****@e*****.n**' };
+      const error = new UnexpectedUserAccountError({ message, code, meta });
+      sinon.stub(HttpErrors, 'ConflictError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.ConflictError).to.have.been.calledWithExactly(error.message, error.code, error.meta);
+    });
+
+    it('should instantiate BadRequestError when AlreadyRegisteredUsernameError', async function () {
+      // given
+      const error = new AlreadyRegisteredUsernameError();
+      sinon.stub(HttpErrors, 'BadRequestError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(error.message);
+    });
+
+    it('should instantiate BadRequestError when AlreadyRegisteredEmailAndUsernameError', async function () {
+      // given
+      const error = new AlreadyRegisteredEmailAndUsernameError();
+      sinon.stub(HttpErrors, 'BadRequestError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(error.message);
+    });
+
+    it('should instantiate ServiceUnavailableError when InvalidExternalAPIResponseError', async function () {
+      // given
+      const error = new InvalidExternalAPIResponseError();
+      sinon.stub(HttpErrors, 'ServiceUnavailableError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.ServiceUnavailableError).to.have.been.calledWithExactly(error.message);
+    });
+
+    it('should instantiate ConflictError when MultipleOrganizationLearnersWithDifferentNationalStudentIdError', async function () {
+      // given
+      const error = new MultipleOrganizationLearnersWithDifferentNationalStudentIdError();
+      sinon.stub(HttpErrors, 'ConflictError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.ConflictError).to.have.been.calledWithExactly(error.message);
+    });
+
+    it('should instantiate UnauthorizedError when AccountRecoveryDemandExpired', async function () {
+      // given
+      const error = new AccountRecoveryDemandExpired();
+      sinon.stub(HttpErrors, 'UnauthorizedError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.UnauthorizedError).to.have.been.calledWithExactly(error.message);
+    });
+
+    it('should instantiate PreconditionFailedError when NotEnoughDaysPassedBeforeResetCampaignParticipationError', async function () {
+      // given
+      const error = new NotEnoughDaysPassedBeforeResetCampaignParticipationError();
+      sinon.stub(HttpErrors, 'PreconditionFailedError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.PreconditionFailedError).to.have.been.called;
+    });
+
+    it('should instantiate BadRequestError when OrganizationLearnerAlreadyLinkedToInvalidUserError', async function () {
+      // given
+      const error = new OrganizationLearnerAlreadyLinkedToInvalidUserError();
+      sinon.stub(HttpErrors, 'BadRequestError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(error.message);
+    });
+
+    it('should instantiate ForbiddenError when CandidateNotAuthorizedToJoinSessionError', async function () {
+      // given
+      const error = new CandidateNotAuthorizedToJoinSessionError();
+      sinon.stub(HttpErrors, 'ForbiddenError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(error.message, error.code);
+    });
+
+    it('should instantiate ForbiddenError when CandidateNotAuthorizedToResumeCertificationTestError', async function () {
+      // given
+      const error = new CandidateNotAuthorizedToResumeCertificationTestError();
+      sinon.stub(HttpErrors, 'ForbiddenError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(error.message, error.code);
+    });
+
+    it('should instantiate UnprocessableEntityError when UserShouldNotBeReconciledOnAnotherAccountError', async function () {
+      // given
+      const code = 'ACCOUNT_SEEMS_TO_BELONGS_TO_ANOTHER_USER';
+      const meta = { shortCode: 'R90' };
+      const error = new UserShouldNotBeReconciledOnAnotherAccountError({ code, meta });
+      sinon.stub(HttpErrors, 'UnprocessableEntityError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.UnprocessableEntityError).to.have.been.calledWithExactly(error.message, error.code, error.meta);
+    });
+
+    it('should instantiate PreconditionFailedError when OrganizationLearnerCannotBeDissociatedError', async function () {
+      // given
+      const error = new OrganizationLearnerCannotBeDissociatedError();
+      sinon.stub(HttpErrors, 'PreconditionFailedError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.PreconditionFailedError).to.have.been.calledWithExactly(error.message);
+    });
+
+    it('should instantiate PreconditionFailedError when CertificationCandidateOnFinalizedSessionError', async function () {
+      // given
+      const error = new CertificationCandidateOnFinalizedSessionError();
+      sinon.stub(HttpErrors, 'ForbiddenError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(error.message);
+    });
+
+    it('should instantiate ConflictError when CertificationEndedByFinalizationError', async function () {
+      // given
+      const error = new CertificationEndedByFinalizationError();
+      sinon.stub(HttpErrors, 'ConflictError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.ConflictError).to.have.been.calledWithExactly(error.message);
+    });
+
+    it('should instantiate PreconditionFailedError when CampaignTypeError', async function () {
+      // given
+      const error = new CampaignTypeError();
+      sinon.stub(HttpErrors, 'PreconditionFailedError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.PreconditionFailedError).to.have.been.calledWithExactly(error.message);
+    });
+
+    it('should instantiate BadRequestError when InvalidJuryLevelError', async function () {
+      // given
+      const error = new InvalidJuryLevelError();
+      sinon.stub(HttpErrors, 'BadRequestError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(error.message);
+    });
+
+    it('should instantiate BadRequestError when SendingEmailToInvalidDomainError', async function () {
+      // given
+      const error = new SendingEmailToInvalidDomainError('Email domain was invalid.');
+      sinon.stub(HttpErrors, 'BadRequestError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(
+        error.message,
+        'SENDING_EMAIL_TO_INVALID_DOMAIN',
+      );
+    });
+
+    it('should instantiate NotFoundError when CertificationCandidateNotFoundError', async function () {
+      // given
+      const error = new CertificationCandidateNotFoundError();
+      sinon.stub(HttpErrors, 'NotFoundError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.NotFoundError).to.have.been.calledWithExactly(error.message, error.code);
     });
   });
 });

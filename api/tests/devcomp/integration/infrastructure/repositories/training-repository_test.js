@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { Training } from '../../../../../src/devcomp/domain/models/Training.js';
 import { TrainingTrigger } from '../../../../../src/devcomp/domain/models/TrainingTrigger.js';
 import { TrainingTriggerTube } from '../../../../../src/devcomp/domain/models/TrainingTriggerTube.js';
@@ -9,6 +8,7 @@ import { TrainingSummary } from '../../../../../src/devcomp/domain/read-models/T
 import { TrainingTriggerForAdmin } from '../../../../../src/devcomp/domain/read-models/TrainingTriggerForAdmin.js';
 import { UserRecommendedTraining } from '../../../../../src/devcomp/domain/read-models/UserRecommendedTraining.js';
 import * as trainingRepository from '../../../../../src/devcomp/infrastructure/repositories/training-repository.js';
+import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import {
   catchErr,
   databaseBuilder,

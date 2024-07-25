@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import { CertificationComputeError } from '../../../../../../lib/domain/errors.js';
 import { AssessmentCompleted } from '../../../../../../lib/domain/events/AssessmentCompleted.js';
 import { CertificationCourseRejected } from '../../../../../../lib/domain/events/CertificationCourseRejected.js';
 import { CertificationJuryDone } from '../../../../../../lib/domain/events/CertificationJuryDone.js';
@@ -17,6 +16,7 @@ import { CERTIFICATION_VERSIONS } from '../../../../../../src/certification/shar
 import { AutoJuryCommentKeys } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
 import * as scoringCertificationService from '../../../../../../src/certification/shared/domain/services/scoring-certification-service.js';
 import { config } from '../../../../../../src/shared/config.js';
+import { CertificationComputeError } from '../../../../../../src/shared/domain/errors.js';
 import { AssessmentResult, status } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 import { generateAnswersForChallenges, generateChallengeList } from '../../../fixtures/challenges.js';

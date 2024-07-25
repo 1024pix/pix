@@ -3,11 +3,16 @@ import lodash from 'lodash';
 
 import { PGSQL_FOREIGN_KEY_VIOLATION_ERROR } from '../../../db/pgsql-errors.js';
 import { InvalidInputDataError } from '../../../src/shared/domain/errors.js';
+import {
+  DomainError,
+  ObjectValidationError,
+  OrganizationTagNotFound,
+  TargetProfileInvalidError,
+} from '../../../src/shared/domain/errors.js';
 import * as codeGenerator from '../../../src/shared/domain/services/code-generator.js';
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../infrastructure/constants.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import { monitoringTools } from '../../infrastructure/monitoring-tools.js';
-import { DomainError, ObjectValidationError, OrganizationTagNotFound, TargetProfileInvalidError } from '../errors.js';
 import { Organization, OrganizationForAdmin, OrganizationTag } from '../models/index.js';
 
 const SEPARATOR = '_';

@@ -1,4 +1,4 @@
-import { NotFoundError } from '../../domain/errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 
 const flagSessionResultsAsSentToPrescriber = async function ({ sessionId, sessionRepository }) {
   const integerSessionId = parseInt(sessionId);

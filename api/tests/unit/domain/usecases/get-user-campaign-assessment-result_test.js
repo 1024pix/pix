@@ -1,6 +1,6 @@
-import { NoCampaignParticipationForUserAndCampaign, NotFoundError } from '../../../../lib/domain/errors.js';
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/index.js';
 import { getUserCampaignAssessmentResult } from '../../../../lib/domain/usecases/get-user-campaign-assessment-result.js';
+import { NoCampaignParticipationForUserAndCampaign, NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | get-user-campaign-assessment-result', function () {

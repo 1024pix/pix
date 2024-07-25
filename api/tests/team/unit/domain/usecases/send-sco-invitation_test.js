@@ -2,7 +2,7 @@ import {
   ManyOrganizationsFoundError,
   OrganizationNotFoundError,
   OrganizationWithoutEmailError,
-} from '../../../../../lib/domain/errors.js';
+} from '../../../../../src/shared/domain/errors.js';
 import { sendScoInvitation } from '../../../../../src/team/domain/usecases/send-sco-invitation.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 

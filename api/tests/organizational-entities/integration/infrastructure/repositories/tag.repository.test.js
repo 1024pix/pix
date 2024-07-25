@@ -1,7 +1,7 @@
-import { AlreadyExistingEntityError } from '../../../../../lib/domain/errors.js';
 import { Tag } from '../../../../../src/organizational-entities/domain/models/Tag.js';
 import { tagRepository } from '../../../../../src/organizational-entities/infrastructure/repositories/tag.repository.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
+import { AlreadyExistingEntityError } from '../../../../../src/shared/domain/errors.js';
 import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Integration | Organizational Entities | Infrastructure | Repository | Tag', function () {

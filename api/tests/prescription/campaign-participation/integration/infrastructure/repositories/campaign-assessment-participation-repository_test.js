@@ -1,8 +1,8 @@
-import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 import { KnowledgeElement } from '../../../../../../lib/domain/models/KnowledgeElement.js';
 import { CampaignAssessmentParticipation } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignAssessmentParticipation.js';
 import * as campaignAssessmentParticipationRepository from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-assessment-participation-repository.js';
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { catchErr, databaseBuilder, expect, mockLearningContent } from '../../../../../test-helper.js';
 

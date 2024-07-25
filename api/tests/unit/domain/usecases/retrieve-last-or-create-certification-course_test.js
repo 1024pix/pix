@@ -1,17 +1,17 @@
 import _ from 'lodash';
 
 import { MAX_REACHABLE_LEVEL } from '../../../../lib/domain/constants.js';
+import { retrieveLastOrCreateCertificationCourse } from '../../../../lib/domain/usecases/retrieve-last-or-create-certification-course.js';
+import { SessionNotAccessible } from '../../../../src/certification/session-management/domain/errors.js';
+import { ComplementaryCertificationCourse } from '../../../../src/certification/session-management/domain/models/ComplementaryCertificationCourse.js';
+import { CertificationCourse } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import {
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
   NotFoundError,
   UnexpectedUserAccountError,
   UserNotAuthorizedToCertifyError,
-} from '../../../../lib/domain/errors.js';
-import { retrieveLastOrCreateCertificationCourse } from '../../../../lib/domain/usecases/retrieve-last-or-create-certification-course.js';
-import { SessionNotAccessible } from '../../../../src/certification/session-management/domain/errors.js';
-import { ComplementaryCertificationCourse } from '../../../../src/certification/session-management/domain/models/ComplementaryCertificationCourse.js';
-import { CertificationCourse } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
+} from '../../../../src/shared/domain/errors.js';
 import { LanguageNotSupportedError } from '../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';

@@ -1,12 +1,12 @@
 import sinon from 'sinon';
 
-import { ObjectValidationError } from '../../../../../../lib/domain/errors.js';
 import {
   ArchivedCampaignError,
   CampaignCodeFormatError,
   DeletedCampaignError,
 } from '../../../../../../src/prescription/campaign/domain/errors.js';
 import { Campaign } from '../../../../../../src/prescription/campaign/domain/models/Campaign.js';
+import { ObjectValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, expect } from '../../../../../test-helper.js';
 
 describe('Campaign', function () {

@@ -1,11 +1,11 @@
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../lib/domain/constants/certification-candidates-errors.js';
+import { CertificationCandidate } from '../../../../lib/domain/models/index.js';
+import { Subscription } from '../../../../src/certification/enrolment/domain/models/Subscription.js';
 import {
   CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCandidatePersonalInfoWrongFormat,
   CertificationCandidatesError,
-} from '../../../../lib/domain/errors.js';
-import { CertificationCandidate } from '../../../../lib/domain/models/index.js';
-import { Subscription } from '../../../../src/certification/enrolment/domain/models/Subscription.js';
+} from '../../../../src/shared/domain/errors.js';
 import { catchErr, catchErrSync, domainBuilder, expect } from '../../../test-helper.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 

@@ -1,6 +1,6 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { CertificationAssessment } from '../../domain/models/CertificationAssessment.js';
 import { SessionManagement } from '../../domain/models/SessionManagement.js';

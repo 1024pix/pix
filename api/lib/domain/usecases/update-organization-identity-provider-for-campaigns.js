@@ -1,4 +1,4 @@
-import { OrganizationNotFoundError } from '../errors.js';
+import { OrganizationNotFoundError } from '../../../src/shared/domain/errors.js';
 
 async function updateOrganizationIdentityProviderForCampaigns({
   identityProviderForCampaigns,

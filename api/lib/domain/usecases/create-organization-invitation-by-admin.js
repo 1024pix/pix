@@ -1,4 +1,4 @@
-import { OrganizationArchivedError } from '../errors.js';
+import { OrganizationArchivedError } from '../../../src/shared/domain/errors.js';
 
 const createOrganizationInvitationByAdmin = async function ({
   organizationId,

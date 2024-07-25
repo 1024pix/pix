@@ -1,9 +1,9 @@
 import _ from 'lodash';
 
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { TrainingTrigger, TrainingTriggerTube } from '../../../../../lib/domain/models/index.js';
 import { TrainingTriggerForAdmin } from '../../../../../src/devcomp/domain/read-models/TrainingTriggerForAdmin.js';
 import * as trainingTriggerRepository from '../../../../../src/devcomp/infrastructure/repositories/training-trigger-repository.js';
+import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
 import {
   catchErr,

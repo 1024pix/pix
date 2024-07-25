@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 import { frameworkDatasource } from '../../../src/shared/infrastructure/datasources/learning-content/framework-datasource.js';
-import { NotFoundError } from '../../domain/errors.js';
 import { Framework } from '../../domain/models/Framework.js';
 
 async function list() {

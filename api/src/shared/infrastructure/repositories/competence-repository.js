@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
 import { PIX_ORIGIN } from '../../../../lib/domain/constants.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { LOCALE } from '../../../../src/shared/domain/constants.js';
+import { NotFoundError } from '../../domain/errors.js';
 import { Competence } from '../../domain/models/Competence.js';
 import { competenceDatasource } from '../datasources/learning-content/competence-datasource.js';
 import { LearningContentResourceNotFound } from '../datasources/learning-content/LearningContentResourceNotFound.js';

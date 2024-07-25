@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import { ObjectValidationError } from '../../../../../../lib/domain/errors.js';
 import {
   ChallengeToBeDeneutralizedNotFoundError,
   ChallengeToBeNeutralizedNotFoundError,
@@ -8,6 +7,7 @@ import {
 import { CertificationAnswerStatusChangeAttempt } from '../../../../../../src/certification/session-management/domain/models/CertificationAnswerStatusChangeAttempt.js';
 import { CertificationAssessment } from '../../../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
 import { NeutralizationAttempt } from '../../../../../../src/certification/session-management/domain/models/NeutralizationAttempt.js';
+import { ObjectValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerStatus.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 

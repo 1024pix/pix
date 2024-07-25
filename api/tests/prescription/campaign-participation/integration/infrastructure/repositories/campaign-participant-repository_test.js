@@ -1,14 +1,14 @@
 import pick from 'lodash/pick.js';
 
 import { knex } from '../../../../../../db/knex-database-connection.js';
-import {
-  AlreadyExistingCampaignParticipationError,
-  OrganizationLearnersCouldNotBeSavedError,
-} from '../../../../../../lib/domain/errors.js';
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 import { CampaignParticipant } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignParticipant.js';
 import { CampaignToStartParticipation } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignToStartParticipation.js';
 import * as campaignParticipantRepository from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-participant-repository.js';
+import {
+  AlreadyExistingCampaignParticipationError,
+  OrganizationLearnersCouldNotBeSavedError,
+} from '../../../../../../src/shared/domain/errors.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, databaseBuilder, expect, mockLearningContent, sinon } from '../../../../../test-helper.js';
 

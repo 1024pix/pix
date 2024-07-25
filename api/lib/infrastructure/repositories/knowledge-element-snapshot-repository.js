@@ -2,8 +2,8 @@ import _ from 'lodash';
 
 import { knex } from '../../../db/knex-database-connection.js';
 import { CampaignParticipationKnowledgeElementSnapshots } from '../../../src/prescription/shared/domain/read-models/CampaignParticipationKnowledgeElementSnapshots.js';
+import { AlreadyExistingEntityError } from '../../../src/shared/domain/errors.js';
 import * as knexUtils from '../../../src/shared/infrastructure/utils/knex-utils.js';
-import { AlreadyExistingEntityError } from '../../domain/errors.js';
 import { KnowledgeElement } from '../../domain/models/KnowledgeElement.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 

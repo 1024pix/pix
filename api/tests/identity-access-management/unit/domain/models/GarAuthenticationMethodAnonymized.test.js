@@ -1,5 +1,5 @@
-import { ObjectValidationError } from '../../../../../lib/domain/errors.js';
 import { GarAuthenticationMethodAnonymized } from '../../../../../src/identity-access-management/domain/models/GarAuthenticationMethodAnonymized.js';
+import { ObjectValidationError } from '../../../../../src/shared/domain/errors.js';
 import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | Models | GarAuthenticationMethodAnonymized', function () {

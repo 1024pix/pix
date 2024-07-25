@@ -5,8 +5,8 @@
  */
 import lodash from 'lodash';
 
-import { MissingAttributesError, NotFoundError } from '../../../../../lib/domain/errors.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import { MissingAttributesError, NotFoundError } from '../../../../shared/domain/errors.js';
 import { InvalidBadgeLevelError } from '../errors.js';
 import { BadgeToAttach } from '../models/BadgeToAttach.js';
 

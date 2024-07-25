@@ -4,9 +4,9 @@
 
 import bluebird from 'bluebird';
 
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { CertificationCandidate } from '../../../../../lib/domain/models/index.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CERTIFICATION_VERSIONS } from '../../../shared/domain/models/CertificationVersion.js';
 import { SessionEnrolment } from '../models/SessionEnrolment.js';
 

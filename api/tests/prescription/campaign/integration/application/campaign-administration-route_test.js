@@ -1,9 +1,9 @@
-import { ObjectValidationError } from '../../../../../lib/domain/errors.js';
 import * as moduleUnderTest from '../../../../../src/prescription/campaign/application/campaign-administration-route.js';
 import { campaignAdministrationController } from '../../../../../src/prescription/campaign/application/campaign-adminstration-controller.js';
 import { DeletedCampaignError } from '../../../../../src/prescription/campaign/domain/errors.js';
 import { usecases } from '../../../../../src/prescription/campaign/domain/usecases/index.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
+import { ObjectValidationError } from '../../../../../src/shared/domain/errors.js';
 import {
   databaseBuilder,
   expect,

@@ -1,13 +1,13 @@
 import _ from 'lodash';
 
 import { knex } from '../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 import {
   areaDatasource,
   competenceDatasource,
   skillDatasource,
   tubeDatasource,
 } from '../../../src/shared/infrastructure/datasources/learning-content/index.js';
-import { NotFoundError } from '../../domain/errors.js';
 import {
   CertifiedArea,
   CertifiedCompetence,

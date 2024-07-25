@@ -1,4 +1,4 @@
-import { ObjectValidationError } from '../../../../../lib/domain/errors.js';
+import { ObjectValidationError } from '../../../../shared/domain/errors.js';
 import { CampaignTypes } from '../../../shared/domain/constants.js';
 import {
   ArchivedCampaignError,

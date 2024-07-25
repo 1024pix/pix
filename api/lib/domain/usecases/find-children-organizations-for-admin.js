@@ -1,4 +1,4 @@
-import { NotFoundError } from '../errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 
 async function findChildrenOrganizationsForAdmin({ parentOrganizationId, organizationForAdminRepository }) {
   const parentOrganizationExist = await organizationForAdminRepository.exist(parentOrganizationId);

@@ -1,6 +1,6 @@
-import { SendingEmailError, SendingEmailToInvalidDomainError } from '../../../../../lib/domain/errors.js';
 import { EmailingAttempt } from '../../../../../lib/domain/models/EmailingAttempt.js';
 import { mailService } from '../../../../../lib/domain/services/mail-service.js';
+import { SendingEmailError, SendingEmailToInvalidDomainError } from '../../../../../src/shared/domain/errors.js';
 import { CertificationCenterInvitation } from '../../../../../src/team/domain/models/CertificationCenterInvitation.js';
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
 import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';

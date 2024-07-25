@@ -4,7 +4,7 @@ import {
   ManyOrganizationsFoundError,
   OrganizationNotFoundError,
   OrganizationWithoutEmailError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../shared/domain/errors.js';
 
 /**
  *

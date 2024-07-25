@@ -1,6 +1,6 @@
-import { TargetProfileCannotBeCreated } from '../../../../lib/domain/errors.js';
 import { categories } from '../../../../lib/domain/models/TargetProfile.js';
 import { createTargetProfile } from '../../../../lib/domain/usecases/create-target-profile.js';
+import { TargetProfileCannotBeCreated } from '../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | create-target-profile', function () {

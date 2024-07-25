@@ -1,9 +1,9 @@
 import _ from 'lodash';
 
-import { AlreadyRatedAssessmentError } from '../../../../lib/domain/errors.js';
 import { AssessmentCompleted } from '../../../../lib/domain/events/AssessmentCompleted.js';
 import { completeAssessment } from '../../../../lib/domain/usecases/complete-assessment.js';
 import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
+import { AlreadyRatedAssessmentError } from '../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 

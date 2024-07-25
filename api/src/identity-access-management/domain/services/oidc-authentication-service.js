@@ -6,13 +6,12 @@ import ms from 'ms';
 import { Issuer } from 'openid-client';
 
 import { OIDC_ERRORS } from '../../../../lib/domain/constants.js';
-import { OidcMissingFieldsError } from '../../../../lib/domain/errors.js';
 import { AuthenticationMethod, AuthenticationSessionContent } from '../../../../lib/domain/models/index.js';
 import { monitoringTools } from '../../../../lib/infrastructure/monitoring-tools.js';
 import { temporaryStorage } from '../../../../lib/infrastructure/temporary-storage/index.js';
 import { config } from '../../../shared/config.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import { OidcError } from '../../../shared/domain/errors.js';
+import { OidcError, OidcMissingFieldsError } from '../../../shared/domain/errors.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { DEFAULT_CLAIM_MAPPING } from '../constants/oidc-identity-providers.js';
 import { ClaimManager } from '../models/ClaimManager.js';

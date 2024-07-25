@@ -1,5 +1,5 @@
-import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 

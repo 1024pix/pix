@@ -1,6 +1,6 @@
-import { FileValidationError } from '../../../../../../lib/domain/errors.js';
 import { ImportStorage } from '../../../../../../src/prescription/learner-management/infrastructure/storage/import-storage.js';
 import { config } from '../../../../../../src/shared/config.js';
+import { FileValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { S3ObjectStorageProvider } from '../../../../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
 import { catchErr, expect, sinon } from '../../../../../test-helper.js';
 

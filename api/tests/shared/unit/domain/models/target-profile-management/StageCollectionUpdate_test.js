@@ -1,4 +1,4 @@
-import { InvalidStageError } from '../../../../../../lib/domain/errors.js';
+import { InvalidStageError } from '../../../../../../src/shared/domain/errors.js';
 import { StageCollectionUpdate } from '../../../../../../src/shared/domain/models/target-profile-management/StageCollectionUpdate.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 

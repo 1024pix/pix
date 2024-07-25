@@ -1,10 +1,10 @@
 import _ from 'lodash';
 
 import { knex } from '../../../db/knex-database-connection.js';
+import { NoSkillsInCampaignError, NotFoundError } from '../../../src/shared/domain/errors.js';
 import * as areaRepository from '../../../src/shared/infrastructure/repositories/area-repository.js';
 import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
 import * as skillRepository from '../../../src/shared/infrastructure/repositories/skill-repository.js';
-import { NoSkillsInCampaignError, NotFoundError } from '../../domain/errors.js';
 import { LearningContent } from '../../domain/models/LearningContent.js';
 import * as learningContentConversionService from '../../domain/services/learning-content/learning-content-conversion-service.js';
 import * as campaignRepository from './campaign-repository.js';

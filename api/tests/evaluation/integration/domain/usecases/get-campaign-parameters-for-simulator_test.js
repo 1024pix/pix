@@ -1,5 +1,5 @@
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
+import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import {
   databaseBuilder,
   domainBuilder,

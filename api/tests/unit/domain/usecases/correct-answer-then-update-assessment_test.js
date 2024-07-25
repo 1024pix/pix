@@ -1,12 +1,12 @@
+import { AnswerStatus, Assessment, KnowledgeElement } from '../../../../lib/domain/models/index.js';
+import { correctAnswerThenUpdateAssessment } from '../../../../lib/domain/usecases/correct-answer-then-update-assessment.js';
+import { EmptyAnswerError } from '../../../../src/evaluation/domain/errors.js';
 import {
   CertificationEndedByFinalizationError,
   CertificationEndedBySupervisorError,
   ChallengeNotAskedError,
   NotFoundError,
-} from '../../../../lib/domain/errors.js';
-import { AnswerStatus, Assessment, KnowledgeElement } from '../../../../lib/domain/models/index.js';
-import { correctAnswerThenUpdateAssessment } from '../../../../lib/domain/usecases/correct-answer-then-update-assessment.js';
-import { EmptyAnswerError } from '../../../../src/evaluation/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 import { ForbiddenAccess } from '../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 

@@ -2,8 +2,8 @@ import iconv from 'iconv-lite';
 import _ from 'lodash';
 import sax from 'sax';
 
-import { FileValidationError } from '../../../../../../lib/domain/errors.js';
 import { logErrorWithCorrelationIds } from '../../../../../../lib/infrastructure/monitoring-tools.js';
+import { FileValidationError } from '../../../../../shared/domain/errors.js';
 import { SiecleXmlImportError } from '../../../domain/errors.js';
 
 /*

@@ -1,8 +1,6 @@
-import * as errors from '../../../lib/domain/errors.js';
-import { NotEnoughDaysPassedBeforeResetCampaignParticipationError } from '../../../lib/domain/errors.js';
 import { AdminMemberError } from '../../../src/authorization/domain/errors.js';
 import { UnableToAttachChildOrganizationToParentOrganizationError } from '../../../src/organizational-entities/domain/errors.js';
-import { UserAlreadyLinkedToCandidateInSessionError, UserNotFoundError } from '../../../src/shared/domain/errors.js';
+import * as errors from '../../../src/shared/domain/errors.js';
 import {
   CsvImportError,
   EntityValidationError,
@@ -55,7 +53,7 @@ describe('Unit | Domain | Errors', function () {
   });
 
   it('should export a UserAlreadyLinkedToCandidateInSessionError', function () {
-    expect(UserAlreadyLinkedToCandidateInSessionError).to.exist;
+    expect(errors.UserAlreadyLinkedToCandidateInSessionError).to.exist;
   });
 
   it('should export a UserNotAuthorizedToUpdateCampaignError', function () {
@@ -76,7 +74,7 @@ describe('Unit | Domain | Errors', function () {
 
   describe('#UserNotFoundError', function () {
     it('should export a UserNotFoundError', function () {
-      expect(UserNotFoundError).to.exist;
+      expect(errors.UserNotFoundError).to.exist;
     });
 
     it('should have a getErrorMessage method', function () {
@@ -88,7 +86,7 @@ describe('Unit | Domain | Errors', function () {
       };
 
       // then
-      const userNotFoundError = new UserNotFoundError();
+      const userNotFoundError = new errors.UserNotFoundError();
       expect(userNotFoundError.getErrorMessage).to.be.a('function');
       expect(userNotFoundError.getErrorMessage()).to.eql(expectedErrorMessage);
     });
@@ -281,7 +279,7 @@ describe('Unit | Domain | Errors', function () {
     const expectedErrorMessage = `Il n'est pas possible de remettre à zéro votre parcours pour le moment.`;
 
     // when
-    const error = new NotEnoughDaysPassedBeforeResetCampaignParticipationError();
+    const error = new errors.NotEnoughDaysPassedBeforeResetCampaignParticipationError();
 
     // then
     expect(error.message).to.equal(expectedErrorMessage);

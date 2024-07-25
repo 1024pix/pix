@@ -2,14 +2,14 @@ import _ from 'lodash';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } from '../../../../../db/pgsql-errors.js';
+import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
+import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import { BookshelfCertificationCandidate } from '../../../../../lib/infrastructure/orm-models/CertificationCandidate.js';
 import {
   CertificationCandidateCreationOrUpdateError,
   CertificationCandidateMultipleUserLinksWithinSessionError,
   NotFoundError,
-} from '../../../../../lib/domain/errors.js';
-import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
-import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
-import { BookshelfCertificationCandidate } from '../../../../../lib/infrastructure/orm-models/CertificationCandidate.js';
+} from '../../../../shared/domain/errors.js';
 import * as bookshelfToDomainConverter from '../../../../shared/infrastructure/utils/bookshelf-to-domain-converter.js';
 import { normalize } from '../../../../shared/infrastructure/utils/string-utils.js';
 import { CompanionPingInfo } from '../../domain/models/CompanionPingInfo.js';

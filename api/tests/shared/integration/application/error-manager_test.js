@@ -4,10 +4,7 @@ import {
   SessionWithoutStartedCertificationError,
 } from '../../../../src/certification/session-management/domain/errors.js';
 import { SiecleXmlImportError } from '../../../../src/prescription/learner-management/domain/errors.js';
-import {
-  UserNotAuthorizedToAccessEntityError,
-  UserNotAuthorizedToUpdatePasswordError,
-} from '../../../../src/shared/domain/errors.js';
+import * as DomainErrors from '../../../../src/shared/domain/errors.js';
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Integration | API | Controller Error', function () {
@@ -98,7 +95,7 @@ describe('Integration | API | Controller Error', function () {
     const FORBIDDEN_ERROR = 403;
 
     it('responds Forbidden when a UserNotAuthorizedToAccessEntityError error occurs', async function () {
-      routeHandler.throws(new UserNotAuthorizedToAccessEntityError());
+      routeHandler.throws(new DomainErrors.UserNotAuthorizedToAccessEntityError());
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
@@ -106,7 +103,7 @@ describe('Integration | API | Controller Error', function () {
     });
     it('responds Forbidden when a UserNotAuthorizedToUpdatePasswordError error occurs', async function () {
       routeHandler.throws(
-        new UserNotAuthorizedToUpdatePasswordError(
+        new DomainErrors.UserNotAuthorizedToUpdatePasswordError(
           "Cet utilisateur n'est pas autorisé à récupérer les résultats de la campagne.",
         ),
       );

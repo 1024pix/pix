@@ -1,9 +1,9 @@
+import * as maillingService from '../../../../lib/domain/services/mail-service.js';
 import {
   SendingEmailError,
   SendingEmailToInvalidDomainError,
   SendingEmailToInvalidEmailAddressError,
-} from '../../../../lib/domain/errors.js';
-import * as maillingService from '../../../../lib/domain/services/mail-service.js';
+} from '../../../shared/domain/errors.js';
 import { CertificationCenterInvitation } from '../models/CertificationCenterInvitation.js';
 
 const createOrUpdateCertificationCenterInvitation = function ({

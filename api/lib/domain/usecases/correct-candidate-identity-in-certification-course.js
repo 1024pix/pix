@@ -1,4 +1,4 @@
-import { CertificationCandidatesError } from '../errors.js';
+import { CertificationCandidatesError } from '../../../src/shared/domain/errors.js';
 
 const correctCandidateIdentityInCertificationCourse = async function ({
   command: {

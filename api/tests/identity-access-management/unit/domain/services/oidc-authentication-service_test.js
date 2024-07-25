@@ -3,7 +3,6 @@ import ms from 'ms';
 import { Issuer } from 'openid-client';
 
 import { OIDC_ERRORS } from '../../../../../lib/domain/constants.js';
-import { OidcMissingFieldsError } from '../../../../../lib/domain/errors.js';
 import {
   AuthenticationMethod,
   AuthenticationSessionContent,
@@ -13,7 +12,7 @@ import { monitoringTools } from '../../../../../lib/infrastructure/monitoring-to
 import { OidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/oidc-authentication-service.js';
 import { config as settings } from '../../../../../src/shared/config.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
-import { OidcError } from '../../../../../src/shared/domain/errors.js';
+import { OidcError, OidcMissingFieldsError } from '../../../../../src/shared/domain/errors.js';
 import { catchErr, catchErrSync, expect, sinon } from '../../../../test-helper.js';
 
 const uuidV4Regex = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;

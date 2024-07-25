@@ -1,4 +1,4 @@
-import { InvalidIdentityProviderError } from '../../../../lib/domain/errors.js';
+import { InvalidIdentityProviderError } from '../../../shared/domain/errors.js';
 import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
 import { oidcProviderRepository } from '../../infrastructure/repositories/oidc-provider-repository.js';
 import { CnfptOidcAuthenticationService } from './cnfpt-oidc-authentication-service.js';

@@ -1,13 +1,13 @@
-import {
-  DeprecatedCertificationIssueReportCategoryError,
-  DeprecatedCertificationIssueReportSubcategoryError,
-  InvalidCertificationIssueReportForSaving,
-} from '../../../../../../lib/domain/errors.js';
 import { CertificationIssueReport } from '../../../../../../src/certification/shared/domain/models/CertificationIssueReport.js';
 import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
 } from '../../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
+import {
+  DeprecatedCertificationIssueReportCategoryError,
+  DeprecatedCertificationIssueReportSubcategoryError,
+  InvalidCertificationIssueReportForSaving,
+} from '../../../../../../src/shared/domain/errors.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 const MISSING_VALUE = null;

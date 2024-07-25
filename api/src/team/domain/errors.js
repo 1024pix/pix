@@ -1,4 +1,4 @@
-import { DomainError } from '../../../lib/domain/errors.js';
+import { DomainError } from '../../shared/domain/errors.js';
 
 class AlreadyExistingAdminMemberError extends DomainError {
   constructor(message = 'Cet agent a déjà accès') {

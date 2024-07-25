@@ -1,9 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { FileValidationError } from '../../../../../lib/domain/errors.js';
 import { logErrorWithCorrelationIds } from '../../../../../lib/infrastructure/monitoring-tools.js';
 import { config } from '../../../../shared/config.js';
+import { FileValidationError } from '../../../../shared/domain/errors.js';
 import { S3ObjectStorageProvider } from '../../../../shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
 import { getDataBuffer as gDB } from '../utils/bufferize/get-data-buffer.js';
 

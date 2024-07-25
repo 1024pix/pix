@@ -1,9 +1,12 @@
-import { AlreadyExistingEntityError, AuthenticationMethodNotFoundError } from '../../../../../lib/domain/errors.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import * as OidcIdentityProviders from '../../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
 import { AuthenticationMethod } from '../../../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
 import * as authenticationMethodRepository from '../../../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
+import {
+  AlreadyExistingEntityError,
+  AuthenticationMethodNotFoundError,
+} from '../../../../../src/shared/domain/errors.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Identity Access Management | Infrastructure | Repository | AuthenticationMethod', function () {

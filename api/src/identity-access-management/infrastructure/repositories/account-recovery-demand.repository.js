@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
 import { knex } from '../../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { NotFoundError } from '../../../shared/domain/errors.js';
 import { AccountRecoveryDemand } from '../../domain/models/AccountRecoveryDemand.js';
 
 const _toDomain = (accountRecoveryDemandDTO) => {

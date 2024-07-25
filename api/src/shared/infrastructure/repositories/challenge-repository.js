@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { Challenge } from '../../../../lib/domain/models/index.js';
 import * as skillAdapter from '../../../../lib/infrastructure/adapters/skill-adapter.js';
 import { config } from '../../../../src/shared/config.js';
@@ -9,6 +8,7 @@ import {
   challengeDatasource,
   skillDatasource,
 } from '../../../../src/shared/infrastructure/datasources/learning-content/index.js';
+import { NotFoundError } from '../../../shared/domain/errors.js';
 import { LearningContentResourceNotFound } from '../datasources/learning-content/LearningContentResourceNotFound.js';
 
 const get = async function (id) {

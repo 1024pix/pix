@@ -1,10 +1,10 @@
 import fs from 'node:fs/promises';
 
-import { FileValidationError } from '../../../../../lib/domain/errors.js';
 import { eventBus } from '../../../../../lib/domain/events/index.js';
 import { scoOrganizationManagementController } from '../../../../../src/prescription/learner-management/application/sco-organization-management-controller.js';
 import { usecases } from '../../../../../src/prescription/learner-management/domain/usecases/index.js';
 import { ApplicationTransaction } from '../../../../../src/prescription/shared/infrastructure/ApplicationTransaction.js';
+import { FileValidationError } from '../../../../../src/shared/domain/errors.js';
 import { catchErr, expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Application | Organizations | organization-controller', function () {

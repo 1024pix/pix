@@ -1,4 +1,4 @@
-import { AlreadyExistingInvitationError, CancelledInvitationError } from '../../../../lib/domain/errors.js';
+import { AlreadyExistingInvitationError, CancelledInvitationError } from '../../../shared/domain/errors.js';
 
 /**
  * @param {Object} params

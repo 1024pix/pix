@@ -1,5 +1,5 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
 import { ParticipationForCampaignManagement } from '../../domain/models/ParticipationForCampaignManagement.js';
 
