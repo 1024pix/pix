@@ -43,9 +43,9 @@ export const organizationLearnerImportFormat = async function ({ databaseBuilder
       acceptedEncoding: ['utf8'],
       unicityColumns: ['Nom apprenant', 'Prénom apprenant', 'Date de naissance'],
       reconciliationMappingColumns: [
-        { key: 'reconcileField1', columnName: 'Nom apprenant' },
-        { key: 'reconcileField2', columnName: 'Prénom apprenant' },
-        { key: 'reconcileField3', columnName: 'Date de naissance' },
+        { key: 1, field: 'reconcileField1', columnName: IMPORT_KEY_FIELD.COMMON_LASTNAME },
+        { key: 2, field: 'reconcileField2', columnName: IMPORT_KEY_FIELD.COMMON_FIRSTNAME },
+        { key: 4, field: 'reconcileField3', columnName: IMPORT_KEY_FIELD.COMMON_BIRTHDATE },
       ],
       displayableColumns: [
         {

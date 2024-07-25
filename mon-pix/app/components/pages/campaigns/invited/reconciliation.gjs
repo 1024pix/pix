@@ -14,6 +14,12 @@ export default class InvitedWrapper extends Component {
   @tracked isLoading = false;
   @tracked errorMessage = null;
 
+  FIELD_KEY = {
+    COMMON_FIRSTNAME: 'components.invited.reconciliation.field.firstname',
+    COMMON_LASTNAME: 'components.invited.reconciliation.field.lastname',
+    COMMON_BIRTHDATE: 'components.invited.reconciliation.field.birthdate',
+  };
+
   @action
   async registerLearner(reconciliationInfos) {
     this.isLoading = true;
@@ -50,7 +56,7 @@ export default class InvitedWrapper extends Component {
     });
   }
   get reconciliationFieldNames() {
-    return this.args.model.reconciliationFields.map(({ columnName }) => columnName);
+    return this.args.model.reconciliationFields.map(({ columnName }) => this.FIELD_KEY[columnName] || columnName);
   }
 
   <template>
@@ -58,6 +64,7 @@ export default class InvitedWrapper extends Component {
       <LearnerReconciliation
         @organizationName={{@model.organizationName}}
         @reconciliationFields={{@model.reconciliationFields}}
+        @mappingFields={{this.FIELD_KEY}}
         @reconciliationError={{this.errorMessage}}
         @onSubmit={{this.registerLearner}}
         @isLoading={{this.isLoading}}

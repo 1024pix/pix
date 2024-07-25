@@ -1,3 +1,4 @@
+import { IMPORT_KEY_FIELD } from '../../../../../src/prescription/learner-management/domain/constants.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import {
@@ -127,8 +128,8 @@ describe('Acceptance | Prescription | learner management | Application | organiz
           acceptedEncoding: ['utf8'],
           unicityColumns: ['unicity key'],
           reconciliationMappingColumns: [
-            { key: 'reconcileField1', columnName: 'Nom apprenant' },
-            { key: 'reconcileField2', columnName: 'catégorie' },
+            { key: 1, field: 'reconcileField1', columnName: IMPORT_KEY_FIELD.COMMON_LASTNAME },
+            { key: 2, field: 'reconcileField2', columnName: IMPORT_KEY_FIELD.COMMON_FIRSTNAME },
           ],
           validationRules: {
             formats: [
@@ -140,11 +141,11 @@ describe('Acceptance | Prescription | learner management | Application | organiz
             ],
           },
           headers: [
-            { name: 'Nom apprenant', property: 'lastName', required: true },
-            { name: 'Prénom apprenant', property: 'firstName', required: true },
-            { name: 'unicity key', required: true },
-            { name: 'catégorie', required: true },
-            { name: 'Date de naissance', required: true },
+            { key: 1, name: 'Nom apprenant', property: 'lastName', required: true },
+            { key: 2, name: 'Prénom apprenant', property: 'firstName', required: true },
+            { key: 3, name: 'unicity key', required: true },
+            { key: 4, name: 'catégorie', required: true },
+            { key: 5, name: 'Date de naissance', required: true },
           ],
         },
       }).id;
@@ -180,7 +181,7 @@ describe('Acceptance | Prescription | learner management | Application | organiz
               'campaign-code': campaign.code,
               'reconciliation-infos': {
                 reconcileField1: 'Aheurfix',
-                reconcileField2: 'manger',
+                reconcileField2: 'Edgar',
               },
             },
             type: 'organization-learner',

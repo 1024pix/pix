@@ -6,7 +6,12 @@ class OrganizationLearnerImportFormat {
   }
 
   get reconciliationFields() {
-    return this.config.reconciliationMappingColumns;
+    return this.config.reconciliationMappingColumns.map((column) => {
+      return {
+        key: column.field,
+        columnName: column.columnName,
+      };
+    });
   }
 
   get headersFields() {
@@ -36,7 +41,7 @@ class OrganizationLearnerImportFormat {
   /**
    * @function
    * Transform form params into a repository compliant params
-   * It will take params name from reconciliationFields and
+   * It will take params name from reconciliationMappingColumns and
    * use the corresponding columns name to host the value in an attributes object
    * Values associated to header columns that have a property key will be set on
    * the main returned object.
@@ -47,8 +52,8 @@ class OrganizationLearnerImportFormat {
 
   transformReconciliationData(params) {
     return Object.entries(params).reduce((obj, [fieldName, value]) => {
-      const reconciliationField = this.reconciliationFields.find((field) => field.key === fieldName);
-      const header = this.headersFields.find((column) => column.name === reconciliationField.columnName);
+      const reconciliationField = this.config.reconciliationMappingColumns.find((column) => column.field === fieldName);
+      const header = this.headersFields.find((column) => column.key === reconciliationField.key);
       if (header.property) {
         obj[header.property] = value;
       } else {

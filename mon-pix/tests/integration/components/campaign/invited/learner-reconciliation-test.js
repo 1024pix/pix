@@ -16,15 +16,22 @@ module('Integration | Component | Campaign | Invited | learner-reconciliation', 
     reconciliationFields = [
       {
         key: 'field2',
-        columnName: 'Prénom',
+        columnName: 'COMMON_FIRSTNAME',
       },
       {
         key: 'field1',
-        columnName: 'Date de naissance',
+        columnName: 'COMMON_BIRTHDATE',
       },
     ];
 
+    const FIELD_KEY = {
+      COMMON_FIRSTNAME: 'components.invited.reconciliation.field.firstname',
+      COMMON_LASTNAME: 'components.invited.reconciliation.field.lastname',
+      COMMON_BIRTHDATE: 'components.invited.reconciliation.field.birthdate',
+    };
+
     this.set('reconciliationFields', reconciliationFields);
+    this.set('mappingFields', FIELD_KEY);
     this.set('organizationName', organizationName);
     this.set('onSubmit', onSubmit);
   });
@@ -33,9 +40,10 @@ module('Integration | Component | Campaign | Invited | learner-reconciliation', 
     // given / when
     const screen = await render(
       hbs`<Campaigns::Invited::LearnerReconciliation
-  @reconciliationFields={{this.reconciliationFields}}
-  @organizationName={{this.organizationName}}
-/>`,
+        @reconciliationFields={{this.reconciliationFields}}
+        @organizationName={{this.organizationName}}
+        @mappingFields={{this.mappingFields}}
+      />`,
     );
     // then
     assert.ok(
@@ -56,9 +64,10 @@ module('Integration | Component | Campaign | Invited | learner-reconciliation', 
       // given
       const screen = await render(
         hbs`<Campaigns::Invited::LearnerReconciliation
-  @reconciliationFields={{this.reconciliationFields}}
-  @organizationName={{this.organizationName}}
-/>`,
+          @reconciliationFields={{this.reconciliationFields}}
+          @organizationName={{this.organizationName}}
+          @mappingFields={{this.mappingFields}}
+        />`,
       );
       // when
       const button = screen.getByRole('button', { name: this.intl.t('common.actions.lets-go') });
@@ -75,11 +84,12 @@ module('Integration | Component | Campaign | Invited | learner-reconciliation', 
         // given
         const screen = await render(
           hbs`<Campaigns::Invited::LearnerReconciliation
-  @reconciliationFields={{this.reconciliationFields}}
-  @organizationName={{this.organizationName}}
-  @onSubmit={{this.onSubmit}}
-  @isLoading={{false}}
-/>`,
+            @reconciliationFields={{this.reconciliationFields}}
+            @organizationName={{this.organizationName}}
+            @onSubmit={{this.onSubmit}}
+            @mappingFields={{this.mappingFields}}
+            @isLoading={{false}}
+          />`,
         );
         // when
         const button = screen.getByRole('button', { name: this.intl.t('common.actions.lets-go') });
@@ -90,11 +100,12 @@ module('Integration | Component | Campaign | Invited | learner-reconciliation', 
         // given
         const screen = await render(
           hbs`<Campaigns::Invited::LearnerReconciliation
-  @reconciliationFields={{this.reconciliationFields}}
-  @organizationName={{this.organizationName}}
-  @onSubmit={{this.onSubmit}}
-  @isLoading={{true}}
-/>`,
+            @reconciliationFields={{this.reconciliationFields}}
+            @organizationName={{this.organizationName}}
+            @onSubmit={{this.onSubmit}}
+            @mappingFields={{this.mappingFields}}
+            @isLoading={{true}}
+          />`,
         );
         // when
         const form = screen.getByRole('form');
@@ -107,10 +118,11 @@ module('Integration | Component | Campaign | Invited | learner-reconciliation', 
       // given
       const screen = await render(
         hbs`<Campaigns::Invited::LearnerReconciliation
-  @reconciliationFields={{this.reconciliationFields}}
-  @organizationName={{this.organizationName}}
-  @onSubmit={{this.onSubmit}}
-/>`,
+          @reconciliationFields={{this.reconciliationFields}}
+          @organizationName={{this.organizationName}}
+          @mappingFields={{this.mappingFields}}
+          @onSubmit={{this.onSubmit}}
+        />`,
       );
       // when
       await fillIn(screen.getByRole('textbox', { name: 'Prénom' }), 'jaune');
@@ -130,11 +142,12 @@ module('Integration | Component | Campaign | Invited | learner-reconciliation', 
       // given
       const screen = await render(
         hbs`<Campaigns::Invited::LearnerReconciliation
-  @reconciliationFields={{this.reconciliationFields}}
-  @organizationName={{this.organizationName}}
-  @reconciliationError={{'Une erreur!!!'}}
-  @onSubmit={{this.onSubmit}}
-/>`,
+          @reconciliationFields={{this.reconciliationFields}}
+          @organizationName={{this.organizationName}}
+          @reconciliationError={{'Une erreur!!!'}}
+          @mappingFields={{this.mappingFields}}
+          @onSubmit={{this.onSubmit}}
+        />`,
       );
       assert.ok(screen.getByText('Une erreur!!!'));
     });

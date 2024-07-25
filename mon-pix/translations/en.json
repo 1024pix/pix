@@ -117,6 +117,11 @@
         "error-message": {
           "invalid-reconciliation-error": "Check your information ({fields}) or contact a teacher.",
           "mandatory-field": "This field is mandatory"
+        },
+        "field": {
+          "birthdate": "Birthdate",
+          "firstname": "Firstname",
+          "lastname": "Lastname"
         }
       }
     }

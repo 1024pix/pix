@@ -14,9 +14,9 @@ describe('Unit | Models | OrganizationLearnerImportFormat', function () {
         acceptedEncoding: ['utf8'],
         unicityColumns: ['unicity key'],
         reconciliationMappingColumns: [
-          { key: 'reconcileField1', columnName: 'Nom apprenant' },
-          { key: 'reconcileField2', columnName: 'catégorie' },
-          { key: 'reconcileField3', columnName: 'Date de naissance' },
+          { key: 1, field: 'reconcileField1', columnName: IMPORT_KEY_FIELD.COMMON_LASTNAME },
+          { key: 2, field: 'reconcileField2', columnName: IMPORT_KEY_FIELD.COMMON_FIRSTNAME },
+          { key: 4, field: 'reconcileField3', columnName: IMPORT_KEY_FIELD.COMMON_BIRTHDATE },
         ],
         validationRules: {
           formats: [
@@ -121,9 +121,9 @@ describe('Unit | Models | OrganizationLearnerImportFormat', function () {
         organizationLearnerImportFormatPayload,
       );
       expect(organizationLearnerImportFormat.reconciliationFields).to.deep.equal([
-        { key: 'reconcileField1', columnName: 'Nom apprenant' },
-        { key: 'reconcileField2', columnName: 'catégorie' },
-        { key: 'reconcileField3', columnName: 'Date de naissance' },
+        { key: 'reconcileField1', columnName: IMPORT_KEY_FIELD.COMMON_LASTNAME },
+        { key: 'reconcileField2', columnName: IMPORT_KEY_FIELD.COMMON_FIRSTNAME },
+        { key: 'reconcileField3', columnName: IMPORT_KEY_FIELD.COMMON_BIRTHDATE },
       ]);
     });
   });
@@ -156,8 +156,8 @@ describe('Unit | Models | OrganizationLearnerImportFormat', function () {
         }),
       ).to.deep.equal({
         lastName: 'value1',
+        firstName: 'value2',
         attributes: {
-          catégorie: 'value2',
           'Date de naissance': 'value3',
         },
       });

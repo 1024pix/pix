@@ -25,7 +25,7 @@ export default class LearnerReconciliation extends Component {
         value: null,
         status: 'default',
         errorMessage: null,
-        label: columnName,
+        label: this.args.mappingFields[columnName] || columnName,
       });
     });
   }
@@ -93,7 +93,7 @@ export default class LearnerReconciliation extends Component {
               @value={{reconciliationField.value}}
               {{on "change" (fn this.updateFields index)}}
             >
-              <:label>{{reconciliationField.label}}</:label>
+              <:label>{{t reconciliationField.label}}</:label>
             </PixInput>
           {{/each}}
           {{#if @reconciliationError}}
