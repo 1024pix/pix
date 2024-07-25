@@ -33,7 +33,7 @@ module('Unit | Component | Module | Image', function (hooks) {
       // given
       const image = { id: 'image-id' };
 
-      const component = createGlimmerComponent('module/element/image', { image });
+      const component = createGlimmerComponent('module/element/image', { image, openAlternativeText: sinon.stub() });
       assert.false(component.modalIsOpen);
 
       // when
@@ -41,31 +41,6 @@ module('Unit | Component | Module | Image', function (hooks) {
 
       // then
       assert.true(component.modalIsOpen);
-    });
-
-    test('should call metrics service', async function (assert) {
-      // given
-      const image = { id: 'image-id' };
-      const moduleId = 'module-id';
-
-      const metrics = this.owner.lookup('service:metrics');
-      metrics.add = sinon.stub();
-
-      const component = createGlimmerComponent('module/element/image', { image, moduleId });
-      assert.false(component.modalIsOpen);
-
-      // when
-      component.showModal();
-
-      // then
-      assert.true(
-        metrics.add.calledWithExactly({
-          event: 'custom-event',
-          'pix-event-category': 'Modulix',
-          'pix-event-action': `Passage du module : ${moduleId}`,
-          'pix-event-name': `Click sur le bouton alternative textuelle : ${image.id}`,
-        }),
-      );
     });
   });
 
@@ -75,7 +50,7 @@ module('Unit | Component | Module | Image', function (hooks) {
         // given
         const image = { id: 'image-id' };
 
-        const component = createGlimmerComponent('module/element/image', { image });
+        const component = createGlimmerComponent('module/element/image', { image, openAlternativeText: sinon.stub() });
         assert.false(component.modalIsOpen);
 
         component.showModal();

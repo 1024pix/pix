@@ -21,12 +21,7 @@ export default class ModuleVideo extends Component {
   @action
   showModal() {
     this.modalIsOpen = true;
-    this.metrics.add({
-      event: 'custom-event',
-      'pix-event-category': 'Modulix',
-      'pix-event-action': `Passage du module : ${this.args.moduleId}`,
-      'pix-event-name': `Clic sur le bouton transcription : ${this.args.video.id}`,
-    });
+    this.args.openTranscription(this.args.video.id);
   }
 
   @action

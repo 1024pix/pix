@@ -78,7 +78,7 @@ module('Unit | Component | Module | Video', function (hooks) {
       const metrics = this.owner.lookup('service:metrics');
       metrics.add = () => {};
 
-      const component = createGlimmerComponent('module/element/video', { video });
+      const component = createGlimmerComponent('module/element/video', { video, openTranscription: sinon.stub() });
       assert.false(component.modalIsOpen);
 
       // when
@@ -86,31 +86,6 @@ module('Unit | Component | Module | Video', function (hooks) {
 
       // then
       assert.true(component.modalIsOpen);
-    });
-
-    test('should call metrics service', async function (assert) {
-      // given
-      const video = { id: 'video-id' };
-      const moduleId = 'module-id';
-
-      const metrics = this.owner.lookup('service:metrics');
-      metrics.add = sinon.stub();
-
-      const component = createGlimmerComponent('module/element/video', { video, moduleId });
-      assert.false(component.modalIsOpen);
-
-      // when
-      component.showModal();
-
-      // then
-      assert.true(
-        metrics.add.calledWithExactly({
-          event: 'custom-event',
-          'pix-event-category': 'Modulix',
-          'pix-event-action': `Passage du module : ${moduleId}`,
-          'pix-event-name': `Clic sur le bouton transcription : ${video.id}`,
-        }),
-      );
     });
   });
 
@@ -120,7 +95,7 @@ module('Unit | Component | Module | Video', function (hooks) {
         // given
         const video = { id: 'video-id' };
 
-        const component = createGlimmerComponent('module/element/video', { video });
+        const component = createGlimmerComponent('module/element/video', { video, openTranscription: sinon.stub() });
         assert.false(component.modalIsOpen);
 
         component.showModal();
