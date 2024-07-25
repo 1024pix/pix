@@ -7,7 +7,7 @@ import lodash from 'lodash';
 import {
   COMPLEMENTARY_CERTIFICATION_SUFFIX,
   headers,
-} from '../../../../../lib/infrastructure/utils/csv/sessions-import.js';
+} from '../../../shared/infrastructure/utils/csv/sessions-import.js';
 
 function getCsvHeaders({ habilitationLabels, shouldDisplayBillingModeColumns = true }) {
   const complementaryCertificationsHeaders = _getComplementaryCertificationsHeaders(habilitationLabels);
