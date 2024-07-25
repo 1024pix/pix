@@ -46,6 +46,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       expect(savedKnowledgeElements.length).to.equal(2);
       expect(savedKnowledgeElements[0]).to.deepEqualInstanceOmitting(knowledgeElementsToSave[0], ['createdAt', 'id']);
       expect(savedKnowledgeElements[1]).to.deepEqualInstanceOmitting(knowledgeElementsToSave[1], ['createdAt', 'id']);
+      expect(savedKnowledgeElements[0].createdAt).to.deep.equal(savedKnowledgeElements[1].createdAt);
     });
   });
 
