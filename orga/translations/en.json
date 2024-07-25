@@ -907,12 +907,15 @@
             "non-admin": "Step1 : <b>Ask the Pix Orga administrator</b> in your area to import students"
           },
           "step2": {
-            "title": "Step 2 :",
-            "option1": "Or &nbsp<b>by registering </b>&nbspthe&nbsp'<a href=\"https://junior.pix.fr\">junior.pix.fr</a>'&nbsplink on your workstations and entering your school's code: {code} ",
-            "option2": "Or by accessing&nbsp'<a href=\"{pixJuniorUrl}\" target=_blank >Pix Junior</a>'&nbspdirectly"
+            "title": "Step 2 : To enable pupils to access your school's Pix Junior space, you can :",
+            "option1": "use the&nbsp'<'a href=\"{pixJuniorUrl}\"'>'junior.pix.fr'</a>'&nbsplink. You will be asked for your school's code each time you connect.",
+            "option2": {
+              "body" : "or use the direct link &nbsp'<'a href=\"{pixJuniorUrl}\" target=_blank '>'junior.pix.fr/schools/{code}'</a>'",
+              "hint": "You can save this bookmark on your computers."
+            }
           },
-          "step3": "Step 3 : <b> Activate the Pix Junior session </b> using the button above before your session on the day.",
-          "welcome": "To get started, please follow these steps :"
+          "step3": "Step 3 : <b> Activate the Pix Junior session </b> using the button above. <b>You should do this before each session with your pupils</b>.",
+          "welcome": "Starting to use Pix Junior :"
         },
         "caption": "List of missions",
         "empty-state": "There is not any mission",

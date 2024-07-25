@@ -851,26 +851,33 @@
       },
       "list": {
         "aria-label": "Opdracht",
-        "banner": {
-          "admin": {
-            "abstract": "Om te beginnen, gelieve",
-            "import-text": "je studenten te importeren",
-            "info": "uit Onde (exporteerbaar bestand in het menu Lijsten & documenten > Extracties> Leerlingen of hun begeleider)."
-          },
-          "copypaste-container": {
-            "abstract": "Start je eerste opdrachten met je studenten door de sessie te activeren via de knop hierboven en door de code te gebruiken",
-            "button": {
-              "success": "gekopieerd !",
-              "tooltip": "de link kopiëren"
+          "banner": {
+            "copypaste-container": {
+              "abstract": "Begin je missies met je leerlingen door een sessie te activeren met de bovenstaande knop en deze te gebruiken ",
+              "button": {
+                "success": "Gekopieerd !",
+                "tooltip": "Kopieercode"
+              }
             },
-            "hint": "Aarzel niet om toe te voegen aan je favorieten.",
-            "import-text": "link school"
+            "step1": {
+              "admin": {
+                "head": "Stap 1:",
+                "link": "Importeer de leerlingendatabase",
+                "tail": "<b>vanuit Onde</b> (exporteerbaar bestand in het menu Lijsten & documenten > Extracties > Schoolleerlingen of hun begeleiders)."
+              },
+              "non-admin": "Stap 1: <b>Vraag de Pix Orga beheerder </b>&nbsp in jouw ruimte om de studenten te importeren."
+            },
+            "step2": {
+              "title": "Stap 2: Om leerlingen toegang te geven tot de Pix Junior ruimte van jouw school, kun je :",
+              "option1": "de link&nbsp<a href=\"{pixJuniorUrl}\">junior.pix.fr</a>&nbspgebruiken. Elke keer dat je verbinding maakt, wordt de code van je school gevraagd.",
+              "option2": {
+                "body": "of gebruik de directe link &nbsp<a href=\"{pixJuniorUrl}\" target=_blank >junior.pix.fr/schools/{code}</a>",
+                "hint": "Je kunt deze bladwijzer op je computer opslaan."
+              }
+            },
+            "step3": "Stap 3: <b> Activeer de Pix Junior sessie </b> met de bovenstaande knop. <b>Doe dit voor elke sessie met je leerlingen</b>.",
+            "welcome": "Om Pix Junior te gebruiken :"
           },
-          "non-admin": {
-            "abstract": "Om te beginnen vraag je je beheerder om de studenten te importeren."
-          },
-          "welcome": "Hallo en welkom bij Pix Orga!"
-        },
         "caption": "Lijst van opdrachten",
         "empty-state": "Er zijn geen opdrachten",
         "headers": {

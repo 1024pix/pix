@@ -22,12 +22,23 @@
     }
   }
 
+  &__school-code {
+    display: inline-flex;
+    margin-top: 8px;
+
+    .pix-icon-button {
+       color: var(--pix-info-700);
+     }
+  }
+
   &__copypaste-container {
     display: flex;
+    flex-direction: column;
     text-align: start;
 
-    &__external-link {
-      margin-left: 10px;
+    #external-link-icon {
+      margin-left: 4px;
+      text-decoration: none;
     }
   }
 }

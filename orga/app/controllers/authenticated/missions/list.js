@@ -5,6 +5,7 @@ import { service } from '@ember/service';
 export default class MissionList extends Controller {
   @service router;
   @service currentUser;
+  @service currentDomain;
 
   @action
   goToMissionDetails(id) {
@@ -13,5 +14,9 @@ export default class MissionList extends Controller {
 
   get schoolCode() {
     return this.currentUser.organization.schoolCode ?? '';
+  }
+
+  get juniorUrl() {
+    return this.currentDomain.getJuniorBaseUrl();
   }
 }
