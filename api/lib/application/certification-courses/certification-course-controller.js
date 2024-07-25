@@ -67,12 +67,6 @@ const getCertifiedProfile = async function (
   return dependencies.certifiedProfileSerializer.serialize(certifiedProfile);
 };
 
-const cancel = async function (request, h) {
-  const certificationCourseId = request.params.id;
-  await usecases.cancelCertificationCourse({ certificationCourseId });
-  return h.response().code(200);
-};
-
 const uncancel = async function (request, h) {
   const certificationCourseId = request.params.id;
   await usecases.uncancelCertificationCourse({ certificationCourseId });
@@ -85,7 +79,6 @@ const certificationCourseController = {
   save,
   get,
   getCertifiedProfile,
-  cancel,
   uncancel,
 };
 

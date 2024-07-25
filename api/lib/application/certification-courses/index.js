@@ -90,30 +90,6 @@ const register = async function (server) {
     },
     {
       method: 'POST',
-      path: '/api/admin/certification-courses/{id}/cancel',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.certificationCourseId,
-          }),
-        },
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        handler: certificationCourseController.cancel,
-        tags: ['api'],
-      },
-    },
-    {
-      method: 'POST',
       path: '/api/admin/certification-courses/{id}/uncancel',
       config: {
         validate: {
