@@ -21,4 +21,23 @@ describe('Certification | Session-management | Unit | Application | cancellation
       expect(usecases.cancelCertificationCourse).to.have.been.calledWithExactly({ certificationCourseId: 123 });
     });
   });
+
+  describe('#uncancelCertificationCourse', function () {
+    it('should call uncancel-certification-course usecase', async function () {
+      // given
+      sinon.stub(usecases, 'uncancelCertificationCourse');
+      const request = {
+        params: {
+          id: 123,
+        },
+      };
+      usecases.uncancelCertificationCourse.resolves();
+
+      // when
+      await cancellationController.uncancel(request, hFake);
+
+      // then
+      expect(usecases.uncancelCertificationCourse).to.have.been.calledWithExactly({ certificationCourseId: 123 });
+    });
+  });
 });

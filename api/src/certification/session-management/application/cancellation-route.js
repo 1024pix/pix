@@ -30,6 +30,30 @@ const register = async function (server) {
         tags: ['api'],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/admin/certification-courses/{id}/uncancel',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.certificationCourseId,
+          }),
+        },
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        handler: cancellationController.uncancel,
+        tags: ['api'],
+      },
+    },
   ]);
 };
 
