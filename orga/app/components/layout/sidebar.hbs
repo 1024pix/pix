@@ -61,6 +61,19 @@
         {{t "navigation.main.documentation"}}
       </a>
     {{/if}}
+    {{#if this.shouldDisplayMissionsEntry}}
+      <a
+        href="https://pix.fr/support/enseignement-scolaire/1er-degre"
+        target="_blank"
+        class="sidebar-nav__item"
+        rel="noopener noreferrer"
+      >
+        <span class="sidebar-nav__item-icon">
+          <FaIcon @icon="circle-question" alt="{{t 'navigation.main.support'}}-icon" role="none" />
+        </span>
+        {{t "navigation.main.support"}}
+      </a>
+    {{/if}}
 
   </nav>
 </aside>
