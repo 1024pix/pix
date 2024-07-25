@@ -3,9 +3,9 @@ import dayjs from 'dayjs';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../lib/domain/constants/certification-candidates-errors.js';
 import { CERTIFICATION_SESSIONS_ERRORS } from '../../../../../lib/domain/constants/sessions-errors.js';
 import * as mailCheck from '../../../../shared/mail/infrastructure/services/mail-check.js';
-import * as sessionValidator from '../../../shared/domain/validators/session-validator.js';
 //  should be injected
-import * as certificationCpfService from './certification-cpf-service.js';
+import * as certificationCpfService from '../../../shared/domain/services/certification-cpf-service.js';
+import * as sessionValidator from '../../../shared/domain/validators/session-validator.js';
 
 const validateSession = async function ({
   session,

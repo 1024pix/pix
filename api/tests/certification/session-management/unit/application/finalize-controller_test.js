@@ -3,7 +3,7 @@ import { finalizeController } from '../../../../../src/certification/session-man
 import { usecases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Controller | finalize-controller', function () {
+describe('Certification | Session Management | Unit | Application | Controller | Finalize', function () {
   describe('#finalize', function () {
     it('should call the finalizeSession usecase with correct values', async function () {
       // given

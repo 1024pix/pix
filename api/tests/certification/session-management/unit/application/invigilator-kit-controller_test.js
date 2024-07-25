@@ -4,7 +4,7 @@ import { LANGUAGES_CODE } from '../../../../../src/shared/domain/services/langua
 import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 import { getI18n } from '../../../../tooling/i18n/i18n.js';
 
-describe('Unit | Controller | invigilator-kit-controller', function () {
+describe('Certification | Session Management | Unit | Application | Controller | Invigilator Kit', function () {
   describe('#getInvigilatorKitPdf', function () {
     // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     /* eslint-disable mocha/no-setup-in-describe */

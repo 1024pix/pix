@@ -3,7 +3,7 @@ import * as moduleUnderTest from '../../../../../src/certification/session-manag
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Router | certification-officer-route', function () {
+describe('Certification | Session Management | Unit | Application | Routes | Certification Officer', function () {
   describe('PATCH /api/admin/sessions/{id}/certification-officer-assignment', function () {
     it('should exist', async function () {
       // given

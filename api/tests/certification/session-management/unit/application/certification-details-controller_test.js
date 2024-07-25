@@ -2,7 +2,7 @@ import { certificationDetailsController } from '../../../../../src/certification
 import { usecases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 
-describe('Certification | Session-management | Unit | Application | certification-details-controller', function () {
+describe('Certification | Session Management | Unit | Application | Controller | Certification Details', function () {
   let certificationDetailsSerializer;
 
   beforeEach(function () {

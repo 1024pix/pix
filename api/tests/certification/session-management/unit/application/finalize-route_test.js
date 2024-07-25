@@ -3,7 +3,7 @@ import * as moduleUnderTest from '../../../../../src/certification/session-manag
 import { authorization } from '../../../../../src/certification/shared/application/pre-handlers/authorization.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Router | session-route', function () {
+describe('Certification | Session Management | Unit | Application | Routes | Finalize', function () {
   describe('PUT /api/sessions/{id}/finalization', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     [

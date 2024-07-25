@@ -2,7 +2,7 @@ import { certificationReportController } from '../../../../../src/certification/
 import { usecases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Controller | certification-report-controller', function () {
+describe('Certification | Session Management | Unit | Application | Controller | Certification Report', function () {
   describe('#saveCertificationIssueReport', function () {
     it('should return serialized certification issue report with code 201', async function () {
       // given

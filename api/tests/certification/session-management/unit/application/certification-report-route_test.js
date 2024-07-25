@@ -5,7 +5,7 @@ import { authorization } from '../../../../../src/certification/shared/applicati
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Application | Certifications Report | Route', function () {
+describe('Certification | Session Management | Unit | Application | Routes | Certification Report', function () {
   describe('POST /api/certification-reports/{id}/certification-issue-reports', function () {
     it('should return a 200', async function () {
       // given

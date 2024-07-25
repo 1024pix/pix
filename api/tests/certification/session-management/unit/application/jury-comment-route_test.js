@@ -3,7 +3,7 @@ import * as moduleUnderTest from '../../../../../src/certification/session-manag
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Router | Certification | Session-management | jury-comment', function () {
+describe('Certification | Session Management | Unit | Application | Routes | Jury Comment', function () {
   describe('PUT /api/admin/sessions/{id}/comment', function () {
     it('should exist', async function () {
       // given

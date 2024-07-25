@@ -1,5 +1,6 @@
 import * as cancellation from './application/cancellation-route.js';
 import * as certificationCandidate from './application/certification-candidate-route.js';
+import * as certificationCourse from './application/certification-course-route.js';
 import * as certificationDetails from './application/certification-details-route.js';
 import * as certificationOfficer from './application/certification-officer-route.js';
 import * as certificationReport from './application/certification-report-route.js';
@@ -17,6 +18,7 @@ import * as updateCpfImportStatus from './application/update-cpf-import-status-r
 
 const certificationSessionRoutes = [
   cancellation,
+  certificationCourse,
   certificationOfficer,
   certificationReport,
   complementaryCertificationCourseResults,

@@ -3,7 +3,7 @@ import * as moduleUnderTest from '../../../../../src/certification/session-manag
 import { assessmentSupervisorAuthorization as sessionSupervisorAuthorization } from '../../../../../src/certification/shared/application/pre-handlers/session-supervisor-authorization.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Application | Certification | session-management | supervising | Routes', function () {
+describe('Certification | Session Management | Unit | Application | Routes | Session For Supervising', function () {
   describe('GET /api/sessions/{id}/supervising', function () {
     it('should return 200 if the user is a supervisor of the session', async function () {
       //given

@@ -2,7 +2,7 @@ import { superviseController } from '../../../../../src/certification/session-ma
 import * as moduleUnderTest from '../../../../../src/certification/session-management/application/supervise-route.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Application | Certification | session-management | supervise | Routes', function () {
+describe('Certification | Session Management | Unit | Application | Routes | Supervise', function () {
   describe('POST /api/sessions/{id}/supervise', function () {
     it('should return 200', async function () {
       //given

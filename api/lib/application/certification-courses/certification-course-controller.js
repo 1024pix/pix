@@ -3,7 +3,6 @@ import { usecases } from '../../domain/usecases/index.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import * as certifiedProfileRepository from '../../infrastructure/repositories/certified-profile-repository.js';
 import * as certificationCourseSerializer from '../../infrastructure/serializers/jsonapi/certification-course-serializer.js';
-import * as certificationSerializer from '../../infrastructure/serializers/jsonapi/certification-serializer.js';
 import * as certifiedProfileSerializer from '../../infrastructure/serializers/jsonapi/certified-profile-serializer.js';
 import * as juryCertificationSerializer from '../../infrastructure/serializers/jsonapi/jury-certification-serializer.js';
 
@@ -13,21 +12,6 @@ const getJuryCertification = async function (request, h, dependencies = { juryCe
   const juryCertification = await usecases.getJuryCertification({ certificationCourseId });
 
   return dependencies.juryCertificationSerializer.serialize(juryCertification, { translate });
-};
-
-const update = async function (request, h, dependencies = { certificationSerializer }) {
-  const certificationCourseId = request.params.certificationCourseId;
-  const userId = request.auth.credentials.userId;
-  const command = await dependencies.certificationSerializer.deserializeCertificationCandidateModificationCommand(
-    request.payload,
-    certificationCourseId,
-    userId,
-  );
-  await usecases.correctCandidateIdentityInCertificationCourse({ command });
-  const updatedCertificationCourse = await usecases.getCertificationCourse({
-    certificationCourseId: command.certificationCourseId,
-  });
-  return dependencies.certificationSerializer.serializeFromCertificationCourse(updatedCertificationCourse);
 };
 
 const save = async function (request, h, dependencies = { extractLocaleFromRequest, certificationCourseSerializer }) {
@@ -69,7 +53,6 @@ const getCertifiedProfile = async function (
 
 const certificationCourseController = {
   getJuryCertification,
-  update,
   save,
   get,
   getCertifiedProfile,

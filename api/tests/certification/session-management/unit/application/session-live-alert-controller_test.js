@@ -2,7 +2,7 @@ import { sessionLiveAlertController } from '../../../../../src/certification/ses
 import { usecases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Controller | session-live-alert-controller', function () {
+describe('Certification | Session Management | Unit | Application | Controller | Session Live Alert', function () {
   describe('#dismissLiveAlert', function () {
     it('should call dismissLiveAlert', async function () {
       const sessionId = 123;
