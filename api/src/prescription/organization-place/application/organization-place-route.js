@@ -146,7 +146,12 @@ const register = async (server) => {
       path: '/api/data/organization-places',
       config: {
         auth: 'jwt-pix-data',
-        handler: (request, h) => h.response(null).code(200),
+        handler: organizationPlaceController.getDataOrganizationsPlacesStatistics,
+        tags: ['api', 'organization-places', 'data'],
+        notes: [
+          '- **Cette route est restreinte a la stack data**\n' +
+            '- Elle permet la récuperation des statistiques de places de toutes les organisations',
+        ],
       },
     },
   ]);
