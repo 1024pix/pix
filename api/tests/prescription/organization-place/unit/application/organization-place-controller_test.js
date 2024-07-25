@@ -133,4 +133,49 @@ describe('Unit | Application | organization-place-controller', function () {
       });
     });
   });
+
+  describe('#getDataOrganizationsPlacesStatistics', function () {
+    it('should call the usecase and serialize the response', async function () {
+      // given
+      const request = {};
+      const dataOrganizationPlacesStatistics = Symbol('dataOrganizationPlacesStatistics');
+      const dataOrganizationPlacesStatisticsSerialized = Symbol('dataOrganizationPlacesStatisticsSerialized');
+
+      const getOrganizationPlacesStatisticsStub = sinon.stub();
+      const findPaginatedFilteredOrganizationsStub = sinon.stub();
+
+      sinon.stub(usecases, 'getDataOrganizationsPlacesStatistics');
+
+      usecases.getDataOrganizationsPlacesStatistics
+        .withArgs({
+          getOrganizationPlacesStatistics: getOrganizationPlacesStatisticsStub,
+          findPaginatedFilteredOrganizations: findPaginatedFilteredOrganizationsStub,
+        })
+        .resolves(dataOrganizationPlacesStatistics);
+
+      const dataOrganizationPlacesStatisticsSerializerStub = {
+        serialize: sinon.stub(),
+      };
+
+      dataOrganizationPlacesStatisticsSerializerStub.serialize
+        .withArgs(dataOrganizationPlacesStatistics)
+        .returns(dataOrganizationPlacesStatisticsSerialized);
+
+      const dependencies = {
+        dataOrganizationPlacesStatisticsSerializer: dataOrganizationPlacesStatisticsSerializerStub,
+        getOrganizationPlacesStatistics: getOrganizationPlacesStatisticsStub,
+        findPaginatedFilteredOrganizations: findPaginatedFilteredOrganizationsStub,
+      };
+
+      // when
+      const result = await organizationPlaceController.getDataOrganizationsPlacesStatistics(
+        request,
+        hFake,
+        dependencies,
+      );
+
+      // then
+      expect(result).to.equal(dataOrganizationPlacesStatisticsSerialized);
+    });
+  });
 });
