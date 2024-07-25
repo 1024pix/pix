@@ -93,7 +93,7 @@ describe('Integration | Shared | Infrastructure | Repositories | UserLoginReposi
       clock.restore();
     });
 
-    it('should return the updated user-login', async function () {
+    it('returns the updated user-login', async function () {
       // given
       const temporaryBlockedUntil = new Date('2022-10-10');
       databaseBuilder.factory.buildUserLogin();
@@ -120,6 +120,22 @@ describe('Integration | Shared | Infrastructure | Repositories | UserLoginReposi
         blockedAt: null,
         createdAt: userLoginInDB.createdAt,
         updatedAt: now,
+      });
+    });
+
+    describe('when the preventUpdatedAt option is true', function () {
+      it('does not change updatedAt on the updated user login', async function () {
+        // given
+        databaseBuilder.factory.buildUserLogin();
+        const userLoginInDB = databaseBuilder.factory.buildUserLogin();
+        const userLoginToUpdate = new UserLogin({ id: userLoginInDB.id, updatedAt: '2022-10-10' });
+        await databaseBuilder.commit();
+
+        // when
+        const result = await userLoginRepository.update(userLoginToUpdate, { preventUpdatedAt: true });
+
+        // then
+        expect(result.updatedAt).to.deep.equal(new Date('2022-10-10'));
       });
     });
   });

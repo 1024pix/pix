@@ -55,6 +55,14 @@ class UserLogin {
   isUserMarkedAsBlocked() {
     return !!this.blockedAt;
   }
+
+  anonymize() {
+    return new UserLogin({
+      ...this,
+      temporaryBlockedUntil: null,
+      blockedAt: null,
+    });
+  }
 }
 
 export { UserLogin };

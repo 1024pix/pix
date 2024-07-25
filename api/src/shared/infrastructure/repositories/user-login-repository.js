@@ -1,6 +1,7 @@
 import { knex } from '../../../../db/knex-database-connection.js';
 import { UserLogin } from '../../../identity-access-management/domain/models/UserLogin.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
+import { DomainTransaction } from '../../domain/DomainTransaction.js';
 
 const USER_LOGINS_TABLE_NAME = 'user-logins';
 
@@ -17,7 +18,8 @@ function _toDomain(userLoginDTO) {
 }
 
 const findByUserId = async function (userId) {
-  const userLoginDTO = await knex.from(USER_LOGINS_TABLE_NAME).where({ userId }).first();
+  const knexConn = DomainTransaction.getConnection();
+  const userLoginDTO = await knexConn.from(USER_LOGINS_TABLE_NAME).where({ userId }).first();
   return userLoginDTO ? _toDomain(userLoginDTO) : null;
 };
 
@@ -35,9 +37,14 @@ const create = async function (userLogin) {
   return _toDomain(userLoginDTO);
 };
 
-const update = async function (userLogin) {
-  userLogin.updatedAt = new Date();
-  const [userLoginDTO] = await knex(USER_LOGINS_TABLE_NAME)
+const update = async function (userLogin, { preventUpdatedAt } = {}) {
+  const knexConn = DomainTransaction.getConnection();
+
+  if (!preventUpdatedAt) {
+    userLogin.updatedAt = new Date();
+  }
+
+  const [userLoginDTO] = await knexConn(USER_LOGINS_TABLE_NAME)
     .where({ id: userLogin.id })
     .update(userLogin)
     .returning('*');

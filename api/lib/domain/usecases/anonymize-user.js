@@ -10,6 +10,7 @@ const anonymizeUser = async function ({
   organizationLearnerRepository,
   refreshTokenService,
   resetPasswordDemandRepository,
+  userLoginRepository,
   domainTransaction,
   adminMemberRepository,
 }) {
@@ -17,10 +18,14 @@ const anonymizeUser = async function ({
     firstName: '(anonymised)',
     lastName: '(anonymised)',
     email: null,
+    emailConfirmedAt: null,
     username: null,
     hasBeenAnonymised: true,
     hasBeenAnonymisedBy: updatedByUserId,
-    updatedAt: new Date(),
+    lastTermsOfServiceValidatedAt: null,
+    lastPixOrgaTermsOfServiceValidatedAt: null,
+    lastPixCertifTermsOfServiceValidatedAt: null,
+    lastDataProtectionPolicySeenAt: null,
   };
 
   const user = await userRepository.get(userId);
@@ -43,11 +48,15 @@ const anonymizeUser = async function ({
 
   await organizationLearnerRepository.dissociateAllStudentsByUserId({ userId, domainTransaction });
 
-  await userRepository.updateUserDetailsForAdministration({
-    id: userId,
-    userAttributes: anonymizedUser,
-    domainTransaction,
-  });
+  await _anonymizeUserLogin(user.id, userLoginRepository);
+
+  await userRepository.updateUserDetailsForAdministration(
+    {
+      id: userId,
+      userAttributes: anonymizedUser,
+    },
+    { preventUpdatedAt: true },
+  );
 
   const adminMember = await adminMemberRepository.get({ userId: updatedByUserId });
   const event = new UserAnonymized({
@@ -58,5 +67,14 @@ const anonymizeUser = async function ({
 
   return event;
 };
+
+async function _anonymizeUserLogin(userId, userLoginRepository) {
+  const userLogin = await userLoginRepository.findByUserId(userId);
+  if (!userLogin) return;
+
+  const anonymizedUserLogin = userLogin.anonymize();
+
+  await userLoginRepository.update(anonymizedUserLogin, { preventUpdatedAt: true });
+}
 
 export { anonymizeUser };
