@@ -1,4 +1,5 @@
 import { ElementInstantiationError } from '../../../../../src/devcomp/domain/errors.js';
+import { EmbedForAnswerVerification } from '../../../../../src/devcomp/domain/models/element/Embed-for-answer-verification.js';
 import { QCMForAnswerVerification } from '../../../../../src/devcomp/domain/models/element/QCM-for-answer-verification.js';
 import { QCUForAnswerVerification } from '../../../../../src/devcomp/domain/models/element/QCU-for-answer-verification.js';
 import { QROCMForAnswerVerification } from '../../../../../src/devcomp/domain/models/element/QROCM-for-answer-verification.js';
@@ -61,6 +62,28 @@ describe('Unit | Devcomp | Infrastructure | Factories | ElementForVerification',
           });
         });
       });
+    });
+
+    it('should instantiate a EmbedForAnswerVerification when given a data of type "embed"', function () {
+      // given
+      const feedbacks = { valid: 'valid', invalid: 'invalid' };
+
+      const elementData = {
+        id: '123',
+        title: 'An embed',
+        instruction: 'instruction',
+        feedbacks,
+        type: 'embed',
+        solution: 'solution',
+        url: 'http://embed.example.net',
+        height: 800,
+      };
+
+      // when
+      const element = ElementForVerificationFactory.build(elementData);
+
+      // then
+      expect(element).to.be.an.instanceOf(EmbedForAnswerVerification);
     });
 
     it('should instantiate a QCUForAnswerVerification when given a data of type "qcu"', function () {
