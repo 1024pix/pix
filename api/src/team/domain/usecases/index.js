@@ -2,6 +2,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import * as mailService from '../../../../lib/domain/services/mail-service.js';
+import * as certificationCenterMembershipRepository from '../../../../lib/infrastructure/repositories/certification-center-membership-repository.js';
 import * as membershipRepository from '../../../../lib/infrastructure/repositories/membership-repository.js';
 import * as sharedMembershipRepository from '../../../../src/shared/infrastructure/repositories/membership-repository.js';
 import * as organizationRepository from '../../../../src/shared/infrastructure/repositories/organization-repository.js';
@@ -23,6 +24,7 @@ const path = dirname(fileURLToPath(import.meta.url));
 
 const dependencies = {
   adminMemberRepository,
+  certificationCenterMembershipRepository,
   certificationCenterRepository,
   certificationCenterInvitationRepository,
   prescriberRepository,
