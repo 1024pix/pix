@@ -1699,7 +1699,12 @@
     "timed-challenge-instructions": {
       "action": "Commencer l'épreuve",
       "primary": "Vous disposerez de '<span class=\"timed-challenge-instructions__time\">'{time}'</span>' pour réussir la question suivante.",
-      "secondary": "Vous pourrez continuer à répondre ensuite, mais la question ne sera pas considérée comme réussie."
+      "secondary": "Vous pourrez continuer à répondre ensuite, mais la question ne sera pas considérée comme réussie.",
+      "time": {
+        "and": " et ",
+        "minutes": "{minutes, plural, =0 {} =1 {# minute} other {# minutes}}",
+        "seconds": "{seconds, plural, =0 {} =1 {# seconde} other {# secondes}}"
+      }
     },
     "training": {
       "editor": "Contenu formatif proposé par",
