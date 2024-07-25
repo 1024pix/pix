@@ -128,8 +128,8 @@ describe('Acceptance | Prescription | learner management | Application | organiz
           acceptedEncoding: ['utf8'],
           unicityColumns: ['unicity key'],
           reconciliationMappingColumns: [
-            { key: 1, field: 'reconcileField1', columnName: IMPORT_KEY_FIELD.COMMON_LASTNAME },
-            { key: 2, field: 'reconcileField2', columnName: IMPORT_KEY_FIELD.COMMON_FIRSTNAME },
+            { key: 1, fieldId: 'reconcileField1', columnName: IMPORT_KEY_FIELD.COMMON_LASTNAME, position: 1 },
+            { key: 2, fieldId: 'reconcileField2', columnName: IMPORT_KEY_FIELD.COMMON_FIRSTNAME, position: 2 },
           ],
           validationRules: {
             formats: [

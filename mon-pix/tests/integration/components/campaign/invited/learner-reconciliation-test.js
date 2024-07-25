@@ -15,12 +15,12 @@ module('Integration | Component | Campaign | Invited | learner-reconciliation', 
     organizationName = 'My Organization';
     reconciliationFields = [
       {
-        key: 'field2',
-        columnName: 'COMMON_FIRSTNAME',
+        fieldId: 'field2',
+        name: 'COMMON_FIRSTNAME',
       },
       {
-        key: 'field1',
-        columnName: 'COMMON_BIRTHDATE',
+        fieldId: 'field1',
+        name: 'COMMON_BIRTHDATE',
       },
     ];
 

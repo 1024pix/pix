@@ -19,13 +19,13 @@ export default class LearnerReconciliation extends Component {
 
     this.reconciliationFieldData = [];
 
-    this.args.reconciliationFields.forEach(({ key, columnName }) => {
+    this.args.reconciliationFields.forEach(({ fieldId, name }) => {
       this.reconciliationFieldData.push({
-        id: key,
+        id: fieldId,
         value: null,
         status: 'default',
         errorMessage: null,
-        label: this.args.mappingFields[columnName] || columnName,
+        label: this.args.mappingFields[name] || name,
       });
     });
   }

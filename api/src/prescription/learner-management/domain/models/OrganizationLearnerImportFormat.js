@@ -5,13 +5,15 @@ class OrganizationLearnerImportFormat {
     this.config = config;
   }
 
+  #sortObject = (columnA, columnB) => columnA.position - columnB.position;
+
   get reconciliationFields() {
-    return this.config.reconciliationMappingColumns.map((column) => {
-      return {
-        key: column.field,
-        columnName: column.columnName,
-      };
-    });
+    return this.config.reconciliationMappingColumns
+      .slice()
+      .sort(this.#sortObject)
+      .map(({ name, fieldId }) => {
+        return { name, fieldId };
+      });
   }
 
   get headersFields() {
@@ -21,7 +23,7 @@ class OrganizationLearnerImportFormat {
   get orderedDisplayabledColumns() {
     if (!this.config.displayableColumns) return [];
 
-    return this.config.displayableColumns.slice().sort((columnA, columnB) => columnA.position - columnB.position);
+    return this.config.displayableColumns.slice().sort(this.#sortObject);
   }
 
   get columnsToDisplay() {
@@ -51,8 +53,8 @@ class OrganizationLearnerImportFormat {
    */
 
   transformReconciliationData(params) {
-    return Object.entries(params).reduce((obj, [fieldName, value]) => {
-      const reconciliationField = this.config.reconciliationMappingColumns.find((column) => column.field === fieldName);
+    return Object.entries(params).reduce((obj, [fieldId, value]) => {
+      const reconciliationField = this.config.reconciliationMappingColumns.find((column) => column.fieldId === fieldId);
       const header = this.headersFields.find((column) => column.key === reconciliationField.key);
       if (header.property) {
         obj[header.property] = value;
