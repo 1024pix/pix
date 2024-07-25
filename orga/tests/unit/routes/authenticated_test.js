@@ -129,14 +129,14 @@ module('Unit | Route | authenticated', function (hooks) {
     });
   });
 
-  module('refreshModel', function () {
+  module('refreshAuthenticatedModel', function () {
     test('should call refresh', async function (assert) {
       // given
       const route = this.owner.lookup('route:authenticated');
       route.refresh = sinon.stub();
 
       // when
-      route.refreshModel();
+      route.refreshAuthenticatedModel();
 
       // then
       assert.ok(route.refresh.called);

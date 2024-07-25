@@ -7,7 +7,7 @@ export default class AuthenticatedController extends Controller {
   @service store;
 
   @action
-  refreshAuthenticatedModel() {
-    this.send('refreshModel');
+  onChangeOrganization() {
+    this.send('refreshAuthenticatedModel');
   }
 }

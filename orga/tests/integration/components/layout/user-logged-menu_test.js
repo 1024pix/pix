@@ -95,7 +95,7 @@ module('Integration | Component | Layout::UserLoggedMenu', function (hooks) {
 
   test('should redirect to authenticated route before reload the current user', async function (assert) {
     const replaceWithStub = sinon.stub();
-    const refreshAuthenticatedModel = sinon.stub();
+    const onChangeOrganization = sinon.stub();
 
     class RouterStub extends Service {
       replaceWith = replaceWithStub;
@@ -107,17 +107,15 @@ module('Integration | Component | Layout::UserLoggedMenu', function (hooks) {
         return { save() {} };
       }
     }
-    this.set('refreshAuthenticatedModel', refreshAuthenticatedModel);
+    this.set('onChangeOrganization', onChangeOrganization);
     this.owner.register('service:router', RouterStub);
     this.owner.register('service:store', StoreStub);
 
-    const screen = await render(
-      hbs`<Layout::UserLoggedMenu @refreshAuthenticatedModel={{this.refreshAuthenticatedModel}} />`,
-    );
+    const screen = await render(hbs`<Layout::UserLoggedMenu @onChangeOrganization={{this.onChangeOrganization}} />`);
     await clickByName('Ouvrir le menu utilisateur');
     await click(screen.getByRole('button', { name: `${organization2.name} (${organization2.externalId})` }));
 
     sinon.assert.callOrder(replaceWithStub, loadStub);
-    assert.ok(refreshAuthenticatedModel.calledOnce);
+    assert.ok(onChangeOrganization.calledOnce);
   });
 });

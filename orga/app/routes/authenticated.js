@@ -31,7 +31,7 @@ export default class AuthenticatedRoute extends Route {
   }
 
   @action
-  refreshModel() {
+  refreshAuthenticatedModel() {
     this.refresh();
   }
 }
