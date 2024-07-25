@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { learningContentCache } from '../../../../../../lib/infrastructure/caches/learning-content-cache.js';
+import { learningContentCache } from '../../../../../../src/shared/infrastructure/caches/learning-content-cache.js';
 import { tubeDatasource } from '../../../../../../src/shared/infrastructure/datasources/learning-content/tube-datasource.js';
 import { lcms } from '../../../../../../src/shared/infrastructure/lcms.js';
 import { expect, sinon } from '../../../../../test-helper.js';

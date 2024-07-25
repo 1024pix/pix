@@ -12,8 +12,8 @@ import lodash from 'lodash';
 const { isEmpty } = lodash;
 import { disconnect } from '../../db/knex-database-connection.js';
 import { usecases } from '../../lib/domain/usecases/index.js';
-import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
 import { temporaryStorage } from '../../lib/infrastructure/temporary-storage/index.js';
+import { learningContentCache as cache } from '../../src/shared/infrastructure/caches/learning-content-cache.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 
 /**

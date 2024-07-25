@@ -1,4 +1,4 @@
-import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
+import { logger } from '../utils/logger.js';
 import { Cache } from './Cache.js';
 
 class LayeredCache extends Cache {

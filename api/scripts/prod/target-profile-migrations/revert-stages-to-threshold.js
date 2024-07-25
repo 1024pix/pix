@@ -9,8 +9,8 @@ import fp from 'lodash/fp.js';
 import { readFile, set_fs, utils as xlsxUtils } from 'xlsx';
 
 import { disconnect } from '../../../db/knex-database-connection.js';
-import { learningContentCache as cache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
 import * as stageCollectionRepository from '../../../src/evaluation/infrastructure/repositories/stage-collection-repository.js';
+import { learningContentCache as cache } from '../../../src/shared/infrastructure/caches/learning-content-cache.js';
 import * as targetProfileForAdminRepository from '../../../src/shared/infrastructure/repositories/target-profile-for-admin-repository.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 

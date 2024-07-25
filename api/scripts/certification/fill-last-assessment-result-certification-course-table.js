@@ -5,7 +5,7 @@ import * as url from 'node:url';
 import bluebird from 'bluebird';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
-import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
+import { learningContentCache as cache } from '../../src/shared/infrastructure/caches/learning-content-cache.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 
 const ASSOC_TABLE_NAME = 'certification-courses-last-assessment-results';

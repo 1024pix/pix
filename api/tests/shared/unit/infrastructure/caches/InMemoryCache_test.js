@@ -1,7 +1,7 @@
 import NodeCache from 'node-cache';
 
-import { InMemoryCache } from '../../../../lib/infrastructure/caches/InMemoryCache.js';
-import { expect, sinon } from '../../../test-helper.js';
+import { InMemoryCache } from '../../../../../src/shared/infrastructure/caches/InMemoryCache.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Cache | in-memory-cache', function () {
   let inMemoryCache;

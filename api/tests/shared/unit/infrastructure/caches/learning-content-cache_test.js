@@ -1,5 +1,5 @@
-import { learningContentCache } from '../../../../lib/infrastructure/caches/learning-content-cache.js';
-import { expect, sinon } from '../../../test-helper.js';
+import { learningContentCache } from '../../../../../src/shared/infrastructure/caches/learning-content-cache.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Caches | LearningContentCache', function () {
   let originalUnderlyingCache;
