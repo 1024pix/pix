@@ -1,4 +1,4 @@
-import { ComplementaryCertificationScoringCriteria } from '../../../../lib/domain/models/ComplementaryCertificationScoringCriteria.js';
+import { ComplementaryCertificationScoringCriteria } from '../../../../src/shared/domain/models/ComplementaryCertificationScoringCriteria.js';
 
 function buildComplementaryCertificationScoringCriteria({
   complementaryCertificationCourseId = 123,

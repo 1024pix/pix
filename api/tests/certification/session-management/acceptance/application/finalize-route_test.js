@@ -1,8 +1,8 @@
-import { AnswerStatus, Assessment, CertificationResult } from '../../../../../lib/domain/models/index.js';
 import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
 } from '../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
+import { AnswerStatus, Assessment, CertificationResult } from '../../../../../src/shared/domain/models/index.js';
 import {
   createServer,
   databaseBuilder,

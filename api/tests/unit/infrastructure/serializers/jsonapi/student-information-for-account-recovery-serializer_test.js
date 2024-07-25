@@ -1,5 +1,5 @@
-import { StudentInformationForAccountRecovery } from '../../../../../lib/domain/read-models/StudentInformationForAccountRecovery.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer.js';
+import { StudentInformationForAccountRecovery } from '../../../../../src/shared/domain/read-models/StudentInformationForAccountRecovery.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | student-information-for-account-recovery-serializer', function () {

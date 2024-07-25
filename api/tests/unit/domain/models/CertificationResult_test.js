@@ -1,5 +1,5 @@
-import { CertificationResult } from '../../../../lib/domain/models/index.js';
 import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
+import { CertificationResult } from '../../../../src/shared/domain/models/index.js';
 import { domainBuilder, expect } from '../../../test-helper.js';
 
 const CERTIFICATION_RESULT_STATUS_CANCELLED = CertificationResult.status.CANCELLED;

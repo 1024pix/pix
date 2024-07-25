@@ -1,10 +1,10 @@
-import { CertificationCenter } from '../../../../lib/domain/models/CertificationCenter.js';
-import { AllowedCertificationCenterAccess } from '../../../../lib/domain/read-models/AllowedCertificationCenterAccess.js';
 import * as certificationPointOfContactRepository from '../../../../lib/infrastructure/repositories/certification-point-of-contact-repository.js';
 import * as centerRepository from '../../../../src/certification/enrolment/infrastructure/repositories/center-repository.js';
 import { CERTIFICATION_FEATURES } from '../../../../src/certification/shared/domain/constants.js';
 import { Organization } from '../../../../src/organizational-entities/domain/models/Organization.js';
 import { NotFoundError } from '../../../../src/shared/domain/errors.js';
+import { CertificationCenter } from '../../../../src/shared/domain/models/CertificationCenter.js';
+import { AllowedCertificationCenterAccess } from '../../../../src/shared/domain/read-models/AllowedCertificationCenterAccess.js';
 import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | Repository | CertificationPointOfContact', function () {

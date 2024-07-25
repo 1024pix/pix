@@ -5,11 +5,11 @@ import bluebird from 'bluebird';
 import Joi from 'joi';
 
 import { disconnect } from '../db/knex-database-connection.js';
-import { SCOPES } from '../lib/domain/models/BadgeDetails.js';
 import { DomainTransaction } from '../lib/infrastructure/DomainTransaction.js';
 import * as badgeCriteriaRepository from '../src/evaluation/infrastructure/repositories/badge-criteria-repository.js';
 import * as badgeRepository from '../src/evaluation/infrastructure/repositories/badge-repository.js';
 import { NotFoundError } from '../src/shared/domain/errors.js';
+import { SCOPES } from '../src/shared/domain/models/BadgeDetails.js';
 
 // Usage: node scripts/create-badge-criteria-for-specified-badge path/data.json
 // data.json

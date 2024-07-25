@@ -1,4 +1,4 @@
-import { CertificationChallenge } from '../../../../lib/domain/models/CertificationChallenge.js';
+import { CertificationChallenge } from '../../../../src/shared/domain/models/CertificationChallenge.js';
 import { buildSkill } from './build-skill.js';
 
 const buildCertificationChallenge = function ({

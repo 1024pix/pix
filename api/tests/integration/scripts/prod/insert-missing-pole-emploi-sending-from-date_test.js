@@ -1,10 +1,10 @@
 import dayjs from 'dayjs';
 
-import { PoleEmploiSending } from '../../../../lib/domain/models/PoleEmploiSending.js';
 import { insertMissingPoleEmploiSendingFromDate } from '../../../../scripts/prod/insert-missing-pole-emploi-sending-from-date.js';
 import { Tag } from '../../../../src/organizational-entities/domain/models/Tag.js';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
+import { PoleEmploiSending } from '../../../../src/shared/domain/models/PoleEmploiSending.js';
 import {
   catchErr,
   databaseBuilder,

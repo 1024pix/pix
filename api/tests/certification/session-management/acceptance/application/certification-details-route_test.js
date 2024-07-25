@@ -1,5 +1,5 @@
-import { KnowledgeElement } from '../../../../../lib/domain/models/index.js';
 import { CertificationAssessment } from '../../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
+import { KnowledgeElement } from '../../../../../src/shared/domain/models/index.js';
 import {
   createServer,
   databaseBuilder,

@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
-import { StudentForEnrolment } from '../../../../lib/domain/read-models/StudentForEnrolment.js';
 import { findStudentsForEnrolment } from '../../../../lib/domain/usecases/find-students-for-enrolment.js';
 import { NotFoundError } from '../../../../src/shared/domain/errors.js';
+import { StudentForEnrolment } from '../../../../src/shared/domain/read-models/StudentForEnrolment.js';
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | find-students-for-enrolment', function () {

@@ -1,6 +1,6 @@
-import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { InvalidMembershipOrganizationRoleError } from '../../../../src/shared/domain/errors.js';
+import { Membership } from '../../../../src/shared/domain/models/Membership.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 const { updateMembership } = usecases;

@@ -1,5 +1,5 @@
-import { Membership as Memberships } from '../../../../lib/domain/models/Membership.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { Membership as Memberships } from '../../../../src/shared/domain/models/Membership.js';
 import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | find-paginated-filtered-organizations-memberships', function () {

@@ -1,5 +1,5 @@
-import { constants } from '../../../../../lib/domain/constants.js';
 import { saveAutonomousCourse } from '../../../../../src/evaluation/domain/usecases/save-autonomous-course.js';
+import { constants } from '../../../../../src/shared/domain/constants.js';
 import {
   AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError,
   NotFoundError,

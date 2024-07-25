@@ -3,7 +3,7 @@ import {
   AlreadyExistingMembershipError,
   NotFoundError,
 } from '../../../../../src/shared/domain/errors.js';
-import { OrganizationInvitedUser } from '../../../../../src/team/domain/models/OrganizationInvitedUser.js';
+import { OrganizationInvitedUser } from '../../../../../src/shared/domain/models/OrganizationInvitedUser.js';
 import { catchErr, domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Unit | Team | Domain | Model | OrganizationInvitedUser', function () {

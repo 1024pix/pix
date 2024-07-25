@@ -1,4 +1,4 @@
-import { CertificationEligibility } from '../../../../lib/domain/read-models/CertificationEligibility.js';
+import { CertificationEligibility } from '../../../../src/shared/domain/read-models/CertificationEligibility.js';
 import { domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Read-models | CertificationEligibility', function () {

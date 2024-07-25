@@ -1,4 +1,4 @@
-import { CertificationPointOfContact } from '../../../../lib/domain/read-models/CertificationPointOfContact.js';
+import { CertificationPointOfContact } from '../../../../src/shared/domain/read-models/CertificationPointOfContact.js';
 import {
   ALLOWED_CERTIFICATION_CENTER_ACCESS_BUILDER_DEFAULT_ID,
   buildAllowedCertificationCenterAccess,

@@ -1,4 +1,4 @@
-import { BadgeForCalculation } from '../../../../lib/domain/models/BadgeForCalculation.js';
+import { BadgeForCalculation } from '../../../../src/shared/domain/models/BadgeForCalculation.js';
 import { buildBadgeCriterionForCalculation } from './build-badge-criterion-for-calculation.js';
 
 const buildBadgeForCalculation = function buildBadgeForCalculation({

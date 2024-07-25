@@ -1,4 +1,4 @@
-import { BadgeCriterion, SCOPES } from '../../../../lib/domain/models/BadgeDetails.js';
+import { BadgeCriterion, SCOPES } from '../../../../src/shared/domain/models/BadgeDetails.js';
 
 const buildBadgeCriterion = function ({
   id = 1,

@@ -1,8 +1,8 @@
-import { SCOPES } from '../../../lib/domain/models/BadgeDetails.js';
 import {
   checkBadgeExistence,
   checkCriteriaFormat,
 } from '../../../scripts/create-badge-criteria-for-specified-badge.js';
+import { SCOPES } from '../../../src/shared/domain/models/BadgeDetails.js';
 import { catchErr, databaseBuilder, expect } from '../../test-helper.js';
 
 describe('Integration | Scripts | create-badge-criteria-for-specified-badge', function () {

@@ -5,9 +5,9 @@ import 'dotenv/config';
 
 import lodash from 'lodash';
 
-import { OrganizationTag } from '../lib/domain/models/OrganizationTag.js';
 import * as organizationTagRepository from '../lib/infrastructure/repositories/organization-tag-repository.js';
 import { tagRepository } from '../src/organizational-entities/infrastructure/repositories/tag.repository.js';
+import { OrganizationTag } from '../src/shared/domain/models/OrganizationTag.js';
 import { parseCsv } from './helpers/csvHelpers.js';
 
 const { uniq } = lodash;

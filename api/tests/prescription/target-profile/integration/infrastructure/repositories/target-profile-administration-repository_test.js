@@ -1,6 +1,6 @@
-import { TargetProfile } from '../../../../../../lib/domain/models/index.js';
 import * as targetProfileAdministrationRepository from '../../../../../../src/prescription/target-profile/infrastructure/repositories/target-profile-administration-repository.js';
 import { NotFoundError, ObjectValidationError } from '../../../../../../src/shared/domain/errors.js';
+import { TargetProfile } from '../../../../../../src/shared/domain/models/index.js';
 import { catchErr, databaseBuilder, expect, knex } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | Target-profile', function () {

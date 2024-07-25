@@ -1,7 +1,7 @@
 import { knex } from '../../../../db/knex-database-connection.js';
 import { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } from '../../../../db/pgsql-errors.js';
-import { STUDENT_RECONCILIATION_ERRORS } from '../../../../lib/domain/constants.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { STUDENT_RECONCILIATION_ERRORS } from '../../../shared/domain/constants.js';
 import { OrganizationLearnerAlreadyLinkedToUserError } from '../../../shared/domain/errors.js';
 import { User } from '../../domain/models/User.js';
 

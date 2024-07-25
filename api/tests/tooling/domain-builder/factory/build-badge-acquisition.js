@@ -1,4 +1,4 @@
-import { BadgeAcquisition } from '../../../../lib/domain/models/BadgeAcquisition.js';
+import { BadgeAcquisition } from '../../../../src/shared/domain/models/BadgeAcquisition.js';
 import { buildBadge } from './build-badge.js';
 
 const buildBadgeAcquisition = function buildBadgeAcquisition({

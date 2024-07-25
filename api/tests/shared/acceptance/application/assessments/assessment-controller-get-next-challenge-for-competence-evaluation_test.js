@@ -1,5 +1,5 @@
-import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
+import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import {
   createServer,
   databaseBuilder,

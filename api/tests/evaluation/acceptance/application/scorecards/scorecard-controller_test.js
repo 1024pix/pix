@@ -1,5 +1,5 @@
-import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
 import { LOCALE } from '../../../../../src/shared/domain/constants.js';
+import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import {
   createServer,
   databaseBuilder,

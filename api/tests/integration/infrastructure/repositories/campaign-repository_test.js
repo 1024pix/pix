@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
-import { Campaign } from '../../../../lib/domain/models/Campaign.js';
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import { NotFoundError } from '../../../../src/shared/domain/errors.js';
+import { Campaign } from '../../../../src/shared/domain/models/Campaign.js';
 import { databaseBuilder, domainBuilder, expect, mockLearningContent } from '../../../test-helper.js';
 import { buildArea } from '../../../tooling/domain-builder/factory/build-area.js';
 import { buildCompetence } from '../../../tooling/domain-builder/factory/build-competence.js';

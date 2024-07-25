@@ -1,4 +1,4 @@
-import { roles } from '../../../../../lib/domain/models/Membership.js';
+import { roles } from '../../../../../src/shared/domain/models/Membership.js';
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
 import { databaseBuilder, expect } from '../../../../test-helper.js';
 

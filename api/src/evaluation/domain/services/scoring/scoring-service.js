@@ -4,7 +4,7 @@ import {
   MAX_REACHABLE_LEVEL,
   MAX_REACHABLE_PIX_BY_COMPETENCE,
   PIX_COUNT_BY_LEVEL,
-} from '../../../../../lib/domain/constants.js';
+} from '../../../../shared/domain/constants.js';
 
 function calculateScoringInformationForCompetence({
   knowledgeElements,

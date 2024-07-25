@@ -1,4 +1,3 @@
-import { EmailingAttempt, FinalizedSession } from '../../../../lib/domain/models/index.js';
 import { manageEmails, publishSession } from '../../../../lib/domain/services/session-publication-service.js';
 import { SessionAlreadyPublishedError } from '../../../../src/certification/session-management/domain/errors.js';
 import {
@@ -7,6 +6,7 @@ import {
   SendingEmailToResultRecipientError,
 } from '../../../../src/shared/domain/errors.js';
 import { status } from '../../../../src/shared/domain/models/AssessmentResult.js';
+import { EmailingAttempt, FinalizedSession } from '../../../../src/shared/domain/models/index.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 

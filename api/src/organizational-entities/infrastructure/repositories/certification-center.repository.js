@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
-import { CertificationCenter } from '../../../../lib/domain/models/index.js';
 import { BookshelfCertificationCenter } from '../../../../lib/infrastructure/orm-models/CertificationCenter.js';
 import { ComplementaryCertification } from '../../../certification/complementary-certification/domain/models/ComplementaryCertification.js';
+import { CertificationCenter } from '../../../shared/domain/models/index.js';
 
 function _toDomain(bookshelfCertificationCenter) {
   const dbCertificationCenter = bookshelfCertificationCenter.toJSON();

@@ -1,5 +1,5 @@
-import { constants } from '../../../../../lib/domain/constants.js';
 import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
+import { constants } from '../../../../../src/shared/domain/constants.js';
 import {
   NotFoundError,
   TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization,

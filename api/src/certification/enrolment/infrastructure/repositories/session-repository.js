@@ -1,9 +1,9 @@
 import _ from 'lodash';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { CertificationCenter } from '../../../../../lib/domain/models/index.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
+import { CertificationCenter } from '../../../../shared/domain/models/index.js';
 import { SessionEnrolment } from '../../domain/models/SessionEnrolment.js';
 
 const save = async function ({ session, domainTransaction = DomainTransaction.emptyTransaction() }) {

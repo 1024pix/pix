@@ -1,7 +1,7 @@
-import { ResultCompetence } from '../../../../../../lib/domain/models/ResultCompetence.js';
 import { ResultCompetenceTree } from '../../../../../../src/certification/results/domain/models/ResultCompetenceTree.js';
 import * as serializer from '../../../../../../src/certification/results/infrastructure/serializers/private-certificate-serializer.js';
 import { AutoJuryCommentKeys } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
+import { ResultCompetence } from '../../../../../../src/shared/domain/models/ResultCompetence.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 

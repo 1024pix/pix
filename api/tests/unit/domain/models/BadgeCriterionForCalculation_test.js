@@ -1,4 +1,4 @@
-import { BadgeCriterionForCalculation } from '../../../../lib/domain/models/BadgeCriterionForCalculation.js';
+import { BadgeCriterionForCalculation } from '../../../../src/shared/domain/models/BadgeCriterionForCalculation.js';
 import { expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | BadgeCriterionForCalculation', function () {

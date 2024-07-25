@@ -1,5 +1,5 @@
-import { Thematic } from '../../../../lib/domain/models/Thematic.js';
 import * as thematicRepository from '../../../../lib/infrastructure/repositories/thematic-repository.js';
+import { Thematic } from '../../../../src/shared/domain/models/Thematic.js';
 import { domainBuilder, expect, mockLearningContent } from '../../../test-helper.js';
 
 describe('Integration | Repository | thematic-repository', function () {

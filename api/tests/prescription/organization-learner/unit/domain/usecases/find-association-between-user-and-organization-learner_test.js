@@ -1,10 +1,10 @@
-import { OrganizationLearner } from '../../../../../../lib/domain/models/OrganizationLearner.js';
 import { findAssociationBetweenUserAndOrganizationLearner } from '../../../../../../src/prescription/organization-learner/domain/usecases/find-association-between-user-and-organization-learner.js';
 import {
   CampaignCodeError,
   OrganizationLearnerDisabledError,
   UserNotAuthorizedToAccessEntityError,
 } from '../../../../../../src/shared/domain/errors.js';
+import { OrganizationLearner } from '../../../../../../src/shared/domain/models/OrganizationLearner.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | find-association-between-user-and-organization-learner', function () {

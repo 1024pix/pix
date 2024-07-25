@@ -1,4 +1,4 @@
-import { BadgeCriterion, BadgeDetails, CappedTube, SCOPES } from '../../../../lib/domain/models/BadgeDetails.js';
+import { BadgeCriterion, BadgeDetails, CappedTube, SCOPES } from '../../../../src/shared/domain/models/BadgeDetails.js';
 
 const buildBadgeDetails = function buildBadgeDetails({
   id = 123,

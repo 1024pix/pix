@@ -8,10 +8,10 @@ import {
   CertificationCenterMembershipDisableError,
   NotFoundError,
 } from '../../../src/shared/domain/errors.js';
+import { CertificationCenter } from '../../../src/shared/domain/models/CertificationCenter.js';
+import { CertificationCenterMembership } from '../../../src/shared/domain/models/CertificationCenterMembership.js';
 import * as bookshelfToDomainConverter from '../../../src/shared/infrastructure/utils/bookshelf-to-domain-converter.js';
 import * as knexUtils from '../../../src/shared/infrastructure/utils/knex-utils.js';
-import { CertificationCenter } from '../../domain/models/CertificationCenter.js';
-import { CertificationCenterMembership } from '../../domain/models/CertificationCenterMembership.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 import { BookshelfCertificationCenterMembership } from '../orm-models/CertificationCenterMembership.js';
 

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
-import { Area } from '../../../../lib/domain/models/Area.js';
 import { NotFoundError } from '../../domain/errors.js';
+import { Area } from '../../domain/models/Area.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 import { areaDatasource } from '../../infrastructure/datasources/learning-content/area-datasource.js';
 import * as competenceRepository from './competence-repository.js';

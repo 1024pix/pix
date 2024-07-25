@@ -1,8 +1,8 @@
-import { Organization } from '../../../../../lib/domain/models/index.js';
 import { Division } from '../../../../../src/school/domain/models/Division.js';
 import { School } from '../../../../../src/school/domain/models/School.js';
 import { SchoolNotFoundError } from '../../../../../src/school/domain/school-errors.js';
 import { repositories } from '../../../../../src/school/infrastructure/repositories/index.js';
+import { Organization } from '../../../../../src/shared/domain/models/index.js';
 import { catchErr, databaseBuilder, expect, knex } from '../../../../test-helper.js';
 
 describe('Integration | Repository | School', function () {

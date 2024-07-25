@@ -1,4 +1,4 @@
-import { CompetenceTree } from '../../../../lib/domain/models/CompetenceTree.js';
+import { CompetenceTree } from '../../../../src/shared/domain/models/CompetenceTree.js';
 import { buildArea } from './build-area.js';
 import { buildCompetence } from './build-competence.js';
 

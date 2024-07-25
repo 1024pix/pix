@@ -1,4 +1,4 @@
-import { UserDetailsForAdmin } from '../../../../lib/domain/models/UserDetailsForAdmin.js';
+import { UserDetailsForAdmin } from '../../../../src/shared/domain/models/UserDetailsForAdmin.js';
 import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | UserDetailsForAdmin', function () {

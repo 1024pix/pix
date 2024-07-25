@@ -1,4 +1,4 @@
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { KnowledgeElement } from '../../../../src/shared/domain/models/KnowledgeElement.js';
 
 const buildKnowledgeElement = function ({
   id = 123,

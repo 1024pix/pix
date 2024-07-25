@@ -1,4 +1,4 @@
-import { Skill } from '../../../../lib/domain/models/Skill.js';
+import { Skill } from '../../../../src/shared/domain/models/Skill.js';
 
 const buildSkill = function buildSkill({
   id = 'recSK123',

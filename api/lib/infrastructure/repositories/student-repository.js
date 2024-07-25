@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { knex } from '../../../db/knex-database-connection.js';
-import { Student } from '../../domain/models/Student.js';
+import { Student } from '../../../src/shared/domain/models/Student.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 
 const _toStudents = function (results) {

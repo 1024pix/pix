@@ -2,7 +2,7 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
 
-import { UserDetailsForAdmin } from '../../../domain/models/UserDetailsForAdmin.js';
+import { UserDetailsForAdmin } from '../../../../src/shared/domain/models/UserDetailsForAdmin.js';
 
 const serialize = function (usersDetailsForAdmin) {
   return new Serializer('user', {

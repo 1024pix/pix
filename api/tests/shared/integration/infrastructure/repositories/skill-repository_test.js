@@ -1,5 +1,5 @@
-import { Skill } from '../../../../../lib/domain/models/Skill.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
+import { Skill } from '../../../../../src/shared/domain/models/Skill.js';
 import * as skillRepository from '../../../../../src/shared/infrastructure/repositories/skill-repository.js';
 import { catchErr, domainBuilder, expect, mockLearningContent } from '../../../../test-helper.js';
 

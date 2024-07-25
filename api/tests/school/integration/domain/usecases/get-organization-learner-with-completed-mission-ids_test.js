@@ -1,6 +1,6 @@
-import { Assessment } from '../../../../../lib/domain/models/index.js';
 import { OrganizationLearner } from '../../../../../src/school/domain/models/OrganizationLearner.js';
 import { usecases } from '../../../../../src/school/domain/usecases/index.js';
+import { Assessment } from '../../../../../src/shared/domain/models/index.js';
 import { databaseBuilder, expect } from '../../../../test-helper.js';
 
 describe('Integration | Usecase | get-organization-learner-with-completed-mission-ids', function () {

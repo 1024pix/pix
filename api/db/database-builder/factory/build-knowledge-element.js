@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { KnowledgeElement } from '../../../lib/domain/models/KnowledgeElement.js';
+import { KnowledgeElement } from '../../../src/shared/domain/models/KnowledgeElement.js';
 import { databaseBuffer } from '../database-buffer.js';
 import { buildAnswer } from './build-answer.js';
 import { buildAssessment } from './build-assessment.js';

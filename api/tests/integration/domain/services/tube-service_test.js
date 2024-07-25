@@ -1,6 +1,6 @@
-import { Skill } from '../../../../lib/domain/models/Skill.js';
-import { Tube } from '../../../../lib/domain/models/Tube.js';
 import { computeTubesFromSkills } from '../../../../lib/domain/services/tube-service.js';
+import { Skill } from '../../../../src/shared/domain/models/Skill.js';
+import { Tube } from '../../../../src/shared/domain/models/Tube.js';
 import { expect } from '../../../test-helper.js';
 
 describe('Integration | Domain | Services | TubeService', function () {

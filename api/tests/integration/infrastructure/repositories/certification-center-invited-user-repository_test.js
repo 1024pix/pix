@@ -1,8 +1,8 @@
 import lodash from 'lodash';
 
-import { CertificationCenterInvitedUser } from '../../../../lib/domain/models/CertificationCenterInvitedUser.js';
 import * as certificationCenterInvitedUserRepository from '../../../../lib/infrastructure/repositories/certification-center-invited-user-repository.js';
 import { NotFoundError } from '../../../../src/shared/domain/errors.js';
+import { CertificationCenterInvitedUser } from '../../../../src/shared/domain/models/CertificationCenterInvitedUser.js';
 import { CertificationCenterInvitation } from '../../../../src/team/domain/models/CertificationCenterInvitation.js';
 import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 

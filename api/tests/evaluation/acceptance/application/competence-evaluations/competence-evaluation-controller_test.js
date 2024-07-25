@@ -1,4 +1,4 @@
-import { MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../../lib/domain/constants.js';
+import { MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../../src/shared/domain/constants.js';
 import {
   createServer,
   databaseBuilder,

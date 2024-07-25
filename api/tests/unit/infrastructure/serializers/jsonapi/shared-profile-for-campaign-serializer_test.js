@@ -1,5 +1,5 @@
-import { SharedProfileForCampaign } from '../../../../../lib/domain/read-models/SharedProfileForCampaign.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/shared-profile-for-campaign-serializer.js';
+import { SharedProfileForCampaign } from '../../../../../src/shared/domain/read-models/SharedProfileForCampaign.js';
 import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | shared-profile-for-campaign-serializer', function () {

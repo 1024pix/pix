@@ -5,9 +5,9 @@ import {
   MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING,
   MINIMUM_DELAY_IN_DAYS_FOR_RESET,
   PIX_COUNT_BY_LEVEL,
-} from '../../../../lib/domain/constants.js';
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+} from '../../../shared/domain/constants.js';
 import { Assessment } from '../../../shared/domain/models/Assessment.js';
+import { KnowledgeElement } from '../../../shared/domain/models/KnowledgeElement.js';
 import * as scoringService from '../services/scoring/scoring-service.js';
 import { CompetenceEvaluation } from './CompetenceEvaluation.js';
 

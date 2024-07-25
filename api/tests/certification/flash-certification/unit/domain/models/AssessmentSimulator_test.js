@@ -1,4 +1,4 @@
-import { Answer, AnswerStatus, AssessmentSimulator } from '../../../../../../lib/domain/models/index.js';
+import { Answer, AnswerStatus, AssessmentSimulator } from '../../../../../../src/shared/domain/models/index.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | AssessmentSimulator', function () {

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { knex } from '../../../db/knex-database-connection.js';
-import { CertifiableProfileForLearningContent } from '../../domain/models/CertifiableProfileForLearningContent.js';
+import { CertifiableProfileForLearningContent } from '../../../src/shared/domain/models/CertifiableProfileForLearningContent.js';
 import * as knowledgeElementRepository from './knowledge-element-repository.js';
 
 const get = async function ({ id, profileDate, learningContent }) {

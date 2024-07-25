@@ -1,18 +1,18 @@
 import _ from 'lodash';
 
+import {
+  MAX_CHALLENGES_PER_AREA_FOR_CERTIFICATION_PLUS,
+  MAX_CHALLENGES_PER_COMPETENCE_FOR_CERTIFICATION,
+  PIX_ORIGIN,
+} from '../../../src/shared/domain/constants.js';
+import { CertificationChallenge } from '../../../src/shared/domain/models/CertificationChallenge.js';
 import { Challenge } from '../../../src/shared/domain/models/Challenge.js';
+import { KnowledgeElement } from '../../../src/shared/domain/models/KnowledgeElement.js';
 import * as answerRepository from '../../../src/shared/infrastructure/repositories/answer-repository.js';
 import * as challengeRepository from '../../../src/shared/infrastructure/repositories/challenge-repository.js';
 import * as certifiableProfileForLearningContentRepository from '../../infrastructure/repositories/certifiable-profile-for-learning-content-repository.js';
 import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
 import * as learningContentRepository from '../../infrastructure/repositories/learning-content-repository.js';
-import {
-  MAX_CHALLENGES_PER_AREA_FOR_CERTIFICATION_PLUS,
-  MAX_CHALLENGES_PER_COMPETENCE_FOR_CERTIFICATION,
-  PIX_ORIGIN,
-} from '../constants.js';
-import { CertificationChallenge } from '../models/CertificationChallenge.js';
-import { KnowledgeElement } from '../models/KnowledgeElement.js';
 
 const pickCertificationChallenges = async function (
   placementProfile,

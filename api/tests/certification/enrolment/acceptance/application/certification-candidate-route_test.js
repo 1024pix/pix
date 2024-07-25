@@ -1,6 +1,6 @@
-import { CertificationCandidate } from '../../../../../lib/domain/models/index.js';
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
+import { CertificationCandidate } from '../../../../../src/shared/domain/models/index.js';
 import {
   createServer,
   databaseBuilder,

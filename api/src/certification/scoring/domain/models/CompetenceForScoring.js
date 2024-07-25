@@ -1,4 +1,4 @@
-import { CompetenceMark } from '../../../../../lib/domain/models/index.js';
+import { CompetenceMark } from '../../../../shared/domain/models/index.js';
 
 /**
  * @typedef Interval

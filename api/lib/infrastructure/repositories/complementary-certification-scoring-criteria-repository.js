@@ -1,5 +1,5 @@
 import { knex } from '../../../db/knex-database-connection.js';
-import { ComplementaryCertificationScoringCriteria } from '../../domain/models/ComplementaryCertificationScoringCriteria.js';
+import { ComplementaryCertificationScoringCriteria } from '../../../src/shared/domain/models/ComplementaryCertificationScoringCriteria.js';
 
 const findByCertificationCourseId = async function ({ certificationCourseId }) {
   const results = await knex('complementary-certification-courses')

@@ -1,6 +1,6 @@
-import { OrganizationLearner } from '../../../../../lib/domain/models/OrganizationLearner.js';
 import { SchoolLearner } from '../../../../../src/school/domain/models/SchoolLearner.js';
 import * as missionLearnersRepository from '../../../../../src/school/infrastructure/repositories/mission-learner-repository.js';
+import { OrganizationLearner } from '../../../../../src/shared/domain/models/OrganizationLearner.js';
 import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Repository | organizationLearner', function () {

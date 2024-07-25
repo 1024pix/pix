@@ -1,9 +1,9 @@
 import _ from 'lodash';
 
 import { LOCALE } from '../../../src/shared/domain/constants.js';
+import { Thematic } from '../../../src/shared/domain/models/Thematic.js';
 import { getTranslatedKey } from '../../../src/shared/domain/services/get-translated-text.js';
 import { thematicDatasource } from '../../../src/shared/infrastructure/datasources/learning-content/thematic-datasource.js';
-import { Thematic } from '../../domain/models/Thematic.js';
 
 const { FRENCH_FRANCE } = LOCALE;
 

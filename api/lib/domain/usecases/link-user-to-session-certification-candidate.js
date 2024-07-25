@@ -10,9 +10,9 @@ import {
   UnexpectedUserAccountError,
   UserAlreadyLinkedToCandidateInSessionError,
 } from '../../../src/shared/domain/errors.js';
+import { CertificationCandidate } from '../../../src/shared/domain/models/CertificationCandidate.js';
 import { UserAlreadyLinkedToCertificationCandidate } from '../events/UserAlreadyLinkedToCertificationCandidate.js';
 import { UserLinkedToCertificationCandidate } from '../events/UserLinkedToCertificationCandidate.js';
-import { CertificationCandidate } from '../models/CertificationCandidate.js';
 
 const linkUserToSessionCertificationCandidate = async function ({
   userId,

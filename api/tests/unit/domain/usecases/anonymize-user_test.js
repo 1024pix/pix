@@ -1,6 +1,6 @@
 import { UserAnonymized } from '../../../../lib/domain/events/UserAnonymized.js';
-import { UserLogin } from '../../../../lib/domain/models/index.js';
 import { anonymizeUser } from '../../../../lib/domain/usecases/anonymize-user.js';
+import { UserLogin } from '../../../../src/shared/domain/models/index.js';
 import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | anonymize-user', function () {

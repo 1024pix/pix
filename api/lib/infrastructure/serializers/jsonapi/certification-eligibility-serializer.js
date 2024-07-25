@@ -1,5 +1,5 @@
 /**
- * @typedef {import ('../../../domain/read-models/CertificationEligibility.js').CertificationEligibility} CertificationEligibility
+ * @typedef {import ('../../../../src/shared/domain/read-models/CertificationEligibility.js').CertificationEligibility} CertificationEligibility
  */
 import jsonapiSerializer from 'jsonapi-serializer';
 

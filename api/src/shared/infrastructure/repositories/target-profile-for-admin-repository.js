@@ -1,18 +1,18 @@
 import _ from 'lodash';
 
 import { knex } from '../../../../db/knex-database-connection.js';
-import { constants } from '../../../../lib/domain/constants.js';
+import { constants } from '../../../shared/domain/constants.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { LOCALE } from '../../domain/constants.js';
 
 const { FRENCH_FRANCE } = LOCALE;
 
-import { BadgeCriterion, BadgeDetails, CappedTube, SCOPES } from '../../../../lib/domain/models/BadgeDetails.js';
-import { TargetProfileForAdmin } from '../../../../lib/domain/models/index.js';
 import * as thematicRepository from '../../../../lib/infrastructure/repositories/thematic-repository.js';
 import * as tubeRepository from '../../../../lib/infrastructure/repositories/tube-repository.js';
 import * as areaRepository from '../../../shared/infrastructure/repositories/area-repository.js';
 import { DomainTransaction } from '../../domain/DomainTransaction.js';
+import { BadgeCriterion, BadgeDetails, CappedTube, SCOPES } from '../../domain/models/BadgeDetails.js';
+import { TargetProfileForAdmin } from '../../domain/models/index.js';
 import { StageCollection } from '../../domain/models/target-profile-management/StageCollection.js';
 import * as competenceRepository from './competence-repository.js';
 import * as skillRepository from './skill-repository.js';

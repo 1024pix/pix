@@ -2,17 +2,17 @@ import jsonwebtoken from 'jsonwebtoken';
 import ms from 'ms';
 import { Issuer } from 'openid-client';
 
-import { OIDC_ERRORS } from '../../../../../lib/domain/constants.js';
+import { monitoringTools } from '../../../../../lib/infrastructure/monitoring-tools.js';
+import { OidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/oidc-authentication-service.js';
+import { config as settings } from '../../../../../src/shared/config.js';
+import { OIDC_ERRORS } from '../../../../../src/shared/domain/constants.js';
+import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
+import { OidcError, OidcMissingFieldsError } from '../../../../../src/shared/domain/errors.js';
 import {
   AuthenticationMethod,
   AuthenticationSessionContent,
   UserToCreate,
-} from '../../../../../lib/domain/models/index.js';
-import { monitoringTools } from '../../../../../lib/infrastructure/monitoring-tools.js';
-import { OidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/oidc-authentication-service.js';
-import { config as settings } from '../../../../../src/shared/config.js';
-import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
-import { OidcError, OidcMissingFieldsError } from '../../../../../src/shared/domain/errors.js';
+} from '../../../../../src/shared/domain/models/index.js';
 import { catchErr, catchErrSync, expect, sinon } from '../../../../test-helper.js';
 
 const uuidV4Regex = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;

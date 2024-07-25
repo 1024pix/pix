@@ -1,8 +1,8 @@
 import lodash from 'lodash';
 
-import { MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../lib/domain/constants.js';
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
-import { ParticipantResultsShared } from '../../../../lib/domain/models/ParticipantResultsShared.js';
+import { MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../src/shared/domain/constants.js';
+import { KnowledgeElement } from '../../../../src/shared/domain/models/KnowledgeElement.js';
+import { ParticipantResultsShared } from '../../../../src/shared/domain/models/ParticipantResultsShared.js';
 import { domainBuilder, expect } from '../../../test-helper.js';
 const { noop } = lodash;
 

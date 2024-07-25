@@ -1,6 +1,6 @@
-import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { updateMembership } from '../../../../lib/domain/usecases/update-membership.js';
 import * as membershipRepository from '../../../../lib/infrastructure/repositories/membership-repository.js';
+import { Membership } from '../../../../src/shared/domain/models/Membership.js';
 import { databaseBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | UseCases | update-membership', function () {

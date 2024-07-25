@@ -1,5 +1,5 @@
-import { CertificationCenter } from '../../../../../../lib/domain/models/CertificationCenter.js';
 import { getCertificationCenter } from '../../../../../../src/certification/enrolment/domain/usecases/get-certification-center.js';
+import { CertificationCenter } from '../../../../../../src/shared/domain/models/CertificationCenter.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | get-certification-center', function () {

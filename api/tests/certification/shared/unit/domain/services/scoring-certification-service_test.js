@@ -5,7 +5,6 @@ import { CertificationCourseRejected } from '../../../../../../lib/domain/events
 import { CertificationJuryDone } from '../../../../../../lib/domain/events/CertificationJuryDone.js';
 import { ChallengeDeneutralized } from '../../../../../../lib/domain/events/ChallengeDeneutralized.js';
 import { ChallengeNeutralized } from '../../../../../../lib/domain/events/ChallengeNeutralized.js';
-import { CertificationResult } from '../../../../../../lib/domain/models/index.js';
 import { CertificationChallengeForScoring } from '../../../../../../src/certification/scoring/domain/models/CertificationChallengeForScoring.js';
 import {
   CertificationAssessment,
@@ -18,6 +17,7 @@ import * as scoringCertificationService from '../../../../../../src/certificatio
 import { config } from '../../../../../../src/shared/config.js';
 import { CertificationComputeError } from '../../../../../../src/shared/domain/errors.js';
 import { AssessmentResult, status } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
+import { CertificationResult } from '../../../../../../src/shared/domain/models/index.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 import { generateAnswersForChallenges, generateChallengeList } from '../../../fixtures/challenges.js';
 

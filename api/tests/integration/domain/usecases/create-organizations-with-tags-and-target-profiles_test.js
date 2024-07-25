@@ -1,6 +1,5 @@
 import lodash from 'lodash';
 
-import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { createOrganizationsWithTagsAndTargetProfiles } from '../../../../lib/domain/usecases/create-organizations-with-tags-and-target-profiles.js';
 import * as organizationValidator from '../../../../lib/domain/validators/organization-with-tags-and-target-profiles-script.js';
 import { DomainTransaction as domainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
@@ -17,6 +16,7 @@ import {
   TargetProfileInvalidError,
 } from '../../../../src/shared/domain/errors.js';
 import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
+import { Membership } from '../../../../src/shared/domain/models/Membership.js';
 import * as organizationRepository from '../../../../src/shared/infrastructure/repositories/organization-repository.js';
 import { organizationInvitationService } from '../../../../src/team/domain/services/organization-invitation.service.js';
 import { organizationInvitationRepository } from '../../../../src/team/infrastructure/repositories/organization-invitation.repository.js';

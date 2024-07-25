@@ -1,6 +1,6 @@
 import { organizationController } from '../../../../lib/application/organizations/organization-controller.js';
-import { Membership, Organization } from '../../../../lib/domain/models/index.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { Membership, Organization } from '../../../../src/shared/domain/models/index.js';
 import { domainBuilder, expect, generateValidRequestAuthorizationHeader, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | Organizations | organization-controller', function () {

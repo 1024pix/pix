@@ -1,10 +1,10 @@
-import { OrganizationLearner } from '../../../../../lib/domain/models/OrganizationLearner.js';
 import {
   AlreadyExistingCampaignParticipationError,
   NotEnoughDaysPassedBeforeResetCampaignParticipationError,
 } from '../../../../shared/domain/errors.js';
 import { EntityValidationError, ForbiddenAccess } from '../../../../shared/domain/errors.js';
 import { Assessment } from '../../../../shared/domain/models/Assessment.js';
+import { OrganizationLearner } from '../../../../shared/domain/models/OrganizationLearner.js';
 import { CampaignParticipation } from './CampaignParticipation.js';
 
 const couldNotJoinCampaignErrorMessage = "Vous n'êtes pas autorisé à rejoindre la campagne";

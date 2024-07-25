@@ -1,6 +1,6 @@
-import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { createOrganizationInvitationByAdmin } from '../../../../lib/domain/usecases/create-organization-invitation-by-admin.js';
 import { OrganizationArchivedError } from '../../../../src/shared/domain/errors.js';
+import { Membership } from '../../../../src/shared/domain/models/Membership.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | create-organization-invitation-by-admin', function () {

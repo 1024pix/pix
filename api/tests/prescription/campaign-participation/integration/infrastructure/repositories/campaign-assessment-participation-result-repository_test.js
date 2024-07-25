@@ -1,6 +1,6 @@
-import { KnowledgeElement } from '../../../../../../lib/domain/models/KnowledgeElement.js';
 import * as campaignAssessmentParticipationResultRepository from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-assessment-participation-result-repository.js';
 import { LOCALE } from '../../../../../../src/shared/domain/constants.js';
+import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { catchErr, databaseBuilder, expect, mockLearningContent } from '../../../../../test-helper.js';
 
 const { ENGLISH_SPOKEN, FRENCH_SPOKEN } = LOCALE;

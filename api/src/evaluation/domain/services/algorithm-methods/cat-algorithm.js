@@ -1,4 +1,4 @@
-import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
+import { KnowledgeElement } from '../../../../shared/domain/models/KnowledgeElement.js';
 
 export { findMaxRewardingSkills, getPredictedLevel };
 

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
-import { CertificationCenter } from '../../../../../lib/domain/models/CertificationCenter.js';
 import * as certificationCenterRepository from '../../../../../src/organizational-entities/infrastructure/repositories/certification-center.repository.js';
+import { CertificationCenter } from '../../../../../src/shared/domain/models/CertificationCenter.js';
 import { databaseBuilder, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Organizational Entities | Infrastructure | Repository | Certification Center', function () {

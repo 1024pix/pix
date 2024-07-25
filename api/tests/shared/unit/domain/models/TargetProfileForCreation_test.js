@@ -1,4 +1,4 @@
-import { TargetProfileForCreation } from '../../../../../lib/domain/models/index.js';
+import { TargetProfileForCreation } from '../../../../../src/shared/domain/models/index.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Models | TargetProfileForCreation', function () {

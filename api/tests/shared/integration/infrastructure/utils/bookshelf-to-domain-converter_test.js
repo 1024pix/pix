@@ -1,6 +1,3 @@
-import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
-import { Membership } from '../../../../../lib/domain/models/Membership.js';
-import { TargetProfile } from '../../../../../lib/domain/models/TargetProfile.js';
 import { BookshelfCampaign } from '../../../../../lib/infrastructure/orm-models/Campaign.js';
 import { BookshelfCampaignParticipation } from '../../../../../lib/infrastructure/orm-models/CampaignParticipation.js';
 import { BookshelfOrganization } from '../../../../../lib/infrastructure/orm-models/Organization.js';
@@ -8,6 +5,9 @@ import { BookshelfUser } from '../../../../../lib/infrastructure/orm-models/User
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { Organization } from '../../../../../src/organizational-entities/domain/models/Organization.js';
 import { Tag } from '../../../../../src/organizational-entities/domain/models/Tag.js';
+import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
+import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
+import { TargetProfile } from '../../../../../src/shared/domain/models/TargetProfile.js';
 import * as bookshelfToDomainConverter from '../../../../../src/shared/infrastructure/utils/bookshelf-to-domain-converter.js';
 import { databaseBuilder, expect } from '../../../../test-helper.js';
 

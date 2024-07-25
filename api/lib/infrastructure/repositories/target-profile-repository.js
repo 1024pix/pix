@@ -4,7 +4,7 @@ import { knex } from '../../../db/knex-database-connection.js';
 import { Badge } from '../../../src/evaluation/domain/models/Badge.js';
 import { NotFoundError } from '../../../src/shared/domain/errors.js';
 import { ObjectValidationError } from '../../../src/shared/domain/errors.js';
-import { TargetProfile } from '../../domain/models/index.js';
+import { TargetProfile } from '../../../src/shared/domain/models/index.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 
 const TARGET_PROFILE_TABLE = 'target-profiles';

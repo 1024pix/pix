@@ -1,4 +1,4 @@
-import { TargetProfileForAdmin } from '../../../../lib/domain/models/TargetProfileForAdmin.js';
+import { TargetProfileForAdmin } from '../../../../src/shared/domain/models/TargetProfileForAdmin.js';
 import { buildArea } from './build-area.js';
 import { buildCompetence } from './build-competence.js';
 import { buildThematic } from './build-thematic.js';

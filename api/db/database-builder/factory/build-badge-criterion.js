@@ -1,4 +1,4 @@
-import { SCOPES } from '../../../lib/domain/models/BadgeDetails.js';
+import { SCOPES } from '../../../src/shared/domain/models/BadgeDetails.js';
 import { databaseBuffer } from '../database-buffer.js';
 import { buildBadge } from './build-badge.js';
 

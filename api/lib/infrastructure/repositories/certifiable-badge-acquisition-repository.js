@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { knex } from '../../../db/knex-database-connection.js';
-import { CertifiableBadgeAcquisition } from '../../domain/models/CertifiableBadgeAcquisition.js';
+import { CertifiableBadgeAcquisition } from '../../../src/shared/domain/models/CertifiableBadgeAcquisition.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 
 const BADGE_ACQUISITIONS_TABLE = 'badge-acquisitions';

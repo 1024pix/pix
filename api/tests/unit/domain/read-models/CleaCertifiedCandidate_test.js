@@ -1,4 +1,4 @@
-import { CleaCertifiedCandidate } from '../../../../lib/domain/read-models/CleaCertifiedCandidate.js';
+import { CleaCertifiedCandidate } from '../../../../src/shared/domain/read-models/CleaCertifiedCandidate.js';
 import { expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | CleaCertifiedCandidate', function () {

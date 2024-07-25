@@ -7,8 +7,8 @@ import {
   ChallengeNotAskedError,
 } from '../../../src/shared/domain/errors.js';
 import { Examiner } from '../../../src/shared/domain/models/Examiner.js';
+import { KnowledgeElement } from '../../../src/shared/domain/models/KnowledgeElement.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
-import { KnowledgeElement } from '../models/KnowledgeElement.js';
 
 const evaluateAnswer = function ({ challenge, answer, assessment, examiner: injectedExaminer }) {
   const examiner = injectedExaminer ?? new Examiner({ validator: challenge.validator });

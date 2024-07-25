@@ -1,6 +1,6 @@
-import { Membership, Organization } from '../../../../../../lib/domain/models/index.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { ORGANIZATION_FEATURE } from '../../../../../../src/shared/domain/constants.js';
+import { Membership, Organization } from '../../../../../../src/shared/domain/models/index.js';
 import { prescriberSerializer } from '../../../../../../src/team/infrastructure/serializers/jsonapi/prescriber-serializer.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 

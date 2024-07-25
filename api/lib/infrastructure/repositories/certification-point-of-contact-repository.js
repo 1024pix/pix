@@ -2,8 +2,8 @@ import _ from 'lodash';
 
 import { knex } from '../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../src/shared/domain/errors.js';
-import { AllowedCertificationCenterAccess } from '../../domain/read-models/AllowedCertificationCenterAccess.js';
-import { CertificationPointOfContact } from '../../domain/read-models/CertificationPointOfContact.js';
+import { AllowedCertificationCenterAccess } from '../../../src/shared/domain/read-models/AllowedCertificationCenterAccess.js';
+import { CertificationPointOfContact } from '../../../src/shared/domain/read-models/CertificationPointOfContact.js';
 
 const CERTIFICATION_CENTER_MEMBERSHIPS_TABLE_NAME = 'certification-center-memberships';
 

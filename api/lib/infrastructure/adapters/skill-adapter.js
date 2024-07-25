@@ -1,4 +1,4 @@
-import { Skill } from '../../domain/models/Skill.js';
+import { Skill } from '../../../src/shared/domain/models/Skill.js';
 
 const fromDatasourceObject = function (datasourceObject) {
   return new Skill({

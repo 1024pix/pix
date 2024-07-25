@@ -1,6 +1,6 @@
-import { CERTIFICATION_CENTER_MEMBERSHIP_ROLES } from '../../../../lib/domain/models/CertificationCenterMembership.js';
-import { CertificationCenter } from '../../../../lib/domain/models/index.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
+import { CERTIFICATION_CENTER_MEMBERSHIP_ROLES } from '../../../../src/shared/domain/models/CertificationCenterMembership.js';
+import { CertificationCenter } from '../../../../src/shared/domain/models/index.js';
 import {
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,

@@ -1,4 +1,4 @@
-import { Solution } from '../../../../lib/domain/models/Solution.js';
+import { Solution } from '../../../../src/shared/domain/models/Solution.js';
 import { _ } from '../utils/lodash-utils.js';
 
 function statusToBoolean(value) {

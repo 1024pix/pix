@@ -1,6 +1,6 @@
-import { KnowledgeElement } from '../../../../lib/domain/models/index.js';
 import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
+import { KnowledgeElement } from '../../../../src/shared/domain/models/index.js';
 import { databaseBuilder, domainBuilder, mockLearningContent } from '../../../test-helper.js';
 import {
   buildArea,

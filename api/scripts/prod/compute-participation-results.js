@@ -5,10 +5,10 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 import * as dotenv from 'dotenv';
 
 dotenv.config({ path: `${__dirname}/../../.env` });
-import { ParticipantResultsShared } from '../../lib/domain/models/ParticipantResultsShared.js';
 import * as campaignRepository from '../../lib/infrastructure/repositories/campaign-repository.js';
 import * as knowlegeElementSnapshotRepository from '../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js';
 import { CampaignParticipationStatuses } from '../../src/prescription/shared/domain/constants.js';
+import { ParticipantResultsShared } from '../../src/shared/domain/models/ParticipantResultsShared.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 import bluebird from 'bluebird';

@@ -1,5 +1,5 @@
-import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
 import { LOCALE } from '../../../../../src/shared/domain/constants.js';
+import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import * as placementProfileService from '../../../../../src/shared/domain/services/placement-profile-service.js';
 import { databaseBuilder, expect, learningContentBuilder, mockLearningContent } from '../../../../test-helper.js';
 

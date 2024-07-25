@@ -1,4 +1,4 @@
-import { CertificationCandidate } from '../../../../lib/domain/models/CertificationCandidate.js';
+import { CertificationCandidate } from '../../../../src/shared/domain/models/CertificationCandidate.js';
 import { domainBuilder } from '../domain-builder.js';
 
 const buildCertificationCandidate = function ({

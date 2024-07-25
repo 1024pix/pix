@@ -1,10 +1,10 @@
 import bluebird from 'bluebird';
 import _ from 'lodash';
 
-import { PlacementProfile } from '../../../../lib/domain/models/PlacementProfile.js';
-import { UserCompetence } from '../../../../lib/domain/models/UserCompetence.js';
 import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
 import * as knowledgeElementSnapshotRepository from '../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js';
+import { PlacementProfile } from '../../../../src/shared/domain/models/PlacementProfile.js';
+import { UserCompetence } from '../../../../src/shared/domain/models/UserCompetence.js';
 import {
   CERTIFICATION_VERSIONS,
   CertificationVersion,

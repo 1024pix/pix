@@ -1,6 +1,10 @@
-import { Assessment, CampaignParticipationStatuses, KnowledgeElement } from '../../../../lib/domain/models/index.js';
 import * as participantResultRepository from '../../../../lib/infrastructure/repositories/participant-result-repository.js';
 import { NotFoundError } from '../../../../src/shared/domain/errors.js';
+import {
+  Assessment,
+  CampaignParticipationStatuses,
+  KnowledgeElement,
+} from '../../../../src/shared/domain/models/index.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, mockLearningContent } from '../../../test-helper.js';
 
 const { STARTED } = CampaignParticipationStatuses;

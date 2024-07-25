@@ -1,5 +1,5 @@
-import { UserOrganizationForAdmin } from '../../../../lib/domain/read-models/UserOrganizationForAdmin.js';
 import * as userOrganizationsForAdminRepository from '../../../../lib/infrastructure/repositories/user-organizations-for-admin-repository.js';
+import { UserOrganizationForAdmin } from '../../../../src/shared/domain/read-models/UserOrganizationForAdmin.js';
 import { databaseBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | Repository | user-organizations-for-admin', function () {

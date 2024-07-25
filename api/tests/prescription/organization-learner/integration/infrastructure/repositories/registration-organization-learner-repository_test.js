@@ -1,5 +1,5 @@
-import { OrganizationLearner } from '../../../../../../lib/domain/models/OrganizationLearner.js';
 import * as organizationLearnerRepository from '../../../../../../src/prescription/organization-learner/infrastructure/repositories/registration-organization-learner-repository.js';
+import { OrganizationLearner } from '../../../../../../src/shared/domain/models/OrganizationLearner.js';
 import { databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | organization-learner-repository', function () {

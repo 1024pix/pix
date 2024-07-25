@@ -1,4 +1,4 @@
-import { CERTIFICATION_CENTER_TYPES } from '../../../../../lib/domain/constants.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../shared/domain/constants.js';
 
 class CenterForAdmin {
   /**

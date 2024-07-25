@@ -1,7 +1,7 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { CertificationChallenge } from '../../../../../lib/domain/models/CertificationChallenge.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { AssessmentEndedError } from '../../../../shared/domain/errors.js';
+import { CertificationChallenge } from '../../../../shared/domain/models/CertificationChallenge.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 
 const logContext = {

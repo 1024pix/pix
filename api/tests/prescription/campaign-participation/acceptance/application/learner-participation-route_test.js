@@ -1,7 +1,7 @@
-import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
 import { createServer } from '../../../../../server.js';
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
+import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import {
   databaseBuilder,
   domainBuilder,

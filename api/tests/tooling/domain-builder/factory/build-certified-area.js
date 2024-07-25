@@ -1,4 +1,4 @@
-import { CertifiedArea } from '../../../../lib/domain/read-models/CertifiedProfile.js';
+import { CertifiedArea } from '../../../../src/shared/domain/read-models/CertifiedProfile.js';
 
 const buildCertifiedArea = function buildCertifiedArea({
   id = 'someAreaId',

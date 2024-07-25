@@ -1,5 +1,5 @@
-import { UserOrgaSettings } from '../../../../../lib/domain/models/UserOrgaSettings.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/user-orga-settings-serializer.js';
+import { UserOrgaSettings } from '../../../../../src/shared/domain/models/UserOrgaSettings.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | user-orga-settings-serializer', function () {

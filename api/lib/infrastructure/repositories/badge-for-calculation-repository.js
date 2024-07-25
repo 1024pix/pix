@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
 import { knex } from '../../../db/knex-database-connection.js';
-import { SCOPES } from '../../domain/models/BadgeDetails.js';
-import { BadgeCriterionForCalculation, BadgeForCalculation } from '../../domain/models/index.js';
+import { SCOPES } from '../../../src/shared/domain/models/BadgeDetails.js';
+import { BadgeCriterionForCalculation, BadgeForCalculation } from '../../../src/shared/domain/models/index.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 import * as campaignRepository from './campaign-repository.js';
 

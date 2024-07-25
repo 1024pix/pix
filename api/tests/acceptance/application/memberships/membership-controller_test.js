@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { Membership } from '../../../../src/shared/domain/models/Membership.js';
 import {
   createServer,
   databaseBuilder,

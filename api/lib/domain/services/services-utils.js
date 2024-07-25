@@ -1,5 +1,5 @@
+import { ALL_TREATMENTS } from '../../../src/shared/domain/constants.js';
 import { _ } from '../../../src/shared/infrastructure/utils/lodash-utils.js';
-import { ALL_TREATMENTS } from '../constants.js';
 
 function getEnabledTreatments(shouldApplyTreatments, deactivations) {
   return shouldApplyTreatments ? ALL_TREATMENTS.filter((treatment) => !deactivations[treatment]) : [];

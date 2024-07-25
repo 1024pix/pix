@@ -1,4 +1,4 @@
-import { roles } from '../../../../../../lib/domain/models/Membership.js';
+import { roles } from '../../../../../../src/shared/domain/models/Membership.js';
 import { OrganizationMembership } from '../../../../../../src/team/application/api/models/organization-membership.js';
 import { expect } from '../../../../../test-helper.js';
 

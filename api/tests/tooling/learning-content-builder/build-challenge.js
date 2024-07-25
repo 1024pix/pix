@@ -1,4 +1,4 @@
-import { Challenge } from '../../../lib/domain/models/index.js';
+import { Challenge } from '../../../src/shared/domain/models/index.js';
 
 const buildChallenge = function ({
   id = 'recCHAL1',

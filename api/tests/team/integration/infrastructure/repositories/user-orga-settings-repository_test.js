@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
-import { UserOrgaSettings } from '../../../../../lib/domain/models/UserOrgaSettings.js';
 import { UserOrgaSettingsCreationError } from '../../../../../src/shared/domain/errors.js';
+import { UserOrgaSettings } from '../../../../../src/shared/domain/models/UserOrgaSettings.js';
 import { userOrgaSettingsRepository } from '../../../../../src/team/infrastructure/repositories/user-orga-settings-repository.js';
 import { catchErr, databaseBuilder, expect, knex } from '../../../../test-helper.js';
 

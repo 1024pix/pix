@@ -1,6 +1,6 @@
-import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
+import { Membership } from '../../../../src/shared/domain/models/Membership.js';
 import {
   createServer,
   databaseBuilder,

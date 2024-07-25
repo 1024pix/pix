@@ -18,9 +18,9 @@ import sinonChai from 'sinon-chai';
 
 import { DatabaseBuilder } from '../db/database-builder/database-builder.js';
 import { disconnect, knex } from '../db/knex-database-connection.js';
-import { Membership } from '../lib/domain/models/index.js';
 import { PIX_ADMIN } from '../src/authorization/domain/constants.js';
 import { config } from '../src/shared/config.js';
+import { Membership } from '../src/shared/domain/models/index.js';
 import * as tokenService from '../src/shared/domain/services/token-service.js';
 import { LearningContentCache } from '../src/shared/infrastructure/caches/learning-content-cache.js';
 import * as customChaiHelpers from './tooling/chai-custom-helpers/index.js';

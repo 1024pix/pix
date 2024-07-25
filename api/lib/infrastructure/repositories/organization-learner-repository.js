@@ -7,10 +7,10 @@ import {
   UserCouldNotBeReconciledError,
   UserNotFoundError,
 } from '../../../src/shared/domain/errors.js';
+import { OrganizationLearner } from '../../../src/shared/domain/models/OrganizationLearner.js';
+import { ParticipantRepartition } from '../../../src/shared/domain/models/ParticipantRepartition.js';
+import { OrganizationLearnerForAdmin } from '../../../src/shared/domain/read-models/OrganizationLearnerForAdmin.js';
 import { fetchPage } from '../../../src/shared/infrastructure/utils/knex-utils.js';
-import { OrganizationLearner } from '../../domain/models/OrganizationLearner.js';
-import { ParticipantRepartition } from '../../domain/models/ParticipantRepartition.js';
-import { OrganizationLearnerForAdmin } from '../../domain/read-models/OrganizationLearnerForAdmin.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 import * as studentRepository from './student-repository.js';
 

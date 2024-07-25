@@ -1,8 +1,8 @@
 import { BadRequestError } from '../../../../../lib/application/http-errors.js';
-import { SCOPES } from '../../../../../lib/domain/models/BadgeDetails.js';
 import BadgeCriterion from '../../../../../src/evaluation/domain/models/BadgeCriterion.js';
 import * as badgeCriteriaRepository from '../../../../../src/evaluation/infrastructure/repositories/badge-criteria-repository.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
+import { SCOPES } from '../../../../../src/shared/domain/models/BadgeDetails.js';
 import { catchErr, databaseBuilder, expect, knex } from '../../../../test-helper.js';
 
 describe('Integration | Repository | Badge Criteria Repository', function () {

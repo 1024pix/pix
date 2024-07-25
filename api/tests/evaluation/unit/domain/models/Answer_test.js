@@ -1,5 +1,5 @@
-import { Skill } from '../../../../../lib/domain/models/Skill.js';
 import { Answer } from '../../../../../src/evaluation/domain/models/Answer.js';
+import { Skill } from '../../../../../src/shared/domain/models/Skill.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Models | Answer', function () {

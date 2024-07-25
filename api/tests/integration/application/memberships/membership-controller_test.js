@@ -1,8 +1,8 @@
 import * as moduleUnderTest from '../../../../lib/application/memberships/index.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { InvalidMembershipOrganizationRoleError } from '../../../../src/shared/domain/errors.js';
+import { Membership } from '../../../../src/shared/domain/models/Membership.js';
 import { usecases as srcUsecases } from '../../../../src/team/domain/usecases/index.js';
 import { domainBuilder, expect, HttpTestServer, sinon } from '../../../test-helper.js';
 

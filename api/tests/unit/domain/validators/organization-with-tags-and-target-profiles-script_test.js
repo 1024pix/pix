@@ -1,7 +1,7 @@
-import { Organization } from '../../../../lib/domain/models/index.js';
 import { validate } from '../../../../lib/domain/validators/organization-with-tags-and-target-profiles-script.js';
 import { SUPPORTED_LOCALES } from '../../../../src/shared/domain/constants.js';
 import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
+import { Organization } from '../../../../src/shared/domain/models/index.js';
 import { catchErrSync, expect } from '../../../test-helper.js';
 
 const organizationTypes = [...Object.values(Organization.types)];

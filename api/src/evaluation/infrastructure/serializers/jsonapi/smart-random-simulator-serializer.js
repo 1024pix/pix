@@ -1,6 +1,6 @@
 import jsonapiSerializer from 'jsonapi-serializer';
 
-import { Challenge, KnowledgeElement, Skill } from '../../../../../lib/domain/models/index.js';
+import { Challenge, KnowledgeElement, Skill } from '../../../../shared/domain/models/index.js';
 import { Answer } from '../../../domain/models/Answer.js';
 import { SimulationParameters } from '../../../domain/models/SimulationParameters.js';
 

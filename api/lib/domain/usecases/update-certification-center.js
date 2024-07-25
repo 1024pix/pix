@@ -8,8 +8,11 @@ import bluebird from 'bluebird';
 
 import { CenterForAdminFactory } from '../../../src/certification/enrolment/domain/models/factories/CenterForAdminFactory.js';
 import { CertificationCenterPilotFeaturesConflictError } from '../../../src/shared/domain/errors.js';
+import {
+  ComplementaryCertificationHabilitation,
+  DataProtectionOfficer,
+} from '../../../src/shared/domain/models/index.js';
 import { withTransaction } from '../../infrastructure/DomainTransaction.js';
-import { ComplementaryCertificationHabilitation, DataProtectionOfficer } from '../models/index.js';
 import * as certificationCenterCreationValidator from '../validators/certification-center-creation-validator.js';
 
 /**

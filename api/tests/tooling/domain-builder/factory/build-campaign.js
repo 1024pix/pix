@@ -1,5 +1,5 @@
-import { Campaign } from '../../../../lib/domain/models/Campaign.js';
 import { CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
+import { Campaign } from '../../../../src/shared/domain/models/Campaign.js';
 import { buildOrganization } from './build-organization.js';
 import { buildTargetProfile } from './build-target-profile.js';
 import { buildUser } from './build-user.js';

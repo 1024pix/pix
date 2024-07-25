@@ -2,8 +2,8 @@ import JoiDate from '@joi/date';
 import BaseJoi from 'joi';
 
 import { CERTIFICATION_SESSIONS_ERRORS } from '../../../../../lib/domain/constants/sessions-errors.js';
-import { types } from '../../../../../lib/domain/models/CertificationCenter.js';
 import { EntityValidationError } from '../../../../shared/domain/errors.js';
+import { types } from '../../../../shared/domain/models/CertificationCenter.js';
 import { identifiersType } from '../../../../shared/domain/types/identifiers-type.js';
 import { SESSION_STATUSES } from '../constants.js';
 import { CERTIFICATION_VERSIONS } from '../models/CertificationVersion.js';

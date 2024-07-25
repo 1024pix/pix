@@ -1,4 +1,4 @@
-import { CertifiedCompetence } from '../../../../lib/domain/read-models/CertifiedProfile.js';
+import { CertifiedCompetence } from '../../../../src/shared/domain/read-models/CertifiedProfile.js';
 
 const buildCertifiedCompetence = function buildCertifiedCompetence({
   id = 'someCompetenceId',

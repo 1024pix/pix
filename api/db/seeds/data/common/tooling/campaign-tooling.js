@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
 import _ from 'lodash';
 
-import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
+import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { getPlacementProfile } from '../../../../../src/shared/domain/services/placement-profile-service.js';
 import * as generic from './generic.js';
 import * as learningContent from './learning-content.js';

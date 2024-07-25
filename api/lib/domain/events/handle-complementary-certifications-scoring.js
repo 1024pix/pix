@@ -1,9 +1,9 @@
 import { ComplementaryCertificationCourseResult } from '../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
 import { config } from '../../../src/shared/config.js';
-import { AnswerCollectionForScoring } from '../models/AnswerCollectionForScoring.js';
-import { ComplementaryCertificationScoringWithComplementaryReferential } from '../models/ComplementaryCertificationScoringWithComplementaryReferential.js';
-import { ComplementaryCertificationScoringWithoutComplementaryReferential } from '../models/ComplementaryCertificationScoringWithoutComplementaryReferential.js';
-import { ReproducibilityRate } from '../models/ReproducibilityRate.js';
+import { AnswerCollectionForScoring } from '../../../src/shared/domain/models/AnswerCollectionForScoring.js';
+import { ComplementaryCertificationScoringWithComplementaryReferential } from '../../../src/shared/domain/models/ComplementaryCertificationScoringWithComplementaryReferential.js';
+import { ComplementaryCertificationScoringWithoutComplementaryReferential } from '../../../src/shared/domain/models/ComplementaryCertificationScoringWithoutComplementaryReferential.js';
+import { ReproducibilityRate } from '../../../src/shared/domain/models/ReproducibilityRate.js';
 import { CertificationRescoringCompleted } from './CertificationRescoringCompleted.js';
 import { CertificationScoringCompleted } from './CertificationScoringCompleted.js';
 import { checkEventTypes } from './check-event-types.js';

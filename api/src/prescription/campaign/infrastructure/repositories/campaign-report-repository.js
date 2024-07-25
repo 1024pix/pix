@@ -1,9 +1,9 @@
 import _ from 'lodash';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { CampaignParticipationStatuses } from '../../../../../lib/domain/models/index.js';
-import { CampaignReport } from '../../../../../lib/domain/read-models/CampaignReport.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
+import { CampaignParticipationStatuses } from '../../../../shared/domain/models/index.js';
+import { CampaignReport } from '../../../../shared/domain/read-models/CampaignReport.js';
 import * as skillRepository from '../../../../shared/infrastructure/repositories/skill-repository.js';
 import { filterByFullName } from '../../../../shared/infrastructure/utils/filter-utils.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';

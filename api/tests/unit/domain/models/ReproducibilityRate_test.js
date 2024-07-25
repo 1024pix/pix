@@ -1,5 +1,5 @@
-import { MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED } from '../../../../lib/domain/constants.js';
-import { ReproducibilityRate } from '../../../../lib/domain/models/ReproducibilityRate.js';
+import { MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED } from '../../../../src/shared/domain/constants.js';
+import { ReproducibilityRate } from '../../../../src/shared/domain/models/ReproducibilityRate.js';
 import { domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | ReproducibilityRate', function () {
