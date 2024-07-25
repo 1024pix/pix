@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import { knex } from '../../../db/knex-database-connection.js';
 import { Student } from '../../../src/shared/domain/models/Student.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 
@@ -25,11 +24,8 @@ const _toStudents = function (results) {
   return students;
 };
 
-const findReconciledStudentsByNationalStudentId = async function (
-  nationalStudentIds,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-) {
-  const knexConn = domainTransaction.knexTransaction || knex;
+const findReconciledStudentsByNationalStudentId = async function (nationalStudentIds) {
+  const knexConn = DomainTransaction.getConnection();
   const results = await knexConn
     .select({
       nationalStudentId: 'view-active-organization-learners.nationalStudentId',

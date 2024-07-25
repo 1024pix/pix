@@ -4,8 +4,6 @@ import { MAX_REACHABLE_LEVEL } from '../../../../src/shared/domain/constants.js'
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
-const domainTransaction = Symbol('DomainTransaction');
-
 describe('Unit | UseCase | Improve Competence Evaluation', function () {
   let competenceEvaluation, userId, competenceEvaluationRepository, assessmentRepository;
   let getCompetenceLevel;
@@ -54,14 +52,12 @@ describe('Unit | UseCase | Improve Competence Evaluation', function () {
       getCompetenceLevel,
       userId,
       competenceId,
-      domainTransaction,
     });
 
     // then
     expect(competenceEvaluationRepository.getByCompetenceIdAndUserId).to.be.calledWith({
       competenceId,
       userId,
-      domainTransaction,
       forUpdate: true,
     });
   });
@@ -74,11 +70,10 @@ describe('Unit | UseCase | Improve Competence Evaluation', function () {
       getCompetenceLevel,
       userId,
       competenceId,
-      domainTransaction,
     });
 
     // then
-    expect(assessmentRepository.save).to.be.calledWith({ assessment: expectedAssessment, domainTransaction });
+    expect(assessmentRepository.save).to.be.calledWith({ assessment: expectedAssessment });
   });
 
   it('should update competence evaluation with newly created assessment', async function () {
@@ -89,14 +84,12 @@ describe('Unit | UseCase | Improve Competence Evaluation', function () {
       getCompetenceLevel,
       userId,
       competenceId,
-      domainTransaction,
     });
 
     // then
     expect(competenceEvaluationRepository.updateAssessmentId).to.be.calledWith({
       currentAssessmentId: competenceEvaluation.assessmentId,
       newAssessmentId: assessmentId,
-      domainTransaction,
     });
   });
 
@@ -112,7 +105,6 @@ describe('Unit | UseCase | Improve Competence Evaluation', function () {
       getCompetenceLevel,
       userId,
       competenceId,
-      domainTransaction,
     });
 
     // then
@@ -132,7 +124,6 @@ describe('Unit | UseCase | Improve Competence Evaluation', function () {
         getCompetenceLevel,
         userId,
         competenceId,
-        domainTransaction,
       });
 
       // then
@@ -166,7 +157,6 @@ describe('Unit | UseCase | Improve Competence Evaluation', function () {
         getCompetenceLevel,
         userId,
         competenceId,
-        domainTransaction,
       });
 
       // then

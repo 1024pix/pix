@@ -150,7 +150,6 @@ describe('Integration | Usecase | Handle Stage Acquisition', function () {
             // when
             await usecases.handleStageAcquisition({
               assessment,
-              domainTransaction,
             });
 
             // then

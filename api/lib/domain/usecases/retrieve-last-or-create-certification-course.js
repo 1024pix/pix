@@ -18,7 +18,6 @@ import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 const { features } = config;
 
 const retrieveLastOrCreateCertificationCourse = async function ({
-  domainTransaction,
   accessCode,
   sessionId,
   userId,
@@ -52,7 +51,6 @@ const retrieveLastOrCreateCertificationCourse = async function ({
     await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
       userId,
       sessionId,
-      domainTransaction,
     });
 
   _validateCandidateIsAuthorizedToStart(certificationCandidate, existingCertificationCourse);
@@ -84,7 +82,6 @@ const retrieveLastOrCreateCertificationCourse = async function ({
   }
 
   return _startNewCertification({
-    domainTransaction,
     sessionId,
     userId,
     certificationCandidate,
@@ -145,7 +142,6 @@ async function _blockCandidateFromRestartingWithoutExplicitValidation(
 }
 
 async function _startNewCertification({
-  domainTransaction,
   sessionId,
   userId,
   certificationCandidate,
@@ -178,7 +174,6 @@ async function _startNewCertification({
     certificationCourseRepository,
     userId,
     sessionId,
-    domainTransaction,
   );
   if (certificationCourseCreatedMeanwhile) {
     return {
@@ -193,7 +188,6 @@ async function _startNewCertification({
 
   const highestCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
     userId,
-    domainTransaction,
   });
 
   await bluebird.each(
@@ -236,7 +230,6 @@ async function _startNewCertification({
     assessmentRepository,
     userId,
     certificationChallenges: challengesForCertification,
-    domainTransaction,
     verifyCertificateCodeService,
     complementaryCertificationCourseData,
     version,
@@ -244,16 +237,10 @@ async function _startNewCertification({
   });
 }
 
-async function _getCertificationCourseIfCreatedMeanwhile(
-  certificationCourseRepository,
-  userId,
-  sessionId,
-  domainTransaction,
-) {
+async function _getCertificationCourseIfCreatedMeanwhile(certificationCourseRepository, userId, sessionId) {
   return certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
     userId,
     sessionId,
-    domainTransaction,
   });
 }
 
@@ -265,7 +252,6 @@ async function _createCertificationCourse({
   userId,
   certificationChallenges,
   complementaryCertificationCourseData,
-  domainTransaction,
   version,
   lang,
 }) {
@@ -286,14 +272,13 @@ async function _createCertificationCourse({
 
   const savedCertificationCourse = await certificationCourseRepository.save({
     certificationCourse: newCertificationCourse,
-    domainTransaction,
   });
 
   const newAssessment = Assessment.createForCertificationCourse({
     userId,
     certificationCourseId: savedCertificationCourse.getId(),
   });
-  const savedAssessment = await assessmentRepository.save({ assessment: newAssessment, domainTransaction });
+  const savedAssessment = await assessmentRepository.save({ assessment: newAssessment });
 
   const certificationCourse = savedCertificationCourse.withAssessment(savedAssessment);
 

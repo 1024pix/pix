@@ -310,8 +310,8 @@ describe('Integration | Repository | Campaign Participation', function () {
       const expectedAssessmentIds = campaignParticipationAssessments.map(({ id }) => id);
 
       // when
-      const foundCampaignParticipation = await DomainTransaction.execute((domainTransaction) => {
-        return campaignParticipationRepository.get(campaignParticipationId, domainTransaction);
+      const foundCampaignParticipation = await DomainTransaction.execute(() => {
+        return campaignParticipationRepository.get(campaignParticipationId);
       });
       const assessmentIds = foundCampaignParticipation.assessments.map(({ id }) => id);
 

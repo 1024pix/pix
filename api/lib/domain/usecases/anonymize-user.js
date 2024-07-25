@@ -29,7 +29,7 @@ const anonymizeUser = async function ({
 
   const user = await userRepository.get(userId);
 
-  await authenticationMethodRepository.removeAllAuthenticationMethodsByUserId({ userId, domainTransaction });
+  await authenticationMethodRepository.removeAllAuthenticationMethodsByUserId({ userId });
 
   await refreshTokenService.revokeRefreshTokensForUserId({ userId });
 
@@ -37,15 +37,14 @@ const anonymizeUser = async function ({
     await resetPasswordDemandRepository.removeAllByEmail(user.email);
   }
 
-  await membershipRepository.disableMembershipsByUserId({ userId, updatedByUserId, domainTransaction });
+  await membershipRepository.disableMembershipsByUserId({ userId, updatedByUserId });
 
   await certificationCenterMembershipRepository.disableMembershipsByUserId({
     updatedByUserId,
     userId,
-    domainTransaction,
   });
 
-  await organizationLearnerRepository.dissociateAllStudentsByUserId({ userId, domainTransaction });
+  await organizationLearnerRepository.dissociateAllStudentsByUserId({ userId });
 
   await _anonymizeUserLogin(user.id, userLoginRepository);
 

@@ -20,12 +20,8 @@ function _applyFilters(knowledgeElements) {
   return _dropResetKnowledgeElements(uniqsMostRecentPerSkill);
 }
 
-function _findByUserIdAndLimitDateQuery({
-  userId,
-  limitDate,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
-  const knexConn = domainTransaction.knexTransaction || knex;
+function _findByUserIdAndLimitDateQuery({ userId, limitDate }) {
+  const knexConn = DomainTransaction.getConnection();
   return knexConn(tableName).where((qb) => {
     qb.where({ userId });
     if (limitDate) {
@@ -34,8 +30,8 @@ function _findByUserIdAndLimitDateQuery({
   });
 }
 
-async function _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate, domainTransaction }) {
-  const knowledgeElementRows = await _findByUserIdAndLimitDateQuery({ userId, limitDate, domainTransaction });
+async function _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate }) {
+  const knowledgeElementRows = await _findByUserIdAndLimitDateQuery({ userId, limitDate });
 
   const knowledgeElements = _.map(
     knowledgeElementRows,
@@ -81,15 +77,15 @@ const findUniqByUserIds = function (userIds) {
   );
 };
 
-const batchSave = async function ({ knowledgeElements, domainTransaction = DomainTransaction.emptyTransaction() }) {
-  const knexConn = domainTransaction.knexTransaction || knex;
+const batchSave = async function ({ knowledgeElements }) {
+  const knexConn = DomainTransaction.getConnection();
   const knowledgeElementsToSave = knowledgeElements.map((ke) => _.omit(ke, ['id', 'createdAt']));
   const savedKnowledgeElements = await knexConn.batchInsert(tableName, knowledgeElementsToSave).returning('*');
   return savedKnowledgeElements.map((ke) => new KnowledgeElement(ke));
 };
 
-const findUniqByUserId = function ({ userId, limitDate, domainTransaction }) {
-  return _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate, domainTransaction });
+const findUniqByUserId = function ({ userId, limitDate }) {
+  return _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate });
 };
 
 const findUniqByUserIdAndAssessmentId = async function ({ userId, assessmentId }) {
@@ -103,12 +99,8 @@ const findUniqByUserIdAndAssessmentId = async function ({ userId, assessmentId }
   return _applyFilters(knowledgeElements);
 };
 
-const findUniqByUserIdAndCompetenceId = async function ({
-  userId,
-  competenceId,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
-  const knowledgeElements = await _findAssessedByUserIdAndLimitDateQuery({ userId, domainTransaction });
+const findUniqByUserIdAndCompetenceId = async function ({ userId, competenceId }) {
+  const knowledgeElements = await _findAssessedByUserIdAndLimitDateQuery({ userId });
   return knowledgeElements.filter((knowledgeElement) => knowledgeElement.competenceId === competenceId);
 };
 
