@@ -1,4 +1,4 @@
-import { AlreadyExistingMembershipError } from '../../../src/shared/domain/errors.js';
+import { AlreadyExistingMembershipError } from '../../../shared/domain/errors.js';
 
 const acceptOrganizationInvitation = async function ({
   organizationInvitationId,

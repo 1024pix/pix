@@ -7,6 +7,22 @@ import { usecases } from '../../domain/usecases/index.js';
 import { organizationInvitationSerializer } from '../../infrastructure/serializers/jsonapi/organization-invitation.serializer.js';
 import { serializer as scoOrganizationInvitationSerializer } from '../../infrastructure/serializers/jsonapi/sco-organization-invitation.serializer.js';
 
+const acceptOrganizationInvitation = async function (request) {
+  const organizationInvitationId = request.params.id;
+  const { code, email: rawEmail } = request.payload.data.attributes;
+  const localeFromCookie = request.state?.locale;
+  const email = rawEmail?.trim().toLowerCase();
+
+  const membership = await usecases.acceptOrganizationInvitation({
+    organizationInvitationId,
+    code,
+    email,
+    localeFromCookie,
+  });
+  await usecases.createCertificationCenterMembershipForScoOrganizationAdminMember({ membership });
+  return null;
+};
+
 /**
  *
  * @param request
@@ -91,6 +107,7 @@ const sendInvitations = async function (request, h) {
 };
 
 export const organizationInvitationController = {
+  acceptOrganizationInvitation,
   findPendingInvitations,
   cancelOrganizationInvitation,
   getOrganizationInvitation,

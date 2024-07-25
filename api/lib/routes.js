@@ -12,7 +12,6 @@ import * as certificationPointOfContacts from './application/certification-point
 import * as certifications from './application/certifications/index.js';
 import * as frameworks from './application/frameworks/index.js';
 import * as memberships from './application/memberships/index.js';
-import * as organizationInvitations from './application/organization-invitations/index.js';
 import * as organizationLearners from './application/organization-learners/index.js';
 import * as organizations from './application/organizations/index.js';
 import * as passwords from './application/passwords/index.js';
@@ -43,7 +42,6 @@ const routes = [
   organizations,
   passwords,
   poleEmploi,
-  organizationInvitations,
   scoOrganizationLearners,
   supOrganizationLearners,
   sessions,

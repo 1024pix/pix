@@ -1,10 +1,10 @@
-import { OrganizationInvitedUser } from '../../../../lib/domain/models/OrganizationInvitedUser.js';
-import * as organizationInvitedUserRepository from '../../../../lib/infrastructure/repositories/organization-invited-user-repository.js';
-import { NotFoundError } from '../../../../src/shared/domain/errors.js';
-import { OrganizationInvitation } from '../../../../src/team/domain/models/OrganizationInvitation.js';
-import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
+import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
+import { OrganizationInvitation } from '../../../../../src/team/domain/models/OrganizationInvitation.js';
+import { OrganizationInvitedUser } from '../../../../../src/team/domain/models/OrganizationInvitedUser.js';
+import { organizationInvitedUserRepository } from '../../../../../src/team/infrastructure/repositories/organization-invited-user.repository.js';
+import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
 
-describe('Integration | Repository | OrganizationInvitedUserRepository', function () {
+describe('Integration | Team | Infrastructure | Repository | OrganizationInvitedUserRepository', function () {
   describe('#get', function () {
     it('should return an OrganizationInvitedUser userId', async function () {
       // given

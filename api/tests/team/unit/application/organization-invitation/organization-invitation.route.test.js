@@ -57,6 +57,36 @@ describe('Unit | Team | Application | Route | organization-invitation', function
     });
   });
 
+  describe('POST /api/organization-invitations/{id}/response', function () {
+    it('should exists', async function () {
+      // given
+      sinon
+        .stub(organizationInvitationController, 'acceptOrganizationInvitation')
+        .callsFake((request, h) => h.response().code(204));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(teamRoutes[0]);
+
+      const method = 'POST';
+      const url = '/api/organization-invitations/1/response';
+      const payload = {
+        data: {
+          id: '100047_DZWMP7L5UM',
+          type: 'organization-invitation-responses',
+          attributes: {
+            code: 'DZWMP7L5UM',
+            email: 'user@example.net',
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+    });
+  });
+
   describe('POST /api/organizations/{id}/invitations', function () {
     const method = 'POST';
     const url = '/api/organizations/1/invitations';

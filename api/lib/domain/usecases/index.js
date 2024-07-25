@@ -140,7 +140,6 @@ import * as juryCertificationSummaryRepository from '../../infrastructure/reposi
 import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
 import * as learningContentRepository from '../../infrastructure/repositories/learning-content-repository.js';
 import * as membershipRepository from '../../infrastructure/repositories/membership-repository.js';
-import * as organizationInvitedUserRepository from '../../infrastructure/repositories/organization-invited-user-repository.js';
 import * as organizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
 import * as organizationMemberIdentityRepository from '../../infrastructure/repositories/organization-member-identity-repository.js';
 import * as organizationTagRepository from '../../infrastructure/repositories/organization-tag-repository.js';
@@ -279,7 +278,6 @@ const dependencies = {
   organizationForAdminRepository,
   organizationInvitationRepository,
   organizationInvitationService,
-  organizationInvitedUserRepository,
   organizationLearnerActivityRepository,
   organizationLearnerRepository,
   organizationMemberIdentityRepository,
