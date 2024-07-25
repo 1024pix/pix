@@ -1,6 +1,6 @@
-import { Membership } from '../../../../../lib/domain/models/index.js';
 import * as categories from '../../../../../src/prescription/organization-place/domain/constants/organization-places-categories.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
+import { Membership } from '../../../../../src/shared/domain/models/index.js';
 import {
   createServer,
   databaseBuilder,

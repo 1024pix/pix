@@ -1,4 +1,4 @@
-import { CertificationChallenge, FlashAssessmentAlgorithm } from '../../../../../lib/domain/models/index.js';
+import { CertificationChallenge, FlashAssessmentAlgorithm } from '../../../../shared/domain/models/index.js';
 
 const getNextChallengeForV3Certification = async function ({
   answerRepository,

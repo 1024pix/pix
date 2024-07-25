@@ -3,8 +3,8 @@ import { EventEmitter } from 'node:events';
 import iconv from 'iconv-lite';
 import _ from 'lodash';
 
-import { Membership } from '../../../../../lib/domain/models/Membership.js';
 import { OrganizationLearnerImportHeader } from '../../../../../src/prescription/learner-management/infrastructure/serializers/csv/organization-learner-import-header.js';
+import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import {
   createServer,
   databaseBuilder,

@@ -1,9 +1,9 @@
 import { knex } from '../../../db/knex-database-connection.js';
 import { CampaignParticipation } from '../../../src/prescription/campaign-participation/domain/models/CampaignParticipation.js';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../src/prescription/shared/domain/constants.js';
+import { constants } from '../../../src/shared/domain/constants.js';
 import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
-import { constants } from '../../domain/constants.js';
-import { Campaign } from '../../domain/models/Campaign.js';
+import { Campaign } from '../../../src/shared/domain/models/Campaign.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 
 const { TO_SHARE } = CampaignParticipationStatuses;

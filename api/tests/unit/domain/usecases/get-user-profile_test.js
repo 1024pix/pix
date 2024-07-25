@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
-import { constants } from '../../../../lib/domain/constants.js';
 import { getUserProfile } from '../../../../lib/domain/usecases/get-user-profile.js';
 import { Scorecard } from '../../../../src/evaluation/domain/models/Scorecard.js';
+import { constants } from '../../../../src/shared/domain/constants.js';
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 function assertScorecard(userScorecard, expectedUserScorecard) {

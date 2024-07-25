@@ -1,6 +1,6 @@
-import { Validation } from '../../../../lib/domain/models/Validation.js';
-import { ValidatorQROC } from '../../../../lib/domain/models/ValidatorQROC.js';
 import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
+import { Validation } from '../../../../src/shared/domain/models/Validation.js';
+import { ValidatorQROC } from '../../../../src/shared/domain/models/ValidatorQROC.js';
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | ValidatorQROC', function () {

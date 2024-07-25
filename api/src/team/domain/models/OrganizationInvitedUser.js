@@ -1,10 +1,10 @@
-import { roles } from '../../../../lib/domain/models/Membership.js';
 import {
   AlreadyAcceptedOrCancelledInvitationError,
   AlreadyExistingMembershipError,
   NotFoundError,
 } from '../../../shared/domain/errors.js';
-import { OrganizationInvitation } from './OrganizationInvitation.js';
+import { roles } from '../../../shared/domain/models/Membership.js';
+import { OrganizationInvitation } from '../../../team/domain/models/OrganizationInvitation.js';
 
 class OrganizationInvitedUser {
   constructor({ userId, invitation, currentRole, organizationHasMemberships, currentMembershipId, status } = {}) {

@@ -1,8 +1,8 @@
 import Joi from 'joi';
 
-import { AnswerStatus, KnowledgeElement } from '../../../../lib/domain/models/index.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { LOCALE } from '../../../shared/domain/constants.js';
+import { AnswerStatus, KnowledgeElement } from '../../../shared/domain/models/index.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { smartRandomSimulatorController } from './smart-random-simulator-controller.js';
 

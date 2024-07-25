@@ -1,5 +1,5 @@
-import { ComplementaryCertificationCourseWithResults } from '../../../../lib/domain/models/ComplementaryCertificationCourseWithResults.js';
 import { sources } from '../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
+import { ComplementaryCertificationCourseWithResults } from '../../../../src/shared/domain/models/ComplementaryCertificationCourseWithResults.js';
 import { expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | ComplementaryCertificationCourseWithResults', function () {

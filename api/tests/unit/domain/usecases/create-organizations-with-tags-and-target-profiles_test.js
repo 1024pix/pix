@@ -1,14 +1,14 @@
 // eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
 /* eslint-disable import/no-restricted-paths */
 import { PGSQL_FOREIGN_KEY_VIOLATION_ERROR } from '../../../../db/pgsql-errors.js';
-import { OrganizationForAdmin } from '../../../../lib/domain/models/index.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { OrganizationTag } from '../../../../lib/domain/models/OrganizationTag.js';
 import { createOrganizationsWithTagsAndTargetProfiles } from '../../../../lib/domain/usecases/create-organizations-with-tags-and-target-profiles.js';
 import { DomainTransaction as domainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { monitoringTools } from '../../../../lib/infrastructure/monitoring-tools.js';
 import { ObjectValidationError, OrganizationTagNotFound } from '../../../../src/shared/domain/errors.js';
 import { InvalidInputDataError } from '../../../../src/shared/domain/errors.js';
+import { OrganizationForAdmin } from '../../../../src/shared/domain/models/index.js';
+import { Membership } from '../../../../src/shared/domain/models/Membership.js';
+import { OrganizationTag } from '../../../../src/shared/domain/models/OrganizationTag.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', function () {

@@ -1,8 +1,8 @@
 import * as moduleUnderTest from '../../../../lib/application/users/index.js';
-import { AssessmentResult } from '../../../../lib/domain/read-models/participant-results/AssessmentResult.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { UserNotAuthorizedToRemoveAuthenticationMethod } from '../../../../src/shared/domain/errors.js';
+import { AssessmentResult } from '../../../../src/shared/domain/read-models/participant-results/AssessmentResult.js';
 import { domainBuilder, expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Integration | Application | Users | user-controller', function () {

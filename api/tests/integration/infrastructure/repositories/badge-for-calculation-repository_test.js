@@ -1,5 +1,5 @@
-import { SCOPES } from '../../../../lib/domain/models/BadgeDetails.js';
 import * as badgeForCalculationRepository from '../../../../lib/infrastructure/repositories/badge-for-calculation-repository.js';
+import { SCOPES } from '../../../../src/shared/domain/models/BadgeDetails.js';
 import {
   databaseBuilder,
   domainBuilder,

@@ -9,7 +9,7 @@ import {
 } from '../../../../test-helper.js';
 
 const { STARTED } = CampaignParticipationStatuses;
-import { Membership } from '../../../../../lib/domain/models/Membership.js';
+import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 
 describe('Acceptance | API | campaign-detail-route', function () {
   let server;

@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { TargetProfile } from '../../../../../lib/domain/models/index.js';
 import { NotFoundError, ObjectValidationError } from '../../../../shared/domain/errors.js';
+import { TargetProfile } from '../../../../shared/domain/models/index.js';
 
 const update = async function (targetProfile) {
   let results;

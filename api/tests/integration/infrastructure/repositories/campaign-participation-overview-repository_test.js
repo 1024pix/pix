@@ -3,9 +3,9 @@ import { databaseBuilder, expect, learningContentBuilder, mockLearningContent, s
 const { campaignParticipationOverviewFactory } = databaseBuilder.factory;
 import _ from 'lodash';
 
-import { constants } from '../../../../lib/domain/constants.js';
 import * as campaignParticipationOverviewRepository from '../../../../lib/infrastructure/repositories/campaign-participation-overview-repository.js';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
+import { constants } from '../../../../src/shared/domain/constants.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 
 let userId;

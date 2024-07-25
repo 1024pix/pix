@@ -1,4 +1,4 @@
-import { CertifiableBadgeAcquisition } from '../../../../lib/domain/models/CertifiableBadgeAcquisition.js';
+import { CertifiableBadgeAcquisition } from '../../../../src/shared/domain/models/CertifiableBadgeAcquisition.js';
 
 const buildCertifiableBadgeAcquisition = function ({
   badgeId = 123,

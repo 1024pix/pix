@@ -1,4 +1,4 @@
-import { TargetProfileForCreation } from '../../../../lib/domain/models/TargetProfileForCreation.js';
+import { TargetProfileForCreation } from '../../../../src/shared/domain/models/TargetProfileForCreation.js';
 
 const buildTargetProfileForCreation = function ({
   name = 'Profil cible super cool',

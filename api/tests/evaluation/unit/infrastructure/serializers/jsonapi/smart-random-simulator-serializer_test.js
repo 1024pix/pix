@@ -1,7 +1,7 @@
-import { Challenge, KnowledgeElement, Skill } from '../../../../../../lib/domain/models/index.js';
 import { Answer } from '../../../../../../src/evaluation/domain/models/Answer.js';
 import { SimulationParameters } from '../../../../../../src/evaluation/domain/models/SimulationParameters.js';
 import * as serializer from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/smart-random-simulator-serializer.js';
+import { Challenge, KnowledgeElement, Skill } from '../../../../../../src/shared/domain/models/index.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | smart-random-simulator-serializer', function () {

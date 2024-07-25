@@ -1,7 +1,7 @@
-import { AssessmentResult } from '../../../../../lib/domain/models/index.js';
-import { Membership } from '../../../../../lib/domain/models/Membership.js';
 import { createServer } from '../../../../../server.js';
 import { AutoJuryCommentKeys } from '../../../../../src/certification/shared/domain/models/JuryComment.js';
+import { AssessmentResult } from '../../../../../src/shared/domain/models/index.js';
+import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import {
   databaseBuilder,
   expect,

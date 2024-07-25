@@ -1,6 +1,6 @@
-import { CERTIFICATION_CENTER_MEMBERSHIP_ROLES } from '../../../../lib/domain/models/CertificationCenterMembership.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { CERTIFICATION_FEATURES } from '../../../../src/certification/shared/domain/constants.js';
+import { CERTIFICATION_CENTER_MEMBERSHIP_ROLES } from '../../../../src/shared/domain/models/CertificationCenterMembership.js';
 import { databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 
 const { getCertificationPointOfContact } = usecases;

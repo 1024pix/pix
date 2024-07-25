@@ -1,5 +1,5 @@
-import { ComplementaryCertificationCourseResult } from '../../../../../../lib/domain/models/index.js';
 import * as complementaryCertificationCourseRepository from '../../../../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-course-repository.js';
+import { ComplementaryCertificationCourseResult } from '../../../../../../src/shared/domain/models/index.js';
 import { databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | complementary-certification-course-repository', function () {

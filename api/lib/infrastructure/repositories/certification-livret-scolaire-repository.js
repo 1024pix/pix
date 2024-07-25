@@ -1,5 +1,5 @@
 import { knex } from '../../../db/knex-database-connection.js';
-import { Certificate } from '../../domain/read-models/livret-scolaire/Certificate.js';
+import { Certificate } from '../../../src/shared/domain/read-models/livret-scolaire/Certificate.js';
 
 const getCertificatesByOrganizationUAI = async function (uai) {
   const result = await knex

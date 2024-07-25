@@ -1,10 +1,10 @@
 import lodash from 'lodash';
 
-import { constants } from '../../../../lib/domain/constants.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { emailValidationDemandRepository } from '../../../../src/identity-access-management/infrastructure/repositories/email-validation-demand.repository.js';
 import * as userRepository from '../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { userEmailRepository } from '../../../../src/identity-access-management/infrastructure/repositories/user-email.repository.js';
+import { constants } from '../../../../src/shared/domain/constants.js';
 import {
   createServer,
   databaseBuilder,

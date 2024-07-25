@@ -23,7 +23,7 @@ import {
   ComplementaryCertificationVersioning,
 } from '../../../src/certification/complementary-certification/domain/read-models/ComplementaryCertificationVersioning.js';
 import { config } from '../../../src/shared/config.js';
-import { CertificationEligibility } from '../read-models/CertificationEligibility.js';
+import { CertificationEligibility } from '../../../src/shared/domain/read-models/CertificationEligibility.js';
 
 /**
  * @param {Object} params

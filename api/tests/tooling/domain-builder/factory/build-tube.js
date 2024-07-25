@@ -1,4 +1,4 @@
-import { Tube } from '../../../../lib/domain/models/Tube.js';
+import { Tube } from '../../../../src/shared/domain/models/Tube.js';
 import { BuildSkillCollection as buildSkillCollection } from './build-skill-collection.js';
 
 const buildTube = function ({

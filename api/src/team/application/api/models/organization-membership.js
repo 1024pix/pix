@@ -1,4 +1,4 @@
-import { roles } from '../../../../../lib/domain/models/Membership.js';
+import { roles } from '../../../../shared/domain/models/Membership.js';
 
 /**
  * @class

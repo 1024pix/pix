@@ -1,9 +1,9 @@
 import lodash from 'lodash';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { Campaign } from '../../../../../lib/domain/models/Campaign.js';
 import * as knowledgeElementRepository from '../../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
 import * as knowledgeElementSnapshotRepository from '../../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js';
+import { Campaign } from '../../../../../src/shared/domain/models/Campaign.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { Assessment } from '../../../../shared/domain/models/Assessment.js';

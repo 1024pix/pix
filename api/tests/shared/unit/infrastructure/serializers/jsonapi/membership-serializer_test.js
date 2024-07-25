@@ -1,4 +1,4 @@
-import { Membership } from '../../../../../../lib/domain/models/Membership.js';
+import { Membership } from '../../../../../../src/shared/domain/models/Membership.js';
 import * as serializer from '../../../../../../src/shared/infrastructure/serializers/jsonapi/membership.serializer.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 

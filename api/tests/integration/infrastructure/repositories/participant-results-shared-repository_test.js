@@ -1,6 +1,6 @@
-import { MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../lib/domain/constants.js';
 import { participantResultsSharedRepository } from '../../../../lib/infrastructure/repositories/participant-results-shared-repository.js';
 import { CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
+import { MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../src/shared/domain/constants.js';
 import { databaseBuilder, expect, knex, mockLearningContent } from '../../../test-helper.js';
 
 describe('Integration | Repository | Campaign Participant Result Shared Repository', function () {

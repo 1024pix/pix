@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
-import { OrganizationLearner } from '../../../../../lib/domain/models/index.js';
 import * as organizationLearnerRepository from '../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 import { OrganizationLearnersCouldNotBeSavedError } from '../../../../shared/domain/errors.js';
+import { OrganizationLearner } from '../../../../shared/domain/models/index.js';
 import { ApplicationTransaction } from '../../../shared/infrastructure/ApplicationTransaction.js';
 import { CommonOrganizationLearner } from '../../domain/models/CommonOrganizationLearner.js';
 

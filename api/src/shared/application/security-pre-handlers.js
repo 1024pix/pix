@@ -25,12 +25,12 @@ import * as checkUserIsAdminOfCertificationCenterUsecase from '../../../lib/appl
 import * as checkUserIsMemberOfCertificationCenterUsecase from '../../../lib/application/usecases/checkUserIsMemberOfCertificationCenter.js';
 import * as checkUserIsMemberOfCertificationCenterSessionUsecase from '../../../lib/application/usecases/checkUserIsMemberOfCertificationCenterSession.js';
 import * as checkUserOwnsCertificationCourseUseCase from '../../../lib/application/usecases/checkUserOwnsCertificationCourse.js';
-import { Organization } from '../../../lib/domain/models/index.js';
 import { PIX_ADMIN } from '../../authorization/domain/constants.js';
 import * as checkUserIsCandidateUseCase from '../../certification/enrolment/application/usecases/checkUserIsCandidate.js';
 import * as certificationIssueReportRepository from '../../certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
 import * as isSchoolSessionActive from '../../school/application/usecases/is-school-session-active.js';
 import { ForbiddenAccess, NotFoundError } from '../domain/errors.js';
+import { Organization } from '../domain/models/index.js';
 import * as organizationRepository from '../infrastructure/repositories/organization-repository.js';
 import * as checkOrganizationHasFeatureUseCase from './usecases/checkOrganizationHasFeature.js';
 import * as checkUserIsMemberOfAnOrganizationUseCase from './validator/checkUserIsMemberOfAnOrganization.js';

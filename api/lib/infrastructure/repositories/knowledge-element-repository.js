@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { knex } from '../../../db/knex-database-connection.js';
-import { KnowledgeElement } from '../../domain/models/index.js';
+import { KnowledgeElement } from '../../../src/shared/domain/models/KnowledgeElement.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import * as knowledgeElementSnapshotRepository from './knowledge-element-snapshot-repository.js';
 

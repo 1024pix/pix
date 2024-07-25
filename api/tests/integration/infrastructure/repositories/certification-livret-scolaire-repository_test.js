@@ -1,5 +1,5 @@
-import { status } from '../../../../lib/domain/read-models/livret-scolaire/CertificateStatus.js';
 import * as certificationLsRepository from '../../../../lib/infrastructure/repositories/certification-livret-scolaire-repository.js';
+import { status } from '../../../../src/shared/domain/read-models/livret-scolaire/CertificateStatus.js';
 import {
   buildCancelledCertificationData,
   buildCertificationDataWithNoCompetenceMarks,

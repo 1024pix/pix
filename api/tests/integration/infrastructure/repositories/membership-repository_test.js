@@ -1,10 +1,10 @@
 import _ from 'lodash';
 
-import { Membership } from '../../../../lib/domain/models/Membership.js';
 import * as membershipRepository from '../../../../lib/infrastructure/repositories/membership-repository.js';
 import { User } from '../../../../src/identity-access-management/domain/models/User.js';
 import { Organization } from '../../../../src/organizational-entities/domain/models/Organization.js';
 import { MembershipCreationError, MembershipUpdateError, NotFoundError } from '../../../../src/shared/domain/errors.js';
+import { Membership } from '../../../../src/shared/domain/models/Membership.js';
 import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | membership-repository', function () {

@@ -1,5 +1,5 @@
-import { OrganizationMemberIdentity } from '../../../../lib/domain/models/OrganizationMemberIdentity.js';
 import * as organizationMemberIdentityRepository from '../../../../lib/infrastructure/repositories/organization-member-identity-repository.js';
+import { OrganizationMemberIdentity } from '../../../../src/shared/domain/models/OrganizationMemberIdentity.js';
 import { databaseBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | Repository | organizationMemberIdentityRepository', function () {

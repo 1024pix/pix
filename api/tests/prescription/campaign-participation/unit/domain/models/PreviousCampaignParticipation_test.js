@@ -1,5 +1,5 @@
-import { constants } from '../../../../../../lib/domain/constants.js';
 import { PreviousCampaignParticipation } from '../../../../../../src/prescription/campaign-participation/domain/models/PreviousCampaignParticipation.js';
+import { constants } from '../../../../../../src/shared/domain/constants.js';
 import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Read-Models | PreviousCampaignParticipation', function () {

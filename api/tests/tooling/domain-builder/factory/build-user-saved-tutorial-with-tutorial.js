@@ -1,4 +1,4 @@
-import { UserSavedTutorialWithTutorial } from '../../../../lib/domain/models/UserSavedTutorialWithTutorial.js';
+import { UserSavedTutorialWithTutorial } from '../../../../src/shared/domain/models/UserSavedTutorialWithTutorial.js';
 import { buildSkill } from './build-skill.js';
 import { buildTutorial } from './build-tutorial.js';
 import { buildUser } from './build-user.js';

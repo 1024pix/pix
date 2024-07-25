@@ -1,9 +1,9 @@
 import _ from 'lodash';
 
-import { EmailingAttempt } from '../../../../../lib/domain/models/EmailingAttempt.js';
-import { Membership } from '../../../../../lib/domain/models/Membership.js';
 import { mailService } from '../../../../../lib/domain/services/mail-service.js';
 import { SendingEmailError } from '../../../../../src/shared/domain/errors.js';
+import { EmailingAttempt } from '../../../../../src/shared/domain/models/EmailingAttempt.js';
+import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import * as organizationRepository from '../../../../../src/shared/infrastructure/repositories/organization-repository.js';
 import { OrganizationInvitation } from '../../../../../src/team/domain/models/OrganizationInvitation.js';
 import { organizationInvitationService } from '../../../../../src/team/domain/services/organization-invitation.service.js';

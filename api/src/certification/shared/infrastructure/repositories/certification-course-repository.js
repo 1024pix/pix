@@ -5,10 +5,10 @@ const { _ } = lodash;
 import bluebird from 'bluebird';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { Assessment } from '../../../../../lib/domain/models/index.js';
 import { config } from '../../../../shared/config.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
+import { Assessment } from '../../../../shared/domain/models/index.js';
 import { ComplementaryCertificationCourse } from '../../../session-management/domain/models/ComplementaryCertificationCourse.js';
 import { CertificationCourse } from '../../domain/models/CertificationCourse.js';
 import { CertificationIssueReport } from '../../domain/models/CertificationIssueReport.js';

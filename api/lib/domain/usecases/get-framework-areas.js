@@ -1,4 +1,4 @@
-import { AreaForAdmin } from '../models/index.js';
+import { AreaForAdmin } from '../../../src/shared/domain/models/index.js';
 
 const getFrameworkAreas = async function ({
   frameworkId,

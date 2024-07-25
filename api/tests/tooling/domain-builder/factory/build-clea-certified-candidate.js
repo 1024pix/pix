@@ -1,4 +1,4 @@
-import { CleaCertifiedCandidate } from '../../../../lib/domain/read-models/CleaCertifiedCandidate.js';
+import { CleaCertifiedCandidate } from '../../../../src/shared/domain/read-models/CleaCertifiedCandidate.js';
 
 const buildCleaCertifiedCandidate = function ({
   firstName = 'Gandhi',

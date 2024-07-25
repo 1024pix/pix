@@ -1,5 +1,5 @@
-import { TargetProfile } from '../../../../../../../lib/domain/models/TargetProfile.js';
 import * as serializer from '../../../../../../../src/prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-serializer.js';
+import { TargetProfile } from '../../../../../../../src/shared/domain/models/TargetProfile.js';
 import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () {

@@ -1,6 +1,6 @@
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 import { campaignParticipationResultRepository } from '../../../../lib/infrastructure/repositories/campaign-participation-result-repository.js';
 import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
+import { KnowledgeElement } from '../../../../src/shared/domain/models/KnowledgeElement.js';
 import { databaseBuilder, expect, mockLearningContent } from '../../../test-helper.js';
 
 const { STARTED } = CampaignParticipationStatuses;

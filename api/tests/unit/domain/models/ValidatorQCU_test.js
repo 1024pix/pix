@@ -1,6 +1,6 @@
-import { Validation } from '../../../../lib/domain/models/Validation.js';
-import { ValidatorQCU } from '../../../../lib/domain/models/ValidatorQCU.js';
 import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
+import { Validation } from '../../../../src/shared/domain/models/Validation.js';
+import { ValidatorQCU } from '../../../../src/shared/domain/models/ValidatorQCU.js';
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | ValidatorQCU', function () {

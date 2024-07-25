@@ -1,4 +1,4 @@
-import { Assessment } from '../../../../../lib/domain/models/index.js';
+import { Assessment } from '../../../../../src/shared/domain/models/index.js';
 import { createServer, databaseBuilder, expect, knex, mockLearningContent } from '../../../../test-helper.js';
 import * as learningContentBuilder from '../../../../tooling/learning-content-builder/index.js';
 

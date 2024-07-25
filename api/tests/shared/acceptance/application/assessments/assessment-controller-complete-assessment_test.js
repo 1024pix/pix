@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
-import { Assessment, TrainingTrigger } from '../../../../../lib/domain/models/index.js';
 import * as badgeAcquisitionRepository from '../../../../../lib/infrastructure/repositories/badge-acquisition-repository.js';
+import { Assessment, TrainingTrigger } from '../../../../../src/shared/domain/models/index.js';
 import {
   createServer,
   databaseBuilder,

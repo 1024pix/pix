@@ -1,4 +1,4 @@
-import { ComplementaryCertificationCourseResultForJuryCertification } from '../../../../lib/domain/read-models/ComplementaryCertificationCourseResultForJuryCertification.js';
+import { ComplementaryCertificationCourseResultForJuryCertification } from '../../../../src/shared/domain/read-models/ComplementaryCertificationCourseResultForJuryCertification.js';
 
 const buildComplementaryCertificationCourseResultForJuryCertification = function ({
   id = 1234,

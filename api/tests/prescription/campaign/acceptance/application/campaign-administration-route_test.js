@@ -1,6 +1,6 @@
-import { Membership } from '../../../../../lib/domain/models/Membership.js';
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
+import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import {
   createServer,
   databaseBuilder,

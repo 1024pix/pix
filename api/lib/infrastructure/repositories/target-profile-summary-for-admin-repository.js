@@ -1,6 +1,6 @@
 import { knex } from '../../../db/knex-database-connection.js';
+import { TargetProfileSummaryForAdmin } from '../../../src/shared/domain/models/TargetProfileSummaryForAdmin.js';
 import { fetchPage } from '../../../src/shared/infrastructure/utils/knex-utils.js';
-import { TargetProfileSummaryForAdmin } from '../../domain/models/TargetProfileSummaryForAdmin.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 
 const findPaginatedFiltered = async function ({ filter, page }) {

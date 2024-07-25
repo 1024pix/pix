@@ -1,9 +1,9 @@
 import _ from 'lodash';
 
-import { TargetProfile } from '../../../../lib/domain/models/index.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import * as targetProfileRepository from '../../../../lib/infrastructure/repositories/target-profile-repository.js';
 import { NotFoundError } from '../../../../src/shared/domain/errors.js';
+import { TargetProfile } from '../../../../src/shared/domain/models/index.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Repository | Target-profile', function () {

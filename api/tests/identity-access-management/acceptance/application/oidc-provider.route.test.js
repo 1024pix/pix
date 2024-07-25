@@ -2,9 +2,9 @@ import querystring from 'node:querystring';
 
 import jsonwebtoken from 'jsonwebtoken';
 
-import { AuthenticationSessionContent } from '../../../../lib/domain/models/index.js';
 import { oidcAuthenticationServiceRegistry } from '../../../../lib/domain/usecases/index.js';
 import { authenticationSessionService } from '../../../../src/identity-access-management/domain/services/authentication-session.service.js';
+import { AuthenticationSessionContent } from '../../../../src/shared/domain/models/index.js';
 import {
   createServer,
   databaseBuilder,

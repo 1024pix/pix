@@ -1,5 +1,5 @@
-import { CampaignLearningContent } from '../../../../../lib/domain/models/CampaignLearningContent.js';
 import { UserNotAuthorizedToAccessEntityError } from '../../../../shared/domain/errors.js';
+import { CampaignLearningContent } from '../../../../shared/domain/models/CampaignLearningContent.js';
 import { CampaignParticipationDeletedError } from '../errors.js';
 
 const computeCampaignParticipationAnalysis = async function ({

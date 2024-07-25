@@ -1,9 +1,9 @@
 import lodash from 'lodash';
 
 import { knex } from '../../../../db/knex-database-connection.js';
-import { TrainingTrigger } from '../../../../lib/domain/models/index.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
+import { TrainingTrigger } from '../../../shared/domain/models/index.js';
 import { fetchPage } from '../../../shared/infrastructure/utils/knex-utils.js';
 import { Training } from '../../domain/models/Training.js';
 import { TrainingForAdmin } from '../../domain/read-models/TrainingForAdmin.js';

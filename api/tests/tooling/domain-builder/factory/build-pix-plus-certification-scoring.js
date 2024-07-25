@@ -1,4 +1,4 @@
-import { ComplementaryCertificationScoringWithComplementaryReferential } from '../../../../lib/domain/models/ComplementaryCertificationScoringWithComplementaryReferential.js';
+import { ComplementaryCertificationScoringWithComplementaryReferential } from '../../../../src/shared/domain/models/ComplementaryCertificationScoringWithComplementaryReferential.js';
 import { buildReproducibilityRate } from './build-reproducibility-rate.js';
 
 const buildComplementaryCertificationScoringWithComplementaryReferential = function ({

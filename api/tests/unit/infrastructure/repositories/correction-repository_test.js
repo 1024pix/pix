@@ -1,6 +1,6 @@
-import { Correction } from '../../../../lib/domain/models/Correction.js';
 import * as correctionRepository from '../../../../lib/infrastructure/repositories/correction-repository.js';
 import { Answer } from '../../../../src/evaluation/domain/models/Answer.js';
+import { Correction } from '../../../../src/shared/domain/models/Correction.js';
 import {
   challengeDatasource,
   skillDatasource,

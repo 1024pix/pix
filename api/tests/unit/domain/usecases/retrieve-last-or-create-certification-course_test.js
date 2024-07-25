@@ -1,10 +1,10 @@
 import _ from 'lodash';
 
-import { MAX_REACHABLE_LEVEL } from '../../../../lib/domain/constants.js';
 import { retrieveLastOrCreateCertificationCourse } from '../../../../lib/domain/usecases/retrieve-last-or-create-certification-course.js';
 import { SessionNotAccessible } from '../../../../src/certification/session-management/domain/errors.js';
 import { ComplementaryCertificationCourse } from '../../../../src/certification/session-management/domain/models/ComplementaryCertificationCourse.js';
 import { CertificationCourse } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
+import { MAX_REACHABLE_LEVEL } from '../../../../src/shared/domain/constants.js';
 import {
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,

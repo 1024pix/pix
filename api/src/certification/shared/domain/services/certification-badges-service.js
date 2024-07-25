@@ -1,5 +1,5 @@
 /**
- * @typedef {import ('../../../../../lib/domain/models/CertifiableBadgeAcquisition.js').CertifiableBadgeAcquisition} CertifiableBadgeAcquisition
+ * @typedef {import ('../../../../../src/shared/domain/models/CertifiableBadgeAcquisition.js').CertifiableBadgeAcquisition} CertifiableBadgeAcquisition
  */
 import bluebird from 'bluebird';
 import _ from 'lodash';

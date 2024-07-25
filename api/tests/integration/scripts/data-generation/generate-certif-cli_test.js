@@ -1,11 +1,11 @@
 import _ from 'lodash';
 
 import { databaseBuffer } from '../../../../db/database-builder/database-buffer.js';
-import { CampaignTypes } from '../../../../lib/domain/models/index.js';
 import {
   databaseBuilder as databaseBuilderCli,
   main,
 } from '../../../../scripts/data-generation/generate-certif-cli.js';
+import { CampaignTypes } from '../../../../src/shared/domain/models/index.js';
 import { expect, knex, mockLearningContent } from '../../../test-helper.js';
 
 // FIXME Too hard to edit \o/

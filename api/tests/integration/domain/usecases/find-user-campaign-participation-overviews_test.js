@@ -1,5 +1,5 @@
-import { constants } from '../../../../lib/domain/constants.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { constants } from '../../../../src/shared/domain/constants.js';
 import { databaseBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Integration | UseCase | find-user-campaign-participation-overviews_test', function () {

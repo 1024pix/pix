@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { Tube } from '../models/Tube.js';
+import { Tube } from '../../../src/shared/domain/models/Tube.js';
 
 function computeTubesFromSkills(skills) {
   const tubes = [];

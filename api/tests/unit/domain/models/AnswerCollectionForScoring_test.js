@@ -1,4 +1,4 @@
-import { AnswerCollectionForScoring } from '../../../../lib/domain/models/AnswerCollectionForScoring.js';
+import { AnswerCollectionForScoring } from '../../../../src/shared/domain/models/AnswerCollectionForScoring.js';
 import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
 import { domainBuilder, expect } from '../../../test-helper.js';
 

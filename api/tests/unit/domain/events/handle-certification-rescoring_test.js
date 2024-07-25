@@ -3,11 +3,11 @@ import { CertificationJuryDone } from '../../../../lib/domain/events/Certificati
 import { ChallengeDeneutralized } from '../../../../lib/domain/events/ChallengeDeneutralized.js';
 import { ChallengeNeutralized } from '../../../../lib/domain/events/ChallengeNeutralized.js';
 import { _forTestOnly } from '../../../../lib/domain/events/index.js';
-import { AssessmentResult, CertificationResult } from '../../../../lib/domain/models/index.js';
 import { CertificationAssessment } from '../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
 import { ABORT_REASONS } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { CERTIFICATION_VERSIONS } from '../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { CertificationComputeError } from '../../../../src/shared/domain/errors.js';
+import { AssessmentResult, CertificationResult } from '../../../../src/shared/domain/models/index.js';
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 const { handleCertificationRescoring } = _forTestOnly.handlers;

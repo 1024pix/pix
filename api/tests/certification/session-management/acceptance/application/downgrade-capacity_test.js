@@ -1,5 +1,5 @@
-import { AnswerStatus, Assessment } from '../../../../../lib/domain/models/index.js';
 import { ABORT_REASONS } from '../../../../../src/certification/shared/domain/models/CertificationCourse.js';
+import { AnswerStatus, Assessment } from '../../../../../src/shared/domain/models/index.js';
 import {
   createServer,
   databaseBuilder,

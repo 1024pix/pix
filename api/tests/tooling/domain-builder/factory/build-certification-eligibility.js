@@ -1,4 +1,4 @@
-import { CertificationEligibility } from '../../../../lib/domain/read-models/CertificationEligibility.js';
+import { CertificationEligibility } from '../../../../src/shared/domain/read-models/CertificationEligibility.js';
 
 const buildCertificationEligibility = function ({
   id = 123,

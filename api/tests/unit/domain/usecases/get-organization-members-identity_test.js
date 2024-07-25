@@ -1,5 +1,5 @@
-import { OrganizationMemberIdentity } from '../../../../lib/domain/models/OrganizationMemberIdentity.js';
 import { getOrganizationMemberIdentities } from '../../../../lib/domain/usecases/get-organization-members-identity.js';
+import { OrganizationMemberIdentity } from '../../../../src/shared/domain/models/OrganizationMemberIdentity.js';
 import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | get-organization-members', function () {

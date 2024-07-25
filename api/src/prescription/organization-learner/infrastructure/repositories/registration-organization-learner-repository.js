@@ -1,6 +1,6 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { OrganizationLearner } from '../../../../../lib/domain/models/OrganizationLearner.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import { OrganizationLearner } from '../../../../../src/shared/domain/models/OrganizationLearner.js';
 
 const findOneByUserIdAndOrganizationId = async function ({
   userId,

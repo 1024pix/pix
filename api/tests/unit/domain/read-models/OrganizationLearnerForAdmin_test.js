@@ -1,5 +1,5 @@
-import { OrganizationLearnerForAdmin } from '../../../../lib/domain/read-models/OrganizationLearnerForAdmin.js';
 import { ObjectValidationError } from '../../../../src/shared/domain/errors.js';
+import { OrganizationLearnerForAdmin } from '../../../../src/shared/domain/read-models/OrganizationLearnerForAdmin.js';
 import { expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Read-models | OrganizationLearnerForAdmin', function () {

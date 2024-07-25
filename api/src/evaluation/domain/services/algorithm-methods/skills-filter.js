@@ -2,7 +2,7 @@ import {
   DEFAULT_LEVEL_FOR_FIRST_CHALLENGE,
   MAX_DIFF_BETWEEN_USER_LEVEL_AND_SKILL_LEVEL,
   MAX_LEVEL_TO_BE_AN_EASY_TUBE,
-} from '../../../../../lib/domain/constants.js';
+} from '../../../../shared/domain/constants.js';
 import { SmartRandomDetails } from '../../models/SmartRandomDetails.js';
 import { STEPS_NAMES } from '../../models/SmartRandomStep.js';
 

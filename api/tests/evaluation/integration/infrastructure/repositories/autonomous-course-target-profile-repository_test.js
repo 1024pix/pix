@@ -1,6 +1,6 @@
-import { constants } from '../../../../../lib/domain/constants.js';
 import { AutonomousCourseTargetProfile } from '../../../../../src/evaluation/domain/models/AutonomousCourseTargetProfile.js';
 import { repositories } from '../../../../../src/evaluation/infrastructure/repositories/index.js';
+import { constants } from '../../../../../src/shared/domain/constants.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { catchErr, databaseBuilder, expect, sinon } from '../../../../test-helper.js';
 

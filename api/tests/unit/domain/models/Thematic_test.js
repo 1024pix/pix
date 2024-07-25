@@ -1,4 +1,4 @@
-import { Thematic } from '../../../../lib/domain/models/Thematic.js';
+import { Thematic } from '../../../../src/shared/domain/models/Thematic.js';
 import { expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | Thematic', function () {

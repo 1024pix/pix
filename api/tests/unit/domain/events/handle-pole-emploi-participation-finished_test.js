@@ -1,7 +1,7 @@
 import { AssessmentCompleted } from '../../../../lib/domain/events/AssessmentCompleted.js';
 import { _forTestOnly } from '../../../../lib/domain/events/index.js';
-import { PoleEmploiSending } from '../../../../lib/domain/models/PoleEmploiSending.js';
 import { PoleEmploiPayload } from '../../../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
+import { PoleEmploiSending } from '../../../../src/shared/domain/models/PoleEmploiSending.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 const { handlePoleEmploiParticipationFinished } = _forTestOnly.handlers;
 import * as httpErrorsHelper from '../../../../lib/infrastructure/http/errors-helper.js';

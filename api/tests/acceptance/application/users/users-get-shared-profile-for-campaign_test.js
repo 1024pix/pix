@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_SCORE } from '../../../../lib/domain/constants.js';
+import { MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_SCORE } from '../../../../src/shared/domain/constants.js';
 import {
   createServer,
   databaseBuilder,

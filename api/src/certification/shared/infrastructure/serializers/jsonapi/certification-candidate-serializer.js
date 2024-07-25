@@ -1,6 +1,6 @@
 import jsonapiSerializer from 'jsonapi-serializer';
 
-import { CertificationCandidate } from '../../../../../../lib/domain/models/index.js';
+import { CertificationCandidate } from '../../../../../shared/domain/models/index.js';
 
 const { Deserializer, Serializer } = jsonapiSerializer;
 

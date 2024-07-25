@@ -2,9 +2,9 @@ import stream from 'node:stream';
 
 const { PassThrough } = stream;
 
-import { CampaignParticipationStatuses, KnowledgeElement } from '../../../../../../lib/domain/models/index.js';
 import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
+import { CampaignParticipationStatuses, KnowledgeElement } from '../../../../../../src/shared/domain/models/index.js';
 import { databaseBuilder, expect, mockLearningContent, streamToPromise } from '../../../../../test-helper.js';
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 

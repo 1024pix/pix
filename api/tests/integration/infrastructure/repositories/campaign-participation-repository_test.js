@@ -1,10 +1,10 @@
-import { constants } from '../../../../lib/domain/constants.js';
-import { Campaign } from '../../../../lib/domain/models/Campaign.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
 import { CampaignParticipation } from '../../../../src/prescription/campaign-participation/domain/models/CampaignParticipation.js';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
+import { constants } from '../../../../src/shared/domain/constants.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
+import { Campaign } from '../../../../src/shared/domain/models/Campaign.js';
 import { databaseBuilder, expect, sinon } from '../../../test-helper.js';
 
 const { STARTED, SHARED, TO_SHARE } = CampaignParticipationStatuses;

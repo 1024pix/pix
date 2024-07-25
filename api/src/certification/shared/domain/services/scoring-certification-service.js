@@ -1,6 +1,9 @@
 import bluebird from 'bluebird';
 import _ from 'lodash';
 
+import * as scoringService from '../../../../evaluation/domain/services/scoring/scoring-service.js';
+import { config } from '../../../../shared/config.js';
+import { AssessmentResult } from '../../../../shared/domain/models/AssessmentResult.js';
 import {
   AnswerCollectionForScoring,
   CertificationContract,
@@ -8,10 +11,7 @@ import {
   CertifiedScore,
   CompetenceMark,
   ReproducibilityRate,
-} from '../../../../../lib/domain/models/index.js';
-import * as scoringService from '../../../../evaluation/domain/services/scoring/scoring-service.js';
-import { config } from '../../../../shared/config.js';
-import { AssessmentResult } from '../../../../shared/domain/models/AssessmentResult.js';
+} from '../../../../shared/domain/models/index.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import * as areaRepository from '../../../../shared/infrastructure/repositories/area-repository.js';
 import { FlashAssessmentAlgorithm } from '../../../flash-certification/domain/models/FlashAssessmentAlgorithm.js';

@@ -1,5 +1,5 @@
-import { CampaignParticipationOverview } from '../../../../lib/domain/read-models/CampaignParticipationOverview.js';
 import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
+import { CampaignParticipationOverview } from '../../../../src/shared/domain/read-models/CampaignParticipationOverview.js';
 import { domainBuilder, expect } from '../../../test-helper.js';
 
 const { SHARED } = CampaignParticipationStatuses;

@@ -1,6 +1,6 @@
-import { CertificationCenter } from '../../../../../../lib/domain/models/CertificationCenter.js';
 import * as certificationCenterRepository from '../../../../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
+import { CertificationCenter } from '../../../../../../src/shared/domain/models/CertificationCenter.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | Certification Center', function () {

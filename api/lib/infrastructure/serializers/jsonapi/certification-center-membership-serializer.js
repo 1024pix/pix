@@ -1,6 +1,6 @@
 import jsonapiSerializer from 'jsonapi-serializer';
 
-import { CertificationCenterMembership } from '../../../domain/models/index.js';
+import { CertificationCenterMembership } from '../../../../src/shared/domain/models/index.js';
 
 const { Serializer } = jsonapiSerializer;
 

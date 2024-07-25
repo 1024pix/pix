@@ -1,5 +1,3 @@
-import { KnowledgeElement } from '../../../lib/domain/models/KnowledgeElement.js';
-import { UserSavedTutorialWithTutorial } from '../../../lib/domain/models/UserSavedTutorialWithTutorial.js';
 import {
   associateSkillsToTutorial,
   associateTutorialToUserSavedTutorial,
@@ -10,6 +8,8 @@ import {
   main,
 } from '../../../scripts/fill-skill-id-in-user-saved-tutorials.js';
 import { UserSavedTutorial } from '../../../src/devcomp/domain/models/UserSavedTutorial.js';
+import { KnowledgeElement } from '../../../src/shared/domain/models/KnowledgeElement.js';
+import { UserSavedTutorialWithTutorial } from '../../../src/shared/domain/models/UserSavedTutorialWithTutorial.js';
 import {
   databaseBuilder,
   domainBuilder,

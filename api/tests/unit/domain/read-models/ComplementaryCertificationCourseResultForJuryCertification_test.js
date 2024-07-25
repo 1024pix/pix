@@ -1,4 +1,4 @@
-import { ComplementaryCertificationCourseResultForJuryCertification } from '../../../../lib/domain/read-models/ComplementaryCertificationCourseResultForJuryCertification.js';
+import { ComplementaryCertificationCourseResultForJuryCertification } from '../../../../src/shared/domain/read-models/ComplementaryCertificationCourseResultForJuryCertification.js';
 import { domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | ComplementaryCertificationCourseResultForJuryCertification', function () {

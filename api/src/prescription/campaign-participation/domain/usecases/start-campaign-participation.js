@@ -1,5 +1,5 @@
 import { CampaignParticipationStarted } from '../../../../../lib/domain/events/CampaignParticipationStarted.js';
-import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
+import { KnowledgeElement } from '../../../../shared/domain/models/KnowledgeElement.js';
 
 const startCampaignParticipation = async function ({
   campaignParticipation,

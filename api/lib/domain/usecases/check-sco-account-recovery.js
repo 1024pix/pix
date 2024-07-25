@@ -1,4 +1,4 @@
-import { StudentInformationForAccountRecovery } from '../read-models/StudentInformationForAccountRecovery.js';
+import { StudentInformationForAccountRecovery } from '../../../src/shared/domain/read-models/StudentInformationForAccountRecovery.js';
 
 const checkScoAccountRecovery = async function ({
   studentInformation,

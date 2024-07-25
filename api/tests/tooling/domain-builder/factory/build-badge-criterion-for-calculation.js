@@ -1,4 +1,4 @@
-import { BadgeCriterionForCalculation } from '../../../../lib/domain/models/BadgeCriterionForCalculation.js';
+import { BadgeCriterionForCalculation } from '../../../../src/shared/domain/models/BadgeCriterionForCalculation.js';
 
 const buildBadgeCriterionForCalculation = function buildBadgeCriterionForCalculation({
   threshold = 80,

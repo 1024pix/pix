@@ -1,13 +1,13 @@
 import bcrypt from 'bcrypt';
 
-import { Membership } from '../../../../../lib/domain/models/Membership.js';
-import { UserOrgaSettings } from '../../../../../lib/domain/models/UserOrgaSettings.js';
 import { Organization } from '../../../../../src/organizational-entities/domain/models/Organization.js';
 import { Tag } from '../../../../../src/organizational-entities/domain/models/Tag.js';
 import { config as settings } from '../../../../../src/shared/config.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
 import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
+import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
+import { UserOrgaSettings } from '../../../../../src/shared/domain/models/UserOrgaSettings.js';
 import { Prescriber } from '../../../../../src/team/domain/read-models/Prescriber.js';
 import { prescriberRepository } from '../../../../../src/team/infrastructure/repositories/prescriber-repository.js';
 import { catchErr, databaseBuilder, expect } from '../../../../test-helper.js';

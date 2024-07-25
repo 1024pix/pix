@@ -1,7 +1,7 @@
 import range from 'lodash/range.js';
 
-import { MINIMUM_CERTIFIABLE_COMPETENCES_FOR_CERTIFIABILITY } from '../../../../lib/domain/constants.js';
-import { OrganizationLearner, PlacementProfile } from '../../../../lib/domain/models/index.js';
+import { MINIMUM_CERTIFIABLE_COMPETENCES_FOR_CERTIFIABILITY } from '../../../../src/shared/domain/constants.js';
+import { OrganizationLearner, PlacementProfile } from '../../../../src/shared/domain/models/index.js';
 import { domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | OrganizationLearner', function () {

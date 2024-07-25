@@ -1,5 +1,5 @@
-import { CampaignParticipationInfo } from '../../../../lib/domain/read-models/CampaignParticipationInfo.js';
 import { ObjectValidationError } from '../../../../src/shared/domain/errors.js';
+import { CampaignParticipationInfo } from '../../../../src/shared/domain/read-models/CampaignParticipationInfo.js';
 import { expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Read-models | CampaignParticipationInfo', function () {

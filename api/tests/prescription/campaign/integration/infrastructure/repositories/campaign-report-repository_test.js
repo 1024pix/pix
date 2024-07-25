@@ -1,9 +1,9 @@
 import _ from 'lodash';
 
-import { CampaignReport } from '../../../../../../lib/domain/read-models/CampaignReport.js';
 import * as campaignReportRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-report-repository.js';
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
+import { CampaignReport } from '../../../../../../src/shared/domain/read-models/CampaignReport.js';
 import { catchErr, databaseBuilder, expect, mockLearningContent } from '../../../../../test-helper.js';
 
 const { STARTED, SHARED } = CampaignParticipationStatuses;

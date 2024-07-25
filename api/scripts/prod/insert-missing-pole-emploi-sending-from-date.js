@@ -3,7 +3,6 @@ import * as url from 'node:url';
 import dayjs from 'dayjs';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
-import { PoleEmploiSending } from '../../lib/domain/models/PoleEmploiSending.js';
 import { PoleEmploiPayload } from '../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
 import * as badgeAcquisitionRepository from '../../lib/infrastructure/repositories/badge-acquisition-repository.js';
 import { campaignParticipationResultRepository } from '../../lib/infrastructure/repositories/campaign-participation-result-repository.js';
@@ -15,6 +14,7 @@ import * as userRepository from '../../src/identity-access-management/infrastruc
 import * as campaignParticipationRepository from '../../src/prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
 import { CampaignParticipationStatuses } from '../../src/prescription/shared/domain/constants.js';
 import { Assessment } from '../../src/shared/domain/models/Assessment.js';
+import { PoleEmploiSending } from '../../src/shared/domain/models/PoleEmploiSending.js';
 import * as assessmentRepository from '../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as organizationRepository from '../../src/shared/infrastructure/repositories/organization-repository.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';

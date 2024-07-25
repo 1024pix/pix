@@ -1,4 +1,4 @@
-import { ParticipantRepartition } from '../../../../lib/domain/models/ParticipantRepartition.js';
+import { ParticipantRepartition } from '../../../../src/shared/domain/models/ParticipantRepartition.js';
 import { expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | ParticipantRepartition', function () {

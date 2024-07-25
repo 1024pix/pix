@@ -1,4 +1,4 @@
-import { constants } from '../../../../../lib/domain/constants.js';
+import { constants } from '../../../../../src/shared/domain/constants.js';
 import {
   createServer,
   databaseBuilder,

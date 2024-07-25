@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { Scorecard } from '../../../src/evaluation/domain/models/Scorecard.js';
 import { UserNotAuthorizedToAccessEntityError } from '../../../src/shared/domain/errors.js';
-import { KnowledgeElement } from '../models/KnowledgeElement.js';
+import { KnowledgeElement } from '../../../src/shared/domain/models/KnowledgeElement.js';
 
 const findTutorials = async function ({
   authenticatedUserId,

@@ -8,8 +8,8 @@
  * @typedef {import('../../../shared/domain/usecases/index.js').CertificationIssueReportRepository} CertificationIssueReportRepository
  */
 
-import { CertificationIssueReport, CertificationIssueReportCategory } from '../../../../../lib/domain/models/index.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
+import { CertificationIssueReport, CertificationIssueReportCategory } from '../../../../shared/domain/models/index.js';
 
 /**
  * @param {Object} params

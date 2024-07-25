@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { SCOPES } from '../../../../lib/domain/models/BadgeDetails.js';
+import { SCOPES } from '../../../../src/shared/domain/models/BadgeDetails.js';
 import {
   createServer,
   databaseBuilder,

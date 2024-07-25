@@ -1,5 +1,5 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { CleaCertifiedCandidate } from '../../../../../lib/domain/read-models/CleaCertifiedCandidate.js';
+import { CleaCertifiedCandidate } from '../../../../shared/domain/read-models/CleaCertifiedCandidate.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 
 const getBySessionId = async function (sessionId) {

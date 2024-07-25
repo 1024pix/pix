@@ -1,4 +1,4 @@
-import { TargetProfile } from '../../../../lib/domain/models/TargetProfile.js';
+import { TargetProfile } from '../../../../src/shared/domain/models/TargetProfile.js';
 
 const buildTargetProfile = function ({
   id = 123,

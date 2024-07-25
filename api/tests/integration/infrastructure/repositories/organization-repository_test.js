@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
-import { Organization } from '../../../../lib/domain/models/index.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { NotFoundError } from '../../../../src/shared/domain/errors.js';
+import { Organization } from '../../../../src/shared/domain/models/index.js';
 import * as organizationRepository from '../../../../src/shared/infrastructure/repositories/organization-repository.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
 

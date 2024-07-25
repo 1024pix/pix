@@ -4,8 +4,8 @@ import * as defaultCompareStageAndAcquiredStagesService from '../../../src/evalu
 import * as defaultStageAcquisitionRepository from '../../../src/evaluation/infrastructure/repositories/stage-acquisition-repository.js';
 import * as defaultStageRepository from '../../../src/evaluation/infrastructure/repositories/stage-repository.js';
 import { NoCampaignParticipationForUserAndCampaign, NotFoundError } from '../../../src/shared/domain/errors.js';
+import { CampaignParticipationStatuses } from '../../../src/shared/domain/models/index.js';
 import * as defaultParticipantResultRepository from '../../infrastructure/repositories/participant-result-repository.js';
-import { CampaignParticipationStatuses } from '../models/index.js';
 
 const getUserCampaignAssessmentResult = async function ({
   userId,

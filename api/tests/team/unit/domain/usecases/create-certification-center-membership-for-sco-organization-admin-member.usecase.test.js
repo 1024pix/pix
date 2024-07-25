@@ -1,8 +1,8 @@
 import {
   CERTIFICATION_CENTER_MEMBERSHIP_ROLES,
   CertificationCenterMembership,
-} from '../../../../../lib/domain/models/CertificationCenterMembership.js';
-import { Membership } from '../../../../../lib/domain/models/Membership.js';
+} from '../../../../../src/shared/domain/models/CertificationCenterMembership.js';
+import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { createCertificationCenterMembershipForScoOrganizationAdminMember } from '../../../../../src/team/domain/usecases/create-certification-center-membership-for-sco-organization-admin-member.usecase.js';
 import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 

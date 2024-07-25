@@ -2,6 +2,7 @@ import lodash from 'lodash';
 const { isNil } = lodash;
 
 import { User } from '../../../src/identity-access-management/domain/models/User.js';
+import { STUDENT_RECONCILIATION_ERRORS } from '../../../src/shared/domain/constants.js';
 import { EntityValidationError } from '../../../src/shared/domain/errors.js';
 import { AlreadyRegisteredEmailError } from '../../../src/shared/domain/errors.js';
 import {
@@ -10,7 +11,6 @@ import {
   OrganizationLearnerAlreadyLinkedToUserError,
 } from '../../../src/shared/domain/errors.js';
 import { urlBuilder } from '../../../src/shared/infrastructure/utils/url-builder.js';
-import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
 
 const createAndReconcileUserToOrganizationLearner = async function ({
   campaignCode,

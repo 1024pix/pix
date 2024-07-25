@@ -1,10 +1,5 @@
 import lodash from 'lodash';
 const { each, map, times, pick } = lodash;
-import { CertificationCenter } from '../../../../../lib/domain/models/CertificationCenter.js';
-import { CertificationCenterMembership } from '../../../../../lib/domain/models/CertificationCenterMembership.js';
-import { Membership } from '../../../../../lib/domain/models/Membership.js';
-import { UserDetailsForAdmin } from '../../../../../lib/domain/models/UserDetailsForAdmin.js';
-import { OrganizationLearnerForAdmin } from '../../../../../lib/domain/read-models/OrganizationLearnerForAdmin.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import * as OidcIdentityProviders from '../../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
@@ -17,6 +12,11 @@ import {
   AlreadyRegisteredUsernameError,
   UserNotFoundError,
 } from '../../../../../src/shared/domain/errors.js';
+import { CertificationCenter } from '../../../../../src/shared/domain/models/CertificationCenter.js';
+import { CertificationCenterMembership } from '../../../../../src/shared/domain/models/CertificationCenterMembership.js';
+import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
+import { UserDetailsForAdmin } from '../../../../../src/shared/domain/models/UserDetailsForAdmin.js';
+import { OrganizationLearnerForAdmin } from '../../../../../src/shared/domain/read-models/OrganizationLearnerForAdmin.js';
 import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
 
 const expectedUserDetailsForAdminAttributes = [

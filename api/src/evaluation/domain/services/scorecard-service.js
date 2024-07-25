@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
-import { KnowledgeElement } from '../../../../lib/domain/models/index.js';
 import { Assessment } from '../../../shared/domain/models/Assessment.js';
+import { KnowledgeElement } from '../../../shared/domain/models/KnowledgeElement.js';
 import { CompetenceEvaluation } from '../models/CompetenceEvaluation.js';
 import { Scorecard } from '../models/Scorecard.js';
 

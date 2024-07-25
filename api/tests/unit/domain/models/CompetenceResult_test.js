@@ -1,4 +1,4 @@
-import { CompetenceResult } from '../../../../lib/domain/models/CompetenceResult.js';
+import { CompetenceResult } from '../../../../src/shared/domain/models/CompetenceResult.js';
 import { expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | CompetenceResult', function () {

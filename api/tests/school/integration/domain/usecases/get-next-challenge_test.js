@@ -1,4 +1,3 @@
-import { Challenge } from '../../../../../lib/domain/models/index.js';
 import { Activity } from '../../../../../src/school/domain/models/Activity.js';
 import { Assessment } from '../../../../../src/school/domain/models/Assessment.js';
 import { getNextChallenge } from '../../../../../src/school/domain/usecases/get-next-challenge.js';
@@ -6,6 +5,7 @@ import * as activityAnswerRepository from '../../../../../src/school/infrastruct
 import * as activityRepository from '../../../../../src/school/infrastructure/repositories/activity-repository.js';
 import * as missionAssessmentRepository from '../../../../../src/school/infrastructure/repositories/mission-assessment-repository.js';
 import * as missionRepository from '../../../../../src/school/infrastructure/repositories/mission-repository.js';
+import { Challenge } from '../../../../../src/shared/domain/models/index.js';
 import * as assessmentRepository from '../../../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as challengeRepository from '../../../../../src/shared/infrastructure/repositories/challenge-repository.js';
 import { databaseBuilder, expect, knex, mockLearningContent } from '../../../../test-helper.js';

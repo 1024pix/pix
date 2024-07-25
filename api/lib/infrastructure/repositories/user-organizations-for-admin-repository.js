@@ -1,5 +1,5 @@
 import { knex } from '../../../db/knex-database-connection.js';
-import { UserOrganizationForAdmin } from '../../domain/read-models/UserOrganizationForAdmin.js';
+import { UserOrganizationForAdmin } from '../../../src/shared/domain/read-models/UserOrganizationForAdmin.js';
 
 const findByUserId = async function (userId) {
   const organizations = await knex('memberships')

@@ -1,8 +1,8 @@
-import { SCOPES } from '../../../../lib/domain/models/BadgeDetails.js';
 import { copyTargetProfileBadges } from '../../../../lib/domain/usecases/copy-target-profile-badges.js';
 import * as badgeCriteriaRepository from '../../../../src/evaluation/infrastructure/repositories/badge-criteria-repository.js';
 import * as badgeRepository from '../../../../src/evaluation/infrastructure/repositories/badge-repository.js';
 import { DomainTransaction, withTransaction } from '../../../../src/shared/domain/DomainTransaction.js';
+import { SCOPES } from '../../../../src/shared/domain/models/BadgeDetails.js';
 import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | UseCases | copy-badges', function () {

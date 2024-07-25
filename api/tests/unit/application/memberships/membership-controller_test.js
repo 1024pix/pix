@@ -1,6 +1,6 @@
 import { membershipController } from '../../../../lib/application/memberships/membership-controller.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { Membership } from '../../../../src/shared/domain/models/Membership.js';
 import { usecases as srcUsecases } from '../../../../src/team/domain/usecases/index.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 

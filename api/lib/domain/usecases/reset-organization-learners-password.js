@@ -1,9 +1,9 @@
 import { UserNotAuthorizedToUpdatePasswordError } from '../../../src/shared/domain/errors.js';
+import { OrganizationLearnerPasswordResetDTO } from '../../../src/shared/domain/models/OrganizationLearnerPasswordResetDTO.js';
 import {
   ORGANIZATION_LEARNER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE,
   ORGANIZATION_LEARNER_WITHOUT_USERNAME_CODE,
 } from '../constants/reset-organization-learners-password-errors.js';
-import { OrganizationLearnerPasswordResetDTO } from '../models/OrganizationLearnerPasswordResetDTO.js';
 
 const resetOrganizationLearnersPassword = async function ({
   organizationId,

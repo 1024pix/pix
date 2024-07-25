@@ -1,4 +1,4 @@
-import { LearningContent } from '../../../../lib/domain/models/LearningContent.js';
+import { LearningContent } from '../../../../src/shared/domain/models/LearningContent.js';
 import { buildArea } from './build-area.js';
 import { buildCompetence } from './build-competence.js';
 import { buildFramework } from './build-framework.js';

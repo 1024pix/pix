@@ -1,6 +1,6 @@
-import { Area } from '../../../../lib/domain/models/Area.js';
-import { CampaignParticipationResult } from '../../../../lib/domain/models/CampaignParticipationResult.js';
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { Area } from '../../../../src/shared/domain/models/Area.js';
+import { CampaignParticipationResult } from '../../../../src/shared/domain/models/CampaignParticipationResult.js';
+import { KnowledgeElement } from '../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | CampaignParticipationResult', function () {

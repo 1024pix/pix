@@ -1,4 +1,4 @@
-import { CampaignParticipationStatuses, CampaignTypes } from '../../../../../../lib/domain/models/index.js';
+import { CampaignParticipationStatuses, CampaignTypes } from '../../../../../../src/shared/domain/models/index.js';
 import { ParticipationResultCalculationJobHandler } from '../../../../../../src/shared/infrastructure/jobs/campaign-result/ParticipationResultCalculationJobHandler.js';
 import {
   databaseBuilder,

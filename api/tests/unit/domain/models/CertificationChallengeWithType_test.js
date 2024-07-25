@@ -1,5 +1,5 @@
-import { CertificationChallengeWithType } from '../../../../lib/domain/models/index.js';
 import { Type } from '../../../../src/shared/domain/models/Challenge.js';
+import { CertificationChallengeWithType } from '../../../../src/shared/domain/models/index.js';
 import { domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | CertificationChallengeWithType', function () {

@@ -1,8 +1,8 @@
-import { CERTIFICATION_CENTER_MEMBERSHIP_ROLES } from '../../../../../lib/domain/models/CertificationCenterMembership.js';
-import { Membership } from '../../../../../lib/domain/models/Membership.js';
 import * as certificationCenterMembershipRepository from '../../../../../lib/infrastructure/repositories/certification-center-membership-repository.js';
 import * as membershipRepository from '../../../../../lib/infrastructure/repositories/membership-repository.js';
 import * as certificationCenterRepository from '../../../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
+import { CERTIFICATION_CENTER_MEMBERSHIP_ROLES } from '../../../../../src/shared/domain/models/CertificationCenterMembership.js';
+import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { createCertificationCenterMembershipForScoOrganizationAdminMember } from '../../../../../src/team/domain/usecases/create-certification-center-membership-for-sco-organization-admin-member.usecase.js';
 import { databaseBuilder, expect, knex } from '../../../../test-helper.js';
 

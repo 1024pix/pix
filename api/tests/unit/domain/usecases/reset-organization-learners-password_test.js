@@ -2,9 +2,9 @@ import {
   ORGANIZATION_LEARNER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE,
   ORGANIZATION_LEARNER_WITHOUT_USERNAME_CODE,
 } from '../../../../lib/domain/constants/reset-organization-learners-password-errors.js';
-import { OrganizationLearnerPasswordResetDTO } from '../../../../lib/domain/models/OrganizationLearnerPasswordResetDTO.js';
 import { resetOrganizationLearnersPassword } from '../../../../lib/domain/usecases/reset-organization-learners-password.js';
 import { UserNotAuthorizedToUpdatePasswordError } from '../../../../src/shared/domain/errors.js';
+import { OrganizationLearnerPasswordResetDTO } from '../../../../src/shared/domain/models/OrganizationLearnerPasswordResetDTO.js';
 import { catchErr, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCases | Reset organization learners password', function () {

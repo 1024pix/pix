@@ -1,4 +1,4 @@
-import { UserCompetence } from '../../../../lib/domain/models/UserCompetence.js';
+import { UserCompetence } from '../../../../src/shared/domain/models/UserCompetence.js';
 
 const buildUserCompetence = function ({
   id = 'recUserComp',

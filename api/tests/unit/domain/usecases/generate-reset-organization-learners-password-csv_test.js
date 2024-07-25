@@ -1,5 +1,5 @@
-import { OrganizationLearnerPasswordResetDTO } from '../../../../lib/domain/models/OrganizationLearnerPasswordResetDTO.js';
 import { generateResetOrganizationLearnersPasswordCsvContent } from '../../../../lib/domain/usecases/generate-reset-organization-learners-password-cvs-content.js';
+import { OrganizationLearnerPasswordResetDTO } from '../../../../src/shared/domain/models/OrganizationLearnerPasswordResetDTO.js';
 import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCases | Generate reset organization learners csv', function () {

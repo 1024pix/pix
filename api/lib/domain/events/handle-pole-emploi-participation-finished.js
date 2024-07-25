@@ -1,8 +1,8 @@
+import { PoleEmploiSending } from '../../../src/shared/domain/models/PoleEmploiSending.js';
 import { PoleEmploiPayload } from '../../infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
 import * as httpErrorsHelper from '../../infrastructure/http/errors-helper.js';
 import { httpAgent } from '../../infrastructure/http/http-agent.js';
 import * as monitoringTools from '../../infrastructure/monitoring-tools.js';
-import { PoleEmploiSending } from '../models/PoleEmploiSending.js';
 import { AssessmentCompleted } from './AssessmentCompleted.js';
 import { checkEventTypes } from './check-event-types.js';
 

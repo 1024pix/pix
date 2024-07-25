@@ -1,4 +1,4 @@
-import { constants } from '../../../../lib/domain/constants.js';
+import { constants } from '../../../shared/domain/constants.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { AutonomousCourseTargetProfile } from '../../domain/models/AutonomousCourseTargetProfile.js';
 

@@ -1,7 +1,7 @@
 import { knex } from '../../../../db/knex-database-connection.js';
-import { Organization, User } from '../../../../lib/domain/models/index.js';
-import { UserOrgaSettings } from '../../../../lib/domain/models/UserOrgaSettings.js';
 import { UserOrgaSettingsCreationError } from '../../../shared/domain/errors.js';
+import { Organization, User } from '../../../shared/domain/models/index.js';
+import { UserOrgaSettings } from '../../../shared/domain/models/UserOrgaSettings.js';
 import * as knexUtils from '../../../shared/infrastructure/utils/knex-utils.js';
 
 /**

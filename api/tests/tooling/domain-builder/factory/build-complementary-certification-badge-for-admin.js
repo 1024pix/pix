@@ -1,4 +1,4 @@
-import { ComplementaryCertificationBadgeForAdmin } from '../../../../lib/domain/models/ComplementaryCertificationBadgeForAdmin.js';
+import { ComplementaryCertificationBadgeForAdmin } from '../../../../src/shared/domain/models/ComplementaryCertificationBadgeForAdmin.js';
 
 const buildComplementaryCertificationBadgeForAdmin = function ({
   id = 1,

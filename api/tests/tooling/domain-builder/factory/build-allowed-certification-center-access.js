@@ -1,4 +1,4 @@
-import { AllowedCertificationCenterAccess } from '../../../../lib/domain/read-models/AllowedCertificationCenterAccess.js';
+import { AllowedCertificationCenterAccess } from '../../../../src/shared/domain/read-models/AllowedCertificationCenterAccess.js';
 
 const ALLOWED_CERTIFICATION_CENTER_ACCESS_BUILDER_DEFAULT_ID = 123;
 

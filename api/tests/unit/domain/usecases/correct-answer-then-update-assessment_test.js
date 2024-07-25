@@ -1,4 +1,3 @@
-import { AnswerStatus, Assessment, KnowledgeElement } from '../../../../lib/domain/models/index.js';
 import { correctAnswerThenUpdateAssessment } from '../../../../lib/domain/usecases/correct-answer-then-update-assessment.js';
 import { EmptyAnswerError } from '../../../../src/evaluation/domain/errors.js';
 import {
@@ -8,6 +7,7 @@ import {
   NotFoundError,
 } from '../../../../src/shared/domain/errors.js';
 import { ForbiddenAccess } from '../../../../src/shared/domain/errors.js';
+import { AnswerStatus, Assessment, KnowledgeElement } from '../../../../src/shared/domain/models/index.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 const ANSWER_STATUS_FOCUSEDOUT = AnswerStatus.FOCUSEDOUT;

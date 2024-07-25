@@ -1,11 +1,11 @@
-import { Skill } from '../../../../lib/domain/models/Skill.js';
-import { Validator } from '../../../../lib/domain/models/Validator.js';
-import { ValidatorQCM } from '../../../../lib/domain/models/ValidatorQCM.js';
-import { ValidatorQCU } from '../../../../lib/domain/models/ValidatorQCU.js';
-import { ValidatorQROC } from '../../../../lib/domain/models/ValidatorQROC.js';
-import { ValidatorQROCMDep } from '../../../../lib/domain/models/ValidatorQROCMDep.js';
-import { ValidatorQROCMInd } from '../../../../lib/domain/models/ValidatorQROCMInd.js';
 import { Challenge } from '../../../../src/shared/domain/models/Challenge.js';
+import { Skill } from '../../../../src/shared/domain/models/Skill.js';
+import { Validator } from '../../../../src/shared/domain/models/Validator.js';
+import { ValidatorQCM } from '../../../../src/shared/domain/models/ValidatorQCM.js';
+import { ValidatorQCU } from '../../../../src/shared/domain/models/ValidatorQCU.js';
+import { ValidatorQROC } from '../../../../src/shared/domain/models/ValidatorQROC.js';
+import { ValidatorQROCMDep } from '../../../../src/shared/domain/models/ValidatorQROCMDep.js';
+import { ValidatorQROCMInd } from '../../../../src/shared/domain/models/ValidatorQROCMInd.js';
 import { domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | Challenge', function () {

@@ -1,5 +1,5 @@
 /**
- * @typedef {import ('../../../../../lib/domain/models/TargetProfileHistoryForAdmin.js').TargetProfileHistoryForAdmin} TargetProfileHistoryForAdmin
+ * @typedef {import ('../../../../../src/shared/domain/models/TargetProfileHistoryForAdmin.js').TargetProfileHistoryForAdmin} TargetProfileHistoryForAdmin
  */
 
 class ComplementaryCertificationTargetProfileHistory {

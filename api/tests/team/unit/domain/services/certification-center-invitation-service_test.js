@@ -1,5 +1,5 @@
-import { EmailingAttempt } from '../../../../../lib/domain/models/index.js';
 import { SendingEmailError } from '../../../../../src/shared/domain/errors.js';
+import { EmailingAttempt } from '../../../../../src/shared/domain/models/index.js';
 import { CertificationCenterInvitation } from '../../../../../src/team/domain/models/CertificationCenterInvitation.js';
 import {
   createOrUpdateCertificationCenterInvitation,

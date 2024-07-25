@@ -1,4 +1,4 @@
-import { Area } from '../../../../lib/domain/models/Area.js';
+import { Area } from '../../../../src/shared/domain/models/Area.js';
 
 const buildArea = function ({
   id = 'recArea123',

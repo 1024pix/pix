@@ -1,6 +1,6 @@
 import { Answer } from '../../../../../src/evaluation/domain/models/Answer.js';
-import { ScoringSimulation } from '../../../../domain/models/ScoringSimulation.js';
-import { ScoringSimulationDataset } from '../../../../domain/models/ScoringSimulationDataset.js';
+import { ScoringSimulation } from '../../../../../src/shared/domain/models/ScoringSimulation.js';
+import { ScoringSimulationDataset } from '../../../../../src/shared/domain/models/ScoringSimulationDataset.js';
 
 const deserialize = function (request) {
   const simulations = request.payload.dataset.simulations.map(

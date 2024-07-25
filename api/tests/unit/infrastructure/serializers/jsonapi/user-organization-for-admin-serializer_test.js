@@ -1,5 +1,5 @@
-import { UserOrganizationForAdmin } from '../../../../../lib/domain/read-models/UserOrganizationForAdmin.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/user-organization-for-admin-serializer.js';
+import { UserOrganizationForAdmin } from '../../../../../src/shared/domain/read-models/UserOrganizationForAdmin.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | user-organization-for-admin-serializer', function () {

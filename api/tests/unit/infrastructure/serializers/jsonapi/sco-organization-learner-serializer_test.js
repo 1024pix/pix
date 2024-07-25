@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
-import { OrganizationLearner } from '../../../../../lib/domain/models/OrganizationLearner.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/sco-organization-learner-serializer.js';
+import { OrganizationLearner } from '../../../../../src/shared/domain/models/OrganizationLearner.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | sco-organization-learner-serializer', function () {

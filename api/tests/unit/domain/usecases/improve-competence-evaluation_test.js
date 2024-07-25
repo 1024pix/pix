@@ -1,6 +1,6 @@
-import { MAX_REACHABLE_LEVEL } from '../../../../lib/domain/constants.js';
 import { ImproveCompetenceEvaluationForbiddenError } from '../../../../src/evaluation/domain/errors.js';
 import { improveCompetenceEvaluation } from '../../../../src/evaluation/domain/usecases/improve-competence-evaluation.js';
+import { MAX_REACHABLE_LEVEL } from '../../../../src/shared/domain/constants.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 

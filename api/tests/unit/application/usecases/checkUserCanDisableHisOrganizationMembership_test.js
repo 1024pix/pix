@@ -1,5 +1,5 @@
 import * as checkUserCanDisableHisOrganizationMembership from '../../../../lib/application/usecases/checkUserCanDisableHisOrganizationMembership.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { Membership } from '../../../../src/shared/domain/models/Membership.js';
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | UseCases | checkUserCanDisableHisOrganizationMembership', function () {

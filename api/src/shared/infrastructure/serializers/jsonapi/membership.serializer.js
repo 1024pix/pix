@@ -2,7 +2,7 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
 
-import { Membership } from '../../../../../lib/domain/models/Membership.js';
+import { Membership } from '../../../domain/models/Membership.js';
 
 const serialize = function (membership, meta) {
   return new Serializer('memberships', {

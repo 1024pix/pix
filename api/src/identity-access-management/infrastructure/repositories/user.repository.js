@@ -1,9 +1,4 @@
 import { knex } from '../../../../db/knex-database-connection.js';
-import { CertificationCenter } from '../../../../lib/domain/models/CertificationCenter.js';
-import { CertificationCenterMembership } from '../../../../lib/domain/models/CertificationCenterMembership.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { UserDetailsForAdmin } from '../../../../lib/domain/models/UserDetailsForAdmin.js';
-import { OrganizationLearnerForAdmin } from '../../../../lib/domain/read-models/OrganizationLearnerForAdmin.js';
 import { BookshelfUser } from '../../../../lib/infrastructure/orm-models/User.js';
 import { Organization } from '../../../organizational-entities/domain/models/Organization.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
@@ -13,6 +8,11 @@ import {
   AlreadyRegisteredUsernameError,
   UserNotFoundError,
 } from '../../../shared/domain/errors.js';
+import { CertificationCenter } from '../../../shared/domain/models/CertificationCenter.js';
+import { CertificationCenterMembership } from '../../../shared/domain/models/CertificationCenterMembership.js';
+import { Membership } from '../../../shared/domain/models/Membership.js';
+import { UserDetailsForAdmin } from '../../../shared/domain/models/UserDetailsForAdmin.js';
+import { OrganizationLearnerForAdmin } from '../../../shared/domain/read-models/OrganizationLearnerForAdmin.js';
 import { fetchPage, isUniqConstraintViolated } from '../../../shared/infrastructure/utils/knex-utils.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../domain/constants/identity-providers.js';
 import * as OidcIdentityProviders from '../../domain/constants/oidc-identity-providers.js';

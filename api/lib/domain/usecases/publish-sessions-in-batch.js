@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 
-import { SessionPublicationBatchResult } from '../models/index.js';
+import { SessionPublicationBatchResult } from '../../../src/shared/domain/models/index.js';
 
 const publishSessionsInBatch = async function ({
   i18n,

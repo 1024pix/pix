@@ -1,4 +1,4 @@
-import { CertifiedSkill } from '../../../../lib/domain/read-models/CertifiedProfile.js';
+import { CertifiedSkill } from '../../../../src/shared/domain/read-models/CertifiedProfile.js';
 
 const buildCertifiedSkill = function buildCertifiedSkill({
   id = 'someSkillId',

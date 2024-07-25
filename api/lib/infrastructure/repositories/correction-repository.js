@@ -2,13 +2,13 @@ import _ from 'lodash';
 
 import { Answer } from '../../../src/evaluation/domain/models/Answer.js';
 import { Challenge } from '../../../src/shared/domain/models/Challenge.js';
+import { Correction } from '../../../src/shared/domain/models/Correction.js';
+import { Hint } from '../../../src/shared/domain/models/Hint.js';
 import { getTranslatedKey } from '../../../src/shared/domain/services/get-translated-text.js';
 import {
   challengeDatasource,
   skillDatasource,
 } from '../../../src/shared/infrastructure/datasources/learning-content/index.js';
-import { Correction } from '../../domain/models/Correction.js';
-import { Hint } from '../../domain/models/Hint.js';
 
 const VALIDATED_HINT_STATUSES = ['Validé', 'pré-validé'];
 

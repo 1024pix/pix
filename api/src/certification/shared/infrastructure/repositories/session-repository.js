@@ -1,6 +1,6 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { CertificationCandidate } from '../../../../../lib/domain/models/index.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
+import { CertificationCandidate } from '../../../../shared/domain/models/index.js';
 import { ComplementaryCertification } from '../../../session-management/domain/models/ComplementaryCertification.js';
 import { SessionManagement } from '../../../session-management/domain/models/SessionManagement.js';
 

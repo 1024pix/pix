@@ -4,7 +4,7 @@ import bluebird from 'bluebird';
 import _ from 'lodash';
 
 import { disconnect, knex } from '../db/knex-database-connection.js';
-import { Membership } from '../lib/domain/models/Membership.js';
+import { Membership } from '../src/shared/domain/models/Membership.js';
 import { parseCsvWithHeader } from './helpers/csvHelpers.js';
 
 async function getCertificationCenterIdWithMembershipsUserIdByExternalId(externalId) {
