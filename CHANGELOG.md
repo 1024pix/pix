@@ -1,5 +1,41 @@
 # Pix Changelog
 
+## v4.188.0 (25/07/2024)
+
+
+### :rocket: Amélioration
+- [#9660](https://github.com/1024pix/pix/pull/9660) [FEATURE] Enregistrer les retours d'embed dans l'api pour Modulix (PIX-13094) (PIX-13095).
+- [#9690](https://github.com/1024pix/pix/pull/9690) [FEATURE] Modification du wording accès sans compte (PIX-13603).
+- [#9678](https://github.com/1024pix/pix/pull/9678) [FEATURE] Ajout d'un onglet support dans le menu de gauche pour une organization SCO-1D (Pix-13142).
+- [#9629](https://github.com/1024pix/pix/pull/9629) [FEATURE] Ajouter les CGU sur Pix Orga en NL (PIX-13241).
+- [#9675](https://github.com/1024pix/pix/pull/9675) [FEATURE] Anonymiser les info user login d'un utilisateur (PIX-11569).
+
+### :building_construction: Tech
+- [#9658](https://github.com/1024pix/pix/pull/9658) [TECH] Migrer le dossier temporary storage vers src/shared (PIX-13577).
+- [#9676](https://github.com/1024pix/pix/pull/9676) [TECH] Sauvegarder en même temps les knowledge elements reset dans le cadre d'une remise à zéro.
+- [#9686](https://github.com/1024pix/pix/pull/9686) [TECH] Migration de la route POST /api/organization-invitations/{id}/response vers src/team (pix-13592).
+- [#9684](https://github.com/1024pix/pix/pull/9684) [TECH] Migration de la route api/admin/certification-courses/{certificationCourseId} vers session-management (PIX-13596).
+- [#9685](https://github.com/1024pix/pix/pull/9685) [TECH] Migration de la route /api/admin/certification-courses/:id/uncancel vers src (PIX-13600).
+- [#9624](https://github.com/1024pix/pix/pull/9624) [TECH] Migrer les fichiers de gestion des caches dans le dossier src/shared (PIX-13521).
+- [#9682](https://github.com/1024pix/pix/pull/9682) [TECH] Migration de la route /api/admin/certification-courses/:id/cancel vers src (PIX-13594).
+- [#9626](https://github.com/1024pix/pix/pull/9626) [TECH] Déplace le fichier `lib/domain/errors.js` vers `src/shared/domain/`.
+- [#9683](https://github.com/1024pix/pix/pull/9683) [TECH] Renommer les variables d'environnement du sondages PixOrga (PIX-13599).
+- [#9666](https://github.com/1024pix/pix/pull/9666) [TECH] Déménagement des « jobs » vers `src`.
+- [#9679](https://github.com/1024pix/pix/pull/9679) [TECH] Migration de la route /api/sessions/download-all-results/{token} vers certification/results (PIX-13578).
+- [#9655](https://github.com/1024pix/pix/pull/9655) [TECH] Migration de la route /api/certification-candidates/{id}/end-assessment-by-supervisor vers session-management (PIX-13568).
+- [#9635](https://github.com/1024pix/pix/pull/9635) [TECH] Migrer la route Admin Get Certification Centers (PIX-13561).
+
+### :bug: Correction
+- [#9699](https://github.com/1024pix/pix/pull/9699) [BUGFIX] Corriger les routes PATCH memberships/:id admin et non admin (PIX-13609).
+- [#9659](https://github.com/1024pix/pix/pull/9659) [BUGFIX] Certains évenements de tracking Modulix renvoient `undefined` (PIX-13579).
+- [#9687](https://github.com/1024pix/pix/pull/9687) [BUGFIX] Permettre le rechargement du bon model lors du changement d'organisation (PIX-13573).
+
+### :arrow_up: Montée de version
+- [#9694](https://github.com/1024pix/pix/pull/9694) [BUMP] Lock file maintenance (admin).
+- [#9692](https://github.com/1024pix/pix/pull/9692) [BUMP] Lock file maintenance (api).
+- [#9688](https://github.com/1024pix/pix/pull/9688) [BUMP] Update dependency ember-cli-deprecation-workflow to v3 (mon-pix).
+- [#9681](https://github.com/1024pix/pix/pull/9681) [BUMP] Update dependency ember-cli-deprecation-workflow to v3 (certif).
+
 ## v4.187.0 (24/07/2024)
 
 
