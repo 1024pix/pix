@@ -59,6 +59,20 @@
     @include device-is('mobile') {
       margin: 20px 0;
     }
+
+    p,
+    li {
+      margin-bottom: $pix-spacing-s;
+    }
+
+    ul {
+      list-style: inside;
+    }
+
+    h2,
+    h3 {
+      margin-bottom: $pix-spacing-m;
+    }
   }
 
   &__actions {
@@ -77,7 +91,7 @@
 
 .terms-of-service-form-text {
   &__article-title {
-    @extend %pix-title-xs;
+    @extend %pix-title-s;
   }
 
   &__article-subtitle {

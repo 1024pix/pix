@@ -1,5 +1,5 @@
-import { clickByName } from '@1024pix/ember-testing-library';
-import { currentURL, visit } from '@ember/test-helpers';
+import { clickByName, visit } from '@1024pix/ember-testing-library';
+import { currentURL } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
@@ -14,7 +14,7 @@ module('Acceptance | terms-of-service', function (hooks) {
 
   let prescriber;
 
-  test('it should redirect user to login page if not logged in', async function (assert) {
+  test('redirects user to login page if not logged in', async function (assert) {
     // when
     await visit('/cgu');
 
@@ -30,7 +30,30 @@ module('Acceptance | terms-of-service', function (hooks) {
       await authenticateSession(prescriber.id);
     });
 
-    test('it should redirect to campaign list after saving terms of service acceptation', async function (assert) {
+    [
+      {
+        locale: 'en',
+        title: 'Terms and Conditions of use of the Pix Orga plateform',
+      },
+      {
+        locale: 'nl',
+        title: 'Algemene gebruiksvoorwaarden van het pix orga-platform',
+      },
+      {
+        locale: 'fr',
+        title: "Conditions générales d'utilisation de la plateforme Pix Orga",
+      },
+    ].forEach(({ locale, title }) => {
+      test(`displays the ${locale} language version of cgu page`, async function (assert) {
+        // when
+        const screen = await visit(`/cgu?lang=${locale}`);
+
+        // then
+        assert.ok(screen.getByRole('heading', { name: title }));
+      });
+    });
+
+    test('redirects to campaign list after saving terms of service acceptation', async function (assert) {
       // given
       await visit('/cgu');
 
@@ -41,7 +64,7 @@ module('Acceptance | terms-of-service', function (hooks) {
       assert.strictEqual(currentURL(), '/campagnes/les-miennes');
     });
 
-    test('it should not be possible to visit another page if cgu are not accepted', async function (assert) {
+    test('blocks the visit of another page if cgu are not accepted', async function (assert) {
       // given
       await visit('/cgu');
 
@@ -60,7 +83,7 @@ module('Acceptance | terms-of-service', function (hooks) {
       await authenticateSession(prescriber.id);
     });
 
-    test('it should redirect to campaign list', async function (assert) {
+    test('redirects to campaign list', async function (assert) {
       // when
       await visit('/cgu');
 

@@ -3,6 +3,7 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
+const DUTCH_LOCALE = 'nl';
 const ENGLISH_LOCALE = 'en';
 
 export default class TermOfServiceController extends Controller {
@@ -10,6 +11,7 @@ export default class TermOfServiceController extends Controller {
   @service intl;
   @service router;
 
+  @tracked isDutchLocale = this.intl.primaryLocale === DUTCH_LOCALE;
   @tracked isEnglishLocale = this.intl.primaryLocale === ENGLISH_LOCALE;
 
   @action
