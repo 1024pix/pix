@@ -11,8 +11,9 @@ class OrganizationLearnerImportFormat {
     return this.config.reconciliationMappingColumns
       .slice()
       .sort(this.#sortObject)
-      .map(({ name, fieldId }) => {
-        return { name, fieldId };
+      .map(({ name, fieldId, key }) => {
+        const { type } = this.config.validationRules.formats.find((format) => format.key === key);
+        return { name, fieldId, type };
       });
   }
 

@@ -20,11 +20,11 @@ describe('Unit | Models | OrganizationLearnerImportFormat', function () {
         ],
         validationRules: {
           formats: [
-            { name: 'Nom apprenant', type: 'string', required: true },
-            { name: 'Prénom apprenant', type: 'string', required: true },
-            { name: 'unicity key', type: 'string', required: true },
-            { name: 'catégorie', type: 'string', required: true },
-            { name: 'Date de naissance', type: 'date', format: 'YYYY-MM-DD', required: true },
+            { key: 1, name: 'Nom apprenant', type: 'string', required: true },
+            { key: 2, name: 'Prénom apprenant', type: 'string', required: true },
+            { key: 3, name: 'catégorie', type: 'string', required: true },
+            { key: 4, name: 'Date de naissance', type: 'date', format: 'YYYY-MM-DD', required: true },
+            { key: 5, name: 'unicity key', type: 'string', required: true },
           ],
         },
         headers: [
@@ -121,9 +121,9 @@ describe('Unit | Models | OrganizationLearnerImportFormat', function () {
         organizationLearnerImportFormatPayload,
       );
       expect(organizationLearnerImportFormat.reconciliationFields).to.deep.equal([
-        { fieldId: 'reconcileField1', name: IMPORT_KEY_FIELD.COMMON_LASTNAME },
-        { fieldId: 'reconcileField2', name: IMPORT_KEY_FIELD.COMMON_FIRSTNAME },
-        { fieldId: 'reconcileField3', name: IMPORT_KEY_FIELD.COMMON_BIRTHDATE },
+        { fieldId: 'reconcileField1', name: IMPORT_KEY_FIELD.COMMON_LASTNAME, type: 'string' },
+        { fieldId: 'reconcileField2', name: IMPORT_KEY_FIELD.COMMON_FIRSTNAME, type: 'string' },
+        { fieldId: 'reconcileField3', name: IMPORT_KEY_FIELD.COMMON_BIRTHDATE, type: 'date' },
       ]);
     });
   });

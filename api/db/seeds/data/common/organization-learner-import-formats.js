@@ -61,10 +61,10 @@ export const organizationLearnerImportFormat = async function ({ databaseBuilder
       ],
       validationRules: {
         formats: [
-          { name: 'Nom apprenant', type: 'string', required: true },
-          { name: 'Prénom apprenant', type: 'string', required: true },
-          { name: 'Classe', type: 'string', required: true },
-          { name: 'Date de naissance', type: 'date', format: 'YYYY-MM-DD', required: true },
+          { key: 1, name: 'Nom apprenant', type: 'string', required: true },
+          { key: 2, name: 'Prénom apprenant', type: 'string', required: true },
+          { key: 3, name: 'Classe', type: 'string', required: true },
+          { key: 4, name: 'Date de naissance', type: 'date', format: 'YYYY-MM-DD', required: true },
         ],
       },
       headers: [
