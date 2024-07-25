@@ -1724,27 +1724,22 @@
       "pages": {
         "page0": {
           "explanation": "Si no conoces una respuesta, probablemente esté en Internet.",
-          "icon": "icn-recherche.svg",
           "title": "Puedes buscar en internet..."
         },
         "page1": {
           "explanation": "Si aparece esta imagen, ¡utiliza solo tus conocimientos! No debes utilizar Internet ni ningún software.",
-          "icon": "icn-focus.svg",
           "title": "... excepto para ciertas preguntas"
         },
         "page2": {
           "explanation": "Tómate el tiempo que necesites para completar el test. Si una pregunta está cronometrada, se te indicará.",
-          "icon": "icn-temps.svg",
           "title": "¡Sin límite de tiempo!"
         },
         "page3": {
           "explanation": "Accede a tutoriales para aprender más sobre cada pregunta y progresar.",
-          "icon": "icn-tutos.svg",
           "title": "Tutoriales para aprender"
         },
         "page4": {
           "explanation": "Pix adapta la dificultad de las preguntas en función de tus respuestas.",
-          "icon": "icn-algo.svg",
           "title": "Un nivel adecuado de dificultad"
         }
       },
