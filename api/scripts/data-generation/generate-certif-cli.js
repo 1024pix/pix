@@ -14,10 +14,10 @@ const { maxBy } = lodash;
 import { databaseBuffer } from '../../db/database-builder/database-buffer.js';
 import { DatabaseBuilder } from '../../db/database-builder/database-builder.js';
 import { CampaignParticipationStatuses } from '../../lib/domain/models/index.js';
-import { temporaryStorage } from '../../lib/infrastructure/temporary-storage/index.js';
 import { getNewSessionCode } from '../../src/certification/enrolment/domain/services/session-code-service.js';
 import { learningContentCache } from '../../src/shared/infrastructure/caches/learning-content-cache.js';
 import * as skillRepository from '../../src/shared/infrastructure/repositories/skill-repository.js';
+import { temporaryStorage } from '../../src/shared/infrastructure/temporary-storage/index.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 import {
   makeUserCleaCertifiable,

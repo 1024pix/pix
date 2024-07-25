@@ -1,5 +1,5 @@
-import { temporaryStorage } from '../../../../lib/infrastructure/temporary-storage/index.js';
 import { config } from '../../../shared/config.js';
+import { temporaryStorage } from '../../../shared/infrastructure/temporary-storage/index.js';
 const authenticationSessionTemporaryStorage = temporaryStorage.withPrefix('authentication-session:');
 
 const EXPIRATION_DELAY_SECONDS = config.authenticationSession.temporaryStorage.expirationDelaySeconds;

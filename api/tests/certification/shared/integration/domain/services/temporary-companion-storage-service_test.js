@@ -1,5 +1,5 @@
-import { temporaryStorage } from '../../../../../../lib/infrastructure/temporary-storage/index.js';
 import * as temporaryCompanionStorageService from '../../../../../../src/certification/shared/domain/services/temporary-companion-storage-service.js';
+import { temporaryStorage } from '../../../../../../src/shared/infrastructure/temporary-storage/index.js';
 import { expect } from '../../../../../test-helper.js';
 const temporaryCompanionStorage = temporaryStorage.withPrefix('companion:ping:');
 

@@ -1,5 +1,5 @@
-import { RedisTemporaryStorage } from '../../../../lib/infrastructure/temporary-storage/RedisTemporaryStorage.js';
-import { expect, sinon } from '../../../test-helper.js';
+import { RedisTemporaryStorage } from '../../../../../src/shared/infrastructure/temporary-storage/RedisTemporaryStorage.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', function () {
   const REDIS_URL = 'redis_url';

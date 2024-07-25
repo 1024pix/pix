@@ -2,10 +2,10 @@ import { randomUUID } from 'node:crypto';
 
 import bluebird from 'bluebird';
 
-import { temporaryStorage } from '../../../../lib/infrastructure/temporary-storage/index.js';
 import { UnauthorizedError } from '../../../shared/application/http-errors.js';
 import { config } from '../../../shared/config.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
+import { temporaryStorage } from '../../../shared/infrastructure/temporary-storage/index.js';
 
 const refreshTokenTemporaryStorage = temporaryStorage.withPrefix('refresh-tokens:');
 const userRefreshTokensTemporaryStorage = temporaryStorage.withPrefix('user-refresh-tokens:');

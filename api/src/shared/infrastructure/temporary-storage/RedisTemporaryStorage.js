@@ -2,7 +2,7 @@ import lodash from 'lodash';
 
 const { trim } = lodash;
 
-import { RedisClient } from '../../../src/shared/infrastructure/utils/RedisClient.js';
+import { RedisClient } from '../utils/RedisClient.js';
 import { TemporaryStorage } from './TemporaryStorage.js';
 
 const EXPIRATION_PARAMETER = 'ex';
