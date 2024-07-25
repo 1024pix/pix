@@ -3,6 +3,7 @@ import { clickByName, render } from '@1024pix/ember-testing-library';
 import { find } from '@ember/test-helpers';
 import ModulixEmbed from 'mon-pix/components/module/element/embed';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
@@ -94,6 +95,116 @@ module('Integration | Component | Module | Embed', function (hooks) {
       // then
       const iframe = screen.getByTitle(embed.title);
       assert.strictEqual(document.activeElement, iframe);
+    });
+
+    module('when a message is received', function () {
+      module('when message is not from pix', function () {
+        test('should not call the submitAnswer method', async function (assert) {
+          // given
+          const embed = {
+            id: 'id',
+            title: 'title',
+            isCompletionRequired: true,
+            url: 'https://embed-pix.com',
+            height: 800,
+          };
+          const submitAnswerStub = sinon.stub();
+          await render(<template><ModulixEmbed @embed={{embed}} @submitAnswer={{submitAnswerStub}} /></template>);
+          await clickByName(this.intl.t('pages.modulix.buttons.embed.start.ariaLabel'));
+
+          // when
+          const event = new MessageEvent('message', {
+            data: { answer: 'toto', from: 'nsa' },
+            origin: 'https://epreuves.pix.fr',
+          });
+          window.dispatchEvent(event);
+
+          // then
+          sinon.assert.notCalled(submitAnswerStub);
+          assert.ok(true);
+        });
+      });
+
+      module('when message is not an answer', function () {
+        test('should not call the submitAnswer method', async function (assert) {
+          // given
+          const embed = {
+            id: 'id',
+            title: 'title',
+            isCompletionRequired: true,
+            url: 'https://embed-pix.com',
+            height: 800,
+          };
+          const submitAnswerStub = sinon.stub();
+          await render(<template><ModulixEmbed @embed={{embed}} @submitAnswer={{submitAnswerStub}} /></template>);
+          await clickByName(this.intl.t('pages.modulix.buttons.embed.start.ariaLabel'));
+
+          // when
+          const event = new MessageEvent('message', {
+            data: { start: 'true', from: 'pix' },
+            origin: 'https://epreuves.pix.fr',
+          });
+          window.dispatchEvent(event);
+
+          // then
+          sinon.assert.notCalled(submitAnswerStub);
+          assert.ok(true);
+        });
+      });
+
+      module('when message origin is not allowed', function () {
+        test('should not call the submitAnswer method', async function (assert) {
+          // given
+          const embed = {
+            id: 'id',
+            title: 'title',
+            isCompletionRequired: true,
+            url: 'https://embed-pix.com',
+            height: 800,
+          };
+          const submitAnswerStub = sinon.stub();
+          await render(<template><ModulixEmbed @embed={{embed}} @submitAnswer={{submitAnswerStub}} /></template>);
+          await clickByName(this.intl.t('pages.modulix.buttons.embed.start.ariaLabel'));
+
+          // when
+          const event = new MessageEvent('message', {
+            data: { answer: 'toto', from: 'pix' },
+            origin: 'https://example.org',
+          });
+          window.dispatchEvent(event);
+
+          // then
+          sinon.assert.notCalled(submitAnswerStub);
+          assert.ok(true);
+        });
+      });
+
+      module('otherwise when everything is ok', function () {
+        test('should call the submitAnswer method', async function (assert) {
+          // given
+          const embed = {
+            id: 'id',
+            title: 'title',
+            isCompletionRequired: true,
+            url: 'https://embed-pix.com',
+            height: 800,
+          };
+          const submitAnswerStub = sinon.stub();
+          await render(<template><ModulixEmbed @embed={{embed}} @submitAnswer={{submitAnswerStub}} /></template>);
+          await clickByName(this.intl.t('pages.modulix.buttons.embed.start.ariaLabel'));
+
+          // when
+          const event = new MessageEvent('message', {
+            data: { answer: 'toto', from: 'pix' },
+            origin: 'https://epreuves.pix.fr',
+          });
+          window.dispatchEvent(event);
+
+          // then
+          sinon.assert.called(submitAnswerStub);
+          assert.ok(true);
+        });
+      });
     });
   });
 
