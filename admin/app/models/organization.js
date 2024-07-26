@@ -43,12 +43,23 @@ export default class Organization extends Model {
       MULTIPLE_SENDING_ASSESSMENT: 'MULTIPLE_SENDING_ASSESSMENT',
       PLACES_MANAGEMENT: 'PLACES_MANAGEMENT',
       COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY: 'COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY',
+      LEARNER_IMPORT: 'LEARNER_IMPORT',
     };
   }
 
   get isComputeCertificabilityEnabled() {
     if (!this.features) return false;
     return this.features[Organization.featureList.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY].active;
+  }
+
+  get isLearnerImportEnabled() {
+    if (!this.features) return false;
+    return this.features[Organization.featureList.LEARNER_IMPORT].active;
+  }
+
+  get learnerImportFormatName() {
+    if (!this.isLearnerImportEnabled) return null;
+    return this.features[Organization.featureList.LEARNER_IMPORT].params.name;
   }
 
   get isMultipleSendingAssessmentEnabled() {

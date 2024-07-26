@@ -48,6 +48,94 @@ module('Unit | Model | organization', function (hooks) {
     });
   });
 
+  module('#isLearnerImportEnabled', function () {
+    module('#get', function () {
+      test('it returns true when feature is enabled', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const model = store.createRecord('organization', {
+          features: { ['LEARNER_IMPORT']: { active: true } },
+        });
+
+        // when
+        const isLearnerImportEnabled = model.isLearnerImportEnabled;
+
+        // then
+        assert.true(isLearnerImportEnabled);
+      });
+
+      test('it returns false when feature is disabled', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const model = store.createRecord('organization', {
+          features: { ['LEARNER_IMPORT']: { active: false } },
+        });
+
+        // when
+        const isLearnerImportEnabled = model.isLearnerImportEnabled;
+
+        // then
+        assert.false(isLearnerImportEnabled);
+      });
+
+      test('it returns false when no features are provided', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const model = store.createRecord('organization', {});
+
+        // when
+        const isLearnerImportEnabled = model.isLearnerImportEnabled;
+
+        // then
+        assert.false(isLearnerImportEnabled);
+      });
+    });
+  });
+
+  module('#learnerImportFormatName', function () {
+    module('#get', function () {
+      test('it returns the name of the format when import format feature is enabled', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const model = store.createRecord('organization', {
+          features: { ['LEARNER_IMPORT']: { active: true, params: { name: 'TOTO' } } },
+        });
+
+        // when
+        const learnerImportFormatName = model.learnerImportFormatName;
+
+        // then
+        assert.strictEqual(learnerImportFormatName, 'TOTO');
+      });
+
+      test('it returns null when import formatfeature is disabled', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const model = store.createRecord('organization', {
+          features: { ['LEARNER_IMPORT']: { active: false, params: { name: 'TOTO' } } },
+        });
+
+        // when
+        const learnerImportFormatName = model.learnerImportFormatName;
+
+        // then
+        assert.strictEqual(learnerImportFormatName, null);
+      });
+
+      test('it returns null when no features are provided', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const model = store.createRecord('organization', {});
+
+        // when
+        const learnerImportFormatName = model.learnerImportFormatName;
+
+        // then
+        assert.strictEqual(learnerImportFormatName, null);
+      });
+    });
+  });
+
   module('#isPlacesManagementEnabled', function () {
     module('#get', function () {
       test('it returns true when feature is enabled', function (assert) {

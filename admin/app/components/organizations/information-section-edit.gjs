@@ -1,15 +1,13 @@
+import PixButton from '@1024pix/pix-ui/components/pix-button';
+import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
+import PixInput from '@1024pix/pix-ui/components/pix-input';
+import PixSelect from '@1024pix/pix-ui/components/pix-select';
+import { fn } from '@ember/helper';
+import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-
-import { on } from '@ember/modifier';
-import { fn } from '@ember/helper';
-
-import PixInput from '@1024pix/pix-ui/components/pix-input';
-import PixSelect from '@1024pix/pix-ui/components/pix-select';
-import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
-import PixButton from '@1024pix/pix-ui/components/pix-button';
 
 export default class OrganizationInformationSectionEditionMode extends Component {
   @service accessControl;
@@ -29,7 +27,10 @@ export default class OrganizationInformationSectionEditionMode extends Component
   }
 
   get isManagingStudentAvailable() {
-    return this.args.organization.isOrganizationSCO || this.args.organization.isOrganizationSUP;
+    return (
+      !this.args.organization.isLearnerImportEnabled &&
+      (this.args.organization.isOrganizationSCO || this.args.organization.isOrganizationSUP)
+    );
   }
 
   get identityProviderOptions() {
@@ -108,7 +109,7 @@ export default class OrganizationInformationSectionEditionMode extends Component
     this.form.isMultipleSendingAssessmentEnabled = this.args.organization.isMultipleSendingAssessmentEnabled;
     this.form.isPlacesManagementEnabled = this.args.organization.isPlacesManagementEnabled;
     this.form.identityProviderForCampaigns =
-    this.args.organization.identityProviderForCampaigns ?? this.noIdentityProviderOption.value;
+      this.args.organization.identityProviderForCampaigns ?? this.noIdentityProviderOption.value;
   }
 
   <template>
