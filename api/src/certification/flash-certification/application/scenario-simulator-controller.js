@@ -3,12 +3,12 @@ import { Readable } from 'node:stream';
 import _ from 'lodash';
 
 import { HttpErrors } from '../../../../lib/application/http-errors.js';
-import { pickAnswerStatusService } from '../../../../lib/domain/services/pick-answer-status-service.js';
 import { scenarioSimulatorBatchSerializer } from '../../../../lib/infrastructure/serializers/jsonapi/scenario-simulator-batch-serializer.js';
 import { parseCsv } from '../../../../scripts/helpers/csvHelpers.js';
 import { pickChallengeService } from '../../../evaluation/domain/services/pick-challenge-service.js';
 import { random } from '../../../shared/infrastructure/utils/random.js';
 import { extractLocaleFromRequest } from '../../../shared/infrastructure/utils/request-response-utils.js';
+import { pickAnswerStatusService } from '../../shared/domain/services/pick-answer-status-service.js';
 import { FlashAssessmentSuccessRateHandler } from '../domain/models/FlashAssessmentSuccessRateHandler.js';
 import { usecases } from '../domain/usecases/index.js';
 
