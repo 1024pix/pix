@@ -89,7 +89,13 @@ module('Integration | Component | certification-centers/information-view', funct
       );
 
       // then
-      assert.dom(screen.getByLabelText('Habilité pour pilote certification V3')).exists();
+      assert
+        .dom(
+          screen.getByLabelText(
+            this.intl.t('pages.certification-centers.information-view.pilot-features.is-v3-pilot.aria-label.active'),
+          ),
+        )
+        .exists();
     });
   });
 
@@ -110,7 +116,13 @@ module('Integration | Component | certification-centers/information-view', funct
       );
 
       // then
-      assert.dom(screen.getByLabelText('Non habilité pour pilote certification V3')).exists();
+      assert
+        .dom(
+          screen.getByLabelText(
+            this.intl.t('pages.certification-centers.information-view.pilot-features.is-v3-pilot.aria-label.inactive'),
+          ),
+        )
+        .exists();
     });
   });
 
@@ -131,7 +143,15 @@ module('Integration | Component | certification-centers/information-view', funct
       );
 
       // then
-      assert.dom(screen.getByLabelText('Habilité pour pilote séparation Pix/Pix+')).exists();
+      assert
+        .dom(
+          screen.getByLabelText(
+            this.intl.t(
+              'pages.certification-centers.information-view.pilot-features.is-complementary-alone-pilot.aria-label.active',
+            ),
+          ),
+        )
+        .exists();
     });
   });
 
@@ -152,7 +172,15 @@ module('Integration | Component | certification-centers/information-view', funct
       );
 
       // then
-      assert.dom(screen.getByLabelText('Non habilité pour pilote séparation Pix/Pix+')).exists();
+      assert
+        .dom(
+          screen.getByLabelText(
+            this.intl.t(
+              'pages.certification-centers.information-view.pilot-features.is-complementary-alone-pilot.aria-label.inactive',
+            ),
+          ),
+        )
+        .exists();
     });
   });
 });

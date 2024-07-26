@@ -315,11 +315,28 @@
     },
     "certification-centers": {
       "information-view": {
-        "feature-habilitations": {
-          "title": "Habilitations aux fonctionnalités pilotes",
-          "labels": {
-            "is-complementary-alone-pilot": "pilote séparation Pix/Pix+",
-            "is-v3-pilot": "pilote certification V3"
+        "habilitations": {
+          "title": "Habilitations aux certifications complémentaires",
+          "aria-label": {
+            "active": "Habilité pour {complementaryCertificationLabel}",
+            "inactive": "Non habilité pour {complementaryCertificationLabel}"
+          }
+        },
+        "pilot-features": {
+          "title": "Fonctionnalités pilotes",
+          "is-complementary-alone-pilot": {
+            "aria-label": {
+              "active": "Est pilote phase test compatibilité Pix v3 / Pix+",
+              "inactive": "N'est pas phase test compatibilité Pix v3 / Pix+"
+            },
+            "label": "phase test compatibilité Pix v3 / Pix+"
+          },
+          "is-v3-pilot": {
+            "aria-label": {
+              "active": "Est pilote certification V3",
+              "inactive": "N'est pas pilote certification V3"
+            },
+            "label": "pilote certification V3"
           }
         }
       },

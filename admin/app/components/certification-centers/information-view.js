@@ -13,23 +13,42 @@ export default class InformationView extends Component {
       this.habilitations = habilitations;
     });
   }
+
   get availableHabilitations() {
-    return this.args.availableHabilitations?.sortBy('id');
+    const habilitations = this.args.availableHabilitations?.sortBy('id') || [];
+    return habilitations.map((habilitation) => {
+      const isHabilitated = this.habilitations.includes(habilitation);
+      const label = habilitation.label;
+      const ariaLabel = this.intl.t(
+        `pages.certification-centers.information-view.habilitations.aria-label.${isHabilitated ? 'active' : 'inactive'}`,
+        { complementaryCertificationLabel: label },
+      );
+      return { isHabilitated, label, ariaLabel };
+    });
   }
 
-  get availableFeatureHabilitations() {
+  get availablePilotFeatures() {
     const isV3Pilot = this.args.certificationCenter.isV3Pilot;
-    const isV3PilotLabel = this.intl.t(
-      'pages.certification-centers.information-view.feature-habilitations.labels.is-v3-pilot',
+    const isV3PilotLabel = this.intl.t('pages.certification-centers.information-view.pilot-features.is-v3-pilot.label');
+    const isV3PilotAriaLabel = this.intl.t(
+      `pages.certification-centers.information-view.pilot-features.is-v3-pilot.aria-label.${isV3Pilot ? 'active' : 'inactive'}`,
     );
+
     const isComplementaryAlonePilot = this.args.certificationCenter.isComplementaryAlonePilot;
     const isComplementaryAlonePilotLabel = this.intl.t(
-      'pages.certification-centers.information-view.feature-habilitations.labels.is-complementary-alone-pilot',
+      'pages.certification-centers.information-view.pilot-features.is-complementary-alone-pilot.label',
+    );
+    const isComplementaryAlonePilotAriaLabel = this.intl.t(
+      `pages.certification-centers.information-view.pilot-features.is-complementary-alone-pilot.aria-label.${isComplementaryAlonePilot ? 'active' : 'inactive'}`,
     );
 
     return [
-      { isPilot: isV3Pilot, label: isV3PilotLabel },
-      { isPilot: isComplementaryAlonePilot, label: isComplementaryAlonePilotLabel },
+      { isPilot: isV3Pilot, label: isV3PilotLabel, ariaLabel: isV3PilotAriaLabel },
+      {
+        isPilot: isComplementaryAlonePilot,
+        label: isComplementaryAlonePilotLabel,
+        ariaLabel: isComplementaryAlonePilotAriaLabel,
+      },
     ];
   }
 

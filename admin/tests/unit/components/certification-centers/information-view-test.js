@@ -11,14 +11,14 @@ module('Unit | Component | certification-centers/information-view', function (ho
     test('it should return a sorted list of available habilitations', async function (assert) {
       // given
       const component = createGlimmerComponent('component:certification-centers/information-view', {
-        availableHabilitations: [{ id: 321 }, { id: 21 }, { id: 1 }],
+        availableHabilitations: [{ id: 321, label: 'Habilitation A' }, { id: 21 }, { id: 1, label: 'Habilitation B' }],
         certificationCenter: { id: 1 },
       });
 
       // when & then
       assert.strictEqual(component.availableHabilitations.length, 3);
-      assert.strictEqual(component.availableHabilitations[0].id, 1);
-      assert.strictEqual(component.availableHabilitations[2].id, 321);
+      assert.strictEqual(component.availableHabilitations[0].label, 'Habilitation B');
+      assert.strictEqual(component.availableHabilitations[2].label, 'Habilitation A');
     });
   });
 
