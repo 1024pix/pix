@@ -9,9 +9,12 @@ import * as certificationCourseRepository from '../../../shared/infrastructure/r
 import * as certificationReportRepository from '../../../shared/infrastructure/repositories/certification-report-repository.js';
 import * as sharedSessionRepository from '../../../shared/infrastructure/repositories/session-repository.js';
 import * as certificateRepository from '../../infrastructure/repositories/certificate-repository.js';
+import * as certificationLivretScolaireRepository from '../../infrastructure/repositories/certification-livret-scolaire-repository.js';
 import * as certificationResultRepository from '../../infrastructure/repositories/certification-result-repository.js';
 import * as cleaCertifiedCandidateRepository from '../../infrastructure/repositories/clea-certified-candidate-repository.js';
+import * as competenceTreeRepository from '../../infrastructure/repositories/competence-tree-repository.js';
 import * as scoCertificationCandidateRepository from '../../infrastructure/repositories/sco-certification-candidate-repository.js';
+
 /**
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
  *
@@ -23,6 +26,8 @@ import * as scoCertificationCandidateRepository from '../../infrastructure/repos
  * @typedef {cleaCertifiedCandidateRepository} CleaCertifiedCandidateRepository
  * @typedef {sessionEnrolmentRepository} SessionEnrolmentRepository
  * @typedef {sharedSessionRepository} SharedSessionRepository
+ * @typedef {certificationLivretScolaireRepository} CertificationLivretScolaireRepository
+ * @typedef {competenceTreeRepository} CompetenceTreeRepository
  **/
 
 const dependencies = {
@@ -34,6 +39,8 @@ const dependencies = {
   cleaCertifiedCandidateRepository,
   sessionEnrolmentRepository,
   sharedSessionRepository,
+  competenceTreeRepository,
+  certificationLivretScolaireRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

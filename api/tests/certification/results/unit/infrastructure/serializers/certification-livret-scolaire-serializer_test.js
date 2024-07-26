@@ -1,15 +1,15 @@
-import * as serializer from '../../../../../../lib/infrastructure/serializers/jsonapi/certifications-livret-scolaire/certification-ls-serializer.js';
+import * as serializer from '../../../../../../src/certification/results/infrastructure/serializers/certification-livret-scolaire-serializer.js';
 import {
-  buildCertificateForLS,
+  buildCertificateForLivretScolaire,
   buildCertificationsResults,
   buildReferentialOfCompetences,
-} from '../../../../../../lib/infrastructure/serializers/jsonapi/certifications-livret-scolaire/factory/build-certification-result-for-ls.js';
+} from '../../../../../../src/certification/results/infrastructure/serializers/factory/build-certification-result-for-livret-scolaire.js';
 import { expect } from '../../../../../test-helper.js';
 
 const VALIDATED_CERTIFICATION = 'validated';
 const REJECTED_CERTIFICATION = 'rejected';
 
-describe('Unit | Serializer | JSONAPI | certification-ls-serializer', function () {
+describe('Certification | Results | Unit | Infrastructure | Serializer | certification-livret-scolaire-serializer', function () {
   describe('#serialize', function () {
     context('the entry data is one valid certification with a referential of competences', function () {
       const expectedJson = {
@@ -203,7 +203,7 @@ describe('Unit | Serializer | JSONAPI | certification-ls-serializer', function (
 
       it('should serialize to certification result with a referential of competences', function () {
         // given
-        const validCertification = buildCertificateForLS({ id: 1, status: VALIDATED_CERTIFICATION });
+        const validCertification = buildCertificateForLivretScolaire({ id: 1, status: VALIDATED_CERTIFICATION });
         const certificationsResults = buildCertificationsResults([validCertification]);
 
         // when
@@ -447,8 +447,8 @@ describe('Unit | Serializer | JSONAPI | certification-ls-serializer', function (
 
       it('should serialize to certifications results with a referential of competences', function () {
         // given
-        const validCertification = buildCertificateForLS({ id: 1, status: VALIDATED_CERTIFICATION });
-        const rejectedCertification = buildCertificateForLS({ id: 2, status: REJECTED_CERTIFICATION });
+        const validCertification = buildCertificateForLivretScolaire({ id: 1, status: VALIDATED_CERTIFICATION });
+        const rejectedCertification = buildCertificateForLivretScolaire({ id: 2, status: REJECTED_CERTIFICATION });
 
         const certificationsResults = buildCertificationsResults([validCertification, rejectedCertification]);
 

@@ -1,47 +1,47 @@
-import { Certificate } from '../../../../../../lib/infrastructure/serializers/jsonapi/certifications-livret-scolaire/response-objects/Certificate.js';
-import { CertificationsResults } from '../../../../../../lib/infrastructure/serializers/jsonapi/certifications-livret-scolaire/response-objects/CertificationsResults.js';
-import { CompetenceResults } from '../../../../../../lib/infrastructure/serializers/jsonapi/certifications-livret-scolaire/response-objects/CompetenceResults.js';
-import { buildArea as buildAreaForLS } from './build-area-for-ls.js';
-import { buildCompetenceForLS } from './build-competences-for-ls.js';
+import { Certificate } from '../response-objects/Certificate.js';
+import { CertificationsResults } from '../response-objects/CertificationsResults.js';
+import { CompetenceResults } from '../response-objects/CompetenceResults.js';
+import { buildArea as buildAreaForLivretScolaire } from './build-area-for-livret-scolaire.js';
+import { buildCompetenceForLivretScolaire } from './build-competences-for-livret-scolaire.js';
 
 function buildReferentialOfCompetences() {
-  const area1 = buildAreaForLS({
+  const area1 = buildAreaForLivretScolaire({
     id: '1',
     name: '1. Information et données',
   });
 
-  const area2 = buildAreaForLS({
+  const area2 = buildAreaForLivretScolaire({
     id: '2',
     name: '2. Communication et collaboration',
   });
 
   return [
-    buildCompetenceForLS({
+    buildCompetenceForLivretScolaire({
       name: 'Mener une recherche et une veille d’information',
       id: '1.1',
       area: area1,
     }),
-    buildCompetenceForLS({
+    buildCompetenceForLivretScolaire({
       name: 'Mener une recherche et une veille d’information',
       id: '1.2',
       area: area1,
     }),
-    buildCompetenceForLS({
+    buildCompetenceForLivretScolaire({
       name: 'Mener une recherche et une veille d’information',
       id: '1.3',
       area: area1,
     }),
-    buildCompetenceForLS({
+    buildCompetenceForLivretScolaire({
       name: 'Interagir avec des individus et de petits groupes',
       id: '2.1',
       area: area2,
     }),
-    buildCompetenceForLS({
+    buildCompetenceForLivretScolaire({
       name: 'Partager et publier des informations et des contenus',
       id: '2.2',
       area: area2,
     }),
-    buildCompetenceForLS({
+    buildCompetenceForLivretScolaire({
       name: 'Collaborer dans un groupe pour réaliser un projet',
       id: '2.3',
       area: area2,
@@ -58,7 +58,7 @@ function _buildCompetenceResults() {
   return competenceResults.map((competence) => _buildCompetenceResult(4, competence.id));
 }
 
-function buildCertificateForLS({
+function buildCertificateForLivretScolaire({
   id = 1,
   firstName = 'Jean',
   middleName = 'Jerry',
@@ -98,4 +98,4 @@ function buildCertificationsResults(certifications, competences = buildReferenti
   return new CertificationsResults({ certifications, competences });
 }
 
-export { buildCertificateForLS, buildCertificationsResults, buildReferentialOfCompetences };
+export { buildCertificateForLivretScolaire, buildCertificationsResults, buildReferentialOfCompetences };
