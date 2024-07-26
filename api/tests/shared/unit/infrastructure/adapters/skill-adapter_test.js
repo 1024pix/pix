@@ -1,6 +1,6 @@
-import * as skillAdapter from '../../../../lib/infrastructure/adapters/skill-adapter.js';
-import { Skill } from '../../../../src/shared/domain/models/Skill.js';
-import { domainBuilder, expect } from '../../../test-helper.js';
+import { Skill } from '../../../../../src/shared/domain/models/Skill.js';
+import * as skillAdapter from '../../../../../src/shared/infrastructure/adapters/skill-adapter.js';
+import { domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Adapter | skillAdapter', function () {
   describe('#fromDatasourceObject', function () {
