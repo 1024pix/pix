@@ -1,8 +1,8 @@
 import Joi from 'joi';
 
-import { certificationsResultsDoc } from '../../infrastructure/open-api-doc/livret-scolaire/certifications-results-doc.js';
-import { responseObjectErrorDoc } from '../../infrastructure/open-api-doc/livret-scolaire/response-object-error-doc.js';
-import { certificationController } from './certification-controller.js';
+import { responseObjectErrorDoc } from '../../../shared/infrastructure/open-api-doc/response-object-error-doc.js';
+import { certificationsResultsDoc } from '../infrastructure/open-api-doc/livret-scolaire/certifications-results-doc.js';
+import { livretScolaireController } from './livret-scolaire-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -11,7 +11,7 @@ const register = async function (server) {
       path: '/api/organizations/{uai}/certifications',
       config: {
         auth: 'jwt-livret-scolaire',
-        handler: certificationController.getCertificationsByOrganizationUAI,
+        handler: livretScolaireController.getCertificationsByOrganizationUAI,
         notes: [
           '- **API for LSU/LSL qui nécessite une authentification de type client credential grant**\n' +
             '- Récupération des résultats de certifications pour une organisation. Les résultats sont accompagnés du référentiel des compétences',
@@ -42,5 +42,5 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'certifications-lsu-lsl-api';
+const name = 'livret-scolaire-api';
 export { name, register };
