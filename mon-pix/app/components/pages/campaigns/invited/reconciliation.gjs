@@ -56,7 +56,12 @@ export default class InvitedWrapper extends Component {
     });
   }
   get reconciliationFieldNames() {
-    return this.args.model.reconciliationFields.map(({ columnName }) => this.FIELD_KEY[columnName] || columnName);
+    return this.args.model.reconciliationFields.map(({ name }) => {
+      const translationKey = this.FIELD_KEY[name];
+      if (!translationKey) return name;
+
+      return this.intl.t(this.FIELD_KEY[name]);
+    });
   }
 
   <template>
