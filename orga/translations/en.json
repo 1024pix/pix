@@ -485,7 +485,7 @@
       "legal-warning": "*In accordance with the French law governing computer technology and freedoms (“Informatique et Libertés”), and as data controller, please be careful not to ask for significant or identifying personal data unless it is absolutely necessary. Asking for social security numbers, as well as any sensitive data, is strictly prohibited.",
       "multiple-sendings": {
         "assessments": {
-          "info": "If you choose to allow multiple submissions, the participants will be able to take the test again 4 days after and submit their results several times by re-entering the campaign code. Within Pix Orga you will find the latest participation.",
+          "info": "If you choose to allow multiple submissions, the participants will be able to take the test again 4 days after and submit their results several times by re-entering the campaign code.",
           "question-label": "Do you want to allow participants to submit their results more than once?"
         },
         "info-title": "Multiple submissions",
