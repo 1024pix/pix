@@ -912,12 +912,16 @@
             "non-admin": "Étape 1 : <b>Demandez à l'administrateur</b> Pix Orga de votre espace afin d’importer les élèves."
           },
           "step2": {
-            "title": "Étape 2 :",
-            "option1": "Soit en&nbsp<b>enregistrant le lien</b>&nbsp'<a href=\"https://junior.pix.fr\">'junior.pix.fr'</a>'&nbspsur vos postes et saisissez le code de votre établissement : {code} ",
-            "option2": "Soit en accédant directement à&nbsp'<a href=\"{pixJuniorUrl}\" target=_blank >Pix Junior</a>'"
+            "title": "Étape 2 : Pour que les élèves accèdent à l’espace Pix Junior de votre école, vous pouvez :",
+            "option1": "utiliser&nbsp<b>le lien</b>&nbsp'<'a href=\"{pixJuniorUrl}\"'>'junior.pix.fr'</a>'.&nbspLe code de votre établissement vous sera demandé à chaque connexion.",
+            "option2": {
+              "body": "ou utiliser le lien direct&nbsp'<'a href=\"{pixJuniorUrl}\" target=_blank >junior.pix.fr/schools/{code}'</a>'",
+              "hint": "Vous pouvez enregistrer ce favori sur les ordinateurs."
+
+            }
           },
-          "step3": "Étape 3 : <b>Activez la session Pix Junior</b> via le bouton ci-dessus avant votre séance le jour J.",
-          "welcome": "Pour commencer, veuillez suivre ces étapes :"
+          "step3": "Étape 3 : <b>Activez la session Pix Junior</b> via le bouton ci-dessus. <b>Cette action est à réaliser avant chaque séance avec vos élèves</b>.",
+          "welcome": "Pour commencer à utiliser Pix Junior :"
         },
         "caption": "Liste des missions",
         "empty-state": "Il n'y a pas de missions",

@@ -21,28 +21,36 @@
         {{t "pages.missions.list.banner.step2.title"}}
         <li>
           <div class="mission-list-banner__copypaste-container">
-            <span>{{html-unsafe (t "pages.missions.list.banner.step2.option1" code=this.schoolCode)}}</span>
-            <CopyPasteButton
-              @clipBoardtext={{this.schoolCode}}
-              @successMessage="{{t 'pages.missions.list.banner.copypaste-container.button.success'}}"
-              @defaultMessage="{{t 'pages.missions.list.banner.copypaste-container.button.tooltip'}}"
-            />
+            <span>{{html-unsafe (t "pages.missions.list.banner.step2.option1" pixJuniorUrl=this.juniorUrl)}}
+            </span>
 
+            <div class="mission-list-banner__school-code">
+              Code :&nbsp;<b>{{this.schoolCode}}</b>
+              <CopyPasteButton
+                @clipBoardtext={{this.schoolCode}}
+                @successMessage="{{t 'pages.missions.list.banner.copypaste-container.button.success'}}"
+                @defaultMessage="{{t 'pages.missions.list.banner.copypaste-container.button.tooltip'}}"
+              />
+            </div>
           </div>
         </li>
         <li>
           <div class="mission-list-banner__copypaste-container">
-            <span>{{html-unsafe
-                (t "pages.missions.list.banner.step2.option2" pixJuniorUrl=@model.pixJuniorSchoolUrl)
-              }}</span>
-            <a
-              href={{@model.pixJuniorSchoolUrl}}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="mission-list-banner__copypaste-container__external-link"
-            >
-              <FaIcon @icon="external-link-alt" />
-            </a>
+            <span>
+              {{html-unsafe
+                (t
+                  "pages.missions.list.banner.step2.option2.body"
+                  pixJuniorUrl=@model.pixJuniorSchoolUrl
+                  code=this.schoolCode
+                )
+              }}
+              <a href={{@model.pixJuniorSchoolUrl}} target="_blank" rel="noopener noreferrer" id="external-link-icon">
+                <FaIcon @icon="external-link-alt" />
+              </a>
+            </span>
+            <span>
+              {{html-unsafe (t "pages.missions.list.banner.step2.option2.hint")}}
+            </span>
           </div>
         </li>
       </ul>

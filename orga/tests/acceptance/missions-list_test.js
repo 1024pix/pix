@@ -4,6 +4,7 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import authenticateSession from '../helpers/authenticate-session';
 import setupIntl from '../helpers/setup-intl';
@@ -31,6 +32,9 @@ module('Acceptance | Missions List', function (hooks) {
   module('When prescriber is logged in and has mission management feature', function () {
     test('user should access to the list of the missions and the link to pix-junior', async function (assert) {
       // given
+      const domain = this.owner.lookup('service:currentDomain');
+      sinon.stub(domain, 'getJuniorBaseUrl').returns('https://junior.pix.fr');
+
       const user = createPrescriberForOrganization(
         { lang: 'fr', pixOrgaTermsOfServiceAccepted: true },
         { schoolCode: 'BLABLA123' },
