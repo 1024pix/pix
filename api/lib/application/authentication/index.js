@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
+import { responseAuthenticationDoc } from '../../../src/shared/infrastructure/open-api-doc/authentication/response-authentication-doc.js';
 import { responseObjectErrorDoc } from '../../../src/shared/infrastructure/open-api-doc/response-object-error-doc.js';
-import { responseAuthenticationDoc } from '../../infrastructure/open-api-doc/authentication/response-authentication-doc.js';
 import { authenticationController as AuthenticationController } from './authentication-controller.js';
 
 const register = async function (server) {
