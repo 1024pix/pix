@@ -66,7 +66,7 @@ export default class ModulixVideoElement extends Component {
       </div>
 
       {{#if this.hasTranscription}}
-        <PixButton @variant="secondary" @size="small" @type="button" @triggerAction={{this.showModal}}>
+        <PixButton @variant="tertiary" @triggerAction={{this.showModal}}>
           {{t "pages.modulix.buttons.element.transcription"}}
         </PixButton>
         <PixModal
