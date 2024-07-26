@@ -2,7 +2,7 @@ import bookshelf from 'bookshelf';
 import _ from 'lodash';
 import validator from 'validator';
 
-import { knex } from '../../db/knex-database-connection.js';
+import { knex } from '../../../db/knex-database-connection.js';
 const bookshelfWithKnex = bookshelf(knex);
 
 validator.isRequired = function (value) {

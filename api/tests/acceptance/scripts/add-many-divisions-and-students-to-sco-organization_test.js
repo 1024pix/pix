@@ -1,5 +1,5 @@
-import { knex } from '../../../lib/infrastructure/bookshelf.js';
 import { addManyDivisionsAndStudentsToScoCertificationCenter } from '../../../scripts/data-generation/add-many-divisions-and-students-to-sco-organization.js';
+import { knex } from '../../../src/shared/infrastructure/bookshelf.js';
 import { BookshelfOrganizationLearner } from '../../../src/shared/infrastructure/orm-models/OrganizationLearner.js';
 import { databaseBuilder, expect } from '../../test-helper.js';
 

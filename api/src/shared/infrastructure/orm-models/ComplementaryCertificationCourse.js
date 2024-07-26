@@ -1,4 +1,4 @@
-import { Bookshelf } from '../../../../lib/infrastructure/bookshelf.js';
+import { Bookshelf } from '../bookshelf.js';
 
 const modelName = 'ComplementaryCertificationCourse';
 

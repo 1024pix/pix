@@ -2,7 +2,7 @@ import './Badge.js';
 import './Stage.js';
 import './Organization.js';
 
-import { Bookshelf } from '../../../../lib/infrastructure/bookshelf.js';
+import { Bookshelf } from '../bookshelf.js';
 
 const modelName = 'TargetProfile';
 

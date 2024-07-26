@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { knex } from '../../../../../lib/infrastructure/bookshelf.js';
+import { knex } from '../../../../../src/shared/infrastructure/bookshelf.js';
 import { DEFAULT_PAGINATION, fetchPage } from '../../../../../src/shared/infrastructure/utils/knex-utils.js';
 import { databaseBuilder, expect } from '../../../../test-helper.js';
 

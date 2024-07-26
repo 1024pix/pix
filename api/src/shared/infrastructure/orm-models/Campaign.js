@@ -4,7 +4,7 @@ import './Organization.js';
 import './TargetProfile.js';
 import './User.js';
 
-import { Bookshelf } from '../../../../lib/infrastructure/bookshelf.js';
+import { Bookshelf } from '../bookshelf.js';
 
 const modelName = 'Campaign';
 

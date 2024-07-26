@@ -2,7 +2,7 @@ import './Assessment.js';
 import './Campaign.js';
 import './User.js';
 
-import { Bookshelf } from '../../../../lib/infrastructure/bookshelf.js';
+import { Bookshelf } from '../bookshelf.js';
 
 const modelName = 'CampaignParticipation';
 
