@@ -1,8 +1,8 @@
 import Joi from 'joi';
 
-import { erreurDoc } from '../../../../lib/infrastructure/open-api-doc/pole-emploi/erreur-doc.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { erreurDoc } from '../../../shared/infrastructure/open-api-doc/pole-emploi/erreur-doc.js';
 import { attachTargetProfileController } from './attach-target-profile-controller.js';
 
 const register = async function (server) {
