@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
-import * as checkAdminMemberHasRoleSuperAdminUseCase from '../../../../lib/application/usecases/checkAdminMemberHasRoleSuperAdmin.js';
 import * as csvSerializer from '../../../../lib/infrastructure/serializers/csv/csv-serializer.js';
 import { usecases } from '../../../../src/prescription/campaign/domain/usecases/index.js';
+import * as checkAdminMemberHasRoleSuperAdminUseCase from '../../../shared/application/usecases/checkAdminMemberHasRoleSuperAdmin.js';
 import * as requestResponseUtils from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { extractUserIdFromRequest } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import * as csvCampaignsIdsParser from '../infrastructure/serializers/csv/csv-campaigns-ids-parser.js';
